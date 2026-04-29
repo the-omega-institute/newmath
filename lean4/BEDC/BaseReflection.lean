@@ -114,6 +114,33 @@ structure GeneratedSameSig (s : BaseReflectionSetup) (P : s.Pi) (h k : s.Hist) :
   rightSig : s.SigGen P k rightSigObj rightEvidence
   sigSame : s.hsame leftSigObj rightSigObj
 
+theorem GeneratedSameSig_psameBase
+    {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist} {p q : s.Pkg}
+    (gen : GeneratedSameSig s P h k)
+    (left : s.TokIntro P gen.leftSigObj p)
+    (right : s.TokIntro P gen.rightSigObj q) : PsameBase s P p q := by
+  exact PsameBase.intro left right gen.sigSame
+
+theorem PsameBase_to_GeneratedSameSig_under_tok_unique
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {h k : s.Hist} {x y : s.SigObj} {p q : s.Pkg}
+    {leftEvidence rightEvidence : s.Evidence}
+    (leftSig : s.SigGen P h x leftEvidence)
+    (rightSig : s.SigGen P k y rightEvidence)
+    (leftTok : s.TokIntro P x p)
+    (rightTok : s.TokIntro P y q)
+    (base : PsameBase s P p q) : Nonempty (GeneratedSameSig s P h k) := by
+  exact Nonempty.intro {
+    leftSigObj := x
+    rightSigObj := y
+    leftEvidence := leftEvidence
+    rightEvidence := rightEvidence
+    leftSig := leftSig
+    rightSig := rightSig
+    sigSame := PackageReflection_base eqv tok leftTok rightTok base
+  }
+
 structure ExactGlobalizeBase (s : BaseReflectionSetup) (P : s.Pi) (D : s.Domain) : Prop where
   coverage : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h
   soundness : ∀ h k p q,

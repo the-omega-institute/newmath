@@ -68,6 +68,31 @@ theorem internalized_gap_coverage
       | intro p hp =>
           exact Exists.intro p ⟨hIn, Exists.intro s ⟨hs, hp⟩⟩
 
+theorem internalized_gap_separation
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) →
+      InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q := by
+  intro askPolicy hp hq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro hIn hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs hpTok =>
+                      cases htData with
+                      | intro ht hqTok =>
+                          have hst : hsame s t :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D) (h := h) (s := s) (t := t)
+                              askPolicy hIn hs ht
+                          exact psame.intro hpTok hqTok hst
+
 theorem gap_coverage :
     ∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
       GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h := by
