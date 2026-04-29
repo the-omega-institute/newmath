@@ -78,6 +78,14 @@ theorem packageTokenPolicy_from_reflection
       exact reflection hp hq hpq
   }
 
+theorem concrete_package_token_policy
+    {bundle : ProbeBundle ProbeName}
+    (reflection :
+      ∀ {s t : BHist} {p q : Pkg},
+        TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t) :
+    PackageTokenPolicy bundle := by
+  exact packageTokenPolicy_from_reflection reflection
+
 theorem psame_iff_hsame
     {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle →
