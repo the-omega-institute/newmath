@@ -168,6 +168,13 @@ theorem policy_gap_separation
                               askPolicy hIn hs ht
                           exact packagePolicy.soundness hpTok hqTok hst
 
+omit G in
+theorem policy_globalize_exact {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
+    PackageTokenPolicy bundle -> TokIntro bundle s p -> TokIntro bundle t q ->
+      (psame bundle p q <-> hsame s t) := by
+  intro policy hp hq
+  exact psame_iff_hsame policy hp hq
+
 omit [AskSetup] [PackageSetup] in
 theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D h → hsame h k → InDom D k := by

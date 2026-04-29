@@ -26,6 +26,18 @@ theorem unary_transport {h k : BHist} : UnaryHistory h -> hsame h k -> UnaryHist
   cases hhk
   exact uh
 
+theorem unary_cont_closed {h k r : BHist} :
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r := by
+  intro uh uk hr
+  cases hr
+  induction k generalizing h with
+  | Empty =>
+      exact uh
+  | e0 k ih =>
+      cases uk
+  | e1 k ih =>
+      exact ih uh uk
+
 def UnaryDomainSetup : DomainSetup where
   Domain := Unit
   InDom := fun _ h => UnaryHistory h
