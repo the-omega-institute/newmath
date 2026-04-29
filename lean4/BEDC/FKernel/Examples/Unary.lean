@@ -111,6 +111,13 @@ theorem comm_from_obligations
               have inner : hsame (append h k) v := ih uh uk rfl hv
               exact left.trans ((eoneCong inner).trans sameRight.symm)
 
+theorem unary_commutativity_concrete
+    (rightShift : forall {k h r' : BHist}, UnaryHistory k -> Cont k (.e1 h) r' -> exists v : BHist, Cont k h v ∧ hsame r' (.e1 v))
+    {h k r r' : BHist} :
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r' -> hsame r r' := by
+  intro uh uk hr hr'
+  exact comm_from_obligations rightShift (fun same => hsame_e1_congr same) uh uk hr hr'
+
 theorem unary_shift_step {k0 h r' : BHist} :
     UnaryHistory k0 →
       (∀ {r : BHist}, Cont k0 (.e1 h) r →
