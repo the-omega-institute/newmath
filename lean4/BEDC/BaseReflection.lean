@@ -24,6 +24,11 @@ structure TokUnique (s : BaseReflectionSetup) (P : s.Pi) : Prop where
   tokenReplacement : ∀ {x y p},
     s.TokIntro P x p → s.TokIntro P y p → s.hsame x y
 
+structure CanonicalTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Type where
+  TokCan : s.SigObj -> s.Pkg -> Prop
+  introToCanonical : forall {x : s.SigObj} {p : s.Pkg}, s.TokIntro P x p -> TokCan x p
+  canonicalUnique : forall {x y : s.SigObj} {p : s.Pkg}, TokCan x p -> TokCan y p -> s.hsame x y
+
 inductive PsameBase (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop where
   | intro {x y : s.SigObj} {p q : s.Pkg} :
       s.TokIntro P x p → s.TokIntro P y q → s.hsame x y → PsameBase s P p q

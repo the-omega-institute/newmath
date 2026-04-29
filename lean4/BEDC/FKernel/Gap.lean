@@ -8,6 +8,8 @@ open BEDC.FKernel.Mark
 open BEDC.FKernel.Ext
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Ext
+open BEDC.FKernel.Mark
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 
@@ -30,6 +32,41 @@ structure GapPolicy (bundle : ProbeBundle ProbeName) (D : Domain) : Prop where
   generation : ∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h → ∃ s : BHist, TokIntro bundle s p
   coverage : ∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h
   separation : ∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q
+
+theorem internalized_gap_coverage
+    {bundle : ProbeBundle ProbeName} {D : Domain}
+    (askPolicy : AskPolicy (InDom D))
+    (tokenExists :
+      forall {h s : BHist}, InDom D h -> SigRel bundle h s ->
+        Exists (fun p : Pkg => TokIntro bundle s p))
+    {h : BHist} :
+    InDom D h -> Exists (fun p : Pkg => InGapSig bundle D p h) := by
+  intro hIn
+  have sigExistsFor : forall b : ProbeBundle ProbeName, Exists (fun s : BHist => SigRel b h s) := by
+    intro b
+    induction b with
+    | Bnil =>
+        exact Exists.intro BHist.Empty (SigRel.empty h)
+    | Bcons pi tail ih =>
+        cases askPolicy.total (π := pi) hIn with
+        | intro m hm =>
+            cases hm with
+            | intro delta hAsk =>
+                cases ih with
+                | intro s hs =>
+                    cases m with
+                    | b0 =>
+                        exact Exists.intro (BHist.e0 s)
+                          (SigRel.cons pi tail h s (BHist.e0 s) BMark.b0 delta hAsk hs (Ext.e0 s))
+                    | b1 =>
+                        exact Exists.intro (BHist.e1 s)
+                          (SigRel.cons pi tail h s (BHist.e1 s) BMark.b1 delta hAsk hs (Ext.e1 s))
+  have sigExists : Exists (fun s : BHist => SigRel bundle h s) := sigExistsFor bundle
+  cases sigExists with
+  | intro s hs =>
+      cases tokenExists hIn hs with
+      | intro p hp =>
+          exact Exists.intro p ⟨hIn, Exists.intro s ⟨hs, hp⟩⟩
 
 theorem gap_coverage :
     ∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},

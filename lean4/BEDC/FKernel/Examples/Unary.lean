@@ -14,13 +14,25 @@ open BEDC.FKernel.Cont
 
 local instance : AskSetup := MinimalAskSetup
 local instance : PackageSetup := MinimalPackageSetup
-local instance : DomainSetup := MinimalDomainSetup
 local instance : NameCertSetup := MinimalNameCertSetup
 
 def UnaryHistory : BHist → Prop
   | .Empty => True
   | .e1 h => UnaryHistory h
   | .e0 _ => False
+
+def UnaryDomainSetup : DomainSetup where
+  Domain := Unit
+  InDom := fun _ h => UnaryHistory h
+
+local instance : DomainSetup := UnaryDomainSetup
+
+theorem unary_domain_policy :
+    @DomainPolicy (G := UnaryDomainSetup) (D := ()) where
+  transport := by
+    intro h k hh hsamehk
+    cases hsamehk
+    exact hh
 
 def UnaryBundle : ProbeBundle ProbeName := .Bcons () .Bnil
 def UnaryDomain : Domain := ()
