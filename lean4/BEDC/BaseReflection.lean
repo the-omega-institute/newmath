@@ -110,6 +110,14 @@ theorem PackageReflection_base_from_canonical
     (base : PsameBase s P p q) : s.hsame x y := by
   exact PackageReflection_base eqv (CanonicalTokenMode_implies_TokUnique mode) left right base
 
+theorem StableReflectionContract_from_canonical
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (mode : CanonicalTokenMode s P)
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
+    (base : PsameBase s P p q) : s.hsame x y := by
+  exact PackageReflection_base_from_canonical eqv mode left right base
+
 theorem PackageReflection_token_unique
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)

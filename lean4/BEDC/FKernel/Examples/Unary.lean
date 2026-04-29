@@ -127,6 +127,11 @@ theorem unary_shift_step {k0 h r' : BHist} :
   intro _ _ hr'
   exact ⟨append (.e1 k0) h, rfl, hr'⟩
 
+theorem unary_shift_base {h r : BHist} :
+    Cont .Empty (.e1 h) r -> exists v : BHist, Cont .Empty h v /\ hsame r (.e1 v) := by
+  intro hr
+  exact ⟨h, cont_left_unit h, hr.trans (cont_left_unit (.e1 h)).symm⟩
+
 theorem unary_commutativity_refined {h k r r' : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
   intro uh uk hr hr'
