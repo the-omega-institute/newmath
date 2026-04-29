@@ -25,6 +25,17 @@ theorem hsame_trans : ∀ {a b c : BHist}, hsame a b → hsame b c → hsame a c
   intro a b c hab hbc
   exact hab.trans hbc
 
+theorem hsame_constructor_inversion :
+    (∀ {h x : BHist}, hsame (.e0 h) x → ∃ k : BHist, x = .e0 k ∧ hsame h k) ∧
+      (∀ {h x : BHist}, hsame (.e1 h) x → ∃ k : BHist, x = .e1 k ∧ hsame h k) := by
+  constructor
+  · intro h x hx
+    cases hx
+    exact Exists.intro h (And.intro rfl rfl)
+  · intro h x hx
+    cases hx
+    exact Exists.intro h (And.intro rfl rfl)
+
 theorem hsame_e1_congr {h k : BHist} : hsame h k -> hsame (.e1 h) (.e1 k) := by
   intro hs
   cases hs

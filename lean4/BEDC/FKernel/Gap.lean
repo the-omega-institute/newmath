@@ -187,6 +187,31 @@ theorem policy_gap_separation
                               askPolicy hIn hs ht
                           exact packagePolicy.soundness hpTok hqTok hst
 
+theorem concrete_gap_policy
+    {bundle : ProbeBundle ProbeName} {D : Domain}
+    (askPolicy : AskPolicy (InDom D))
+    (packagePolicy : PackageTokenPolicy bundle)
+    (tokenExists : ∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) :
+    GapPolicy bundle D := by
+  constructor
+  · intro p h hp
+    unfold InGapSig at hp
+    cases hp with
+    | intro _ hpSig =>
+        cases hpSig with
+        | intro s hsData =>
+            cases hsData with
+            | intro _ hpTok =>
+                exact Exists.intro s hpTok
+  · intro h hIn
+    exact policy_gap_coverage
+      (bundle := bundle) (D := D) (h := h)
+      askPolicy tokenExists hIn
+  · intro h p q _ hp hq
+    exact policy_gap_separation
+      (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
+      askPolicy packagePolicy hp hq
+
 omit G in
 theorem policy_globalize_exact {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle -> TokIntro bundle s p -> TokIntro bundle t q ->

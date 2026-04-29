@@ -20,6 +20,16 @@ theorem msame_trans : ∀ {a b c : BMark}, msame a b → msame b c → msame a c
   intro a b c hab hbc
   exact hab.trans hbc
 
+theorem msame_equivalence :
+    (∀ m : BMark, msame m m) ∧
+      (∀ {m n : BMark}, msame m n → msame n m) ∧
+      (∀ {a b c : BMark}, msame a b → msame b c → msame a c) := by
+  constructor
+  · exact msame_refl
+  · constructor
+    · exact msame_symm
+    · exact msame_trans
+
 theorem not_msame_b0_b1 : msame .b0 .b1 → False := by
   intro h
   cases h
