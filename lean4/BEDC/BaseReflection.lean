@@ -224,6 +224,24 @@ theorem PsameBase_to_GeneratedSameSig_under_tok_unique
     sigSame := PackageReflection_base eqv tok leftTok rightTok base
   }
 
+theorem ClosureReflect_to_GeneratedSameSig
+    {s : BaseReflectionSetup} {P : s.Pi} (reflect : ClosureReflect s P)
+    {h k : s.Hist} {x y : s.SigObj} {p q : s.Pkg} {evL evR : s.Evidence}
+    (leftSig : s.SigGen P h x evL)
+    (rightSig : s.SigGen P k y evR)
+    (leftTok : s.TokIntro P x p)
+    (rightTok : s.TokIntro P y q)
+    (closure : PsameEqClosure s P p q) : Nonempty (GeneratedSameSig s P h k) := by
+  exact Nonempty.intro {
+    leftSigObj := x
+    rightSigObj := y
+    leftEvidence := evL
+    rightEvidence := evR
+    leftSig := leftSig
+    rightSig := rightSig
+    sigSame := reflect leftTok rightTok closure
+  }
+
 structure ExactGlobalizeBase (s : BaseReflectionSetup) (P : s.Pi) (D : s.Domain) : Prop where
   coverage : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h
   soundness : ∀ h k p q,
@@ -256,6 +274,11 @@ theorem ExactGlobalizeBase_from_fields
     soundness := soundness
     completeness := completeness
   }
+
+theorem ExactGlobalizeBase_coverage
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h := by
+  exact ex.coverage
 
 theorem ExactGlobalizeBase_classify_iff
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)

@@ -20,12 +20,14 @@ abbrev ClassifierSpec : Type := N.ClassifierSpec
 abbrev StabilityCert : Type := N.StabilityCert
 abbrev LedgerPolicy : Type := N.LedgerPolicy
 
-structure NameCert (N : DerivedName) : Type where
-  sourceSpec : SourceSpec
-  patternSpec : PatternSpec
-  classifierSpec : ClassifierSpec
-  stabilityCert : StabilityCert
-  ledgerPolicy : LedgerPolicy
+inductive NameCert (N : DerivedName) : Prop where
+  | mk :
+      SourceSpec →
+      PatternSpec →
+      ClassifierSpec →
+      StabilityCert →
+      LedgerPolicy →
+      NameCert N
 
 theorem derived_interfaces_require_certificates {n : DerivedName} :
     NameCert n -> Nonempty (NameCert n) := by
@@ -39,5 +41,14 @@ def MinimalNameCertSetup : NameCertSetup where
   ClassifierSpec := Unit
   StabilityCert := Unit
   LedgerPolicy := Unit
+
+omit N in
+theorem NameCert_add_activation [NameCertSetup] {name : DerivedName}
+    (source : SourceSpec)
+    (pattern : PatternSpec)
+    (classifier : ClassifierSpec)
+    (stability : StabilityCert)
+    (ledger : LedgerPolicy) : NameCert name := by
+  exact NameCert.mk source pattern classifier stability ledger
 
 end BEDC.FKernel.NameCert
