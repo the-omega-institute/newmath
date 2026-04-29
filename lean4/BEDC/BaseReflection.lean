@@ -159,6 +159,28 @@ theorem PackageReflection_eqClosure
       | intro middle =>
           exact eqv.trans (leftIH left middle.property) (rightIH middle.property right)
 
+theorem ClosureReflect_from_eqClosure
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    (introOf : forall p : s.Pkg, Nonempty (Subtype (fun x : s.SigObj => s.TokIntro P x p))) :
+    ClosureReflect s P := by
+  intro x y p q left right closure
+  exact PackageReflection_eqClosure eqv tok introOf left right closure
+
+theorem StableReflectionContract
+    {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s) :
+    ((tok : PolicyTokenMode s P) ->
+      forall {x y : s.SigObj} {p q : s.Pkg},
+        s.TokIntro P x p -> s.TokIntro P y q -> PsameBase s P p q -> s.hsame x y) /\
+    ((mode : CanonicalTokenMode s P) ->
+      forall {x y : s.SigObj} {p q : s.Pkg},
+        s.TokIntro P x p -> s.TokIntro P y q -> PsameBase s P p q -> s.hsame x y) := by
+  constructor
+  intro tok x y p q left right base
+  exact PackageReflection_base eqv tok left right base
+  intro mode x y p q left right base
+  exact PackageReflection_base eqv (CanonicalTokenMode_implies_TokUnique mode) left right base
+
 structure GeneratedSameSig (s : BaseReflectionSetup) (P : s.Pi) (h k : s.Hist) : Type where
   leftSigObj : s.SigObj
   rightSigObj : s.SigObj
