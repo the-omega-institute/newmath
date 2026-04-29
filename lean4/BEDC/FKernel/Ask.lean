@@ -34,6 +34,12 @@ theorem ask_deterministic {D : BHist → Prop} (policy : AskPolicy D)
   intro left right
   exact policy.deterministic left right
 
+theorem asking_determinacy {D : BHist → Prop} (policy : AskPolicy D)
+    {pi : ProbeName} {h : BHist} {m n : BMark} {delta theta : Evidence} :
+    Ask pi h m delta → Ask pi h n theta → msame m n := by
+  intro hm hn
+  exact policy.deterministic hm hn
+
 def MinimalAskSetup : AskSetup where
   ProbeName := Unit
   Evidence := Unit
