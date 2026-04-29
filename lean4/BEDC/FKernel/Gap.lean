@@ -68,6 +68,16 @@ theorem internalized_gap_coverage
       | intro p hp =>
           exact Exists.intro p ⟨hIn, Exists.intro s ⟨hs, hp⟩⟩
 
+theorem gap_coverage_globalize
+    {bundle : ProbeBundle ProbeName} {D : Domain}
+    (askPolicy : AskPolicy (InDom D))
+    (tokenExists :
+      ∀ {h s : BHist}, InDom D h → SigRel bundle h s →
+        ∃ p : Pkg, TokIntro bundle s p)
+    {h : BHist} :
+    InDom D h → ∃ p : Pkg, InGapSig bundle D p h := by
+  exact internalized_gap_coverage (bundle := bundle) (D := D) askPolicy tokenExists
+
 theorem internalized_gap_separation
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) →

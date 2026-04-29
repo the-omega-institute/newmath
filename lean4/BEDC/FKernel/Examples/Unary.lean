@@ -93,6 +93,11 @@ theorem unary_shift_step {k0 h r' : BHist} :
   intro _ _ hr'
   exact ⟨append (.e1 k0) h, rfl, hr'⟩
 
+theorem unary_commutativity_refined {h k r r' : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
+  intro uh uk hr hr'
+  exact unary_cont_comm uh uk hr hr'
+
 theorem unary_shift {k h r' : BHist} :
     UnaryHistory k → Cont k (.e1 h) r' →
       ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) := by
