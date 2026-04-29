@@ -159,6 +159,7 @@ For a generated probe bundle \(\Pi\), define
 \]
 This is the checker-facing predicate corresponding to ``the two admitted histories generate the same visible signature''.
 \end{definition}
+\leandef{BEDC.BaseReflection.GeneratedSameSig}
 
 \begin{definition}[Base exact Globalize structure]
 \label{def:v155-exact-globalize-base}
@@ -204,6 +205,7 @@ If coverage, base soundness, and base completeness hold, then for all \(h,k,p,q\
   \psame_{\Pi}^{\mathrm{base}}(p,q)\Longleftrightarrow \GeneratedSameSig(\Pi,h,k).
 \]
 \end{proposition}
+\leansorryd{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_iff}{depends on PsameBase inversion; v0.2 redesign}
 
 \begin{proof}
 The forward implication is base completeness. The reverse implication is base soundness. Coverage is not needed for this local equivalence, but it remains part of the global exactness structure because exact Globalize must also classify every admitted history, not only pairs already carrying visible packages.
