@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""Static reference audit for the v0.3 BEDC migration.
+
+This script compared a historical `.source/` snapshot against the working tree.
+That snapshot was removed before the v0.4 de-cruft pass, so the script is kept
+only as documentation of the earlier migration checks and is not intended to be
+run against the current repository state.
+"""
 from __future__ import annotations
 
 import argparse

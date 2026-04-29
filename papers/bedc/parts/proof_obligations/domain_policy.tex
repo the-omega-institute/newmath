@@ -2,9 +2,9 @@
 \label{ch:proof-obligations-domain-policy}
 
 \section{Domain Policy and Transport Obligations}
-\label{ch:v151-domain-policy}
+\label{sec:po-domain-policy-abstract}
 
-The v1.5 layer replaced the external-looking notation \(h\in D\) by the internal domain judgment \(\InDom(D,h)\). This chapter freezes the part that is purely notational and records the additional proof obligations needed for domain behavior.
+This chapter records the internal domain judgment \(\InDom(D,h)\) and the additional proof obligations needed for domain behavior.
 
 \begin{definition}[Domain policy]
 A source-domain name \(D\) is equipped with a domain policy, written
@@ -45,14 +45,14 @@ Under \(\DomainPolicy(D)\), the source side of the concrete signature gap is inv
 Immediate from Theorem~\ref{thm:v151-domain-transport}. The other parts of a concrete gap, namely signature generation and token introduction, require their own policies and are not bundled into domain transport.
 \end{proof}
 
-\begin{remark}[Frozen information]
-It is now frozen that active concrete gap statements must use \(\InDom(D,h)\), not \(h\in D\). What is not automatically frozen is any claim that an arbitrary domain name satisfies \(\DomainPolicy(D)\). That must be supplied for each concrete domain.
+\begin{remark}[Active reading]
+Active concrete gap statements use \(\InDom(D,h)\), not \(h\in D\). What is not automatic is any claim that an arbitrary domain name satisfies \(\DomainPolicy(D)\). That must be supplied for each concrete domain.
 \end{remark}
 
 \section{Concrete Domain Policy for the Unary Source}
-\label{ch:v152-unary-domain-policy}
+\label{sec:po-domain-policy-unary}
 
-\autoref{ch:v151-domain-policy} introduced \(\mathsf{DomainPolicy}(D)\) as the condition allowing \(\InDom(D,h)\) to be transported along internal history-sameness. This chapter records the first intended concrete instance: the unary source.
+\autoref{sec:po-domain-policy-abstract} introduces \(\mathsf{DomainPolicy}(D)\) as the condition allowing \(\InDom(D,h)\) to be transported along internal history-sameness. This section records the unary source instance.
 
 \begin{definition}[Unary source domain]
 Let \(\mathsf{UnarySource}\) be the source-domain name whose internal domain judgment is

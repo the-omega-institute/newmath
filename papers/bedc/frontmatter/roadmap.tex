@@ -1,7 +1,7 @@
 \chapter*{Reader's Roadmap}
 \addcontentsline{toc}{chapter}{Reader's Roadmap}
 
-This master volume is maintained as an append-only research project. It combines frozen theory, active proof targets, hardening notes, and implementation-facing material in one PDF while keeping their roles distinct.
+This volume presents the current BEDC theory, its proof targets, and its implementation-facing material in one PDF while keeping their roles distinct.
 
 \section*{How to read this volume}
 
@@ -9,11 +9,11 @@ This master volume is maintained as an append-only research project. It combines
 \toprule
 \textbf{Reader goal} & \textbf{Recommended route}\\
 \midrule
-Understand the theory & Read the Preface, the frozen finite-kernel core, and the active hardening and proof-obligation parts. The core gives the baseline object theory; the later parts record the active refinements and proof targets.\\
+Understand the theory & Read the Preface, the finite-kernel core, and the hardening and proof-obligation parts. The core gives the object theory; the later parts record the active refinements and proof targets.\\
 Follow the proof plan & Read the proof-sprint part, then \autoref{ch:theorem-dependency-dag}. The sprint chapters give the finite-kernel proof target; the dependency chapter gives the execution order.\\
-Understand the current project state & Read Project Status and Project Governance. These chapters record the live contract, the preserved migration baseline, and the next verification targets.\\
+Understand the current project state & Read Project Status, Project Governance, and Chapter~\ref{ch:theory-amendment-policy}. These chapters record the active contract, the amendment policy, and the next verification targets.\\
 Prepare implementation work & Read the implementation-facing contract and Appendix~\ref{app:lean-scaffold}. The contract is external guidance for formalization work, not part of the core object theory.\\
-Extend the book & Add new material under \texttt{parts/} or \texttt{appendices/}; do not rewrite frozen files unless a migration note is created.\\
+Extend the book & Add new material to the relevant thematic chapter and update the registry, correspondence table, and amendment policy when the active reading changes.\\
 \bottomrule
 \end{longtable}
 
@@ -24,13 +24,13 @@ This volume intentionally separates four layers:
   \item \textbf{Core theory}: clean-room BEDC object-theory specification.
   \item \textbf{Proof target}: theorem statements and proof plans for the finite kernel.
   \item \textbf{Implementation-facing contract}: external guidance for a future proof-assistant encoding.
-  \item \textbf{Project governance}: versioning, migration, and maintenance rules.
+  \item \textbf{Project governance}: editing, registry, and maintenance rules.
 \end{enumerate}
 Terms such as ``model'', ``theorem'', ``table'', ``implementation'', and ``module'' belong to the explanatory metalanguage unless explicitly introduced as BEDC-derived interfaces.
 
-\section*{Current live edge}
+\section*{Proof boundary}
 
-The live edge of this master project is not the reconstruction of all traditional mathematics. The live edge is the finite-kernel proof path:
+The present proof boundary of this master project is not the reconstruction of all traditional mathematics. It is the finite-kernel proof path:
 \[
 \msame\to \hsame\to \ExtR/\ContR\to \Sig\to \sameSig\to \PkgPol/\GapPol\to \CompGap\to \NameCert.
 \]

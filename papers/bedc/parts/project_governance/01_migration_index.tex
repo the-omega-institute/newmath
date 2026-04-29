@@ -1,92 +1,10 @@
-\chapter{Migration and Supersession Index}
-\label{ch:migration-index}
+\chapter{Theory Amendment Policy}
+\label{ch:theory-amendment-policy}
 
-This index records active migrations. New increments register their migrations here per the recipe in \texttt{HOW\_INCREMENT\_WORKS.md}. The historical migrations from v1.4 \(\to\) v1.5.5 are preserved below as a closed baseline.
+This paper presents the current state of the BEDC theory. When the theory is extended or refined, amendments are made in place: new definitions, theorems, and policies are inserted in their thematic chapter, and replaced phrasings are removed at the time of replacement.
 
-This chapter records how later live modules refine the frozen baseline. It does not erase the frozen core. It tells the reader which later statement should be used for current development.
+New material belongs in the chapter whose subject it advances. Concrete-instance refinements stay with concrete instances or concrete hardening; proof interfaces and export contracts stay with proof obligations; formalization-facing guidance stays with the implementation-facing contract. The companion file \texttt{HOW\_INCREMENT\_WORKS.md} records the repository recipe for registering claims, aligning Lean targets, and updating status tables.
 
-\begin{longtable}{p{0.22\textwidth}p{0.27\textwidth}p{0.32\textwidth}p{0.10\textwidth}}
-\toprule
-\textbf{Earlier location} & \textbf{Issue} & \textbf{Current refinement} & \textbf{Status}\\
-\midrule
-Core v10: probe bundle as generated finite record & The idea is correct, but later proof planning needs an explicit dependency order. & Use the theorem dependency DAG in \autoref{ch:theorem-dependency-dag}. & Refined\\
-Core v10: package behavior & Package existence and extensionality were stated at a broad policy level. & Use PackagePolicy as refined in the hardening module: existence, extensionality, and grounding should be separated. & Refined\\
-Core v10: gap membership & Gap membership was tied to packages, but its provenance role needed emphasis. & Use GapPolicy with explicit source membership, coverage, separation, and composite gap constraints. & Refined\\
-Core v10: NameCert fields & The five fields were introduced, but concrete instances were not yet available. & Use the typed NameCert instance templates for \(\NatUp\), \(\AddUp\), and function-like interfaces in the hardening module. & Refined\\
-v10.1 Proof Target: theorem list & The theorem list was valid but linear. & Use Milestones A--D and the dependency DAG to select implementation order. & Refined\\
-Implementation Contract v10.1: scaffold status & The implementation file was a scaffold, not a checked artifact. & Treat it as archived until a build and verification log records a successful check. & Pending\\
-Core v10: completion-like interfaces & Seal was intentionally thin. & Completion-like, phase-like, and fold-like interfaces should remain separate future modules until the finite kernel is checked. & Deferred\\
-\bottomrule
-\end{longtable}
+When an amendment changes the active reading of an existing object, the active label remains the citation target for that object. Claim identifiers in \texttt{claim-registry.md} continue to track the chapter-level or section-level object, while theorem- and definition-level labels remain attached to the active formulation.
 
-\section{Reading rule}
-When a later row marks an earlier statement as \emph{Refined}, the earlier statement should be read as a historical baseline and the refinement should be used for active development. When marked \emph{Deferred}, the earlier statement is intentionally thin and should not be expanded inside the frozen core.
-
-\section{Adding new migration notes}
-Every migration note should identify:
-\begin{enumerate}
-  \item the earlier module and location;
-  \item the issue or ambiguity;
-  \item the newer statement or module that refines it;
-  \item whether the earlier statement is still valid, refined, deprecated, or deferred.
-\end{enumerate}
-
-\section{v1.4 supplemental migration notes}
-The v1.4 concrete-instance layer instantiates several abstract templates from the hardening layer.
-\begin{enumerate}
-  \item The abstract \(\PkgPol\) template is inhabited by the concrete signature package instance of \autoref{ch:v14-signature-package}.
-  \item The abstract \(\GapPol\) template is inhabited by the concrete signature gap policy of \autoref{ch:v14-concrete-gap}.
-  \item The abstract \(\NameCert\) templates for derived interfaces are inhabited, at paper level, by \(\NameCert_{\NatUp}\) and \(\NameCert_{\AddUp}\) in \autoref{ch:v14-nat-namecert} and \autoref{ch:v14-add-namecert}.
-\end{enumerate}
-These notes do not modify the frozen core. They specify which later concrete modules should be used for active development.
-
-\section{v1.5 supplemental migration notes}
-The v1.5 concrete-hardening layer corrects live concrete-instance notation without rewriting the v1.4 chapters.
-\begin{enumerate}
-  \item The v1.4 notation \(h\in D\) is superseded in active concrete gap statements by \(\InDom(D,h)\). See \autoref{ch:v15-domain-token-reflection}.
-  \item The v1.4 notation \(\Tok_{\Pi}(s)\) is superseded by the token-introduction judgment \(\TokIntro(\Pi,s,p)\). See \autoref{ch:v15-domain-token-reflection}.
-  \item Concrete Globalize completeness now explicitly depends on package reflection. See Theorem~\ref{thm:v15-package-reflection} and \autoref{ch:v15-gap-globalize}.
-  \item The \(\AddUp\) certificate is live only with unary continuation commutativity included. See \autoref{ch:v15-unary-add-commutativity}.
-\end{enumerate}
-These migration notes supersede only the active interpretation of the v1.4 concrete-instance layer. They do not modify the frozen core.
-
-
-\section{v1.5.1 supplemental migration notes}
-The v1.5.1 proof-obligation patch refines the v1.5 concrete-hardening layer by separating frozen corrections from active proof obligations.
-\begin{enumerate}
-  \item The replacement of \(h\in D\) by \(\InDom(D,h)\) remains frozen, but active gap theorems now require \(\DomainPolicy(D)\). See \autoref{ch:v151-domain-policy}.
-  \item The replacement of \(\Tok_{\Pi}(s)\) by \(\TokIntro(\Pi,s,p)\) remains frozen, but exact concrete package reasoning now requires \(\PkgTokPol(\Pi)\). See \autoref{ch:v151-package-token-policy}.
-  \item The active concrete signature gap is the policy-supported \(\InGapSig\) of \autoref{ch:v151-gap-policy}.
-  \item The active additive naming boundary reduces unary commutativity to unary right-shift and \(\Eone\)-congruence obligations. See \autoref{ch:v151-unary-obligations}.
-\end{enumerate}
-This patch does not create a new derived object and does not change the frozen core. It changes the proof-obligation status of the live concrete instance layer.
-
-
-\section{v1.5.2 supplemental migration notes}
-The v1.5.2 proof-readiness patch refines the live obligations introduced in v1.5.1.
-\begin{enumerate}
-  \item The abstract \(\mathsf{DomainPolicy}(D)\) obligation now has a first intended concrete instance: \(\mathsf{DomainPolicy}(\mathsf{UnarySource})\). See \autoref{ch:v152-unary-domain-policy}.
-  \item The concrete signature-token package-sameness relation should be read as the one-constructor relation \(\psame_{\Pi}^{\mathrm{sig}}\). See \autoref{ch:v152-inductive-package-token-policy}.
-  \item The additive naming boundary is governed by the unary right-shift and unary continuation commutativity targets of \autoref{ch:v152-unary-shift-hardening}.
-\end{enumerate}
-These notes do not supersede the frozen core. They refine the live concrete-instance proof obligations.
-
-\section{v1.5.3 supplemental migration notes}
-The v1.5.3 proof patch refines the live proof obligations of v1.5.2 without adding new derived objects.
-\begin{enumerate}
-  \item The package reflection claim from v1.5.2 should be read as depending on \(\TokUnique(\Pi)\). See \autoref{ch:v153-token-intro-uniqueness}.
-  \item Concrete signature Globalize exactness should be read under explicit domain, ask, token-uniqueness, package, and gap policies. See \autoref{ch:v153-exact-concrete-globalize}.
-  \item Unary continuation commutativity is governed by the base/step right-shift decomposition of \autoref{ch:v153-unary-shift-micro-lemmas}.
-\end{enumerate}
-These notes supersede only the active interpretation of the v1.5.2 proof-readiness patch.
-
-
-\section{v1.5.4 supplemental migration notes}
-The v1.5.4 minimal verification contract refines the active interpretation of the v1.5.3 proof patch.
-\begin{enumerate}
-  \item The concrete signature-token package-sameness relation \(\psame_{\Pi}^{\mathrm{sig}}\) should be read as the one-constructor base relation \(\psame_{\Pi}^{\mathrm{base}}\). See \autoref{ch:v154-psame-design-contract}.
-  \item The optional equivalence closure \(\psame_{\Pi}^{\mathrm{eq}}\) is a separate deferred relation and must not be exported as exact without \(\ClosureReflect(\Pi)\). See Definition~\ref{def:v154-closure-reflection}.
-  \item Token uniqueness may be supplied either as the active policy field \(\TokUnique(\Pi)\) or by a future checked canonical-constructor theorem. See \autoref{ch:v154-token-uniqueness-modes}.
-  \item Exact concrete Globalize is exported only for the base relation in this release. See Theorem~\ref{thm:v154-exact-concrete-globalize}.
-\end{enumerate}
-These notes supersede only the active interpretation of the v1.5.3 proof patch and do not modify the frozen core.
+Deprecation is handled by replacement rather than archival prose. If a definition, theorem phrasing, or policy interface is superseded, the earlier wording is removed from the paper and the active wording takes its place in the relevant chapter. External references to deprecated names should therefore resolve through the active definition's label or the current claim-registry entry.

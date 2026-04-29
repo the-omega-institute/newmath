@@ -2,9 +2,9 @@
 \label{ch:proof-obligations-exact-globalize}
 
 \section{Exact Concrete Signature Globalize Under Explicit Policies}
-\label{ch:v153-exact-concrete-globalize}
+\label{sec:po-exact-concrete-globalize-policy}
 
-The concrete signature Globalize instance of v1.4 and v1.5 becomes exact only when all four policy layers are visible:
+The concrete signature Globalize instance becomes exact only when all four policy layers are visible:
 \[
   \DomainPolicy(D)
   +
@@ -99,11 +99,11 @@ Coverage is Theorem~\ref{thm:v153-gap-coverage}. Separation is Theorem~\ref{thm:
 \end{proof}
 
 \section{Exactness Export Contract}
-\label{ch:v154-exactness-export-contract}
+\label{sec:po-exactness-export-contract-design}
 
-This chapter records the exact theorem that v1.5.4 exports for active development. It is intentionally narrower than a full package algebra theorem.
+This chapter records the exact theorem exported for active development. It is intentionally narrower than a full package algebra theorem.
 
-\begin{theorem}[v1.5.4 exact concrete signature Globalize]
+\begin{theorem}[Exact concrete signature Globalize]
 \label{thm:v154-exact-concrete-globalize}
 Assume:
 \begin{enumerate}
@@ -123,7 +123,7 @@ Coverage is Theorem~\ref{thm:v153-gap-coverage}. Separation is Theorem~\ref{thm:
 
 \begin{proposition}[What is intentionally not exported]
 \label{prop:v154-not-exported}
-The following statements are not exported by v1.5.4:
+The following statements are not exported:
 \begin{enumerate}
   \item \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness;
   \item package-sameness transitivity as a constructor-level theorem for \(\psame_{\Pi}^{\mathrm{base}}\);
@@ -134,7 +134,7 @@ The following statements are not exported by v1.5.4:
 \end{proposition}
 
 \begin{proof}
-Each item requires either an equivalence-closure theorem, an implementation artifact, or a derived-object construction that is outside the declared scope of this verification-contract increment. Thus each is deferred.
+Each item requires either an equivalence-closure theorem, an implementation artifact, or a derived-object construction that is outside the declared scope of this verification contract. Thus each is deferred.
 \end{proof}
 
 \begin{protocol}[Export discipline]
@@ -143,9 +143,9 @@ Future modules should cite Theorem~\ref{thm:v154-exact-concrete-globalize} as th
 \end{protocol}
 
 \section{Checker-Friendly Exactness Predicate}
-\label{ch:v155-checker-friendly-exactness}
+\label{sec:po-checker-friendly-exactness}
 
-The v1.5.4 exact concrete Globalize theorem intentionally stated the active relation as \(\psame_{\Pi}^{\mathrm{base}}\). The remaining problem was not the relation boundary, but the phrase ``classify admitted histories exactly''. This chapter replaces that phrase by a predicate with explicit fields.
+The exact concrete Globalize theorem intentionally states the active relation as \(\psame_{\Pi}^{\mathrm{base}}\). The remaining problem is not the relation boundary, but the phrase ``classify admitted histories exactly''. This chapter replaces that phrase by a predicate with explicit fields.
 
 \begin{definition}[Generated signature sameness]
 \label{def:v155-generated-same-sig}
@@ -217,11 +217,11 @@ Future modules should cite \(\ExactGlobalizeBase(\Pi,D)\) rather than a prose ph
 \end{protocol}
 
 \section{Exact Globalize Base Contract}
-\label{ch:v155-exact-globalize-base-contract}
+\label{sec:po-exact-globalize-base-contract}
 
-This chapter states the v1.5.5 replacement for the prose theorem exported in v1.5.4. The content is intentionally narrow: it is the exactness of the concrete signature Globalize instance at the base package relation.
+This chapter states the theorem replacing the earlier prose exactness claim. The content is intentionally narrow: it is the exactness of the concrete signature Globalize instance at the base package relation.
 
-\begin{theorem}[v1.5.5 exact Globalize base target]
+\begin{theorem}[Exact Globalize base target]
 \label{thm:v155-exact-globalize-base-target}
 \label{thm:globalize-exact-base}
 Assume:
@@ -241,7 +241,7 @@ Then
 \end{theorem}
 
 \begin{proof}
-Coverage is the policy-supported gap coverage theorem from the v1.5.3/v1.5.4 spine, with internal domain transport supplied by \(\DomainPolicy(D)\). Base soundness follows from generated signature sameness plus the single constructor of \(\psame_{\Pi}^{\mathrm{base}}\). Base completeness follows by applying base package reflection to the visible packages and then unpacking \(\GeneratedSameSig\). The local classification equivalence is Proposition~\ref{prop:v155-iff-derived}.
+Coverage is the policy-supported gap coverage theorem from the current proof-obligation spine, with internal domain transport supplied by \(\DomainPolicy(D)\). Base soundness follows from generated signature sameness plus the single constructor of \(\psame_{\Pi}^{\mathrm{base}}\). Base completeness follows by applying base package reflection to the visible packages and then unpacking \(\GeneratedSameSig\). The local classification equivalence is Proposition~\ref{prop:v155-iff-derived}.
 \end{proof}
 
 \begin{corollary}[No closure export]

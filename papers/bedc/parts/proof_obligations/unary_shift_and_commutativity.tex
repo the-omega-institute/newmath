@@ -2,9 +2,9 @@
 \label{ch:proof-obligations-unary-shift-and-commutativity}
 
 \section{Unary Commutativity Proof Obligations}
-\label{ch:v151-unary-obligations}
+\label{sec:po-unary-obligations-abstract}
 
-The v1.5 additive boundary correctly states that \(\AddUp\) requires unary continuation commutativity. This chapter decomposes that commutativity proof into smaller obligations. These obligations are more suitable for machine verification than a single opaque paper proof.
+The additive boundary correctly states that \(\AddUp\) requires unary continuation commutativity. This chapter decomposes that commutativity proof into smaller obligations. These obligations are more suitable for machine verification than a single opaque paper proof.
 
 \begin{definition}[Unary right-shift obligation]
 The unary right-shift obligation is the statement that if
@@ -52,18 +52,18 @@ Induct on the unary derivation of the left input \(h\). The empty case follows f
 \) and \(\hsame(r',\Eone(v))\). By the induction hypothesis, \(\hsame(u,v)\). By \(\Eone\)-congruence, \(\hsame(\Eone(u),\Eone(v))\). Transitivity of \(\hsame\) yields \(\hsame(r,r')\).
 \end{proof}
 
-\begin{corollary}[Additive naming boundary after v1.5.1]
-The name \(\AddUp\) is licensed only after the unary right-shift and \(\Eone\)-congruence obligations have been supplied. Before that point, the frozen safe name is \(\UnaryContMonoidUp\).
+\begin{corollary}[Additive naming boundary]
+The name \(\AddUp\) is licensed only after the unary right-shift and \(\Eone\)-congruence obligations have been supplied. Before that point, the safe name is \(\UnaryContMonoidUp\).
 \end{corollary}
 
 \begin{proof}
 The monoid-like name requires unit and associativity. The additive name requires the additional commutativity field. Theorem~\ref{thm:v151-comm-from-obligations} reduces that field to two smaller obligations plus the already known continuation laws.
 \end{proof}
 
-\section{Unary Shift and Commutativity: Hardening the Additive License}
-\label{ch:v152-unary-shift-hardening}
+\section{Unary Shift and the Additive License}
+\label{sec:po-unary-shift-instance}
 
-\autoref{ch:v151-unary-obligations} decomposed unary continuation commutativity into auxiliary obligations. This chapter isolates the obligations that should be proved before the name \(\AddUp\) is treated as active rather than conditional.
+\autoref{sec:po-unary-obligations-abstract} decomposes unary continuation commutativity into auxiliary obligations. This section isolates the obligations that should be proved before the name \(\AddUp\) is treated as active rather than conditional.
 
 \begin{lemma}[\(\Eone\)-congruence]
 \label{lem:v152-eone-congruence}
@@ -88,7 +88,7 @@ Assume \(\Unary(k)\) and \(\ContR(k,\Eone(h),r')\). Then there exists a history 
 \end{lemma}
 
 \begin{proof}
-This is the proof obligation named \(\UnaryShift\) in v1.5.1. The proof proceeds by induction on the unary derivation of \(k\). The empty case uses the left-unit law for \(\ContR\). The step case uses inversion on the continuation derivation, the induction hypothesis for the shorter unary history, \(\Eone\)-congruence, and transitivity of \(\hsame\).
+This is the proof obligation named \(\UnaryShift\). The proof proceeds by induction on the unary derivation of \(k\). The empty case uses the left-unit law for \(\ContR\). The step case uses inversion on the continuation derivation, the induction hypothesis for the shorter unary history, \(\Eone\)-congruence, and transitivity of \(\hsame\).
 \end{proof}
 
 \begin{theorem}[Unary continuation commutativity]
@@ -121,9 +121,9 @@ The next proof implementation should not attempt the full \(\AddUp\) interface f
 \end{remark}
 
 \section{Unary Right-Shift: Micro-Lemmas for the Additive License}
-\label{ch:v153-unary-shift-micro-lemmas}
+\label{sec:po-unary-shift-micro-lemmas}
 
-The v1.5.2 theorem \(\UnaryShift\) is the remaining proof obligation needed before the name \(\AddUp\) can replace the conservative name \(\UnaryContMonoidUp\). This chapter decomposes that obligation into smaller lemmas suitable for a local verification sprint.
+The theorem \(\UnaryShift\) is the remaining proof obligation needed before the name \(\AddUp\) can replace the conservative name \(\UnaryContMonoidUp\). This chapter decomposes that obligation into smaller lemmas suitable for a local verification sprint.
 
 \begin{lemma}[\(\Eone\)-congruence]
 \label{lem:v153-eone-cong}

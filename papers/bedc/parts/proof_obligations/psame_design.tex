@@ -2,9 +2,9 @@
 \label{ch:proof-obligations-psame-design}
 
 \section{Concrete Package-Sameness Design Contract}
-\label{ch:v154-psame-design-contract}
+\label{sec:po-psame-design-contract}
 
-The v1.5.3 reflection theorem is correct for the one-constructor concrete package-sameness relation. It must not be silently transferred to an equivalence closure. This chapter fixes the active design.
+The reflection theorem is correct for the one-constructor concrete package-sameness relation. It must not be silently transferred to an equivalence closure. This chapter fixes the active design.
 
 \begin{definition}[Base concrete package-sameness]
 \label{def:v154-base-psame}
@@ -38,7 +38,7 @@ If a future package-algebra layer needs an equivalence relation, it must introdu
   \psame_{\Pi}^{\mathrm{eq}}(p,q)
   := \EqCl(\psame_{\Pi}^{\mathrm{base}})(p,q).
 \]
-This relation is not the active relation for v1.5.4 concrete Globalize exactness.
+This relation is not the active relation for concrete Globalize exactness.
 \end{definition}
 
 \begin{definition}[Closure-reflection obligation]
@@ -75,17 +75,17 @@ This is Theorem~\ref{thm:v153-package-reflection-token-unique} with the notation
 
 \begin{corollary}[Equivalence closure is not exported as exact]
 \label{cor:v154-eq-not-exported}
-The exact concrete Globalize theorem of v1.5.4 exports \(\psame_{\Pi}^{\mathrm{base}}\), not \(\psame_{\Pi}^{\mathrm{eq}}\). Exporting \(\psame_{\Pi}^{\mathrm{eq}}\) as exact is deferred until \(\ClosureReflect(\Pi)\) is checked.
+The exact concrete Globalize theorem exports \(\psame_{\Pi}^{\mathrm{base}}\), not \(\psame_{\Pi}^{\mathrm{eq}}\). Exporting \(\psame_{\Pi}^{\mathrm{eq}}\) as exact is deferred until \(\ClosureReflect(\Pi)\) is checked.
 \end{corollary}
 
 \begin{proof}
-By Principle~\ref{prin:v154-no-implicit-closure}, equivalence closure is a separate construction. Definition~\ref{def:v154-closure-reflection} records the extra theorem required for reflection through that closure. Since v1.5.4 records no checked proof of that theorem, only the base relation is exported as exact.
+By Principle~\ref{prin:v154-no-implicit-closure}, equivalence closure is a separate construction. Definition~\ref{def:v154-closure-reflection} records the extra theorem required for reflection through that closure. Since no checked proof of that theorem is recorded here, only the base relation is exported as exact.
 \end{proof}
 
 \section{Base Reflection Schema}
-\label{ch:v155-base-reflection-schema}
+\label{sec:po-base-reflection-schema}
 
-This chapter isolates the smallest constructor-inversion chain needed for base package reflection. It is the first proof-check target after v1.5.5.
+This chapter isolates the smallest constructor-inversion chain needed for base package reflection. It is the first proof-check target in the present base-reflection contract.
 
 \begin{definition}[Base package witness data]
 \label{def:v155-psame-base-data}
@@ -109,7 +109,7 @@ then
 \end{lemma}
 
 \begin{proof}
-This is the single constructor of Definition~\ref{def:v154-base-psame}. The important checker rule is that no second public constructor may be added without changing the versioned contract.
+This is the single constructor of Definition~\ref{def:v154-base-psame}. The important checker rule is that no second public constructor may be added without changing the public contract.
 \end{proof}
 
 \begin{lemma}[Base inversion]
@@ -181,7 +181,7 @@ Base package reflection & \texttt{PackageReflection.base}\\
 \end{protocol}
 
 \section{Optional Closure Reflection Target}
-\label{ch:v155-closure-reflection-target}
+\label{sec:po-closure-reflection-target}
 
 The equivalence closure of the base package relation is useful for later package algebra, but it must not be confused with the active exact relation. This chapter records the optional proof target without exporting it.
 

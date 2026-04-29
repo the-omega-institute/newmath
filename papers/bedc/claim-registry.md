@@ -3,9 +3,9 @@
 ## Chapter-grained
 | claim_id | latex_label | granularity | source_file |
 |----------|-------------|-------------|-------------|
-| bedc:concrete-hardening:domain-and-token-reflection | ch:v15-domain-token-reflection | chapter | parts/concrete_hardening/domain_and_token_reflection.tex |
-| bedc:concrete-hardening:internalized-gap-globalize | ch:v15-gap-globalize | chapter | parts/concrete_hardening/internalized_gap_globalize.tex |
-| bedc:concrete-hardening:unary-add-commutativity | ch:v15-unary-add-commutativity | chapter | parts/concrete_hardening/unary_add_commutativity.tex |
+| bedc:concrete-hardening:domain-and-token-reflection | sec:concrete-hardening-domain-token-reflection | chapter | parts/concrete_hardening/domain_and_token_reflection.tex |
+| bedc:concrete-hardening:internalized-gap-globalize | sec:concrete-hardening-gap-globalize | chapter | parts/concrete_hardening/internalized_gap_globalize.tex |
+| bedc:concrete-hardening:unary-add-commutativity | sec:concrete-hardening-unary-add-commutativity | chapter | parts/concrete_hardening/unary_add_commutativity.tex |
 | bedc:concrete-instances:signature-package-instance | ch:v14-signature-package | chapter | parts/concrete_instances/01_signature_package_instance.tex |
 | bedc:concrete-instances:concrete-gap-policy | ch:v14-concrete-gap | chapter | parts/concrete_instances/02_concrete_gap_policy.tex |
 | bedc:concrete-instances:globalize-instance-theorems | ch:v14-concrete-globalize | chapter | parts/concrete_instances/03_globalize_instance_theorems.tex |
@@ -28,7 +28,7 @@
 | bedc:hardening:package-gap-policy-expansion | ch:hardening-package-gap-policy-expansion | chapter | parts/hardening/01_package_gap_policy_expansion.tex |
 | bedc:hardening:typed-name-certificate-instances | ch:hardening-typed-name-certificate-instances | chapter | parts/hardening/02_typed_name_certificate_instances.tex |
 | bedc:hardening:machine-checkable-milestones | ch:hardening-machine-checkable-milestones | chapter | parts/hardening/03_machine_checkable_milestones.tex |
-| bedc:project-governance:migration-index | ch:migration-index | chapter | parts/project_governance/01_migration_index.tex |
+| bedc:project-governance:migration-index | ch:theory-amendment-policy | chapter | parts/project_governance/01_migration_index.tex |
 | bedc:project-governance:governance | ch:project-governance | chapter | parts/project_governance/governance.tex |
 | bedc:proof-obligations:domain-policy | ch:proof-obligations-domain-policy | chapter | parts/proof_obligations/domain_policy.tex |
 | bedc:proof-obligations:exact-globalize | ch:proof-obligations-exact-globalize | chapter | parts/proof_obligations/exact_globalize.tex |
@@ -47,29 +47,29 @@
 | bedc:proof-standing:proof-status-matrix | ch:proof-standing-proof-status-matrix | chapter | parts/proof_standing/06_proof_status_matrix.tex |
 | bedc:frontmatter:project-status | ch:project-status | chapter | frontmatter/status.tex |
 
-## Section-grained (preserved from .source via merge protocol)
+## Section-grained
 | claim_id | latex_label | granularity | source_file |
 |----------|-------------|-------------|-------------|
-| bedc:proof-obligations:domain-policy:domain-policy-and-transport-obligations | ch:v151-domain-policy | section | parts/proof_obligations/domain_policy.tex |
-| bedc:proof-obligations:domain-policy:concrete-domain-policy-for-the-unary-source | ch:v152-unary-domain-policy | section | parts/proof_obligations/domain_policy.tex |
-| bedc:proof-obligations:exact-globalize:exact-concrete-signature-globalize-under-explicit-policies | ch:v153-exact-concrete-globalize | section | parts/proof_obligations/exact_globalize.tex |
-| bedc:proof-obligations:exact-globalize:exactness-export-contract | ch:v154-exactness-export-contract | section | parts/proof_obligations/exact_globalize.tex |
-| bedc:proof-obligations:exact-globalize:checker-friendly-exactness-predicate | ch:v155-checker-friendly-exactness | section | parts/proof_obligations/exact_globalize.tex |
-| bedc:proof-obligations:exact-globalize:exact-globalize-base-contract | ch:v155-exact-globalize-base-contract | section | parts/proof_obligations/exact_globalize.tex |
-| bedc:proof-obligations:gap-policy:consolidated-signature-gap-policy | ch:v151-gap-policy | section | parts/proof_obligations/gap_policy.tex |
-| bedc:proof-obligations:lean-scaffold-contract:lean-style-scaffold-contract | ch:v155-lean-scaffold-contract | section | parts/proof_obligations/lean_scaffold_contract.tex |
-| bedc:proof-obligations:package-token-policy:package-token-policy-and-reflection | ch:v151-package-token-policy | section | parts/proof_obligations/package_token_policy.tex |
-| bedc:proof-obligations:package-token-policy:inductive-package-token-policy-for-signature-packages | ch:v152-inductive-package-token-policy | section | parts/proof_obligations/package_token_policy.tex |
-| bedc:proof-obligations:package-token-policy:token-introduction-uniqueness-and-package-reflection | ch:v153-token-intro-uniqueness | section | parts/proof_obligations/package_token_policy.tex |
-| bedc:proof-obligations:package-token-policy:token-uniqueness-modes | ch:v154-token-uniqueness-modes | section | parts/proof_obligations/package_token_policy.tex |
-| bedc:proof-obligations:psame-design:concrete-package-sameness-design-contract | ch:v154-psame-design-contract | section | parts/proof_obligations/psame_design.tex |
-| bedc:proof-obligations:psame-design:base-reflection-schema | ch:v155-base-reflection-schema | section | parts/proof_obligations/psame_design.tex |
-| bedc:proof-obligations:psame-design:optional-closure-reflection-target | ch:v155-closure-reflection-target | section | parts/proof_obligations/psame_design.tex |
-| bedc:proof-obligations:unary-shift-and-commutativity:unary-commutativity-proof-obligations | ch:v151-unary-obligations | section | parts/proof_obligations/unary_shift_and_commutativity.tex |
-| bedc:proof-obligations:unary-shift-and-commutativity:unary-shift-and-commutativity-hardening-the-additive-license | ch:v152-unary-shift-hardening | section | parts/proof_obligations/unary_shift_and_commutativity.tex |
-| bedc:proof-obligations:unary-shift-and-commutativity:unary-right-shift-micro-lemmas-for-the-additive-license | ch:v153-unary-shift-micro-lemmas | section | parts/proof_obligations/unary_shift_and_commutativity.tex |
-| bedc:proof-obligations:verification-queue:concrete-verification-targets-v1-5-2 | ch:v152-verification-targets | section | parts/proof_obligations/verification_queue.tex |
-| bedc:proof-obligations:verification-queue:verification-queue-v1-5-4 | ch:v154-verification-queue | section | parts/proof_obligations/verification_queue.tex |
+| bedc:proof-obligations:domain-policy:domain-policy-and-transport-obligations | sec:po-domain-policy-abstract | section | parts/proof_obligations/domain_policy.tex |
+| bedc:proof-obligations:domain-policy:concrete-domain-policy-for-the-unary-source | sec:po-domain-policy-unary | section | parts/proof_obligations/domain_policy.tex |
+| bedc:proof-obligations:exact-globalize:exact-concrete-signature-globalize-under-explicit-policies | sec:po-exact-concrete-globalize-policy | section | parts/proof_obligations/exact_globalize.tex |
+| bedc:proof-obligations:exact-globalize:exactness-export-contract | sec:po-exactness-export-contract-design | section | parts/proof_obligations/exact_globalize.tex |
+| bedc:proof-obligations:exact-globalize:checker-friendly-exactness-predicate | sec:po-checker-friendly-exactness | section | parts/proof_obligations/exact_globalize.tex |
+| bedc:proof-obligations:exact-globalize:exact-globalize-base-contract | sec:po-exact-globalize-base-contract | section | parts/proof_obligations/exact_globalize.tex |
+| bedc:proof-obligations:gap-policy:consolidated-signature-gap-policy | sec:po-gap-policy-abstract | section | parts/proof_obligations/gap_policy.tex |
+| bedc:proof-obligations:lean-scaffold-contract:lean-style-scaffold-contract | sec:po-lean-scaffold-contract | section | parts/proof_obligations/lean_scaffold_contract.tex |
+| bedc:proof-obligations:package-token-policy:package-token-policy-and-reflection | sec:po-package-token-policy-abstract | section | parts/proof_obligations/package_token_policy.tex |
+| bedc:proof-obligations:package-token-policy:inductive-package-token-policy-for-signature-packages | sec:po-inductive-package-token-policy-instance | section | parts/proof_obligations/package_token_policy.tex |
+| bedc:proof-obligations:package-token-policy:token-introduction-uniqueness-and-package-reflection | sec:po-token-intro-uniqueness-policy | section | parts/proof_obligations/package_token_policy.tex |
+| bedc:proof-obligations:package-token-policy:token-uniqueness-modes | sec:po-token-uniqueness-modes | section | parts/proof_obligations/package_token_policy.tex |
+| bedc:proof-obligations:psame-design:concrete-package-sameness-design-contract | sec:po-psame-design-contract | section | parts/proof_obligations/psame_design.tex |
+| bedc:proof-obligations:psame-design:base-reflection-schema | sec:po-base-reflection-schema | section | parts/proof_obligations/psame_design.tex |
+| bedc:proof-obligations:psame-design:optional-closure-reflection-target | sec:po-closure-reflection-target | section | parts/proof_obligations/psame_design.tex |
+| bedc:proof-obligations:unary-shift-and-commutativity:unary-commutativity-proof-obligations | sec:po-unary-obligations-abstract | section | parts/proof_obligations/unary_shift_and_commutativity.tex |
+| bedc:proof-obligations:unary-shift-and-commutativity:unary-shift-and-commutativity-hardening-the-additive-license | sec:po-unary-shift-instance | section | parts/proof_obligations/unary_shift_and_commutativity.tex |
+| bedc:proof-obligations:unary-shift-and-commutativity:unary-right-shift-micro-lemmas-for-the-additive-license | sec:po-unary-shift-micro-lemmas | section | parts/proof_obligations/unary_shift_and_commutativity.tex |
+| bedc:proof-obligations:verification-queue:concrete-verification-targets | sec:po-verification-targets-instance | section | parts/proof_obligations/verification_queue.tex |
+| bedc:proof-obligations:verification-queue:verification-queue | sec:po-verification-queue | section | parts/proof_obligations/verification_queue.tex |
 
 ## Theorem-grained (base-reflection only)
 | claim_id | latex_label | granularity | lean_target | status |
