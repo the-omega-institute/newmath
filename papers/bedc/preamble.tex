@@ -18,6 +18,36 @@
 \usepackage{listings}
 \usepackage{listingsutf8}
 \lstset{inputencoding=utf8,extendedchars=true,literate={→}{{$\rightarrow$}}1 {↦}{{$\mapsto$}}1 {∀}{{$\forall$}}1 {∃}{{$\exists$}}1 {↔}{{$\leftrightarrow$}}1 {≤}{{$\leq$}}1 {≥}{{$\geq$}}1 {≠}{{$\neq$}}1}
+\usepackage{xstring}
+% --- Lean 4 verification status markers (visible in PDF) ---
+%
+% Rendering rule: the target identifier is rendered without any literal `_`.
+% Caller writes `\_` (LaTeX escaped underscore) inside the target name; the
+% macro replaces every `\_` with a thin space, so `Foo\_bar` renders as
+% `Foo bar`. Namespace dots stay literal.
+%
+% Usage:
+%   \leanchecked{BEDC.BaseReflection.PackageReflection\_base}
+%     → green  Lean4 ✓  BEDC.BaseReflection.PackageReflection base
+%   \leansorryd{BEDC.BaseReflection.PsameBase\_inversion}{Prop→Type elim, v0.2 redesign}
+%     → orange Lean4 (sorry) BEDC.BaseReflection.PsameBase inversion --- rationale
+%   \leanstmt{BEDC.BaseReflection.TokUnique.tokenReplacement}
+%     → blue   Lean4 (statement) BEDC.BaseReflection.TokUnique.tokenReplacement
+%   \leandef{BEDC.BaseReflection.GeneratedSameSig}
+%     → gray   Lean4 (definition) BEDC.BaseReflection.GeneratedSameSig
+\newcommand{\leannobreak}[1]{\StrSubstitute{#1}{\_}{ }}
+\newcommand{\leanchecked}[1]{%
+  \par\noindent{\small\color{green!50!black}%
+    \textsf{Lean4\,$\checkmark$}\quad\texttt{\leannobreak{#1}}}\par}
+\newcommand{\leansorryd}[2]{%
+  \par\noindent{\small\color{orange!70!black}%
+    \textsf{Lean4\,(sorry)}\quad\texttt{\leannobreak{#1}} --- \textit{#2}}\par}
+\newcommand{\leanstmt}[1]{%
+  \par\noindent{\small\color{blue!50!black}%
+    \textsf{Lean4\,(statement)}\quad\texttt{\leannobreak{#1}}}\par}
+\newcommand{\leandef}[1]{%
+  \par\noindent{\small\color{black!55}%
+    \textsf{Lean4\,(definition)}\quad\texttt{\leannobreak{#1}}}\par}
 \geometry{margin=1.02in}
 \hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black}
 \setlist[itemize]{topsep=3pt,itemsep=2pt,leftmargin=*}
