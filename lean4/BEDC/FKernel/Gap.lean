@@ -4,6 +4,8 @@ import BEDC.FKernel.Package
 namespace BEDC.FKernel.Gap
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.FKernel.Ext
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Package
@@ -40,6 +42,44 @@ theorem gap_separation :
       GapPolicy bundle D → InDom D h → InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q := by
   intro bundle D h p q hgap hh hp hq
   exact hgap.separation hh hp hq
+
+omit [PackageSetup] in
+theorem policy_sig_total
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} :
+    AskPolicy (InDom D) → InDom D h → ∃ s : BHist, SigRel bundle h s := by
+  intro askPolicy hIn
+  induction bundle with
+  | Bnil =>
+      exact Exists.intro BHist.Empty (SigRel.empty h)
+  | Bcons pi tail ih =>
+      cases ih with
+      | intro s hs =>
+          have hAskTotal := askPolicy.total (π := pi) (h := h) hIn
+          cases hAskTotal with
+          | intro m hm =>
+              cases hm with
+              | intro delta hAsk =>
+                  cases m with
+                  | b0 =>
+                      exact Exists.intro (BHist.e0 s)
+                        (SigRel.cons pi tail h s (BHist.e0 s) BMark.b0 delta hAsk hs (Ext.e0 s))
+                  | b1 =>
+                      exact Exists.intro (BHist.e1 s)
+                        (SigRel.cons pi tail h s (BHist.e1 s) BMark.b1 delta hAsk hs (Ext.e1 s))
+
+theorem policy_gap_coverage
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} :
+    AskPolicy (InDom D) →
+      (∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) →
+      InDom D h → ∃ p : Pkg, InGapSig bundle D p h := by
+  intro askPolicy tokenExists hIn
+  have hSigTotal := policy_sig_total (bundle := bundle) (D := D) (h := h) askPolicy hIn
+  cases hSigTotal with
+  | intro s hs =>
+      have hTok := tokenExists s
+      cases hTok with
+      | intro p hp =>
+          exact Exists.intro p (And.intro hIn (Exists.intro s (And.intro hs hp)))
 
 theorem policy_gap_separation
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :

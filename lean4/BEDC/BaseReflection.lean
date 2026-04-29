@@ -118,6 +118,22 @@ structure ExactGlobalizeBase (s : BaseReflectionSetup) (P : s.Pi) (D : s.Domain)
     s.InGapSig P D p h → s.InGapSig P D q k →
     PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)
 
+theorem ExactGlobalizeBase_from_fields
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (coverage : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h)
+    (soundness : ∀ h k p q,
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      GeneratedSameSig s P h k → PsameBase s P p q)
+    (completeness : ∀ h k p q,
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)) :
+    ExactGlobalizeBase s P D := by
+  exact {
+    coverage := coverage
+    soundness := soundness
+    completeness := completeness
+  }
+
 theorem ExactGlobalizeBase_classify_iff
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
     {h k : s.Hist} {p q : s.Pkg}

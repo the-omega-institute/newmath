@@ -38,6 +38,21 @@ structure PackageTokenPolicy (bundle : ProbeBundle ProbeName) : Prop where
   reflection :
     ∀ {s t : BHist} {p q : Pkg}, TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t
 
+theorem packageTokenPolicy_from_reflection
+    {bundle : ProbeBundle ProbeName}
+    (reflection :
+      ∀ {s t : BHist} {p q : Pkg},
+        TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t) :
+    PackageTokenPolicy bundle := by
+  exact {
+    soundness := by
+      intro s t p q hp hq hst
+      exact psame.intro hp hq hst
+    reflection := by
+      intro s t p q hp hq hpq
+      exact reflection hp hq hpq
+  }
+
 theorem psame_iff_hsame
     {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle →
