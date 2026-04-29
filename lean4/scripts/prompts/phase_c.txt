@@ -1,0 +1,77 @@
+Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
+
+## Round R<ROUND_NUM>
+
+## Targets to Implement
+<TARGETS>
+
+## Hard Constraints
+- Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
+- Do NOT add `axiom` declarations. Encode primitives as `inductive` / `def` / `class` / `structure` setup field. The audit `python3 tools/check-axioms.py` will reject any axiom and CI will fail.
+- Do NOT leave `sorry`. Every theorem must have a real proof. If you genuinely cannot prove the theorem, do NOT add it; pick a different target.
+- Reuse the existing setup layers: `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the theorem belongs to those interfaces.
+
+## Step 1: Implement proofs
+For each target:
+1. Create or edit the target file in `lean4/BEDC/...`
+2. Write the theorem as `theorem T : ... := by ...` with a real proof. NO sorry. NO axiom.
+3. Use only Lean 4 stdlib and built-in tactics.
+4. If the statement lives in an existing setup layer, parameterize it with the appropriate existing typeclass assumptions rather than inventing new constants.
+5. Do NOT weaken or replace existing theorem signatures. If you cannot prove an existing target cleanly, leave it unchanged and implement a different selected target instead.
+
+If you create a NEW Lean file under an existing namespace tree, add the necessary `import` line to the nearest existing index file if one already exists. If a brand-new top-level BEDC module is required, update `lean4/BEDC.lean` conservatively with additive imports only.
+
+## Step 2: Lean build
+```bash
+cd lean4 && python3 scripts/lake_gate.py build
+```
+Use `lake_gate.py` for ALL `lake` calls in this round. Do NOT invoke `lake` directly.
+
+If errors occur, fix them before continuing. If a target is stuck, choose a different one rather than leaving partial code behind.
+
+## Step 3: Paper and metadata registration
+After `lake build` passes:
+1. Add `\leanchecked{Lean.target.name}` at the primary site in `papers/bedc/parts/` (escape underscores as `\_`).
+2. If the target is part of the base-reflection correspondence table, update `papers/bedc/correspondence.md`.
+3. Update `papers/bedc/claim-registry.md` with the theorem-grained row.
+4. Update `papers/bedc/dependency.json` with the new `claim_id` and `depends_on` edges.
+5. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
+
+## Step 4: Full verification
+All of the following must exit 0 before commit:
+```bash
+cd lean4 && python3 scripts/lake_gate.py build
+cd papers/bedc && make
+python3 tools/check-axioms.py
+```
+
+## Step 5: Rebase
+```bash
+git fetch origin lean4-codex-auto-dev
+git rebase --autostash origin/lean4-codex-auto-dev
+```
+If conflicts occur in additive registration files, resolve them by keeping all valid additions from both sides, then continue the rebase.
+
+## Step 6: Single combined commit
+```bash
+git add lean4/BEDC papers/bedc
+git commit -m "R<ROUND_NUM>: [brief description of what was proved and registered]
+
+Co-Authored-By: Codex <noreply@openai.com>"
+```
+
+## IMPORTANT
+- Do NOT git push. The merge and push will be handled externally.
+- Do NOT edit `lean4/lakefile.lean` or `lean4/lean-toolchain`.
+- Do NOT introduce `constant` declarations as placeholders.
+- Do NOT refactor unrelated files.
+- Do NOT fabricate shell structures that package the theorem as abstract `Prop` fields. State the theorem about concrete BEDC objects and prove it directly.
+
+## Completion Contract
+- No `sorry`, no `admit`, no `axiom`, no `constant` placeholders in committed Lean code
+- `cd lean4 && python3 scripts/lake_gate.py build` passes
+- `cd papers/bedc && make` passes
+- `python3 tools/check-axioms.py` passes
+- Registration updates stay aligned with `\leanchecked` / `\leanstmt` / `\leandef` conventions
+- Do NOT weaken existing theorem signatures
+- Do NOT git push

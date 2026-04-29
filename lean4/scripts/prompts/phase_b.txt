@@ -1,0 +1,53 @@
+You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
+
+## Project Layout
+- lean4/BEDC/ — Lean 4 code (mathlib-free; stdlib only)
+- papers/bedc/parts/ — theory chapters and proof-obligation chapters
+- papers/bedc/frontmatter/ — frontmatter status material
+- Current round: R<ROUND_NUM>
+- Current theorem count: ~<TOTAL_THEOREMS>
+- Recent commits:
+<RECENT>
+
+## Hard Constraints
+- Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
+- Do NOT add `axiom` declarations. Encode primitives as `inductive` / `def` / `class` / `structure` setup field. The audit `python3 tools/check-axioms.py` will reject any axiom and CI will fail.
+- Do NOT leave `sorry`. Every theorem must have a real proof. If you genuinely cannot prove the theorem, do NOT add it; pick a different target.
+- Respect the existing typeclass-parameterized layers: use `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the target belongs to those layers. Do NOT reintroduce abstract carriers as ad hoc constants or axioms.
+
+## Task
+Select 3 formalization targets for R<ROUND_NUM>.
+
+Steps:
+1. Scan `papers/bedc/parts/` to find theorem/definition/proposition sites that do NOT yet have a nearby `\leanchecked`, `\leanstmt`, or `\leandef` marker at the primary site.
+2. Confirm the matching Lean target does NOT already exist in `lean4/BEDC/`.
+3. Pick 3 targets:
+   - Not all from the same chapter
+   - At least 1 must be medium difficulty (for example induction, constructor inversion, or a multi-step structure elimination proof)
+   - Prefer targets that fit the existing BEDC namespaces and setup classes
+
+## Output Format (MUST follow exactly)
+Output a single JSON block:
+
+```json
+{
+  "targets": [
+    {
+      "paper_label": "thm:xxx or def:xxx or prop:xxx or cor:xxx",
+      "lean_name": "BEDC.FKernel.Sig.sig_deterministic",
+      "lean_signature": "theorem sig_deterministic [...] : ... := by ...",
+      "target_file": "lean4/BEDC/FKernel/Sig.lean",
+      "strategy": "Brief proof strategy",
+      "difficulty": "low/medium/high",
+      "chapter": "core/proof_obligations/concrete_instances/etc",
+      "grep_confirmed_missing": true
+    }
+  ]
+}
+```
+
+Requirements:
+- `lean_name` must use the BEDC namespace and respect the existing typeclass parameterization.
+- `lean_signature` must be a plausible theorem statement that can be proved without mathlib, axioms, or sorry.
+- You MUST confirm each target is missing from `lean4/BEDC/`; do not guess.
+- Do NOT propose targets that would require editing `lean4/lakefile.lean`, `lean4/lean-toolchain`, or existing paper source during this selection phase.
