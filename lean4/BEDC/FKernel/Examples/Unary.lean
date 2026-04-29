@@ -26,6 +26,10 @@ theorem unary_transport {h k : BHist} : UnaryHistory h -> hsame h k -> UnaryHist
   cases hhk
   exact uh
 
+theorem unary_no_zero_extension {h : BHist} : UnaryHistory (.e0 h) -> False := by
+  intro uh
+  exact uh
+
 theorem unary_cont_closed {h k r : BHist} :
     UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r := by
   intro uh uk hr

@@ -50,4 +50,13 @@ theorem cont_assoc_exists :
   cases hbc
   simpa [Cont] using append_assoc a b c
 
+theorem cont_assoc_relational {h k l u v w z : BHist} :
+    Cont h k u -> Cont u l v -> Cont k l w -> Cont h w z -> hsame v z := by
+  intro hku hulv klw hwz
+  cases hku
+  cases hulv
+  cases klw
+  cases hwz
+  exact append_assoc h k l
+
 end BEDC.FKernel.Cont

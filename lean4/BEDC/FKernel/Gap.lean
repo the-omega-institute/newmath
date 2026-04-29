@@ -221,6 +221,31 @@ theorem internalized_globalize_completeness
                                 (And.intro ht
                                   (packagePolicy.reflection hpTok hqTok hpq))))
 
+theorem exact_concrete_globalize
+    {bundle : ProbeBundle ProbeName} {D : Domain}
+    (domainPolicy : DomainPolicy D)
+    (askPolicy : AskPolicy (InDom D))
+    (packagePolicy : PackageTokenPolicy bundle)
+    (tokenExists : forall s : BHist, exists p : Pkg, TokIntro bundle s p) :
+    (forall {h : BHist}, InDom D h -> exists p : Pkg, InGapSig bundle D p h) /\
+      (forall {h : BHist} {p q : Pkg}, InGapSig bundle D p h -> InGapSig bundle D q h -> psame bundle p q) /\
+      (forall {h k : BHist} {p q : Pkg}, InGapSig bundle D p h -> InGapSig bundle D q k -> psame bundle p q -> exists s : BHist, exists t : BHist, SigRel bundle h s /\ SigRel bundle k t /\ hsame s t) := by
+  have _domainPolicy := domainPolicy
+  constructor
+  · intro h hIn
+    exact policy_gap_coverage
+      (bundle := bundle) (D := D) (h := h)
+      askPolicy tokenExists hIn
+  · constructor
+    · intro h p q hp hq
+      exact policy_gap_separation
+        (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
+        askPolicy packagePolicy hp hq
+    · intro h k p q hp hq hpq
+      exact internalized_globalize_completeness
+        (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+        packagePolicy hp hq hpq
+
 omit [AskSetup] [PackageSetup] in
 theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D h → hsame h k → InDom D k := by
