@@ -58,6 +58,7 @@
 | bedc:proof-obligations:exact-globalize:exact-globalize-base-contract | sec:po-exact-globalize-base-contract | section | parts/proof_obligations/exact_globalize.tex |
 | bedc:proof-obligations:gap-policy:consolidated-signature-gap-policy | sec:po-gap-policy-abstract | section | parts/proof_obligations/gap_policy.tex |
 | bedc:proof-obligations:lean-scaffold-contract:lean-style-scaffold-contract | sec:po-lean-scaffold-contract | section | parts/proof_obligations/lean_scaffold_contract.tex |
+| bedc:proof-obligations:lean-scaffold-contract:lean-verification-status | sec:lean-verification-status | section | parts/proof_obligations/lean_scaffold_contract.tex |
 | bedc:proof-obligations:package-token-policy:package-token-policy-and-reflection | sec:po-package-token-policy-abstract | section | parts/proof_obligations/package_token_policy.tex |
 | bedc:proof-obligations:package-token-policy:inductive-package-token-policy-for-signature-packages | sec:po-inductive-package-token-policy-instance | section | parts/proof_obligations/package_token_policy.tex |
 | bedc:proof-obligations:package-token-policy:token-introduction-uniqueness-and-package-reflection | sec:po-token-intro-uniqueness-policy | section | parts/proof_obligations/package_token_policy.tex |

@@ -20,7 +20,7 @@ A gap policy \(\GapPol(\Pi,D)\) over source specification \(D\) consists of:
 \begin{theorem}[Gap coverage]
 Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi)\), and \(\GapPol(\Pi,D)\). Every admitted source history belongs to at least one generated package gap.
 \end{theorem}
-\leansorryd{BEDC.FKernel.Gap.gap\_coverage}{stub awaiting v0.2+ proof}
+\leansorryd{BEDC.FKernel.Gap.gap\_coverage}{stub awaiting a checked proof}
 \begin{proof}
 By the totality field of \(\AskPol\), an admitted history generates a signature. By package existence, the signature has a package token. By the generation and coverage fields of \(\GapPol\), the source history lies in that package's gap.
 \end{proof}
@@ -28,7 +28,7 @@ By the totality field of \(\AskPol\), an admitted history generates a signature.
 \begin{theorem}[Gap separation]
 Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi)\), and \(\GapPol(\Pi,D)\). If an admitted source history belongs to the gaps of package tokens \(p\) and \(q\), then \(\psame(p,q)\).
 \end{theorem}
-\leansorryd{BEDC.FKernel.Gap.gap\_separation}{stub awaiting v0.2+ proof}
+\leansorryd{BEDC.FKernel.Gap.gap\_separation}{stub awaiting a checked proof}
 \begin{proof}
 By the generation field of \(\GapPol\), both memberships arise from signatures of the same source history and package tokens for those signatures. Signature determinacy under \(\AskPol\) gives \(\hsame\) of the two signatures. Package extensionality then gives \(\psame(p,q)\).
 \end{proof}
@@ -53,7 +53,7 @@ This is a metalanguage description of the composite ledger policy.
 \begin{theorem}[Composite gap coverage]
 If the first interface has gap coverage and the second interface has gap coverage over the first interface's visible tokens, then the composite interface has gap coverage.
 \end{theorem}
-\leandef{BEDC.FKernel.Gap.compGap\_coverage}
+\leanchecked{BEDC.FKernel.Gap.compGap\_coverage}
 \begin{proof}
 Given a source, first coverage produces an intermediate token whose gap contains the source. Second coverage produces a final token whose gap contains that intermediate token. Thus the source belongs to the composite gap of the final token.
 \end{proof}
