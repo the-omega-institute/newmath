@@ -64,6 +64,11 @@ theorem nat_up_name_certificate_exists : Nonempty (NameCert UnaryName) := by
 
 theorem unary_addition_seed : True := True.intro
 
+theorem add_activation_stability_field (cert : NameCert UnaryName) : Nonempty StabilityCert := by
+  cases cert with
+  | mk _ _ _ stability _ =>
+      exact Nonempty.intro stability
+
 theorem unary_append_e1_left :
     ∀ {h k : BHist}, UnaryHistory h → append (.e1 k) h = .e1 (append k h) := by
   intro h k uh
