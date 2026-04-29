@@ -24,6 +24,8 @@ structure TokUnique (s : BaseReflectionSetup) (P : s.Pi) : Prop where
   tokenReplacement : ∀ {x y p},
     s.TokIntro P x p → s.TokIntro P y p → s.hsame x y
 
+def PolicyTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Prop := TokUnique s P
+
 structure CanonicalTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Type where
   TokCan : s.SigObj -> s.Pkg -> Prop
   introToCanonical : forall {x : s.SigObj} {p : s.Pkg}, s.TokIntro P x p -> TokCan x p
@@ -209,5 +211,14 @@ theorem ExactGlobalizeBase_classify_iff
     cases hgen with
     | intro hsig =>
         exact ex.soundness h k p q hp hq hsig
+
+theorem ExactGlobalizeBase_exports_base_relation
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    ∀ {h k : s.Hist} {p q : s.Pkg},
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  intro h k p q hp hq
+  exact ExactGlobalizeBase_classify_iff ex hp hq
 
 end BEDC.BaseReflection

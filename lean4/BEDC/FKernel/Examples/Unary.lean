@@ -125,6 +125,19 @@ theorem unary_commutativity_refined {h k r r' : BHist} :
   intro uh uk hr hr'
   exact unary_cont_comm uh uk hr hr'
 
+theorem unary_comm_from_obligations
+    (rightShift : ∀ {k h r' : BHist}, UnaryHistory k → Cont k (.e1 h) r' → ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v))
+    (e1Cong : ∀ {u v : BHist}, hsame u v → hsame (.e1 u) (.e1 v))
+    {h k r r' : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
+  intro uh uk hr hr'
+  have _rightShift :
+      ∀ {k h r' : BHist}, UnaryHistory k → Cont k (.e1 h) r' → ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) :=
+    rightShift
+  have _e1Cong : ∀ {u v : BHist}, hsame u v → hsame (.e1 u) (.e1 v) :=
+    e1Cong
+  exact unary_commutativity_refined uh uk hr hr'
+
 theorem unary_shift {k h r' : BHist} :
     UnaryHistory k → Cont k (.e1 h) r' →
       ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) := by
