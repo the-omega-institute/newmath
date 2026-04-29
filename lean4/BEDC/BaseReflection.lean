@@ -115,6 +115,14 @@ theorem PackageReflection_base
       have y_to_y0 := tok.tokenReplacement right right0
       exact eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
 
+theorem BaseReflection_active
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
+    (base : PsameBase s P p q) : s.hsame x y := by
+  exact PackageReflection_base eqv tok left right base
+
 theorem PackageReflection_base_from_canonical
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (mode : CanonicalTokenMode s P)
@@ -260,13 +268,16 @@ theorem PsameBase_to_GeneratedSameSig_under_tok_unique
   }
 
 theorem ClosureReflect_to_GeneratedSameSig
-    {s : BaseReflectionSetup} {P : s.Pi} (reflect : ClosureReflect s P)
-    {h k : s.Hist} {x y : s.SigObj} {p q : s.Pkg} {evL evR : s.Evidence}
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (reflect : ClosureReflect s P)
+    {h k : s.Hist} {x y : s.SigObj} {p q : s.Pkg}
+    {evL evR : s.Evidence}
     (leftSig : s.SigGen P h x evL)
     (rightSig : s.SigGen P k y evR)
     (leftTok : s.TokIntro P x p)
     (rightTok : s.TokIntro P y q)
-    (closure : PsameEqClosure s P p q) : Nonempty (GeneratedSameSig s P h k) := by
+    (closure : PsameEqClosure s P p q) :
+    Nonempty (GeneratedSameSig s P h k) := by
   exact Nonempty.intro {
     leftSigObj := x
     rightSigObj := y

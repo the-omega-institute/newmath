@@ -60,7 +60,7 @@ def UnaryDomain : Domain := ()
 def UnaryName : DerivedName := ()
 
 theorem nat_up_name_certificate_exists : Nonempty (NameCert UnaryName) := by
-  exact Nonempty.intro (NameCert.mk () () () () ())
+  exact Nonempty.intro (NameCert_add_activation () () () () ())
 
 theorem unary_addition_seed : True := True.intro
 
