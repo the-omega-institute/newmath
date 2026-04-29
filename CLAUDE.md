@@ -27,7 +27,7 @@
 - `papers/bedc/` — BEDC LaTeX 论文 (现行态)
 - `papers/bedc/parts/project_governance/theory_amendment_policy.tex` — 持续发展规则
 - `papers/bedc/parts/project_governance/HOW_INCREMENT_WORKS.md` — 增量配方
-- `papers/bedc/{claim-registry,correspondence,dependency.json}` — 论文 ↔ Lean 验证元数据
+- `papers/bedc/{claim-registry,correspondence}` — 论文 ↔ Lean 验证元数据
 - `tools/check-axioms.py` — axiom 禁用审计脚本 (CI gate)
 - `tools/audit-allowlists/` — label / macro / correspondence 退役清单
 
@@ -104,7 +104,7 @@
 
 - 每个 Lean 目标在论文中**只标注一次**(primary site, 即定理首次形式化处)
 - `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex §41.4` 是例外: 5 个 base-reflection 目标的"一站式"摘要块
-- 状态变化时 (sorry → checked, def → checked) 同一 commit 更新 marker、`correspondence.md`、`claim-registry.md`、`dependency.json`
+- 状态变化时 (sorry → checked, def → checked) 同一 commit 更新 marker、`correspondence.md`、`claim-registry.md`
 
 ---
 
@@ -125,8 +125,7 @@
 3. 在 `lean4/BEDC/...` 添加对应 Lean 目标 (`def` / `theorem` / 新增 inductive 构造子)
 4. 在论文章节调用对应 `\leanchecked` 系列宏
 5. 如新增 base-reflection 类目标, 同步更新 `correspondence.md`
-6. 更新 `dependency.json` 加入新 claim_id 与 `depends_on` 边
-7. `lake build` + `make` + `check-axioms.py` 三过
+6. `lake build` + `make` + `check-axioms.py` 三过
 
 ## label 命名
 
@@ -145,7 +144,6 @@
 cd lean4 && lake build           # 0 axiom, 0 sorry, 15 jobs OK
 cd papers/bedc && make           # pdflatex 双趟, 120 页 PDF
 python3 tools/check-axioms.py    # 0 in source, 0 in registry
-jq . papers/bedc/dependency.json # JSON valid
 ```
 
 四项全 exit 0 才算 ship 标准.
@@ -177,7 +175,7 @@ jq . papers/bedc/dependency.json # JSON valid
 
 ## III. 显式依赖链
 
-- 论文章节、定理目标与 Lean 命题对应关系记录在 `correspondence.md` / `dependency.json`
+- 论文章节、定理目标与 Lean 命题对应关系记录在 `correspondence.md`
 - 跨层引用须经 `\autoref{ch:...}` 解析, 不留 dangling
 - 论文中的 `\leanchecked` 状态须与 Lean 实现一致 (CI 审计)
 
