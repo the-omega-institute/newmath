@@ -21,6 +21,11 @@ def UnaryHistory : BHist → Prop
   | .e1 h => UnaryHistory h
   | .e0 _ => False
 
+theorem unary_transport {h k : BHist} : UnaryHistory h -> hsame h k -> UnaryHistory k := by
+  intro uh hhk
+  cases hhk
+  exact uh
+
 def UnaryDomainSetup : DomainSetup where
   Domain := Unit
   InDom := fun _ h => UnaryHistory h
