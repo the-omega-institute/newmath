@@ -1,0 +1,43 @@
+\chapter{Lean-Style Scaffold Contract}
+\label{ch:v155-lean-scaffold-contract}
+
+This release includes a new scaffold file:
+\[
+  \texttt{lean/BEDC\_v1\_5\_5\_BaseReflection\_Scaffold.lean}.
+\]
+The file is not a checked proof artifact. It is a theorem-shape scaffold: abstract types and relations are represented as constants, the base relation is an inductive definition, and the local reflection theorem is written in a form that a future implementation can replace by concrete objects.
+
+\section{Scaffold excerpt}
+\begin{lstlisting}[language={}]
+structure ExactGlobalizeBase (P : Pi) (D : Domain) : Prop where
+  coverage : forall h, InDom D h -> exists p, InGapSig P D p h
+  soundness : forall h k p q,
+    InGapSig P D p h -> InGapSig P D q k ->
+    GeneratedSameSig P h k -> PsameBase P p q
+  completeness : forall h k p q,
+    InGapSig P D p h -> InGapSig P D q k ->
+    PsameBase P p q -> GeneratedSameSig P h k
+
+theorem ExactGlobalizeBase.classify_iff
+  (ex : ExactGlobalizeBase P D)
+  (hp : InGapSig P D p h) (hq : InGapSig P D q k) :
+  PsameBase P p q <-> GeneratedSameSig P h k := by
+  constructor
+  - intro hbase
+    exact ex.completeness h k p q hp hq hbase
+  - intro hgen
+    exact ex.soundness h k p q hp hq hgen
+\end{lstlisting}
+
+\section{Interpretation}
+The scaffold separates three layers:
+\begin{enumerate}
+  \item \textbf{abstract carriers}: histories, signatures, packages, domains, and bundles;
+  \item \textbf{relational object layer}: \texttt{TokIntro}, \texttt{hsame}, \texttt{SigGen}, and \texttt{InGapSig};
+  \item \textbf{checked-shape target}: \texttt{PsameBase}, \texttt{PackageReflection.base}, and \texttt{ExactGlobalizeBase.classify\_iff}.
+\end{enumerate}
+
+\begin{principle}[No scaffold laundering]
+\label{prin:v155-no-scaffold-laundering}
+A scaffold theorem may be cited only as a theorem-shape target. It may not be cited as a verified BEDC theorem until a build log records a successful checker run and discloses all axioms or postulates.
+\end{principle}

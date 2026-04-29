@@ -1,0 +1,26 @@
+\chapter{Packages and Package Policies}
+
+\begin{definition}[Package token and package-sameness]
+\(\Pkg\) is a judgment
+\[
+\Pkg(\Pi,s,p)
+\]
+meaning that answer-history \(s\) under bundle \(\Pi\) is represented by package token \(p\). The internal package-sameness judgment is \(\psame(p,q)\).
+\end{definition}
+
+\begin{definition}[Package policy]
+A package policy \(\PkgPol(\Pi)\) consists of the following certified fields:
+\begin{enumerate}
+  \item existence: each generated answer-history \(s\) has a package token \(p\) with \(\Pkg(\Pi,s,p)\);
+  \item extensionality: if \(\hsame(s,t)\), \(\Pkg(\Pi,s,p)\), and \(\Pkg(\Pi,t,q)\), then \(\psame(p,q)\);
+  \item grounding: if \(\psame(p,q)\), then there are answer histories \(s,t\) with \(\Pkg(\Pi,s,p)\), \(\Pkg(\Pi,t,q)\), and \(\hsame(s,t)\);
+  \item visibility: only the package token and its ledger are visible at the package interface.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Packages classify signatures]
+Under \(\PkgPol(\Pi)\), package-sameness is determined by signature-sameness of answer histories.
+\end{theorem}
+\begin{proof}
+The forward direction is the grounding field. The backward direction is the extensionality field.
+\end{proof}

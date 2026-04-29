@@ -1,0 +1,43 @@
+\section{Packaging and gap policies}
+
+\begin{definition}[Package token]
+A package token is a visible token licensed for a signature.  The judgment
+\[
+\Pkg(\Pi,s,p)
+\]
+means that signature \(s\) under bundle \(\Pi\) licenses package token \(p\).
+\end{definition}
+
+\begin{definition}[Package policy]
+A \(\mathsf{PackagePolicy}(\Pi)\) specifies package existence, package extensionality over \(\HSame\)-same signatures, and package grounding: packages are grounded in signature classes, not in arbitrary external choices.
+\end{definition}
+
+\begin{definition}[Gap membership]
+The judgment
+\[
+\Gap(\Pi,D,p,h)
+\]
+means that source history \(h\in D\) is recorded in the ledger of package token \(p\).  A gap policy relates this membership to generated signatures and package tokens.
+\end{definition}
+
+\begin{definition}[Gap policy]
+A \(\mathsf{GapPolicy}(\Pi,D)\) states that \(h\) belongs to the gap of \(p\) exactly when \(h\) generates some signature \(s\) licensed by package \(p\), up to the internal sameness policies specified for histories and packages.
+\end{definition}
+
+\begin{theorem}[Gap coverage]
+Assume \(\mathsf{AskPolicy}(\Pi,D)\), \(\mathsf{PackagePolicy}(\Pi)\), and \(\mathsf{GapPolicy}(\Pi,D)\).  Every source history \(h\in D\) belongs to the gap of some package token.
+\end{theorem}
+\begin{proof}
+By the ask policy, \(h\) generates a signature.  By the package policy, that signature licenses a package token.  By the gap policy, \(h\) belongs to the ledger of that package.
+\end{proof}
+
+\begin{theorem}[Gap separation]
+Assume the same policies.  If one source history belongs to the gaps of two package tokens, then the two package tokens are internally package-same.
+\end{theorem}
+\begin{proof}
+Membership in each gap gives two generated signatures for the same source history.  Signature determinacy gives \(\HSame\) of those signatures.  Package extensionality then gives internal package-sameness of the two package tokens.
+\end{proof}
+
+\begin{corollary}[Globalization classifies by signatures]
+Under the three policies above, visible package tokens classify source histories by generated signatures, while gap ledgers record the histories compressed into each visible package.
+\end{corollary}

@@ -1,0 +1,49 @@
+\chapter{Incremental Hardening Manifest v1.1}
+
+This part is an incremental module layered on top of the frozen finite kernel. It does not rewrite the frozen kernel. Its purpose is to make the next proof sprint explicit: which parts of the kernel should remain fixed, which parts must be hardened, and which implementation-facing obligations should be delayed until the finite kernel has been checked.
+
+\begin{principle}[Freeze before expansion]
+A finite kernel module that has been declared frozen is not edited in place. Later improvements are appended as named incremental modules. If a frozen statement must be repaired, the repair is recorded as a migration note rather than silently replacing the original.
+\end{principle}
+
+\begin{principle}[Proof before breadth]
+After the v10 finite kernel target and the v10.1 proof sprint, the next priority is not to derive more large mathematical interfaces. The next priority is to prove the finite kernel theorem set and to make package/gap policies machine-checkable.
+\end{principle}
+
+\begin{definition}[Incremental module]
+An incremental module is a collection of new declarations, theorem targets, examples, or implementation contracts that depends on a frozen prior layer but does not alter that layer. It has a version tag, a dependency list, a theorem manifest, and a boundary statement.
+\end{definition}
+
+\begin{definition}[Frozen core boundary]
+The current frozen core consists of the finite-kernel declarations from the v10 kernel target: raw marks, mark-sameness, histories, history-sameness, relational extension, relational continuation, asking events, generated bundles, signature events, package policies, gap policies, composite gaps, typed name certificates, and the thin seal interface. Its purpose is to serve as a stable target for the first finite-kernel proof sprint.
+\end{definition}
+
+\begin{definition}[Current live edge]
+The live edge of the project is the set of declarations that should be improved next without changing the frozen core. In this version the live edge consists of:
+\begin{enumerate}
+  \item package policies and their public requirements;
+  \item gap policies and their generated membership relation;
+  \item composite gap ledgers;
+  \item typed naming certificates for the first derived interfaces;
+  \item the implementation contract for the first machine-checkable theorem set.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+This chapter is a project-level discipline. It is not part of the object language. Its role is to prevent the manuscript from drifting back into a sequence of incompatible rewrites.
+\end{remark}
+
+\section{Incremental theorem targets}
+
+The next finite proof sprint should aim at the following groups:
+\begin{enumerate}[label=\textbf{G\arabic*.}]
+  \item \textbf{History kernel:} \(\MSame\), \(\HSame\), no-confusion, \(\Ext\), and \(\Cont\) determinacy, units, and associativity.
+  \item \textbf{Signature kernel:} generated bundles, signature generation, signature determinacy under \(\AskPol\), and \(\SameSig\) equivalence.
+  \item \textbf{Packaging kernel:} package existence, package extensionality, package grounding, and package-sameness compatibility.
+  \item \textbf{Gap kernel:} gap coverage, gap separation, gap determination by signatures and packages, and composite gap coverage.
+  \item \textbf{Name-cert kernel:} first explicit certificates for \(\NatUp\) and \(\AddUp\) as interface seeds.
+\end{enumerate}
+
+\section{Non-goals of this increment}
+
+This increment does not attempt to fully derive real numbers, circle geometry, fold normalization, topology, fields, rings, or category theory. Those are later derived-interface modules. The current goal is to make the finite-kernel classification and ledger machinery hard enough to support those modules later.

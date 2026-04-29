@@ -1,0 +1,28 @@
+\chapter{External Binary Model}
+
+\section{Purpose of the model}
+The following model is external. It is a metalanguage interpretation showing that the kernel rules are not empty. It is not part of the object-language.
+
+\begin{definition}[External model \(\Mbin\)]
+The external model \(\Mbin\) interprets:
+\begin{itemize}
+  \item raw marks as two external tokens;
+  \item histories as finite binary words;
+  \item \(\msame\) as literal token equality;
+  \item \(\hsame\) as literal word equality;
+  \item \(\ExtR\) as appending one token;
+  \item \(\ContR\) as word concatenation;
+  \item asking events as externally chosen binary observations;
+  \item signatures as finite words of answers;
+  \item packages as signature classes;
+  \item gaps as inverse images of package tokens;
+  \item composite gaps as relational composites of inverse images.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[External soundness of the finite kernel]
+The external model \(\Mbin\) satisfies the mark, history, extension, continuation, signature, package, and gap rules of the finite kernel, assuming the chosen external asking events satisfy the stated asking policies.
+\end{theorem}
+\begin{proof}
+Each rule is interpreted by the corresponding operation on finite binary words. Mark and history no-confusion follow from the distinct constructors of the external word model. Extension and continuation determinacy follow from deterministic token append and word concatenation. Signature determinacy follows from the asking policy. Package and gap coverage/separation follow from the interpretation of packages as signature classes and gaps as inverse images.
+\end{proof}

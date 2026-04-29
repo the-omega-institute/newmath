@@ -1,0 +1,59 @@
+\chapter{Gap Policies, Coverage, Separation, and Composition}
+
+\section{Gap policy}
+
+\begin{definition}[Gap membership]
+The judgment \(\InGap(\Pi,p,h)\) means that source history \(h\) lies in the gap ledger of package token \(p\) under bundle \(\Pi\).
+\end{definition}
+
+\begin{definition}[Gap policy]
+A gap policy \(\GapPol(\Pi,D)\) over source specification \(D\) consists of:
+\begin{enumerate}
+  \item generation: \(\InGap(\Pi,p,h)\) is generated only from a signature \(\Sig(\Pi,h,s,\Delta)\) and a package \(\Pkg(\Pi,s,p)\);
+  \item coverage: every admitted source history belongs to some package gap;
+  \item separation: if the same admitted source history belongs to the gaps of \(p\) and \(q\), then \(\psame(p,q)\);
+  \item ledger visibility: a package is not complete without its gap ledger.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Gap coverage]
+Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi)\), and \(\GapPol(\Pi,D)\). Every admitted source history belongs to at least one generated package gap.
+\end{theorem}
+\begin{proof}
+By the totality field of \(\AskPol\), an admitted history generates a signature. By package existence, the signature has a package token. By the generation and coverage fields of \(\GapPol\), the source history lies in that package's gap.
+\end{proof}
+
+\begin{theorem}[Gap separation]
+Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi)\), and \(\GapPol(\Pi,D)\). If an admitted source history belongs to the gaps of package tokens \(p\) and \(q\), then \(\psame(p,q)\).
+\end{theorem}
+\begin{proof}
+By the generation field of \(\GapPol\), both memberships arise from signatures of the same source history and package tokens for those signatures. Signature determinacy under \(\AskPol\) gives \(\hsame\) of the two signatures. Package extensionality then gives \(\psame(p,q)\).
+\end{proof}
+
+\section{Composite gaps}
+
+\begin{definition}[Composite gap]
+Suppose an interface \(C\) packages sources into intermediate visible tokens and an interface \(D\) packages those intermediate tokens into final visible tokens. The composite gap judgment
+\[
+\CompGap_{D\circ C}(z,x)
+\]
+means that source \(x\) lies behind final visible token \(z\) through some intermediate token.
+Externally this is described by the existence of an intermediate token \(y\) with
+\[
+\InGap_C(y,x)
+\quad\text{and}\quad
+\InGap_D(z,y).
+\]
+This is a metalanguage description of the composite ledger policy.
+\end{definition}
+
+\begin{theorem}[Composite gap coverage]
+If the first interface has gap coverage and the second interface has gap coverage over the first interface's visible tokens, then the composite interface has gap coverage.
+\end{theorem}
+\begin{proof}
+Given a source, first coverage produces an intermediate token whose gap contains the source. Second coverage produces a final token whose gap contains that intermediate token. Thus the source belongs to the composite gap of the final token.
+\end{proof}
+
+\begin{principle}[Ledger composition]
+The ledger of a composite compression is not the last ledger alone. It is the first ledger together with the pullback of the second ledger along the first visible interface.
+\end{principle}

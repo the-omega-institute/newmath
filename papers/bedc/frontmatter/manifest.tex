@@ -1,0 +1,102 @@
+
+\chapter*{Version Manifest and Freeze Policy}
+\addcontentsline{toc}{chapter}{Version Manifest and Freeze Policy}
+\begin{longtable}{p{0.18\textwidth}p{0.72\textwidth}}
+\toprule
+\textbf{Component} & \textbf{Status}\\
+\midrule
+Core Kernel v10 & Frozen baseline for the finite-kernel target. It contains the relation-based core theory, policies, ledgers, naming certificates, and thin completion interface.\\
+Proof Sprint v10.1 & Incremental proof target for the finite kernel. It focuses on marks, histories, internal sameness, relational extension, relational continuation, signatures, and first proof obligations.\\
+Formalization Contract v10.1 & Implementation-facing contract. It is not part of the object theory; it specifies how a future proof-assistant encoding should respect the BEDC layer separation.\\
+Lean Scaffold & External implementation seed copied into the project tree. It is not included as theory; it is archived as an implementation artifact.\\
+Proof Standing v1.3 & Active proof-standing layer. It turns the finite-kernel proof path into paper-level proof blocks for closed generation, internal sameness, relational extension and continuation, signatures, packages, gaps, and naming-certificate seeds.\\
+\bottomrule
+\end{longtable}
+
+\paragraph{Freeze rule.}
+A frozen component may be corrected for typographical errors, but mathematical changes should be recorded as a new module or a new versioned chapter. This makes the project append-only by default.
+
+\paragraph{Increment rule.}
+Future increments should add files under \texttt{parts/}, \texttt{appendices/}, or \texttt{formalization/}, then include them from \texttt{main.tex}. Avoid placing long material directly inside \texttt{main.tex}.
+
+
+\section*{v1.1 Increment}
+
+The v1.1 increment adds a Kernel Hardening part after the v10.1 proof target. Its live-edge goals are:
+\begin{enumerate}
+  \item stabilize the package/gap policy layer;
+  \item make composite ledger behavior explicit;
+  \item provide first typed NameCert instance templates;
+  \item turn the next proof sprint into machine-checkable milestones;
+  \item record project governance rules for future append-only development.
+\end{enumerate}
+
+Frozen modules remain frozen. Later modules may refine them only through explicit migration notes.
+
+
+\section*{v1.2 Increment}
+
+The v1.2 increment adds project-navigation and proof-planning infrastructure:
+\begin{enumerate}
+  \item a Reader's Roadmap;
+  \item a Normative Status Table;
+  \item a Migration and Supersession Index;
+  \item a finite-kernel Theorem Dependency DAG;
+  \item a Build and Verification Log.
+\end{enumerate}
+These modules do not replace the frozen v10 core or the v10.1 proof target. They clarify current normative status and guide the next proof implementation sprint.
+
+
+\section*{v1.3 Increment}
+
+The v1.3 increment adds a Proof Standing part after the v10.1 proof target and before hardening. Its purpose is to make the finite-kernel live edge stand as a paper-level proof target. It adds:
+\begin{enumerate}
+  \item closed-generation and no-confusion proof blocks;
+  \item internal sameness proof blocks;
+  \item relational extension and continuation proof blocks;
+  \item signature proof blocks;
+  \item package/gap proof blocks;
+  \item naming-certificate proof instances for \(\NatUp\) and \(\AddUp\);
+  \item a proof status matrix.
+\end{enumerate}
+It does not expand real-like, circle-like, fold-like, or completed arithmetic interfaces.
+
+\section*{v1.4 Increment}
+
+The v1.4 increment adds a Concrete Globalize and Naming Certificate Instances part. Its purpose is to inhabit the abstract hardening interfaces rather than expand the derived-object layer. It adds:
+\begin{enumerate}
+  \item a concrete signature package instance;
+  \item a concrete signature gap policy;
+  \item a concrete Globalize instance from signatures;
+  \item paper-level constructions of \(\NameCert_{\NatUp}\) and \(\NameCert_{\AddUp}\);
+  \item a refined concrete-instance proof status matrix.
+\end{enumerate}
+This increment remains paper-level. Machine verification remains pending unless a later verification log records a checked run.
+
+\section*{v1.5.1 Increment}
+
+The v1.5.1 increment is a proof-obligation patch, not an expansion. It freezes only low-risk corrections and records the remaining live obligations for concrete finite-kernel correctness:
+\begin{enumerate}
+  \item \(\DomainPolicy(D)\) for internal domain transport;
+  \item \(\PkgTokPol(\Pi)\) for token existence, soundness, reflection, and package-sameness closure;
+  \item policy-supported \(\InGapSig\);
+  \item unary right-shift and \(\Eone\)-congruence obligations for the additive naming boundary.
+\end{enumerate}
+No new derived-object layer is added. Machine verification remains pending.
+
+
+\section*{v1.5.2 proof-readiness increment}
+This master release adds a narrow proof-readiness patch. It does not add new derived-object theory. It gives the first concrete unary-domain policy target, a one-constructor signature-token package-sameness target, and a smaller machine-check order for unary commutativity.
+
+\section*{v1.5.3 proof patch increment}
+This master release adds a narrow proof patch. It does not add new derived-object theory. It records \(\TokUnique(\Pi)\) as the missing local obligation for exact package reflection, states concrete Globalize exactness under explicit policies, and decomposes unary right-shift into base and step lemmas.
+
+
+\section*{v1.5.4 minimal verification-contract increment}
+This master release adds a minimal verification contract. It does not add new derived-object theory. It fixes the active concrete package-sameness relation as \(\psame_{\Pi}^{\mathrm{base}}\), treats \(\psame_{\Pi}^{\mathrm{sig}}\) as an alias for that base relation, separates the optional equivalence closure \(\psame_{\Pi}^{\mathrm{eq}}\), and records \(\ClosureReflect(\Pi)\) as the deferred theorem required before closure-level exactness may be exported.
+
+
+\section*{v1.5.5 base-reflection check-target increment}
+
+The v1.5.5 increment is a minimal check-target hardening release. It does not add new derived-object theory. It replaces prose exactness for the concrete signature Globalize instance by the explicit predicate \(\ExactGlobalizeBase(\Pi,D)\), isolates \(\GeneratedSameSig(\Pi,h,k)\), records base package reflection as the proof target \texttt{PackageReflection.base}, and keeps equivalence-closure exactness blocked until \(\ClosureReflect(\Pi)\) is checked.
+

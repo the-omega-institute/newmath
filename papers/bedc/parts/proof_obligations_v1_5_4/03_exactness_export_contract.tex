@@ -1,0 +1,44 @@
+
+\chapter{Exactness Export Contract}
+\label{ch:v154-exactness-export-contract}
+
+This chapter records the exact theorem that v1.5.4 exports for active development. It is intentionally narrower than a full package algebra theorem.
+
+\begin{theorem}[v1.5.4 exact concrete signature Globalize]
+\label{thm:v154-exact-concrete-globalize}
+Assume:
+\begin{enumerate}
+  \item \(\DomainPolicy(D)\);
+  \item \(\AskPol(\Pi,D)\);
+  \item token introduction for generated signatures;
+  \item \(\TokUnique(\Pi)\), or a checked canonical-constructor theorem implying it;
+  \item the one-constructor base package-sameness relation \(\psame_{\Pi}^{\mathrm{base}}\);
+  \item the policy-supported signature gap relation \(\InGapSig(\Pi,D,p,h)\).
+\end{enumerate}
+Then the visible packages of \(\GlobSig(\Pi,D)\) classify admitted histories exactly by generated signature-sameness, where exactness is stated with \(\psame_{\Pi}^{\mathrm{base}}\), not with \(\psame_{\Pi}^{\mathrm{eq}}\).
+\end{theorem}
+
+\begin{proof}
+Coverage is Theorem~\ref{thm:v153-gap-coverage}. Separation is Theorem~\ref{thm:v153-gap-separation}, with \(\psame_{\Pi}^{\mathrm{sig}}\) read as \(\psame_{\Pi}^{\mathrm{base}}\) by Definition~\ref{def:v154-base-psame}. Soundness is the base constructor. Completeness is Theorem~\ref{thm:v154-base-reflection-active}. Domain transport is supplied by \(\DomainPolicy(D)\). The theorem exports only the base relation because Corollary~\ref{cor:v154-eq-not-exported} blocks implicit closure export.
+\end{proof}
+
+\begin{proposition}[What is intentionally not exported]
+\label{prop:v154-not-exported}
+The following statements are not exported by v1.5.4:
+\begin{enumerate}
+  \item \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness;
+  \item package-sameness transitivity as a constructor-level theorem for \(\psame_{\Pi}^{\mathrm{base}}\);
+  \item equivalence-closure reflection;
+  \item a checked \(\AddUp\) implementation artifact;
+  \item a full natural-number or addition construction beyond the licensed unary-continuation interface.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Each item requires either an equivalence-closure theorem, an implementation artifact, or a derived-object construction that is outside the declared scope of Chapter~\ref{ch:v154-manifest}. Thus each is deferred.
+\end{proof}
+
+\begin{protocol}[Export discipline]
+\label{prot:v154-export-discipline}
+Future modules should cite Theorem~\ref{thm:v154-exact-concrete-globalize} as the current exactness theorem. If a later module needs \(\psame_{\Pi}^{\mathrm{eq}}\), it must first add a chapter proving \(\ClosureReflect(\Pi)\) or explicitly downgrade its result from exact reflection to closure-level compatibility.
+\end{protocol}

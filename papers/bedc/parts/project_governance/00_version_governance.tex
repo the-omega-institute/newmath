@@ -1,0 +1,44 @@
+\chapter{Project Governance and Incremental Maintenance}
+
+This chapter explains how the multi-file project should evolve. It is included to prevent future versions from overwriting stable material while preserving a single coherent PDF.
+
+\section{Frozen material}
+
+A frozen module is a module that is kept for reference and not edited in place. Frozen modules may contain known limitations. A later module may supersede a statement, but the supersession is recorded explicitly.
+
+\section{Live material}
+
+Live material is added under new part directories, for example:
+\begin{center}
+\texttt{parts/hardening/}\qquad
+\texttt{parts/extensions/}\qquad
+\texttt{parts/formalization/}\qquad
+\texttt{appendices/}
+\end{center}
+A live module may depend on frozen material, but it should not silently change it.
+
+\section{Migration notes}
+
+\begin{definition}[Migration note]
+A migration note records a change in terminology, a strengthened theorem, a corrected assumption, or a new policy that supersedes an earlier statement. It must specify:
+\begin{enumerate}
+  \item the earlier location;
+  \item the issue;
+  \item the replacement statement;
+  \item whether the earlier statement is deprecated, refined, or still valid under stronger assumptions.
+\end{enumerate}
+\end{definition}
+
+\section{Recommended project phases}
+
+\begin{enumerate}[label=\textbf{Phase \arabic*.}]
+  \item Freeze the v10 finite kernel target as historical core.
+  \item Verify the v10.1 finite proof sprint in an external formal environment.
+  \item Complete the package/gap policy module.
+  \item Construct explicit \(\NatUp\) and \(\AddUp\) naming certificates.
+  \item Split completion-like, phase-like, and fold-like interfaces into independent modules.
+\end{enumerate}
+
+\begin{remark}
+The master PDF should remain the public artifact. The source tree should remain the authoritative editable artifact.
+\end{remark}

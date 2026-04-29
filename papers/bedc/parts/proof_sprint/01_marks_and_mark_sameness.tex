@@ -1,0 +1,47 @@
+\section{Marks and mark-sameness}
+
+\begin{definition}[Raw marks]
+The kernel begins with two raw marks:
+\[
+\bzero,\qquad \bone.
+\]
+They are not numbers, truth values, booleans, or elements of a set in the object theory.  They are only two distinguishable emission results.
+\end{definition}
+
+\begin{definition}[Internal mark-sameness]
+The internal sameness judgment on raw marks is generated only by:
+\[
+\MSame(\bzero,\bzero),
+\qquad
+\MSame(\bone,\bone).
+\]
+No rule generates \(\MSame(\bzero,\bone)\) or \(\MSame(\bone,\bzero)\).
+\end{definition}
+
+\begin{lemma}[Mark-sameness is reflexive]
+For every generated raw mark \(m\), \(\MSame(m,m)\).
+\end{lemma}
+\begin{proof}
+There are only two generated raw marks.  If \(m=\bzero\), use the first generator.  If \(m=\bone\), use the second generator.  This case analysis belongs to the generation clauses for raw marks, not to an external numerical interpretation.
+\end{proof}
+
+\begin{lemma}[Mark-sameness is symmetric]
+If \(\MSame(m,n)\), then \(\MSame(n,m)\).
+\end{lemma}
+\begin{proof}
+The only generators of \(\MSame\) are the two diagonal judgments.  Reversing either generator yields the same generator.
+\end{proof}
+
+\begin{lemma}[Mark-sameness is transitive]
+If \(\MSame(m,n)\) and \(\MSame(n,r)\), then \(\MSame(m,r)\).
+\end{lemma}
+\begin{proof}
+By closed generation of \(\MSame\), both premises must be diagonal at the same raw mark.  Hence the conclusion is the corresponding diagonal generator.
+\end{proof}
+
+\begin{theorem}[Mark no-confusion]
+The judgments \(\MSame(\bzero,\bone)\) and \(\MSame(\bone,\bzero)\) are not generated.
+\end{theorem}
+\begin{proof}
+The closed generation clause for \(\MSame\) lists only the two diagonal generators.  There is no cross-mark generator and no rule that can produce a cross-mark judgment from diagonal ones.
+\end{proof}

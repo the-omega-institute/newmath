@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for \(\AddUp\)}
+\label{ch:v14-add-namecert}
+
+The addition-like interface is licensed by continuation of unary histories. It is not a primitive operation.
+
+\section{Unary continuation}
+
+\begin{lemma}[Continuation preserves unary histories]
+If \(\mathsf{Unary}(h)\), \(\mathsf{Unary}(k)\), and \(\ContR(h,k,r)\), then \(\mathsf{Unary}(r)\).
+\end{lemma}
+\begin{proof}
+By induction on the generated proof of \(\ContR(h,k,r)\). In the empty case, \(r=k\), hence \(\mathsf{Unary}(r)\) follows from the second premise. In the \(\Eone\)-continuation case, use the induction hypothesis on the subcontinuation and then apply unary closure under \(\Eone\). The \(\Ezero\)-case is incompatible with \(\mathsf{Unary}(h)\) by unary no-zero-extension, hence it is not generated under the unary source discipline.
+\end{proof}
+
+\begin{lemma}[Unary continuation unit]
+For every unary history \(h\), continuation by the empty history and continuation from the empty history produce unary histories internally same to the expected unary source.
+\end{lemma}
+\begin{proof}
+The left unit is the empty continuation generator. The right unit follows from the continuation unit theorem in the proof-standing layer, restricted to unary histories. Unary closure ensures the resulting histories remain within the unary source discipline.
+\end{proof}
+
+\begin{lemma}[Unary continuation associativity]
+Unary continuation is associative up to \(\HSame\) when all participating histories are unary.
+\end{lemma}
+\begin{proof}
+This is the continuation associativity theorem specialized to unary histories, together with continuation-preserves-unary-histories for the intermediate results.
+\end{proof}
+
+\section{The certificate}
+
+\begin{definition}[Additive source specification]
+The source specification \(\mathsf{AddSource}\) consists of ordered pairs of unary histories together with a continuation witness.
+\end{definition}
+
+\begin{definition}[Additive pattern specification]
+The pattern specification \(\mathsf{AddPattern}\) is unary continuation:
+\[
+  \ContR(h,k,r)
+\]
+with \(\mathsf{Unary}(h)\) and \(\mathsf{Unary}(k)\).
+\end{definition}
+
+\begin{definition}[Additive classifier specification]
+The classifier specification \(\mathsf{AddClassifier}\) classifies additive outputs by \(\HSame\) of the generated result histories.
+\end{definition}
+
+\begin{definition}[Additive stability certificate]
+The stability certificate \(\mathsf{AddStabilityCert}\) consists of:
+\begin{enumerate}
+  \item continuation preserves unary histories;
+  \item unary continuation unit;
+  \item unary continuation associativity;
+  \item continuation determinacy up to \(\HSame\).
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Additive ledger policy]
+The additive ledger policy \(\mathsf{AddLedger}\) records the two input unary histories and the continuation witness generating the output history. For composite additive uses, the ledger composes by the composite gap principle.
+\end{definition}
+
+\begin{theorem}[Concrete \(\AddUp\) naming certificate]
+The tuple
+\[
+  \mathsf{NameCert}_{\AddUp}
+  :=
+  (\mathsf{AddSource},
+   \mathsf{AddPattern},
+   \mathsf{AddClassifier},
+   \mathsf{AddStabilityCert},
+   \mathsf{AddLedger})
+\]
+forms a valid naming certificate for the derived interface \(\AddUp\).
+\end{theorem}
+\begin{proof}
+The source, pattern, classifier, stability, and ledger fields are supplied by the preceding definitions. Stability is justified by the three unary continuation lemmas and continuation determinacy. The ledger policy records the exact continuation witness rather than erasing it. Thus the naming protocol is satisfied.
+\end{proof}
+
+\begin{corollary}[\(\AddUp\) is licensed by continuation]
+The additive interface \(\AddUp\) is licensed by unary continuation. It is not a primitive operation of the finite kernel.
+\end{corollary}

@@ -1,0 +1,35 @@
+\chapter{v1.5.3 Manifest: Token-Uniqueness and Unary-Shift Patch}
+\label{ch:v153-manifest}
+
+This v1.5.3 increment is a narrow proof patch. It does not introduce new derived objects, does not expand the completion layer, and does not rewrite the frozen core. It corrects two live proof risks left open by v1.5.2:
+\begin{enumerate}
+  \item package reflection for concrete signature tokens still needs a token-introduction uniqueness principle;
+  \item unary continuation commutativity still needs a more explicit right-shift proof spine.
+\end{enumerate}
+
+\section{Scope}
+This increment adds only the following active refinements:
+\begin{enumerate}
+  \item \(\TokIntro\)-uniqueness up to \(\hsame\);
+  \item package reflection rebuilt from \(\TokIntro\)-uniqueness and one-constructor package-sameness;
+  \item exactness of the concrete signature Globalize instance under domain, ask, token, and gap policies;
+  \item a micro-lemma decomposition of unary right-shift;
+  \item an updated status matrix distinguishing paper-proved, policy-conditional, and still-active obligations.
+\end{enumerate}
+
+\section{Non-goals}
+This increment does not claim:
+\begin{enumerate}
+  \item a full construction of natural numbers;
+  \item a full construction of addition;
+  \item any construction of real-like, circle-like, or fold-like interfaces;
+  \item a checked proof artifact;
+  \item a revision of the frozen finite kernel.
+\end{enumerate}
+
+\section{Development rule}
+The rule of v1.5.3 is:
+\[
+  \text{turn hidden assumptions into named local proof obligations, then prove only the low-risk consequences.}
+\]
+In particular, package reflection is not treated as free; it is derived from token-introduction uniqueness. Similarly, the additive name is not treated as active until unary commutativity is fully certified.

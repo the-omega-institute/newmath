@@ -1,0 +1,57 @@
+
+\chapter{Concrete Verification Targets v1.5.2}
+\label{ch:v152-verification-targets}
+
+This chapter records the narrow verification targets introduced by v1.5.2. It is not a new theory layer. It is a checklist for turning the concrete-instance paper proofs into verified artifacts.
+
+\section{Domain targets}
+\begin{longtable}{p{0.32\textwidth}p{0.18\textwidth}p{0.34\textwidth}}
+\toprule
+\textbf{Target} & \textbf{Status} & \textbf{Purpose}\\
+\midrule
+\(\Unary\)-transport along \(\hsame\) & PaperProof & Supports \(\mathsf{DomainPolicy}(\mathsf{UnarySource})\).\\
+\(\mathsf{DomainPolicy}(\mathsf{UnarySource})\) & PaperProof & Provides the first concrete domain-policy instance.\\
+\bottomrule
+\end{longtable}
+
+\section{Package-token targets}
+\begin{longtable}{p{0.32\textwidth}p{0.18\textwidth}p{0.34\textwidth}}
+\toprule
+\textbf{Target} & \textbf{Status} & \textbf{Purpose}\\
+\midrule
+\(\TokIntro(\Pi,s,p)\) & ActiveInterface & Relationizes token creation.\\
+\(\psame_{\Pi}^{\mathrm{sig}}\) one-constructor rule & PaperProof & Makes no-extra-constructor explicit.\\
+Package soundness & PaperProof & Shows \(\hsame(s,t)\Rightarrow\psame(p,q)\).\\
+Package reflection & PaperProof & Shows \(\psame(p,q)\Rightarrow\hsame(s,t)\).\\
+Concrete PackageTokenPolicy & PolicyConstructed & Packages the preceding obligations.\\
+\bottomrule
+\end{longtable}
+
+\section{Unary additive targets}
+\begin{longtable}{p{0.32\textwidth}p{0.18\textwidth}p{0.34\textwidth}}
+\toprule
+\textbf{Target} & \textbf{Status} & \textbf{Purpose}\\
+\midrule
+\(\Eone\)-congruence & PaperProof & Allows prefixing internal sameness.\\
+Unary right-shift & ActiveObligation & Main auxiliary for commutativity.\\
+Unary continuation commutativity & ConditionalPaperProof & Licenses the additive name once right-shift is checked.\\
+\(\AddUp\) naming license & ConditionalLicense & Active only after commutativity is included.\\
+\bottomrule
+\end{longtable}
+
+\section{Immediate machine-check order}
+The recommended order is:
+\[
+\text{mark/history sameness}
+\to
+\text{continuation}
+\to
+\text{unary transport}
+\to
+\text{unary right-shift}
+\to
+\text{package-token reflection}
+\to
+\text{concrete gap exactness}.
+\]
+This order avoids depending on completion-like or large derived-object interfaces.

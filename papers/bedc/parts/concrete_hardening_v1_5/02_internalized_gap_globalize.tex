@@ -1,0 +1,97 @@
+\chapter{Internalized Concrete Gaps and Globalize Soundness}
+\label{ch:v15-gap-globalize}
+
+We now restate the v1.4 concrete gap policy using \(\InDom\) and \(\TokIntro\). This removes the remaining set-membership notation from the live concrete instance.
+
+\begin{definition}[Internalized signature gap]
+Given a source domain name \(D\), a bundle \(\Pi\), and a package token \(p\), define
+\[
+  \InGapSig(\Pi,D,p,h)
+\]
+to mean that there exist an answer history \(s\) and an evidence ledger \(\Delta\) such that
+\[
+  \InDom(D,h),
+  \qquad
+  \Sig(\Pi,h,s,\Delta),
+  \qquad
+  \TokIntro(\Pi,s,p).
+\]
+\end{definition}
+
+\begin{definition}[Internalized concrete Globalize instance]
+The internalized concrete signature globalization is the triple
+\[
+  \GlobSig(\Pi,D)
+  :=
+  (\PkgSig,\psame,\InGapSig).
+\]
+It is the current live concrete finite-kernel Globalize instance.
+\end{definition}
+
+\begin{theorem}[Internalized gap coverage]
+\label{thm:v15-gap-coverage}
+Assume \(\AskPol(\Pi,D)\) and assume that every generated signature has an introduced token. If \(\InDom(D,h)\), then there exists a token \(p\) such that
+\[
+  \InGapSig(\Pi,D,p,h).
+\]
+\end{theorem}
+
+\begin{proof}
+From \(\AskPol(\Pi,D)\), obtain a generated signature event
+\[
+  \Sig(\Pi,h,s,\Delta).
+\]
+By token existence, obtain \(p\) with \(\TokIntro(\Pi,s,p)\). These data witness \(\InGapSig(\Pi,D,p,h)\).
+\end{proof}
+
+\begin{theorem}[Internalized gap separation]
+\label{thm:v15-gap-separation}
+Assume \(\AskPol(\Pi,D)\), concrete token existence, and concrete package reflection. If
+\[
+  \InGapSig(\Pi,D,p,h)
+  \quad\text{and}\quad
+  \InGapSig(\Pi,D,q,h),
+\]
+then
+\[
+  \psame(p,q).
+\]
+\end{theorem}
+
+\begin{proof}
+Unpack the two gap memberships. We obtain signatures \(s,t\) and evidence ledgers \(\Delta,\Theta\) such that
+\[
+  \Sig(\Pi,h,s,\Delta),\qquad
+  \TokIntro(\Pi,s,p),
+\]
+\[
+  \Sig(\Pi,h,t,\Theta),\qquad
+  \TokIntro(\Pi,t,q).
+\]
+By signature determinacy under \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). The concrete package-sameness introduction rule then yields \(\psame(p,q)\).
+\end{proof}
+
+\begin{theorem}[Concrete Globalize soundness]
+If histories have internally same generated signatures, then their concrete signature packages are package-same.
+\end{theorem}
+
+\begin{proof}
+Let signatures \(s,t\) be generated from the two histories and suppose \(\hsame(s,t)\). Introduce tokens \(p,q\) from \(s,t\). Package-sameness follows by the concrete package-sameness rule.
+\end{proof}
+
+\begin{theorem}[Concrete Globalize completeness]
+\label{thm:v15-globalize-completeness}
+Assume concrete package reflection. If two histories generate package-same visible tokens in \(\GlobSig(\Pi,D)\), then their generated signatures are internally same.
+\end{theorem}
+
+\begin{proof}
+The histories generate signatures \(s,t\) and tokens \(p,q\). The hypothesis gives \(\psame(p,q)\). By Theorem~\ref{thm:v15-package-reflection}, \(\hsame(s,t)\).
+\end{proof}
+
+\begin{corollary}[Concrete Globalize classifies exactly by signatures]
+For the internalized signature-token instance, visible package sameness is equivalent to internal sameness of generated answer histories.
+\end{corollary}
+
+\begin{proof}
+Soundness is the introduction direction. Completeness is Theorem~\ref{thm:v15-globalize-completeness}.
+\end{proof}

@@ -1,0 +1,29 @@
+\chapter{Proof Status Matrix v1.5.5}
+\label{ch:v155-status-matrix}
+
+This matrix records the live status after the base reflection check-target increment.
+
+\begin{longtable}{p{0.30\textwidth}p{0.23\textwidth}p{0.31\textwidth}}
+\toprule
+\textbf{Item} & \textbf{Status} & \textbf{Meaning}\\
+\midrule
+\(\psame_{\Pi}^{\mathrm{base}}\) & ActiveDefinition & Still the only active exact package-sameness relation.\\
+\(\psame_{\Pi}^{\mathrm{eq}}\) & DeferredDefinition & Optional equivalence closure; not exported by exact Globalize.\\
+\(\GeneratedSameSig(\Pi,h,k)\) & ActivePredicate & Checker-facing replacement for prose generated-signature sameness.\\
+\(\ExactGlobalizeBase(\Pi,D)\) & ActiveContract & Public v1.5.5 exactness shape: coverage, soundness, completeness, and classification iff.\\
+\texttt{PsameBase.inversion} & ProofTarget & Must invert the one-constructor base relation.\\
+\texttt{TokUnique.tokenReplacement} & ProofTarget & Same token with two introductions yields \(\hsame\).\\
+\texttt{PackageReflection.base} & ProofTarget & Base package reflection under \(\TokUnique(\Pi)\).\\
+\texttt{Globalize.exactBase} & ProofTarget & Future checked theorem concluding \(\ExactGlobalizeBase(\Pi,D)\).\\
+\texttt{PackageReflection.eqClosure} & OptionalDeferred & May activate closure exactness only after checker success.\\
+\texttt{UnaryShift.theorem} & ActiveProofTarget & Still required before checked \(\AddUp\) activation.\\
+\texttt{UnaryComm.theorem} & ActiveProofTarget & Still required before checked \(\AddUp\) activation.\\
+\(\UnaryContMonoidUp\) & SafeActiveName & Remains the safe additive-adjacent interface.\\
+\(\AddUp\) & ConditionalLicense & Public activation still waits for checked commutativity certificate.\\
+Lean-style scaffold & TheoremShapeOnly & Included as target documentation; not a verified proof artifact.\\
+Machine verification & Pending & No proof-checker success report is claimed in this release.\\
+\bottomrule
+\end{longtable}
+
+\paragraph{Current operational priority.}
+The next useful release is a real checked proof report for \texttt{PsameBase.inversion}, \texttt{TokUnique.tokenReplacement}, \texttt{PackageReflection.base}, and \texttt{Globalize.exactBase}. Unary right-shift and unary continuation commutativity remain second-priority after base exactness is checked.

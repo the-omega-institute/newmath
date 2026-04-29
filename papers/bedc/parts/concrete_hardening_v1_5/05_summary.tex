@@ -1,0 +1,25 @@
+\chapter{Summary of the v1.5 Concrete-Instance Hardening Layer}
+
+The v1.5 increment is intentionally narrow. It makes four live corrections to the v1.4 concrete-instance layer:
+
+\begin{enumerate}
+  \item \(h\in D\) is replaced by the internal domain judgment \(\InDom(D,h)\).
+  \item The function-like token notation \(\Tok_{\Pi}(s)\) is replaced by \(\TokIntro(\Pi,s,p)\).
+  \item Package reflection is made explicit, supporting the completeness direction of the concrete signature Globalize instance.
+  \item The additive certificate is strengthened with unary continuation commutativity, clarifying when \(\AddUp\) is licensed rather than merely a unary-continuation monoid-like interface.
+\end{enumerate}
+
+\begin{corollary}[Live state after v1.5]
+After v1.5, the concrete signature Globalize instance has both soundness and completeness at paper level, provided the explicit reflection and policy assumptions are used. The \(\AddUp\) certificate is live only with the unary commutativity obligation included.
+\end{corollary}
+
+\begin{proof}
+The concrete Globalize result follows from Chapters~\ref{ch:v15-domain-token-reflection} and~\ref{ch:v15-gap-globalize}. The additive naming boundary follows from Chapter~\ref{ch:v15-unary-add-commutativity}.
+\end{proof}
+
+\paragraph{Next finite-kernel target.}
+The next proof sprint should not expand the theory. It should machine-check the finite sequence
+\[
+  \MSame,\quad \HSame,\quad \ExtR,\quad \ContR,\quad \Sig,\quad \SameSig,
+\]
+then implement the internalized signature-token Globalize instance.

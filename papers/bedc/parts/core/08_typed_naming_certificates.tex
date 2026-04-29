@@ -1,0 +1,45 @@
+\chapter{Typed Naming Certificates}
+
+\begin{definition}[Source specification]
+A source specification \(\SourceSpec\) records the generated material from which a proposed name is licensed. It may refer to raw marks, histories, bundles, packages, gaps, or previously licensed names.
+\end{definition}
+
+\begin{definition}[Pattern specification]
+A pattern specification \(\PatternSpec\) records the stable behavior observed in the source. Examples include repetition, continuation, signature classification, package stability, or compatible threading.
+\end{definition}
+
+\begin{definition}[Classifier specification]
+A classifier specification \(\ClassifierSpec\) records how source material is grouped. At the finite kernel level this is normally given by a bundle, an asking policy, a package policy, and a gap policy.
+\end{definition}
+
+\begin{definition}[Stability certificates]
+The stability component \(\StabCert\) is typed by modes:
+\begin{align*}
+\ClosureCert &: \text{the source is closed under the named behavior},\\
+\ReuseCert &: \text{the named behavior can be reused as a later tool},\\
+\DescentCert &: \text{the behavior descends through classification},\\
+\CompositionCert &: \text{the behavior composes with previously named behavior},\\
+\SealCert &: \text{the behavior supports compatible-thread sealing}.
+\end{align*}
+A name may require one or more of these modes.
+\end{definition}
+
+\begin{definition}[Ledger policy]
+A ledger policy \(\LedgerPolicy\) records what the name hides and how the hidden material is tracked. It must specify whether the ledger is a gap, a composite gap, a tail ledger, a phase ledger, a source ledger, or another derived ledger.
+\end{definition}
+
+\begin{definition}[Naming certificate]
+A naming certificate is a record
+\[
+\NameCert(N)=
+(\SourceSpec_N,\PatternSpec_N,\ClassifierSpec_N,\StabCert_N,\LedgerPolicy_N).
+\]
+The proposed name \(N\) is licensed only if all required fields are supplied.
+\end{definition}
+
+\begin{theorem}[Derived interfaces require certificates]
+No interface marked by an upward arrow is licensed without a \(\NameCert\).
+\end{theorem}
+\begin{proof}
+This is the formation rule for derived interfaces: derived names are not object-language primitives. They enter the theory only by a naming certificate.
+\end{proof}

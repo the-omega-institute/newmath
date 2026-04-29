@@ -1,0 +1,111 @@
+\chapter{Finite-Kernel Theorem Dependency DAG}
+\label{ch:theorem-dependency-dag}
+
+This chapter gives the proof dependency order for the active finite-kernel sprint. It is a planning artifact for the proof target, not a new object-theory primitive.
+
+\section{Milestone DAG}
+
+The current dependency chain is:
+\[
+\begin{array}{c}
+\text{A. Mark layer}\\[2pt]
+\downarrow\\[-2pt]
+\text{B. History layer}\\[2pt]
+\downarrow\\[-2pt]
+\text{C. Extension and continuation}\\[2pt]
+\downarrow\\[-2pt]
+\text{D. Asking and signature generation}\\[2pt]
+\downarrow\\[-2pt]
+\text{E. Signature sameness}\\[2pt]
+\downarrow\\[-2pt]
+\text{F. Package policy}\\[2pt]
+\downarrow\\[-2pt]
+\text{G. Gap policy}\\[2pt]
+\downarrow\\[-2pt]
+\text{H. Composite ledger}\\[2pt]
+\downarrow\\[-2pt]
+\text{I. Naming certificates}
+\end{array}
+\]
+
+The project should not attempt large derived interfaces before Milestones A--G are mechanically checked.
+
+\section{Milestone A: marks}
+
+\begin{enumerate}
+  \item \(\msame\)-reflexivity.
+  \item \(\msame\)-symmetry.
+  \item \(\msame\)-transitivity.
+  \item Mark no-confusion: \(\bzero\) is not internally the same as \(\bone\), and conversely.
+\end{enumerate}
+
+\section{Milestone B: histories}
+
+\begin{enumerate}
+  \item \(\hsame\)-reflexivity.
+  \item \(\hsame\)-symmetry.
+  \item \(\hsame\)-transitivity.
+  \item History no-confusion for empty, \(\Ezero\), and \(\Eone\) constructors.
+\end{enumerate}
+
+\section{Milestone C: relational extension and continuation}
+
+\begin{enumerate}
+  \item \(\ExtR\)-determinacy up to \(\hsame\).
+  \item \(\ExtR\)-respect for \(\msame\) and \(\hsame\).
+  \item \(\ContR\)-determinacy up to \(\hsame\).
+  \item Left and right unit laws for \(\ContR\).
+  \item Associativity of \(\ContR\) up to \(\hsame\).
+\end{enumerate}
+
+\section{Milestone D: asking and signatures}
+
+\begin{enumerate}
+  \item Generated bundle grammar is fixed.
+  \item Signature generation rules are fixed.
+  \item Under \(\AskPol(\Pi,D)\), signatures exist for histories in the domain.
+  \item Under \(\AskPol(\Pi,D)\), signatures are deterministic up to \(\hsame\).
+\end{enumerate}
+
+\section{Milestone E: signature sameness}
+
+\begin{enumerate}
+  \item \(\sameSig\)-reflexivity under \(\AskPol\).
+  \item \(\sameSig\)-symmetry.
+  \item \(\sameSig\)-transitivity under deterministic signatures.
+  \item Signature sameness is an equivalence relation on the chosen domain.
+\end{enumerate}
+
+\section{Milestones F--G: packages and gaps}
+
+\begin{enumerate}
+  \item \(\PkgPol\) existence.
+  \item \(\PkgPol\) extensionality: internally same signatures yield internally same packages.
+  \item \(\PkgPol\) grounding: internally same packages are justified by internally same signatures.
+  \item \(\GapPol\) coverage: every admissible source history appears in some gap.
+  \item \(\GapPol\) separation: genuinely different packages have disjoint source membership.
+  \item Packaging classifies by signatures.
+\end{enumerate}
+
+\section{Milestone H: composite gap}
+
+For two compression interfaces \(C\) and \(D\), prove:
+\begin{enumerate}
+  \item composite gap is defined by an intermediate witness;
+  \item composite coverage follows from coverage of both stages;
+  \item composite separation requires separation plus a suitable grounding condition.
+\end{enumerate}
+
+\section{Milestone I: naming certificates}
+
+The first mechanically useful certificates should be:
+\begin{enumerate}
+  \item a unary repetition source certificate for \(\NatUp\);
+  \item a continuation stability certificate for \(\AddUp\);
+  \item a descent certificate for function-like interfaces;
+  \item a ledger policy stating what is preserved by each derived name.
+\end{enumerate}
+
+\section{Current execution rule}
+
+The implementation sprint should stop at the first unverified milestone and not skip ahead. If Milestone A fails, later milestone statements are not repaired by changing the core theory silently; they require a migration note.

@@ -1,0 +1,31 @@
+
+\chapter{v1.5.2 Manifest: Concrete Proof-Readiness Patch}
+\label{ch:v152-manifest}
+
+This v1.5.2 increment is deliberately narrow. It does not add new derived objects, does not rewrite the frozen core, and does not expand the thin completion layer. Its purpose is to turn selected live v1.5--v1.5.1 concrete-instance obligations into smaller, verification-ready obligations.
+
+\section{Scope}
+The live corrections in this increment are:
+\begin{enumerate}
+  \item a concrete domain-policy instance for the unary source judgment;
+  \item an inductive reading of concrete package-token sameness;
+  \item a decomposed proof plan for unary right-shift and unary continuation commutativity;
+  \item a proof-target map identifying which obligations should be frozen, which remain active, and which should be sent to machine checking first.
+\end{enumerate}
+
+\section{Non-goals}
+This increment does not claim:
+\begin{enumerate}
+  \item a full construction of natural numbers;
+  \item a full construction of addition;
+  \item any construction of real numbers, circles, or folds;
+  \item a checked implementation artifact;
+  \item any change to the frozen finite kernel.
+\end{enumerate}
+
+\section{Development rule}
+The rule of this patch is:
+\[
+  \text{freeze low-risk paper proofs; isolate all remaining claims as named proof obligations.}
+\]
+The increment therefore distinguishes stable corrections from active obligations rather than presenting every statement as completed.

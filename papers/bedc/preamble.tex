@@ -1,0 +1,151 @@
+
+% BEDC Master Project preamble
+% Build engine: pdflatex (matches .source/build.sh; no Chinese in paper body).
+% xelatex + xeCJK + unicode-math was attempted in early Phase 1 but caused
+% conflicts with amssymb in 96 \newcommand math macros; reverted to pdflatex.
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{booktabs,longtable,array}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\lstset{inputencoding=utf8,extendedchars=true,literate={→}{{$\rightarrow$}}1 {↦}{{$\mapsto$}}1 {∀}{{$\forall$}}1 {∃}{{$\exists$}}1 {↔}{{$\leftrightarrow$}}1 {≤}{{$\leq$}}1 {≥}{{$\geq$}}1 {≠}{{$\neq$}}1}
+\geometry{margin=1.02in}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black}
+\setlist[itemize]{topsep=3pt,itemsep=2pt,leftmargin=*}
+\setlist[enumerate]{topsep=3pt,itemsep=2pt,leftmargin=*}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{BEDC Master Project}
+\rhead{Frozen Core + Incremental Proof Sprint}
+\cfoot{\thepage}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{principle}[definition]{Principle}
+\newtheorem{kernelrule}[definition]{Kernel Rule}
+\newtheorem{rulebox}[definition]{Kernel Rule}
+\newtheorem{convention}[definition]{Convention}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{protocol}[definition]{Protocol}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+\newtheorem{axiomlike}[definition]{Closure Principle}
+\newcommand{\BEDC}{\mathsf{BEDC}}
+\newcommand{\bzero}{\mathsf{b0}}
+\newcommand{\bone}{\mathsf{b1}}
+\newcommand{\Mark}{\mathsf{Mark}}
+\newcommand{\msame}{\mathsf{msame}}
+\newcommand{\MSame}{\mathsf{msame}}
+\newcommand{\Hist}{\mathsf{Hist}}
+\newcommand{\emp}{\mathsf{e}}
+\newcommand{\e}{\mathsf{e}}
+\newcommand{\Ezero}{\mathsf{E0}}
+\newcommand{\Eone}{\mathsf{E1}}
+\newcommand{\ExtR}{\mathsf{Ext}}
+\newcommand{\Ext}{\mathsf{Ext}}
+\newcommand{\ContR}{\mathsf{Cont}}
+\newcommand{\Cont}{\mathsf{Cont}}
+\newcommand{\hsame}{\mathsf{hsame}}
+\newcommand{\HSame}{\mathsf{hsame}}
+\newcommand{\PN}{\mathsf{ProbeName}}
+\newcommand{\Ev}{\mathsf{Ev}}
+\newcommand{\Ask}{\mathsf{Ask}}
+\newcommand{\AskPol}{\mathsf{AskPolicy}}
+\newcommand{\Bundle}{\mathsf{Bundle}}
+\newcommand{\Bnil}{\mathsf{Bnil}}
+\newcommand{\Bcons}{\mathsf{Bcons}}
+\newcommand{\Sig}{\mathsf{Sig}}
+\newcommand{\sameSig}{\mathsf{sameSig}}
+\newcommand{\SameSig}{\mathsf{sameSig}}
+\newcommand{\Pkg}{\mathsf{Pkg}}
+\newcommand{\psame}{\mathsf{psame}}
+\newcommand{\PSame}{\mathsf{psame}}
+\newcommand{\PkgPol}{\mathsf{PackagePolicy}}
+\newcommand{\GapPol}{\mathsf{GapPolicy}}
+\newcommand{\InGap}{\mathsf{InGap}}
+\newcommand{\Gap}{\mathsf{Gap}}
+\newcommand{\CompGap}{\mathsf{CompGap}}
+\newcommand{\NameCert}{\mathsf{NameCert}}
+\newcommand{\SourceSpec}{\mathsf{SourceSpec}}
+\newcommand{\PatternSpec}{\mathsf{PatternSpec}}
+\newcommand{\ClassifierSpec}{\mathsf{ClassifierSpec}}
+\newcommand{\ClosureCert}{\mathsf{ClosureCert}}
+\newcommand{\ReuseCert}{\mathsf{ReuseCert}}
+\newcommand{\DescentCert}{\mathsf{DescentCert}}
+\newcommand{\CompositionCert}{\mathsf{CompositionCert}}
+\newcommand{\SealCert}{\mathsf{SealCert}}
+\newcommand{\StabCert}{\mathsf{StabilityCert}}
+\newcommand{\LedgerPolicy}{\mathsf{LedgerPolicy}}
+\newcommand{\Stage}{\mathsf{Stage}}
+\newcommand{\Thread}{\mathsf{Thread}}
+\newcommand{\Seal}{\mathsf{Seal}}
+\newcommand{\NatUp}{\mathsf{Nat}^{\uparrow}}
+\newcommand{\AddUp}{\mathsf{Add}^{\uparrow}}
+\newcommand{\EqUp}{\mathsf{Eq}^{\uparrow}}
+\newcommand{\FuncUp}{\mathsf{Func}^{\uparrow}}
+\newcommand{\LimitUp}{\mathsf{Limit}^{\uparrow}}
+\newcommand{\RealUp}{\mathsf{Real}^{\uparrow}}
+\newcommand{\CircleUp}{\mathsf{Circle}^{\uparrow}}
+\newcommand{\FoldUp}{\mathsf{Fold}^{\uparrow}}
+\newcommand{\Mbin}{\mathcal{M}_{\mathsf{bin}}}
+
+% v1.5 concrete-instance hardening macros
+\newcommand{\InDom}{\mathsf{InDom}}
+\newcommand{\Tok}{\mathsf{Tok}}
+\newcommand{\TokIntro}{\mathsf{TokIntro}}
+\newcommand{\PkgSig}{\mathsf{Pkg}^{\mathrm{sig}}}
+\newcommand{\GapSig}{\mathsf{Gap}^{\mathrm{sig}}}
+\newcommand{\InGapSig}{\mathsf{InGap}^{\mathrm{sig}}}
+\newcommand{\GlobSig}{\mathsf{Glob}^{\mathrm{sig}}}
+\newcommand{\Unary}{\mathsf{Unary}}
+\newcommand{\UnaryCont}{\mathsf{UnaryCont}}
+\newcommand{\UnaryComm}{\mathsf{UnaryComm}}
+
+\lstset{basicstyle=\ttfamily\scriptsize,breaklines=true,breakatwhitespace=false,columns=fullflexible}
+
+% v1.5.1 proof-obligation patch macros
+\newcommand{\DomainPolicy}{\mathsf{DomainPolicy}}
+\newcommand{\PkgTokPol}{\mathsf{PackageTokenPolicy}}
+\newcommand{\PkgReflect}{\mathsf{PackageReflect}}
+\newcommand{\PkgSound}{\mathsf{PackageSound}}
+\newcommand{\EoneCong}{\mathsf{E1Cong}}
+\newcommand{\UnaryShift}{\mathsf{UnaryShift}}
+\newcommand{\UnaryContMonoidUp}{\mathsf{UnaryContMonoid}^{\uparrow}}
+\newcommand{\ProofObligation}{\mathsf{ProofObligation}}
+\newcommand{\Checked}{\mathsf{Checked}}
+\newcommand{\Frozen}{\mathsf{Frozen}}
+% v1.5.3 token-uniqueness and unary-shift patch macros
+\newcommand{\TokUnique}{\mathsf{TokUnique}}
+\newcommand{\PackageTokenPolicy}{\mathsf{PackageTokenPolicy}}
+\newcommand{\UnarySource}{\mathsf{UnarySource}}
+\newcommand{\ContAddUp}{\mathsf{ContAdd}^{\uparrow}}
+
+% v1.5.4 minimal verification contract macros
+\newcommand{\PBase}{\mathsf{PBase}}
+\newcommand{\PSig}{\mathsf{PSig}}
+\newcommand{\PEq}{\mathsf{PEq}}
+\newcommand{\EqCl}{\mathsf{EqCl}}
+\newcommand{\TokCan}{\mathsf{TokCan}}
+\newcommand{\ClosureReflect}{\mathsf{ClosureReflect}}
+\newcommand{\OneCtor}{\mathsf{OneCtor}}
+\newcommand{\BaseReflect}{\mathsf{BaseReflect}}
+\newcommand{\VerifierTarget}{\mathsf{VerifierTarget}}
+
+
+% v1.5.5 active aliases for base-reflection check target
+\newcommand{\GeneratedSameSig}{\mathsf{GeneratedSameSig}}
+\newcommand{\ExactGlobalizeBase}{\mathsf{ExactGlobalizeBase}}
+\newcommand{\PBaseData}{\mathsf{PBaseData}}
+\newcommand{\GlobalizeExactBase}{\mathsf{GlobalizeExactBase}}
+\newcommand{\PackageReflection}{\mathsf{PackageReflection}}

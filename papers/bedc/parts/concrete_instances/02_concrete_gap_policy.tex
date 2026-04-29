@@ -1,0 +1,72 @@
+\chapter{The Concrete Signature Gap Policy}
+\label{ch:v14-concrete-gap}
+
+The signature package instance provides visible tokens. We now define the concrete gap ledger behind those tokens.
+
+\begin{definition}[Signature gap membership]
+Fix a probe bundle \(\Pi\), a source domain specification \(D\,\), and the signature package instance of Chapter~\ref{ch:v14-signature-package}. A history \(h\) lies in the signature gap of a package token \(p\) when there exist an answer history \(s\) and evidence ledger \(\Delta\) such that
+\[
+  h\in D,
+  \qquad
+  \Sig(\Pi,h,s,\Delta),
+  \qquad
+  \Pkg^{\mathrm{sig}}(\Pi,s,p).
+\]
+We write this as
+\[
+  \InGap^{\mathrm{sig}}(\Pi,D,p,h).
+\]
+\end{definition}
+
+\begin{lemma}[Concrete gap coverage]
+Assume \(\AskPol(\Pi,D)\). For every generated history \(h\in D\), there exists a package token \(p\) such that
+\[
+  \InGap^{\mathrm{sig}}(\Pi,D,p,h).
+\]
+\end{lemma}
+\begin{proof}
+By totality in \(\AskPol(\Pi,D)\), the bundle \(\Pi\) produces some signature event
+\[
+  \Sig(\Pi,h,s,\Delta).
+\]
+By signature package existence, there is a package token \(p\) such that
+\[
+  \Pkg^{\mathrm{sig}}(\Pi,s,p).
+\]
+Therefore \(\InGap^{\mathrm{sig}}(\Pi,D,p,h)\) holds by definition.
+\end{proof}
+
+\begin{lemma}[Concrete gap separation]
+Assume \(\AskPol(\Pi,D)\). Suppose
+\[
+  \InGap^{\mathrm{sig}}(\Pi,D,p,h),
+  \qquad
+  \InGap^{\mathrm{sig}}(\Pi,D,q,h).
+\]
+Then \(\psame(p,q)\).
+\end{lemma}
+\begin{proof}
+By the two gap memberships, there are signatures \(s,t\) and ledgers \(\Delta,\Theta\) such that
+\[
+  \Sig(\Pi,h,s,\Delta),\quad \Pkg^{\mathrm{sig}}(\Pi,s,p),
+\]
+\[
+  \Sig(\Pi,h,t,\Theta),\quad \Pkg^{\mathrm{sig}}(\Pi,t,q).
+\]
+By signature determinacy under \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). By signature package extensionality, \(\psame(p,q)\).
+\end{proof}
+
+\begin{theorem}[Concrete \(\GapPol\) for signature packages]
+Under \(\AskPol(\Pi,D)\), the relation \(\InGap^{\mathrm{sig}}(\Pi,D,p,h)\) satisfies coverage and separation for the signature package instance.
+\end{theorem}
+\begin{proof}
+This is precisely concrete gap coverage and concrete gap separation.
+\end{proof}
+
+\begin{corollary}[First concrete globalization ledger]
+The pair
+\[
+  (\Pkg^{\mathrm{sig}},\InGap^{\mathrm{sig}})
+\]
+forms the first concrete finite-kernel globalization interface for the domain \(D\) and probe bundle \(\Pi\), conditional on \(\AskPol(\Pi,D)\).
+\end{corollary}

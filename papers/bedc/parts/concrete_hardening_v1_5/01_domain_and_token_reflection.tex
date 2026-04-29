@@ -1,0 +1,77 @@
+\chapter{Internal Domain Judgments and Signature Token Reflection}
+\label{ch:v15-domain-token-reflection}
+
+The v1.4 concrete instance used two convenient notations:
+\[
+  h\in D,
+  \qquad
+  \Tok_{\Pi}(s).
+\]
+They are readable, but both carry too much external mathematical flavor. This chapter replaces them with internal judgments.
+
+\begin{definition}[Internal domain judgment]
+A concrete source domain is not treated as a set. It is a source name \(D\) equipped with a judgment
+\[
+  \InDom(D,h),
+\]
+read as: the history \(h\) is admitted by the source domain name \(D\).
+\end{definition}
+
+\begin{remark}[Layer discipline]
+The notation \(\InDom(D,h)\) is still written in the metalanguage, but it is the public BEDC judgment to be used in all concrete gap statements. The notation \(h\in D\) is deprecated in active modules.
+\end{remark}
+
+\begin{definition}[Signature token introduction]
+For a probe bundle \(\Pi\) and an answer history \(s\), a visible package token is introduced by a judgment
+\[
+  \TokIntro(\Pi,s,p).
+\]
+It means that \(p\) is a package token introduced from the signature history \(s\) under bundle \(\Pi\).
+\end{definition}
+
+\begin{definition}[Concrete signature package]
+The concrete signature package relation is defined by token introduction:
+\[
+  \PkgSig(\Pi,s,p)
+  \quad\Longleftrightarrow\quad
+  \TokIntro(\Pi,s,p).
+\]
+\end{definition}
+
+\begin{definition}[Concrete package-sameness policy]
+For the signature-token instance, package-sameness is generated only from history-sameness of source signatures:
+\[
+  \TokIntro(\Pi,s,p),\quad
+  \TokIntro(\Pi,t,q),\quad
+  \hsame(s,t)
+  \quad\Rightarrow\quad
+  \psame(p,q).
+\]
+No additional package-sameness constructors are admitted for the concrete signature-token instance.
+\end{definition}
+
+\begin{theorem}[Package reflection for signature tokens]
+\label{thm:v15-package-reflection}
+Assume the concrete package-sameness policy above is closed-generated. If
+\[
+  \TokIntro(\Pi,s,p),\qquad
+  \TokIntro(\Pi,t,q),\qquad
+  \psame(p,q),
+\]
+then
+\[
+  \hsame(s,t).
+\]
+\end{theorem}
+
+\begin{proof}
+By the closed-generation clause for concrete package-sameness, every derivation of \(\psame(p,q)\) between signature tokens must arise from a derivation of \(\hsame(s,t)\) between their generating signatures. Therefore the required \(\hsame(s,t)\) is recovered by inversion on the package-sameness derivation.
+\end{proof}
+
+\begin{corollary}[Concrete package equivalence is signature-grounded]
+In the signature-token instance, visible package equality up to \(\psame\) carries no information beyond internal sameness of answer histories.
+\end{corollary}
+
+\begin{proof}
+The forward direction is Theorem~\ref{thm:v15-package-reflection}. The reverse direction is exactly the introduction rule for concrete package-sameness.
+\end{proof}

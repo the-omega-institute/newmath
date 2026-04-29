@@ -1,0 +1,35 @@
+\chapter{Asking Events and Policies}
+
+\section{Asking events}
+
+\begin{definition}[Probe names and evidence tokens]
+\(\PN\) is a syntactic class of probe names. \(\Ev\) is a syntactic class of evidence tokens. Neither is assumed to be a set of functions or a set of proofs.
+\end{definition}
+
+\begin{definition}[Asking event]
+An asking event is a judgment
+\[
+\Ask(\pi,h,m,\delta),
+\]
+where \(\pi:\PN\), \(h:\Hist\), \(m:\Mark\), and \(\delta:\Ev\). It is read: asking probe name \(\pi\) of history \(h\) emits mark \(m\) with evidence token \(\delta\).
+\end{definition}
+
+\section{Asking policies}
+
+\begin{definition}[Asking policy]
+An asking policy \(\AskPol(\Pi,D)\) for a bundle \(\Pi\) over a source specification \(D\) consists of:
+\begin{enumerate}
+  \item totality: every admitted history in \(D\) has generated asking events for every probe in \(\Pi\);
+  \item mark determinacy: if \(\Ask(\pi,h,m,\delta)\) and \(\Ask(\pi,h,n,\theta)\), then \(\msame(m,n)\);
+  \item evidence composability: evidence tokens produced by sequential asking can be combined into a signature evidence token;
+  \item history-respect: if \(\hsame(h,k)\), then asking results agree up to \(\msame\) whenever both are generated.
+\end{enumerate}
+The word ``consists'' is a metalanguage description of a certificate record; the object-language content is the availability of these certified properties.
+\end{definition}
+
+\begin{lemma}[Asking determinacy]
+Under an asking policy, a fixed probe name applied to a fixed history emits a mark unique up to \(\msame\).
+\end{lemma}
+\begin{proof}
+This is the mark determinacy field of \(\AskPol\).
+\end{proof}

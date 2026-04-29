@@ -1,0 +1,39 @@
+\chapter{First Derived Interfaces}
+
+\section{Unary repetition}
+
+\begin{definition}[Unary repetition histories]
+Unary repetition histories are histories generated from \(\emp\) by repeated \(\Eone\)-extension.
+\end{definition}
+
+\begin{proposition}[Unary repetition is closed under continuation]
+If \(h\) and \(k\) are unary repetition histories and \(\ContR(h,k,r)\), then \(r\) is a unary repetition history.
+\end{proposition}
+\begin{proof}
+Induct on the derivation of \(\ContR(h,k,r)\). The empty case returns \(k\). The only extension case possible for unary repetition is the \(\Eone\)-case, which preserves unary repetition by the induction hypothesis.
+\end{proof}
+
+\begin{corollary}[Natural-number-like interface seed]
+Unary repetition histories with their continuation behavior license a minimal \(\NatUp\) interface seed. This is not a full arithmetic theory and does not import primitive natural numbers.
+\end{corollary}
+
+\begin{corollary}[Addition-like interface seed]
+Continuation of unary repetition histories licenses a minimal \(\AddUp\) interface seed. Associativity follows from continuation associativity, and the empty history supplies the unit behavior.
+\end{corollary}
+
+\section{Stable transformations}
+
+\begin{definition}[Stable transformation]
+A stable transformation between packaged interfaces is a generated transformation behavior that preserves package-sameness and carries a ledger policy.
+\end{definition}
+
+\begin{theorem}[Stable transformations descend to packages]
+If a generated transformation sends signature-same source histories to package-same target histories, then it descends to a derived transformation interface between package tokens.
+\end{theorem}
+\begin{proof}
+The descent condition says that the visible result depends only on the source package, not on the chosen representative source history. Therefore the transformation is licensed at the package level, with its gap ledger recording the source representative information suppressed by the descent.
+\end{proof}
+
+\begin{corollary}[Function-like interfaces are derived]
+A \(\FuncUp\) interface is a derived name for stable transformations. It is not an internal primitive.
+\end{corollary}

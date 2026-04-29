@@ -1,0 +1,15 @@
+\chapter{v1.5.5 Summary}
+\label{ch:v155-summary}
+
+The v1.5.5 increment is not a theory expansion. It is a check-target hardening release.
+
+\begin{enumerate}
+  \item It replaces prose exactness by the predicate \(\ExactGlobalizeBase(\Pi,D)\).
+  \item It introduces \(\GeneratedSameSig(\Pi,h,k)\) as the explicit history-side predicate used in the classification theorem.
+  \item It keeps \(\psame_{\Pi}^{\mathrm{base}}\) as the active exact relation.
+  \item It keeps \(\psame_{\Pi}^{\mathrm{eq}}\) deferred and records a proof route for \(\ClosureReflect(\Pi)\) without exporting it.
+  \item It names the first machine targets: \texttt{PsameBase.inversion}, \texttt{TokUnique.tokenReplacement}, \texttt{PackageReflection.base}, and \texttt{Globalize.exactBase}.
+  \item It includes a Lean-style scaffold, but explicitly records that machine verification remains pending.
+\end{enumerate}
+
+The next release should not add \(\RealUp\), \(\CircleUp\), \(\FoldUp\), or any higher interface. It should either check the base reflection spine or report precisely why a proof target failed.

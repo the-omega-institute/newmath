@@ -1,0 +1,18 @@
+\chapter{Proof Obligation Patch Manifest v1.5.1}
+\label{ch:v151-manifest}
+
+This increment is a proof-obligation patch. It does not add new derived objects, it does not rewrite the frozen core, and it does not expand the real-like, circle-like, fold-like, or completion-like layers. Its purpose is to distinguish information that is already safe to freeze from information that remains an active obligation before machine verification.
+
+\paragraph{Patch principle.}
+A statement may be treated as \emph{frozen} only when it follows directly from displayed constructors, already stated policies, or explicitly named paper proofs. A statement that depends on a missing inversion principle, token reflection clause, domain transport clause, or auxiliary induction lemma is not frozen; it is recorded as a proof obligation.
+
+\paragraph{Live corrections.}
+This patch refines the v1.5 concrete-instance layer in three narrow places:
+\begin{enumerate}
+  \item source-domain behavior is collected into a \(\DomainPolicy(D)\);
+  \item token introduction and package-sameness behavior are collected into a \(\PkgTokPol(\Pi)\);
+  \item unary commutativity is decomposed into smaller proof obligations instead of being treated as a single opaque paper proof.
+\end{enumerate}
+
+\paragraph{No expansion rule.}
+The patch is not a new theory layer. It is a correctness filter for the already live concrete finite-kernel instance.

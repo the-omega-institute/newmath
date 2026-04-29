@@ -1,0 +1,27 @@
+
+\chapter*{Project Preface}
+\addcontentsline{toc}{chapter}{Project Preface}
+This project reorganizes the Binary Emission Discovery Calculus into a durable, incremental LaTeX project. The purpose is to stop producing isolated papers and instead maintain one master source tree with a single compiled PDF.
+
+The organizing principle is:
+\[
+\text{frozen core} + \text{incremental proof modules} + \text{separate implementation contracts}.
+\]
+
+The frozen core is not rewritten casually. New work should enter as additional chapters, appendices, or proof sprint modules. If the core must change, the change should be recorded in the version manifest and accompanied by a migration note.
+
+\paragraph{Layer discipline.}
+The theoretical core uses BEDC terminology and derived-interface notation. Implementation-facing text is placed in a separate part. This prevents the host language of a later proof assistant from contaminating the object theory.
+
+\paragraph{Current frozen baseline.}
+This master project uses BEDC v10 as the frozen finite-kernel target and BEDC v10.1 as the first proof-sprint layer.
+
+
+\section*{v1.1 Update}
+
+This v1.1 master project keeps the finite kernel theory frozen while adding incremental hardening modules. The added modules clarify package policies, gap policies, composite ledgers, naming-certificate instances, and machine-checkable milestones. They are intentionally appended rather than merged into the frozen core.
+
+
+\section*{v1.2 Update}
+
+This v1.2 master project improves project navigation and governance without rewriting the frozen core. It adds a Reader's Roadmap, a Normative Status Table, a Migration and Supersession Index, a finite-kernel theorem dependency DAG, and a Build and Verification Log. The purpose is to clarify which modules are frozen, which modules are active, and which proof milestones should be executed first.

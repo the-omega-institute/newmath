@@ -1,0 +1,8 @@
+\section{Layer separation}
+
+The implementation has two layers:
+\begin{enumerate}
+\item Host layer: the proof assistant's type theory, inductive types, equality, and functions used to encode BEDC.
+\item BEDC layer: the internal relations exposed by the library: \texttt{MSame}, \texttt{HSame}, \texttt{Ext}, \texttt{Cont}, \texttt{Ask}, \texttt{SigRel}, \texttt{SameSig}, \texttt{InGap}, and certificate records.
+\end{enumerate}
+Host equality may be used to implement constructors and proofs, but it must not be advertised as BEDC internal equality.

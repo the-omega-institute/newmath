@@ -1,0 +1,28 @@
+\section{Name certificates}
+
+\begin{definition}[Typed naming certificate]
+A name certificate is a record
+\[
+\NameCert(N)=(\mathsf{SourceSpec},\mathsf{PatternSpec},\mathsf{ClassifierSpec},\mathsf{StabilityCert},\mathsf{LedgerPolicy}).
+\]
+It licenses a derived name \(N\).  A name without such a certificate is not admitted as a derived interface.
+\end{definition}
+
+\begin{definition}[Stability certificate modes]
+The stability component may include closure, reuse, descent, composition, or seal certificates:
+\[
+\mathsf{ClosureCert},\quad
+\mathsf{ReuseCert},\quad
+\mathsf{DescentCert},\quad
+\mathsf{CompositionCert},\quad
+\mathsf{SealCert}.
+\]
+Different derived interfaces require different stability modes.
+\end{definition}
+
+\begin{theorem}[Derived interfaces require certificates]
+No derived interface is licensed unless a corresponding \(\NameCert\) is supplied.
+\end{theorem}
+\begin{proof}
+This is the admission protocol for derived names.  A bare traditional name is not a kernel object.  It becomes an admitted derived interface only through a certificate specifying source, pattern, classifier, stability, and ledger policy.
+\end{proof}

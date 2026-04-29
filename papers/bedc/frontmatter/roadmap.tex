@@ -1,0 +1,40 @@
+\chapter*{Reader's Roadmap}
+\addcontentsline{toc}{chapter}{Reader's Roadmap}
+
+This master volume is maintained as an append-only research project. It combines frozen theory, active proof targets, hardening notes, and implementation-facing material in one PDF while keeping their roles distinct.
+
+\section*{How to read this volume}
+
+\begin{longtable}{p{0.24\textwidth}p{0.66\textwidth}}
+\toprule
+\textbf{Reader goal} & \textbf{Recommended route}\\
+\midrule
+Understand the theory & Read the Preface, Version Manifest, Part I, and Part III. Part I is the frozen finite-kernel baseline; Part III records current hardening refinements.\\
+Follow the proof plan & Read Part II, then Chapter~\ref{ch:theorem-dependency-dag}. Part II gives the finite-kernel proof target; the dependency chapter gives the execution order.\\
+Understand the current project state & Read the Version Manifest, Normative Status Table, Project Governance, Migration Index, and Changelog.\\
+Prepare implementation work & Read Part IV and Appendix~\ref{app:lean-scaffold}. Part IV is an external implementation contract, not part of the core object theory.\\
+Extend the book & Add new material under \texttt{parts/} or \texttt{appendices/}; do not rewrite frozen files unless a migration note is created.\\
+\bottomrule
+\end{longtable}
+
+\section*{Layer warning}
+
+This volume intentionally separates four layers:
+\begin{enumerate}
+  \item \textbf{Core theory}: clean-room BEDC object-theory specification.
+  \item \textbf{Proof target}: theorem statements and proof plans for the finite kernel.
+  \item \textbf{Implementation-facing contract}: external guidance for a future proof-assistant encoding.
+  \item \textbf{Project governance}: versioning, migration, and maintenance rules.
+\end{enumerate}
+Terms such as ``model'', ``theorem'', ``table'', ``implementation'', and ``module'' belong to the explanatory metalanguage unless explicitly introduced as BEDC-derived interfaces.
+
+\section*{Current live edge}
+
+The live edge of this master project is not the reconstruction of all traditional mathematics. The live edge is the finite-kernel proof path:
+\[
+\msame\to \hsame\to \ExtR/\ContR\to \Sig\to \sameSig\to \PkgPol/\GapPol\to \CompGap\to \NameCert.
+\]
+Large derived interfaces such as \(\RealUp\), \(\CircleUp\), and \(\FoldUp\) remain thin interfaces or future extension modules until the finite kernel is mechanically checked.
+
+\section*{v1.4 Reading Note}
+The v1.4 concrete-instance layer should be read after the Proof Standing and Hardening parts. It is the first place where the abstract package/gap/name-certificate interfaces are inhabited by concrete paper-level constructions.

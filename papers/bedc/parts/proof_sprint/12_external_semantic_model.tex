@@ -1,0 +1,12 @@
+\section{External semantic model}
+
+\begin{definition}[Binary external model]
+An external model \(\mathcal M_{\mathsf{bin}}\) interprets raw marks as two external tokens, histories as finite binary words, \(\MSame\) and \(\HSame\) as literal token and word sameness, \(\Ext\) and \(\Cont\) as ordinary word extension and concatenation, asking events as binary-valued external relations, signatures as generated answer words, packages as signature classes, gaps as inverse images, and composite gaps as relational composition of inverse images.
+\end{definition}
+
+\begin{theorem}[External model soundness, finite kernel]
+The external model \(\mathcal M_{\mathsf{bin}}\) satisfies the finite kernel rules for marks, histories, internal sameness, extension, continuation, asking events, generated signatures, package policies, gap coverage, gap separation, and composite gap coverage.
+\end{theorem}
+\begin{proof}
+Each kernel clause is interpreted by the corresponding operation on finite binary words.  Mark and history sameness become literal sameness.  Extension and continuation become word extension and concatenation, whose determinacy, unit, and associativity properties are immediate in the external model.  Signature policies interpret generated questioning as answer-word construction.  Package and gap policies interpret classes as fibers of signatures.  Composite gap coverage follows from relational composition of fibers.
+\end{proof}
