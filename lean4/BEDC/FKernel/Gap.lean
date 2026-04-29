@@ -105,8 +105,12 @@ theorem internalized_gap_separation
 
 theorem gap_separation_globalize
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
-    AskPolicy (InDom D) -> InGapSig bundle D p h -> InGapSig bundle D q h -> psame bundle p q := by
+    AskPolicy (InDom D) →
+      InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q := by
+  intro askPolicy hp hq
   exact internalized_gap_separation
+    (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
+    askPolicy hp hq
 
 theorem gap_coverage :
     ∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
