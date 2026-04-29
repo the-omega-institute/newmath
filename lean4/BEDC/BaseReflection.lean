@@ -147,6 +147,20 @@ theorem PsameBase_iff_hsame_under_tok_unique
     intro same
     exact PsameBase.intro left right same
 
+theorem PsameBase_trans_under_tok_unique
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {p q r : s.Pkg} :
+    PsameBase s P p q → PsameBase s P q r → PsameBase s P p r := by
+  intro leftBase rightBase
+  cases leftBase with
+  | intro leftTok middleTokLeft leftSame =>
+      cases rightBase with
+      | intro middleTokRight rightTok rightSame =>
+          have middleSame := tok.tokenReplacement middleTokLeft middleTokRight
+          exact PsameBase.intro leftTok rightTok
+            (eqv.trans leftSame (eqv.trans middleSame rightSame))
+
 theorem PackageReflection_eqClosure
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
