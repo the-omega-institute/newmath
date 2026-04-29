@@ -24,6 +24,13 @@ structure TokUnique (s : BaseReflectionSetup) (P : s.Pi) : Prop where
   tokenReplacement : ∀ {x y p},
     s.TokIntro P x p → s.TokIntro P y p → s.hsame x y
 
+theorem TokUnique_replacement
+    {s : BaseReflectionSetup} {P : s.Pi} (tok : TokUnique s P)
+    {x y : s.SigObj} {p : s.Pkg} :
+    s.TokIntro P x p -> s.TokIntro P y p -> s.hsame x y := by
+  intro left right
+  exact tok.tokenReplacement left right
+
 def PolicyTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Prop := TokUnique s P
 
 structure CanonicalTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Type where
