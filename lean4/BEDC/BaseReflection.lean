@@ -310,6 +310,14 @@ theorem ExactGlobalizeBase_soundness_exports_base
   intro hp hq gen
   exact ex.soundness h k p q hp hq gen
 
+theorem ExactGlobalizeBase_completeness
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
+    {h k : s.Hist} {p q : s.Pkg} :
+    s.InGapSig P D p h → s.InGapSig P D q k →
+    PsameBase s P p q → Nonempty (GeneratedSameSig s P h k) := by
+  intro hp hq base
+  exact ex.completeness h k p q hp hq base
+
 theorem ExactGlobalizeBase_from_fields
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (coverage : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h)
