@@ -246,6 +246,55 @@ theorem exact_concrete_globalize
         (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
         packagePolicy hp hq hpq
 
+theorem internalized_globalize_classifies_by_signatures
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
+    (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle)
+    (hp : InGapSig bundle D p h) (hq : InGapSig bundle D q k) :
+    psame bundle p q ↔
+      ∃ s : BHist, ∃ t : BHist,
+        SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t := by
+  constructor
+  · intro hpq
+    exact internalized_globalize_completeness
+      (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+      packagePolicy hp hq hpq
+  · intro hsig
+    unfold InGapSig at hp
+    unfold InGapSig at hq
+    cases hp with
+    | intro hIn hpSig =>
+        cases hq with
+        | intro kIn hqSig =>
+            cases hpSig with
+            | intro u huData =>
+                cases hqSig with
+                | intro v hvData =>
+                    cases huData with
+                    | intro huSig hpTok =>
+                        cases hvData with
+                        | intro hvSig hqTok =>
+                            cases hsig with
+                            | intro s hsRest =>
+                                cases hsRest with
+                                | intro t htRest =>
+                                    cases htRest with
+                                    | intro hs htail =>
+                                        cases htail with
+                                        | intro ht hst =>
+                                            have hsu : hsame s u :=
+                                              sig_deterministic
+                                                (bundle := bundle) (D := InDom D)
+                                                (h := h) (s := s) (t := u)
+                                                askPolicy hIn hs huSig
+                                            have htv : hsame t v :=
+                                              sig_deterministic
+                                                (bundle := bundle) (D := InDom D)
+                                                (h := k) (s := t) (t := v)
+                                                askPolicy kIn ht hvSig
+                                            have huv : hsame u v :=
+                                              hsame_trans (hsame_symm hsu) (hsame_trans hst htv)
+                                            exact packagePolicy.soundness hpTok hqTok huv
+
 omit [AskSetup] [PackageSetup] in
 theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D h → hsame h k → InDom D k := by

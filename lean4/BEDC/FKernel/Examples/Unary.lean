@@ -59,6 +59,15 @@ def UnaryBundle : ProbeBundle ProbeName := .Bcons () .Bnil
 def UnaryDomain : Domain := ()
 def UnaryName : DerivedName := ()
 
+theorem nat_up_name_certificate_exists : Nonempty (NameCert UnaryName) := by
+  exact Nonempty.intro {
+    sourceSpec := ()
+    patternSpec := ()
+    classifierSpec := ()
+    stabilityCert := ()
+    ledgerPolicy := ()
+  }
+
 theorem unary_addition_seed : True := True.intro
 
 theorem unary_append_e1_left :
