@@ -20,7 +20,7 @@ when the following BEDC-level behavior is supplied.
 \end{definition}
 
 \begin{theorem}[Domain transport]
-\label{thm:v151-domain-transport}
+\label{thm:domain-transport}
 Assume \(\DomainPolicy(D)\). If
 \[
   \InDom(D,h)
@@ -42,7 +42,7 @@ Under \(\DomainPolicy(D)\), the source side of the concrete signature gap is inv
 \end{corollary}
 
 \begin{proof}
-Immediate from Theorem~\ref{thm:v151-domain-transport}. The other parts of a concrete gap, namely signature generation and token introduction, require their own policies and are not bundled into domain transport.
+Immediate from Theorem~\ref{thm:domain-transport}. The other parts of a concrete gap, namely signature generation and token introduction, require their own policies and are not bundled into domain transport.
 \end{proof}
 
 \begin{remark}[Active reading]
@@ -65,7 +65,7 @@ This is not a set-membership statement. It is a domain judgment licensed by the 
 \end{definition}
 
 \begin{lemma}[Unary is transported by history-sameness]
-\label{lem:v152-unary-transport}
+\label{lem:unary-transport}
 If
 \[
   \Unary(h),\qquad \hsame(h,k),
@@ -85,14 +85,14 @@ For the step case, the unary derivation has the form \(\Unary(h_0)\Rightarrow\Un
 \end{proof}
 
 \begin{theorem}[Unary source satisfies DomainPolicy]
-\label{thm:v152-unary-domain-policy}
+\label{thm:unary-domain-policy}
 \[
   \mathsf{DomainPolicy}(\mathsf{UnarySource}).
 \]
 \end{theorem}
 
 \begin{proof}
-Assume \(\InDom(\mathsf{UnarySource},h)\) and \(\hsame(h,k)\). By definition of \(\mathsf{UnarySource}\), the first premise is \(\Unary(h)\). Lemma~\ref{lem:v152-unary-transport} gives \(\Unary(k)\), hence \(\InDom(\mathsf{UnarySource},k)\).
+Assume \(\InDom(\mathsf{UnarySource},h)\) and \(\hsame(h,k)\). By definition of \(\mathsf{UnarySource}\), the first premise is \(\Unary(h)\). Lemma~\ref{lem:unary-transport} gives \(\Unary(k)\), hence \(\InDom(\mathsf{UnarySource},k)\).
 \end{proof}
 
 \begin{corollary}[Unary-domain gaps may transport sources]
@@ -100,7 +100,7 @@ Any concrete gap theorem whose source domain is \(\mathsf{UnarySource}\) may use
 \end{corollary}
 
 \begin{proof}
-Immediate from Theorem~\ref{thm:v152-unary-domain-policy} and Lemma~\ref{thm:v151-domain-transport}.
+Immediate from Theorem~\ref{thm:unary-domain-policy} and Lemma~\ref{thm:domain-transport}.
 \end{proof}
 
 \begin{remark}[Proof status]

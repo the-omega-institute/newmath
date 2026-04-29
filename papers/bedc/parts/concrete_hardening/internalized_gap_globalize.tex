@@ -29,7 +29,7 @@ It is the active concrete finite-kernel Globalize instance.
 \end{definition}
 
 \begin{theorem}[Internalized gap coverage]
-\label{thm:v15-gap-coverage}
+\label{thm:gap-coverage-concrete}
 Assume \(\AskPol(\Pi,D)\) and assume that every generated signature has an introduced token. If \(\InDom(D,h)\), then there exists a token \(p\) such that
 \[
   \InGapSig(\Pi,D,p,h).
@@ -45,7 +45,7 @@ By token existence, obtain \(p\) with \(\TokIntro(\Pi,s,p)\). These data witness
 \end{proof}
 
 \begin{theorem}[Internalized gap separation]
-\label{thm:v15-gap-separation}
+\label{thm:gap-separation-concrete}
 Assume \(\AskPol(\Pi,D)\), concrete token existence, and concrete package reflection. If
 \[
   \InGapSig(\Pi,D,p,h)
@@ -80,12 +80,12 @@ Let signatures \(s,t\) be generated from the two histories and suppose \(\hsame(
 \end{proof}
 
 \begin{theorem}[Concrete Globalize completeness]
-\label{thm:v15-globalize-completeness}
+\label{thm:globalize-completeness}
 Assume concrete package reflection. If two histories generate package-same visible tokens in \(\GlobSig(\Pi,D)\), then their generated signatures are internally same.
 \end{theorem}
 
 \begin{proof}
-The histories generate signatures \(s,t\) and tokens \(p,q\). The hypothesis gives \(\psame(p,q)\). By Theorem~\ref{thm:v15-package-reflection}, \(\hsame(s,t)\).
+The histories generate signatures \(s,t\) and tokens \(p,q\). The hypothesis gives \(\psame(p,q)\). By Theorem~\ref{thm:package-reflection}, \(\hsame(s,t)\).
 \end{proof}
 
 \begin{corollary}[Concrete Globalize classifies exactly by signatures]
@@ -93,5 +93,5 @@ For the internalized signature-token instance, visible package sameness is equiv
 \end{corollary}
 
 \begin{proof}
-Soundness is the introduction direction. Completeness is Theorem~\ref{thm:v15-globalize-completeness}.
+Soundness is the introduction direction. Completeness is Theorem~\ref{thm:globalize-completeness}.
 \end{proof}

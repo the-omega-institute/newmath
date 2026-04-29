@@ -7,7 +7,7 @@
 The reflection theorem is correct for the one-constructor concrete package-sameness relation. It must not be silently transferred to an equivalence closure. This chapter fixes the active design.
 
 \begin{definition}[Base concrete package-sameness]
-\label{def:v154-base-psame}
+\label{def:base-psame}
 For a fixed generated probe bundle \(\Pi\), the active concrete signature-token package-sameness relation is written
 \[
   \psame_{\Pi}^{\mathrm{base}}(p,q).
@@ -27,12 +27,12 @@ The active notation \(\psame_{\Pi}^{\mathrm{sig}}\) is identified with this base
 \end{definition}
 
 \begin{principle}[No implicit equivalence closure]
-\label{prin:v154-no-implicit-closure}
+\label{prin:no-implicit-closure}
 No theorem in the concrete signature Globalize instance may replace \(\psame_{\Pi}^{\mathrm{base}}\) by an equivalence closure without explicitly adding a closure-reflection theorem.
 \end{principle}
 
 \begin{definition}[Optional equivalence closure]
-\label{def:v154-psame-eq}
+\label{def:psame-eq}
 If a future package-algebra layer needs an equivalence relation, it must introduce a separate relation
 \[
   \psame_{\Pi}^{\mathrm{eq}}(p,q)
@@ -42,7 +42,7 @@ This relation is not the active relation for concrete Globalize exactness.
 \end{definition}
 
 \begin{definition}[Closure-reflection obligation]
-\label{def:v154-closure-reflection}
+\label{def:closure-reflection}
 The optional equivalence-closure relation is reflection-safe only if the following additional theorem is proved:
 \[
 \begin{aligned}
@@ -56,7 +56,7 @@ This obligation is named \(\ClosureReflect(\Pi)\).
 \end{definition}
 
 \begin{theorem}[Base reflection remains the active theorem]
-\label{thm:v154-base-reflection-active}
+\label{thm:base-reflection-active}
 Assume \(\TokUnique(\Pi)\). If
 \[
   \TokIntro(\Pi,s,p),\quad
@@ -70,16 +70,16 @@ then
 \end{theorem}
 
 \begin{proof}
-This is Theorem~\ref{thm:v153-package-reflection-token-unique} with the notation of Definition~\ref{def:v154-base-psame}. The only constructor of \(\psame_{\Pi}^{\mathrm{base}}\) exposes introducing signatures \(s_0,t_0\) with \(\hsame(s_0,t_0)\). Token-introduction uniqueness compares \(s\) with \(s_0\) and \(t\) with \(t_0\); symmetry and transitivity of \(\hsame\) finish the proof.
+This is Theorem~\ref{thm:package-reflection-token-unique} with the notation of Definition~\ref{def:base-psame}. The only constructor of \(\psame_{\Pi}^{\mathrm{base}}\) exposes introducing signatures \(s_0,t_0\) with \(\hsame(s_0,t_0)\). Token-introduction uniqueness compares \(s\) with \(s_0\) and \(t\) with \(t_0\); symmetry and transitivity of \(\hsame\) finish the proof.
 \end{proof}
 
 \begin{corollary}[Equivalence closure is not exported as exact]
-\label{cor:v154-eq-not-exported}
+\label{cor:eq-not-exported}
 The exact concrete Globalize theorem exports \(\psame_{\Pi}^{\mathrm{base}}\), not \(\psame_{\Pi}^{\mathrm{eq}}\). Exporting \(\psame_{\Pi}^{\mathrm{eq}}\) as exact is deferred until \(\ClosureReflect(\Pi)\) is checked.
 \end{corollary}
 
 \begin{proof}
-By Principle~\ref{prin:v154-no-implicit-closure}, equivalence closure is a separate construction. Definition~\ref{def:v154-closure-reflection} records the extra theorem required for reflection through that closure. Since no checked proof of that theorem is recorded here, only the base relation is exported as exact.
+By Principle~\ref{prin:no-implicit-closure}, equivalence closure is a separate construction. Definition~\ref{def:closure-reflection} records the extra theorem required for reflection through that closure. Since no checked proof of that theorem is recorded here, only the base relation is exported as exact.
 \end{proof}
 
 \section{Base Reflection Schema}
@@ -88,7 +88,7 @@ By Principle~\ref{prin:v154-no-implicit-closure}, equivalence closure is a separ
 This chapter isolates the smallest constructor-inversion chain needed for base package reflection. It is the first proof-check target in the present base-reflection contract.
 
 \begin{definition}[Base package witness data]
-\label{def:v155-psame-base-data}
+\label{def:psame-base-data}
 For fixed \(\Pi,p,q\), define the witness predicate
 \[
 \PBaseData(\Pi,p,q) :\Longleftrightarrow
@@ -97,7 +97,7 @@ For fixed \(\Pi,p,q\), define the witness predicate
 \end{definition}
 
 \begin{lemma}[Base constructor]
-\label{lem:v155-psame-base-constructor}
+\label{lem:psame-base-constructor}
 If
 \[
   \TokIntro(\Pi,s,p),\quad \TokIntro(\Pi,t,q),\quad \hsame(s,t),
@@ -109,11 +109,11 @@ then
 \end{lemma}
 
 \begin{proof}
-This is the single constructor of Definition~\ref{def:v154-base-psame}. The important checker rule is that no second public constructor may be added without changing the public contract.
+This is the single constructor of Definition~\ref{def:base-psame}. The important checker rule is that no second public constructor may be added without changing the public contract.
 \end{proof}
 
 \begin{lemma}[Base inversion]
-\label{lem:v155-psame-base-inversion}
+\label{lem:psame-base-inversion}
 \label{thm:psame-base-inversion}
 If \(\psame_{\Pi}^{\mathrm{base}}(p,q)\), then \(\PBaseData(\Pi,p,q)\).
 \end{lemma}
@@ -124,7 +124,7 @@ Invert the one-constructor inductive proof of \(\psame_{\Pi}^{\mathrm{base}}(p,q
 \end{proof}
 
 \begin{lemma}[Token replacement]
-\label{lem:v155-token-replacement}
+\label{lem:token-replacement-base}
 \label{thm:tok-unique-replacement}
 Assume \(\TokUnique(\Pi)\). If
 \[
@@ -134,11 +134,11 @@ then \(\hsame(s,t)\).
 \end{lemma}
 
 \begin{proof}
-This is the token-uniqueness field applied at the same visible package token \(p\). In a canonical-constructor implementation it may instead be obtained by the no-confusion theorem described in Definition~\ref{def:v154-canonical-mode}.
+This is the token-uniqueness field applied at the same visible package token \(p\). In a canonical-constructor implementation it may instead be obtained by the no-confusion theorem described in Definition~\ref{def:canonical-mode}.
 \end{proof}
 
 \begin{theorem}[Base package reflection]
-\label{thm:v155-base-package-reflection}
+\label{thm:base-package-reflection}
 \label{thm:package-reflection-base}
 Assume \(\TokUnique(\Pi)\). If
 \[
@@ -152,7 +152,7 @@ then
 \leanchecked{BEDC.BaseReflection.PackageReflection\_base}
 
 \begin{proof}
-By Lemma~\ref{lem:v155-psame-base-inversion}, choose witnesses \(s_0,t_0\) such that
+By Lemma~\ref{lem:psame-base-inversion}, choose witnesses \(s_0,t_0\) such that
 \[
   \TokIntro(\Pi,s_0,p),\quad \TokIntro(\Pi,t_0,q),\quad \hsame(s_0,t_0).
 \]
@@ -164,7 +164,7 @@ Token replacement at \(p\) gives \(\hsame(s,s_0)\). Token replacement at \(q\) g
 \end{proof}
 
 \begin{protocol}[Public theorem names]
-\label{prot:v155-public-base-reflection-names}
+\label{prot:public-base-reflection-names}
 The checker-facing theorem names for this spine are:
 \begin{center}
 \begin{tabular}{ll}
@@ -186,7 +186,7 @@ Base package reflection & \texttt{PackageReflection.base}\\
 The equivalence closure of the base package relation is useful for later package algebra, but it must not be confused with the active exact relation. This chapter records the optional proof target without exporting it.
 
 \begin{definition}[Equivalence closure target]
-\label{def:v155-psame-eq-target}
+\label{def:psame-eq-target}
 The optional relation remains
 \[
   \psame_{\Pi}^{\mathrm{eq}}(p,q) := \EqCl(\psame_{\Pi}^{\mathrm{base}})(p,q).
@@ -195,19 +195,19 @@ It is not part of \(\ExactGlobalizeBase(\Pi,D)\).
 \end{definition}
 
 \begin{protocol}[Closure-reflection proof route]
-\label{prot:v155-closure-reflection-route}
+\label{prot:closure-reflection-route}
 A future theorem \texttt{PackageReflection.eqClosure} should prove \(\ClosureReflect(\Pi)\) by induction over \(\EqCl(\psame_{\Pi}^{\mathrm{base}})\). The intended cases are:
 \begin{enumerate}
   \item reflexive case: use two introductions of the same token and \(\TokUnique(\Pi)\);
-  \item base-edge case: use Theorem~\ref{thm:v155-base-package-reflection};
+  \item base-edge case: use Theorem~\ref{thm:base-package-reflection};
   \item symmetric case: use symmetry of \(\hsame\);
   \item transitive case: use transitivity of \(\hsame\).
 \end{enumerate}
 \end{protocol}
 
 \begin{proposition}[Conditional closure-reflection schema]
-\label{prop:v155-conditional-closure-reflection-schema}
-Assume \(\hsame\) is an equivalence relation, assume \(\TokUnique(\Pi)\), and assume \(\psame_{\Pi}^{\mathrm{eq}}\) is implemented as the ordinary reflexive-symmetric-transitive closure of \(\psame_{\Pi}^{\mathrm{base}}\). Then the proof route of Protocol~\ref{prot:v155-closure-reflection-route} is sufficient to prove
+\label{prop:conditional-closure-reflection-schema}
+Assume \(\hsame\) is an equivalence relation, assume \(\TokUnique(\Pi)\), and assume \(\psame_{\Pi}^{\mathrm{eq}}\) is implemented as the ordinary reflexive-symmetric-transitive closure of \(\psame_{\Pi}^{\mathrm{base}}\). Then the proof route of Protocol~\ref{prot:closure-reflection-route} is sufficient to prove
 \[
 \begin{aligned}
   &\TokIntro(\Pi,s,p),\quad \TokIntro(\Pi,t,q),\quad \psame_{\Pi}^{\mathrm{eq}}(p,q)\\
@@ -217,14 +217,14 @@ Assume \(\hsame\) is an equivalence relation, assume \(\TokUnique(\Pi)\), and as
 \end{proposition}
 
 \begin{proof}
-Induct on the derivation of \(\psame_{\Pi}^{\mathrm{eq}}(p,q)\). The reflexive case compares two introductions of one token by token uniqueness. The base-edge case is Theorem~\ref{thm:v155-base-package-reflection}. The symmetric case reverses the induction result by symmetry of \(\hsame\). The transitive case composes the two induction results by transitivity of \(\hsame\).
+Induct on the derivation of \(\psame_{\Pi}^{\mathrm{eq}}(p,q)\). The reflexive case compares two introductions of one token by token uniqueness. The base-edge case is Theorem~\ref{thm:base-package-reflection}. The symmetric case reverses the induction result by symmetry of \(\hsame\). The transitive case composes the two induction results by transitivity of \(\hsame\).
 \end{proof}
 
 \begin{corollary}[Still not active]
-\label{cor:v155-closure-still-not-active}
-Proposition~\ref{prop:v155-conditional-closure-reflection-schema} is a paper-level proof schema. It does not activate \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness unless a future checked report records the actual theorem and imports it into the export contract.
+\label{cor:closure-still-not-active}
+Proposition~\ref{prop:conditional-closure-reflection-schema} is a paper-level proof schema. It does not activate \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness unless a future checked report records the actual theorem and imports it into the export contract.
 \end{corollary}
 
 \begin{proof}
-The active export discipline is Protocol~\ref{prot:v154-export-discipline} together with Corollary~\ref{cor:v155-no-closure-export}. A proof schema is not a checked artifact.
+The active export discipline is Protocol~\ref{prot:export-discipline} together with Corollary~\ref{cor:no-closure-export}. A proof schema is not a checked artifact.
 \end{proof}
