@@ -72,6 +72,11 @@ theorem PsameEqClosure_base_inclusion
   intro base
   exact PsameEqClosure.base base
 
+theorem PsameEqClosure_base_intro {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameBase s P p q → PsameEqClosure s P p q := by
+  intro base
+  exact PsameEqClosure.base base
+
 def ClosureReflect (s : BaseReflectionSetup) (P : s.Pi) : Prop :=
   ∀ {x y : s.SigObj} {p q : s.Pkg},
     s.TokIntro P x p → s.TokIntro P y q → PsameEqClosure s P p q → s.hsame x y

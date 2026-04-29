@@ -41,6 +41,11 @@ theorem hsame_e1_congr {h k : BHist} : hsame h k -> hsame (.e1 h) (.e1 k) := by
   cases hs
   rfl
 
+theorem hsame_e0_inversion {h x : BHist} : hsame (.e0 h) x → ∃ k : BHist, x = .e0 k ∧ hsame h k := by
+  intro hs
+  cases hs
+  exact Exists.intro h (And.intro rfl rfl)
+
 theorem not_hsame_emp_e0 : ∀ {h : BHist}, hsame .Empty (.e0 h) → False := by
   intro h hs
   cases hs
