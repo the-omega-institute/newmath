@@ -27,9 +27,8 @@
 - `papers/bedc/` — BEDC LaTeX 论文 (现行态)
 - `papers/bedc/parts/project_governance/theory_amendment_policy.tex` — 持续发展规则
 - `papers/bedc/parts/project_governance/HOW_INCREMENT_WORKS.md` — 增量配方
-- `papers/bedc/{claim-registry,correspondence}` — 论文 ↔ Lean 验证元数据
+- `lean4/scripts/bedc_ci.py` — paper-Lean drift 审计 (`\leanchecked{X}` X 必须真存在)
 - `tools/check-axioms.py` — axiom 禁用审计脚本 (CI gate)
-- `tools/audit-allowlists/` — label / macro / correspondence 退役清单
 
 ---
 
@@ -104,7 +103,7 @@
 
 - 每个 Lean 目标在论文中**只标注一次**(primary site, 即定理首次形式化处)
 - `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex §41.4` 是例外: 5 个 base-reflection 目标的"一站式"摘要块
-- 状态变化时 (sorry → checked, def → checked) 同一 commit 更新 marker、`correspondence.md`、`claim-registry.md`
+- 状态变化时 (sorry → checked, def → checked) 同一 commit 更新 marker; `bedc_ci.py audit` 强制 `\leanchecked{X}` 的 X 在 Lean 真存在
 
 ---
 
@@ -121,11 +120,9 @@
 新增一个理论增量 (新定理或新概念) 的标准流程见 `HOW_INCREMENT_WORKS.md`:
 
 1. 把新章节追加到对应 `papers/bedc/parts/<theme>/` 目录
-2. 在 `claim-registry.md` 添加新 `\label{ch:...}` 行 (含 granularity)
-3. 在 `lean4/BEDC/...` 添加对应 Lean 目标 (`def` / `theorem` / 新增 inductive 构造子)
-4. 在论文章节调用对应 `\leanchecked` 系列宏
-5. 如新增 base-reflection 类目标, 同步更新 `correspondence.md`
-6. `lake build` + `make` + `check-axioms.py` 三过
+2. 在 `lean4/BEDC/...` 添加对应 Lean 目标 (`def` / `theorem` / 新增 inductive 构造子)
+3. 在论文章节调用对应 `\leanchecked` 系列宏
+4. `lake build` + `make` + `check-axioms.py` + `bedc_ci.py audit` 四过
 
 ## label 命名
 
@@ -141,9 +138,10 @@
 ## 完整本地验证
 
 ```bash
-cd lean4 && lake build           # 0 axiom, 0 sorry, 15 jobs OK
-cd papers/bedc && make           # pdflatex 双趟, 120 页 PDF
-python3 tools/check-axioms.py    # 0 in source, 0 in registry
+cd lean4 && lake build                       # 0 axiom, 0 sorry, 15 jobs OK
+cd papers/bedc && make                       # pdflatex 双趟, 120 页 PDF
+python3 tools/check-axioms.py                # axiom 禁用审计
+python3 lean4/scripts/bedc_ci.py audit       # paper ↔ Lean drift 审计
 ```
 
 四项全 exit 0 才算 ship 标准.
@@ -175,7 +173,7 @@ python3 tools/check-axioms.py    # 0 in source, 0 in registry
 
 ## III. 显式依赖链
 
-- 论文章节、定理目标与 Lean 命题对应关系记录在 `correspondence.md`
+- 论文 `\leanchecked{X}` 与 Lean 命题对应关系由 `bedc_ci.py audit` 强制 (X 必须在 lean4/BEDC/ 真存在, 否则 audit fail)
 - 跨层引用须经 `\autoref{ch:...}` 解析, 不留 dangling
 - 论文中的 `\leanchecked` 状态须与 Lean 实现一致 (CI 审计)
 

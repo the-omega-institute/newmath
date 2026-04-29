@@ -29,12 +29,12 @@ Use `lake_gate.py` for ALL `lake` calls in this round. Do NOT invoke `lake` dire
 
 If errors occur, fix them before continuing. If a target is stuck, choose a different one rather than leaving partial code behind.
 
-## Step 3: Paper and metadata registration
+## Step 3: Paper marker registration
 After `lake build` passes:
-1. Add `\leanchecked{Lean.target.name}` at the primary site in `papers/bedc/parts/` (escape underscores as `\_`).
-2. If the target is part of the base-reflection correspondence table, update `papers/bedc/correspondence.md`.
-3. Update `papers/bedc/claim-registry.md` with the theorem-grained row.
-4. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
+1. Add `\leanchecked{Lean.target.name}` at the primary site in `papers/bedc/parts/` (escape underscores as `\_`). Use `\leanstmt` / `\leandef` for statement-only or definition-only entries.
+2. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
+
+The `bedc_ci.py audit` will fail if a `\leanchecked{X}` references X not present in `lean4/BEDC/`.
 
 ## Step 4: Full verification
 All of the following must exit 0 before commit:

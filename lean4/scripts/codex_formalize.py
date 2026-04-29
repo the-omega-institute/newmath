@@ -530,17 +530,15 @@ def _codex_resolve_conflicts(
         Two parallel formalization rounds modified shared files:
         - lean4/BEDC.lean: both rounds may add `import` lines — keep ALL imports from both sides
         - papers/bedc/parts/*.tex: both rounds may add \\leanchecked / \\leanstmt / \\leandef lines — keep all valid marker lines
-        - papers/bedc/{claim-registry,correspondence,dependency}.md/json: keep additive metadata rows and edges from both sides
 
         ## Instructions
         1. For each conflicted file, read it and resolve the conflict markers
         2. The resolution strategy is ALWAYS "keep both sides' additions"
         3. For BEDC.lean: merge all import lines (union, no duplicates)
-        4. For papers/bedc metadata files: keep both rounds' additive entries
-        5. For .tex files: keep all valid \\leanchecked / \\leanstmt / \\leandef lines
-        6. After resolving, run: git add <file> for each resolved file
-        7. Then run: git rebase --continue
-        8. Do NOT run git push
+        4. For .tex files: keep all valid \\leanchecked / \\leanstmt / \\leandef lines
+        5. After resolving, run: git add <file> for each resolved file
+        6. Then run: git rebase --continue
+        7. Do NOT run git push
 
         Resolve ALL conflicts and complete the rebase.
     """)

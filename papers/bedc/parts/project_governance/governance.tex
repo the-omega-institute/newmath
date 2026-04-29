@@ -3,7 +3,7 @@
 
 This paper is the BEDC theory source of truth, and amendments are made in place; see Chapter~\ref{ch:theory-amendment-policy} for the amendment policy and \texttt{HOW\_INCREMENT\_WORKS.md} for the companion editing recipe.
 
-The repository remains intentionally small: one paper tree and one Lean tree. Chapter-level and section-level claims are tracked in \texttt{claim-registry.md}. Lean-facing theorem status is rendered by the \texttt{\textbackslash leanchecked} family of macros and aligned with \texttt{correspondence.md}.
+The repository remains intentionally small: one paper tree and one Lean tree. Lean-facing theorem status is rendered by the \texttt{\textbackslash leanchecked} family of macros at each primary site, and the audit \texttt{lean4/scripts/bedc\_ci.py audit} enforces that every macro target resolves to a real declaration in \texttt{lean4/BEDC/}.
 
 \begin{remark}
 The master PDF should remain the public artifact. The source tree should remain the authoritative editable artifact.

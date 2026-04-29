@@ -30,7 +30,6 @@ REPO_ROOT = LEAN_ROOT.parent
 BEDC_ROOT = LEAN_ROOT / "BEDC"
 PAPER_ROOT = REPO_ROOT / "papers" / "bedc"
 PAPER_PARTS_ROOT = PAPER_ROOT / "parts"
-CLAIM_REGISTRY = PAPER_ROOT / "claim-registry.md"
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -284,27 +283,6 @@ def collect_part_labels() -> list[dict[str, object]]:
     return out
 
 
-def collect_registry_labels() -> list[dict[str, object]]:
-    text = read_text(CLAIM_REGISTRY)
-    out: list[dict[str, object]] = []
-    for raw_line in text.splitlines():
-        if not raw_line.startswith("|"):
-            continue
-        cols = [c.strip() for c in raw_line.strip().split("|")[1:-1]]
-        if not cols or cols[0] in {"claim_id", "----------"}:
-            continue
-        if len(cols) < 2:
-            continue
-        label = cols[1]
-        if ":" not in label:
-            continue
-        source_file = cols[3] if len(cols) >= 4 else ""
-        include = source_file.startswith("parts/") or label.startswith("thm:")
-        if include:
-            out.append({"label": label, "source_file": source_file})
-    return out
-
-
 def collect_lean_markers() -> list[LeanMarkerRecord]:
     markers: list[LeanMarkerRecord] = []
     for path in tex_files():
@@ -325,13 +303,11 @@ def inventory_payload(
     declarations: Iterable[DeclarationRecord],
     fields: Iterable[FieldRecord],
     part_labels: Iterable[dict[str, object]],
-    registry_labels: Iterable[dict[str, object]],
     markers: Iterable[LeanMarkerRecord],
 ) -> dict[str, object]:
     decls = list(declarations)
     field_list = list(fields)
     part_label_list = list(part_labels)
-    registry_label_list = list(registry_labels)
     marker_list = list(markers)
 
     return {
@@ -343,8 +319,6 @@ def inventory_payload(
         "declaration_kinds": dict(sorted(Counter(d.kind for d in decls).items())),
         "part_labels_total": len(part_label_list),
         "part_label_prefixes": dict(sorted(Counter(item["label"].split(":", 1)[0] for item in part_label_list if ":" in str(item["label"])).items())),
-        "registry_labels_total": len(registry_label_list),
-        "registry_label_prefixes": dict(sorted(Counter(item["label"].split(":", 1)[0] for item in registry_label_list if ":" in str(item["label"])).items())),
         "lean_markers_total": len(marker_list),
         "lean_marker_macros": dict(sorted(Counter(m.macro for m in marker_list).items())),
         "declarations": [
@@ -369,7 +343,6 @@ def inventory_payload(
             for f in field_list
         ],
         "paper_labels": part_label_list,
-        "registry_labels": registry_label_list,
         "lean_markers": [
             {
                 "file": m.file,
@@ -385,7 +358,6 @@ def inventory_payload(
 def audit_payload() -> dict[str, object]:
     declarations, fields = build_declaration_inventory()
     part_labels = collect_part_labels()
-    registry_labels = collect_registry_labels()
     markers = collect_lean_markers()
 
     forbidden: list[dict[str, object]] = []
@@ -396,12 +368,7 @@ def audit_payload() -> dict[str, object]:
     symbols.update(f.qualified_name for f in fields)
 
     part_label_names = [str(item["label"]) for item in part_labels]
-    registry_label_names = [str(item["label"]) for item in registry_labels]
-
-    missing_in_registry = sorted(set(part_label_names) - set(registry_label_names))
-    extra_in_registry = sorted(set(registry_label_names) - set(part_label_names))
     duplicate_part_labels = {label: count for label, count in Counter(part_label_names).items() if count > 1}
-    duplicate_registry_labels = {label: count for label, count in Counter(registry_label_names).items() if count > 1}
     missing_marker_targets = [
         {"file": m.file, "line": m.line, "macro": m.macro, "target": m.target}
         for m in markers
@@ -411,15 +378,10 @@ def audit_payload() -> dict[str, object]:
     return {
         "forbidden_constructs": forbidden,
         "forbidden_construct_count": len(forbidden),
-        "part_labels_missing_in_registry": missing_in_registry,
-        "part_labels_missing_in_registry_count": len(missing_in_registry),
-        "registry_labels_without_part_site": extra_in_registry,
-        "registry_labels_without_part_site_count": len(extra_in_registry),
         "duplicate_part_labels": duplicate_part_labels,
-        "duplicate_registry_labels": duplicate_registry_labels,
         "missing_marker_targets": missing_marker_targets,
         "missing_marker_targets_count": len(missing_marker_targets),
-        "inventory": inventory_payload(declarations, fields, part_labels, registry_labels, markers),
+        "inventory": inventory_payload(declarations, fields, part_labels, markers),
     }
 
 
@@ -445,21 +407,12 @@ def cmd_audit(args: argparse.Namespace) -> int:
             f" lean_files={inv['lean_files_scanned']}"
             f" declarations={inv['declarations_total']}"
             f" part_labels={inv['part_labels_total']}"
-            f" registry_labels={inv['registry_labels_total']}"
             f" lean_markers={inv['lean_markers_total']}"
         )
         if payload["forbidden_constructs"]:
             print(f"[bedc-ci] forbidden constructs: {payload['forbidden_construct_count']}")
             for item in payload["forbidden_constructs"][:50]:
                 print(f"  {item['file']}:{item['line']}:{item['column']}: {item['token']}")
-        if payload["part_labels_missing_in_registry"]:
-            print(f"[bedc-ci] paper labels not represented in claim-registry: {payload['part_labels_missing_in_registry_count']}")
-            for label in payload["part_labels_missing_in_registry"][:50]:
-                print(f"  {label}")
-        if payload["registry_labels_without_part_site"]:
-            print(f"[bedc-ci] registry labels without part-site match: {payload['registry_labels_without_part_site_count']}")
-            for label in payload["registry_labels_without_part_site"][:50]:
-                print(f"  {label}")
         if payload["missing_marker_targets"]:
             print(f"[bedc-ci] unresolved Lean markers: {payload['missing_marker_targets_count']}")
             for item in payload["missing_marker_targets"][:50]:
@@ -467,10 +420,8 @@ def cmd_audit(args: argparse.Namespace) -> int:
 
     failures = (
         payload["forbidden_construct_count"]
-        + payload["registry_labels_without_part_site_count"]
         + payload["missing_marker_targets_count"]
         + len(payload["duplicate_part_labels"])
-        + len(payload["duplicate_registry_labels"])
     )
     return 0 if failures == 0 else 1
 
@@ -481,7 +432,6 @@ def cmd_inventory(args: argparse.Namespace) -> int:
         declarations,
         fields,
         collect_part_labels(),
-        collect_registry_labels(),
         collect_lean_markers(),
     )
     if args.json:
@@ -493,7 +443,6 @@ def cmd_inventory(args: argparse.Namespace) -> int:
             f" declarations={payload['declarations_total']}"
             f" field_targets={payload['field_targets_total']}"
             f" part_labels={payload['part_labels_total']}"
-            f" registry_labels={payload['registry_labels_total']}"
             f" lean_markers={payload['lean_markers_total']}"
         )
     return 0
