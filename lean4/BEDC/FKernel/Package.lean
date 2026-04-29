@@ -119,4 +119,25 @@ def MinimalPackageSetup [AskSetup] : PackageSetup where
   Pkg := Unit
   TokIntro := fun _ _ _ => True
 
+def SignaturePackageSetup [AskSetup] : PackageSetup where
+  Pkg := BHist
+  TokIntro := fun _ s p => hsame s p
+
+omit P [AskSetup] in
+theorem signature_package_policy [A : AskSetup] (bundle : ProbeBundle ProbeName) :
+    @PackagePolicy A (@SignaturePackageSetup A) bundle := by
+  letI : PackageSetup := @SignaturePackageSetup A
+  exact PackagePolicy.mk
+    (by
+      intro s
+      exact ⟨s, hsame_refl s⟩)
+    (by
+      intro s t p q hst hp hq
+      exact psame.intro hp hq hst)
+    (by
+      intro p q hpq
+      cases hpq with
+      | intro hp hq hst =>
+          exact ⟨_, _, hp, hq, hst⟩)
+
 end BEDC.FKernel.Package

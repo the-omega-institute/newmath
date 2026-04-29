@@ -22,8 +22,10 @@ The external model \(\Mbin\) interprets:
 \end{definition}
 
 \begin{theorem}[External soundness of the finite kernel]
+\label{thm:external-finite-kernel-soundness}
 The external model \(\Mbin\) satisfies the mark, history, extension, continuation, signature, package, and gap rules of the finite kernel, assuming the chosen external asking events satisfy the stated asking policies.
 \end{theorem}
+\leanchecked{BEDC.FKernel.ExternalBinary.external\_finite\_kernel\_soundness}
 \begin{proof}
 Each rule is interpreted by the corresponding operation on finite binary words. Mark and history no-confusion follow from the distinct constructors of the external word model. Extension and continuation determinacy follow from deterministic token append and word concatenation. Signature determinacy follows from the asking policy. Package and gap coverage/separation follow from the interpretation of packages as signature classes and gaps as inverse images.
 \end{proof}

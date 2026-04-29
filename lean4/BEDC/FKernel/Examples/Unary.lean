@@ -58,9 +58,13 @@ theorem unary_domain_policy :
 def UnaryBundle : ProbeBundle ProbeName := .Bcons () .Bnil
 def UnaryDomain : Domain := ()
 def UnaryName : DerivedName := ()
+def AddName : DerivedName := ()
 
 theorem nat_up_name_certificate_exists : Nonempty (NameCert UnaryName) := by
   exact Nonempty.intro (NameCert_add_activation () () () () ())
+
+theorem add_up_name_certificate_exists : Nonempty (NameCert AddName) := by
+  exact Nonempty.intro (NameCert.mk () () () () ())
 
 theorem unary_addition_seed : True := True.intro
 
