@@ -34,7 +34,12 @@ echo "[4/6] Deleting .source/..."
 rm -rf .source
 
 echo "[5/6] Removing /.source/ line from .gitignore..."
-sed -i.bak '/^\\/\\.source\\/$/d' .gitignore
+# Cross-platform in-place edit: BSD sed on macOS needs '' after -i; GNU sed accepts -i.bak
+if sed --version >/dev/null 2>&1; then
+  sed -i.bak '/^\/\.source\/$/d' .gitignore
+else
+  sed -i '' '/^\/\.source\/$/d' .gitignore
+fi
 rm -f .gitignore.bak
 
 echo "[6/6] Re-running lake build + make to verify no .source dependency..."
