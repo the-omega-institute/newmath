@@ -28,6 +28,13 @@ inductive PsameBase (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → P
   | intro {x y : s.SigObj} {p q : s.Pkg} :
       s.TokIntro P x p → s.TokIntro P y q → s.hsame x y → PsameBase s P p q
 
+inductive PsameEqClosure (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop where
+  | refl {p : s.Pkg} : PsameEqClosure s P p p
+  | base {p q : s.Pkg} : PsameBase s P p q → PsameEqClosure s P p q
+  | symm {p q : s.Pkg} : PsameEqClosure s P p q → PsameEqClosure s P q p
+  | trans {p q r : s.Pkg} :
+      PsameEqClosure s P p q → PsameEqClosure s P q r → PsameEqClosure s P p r
+
 structure PBaseData (s : BaseReflectionSetup) (P : s.Pi) (p q : s.Pkg) : Type where
   x : s.SigObj
   y : s.SigObj
@@ -73,6 +80,25 @@ theorem PsameBase_iff_hsame_under_tok_unique
   case mpr =>
     intro same
     exact PsameBase.intro left right same
+
+theorem PackageReflection_eqClosure
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    (introOf : forall p : s.Pkg, Nonempty (Subtype (fun x : s.SigObj => s.TokIntro P x p)))
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
+    (closure : PsameEqClosure s P p q) : s.hsame x y := by
+  induction closure generalizing x y with
+  | refl =>
+      exact tok.tokenReplacement left right
+  | base base =>
+      exact PackageReflection_base eqv tok left right base
+  | symm closure ih =>
+      exact eqv.symm (ih right left)
+  | trans leftClosure rightClosure leftIH rightIH =>
+      cases introOf _ with
+      | intro middle =>
+          exact eqv.trans (leftIH left middle.property) (rightIH middle.property right)
 
 structure GeneratedSameSig (s : BaseReflectionSetup) (P : s.Pi) (h k : s.Hist) : Type where
   leftSigObj : s.SigObj

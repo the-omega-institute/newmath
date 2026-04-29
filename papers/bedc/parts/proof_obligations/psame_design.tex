@@ -183,7 +183,7 @@ Base package reflection & \texttt{PackageReflection.base}\\
 \section{Optional Closure Reflection Target}
 \label{sec:po-closure-reflection-target}
 
-The equivalence closure of the base package relation is useful for later package algebra, but it must not be confused with the active exact relation. This chapter records the optional proof target without exporting it.
+The equivalence closure of the base package relation is useful for package algebra, but it must not be confused with the active exact relation. This chapter records the closure relation and its conditional reflection theorem without exporting it as exactness.
 
 \begin{definition}[Equivalence closure target]
 \label{def:psame-eq-target}
@@ -191,12 +191,13 @@ The optional relation remains
 \[
   \psame_{\Pi}^{\mathrm{eq}}(p,q) := \EqCl(\psame_{\Pi}^{\mathrm{base}})(p,q).
 \]
+\leandef{BEDC.BaseReflection.PsameEqClosure}
 It is not part of \(\ExactGlobalizeBase(\Pi,D)\).
 \end{definition}
 
 \begin{protocol}[Closure-reflection proof route]
 \label{prot:closure-reflection-route}
-A future theorem \texttt{PackageReflection.eqClosure} should prove \(\ClosureReflect(\Pi)\) by induction over \(\EqCl(\psame_{\Pi}^{\mathrm{base}})\). The intended cases are:
+The theorem \texttt{PackageReflection.eqClosure} proves \(\ClosureReflect(\Pi)\) by induction over \(\EqCl(\psame_{\Pi}^{\mathrm{base}})\). The proof cases are:
 \begin{enumerate}
   \item reflexive case: use two introductions of the same token and \(\TokUnique(\Pi)\);
   \item base-edge case: use Theorem~\ref{thm:base-package-reflection};
@@ -207,24 +208,25 @@ A future theorem \texttt{PackageReflection.eqClosure} should prove \(\ClosureRef
 
 \begin{proposition}[Conditional closure-reflection schema]
 \label{prop:conditional-closure-reflection-schema}
-Assume \(\hsame\) is an equivalence relation, assume \(\TokUnique(\Pi)\), and assume \(\psame_{\Pi}^{\mathrm{eq}}\) is implemented as the ordinary reflexive-symmetric-transitive closure of \(\psame_{\Pi}^{\mathrm{base}}\). Then the proof route of Protocol~\ref{prot:closure-reflection-route} is sufficient to prove
+Assume \(\hsame\) is an equivalence relation, assume \(\TokUnique(\Pi)\), assume every package has an introducing signature witness, and assume \(\psame_{\Pi}^{\mathrm{eq}}\) is implemented as the ordinary reflexive-symmetric-transitive closure of \(\psame_{\Pi}^{\mathrm{base}}\). Then the proof route of Protocol~\ref{prot:closure-reflection-route} proves
 \[
 \begin{aligned}
   &\TokIntro(\Pi,s,p),\quad \TokIntro(\Pi,t,q),\quad \psame_{\Pi}^{\mathrm{eq}}(p,q)\\
   &\hspace{3cm}\Longrightarrow\quad \hsame(s,t).
 \end{aligned}
 \]
+\leanchecked{BEDC.BaseReflection.PackageReflection\_eqClosure}
 \end{proposition}
 
 \begin{proof}
-Induct on the derivation of \(\psame_{\Pi}^{\mathrm{eq}}(p,q)\). The reflexive case compares two introductions of one token by token uniqueness. The base-edge case is Theorem~\ref{thm:base-package-reflection}. The symmetric case reverses the induction result by symmetry of \(\hsame\). The transitive case composes the two induction results by transitivity of \(\hsame\).
+Induct on the derivation of \(\psame_{\Pi}^{\mathrm{eq}}(p,q)\). The reflexive case compares two introductions of one token by token uniqueness. The base-edge case is Theorem~\ref{thm:base-package-reflection}. The symmetric case reverses the induction result by symmetry of \(\hsame\). The transitive case chooses an introducing signature witness for the middle package and composes the two induction results by transitivity of \(\hsame\).
 \end{proof}
 
 \begin{corollary}[Still not active]
 \label{cor:closure-still-not-active}
-Proposition~\ref{prop:conditional-closure-reflection-schema} is a paper-level proof schema. It does not activate \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness unless a future checked report records the actual theorem and imports it into the export contract.
+Proposition~\ref{prop:conditional-closure-reflection-schema} is a checked local reflection theorem for introduced tokens. It does not activate \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness or change the exported relation of \(\ExactGlobalizeBase(\Pi,D)\).
 \end{corollary}
 
 \begin{proof}
-The active export discipline is Protocol~\ref{prot:export-discipline} together with Corollary~\ref{cor:no-closure-export}. A proof schema is not a checked artifact.
+The active export discipline is Protocol~\ref{prot:export-discipline} together with Corollary~\ref{cor:no-closure-export}. The exactness predicate continues to name \(\psame_{\Pi}^{\mathrm{base}}\) as its package relation.
 \end{proof}

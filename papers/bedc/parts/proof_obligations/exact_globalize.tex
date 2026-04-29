@@ -127,19 +127,19 @@ The following statements are not exported:
 \begin{enumerate}
   \item \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness;
   \item package-sameness transitivity as a constructor-level theorem for \(\psame_{\Pi}^{\mathrm{base}}\);
-  \item equivalence-closure reflection;
+  \item equivalence-closure exactness as a Globalize export;
   \item a checked \(\AddUp\) implementation artifact;
   \item a full natural-number or addition construction beyond the licensed unary-continuation interface.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-Each item requires either an equivalence-closure theorem, an implementation artifact, or a derived-object construction that is outside the declared scope of this verification contract. Thus each is deferred.
+Each item requires an exactness predicate whose exported relation is not \(\psame_{\Pi}^{\mathrm{base}}\), an implementation artifact, or a derived-object construction that is outside the declared scope of this verification contract.
 \end{proof}
 
 \begin{protocol}[Export discipline]
 \label{prot:export-discipline}
-Future modules should cite Theorem~\ref{thm:exact-concrete-globalize} as the current exactness theorem. If a later module needs \(\psame_{\Pi}^{\mathrm{eq}}\), it must first add a chapter proving \(\ClosureReflect(\Pi)\) or explicitly downgrade its result from exact reflection to closure-level compatibility.
+Modules cite Theorem~\ref{thm:exact-concrete-globalize} as the current exactness theorem. If a module needs \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness, it must state an exactness predicate whose exported relation is \(\psame_{\Pi}^{\mathrm{eq}}\), or explicitly downgrade its result from exact reflection to closure-level compatibility.
 \end{protocol}
 
 \section{Checker-Friendly Exactness Predicate}
@@ -250,7 +250,7 @@ Theorem~\ref{thm:exact-globalize-base-target} exports exactness only at \(\psame
 \end{corollary}
 
 \begin{proof}
-The statement concludes \(\ExactGlobalizeBase(\Pi,D)\), whose relation field is \(\psame_{\Pi}^{\mathrm{base}}\) by Definition~\ref{def:exact-globalize-base}. The optional equivalence closure remains governed by \(\ClosureReflect(\Pi)\), which is not a checked theorem here.
+The statement concludes \(\ExactGlobalizeBase(\Pi,D)\), whose relation field is \(\psame_{\Pi}^{\mathrm{base}}\) by Definition~\ref{def:exact-globalize-base}. The optional equivalence closure has the local reflection theorem of Proposition~\ref{prop:conditional-closure-reflection-schema}; that theorem does not replace the relation field of \(\ExactGlobalizeBase(\Pi,D)\).
 \end{proof}
 
 \begin{protocol}[Acceptance gate for a checked report]
