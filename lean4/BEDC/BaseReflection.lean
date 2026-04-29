@@ -77,6 +77,13 @@ structure PBaseData (s : BaseReflectionSetup) (P : s.Pi) (p q : s.Pkg) : Type wh
   rightIntro : s.TokIntro P y q
   sigSame : s.hsame x y
 
+theorem PBaseData_to_PsameBase {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PBaseData s P p q → PsameBase s P p q := by
+  intro data
+  cases data with
+  | mk x y left right same =>
+      exact PsameBase.intro left right same
+
 theorem PsameBase_inversion {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PsameBase s P p q → Nonempty (PBaseData s P p q) := by
   intro h
@@ -225,6 +232,14 @@ structure ExactGlobalizeBase (s : BaseReflectionSetup) (P : s.Pi) (D : s.Domain)
   completeness : ∀ h k p q,
     s.InGapSig P D p h → s.InGapSig P D q k →
     PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)
+
+theorem ExactGlobalizeBase_soundness_exports_base
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
+    {h k : s.Hist} {p q : s.Pkg} :
+    s.InGapSig P D p h → s.InGapSig P D q k →
+    GeneratedSameSig s P h k → PsameBase s P p q := by
+  intro hp hq gen
+  exact ex.soundness h k p q hp hq gen
 
 theorem ExactGlobalizeBase_from_fields
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
