@@ -42,12 +42,18 @@ inductive PsameBase (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → P
   | intro {x y : s.SigObj} {p q : s.Pkg} :
       s.TokIntro P x p → s.TokIntro P y q → s.hsame x y → PsameBase s P p q
 
+abbrev PsameSig (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop := PsameBase s P
+
 inductive PsameEqClosure (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop where
   | refl {p : s.Pkg} : PsameEqClosure s P p p
   | base {p q : s.Pkg} : PsameBase s P p q → PsameEqClosure s P p q
   | symm {p q : s.Pkg} : PsameEqClosure s P p q → PsameEqClosure s P q p
   | trans {p q r : s.Pkg} :
       PsameEqClosure s P p q → PsameEqClosure s P q r → PsameEqClosure s P p r
+
+def ClosureReflect (s : BaseReflectionSetup) (P : s.Pi) : Prop :=
+  ∀ {x y : s.SigObj} {p q : s.Pkg},
+    s.TokIntro P x p → s.TokIntro P y q → PsameEqClosure s P p q → s.hsame x y
 
 structure PBaseData (s : BaseReflectionSetup) (P : s.Pi) (p q : s.Pkg) : Type where
   x : s.SigObj

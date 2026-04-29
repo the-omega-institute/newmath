@@ -84,6 +84,15 @@ theorem unary_cont_comm {h k r r' : BHist} :
   intro uh uk hr hr'
   exact hr.trans ((unary_append_comm uh uk).trans hr'.symm)
 
+theorem unary_shift_step {k0 h r' : BHist} :
+    UnaryHistory k0 →
+      (∀ {r : BHist}, Cont k0 (.e1 h) r →
+        ∃ v : BHist, Cont k0 h v ∧ hsame r (.e1 v)) →
+      Cont (.e1 k0) (.e1 h) r' →
+      ∃ v : BHist, Cont (.e1 k0) h v ∧ hsame r' (.e1 v) := by
+  intro _ _ hr'
+  exact ⟨append (.e1 k0) h, rfl, hr'⟩
+
 theorem unary_shift {k h r' : BHist} :
     UnaryHistory k → Cont k (.e1 h) r' →
       ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) := by
