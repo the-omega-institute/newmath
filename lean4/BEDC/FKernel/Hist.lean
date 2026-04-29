@@ -25,6 +25,11 @@ theorem hsame_trans : ∀ {a b c : BHist}, hsame a b → hsame b c → hsame a c
   intro a b c hab hbc
   exact hab.trans hbc
 
+theorem hsame_e1_congr {h k : BHist} : hsame h k -> hsame (.e1 h) (.e1 k) := by
+  intro hs
+  cases hs
+  rfl
+
 theorem not_hsame_emp_e0 : ∀ {h : BHist}, hsame .Empty (.e0 h) → False := by
   intro h hs
   cases hs

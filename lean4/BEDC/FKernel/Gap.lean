@@ -175,6 +175,33 @@ theorem policy_globalize_exact {bundle : ProbeBundle ProbeName} {s t : BHist} {p
   intro policy hp hq
   exact psame_iff_hsame policy hp hq
 
+theorem internalized_globalize_completeness
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
+    PackageTokenPolicy bundle -> InGapSig bundle D p h -> InGapSig bundle D q k ->
+      psame bundle p q ->
+      ∃ s : BHist, ∃ t : BHist,
+        SigRel bundle h s /\ SigRel bundle k t /\ hsame s t := by
+  intro packagePolicy hp hq hpq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro _ hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs hpTok =>
+                      cases htData with
+                      | intro ht hqTok =>
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro hs
+                                (And.intro ht
+                                  (packagePolicy.reflection hpTok hqTok hpq))))
+
 omit [AskSetup] [PackageSetup] in
 theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D h → hsame h k → InDom D k := by
