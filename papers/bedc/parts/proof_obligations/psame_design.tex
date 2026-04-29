@@ -77,11 +77,12 @@ This is Theorem~\ref{thm:package-reflection-token-unique} with the notation of D
 
 \begin{corollary}[Equivalence closure is not exported as exact]
 \label{cor:eq-not-exported}
-The exact concrete Globalize theorem exports \(\psame_{\Pi}^{\mathrm{base}}\), not \(\psame_{\Pi}^{\mathrm{eq}}\). Exporting \(\psame_{\Pi}^{\mathrm{eq}}\) as exact is deferred until \(\ClosureReflect(\Pi)\) is checked.
+The exact concrete Globalize theorem exports \(\psame_{\Pi}^{\mathrm{base}}\), not \(\psame_{\Pi}^{\mathrm{eq}}\). Reflection through \(\psame_{\Pi}^{\mathrm{eq}}\) requires the explicit hypothesis \(\ClosureReflect(\Pi)\).
 \end{corollary}
+\leanchecked{BEDC.BaseReflection.eqClosure\_export\_requires\_closure\_reflect}
 
 \begin{proof}
-By Principle~\ref{prin:no-implicit-closure}, equivalence closure is a separate construction. Definition~\ref{def:closure-reflection} records the extra theorem required for reflection through that closure. Since no checked proof of that theorem is recorded here, only the base relation is exported as exact.
+By Principle~\ref{prin:no-implicit-closure}, equivalence closure is a separate construction. Definition~\ref{def:closure-reflection} records the extra theorem required for reflection through that closure. The checked export theorem applies that predicate directly to the two token introductions and the closure proof, so the base relation remains the exact Globalize export.
 \end{proof}
 
 \section{Base Reflection Schema}

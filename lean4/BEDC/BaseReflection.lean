@@ -174,6 +174,13 @@ theorem ClosureReflect_from_eqClosure
   intro x y p q left right closure
   exact PackageReflection_eqClosure eqv tok introOf left right closure
 
+theorem eqClosure_export_requires_closure_reflect
+    {s : BaseReflectionSetup} {P : s.Pi} (reflect : ClosureReflect s P)
+    {x y : s.SigObj} {p q : s.Pkg} :
+    s.TokIntro P x p -> s.TokIntro P y q -> PsameEqClosure s P p q -> s.hsame x y := by
+  intro left right closure
+  exact reflect left right closure
+
 theorem StableReflectionContract
     {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s) :
     ((tok : PolicyTokenMode s P) ->

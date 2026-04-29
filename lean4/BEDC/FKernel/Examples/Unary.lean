@@ -60,13 +60,7 @@ def UnaryDomain : Domain := ()
 def UnaryName : DerivedName := ()
 
 theorem nat_up_name_certificate_exists : Nonempty (NameCert UnaryName) := by
-  exact Nonempty.intro {
-    sourceSpec := ()
-    patternSpec := ()
-    classifierSpec := ()
-    stabilityCert := ()
-    ledgerPolicy := ()
-  }
+  exact Nonempty.intro (NameCert.mk () () () () ())
 
 theorem unary_addition_seed : True := True.intro
 
@@ -174,6 +168,11 @@ theorem unary_commutativity_refined {h k r r' : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
   intro uh uk hr hr'
   exact unary_cont_comm uh uk hr hr'
+
+theorem unary_add_activation {h k r r' : BHist} :
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r' -> hsame r r' := by
+  intro uh uk hr hr'
+  exact unary_commutativity_refined uh uk hr hr'
 
 theorem unary_comm_from_obligations
     (rightShift : ∀ {k h r' : BHist}, UnaryHistory k → Cont k (.e1 h) r' → ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v))

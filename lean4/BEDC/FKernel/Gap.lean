@@ -295,6 +295,26 @@ theorem internalized_globalize_classifies_by_signatures
                                               hsame_trans (hsame_symm hsu) (hsame_trans hst htv)
                                             exact packagePolicy.soundness hpTok hqTok huv
 
+theorem exact_globalize_classifies_signatures
+    {bundle : ProbeBundle ProbeName} {D : Domain}
+    (askPolicy : AskPolicy (InDom D))
+    (packagePolicy : PackageTokenPolicy bundle)
+    (tokenExists : forall s : BHist, exists p : Pkg, TokIntro bundle s p) :
+    (forall {h : BHist}, InDom D h -> exists p : Pkg, InGapSig bundle D p h) /\
+    (forall {h k : BHist} {p q : Pkg},
+      InGapSig bundle D p h -> InGapSig bundle D q k ->
+        (psame bundle p q <->
+          exists s : BHist, exists t : BHist,
+            SigRel bundle h s /\ SigRel bundle k t /\ hsame s t)) := by
+  constructor
+  · intro h hIn
+    exact policy_gap_coverage
+      (bundle := bundle) (D := D) (h := h) askPolicy tokenExists hIn
+  · intro h k p q hp hq
+    exact internalized_globalize_classifies_by_signatures
+      (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+      askPolicy packagePolicy hp hq
+
 omit [AskSetup] [PackageSetup] in
 theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D h → hsame h k → InDom D k := by
