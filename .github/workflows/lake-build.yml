@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - 'lean4/**'
+      - 'tools/check-axioms.py'
   pull_request:
     paths:
       - 'lean4/**'
+      - 'tools/check-axioms.py'
 
 jobs:
   build:
@@ -19,3 +21,5 @@ jobs:
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Build Lean
         run: cd lean4 && lake build
+      - name: Audit axioms
+        run: python3 tools/check-axioms.py
