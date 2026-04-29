@@ -38,7 +38,7 @@ History formation and history-sameness are generated only by their displayed rul
 \begin{lemma}[History-sameness reflexivity]
 For every generated history \(h\), \(\hsame(h,h)\).
 \end{lemma}
-\leansorryd{BEDC.FKernel.Hist.hsame\_refl}{stub awaiting a checked proof}
+\leanchecked{BEDC.FKernel.Hist.hsame\_refl}
 \begin{proof}
 Induct on the generation of \(h\). The empty case uses the empty rule. The two extension cases use the induction hypothesis and the corresponding constructor rule for \(\hsame\).
 \end{proof}
@@ -46,7 +46,7 @@ Induct on the generation of \(h\). The empty case uses the empty rule. The two e
 \begin{lemma}[History-sameness symmetry]
 If \(\hsame(h,k)\), then \(\hsame(k,h)\).
 \end{lemma}
-\leansorryd{BEDC.FKernel.Hist.hsame\_symm}{stub awaiting a checked proof}
+\leanchecked{BEDC.FKernel.Hist.hsame\_symm}
 \begin{proof}
 Induct on the derivation of \(\hsame(h,k)\). Each constructor is symmetric by applying the induction hypothesis under the same history constructor.
 \end{proof}
@@ -54,7 +54,7 @@ Induct on the derivation of \(\hsame(h,k)\). Each constructor is symmetric by ap
 \begin{lemma}[History-sameness transitivity]
 If \(\hsame(h,k)\) and \(\hsame(k,l)\), then \(\hsame(h,l)\).
 \end{lemma}
-\leansorryd{BEDC.FKernel.Hist.hsame\_trans}{stub awaiting a checked proof}
+\leanchecked{BEDC.FKernel.Hist.hsame\_trans}
 \begin{proof}
 Induct on the first derivation. The empty case forces the second derivation to be the empty case by no-confusion. The \(\Ezero\) case forces the second derivation to also be an \(\Ezero\) case; apply the induction hypothesis to the inner histories and rebuild. The \(\Eone\) case is analogous.
 \end{proof}
@@ -75,9 +75,9 @@ The kernel does not generate any of the following cross-constructor identificati
 \]
 or their symmetric variants.
 \end{theorem}
-\leansorryd{BEDC.FKernel.Hist.not\_hsame\_emp\_e0}{stub awaiting a checked proof}
-\leansorryd{BEDC.FKernel.Hist.not\_hsame\_emp\_e1}{stub awaiting a checked proof}
-\leansorryd{BEDC.FKernel.Hist.not\_hsame\_e0\_e1}{stub awaiting a checked proof}
+\leanchecked{BEDC.FKernel.Hist.not\_hsame\_emp\_e0}
+\leanchecked{BEDC.FKernel.Hist.not\_hsame\_emp\_e1}
+\leanchecked{BEDC.FKernel.Hist.not\_hsame\_e0\_e1}
 \begin{proof}
 By closed generation, the only conclusions of \(\hsame\) have matching outer constructors. The displayed cross-constructor conclusions are not produced by any rule.
 \end{proof}

@@ -5,29 +5,36 @@ namespace BEDC.FKernel.Hist
 
 open BEDC.FKernel.Mark
 
+inductive BHist where
+  | Empty
+  | e0 (h : BHist)
+  | e1 (h : BHist)
+  deriving DecidableEq, Repr
 
-axiom BHist : Type
-axiom Empty : BHist
-axiom e0 : BHist → BHist
-axiom e1 : BHist → BHist
-axiom hsame : BHist → BHist → Prop
+def hsame : BHist → BHist → Prop := Eq
 
 theorem hsame_refl : ∀ h : BHist, hsame h h := by
-  sorry
+  intro h
+  rfl
 
 theorem hsame_symm : ∀ {h k : BHist}, hsame h k → hsame k h := by
-  sorry
+  intro h k hs
+  exact hs.symm
 
 theorem hsame_trans : ∀ {a b c : BHist}, hsame a b → hsame b c → hsame a c := by
-  sorry
+  intro a b c hab hbc
+  exact hab.trans hbc
 
-theorem not_hsame_emp_e0 : ∀ {h : BHist}, hsame Empty (e0 h) → False := by
-  sorry
+theorem not_hsame_emp_e0 : ∀ {h : BHist}, hsame .Empty (.e0 h) → False := by
+  intro h hs
+  cases hs
 
-theorem not_hsame_emp_e1 : ∀ {h : BHist}, hsame Empty (e1 h) → False := by
-  sorry
+theorem not_hsame_emp_e1 : ∀ {h : BHist}, hsame .Empty (.e1 h) → False := by
+  intro h hs
+  cases hs
 
-theorem not_hsame_e0_e1 : ∀ {h k : BHist}, hsame (e0 h) (e1 k) → False := by
-  sorry
+theorem not_hsame_e0_e1 : ∀ {h k : BHist}, hsame (.e0 h) (.e1 k) → False := by
+  intro h k hs
+  cases hs
 
 end BEDC.FKernel.Hist

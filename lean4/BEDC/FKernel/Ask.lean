@@ -7,10 +7,16 @@ namespace BEDC.FKernel.Ask
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Hist
 
+class AskSetup where
+  ProbeName : Type
+  Evidence : Type
+  Ask : ProbeName → BHist → BMark → Evidence → Prop
 
-axiom ProbeName : Type
-axiom Evidence : Type
-axiom Ask : ProbeName → BHist → BMark → Evidence → Prop
+variable [S : AskSetup]
+
+abbrev ProbeName : Type := S.ProbeName
+abbrev Evidence : Type := S.Evidence
+abbrev Ask : ProbeName → BHist → BMark → Evidence → Prop := S.Ask
 
 structure AskPolicy (D : BHist → Prop) : Prop where
   total :
@@ -21,5 +27,10 @@ structure AskPolicy (D : BHist → Prop) : Prop where
   respectsHistory :
     ∀ {π : ProbeName} {h k : BHist} {m n : BMark} {δ θ : Evidence},
       hsame h k → Ask π h m δ → Ask π k n θ → msame m n
+
+def MinimalAskSetup : AskSetup where
+  ProbeName := Unit
+  Evidence := Unit
+  Ask := fun _ _ _ _ => True
 
 end BEDC.FKernel.Ask

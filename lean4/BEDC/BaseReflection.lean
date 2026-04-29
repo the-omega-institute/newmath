@@ -1,112 +1,96 @@
-/-!
-BEDC base-reflection scaffold.
-
-This file is independent illustrative scaffolding for the paper-side
-base-reflection contract. It does not share types with the `BEDC.FKernel.*`
-modules and should be read as a separate abstract interface.
-
-Phase 1 acceptance: this file compiles in Lean 4 v4.28.0 (mathlib-free).
-
-The source manuscript at .source/lean/BEDC_v1_5_5_BaseReflection_Scaffold.lean
-self-described as "theorem-shape documentation, not a verified release artifact"
-and contains structural mismatches with strict Lean 4 type theory:
-
-  * `PBaseData` and `GeneratedSameSig` originally declared `: Prop` but carry
-    `SigObj`/`Evidence` (`Type`) fields. Lean 4 forbids such fields in a Prop
-    structure (proof irrelevance breaks). They are made `: Type` here.
-  * `PsameBase_inversion : PsameBase ... → PBaseData ...` would need large
-    elimination from a non-singleton Prop, which is unsound. Wrapped in
-    `Nonempty` to stay in Prop and stubbed `sorry`.
-  * Universe polymorphism (`Type u`) caused universe-mismatch errors inside
-    `ExactGlobalizeBase_classify_iff`. Pinned to `Type 0`.
-
-v0.2 will redesign these structures. For v0.1 the goal is `lake build` exit 0
-with sorry-d allowed.
--/
+/-! BEDC base-reflection scaffold. -/
 
 namespace BEDC.BaseReflection
 
-axiom Hist : Type
-axiom SigObj : Type
-axiom Pkg : Type
-axiom Pi : Type
-axiom Domain : Type
-axiom Evidence : Type
+structure BaseReflectionSetup where
+  Hist : Type
+  SigObj : Type
+  Pkg : Type
+  Pi : Type
+  Domain : Type
+  Evidence : Type
+  hsame : SigObj → SigObj → Prop
+  InDom : Domain → Hist → Prop
+  SigGen : Pi → Hist → SigObj → Evidence → Prop
+  TokIntro : Pi → SigObj → Pkg → Prop
+  InGapSig : Pi → Domain → Pkg → Hist → Prop
 
-axiom hsame : SigObj → SigObj → Prop
+structure HSameEquiv (s : BaseReflectionSetup) : Prop where
+  refl  : ∀ x, s.hsame x x
+  symm  : ∀ {x y}, s.hsame x y → s.hsame y x
+  trans : ∀ {x y z}, s.hsame x y → s.hsame y z → s.hsame x z
 
-structure HSameEquiv : Prop where
-  refl  : ∀ s, hsame s s
-  symm  : ∀ {s t}, hsame s t → hsame t s
-  trans : ∀ {r s t}, hsame r s → hsame s t → hsame r t
+structure TokUnique (s : BaseReflectionSetup) (P : s.Pi) : Prop where
+  tokenReplacement : ∀ {x y p},
+    s.TokIntro P x p → s.TokIntro P y p → s.hsame x y
 
-axiom InDom : Domain → Hist → Prop
-axiom SigGen : Pi → Hist → SigObj → Evidence → Prop
-axiom TokIntro : Pi → SigObj → Pkg → Prop
-axiom InGapSig : Pi → Domain → Pkg → Hist → Prop
+inductive PsameBase (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop where
+  | intro {x y : s.SigObj} {p q : s.Pkg} :
+      s.TokIntro P x p → s.TokIntro P y q → s.hsame x y → PsameBase s P p q
 
-structure TokUnique (P : Pi) : Prop where
-  tokenReplacement : ∀ {s t p},
-    TokIntro P s p → TokIntro P t p → hsame s t
+structure PBaseData (s : BaseReflectionSetup) (P : s.Pi) (p q : s.Pkg) : Type where
+  x : s.SigObj
+  y : s.SigObj
+  leftIntro : s.TokIntro P x p
+  rightIntro : s.TokIntro P y q
+  sigSame : s.hsame x y
 
-inductive PsameBase (P : Pi) : Pkg → Pkg → Prop where
-  | intro {s t : SigObj} {p q : Pkg} :
-      TokIntro P s p → TokIntro P t q → hsame s t → PsameBase P p q
-
-/-- Data record extracted from a `PsameBase` proof. Source had this as `Prop`
-with `Type` fields, which Lean 4 rejects; lifted to `Type`. -/
-structure PBaseData (P : Pi) (p q : Pkg) : Type where
-  s : SigObj
-  t : SigObj
-  leftIntro : TokIntro P s p
-  rightIntro : TokIntro P t q
-  sigSame : hsame s t
-
-/-- Stubbed at v0.1: extracting `Type` data from a `Prop` requires large
-    elimination of `PsameBase`, which is non-singleton (different `(s,t)`
-    inhabit different inductive constructors). Will be redesigned in v0.2. -/
-theorem PsameBase_inversion {P : Pi} {p q : Pkg} :
-    PsameBase P p q → Nonempty (PBaseData P p q) := by
-  sorry
+theorem PsameBase_inversion {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameBase s P p q → Nonempty (PBaseData s P p q) := by
+  intro h
+  cases h with
+  | intro left right same =>
+      exact Nonempty.intro {
+        x := _
+        y := _
+        leftIntro := left
+        rightIntro := right
+        sigSame := same
+      }
 
 theorem PackageReflection_base
-    {P : Pi} (eqv : HSameEquiv) (tok : TokUnique P)
-    {s t : SigObj} {p q : Pkg}
-    (left : TokIntro P s p) (right : TokIntro P t q)
-    (base : PsameBase P p q) : hsame s t := by
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
+    (base : PsameBase s P p q) : s.hsame x y := by
   cases base with
   | intro left0 right0 same0 =>
-      have s_to_s0 := tok.tokenReplacement left left0
-      have t_to_t0 := tok.tokenReplacement right right0
-      exact eqv.trans (eqv.trans s_to_s0 same0) (eqv.symm t_to_t0)
+      have x_to_x0 := tok.tokenReplacement left left0
+      have y_to_y0 := tok.tokenReplacement right right0
+      exact eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
 
-/-- Same structural reason as `PBaseData`: source had `: Prop` with `Type` fields. -/
-structure GeneratedSameSig (P : Pi) (h k : Hist) : Type where
-  s : SigObj
-  t : SigObj
-  de : Evidence
-  th : Evidence
-  leftSig : SigGen P h s de
-  rightSig : SigGen P k t th
-  sigSame : hsame s t
+structure GeneratedSameSig (s : BaseReflectionSetup) (P : s.Pi) (h k : s.Hist) : Type where
+  leftSigObj : s.SigObj
+  rightSigObj : s.SigObj
+  leftEvidence : s.Evidence
+  rightEvidence : s.Evidence
+  leftSig : s.SigGen P h leftSigObj leftEvidence
+  rightSig : s.SigGen P k rightSigObj rightEvidence
+  sigSame : s.hsame leftSigObj rightSigObj
 
-/-- `completeness` wraps `GeneratedSameSig` (a `Type`) in `Nonempty` so the
-    structure stays in `Prop`. Phrasing-equivalent to the source intent. -/
-structure ExactGlobalizeBase (P : Pi) (D : Domain) : Prop where
-  coverage : ∀ h, InDom D h → ∃ p, InGapSig P D p h
+structure ExactGlobalizeBase (s : BaseReflectionSetup) (P : s.Pi) (D : s.Domain) : Prop where
+  coverage : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h
   soundness : ∀ h k p q,
-    InGapSig P D p h → InGapSig P D q k →
-    GeneratedSameSig P h k → PsameBase P p q
+    s.InGapSig P D p h → s.InGapSig P D q k →
+    GeneratedSameSig s P h k → PsameBase s P p q
   completeness : ∀ h k p q,
-    InGapSig P D p h → InGapSig P D q k →
-    PsameBase P p q → Nonempty (GeneratedSameSig P h k)
+    s.InGapSig P D p h → s.InGapSig P D q k →
+    PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)
 
-/-- Stubbed at v0.1: depends on `PBaseData` Prop/Type tension above. v0.2 fix. -/
 theorem ExactGlobalizeBase_classify_iff
-    {P : Pi} {D : Domain} (ex : ExactGlobalizeBase P D)
-    {h k : Hist} {p q : Pkg}
-    (hp : InGapSig P D p h) (hq : InGapSig P D q k) :
-    PsameBase P p q ↔ Nonempty (GeneratedSameSig P h k) := by
-  sorry
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
+    {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k) := by
+  constructor
+  case mp =>
+    intro hbase
+    exact ex.completeness h k p q hp hq hbase
+  case mpr =>
+    intro hgen
+    cases hgen with
+    | intro hsig =>
+        exact ex.soundness h k p q hp hq hsig
 
 end BEDC.BaseReflection

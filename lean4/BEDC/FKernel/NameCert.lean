@@ -3,13 +3,22 @@ import BEDC.FKernel.Gap
 /-! Typed naming certificates license derived interfaces through five certified fields. -/
 namespace BEDC.FKernel.NameCert
 
+class NameCertSetup where
+  DerivedName : Type
+  SourceSpec : Type
+  PatternSpec : Type
+  ClassifierSpec : Type
+  StabilityCert : Type
+  LedgerPolicy : Type
 
-axiom DerivedName : Type
-axiom SourceSpec : Type
-axiom PatternSpec : Type
-axiom ClassifierSpec : Type
-axiom StabilityCert : Type
-axiom LedgerPolicy : Type
+variable [N : NameCertSetup]
+
+abbrev DerivedName : Type := N.DerivedName
+abbrev SourceSpec : Type := N.SourceSpec
+abbrev PatternSpec : Type := N.PatternSpec
+abbrev ClassifierSpec : Type := N.ClassifierSpec
+abbrev StabilityCert : Type := N.StabilityCert
+abbrev LedgerPolicy : Type := N.LedgerPolicy
 
 structure NameCert (N : DerivedName) : Type where
   sourceSpec : SourceSpec
@@ -17,5 +26,13 @@ structure NameCert (N : DerivedName) : Type where
   classifierSpec : ClassifierSpec
   stabilityCert : StabilityCert
   ledgerPolicy : LedgerPolicy
+
+def MinimalNameCertSetup : NameCertSetup where
+  DerivedName := Unit
+  SourceSpec := Unit
+  PatternSpec := Unit
+  ClassifierSpec := Unit
+  StabilityCert := Unit
+  LedgerPolicy := Unit
 
 end BEDC.FKernel.NameCert

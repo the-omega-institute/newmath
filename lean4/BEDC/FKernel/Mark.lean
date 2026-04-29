@@ -1,25 +1,31 @@
 /-! Raw marks and their internal sameness relation. -/
 namespace BEDC.FKernel.Mark
 
+inductive BMark where
+  | b0
+  | b1
+  deriving DecidableEq, Repr
 
-axiom BMark : Type
-axiom b0 : BMark
-axiom b1 : BMark
-axiom msame : BMark → BMark → Prop
+def msame : BMark → BMark → Prop := Eq
 
 theorem msame_refl : ∀ m : BMark, msame m m := by
-  sorry
+  intro m
+  rfl
 
 theorem msame_symm : ∀ {m n : BMark}, msame m n → msame n m := by
-  sorry
+  intro m n h
+  exact h.symm
 
 theorem msame_trans : ∀ {a b c : BMark}, msame a b → msame b c → msame a c := by
-  sorry
+  intro a b c hab hbc
+  exact hab.trans hbc
 
-theorem not_msame_b0_b1 : msame b0 b1 → False := by
-  sorry
+theorem not_msame_b0_b1 : msame .b0 .b1 → False := by
+  intro h
+  cases h
 
-theorem not_msame_b1_b0 : msame b1 b0 → False := by
-  sorry
+theorem not_msame_b1_b0 : msame .b1 .b0 → False := by
+  intro h
+  cases h
 
 end BEDC.FKernel.Mark
