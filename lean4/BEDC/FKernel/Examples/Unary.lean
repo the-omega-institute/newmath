@@ -88,6 +88,17 @@ theorem unary_cont_comm {h k r r' : BHist} :
   intro uh uk hr hr'
   exact hr.trans ((unary_append_comm uh uk).trans hr'.symm)
 
+theorem unary_continuation_associativity {a b c ab bc abc abc' : BHist} :
+    UnaryHistory a → UnaryHistory b → UnaryHistory c →
+    Cont a b ab → Cont b c bc → Cont ab c abc → Cont a bc abc' →
+    hsame abc abc' := by
+  intro _ _ _ hab hbc habc habc'
+  cases hab
+  cases hbc
+  cases habc
+  cases habc'
+  exact append_assoc a b c
+
 theorem comm_from_obligations
     (shift :
       ∀ {k h r : BHist}, UnaryHistory k → Cont k (.e1 h) r →

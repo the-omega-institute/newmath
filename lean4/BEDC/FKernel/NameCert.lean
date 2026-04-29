@@ -27,6 +27,11 @@ structure NameCert (N : DerivedName) : Type where
   stabilityCert : StabilityCert
   ledgerPolicy : LedgerPolicy
 
+theorem derived_interfaces_require_certificates {n : DerivedName} :
+    NameCert n -> Nonempty (NameCert n) := by
+  intro cert
+  exact ⟨cert⟩
+
 def MinimalNameCertSetup : NameCertSetup where
   DerivedName := Unit
   SourceSpec := Unit
