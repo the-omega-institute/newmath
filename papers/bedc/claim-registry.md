@@ -28,7 +28,7 @@
 | bedc:hardening:package-gap-policy-expansion | ch:hardening-package-gap-policy-expansion | chapter | parts/hardening/01_package_gap_policy_expansion.tex |
 | bedc:hardening:typed-name-certificate-instances | ch:hardening-typed-name-certificate-instances | chapter | parts/hardening/02_typed_name_certificate_instances.tex |
 | bedc:hardening:machine-checkable-milestones | ch:hardening-machine-checkable-milestones | chapter | parts/hardening/03_machine_checkable_milestones.tex |
-| bedc:project-governance:migration-index | ch:theory-amendment-policy | chapter | parts/project_governance/01_migration_index.tex |
+| bedc:project-governance:theory-amendment-policy | ch:theory-amendment-policy | chapter | parts/project_governance/theory_amendment_policy.tex |
 | bedc:project-governance:governance | ch:project-governance | chapter | parts/project_governance/governance.tex |
 | bedc:proof-obligations:domain-policy | ch:proof-obligations-domain-policy | chapter | parts/proof_obligations/domain_policy.tex |
 | bedc:proof-obligations:exact-globalize | ch:proof-obligations-exact-globalize | chapter | parts/proof_obligations/exact_globalize.tex |

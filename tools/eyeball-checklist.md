@@ -28,7 +28,7 @@ Before .source/ deletion, the user must read each row, compare the new file agai
 | File | Source | Status |
 |---|---|---|
 | parts/project_governance/governance.tex | .source/BEDC_Master_Project_v1_5_5/parts/project_governance/00_version_governance.tex with active-mode header | OK 2026-04-29 |
-| parts/project_governance/migration_index.tex | .source/BEDC_Master_Project_v1_5_5/parts/project_governance/01_migration_index.tex with active-mode framing | OK 2026-04-29 |
+| parts/project_governance/theory_amendment_policy.tex | .source/BEDC_Master_Project_v1_5_5/parts/project_governance/01_theory_amendment_policy.tex with active-mode framing | OK 2026-04-29 |
 | parts/project_governance/HOW_INCREMENT_WORKS.md | NEW (no source) — verify recipe is concrete and complete | OK 2026-04-29 |
 
 ## Lean BaseReflection.lean
