@@ -1,0 +1,76 @@
+\chapter{Gap Policy}
+\label{ch:proof-obligations-gap-policy}
+
+\section{Consolidated Signature Gap Policy}
+\label{ch:v151-gap-policy}
+
+We now restate the concrete signature gap using the two policies introduced above. This chapter freezes what is safe and records the exact assumptions needed for coverage, separation, soundness, and completeness.
+
+\begin{definition}[Policy-supported signature gap]
+Given \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\), define
+\[
+  \InGapSig(\Pi,D,p,h)
+\]
+when there exist an answer history \(s\) and an evidence ledger \(\Delta\) such that
+\[
+  \InDom(D,h),
+  \qquad
+  \Sig(\Pi,h,s,\Delta),
+  \qquad
+  \TokIntro(\Pi,s,p).
+\]
+\end{definition}
+
+\begin{theorem}[Policy-supported gap coverage]
+\label{thm:v151-gap-coverage}
+Assume \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\). If
+\[
+  \InDom(D,h),
+\]
+then there exists a token \(p\) such that
+\[
+  \InGapSig(\Pi,D,p,h).
+\]
+\end{theorem}
+
+\begin{proof}
+From \(\AskPol(\Pi,D)\) and \(\InDom(D,h)\), obtain a generated signature event \(\Sig(\Pi,h,s,\Delta)\). From token existence in \(\PkgTokPol(\Pi)\), obtain \(p\) with \(\TokIntro(\Pi,s,p)\). These data witness \(\InGapSig(\Pi,D,p,h)\).
+\end{proof}
+
+\begin{theorem}[Policy-supported gap separation]
+\label{thm:v151-gap-separation}
+Assume \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\). If
+\[
+  \InGapSig(\Pi,D,p,h)
+  \quad\text{and}\quad
+  \InGapSig(\Pi,D,q,h),
+\]
+then
+\[
+  \psame(p,q).
+\]
+\end{theorem}
+
+\begin{proof}
+Unpack both gap memberships. We obtain signatures \(s,t\) and evidence ledgers \(\Delta,\Theta\) such that
+\[
+  \Sig(\Pi,h,s,\Delta),\qquad \TokIntro(\Pi,s,p),
+\]
+\[
+  \Sig(\Pi,h,t,\Theta),\qquad \TokIntro(\Pi,t,q).
+\]
+By signature determinacy supplied through \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). By package soundness in \(\PkgTokPol(\Pi)\), \(\psame(p,q)\).
+\end{proof}
+
+\begin{theorem}[Policy-supported concrete Globalize exactness]
+\label{thm:v151-globalize-exact}
+Under \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\), two introduced visible tokens are package-same exactly when their generating signatures are internally same.
+\end{theorem}
+
+\begin{proof}
+This is Theorem~\ref{thm:v151-psame-iff-hsame}; the domain and asking policies are needed to ensure that the tokens arise from admitted histories with generated signatures.
+\end{proof}
+
+\begin{corollary}[What is frozen]
+The concrete signature Globalize instance is frozen only as a policy-supported construction. Its exactness depends on \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\).
+\end{corollary}

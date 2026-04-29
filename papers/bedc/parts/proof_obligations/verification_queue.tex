@@ -1,0 +1,100 @@
+\chapter{Verification Queue}
+\label{ch:proof-obligations-verification-queue}
+
+\section{Concrete Verification Targets v1.5.2}
+\label{ch:v152-verification-targets}
+
+This chapter records the narrow verification targets introduced by v1.5.2. It is not a new theory layer. It is a checklist for turning the concrete-instance paper proofs into verified artifacts.
+
+\section{Domain targets}
+\begin{longtable}{p{0.32\textwidth}p{0.18\textwidth}p{0.34\textwidth}}
+\toprule
+\textbf{Target} & \textbf{Status} & \textbf{Purpose}\\
+\midrule
+\(\Unary\)-transport along \(\hsame\) & PaperProof & Supports \(\mathsf{DomainPolicy}(\mathsf{UnarySource})\).\\
+\(\mathsf{DomainPolicy}(\mathsf{UnarySource})\) & PaperProof & Provides the first concrete domain-policy instance.\\
+\bottomrule
+\end{longtable}
+
+\section{Package-token targets}
+\begin{longtable}{p{0.32\textwidth}p{0.18\textwidth}p{0.34\textwidth}}
+\toprule
+\textbf{Target} & \textbf{Status} & \textbf{Purpose}\\
+\midrule
+\(\TokIntro(\Pi,s,p)\) & ActiveInterface & Relationizes token creation.\\
+\(\psame_{\Pi}^{\mathrm{sig}}\) one-constructor rule & PaperProof & Makes no-extra-constructor explicit.\\
+Package soundness & PaperProof & Shows \(\hsame(s,t)\Rightarrow\psame(p,q)\).\\
+Package reflection & PaperProof & Shows \(\psame(p,q)\Rightarrow\hsame(s,t)\).\\
+Concrete PackageTokenPolicy & PolicyConstructed & Packages the preceding obligations.\\
+\bottomrule
+\end{longtable}
+
+\section{Unary additive targets}
+\begin{longtable}{p{0.32\textwidth}p{0.18\textwidth}p{0.34\textwidth}}
+\toprule
+\textbf{Target} & \textbf{Status} & \textbf{Purpose}\\
+\midrule
+\(\Eone\)-congruence & PaperProof & Allows prefixing internal sameness.\\
+Unary right-shift & ActiveObligation & Main auxiliary for commutativity.\\
+Unary continuation commutativity & ConditionalPaperProof & Licenses the additive name once right-shift is checked.\\
+\(\AddUp\) naming license & ConditionalLicense & Active only after commutativity is included.\\
+\bottomrule
+\end{longtable}
+
+\section{Immediate machine-check order}
+The recommended order is:
+\[
+\text{mark/history sameness}
+\to
+\text{continuation}
+\to
+\text{unary transport}
+\to
+\text{unary right-shift}
+\to
+\text{package-token reflection}
+\to
+\text{concrete gap exactness}.
+\]
+This order avoids depending on completion-like or large derived-object interfaces.
+
+\section{Verification Queue v1.5.4}
+\label{ch:v154-verification-queue}
+
+This queue turns the paper-level patch into public theorem targets. It is not a checked proof report. It is the minimal next machine-sprint contract.
+
+\begin{longtable}{p{0.27\textwidth}p{0.22\textwidth}p{0.38\textwidth}}
+\toprule
+\textbf{Target name} & \textbf{Status} & \textbf{Acceptance criterion}\\
+\midrule
+\texttt{PsameBase.intro} & SpecTarget & The only public constructor of \(\psame_{\Pi}^{\mathrm{base}}\).\\
+\texttt{PsameBase.inversion} & SpecTarget & Inverting \(\psame_{\Pi}^{\mathrm{base}}(p,q)\) exposes introducing signatures and their \(\hsame\) proof.\\
+\texttt{TokUnique.tokenReplacement} & SpecTarget & Same token plus two introductions implies \(\hsame\) of the two signatures.\\
+\texttt{PackageReflection.base} & SpecTarget & Reflection theorem for \(\psame_{\Pi}^{\mathrm{base}}\) under \(\TokUnique(\Pi)\).\\
+\texttt{PackageReflection.eqClosure} & Deferred & Must not be exported unless \(\ClosureReflect(\Pi)\) is proved.\\
+\texttt{Gap.coverage} & PaperProofTarget & Reprove using \(\InDom\), \(\AskPol\), \(\Sig\), and \(\TokIntro\).\\
+\texttt{Gap.separation} & PaperProofTarget & Reprove using generated-signature determinacy and the base constructor.\\
+\texttt{E1.congruence} & SpecTarget & \(\hsame(h,k)\Rightarrow\hsame(\Eone(h),\Eone(k))\).\\
+\texttt{UnaryShift.base} & SpecTarget & Empty-left source right-shift lemma.\\
+\texttt{UnaryShift.step} & SpecTarget & Inductive right-shift step with explicit \(\Eone\)-congruence and transitivity.\\
+\texttt{UnaryShift.theorem} & SpecTarget & Full unary right-shift by induction on \(\Unary(k)\).\\
+\texttt{UnaryComm.theorem} & SpecTarget & Unary continuation commutativity from right-shift and continuation inversion.\\
+\texttt{NameCert.Add.activation} & ConditionalTarget & \(\AddUp\) may be public only after \texttt{UnaryComm.theorem} is checked and included in the stability field.\\
+\bottomrule
+\end{longtable}
+
+\section{Sprint order}
+The next proof sprint should run in this order:
+\begin{enumerate}
+  \item define \(\psame_{\Pi}^{\mathrm{base}}\) with one public constructor;
+  \item prove base inversion;
+  \item prove token replacement from \(\TokUnique(\Pi)\);
+  \item prove base package reflection;
+  \item replay gap coverage and gap separation;
+  \item prove \(\Eone\)-congruence and unary right-shift;
+  \item prove unary continuation commutativity;
+  \item only then activate \(\AddUp\) in the public name-certificate table.
+\end{enumerate}
+
+\section{Checker hygiene}
+The implementation must not use host equality of histories as a substitute for \(\hsame\), host functions as a substitute for \(\TokIntro\), or host natural numbers as a substitute for \(\NatUp\). If such objects appear in the implementation language, they must remain representation devices rather than public BEDC primitives.

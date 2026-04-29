@@ -1,0 +1,108 @@
+\chapter{Domain Policy and Unary Instance}
+\label{ch:proof-obligations-domain-policy}
+
+\section{Domain Policy and Transport Obligations}
+\label{ch:v151-domain-policy}
+
+The v1.5 layer replaced the external-looking notation \(h\in D\) by the internal domain judgment \(\InDom(D,h)\). This chapter freezes the part that is purely notational and records the additional proof obligations needed for domain behavior.
+
+\begin{definition}[Domain policy]
+A source-domain name \(D\) is equipped with a domain policy, written
+\[
+  \DomainPolicy(D),
+\]
+when the following BEDC-level behavior is supplied.
+\begin{enumerate}
+  \item \textbf{Admission judgment.} Source membership is expressed only by \(\InDom(D,h)\).
+  \item \textbf{History transport.} If \(\InDom(D,h)\) and \(\hsame(h,k)\), then \(\InDom(D,k)\).
+  \item \textbf{No set-membership import.} No theorem in the active concrete layer may use the notation \(h\in D\) as an internal premise.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Domain transport]
+\label{thm:v151-domain-transport}
+Assume \(\DomainPolicy(D)\). If
+\[
+  \InDom(D,h)
+  \quad\text{and}\quad
+  \hsame(h,k),
+\]
+then
+\[
+  \InDom(D,k).
+\]
+\end{theorem}
+
+\begin{proof}
+This is the transport field of \(\DomainPolicy(D)\). The theorem is recorded separately because later gap arguments must cite it explicitly rather than silently treating \(D\) as a set.
+\end{proof}
+
+\begin{corollary}[Domain invariance of concrete source admission]
+Under \(\DomainPolicy(D)\), the source side of the concrete signature gap is invariant under internal history-sameness.
+\end{corollary}
+
+\begin{proof}
+Immediate from Theorem~\ref{thm:v151-domain-transport}. The other parts of a concrete gap, namely signature generation and token introduction, require their own policies and are not bundled into domain transport.
+\end{proof}
+
+\begin{remark}[Frozen information]
+It is now frozen that active concrete gap statements must use \(\InDom(D,h)\), not \(h\in D\). What is not automatically frozen is any claim that an arbitrary domain name satisfies \(\DomainPolicy(D)\). That must be supplied for each concrete domain.
+\end{remark}
+
+\section{Concrete Domain Policy for the Unary Source}
+\label{ch:v152-unary-domain-policy}
+
+\autoref{ch:v151-domain-policy} introduced \(\mathsf{DomainPolicy}(D)\) as the condition allowing \(\InDom(D,h)\) to be transported along internal history-sameness. This chapter records the first intended concrete instance: the unary source.
+
+\begin{definition}[Unary source domain]
+Let \(\mathsf{UnarySource}\) be the source-domain name whose internal domain judgment is
+\[
+  \InDom(\mathsf{UnarySource},h)
+  \quad\text{exactly when}\quad
+  \Unary(h).
+\]
+This is not a set-membership statement. It is a domain judgment licensed by the unary-generation rules.
+\end{definition}
+
+\begin{lemma}[Unary is transported by history-sameness]
+\label{lem:v152-unary-transport}
+If
+\[
+  \Unary(h),\qquad \hsame(h,k),
+\]
+then
+\[
+  \Unary(k).
+\]
+\end{lemma}
+
+\begin{proof}
+Proceed by induction on the derivation of \(\Unary(h)\).
+
+For the empty case, \(h\) is internally the empty history. Since \(\hsame(h,k)\), closed generation and no-confusion for \(\hsame\) force \(k\) to be internally the empty history. Hence \(\Unary(k)\).
+
+For the step case, the unary derivation has the form \(\Unary(h_0)\Rightarrow\Unary(\Eone(h_0))\). From \(\hsame(\Eone(h_0),k)\), constructor inversion for \(\hsame\) yields a history \(k_0\) such that \(k\) is internally \(\Eone(k_0)\) and \(\hsame(h_0,k_0)\). By the induction hypothesis, \(\Unary(k_0)\). Therefore \(\Unary(\Eone(k_0))\), and by internal sameness this is the required unary judgment for \(k\).
+\end{proof}
+
+\begin{theorem}[Unary source satisfies DomainPolicy]
+\label{thm:v152-unary-domain-policy}
+\[
+  \mathsf{DomainPolicy}(\mathsf{UnarySource}).
+\]
+\end{theorem}
+
+\begin{proof}
+Assume \(\InDom(\mathsf{UnarySource},h)\) and \(\hsame(h,k)\). By definition of \(\mathsf{UnarySource}\), the first premise is \(\Unary(h)\). Lemma~\ref{lem:v152-unary-transport} gives \(\Unary(k)\), hence \(\InDom(\mathsf{UnarySource},k)\).
+\end{proof}
+
+\begin{corollary}[Unary-domain gaps may transport sources]
+Any concrete gap theorem whose source domain is \(\mathsf{UnarySource}\) may use domain transport along \(\hsame\), provided no additional source-domain restriction is imposed.
+\end{corollary}
+
+\begin{proof}
+Immediate from Theorem~\ref{thm:v152-unary-domain-policy} and Lemma~\ref{thm:v151-domain-transport}.
+\end{proof}
+
+\begin{remark}[Proof status]
+This chapter should be treated as a paper-proof target for the next implementation sprint. Its machine proof depends on the no-confusion and inversion principles for \(\hsame\).
+\end{remark}

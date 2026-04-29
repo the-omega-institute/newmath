@@ -1,0 +1,265 @@
+\chapter{Exact Globalize Base Contract}
+\label{ch:proof-obligations-exact-globalize}
+
+\section{Exact Concrete Signature Globalize Under Explicit Policies}
+\label{ch:v153-exact-concrete-globalize}
+
+The concrete signature Globalize instance of v1.4 and v1.5 becomes exact only when all four policy layers are visible:
+\[
+  \DomainPolicy(D)
+  +
+  \AskPol(\Pi,D)
+  +
+  \mathsf{TokUnique}(\Pi)
+  +
+  \GapPol^{\mathrm{sig}}(\Pi,D).
+\]
+This chapter records the exactness theorem in its non-overclaiming form.
+
+\begin{definition}[Policy-supported signature gap]
+For histories admitted by \(D\), define
+\[
+  \InGapSig(\Pi,D,p,h)
+\]
+to mean that there exist an answer history \(s\) and an evidence ledger \(\Delta\) such that
+\[
+  \InDom(D,h),
+  \qquad
+  \Sig(\Pi,h,s,\Delta),
+  \qquad
+  \TokIntro(\Pi,s,p).
+\]
+\end{definition}
+
+\begin{theorem}[Concrete gap coverage]
+\label{thm:v153-gap-coverage}
+Assume \(\AskPol(\Pi,D)\) and that token introduction is available for every generated signature. If \(\InDom(D,h)\), then there exists a token \(p\) such that
+\[
+  \InGapSig(\Pi,D,p,h).
+\]
+\end{theorem}
+
+\begin{proof}
+By the totality field of \(\AskPol(\Pi,D)\), the history \(h\) generates some signature \(s\) with evidence \(\Delta\). Token introduction supplies a token \(p\) with \(\TokIntro(\Pi,s,p)\). The three displayed judgments witness \(\InGapSig(\Pi,D,p,h)\).
+\end{proof}
+
+\begin{theorem}[Concrete gap separation]
+\label{thm:v153-gap-separation}
+Assume \(\AskPol(\Pi,D)\), \(\mathsf{TokUnique}(\Pi)\), and the one-constructor concrete package-sameness relation. If
+\[
+  \InGapSig(\Pi,D,p,h)
+  \quad\text{and}\quad
+  \InGapSig(\Pi,D,q,h),
+\]
+then
+\[
+  \psame_{\Pi}^{\mathrm{sig}}(p,q).
+\]
+\end{theorem}
+
+\begin{proof}
+The two gap premises yield signatures \(s,t\) with
+\[
+  \Sig(\Pi,h,s,\Delta),\quad
+  \Sig(\Pi,h,t,\Theta),
+\]
+and token-introduction judgments
+\[
+  \TokIntro(\Pi,s,p),\quad
+  \TokIntro(\Pi,t,q).
+\]
+The determinacy field of \(\AskPol(\Pi,D)\) gives \(\hsame(s,t)\). The package-sameness constructor then gives \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\).
+\end{proof}
+
+\begin{theorem}[Concrete Globalize soundness]
+\label{thm:v153-globalize-sound}
+Assume \(\AskPol(\Pi,D)\). If admitted histories \(h,k\) generate internally same signatures, then any tokens introduced from those signatures are package-same.
+\end{theorem}
+
+\begin{proof}
+Let \(s,t\) be generated signatures for \(h,k\), with \(\hsame(s,t)\). If \(p,q\) are introduced from \(s,t\), then the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\) yields \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\).
+\end{proof}
+
+\begin{theorem}[Concrete Globalize completeness]
+\label{thm:v153-globalize-complete}
+Assume \(\mathsf{TokUnique}(\Pi)\). If tokens introduced from generated signatures are package-same, then the generated signatures are internally history-same.
+\end{theorem}
+
+\begin{proof}
+This is exactly Theorem~\ref{thm:v153-package-reflection-token-unique} applied to the token-introduction premises.
+\end{proof}
+
+\begin{corollary}[Exact concrete signature Globalize]
+\label{cor:v153-exact-globalize}
+Under \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), token introduction, \(\mathsf{TokUnique}(\Pi)\), and the one-constructor concrete package-sameness policy, the visible packages of \(\GlobSig(\Pi,D)\) classify admitted histories exactly by generated signature-sameness, with \(\InGapSig\) as the source ledger.
+\end{corollary}
+
+\begin{proof}
+Coverage is Theorem~\ref{thm:v153-gap-coverage}. Separation is Theorem~\ref{thm:v153-gap-separation}. Soundness and completeness are Theorems~\ref{thm:v153-globalize-sound} and~\ref{thm:v153-globalize-complete}. Domain transport is supplied by \(\DomainPolicy(D)\).
+\end{proof}
+
+\section{Exactness Export Contract}
+\label{ch:v154-exactness-export-contract}
+
+This chapter records the exact theorem that v1.5.4 exports for active development. It is intentionally narrower than a full package algebra theorem.
+
+\begin{theorem}[v1.5.4 exact concrete signature Globalize]
+\label{thm:v154-exact-concrete-globalize}
+Assume:
+\begin{enumerate}
+  \item \(\DomainPolicy(D)\);
+  \item \(\AskPol(\Pi,D)\);
+  \item token introduction for generated signatures;
+  \item \(\TokUnique(\Pi)\), or a checked canonical-constructor theorem implying it;
+  \item the one-constructor base package-sameness relation \(\psame_{\Pi}^{\mathrm{base}}\);
+  \item the policy-supported signature gap relation \(\InGapSig(\Pi,D,p,h)\).
+\end{enumerate}
+Then the visible packages of \(\GlobSig(\Pi,D)\) classify admitted histories exactly by generated signature-sameness, where exactness is stated with \(\psame_{\Pi}^{\mathrm{base}}\), not with \(\psame_{\Pi}^{\mathrm{eq}}\).
+\end{theorem}
+
+\begin{proof}
+Coverage is Theorem~\ref{thm:v153-gap-coverage}. Separation is Theorem~\ref{thm:v153-gap-separation}, with \(\psame_{\Pi}^{\mathrm{sig}}\) read as \(\psame_{\Pi}^{\mathrm{base}}\) by Definition~\ref{def:v154-base-psame}. Soundness is the base constructor. Completeness is Theorem~\ref{thm:v154-base-reflection-active}. Domain transport is supplied by \(\DomainPolicy(D)\). The theorem exports only the base relation because Corollary~\ref{cor:v154-eq-not-exported} blocks implicit closure export.
+\end{proof}
+
+\begin{proposition}[What is intentionally not exported]
+\label{prop:v154-not-exported}
+The following statements are not exported by v1.5.4:
+\begin{enumerate}
+  \item \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness;
+  \item package-sameness transitivity as a constructor-level theorem for \(\psame_{\Pi}^{\mathrm{base}}\);
+  \item equivalence-closure reflection;
+  \item a checked \(\AddUp\) implementation artifact;
+  \item a full natural-number or addition construction beyond the licensed unary-continuation interface.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Each item requires either an equivalence-closure theorem, an implementation artifact, or a derived-object construction that is outside the declared scope of this verification-contract increment. Thus each is deferred.
+\end{proof}
+
+\begin{protocol}[Export discipline]
+\label{prot:v154-export-discipline}
+Future modules should cite Theorem~\ref{thm:v154-exact-concrete-globalize} as the current exactness theorem. If a later module needs \(\psame_{\Pi}^{\mathrm{eq}}\), it must first add a chapter proving \(\ClosureReflect(\Pi)\) or explicitly downgrade its result from exact reflection to closure-level compatibility.
+\end{protocol}
+
+\section{Checker-Friendly Exactness Predicate}
+\label{ch:v155-checker-friendly-exactness}
+
+The v1.5.4 exact concrete Globalize theorem intentionally stated the active relation as \(\psame_{\Pi}^{\mathrm{base}}\). The remaining problem was not the relation boundary, but the phrase ``classify admitted histories exactly''. This chapter replaces that phrase by a predicate with explicit fields.
+
+\begin{definition}[Generated signature sameness]
+\label{def:v155-generated-same-sig}
+\label{thm:generated-same-sig}
+For a generated probe bundle \(\Pi\), define
+\[
+\begin{aligned}
+\GeneratedSameSig(\Pi,h,k) :\Longleftrightarrow\;&
+\exists s,t,\Delta,\Theta,\;\Sig(\Pi,h,s,\Delta)\;\wedge\;\Sig(\Pi,k,t,\Theta)\;\wedge\;\hsame(s,t).
+\end{aligned}
+\]
+This is the checker-facing predicate corresponding to ``the two admitted histories generate the same visible signature''.
+\end{definition}
+
+\begin{definition}[Base exact Globalize structure]
+\label{def:v155-exact-globalize-base}
+For a bundle \(\Pi\) and a concrete domain policy \(D\), the proposition
+\[
+  \ExactGlobalizeBase(\Pi,D)
+\]
+is the conjunction of the following four fields.
+\begin{enumerate}
+  \item \textbf{Coverage.}
+  \[
+    \forall h,\; \InDom(D,h)\Rightarrow \exists p,\;\InGapSig(\Pi,D,p,h).
+  \]
+  \item \textbf{Base soundness.}
+  \[
+  \begin{aligned}
+    \forall h,k,p,q,\;&\InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)\wedge\GeneratedSameSig(\Pi,h,k)\;\Rightarrow\\
+    &\psame_{\Pi}^{\mathrm{base}}(p,q).
+  \end{aligned}
+  \]
+  \item \textbf{Base completeness.}
+  \[
+  \begin{aligned}
+    \forall h,k,p,q,\;&\InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)\wedge\psame_{\Pi}^{\mathrm{base}}(p,q)\;\Rightarrow\\
+    &\GeneratedSameSig(\Pi,h,k).
+  \end{aligned}
+  \]
+  \item \textbf{Classification iff.}
+  \[
+  \begin{aligned}
+    \forall h,k,p,q,\;&\InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)\;\Rightarrow\\
+    &\bigl(\psame_{\Pi}^{\mathrm{base}}(p,q)\Longleftrightarrow \GeneratedSameSig(\Pi,h,k)\bigr).
+  \end{aligned}
+  \]
+\end{enumerate}
+The fourth field may be implemented as a derived theorem from soundness and completeness; it is recorded here because it is the public export shape.
+\end{definition}
+
+\begin{proposition}[Classification is derivable from the two directions]
+\label{prop:v155-iff-derived}
+If coverage, base soundness, and base completeness hold, then for all \(h,k,p,q\) satisfying the two gap premises,
+\[
+  \psame_{\Pi}^{\mathrm{base}}(p,q)\Longleftrightarrow \GeneratedSameSig(\Pi,h,k).
+\]
+\end{proposition}
+
+\begin{proof}
+The forward implication is base completeness. The reverse implication is base soundness. Coverage is not needed for this local equivalence, but it remains part of the global exactness structure because exact Globalize must also classify every admitted history, not only pairs already carrying visible packages.
+\end{proof}
+
+\begin{protocol}[Export replacement for prose exactness]
+\label{prot:v155-export-replacement}
+Future modules should cite \(\ExactGlobalizeBase(\Pi,D)\) rather than a prose phrase such as ``visible packages classify histories exactly''. If a theorem needs only the local iff, it should cite the classification field. If it needs existence of a visible package for every admitted history, it must also cite coverage.
+\end{protocol}
+
+\section{Exact Globalize Base Contract}
+\label{ch:v155-exact-globalize-base-contract}
+
+This chapter states the v1.5.5 replacement for the prose theorem exported in v1.5.4. The content is intentionally narrow: it is the exactness of the concrete signature Globalize instance at the base package relation.
+
+\begin{theorem}[v1.5.5 exact Globalize base target]
+\label{thm:v155-exact-globalize-base-target}
+\label{thm:globalize-exact-base}
+Assume:
+\begin{enumerate}
+  \item \(\DomainPolicy(D)\);
+  \item \(\AskPol(\Pi,D)\);
+  \item signature generation and token introduction for generated signatures;
+  \item \(\TokUnique(\Pi)\), or a checked canonical-constructor theorem implying it;
+  \item the active base package relation \(\psame_{\Pi}^{\mathrm{base}}\);
+  \item the policy-supported gap relation \(\InGapSig(\Pi,D,p,h)\);
+  \item the base reflection theorem \texttt{PackageReflection.base}.
+\end{enumerate}
+Then
+\[
+  \ExactGlobalizeBase(\Pi,D).
+\]
+\end{theorem}
+
+\begin{proof}
+Coverage is the policy-supported gap coverage theorem from the v1.5.3/v1.5.4 spine, with internal domain transport supplied by \(\DomainPolicy(D)\). Base soundness follows from generated signature sameness plus the single constructor of \(\psame_{\Pi}^{\mathrm{base}}\). Base completeness follows by applying base package reflection to the visible packages and then unpacking \(\GeneratedSameSig\). The local classification equivalence is Proposition~\ref{prop:v155-iff-derived}.
+\end{proof}
+
+\begin{corollary}[No closure export]
+\label{cor:v155-no-closure-export}
+Theorem~\ref{thm:v155-exact-globalize-base-target} exports exactness only at \(\psame_{\Pi}^{\mathrm{base}}\). It does not export exactness at \(\psame_{\Pi}^{\mathrm{eq}}\).
+\end{corollary}
+
+\begin{proof}
+The statement concludes \(\ExactGlobalizeBase(\Pi,D)\), whose relation field is \(\psame_{\Pi}^{\mathrm{base}}\) by Definition~\ref{def:v155-exact-globalize-base}. The optional equivalence closure remains governed by \(\ClosureReflect(\Pi)\), which is not a checked theorem in this release.
+\end{proof}
+
+\begin{protocol}[Acceptance gate for a future checked report]
+\label{prot:v155-checked-acceptance-gate}
+A later release may upgrade this target from paper-level to checked only if it includes all of the following:
+\begin{enumerate}
+  \item a proof-assistant build command and version;
+  \item the public theorem name \texttt{Globalize.exactBase};
+  \item no \texttt{sorry}, \texttt{admit}, or unchecked postulate in the proof of \texttt{Globalize.exactBase};
+  \item no public theorem that replaces \(\hsame\) by host equality of histories;
+  \item no public theorem that replaces \(\TokIntro\) by a host function without a relational wrapper;
+  \item a list of every remaining axiom, postulate, or imported theorem used by the checked artifact.
+\end{enumerate}
+\end{protocol}

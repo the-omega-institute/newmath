@@ -1,0 +1,228 @@
+\chapter{Unary Shift and Commutativity}
+\label{ch:proof-obligations-unary-shift-and-commutativity}
+
+\section{Unary Commutativity Proof Obligations}
+\label{ch:v151-unary-obligations}
+
+The v1.5 additive boundary correctly states that \(\AddUp\) requires unary continuation commutativity. This chapter decomposes that commutativity proof into smaller obligations. These obligations are more suitable for machine verification than a single opaque paper proof.
+
+\begin{definition}[Unary right-shift obligation]
+The unary right-shift obligation is the statement that if
+\[
+  \Unary(k),
+  \qquad
+  \ContR(k,\Eone(h),r),
+\]
+then there exists a history \(v\) such that
+\[
+  \ContR(k,h,v)
+  \quad\text{and}\quad
+  \hsame(r,\Eone(v)).
+\]
+\end{definition}
+
+\begin{definition}[\(\Eone\)-congruence obligation]
+The \(\Eone\)-congruence obligation is the statement that
+\[
+  \hsame(u,v)
+  \quad\Rightarrow\quad
+  \hsame(\Eone(u),\Eone(v)).
+\]
+\end{definition}
+
+\begin{definition}[Unary continuation commutativity obligation]
+The unary continuation commutativity obligation is the statement that if
+\[
+  \Unary(h),\quad \Unary(k),\quad
+  \ContR(h,k,r),\quad \ContR(k,h,r'),
+\]
+then
+\[
+  \hsame(r,r').
+\]
+\end{definition}
+
+\begin{theorem}[Commutativity from right-shift and \(\Eone\)-congruence]
+\label{thm:v151-comm-from-obligations}
+Assume unary right-shift, \(\Eone\)-congruence, continuation unit laws, continuation associativity up to \(\hsame\), and unary closure of continuation. Then unary continuation commutativity holds.
+\end{theorem}
+
+\begin{proof}
+Induct on the unary derivation of the left input \(h\). The empty case follows from the unit laws. In the step case, write \(h=\Eone(h_0)\). Invert \(\ContR(\Eone(h_0),k,r)\) to obtain \(u\) with \(\ContR(h_0,k,u)\) and \(\hsame(r,\Eone(u))\). Apply unary right-shift to \(\ContR(k,\Eone(h_0),r')\) to obtain \(v\) with \(\ContR(k,h_0,v)
+\) and \(\hsame(r',\Eone(v))\). By the induction hypothesis, \(\hsame(u,v)\). By \(\Eone\)-congruence, \(\hsame(\Eone(u),\Eone(v))\). Transitivity of \(\hsame\) yields \(\hsame(r,r')\).
+\end{proof}
+
+\begin{corollary}[Additive naming boundary after v1.5.1]
+The name \(\AddUp\) is licensed only after the unary right-shift and \(\Eone\)-congruence obligations have been supplied. Before that point, the frozen safe name is \(\UnaryContMonoidUp\).
+\end{corollary}
+
+\begin{proof}
+The monoid-like name requires unit and associativity. The additive name requires the additional commutativity field. Theorem~\ref{thm:v151-comm-from-obligations} reduces that field to two smaller obligations plus the already known continuation laws.
+\end{proof}
+
+\section{Unary Shift and Commutativity: Hardening the Additive License}
+\label{ch:v152-unary-shift-hardening}
+
+\autoref{ch:v151-unary-obligations} decomposed unary continuation commutativity into auxiliary obligations. This chapter isolates the obligations that should be proved before the name \(\AddUp\) is treated as active rather than conditional.
+
+\begin{lemma}[\(\Eone\)-congruence]
+\label{lem:v152-eone-congruence}
+If \(\hsame(h,k)\), then
+\[
+  \hsame(\Eone(h),\Eone(k)).
+\]
+\end{lemma}
+
+\begin{proof}
+This is the \(\Eone\)-constructor rule for \(\hsame\).
+\end{proof}
+
+\begin{lemma}[Unary right-shift, witness form]
+\label{lem:v152-unary-shift-witness}
+Assume \(\Unary(k)\) and \(\ContR(k,\Eone(h),r')\). Then there exists a history \(v\) such that
+\[
+  \ContR(k,h,v)
+  \qquad\text{and}\qquad
+  \hsame(r',\Eone(v)).
+\]
+\end{lemma}
+
+\begin{proof}
+This is the proof obligation named \(\UnaryShift\) in v1.5.1. The proof proceeds by induction on the unary derivation of \(k\). The empty case uses the left-unit law for \(\ContR\). The step case uses inversion on the continuation derivation, the induction hypothesis for the shorter unary history, \(\Eone\)-congruence, and transitivity of \(\hsame\).
+\end{proof}
+
+\begin{theorem}[Unary continuation commutativity]
+\label{thm:v152-unary-commutativity}
+Assume
+\[
+  \Unary(h),\quad \Unary(k),\quad
+  \ContR(h,k,r),\quad \ContR(k,h,r').
+\]
+If Lemma~\ref{lem:v152-unary-shift-witness} is available, then
+\[
+  \hsame(r,r').
+\]
+\end{theorem}
+
+\begin{proof}
+Induct on the unary derivation of \(h\). The empty case follows from the continuation unit law. In the step case, write the first source as \(\Eone(h_0)\). Invert the derivation of \(\ContR(\Eone(h_0),k,r)\), exposing a history \(u\) with \(\ContR(h_0,k,u)\) and \(\hsame(r,\Eone(u))\). Apply Lemma~\ref{lem:v152-unary-shift-witness} to \(\ContR(k,\Eone(h_0),r')\), obtaining \(v\) with \(\ContR(k,h_0,v)\) and \(\hsame(r',\Eone(v))\). The induction hypothesis gives \(\hsame(u,v)\). By Lemma~\ref{lem:v152-eone-congruence} and transitivity of \(\hsame\), we obtain \(\hsame(r,r')\).
+\end{proof}
+
+\begin{corollary}[License upgrade for the additive name]
+If Theorem~\ref{thm:v152-unary-commutativity} is included in the stability field of the naming certificate, then the unary continuation interface may be named \(\AddUp\). Without this theorem, the safe active name remains \(\mathsf{UnaryContMonoid}^{\uparrow}\).
+\end{corollary}
+
+\begin{proof}
+The unit and associativity fields license a monoid-like continuation interface. Commutativity is the additional stability field needed for the additive name.
+\end{proof}
+
+\begin{remark}[Machine target]
+The next proof implementation should not attempt the full \(\AddUp\) interface first. It should first check \(\Eone\)-congruence, unary right-shift, and then Theorem~\ref{thm:v152-unary-commutativity}.
+\end{remark}
+
+\section{Unary Right-Shift: Micro-Lemmas for the Additive License}
+\label{ch:v153-unary-shift-micro-lemmas}
+
+The v1.5.2 theorem \(\UnaryShift\) is the remaining proof obligation needed before the name \(\AddUp\) can replace the conservative name \(\UnaryContMonoidUp\). This chapter decomposes that obligation into smaller lemmas suitable for a local verification sprint.
+
+\begin{lemma}[\(\Eone\)-congruence]
+\label{lem:v153-eone-cong}
+If \(\hsame(h,k)\), then
+\[
+  \hsame(\Eone(h),\Eone(k)).
+\]
+\end{lemma}
+
+\begin{proof}
+This is the \(\Eone\)-constructor rule for \(\hsame\).
+\end{proof}
+
+\begin{lemma}[Unary right-shift base]
+\label{lem:v153-unary-shift-base}
+If \(\ContR(\emp,\Eone(h),r)\), then there exists a history \(v\) such that
+\[
+  \ContR(\emp,h,v)
+  \quad\text{and}\quad
+  \hsame(r,\Eone(v)).
+\]
+\end{lemma}
+
+\begin{proof}
+By the left-unit law for \(\ContR\), the first premise yields \(\hsame(r,\Eone(h))\). Again by the left-unit law, \(\ContR(\emp,h,h)\). Take \(v=h\).
+\end{proof}
+
+\begin{lemma}[Unary right-shift step]
+\label{lem:v153-unary-shift-step}
+Assume the right-shift statement holds for a unary history \(k_0\). If
+\[
+  \Unary(k_0),
+  \qquad
+  \ContR(\Eone(k_0),\Eone(h),r'),
+\]
+then there exists a history \(v\) such that
+\[
+  \ContR(\Eone(k_0),h,v)
+  \quad\text{and}\quad
+  \hsame(r',\Eone(v)).
+\]
+\end{lemma}
+
+\begin{proof}
+Invert the continuation premise. The only active constructor for a left source headed by \(\Eone\) exposes a history \(u\) with
+\[
+  \ContR(k_0,\Eone(h),u)
+  \quad\text{and}\quad
+  \hsame(r',\Eone(u)).
+\]
+By the induction hypothesis applied to \(k_0\), there exists \(v_0\) such that
+\[
+  \ContR(k_0,h,v_0)
+  \quad\text{and}\quad
+  \hsame(u,\Eone(v_0)).
+\]
+The continuation step gives
+\[
+  \ContR(\Eone(k_0),h,\Eone(v_0)).
+\]
+Let \(v=\Eone(v_0)\). By Lemma~\ref{lem:v153-eone-cong}, \(\hsame(u,v)\) gives \(\hsame(\Eone(u),\Eone(v))\). Together with \(\hsame(r',\Eone(u))\) and transitivity, this yields \(\hsame(r',\Eone(v))\).
+\end{proof}
+
+\begin{theorem}[Unary right-shift]
+\label{thm:v153-unary-shift}
+Assume \(\Unary(k)\) and \(\ContR(k,\Eone(h),r')\). Then there exists a history \(v\) such that
+\[
+  \ContR(k,h,v)
+  \quad\text{and}\quad
+  \hsame(r',\Eone(v)).
+\]
+\end{theorem}
+
+\begin{proof}
+Induct on the derivation of \(\Unary(k)\). The empty case is Lemma~\ref{lem:v153-unary-shift-base}. The step case is Lemma~\ref{lem:v153-unary-shift-step} applied to the induction hypothesis.
+\end{proof}
+
+\begin{theorem}[Unary continuation commutativity]
+\label{thm:v153-unary-commutativity}
+If
+\[
+  \Unary(h),\quad \Unary(k),\quad
+  \ContR(h,k,r),\quad \ContR(k,h,r'),
+\]
+then
+\[
+  \hsame(r,r').
+\]
+\end{theorem}
+
+\begin{proof}
+Induct on the derivation of \(\Unary(h)\). The empty case follows from the continuation unit laws. In the step case, write the left source as \(\Eone(h_0)\). Invert \(\ContR(\Eone(h_0),k,r)\), obtaining a history \(u\) such that \(\ContR(h_0,k,u)\) and \(\hsame(r,\Eone(u))\). Apply Theorem~\ref{thm:v153-unary-shift} to \(\ContR(k,\Eone(h_0),r')\), obtaining \(v\) with \(\ContR(k,h_0,v)\) and \(\hsame(r',\Eone(v))\). The induction hypothesis gives \(\hsame(u,v)\). Lemma~\ref{lem:v153-eone-cong} and transitivity of \(\hsame\) yield \(\hsame(r,r')\).
+\end{proof}
+
+\begin{corollary}[Activation of the additive name]
+\label{cor:v153-add-activation}
+Once Theorem~\ref{thm:v153-unary-commutativity} is included in the stability field of the additive naming certificate, the interface previously named \(\UnaryContMonoidUp\) is licensed to use the stronger name \(\AddUp\).
+\end{corollary}
+
+\begin{proof}
+The monoid-like fields are unit, associativity, and determinacy of unary continuation. Theorem~\ref{thm:v153-unary-commutativity} supplies the commutativity field required by the additive name.
+\end{proof}
