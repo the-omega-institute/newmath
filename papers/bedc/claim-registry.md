@@ -83,3 +83,4 @@
 | bedc:base-reflection:generated-same-sig | thm:generated-same-sig | predicate | BEDC.BaseReflection.GeneratedSameSig | DefinitionOnly |
 | bedc:proof-obligations:domain-policy:domain-transport | thm:domain-transport | theorem | BEDC.FKernel.Gap.domain_transport | Checked |
 | bedc:proof-obligations:package-token-policy:psame-sound | lem:psame-sound | theorem | BEDC.FKernel.Package.psame_sound | Checked |
+| bedc:proof-obligations:package-token-policy:psame-iff-hsame | thm:psame-iff-hsame | theorem | BEDC.FKernel.Package.psame_iff_hsame | Checked |
