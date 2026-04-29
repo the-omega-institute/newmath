@@ -1,27 +1,10 @@
-\chapter{Build and Verification Log}
+\chapter{Verification Reporting Policy}
 \label{app:build-log}
 
-This appendix records the build status of the master project. It is a project-management artifact, not part of the BEDC object theory.
+This appendix records the reporting policy that a future checked release of the BEDC formalization should follow. It is project-management material, not part of the BEDC object theory, and it is forward-looking: there is no claim of machine verification at the time of this writing.
 
-\section{Master v1.5.4 build record}
+\section{Required fields for a checked release}
 
-\begin{longtable}{p{0.28\textwidth}p{0.58\textwidth}}
-\toprule
-\textbf{Item} & \textbf{Status}\\
-\midrule
-Project version & BEDC Master Project v1.5.4\\
-Build command & \texttt{pdflatex -interaction=nonstopmode main.tex} run twice from the project root\\
-PDF output & \texttt{main.pdf}, renamed for distribution as \texttt{BEDC\_Master\_v1\_5\_4\_Minimal\_Verification\_Contract.pdf}\\
-Source packaging & Multi-file project directory zipped with the generated PDF\\
-Render inspection & Representative pages rendered to images: title page, roadmap/status pages, hardening pages, theorem dependency page, appendix code page\\
-Blocking LaTeX errors & None observed in the build used for this release\\
-LaTeX warnings & Ordinary line-breaking warnings may remain; these do not change mathematical content\\
-Machine verification & Pending. The archived implementation scaffold has not yet been checked by a proof checker in this environment\\
-Normative status & Frozen core plus live governance, proof standing, concrete-instance, concrete-hardening, proof-readiness, and v1.5.3 token-uniqueness patch and v1.5.4 minimal verification-contract increments\\
-\bottomrule
-\end{longtable}
-
-\section{Verification policy}
 A future checked release should record:
 \begin{enumerate}
   \item the exact proof-checker version;
@@ -32,46 +15,6 @@ A future checked release should record:
   \item whether public APIs expose host equality, host natural numbers, host functions, or host lists as BEDC internals.
 \end{enumerate}
 
-\section{Current proof status}
-The current project contains an archived finite-kernel implementation scaffold. It should be read as a proposed implementation path, not as an already checked proof artifact. The next release should prioritize Milestones A and B from Chapter~\ref{ch:theorem-dependency-dag}.
+\section{Current verification status}
 
-
-\section*{v1.3 Build Note}
-The v1.3 release adds the proof-standing part. The PDF build should be regarded as a document build only. External machine verification of the archived proof scaffold remains pending unless a later verification report states otherwise.
-
-\section*{v1.4 Build Note}
-The v1.4 release adds concrete Globalize and naming-certificate instances. The PDF build is a document build. External machine verification of the archived proof scaffold and the new concrete-instance obligations remains pending unless a later verification report states otherwise.
-
-\section{v1.5 build note}
-The v1.5 build adds the concrete-instance hardening layer. It does not record machine verification. The expected verification target remains the finite-kernel theorem sequence listed in the proof-sprint and hardening modules.
-
-
-\section{v1.5.1 build note}
-The v1.5.1 build adds the proof-obligation patch layer. It is a document build and a proof-obligation refinement, not a checked proof release. The live proof priorities after this release are: establish \(\DomainPolicy\) for concrete domains, establish \(\PkgTokPol\) for signature tokens, and prove unary right-shift plus \(\Eone\)-congruence for the additive naming boundary.
-
-
-\section{v1.5.2 build note}
-The v1.5.2 build adds a proof-readiness patch for the unary-domain policy instance, one-constructor signature package-sameness, and narrowed unary commutativity verification targets. It records no machine verification. The next verification target remains a checked finite-kernel run beginning with marks, histories, continuation, unary transport, and package-token reflection.
-
-\section{v1.5.3 build note}
-The v1.5.3 build adds a local proof patch for token-introduction uniqueness and unary right-shift. It records no machine verification. The next verification target remains a checked finite-kernel run for token uniqueness, concrete Globalize exactness, unary right-shift, and unary continuation commutativity.
-
-\section{v1.5.3 build verification note}
-The v1.5.3 document build was completed after adding the token-uniqueness and unary-shift patch. The resulting master PDF contains 152 pages in the build recorded for this release. Machine verification remains pending; no proof checker success report is claimed.
-
-
-\section{v1.5.4 build note}
-The v1.5.4 build adds a minimal verification-contract layer. It records no machine verification. The next verification target remains a checked finite-kernel run for base package-sameness inversion, token replacement, base package reflection, concrete Globalize exactness, unary right-shift, and unary continuation commutativity.
-
-\section{v1.5.4 build verification note}
-The v1.5.4 document build was completed after adding the minimal verification contract. The generated master PDF contains 168 pages in the build recorded for this release. Machine verification remains pending; no proof checker success report is claimed.
-
-
-\section{v1.5.5 build note}
-The v1.5.5 build adds the base-reflection check-target layer. It records no machine verification. The next verification target is a checked run for \texttt{PsameBase.inversion}, \texttt{TokUnique.tokenReplacement}, \texttt{PackageReflection.base}, and \texttt{Globalize.exactBase}. Equivalence-closure exactness remains blocked until \texttt{PackageReflection.eqClosure} is checked.
-
-
-
-\section{v1.5.5 build verification note}
-The v1.5.5 document build was completed after adding the base-reflection check-target layer. The generated master PDF contains 183 pages in the build recorded for this release. Machine verification remains pending; no proof checker success report is claimed.
-
+The Lean library accompanying this volume contains a base-reflection scaffold and statement-only declarations for the kernel's public theorems. The current Lean target status, theorem-by-theorem, is rendered inline at each primary site via the \texttt{\textbackslash leanchecked}, \texttt{\textbackslash leansorryd}, \texttt{\textbackslash leanstmt}, and \texttt{\textbackslash leandef} markers. The summary block in the Lean Scaffold Contract chapter aggregates the five base-reflection targets at-a-glance. Programmatic correspondence is recorded in \texttt{papers/bedc/correspondence.md} and the dependency graph in \texttt{papers/bedc/dependency.json}.

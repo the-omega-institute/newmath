@@ -6,11 +6,11 @@
 | bedc:concrete-hardening:domain-and-token-reflection | sec:concrete-hardening-domain-token-reflection | chapter | parts/concrete_hardening/domain_and_token_reflection.tex |
 | bedc:concrete-hardening:internalized-gap-globalize | sec:concrete-hardening-gap-globalize | chapter | parts/concrete_hardening/internalized_gap_globalize.tex |
 | bedc:concrete-hardening:unary-add-commutativity | sec:concrete-hardening-unary-add-commutativity | chapter | parts/concrete_hardening/unary_add_commutativity.tex |
-| bedc:concrete-instances:signature-package-instance | ch:v14-signature-package | chapter | parts/concrete_instances/01_signature_package_instance.tex |
-| bedc:concrete-instances:concrete-gap-policy | ch:v14-concrete-gap | chapter | parts/concrete_instances/02_concrete_gap_policy.tex |
-| bedc:concrete-instances:globalize-instance-theorems | ch:v14-concrete-globalize | chapter | parts/concrete_instances/03_globalize_instance_theorems.tex |
-| bedc:concrete-instances:nat-namecert-construction | ch:v14-nat-namecert | chapter | parts/concrete_instances/04_nat_namecert_construction.tex |
-| bedc:concrete-instances:add-namecert-construction | ch:v14-add-namecert | chapter | parts/concrete_instances/05_add_namecert_construction.tex |
+| bedc:concrete-instances:signature-package-instance | ch:concrete-instances-signature-package | chapter | parts/concrete_instances/01_signature_package_instance.tex |
+| bedc:concrete-instances:concrete-gap-policy | ch:concrete-instances-gap-policy | chapter | parts/concrete_instances/02_concrete_gap_policy.tex |
+| bedc:concrete-instances:globalize-instance-theorems | ch:concrete-instances-globalize | chapter | parts/concrete_instances/03_globalize_instance_theorems.tex |
+| bedc:concrete-instances:nat-namecert-construction | ch:concrete-instances-nat-namecert | chapter | parts/concrete_instances/04_nat_namecert_construction.tex |
+| bedc:concrete-instances:add-namecert-construction | ch:concrete-instances-add-namecert | chapter | parts/concrete_instances/05_add_namecert_construction.tex |
 | bedc:core:orientation-and-layer-discipline | ch:core-orientation-and-layer-discipline | chapter | parts/core/00_orientation_and_layer_discipline.tex |
 | bedc:core:raw-marks-and-mark-sameness | ch:core-raw-marks-and-mark-sameness | chapter | parts/core/01_raw_marks_and_mark_sameness.tex |
 | bedc:core:emission-histories-and-history-sameness | ch:core-emission-histories-and-history-sameness | chapter | parts/core/02_emission_histories_and_history_sameness.tex |
