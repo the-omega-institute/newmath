@@ -72,7 +72,7 @@
 | bedc:proof-obligations:verification-queue:concrete-verification-targets | sec:po-verification-targets-instance | section | parts/proof_obligations/verification_queue.tex |
 | bedc:proof-obligations:verification-queue:verification-queue | sec:po-verification-queue | section | parts/proof_obligations/verification_queue.tex |
 
-## Theorem-grained (base-reflection only)
+## Theorem-grained
 | claim_id | latex_label | granularity | lean_target | status |
 |----------|-------------|-------------|-------------|--------|
 | bedc:base-reflection:psame-base-inversion | thm:psame-base-inversion | theorem | BEDC.BaseReflection.PsameBase_inversion | Sorry |
@@ -80,3 +80,4 @@
 | bedc:base-reflection:package-reflection-base | thm:package-reflection-base | theorem | BEDC.BaseReflection.PackageReflection_base | Checked |
 | bedc:base-reflection:globalize-exact-base | thm:globalize-exact-base | theorem | BEDC.BaseReflection.ExactGlobalizeBase_classify_iff | Sorry |
 | bedc:base-reflection:generated-same-sig | thm:generated-same-sig | predicate | BEDC.BaseReflection.GeneratedSameSig | DefinitionOnly |
+| bedc:proof-obligations:package-token-policy:psame-iff-hsame | thm:psame-iff-hsame | theorem | BEDC.FKernel.Package.psame_iff_hsame | Checked |

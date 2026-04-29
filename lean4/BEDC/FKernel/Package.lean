@@ -27,6 +27,23 @@ structure PackagePolicy (bundle : ProbeBundle ProbeName) : Prop where
   grounding :
     ∀ {p q : Pkg}, psame bundle p q → ∃ s : BHist, ∃ t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t
 
+structure PackageTokenPolicy (bundle : ProbeBundle ProbeName) : Prop where
+  soundness :
+    ∀ {s t : BHist} {p q : Pkg}, TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
+  reflection :
+    ∀ {s t : BHist} {p q : Pkg}, TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t
+
+theorem psame_iff_hsame
+    {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
+    PackageTokenPolicy bundle →
+      TokIntro bundle s p → TokIntro bundle t q → (psame bundle p q ↔ hsame s t) := by
+  intro policy left right
+  constructor
+  · intro samePkg
+    exact policy.reflection left right samePkg
+  · intro sameHist
+    exact policy.soundness left right sameHist
+
 def MinimalPackageSetup [AskSetup] : PackageSetup where
   Pkg := Unit
   TokIntro := fun _ _ _ => True
