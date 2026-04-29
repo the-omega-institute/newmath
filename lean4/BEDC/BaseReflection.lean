@@ -60,6 +60,20 @@ theorem PackageReflection_base
       have y_to_y0 := tok.tokenReplacement right right0
       exact eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
 
+theorem PsameBase_iff_hsame_under_tok_unique
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q) :
+    PsameBase s P p q ↔ s.hsame x y := by
+  constructor
+  case mp =>
+    intro base
+    exact PackageReflection_base eqv tok left right base
+  case mpr =>
+    intro same
+    exact PsameBase.intro left right same
+
 structure GeneratedSameSig (s : BaseReflectionSetup) (P : s.Pi) (h k : s.Hist) : Type where
   leftSigObj : s.SigObj
   rightSigObj : s.SigObj

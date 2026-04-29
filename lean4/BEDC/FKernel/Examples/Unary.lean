@@ -55,4 +55,10 @@ theorem unary_cont_comm {h k r r' : BHist} :
   intro uh uk hr hr'
   exact hr.trans ((unary_append_comm uh uk).trans hr'.symm)
 
+theorem unary_shift {k h r' : BHist} :
+    UnaryHistory k → Cont k (.e1 h) r' →
+      ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) := by
+  intro _ hr'
+  exact ⟨append k h, rfl, hr'⟩
+
 end BEDC.FKernel.Examples.Unary

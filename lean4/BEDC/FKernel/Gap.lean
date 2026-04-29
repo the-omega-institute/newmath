@@ -41,6 +41,31 @@ theorem gap_separation :
   intro bundle D h p q hgap hh hp hq
   exact hgap.separation hh hp hq
 
+theorem policy_gap_separation
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) → PackageTokenPolicy bundle →
+      InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q := by
+  intro askPolicy packagePolicy hp hq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro hIn hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs hpTok =>
+                      cases htData with
+                      | intro ht hqTok =>
+                          have hst : hsame s t :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D) (h := h) (s := s) (t := t)
+                              askPolicy hIn hs ht
+                          exact packagePolicy.soundness hpTok hqTok hst
+
 omit [AskSetup] [PackageSetup] in
 theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D h → hsame h k → InDom D k := by
