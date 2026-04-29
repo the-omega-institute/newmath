@@ -42,6 +42,12 @@ inductive PsameBase (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → P
   | intro {x y : s.SigObj} {p q : s.Pkg} :
       s.TokIntro P x p → s.TokIntro P y q → s.hsame x y → PsameBase s P p q
 
+theorem PsameBase_constructor
+    {s : BaseReflectionSetup} {P : s.Pi} {x y : s.SigObj} {p q : s.Pkg} :
+    s.TokIntro P x p → s.TokIntro P y q → s.hsame x y → PsameBase s P p q := by
+  intro left right same
+  exact PsameBase.intro left right same
+
 abbrev PsameSig (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop := PsameBase s P
 
 inductive PsameEqClosure (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop where

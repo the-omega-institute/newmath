@@ -84,6 +84,33 @@ theorem unary_cont_comm {h k r r' : BHist} :
   intro uh uk hr hr'
   exact hr.trans ((unary_append_comm uh uk).trans hr'.symm)
 
+theorem comm_from_obligations
+    (shift :
+      ∀ {k h r : BHist}, UnaryHistory k → Cont k (.e1 h) r →
+        ∃ v : BHist, Cont k h v ∧ hsame r (.e1 v))
+    (eoneCong : ∀ {u v : BHist}, hsame u v → hsame (.e1 u) (.e1 v))
+    {h k r r' : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
+  intro uh uk hr hr'
+  induction h generalizing k r r' with
+  | Empty =>
+      cases hr
+      cases hr'
+      exact (cont_left_unit k).symm
+  | e0 h ih =>
+      cases uh
+  | e1 h ih =>
+      have left :
+          hsame r (.e1 (append h k)) := by
+        cases hr
+        exact unary_append_e1_left (h := k) (k := h) uk
+      cases shift uk hr' with
+      | intro v shifted =>
+          cases shifted with
+          | intro hv sameRight =>
+              have inner : hsame (append h k) v := ih uh uk rfl hv
+              exact left.trans ((eoneCong inner).trans sameRight.symm)
+
 theorem unary_shift_step {k0 h r' : BHist} :
     UnaryHistory k0 →
       (∀ {r : BHist}, Cont k0 (.e1 h) r →

@@ -32,6 +32,21 @@ structure PackagePolicy (bundle : ProbeBundle ProbeName) : Prop where
   grounding :
     ∀ {p q : Pkg}, psame bundle p q → ∃ s : BHist, ∃ t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t
 
+theorem packagePolicy_classifies_signatures
+    {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle)
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p → TokIntro bundle t q →
+      (psame bundle p q →
+        ∃ u : BHist, ∃ v : BHist,
+          TokIntro bundle u p ∧ TokIntro bundle v q ∧ hsame u v) ∧
+      (hsame s t → psame bundle p q) := by
+  intro left right
+  constructor
+  · intro samePkg
+    exact policy.grounding samePkg
+  · intro sameHist
+    exact policy.extensionality sameHist left right
+
 structure PackageTokenPolicy (bundle : ProbeBundle ProbeName) : Prop where
   soundness :
     ∀ {s t : BHist} {p q : Pkg}, TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
