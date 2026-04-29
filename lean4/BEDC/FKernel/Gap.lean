@@ -18,6 +18,9 @@ variable [AskSetup] [PackageSetup] [G : DomainSetup]
 abbrev Domain : Type := G.Domain
 abbrev InDom : Domain → BHist → Prop := G.InDom
 
+structure DomainPolicy (D : Domain) : Prop where
+  transport : ∀ {h k : BHist}, InDom D h → hsame h k → InDom D k
+
 def InGapSig (bundle : ProbeBundle ProbeName) (D : Domain) (p : Pkg) (h : BHist) : Prop :=
   InDom D h ∧ ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p
 
@@ -38,7 +41,12 @@ theorem gap_separation :
   intro bundle D h p q hgap hh hp hq
   exact hgap.separation hh hp hq
 
--- Placeholder: source did not give a concrete shape. v0.2 will specify.
+omit [AskSetup] [PackageSetup] in
+theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
+    InDom D h → hsame h k → InDom D k := by
+  intro hh hhk
+  exact policy.transport hh hhk
+
 omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage : True := True.intro
 

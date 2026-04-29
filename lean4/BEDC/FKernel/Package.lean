@@ -20,6 +20,11 @@ inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
   | intro {s t : BHist} {p q : Pkg} :
       TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
 
+theorem psame_sound {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q := by
+  intro hp hq hst
+  exact psame.intro hp hq hst
+
 structure PackagePolicy (bundle : ProbeBundle ProbeName) : Prop where
   existence : ∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p
   extensionality :

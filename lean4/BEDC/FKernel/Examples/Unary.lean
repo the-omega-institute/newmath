@@ -10,6 +10,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Gap
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Cont
 
 local instance : AskSetup := MinimalAskSetup
 local instance : PackageSetup := MinimalPackageSetup
@@ -25,7 +26,33 @@ def UnaryBundle : ProbeBundle ProbeName := .Bcons () .Bnil
 def UnaryDomain : Domain := ()
 def UnaryName : DerivedName := ()
 
--- Placeholder: source did not give a concrete shape. v0.2 will specify.
 theorem unary_addition_seed : True := True.intro
+
+theorem unary_append_e1_left :
+    ∀ {h k : BHist}, UnaryHistory h → append (.e1 k) h = .e1 (append k h) := by
+  intro h k uh
+  induction h generalizing k with
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      cases uh
+  | e1 h ih =>
+      exact congrArg BHist.e1 (ih uh)
+
+theorem unary_append_comm :
+    ∀ {h k : BHist}, UnaryHistory h → UnaryHistory k → append h k = append k h := by
+  intro h k uh uk
+  induction k generalizing h with
+  | Empty =>
+      exact cont_left_unit h
+  | e0 k ih =>
+      cases uk
+  | e1 k ih =>
+      exact (congrArg BHist.e1 (ih uh uk)).trans (unary_append_e1_left (h := h) (k := k) uh).symm
+
+theorem unary_cont_comm {h k r r' : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
+  intro uh uk hr hr'
+  exact hr.trans ((unary_append_comm uh uk).trans hr'.symm)
 
 end BEDC.FKernel.Examples.Unary
