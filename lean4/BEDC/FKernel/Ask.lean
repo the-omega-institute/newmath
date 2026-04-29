@@ -34,6 +34,12 @@ theorem ask_total_from_policy {D : BHist → Prop} (policy : AskPolicy D)
   intro hd
   exact policy.total hd
 
+theorem ask_total {D : BHist → Prop} (policy : AskPolicy D)
+    {π : ProbeName} {h : BHist} :
+    D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ := by
+  intro hD
+  exact policy.total hD
+
 theorem ask_deterministic {D : BHist → Prop} (policy : AskPolicy D)
     {π : ProbeName} {h : BHist} {m n : BMark} {δ θ : Evidence} :
     Ask π h m δ → Ask π h n θ → msame m n := by
