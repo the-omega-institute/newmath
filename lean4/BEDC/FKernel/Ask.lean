@@ -28,6 +28,12 @@ structure AskPolicy (D : BHist → Prop) : Prop where
     ∀ {π : ProbeName} {h k : BHist} {m n : BMark} {δ θ : Evidence},
       hsame h k → Ask π h m δ → Ask π k n θ → msame m n
 
+theorem ask_total_from_policy {D : BHist → Prop} (policy : AskPolicy D)
+    {π : ProbeName} {h : BHist} :
+    D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ := by
+  intro hd
+  exact policy.total hd
+
 theorem ask_deterministic {D : BHist → Prop} (policy : AskPolicy D)
     {π : ProbeName} {h : BHist} {m n : BMark} {δ θ : Evidence} :
     Ask π h m δ → Ask π h n θ → msame m n := by

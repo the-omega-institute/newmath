@@ -21,6 +21,15 @@ inductive SigRel : ProbeBundle ProbeName → BHist → BHist → Prop where
       Ext s m r →
       SigRel (ProbeBundle.Bcons pi tail) h r
 
+theorem sig_cons_inversion {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r : BHist} :
+    SigRel (ProbeBundle.Bcons pi tail) h r →
+      ∃ s : BHist, ∃ m : BMark, ∃ delta : Evidence,
+        Ask pi h m delta ∧ SigRel tail h s ∧ Ext s m r := by
+  intro hsig
+  cases hsig with
+  | cons _ _ _ s _ m delta hask htail hext =>
+      exact ⟨s, m, delta, hask, htail, hext⟩
+
 def SameSig (bundle : ProbeBundle ProbeName) (h k : BHist) : Prop :=
   ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t
 
