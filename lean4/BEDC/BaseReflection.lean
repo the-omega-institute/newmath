@@ -66,6 +66,12 @@ inductive PsameEqClosure (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg 
   | trans {p q r : s.Pkg} :
       PsameEqClosure s P p q → PsameEqClosure s P q r → PsameEqClosure s P p r
 
+theorem PsameEqClosure_base_inclusion
+    {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameBase s P p q -> PsameEqClosure s P p q := by
+  intro base
+  exact PsameEqClosure.base base
+
 def ClosureReflect (s : BaseReflectionSetup) (P : s.Pi) : Prop :=
   ∀ {x y : s.SigObj} {p q : s.Pkg},
     s.TokIntro P x p → s.TokIntro P y q → PsameEqClosure s P p q → s.hsame x y
@@ -217,6 +223,14 @@ structure GeneratedSameSig (s : BaseReflectionSetup) (P : s.Pi) (h k : s.Hist) :
   leftSig : s.SigGen P h leftSigObj leftEvidence
   rightSig : s.SigGen P k rightSigObj rightEvidence
   sigSame : s.hsame leftSigObj rightSigObj
+
+theorem GeneratedSameSig_hsame
+    {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
+    (gen : GeneratedSameSig s P h k) :
+    s.hsame gen.leftSigObj gen.rightSigObj := by
+  cases gen with
+  | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
+      exact sigSame
 
 theorem GeneratedSameSig_psameBase
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist} {p q : s.Pkg}

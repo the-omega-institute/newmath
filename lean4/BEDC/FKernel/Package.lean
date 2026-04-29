@@ -105,6 +105,16 @@ theorem psame_iff_hsame
   · intro sameHist
     exact policy.soundness left right sameHist
 
+theorem psame_trans_under_policy
+    {bundle : ProbeBundle ProbeName} {a b c : BHist} {p q r : Pkg} :
+    PackageTokenPolicy bundle ->
+      TokIntro bundle a p -> TokIntro bundle b q -> TokIntro bundle c r ->
+      psame bundle p q -> psame bundle q r -> psame bundle p r := by
+  intro policy left middle right leftSame rightSame
+  exact policy.soundness left right
+    (hsame_trans (policy.reflection left middle leftSame)
+      (policy.reflection middle right rightSame))
+
 def MinimalPackageSetup [AskSetup] : PackageSetup where
   Pkg := Unit
   TokIntro := fun _ _ _ => True

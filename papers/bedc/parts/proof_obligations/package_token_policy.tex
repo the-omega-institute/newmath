@@ -213,11 +213,13 @@ Assume \(\mathsf{TokUnique}(\Pi)\). For introduced tokens,
   \psame_{\Pi}^{\mathrm{sig}}(p,q)
 \]
 if and only if their introducing signatures are internally history-same.
+Under a package token policy, consecutive package-sameness judgments between introduced tokens compose to the outer package-sameness judgment.
 \end{corollary}
 \leanchecked{BEDC.BaseReflection.PsameBase\_iff\_hsame\_under\_tok\_unique}
+\leanchecked{BEDC.FKernel.Package.psame\_trans\_under\_policy}
 
 \begin{proof}
-The forward direction is Theorem~\ref{thm:package-reflection-token-unique}. The reverse direction is the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\).
+The forward direction is Theorem~\ref{thm:package-reflection-token-unique}. The reverse direction is the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\). Transitivity follows by reflecting both package-sameness premises to history-sameness, composing the histories, and applying package-token soundness.
 \end{proof}
 
 \begin{corollary}[Updated PackageTokenPolicy]
