@@ -16,6 +16,31 @@ def SumHistoryClassifier (_Left _Right : BHist → Prop)
     (∃ r : BHist, ∃ r' : BHist,
       hsame h (BHist.e1 r) ∧ hsame k (BHist.e1 r') ∧ RightEq r r')
 
+theorem SumHistoryClassifier_mixed_tags_absurd {Left Right : BHist → Prop}
+    {LeftEq RightEq : BHist → BHist → Prop} {h k l r : BHist} :
+    hsame h (BHist.e0 l) → hsame k (BHist.e1 r) →
+      SumHistoryClassifier Left Right LeftEq RightEq h k → False := by
+  intro sameHLeft sameKRight classifier
+  cases classifier with
+  | inl leftData =>
+      cases leftData with
+      | intro _ sourceRest =>
+          cases sourceRest with
+          | intro targetLeft data =>
+              cases data with
+              | intro _ rest =>
+                  cases rest with
+                  | intro sameKLeft _ =>
+                      exact not_hsame_e0_e1 (hsame_trans (hsame_symm sameKLeft) sameKRight)
+  | inr rightData =>
+      cases rightData with
+      | intro sourceRight sourceRest =>
+          cases sourceRest with
+          | intro _ data =>
+              cases data with
+              | intro sameHRight _ =>
+                  exact not_hsame_e0_e1 (hsame_trans (hsame_symm sameHLeft) sameHRight)
+
 theorem sum_history_semantic_name_certificate {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop}
     (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq) :

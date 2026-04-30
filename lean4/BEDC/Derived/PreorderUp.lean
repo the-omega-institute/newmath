@@ -143,6 +143,25 @@ theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHi
     · intro h k r hk kr
       exact le_trans hk kr
 
+theorem preorder_carrier_semantic_name_certificate :
+    SemanticNameCert PreorderCarrier PreorderCarrier PreorderCarrier
+      (PreorderCarrierClassifierSpec PreorderCarrier) := by
+  constructor
+  · constructor
+    · exact ⟨BHist.Empty, unary_empty⟩
+    · intro h carrier
+      exact ⟨carrier, carrier, hsame_refl h⟩
+    · intro h k same
+      exact ⟨same.right.left, same.left, hsame_symm same.right.right⟩
+    · intro h k r hk kr
+      exact ⟨hk.left, kr.right.left, hsame_trans hk.right.right kr.right.right⟩
+    · intro h k same _
+      exact same.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 theorem preorder_prefix_stability_certificate_fields :
     (∀ h : BHist, PreorderCarrier h → PreorderPrefixLE h h) ∧
       (∀ {h k r : BHist}, PreorderPrefixLE h k → PreorderPrefixLE k r →
