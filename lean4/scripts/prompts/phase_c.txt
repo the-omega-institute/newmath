@@ -1,5 +1,8 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
+## Prompts version
+v1.0 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+
 ## Round R<ROUND_NUM>
 
 ## Targets to Implement
@@ -115,8 +118,12 @@ Also do NOT add new `\leanvariant` markers in this round. The 760+ existing `\le
 git add lean4/BEDC papers/bedc
 git commit -m "R<ROUND_NUM>: [brief description of what was proved and registered]
 
+prompts: v1.0
+
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
+
+The `prompts: v1.0` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_b.txt` and `phase_c.txt` is different (e.g. v1.1, v2.0), use that value in the commit body instead. This gives every R-round commit a permanent record of which prompt pair produced it.
 
 ## IMPORTANT
 - Do NOT git push. The merge and push will be handled externally.
