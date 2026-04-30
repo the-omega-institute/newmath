@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\ProdUp\)}
 \label{ch:concrete-instances-prod-namecert}
 
-The product interface \(\ProdUp\) is licensed over two source carriers each endowed with a \(\NameCert\). The carrier is the pair constructor of source witnesses; the classifier is the conjunction of the component classifiers under their respective internal sameness judgments. It is not a primitive cartesian product; it is licensed only as a derived constructor over the two sources.
+The product interface $\ProdUp$ is licensed over two source carriers each endowed with a $\NameCert$. Its explicit typed classifier is the conjunction of the component classifiers on the two coordinates. Its checked history-envelope classifier records product-carrier witnesses at both endpoints together with endpoint $\hsame$. It is not a primitive cartesian product; it is licensed only as a derived constructor over the two sources.
 
 \section{Roadmap template status}
 
@@ -9,13 +9,13 @@ The product interface \(\ProdUp\) is licensed over two source carriers each endo
   \item \textbf{Traditional target}: ordered product data with one left component and one right component.
   \item \textbf{BEDC source}: two licensed source carriers $A$ and $B$, each with its own name certificate.
   \item \textbf{Carrier choice}: the paired history carrier records a left history, a right history, and the continuation that combines them.
-  \item \textbf{Classifier choice}: the product classifier is the conjunction of the component classifiers on the two coordinates.
-  \item \textbf{Stability obligations}: component transport, continuation transport, unary closure from components, classifier symmetry, classifier transitivity, and coordinate inversion.
+  \item \textbf{Classifier choice}: $\mathsf{ProdClassifierSpec}$ is the typed componentwise classifier checked by $\mathsf{prodClassifier\_iff}$; $\mathsf{ProdHistoryClassifier}$ is the checked history-envelope classifier consisting of endpoint product-carrier witnesses and endpoint $\hsame$.
+  \item \textbf{Stability obligations}: component transport, continuation transport, unary closure from components, history-envelope classifier symmetry and transitivity, typed classifier symmetry and transitivity, and typed coordinate inversion.
   \item \textbf{Ledger}: no product quotient is used; pairing records both component witnesses and their generated continuation.
   \item \textbf{Core theorem list}: append introduction, continuation introduction, carrier transport, unary closure, classifier equivalence, and the semantic name certificate.
-  \item \textbf{Exactness predicate}: classification holds exactly when both coordinates classify in their respective sources.
+  \item \textbf{Exactness predicate}: typed classification holds exactly when both coordinates classify in their respective sources; history-envelope classification holds when both endpoints lie in the product-history carrier and are related by endpoint $\hsame$.
   \item \textbf{Standard bridge}: the licensed pair reads back as the ordinary ordered pair $(a,b)$.
-  \item \textbf{Status}: $\mathsf{CheckedCert}$, with the product history semantic certificate checked in Lean.
+  \item \textbf{Status}: the product-history semantic envelope is checked in Lean; the explicit ordered-product interface uses the typed componentwise classifier and the projection fields checked around $\mathsf{prodClassifier\_iff}$.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -100,7 +100,7 @@ The pattern is paired generation from one \(A\)-witness and one \(B\)-witness.
 
 \begin{definition}[Prod classifier specification]
 \label{def:prod-classifier-specification}
-The classifier relates pairs componentwise using the classifiers of \(A\) and \(B\).
+The typed classifier $\mathsf{ProdClassifierSpec}$ relates pairs componentwise using the classifiers of $A$ and $B$. Separately, the history-envelope classifier $\mathsf{ProdHistoryClassifier}$ relates histories by endpoint product-carrier witnesses together with endpoint $\hsame$.
 \end{definition}
 \leandef{BEDC.Derived.ProdUp.ProdClassifier}
 \leandef{BEDC.Derived.ProdUp.ProdHistoryClassifier}
@@ -234,16 +234,16 @@ fields for the raw ledger history and the visible history.
 For source-history predicates $L$ and $R$ on $\mathsf{BHist}$, assume there
 are carrier witnesses $l$ and $r$ with $L(l)$ and $R(r)$. Equivalently, the
 witnesses may be supplied by source certificates whose carrier-inhabited
-fields provide them. Then the componentwise tuple forms the product semantic
-naming certificate for $\mathsf{ProdHistoryCarrier}(L,R)$ and
-$\mathsf{ProdHistoryClassifier}(L,R)$, hence a valid NameCert for
-$\ProdUp(A,B)$.
+fields provide them. Then the endpoint-carrier tuple forms the product-history
+semantic envelope for $\mathsf{ProdHistoryCarrier}(L,R)$ and
+$\mathsf{ProdHistoryClassifier}(L,R)$. The explicit ordered-product interface
+additionally uses the typed componentwise classifier and projection fields.
 \end{theorem}
 \begin{proof}
 Take the left and right witnesses from the two source certificates, or from
 the explicit carrier-witness assumptions. BEDC continuation joins them into a
-product history. The product classifier stores the two carrier witnesses and
-an $\hsame$ witness between product histories, so the certificate fields follow
+product history. The history-envelope classifier stores the two endpoint carrier
+witnesses and an $\hsame$ witness between product histories, so the certificate fields follow
 by $\hsame$ reflexivity, symmetry, transitivity, and carrier transport.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.prod\_history\_semantic\_name\_certificate}

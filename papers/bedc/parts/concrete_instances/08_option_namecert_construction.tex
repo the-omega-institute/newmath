@@ -92,6 +92,14 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source 
 The mixed cases reduce to BEDC history constructor no-confusion: $\mathsf{not\_hsame\_emp\_e1}$ eliminates an empty history classified with an $e1$-tagged present history, and $\mathsf{not\_hsame\_e1\_empty}$ eliminates the reverse direction. In the present-present case, $\mathsf{hsame\_e1\_iff}$ strips the visible $e1$ tags and exposes the payload histories, so the source classifier supplies the payload classification and its reflexive, symmetric, and transitive fields. The absent-absent case is the empty-history classifier clause.
 \end{proof}
 
+\begin{theorem}[Tagged option history semantic certificate target]
+\label{thm:tagged-option-history-semantic-certificate}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a source classifier on source histories, and assume a source $\NameCert(S,\sim_S)$. Assume also the compatibility field saying that $S(a)$, $S(b)$, and $\hsame(a,b)$ imply $a\sim_S b$. Then $\mathsf{TaggedOptionHistoryCarrier}_S$, the tagged optional-history classifier, the visible tag pattern, and the visible tag ledger form a $\mathsf{SemanticNameCert}$.
+\end{theorem}
+\begin{proof}
+The absent branch supplies inhabitation through the empty history. Present reflexivity, symmetry, and transitivity are inherited from the source certificate fields, while the absent branch uses reflexivity, symmetry, and transitivity of $\hsame$ at $\emp$. Constructor exactness eliminates mixed absent-present classifications and inverts present-present classifications to payload histories. Carrier transport follows by cases on the tagged carrier: absent histories transport along $\hsame$ to the empty tag, and present histories use tag inversion plus the compatibility field to recover the source classifier relation between payload endpoints. The visible tag pattern and visible tag ledger expose exactly the same absent and present cases, so their soundness fields are projections of the classifier and constructor-exactness data.
+\end{proof}
+
 \begin{theorem}[Option history classifier endpoint transport]
 \label{thm:option-history-classifier-hsame-transport}
 If the optional history classifier relates \(h\) to \(k\), and
