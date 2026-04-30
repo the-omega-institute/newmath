@@ -76,6 +76,19 @@ theorem unary_history_induction {P : BHist → Prop} :
   | e1 h ih =>
       exact step h uh (ih uh)
 
+theorem unary_histories_induction_from_generators {P : BHist -> Prop} :
+    P BHist.Empty ->
+      (forall h : BHist, UnaryHistory h -> P h -> P (BHist.e1 h)) ->
+      forall h : BHist, UnaryHistory h -> P h := by
+  intro base step h uh
+  induction h with
+  | Empty =>
+      exact base
+  | e0 h ih =>
+      cases uh
+  | e1 h ih =>
+      exact step h uh (ih uh)
+
 theorem unary_transport {h k : BHist} : UnaryHistory h -> hsame h k -> UnaryHistory k := by
   intro uh hhk
   cases hhk

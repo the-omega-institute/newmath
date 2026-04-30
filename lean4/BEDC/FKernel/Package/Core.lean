@@ -78,6 +78,13 @@ inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
   | intro {s t : BHist} {p q : Pkg} :
       TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
 
+omit [AskSetup] P in
+theorem concrete_package_sameness_policy [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t q -> hsame s t -> psame bundle p q := by
+  intro left right same
+  exact psame.intro left right same
+
 def TokUnique (bundle : ProbeBundle ProbeName) : Prop :=
   ∀ {s t : BHist} {p : Pkg}, TokIntro bundle s p → TokIntro bundle t p → hsame s t
 
