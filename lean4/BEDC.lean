@@ -33,3 +33,5 @@ import BEDC.FKernel.Unary
 import BEDC.BaseReflection
 import BEDC.Derived.IntUp
 import BEDC.Derived.BoolUp
+import BEDC.Derived.ProdUp
+import BEDC.Derived.ListUp
