@@ -64,6 +64,16 @@ Thus $\AskPol(\Pi,D)$ is a sufficient global certificate, while $\mathsf{BundleA
 \end{definition}
 \leanstmt{BEDC.FKernel.Ask.BundleAskPolicy}
 
+\begin{theorem}[Empty bundle-local asking policy]
+\label{thm:empty-bundle-local-asking-policy}
+For every source specification $D$, $\mathsf{BundleAskPolicy}(\Bnil,D)$ holds.
+\end{theorem}
+\begin{proof}
+Each totality, determinacy, and history-respect clause begins from an
+occurrence proof $\pi\in\Bnil$. Empty-bundle membership inversion eliminates
+that occurrence, so all three fields are satisfied.
+\end{proof}
+
 \begin{lemma}[Bundle-local asking policy tail restriction]
 \label{lem:bundle-local-asking-policy-tail-restriction}
 If $\mathsf{BundleAskPolicy}(\Bcons(\pi,\Pi),D)$ holds, then $\mathsf{BundleAskPolicy}(\Pi,D)$ holds.

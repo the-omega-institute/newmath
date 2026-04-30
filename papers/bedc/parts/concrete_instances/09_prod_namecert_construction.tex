@@ -150,10 +150,20 @@ fields for the raw ledger history and the visible history.
 
 \begin{theorem}[Concrete \(\ProdUp\) naming certificate]
 \label{thm:concrete-prod-namecert}
-The componentwise tuple forms a valid NameCert for \(\ProdUp(A,B)\).
+For source-history predicates $L$ and $R$ on $\mathsf{BHist}$, assume there
+are carrier witnesses $l$ and $r$ with $L(l)$ and $R(r)$. Equivalently, the
+witnesses may be supplied by source certificates whose carrier-inhabited
+fields provide them. Then the componentwise tuple forms the product semantic
+naming certificate for $\mathsf{ProdHistoryCarrier}(L,R)$ and
+$\mathsf{ProdHistoryClassifier}(L,R)$, hence a valid NameCert for
+$\ProdUp(A,B)$.
 \end{theorem}
 \begin{proof}
-Choose one left source history and one right source history. BEDC continuation joins them into a product history. The product classifier stores the two carrier witnesses and an \(\hsame\) witness between product histories, so the certificate fields follow by \(\hsame\) reflexivity, symmetry, transitivity, and carrier projection.
+Take the left and right witnesses from the two source certificates, or from
+the explicit carrier-witness assumptions. BEDC continuation joins them into a
+product history. The product classifier stores the two carrier witnesses and
+an $\hsame$ witness between product histories, so the certificate fields follow
+by $\hsame$ reflexivity, symmetry, transitivity, and carrier transport.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.prod\_history\_semantic\_name\_certificate}
 
