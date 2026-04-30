@@ -751,6 +751,42 @@ theorem compGap_witness_from_layers
           | intro z dGap =>
               exact Exists.intro z (Exists.intro y (And.intro cGap dGap))
 
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_assoc
+    {A B C D : Type}
+    {first : B → A → Prop}
+    {second : C → B → Prop}
+    {third : D → C → Prop}
+    {z : D} {x : A} :
+    CompGap (fun c a => CompGap first second c a) third z x ↔
+      CompGap first (fun z b => CompGap second third z b) z x := by
+  constructor
+  · intro left
+    cases left with
+    | intro c cData =>
+        cases cData with
+        | intro firstSecond thirdWitness =>
+            cases firstSecond with
+            | intro b bData =>
+                cases bData with
+                | intro firstWitness secondWitness =>
+                    exact Exists.intro b
+                      (And.intro firstWitness
+                        (Exists.intro c (And.intro secondWitness thirdWitness)))
+  · intro right
+    cases right with
+    | intro b bData =>
+        cases bData with
+        | intro firstWitness secondThird =>
+            cases secondThird with
+            | intro c cData =>
+                cases cData with
+                | intro secondWitness thirdWitness =>
+                    exact Exists.intro c
+                      (And.intro
+                        (Exists.intro b (And.intro firstWitness secondWitness))
+                        thirdWitness)
+
 omit [AskSetup] [PackageSetup] in
 theorem domain_invariance {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     hsame h k -> (InDom D h <-> InDom D k) := by
