@@ -259,12 +259,9 @@ The theorem \texttt{PackageReflection.eqClosure} proves \(\ClosureReflect(\Pi)\)
 \begin{proposition}[Conditional closure-reflection schema]
 \label{prop:conditional-closure-reflection-schema}
 Assume \(\hsame\) is an equivalence relation, assume \(\TokUnique(\Pi)\), assume every package has an introducing signature witness, and assume \(\psame_{\Pi}^{\mathrm{eq}}\) is implemented as the ordinary reflexive-symmetric-transitive closure of \(\psame_{\Pi}^{\mathrm{base}}\). Then the proof route of Protocol~\ref{prot:closure-reflection-route} proves
-\[
-\begin{aligned}
-  &\TokIntro(\Pi,s,p),\quad \TokIntro(\Pi,t,q),\quad \psame_{\Pi}^{\mathrm{eq}}(p,q)\\
-  &\hspace{3cm}\Longrightarrow\quad \hsame(s,t).
-\end{aligned}
-\]
+$$
+\TokIntro(\Pi,s,p),\quad \TokIntro(\Pi,t,q),\quad \psame_{\Pi}^{\mathrm{eq}}(p,q)\Longrightarrow \hsame(s,t).
+$$
 \leanchecked{BEDC.BaseReflection.PackageReflection\_eqClosure}
 \leanvariant{BEDC.BaseReflection.PsameEqClosure\_iff\_hsame\_under\_tok\_unique}
 \leanvariant{BEDC.BaseReflection.ClosureReflect\_from\_eqClosure}
@@ -272,7 +269,6 @@ Assume \(\hsame\) is an equivalence relation, assume \(\TokUnique(\Pi)\), assume
 \leanvariant{BEDC.BaseReflection.PsameEqClosure\_endpoint\_reflection\_pair}
 \leanvariant{BEDC.BaseReflection.PsameEqClosure\_two\_base\_reflection}
 \leanvariant{BEDC.BaseReflection.PsameEqClosure\_three\_base\_reflection}
-\leanchecked{BEDC.BaseReflection.PsameEqClosure\_four\_base\_reflection}
 \leanvariant{BEDC.BaseReflection.ClosureReflect\_from\_canonical}
 \end{proposition}
 
@@ -280,13 +276,39 @@ Assume \(\hsame\) is an equivalence relation, assume \(\TokUnique(\Pi)\), assume
 Induct on the derivation of \(\psame_{\Pi}^{\mathrm{eq}}(p,q)\). The reflexive case compares two introductions of one token by token uniqueness. The base-edge case is Theorem~\ref{thm:base-package-reflection}. The symmetric case reverses the induction result by symmetry of \(\hsame\). The transitive case chooses an introducing signature witness for the middle package and composes the two induction results by transitivity of \(\hsame\).
 \end{proof}
 
-\begin{corollary}[Still not active]
+\begin{corollary}[Four base-edge reflection]
+\label{cor:four-base-edge-reflection}
+Assume \(\hsame\) is an equivalence relation and \(\TokUnique(\Pi)\). Let \(p,q,r,u,w\) be package tokens, with endpoint introductions \(\TokIntro(\Pi,x,p)\) and \(\TokIntro(\Pi,v,w)\), and with introducing signature witnesses for \(q\), \(r\), and \(u\). If
+$$
+\psame_{\Pi}^{\mathrm{base}}(p,q),\quad
+\psame_{\Pi}^{\mathrm{base}}(q,r),\quad
+\psame_{\Pi}^{\mathrm{base}}(r,u),\quad
+\psame_{\Pi}^{\mathrm{base}}(u,w),
+$$
+then \(\hsame(x,v)\).
+\end{corollary}
+\leanchecked{BEDC.BaseReflection.PsameEqClosure\_four\_base\_reflection}
+
+\begin{proof}
+Apply base-package reflection to each adjacent base edge, using the middle introducing witnesses for the internal package tokens. Transitivity of \(\hsame\) composes the four reflected comparisons into the endpoint comparison.
+\end{proof}
+
+\begin{corollary}[Closure reflection yields generated signature sameness]
 \label{cor:closure-still-not-active}
-Proposition~\ref{prop:conditional-closure-reflection-schema} is a checked local reflection theorem for introduced tokens. It does not activate \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness or change the exported relation of \(\ExactGlobalizeBase(\Pi,D)\).
+When a package pair is related by \(\psame_{\Pi}^{\mathrm{eq}}\) and both endpoints have token introductions, a closure-reflection witness produces the corresponding generated signature sameness comparison.
 \end{corollary}
 \leanchecked{BEDC.BaseReflection.ClosureReflect\_to\_GeneratedSameSig}
 
 \begin{proof}
-The active export discipline is Protocol~\ref{prot:export-discipline} together with Corollary~\ref{cor:no-closure-export}. The exactness predicate continues to name \(\psame_{\Pi}^{\mathrm{base}}\) as its package relation.
+Unfold the generated signature sameness target for the introduced endpoints. The closure-reflection witness applies directly to the two introductions and the equivalence-closure premise, yielding the required \(\hsame\) comparison.
 \end{proof}
+
+\begin{corollary}[Closure reflection preserves base export]
+\label{cor:closure-reflection-preserves-base-export}
+Adding a closure-reflection witness does not change the exported package relation of \(\ExactGlobalizeBase(\Pi,D)\): exactness continues to export \(\psame_{\Pi}^{\mathrm{base}}\).
+\end{corollary}
 \leanchecked{BEDC.BaseReflection.ClosureReflect\_preserves\_base\_export}
+
+\begin{proof}
+The export discipline is Protocol~\ref{prot:export-discipline} together with Corollary~\ref{cor:no-closure-export}. Closure reflection is consumed only as a local theorem for introduced endpoints, while the exactness predicate continues to name \(\psame_{\Pi}^{\mathrm{base}}\) as its package relation.
+\end{proof}
