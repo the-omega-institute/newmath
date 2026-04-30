@@ -12,8 +12,8 @@ The disjoint sum interface \(\SumUp\) is licensed over two source carriers each 
   \item \textbf{Classifier choice}: the sum classifier stores tag endpoints plus the matching $A$ or $B$ classifier witness, and excludes mixed tags; source-carrier evidence is supplied by $\mathsf{SumHistoryCarrier}$.
   \item \textbf{Stability obligations}: tagged carrier transport, source-certified classifier-induced carrier transport, left/right inversion, mixed-tag exclusion, classifier symmetry, classifier transitivity, and endpoint transport.
   \item \textbf{Ledger}: the tag is visible data; payload evidence is retained from the corresponding source certificate.
-  \item \textbf{Core theorem list}: tagged injections, $\hsame$ carrier transport, source-certified classifier-induced carrier transport, left and right inversions, classifier inversion, generic same-tag exactness, source-certified same-tag carrier exactness, mixed-tag exclusion, and the semantic name certificate.
-  \item \textbf{Exactness predicate}: the left-tag and right-tag iff clauses identify classifier-only payload witnesses and the matching source classifier, while carrier-aware exactness combines $\mathsf{SumHistoryCarrier}$ with the source $\NameCert$s.
+  \item \textbf{Core theorem list}: tagged injections, $\hsame$ carrier transport, source-certified classifier-induced carrier transport, left and right inversions, classifier inversion, generic same-tag exactness, carrier-aware same-tag exactness, mixed-tag exclusion, and the semantic name certificate.
+  \item \textbf{Exactness predicate}: the left-tag and right-tag iff clauses identify classifier-only payload witnesses and the matching source classifier, while carrier-aware exactness combines $\mathsf{SumHistoryCarrier}$ with explicit carrier transport along $\hsame$.
   \item \textbf{Standard bridge}: tagged histories read back as ordinary $\mathsf{inl}(a)$ and $\mathsf{inr}(b)$ values.
   \item \textbf{Status}: the $\mathsf{SemanticNameCert}$ at Theorem~\ref{thm:concrete-sum-namecert} is $\mathsf{CheckedCert}$; Theorem~\ref{thm:sum-history-classifier-source-same-tag-exactness} is the paper-side matching-source formulation, and Theorem~\ref{thm:sum-history-classifier-generic-same-tag-exactness} records the witness-level same-tag formulation.
 \end{enumerate}
@@ -297,13 +297,20 @@ $$
 Unfold $\mathsf{SumHistoryClassifier}$. In the left-tag forward direction, the left branch already stores payload witnesses for the two endpoints together with a $LeftEq$ witness; the opposite right branch is impossible by $e0/e1$ no-confusion, and $e0$-constructor inversion identifies the visible endpoints with the stored payload tags. The right-tag forward direction is identical with $e1$-constructor inversion and $RightEq$. For the reverse directions, the displayed payload witnesses rebuild the matching left or right classifier branch by constructor congruence for $e0$ or $e1$, together with the stored source-classifier witness. The surviving branch is constructor-stable, and the impossible branch is discharged by the same tag no-confusion principle.
 \end{proof}
 
-\begin{theorem}[Sum history classifier source-certified same-tag carrier exactness]
-\label{thm:sum-history-classifier-source-certified-same-tag-carrier-exactness}
+\begin{theorem}[Sum history classifier carrier-aware same-tag exactness]
+\label{thm:sum-history-classifier-carrier-aware-same-tag-exactness}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
 $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
-classifiers, and assume source certificates $\NameCert(Left,LeftEq)$ and
-$\NameCert(Right,RightEq)$. Then the visible same-tag carrier and classifier
-evidence is exact for the matching source payloads:
+classifiers, and assume the two carriers transport along $\hsame$:
+$$
+\forall x,y.\;\hsame(x,y)\land Left(x)\Rightarrow Left(y)
+$$
+and
+$$
+\forall x,y.\;\hsame(x,y)\land Right(x)\Rightarrow Right(y).
+$$
+Then the visible same-tag carrier and classifier evidence is exact for the
+matching source payloads:
 $$
 \begin{array}{l}
 \mathsf{SumHistoryCarrier}(Left,Right,\Ezero(l))
@@ -329,23 +336,22 @@ $$
 $$
 Its roadmap-template role is: traditional target disjoint-sum same-tag payload
 exactness; BEDC source $\mathsf{BHist}$ with $\mathsf{SumHistoryCarrier}$ and
-source $\NameCert$s; carrier the tagged sum carrier; classifier
+carrier transport along $\hsame$; carrier the tagged sum carrier; classifier
 $\mathsf{SumHistoryClassifier}$; ledger visible tag plus payload evidence;
 exactness the displayed iff clauses; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 For the forward left-tag direction, invert the two displayed carrier witnesses
-to obtain payloads $c,c'$ with $Left(c)$ and $Left(c')$ aligned to $l$ and
-$l'$. Apply Theorem~\ref{thm:sum-history-classifier-generic-same-tag-exactness}
-to the classifier premise to obtain payloads $a,a'$ with $\hsame(l,a)$,
-$\hsame(l',a')$, and $LeftEq(a,a')$. Constructor inversion for the visible
-$e0$ tags aligns $c$ with $a$ and $c'$ with $a'$. The first source-carrier
-evidence therefore reads as $Left(a)$, and the left source certificate field
-$\mathsf{NameCert.carrier\_respects\_equiv}$ transports it along the stored
-$LeftEq(a,a')$ witness to obtain $Left(a')$; the second carrier inversion
-confirms the same visible left payload shape at $l'$. This gives the displayed
-left payload witnesses. The forward right-tag direction is the same argument
-with $\Eone$, $Right$, $RightEq$, and the right source certificate. For the
+to obtain payloads $c,c'$ with $Left(c)$ and $Left(c')$ plus $\hsame(l,c)$ and
+$\hsame(l',c')$. Apply
+Theorem~\ref{thm:sum-history-classifier-generic-same-tag-exactness} to the
+classifier premise to obtain payloads $a,a'$ with $\hsame(l,a)$,
+$\hsame(l',a')$, and $LeftEq(a,a')$. Symmetry and transitivity of $\hsame$
+align $c$ with $a$ and $c'$ with $a'$. The explicit left carrier-transport
+hypothesis therefore carries $Left(c)$ to $Left(a)$ and $Left(c')$ to
+$Left(a')$. This gives the displayed left payload witnesses. The forward
+right-tag direction is the same argument with $\Eone$, $Right$, $RightEq$, and
+the explicit right carrier-transport hypothesis. For the
 reverse directions, the displayed payload witnesses rebuild the two tagged
 carrier premises and the matching classifier branch by the generic same-tag
 exactness theorem, using the visible tag constructors to supply the endpoint
