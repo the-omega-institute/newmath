@@ -236,6 +236,19 @@ theorem history_no_confusion_four_cases :
       (∀ {h k : BHist}, hsame (BHist.e1 h) (BHist.e0 k) → False) := by
   exact hsame_no_confusion
 
+theorem history_no_confusion_expanded_pair :
+    ((∀ {h : BHist}, hsame BHist.Empty (BHist.e0 h) → False) ∧
+      (∀ {h : BHist}, hsame BHist.Empty (BHist.e1 h) → False)) ∧
+      ((∀ {h k : BHist}, hsame (BHist.e0 h) (BHist.e1 k) → False) ∧
+        (∀ {h k : BHist}, hsame (BHist.e1 h) (BHist.e0 k) → False)) := by
+  constructor
+  · constructor
+    · exact not_hsame_emp_e0
+    · exact not_hsame_emp_e1
+  · constructor
+    · exact not_hsame_e0_e1
+    · exact not_hsame_e1_e0
+
 theorem history_no_confusion_empty_pair :
     (∀ {h : BHist}, hsame BHist.Empty (BHist.e0 h) -> False) ∧
       (∀ {h : BHist}, hsame (BHist.e0 h) BHist.Empty -> False) ∧

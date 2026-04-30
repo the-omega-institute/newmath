@@ -51,6 +51,23 @@ theorem unary_shift_step_with_unique_witness {k0 h r' : BHist} :
             intro w hw
             exact cont_deterministic hv hw⟩
 
+theorem unary_shift_step_result_unique_pair {k0 h r' : BHist} :
+    UnaryHistory k0 →
+      (∀ {r : BHist}, Cont k0 (BHist.e1 h) r →
+        ∃ v : BHist, Cont k0 h v ∧ hsame r (BHist.e1 v)) →
+      Cont (BHist.e1 k0) (BHist.e1 h) r' →
+      ∃ v : BHist,
+        Cont (BHist.e1 k0) h v ∧ hsame r' (BHist.e1 v) ∧
+          (∀ {w : BHist}, Cont (BHist.e1 k0) h w → hsame v w) := by
+  intro uk shift hr'
+  cases unary_shift_step uk shift hr' with
+  | intro v shifted =>
+      cases shifted with
+      | intro hv same =>
+          exact ⟨v, hv, same, by
+            intro w hw
+            exact cont_deterministic hv hw⟩
+
 theorem unary_shift_step_closed_unique_witness {k0 h r' : BHist} :
     UnaryHistory k0 → UnaryHistory h →
       (∀ {r : BHist}, Cont k0 (BHist.e1 h) r →
