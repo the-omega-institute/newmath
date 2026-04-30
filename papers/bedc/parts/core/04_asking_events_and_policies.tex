@@ -10,16 +10,20 @@
 \leandef{BEDC.FKernel.Ask.Evidence}
 
 \begin{definition}[Asking event]
+\label{def:asking-event}
 An asking event is a judgment
 \[
 \Ask(\pi,h,m,\delta),
 \]
 where \(\pi:\PN\), \(h:\Hist\), \(m:\Mark\), and \(\delta:\Ev\). It is read: asking probe name \(\pi\) of history \(h\) emits mark \(m\) with evidence token \(\delta\).
 \end{definition}
+\leandef{BEDC.FKernel.Ask.AskEvent}
+\leanchecked{BEDC.FKernel.Ask.askEvent\_witness}
 
 \section{Asking policies}
 
 \begin{definition}[Asking policy]
+\label{def:asking-policy}
 An asking policy \(\AskPol(\Pi,D)\) for a bundle \(\Pi\) over a source specification \(D\) consists of:
 \begin{enumerate}
   \item totality: every admitted history in \(D\) has generated asking events for every probe in \(\Pi\);
@@ -29,10 +33,21 @@ An asking policy \(\AskPol(\Pi,D)\) for a bundle \(\Pi\) over a source specifica
 \end{enumerate}
 The word ``consists'' is a metalanguage description of a certificate record; the object-language content is the availability of these certified properties.
 \end{definition}
+\leanchecked{BEDC.FKernel.Ask.AskPolicy\_iff\_fields}
+\leanchecked{BEDC.FKernel.Ask.ask\_policy\_fields}
+\leanchecked{BEDC.FKernel.Ask.ask\_total\_from\_policy}
+\leanchecked{BEDC.FKernel.Ask.ask\_total}
+\leanchecked{BEDC.FKernel.Ask.ask\_respects\_history}
+\leanchecked{BEDC.FKernel.Sig.sig\_respects\_history}
 
 \begin{lemma}[Asking determinacy]
+\label{thm:asking-determinacy}
+\label{lem:asking-determinacy}
 Under an asking policy, a fixed probe name applied to a fixed history emits a mark unique up to \(\msame\).
 \end{lemma}
+\leanchecked{BEDC.FKernel.Ask.ask\_deterministic}
+\leanchecked{BEDC.FKernel.Ask.asking\_determinacy}
+\leanchecked{BEDC.FKernel.Ask.asking\_determinacy\_field}
 \begin{proof}
 This is the mark determinacy field of \(\AskPol\).
 \end{proof}

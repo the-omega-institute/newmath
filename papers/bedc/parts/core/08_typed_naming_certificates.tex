@@ -17,6 +17,7 @@ A classifier specification \(\ClassifierSpec\) records how source material is gr
 \leandef{BEDC.FKernel.NameCert.ClassifierSpec}
 
 \begin{definition}[Stability certificates]
+\label{def:naming-certificate-stability-field}
 The stability component \(\StabCert\) is typed by modes:
 \begin{align*}
 \ClosureCert &: \text{the source is closed under the named behavior},\\
@@ -28,6 +29,7 @@ The stability component \(\StabCert\) is typed by modes:
 A name may require one or more of these modes.
 \end{definition}
 \leandef{BEDC.FKernel.NameCert.StabilityCert}
+\leanchecked{BEDC.FKernel.NameCert.derived\_interfaces\_have\_stability}
 
 \begin{definition}[Ledger policy]
 A ledger policy \(\LedgerPolicy\) records what the name hides and how the hidden material is tracked. It must specify whether the ledger is a gap, a composite gap, a tail ledger, a phase ledger, a source ledger, or another derived ledger.
@@ -44,8 +46,22 @@ The proposed name \(N\) is licensed only if all required fields are supplied.
 \end{definition}
 
 \begin{theorem}[Derived interfaces require certificates]
+\label{thm:derived-interfaces-require-certificates}
 No interface marked by an upward arrow is licensed without a \(\NameCert\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.NameCert.derived\_interfaces\_require\_certificates}
 \begin{proof}
 This is the formation rule for derived interfaces: derived names are not object-language primitives. They enter the theory only by a naming certificate.
+\end{proof}
+
+\begin{corollary}[Limit-like interfaces carry a ledger]
+\label{cor:limit-like-interfaces-derived}
+Every certified derived interface carries a ledger policy witness.
+\end{corollary}
+\leanchecked{BEDC.FKernel.NameCert.limit\_like\_interfaces\_derived}
+\leanchecked{BEDC.FKernel.NameCert.derived\_interfaces\_have\_ledger}
+\leanchecked{BEDC.FKernel.NameCert.ledger\_witness\_from\_cert}
+\leanchecked{BEDC.FKernel.NameCert.sealInterface\_requires\_nameCert}
+\begin{proof}
+Case analysis on the naming certificate exposes its five fields. The ledger field is the required witness.
 \end{proof}

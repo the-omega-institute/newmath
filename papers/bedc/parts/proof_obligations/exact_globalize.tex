@@ -38,6 +38,7 @@ Assume \(\AskPol(\Pi,D)\) and that token introduction is available for every gen
   \InGapSig(\Pi,D,p,h).
 \]
 \end{theorem}
+\leanchecked{BEDC.FKernel.Gap.gap\_coverage\_globalize}
 
 \begin{proof}
 By the totality field of \(\AskPol(\Pi,D)\), the history \(h\) generates some signature \(s\) with evidence \(\Delta\). Token introduction supplies a token \(p\) with \(\TokIntro(\Pi,s,p)\). The three displayed judgments witness \(\InGapSig(\Pi,D,p,h)\).
@@ -56,6 +57,7 @@ then
   \psame_{\Pi}^{\mathrm{sig}}(p,q).
 \]
 \end{theorem}
+\leanchecked{BEDC.FKernel.Gap.gap\_separation\_globalize}
 
 \begin{proof}
 The two gap premises yield signatures \(s,t\) with
@@ -75,6 +77,7 @@ The determinacy field of \(\AskPol(\Pi,D)\) gives \(\hsame(s,t)\). The package-s
 \label{thm:globalize-sound}
 Assume \(\AskPol(\Pi,D)\). If admitted histories \(h,k\) generate internally same signatures, then any tokens introduced from those signatures are package-same.
 \end{theorem}
+\leanchecked{BEDC.BaseReflection.GeneratedSameSig\_psameBase}
 
 \begin{proof}
 Let \(s,t\) be generated signatures for \(h,k\), with \(\hsame(s,t)\). If \(p,q\) are introduced from \(s,t\), then the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\) yields \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\).
@@ -84,6 +87,7 @@ Let \(s,t\) be generated signatures for \(h,k\), with \(\hsame(s,t)\). If \(p,q\
 \label{thm:globalize-complete}
 Assume \(\mathsf{TokUnique}(\Pi)\). If tokens introduced from generated signatures are package-same, then the generated signatures are internally history-same.
 \end{theorem}
+\leanchecked{BEDC.BaseReflection.PsameBase\_to\_GeneratedSameSig\_under\_tok\_unique}
 
 \begin{proof}
 This is exactly Theorem~\ref{thm:package-reflection-token-unique} applied to the token-introduction premises.
@@ -93,6 +97,8 @@ This is exactly Theorem~\ref{thm:package-reflection-token-unique} applied to the
 \label{cor:exact-globalize}
 Under \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), token introduction, \(\mathsf{TokUnique}(\Pi)\), and the one-constructor concrete package-sameness policy, the visible packages of \(\GlobSig(\Pi,D)\) classify admitted histories exactly by generated signature-sameness, with \(\InGapSig\) as the source ledger.
 \end{corollary}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_coverage}
+\leanchecked{BEDC.FKernel.Gap.exact\_globalize\_classifies\_signatures}
 
 \begin{proof}
 Coverage is Theorem~\ref{thm:gap-coverage-globalize}. Separation is Theorem~\ref{thm:gap-separation-globalize}. Soundness and completeness are Theorems~\ref{thm:globalize-sound} and~\ref{thm:globalize-complete}. Domain transport is supplied by \(\DomainPolicy(D)\).
@@ -116,6 +122,9 @@ Assume:
 \end{enumerate}
 Then the visible packages of \(\GlobSig(\Pi,D)\) classify admitted histories exactly by generated signature-sameness, where exactness is stated with \(\psame_{\Pi}^{\mathrm{base}}\), not with \(\psame_{\Pi}^{\mathrm{eq}}\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Gap.exact\_concrete\_globalize}
+
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_exact}
 
 \begin{proof}
 Coverage is Theorem~\ref{thm:gap-coverage-globalize}. Separation is Theorem~\ref{thm:gap-separation-globalize}, with \(\psame_{\Pi}^{\mathrm{sig}}\) read as \(\psame_{\Pi}^{\mathrm{base}}\) by Definition~\ref{def:base-psame}. Soundness is the base constructor. Completeness is Theorem~\ref{thm:base-reflection-active}. Domain transport is supplied by \(\DomainPolicy(D)\). The theorem exports only the base relation because Corollary~\ref{cor:eq-not-exported} blocks implicit closure export.
@@ -126,20 +135,25 @@ Coverage is Theorem~\ref{thm:gap-coverage-globalize}. Separation is Theorem~\ref
 The following statements are not exported:
 \begin{enumerate}
   \item \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness;
-  \item package-sameness transitivity as a constructor-level theorem for \(\psame_{\Pi}^{\mathrm{base}}\);
-  \item equivalence-closure reflection;
+  \item package-sameness transitivity without token-uniqueness hypotheses as a constructor-level theorem for \(\psame_{\Pi}^{\mathrm{base}}\);
+  \item equivalence-closure exactness as a Globalize export;
   \item a checked \(\AddUp\) implementation artifact;
   \item a full natural-number or addition construction beyond the licensed unary-continuation interface.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-Each item requires either an equivalence-closure theorem, an implementation artifact, or a derived-object construction that is outside the declared scope of this verification contract. Thus each is deferred.
+Each item requires an exactness predicate whose exported relation is not \(\psame_{\Pi}^{\mathrm{base}}\), an implementation artifact, or a derived-object construction that is outside the declared scope of this verification contract.
 \end{proof}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_soundness\_exports\_base}
+\leanchecked{BEDC.BaseReflection.PsameBase\_trans\_under\_tok\_unique}
+\leandef{BEDC.BaseReflection.NotExported}
+\leanchecked{BEDC.BaseReflection.NotExported\_from\_exact}
+\leanchecked{BEDC.BaseReflection.NotExported\_classify\_iff}
 
 \begin{protocol}[Export discipline]
 \label{prot:export-discipline}
-Future modules should cite Theorem~\ref{thm:exact-concrete-globalize} as the current exactness theorem. If a later module needs \(\psame_{\Pi}^{\mathrm{eq}}\), it must first add a chapter proving \(\ClosureReflect(\Pi)\) or explicitly downgrade its result from exact reflection to closure-level compatibility.
+Modules cite Theorem~\ref{thm:exact-concrete-globalize} as the current exactness theorem. If a module needs \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness, it must state an exactness predicate whose exported relation is \(\psame_{\Pi}^{\mathrm{eq}}\), or explicitly downgrade its result from exact reflection to closure-level compatibility.
 \end{protocol}
 
 \section{Checker-Friendly Exactness Predicate}
@@ -160,6 +174,13 @@ For a generated probe bundle \(\Pi\), define
 This is the checker-facing predicate corresponding to ``the two admitted histories generate the same visible signature''.
 \end{definition}
 \leandef{BEDC.BaseReflection.GeneratedSameSig}
+\leanchecked{BEDC.BaseReflection.GeneratedSameSig\_hsame}
+\leanchecked{BEDC.BaseReflection.GeneratedSameSig\_left\_witness}
+\leanchecked{BEDC.BaseReflection.GeneratedSameSig\_right\_witness}
+\leanchecked{BEDC.BaseReflection.GeneratedSameSig\_witnesses}
+\leanchecked{BEDC.BaseReflection.GeneratedSameSig\_symm}
+\leanchecked{BEDC.BaseReflection.GeneratedSameSig\_symm\_nonempty}
+\leanchecked{BEDC.BaseReflection.GeneratedSameSig\_trans\_nonempty\_under\_determinacy}
 
 \begin{definition}[Base exact Globalize structure]
 \label{def:exact-globalize-base}
@@ -197,6 +218,10 @@ is the conjunction of the following four fields.
 \end{enumerate}
 The fourth field may be implemented as a derived theorem from soundness and completeness; it is recorded here because it is the public export shape.
 \end{definition}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_iff\_fields}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_soundness}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_completeness}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_sound\_complete}
 
 \begin{proposition}[Classification is derivable from the two directions]
 \label{prop:iff-derived}
@@ -206,6 +231,7 @@ If coverage, base soundness, and base completeness hold, then for all \(h,k,p,q\
 \]
 \end{proposition}
 \leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_iff}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_iff\_from\_directions}
 
 \begin{proof}
 The forward implication is base completeness. The reverse implication is base soundness. Coverage is not needed for this local equivalence, but it remains part of the global exactness structure because exact Globalize must also classify every admitted history, not only pairs already carrying visible packages.
@@ -239,6 +265,9 @@ Then
   \ExactGlobalizeBase(\Pi,D).
 \]
 \end{theorem}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_fields}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields\_classify\_iff}
 
 \begin{proof}
 Coverage is the policy-supported gap coverage theorem from this proof-obligation spine, with internal domain transport supplied by \(\DomainPolicy(D)\). Base soundness follows from generated signature sameness plus the single constructor of \(\psame_{\Pi}^{\mathrm{base}}\). Base completeness follows by applying base package reflection to the visible packages and then unpacking \(\GeneratedSameSig\). The local classification equivalence is Proposition~\ref{prop:iff-derived}.
@@ -250,8 +279,11 @@ Theorem~\ref{thm:exact-globalize-base-target} exports exactness only at \(\psame
 \end{corollary}
 
 \begin{proof}
-The statement concludes \(\ExactGlobalizeBase(\Pi,D)\), whose relation field is \(\psame_{\Pi}^{\mathrm{base}}\) by Definition~\ref{def:exact-globalize-base}. The optional equivalence closure remains governed by \(\ClosureReflect(\Pi)\), which is not a checked theorem here.
+The statement concludes \(\ExactGlobalizeBase(\Pi,D)\), whose relation field is \(\psame_{\Pi}^{\mathrm{base}}\) by Definition~\ref{def:exact-globalize-base}. The optional equivalence closure has the local reflection theorem of Proposition~\ref{prop:conditional-closure-reflection-schema}; that theorem does not replace the relation field of \(\ExactGlobalizeBase(\Pi,D)\).
 \end{proof}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_relation\_is\_base}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_exports\_base\_relation}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_no\_closure\_export}
 
 \begin{protocol}[Acceptance gate for a checked report]
 \label{prot:checked-acceptance-gate}

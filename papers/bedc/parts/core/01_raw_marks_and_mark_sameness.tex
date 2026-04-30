@@ -58,17 +58,19 @@ Closed generation leaves only two cases. If the middle mark is \(\bzero\), then 
 \end{proof}
 
 \begin{theorem}[Mark-sameness equivalence]
+\label{thm:mark-sameness-equivalence}
 The internal judgment \(\msame\) is reflexive, symmetric, and transitive on generated raw marks.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Mark.msame\_equivalence}
 \begin{proof}
 Immediate from the preceding three lemmas.
 \end{proof}
 
 \begin{theorem}[Raw mark no-confusion]
+\label{thm:mark-no-confusion}
 The kernel does not generate \(\msame(\bzero,\bone)\) or \(\msame(\bone,\bzero)\).
 \end{theorem}
-\leanchecked{BEDC.FKernel.Mark.not\_msame\_b0\_b1}
-\leanchecked{BEDC.FKernel.Mark.not\_msame\_b1\_b0}
+\leanchecked{BEDC.FKernel.Mark.msame\_no\_confusion}
 \begin{proof}
 By the closed-generation principle, mark-sameness has only the two displayed constructors. Neither has cross-mark conclusion.
 \end{proof}

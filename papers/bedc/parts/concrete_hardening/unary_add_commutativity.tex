@@ -14,15 +14,24 @@ No rule generates \(\Unary(\Ezero(h))\).
 \end{definition}
 
 \begin{definition}[Unary continuation result]
+\label{def:unary-continuation-result}
 \(\UnaryCont(h,k,r)\) means
 \[
   \Unary(h),\qquad \Unary(k),\qquad \ContR(h,k,r).
 \]
 \end{definition}
+\leandef{BEDC.FKernel.Examples.Unary.UnaryCont}
 
-\begin{lemma}[Unary continuation closure]
-If \(\UnaryCont(h,k,r)\), then \(\Unary(r)\).
+\begin{lemma}[Unary continuation closure and factors]
+\label{prop:unary-repetition-continuation-closed}
+If \(\UnaryCont(h,k,r)\), then \(\Unary(r)\). If \(\ContR(h,k,r)\) and \(\Unary(r)\), then the unary left and right factors are recovered as \(\Unary(h)\) and \(\Unary(k)\).
 \end{lemma}
+\leanchecked{BEDC.FKernel.Examples.Unary.unary\_append\_closed}
+\leanchecked{BEDC.FKernel.Examples.Unary.unary\_cont\_closed}
+\leanchecked{BEDC.FKernel.Examples.Unary.unary\_cont\_result\_closed}
+\leanchecked{BEDC.FKernel.Examples.Unary.unary\_repetition\_continuation\_closed}
+\leanchecked{BEDC.FKernel.Examples.Unary.unary\_cont\_right\_factor}
+\leanchecked{BEDC.FKernel.Examples.Unary.unary\_cont\_left\_factor}
 
 \begin{proof}
 Induct on the derivation of \(\ContR(h,k,r)\). The empty case gives \(r\) internally same as \(k\), hence unary. The \(\Eone\)-case preserves unary by the constructor rule. The \(\Ezero\)-case is incompatible with \(\Unary(h)\) by unary no-zero-extension.

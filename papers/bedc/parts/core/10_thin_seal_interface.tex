@@ -4,14 +4,21 @@
 \begin{definition}[Stage interface]
 A stage interface \(\Stage\) is a generated visibility level in an iterative observation process. This chapter treats \(\Stage\) as a placeholder for the completion module.
 \end{definition}
+\leandef{BEDC.FKernel.NameCert.StageInterface}
 
 \begin{definition}[Thread]
 A thread \(\Thread\) is a compatible family of stage-level visible data. Compatibility is not developed fully in this finite kernel; it is reserved for the completion module.
 \end{definition}
 
 \begin{definition}[Seal interface]
+\label{def:seal-interface}
 A seal event \(\Seal(T,N)\) licenses a name \(N\) for a compatible thread \(T\), provided a \(\SealCert\) and a ledger policy are supplied.
 \end{definition}
+\leandef{BEDC.FKernel.NameCert.SealEvent}
+\leandef{BEDC.FKernel.NameCert.SealInterface}
+\leanchecked{BEDC.FKernel.NameCert.sealEvent\_field\_witnesses}
+\leanchecked{BEDC.FKernel.NameCert.sealInterface\_field\_witnesses}
+\leanchecked{BEDC.FKernel.NameCert.sealInterface\_certificate\_witnesses}
 
 \begin{corollary}[Limit-like interfaces are derived]
 A \(\LimitUp\) interface is a derived name for seal-certified compatible-thread behavior. It is not primitive in the finite kernel.

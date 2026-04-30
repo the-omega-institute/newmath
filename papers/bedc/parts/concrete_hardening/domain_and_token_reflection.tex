@@ -30,6 +30,7 @@ It means that \(p\) is a package token introduced from the signature history \(s
 \end{definition}
 
 \begin{definition}[Concrete signature package]
+\label{def:concrete-signature-package}
 The concrete signature package relation is defined by token introduction:
 \[
   \PkgSig(\Pi,s,p)
@@ -37,6 +38,8 @@ The concrete signature package relation is defined by token introduction:
   \TokIntro(\Pi,s,p).
 \]
 \end{definition}
+\leandef{BEDC.FKernel.Package.PkgSig}
+\leanchecked{BEDC.FKernel.Package.PkgSig\_iff\_TokIntro}
 
 \begin{definition}[Concrete package-sameness policy]
 For the signature-token instance, package-sameness is generated only from history-sameness of source signatures:
@@ -63,14 +66,19 @@ then
   \hsame(s,t).
 \]
 \end{theorem}
+\leanchecked{BEDC.FKernel.Package.package\_reflection}
+\leanchecked{BEDC.FKernel.Package.package\_reflection\_iff\_hsame}
 
 \begin{proof}
 By the closed-generation clause for concrete package-sameness, every derivation of \(\psame(p,q)\) between signature tokens must arise from a derivation of \(\hsame(s,t)\) between their generating signatures. Therefore the required \(\hsame(s,t)\) is recovered by inversion on the package-sameness derivation.
 \end{proof}
 
 \begin{corollary}[Concrete package equivalence is signature-grounded]
+\label{cor:concrete-package-equivalence-signature-grounded}
 In the signature-token instance, visible package equality up to \(\psame\) carries no information beyond internal sameness of answer histories.
 \end{corollary}
+\leanchecked{BEDC.FKernel.Package.psame\_constructor\_grounding}
+\leanchecked{BEDC.FKernel.Package.psame\_symm\_constructor}
 
 \begin{proof}
 The forward direction is Theorem~\ref{thm:package-reflection}. The reverse direction is exactly the introduction rule for concrete package-sameness.
