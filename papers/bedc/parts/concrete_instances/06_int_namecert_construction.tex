@@ -95,6 +95,20 @@ link.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_hsame\_magnitude\_transport}
 
+\begin{theorem}[Integer classifier sign transport]
+\label{thm:int-classifier-msame-sign-transport}
+If \(\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))\), and the two
+signs transport to \(s_x'\) and \(s_y'\) by \(\msame\), then
+\(\mathsf{IntClassifierSpec}((s_x',h_x),(s_y',h_y))\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two signed unary carrier witnesses,
+the sign sameness component, and the magnitude sameness component. Transport
+both carriers across the given sign links, compose the sign links through the
+original classifier link, and keep the magnitude sameness unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_msame\_sign\_transport}
+
 \begin{theorem}[Integer classifier reflexivity]
 \label{thm:int-classifier-refl}
 If $\mathsf{IntCarrier}(s,h)$, then
