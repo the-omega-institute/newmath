@@ -229,4 +229,14 @@ theorem external_finite_kernel_soundness_full :
       · exact external_append_assoc
       · exact external_append_right_cancel
 
+theorem external_model_soundness_finite_kernel :
+    (forall w : BWord, append BHist.Empty w = w) /\
+      (forall w : BWord, append w BHist.Empty = w) /\
+      (forall a b c : BWord, append (append a b) c = append a (append b c)) /\
+      (forall a b c : BWord, append a c = append b c -> a = b) /\
+      (forall a b c : BWord, append c a = append c b -> a = b) /\
+      (forall a b : BWord, bwordLength (append a b) = bwordLength a + bwordLength b) := by
+  exact ⟨external_append_empty_left, external_append_empty_right, external_append_assoc,
+    external_append_right_cancel, external_append_left_cancel, external_append_length⟩
+
 end BEDC.FKernel.ExternalBinary

@@ -119,5 +119,24 @@ theorem compGap_coverage_with_intermediate
                   (Exists.intro z
                     (Exists.intro y (And.intro cGap dGap))))
 
+omit [AskSetup] [PackageSetup] G in
+theorem hardening_composite_coverage
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, firstGap y x)
+    (secondCoverage :
+      forall {x : Source} {y : Inter},
+        SourceOk x -> firstGap y x -> exists z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x -> exists z : Final, CompGap firstGap secondGap z x := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstWitness =>
+      cases secondCoverage sourceOk firstWitness with
+      | intro z secondWitness =>
+          exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
+
 theorem compGap_coverage : True := True.intro
 end BEDC.FKernel.Gap
