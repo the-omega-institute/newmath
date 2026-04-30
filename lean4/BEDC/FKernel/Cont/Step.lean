@@ -14,4 +14,12 @@ theorem cont_e1_result_witness {h k r : BHist} :
   intro hcont
   exact cont_step_result_inversions.right hcont
 
+theorem cont_step_zero_iff {h k r : BHist} :
+    Cont h (BHist.e0 k) (BHist.e0 r) ↔ Cont h k r := by
+  constructor
+  · intro hcont
+    exact cont_step_rules_inversion_pair.left hcont
+  · intro hcont
+    exact cont_step_zero hcont
+
 end BEDC.FKernel.Cont
