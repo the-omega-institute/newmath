@@ -153,6 +153,28 @@ theorem gapPolicy_separation_packed [AskSetup] [PackageSetup] [DomainSetup]
   intro policy hdom hgap
   exact policy.separation hdom hgap.left hgap.right
 
+theorem policy_gap_separation_signature_token_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg}
+    (policy : GapPolicy bundle D) :
+    InDom D h → InGapSig bundle D p h → InGapSig bundle D q h →
+      psame bundle p q ∧ ∃ s : BHist, ∃ t : BHist,
+        SigRel bundle h s ∧ TokIntro bundle s p ∧
+          SigRel bundle h t ∧ TokIntro bundle t q := by
+  intro hdom hp hq
+  constructor
+  · exact policy.separation hdom hp hq
+  · cases hp.right with
+    | intro s psigTok =>
+        cases psigTok with
+        | intro psig ptok =>
+            cases hq.right with
+            | intro t qsigTok =>
+                cases qsigTok with
+                | intro qsig qtok =>
+                    exact Exists.intro s
+                      (Exists.intro t
+                        (And.intro psig (And.intro ptok (And.intro qsig qtok))))
+
 theorem gapPolicy_signature_determination [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
     (_policy : GapPolicy bundle D) :

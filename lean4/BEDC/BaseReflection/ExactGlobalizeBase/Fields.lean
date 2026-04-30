@@ -142,6 +142,21 @@ theorem NotExported_sound_complete_pair
   · intro base
     exact (notExported hp hq).mp base
 
+theorem NotExported_base_relation_pair {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    {ex : ExactGlobalizeBase s P D} (notExported : NotExported s P D ex)
+    {h k : s.Hist} {p q : s.Pkg} :
+    s.InGapSig P D p h → s.InGapSig P D q k →
+      (PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)) ∧
+        (Nonempty (GeneratedSameSig s P h k) → PsameBase s P p q) := by
+  intro hp hq
+  have exactness : PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k) :=
+    notExported hp hq
+  constructor
+  · intro base
+    exact exactness.mp base
+  · intro generated
+    exact exactness.mpr generated
+
 theorem ExactGlobalizeBase_sound_complete_and_classify
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) {h k : s.Hist} {p q : s.Pkg}

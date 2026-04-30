@@ -291,4 +291,13 @@ theorem probeBundle_generated_induction {PName : Type} {M : ProbeBundle PName �
   | Bcons p tail ih =>
       exact hcons p tail ih
 
+theorem bundle_generation_cases_and_induction {PName : Type} {M : ProbeBundle PName → Prop} :
+    (∀ bundle : ProbeBundle PName, bundle = ProbeBundle.Bnil ∨
+      ∃ p : PName, ∃ tail : ProbeBundle PName, bundle = ProbeBundle.Bcons p tail) ∧
+      (M ProbeBundle.Bnil →
+        (∀ p tail, M tail → M (ProbeBundle.Bcons p tail)) → ∀ bundle, M bundle) := by
+  constructor
+  · exact bundle_generation_cases
+  · exact probeBundle_generated_induction
+
 end BEDC.FKernel.Bundle
