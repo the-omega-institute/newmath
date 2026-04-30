@@ -88,6 +88,22 @@ cons case the length reduces to a successor, which cannot equal zero.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleLength\_eq\_zero\_iff\_nil}
 
+\begin{lemma}[Probe bundle zero length exactly empty]
+\label{lem:probe-bundle-length-zero-iff-empty}
+For every generated probe bundle $\Pi$,
+$$
+\mathsf{BLEN}(\Pi)=0
+\quad\Longleftrightarrow\quad
+\Pi=\Bnil.
+$$
+\end{lemma}
+\begin{proof}
+Case split on the generated bundle. The empty case is definitional. In the cons
+case, the length has successor form, contradicting equality with zero. The
+reverse implication follows by substituting $\Bnil$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleLength\_zero\_iff\_nil}
+
 \begin{theorem}[Probe bundle append length]
 \label{thm:probe-bundle-append-length}
 For all probe bundles $\Pi,\Theta$,

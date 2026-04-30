@@ -15,6 +15,10 @@ theorem bundleLength_eq_zero_iff_nil {PName : Type} {bundle : ProbeBundle PName}
     cases h
     rfl
 
+theorem bundleLength_zero_iff_nil {PName : Type} {bundle : ProbeBundle PName} :
+    bundleLength bundle = 0 ↔ bundle = ProbeBundle.Bnil :=
+  bundleLength_eq_zero_iff_nil
+
 theorem bundleAppend_nonempty_prefix_length_separation {PName : Type} (p : PName)
     (pref suff : ProbeBundle PName) :
     bundleLength (bundleAppend (ProbeBundle.Bcons p pref) suff) ≠ bundleLength suff ∧
