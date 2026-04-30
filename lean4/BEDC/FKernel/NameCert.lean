@@ -213,6 +213,11 @@ theorem nameCert_expanded_template [NameCertSetup] {name : DerivedName} :
                     | intro ledger _ =>
                         exact Nonempty.intro (NameCert.mk source pattern classifier stability ledger)
 
+theorem nameCert_from_field_witnesses [NameCertSetup] {name : DerivedName} :
+    SourceSpec -> PatternSpec -> ClassifierSpec -> StabilityCert -> LedgerPolicy -> NameCert name := by
+  intro source pattern classifier stability ledger
+  exact NameCert.mk source pattern classifier stability ledger
+
 theorem nameCert_iff_field_witnesses [NameCertSetup] {name : DerivedName} :
     NameCert name ↔
       ∃ source : SourceSpec,
