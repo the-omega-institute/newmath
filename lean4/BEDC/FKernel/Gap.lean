@@ -130,6 +130,16 @@ def CompGap {Source Inter Final : Type}
   ∃ y : Inter, firstGap y x ∧ secondGap z y
 
 omit [AskSetup] [PackageSetup] G in
+theorem compGap_iff_exists
+    {Source Inter Final : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    {z : Final} {x : Source} :
+    CompGap firstGap secondGap z x <->
+      exists y : Inter, firstGap y x /\ secondGap z y := by
+  rfl
+
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_intro
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}

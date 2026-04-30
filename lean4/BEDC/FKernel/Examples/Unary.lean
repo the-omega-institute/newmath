@@ -183,6 +183,17 @@ theorem unary_cont_factors_from_result {h k r : BHist} :
   · exact unary_cont_left_factor hr ur
   · exact unary_cont_right_factor hr ur
 
+theorem unary_cont_result_iff_factors {h k r : BHist} :
+    Cont h k r -> (UnaryHistory r <-> UnaryHistory h /\ UnaryHistory k) := by
+  intro hr
+  constructor
+  · intro ur
+    exact unary_cont_factors_from_result hr ur
+  · intro factors
+    cases factors with
+    | intro uh uk =>
+        exact unary_cont_closed uh uk hr
+
 theorem unary_continuation_closed_and_factors {h k r : BHist} :
     UnaryCont h k r ->
       UnaryHistory r /\ (Cont h k r -> UnaryHistory r -> UnaryHistory h /\ UnaryHistory k) := by
