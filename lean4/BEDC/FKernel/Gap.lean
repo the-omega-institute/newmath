@@ -151,6 +151,21 @@ theorem gapPolicy_requires_ledger_witness [AskSetup] [PackageSetup] [DomainSetup
       | intro s htok =>
           exact Exists.intro p (Exists.intro s (And.intro hgap htok))
 
+omit [AskSetup] [PackageSetup] G in
+theorem gapPolicy_coverage_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
+    InDom D h -> exists p : Pkg, exists s : BHist,
+      InGapSig bundle D p h /\ SigRel bundle h s /\ TokIntro bundle s p := by
+  intro hdom
+  cases policy.coverage hdom with
+  | intro p hgap =>
+      cases hgap.right with
+      | intro s hsigTok =>
+          cases hsigTok with
+          | intro hsig htok =>
+              exact Exists.intro p
+                (Exists.intro s (And.intro hgap (And.intro hsig htok)))
+
 theorem internalized_gap_coverage
     {bundle : ProbeBundle ProbeName} {D : Domain}
     (askPolicy : AskPolicy (InDom D))

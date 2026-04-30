@@ -38,6 +38,16 @@ structure SealEvent (Thread : Type) (name : DerivedName) : Type where
   sealCert : StabilityCert
   ledger : LedgerPolicy
 
+omit N in
+theorem sealEvent_field_witnesses [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealEvent Thread name -> Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
+  intro event
+  cases event with
+  | mk sealCert ledger =>
+      constructor
+      · exact Nonempty.intro sealCert
+      · exact Nonempty.intro ledger
+
 structure SealInterface (Thread : Type) (name : DerivedName) : Type 1 where
   thread : Thread
   sealCertType : Type
