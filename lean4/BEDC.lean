@@ -9,6 +9,7 @@ import BEDC.FKernel.Sig.WitnessChain
 import BEDC.FKernel.Sig.SameSig
 import BEDC.FKernel.Sig.Determinacy
 import BEDC.FKernel.Package
+import BEDC.FKernel.Settled
 import BEDC.FKernel.ExternalBinary
 import BEDC.FKernel.Gap
 import BEDC.FKernel.NameCert

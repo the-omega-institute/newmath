@@ -25,6 +25,10 @@ def SignatureTokenIntro [AskSetup] [PackageSetup]
     (bundle : ProbeBundle ProbeName) (s : BHist) (p : Pkg) : Prop :=
   TokIntro bundle s p
 
+def SignatureTokenGenerator [AskSetup] [PackageSetup] (bundle : ProbeBundle ProbeName)
+    (s : BHist) : Prop :=
+  ∃ p : Pkg, TokIntro bundle s p
+
 def PkgSig [AskSetup] [PackageSetup] (bundle : ProbeBundle ProbeName) (s : BHist) (p : Pkg) : Prop :=
   TokIntro bundle s p
 
