@@ -206,6 +206,20 @@ classification. In the cons-prefix case, invert the structural classifier and
 apply the induction hypothesis to the classified tails.
 \end{proof}
 
+\begin{theorem}[Classified list prefix cancellation]
+\label{thm:list-classifier-hsame-append-left-cancel-classified}
+For BEDC history lists, if \(p\) and \(p'\) are structurally classified by
+\(\hsame\), and \(p{++}x\) is structurally classified with \(p'{++}y\), then
+\(x\) is structurally classified with \(y\).
+\end{theorem}
+\begin{proof}
+Induct on \(p\). The empty case forces \(p'\) to be empty by the prefix
+classifier, leaving the appended classifier. In the cons case, the prefix
+classifier and appended classifier both expose matching classified tails, and
+the induction hypothesis applies to those tails.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_append\_left\_cancel\_classified}
+
 \begin{theorem}[List classifier stability under reverse]
 \label{thm:list-classifier-reverse-hsame}
 For BEDC history lists, structural classification by $\HSame$ is preserved when both lists are reversed.
