@@ -9,7 +9,8 @@ open BEDC.FKernel.Unary
 def PositiveUnaryDenominator (den : BHist) : Prop :=
   ∃ tail : BHist, hsame den (BHist.e1 tail) ∧ UnaryHistory tail
 
-def RatCarrier (sign : BEDC.FKernel.Mark.BMark)
+def rat_classifier_spec_trans_positive_unary_denominator_carrier
+    (sign : BEDC.FKernel.Mark.BMark)
     (numerator denominator : BEDC.FKernel.Hist.BHist) : Prop :=
   BEDC.Derived.IntUp.IntCarrier sign numerator ∧
     BEDC.FKernel.Unary.UnaryHistory denominator ∧
