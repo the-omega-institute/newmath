@@ -120,6 +120,15 @@ def SameSig (bundle : ProbeBundle ProbeName) (h k : BHist) : Prop :=
   ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t
 
 omit [AskSetup] in
+theorem sameSig_intro_from_witnesses [AskSetup] {bundle : ProbeBundle ProbeName} {h k s t : BHist} :
+    SigRel bundle h s → SigRel bundle k t → hsame s t → SameSig bundle h k := by
+  intro hs ht hst
+  exact Exists.intro s
+    (Exists.intro t
+      (And.intro hs
+        (And.intro ht hst)))
+
+omit [AskSetup] in
 theorem sameSig_witnesses [AskSetup] {bundle : ProbeBundle ProbeName} {h k : BHist} :
     SameSig bundle h k →
       ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t := by

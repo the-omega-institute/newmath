@@ -332,6 +332,43 @@ theorem policy_gap_separation
                               askPolicy hIn hs ht
                           exact packagePolicy.soundness hpTok hqTok hst
 
+theorem policy_gap_separation_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) → PackageTokenPolicy bundle →
+      InGapSig bundle D p h → InGapSig bundle D q h →
+        ∃ s : BHist, ∃ t : BHist,
+          SigRel bundle h s ∧ SigRel bundle h t ∧
+            TokIntro bundle s p ∧ TokIntro bundle t q ∧
+              hsame s t ∧ psame bundle p q := by
+  intro askPolicy packagePolicy hp hq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro hIn hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs hpTok =>
+                      cases htData with
+                      | intro ht hqTok =>
+                          have hst : hsame s t :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D) (h := h) (s := s) (t := t)
+                              askPolicy hIn hs ht
+                          have hpq : psame bundle p q :=
+                            packagePolicy.soundness hpTok hqTok hst
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro hs
+                                (And.intro ht
+                                  (And.intro hpTok
+                                    (And.intro hqTok
+                                      (And.intro hst hpq))))))
+
 theorem concrete_gap_policy
     {bundle : ProbeBundle ProbeName} {D : Domain}
     (askPolicy : AskPolicy (InDom D))
