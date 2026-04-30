@@ -135,6 +135,28 @@ extension of $r$ is also the zero branch, and the zero continuation step
 applies. The $\Eone$ branch is analogous.
 \end{proof}
 
+\begin{theorem}[Extension as singleton continuation]
+\label{thm:extension-as-one-step-continuation}
+For every history $h$ and result $r$, $\ExtR(\bzero,h,r)$ if and only if
+$\ContR(h,\Ezero(\emp),r)$, and $\ExtR(\bone,h,r)$ if and only if
+$\ContR(h,\Eone(\emp),r)$.
+\end{theorem}
+\begin{proof}
+For the forward zero branch, invert the extension witness to identify
+$r$ with $\Ezero(h)$, use the empty-continuation rule
+$\ContR(h,\emp,h)$, and apply the $\Ezero$ continuation step rule. The one
+branch is the same argument with $\Eone$.
+
+For the reverse zero branch, invert the continuation witness for
+$\ContR(h,\Ezero(\emp),r)$. Step-result inversion gives a predecessor
+continued by $\emp$, and history constructor no-confusion forces the
+singleton history to be the displayed $\Ezero(\emp)$ branch. The
+empty-continuation rule identifies the predecessor with $h$, so the
+$\bzero$ extension constructor yields $\ExtR(\bzero,h,r)$. The one branch
+uses the corresponding $\Eone$ inversion and the $\bone$ extension
+constructor.
+\end{proof}
+
 \begin{theorem}[Continuation step result no-confusion]
 \label{thm:cont-step-result-no-confusion-pair}
 No generated history \(r\) can be both the result of continuing by
