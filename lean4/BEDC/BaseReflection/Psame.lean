@@ -12,6 +12,12 @@ theorem PsameBase_constructor
   intro left right same
   exact PsameBase.intro left right same
 
+theorem PsameBase_refl_from_token {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) {x : s.SigObj} {p : s.Pkg} :
+    s.TokIntro P x p → PsameBase s P p p := by
+  intro introToken
+  exact PsameBase.intro introToken introToken (eqv.refl x)
+
 theorem PsameBase_symm_under_equiv {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) {p q : s.Pkg} :
     PsameBase s P p q → PsameBase s P q p := by

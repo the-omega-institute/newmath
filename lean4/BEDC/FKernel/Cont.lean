@@ -84,6 +84,66 @@ theorem append_right_cancel :
             | _ => BHist.Empty) same
       exact ih inner
 
+private def appendCancelLength : BHist → Nat
+  | .Empty => 0
+  | .e0 h => Nat.succ (appendCancelLength h)
+  | .e1 h => Nat.succ (appendCancelLength h)
+
+private theorem append_length :
+    ∀ h k : BHist, appendCancelLength (append h k) =
+      appendCancelLength h + appendCancelLength k := by
+  intro h k
+  induction k with
+  | Empty =>
+      rfl
+  | e0 k ih =>
+      exact congrArg Nat.succ ih
+  | e1 k ih =>
+      exact congrArg Nat.succ ih
+
+private theorem nat_eq_add_succ_false (n m : Nat) : n = n + m + 1 → False := by
+  intro h
+  exact (Nat.lt_irrefl n) (Nat.lt_of_lt_of_eq (Nat.lt_add_of_pos_right (Nat.succ_pos m)) h.symm)
+
+theorem append_left_cancel : ∀ {h k k' : BHist}, append h k = append h k' → hsame k k' := by
+  intro h k
+  induction k generalizing h with
+  | Empty =>
+      intro k' same
+      cases k' with
+      | Empty =>
+          rfl
+      | e0 k' =>
+          have hlen := congrArg appendCancelLength same
+          simp [append, appendCancelLength, append_length] at hlen
+          exact False.elim (nat_eq_add_succ_false (appendCancelLength h) (appendCancelLength k') hlen)
+      | e1 k' =>
+          have hlen := congrArg appendCancelLength same
+          simp [append, appendCancelLength, append_length] at hlen
+          exact False.elim (nat_eq_add_succ_false (appendCancelLength h) (appendCancelLength k') hlen)
+  | e0 k ih =>
+      intro k' same
+      cases k' with
+      | Empty =>
+          have hlen := congrArg appendCancelLength same
+          simp [append, appendCancelLength, append_length] at hlen
+          exact False.elim (nat_eq_add_succ_false (appendCancelLength h) (appendCancelLength k) hlen.symm)
+      | e0 k' =>
+          exact congrArg BHist.e0 (ih (h := h) (k' := k') (BHist.e0.inj same))
+      | e1 k' =>
+          cases same
+  | e1 k ih =>
+      intro k' same
+      cases k' with
+      | Empty =>
+          have hlen := congrArg appendCancelLength same
+          simp [append, appendCancelLength, append_length] at hlen
+          exact False.elim (nat_eq_add_succ_false (appendCancelLength h) (appendCancelLength k) hlen.symm)
+      | e0 k' =>
+          cases same
+      | e1 k' =>
+          exact congrArg BHist.e1 (ih (h := h) (k' := k') (BHist.e1.inj same))
+
 theorem cont_right_cancel :
     ∀ {h h' k r : BHist}, Cont h k r → Cont h' k r → hsame h h' := by
   intro h h' k r left right

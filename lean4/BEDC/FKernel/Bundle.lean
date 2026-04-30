@@ -14,6 +14,11 @@ theorem inBundle_nil_elim {PName : Type} {p : PName} :
   intro h
   exact h
 
+theorem inBundle_nil_false {PName : Type} {p : PName} :
+    InBundle p (ProbeBundle.Bnil : ProbeBundle PName) → False := by
+  intro h
+  exact h
+
 theorem inBundle_cons_self {PName : Type} (p : PName) (tail : ProbeBundle PName) :
     InBundle p (ProbeBundle.Bcons p tail) := by
   exact Or.inl rfl
