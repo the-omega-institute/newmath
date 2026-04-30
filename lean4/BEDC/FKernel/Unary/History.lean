@@ -247,5 +247,21 @@ theorem unary_cont_unit {h left right : BHist} :
       · exact leftSame
       · exact rightSame
 
+theorem unaryCont_empty_units_same {h left right : BHist} :
+    UnaryCont h BHist.Empty left -> UnaryCont BHist.Empty h right -> hsame left right := by
+  intro leftCont rightCont
+  cases leftCont with
+  | intro _ leftRest =>
+      cases leftRest with
+      | intro _ hleft =>
+          cases rightCont with
+          | intro _ rightRest =>
+              cases rightRest with
+              | intro _ hright =>
+                  have leftSame : hsame left h :=
+                    cont_deterministic hleft (cont_right_unit h)
+                  have rightSame : hsame right h :=
+                    cont_deterministic hright (cont_left_unit h)
+                  exact hsame_trans leftSame (hsame_symm rightSame)
 
 end BEDC.FKernel.Unary
