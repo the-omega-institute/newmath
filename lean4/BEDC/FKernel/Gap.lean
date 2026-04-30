@@ -78,6 +78,20 @@ theorem inGapSig_domain_signature_token_witnesses [AskSetup] [PackageSetup] [Dom
   exact hgap
 
 omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h ->
+      exists s : BHist, InDom D h /\ SigRel bundle h s /\ TokIntro bundle s p := by
+  intro hgap
+  cases hgap with
+  | intro hdom hsigTok =>
+      cases hsigTok with
+      | intro s hsigTokData =>
+          cases hsigTokData with
+          | intro hsig htok =>
+              exact Exists.intro s (And.intro hdom (And.intro hsig htok))
+
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h -> exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p := by
@@ -535,6 +549,19 @@ theorem policy_gap_coverage
   | intro s hs =>
       have hTok := tokenExists s
       cases hTok with
+      | intro p hp =>
+          exact Exists.intro p (And.intro hIn (Exists.intro s (And.intro hs hp)))
+
+theorem concrete_gap_coverage
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist}
+    (askPolicy : AskPolicy (InDom D))
+    (tokenExists : forall s : BHist, exists p : Pkg, TokIntro bundle s p) :
+    InDom D h -> exists p : Pkg, InGapSig bundle D p h := by
+  intro hIn
+  have hSigTotal := policy_sig_total (bundle := bundle) (D := D) (h := h) askPolicy hIn
+  cases hSigTotal with
+  | intro s hs =>
+      cases tokenExists s with
       | intro p hp =>
           exact Exists.intro p (And.intro hIn (Exists.intro s (And.intro hs hp)))
 

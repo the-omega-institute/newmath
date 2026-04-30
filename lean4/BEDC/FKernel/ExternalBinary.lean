@@ -20,6 +20,10 @@ theorem external_append_empty_left : forall w : BWord, append .nil w = w := by
   | bit1 w ih =>
       exact congrArg BWord.bit1 ih
 
+theorem external_append_empty_right : forall w : BWord, append w .nil = w := by
+  intro w
+  rfl
+
 theorem external_append_assoc :
     forall a b c : BWord, append (append a b) c = append a (append b c) := by
   intro a b c
