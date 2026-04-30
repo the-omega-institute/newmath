@@ -119,6 +119,25 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source 
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Tagged option history classifier endpoint carriers]
+\label{thm:tagged-option-history-classifier-endpoint-carriers}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k$, if
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ holds, then both
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$ and
+$\mathsf{TaggedOptionHistoryCarrier}_S(k)$ hold.
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. The absent-absent branch stores
+$\hsame(h,\emp)$ and $\hsame(k,\emp)$, so the absent carrier clause rebuilds
+both endpoint carriers. The present-present branch stores payload histories
+$a,b$, source witnesses $S(a)$ and $S(b)$, the payload classifier witness
+$a\sim_S b$, and visible endpoint links $\hsame(h,\Eone(a))$ and
+$\hsame(k,\Eone(b))$. The two present carrier clauses reuse the corresponding
+payload histories, source witnesses, and endpoint links, so both classified
+endpoints are tagged option carrier endpoints.
+\end{proof}
+
 \begin{theorem}[Tagged option history mixed endpoint separation]
 \label{thm:tagged-option-history-mixed-endpoint-separation}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,

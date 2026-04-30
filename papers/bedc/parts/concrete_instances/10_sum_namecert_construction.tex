@@ -438,7 +438,19 @@ Theorem~\ref{thm:sum-history-classifier-right-hsame-inversion}.
 
 \begin{theorem}[Concrete $\SumUp$ semantic name certificate]
 \label{thm:concrete-sum-namecert}
-Let $Left,Right:\Hist\to\mathsf{Prop}$ be source carriers with classifiers $LeftEq$ and $RightEq$. If $\NameCert(Left,LeftEq)$ and $\NameCert(Right,RightEq)$ are supplied, then the tagged sum carrier, the tagged sum classifier, and the carrier-as-pattern and carrier-as-ledger tuple form a $\mathsf{SemanticNameCert}$ for $\mathsf{SumHistoryCarrier}(Left,Right)$ and $\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq)$.
+Let $Left,Right:\Hist\to\mathsf{Prop}$ be source carriers with classifiers
+$LeftEq$ and $RightEq$. If $\NameCert(Left,LeftEq)$ and
+$\NameCert(Right,RightEq)$ are supplied, then the tagged sum carrier, the tagged
+sum classifier, and the carrier-as-pattern and carrier-as-ledger tuple form
+$$
+\begin{array}{l}
+\mathsf{SemanticNameCert}( \\
+\quad \mathsf{SumHistoryCarrier}(Left,Right), \\
+\quad \mathsf{SumHistoryCarrier}(Left,Right), \\
+\quad \mathsf{SumHistoryCarrier}(Left,Right), \\
+\quad \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq)).
+\end{array}
+$$
 \end{theorem}
 \begin{proof}
 The carrier is represented by $e0$-tagged left histories and $e1$-tagged right histories. Theorem~\ref{thm:sum-classifier-no-source-membership} marks the split: the classifier delegates within matching tags to the corresponding source certificate, while source-carrier evidence is taken from $\mathsf{SumHistoryCarrier}$ when certificate fields require it. Reflexivity is built by tagging the source certificate reflexivity field on the selected component. Symmetry and transitivity invert the tagged classifier witnesses, use the matching source certificate fields inside a left--left or right--right branch, and discharge mixed tags by constructor no-confusion. Carrier transport in each branch applies the corresponding source field $\mathsf{NameCert.carrier\_respects\_equiv}$ to the payload classifier witness, then rebuilds the tagged carrier witness. The carrier-as-pattern and carrier-as-ledger components use the same tagged carrier evidence, so the displayed tuple satisfies the semantic certificate fields.
