@@ -17,9 +17,9 @@ abbrev Pkg : Type := P.Pkg
 abbrev TokIntro : ProbeBundle ProbeName → BHist → Pkg → Prop := P.TokIntro
 
 omit [AskSetup] P in
-theorem TokIntro_iff_setup_field [A : AskSetup] [P : PackageSetup]
-    {bundle : ProbeBundle ProbeName} {s : BHist} {p : P.Pkg} :
-    @TokIntro A P bundle s p ↔ P.TokIntro bundle s p := by
+theorem TokIntro_iff_setup_field [AskSetup] [P : PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s : BHist} {p : Pkg} :
+    TokIntro bundle s p ↔ P.TokIntro bundle s p := by
   rfl
 
 def SignatureTokenIntro [AskSetup] [PackageSetup]
@@ -95,6 +95,16 @@ theorem psame_trans_under_tok_unique {bundle : ProbeBundle ProbeName} (tok : Tok
       cases rightSame with
       | intro middle0 right rightHist =>
           exact psame.intro left right (hsame_trans leftHist (hsame_trans (tok middle middle0) rightHist))
+
+omit [AskSetup] P in
+theorem psame_two_step_reflect_under_tok_unique [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (tok : TokUnique bundle)
+    {s u : BHist} {p q r : Pkg} :
+    TokIntro bundle s p → TokIntro bundle u r → psame bundle p q → psame bundle q r →
+      hsame s u := by
+  intro left right leftSame rightSame
+  exact psame_reflect_under_tok_unique tok left right
+    (psame_trans_under_tok_unique tok leftSame rightSame)
 
 theorem psame_sound {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q := by
