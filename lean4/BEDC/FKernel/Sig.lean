@@ -166,6 +166,43 @@ theorem sameSig_trans :
     sig_deterministic (bundle := bundle) (D := D) (h := k) (s := t) (t := u) pol hk htk huk
   exact ⟨s, v, hs, hvl, hsame_trans hst (hsame_trans htu huv)⟩
 
+theorem sameSig_trans_under_policy {bundle : ProbeBundle ProbeName} {D : BHist -> Prop}
+    (policy : AskPolicy D) {h k l : BHist} :
+    D k -> SameSig bundle h k -> SameSig bundle k l -> SameSig bundle h l := by
+  intro hk hhk hkl
+  cases hhk with
+  | intro s hhkTail =>
+      cases hhkTail with
+      | intro t hhkData =>
+          cases hhkData with
+          | intro hs hhkRest =>
+              cases hhkRest with
+              | intro htk hst =>
+                  cases hkl with
+                  | intro u hklTail =>
+                      cases hklTail with
+                      | intro v hklData =>
+                          cases hklData with
+                          | intro huk hklRest =>
+                              cases hklRest with
+                              | intro hvl huv =>
+                                  have htu : hsame t u :=
+                                    sig_deterministic
+                                      (bundle := bundle)
+                                      (D := D)
+                                      (h := k)
+                                      (s := t)
+                                      (t := u)
+                                      policy
+                                      hk
+                                      htk
+                                      huk
+                                  exact Exists.intro s
+                                    (Exists.intro v
+                                      (And.intro hs
+                                        (And.intro hvl
+                                          (hsame_trans hst (hsame_trans htu huv)))))
+
 theorem sameSig_equivalence {bundle : ProbeBundle ProbeName} {D : BHist → Prop} (policy : AskPolicy D) :
     (∀ {h : BHist}, D h → SameSig bundle h h) ∧
       (∀ {h k : BHist}, SameSig bundle h k → SameSig bundle k h) ∧

@@ -45,6 +45,14 @@ theorem inGapSig_domain_witness
   intro hgap
   exact hgap.left
 
+theorem inGapSig_domain_transport_with_signature {bundle : ProbeBundle ProbeName}
+    {D : Domain} {p : Pkg} {h k s : BHist} (policy : DomainPolicy D) :
+    InGapSig bundle D p h -> hsame h k -> SigRel bundle k s ->
+      TokIntro bundle s p -> InGapSig bundle D p k := by
+  intro hgap hhk hsig htok
+  have hdom : InDom D k := policy.transport (inGapSig_domain_witness hgap) hhk
+  exact And.intro hdom (Exists.intro s (And.intro hsig htok))
+
 omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_elim [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
@@ -828,6 +836,27 @@ theorem compGap_witness_from_layers
           cases dCoverage interOk with
           | intro z dGap =>
               exact Exists.intro z (Exists.intro y (And.intro cGap dGap))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage_with_intermediate
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop} {InterOk : Inter -> Prop}
+    {CGap : Inter -> Source -> Prop} {DGap : Final -> Inter -> Prop}
+    (cCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, CGap y x /\ InterOk y)
+    (dCoverage : forall {y : Inter}, InterOk y -> exists z : Final, DGap z y)
+    {x : Source} :
+    SourceOk x -> exists y : Inter, CGap y x /\ exists z : Final, CompGap CGap DGap z x := by
+  intro sourceOk
+  cases cCoverage sourceOk with
+  | intro y cData =>
+      cases cData with
+      | intro cGap interOk =>
+          cases dCoverage interOk with
+          | intro z dGap =>
+              exact Exists.intro y
+                (And.intro cGap
+                  (Exists.intro z
+                    (Exists.intro y (And.intro cGap dGap))))
 
 omit [AskSetup] [PackageSetup] G in
 theorem compGap_assoc
