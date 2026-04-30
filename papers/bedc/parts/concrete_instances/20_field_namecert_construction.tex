@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\FieldUp\)}
 \label{ch:concrete-instances-field-namecert}
 
-The field interface $\FieldUp$ extends \autoref{ch:concrete-instances-commring-namecert} with the multiplicative inverse field: every element classified as nonzero by the carrier's apartness predicate admits a multiplicative inverse. The apartness discipline (constructive nonzeroness) replaces the classical "$a \ne 0$ implies $a$ invertible" formulation, which would otherwise require LEM. The rational carrier from \autoref{ch:concrete-instances-rat-namecert} is the canonical BEDC source for field examples; a concrete $\FieldUp$ certificate also requires normalization, coprimality, arithmetic-closure, apartness, and inverse-law obligations listed below.
+The field interface $\FieldUp$ extends \autoref{ch:concrete-instances-commring-namecert} with the multiplicative inverse field: every element classified as nonzero by the carrier's apartness predicate admits a multiplicative inverse. The apartness discipline (constructive nonzeroness) replaces the classical "$a \ne 0$ implies $a$ invertible" formulation, which would otherwise require LEM. The rational carrier from \autoref{ch:concrete-instances-rat-namecert} supplies the candidate carrier and classifier source; a $\FieldUp$ certificate is present only when commutative-ring structure, constructive apartness, inverse closure, inverse laws, and the ledger are supplied over that source.
 
 \section{Carrier definition}
 
@@ -48,6 +48,20 @@ Record the ring ledger and the apartness witness used for each inverse.
 \label{def:field-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\FieldUp\).
 \end{definition}
+
+\paragraph{Per-object certificate record.}
+\begin{enumerate}
+  \item Traditional target: constructive field.
+  \item BEDC source: $\RatUp$ plus $\CommRingUp$ data.
+  \item Carrier choice: the $\RatUp$ carrier with apartness.
+  \item Classifier choice: the rational classifier plus apartness stability.
+  \item Stability obligations: commutative-ring laws, apartness transport, inverse closure, and inverse laws.
+  \item Ledger: ring expression tree plus inverse witness.
+  \item Core theorem list: inverse closure, left inverse, right inverse, apartness stability, and distributivity inherited from $\CommRingUp$.
+  \item Exactness predicate: coverage, soundness, and completeness for admitted field packages.
+  \item Standard bridge: deferred conservative bridge.
+  \item Status: ProofTarget.
+\end{enumerate}
 
 \paragraph{Primitive boundary.}
 \(\FieldUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
