@@ -590,5 +590,9 @@ theorem ListClassifierSpec_append_right_cancel_hsame
         (reverseReversePure ys)
     exact Eq.mp rightEq originalLeft
   exact original
-
+theorem ListClassifierSpec_hsame_singleton_iff {x y : BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame [x] [y] <-> BEDC.FKernel.Hist.hsame x y := by
+  constructor
+  · intro h; exact h.left
+  · intro h; constructor; exact h; constructor
 end BEDC.Derived.ListUp

@@ -414,6 +414,18 @@ theorem RatCarrier_prepend_unary_denominator_closed {sign : BMark}
       exact RatCarrier_of_int_positive_denominator intCarrier
         (PositiveUnaryDenominator_append_unary_prefix prefUnary positiveDenominator)
 
+theorem RatHistoryCarrier_prepend_unary_denominator_closed {d pref : BHist} :
+    UnaryHistory pref -> RatHistoryCarrier d ->
+      RatHistoryCarrier (BEDC.FKernel.Cont.append pref d) := by
+  intro prefUnary carrier
+  cases carrier with
+  | intro sign signData =>
+      cases signData with
+      | intro numerator ratCarrier =>
+          exact
+            ⟨sign, numerator,
+              RatCarrier_prepend_unary_denominator_closed prefUnary ratCarrier⟩
+
 theorem RatClassifierSpec_append_unary_denominators_closed {s1 s2 : BMark}
     {n1 n2 d1 d2 tail1 tail2 : BHist} :
     RatClassifierSpec s1 n1 d1 s2 n2 d2 -> UnaryHistory tail1 -> hsame tail1 tail2 ->

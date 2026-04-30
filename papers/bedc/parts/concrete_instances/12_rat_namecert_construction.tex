@@ -181,6 +181,19 @@ integer numerator and the resulting positive denominator.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatCarrier\_prepend\_unary\_denominator\_closed}
 
+\begin{theorem}[Rat history carrier prepend unary denominator closure]
+\label{thm:rat-history-carrier-prepend-unary-denominator-closed}
+If a rational history carrier has denominator \(d\), then prepending any unary
+history to \(d\) preserves rational history carrier membership.
+\end{theorem}
+\begin{proof}
+Unpack the rational history carrier into its sign, numerator, and rational
+carrier data. Apply rational-carrier denominator prepend closure to the
+concrete denominator component, then rebuild the existential rational history
+carrier with the same sign and numerator.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_prepend\_unary\_denominator\_closed}
+
 \begin{theorem}[Rat carrier hsame transport]
 \label{thm:rat-carrier-hsame-transport}
 If a rational carrier \(\mathsf{RatCarrier}(s,n,d)\) is transported along
