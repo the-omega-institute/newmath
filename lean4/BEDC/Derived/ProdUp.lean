@@ -6,6 +6,10 @@ def ProdClassifierSpec {A B : Type} (sameA : A → A → Prop) (sameB : B → B 
     (x y : ProdCarrier A B) : Prop :=
   sameA x.1 y.1 ∧ sameB x.2 y.2
 
+def ProdClassifier {α β : Type} (left : α → α → Prop) (right : β → β → Prop)
+    (x y : α × β) : Prop :=
+  left x.1 y.1 ∧ right x.2 y.2
+
 theorem prod_stability_certificate_fields {A B : Type} {sameA : A → A → Prop}
     {sameB : B → B → Prop} (reflA : ∀ a, sameA a a) (reflB : ∀ b, sameB b b)
     (transA : ∀ {a b c}, sameA a b → sameA b c → sameA a c)
