@@ -33,4 +33,22 @@ theorem bool_stability_certificate_fields :
         | b1 =>
             exact Or.inr rfl
 
+def BoolClassifierSpec (left right : BEDC.FKernel.Mark.BMark) : Prop :=
+  BEDC.FKernel.Mark.msame left right
+
+theorem boolClassifierSpec_stability :
+    BoolClassifierSpec BEDC.FKernel.Mark.BMark.b0 BEDC.FKernel.Mark.BMark.b0 /\
+      BoolClassifierSpec BEDC.FKernel.Mark.BMark.b1 BEDC.FKernel.Mark.BMark.b1 /\
+        (BoolClassifierSpec BEDC.FKernel.Mark.BMark.b0 BEDC.FKernel.Mark.BMark.b1 ->
+          False) /\
+          (BoolClassifierSpec BEDC.FKernel.Mark.BMark.b1 BEDC.FKernel.Mark.BMark.b0 ->
+            False) := by
+  constructor
+  · exact BEDC.FKernel.Mark.msame_refl BEDC.FKernel.Mark.BMark.b0
+  · constructor
+    · exact BEDC.FKernel.Mark.msame_refl BEDC.FKernel.Mark.BMark.b1
+    · constructor
+      · exact BEDC.FKernel.Mark.not_msame_b0_b1
+      · exact BEDC.FKernel.Mark.not_msame_b1_b0
+
 end BEDC.Derived.BoolUp

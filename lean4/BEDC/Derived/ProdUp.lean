@@ -46,4 +46,24 @@ theorem prod_stability_certificate_fields {A B : Type} {sameA : A → A → Prop
     · intro x y hxy
       exact hxy
 
+theorem prodClassifierSpec_trans {A B : Type} {sameA : A -> A -> Prop}
+    {sameB : B -> B -> Prop}
+    (transA : forall {a b c : A}, sameA a b -> sameA b c -> sameA a c)
+    (transB : forall {a b c : B}, sameB a b -> sameB b c -> sameB a c)
+    {x y z : Prod A B} :
+    ProdClassifierSpec sameA sameB x y ->
+      ProdClassifierSpec sameA sameB y z -> ProdClassifierSpec sameA sameB x z := by
+  intro hxy hyz
+  cases x with
+  | mk xa xb =>
+      cases y with
+      | mk ya yb =>
+          cases z with
+          | mk za zb =>
+              cases hxy with
+              | intro hAxy hBxy =>
+                  cases hyz with
+                  | intro hAyz hByz =>
+                      exact ⟨transA hAxy hAyz, transB hBxy hByz⟩
+
 end BEDC.Derived.ProdUp
