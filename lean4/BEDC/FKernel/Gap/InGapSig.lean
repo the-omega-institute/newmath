@@ -172,6 +172,19 @@ theorem inGapSig_token_witness [AskSetup] [PackageSetup] [DomainSetup]
   | intro s data =>
       exact Exists.intro s data.right
 
+omit [AskSetup] [PackageSetup] G in
+theorem policySupportedSignatureGap_token_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    PolicySupportedSignatureGap bundle D p h → ∃ s : BHist, TokIntro bundle s p := by
+  intro hgap
+  have hInGap : InGapSig bundle D p h :=
+    Iff.mp PolicySupportedSignatureGap_iff_InGapSig hgap
+  cases hInGap with
+  | intro _ sigTok =>
+      cases sigTok with
+      | intro s data =>
+          exact Exists.intro s data.right
+
 theorem inGapSig_domain_token_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h → InDom D h ∧ ∃ s : BHist, TokIntro bundle s p := by

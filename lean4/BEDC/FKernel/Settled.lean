@@ -244,6 +244,15 @@ theorem settledKernelCriterion_package_gap_projection [AskSetup] [PackageSetup]
                                               | intro gapCoverage _ =>
                                                   exact ⟨packagePolicy, gapCoverage⟩
 
+theorem settledKernelCriterion_signature_determinacy_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h s t : BHist},
+        AskPolicy D → D h → SigRel bundle h s → SigRel bundle h t → hsame s t := by
+  intro criterion bundle D h s t askPolicy hIn left right
+  exact (settledKernelCriterion_signature_kernel_projection criterion).left
+    askPolicy hIn left right
+
 theorem settledKernelCriterion_namecert_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →
