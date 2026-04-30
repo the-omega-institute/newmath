@@ -1,4 +1,5 @@
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.Commutativity
 import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Hist
 
@@ -174,6 +175,21 @@ theorem PreorderPrefixLE_append_left_context {x h k : BHist} :
       | intro tailUnary tailCont =>
           cases tailCont
           exact ⟨tail, tailUnary, cont_intro (append_assoc x h tail).symm⟩
+
+theorem PreorderPrefixLE_append_right_context {x h k : BHist} :
+    UnaryHistory x -> PreorderPrefixLE h k -> PreorderPrefixLE (append h x) (append k x) := by
+  intro xUnary prefixLE
+  cases prefixLE with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary hCont =>
+          cases hCont
+          exact
+            ⟨tail, tailUnary,
+              cont_intro
+                ((append_assoc h tail x).trans
+                  ((congrArg (fun y => append h y) (unary_append_comm tailUnary xUnary)).trans
+                    (append_assoc h x tail).symm))⟩
 
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)

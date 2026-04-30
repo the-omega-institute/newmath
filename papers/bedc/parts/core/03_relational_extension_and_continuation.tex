@@ -325,6 +325,15 @@ If $\ContR(h,\mathsf{append}(k,l),r)$, where $\mathsf{append}$ is the recursive 
 Unfold continuation as append equality. Take \(m\) to be the append of \(h\) and \(k\). The first continuation is definitional, and the second is the reverse direction of append associativity.
 \end{proof}
 
+\begin{theorem}[Continuation left append decomposition]
+\label{thm:cont-left-append-decompose}
+If $\ContR(\mathsf{append}(h,k),l,r)$, where $\mathsf{append}$ is the recursive append representative underlying $\ContR$, then there exists a generated history $m$ such that $\ContR(k,l,m)$ and $\ContR(h,m,r)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_append\_decompose}
+\begin{proof}
+Unfold continuation as append equality. Take \(m\) to be the append of \(k\) and \(l\). The first continuation is definitional, and the second is append associativity.
+\end{proof}
+
 \begin{corollary}[Continuation gives an addition-like seed]
 \label{cor:continuation-addition-like-seed}
 Unary repetition histories with relational continuation license an addition-like derived interface \(\AddUp\), but no primitive addition is introduced into the kernel.

@@ -39,6 +39,12 @@ theorem cont_right_append_decompose {h k l r : BHist} :
   cases hcont
   exact ⟨append h k, rfl, (append_assoc h k l).symm⟩
 
+theorem cont_left_append_decompose {h k l r : BHist} :
+    Cont (append h k) l r -> exists mid : BHist, Cont k l mid /\ Cont h mid r := by
+  intro hcont
+  cases hcont
+  exact ⟨append k l, rfl, append_assoc h k l⟩
+
 theorem cont_assoc_five {a b c d e ab abc abcd de cde bcde left right : BHist} :
     Cont a b ab → Cont ab c abc → Cont abc d abcd → Cont d e de → Cont c de cde →
       Cont b cde bcde → Cont abcd e left → Cont a bcde right → hsame left right := by

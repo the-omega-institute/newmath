@@ -203,6 +203,16 @@ Associativity of append identifies the resulting continuation endpoint with
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_left\_context}
 
+\begin{theorem}[Prefix right context monotonicity]
+\label{thm:preorder-prefix-right-context-monotonicity}
+If \(x\) is unary and \(h\le k\) is witnessed by a unary continuation tail, then appending \(x\) to both endpoints preserves the prefix comparison:
+\(\mathsf{append}(h,x)\le\mathsf{append}(k,x)\).
+\end{theorem}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_right\_context}
+\begin{proof}
+Unpack the prefix witness as a unary tail and a continuation equation from \(h\) to \(k\). Reuse the same tail. Associativity moves the right context next to the tail, unary commutativity swaps the two unary histories, and associativity moves the tail back to the continuation endpoint.
+\end{proof}
+
 \begin{theorem}[Prefix left context cancellation]
 \label{thm:preorder-prefix-left-context-cancellation}
 If appending the same left context to \(h\) and \(k\) makes
