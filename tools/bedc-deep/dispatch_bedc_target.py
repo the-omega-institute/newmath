@@ -17,6 +17,8 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
 BOARD_PATH = SCRIPT_DIR / "BOARD.md"
+MAX_CONTEXT_FILE_CHARS = 12000
+MAX_CONTEXT_TOTAL_CHARS = 36000
 
 
 @dataclass
@@ -61,6 +63,73 @@ def parse_board(path: Path = BOARD_PATH) -> dict[str, BedcTarget]:
     return targets
 
 
+def _extract_local_input_paths(target: BedcTarget) -> list[str]:
+    paths: list[str] = []
+    in_inputs = False
+    for raw_line in target.body.splitlines():
+        line = raw_line.strip()
+        if line == "Local inputs:":
+            in_inputs = True
+            continue
+        if in_inputs and not line:
+            continue
+        if in_inputs and not line.startswith("-"):
+            break
+        if in_inputs:
+            m = re.search(r"`([^`]+)`", line)
+            if m:
+                paths.append(m.group(1))
+    return paths
+
+
+def _safe_context_path(rel: str) -> Path | None:
+    path = (REPO_ROOT / rel).resolve()
+    try:
+        path.relative_to(REPO_ROOT)
+    except ValueError:
+        return None
+    return path
+
+
+def _read_context_file(path: Path) -> str:
+    if not path.exists():
+        return "[missing]"
+    if path.is_dir():
+        entries = sorted(
+            str(p.relative_to(REPO_ROOT))
+            for p in path.rglob("*")
+            if p.is_file()
+        )
+        return "\n".join(entries[:120])
+    text = path.read_text(encoding="utf-8", errors="replace")
+    if len(text) > MAX_CONTEXT_FILE_CHARS:
+        head = text[:MAX_CONTEXT_FILE_CHARS]
+        return head + f"\n\n[truncated after {MAX_CONTEXT_FILE_CHARS} chars]"
+    return text
+
+
+def build_context_block(target: BedcTarget) -> str:
+    blocks: list[str] = []
+    total = 0
+    for rel in _extract_local_input_paths(target):
+        path = _safe_context_path(rel)
+        if path is None:
+            body = "[skipped: path outside repository]"
+        else:
+            body = _read_context_file(path)
+        remaining = MAX_CONTEXT_TOTAL_CHARS - total
+        if remaining <= 0:
+            blocks.append("\n[context truncated: total budget reached]")
+            break
+        if len(body) > remaining:
+            body = body[:remaining] + f"\n\n[truncated at total context budget {MAX_CONTEXT_TOTAL_CHARS} chars]"
+        total += len(body)
+        blocks.append(f"### {rel}\n\n```text\n{body}\n```")
+    if not blocks:
+        return "No local input excerpts were parsed from the target card."
+    return "\n\n".join(blocks)
+
+
 def build_initial_prompt(target: BedcTarget) -> str:
     payload = {
         "target_id": target.target_id,
@@ -99,6 +168,9 @@ Target payload:
 ```json
 {json.dumps(payload, ensure_ascii=False, indent=2)}
 ```
+
+Local BEDC excerpts:
+{build_context_block(target)}
 
 Task:
 Work on this target only. Identify the smallest precise claim that should be

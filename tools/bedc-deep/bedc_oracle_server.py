@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import base64
 import json
+import re
 import sys
 import threading
 import time
@@ -175,6 +176,31 @@ def _queued_summary(now: float) -> list[dict]:
             "is_followup": bool(task.get("is_followup")),
         })
     return items
+
+
+def _clean_response_text(text: str) -> str:
+    cleaned = text or ""
+    cleaned = re.sub(r"^\s*ChatGPT said:\s*", "", cleaned)
+    cleaned = re.sub(r"\bThought for [0-9hm s]+", "", cleaned)
+    cleaned = re.sub(r"\n?window\.__oai_logHTML\?.*\Z", "", cleaned, flags=re.DOTALL)
+    cleaned = re.sub(r"\n?Extended Pro\s*ChatGPT can make mistakes\..*\Z", "", cleaned, flags=re.DOTALL)
+    cleaned = re.sub(r"\n?ChatGPT can make mistakes\..*\Z", "", cleaned, flags=re.DOTALL)
+    return cleaned.strip()
+
+
+def _response_is_error(text: str) -> bool:
+    return bool(re.match(r"\s*ERROR\b", text or "", re.IGNORECASE))
+
+
+def _should_replace_result(existing: dict | None, response: str) -> bool:
+    if not existing:
+        return True
+    old_response = existing.get("response", "")
+    if _response_is_error(old_response) and not _response_is_error(response):
+        return True
+    if not _response_is_error(old_response) and _response_is_error(response):
+        return False
+    return len(response) >= len(old_response)
 
 
 # ---------------------------------------------------------------------------
@@ -407,7 +433,8 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
 
     def _handle_result(self, data: dict):
         task_id = data.get("task_id", "")
-        response = data.get("response", "")
+        raw_response = data.get("response", "")
+        response = _clean_response_text(raw_response)
         agent_id = data.get("agent_id", "")
         chatgpt_url = data.get("chatgpt_url", "")
         if not task_id or not response:
@@ -424,19 +451,28 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     dispatch_times.pop(aid, None)
                     freed_agent = aid
                     break
-        conv_id = (task or {}).get("conversation_id", "")
+            existing = results.get(task_id)
+        conv_id = (task or {}).get("conversation_id", "") or (existing or {}).get("conversation_id", "")
+        if not chatgpt_url:
+            chatgpt_url = (task or {}).get("conversation_url", "") or (existing or {}).get("chatgpt_url", "")
 
         record = {
             "task_id": task_id,
             "response": response,
             "conversation_id": conv_id,
-            "chatgpt_url": chatgpt_url or (task or {}).get("conversation_url", ""),
+            "chatgpt_url": chatgpt_url,
             "model": data.get("model", "chatgpt-5.5-pro"),
             "agent_id": agent_id,
             "completed_at": _now(),
             "status": "completed",
             "response_chars": len(response),
+            "raw_response_chars": len(raw_response),
         }
+        if not _should_replace_result(existing, response):
+            print(f"[server] Ignored stale result {task_id} ({len(response)} chars) "
+                  f"conv={conv_id[:12]} freed={freed_agent}")
+            self._send_json({"status": "ignored", "task_id": task_id})
+            return
         with _lock:
             _record_agent_seen(agent_id, event="result")
             results[task_id] = record
@@ -450,6 +486,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 "completed_at": record["completed_at"],
                 "model": record["model"],
                 "response_chars": len(response),
+                "raw_response_chars": len(raw_response),
             })
 
         # Mirror to disk for offline inspection
