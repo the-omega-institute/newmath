@@ -134,4 +134,13 @@ theorem cont_step_result_no_confusion_pair :
                 | intro zeroResult _ =>
                     cases zeroResult
 
+theorem cont_step_result_not_empty_pair {h k : BHist} :
+    (Cont h (BHist.e0 k) BHist.Empty → False) ∧
+      (Cont h (BHist.e1 k) BHist.Empty → False) := by
+  constructor
+  · intro hcont
+    cases hcont
+  · intro hcont
+    cases hcont
+
 end BEDC.FKernel.Cont
