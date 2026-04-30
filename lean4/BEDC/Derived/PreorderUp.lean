@@ -27,6 +27,21 @@ theorem PreorderPrefixLE_empty_left_iff_unary {h : BHist} :
   · intro carrier
     exact Exists.intro h (And.intro carrier (cont_left_unit h))
 
+theorem PreorderPrefixLE_empty_target_iff {h : BHist} :
+    PreorderPrefixLE h BHist.Empty ↔ hsame h BHist.Empty := by
+  constructor
+  · intro prefixWitness
+    cases prefixWitness with
+    | intro tail data =>
+        cases data with
+        | intro _tailUnary cont =>
+            have emptyParts := cont_empty_result_inversion cont
+            cases emptyParts.left
+            exact hsame_refl BHist.Empty
+  · intro same
+    cases same
+    exact ⟨BHist.Empty, unary_empty, cont_right_unit BHist.Empty⟩
+
 theorem PreorderPrefixLE_target_carrier {h k : BHist} :
     PreorderCarrier h -> PreorderPrefixLE h k -> PreorderCarrier k := by
   intro carrier prefixWitness

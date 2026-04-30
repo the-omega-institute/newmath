@@ -44,6 +44,18 @@ def IntClassifierSpec
     BEDC.Derived.IntUp.IntCarrier y.1 y.2 ∧
       BEDC.FKernel.Mark.msame x.1 y.1 ∧ BEDC.FKernel.Hist.hsame x.2 y.2
 
+theorem IntClassifierSpec_refl {sign : BEDC.FKernel.Mark.BMark}
+    {h : BEDC.FKernel.Hist.BHist} :
+    IntCarrier sign h -> IntClassifierSpec (sign, h) (sign, h) := by
+  intro carrier
+  constructor
+  · exact carrier
+  · constructor
+    · exact carrier
+    · constructor
+      · exact BEDC.FKernel.Mark.msame_refl sign
+      · exact BEDC.FKernel.Hist.hsame_refl h
+
 theorem intup_source_specification
     (sign : BEDC.FKernel.Mark.BMark) (magnitude : BEDC.FKernel.Hist.BHist) :
     IntSourceSpec sign magnitude <-> IntCarrier sign magnitude := by

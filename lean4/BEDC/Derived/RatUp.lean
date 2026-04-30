@@ -127,6 +127,19 @@ def RatHistoryCarrier (denominator : BHist) : Prop :=
 def RatHistoryClassifier (d e : BHist) : Prop :=
   RatHistoryCarrier d ∧ RatHistoryCarrier e ∧ hsame d e
 
+theorem RatHistoryClassifier_trans {d e f : BHist} :
+    RatHistoryClassifier d e -> RatHistoryClassifier e f -> RatHistoryClassifier d f := by
+  intro de ef
+  cases de with
+  | intro carrierD deRest =>
+      cases deRest with
+      | intro _carrierE sameDE =>
+          cases ef with
+          | intro _carrierE' efRest =>
+              cases efRest with
+              | intro carrierF sameEF =>
+                  exact ⟨carrierD, carrierF, hsame_trans sameDE sameEF⟩
+
 theorem RatHistoryCarrier_hsame_transport {d e : BHist} :
     hsame d e -> RatHistoryCarrier d -> RatHistoryCarrier e := by
   intro same carrier

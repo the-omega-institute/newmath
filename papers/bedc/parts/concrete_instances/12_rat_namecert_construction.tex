@@ -190,6 +190,20 @@ fields. Rebuild the classifier in the reverse direction using symmetry of
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_symm}
 
+\begin{theorem}[Rat history classifier transitivity]
+\label{thm:rat-history-classifier-trans}
+If denominator histories $d$ and $e$ are related by the rational history
+classifier, and $e$ and $f$ are related by the same classifier, then $d$ and
+$f$ are related by the rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the two rational history classifier witnesses. Keep the left endpoint
+carrier from the first witness and the right endpoint carrier from the second
+witness, then compose the denominator history sameness proofs by transitivity
+of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_trans}
+
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}
 The stability certificate consists of:

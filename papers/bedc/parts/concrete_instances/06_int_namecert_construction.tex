@@ -68,6 +68,16 @@ The classifier for two signed unary representatives requires both representative
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntClassifierSpec}
 
+\begin{theorem}[Integer classifier reflexivity]
+\label{thm:int-classifier-refl}
+If $\mathsf{IntCarrier}(s,h)$, then
+$\mathsf{IntClassifierSpec}((s,h),(s,h))$.
+\end{theorem}
+\begin{proof}
+Use the same signed unary carrier witness on both classifier endpoints. The sign component is related by reflexivity of $\msame$, and the magnitude component is related by reflexivity of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_refl}
+
 \begin{theorem}[Integer classifier symmetry]
 \label{thm:int-classifier-symmetry}
 If \(\mathsf{IntClassifierSpec}(x,y)\), then
