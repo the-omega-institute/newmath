@@ -68,7 +68,7 @@ LAKE_GATE_MAX_PARALLEL = 1
 STOP_FILE = REPO_ROOT / ".pipeline.stop"
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
 FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
-MAX_LEAN_FILE_LINES = 600
+MAX_LEAN_FILE_LINES = 800
 
 
 def _load_prompt(name: str) -> str:
