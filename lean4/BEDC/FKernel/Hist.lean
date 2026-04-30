@@ -106,4 +106,11 @@ theorem hsame_no_confusion :
       · exact not_hsame_e0_e1
       · exact not_hsame_e1_e0
 
+theorem hsame_no_confusion_all :
+    (∀ {h : BHist}, hsame .Empty (.e0 h) → False) ∧
+      (∀ {h : BHist}, hsame .Empty (.e1 h) → False) ∧
+      (∀ {h k : BHist}, hsame (.e0 h) (.e1 k) → False) ∧
+      (∀ {h k : BHist}, hsame (.e1 h) (.e0 k) → False) := by
+  exact hsame_no_confusion
+
 end BEDC.FKernel.Hist
