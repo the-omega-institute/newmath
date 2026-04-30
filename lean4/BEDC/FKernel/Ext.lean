@@ -11,6 +11,12 @@ inductive Ext : BHist → BMark → BHist → Prop where
   | e0 (h : BHist) : Ext h .b0 (.e0 h)
   | e1 (h : BHist) : Ext h .b1 (.e1 h)
 
+theorem ext_generation_rules (h : BHist) :
+    Ext h BMark.b0 (BHist.e0 h) /\ Ext h BMark.b1 (BHist.e1 h) := by
+  constructor
+  · exact Ext.e0 h
+  · exact Ext.e1 h
+
 theorem ext_deterministic :
     ∀ {h r r' : BHist} {m : BMark}, Ext h m r → Ext h m r' → hsame r r' := by
   intro h r r' m hr hr'

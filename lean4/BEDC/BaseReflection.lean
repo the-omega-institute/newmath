@@ -131,6 +131,14 @@ theorem PsameBase_inversion {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
         sigSame := same
       }
 
+theorem PsameBase_witnesses_from_base {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameBase s P p q -> exists x : s.SigObj, exists y : s.SigObj,
+      s.TokIntro P x p /\ s.TokIntro P y q /\ s.hsame x y := by
+  intro base
+  cases base with
+  | intro left right same =>
+      exact Exists.intro _ (Exists.intro _ (And.intro left (And.intro right same)))
+
 theorem PackageReflection_base
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
