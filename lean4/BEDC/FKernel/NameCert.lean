@@ -472,6 +472,21 @@ theorem stableTransformation_descends_to_packages
   | mk map respects ledger =>
       exact respects same
 
+theorem function_like_interfaces_are_derived
+    {Source Target Ledger : Type}
+    {sourceSame : Source → Source → Prop}
+    {targetSame : Target → Target → Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame) :
+    Nonempty (DescentCertificate Source Target sourceSame targetSame) ∧
+      (∀ {a b : Source}, sourceSame a b → targetSame (cert.map a) (cert.map b)) ∧
+      Nonempty Ledger := by
+  constructor
+  · exact StableTransformation_descentCertificate_exists cert
+  · constructor
+    · intro a b same
+      exact stableTransformation_descends_to_packages cert same
+    · exact stableTransformation_ledger_witness cert
+
 theorem stable_transform_descends_to_packages
     {Source Target Ledger : Type}
     {sourceSame : Source → Source → Prop}

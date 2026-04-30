@@ -253,6 +253,18 @@ theorem PackagePolicy_grounding_witness {bundle : ProbeBundle ProbeName}
   intro samePkg
   exact policy.grounding samePkg
 
+omit [AskSetup] P in
+theorem packagePolicy_no_quotient_shortcut [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle) :
+    (∀ {s t : BHist} {p q : Pkg},
+      hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q) ∧
+    (∀ {p q : Pkg},
+      psame bundle p q → ∃ s : BHist, ∃ t : BHist,
+        TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t) := by
+  constructor
+  · exact policy.extensionality
+  · exact policy.grounding
+
 theorem package_tokens_signature_facing {bundle : ProbeBundle ProbeName}
     (policy : PackagePolicy bundle) {s t : BHist} {p q : Pkg} :
     hsame s t -> TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q := by

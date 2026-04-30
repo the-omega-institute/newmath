@@ -25,6 +25,10 @@ def UnaryRightShiftObligation : Prop :=
   forall {k h r : BHist}, UnaryHistory k -> Cont k (BHist.e1 h) r ->
     exists v : BHist, Cont k h v /\ hsame r (BHist.e1 v)
 
+def UnaryContinuationCommutativityObligation : Prop :=
+  ∀ {h k r r' : BHist},
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r'
+
 theorem unary_empty : UnaryHistory BHist.Empty := by
   exact True.intro
 
