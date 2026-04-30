@@ -74,9 +74,26 @@ theorem TokIntro_nonempty_pkg [AskSetup] [PackageSetup]
   intro _
   exact Nonempty.intro p
 
+omit [AskSetup] P in
+theorem SignatureTokenIntro_nonempty_pkg [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s : BHist} {p : Pkg} :
+    SignatureTokenIntro bundle s p → Nonempty Pkg := by
+  intro token
+  exact TokIntro_nonempty_pkg ((Iff.mp SignatureTokenIntro_iff_TokIntro) token)
+
 inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
   | intro {s t : BHist} {p q : Pkg} :
       TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
+
+omit [AskSetup] P in
+theorem psame_source_history_pair [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {p q : Pkg} :
+    psame bundle p q → ∃ s : BHist, ∃ t : BHist,
+      TokIntro bundle s p ∧ TokIntro bundle t q := by
+  intro same
+  cases same with
+  | intro left right _ =>
+      exact Exists.intro _ (Exists.intro _ (And.intro left right))
 
 omit [AskSetup] P in
 theorem concrete_package_sameness_policy [AskSetup] [PackageSetup]
