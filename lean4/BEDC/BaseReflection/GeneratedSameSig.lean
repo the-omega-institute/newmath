@@ -77,9 +77,37 @@ theorem GeneratedSameSig_witnesses
   | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
       exact Exists.intro leftSigObj
         (Exists.intro rightSigObj
-          (Exists.intro leftEvidence
-            (Exists.intro rightEvidence
-              (And.intro leftSig (And.intro rightSig sigSame)))))
+            (Exists.intro leftEvidence
+              (Exists.intro rightEvidence
+                (And.intro leftSig (And.intro rightSig sigSame)))))
+
+theorem GeneratedSameSig_iff_witnesses
+    {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist} :
+    Nonempty (GeneratedSameSig s P h k) ↔
+      ∃ x : s.SigObj, ∃ y : s.SigObj,
+      ∃ leftEvidence : s.Evidence, ∃ rightEvidence : s.Evidence,
+        s.SigGen P h x leftEvidence ∧
+        s.SigGen P k y rightEvidence ∧ s.hsame x y := by
+  constructor
+  · intro hgen
+    cases hgen with
+    | intro gen =>
+        exact GeneratedSameSig_witnesses gen
+  · intro witnesses
+    cases witnesses with
+    | intro x rest =>
+        cases rest with
+        | intro y rest =>
+            cases rest with
+            | intro leftEvidence rest =>
+                cases rest with
+                | intro rightEvidence data =>
+                    cases data with
+                    | intro leftSig rightData =>
+                        cases rightData with
+                        | intro rightSig sigSame =>
+                            exact Nonempty.intro
+                              (GeneratedSameSig_from_witnesses leftSig rightSig sigSame)
 
 theorem GeneratedSameSig_nonempty_witnesses
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist} :

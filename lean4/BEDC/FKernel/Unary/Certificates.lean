@@ -111,6 +111,11 @@ theorem add_up_certificate_field_witnesses :
       Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
   exact nameCert_field_witnesses add_up_name_certificate
 
+theorem add_up_name_certificate_complete :
+    NameCert AddName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧
+      Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  exact And.intro add_up_name_certificate add_up_certificate_field_witnesses
+
 theorem add_up_certificate_has_ledger : Nonempty LedgerPolicy := by
   exact derived_interfaces_have_ledger add_up_name_certificate
 
