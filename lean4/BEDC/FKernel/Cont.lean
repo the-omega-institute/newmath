@@ -79,6 +79,19 @@ theorem cont_right_constructor_inversion {h k r : BHist} :
       right
       exact ⟨k0, append h k0, rfl, by simpa [Cont, append] using hr, rfl⟩
 
+theorem cont_empty_result_inversion {h k : BHist} :
+    Cont h k BHist.Empty -> h = BHist.Empty ∧ k = BHist.Empty := by
+  intro hc
+  cases k with
+  | Empty =>
+      constructor
+      · exact hc.symm
+      · rfl
+  | e0 k0 =>
+      cases hc
+  | e1 k0 =>
+      cases hc
+
 theorem cont_unit_laws :
     (∀ k : BHist, Cont .Empty k k) ∧
       (∀ {h r : BHist}, Cont h .Empty r → hsame r h) := by

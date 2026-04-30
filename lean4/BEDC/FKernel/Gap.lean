@@ -836,6 +836,13 @@ theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
   exact policy.transport hh hhk
 
 omit [AskSetup] [PackageSetup] G in
+theorem domain_transport_refl [AskSetup] [PackageSetup] [DomainSetup] {D : Domain}
+    (policy : DomainPolicy D) {h : BHist} :
+    InDom D h -> InDom D h := by
+  intro hdom
+  exact policy.transport hdom (hsame_refl h)
+
+omit [AskSetup] [PackageSetup] G in
 theorem DomainPolicy_iff_transport [AskSetup] [PackageSetup] [DomainSetup] {D : Domain} :
     DomainPolicy D <-> (forall {h k : BHist}, InDom D h -> hsame h k -> InDom D k) := by
   constructor
