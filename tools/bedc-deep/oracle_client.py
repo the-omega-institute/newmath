@@ -176,6 +176,8 @@ def write_text(path: Path, text: str) -> None:
 
 
 def detect_verdict(text: str) -> str:
+    if re.match(r"^\s*ERROR\b", text, re.IGNORECASE):
+        return "AGENT_ERROR"
     if re.search(r"\b(False|TooStrong)\b", text):
         return "OBSTRUCTION"
     if re.search(r"\bDerived\b", text):

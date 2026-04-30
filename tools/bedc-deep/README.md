@@ -18,6 +18,16 @@ This tool adds only a pre-formalization reasoning lane:
 The claim packet is not a proof artifact. It is advisory input for later human
 review or for the existing strict formalization pipeline.
 
+## BEDC Boundary
+
+| Dimension | Automath outreach | BEDC deep reasoning |
+|---|---|---|
+| Target | Solve open problems outside the project | Deepen the current BEDC paper state |
+| Output | Standalone short paper, issue, or forum post | Claim packet for BEDC chapter development |
+| Reference direction | External references plus project evidence | BEDC internal chapter references plus mathlib-free evidence |
+| Publication route | Venue-specific submission rhythm | BEDC-controlled paper rhythm |
+| First move | First-mover external contribution | Structural hardening of the current theory |
+
 ## Red Lines
 
 These rules mirror the automath pipeline discipline while adapting it to BEDC:

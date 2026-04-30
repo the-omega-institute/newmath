@@ -87,6 +87,14 @@ BEDC claims must be traceable to existing inductive objects, definitions,
 structure or class fields, or already accepted propositions. If a claim needs a
 policy assumption, say so directly.
 
+Lane boundary:
+This is not the automath outreach lane. The target is internal BEDC deepening:
+strengthen the current BEDC paper state, clarify chapter placement, and produce
+claim-packet material for later review. Do not aim at an external forum post,
+GitHub issue, standalone short paper, journal targeting, or first-mover
+publication. References should point inward to BEDC chapters and only outward
+when a specific external fact is genuinely needed.
+
 Target payload:
 ```json
 {json.dumps(payload, ensure_ascii=False, indent=2)}
@@ -142,4 +150,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

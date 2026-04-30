@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.2
+// @version      1.3
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -11,6 +11,7 @@
 // @connect      localhost
 // @connect      127.0.0.1
 // @run-at       document-idle
+// @noframes
 // ==/UserScript==
 
 // FORKED FROM: tools/chatgpt-oracle/chatgpt_oracle_macos.user.js v4.10
@@ -27,13 +28,21 @@
 (function () {
   "use strict";
 
+  try {
+    if (window.top !== window.self) return;
+  } catch {
+    return;
+  }
+  if (window.location.pathname.startsWith("/backend-api/")) return;
+  if (window.location.href.includes("/sentinel/")) return;
+
   // BEDC CHANGE
   const SERVER = "http://localhost:8767";
   const POLL_INTERVAL = 30000;
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.2";
+  const SCRIPT_VERSION = "bedc-1.3";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
