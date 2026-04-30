@@ -102,6 +102,14 @@ theorem external_append_assoc :
   | bit1 c ih =>
       exact congrArg BWord.bit1 ih
 
+theorem external_append_assoc_four :
+    forall a b c d : BWord, append (append (append a b) c) d =
+      append a (append b (append c d)) := by
+  intro a b c d
+  exact Eq.trans
+    (external_append_assoc (append a b) c d)
+    (external_append_assoc a b (append c d))
+
 theorem external_append_right_cancel : forall a b c : BWord, append a c = append b c -> a = b := by
   intro a b c h
   induction c with

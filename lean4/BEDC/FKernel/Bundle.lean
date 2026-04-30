@@ -13,4 +13,9 @@ theorem inBundle_cons_self {PName : Type} (p : PName) (tail : ProbeBundle PName)
     InBundle p (ProbeBundle.Bcons p tail) := by
   exact Or.inl rfl
 
+theorem inBundle_cons_tail {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
+    InBundle p tail -> InBundle p (ProbeBundle.Bcons q tail) := by
+  intro h
+  exact Or.inr h
+
 end BEDC.FKernel.Bundle
