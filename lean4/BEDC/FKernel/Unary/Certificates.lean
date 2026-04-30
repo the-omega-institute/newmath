@@ -155,6 +155,11 @@ theorem nat_up_name_certificate_field_nonempty_pack :
         Nonempty.intro source, Nonempty.intro pattern, Nonempty.intro classifier,
         Nonempty.intro stability, Nonempty.intro ledger⟩
 
+theorem nat_up_certificate_seed_fields :
+    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧
+      Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  exact nat_up_name_certificate_field_nonempty_pack
+
 theorem nat_up_certificate_license_and_fields :
     NameCert UnaryName ∧ Nonempty (NameCert UnaryName) ∧ Nonempty SourceSpec ∧
       Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧

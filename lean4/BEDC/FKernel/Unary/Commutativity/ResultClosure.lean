@@ -88,4 +88,17 @@ theorem unary_shift_step_closed_unique_witness {k0 h r' : BHist} :
             intro w hw
             exact cont_deterministic hv hw⟩
 
+theorem unary_continuation_commutativity_obligation_witnesses :
+    UnaryContinuationCommutativityObligation ∧
+      (∀ {h k r r' : BHist}, UnaryHistory h → UnaryHistory k → Cont h k r →
+        Cont k h r' → UnaryHistory r ∧ UnaryHistory r' ∧ hsame r r') := by
+  constructor
+  · exact unary_cont_comm_obligation_holds
+  · intro h k r r' uh uk hr hr'
+    constructor
+    · exact unary_cont_closed uh uk hr
+    · constructor
+      · exact unary_cont_closed uk uh hr'
+      · exact unary_cont_comm uh uk hr hr'
+
 end BEDC.FKernel.Unary

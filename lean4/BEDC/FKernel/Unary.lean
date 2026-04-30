@@ -1,4 +1,5 @@
 import BEDC.FKernel.Unary.History
+import BEDC.FKernel.Unary.Repetition
 import BEDC.FKernel.Unary.Closure
 import BEDC.FKernel.Unary.Domain
 import BEDC.FKernel.Unary.Certificates
