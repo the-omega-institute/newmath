@@ -58,6 +58,32 @@ theorem nameCert_carrier_transport
   | mk _ _ _ _ carrier_respects_equiv =>
       exact carrier_respects_equiv same carrier
 
+theorem derived_interfaces_require_certificates
+    {Carrier : BHist -> Prop}
+    {Equiv : BHist -> BHist -> Prop}
+    (cert : NameCert Carrier Equiv) :
+    (∃ h : BHist, Carrier h) ∧
+      (∀ {h : BHist}, Carrier h -> Equiv h h) ∧
+      (∀ {h k : BHist}, Equiv h k -> Equiv k h) ∧
+      (∀ {h k r : BHist}, Equiv h k -> Equiv k r -> Equiv h r) ∧
+      (∀ {h k : BHist}, Equiv h k -> Carrier h -> Carrier k) := by
+  have certData : BEDC.FKernel.NameCert.NameCert Carrier Equiv := cert
+  cases certData with
+  | mk carrier_inhabited equiv_refl equiv_symm equiv_trans carrier_respects_equiv =>
+      constructor
+      · exact carrier_inhabited
+      · constructor
+        · intro h carrier
+          exact equiv_refl carrier
+        · constructor
+          · intro h k same
+            exact equiv_symm same
+          · constructor
+            · intro h k r same_hk same_kr
+              exact equiv_trans same_hk same_kr
+            · intro h k same carrier
+              exact carrier_respects_equiv same carrier
+
 structure SealEvent
     (Carrier : BHist -> Prop)
     (Equiv : BHist -> BHist -> Prop) : Prop where

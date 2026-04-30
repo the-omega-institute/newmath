@@ -17,6 +17,11 @@ theorem BoolSourceSpec_msame_transport {v w : BEDC.FKernel.Mark.BMark} :
   cases same
   exact src
 
+def BoolLedgerPolicy
+    (visible source : BEDC.FKernel.Mark.BMark) : Prop :=
+  BEDC.Derived.BoolUp.BoolSourceSpec source ∧
+    BEDC.Derived.BoolUp.BoolClassifierSpec visible source
+
 theorem BoolClassifierSpec_constructor_separation :
     BoolClassifierSpec BEDC.FKernel.Mark.BMark.b0 BEDC.FKernel.Mark.BMark.b1 → False := by
   exact BEDC.FKernel.Mark.not_msame_b0_b1
