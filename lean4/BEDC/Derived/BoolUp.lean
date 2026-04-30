@@ -123,6 +123,14 @@ theorem BoolHistoryCarrier_e1_tail_empty {h : BEDC.FKernel.Hist.BHist} :
   | inr oneCase =>
       exact BEDC.FKernel.Hist.hsame_e1_iff.mp oneCase
 
+theorem BoolHistoryCarrier_e1_iff_tail_empty {h : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryCarrier (BEDC.FKernel.Hist.BHist.e1 h) ↔
+      BEDC.FKernel.Hist.hsame h BEDC.FKernel.Hist.BHist.Empty := by
+  constructor
+  · exact BoolHistoryCarrier_e1_tail_empty
+  · intro tailEmpty
+    exact Or.inr (BEDC.FKernel.Hist.hsame_e1_congr tailEmpty)
+
 def BoolHistoryClassifier
     (h k : BEDC.FKernel.Hist.BHist) : Prop :=
   BoolHistoryCarrier h /\

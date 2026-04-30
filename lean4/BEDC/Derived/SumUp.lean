@@ -39,6 +39,23 @@ theorem SumHistoryCarrier_tagged_injections {Left Right : BHist → Prop} :
   · intro r rightCarrier
     exact Or.inr (Exists.intro r (And.intro (hsame_refl (BHist.e1 r)) rightCarrier))
 
+theorem SumHistoryCarrier_e0_inversion {Left Right : BHist -> Prop} {h : BHist} :
+    SumHistoryCarrier Left Right (BHist.e0 h) -> ∃ l : BHist, hsame h l ∧ Left l := by
+  intro carrier
+  cases carrier with
+  | inl leftData =>
+      cases leftData with
+      | intro l data =>
+          cases data with
+          | intro sameTag leftCarrier =>
+              exact Exists.intro l (And.intro (hsame_e0_iff.mp sameTag) leftCarrier)
+  | inr rightData =>
+      cases rightData with
+      | intro r data =>
+          cases data with
+          | intro sameTag _ =>
+              exact False.elim (not_hsame_e0_e1 sameTag)
+
 def SumHistoryClassifier (_Left _Right : BHist → Prop)
     (LeftEq RightEq : BHist → BHist → Prop) (h k : BHist) : Prop :=
   (∃ l : BHist, ∃ l' : BHist,

@@ -21,6 +21,11 @@ theorem PreorderPrefixLE_of_hsame {h k : BHist} :
   cases same
   exact ⟨BHist.Empty, unary_empty, cont_right_unit h⟩
 
+theorem PreorderPrefixLE_append_unary_tail {h tail : BHist} :
+    UnaryHistory tail -> PreorderPrefixLE h (append h tail) := by
+  intro tailUnary
+  exact Exists.intro tail (And.intro tailUnary (cont_intro rfl))
+
 theorem PreorderPrefixLE_empty_left_iff_unary {h : BHist} :
     PreorderPrefixLE BHist.Empty h ↔ PreorderCarrier h := by
   constructor
@@ -124,6 +129,21 @@ theorem PreorderPrefixLE_left_extension {x h k tail : BEDC.FKernel.Hist.BHist} :
           cases tailCont
           exact ⟨append tail rightTail, unary_append_closed tailUnary rightUnary,
             rightCont.trans (append_assoc x tail rightTail)⟩
+
+theorem PreorderPrefixLE_append_tail {h tail : BHist} :
+    UnaryHistory tail -> PreorderPrefixLE h (append h tail) := by
+  intro tailUnary
+  exact ⟨tail, tailUnary, cont_intro rfl⟩
+
+theorem PreorderPrefixLE_cancel_left_context {x h k : BHist} :
+    PreorderPrefixLE (append x h) (append x k) → PreorderPrefixLE h k := by
+  intro prefixLE
+  cases prefixLE with
+  | intro tail tailData =>
+      cases tailData with
+      | intro tailUnary tailCont =>
+          exact ⟨tail, tailUnary,
+            append_left_cancel (h := x) (tailCont.trans (append_assoc x h tail))⟩
 
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)

@@ -21,6 +21,19 @@ Invert the sum carrier witness. In the left-tag case, compose symmetry of the gi
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_hsame\_transport}
 
+\begin{theorem}[Sum history left-tag inversion]
+\label{thm:sum-history-carrier-left-tag-inversion}
+If an \(e0\)-tagged history belongs to the tagged sum-history carrier, then
+its payload is history-same to a left carrier witness.
+\end{theorem}
+\begin{proof}
+Invert the tagged carrier witness. In the left branch, BEDC \(e0\)-constructor
+inversion recovers the payload sameness and keeps the stored left carrier
+proof. In the right branch, the \(e0/e1\) no-confusion theorem contradicts the
+stored tag witness.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_e0\_inversion}
+
 \section{The certificate}
 
 \begin{definition}[Sum source specification]
