@@ -72,6 +72,24 @@ theorem packagePolicy_token_exists {bundle : ProbeBundle ProbeName}
     exists p : Pkg, TokIntro bundle s p := by
   exact policy.existence s
 
+omit [AskSetup] P in
+theorem packagePolicy_fields [AskSetup] [PackageSetup] {bundle : ProbeBundle ProbeName}
+    (policy : PackagePolicy bundle) :
+    (∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) ∧
+    (∀ {s t : BHist} {p q : Pkg},
+      hsame s t -> TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q) ∧
+    (∀ {p q : Pkg},
+      psame bundle p q -> ∃ s : BHist, ∃ t : BHist,
+        TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t) := by
+  constructor
+  · intro s
+    exact policy.existence s
+  · constructor
+    · intro s t p q same left right
+      exact policy.extensionality same left right
+    · intro p q samePkg
+      exact policy.grounding samePkg
+
 theorem packagePolicy_classifies_signatures
     {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle)
     {s t : BHist} {p q : Pkg} :

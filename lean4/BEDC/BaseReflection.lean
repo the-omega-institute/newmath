@@ -412,6 +412,14 @@ theorem GeneratedSameSig_hsame
   | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
       exact sigSame
 
+theorem GeneratedSameSig_left_witness
+    {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
+    (gen : GeneratedSameSig s P h k) :
+    ∃ x : s.SigObj, ∃ e : s.Evidence, s.SigGen P h x e := by
+  cases gen with
+  | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
+      exact Exists.intro leftSigObj (Exists.intro leftEvidence leftSig)
+
 def GeneratedSameSig_symm
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
     (eqv : HSameEquiv s) :

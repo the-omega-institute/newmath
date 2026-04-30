@@ -23,6 +23,14 @@ structure AskEvent (pi : ProbeName) (h : BHist) : Type where
   evidence : Evidence
   event : Ask pi h mark evidence
 
+omit S in
+theorem askEvent_witness [AskSetup] {pi : ProbeName} {h : BHist} :
+    AskEvent pi h -> ∃ m : BMark, ∃ delta : Evidence, Ask pi h m delta := by
+  intro ev
+  cases ev with
+  | mk mark evidence event =>
+      exact Exists.intro mark (Exists.intro evidence event)
+
 structure AskPolicy (D : BHist → Prop) : Prop where
   total :
     ∀ {π : ProbeName} {h : BHist}, D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ
