@@ -232,10 +232,13 @@ Proceed by induction on the first list. The nil case forces the middle list to b
 Record the finite constructor spine and the source ledger for each element.
 \end{definition}
 
-\begin{theorem}[Concrete \(\ListUp\) naming certificate]
+\begin{theorem}[Concrete $\ListUp$ naming certificate]
 \label{thm:concrete-list-namecert}
-The structural tuple forms a valid NameCert for \(\ListUp(A)\).
+Assume a source carrier $A$ is equipped with a $\NameCert$ for the source classifier $\sim_A$. Let $\ListUp(A)$ be the generated list carrier with nil and cons constructors, and let $\mathsf{ListClassifierSpec}(\sim_A)$ be the lifted structural classifier. Then the generated carrier, lifted classifier, and inherited transport data satisfy the naming-certificate obligations for $\ListUp(A)$.
 \end{theorem}
+\begin{proof}
+The nil constructor supplies an inhabited carrier. Classifier reflexivity is by induction on the generated list spine, using the reflexivity field of the source certificate at each cons head. Symmetry is by induction on the structural classifier derivation: nil is immediate, and the cons-cons case uses source symmetry on the heads and the induction hypothesis on the tails. Transitivity is the structural induction of Theorem~\ref{thm:list-classifier-trans-from-namecert}, using the source certificate transitivity field for matching heads. Carrier transport follows by induction over the lifted classifier derivation, with nil transported to nil and cons transported componentwise by the source certificate field and the tail induction hypothesis.
+\end{proof}
 
 \begin{corollary}[\(\ListUp\) is licensed, not primitive]
 \label{cor:list-licensed-not-primitive}

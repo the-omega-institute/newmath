@@ -142,12 +142,12 @@ If $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ holds, then both $
 Use Theorem~\ref{thm:bundle-append-membership}. A member of $\Pi$ maps into $\mathsf{BAppend}(\Pi,\Theta)$ through the left disjunct, and a member of $\Theta$ maps into $\mathsf{BAppend}(\Pi,\Theta)$ through the right disjunct. Restrict the totality, mark determinacy, and history-respect fields of the appended bundle-local policy along these two membership maps.
 \end{proof}
 
-\begin{theorem}[Bundle-local policy append introduction]
-\label{thm:bundle-local-policy-append-introduction}
+\begin{theorem}[Bundle-local policy append gluing]
+\label{thm:bundle-local-policy-append-gluing}
 If $\mathsf{BundleAskPolicy}(\Pi,D)$ and $\mathsf{BundleAskPolicy}(\Theta,D)$ hold, then $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ holds.
 \end{theorem}
 \begin{proof}
-Use Theorem~\ref{thm:bundle-append-membership}. For each probe membership in $\mathsf{BAppend}(\Pi,\Theta)$, split it into a left membership in $\Pi$ or a right membership in $\Theta$. In the left case, take totality, mark-determinacy, and source-respect from the policy on $\Pi$; in the right case, take the same three fields from the policy on $\Theta$. These case analyses assemble the bundle-local asking policy for the appended bundle.
+Use Theorem~\ref{thm:bundle-append-membership}. For each probe membership in $\mathsf{BAppend}(\Pi,\Theta)$, split it into a left membership in $\Pi$ or a right membership in $\Theta$. In the left case, take totality, determinacy, and history-respect from the policy on $\Pi$; in the right case, take the same three fields from the policy on $\Theta$. These case analyses assemble the bundle-local asking policy for the appended bundle.
 \end{proof}
 
 \begin{theorem}[Probe bundle prefix cancellation]
@@ -323,7 +323,8 @@ $\ContR(w,t,b)$, then apply it to the $\Pi$ signature and the
 $\mathsf{BAppend}(\Theta,\Omega)$ signature to obtain $u_R$ and $\Lambda_R$ with
 $\ContR(b,s,u_R)$. Theorem~\ref{thm:continuation-associativity}, with
 $h=w$, $k=t$, $l=s$, middle result $b$, and alternative middle result $a$,
-gives $\hsame(u_L,u_R)$.
+gives $\hsame(u_R,u_L)$. The history-sameness symmetry lemma converts this to
+the displayed $\hsame(u_L,u_R)$.
 \end{proof}
 
 \begin{theorem}[Signature-sameness closure under bundle append]
