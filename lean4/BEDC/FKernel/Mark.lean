@@ -43,6 +43,20 @@ theorem msame_no_confusion : (msame .b0 .b1 → False) ∧ (msame .b1 .b0 → Fa
   · exact not_msame_b0_b1
   · exact not_msame_b1_b0
 
+theorem msame_cross_impossible {m n : BMark} :
+    ((m = BMark.b0 ∧ n = BMark.b1) ∨ (m = BMark.b1 ∧ n = BMark.b0)) →
+      msame m n → False := by
+  intro cross same
+  cases cross with
+  | inl left =>
+      cases left.left
+      cases left.right
+      exact not_msame_b0_b1 same
+  | inr right =>
+      cases right.left
+      cases right.right
+      exact not_msame_b1_b0 same
+
 theorem msame_constructor_characterization {m n : BMark} :
     msame m n ↔ (m = BMark.b0 ∧ n = BMark.b0) ∨ (m = BMark.b1 ∧ n = BMark.b1) := by
   constructor

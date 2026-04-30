@@ -202,6 +202,12 @@ theorem packageTokenPolicy_signature_facing {bundle : ProbeBundle ProbeName}
   intro sameHist left right
   exact policy.soundness left right sameHist
 
+theorem packageTokenPolicy_psame_refl_on_introduced {bundle : ProbeBundle ProbeName}
+    (policy : PackageTokenPolicy bundle) {s : BHist} {p : Pkg} :
+    TokIntro bundle s p → psame bundle p p := by
+  intro tok
+  exact policy.soundness tok tok (hsame_refl s)
+
 theorem psame_reflect {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle -> TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q -> hsame s t := by
   intro policy hp hq hpq
