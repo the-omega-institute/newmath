@@ -34,6 +34,33 @@ theorem signature_totality_under_policy [AskSetup] :
                         SigRel.cons pi tail h s (BHist.e1 s) BMark.b1 delta hask hsig
                           (Ext.e1 s)⟩
 
+theorem sig_total_from_bundle_policy [AskSetup] :
+    ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h : BHist},
+      BundleAskPolicy bundle D → D h → ∃ s : BHist, SigRel bundle h s := by
+  intro bundle
+  induction bundle with
+  | Bnil =>
+      intro D h _ _
+      exact ⟨BHist.Empty, SigRel.empty h⟩
+  | Bcons pi tail ih =>
+      intro D h policy hD
+      cases policy.total (pi := pi) (h := h) (Or.inl rfl) hD with
+      | intro m headData =>
+          cases headData with
+          | intro delta hask =>
+              have tailPolicy : BundleAskPolicy tail D := bundleAskPolicy_tail policy
+              cases ih (D := D) (h := h) tailPolicy hD with
+              | intro s hsig =>
+                  cases m with
+                  | b0 =>
+                      exact ⟨BHist.e0 s,
+                        SigRel.cons pi tail h s (BHist.e0 s) BMark.b0 delta hask hsig
+                          (Ext.e0 s)⟩
+                  | b1 =>
+                      exact ⟨BHist.e1 s,
+                        SigRel.cons pi tail h s (BHist.e1 s) BMark.b1 delta hask hsig
+                          (Ext.e1 s)⟩
+
 theorem sig_total_unique_from_policy [AskSetup] {bundle : ProbeBundle ProbeName}
     {D : BHist → Prop} (policy : AskPolicy D) {h : BHist} :
     D h →
