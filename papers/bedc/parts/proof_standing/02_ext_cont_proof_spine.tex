@@ -72,6 +72,7 @@ The left unit is the empty continuation constructor. The right unit is proved by
 \end{proof}
 
 \begin{theorem}[Associativity up to history-sameness]
+\label{thm:continuation-associativity-up-to-hsame-proof-standing}
 Suppose
 \[
 \ContR(a,b,ab),\quad \ContR(ab,c,left),\quad
@@ -79,6 +80,7 @@ Suppose
 \]
 Then \(\HSame(left,right)\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_assoc\_proof\_standing}
 \begin{proof}
 By induction on the generated structure of \(a\). If \(a=\emp\), then \(ab\) is history-same to \(b\), and both sides reduce, by continuation determinacy, to the continuation of \(b\) by \(c\). If \(a=\Ezero(a')\), the generated continuation proofs have outer \(\Ezero\) form. Strip this outer constructor using closed-generation inversion, apply the induction hypothesis to the subcontinuations, and re-apply the \(\Ezero\) history-sameness constructor. The \(\Eone\)-case is identical.
 \end{proof}

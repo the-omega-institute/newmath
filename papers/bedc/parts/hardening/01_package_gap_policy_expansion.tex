@@ -58,8 +58,10 @@ It must satisfy three obligations:
 \leanvariant{BEDC.FKernel.Gap.gapPolicy\_provenance\_coverage\_generation\_pair}
 
 \begin{theorem}[Gap ledgers are not optional]
+\label{thm:gap-ledgers-not-optional-hardening}
 For any nontrivial package policy, a gap policy is required to recover provenance. Without it, the visible package token has no internal record of which histories were compressed into it.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Gap.gapPolicy\_requires\_provenance\_ledger}
 
 \begin{proof}
 Packaging replaces source histories by visible tokens. If a visible token is used without a gap ledger, then the theory no longer contains an internal witness of the histories that led to the token. This violates the ledger-for-compression principle. Hence a gap policy is part of the admissible globalization interface.

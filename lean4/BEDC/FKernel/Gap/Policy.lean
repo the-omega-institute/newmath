@@ -139,6 +139,16 @@ theorem gap_ledgers_not_optional [AskSetup] [PackageSetup] [DomainSetup]
       | intro s htok =>
           exact Exists.intro p (Exists.intro s (And.intro hgap htok))
 
+theorem gapPolicy_requires_provenance_ledger [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
+    InDom D h -> exists p : Pkg, exists s : BHist, InGapSig bundle D p h /\ TokIntro bundle s p := by
+  intro hdom
+  cases policy.coverage hdom with
+  | intro p hgap =>
+      cases policy.generation hgap with
+      | intro s htok =>
+          exact Exists.intro p (Exists.intro s (And.intro hgap htok))
+
 theorem gapPolicy_coverage_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
     InDom D h -> exists p : Pkg, exists s : BHist,

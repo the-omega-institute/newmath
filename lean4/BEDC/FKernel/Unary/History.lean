@@ -67,6 +67,11 @@ theorem unary_e1_closed {h : BHist} : UnaryHistory h -> UnaryHistory (.e1 h) := 
   intro uh
   exact uh
 
+theorem unary_closure_under_one_extension {h : BHist} :
+    UnaryHistory h -> UnaryHistory (BHist.e1 h) := by
+  intro uh
+  exact uh
+
 theorem unary_double_e1_closed {h : BHist} :
     UnaryHistory h -> UnaryHistory (BHist.e1 (BHist.e1 h)) := by
   intro uh
