@@ -18,8 +18,10 @@ means that continuing history \(h\) by history \(k\) may generate result \(r\). 
 \end{definition}
 
 \begin{theorem}[Continuation determinacy]
+\label{thm:continuation-determinacy}
 If \(\Cont(h,k,r)\) and \(\Cont(h,k,r')\), then \(\HSame(r,r')\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_deterministic}
 \begin{proof}
 By induction on the first continuation derivation.  In the empty case, both results must be internally the same as \(k\).  In the \(\Ezero\)-case, closed generation forces the second derivation to be an \(\Ezero\)-case, and the induction hypothesis applies to the subresults.  The \(\Eone\)-case is analogous.
 \end{proof}
