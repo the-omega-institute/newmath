@@ -650,22 +650,33 @@ def sync_with_peer_branch(*, push: bool = True, model: Optional[str] = None) -> 
 # ---------------------------------------------------------------------------
 # Background peer-sync ticker
 #
-# Runs sync_with_peer_branch on a fixed interval while the pipeline is
-# dispatching rounds. Conflicts go to codex (the same codex resolver used
-# by the session-start sync) so the ticker can actually keep BASE_BRANCH
-# current with PEER_BRANCH after the first non-trivial divergence — an
-# ff-only tick gets stuck the moment the initial sync produces a merge
-# commit.
+# Runs sync_with_peer_branch in a background thread. Event-driven cadence:
+# every successful round merge calls `request_peer_sync()` which wakes the
+# ticker immediately so the new commit propagates to PEER_BRANCH right
+# away. The interval acts as an idle ceiling — if no rounds finish for
+# `interval` seconds we still tick to absorb peer-side advances.
+# Conflicts always go through codex (the same resolver session-start uses).
 # ---------------------------------------------------------------------------
 
 _peer_sync_stop = threading.Event()
+_peer_sync_wake = threading.Event()
 _peer_sync_thread: Optional[threading.Thread] = None
 
 
+def request_peer_sync() -> None:
+    """Wake the background sync ticker so it runs the next sync immediately
+    instead of waiting out the idle interval. Cheap to call from any thread.
+    Safe no-op if the ticker isn't running (event just stays set, harmlessly)."""
+    _peer_sync_wake.set()
+
+
 def _peer_sync_loop(interval: int, model: Optional[str]) -> None:
-    logger.info(f"[peer-sync] background ticker started (interval={interval}s)")
+    logger.info(f"[peer-sync] background ticker started (idle={interval}s, event-driven)")
     while not _peer_sync_stop.is_set():
-        if _peer_sync_stop.wait(timeout=interval):
+        # Wait for either an explicit wake or the idle timeout.
+        woken = _peer_sync_wake.wait(timeout=interval)
+        _peer_sync_wake.clear()
+        if _peer_sync_stop.is_set():
             break
         try:
             sync_with_peer_branch(model=model)
@@ -681,6 +692,7 @@ def start_peer_sync_ticker(interval: int, model: Optional[str]) -> None:
     if _peer_sync_thread and _peer_sync_thread.is_alive():
         return
     _peer_sync_stop.clear()
+    _peer_sync_wake.clear()
     _peer_sync_thread = threading.Thread(
         target=_peer_sync_loop, args=(interval, model),
         daemon=True, name="peer-sync",
@@ -690,6 +702,7 @@ def start_peer_sync_ticker(interval: int, model: Optional[str]) -> None:
 
 def stop_peer_sync_ticker() -> None:
     _peer_sync_stop.set()
+    _peer_sync_wake.set()  # break the wait
     t = _peer_sync_thread
     if t and t.is_alive():
         t.join(timeout=15)
@@ -1431,6 +1444,7 @@ def run_round_in_worktree(
                 _save_round_log(round_num, review, revise, new_commits, False)
                 return False, round_num, new_commits
             logger.info(f"[{tag}] SUCCESS: merged {len(new_commits)} commit(s)")
+            request_peer_sync()
         elif success and dry_run:
             logger.info(f"[{tag}] [DRY RUN] Would merge to {BASE_BRANCH}")
 
