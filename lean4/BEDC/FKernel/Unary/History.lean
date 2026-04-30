@@ -222,6 +222,17 @@ theorem unary_cont_result_iff_factors {h k r : BHist} :
     | intro uh uk =>
         exact unary_cont_closed uh uk hr
 
+theorem unary_cont_iff_result_unary {h k r : BHist} (hr : Cont h k r) :
+    UnaryCont h k r ↔ UnaryHistory r := by
+  constructor
+  · intro cont
+    exact unary_continuation_closure cont
+  · intro ur
+    have factors : UnaryHistory h ∧ UnaryHistory k := unary_cont_factors_from_result hr ur
+    cases factors with
+    | intro uh uk =>
+        exact And.intro uh (And.intro uk hr)
+
 theorem unary_continuation_closed_and_factors {h k r : BHist} :
     UnaryCont h k r ->
       UnaryHistory r /\ (Cont h k r -> UnaryHistory r -> UnaryHistory h /\ UnaryHistory k) := by

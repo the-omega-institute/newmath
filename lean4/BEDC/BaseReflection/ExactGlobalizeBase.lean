@@ -263,6 +263,21 @@ theorem globalize_exact_base
     exact ExactGlobalizeBase_classify_iff
       (ExactGlobalizeBase_from_fields coverage soundness completeness) hp hq
 
+theorem ExactGlobalizeBase_target
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (coverage : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h)
+    (soundness : ∀ h k p q,
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      GeneratedSameSig s P h k → PsameBase s P p q)
+    (completeness : ∀ h k p q,
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)) :
+    ExactGlobalizeBase s P D ∧
+      ∀ {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h → s.InGapSig P D q k →
+        (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  exact globalize_exact_base coverage soundness completeness
+
 theorem Globalize.exactBase
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (coverage : forall h, s.InDom D h -> exists p, s.InGapSig P D p h)

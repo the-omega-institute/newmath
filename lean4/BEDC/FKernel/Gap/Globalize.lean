@@ -128,6 +128,12 @@ theorem globalize_completeness_from_package_reflection [AskSetup] [PackageSetup]
                                 (And.intro ht
                                   (packagePolicy.reflection hpTok hqTok hpq))))
 
+theorem globalize_completeness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
+    PackageTokenPolicy bundle → InGapSig bundle D p h → InGapSig bundle D q k →
+      psame bundle p q → SameSig bundle h k := by
+  exact globalize_completeness_from_package_reflection
+
 theorem concrete_globalize_completeness_from_package_same
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
     (packagePolicy : PackageTokenPolicy bundle) :
