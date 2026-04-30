@@ -14,6 +14,26 @@ theorem append_empty_right : ∀ h : BHist, append h .Empty = h := by
   intro h
   rfl
 
+theorem append_eq_empty_iff {h k : BHist} :
+    append h k = BHist.Empty ↔ h = BHist.Empty ∧ k = BHist.Empty := by
+  constructor
+  · intro hk
+    cases k with
+    | Empty =>
+        constructor
+        · exact hk
+        · rfl
+    | e0 k =>
+        cases hk
+    | e1 k =>
+        cases hk
+  · intro hk
+    cases hk with
+    | intro hh kk =>
+        cases hh
+        cases kk
+        rfl
+
 theorem append_empty_left : forall h : BHist, append .Empty h = h := by
   intro h
   induction h with

@@ -33,6 +33,11 @@ theorem ext_mark_deterministic_from_result :
   intro h r m n hr hs
   cases hr <;> cases hs <;> rfl
 
+theorem ext_source_deterministic_from_result :
+    ∀ {h h' r : BHist} {m : BMark}, Ext h m r → Ext h' m r → hsame h h' := by
+  intro h h' r m left right
+  cases left <;> cases right <;> rfl
+
 theorem ext_cross_mark_result_impossible {h r : BHist} :
     Ext h BMark.b0 r -> Ext h BMark.b1 r -> False := by
   intro left right
