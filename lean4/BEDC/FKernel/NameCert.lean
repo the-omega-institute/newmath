@@ -512,6 +512,16 @@ theorem function_like_interfaces_are_derived
       exact stableTransformation_descends_to_packages cert same
     · exact stableTransformation_ledger_witness cert
 
+theorem function_like_interface_seed_is_derived
+    {Source Target Ledger : Type}
+    {sourceSame : Source → Source → Prop}
+    {targetSame : Target → Target → Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame) :
+    Nonempty (DescentCertificate Source Target sourceSame targetSame) ∧ Nonempty Ledger := by
+  constructor
+  · exact StableTransformation_descentCertificate_exists cert
+  · exact stableTransformation_ledger_witness cert
+
 theorem stable_transform_descends_to_packages
     {Source Target Ledger : Type}
     {sourceSame : Source → Source → Prop}

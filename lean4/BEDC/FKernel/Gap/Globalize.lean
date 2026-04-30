@@ -433,6 +433,16 @@ theorem concrete_globalize_classifies_sameSig_mp
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     askPolicy packagePolicy hp hq).mp hpq
 
+omit [AskSetup] [PackageSetup] G in
+theorem globalize_equals_signature_classification_concrete [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
+    (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle)
+    (hp : InGapSig bundle D p h) (hq : InGapSig bundle D q k) :
+    psame bundle p q ↔ SameSig bundle h k := by
+  exact concrete_globalize_classifies_sameSig
+    (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+    askPolicy packagePolicy hp hq
+
 theorem concrete_globalize_classifies_by_signatures_directions [AskSetup] [PackageSetup]
     [DomainSetup] {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
     (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle)
