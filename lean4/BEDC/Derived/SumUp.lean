@@ -249,6 +249,25 @@ theorem SumHistoryClassifier_mixed_tags_absurd {Left Right : BHist → Prop}
               | intro sameHRight _ =>
                   exact not_hsame_e0_e1 (hsame_trans (hsame_symm sameHLeft) sameHRight)
 
+theorem SumHistoryClassifier_left_hsame_inversion {Left Right : BHist -> Prop}
+    {l r : BHist} :
+    SumHistoryClassifier Left Right hsame hsame (BHist.e0 l) (BHist.e0 r) -> hsame l r := by
+  intro classifier
+  cases classifier with
+  | inl leftData =>
+      cases leftData with
+      | intro l0 rest =>
+          cases rest with
+          | intro r0 data =>
+              exact hsame_trans (hsame_trans (hsame_e0_iff.mp data.left) data.right.right)
+                (hsame_symm (hsame_e0_iff.mp data.right.left))
+  | inr rightData =>
+      cases rightData with
+      | intro right0 rest =>
+          cases rest with
+          | intro _ data =>
+              exact False.elim (not_hsame_e0_e1 data.left)
+
 theorem sum_history_semantic_name_certificate {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop}
     (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq) :

@@ -14,6 +14,14 @@ def ProdHistoryCarrier (Left Right : BHist -> Prop) (h : BHist) : Prop :=
 def ProdHistoryClassifier (Left Right : BHist -> Prop) (h k : BHist) : Prop :=
   ProdHistoryCarrier Left Right h ∧ ProdHistoryCarrier Left Right k ∧ hsame h k
 
+theorem ProdHistoryCarrier_append_intro {Left Right : BHist -> Prop} {l r : BHist} :
+    Left l -> Right r -> ProdHistoryCarrier Left Right (append l r) := by
+  intro leftCarrier rightCarrier
+  exact Exists.intro l
+    (Exists.intro r
+      (And.intro leftCarrier
+        (And.intro rightCarrier (cont_intro (h := l) (k := r) rfl))))
+
 theorem ProdHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BHist} :
     hsame h k -> ProdHistoryCarrier Left Right h -> ProdHistoryCarrier Left Right k := by
   intro same carrier

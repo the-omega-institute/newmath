@@ -26,6 +26,16 @@ theorem bundleAppend_assoc {PName : Type} :
       intro middle right
       exact congrArg (ProbeBundle.Bcons p) (ih middle right)
 
+theorem bundleAppend_right_nil {PName : Type} :
+    forall bundle : ProbeBundle PName,
+      bundleAppend bundle (ProbeBundle.Bnil : ProbeBundle PName) = bundle := by
+  intro bundle
+  induction bundle with
+  | Bnil =>
+      rfl
+  | Bcons p tail ih =>
+      exact congrArg (ProbeBundle.Bcons p) ih
+
 theorem inBundle_bundleAppend_iff {PName : Type} {p : PName}
     {left right : ProbeBundle PName} :
     InBundle p (bundleAppend left right) ↔ InBundle p left ∨ InBundle p right := by

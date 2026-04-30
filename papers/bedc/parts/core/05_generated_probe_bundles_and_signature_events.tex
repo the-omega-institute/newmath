@@ -82,6 +82,20 @@ hypothesis.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_assoc}
 
+\begin{theorem}[Probe bundle append right unit]
+\label{thm:probe-bundle-append-right-unit}
+For every probe bundle \(\Pi\),
+$$
+\mathsf{BAppend}(\Pi,\Bnil)=\Pi .
+$$
+\end{theorem}
+\begin{proof}
+Induct on \(\Pi\). The empty bundle case is definitional. In the cons case,
+both sides expose the same head probe, and the tail equality is the induction
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_right\_nil}
+
 \begin{theorem}[Bundle append membership]
 \label{thm:bundle-append-membership}
 For every probe $p$ and bundles $\Pi,\Theta$,
