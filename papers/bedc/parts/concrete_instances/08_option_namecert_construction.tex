@@ -95,10 +95,17 @@ $\hsame$ strips the visible present tags and yields $\hsame(h,a)$, so $a$ is the
 required payload.
 \end{proof}
 
+For the finite-data certificate template, the traditional target is
+absent-vs-present option tags; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; no classifier
+participates in this obligation. The stability obligation is constructor
+no-confusion, the ledger exposes the visible tag, the core theorem is this
+disjointness lemma, exactness is absent/present separation, the standard bridge
+is $\mathsf{none}$/$\mathsf{some}$, and the site status is
+$\mathsf{ProofTarget}$.
+
 \begin{lemma}[Tagged option history carrier constructor separation]
 \label{lem:tagged-option-history-carrier-constructor-separation}
-For the finite-data certificate template, the traditional target is absent-vs-present option tags; the BEDC source is $\mathsf{BHist}$ with $\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; no classifier participates in this obligation. The stability obligation is constructor no-confusion, the ledger exposes the visible tag, the core theorem is this disjointness lemma, exactness is absent/present separation, the standard bridge is $\mathsf{none}$/$\mathsf{some}$, and the site status is $\mathsf{ProofTarget}$.
-
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, history $h$, and payload history $a$, an absent endpoint and a present endpoint cannot be witnessed by the same carrier endpoint:
 $$
 \hsame(h,\emp)\land S(a)\land \hsame(h,\Eone(a))

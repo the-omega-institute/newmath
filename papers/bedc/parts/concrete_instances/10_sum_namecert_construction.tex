@@ -400,6 +400,28 @@ $\hsame$ on the selected component to build the matching classifier branch.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_raw\_visible\_classifier}
 
+\begin{theorem}[Sum ledger classifier composition]
+\label{thm:sum-ledger-classifier-extension}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ holds and
+$\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,v,w)$ holds, then
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,w)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+First apply the raw-visible classifier theorem to the ledger policy, obtaining
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,v).
+$$
+Then compose this classifier witness with the given visible-target classifier
+witness using sum-history classifier transitivity. The branch classifiers are
+both $\hsame$, so their required transitivity inputs are the left and right
+instances of BEDC history equality transitivity.
+\end{proof}
+
 \begin{theorem}[Sum ledger preserves visible tag separation]
 \label{thm:sum-ledger-visible-tag-separation}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let

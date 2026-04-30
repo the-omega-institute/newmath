@@ -104,6 +104,24 @@ The typed classifier $\mathsf{ProdClassifierSpec}$ relates pairs componentwise u
 \end{definition}
 \leandef{BEDC.Derived.ProdUp.ProdClassifierSpec}
 \leandef{BEDC.Derived.ProdUp.ProdHistoryClassifier}
+
+\begin{theorem}[Product typed classifier coordinate exactness]
+\label{thm:prod-classifier-coordinate-exactness}
+For types $A$ and $B$, component classifiers $R_A:A\to A\to\mathsf{Prop}$
+and $R_B:B\to B\to\mathsf{Prop}$, and elements $a,a':A$ and $b,b':B$,
+the product typed classifier is exact on coordinates:
+$$
+\mathsf{ProdClassifierSpec}(R_A,R_B,\mathsf{pair}(a,b),\mathsf{pair}(a',b'))
+\quad\Longleftrightarrow\quad
+R_A(a,a')\land R_B(b,b').
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{ProdClassifierSpec}$. The forward direction is constructor
+inversion on the product classifier witness, yielding the two coordinate
+witnesses. The reverse direction pairs the two displayed coordinate witnesses
+to rebuild the product classifier witness.
+\end{proof}
 \leanchecked{BEDC.Derived.ProdUp.prodClassifier\_iff}
 
 \begin{theorem}[Product history classifier endpoint carrier exposure]
