@@ -731,6 +731,23 @@ theorem ExactGlobalizeBase_classify_iff
     | intro hsig =>
         exact ex.soundness h k p q hp hq hsig
 
+theorem no_scaffold_laundering_fields_and_classifier
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    ((forall h, s.InDom D h -> exists p, s.InGapSig P D p h) /\
+      (forall h k p q, s.InGapSig P D p h -> s.InGapSig P D q k ->
+        GeneratedSameSig s P h k -> PsameBase s P p q) /\
+      (forall h k p q, s.InGapSig P D p h -> s.InGapSig P D q k ->
+        PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k))) /\
+      (forall {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h -> s.InGapSig P D q k ->
+        (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k))) := by
+  exact And.intro
+    (ExactGlobalizeBase_fields ex)
+    (fun {h k : s.Hist} {p q : s.Pkg}
+      (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) =>
+        ExactGlobalizeBase_classify_iff ex hp hq)
+
 theorem ExactGlobalizeBase_from_fields_classify_iff
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (coverage : forall h, s.InDom D h -> exists p, s.InGapSig P D p h)

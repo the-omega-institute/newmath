@@ -5,6 +5,8 @@ inductive BWord where
   | bit0 (w : BWord)
   | bit1 (w : BWord)
 
+abbrev Mbin : Type := BWord
+
 def append : BWord → BWord → BWord
   | a, .nil => a
   | a, .bit0 b => .bit0 (append a b)
@@ -23,6 +25,19 @@ theorem external_append_empty_left : forall w : BWord, append .nil w = w := by
 theorem external_append_empty_right : forall w : BWord, append w .nil = w := by
   intro w
   rfl
+
+theorem external_word_no_confusion :
+    (forall w : BWord, BWord.nil = BWord.bit0 w -> False) /\
+      (forall w : BWord, BWord.nil = BWord.bit1 w -> False) /\
+      (forall a b : BWord, BWord.bit0 a = BWord.bit1 b -> False) := by
+  constructor
+  · intro w h
+    cases h
+  · constructor
+    · intro w h
+      cases h
+    · intro a b h
+      cases h
 
 theorem external_append_nil_result_inversion :
     ∀ {a b : BWord}, append a b = BWord.nil → a = BWord.nil ∧ b = BWord.nil := by
