@@ -33,6 +33,15 @@ The pattern is relational judgment formation \(a\le_C b\) over carrier witnesses
 The classifier is the supplied carrier sameness, and the relation is stable under classifier replacement.
 \end{definition}
 
+\begin{theorem}[Prefix right extension]
+\label{thm:preorder-prefix-right-extension}
+If \(h\le k\) is witnessed by a unary continuation tail, and \(k\) continues by a unary tail to \(r\), then \(h\le r\).
+\end{theorem}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_right\_extension}
+\begin{proof}
+Unpack the first prefix witness as a unary tail from \(h\) to \(k\). Compose this continuation with the continuation from \(k\) to \(r\); associativity of continuation supplies the resulting path from \(h\), and unary closure under append supplies the combined unary tail.
+\end{proof}
+
 \begin{definition}[Preorder stability certificate]
 \label{def:preorder-stability-certificate}
 The stability certificate consists of:

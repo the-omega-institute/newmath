@@ -30,6 +30,26 @@ def RatCarrier
     BEDC.FKernel.Unary.UnaryHistory denominator ∧
       (BEDC.FKernel.Hist.hsame denominator BEDC.FKernel.Hist.BHist.Empty → False)
 
+theorem RatCarrier_positive_denominator {sign : BEDC.FKernel.Mark.BMark}
+    {numerator denominator : BEDC.FKernel.Hist.BHist} :
+    RatCarrier sign numerator denominator -> PositiveUnaryDenominator denominator := by
+  intro carrier
+  cases carrier with
+  | intro _ denominatorData =>
+      cases denominatorData with
+      | intro denominatorUnary denominatorNonempty =>
+          cases unary_history_cases denominatorUnary with
+          | inl denominatorEmpty =>
+              cases denominatorEmpty
+              exact False.elim (denominatorNonempty (hsame_refl BHist.Empty))
+          | inr tailWitness =>
+              cases tailWitness with
+              | intro tail tailData =>
+                  cases tailData with
+                  | intro denominatorEq tailUnary =>
+                      cases denominatorEq
+                      exact ⟨tail, hsame_refl (BHist.e1 tail), tailUnary⟩
+
 def rat_classifier_spec_trans_carrier
     (sign : BEDC.FKernel.Mark.BMark) (numerator denominator : BEDC.FKernel.Hist.BHist) :
     Prop :=

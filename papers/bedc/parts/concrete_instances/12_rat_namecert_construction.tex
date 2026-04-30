@@ -24,6 +24,15 @@ Equivalently, this is an \(\IntUp\) numerator with a positive unary-history deno
 \end{definition}
 \leandef{BEDC.Derived.RatUp.RatCarrier}
 
+\begin{theorem}[Rat carrier positive denominator]
+\label{thm:rat-carrier-positive-denominator}
+If \(\mathsf{RatCarrier}(s,n,d)\), then the denominator is internally the same as \(\Eone(t)\) for some unary tail \(t\).
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_positive\_denominator}
+\begin{proof}
+Unpack the carrier into its integer numerator, unary denominator, and non-emptiness clauses. The unary denominator is either \(\emp\) or a one-extension of a unary tail. The empty case contradicts non-emptiness, while the one-extension case gives the displayed positive-denominator witness.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Rat source specification]

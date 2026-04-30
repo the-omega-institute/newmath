@@ -21,6 +21,18 @@ def PreorderClassifierSpec (h k : BHist) : Prop :=
 def PreorderCarrierClassifierSpec (Carrier : BHist → Prop) (h k : BHist) : Prop :=
   Carrier h ∧ Carrier k ∧ hsame h k
 
+theorem PreorderPrefixLE_right_extension {h k tail result : BEDC.FKernel.Hist.BHist} :
+    PreorderPrefixLE h k -> BEDC.FKernel.Unary.UnaryHistory tail ->
+      BEDC.FKernel.Cont.Cont k tail result -> PreorderPrefixLE h result := by
+  intro prefixLE tailUnary tailCont
+  cases prefixLE with
+  | intro leftTail leftData =>
+      cases leftData with
+      | intro leftUnary leftCont =>
+          cases leftCont
+          exact ⟨append leftTail tail, unary_append_closed leftUnary tailUnary,
+            tailCont.trans (append_assoc h leftTail tail)⟩
+
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)
     (carrier_transport : ∀ {h k : BHist}, hsame h k → Carrier h → Carrier k)
