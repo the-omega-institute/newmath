@@ -253,8 +253,9 @@ Unfold \(\ContR\) as the append-result equation. Symmetry of the result sameness
 \label{thm:continuation-right-cancellation}
 Continuation admits cancellation on both sides:
 \begin{enumerate}
-  \item if $\ContR(h,k,r)$ and $\ContR(h',k,r)$, then $\hsame(h,h')$;
-  \item if $\ContR(h,k,r)$ and $\ContR(h,k',r)$, then $\hsame(k,k')$.
+  \item if $\ContR(h,k,r)$, $\ContR(h',k,r')$, and $\hsame(r,r')$, then $\hsame(h,h')$;
+  \item if $\ContR(h,k,r)$ and $\ContR(h,k',r)$, then $\hsame(k,k')$;
+  \item if $\ContR(a,b,ab)$, $\ContR(ab,c,left)$, $\ContR(a,d,ad)$, $\ContR(ad,c,right)$, and $\hsame(left,right)$, then $\hsame(b,d)$.
 \end{enumerate}
 \end{theorem}
 \leanchecked{BEDC.FKernel.Cont.cont\_right\_cancel}
@@ -267,7 +268,7 @@ Continuation admits cancellation on both sides:
 \leanvariant{BEDC.FKernel.Cont.append\_right\_cancel}
 \leanvariant{BEDC.FKernel.Cont.append\_left\_cancel}
 \begin{proof}
-For the first clause, induct on the shared right history $k$. The empty case is immediate. In the two extension cases, constructor injectivity reduces the equality of continued results to the equality of the preceding continued histories, and the induction hypothesis cancels the remaining shared suffix. The second clause is left-append cancellation for continuation histories: compare the two derivations with the same left history, peel the shared left context, and conclude that the right histories are equal up to $\hsame$.
+For the first clause, use right-suffix cancellation after transporting the result by $\hsame$. The second clause is left-context cancellation: compare the two derivations with the same left history, peel the shared left context, and conclude that the right histories are equal up to $\hsame$. For the third clause, associate the two continuations so both sides expose the same outer context $c$ over the inner continuations from $a$; the common outer context cancels against the result-sameness, and the remaining left-context cancellation yields $\hsame(b,d)$.
 \end{proof}
 
 \begin{theorem}[Continuation associativity]

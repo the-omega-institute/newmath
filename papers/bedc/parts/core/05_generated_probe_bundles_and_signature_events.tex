@@ -288,6 +288,36 @@ constructor lifts the recovered tail continuation to $\ContR(t,s,u)$ for the
 whole appended signature.
 \end{proof}
 
+\begin{theorem}[Three-bundle signature generation coherence]
+\label{thm:signature-generation-three-bundle-coherence}
+For probe bundles $\Pi,\Theta,\Omega$ and source history $h$, assume
+$\Sig(\Pi,h,s,\Delta)$, $\Sig(\Theta,h,t,\Gamma)$, and
+$\Sig(\Omega,h,w,\Xi)$. Then there exist histories $a,b,u_L,u_R$ and evidence
+ledgers $\Lambda_{\Pi\Theta}$, $\Lambda_L$, $\Lambda_{\Theta\Omega}$, and
+$\Lambda_R$ such that
+\begin{enumerate}
+  \item $\Sig(\mathsf{BAppend}(\Pi,\Theta),h,a,\Lambda_{\Pi\Theta})$ and $\ContR(t,s,a)$;
+  \item $\Sig(\mathsf{BAppend}(\mathsf{BAppend}(\Pi,\Theta),\Omega),h,u_L,\Lambda_L)$ and $\ContR(w,a,u_L)$;
+  \item $\Sig(\mathsf{BAppend}(\Theta,\Omega),h,b,\Lambda_{\Theta\Omega})$ and $\ContR(w,t,b)$;
+  \item $\Sig(\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\Omega)),h,u_R,\Lambda_R)$ and $\ContR(b,s,u_R)$;
+  \item $\hsame(u_L,u_R)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:signature-generation-bundle-append} to the $\Pi$ and
+$\Theta$ signatures to obtain $a$ and $\Lambda_{\Pi\Theta}$ with
+$\ContR(t,s,a)$. Apply the same theorem to the resulting
+$\mathsf{BAppend}(\Pi,\Theta)$ signature and the $\Omega$ signature to obtain
+$u_L$ and $\Lambda_L$ with $\ContR(w,a,u_L)$. For the other grouping, first
+apply Theorem~\ref{thm:signature-generation-bundle-append} to the $\Theta$ and
+$\Omega$ signatures to obtain $b$ and $\Lambda_{\Theta\Omega}$ with
+$\ContR(w,t,b)$, then apply it to the $\Pi$ signature and the
+$\mathsf{BAppend}(\Theta,\Omega)$ signature to obtain $u_R$ and $\Lambda_R$ with
+$\ContR(b,s,u_R)$. Theorem~\ref{thm:continuation-associativity}, with
+$h=w$, $k=t$, $l=s$, middle result $b$, and alternative middle result $a$,
+gives $\hsame(u_L,u_R)$.
+\end{proof}
+
 \begin{theorem}[Signature-sameness closure under bundle append]
 \label{thm:samesig-bundle-append-closure}
 For probe bundles $\Pi,\Theta$ and histories $h,k$, if $\sameSig_\Pi(h,k)$ and $\sameSig_\Theta(h,k)$, then
