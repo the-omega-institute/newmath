@@ -97,6 +97,25 @@ theorem compGap_composite_coverage_witness
           exact Exists.intro z (compGap_intro (y := y) hy hz)
 
 omit [AskSetup] [PackageSetup] G in
+theorem composite_gap_coverage_spine
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, firstGap y x)
+    (secondCoverage :
+      forall {x : Source} {y : Inter},
+        SourceOk x -> firstGap y x -> exists z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x -> exists z : Final, CompGap firstGap secondGap z x := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstWitness =>
+      cases secondCoverage sourceOk firstWitness with
+      | intro z secondWitness =>
+          exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
+
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage_from_sourced_layers
     {Source Inter Final : Type}
     {SourceOk : Source → Prop}
