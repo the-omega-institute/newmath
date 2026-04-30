@@ -222,6 +222,9 @@ theorem add_up_name_certificate_exists : Nonempty (NameCert AddName) := by
 theorem add_up_name_certificate : NameCert AddName := by
   exact NameCert.mk () () () () ()
 
+theorem add_up_licensed_not_primitive : NameCert AddName ∧ Nonempty (NameCert AddName) := by
+  exact And.intro add_up_name_certificate add_up_name_certificate_exists
+
 theorem add_up_certificate_field_witnesses :
     Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec /\
       Nonempty StabilityCert /\ Nonempty LedgerPolicy := by

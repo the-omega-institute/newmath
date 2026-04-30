@@ -44,6 +44,13 @@ theorem cont_deterministic :
   intro h k r r' hr hr'
   exact hr.trans hr'.symm
 
+theorem cont_respects_hsame {h h' k k' r r' : BHist} :
+    hsame h h' -> hsame k k' -> Cont h k r -> Cont h' k' r' -> hsame r r' := by
+  intro hh hk hr hr'
+  cases hh
+  cases hk
+  exact cont_deterministic hr hr'
+
 theorem cont_left_unit : ∀ k : BHist, Cont .Empty k k := by
   intro k
   induction k with
