@@ -16,6 +16,22 @@ You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touc
 - Recent commits:
 <RECENT>
 
+## REQUIRED FIRST STEP — Read the roadmap
+
+Before scanning for review targets, READ `papers/bedc/parts/project_governance/roadmap.tex` in full. It defines:
+
+- the layered dependency order L0→L14;
+- the four-strength gradient (naming seed → paper certificate → machine-checked certificate → standard bridge);
+- the near-term phase bundle that pins the current advancement direction (e.g. Phase Kernel-Checked Baseline, Phase Finite Data, Phase Real and Completion, etc.);
+- the per-object research template;
+- the explicit list of claims that are off the table.
+
+Identify which phase bundle is currently OPEN (i.e. has unmet exit criteria). Targets that advance the open phase are the highest-priority class. Targets that advance a CLOSED earlier phase are usually no-ops; targets that advance a phase strictly above the open phase are deferred unless the open phase blocks on them.
+
+Use the roadmap's per-object template (Section "Per-object research template") to structure any `theory_extension` or `missing_companion` proposal. A `theory_extension` target whose entry would not fit the template is malformed and must be rewritten before submission.
+
+When a candidate target appears outside the open phase's chapter scope, briefly explain in `evidence` why it must still be addressed now (e.g. it is blocking the open phase, or it is a hard discipline violation per Section "Claims explicitly off the table"). Otherwise SKIP it and pick a target inside the open phase.
+
 ## What counts as a valid review target
 Pick targets that are HIGH-VALUE — each should be something a careful reader would flag during peer review. Acceptable categories:
 
@@ -72,7 +88,7 @@ Before suggesting that a missing marker / missing companion result is REALLY mis
 Do NOT propose targets that fail this sanity check. A target whose only effect is to register a marker pointing to a Lean theorem that does not exist is INVALID.
 
 ## Task
-Pick **1 to 3 review targets** for P<ROUND_NUM>. Diversity is preferred (do not propose three small fixes in the same chapter when the paper has 12+ chapters). The 3 targets should span across categories — at least one from {1, 5, 6} (theory tightening) AND at least one of category 8 (theory_extension — propose a new theorem awaiting formalization) UNLESS the paper is pristine on those axes, in which case explain why in `notes`.
+Pick **1 to 3 review targets** for P<ROUND_NUM>. Diversity is preferred (do not propose three small fixes in the same chapter when the paper has 12+ chapters). At least one target MUST advance the OPEN phase from the roadmap (record its `roadmap_phase` field in the JSON). The 3 targets should span across categories — at least one from {1, 5, 6} (theory tightening) AND at least one of category 8 (theory_extension — propose a new theorem awaiting formalization) UNLESS the paper is pristine on those axes, in which case explain why in `notes`.
 
 For each target, you MUST be able to point to:
 - The exact paper file(s) involved.
@@ -100,6 +116,7 @@ Output a single fenced JSON block:
       "lean_touchpoint": "(optional) Lean target that should be referenced or registered, e.g. `BEDC.FKernel.X.foo`. Use `\\_` for underscores when it will appear in `\\leanchecked{...}`.",
       "difficulty": "low | medium | high",
       "chapter": "core | proof_obligations | concrete_instances | concrete_hardening | hardening | formalization | proof_sprint | proof_standing | project_governance | appendices",
+      "roadmap_phase": "(name of the roadmap phase this target advances, or 'discipline' if it enforces a Section-roadmap-off-the-table claim, or 'maintenance' if it is a pure discipline hygiene fix outside any phase)",
       "discovery_confirmed": true
     }
   ],
