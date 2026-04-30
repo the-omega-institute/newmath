@@ -167,6 +167,11 @@ theorem cont_right_cancel :
   apply append_right_cancel (k := k)
   exact left.symm.trans right
 
+theorem cont_right_cancel_eq {h h' k r r' : BHist} :
+    Cont h k r -> Cont h' k r' -> hsame r r' -> h = h' := by
+  intro left right same
+  exact append_right_cancel (k := k) (left.symm.trans (same.trans right))
+
 theorem cont_left_cancel :
     forall {h k k' r : BHist}, Cont h k r -> Cont h k' r -> hsame k k' := by
   intro h k k' r left right
