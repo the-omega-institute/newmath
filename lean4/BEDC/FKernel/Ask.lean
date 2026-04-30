@@ -134,6 +134,13 @@ theorem ask_respects_history {D : BHist → Prop} (policy : AskPolicy D)
   exact policy.respectsHistory same left right
 
 omit S in
+theorem askPolicy_respects_history_field [AskSetup] {D : BHist -> Prop} (policy : AskPolicy D) :
+    (forall {pi : ProbeName} {h k : BHist} {m n : BMark} {delta theta : Evidence},
+      hsame h k -> Ask pi h m delta -> Ask pi k n theta -> msame m n) := by
+  intro pi h k m n delta theta same left right
+  exact policy.respectsHistory same left right
+
+omit S in
 theorem ask_policy_fields [AskSetup] {D : BHist → Prop} (policy : AskPolicy D) :
     (∀ {π : ProbeName} {h : BHist}, D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ) ∧
     (∀ {π : ProbeName} {h : BHist} {m n : BMark} {δ θ : Evidence},

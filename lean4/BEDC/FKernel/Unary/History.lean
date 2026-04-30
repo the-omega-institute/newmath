@@ -157,6 +157,18 @@ theorem unary_stability_certificate_fields :
     · intro h uh
       exact unary_no_zero_extension uh
 
+theorem unary_stability_certificate_base_step_nozero_pair :
+    UnaryHistory BHist.Empty ∧
+      (forall h : BHist, UnaryHistory h -> UnaryHistory (BHist.e1 h)) ∧
+        (forall h : BHist, UnaryHistory (BHist.e0 h) -> False) := by
+  constructor
+  · exact unary_empty
+  · constructor
+    · intro h uh
+      exact unary_e1_closed uh
+    · intro h uh
+      exact unary_no_zero_extension uh
+
 theorem unary_stability_certificate_no_zero_projection {h : BHist} :
     UnaryHistory (BHist.e0 h) -> False := by
   intro uh

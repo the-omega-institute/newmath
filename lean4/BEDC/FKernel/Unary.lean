@@ -4,5 +4,6 @@ import BEDC.FKernel.Unary.Certificates
 import BEDC.FKernel.Unary.Commutativity
 import BEDC.FKernel.Unary.Commutativity.LeftInduction
 import BEDC.FKernel.Unary.Commutativity.Closure
+import BEDC.FKernel.Unary.Commutativity.Shift
 import BEDC.FKernel.Unary.AdditiveStability
 import BEDC.FKernel.Unary.Commutativity.ResultClosure
