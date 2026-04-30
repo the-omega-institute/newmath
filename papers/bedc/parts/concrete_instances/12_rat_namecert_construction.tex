@@ -33,6 +33,18 @@ If \(\mathsf{RatCarrier}(s,n,d)\), then the denominator is internally the same a
 Unpack the carrier into its integer numerator, unary denominator, and non-emptiness clauses. The unary denominator is either \(\emp\) or a one-extension of a unary tail. The empty case contradicts non-emptiness, while the one-extension case gives the displayed positive-denominator witness.
 \end{proof}
 
+\begin{theorem}[Positive denominator yields a rational carrier]
+\label{thm:rat-carrier-from-positive-denominator}
+An \(\IntUp\) numerator together with a denominator internally same as
+\(\Eone(t)\) for a unary tail \(t\) forms a \(\RatUp\) carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_of\_int\_positive\_denominator}
+\begin{proof}
+Transport unary closure from the displayed \(\Eone\)-shape to the denominator
+along \(\hsame\). Non-emptiness follows because an \(\Eone\)-history cannot be
+internally same as \(\emp\).
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Rat source specification]

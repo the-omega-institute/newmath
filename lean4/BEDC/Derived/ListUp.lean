@@ -203,4 +203,17 @@ theorem ListClassifierSpec_append_hsame
               · exact hhead
               · exact ih htail
 
+theorem ListClassifierSpec_append_left_cancel_hsame
+    {pref xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame (pref ++ xs) (pref ++ ys) ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys := by
+  intro sameWithPrefix
+  induction pref with
+  | nil =>
+      exact sameWithPrefix
+  | cons _ pref ih =>
+      cases sameWithPrefix with
+      | intro _ sameTail =>
+          exact ih sameTail
+
 end BEDC.Derived.ListUp

@@ -50,6 +50,26 @@ theorem RatCarrier_positive_denominator {sign : BEDC.FKernel.Mark.BMark}
                       cases denominatorEq
                       exact ⟨tail, hsame_refl (BHist.e1 tail), tailUnary⟩
 
+theorem RatCarrier_of_int_positive_denominator {sign : BEDC.FKernel.Mark.BMark}
+    {numerator denominator : BEDC.FKernel.Hist.BHist} :
+    BEDC.Derived.IntUp.IntCarrier sign numerator ->
+      PositiveUnaryDenominator denominator -> RatCarrier sign numerator denominator := by
+  intro intCarrier positive
+  cases positive with
+  | intro tail positiveData =>
+      cases positiveData with
+      | intro sameTail tailUnary =>
+          constructor
+          · exact intCarrier
+          · constructor
+            · exact BEDC.FKernel.Unary.unary_transport
+                (BEDC.FKernel.Unary.unary_e1_closed tailUnary)
+                (BEDC.FKernel.Hist.hsame_symm sameTail)
+            · intro sameEmpty
+              exact BEDC.FKernel.Hist.not_hsame_e1_empty
+                (BEDC.FKernel.Hist.hsame_trans
+                  (BEDC.FKernel.Hist.hsame_symm sameTail) sameEmpty)
+
 def rat_classifier_spec_trans_carrier
     (sign : BEDC.FKernel.Mark.BMark) (numerator denominator : BEDC.FKernel.Hist.BHist) :
     Prop :=

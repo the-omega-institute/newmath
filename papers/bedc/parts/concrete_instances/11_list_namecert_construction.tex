@@ -84,6 +84,20 @@ classifier; the head \(\HSame\) witness is reused and the tail follows from
 the induction hypothesis.
 \end{proof}
 
+\begin{theorem}[List classifier append left cancellation]
+\label{thm:list-classifier-append-left-cancel-hsame}
+For BEDC history lists, if adding the same left prefix to two lists gives a
+structural \(\HSame\)-classification, then the two suffix lists are
+structurally classified.
+\end{theorem}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_left\_cancel\_hsame}
+
+\begin{proof}
+Induct on the common prefix. The empty prefix gives the target directly. In the
+cons case, invert the structural classifier and apply the induction hypothesis
+to the classified tails.
+\end{proof}
+
 \begin{theorem}[List classifier transitivity from a source certificate]
 \label{thm:list-classifier-trans-from-namecert}
 If the source classifier is supplied by a \(\NameCert\), then the lifted list classifier is transitive on finite list spines.
