@@ -35,6 +35,14 @@ theorem active_token_mode_reflects_base
   intro left right base
   exact PackageReflection_base eqv mode left right base
 
+theorem PackageReflection_base_from_policy
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (mode : PolicyTokenMode s P)
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
+    (base : PsameBase s P p q) : s.hsame x y := by
+  exact PackageReflection_base eqv mode left right base
+
 theorem PackageReflection_base_from_data
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)

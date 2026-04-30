@@ -110,6 +110,12 @@ theorem unary_cont_comm_obligation_holds : UnaryContinuationCommutativityObligat
   intro h k r r2 uh uk hr hr2
   exact unary_cont_comm uh uk hr hr2
 
+theorem unary_shift_result_shape {k h r' : BHist} :
+    UnaryHistory k → Cont k (.e1 h) r' →
+      exists v : BHist, Cont k h v ∧ r' = .e1 v := by
+  intro _ hr'
+  exact ⟨append k h, rfl, hr'⟩
+
 theorem add_up_commutative_certificate_upgrade {h k r rprime : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h rprime →
       NameCert AddName ∧ Nonempty StabilityCert ∧ hsame r rprime := by
