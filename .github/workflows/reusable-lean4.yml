@@ -1,0 +1,55 @@
+name: Reusable Lean4 Build
+
+on:
+  workflow_call:
+    inputs:
+      checkout_ref:
+        description: Branch, tag, or SHA to check out before building.
+        required: false
+        type: string
+        default: ""
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build-lean4:
+    name: Build Lean4
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          ref: ${{ inputs.checkout_ref != '' && inputs.checkout_ref || github.sha }}
+          fetch-depth: 0
+
+      - name: Restore Lean .lake cache
+        uses: actions/cache/restore@v4
+        with:
+          path: lean4/.lake
+          key: lean4-lake-${{ runner.os }}-${{ hashFiles('lean4/lakefile.lean', 'lean4/lean-toolchain') }}-${{ github.sha }}
+          restore-keys: |
+            lean4-lake-${{ runner.os }}-${{ hashFiles('lean4/lakefile.lean', 'lean4/lean-toolchain') }}-
+            lean4-lake-${{ runner.os }}-
+
+      - name: Build Lean4 project
+        uses: leanprover/lean-action@c544e89643240c6b398f14a431bcdc6309e36b3e # v1
+        with:
+          lake-package-directory: lean4
+          build: true
+          use-mathlib-cache: false
+          use-github-cache: "false"
+
+      - name: Audit axioms (BEDC zero-axiom invariant)
+        run: python3 tools/check-axioms.py
+
+      - name: Audit paper-Lean drift
+        run: python3 lean4/scripts/bedc_ci.py audit
+
+      - name: Save Lean .lake cache (base branch only)
+        if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/lean4-codex-auto-dev')
+        uses: actions/cache/save@v4
+        with:
+          path: lean4/.lake
+          key: lean4-lake-${{ runner.os }}-${{ hashFiles('lean4/lakefile.lean', 'lean4/lean-toolchain') }}-${{ github.sha }}

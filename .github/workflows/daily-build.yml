@@ -1,0 +1,146 @@
+name: Daily Build
+
+on:
+  push:
+    branches:
+      - lean4-codex-auto-dev
+  workflow_dispatch:
+    inputs:
+      target_ref:
+        description: Branch, tag, or SHA to build from.
+        required: false
+        default: lean4-codex-auto-dev
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-build
+  cancel-in-progress: false
+
+jobs:
+  resolve_target:
+    name: Resolve daily target
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      target_sha: ${{ steps.resolve_target.outputs.target_sha }}
+      release_tag: ${{ steps.resolve_target.outputs.release_tag }}
+      release_name: ${{ steps.resolve_target.outputs.release_name }}
+      should_publish: ${{ steps.resolve_target.outputs.should_publish }}
+      skip_reason: ${{ steps.resolve_target.outputs.skip_reason }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.target_ref || github.sha }}
+          fetch-depth: 0
+
+      - name: Resolve daily target
+        id: resolve_target
+        run: |
+          daily_date="$(date -u +%Y-%m-%d)"
+          release_tag="daily-${daily_date}"
+
+          echo "target_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
+          echo "release_name=Daily Build $daily_date" >> "$GITHUB_OUTPUT"
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+            echo "skip_reason=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git fetch origin --tags --force
+          if git rev-parse -q --verify "refs/tags/$release_tag" >/dev/null; then
+            echo "should_publish=false" >> "$GITHUB_OUTPUT"
+            echo "skip_reason=Release tag $release_tag already exists; skipping subsequent merges today." >> "$GITHUB_OUTPUT"
+          else
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+            echo "skip_reason=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Write validation summary
+        run: |
+          {
+            echo "Resolved daily build target."
+            echo
+            echo "- target SHA: \`${{ steps.resolve_target.outputs.target_sha }}\`"
+            echo "- release tag: \`${{ steps.resolve_target.outputs.release_tag }}\`"
+            echo "- should publish: \`${{ steps.resolve_target.outputs.should_publish }}\`"
+            if [ -n "${{ steps.resolve_target.outputs.skip_reason }}" ]; then
+              echo "- skip reason: ${{ steps.resolve_target.outputs.skip_reason }}"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  build_pdf:
+    name: Build main.pdf
+    needs: resolve_target
+    if: ${{ needs.resolve_target.outputs.should_publish == 'true' }}
+    uses: ./.github/workflows/reusable-pdf.yml
+    with:
+      checkout_ref: ${{ needs.resolve_target.outputs.target_sha }}
+      upload_artifact: true
+      artifact_name: daily-pdf
+      artifact_retention_days: 14
+    secrets: inherit
+
+  build_lean4:
+    name: Build Lean4
+    needs: resolve_target
+    if: ${{ needs.resolve_target.outputs.should_publish == 'true' }}
+    uses: ./.github/workflows/reusable-lean4.yml
+    with:
+      checkout_ref: ${{ needs.resolve_target.outputs.target_sha }}
+    secrets: inherit
+
+  publish_prerelease:
+    name: Publish daily prerelease
+    needs: [resolve_target, build_pdf, build_lean4]
+    if: ${{ always() && needs.resolve_target.result == 'success' && needs.resolve_target.outputs.should_publish == 'true' && needs.build_pdf.result == 'success' && needs.build_lean4.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download built main.pdf artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: daily-pdf
+          path: release-assets/pdf
+
+      - name: Resolve release assets
+        id: resolve_assets
+        run: |
+          pdf_path="$(find release-assets/pdf -maxdepth 1 -type f -name 'bedc_*.pdf' -print -quit)"
+          if [ -z "$pdf_path" ]; then
+            echo "Expected a dated PDF artifact in release-assets/pdf" >&2
+            exit 1
+          fi
+          echo "pdf_path=$pdf_path" >> "$GITHUB_OUTPUT"
+
+      - name: Write prerelease summary
+        run: |
+          {
+            echo "Built daily prerelease assets."
+            echo
+            echo "- target SHA: \`${{ needs.resolve_target.outputs.target_sha }}\`"
+            echo "- PDF asset: \`${{ steps.resolve_assets.outputs.pdf_path }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish prerelease
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2
+        with:
+          tag_name: ${{ needs.resolve_target.outputs.release_tag }}
+          name: ${{ needs.resolve_target.outputs.release_name }}
+          prerelease: true
+          target_commitish: ${{ needs.resolve_target.outputs.target_sha }}
+          body: |
+            Automated daily build from the first push to `lean4-codex-auto-dev` on this UTC day.
+
+            - target SHA: `${{ needs.resolve_target.outputs.target_sha }}`
+            - source branch: `lean4-codex-auto-dev`
+          files: |
+            ${{ steps.resolve_assets.outputs.pdf_path }}
+          fail_on_unmatched_files: true
+          generate_release_notes: false
