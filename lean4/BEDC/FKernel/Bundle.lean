@@ -84,6 +84,35 @@ theorem bundleAppend_prefix_cancel {PName : Type} :
       intro left right same
       exact ih left right (ProbeBundle.Bcons.inj same).right
 
+theorem bundleAppend_split_unique_fixed_length {PName : Type}
+    {left right left' right' : ProbeBundle PName} :
+    bundleAppend left right = bundleAppend left' right' →
+      bundleLength left = bundleLength left' →
+        left = left' ∧ right = right' := by
+  induction left generalizing left' right with
+  | Bnil =>
+      intro happ hlen
+      cases left' with
+      | Bnil =>
+          exact ⟨rfl, happ⟩
+      | Bcons p tail =>
+          cases hlen
+  | Bcons p tail ih =>
+      intro happ hlen
+      cases left' with
+      | Bnil =>
+          cases hlen
+      | Bcons q tail' =>
+          have htail : bundleAppend tail right = bundleAppend tail' right' :=
+            (ProbeBundle.Bcons.inj happ).right
+          have hlenTail : bundleLength tail = bundleLength tail' := Nat.succ.inj hlen
+          have hrec := ih htail hlenTail
+          cases hrec with
+          | intro hleft hright =>
+              cases (ProbeBundle.Bcons.inj happ).left
+              cases hleft
+              exact ⟨rfl, hright⟩
+
 theorem bundleAppend_cons_result_inversion {PName : Type}
     {pref suff out : ProbeBundle PName} {p : PName} :
     bundleAppend pref suff = ProbeBundle.Bcons p out ->
