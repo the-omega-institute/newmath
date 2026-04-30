@@ -57,6 +57,17 @@ theorem inGapSig_domain_transport_source [AskSetup] [PackageSetup] [DomainSetup]
   intro hgap hhk
   exact policy.transport hgap.left hhk
 
+theorem inGapSig_transport_existing_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
+    (policy : DomainPolicy D) :
+    InGapSig bundle D p h -> hsame h k ->
+      (exists s : BHist, SigRel bundle k s /\ TokIntro bundle s p) ->
+        InGapSig bundle D p k := by
+  intro hgap hhk sigTok
+  cases hgap with
+  | intro hdom _ =>
+      exact And.intro (policy.transport hdom hhk) sigTok
+
 theorem domain_transport_symmetric [AskSetup] [PackageSetup] [DomainSetup]
     {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D k → hsame h k → InDom D h := by

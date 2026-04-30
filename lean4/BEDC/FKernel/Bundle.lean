@@ -44,6 +44,15 @@ theorem inBundle_cons_inversion {PName : Type} {p q : PName} {tail : ProbeBundle
   intro h
   exact h
 
+theorem inBundle_tail_of_cons_ne {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
+    InBundle p (ProbeBundle.Bcons q tail) -> p ≠ q -> InBundle p tail := by
+  intro h hne
+  cases h with
+  | inl hp =>
+      exact False.elim (hne hp)
+  | inr htail =>
+      exact htail
+
 theorem inBundle_cons_iff {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
     InBundle p (ProbeBundle.Bcons q tail) ↔ p = q ∨ InBundle p tail := by
   rfl

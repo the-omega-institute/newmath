@@ -74,6 +74,15 @@ theorem external_append_left_absorb_empty :
   | e1 b ih =>
       exact ih (BHist.e1.inj h)
 
+theorem external_append_left_absorb_empty_iff {a b : BWord} :
+    append a b = b <-> a = BHist.Empty := by
+  constructor
+  · intro h
+    exact external_append_left_absorb_empty h
+  · intro h
+    cases h
+    exact external_append_empty_left b
+
 theorem external_append_e1_right (a b : BWord) : append a (.e1 b) = .e1 (append a b) := rfl
 
 theorem external_append_bit_constructor_rules :
