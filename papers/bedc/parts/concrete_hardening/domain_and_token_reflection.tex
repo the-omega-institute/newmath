@@ -64,16 +64,16 @@ No additional package-sameness constructors are admitted for the concrete signat
 
 \begin{theorem}[Package reflection for signature tokens]
 \label{thm:package-reflection}
-Assume the concrete package-sameness policy above is closed-generated. If
-\[
+Assume $\PkgTokPol(\Pi)$ for the concrete signature-token package policy. If
+$$
   \TokIntro(\Pi,s,p),\qquad
   \TokIntro(\Pi,t,q),\qquad
   \psame(p,q),
-\]
+$$
 then
-\[
+$$
   \hsame(s,t).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Package.package\_reflection}
 \leanvariant{BEDC.FKernel.Package.package\_reflection\_forward}
@@ -82,7 +82,7 @@ then
 \leanvariant{BEDC.FKernel.Package.psame\_reflection\_witness\_chain\_under\_tok\_unique}
 
 \begin{proof}
-By the closed-generation clause for concrete package-sameness, every derivation of \(\psame(p,q)\) between signature tokens must arise from a derivation of \(\hsame(s,t)\) between their generating signatures. Therefore the required \(\hsame(s,t)\) is recovered by inversion on the package-sameness derivation.
+Apply the reflection field of $\PkgTokPol(\Pi)$ to the displayed token-introduction judgments and the package-sameness judgment. In the base-relation presentation, inversion on the constructor exposes introducing signatures for $p$ and $q$; the policy reflection field, or a token-uniqueness theorem supplying that field, transports those constructor witnesses to the displayed introductions and yields $\hsame(s,t)$.
 \end{proof}
 
 \begin{corollary}[Concrete package equivalence is signature-grounded]
@@ -95,5 +95,5 @@ In the signature-token instance, visible package equality up to \(\psame\) carri
 \leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_symm\_on\_introduced}
 
 \begin{proof}
-The forward direction is Theorem~\ref{thm:package-reflection}. The reverse direction is exactly the introduction rule for concrete package-sameness.
+The forward direction is Theorem~\ref{thm:package-reflection} under the required $\PkgTokPol(\Pi)$ premise. The reverse direction is exactly the soundness field of $\PkgTokPol(\Pi)$, equivalently the introduction rule for concrete package-sameness.
 \end{proof}

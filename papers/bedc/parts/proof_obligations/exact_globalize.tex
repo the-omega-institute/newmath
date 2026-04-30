@@ -168,14 +168,14 @@ The exact concrete Globalize theorem intentionally states the active relation as
 \begin{definition}[Generated signature sameness]
 \label{def:generated-same-sig}
 \label{thm:generated-same-sig}
-For a generated probe bundle \(\Pi\), define
-\[
-\begin{aligned}
-\GeneratedSameSig(\Pi,h,k) :\Longleftrightarrow\;&
-\exists s,t,\Delta,\Theta,\;\Sig(\Pi,h,s,\Delta)\;\wedge\;\Sig(\Pi,k,t,\Theta)\;\wedge\;\hsame(s,t).
-\end{aligned}
-\]
-This is the checker-facing predicate corresponding to ``the two admitted histories generate the same visible signature''.
+For a generated probe bundle $\Pi$, $\GeneratedSameSig(\Pi,h,k)$ is a witness object. Its fields are signatures $s,t$, evidence objects $\Delta,\Theta$, generation judgments $\Sig(\Pi,h,s,\Delta)$ and $\Sig(\Pi,k,t,\Theta)$, and a sameness witness $\hsame(s,t)$.
+
+The existential reading is the inhabitation proposition for that object:
+$$
+\mathsf{Nonempty}(\GeneratedSameSig(\Pi,h,k))\Longleftrightarrow
+\exists s,t,\Delta,\Theta,\;\Sig(\Pi,h,s,\Delta)\wedge\Sig(\Pi,k,t,\Theta)\wedge\hsame(s,t).
+$$
+Thus the checker-facing data corresponding to ``the two admitted histories generate the same visible signature'' is the witness object itself, while classification statements use its inhabitation.
 \end{definition}
 \leandef{BEDC.BaseReflection.GeneratedSameSig}
 \leanchecked{BEDC.BaseReflection.GeneratedSameSig\_hsame}
@@ -211,11 +211,11 @@ is the conjunction of the following three structural fields.
   $$
   \item \textbf{Base soundness.}
   $$
-    \forall h,k,p,q,\; \InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)\wedge\GeneratedSameSig(\Pi,h,k)\Rightarrow \psame_{\Pi}^{\mathrm{base}}(p,q).
+    \forall h,k,p,q,\; \InGapSig(\Pi,D,p,h)\Rightarrow\InGapSig(\Pi,D,q,k)\Rightarrow\GeneratedSameSig(\Pi,h,k)\Rightarrow \psame_{\Pi}^{\mathrm{base}}(p,q).
   $$
   \item \textbf{Base completeness.}
   $$
-    \forall h,k,p,q,\; \InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)\wedge\psame_{\Pi}^{\mathrm{base}}(p,q)\Rightarrow \GeneratedSameSig(\Pi,h,k).
+    \forall h,k,p,q,\; \InGapSig(\Pi,D,p,h)\Rightarrow\InGapSig(\Pi,D,q,k)\Rightarrow\psame_{\Pi}^{\mathrm{base}}(p,q)\Rightarrow \mathsf{Nonempty}(\GeneratedSameSig(\Pi,h,k)).
   $$
 \end{enumerate}
 The local classification equivalence is derived from soundness and completeness.
@@ -251,14 +251,14 @@ $$
 $$
 one has
 $$
-  \psame_{\Pi}^{\mathrm{base}}(p,q)\Longleftrightarrow \GeneratedSameSig(\Pi,h,k).
+  \psame_{\Pi}^{\mathrm{base}}(p,q)\Longleftrightarrow \mathsf{Nonempty}(\GeneratedSameSig(\Pi,h,k)).
 $$
 \end{proposition}
 \leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_iff\_from\_directions}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_directions}
 
 \begin{proof}
-The forward implication is base completeness. The reverse implication is base soundness. Coverage is not needed for this local equivalence, but it remains part of the global exactness structure because exact Globalize must also classify every admitted history, not only pairs already carrying visible packages.
+The forward implication is base completeness. For the reverse implication, unpack the inhabited witness proposition and apply base soundness to the resulting $\GeneratedSameSig(\Pi,h,k)$ object. Coverage is not needed for this local equivalence, but it remains part of the global exactness structure because exact Globalize must also classify every admitted history, not only pairs already carrying visible packages.
 \end{proof}
 
 \begin{corollary}[Exact Globalize projections and classification]
@@ -267,7 +267,7 @@ From \(\ExactGlobalizeBase(\Pi,D)\) one obtains coverage, base soundness, base c
 $$
   \InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)
   \quad\Rightarrow\quad
-  \bigl(\psame_{\Pi}^{\mathrm{base}}(p,q)\Longleftrightarrow \GeneratedSameSig(\Pi,h,k)\bigr).
+  \bigl(\psame_{\Pi}^{\mathrm{base}}(p,q)\Longleftrightarrow \mathsf{Nonempty}(\GeneratedSameSig(\Pi,h,k))\bigr).
 $$
 \end{corollary}
 \leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_coverage\_soundness\_completeness\_and\_classify}
@@ -289,20 +289,25 @@ This chapter states the theorem replacing the prose exactness claim. The content
 \begin{theorem}[Exact Globalize base target]
 \label{thm:exact-globalize-base-target}
 \label{thm:globalize-exact-base}
-Assume:
+Assume the following three field hypotheses:
 \begin{enumerate}
-  \item \(\DomainPolicy(D)\);
-  \item \(\AskPol(\Pi,D)\);
-  \item signature generation and token introduction for generated signatures;
-  \item \(\TokUnique(\Pi)\), or a checked canonical-constructor theorem implying it;
-  \item the active base package relation \(\psame_{\Pi}^{\mathrm{base}}\);
-  \item the policy-supported gap relation \(\InGapSig(\Pi,D,p,h)\);
-  \item the base reflection theorem \texttt{PackageReflection.base}.
+  \item coverage:
+  $$
+    \forall h,\; \InDom(D,h)\Rightarrow \exists p,\;\InGapSig(\Pi,D,p,h);
+  $$
+  \item soundness:
+  $$
+    \forall h,k,p,q,\; \InGapSig(\Pi,D,p,h)\Rightarrow\InGapSig(\Pi,D,q,k)\Rightarrow\GeneratedSameSig(\Pi,h,k)\Rightarrow \psame_{\Pi}^{\mathrm{base}}(p,q);
+  $$
+  \item completeness:
+  $$
+    \forall h,k,p,q,\; \InGapSig(\Pi,D,p,h)\Rightarrow\InGapSig(\Pi,D,q,k)\Rightarrow\psame_{\Pi}^{\mathrm{base}}(p,q)\Rightarrow \mathsf{Nonempty}(\GeneratedSameSig(\Pi,h,k)).
+  $$
 \end{enumerate}
 Then
-\[
+$$
   \ExactGlobalizeBase(\Pi,D).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_fields}
@@ -323,7 +328,7 @@ Then
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields\_admitted\_pair\_export}
 
 \begin{proof}
-Coverage is the policy-supported gap coverage theorem from this proof-obligation spine, with internal domain transport supplied by \(\DomainPolicy(D)\). Base soundness follows from generated signature sameness plus the single constructor of \(\psame_{\Pi}^{\mathrm{base}}\). Base completeness follows by applying base package reflection to the visible packages and then unpacking \(\GeneratedSameSig\). The local classification equivalence is Proposition~\ref{prop:iff-derived}.
+The theorem is the constructor for $\ExactGlobalizeBase(\Pi,D)$ from its coverage, soundness, and completeness fields. The soundness field consumes an actual $\GeneratedSameSig(\Pi,h,k)$ witness object; the completeness field returns the inhabited-witness proposition.
 \end{proof}
 
 \begin{corollary}[No closure export]

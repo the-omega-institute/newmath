@@ -1,7 +1,7 @@
-\chapter{A Concrete Naming Certificate for \(\RealUp\)}
+\chapter{Certificate Obligations for $\RealUp$}
 \label{ch:concrete-instances-real-namecert}
 
-The real number interface \(\RealUp\) has certificate obligations over Bishop-style Cauchy sequences of rationals, each carrying an explicit convergence modulus \(\omega : \mathbb{N} \to \mathbb{N}\) such that any two indices beyond \(\omega(k)\) yield rationals within \(1/(k+1)\). The classifier is the equivalence by which two such sequences converge to the same point, again expressed with an explicit modulus rather than as a quotient. The classical Dedekind / Cauchy completion is outside this certificate because quotient and completion infrastructure is not exported by the mathlib-free BEDC kernel; the interface is admitted only via the rational source \autoref{ch:concrete-instances-rat-namecert}, explicit moduli, and a classifier.
+The real number interface $\RealUp$ is specified here as a certificate-obligation schema over Bishop-style Cauchy sequences of rationals, each carrying an explicit convergence modulus $\omega : \mathbb{N} \to \mathbb{N}$ such that any two indices beyond $\omega(k)$ yield rationals within $1/(k+1)$. The classifier is the equivalence by which two such sequences converge to the same point, again expressed with an explicit modulus rather than as a quotient. The classical Dedekind / Cauchy completion is outside this schema because quotient and completion infrastructure is not exported by the mathlib-free BEDC kernel; the interface name is available only through the rational source \autoref{ch:concrete-instances-rat-namecert}, explicit moduli, and a classifier.
 
 \section{Carrier definition}
 
@@ -10,7 +10,7 @@ The real number interface \(\RealUp\) has certificate obligations over Bishop-st
 Use Bishop Cauchy rational sequences with an explicit convergence modulus \(\omega:\mathbb{N}\to\mathbb{N}\).
 \end{definition}
 
-\section{The certificate}
+\section{The certificate-obligation schema}
 
 \begin{definition}[Real source specification]
 \label{def:real-source-specification}
@@ -46,11 +46,11 @@ Record the rational sequence, convergence modulus, and comparison modulus when s
 
 \begin{definition}[\(\RealUp\) certificate obligations]
 \label{def:real-certificate-obligations}
-The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RealUp\).
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the required fields for using the interface name $\RealUp$.
 \end{definition}
 
 \paragraph{Primitive boundary.}
-\(\RealUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+$\RealUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:real-zero-axiom-note}
