@@ -26,8 +26,8 @@ def UnaryRightShiftObligation : Prop :=
     exists v : BHist, Cont k h v /\ hsame r (BHist.e1 v)
 
 def UnaryContinuationCommutativityObligation : Prop :=
-  ∀ {h k r r' : BHist},
-    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r'
+  forall {h k r r2 : BHist},
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r2 -> hsame r r2
 
 theorem unary_empty : UnaryHistory BHist.Empty := by
   exact True.intro
@@ -81,6 +81,18 @@ theorem unary_history_judgment_generators :
       (And
         (forall h : BHist, UnaryHistory h -> UnaryHistory (BHist.e1 h))
         (forall h : BHist, UnaryHistory (BHist.e0 h) -> False)) := by
+  constructor
+  · exact unary_empty
+  · constructor
+    · intro h uh
+      exact unary_e1_closed uh
+    · intro h uh
+      exact unary_no_zero_extension uh
+
+theorem unary_stability_certificate_fields :
+    UnaryHistory BHist.Empty /\
+      (forall h : BHist, UnaryHistory h -> UnaryHistory (.e1 h)) /\
+        (forall h : BHist, UnaryHistory (.e0 h) -> False) := by
   constructor
   · exact unary_empty
   · constructor
@@ -561,5 +573,22 @@ theorem unary_shift {k h r' : BHist} :
       ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) := by
   intro _ hr'
   exact ⟨append k h, rfl, hr'⟩
+
+theorem add_up_seed_from_unary_continuation :
+    NameCert AddName /\
+      (forall {h left right : BHist},
+        UnaryHistory h -> Cont h BHist.Empty left -> Cont BHist.Empty h right ->
+          UnaryHistory left /\ UnaryHistory right /\ hsame left h /\ hsame right h) /\
+        (forall {a b c ab bc abc abc2 : BHist},
+          UnaryHistory a -> UnaryHistory b -> UnaryHistory c ->
+            Cont a b ab -> Cont b c bc -> Cont ab c abc -> Cont a bc abc2 ->
+              hsame abc abc2) := by
+  constructor
+  · exact add_up_name_certificate
+  · constructor
+    · intro h left right uh hleft hright
+      exact unary_cont_unit uh hleft hright
+    · intro a b c ab bc abc abc2 ua ub uc hab hbc habc habc2
+      exact unary_continuation_associativity ua ub uc hab hbc habc habc2
 
 end BEDC.FKernel.Examples.Unary
