@@ -61,6 +61,18 @@ theorem OptionHistoryLedgerPolicy_visible_carrier {source : BHist -> Prop}
       | inr rawSource =>
           exact Or.inr (source_transport same rawSource)
 
+theorem OptionHistoryLedgerPolicy_hsame_transport {source : BHist -> Prop}
+    {raw raw' visible visible' : BHist} :
+    hsame raw raw' -> hsame visible visible' ->
+      OptionHistoryLedgerPolicy source raw visible ->
+        OptionHistoryLedgerPolicy source raw' visible' := by
+  intro sameRaw sameVisible ledger
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      constructor
+      · exact OptionHistoryCarrier_hsame_transport sameRaw rawCarrier
+      · exact hsame_trans (hsame_trans (hsame_symm sameRaw) sameRawVisible) sameVisible
+
 theorem OptionHistoryClassifier_trans {source : BEDC.FKernel.Hist.BHist -> Prop}
     {h k r : BEDC.FKernel.Hist.BHist} :
     OptionHistoryClassifier source h k -> OptionHistoryClassifier source k r ->
