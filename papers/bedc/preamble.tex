@@ -28,17 +28,22 @@
 %
 % Usage:
 %   \leanchecked{BEDC.BaseReflection.PackageReflection\_base}
-%     → green  Lean4 ✓  BEDC.BaseReflection.PackageReflection base
-%   \leanchecked{BEDC.BaseReflection.PsameBase\_inversion}
-%     → green  Lean4 ✓  BEDC.BaseReflection.PsameBase inversion
+%     → green   Lean4 ✓  BEDC.BaseReflection.PackageReflection base
+%        (canonical primary implementation; one per paper site)
+%   \leanvariant{BEDC.BaseReflection.PackageReflection\_base\_with\_tokens}
+%     → gray    └─ variant  BEDC.BaseReflection.PackageReflection base with tokens
+%        (auxiliary version: typeclass-binder wrapper, weakened conclusion,
+%        projection, or alternative proof of the same paper claim; multiple
+%        per primary marker allowed)
 %   \leandef{BEDC.BaseReflection.TokUnique.tokenReplacement}
-%     → gray   Lean4 (definition) BEDC.BaseReflection.TokUnique.tokenReplacement
-%   \leandef{BEDC.BaseReflection.GeneratedSameSig}
-%     → gray   Lean4 (definition) BEDC.BaseReflection.GeneratedSameSig
+%     → gray    Lean4 (definition) BEDC.BaseReflection.TokUnique.tokenReplacement
 \newcommand{\leannobreak}[1]{\StrSubstitute{#1}{\_}{ }}
 \newcommand{\leanchecked}[1]{%
   \par\noindent{\small\color{green!50!black}%
     \textsf{Lean4\,$\checkmark$}\quad\texttt{\leannobreak{#1}}}\par}
+\newcommand{\leanvariant}[1]{%
+  \par\noindent{\footnotesize\color{black!55}%
+    \quad\textsf{$\hookrightarrow$\,variant}\quad\texttt{\leannobreak{#1}}}\par}
 \newcommand{\leansorryd}[2]{%
   \par\noindent{\small\color{orange!70!black}%
     \textsf{Lean4\,(sorry)}\quad\texttt{\leannobreak{#1}} --- \textit{#2}}\par}

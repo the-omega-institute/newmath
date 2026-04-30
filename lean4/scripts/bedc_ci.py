@@ -41,7 +41,7 @@ DECL_RE = re.compile(
 FIELD_RE = re.compile(r"^\s{2,}(?P<name>[A-Za-z0-9_']+)\s*:")
 CTOR_RE = re.compile(r"^\s*\|\s+(?P<name>[A-Za-z0-9_']+)\b")
 LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
-LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leansorryd|leanstmt|leandef)\{([^}]+)\}")
+LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanvariant|leansorryd|leanstmt|leandef)\{([^}]+)\}")
 
 FORBIDDEN_PATTERNS = {
     "axiom": re.compile(r"\baxiom\b"),
@@ -287,15 +287,18 @@ def collect_lean_markers() -> list[LeanMarkerRecord]:
     markers: list[LeanMarkerRecord] = []
     for path in tex_files():
         text = read_text(path)
-        for match in LEAN_MARKER_RE.finditer(text):
-            target = match.group(2).replace(r"\_", "_").strip()
-            line = text.count("\n", 0, match.start()) + 1
-            markers.append(LeanMarkerRecord(
-                file=str(path.relative_to(PAPER_ROOT)),
-                line=line,
-                macro=match.group(1),
-                target=target,
-            ))
+        for line_no, raw_line in enumerate(text.splitlines(), start=1):
+            stripped = raw_line.lstrip()
+            if stripped.startswith("%"):
+                continue
+            for match in LEAN_MARKER_RE.finditer(raw_line):
+                target = match.group(2).replace(r"\_", "_").strip()
+                markers.append(LeanMarkerRecord(
+                    file=str(path.relative_to(PAPER_ROOT)),
+                    line=line_no,
+                    macro=match.group(1),
+                    target=target,
+                ))
     return markers
 
 

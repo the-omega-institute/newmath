@@ -85,7 +85,8 @@
 
 每个论文中讨论的 Lean 目标用对应宏标注其当前状态:
 
-- `\leanchecked{Lean.Target.name}` — 真证明已通过 (绿 ✓)
+- `\leanchecked{Lean.Target.name}` — 该 paper site 的 canonical 主实现 (绿 ✓), 每 paper site 只一条
+- `\leanvariant{Lean.Target.name}` — 同一 paper claim 的 wrapper / projection / 不同 binder 风格 / 弱化结论等变体 (灰小字, `↪ variant` 缩进), 每 primary 下可多条
 - `\leansorryd{Lean.Target.name}{rationale}` — 暂用 sorry (橙) -- 项目 invariant 是 0 sorry, 此宏用于未来如有重新出现
 - `\leanstmt{Lean.Target.name}` — statement-only / structure 字段 (蓝)
 - `\leandef{Lean.Target.name}` — `def` 或 `inductive` 定义 (灰)
@@ -102,8 +103,9 @@
 ## marker 使用纪律
 
 - 每个 Lean 目标在论文中**只标注一次**(primary site, 即定理首次形式化处)
+- 每个 paper 定理点**最多一条 `\leanchecked`** (canonical 主实现); 同 claim 的 wrapper / projection / 不同 binder 风格 / 弱化结论用 `\leanvariant` 标注
 - `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex §41.4` 是例外: 5 个 base-reflection 目标的"一站式"摘要块
-- 状态变化时 (sorry → checked, def → checked) 同一 commit 更新 marker; `bedc_ci.py audit` 强制 `\leanchecked{X}` 的 X 在 Lean 真存在
+- 状态变化时 (sorry → checked, def → checked) 同一 commit 更新 marker; `bedc_ci.py audit` 强制所有 `\leanchecked` / `\leanvariant` 的 X 在 Lean 真存在
 
 ---
 
