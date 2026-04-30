@@ -168,6 +168,15 @@ theorem RatHistoryClassifier_trans {d e f : BHist} :
               | intro carrierF sameEF =>
                   exact ⟨carrierD, carrierF, hsame_trans sameDE sameEF⟩
 
+theorem RatHistoryClassifier_symm {d e : BEDC.FKernel.Hist.BHist} :
+    RatHistoryClassifier d e -> RatHistoryClassifier e d := by
+  intro classifier
+  cases classifier with
+  | intro carrierD rest =>
+      cases rest with
+      | intro carrierE sameDE =>
+          exact ⟨carrierE, carrierD, hsame_symm sameDE⟩
+
 theorem RatHistoryCarrier_hsame_transport {d e : BHist} :
     hsame d e -> RatHistoryCarrier d -> RatHistoryCarrier e := by
   intro same carrier

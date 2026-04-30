@@ -421,7 +421,8 @@ theorem ListClassifierSpec_reverse_hsame :
         intro ys zs
         exact congrArg (List.cons x) (ih ys zs)
   have reverseAuxPure :
-      ∀ {A : Type}, ∀ xs ys : List A, List.reverseAux xs ys = List.reverseAux xs [] ++ ys := by
+      ∀ {A : Type}, ∀ xs ys : List A,
+        List.reverseAux xs ys = List.reverseAux xs [] ++ ys := by
     intro A xs
     induction xs with
     | nil =>
@@ -433,7 +434,8 @@ theorem ListClassifierSpec_reverse_hsame :
           ((appendAssocPure (List.reverseAux xs []) [x] ys).symm.trans
             (congrArg (fun tail => tail ++ ys) (ih [x]).symm))
   have reverseConsPure :
-      ∀ {A : Type}, ∀ x : A, ∀ xs : List A, List.reverse (x :: xs) = List.reverse xs ++ [x] := by
+      ∀ {A : Type}, ∀ x : A, ∀ xs : List A,
+        List.reverse (x :: xs) = List.reverse xs ++ [x] := by
     intro A x xs
     change List.reverseAux xs [x] = List.reverseAux xs [] ++ [x]
     exact reverseAuxPure xs [x]
@@ -466,5 +468,127 @@ theorem ListClassifierSpec_reverse_hsame :
   change ListClassifierSpec BEDC.FKernel.Hist.hsame
     (List.reverseAux xs []) (List.reverseAux ys [])
   exact aux hxy (by constructor)
+
+theorem ListClassifierSpec_append_right_cancel_hsame
+    {xs ys suffix : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame (xs ++ suffix) (ys ++ suffix) ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys := by
+  have appendAssocPure :
+      ∀ {A : Type}, ∀ xs ys zs : List A, (xs ++ ys) ++ zs = xs ++ (ys ++ zs) := by
+    intro A xs
+    induction xs with
+    | nil =>
+        intro ys zs
+        rfl
+    | cons x xs ih =>
+        intro ys zs
+        exact congrArg (List.cons x) (ih ys zs)
+  have appendNilPure : ∀ {A : Type}, ∀ xs : List A, xs ++ [] = xs := by
+    intro A xs
+    induction xs with
+    | nil =>
+        rfl
+    | cons x xs ih =>
+        exact congrArg (List.cons x) ih
+  have reverseAuxPure :
+      ∀ {A : Type}, ∀ xs ys : List A,
+        List.reverseAux xs ys = List.reverseAux xs [] ++ ys := by
+    intro A xs
+    induction xs with
+    | nil =>
+        intro ys
+        rfl
+    | cons x xs ih =>
+        intro ys
+        exact (ih (x :: ys)).trans
+          ((appendAssocPure (List.reverseAux xs []) [x] ys).symm.trans
+            (congrArg (fun tail => tail ++ ys) (ih [x]).symm))
+  have reverseConsPure :
+      ∀ {A : Type}, ∀ x : A, ∀ xs : List A,
+        List.reverse (x :: xs) = List.reverse xs ++ [x] := by
+    intro A x xs
+    change List.reverseAux xs [x] = List.reverseAux xs [] ++ [x]
+    exact reverseAuxPure xs [x]
+  have reverseAppendPure :
+      ∀ {A : Type}, ∀ xs ys : List A,
+        (xs ++ ys).reverse = ys.reverse ++ xs.reverse := by
+    intro A xs
+    induction xs with
+    | nil =>
+        intro ys
+        change List.reverse ys = List.reverse ys ++ []
+        exact (appendNilPure (List.reverse ys)).symm
+    | cons x xs ih =>
+        intro ys
+        exact (reverseConsPure x (xs ++ ys)).trans
+          ((congrArg (fun tail => tail ++ [x]) (ih ys)).trans
+            ((appendAssocPure (List.reverse ys) (List.reverse xs) [x]).trans
+              (congrArg (fun tail => List.reverse ys ++ tail) (reverseConsPure x xs).symm)))
+  have reverseReversePure :
+      ∀ {A : Type}, ∀ xs : List A, xs.reverse.reverse = xs := by
+    intro A xs
+    induction xs with
+    | nil =>
+        rfl
+    | cons x xs ih =>
+        exact (congrArg List.reverse (reverseConsPure x xs)).trans
+          ((reverseAppendPure xs.reverse [x]).trans
+            ((congrArg (fun tail => [x].reverse ++ tail) ih).trans rfl))
+  intro same
+  have reversed :
+      ListClassifierSpec BEDC.FKernel.Hist.hsame
+        ((xs ++ suffix).reverse) ((ys ++ suffix).reverse) :=
+    ListClassifierSpec_reverse_hsame same
+  have shiftedLeft :
+      ListClassifierSpec BEDC.FKernel.Hist.hsame
+        (suffix.reverse ++ xs.reverse) ((ys ++ suffix).reverse) := by
+    have leftEq :
+        ListClassifierSpec BEDC.FKernel.Hist.hsame
+          ((xs ++ suffix).reverse) ((ys ++ suffix).reverse) =
+        ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (suffix.reverse ++ xs.reverse) ((ys ++ suffix).reverse) :=
+      congrArg
+        (fun left =>
+          ListClassifierSpec BEDC.FKernel.Hist.hsame left ((ys ++ suffix).reverse))
+        (reverseAppendPure xs suffix)
+    exact Eq.mp leftEq reversed
+  have shifted :
+      ListClassifierSpec BEDC.FKernel.Hist.hsame
+        (suffix.reverse ++ xs.reverse) (suffix.reverse ++ ys.reverse) := by
+    have rightEq :
+        ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (suffix.reverse ++ xs.reverse) ((ys ++ suffix).reverse) =
+        ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (suffix.reverse ++ xs.reverse) (suffix.reverse ++ ys.reverse) :=
+      congrArg
+        (fun right =>
+          ListClassifierSpec BEDC.FKernel.Hist.hsame (suffix.reverse ++ xs.reverse) right)
+        (reverseAppendPure ys suffix)
+    exact Eq.mp rightEq shiftedLeft
+  have revSame :
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs.reverse ys.reverse :=
+    ListClassifierSpec_append_left_cancel_hsame shifted
+  have revRevSame :
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs.reverse.reverse ys.reverse.reverse :=
+    ListClassifierSpec_reverse_hsame revSame
+  have originalLeft :
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys.reverse.reverse := by
+    have leftEq :
+        ListClassifierSpec BEDC.FKernel.Hist.hsame xs.reverse.reverse ys.reverse.reverse =
+        ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys.reverse.reverse :=
+      congrArg
+        (fun left => ListClassifierSpec BEDC.FKernel.Hist.hsame left ys.reverse.reverse)
+        (reverseReversePure xs)
+    exact Eq.mp leftEq revRevSame
+  have original :
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys := by
+    have rightEq :
+        ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys.reverse.reverse =
+        ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys :=
+      congrArg
+        (fun right => ListClassifierSpec BEDC.FKernel.Hist.hsame xs right)
+        (reverseReversePure ys)
+    exact Eq.mp rightEq originalLeft
+  exact original
 
 end BEDC.Derived.ListUp

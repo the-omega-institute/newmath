@@ -141,6 +141,16 @@ theorem IntervalClassifierSpec_trans {lower upper : BEDC.FKernel.Hist.BHist -> P
                     · exact carrierR
                     · exact BEDC.FKernel.Hist.hsame_trans sameHK sameKR
 
+theorem IntervalClassifierSpec_symm {lower upper : BEDC.FKernel.Hist.BHist -> Prop}
+    {h k : BEDC.FKernel.Hist.BHist} :
+    IntervalClassifierSpec lower upper h k -> IntervalClassifierSpec lower upper k h := by
+  intro classifier
+  cases classifier with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          exact ⟨carrierK, carrierH, BEDC.FKernel.Hist.hsame_symm sameHK⟩
+
 theorem interval_name_certificate (lower upper : BHist → Prop)
     (lower_empty : lower BHist.Empty) (upper_empty : upper BHist.Empty)
     (lower_transport : ∀ {h k : BHist}, hsame h k → lower h → lower k)

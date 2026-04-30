@@ -203,6 +203,19 @@ Induct on the first list. Shape mismatches are impossible by the classifier clau
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame}
 
+\begin{theorem}[List classifier append right cancellation]
+\label{thm:list-classifier-append-right-cancel-hsame}
+For BEDC history lists, if adding the same right suffix to two lists gives a
+structural \(\HSame\)-classification, then the original lists are structurally
+classified.
+\end{theorem}
+\begin{proof}
+Reverse the classified append witnesses. The common right suffix becomes a
+common left prefix, so left-append cancellation removes it. Reversing the
+remaining classifier witness returns the original list order.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_right\_cancel\_hsame}
+
 \begin{theorem}[List classifier transitivity from a source certificate]
 \label{thm:list-classifier-trans-from-namecert}
 If the source classifier is supplied by a \(\NameCert\), then the lifted list classifier is transitive on finite list spines.
