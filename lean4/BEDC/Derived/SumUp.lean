@@ -71,4 +71,24 @@ theorem SumClassifierSpec_trans {A B : Type} {RelA : A → A → Prop}
   · exact relA_trans hxy hyz
   · exact relB_trans hxy hyz
 
+theorem sum_classifier_inversion {A B : Type} {sameA : A → A → Prop}
+    {sameB : B → B → Prop} {x y : Sum A B} :
+    SumClassifierSpec sameA sameB x y →
+      (∃ a : A, ∃ a' : A, x = Sum.inl a ∧ y = Sum.inl a' ∧ sameA a a') ∨
+        (∃ b : B, ∃ b' : B, x = Sum.inr b ∧ y = Sum.inr b' ∧ sameB b b') := by
+  intro h
+  cases x with
+  | inl a =>
+      cases y with
+      | inl a' =>
+          exact Or.inl ⟨a, a', rfl, rfl, h⟩
+      | inr b =>
+          cases h
+  | inr b =>
+      cases y with
+      | inl a =>
+          cases h
+      | inr b' =>
+          exact Or.inr ⟨b, b', rfl, rfl, h⟩
+
 end BEDC.Derived.SumUp

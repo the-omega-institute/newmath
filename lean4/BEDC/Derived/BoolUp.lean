@@ -1,11 +1,18 @@
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.BoolUp
+
+open BEDC.FKernel.NameCert
+
+local instance : NameCertSetup := MinimalNameCertSetup
 
 abbrev BoolCarrier : Type := BEDC.FKernel.Mark.BMark
 
 def BoolClassifierSpec : BoolCarrier → BoolCarrier → Prop :=
   BEDC.FKernel.Mark.msame
+
+def BoolName : DerivedName := ()
 
 def BoolSourceSpec (value : BEDC.FKernel.Mark.BMark) : Prop :=
   BEDC.FKernel.Mark.msame value BEDC.FKernel.Mark.BMark.b0 ∨
@@ -67,5 +74,8 @@ theorem bool_stability_certificate :
   · constructor
     · exact Or.inr rfl
     · exact BEDC.FKernel.Mark.mark_no_confusion
+
+theorem concrete_bool_namecert : BEDC.FKernel.NameCert.NameCert BoolName := by
+  exact BEDC.FKernel.NameCert.NameCert.mk () () () () ()
 
 end BEDC.Derived.BoolUp

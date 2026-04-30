@@ -1,13 +1,13 @@
 namespace BEDC.Derived.OptionUp
 
-def OptionCarrier (α : Type) := Option α
+def OptionCarrier (A : Type) := Option A
 
-def OptionClassifierSpec {A : Type} (rel : A → A → Prop) :
+def OptionClassifierSpec {A : Type} (sourceSame : A → A → Prop) :
     OptionCarrier A → OptionCarrier A → Prop
-  | Option.none, Option.none => True
-  | Option.some a, Option.some b => rel a b
-  | Option.none, Option.some _ => False
-  | Option.some _, Option.none => False
+  | none, none => True
+  | some a, some b => sourceSame a b
+  | none, some _ => False
+  | some _, none => False
 
 def OptionClassifier {α : Type} (sourceSame : α → α → Prop)
     (x y : OptionCarrier α) : Prop :=
@@ -43,6 +43,13 @@ theorem optionClassifierSpec_cases {A : Type} {sameA : A → A → Prop} {x y : 
           cases h
       | some b =>
           exact Or.inr ⟨a, b, rfl, rfl, h⟩
+
+theorem option_classifier_inversion {A : Type} {sourceSame : A → A → Prop}
+    {x y : Option A} :
+    OptionClassifierSpec sourceSame x y →
+      (x = none ∧ y = none) ∨
+        (∃ a : A, ∃ b : A, x = some a ∧ y = some b ∧ sourceSame a b) := by
+  exact optionClassifierSpec_cases
 
 theorem option_stability_certificate_fields {A : Type} {sameA : A → A → Prop}
     (reflA : ∀ a, sameA a a)
