@@ -121,6 +121,18 @@ theorem compGap_inversion
   intro h
   exact h
 
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_left_witness
+    {Source Inter Final : Type}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    {z : Final} {x : Source} :
+    CompGap firstGap secondGap z x → ∃ y : Inter, firstGap y x := by
+  intro h
+  cases h with
+  | intro y data =>
+      exact Exists.intro y data.left
+
 structure GapPolicy (bundle : ProbeBundle ProbeName) (D : Domain) : Prop where
   generation : ∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h → ∃ s : BHist, TokIntro bundle s p
   coverage : ∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h

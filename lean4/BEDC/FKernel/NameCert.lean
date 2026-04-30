@@ -218,6 +218,22 @@ theorem nameCert_from_field_witnesses [NameCertSetup] {name : DerivedName} :
   intro source pattern classifier stability ledger
   exact NameCert.mk source pattern classifier stability ledger
 
+theorem nameCert_from_field_nonempty [NameCertSetup] {name : DerivedName} :
+    Nonempty SourceSpec → Nonempty PatternSpec → Nonempty ClassifierSpec →
+      Nonempty StabilityCert → Nonempty LedgerPolicy → Nonempty (NameCert name) := by
+  intro sourceNonempty patternNonempty classifierNonempty stabilityNonempty ledgerNonempty
+  cases sourceNonempty with
+  | intro source =>
+      cases patternNonempty with
+      | intro pattern =>
+          cases classifierNonempty with
+          | intro classifier =>
+              cases stabilityNonempty with
+              | intro stability =>
+                  cases ledgerNonempty with
+                  | intro ledger =>
+                      exact Nonempty.intro (NameCert.mk source pattern classifier stability ledger)
+
 theorem nameCert_iff_field_witnesses [NameCertSetup] {name : DerivedName} :
     NameCert name ↔
       ∃ source : SourceSpec,
