@@ -3,13 +3,13 @@ name: Daily Build
 on:
   push:
     branches:
-      - lean4-codex-auto-dev
+      - dev
   workflow_dispatch:
     inputs:
       target_ref:
         description: Branch, tag, or SHA to build from.
         required: false
-        default: lean4-codex-auto-dev
+        default: dev
         type: string
 
 permissions:
@@ -136,10 +136,10 @@ jobs:
           prerelease: true
           target_commitish: ${{ needs.resolve_target.outputs.target_sha }}
           body: |
-            Automated daily build from the first push to `lean4-codex-auto-dev` on this UTC day.
+            Automated daily build from the first push to `dev` on this UTC day.
 
             - target SHA: `${{ needs.resolve_target.outputs.target_sha }}`
-            - source branch: `lean4-codex-auto-dev`
+            - source branch: `dev`
           files: |
             ${{ steps.resolve_assets.outputs.pdf_path }}
           fail_on_unmatched_files: true
