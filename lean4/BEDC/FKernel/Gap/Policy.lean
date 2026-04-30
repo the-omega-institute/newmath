@@ -287,6 +287,14 @@ theorem gap_separation :
   exact hgap.separation hh hp hq
 
 omit [AskSetup] [PackageSetup] G in
+theorem gap_separation_from_memberships [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    GapPolicy bundle D -> InGapSig bundle D p h -> InGapSig bundle D q h ->
+      psame bundle p q := by
+  intro policy hp hq
+  exact policy.separation hp.left hp hq
+
+omit [AskSetup] [PackageSetup] G in
 theorem gap_representative_for_admitted_source [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} (policy : GapPolicy bundle D) :
     InDom D h →

@@ -1,4 +1,5 @@
 import BEDC.FKernel.Sig
+import BEDC.FKernel.Sig.Determinacy
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Step
 
@@ -294,5 +295,21 @@ theorem signature_generation_three_bundle_coherence [AskSetup]
                                       hsame_symm
                                         (cont_assoc_hsame rightOverMiddle middleRightOverLeft
                                           middleOverLeft rightOverLeftMiddle)⟩
+
+theorem signature_generation_append_component_determinacy [AskSetup]
+    {left right : ProbeBundle ProbeName} {D : BHist -> Prop} {h s t u : BHist} :
+    BundleAskPolicy left D -> BundleAskPolicy right D -> D h -> SigRel left h s ->
+      SigRel right h t -> SigRel (bundleAppend left right) h u ->
+        exists v : BHist, Cont t s v /\ hsame v u := by
+  intro leftPolicy rightPolicy hdom leftSig rightSig appendedSig
+  have appendPolicy : BundleAskPolicy (bundleAppend left right) D :=
+    bundleAskPolicy_append_gluing leftPolicy rightPolicy
+  cases signature_generation_bundle_append leftSig rightSig with
+  | intro v appendData =>
+      cases appendData with
+      | intro hcont generatedSig =>
+          have sameResult : hsame v u :=
+            sig_deterministic_from_bundle_policy appendPolicy hdom generatedSig appendedSig
+          exact Exists.intro v (And.intro hcont sameResult)
 
 end BEDC.FKernel.Sig
