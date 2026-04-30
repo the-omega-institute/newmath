@@ -148,4 +148,24 @@ theorem hsame_no_confusion_symmetric :
       · exact not_hsame_e1_e0
       · exact not_hsame_e0_e1
 
+theorem hsame_no_confusion_complete :
+    (∀ {h : BHist}, hsame .Empty (.e0 h) → False) ∧
+      (∀ {h : BHist}, hsame (.e0 h) .Empty → False) ∧
+      (∀ {h : BHist}, hsame .Empty (.e1 h) → False) ∧
+      (∀ {h : BHist}, hsame (.e1 h) .Empty → False) ∧
+      (∀ {h k : BHist}, hsame (.e0 h) (.e1 k) → False) ∧
+      (∀ {h k : BHist}, hsame (.e1 h) (.e0 k) → False) := by
+  constructor
+  · exact not_hsame_emp_e0
+  · constructor
+    · exact not_hsame_e0_empty
+    · constructor
+      · exact not_hsame_emp_e1
+      · constructor
+        · intro h hs
+          cases hs
+        · constructor
+          · exact not_hsame_e0_e1
+          · exact not_hsame_e1_e0
+
 end BEDC.FKernel.Hist

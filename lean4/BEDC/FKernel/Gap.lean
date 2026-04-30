@@ -735,6 +735,13 @@ theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
   intro hh hhk
   exact policy.transport hh hhk
 
+omit [AskSetup] [PackageSetup] G in
+theorem domain_transport_symmetric [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
+    InDom D k → hsame h k → InDom D h := by
+  intro hk hhk
+  exact policy.transport hk (hsame_symm hhk)
+
 omit [AskSetup] [PackageSetup] in
 theorem composite_coverage {Mid Final : Type} {D : Domain}
     {firstGap : Mid -> BHist -> Prop} {secondGap : Final -> Mid -> Prop}
