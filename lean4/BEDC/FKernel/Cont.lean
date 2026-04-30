@@ -363,6 +363,29 @@ theorem cont_e0_result_iff {h k r : BHist} :
                 cases hcont
                 rfl
 
+theorem cont_e1_result_iff {h k r : BHist} :
+    Cont h k (BHist.e1 r) ↔
+      (k = BHist.Empty ∧ hsame h (BHist.e1 r)) ∨
+        (∃ k0 : BHist, k = BHist.e1 k0 ∧ Cont h k0 r) := by
+  constructor
+  · exact cont_e1_result_inversion
+  · intro data
+    cases data with
+    | inl base =>
+        cases base with
+        | intro hk hh =>
+            cases hk
+            cases hh
+            rfl
+    | inr step =>
+        cases step with
+        | intro k0 fields =>
+            cases fields with
+            | intro hk hcont =>
+                cases hk
+                cases hcont
+                rfl
+
 theorem cont_unit_laws :
     (∀ k : BHist, Cont .Empty k k) ∧
       (∀ {h r : BHist}, Cont h .Empty r → hsame r h) := by

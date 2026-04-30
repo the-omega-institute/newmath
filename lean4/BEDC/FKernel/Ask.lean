@@ -32,6 +32,21 @@ theorem askEvent_witness [AskSetup] {pi : ProbeName} {h : BHist} :
       exact Exists.intro mark (Exists.intro evidence event)
 
 omit S in
+theorem AskEvent_iff_exists [AskSetup] {pi : ProbeName} {h : BHist} :
+    Nonempty (AskEvent pi h) ↔ ∃ m : BMark, ∃ delta : Evidence, Ask pi h m delta := by
+  constructor
+  · intro witness
+    cases witness with
+    | intro ev =>
+        exact askEvent_witness ev
+  · intro witness
+    cases witness with
+    | intro mark rest =>
+        cases rest with
+        | intro evidence event =>
+            exact Nonempty.intro (AskEvent.mk mark evidence event)
+
+omit S in
 theorem askEvent_evidence_witness [AskSetup] {pi : ProbeName} {h : BHist} :
     AskEvent pi h -> Nonempty Evidence := by
   intro ev
