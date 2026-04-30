@@ -47,6 +47,15 @@ Induct on the first list. The nil and cons shape mismatches are impossible by th
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_trans}
 
+\begin{theorem}[History list classifier is symmetric]
+\label{thm:list-classifier-hsame-symm}
+For lists of finite-kernel histories, if the structural list classifier relates \(x\) to \(y\) using \(\hsame\) on heads, then it relates \(y\) to \(x\).
+\end{theorem}
+\begin{proof}
+Induct on the first list. Shape mismatches are impossible by the classifier clauses. In the cons-cons case, head witnesses reverse by symmetry of \(\hsame\), and tail witnesses reverse by the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_symm}
+
 \begin{definition}[List stability certificate]
 \label{def:list-stability-certificate}
 The stability certificate consists of:

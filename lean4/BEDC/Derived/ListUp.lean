@@ -154,6 +154,31 @@ theorem ListClassifierSpec_trans_from_nameCert
                       · exact cert.equiv_trans sameXYHead sameYZHead
                       · exact ih sameXYTail sameYZTail
 
+theorem ListClassifierSpec_hsame_symm :
+    forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame ys xs := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro ys hxy
+      cases ys with
+      | nil =>
+          constructor
+      | cons _ _ =>
+          cases hxy
+  | cons _ xs ih =>
+      intro ys hxy
+      cases ys with
+      | nil =>
+          cases hxy
+      | cons _ _ =>
+          cases hxy with
+          | intro hhead htail =>
+              constructor
+              · exact BEDC.FKernel.Hist.hsame_symm hhead
+              · exact ih htail
+
 theorem ListClassifierSpec_append_hsame
     {xs ys zs ws : ListCarrier BEDC.FKernel.Hist.BHist} :
     ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->

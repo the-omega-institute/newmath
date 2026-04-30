@@ -1,3 +1,5 @@
+import BEDC.FKernel.Hist
+
 namespace BEDC.Derived.ProdUp
 
 def ProdCarrier (A B : Type) := Prod A B
@@ -115,5 +117,16 @@ theorem ProdClassifierSpec_trans {A B : Type} {relA : A → A → Prop} {relB : 
           constructor
           · exact transA leftXY leftYZ
           · exact transB rightXY rightYZ
+
+theorem ProdClassifierSpec_hsame_symm
+    {x y : ProdCarrier BEDC.FKernel.Hist.BHist BEDC.FKernel.Hist.BHist} :
+    ProdClassifierSpec BEDC.FKernel.Hist.hsame BEDC.FKernel.Hist.hsame x y →
+      ProdClassifierSpec BEDC.FKernel.Hist.hsame BEDC.FKernel.Hist.hsame y x := by
+  intro hxy
+  cases hxy with
+  | intro leftXY rightXY =>
+      constructor
+      · exact BEDC.FKernel.Hist.hsame_symm leftXY
+      · exact BEDC.FKernel.Hist.hsame_symm rightXY
 
 end BEDC.Derived.ProdUp
