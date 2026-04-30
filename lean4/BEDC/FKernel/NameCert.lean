@@ -59,6 +59,14 @@ theorem nameCert_source_witness_from_cert [NameCertSetup] {name : DerivedName} :
   | mk source pattern classifier stability ledger =>
       exact Nonempty.intro source
 
+omit N in
+theorem nameCert_pattern_witness_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name -> Nonempty PatternSpec := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact Nonempty.intro pattern
+
 theorem nameCert_witnesses_from_cert {name : DerivedName} :
     NameCert name ->
       exists source : SourceSpec,
