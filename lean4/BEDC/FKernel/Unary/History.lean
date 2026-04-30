@@ -233,6 +233,15 @@ theorem unary_cont_result_iff_factors {h k r : BHist} :
     | intro uh uk =>
         exact unary_cont_closed uh uk hr
 
+theorem unary_cont_factors_iff_result {h k r : BHist} :
+    Cont h k r -> (UnaryHistory h ∧ UnaryHistory k ↔ UnaryHistory r) := by
+  intro hr
+  constructor
+  · intro factors
+    exact (unary_cont_result_iff_factors hr).mpr factors
+  · intro ur
+    exact (unary_cont_result_iff_factors hr).mp ur
+
 theorem unary_cont_iff_result_unary {h k r : BHist} (hr : Cont h k r) :
     UnaryCont h k r ↔ UnaryHistory r := by
   constructor

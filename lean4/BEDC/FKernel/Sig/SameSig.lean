@@ -15,6 +15,15 @@ theorem sameSig_left_witness [AskSetup] {bundle : ProbeBundle ProbeName} {h k : 
       | intro _ data =>
           exact Exists.intro s data.left
 
+theorem sameSig_right_witness [AskSetup] {bundle : ProbeBundle ProbeName} {h k : BHist} :
+    SameSig bundle h k -> exists t : BHist, SigRel bundle k t := by
+  intro hsameSig
+  cases hsameSig with
+  | intro _ rest =>
+      cases rest with
+      | intro t data =>
+          exact Exists.intro t data.right.left
+
 theorem sameSig_trans_with_middle_witness [AskSetup] {bundle : ProbeBundle ProbeName}
     {D : BHist -> Prop} (policy : AskPolicy D) {h k l : BHist} :
     D k -> SameSig bundle h k -> SameSig bundle k l ->
