@@ -164,4 +164,9 @@ theorem limit_like_interfaces_are_derived [NameCertSetup] {Thread : Type} {name 
               exact Nonempty.intro stability
         · exact ledger
 
+theorem sealInterface_stability_witness [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealInterface Thread name → Nonempty StabilityCert := by
+  intro iface
+  exact derived_interfaces_have_stability iface.nameCert
+
 end BEDC.FKernel.NameCert

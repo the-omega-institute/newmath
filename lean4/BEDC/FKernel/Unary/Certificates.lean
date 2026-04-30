@@ -160,6 +160,10 @@ theorem add_up_certificate_stability_and_ledger :
     Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
   exact nameCert_stability_and_ledger_from_cert add_up_name_certificate
 
+def AddSourceSpec : Prop :=
+  exists h : BHist, exists k : BHist, exists r : BHist,
+    UnaryHistory h /\ UnaryHistory k /\ Cont h k r
+
 theorem additive_stability_and_ledger_policy :
     Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
   have cert : NameCert AddName := add_up_name_certificate

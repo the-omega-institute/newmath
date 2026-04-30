@@ -172,6 +172,39 @@ theorem settledKernelCriterion_globalize_exactness_projection [AskSetup] [Packag
                                                       exact globalizeExactness
                                                         askPolicy packagePolicy tokenExists
 
+theorem settledKernelCriterion_signature_kernel_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      (∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h s t : BHist},
+        AskPolicy D → D h → SigRel bundle h s → SigRel bundle h t → hsame s t) ∧
+      (∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop}, AskPolicy D →
+        (∀ {h : BHist}, D h → SameSig bundle h h) ∧
+          (∀ {h k : BHist}, SameSig bundle h k → SameSig bundle k h) ∧
+          (∀ {h k l : BHist}, D k → SameSig bundle h k → SameSig bundle k l →
+            SameSig bundle h l)) := by
+  intro criterion
+  cases criterion with
+  | intro _ rest =>
+      cases rest with
+      | intro _ rest =>
+          cases rest with
+          | intro _ rest =>
+              cases rest with
+              | intro _ rest =>
+                  cases rest with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro _ rest =>
+                          cases rest with
+                          | intro _ rest =>
+                              cases rest with
+                              | intro _ rest =>
+                                  cases rest with
+                                  | intro signatureDeterminacy rest =>
+                                      cases rest with
+                                      | intro sameSigEquivalence _ =>
+                                          exact ⟨signatureDeterminacy, sameSigEquivalence⟩
+
 theorem settledKernelCriterion_namecert_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →
