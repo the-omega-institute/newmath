@@ -88,16 +88,18 @@ Combine the preceding lemmas.
 
 \begin{theorem}[History no-confusion]
 The kernel does not generate any of the following cross-constructor identifications:
-\[
+$$
 \hsame(\emp,\Ezero(h)),\quad
-\hsame(\emp,\Eone(h)),\quad
-\hsame(\Ezero(h),\Eone(k)),
-\]
-or their symmetric variants.
+\hsame(\Ezero(h),\emp),\quad
+\hsame(\emp,\Eone(h)),
+$$
+$$
+\hsame(\Eone(h),\emp),\quad
+\hsame(\Ezero(h),\Eone(k)),\quad
+\hsame(\Eone(h),\Ezero(k)).
+$$
 \end{theorem}
-\leanchecked{BEDC.FKernel.Hist.not\_hsame\_emp\_e0}
-\leanvariant{BEDC.FKernel.Hist.not\_hsame\_emp\_e1}
-\leanvariant{BEDC.FKernel.Hist.not\_hsame\_e0\_e1}
+\leanchecked{BEDC.FKernel.Hist.hsame\_no\_confusion\_complete}
 \begin{proof}
 By closed generation, the only conclusions of \(\hsame\) have matching outer constructors. The displayed cross-constructor conclusions are not produced by any rule.
 \end{proof}

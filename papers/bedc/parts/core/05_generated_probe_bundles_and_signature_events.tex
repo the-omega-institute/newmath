@@ -150,6 +150,19 @@ If $\mathsf{BundleAskPolicy}(\Pi,D)$ and $\mathsf{BundleAskPolicy}(\Theta,D)$ ho
 Use Theorem~\ref{thm:bundle-append-membership}. For each probe membership in $\mathsf{BAppend}(\Pi,\Theta)$, split it into a left membership in $\Pi$ or a right membership in $\Theta$. In the left case, take totality, determinacy, and history-respect from the policy on $\Pi$; in the right case, take the same three fields from the policy on $\Theta$. These case analyses assemble the bundle-local asking policy for the appended bundle.
 \end{proof}
 
+\begin{theorem}[Bundle-local policy append equivalence]
+\label{thm:bundle-local-policy-append-iff}
+For all probe bundles $\Pi,\Theta$ and domain $D$,
+$$
+\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)
+\Longleftrightarrow
+\bigl(\mathsf{BundleAskPolicy}(\Pi,D)\ \text{and}\ \mathsf{BundleAskPolicy}(\Theta,D)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is exactly Theorem~\ref{thm:bundle-local-policy-append-restriction}. The reverse direction is exactly Theorem~\ref{thm:bundle-local-policy-append-introduction}.
+\end{proof}
+
 \begin{theorem}[Probe bundle prefix cancellation]
 \label{thm:probe-bundle-prefix-cancellation}
 For any fixed probe bundle $\Pi$ and any probe bundles $\Theta,\Omega$, if
