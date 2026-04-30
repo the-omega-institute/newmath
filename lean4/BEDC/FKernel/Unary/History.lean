@@ -14,6 +14,12 @@ def UnaryRightShiftObligation : Prop :=
   forall {k h r : BHist}, UnaryHistory k -> Cont k (BHist.e1 h) r ->
     exists v : BHist, Cont k h v /\ hsame r (BHist.e1 v)
 
+theorem UnaryRightShiftObligation_iff_fields :
+    UnaryRightShiftObligation ↔
+      (∀ {k h r : BHist}, UnaryHistory k → Cont k (BHist.e1 h) r →
+        ∃ v : BHist, Cont k h v ∧ hsame r (BHist.e1 v)) := by
+  rfl
+
 def EOneCongruenceObligation : Prop :=
   ∀ {u v : BHist}, hsame u v → hsame (.e1 u) (.e1 v)
 

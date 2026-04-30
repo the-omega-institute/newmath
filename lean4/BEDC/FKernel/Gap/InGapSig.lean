@@ -21,6 +21,12 @@ def GapMembership [AskSetup] [PackageSetup] [DomainSetup]
   InGapSig bundle D p h
 
 omit [AskSetup] [PackageSetup] G in
+theorem GapMembership_iff_InGapSig [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    GapMembership bundle D p h ↔ InGapSig bundle D p h := by
+  rfl
+
+omit [AskSetup] [PackageSetup] G in
 theorem PolicySupportedSignatureGap_iff_InGapSig [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     PolicySupportedSignatureGap bundle D p h ↔ InGapSig bundle D p h := by
