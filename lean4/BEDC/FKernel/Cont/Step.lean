@@ -61,6 +61,37 @@ theorem cont_ext_right_step {h k k' r r' : BHist} {m : BMark} :
   · cases right
     exact cont_step_one hcont
 
+theorem extension_as_singleton_continuation {h r : BHist} :
+    (BEDC.FKernel.Ext.Ext h BMark.b0 r ↔ Cont h (BHist.e0 BHist.Empty) r) ∧
+      (BEDC.FKernel.Ext.Ext h BMark.b1 r ↔ Cont h (BHist.e1 BHist.Empty) r) := by
+  constructor
+  · constructor
+    · intro ext
+      cases ext
+      exact cont_step_zero (cont_right_unit h)
+    · intro hcont
+      cases cont_e0_result_witness hcont with
+      | intro r0 witness =>
+          cases witness with
+          | intro result tail =>
+              cases result
+              have same : hsame r0 h := Iff.mp cont_right_unit_iff tail
+              cases same
+              exact BEDC.FKernel.Ext.Ext.e0 h
+  · constructor
+    · intro ext
+      cases ext
+      exact cont_step_one (cont_right_unit h)
+    · intro hcont
+      cases cont_e1_result_witness hcont with
+      | intro r0 witness =>
+          cases witness with
+          | intro result tail =>
+              cases result
+              have same : hsame r0 h := Iff.mp cont_right_unit_iff tail
+              cases same
+              exact BEDC.FKernel.Ext.Ext.e1 h
+
 theorem continuation_step_rules_iff_pair :
     (forall {h k r : BHist}, Cont h (BHist.e0 k) (BHist.e0 r) <-> Cont h k r) /\
       (forall {h k r : BHist}, Cont h (BHist.e1 k) (BHist.e1 r) <-> Cont h k r) := by
