@@ -3,6 +3,21 @@
 
 The product interface \(\ProdUp\) is licensed over two source carriers each endowed with a \(\NameCert\). The carrier is the pair constructor of source witnesses; the classifier is the conjunction of the component classifiers under their respective internal sameness judgments. It is not a primitive cartesian product; it is licensed only as a derived constructor over the two sources.
 
+\section{Roadmap template status}
+
+\begin{enumerate}
+  \item \textbf{Traditional target}: ordered product data with one left component and one right component.
+  \item \textbf{BEDC source}: two licensed source carriers $A$ and $B$, each with its own name certificate.
+  \item \textbf{Carrier choice}: the paired history carrier records a left history, a right history, and the continuation that combines them.
+  \item \textbf{Classifier choice}: the product classifier is the conjunction of the component classifiers on the two coordinates.
+  \item \textbf{Stability obligations}: component transport, continuation transport, unary closure from components, classifier symmetry, classifier transitivity, and coordinate inversion.
+  \item \textbf{Ledger}: no product quotient is used; pairing records both component witnesses and their generated continuation.
+  \item \textbf{Core theorem list}: append introduction, continuation introduction, carrier transport, unary closure, classifier equivalence, and the semantic name certificate.
+  \item \textbf{Exactness predicate}: classification holds exactly when both coordinates classify in their respective sources.
+  \item \textbf{Standard bridge}: the licensed pair reads back as the ordinary ordered pair $(a,b)$.
+  \item \textbf{Status}: $\mathsf{CheckedCert}$, with the product history semantic certificate checked in Lean.
+\end{enumerate}
+
 \section{Carrier definition}
 
 \begin{definition}[Prod carrier]
@@ -32,6 +47,30 @@ continuation witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_append\_intro}
 
+\begin{theorem}[Product history carrier continuation introduction]
+\label{thm:prod-history-carrier-cont-intro}
+If \(l\) lies in the left source carrier, \(r\) lies in the right source
+carrier, and \(\Cont(l,r,h)\), then \(h\) lies in the product history carrier.
+\end{theorem}
+\begin{proof}
+Use \(l\) and \(r\) as the component witnesses. The supplied continuation
+proof is exactly the result witness required by the product history carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_cont\_intro}
+
+\begin{theorem}[Product unary history closure]
+\label{thm:prod-history-carrier-unary}
+If a product history is generated from unary left and right histories, then the
+resulting product history is unary.
+\end{theorem}
+\begin{proof}
+Invert the product-history carrier into its left history, right history, unary
+component witnesses, and continuation proof. Unary closure under continuation
+turns the two unary component witnesses and the stored continuation proof into
+unary membership of the result history.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_unary}
+
 \begin{theorem}[Product history carrier transport]
 \label{thm:prod-history-carrier-hsame-transport}
 If two product histories are internally the same and the first is generated from a left witness, a right witness, and a continuation proof, then the second is generated from the same component witnesses and the transported continuation proof.
@@ -40,6 +79,19 @@ If two product histories are internally the same and the first is generated from
 Invert the product-history carrier into its left history, right history, component witnesses, and continuation proof. Transport the continuation result across \(\hsame\), and rebuild the product-history carrier with the same component witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_hsame\_transport}
+
+\begin{theorem}[Product history carrier unary from components]
+\label{thm:prod-history-carrier-unary-of-components}
+If the left and right source predicates each determine unary histories, then
+every product-history carrier generated from those predicates is unary.
+\end{theorem}
+\begin{proof}
+Unpack the product-history carrier into component histories \(l\) and \(r\),
+their source witnesses, and the BEDC continuation witness for the result.
+The component assumptions give unary witnesses for \(l\) and \(r\), and BEDC
+unary continuation closure gives unary membership of the product result.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_unary\_of\_components}
 
 \begin{definition}[Prod pattern specification]
 \label{def:prod-pattern-specification}
@@ -71,6 +123,18 @@ If a product-history classifier relates $h$ to $k$, and $h$ is internally the sa
 Invert the product-history classifier into endpoint carriers and the stored $\hsame(h,k)$ witness. Transport both endpoint carriers across their respective $\hsame$ witnesses, then compose symmetry of $\hsame(h,h')$, the stored link, and $\hsame(k,k')$ to obtain $\hsame(h',k')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_hsame\_transport}
+
+\begin{theorem}[Product history classifier symmetry]
+\label{thm:prod-history-classifier-symmetry}
+If a product-history classifier relates \(h\) to \(k\), then it relates
+\(k\) to \(h\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the two endpoint product carriers and the stored
+\(\hsame(h,k)\) link. Exchange the endpoint carriers and reverse the stored
+history-sameness link by symmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_symm}
 
 \begin{theorem}[Product history classifier left transport]
 \label{thm:prod-history-classifier-left-hsame-transport}
@@ -150,10 +214,20 @@ fields for the raw ledger history and the visible history.
 
 \begin{theorem}[Concrete \(\ProdUp\) naming certificate]
 \label{thm:concrete-prod-namecert}
-The componentwise tuple forms a valid NameCert for \(\ProdUp(A,B)\).
+For source-history predicates $L$ and $R$ on $\mathsf{BHist}$, assume there
+are carrier witnesses $l$ and $r$ with $L(l)$ and $R(r)$. Equivalently, the
+witnesses may be supplied by source certificates whose carrier-inhabited
+fields provide them. Then the componentwise tuple forms the product semantic
+naming certificate for $\mathsf{ProdHistoryCarrier}(L,R)$ and
+$\mathsf{ProdHistoryClassifier}(L,R)$, hence a valid NameCert for
+$\ProdUp(A,B)$.
 \end{theorem}
 \begin{proof}
-Choose one left source history and one right source history. BEDC continuation joins them into a product history. The product classifier stores the two carrier witnesses and an \(\hsame\) witness between product histories, so the certificate fields follow by \(\hsame\) reflexivity, symmetry, transitivity, and carrier projection.
+Take the left and right witnesses from the two source certificates, or from
+the explicit carrier-witness assumptions. BEDC continuation joins them into a
+product history. The product classifier stores the two carrier witnesses and
+an $\hsame$ witness between product histories, so the certificate fields follow
+by $\hsame$ reflexivity, symmetry, transitivity, and carrier transport.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.prod\_history\_semantic\_name\_certificate}
 

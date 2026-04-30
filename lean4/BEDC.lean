@@ -17,12 +17,15 @@ import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Cont.Pattern
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Bundle.Length
+import BEDC.FKernel.Bundle.MembershipAppend
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Sig.Totality
 import BEDC.FKernel.Sig.WitnessChain
 import BEDC.FKernel.Sig.SameSig
 import BEDC.FKernel.Sig.SameSig.Endpoint
 import BEDC.FKernel.Sig.SameSig.Equivalence
+import BEDC.FKernel.Sig.SameSig.BundlePolicy
 import BEDC.FKernel.Sig.Determinacy
 import BEDC.FKernel.Sig.Generation
 import BEDC.FKernel.Package
@@ -32,6 +35,7 @@ import BEDC.FKernel.ExternalBinary.BitInversion
 import BEDC.FKernel.ExternalBinary.Inversion
 import BEDC.FKernel.ExternalBinary.Model
 import BEDC.FKernel.ExternalBinary.Cancellation
+import BEDC.FKernel.ExternalBinary.Congruence
 import BEDC.FKernel.Gap
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.NameCert.Descent
@@ -49,8 +53,10 @@ import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger
 import BEDC.Derived.ListUp
+import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.GroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp

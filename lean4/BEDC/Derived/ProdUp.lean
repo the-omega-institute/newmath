@@ -1,12 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.ProdUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 
 def ProdHistoryCarrier (Left Right : BHist -> Prop) (h : BHist) : Prop :=
   exists l : BHist, exists r : BHist, Left l ∧ Right r ∧ Cont l r h
@@ -21,6 +23,43 @@ theorem ProdHistoryCarrier_append_intro {Left Right : BHist -> Prop} {l r : BHis
     (Exists.intro r
       (And.intro leftCarrier
         (And.intro rightCarrier (cont_intro (h := l) (k := r) rfl))))
+
+theorem ProdHistoryCarrier_cont_intro {Left Right : BHist -> Prop} {l r h : BHist} :
+    Left l -> Right r -> Cont l r h -> ProdHistoryCarrier Left Right h := by
+  intro leftCarrier rightCarrier hCont
+  exact Exists.intro l
+    (Exists.intro r
+      (And.intro leftCarrier
+        (And.intro rightCarrier hCont)))
+
+theorem ProdHistoryCarrier_unary_of_components {Left Right : BHist -> Prop}
+    (left_unary : forall {l : BHist}, Left l -> BEDC.FKernel.Unary.UnaryHistory l)
+    (right_unary : forall {r : BHist}, Right r -> BEDC.FKernel.Unary.UnaryHistory r)
+    {h : BHist} :
+    ProdHistoryCarrier Left Right h -> BEDC.FKernel.Unary.UnaryHistory h := by
+  intro carrier
+  cases carrier with
+  | intro l rest =>
+      cases rest with
+      | intro r data =>
+          cases data with
+          | intro leftCarrier rightData =>
+              cases rightData with
+              | intro rightCarrier cont =>
+                  exact unary_cont_closed (left_unary leftCarrier) (right_unary rightCarrier) cont
+
+theorem ProdHistoryCarrier_unary {h : BHist} :
+    ProdHistoryCarrier UnaryHistory UnaryHistory h -> UnaryHistory h := by
+  intro carrier
+  cases carrier with
+  | intro leftHist rest =>
+      cases rest with
+      | intro rightHist data =>
+          cases data with
+          | intro leftUnary rightData =>
+              cases rightData with
+              | intro rightUnary cont =>
+                  exact unary_cont_closed leftUnary rightUnary cont
 
 theorem ProdHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BHist} :
     hsame h k -> ProdHistoryCarrier Left Right h -> ProdHistoryCarrier Left Right k := by
@@ -88,6 +127,15 @@ theorem ProdHistoryClassifier_hsame_transport {Left Right : BEDC.FKernel.Hist.BH
             · exact BEDC.FKernel.Hist.hsame_trans
                 (BEDC.FKernel.Hist.hsame_symm sameLeft)
                 (BEDC.FKernel.Hist.hsame_trans sameHK sameRight)
+
+theorem ProdHistoryClassifier_symm {Left Right : BHist -> Prop} {h k : BHist} :
+    ProdHistoryClassifier Left Right h k -> ProdHistoryClassifier Left Right k h := by
+  intro classified
+  cases classified with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          exact And.intro carrierK (And.intro carrierH (hsame_symm sameHK))
 
 theorem ProdHistoryClassifier_left_hsame_transport {Left Right : BHist -> Prop}
     {h h' k : BHist} :

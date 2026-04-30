@@ -1,4 +1,5 @@
 import BEDC.FKernel.Sig
+import BEDC.FKernel.Sig.Determinacy
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Step
 
@@ -193,6 +194,67 @@ theorem sameSig_bundleAppend_closure [AskSetup] {left right : ProbeBundle ProbeN
                                                           (cont_respects_hsame rightResultsSame
                                                             leftResultsSame contH contK))))
 
+theorem sameSig_bundleAppend_left_cancellation [AskSetup] {left right : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : AskPolicy D) {h k : BHist} :
+    D h -> D k -> SameSig (bundleAppend left right) h k -> SameSig left h k ->
+      SameSig right h k := by
+  intro dh dk appendedSame leftSame
+  cases appendedSame with
+  | intro appendedH appendedRest =>
+      cases appendedRest with
+      | intro appendedK appendedData =>
+          cases appendedData with
+          | intro appendedHSig appendedTail =>
+              cases appendedTail with
+              | intro appendedKSig appendedResultsSame =>
+                  cases sigRel_bundleAppend_inversion appendedHSig with
+                  | intro recoveredLeftH recoveredHRest =>
+                      cases recoveredHRest with
+                      | intro recoveredRightH recoveredHData =>
+                          cases recoveredHData with
+                          | intro recoveredLeftHSig recoveredHTail =>
+                              cases recoveredHTail with
+                              | intro recoveredRightHSig recoveredHCont =>
+                                  cases sigRel_bundleAppend_inversion appendedKSig with
+                                  | intro recoveredLeftK recoveredKRest =>
+                                      cases recoveredKRest with
+                                      | intro recoveredRightK recoveredKData =>
+                                          cases recoveredKData with
+                                          | intro recoveredLeftKSig recoveredKTail =>
+                                              cases recoveredKTail with
+                                              | intro recoveredRightKSig recoveredKCont =>
+                                                  cases leftSame with
+                                                  | intro suppliedLeftH suppliedRest =>
+                                                      cases suppliedRest with
+                                                      | intro suppliedLeftK suppliedData =>
+                                                          cases suppliedData with
+                                                          | intro suppliedLeftHSig suppliedTail =>
+                                                              cases suppliedTail with
+                                                              | intro suppliedLeftKSig suppliedResultsSame =>
+                                                                  have alignH :
+                                                                      hsame recoveredLeftH suppliedLeftH :=
+                                                                    sig_deterministic policy dh
+                                                                      recoveredLeftHSig suppliedLeftHSig
+                                                                  have alignK :
+                                                                      hsame suppliedLeftK recoveredLeftK :=
+                                                                    sig_deterministic policy dk
+                                                                      suppliedLeftKSig recoveredLeftKSig
+                                                                  have recoveredLeftSame :
+                                                                      hsame recoveredLeftH recoveredLeftK :=
+                                                                    hsame_trans alignH
+                                                                      (hsame_trans suppliedResultsSame alignK)
+                                                                  cases recoveredLeftSame
+                                                                  have recoveredRightSame :
+                                                                      hsame recoveredRightH recoveredRightK :=
+                                                                    cont_common_suffix_cancellation
+                                                                      recoveredHCont recoveredKCont
+                                                                      appendedResultsSame
+                                                                  exact Exists.intro recoveredRightH
+                                                                    (Exists.intro recoveredRightK
+                                                                      (And.intro recoveredRightHSig
+                                                                        (And.intro recoveredRightKSig
+                                                                          recoveredRightSame)))
+
 theorem signature_generation_bundle_append [AskSetup] {left right : ProbeBundle ProbeName}
     {h s t : BHist} :
     SigRel left h s → SigRel right h t →
@@ -260,5 +322,55 @@ theorem signature_generation_bundle_append_inversion [AskSetup]
                                       (BHist.e1 tailResult) BMark.b1 delta hask tailSig
                                       (Ext.e1 tailResult))
                                     (And.intro rightSig (cont_step_one tailCont))))
+
+theorem signature_generation_three_bundle_coherence [AskSetup]
+    {left middle right : ProbeBundle ProbeName} {h s t w : BHist} :
+    SigRel left h s -> SigRel middle h t -> SigRel right h w ->
+      exists a : BHist, exists b : BHist, exists uL : BHist, exists uR : BHist,
+        SigRel (bundleAppend left middle) h a /\ Cont t s a /\
+        SigRel (bundleAppend (bundleAppend left middle) right) h uL /\ Cont w a uL /\
+        SigRel (bundleAppend middle right) h b /\ Cont w t b /\
+        SigRel (bundleAppend left (bundleAppend middle right)) h uR /\ Cont b s uR /\
+        hsame uL uR := by
+  intro leftSig middleSig rightSig
+  cases signature_generation_bundle_append leftSig middleSig with
+  | intro a leftMiddle =>
+      cases leftMiddle with
+      | intro middleOverLeft leftMiddleSig =>
+          cases signature_generation_bundle_append leftMiddleSig rightSig with
+          | intro uL leftGrouped =>
+              cases leftGrouped with
+              | intro rightOverLeftMiddle leftGroupedSig =>
+                  cases signature_generation_bundle_append middleSig rightSig with
+                  | intro b middleRight =>
+                      cases middleRight with
+                      | intro rightOverMiddle middleRightSig =>
+                          cases signature_generation_bundle_append leftSig middleRightSig with
+                          | intro uR rightGrouped =>
+                              cases rightGrouped with
+                              | intro middleRightOverLeft rightGroupedSig =>
+                                  exact
+                                    ⟨a, b, uL, uR, leftMiddleSig, middleOverLeft,
+                                      leftGroupedSig, rightOverLeftMiddle, middleRightSig,
+                                      rightOverMiddle, rightGroupedSig, middleRightOverLeft,
+                                      hsame_symm
+                                        (cont_assoc_hsame rightOverMiddle middleRightOverLeft
+                                          middleOverLeft rightOverLeftMiddle)⟩
+
+theorem signature_generation_append_component_determinacy [AskSetup]
+    {left right : ProbeBundle ProbeName} {D : BHist -> Prop} {h s t u : BHist} :
+    BundleAskPolicy left D -> BundleAskPolicy right D -> D h -> SigRel left h s ->
+      SigRel right h t -> SigRel (bundleAppend left right) h u ->
+        exists v : BHist, Cont t s v /\ hsame v u := by
+  intro leftPolicy rightPolicy hdom leftSig rightSig appendedSig
+  have appendPolicy : BundleAskPolicy (bundleAppend left right) D :=
+    bundleAskPolicy_append_gluing leftPolicy rightPolicy
+  cases signature_generation_bundle_append leftSig rightSig with
+  | intro v appendData =>
+      cases appendData with
+      | intro hcont generatedSig =>
+          have sameResult : hsame v u :=
+            sig_deterministic_from_bundle_policy appendPolicy hdom generatedSig appendedSig
+          exact Exists.intro v (And.intro hcont sameResult)
 
 end BEDC.FKernel.Sig

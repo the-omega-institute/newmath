@@ -16,6 +16,22 @@ You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touc
 - Recent commits:
 <RECENT>
 
+## REQUIRED FIRST STEP — Read the roadmap
+
+Before scanning for review targets, READ `papers/bedc/parts/project_governance/roadmap.tex` in full. It defines:
+
+- the layered dependency order L0→L14;
+- the four-strength gradient (naming seed → paper certificate → machine-checked certificate → standard bridge);
+- the near-term phase bundle that pins the current advancement direction (e.g. Phase Kernel-Checked Baseline, Phase Finite Data, Phase Real and Completion, etc.);
+- the per-object research template;
+- the explicit list of claims that are off the table.
+
+Identify which phase bundle is currently OPEN (i.e. has unmet exit criteria). Targets that advance the open phase are the highest-priority class. Targets that advance a CLOSED earlier phase are usually no-ops; targets that advance a phase strictly above the open phase are deferred unless the open phase blocks on them.
+
+Use the roadmap's per-object template (Section "Per-object research template") to structure any `theory_extension` or `missing_companion` proposal. A `theory_extension` target whose entry would not fit the template is malformed and must be rewritten before submission.
+
+When a candidate target appears outside the open phase's chapter scope, briefly explain in `evidence` why it must still be addressed now (e.g. it is blocking the open phase, or it is a hard discipline violation per Section "Claims explicitly off the table"). Otherwise SKIP it and pick a target inside the open phase.
+
 ## What counts as a valid review target
 Pick targets that are HIGH-VALUE — each should be something a careful reader would flag during peer review. Acceptable categories:
 
@@ -58,7 +74,7 @@ The next phase will be REJECTED if its diff violates any of these, so do not pro
 2. **No version-prefixed labels.** Do NOT propose labels like `thm:vN-…`, `sec:v14-…`. Use semantic labels (`thm:<concept>`, `sec:<theme>-<concept>`).
 3. **Every `.tex` file stays ≤ 800 lines.** If implementing a target would push a file over the cap, the target must include a split plan (extract a focused sub-chapter file).
 4. **Math notation.** Inline math via `$…$`; display math via `$$…$$` on its own line. Do NOT propose introducing `\[…\]`, `\begin{equation}`, `align`, etc.
-5. **Marker discipline.** Each paper site has at most ONE `\leanchecked`. New paper-side markers must reference Lean targets that ALREADY exist under `lean4/BEDC/` (run a quick grep before committing the suggestion). The verify-phase gate rejects any newly added `\leanvariant` marker — DO NOT propose targets whose effect is to introduce a new `\leanvariant` line. When de-duplicating two paper blocks for the same claim, KEEP the surviving block's existing `\leanchecked`, DELETE the redundant block entirely (its `\leanchecked` along with it), and let the dropped Lean name become an orphan target — that is the expected outcome and the drift audit accepts it.
+5. **Marker discipline.** Each paper site has at most ONE `\leanchecked`. New paper-side markers must reference Lean targets that ALREADY exist under `lean4/BEDC/` (run a quick grep before committing the suggestion). Avoid proposing targets whose ONLY effect is to add `\leanvariant` lines (the register-only gate rejects pure-marker rounds), but `\leanvariant` is allowed when it accompanies real revision (e.g. splitting one paper block into two propositions, each pointing to a different Lean target). Prefer collapsing a duplicate paper block by deleting it entirely and letting the dropped Lean name become an orphan, since the drift audit accepts orphan Lean targets.
 6. **Underscore escape.** Inside `\leanchecked{…}` and friends, an underscore in a Lean name MUST be `\_` (not bare `_`).
 7. **Mathlib-free / 0-axiom Lean.** If the target touches Lean code, do not propose patterns that would require `Mathlib.X.Y` imports or new `axiom`/`sorry` declarations.
 8. **No new files at the top of the tree.** New `.tex` material lives inside an existing `parts/<theme>/` directory.
@@ -72,7 +88,7 @@ Before suggesting that a missing marker / missing companion result is REALLY mis
 Do NOT propose targets that fail this sanity check. A target whose only effect is to register a marker pointing to a Lean theorem that does not exist is INVALID.
 
 ## Task
-Pick **1 to 3 review targets** for P<ROUND_NUM>. Diversity is preferred (do not propose three small fixes in the same chapter when the paper has 12+ chapters). The 3 targets should span across categories — at least one from {1, 5, 6} (theory tightening) AND at least one of category 8 (theory_extension — propose a new theorem awaiting formalization) UNLESS the paper is pristine on those axes, in which case explain why in `notes`.
+Pick **1 to 3 review targets** for P<ROUND_NUM>. Diversity is preferred (do not propose three small fixes in the same chapter when the paper has 12+ chapters). At least one target MUST advance the OPEN phase from the roadmap (record its `roadmap_phase` field in the JSON). The 3 targets should span across categories — at least one from {1, 5, 6} (theory tightening) AND at least one of category 8 (theory_extension — propose a new theorem awaiting formalization) UNLESS the paper is pristine on those axes, in which case explain why in `notes`.
 
 For each target, you MUST be able to point to:
 - The exact paper file(s) involved.
@@ -100,6 +116,7 @@ Output a single fenced JSON block:
       "lean_touchpoint": "(optional) Lean target that should be referenced or registered, e.g. `BEDC.FKernel.X.foo`. Use `\\_` for underscores when it will appear in `\\leanchecked{...}`.",
       "difficulty": "low | medium | high",
       "chapter": "core | proof_obligations | concrete_instances | concrete_hardening | hardening | formalization | proof_sprint | proof_standing | project_governance | appendices",
+      "roadmap_phase": "(name of the roadmap phase this target advances, or 'discipline' if it enforces a Section-roadmap-off-the-table claim, or 'maintenance' if it is a pure discipline hygiene fix outside any phase)",
       "discovery_confirmed": true
     }
   ],

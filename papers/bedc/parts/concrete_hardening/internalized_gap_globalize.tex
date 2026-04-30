@@ -36,19 +36,19 @@ It is the active concrete finite-kernel Globalize instance.
 
 \begin{theorem}[Internalized gap coverage]
 \label{thm:gap-coverage-concrete}
-Assume \(\AskPol(\Pi,D)\) and assume that every generated signature has an introduced token. If \(\InDom(D,h)\), then there exists a token \(p\) such that
-\[
+Assume $\AskPol(\Pi,D)$ and the dependent generated-signature token condition: whenever $\InDom(D,h)$ and $\Sig(\Pi,h,s,\Delta)$, there exists a token $p$ with $\TokIntro(\Pi,s,p)$. If $\InDom(D,h)$, then there exists a token $p$ such that
+$$
   \InGapSig(\Pi,D,p,h).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.internalized\_gap\_coverage}
 
 \begin{proof}
-From \(\AskPol(\Pi,D)\), obtain a generated signature event
-\[
+From $\AskPol(\Pi,D)$ and $\InDom(D,h)$, obtain a generated signature event
+$$
   \Sig(\Pi,h,s,\Delta).
-\]
-By token existence, obtain \(p\) with \(\TokIntro(\Pi,s,p)\). These data witness \(\InGapSig(\Pi,D,p,h)\).
+$$
+By the dependent token condition, obtain $p$ with $\TokIntro(\Pi,s,p)$. These data witness $\InGapSig(\Pi,D,p,h)$.
 \end{proof}
 
 \begin{theorem}[Internalized gap separation]
@@ -185,7 +185,7 @@ $$
 \end{corollary}
 
 \begin{proof}
-The forward directions are Theorem~\ref{thm:concrete-globalize-completeness} applied to the two ordered pairs of gap memberships. The reverse directions are the concrete Globalize soundness rule applied to the displayed signature witnesses.
+The forward directions are Theorem~\ref{thm:concrete-globalize-completeness} applied to the two ordered pairs of gap memberships. The reverse direction for $\psame(p,q)$ is Theorem~\ref{thm:internalized-globalize-classifies-by-signatures} applied to the ordered memberships for $p$ and $q$. The reverse direction for $\psame(q,p)$ applies the same local classification theorem to the ordered memberships for $q$ and $p$. In both cases, the local theorem performs the transport from the displayed existential signatures to the token-introducing signatures carried by the two gap witnesses.
 \end{proof}
 \leanchecked{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_symmetric\_package\_pair}
 \leanvariant{BEDC.FKernel.Gap.internalized\_globalize\_classifies\_iff}

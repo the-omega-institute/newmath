@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\RatUp\)}
 \label{ch:concrete-instances-rat-namecert}
 
-The rational number interface \(\RatUp\) is licensed by ordered pairs \((p, q)\) with \(p\) drawn from \autoref{ch:concrete-instances-int-namecert} and \(q\) a positive integer, normalized to coprime numerator and denominator with positive denominator. The classifier is structural equality on the normalized representative, not the equivalence relation \(p_1 q_2 = p_2 q_1\) on unnormalized pairs (which would otherwise demand quotient-type machinery and \(\mathsf{Quot.sound}\)). It is not a primitive field; it is licensed only via the integer source and the normalization function.
+The rational number interface $\RatUp$ starts from a carrier skeleton: a signed unary integer numerator, drawn from \autoref{ch:concrete-instances-int-namecert}, together with a positive unary denominator. Normalized representatives, coprimality, and arithmetic closure are separate source, pattern, classifier, and stability obligations later in the chapter. The classifier is structural equality on the normalized representative, not the equivalence relation $p_1 q_2 = p_2 q_1$ on unnormalized pairs, which would otherwise demand quotient-type machinery and $\mathsf{Quot.sound}$. It is not a primitive field; it is licensed only via the integer source and the normalization function.
 
 \begin{remark}[Rational certificate scope]
 \label{rem:concrete-instances-rat-namecert-roadmap}
@@ -14,13 +14,13 @@ The checked core covers the rational history carrier, rational history classifie
 
 \begin{definition}[Rat carrier]
 \label{def:rat-carrier}
-Use a signed unary integer numerator together with a unary denominator history that is not internally the same as \(\emp\):
-\[
+Use only the carrier skeleton: a signed unary integer numerator together with a unary denominator history that is not internally the same as $\emp$:
+$$
   \mathsf{RatCarrier}(s,n,d)
   :=
   \mathsf{IntCarrier}(s,n)\land \mathsf{Unary}(d)\land \neg\hsame(d,\emp).
-\]
-Equivalently, this is an \(\IntUp\) numerator with a positive unary-history denominator. At the carrier skeleton layer, positivity is witnessed by writing the denominator as a one-extension of a unary tail; normalization and coprimality belong to the later source and pattern specifications.
+$$
+Equivalently, this is an $\IntUp$ numerator with a positive unary-history denominator. At this skeleton layer, positivity is witnessed by writing the denominator as a one-extension of a unary tail; normalized representatives, coprimality, and arithmetic closure are supplied by later source, pattern, and stability obligations.
 \end{definition}
 \leandef{BEDC.Derived.RatUp.RatCarrier}
 
@@ -66,6 +66,31 @@ If a denominator history has a positive unary witness and is \(\hsame\)-equivale
 Write the positive denominator as an \(\Eone\)-extension of a unary tail. Compose the reverse \(\hsame\) witness from the target history to the source history with the source witness to the \(\Eone\)-extension, and keep the unary tail witness.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_hsame\_transport}
+
+\begin{theorem}[One-extension positive denominator equivalence]
+\label{thm:rat-positive-unary-denominator-eone-iff-unary}
+A one-extension history has a positive unary denominator witness exactly when
+its tail is unary.
+\end{theorem}
+\begin{proof}
+For the forward direction, eliminate the positive-denominator witness
+\(\hsame(\Eone(t),\Eone(u))\) with unary tail \(u\). One-constructor inversion
+gives \(\hsame(t,u)\), and unary membership transports back to \(t\). For the
+reverse direction, use \(t\) itself as the displayed positive tail and the
+reflexive one-extension sameness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_e1\_iff\_unary}
+
+\begin{theorem}[Zero-extension cannot be a positive denominator]
+\label{thm:rat-positive-denominator-e0-absurd}
+A zero-extension history has no positive unary denominator witness.
+\end{theorem}
+\begin{proof}
+Unpack the positive denominator witness. It would identify an
+\(\Ezero\)-history with an \(\Eone\)-history, contradicting finite-kernel
+history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_e0\_absurd}
 
 \begin{theorem}[Positive unary denominator is not empty]
 \label{thm:rat-positive-unary-denominator-not-empty}
@@ -120,6 +145,38 @@ integer numerator and the resulting positive denominator.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatCarrier\_append\_unary\_denominator\_closed}
 
+\begin{theorem}[Rat history carrier is not empty]
+\label{thm:rat-history-carrier-not-empty}
+If a rational history carrier has denominator \(d\), then \(d\) cannot be
+internally the same as \(\emp\).
+\end{theorem}
+\begin{proof}
+Unpack the rational history carrier into its sign, numerator, and rational
+carrier. The rational carrier exposes a positive unary denominator witness, and
+positive unary denominators are separated from \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_not\_empty}
+
+\begin{theorem}[Rat history carrier excludes zero-extension]
+\label{thm:rat-history-carrier-e0-absurd}
+No zero-extension history \(\Ezero(t)\) lies in the rational history carrier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history carrier into its sign, numerator, and rational
+carrier. The rational carrier supplies a positive unary denominator witness,
+and positive unary denominators cannot have zero-extension shape.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_e0\_absurd}
+
+\begin{theorem}[Rat history carrier append unary denominator closure]
+\label{thm:rat-history-carrier-append-unary-denominator-closed}
+If a rational history carrier has denominator \(d\), then appending any unary history to \(d\) preserves rational history carrier membership.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_append\_unary\_denominator\_closed}
+\begin{proof}
+Unpack the rational history carrier into its sign, numerator, and rational carrier data. Apply rational-carrier denominator append closure to the concrete denominator component, then rebuild the existential rational history carrier with the same sign and numerator.
+\end{proof}
+
 \begin{theorem}[Positive denominator append unary prefix]
 \label{thm:rat-positive-denominator-append-unary-prefix}
 If $u$ is unary and $d$ has a positive unary denominator witness, then
@@ -146,6 +203,19 @@ unary prefix continuation, and the rational carrier is rebuilt from the same
 integer numerator and the resulting positive denominator.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatCarrier\_prepend\_unary\_denominator\_closed}
+
+\begin{theorem}[Rat history carrier prepend unary denominator closure]
+\label{thm:rat-history-carrier-prepend-unary-denominator-closed}
+If a rational history carrier has denominator \(d\), then prepending any unary
+history to \(d\) preserves rational history carrier membership.
+\end{theorem}
+\begin{proof}
+Unpack the rational history carrier into its sign, numerator, and rational
+carrier data. Apply rational-carrier denominator prepend closure to the
+concrete denominator component, then rebuild the existential rational history
+carrier with the same sign and numerator.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_prepend\_unary\_denominator\_closed}
 
 \begin{theorem}[Rat carrier hsame transport]
 \label{thm:rat-carrier-hsame-transport}
@@ -215,6 +285,21 @@ Apply the rational-carrier positive-denominator theorem to each endpoint
 carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_positive\_denominators}
+
+\begin{theorem}[Rat classifier transports positive denominators]
+\label{thm:rat-classifier-denominator-positive-transport}
+If two rational representatives are related by the rational classifier, and
+each denominator is related by \(\hsame\) to a displayed denominator history,
+then both displayed denominator histories carry positive unary denominator
+witnesses.
+\end{theorem}
+\begin{proof}
+Eliminate the classifier witness to expose the two endpoint rational carriers.
+Each endpoint carrier gives a positive unary denominator witness, and the two
+denominator \(\hsame\) links transport those witnesses to the displayed
+denominator histories.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_denominator\_positive\_transport}
 
 \begin{theorem}[Rat classifier denominator append closure]
 \label{thm:rat-classifier-append-unary-denominators-closed}
@@ -298,6 +383,65 @@ of $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_trans}
 
+\begin{theorem}[Rat history classifier endpoint transport]
+\label{thm:rat-history-classifier-hsame-transport}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, and \(d\) and \(e\) are respectively internally the same as
+\(d'\) and \(e'\), then \(d'\) and \(e'\) are related by the rational history
+classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into endpoint rational-history carriers
+and the stored \(\hsame(d,e)\) link. Transport both endpoint carriers across
+the supplied history-sameness witnesses, then compose the reversed
+\(\hsame(d,d')\) link, the stored classifier link, and \(\hsame(e,e')\).
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_hsame\_transport}
+
+\begin{theorem}[Rat history classifier symmetry]
+\label{thm:rat-history-classifier-symmetry}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, then \(e\) and \(d\) are related by the rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier witness. Swap the two endpoint carrier
+witnesses, and reverse the denominator history-sameness proof by symmetry of
+\(\hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_symm}
+
+\begin{theorem}[Rat history classifier unary denominator append closure]
+\label{thm:rat-history-classifier-append-unary-denominator-closed}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, and unary tails \(t_d\) and \(t_e\) satisfy \(\hsame(t_d,t_e)\),
+then appending the tails to the corresponding denominator histories preserves
+the rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into endpoint carriers and denominator
+\(\hsame\). Close the left endpoint carrier under unary denominator append.
+Transport unary membership from \(t_d\) to \(t_e\), close the right endpoint
+carrier under append, and combine the denominator \(\hsame\) with the tail
+\(\hsame\) by constructor cases on append.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_append\_unary\_denominator\_closed}
+
+\begin{theorem}[Rat history classifier unary denominator prepend closure]
+\label{thm:rat-history-classifier-prepend-unary-denominator-closed}
+If denominator histories $d$ and $e$ are related by the rational history
+classifier, and unary prefixes $p_d$ and $p_e$ satisfy $\hsame(p_d,p_e)$, then
+prepending the prefixes to the corresponding denominator histories preserves the
+rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into endpoint carriers and denominator
+$\hsame$. Close the left endpoint carrier under unary denominator prepend.
+Transport unary membership from $p_d$ to $p_e$, close the right endpoint carrier
+under prepend, and combine the denominator and prefix $\hsame$ witnesses by
+constructor cases on the continuation append operation.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_prepend\_unary\_denominator\_closed}
+
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}
 The stability certificate consists of:
@@ -324,6 +468,19 @@ If a raw rational history satisfies the ledger policy for a visible history, the
 \leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_visible\_carrier}
 \begin{proof}
 Unpack the ledger policy into a raw rational-history carrier and an $\hsame$ link from the raw history to the visible history. Transport the raw carrier across that link.
+\end{proof}
+
+\begin{theorem}[Rat ledger history-sameness transport]
+\label{thm:rat-ledger-hsame-transport}
+If a rational ledger relates raw and visible histories, then transporting the
+raw endpoint and the visible endpoint along \(\hsame\) yields another rational
+ledger relation.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_hsame\_transport}
+\begin{proof}
+Unpack the ledger into a raw carrier and a raw-visible link. Transport the raw
+carrier across the raw-endpoint link, then compose the reversed raw transport
+link, the stored ledger link, and the visible-endpoint link.
 \end{proof}
 
 \begin{theorem}[Rat ledger raw-visible classifier]

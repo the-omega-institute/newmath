@@ -57,7 +57,7 @@ From $\AskPol(\Pi,D)$ and $\InDom(D,h)$, obtain a generated signature event $\Si
 
 \begin{theorem}[Policy-supported gap separation]
 \label{thm:gap-separation-policy}
-Assume \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\). If
+Assume $\AskPol(\Pi,D)$ and $\PkgTokPol(\Pi)$. If
 \[
   \InGapSig(\Pi,D,p,h)
   \quad\text{and}\quad
@@ -79,14 +79,14 @@ then
 \leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_signature\_token\_witnesses}
 
 \begin{proof}
-Unpack both gap memberships. We obtain signatures \(s,t\) and evidence ledgers \(\Delta,\Theta\) such that
-\[
+Unpack both gap memberships. We obtain the admitted-source witness $\InDom(D,h)$, signatures $s,t$, and evidence ledgers $\Delta,\Theta$ such that
+$$
   \Sig(\Pi,h,s,\Delta),\qquad \TokIntro(\Pi,s,p),
-\]
-\[
+$$
+$$
   \Sig(\Pi,h,t,\Theta),\qquad \TokIntro(\Pi,t,q).
-\]
-By signature determinacy supplied through \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). By package soundness in \(\PkgTokPol(\Pi)\), \(\psame(p,q)\).
+$$
+Theorem~\ref{thm:signature-determinacy-under-asking-policy}, applied to $\AskPol(\Pi,D)$, the admitted-source witness, and the two generated signatures, gives $\hsame(s,t)$. Package soundness in $\PkgTokPol(\Pi)$ then gives $\psame(p,q)$.
 \end{proof}
 
 \begin{theorem}[Token-level Globalize exactness]

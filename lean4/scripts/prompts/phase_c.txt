@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.8 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.9 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -104,17 +104,21 @@ new targets rather than committing shallow growth.
 ## Targets to Implement
 <TARGETS>
 
-## Step 0: Sync with remote base before any edits
-A new pipeline process may be started while an old one is still draining. The PID token file is authoritative: the newest process replaces `.pipeline.pid`, old processes stop dispatching once they notice the mismatch, and current rounds finish naturally. Do not wait for old pipeline PIDs before beginning this round.
+## Step 0: Local worktree boundary
+This phase runs inside a disposable round worktree whose branch was already created from the pipeline's local base branch. Do not perform any remote-branch synchronization in this phase.
 
-Before reading or writing any code, run:
+Forbidden in Phase C:
 ```bash
 git fetch origin lean4-codex-auto-dev
-git rebase --autostash origin/lean4-codex-auto-dev
+git pull
+git rebase origin/lean4-codex-auto-dev
+git merge origin/lean4-codex-auto-dev
+git checkout lean4-codex-auto-dev
+git switch lean4-codex-auto-dev
+git push
 ```
-This pulls in commits from other producers (other machines may also be running the pipeline). Working on a stale base wastes Phase B/C effort and can produce duplicate or conflicting targets. If the rebase reports conflicts, resolve them following the same rules as Step 5 (keep additive registrations from both sides), then continue.
 
-If `git fetch` reports no changes, proceed unchanged. If it pulls new commits, re-verify (with `grep`) that the targets selected in Phase B do not already exist in the freshly-pulled `lean4/BEDC/`; abandon any target that has been claimed in the meantime and pick a fresh open obligation.
+If you believe the base is stale, stop and leave the round uncommitted. The outer `codex_formalize.py` process owns all base-branch synchronization, merge, rebase, and push operations. Phase C only edits files in the current worktree, verifies them, stages the intended files, and creates one local commit on the current round branch.
 
 ## Hard Constraints
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
@@ -179,21 +183,10 @@ cd papers/bedc && make
 python3 tools/check-axioms.py
 ```
 
-## Step 5: Re-sync with remote before commit
-Multiple producers (parallel workers on this machine, plus possibly other machines) push to `origin/lean4-codex-auto-dev` concurrently. Re-sync to absorb anything that landed during your Phase C work:
+## Step 5: Do not sync remote before commit
+Do not fetch, pull, merge, rebase against, checkout, or push any remote branch before committing. The outer pipeline serializes remote synchronization after Phase C returns.
 
-```bash
-git fetch origin lean4-codex-auto-dev
-git rebase --autostash origin/lean4-codex-auto-dev
-```
-
-Conflict resolution rules:
-- `lean4/BEDC.lean` and `lean4/BEDC/**/*.lean` index files: union all `import` lines from both sides, dedup.
-- `papers/bedc/parts/**/*.tex` `\leanchecked` / `\leanvariant` lines: keep all valid markers from both sides; only deduplicate identical lines.
-- Same Lean file with non-overlapping declarations: keep both sets.
-- Same Lean file with conflicting edits to the SAME declaration: abandon your edit, prefer the upstream version. Re-target your remaining work.
-
-After resolving, run `cd lean4 && python3 scripts/lake_gate.py build` once more to confirm the rebased tree still compiles. If it fails after rebase, fix the rebase (do not push a broken tree).
+If verification fails because the worktree appears stale or conflicts with upstream work, do not resolve that by syncing with `origin/lean4-codex-auto-dev`. Either adjust the local proof against the current worktree or leave the round uncommitted so the outer pipeline can discard/retry it.
 
 ## Step 5.5: HARD GATE — round must contain real formalization
 

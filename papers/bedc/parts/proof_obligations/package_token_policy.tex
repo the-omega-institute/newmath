@@ -340,12 +340,22 @@ The forward direction is Theorem~\ref{thm:package-reflection-token-unique}. The 
 
 \begin{corollary}[Introduced-token closure under package token policy]
 \label{cor:package-token-policy-introduced-closure}
-Assume \(\PkgTokPol(\Pi)\). On tokens introduced by the package policy, package-sameness is closed under reflexivity, symmetry, and transitivity.
+Assume $\PkgTokPol(\Pi)$. For package tokens introduced by $\Pi$, the following three clauses hold:
+$$
+\TokIntro(\Pi,s,p) \Rightarrow \psame(p,p),
+$$
+$$
+\TokIntro(\Pi,s,p),\ \TokIntro(\Pi,t,q),\ \psame(p,q) \Rightarrow \psame(q,p),
+$$
+and
+$$
+\TokIntro(\Pi,a,p),\ \TokIntro(\Pi,b,q),\ \TokIntro(\Pi,c,r),\ \psame(p,q),\ \psame(q,r) \Rightarrow \psame(p,r).
+$$
 \end{corollary}
 \leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_psame\_equivalence\_on\_introduced}
 
 \begin{proof}
-The policy supplies package-token introduction and the generated package-sameness constructor. Reflexivity follows from the introduced-token witness, symmetry reverses the underlying history-sameness judgment, and transitivity composes the two reflected history-sameness judgments before applying package-token soundness.
+For reflexivity, apply package-token soundness to the same token-introduction premise on both sides, together with reflexivity of $\hsame$. For symmetry, reflect $\psame(p,q)$ across the two token-introduction premises to obtain $\hsame(s,t)$, reverse it by symmetry of $\hsame$, and apply package-token soundness to the reversed pair. For transitivity, reflect $\psame(p,q)$ along the first two token-introduction premises and $\psame(q,r)$ along the last two; compose the resulting $\hsame(a,b)$ and $\hsame(b,c)$ judgments, then apply package-token soundness to the first and last token-introduction premises.
 \end{proof}
 
 \begin{theorem}[PackageTokenPolicy from token uniqueness]

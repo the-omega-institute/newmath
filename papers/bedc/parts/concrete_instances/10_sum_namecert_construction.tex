@@ -3,6 +3,21 @@
 
 The disjoint sum interface \(\SumUp\) is licensed over two source carriers each endowed with a \(\NameCert\). The carrier is the inductive sum with left and right constructors wrapping a witness of either source; the classifier is the constructor-discriminating relation that within each constructor falls back to the corresponding source classifier. It is not a primitive coproduct; it is licensed only as a derived constructor over the two sources.
 
+\section{Roadmap template status}
+
+\begin{enumerate}
+  \item \textbf{Traditional target}: disjoint sum data with left and right tagged injections.
+  \item \textbf{BEDC source}: two licensed source carriers $A$ and $B$, each with its own name certificate.
+  \item \textbf{Carrier choice}: tagged left carriers use $e0$ histories and tagged right carriers use $e1$ histories.
+  \item \textbf{Classifier choice}: the sum classifier relates left tags through the $A$ classifier, right tags through the $B$ classifier, and excludes mixed tags.
+  \item \textbf{Stability obligations}: tagged carrier transport, left/right inversion, mixed-tag exclusion, classifier symmetry, classifier transitivity, and endpoint transport.
+  \item \textbf{Ledger}: the tag is visible data; payload evidence is retained from the corresponding source certificate.
+  \item \textbf{Core theorem list}: tagged injections, carrier transport, left and right inversions, classifier inversion, mixed-tag exclusion, and the semantic name certificate.
+  \item \textbf{Exactness predicate}: classification holds exactly for same-tag payloads classified by the matching source classifier.
+  \item \textbf{Standard bridge}: tagged histories read back as ordinary $\mathsf{inl}(a)$ and $\mathsf{inr}(b)$ values.
+  \item \textbf{Status}: $\mathsf{CheckedCert}$, with the sum history semantic certificate checked in Lean.
+\end{enumerate}
+
 \section{Carrier definition}
 
 \begin{definition}[Sum carrier]

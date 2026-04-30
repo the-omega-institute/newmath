@@ -26,10 +26,14 @@ It is a relation, not a function.
 
 \begin{theorem}[Extension result constructor characterization]
 \label{thm:extension-result-constructor-characterization}
-For any histories \(h\) and \(t\), an extension result of shape \(\Ezero(t)\)
-is generated exactly by mark \(\bzero\) together with \(\hsame(h,t)\). An
-extension result of shape \(\Eone(t)\) is generated exactly by mark \(\bone\)
-together with \(\hsame(h,t)\).
+For all histories $h,t$ and mark $m$,
+$$
+\ExtR(m,h,\Ezero(t))\Longleftrightarrow (m=\bzero\ \text{and}\ \hsame(h,t)).
+$$
+For the one-constructor case,
+$$
+\ExtR(m,h,\Eone(t))\Longleftrightarrow (m=\bone\ \text{and}\ \hsame(h,t)).
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Ext.ext\_result\_constructor\_iff}
 \begin{proof}
@@ -56,6 +60,17 @@ If \(\ExtR(m,h,r)\) and \(\ExtR(m',h',r)\), then \(\hsame(h,h')\) and \(\msame(m
 \leanchecked{BEDC.FKernel.Ext.ext\_result\_injective\_pair}
 \begin{proof}
 Inspect the two generated extension witnesses. A common result can only arise from matching extension constructors, so the source histories and emitted marks are internally same.
+\end{proof}
+
+\begin{theorem}[Extension result hsame injectivity]
+\label{thm:extension-result-hsame-injective-pair}
+If \(\ExtR(m,h,r)\), \(\ExtR(m',h',r')\), and \(\hsame(r,r')\), then \(\hsame(h,h')\) and \(\msame(m,m')\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_result\_hsame\_injective\_pair}
+\begin{proof}
+Invert both generated extension witnesses. Matching outer constructors reduce
+the result-sameness witness to source history sameness and diagonal
+mark-sameness. Mixed outer constructors contradict history no-confusion.
 \end{proof}
 
 \begin{lemma}[Extension respects mark-sameness]
@@ -141,6 +156,8 @@ For every history $h$ and result $r$, $\ExtR(\bzero,h,r)$ if and only if
 $\ContR(h,\Ezero(\emp),r)$, and $\ExtR(\bone,h,r)$ if and only if
 $\ContR(h,\Eone(\emp),r)$.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.extension\_as\_singleton\_continuation}
+\leanchecked{BEDC.FKernel.Cont.ext\_singleton\_continuation\_iff\_pair}
 \begin{proof}
 For the forward zero branch, invert the extension witness to identify
 $r$ with $\Ezero(h)$, use the empty-continuation rule
@@ -189,6 +206,7 @@ generated history constructors.
 There are no histories $h,k,r_0,r_1$ such that both
 $\ContR(h,k,\Ezero(r_0))$ and $\ContR(h,k,\Eone(r_1))$ hold.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_tag\_separation}
 \begin{proof}
 Assume both continuation witnesses for the same inputs $h$ and $k$.
 Continuation determinacy gives $\hsame(\Ezero(r_0),\Eone(r_1))$. History
@@ -247,9 +265,26 @@ Unfold \(\ContR\) as the append-result equation. Symmetry of the result sameness
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_transport}
 
-\begin{theorem}[Continuation right cancellation]
+\begin{theorem}[Continuation left-context cancellation up to history-sameness]
+\label{thm:cont-cancel-hsame-left-context}
+If $\ContR(a,b,r)$, $\ContR(a',d,r')$, $\hsame(a,a')$, and $\hsame(r,r')$,
+then $\hsame(b,d)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_cancel\_hsame\_left\_context}
+\begin{proof}
+Use $\hsame(a,a')$ to align the left context and $\hsame(r,r')$ to align the
+result. The two continuation derivations then have the same left context and
+the same result, so left-context cancellation gives $\hsame(b,d)$.
+\end{proof}
+
+\begin{theorem}[Continuation cancellation laws]
 \label{thm:continuation-right-cancellation}
-If \(\ContR(h,k,r)\) and \(\ContR(h',k,r)\), then \(\hsame(h,h')\).
+Continuation admits cancellation on both sides:
+\begin{enumerate}
+  \item if $\ContR(h,k,r)$, $\ContR(h',k,r')$, and $\hsame(r,r')$, then $\hsame(h,h')$;
+  \item if $\ContR(h,k,r)$ and $\ContR(h,k',r)$, then $\hsame(k,k')$;
+  \item if $\ContR(a,b,ab)$, $\ContR(ab,c,left)$, $\ContR(a,d,ad)$, $\ContR(ad,c,right)$, and $\hsame(left,right)$, then $\hsame(b,d)$.
+\end{enumerate}
 \end{theorem}
 \leanchecked{BEDC.FKernel.Cont.cont\_right\_cancel}
 \leanvariant{BEDC.FKernel.Cont.cont\_right\_cancel\_eq}
@@ -261,7 +296,7 @@ If \(\ContR(h,k,r)\) and \(\ContR(h',k,r)\), then \(\hsame(h,h')\).
 \leanvariant{BEDC.FKernel.Cont.append\_right\_cancel}
 \leanvariant{BEDC.FKernel.Cont.append\_left\_cancel}
 \begin{proof}
-Induct on the shared right history \(k\). The empty case is immediate. In the two extension cases, constructor injectivity reduces the equality of continued results to the equality of the preceding continued histories, and the induction hypothesis cancels the remaining shared suffix.
+For the first clause, use right-suffix cancellation after transporting the result by $\hsame$. The second clause is left-context cancellation: compare the two derivations with the same left history, peel the shared left context, and conclude that the right histories are equal up to $\hsame$. For the third clause, associate the two continuations so both sides expose the same outer context $c$ over the inner continuations from $a$; the common outer context cancels against the result-sameness, and the remaining left-context cancellation yields $\hsame(b,d)$.
 \end{proof}
 
 \begin{theorem}[Continuation associativity]
@@ -300,6 +335,15 @@ If $\ContR(h,\mathsf{append}(k,l),r)$, where $\mathsf{append}$ is the recursive 
 \leanchecked{BEDC.FKernel.Cont.cont\_right\_append\_decompose}
 \begin{proof}
 Unfold continuation as append equality. Take \(m\) to be the append of \(h\) and \(k\). The first continuation is definitional, and the second is the reverse direction of append associativity.
+\end{proof}
+
+\begin{theorem}[Continuation left append decomposition]
+\label{thm:cont-left-append-decompose}
+If $\ContR(\mathsf{append}(h,k),l,r)$, where $\mathsf{append}$ is the recursive append representative underlying $\ContR$, then there exists a generated history $m$ such that $\ContR(k,l,m)$ and $\ContR(h,m,r)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_append\_decompose}
+\begin{proof}
+Unfold continuation as append equality. Take \(m\) to be the append of \(k\) and \(l\). The first continuation is definitional, and the second is append associativity.
 \end{proof}
 
 \begin{corollary}[Continuation gives an addition-like seed]

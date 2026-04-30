@@ -1,4 +1,5 @@
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.Commutativity
 import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Hist
 
@@ -144,6 +145,17 @@ theorem PreorderPrefixLE_append_tail {h tail : BHist} :
   intro tailUnary
   exact ⟨tail, tailUnary, cont_intro rfl⟩
 
+theorem PreorderPrefixLE_append_tail_backforces_empty {h tail : BHist} :
+    UnaryHistory tail → PreorderPrefixLE (append h tail) h → hsame tail BHist.Empty := by
+  intro tailUnary backward
+  have forward : PreorderPrefixLE h (append h tail) :=
+    PreorderPrefixLE_append_unary_tail tailUnary
+  have same : hsame h (append h tail) :=
+    PreorderPrefixLE_antisymm_hsame forward backward
+  have loop : append h BHist.Empty = append h tail :=
+    (append_empty_right h).symm.trans same
+  exact hsame_symm (append_left_cancel loop)
+
 theorem PreorderPrefixLE_cancel_left_context {x h k : BHist} :
     PreorderPrefixLE (append x h) (append x k) → PreorderPrefixLE h k := by
   intro prefixLE
@@ -163,6 +175,61 @@ theorem PreorderPrefixLE_append_left_context {x h k : BHist} :
       | intro tailUnary tailCont =>
           cases tailCont
           exact ⟨tail, tailUnary, cont_intro (append_assoc x h tail).symm⟩
+
+theorem PreorderPrefixLE_append_right_context {x h k : BHist} :
+    UnaryHistory x -> PreorderPrefixLE h k -> PreorderPrefixLE (append h x) (append k x) := by
+  intro xUnary prefixLE
+  cases prefixLE with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary hCont =>
+          cases hCont
+          exact
+            ⟨tail, tailUnary,
+              cont_intro
+                ((append_assoc h tail x).trans
+                  ((congrArg (fun y => append h y) (unary_append_comm tailUnary xUnary)).trans
+                    (append_assoc h x tail).symm))⟩
+
+theorem PreorderPrefixLE_append_both_context {left right h k : BHist} :
+    UnaryHistory right -> PreorderPrefixLE h k ->
+      PreorderPrefixLE (append left (append h right)) (append left (append k right)) := by
+  intro rightUnary prefixLE
+  exact PreorderPrefixLE_append_left_context
+    (PreorderPrefixLE_append_right_context rightUnary prefixLE)
+
+theorem PreorderPrefixLE_cancel_right_context {h k x : BHist} :
+    UnaryHistory x -> PreorderPrefixLE (append h x) (append k x) -> PreorderPrefixLE h k := by
+  intro xUnary prefixLE
+  cases prefixLE with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary hCont =>
+          have shifted : append k x = append (append h tail) x :=
+            hCont.trans
+              ((append_assoc h x tail).trans
+                ((congrArg (fun y => append h y) (unary_append_comm xUnary tailUnary)).trans
+                  (append_assoc h tail x).symm))
+          exact ⟨tail, tailUnary, cont_intro (append_right_cancel shifted)⟩
+
+theorem PreorderPrefixLE_cancel_both_context {left right h k : BHist} :
+    UnaryHistory right -> PreorderPrefixLE (append left (append h right))
+      (append left (append k right)) -> PreorderPrefixLE h k := by
+  intro rightUnary prefixLE
+  exact PreorderPrefixLE_cancel_right_context rightUnary
+    (PreorderPrefixLE_cancel_left_context (x := left) prefixLE)
+
+theorem PreorderPrefixLE_append_both_context_iff {left right h k : BHist} :
+    UnaryHistory right ->
+      (PreorderPrefixLE (append left (append h right)) (append left (append k right)) ↔
+        PreorderPrefixLE h k) := by
+  intro rightUnary
+  constructor
+  · intro prefixLE
+    exact PreorderPrefixLE_cancel_right_context rightUnary
+      (PreorderPrefixLE_cancel_left_context prefixLE)
+  · intro prefixLE
+    exact PreorderPrefixLE_append_both_context rightUnary prefixLE
 
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)
