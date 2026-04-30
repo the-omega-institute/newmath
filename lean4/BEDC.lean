@@ -32,3 +32,4 @@ import BEDC.FKernel.NameCert.StabilityMode
 import BEDC.FKernel.Unary
 import BEDC.BaseReflection
 import BEDC.Derived.IntUp
+import BEDC.Derived.BoolUp
