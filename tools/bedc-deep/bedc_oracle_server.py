@@ -532,11 +532,13 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
     def _handle_ack(self, data: dict):
         task_id = data.get("task_id", "")
         agent_id = data.get("agent_id", "?")
+        event = "heartbeat" if data.get("heartbeat") else "ack"
         with _lock:
-            _record_agent_seen(agent_id, event="ack")
+            _record_agent_seen(agent_id, event=event)
             if agent_id in dispatch_times:
                 dispatch_times[agent_id] = time.time()
-        print(f"[server] Ack {task_id} by {agent_id}")
+        if event == "ack":
+            print(f"[server] Ack {task_id} by {agent_id}")
         self._send_json({"status": "ok"})
 
     def _handle_cancel(self, data: dict):

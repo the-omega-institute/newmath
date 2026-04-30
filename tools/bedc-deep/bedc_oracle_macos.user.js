@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.3
+// @version      1.4
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.3";
+  const SCRIPT_VERSION = "bedc-1.4";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -761,14 +761,22 @@
     return false;
   }
 
-  async function waitForResponse() {
+  async function waitForResponse(task_id) {
     log("Waiting for ChatGPT response...");
     const startTime = Date.now();
     let lastText = "";
     let stableCount = 0;
     let lastLogTime = 0;
+    let lastHeartbeat = 0;
     while (Date.now() - startTime < MAX_WAIT) {
       await sleep(STABLE_INTERVAL);
+      const nowMs = Date.now();
+      if (task_id && nowMs - lastHeartbeat >= 60000) {
+        lastHeartbeat = nowMs;
+        try {
+          await serverPost("/ack", { task_id, agent_id: agentId(), heartbeat: true });
+        } catch {}
+      }
       const responseText = extractResponseText();
       const generating = isStillGenerating();
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
@@ -890,7 +898,7 @@
       setSentPrompt(prompt);
       capturePostSendState();
       try {
-        const response = await waitForResponse();
+        const response = await waitForResponse(task_id);
         if (!response || response.length < 5) {
           throw new Error(`Resumed wait got no response (${response?.length || 0} chars)`);
         }
@@ -1034,7 +1042,7 @@
 
       await sleep(5000); // settle DOM
       capturePostSendState();
-      const response = await waitForResponse();
+      const response = await waitForResponse(task_id);
 
       if (!response || response.length < 5) {
         throw new Error(`Response too short or empty (${response?.length || 0} chars)`);
