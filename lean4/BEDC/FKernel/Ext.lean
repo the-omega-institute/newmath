@@ -52,6 +52,13 @@ theorem ext_respects_sameness :
   cases hm
   cases hr <;> cases hr' <;> rfl
 
+theorem ext_respects_internal_sameness_spine {h k r s : BHist} {m n : BMark} :
+    msame m n → hsame h k → Ext h m r → Ext k n s → hsame r s := by
+  intro hm hh left right
+  cases hm
+  cases hh
+  cases left <;> cases right <;> rfl
+
 theorem ext_respects_mark_sameness :
     forall {h r r' : BHist} {m n : BMark}, msame m n -> Ext h m r -> Ext h n r' -> hsame r r' := by
   intro h r r' m n hm hr hr'

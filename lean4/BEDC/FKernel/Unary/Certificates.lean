@@ -133,6 +133,16 @@ theorem additive_stability_and_ledger_policy :
   | mk _ _ _ stability ledger =>
       exact And.intro (Nonempty.intro stability) (Nonempty.intro ledger)
 
+theorem unary_addition_like_unit_with_certificate :
+    Nonempty (NameCert AddName) ∧
+      (forall {h left right : BHist},
+        UnaryHistory h → Cont h BHist.Empty left → Cont BHist.Empty h right →
+          UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h) := by
+  constructor
+  · exact add_up_name_certificate_exists
+  · intro h left right uh hleft hright
+    exact unary_cont_unit uh hleft hright
+
 def AddLedgerPolicy : Prop :=
   forall {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r
 
