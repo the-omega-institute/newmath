@@ -177,13 +177,13 @@ Unpack both classifier witnesses. Keep the left carrier from the first witness a
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_trans}
 
-\begin{theorem}[Product history classifier append congruence]
-\label{thm:prod-history-classifier-append-congr}
-Let $L$ and $R$ be source-history predicates on $\mathsf{BHist}$ that are stable under $\hsame$. If $L(l)$, $R(r)$, $\hsame(l,l')$, and $\hsame(r,r')$, then
-$\mathsf{ProdHistoryClassifier}(L,R,\mathsf{append}(l,r),\mathsf{append}(l',r'))$.
+\begin{theorem}[Product history classifier continuation congruence]
+\label{thm:prod-history-classifier-cont-congr}
+Let $L$ and $R$ be source-history predicates on $\mathsf{BHist}$ that are stable under $\hsame$: from $L(x)$ and $\hsame(x,y)$ one obtains $L(y)$, and from $R(x)$ and $\hsame(x,y)$ one obtains $R(y)$. If $L(l)$, $R(r)$, $\hsame(l,l')$, $\hsame(r,r')$, $\Cont(l,r,h)$, and $\Cont(l',r',h')$, then
+$\mathsf{ProdHistoryClassifier}(L,R,h,h')$.
 \end{theorem}
 \begin{proof}
-Transport the left source witness $L(l)$ along $\hsame(l,l')$ to obtain $L(l')$, and transport the right source witness $R(r)$ along $\hsame(r,r')$ to obtain $R(r')$. Product history carrier append introduction gives endpoint carrier witnesses for both $\mathsf{append}(l,r)$ and $\mathsf{append}(l',r')$. The continuation congruence field for $\hsame$ transports the visible append result across the two component links, yielding $\hsame(\mathsf{append}(l,r),\mathsf{append}(l',r'))$. These three pieces are exactly the history-envelope classifier fields.
+Transport the left source witness $L(l)$ along $\hsame(l,l')$ to obtain $L(l')$, and transport the right source witness $R(r)$ along $\hsame(r,r')$ to obtain $R(r')$. Product history carrier continuation introduction builds endpoint carrier witnesses for $h$ and $h'$ from the two continuation witnesses. Continuation respect for $\hsame$ transports the result endpoints across the two component links, yielding $\hsame(h,h')$. These three pieces are exactly the history-envelope classifier fields.
 \end{proof}
 
 \begin{definition}[Prod stability certificate]
