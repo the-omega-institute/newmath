@@ -19,6 +19,22 @@ theorem nameCert_all_fields_nonempty [NameCertSetup] {name : DerivedName} :
             · exact Nonempty.intro stability
             · exact Nonempty.intro ledger
 
+theorem no_inherited_mathematical_primitives [NameCertSetup] {name : DerivedName} :
+    NameCert name -> Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧
+      Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      constructor
+      · exact Nonempty.intro source
+      · constructor
+        · exact Nonempty.intro pattern
+        · constructor
+          · exact Nonempty.intro classifier
+          · constructor
+            · exact Nonempty.intro stability
+            · exact Nonempty.intro ledger
+
 theorem nameCert_source_pattern_ledger_from_cert [NameCertSetup] {name : DerivedName} :
     NameCert name → Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty LedgerPolicy := by
   intro cert

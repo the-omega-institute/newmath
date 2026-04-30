@@ -31,6 +31,17 @@ theorem gap_policy_fields {bundle : ProbeBundle ProbeName} {D : Domain} (policy 
     · exact policy.separation
     · exact policy.generation
 
+theorem compression_requires_memory [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} :
+    GapPolicy bundle D ->
+      (forall {h : BHist}, InDom D h -> exists p : Pkg, InGapSig bundle D p h) ∧
+        (forall {p : Pkg} {h : BHist}, InGapSig bundle D p h ->
+          exists s : BHist, TokIntro bundle s p) := by
+  intro policy
+  constructor
+  · exact policy.coverage
+  · exact policy.generation
+
 theorem gapPolicy_provenance_interface_fields [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
     (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧

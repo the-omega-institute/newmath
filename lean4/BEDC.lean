@@ -7,6 +7,7 @@ import BEDC.FKernel.Cont.Assoc
 import BEDC.FKernel.Cont.AssocSpine
 import BEDC.FKernel.Cont.Step
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.Cont.Pattern
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Sig
