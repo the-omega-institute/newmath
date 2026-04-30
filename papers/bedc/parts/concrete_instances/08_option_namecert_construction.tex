@@ -243,6 +243,34 @@ $$
 Unfold the three tagged option predicates. In the absent case, each presentation stores exactly the witness $\hsame(h,\emp)$, so the witness is reused unchanged in both directions. In the present case, each presentation stores the same payload history $a$ together with $S(a)$ and $\hsame(h,\Eone(a))$, so the same triple rebuilds the carrier, pattern, and ledger witnesses. The two cases exhaust the tagged option history carrier and the two visible certificate presentations.
 \end{proof}
 
+\begin{theorem}[Tagged option ledger present payload readback]
+\label{thm:tagged-option-ledger-present-payload-readback}
+Template role: traditional target present optional payload recovery; BEDC source
+$\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{TaggedOptionHistoryCarrier}$; classifier unused for this readback;
+stability obligation carrier transport along $\hsame$ plus $e1$ inversion;
+ledger $\mathsf{TaggedOptionHistoryLedger}$; core theorem visible present
+payload readback; exactness visible present endpoint gives a source payload
+witness; standard bridge $\mathsf{some}(a)$; status $\mathsf{ProofTarget}$.
+
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,p$, if $\mathsf{TaggedOptionHistoryLedger}_S(h)$ and
+$\hsame(h,\Eone(p))$, then the visible present endpoint reads back a source
+payload:
+$$
+\exists a:\mathsf{BHist}.\; S(a)\land\hsame(p,a).
+$$
+\end{theorem}
+\begin{proof}
+Convert the ledger witness to a tagged carrier witness using
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence}.
+Transport that carrier witness across $\hsame(h,\Eone(p))$ by
+Theorem~\ref{thm:tagged-option-history-carrier-hsame-transport}. The resulting
+carrier witness at $\Eone(p)$ is then inverted by
+Theorem~\ref{thm:tagged-option-history-present-exactness}, which exposes a
+payload history $a$ with $S(a)$ and $\hsame(p,a)$.
+\end{proof}
+
 \begin{theorem}[Tagged option history carrier transport]
 \label{thm:tagged-option-history-carrier-hsame-transport}
 For any BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, if $\mathsf{TaggedOptionHistoryCarrier}_S(h)$ and $\hsame(h,k)$, then $\mathsf{TaggedOptionHistoryCarrier}_S(k)$.
