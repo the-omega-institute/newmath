@@ -45,6 +45,21 @@ theorem cont_unit_uniqueness_pair :
   · intro h k hcont
     exact cont_right_unit_unique hcont
 
+theorem cont_unit_laws_with_uniqueness :
+    (∀ h : BHist, Cont h BHist.Empty h) ∧
+      (∀ h : BHist, Cont BHist.Empty h h) ∧
+      (∀ {h r : BHist}, Cont h BHist.Empty r → hsame r h) ∧
+      (∀ {h r : BHist}, Cont BHist.Empty h r → hsame r h) := by
+  constructor
+  · exact cont_right_unit
+  · constructor
+    · exact cont_left_unit
+    · constructor
+      · intro h r hcont
+        exact cont_right_unit_result hcont
+      · intro h r hcont
+        exact cont_left_unit_result hcont
+
 theorem cont_step_result_iff_pair {h k r : BHist} :
     (Cont h (BHist.e0 k) (BHist.e0 r) ↔ Cont h k r) ∧
       (Cont h (BHist.e1 k) (BHist.e1 r) ↔ Cont h k r) := by
