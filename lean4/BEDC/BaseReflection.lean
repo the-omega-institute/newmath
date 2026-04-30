@@ -608,6 +608,12 @@ def NotExported (s : BaseReflectionSetup) (P : s.Pi) (D : s.Domain)
     s.InGapSig P D p h -> s.InGapSig P D q k ->
       (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k))
 
+theorem NotExported_from_exact
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) : NotExported s P D ex := by
+  intro h k p q hp hq
+  exact ExactGlobalizeBase_classify_iff ex hp hq
+
 theorem ClosureReflect_preserves_base_export
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) (_closure : ClosureReflect s P) :

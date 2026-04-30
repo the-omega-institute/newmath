@@ -168,6 +168,22 @@ theorem stable_transform_descends_to_packages
       | intro desc _ledger =>
           exact desc same
 
+theorem function_like_interfaces_require_descent
+    {Source Target Ledger : Type}
+    {sourceSame : Source -> Source -> Prop}
+    {targetSame : Target -> Target -> Prop}
+    (cert : { map : Source -> Target //
+      (forall {a b : Source}, sourceSame a b -> targetSame (map a) (map b)) /\
+        Nonempty Ledger })
+    {a b : Source} :
+    sourceSame a b -> targetSame (cert.val a) (cert.val b) := by
+  intro same
+  cases cert with
+  | mk map certData =>
+      cases certData with
+      | intro desc _ledger =>
+          exact desc same
+
 def MinimalNameCertSetup : NameCertSetup where
   DerivedName := Unit
   SourceSpec := Unit

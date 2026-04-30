@@ -549,6 +549,17 @@ theorem internalized_globalize_classifies_by_signatures
                                               hsame_trans (hsame_symm hsu) (hsame_trans hst htv)
                                             exact packagePolicy.soundness hpTok hqTok huv
 
+theorem concrete_globalize_classifies_by_signatures
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
+    (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle)
+    (hp : InGapSig bundle D p h) (hq : InGapSig bundle D q k) :
+    psame bundle p q <->
+      exists s : BHist, exists t : BHist,
+        SigRel bundle h s /\ SigRel bundle k t /\ hsame s t := by
+  exact internalized_globalize_classifies_by_signatures
+    (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+    askPolicy packagePolicy hp hq
+
 theorem exact_globalize_classifies_signatures
     {bundle : ProbeBundle ProbeName} {D : Domain}
     (askPolicy : AskPolicy (InDom D))
