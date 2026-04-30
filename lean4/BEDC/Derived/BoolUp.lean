@@ -1,5 +1,6 @@
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.BoolUp
 
@@ -216,6 +217,18 @@ theorem BoolHistoryCarrier_hsame_transport {h k : BEDC.FKernel.Hist.BHist} :
   | inr oneCase =>
       exact Or.inr
         (BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm same) oneCase)
+
+theorem BoolHistoryCarrier_unary {h : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryCarrier h -> BEDC.FKernel.Unary.UnaryHistory h := by
+  intro carrier
+  cases carrier with
+  | inl emptyCase =>
+      exact BEDC.FKernel.Unary.unary_transport BEDC.FKernel.Unary.unary_empty
+        (BEDC.FKernel.Hist.hsame_symm emptyCase)
+  | inr oneCase =>
+      exact BEDC.FKernel.Unary.unary_transport
+        (BEDC.FKernel.Unary.unary_e1_closed BEDC.FKernel.Unary.unary_empty)
+        (BEDC.FKernel.Hist.hsame_symm oneCase)
 
 theorem BoolHistoryClassifier_cases {h k : BEDC.FKernel.Hist.BHist} :
     BoolHistoryClassifier h k ->

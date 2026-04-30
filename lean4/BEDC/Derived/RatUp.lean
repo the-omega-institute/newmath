@@ -291,6 +291,21 @@ theorem RatClassifierSpec_positive_denominators {s1 s2 : BEDC.FKernel.Mark.BMark
           · exact RatCarrier_positive_denominator carrier1
           · exact RatCarrier_positive_denominator carrier2
 
+theorem RatClassifierSpec_denominator_positive_transport {s1 s2 : BMark}
+    {n1 n2 d1 d2 d1' d2' : BHist} :
+    RatClassifierSpec s1 n1 d1 s2 n2 d2 -> hsame d1 d1' -> hsame d2 d2' ->
+      PositiveUnaryDenominator d1' /\ PositiveUnaryDenominator d2' := by
+  intro classifier sameD1 sameD2
+  cases classifier with
+  | intro carrier1 rest =>
+      cases rest with
+      | intro carrier2 _ =>
+          constructor
+          · exact PositiveUnaryDenominator_hsame_transport sameD1
+              (RatCarrier_positive_denominator carrier1)
+          · exact PositiveUnaryDenominator_hsame_transport sameD2
+              (RatCarrier_positive_denominator carrier2)
+
 theorem RatCarrier_iff_positive_unary_denominator {sign : BEDC.FKernel.Mark.BMark}
     {num den : BEDC.FKernel.Hist.BHist} :
     RatCarrier sign num den ↔

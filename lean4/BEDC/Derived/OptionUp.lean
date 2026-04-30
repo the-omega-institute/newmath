@@ -61,6 +61,21 @@ theorem OptionHistoryLedgerPolicy_visible_carrier {source : BHist -> Prop}
       | inr rawSource =>
           exact Or.inr (source_transport same rawSource)
 
+theorem OptionHistoryLedgerPolicy_raw_visible_classifier {source : BHist -> Prop}
+    (source_transport : forall {h k : BHist}, hsame h k -> source h -> source k)
+    {raw visible : BHist} :
+    OptionHistoryLedgerPolicy source raw visible ->
+      OptionHistoryClassifier source raw visible := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier rawVisible =>
+      constructor
+      · exact rawCarrier
+      · constructor
+        · exact OptionHistoryLedgerPolicy_visible_carrier source_transport
+            ⟨rawCarrier, rawVisible⟩
+        · exact rawVisible
+
 theorem OptionHistoryLedgerPolicy_hsame_transport {source : BHist -> Prop}
     {raw raw' visible visible' : BHist} :
     hsame raw raw' -> hsame visible visible' ->
