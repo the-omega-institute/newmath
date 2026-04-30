@@ -456,6 +456,33 @@ theorem GeneratedSameSig_symm_nonempty
             sigSame := eqv.symm sigSame
           }
 
+theorem GeneratedSameSig_trans_nonempty_under_determinacy
+    {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s)
+    (det : forall {h : s.Hist} {x y : s.SigObj} {ex ey : s.Evidence},
+      s.SigGen P h x ex -> s.SigGen P h y ey -> s.hsame x y)
+    {h k l : s.Hist} :
+    Nonempty (GeneratedSameSig s P h k) ->
+      Nonempty (GeneratedSameSig s P k l) ->
+        Nonempty (GeneratedSameSig s P h l) := by
+  intro left right
+  cases left with
+  | intro leftGen =>
+      cases right with
+      | intro rightGen =>
+          cases leftGen with
+          | mk leftSigObj midSigObj leftEvidence midEvidence leftSig midSig leftSame =>
+              cases rightGen with
+              | mk midSigObj' rightSigObj midEvidence' rightEvidence midSig' rightSig rightSame =>
+                  exact Nonempty.intro {
+                    leftSigObj := leftSigObj
+                    rightSigObj := rightSigObj
+                    leftEvidence := leftEvidence
+                    rightEvidence := rightEvidence
+                    leftSig := leftSig
+                    rightSig := rightSig
+                    sigSame := eqv.trans leftSame (eqv.trans (det midSig midSig') rightSame)
+                  }
+
 theorem GeneratedSameSig_psameBase
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist} {p q : s.Pkg}
     (gen : GeneratedSameSig s P h k)

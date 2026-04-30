@@ -19,6 +19,12 @@ abbrev TokIntro : ProbeBundle ProbeName → BHist → Pkg → Prop := P.TokIntro
 def PkgSig [AskSetup] [PackageSetup] (bundle : ProbeBundle ProbeName) (s : BHist) (p : Pkg) : Prop :=
   TokIntro bundle s p
 
+omit [AskSetup] P in
+theorem PkgSig_iff_TokIntro [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s : BHist} {p : Pkg} :
+    PkgSig bundle s p <-> TokIntro bundle s p := by
+  rfl
+
 inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
   | intro {s t : BHist} {p q : Pkg} :
       TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
