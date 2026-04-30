@@ -110,6 +110,16 @@ def BoolHistoryClassifier
     BoolHistoryCarrier k /\
       BEDC.FKernel.Hist.hsame h k
 
+theorem BoolHistoryClassifier_constructor_separation :
+    BoolHistoryClassifier BEDC.FKernel.Hist.BHist.Empty
+      (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty) -> False := by
+  intro classifier
+  cases classifier with
+  | intro _ rest =>
+      cases rest with
+      | intro _ same =>
+          exact BEDC.FKernel.Hist.not_hsame_emp_e1 same
+
 theorem BoolHistoryCarrier_hsame_transport {h k : BEDC.FKernel.Hist.BHist} :
     BEDC.FKernel.Hist.hsame h k -> BoolHistoryCarrier h -> BoolHistoryCarrier k := by
   intro same carrier
