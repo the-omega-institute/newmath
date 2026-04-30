@@ -68,6 +68,21 @@ The classifier for two signed unary representatives requires both representative
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntClassifierSpec}
 
+\begin{theorem}[Integer classifier magnitude transport]
+\label{thm:int-classifier-hsame-magnitude-transport}
+If \(\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))\), and the two
+magnitudes transport to \(h_x'\) and \(h_y'\) by \(\hsame\), then
+\(\mathsf{IntClassifierSpec}((s_x,h_x'),(s_y,h_y'))\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two signed unary carrier witnesses,
+the sign sameness component, and the magnitude sameness component. Transport
+both carriers across the new magnitude links, keep the sign sameness
+unchanged, and compose the magnitude links through the original classifier
+link.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_hsame\_magnitude\_transport}
+
 \begin{theorem}[Integer classifier reflexivity]
 \label{thm:int-classifier-refl}
 If $\mathsf{IntCarrier}(s,h)$, then

@@ -49,6 +49,19 @@ The classifier relates \(\mathsf{none}\) only to \(\mathsf{none}\), and relates 
 \leanchecked{BEDC.Derived.OptionUp.optionClassifier\_some\_iff}
 \leanchecked{BEDC.Derived.OptionUp.option\_classifier\_inversion}
 
+\begin{theorem}[Option history classifier endpoint transport]
+\label{thm:option-history-classifier-hsame-transport}
+If the optional history classifier relates \(h\) to \(k\), and
+\(\hsame(h,h')\) and \(\hsame(k,k')\), then it relates \(h'\) to \(k'\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier into its endpoint carrier witnesses and the stored
+\(\hsame(h,k)\) link. Transport both carriers along the endpoint sameness
+links, then compose symmetry of \(\hsame(h,h')\), the stored link, and
+\(\hsame(k,k')\).
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_hsame\_transport}
+
 \begin{theorem}[Option history classifier transitivity]
 \label{thm:option-history-classifier-transitivity}
 For any source predicate on BEDC histories, the optional history classifier is

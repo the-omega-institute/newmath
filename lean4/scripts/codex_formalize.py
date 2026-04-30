@@ -72,8 +72,21 @@ FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "p
 MAX_LEAN_FILE_LINES = 800
 
 
+def _read_pipeline_pid(pid_file: Path = PID_FILE) -> int | None:
+    try:
+        return int(pid_file.read_text(encoding="utf-8").strip())
+    except (FileNotFoundError, ValueError):
+        return None
+
+
 def write_pipeline_pid(pid_file: Path = PID_FILE, pid: int | None = None) -> None:
     pid_file.write_text(f"{os.getpid() if pid is None else pid}\n", encoding="utf-8")
+
+
+def claim_pipeline_pid(pid_file: Path = PID_FILE, pid: int | None = None) -> int | None:
+    previous = _read_pipeline_pid(pid_file)
+    write_pipeline_pid(pid_file, pid)
+    return previous
 
 
 def remove_pipeline_pid(pid_file: Path = PID_FILE) -> bool:
@@ -84,10 +97,7 @@ def remove_pipeline_pid(pid_file: Path = PID_FILE) -> bool:
 
 
 def pipeline_token_is_current(pid_file: Path = PID_FILE, pid: int | None = None) -> bool:
-    try:
-        recorded = int(pid_file.read_text(encoding="utf-8").strip())
-    except (FileNotFoundError, ValueError):
-        return False
+    recorded = _read_pipeline_pid(pid_file)
     return recorded == (os.getpid() if pid is None else pid)
 
 
@@ -231,7 +241,8 @@ class WorktreeInfo:
     path: Path
     branch: str
     round_number: int
-    base_sha: str = ""  # HEAD at worktree creation; ground truth for "new" commits
+    base_sha: str = ""  # HEAD at worktree creation; ground truth for the round's full integration range
+    formalization_base_sha: str = ""  # HEAD after Phase C's sync/rebase; ground truth for new declarations
 
 
 # ---------------------------------------------------------------------------
@@ -1325,12 +1336,19 @@ def _strip_lean_comments(src: str) -> str:
     return "".join(out)
 
 
+def _round_diff_base(wt: WorktreeInfo) -> str:
+    return wt.formalization_base_sha or wt.base_sha
+
+
 def _lines_added_in_round(wt: WorktreeInfo, rel_path: str) -> set[int]:
     """Line numbers (1-indexed, of the HEAD version) that this round added to
     `rel_path`."""
+    base = _round_diff_base(wt)
+    if not base:
+        return set()
     try:
         r = run_cmd(
-            ["git", "diff", "--unified=0", f"{wt.base_sha}..HEAD", "--", rel_path],
+            ["git", "diff", "--unified=0", f"{base}..HEAD", "--", rel_path],
             cwd=wt.path,
         )
     except Exception:
@@ -1371,12 +1389,13 @@ def detect_sorry_literals(wt: WorktreeInfo) -> list[str]:
     from English prose in docstrings that happens to contain the word
     "admit"."""
     violations: list[str] = []
-    if not wt.base_sha:
+    base = _round_diff_base(wt)
+    if not base:
         return violations
     try:
         r = run_cmd(
             ["git", "diff", "--name-only", "--diff-filter=AM",
-             f"{wt.base_sha}..HEAD", "--", "lean4/BEDC/"],
+             f"{base}..HEAD", "--", "lean4/BEDC/"],
             cwd=wt.path,
         )
     except Exception:
@@ -1406,12 +1425,13 @@ def detect_sorry_literals(wt: WorktreeInfo) -> list[str]:
 
 
 def _changed_lean_files(wt: WorktreeInfo, diff_filter: str = "AM") -> list[str]:
-    if not wt.base_sha:
+    base = _round_diff_base(wt)
+    if not base:
         return []
     try:
         r = run_cmd(
             ["git", "diff", "--name-only", f"--diff-filter={diff_filter}",
-             f"{wt.base_sha}..HEAD", "--", "lean4/BEDC/"],
+             f"{base}..HEAD", "--", "lean4/BEDC/"],
             cwd=wt.path,
         )
     except Exception:
@@ -1516,7 +1536,8 @@ def _lean_decl_blocks(src: str) -> list[tuple[str, int, int, str]]:
 def collect_added_lean_declarations(wt: WorktreeInfo) -> dict[str, tuple[str, str]]:
     """Return newly introduced BEDC declarations as name -> (rel_path, block)."""
     added: dict[str, tuple[str, str]] = {}
-    if not wt.base_sha:
+    base_ref = _round_diff_base(wt)
+    if not base_ref:
         return added
     for rel in _changed_lean_files(wt):
         try:
@@ -1526,7 +1547,7 @@ def collect_added_lean_declarations(wt: WorktreeInfo) -> dict[str, tuple[str, st
         current = {name: block for name, _start, _end, block in _lean_decl_blocks(current_src)}
         try:
             base_src = run_cmd(
-                ["git", "show", f"{wt.base_sha}:{rel}"],
+                ["git", "show", f"{base_ref}:{rel}"],
                 cwd=wt.path, check=False,
             ).stdout
         except Exception:
@@ -1539,12 +1560,13 @@ def collect_added_lean_declarations(wt: WorktreeInfo) -> dict[str, tuple[str, st
 
 
 def _changed_paper_files(wt: WorktreeInfo) -> list[str]:
-    if not wt.base_sha:
+    base = _round_diff_base(wt)
+    if not base:
         return []
     try:
         r = run_cmd(
             ["git", "diff", "--name-only", "--diff-filter=AM",
-             f"{wt.base_sha}..HEAD", "--", "papers/bedc/"],
+             f"{base}..HEAD", "--", "papers/bedc/"],
             cwd=wt.path,
         )
     except Exception:
@@ -1554,11 +1576,12 @@ def _changed_paper_files(wt: WorktreeInfo) -> list[str]:
 
 def _added_marker_lines(wt: WorktreeInfo) -> list[tuple[str, str, str]]:
     markers: list[tuple[str, str, str]] = []
-    if not wt.base_sha:
+    base = _round_diff_base(wt)
+    if not base:
         return markers
     try:
         r = run_cmd(
-            ["git", "diff", "--unified=0", f"{wt.base_sha}..HEAD", "--", "papers/bedc/"],
+            ["git", "diff", "--unified=0", f"{base}..HEAD", "--", "papers/bedc/"],
             cwd=wt.path,
         )
     except Exception:
@@ -2032,6 +2055,10 @@ def run_round_in_worktree(
             log_tag=f"R{round_num}_phaseC",
         )
         phase_c = parse_phase_c_output(phase_c_raw)
+        if wt is not None and not dry_run:
+            wt.formalization_base_sha = run_cmd(
+                ["git", "rev-parse", "HEAD^"], cwd=wt.path, check=False
+            ).stdout.strip()
 
         # ── Phase D: Verify ───────────────────────────────────────
         logger.info(f"[{tag}] Phase D: Verification...")
@@ -2812,7 +2839,12 @@ def main() -> int:
     logger.info(f"Base branch: {BASE_BRANCH}")
     logger.info(f"Parallelism: {args.parallel}")
     if not args.dry_run:
-        write_pipeline_pid()
+        previous_pid = claim_pipeline_pid()
+        if previous_pid is not None and previous_pid != os.getpid():
+            logger.info(
+                f"Pipeline PID token replaced previous owner {previous_pid}; "
+                f"old pipeline will drain while this process dispatches new rounds"
+            )
         logger.info(f"Pipeline PID token: {PID_FILE} ({os.getpid()})")
 
     # Ensure base branch

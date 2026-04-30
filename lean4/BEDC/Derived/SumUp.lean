@@ -30,6 +30,15 @@ theorem SumHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BH
                 (Exists.intro rightHist
                   (And.intro (hsame_trans (hsame_symm same) sameTag) rightCarrier))
 
+theorem SumHistoryCarrier_tagged_injections {Left Right : BHist → Prop} :
+    (∀ {l : BHist}, Left l → SumHistoryCarrier Left Right (BHist.e0 l)) ∧
+      (∀ {r : BHist}, Right r → SumHistoryCarrier Left Right (BHist.e1 r)) := by
+  constructor
+  · intro l leftCarrier
+    exact Or.inl (Exists.intro l (And.intro (hsame_refl (BHist.e0 l)) leftCarrier))
+  · intro r rightCarrier
+    exact Or.inr (Exists.intro r (And.intro (hsame_refl (BHist.e1 r)) rightCarrier))
+
 def SumHistoryClassifier (_Left _Right : BHist → Prop)
     (LeftEq RightEq : BHist → BHist → Prop) (h k : BHist) : Prop :=
   (∃ l : BHist, ∃ l' : BHist,
@@ -128,6 +137,76 @@ theorem SumHistoryClassifier_trans {Left Right : BHist -> Prop}
                                                   (And.intro sameR
                                                     (right_trans sameRightHK sameRightKR)))))
 
+theorem SumHistoryClassifier_hsame_symm {Left Right : BHist -> Prop} {h k : BHist} :
+    SumHistoryClassifier Left Right hsame hsame h k ->
+      SumHistoryClassifier Left Right hsame hsame k h := by
+  intro classifier
+  cases classifier with
+  | inl leftData =>
+      cases leftData with
+      | intro l leftRest =>
+          cases leftRest with
+          | intro l' data =>
+              cases data with
+              | intro sameH rest =>
+                  cases rest with
+                  | intro sameK sameLeft =>
+                      exact Or.inl
+                        (Exists.intro l'
+                          (Exists.intro l
+                            (And.intro sameK (And.intro sameH (hsame_symm sameLeft)))))
+  | inr rightData =>
+      cases rightData with
+      | intro r rightRest =>
+          cases rightRest with
+          | intro r' data =>
+              cases data with
+              | intro sameH rest =>
+                  cases rest with
+                  | intro sameK sameRight =>
+                      exact Or.inr
+                        (Exists.intro r'
+                          (Exists.intro r
+                            (And.intro sameK (And.intro sameH (hsame_symm sameRight)))))
+
+theorem SumHistoryClassifier_hsame_transport {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop} {h h' k k' : BHist} :
+    hsame h h' -> hsame k k' ->
+      SumHistoryClassifier Left Right LeftEq RightEq h k ->
+        SumHistoryClassifier Left Right LeftEq RightEq h' k' := by
+  intro sameH sameK classifier
+  cases classifier with
+  | inl leftData =>
+      cases leftData with
+      | intro l leftRest =>
+          cases leftRest with
+          | intro l' data =>
+              cases data with
+              | intro sameHTag rest =>
+                  cases rest with
+                  | intro sameKTag sameLeft =>
+                      exact Or.inl
+                        (Exists.intro l
+                          (Exists.intro l'
+                            (And.intro (hsame_trans (hsame_symm sameH) sameHTag)
+                              (And.intro (hsame_trans (hsame_symm sameK) sameKTag)
+                                sameLeft))))
+  | inr rightData =>
+      cases rightData with
+      | intro r rightRest =>
+          cases rightRest with
+          | intro r' data =>
+              cases data with
+              | intro sameHTag rest =>
+                  cases rest with
+                  | intro sameKTag sameRight =>
+                      exact Or.inr
+                        (Exists.intro r
+                          (Exists.intro r'
+                            (And.intro (hsame_trans (hsame_symm sameH) sameHTag)
+                              (And.intro (hsame_trans (hsame_symm sameK) sameKTag)
+                                sameRight))))
+
 theorem SumHistoryClassifier_mixed_tags_absurd {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop} {h k l r : BHist} :
     hsame h (BHist.e0 l) → hsame k (BHist.e1 r) →
@@ -152,37 +231,6 @@ theorem SumHistoryClassifier_mixed_tags_absurd {Left Right : BHist → Prop}
               cases data with
               | intro sameHRight _ =>
                   exact not_hsame_e0_e1 (hsame_trans (hsame_symm sameHLeft) sameHRight)
-
-theorem SumHistoryClassifier_left_right_absurd {Left Right : BHist → Prop}
-    {LeftEq RightEq : BHist → BHist → Prop} {h k l r : BHist} :
-    hsame h (BHist.e0 l) →
-      hsame k (BHist.e1 r) →
-        SumHistoryClassifier Left Right LeftEq RightEq h k →
-          False := by
-  intro hLeft kRight classified
-  cases classified with
-  | inl leftData =>
-      cases leftData with
-      | intro source leftRest =>
-          cases leftRest with
-          | intro target data =>
-              cases data with
-              | intro _ rest =>
-                  cases rest with
-                  | intro kLeft _ =>
-                      have impossible : hsame (BHist.e0 target) (BHist.e1 r) :=
-                        hsame_trans (hsame_symm kLeft) kRight
-                      exact not_hsame_e0_e1 impossible
-  | inr rightData =>
-      cases rightData with
-      | intro source rightRest =>
-          cases rightRest with
-          | intro _ data =>
-              cases data with
-              | intro hRight _ =>
-                  have impossible : hsame (BHist.e0 l) (BHist.e1 source) :=
-                    hsame_trans (hsame_symm hLeft) hRight
-                  exact not_hsame_e0_e1 impossible
 
 theorem sum_history_semantic_name_certificate {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop}

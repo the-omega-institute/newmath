@@ -80,6 +80,15 @@ history constructor no-confusion.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_not\_empty}
 
+\begin{theorem}[Positive unary denominator is unary and nonempty]
+\label{thm:positive-unary-denominator-unary-and-nonempty}
+If a denominator history has a positive unary witness, then it is unary and cannot be internally the same as \(\emp\).
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_unary\_and\_nonempty}
+\begin{proof}
+Write the positive denominator as internally the same as \(\Eone(t)\) with \(t\) unary. Unary closure under \(\Eone\), transported back along history sameness, gives unary membership of the denominator. If the denominator were internally same as \(\emp\), transitivity would make \(\Eone(t)\) internally same as \(\emp\), contradicting constructor separation.
+\end{proof}
+
 \begin{theorem}[Positive unary denominator carrier equivalence]
 \label{thm:rat-carrier-iff-positive-unary-denominator}
 The rational carrier condition is equivalent to an $\IntUp$ numerator together with a denominator that has a positive unary tail witness.
@@ -110,20 +119,6 @@ appending unary tails, and the rational carrier is rebuilt from the same
 integer numerator and the resulting positive denominator.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatCarrier\_append\_unary\_denominator\_closed}
-
-\begin{theorem}[Rat carrier component transport]
-\label{thm:rat-carrier-component-hsame-transport}
-If a rational carrier \(\mathsf{RatCarrier}(s,n,d)\) is transported along
-\(\msame(s,t)\), \(\hsame(n,n')\), and \(\hsame(d,d')\), then
-\(\mathsf{RatCarrier}(t,n',d')\) also holds.
-\end{theorem}
-\leanchecked{BEDC.Derived.RatUp.RatCarrier\_component\_hsame\_transport}
-\begin{proof}
-Eliminate the sign sameness and unpack the carrier. Transport the integer
-numerator carrier along the numerator history sameness, transport unary
-denominator closure along the denominator history sameness, and compose the
-denominator sameness with the empty-denominator contradiction.
-\end{proof}
 
 \begin{theorem}[Rat carrier hsame transport]
 \label{thm:rat-carrier-hsame-transport}
@@ -182,6 +177,18 @@ Reuse the carrier witness for both endpoints. The sign component is witnessed by
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_refl}
 
+\begin{theorem}[Rat classifier exposes positive denominators]
+\label{thm:rat-classifier-positive-denominators}
+If two rational representatives are related by the rational classifier, then
+both endpoint denominators carry positive unary denominator witnesses.
+\end{theorem}
+\begin{proof}
+Eliminate the classifier witness to expose the two endpoint rational carriers.
+Apply the rational-carrier positive-denominator theorem to each endpoint
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_positive\_denominators}
+
 \begin{theorem}[Rat classifier transitivity]
 \label{thm:rat-classifier-transitivity}
 If one rational representative is classified the same as a second representative, and the second representative is classified the same as a third representative, then the first and third representatives are classified the same.
@@ -202,6 +209,21 @@ fields. Rebuild the classifier in the reverse direction using symmetry of
 \(\msame\) for signs and symmetry of \(\hsame\) for both history components.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_symm}
+
+\begin{theorem}[Rat classifier component transport]
+\label{thm:rat-classifier-component-transport}
+If both rational classifier endpoints are transported componentwise by
+\(\msame\) on signs and \(\hsame\) on numerator and denominator histories,
+then the rational classifier transports to the componentwise transported
+representatives.
+\end{theorem}
+\begin{proof}
+Unpack the rational classifier witness. Transport each endpoint rational
+carrier by the component transport theorem, then compose the old sign,
+numerator, and denominator sameness links with the reversed source endpoint
+transports and the target endpoint transports.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_component\_transport}
 
 \begin{theorem}[Rat history classifier transitivity]
 \label{thm:rat-history-classifier-trans}
@@ -225,9 +247,11 @@ The stability certificate consists of:
   \item normalization produces coprime pair
   \item normalization is idempotent
   \item structural reflexivity and transitivity
+  \item positive denominator closure under unary prefix continuation
   \item closure of rational operations after re-normalization
 \end{enumerate}
 \end{definition}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_prefix}
 
 \begin{definition}[Rat ledger policy]
 \label{def:rat-ledger-policy}

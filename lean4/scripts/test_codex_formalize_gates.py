@@ -160,6 +160,44 @@ class QualityGateTests(unittest.TestCase):
             self.assertEqual(len(violations), 1)
             self.assertIn("existing_kernel_theorem", violations[0])
 
+    def test_rebased_upstream_marker_is_not_treated_as_current_round_marker(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            subprocess.run(["git", "checkout", "-q", "-b", "upstream"], cwd=root, check=True)
+            tex = root / "papers" / "bedc" / "parts" / "core" / "base.tex"
+            tex.write_text(
+                tex.read_text(encoding="utf-8")
+                + "\\leanchecked{BEDC.existing\_kernel\_theorem}\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "upstream marker"], cwd=root, check=True)
+            upstream_sha = subprocess.run(
+                ["git", "rev-parse", "HEAD"], cwd=root, check=True, text=True, capture_output=True
+            ).stdout.strip()
+
+            subprocess.run(["git", "checkout", "-q", "-B", "test", base_sha], cwd=root, check=True)
+            subprocess.run(["git", "rebase", "upstream"], cwd=root, check=True)
+            (root / "lean4" / "BEDC" / "FKernel" / "Fresh.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "def fresh_history : BEDC.BHist := BEDC.BHist.empty\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "fresh lean"], cwd=root, check=True)
+            wt = cf.WorktreeInfo(
+                path=root,
+                branch="test",
+                round_number=1,
+                base_sha=base_sha,
+                formalization_base_sha=upstream_sha,
+            )
+
+            violations = cf.detect_markers_not_backed_by_new_decls(wt)
+
+            self.assertEqual(violations, [])
+
     def test_new_declaration_without_kernel_touchpoint_is_rejected(self):
         td, root, base_sha = self.init_repo()
         with td:
@@ -379,6 +417,25 @@ class PipelinePidTokenTests(unittest.TestCase):
             self.assertTrue(cf.remove_pipeline_pid(pid_file))
             self.assertFalse(pid_file.exists())
             self.assertFalse(cf.remove_pipeline_pid(pid_file))
+    def test_starting_new_pipeline_replaces_existing_pid_token(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+            cf.write_pipeline_pid(pid_file, 111)
+
+            previous = cf.claim_pipeline_pid(pid_file, 222)
+
+            self.assertEqual(previous, 111)
+            self.assertFalse(cf.pipeline_token_is_current(pid_file, 111))
+            self.assertTrue(cf.pipeline_token_is_current(pid_file, 222))
+
+    def test_claim_pipeline_pid_reports_no_previous_token(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+
+            previous = cf.claim_pipeline_pid(pid_file, 222)
+
+            self.assertIsNone(previous)
+            self.assertTrue(cf.pipeline_token_is_current(pid_file, 222))
 
 
 if __name__ == "__main__":

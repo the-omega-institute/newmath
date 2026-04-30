@@ -32,6 +32,7 @@ The source is the disjoint union of the two source certificates.
 \label{def:sum-pattern-specification}
 The pattern is left-or-right injection from the corresponding source witness.
 \end{definition}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_tagged\_injections}
 
 \begin{definition}[Sum classifier specification]
 \label{def:sum-classifier-specification}
@@ -40,6 +41,29 @@ The classifier relates left values through the \(A\)-classifier, right values th
 \leandef{BEDC.Derived.SumUp.SumHistoryClassifier}
 \leandef{BEDC.Derived.SumUp.SumClassifierSpec}
 \leanchecked{BEDC.Derived.SumUp.sum\_classifier\_inversion}
+
+\begin{theorem}[Sum history classifier symmetry under history sameness]
+\label{thm:sum-history-classifier-hsame-symmetry}
+When both component classifiers are \(\hsame\), the history-level sum classifier is symmetric.
+\end{theorem}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_hsame\_symm}
+\begin{proof}
+Invert the classifier witness. In the left-tagged case, swap the two tagged witnesses and use symmetry of \(\hsame\) on the left component. The right-tagged case is identical with the right component.
+\end{proof}
+
+\begin{theorem}[Sum history classifier history transport]
+\label{thm:sum-history-classifier-hsame-transport}
+If both endpoints of a history-level \(\SumUp\) classifier are transported by
+\(\hsame\), then the same classifier witness transports to the transported
+endpoints.
+\end{theorem}
+\begin{proof}
+Invert the tagged classifier witness. In the left branch, keep the same left
+component witnesses and compose the reversed endpoint transports with the two
+stored \(e0\)-tag witnesses. The right branch is identical using the \(e1\)-tag
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_hsame\_transport}
 
 \begin{theorem}[Sum history classifier tag separation]
 \label{thm:sum-history-classifier-tag-separation}
@@ -51,7 +75,7 @@ Invert the classifier witness. In the left branch \(k\) is also
 \(e0\)-tagged, contradicting its \(e1\)-tag witness. In the right branch
 \(h\) is \(e1\)-tagged, contradicting its \(e0\)-tag witness.
 \end{proof}
-\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_left\_right\_absurd}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_mixed\_tags\_absurd}
 
 \begin{theorem}[Sum history classifier transitivity]
 \label{thm:sum-history-classifier-transitivity}
@@ -97,4 +121,3 @@ The carrier is represented by \(e0\)-tagged left histories and \(e1\)-tagged rig
 \label{cor:sum-licensed-not-primitive}
 \(\SumUp\) is licensed as a derived disjoint sum, not as a primitive coproduct.
 \end{corollary}
-\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_mixed\_tags\_absurd}

@@ -143,6 +143,19 @@ Eliminate the two classifier witnesses. The endpoint carrier witnesses for
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_trans}
 
+\begin{theorem}[Bool history classifier empty-left equivalence]
+\label{thm:bool-history-classifier-empty-left-iff}
+The boolean history classifier relates \(\emp\) to \(k\) exactly when \(k\)
+is internally the same history as \(\emp\).
+\end{theorem}
+\begin{proof}
+For the forward direction, eliminate the classifier witness and symmetrize the
+exposed \(\hsame(\emp,k)\) link. For the reverse direction, the empty carrier
+witness supplies the left endpoint, the assumed \(\hsame(k,\emp)\) supplies the
+right endpoint, and symmetry supplies the classifier link.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_empty\_left\_iff}
+
 \begin{definition}[Bool stability certificate]
 \label{def:bool-stability-certificate}
 The stability certificate consists of:
