@@ -76,6 +76,12 @@ theorem gap_generation_witness [AskSetup] [PackageSetup] [DomainSetup]
   intro hgap
   exact policy.generation hgap
 
+theorem gapPolicy_generation_field [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
+    (∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h →
+      ∃ s : BHist, TokIntro bundle s p) := by
+  exact policy.generation
+
 theorem gapPolicy_signature_determination [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
     (_policy : GapPolicy bundle D) :

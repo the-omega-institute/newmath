@@ -17,6 +17,11 @@ theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
   intro hh hhk
   exact policy.transport hh hhk
 
+theorem DomainPolicy_transport_field [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) :
+    (∀ {h k : BHist}, InDom D h → hsame h k → InDom D k) := by
+  exact policy.transport
+
 theorem domain_transport_refl [AskSetup] [PackageSetup] [DomainSetup] {D : Domain}
     (policy : DomainPolicy D) {h : BHist} :
     InDom D h -> InDom D h := by

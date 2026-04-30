@@ -46,6 +46,17 @@ theorem unary_history_cases {h : BHist} :
   | e1 h =>
       exact Or.inr ⟨h, rfl, uh⟩
 
+theorem unary_history_empty_or_e1_tail {h : BHist} :
+    UnaryHistory h → h = BHist.Empty ∨ ∃ t : BHist, h = BHist.e1 t ∧ UnaryHistory t := by
+  intro uh
+  cases h with
+  | Empty =>
+      exact Or.inl rfl
+  | e0 h =>
+      cases uh
+  | e1 h =>
+      exact Or.inr ⟨h, rfl, uh⟩
+
 theorem unary_e1_closed {h : BHist} : UnaryHistory h -> UnaryHistory (.e1 h) := by
   intro uh
   exact uh
