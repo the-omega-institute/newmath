@@ -22,6 +22,11 @@ theorem Mbin_reuses_kernel_history : (Mbin = BHist) ∧ (BWord = BHist) := by
   · rfl
   · rfl
 
+theorem external_model_no_parallel_word_input : (Mbin = BHist) ∧ (BWord = BHist) := by
+  constructor
+  · rfl
+  · rfl
+
 theorem external_model_reuses_kernel_histories :
     (Mbin = BHist) /\ (BWord = BHist) /\
       (forall w : BWord, BHist.Empty = BHist.e0 w -> False) := by

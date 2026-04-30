@@ -139,6 +139,18 @@ theorem PackageReflection_token_unique_witness_chain
   exact eqv.trans (eqv.trans (tok.tokenReplacement left left0) same0)
     (eqv.symm (tok.tokenReplacement right right0))
 
+theorem PackageReflection_token_unique_symmetric_chain
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y x0 y0 : s.SigObj} {p q : s.Pkg} :
+    s.TokIntro P x p → s.TokIntro P y q → s.TokIntro P x0 p →
+      s.TokIntro P y0 q → s.hsame x0 y0 → s.hsame x y ∧ s.hsame y x := by
+  intro left right left0 right0 same0
+  have x_to_x0 := tok.tokenReplacement left left0
+  have y_to_y0 := tok.tokenReplacement right right0
+  have x_to_y := eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
+  exact And.intro x_to_y (eqv.symm x_to_y)
+
 theorem PackageReflection_token_unique_from_inversion
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)

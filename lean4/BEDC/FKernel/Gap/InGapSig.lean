@@ -127,6 +127,20 @@ theorem inGapSig_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
           | intro hsig htok =>
               exact Exists.intro s (And.intro hdom (And.intro hsig htok))
 
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_domain_signature_token_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h →
+      ∃ s : BHist, InDom D h ∧ SigRel bundle h s ∧ TokIntro bundle s p := by
+  intro hgap
+  cases hgap with
+  | intro hdom sigTok =>
+      cases sigTok with
+      | intro s data =>
+          cases data with
+          | intro hsig htok =>
+              exact Exists.intro s (And.intro hdom (And.intro hsig htok))
+
 theorem inGapSig_intro_from_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     (∃ s : BHist, InDom D h ∧ SigRel bundle h s ∧ TokIntro bundle s p) →
