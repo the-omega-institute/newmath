@@ -146,6 +146,18 @@ theorem checked_acceptance_gate_exactBase_exports_public_shape
   · intro h k p q hp hq
     exact ExactGlobalizeBase_classify_iff ex hp hq
 
+theorem ExactGlobalizeBase_notExported_public_shape
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    And (NotExported s P D ex)
+      (forall {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h -> s.InGapSig P D q k ->
+          (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k))) := by
+  constructor
+  · exact NotExported_from_exact ex
+  · intro h k p q hp hq
+    exact ExactGlobalizeBase_classify_iff ex hp hq
+
 theorem ExactGlobalizeBase_no_closure_export_sound_complete_pair
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) {h k : s.Hist} {p q : s.Pkg}

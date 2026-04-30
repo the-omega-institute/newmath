@@ -24,6 +24,11 @@ structure AskEvent (pi : ProbeName) (h : BHist) : Type where
   event : Ask pi h mark evidence
 
 omit S in
+theorem askEvent_components [AskSetup] {pi : ProbeName} {h : BHist} (ev : AskEvent pi h) :
+    Ask pi h ev.mark ev.evidence := by
+  exact ev.event
+
+omit S in
 theorem askEvent_witness [AskSetup] {pi : ProbeName} {h : BHist} :
     AskEvent pi h -> ∃ m : BMark, ∃ delta : Evidence, Ask pi h m delta := by
   intro ev

@@ -277,6 +277,17 @@ theorem unary_append_left_factor {h k : BHist} :
   | e1 k ih =>
       exact ih ur
 
+theorem unary_append_e0_left_absurd :
+    forall {h k : BHist}, UnaryHistory (append (BHist.e0 h) k) -> False := by
+  intro h k uh
+  induction k generalizing h with
+  | Empty =>
+      exact uh
+  | e0 k ih =>
+      exact uh
+  | e1 k ih =>
+      exact ih uh
+
 theorem unary_cont_closed {h k r : BHist} :
     UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r := by
   intro uh uk hr
