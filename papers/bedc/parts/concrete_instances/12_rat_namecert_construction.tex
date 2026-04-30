@@ -399,6 +399,22 @@ witnesses, and reverse the denominator history-sameness proof by symmetry of
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_symm}
 
+\begin{theorem}[Rat history classifier unary denominator append closure]
+\label{thm:rat-history-classifier-append-unary-denominator-closed}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, and unary tails \(t_d\) and \(t_e\) satisfy \(\hsame(t_d,t_e)\),
+then appending the tails to the corresponding denominator histories preserves
+the rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into endpoint carriers and denominator
+\(\hsame\). Close the left endpoint carrier under unary denominator append.
+Transport unary membership from \(t_d\) to \(t_e\), close the right endpoint
+carrier under append, and combine the denominator \(\hsame\) with the tail
+\(\hsame\) by constructor cases on append.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_append\_unary\_denominator\_closed}
+
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}
 The stability certificate consists of:

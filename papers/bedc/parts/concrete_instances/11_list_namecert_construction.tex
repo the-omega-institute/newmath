@@ -229,6 +229,18 @@ Induct on the first list. Shape mismatches are impossible by the classifier clau
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame}
 
+\begin{theorem}[List classifier reverse inversion]
+\label{thm:list-classifier-reverse-hsame-inversion}
+For BEDC history lists, if the reversed lists are structurally classified by
+\(\HSame\), then the original lists are structurally classified by \(\HSame\).
+\end{theorem}
+\begin{proof}
+Apply reverse stability to the classified reversed lists. The double reverse of
+each list is definitionally identified with the original list by list
+reverse-reverse induction, giving the desired structural classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame\_inversion}
+
 \begin{theorem}[List classifier append right cancellation]
 \label{thm:list-classifier-append-right-cancel-hsame}
 For BEDC history lists, if adding the same right suffix to two lists gives a

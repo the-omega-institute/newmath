@@ -51,8 +51,10 @@ import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger
 import BEDC.Derived.ListUp
+import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.GroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
