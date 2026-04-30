@@ -60,6 +60,26 @@ identity.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_left\_inverse\_involutive}
 
+\begin{theorem}[Left and right inverse witnesses agree]
+\label{thm:group-left-right-inverse-uniqueness}
+For a history-level group operation with associativity, left and right identity,
+and multiplication congruence, if histories $y$ and $z$ satisfy
+$$
+\hsame(yx,e)
+$$
+and
+$$
+\hsame(xz,e),
+$$
+then $\hsame(y,z)$.
+\end{theorem}
+\begin{proof}
+Chain $y$ through the right identity, replace the identity $e$ by $xz$,
+reassociate to $(yx)z$, replace $yx$ by $e$, and finish with the left identity
+on $z$. Each replacement is licensed by multiplication congruence and the
+displayed inverse hypotheses.
+\end{proof}
+
 \begin{theorem}[Group left cancellation]
 \label{thm:group-left-cancellation}
 For a history-level group operation with associativity, left identity,
