@@ -40,22 +40,27 @@ $$
 \leandef{BEDC.Derived.BoolUp.BoolSourceSpec}
 \leandef{BEDC.Derived.BoolUp.BoolHistoryCarrier}
 
-\begin{definition}[Bool endpoint embedding]
-\label{def:bool-endpoint-embedding}
+\begin{definition}[Bool endpoint bridge]
+\label{def:bool-endpoint-bridge}
 The endpoint map $\mathsf{BoolEndpoint}:\mathsf{BMark}\to\mathsf{BHist}$ sends the two traditional boolean points from the BEDC mark source into the displayed history endpoints:
 $$
   \mathsf{BoolEndpoint}(\bzero)=\emp,\qquad
   \mathsf{BoolEndpoint}(\bone)=\Eone(\emp).
 $$
-The carrier endpoint choice is therefore $\mathsf{BoolHistoryCarrier}$, the classifier transport target is $\mathsf{BoolHistoryClassifier}$, the stability obligation is endpoint carrier and classifier preservation, and the ledger displays exactly these two endpoint encodings.
+The carrier endpoint choice is therefore $\mathsf{BoolHistoryCarrier}$, and the classifier transport target is $\hsame$ on the two displayed history endpoints.
 \end{definition}
 
-\begin{theorem}[Bool endpoint bridge]
-\label{thm:bool-endpoint-bridge}
-For every $v:\mathsf{BMark}$, $\mathsf{BoolHistoryCarrier}(\mathsf{BoolEndpoint}(v))$. For all $v,w:\mathsf{BMark}$, if $\mathsf{BoolClassifierSpec}(v,w)$ holds, then $\mathsf{BoolHistoryClassifier}(\mathsf{BoolEndpoint}(v),\mathsf{BoolEndpoint}(w))$ holds. Equivalently, the source classifier $\msame$ on $\bzero$ and $\bone$ transports to the history classifier on $\emp$ and $\Eone(\emp)$, the two endpoint coverages are exact, and the standard false/true reading is the displayed endpoint encoding. This endpoint bridge is a $\mathsf{ProofTarget}$.
+\begin{theorem}[Bool endpoint bridge exactness]
+\label{thm:bool-endpoint-bridge-exactness}
+For marks $v,w:\mathsf{BMark}$, mark sameness holds exactly when the displayed history endpoints are internally the same:
+$$
+  \msame(v,w)
+  \quad\Longleftrightarrow\quad
+  \hsame(\mathsf{BoolEndpoint}(v),\mathsf{BoolEndpoint}(w)).
+$$
 \end{theorem}
 \begin{proof}
-Proceed by cases on the mark constructors. The $\bzero$ branch reduces the carrier witness to the empty-history endpoint; the $\bone$ branch reduces it to the one-extension endpoint. For classifier transport, eliminate the $\msame$ witness in $\mathsf{BoolClassifierSpec}(v,w)$, so the two marks are the same constructor, then use the corresponding endpoint carrier witness together with reflexivity of history sameness. The mixed constructor cases are excluded by mark no-confusion.
+Proceed by cases on $v$ and $w$. The matching $\bzero/\bzero$ and $\bone/\bone$ cases reduce both directions to reflexivity. In the mixed cases, the mark-to-history direction has no $\msame$ witness by mark no-confusion, and the history-to-mark direction has no $\hsame$ witness by the no-confusion between $\emp$ and $\Eone(\emp)$.
 \end{proof}
 
 \begin{theorem}[Bool source respects mark sameness]
