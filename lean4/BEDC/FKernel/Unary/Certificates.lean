@@ -178,6 +178,9 @@ theorem additive_pattern_result_unary_iff_inputs {h k r : BHist} :
   intro hr
   exact unary_cont_factors_iff_result hr
 
+def AddClassifierSpec (r r' : BHist) : Prop :=
+  hsame r r'
+
 theorem unary_addition_seed_from_policy :
     AddLedgerPolicy -> forall {h k r : BHist},
       UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r := by

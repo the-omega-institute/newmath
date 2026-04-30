@@ -3,6 +3,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Ext
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.Cont.Assoc
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Sig
