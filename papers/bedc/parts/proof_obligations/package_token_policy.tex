@@ -38,23 +38,21 @@ consists of the following clauses for the concrete signature-token instance.
 
 \begin{theorem}[Package tokens are signature-facing]
 \label{thm:package-tokens-signature-facing}
-Assume \(\PkgPol(\Pi)\). If
-\[
+Assume $\PkgTokPol(\Pi)$. If
+$$
   \TokIntro(\Pi,s,p),\quad
   \TokIntro(\Pi,t,q),\quad
   \hsame(s,t),
-\]
+$$
 then
-\[
+$$
   \psame(p,q).
-\]
+$$
 \end{theorem}
-\leanchecked{BEDC.FKernel.Package.PackagePolicy\_signature\_facing}
-\leanchecked{BEDC.FKernel.Package.packagePolicy\_signature\_facing\_from\_fields}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_signature\_facing}
+\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_signature\_facing}
 
 \begin{proof}
-This is the extensionality field of the package policy applied to the two token-introduction premises and the history-sameness premise.
+This is the soundness field of the package token policy applied to the two token-introduction premises and the history-sameness premise.
 \end{proof}
 
 \begin{theorem}[Package-sameness is equivalent to signature-sameness]

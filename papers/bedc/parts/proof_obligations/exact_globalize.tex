@@ -242,14 +242,19 @@ The local classification equivalence is derived from soundness and completeness.
 
 \begin{proposition}[Classification is derivable from the two directions]
 \label{prop:iff-derived}
-If coverage, base soundness, and base completeness hold, then for all \(h,k,p,q\) satisfying the two gap premises,
-\[
+If base soundness and base completeness hold, then for all $h,k,p,q$ satisfying
+$$
+  \InGapSig(\Pi,D,p,h)
+  \quad\text{and}\quad
+  \InGapSig(\Pi,D,q,k),
+$$
+one has
+$$
   \psame_{\Pi}^{\mathrm{base}}(p,q)\Longleftrightarrow \GeneratedSameSig(\Pi,h,k).
-\]
+$$
 \end{proposition}
-\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_iff}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_iff\_from\_directions}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_directions}
-\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_iff\_from\_directions}
 
 \begin{proof}
 The forward implication is base completeness. The reverse implication is base soundness. Coverage is not needed for this local equivalence, but it remains part of the global exactness structure because exact Globalize must also classify every admitted history, not only pairs already carrying visible packages.
