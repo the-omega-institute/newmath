@@ -156,7 +156,24 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 \leanchecked{BEDC.Derived.OptionUp.option\_stability\_certificate\_fields}
+
+\begin{theorem}[Option classifier transitivity]
+\label{thm:option-classifier-transitivity}
+Let $R : A \to A \to \mathsf{Prop}$ be a source classifier relation.  If $R$
+is transitive, then for optional carriers $x$, $y$, and $z$,
+$$
+  \mathsf{OptionClassifierSpec}(R,x,y)
+  \quad\text{and}\quad
+  \mathsf{OptionClassifierSpec}(R,y,z)
+$$
+imply $\mathsf{OptionClassifierSpec}(R,x,z)$.
+\end{theorem}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_trans}
+\begin{proof}
+Proceed by constructor case analysis on $x$, $y$, and $z$.  The none--none--none
+case is immediate, mixed none--some cases contradict the classifier clauses, and
+the some--some--some case is exactly the supplied transitivity of $R$.
+\end{proof}
 
 \begin{definition}[Option ledger policy]
 \label{def:option-ledger-policy}

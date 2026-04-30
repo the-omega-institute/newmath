@@ -170,7 +170,25 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 \leanchecked{BEDC.Derived.SumUp.sum\_stability\_certificate\_fields}
+
+\begin{theorem}[Sum classifier transitivity]
+\label{thm:sum-classifier-transitivity}
+Let $R_A : A \to A \to \mathsf{Prop}$ and
+$R_B : B \to B \to \mathsf{Prop}$ be source classifier relations.  If both
+$R_A$ and $R_B$ are transitive, then for sum carriers $x$, $y$, and $z$,
+$$
+  \mathsf{SumClassifierSpec}(R_A,R_B,x,y)
+  \quad\text{and}\quad
+  \mathsf{SumClassifierSpec}(R_A,R_B,y,z)
+$$
+imply $\mathsf{SumClassifierSpec}(R_A,R_B,x,z)$.
+\end{theorem}
 \leanchecked{BEDC.Derived.SumUp.SumClassifierSpec\_trans}
+\begin{proof}
+Proceed by constructor case analysis on $x$, $y$, and $z$.  Matching left and
+right branches compose through the corresponding source transitivity assumption,
+while mixed injection branches contradict the classifier clauses.
+\end{proof}
 
 \begin{definition}[Sum ledger policy]
 \label{def:sum-ledger-policy}

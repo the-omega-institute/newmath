@@ -298,12 +298,38 @@ The history carrier $\mathsf{BoolHistoryCarrier}$ and classifier $\mathsf{BoolHi
 \end{theorem}
 \leanchecked{BEDC.Derived.BoolUp.bool\_history\_name\_certificate}
 
+\begin{definition}[Bool history semantic fields]
+\label{def:bool-history-semantic-fields}
+The history-level semantic fields used by the boolean certificate are predicates
+on $\mathsf{BHist}$.  For a BEDC history $h$,
+$$
+  \mathsf{BoolHistoryPattern}(h)
+  \quad\text{and}\quad
+  \mathsf{BoolHistoryLedger}(h)
+$$
+both mean that $h$ is internally the same as one of the two visible boolean
+endpoints:
+$$
+  \hsame(h,\emp)
+  \quad\text{or}\quad
+  \hsame(h,\Eone(\emp)).
+$$
+\end{definition}
+
 \begin{theorem}[BoolUp semantic certificate target]
 \label{thm:bool-semantic-namecert-target}
-For $\mathsf{BoolHistoryCarrier}$, once $\mathsf{BoolPatternSpec}$ is supplied as the two-endpoint pattern soundness field and $\mathsf{BoolLedgerPolicy}$ is supplied as the raw-source ledger soundness field, the checked core certificate assembles into the paper-side target $\mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolPatternSpec},\mathsf{BoolLedgerPolicy},\mathsf{BoolHistoryClassifier})$.
+For $\mathsf{BoolHistoryCarrier}$, the checked core certificate assembles with
+the history predicates $\mathsf{BoolHistoryPattern}$ and
+$\mathsf{BoolHistoryLedger}$ into the paper-side target
+$\mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryPattern},\mathsf{BoolHistoryLedger},\mathsf{BoolHistoryClassifier})$.
 \end{theorem}
 \begin{proof}
-Use the checked core certificate $\mathsf{bool\_history\_name\_certificate}$ as the $\NameCert$ component. The supplied pattern soundness field maps each licensed boolean history to the displayed false-or-true endpoint pattern, and the supplied ledger soundness field records the raw mark behind that licensed history. These three fields are exactly the constructor data for the corresponding semantic naming certificate.
+Use the checked core certificate $\mathsf{bool\_history\_name\_certificate}$ as
+the $\NameCert$ component.  A carrier witness for a licensed boolean history is
+already one of the two endpoint cases $\hsame(h,\emp)$ or
+$\hsame(h,\Eone(\emp))$, so the pattern and ledger fields have the required
+history-level type $\mathsf{BHist}\to\mathsf{Prop}$.  These three fields are
+exactly the constructor data for the corresponding semantic naming certificate.
 \end{proof}
 
 \begin{corollary}[\(\BoolUp\) is licensed, not primitive]

@@ -369,20 +369,24 @@ common right suffix, and ordinary right-append cancellation removes it.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_right\_cancel\_with\_hsame\_suffix}
 
-\begin{theorem}[List classifier two-sided append cancellation]
+\begin{theorem}[List classifier two-sided cancellation with classified boundaries]
 \label{thm:list-classifier-append-two-sided-cancel-classified}
-For BEDC history lists $p$, $p'$, $x$, $y$, $s$, and $s'$, suppose the prefixes
-$p$ and $p'$ are structurally classified by $\HSame$, the suffixes $s$ and
-$s'$ are structurally classified by $\HSame$, and the bordered histories
-$p{++}x{++}s$ and $p'{++}y{++}s'$ are structurally classified by $\HSame$.
-Then $x$ and $y$ are structurally classified by $\HSame$.
+For BEDC history lists $p$, $p'$, $x$, $y$, $s$, and $s'$, if
+$$
+  \mathsf{ListClassifierSpec}(\hsame,p,p'),
+  \quad
+  \mathsf{ListClassifierSpec}(\hsame,s,s'),
+  \quad
+  \mathsf{ListClassifierSpec}(\hsame,p{++}x{++}s,p'{++}y{++}s')
+$$
+hold, then $\mathsf{ListClassifierSpec}(\hsame,x,y)$ holds.
 \end{theorem}
 \begin{proof}
-Reassociate both appended histories so the classified prefixes stand at the
-left boundary. Classified prefix cancellation removes $p$ and $p'$, yielding a
-structural classifier between $x{++}s$ and $y{++}s'$. Classified right-suffix
-cancellation then removes the structurally classified suffixes $s$ and $s'$,
-leaving the structural classifier between $x$ and $y$.
+Reassociate both appended histories as $(p{++}x){++}s$ and
+$(p'{++}y){++}s'$. Apply right cancellation with the classified suffixes to
+obtain $\mathsf{ListClassifierSpec}(\hsame,p{++}x,p'{++}y)$. Then apply
+classified left cancellation with the classified prefixes $p$ and $p'$ to
+obtain $\mathsf{ListClassifierSpec}(\hsame,x,y)$.
 \end{proof}
 
 \begin{theorem}[List classifier transitivity from a source certificate]
