@@ -53,8 +53,19 @@ theorem semanticNameCert_pattern_ledger_witness
   cases core with
   | mk carrier_inhabited _ _ _ _ =>
       cases carrier_inhabited with
-      | intro h source =>
-          exact Exists.intro h (And.intro (pattern_sound source) (ledger_sound source))
+          | intro h source =>
+              exact Exists.intro h (And.intro (pattern_sound source) (ledger_sound source))
+
+theorem semanticNameCert_pattern_ledger_transport
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (cert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec)
+    {h k : BHist} :
+    ClassifierSpec h k -> SourceSpec h -> PatternSpec k ∧ LedgerPolicy k := by
+  intro classified sourceH
+  have sourceK : SourceSpec k :=
+    BEDC.FKernel.NameCert.NameCert.carrier_respects_equiv cert.core classified sourceH
+  exact And.intro (cert.pattern_sound sourceK) (cert.ledger_sound sourceK)
 
 theorem NameCert_iff_semantic_fields
     {Carrier : BHist -> Prop}

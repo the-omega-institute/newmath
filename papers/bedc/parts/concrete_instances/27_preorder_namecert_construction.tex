@@ -97,6 +97,18 @@ If \(h\le k\) is witnessed by a unary continuation tail, and \(k\) continues by 
 Unpack the first prefix witness as a unary tail from \(h\) to \(k\). Compose this continuation with the continuation from \(k\) to \(r\); associativity of continuation supplies the resulting path from \(h\), and unary closure under append supplies the combined unary tail.
 \end{proof}
 
+\begin{theorem}[Prefix transitivity]
+\label{thm:preorder-prefix-transitivity}
+If \(h\le k\) and \(k\le r\) are witnessed by unary continuation tails, then
+\(h\le r\).
+\end{theorem}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_trans}
+\begin{proof}
+Unpack the two prefix witnesses. Append the two unary tails, use unary closure
+under append for the combined tail, and use continuation associativity to
+identify the direct continuation from \(h\) to \(r\).
+\end{proof}
+
 \begin{theorem}[Prefix target remains in the preorder carrier]
 \label{thm:preorder-prefix-target-carrier}
 For the history preorder carrier, if \(h\) is unary and \(k\) is reached from \(h\) by a unary continuation tail, then \(k\) is also unary.
