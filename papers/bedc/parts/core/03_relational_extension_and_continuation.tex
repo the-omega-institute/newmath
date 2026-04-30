@@ -150,6 +150,18 @@ $\Ezero(r)$, and the one branch would identify $\emp$ with $\Eone(r)$. Both cont
 generated history constructors.
 \end{proof}
 
+\begin{theorem}[Continuation result tag separation]
+\label{thm:continuation-result-tag-separation}
+There are no histories $h,k,r_0,r_1$ such that both
+$\ContR(h,k,\Ezero(r_0))$ and $\ContR(h,k,\Eone(r_1))$ hold.
+\end{theorem}
+\begin{proof}
+Assume both continuation witnesses for the same inputs $h$ and $k$.
+Continuation determinacy gives $\hsame(\Ezero(r_0),\Eone(r_1))$. History
+no-confusion rules out any generated sameness derivation between a zero-tagged
+history and a one-tagged history, so the two witnesses cannot coexist.
+\end{proof}
+
 \begin{lemma}[Continuation right unit]
 For every history \(h\), \(\ContR(h,\emp,h)\).
 \end{lemma}
