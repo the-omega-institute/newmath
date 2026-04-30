@@ -24,4 +24,14 @@ theorem ext_respects_sameness :
   cases hm
   cases hr <;> cases hr' <;> rfl
 
+theorem ext_constructor_inversion {h r : BHist} {m : BMark} :
+    Ext h m r ->
+      (m = BMark.b0 /\ r = BHist.e0 h) \/ (m = BMark.b1 /\ r = BHist.e1 h) := by
+  intro hr
+  cases hr
+  ·
+      exact Or.inl (And.intro rfl rfl)
+  ·
+      exact Or.inr (And.intro rfl rfl)
+
 end BEDC.FKernel.Ext

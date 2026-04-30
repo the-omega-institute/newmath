@@ -428,6 +428,16 @@ theorem compGap_coverage_from_layers
           | intro z dGap =>
               exact Exists.intro z (Exists.intro y (And.intro cGap dGap))
 
+omit [AskSetup] [PackageSetup] in
+theorem domain_invariance {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
+    hsame h k -> (InDom D h <-> InDom D k) := by
+  intro hhk
+  constructor
+  · intro hh
+    exact policy.transport hh hhk
+  · intro hk
+    exact policy.transport hk (hsame_symm hhk)
+
 omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage : True := True.intro
 

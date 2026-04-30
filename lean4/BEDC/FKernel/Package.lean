@@ -25,6 +25,16 @@ theorem psame_sound {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
   intro hp hq hst
   exact psame.intro hp hq hst
 
+theorem psame_constructor_grounding
+    {bundle : ProbeBundle ProbeName} {p q : Pkg} :
+    psame bundle p q ->
+      exists s : BHist, exists t : BHist,
+        TokIntro bundle s p /\ TokIntro bundle t q /\ hsame s t := by
+  intro hpq
+  cases hpq with
+  | intro hp hq hst =>
+      exact Exists.intro _ (Exists.intro _ (And.intro hp (And.intro hq hst)))
+
 structure PackagePolicy (bundle : ProbeBundle ProbeName) : Prop where
   existence : ∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p
   extensionality :
