@@ -17,6 +17,12 @@ theorem ext_generation_rules (h : BHist) :
   · exact Ext.e0 h
   · exact Ext.e1 h
 
+theorem ext_total : ∀ (h : BHist) (m : BMark), ∃ r : BHist, Ext h m r := by
+  intro h m
+  cases m
+  · exact Exists.intro (BHist.e0 h) (Ext.e0 h)
+  · exact Exists.intro (BHist.e1 h) (Ext.e1 h)
+
 theorem ext_deterministic :
     ∀ {h r r' : BHist} {m : BMark}, Ext h m r → Ext h m r' → hsame r r' := by
   intro h r r' m hr hr'

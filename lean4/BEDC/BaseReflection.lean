@@ -420,6 +420,21 @@ theorem GeneratedSameSig_left_witness
   | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
       exact Exists.intro leftSigObj (Exists.intro leftEvidence leftSig)
 
+theorem GeneratedSameSig_witnesses
+    {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
+    (gen : GeneratedSameSig s P h k) :
+    ∃ x : s.SigObj, ∃ y : s.SigObj,
+      ∃ leftEvidence : s.Evidence, ∃ rightEvidence : s.Evidence,
+        s.SigGen P h x leftEvidence /\
+        s.SigGen P k y rightEvidence /\ s.hsame x y := by
+  cases gen with
+  | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
+      exact Exists.intro leftSigObj
+        (Exists.intro rightSigObj
+          (Exists.intro leftEvidence
+            (Exists.intro rightEvidence
+              (And.intro leftSig (And.intro rightSig sigSame)))))
+
 def GeneratedSameSig_symm
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
     (eqv : HSameEquiv s) :
@@ -681,6 +696,16 @@ theorem NotExported_from_exact
     (ex : ExactGlobalizeBase s P D) : NotExported s P D ex := by
   intro h k p q hp hq
   exact ExactGlobalizeBase_classify_iff ex hp hq
+
+theorem NotExported_classify_iff
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    {ex : ExactGlobalizeBase s P D}
+    (notExported : NotExported s P D ex)
+    {h k : s.Hist} {p q : s.Pkg} :
+    s.InGapSig P D p h → s.InGapSig P D q k →
+      (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  intro hp hq
+  exact notExported hp hq
 
 theorem ClosureReflect_preserves_base_export
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
