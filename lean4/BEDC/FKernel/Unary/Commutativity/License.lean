@@ -36,4 +36,14 @@ theorem upgrade_additive_naming_certificate {h k r rprime : BHist} :
     · exact nameCert_stability_witness_from_cert add_up_name_certificate
     · exact unary_cont_comm uh uk hr hrprime
 
+theorem additive_certificate_upgrade {h k r rprime : BHist} :
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h rprime ->
+      NameCert AddName /\ Nonempty StabilityCert /\ hsame r rprime := by
+  intro uh uk hr hrprime
+  constructor
+  · exact add_up_name_certificate
+  · constructor
+    · exact nameCert_stability_witness_from_cert add_up_name_certificate
+    · exact unary_cont_comm uh uk hr hrprime
+
 end BEDC.FKernel.Unary
