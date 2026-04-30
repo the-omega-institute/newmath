@@ -160,6 +160,44 @@ class QualityGateTests(unittest.TestCase):
             self.assertEqual(len(violations), 1)
             self.assertIn("existing_kernel_theorem", violations[0])
 
+    def test_rebased_upstream_marker_is_not_treated_as_current_round_marker(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            subprocess.run(["git", "checkout", "-q", "-b", "upstream"], cwd=root, check=True)
+            tex = root / "papers" / "bedc" / "parts" / "core" / "base.tex"
+            tex.write_text(
+                tex.read_text(encoding="utf-8")
+                + "\\leanchecked{BEDC.existing\_kernel\_theorem}\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "upstream marker"], cwd=root, check=True)
+            upstream_sha = subprocess.run(
+                ["git", "rev-parse", "HEAD"], cwd=root, check=True, text=True, capture_output=True
+            ).stdout.strip()
+
+            subprocess.run(["git", "checkout", "-q", "-B", "test", base_sha], cwd=root, check=True)
+            subprocess.run(["git", "rebase", "upstream"], cwd=root, check=True)
+            (root / "lean4" / "BEDC" / "FKernel" / "Fresh.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "def fresh_history : BEDC.BHist := BEDC.BHist.empty\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "fresh lean"], cwd=root, check=True)
+            wt = cf.WorktreeInfo(
+                path=root,
+                branch="test",
+                round_number=1,
+                base_sha=base_sha,
+                formalization_base_sha=upstream_sha,
+            )
+
+            violations = cf.detect_markers_not_backed_by_new_decls(wt)
+
+            self.assertEqual(violations, [])
+
     def test_new_declaration_without_kernel_touchpoint_is_rejected(self):
         td, root, base_sha = self.init_repo()
         with td:
