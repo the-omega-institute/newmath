@@ -360,6 +360,22 @@ common right suffix, and ordinary right-append cancellation removes it.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_right\_cancel\_with\_hsame\_suffix}
 
+\begin{theorem}[List classifier two-sided append cancellation]
+\label{thm:list-classifier-append-two-sided-cancel-classified}
+For BEDC history lists $p$, $p'$, $x$, $y$, $s$, and $s'$, suppose the prefixes
+$p$ and $p'$ are structurally classified by $\HSame$, the suffixes $s$ and
+$s'$ are structurally classified by $\HSame$, and the bordered histories
+$p{++}x{++}s$ and $p'{++}y{++}s'$ are structurally classified by $\HSame$.
+Then $x$ and $y$ are structurally classified by $\HSame$.
+\end{theorem}
+\begin{proof}
+Reassociate both appended histories so the classified prefixes stand at the
+left boundary. Classified prefix cancellation removes $p$ and $p'$, yielding a
+structural classifier between $x{++}s$ and $y{++}s'$. Classified right-suffix
+cancellation then removes the structurally classified suffixes $s$ and $s'$,
+leaving the structural classifier between $x$ and $y$.
+\end{proof}
+
 \begin{theorem}[List classifier transitivity from a source certificate]
 \label{thm:list-classifier-trans-from-namecert}
 If the source classifier is supplied by a \(\NameCert\), then the lifted list classifier is transitive on finite list spines.
