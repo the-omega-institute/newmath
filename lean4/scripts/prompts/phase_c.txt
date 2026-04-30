@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.7 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.8 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -227,12 +227,12 @@ The `prompts: <PROMPTS_VERSION>` line in the commit body is mandatory. Replace `
 ## IMPORTANT
 - Do NOT git push. The merge and push will be handled externally.
 - Do NOT edit `lean4/lakefile.lean` or `lean4/lean-toolchain`.
-- Do NOT introduce `constant` declarations as placeholders.
+- Do NOT introduce `constant` or `opaque` declarations as placeholders.
 - Do NOT refactor unrelated files.
 - Do NOT fabricate shell structures that package the theorem as abstract `Prop` fields. State the theorem about concrete BEDC objects and prove it directly.
 
 ## Completion Contract
-- No `sorry`, no `admit`, no `axiom`, no `constant` placeholders in committed Lean code
+- No `sorry`, no `admit`, no `axiom`, no `constant`, no `opaque` placeholders in committed Lean code
 - `cd lean4 && python3 scripts/lake_gate.py build` passes
 - `cd papers/bedc && make` passes
 - `python3 tools/check-axioms.py` passes

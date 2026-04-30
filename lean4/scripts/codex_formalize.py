@@ -242,7 +242,7 @@ class WorktreeInfo:
     branch: str
     round_number: int
     base_sha: str = ""  # HEAD at worktree creation; ground truth for the round's full integration range
-    formalization_base_sha: str = ""  # HEAD after Phase C's sync/rebase; ground truth for new declarations
+    formalization_base_sha: str = ""  # HEAD immediately before Phase C creates this round's commits
 
 
 # ---------------------------------------------------------------------------
@@ -754,6 +754,24 @@ def merge_lake_cache_back(wt: WorktreeInfo, new_commits: list[str]) -> None:
         )
 
 
+def run_pre_merge_hard_gates(wt: WorktreeInfo) -> bool:
+    gates = [
+        (["lake", "build"], wt.path / "lean4", 7200),
+        (["python3", "tools/check-axioms.py"], wt.path, 600),
+        (["python3", "lean4/scripts/bedc_ci.py", "audit"], wt.path, 600),
+        (["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], wt.path, 1800),
+    ]
+    for cmd, cwd, timeout in gates:
+        result = run_cmd(cmd, cwd=cwd, timeout=timeout)
+        if result.returncode != 0:
+            logger.error(
+                f"[R{wt.round_number}] Pre-merge hard gate failed: {' '.join(cmd)}\n"
+                f"{(result.stdout or '')[-2000:]}{(result.stderr or '')[-2000:]}"
+            )
+            return False
+    return True
+
+
 def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
     """Merge the worktree branch into BASE_BRANCH and push.
 
@@ -829,6 +847,9 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                     f"latest {BASE_BRANCH}, {len(dup)} new symbol(s) collide with "
                     f"files concurrent workers already merged."
                 )
+                return False
+
+            if not run_pre_merge_hard_gates(wt):
                 return False
 
             # 4. Fast-forward local BASE_BRANCH to rebased worktree tip.
@@ -1257,15 +1278,17 @@ def _file_is_shell_new(text: str) -> Optional[str]:
 def detect_shell_pattern(wt: WorktreeInfo) -> list[str]:
     """Scan .lean files NEWLY added in this round for the abstract-Prop shell pattern."""
     violations: list[str] = []
+    base = _round_diff_base(wt)
+    if not base:
+        return violations
     try:
-        # Get newly-added files in this round vs. base branch.
         result = run_cmd(
-            ["git", "diff", "--name-status", f"origin/{BASE_BRANCH}...HEAD"],
+            ["git", "diff", "--name-status", f"{base}..HEAD", "--", "lean4/BEDC/"],
             cwd=wt.path,
         )
         lines = (result.stdout or "").splitlines()
     except Exception:
-        return violations  # can't check, allow through
+        return violations
 
     new_files: list[str] = []
     for ln in lines:
@@ -1291,7 +1314,7 @@ def detect_shell_pattern(wt: WorktreeInfo) -> list[str]:
 _SORRY_LITERAL_RE = re.compile(
     r"(?<![A-Za-z_])(?:sorry|admit)(?![A-Za-z_])"
 )
-_AXIOM_DECL_RE = re.compile(r"^\s*axiom\s+\w", re.MULTILINE)
+_FORBIDDEN_DECL_RE = re.compile(r"^\s*(axiom|constant|opaque)\s+\w", re.MULTILINE)
 
 
 def _strip_lean_comments(src: str) -> str:
@@ -1416,11 +1439,12 @@ def detect_sorry_literals(wt: WorktreeInfo) -> list[str]:
             if line_no in added_lines:
                 ctx = src.splitlines()[line_no - 1].strip()[:140]
                 violations.append(f"{rel}:{line_no}: {m.group()} — {ctx}")
-        for m in _AXIOM_DECL_RE.finditer(stripped):
+        for m in _FORBIDDEN_DECL_RE.finditer(stripped):
             line_no = stripped.count("\n", 0, m.start()) + 1
             if line_no in added_lines:
+                kind = m.group(1)
                 ctx = src.splitlines()[line_no - 1].strip()[:140]
-                violations.append(f"{rel}:{line_no}: axiom — {ctx}")
+                violations.append(f"{rel}:{line_no}: {kind} — {ctx}")
     return violations
 
 
@@ -1938,15 +1962,15 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
                 f"or duplicate theorem inflation. Pick a concrete closure/transport target."
             )
             return False, new
-        # Gate 5: sorry/admit/axiom literals in newly-added or modified lines
+        # Gate 5: sorry/admit/axiom/constant/opaque literals in newly-added or modified lines
         sorry_violations = detect_sorry_literals(wt)
         if sorry_violations:
             for v in sorry_violations[:10]:
-                logger.error(f"[R{wt.round_number}] SORRY LITERAL: {v}")
+                logger.error(f"[R{wt.round_number}] FORBIDDEN LEAN PLACEHOLDER: {v}")
             logger.error(
                 f"[R{wt.round_number}] Rejecting round: {len(sorry_violations)} added "
-                f"line(s) contain sorry/admit/axiom literals. The completion contract "
-                f"in phase_c.txt forbids these in committed code."
+                f"line(s) contain sorry/admit/axiom/constant/opaque placeholders. The completion "
+                f"contract in phase_c.txt forbids these in committed code."
             )
             return False, new
         # Gate 6: duplicate-symbol clash with base branch
@@ -2045,6 +2069,10 @@ def run_round_in_worktree(
 
         # ── Phase C ───────────────────────────────────────────────
         logger.info(f"[{tag}] Phase C: Implementation (in worktree)...")
+        if wt is not None and not dry_run:
+            wt.formalization_base_sha = run_cmd(
+                ["git", "rev-parse", "HEAD"], cwd=wt.path, check=False
+            ).stdout.strip()
         phase_c_prompt = build_phase_c_prompt(round_num, phase_b.targets)
         phase_c_raw = codex_exec(
             phase_c_prompt,
@@ -2055,10 +2083,6 @@ def run_round_in_worktree(
             log_tag=f"R{round_num}_phaseC",
         )
         phase_c = parse_phase_c_output(phase_c_raw)
-        if wt is not None and not dry_run:
-            wt.formalization_base_sha = run_cmd(
-                ["git", "rev-parse", "HEAD^"], cwd=wt.path, check=False
-            ).stdout.strip()
 
         # ── Phase D: Verify ───────────────────────────────────────
         logger.info(f"[{tag}] Phase D: Verification...")
@@ -2215,6 +2239,10 @@ def run_parallel_batch(
     Dispatch `parallel` rounds concurrently using worktrees.
     Returns (succeeded_count, failed_count).
     """
+    if not dry_run and not pipeline_token_is_current():
+        logger.info(f"Pipeline PID token is not current ({PID_FILE}), skipping batch dispatch")
+        return 0, 0
+
     round_nums = allocate_round_numbers(state, parallel)
     total_theorems = state.total_theorems
     recent = state.recent_commits
@@ -2228,6 +2256,11 @@ def run_parallel_batch(
     with ThreadPoolExecutor(max_workers=parallel, thread_name_prefix="worker") as pool:
         futures: dict[Future, int] = {}
         for rn in round_nums:
+            if not dry_run and not pipeline_token_is_current():
+                logger.info(
+                    f"Pipeline PID token is not current ({PID_FILE}), stopping batch dispatch"
+                )
+                break
             memory_pressure_wait(context=f"dispatch R{rn}")
             fut = pool.submit(
                 run_round_in_worktree,
