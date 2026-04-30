@@ -6,15 +6,13 @@
 
 The concrete signature Globalize instance becomes exact only when the checked concrete inputs are visible:
 $$
-  \DomainPolicy(D)
-  +
   \AskPol(\Pi,D)
   +
   \PkgTokPol(\Pi)
   +
   \forall s,\;\exists p,\;\TokIntro(\Pi,s,p).
 $$
-This chapter records the exactness theorem in its non-overclaiming form.
+This chapter records the exactness theorem in its non-overclaiming form. Domain transport is the separate policy recorded in Theorem~\ref{thm:domain-transport}.
 
 The predicate $\InGapSig(\Pi,D,p,h)$ is Definition~\ref{def:internalized-signature-gap}.
 
@@ -93,7 +91,6 @@ This chapter records the three-clause gap export used for active development. It
 \label{thm:exact-concrete-globalize}
 Assume:
 \begin{enumerate}
-  \item \(\DomainPolicy(D)\);
   \item \(\AskPol(\Pi,D)\);
   \item \(\PkgTokPol(\Pi)\), supplying package soundness and reflection for introduced tokens;
   \item token existence for every generated signature.
@@ -105,10 +102,9 @@ Then the visible packages of \(\GlobSig(\Pi,D)\) satisfy the following three exp
   \item package-sameness-to-generated-signature completeness: if \(\InGapSig(\Pi,D,p,h)\), \(\InGapSig(\Pi,D,q,k)\), and \(\psame(p,q)\), then there exist \(s,t\) and generation evidence \(\Delta,\Theta\) with \(\Sig(\Pi,h,s,\Delta)\), \(\Sig(\Pi,k,t,\Theta)\), and \(\hsame(s,t)\).
 \end{enumerate}
 \end{theorem}
-\leanchecked{BEDC.FKernel.Gap.exact\_concrete\_globalize}
 
 \begin{proof}
-Coverage is Theorem~\ref{thm:gap-coverage-globalize}. Same-source separation is Theorem~\ref{thm:gap-separation-globalize}. Completeness is supplied by the reflection field of \(\PkgTokPol(\Pi)\) after unpacking the two gap-signature memberships. Domain transport is supplied by \(\DomainPolicy(D)\).
+Coverage is Theorem~\ref{thm:gap-coverage-globalize}. Same-source separation is Theorem~\ref{thm:gap-separation-globalize}. Completeness is supplied by the reflection field of \(\PkgTokPol(\Pi)\) after unpacking the two gap-signature memberships.
 \end{proof}
 
 \begin{theorem}[Local signature classification]
