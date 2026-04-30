@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\SumUp\)}
 \label{ch:concrete-instances-sum-namecert}
 
-The disjoint sum interface \(\SumUp\) is licensed over two source carriers each endowed with a \(\NameCert\). The carrier is the inductive sum with left and right constructors wrapping a witness of either source; the classifier is the constructor-discriminating relation that within each constructor falls back to the corresponding source classifier. It is not a primitive coproduct; it is licensed only as a derived constructor over the two sources.
+The disjoint sum interface \(\SumUp\) is licensed over two source carriers each endowed with a \(\NameCert\). The carrier is the inductive sum with left and right constructors wrapping source-carrier evidence. The classifier is the constructor-discriminating payload relation: it stores visible tag endpoints together with the matching source classifier witness, while actual source membership remains in $\mathsf{SumHistoryCarrier}$ and is the evidence used by the semantic certificate. It is not a primitive coproduct; it is licensed only as a derived constructor over the two sources.
 
 \section{Roadmap template status}
 
@@ -9,11 +9,11 @@ The disjoint sum interface \(\SumUp\) is licensed over two source carriers each 
   \item \textbf{Traditional target}: disjoint sum data with left and right tagged injections.
   \item \textbf{BEDC source}: two licensed source carriers $A$ and $B$, each with its own name certificate.
   \item \textbf{Carrier choice}: tagged left carriers use $e0$ histories and tagged right carriers use $e1$ histories.
-  \item \textbf{Classifier choice}: the sum classifier relates left tags through the $A$ classifier, right tags through the $B$ classifier, and excludes mixed tags.
+  \item \textbf{Classifier choice}: the sum classifier stores tag endpoints plus the matching $A$ or $B$ classifier witness, and excludes mixed tags; source-carrier evidence is supplied by $\mathsf{SumHistoryCarrier}$.
   \item \textbf{Stability obligations}: tagged carrier transport, left/right inversion, mixed-tag exclusion, classifier symmetry, classifier transitivity, and endpoint transport.
   \item \textbf{Ledger}: the tag is visible data; payload evidence is retained from the corresponding source certificate.
   \item \textbf{Core theorem list}: tagged injections, carrier transport, left and right inversions, classifier inversion, generic same-tag exactness, mixed-tag exclusion, and the semantic name certificate.
-  \item \textbf{Exactness predicate}: the left-tag and right-tag iff clauses identify classification exactly with endpoint payload witnesses and the matching source classifier.
+  \item \textbf{Exactness predicate}: the left-tag and right-tag iff clauses identify classifier-only payload witnesses and the matching source classifier, while carrier exactness is supplied by $\mathsf{SumHistoryCarrier}$.
   \item \textbf{Standard bridge}: tagged histories read back as ordinary $\mathsf{inl}(a)$ and $\mathsf{inr}(b)$ values.
   \item \textbf{Status}: the $\mathsf{SemanticNameCert}$ at Theorem~\ref{thm:concrete-sum-namecert} is $\mathsf{CheckedCert}$; Theorem~\ref{thm:sum-history-classifier-source-same-tag-exactness} is the paper-side matching-source formulation, and Theorem~\ref{thm:sum-history-classifier-generic-same-tag-exactness} records the witness-level same-tag formulation.
 \end{enumerate}
@@ -77,7 +77,7 @@ The pattern is left-or-right injection from the corresponding source witness.
 
 \begin{definition}[Sum classifier specification]
 \label{def:sum-classifier-specification}
-The classifier relates left values through the \(A\)-classifier, right values through the \(B\)-classifier, and never relates opposite constructors.
+The classifier records left-tag endpoint payloads through the \(A\)-classifier and right-tag endpoint payloads through the \(B\)-classifier, and never relates opposite constructors. Source membership is carried by $\mathsf{SumHistoryCarrier}$ rather than by this classifier relation.
 \end{definition}
 \leandef{BEDC.Derived.SumUp.SumHistoryClassifier}
 \leandef{BEDC.Derived.SumUp.SumClassifierSpec}
@@ -414,7 +414,7 @@ Theorem~\ref{thm:sum-history-classifier-right-hsame-inversion}.
 Let $Left,Right:\Hist\to\mathsf{Prop}$ be source carriers with classifiers $LeftEq$ and $RightEq$. If $\NameCert(Left,LeftEq)$ and $\NameCert(Right,RightEq)$ are supplied, then the tagged sum carrier, the tagged sum classifier, and the carrier-as-pattern and carrier-as-ledger tuple form a $\mathsf{SemanticNameCert}$ for $\mathsf{SumHistoryCarrier}(Left,Right)$ and $\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq)$.
 \end{theorem}
 \begin{proof}
-The carrier is represented by $e0$-tagged left histories and $e1$-tagged right histories. The classifier delegates within matching tags to the corresponding source certificate. Reflexivity is built by tagging the source certificate reflexivity field on the selected component. Symmetry and transitivity invert the tagged classifier witnesses, use the matching source certificate fields inside a left--left or right--right branch, and discharge mixed tags by constructor no-confusion. Carrier transport in each branch applies the corresponding source field $\mathsf{NameCert.carrier\_respects\_equiv}$ to the payload classifier witness, then rebuilds the tagged carrier witness. The carrier-as-pattern and carrier-as-ledger components use the same tagged carrier evidence, so the displayed tuple satisfies the semantic certificate fields.
+The carrier is represented by $e0$-tagged left histories and $e1$-tagged right histories. Theorem~\ref{thm:sum-classifier-no-source-membership} marks the split: the classifier delegates within matching tags to the corresponding source certificate, while source-carrier evidence is taken from $\mathsf{SumHistoryCarrier}$ when certificate fields require it. Reflexivity is built by tagging the source certificate reflexivity field on the selected component. Symmetry and transitivity invert the tagged classifier witnesses, use the matching source certificate fields inside a left--left or right--right branch, and discharge mixed tags by constructor no-confusion. Carrier transport in each branch applies the corresponding source field $\mathsf{NameCert.carrier\_respects\_equiv}$ to the payload classifier witness, then rebuilds the tagged carrier witness. The carrier-as-pattern and carrier-as-ledger components use the same tagged carrier evidence, so the displayed tuple satisfies the semantic certificate fields.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate}
 

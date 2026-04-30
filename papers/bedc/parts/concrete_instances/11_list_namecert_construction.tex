@@ -616,7 +616,7 @@ turning the tail ledger witness into the required tail carrier witness.
 Let $\mathsf{HistSpine}$ be the finite-spine carrier whose entries are BEDC histories. For a BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, the relation $\mathsf{ListSpineRep}_A(h,xs)$ has $xs:\mathsf{HistSpine}$ and says that $h$ represents $xs$ by the same nil and cons clauses used by $\mathsf{ListHistoryCarrier}_A$; the source predicate is carried by the clauses:
 \begin{enumerate}
   \item nil: $xs=\mathsf{nil}$ and $\hsame(h,\emp)$;
-  \item cons: $xs=\mathsf{cons}(ah,xs')$ and there are histories $ah,t,p$ with $A(ah)$, $\mathsf{ListSpineRep}_A(t,xs')$, $\ContR(ah,t,p)$, and $\hsame(h,\Eone(p))$.
+  \item cons: $xs=\mathsf{cons}(a,xs')$ and there are histories $t,p$ with $A(a)$, $\mathsf{ListSpineRep}_A(t,xs')$, $\ContR(a,t,p)$, and $\hsame(h,\Eone(p))$.
 \end{enumerate}
 The spine-bridge classifier used by the certificate is
 $$
@@ -653,9 +653,9 @@ Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let 
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-For soundness, induct on the displayed derivation of $\mathsf{ListSpineRep}_A(h,xs)$. The nil representation is exactly the nil generator of $\mathsf{ListHistoryCarrier}_A$, and the cons representation carries the head witness $A(ah)$, the recursive representation of the tail, the continuation witness $\ContR(ah,t,p)$, and the endpoint witness $\hsame(h,\Eone(p))$, so the cons generator rebuilds the carrier.
+For soundness, induct on the displayed derivation of $\mathsf{ListSpineRep}_A(h,xs)$. The nil representation is exactly the nil generator of $\mathsf{ListHistoryCarrier}_A$, and the cons representation carries the head witness $A(a)$, the recursive representation of the tail, the continuation witness $\ContR(a,t,p)$, and the endpoint witness $\hsame(h,\Eone(p))$, so the cons generator rebuilds the carrier.
 
-For completeness, induct on the displayed generation of $\mathsf{ListHistoryCarrier}_A(h)$. The nil carrier chooses $xs=\mathsf{nil}$ and the stored empty endpoint witness. The cons carrier first applies the induction hypothesis to the tail carrier, then chooses $xs=\mathsf{cons}(ah,xs')$ and reuses the source, continuation, and endpoint witnesses.
+For completeness, induct on the displayed generation of $\mathsf{ListHistoryCarrier}_A(h)$. The nil carrier chooses $xs=\mathsf{nil}$ and the stored empty endpoint witness. The cons carrier first applies the induction hypothesis to the tail carrier, then chooses $xs=\mathsf{cons}(a,xs')$ and reuses the source, continuation, and endpoint witnesses.
 
 For classifier equivalence, unfold both classifier presentations. A bridge witness exposes finite spines and a $\mathsf{ListClassifierSpec}$ witness; applying carrier soundness to both representation endpoints gives the generated list histories, and induction on the finite-spine classifier derivation rebuilds the nil-nil and cons-cons classifier clauses. Conversely, a generated classifier derivation is handled by induction on its nil/cons clauses: the nil case chooses two nil spines, and the cons case uses the induction hypotheses for the tail classifier together with the stored source head classification and continuation witnesses to construct the finite-spine classifier witness.
 \end{proof}

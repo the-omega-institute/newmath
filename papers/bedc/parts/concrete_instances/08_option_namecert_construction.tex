@@ -122,6 +122,18 @@ For the forward direction, case-analyze the tagged classifier witness. The absen
 For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, define $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ to be the property that for all payload histories $a,b$, if $S(a)$, $S(b)$, and $\hsame(a,b)$, then $a\sim_S b$.
 \end{definition}
 
+\begin{theorem}[Tagged option hsame source compatibility]
+\label{thm:tagged-option-source-hsame-compatibility-hsame}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+$$
+\mathsf{TaggedOptionSourceHsameCompatible}(S,\hsame)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:tagged-option-source-hsame-compatibility}. Given payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, and the displayed witness $\hsame(a,b)$, return that same history-sameness witness as the source classifier witness.
+\end{proof}
+
 \begin{definition}[Tagged option history pattern]
 \label{def:tagged-option-history-pattern}
 For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, the visible tag pattern $\mathsf{TaggedOptionHistoryPattern}_S(h)$ holds exactly when $h$ is either an absent endpoint with $\hsame(h,\emp)$ or a present endpoint with payload history $a$ satisfying $S(a)$ and $\hsame(h,\Eone(a))$.
@@ -186,6 +198,14 @@ Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a so
 \end{theorem}
 \begin{proof}
 The absent branch supplies inhabitation through the empty history. Present reflexivity and symmetry are obtained by inverting the present classifier witness and applying the corresponding source certificate fields; the absent branch uses reflexivity, symmetry, and transitivity of $\hsame$ at $\emp$. For present-present transitivity, unpack the two classifier witnesses into payload data $(a,b)$ and $(b',c)$. The shared middle history has endpoint witnesses $\hsame(m,\Eone(b))$ and $\hsame(m,\Eone(b'))$, so symmetry and transitivity of $\hsame$ give $\hsame(\Eone(b),\Eone(b'))$. Applying $e1$-constructor inversion gives $\hsame(b,b')$; source hsame compatibility classifies the two middle payload presentations as $b\sim_S b'$. The source certificate transitivity field first composes $a\sim_S b$ with $b\sim_S b'$, then composes the result with $b'\sim_S c$. Constructor exactness eliminates mixed absent-present classifications and inverts present-present classifications to payload histories. Carrier transport follows by cases on $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}$: absent transport uses the empty endpoint case, and present transport uses the $S(b)$ field already stored in the present-present classifier case. The visible tag pattern and visible tag ledger fields are supplied by Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence}, which identifies both certificate presentations with the tagged option history carrier.
+\end{proof}
+
+\begin{corollary}[Tagged option history certificate over hsame]
+\label{cor:tagged-option-history-semantic-certificate-hsame}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier. If a source $\NameCert(S,\hsame)$ is supplied, then $\mathsf{TaggedOptionHistoryCarrier}_S$, $\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}$, $\mathsf{TaggedOptionHistoryPattern}_S$, and $\mathsf{TaggedOptionHistoryLedger}_S$ form a $\mathsf{SemanticNameCert}$ with no separate compatibility hypothesis.
+\end{corollary}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-semantic-certificate} with source classifier $\hsame$. The required compatibility input is exactly Theorem~\ref{thm:tagged-option-source-hsame-compatibility-hsame}.
 \end{proof}
 
 \begin{theorem}[Option history classifier endpoint transport]
