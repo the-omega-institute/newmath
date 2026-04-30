@@ -29,6 +29,15 @@ theorem ComplexHistoryClassifier_trans {h k r : BHist} :
               | intro carrierR sameKR =>
                   exact And.intro carrierH (And.intro carrierR (hsame_trans sameHK sameKR))
 
+theorem ComplexHistoryClassifier_symm {h k : BHist} :
+    ComplexHistoryClassifier h k -> ComplexHistoryClassifier k h := by
+  intro classified
+  cases classified with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          exact And.intro carrierK (And.intro carrierH (hsame_symm sameHK))
+
 theorem complex_history_semantic_name_certificate :
     SemanticNameCert ComplexHistoryCarrier ComplexHistoryCarrier ComplexHistoryCarrier
       ComplexHistoryClassifier := by

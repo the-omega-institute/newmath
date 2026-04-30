@@ -246,11 +246,11 @@ $$
 \Sig(\mathsf{BAppend}(\Pi,\Theta),h,u,\Lambda).
 $$
 \end{theorem}
+\leanchecked{BEDC.FKernel.Sig.signature\_generation\_bundle\_append}
 \begin{proof}
 Induct on $\Pi$. In the empty bundle case, empty-signature inversion identifies $s$ with $\emp$; take $u=t$, use the right-unit continuation constructor, and reuse the given signature for $\Theta$. In the cons case, invert the left signature. The tail signature for $\Pi$ and the signature for $\Theta$ feed the induction hypothesis, producing a tail result $u_0$ with $\ContR(t,s_0,u_0)$ and a signature for $\mathsf{BAppend}(\Pi,\Theta)$. Rebuild the cons signature using the original head asking event and the tail signature. The final extension branch supplies either the $\Ezero$ or $\Eone$ continuation step, yielding $\ContR(t,s,u)$ for the rebuilt result.
 \end{proof}
-\leanchecked{BEDC.FKernel.Sig.sigRel\_bundleAppend\_forward}
-\leanchecked{BEDC.FKernel.Sig.sigRel\_bundleAppend\_generation}
+\leanchecked{BEDC.FKernel.Sig.sigRel\_bundleAppend}
 
 \begin{theorem}[Signature generation append inversion]
 \label{thm:signature-generation-bundle-append-inversion}
@@ -273,6 +273,7 @@ signature for $\Pi$, and the final extension witness. The same extension
 constructor lifts the recovered tail continuation to $\ContR(t,s,u)$ for the
 whole appended signature.
 \end{proof}
+\leanchecked{BEDC.FKernel.Sig.sigRel\_bundleAppend\_inversion}
 
 \begin{theorem}[Signature-sameness closure under bundle append]
 \label{thm:samesig-bundle-append-closure}
@@ -338,6 +339,7 @@ Assume $\mathsf{BundleAskPolicy}(\Pi,D)$. If $h\in D$, then there are an answer 
 \begin{proof}
 Induct on $\Pi$. The empty bundle emits the empty signature. In the cons case, the head occurrence satisfies $\pi\in\Bcons(\pi,\Pi)$, so bundle-local totality supplies the head asking event. The tail policy is obtained by restricting membership from $\rho\in\Pi$ to $\rho\in\Bcons(\pi,\Pi)$, and the induction hypothesis supplies the tail signature. The emitted head mark then selects the matching extension constructor.
 \end{proof}
+\leanchecked{BEDC.FKernel.Sig.sig\_total\_from\_bundle\_policy}
 
 \begin{theorem}[Bundle-local signature determinacy]
 \label{thm:bundle-local-signature-determinacy}
@@ -470,3 +472,4 @@ $$
 \begin{proof}
 By Theorem~\ref{thm:samesig-of-hsame-under-policy}, the left endpoint hypothesis gives $\sameSig_\Pi(h,h')$, and the right endpoint hypothesis gives $\sameSig_\Pi(k,k')$. Symmetry from Theorem~\ref{thm:signature-sameness-equivalence} turns the first relation into $\sameSig_\Pi(h',h)$. Transitivity through the middle $h$ yields $\sameSig_\Pi(h',k)$, and transitivity through the middle $k$ yields $\sameSig_\Pi(h',k')$.
 \end{proof}
+\leanchecked{BEDC.FKernel.Sig.sameSig\_endpoint\_replacement}

@@ -1,11 +1,13 @@
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Bundle
 
 /-! Asking events emit internal marks together with evidence tokens. -/
 namespace BEDC.FKernel.Ask
 
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Bundle
 
 class AskSetup where
   ProbeName : Type
@@ -75,6 +77,30 @@ structure AskPolicy (D : BHist → Prop) : Prop where
   respectsHistory :
     ∀ {π : ProbeName} {h k : BHist} {m n : BMark} {δ θ : Evidence},
       hsame h k → Ask π h m δ → Ask π k n θ → msame m n
+
+structure BundleAskPolicy (bundle : ProbeBundle ProbeName) (D : BHist → Prop) : Prop where
+  total :
+    ∀ {pi : ProbeName} {h : BHist}, InBundle pi bundle → D h →
+      ∃ m : BMark, ∃ delta : Evidence, Ask pi h m delta
+  deterministic :
+    ∀ {pi : ProbeName} {h : BHist} {m n : BMark} {delta theta : Evidence},
+      InBundle pi bundle → Ask pi h m delta → Ask pi h n theta → msame m n
+  respectsHistory :
+    ∀ {pi : ProbeName} {h k : BHist} {m n : BMark} {delta theta : Evidence},
+      InBundle pi bundle → hsame h k → Ask pi h m delta → Ask pi k n theta → msame m n
+
+omit S in
+theorem bundleAskPolicy_tail [AskSetup]
+    {pi : ProbeName} {tail : ProbeBundle ProbeName} {D : BHist → Prop} :
+    BundleAskPolicy (ProbeBundle.Bcons pi tail) D → BundleAskPolicy tail D := by
+  intro policy
+  constructor
+  · intro rho h inTail hD
+    exact policy.total (Or.inr inTail) hD
+  · intro rho h m n delta theta inTail left right
+    exact policy.deterministic (Or.inr inTail) left right
+  · intro rho h k m n delta theta inTail same left right
+    exact policy.respectsHistory (Or.inr inTail) same left right
 
 omit S in
 theorem askPolicy_total_event [AskSetup] {D : BHist → Prop} (policy : AskPolicy D)

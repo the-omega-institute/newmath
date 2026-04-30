@@ -175,6 +175,19 @@ by sum-carrier transport.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_visible\_carrier}
 
+\begin{theorem}[Sum ledger raw-visible classifier]
+\label{thm:sum-ledger-raw-visible-classifier}
+If $\mathsf{SumHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then
+$\mathsf{SumHistoryClassifier}(L,R,\hsame,\hsame,\rho,v)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into its raw sum carrier and the stored $\hsame(\rho,v)$
+link. The raw carrier determines whether $\rho$ is left-tagged or right-tagged;
+transport the tag witness across the stored link and use reflexivity of
+$\hsame$ on the selected component to build the matching classifier branch.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_raw\_visible\_classifier}
+
 \begin{theorem}[Concrete \(\SumUp\) licensing data]
 \label{thm:concrete-sum-namecert}
 The displayed carrier, classifier, stability certificate, and ledger policy are the \(\SumUp(A,B)\) licensing data. The checked Lean coverage in this chapter is the carrier, classifier, and stability layer recorded above.
