@@ -143,6 +143,12 @@ theorem external_append_bit0_result_inversion :
         (∃ b0 : BWord, b = BWord.bit0 b0 ∧ append a b0 = r)) := by
   exact external_append_bit_result_inversion.left
 
+theorem external_append_bit1_result_inversion :
+    ∀ {a b r : BWord}, append a b = BWord.bit1 r →
+      (b = BWord.nil ∧ a = BWord.bit1 r) ∨
+        (∃ b0 : BWord, b = BWord.bit1 b0 ∧ append a b0 = r) := by
+  exact external_append_bit_result_inversion.right
+
 theorem external_append_assoc :
     forall a b c : BWord, append (append a b) c = append a (append b c) := by
   intro a b c

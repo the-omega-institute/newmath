@@ -320,6 +320,16 @@ theorem PackageReflection_token_unique
     (base : PsameBase s P p q) : s.hsame x y := by
   exact PackageReflection_base eqv tok left right base
 
+theorem PackageReflection_token_unique_from_inversion
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
+    (data : Nonempty (PBaseData s P p q)) : s.hsame x y := by
+  cases data with
+  | intro d =>
+      exact PackageReflection_base_from_data eqv tok left right d
+
 theorem PsameBase_iff_hsame_under_tok_unique
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)

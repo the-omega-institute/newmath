@@ -165,6 +165,16 @@ theorem nameCert_classifier_witness_from_cert [NameCertSetup] {name : DerivedNam
       exact Nonempty.intro classifier
 
 omit N in
+theorem nameCert_classifier_and_ledger_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name → Nonempty ClassifierSpec ∧ Nonempty LedgerPolicy := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      constructor
+      · exact Nonempty.intro classifier
+      · exact Nonempty.intro ledger
+
+omit N in
 theorem nameCert_source_pattern_classifier_witnesses [NameCertSetup] {name : DerivedName} :
     NameCert name -> Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec := by
   intro cert
