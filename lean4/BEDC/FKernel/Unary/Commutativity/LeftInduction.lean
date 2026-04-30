@@ -17,6 +17,18 @@ theorem unary_append_comm_hsame_left_induction :
   | e1 h ih =>
       exact (unary_append_e1_left (h := k) (k := h) uk).trans (hsame_e1_congr (ih uh uk))
 
+theorem unary_append_comm_hsame_by_left_induction :
+    ∀ {h k : BHist}, UnaryHistory h → UnaryHistory k →
+      hsame (append h k) (append k h) := by
+  intro h k uh uk
+  induction h generalizing k with
+  | Empty =>
+      exact append_empty_left k
+  | e0 _ _ =>
+      cases uh
+  | e1 h ih =>
+      exact (unary_append_e1_left (h := k) (k := h) uk).trans (hsame_e1_congr (ih uh uk))
+
 theorem unary_append_comm_hsame_left_induction_closed_pair :
     forall {h k : BHist}, UnaryHistory h -> UnaryHistory k ->
       hsame (append h k) (append k h) ∧

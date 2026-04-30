@@ -203,6 +203,12 @@ theorem add_up_name_certificate_complete :
 theorem add_up_certificate_has_ledger : Nonempty LedgerPolicy := by
   exact derived_interfaces_have_ledger add_up_name_certificate
 
+theorem add_up_certificate_source_and_ledger :
+    NameCert AddName ∧ Nonempty SourceSpec ∧ Nonempty LedgerPolicy := by
+  constructor
+  · exact add_up_name_certificate
+  · exact nameCert_source_and_ledger_from_cert add_up_name_certificate
+
 theorem add_up_ledger_policy_nonempty : Nonempty LedgerPolicy := by
   exact add_up_certificate_has_ledger
 

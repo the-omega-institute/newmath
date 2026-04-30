@@ -145,6 +145,10 @@ theorem hsame_e0_inversion_iff {h x : BHist} :
             cases hx
             exact hsame_e0_congr same
 
+theorem hsame_e0_left_iff {h k : BHist} :
+    hsame (BHist.e0 h) k ↔ ∃ t : BHist, k = BHist.e0 t ∧ hsame h t := by
+  exact hsame_e0_inversion_iff
+
 theorem hsame_e1_inversion {h x : BHist} : hsame (.e1 h) x → ∃ k : BHist, x = .e1 k ∧ hsame h k := by
   intro hs
   cases hs
