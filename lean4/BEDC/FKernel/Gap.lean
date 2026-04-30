@@ -613,6 +613,22 @@ theorem compGap_coverage_from_layers
           | intro z dGap =>
               exact Exists.intro z (Exists.intro y (And.intro cGap dGap))
 
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage_exact
+    {Source Inter Final : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall x : Source, exists y : Inter, firstGap y x)
+    (secondCoverage : forall y : Inter, exists z : Final, secondGap z y)
+    (x : Source) :
+    exists z : Final, CompGap firstGap secondGap z x := by
+  cases firstCoverage x with
+  | intro y firstWitness =>
+      cases secondCoverage y with
+      | intro z secondWitness =>
+          exact Exists.intro z
+            (Exists.intro y (And.intro firstWitness secondWitness))
+
 omit [AskSetup] [PackageSetup] in
 theorem domain_invariance {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     hsame h k -> (InDom D h <-> InDom D k) := by

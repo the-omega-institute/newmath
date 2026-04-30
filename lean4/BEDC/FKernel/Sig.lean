@@ -25,6 +25,13 @@ theorem sig_empty_constructor [AskSetup] (h : BHist) :
     SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) h BHist.Empty := by
   exact SigRel.empty h
 
+theorem sig_cons_constructor {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {h s r : BHist} {m : BMark} {delta : Evidence} :
+    Ask pi h m delta -> SigRel tail h s -> Ext s m r ->
+      SigRel (ProbeBundle.Bcons pi tail) h r := by
+  intro hask htail hext
+  exact SigRel.cons pi tail h s r m delta hask htail hext
+
 theorem sig_cons_inversion {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r : BHist} :
     SigRel (ProbeBundle.Bcons pi tail) h r →
       ∃ s : BHist, ∃ m : BMark, ∃ delta : Evidence,
