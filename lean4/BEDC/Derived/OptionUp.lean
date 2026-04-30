@@ -1,11 +1,19 @@
 namespace BEDC.Derived.OptionUp
 
-def OptionCarrier (A : Type) := Option A
+def OptionCarrier (α : Type) := Option α
 
 def OptionClassifierSpec {A : Type} (rel : A → A → Prop) :
     OptionCarrier A → OptionCarrier A → Prop
   | Option.none, Option.none => True
   | Option.some a, Option.some b => rel a b
+  | Option.none, Option.some _ => False
+  | Option.some _, Option.none => False
+
+def OptionClassifier {α : Type} (sourceSame : α → α → Prop)
+    (x y : OptionCarrier α) : Prop :=
+  match x, y with
+  | Option.none, Option.none => True
+  | Option.some a, Option.some b => sourceSame a b
   | Option.none, Option.some _ => False
   | Option.some _, Option.none => False
 
@@ -35,11 +43,6 @@ theorem optionClassifierSpec_cases {A : Type} {sameA : A → A → Prop} {x y : 
           cases h
       | some b =>
           exact Or.inr ⟨a, b, rfl, rfl, h⟩
-
-def OptionClassifier {A : Type} (same : A → A → Prop) : Option A → Option A → Prop
-  | none, none => True
-  | some a, some b => same a b
-  | _, _ => False
 
 theorem option_stability_certificate_fields {A : Type} {sameA : A → A → Prop}
     (reflA : ∀ a, sameA a a)
@@ -100,5 +103,9 @@ theorem OptionClassifierSpec_trans {A : Type} {Rel : A → A → Prop}
   intro x y z hxy hyz
   cases x <;> cases y <;> cases z <;> simp [OptionClassifierSpec] at *
   exact rel_trans hxy hyz
+
+theorem optionClassifier_some_iff {α : Type} {sourceSame : α → α → Prop} {a b : α} :
+    OptionClassifier sourceSame (Option.some a) (Option.some b) ↔ sourceSame a b := by
+  constructor <;> intro h <;> exact h
 
 end BEDC.Derived.OptionUp
