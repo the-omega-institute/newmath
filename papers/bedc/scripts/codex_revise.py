@@ -438,6 +438,31 @@ def _codex_resolve_conflicts(wt_path: Path, *, model: Optional[str] = None,
     return True
 
 
+def _ff_local_branch_to(target: str) -> tuple[bool, str]:
+    """Fast-forward local BASE_BRANCH to `target` (a SHA or revision).
+
+    Works whether or not REPO_ROOT's currently-checked-out branch is
+    BASE_BRANCH — earlier versions used `git merge --ff-only` which silently
+    advanced the wrong branch when the user's working tree was checked out
+    on something else (e.g. `paper-dev`).
+
+    - If REPO_ROOT is on BASE_BRANCH: use `git merge --ff-only` (working tree
+      gets the new files).
+    - Otherwise: use `git fetch . target:BASE_BRANCH` — a ref-only ff update
+      that does not touch any working tree and refuses non-ff (we want that).
+    """
+    head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
+                   cwd=REPO_ROOT, timeout=10)
+    current = (head.stdout or "").strip()
+    if current == BASE_BRANCH:
+        r = run_cmd(["git", "merge", "--ff-only", target],
+                    cwd=REPO_ROOT, timeout=30)
+    else:
+        r = run_cmd(["git", "fetch", ".", f"{target}:{BASE_BRANCH}"],
+                    cwd=REPO_ROOT, timeout=30)
+    return r.returncode == 0, (r.stderr or r.stdout or "")[-300:]
+
+
 def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
     """Rebase the worktree branch onto BASE_BRANCH, ff-update locally, push."""
     with _git_lock:
@@ -445,8 +470,12 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
 
         def _do(attempt: int) -> bool:
             run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
-            run_cmd(["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
-                    cwd=REPO_ROOT, timeout=30)
+            # Best-effort ff local BASE_BRANCH from origin. If local has commits
+            # origin doesn't (e.g. recovery scenarios), the ff is skipped and
+            # we proceed with whatever is local.
+            ok, msg = _ff_local_branch_to(f"origin/{BASE_BRANCH}")
+            if not ok:
+                logger.info(f"local {BASE_BRANCH} ff from origin skipped: {msg.strip()}")
             rebase = run_cmd(["git", "rebase", BASE_BRANCH], cwd=wt.path, timeout=180)
             if rebase.returncode != 0:
                 logger.warning(f"Rebase conflict (attempt {attempt}); invoking codex")
@@ -454,9 +483,9 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                     run_cmd(["git", "rebase", "--abort"], cwd=wt.path)
                     return False
             wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
-            ff = run_cmd(["git", "merge", "--ff-only", wt_tip], cwd=REPO_ROOT, timeout=30)
-            if ff.returncode != 0:
-                logger.error(f"ff update failed: {ff.stderr[:300]}")
+            ok, msg = _ff_local_branch_to(wt_tip)
+            if not ok:
+                logger.error(f"ff update of {BASE_BRANCH} failed: {msg.strip()}")
                 return False
             push = run_cmd(["git", "push", "origin", BASE_BRANCH],
                            cwd=REPO_ROOT, timeout=300)
