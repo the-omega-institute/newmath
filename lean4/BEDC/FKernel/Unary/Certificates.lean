@@ -103,6 +103,17 @@ theorem nat_up_certificate_field_witnesses :
       Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
   exact nameCert_field_witnesses nat_up_name_certificate
 
+theorem nat_up_certificate_field_witnesses_and_unary_generators :
+    ∃ _ : SourceSpec, ∃ _ : PatternSpec, ∃ _ : ClassifierSpec, ∃ _ : StabilityCert,
+      ∃ _ : LedgerPolicy, NameCert UnaryName ∧ UnaryHistory BHist.Empty ∧
+        (∀ {h : BHist}, UnaryHistory h → UnaryHistory (BHist.e1 h)) := by
+  have cert : NameCert UnaryName := nat_up_name_certificate
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact ⟨source, pattern, classifier, stability, ledger,
+        NameCert.mk source pattern classifier stability ledger, unary_empty,
+        fun uh => unary_e1_closed uh⟩
+
 theorem nat_up_certificate_pattern_classifier_ledger :
     Nonempty PatternSpec /\ Nonempty ClassifierSpec /\ Nonempty LedgerPolicy := by
   have cert : NameCert UnaryName := nat_up_name_certificate

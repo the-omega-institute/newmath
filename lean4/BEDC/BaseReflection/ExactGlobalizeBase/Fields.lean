@@ -82,6 +82,16 @@ theorem ExactGlobalizeBase_covered_classification
       | intro q hq =>
           exact ⟨p, q, hp, hq, ExactGlobalizeBase_classify_iff ex hp hq⟩
 
+theorem ExactGlobalizeBase_coverage_pair
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) {h k : s.Hist}
+    (hdom : s.InDom D h) (kdom : s.InDom D k) :
+    (∃ p : s.Pkg, s.InGapSig P D p h) ∧
+      (∃ q : s.Pkg, s.InGapSig P D q k) := by
+  constructor
+  · exact ex.coverage h hdom
+  · exact ex.coverage k kdom
+
 theorem ExactGlobalizeBase_admitted_pair_export_shape
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) {h k : s.Hist}
