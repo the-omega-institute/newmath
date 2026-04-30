@@ -274,4 +274,52 @@ theorem StableReflectionContract
   intro mode x y p q left right base
   exact PackageReflection_base eqv (CanonicalTokenMode_implies_TokUnique mode) left right base
 
+theorem base_reflection_public_name_contract {s : BaseReflectionSetup} {P : s.Pi} :
+    (forall {x y : s.SigObj} {p q : s.Pkg},
+      s.TokIntro P x p -> s.TokIntro P y q -> s.hsame x y -> PsameBase s P p q) ∧
+    (forall {p q : s.Pkg}, PsameBase s P p q -> Nonempty (PBaseData s P p q)) ∧
+    (forall (tok : TokUnique s P) {x y : s.SigObj} {p : s.Pkg},
+      s.TokIntro P x p -> s.TokIntro P y p -> s.hsame x y) ∧
+    (forall (eqv : HSameEquiv s) (tok : TokUnique s P) {x y : s.SigObj} {p q : s.Pkg},
+      s.TokIntro P x p -> s.TokIntro P y q -> PsameBase s P p q -> s.hsame x y) := by
+  constructor
+  · intro x y p q left right same
+    exact PsameBase.intro left right same
+  · constructor
+    · intro p q base
+      exact PsameBase_inversion base
+    · constructor
+      · intro tok x y p left right
+        exact tok.tokenReplacement left right
+      · intro eqv tok x y p q left right base
+        exact PackageReflection_base eqv tok left right base
+
+theorem closure_reflection_route_cases
+    {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s) (tok : TokUnique s P)
+    (introOf : forall p : s.Pkg, Nonempty (Subtype (fun x : s.SigObj => s.TokIntro P x p))) :
+    (forall {x y : s.SigObj} {p : s.Pkg},
+      s.TokIntro P x p -> s.TokIntro P y p -> s.hsame x y) ∧
+    (forall {x y : s.SigObj} {p q : s.Pkg},
+      s.TokIntro P x p -> s.TokIntro P y q -> PsameBase s P p q -> s.hsame x y) ∧
+    (forall {x y : s.SigObj} {p q : s.Pkg},
+      s.TokIntro P x p -> s.TokIntro P y q -> PsameEqClosure s P q p -> s.hsame y x) ∧
+    (forall {x z : s.SigObj} {p q r : s.Pkg},
+      s.TokIntro P x p -> s.TokIntro P z r ->
+        PsameEqClosure s P p q -> PsameEqClosure s P q r -> s.hsame x z) := by
+  constructor
+  · intro x y p left right
+    exact tok.tokenReplacement left right
+  · constructor
+    · intro x y p q left right base
+      exact PackageReflection_base eqv tok left right base
+    · constructor
+      · intro x y p q left right closure
+        exact PackageReflection_eqClosure eqv tok introOf right left closure
+      · intro x z p q r left right leftClosure rightClosure
+        cases introOf q with
+        | intro middle =>
+            exact eqv.trans
+              (PackageReflection_eqClosure eqv tok introOf left middle.property leftClosure)
+              (PackageReflection_eqClosure eqv tok introOf middle.property right rightClosure)
+
 end BEDC.BaseReflection

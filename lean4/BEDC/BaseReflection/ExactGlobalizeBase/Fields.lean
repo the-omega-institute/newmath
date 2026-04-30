@@ -121,4 +121,16 @@ theorem ExactGlobalizeBase_sound_complete_and_classify
     (ExactGlobalizeBase_sound_complete ex hp hq)
     (ExactGlobalizeBase_classify_iff ex hp hq)
 
+theorem checked_acceptance_gate_exactBase_exports_public_shape
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    ExactGlobalizeBase s P D ∧
+    (forall {h k : s.Hist} {p q : s.Pkg},
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+        (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k))) := by
+  constructor
+  · exact ex
+  · intro h k p q hp hq
+    exact ExactGlobalizeBase_classify_iff ex hp hq
+
 end BEDC.BaseReflection
