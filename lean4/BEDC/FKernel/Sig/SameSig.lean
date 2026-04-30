@@ -84,6 +84,33 @@ theorem sameSig_of_hsame_witnesses_under_policy [AskSetup] {bundle : ProbeBundle
                     hs
                     ht))))
 
+theorem signature_totality_respects_hsame_witnesses [AskSetup]
+    {bundle : ProbeBundle ProbeName} {D : BHist -> Prop} (policy : AskPolicy D)
+    {h k : BHist} :
+    D h -> D k -> hsame h k ->
+      exists s : BHist, exists t : BHist,
+        SigRel bundle h s /\ SigRel bundle k t /\ hsame s t := by
+  intro dh dk hhk
+  cases sig_total_from_policy (bundle := bundle) (D := D) (h := h) policy dh with
+  | intro s hs =>
+      cases sig_total_from_policy (bundle := bundle) (D := D) (h := k) policy dk with
+      | intro t ht =>
+          exact Exists.intro s
+            (Exists.intro t
+              (And.intro hs
+                (And.intro ht
+                  (sig_respects_history
+                    (bundle := bundle)
+                    (D := D)
+                    (h := h)
+                    (k := k)
+                    (s := s)
+                    (t := t)
+                    policy
+                    hhk
+                    hs
+                    ht))))
+
 theorem sameSig_trans_with_middle_witness [AskSetup] {bundle : ProbeBundle ProbeName}
     {D : BHist -> Prop} (policy : AskPolicy D) {h k l : BHist} :
     D k -> SameSig bundle h k -> SameSig bundle k l ->

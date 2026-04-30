@@ -27,4 +27,9 @@ theorem additive_stability_certificate_fields :
       · intro h k r r' hr hr'
         exact cont_deterministic hr hr'
 
+theorem additive_stability_certificate_determinacy_field :
+    forall {h k r r' : BHist}, Cont h k r -> Cont h k r' -> hsame r r' := by
+  intro h k r r' hr hr'
+  exact cont_deterministic hr hr'
+
 end BEDC.FKernel.Unary
