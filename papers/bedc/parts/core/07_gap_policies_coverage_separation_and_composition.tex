@@ -90,6 +90,23 @@ If the first interface has gap coverage in the form that every admitted source $
 Given an admitted source, first coverage supplies both an intermediate token whose first gap contains the source and the admissibility certificate for that intermediate token. Second coverage applies to that certificate and produces a final token whose second gap contains the intermediate token. Thus the source belongs to the composite gap of the final token.
 \end{proof}
 
+\begin{theorem}[Composite gap separation]
+\label{thm:composite-gap-separation}
+If the first gap separates two intermediate witnesses over the same source by $\mathsf{interSame}$, and the second gap sends $\mathsf{interSame}$ intermediate witnesses to $\mathsf{finalSame}$ final tokens, then two composite memberships over the same source imply $\mathsf{finalSame}(z_1,z_2)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Gap.compGap\_separation\_from\_layers}
+\begin{proof}
+Unpack the first composite membership into an intermediate witness $y_1$ with $\InGap_C(y_1,h)$ and $\InGap_D(z_1,y_1)$. Unpack the second composite membership into $y_2$ with $\InGap_C(y_2,h)$ and $\InGap_D(z_2,y_2)$. First-layer separation gives $\mathsf{interSame}(y_1,y_2)$, and second-layer separation carries this relation across the two second-layer memberships to obtain $\mathsf{finalSame}(z_1,z_2)$.
+\end{proof}
+
+\begin{theorem}[Composite exactness from layered exactness]
+\label{thm:composite-exactness-from-layers}
+For a staged BEDC interface represented by $\CompGap$, assume the first layer has source coverage with an $\mathsf{InterOk}$ certificate, the second layer has coverage for every $\mathsf{InterOk}$ intermediate token, the first layer separates same-source intermediate witnesses by $\mathsf{interSame}$, and the second layer carries $\mathsf{interSame}$ witnesses to $\mathsf{finalSame}$ final tokens. Then the composite gap has both source coverage and same-source final separation.
+\end{theorem}
+\begin{proof}
+The coverage component is exactly the composite gap coverage theorem: choose the first-layer intermediate witness and its $\mathsf{InterOk}$ certificate, then apply second-layer coverage to obtain a final token. The separation component is exactly the composite gap separation theorem: unpack the two composite witnesses over the same source, use first-layer separation to identify the intermediate witnesses by $\mathsf{interSame}$, and apply second-layer separation to obtain $\mathsf{finalSame}$ for the final tokens.
+\end{proof}
+
 \begin{principle}[Ledger composition]
 \label{cor:ledger-composition-principle}
 The ledger of a composite compression is not the last ledger alone. It is the first ledger together with the pullback of the second ledger along the first visible interface.
@@ -104,7 +121,6 @@ The ledger of a composite compression is not the last ledger alone. It is the fi
 \leanvariant{BEDC.FKernel.Gap.compGap\_assoc\_backward}
 \leanvariant{BEDC.FKernel.Gap.ledger\_composition\_principle}
 \leanvariant{BEDC.FKernel.Gap.ledger\_composition\_principle\_iff}
-\leanvariant{BEDC.FKernel.Gap.compGap\_separation\_from\_layers}
 \leanvariant{BEDC.FKernel.Gap.compGap\_left\_nested\_witnesses}
 \leanvariant{BEDC.FKernel.Gap.compGap\_witnesses\_to\_right\_nested}
 \leanvariant{BEDC.FKernel.Gap.compGap\_right\_nested\_iff\_witnesses}
