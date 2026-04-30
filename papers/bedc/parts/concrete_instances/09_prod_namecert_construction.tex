@@ -124,6 +124,44 @@ to rebuild the product classifier witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.prodClassifier\_iff}
 
+\begin{definition}[Product typed source carrier]
+\label{def:product-typed-source-carrier}
+For source carriers $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and
+$x:\mathsf{ProdCarrier}(\mathsf{BHist},\mathsf{BHist})$, define
+$\mathsf{ProdTypedCarrier}_{L,R}(x)$ by the displayed pair decomposition
+$$
+\mathsf{ProdTypedCarrier}_{L,R}(x)
+\quad\Longleftrightarrow\quad
+\exists l,r:\mathsf{BHist}.\ x=\mathsf{pair}(l,r)\land L(l)\land R(r).
+$$
+It is the typed source-carrier predicate for the explicit ordered-product
+interface: the left coordinate is licensed by $L$ and the right coordinate is
+licensed by $R$.
+\end{definition}
+
+\begin{theorem}[Product typed carrier transport from source certificates]
+\label{thm:product-typed-carrier-transport-source-certificates}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\sim_L,\sim_R$ be source classifiers. If
+$\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$,
+$x,y:\mathsf{ProdCarrier}(\mathsf{BHist},\mathsf{BHist})$,
+$\mathsf{ProdTypedCarrier}_{L,R}(x)$, and
+$\mathsf{ProdClassifierSpec}(\sim_L,\sim_R,x,y)$, then
+$\mathsf{ProdTypedCarrier}_{L,R}(y)$.
+\end{theorem}
+\begin{proof}
+Invert the typed carrier witness for $x$ to obtain coordinates $l$ and $r$
+with $x=\mathsf{pair}(l,r)$, $L(l)$, and $R(r)$. Invert the product carrier
+$y$ as $\mathsf{pair}(l',r')$. Apply
+Theorem~\ref{thm:prod-classifier-coordinate-exactness} to the classifier
+witness for the two displayed pairs; this yields source classifier witnesses
+$l\sim_L l'$ and $r\sim_R r'$. The
+$\mathsf{carrier\_respects\_equiv}$ fields of $\mathsf{cert}_L$ and
+$\mathsf{cert}_R$ transport $L(l)$ to $L(l')$ and $R(r)$ to $R(r')$.
+Those transported witnesses rebuild $\mathsf{ProdTypedCarrier}_{L,R}(y)$.
+\end{proof}
+
 \begin{theorem}[Product history classifier endpoint carrier exposure]
 \label{thm:prod-history-classifier-component-inversion}
 For source predicates $L,R:\Hist\to\mathsf{Prop}$, the product history
