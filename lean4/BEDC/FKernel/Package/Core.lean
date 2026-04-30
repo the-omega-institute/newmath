@@ -82,6 +82,13 @@ theorem tokUnique_replacement [AskSetup] [PackageSetup] {bundle : ProbeBundle Pr
   intro left right
   exact tok left right
 
+omit [AskSetup] P in
+theorem tokUnique_replacement_symm [AskSetup] [PackageSetup] {bundle : ProbeBundle ProbeName}
+    (tok : TokUnique bundle) {s t : BHist} {p : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t p -> hsame t s := by
+  intro left right
+  exact hsame_symm (tokUnique_replacement tok left right)
+
 theorem psame_reflect_under_tok_unique {bundle : ProbeBundle ProbeName}
     (tok : TokUnique bundle) {s t : BHist} {p q : Pkg} :
     TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t := by
