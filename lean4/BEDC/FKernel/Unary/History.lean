@@ -255,6 +255,15 @@ theorem unary_continuation_closed_and_factors {h k r : BHist} :
     · exact unary_cont_left_factor hr ur
     · exact unary_cont_right_factor hr ur
 
+theorem unary_repetition_continuation_closed_and_factors {h k r : BHist} :
+    (UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r) ∧
+      (Cont h k r -> UnaryHistory r -> UnaryHistory h ∧ UnaryHistory k) := by
+  constructor
+  · intro uh uk hr
+    exact unary_repetition_continuation_closed uh uk hr
+  · intro hr ur
+    exact unary_cont_factors_from_result hr ur
+
 theorem unary_cont_unit {h left right : BHist} :
     UnaryHistory h -> Cont h BHist.Empty left -> Cont BHist.Empty h right ->
       UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h := by

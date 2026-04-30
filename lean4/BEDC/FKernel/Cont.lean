@@ -258,6 +258,23 @@ theorem cont_e1_result_inversion {h k r : BHist} :
       right
       exact ⟨k0, rfl, BHist.e1.inj hc⟩
 
+theorem cont_e0_result_inversion {h k r : BHist} :
+    Cont h k (BHist.e0 r) ->
+      (k = BHist.Empty ∧ hsame h (BHist.e0 r)) ∨
+        (∃ k0 : BHist, k = BHist.e0 k0 ∧ Cont h k0 r) := by
+  intro hc
+  cases k with
+  | Empty =>
+      left
+      constructor
+      · rfl
+      · exact hc.symm
+  | e0 k0 =>
+      right
+      exact ⟨k0, rfl, BHist.e0.inj hc⟩
+  | e1 k0 =>
+      cases hc
+
 theorem cont_unit_laws :
     (∀ k : BHist, Cont .Empty k k) ∧
       (∀ {h r : BHist}, Cont h .Empty r → hsame r h) := by
