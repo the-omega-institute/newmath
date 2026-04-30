@@ -2,6 +2,11 @@ import BEDC.FKernel.NameCert
 
 namespace BEDC.FKernel.NameCert
 
+def threadFamily_base_stage {StageData : StageInterface -> Type} :
+    ThreadFamily StageData -> StageData StageInterface.base := by
+  intro family
+  exact family StageInterface.base
+
 theorem nameCert_all_fields_nonempty [NameCertSetup] {name : DerivedName} :
     NameCert name ->
       Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec /\

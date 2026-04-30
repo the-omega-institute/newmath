@@ -310,6 +310,16 @@ theorem conditional_closure_reflection_schema
   intro left right closure
   exact PackageReflection_eqClosure eqv tok introOf left right closure
 
+theorem PsameEqClosure_endpoint_reflection_pair
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    (introOf : forall p : s.Pkg, Nonempty (Subtype (fun x : s.SigObj => s.TokIntro P x p)))
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
+    (closure : PsameEqClosure s P p q) : s.hsame x y /\ s.hsame y x := by
+  have forward := PackageReflection_eqClosure eqv tok introOf left right closure
+  exact And.intro forward (eqv.symm forward)
+
 theorem ClosureReflect_from_canonical
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (mode : CanonicalTokenMode s P)
