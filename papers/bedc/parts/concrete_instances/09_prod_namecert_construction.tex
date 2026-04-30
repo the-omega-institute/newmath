@@ -126,6 +126,18 @@ link by product-carrier transport.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_visible\_carrier}
 
+\begin{theorem}[Prod ledger raw-visible classifier]
+\label{thm:prod-ledger-raw-visible-classifier}
+If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into the raw product carrier for $\rho$ and the stored
+$\hsame(\rho,v)$ link. The visible-carrier theorem supplies the product
+carrier for $v$. These three witnesses are exactly the product classifier
+fields for the raw ledger history and the visible history.
+\end{proof}
+
 \begin{theorem}[Concrete \(\ProdUp\) naming certificate]
 \label{thm:concrete-prod-namecert}
 The componentwise tuple forms a valid NameCert for \(\ProdUp(A,B)\).
