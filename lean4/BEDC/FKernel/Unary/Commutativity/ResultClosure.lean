@@ -15,6 +15,16 @@ theorem unary_commutativity_refined_with_result_closure {h k r r' : BHist} :
     · exact unary_cont_closed uh uk hr
     · exact unary_cont_closed uk uh hr'
 
+theorem unary_commutativity_concrete_induction_closed_results {h k r r' : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' →
+      hsame r r' ∧ UnaryHistory r ∧ UnaryHistory r' := by
+  intro uh uk hr hr'
+  constructor
+  · exact unary_commutativity_concrete_induction uh uk hr hr'
+  · constructor
+    · exact unary_cont_closed uh uk hr
+    · exact unary_cont_closed uk uh hr'
+
 theorem unary_shift_step_with_unique_witness {k0 h r' : BHist} :
     UnaryHistory k0 →
       (∀ {r : BHist}, Cont k0 (.e1 h) r →

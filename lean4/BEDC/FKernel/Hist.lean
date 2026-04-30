@@ -42,6 +42,15 @@ theorem hsame_empty_iff {h : BHist} : hsame h BHist.Empty ↔ h = BHist.Empty :=
     cases heq
     rfl
 
+theorem hsame_empty_left_iff {h : BHist} : hsame BHist.Empty h ↔ h = BHist.Empty := by
+  constructor
+  · intro hs
+    cases hs
+    rfl
+  · intro heq
+    cases heq
+    rfl
+
 theorem hsame_equivalence :
     (∀ h : BHist, hsame h h) ∧
       (∀ {h k : BHist}, hsame h k → hsame k h) ∧
