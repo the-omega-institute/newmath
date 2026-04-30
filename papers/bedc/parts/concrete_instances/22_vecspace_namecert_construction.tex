@@ -5,4 +5,55 @@ The vector space interface \(\VecSpaceUp\) is the specialization of \autoref{ch:
 
 \section{Carrier definition}
 
+\begin{definition}[VecSpace carrier]
+\label{def:vecspace-carrier}
+Use a module setup whose scalar source is a certified field.
+\end{definition}
+
 \section{The certificate}
+
+\begin{definition}[VecSpace source specification]
+\label{def:vecspace-source-specification}
+The source is \(\FieldUp(F)\) together with a certified \(F\)-module carrier.
+\end{definition}
+
+\begin{definition}[VecSpace pattern specification]
+\label{def:vecspace-pattern-specification}
+The pattern is exactly module expression formation over field scalars.
+\end{definition}
+
+\begin{definition}[VecSpace classifier specification]
+\label{def:vecspace-classifier-specification}
+The classifier is the module carrier classifier, with scalar congruence inherited from the field.
+\end{definition}
+
+\begin{definition}[VecSpace stability certificate]
+\label{def:vecspace-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all module stability fields
+  \item all scalar field stability fields
+  \item inverse-enabled scalar reasoning for apart-from-zero scalars
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[VecSpace ledger policy]
+\label{def:vecspace-ledger-policy}
+Record module ledgers plus the field ledger for scalar operations.
+\end{definition}
+
+\begin{theorem}[Concrete \(\VecSpaceUp\) naming certificate]
+\label{thm:concrete-vecspace-namecert}
+Any module over a certified field forms a valid NameCert for \(\VecSpaceUp(F,V)\).
+\end{theorem}
+
+\begin{corollary}[\(\VecSpaceUp\) is licensed, not primitive]
+\label{cor:vecspace-licensed-not-primitive}
+\(\VecSpaceUp\) is licensed as the field-scalar specialization of \(\ModuleUp\).
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:vecspace-zero-axiom-note}
+Inverses use field apartness witnesses rather than LEM-based nonzero tests.
+\end{remark}
+

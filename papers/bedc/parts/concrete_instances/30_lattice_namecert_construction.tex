@@ -5,4 +5,52 @@ The lattice interface \(\LatticeUp\) extends \autoref{ch:concrete-instances-pose
 
 \section{Carrier definition}
 
+\begin{definition}[Lattice carrier]
+\label{def:lattice-carrier}
+Use a poset setup extended with meet and join operations carrying bound-characterization proofs.
+\end{definition}
+
 \section{The certificate}
+
+\begin{definition}[Lattice source specification]
+\label{def:lattice-source-specification}
+The source is a certified poset carrier plus binary meet and join data.
+\end{definition}
+
+\begin{definition}[Lattice pattern specification]
+\label{def:lattice-pattern-specification}
+The pattern is expression formation by \(\wedge\) and \(\vee\) over carrier witnesses.
+\end{definition}
+
+\begin{definition}[Lattice classifier specification]
+\label{def:lattice-classifier-specification}
+The classifier is the poset carrier classifier, with meet and join congruent in both arguments.
+\end{definition}
+
+\begin{definition}[Lattice stability certificate]
+\label{def:lattice-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all poset stability fields
+  \item meet lower-bound laws
+  \item meet greatestness law
+  \item join upper-bound laws
+  \item join leastness law
+  \item meet and join congruence
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Lattice ledger policy]
+\label{def:lattice-ledger-policy}
+Record operands and the bound-characterization certificate for each meet or join.
+\end{definition}
+
+\begin{theorem}[Concrete \(\LatticeUp\) naming certificate]
+\label{thm:concrete-lattice-namecert}
+Any poset with certified binary meets and joins forms a valid NameCert for \(\LatticeUp(C)\).
+\end{theorem}
+
+\begin{corollary}[\(\LatticeUp\) is licensed, not primitive]
+\label{cor:lattice-licensed-not-primitive}
+\(\LatticeUp\) is licensed by order-theoretic bound data.
+\end{corollary}

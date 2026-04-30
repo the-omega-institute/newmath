@@ -5,4 +5,52 @@ The monoid interface \(\MonoidUp\) is licensed by an abstract carrier endowed wi
 
 \section{Carrier definition}
 
+\begin{definition}[Monoid carrier]
+\label{def:monoid-carrier}
+Use an abstract setup structure with carrier \(C\), classifier \(\sim_C\), operation \(\cdot\), identity \(e\), and law fields.
+\end{definition}
+
 \section{The certificate}
+
+\begin{definition}[Monoid source specification]
+\label{def:monoid-source-specification}
+The source is the carrier \(C\) with its classifier and operation data.
+\end{definition}
+
+\begin{definition}[Monoid pattern specification]
+\label{def:monoid-pattern-specification}
+The pattern is closed expression formation from \(e\), carrier witnesses, and binary multiplication.
+\end{definition}
+
+\begin{definition}[Monoid classifier specification]
+\label{def:monoid-classifier-specification}
+The classifier is the supplied carrier sameness relation, required to respect multiplication.
+\end{definition}
+
+\begin{definition}[Monoid stability certificate]
+\label{def:monoid-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item classifier reflexivity
+  \item classifier transitivity
+  \item associativity under classifier
+  \item left identity law
+  \item right identity law
+  \item multiplication congruence in both arguments
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Monoid ledger policy]
+\label{def:monoid-ledger-policy}
+Record the carrier witnesses and operation tree behind each monoid expression.
+\end{definition}
+
+\begin{theorem}[Concrete \(\MonoidUp\) naming certificate]
+\label{thm:concrete-monoid-namecert}
+Any setup satisfying the monoid fields forms a valid NameCert for \(\MonoidUp(C)\).
+\end{theorem}
+
+\begin{corollary}[\(\MonoidUp\) is licensed, not primitive]
+\label{cor:monoid-licensed-not-primitive}
+\(\MonoidUp\) is licensed exactly when the carrier supplies the monoid law fields.
+\end{corollary}

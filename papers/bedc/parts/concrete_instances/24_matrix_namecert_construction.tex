@@ -5,4 +5,58 @@ The matrix interface \(\MatrixUp\) is licensed over a scalar ring from \autoref{
 
 \section{Carrier definition}
 
+\begin{definition}[Matrix carrier]
+\label{def:matrix-carrier}
+Use functions \(\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R\) with \(n,m:\NatUp\) and scalar ring \(R\).
+\end{definition}
+
 \section{The certificate}
+
+\begin{definition}[Matrix source specification]
+\label{def:matrix-source-specification}
+The source is the finite index carrier from \(\NatUp\) and the scalar source \(\RingUp(R)\).
+\end{definition}
+
+\begin{definition}[Matrix pattern specification]
+\label{def:matrix-pattern-specification}
+The pattern is finite table formation assigning a scalar witness to each index pair.
+\end{definition}
+
+\begin{definition}[Matrix classifier specification]
+\label{def:matrix-classifier-specification}
+The classifier relates matrices pointwise by scalar classifier at every index pair.
+\end{definition}
+
+\begin{definition}[Matrix stability certificate]
+\label{def:matrix-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item pointwise reflexivity
+  \item pointwise transitivity
+  \item finite index closure
+  \item addition closure by scalar addition
+  \item multiplication closure by finite scalar sums and products
+  \item identity matrix closure when dimensions match
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Matrix ledger policy]
+\label{def:matrix-ledger-policy}
+Record the dimension witnesses, index discipline, and scalar ledger for each entry.
+\end{definition}
+
+\begin{theorem}[Concrete \(\MatrixUp\) naming certificate]
+\label{thm:concrete-matrix-namecert}
+The finite-table tuple forms a valid NameCert for \(\MatrixUp(R,n,m)\).
+\end{theorem}
+
+\begin{corollary}[\(\MatrixUp\) is licensed, not primitive]
+\label{cor:matrix-licensed-not-primitive}
+\(\MatrixUp\) is licensed as a finite function carrier over a ring.
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:matrix-zero-axiom-note}
+Avoids funext by using pointwise classifier sameness; finite indices are inductive, not quotient indices.
+\end{remark}
+

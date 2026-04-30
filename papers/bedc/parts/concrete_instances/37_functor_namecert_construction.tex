@@ -5,4 +5,58 @@ The functor interface \(\FunctorUp\) is licensed between two categories from \au
 
 \section{Carrier definition}
 
+\begin{definition}[Functor carrier]
+\label{def:functor-carrier}
+Use a structure with object mapping, morphism mapping, and proofs preserving identity and composition.
+\end{definition}
+
 \section{The certificate}
+
+\begin{definition}[Functor source specification]
+\label{def:functor-source-specification}
+The source is a pair of certified categories.
+\end{definition}
+
+\begin{definition}[Functor pattern specification]
+\label{def:functor-pattern-specification}
+The pattern is structure-preserving mapping formation over object and morphism carriers.
+\end{definition}
+
+\begin{definition}[Functor classifier specification]
+\label{def:functor-classifier-specification}
+The classifier relates functors pointwise on object images and morphism images using the codomain category classifiers.
+\end{definition}
+
+\begin{definition}[Functor stability certificate]
+\label{def:functor-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item pointwise object-map classifier reflexivity
+  \item pointwise morphism-map classifier reflexivity
+  \item pointwise transitivity
+  \item identity preservation
+  \item composition preservation
+  \item stability under source and target classifier replacement
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Functor ledger policy]
+\label{def:functor-ledger-policy}
+Record the two category ledgers and the preservation witnesses.
+\end{definition}
+
+\begin{theorem}[Concrete \(\FunctorUp\) naming certificate]
+\label{thm:concrete-functor-namecert}
+The mapping-with-preservation tuple forms a valid NameCert for \(\FunctorUp(C,D)\).
+\end{theorem}
+
+\begin{corollary}[\(\FunctorUp\) is licensed, not primitive]
+\label{cor:functor-licensed-not-primitive}
+\(\FunctorUp\) is licensed as structure-preserving data between categories.
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:functor-zero-axiom-note}
+Avoids funext by pointwise classifier sameness for object and morphism mappings.
+\end{remark}
+

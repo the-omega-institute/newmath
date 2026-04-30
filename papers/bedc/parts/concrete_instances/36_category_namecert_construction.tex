@@ -5,4 +5,59 @@ The category interface \(\CategoryUp\) is licensed by an object carrier together
 
 \section{Carrier definition}
 
+\begin{definition}[Category carrier]
+\label{def:category-carrier}
+Use a multi-sorted setup with object carrier, morphism carrier for each ordered object pair, identities, composition, and law fields.
+\end{definition}
+
 \section{The certificate}
+
+\begin{definition}[Category source specification]
+\label{def:category-source-specification}
+The source is the licensed object carrier and each licensed hom-carrier.
+\end{definition}
+
+\begin{definition}[Category pattern specification]
+\label{def:category-pattern-specification}
+The pattern is morphism expression formation from identities and composable pairs.
+\end{definition}
+
+\begin{definition}[Category classifier specification]
+\label{def:category-classifier-specification}
+The classifier is object sameness for objects and hom-carrier sameness for morphisms, indexed by source and target.
+\end{definition}
+
+\begin{definition}[Category stability certificate]
+\label{def:category-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item object classifier reflexivity and transitivity
+  \item morphism classifier reflexivity and transitivity
+  \item identity morphism stability
+  \item composition closure
+  \item associativity under morphism classifier
+  \item left and right identity laws
+  \item composition congruence
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Category ledger policy]
+\label{def:category-ledger-policy}
+Record object ledgers, hom-carrier ledgers, and composition trees.
+\end{definition}
+
+\begin{theorem}[Concrete \(\CategoryUp\) naming certificate]
+\label{thm:concrete-category-namecert}
+Any multi-sorted setup satisfying category law fields forms a valid NameCert for \(\CategoryUp\).
+\end{theorem}
+
+\begin{corollary}[\(\CategoryUp\) is licensed, not primitive]
+\label{cor:category-licensed-not-primitive}
+\(\CategoryUp\) is licensed as indexed carrier data with composition laws.
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:category-zero-axiom-note}
+Avoids a global universe of all objects by using explicit licensed carriers.
+\end{remark}
+

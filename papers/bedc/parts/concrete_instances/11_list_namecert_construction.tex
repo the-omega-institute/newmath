@@ -5,4 +5,51 @@ The list interface \(\ListUp\) is licensed over a source carrier endowed with a 
 
 \section{Carrier definition}
 
+\begin{definition}[List carrier]
+\label{def:list-carrier}
+For a licensed source carrier \(A\), define the inductive list carrier by \(\mathsf{nil}\) and \(\mathsf{cons}(a,\ell)\).
+\end{definition}
+
 \section{The certificate}
+
+\begin{definition}[List source specification]
+\label{def:list-source-specification}
+The source is finite generated sequencing over the source certificate for \(A\).
+\end{definition}
+
+\begin{definition}[List pattern specification]
+\label{def:list-pattern-specification}
+The pattern is nil-or-cons generation with structurally smaller tail.
+\end{definition}
+
+\begin{definition}[List classifier specification]
+\label{def:list-classifier-specification}
+The classifier relates nil with nil and cons with cons when heads are source-classified the same and tails are list-classified the same.
+\end{definition}
+
+\begin{definition}[List stability certificate]
+\label{def:list-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item reflexivity by list induction
+  \item transitivity by paired source/list induction
+  \item nil/cons separation
+  \item closure under cons
+  \item tail inversion and head inversion for classified cons values
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[List ledger policy]
+\label{def:list-ledger-policy}
+Record the finite constructor spine and the source ledger for each element.
+\end{definition}
+
+\begin{theorem}[Concrete \(\ListUp\) naming certificate]
+\label{thm:concrete-list-namecert}
+The structural tuple forms a valid NameCert for \(\ListUp(A)\).
+\end{theorem}
+
+\begin{corollary}[\(\ListUp\) is licensed, not primitive]
+\label{cor:list-licensed-not-primitive}
+\(\ListUp\) is licensed as a finite inductive sequence over \(A\).
+\end{corollary}

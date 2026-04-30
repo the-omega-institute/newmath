@@ -5,4 +5,57 @@ The real number interface \(\RealUp\) is licensed by Bishop-style Cauchy sequenc
 
 \section{Carrier definition}
 
+\begin{definition}[Real carrier]
+\label{def:real-carrier}
+Use Bishop Cauchy rational sequences with an explicit convergence modulus \(\omega:\mathbb{N}\to\mathbb{N}\).
+\end{definition}
+
 \section{The certificate}
+
+\begin{definition}[Real source specification]
+\label{def:real-source-specification}
+The source is \(\RatUp\)-valued sequences equipped with explicit modulus data.
+\end{definition}
+
+\begin{definition}[Real pattern specification]
+\label{def:real-pattern-specification}
+The pattern is sequence-plus-modulus generation satisfying the Cauchy bound for every precision index.
+\end{definition}
+
+\begin{definition}[Real classifier specification]
+\label{def:real-classifier-specification}
+The classifier relates two real witnesses when an explicit comparison modulus proves their rational values converge together at every requested precision.
+\end{definition}
+
+\begin{definition}[Real stability certificate]
+\label{def:real-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item Cauchy modulus validity
+  \item classifier reflexivity using the witness modulus
+  \item classifier transitivity by composing precision moduli
+  \item closure under rational embedding
+  \item closure of arithmetic operations with constructed moduli
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Real ledger policy]
+\label{def:real-ledger-policy}
+Record the rational sequence, convergence modulus, and comparison modulus when sameness is used.
+\end{definition}
+
+\begin{theorem}[Concrete \(\RealUp\) naming certificate]
+\label{thm:concrete-real-namecert}
+The Bishop-sequence tuple forms a valid NameCert for \(\RealUp\).
+\end{theorem}
+
+\begin{corollary}[\(\RealUp\) is licensed, not primitive]
+\label{cor:real-licensed-not-primitive}
+\(\RealUp\) is licensed by explicit constructive Cauchy data, not by classical completion.
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:real-zero-axiom-note}
+Replaces Dedekind/Cauchy quotients, LEM, and \(\mathsf{Quot.sound}\) with explicit moduli and a setoid classifier.
+\end{remark}
+

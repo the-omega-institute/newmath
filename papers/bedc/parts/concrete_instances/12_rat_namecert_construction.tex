@@ -5,4 +5,57 @@ The rational number interface \(\RatUp\) is licensed by ordered pairs \((p, q)\)
 
 \section{Carrier definition}
 
+\begin{definition}[Rat carrier]
+\label{def:rat-carrier}
+Use normalized integer-positive-natural pairs \((p,q)\) with \(q>0\), \(\gcd(|p|,q)=1\), and denominator positivity carried as data.
+\end{definition}
+
 \section{The certificate}
+
+\begin{definition}[Rat source specification]
+\label{def:rat-source-specification}
+The source is \(\IntUp \times \NatUp\) restricted to normalized denominator-positive pairs.
+\end{definition}
+
+\begin{definition}[Rat pattern specification]
+\label{def:rat-pattern-specification}
+The pattern is normalized numerator/denominator construction via a total normalization function on integer and positive-natural inputs.
+\end{definition}
+
+\begin{definition}[Rat classifier specification]
+\label{def:rat-classifier-specification}
+The classifier is structural sameness of normalized numerator and denominator representatives.
+\end{definition}
+
+\begin{definition}[Rat stability certificate]
+\label{def:rat-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item normalization produces positive denominator
+  \item normalization produces coprime pair
+  \item normalization is idempotent
+  \item structural reflexivity and transitivity
+  \item closure of rational operations after re-normalization
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Rat ledger policy]
+\label{def:rat-ledger-policy}
+Record the pre-normalized integer pair and the normalized representative used for the visible rational.
+\end{definition}
+
+\begin{theorem}[Concrete \(\RatUp\) naming certificate]
+\label{thm:concrete-rat-namecert}
+The normalized-pair tuple forms a valid NameCert for \(\RatUp\).
+\end{theorem}
+
+\begin{corollary}[\(\RatUp\) is licensed, not primitive]
+\label{cor:rat-licensed-not-primitive}
+\(\RatUp\) is licensed by normalized representatives, not by a quotient of pairs.
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:rat-zero-axiom-note}
+Replaces quotient equivalence and \(\mathsf{Quot.sound}\) with canonical normalization.
+\end{remark}
+

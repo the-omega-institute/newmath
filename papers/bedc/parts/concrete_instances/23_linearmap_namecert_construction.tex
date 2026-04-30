@@ -5,4 +5,58 @@ The linear map interface \(\LinearMapUp\) is licensed between two vector spaces 
 
 \section{Carrier definition}
 
+\begin{definition}[LinearMap carrier]
+\label{def:linearmap-carrier}
+Use a structure containing a function \(f:V\to W\) plus explicit proofs of additivity and scalar compatibility.
+\end{definition}
+
 \section{The certificate}
+
+\begin{definition}[LinearMap source specification]
+\label{def:linearmap-source-specification}
+The source is a pair of vector spaces over the same certified field.
+\end{definition}
+
+\begin{definition}[LinearMap pattern specification]
+\label{def:linearmap-pattern-specification}
+The pattern is function-with-law formation: map data together with linearity witnesses.
+\end{definition}
+
+\begin{definition}[LinearMap classifier specification]
+\label{def:linearmap-classifier-specification}
+The classifier relates two linear maps when their outputs are codomain-classified the same for every input witness.
+\end{definition}
+
+\begin{definition}[LinearMap stability certificate]
+\label{def:linearmap-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item pointwise classifier reflexivity
+  \item pointwise classifier transitivity
+  \item preservation of zero derived from linearity
+  \item additivity preservation
+  \item scalar-compatibility preservation
+  \item closure under identity and composition
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[LinearMap ledger policy]
+\label{def:linearmap-ledger-policy}
+Record the function identifier, its linearity witnesses, and codomain ledgers for pointwise comparisons.
+\end{definition}
+
+\begin{theorem}[Concrete \(\LinearMapUp\) naming certificate]
+\label{thm:concrete-linearmap-namecert}
+The function-with-linearity tuple forms a valid NameCert for \(\LinearMapUp(V,W)\).
+\end{theorem}
+
+\begin{corollary}[\(\LinearMapUp\) is licensed, not primitive]
+\label{cor:linearmap-licensed-not-primitive}
+\(\LinearMapUp\) is licensed as a predicate-bearing carrier over functions, not as a primitive function space.
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:linearmap-zero-axiom-note}
+Avoids funext by using pointwise classifier sameness instead of equality of functions.
+\end{remark}
+
