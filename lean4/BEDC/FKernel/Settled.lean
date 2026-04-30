@@ -15,7 +15,7 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Gap
 open BEDC.FKernel.NameCert
 
-def SettledKernelCriterion [AskSetup] [PackageSetup] [DomainSetup] [NameCertSetup] : Prop :=
+def SettledKernelCriterion [AskSetup] [PackageSetup] [DomainSetup] : Prop :=
   ((∀ m : BMark, msame m m) ∧
     (∀ {m n : BMark}, msame m n → msame n m) ∧
     (∀ {a b c : BMark}, msame a b → msame b c → msame a c)) ∧
@@ -66,10 +66,10 @@ def SettledKernelCriterion [AskSetup] [PackageSetup] [DomainSetup] [NameCertSetu
       (∃ h : BHist, InDom D h ∧ firstGap y h) → ∃ z : Final, secondGap z y) →
     ∀ {h : BHist}, InDom D h →
       ∃ z : Final, ∃ y : Mid, firstGap y h ∧ secondGap z y) ∧
-  Nonempty (@NameCert MinimalNameCertSetup BEDC.FKernel.Unary.UnaryName) ∧
-  Nonempty (@NameCert MinimalNameCertSetup BEDC.FKernel.Unary.AddName) ∧
-  (Nonempty (@StabilityCert MinimalNameCertSetup) ∧
-    Nonempty (@LedgerPolicy MinimalNameCertSetup)) ∧
+  Nonempty (NameCert BEDC.FKernel.Unary.UnaryHistory BEDC.FKernel.Unary.UnaryClassifierSpec) ∧
+  Nonempty (NameCert BEDC.FKernel.Unary.UnaryHistory BEDC.FKernel.Unary.AddClassifierSpec) ∧
+  (NameCert BEDC.FKernel.Unary.UnaryHistory BEDC.FKernel.Unary.UnaryClassifierSpec ∧
+    NameCert BEDC.FKernel.Unary.UnaryHistory BEDC.FKernel.Unary.AddClassifierSpec) ∧
   (∀ {Source Target Ledger : Type}
       {sourceSame : Source → Source → Prop} {targetSame : Target → Target → Prop}
       (cert :
@@ -80,7 +80,7 @@ def SettledKernelCriterion [AskSetup] [PackageSetup] [DomainSetup] [NameCertSetu
     sourceSame a b → targetSame (cert.val a) (cert.val b))
 
 theorem settledKernelCriterion_from_current_targets [AskSetup] [PackageSetup] [DomainSetup]
-    [NameCertSetup] : SettledKernelCriterion := by
+    : SettledKernelCriterion := by
   unfold SettledKernelCriterion
   constructor
   · exact msame_equivalence
@@ -124,12 +124,14 @@ theorem settledKernelCriterion_from_current_targets [AskSetup] [PackageSetup] [D
                               · constructor
                                 · exact BEDC.FKernel.Unary.add_up_name_certificate_exists
                                 · constructor
-                                  · exact BEDC.FKernel.Unary.add_up_certificate_stability_and_ledger
+                                  · exact And.intro
+                                      BEDC.FKernel.Unary.nat_up_name_certificate
+                                      BEDC.FKernel.Unary.add_up_name_certificate
                                   · intro Source Target Ledger sourceSame targetSame cert a b same
                                     exact function_like_interfaces_require_descent cert same
 
 theorem settledKernelCriterion_globalize_exactness_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       ∀ {bundle : ProbeBundle ProbeName} {D : Domain},
         AskPolicy (InDom D) →
@@ -173,7 +175,7 @@ theorem settledKernelCriterion_globalize_exactness_projection [AskSetup] [Packag
                                                         askPolicy packagePolicy tokenExists
 
 theorem settledKernelCriterion_ext_cont_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       (∀ {h r r' : BHist} {m : BMark}, Ext h m r → Ext h m r' → hsame r r') ∧
       (∀ {h k r r' : BHist}, Cont h k r → Cont h k r' → hsame r r') ∧
@@ -197,7 +199,7 @@ theorem settledKernelCriterion_ext_cont_projection [AskSetup] [PackageSetup]
                               exact ⟨extDet, contDet, unitLaws⟩
 
 theorem settledKernelCriterion_function_like_descent_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       (∀ {Source Target Ledger : Type} {sourceSame : Source → Source → Prop}
         {targetSame : Target → Target → Prop}
@@ -245,7 +247,7 @@ theorem settledKernelCriterion_function_like_descent_projection [AskSetup] [Pack
                                                                       exact descent cert same
 
 theorem settledKernelCriterion_composite_gap_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       ∀ {Mid Final : Type} {D : Domain}
           {firstGap : Mid → BHist → Prop} {secondGap : Final → Mid → Prop},
@@ -287,7 +289,7 @@ theorem settledKernelCriterion_composite_gap_projection [AskSetup] [PackageSetup
                                                             firstCoverage secondCoverage hIn
 
 theorem settledKernelCriterion_signature_kernel_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       (∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h s t : BHist},
         AskPolicy D → D h → SigRel bundle h s → SigRel bundle h t → hsame s t) ∧
@@ -320,7 +322,7 @@ theorem settledKernelCriterion_signature_kernel_projection [AskSetup] [PackageSe
                                           exact ⟨signatureDeterminacy, sameSigEquivalence⟩
 
 theorem settledKernelCriterion_package_gap_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       (∀ {bundle : ProbeBundle ProbeName}, PackagePolicy bundle →
         (∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) ∧
@@ -359,7 +361,7 @@ theorem settledKernelCriterion_package_gap_projection [AskSetup] [PackageSetup]
                                                   exact ⟨packagePolicy, gapCoverage⟩
 
 theorem settledKernelCriterion_signature_determinacy_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h s t : BHist},
         AskPolicy D → D h → SigRel bundle h s → SigRel bundle h t → hsame s t := by
@@ -368,7 +370,7 @@ theorem settledKernelCriterion_signature_determinacy_projection [AskSetup] [Pack
     askPolicy hIn left right
 
 theorem settledKernelCriterion_sameSig_equivalence_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop}, AskPolicy D →
         (∀ {h : BHist}, D h → SameSig bundle h h) ∧
@@ -379,7 +381,7 @@ theorem settledKernelCriterion_sameSig_equivalence_projection [AskSetup] [Packag
   exact (settledKernelCriterion_signature_kernel_projection criterion).right askPolicy
 
 theorem settledKernelCriterion_package_gap_kernel_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       (∀ {bundle : ProbeBundle ProbeName}, PackagePolicy bundle →
         (∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) ∧
@@ -394,7 +396,7 @@ theorem settledKernelCriterion_package_gap_kernel_projection [AskSetup] [Package
   exact settledKernelCriterion_package_gap_projection criterion
 
 theorem settledKernelCriterion_milestoneC_package_gap_kernel [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       (∀ {bundle : ProbeBundle ProbeName}, PackagePolicy bundle →
         (∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) ∧
@@ -421,7 +423,7 @@ theorem settledKernelCriterion_milestoneC_package_gap_kernel [AskSetup] [Package
       exact settledKernelCriterion_composite_gap_projection criterion firstCoverage secondCoverage hIn
 
 theorem settledKernelCriterion_gap_coverage_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       ∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
         GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h := by
@@ -429,12 +431,12 @@ theorem settledKernelCriterion_gap_coverage_projection [AskSetup] [PackageSetup]
   exact (settledKernelCriterion_package_gap_projection criterion).right policy hIn
 
 theorem settledKernelCriterion_namecert_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
-      Nonempty (@NameCert MinimalNameCertSetup BEDC.FKernel.Unary.UnaryName) ∧
-      Nonempty (@NameCert MinimalNameCertSetup BEDC.FKernel.Unary.AddName) ∧
-      (Nonempty (@StabilityCert MinimalNameCertSetup) ∧
-        Nonempty (@LedgerPolicy MinimalNameCertSetup)) := by
+      Nonempty (NameCert BEDC.FKernel.Unary.UnaryHistory BEDC.FKernel.Unary.UnaryClassifierSpec) ∧
+      Nonempty (NameCert BEDC.FKernel.Unary.UnaryHistory BEDC.FKernel.Unary.AddClassifierSpec) ∧
+      (NameCert BEDC.FKernel.Unary.UnaryHistory BEDC.FKernel.Unary.UnaryClassifierSpec ∧
+        NameCert BEDC.FKernel.Unary.UnaryHistory BEDC.FKernel.Unary.AddClassifierSpec) := by
   intro criterion
   cases criterion with
   | intro _ rest =>
@@ -469,19 +471,19 @@ theorem settledKernelCriterion_namecert_projection [AskSetup] [PackageSetup]
                                                               cases rest with
                                                               | intro addName rest =>
                                                                   cases rest with
-                                                                  | intro stabilityAndLedger _ =>
+                                                                  | intro certs _ =>
                                                                       exact
                                                                         ⟨unaryName,
                                                                           addName,
-                                                                          stabilityAndLedger⟩
+                                                                          certs⟩
 
 theorem layer_isolation_policy_memory_projection [AskSetup] [PackageSetup] [DomainSetup]
-    [NameCertSetup] :
+    :
     SettledKernelCriterion →
       (∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
         GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
-      Nonempty (@NameCert MinimalNameCertSetup BEDC.FKernel.Unary.UnaryName) ∧
-      Nonempty (@NameCert MinimalNameCertSetup BEDC.FKernel.Unary.AddName) := by
+      Nonempty (NameCert BEDC.FKernel.Unary.UnaryHistory BEDC.FKernel.Unary.UnaryClassifierSpec) ∧
+      Nonempty (NameCert BEDC.FKernel.Unary.UnaryHistory BEDC.FKernel.Unary.AddClassifierSpec) := by
   intro criterion
   constructor
   · intro bundle D h policy hIn
@@ -493,7 +495,7 @@ theorem layer_isolation_policy_memory_projection [AskSetup] [PackageSetup] [Doma
             exact And.intro unaryName addName
 
 theorem settledKernelCriterion_history_kernel_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       ((∀ m : BMark, msame m m) ∧
         (∀ {m n : BMark}, msame m n → msame n m) ∧
@@ -523,7 +525,7 @@ theorem settledKernelCriterion_history_kernel_projection [AskSetup] [PackageSetu
                       · exact histInversion
 
 theorem settledKernelCriterion_bundle_generation_projection [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion ->
       ∀ bundle : ProbeBundle ProbeName,
         bundle = ProbeBundle.Bnil ∨
@@ -532,7 +534,7 @@ theorem settledKernelCriterion_bundle_generation_projection [AskSetup] [PackageS
   exact bundle_generation_cases bundle
 
 theorem settledKernelCriterion_milestoneB_signature_kernel [AskSetup] [PackageSetup]
-    [DomainSetup] [NameCertSetup] :
+    [DomainSetup] :
     SettledKernelCriterion →
       (∀ bundle : ProbeBundle ProbeName,
         bundle = ProbeBundle.Bnil ∨

@@ -13,7 +13,6 @@ open BEDC.FKernel.Cont
 
 local instance : AskSetup := MinimalAskSetup
 local instance : PackageSetup := MinimalPackageSetup
-local instance : NameCertSetup := MinimalNameCertSetup
 
 def UnaryDomainSetup : DomainSetup where
   Domain := Unit
@@ -42,8 +41,6 @@ theorem unary_domain_policy :
 
 def UnaryBundle : ProbeBundle ProbeName := .Bcons () .Bnil
 def UnaryDomain : Domain := ()
-def UnaryName : DerivedName := ()
-def AddName : DerivedName := ()
 
 theorem unaryDomain_inDom_iff_unaryHistory {h : BHist} :
     InDom UnaryDomain h <-> UnaryHistory h := by

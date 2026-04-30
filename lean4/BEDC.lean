@@ -27,7 +27,6 @@ import BEDC.FKernel.ExternalBinary.Cancellation
 import BEDC.FKernel.Gap
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.NameCert.Descent
-import BEDC.FKernel.NameCert.Fields
 import BEDC.FKernel.NameCert.StabilityMode
 import BEDC.FKernel.Unary
 import BEDC.BaseReflection

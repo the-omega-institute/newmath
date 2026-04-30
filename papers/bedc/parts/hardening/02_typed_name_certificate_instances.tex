@@ -21,40 +21,6 @@ The fields have the following intended roles:
   \item \(\LedgerPolicy_N\): specifies which gap ledger records the compression performed by the name.
 \end{enumerate}
 \end{definition}
-\leanchecked{BEDC.FKernel.NameCert.nameCert\_expanded\_template}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_from\_field\_witnesses}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_witness\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_pattern\_witness\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_classifier\_witness\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_classifier\_and\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_pattern\_classifier\_witnesses}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_pattern\_ledger\_from\_cert}
-\leanchecked{BEDC.FKernel.NameCert.nameCert\_source\_pattern\_classifier\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_classifier\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_classifier\_stability\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_classifier\_stability\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_pattern\_stability\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_pattern\_stability\_pair\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_pattern\_classifier\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_pattern\_and\_classifier\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_pattern\_classifier\_stability\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_pattern\_stability\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_pattern\_classifier\_stability\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_classifier\_stability\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_stability\_witness\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_ledger\_witness\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_stability\_and\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_and\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_source\_stability\_ledger\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_witnesses\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_field\_witnesses}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_field\_witnesses\_iff}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_all\_field\_witnesses\_from\_nonempty}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_all\_fields\_nonempty}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_stability\_ledger\_from\_nonempty}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_from\_field\_nonempty}
-\leanvariant{BEDC.FKernel.NameCert.nameCert\_iff\_field\_witnesses}
-\leanvariant{BEDC.FKernel.NameCert.typed\_naming\_certificate\_expanded\_template}
 
 \section{Unary repetition as \texorpdfstring{\(\NatUp\)}{Nat-up} seed}
 
@@ -82,7 +48,7 @@ The name \(\NatUp\) is licensed only when the following fields are supplied:
   \item ledger: the originating unary history behind each visible counting token.
 \end{enumerate}
 \end{definition}
-\leanchecked{BEDC.FKernel.Unary.nat\_up\_certificate\_seed\_fields}
+\leanchecked{BEDC.FKernel.Unary.nat\_up\_interface\_seed}
 
 \begin{corollary}[\texorpdfstring{\(\NatUp\)}{Nat-up} is not primitive]
 \label{cor:natup-certificate-seed-not-primitive}
@@ -113,8 +79,7 @@ The name \(\AddUp\) is licensed only when the following fields are supplied:
 \label{thm:addition-like-behavior-certificate-not-operation}
 The interface \(\AddUp\) is not admitted by writing a binary operation symbol. It is admitted by a naming certificate whose stability field contains unit and associativity witnesses for relational continuation.
 \end{theorem}
-\leanchecked{BEDC.FKernel.NameCert.add\_like\_behavior\_certified\_not\_operation}
-\leanvariant{BEDC.FKernel.NameCert.addition\_like\_behavior\_certificate\_not\_operation}
+\leanchecked{BEDC.FKernel.Unary.add\_up\_licensed\_not\_primitive}
 
 \begin{proof}
 The kernel contains histories and the relation \(\Cont\). It does not contain a primitive binary operation called addition. If continuation is shown to be stable on the unary source pattern and its behavior descends to the unary classification, then a derived interface may be named \(\AddUp\). The name records the evidence; it does not introduce a primitive operation.

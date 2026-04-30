@@ -57,7 +57,6 @@ with \(\mathsf{Unary}(h)\) and \(\mathsf{Unary}(k)\).
 The classifier specification \(\mathsf{AddClassifier}\) classifies additive outputs by \(\HSame\) of the generated result histories.
 \end{definition}
 \leandef{BEDC.FKernel.Unary.AddClassifierSpec}
-\leanchecked{BEDC.FKernel.Unary.add\_up\_certificate\_classifier\_witness}
 
 \begin{definition}[Additive stability certificate]
 \label{def:additive-stability-certificate}
@@ -81,8 +80,7 @@ The additive ledger policy \(\mathsf{AddLedger}\) records the two input unary hi
 \leanvariant{BEDC.FKernel.Unary.AddLedgerPolicy\_iff\_unary\_cont\_closed}
 \leanvariant{BEDC.FKernel.Unary.addLedgerPolicy\_from\_unary\_cont\_closed}
 \leanvariant{BEDC.FKernel.Unary.unary\_addition\_seed\_from\_policy}
-\leanchecked{BEDC.FKernel.Unary.additive\_stability\_and\_ledger\_policy}
-\leanchecked{BEDC.FKernel.Unary.add\_up\_ledger\_policy\_nonempty}
+\leanchecked{BEDC.FKernel.Unary.addLedgerPolicy\_from\_unary\_cont\_closed}
 
 \begin{theorem}[Concrete \(\AddUp\) naming certificate]
 \label{thm:concrete-addup-namecert}
@@ -99,13 +97,7 @@ The tuple
 forms a valid naming certificate for the derived interface \(\AddUp\).
 \end{theorem}
 \leanchecked{BEDC.FKernel.Unary.add\_up\_name\_certificate\_exists}
-\leanvariant{BEDC.FKernel.Unary.concrete\_addup\_namecert}
 \leanvariant{BEDC.FKernel.Unary.add\_up\_name\_certificate}
-\leanvariant{BEDC.FKernel.Unary.add\_up\_certificate\_field\_witnesses}
-\leanvariant{BEDC.FKernel.Unary.add\_up\_name\_certificate\_complete}
-\leanvariant{BEDC.FKernel.Unary.add\_up\_certificate\_has\_ledger}
-\leanvariant{BEDC.FKernel.Unary.add\_up\_certificate\_source\_and\_ledger}
-\leanvariant{BEDC.FKernel.Unary.add\_up\_certificate\_stability\_and\_ledger}
 \begin{proof}
 The source, pattern, classifier, stability, and ledger fields are supplied by the preceding definitions. Stability is justified by the three unary continuation lemmas and continuation determinacy. The ledger policy records the exact continuation witness rather than erasing it. Thus the naming protocol is satisfied.
 \end{proof}
