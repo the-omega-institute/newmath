@@ -12,7 +12,7 @@ The product interface $\ProdUp$ is licensed over two source carriers each endowe
   \item \textbf{Classifier choice}: $\mathsf{ProdClassifierSpec}$ is the typed componentwise classifier; $\mathsf{ProdHistoryClassifier}$ is the checked history-envelope classifier consisting of two $\mathsf{ProdHistoryCarrier}$ endpoint witnesses and endpoint $\hsame$.
   \item \textbf{Stability obligations}: component transport, continuation transport, unary closure from components, history-envelope classifier symmetry and transitivity, typed classifier symmetry and transitivity, and typed coordinate inversion.
   \item \textbf{Ledger}: no product quotient is used; pairing records both component witnesses and their generated continuation.
-  \item \textbf{Core theorem list}: append introduction, continuation introduction, carrier transport, unary closure, classifier equivalence, and the semantic name certificate.
+  \item \textbf{Core theorem list}: append introduction, continuation introduction, carrier transport, unary closure, classifier equivalence, component-envelope inversion, and the semantic name certificate.
   \item \textbf{Exactness predicate}: typed classification holds exactly when both coordinates classify in their respective sources; history-envelope classification holds when both endpoints lie in $\mathsf{ProdHistoryCarrier}(L,R)$ and are related by endpoint $\hsame$.
   \item \textbf{Standard bridge}: the licensed pair reads back as the ordinary ordered pair $(a,b)$.
   \item \textbf{Status}: the product-history semantic envelope is checked in Lean; the explicit ordered-product interface uses the typed componentwise classifier and the projection fields checked around $\mathsf{prodClassifier\_iff}$.
@@ -105,6 +105,26 @@ The typed classifier $\mathsf{ProdClassifierSpec}$ relates pairs componentwise u
 \leandef{BEDC.Derived.ProdUp.ProdClassifierSpec}
 \leandef{BEDC.Derived.ProdUp.ProdHistoryClassifier}
 \leanchecked{BEDC.Derived.ProdUp.prodClassifier\_iff}
+
+\begin{theorem}[Product history classifier component inversion]
+\label{thm:prod-history-classifier-component-inversion}
+For source predicates $L,R:\Hist\to\mathsf{Prop}$, the product history
+classifier exposes exactly the two component envelopes stored at its endpoints.
+It holds for $h$ and $k$ exactly when there exist histories $l,r,l',r'$ with
+$L(l)$, $R(r)$, $\Cont(l,r,h)$, $L(l')$, $R(r')$, $\Cont(l',r',k)$, and
+$\hsame(h,k)$. Conversely, those data rebuild
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{ProdHistoryClassifier}$. Its two endpoint premises are
+$\mathsf{ProdHistoryCarrier}(L,R,h)$ and
+$\mathsf{ProdHistoryCarrier}(L,R,k)$, and each carrier premise unfolds into
+one left witness, one right witness, the two source-membership proofs, and the
+continuation proof producing the visible endpoint. Pair those two carrier
+inversions with the stored $\hsame(h,k)$ witness for the forward direction.
+Conversely, the displayed data rebuild the two product-history carrier
+premises and then the classifier witness.
+\end{proof}
 
 \begin{theorem}[Product history classifier right transport]
 \label{thm:prod-history-classifier-right-hsame-transport}
