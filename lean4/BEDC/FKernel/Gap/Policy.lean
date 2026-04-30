@@ -40,6 +40,17 @@ theorem gapPolicy_provenance_interface_fields [AskSetup] [PackageSetup] [DomainS
         ∃ s : BHist, TokIntro bundle s p) := by
   exact gap_policy_fields policy
 
+theorem gapPolicy_provenance_coverage_generation_pair [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
+    (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
+      (∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h →
+        ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p) := by
+  constructor
+  · intro h hdom
+    exact policy.coverage hdom
+  · intro p h hgap
+    exact hgap.right
+
 theorem GapPolicy_iff_fields [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} :
     GapPolicy bundle D <->
