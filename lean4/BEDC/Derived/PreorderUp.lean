@@ -24,6 +24,15 @@ theorem PreorderPrefixLE_target_carrier {h k : BHist} :
       | intro tailUnary cont =>
           exact unary_cont_closed carrier tailUnary cont
 
+theorem PreorderPrefixLE_result_carrier {h k : BHist} :
+    PreorderCarrier h -> PreorderPrefixLE h k -> PreorderCarrier k := by
+  intro hCarrier prefixLE
+  cases prefixLE with
+  | intro tail tailData =>
+      cases tailData with
+      | intro tailCarrier cont =>
+          exact unary_cont_closed hCarrier tailCarrier cont
+
 def PreorderClassifierSpec (h k : BHist) : Prop :=
   hsame h k
 

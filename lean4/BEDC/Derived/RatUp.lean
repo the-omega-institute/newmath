@@ -79,6 +79,25 @@ theorem RatCarrier_of_int_positive_denominator {sign : BEDC.FKernel.Mark.BMark}
                 (BEDC.FKernel.Hist.hsame_trans
                   (BEDC.FKernel.Hist.hsame_symm sameTail) sameEmpty)
 
+theorem RatSourceSpec_to_RatCarrier {normalized : BMark -> BHist -> BHist -> Prop}
+    {sign : BMark} {num den : BHist} :
+    RatSourceSpec normalized sign num den -> RatCarrier sign num den := by
+  intro source
+  cases source with
+  | intro intCarrier sourceRest =>
+      cases sourceRest with
+      | intro positive _normalized =>
+          cases positive with
+          | intro tail positiveData =>
+              cases positiveData with
+              | intro sameDen tailUnary =>
+                  constructor
+                  · exact intCarrier
+                  · constructor
+                    · exact unary_transport (unary_e1_closed tailUnary) (hsame_symm sameDen)
+                    · intro sameEmpty
+                      exact not_hsame_e1_empty (hsame_trans (hsame_symm sameDen) sameEmpty)
+
 def rat_classifier_spec_trans_carrier
     (sign : BEDC.FKernel.Mark.BMark) (numerator denominator : BEDC.FKernel.Hist.BHist) :
     Prop :=

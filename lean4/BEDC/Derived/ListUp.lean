@@ -240,4 +240,17 @@ theorem ListClassifierSpec_append_left_cancel_hsame
       | intro _ sameTail =>
           exact ih sameTail
 
+theorem ListClassifierSpec_hsame_append_left_cancel
+    {«prefix» xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame («prefix» ++ xs) («prefix» ++ ys) ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys := by
+  intro same
+  induction «prefix» with
+  | nil =>
+      exact same
+  | cons _ «prefix» ih =>
+      cases same with
+      | intro _ sameTail =>
+          exact ih sameTail
+
 end BEDC.Derived.ListUp

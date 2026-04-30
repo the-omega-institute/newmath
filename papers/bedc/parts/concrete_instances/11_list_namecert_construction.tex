@@ -107,6 +107,20 @@ cons case, invert the structural classifier and apply the induction hypothesis
 to the classified tails.
 \end{proof}
 
+\begin{theorem}[History list classifier left append cancellation]
+\label{thm:list-classifier-hsame-append-left-cancel}
+For BEDC history lists, structural classification of \(p{++}x\) with
+\(p{++}y\) using \(\hsame\) on heads determines structural classification of
+\(x\) with \(y\).
+\end{theorem}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_append\_left\_cancel}
+
+\begin{proof}
+Induct on the common prefix \(p\). The empty-prefix case is the given
+classification. In the cons-prefix case, invert the structural classifier and
+apply the induction hypothesis to the classified tails.
+\end{proof}
+
 \begin{theorem}[List classifier transitivity from a source certificate]
 \label{thm:list-classifier-trans-from-namecert}
 If the source classifier is supplied by a \(\NameCert\), then the lifted list classifier is transitive on finite list spines.

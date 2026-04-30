@@ -62,6 +62,21 @@ The source is \(\IntUp \times \NatUp\) restricted to normalized denominator-posi
 \end{definition}
 \leandef{BEDC.Derived.RatUp.RatSourceSpec}
 
+\begin{theorem}[Rat source specification yields the carrier]
+\label{thm:rat-source-spec-to-carrier}
+A rational source witness determines a rational carrier witness: the numerator
+is an integer carrier, the denominator is unary, and the positive one-tail
+witness excludes internal sameness with \(\emp\).
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatSourceSpec\_to\_RatCarrier}
+\begin{proof}
+Unpack the source witness. The positive-denominator component gives a unary
+tail \(t\) with \(d \hsame e_1(t)\). Unary closure under one-extension and
+transport along \(\hsame\) give \(\mathsf{Unary}(d)\). If \(d\hsame \emp\),
+then symmetry and transitivity give \(e_1(t)\hsame \emp\), contradicting
+finite-kernel history no-confusion.
+\end{proof}
+
 \begin{definition}[Rat pattern specification]
 \label{def:rat-pattern-specification}
 The pattern is normalized numerator/denominator construction via a total normalization function on integer and positive-natural inputs.
