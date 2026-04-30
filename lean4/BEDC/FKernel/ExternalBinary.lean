@@ -193,6 +193,17 @@ theorem external_append_right_cancel : ∀ a b c : BWord, append a c = append b 
   | e1 c ih =>
       exact ih a b (BHist.e1.inj h)
 
+theorem external_append_right_cancel_hsame :
+    forall {a b c : BWord}, hsame (append a c) (append b c) -> hsame a b := by
+  intro a b c same
+  induction c generalizing a b with
+  | Empty =>
+      exact same
+  | e0 c ih =>
+      exact ih (BHist.e0.inj same)
+  | e1 c ih =>
+      exact ih (BHist.e1.inj same)
+
 theorem external_append_left_cancel : ∀ a b c : BWord, append c a = append c b → a = b := by
   intro a
   induction a with

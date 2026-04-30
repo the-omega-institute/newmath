@@ -424,6 +424,13 @@ theorem unary_comm_from_obligations
     e1Cong
   exact unary_commutativity_refined uh uk hr hr'
 
+theorem unary_commutativity_obligation_from_named_obligations :
+    UnaryRightShiftObligation -> EOneCongruenceObligation ->
+      UnaryContinuationCommutativityObligation := by
+  intro rightShift eoneCong
+  intro h k r r' uh uk hr hr'
+  exact comm_from_obligations rightShift eoneCong uh uk hr hr'
+
 theorem unary_shift {k h r' : BHist} :
     UnaryHistory k → Cont k (.e1 h) r' →
       ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) := by
