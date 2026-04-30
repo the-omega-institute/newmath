@@ -89,6 +89,14 @@ theorem unary_append_comm_with_closed_results {h k : BHist} :
     · exact unary_append_closed uh uk
     · exact unary_append_closed uk uh
 
+theorem unary_append_comm_three {a b c : BHist} :
+    UnaryHistory a → UnaryHistory b → UnaryHistory c →
+      hsame (append (append a b) c) (append (append a c) b) := by
+  intro _ ub uc
+  exact (append_assoc a b c).trans
+    ((congrArg (fun x => append a x) (unary_append_comm ub uc)).trans
+      (append_assoc a c b).symm)
+
 theorem unary_cont_comm {h k r r' : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
   intro uh uk hr hr'

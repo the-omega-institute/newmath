@@ -338,6 +338,19 @@ theorem packageTokenPolicy_psame_three_step_on_introduced [AskSetup] [PackageSet
   exact policy.soundness left right (hsame_trans ab (hsame_trans bc cd))
 
 omit [AskSetup] P in
+theorem packageTokenPolicy_psame_four_step_on_introduced [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
+    {a b c d e : BHist} {p q r u v : Pkg} :
+    TokIntro bundle a p → TokIntro bundle b q → TokIntro bundle c r →
+      TokIntro bundle d u → TokIntro bundle e v → psame bundle p q →
+        psame bundle q r → psame bundle r u → psame bundle u v → psame bundle p v := by
+  intro left mid1 mid2 mid3 right sameLeft sameMid sameRight sameLast
+  have firstChain : psame bundle p u :=
+    packageTokenPolicy_psame_three_step_on_introduced policy left mid1 mid2 mid3
+      sameLeft sameMid sameRight
+  exact packageTokenPolicy_psame_trans_on_introduced policy left mid3 right firstChain sameLast
+
+omit [AskSetup] P in
 theorem packageTokenPolicy_two_step_reflect_on_introduced [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
     {a b c : BHist} {p q r : Pkg} :

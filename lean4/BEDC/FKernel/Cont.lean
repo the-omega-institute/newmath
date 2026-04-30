@@ -530,6 +530,18 @@ theorem cont_assoc_hsame {a b c ab bc left right : BHist} :
   cases hright
   exact append_assoc a b c
 
+theorem cont_assoc_four {a b c d ab abc cd bcd left right : BHist} :
+    Cont a b ab → Cont ab c abc → Cont c d cd → Cont b cd bcd →
+      Cont abc d left → Cont a bcd right → hsame left right := by
+  intro hab habc hcd hbcd hleft hright
+  cases hab
+  cases habc
+  cases hcd
+  cases hbcd
+  cases hleft
+  cases hright
+  exact (append_assoc (append a b) c d).trans (append_assoc a b (append c d))
+
 theorem cont_assoc_unique {a b c ab bc abc abc' : BHist} :
     Cont a b ab -> Cont b c bc -> Cont ab c abc -> Cont a bc abc' -> hsame abc abc' := by
   intro hab hbc habc habc'
