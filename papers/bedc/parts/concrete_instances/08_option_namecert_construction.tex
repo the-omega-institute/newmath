@@ -393,6 +393,49 @@ absent-absent branch contradicts the displayed present presentation of $h$, and
 the present-present branch contradicts the displayed absent presentation of $k$.
 \end{proof}
 
+\begin{theorem}[Tagged option history classifier visible-branch inversion]
+\label{thm:tagged-option-history-classifier-visible-branch-inversion}
+This theorem fits the per-object template as follows: the traditional target is
+tagged option branch inversion; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is branch
+determinism under visible endpoint presentations; the ledger is the visible
+absent/present tag plus payload; the core theorem is this inversion; exactness
+is no mixed branch and payload exposure; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$; and the status is $\mathsf{ProofTarget}$.
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k$, the classifier determines the
+visible branch presented by the left endpoint:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+\hsame(h,\emp)\to
+\hsame(k,\emp)
+$$
+and, for every payload history $a$,
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+S(a)\to
+\hsame(h,\Eone(a))\to
+\exists a',b:\mathsf{BHist}.\;
+S(a')\land S(b)\land \hsame(a,a')\land a'\sim_S b\land
+\hsame(k,\Eone(b)).
+$$
+\end{theorem}
+\begin{proof}
+For the absent clause, case-analyze the tagged classifier witness. The
+absent-absent branch already stores $\hsame(k,\emp)$. The present-present branch
+stores $\hsame(h,\Eone(a))$ for some source payload; composing it with the
+displayed witness $\hsame(h,\emp)$ gives empty-versus-one no-confusion.
+
+For the present clause, case-analyze the classifier witness again. The
+absent-absent branch stores $\hsame(h,\emp)$ and contradicts the displayed
+present endpoint $\hsame(h,\Eone(a))$. In the present-present branch, obtain
+payloads $a'$ and $b$ with $S(a')$, $S(b)$, $a'\sim_S b$,
+$\hsame(h,\Eone(a'))$, and $\hsame(k,\Eone(b))$. Compose the two presentations
+of $h$ and invert the one-constructor equality to get $\hsame(a,a')$; the
+remaining fields are exactly the displayed witnesses.
+\end{proof}
+
 \begin{theorem}[Tagged option history semantic certificate target]
 \label{thm:tagged-option-history-semantic-certificate}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a source classifier on source histories, and assume a source $\NameCert(S,\sim_S)$ together with $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. Then $\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,\mathsf{TaggedOptionHistoryPattern}_S,\mathsf{TaggedOptionHistoryLedger}_S,\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S})$ is the tagged option history semantic certificate.

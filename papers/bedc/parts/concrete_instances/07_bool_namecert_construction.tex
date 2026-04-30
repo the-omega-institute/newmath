@@ -78,6 +78,20 @@ In the forward direction, split the carrier witness into its empty and one-endpo
 In the reverse direction, case-analyze the displayed mark $v$. The $\bzero$ case rewrites the endpoint witness to an $\hsame$ witness against $\emp$ and gives the empty carrier branch. The $\bone$ case rewrites it to an $\hsame$ witness against $\Eone(\emp)$ and gives the one-endpoint carrier branch.
 \end{proof}
 
+\begin{theorem}[Bool endpoint readback determinism]
+\label{thm:bool-endpoint-readback-determinism}
+For marks $v,w:\mathsf{BMark}$ and history $h:\mathsf{BHist}$, if
+$\hsame(h,\mathsf{BoolEndpoint}(v))$ and
+$\hsame(h,\mathsf{BoolEndpoint}(w))$, then $\msame(v,w)$.
+\end{theorem}
+\begin{proof}
+Compose symmetry of $\hsame(h,\mathsf{BoolEndpoint}(v))$ with
+$\hsame(h,\mathsf{BoolEndpoint}(w))$ to obtain
+$\hsame(\mathsf{BoolEndpoint}(v),\mathsf{BoolEndpoint}(w))$. The reverse
+direction of Theorem~\ref{thm:bool-endpoint-bridge-exactness} converts this
+displayed endpoint sameness into $\msame(v,w)$.
+\end{proof}
+
 \begin{theorem}[Bool endpoint bridge classifier completeness]
 \label{thm:bool-endpoint-bridge-classifier-completeness}
 The endpoint bridge preserves the checked boolean history classifier in both finite certificate directions. For marks $v,w:\mathsf{BMark}$,
