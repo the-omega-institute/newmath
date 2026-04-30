@@ -400,6 +400,41 @@ theorem external_append_left_cancel_hsame :
   intro a b c same
   exact external_append_left_cancel a b c same
 
+theorem external_append_left_cancel_by_induction :
+    ∀ {a b c : BWord}, append c a = append c b → hsame a b := by
+  intro a
+  induction a with
+  | Empty =>
+      intro b c h
+      cases b with
+      | Empty => rfl
+      | e0 b =>
+          have hlen := congrArg bwordLength h
+          simp [append, BEDC.FKernel.Cont.append, bwordLength, bwordLength_append] at hlen
+          exact False.elim (nat_eq_add_succ_false (bwordLength c) (bwordLength b) hlen)
+      | e1 b =>
+          have hlen := congrArg bwordLength h
+          simp [append, BEDC.FKernel.Cont.append, bwordLength, bwordLength_append] at hlen
+          exact False.elim (nat_eq_add_succ_false (bwordLength c) (bwordLength b) hlen)
+  | e0 a ih =>
+      intro b c h
+      cases b with
+      | Empty =>
+          have hlen := congrArg bwordLength h
+          simp [append, BEDC.FKernel.Cont.append, bwordLength, bwordLength_append] at hlen
+          exact False.elim (nat_eq_add_succ_false (bwordLength c) (bwordLength a) hlen.symm)
+      | e0 b => exact congrArg BHist.e0 (ih (BHist.e0.inj h))
+      | e1 b => cases h
+  | e1 a ih =>
+      intro b c h
+      cases b with
+      | Empty =>
+          have hlen := congrArg bwordLength h
+          simp [append, BEDC.FKernel.Cont.append, bwordLength, bwordLength_append] at hlen
+          exact False.elim (nat_eq_add_succ_false (bwordLength c) (bwordLength a) hlen.symm)
+      | e0 b => cases h
+      | e1 b => exact congrArg BHist.e1 (ih (BHist.e1.inj h))
+
 theorem external_append_cancel_hsame_pair :
     (∀ {a b c : BWord}, hsame (append a c) (append b c) → hsame a b) ∧
       (∀ {a b c : BWord}, hsame (append c a) (append c b) → hsame a b) := by

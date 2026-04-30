@@ -68,6 +68,22 @@ theorem nameCert_source_classifier_stability_ledger_from_cert [NameCertSetup]
           · exact Nonempty.intro stability
           · exact Nonempty.intro ledger
 
+theorem nameCert_source_pattern_stability_ledger_from_cert [NameCertSetup]
+    {name : DerivedName} :
+    NameCert name →
+      Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty StabilityCert ∧
+        Nonempty LedgerPolicy := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      constructor
+      · exact Nonempty.intro source
+      · constructor
+        · exact Nonempty.intro pattern
+        · constructor
+          · exact Nonempty.intro stability
+          · exact Nonempty.intro ledger
+
 theorem nameCert_pattern_classifier_ledger_from_cert [NameCertSetup] {name : DerivedName} :
     NameCert name →
       Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧ Nonempty LedgerPolicy := by
