@@ -158,6 +158,14 @@ theorem PsameBase_inversion {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
         sigSame := same
       }
 
+theorem PsameBase_iff_PBaseData {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameBase s P p q ↔ Nonempty (PBaseData s P p q) := by
+  exact Iff.intro
+    (fun base => PsameBase_inversion base)
+    (fun data =>
+      match data with
+      | Nonempty.intro d => PBaseData_to_PsameBase d)
+
 theorem PsameBase_witnesses_from_base {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PsameBase s P p q -> exists x : s.SigObj, exists y : s.SigObj,
       s.TokIntro P x p /\ s.TokIntro P y q /\ s.hsame x y := by
