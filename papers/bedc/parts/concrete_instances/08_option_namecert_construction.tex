@@ -240,6 +240,36 @@ For any BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, if $\mat
 Case-analyze the tagged carrier witness for $h$. In the absent case, compose the symmetry of $\hsame(h,k)$ with the stored endpoint witness $\hsame(h,\emp)$ to obtain $\hsame(k,\emp)$, then rebuild the absent clause. In the present case, keep the same payload $a$ and source witness $S(a)$. Compose the symmetry of $\hsame(h,k)$ with the stored endpoint witness $\hsame(h,\Eone(a))$ to obtain $\hsame(k,\Eone(a))$, then rebuild the present clause.
 \end{proof}
 
+\begin{theorem}[Tagged option history classifier endpoint transport]
+\label{thm:tagged-option-history-classifier-hsame-transport}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k,h',k'$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\land
+\hsame(h,h')\land
+\hsame(k,k')
+$$
+holds, then
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h',k')
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness for $h$ and $k$. In the absent-absent
+branch, compose the symmetry of $\hsame(h,h')$ with the stored endpoint witness
+$\hsame(h,\emp)$ to obtain $\hsame(h',\emp)$, and compose the symmetry of
+$\hsame(k,k')$ with the stored endpoint witness $\hsame(k,\emp)$ to obtain
+$\hsame(k',\emp)$; these two witnesses rebuild the absent-absent classifier
+branch. In the present-present branch, keep the same payload histories $a,b$,
+source witnesses $S(a)$ and $S(b)$, and payload classifier witness
+$a\sim_S b$. Compose the symmetry of $\hsame(h,h')$ with the stored endpoint
+witness $\hsame(h,\Eone(a))$ to obtain $\hsame(h',\Eone(a))$, and compose the
+symmetry of $\hsame(k,k')$ with the stored endpoint witness
+$\hsame(k,\Eone(b))$ to obtain $\hsame(k',\Eone(b))$; these data rebuild the
+present-present classifier branch.
+\end{proof}
+
 \begin{theorem}[Tagged option history classifier stability fields]
 \label{thm:tagged-option-history-stability-fields}
 For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, source certificate $\mathsf{cert}:\NameCert(S,\sim_S)$, and $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, the following four clauses are exactly the core stability fields for the tagged option history carrier and classifier:
