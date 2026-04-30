@@ -35,6 +35,15 @@ theorem composite_gap_ledger
       exists y : Inter, firstGap y x /\ secondGap z y := by
   rfl
 
+theorem compGap_witness_pair_iff
+    {Source Inter Final : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    {z : Final} {x : Source} :
+    CompGap firstGap secondGap z x <->
+      exists y : Inter, firstGap y x /\ secondGap z y := by
+  rfl
+
 theorem compGap_intro
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}

@@ -17,6 +17,10 @@ local instance : NameCertSetup := MinimalNameCertSetup
 def EoneCongruenceObligation : Prop :=
   ∀ {u v : BHist}, hsame u v → hsame (.e1 u) (.e1 v)
 
+theorem EOneCongruenceObligation_holds : EOneCongruenceObligation := by
+  intro u v same
+  exact hsame_e1_congr same
+
 theorem unary_append_e1_left :
     ∀ {h k : BHist}, UnaryHistory h → append (.e1 k) h = .e1 (append k h) := by
   intro h k uh
@@ -49,6 +53,18 @@ theorem unary_append_comm :
       cases uk
   | e1 k ih =>
       exact (congrArg BHist.e1 (ih uh uk)).trans (unary_append_e1_left (h := h) (k := k) uh).symm
+
+theorem unary_append_comm_right_induction :
+    ∀ {h k : BHist}, UnaryHistory h → UnaryHistory k → append h k = append k h := by
+  intro h k uh uk
+  induction k generalizing h with
+  | Empty =>
+      exact cont_left_unit h
+  | e0 _ _ =>
+      cases uk
+  | e1 k ih =>
+      exact (congrArg BHist.e1 (ih uh uk)).trans
+        (unary_append_e1_left (h := h) (k := k) uh).symm
 
 theorem unary_append_comm_hsame :
     ∀ {h k : BHist}, UnaryHistory h → UnaryHistory k → hsame (append h k) (append k h) := by
