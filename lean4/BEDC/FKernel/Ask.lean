@@ -129,6 +129,19 @@ theorem askPolicy_total_respects_pair [AskSetup] {D : BHist → Prop} (policy : 
     exact policy.respectsHistory same left right
 
 omit S in
+theorem askPolicy_deterministic_respects_pair [AskSetup] {D : BHist → Prop}
+    (policy : AskPolicy D) :
+    (∀ {π : ProbeName} {h : BHist} {m n : BMark} {δ θ : Evidence},
+      Ask π h m δ → Ask π h n θ → msame m n) ∧
+    (∀ {π : ProbeName} {h k : BHist} {m n : BMark} {δ θ : Evidence},
+      hsame h k → Ask π h m δ → Ask π k n θ → msame m n) := by
+  constructor
+  · intro π h m n δ θ left right
+    exact policy.deterministic left right
+  · intro π h k m n δ θ same left right
+    exact policy.respectsHistory same left right
+
+omit S in
 theorem AskPolicy_total_deterministic_pair [AskSetup] {D : BHist -> Prop}
     (policy : AskPolicy D) :
     (forall {pi : ProbeName} {h : BHist},

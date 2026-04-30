@@ -135,4 +135,17 @@ theorem descentCertificate_respects_witness
   intro same
   exact Exists.intro cert.map (And.intro rfl (descentCertificate_respects cert same))
 
+theorem descentCertificate_respects_pair_with_map
+    {Source Target : Type}
+    {sourceSame : Source → Source → Prop}
+    {targetSame : Target → Target → Prop}
+    (cert : DescentCertificate Source Target sourceSame targetSame)
+    {a b : Source} :
+    sourceSame a b →
+      targetSame (cert.map a) (cert.map b) ∧ ∃ map : Source → Target, map = cert.map := by
+  intro same
+  constructor
+  · exact descentCertificate_respects cert same
+  · exact Exists.intro cert.map rfl
+
 end BEDC.FKernel.NameCert
