@@ -52,6 +52,19 @@ Invert the classifier witness. In the left branch \(k\) is also
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_left\_right\_absurd}
 
+\begin{theorem}[Sum history classifier transitivity]
+\label{thm:sum-history-classifier-transitivity}
+If the left and right source classifiers are transitive, then the
+history-level \(\SumUp\) classifier is transitive.
+\end{theorem}
+\begin{proof}
+Invert both classifier witnesses. Matching left--left and right--right branches
+identify the shared tagged middle history by BEDC constructor inversion and
+compose the corresponding source-classifier witnesses. Mixed branches
+contradict the \(e0/e1\) no-confusion rule.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_trans}
+
 \begin{definition}[Sum stability certificate]
 \label{def:sum-stability-certificate}
 The stability certificate consists of:

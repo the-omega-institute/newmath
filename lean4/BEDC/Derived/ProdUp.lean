@@ -60,6 +60,18 @@ theorem ProdHistoryClassifier_hsame_transport {Left Right : BEDC.FKernel.Hist.BH
                 (BEDC.FKernel.Hist.hsame_symm sameLeft)
                 (BEDC.FKernel.Hist.hsame_trans sameHK sameRight)
 
+theorem ProdHistoryClassifier_left_hsame_transport {Left Right : BHist -> Prop}
+    {h h' k : BHist} :
+    ProdHistoryClassifier Left Right h k ->
+      hsame h h' -> ProdHistoryClassifier Left Right h' k := by
+  intro classified sameLeft
+  cases classified with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          exact And.intro (ProdHistoryCarrier_hsame_transport sameLeft carrierH)
+            (And.intro carrierK (hsame_trans (hsame_symm sameLeft) sameHK))
+
 theorem prod_history_semantic_name_certificate (Left Right : BHist -> Prop)
     (left_witness : exists l : BHist, Left l) (right_witness : exists r : BHist, Right r) :
     SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)

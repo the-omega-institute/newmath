@@ -8,6 +8,16 @@ open BEDC.FKernel.NameCert
 def OptionHistoryCarrier (source : BHist -> Prop) (h : BHist) : Prop :=
   hsame h BHist.Empty ∨ source h
 
+theorem OptionHistoryCarrier_hsame_transport {source : BHist -> Prop} {h k : BHist} :
+    hsame h k -> OptionHistoryCarrier source h -> OptionHistoryCarrier source k := by
+  intro same carrier
+  cases carrier with
+  | inl emptyCase =>
+      exact Or.inl (hsame_trans (hsame_symm same) emptyCase)
+  | inr sourceCase =>
+      cases same
+      exact Or.inr sourceCase
+
 def OptionHistoryClassifier (source : BHist -> Prop) (h k : BHist) : Prop :=
   OptionHistoryCarrier source h ∧ OptionHistoryCarrier source k ∧ hsame h k
 
