@@ -46,6 +46,17 @@ theorem hsame_constructor_inversion :
     cases hx
     exact Exists.intro h (And.intro rfl rfl)
 
+theorem hsame_constructor_inversion_full :
+    (∀ {h x : BHist}, hsame (.e0 h) x → ∃ k : BHist, x = .e0 k ∧ hsame h k) ∧
+      (∀ {h x : BHist}, hsame (.e1 h) x → ∃ k : BHist, x = .e1 k ∧ hsame h k) ∧
+      (∀ {h k : BHist}, hsame (.e1 h) (.e0 k) → False) := by
+  constructor
+  · exact hsame_constructor_inversion.left
+  · constructor
+    · exact hsame_constructor_inversion.right
+    · intro h k hs
+      cases hs
+
 theorem hsame_e1_congr {h k : BHist} : hsame h k -> hsame (.e1 h) (.e1 k) := by
   intro hs
   cases hs

@@ -103,6 +103,15 @@ theorem PBaseData_to_PsameBase {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg
   | mk x y left right same =>
       exact PsameBase.intro left right same
 
+theorem PBaseData_witnesses {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PBaseData s P p q ->
+      exists x : s.SigObj, exists y : s.SigObj,
+        s.TokIntro P x p /\ s.TokIntro P y q /\ s.hsame x y := by
+  intro data
+  cases data with
+  | mk x y left right same =>
+      exact Exists.intro x (Exists.intro y (And.intro left (And.intro right same)))
+
 theorem PsameBase_inversion {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PsameBase s P p q → Nonempty (PBaseData s P p q) := by
   intro h
