@@ -20,4 +20,16 @@ theorem continuation_pattern_stability_fields :
       · intro a b c ab bc left right hab hleft hbc hright
         exact cont_assoc_hsame hab hleft hbc hright
 
+theorem continuation_addition_like_seed_has_unit_assoc :
+    (forall h : BHist, Cont BHist.Empty h h) ∧
+      (forall h : BHist, Cont h BHist.Empty h) ∧
+        (forall {a b c ab bc left right : BHist}, Cont a b ab -> Cont ab c left ->
+          Cont b c bc -> Cont a bc right -> hsame left right) := by
+  constructor
+  · exact cont_left_unit
+  · constructor
+    · exact cont_right_unit
+    · intro a b c ab bc left right hab hleft hbc hright
+      exact cont_assoc_hsame hab hleft hbc hright
+
 end BEDC.FKernel.Cont

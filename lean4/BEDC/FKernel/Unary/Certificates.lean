@@ -70,6 +70,14 @@ theorem UnaryPatternSpec_fields :
         (∀ {h : BHist}, UnaryHistory h → UnaryHistory (BHist.e1 h)) := by
   rfl
 
+theorem UnaryPatternSpec_step (spec : UnaryPatternSpec) {h : BHist} :
+    UnaryHistory h -> UnaryHistory (BHist.e1 h) := by
+  intro uh
+  unfold UnaryPatternSpec at spec
+  cases spec with
+  | intro _ step =>
+      exact step uh
+
 theorem UnaryPatternSpec_nonempty : Nonempty UnaryPatternSpec := by
   exact Nonempty.intro (And.intro unary_empty (fun uh => unary_e1_closed uh))
 
