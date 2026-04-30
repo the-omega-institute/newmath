@@ -52,7 +52,10 @@ then
 
 \begin{theorem}[Commutativity from right-shift and \(\Eone\)-congruence]
 \label{thm:comm-from-obligations}
-Assume unary right-shift and \(\Eone\)-congruence. Then unary continuation commutativity holds.
+Assume a proof of the unary right-shift obligation and a proof of the
+$\Eone$-congruence obligation. Then for all histories $h,k,r,r'$, if
+$\Unary(h)$, $\Unary(k)$, $\ContR(h,k,r)$, and $\ContR(k,h,r')$, then
+$\hsame(r,r')$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Unary.comm\_from\_obligations}
 
@@ -60,7 +63,6 @@ Assume unary right-shift and \(\Eone\)-congruence. Then unary continuation commu
 Induct on the unary derivation of the left input \(h\). The empty case follows from Theorem~\ref{thm:continuation-unit-laws}. In the step case, write \(h=\Eone(h_0)\). Invert \(\ContR(\Eone(h_0),k,r)\) to obtain \(u\) with \(\ContR(h_0,k,u)\) and \(\hsame(r,\Eone(u))\). Apply unary right-shift to \(\ContR(k,\Eone(h_0),r')\) to obtain \(v\) with \(\ContR(k,h_0,v)
 \) and \(\hsame(r',\Eone(v))\). By the induction hypothesis, \(\hsame(u,v)\). By \(\Eone\)-congruence, \(\hsame(\Eone(u),\Eone(v))\). Transitivity of \(\hsame\) yields \(\hsame(r,r')\).
 \end{proof}
-\leanchecked{BEDC.FKernel.Unary.unary\_comm\_from\_obligations}
 \leanvariant{BEDC.FKernel.Unary.unary\_commutativity\_obligation\_from\_named\_obligations}
 
 \begin{corollary}[Additive naming boundary]
@@ -91,7 +93,6 @@ If \(\hsame(h,k)\), then
 \begin{proof}
 This is the \(\Eone\)-constructor rule for \(\hsame\).
 \end{proof}
-\leanchecked{BEDC.FKernel.Hist.hsame\_e1\_congruence}
 
 \begin{lemma}[Unary right-shift, witness form]
 \label{lem:unary-shift-witness}

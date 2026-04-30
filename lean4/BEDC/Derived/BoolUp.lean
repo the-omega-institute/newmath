@@ -175,6 +175,19 @@ theorem BoolHistoryClassifier_trans {h k r : BEDC.FKernel.Hist.BHist} :
                     · exact carrierR
                     · exact BEDC.FKernel.Hist.hsame_trans histHK histKR
 
+theorem BoolHistoryClassifier_symm {h k : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryClassifier h k -> BoolHistoryClassifier k h := by
+  intro classifier
+  cases classifier with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          constructor
+          · exact carrierK
+          · constructor
+            · exact carrierH
+            · exact BEDC.FKernel.Hist.hsame_symm sameHK
+
 theorem BoolHistoryClassifier_empty_left_iff {k : BEDC.FKernel.Hist.BHist} :
     BoolHistoryClassifier BEDC.FKernel.Hist.BHist.Empty k <->
       BEDC.FKernel.Hist.hsame k BEDC.FKernel.Hist.BHist.Empty := by

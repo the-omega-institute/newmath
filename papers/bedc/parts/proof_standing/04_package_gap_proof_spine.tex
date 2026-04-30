@@ -5,7 +5,7 @@
 The finite globalization interface is not a single primitive. It stands on three policies: asking, packaging, and gaps.
 
 \begin{definition}[Package policy]
-\(\PkgPol(\Pi,D)\) states that signatures generated from histories in \(D\) admit package tokens, that internally same signatures yield internally same packages, and that package sameness is grounded in internally same signatures.
+$\PkgPol(\Pi)$ states that signatures generated from histories admitted through $\AskPol(\Pi,D)$ and used by $\GapPol(\Pi,D)$ admit package tokens, that internally same signatures yield internally same packages, and that package sameness is grounded in internally same signatures.
 \end{definition}
 
 \begin{definition}[Gap policy]
@@ -14,7 +14,7 @@ The finite globalization interface is not a single primitive. It stands on three
 
 \begin{theorem}[Gap coverage]
 \label{thm:gap-coverage-spine}
-Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi,D)\), and \(\GapPol(\Pi,D)\). If \(h\in D\), then there exists a package token \(p\) such that \(\InGap(\Pi,D,p,h)\).
+Assume $\AskPol(\Pi,D)$, $\PkgPol(\Pi)$, and $\GapPol(\Pi,D)$. If $h\in D$, then there exists a package token $p$ such that $\InGap(\Pi,D,p,h)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_coverage\_from\_policy\_layers}
 \begin{proof}
@@ -23,7 +23,7 @@ By asking totality, generate a signature \(s\) of \(h\). By package existence, g
 
 \begin{theorem}[Gap separation]
 \label{thm:gap-separation-proof-standing}
-Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi,D)\), and \(\GapPol(\Pi,D)\). If \(h\in D\), \(\InGap(\Pi,D,p,h)\), and \(\InGap(\Pi,D,q,h)\), then \(\PSame(p,q)\).
+Assume $\AskPol(\Pi,D)$, $\PkgPol(\Pi)$, and $\GapPol(\Pi,D)$. If $h\in D$, $\InGap(\Pi,D,p,h)$, and $\InGap(\Pi,D,q,h)$, then $\PSame(p,q)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_separation\_witnesses\_from\_policy\_layers}
 \begin{proof}
@@ -33,7 +33,7 @@ By the gap policy, gap membership yields signatures \(s,t\) of \(h\) packaged by
 \begin{theorem}[Globalization classifies by signatures]
 \label{thm:packages-classify-signatures}
 \label{thm:packages-classify-signatures-directional}
-Under \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi,D)\), and \(\GapPol(\Pi,D)\), package tokens classify histories in \(D\) by signature sameness: histories with the same signature inhabit internally same packages, and histories in internally same grounded packages have internally same signatures.
+Under $\AskPol(\Pi,D)$, $\PkgPol(\Pi)$, and $\GapPol(\Pi,D)$, package tokens classify histories in $D$ by signature sameness: histories with the same signature inhabit internally same packages, and histories in internally same grounded packages have internally same signatures.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Package.packagePolicy\_classifies\_signatures}
 \leanvariant{BEDC.FKernel.Package.packages\_classify\_signatures}

@@ -117,11 +117,26 @@ Apply the concrete package-sameness constructor to the two token-introduction pr
 \label{thm:globalize-completeness}
 \label{thm:concrete-globalization-completeness-samesig}
 \label{thm:concrete-globalize-completeness}
-Assume concrete package reflection. If two histories generate package-same visible tokens in \(\GlobSig(\Pi,D)\), then their generated signatures are internally same.
+Assume $\PkgTokPol(\Pi)$. If
+$$
+  \InGapSig(\Pi,D,p,h),
+  \qquad
+  \InGapSig(\Pi,D,q,k),
+  \qquad
+  \psame(p,q),
+$$
+then there exist answer histories $s,t$ and evidence ledgers $\Delta,\Theta$ such that
+$$
+  \Sig(\Pi,h,s,\Delta),
+  \qquad
+  \Sig(\Pi,k,t,\Theta),
+  \qquad
+  \hsame(s,t).
+$$
 \end{theorem}
 
 \begin{proof}
-The histories generate signatures \(s,t\) and tokens \(p,q\). The hypothesis gives \(\psame(p,q)\). By Theorem~\ref{thm:package-reflection}, \(\hsame(s,t)\).
+The two gap premises provide generated signatures and token-introduction witnesses for $p$ and $q$. The package-token policy reflects $\psame(p,q)$ back to internal sameness of those generated signatures, giving the displayed witnesses.
 \end{proof}
 \leanchecked{BEDC.FKernel.Gap.concrete\_globalize\_completeness}
 \leanvariant{BEDC.FKernel.Gap.globalize\_completeness\_primary}
@@ -139,11 +154,38 @@ The histories generate signatures \(s,t\) and tokens \(p,q\). The hypothesis giv
 
 \begin{corollary}[Concrete Globalize classifies exactly by signatures]
 \label{cor:concrete-globalize-classifies-by-signatures}
-For the internalized signature-token instance, visible package sameness is equivalent to internal sameness of generated answer histories.
+Assume $\AskPol(\Pi,D)$, $\PkgTokPol(\Pi)$,
+$$
+  \InGapSig(\Pi,D,p,h),
+  \qquad
+  \InGapSig(\Pi,D,q,k).
+$$
+Then visible package sameness and internal sameness of generated answer histories agree in both orientations:
+$$
+  \psame(p,q)
+  \Longleftrightarrow
+  \exists s,t,\Delta,\Theta.\;
+  \Sig(\Pi,h,s,\Delta)
+  \wedge
+  \Sig(\Pi,k,t,\Theta)
+  \wedge
+  \hsame(s,t).
+$$
+Symmetrically,
+$$
+  \psame(q,p)
+  \Longleftrightarrow
+  \exists t,s,\Theta,\Delta.\;
+  \Sig(\Pi,k,t,\Theta)
+  \wedge
+  \Sig(\Pi,h,s,\Delta)
+  \wedge
+  \hsame(t,s).
+$$
 \end{corollary}
 
 \begin{proof}
-Soundness is the introduction direction. Completeness is Theorem~\ref{thm:concrete-globalize-completeness}.
+The forward directions are Theorem~\ref{thm:concrete-globalize-completeness} applied to the two ordered pairs of gap memberships. The reverse directions are the concrete Globalize soundness rule applied to the displayed signature witnesses.
 \end{proof}
 \leanchecked{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_symmetric\_package\_pair}
 \leanvariant{BEDC.FKernel.Gap.internalized\_globalize\_classifies\_iff}

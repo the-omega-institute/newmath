@@ -89,14 +89,14 @@ Unpack both gap memberships. We obtain signatures \(s,t\) and evidence ledgers \
 By signature determinacy supplied through \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). By package soundness in \(\PkgTokPol(\Pi)\), \(\psame(p,q)\).
 \end{proof}
 
-\begin{theorem}[Policy-supported concrete Globalize exactness]
+\begin{theorem}[Token-level Globalize exactness]
 \label{thm:globalize-exact}
-Under \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\), two introduced visible tokens are package-same exactly when their generating signatures are internally same.
+Assume $\PkgTokPol(\Pi)$, $\TokIntro(\Pi,s,p)$, and $\TokIntro(\Pi,t,q)$. Then $\psame(p,q)\Longleftrightarrow\hsame(s,t)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.policy\_globalize\_exact}
 
 \begin{proof}
-This is Theorem~\ref{thm:psame-iff-hsame}; the domain and asking policies are needed to ensure that the tokens arise from admitted histories with generated signatures.
+This is Theorem~\ref{thm:psame-iff-hsame}.
 \end{proof}
 
 \begin{corollary}[Active reading]

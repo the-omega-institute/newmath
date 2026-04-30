@@ -95,6 +95,15 @@ theorem PreorderPrefixLE_preserves_carrier {h k : BEDC.FKernel.Hist.BHist} :
       | intro tailCarrier hCont =>
           exact unary_cont_closed hCarrier tailCarrier hCont
 
+theorem PreorderPrefixLE_source_carrier_of_target_carrier {h k : BHist} :
+    PreorderPrefixLE h k -> PreorderCarrier k -> PreorderCarrier h := by
+  intro prefixWitness targetCarrier
+  cases prefixWitness with
+  | intro tail tailData =>
+      cases tailData with
+      | intro _tailCarrier hCont =>
+          exact unary_cont_left_factor hCont targetCarrier
+
 theorem PreorderPrefixLE_antisymm_hsame {h k : BHist} :
     PreorderPrefixLE h k -> PreorderPrefixLE k h -> hsame h k := by
   intro hk kh
@@ -144,6 +153,16 @@ theorem PreorderPrefixLE_cancel_left_context {x h k : BHist} :
       | intro tailUnary tailCont =>
           exact ⟨tail, tailUnary,
             append_left_cancel (h := x) (tailCont.trans (append_assoc x h tail))⟩
+
+theorem PreorderPrefixLE_append_left_context {x h k : BHist} :
+    PreorderPrefixLE h k → PreorderPrefixLE (append x h) (append x k) := by
+  intro prefixLE
+  cases prefixLE with
+  | intro tail tailData =>
+      cases tailData with
+      | intro tailUnary tailCont =>
+          cases tailCont
+          exact ⟨tail, tailUnary, cont_intro (append_assoc x h tail).symm⟩
 
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)

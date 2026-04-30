@@ -82,6 +82,18 @@ Unpack the prefix witness into its unary tail and continuation proof. Unary cont
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_preserves\_carrier}
 
+\begin{theorem}[Prefix target carrier reflects source carrier]
+\label{thm:preorder-prefix-source-carrier-of-target-carrier}
+For the concrete unary history carrier, if \(h\le k\) is witnessed by a unary
+prefix tail and \(k\) is in the carrier, then \(h\) is also in the carrier.
+\end{theorem}
+\begin{proof}
+Unpack the prefix witness into its unary tail and continuation proof. The
+target carrier is unary, so unary continuation left-factor closure recovers
+unary membership of the source history \(h\).
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_source\_carrier\_of\_target\_carrier}
+
 \begin{definition}[Preorder classifier specification]
 \label{def:preorder-classifier-specification}
 The classifier is the supplied carrier sameness, and the relation is stable under classifier replacement.
@@ -147,6 +159,20 @@ carrier for the tail, and the continuation component is the defining
 append-result equality.
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail}
+
+\begin{theorem}[Prefix left context monotonicity]
+\label{thm:preorder-prefix-left-context-monotonicity}
+If \(h\le k\) is witnessed by a unary continuation tail, then appending the
+same left context to both endpoints preserves the prefix comparison:
+\(\mathsf{append}(x,h)\le\mathsf{append}(x,k)\).
+\end{theorem}
+\begin{proof}
+Unpack the prefix witness as a unary tail and a continuation equation from
+\(h\) to \(k\). Reuse the same unary tail after the common left context.
+Associativity of append identifies the resulting continuation endpoint with
+\(\mathsf{append}(x,k)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_left\_context}
 
 \begin{theorem}[Prefix left context cancellation]
 \label{thm:preorder-prefix-left-context-cancellation}

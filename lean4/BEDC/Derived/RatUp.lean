@@ -152,6 +152,9 @@ def RatHistoryCarrier (denominator : BHist) : Prop :=
 def RatHistoryClassifier (d e : BHist) : Prop :=
   RatHistoryCarrier d ∧ RatHistoryCarrier e ∧ hsame d e
 
+def RatHistoryLedgerPolicy (raw visible : BHist) : Prop :=
+  RatHistoryCarrier raw ∧ hsame raw visible
+
 theorem RatHistoryClassifier_trans {d e f : BHist} :
     RatHistoryClassifier d e -> RatHistoryClassifier e f -> RatHistoryClassifier d f := by
   intro de ef
@@ -173,6 +176,16 @@ theorem RatHistoryCarrier_hsame_transport {d e : BHist} :
       cases signData with
       | intro numerator ratCarrier =>
           exact ⟨sign, numerator, RatCarrier_denominator_hsame_transport ratCarrier same⟩
+
+theorem RatHistoryLedgerPolicy_visible_carrier {raw visible : BHist} :
+    RatHistoryLedgerPolicy raw visible → RatHistoryCarrier visible := by
+  intro ledger
+  exact RatHistoryCarrier_hsame_transport ledger.right ledger.left
+
+theorem RatHistoryLedgerPolicy_raw_visible_classifier {raw visible : BHist} :
+    RatHistoryLedgerPolicy raw visible -> RatHistoryClassifier raw visible := by
+  intro ledger
+  exact ⟨ledger.left, RatHistoryLedgerPolicy_visible_carrier ledger, ledger.right⟩
 
 theorem rat_history_semantic_name_certificate :
     SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
@@ -315,6 +328,16 @@ theorem RatCarrier_append_unary_denominator_closed {sign : BEDC.FKernel.Mark.BMa
       exact RatCarrier_of_int_positive_denominator intCarrier
         (PositiveUnaryDenominator_append_unary_tail positiveDenominator tailUnary)
 
+theorem RatCarrier_prepend_unary_denominator_closed {sign : BMark}
+    {numerator denominator pref : BHist} :
+    UnaryHistory pref -> RatCarrier sign numerator denominator ->
+      RatCarrier sign numerator (BEDC.FKernel.Cont.append pref denominator) := by
+  intro prefUnary carrier
+  cases Iff.mp RatCarrier_iff_positive_unary_denominator carrier with
+  | intro intCarrier positiveDenominator =>
+      exact RatCarrier_of_int_positive_denominator intCarrier
+        (PositiveUnaryDenominator_append_unary_prefix prefUnary positiveDenominator)
+
 theorem RatClassifierSpec_append_unary_denominators_closed {s1 s2 : BMark}
     {n1 n2 d1 d2 tail1 tail2 : BHist} :
     RatClassifierSpec s1 n1 d1 s2 n2 d2 -> UnaryHistory tail1 -> hsame tail1 tail2 ->
@@ -343,6 +366,36 @@ theorem RatClassifierSpec_append_unary_denominators_closed {s1 s2 : BMark}
                     cases sameTail
                     exact hsame_refl (BEDC.FKernel.Cont.append d1 tail1)
                   exact ⟨carrier1App, carrier2App, sameSign, sameNumerator, denominatorAppSame⟩
+
+theorem RatClassifierSpec_prepend_unary_denominators_closed {s1 s2 : BMark}
+    {n1 n2 d1 d2 pref1 pref2 : BHist} :
+    RatClassifierSpec s1 n1 d1 s2 n2 d2 -> UnaryHistory pref1 -> hsame pref1 pref2 ->
+      RatClassifierSpec s1 n1 (BEDC.FKernel.Cont.append pref1 d1)
+        s2 n2 (BEDC.FKernel.Cont.append pref2 d2) := by
+  intro classifier pref1Unary samePref
+  cases classifier with
+  | intro carrier1 rest =>
+      cases rest with
+      | intro carrier2 rest =>
+          cases rest with
+          | intro sameSign rest =>
+              cases rest with
+              | intro sameNumerator sameDenominator =>
+                  have pref2Unary : UnaryHistory pref2 := unary_transport pref1Unary samePref
+                  have carrier1Pre :
+                      RatCarrier s1 n1 (BEDC.FKernel.Cont.append pref1 d1) :=
+                    RatCarrier_prepend_unary_denominator_closed pref1Unary carrier1
+                  have carrier2Pre :
+                      RatCarrier s2 n2 (BEDC.FKernel.Cont.append pref2 d2) :=
+                    RatCarrier_prepend_unary_denominator_closed pref2Unary carrier2
+                  have denominatorPreSame :
+                      hsame (BEDC.FKernel.Cont.append pref1 d1)
+                        (BEDC.FKernel.Cont.append pref2 d2) := by
+                    cases samePref
+                    cases sameDenominator
+                    exact hsame_refl (BEDC.FKernel.Cont.append pref1 d1)
+                  exact
+                    ⟨carrier1Pre, carrier2Pre, sameSign, sameNumerator, denominatorPreSame⟩
 
 theorem RatClassifierSpec_trans
     {s1 s2 s3 : BEDC.FKernel.Mark.BMark}

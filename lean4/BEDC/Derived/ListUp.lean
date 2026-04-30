@@ -179,6 +179,17 @@ theorem ListClassifierSpec_hsame_symm :
               · exact BEDC.FKernel.Hist.hsame_symm hhead
               · exact ih htail
 
+theorem ListClassifierSpec_hsame_cons_inversion {x y : BEDC.FKernel.Hist.BHist}
+    {xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame (x :: xs) (y :: ys) ->
+      BEDC.FKernel.Hist.hsame x y /\ ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys := by
+  intro classifier
+  cases classifier with
+  | intro headSame tailSame =>
+      constructor
+      · exact headSame
+      · exact tailSame
+
 theorem ListClassifierSpec_hsame_map_e0 :
     forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
       ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
@@ -282,6 +293,32 @@ theorem ListClassifierSpec_hsame_map_e1_inversion :
               constructor
               · exact BEDC.FKernel.Hist.hsame_e1_iff.mp head
               · exact ih tail
+
+theorem ListClassifierSpec_hsame_map_e0_map_e1_empty :
+    forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
+      ListClassifierSpec BEDC.FKernel.Hist.hsame
+        (xs.map BEDC.FKernel.Hist.BHist.e0) (ys.map BEDC.FKernel.Hist.BHist.e1) ->
+        xs = [] /\ ys = [] := by
+  intro xs
+  cases xs with
+  | nil =>
+      intro ys same
+      cases ys with
+      | nil =>
+          constructor
+          · rfl
+          · rfl
+      | cons _ _ =>
+          cases same
+  | cons _ _ =>
+      intro ys same
+      cases ys with
+      | nil =>
+          cases same
+      | cons _ _ =>
+          cases same with
+          | intro headSame _ =>
+              exact False.elim (BEDC.FKernel.Hist.not_hsame_e0_e1 headSame)
 
 theorem ListClassifierSpec_hsame_length_eq :
     forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},

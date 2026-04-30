@@ -88,6 +88,22 @@ theorem OptionHistoryClassifier_trans {source : BEDC.FKernel.Hist.BHist -> Prop}
               | intro carrierR histKR =>
                   exact And.intro carrierH (And.intro carrierR (hsame_trans histHK histKR))
 
+theorem OptionHistoryClassifier_empty_left_iff {source : BHist -> Prop} {k : BHist} :
+    OptionHistoryClassifier source BHist.Empty k ↔ hsame k BHist.Empty := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro _ rest =>
+        cases rest with
+        | intro _ same =>
+            exact hsame_symm same
+  · intro same
+    constructor
+    · exact Or.inl (hsame_refl BHist.Empty)
+    · constructor
+      · exact Or.inl same
+      · exact hsame_symm same
+
 theorem option_history_semantic_name_certificate (source : BHist -> Prop) :
     SemanticNameCert (OptionHistoryCarrier source) (OptionHistoryCarrier source)
       (OptionHistoryCarrier source) (OptionHistoryClassifier source) := by

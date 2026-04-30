@@ -37,6 +37,19 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[AbGroup left-right multiplication swap]
+\label{thm:abgroup-mul-left-right-swap}
+For BEDC histories equipped with an associative multiplication, commutativity,
+and multiplication congruence under \(\hsame\), the expression
+\(a\cdot(b\cdot c)\) is internally the same as \(b\cdot(a\cdot c)\).
+\end{theorem}
+\begin{proof}
+Reassociate \(a\cdot(b\cdot c)\) to \((a\cdot b)\cdot c\), transport the
+left factor across commutativity, and reassociate \((b\cdot a)\cdot c\) back to
+\(b\cdot(a\cdot c)\).
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_left\_right\_swap}
+
 \begin{definition}[AbGroup ledger policy]
 \label{def:abgroup-ledger-policy}
 Record group expression provenance and the commutativity law when used.

@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\ComplexUp\)}
 \label{ch:concrete-instances-complex-namecert}
 
-The complex number interface \(\ComplexUp\) is licensed by ordered pairs of certified rational histories from \autoref{ch:concrete-instances-rat-namecert}, read as Cartesian real and imaginary components. The classifier is product history sameness restricted to the two rational-history carriers. It is not a primitive number system; it is licensed only via the rational source and the pair constructor of \autoref{ch:concrete-instances-prod-namecert}.
+The complex number interface \(\ComplexUp\) is licensed here by the product of two certified rational-history components from \autoref{ch:concrete-instances-rat-namecert}. The carrier, pattern, and ledger predicates are the same rational-pair history carrier, and the classifier is product history sameness restricted to those two rational-history components. It is not a primitive number system; it is licensed only via the rational source and the pair constructor of \autoref{ch:concrete-instances-prod-namecert}.
 
 \begin{remark}[Complex certificate scope]
 \label{rem:concrete-instances-complex-namecert-roadmap}
@@ -28,7 +28,9 @@ The source is \(\ProdUp(\RatUp,\RatUp)\) at the history-carrier level.
 
 \begin{definition}[Complex pattern specification]
 \label{def:complex-pattern-specification}
-The pattern is Cartesian pairing of rational real and imaginary components.
+The pattern predicate is exactly the rational-pair history carrier: a history
+matches the pattern when it is a product history assembled from two certified
+rational-history components.
 \end{definition}
 
 \begin{definition}[Complex classifier specification]
@@ -38,20 +40,48 @@ carriers.
 \end{definition}
 \leandef{BEDC.Derived.ComplexUp.ComplexHistoryClassifier}
 
+\begin{theorem}[Complex history classifier transitivity]
+\label{thm:complex-history-classifier-transitivity}
+If a complex history classifier relates \(h\) to \(k\), and also relates
+\(k\) to \(r\), then it relates \(h\) to \(r\). The left endpoint carrier is
+taken from the first classification, the right endpoint carrier is taken from
+the second classification, and the history-sameness witnesses compose.
+\end{theorem}
+\begin{proof}
+Unfolding the classifier exposes the two endpoint carrier witnesses together
+with two \(hsame\) links. The endpoint carriers are preserved at the outside
+of the chain, and the internal links compose by transitivity of \(hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_trans}
+
+\begin{theorem}[Complex history classifier symmetry]
+\label{thm:complex-history-classifier-symmetry}
+If $\mathsf{ComplexHistoryClassifier}(h,k)$, then $\mathsf{ComplexHistoryClassifier}(k,h)$.
+\end{theorem}
+\begin{proof}
+Unfold the classifier as the product history classifier over two $\mathsf{RatHistoryCarrier}$ endpoints. The endpoint carrier witnesses are swapped, and the stored $\hsame(h,k)$ witness is reversed by symmetry to obtain $\hsame(k,h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_symm}
+
 \begin{definition}[Complex stability certificate]
 \label{def:complex-stability-certificate}
 The stability certificate consists of:
 \begin{enumerate}
-  \item componentwise reflexivity
-  \item componentwise transitivity
-  \item closure under pair construction
-  \item closure of complex arithmetic through real arithmetic
+  \item an inhabited rational-pair history carrier
+  \item reflexivity of the product classifier on carrier histories
+  \item symmetry of the product classifier
+  \item transitivity of the product classifier
+  \item carrier transport along product-classifier sameness
+  \item pattern soundness for the rational-pair history carrier
+  \item ledger soundness for the rational-pair history carrier
 \end{enumerate}
 \end{definition}
 
 \begin{definition}[Complex ledger policy]
 \label{def:complex-ledger-policy}
-Record both real component ledgers.
+The ledger predicate is the same rational-pair history carrier used by the
+semantic certificate. Ledger soundness therefore states that every certified
+source history is already accepted by that rational-pair ledger predicate.
 \end{definition}
 
 \begin{theorem}[Concrete \(\ComplexUp\) naming certificate]

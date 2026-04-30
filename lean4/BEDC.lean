@@ -21,6 +21,7 @@ import BEDC.FKernel.Sig
 import BEDC.FKernel.Sig.Totality
 import BEDC.FKernel.Sig.WitnessChain
 import BEDC.FKernel.Sig.SameSig
+import BEDC.FKernel.Sig.SameSig.Endpoint
 import BEDC.FKernel.Sig.SameSig.Equivalence
 import BEDC.FKernel.Sig.Determinacy
 import BEDC.FKernel.Sig.Generation
@@ -45,11 +46,13 @@ import BEDC.Derived.OptionUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.SumUp
+import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger
 import BEDC.Derived.ListUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.GroupUp
+import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.IntervalUp
