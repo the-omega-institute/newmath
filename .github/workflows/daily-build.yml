@@ -102,6 +102,8 @@ jobs:
     if: ${{ always() && needs.resolve_target.result == 'success' && needs.resolve_target.outputs.should_publish == 'true' && needs.build_pdf.result == 'success' && needs.build_lean4.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: write
     steps:
       - name: Download built main.pdf artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -118,6 +120,27 @@ jobs:
             exit 1
           fi
           echo "pdf_path=$pdf_path" >> "$GITHUB_OUTPUT"
+
+      - name: Delete orphan releases sharing this tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ needs.resolve_target.outputs.release_tag }}
+        run: |
+          # Soft-publish actions can leave behind draft releases (e.g. when a
+          # previous run was interrupted). When a later run also targets the
+          # same tag_name, GitHub rejects the finalize step with
+          # "tag_name already_exists". Pre-clean: delete any existing draft
+          # release whose tag matches our target.
+          drafts=$(gh api "/repos/${GITHUB_REPOSITORY}/releases" --paginate \
+            --jq ".[] | select(.tag_name == \"${RELEASE_TAG}\" and .draft == true) | .id")
+          if [ -n "$drafts" ]; then
+            for id in $drafts; do
+              echo "Deleting orphan draft release id=$id (tag=${RELEASE_TAG})"
+              gh api -X DELETE "/repos/${GITHUB_REPOSITORY}/releases/${id}"
+            done
+          else
+            echo "No orphan draft for tag ${RELEASE_TAG}"
+          fi
 
       - name: Write prerelease summary
         run: |
