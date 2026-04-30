@@ -127,6 +127,22 @@ the equality of cons bundles to equality of their tails, and the induction
 hypothesis cancels the remaining common prefix.
 \end{proof}
 
+\begin{theorem}[Probe bundle suffix cancellation]
+\label{thm:probe-bundle-suffix-cancellation}
+For any fixed probe bundle $\Pi$ and any probe bundles $\Theta,\Omega$, if
+$$
+\mathsf{BAppend}(\Theta,\Pi)=\mathsf{BAppend}(\Omega,\Pi),
+$$
+then $\Theta=\Omega$.
+\end{theorem}
+\begin{proof}
+Induct on the left prefixes $\Theta$ and $\Omega$. If both are empty, the
+claim is immediate. If exactly one prefix is empty, a structural
+bundle-length argument separates the displayed append bundles. If both are
+cons bundles, constructor no-confusion and injectivity identify the head
+probes and reduce the claim to suffix cancellation for the tails.
+\end{proof}
+
 \begin{lemma}[Probe bundle append cons-result inversion]
 \label{lem:probe-bundle-append-cons-result-inversion}
 For probe bundles $\Pi,\Theta,\Omega$ and probe $\pi$, if
@@ -373,7 +389,9 @@ Obtain total signatures for $h$ and $k$ from the asking policy. The same policy 
 \label{thm:signature-sameness-equivalence}
 \label{thm:signature-sameness-equivalence-policy-spine}
 \label{thm:signature-sameness-equivalence-total-determinacy}
-Under an asking policy for \(\Pi\) over a source specification \(D\), \(\sameSig_\Pi\) is reflexive, symmetric, and transitive on admitted histories.
+Assume $\AskPol(\Pi,D)$. If $h\in D$, then $\sameSig_\Pi(h,h)$; if
+$\sameSig_\Pi(h,k)$, then $\sameSig_\Pi(k,h)$; and if $k\in D$,
+$\sameSig_\Pi(h,k)$, and $\sameSig_\Pi(k,l)$, then $\sameSig_\Pi(h,l)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Sig.sameSig\_equivalence}
 \leanvariant{BEDC.FKernel.Sig.signature\_sameness\_equivalence}
@@ -397,7 +415,14 @@ Under an asking policy for \(\Pi\) over a source specification \(D\), \(\sameSig
 \leanvariant{BEDC.FKernel.Sig.sameSig\_equivalence\_witness\_pack}
 \leanvariant{BEDC.FKernel.Sig.sameSig\_equivalence\_explicit\_witnesses}
 \begin{proof}
-Reflexivity follows from totality and \(\hsame\)-reflexivity. Symmetry follows from \(\hsame\)-symmetry. For transitivity, suppose \(h\) and \(k\) share a signature, and \(k\) and \(l\) share a signature. Signature determinacy for \(k\) ensures the two signatures generated from \(k\) are \(\hsame\). Transitivity of \(\hsame\) then connects a signature of \(h\) with a signature of \(l\).
+For an admitted $h$, policy totality produces a generated signature for $h$,
+and $\hsame$-reflexivity gives $\sameSig_\Pi(h,h)$. Symmetry reverses the two
+signature witnesses and uses $\hsame$-symmetry, with no admission hypothesis.
+For transitivity through $k$, policy totality supplies the canonical signature
+generated from the admitted middle history. Signature determinacy for $k$
+connects the $k$-signature in the left relation, the canonical middle
+signature, and the $k$-signature in the right relation; $\hsame$-transitivity
+then connects a signature of $h$ with a signature of $l$.
 \end{proof}
 
 \begin{theorem}[Signature-sameness endpoint replacement]

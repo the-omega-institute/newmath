@@ -120,6 +120,20 @@ integer numerator and the resulting positive denominator.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatCarrier\_append\_unary\_denominator\_closed}
 
+\begin{theorem}[Positive denominator append unary prefix]
+\label{thm:rat-positive-denominator-append-unary-prefix}
+If $u$ is unary and $d$ has a positive unary denominator witness, then
+$\mathsf{append}(u,d)$ has a positive unary denominator witness.
+\end{theorem}
+\begin{proof}
+Write the positive denominator witness as an $\Eone$ tail, say $d$ is
+internally the same as $\Eone(t)$ with $t$ unary. Appending the unary prefix
+$u$ preserves unary structure by unary append closure, and composing the
+displayed $\Eone$ witness with append compatibility gives the required
+positive witness for $\mathsf{append}(u,d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_prefix}
+
 \begin{theorem}[Rat carrier hsame transport]
 \label{thm:rat-carrier-hsame-transport}
 If a rational carrier \(\mathsf{RatCarrier}(s,n,d)\) is transported along
@@ -267,7 +281,6 @@ The stability certificate consists of:
   \item closure of rational operations after re-normalization
 \end{enumerate}
 \end{definition}
-\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_prefix}
 
 \begin{definition}[Rat ledger policy]
 \label{def:rat-ledger-policy}
