@@ -73,6 +73,18 @@ theorem unary_cont_closed {h k r : BHist} :
   | e1 k ih =>
       exact ih uh uk
 
+theorem unary_cont_preserves_unary_by_induction {h k r : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → UnaryHistory r := by
+  intro uh uk hr
+  cases hr
+  induction k generalizing h with
+  | Empty =>
+      exact uh
+  | e0 k ih =>
+      cases uk
+  | e1 k ih =>
+      exact ih uh uk
+
 theorem unary_cont_result_closed {h k r : BHist} :
     UnaryHistory h ∧ UnaryHistory k ∧ Cont h k r → UnaryHistory r := by
   intro packed

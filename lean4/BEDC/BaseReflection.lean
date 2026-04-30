@@ -252,6 +252,14 @@ theorem PackageReflection_base
       have y_to_y0 := tok.tokenReplacement right right0
       exact eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
 
+theorem active_token_mode_reflects_base
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (mode : PolicyTokenMode s P)
+    {x y : s.SigObj} {p q : s.Pkg} :
+    s.TokIntro P x p → s.TokIntro P y q → PsameBase s P p q → s.hsame x y := by
+  intro left right base
+  exact PackageReflection_base eqv mode left right base
+
 theorem PackageReflection_base_from_data
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
@@ -745,6 +753,15 @@ theorem ExactGlobalizeBase_exports_base_relation
   exact ExactGlobalizeBase_classify_iff ex hp hq
 
 theorem ExactGlobalizeBase_no_closure_export
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    ∀ {h k : s.Hist} {p q : s.Pkg},
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  intro h k p q hp hq
+  exact ExactGlobalizeBase_classify_iff ex hp hq
+
+theorem no_implicit_closure_exports_base
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) :
     ∀ {h k : s.Hist} {p q : s.Pkg},
