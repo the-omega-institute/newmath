@@ -95,6 +95,13 @@ theorem PositiveUnaryDenominator_append_unary_prefix {«prefix» den : BHist} :
             hsame_refl (BHist.e1 (BEDC.FKernel.Cont.append «prefix» tail)),
             unary_append_closed prefixUnary tailUnary⟩
 
+theorem PositiveUnaryDenominator_e0_absurd {tail : BHist} :
+    PositiveUnaryDenominator (BHist.e0 tail) -> False := by
+  intro positive
+  cases positive with
+  | intro witness data =>
+      exact not_hsame_e0_e1 data.left
+
 def RatSourceSpec (normalized : BMark → BHist → BHist → Prop) (sign : BMark)
     (num den : BHist) : Prop :=
   BEDC.Derived.IntUp.IntCarrier sign num ∧ PositiveUnaryDenominator den ∧

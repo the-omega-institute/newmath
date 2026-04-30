@@ -22,6 +22,14 @@ theorem ProdHistoryCarrier_append_intro {Left Right : BHist -> Prop} {l r : BHis
       (And.intro leftCarrier
         (And.intro rightCarrier (cont_intro (h := l) (k := r) rfl))))
 
+theorem ProdHistoryCarrier_cont_intro {Left Right : BHist -> Prop} {l r h : BHist} :
+    Left l -> Right r -> Cont l r h -> ProdHistoryCarrier Left Right h := by
+  intro leftCarrier rightCarrier hCont
+  exact Exists.intro l
+    (Exists.intro r
+      (And.intro leftCarrier
+        (And.intro rightCarrier hCont)))
+
 theorem ProdHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BHist} :
     hsame h k -> ProdHistoryCarrier Left Right h -> ProdHistoryCarrier Left Right k := by
   intro same carrier
