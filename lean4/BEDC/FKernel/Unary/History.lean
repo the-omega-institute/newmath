@@ -115,6 +115,13 @@ theorem unary_transport_symm {h k : BHist} : UnaryHistory k -> hsame h k -> Unar
   intro uk hhk
   exact unary_transport uk (hsame_symm hhk)
 
+theorem unary_history_hsame_iff {h k : BHist} :
+    hsame h k → (UnaryHistory h ↔ UnaryHistory k) := by
+  intro hhk
+  exact Iff.intro
+    (fun uh => unary_transport uh hhk)
+    (fun uk => unary_transport_symm uk hhk)
+
 theorem unary_no_zero_extension {h : BHist} : UnaryHistory (.e0 h) -> False := by
   intro uh
   exact uh
