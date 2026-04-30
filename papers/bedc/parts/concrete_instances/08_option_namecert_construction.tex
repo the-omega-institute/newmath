@@ -8,14 +8,14 @@ The optional value interface \(\OptionUp\) is licensed over any source carrier a
 \begin{enumerate}
   \item \textbf{Traditional target}: optional data with one absent value and present values over a source object.
   \item \textbf{BEDC source}: any licensed source carrier $A$ equipped with its existing name certificate.
-  \item \textbf{Carrier choice}: the absent history carrier licenses $\mathsf{none}$, and the present history carrier wraps a source witness.
-  \item \textbf{Classifier choice}: the lifted classifier relates absent to absent and present to present through the source classifier.
+  \item \textbf{Carrier choice}: the typed option carrier has $\mathsf{none}$ and $\mathsf{some}$ constructors, while the checked history carrier is the empty-or-source envelope $\hsame(h,\emp)\lor S(h)$.
+  \item \textbf{Classifier choice}: the typed classifier relates matching option tags through the source classifier; $\mathsf{OptionHistoryClassifier}$ records endpoint envelope-carrier witnesses together with $\hsame$ of the endpoints.
   \item \textbf{Stability obligations}: optional carrier transport, absent/present separation, lifted classifier symmetry and transitivity, and endpoint transport.
   \item \textbf{Ledger}: the option tag is explicit; present payload evidence remains the source certificate evidence.
-  \item \textbf{Core theorem list}: carrier cases, absent/present no-confusion, present inversion, classifier transport, classifier equivalence, and the semantic name certificate.
-  \item \textbf{Exactness predicate}: classification holds exactly for matching tags, with source classification required in the present branch.
+  \item \textbf{Core theorem list}: typed carrier cases, typed absent/present no-confusion, present inversion, history classifier transport, classifier equivalence, and the envelope semantic name certificate.
+  \item \textbf{Exactness predicate}: matching-tag exactness is checked for $\mathsf{OptionClassifierSpec}$, while the checked history classifier exactness is endpoint envelope membership plus endpoint $\hsame$.
   \item \textbf{Standard bridge}: the absent branch reads as $\mathsf{none}$ and the present branch reads as $\mathsf{some}(a)$.
-  \item \textbf{Status}: $\mathsf{CheckedCert}$, with the optional history semantic certificate checked in Lean.
+  \item \textbf{Status}: $\mathsf{ProofTarget}$ for the full explicit-tag history certificate, with the checked Lean target validating the history envelope and typed constructor no-confusion.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -179,12 +179,12 @@ ledger link, and the visible link.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_hsame\_transport}
 
-\begin{theorem}[Concrete \(\OptionUp\) naming certificate]
+\begin{theorem}[Option history envelope semantic certificate]
 \label{thm:concrete-option-namecert}
-The lifted tuple forms a valid NameCert for \(\OptionUp(A)\).
+For any source predicate on BEDC histories, $\mathsf{OptionHistoryCarrier}$ and $\mathsf{OptionHistoryClassifier}$ form the checked $\mathsf{SemanticNameCert}$ for the empty-or-source history envelope.
 \end{theorem}
 \begin{proof}
-The history carrier contains the empty history and any source history. The classifier records both carrier witnesses and the BEDC history equality witness. Reflexivity, symmetry, transitivity, and carrier transport are the corresponding \(\hsame\) fields, while pattern and ledger soundness are carrier projections.
+The history carrier contains the empty history and any source history. The classifier records both endpoint envelope-carrier witnesses and the BEDC history equality witness. Reflexivity, symmetry, transitivity, and carrier transport are the corresponding \(\hsame\) fields, while pattern and ledger soundness are carrier projections for the envelope.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate}
 
