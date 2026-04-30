@@ -190,6 +190,18 @@ theorem ListClassifierSpec_hsame_cons_inversion {x y : BEDC.FKernel.Hist.BHist}
       · exact headSame
       · exact tailSame
 
+theorem ListClassifierSpec_hsame_cons_head_transport {x y z : BEDC.FKernel.Hist.BHist}
+    {xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
+    BEDC.FKernel.Hist.hsame y z ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame (x :: xs) (y :: ys) ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame (x :: xs) (z :: ys) := by
+  intro replacement classifier
+  cases classifier with
+  | intro headSame tailSame =>
+      constructor
+      · exact BEDC.FKernel.Hist.hsame_trans headSame replacement
+      · exact tailSame
+
 theorem ListClassifierSpec_hsame_map_e0 :
     forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
       ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->

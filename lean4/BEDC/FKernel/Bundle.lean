@@ -71,6 +71,17 @@ theorem bundleAppend_cons_result_inversion {PName : Type}
       cases same
       exact Or.inr (Exists.intro pref0 (And.intro rfl rfl))
 
+theorem bundleAppend_empty_result_inversion {PName : Type}
+    {left right : ProbeBundle PName} :
+    bundleAppend left right = ProbeBundle.Bnil →
+      left = ProbeBundle.Bnil ∧ right = ProbeBundle.Bnil := by
+  intro same
+  cases left with
+  | Bnil =>
+      exact And.intro rfl same
+  | Bcons p tail =>
+      cases same
+
 theorem inBundle_bundleAppend_iff {PName : Type} {p : PName}
     {left right : ProbeBundle PName} :
     InBundle p (bundleAppend left right) ↔ InBundle p left ∨ InBundle p right := by

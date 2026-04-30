@@ -69,6 +69,19 @@ witness for \(xs\) and \(ys\).
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_cons\_inversion}
 
+\begin{theorem}[History list classifier head transport]
+\label{thm:list-classifier-hsame-cons-head-transport}
+For BEDC history lists, if \(y\) is internally the same history as \(z\) and
+the structural classifier relates \(x::xs\) to \(y::ys\), then the structural
+classifier also relates \(x::xs\) to \(z::ys\).
+\end{theorem}
+\begin{proof}
+Eliminate the cons-cons classifier witness. Compose its head witness
+\(\hsame(x,y)\) with the replacement witness \(\hsame(y,z)\), and keep the
+tail classifier witness unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_cons\_head\_transport}
+
 \begin{theorem}[History list classifier is stable under $e0$-mapping]
 \label{thm:list-classifier-hsame-map-e0}
 For BEDC history lists, structural classification by $\hsame$ is preserved when every entry of both lists is mapped through the $e0$ history constructor.
