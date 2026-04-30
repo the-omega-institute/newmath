@@ -483,45 +483,47 @@ theorem NotExported_from_fields
     NotExported s P D (ExactGlobalizeBase_from_fields coverage soundness completeness) := by
   exact NotExported_from_exact (ExactGlobalizeBase_from_fields coverage soundness completeness)
 
-theorem NotExported_classify_iff
-    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
-    {ex : ExactGlobalizeBase s P D}
-    (notExported : NotExported s P D ex)
+theorem NotExported_classify_iff {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    {ex : ExactGlobalizeBase s P D} (notExported : NotExported s P D ex)
     {h k : s.Hist} {p q : s.Pkg} :
     s.InGapSig P D p h → s.InGapSig P D q k →
-      (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+    (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
   intro hp hq
   exact notExported hp hq
 
-theorem NotExported_relation_is_base
-    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
-    {ex : ExactGlobalizeBase s P D}
-    (notExported : NotExported s P D ex)
+theorem NotExported_relation_is_base {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    {ex : ExactGlobalizeBase s P D} (notExported : NotExported s P D ex)
     {h k : s.Hist} {p q : s.Pkg} :
     s.InGapSig P D p h -> s.InGapSig P D q k ->
-      (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k)) := by
+    (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k)) := by
   intro hp hq
   exact notExported hp hq
 
-theorem NotExported_base_to_GeneratedSameSig
-    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
-    {ex : ExactGlobalizeBase s P D}
-    (notExported : NotExported s P D ex)
+theorem NotExported_base_to_GeneratedSameSig {s : BaseReflectionSetup} {P : s.Pi}
+    {D : s.Domain} {ex : ExactGlobalizeBase s P D} (notExported : NotExported s P D ex)
     {h k : s.Hist} {p q : s.Pkg} :
     s.InGapSig P D p h → s.InGapSig P D q k →
-      PsameBase s P p q → Nonempty (GeneratedSameSig s P h k) := by
-  intro hp hq base
-  exact (notExported hp hq).mp base
+    PsameBase s P p q → Nonempty (GeneratedSameSig s P h k) := by
+  exact fun hp hq base => (notExported hp hq).mp base
 
-theorem NotExported_GeneratedSameSig_to_base
-    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
-    {ex : ExactGlobalizeBase s P D}
-    (notExported : NotExported s P D ex)
+theorem NotExported_GeneratedSameSig_to_base {s : BaseReflectionSetup} {P : s.Pi}
+    {D : s.Domain} {ex : ExactGlobalizeBase s P D} (notExported : NotExported s P D ex)
     {h k : s.Hist} {p q : s.Pkg} :
     s.InGapSig P D p h → s.InGapSig P D q k →
-      Nonempty (GeneratedSameSig s P h k) → PsameBase s P p q := by
-  intro hp hq gen
-  exact (notExported hp hq).mpr gen
+    Nonempty (GeneratedSameSig s P h k) → PsameBase s P p q := by
+  exact fun hp hq gen => (notExported hp hq).mpr gen
+theorem NotExported_classify_directions {s : BaseReflectionSetup} {P : s.Pi}
+    {D : s.Domain} {ex : ExactGlobalizeBase s P D} (notExported : NotExported s P D ex) :
+    (forall {h k : s.Hist} {p q : s.Pkg},
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)) /\
+    (forall {h k : s.Hist} {p q : s.Pkg},
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      Nonempty (GeneratedSameSig s P h k) -> PsameBase s P p q) := by
+  exact And.intro
+    (fun hp hq base => (notExported hp hq).mp base)
+    (fun hp hq generated => (notExported hp hq).mpr generated)
+
 
 theorem NotExported_no_eqClosure_export
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}

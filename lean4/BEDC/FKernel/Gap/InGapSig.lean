@@ -74,6 +74,17 @@ theorem inGapSig_domain_transport_with_signature {bundle : ProbeBundle ProbeName
   have hdom : InDom D k := policy.transport (inGapSig_domain_witness hgap) hhk
   exact And.intro hdom (Exists.intro s (And.intro hsig htok))
 
+omit [AskSetup] [PackageSetup] G in
+theorem PolicySupportedSignatureGap_domain_transport_with_signature [AskSetup] [PackageSetup]
+    [DomainSetup] {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k s : BHist}
+    (policy : DomainPolicy D) :
+    PolicySupportedSignatureGap bundle D p h -> hsame h k -> SigRel bundle k s ->
+      TokIntro bundle s p -> PolicySupportedSignatureGap bundle D p k := by
+  intro hgap hhk hsig htok
+  have sourceGap : InGapSig bundle D p h := Iff.mp PolicySupportedSignatureGap_iff_InGapSig hgap
+  have hdom : InDom D k := policy.transport (inGapSig_domain_witness sourceGap) hhk
+  exact And.intro hdom (Exists.intro s (And.intro hsig htok))
+
 theorem inGapSig_elim [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ->

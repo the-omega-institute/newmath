@@ -52,6 +52,12 @@ theorem hsame_equivalence :
     · exact hsame_symm
     · exact hsame_trans
 
+theorem history_sameness_equivalence :
+    (forall h : BHist, hsame h h) /\
+      (forall {h k : BHist}, hsame h k -> hsame k h) /\
+      (forall {a b c : BHist}, hsame a b -> hsame b c -> hsame a c) := by
+  exact hsame_equivalence
+
 theorem hsame_constructor_inversion :
     (∀ {h x : BHist}, hsame (.e0 h) x → ∃ k : BHist, x = .e0 k ∧ hsame h k) ∧
       (∀ {h x : BHist}, hsame (.e1 h) x → ∃ k : BHist, x = .e1 k ∧ hsame h k) := by
