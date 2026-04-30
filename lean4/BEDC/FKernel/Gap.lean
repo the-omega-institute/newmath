@@ -712,6 +712,34 @@ theorem concrete_globalize_completeness [AskSetup] [PackageSetup] [DomainSetup]
     packagePolicy hp hq hpq
 
 omit [AskSetup] [PackageSetup] G in
+theorem globalize_completeness_primary [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
+    PackageTokenPolicy bundle → InGapSig bundle D p h → InGapSig bundle D q k →
+      psame bundle p q →
+      ∃ s : BHist, ∃ t : BHist,
+        SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t := by
+  intro packagePolicy hp hq hpq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro _ hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs hpTok =>
+                      cases htData with
+                      | intro ht hqTok =>
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro hs
+                                (And.intro ht
+                                  (packagePolicy.reflection hpTok hqTok hpq))))
+
+omit [AskSetup] [PackageSetup] G in
 theorem concrete_globalize_completeness_sameSig [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle → InGapSig bundle D p h → InGapSig bundle D q k →
