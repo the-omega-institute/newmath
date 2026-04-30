@@ -47,6 +47,29 @@ theorem PackageReflection_base_witness_chain
               (And.intro x_to_x0
                 (And.intro same0 (eqv.symm y_to_y0))))))
 
+theorem PackageReflection_base_three_step_chain
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
+    (base : PsameBase s P p q) :
+    exists x0, exists y0,
+      s.TokIntro P x0 p /\ s.TokIntro P y0 q /\
+        s.hsame x x0 /\ s.hsame x0 y0 /\ s.hsame y0 y /\ s.hsame x y := by
+  cases base with
+  | intro left0 right0 same0 =>
+      have x_to_x0 := tok.tokenReplacement left left0
+      have y_to_y0 := tok.tokenReplacement right right0
+      have y0_to_y := eqv.symm y_to_y0
+      have x_to_y := eqv.trans x_to_x0 (eqv.trans same0 y0_to_y)
+      exact Exists.intro _
+        (Exists.intro _
+          (And.intro left0
+            (And.intro right0
+              (And.intro x_to_x0
+                (And.intro same0
+                  (And.intro y0_to_y x_to_y))))))
+
 theorem active_token_mode_reflects_base
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (mode : PolicyTokenMode s P)

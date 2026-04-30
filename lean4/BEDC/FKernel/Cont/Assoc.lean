@@ -33,6 +33,10 @@ theorem cont_assoc_up_to_hsame_spine {a b c ab bc left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont b c bc -> Cont a bc right -> hsame left right := by
   exact cont_assoc_hsame
 
+theorem continuation_associativity_spine {h k l u v w z : BHist} :
+    Cont h k u -> Cont u l v -> Cont k l w -> Cont h w z -> hsame v z := by
+  exact cont_assoc_relational
+
 theorem cont_assoc_proof_standing {a b c ab bc left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont b c bc -> Cont a bc right -> hsame left right := by
   intro hab hleft hbc hright

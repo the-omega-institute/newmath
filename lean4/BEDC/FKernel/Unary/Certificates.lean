@@ -70,6 +70,9 @@ theorem UnaryPatternSpec_fields :
         (∀ {h : BHist}, UnaryHistory h → UnaryHistory (BHist.e1 h)) := by
   rfl
 
+theorem UnaryPatternSpec_nonempty : Nonempty UnaryPatternSpec := by
+  exact Nonempty.intro (And.intro unary_empty (fun uh => unary_e1_closed uh))
+
 def UnaryClassifierSpec (h k : BHist) : Prop :=
   UnaryHistory h ∧ UnaryHistory k ∧ hsame h k
 
