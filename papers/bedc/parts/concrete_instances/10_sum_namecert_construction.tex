@@ -36,6 +36,21 @@ Invert the sum carrier witness. In the left-tag case, compose symmetry of the gi
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_hsame\_transport}
 
+\begin{theorem}[Sum history carrier branch exclusivity]
+\label{thm:sum-history-carrier-branch-exclusivity}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, no BEDC history $h$ has both a left carrier presentation and a right carrier presentation:
+$$
+\neg\Bigl(
+(\exists l:\mathsf{BHist}.\; \hsame(h,\Ezero(l))\land Left(l))
+\land
+(\exists r:\mathsf{BHist}.\; \hsame(h,\Eone(r))\land Right(r))
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume both presentations. The left witness gives $\hsame(h,\Ezero(l))$, and the right witness gives $\hsame(h,\Eone(r))$. Compose the symmetry of the left endpoint witness with the right endpoint witness to obtain $\hsame(\Ezero(l),\Eone(r))$, then close by BEDC $e0/e1$ no-confusion.
+\end{proof}
+
 \begin{theorem}[Sum history left-tag inversion]
 \label{thm:sum-history-carrier-left-tag-inversion}
 If an \(e0\)-tagged history belongs to the tagged sum-history carrier, then

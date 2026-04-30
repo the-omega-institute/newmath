@@ -15,7 +15,7 @@ The list interface $\ListUp$ is licensed over a source carrier endowed with a $\
   \item \textbf{Core theorem list}: history carrier case analysis, history classifier constructor exactness, list spine representation coverage, classifier transitivity, classifier symmetry from the source $\NameCert$, cons inversion, singleton equivalence, map stability, append cancellation, reverse stability, checked $\hsame$ length preservation, and the source-parametric length lemma of Theorem~\ref{thm:list-classifier-length-eq}.
   \item \textbf{Exactness predicate}: classification holds exactly when both lists have the same constructor shape and all corresponding entries classify through the source, with semantic certificate use conditioned on $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$.
   \item \textbf{Standard bridge}: the generated carrier reads back as the ordinary finite list syntax for $A$.
-  \item \textbf{Status}: $\mathsf{ProofTarget}$ for the full semantic certificate conditional on $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$, with only the $\hsame$ finite-spine classifier components checked in Lean.
+  \item \textbf{Status}: $\mathsf{ProofTarget}$ for the full semantic certificate conditional on $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$, with only the $\hsame$ finite-spine classifier fragment checked in Lean and arbitrary-source spine obligations remaining paper-side.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -718,8 +718,7 @@ $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. Coherence applied at $h$
 classifies $xs_0$ with $xs$, and coherence applied at $k$ classifies $ys$ with
 $ys_0$. Compose these three finite-spine classifier witnesses by
 $\mathsf{ListClassifierSpec\_trans\_from\_nameCert}$ and $\mathsf{cert}$ to get
-$\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$. Theorem~\ref{thm:list-classifier-length-eq}
-then gives equality of the represented finite lengths.
+$\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$. The arbitrary-source finite-spine length lemma in Theorem~\ref{thm:list-classifier-length-eq} gives equality of the represented finite lengths.
 \end{proof}
 
 \begin{theorem}[List spine representation coverage]
