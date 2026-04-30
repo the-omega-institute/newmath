@@ -113,6 +113,13 @@ theorem unary_no_zero_extension {h : BHist} : UnaryHistory (.e0 h) -> False := b
   intro uh
   exact uh
 
+theorem unary_history_e0_iff_false {h : BHist} : UnaryHistory (BHist.e0 h) ↔ False := by
+  constructor
+  · intro uh
+    exact unary_no_zero_extension uh
+  · intro impossible
+    cases impossible
+
 theorem unary_history_hsame_zero_absurd {h k : BHist} :
     UnaryHistory h -> hsame h (BHist.e0 k) -> False := by
   intro uh same
