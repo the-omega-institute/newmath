@@ -384,6 +384,32 @@ Theorem~\ref{thm:option-history-classifier-empty-left-iff} to obtain
 $\mathsf{OptionHistoryClassifier}_S(\emp,h)$, then apply classifier symmetry.
 \end{proof}
 
+\begin{definition}[Option source excludes empty]
+\label{def:option-source-excludes-empty}
+For a BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$,
+$\mathsf{OptionSourceExcludesEmpty}(S)$ means that every source history
+satisfying $S$ is not history-same to the empty history:
+$$
+\mathsf{OptionSourceExcludesEmpty}(S)
+\quad:\Longleftrightarrow\quad
+\forall h.\; S(h)\to\hsame(h,\emp)\to\bot.
+$$
+\end{definition}
+
+\begin{theorem}[Nullable option absent-source separation]
+\label{thm:option-history-carrier-absent-source-separation}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if
+$\mathsf{OptionSourceExcludesEmpty}(S)$, $\hsame(h,\emp)$, and $S(h)$ hold, then
+$\bot$. Traditional target absent-vs-present option data; BEDC source
+$\mathsf{BHist}$ with $\hsame$; carrier $\mathsf{OptionHistoryCarrier}_S$;
+classifier $\mathsf{OptionHistoryClassifier}_S$; core theorem absent/source
+separation; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply the exclusion predicate to the source witness $S(h)$ and the displayed
+empty endpoint witness $\hsame(h,\emp)$.
+\end{proof}
+
 \begin{theorem}[Option classifier \(\hsame\) symmetry]
 \label{thm:option-classifier-hsame-symm}
 For optional BEDC histories, the option classifier induced by \(\hsame\) is symmetric.
