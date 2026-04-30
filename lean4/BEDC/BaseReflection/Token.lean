@@ -65,6 +65,17 @@ theorem TokUnique_replacement_from_shared_token {s : BaseReflectionSetup} {P : s
     (left : s.TokIntro P x p) (right : s.TokIntro P y p) : s.hsame x y := by
   exact tok.tokenReplacement left right
 
+theorem TokUnique_replacement_shared_token_triangle {s : BaseReflectionSetup} {P : s.Pi}
+    (tok : TokUnique s P) {x y z : s.SigObj} {p : s.Pkg} :
+    s.TokIntro P x p → s.TokIntro P y p → s.TokIntro P z p →
+      s.hsame x y ∧ s.hsame y z ∧ s.hsame x z := by
+  intro xp yp zp
+  constructor
+  · exact tok.tokenReplacement xp yp
+  · constructor
+    · exact tok.tokenReplacement yp zp
+    · exact tok.tokenReplacement xp zp
+
 theorem TokUnique_replacement_congr {s : BaseReflectionSetup} {P : s.Pi} (tok : TokUnique s P)
     {x y : s.SigObj} {p q : s.Pkg} :
     p = q → s.TokIntro P x p → s.TokIntro P y q → s.hsame x y := by

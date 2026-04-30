@@ -20,6 +20,10 @@ def GapMembership [AskSetup] [PackageSetup] [DomainSetup]
     (bundle : ProbeBundle ProbeName) (D : Domain) (p : Pkg) (h : BHist) : Prop :=
   InGapSig bundle D p h
 
+def SignatureGapMembership [AskSetup] [PackageSetup] [DomainSetup]
+    (bundle : ProbeBundle ProbeName) (D : Domain) (p : Pkg) (h : BHist) : Prop :=
+  InGapSig bundle D p h
+
 omit [AskSetup] [PackageSetup] G in
 theorem GapMembership_iff_InGapSig [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
