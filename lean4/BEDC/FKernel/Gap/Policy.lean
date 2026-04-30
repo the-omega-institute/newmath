@@ -16,6 +16,10 @@ structure GapPolicy (bundle : ProbeBundle ProbeName) (D : Domain) : Prop where
   coverage : ∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h
   separation : ∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q
 
+def GapPolicyInterface [AskSetup] [PackageSetup] [DomainSetup]
+    (bundle : ProbeBundle ProbeName) (D : Domain) : Prop :=
+  GapPolicy bundle D
+
 theorem gap_policy_fields {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
     (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
       (∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h →

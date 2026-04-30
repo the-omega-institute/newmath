@@ -19,6 +19,8 @@ def UnaryDomainSetup : DomainSetup where
   Domain := Unit
   InDom := fun _ h => UnaryHistory h
 
+def UnarySourceSpec (h : BHist) : Prop := UnaryHistory h
+
 local instance : DomainSetup := UnaryDomainSetup
 
 theorem unary_domain_policy :
