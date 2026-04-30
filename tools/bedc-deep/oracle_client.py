@@ -14,6 +14,7 @@ import json
 import re
 import time
 import urllib.request
+import urllib.error
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -50,11 +51,41 @@ def http_get(url: str, timeout: int = 10) -> dict:
         return json.loads(resp.read().decode("utf-8"), strict=False)
 
 
+def server_status(server_url: str) -> dict:
+    return http_get(f"{server_url}/status", timeout=5)
+
+
 def server_alive(server_url: str) -> bool:
     try:
-        return "queue_length" in http_get(f"{server_url}/status", timeout=5)
+        return "queue_length" in server_status(server_url)
     except Exception:
         return False
+
+
+def status_line(status: dict) -> str:
+    recent = status.get("active_recent_agents") or []
+    return (
+        f"diagnosis={status.get('diagnosis', 'unknown')} "
+        f"queue={status.get('queue_length', '?')} "
+        f"busy={status.get('agents_busy', '?')}/{status.get('max_agents', '?')} "
+        f"recent_agents={len(recent)} completed={status.get('completed', '?')}"
+    )
+
+
+def print_status_hint(server_url: str) -> dict:
+    try:
+        status = server_status(server_url)
+    except (urllib.error.URLError, TimeoutError, OSError) as exc:
+        raise SystemExit(
+            f"oracle server is not reachable at {server_url}; "
+            "start: python3 tools/bedc-deep/bedc_oracle_server.py"
+        ) from exc
+    print(f"[status] {status_line(status)}")
+    if status.get("diagnosis") == "queue_waiting_for_browser_agent":
+        print("[status] queued work has no active BEDC ChatGPT tab.")
+        print("[status] install userscript: tools/bedc-deep/bedc_oracle_macos.user.js")
+        print("[status] open: https://chatgpt.com/?bedc=1 and click Start in the BEDC panel")
+    return status
 
 
 def submit_turn(
@@ -76,8 +107,27 @@ def submit_turn(
     return http_post(f"{server_url}{endpoint}", payload, timeout=30)
 
 
-def poll_result(server_url: str, task_id: str, timeout: int, poll_interval: int) -> str:
+def wait_for_recent_agent(server_url: str, seconds: int, poll_interval: int) -> bool:
+    if seconds <= 0:
+        return True
+    deadline = time.time() + seconds
+    while time.time() < deadline:
+        status = print_status_hint(server_url)
+        if status.get("active_recent_agents"):
+            return True
+        time.sleep(max(1, poll_interval))
+    return False
+
+
+def poll_result(
+    server_url: str,
+    task_id: str,
+    timeout: int,
+    poll_interval: int,
+    status_interval: int,
+) -> str:
     start = time.time()
+    next_status_at = start
     while time.time() - start < timeout:
         try:
             data = http_get(f"{server_url}/result/{task_id}", timeout=10)
@@ -85,6 +135,16 @@ def poll_result(server_url: str, task_id: str, timeout: int, poll_interval: int)
                 return data.get("response", "")
         except Exception:
             pass
+        now = time.time()
+        if now >= next_status_at:
+            try:
+                status = server_status(server_url)
+                print(f"[wait:{task_id}] {status_line(status)}")
+                if status.get("diagnosis") == "queue_waiting_for_browser_agent":
+                    print("[wait] no active BEDC ChatGPT tab is polling; start one with https://chatgpt.com/?bedc=1")
+            except Exception as exc:
+                print(f"[wait:{task_id}] status unavailable: {exc}")
+            next_status_at = now + max(1, status_interval)
         time.sleep(poll_interval)
     return ""
 
@@ -125,9 +185,13 @@ def run_loop(args: argparse.Namespace) -> int:
         known = ", ".join(targets)
         raise SystemExit(f"unknown target {args.target_id}; known targets: {known}")
 
-    if not server_alive(args.server):
+    print_status_hint(args.server)
+    if args.preflight_agent_wait > 0 and not wait_for_recent_agent(
+        args.server, args.preflight_agent_wait, args.poll_interval
+    ):
         raise SystemExit(
-            f"oracle server is not reachable at {args.server}; start the automath outreach oracle server first"
+            "no active BEDC ChatGPT tab appeared before preflight timeout; "
+            "open https://chatgpt.com/?bedc=1 and click Start"
         )
 
     out_dir = artifact_dir(target)
@@ -145,7 +209,17 @@ def run_loop(args: argparse.Namespace) -> int:
         if "error" in submit:
             raise SystemExit(f"oracle submit failed: {submit['error']}")
         conversation_id = submit.get("conversation_id") or conversation_id
-        response = poll_result(args.server, task_id, args.timeout, args.poll_interval)
+        print(
+            f"[submit] task={task_id} conv={conversation_id[:12]} "
+            f"queue_position={submit.get('queue_position', '?')}"
+        )
+        response = poll_result(
+            args.server,
+            task_id,
+            args.timeout,
+            args.poll_interval,
+            args.status_interval,
+        )
         if not response:
             turns.append({"turn": turn, "task_id": task_id, "response": "", "verdict": "TIMEOUT"})
             break
@@ -163,7 +237,17 @@ def run_loop(args: argparse.Namespace) -> int:
         submit = submit_turn(args.server, task_id, packet_prompt, conversation_id, model=args.model)
         if "error" in submit:
             raise SystemExit(f"claim packet submit failed: {submit['error']}")
-        packet = poll_result(args.server, task_id, args.timeout, args.poll_interval)
+        print(
+            f"[submit] task={task_id} conv={conversation_id[:12]} "
+            f"queue_position={submit.get('queue_position', '?')}"
+        )
+        packet = poll_result(
+            args.server,
+            task_id,
+            args.timeout,
+            args.poll_interval,
+            args.status_interval,
+        )
         if packet:
             packet_file = "claim_packet.md"
             write_text(out_dir / packet_file, packet)
@@ -186,15 +270,24 @@ def run_loop(args: argparse.Namespace) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run a BEDC target through the ChatGPT oracle bridge")
-    parser.add_argument("target_id", help="Target id such as B-01")
+    parser.add_argument("target_id", nargs="?", help="Target id such as B-01")
     parser.add_argument("--server", default=ORACLE_SERVER, help="Oracle server URL")
     parser.add_argument("--model", default="chatgpt-5.5-pro", help="Model name passed to the oracle server")
     parser.add_argument("--max-turns", type=int, default=6, help="Maximum reasoning turns")
     parser.add_argument("--min-turns", type=int, default=2, help="Minimum turns before early stop")
     parser.add_argument("--timeout", type=int, default=7200, help="Per-turn timeout in seconds")
     parser.add_argument("--poll-interval", type=int, default=30, help="Polling interval in seconds")
+    parser.add_argument("--status-interval", type=int, default=30, help="Status print interval while waiting")
+    parser.add_argument("--preflight-agent-wait", type=int, default=0, help="Wait this many seconds for an active browser agent before submitting")
+    parser.add_argument("--status", action="store_true", help="Print server status and exit")
     parser.add_argument("--write-packet", action="store_true", help="Ask for a terminal claim packet")
-    return run_loop(parser.parse_args())
+    args = parser.parse_args()
+    if args.status:
+        print(json.dumps(print_status_hint(args.server), ensure_ascii=False, indent=2))
+        return 0
+    if not args.target_id:
+        parser.error("target_id is required unless --status is used")
+    return run_loop(args)
 
 
 if __name__ == "__main__":

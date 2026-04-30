@@ -53,6 +53,7 @@ RESULTS_DIR = ORACLE_DIR / "results"
 
 MAX_AGENTS = 3
 TASK_TIMEOUT = 14400  # 4 hours; ChatGPT Pro thinking can be 60+ min/turn
+AGENT_RECENT_SECONDS = 120
 SESSION_IDLE_RETENTION = 14 * 24 * 3600  # keep sessions on disk for 14 days
 
 # In-memory state (durable copy on disk)
@@ -60,6 +61,7 @@ task_queue: deque[dict] = deque()
 results: dict[str, dict] = {}             # task_id -> result record
 pending_tasks: dict[str, dict] = {}       # agent_id -> task currently in flight
 dispatch_times: dict[str, float] = {}     # agent_id -> dispatch timestamp
+recent_agents: dict[str, dict] = {}       # agent_id -> latest poll/ack/result
 sessions: dict[str, dict] = {}            # conv_id -> session record
 _lock = threading.Lock()
 
@@ -136,6 +138,45 @@ def _record_turn(conv_id: str, turn: dict) -> None:
         _write_session(sess)
 
 
+def _record_agent_seen(agent_id: str, *, event: str) -> None:
+    if not agent_id:
+        return
+    recent_agents[agent_id] = {
+        "agent_id": agent_id,
+        "event": event,
+        "last_seen": time.time(),
+        "last_seen_at": _now(),
+    }
+
+
+def _agent_summary(now: float) -> dict[str, dict]:
+    summary: dict[str, dict] = {}
+    for aid, rec in recent_agents.items():
+        idle = int(now - float(rec.get("last_seen", now)))
+        summary[aid] = {
+            "event": rec.get("event", ""),
+            "last_seen_at": rec.get("last_seen_at", ""),
+            "idle_seconds": idle,
+            "recent": idle <= AGENT_RECENT_SECONDS,
+        }
+    return summary
+
+
+def _queued_summary(now: float) -> list[dict]:
+    items: list[dict] = []
+    for task in list(task_queue)[:10]:
+        submitted_ts = float(task.get("submitted_ts", now))
+        items.append({
+            "task_id": task.get("task_id", ""),
+            "conversation_id": task.get("conversation_id", ""),
+            "tag": task.get("tag", ""),
+            "age_seconds": int(now - submitted_ts),
+            "prompt_chars": len(task.get("prompt", "")),
+            "is_followup": bool(task.get("is_followup")),
+        })
+    return items
+
+
 # ---------------------------------------------------------------------------
 # HTTP handler
 # ---------------------------------------------------------------------------
@@ -180,6 +221,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         or qs.get("agent_id", [None])[0]
                         or "default")
             with _lock:
+                _record_agent_seen(agent_id, event="poll")
                 if agent_id in pending_tasks:
                     self._send_json(pending_tasks[agent_id])
                     return
@@ -200,21 +242,37 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
         if parsed.path == "/status":
             self._cleanup_stale()
             with _lock:
+                now = time.time()
                 agents_info = {
                     aid: {"task_id": t.get("task_id", "?"),
                           "conversation_id": t.get("conversation_id", ""),
                           "elapsed": int(time.time() - dispatch_times.get(aid, time.time()))}
                     for aid, t in pending_tasks.items()
                 }
+                recent = _agent_summary(now)
+                active_recent = [aid for aid, rec in recent.items() if rec["recent"]]
+                if task_queue and not pending_tasks and not active_recent:
+                    diagnosis = "queue_waiting_for_browser_agent"
+                elif pending_tasks:
+                    diagnosis = "agent_busy"
+                elif task_queue:
+                    diagnosis = "queue_waiting_for_free_agent"
+                else:
+                    diagnosis = "idle"
                 self._send_json({
                     "queue_length": len(task_queue),
+                    "queued_tasks": _queued_summary(now),
                     "agents_busy": len(pending_tasks),
                     "max_agents": MAX_AGENTS,
                     "agents": agents_info,
+                    "recent_agents": recent,
+                    "active_recent_agents": active_recent,
+                    "agent_recent_seconds": AGENT_RECENT_SECONDS,
                     "completed": len(results),
                     "active_sessions": len(sessions),
                     "port": PORT,
                     "kind": "bedc-oracle",
+                    "diagnosis": diagnosis,
                 })
             return
 
@@ -328,6 +386,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             "model": data.get("model", "chatgpt-5.5-pro"),
             "tag": data.get("tag", ""),
             "submitted_at": _now(),
+            "submitted_ts": time.time(),
             "status": "queued",
         }
         # Optional PDF passthrough, kept for forward compatibility.
@@ -379,6 +438,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             "response_chars": len(response),
         }
         with _lock:
+            _record_agent_seen(agent_id, event="result")
             results[task_id] = record
 
         if conv_id:
@@ -408,6 +468,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
         task_id = data.get("task_id", "")
         agent_id = data.get("agent_id", "?")
         with _lock:
+            _record_agent_seen(agent_id, event="ack")
             if agent_id in dispatch_times:
                 dispatch_times[agent_id] = time.time()
         print(f"[server] Ack {task_id} by {agent_id}")
@@ -514,6 +575,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 "model": data.get("model", "chatgpt-5.5-pro"),
                 "tag": data.get("tag", "retry"),
                 "submitted_at": _now(),
+                "submitted_ts": time.time(),
                 "status": "queued",
             }
             mode = "re-extract"
@@ -530,6 +592,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 "model": data.get("model", "chatgpt-5.5-pro"),
                 "tag": data.get("tag", "retry-repeat"),
                 "submitted_at": _now(),
+                "submitted_ts": time.time(),
                 "status": "queued",
             }
             mode = "repeat-prompt"

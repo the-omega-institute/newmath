@@ -18,6 +18,22 @@ This tool adds only a pre-formalization reasoning lane:
 The claim packet is not a proof artifact. It is advisory input for later human
 review or for the existing strict formalization pipeline.
 
+## Red Lines
+
+These rules mirror the automath pipeline discipline while adapting it to BEDC:
+
+- No Lean execution: this lane does not run `lake`, `lean`, `elan`, `#eval`, or
+  `#check`.
+- No Lean edits: this lane does not create or edit files under `lean4/`.
+- No paper edits: this lane does not edit `papers/bedc/` or register markers.
+- No publication: this lane does not submit issues, PRs, forum posts, email, or
+  releases.
+- No replacement proof: ChatGPT output is a reasoning transcript or claim
+  packet, not a checked BEDC theorem.
+- Boundary classification is mandatory: every substantive claim is classified as
+  `Derived`, `NeedsDefinition`, `NeedsSetupField`, `NarrativeOnly`,
+  `TooStrong`, or `False`.
+
 ## Commands
 
 List targets:
@@ -38,6 +54,12 @@ Run the BEDC oracle server:
 python3 tools/bedc-deep/bedc_oracle_server.py
 ```
 
+Check server status:
+
+```bash
+python3 tools/bedc-deep/oracle_client.py --status
+```
+
 Open one or more ChatGPT tabs with the BEDC userscript installed:
 
 ```text
@@ -49,6 +71,12 @@ Run a ChatGPT deep loop against the BEDC oracle server:
 
 ```bash
 python3 tools/bedc-deep/oracle_client.py B-01 --max-turns 6
+```
+
+Wait for an active BEDC ChatGPT tab before submitting:
+
+```bash
+python3 tools/bedc-deep/oracle_client.py B-01 --preflight-agent-wait 60
 ```
 
 Ask for a terminal claim packet after the loop:
