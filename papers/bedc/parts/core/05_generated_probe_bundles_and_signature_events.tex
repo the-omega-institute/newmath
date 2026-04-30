@@ -111,6 +111,14 @@ Induct on $\Pi$. The empty case reduces membership to $\Theta$. The cons case sp
 membership from tail membership, then applies the induction hypothesis to the tail.
 \end{proof}
 
+\begin{theorem}[Bundle-local policy append restriction]
+\label{thm:bundle-local-policy-append-restriction}
+If $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ holds, then both $\mathsf{BundleAskPolicy}(\Pi,D)$ and $\mathsf{BundleAskPolicy}(\Theta,D)$ hold.
+\end{theorem}
+\begin{proof}
+Use Theorem~\ref{thm:bundle-append-membership}. A member of $\Pi$ maps into $\mathsf{BAppend}(\Pi,\Theta)$ through the left disjunct, and a member of $\Theta$ maps into $\mathsf{BAppend}(\Pi,\Theta)$ through the right disjunct. Restrict the totality, mark determinacy, and history-respect fields of the appended bundle-local policy along these two membership maps.
+\end{proof}
+
 \begin{theorem}[Probe bundle prefix cancellation]
 \label{thm:probe-bundle-prefix-cancellation}
 For any fixed probe bundle $\Pi$ and any probe bundles $\Theta,\Omega$, if
@@ -279,7 +287,7 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-Invert the appended signature-sameness witnesses using Theorem~\ref{thm:signature-generation-bundle-append-inversion}. This recovers $\Pi$ signatures, $\Theta$ signatures, and continuation witnesses on the $h$ and $k$ sides. Compare the recovered $\Theta$ signatures with the supplied witnesses from $\sameSig_\Theta(h,k)$ by signature determinacy under $\AskPol(\Theta,D)$ at $h$ and at $k$. Transport the continuation contexts along the resulting $\hsame$ facts. The appended result-sameness then has matching right contexts, so continuation left cancellation yields $\hsame$ for the recovered $\Pi$ results. Those recovered $\Pi$ signatures are the witnesses for $\sameSig_\Pi(h,k)$.
+Invert the appended signature-sameness witnesses using Theorem~\ref{thm:signature-generation-bundle-append-inversion}. This recovers $\Pi$ signatures, $\Theta$ signatures, and continuation witnesses on the $h$ and $k$ sides. Compare the recovered $\Theta$ signatures with the supplied witnesses from $\sameSig_\Theta(h,k)$ by signature determinacy under $\AskPol(\Theta,D)$ at $h$ and at $k$. Transport the continuation contexts along the resulting $\hsame$ facts. The appended result-sameness then has matching left contexts, so the two-sided cancellation law of Theorem~\ref{thm:continuation-right-cancellation} yields $\hsame$ for the recovered $\Pi$ results. Those recovered $\Pi$ signatures are the witnesses for $\sameSig_\Pi(h,k)$.
 \end{proof}
 
 \begin{theorem}[Cons tail signatures from result-sameness]
