@@ -257,6 +257,11 @@ theorem signature_package_policy [A : AskSetup] (bundle : ProbeBundle ProbeName)
           exact ⟨_, _, hp, hq, hst⟩)
 
 omit P [AskSetup] in
+theorem first_concrete_package_interface [A : AskSetup] (bundle : ProbeBundle ProbeName) :
+    Nonempty (@PackagePolicy A (@SignaturePackageSetup A) bundle) := by
+  exact Nonempty.intro (@signature_package_policy A bundle)
+
+omit P [AskSetup] in
 theorem signature_package_token_exists [A : AskSetup] (bundle : ProbeBundle ProbeName) (s : BHist) :
     ∃ p : @Pkg A (@SignaturePackageSetup A),
       @TokIntro A (@SignaturePackageSetup A) bundle s p := by
