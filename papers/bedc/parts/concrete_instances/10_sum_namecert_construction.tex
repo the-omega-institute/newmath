@@ -111,6 +111,30 @@ witnesses and a stored component \(\hsame\) witness; constructor inversion for
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_right\_hsame\_inversion}
 
+\begin{theorem}[Sum history classifier same-tag exactness]
+\label{thm:sum-history-classifier-same-tag-exactness}
+For source carriers $Left,Right:\Hist\to\mathsf{Prop}$, the history-level sum
+classifier with $\hsame$ on both components is exact on each visible tag:
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\Ezero(l),\Ezero(l'))
+\quad\Longleftrightarrow\quad
+\hsame(l,l')
+$$
+and
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\Eone(r),\Eone(r'))
+\quad\Longleftrightarrow\quad
+\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+For the forward directions, apply the left-tag and right-tag inversion
+theorems above. For the reverse directions, rebuild the matching classifier
+branch using the given payload $\hsame$ witness, the reflexive visible-tag
+witnesses for $\Ezero(l)$ and $\Ezero(l')$ or for $\Eone(r)$ and
+$\Eone(r')$, and the corresponding left or right classifier constructor.
+\end{proof}
+
 \begin{theorem}[Sum history classifier symmetry under history sameness]
 \label{thm:sum-history-classifier-hsame-symmetry}
 When both component classifiers are \(\hsame\), the history-level sum classifier is symmetric.
