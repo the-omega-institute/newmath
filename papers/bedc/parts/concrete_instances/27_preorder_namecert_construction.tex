@@ -135,6 +135,21 @@ forward tail to be empty. The first continuation equation then reduces to
 \(\hsame(h,k)\).
 \end{proof}
 
+\begin{theorem}[Concrete prefix order laws up to history-sameness]
+\label{thm:preorder-prefix-order-laws-hsame}
+The concrete unary prefix relation $\mathsf{PreorderPrefixLE}$ is reflexive,
+transitive, and antisymmetric up to $\hsame$: for every history $h$,
+$h\le h$; for all histories $h,k,r$, $h\le k$ and $k\le r$ imply
+$h\le r$; and for all histories $h,k$, $h\le k$ and $k\le h$ imply
+$\hsame(h,k)$.
+\end{theorem}
+\begin{proof}
+Reflexivity follows from $\hsame$ reflexivity together with
+$\mathsf{PreorderPrefixLE\_of\_hsame}$. Transitivity is exactly
+$\mathsf{PreorderPrefixLE\_trans}$. Antisymmetry up to history-sameness is
+exactly $\mathsf{PreorderPrefixLE\_antisymm\_hsame}$.
+\end{proof}
+
 \begin{theorem}[Prefix left extension]
 \label{thm:preorder-prefix-left-extension}
 If \(x\) continues by a unary tail to \(h\), and \(h\le k\) is witnessed by a
@@ -214,9 +229,21 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \begin{theorem}[Concrete \(\PreorderUp\) naming certificate]
 \label{thm:concrete-preorder-namecert}
-Any carrier relation satisfying reflexivity and transitivity forms a valid NameCert for \(\PreorderUp(C)\).
+For a carrier $Carrier : \Hist \to \mathsf{Prop}$ and relation
+$Le : \Hist \to \Hist \to \mathsf{Prop}$, suppose the carrier is inhabited,
+carrier membership transports along $\hsame$, $Le$ is reflexive on carrier
+witnesses, and $Le$ is transitive. Then these data form a valid
+$\NameCert$ for $\PreorderUp$.
 \end{theorem}
 \leanchecked{BEDC.Derived.PreorderUp.preorder\_name\_certificate}
+\begin{proof}
+Fill the NameCert carrier witness with the inhabited-carrier assumption.
+The carrier transport field is the supplied transport along $\hsame$.
+The classifier law fields are the history-sameness reflexivity, symmetry,
+and transitivity clauses carried by the restricted carrier classifier; the
+remaining preorder law fields are the supplied reflexivity on carrier
+witnesses and transitivity of $Le$.
+\end{proof}
 
 \begin{corollary}[\(\PreorderUp\) is licensed, not primitive]
 \label{cor:preorder-licensed-not-primitive}

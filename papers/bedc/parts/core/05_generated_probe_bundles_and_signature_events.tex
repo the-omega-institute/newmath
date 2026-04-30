@@ -438,7 +438,17 @@ such that \(\hsame(s,t)\).
 \leanvariant{BEDC.FKernel.Sig.sameSig\_hsame\_witness}
 \leanvariant{BEDC.FKernel.Sig.sameSig\_witness\_pair\_symm}
 \leanvariant{BEDC.FKernel.Sig.sameSig\_refl\_from\_witness}
-\leanvariant{BEDC.FKernel.Sig.sameSig\_empty\_bundle}
+
+\begin{theorem}[Empty-bundle signature-sameness]
+\label{thm:samesig-empty-bundle}
+For all histories $h,k$, $\sameSig_{\Bnil}(h,k)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sameSig\_empty\_bundle}
+\begin{proof}
+Take both generated signatures for $\Bnil$ to be the empty signature with
+result $\emp$. The two results are then related by $\hsame$ reflexivity, and
+these witnesses form $\sameSig_{\Bnil}(h,k)$.
+\end{proof}
 
 \begin{theorem}[History-sameness gives signature-sameness under policy]
 \label{thm:samesig-of-hsame-under-policy}
