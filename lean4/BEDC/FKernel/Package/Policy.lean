@@ -106,6 +106,22 @@ theorem packagePolicy_classifies_signatures
     exact policy.extensionality sameHist left right
 
 omit [AskSetup] P in
+theorem packages_classify_signatures [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle)
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t q ->
+      (psame bundle p q ->
+        exists u : BHist, exists v : BHist,
+          TokIntro bundle u p /\ TokIntro bundle v q /\ hsame u v) /\
+      (hsame s t -> psame bundle p q) := by
+  intro left right
+  constructor
+  · intro samePkg
+    exact policy.grounding samePkg
+  · intro sameHist
+    exact policy.extensionality sameHist left right
+
+omit [AskSetup] P in
 theorem packagePolicy_classification_directions [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle)
     {s t : BHist} {p q : Pkg} :
