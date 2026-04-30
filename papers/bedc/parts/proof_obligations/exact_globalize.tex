@@ -155,7 +155,7 @@ Modules cite Definition~\ref{def:exact-globalize-base} for the exactness predica
 \section{Checker-Friendly Exactness Predicate}
 \label{sec:po-checker-friendly-exactness}
 
-The exact concrete Globalize theorem intentionally states the active relation as \(\psame_{\Pi}^{\mathrm{base}}\). The remaining problem is not the relation boundary, but the phrase ``classify admitted histories exactly''. This chapter replaces that phrase by a predicate with explicit fields.
+Exact concrete Globalize is the base-relation exactness predicate whose data are coverage, base soundness, and base completeness between $\psame_{\Pi}^{\mathrm{base}}$ and $\GeneratedSameSig(\Pi,h,k)$, with the local iff derived from the two directional fields.
 
 \begin{definition}[Generated signature sameness]
 \label{def:generated-same-sig}
@@ -268,15 +268,15 @@ $$
 The first three clauses are the projections of \(\ExactGlobalizeBase(\Pi,D)\). The displayed equivalence is Proposition~\ref{prop:iff-derived}.
 \end{proof}
 
-\begin{protocol}[Export replacement for prose exactness]
-\label{prot:export-replacement}
-Future modules should cite \(\ExactGlobalizeBase(\Pi,D)\) rather than a prose phrase such as ``visible packages classify histories exactly''. If a theorem needs only the local iff, it should cite the derived classification theorem. If it needs existence of a visible package for every admitted history, it must also cite coverage.
+\begin{protocol}[Exactness export discipline]
+\label{prot:exactness-export-discipline}
+Global existence cites Definition~\ref{def:exact-globalize-base}. Pairwise classification cites Proposition~\ref{prop:iff-derived} or Corollary~\ref{cor:exact-globalize-projections-and-classification} under displayed $\InGapSig$ witnesses. Coverage is used only when the statement must produce visible package tokens for admitted histories.
 \end{protocol}
 
 \section{Exact Globalize Base Contract}
 \label{sec:po-exact-globalize-base-contract}
 
-This chapter states the theorem replacing the prose exactness claim. The content is intentionally narrow: it is the exactness of the concrete signature Globalize instance at the base package relation.
+The theorem packages coverage, base soundness, and base completeness at the base package relation into the concrete signature Globalize exactness predicate.
 
 \begin{theorem}[Exact Globalize base target]
 \label{thm:exact-globalize-base-target}
