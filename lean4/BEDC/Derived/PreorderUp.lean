@@ -1,5 +1,6 @@
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
+import BEDC.FKernel.Hist
 
 namespace BEDC.Derived.PreorderUp
 
@@ -73,5 +74,27 @@ theorem preorder_prefix_stability_certificate_fields :
       cases sameH
       cases sameK
       exact hk
+
+theorem preorder_stability_certificate_fields (leC : BHist → BHist → Prop)
+    (leRefl : ∀ h : BHist, leC h h)
+    (leTrans : ∀ {a b c : BHist}, leC a b → leC b c → leC a c)
+    (leCongr : ∀ {a a' b b' : BHist}, hsame a a' → hsame b b' → leC a b → leC a' b') :
+    (∀ h : BHist, hsame h h) ∧
+      (∀ {a b c : BHist}, hsame a b → hsame b c → hsame a c) ∧
+      (∀ h : BHist, leC h h) ∧
+      (∀ {a b c : BHist}, leC a b → leC b c → leC a c) ∧
+      (∀ {a a' b b' : BHist}, hsame a a' → hsame b b' → leC a b → leC a' b') := by
+  constructor
+  · exact BEDC.FKernel.Hist.hsame_refl
+  · constructor
+    · exact BEDC.FKernel.Hist.hsame_trans
+    · constructor
+      · intro h
+        exact leRefl h
+      · constructor
+        · intro a b c hab hbc
+          exact leTrans hab hbc
+        · intro a a' b b' haa' hbb' hle
+          exact leCongr haa' hbb' hle
 
 end BEDC.Derived.PreorderUp
