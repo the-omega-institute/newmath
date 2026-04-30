@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\RatUp\)}
 \label{ch:concrete-instances-rat-namecert}
 
-The rational number interface \(\RatUp\) is licensed by ordered pairs \((p, q)\) with \(p\) drawn from \autoref{ch:concrete-instances-int-namecert} and \(q\) a positive integer, normalized to coprime numerator and denominator with positive denominator. The classifier is structural equality on the normalized representative, not the equivalence relation \(p_1 q_2 = p_2 q_1\) on unnormalized pairs (which would otherwise demand quotient-type machinery and \(\mathsf{Quot.sound}\)). It is not a primitive field; it is licensed only via the integer source and the normalization function.
+The rational number interface $\RatUp$ starts from a carrier skeleton: a signed unary integer numerator, drawn from \autoref{ch:concrete-instances-int-namecert}, together with a positive unary denominator. Normalized representatives, coprimality, and arithmetic closure are separate source, pattern, classifier, and stability obligations later in the chapter. The classifier is structural equality on the normalized representative, not the equivalence relation $p_1 q_2 = p_2 q_1$ on unnormalized pairs, which would otherwise demand quotient-type machinery and $\mathsf{Quot.sound}$. It is not a primitive field; it is licensed only via the integer source and the normalization function.
 
 \begin{remark}[Rational certificate scope]
 \label{rem:concrete-instances-rat-namecert-roadmap}
@@ -14,13 +14,13 @@ The checked core covers the rational history carrier, rational history classifie
 
 \begin{definition}[Rat carrier]
 \label{def:rat-carrier}
-Use a signed unary integer numerator together with a unary denominator history that is not internally the same as \(\emp\):
-\[
+Use only the carrier skeleton: a signed unary integer numerator together with a unary denominator history that is not internally the same as $\emp$:
+$$
   \mathsf{RatCarrier}(s,n,d)
   :=
   \mathsf{IntCarrier}(s,n)\land \mathsf{Unary}(d)\land \neg\hsame(d,\emp).
-\]
-Equivalently, this is an \(\IntUp\) numerator with a positive unary-history denominator. At the carrier skeleton layer, positivity is witnessed by writing the denominator as a one-extension of a unary tail; normalization and coprimality belong to the later source and pattern specifications.
+$$
+Equivalently, this is an $\IntUp$ numerator with a positive unary-history denominator. At this skeleton layer, positivity is witnessed by writing the denominator as a one-extension of a unary tail; normalized representatives, coprimality, and arithmetic closure are supplied by later source, pattern, and stability obligations.
 \end{definition}
 \leandef{BEDC.Derived.RatUp.RatCarrier}
 

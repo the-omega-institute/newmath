@@ -385,6 +385,20 @@ then $\hsame(s,t)$.
 Induct on $\Pi$. The empty case gives empty signatures on both sides. In the cons case, invert both signature derivations. Apply the bundle-local source-history respect field to the shared head occurrence and the premise $\hsame(h,k)$. The tail policy is obtained by restricting bundle membership, and the induction hypothesis applies to the two tail signatures. Extension respect combines the head mark-sameness with the tail history-sameness.
 \end{proof}
 
+\begin{theorem}[Bundle-local history-sameness gives signature-sameness]
+\label{thm:bundle-local-samesig-of-hsame}
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$. If $h,k\in D$ and $\hsame(h,k)$, then $\sameSig_\Pi(h,k)$.
+\end{theorem}
+\begin{proof}
+Apply bundle-local signature existence to $h$ and to $k$, obtaining generated signatures
+$$
+\Sig(\Pi,h,s,\Delta),
+\qquad
+\Sig(\Pi,k,t,\Theta).
+$$
+Bundle-local signature source respect transports the premise $\hsame(h,k)$ across these two generated signatures and yields $\hsame(s,t)$. The two signature witnesses together with this generated-history sameness form $\sameSig_\Pi(h,k)$.
+\end{proof}
+
 \begin{theorem}[Signature determinacy under an asking policy]
 Assume \(\AskPol(\Pi,D)\). If \(h\) is admitted by \(D\) and
 \[
