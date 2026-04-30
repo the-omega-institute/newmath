@@ -11,6 +11,15 @@ open BEDC.FKernel.Unary
 def PositiveUnaryDenominator (den : BHist) : Prop :=
   ∃ tail : BHist, hsame den (BHist.e1 tail) ∧ UnaryHistory tail
 
+theorem PositiveUnaryDenominator_not_empty {den : BHist} :
+    PositiveUnaryDenominator den -> hsame den BHist.Empty -> False := by
+  intro positive sameEmpty
+  cases positive with
+  | intro tail data =>
+      cases data with
+      | intro sameTail _tailUnary =>
+          exact not_hsame_e1_empty (hsame_trans (hsame_symm sameTail) sameEmpty)
+
 theorem PositiveUnaryDenominator_hsame_transport {d e : BHist} :
     hsame d e -> PositiveUnaryDenominator d -> PositiveUnaryDenominator e := by
   intro same positive

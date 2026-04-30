@@ -67,6 +67,19 @@ Write the positive denominator as an \(\Eone\)-extension of a unary tail. Compos
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_hsame\_transport}
 
+\begin{theorem}[Positive unary denominator is not empty]
+\label{thm:rat-positive-unary-denominator-not-empty}
+If a denominator has a positive unary witness, then it is not internally the
+same as \(\emp\).
+\end{theorem}
+\begin{proof}
+Unpack the positive denominator as internally the same as \(\Eone(t)\) for a
+unary tail \(t\). Composing this witness with an assumed sameness to \(\emp\)
+would make an \(\Eone\)-history internally the same as \(\emp\), contradicting
+history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_not\_empty}
+
 \begin{theorem}[Positive unary denominator carrier equivalence]
 \label{thm:rat-carrier-iff-positive-unary-denominator}
 The rational carrier condition is equivalent to an $\IntUp$ numerator together with a denominator that has a positive unary tail witness.
