@@ -86,6 +86,10 @@ theorem not_hsame_emp_e0 : ∀ {h : BHist}, hsame .Empty (.e0 h) → False := by
   intro h hs
   cases hs
 
+theorem not_hsame_e0_empty : ∀ {h : BHist}, hsame (.e0 h) .Empty → False := by
+  intro h hs
+  cases hs
+
 theorem not_hsame_emp_e1 : ∀ {h : BHist}, hsame .Empty (.e1 h) → False := by
   intro h hs
   cases hs
