@@ -49,4 +49,20 @@ theorem group_stability_certificate_fields {mul : BHist → BHist → BHist} {e 
       · intro x
         exact rightInv x
 
+theorem group_left_inverse_involutive {mul : BHist → BHist → BHist} {e : BHist}
+    {inv : BHist → BHist}
+    (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : ∀ x, hsame (mul e x) x)
+    (rightId : ∀ x, hsame (mul x e) x)
+    (mulCongr : ∀ {a a' b b' : BHist}, hsame a a' → hsame b b' →
+      hsame (mul a b) (mul a' b'))
+    (leftInv : ∀ x, hsame (mul (inv x) x) e) :
+    ∀ x : BHist, hsame (inv (inv x)) x := by
+  intro x
+  exact hsame_trans (hsame_symm (rightId (inv (inv x))))
+    (hsame_trans
+      (mulCongr (hsame_refl (inv (inv x))) (hsame_symm (leftInv x)))
+      (hsame_trans (hsame_symm (assocC (inv (inv x)) (inv x) x))
+        (hsame_trans (mulCongr (leftInv (inv x)) (hsame_refl x)) (leftId x))))
+
 end BEDC.Derived.GroupUp

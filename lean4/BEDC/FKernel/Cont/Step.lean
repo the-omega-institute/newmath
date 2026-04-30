@@ -105,4 +105,42 @@ theorem continuation_step_result_witnesses_pair {h k rz ro : BHist} :
                       (And.intro zeroResult
                         (And.intro zeroCont (And.intro oneResult oneCont))))
 
+theorem cont_step_result_no_confusion_pair :
+    (forall {h k0 k1 r : BHist},
+      Cont h (BHist.e0 k0) r -> Cont h (BHist.e1 k1) r -> False) /\
+      (forall {h k0 k1 r : BHist},
+        Cont h (BHist.e1 k0) r -> Cont h (BHist.e0 k1) r -> False) := by
+  constructor
+  · intro h k0 k1 r zeroStep oneStep
+    cases cont_e0_result_witness zeroStep with
+    | intro rz zeroWitness =>
+        cases zeroWitness with
+        | intro zeroResult _ =>
+            cases zeroResult
+            cases cont_e1_result_witness oneStep with
+            | intro ro oneWitness =>
+                cases oneWitness with
+                | intro oneResult _ =>
+                    cases oneResult
+  · intro h k0 k1 r oneStep zeroStep
+    cases cont_e1_result_witness oneStep with
+    | intro ro oneWitness =>
+        cases oneWitness with
+        | intro oneResult _ =>
+            cases oneResult
+            cases cont_e0_result_witness zeroStep with
+            | intro rz zeroWitness =>
+                cases zeroWitness with
+                | intro zeroResult _ =>
+                    cases zeroResult
+
+theorem cont_step_result_not_empty_pair {h k : BHist} :
+    (Cont h (BHist.e0 k) BHist.Empty → False) ∧
+      (Cont h (BHist.e1 k) BHist.Empty → False) := by
+  constructor
+  · intro hcont
+    cases hcont
+  · intro hcont
+    cases hcont
+
 end BEDC.FKernel.Cont

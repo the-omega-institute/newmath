@@ -12,6 +12,15 @@ For licensed source carriers \(A\) and \(B\), define an inductive carrier with c
 \leandef{BEDC.Derived.SumUp.SumCarrier}
 \leandef{BEDC.Derived.SumUp.SumHistoryCarrier}
 
+\begin{theorem}[Sum history carrier transport]
+\label{thm:sum-history-carrier-hsame-transport}
+If $h$ and $k$ are internally the same BEDC histories, then membership of $h$ in the tagged sum-history carrier transfers to membership of $k$ in the same carrier.
+\end{theorem}
+\begin{proof}
+Invert the sum carrier witness. In the left-tag case, compose symmetry of the given $\hsame(h,k)$ witness with the stored $\hsame(h,e0(l))$ tag witness, and keep the same left source-carrier proof. The right-tag case is identical with $e1(r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_hsame\_transport}
+
 \section{The certificate}
 
 \begin{definition}[Sum source specification]
@@ -31,6 +40,18 @@ The classifier relates left values through the \(A\)-classifier, right values th
 \leandef{BEDC.Derived.SumUp.SumHistoryClassifier}
 \leandef{BEDC.Derived.SumUp.SumClassifierSpec}
 \leanchecked{BEDC.Derived.SumUp.sum\_classifier\_inversion}
+
+\begin{theorem}[Sum history classifier tag separation]
+\label{thm:sum-history-classifier-tag-separation}
+If \(h\) is \(e0\)-tagged and \(k\) is \(e1\)-tagged, then the
+history-level \(\SumUp\) classifier cannot relate \(h\) to \(k\).
+\end{theorem}
+\begin{proof}
+Invert the classifier witness. In the left branch \(k\) is also
+\(e0\)-tagged, contradicting its \(e1\)-tag witness. In the right branch
+\(h\) is \(e1\)-tagged, contradicting its \(e0\)-tag witness.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_left\_right\_absurd}
 
 \begin{definition}[Sum stability certificate]
 \label{def:sum-stability-certificate}
@@ -63,3 +84,4 @@ The carrier is represented by \(e0\)-tagged left histories and \(e1\)-tagged rig
 \label{cor:sum-licensed-not-primitive}
 \(\SumUp\) is licensed as a derived disjoint sum, not as a primitive coproduct.
 \end{corollary}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_mixed\_tags\_absurd}

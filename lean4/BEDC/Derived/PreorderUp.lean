@@ -15,6 +15,18 @@ def PreorderCarrier (h : BHist) : Prop :=
 def PreorderPrefixLE (h k : BHist) : Prop :=
   ∃ tail : BHist, UnaryHistory tail ∧ Cont h tail k
 
+theorem PreorderPrefixLE_empty_left_iff_unary {h : BHist} :
+    PreorderPrefixLE BHist.Empty h ↔ PreorderCarrier h := by
+  constructor
+  · intro prefixWitness
+    cases prefixWitness with
+    | intro tail data =>
+        cases data with
+        | intro tailUnary cont =>
+            exact unary_transport tailUnary (hsame_symm (cont_left_unit_result cont))
+  · intro carrier
+    exact Exists.intro h (And.intro carrier (cont_left_unit h))
+
 theorem PreorderPrefixLE_target_carrier {h k : BHist} :
     PreorderCarrier h -> PreorderPrefixLE h k -> PreorderCarrier k := by
   intro carrier prefixWitness
@@ -142,6 +154,25 @@ theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHi
       exact le_refl carrier
     · intro h k r hk kr
       exact le_trans hk kr
+
+theorem preorder_carrier_semantic_name_certificate :
+    SemanticNameCert PreorderCarrier PreorderCarrier PreorderCarrier
+      (PreorderCarrierClassifierSpec PreorderCarrier) := by
+  constructor
+  · constructor
+    · exact ⟨BHist.Empty, unary_empty⟩
+    · intro h carrier
+      exact ⟨carrier, carrier, hsame_refl h⟩
+    · intro h k same
+      exact ⟨same.right.left, same.left, hsame_symm same.right.right⟩
+    · intro h k r hk kr
+      exact ⟨hk.left, kr.right.left, hsame_trans hk.right.right kr.right.right⟩
+    · intro h k same _
+      exact same.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 theorem preorder_prefix_stability_certificate_fields :
     (∀ h : BHist, PreorderCarrier h → PreorderPrefixLE h h) ∧

@@ -30,6 +30,19 @@ theorem ProdHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : B
                       (And.intro leftCarrier
                         (And.intro rightCarrier (cont_result_hsame_transport cont same))))
 
+theorem ProdHistoryClassifier_right_hsame_transport {Left Right : BHist -> Prop}
+    {h k k' : BHist} :
+    ProdHistoryClassifier Left Right h k ->
+      hsame k k' -> ProdHistoryClassifier Left Right h k' := by
+  intro classified sameRight
+  cases classified with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          exact And.intro carrierH
+            (And.intro (ProdHistoryCarrier_hsame_transport sameRight carrierK)
+              (hsame_trans sameHK sameRight))
+
 theorem prod_history_semantic_name_certificate (Left Right : BHist -> Prop)
     (left_witness : exists l : BHist, Left l) (right_witness : exists r : BHist, Right r) :
     SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)

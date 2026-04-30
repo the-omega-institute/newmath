@@ -98,6 +98,33 @@ It is a relation, not a primitive function.
 \leanvariant{BEDC.FKernel.Cont.cont\_e1\_result\_iff}
 \leanvariant{BEDC.FKernel.Cont.cont\_respects\_hsame}
 
+\begin{theorem}[Continuation step result no-confusion]
+\label{thm:cont-step-result-no-confusion-pair}
+No generated history \(r\) can be both the result of continuing by
+\(\Ezero(k_0)\) and the result of continuing by \(\Eone(k_1)\) from the same
+source history. The converse ordering of the two step constructors is equally
+impossible.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_step\_result\_no\_confusion\_pair}
+\begin{proof}
+Invert the two continuation witnesses. The zero-step witness forces the common
+result to have outer constructor \(\Ezero\), while the one-step witness forces
+the same result to have outer constructor \(\Eone\). Closed generation of
+histories gives constructor no-confusion. The converse direction is symmetric.
+\end{proof}
+
+\begin{theorem}[Continuation step result is nonempty]
+\label{thm:continuation-step-result-not-empty}
+For all histories $h,k$, neither $\ContR(h,\Ezero(k),\emp)$ nor
+$\ContR(h,\Eone(k),\emp)$ can hold.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_step\_result\_not\_empty\_pair}
+\begin{proof}
+Unfold the step result shape for $\ContR$. The zero branch would identify $\emp$ with
+$\Ezero(r)$, and the one branch would identify $\emp$ with $\Eone(r)$. Both contradict the
+generated history constructors.
+\end{proof}
+
 \begin{lemma}[Continuation right unit]
 For every history \(h\), \(\ContR(h,\emp,h)\).
 \end{lemma}

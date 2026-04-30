@@ -1,9 +1,11 @@
 import BEDC.Derived.IntUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.RatUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def PositiveUnaryDenominator (den : BHist) : Prop :=
@@ -118,6 +120,44 @@ theorem RatCarrier_denominator_hsame_transport {sign : BEDC.FKernel.Mark.BMark}
       exact RatCarrier_of_int_positive_denominator intCarrier
         (PositiveUnaryDenominator_hsame_transport sameDenominator
           (RatCarrier_positive_denominator ⟨intCarrier, denominatorData⟩))
+
+def RatHistoryCarrier (denominator : BHist) : Prop :=
+  ∃ sign : BMark, ∃ numerator : BHist, RatCarrier sign numerator denominator
+
+def RatHistoryClassifier (d e : BHist) : Prop :=
+  RatHistoryCarrier d ∧ RatHistoryCarrier e ∧ hsame d e
+
+theorem RatHistoryCarrier_hsame_transport {d e : BHist} :
+    hsame d e -> RatHistoryCarrier d -> RatHistoryCarrier e := by
+  intro same carrier
+  cases carrier with
+  | intro sign signData =>
+      cases signData with
+      | intro numerator ratCarrier =>
+          exact ⟨sign, numerator, RatCarrier_denominator_hsame_transport ratCarrier same⟩
+
+theorem rat_history_semantic_name_certificate :
+    SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
+      RatHistoryClassifier := by
+  constructor
+  · constructor
+    · exact ⟨BHist.e1 BHist.Empty, BMark.b0, BHist.Empty,
+        ⟨Or.inl rfl, unary_empty⟩, unary_e1_closed unary_empty,
+          fun sameEmpty => not_hsame_e1_empty sameEmpty⟩
+    · intro h carrier
+      exact ⟨carrier, carrier, hsame_refl h⟩
+    · intro h k same
+      exact ⟨same.right.left, same.left, hsame_symm same.right.right⟩
+    · intro h k r hk kr
+      exact ⟨hk.left, RatHistoryCarrier_hsame_transport
+        (hsame_trans hk.right.right kr.right.right) hk.left,
+          hsame_trans hk.right.right kr.right.right⟩
+    · intro h k same carrier
+      exact RatHistoryCarrier_hsame_transport same.right.right carrier
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 theorem RatSourceSpec_to_RatCarrier {normalized : BMark -> BHist -> BHist -> Prop}
     {sign : BMark} {num den : BHist} :
