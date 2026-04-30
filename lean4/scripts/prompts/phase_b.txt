@@ -18,6 +18,14 @@ You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_N
 - Formal targets must live in canonical semantic BEDC modules. If an existing file is near 600 lines, target a focused non-example submodule and import it through the nearest index.
 - Respect the existing typeclass-parameterized layers: use `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the target belongs to those layers. Do NOT reintroduce abstract carriers as ad hoc constants or axioms.
 
+## Input Hygiene (kernel basis is locked)
+The kernel "input set" — sum of `inductive` types + `class` declarations + the `BaseReflectionSetup` structure — is intentionally minimal (~16). All theorem growth must be derived from this fixed basis, not by adding parallel inputs.
+
+- If a candidate target would require introducing a NEW `inductive` type, FIRST grep `lean4/BEDC/**/*.lean` for any existing `inductive` whose constructors match (e.g. `BHist (Empty / e0 / e1)` already covers any sequence-of-binary-marks type — a new `BWord (nil / bit0 / bit1)` is redundant). Re-use the existing type via `def Alias := Existing` or use it directly. Do NOT propose a target that introduces a parallel inductive isomorphic to one that already exists.
+- If a candidate target would require a new `class` setup, check whether an existing setup class can carry the new field. Adding a new class is permitted only when the field is genuinely orthogonal to all four existing setup interfaces.
+- When both a `def` and an `inductive` would express the same closed-generation idea, prefer `def` — `def` is conservative (no new logical commitment), `inductive` is a structural input.
+- A target whose primary effect is to add a parallel input duplicating an existing input MUST be skipped. Note this in `strategy` and pick a different open obligation.
+
 ## Task
 Select 3 formalization targets for R<ROUND_NUM>.
 

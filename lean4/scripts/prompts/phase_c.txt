@@ -5,6 +5,16 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 ## Targets to Implement
 <TARGETS>
 
+## Step 0: Sync with remote base before any edits
+Before reading or writing any code, run:
+```bash
+git fetch origin lean4-codex-auto-dev
+git rebase --autostash origin/lean4-codex-auto-dev
+```
+This pulls in commits from other producers (other machines may also be running the pipeline). Working on a stale base wastes Phase B/C effort and can produce duplicate or conflicting targets. If the rebase reports conflicts, resolve them following the same rules as Step 5 (keep additive registrations from both sides), then continue.
+
+If `git fetch` reports no changes, proceed unchanged. If it pulls new commits, re-verify (with `grep`) that the targets selected in Phase B do not already exist in the freshly-pulled `lean4/BEDC/`; abandon any target that has been claimed in the meantime and pick a fresh open obligation.
+
 ## Hard Constraints
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
 - Do NOT add `axiom` declarations. Encode primitives as `inductive` / `def` / `class` / `structure` setup field. The audit `python3 tools/check-axioms.py` will reject any axiom and CI will fail.
@@ -13,6 +23,8 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 - Do NOT create scaffold/stub/placeholder/demo/example modules or names. Use canonical semantic BEDC modules.
 - Keep every modified or added Lean file at or below 600 lines. If a target would exceed that cap, create or use a focused non-example submodule and import it through the nearest index.
 - Reuse the existing setup layers: `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the theorem belongs to those interfaces.
+- Do NOT introduce a new `inductive` type that is isomorphic to an existing one in `lean4/BEDC/`. Re-use the existing inductive (or alias it via `def`) instead. Adding a parallel inductive (e.g. another emission-history type beyond `BHist`) is forbidden.
+- If, while proving a target, you discover that an existing `inductive` is redundant (isomorphic to another), do NOT fix it in-place during this round — it will cascade into many proofs. Note the redundancy in the commit message under "Followup:" so a future compression round can address it.
 
 ## Step 1: Implement proofs
 For each target:
@@ -56,12 +68,21 @@ cd papers/bedc && make
 python3 tools/check-axioms.py
 ```
 
-## Step 5: Rebase
+## Step 5: Re-sync with remote before commit
+Multiple producers (parallel workers on this machine, plus possibly other machines) push to `origin/lean4-codex-auto-dev` concurrently. Re-sync to absorb anything that landed during your Phase C work:
+
 ```bash
 git fetch origin lean4-codex-auto-dev
 git rebase --autostash origin/lean4-codex-auto-dev
 ```
-If conflicts occur in additive registration files, resolve them by keeping all valid additions from both sides, then continue the rebase.
+
+Conflict resolution rules:
+- `lean4/BEDC.lean` and `lean4/BEDC/**/*.lean` index files: union all `import` lines from both sides, dedup.
+- `papers/bedc/parts/**/*.tex` `\leanchecked` / `\leanvariant` lines: keep all valid markers from both sides; only deduplicate identical lines.
+- Same Lean file with non-overlapping declarations: keep both sets.
+- Same Lean file with conflicting edits to the SAME declaration: abandon your edit, prefer the upstream version. Re-target your remaining work.
+
+After resolving, run `cd lean4 && python3 scripts/lake_gate.py build` once more to confirm the rebased tree still compiles. If it fails after rebase, fix the rebase (do not push a broken tree).
 
 ## Step 6: Single combined commit
 ```bash
