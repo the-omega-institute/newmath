@@ -202,6 +202,42 @@ theorem sig_deterministic :
               exact ext_respects_sameness hsameTail hm hx hy
 
 omit [AskSetup] in
+theorem sig_cons_determinacy_spine [AskSetup] {pi : ProbeName}
+    {tail : ProbeBundle ProbeName} {D : BHist -> Prop} {h r r' : BHist}
+    (policy : AskPolicy D) :
+    D h → SigRel (ProbeBundle.Bcons pi tail) h r →
+      SigRel (ProbeBundle.Bcons pi tail) h r' →
+      ∃ s : BHist, ∃ t : BHist, ∃ m : BMark, ∃ n : BMark,
+        SigRel tail h s ∧ SigRel tail h t ∧ msame m n ∧ hsame s t ∧ hsame r r' := by
+  intro dh left right
+  cases left with
+  | cons _ _ _ s _ m _ leftAsk leftTail leftExt =>
+      cases right with
+      | cons _ _ _ t _ n _ rightAsk rightTail rightExt =>
+          have hmarks : msame m n := policy.deterministic leftAsk rightAsk
+          have htails : hsame s t :=
+            sig_deterministic
+              (bundle := tail)
+              (D := D)
+              (h := h)
+              (s := s)
+              (t := t)
+              policy
+              dh
+              leftTail
+              rightTail
+          have hresults : hsame r r' :=
+            ext_respects_sameness htails hmarks leftExt rightExt
+          exact Exists.intro s
+            (Exists.intro t
+              (Exists.intro m
+                (Exists.intro n
+                  (And.intro leftTail
+                    (And.intro rightTail
+                      (And.intro hmarks
+                        (And.intro htails hresults)))))))
+
+omit [AskSetup] in
 theorem sig_cons_tail_deterministic [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
     {D : BHist -> Prop} {h r r' : BHist} :
     AskPolicy D -> D h -> SigRel (ProbeBundle.Bcons pi tail) h r ->

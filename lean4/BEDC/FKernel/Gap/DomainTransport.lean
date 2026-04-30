@@ -48,6 +48,17 @@ theorem domain_transport_symmetric [AskSetup] [PackageSetup] [DomainSetup]
   intro hk hhk
   exact policy.transport hk (hsame_symm hhk)
 
+omit [AskSetup] [PackageSetup] G in
+theorem DomainPolicy_transport_and_invariance [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
+    hsame h k → (InDom D h → InDom D k) ∧ (InDom D k → InDom D h) := by
+  intro hhk
+  constructor
+  · intro hh
+    exact policy.transport hh hhk
+  · intro hk
+    exact policy.transport hk (hsame_symm hhk)
+
 omit [AskSetup] [PackageSetup] in
 theorem domain_invariance {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     hsame h k -> (InDom D h <-> InDom D k) := by

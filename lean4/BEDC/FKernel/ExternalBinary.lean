@@ -61,6 +61,20 @@ theorem external_append_right_length_zero {a b : BWord} :
       simp [append, bwordLength, bwordLength_append] at hlen
       exact False.elim (nat_eq_add_succ_false (bwordLength a) (bwordLength b) hlen.symm)
 
+theorem external_length_zero_iff_nil (w : BWord) : bwordLength w = 0 ↔ w = BWord.nil := by
+  constructor
+  · intro h
+    cases w with
+    | nil =>
+        rfl
+    | bit0 w =>
+        cases h
+    | bit1 w =>
+        cases h
+  · intro h
+    cases h
+    rfl
+
 theorem external_append_empty_left : forall w : BWord, append .nil w = w := by
   intro w
   induction w with
