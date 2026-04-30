@@ -31,6 +31,15 @@ theorem gap_policy_fields {bundle : ProbeBundle ProbeName} {D : Domain} (policy 
     · exact policy.separation
     · exact policy.generation
 
+theorem gapPolicy_provenance_interface_fields [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
+    (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
+      (∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h →
+        InGapSig bundle D q h → psame bundle p q) ∧
+      (∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h →
+        ∃ s : BHist, TokIntro bundle s p) := by
+  exact gap_policy_fields policy
+
 theorem GapPolicy_iff_fields [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} :
     GapPolicy bundle D <->

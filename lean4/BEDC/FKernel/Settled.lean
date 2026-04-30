@@ -252,6 +252,23 @@ theorem settledKernelCriterion_namecert_projection [AskSetup] [PackageSetup]
                                                                           addName,
                                                                           stabilityAndLedger⟩
 
+theorem layer_isolation_policy_memory_projection [AskSetup] [PackageSetup] [DomainSetup]
+    [NameCertSetup] :
+    SettledKernelCriterion →
+      (∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
+        GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
+      Nonempty (@NameCert MinimalNameCertSetup BEDC.FKernel.Unary.UnaryName) ∧
+      Nonempty (@NameCert MinimalNameCertSetup BEDC.FKernel.Unary.AddName) := by
+  intro criterion
+  constructor
+  · intro bundle D h policy hIn
+    exact gap_coverage policy hIn
+  · cases settledKernelCriterion_namecert_projection criterion with
+    | intro unaryName rest =>
+        cases rest with
+        | intro addName _ =>
+            exact And.intro unaryName addName
+
 theorem settledKernelCriterion_history_kernel_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →
