@@ -51,4 +51,17 @@ theorem boolClassifierSpec_stability :
       · exact BEDC.FKernel.Mark.not_msame_b0_b1
       · exact BEDC.FKernel.Mark.not_msame_b1_b0
 
+theorem bool_stability_certificate :
+    BoolSourceSpec BEDC.FKernel.Mark.BMark.b0 /\
+      BoolSourceSpec BEDC.FKernel.Mark.BMark.b1 /\
+      (BEDC.FKernel.Mark.msame BEDC.FKernel.Mark.BMark.b0
+          BEDC.FKernel.Mark.BMark.b1 -> False) /\
+        (BEDC.FKernel.Mark.msame BEDC.FKernel.Mark.BMark.b1
+          BEDC.FKernel.Mark.BMark.b0 -> False) := by
+  constructor
+  · exact Or.inl rfl
+  · constructor
+    · exact Or.inr rfl
+    · exact BEDC.FKernel.Mark.mark_no_confusion
+
 end BEDC.Derived.BoolUp

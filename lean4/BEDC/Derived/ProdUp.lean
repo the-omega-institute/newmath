@@ -66,4 +66,33 @@ theorem prodClassifierSpec_trans {A B : Type} {sameA : A -> A -> Prop}
                   | intro hAyz hByz =>
                       exact ⟨transA hAxy hAyz, transB hBxy hByz⟩
 
+theorem prod_stability_certificate {A B : Type} {sameA : A -> A -> Prop}
+    {sameB : B -> B -> Prop} (reflA : forall a : A, sameA a a)
+    (reflB : forall b : B, sameB b b)
+    (transA : forall {a b c : A}, sameA a b -> sameA b c -> sameA a c)
+    (transB : forall {a b c : B}, sameB a b -> sameB b c -> sameB a c) :
+    (forall x : A × B, sameA x.1 x.1 /\ sameB x.2 x.2) /\
+      (forall {x y z : A × B}, (sameA x.1 y.1 /\ sameB x.2 y.2) ->
+        (sameA y.1 z.1 /\ sameB y.2 z.2) ->
+          (sameA x.1 z.1 /\ sameB x.2 z.2)) /\
+        (forall {x y : A × B}, (sameA x.1 y.1 /\ sameB x.2 y.2) ->
+          sameA x.1 y.1) /\
+          (forall {x y : A × B}, (sameA x.1 y.1 /\ sameB x.2 y.2) ->
+            sameB x.2 y.2) := by
+  constructor
+  · intro x
+    constructor
+    · exact reflA x.1
+    · exact reflB x.2
+  · constructor
+    · intro x y z hxy hyz
+      constructor
+      · exact transA hxy.left hyz.left
+      · exact transB hxy.right hyz.right
+    · constructor
+      · intro x y hxy
+        exact hxy.left
+      · intro x y hxy
+        exact hxy.right
+
 end BEDC.Derived.ProdUp

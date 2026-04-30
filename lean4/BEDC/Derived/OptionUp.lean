@@ -34,4 +34,9 @@ theorem optionClassifierSpec_cases {A : Type} {sameA : A -> A -> Prop} {x y : Op
       | some b =>
           exact Or.inr ⟨a, b, rfl, rfl, h⟩
 
+def OptionClassifier {A : Type} (same : A -> A -> Prop) : Option A -> Option A -> Prop
+  | none, none => True
+  | some a, some b => same a b
+  | _, _ => False
+
 end BEDC.Derived.OptionUp
