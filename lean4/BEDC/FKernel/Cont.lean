@@ -20,9 +20,9 @@ theorem append_empty_left : forall h : BHist, append .Empty h = h := by
   | Empty =>
       rfl
   | e0 h ih =>
-      simp [append, ih]
+      exact congrArg BHist.e0 ih
   | e1 h ih =>
-      simp [append, ih]
+      exact congrArg BHist.e1 ih
 
 def Cont (h k r : BHist) : Prop := r = append h k
 
@@ -57,9 +57,9 @@ theorem append_assoc : ∀ a b c : BHist, append (append a b) c = append a (appe
   | Empty =>
       rfl
   | e0 c ih =>
-      simp [append, ih]
+      exact congrArg BHist.e0 ih
   | e1 c ih =>
-      simp [append, ih]
+      exact congrArg BHist.e1 ih
 
 theorem append_right_cancel :
     ∀ {h h' k : BHist}, append h k = append h' k → hsame h h' := by
@@ -68,21 +68,9 @@ theorem append_right_cancel :
   | Empty =>
       exact same
   | e0 k ih =>
-      have inner : append h k = append h' k := by
-        simpa [append] using
-          congrArg (fun x =>
-            match x with
-            | BHist.e0 y => y
-            | _ => BHist.Empty) same
-      exact ih inner
+      exact ih (BHist.e0.inj same)
   | e1 k ih =>
-      have inner : append h k = append h' k := by
-        simpa [append] using
-          congrArg (fun x =>
-            match x with
-            | BHist.e1 y => y
-            | _ => BHist.Empty) same
-      exact ih inner
+      exact ih (BHist.e1.inj same)
 
 private def appendCancelLength : BHist → Nat
   | .Empty => 0
@@ -168,9 +156,11 @@ theorem cont_left_unit : ∀ k : BHist, Cont .Empty k k := by
   | Empty =>
       rfl
   | e0 k ih =>
-      simpa [Cont, append] using congrArg BHist.e0 ih
+      change BHist.e0 k = BHist.e0 (append BHist.Empty k)
+      exact congrArg BHist.e0 ih
   | e1 k ih =>
-      simpa [Cont, append] using congrArg BHist.e1 ih
+      change BHist.e1 k = BHist.e1 (append BHist.Empty k)
+      exact congrArg BHist.e1 ih
 
 theorem cont_left_unit_result {k r : BHist} : Cont BHist.Empty k r -> hsame r k := by
   intro hr
@@ -182,21 +172,9 @@ theorem cont_left_unit_unique : forall {h k : BHist}, Cont h k k -> hsame h BHis
   | Empty =>
       exact hk.symm
   | e0 k ih =>
-      have inner : Cont h k k := by
-        simpa [Cont, append] using
-          congrArg (fun x =>
-            match x with
-            | BHist.e0 y => y
-            | _ => BHist.Empty) hk
-      exact ih inner
+      exact ih (BHist.e0.inj hk)
   | e1 k ih =>
-      have inner : Cont h k k := by
-        simpa [Cont, append] using
-          congrArg (fun x =>
-            match x with
-            | BHist.e1 y => y
-            | _ => BHist.Empty) hk
-      exact ih inner
+      exact ih (BHist.e1.inj hk)
 
 theorem cont_right_unit : ∀ h : BHist, Cont h .Empty h := by
   intro h
@@ -229,11 +207,11 @@ theorem cont_right_constructor_inversion {h k r : BHist} :
   | e0 k0 =>
       right
       left
-      exact ⟨k0, append h k0, rfl, by simpa [Cont, append] using hr, rfl⟩
+      exact ⟨k0, append h k0, rfl, hr, rfl⟩
   | e1 k0 =>
       right
       right
-      exact ⟨k0, append h k0, rfl, by simpa [Cont, append] using hr, rfl⟩
+      exact ⟨k0, append h k0, rfl, hr, rfl⟩
 
 theorem cont_empty_result_inversion {h k : BHist} :
     Cont h k BHist.Empty -> h = BHist.Empty ∧ k = BHist.Empty := by
@@ -263,7 +241,7 @@ theorem cont_assoc_exists :
   refine ⟨append ab c, rfl, ?_⟩
   cases hab
   cases hbc
-  simpa [Cont] using append_assoc a b c
+  exact append_assoc a b c
 
 theorem cont_assoc_exists_hsame {a b c ab bc : BHist} :
     Cont a b ab -> Cont b c bc ->

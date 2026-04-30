@@ -40,8 +40,15 @@ theorem bwordLength_append : ∀ a b : BWord, bwordLength (append a b) = bwordLe
 theorem external_append_length : ∀ a b : BWord, bwordLength (append a b) = bwordLength a + bwordLength b :=
   bwordLength_append
 
-theorem external_append_empty_left : ∀ w : BWord, append .Empty w = w :=
-  BEDC.FKernel.Cont.append_empty_left
+theorem external_append_empty_left : ∀ w : BWord, append .Empty w = w := by
+  intro w
+  induction w with
+  | Empty =>
+      rfl
+  | e0 w ih =>
+      exact congrArg BHist.e0 ih
+  | e1 w ih =>
+      exact congrArg BHist.e1 ih
 
 theorem external_append_empty_right : ∀ w : BWord, append w .Empty = w :=
   BEDC.FKernel.Cont.append_empty_right
@@ -65,8 +72,15 @@ theorem external_append_left_absorb_empty :
 theorem external_append_e1_right (a b : BWord) : append a (.e1 b) = .e1 (append a b) := rfl
 
 theorem external_append_assoc :
-    ∀ a b c : BWord, append (append a b) c = append a (append b c) :=
-  BEDC.FKernel.Cont.append_assoc
+    ∀ a b c : BWord, append (append a b) c = append a (append b c) := by
+  intro a b c
+  induction c with
+  | Empty =>
+      rfl
+  | e0 c ih =>
+      exact congrArg BHist.e0 ih
+  | e1 c ih =>
+      exact congrArg BHist.e1 ih
 
 theorem external_append_assoc_four :
     ∀ a b c d : BWord, append (append (append a b) c) d =
@@ -155,7 +169,13 @@ theorem external_append_bit1_result_inversion :
 
 theorem external_append_right_cancel : ∀ a b c : BWord, append a c = append b c → a = b := by
   intro a b c h
-  exact BEDC.FKernel.Cont.append_right_cancel h
+  induction c generalizing a b with
+  | Empty =>
+      exact h
+  | e0 c ih =>
+      exact ih a b (BHist.e0.inj h)
+  | e1 c ih =>
+      exact ih a b (BHist.e1.inj h)
 
 theorem external_append_left_cancel : ∀ a b c : BWord, append c a = append c b → a = b := by
   intro a

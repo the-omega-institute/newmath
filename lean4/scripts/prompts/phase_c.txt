@@ -25,6 +25,13 @@ If `git fetch` reports no changes, proceed unchanged. If it pulls new commits, r
 - Reuse the existing setup layers: `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the theorem belongs to those interfaces.
 - Do NOT introduce a new `inductive` type that is isomorphic to an existing one in `lean4/BEDC/`. Re-use the existing inductive (or alias it via `def`) instead. Adding a parallel inductive (e.g. another emission-history type beyond `BHist`) is forbidden.
 - If, while proving a target, you discover that an existing `inductive` is redundant (isomorphic to another), do NOT fix it in-place during this round — it will cascade into many proofs. Note the redundancy in the commit message under "Followup:" so a future compression round can address it.
+- Do NOT cause any BEDC theorem to transitively depend on Lean stdlib axioms (`propext`, `Quot.sound`, `Classical.choice`). The `bedc_ci.py axiom-purity --strict` audit forbids all three. Common patterns that pull in `propext`:
+  - `simp [h]` or `rw [h]` where `h : a ↔ b` — use `Iff.mp h` / `Iff.mpr h` explicitly, or destructure `obtain ⟨fwd, bwd⟩ := h`.
+  - `simp` on a goal whose default rewrite set contains `Iff` lemmas — use `simp only [<curated lemmas>]` excluding any that produce `Iff = Eq` rewrites.
+  - Implicit Iff substitution under `congr` / `congrArg` — replace with manual case analysis.
+  Use `Eq`-only rewrites freely; `propext` is only triggered by `Iff`-shaped substitutions.
+- Do NOT use `Classical.*` (Classical.choice, Classical.byContradiction, Classical.em) — proofs must be fully constructive.
+- Do NOT use `Quot.*` quotient constructions — encode equivalences as `inductive` predicates instead.
 
 ## Step 1: Implement proofs
 For each target:
