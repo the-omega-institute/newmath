@@ -1,0 +1,98 @@
+You are the THEORY REVIEW phase for BEDC paper revision round R<ROUND_NUM>.
+
+## Prompts version
+v1.0 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## Role
+You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
+
+## Project Layout
+- `papers/bedc/main.tex` — paper entry (~80 lines, includes parts via \input)
+- `papers/bedc/preamble.tex` — macros and packages
+- `papers/bedc/parts/` — theory chapters (core, proof_obligations, concrete_instances, concrete_hardening, hardening, formalization, proof_sprint, proof_standing, project_governance)
+- `papers/bedc/appendices/` — appendix material
+- `lean4/BEDC/` — Lean 4 formalization (mathlib-free, 0 axiom 0 sorry); paper claims linked via `\leanchecked` / `\leanvariant` / `\leanstmt` / `\leandef` markers.
+- Current round: R<ROUND_NUM>
+- Recent commits:
+<RECENT>
+
+## What counts as a valid review target
+Pick targets that are HIGH-VALUE — each should be something a careful reader would flag during peer review. Acceptable categories:
+
+1. **Logical gap or unjustified step.** A theorem statement that is used downstream but whose proof skips a non-trivial case, or a definition that is invoked before being properly fixed.
+2. **Notational or definitional inconsistency.** Same symbol used with two meanings; a definition restated differently in two chapters; an undefined macro or label dangling.
+3. **Dead/redundant material.** A definition or proposition that is never referenced; a section whose content is fully subsumed by another; theorem hypotheses that are vacuous or implied.
+4. **Missing companion result.** A claim made informally but not stated as a theorem; a proof obligation that the Lean side already satisfies (`\leanchecked` exists) but the paper has no `\leanchecked{X}` marker; a concrete instance for an abstract construction that is asserted to exist but is not exhibited.
+5. **Unclear or imprecise statement.** A theorem whose hypotheses must be tightened (or relaxed) for the conclusion to hold as currently written; an "obvious" appeal that hides a real argument.
+6. **Stronger statement available.** The paper proves a weaker form when the same proof yields more (e.g. uniform bound proved pointwise; restriction to finite case when general case is identical).
+7. **Cross-reference / structural improvement.** A theorem block that is mis-located (would be easier to follow earlier or later); a result that should be promoted from remark to numbered statement, or vice versa.
+
+Reject these as low-value (do NOT propose):
+- Pure typographical fixes, spelling, missing periods, kerning.
+- Comment changes / inline notes (the project bans inline comments anyway).
+- Adding "TODO", "future work", or version annotations.
+- Edits that only relabel without changing logical content.
+- Renaming for cosmetic uniformity unless name collision causes ambiguity.
+
+## HARD constraints — every target MUST respect these
+The next phase will be REJECTED if its diff violates any of these, so do not propose a target that requires violating them.
+
+1. **No iteration narrative.** The paper is a current-state document. Do NOT suggest text containing "新增", "修订", "新版", "patch", "增量", "modification", "migration", "increment", "legacy", "supersede", "deprecated", "frozen", "rectification", "amendment", "v1.5.X" or similar. Replacements should be silent: delete the old, write the new, no version annotations.
+2. **No version-prefixed labels.** Do NOT propose labels like `thm:vN-…`, `sec:v14-…`. Use semantic labels (`thm:<concept>`, `sec:<theme>-<concept>`).
+3. **Every `.tex` file stays ≤ 800 lines.** If implementing a target would push a file over the cap, the target must include a split plan (extract a focused sub-chapter file).
+4. **Math notation.** Inline math via `$…$`; display math via `$$…$$` on its own line. Do NOT propose introducing `\[…\]`, `\begin{equation}`, `align`, etc.
+5. **Marker discipline.** Each paper site has at most ONE `\leanchecked`. Variants use `\leanvariant`. New paper-side markers must reference Lean targets that ALREADY exist under `lean4/BEDC/` (run a quick grep before committing the suggestion).
+6. **Underscore escape.** Inside `\leanchecked{…}` and friends, an underscore in a Lean name MUST be `\_` (not bare `_`).
+7. **Mathlib-free / 0-axiom Lean.** If the target touches Lean code, do not propose patterns that would require `Mathlib.X.Y` imports or new `axiom`/`sorry` declarations.
+8. **No new files at the top of the tree.** New `.tex` material lives inside an existing `parts/<theme>/` directory.
+
+## Discovery hygiene
+Before suggesting that a missing marker / missing companion result is REALLY missing, do a quick grep:
+- For a paper claim X, run `grep -rE "<X-related symbol>" lean4/BEDC/` to see whether the Lean side already has it.
+- For a "missing definition" complaint, run `grep -rE "\\\\(begin\{definition\}|leandef\{)" papers/bedc/parts/` for a similar concept.
+- For a "redundant section" complaint, confirm by `grep` that the alleged duplicate is actually content-identical.
+
+Do NOT propose targets that fail this sanity check. A target whose only effect is to register a marker pointing to a Lean theorem that does not exist is INVALID.
+
+## Task
+Pick **1 to 3 review targets** for R<ROUND_NUM>. Diversity is preferred (do not propose three small fixes in the same chapter when the paper has 12+ chapters). At least one should be in category 1, 5, or 6 above (genuine theory issues, not bookkeeping) unless the entire paper is pristine on those axes — in which case explain why in `notes`.
+
+For each target, you MUST be able to point to:
+- The exact paper file(s) involved.
+- The exact section / theorem block / label affected.
+- A precise description of the change to be applied.
+- A short justification (one or two sentences) explaining why this is genuinely improving the theory.
+
+If the paper is genuinely free of high-value issues this round, return `{"targets": []}` and let the gate skip this round. Empty rounds are better than vacuous rounds.
+
+## Output Format (MUST follow exactly)
+Output a single fenced JSON block:
+
+```json
+{
+  "targets": [
+    {
+      "kind": "logical_gap | notation_inconsistency | dead_material | missing_companion | unclear_statement | stronger_available | structural",
+      "paper_files": ["papers/bedc/parts/core/05_xxx.tex"],
+      "section_label": "sec:core-some-concept",
+      "anchor": "thm:concrete-name | def:concrete-name | the line near `\\begin{theorem}[Title]`",
+      "summary": "One-sentence summary of the problem.",
+      "evidence": "Concrete quotes / line refs / grep results that establish the issue is real.",
+      "proposed_change": "Precise instructions for the revise phase: what to delete, what to add, where to insert.",
+      "expected_effect": "What logically improves once the change lands.",
+      "lean_touchpoint": "(optional) Lean target that should be referenced or registered, e.g. `BEDC.FKernel.X.foo`. Use `\\_` for underscores when it will appear in `\\leanchecked{...}`.",
+      "difficulty": "low | medium | high",
+      "chapter": "core | proof_obligations | concrete_instances | concrete_hardening | hardening | formalization | proof_sprint | proof_standing | project_governance | appendices",
+      "discovery_confirmed": true
+    }
+  ],
+  "notes": "(optional) Anything the revise phase should know that does not fit a per-target field."
+}
+```
+
+Field requirements:
+- `paper_files` lists EXACTLY the .tex file(s) the revise phase must edit. Do not list main.tex unless main.tex itself is what changes.
+- `proposed_change` must be precise enough that the next phase can act without re-reading the entire chapter. Include line context, surrounding sentences, label names.
+- `discovery_confirmed` must be `true`, meaning you ran the grep / file inspection and the issue is real (not hallucinated from memory of an old draft).
+- Do NOT propose targets that contradict the HARD constraints above.
+- Do NOT propose targets that consist only of adding `\leanvariant` markers; variants are preserved as-is and not added by automated rounds.
