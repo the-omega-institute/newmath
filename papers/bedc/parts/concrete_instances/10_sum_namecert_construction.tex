@@ -171,7 +171,7 @@ The stability certificate consists of:
 \end{definition}
 \leanchecked{BEDC.Derived.SumUp.sum\_stability\_certificate\_fields}
 
-\begin{theorem}[Sum classifier transitivity]
+\begin{theorem}[Sum classifier transitivity at the typed level]
 \label{thm:sum-classifier-transitivity}
 Let $R_A : A \to A \to \mathsf{Prop}$ and
 $R_B : B \to B \to \mathsf{Prop}$ be source classifier relations.  If both
@@ -185,9 +185,9 @@ imply $\mathsf{SumClassifierSpec}(R_A,R_B,x,z)$.
 \end{theorem}
 \leanchecked{BEDC.Derived.SumUp.SumClassifierSpec\_trans}
 \begin{proof}
-Proceed by constructor case analysis on $x$, $y$, and $z$.  Matching left and
+Invert the sum classifier witnesses by their constructors. Matching left and
 right branches compose through the corresponding source transitivity assumption,
-while mixed injection branches contradict the classifier clauses.
+while mixed tags are impossible by the classifier clauses.
 \end{proof}
 
 \begin{definition}[Sum ledger policy]

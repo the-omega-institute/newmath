@@ -168,9 +168,8 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 \leanchecked{BEDC.Derived.ProdUp.prod\_stability\_certificate\_fields}
-\leanvariant{BEDC.Derived.ProdUp.prod\_stability\_certificate}
 
-\begin{theorem}[Product classifier transitivity]
+\begin{theorem}[Product classifier transitivity at the typed level]
 \label{thm:prod-classifier-transitivity}
 Let $R_A : A \to A \to \mathsf{Prop}$ and
 $R_B : B \to B \to \mathsf{Prop}$ be source classifier relations.  If both
@@ -184,9 +183,9 @@ imply $\mathsf{ProdClassifierSpec}(R_A,R_B,x,z)$.
 \end{theorem}
 \leanchecked{BEDC.Derived.ProdUp.ProdClassifierSpec\_trans}
 \begin{proof}
-Proceed by constructor case analysis on the two product-classifier witnesses.
-The first components compose by transitivity of $R_A$, the second components
-compose by transitivity of $R_B$, and the paired witnesses rebuild the product
+Invert the product classifier witnesses by their constructor. The first
+components compose by transitivity of $R_A$, the second components compose by
+transitivity of $R_B$, and the paired typed witness rebuilds the product
 classifier.
 \end{proof}
 

@@ -448,6 +448,27 @@ classified left cancellation with the classified prefixes $p$ and $p'$ to
 obtain $\mathsf{ListClassifierSpec}(\hsame,x,y)$.
 \end{proof}
 
+\begin{theorem}[List classifier classified append context equivalence]
+\label{thm:list-classifier-append-context-equiv}
+For BEDC history lists $p$, $p'$, $x$, $y$, $s$, and $s'$, if the prefix
+contexts $p$ and $p'$ are structurally classified by $\HSame$ and the suffix
+contexts $s$ and $s'$ are structurally classified by $\HSame$, then
+$$
+  \mathsf{ListClassifierSpec}(\hsame,x,y)
+  \quad\text{if and only if}\quad
+  \mathsf{ListClassifierSpec}(\hsame,p{++}x{++}s,p'{++}y{++}s')
+$$
+holds.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply append stability first to the classified
+prefixes and middle lists, obtaining a classification of $p{++}x$ with
+$p'{++}y$, and then apply append stability again with the classified suffixes.
+For the reverse direction, apply the preceding two-sided cancellation theorem
+to the classified bordered histories, the classified prefixes, and the
+classified suffixes.
+\end{proof}
+
 \begin{theorem}[List classifier transitivity from a source certificate]
 \label{thm:list-classifier-trans-from-namecert}
 If the source classifier is supplied by a \(\NameCert\), then the lifted list classifier is transitive on finite list spines.
