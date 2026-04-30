@@ -273,6 +273,46 @@ theorem compGap_coverage_with_source_and_intermediate
                           (And.intro firstWitness secondWitness))))))
 
 omit [AskSetup] [PackageSetup] G in
+theorem compGap_exactness_from_layers_on_histories
+    {Inter Final : Type}
+    {SourceOk : BHist -> Prop} {InterOk : Inter -> Prop}
+    {firstGap : Inter -> BHist -> Prop} {secondGap : Final -> Inter -> Prop}
+    {interSame : Inter -> Inter -> Prop} {finalSame : Final -> Final -> Prop}
+    (firstCoverage :
+      forall {h : BHist}, SourceOk h -> exists y : Inter, firstGap y h ∧ InterOk y)
+    (secondCoverage : forall {y : Inter}, InterOk y -> exists z : Final, secondGap z y)
+    (firstSeparation :
+      forall {h : BHist} {y1 y2 : Inter},
+        SourceOk h -> firstGap y1 h -> firstGap y2 h -> interSame y1 y2)
+    (secondSeparation :
+      forall {z1 z2 : Final} {y1 y2 : Inter},
+        interSame y1 y2 -> secondGap z1 y1 -> secondGap z2 y2 -> finalSame z1 z2) :
+    (forall {h : BHist}, SourceOk h -> exists z : Final, CompGap firstGap secondGap z h) ∧
+      (forall {h : BHist} {z1 z2 : Final},
+        SourceOk h -> CompGap firstGap secondGap z1 h ->
+          CompGap firstGap secondGap z2 h -> finalSame z1 z2) := by
+  constructor
+  · intro h sourceOk
+    cases firstCoverage sourceOk with
+    | intro y firstData =>
+        cases firstData with
+        | intro firstWitness interOk =>
+            cases secondCoverage interOk with
+            | intro z secondWitness =>
+                exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
+  · intro h z1 z2 sourceOk left right
+    cases left with
+    | intro y1 leftData =>
+        cases right with
+        | intro y2 rightData =>
+            cases leftData with
+            | intro firstLeft secondLeft =>
+                cases rightData with
+                | intro firstRight secondRight =>
+                    exact secondSeparation
+                      (firstSeparation sourceOk firstLeft firstRight) secondLeft secondRight
+
+omit [AskSetup] [PackageSetup] G in
 theorem hardening_composite_coverage
     {Source Inter Final : Type}
     {SourceOk : Source -> Prop}
