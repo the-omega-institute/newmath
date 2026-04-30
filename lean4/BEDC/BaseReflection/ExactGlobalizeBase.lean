@@ -38,6 +38,16 @@ theorem ExactGlobalizeBase_soundness_nonempty
   | intro gen =>
       exact ex.soundness h k p q hp hq gen
 
+theorem ExactGlobalizeBase_export_soundness_direction
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    Nonempty (GeneratedSameSig s P h k) → PsameBase s P p q := by
+  intro hgen
+  cases hgen with
+  | intro gen =>
+      exact ex.soundness h k p q hp hq gen
+
 theorem ExactGlobalizeBase_completeness
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
     {h k : s.Hist} {p q : s.Pkg} :
