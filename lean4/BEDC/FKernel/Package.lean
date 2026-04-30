@@ -156,6 +156,19 @@ theorem psame_trans_under_policy
     (hsame_trans (policy.reflection left middle leftSame)
       (policy.reflection middle right rightSame))
 
+omit [AskSetup] P in
+theorem stable_transformations_descend_to_packages [AskSetup] [PackageSetup]
+    {source target : ProbeBundle ProbeName}
+    (respects :
+      ∀ {s t : BHist} {p q : Pkg},
+        TokIntro source s p → TokIntro source t q →
+          psame source p q → psame target p q)
+    {s t : BHist} {p q : Pkg} :
+    TokIntro source s p → TokIntro source t q →
+      psame source p q → psame target p q := by
+  intro hp hq same
+  exact respects hp hq same
+
 def MinimalPackageSetup [AskSetup] : PackageSetup where
   Pkg := Unit
   TokIntro := fun _ _ _ => True

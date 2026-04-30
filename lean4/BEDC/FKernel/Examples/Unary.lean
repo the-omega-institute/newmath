@@ -137,6 +137,17 @@ theorem unary_continuation_associativity {a b c ab bc abc abc' : BHist} :
   cases habc'
   exact append_assoc a b c
 
+theorem unary_cont_assoc_with_closure {a b c ab bc abc abc' : BHist} :
+    UnaryHistory a → UnaryHistory b → UnaryHistory c →
+    Cont a b ab → Cont b c bc → Cont ab c abc → Cont a bc abc' →
+    UnaryHistory ab ∧ UnaryHistory bc ∧ hsame abc abc' := by
+  intro ua ub uc hab hbc habc habc'
+  constructor
+  · exact unary_cont_closed ua ub hab
+  · constructor
+    · exact unary_cont_closed ub uc hbc
+    · exact unary_continuation_associativity ua ub uc hab hbc habc habc'
+
 theorem comm_from_obligations
     (shift :
       ∀ {k h r : BHist}, UnaryHistory k → Cont k (.e1 h) r →

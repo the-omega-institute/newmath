@@ -80,6 +80,17 @@ theorem NameCert_add_activation [NameCertSetup] {name : DerivedName}
     (ledger : LedgerPolicy) : NameCert name := by
   exact NameCert.mk source pattern classifier stability ledger
 
+theorem add_like_behavior_certified_not_operation [NameCertSetup] {name : DerivedName}
+    (source : SourceSpec)
+    (pattern : PatternSpec)
+    (classifier : ClassifierSpec)
+    (stability : StabilityCert)
+    (ledger : LedgerPolicy) :
+    NameCert name ∧ Nonempty StabilityCert := by
+  constructor
+  · exact NameCert.mk source pattern classifier stability ledger
+  · exact Nonempty.intro stability
+
 def MinimalNameCertSetup : NameCertSetup where
   DerivedName := Unit
   SourceSpec := Unit
