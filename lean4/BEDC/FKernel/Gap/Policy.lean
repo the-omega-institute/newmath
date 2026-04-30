@@ -1,0 +1,117 @@
+import BEDC.FKernel.Gap.InGapSig
+
+namespace BEDC.FKernel.Gap
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.FKernel.Ext
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
+
+variable [AskSetup] [PackageSetup] [G : DomainSetup]
+structure GapPolicy (bundle : ProbeBundle ProbeName) (D : Domain) : Prop where
+  generation : ∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h → ∃ s : BHist, TokIntro bundle s p
+  coverage : ∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h
+  separation : ∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q
+
+theorem gap_policy_fields {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
+    (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
+      (∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h →
+        InGapSig bundle D q h → psame bundle p q) ∧
+      (∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h → ∃ s : BHist, TokIntro bundle s p) := by
+  constructor
+  · exact policy.coverage
+  · constructor
+    · exact policy.separation
+    · exact policy.generation
+
+theorem GapPolicy_iff_fields [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} :
+    GapPolicy bundle D <->
+      ((forall {h : BHist}, InDom D h -> exists p : Pkg, InGapSig bundle D p h) /\
+        (forall {h : BHist} {p q : Pkg}, InDom D h -> InGapSig bundle D p h ->
+          InGapSig bundle D q h -> psame bundle p q) /\
+        (forall {p : Pkg} {h : BHist}, InGapSig bundle D p h ->
+          exists s : BHist, TokIntro bundle s p)) := by
+  constructor
+  case mp =>
+    intro policy
+    exact gap_policy_fields policy
+  case mpr =>
+    intro fields
+    cases fields with
+    | intro coverage rest =>
+        cases rest with
+        | intro separation generation =>
+            exact {
+              generation := generation
+              coverage := coverage
+              separation := separation
+            }
+
+theorem globalization_has_three_layers [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} :
+    AskPolicy (InDom D) → PackagePolicy bundle → GapPolicy bundle D →
+      AskPolicy (InDom D) ∧ PackagePolicy bundle ∧ GapPolicy bundle D := by
+  intro askPolicy packagePolicy gapPolicy
+  constructor
+  · exact askPolicy
+  · constructor
+    · exact packagePolicy
+    · exact gapPolicy
+
+theorem gap_generation_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
+    (policy : GapPolicy bundle D) :
+    InGapSig bundle D p h → ∃ s : BHist, TokIntro bundle s p := by
+  intro hgap
+  exact policy.generation hgap
+
+theorem gapPolicy_requires_ledger_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
+    InDom D h -> ∃ p : Pkg, ∃ s : BHist, InGapSig bundle D p h ∧ TokIntro bundle s p := by
+  intro hdom
+  cases policy.coverage hdom with
+  | intro p hgap =>
+      cases policy.generation hgap with
+      | intro s htok =>
+          exact Exists.intro p (Exists.intro s (And.intro hgap htok))
+
+theorem gap_ledgers_not_optional [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
+    InDom D h → ∃ p : Pkg, ∃ s : BHist, InGapSig bundle D p h ∧ TokIntro bundle s p := by
+  intro hdom
+  cases policy.coverage hdom with
+  | intro p hgap =>
+      cases policy.generation hgap with
+      | intro s htok =>
+          exact Exists.intro p (Exists.intro s (And.intro hgap htok))
+
+theorem gapPolicy_coverage_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
+    InDom D h -> exists p : Pkg, exists s : BHist,
+      InGapSig bundle D p h /\ SigRel bundle h s /\ TokIntro bundle s p := by
+  intro hdom
+  cases policy.coverage hdom with
+  | intro p hgap =>
+      cases hgap.right with
+      | intro s hsigTok =>
+          cases hsigTok with
+          | intro hsig htok =>
+              exact Exists.intro p
+                (Exists.intro s (And.intro hgap (And.intro hsig htok)))
+
+theorem gap_coverage :
+    ∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
+      GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h := by
+  intro bundle D h hgap hh
+  exact hgap.coverage hh
+
+theorem gap_separation :
+    ∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg},
+      GapPolicy bundle D → InDom D h → InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q := by
+  intro bundle D h p q hgap hh hp hq
+  exact hgap.separation hh hp hq
+end BEDC.FKernel.Gap

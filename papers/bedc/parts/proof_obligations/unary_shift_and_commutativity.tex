@@ -21,8 +21,8 @@ then there exists a history \(v\) such that
   \hsame(r,\Eone(v)).
 \]
 \end{definition}
-\leandef{BEDC.FKernel.Examples.Unary.UnaryRightShiftObligation}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_right\_shift\_obligation\_holds}
+\leandef{BEDC.FKernel.Unary.UnaryRightShiftObligation}
+\leanchecked{BEDC.FKernel.Unary.unary\_right\_shift\_obligation\_holds}
 
 \begin{definition}[\(\Eone\)-congruence obligation]
 The \(\Eone\)-congruence obligation is the statement that
@@ -49,13 +49,13 @@ then
 \label{thm:comm-from-obligations}
 Assume unary right-shift, \(\Eone\)-congruence, continuation unit laws, continuation associativity up to \(\hsame\), and unary closure of continuation. Then unary continuation commutativity holds.
 \end{theorem}
-\leanchecked{BEDC.FKernel.Examples.Unary.comm\_from\_obligations}
+\leanchecked{BEDC.FKernel.Unary.comm\_from\_obligations}
 
 \begin{proof}
 Induct on the unary derivation of the left input \(h\). The empty case follows from the unit laws. In the step case, write \(h=\Eone(h_0)\). Invert \(\ContR(\Eone(h_0),k,r)\) to obtain \(u\) with \(\ContR(h_0,k,u)\) and \(\hsame(r,\Eone(u))\). Apply unary right-shift to \(\ContR(k,\Eone(h_0),r')\) to obtain \(v\) with \(\ContR(k,h_0,v)
 \) and \(\hsame(r',\Eone(v))\). By the induction hypothesis, \(\hsame(u,v)\). By \(\Eone\)-congruence, \(\hsame(\Eone(u),\Eone(v))\). Transitivity of \(\hsame\) yields \(\hsame(r,r')\).
 \end{proof}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_comm\_from\_obligations}
+\leanchecked{BEDC.FKernel.Unary.unary\_comm\_from\_obligations}
 
 \begin{corollary}[Additive naming boundary]
 The name \(\AddUp\) is licensed only after the unary right-shift and \(\Eone\)-congruence obligations have been supplied. Before that point, the safe name is \(\UnaryContMonoidUp\).
@@ -99,8 +99,8 @@ Assume \(\Unary(k)\) and \(\ContR(k,\Eone(h),r')\). Then there exists a history 
 This is the proof obligation named \(\UnaryShift\). The proof proceeds by induction on the unary derivation of \(k\). The empty case uses the left-unit law for \(\ContR\). The step case uses inversion on the continuation derivation, the induction hypothesis for the shorter unary history, \(\Eone\)-congruence, and transitivity of \(\hsame\).
 \end{proof}
 
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_shift\_witness}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_shift\_witness\_with\_factor}
+\leanchecked{BEDC.FKernel.Unary.unary\_shift\_witness}
+\leanvariant{BEDC.FKernel.Unary.unary\_shift\_witness\_with\_factor}
 
 \begin{theorem}[Unary continuation commutativity]
 \label{thm:unary-commutativity-concrete}
@@ -118,12 +118,12 @@ If Lemma~\ref{lem:unary-shift-witness} is available, then
 \begin{proof}
 Induct on the unary derivation of \(h\). The empty case follows from the continuation unit law. In the step case, write the first source as \(\Eone(h_0)\). Invert the derivation of \(\ContR(\Eone(h_0),k,r)\), exposing a history \(u\) with \(\ContR(h_0,k,u)\) and \(\hsame(r,\Eone(u))\). Apply Lemma~\ref{lem:unary-shift-witness} to \(\ContR(k,\Eone(h_0),r')\), obtaining \(v\) with \(\ContR(k,h_0,v)\) and \(\hsame(r',\Eone(v))\). The induction hypothesis gives \(\hsame(u,v)\). By Lemma~\ref{lem:eone-congruence} and transitivity of \(\hsame\), we obtain \(\hsame(r,r')\).
 \end{proof}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_commutativity\_concrete\_direct}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_commutativity\_concrete\_from\_shift}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_commutativity\_concrete\_explicit\_induction}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_commutativity\_concrete\_induction}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_commutativity\_from\_shift\_induction}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_commutativity\_concrete\_obligation}
+\leanchecked{BEDC.FKernel.Unary.unary\_commutativity\_concrete\_direct}
+\leanvariant{BEDC.FKernel.Unary.unary\_commutativity\_concrete\_from\_shift}
+\leanvariant{BEDC.FKernel.Unary.unary\_commutativity\_concrete\_explicit\_induction}
+\leanvariant{BEDC.FKernel.Unary.unary\_commutativity\_concrete\_induction}
+\leanvariant{BEDC.FKernel.Unary.unary\_commutativity\_from\_shift\_induction}
+\leanvariant{BEDC.FKernel.Unary.unary\_commutativity\_concrete\_obligation}
 
 \begin{corollary}[License upgrade for the additive name]
 If Theorem~\ref{thm:unary-commutativity-concrete} is included in the stability field of the naming certificate, then the unary continuation interface may be named \(\AddUp\). Without this theorem, the safe active name remains \(\mathsf{UnaryContMonoid}^{\uparrow}\).
@@ -164,7 +164,7 @@ If \(\ContR(\emp,\Eone(h),r)\), then there exists a history \(v\) such that
   \hsame(r,\Eone(v)).
 \]
 \end{lemma}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_shift\_base}
+\leanchecked{BEDC.FKernel.Unary.unary\_shift\_base}
 
 \begin{proof}
 By the left-unit law for \(\ContR\), the first premise yields \(\hsame(r,\Eone(h))\). Again by the left-unit law, \(\ContR(\emp,h,h)\). Take \(v=h\).
@@ -185,8 +185,8 @@ then there exists a history \(v\) such that
   \hsame(r',\Eone(v)).
 \]
 \end{lemma}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_shift\_step}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_shift\_step\_with\_unary\_result}
+\leanchecked{BEDC.FKernel.Unary.unary\_shift\_step}
+\leanvariant{BEDC.FKernel.Unary.unary\_shift\_step\_with\_unary\_result}
 
 \begin{proof}
 Invert the continuation premise. The only active constructor for a left source headed by \(\Eone\) exposes a history \(u\) with
@@ -217,7 +217,7 @@ Assume \(\Unary(k)\) and \(\ContR(k,\Eone(h),r')\). Then there exists a history 
   \hsame(r',\Eone(v)).
 \]
 \end{theorem}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_shift}
+\leanchecked{BEDC.FKernel.Unary.unary\_shift}
 
 \begin{proof}
 Induct on the derivation of \(\Unary(k)\). The empty case is Lemma~\ref{lem:unary-shift-base}. The step case is Lemma~\ref{lem:unary-shift-step} applied to the induction hypothesis.
@@ -235,7 +235,7 @@ then
   \hsame(r,r').
 \]
 \end{theorem}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_commutativity\_refined}
+\leanchecked{BEDC.FKernel.Unary.unary\_commutativity\_refined}
 
 \begin{proof}
 Induct on the derivation of \(\Unary(h)\). The empty case follows from the continuation unit laws. In the step case, write the left source as \(\Eone(h_0)\). Invert \(\ContR(\Eone(h_0),k,r)\), obtaining a history \(u\) such that \(\ContR(h_0,k,u)\) and \(\hsame(r,\Eone(u))\). Apply Theorem~\ref{thm:unary-shift} to \(\ContR(k,\Eone(h_0),r')\), obtaining \(v\) with \(\ContR(k,h_0,v)\) and \(\hsame(r',\Eone(v))\). The induction hypothesis gives \(\hsame(u,v)\). Lemma~\ref{lem:eone-cong} and transitivity of \(\hsame\) yield \(\hsame(r,r')\).
@@ -246,9 +246,9 @@ Induct on the derivation of \(\Unary(h)\). The empty case follows from the conti
 Theorem~\ref{thm:unary-commutativity-refined} is included in the stability field of the additive naming certificate, so the unary continuation interface is licensed to use the name \(\AddUp\).
 \end{corollary}
 \leanchecked{BEDC.FKernel.NameCert.NameCert\_add\_activation}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_add\_activation}
+\leanvariant{BEDC.FKernel.Unary.unary\_add\_activation}
 
 \begin{proof}
 The monoid-like fields are unit, associativity, and determinacy of unary continuation. Theorem~\ref{thm:unary-commutativity-refined} supplies the commutativity field required by the additive name.
 \end{proof}
-\leanchecked{BEDC.FKernel.Examples.Unary.add\_activation\_stability\_field}
+\leanchecked{BEDC.FKernel.Unary.add\_activation\_stability\_field}

@@ -46,6 +46,9 @@ CTOR_RE = re.compile(r"^\s*\|\s+(?P<name>[A-Za-z0-9_']+)\b")
 LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanvariant|leansorryd|leanstmt|leandef)\{([^}]+)\}")
 
+NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
+END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
+
 FORBIDDEN_PATTERNS = {
     "axiom": re.compile(r"\baxiom\b"),
     "sorry": re.compile(r"\bsorry\b"),
@@ -188,20 +191,56 @@ def collect_forbidden_tokens(path: Path) -> list[dict[str, object]]:
     return violations
 
 
+def declaration_namespace(module: str, namespace_stack: list[str]) -> str:
+    if not namespace_stack:
+        return module
+    return namespace_stack[-1]
+
+
+def qualified_name(name: str, namespace: str) -> str:
+    if name.startswith("BEDC.") or name.startswith(f"{namespace}."):
+        return name
+    return f"{namespace}.{name}"
+
+
+def resolve_namespace(name: str, namespace_stack: list[str]) -> str:
+    if not namespace_stack or name.startswith("BEDC."):
+        return name
+    return f"{namespace_stack[-1]}.{name}"
+
+
+def update_namespace_stack(line: str, namespace_stack: list[str]) -> None:
+    namespace_match = NAMESPACE_RE.match(line)
+    if namespace_match:
+        namespace_stack.append(resolve_namespace(namespace_match.group("name"), namespace_stack))
+        return
+
+    end_match = END_RE.match(line)
+    if not end_match or not namespace_stack:
+        return
+
+    name = end_match.group("name")
+    if name is None or namespace_stack[-1] == name or namespace_stack[-1].endswith(f".{name}"):
+        namespace_stack.pop()
+
+
 def collect_declarations(path: Path) -> tuple[list[DeclarationRecord], list[FieldRecord]]:
     text = strip_comments_and_strings(read_text(path))
     lines = text.splitlines()
     module = module_name(path)
+    namespace_stack: list[str] = []
     decls: list[DeclarationRecord] = []
     fields: list[FieldRecord] = []
 
     for idx, line in enumerate(lines, start=1):
+        update_namespace_stack(line, namespace_stack)
+        namespace = declaration_namespace(module, namespace_stack)
         match = DECL_RE.match(line)
         if not match:
             continue
         kind = match.group("kind")
         name = (match.group("name") or f"<anonymous_{kind}_{idx}>").strip()
-        qualified = name if name.startswith(module + ".") else f"{module}.{name}"
+        qualified = qualified_name(name, namespace)
         decls.append(
             DeclarationRecord(
                 module=module,
@@ -255,7 +294,7 @@ def collect_declarations(path: Path) -> tuple[list[DeclarationRecord], list[Fiel
                         FieldRecord(
                             parent=parent,
                             name=ctor_name,
-                            qualified_name=f"{module}.{ctor_name}",
+                            qualified_name=f"{namespace}.{ctor_name}",
                             file=str(path.relative_to(REPO_ROOT)),
                             line=j + 1,
                         )

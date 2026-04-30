@@ -20,30 +20,30 @@ No rule generates \(\Unary(\Ezero(h))\).
   \Unary(h),\qquad \Unary(k),\qquad \ContR(h,k,r).
 \]
 \end{definition}
-\leandef{BEDC.FKernel.Examples.Unary.UnaryCont}
+\leandef{BEDC.FKernel.Unary.UnaryCont}
 
 \begin{definition}[Unary continuation commutativity obligation]
 \label{def:unary-continuation-commutativity-obligation}
 The unary continuation commutativity obligation is the statement that two unary histories continued in either order have internally same results.
 \end{definition}
-\leandef{BEDC.FKernel.Examples.Unary.UnaryContinuationCommutativityObligation}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_commutativity\_obligation\_induction}
+\leandef{BEDC.FKernel.Unary.UnaryContinuationCommutativityObligation}
+\leanchecked{BEDC.FKernel.Unary.unary\_commutativity\_obligation\_induction}
 
 \begin{lemma}[Unary continuation closure and factors]
 \label{prop:unary-repetition-continuation-closed}
 \label{thm:unary-continuation-closure}
 If \(\UnaryCont(h,k,r)\), then \(\Unary(r)\). If \(\ContR(h,k,r)\) and \(\Unary(r)\), then the unary left and right factors are recovered as \(\Unary(h)\) and \(\Unary(k)\).
 \end{lemma}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_append\_closed}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_cont\_closed}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_cont\_result\_closed}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_continuation\_closure}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_repetition\_continuation\_closed}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_cont\_right\_factor}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_cont\_left\_factor}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_cont\_factors\_from\_result}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_cont\_result\_iff\_factors}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_continuation\_closed\_and\_factors}
+\leanchecked{BEDC.FKernel.Unary.unary\_append\_closed}
+\leanvariant{BEDC.FKernel.Unary.unary\_cont\_closed}
+\leanvariant{BEDC.FKernel.Unary.unary\_cont\_result\_closed}
+\leanvariant{BEDC.FKernel.Unary.unary\_continuation\_closure}
+\leanvariant{BEDC.FKernel.Unary.unary\_repetition\_continuation\_closed}
+\leanvariant{BEDC.FKernel.Unary.unary\_cont\_right\_factor}
+\leanvariant{BEDC.FKernel.Unary.unary\_cont\_left\_factor}
+\leanvariant{BEDC.FKernel.Unary.unary\_cont\_factors\_from\_result}
+\leanvariant{BEDC.FKernel.Unary.unary\_cont\_result\_iff\_factors}
+\leanvariant{BEDC.FKernel.Unary.unary\_continuation\_closed\_and\_factors}
 
 \begin{proof}
 Induct on the derivation of \(\ContR(h,k,r)\). The empty case gives \(r\) internally same as \(k\), hence unary. The \(\Eone\)-case preserves unary by the constructor rule. The \(\Ezero\)-case is incompatible with \(\Unary(h)\) by unary no-zero-extension.
@@ -61,8 +61,8 @@ then
   \hsame(r,r').
 \]
 \end{theorem}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_cont\_comm}
-\leanvariant{BEDC.FKernel.Examples.Unary.unary\_cont\_comm\_obligation\_holds}
+\leanchecked{BEDC.FKernel.Unary.unary\_cont\_comm}
+\leanvariant{BEDC.FKernel.Unary.unary\_cont\_comm\_obligation\_holds}
 
 \begin{proof}
 Proceed by induction on the unary derivation of \(h\).
@@ -79,8 +79,8 @@ This proof uses only unary constructors, continuation inversion, and history-sam
 \label{cor:additive-certificate-upgrade}
 The certificate for \(\AddUp\) is upgraded from a unary continuation monoid-like certificate to a commutative unary additive certificate once Theorem~\ref{thm:unary-cont-comm} is included among its stability fields.
 \end{corollary}
-\leanchecked{BEDC.FKernel.Examples.Unary.add\_up\_commutative\_license}
-\leanvariant{BEDC.FKernel.Examples.Unary.add\_up\_commutative\_certificate\_upgrade}
+\leanchecked{BEDC.FKernel.Unary.add\_up\_commutative\_license}
+\leanvariant{BEDC.FKernel.Unary.add\_up\_commutative\_certificate\_upgrade}
 
 \begin{proof}
 The certificate already contains unit, associativity, determinacy, closure, and composite ledger policy. Theorem~\ref{thm:unary-cont-comm} supplies commutativity up to internal history-sameness.

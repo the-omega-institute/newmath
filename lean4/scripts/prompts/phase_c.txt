@@ -9,6 +9,9 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
 - Do NOT add `axiom` declarations. Encode primitives as `inductive` / `def` / `class` / `structure` setup field. The audit `python3 tools/check-axioms.py` will reject any axiom and CI will fail.
 - Do NOT leave `sorry`. Every theorem must have a real proof. If you genuinely cannot prove the theorem, do NOT add it; pick a different target.
+- Do NOT create or edit theorem-bearing targets under `lean4/BEDC/**/Examples/**`; `Examples/` is not a formal target tree.
+- Do NOT create scaffold/stub/placeholder/demo/example modules or names. Use canonical semantic BEDC modules.
+- Keep every modified or added Lean file at or below 600 lines. If a target would exceed that cap, create or use a focused non-example submodule and import it through the nearest index.
 - Reuse the existing setup layers: `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the theorem belongs to those interfaces.
 
 ## Step 1: Implement proofs

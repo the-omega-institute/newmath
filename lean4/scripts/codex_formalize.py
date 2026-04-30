@@ -66,6 +66,9 @@ LAKE_GATE_MAX_PARALLEL = 1
 # Graceful stop: create this file to prevent new rounds from being dispatched.
 # Current rounds finish normally; the process exits once the pool drains.
 STOP_FILE = REPO_ROOT / ".pipeline.stop"
+FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
+FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
+MAX_LEAN_FILE_LINES = 600
 
 
 def _load_prompt(name: str) -> str:
@@ -1007,6 +1010,16 @@ def parse_phase_b_output(raw: str) -> PhaseBResult:
     return result
 
 
+def _path_has_forbidden_target_part(raw_path: str) -> bool:
+    parts = Path(raw_path).parts
+    return any(part in FORBIDDEN_TARGET_PATH_PARTS for part in parts)
+
+
+def _name_has_forbidden_fragment(value: str) -> bool:
+    lowered = value.lower()
+    return any(fragment in lowered for fragment in FORBIDDEN_TARGET_NAME_FRAGMENTS)
+
+
 def gate_check(targets: list[dict]) -> tuple[bool, str]:
     if len(targets) < 1:
         return False, "No targets found"
@@ -1019,6 +1032,13 @@ def gate_check(targets: list[dict]) -> tuple[bool, str]:
         issues.append("No medium/high difficulty target")
     if len(targets) >= 3 and len(chapters) <= 1:
         issues.append(f"All targets from same chapter: {chapters}")
+    for t in targets:
+        target_file = str(t.get("target_file", ""))
+        lean_name = str(t.get("lean_name", ""))
+        if _path_has_forbidden_target_part(target_file):
+            issues.append(f"Forbidden target path: {target_file}")
+        if _name_has_forbidden_fragment(target_file) or _name_has_forbidden_fragment(lean_name):
+            issues.append(f"Forbidden scaffold/example target name: {lean_name or target_file}")
     if issues:
         return False, "; ".join(issues)
     return True, "Gate passed"
@@ -1355,6 +1375,43 @@ def detect_sorry_literals(wt: WorktreeInfo) -> list[str]:
     return violations
 
 
+def _changed_lean_files(wt: WorktreeInfo, diff_filter: str = "AM") -> list[str]:
+    if not wt.base_sha:
+        return []
+    try:
+        r = run_cmd(
+            ["git", "diff", "--name-only", f"--diff-filter={diff_filter}",
+             f"{wt.base_sha}..HEAD", "--", "lean4/BEDC/"],
+            cwd=wt.path,
+        )
+    except Exception:
+        return []
+    return [l.strip() for l in (r.stdout or "").splitlines() if l.strip().endswith(".lean")]
+
+
+def detect_forbidden_target_paths(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    for rel in _changed_lean_files(wt):
+        if _path_has_forbidden_target_part(rel):
+            violations.append(f"{rel}: theorem-bearing targets cannot live under Examples/")
+        if _name_has_forbidden_fragment(rel):
+            violations.append(f"{rel}: target path contains scaffold/example/demo naming")
+    return violations
+
+
+def detect_oversized_lean_files(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    for rel in _changed_lean_files(wt):
+        p = wt.path / rel
+        try:
+            line_count = len(p.read_text(encoding="utf-8").splitlines())
+        except Exception:
+            continue
+        if line_count > MAX_LEAN_FILE_LINES:
+            violations.append(f"{rel}: {line_count} lines exceeds cap {MAX_LEAN_FILE_LINES}")
+    return violations
+
+
 _NEW_DECL_RE = re.compile(
     r"^\s*(?:@\[[^\]]*\]\s*)*"
     r"(?:private\s+|protected\s+|noncomputable\s+|scoped\s+|local\s+)*"
@@ -1484,7 +1541,26 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
                 f"Fix: keep original signature and leave proof as-is if stuck."
             )
             return False, new
-        # Gate 2: new abstract-Prop shell files
+        # Gate 2: canonical target paths and file size
+        path_violations = detect_forbidden_target_paths(wt)
+        if path_violations:
+            for v in path_violations[:10]:
+                logger.error(f"[R{wt.round_number}] FORBIDDEN TARGET PATH: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(path_violations)} Lean file(s) "
+                f"use Examples/scaffold target paths. Use canonical semantic BEDC modules."
+            )
+            return False, new
+        size_violations = detect_oversized_lean_files(wt)
+        if size_violations:
+            for v in size_violations[:10]:
+                logger.error(f"[R{wt.round_number}] OVERSIZED LEAN FILE: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(size_violations)} Lean file(s) "
+                f"exceed the {MAX_LEAN_FILE_LINES}-line cap. Split into focused submodules."
+            )
+            return False, new
+        # Gate 3: new abstract-Prop shell files
         shell_violations = detect_shell_pattern(wt)
         if shell_violations:
             for v in shell_violations:
@@ -1496,7 +1572,7 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
                 f"\\leanpartial{{…}}{{reason}} if proof is incomplete."
             )
             return False, new
-        # Gate 3: sorry/admit/axiom literals in newly-added or modified lines
+        # Gate 4: sorry/admit/axiom literals in newly-added or modified lines
         sorry_violations = detect_sorry_literals(wt)
         if sorry_violations:
             for v in sorry_violations[:10]:
