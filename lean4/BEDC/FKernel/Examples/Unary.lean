@@ -264,6 +264,17 @@ theorem nat_up_seed_from_unary_continuation :
   · intro h k r uh uk hr
     exact unary_cont_closed uh uk hr
 
+theorem nat_up_interface_seed :
+    UnaryHistory BHist.Empty ∧
+      (∀ {h k r : BHist}, UnaryHistory h → UnaryHistory k → Cont h k r → UnaryHistory r) ∧
+        Nonempty (NameCert UnaryName) := by
+  constructor
+  · exact unary_empty
+  · constructor
+    · intro h k r uh uk hr
+      exact unary_repetition_closed_under_continuation_seed uh uk hr
+    · exact Nonempty.intro nat_up_name_certificate
+
 theorem nat_up_certificate_source_witness : Nonempty SourceSpec := by
   exact nameCert_source_witness_from_cert nat_up_name_certificate
 
@@ -337,6 +348,16 @@ theorem unary_cont_comm {h k r r' : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
   intro uh uk hr hr'
   exact hr.trans ((unary_append_comm uh uk).trans hr'.symm)
+
+theorem add_up_commutative_certificate_upgrade {h k r rprime : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h rprime →
+      NameCert AddName ∧ Nonempty StabilityCert ∧ hsame r rprime := by
+  intro uh uk hr hrprime
+  constructor
+  · exact add_up_name_certificate
+  · constructor
+    · exact nameCert_stability_witness_from_cert add_up_name_certificate
+    · exact unary_cont_comm uh uk hr hrprime
 
 theorem unary_continuation_associativity {a b c ab bc abc abc' : BHist} :
     UnaryHistory a → UnaryHistory b → UnaryHistory c →
