@@ -107,6 +107,13 @@ theorem add_up_certificate_stability_and_ledger :
     Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
   exact nameCert_stability_and_ledger_from_cert add_up_name_certificate
 
+theorem additive_stability_and_ledger_policy :
+    Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  have cert : NameCert AddName := add_up_name_certificate
+  cases cert with
+  | mk _ _ _ stability ledger =>
+      exact And.intro (Nonempty.intro stability) (Nonempty.intro ledger)
+
 def AddLedgerPolicy : Prop :=
   forall {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r
 

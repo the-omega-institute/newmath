@@ -23,6 +23,16 @@ theorem domain_transport_refl [AskSetup] [PackageSetup] [DomainSetup] {D : Domai
   intro hdom
   exact policy.transport hdom (hsame_refl h)
 
+theorem domain_policy_transport_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) :
+    (∀ {h k : BHist}, InDom D h → hsame h k → InDom D k) ∧
+      (∀ {h : BHist}, InDom D h → InDom D h) := by
+  constructor
+  · intro h k hdom same
+    exact policy.transport hdom same
+  · intro h hdom
+    exact hdom
+
 theorem DomainPolicy_iff_transport [AskSetup] [PackageSetup] [DomainSetup] {D : Domain} :
     DomainPolicy D <-> (forall {h k : BHist}, InDom D h -> hsame h k -> InDom D k) := by
   constructor

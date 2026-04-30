@@ -36,6 +36,18 @@ theorem unary_append_comm :
   | e1 k ih =>
       exact (congrArg BHist.e1 (ih uh uk)).trans (unary_append_e1_left (h := h) (k := k) uh).symm
 
+theorem unary_append_comm_hsame :
+    ∀ {h k : BHist}, UnaryHistory h → UnaryHistory k → hsame (append h k) (append k h) := by
+  intro h k uh uk
+  induction k generalizing h with
+  | Empty =>
+      exact cont_left_unit h
+  | e0 _ _ =>
+      cases uk
+  | e1 k ih =>
+      exact (hsame_e1_congr (ih uh uk)).trans
+        (unary_append_e1_left (h := h) (k := k) uh).symm
+
 theorem unary_cont_comm {h k r r' : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
   intro uh uk hr hr'
