@@ -37,6 +37,31 @@ theorem policy_gap_separation_with_domain_witnesses [AskSetup] [PackageSetup] [D
                             ⟨s, t, hD, hs, ht, hpTok, hqTok, hst,
                               psame.intro hpTok hqTok hst⟩
 
+theorem policy_gap_separation_signature_hsame [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) → InGapSig bundle D p h → InGapSig bundle D q h →
+      ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle h t ∧ hsame s t := by
+  intro policy hp hq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro hD hpWitness =>
+      cases hq with
+      | intro _ hqWitness =>
+          cases hpWitness with
+          | intro s hpData =>
+              cases hqWitness with
+              | intro t hqData =>
+                  cases hpData with
+                  | intro hs _ =>
+                      cases hqData with
+                      | intro ht _ =>
+                          have hst : hsame s t :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D) (h := h)
+                              (s := s) (t := t) policy hD hs ht
+                          exact ⟨s, t, hs, ht, hst⟩
+
 theorem internalized_gap_separation_packed [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) -> InGapSig bundle D p h /\ InGapSig bundle D q h ->

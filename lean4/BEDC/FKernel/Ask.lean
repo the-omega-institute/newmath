@@ -71,6 +71,17 @@ structure AskPolicy (D : BHist → Prop) : Prop where
     ∀ {π : ProbeName} {h k : BHist} {m n : BMark} {δ θ : Evidence},
       hsame h k → Ask π h m δ → Ask π k n θ → msame m n
 
+omit S in
+theorem askPolicy_total_event [AskSetup] {D : BHist → Prop} (policy : AskPolicy D)
+    {pi : ProbeName} {h : BHist} :
+    D h → Nonempty (AskEvent pi h) := by
+  intro hD
+  cases policy.total (π := pi) (h := h) hD with
+  | intro mark rest =>
+      cases rest with
+      | intro evidence event =>
+          exact Nonempty.intro (AskEvent.mk mark evidence event)
+
 theorem ask_total_from_policy {D : BHist → Prop} (policy : AskPolicy D)
     {π : ProbeName} {h : BHist} :
     D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ := by

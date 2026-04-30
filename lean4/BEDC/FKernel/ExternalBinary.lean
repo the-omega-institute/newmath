@@ -257,6 +257,19 @@ theorem external_append_bit1_result_inversion :
         (∃ b0 : BWord, b = BHist.e1 b0 ∧ append a b0 = r) :=
   external_append_bit_result_inversion.right
 
+theorem external_append_bit_result_tail_hsame :
+    (∀ {a b r b0 : BWord}, append a b = BHist.e0 r → b = BHist.e0 b0 →
+      hsame (append a b0) r) ∧
+    (∀ {a b r b1 : BWord}, append a b = BHist.e1 r → b = BHist.e1 b1 →
+      hsame (append a b1) r) := by
+  constructor
+  · intro a b r b0 h hb
+    cases hb
+    exact BHist.e0.inj h
+  · intro a b r b1 h hb
+    cases hb
+    exact BHist.e1.inj h
+
 theorem external_append_bit_result_iff :
     (∀ {a b r : BWord}, append a b = BHist.e0 r ↔
       (b = BHist.Empty ∧ a = BHist.e0 r) ∨
