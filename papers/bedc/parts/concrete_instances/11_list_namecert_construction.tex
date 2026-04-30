@@ -639,22 +639,44 @@ For completeness, induct on the displayed generation of $\mathsf{ListHistoryCarr
 For classifier equivalence, unfold both classifier presentations. A bridge witness exposes finite spines and a $\mathsf{ListClassifierSpec}$ witness; applying carrier soundness to both representation endpoints gives the generated list histories, and induction on the finite-spine classifier derivation rebuilds the nil-nil and cons-cons classifier clauses. Conversely, a generated classifier derivation is handled by induction on its nil/cons clauses: the nil case chooses two nil spines, and the cons case uses the induction hypotheses for the tail classifier together with the stored source head classification and continuation witnesses to construct the finite-spine classifier witness.
 \end{proof}
 
-\begin{definition}[List history split coherence]
-\label{def:list-history-split-coherence}
+\begin{definition}[List spine representation coherence]
+\label{def:list-spine-rep-coherence}
 For a BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$ and
 source classifier $\sim_A$, define
-$\mathsf{ListHistorySplitCoherent}_{A,\sim_A}$ as the proposition that every
-shared middle endpoint has compatible cons presentations through $\ContR$.
-Concretely, whenever a middle history $k$ is presented on the right side of one
-cons-cons classifier clause by histories $b,u,q$ with $A(b)$,
-$\mathsf{ListHistoryCarrier}_A(u)$, $\ContR(b,u,q)$, and
-$\hsame(k,\Eone(q))$, and the same $k$ is presented on the left side of another
-cons-cons classifier clause by histories $c,v,r$ with $A(c)$,
-$\mathsf{ListHistoryCarrier}_A(v)$, $\ContR(c,v,r)$, and
-$\hsame(k,\Eone(r))$, then the two heads are source-classified,
-$b\sim_A c$, and the two tails are recursively classified,
-$\mathsf{ListHistoryClassifier}_{A,\sim_A}(u,v)$.
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ as the proposition that every two
+finite-spine presentations of the same history are classified by the finite
+spine classifier. Concretely, for every history $m$ and finite spines $ys,ys'$,
+if $\mathsf{ListSpineRep}_A(m,ys)$ and $\mathsf{ListSpineRep}_A(m,ys')$, then
+$\mathsf{ListClassifierSpec}(\sim_A,ys,ys')$.
 \end{definition}
+
+\begin{theorem}[List history classifier transitivity from spine coherence]
+\label{thm:list-history-classifier-trans-from-spine-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. If
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds, then the existential
+spine-representation classifier of Definition~\ref{def:list-spine-representation}
+is transitive: whenever
+$\mathsf{ListHistoryClassifier}_{\sim_A}(h,k)$ and
+$\mathsf{ListHistoryClassifier}_{\sim_A}(k,u)$ hold, then
+$\mathsf{ListHistoryClassifier}_{\sim_A}(h,u)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the two history-classifier witnesses. The first gives spines $xs,ys$
+with representations of $h$ and $k$ and a witness
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. The second gives spines $ys',zs$
+with representations of $k$ and $u$ and a witness
+$\mathsf{ListClassifierSpec}(\sim_A,ys',zs)$. Apply
+Definition~\ref{def:list-spine-rep-coherence} to the two displayed
+representations of the middle history $k$ to obtain
+$\mathsf{ListClassifierSpec}(\sim_A,ys,ys')$. The checked finite-spine theorem
+$\mathsf{ListClassifierSpec\_trans\_from\_nameCert}$, applied with
+$\mathsf{cert}$, first composes $xs$ with $ys'$ through $ys$ and then composes
+the result with $zs$ through $ys'$. Repack the original representation of $h$,
+the original representation of $u$, and the composed finite-spine classifier
+witness to obtain $\mathsf{ListHistoryClassifier}_{\sim_A}(h,u)$.
+\end{proof}
 
 \begin{theorem}[List spine representation coverage]
 \label{thm:list-spine-representation-coverage}
@@ -685,7 +707,7 @@ $\hsame(h,\Eone(p))$ endpoint.
 Given a BEDC history source carrier $A : \mathsf{BHist} \to \mathsf{Prop}$,
 source classifier $\sim_A$, source certificate
 $\mathsf{cert} : \NameCert(A,\sim_A)$, and a witness of
-$\mathsf{ListHistorySplitCoherent}_{A,\sim_A}$, define
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$, define
 $\mathsf{ListSource}(A)$ as the history carrier
 $\mathsf{ListHistoryCarrier}_A$, define
 $\mathsf{ListHistoryClassifier}_{A,\sim_A}$ by
@@ -710,17 +732,17 @@ Theorem~\ref{thm:list-spine-representation-coverage} to choose the representing
 spine for the same history and applies induction on that spine. Symmetry is
 obtained by keeping the two representation witnesses and reversing the
 finite-spine classifier with Theorem~\ref{thm:list-classifier-symm-from-namecert}.
-Transitivity composes the finite-spine classifier witnesses with
-Theorem~\ref{thm:list-classifier-trans-from-namecert}; when the middle history is
-exposed through cons decompositions,
-Definition~\ref{def:list-history-split-coherence} supplies the
-source-classified heads and recursively classified tails needed to align the two
-decompositions. Carrier transport follows by induction over the represented
-spine, with nil transported to nil and cons transported componentwise by the
-source certificate and the tail induction hypothesis. Nil/cons case analysis
-uses Theorem~\ref{thm:list-history-carrier-generated-cases} for the generated
-history carrier and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} inside
-the finite-spine bridge, length and source-ledger policy are read from the
+Transitivity is Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence}:
+the two existential witnesses may expose different finite spines for the middle
+history, and Definition~\ref{def:list-spine-rep-coherence} supplies the
+finite-spine classifier witness that lets
+Theorem~\ref{thm:list-classifier-trans-from-namecert} compose the two endpoint
+classifiers. Carrier transport follows by induction over the represented spine,
+with nil transported to nil and cons transported componentwise by the source
+certificate and the tail induction hypothesis. Nil/cons case analysis uses
+Theorem~\ref{thm:list-history-carrier-generated-cases} for the generated history
+carrier and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} inside the
+finite-spine bridge, length and source-ledger policy are read from the
 representing spine, and exactness is the matching-shape statement of
 Theorem~\ref{thm:list-classifier-case-exactness} transported through the
 representation relation.
