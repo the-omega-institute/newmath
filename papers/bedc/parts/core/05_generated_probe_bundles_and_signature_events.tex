@@ -346,3 +346,15 @@ Under an asking policy for \(\Pi\) over a source specification \(D\), \(\sameSig
 \begin{proof}
 Reflexivity follows from totality and \(\hsame\)-reflexivity. Symmetry follows from \(\hsame\)-symmetry. For transitivity, suppose \(h\) and \(k\) share a signature, and \(k\) and \(l\) share a signature. Signature determinacy for \(k\) ensures the two signatures generated from \(k\) are \(\hsame\). Transitivity of \(\hsame\) then connects a signature of \(h\) with a signature of \(l\).
 \end{proof}
+
+\begin{theorem}[Signature-sameness endpoint replacement]
+\label{thm:signature-sameness-endpoint-replacement}
+Assume $\AskPol(\Pi,D)$. If $h,h',k,k'\in D$, $\hsame(h,h')$, $\sameSig_\Pi(h,k)$, and $\hsame(k,k')$, then
+$$
+  \sameSig_\Pi(h',k').
+$$
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{thm:samesig-of-hsame-under-policy}, the left endpoint hypothesis gives $\sameSig_\Pi(h,h')$, and the right endpoint hypothesis gives $\sameSig_\Pi(k,k')$. Symmetry from Theorem~\ref{thm:signature-sameness-equivalence} turns the first relation into $\sameSig_\Pi(h',h)$. Transitivity through the middle $h$ yields $\sameSig_\Pi(h',k)$, and transitivity through the middle $k$ yields $\sameSig_\Pi(h',k')$.
+\end{proof}
