@@ -193,4 +193,17 @@ theorem external_finite_kernel_soundness :
       (∀ a b c : BWord, append (append a b) c = append a (append b c)) :=
   ⟨external_append_empty_right, external_append_assoc⟩
 
+theorem external_finite_kernel_soundness_full :
+    (∀ w : BWord, append BHist.Empty w = w) ∧
+      (∀ w : BWord, append w BHist.Empty = w) ∧
+      (∀ a b c : BWord, append (append a b) c = append a (append b c)) ∧
+      (∀ a b c : BWord, append a c = append b c → a = b) := by
+  constructor
+  · exact external_append_empty_left
+  · constructor
+    · exact external_append_empty_right
+    · constructor
+      · exact external_append_assoc
+      · exact external_append_right_cancel
+
 end BEDC.FKernel.ExternalBinary

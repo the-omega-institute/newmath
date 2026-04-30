@@ -239,6 +239,38 @@ theorem GeneratedSameSig_trans_witness_object_under_determinacy
                     (And.intro rightSig
                       (eqv.trans leftSame (eqv.trans (det midSig midSig') rightSame)))))))
 
+theorem GeneratedSameSig_equivalence_nonempty_under_determinacy
+    {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s)
+    (total : ∀ h : s.Hist, ∃ x : s.SigObj, ∃ e : s.Evidence, s.SigGen P h x e)
+    (det : ∀ {h : s.Hist} {x y : s.SigObj} {ex ey : s.Evidence},
+      s.SigGen P h x ex → s.SigGen P h y ey → s.hsame x y) :
+    (∀ h : s.Hist, Nonempty (GeneratedSameSig s P h h)) ∧
+      (∀ {h k : s.Hist},
+        Nonempty (GeneratedSameSig s P h k) → Nonempty (GeneratedSameSig s P k h)) ∧
+      (∀ {h k l : s.Hist},
+        Nonempty (GeneratedSameSig s P h k) →
+          Nonempty (GeneratedSameSig s P k l) → Nonempty (GeneratedSameSig s P h l)) := by
+  constructor
+  · intro h
+    cases total h with
+    | intro x hx =>
+        cases hx with
+        | intro e sig =>
+            exact Nonempty.intro {
+              leftSigObj := x
+              rightSigObj := x
+              leftEvidence := e
+              rightEvidence := e
+              leftSig := sig
+              rightSig := sig
+              sigSame := eqv.refl x
+            }
+  · constructor
+    · intro h k gen
+      exact GeneratedSameSig_symm_nonempty eqv gen
+    · intro h k l left right
+      exact GeneratedSameSig_trans_nonempty_under_determinacy eqv det left right
+
 theorem GeneratedSameSig_psameBase
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist} {p q : s.Pkg}
     (gen : GeneratedSameSig s P h k)
