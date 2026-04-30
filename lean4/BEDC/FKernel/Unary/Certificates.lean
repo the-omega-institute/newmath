@@ -1,4 +1,5 @@
 import BEDC.FKernel.Unary.Domain
+import BEDC.FKernel.NameCert.Fields
 
 namespace BEDC.FKernel.Unary
 
@@ -118,6 +119,12 @@ theorem nat_up_certificate_source_and_ledger :
   constructor
   · exact nat_up_name_certificate
   · exact nameCert_source_and_ledger_from_cert nat_up_name_certificate
+
+theorem nat_up_name_certificate_with_source_pattern :
+    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty LedgerPolicy := by
+  constructor
+  · exact nat_up_name_certificate
+  · exact nameCert_source_pattern_ledger_from_cert nat_up_name_certificate
 
 theorem nat_up_stability_witness : Nonempty StabilityCert := by
   exact Nonempty.intro ()
