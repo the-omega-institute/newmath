@@ -57,6 +57,16 @@ theorem sealInterface_field_witnesses [NameCertSetup] {Thread : Type} {name : De
         · exact Nonempty.intro nameCert
         · exact ledger
 
+omit N in
+theorem limit_like_interfaces_derived [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealInterface Thread name -> Nonempty (NameCert name) /\ Nonempty LedgerPolicy := by
+  intro iface
+  cases iface with
+  | mk thread sealCertType sealCert nameCert ledger =>
+      constructor
+      · exact Nonempty.intro nameCert
+      · exact ledger
+
 theorem derived_interfaces_require_certificates {n : DerivedName} :
     NameCert n -> Nonempty (NameCert n) := by
   intro cert
