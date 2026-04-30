@@ -169,6 +169,17 @@ theorem PsameEqClosure_base_intro {s : BaseReflectionSetup} {P : s.Pi} {p q : s.
   intro base
   exact PsameEqClosure.base base
 
+theorem PsameEqClosure_equivalence {s : BaseReflectionSetup} {P : s.Pi} :
+    (forall p : s.Pkg, PsameEqClosure s P p p) /\
+      (forall {p q : s.Pkg}, PsameEqClosure s P p q -> PsameEqClosure s P q p) /\
+      (forall {p q r : s.Pkg},
+        PsameEqClosure s P p q -> PsameEqClosure s P q r -> PsameEqClosure s P p r) := by
+  exact And.intro
+    (fun p => PsameEqClosure.refl)
+    (And.intro
+      (fun closure => PsameEqClosure.symm closure)
+      (fun left right => PsameEqClosure.trans left right))
+
 def ClosureReflect (s : BaseReflectionSetup) (P : s.Pi) : Prop :=
   ∀ {x y : s.SigObj} {p q : s.Pkg},
     s.TokIntro P x p → s.TokIntro P y q → PsameEqClosure s P p q → s.hsame x y

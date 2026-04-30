@@ -41,6 +41,29 @@ theorem sig_cons_inversion {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r 
   | cons _ _ _ s _ m delta hask htail hext =>
       exact ⟨s, m, delta, hask, htail, hext⟩
 
+theorem sig_cons_result_inversion [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {h r : BHist} :
+    SigRel (ProbeBundle.Bcons pi tail) h r ->
+      exists s : BHist, exists m : BMark, exists delta : Evidence,
+        Ask pi h m delta /\ SigRel tail h s /\
+          ((m = BMark.b0 /\ r = BHist.e0 s) \/ (m = BMark.b1 /\ r = BHist.e1 s)) := by
+  intro hsig
+  cases sig_cons_inversion hsig with
+  | intro s rest =>
+      cases rest with
+      | intro m rest =>
+          cases rest with
+          | intro delta data =>
+              cases data with
+              | intro hask tailAndExt =>
+                  cases tailAndExt with
+                  | intro htail hext =>
+                      exact Exists.intro s
+                        (Exists.intro m
+                          (Exists.intro delta
+                            (And.intro hask
+                              (And.intro htail (ext_constructor_inversion hext)))))
+
 theorem sigRel_cons_inversion {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r : BHist} :
     SigRel (ProbeBundle.Bcons pi tail) h r →
       ∃ s : BHist, ∃ m : BMark, ∃ delta : Evidence,
