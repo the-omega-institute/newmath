@@ -69,6 +69,15 @@ theorem inGapSig_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
   exact hgap.right
 
 omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_token_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h -> exists s : BHist, TokIntro bundle s p := by
+  intro hgap
+  cases hgap.right with
+  | intro s data =>
+      exact Exists.intro s data.right
+
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ->
@@ -967,6 +976,29 @@ theorem compGap_assoc_forward
                   exact Exists.intro b
                     (And.intro firstWitness
                       (Exists.intro c (And.intro secondWitness thirdWitness)))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_assoc_backward
+    {A B C Final : Type}
+    {first : B → A → Prop}
+    {second : C → B → Prop}
+    {third : Final → C → Prop}
+    {z : Final} {x : A} :
+    CompGap first (fun z b => CompGap second third z b) z x →
+      CompGap (fun c a => CompGap first second c a) third z x := by
+  intro right
+  cases right with
+  | intro b bData =>
+      cases bData with
+      | intro firstWitness secondThird =>
+          cases secondThird with
+          | intro c cData =>
+              cases cData with
+              | intro secondWitness thirdWitness =>
+                  exact Exists.intro c
+                    (And.intro
+                      (Exists.intro b (And.intro firstWitness secondWitness))
+                      thirdWitness)
 
 omit [AskSetup] [PackageSetup] in
 theorem domain_invariance {D : Domain} (policy : DomainPolicy D) {h k : BHist} :

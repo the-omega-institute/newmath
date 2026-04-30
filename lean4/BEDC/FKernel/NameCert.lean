@@ -105,6 +105,14 @@ theorem derived_interfaces_have_ledger {name : DerivedName} :
       exact Nonempty.intro ledger
 
 omit N in
+theorem nameCert_ledger_witness_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name -> Nonempty LedgerPolicy := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact Nonempty.intro ledger
+
+omit N in
 theorem derived_interfaces_have_stability [NameCertSetup] {name : DerivedName} :
     NameCert name → Nonempty StabilityCert := by
   intro cert
