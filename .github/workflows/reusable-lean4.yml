@@ -47,6 +47,9 @@ jobs:
       - name: Audit paper-Lean drift
         run: python3 lean4/scripts/bedc_ci.py audit
 
+      - name: Audit transitive axiom dependencies (forbid Classical.choice / Quot.sound)
+        run: python3 lean4/scripts/bedc_ci.py axiom-purity
+
       - name: Save Lean .lake cache (canonical branches only)
         if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/lean4-codex-auto-dev')
         uses: actions/cache/save@v4

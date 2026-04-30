@@ -140,13 +140,16 @@
 ## 完整本地验证
 
 ```bash
-cd lean4 && lake build                       # 0 axiom, 0 sorry, 15 jobs OK
-cd papers/bedc && make                       # pdflatex 双趟, 120 页 PDF
-python3 tools/check-axioms.py                # axiom 禁用审计
-python3 lean4/scripts/bedc_ci.py audit       # paper ↔ Lean drift 审计
+cd lean4 && lake build                            # 0 axiom, 0 sorry, build OK
+cd papers/bedc && make                            # pdflatex 双趟, 130+ 页 PDF
+python3 tools/check-axioms.py                     # 源代码 axiom 禁用审计
+python3 lean4/scripts/bedc_ci.py audit            # paper ↔ Lean drift 审计
+python3 lean4/scripts/bedc_ci.py axiom-purity     # 传递依赖审计 (禁 Classical.choice / Quot.sound)
 ```
 
-四项全 exit 0 才算 ship 标准.
+五项全 exit 0 才算 ship 标准.
+
+`axiom-purity` 用 `#print axioms` 检测每条 BEDC 定理的传递依赖, 默认禁止 `Classical.choice` (LEM/选择公理) 和 `Quot.sound` (商类型公理). `propext` 默认允许 (simp/rewrite 内置使用, 哲学上无争议). 加 `--strict` 可同时禁 propext 验证零公理依赖.
 
 ## CI
 
