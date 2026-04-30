@@ -25,9 +25,11 @@ A \(\mathsf{GapPolicy}(\Pi,D)\) states that \(h\) belongs to the gap of \(p\) ex
 \end{definition}
 
 \begin{theorem}[Gap coverage]
+\label{thm:gap-ledgers-not-optional}
 Assume \(\mathsf{AskPolicy}(\Pi,D)\), \(\mathsf{PackagePolicy}(\Pi)\), and \(\mathsf{GapPolicy}(\Pi,D)\).  Every source history \(h\in D\) belongs to the gap of some package token.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gapPolicy\_requires\_ledger\_witness}
+\leanchecked{BEDC.FKernel.Gap.gap\_ledgers\_not\_optional}
 \begin{proof}
 By the ask policy, \(h\) generates a signature.  By the package policy, that signature licenses a package token.  By the gap policy, \(h\) belongs to the ledger of that package.
 \end{proof}
