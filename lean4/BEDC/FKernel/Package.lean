@@ -32,6 +32,12 @@ inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
 def TokUnique (bundle : ProbeBundle ProbeName) : Prop :=
   ∀ {s t : BHist} {p : Pkg}, TokIntro bundle s p → TokIntro bundle t p → hsame s t
 
+theorem TokUnique_replacement {bundle : ProbeBundle ProbeName}
+    (tok : TokUnique bundle) {s t : BHist} {p : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t p -> hsame s t := by
+  intro hs ht
+  exact tok hs ht
+
 theorem psame_reflect_under_tok_unique {bundle : ProbeBundle ProbeName}
     (tok : TokUnique bundle) {s t : BHist} {p q : Pkg} :
     TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t := by

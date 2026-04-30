@@ -21,6 +21,9 @@ def UnaryHistory : BHist → Prop
   | .e1 h => UnaryHistory h
   | .e0 _ => False
 
+theorem unary_empty : UnaryHistory BHist.Empty := by
+  exact True.intro
+
 theorem unary_history_cases {h : BHist} :
     UnaryHistory h -> h = BHist.Empty \/ exists k : BHist, h = BHist.e1 k /\ UnaryHistory k := by
   intro uh
