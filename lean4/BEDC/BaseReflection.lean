@@ -127,6 +127,16 @@ theorem PsameBase_inversion_exists
 
 abbrev PsameSig (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop := PsameBase s P
 
+theorem PsameSig_constructor_inversion
+    {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameSig s P p q ->
+      exists x : s.SigObj, exists y : s.SigObj,
+        s.TokIntro P x p /\ s.TokIntro P y q /\ s.hsame x y := by
+  intro base
+  cases base with
+  | intro left right same =>
+      exact Exists.intro _ (Exists.intro _ (And.intro left (And.intro right same)))
+
 inductive PsameEqClosure (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop where
   | refl {p : s.Pkg} : PsameEqClosure s P p p
   | base {p q : s.Pkg} : PsameBase s P p q → PsameEqClosure s P p q
@@ -528,6 +538,21 @@ theorem ExactGlobalizeBase_classify_iff
     cases hgen with
     | intro hsig =>
         exact ex.soundness h k p q hp hq hsig
+
+theorem ExactGlobalizeBase_from_fields_classify_iff
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (coverage : forall h, s.InDom D h -> exists p, s.InGapSig P D p h)
+    (soundness : forall h k p q,
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      GeneratedSameSig s P h k -> PsameBase s P p q)
+    (completeness : forall h k p q,
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k))
+    {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k) := by
+  exact ExactGlobalizeBase_classify_iff
+    (ExactGlobalizeBase_from_fields coverage soundness completeness) hp hq
 
 theorem ExactGlobalizeBase_classify_iff_from_directions
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}

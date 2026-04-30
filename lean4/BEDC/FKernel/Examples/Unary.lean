@@ -92,6 +92,11 @@ theorem nat_up_name_certificate : NameCert UnaryName := by
 theorem nat_up_name_certificate_exists : Nonempty (NameCert UnaryName) := by
   exact Nonempty.intro nat_up_name_certificate
 
+theorem nat_up_certificate_field_witnesses :
+    Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec /\
+      Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
+  exact nameCert_field_witnesses nat_up_name_certificate
+
 theorem nat_up_certificate_has_ledger : Nonempty LedgerPolicy := by
   exact derived_interfaces_have_ledger nat_up_name_certificate
 
