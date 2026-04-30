@@ -198,18 +198,16 @@ Induct on the first list. Shape mismatches are impossible by the classifier clau
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_symm}
 
-\begin{lemma}[History list classifier cons inversion]
-\label{lem:list-classifier-hsame-cons-inversion}
-For BEDC history lists, if the structural classifier relates \(x::xs\) to
-\(y::ys\) using \(\hsame\), then \(x\) is internally the same history as \(y\)
-and the tails \(xs\) and \(ys\) are structurally classified by \(\hsame\).
+\begin{lemma}[List classifier cons equivalence]
+\label{lem:list-classifier-cons-iff}
+For any source type $A$, source relation $\mathsf{sameA}$ on $A$, heads
+$a,b : A$, and tails $xs,ys : \ListUp(A)$, $\mathsf{ListClassifierSpec}(\mathsf{sameA},a::xs,b::ys)$ holds if and only if $\mathsf{sameA}(a,b)\land\mathsf{ListClassifierSpec}(\mathsf{sameA},xs,ys)$.
 \end{lemma}
 \begin{proof}
-Eliminate the cons-cons classifier witness. Its head component is the
-\(\hsame(x,y)\) witness, and its tail component is the structural classifier
-witness for \(xs\) and \(ys\).
+Unfold the cons-cons classifier clause. The forward direction reads off its
+source-head and recursive-tail components, and the reverse direction pairs
+those components to rebuild the cons-cons classifier witness.
 \end{proof}
-\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_cons\_inversion}
 
 \begin{theorem}[History list classifier singleton equivalence]
 \label{thm:list-classifier-hsame-singleton-iff}
@@ -794,7 +792,7 @@ Theorem~\ref{thm:list-classifier-case-exactness} transported through the
 representation relation.
 \end{proof}
 
-\begin{corollary}[\(\ListUp\) is licensed, not primitive]
-\label{cor:list-licensed-not-primitive}
-$\ListUp$ is licensed as a finite inductive sequence over $A$ when the source certificate and spine-coherence datum are supplied.
+\begin{corollary}[$\ListUp$ conditional license]
+\label{cor:list-conditional-license}
+By Theorem~\ref{thm:concrete-list-namecert}, $\ListUp(A)$ is licensed relative to the supplied source $\NameCert$ and a witness of $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$.
 \end{corollary}

@@ -219,13 +219,29 @@ The none--none case returns the existing classifier witness. The mixed construct
 
 \begin{definition}[Option stability certificate]
 \label{def:option-stability-certificate}
-The stability certificate consists of:
+The stability certificate separates the typed optional classifier fields from
+the nullable history-envelope fields.
+
+For the typed $\mathsf{OptionClassifierSpec}$ classifier, the fields are:
 \begin{enumerate}
-  \item reflexivity for none
-  \item lifted reflexivity for some
-  \item lifted transitivity for some
-  \item constructor separation between none and some
-  \item closure under the present constructor
+  \item reflexivity for $\mathsf{none}$;
+  \item reflexivity for $\mathsf{some}(a)$ from source reflexivity;
+  \item transitivity from a source-transitivity hypothesis;
+  \item no-confusion between $\mathsf{none}$ and $\mathsf{some}(a)$ in either order;
+  \item present inversion, exposing the source classifier witness from a $\mathsf{some}$--$\mathsf{some}$ classification.
+\end{enumerate}
+Symmetry for this typed classifier is supplied only from a source-symmetry
+hypothesis; the checked optional-history instance specializes that principle to
+heads classified by $\hsame$.
+
+For the nullable $\mathsf{OptionHistoryCarrier}$ envelope and its
+$\mathsf{OptionHistoryClassifier}$, the certificate fields are:
+\begin{enumerate}
+  \item carrier transport across $\hsame$;
+  \item endpoint transport for the classifier across $\hsame$ on both endpoints;
+  \item classifier symmetry;
+  \item classifier transitivity;
+  \item ledger transport across raw and visible endpoint $\hsame$ links.
 \end{enumerate}
 \end{definition}
 \leanchecked{BEDC.Derived.OptionUp.option\_stability\_certificate\_fields}
