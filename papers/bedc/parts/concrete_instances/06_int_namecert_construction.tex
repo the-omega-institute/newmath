@@ -95,4 +95,21 @@ transitivity of \(\hsame\) composes the magnitude components.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_trans}
 
+\begin{theorem}[Integer classifier continuation with the same sign]
+\label{thm:int-classifier-continuation-closed-same-sign}
+If two integer classifier witnesses relate \((s_x,h_x)\) to \((s_x',h_x')\)
+and \((s_y,h_y)\) to \((s_y',h_y')\), and the left signs \(s_x\) and \(s_y\)
+are mark-same, then continuation of the two left magnitudes and continuation
+of the two right magnitudes yield another integer classifier witness.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witnesses into carrier data, sign sameness, and magnitude
+sameness. Transport the second left carrier along \(\msame(s_x,s_y)\), and
+transport the second right carrier along the composed sign link
+\(s_x'\sim s_x\sim s_y\sim s_y'\). Carrier closure under same-sign continuation
+gives the two result carriers, while continuation respects the two magnitude
+\(\hsame\) links and gives the result magnitude sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_continuation\_closed\_same\_sign}
+
 \section{The certificate}

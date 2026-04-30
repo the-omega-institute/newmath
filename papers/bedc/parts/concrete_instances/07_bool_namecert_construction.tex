@@ -67,6 +67,19 @@ separation between zero- and one-extensions.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_e0\_absurd}
 
+\begin{theorem}[Bool history one-extension tail]
+\label{thm:bool-history-carrier-e1-tail-empty}
+If \(\Eone(h)\) lies in the boolean history carrier, then \(h\) is internally
+the same as \(\emp\).
+\end{theorem}
+\begin{proof}
+The carrier witness is either sameness to \(\emp\) or sameness to
+\(\Eone(\emp)\). The empty endpoint contradicts generated-history
+no-confusion for \(\Eone(h)\). The \(\Eone(\emp)\) endpoint reduces by
+one-constructor inversion to \(\hsame(h,\emp)\).
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_e1\_tail\_empty}
+
 \begin{definition}[Bool pattern specification]
 \label{def:bool-pattern-specification}
 The pattern is exactly the two displayed mark constructors, with no history growth.
