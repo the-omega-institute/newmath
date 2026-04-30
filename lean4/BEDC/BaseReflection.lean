@@ -71,6 +71,16 @@ theorem PsameBase_constructor
   intro left right same
   exact PsameBase.intro left right same
 
+theorem PsameBase_inversion_exists
+    {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameBase s P p q ->
+      exists x : s.SigObj, exists y : s.SigObj,
+        s.TokIntro P x p /\ s.TokIntro P y q /\ s.hsame x y := by
+  intro base
+  cases base with
+  | intro left right same =>
+      exact Exists.intro _ (Exists.intro _ (And.intro left (And.intro right same)))
+
 abbrev PsameSig (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop := PsameBase s P
 
 inductive PsameEqClosure (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop where
