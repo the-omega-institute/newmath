@@ -83,6 +83,18 @@ theorem PreorderPrefixLE_antisymm_hsame {h k : BHist} :
                   cases forwardTailEmpty
                   exact rfl
 
+theorem PreorderPrefixLE_left_extension {x h k tail : BEDC.FKernel.Hist.BHist} :
+    BEDC.FKernel.Unary.UnaryHistory tail -> BEDC.FKernel.Cont.Cont x tail h ->
+      PreorderPrefixLE h k -> PreorderPrefixLE x k := by
+  intro tailUnary tailCont prefixLE
+  cases prefixLE with
+  | intro rightTail rightData =>
+      cases rightData with
+      | intro rightUnary rightCont =>
+          cases tailCont
+          exact ⟨append tail rightTail, unary_append_closed tailUnary rightUnary,
+            rightCont.trans (append_assoc x tail rightTail)⟩
+
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)
     (carrier_transport : ∀ {h k : BHist}, hsame h k → Carrier h → Carrier k)

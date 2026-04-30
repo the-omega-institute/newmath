@@ -125,7 +125,27 @@ theorem RatSourceSpec_to_RatCarrier {normalized : BMark -> BHist -> BHist -> Pro
                   · constructor
                     · exact unary_transport (unary_e1_closed tailUnary) (hsame_symm sameDen)
                     · intro sameEmpty
-                      exact not_hsame_e1_empty (hsame_trans (hsame_symm sameDen) sameEmpty)
+                      exact not_hsame_e1_empty
+                        (hsame_trans (hsame_symm sameDen) sameEmpty)
+
+theorem RatCarrier_component_hsame_transport {s t : BEDC.FKernel.Mark.BMark}
+    {n n' d d' : BEDC.FKernel.Hist.BHist} :
+    RatCarrier s n d -> BEDC.FKernel.Mark.msame s t -> BEDC.FKernel.Hist.hsame n n' ->
+      BEDC.FKernel.Hist.hsame d d' -> RatCarrier t n' d' := by
+  intro carrier sameSign sameNumerator sameDenominator
+  cases sameSign
+  cases carrier with
+  | intro intCarrier denominatorData =>
+      cases denominatorData with
+      | intro denominatorUnary denominatorNonempty =>
+          constructor
+          · exact BEDC.Derived.IntUp.IntCarrier_magnitude_hsame_transport
+              intCarrier sameNumerator
+          · constructor
+            · exact BEDC.FKernel.Unary.unary_transport denominatorUnary sameDenominator
+            · intro sameEmpty
+              exact denominatorNonempty
+                (BEDC.FKernel.Hist.hsame_trans sameDenominator sameEmpty)
 
 def rat_classifier_spec_trans_carrier
     (sign : BEDC.FKernel.Mark.BMark) (numerator denominator : BEDC.FKernel.Hist.BHist) :

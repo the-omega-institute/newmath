@@ -88,6 +88,19 @@ forward tail to be empty. The first continuation equation then reduces to
 \(\hsame(h,k)\).
 \end{proof}
 
+\begin{theorem}[Prefix left extension]
+\label{thm:preorder-prefix-left-extension}
+If \(x\) continues by a unary tail to \(h\), and \(h\le k\) is witnessed by a
+unary continuation tail, then \(x\le k\).
+\end{theorem}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_left\_extension}
+\begin{proof}
+Unpack the prefix witness from \(h\) to \(k\). Append the incoming unary tail to
+the prefix tail, use unary closure under append for the combined tail, and use
+continuation associativity to identify the resulting continuation from \(x\) to
+\(k\).
+\end{proof}
+
 \begin{definition}[Preorder stability certificate]
 \label{def:preorder-stability-certificate}
 The stability certificate consists of:
