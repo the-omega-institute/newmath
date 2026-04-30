@@ -16,6 +16,9 @@ variable [AskSetup] [P : PackageSetup]
 abbrev Pkg : Type := P.Pkg
 abbrev TokIntro : ProbeBundle ProbeName → BHist → Pkg → Prop := P.TokIntro
 
+def PkgSig [AskSetup] [PackageSetup] (bundle : ProbeBundle ProbeName) (s : BHist) (p : Pkg) : Prop :=
+  TokIntro bundle s p
+
 inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
   | intro {s t : BHist} {p q : Pkg} :
       TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q

@@ -68,6 +68,20 @@ theorem unary_cont_right_factor {h k r : BHist} :
   | e1 k ih =>
       exact ih ur
 
+theorem unary_cont_unit {h left right : BHist} :
+    UnaryHistory h -> Cont h BHist.Empty left -> Cont BHist.Empty h right ->
+      UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h := by
+  intro uh hleft hright
+  have leftSame : hsame left h := cont_deterministic hleft (cont_right_unit h)
+  have rightSame : hsame right h := cont_deterministic hright (cont_left_unit h)
+  constructor
+  · exact unary_transport uh (hsame_symm leftSame)
+  · constructor
+    · exact unary_transport uh (hsame_symm rightSame)
+    · constructor
+      · exact leftSame
+      · exact rightSame
+
 def UnaryDomainSetup : DomainSetup where
   Domain := Unit
   InDom := fun _ h => UnaryHistory h

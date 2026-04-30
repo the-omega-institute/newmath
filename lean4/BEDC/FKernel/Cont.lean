@@ -51,6 +51,27 @@ theorem cont_right_unit : ∀ h : BHist, Cont h .Empty h := by
   intro h
   rfl
 
+theorem cont_right_constructor_inversion {h k r : BHist} :
+    Cont h k r ->
+      (k = BHist.Empty ∧ r = h) ∨
+        (∃ k0 : BHist, ∃ r0 : BHist, k = BHist.e0 k0 ∧ r = BHist.e0 r0 ∧ Cont h k0 r0) ∨
+          (∃ k0 : BHist, ∃ r0 : BHist, k = BHist.e1 k0 ∧ r = BHist.e1 r0 ∧ Cont h k0 r0) := by
+  intro hr
+  cases k with
+  | Empty =>
+      left
+      constructor
+      · rfl
+      · exact hr
+  | e0 k0 =>
+      right
+      left
+      exact ⟨k0, append h k0, rfl, by simpa [Cont, append] using hr, rfl⟩
+  | e1 k0 =>
+      right
+      right
+      exact ⟨k0, append h k0, rfl, by simpa [Cont, append] using hr, rfl⟩
+
 theorem cont_unit_laws :
     (∀ k : BHist, Cont .Empty k k) ∧
       (∀ {h r : BHist}, Cont h .Empty r → hsame r h) := by
