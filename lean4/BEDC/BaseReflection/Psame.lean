@@ -96,6 +96,19 @@ structure PBaseData (s : BaseReflectionSetup) (P : s.Pi) (p q : s.Pkg) : Type wh
   rightIntro : s.TokIntro P y q
   sigSame : s.hsame x y
 
+theorem PBaseData_nonempty_from_witnesses {s : BaseReflectionSetup} {P : s.Pi}
+    {p q : s.Pkg} {x y : s.SigObj} :
+    s.TokIntro P x p -> s.TokIntro P y q -> s.hsame x y ->
+      Nonempty (PBaseData s P p q) := by
+  intro left right same
+  exact Nonempty.intro {
+    x := x
+    y := y
+    leftIntro := left
+    rightIntro := right
+    sigSame := same
+  }
+
 theorem PBaseData_to_PsameBase {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PBaseData s P p q → PsameBase s P p q := by
   intro data

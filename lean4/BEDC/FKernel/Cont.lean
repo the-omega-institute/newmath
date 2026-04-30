@@ -112,6 +112,28 @@ theorem cont_left_unit : ∀ k : BHist, Cont .Empty k k := by
   | e1 k ih =>
       simpa [Cont, append] using congrArg BHist.e1 ih
 
+theorem cont_left_unit_unique : forall {h k : BHist}, Cont h k k -> hsame h BHist.Empty := by
+  intro h k hk
+  induction k generalizing h with
+  | Empty =>
+      exact hk.symm
+  | e0 k ih =>
+      have inner : Cont h k k := by
+        simpa [Cont, append] using
+          congrArg (fun x =>
+            match x with
+            | BHist.e0 y => y
+            | _ => BHist.Empty) hk
+      exact ih inner
+  | e1 k ih =>
+      have inner : Cont h k k := by
+        simpa [Cont, append] using
+          congrArg (fun x =>
+            match x with
+            | BHist.e1 y => y
+            | _ => BHist.Empty) hk
+      exact ih inner
+
 theorem cont_right_unit : ∀ h : BHist, Cont h .Empty h := by
   intro h
   rfl
