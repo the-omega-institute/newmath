@@ -4,16 +4,16 @@
 \section{Exact Concrete Signature Globalize Under Explicit Policies}
 \label{sec:po-exact-concrete-globalize-policy}
 
-The concrete signature Globalize instance becomes exact only when all four policy layers are visible:
-\[
+The concrete signature Globalize instance becomes exact only when the checked concrete inputs are visible:
+$$
   \DomainPolicy(D)
   +
   \AskPol(\Pi,D)
   +
-  \mathsf{TokUnique}(\Pi)
+  \PkgTokPol(\Pi)
   +
-  \GapPol^{\mathrm{sig}}(\Pi,D).
-\]
+  \forall s,\;\exists p,\;\TokIntro(\Pi,s,p).
+$$
 This chapter records the exactness theorem in its non-overclaiming form.
 
 \begin{definition}[Policy-supported signature gap]

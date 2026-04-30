@@ -80,20 +80,20 @@ By signature determinacy under \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). By signature
 
 \begin{theorem}[Concrete \(\GapPol\) for signature packages]
 \label{thm:concrete-gap-policy}
-Under \(\AskPol(\Pi,D)\), the relation \(\InGap^{\mathrm{sig}}(\Pi,D,p,h)\) satisfies coverage and separation for the signature package instance.
+Assume \(\AskPol(\Pi,D)\), \(\PkgTokPol(\Pi)\), and token existence for every generated signature: for each generated answer history \(s\), there is a visible package \(p\) with \(\TokIntro(\Pi,s,p)\). Then the relation \(\InGap^{\mathrm{sig}}(\Pi,D,p,h)\) satisfies coverage and separation for the signature package instance.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.concrete\_gap\_policy}
 \leanvariant{BEDC.FKernel.Gap.gapPolicy\_coverage\_signature\_witness}
 \begin{proof}
-This is precisely concrete gap coverage and concrete gap separation.
+Coverage is supplied by signature generation under \(\AskPol(\Pi,D)\) together with token existence. Separation is supplied by signature determinacy under \(\AskPol(\Pi,D)\) and package soundness from \(\PkgTokPol(\Pi)\).
 \end{proof}
 
 \begin{corollary}[First concrete globalization ledger]
 \label{cor:first-concrete-globalization-ledger}
 The pair
-\[
+$$
   (\Pkg^{\mathrm{sig}},\InGap^{\mathrm{sig}})
-\]
-forms the first concrete finite-kernel globalization interface for the domain \(D\) and probe bundle \(\Pi\), conditional on \(\AskPol(\Pi,D)\).
+$$
+forms the first concrete finite-kernel globalization interface for the domain \(D\) and probe bundle \(\Pi\), conditional on \(\AskPol(\Pi,D)\), \(\PkgTokPol(\Pi)\), and token existence for every generated signature.
 \end{corollary}
 \leanchecked{BEDC.FKernel.Gap.first\_concrete\_globalization\_ledger}
