@@ -19,8 +19,10 @@ with \(\HSame(s,t)\).
 \end{definition}
 
 \begin{theorem}[Signature determinacy under policy]
+\label{thm:proof-sprint-signature-determinacy-under-policy}
 Assume \(\mathsf{AskPolicy}(\Pi,D)\).  If \(h\in D\), \(\Sig(\Pi,h,s,\Delta)\), and \(\Sig(\Pi,h,t,\Theta)\), then \(\HSame(s,t)\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Sig.proof\_sprint\_signature\_determinacy\_under\_policy}
 \begin{proof}
 By induction on the generated bundle.  The empty bundle produces empty signatures.  For a cons bundle, determinacy of the first asking event gives \(\MSame\) of the first answer marks, and the induction hypothesis gives \(\HSame\) of the remaining answer histories.  The history constructor closure rules then yield \(\HSame(s,t)\).
 \end{proof}
