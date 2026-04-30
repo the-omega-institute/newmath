@@ -26,6 +26,13 @@ theorem external_append_empty_right : forall w : BWord, append w .nil = w := by
   intro w
   rfl
 
+theorem external_append_unit_laws :
+    (forall w : BWord, append BWord.nil w = w) /\
+      (forall w : BWord, append w BWord.nil = w) := by
+  constructor
+  · exact external_append_empty_left
+  · exact external_append_empty_right
+
 theorem external_word_no_confusion :
     (forall w : BWord, BWord.nil = BWord.bit0 w -> False) /\
       (forall w : BWord, BWord.nil = BWord.bit1 w -> False) /\
