@@ -162,6 +162,24 @@ theorem OptionClassifierSpec_trans {A : Type} {Rel : A → A → Prop}
   cases x <;> cases y <;> cases z <;> simp [OptionClassifierSpec] at *
   exact rel_trans hxy hyz
 
+theorem OptionClassifierSpec_hsame_symm :
+    ∀ {x y : OptionCarrier BHist}, OptionClassifierSpec hsame x y →
+      OptionClassifierSpec hsame y x := by
+  intro x y h
+  cases x with
+  | none =>
+      cases y with
+      | none =>
+          exact h
+      | some _ =>
+          cases h
+  | some _ =>
+      cases y with
+      | none =>
+          cases h
+      | some _ =>
+          exact hsame_symm h
+
 theorem optionClassifier_some_iff {α : Type} {sourceSame : α → α → Prop} {a b : α} :
     OptionClassifier sourceSame (Option.some a) (Option.some b) ↔ sourceSame a b := by
   constructor <;> intro h <;> exact h
