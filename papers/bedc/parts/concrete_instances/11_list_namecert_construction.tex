@@ -12,7 +12,7 @@ The list interface \(\ListUp\) is licensed over a source carrier endowed with a 
   \item \textbf{Classifier choice}: the structural classifier relates nil to nil and cons to cons by source head classification and recursive tail classification.
   \item \textbf{Stability obligations}: structural symmetry from the source $\NameCert$, structural transitivity, list-carrier transport, nil/cons separation, map stability, append stability, reverse stability, and cancellation facts.
   \item \textbf{Ledger}: list length and constructor shape remain visible; payload classification is delegated to the source certificate.
-  \item \textbf{Core theorem list}: history carrier case analysis, classifier transitivity, classifier symmetry from the source $\NameCert$, cons inversion, singleton equivalence, map stability, append cancellation, reverse stability, and length preservation.
+  \item \textbf{Core theorem list}: history carrier case analysis, classifier transitivity, classifier symmetry from the source $\NameCert$, cons inversion, singleton equivalence, map stability, append cancellation, reverse stability, and length preservation for arbitrary source classifiers.
   \item \textbf{Exactness predicate}: classification holds exactly when both lists have the same constructor shape and all corresponding entries classify through the source.
   \item \textbf{Standard bridge}: the generated carrier reads back as the ordinary finite list syntax for $A$.
   \item \textbf{Status}: $\mathsf{ProofTarget}$ for the full semantic certificate, with classifier components checked in Lean.
@@ -242,6 +242,21 @@ For lists of finite-kernel histories, structural classification by \(\hsame\) ca
 Induct on the first list. Nil can only classify with nil. In the cons case, classifier inversion forces the second list to be cons, and the induction hypothesis gives equality of the tail lengths.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_length\_eq}
+
+\begin{theorem}[List classifier preserves length]
+\label{thm:list-classifier-length-eq}
+For any source relation $sameA$ on BEDC history entries and finite list spines
+$xs,ys$, if $\mathsf{ListClassifierSpec}(sameA,xs,ys)$ holds, then $xs$ and
+$ys$ have the same finite length.
+\end{theorem}
+\begin{proof}
+Induct on the first list spine. The nil case can classify only against nil by
+the mixed-shape clauses of $\mathsf{ListClassifierSpec}$. In the cons case,
+the classifier can classify only against a cons spine; its tail witness is again
+a $\mathsf{ListClassifierSpec}$ witness for the source relation $sameA$, so the
+induction hypothesis gives equality of tail lengths, and the two cons lengths
+are equal.
+\end{proof}
 
 \begin{definition}[List stability certificate]
 \label{def:list-stability-certificate}
