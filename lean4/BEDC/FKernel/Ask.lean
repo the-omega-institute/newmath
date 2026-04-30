@@ -116,6 +116,11 @@ theorem empty_bundleAskPolicy [AskSetup] {D : BHist → Prop} :
     exact False.elim inNil
 
 omit S in
+theorem bundleAskPolicy_empty [AskSetup] {D : BHist → Prop} :
+    BundleAskPolicy (ProbeBundle.Bnil : ProbeBundle ProbeName) D := by
+  exact empty_bundleAskPolicy
+
+omit S in
 theorem bundleAskPolicy_tail [AskSetup]
     {pi : ProbeName} {tail : ProbeBundle ProbeName} {D : BHist → Prop} :
     BundleAskPolicy (ProbeBundle.Bcons pi tail) D → BundleAskPolicy tail D := by

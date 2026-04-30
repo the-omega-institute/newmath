@@ -112,4 +112,18 @@ theorem group_right_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
           (hsame_trans (assocC c a (inv a))
             (hsame_trans (mulCongr (hsame_refl c) (rightInv a)) (rightId c))))))
 
+theorem group_left_right_inverse_unique {mul : BHist → BHist → BHist} {e : BHist}
+    (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : ∀ x, hsame (mul e x) x)
+    (rightId : ∀ x, hsame (mul x e) x)
+    (mulCongr : ∀ {a a' b b' : BHist}, hsame a a' → hsame b b' →
+      hsame (mul a b) (mul a' b'))
+    {x y z : BHist} :
+    hsame (mul y x) e → hsame (mul x z) e → hsame y z := by
+  intro leftInv rightInv
+  exact hsame_trans (hsame_symm (rightId y))
+    (hsame_trans (mulCongr (hsame_refl y) (hsame_symm rightInv))
+      (hsame_trans (hsame_symm (assocC y x z))
+        (hsame_trans (mulCongr leftInv (hsame_refl z)) (leftId z))))
+
 end BEDC.Derived.GroupUp
