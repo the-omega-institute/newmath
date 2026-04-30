@@ -425,6 +425,13 @@ theorem external_append_middle_cancel_hsame {a b c d : BWord} :
       (Eq.trans same (external_append_assoc a b d).symm)
   exact external_append_left_cancel_hsame reassociated
 
+theorem external_append_double_cancel_hsame {a b c d : BWord} :
+    hsame (append a (append b c)) (append a (append d c)) -> hsame b d := by
+  intro same
+  have suffixSame : hsame (append b c) (append d c) :=
+    external_append_left_cancel_hsame (a := append b c) (b := append d c) (c := a) same
+  exact external_append_right_cancel_hsame suffixSame
+
 theorem external_append_middle_cancel_eq {a b c d : BWord} :
     append a (append b c) = append a (append b d) → c = d := by
   intro same

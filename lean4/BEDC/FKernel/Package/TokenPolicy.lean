@@ -432,6 +432,20 @@ theorem packageTokenPolicy_psame_four_step_on_introduced [AskSetup] [PackageSetu
   exact packageTokenPolicy_psame_trans_on_introduced policy left mid3 right firstChain sameLast
 
 omit [AskSetup] P in
+theorem packageTokenPolicy_psame_five_step_on_introduced [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
+    {a b c d e f : BHist} {p q r u v w : Pkg} :
+    TokIntro bundle a p -> TokIntro bundle b q -> TokIntro bundle c r ->
+      TokIntro bundle d u -> TokIntro bundle e v -> TokIntro bundle f w ->
+        psame bundle p q -> psame bundle q r -> psame bundle r u ->
+          psame bundle u v -> psame bundle v w -> psame bundle p w := by
+  intro left mid1 mid2 mid3 mid4 right sameLeft sameMid1 sameMid2 sameMid3 sameLast
+  have firstChain : psame bundle p v :=
+    packageTokenPolicy_psame_four_step_on_introduced policy left mid1 mid2 mid3 mid4
+      sameLeft sameMid1 sameMid2 sameMid3
+  exact packageTokenPolicy_psame_trans_on_introduced policy left mid4 right firstChain sameLast
+
+omit [AskSetup] P in
 theorem packageTokenPolicy_two_step_reflect_on_introduced [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
     {a b c : BHist} {p q r : Pkg} :

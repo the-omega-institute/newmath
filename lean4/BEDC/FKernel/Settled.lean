@@ -172,6 +172,30 @@ theorem settledKernelCriterion_globalize_exactness_projection [AskSetup] [Packag
                                                       exact globalizeExactness
                                                         askPolicy packagePolicy tokenExists
 
+theorem settledKernelCriterion_ext_cont_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion ->
+      (forall {h r r' : BHist} {m : BMark}, Ext h m r -> Ext h m r' -> hsame r r') /\
+      (forall {h k r r' : BHist}, Cont h k r -> Cont h k r' -> hsame r r') /\
+      ((forall k : BHist, Cont .Empty k k) /\
+        (forall {h r : BHist}, Cont h .Empty r -> hsame r h)) := by
+  intro criterion
+  cases criterion with
+  | intro _ rest =>
+      cases rest with
+      | intro _ rest =>
+          cases rest with
+          | intro _ rest =>
+              cases rest with
+              | intro _ rest =>
+                  cases rest with
+                  | intro extDet rest =>
+                      cases rest with
+                      | intro contDet rest =>
+                          cases rest with
+                          | intro unitLaws _ =>
+                              exact ⟨extDet, contDet, unitLaws⟩
+
 theorem settledKernelCriterion_composite_gap_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →
