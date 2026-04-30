@@ -15,7 +15,7 @@ The optional value interface \(\OptionUp\) is licensed over any source carrier a
   \item \textbf{Core theorem list}: typed carrier cases, typed absent/present no-confusion, present inversion, typed classifier equivalence, nullable-history carrier transport, nullable-history classifier transport, and the nullable-history semantic certificate.
   \item \textbf{Exactness predicate}: matching-tag exactness belongs to $\mathsf{OptionClassifierSpec}$; the checked history classifier exactness is endpoint envelope membership plus endpoint $\hsame$ and carries no present constructor tag.
   \item \textbf{Standard bridge}: the absent branch reads as $\mathsf{none}$ and the present branch reads as $\mathsf{some}(a)$.
-  \item \textbf{Status}: $\mathsf{CheckedCert}$, with the option history semantic certificate checked in Lean.
+  \item \textbf{Status}: the nullable history-envelope $\mathsf{SemanticNameCert}$ is $\mathsf{CheckedCert}$; the constructor-tagged optional-history certificate is $\mathsf{ProofTarget}$.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -244,7 +244,9 @@ The history carrier contains the empty history and any source history. The class
 \begin{corollary}[OptionUp certificate scope]
 \label{cor:option-certificate-scope}
 The checked envelope semantic certificate licenses the empty-or-source history
-envelope. The explicit optional value interface is
+envelope only. It is not a checked constructor-tagged $\OptionUp$ certificate:
+citations to Theorem~\ref{thm:concrete-option-namecert} assert the nullable
+history-envelope certificate, while the explicit optional value interface is
 licensed only when the typed tag classifier $\mathsf{OptionClassifierSpec}$,
 none/some no-confusion, some-inversion, and the tag-plus-source ledger are
 supplied together with that envelope.

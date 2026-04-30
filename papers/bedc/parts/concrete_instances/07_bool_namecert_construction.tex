@@ -212,6 +212,22 @@ left endpoint class to the right endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_cases}
 
+\begin{theorem}[Bool history classifier endpoint exactness]
+\label{thm:bool-history-classifier-endpoint-exactness}
+For BEDC histories $h$ and $k$, $\mathsf{BoolHistoryClassifier}(h,k)$ holds
+if and only if either $\hsame(h,\emp)$ and $\hsame(k,\emp)$, or
+$\hsame(h,\Eone(\emp))$ and $\hsame(k,\Eone(\emp))$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the checked case theorem for
+$\mathsf{BoolHistoryClassifier}$ and read off the displayed endpoint class for
+both histories. For the reverse direction, the empty-empty branch rebuilds the
+two boolean-history carrier witnesses from the empty endpoint data and composes
+the left endpoint link with the symmetric right endpoint link to obtain the
+classifier $\hsame(h,k)$ witness. The one-one branch similarly rebuilds the two
+one-endpoint carrier witnesses and composes through $\Eone(\emp)$.
+\end{proof}
+
 \begin{theorem}[Bool history classifier constructor separation]
 \label{thm:bool-history-classifier-constructor-separation}
 The boolean history classifier cannot relate \(\emp\) to \(\Eone(\emp)\).
