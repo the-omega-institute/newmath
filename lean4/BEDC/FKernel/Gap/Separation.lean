@@ -78,4 +78,23 @@ theorem internalized_gap_separation_packed [AskSetup] [PackageSetup] [DomainSetu
           | intro t data =>
               exact data.right.right.right.right.right.right
 
+theorem policy_gap_separation_pair [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) → InGapSig bundle D p h ∧ InGapSig bundle D q h →
+      psame bundle p q ∧
+        ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle h t ∧ hsame s t := by
+  intro policy memberships
+  cases memberships with
+  | intro hp hq =>
+      have samePkg : psame bundle p q :=
+        internalized_gap_separation_packed
+          (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
+          policy (And.intro hp hq)
+      have sameSig :
+          ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle h t ∧ hsame s t :=
+        policy_gap_separation_signature_hsame
+          (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
+          policy hp hq
+      exact And.intro samePkg sameSig
+
 end BEDC.FKernel.Gap
