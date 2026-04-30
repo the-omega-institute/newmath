@@ -73,6 +73,22 @@ Unpack the two gap memberships. We obtain signatures \(s,t\) and evidence ledger
 By signature determinacy under \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). The concrete package-sameness introduction rule then yields \(\psame(p,q)\).
 \end{proof}
 
+\begin{theorem}[Same-source gap memberships share signatures]
+\label{thm:gap-memberships-share-signature}
+Assume \(\AskPol(\Pi,D)\). If
+\[
+  \InGapSig(\Pi,D,p,h)
+  \quad\text{and}\quad
+  \InGapSig(\Pi,D,q,h),
+\]
+then there exist generated signatures \(s,t\) introducing \(p,q\) such that \(\hsame(s,t)\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Gap.inGapSig\_same\_source\_signatures\_same}
+
+\begin{proof}
+Unpack the two gap memberships. Signature determinacy for their shared source history gives \(\hsame(s,t)\), while the unpacked memberships provide the two token-introduction witnesses.
+\end{proof}
+
 \begin{theorem}[Concrete Globalize soundness]
 If histories have internally same generated signatures, then their concrete signature packages are package-same.
 \end{theorem}

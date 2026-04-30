@@ -35,6 +35,13 @@ theorem inGapSig_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
   intro hgap
   exact hgap.right
 
+omit [AskSetup] [PackageSetup] G in
+def CompGap {Source Inter Final : Type}
+    (firstGap : Inter → Source → Prop)
+    (secondGap : Final → Inter → Prop)
+    (z : Final) (x : Source) : Prop :=
+  ∃ y : Inter, firstGap y x ∧ secondGap z y
+
 structure GapPolicy (bundle : ProbeBundle ProbeName) (D : Domain) : Prop where
   generation : ∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h → ∃ s : BHist, TokIntro bundle s p
   coverage : ∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h
@@ -126,6 +133,34 @@ theorem gap_separation_globalize
   exact internalized_gap_separation
     (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
     askPolicy hp hq
+
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_same_source_signatures_same [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) → InGapSig bundle D p h → InGapSig bundle D q h →
+      ∃ s : BHist, ∃ t : BHist,
+        TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t := by
+  intro askPolicy hp hq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro hIn hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs hpTok =>
+                      cases htData with
+                      | intro ht hqTok =>
+                          have hst : hsame s t :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D) (h := h) (s := s) (t := t)
+                              askPolicy hIn hs ht
+                          exact Exists.intro s
+                            (Exists.intro t (And.intro hpTok (And.intro hqTok hst)))
 
 theorem gap_coverage :
     ∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
