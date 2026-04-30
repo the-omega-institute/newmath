@@ -42,4 +42,9 @@ theorem cont_step_rules_iff_pair :
   · exact cont_step_zero_iff
   · exact cont_step_one_iff
 
+theorem continuation_step_rules_iff_pair :
+    (forall {h k r : BHist}, Cont h (BHist.e0 k) (BHist.e0 r) <-> Cont h k r) /\
+      (forall {h k r : BHist}, Cont h (BHist.e1 k) (BHist.e1 r) <-> Cont h k r) := by
+  exact cont_step_rules_iff_pair
+
 end BEDC.FKernel.Cont

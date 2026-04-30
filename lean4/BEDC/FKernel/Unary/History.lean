@@ -135,6 +135,13 @@ theorem unary_histories_closed_generation {P : BHist → Prop} :
   · intro h uh
     cases uh
 
+theorem unary_history_closed_generation_spine {P : BHist -> Prop} :
+    P BHist.Empty ->
+      (forall h : BHist, UnaryHistory h -> P h -> P (BHist.e1 h)) ->
+      (forall h : BHist, UnaryHistory h -> P h) /\
+        (forall h : BHist, UnaryHistory (BHist.e0 h) -> False) := by
+  exact unary_histories_closed_generation
+
 theorem unary_transport {h k : BHist} : UnaryHistory h -> hsame h k -> UnaryHistory k := by
   intro uh hhk
   cases hhk
