@@ -1,0 +1,105 @@
+[
+  {
+    "lean_name": "BEDC.FKernel.Mark.msame_no_confusion",
+    "expected_type_contains": [
+      "msame BMark.b0 BMark.b1",
+      "msame BMark.b1 BMark.b0",
+      "False"
+    ],
+    "paper_claim_label": "thm:mark-no-confusion",
+    "rationale": "The raw mark no-confusion claim must remain a cross-constructor exclusion, not a vacuous placeholder."
+  },
+  {
+    "lean_name": "BEDC.FKernel.Mark.msame_equivalence",
+    "expected_type_contains": [
+      "forall (m : BMark), msame m m",
+      "msame m n -> msame n m",
+      "msame a b -> msame b c -> msame a c"
+    ],
+    "paper_claim_label": "thm:mark-sameness-equivalence",
+    "rationale": "Mark sameness is the finite mark equivalence spine used by later kernel objects."
+  },
+  {
+    "lean_name": "BEDC.FKernel.Hist.hsame_equivalence",
+    "expected_type_contains": [
+      "forall (h : BHist), hsame h h",
+      "hsame h k -> hsame k h",
+      "hsame a b -> hsame b c -> hsame a c"
+    ],
+    "paper_claim_label": "thm:history-sameness-equivalence",
+    "rationale": "History sameness is the internal equivalence relation used by extension, continuation, signatures, and packages."
+  },
+  {
+    "lean_name": "BEDC.FKernel.Unary.nat_up_name_certificate",
+    "expected_type_contains": [
+      "NameCert UnaryHistory UnaryClassifierSpec"
+    ],
+    "paper_claim_label": "thm:concrete-natup-namecert",
+    "rationale": "The NatUp certificate must target the semantic NameCert over unary histories and the unary classifier."
+  },
+  {
+    "lean_name": "BEDC.FKernel.Unary.add_up_name_certificate",
+    "expected_type_contains": [
+      "NameCert UnaryHistory AddClassifierSpec"
+    ],
+    "paper_claim_label": "thm:concrete-addup-namecert",
+    "rationale": "The AddUp certificate must target the semantic NameCert over unary histories and the additive classifier."
+  },
+  {
+    "lean_name": "BEDC.FKernel.Cont.cont_assoc_primary",
+    "expected_type_contains": [
+      "Cont h k u",
+      "Cont u l v",
+      "Cont k l w",
+      "Cont h w z",
+      "hsame v z"
+    ],
+    "paper_claim_label": "thm:continuation-associativity",
+    "rationale": "Continuation associativity must remain the relational four-continuation hsame statement."
+  },
+  {
+    "lean_name": "BEDC.FKernel.Ext.ext_deterministic",
+    "expected_type_contains": [
+      "Ext h m r",
+      "Ext h m r'",
+      "hsame r r'"
+    ],
+    "paper_claim_label": "thm:extension-determinacy-up-to-history-sameness",
+    "rationale": "Extension determinacy must compare two same-source same-mark extension results by history sameness."
+  },
+  {
+    "lean_name": "BEDC.FKernel.Sig.sameSig_equivalence",
+    "expected_type_contains": [
+      "AskPolicy D",
+      "SameSig bundle h h",
+      "SameSig bundle h k -> SameSig bundle k h",
+      "D k",
+      "SameSig bundle h k -> SameSig bundle k l -> SameSig bundle h l"
+    ],
+    "paper_claim_label": "thm:signature-sameness-equivalence",
+    "rationale": "Signature sameness equivalence must retain the asking-policy and admitted-middle-history premises."
+  },
+  {
+    "lean_name": "BEDC.BaseReflection.PackageReflection_base",
+    "expected_type_contains": [
+      "HSameEquiv s",
+      "TokUnique s P",
+      "s.TokIntro P x p",
+      "s.TokIntro P y q",
+      "PsameBase s P p q",
+      "s.hsame x y"
+    ],
+    "paper_claim_label": "thm:package-reflection-base",
+    "rationale": "Base package reflection must remain token-unique reflection from package sameness into source sameness."
+  },
+  {
+    "lean_name": "BEDC.FKernel.Unary.unary_append_comm_hsame",
+    "expected_type_contains": [
+      "UnaryHistory h",
+      "UnaryHistory k",
+      "hsame (append h k) (append k h)"
+    ],
+    "paper_claim_label": "thm:unary-cont-comm",
+    "rationale": "Unary additive commutativity must remain an hsame statement about swapped continuation append results."
+  }
+]

@@ -12,7 +12,6 @@ open BEDC.FKernel.Cont
 
 local instance : AskSetup := MinimalAskSetup
 local instance : PackageSetup := MinimalPackageSetup
-local instance : NameCertSetup := MinimalNameCertSetup
 
 def EoneCongruenceObligation : Prop :=
   ∀ {u v : BHist}, hsame u v → hsame (.e1 u) (.e1 v)
@@ -142,13 +141,11 @@ theorem unary_shift_witness_with_result_shape {k h r' : BHist} :
 
 theorem add_up_commutative_certificate_upgrade {h k r rprime : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h rprime →
-      NameCert AddName ∧ Nonempty StabilityCert ∧ hsame r rprime := by
+      NameCert UnaryHistory AddClassifierSpec ∧ hsame r rprime := by
   intro uh uk hr hrprime
   constructor
   · exact add_up_name_certificate
-  · constructor
-    · exact nameCert_stability_witness_from_cert add_up_name_certificate
-    · exact unary_cont_comm uh uk hr hrprime
+  · exact unary_cont_comm uh uk hr hrprime
 
 theorem unary_continuation_associativity {a b c ab bc abc abc' : BHist} :
     UnaryHistory a → UnaryHistory b → UnaryHistory c →
@@ -162,7 +159,7 @@ theorem unary_continuation_associativity {a b c ab bc abc abc' : BHist} :
   exact append_assoc a b c
 
 theorem add_up_interface_seed_with_units :
-    Nonempty (NameCert AddName) ∧
+    Nonempty (NameCert UnaryHistory AddClassifierSpec) ∧
       (∀ {h left right : BHist},
         UnaryHistory h → Cont h BHist.Empty left → Cont BHist.Empty h right →
           UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h) ∧
@@ -531,7 +528,7 @@ theorem unary_add_activation {h k r r' : BHist} :
 
 theorem add_up_commutative_license {h k r r' : BHist} :
     UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r' ->
-      hsame r r' /\ Nonempty (NameCert AddName) := by
+      hsame r r' /\ Nonempty (NameCert UnaryHistory AddClassifierSpec) := by
   intro uh uk hr hr'
   constructor
   · exact unary_add_activation uh uk hr hr'
@@ -574,7 +571,7 @@ theorem unary_shift {k h r' : BHist} :
   exact ⟨append k h, rfl, hr'⟩
 
 theorem add_up_seed_from_unary_continuation :
-    NameCert AddName /\
+    NameCert UnaryHistory AddClassifierSpec /\
       (forall {h left right : BHist},
         UnaryHistory h -> Cont h BHist.Empty left -> Cont BHist.Empty h right ->
           UnaryHistory left /\ UnaryHistory right /\ hsame left h /\ hsame right h) /\

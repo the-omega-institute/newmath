@@ -291,7 +291,24 @@ theorem hardening_composite_coverage
       | intro z secondWitness =>
           exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
 
-theorem compGap_coverage : True := True.intro
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage
+    {Source Inter Final : Type}
+    {SourceOk : Source → Prop}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    (firstCoverage : ∀ {x : Source}, SourceOk x → ∃ y : Inter, firstGap y x)
+    (secondCoverage :
+      ∀ {x : Source} {y : Inter},
+        SourceOk x → firstGap y x → ∃ z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x → ∃ z : Final, CompGap firstGap secondGap z x := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstWitness =>
+      cases secondCoverage sourceOk firstWitness with
+      | intro z secondWitness =>
+          exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
 
 omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage_final_witness_pair

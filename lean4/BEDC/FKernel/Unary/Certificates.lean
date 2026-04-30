@@ -1,64 +1,10 @@
 import BEDC.FKernel.Unary.Domain
-import BEDC.FKernel.NameCert.Fields
 
 namespace BEDC.FKernel.Unary
 
 open BEDC.FKernel.Hist
-open BEDC.FKernel.Ask
-open BEDC.FKernel.Bundle
-open BEDC.FKernel.Gap
 open BEDC.FKernel.NameCert
-open BEDC.FKernel.Package
 open BEDC.FKernel.Cont
-
-local instance : AskSetup := MinimalAskSetup
-local instance : PackageSetup := MinimalPackageSetup
-local instance : NameCertSetup := MinimalNameCertSetup
-
-theorem nat_up_name_certificate : NameCert UnaryName := by
-  exact NameCert.mk () () () () ()
-
-theorem concrete_natup_namecert : NameCert UnaryName := by
-  exact nat_up_name_certificate
-
-theorem concrete_natup_namecert_primary : NameCert UnaryName := by
-  exact NameCert.mk () () () () ()
-
-theorem nat_up_name_certificate_witnesses :
-    ∃ source : SourceSpec, ∃ pattern : PatternSpec, ∃ classifier : ClassifierSpec,
-      ∃ stability : StabilityCert, ∃ ledger : LedgerPolicy, True := by
-  have cert : NameCert UnaryName := nat_up_name_certificate
-  cases cert with
-  | mk source pattern classifier stability ledger =>
-      exact ⟨source, pattern, classifier, stability, ledger, True.intro⟩
-
-theorem nat_up_name_certificate_exists : Nonempty (NameCert UnaryName) := by
-  exact Nonempty.intro nat_up_name_certificate
-
-theorem nat_up_licensed_not_primitive : NameCert UnaryName ∧ Nonempty (NameCert UnaryName) := by
-  constructor
-  · exact nat_up_name_certificate
-  · exact nat_up_name_certificate_exists
-
-theorem nat_up_seed_from_unary_continuation :
-    NameCert UnaryName ∧
-      (∀ {h k r : BHist},
-        UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r) := by
-  constructor
-  · exact nat_up_name_certificate
-  · intro h k r uh uk hr
-    exact unary_cont_closed uh uk hr
-
-theorem nat_up_interface_seed :
-    UnaryHistory BHist.Empty ∧
-      (∀ {h k r : BHist}, UnaryHistory h → UnaryHistory k → Cont h k r → UnaryHistory r) ∧
-        Nonempty (NameCert UnaryName) := by
-  constructor
-  · exact unary_empty
-  · constructor
-    · intro h k r uh uk hr
-      exact unary_repetition_closed_under_continuation_seed uh uk hr
-    · exact Nonempty.intro nat_up_name_certificate
 
 def UnaryPatternSpec : Prop :=
   UnaryHistory BHist.Empty /\
@@ -67,16 +13,13 @@ def UnaryPatternSpec : Prop :=
 theorem UnaryPatternSpec_fields :
     UnaryPatternSpec ↔
       UnaryHistory BHist.Empty ∧
-        (∀ {h : BHist}, UnaryHistory h → UnaryHistory (BHist.e1 h)) := by
+        (forall {h : BHist}, UnaryHistory h -> UnaryHistory (BHist.e1 h)) := by
   rfl
 
 theorem UnaryPatternSpec_step (spec : UnaryPatternSpec) {h : BHist} :
     UnaryHistory h -> UnaryHistory (BHist.e1 h) := by
   intro uh
-  unfold UnaryPatternSpec at spec
-  cases spec with
-  | intro _ step =>
-      exact step uh
+  exact spec.right uh
 
 theorem UnaryPatternSpec_nonempty : Nonempty UnaryPatternSpec := by
   exact Nonempty.intro (And.intro unary_empty (fun uh => unary_e1_closed uh))
@@ -89,167 +32,54 @@ theorem UnaryClassifierSpec_iff_fields {h k : BHist} :
   rfl
 
 def UnaryLedgerPolicy : Prop :=
-  Nonempty LedgerPolicy
+  forall {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r
+
+theorem UnaryLedgerPolicy_iff_unary_cont_closed :
+    UnaryLedgerPolicy ↔
+      (forall {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r) := by
+  rfl
+
+theorem unaryLedgerPolicy_from_unary_cont_closed : UnaryLedgerPolicy := by
+  intro h k r uh uk cont
+  exact unary_cont_closed uh uk cont
+
+theorem nat_up_name_certificate :
+    NameCert UnaryHistory UnaryClassifierSpec := by
+  constructor
+  · exact ⟨BHist.Empty, unary_empty⟩
+  · intro h uh
+    exact ⟨uh, uh, hsame_refl h⟩
+  · intro h k same
+    exact ⟨same.right.left, same.left, hsame_symm same.right.right⟩
+  · intro h k r hk kr
+    exact ⟨hk.left, kr.right.left, hsame_trans hk.right.right kr.right.right⟩
+  · intro h k same _
+    exact same.right.left
+
+theorem nat_up_name_certificate_exists :
+    Nonempty (NameCert UnaryHistory UnaryClassifierSpec) := by
+  exact Nonempty.intro nat_up_name_certificate
+
+theorem nat_up_licensed_not_primitive :
+    NameCert UnaryHistory UnaryClassifierSpec ∧
+      Nonempty (NameCert UnaryHistory UnaryClassifierSpec) := by
+  constructor
+  · exact nat_up_name_certificate
+  · exact nat_up_name_certificate_exists
 
 theorem nat_up_certificate_seed_not_primitive :
-    NameCert UnaryName ∧ Nonempty (NameCert UnaryName) := by
+    NameCert UnaryHistory UnaryClassifierSpec ∧
+      Nonempty (NameCert UnaryHistory UnaryClassifierSpec) := by
   exact nat_up_licensed_not_primitive
 
-theorem nat_up_certificate_source_witness : Nonempty SourceSpec := by
-  exact nameCert_source_witness_from_cert nat_up_name_certificate
-
-theorem nat_up_certificate_field_witnesses :
-    Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec /\
-      Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
-  exact nameCert_field_witnesses nat_up_name_certificate
-
-theorem nat_up_certificate_field_witnesses_and_unary_generators :
-    ∃ _ : SourceSpec, ∃ _ : PatternSpec, ∃ _ : ClassifierSpec, ∃ _ : StabilityCert,
-      ∃ _ : LedgerPolicy, NameCert UnaryName ∧ UnaryHistory BHist.Empty ∧
-        (∀ {h : BHist}, UnaryHistory h → UnaryHistory (BHist.e1 h)) := by
-  have cert : NameCert UnaryName := nat_up_name_certificate
-  cases cert with
-  | mk source pattern classifier stability ledger =>
-      exact ⟨source, pattern, classifier, stability, ledger,
-        NameCert.mk source pattern classifier stability ledger, unary_empty,
-        fun uh => unary_e1_closed uh⟩
-
-theorem nat_up_certificate_pattern_classifier_ledger :
-    Nonempty PatternSpec /\ Nonempty ClassifierSpec /\ Nonempty LedgerPolicy := by
-  have cert : NameCert UnaryName := nat_up_name_certificate
-  cases cert with
-  | mk _ pattern classifier _ ledger =>
-      constructor
-      · exact Nonempty.intro pattern
-      · constructor
-        · exact Nonempty.intro classifier
-        · exact Nonempty.intro ledger
-
-theorem nat_up_certificate_source_pattern_classifier_ledger :
-    Nonempty (@SourceSpec MinimalNameCertSetup) ∧ Nonempty (@PatternSpec MinimalNameCertSetup) ∧
-      Nonempty (@ClassifierSpec MinimalNameCertSetup) ∧
-        Nonempty (@LedgerPolicy MinimalNameCertSetup) := by
-  have cert : @NameCert MinimalNameCertSetup UnaryName := nat_up_name_certificate
-  cases cert with
-  | mk source pattern classifier _ ledger =>
-      constructor
-      · exact Nonempty.intro source
-      · constructor
-        · exact Nonempty.intro pattern
-        · constructor
-          · exact Nonempty.intro classifier
-          · exact Nonempty.intro ledger
-
-theorem nat_up_name_certificate_complete :
-    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧
-      Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
-  exact And.intro nat_up_name_certificate nat_up_certificate_field_witnesses
-
-theorem nat_up_name_certificate_field_nonempty_pack :
-    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧
-      Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
-  have cert : NameCert UnaryName := nat_up_name_certificate
-  cases cert with
-  | mk source pattern classifier stability ledger =>
-      exact ⟨NameCert.mk source pattern classifier stability ledger,
-        Nonempty.intro source, Nonempty.intro pattern, Nonempty.intro classifier,
-        Nonempty.intro stability, Nonempty.intro ledger⟩
-
-theorem nat_up_certificate_seed_fields :
-    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧
-      Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
-  exact nat_up_name_certificate_field_nonempty_pack
-
-theorem nat_up_certificate_license_and_fields :
-    NameCert UnaryName ∧ Nonempty (NameCert UnaryName) ∧ Nonempty SourceSpec ∧
-      Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧
-        Nonempty LedgerPolicy := by
-  exact And.intro nat_up_name_certificate
-    (And.intro nat_up_name_certificate_exists nat_up_certificate_field_witnesses)
-
-theorem nat_up_certificate_has_ledger : Nonempty LedgerPolicy := by
-  exact derived_interfaces_have_ledger nat_up_name_certificate
-
-theorem nat_up_certificate_source_and_ledger :
-    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty LedgerPolicy := by
+theorem nat_up_interface_seed :
+    UnaryHistory BHist.Empty ∧ UnaryLedgerPolicy ∧
+      Nonempty (NameCert UnaryHistory UnaryClassifierSpec) := by
   constructor
-  · exact nat_up_name_certificate
-  · exact nameCert_source_and_ledger_from_cert nat_up_name_certificate
-
-theorem nat_up_name_certificate_with_source_pattern :
-    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty LedgerPolicy := by
-  constructor
-  · exact nat_up_name_certificate
-  · exact nameCert_source_pattern_ledger_from_cert nat_up_name_certificate
-
-theorem nat_up_name_certificate_source_pattern_stability_ledger :
-    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty StabilityCert ∧
-      Nonempty LedgerPolicy := by
-  have cert : NameCert UnaryName := nat_up_name_certificate
-  cases cert with
-  | mk source pattern classifier stability ledger =>
-      exact ⟨NameCert.mk source pattern classifier stability ledger, Nonempty.intro source,
-        Nonempty.intro pattern, Nonempty.intro stability, Nonempty.intro ledger⟩
-
-theorem nat_up_stability_witness : Nonempty StabilityCert := by
-  exact Nonempty.intro ()
-
-theorem nat_up_certificate_stability_and_ledger :
-    Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
-  constructor
-  · exact nat_up_stability_witness
-  · exact nat_up_certificate_has_ledger
-
-theorem add_up_name_certificate_exists : Nonempty (NameCert AddName) := by
-  exact Nonempty.intro (NameCert.mk () () () () ())
-
-theorem add_up_name_certificate : NameCert AddName := by
-  exact NameCert.mk () () () () ()
-
-theorem concrete_addup_namecert : NameCert AddName := by
-  exact add_up_name_certificate
-
-theorem add_up_licensed_not_primitive : NameCert AddName ∧ Nonempty (NameCert AddName) := by
-  exact And.intro add_up_name_certificate add_up_name_certificate_exists
-
-theorem add_up_certificate_field_witnesses :
-    Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec /\
-      Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
-  exact nameCert_field_witnesses add_up_name_certificate
-
-theorem add_up_certificate_classifier_witness : Nonempty ClassifierSpec := by
-  exact nameCert_classifier_witness_from_cert add_up_name_certificate
-
-theorem add_up_license_complete :
-    NameCert AddName /\ Nonempty (NameCert AddName) /\ Nonempty SourceSpec /\
-      Nonempty PatternSpec /\ Nonempty ClassifierSpec /\ Nonempty StabilityCert /\
-        Nonempty LedgerPolicy := by
-  constructor
-  · exact add_up_name_certificate
+  · exact unary_empty
   · constructor
-    · exact add_up_name_certificate_exists
-    · exact add_up_certificate_field_witnesses
-
-theorem add_up_name_certificate_complete :
-    NameCert AddName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧
-      Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
-  exact And.intro add_up_name_certificate add_up_certificate_field_witnesses
-
-theorem add_up_certificate_has_ledger : Nonempty LedgerPolicy := by
-  exact derived_interfaces_have_ledger add_up_name_certificate
-
-theorem add_up_certificate_source_and_ledger :
-    NameCert AddName ∧ Nonempty SourceSpec ∧ Nonempty LedgerPolicy := by
-  constructor
-  · exact add_up_name_certificate
-  · exact nameCert_source_and_ledger_from_cert add_up_name_certificate
-
-theorem add_up_ledger_policy_nonempty : Nonempty LedgerPolicy := by
-  exact add_up_certificate_has_ledger
-
-theorem add_up_certificate_stability_and_ledger :
-    Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
-  exact nameCert_stability_and_ledger_from_cert add_up_name_certificate
+    · exact unaryLedgerPolicy_from_unary_cont_closed
+    · exact nat_up_name_certificate_exists
 
 def AddSourceSpec (h k r : BHist) : Prop :=
   UnaryHistory h ∧ UnaryHistory k ∧ Cont h k r
@@ -260,48 +90,17 @@ theorem AddSourceSpec_from_unary_cont {h k r : BHist} :
   exact And.intro uh (And.intro uk cont)
 
 theorem AddSourceSpec_result_unary {h k r : BHist} :
-    AddSourceSpec h k r → UnaryHistory r := by
+    AddSourceSpec h k r -> UnaryHistory r := by
   intro spec
-  cases spec with
-  | intro uh rest =>
-      cases rest with
-      | intro uk cont =>
-          exact unary_cont_preserves_unary_by_induction uh uk cont
-
-theorem additive_stability_and_ledger_policy :
-    Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
-  have cert : NameCert AddName := add_up_name_certificate
-  cases cert with
-  | mk _ _ _ stability ledger =>
-      exact And.intro (Nonempty.intro stability) (Nonempty.intro ledger)
-
-theorem unary_addition_like_unit_with_certificate :
-    Nonempty (NameCert AddName) ∧
-      (forall {h left right : BHist},
-        UnaryHistory h → Cont h BHist.Empty left → Cont BHist.Empty h right →
-          UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h) := by
-  constructor
-  · exact add_up_name_certificate_exists
-  · intro h left right uh hleft hright
-    exact unary_cont_unit uh hleft hright
-
-theorem unary_addition_like_unit_spine {h left right : BHist} :
-    UnaryHistory h → Cont h BHist.Empty left → Cont BHist.Empty h right →
-      UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h := by
-  intro uh hleft hright
-  exact unary_cont_unit uh hleft hright
+  exact unary_cont_preserves_unary_by_induction spec.left spec.right.left spec.right.right
 
 def AddLedgerPolicy : Prop :=
   forall {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r
 
 theorem AddLedgerPolicy_iff_unary_cont_closed :
     AddLedgerPolicy ↔
-      (∀ {h k r : BHist}, UnaryHistory h → UnaryHistory k → Cont h k r → UnaryHistory r) := by
-  constructor
-  · intro policy
-    exact policy
-  · intro closed
-    exact closed
+      (forall {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r) := by
+  rfl
 
 theorem addLedgerPolicy_from_unary_cont_closed : AddLedgerPolicy := by
   intro h k r uh uk cont
@@ -315,17 +114,53 @@ theorem additive_pattern_result_unary_iff_inputs {h k r : BHist} :
 def AddClassifierSpec (r r' : BHist) : Prop :=
   hsame r r'
 
+theorem add_up_name_certificate :
+    NameCert UnaryHistory AddClassifierSpec := by
+  constructor
+  · exact ⟨BHist.Empty, unary_empty⟩
+  · intro h _
+    exact hsame_refl h
+  · intro h k same
+    exact hsame_symm same
+  · intro h k r hk kr
+    exact hsame_trans hk kr
+  · intro h k same uh
+    exact unary_transport uh same
+
+theorem add_up_name_certificate_exists :
+    Nonempty (NameCert UnaryHistory AddClassifierSpec) := by
+  exact Nonempty.intro add_up_name_certificate
+
+theorem add_up_licensed_not_primitive :
+    NameCert UnaryHistory AddClassifierSpec ∧ Nonempty (NameCert UnaryHistory AddClassifierSpec) := by
+  exact And.intro add_up_name_certificate add_up_name_certificate_exists
+
+theorem unary_addition_like_unit_with_certificate :
+    Nonempty (NameCert UnaryHistory AddClassifierSpec) ∧
+      (forall {h left right : BHist},
+        UnaryHistory h -> Cont h BHist.Empty left -> Cont BHist.Empty h right ->
+          UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h) := by
+  constructor
+  · exact add_up_name_certificate_exists
+  · intro h left right uh hleft hright
+    exact unary_cont_unit uh hleft hright
+
+theorem unary_addition_like_unit_spine {h left right : BHist} :
+    UnaryHistory h -> Cont h BHist.Empty left -> Cont BHist.Empty h right ->
+      UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h := by
+  intro uh hleft hright
+  exact unary_cont_unit uh hleft hright
+
 theorem unary_addition_seed_from_policy :
     AddLedgerPolicy -> forall {h k r : BHist},
       UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r := by
   intro policy h k r uh uk cont
   exact policy uh uk cont
 
-theorem unary_addition_seed : True := True.intro
-
-theorem add_activation_stability_field (cert : NameCert UnaryName) : Nonempty StabilityCert := by
-  cases cert with
-  | mk _ _ _ stability _ =>
-      exact Nonempty.intro stability
+theorem unary_addition_seed :
+    NameCert UnaryHistory AddClassifierSpec ∧ AddLedgerPolicy := by
+  constructor
+  · exact add_up_name_certificate
+  · exact addLedgerPolicy_from_unary_cont_closed
 
 end BEDC.FKernel.Unary

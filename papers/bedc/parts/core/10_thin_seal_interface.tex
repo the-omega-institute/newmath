@@ -11,8 +11,6 @@ A stage interface \(\Stage\) is a generated visibility level in an iterative obs
 A thread \(\Thread\) is a compatible family of stage-level visible data. Compatibility is not developed fully in this finite kernel; it is reserved for the completion module.
 \end{definition}
 \leandef{BEDC.FKernel.NameCert.ThreadFamily}
-\leandef{BEDC.FKernel.NameCert.threadFamily\_base\_stage}
-\leanchecked{BEDC.FKernel.NameCert.threadFamily\_stage\_base\_heq}
 
 \begin{definition}[Seal interface]
 \label{def:seal-interface}
@@ -21,23 +19,13 @@ A seal event \(\Seal(T,N)\) licenses a name \(N\) for a compatible thread \(T\),
 \end{definition}
 \leandef{BEDC.FKernel.NameCert.SealEvent}
 \leandef{BEDC.FKernel.NameCert.SealInterface}
-\leanchecked{BEDC.FKernel.NameCert.sealEvent\_field\_witnesses}
-\leanvariant{BEDC.FKernel.NameCert.sealEvent\_stability\_witness}
 \leanvariant{BEDC.FKernel.NameCert.sealInterface\_thread\_witness}
-\leanvariant{BEDC.FKernel.NameCert.sealInterface\_field\_witnesses}
-\leanvariant{BEDC.FKernel.NameCert.sealInterface\_certificate\_witnesses}
-\leanvariant{BEDC.FKernel.NameCert.sealInterface\_stability\_witness}
-\leanvariant{BEDC.FKernel.NameCert.sealInterface\_full\_witnesses}
-\leanvariant{BEDC.FKernel.NameCert.sealInterface\_thread\_name\_pair}
-\leanvariant{BEDC.FKernel.NameCert.thin\_seal\_interface\_requires\_thread\_and\_ledger}
-\leanchecked{BEDC.FKernel.NameCert.thin\_seal\_interface\_shape}
+\leanchecked{BEDC.FKernel.NameCert.sealInterface\_certificate\_witness}
 
 \begin{corollary}[Limit-like interfaces are derived]
 \label{cor:limit-like-interfaces-are-derived}
 A \(\LimitUp\) interface is a derived name for seal-certified compatible-thread behavior. It is not primitive in the finite kernel.
 \end{corollary}
-\leanchecked{BEDC.FKernel.NameCert.sealInterface\_nameCert\_stability\_ledger}
-\leanvariant{BEDC.FKernel.NameCert.limit\_like\_interfaces\_are\_derived}
 
 \begin{remark}
 The seal layer is intentionally thin in this chapter. Real-like, circle-like, and completion-like derived interfaces require a separate completion module.

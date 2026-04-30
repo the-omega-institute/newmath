@@ -5,6 +5,7 @@ Subcommands:
   - audit: scan Lean / paper sources for BEDC-specific forbidden constructs and mismatches
   - inventory: build a declaration + paper-label + Lean-marker inventory
   - manifest: emit a release-grade JSON manifest (inventory + git/package metadata)
+  - manifest-check: check selected Lean theorem type shapes against a manifest
   - verify-files: run ``lake env lean`` on one or more Lean files
 
 Newmath adaptation note:
@@ -33,6 +34,7 @@ REPO_ROOT = LEAN_ROOT.parent
 BEDC_ROOT = LEAN_ROOT / "BEDC"
 PAPER_ROOT = REPO_ROOT / "papers" / "bedc"
 PAPER_PARTS_ROOT = PAPER_ROOT / "parts"
+TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -66,6 +68,7 @@ class DeclarationRecord:
     kind: str
     name: str
     qualified_name: str
+    is_private: bool = False
 
 
 @dataclass(frozen=True)
@@ -241,6 +244,7 @@ def collect_declarations(path: Path) -> tuple[list[DeclarationRecord], list[Fiel
         kind = match.group("kind")
         name = (match.group("name") or f"<anonymous_{kind}_{idx}>").strip()
         qualified = qualified_name(name, namespace)
+        is_private = re.match(r"^\s*(?:@\[[^\]]+\]\s*)*private\b", line) is not None
         decls.append(
             DeclarationRecord(
                 module=module,
@@ -249,6 +253,7 @@ def collect_declarations(path: Path) -> tuple[list[DeclarationRecord], list[Fiel
                 kind=kind,
                 name=name,
                 qualified_name=qualified,
+                is_private=is_private,
             )
         )
 
@@ -374,6 +379,7 @@ def inventory_payload(
                 "kind": d.kind,
                 "name": d.name,
                 "qualified_name": d.qualified_name,
+                "is_private": d.is_private,
             }
             for d in decls
         ],
@@ -581,6 +587,110 @@ PRINT_AXIOMS_RE = re.compile(
 )
 
 
+def normalize_type_text(text: str) -> str:
+    text = (text
+        .replace("∀", "forall")
+        .replace("→", "->")
+        .replace("∧", "/\\")
+        .replace("↔", "<->"))
+    return " ".join(text.split())
+
+
+def run_lean_check(lean_name: str) -> tuple[int, str]:
+    preamble = "\n".join([
+        "import BEDC",
+        "open BEDC.FKernel.Mark",
+        "open BEDC.FKernel.Hist",
+        "open BEDC.FKernel.Cont",
+        "open BEDC.FKernel.Ext",
+        "open BEDC.FKernel.Sig",
+        "open BEDC.FKernel.Bundle",
+        "open BEDC.FKernel.Ask",
+        "open BEDC.FKernel.Package",
+        "open BEDC.FKernel.NameCert",
+        "open BEDC.FKernel.Unary",
+        "open BEDC.BaseReflection",
+        f"#check {lean_name}",
+        "",
+    ])
+    result = subprocess.run(
+        ["lake", "env", "lean", "--stdin"],
+        cwd=LEAN_ROOT,
+        input=preamble,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    return result.returncode, (result.stdout or "") + "\n" + (result.stderr or "")
+
+
+def cmd_manifest_check(args: argparse.Namespace) -> int:
+    manifest_path = Path(args.manifest)
+    if not manifest_path.is_absolute():
+        manifest_path = (REPO_ROOT / manifest_path).resolve()
+    try:
+        entries = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        print(f"[bedc-ci] manifest-check: missing manifest {manifest_path}", file=sys.stderr)
+        return 1
+    except json.JSONDecodeError as exc:
+        print(f"[bedc-ci] manifest-check: invalid JSON {manifest_path}: {exc}", file=sys.stderr)
+        return 1
+
+    if not isinstance(entries, list):
+        print("[bedc-ci] manifest-check: manifest root must be a list", file=sys.stderr)
+        return 1
+
+    failures: list[dict[str, object]] = []
+    results: list[dict[str, object]] = []
+    for idx, entry in enumerate(entries, start=1):
+        if not isinstance(entry, dict):
+            failures.append({"index": idx, "error": "entry is not an object"})
+            continue
+        lean_name = str(entry.get("lean_name", "")).strip()
+        expected = entry.get("expected_type_contains", [])
+        if not lean_name or not isinstance(expected, list) or not all(isinstance(item, str) for item in expected):
+            failures.append({"index": idx, "lean_name": lean_name, "error": "invalid lean_name or expected_type_contains"})
+            continue
+        rc, output = run_lean_check(lean_name)
+        normalized_output = normalize_type_text(output)
+        missing = [
+            fragment for fragment in expected
+            if normalize_type_text(fragment) not in normalized_output
+        ]
+        passed = rc == 0 and not missing
+        result = {
+            "lean_name": lean_name,
+            "paper_claim_label": entry.get("paper_claim_label", ""),
+            "passed": passed,
+            "missing_fragments": missing,
+        }
+        results.append(result)
+        if not passed:
+            result["lean_returncode"] = rc
+            result["lean_output"] = output.strip()
+            failures.append(result)
+
+    if args.json:
+        print(json.dumps({
+            "manifest": str(manifest_path),
+            "entries": len(entries),
+            "passed": len(failures) == 0,
+            "results": results,
+        }, indent=2, ensure_ascii=False))
+    else:
+        print(f"[bedc-ci] manifest-check: entries={len(entries)} manifest={manifest_path.relative_to(REPO_ROOT)}")
+        for result in results:
+            status = "PASS" if result["passed"] else "FAIL"
+            label = result["paper_claim_label"]
+            suffix = f" ({label})" if label else ""
+            print(f"  {status} {result['lean_name']}{suffix}")
+            for fragment in result["missing_fragments"]:
+                print(f"    missing: {fragment}")
+
+    return 0 if not failures else 1
+
+
 def cmd_axiom_purity(args: argparse.Namespace) -> int:
     """Check that every BEDC theorem's transitive axiom dependency set is
     contained within the allowed Lean stdlib subset.
@@ -603,7 +713,13 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
 
     declarations, _fields = build_declaration_inventory()
     theorems = sorted(
-        {d.qualified_name for d in declarations if d.kind in ("theorem", "lemma") and d.qualified_name.startswith("BEDC.")}
+        {
+            d.qualified_name
+            for d in declarations
+            if d.kind in ("theorem", "lemma")
+            and d.qualified_name.startswith("BEDC.")
+            and not d.is_private
+        }
     )
     if not theorems:
         print("[bedc-ci] axiom-purity: no BEDC theorems found", file=sys.stderr)
@@ -617,7 +733,7 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
         mode="w",
         suffix=".lean",
         prefix="axiom_audit_",
-        dir=str(LEAN_ROOT),
+        dir=str(args.tmp_dir),
         delete=False,
         encoding="utf-8",
     ) as tmp:
@@ -653,6 +769,10 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
         for ax in axs:
             if ax in forbidden:
                 violations.append((decl, ax))
+    parsed = set(pure)
+    parsed.update(decl for decl, _axs in impure)
+    missing = sorted(set(theorems) - parsed)
+    lean_failed = result.returncode != 0
 
     if args.json:
         payload = {
@@ -662,8 +782,10 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
             "violations": [
                 {"declaration": decl, "axiom": ax} for decl, ax in violations
             ],
+            "missing_results": missing,
+            "lean_returncode": result.returncode,
             "forbidden_axioms": sorted(forbidden),
-            "passed": len(violations) == 0,
+            "passed": not lean_failed and not missing and len(violations) == 0,
         }
         print(json.dumps(payload, indent=2, ensure_ascii=False))
     else:
@@ -687,8 +809,19 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
                 print(f"  {decl} -> {ax}")
             if len(violations) > 50:
                 print(f"  ... and {len(violations) - 50} more")
+        if lean_failed:
+            print(f"[bedc-ci] axiom-purity FAIL: lean returned {result.returncode}")
+            tail = "\n".join(output.strip().splitlines()[-20:])
+            if tail:
+                print(tail)
+        if missing:
+            print(f"[bedc-ci] axiom-purity FAIL: {len(missing)} theorem(s) had no parsed #print axioms result")
+            for decl in missing[:50]:
+                print(f"  {decl}")
+            if len(missing) > 50:
+                print(f"  ... and {len(missing) - 50} more")
 
-    return 0 if not violations else 1
+    return 0 if not lean_failed and not missing and not violations else 1
 
 
 def cmd_verify_files(args: argparse.Namespace) -> int:
@@ -730,6 +863,19 @@ def parser() -> argparse.ArgumentParser:
     manifest_p.add_argument("--release-tag", type=str, default=None, help="Release tag to embed (overrides $RELEASE_TAG env)")
     manifest_p.set_defaults(func=cmd_manifest)
 
+    manifest_check_p = sub.add_parser(
+        "manifest-check",
+        help="Check selected canonical Lean theorem type shapes against bedc_manifest.json",
+    )
+    manifest_check_p.add_argument(
+        "--manifest",
+        type=str,
+        default=str(TYPE_MANIFEST_PATH.relative_to(REPO_ROOT)),
+        help="Manifest JSON path, relative to the repository root by default",
+    )
+    manifest_check_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    manifest_check_p.set_defaults(func=cmd_manifest_check)
+
     purity_p = sub.add_parser(
         "axiom-purity",
         help="Audit transitive axiom dependencies of BEDC theorems (forbids Classical.choice, Quot.sound)",
@@ -742,6 +888,8 @@ def parser() -> argparse.ArgumentParser:
                           help="Comma-separated axiom names to additionally forbid")
     purity_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     purity_p.add_argument("--verbose", "-v", action="store_true", help="Show axiom dep counts")
+    purity_p.add_argument("--tmp-dir", type=str, default=str(LEAN_ROOT),
+                          help="Directory for the temporary Lean axiom-audit file")
     purity_p.set_defaults(func=cmd_axiom_purity)
 
     verify_p = sub.add_parser("verify-files", help="Run lake env lean on selected files")

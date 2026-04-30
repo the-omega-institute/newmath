@@ -3,6 +3,13 @@
 
 The disjoint sum interface \(\SumUp\) is licensed over two source carriers each endowed with a \(\NameCert\). The carrier is the inductive sum with left and right constructors wrapping a witness of either source; the classifier is the constructor-discriminating relation that within each constructor falls back to the corresponding source classifier. It is not a primitive coproduct; it is licensed only as a derived constructor over the two sources.
 
+\begin{remark}[Roadmap chapter---formalization pending]
+\label{rem:concrete-instances-sum-namecert-roadmap}
+This chapter sketches the licensing target. Lean implementations of the
+listed specifications and certificate are not yet present; the chapter
+is a spec roadmap, not a formalized license.
+\end{remark}
+
 \section{Carrier definition}
 
 \begin{definition}[Sum carrier]
@@ -26,6 +33,8 @@ The pattern is left-or-right injection from the corresponding source witness.
 \label{def:sum-classifier-specification}
 The classifier relates left values through the \(A\)-classifier, right values through the \(B\)-classifier, and never relates opposite constructors.
 \end{definition}
+\leandef{BEDC.Derived.SumUp.SumClassifierSpec}
+\leanchecked{BEDC.Derived.SumUp.sum\_classifier\_inversion}
 
 \begin{definition}[Sum stability certificate]
 \label{def:sum-stability-certificate}
@@ -37,6 +46,8 @@ The stability certificate consists of:
   \item closure under both injections
 \end{enumerate}
 \end{definition}
+\leanchecked{BEDC.Derived.SumUp.sum\_stability\_certificate\_fields}
+\leanchecked{BEDC.Derived.SumUp.SumClassifierSpec\_trans}
 
 \begin{definition}[Sum ledger policy]
 \label{def:sum-ledger-policy}
