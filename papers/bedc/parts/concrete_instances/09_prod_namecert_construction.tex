@@ -238,11 +238,19 @@ Unpack the endpoint $\mathsf{ProdHistoryCarrier}(L,R)$ witnesses for $h$ and $k$
 
 \begin{theorem}[Product history classifier continuation congruence]
 \label{thm:prod-history-classifier-cont-congr}
-Let $L$ and $R$ be source-history predicates on $\mathsf{BHist}$ that are stable under $\hsame$: from $L(x)$ and $\hsame(x,y)$ one obtains $L(y)$, and from $R(x)$ and $\hsame(x,y)$ one obtains $R(y)$. If $L(l)$, $R(r)$, $\hsame(l,l')$, $\hsame(r,r')$, $\Cont(l,r,h)$, and $\Cont(l',r',h')$, then
+Let $L$ and $R$ be source-history predicates on $\mathsf{BHist}$. Assume the left and right transport fields
+$$
+\forall x\,y.\; L(x)\land\hsame(x,y)\to L(y)
+$$
+and
+$$
+\forall x\,y.\; R(x)\land\hsame(x,y)\to R(y).
+$$
+If $L(l)$, $R(r)$, $\hsame(l,l')$, $\hsame(r,r')$, $\Cont(l,r,h)$, and $\Cont(l',r',h')$, then
 $\mathsf{ProdHistoryClassifier}(L,R,h,h')$.
 \end{theorem}
 \begin{proof}
-Transport the left source witness $L(l)$ along $\hsame(l,l')$ to obtain $L(l')$, and transport the right source witness $R(r)$ along $\hsame(r,r')$ to obtain $R(r')$. Product history carrier continuation introduction builds endpoint carrier witnesses for $h$ and $h'$ from the two continuation witnesses. Continuation respect for $\hsame$ transports the result endpoints across the two component links, yielding $\hsame(h,h')$. These three pieces are exactly the history-envelope classifier fields.
+Apply the displayed left transport field to $L(l)$ and $\hsame(l,l')$ to obtain $L(l')$, and apply the displayed right transport field to $R(r)$ and $\hsame(r,r')$ to obtain $R(r')$. Product history carrier continuation introduction builds endpoint carrier witnesses for $h$ and $h'$ from the two continuation witnesses. Continuation respect for $\hsame$ transports the result endpoints across the two component links, yielding $\hsame(h,h')$. These three pieces are exactly the history-envelope classifier fields.
 \end{proof}
 
 \begin{definition}[Product pair representation]

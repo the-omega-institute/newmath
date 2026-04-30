@@ -484,6 +484,60 @@ contradict the \(e0/e1\) no-confusion rule.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_trans}
 
+\begin{theorem}[Sum history classifier source-certified stability fields]
+\label{thm:sum-history-classifier-source-certified-stability-fields}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume source certificates $\NameCert(Left,LeftEq)$ and
+$\NameCert(Right,RightEq)$. For the carrier
+$\mathsf{SumHistoryCarrier}(Left,Right)$ and classifier
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq)$, the following
+stability fields hold:
+\begin{enumerate}
+  \item carrier-relative reflexivity:
+  $$
+  \begin{array}{l}
+  \forall h.\;\mathsf{SumHistoryCarrier}(Left,Right,h)\to\\
+  \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,h);
+  \end{array}
+  $$
+  \item source-certified symmetry:
+  $$
+  \begin{array}{l}
+  \forall h\,k.\;\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to\\
+  \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,k,h);
+  \end{array}
+  $$
+  \item source-certified transitivity:
+  $$
+  \begin{array}{l}
+  \forall h\,k\,u.\;\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to\\
+  \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,k,u)\to\\
+  \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,u);
+  \end{array}
+  $$
+  \item classifier-induced carrier transport:
+  $$
+  \begin{array}{l}
+  \forall h\,k.\;\mathsf{SumHistoryCarrier}(Left,Right,h)\to\\
+  \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to\\
+  \mathsf{SumHistoryCarrier}(Left,Right,k).
+  \end{array}
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For reflexivity, invert the displayed sum carrier witness. In the left branch,
+use the left source certificate reflexivity field on the source payload and
+rebuild the $e0$-tagged classifier witness with the same endpoint evidence; the
+right branch is the same with the right source certificate and $e1$ tag. The
+symmetry field is Theorem~\ref{thm:sum-history-classifier-symm-from-namecert}.
+The transitivity field is Theorem~\ref{thm:sum-history-classifier-transitivity}
+applied with the transitivity fields of the two source certificates. The
+carrier transport field is
+Theorem~\ref{thm:sum-history-classifier-carrier-transport-from-namecert}.
+\end{proof}
+
 \begin{definition}[Sum stability certificate]
 \label{def:sum-stability-certificate}
 The displayed checked theorem records the typed structural stability
@@ -498,11 +552,11 @@ supplied by Theorems~\ref{thm:sum-history-carrier-hsame-transport},
 \ref{thm:sum-history-classifier-hsame-transport}, and
 \ref{thm:sum-history-classifier-transitivity}. Theorem~\ref{thm:sum-history-classifier-hsame-symmetry}
 is the $\hsame$ specialization of classifier symmetry. For the arbitrary source
-classifiers used by the concrete semantic certificate, classifier symmetry is
-supplied by Theorem~\ref{thm:sum-history-classifier-symm-from-namecert}.
+classifiers used by the concrete semantic certificate,
+Theorem~\ref{thm:sum-history-classifier-source-certified-stability-fields}
+packages carrier-relative reflexivity, symmetry, transitivity, and
+classifier-induced carrier transport from the two source certificates.
 For the arbitrary source classifiers used by Theorem~\ref{thm:concrete-sum-namecert},
-the classifier-induced carrier transport field is
-Theorem~\ref{thm:sum-history-classifier-carrier-transport-from-namecert};
 Theorem~\ref{thm:sum-history-carrier-hsame-transport} transports only a
 displayed carrier witness along $\hsame$.
 \end{definition}
