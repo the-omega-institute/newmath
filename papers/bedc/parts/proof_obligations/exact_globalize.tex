@@ -108,19 +108,20 @@ Assume:
 \begin{enumerate}
   \item \(\DomainPolicy(D)\);
   \item \(\AskPol(\Pi,D)\);
-  \item token introduction for generated signatures;
-  \item \(\TokUnique(\Pi)\), or a checked canonical-constructor theorem implying it;
-  \item the one-constructor base package-sameness relation \(\psame_{\Pi}^{\mathrm{base}}\);
-  \item the policy-supported signature gap relation \(\InGapSig(\Pi,D,p,h)\).
+  \item \(\PkgTokPol(\Pi)\), supplying package soundness and reflection for introduced tokens;
+  \item token existence for every generated signature.
 \end{enumerate}
-Then the visible packages of \(\GlobSig(\Pi,D)\) classify admitted histories exactly by generated signature-sameness, where exactness is stated with \(\psame_{\Pi}^{\mathrm{base}}\), not with \(\psame_{\Pi}^{\mathrm{eq}}\).
+Then the visible packages of \(\GlobSig(\Pi,D)\) satisfy the following three exported clauses:
+\begin{enumerate}
+  \item coverage for admitted histories: if \(\InDom(D,h)\), then some \(p\) satisfies \(\InGapSig(\Pi,D,p,h)\);
+  \item same-source gap separation: if \(\InGapSig(\Pi,D,p,h)\) and \(\InGapSig(\Pi,D,q,h)\), then \(\psame(p,q)\);
+  \item package-sameness-to-generated-signature completeness: if \(\InGapSig(\Pi,D,p,h)\), \(\InGapSig(\Pi,D,q,k)\), and \(\psame(p,q)\), then there exist \(s,t\) and generation evidence \(\Delta,\Theta\) with \(\Sig(\Pi,h,s,\Delta)\), \(\Sig(\Pi,k,t,\Theta)\), and \(\hsame(s,t)\).
+\end{enumerate}
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.exact\_concrete\_globalize}
 
-\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_exact}
-
 \begin{proof}
-Coverage is Theorem~\ref{thm:gap-coverage-globalize}. Separation is Theorem~\ref{thm:gap-separation-globalize}, with \(\psame_{\Pi}^{\mathrm{sig}}\) read as \(\psame_{\Pi}^{\mathrm{base}}\) by Definition~\ref{def:base-psame}. Soundness is the base constructor. Completeness is Theorem~\ref{thm:base-reflection-active}. Domain transport is supplied by \(\DomainPolicy(D)\). The theorem exports only the base relation because Corollary~\ref{cor:eq-not-exported} blocks implicit closure export.
+Coverage is Theorem~\ref{thm:gap-coverage-globalize}. Same-source separation is Theorem~\ref{thm:gap-separation-globalize}. Completeness is supplied by the reflection field of \(\PkgTokPol(\Pi)\) after unpacking the two gap-signature memberships. Domain transport is supplied by \(\DomainPolicy(D)\).
 \end{proof}
 
 \begin{proposition}[What is intentionally not exported]

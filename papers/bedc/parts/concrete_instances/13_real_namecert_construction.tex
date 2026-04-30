@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\RealUp\)}
 \label{ch:concrete-instances-real-namecert}
 
-The real number interface \(\RealUp\) has certificate obligations over Bishop-style Cauchy sequences of rationals, each carrying an explicit convergence modulus \(\omega : \mathbb{N} \to \mathbb{N}\) such that any two indices beyond \(\omega(k)\) yield rationals within \(1/(k+1)\). The classifier is the equivalence by which two such sequences converge to the same point, again expressed with an explicit modulus rather than as a quotient. It is not the classical Dedekind / Cauchy completion (which requires LEM and is not licensable in BEDC); it is admitted only via the rational source \autoref{ch:concrete-instances-rat-namecert} and the explicit modulus discipline.
+The real number interface \(\RealUp\) has certificate obligations over Bishop-style Cauchy sequences of rationals, each carrying an explicit convergence modulus \(\omega : \mathbb{N} \to \mathbb{N}\) such that any two indices beyond \(\omega(k)\) yield rationals within \(1/(k+1)\). The classifier is the equivalence by which two such sequences converge to the same point, again expressed with an explicit modulus rather than as a quotient. The classical Dedekind / Cauchy completion is outside this certificate because quotient and completion infrastructure is not exported by the mathlib-free BEDC kernel; the interface is admitted only via the rational source \autoref{ch:concrete-instances-rat-namecert}, explicit moduli, and a classifier.
 
 \section{Carrier definition}
 
@@ -54,6 +54,5 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:real-zero-axiom-note}
-Replaces Dedekind/Cauchy quotients, LEM, and \(\mathsf{Quot.sound}\) with explicit moduli and a setoid classifier.
+The interface avoids quotient machinery and \(\mathsf{Quot.sound}\); sameness is carried by explicit moduli and a setoid classifier.
 \end{remark}
-
