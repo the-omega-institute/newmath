@@ -127,6 +127,17 @@ theorem psame_sound {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
   intro hp hq hst
   exact psame.intro hp hq hst
 
+omit [AskSetup] P in
+theorem psame_iff_hsame_under_tok_unique [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (tok : TokUnique bundle) {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t q -> (psame bundle p q <-> hsame s t) := by
+  intro hp hq
+  constructor
+  · intro samePkg
+    exact psame_reflect_under_tok_unique tok hp hq samePkg
+  · intro sameHist
+    exact psame_sound hp hq sameHist
+
 theorem psame_symm_constructor
     {bundle : ProbeBundle ProbeName} {p q : Pkg} :
     psame bundle p q -> psame bundle q p := by

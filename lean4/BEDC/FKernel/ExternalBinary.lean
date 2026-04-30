@@ -132,6 +132,11 @@ theorem external_append_nil_result_inversion :
   | e0 b => cases h
   | e1 b => cases h
 
+theorem external_append_length_zero_pair {a b : BWord} :
+    bwordLength (append a b) = 0 -> a = BHist.Empty /\ b = BHist.Empty := by
+  intro h
+  exact external_append_nil_result_inversion ((external_length_zero_iff_nil (append a b)).mp h)
+
 theorem external_append_nil_inversion :
     ∀ {a b : BWord}, append a b = BHist.Empty → a = BHist.Empty ∧ b = BHist.Empty :=
   external_append_nil_result_inversion
