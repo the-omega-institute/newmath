@@ -781,13 +781,12 @@ the two existential witnesses may expose different finite spines for the middle
 history, and Definition~\ref{def:list-spine-rep-coherence} supplies the
 finite-spine classifier witness that lets
 Theorem~\ref{thm:list-classifier-trans-from-namecert} compose the two endpoint
-classifiers. Carrier transport follows by induction over the represented spine,
-with nil transported to nil and cons transported componentwise by the source
-certificate and the tail induction hypothesis. Nil/cons case analysis uses
+classifiers. Carrier transport for the certificate core is obtained by unpacking
+$\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ as a
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}$, taking its displayed representation of $k$, and applying the soundness direction of Theorem~\ref{thm:list-spine-representation-exactness}. Source-certificate transport is used only for entrywise source evidence and ledger data along the finite-spine classifier. Nil/cons case analysis uses
 Theorem~\ref{thm:list-history-carrier-generated-cases} for the generated history
 carrier and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} inside the
-finite-spine bridge, length and source-ledger policy are read from the
-representing spine, and exactness is the matching-shape statement of
+finite-spine bridge, and exactness is the matching-shape statement of
 Theorem~\ref{thm:list-classifier-case-exactness} transported through the
 representation relation.
 \end{proof}
