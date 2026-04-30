@@ -19,6 +19,10 @@ variable [AskSetup] [PackageSetup] [G : DomainSetup]
 abbrev Domain : Type := G.Domain
 abbrev InDom : Domain → BHist → Prop := G.InDom
 
+omit [AskSetup] [PackageSetup] in
+theorem InDom_iff_setup_field {D : Domain} {h : BHist} : InDom D h ↔ G.InDom D h := by
+  rfl
+
 structure DomainPolicy (D : Domain) : Prop where
   transport : ∀ {h k : BHist}, InDom D h → hsame h k → InDom D k
 

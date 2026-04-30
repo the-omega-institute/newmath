@@ -14,6 +14,9 @@ local instance : AskSetup := MinimalAskSetup
 local instance : PackageSetup := MinimalPackageSetup
 local instance : NameCertSetup := MinimalNameCertSetup
 
+def EoneCongruenceObligation : Prop :=
+  ∀ {u v : BHist}, hsame u v → hsame (.e1 u) (.e1 v)
+
 theorem unary_append_e1_left :
     ∀ {h k : BHist}, UnaryHistory h → append (.e1 k) h = .e1 (append k h) := by
   intro h k uh
@@ -24,6 +27,17 @@ theorem unary_append_e1_left :
       cases uh
   | e1 h ih =>
       exact congrArg BHist.e1 (ih uh)
+
+theorem unary_append_comm_left_induction :
+    ∀ {h k : BHist}, UnaryHistory h → UnaryHistory k → append h k = append k h := by
+  intro h k uh uk
+  induction h generalizing k with
+  | Empty =>
+      exact append_empty_left k
+  | e0 _ _ =>
+      cases uh
+  | e1 h ih =>
+      exact (unary_append_e1_left (h := k) (k := h) uk).trans (congrArg BHist.e1 (ih uh uk))
 
 theorem unary_append_comm :
     ∀ {h k : BHist}, UnaryHistory h → UnaryHistory k → append h k = append k h := by

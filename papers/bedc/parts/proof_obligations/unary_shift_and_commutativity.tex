@@ -25,6 +25,7 @@ then there exists a history \(v\) such that
 \leanchecked{BEDC.FKernel.Unary.unary\_right\_shift\_obligation\_holds}
 
 \begin{definition}[\(\Eone\)-congruence obligation]
+\label{def:eone-congruence-obligation}
 The \(\Eone\)-congruence obligation is the statement that
 \[
   \hsame(u,v)
@@ -32,6 +33,7 @@ The \(\Eone\)-congruence obligation is the statement that
   \hsame(\Eone(u),\Eone(v)).
 \]
 \end{definition}
+\leandef{BEDC.FKernel.Unary.EoneCongruenceObligation}
 
 \begin{definition}[Unary continuation commutativity obligation]
 The unary continuation commutativity obligation is the statement that if
@@ -101,6 +103,19 @@ This is the proof obligation named \(\UnaryShift\). The proof proceeds by induct
 
 \leanchecked{BEDC.FKernel.Unary.unary\_shift\_witness}
 \leanvariant{BEDC.FKernel.Unary.unary\_shift\_witness\_with\_factor}
+
+\begin{lemma}[Unary append commutativity, left induction]
+\label{lem:unary-append-comm-left-induction}
+If \(h\) and \(k\) are unary histories, then appending them commutes:
+$$
+  \mathsf{append}(h,k)=\mathsf{append}(k,h).
+$$
+\end{lemma}
+\leanchecked{BEDC.FKernel.Unary.unary\_append\_comm\_left\_induction}
+
+\begin{proof}
+Induct on the unary derivation of \(h\). The empty case is the left-unit law for append. The \(\Ezero\)-case is impossible for unary histories. The \(\Eone\)-case follows by moving the leading \(\Eone\) through append and applying the induction hypothesis.
+\end{proof}
 
 \begin{theorem}[Unary continuation commutativity]
 \label{thm:unary-commutativity-concrete}
