@@ -30,6 +30,13 @@ theorem sig_cons_inversion {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r 
   | cons _ _ _ s _ m delta hask htail hext =>
       exact ⟨s, m, delta, hask, htail, hext⟩
 
+theorem sigRel_cons_inversion {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r : BHist} :
+    SigRel (ProbeBundle.Bcons pi tail) h r →
+      ∃ s : BHist, ∃ m : BMark, ∃ delta : Evidence,
+        Ask pi h m delta ∧ SigRel tail h s ∧ Ext s m r := by
+  intro hsig
+  exact sig_cons_inversion hsig
+
 def SameSig (bundle : ProbeBundle ProbeName) (h k : BHist) : Prop :=
   ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t
 
