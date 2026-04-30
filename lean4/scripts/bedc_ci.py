@@ -5,6 +5,7 @@ Subcommands:
   - audit: scan Lean / paper sources for BEDC-specific forbidden constructs and mismatches
   - inventory: build a declaration + paper-label + Lean-marker inventory
   - manifest: emit a release-grade JSON manifest (inventory + git/package metadata)
+  - manifest-check: check selected Lean theorem type shapes against a manifest
   - verify-files: run ``lake env lean`` on one or more Lean files
 
 Newmath adaptation note:
@@ -33,6 +34,7 @@ REPO_ROOT = LEAN_ROOT.parent
 BEDC_ROOT = LEAN_ROOT / "BEDC"
 PAPER_ROOT = REPO_ROOT / "papers" / "bedc"
 PAPER_PARTS_ROOT = PAPER_ROOT / "parts"
+TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -581,6 +583,110 @@ PRINT_AXIOMS_RE = re.compile(
 )
 
 
+def normalize_type_text(text: str) -> str:
+    text = (text
+        .replace("∀", "forall")
+        .replace("→", "->")
+        .replace("∧", "/\\")
+        .replace("↔", "<->"))
+    return " ".join(text.split())
+
+
+def run_lean_check(lean_name: str) -> tuple[int, str]:
+    preamble = "\n".join([
+        "import BEDC",
+        "open BEDC.FKernel.Mark",
+        "open BEDC.FKernel.Hist",
+        "open BEDC.FKernel.Cont",
+        "open BEDC.FKernel.Ext",
+        "open BEDC.FKernel.Sig",
+        "open BEDC.FKernel.Bundle",
+        "open BEDC.FKernel.Ask",
+        "open BEDC.FKernel.Package",
+        "open BEDC.FKernel.NameCert",
+        "open BEDC.FKernel.Unary",
+        "open BEDC.BaseReflection",
+        f"#check {lean_name}",
+        "",
+    ])
+    result = subprocess.run(
+        ["lake", "env", "lean", "--stdin"],
+        cwd=LEAN_ROOT,
+        input=preamble,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    return result.returncode, (result.stdout or "") + "\n" + (result.stderr or "")
+
+
+def cmd_manifest_check(args: argparse.Namespace) -> int:
+    manifest_path = Path(args.manifest)
+    if not manifest_path.is_absolute():
+        manifest_path = (REPO_ROOT / manifest_path).resolve()
+    try:
+        entries = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        print(f"[bedc-ci] manifest-check: missing manifest {manifest_path}", file=sys.stderr)
+        return 1
+    except json.JSONDecodeError as exc:
+        print(f"[bedc-ci] manifest-check: invalid JSON {manifest_path}: {exc}", file=sys.stderr)
+        return 1
+
+    if not isinstance(entries, list):
+        print("[bedc-ci] manifest-check: manifest root must be a list", file=sys.stderr)
+        return 1
+
+    failures: list[dict[str, object]] = []
+    results: list[dict[str, object]] = []
+    for idx, entry in enumerate(entries, start=1):
+        if not isinstance(entry, dict):
+            failures.append({"index": idx, "error": "entry is not an object"})
+            continue
+        lean_name = str(entry.get("lean_name", "")).strip()
+        expected = entry.get("expected_type_contains", [])
+        if not lean_name or not isinstance(expected, list) or not all(isinstance(item, str) for item in expected):
+            failures.append({"index": idx, "lean_name": lean_name, "error": "invalid lean_name or expected_type_contains"})
+            continue
+        rc, output = run_lean_check(lean_name)
+        normalized_output = normalize_type_text(output)
+        missing = [
+            fragment for fragment in expected
+            if normalize_type_text(fragment) not in normalized_output
+        ]
+        passed = rc == 0 and not missing
+        result = {
+            "lean_name": lean_name,
+            "paper_claim_label": entry.get("paper_claim_label", ""),
+            "passed": passed,
+            "missing_fragments": missing,
+        }
+        results.append(result)
+        if not passed:
+            result["lean_returncode"] = rc
+            result["lean_output"] = output.strip()
+            failures.append(result)
+
+    if args.json:
+        print(json.dumps({
+            "manifest": str(manifest_path),
+            "entries": len(entries),
+            "passed": len(failures) == 0,
+            "results": results,
+        }, indent=2, ensure_ascii=False))
+    else:
+        print(f"[bedc-ci] manifest-check: entries={len(entries)} manifest={manifest_path.relative_to(REPO_ROOT)}")
+        for result in results:
+            status = "PASS" if result["passed"] else "FAIL"
+            label = result["paper_claim_label"]
+            suffix = f" ({label})" if label else ""
+            print(f"  {status} {result['lean_name']}{suffix}")
+            for fragment in result["missing_fragments"]:
+                print(f"    missing: {fragment}")
+
+    return 0 if not failures else 1
+
+
 def cmd_axiom_purity(args: argparse.Namespace) -> int:
     """Check that every BEDC theorem's transitive axiom dependency set is
     contained within the allowed Lean stdlib subset.
@@ -617,7 +723,7 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
         mode="w",
         suffix=".lean",
         prefix="axiom_audit_",
-        dir=str(LEAN_ROOT),
+        dir=str(args.tmp_dir),
         delete=False,
         encoding="utf-8",
     ) as tmp:
@@ -730,6 +836,19 @@ def parser() -> argparse.ArgumentParser:
     manifest_p.add_argument("--release-tag", type=str, default=None, help="Release tag to embed (overrides $RELEASE_TAG env)")
     manifest_p.set_defaults(func=cmd_manifest)
 
+    manifest_check_p = sub.add_parser(
+        "manifest-check",
+        help="Check selected canonical Lean theorem type shapes against bedc_manifest.json",
+    )
+    manifest_check_p.add_argument(
+        "--manifest",
+        type=str,
+        default=str(TYPE_MANIFEST_PATH.relative_to(REPO_ROOT)),
+        help="Manifest JSON path, relative to the repository root by default",
+    )
+    manifest_check_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    manifest_check_p.set_defaults(func=cmd_manifest_check)
+
     purity_p = sub.add_parser(
         "axiom-purity",
         help="Audit transitive axiom dependencies of BEDC theorems (forbids Classical.choice, Quot.sound)",
@@ -742,6 +861,8 @@ def parser() -> argparse.ArgumentParser:
                           help="Comma-separated axiom names to additionally forbid")
     purity_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     purity_p.add_argument("--verbose", "-v", action="store_true", help="Show axiom dep counts")
+    purity_p.add_argument("--tmp-dir", type=str, default=str(LEAN_ROOT),
+                          help="Directory for the temporary Lean axiom-audit file")
     purity_p.set_defaults(func=cmd_axiom_purity)
 
     verify_p = sub.add_parser("verify-files", help="Run lake env lean on selected files")

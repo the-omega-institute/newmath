@@ -1,3 +1,10 @@
+/-
+Finite kernel imports are kept separate from derived interface imports.
+The kernel boundary is `BEDC.FKernel.*` plus `BEDC.BaseReflection.*`;
+`BEDC.Derived.*` modules are licensed objects built over that boundary.
+-/
+
+/- Finite kernel. -/
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Ext
@@ -30,6 +37,8 @@ import BEDC.FKernel.NameCert.Descent
 import BEDC.FKernel.NameCert.StabilityMode
 import BEDC.FKernel.Unary
 import BEDC.BaseReflection
+
+/- Derived interfaces (licensed objects). -/
 import BEDC.Derived.IntUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.OptionUp
