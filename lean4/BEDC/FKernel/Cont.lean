@@ -195,6 +195,14 @@ theorem cont_right_unit : ∀ h : BHist, Cont h .Empty h := by
   intro h
   rfl
 
+theorem cont_right_unit_iff {h r : BHist} : Cont h BHist.Empty r ↔ hsame r h := by
+  constructor
+  · intro hr
+    exact cont_deterministic hr (cont_right_unit h)
+  · intro same
+    cases same
+    exact cont_right_unit h
+
 theorem cont_relation_generated_rules :
     (forall h : BHist, Cont h .Empty h) /\
       (forall {h k r : BHist}, Cont h k r -> Cont h (.e0 k) (.e0 r)) /\

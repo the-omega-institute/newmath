@@ -44,4 +44,13 @@ theorem inBundle_cons_cons_inversion {PName : Type} {x p q : PName}
   intro h
   exact h
 
+theorem bundle_generation_cases {PName : Type} (bundle : ProbeBundle PName) :
+    bundle = ProbeBundle.Bnil ∨
+      ∃ p : PName, ∃ tail : ProbeBundle PName, bundle = ProbeBundle.Bcons p tail := by
+  cases bundle with
+  | Bnil =>
+      exact Or.inl rfl
+  | Bcons p tail =>
+      exact Or.inr ⟨p, tail, rfl⟩
+
 end BEDC.FKernel.Bundle

@@ -56,8 +56,10 @@ By induction on the first generated continuation proof. In the empty case, the s
 \end{proof}
 
 \begin{theorem}[Continuation unit laws]
+\label{thm:continuation-unit-laws-spine}
 For every generated history \(k\), \(\ContR(\emp,k,k)\). Moreover, if \(\ContR(h,\emp,r)\), then \(\HSame(r,h)\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_right\_unit\_iff}
 \begin{proof}
 The left unit is the empty continuation constructor. The right unit is proved by induction on \(h\). The empty case is immediate. If \(h=\Ezero(h')\), use the induction hypothesis for \(h'\) and rebuild with the \(\Ezero\)-constructor. The \(\Eone\)-case is analogous.
 \end{proof}

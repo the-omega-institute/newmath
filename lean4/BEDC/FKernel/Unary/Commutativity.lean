@@ -148,6 +148,22 @@ theorem unary_cont_assoc_with_closure {a b c ab bc abc abc' : BHist} :
     · exact unary_cont_closed ub uc hbc
     · exact unary_continuation_associativity ua ub uc hab hbc habc habc'
 
+theorem unary_cont_closed_left_induction {h k r : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → UnaryHistory r := by
+  intro uh uk hr
+  induction h generalizing k r with
+  | Empty =>
+      have same : hsame r k := cont_deterministic hr (cont_left_unit k)
+      exact unary_transport uk (hsame_symm same)
+  | e0 _ _ =>
+      cases uh
+  | e1 h ih =>
+      cases hr
+      have inner : UnaryHistory (append h k) := ih uh uk rfl
+      have stepped : UnaryHistory (BHist.e1 (append h k)) := unary_e1_closed inner
+      exact unary_transport stepped
+        (hsame_symm (unary_append_e1_left (h := k) (k := h) uk))
+
 theorem comm_from_obligations
     (shift :
       ∀ {k h r : BHist}, UnaryHistory k → Cont k (.e1 h) r →
