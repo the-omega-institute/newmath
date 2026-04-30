@@ -51,6 +51,21 @@ The stability certificate consists of:
 \end{definition}
 \leanchecked{BEDC.Derived.ListUp.listClassifier\_refl}
 
+\begin{theorem}[List classifier stability under append]
+\label{thm:list-classifier-append-hsame}
+For BEDC histories, if two list pairs are structurally classified by \(\HSame\),
+then appending the first components and appending the second components
+preserves structural classification.
+\end{theorem}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_hsame}
+
+\begin{proof}
+Induct on the first list. The empty case returns the classification of the
+second pair. In the cons case, invert the second list and the structural
+classifier; the head \(\HSame\) witness is reused and the tail follows from
+the induction hypothesis.
+\end{proof}
+
 \begin{definition}[List ledger policy]
 \label{def:list-ledger-policy}
 Record the finite constructor spine and the source ledger for each element.

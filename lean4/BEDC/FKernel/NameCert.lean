@@ -20,6 +20,13 @@ structure NameCert
   equiv_trans : forall {h k r : BHist}, Equiv h k -> Equiv k r -> Equiv h r
   carrier_respects_equiv : forall {h k : BHist}, Equiv h k -> Carrier h -> Carrier k
 
+structure SemanticNameCert
+    (SourceSpec PatternSpec LedgerPolicy : BHist -> Prop)
+    (ClassifierSpec : BHist -> BHist -> Prop) : Prop where
+  core : NameCert SourceSpec ClassifierSpec
+  pattern_sound : forall {h : BHist}, SourceSpec h -> PatternSpec h
+  ledger_sound : forall {h : BHist}, SourceSpec h -> LedgerPolicy h
+
 theorem nameCert_carrier_witness
     {Carrier : BHist -> Prop}
     {Equiv : BHist -> BHist -> Prop}

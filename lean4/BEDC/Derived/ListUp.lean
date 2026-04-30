@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 
 namespace BEDC.Derived.ListUp
 
-def ListCarrier (A : Type) := List A
+abbrev ListCarrier (A : Type) := List A
 
 def ListClassifierSpec {A : Type} (sameA : A → A → Prop) :
     ListCarrier A → ListCarrier A → Prop
@@ -75,5 +75,29 @@ theorem ListClassifierSpec_hsame_trans :
                       constructor
                       · exact BEDC.FKernel.Hist.hsame_trans hxyHead hyzHead
                       · exact ih hxyTail hyzTail
+
+theorem ListClassifierSpec_append_hsame
+    {xs ys zs ws : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame zs ws ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame (xs ++ zs) (ys ++ ws) := by
+  intro hxy hzw
+  induction xs generalizing ys with
+  | nil =>
+      cases ys with
+      | nil =>
+          exact hzw
+      | cons _ _ =>
+          cases hxy
+  | cons _ xs ih =>
+      cases ys with
+      | nil =>
+          cases hxy
+      | cons _ _ =>
+          cases hxy with
+          | intro hhead htail =>
+              constructor
+              · exact hhead
+              · exact ih htail
 
 end BEDC.Derived.ListUp
