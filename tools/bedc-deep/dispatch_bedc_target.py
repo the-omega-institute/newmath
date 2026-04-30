@@ -17,8 +17,32 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
 BOARD_PATH = SCRIPT_DIR / "BOARD.md"
-MAX_CONTEXT_FILE_CHARS = 6000
-MAX_CONTEXT_TOTAL_CHARS = 18000
+MAX_CONTEXT_FILE_CHARS = 2500
+MAX_CONTEXT_TOTAL_CHARS = 7500
+CONTEXT_WINDOW_LINES = 6
+COMMON_CONTEXT_WORDS = {
+    "bedc",
+    "candidate",
+    "criterion",
+    "failure",
+    "field",
+    "inputs",
+    "layer",
+    "lean4",
+    "local",
+    "object",
+    "paper",
+    "papers",
+    "parts",
+    "problem",
+    "proof",
+    "proof_obligations",
+    "route",
+    "source",
+    "status",
+    "success",
+    "value",
+}
 
 
 @dataclass
@@ -91,7 +115,78 @@ def _safe_context_path(rel: str) -> Path | None:
     return path
 
 
-def _read_context_file(path: Path) -> str:
+def _camel_parts(text: str) -> list[str]:
+    chunks = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", text)
+    return re.findall(r"[A-Za-z][A-Za-z0-9_]+", chunks)
+
+
+def _target_keywords(target: BedcTarget) -> list[str]:
+    raw = " ".join([
+        target.title,
+        " ".join(target.fields.values()),
+        target.body,
+    ])
+    words: set[str] = set()
+    for token in re.findall(r"[A-Za-z][A-Za-z0-9_]+", raw):
+        for part in [token, *_camel_parts(token)]:
+            word = part.lower()
+            if len(word) >= 5 and word not in COMMON_CONTEXT_WORDS:
+                words.add(word)
+    object_name = target.fields.get("Object", "")
+    for token in re.split(r"[^A-Za-z0-9_]+", object_name):
+        if token:
+            words.add(token.lower())
+    return sorted(words)
+
+
+def _relevant_excerpt(text: str, target: BedcTarget) -> str:
+    keywords = _target_keywords(target)
+    lines = text.splitlines()
+    matches: list[tuple[int, int]] = []
+    for idx, line in enumerate(lines):
+        low = line.lower()
+        score = 0
+        for kw in keywords:
+            if kw and kw in low:
+                score += 4 if kw in target.fields.get("Object", "").lower() else 1
+        if re.search(r"\binductive\s+psame\b|\bstructure\s+PackageTokenPolicy\b|\bdef\s+TokUnique\b", line):
+            score += 6
+        if "\\lean" in line:
+            score += 1
+        if score:
+            matches.append((score, idx))
+    if not matches:
+        return text[:MAX_CONTEXT_FILE_CHARS] + f"\n\n[truncated after {MAX_CONTEXT_FILE_CHARS} chars]"
+
+    intervals: list[tuple[int, int]] = []
+    for _, idx in sorted(matches, key=lambda item: (-item[0], item[1]))[:14]:
+        start = max(0, idx - CONTEXT_WINDOW_LINES)
+        end = min(len(lines), idx + CONTEXT_WINDOW_LINES + 1)
+        intervals.append((start, end))
+    intervals.sort()
+
+    merged: list[tuple[int, int]] = []
+    for start, end in intervals:
+        if merged and start <= merged[-1][1] + 1:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+        else:
+            merged.append((start, end))
+
+    out: list[str] = []
+    for block_idx, (start, end) in enumerate(merged):
+        if block_idx:
+            out.append("[...]")
+        for line_no in range(start, end):
+            out.append(f"{line_no + 1}: {lines[line_no]}")
+        if sum(len(x) + 1 for x in out) >= MAX_CONTEXT_FILE_CHARS:
+            break
+    excerpt = "\n".join(out)
+    if len(excerpt) > MAX_CONTEXT_FILE_CHARS:
+        excerpt = excerpt[:MAX_CONTEXT_FILE_CHARS]
+    return excerpt + f"\n\n[excerpt selected by keywords: {', '.join(keywords[:16])}]"
+
+
+def _read_context_file(path: Path, target: BedcTarget) -> str:
     if not path.exists():
         return "[missing]"
     if path.is_dir():
@@ -103,8 +198,7 @@ def _read_context_file(path: Path) -> str:
         return "\n".join(entries[:120])
     text = path.read_text(encoding="utf-8", errors="replace")
     if len(text) > MAX_CONTEXT_FILE_CHARS:
-        head = text[:MAX_CONTEXT_FILE_CHARS]
-        return head + f"\n\n[truncated after {MAX_CONTEXT_FILE_CHARS} chars]"
+        return _relevant_excerpt(text, target)
     return text
 
 
@@ -116,7 +210,7 @@ def build_context_block(target: BedcTarget) -> str:
         if path is None:
             body = "[skipped: path outside repository]"
         else:
-            body = _read_context_file(path)
+            body = _read_context_file(path, target)
         remaining = MAX_CONTEXT_TOTAL_CHARS - total
         if remaining <= 0:
             blocks.append("\n[context truncated: total budget reached]")
@@ -169,7 +263,7 @@ Target payload:
 {json.dumps(payload, ensure_ascii=False, indent=2)}
 ```
 
-Local BEDC excerpts:
+Selected local BEDC excerpts:
 {build_context_block(target)}
 
 Task:
