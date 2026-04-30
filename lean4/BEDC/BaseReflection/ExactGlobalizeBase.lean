@@ -129,6 +129,31 @@ theorem ExactGlobalizeBase_coverage_sound_complete
       intro base
       exact ex.completeness h k p q hp hq base
 
+theorem ExactGlobalizeBase_coverage_sound_complete_classify
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D) :
+    (∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h) ∧
+      (∀ {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h → s.InGapSig P D q k →
+          (GeneratedSameSig s P h k → PsameBase s P p q) ∧
+          (PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)) ∧
+          (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k))) := by
+  constructor
+  · exact ex.coverage
+  · intro h k p q hp hq
+    constructor
+    · intro gen
+      exact ex.soundness h k p q hp hq gen
+    · constructor
+      · intro base
+        exact ex.completeness h k p q hp hq base
+      · constructor
+        · intro base
+          exact ex.completeness h k p q hp hq base
+        · intro generated
+          cases generated with
+          | intro gen =>
+              exact ex.soundness h k p q hp hq gen
+
 theorem no_scaffold_laundering_coverage_soundness
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) :
