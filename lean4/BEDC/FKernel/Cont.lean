@@ -99,6 +99,13 @@ theorem cont_assoc_middle_exists :
   cases habc
   exact ⟨append b c, rfl, append_assoc a b c⟩
 
+theorem cont_assoc_left_exists {h k l u v : BHist} :
+    Cont h k u -> Cont u l v -> exists w : BHist, Cont k l w /\ Cont h w v := by
+  intro hku huv
+  cases hku
+  cases huv
+  exact Exists.intro (append k l) (And.intro rfl (append_assoc h k l))
+
 theorem cont_assoc_relational {h k l u v w z : BHist} :
     Cont h k u -> Cont u l v -> Cont k l w -> Cont h w z -> hsame v z := by
   intro hku hulv klw hwz

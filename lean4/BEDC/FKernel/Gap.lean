@@ -69,6 +69,14 @@ theorem inGapSig_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
   exact hgap.right
 
 omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h ->
+      InDom D h /\ exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p := by
+  intro hgap
+  exact hgap
+
+omit [AskSetup] [PackageSetup] G in
 def CompGap {Source Inter Final : Type}
     (firstGap : Inter → Source → Prop)
     (secondGap : Final → Inter → Prop)
@@ -756,6 +764,14 @@ theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D h → hsame h k → InDom D k := by
   intro hh hhk
   exact policy.transport hh hhk
+
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_domain_transport_source [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
+    (policy : DomainPolicy D) :
+    InGapSig bundle D p h -> hsame h k -> InDom D k := by
+  intro hgap hhk
+  exact policy.transport hgap.left hhk
 
 omit [AskSetup] [PackageSetup] G in
 theorem domain_transport_symmetric [AskSetup] [PackageSetup] [DomainSetup]
