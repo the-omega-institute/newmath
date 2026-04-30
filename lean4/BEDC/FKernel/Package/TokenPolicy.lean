@@ -295,6 +295,15 @@ theorem packageTokenPolicy_reflection_symmetry_pair [AskSetup] [PackageSetup]
   have sameHist : hsame s t := policy.reflection left right samePkg
   exact And.intro sameHist (policy.soundness right left (hsame_symm sameHist))
 
+theorem packageTokenPolicy_reflect_sound_reflect_chain {bundle : ProbeBundle ProbeName}
+    (policy : PackageTokenPolicy bundle) {a b c : BHist} {p q r : Pkg} :
+    TokIntro bundle a p -> TokIntro bundle b q -> TokIntro bundle c r ->
+      psame bundle p q -> hsame b c -> hsame a c /\ psame bundle p r := by
+  intro left middle right samePkg sameTail
+  have sameHead : hsame a b := policy.reflection left middle samePkg
+  have sameAll : hsame a c := hsame_trans sameHead sameTail
+  exact And.intro sameAll (policy.soundness left right sameAll)
+
 theorem psame_trans_under_policy
     {bundle : ProbeBundle ProbeName} {a b c : BHist} {p q r : Pkg} :
     PackageTokenPolicy bundle ->

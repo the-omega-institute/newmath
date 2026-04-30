@@ -9,4 +9,9 @@ theorem cont_e0_result_witness {h k r : BHist} :
   intro hcont
   exact cont_step_result_inversions.left hcont
 
+theorem cont_e1_result_witness {h k r : BHist} :
+    Cont h (BHist.e1 k) r -> exists r0 : BHist, r = BHist.e1 r0 /\ Cont h k r0 := by
+  intro hcont
+  exact cont_step_result_inversions.right hcont
+
 end BEDC.FKernel.Cont
