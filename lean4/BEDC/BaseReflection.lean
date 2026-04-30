@@ -55,6 +55,12 @@ theorem CanonicalTokenMode_implies_TokUnique
       exact mode.canonicalUnique (mode.introToCanonical left) (mode.introToCanonical right)
   }
 
+theorem CanonicalTokenMode_tokenReplacement {s : BaseReflectionSetup} {P : s.Pi}
+    (mode : CanonicalTokenMode s P) {x y : s.SigObj} {p : s.Pkg} :
+    s.TokIntro P x p -> s.TokIntro P y p -> s.hsame x y := by
+  intro left right
+  exact mode.canonicalUnique (mode.introToCanonical left) (mode.introToCanonical right)
+
 inductive PsameBase (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop where
   | intro {x y : s.SigObj} {p q : s.Pkg} :
       s.TokIntro P x p → s.TokIntro P y q → s.hsame x y → PsameBase s P p q

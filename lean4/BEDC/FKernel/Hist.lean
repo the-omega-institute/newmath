@@ -120,4 +120,19 @@ theorem history_no_confusion :
       (∀ {h k : BHist}, hsame (.e1 h) (.e0 k) → False) := by
   exact hsame_no_confusion
 
+theorem hsame_no_confusion_symmetric :
+    (forall {h : BHist}, hsame (.e0 h) .Empty -> False) ∧
+      (forall {h : BHist}, hsame (.e1 h) .Empty -> False) ∧
+      (forall {h k : BHist}, hsame (.e1 h) (.e0 k) -> False) ∧
+      (forall {h k : BHist}, hsame (.e0 h) (.e1 k) -> False) := by
+  constructor
+  · intro h hs
+    cases hs
+  · constructor
+    · intro h hs
+      cases hs
+    · constructor
+      · exact not_hsame_e1_e0
+      · exact not_hsame_e0_e1
+
 end BEDC.FKernel.Hist

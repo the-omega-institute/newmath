@@ -80,6 +80,9 @@ theorem nat_up_name_certificate : NameCert UnaryName := by
 theorem nat_up_name_certificate_exists : Nonempty (NameCert UnaryName) := by
   exact Nonempty.intro nat_up_name_certificate
 
+theorem nat_up_stability_witness : Nonempty StabilityCert := by
+  exact Nonempty.intro ()
+
 theorem add_up_name_certificate_exists : Nonempty (NameCert AddName) := by
   exact Nonempty.intro (NameCert.mk () () () () ())
 
