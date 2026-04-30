@@ -20,6 +20,10 @@ theorem append_empty_left : forall h : BHist, append .Empty h = h := by
   | e1 h ih =>
       simp [append, ih]
 
+theorem append_empty_right : forall h : BHist, append h BHist.Empty = h := by
+  intro h
+  rfl
+
 def Cont (h k r : BHist) : Prop := r = append h k
 
 theorem cont_iff_append {h k r : BHist} : Cont h k r <-> r = append h k := by
