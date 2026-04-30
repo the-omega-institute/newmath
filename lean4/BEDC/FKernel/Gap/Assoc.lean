@@ -236,6 +236,58 @@ theorem compGap_four_witnesses_iff
                                     thirdWitness))
                                 fourthWitness)
 
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_four_right_nested_iff
+    {A B C D E : Type}
+    {first : B → A → Prop}
+    {second : C → B → Prop}
+    {third : D → C → Prop}
+    {fourth : E → D → Prop}
+    {z : E} {x : A} :
+    CompGap first (fun z b => CompGap second (fun z c => CompGap third fourth z c) z b)
+        z x ↔
+      ∃ b : B, ∃ c : C, ∃ d : D,
+        first b x ∧ second c b ∧ third d c ∧ fourth z d := by
+  constructor
+  · intro right
+    cases right with
+    | intro b bData =>
+        cases bData with
+        | intro firstWitness rest =>
+            cases rest with
+            | intro c cData =>
+                cases cData with
+                | intro secondWitness restData =>
+                    cases restData with
+                    | intro d dData =>
+                        cases dData with
+                        | intro thirdWitness fourthWitness =>
+                            exact Exists.intro b
+                              (Exists.intro c
+                                (Exists.intro d
+                                  (And.intro firstWitness
+                                    (And.intro secondWitness
+                                      (And.intro thirdWitness fourthWitness)))))
+  · intro witnesses
+    cases witnesses with
+    | intro b rest =>
+        cases rest with
+        | intro c restData =>
+            cases restData with
+            | intro d data =>
+                cases data with
+                | intro firstWitness tail =>
+                    cases tail with
+                    | intro secondWitness tailData =>
+                        cases tailData with
+                        | intro thirdWitness fourthWitness =>
+                            exact Exists.intro b
+                              (And.intro firstWitness
+                                (Exists.intro c
+                                  (And.intro secondWitness
+                                    (Exists.intro d
+                                      (And.intro thirdWitness fourthWitness)))))
+
 theorem compGap_assoc_witnesses
     {A B C D : Type}
     {first : B → A → Prop}

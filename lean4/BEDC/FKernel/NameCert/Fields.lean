@@ -169,4 +169,20 @@ theorem sealInterface_stability_witness [NameCertSetup] {Thread : Type} {name : 
   intro iface
   exact derived_interfaces_have_stability iface.nameCert
 
+theorem sealInterface_full_witnesses [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealInterface Thread name →
+      Nonempty Thread ∧ NameCert name ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  intro iface
+  cases iface with
+  | mk thread sealCertType sealCert nameCert ledger =>
+      constructor
+      · exact Nonempty.intro thread
+      · constructor
+        · exact nameCert
+        · constructor
+          · cases nameCert with
+            | mk source pattern classifier stability certLedger =>
+                exact Nonempty.intro stability
+          · exact ledger
+
 end BEDC.FKernel.NameCert
