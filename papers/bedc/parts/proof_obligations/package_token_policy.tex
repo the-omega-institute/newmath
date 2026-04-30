@@ -322,30 +322,29 @@ By Lemma~\ref{lem:token-replacement-policy}, the first token-introduction premis
 \begin{corollary}[Exact package-sameness under token uniqueness]
 \label{cor:exact-package-sameness}
 Assume \(\mathsf{TokUnique}(\Pi)\). For introduced tokens,
-\[
+$$
   \psame_{\Pi}^{\mathrm{sig}}(p,q)
-\]
+$$
 if and only if their introducing signatures are internally history-same.
-Under a package token policy, consecutive package-sameness judgments between introduced tokens compose to the outer package-sameness judgment.
 \end{corollary}
 \leanchecked{BEDC.BaseReflection.PsameBase\_iff\_hsame\_under\_tok\_unique}
 \leanvariant{BEDC.BaseReflection.PsameBase\_equivalence\_under\_tok\_unique}
 \leanvariant{BEDC.BaseReflection.exact\_package\_sameness}
-\leanvariant{BEDC.FKernel.Package.psame\_symm\_under\_policy}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_reflection\_symmetry\_pair}
-\leanvariant{BEDC.FKernel.Package.psame\_trans\_under\_policy}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_two\_step\_chain\_pair}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_chain\_three\_on\_introduced}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_four\_step\_on\_introduced}
-\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_psame\_refl\_on\_introduced}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_equivalence\_on\_introduced}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_two\_step\_reflect\_on\_introduced}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_three\_step\_reflect\_on\_introduced}
 \leanvariant{BEDC.FKernel.Package.psame\_trans\_under\_tok\_unique}
 \leanvariant{BEDC.FKernel.Package.psame\_three\_step\_reflect\_under\_tok\_unique}
 
 \begin{proof}
-The forward direction is Theorem~\ref{thm:package-reflection-token-unique}. The reverse direction is the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\). Transitivity follows by reflecting both package-sameness premises to history-sameness, composing the histories, and applying package-token soundness.
+The forward direction is Theorem~\ref{thm:package-reflection-token-unique}. The reverse direction is the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\).
+\end{proof}
+
+\begin{corollary}[Introduced-token closure under package token policy]
+\label{cor:package-token-policy-introduced-closure}
+Assume \(\PkgTokPol(\Pi)\). On tokens introduced by the package policy, package-sameness is closed under reflexivity, symmetry, and transitivity.
+\end{corollary}
+\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_psame\_equivalence\_on\_introduced}
+
+\begin{proof}
+The policy supplies package-token introduction and the generated package-sameness constructor. Reflexivity follows from the introduced-token witness, symmetry reverses the underlying history-sameness judgment, and transitivity composes the two reflected history-sameness judgments before applying package-token soundness.
 \end{proof}
 
 \begin{theorem}[PackageTokenPolicy from token uniqueness]
