@@ -23,6 +23,14 @@ inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
 def TokUnique (bundle : ProbeBundle ProbeName) : Prop :=
   ∀ {s t : BHist} {p : Pkg}, TokIntro bundle s p → TokIntro bundle t p → hsame s t
 
+theorem psame_reflect_under_tok_unique {bundle : ProbeBundle ProbeName}
+    (tok : TokUnique bundle) {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t := by
+  intro left right samePkg
+  cases samePkg with
+  | intro left0 right0 same0 =>
+      exact hsame_trans (tok left left0) (hsame_trans same0 (hsame_symm (tok right right0)))
+
 theorem psame_sound {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q := by
   intro hp hq hst
@@ -44,6 +52,17 @@ structure PackagePolicy (bundle : ProbeBundle ProbeName) : Prop where
     ∀ {s t : BHist} {p q : Pkg}, hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q
   grounding :
     ∀ {p q : Pkg}, psame bundle p q → ∃ s : BHist, ∃ t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t
+
+theorem packagePolicy_field_witnesses {bundle : ProbeBundle ProbeName}
+    (policy : PackagePolicy bundle) :
+    (∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) ∧
+    (∀ {s t : BHist} {p q : Pkg}, hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q) ∧
+    (∀ {p q : Pkg}, psame bundle p q → ∃ s : BHist, ∃ t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t) := by
+  constructor
+  · exact policy.existence
+  · constructor
+    · exact policy.extensionality
+    · exact policy.grounding
 
 theorem packagePolicy_token_exists {bundle : ProbeBundle ProbeName}
     (policy : PackagePolicy bundle) (s : BHist) :
