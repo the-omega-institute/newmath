@@ -59,6 +59,13 @@ PARTS_ROOT = PAPER_ROOT / "parts"
 
 BASE_BRANCH_DEFAULT = "paper-codex-auto-dev"
 BASE_BRANCH = BASE_BRANCH_DEFAULT
+# Peer branch participating in bidirectional sync. Before every session we
+# fetch the peer tip from origin and merge it into the local BASE_BRANCH so
+# both pipelines (paper / Lean) see each other's progress; the merge is
+# normally clean because the two pipelines write to disjoint subtrees
+# (papers/bedc/* vs lean4/BEDC/*).
+PEER_BRANCH_DEFAULT = "lean4-codex-auto-dev"
+PEER_BRANCH = PEER_BRANCH_DEFAULT
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 
 STOP_FILE = REPO_ROOT / ".paper_pipeline.stop"
@@ -347,6 +354,256 @@ def ensure_base_branch() -> None:
             logger.info(f"Base branch {BASE_BRANCH} created")
         else:
             logger.info(f"Base branch {BASE_BRANCH} exists")
+
+
+def _codex_resolve_merge_conflicts(
+    wt_path: Path, peer_label: str, *,
+    model: Optional[str] = None, timeout: int = 1800,
+) -> bool:
+    """Invoke codex to resolve an in-progress `git merge` at `wt_path`.
+
+    The two pipelines write largely disjoint subtrees so most conflicts are
+    additive (both sides added imports, theorems, or markers). On success
+    leaves a clean merge commit; on failure aborts the merge.
+    """
+    status = run_cmd(["git", "diff", "--name-only", "--diff-filter=U"], cwd=wt_path)
+    conflicted = [f.strip() for f in status.stdout.splitlines() if f.strip()]
+    if not conflicted:
+        c = run_cmd(["git", "commit", "--no-edit"], cwd=wt_path, timeout=30)
+        return c.returncode == 0
+
+    logger.info(f"[peer-sync] codex resolving {len(conflicted)} merge conflict(s): {conflicted}")
+    prompt = textwrap.dedent(f"""\
+        You are resolving a `git merge` conflict in the BEDC repository.
+        The merge is `{peer_label}` into the current branch. The two
+        pipelines (paper revision and Lean formalization) write largely
+        disjoint subtrees, so most conflicts are additive.
+
+        Conflicted files: {', '.join(conflicted)}
+
+        ## Resolution rules
+        - `lean4/BEDC.lean` and other index files: union all `import` lines
+          from both sides, dedup. Same for any re-export / namespace lists.
+        - `papers/bedc/parts/**/*.tex`: keep both sides' independent
+          paragraphs; dedup identical `\\leanchecked` / `\\leanvariant`
+          lines; if both sides edited the SAME paragraph incompatibly,
+          prefer the incoming side and reflow surrounding sentences.
+        - `lean4/BEDC/**/*.lean`: keep both sides' new declarations side
+          by side; if both redefined the SAME identifier, prefer the side
+          with a non-trivial proof body or strictly more general signature.
+        - Never introduce iteration-narrative vocabulary
+          (修订 / 新增 / patch / legacy / frozen / supersede / deprecated
+          / increment / amendment / version-prefix labels) when reconciling.
+
+        After resolving each file:
+          git add <file>
+        Then finalize the merge:
+          git commit --no-edit
+
+        Do NOT run `git push`. Do NOT `git merge --abort`.
+    """)
+    codex_exec(
+        prompt, work_dir=wt_path, timeout_seconds=timeout, model=model,
+        log_tag=f"peer_sync_merge_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+    )
+
+    remaining = run_cmd(["git", "diff", "--name-only", "--diff-filter=U"], cwd=wt_path)
+    if remaining.stdout.strip():
+        logger.error(f"[peer-sync] codex left unresolved conflicts: {remaining.stdout.strip()}")
+        run_cmd(["git", "merge", "--abort"], cwd=wt_path, timeout=30)
+        return False
+
+    head_state = run_cmd(["git", "rev-parse", "--verify", "MERGE_HEAD"],
+                         cwd=wt_path, timeout=10)
+    if head_state.returncode == 0:
+        c = run_cmd(["git", "commit", "--no-edit"], cwd=wt_path, timeout=30)
+        if c.returncode != 0:
+            logger.error(f"[peer-sync] post-resolve commit failed: {c.stderr.strip()[:200]}")
+            run_cmd(["git", "merge", "--abort"], cwd=wt_path, timeout=30)
+            return False
+
+    logger.info("[peer-sync] codex finalized merge cleanly")
+    return True
+
+
+def _peer_sync_via_worktree(peer_sha: str, *, model: Optional[str] = None,
+                             ff_only: bool = False) -> bool:
+    """Merge peer_sha into BASE_BRANCH from inside a temporary worktree
+    checked out on BASE_BRANCH, leaving REPO_ROOT's current HEAD untouched.
+    Falls back to codex on conflict unless ff_only=True.
+    """
+    WORKTREE_DIR.mkdir(parents=True, exist_ok=True)
+    wt_path = WORKTREE_DIR / "_peer_sync"
+    if wt_path.exists():
+        run_cmd(["git", "worktree", "remove", "--force", str(wt_path)], cwd=REPO_ROOT)
+        if wt_path.exists():
+            shutil.rmtree(wt_path, ignore_errors=True)
+    add = run_cmd(["git", "worktree", "add", str(wt_path), BASE_BRANCH],
+                  cwd=REPO_ROOT, timeout=60)
+    if add.returncode != 0:
+        logger.error(f"[peer-sync] cannot create temp worktree: {add.stderr.strip()[:200]}")
+        return False
+    try:
+        ff = run_cmd(["git", "merge", "--ff-only", peer_sha], cwd=wt_path, timeout=30)
+        if ff.returncode == 0:
+            logger.info(f"[peer-sync] ff-advanced {BASE_BRANCH} to {peer_sha[:8]} (via worktree)")
+            return True
+        if ff_only:
+            logger.info(
+                f"[peer-sync] non-ff and ff_only=True; will retry on next opportunity "
+                f"(or rerun with `--peer-sync-only` for codex-assisted merge)"
+            )
+            return False
+        m = run_cmd(
+            ["git", "merge", "--no-ff", peer_sha,
+             "-m", f"Sync {PEER_BRANCH} into {BASE_BRANCH}"],
+            cwd=wt_path, timeout=120,
+        )
+        if m.returncode != 0:
+            logger.warning(
+                f"[peer-sync] merge conflict in worktree; invoking codex "
+                f"(stdout={m.stdout.strip()[:200]})"
+            )
+            if not _codex_resolve_merge_conflicts(
+                wt_path, f"origin/{PEER_BRANCH}", model=model
+            ):
+                return False
+        logger.info(f"[peer-sync] merged {PEER_BRANCH} into {BASE_BRANCH} (via worktree)")
+        return True
+    finally:
+        run_cmd(["git", "worktree", "remove", "--force", str(wt_path)],
+                cwd=REPO_ROOT, timeout=60)
+        if wt_path.exists():
+            shutil.rmtree(wt_path, ignore_errors=True)
+
+
+def sync_with_peer_branch(*, push: bool = True, model: Optional[str] = None,
+                           ff_only: bool = False) -> bool:
+    """Fetch PEER_BRANCH from origin and merge it into local BASE_BRANCH.
+
+    The two pipelines write disjoint subtrees so the merge is normally
+    clean; on conflict we delegate resolution to codex (long, blocks
+    rounds via _git_lock). Pass `ff_only=True` to skip the codex path —
+    used by the background sync ticker so a stuck merge never starves
+    the rest of the pipeline. Returns True iff BASE_BRANCH ends up
+    containing PEER_BRANCH (already-up-to-date counts as True; ff_only
+    refusal counts as False so callers can retry later).
+    """
+    if not PEER_BRANCH or PEER_BRANCH == BASE_BRANCH:
+        return True
+
+    with _git_lock:
+        logger.info(f"[peer-sync] fetching origin/{PEER_BRANCH}…")
+        f = run_cmd(["git", "fetch", "origin", PEER_BRANCH],
+                    cwd=REPO_ROOT, timeout=300)
+        if f.returncode != 0:
+            logger.warning(f"[peer-sync] fetch failed: {f.stderr.strip()[:200]}")
+            return False
+
+        peer = run_cmd(["git", "rev-parse", f"origin/{PEER_BRANCH}"],
+                       cwd=REPO_ROOT, timeout=10).stdout.strip()
+        base = run_cmd(["git", "rev-parse", BASE_BRANCH],
+                       cwd=REPO_ROOT, timeout=10).stdout.strip()
+        if not peer or not base:
+            logger.warning(f"[peer-sync] cannot resolve refs (peer={peer!r}, base={base!r})")
+            return False
+
+        already = run_cmd(["git", "merge-base", "--is-ancestor", peer, base],
+                          cwd=REPO_ROOT, timeout=10)
+        if already.returncode == 0:
+            logger.debug(f"[peer-sync] origin/{PEER_BRANCH} ({peer[:8]}) already in {BASE_BRANCH}")
+            return True
+
+        head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
+                       cwd=REPO_ROOT, timeout=10).stdout.strip()
+        on_base = head == BASE_BRANCH
+
+        if on_base:
+            ff = run_cmd(["git", "merge", "--ff-only", peer],
+                         cwd=REPO_ROOT, timeout=30)
+            if ff.returncode == 0:
+                logger.info(f"[peer-sync] ff-advanced {BASE_BRANCH} to {peer[:8]}")
+            elif ff_only:
+                logger.info(
+                    f"[peer-sync] non-ff and ff_only=True; will retry on next opportunity"
+                )
+                return False
+            else:
+                m = run_cmd(
+                    ["git", "merge", "--no-ff", peer,
+                     "-m", f"Sync {PEER_BRANCH} into {BASE_BRANCH}"],
+                    cwd=REPO_ROOT, timeout=120,
+                )
+                if m.returncode != 0:
+                    logger.warning(
+                        f"[peer-sync] merge conflict; invoking codex "
+                        f"(stdout={m.stdout.strip()[:200]})"
+                    )
+                    if not _codex_resolve_merge_conflicts(
+                        REPO_ROOT, f"origin/{PEER_BRANCH}", model=model
+                    ):
+                        return False
+                logger.info(f"[peer-sync] merged {PEER_BRANCH} into {BASE_BRANCH}")
+        else:
+            if not _peer_sync_via_worktree(peer, model=model, ff_only=ff_only):
+                return False
+
+        if push:
+            p = run_cmd(["git", "push", "origin", BASE_BRANCH],
+                        cwd=REPO_ROOT, timeout=300)
+            if p.returncode != 0:
+                logger.warning(f"[peer-sync] push failed: {p.stderr.strip()[:200]}")
+                return False
+            logger.info(f"[peer-sync] {BASE_BRANCH} pushed to origin")
+        return True
+
+
+# ---------------------------------------------------------------------------
+# Background peer-sync ticker
+#
+# Runs sync_with_peer_branch(ff_only=True) on a fixed interval while the
+# pipeline is dispatching rounds. Background ticks are ff-only because they
+# share `_git_lock` with worker merges — letting a tick block on a 3-minute
+# codex resolve would starve every in-flight worker. Conflicts surfaced by
+# ff-only refusal can be resolved by the operator running
+# `--peer-sync-only` between batches, or by the next session-start sync.
+# ---------------------------------------------------------------------------
+
+_peer_sync_stop = threading.Event()
+_peer_sync_thread: Optional[threading.Thread] = None
+
+
+def _peer_sync_loop(interval: int, model: Optional[str]) -> None:
+    logger.info(f"[peer-sync] background ticker started (interval={interval}s, ff-only)")
+    while not _peer_sync_stop.is_set():
+        if _peer_sync_stop.wait(timeout=interval):
+            break
+        try:
+            sync_with_peer_branch(model=model, ff_only=True)
+        except Exception as exc:
+            logger.warning(f"[peer-sync] background tick failed: {exc}")
+    logger.info("[peer-sync] background ticker stopped")
+
+
+def start_peer_sync_ticker(interval: int, model: Optional[str]) -> None:
+    global _peer_sync_thread
+    if interval <= 0 or not PEER_BRANCH:
+        return
+    if _peer_sync_thread and _peer_sync_thread.is_alive():
+        return
+    _peer_sync_stop.clear()
+    _peer_sync_thread = threading.Thread(
+        target=_peer_sync_loop, args=(interval, model),
+        daemon=True, name="peer-sync",
+    )
+    _peer_sync_thread.start()
+
+
+def stop_peer_sync_ticker() -> None:
+    _peer_sync_stop.set()
+    t = _peer_sync_thread
+    if t and t.is_alive():
+        t.join(timeout=15)
 
 
 def create_worktree(round_num: int) -> WorktreeInfo:
@@ -1238,7 +1495,7 @@ def run_parallel_batch(
 # ---------------------------------------------------------------------------
 
 def main() -> int:
-    global BASE_BRANCH
+    global BASE_BRANCH, PEER_BRANCH
 
     parser = argparse.ArgumentParser(
         description="BEDC paper Codex revision pipeline (review + revise) with worktree parallelism",
@@ -1269,11 +1526,27 @@ def main() -> int:
     parser.add_argument("--resume", action="store_true",
                         help=f"Remove {STOP_FILE.name}")
     parser.add_argument("--base-branch", type=str, default=BASE_BRANCH_DEFAULT)
+    parser.add_argument("--peer-branch", type=str, default=PEER_BRANCH_DEFAULT,
+                        help=f"Peer branch to bidirectionally sync with at "
+                             f"session start (default: {PEER_BRANCH_DEFAULT}). "
+                             f"Pass empty string to disable.")
+    parser.add_argument("--no-peer-sync", action="store_true",
+                        help="Skip the pre-flight peer-branch sync.")
+    parser.add_argument("--peer-sync-only", action="store_true",
+                        help="Run the peer-branch sync and exit "
+                             "(no rounds dispatched).")
+    parser.add_argument("--peer-sync-interval", type=int, default=600,
+                        help="Background peer-sync ticker interval in seconds "
+                             "(default 600). 0 = disable, only initial sync. "
+                             "Background ticks are ff-only — non-ff merges "
+                             "wait for the next initial / manual sync.")
     parser.add_argument("--no-mem-guard", action="store_true",
                         help="Disable macOS memory-pressure dispatch guard")
     args = parser.parse_args()
 
+    global PEER_BRANCH
     BASE_BRANCH = args.base_branch
+    PEER_BRANCH = (args.peer_branch or "").strip()
     if args.no_mem_guard:
         _MEM_GUARD_CFG["enabled"] = False
 
@@ -1325,6 +1598,17 @@ def main() -> int:
 
     if not args.dry_run:
         ensure_base_branch()
+        if PEER_BRANCH and not args.no_peer_sync:
+            logger.info(f"Peer sync: {PEER_BRANCH} ⇄ {BASE_BRANCH}")
+            ok = sync_with_peer_branch(model=args.model)
+            if not ok:
+                logger.warning(
+                    "[peer-sync] failed; continuing without sync. "
+                    "Resolve manually if cross-pipeline drift accumulates."
+                )
+        if args.peer_sync_only:
+            logger.info("Peer-sync-only requested; exiting without dispatching rounds.")
+            return 0
         run_cmd(["git", "worktree", "prune"], cwd=REPO_ROOT)
         if WORKTREE_DIR.exists():
             for entry in WORKTREE_DIR.iterdir():
@@ -1341,6 +1625,10 @@ def main() -> int:
         state.consecutive_failures = 0
         save_state(state)
     logger.info(f"Starting at P{state.round_number}")
+
+    if (not args.dry_run and PEER_BRANCH and not args.no_peer_sync
+            and args.peer_sync_interval > 0):
+        start_peer_sync_ticker(args.peer_sync_interval, args.model)
 
     total_succeeded = total_failed = 0
 
@@ -1425,6 +1713,8 @@ def main() -> int:
             logger.info(f"Batch {batch_idx + 1}: {s} succeeded, {f} failed")
             if batch_idx < args.rounds - 1 and not args.dry_run:
                 time.sleep(5)
+
+    stop_peer_sync_ticker()
 
     logger.info(f"{'='*60}")
     logger.info(f"Session complete: {total_succeeded} succeeded, {total_failed} failed")
