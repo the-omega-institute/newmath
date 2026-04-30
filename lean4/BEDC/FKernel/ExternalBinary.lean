@@ -10,6 +10,16 @@ def append : BWord → BWord → BWord
   | a, .bit0 b => .bit0 (append a b)
   | a, .bit1 b => .bit1 (append a b)
 
+theorem external_append_empty_left : forall w : BWord, append .nil w = w := by
+  intro w
+  induction w with
+  | nil =>
+      rfl
+  | bit0 w ih =>
+      exact congrArg BWord.bit0 ih
+  | bit1 w ih =>
+      exact congrArg BWord.bit1 ih
+
 theorem external_append_assoc :
     forall a b c : BWord, append (append a b) c = append a (append b c) := by
   intro a b c

@@ -261,6 +261,16 @@ structure StableTransformation
   respects : ∀ {a b : Source}, sourceSame a b -> targetSame (map a) (map b)
   ledger : Nonempty Ledger
 
+theorem stableTransformation_ledger_witness
+    {Source Target Ledger : Type}
+    {sourceSame : Source -> Source -> Prop}
+    {targetSame : Target -> Target -> Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame) :
+    Nonempty Ledger := by
+  cases cert with
+  | mk map respects ledger =>
+      exact ledger
+
 theorem stableTransformation_descends_to_packages
     {Source Target Ledger : Type}
     {sourceSame : Source -> Source -> Prop}

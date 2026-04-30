@@ -84,6 +84,16 @@ def CompGap {Source Inter Final : Type}
   ∃ y : Inter, firstGap y x ∧ secondGap z y
 
 omit [AskSetup] [PackageSetup] G in
+theorem compGap_intro
+    {Source Inter Final : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    {z : Final} {x : Source} {y : Inter} :
+    firstGap y x -> secondGap z y -> CompGap firstGap secondGap z x := by
+  intro hfirst hsecond
+  exact Exists.intro y (And.intro hfirst hsecond)
+
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_inversion
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}
