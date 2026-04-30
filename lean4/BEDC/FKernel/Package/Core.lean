@@ -132,6 +132,16 @@ theorem psame_constructor_grounding
   | intro hp hq hst =>
       exact Exists.intro _ (Exists.intro _ (And.intro hp (And.intro hq hst)))
 
+omit [AskSetup] P in
+theorem signature_package_relation_generated_only [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {p q : Pkg} :
+    psame bundle p q → ∃ s : BHist, ∃ t : BHist,
+      TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t := by
+  intro hpq
+  cases hpq with
+  | intro hp hq hst =>
+      exact Exists.intro _ (Exists.intro _ (And.intro hp (And.intro hq hst)))
+
 theorem psame_left_token_witness {bundle : ProbeBundle ProbeName} {p q : Pkg} :
     psame bundle p q → exists s : BHist, TokIntro bundle s p := by
   intro hpq

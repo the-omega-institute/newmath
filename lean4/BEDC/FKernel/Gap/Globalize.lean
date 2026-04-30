@@ -11,6 +11,12 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 
 variable [AskSetup] [PackageSetup] [G : DomainSetup]
+
+def signature_globalization_instance [AskSetup] [PackageSetup] [DomainSetup]
+    (bundle : ProbeBundle ProbeName) (D : Domain) :
+    (BHist → Pkg → Prop) × (Pkg → Pkg → Prop) × (Pkg → BHist → Prop) :=
+  (PkgSig bundle, psame bundle, fun p h => InGapSig bundle D p h)
+
 omit G in
 theorem policy_globalize_exact {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle -> TokIntro bundle s p -> TokIntro bundle t q ->
