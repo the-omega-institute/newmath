@@ -141,6 +141,10 @@ theorem PsameBase_inversion_exists
 
 abbrev PsameSig (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop := PsameBase s P
 
+theorem PsameSig_iff_PsameBase {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameSig s P p q <-> PsameBase s P p q := by
+  rfl
+
 theorem PsameSig_constructor_inversion
     {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PsameSig s P p q ->

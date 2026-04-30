@@ -100,6 +100,18 @@ theorem unary_cont_right_factor {h k r : BHist} :
   | e1 k ih =>
       exact ih ur
 
+theorem unary_cont_left_factor {h k r : BHist} :
+    Cont h k r -> UnaryHistory r -> UnaryHistory h := by
+  intro hr ur
+  cases hr
+  induction k generalizing h with
+  | Empty =>
+      exact ur
+  | e0 k ih =>
+      cases ur
+  | e1 k ih =>
+      exact ih ur
+
 theorem unary_cont_unit {h left right : BHist} :
     UnaryHistory h -> Cont h BHist.Empty left -> Cont BHist.Empty h right ->
       UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h := by
