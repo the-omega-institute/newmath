@@ -30,13 +30,15 @@ where \(\pi:\PN\), \(h:\Hist\), \(m:\Mark\), and \(\delta:\Ev\). It is read: ask
 
 \begin{definition}[Asking policy]
 \label{def:asking-policy}
-An asking policy \(\AskPol(\Pi,D)\) for a bundle \(\Pi\) over a source specification \(D\) consists of:
+An asking policy $\AskPol(\Pi,D)$ is paper notation for using a checked $\mathsf{AskPolicy}(D)$ certificate at bundle $\Pi$.
+The bundle is not a field of the certificate; it determines which probe-name occurrences the surrounding signature construction consumes.
+The certificate provides:
 \begin{enumerate}
-  \item totality: every admitted history in \(D\) has generated asking events for every probe in \(\Pi\);
-  \item mark determinacy: if \(\Ask(\pi,h,m,\delta)\) and \(\Ask(\pi,h,n,\theta)\), then \(\msame(m,n)\);
-  \item history-respect: if \(\hsame(h,k)\), then asking results agree up to \(\msame\) whenever both are generated.
+  \item totality: every admitted history in $D$ has generated asking events for each probe name, with the Lean field quantified over all probe names;
+  \item mark determinacy: if $\Ask(\pi,h,m,\delta)$ and $\Ask(\pi,h,n,\theta)$, then $\msame(m,n)$;
+  \item history-respect: if $\hsame(h,k)$, then asking results agree up to $\msame$ whenever both are generated.
 \end{enumerate}
-The word ``consists'' is a metalanguage description of a certificate record; the object-language content is exactly totality, mark determinacy, and history-respect.
+The object-language content is exactly totality, mark determinacy, and history-respect.
 \end{definition}
 \leanchecked{BEDC.FKernel.Ask.AskPolicy\_iff\_fields}
 \leanvariant{BEDC.FKernel.Ask.ask\_policy\_fields}
