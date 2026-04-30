@@ -45,4 +45,39 @@ theorem sameSig_trans_with_middle_witness [AskSetup] {bundle : ProbeBundle Probe
                       (And.intro hs
                         (And.intro hv hsv)))
 
+theorem sameSig_middle_witnesses_hsame_under_policy [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : AskPolicy D) {h k l : BHist} :
+    D k -> SameSig bundle h k -> SameSig bundle k l ->
+      Exists (fun t : BHist => Exists (fun u : BHist =>
+        And (SigRel bundle k t) (And (SigRel bundle k u) (hsame t u)))) := by
+  intro dk hhk hkl
+  cases hhk with
+  | intro _ hhkTail =>
+      cases hhkTail with
+      | intro t hhkData =>
+          cases hhkData with
+          | intro _ hhkRest =>
+              cases hhkRest with
+              | intro htk _ =>
+                  cases hkl with
+                  | intro u hklTail =>
+                      cases hklTail with
+                      | intro _ hklData =>
+                          cases hklData with
+                          | intro huk _ =>
+                              exact Exists.intro t
+                                (Exists.intro u
+                                  (And.intro htk
+                                    (And.intro huk
+                                      (sig_deterministic
+                                        (bundle := bundle)
+                                        (D := D)
+                                        (h := k)
+                                        (s := t)
+                                        (t := u)
+                                        policy
+                                        dk
+                                        htk
+                                        huk))))
+
 end BEDC.FKernel.Sig
