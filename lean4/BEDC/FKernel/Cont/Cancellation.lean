@@ -26,4 +26,17 @@ theorem continuation_right_cancellation {h h' k r : BHist} :
   intro left right
   exact cont_right_cancel left right
 
+theorem cont_mutual_extension_hsame {h k leftTail rightTail : BHist} :
+    Cont h leftTail k -> Cont k rightTail h -> hsame h k := by
+  intro left right
+  have cycle : Cont h (append leftTail rightTail) h := by
+    exact right.trans
+      ((congrArg (fun x => append x rightTail) left).trans
+        (append_assoc h leftTail rightTail))
+  have tailEmpty : hsame (append leftTail rightTail) BHist.Empty :=
+    cont_right_unit_unique cycle
+  have leftEmpty : leftTail = BHist.Empty := (append_eq_empty_iff.mp tailEmpty).left
+  cases leftEmpty
+  exact left.symm
+
 end BEDC.FKernel.Cont
