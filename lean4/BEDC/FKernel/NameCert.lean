@@ -31,6 +31,10 @@ inductive NameCert (N : DerivedName) : Prop where
       LedgerPolicy →
       NameCert N
 
+structure SealEvent (Thread : Type) (name : DerivedName) : Type where
+  sealCert : StabilityCert
+  ledger : LedgerPolicy
+
 theorem derived_interfaces_require_certificates {n : DerivedName} :
     NameCert n -> Nonempty (NameCert n) := by
   intro cert

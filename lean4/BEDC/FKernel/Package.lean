@@ -40,6 +40,15 @@ theorem psame_reflect_under_tok_unique {bundle : ProbeBundle ProbeName}
   | intro left0 right0 same0 =>
       exact hsame_trans (tok left left0) (hsame_trans same0 (hsame_symm (tok right right0)))
 
+theorem psame_trans_under_tok_unique {bundle : ProbeBundle ProbeName} (tok : TokUnique bundle) {p q r : Pkg} :
+    psame bundle p q → psame bundle q r → psame bundle p r := by
+  intro leftSame rightSame
+  cases leftSame with
+  | intro left middle leftHist =>
+      cases rightSame with
+      | intro middle0 right rightHist =>
+          exact psame.intro left right (hsame_trans leftHist (hsame_trans (tok middle middle0) rightHist))
+
 theorem psame_sound {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q := by
   intro hp hq hst
