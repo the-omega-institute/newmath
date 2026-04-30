@@ -49,6 +49,15 @@ theorem IntervalCarrier_empty_boundary_hsame_transport {h k : BEDC.FKernel.Hist.
             · exact BEDC.FKernel.Hist.hsame_trans lower same
             · exact BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm same) upper
 
+theorem IntervalCarrier_empty_boundary_unique {h k : BHist} :
+    IntervalCarrier (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) h →
+      IntervalCarrier (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) k →
+      hsame h k := by
+  intro hCarrier kCarrier
+  exact hsame_trans hCarrier.right.right (hsame_symm kCarrier.right.right)
+
 theorem IntervalClassifierSpec_empty_boundary_of_hsame {h k : BHist} :
     hsame h BHist.Empty -> hsame k BHist.Empty ->
       IntervalClassifierSpec

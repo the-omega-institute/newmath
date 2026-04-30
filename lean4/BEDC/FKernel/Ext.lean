@@ -116,6 +116,33 @@ theorem ext_constructor_characterization {h r : BHist} {m : BMark} :
               cases hr
               exact Ext.e1 h
 
+theorem ext_result_constructor_iff {h tail : BHist} :
+    (∀ {m : BMark}, Ext h m (BHist.e0 tail) ↔ m = BMark.b0 ∧ hsame h tail) ∧
+      (∀ {m : BMark}, Ext h m (BHist.e1 tail) ↔ m = BMark.b1 ∧ hsame h tail) := by
+  constructor
+  · intro m
+    constructor
+    · intro hx
+      cases hx
+      exact ⟨rfl, rfl⟩
+    · intro data
+      cases data with
+      | intro hm hs =>
+          cases hm
+          cases hs
+          exact Ext.e0 h
+  · intro m
+    constructor
+    · intro hx
+      cases hx
+      exact ⟨rfl, rfl⟩
+    · intro data
+      cases data with
+      | intro hm hs =>
+          cases hm
+          cases hs
+          exact Ext.e1 h
+
 theorem ext_result_for_mark {h r : BHist} {m : BMark} :
     Ext h m r → (m = BMark.b0 → r = BHist.e0 h) ∧ (m = BMark.b1 → r = BHist.e1 h) := by
   intro hr
