@@ -51,4 +51,15 @@ theorem nameCert_source_pattern_classifier_stability_from_cert [NameCertSetup]
           · exact Nonempty.intro classifier
           · exact Nonempty.intro stability
 
+theorem nameCert_classifier_stability_ledger_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name → Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      constructor
+      · exact Nonempty.intro classifier
+      · constructor
+        · exact Nonempty.intro stability
+        · exact Nonempty.intro ledger
+
 end BEDC.FKernel.NameCert

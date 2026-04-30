@@ -179,6 +179,26 @@ theorem psame_iff_hsame
     exact policy.soundness left right sameHist
 
 omit [AskSetup] P in
+theorem PackageTokenPolicy_iff_classifies_introduced [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} :
+    PackageTokenPolicy bundle ↔
+      ∀ {s t : BHist} {p q : Pkg},
+        TokIntro bundle s p → TokIntro bundle t q → (psame bundle p q ↔ hsame s t) := by
+  constructor
+  · intro policy
+    intro s t p q left right
+    exact psame_iff_hsame policy left right
+  · intro classifies
+    exact {
+      soundness := by
+        intro s t p q left right sameHist
+        exact (classifies left right).mpr sameHist
+      reflection := by
+        intro s t p q left right samePkg
+        exact (classifies left right).mp samePkg
+    }
+
+omit [AskSetup] P in
 theorem exact_signature_package [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
     {s t : BHist} {p q : Pkg} :

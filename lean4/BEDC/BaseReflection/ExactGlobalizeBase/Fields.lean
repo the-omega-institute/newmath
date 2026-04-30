@@ -27,4 +27,17 @@ theorem ExactGlobalizeBase_four_field_export
         intro h k p q hp hq
         exact ExactGlobalizeBase_classify_iff ex hp hq
 
+theorem ExactGlobalizeBase_covered_classification
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) {h k : s.Hist}
+    (hdom : s.InDom D h) (kdom : s.InDom D k) :
+    ∃ p : s.Pkg, ∃ q : s.Pkg,
+      s.InGapSig P D p h ∧ s.InGapSig P D q k ∧
+        (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  cases ex.coverage h hdom with
+  | intro p hp =>
+      cases ex.coverage k kdom with
+      | intro q hq =>
+          exact ⟨p, q, hp, hq, ExactGlobalizeBase_classify_iff ex hp hq⟩
+
 end BEDC.BaseReflection
