@@ -515,6 +515,24 @@ $$
 Bundle-local signature source respect transports the premise $\hsame(h,k)$ across these two generated signatures and yields $\hsame(s,t)$. The two signature witnesses together with this generated-history sameness form $\sameSig_\Pi(h,k)$.
 \end{proof}
 
+\begin{theorem}[Bundle-local signature-sameness equivalence]
+\label{thm:bundle-local-signature-sameness-equivalence}
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$. If $h\in D$, then
+$\sameSig_\Pi(h,h)$; if $\sameSig_\Pi(h,k)$, then $\sameSig_\Pi(k,h)$;
+and if $k\in D$, $\sameSig_\Pi(h,k)$, and $\sameSig_\Pi(k,l)$, then
+$\sameSig_\Pi(h,l)$.
+\end{theorem}
+\begin{proof}
+For reflexivity, bundle-local signature existence gives a signature generated
+from the admitted history $h$, and $\hsame$-reflexivity relates that generated
+answer history to itself. For symmetry, unpack the two signature witnesses,
+swap their order, and apply $\hsame$-symmetry. For transitivity through $k$,
+unpack both signature-sameness hypotheses. The admitted middle history $k$
+has two generated signature results; bundle-local signature determinacy
+identifies them by $\hsame$. Composing with $\hsame$-transitivity connects the
+left answer history to the right answer history, yielding $\sameSig_\Pi(h,l)$.
+\end{proof}
+
 \begin{theorem}[Signature determinacy under an asking policy]
 \label{thm:signature-determinacy-under-asking-policy}
 Assume $\AskPol(\Pi,D)$. If $h$ is admitted by $D$ and

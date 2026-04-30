@@ -23,9 +23,13 @@ A package policy \(\PkgPol(\Pi)\) consists of the following certified fields:
 
 \begin{theorem}[Packages classify signatures]
 \label{thm:packages-classify-signatures-core}
-Under \(\PkgPol(\Pi)\), package-sameness is determined by signature-sameness of answer histories.
+Under $\PkgPol(\Pi)$, if $\Pkg(\Pi,s,p)$ and $\Pkg(\Pi,t,q)$, then
+$\hsame(s,t)$ implies $\psame(p,q)$. Conversely, if $\psame(p,q)$, then
+there exist answer histories $u,v$ such that $\Pkg(\Pi,u,p)$,
+$\Pkg(\Pi,v,q)$, and $\hsame(u,v)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Package.packagePolicy\_classifies\_signature\_witnesses}
 \begin{proof}
-The forward direction is the grounding field. The backward direction is the extensionality field.
+The first direction is the extensionality field. The second direction is the
+grounding field.
 \end{proof}
