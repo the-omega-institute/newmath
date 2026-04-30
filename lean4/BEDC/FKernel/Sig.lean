@@ -113,6 +113,16 @@ theorem sameSig_witnesses [AskSetup] {bundle : ProbeBundle ProbeName} {h k : BHi
   intro witnesses
   exact witnesses
 
+omit [AskSetup] in
+theorem sameSig_refl_from_witness [AskSetup] {bundle : ProbeBundle ProbeName} {h s : BHist} :
+    SigRel bundle h s → SameSig bundle h h := by
+  intro witness
+  exact Exists.intro s
+    (Exists.intro s
+      (And.intro witness
+        (And.intro witness
+          (hsame_refl s))))
+
 def SigTotalOn (bundle : ProbeBundle ProbeName) (D : BHist → Prop) : Prop :=
   ∀ h : BHist, D h → ∃ s : BHist, SigRel bundle h s
 
