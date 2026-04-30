@@ -68,6 +68,7 @@ class DeclarationRecord:
     kind: str
     name: str
     qualified_name: str
+    is_private: bool = False
 
 
 @dataclass(frozen=True)
@@ -243,6 +244,7 @@ def collect_declarations(path: Path) -> tuple[list[DeclarationRecord], list[Fiel
         kind = match.group("kind")
         name = (match.group("name") or f"<anonymous_{kind}_{idx}>").strip()
         qualified = qualified_name(name, namespace)
+        is_private = re.match(r"^\s*(?:@\[[^\]]+\]\s*)*private\b", line) is not None
         decls.append(
             DeclarationRecord(
                 module=module,
@@ -251,6 +253,7 @@ def collect_declarations(path: Path) -> tuple[list[DeclarationRecord], list[Fiel
                 kind=kind,
                 name=name,
                 qualified_name=qualified,
+                is_private=is_private,
             )
         )
 
@@ -376,6 +379,7 @@ def inventory_payload(
                 "kind": d.kind,
                 "name": d.name,
                 "qualified_name": d.qualified_name,
+                "is_private": d.is_private,
             }
             for d in decls
         ],
@@ -709,7 +713,13 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
 
     declarations, _fields = build_declaration_inventory()
     theorems = sorted(
-        {d.qualified_name for d in declarations if d.kind in ("theorem", "lemma") and d.qualified_name.startswith("BEDC.")}
+        {
+            d.qualified_name
+            for d in declarations
+            if d.kind in ("theorem", "lemma")
+            and d.qualified_name.startswith("BEDC.")
+            and not d.is_private
+        }
     )
     if not theorems:
         print("[bedc-ci] axiom-purity: no BEDC theorems found", file=sys.stderr)
@@ -759,6 +769,10 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
         for ax in axs:
             if ax in forbidden:
                 violations.append((decl, ax))
+    parsed = set(pure)
+    parsed.update(decl for decl, _axs in impure)
+    missing = sorted(set(theorems) - parsed)
+    lean_failed = result.returncode != 0
 
     if args.json:
         payload = {
@@ -768,8 +782,10 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
             "violations": [
                 {"declaration": decl, "axiom": ax} for decl, ax in violations
             ],
+            "missing_results": missing,
+            "lean_returncode": result.returncode,
             "forbidden_axioms": sorted(forbidden),
-            "passed": len(violations) == 0,
+            "passed": not lean_failed and not missing and len(violations) == 0,
         }
         print(json.dumps(payload, indent=2, ensure_ascii=False))
     else:
@@ -793,8 +809,19 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
                 print(f"  {decl} -> {ax}")
             if len(violations) > 50:
                 print(f"  ... and {len(violations) - 50} more")
+        if lean_failed:
+            print(f"[bedc-ci] axiom-purity FAIL: lean returned {result.returncode}")
+            tail = "\n".join(output.strip().splitlines()[-20:])
+            if tail:
+                print(tail)
+        if missing:
+            print(f"[bedc-ci] axiom-purity FAIL: {len(missing)} theorem(s) had no parsed #print axioms result")
+            for decl in missing[:50]:
+                print(f"  {decl}")
+            if len(missing) > 50:
+                print(f"  ... and {len(missing) - 50} more")
 
-    return 0 if not violations else 1
+    return 0 if not lean_failed and not missing and not violations else 1
 
 
 def cmd_verify_files(args: argparse.Namespace) -> int:

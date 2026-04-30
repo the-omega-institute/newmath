@@ -157,6 +157,10 @@ theorem unary_addition_seed_from_policy :
   intro policy h k r uh uk cont
   exact policy uh uk cont
 
-theorem unary_addition_seed : True := True.intro
+theorem unary_addition_seed :
+    NameCert UnaryHistory AddClassifierSpec ∧ AddLedgerPolicy := by
+  constructor
+  · exact add_up_name_certificate
+  · exact addLedgerPolicy_from_unary_cont_closed
 
 end BEDC.FKernel.Unary
