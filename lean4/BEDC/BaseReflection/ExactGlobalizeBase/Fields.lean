@@ -173,6 +173,21 @@ theorem ExactGlobalizeBase_no_closure_export_sound_complete_pair
   · intro base
     exact exactness.mp base
 
+theorem ClosureReflect_preserves_base_sound_complete_pair
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) (_closure : ClosureReflect s P)
+    {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    (Nonempty (GeneratedSameSig s P h k) → PsameBase s P p q) ∧
+      (PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)) := by
+  have exactness : PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k) :=
+    ExactGlobalizeBase_classify_iff ex hp hq
+  constructor
+  · intro generated
+    exact exactness.mpr generated
+  · intro base
+    exact exactness.mp base
+
 theorem ExactGlobalizeBase_self_covered_classification
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) {h : s.Hist} :
