@@ -155,6 +155,21 @@ theorem sigTotalOn_from_policy [AskSetup] {bundle : ProbeBundle ProbeName} {D : 
   intro h hd
   exact sig_total_from_policy (bundle := bundle) (D := D) (h := h) policy hd
 
+omit [AskSetup] in
+theorem sigTotalOn_tail_of_cons [AskSetup]
+    {pi : ProbeName} {tail : ProbeBundle ProbeName} {D : BHist → Prop} :
+    SigTotalOn (ProbeBundle.Bcons pi tail) D → SigTotalOn tail D := by
+  intro total h hd
+  cases total h hd with
+  | intro r hsig =>
+      cases sig_cons_inversion hsig with
+      | intro s rest =>
+          cases rest with
+          | intro m rest2 =>
+              cases rest2 with
+              | intro delta data =>
+                  exact Exists.intro s data.right.left
+
 theorem sig_deterministic :
     ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h s t : BHist},
       AskPolicy D → D h → SigRel bundle h s → SigRel bundle h t → hsame s t := by
