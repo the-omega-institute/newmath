@@ -911,6 +911,29 @@ theorem ExactGlobalizeBase_no_closure_export
   intro h k p q hp hq
   exact ExactGlobalizeBase_classify_iff ex hp hq
 
+theorem ExactGlobalizeBase_no_closure_export_directions
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    (forall {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h -> s.InGapSig P D q k ->
+          PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)) /\
+      (forall {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h -> s.InGapSig P D q k ->
+          Nonempty (GeneratedSameSig s P h k) -> PsameBase s P p q) := by
+  constructor
+  case left =>
+    intro h k p q hp hq base
+    have exactness :
+        PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k) :=
+      ExactGlobalizeBase_no_closure_export ex hp hq
+    exact exactness.mp base
+  case right =>
+    intro h k p q hp hq generated
+    have exactness :
+        PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k) :=
+      ExactGlobalizeBase_no_closure_export ex hp hq
+    exact exactness.mpr generated
+
 theorem no_implicit_closure_exports_base
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) :

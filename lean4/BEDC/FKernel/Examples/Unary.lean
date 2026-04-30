@@ -589,6 +589,27 @@ theorem unary_commutativity_obligation_induction {h k r r' : BHist} :
   intro uh uk hr hr'
   exact unary_commutativity_from_shift_induction unary_shift_witness uh uk hr hr'
 
+theorem unary_commutativity_concrete_explicit_induction {h k r r' : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
+  intro uh uk hr hr'
+  induction h generalizing k r r' with
+  | Empty =>
+      cases hr
+      cases hr'
+      exact (cont_left_unit k).symm
+  | e0 h ih =>
+      cases uh
+  | e1 h ih =>
+      have left : hsame r (.e1 (append h k)) := by
+        cases hr
+        exact unary_append_e1_left (h := k) (k := h) uk
+      cases unary_shift_witness uk hr' with
+      | intro v shifted =>
+          cases shifted with
+          | intro hv sameRight =>
+              have inner : hsame (append h k) v := ih uh uk rfl hv
+              exact left.trans ((hsame_e1_congr inner).trans sameRight.symm)
+
 theorem unary_add_activation {h k r r' : BHist} :
     UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r' -> hsame r r' := by
   intro uh uk hr hr'

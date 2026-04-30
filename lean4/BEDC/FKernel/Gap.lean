@@ -1072,6 +1072,28 @@ theorem concrete_globalize_classifies_by_signatures
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     askPolicy packagePolicy hp hq
 
+omit [AskSetup] [PackageSetup] G in
+theorem concrete_globalize_classifies_by_signatures_directions [AskSetup] [PackageSetup]
+    [DomainSetup] {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
+    (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle)
+    (hp : InGapSig bundle D p h) (hq : InGapSig bundle D q k) :
+    (psame bundle p q →
+        ∃ s : BHist, ∃ t : BHist,
+          SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t) ∧
+      ((∃ s : BHist, ∃ t : BHist,
+          SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t) →
+        psame bundle p q) := by
+  have classified :
+      psame bundle p q ↔
+        ∃ s : BHist, ∃ t : BHist,
+          SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t :=
+    concrete_globalize_classifies_by_signatures
+      (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+      askPolicy packagePolicy hp hq
+  constructor
+  · exact classified.mp
+  · exact classified.mpr
+
 theorem exact_globalize_classifies_signatures
     {bundle : ProbeBundle ProbeName} {D : Domain}
     (askPolicy : AskPolicy (InDom D))
