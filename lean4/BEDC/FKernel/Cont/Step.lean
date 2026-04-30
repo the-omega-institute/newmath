@@ -35,4 +35,11 @@ theorem cont_step_one_iff {h k r : BHist} :
   · intro hcont
     exact cont_step_one hcont
 
+theorem cont_step_rules_iff_pair :
+    (∀ {h k r : BHist}, Cont h (BHist.e0 k) (BHist.e0 r) ↔ Cont h k r) ∧
+      (∀ {h k r : BHist}, Cont h (BHist.e1 k) (BHist.e1 r) ↔ Cont h k r) := by
+  constructor
+  · exact cont_step_zero_iff
+  · exact cont_step_one_iff
+
 end BEDC.FKernel.Cont

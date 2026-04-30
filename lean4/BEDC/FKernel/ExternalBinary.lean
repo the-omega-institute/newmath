@@ -432,6 +432,14 @@ theorem external_append_double_cancel_hsame {a b c d : BWord} :
     external_append_left_cancel_hsame (a := append b c) (b := append d c) (c := a) same
   exact external_append_right_cancel_hsame suffixSame
 
+theorem external_append_cancel_common_context :
+    ∀ {a b l r : BWord},
+      hsame (append (append l a) r) (append (append l b) r) → hsame a b := by
+  intro a b l r same
+  have innerSame : hsame (append l a) (append l b) :=
+    external_append_right_cancel_hsame same
+  exact external_append_left_cancel_hsame innerSame
+
 theorem external_append_middle_cancel_eq {a b c d : BWord} :
     append a (append b c) = append a (append b d) → c = d := by
   intro same

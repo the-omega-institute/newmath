@@ -300,6 +300,25 @@ theorem packageTokenPolicy_classification_roundtrip [AskSetup] [PackageSetup]
     exact policy.soundness left right sameHist
 
 omit [AskSetup] P in
+theorem packageTokenPolicy_classification_equiv_on_introduced_pair
+    [AskSetup] [PackageSetup] {bundle : ProbeBundle ProbeName}
+    (policy : PackageTokenPolicy bundle) {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p → TokIntro bundle t q →
+      (hsame s t ↔ psame bundle p q) ∧ (psame bundle p q ↔ hsame s t) := by
+  intro left right
+  constructor
+  · constructor
+    · intro sameHist
+      exact policy.soundness left right sameHist
+    · intro samePkg
+      exact policy.reflection left right samePkg
+  · constructor
+    · intro samePkg
+      exact policy.reflection left right samePkg
+    · intro sameHist
+      exact policy.soundness left right sameHist
+
+omit [AskSetup] P in
 theorem package_reflection_iff_hsame [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
     {s t : BHist} {p q : Pkg} :
