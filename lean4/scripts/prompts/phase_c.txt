@@ -1,7 +1,11 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.5 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.6 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## Environment
+
+Codex has lean-lsp MCP (20 tools: hover, goto-definition, references, workspace-symbol, document-symbol, diagnostics, type-at-position, etc.) plus full shell access (git, lake, grep, python). Use LSP for semantic checks (Phase D rule 8 tree-wide dedup, rule 9 alias-def detection): workspace-symbol to enumerate existing names in the namespace, hover/type-at-position to compare conclusion types after `open`-resolution, references to confirm a deletion is safe. Use shell for build (`lake_gate.py build`), staged diffs (`git diff --cached lean4/BEDC/`), and audit hooks (`tools/check-axioms.py`, `bedc_ci.py audit`, `bedc_ci.py axiom-purity`).
 
 ## Anti-hollow semantic discipline (HARD GATE)
 
