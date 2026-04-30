@@ -237,6 +237,47 @@ theorem sig_cons_witnesses_and_result_hsame_from_policy [AskSetup]
                               (And.intro markSame
                                 (And.intro tailSame resultSame)))))))))))
 
+theorem sig_cons_head_mark_determinacy_pair [AskSetup]
+    {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {D : BHist → Prop} {h r r' : BHist} (policy : AskPolicy D) :
+    D h → SigRel (ProbeBundle.Bcons pi tail) h r →
+      SigRel (ProbeBundle.Bcons pi tail) h r' →
+      (∃ s : BHist, ∃ t : BHist, ∃ m : BMark, ∃ n : BMark,
+        ∃ delta : Evidence, ∃ theta : Evidence,
+          Ask pi h m delta ∧ Ask pi h n theta ∧
+          SigRel tail h s ∧ SigRel tail h t ∧ msame m n) ∧ hsame r r' := by
+  intro dh left right
+  cases left with
+  | cons _ _ _ s _ m delta leftAsk leftTail leftExt =>
+      cases right with
+      | cons _ _ _ t _ n theta rightAsk rightTail rightExt =>
+          have markSame : msame m n := policy.deterministic leftAsk rightAsk
+          have tailSame : hsame s t :=
+            sig_deterministic
+              (bundle := tail)
+              (D := D)
+              (h := h)
+              (s := s)
+              (t := t)
+              policy
+              dh
+              leftTail
+              rightTail
+          have resultSame : hsame r r' :=
+            ext_respects_sameness tailSame markSame leftExt rightExt
+          exact And.intro
+            (Exists.intro s
+              (Exists.intro t
+                (Exists.intro m
+                  (Exists.intro n
+                    (Exists.intro delta
+                      (Exists.intro theta
+                        (And.intro leftAsk
+                          (And.intro rightAsk
+                            (And.intro leftTail
+                              (And.intro rightTail markSame))))))))))
+            resultSame
+
 theorem sig_cons_full_witness_determinacy [AskSetup]
     {pi : ProbeName} {tail : ProbeBundle ProbeName}
     {D : BHist → Prop} {h r r' : BHist} (policy : AskPolicy D) :

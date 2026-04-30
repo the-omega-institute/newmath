@@ -181,4 +181,16 @@ theorem CanonicalTokenMode_replacement_pair {s : BaseReflectionSetup} {P : s.Pi}
   · exact forward
   · exact eqv.symm forward
 
+theorem CanonicalTokenMode_witness_pair {s : BaseReflectionSetup} {P : s.Pi}
+    (mode : CanonicalTokenMode s P) {x y : s.SigObj} {p : s.Pkg} :
+    s.TokIntro P x p → s.TokIntro P y p →
+      mode.TokCan x p ∧ mode.TokCan y p ∧ s.hsame x y := by
+  intro left right
+  have leftCan : mode.TokCan x p := mode.introToCanonical left
+  have rightCan : mode.TokCan y p := mode.introToCanonical right
+  have same : s.hsame x y := mode.canonicalUnique leftCan rightCan
+  constructor
+  · exact leftCan
+  · exact And.intro rightCan same
+
 end BEDC.BaseReflection
