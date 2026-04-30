@@ -37,6 +37,10 @@ theorem external_append_nil_result_inversion :
   | bit1 b =>
       cases h
 
+theorem external_append_nil_inversion :
+    ∀ {a b : BWord}, append a b = BWord.nil → a = BWord.nil ∧ b = BWord.nil := by
+  exact external_append_nil_result_inversion
+
 theorem external_append_assoc :
     forall a b c : BWord, append (append a b) c = append a (append b c) := by
   intro a b c

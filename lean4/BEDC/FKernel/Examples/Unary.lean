@@ -168,6 +168,13 @@ theorem unary_cont_left_factor {h k r : BHist} :
   | e1 k ih =>
       exact ih ur
 
+theorem unary_cont_factors_from_result {h k r : BHist} :
+    Cont h k r -> UnaryHistory r -> UnaryHistory h ∧ UnaryHistory k := by
+  intro hr ur
+  constructor
+  · exact unary_cont_left_factor hr ur
+  · exact unary_cont_right_factor hr ur
+
 theorem unary_continuation_closed_and_factors {h k r : BHist} :
     UnaryCont h k r ->
       UnaryHistory r /\ (Cont h k r -> UnaryHistory r -> UnaryHistory h /\ UnaryHistory k) := by

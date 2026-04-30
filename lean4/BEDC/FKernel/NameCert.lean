@@ -56,6 +56,12 @@ structure SealInterface (Thread : Type) (name : DerivedName) : Type 1 where
   ledger : Nonempty LedgerPolicy
 
 omit N in
+theorem sealInterface_thread_witness [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealInterface Thread name -> Nonempty Thread := by
+  intro iface
+  exact Nonempty.intro iface.thread
+
+omit N in
 theorem sealInterface_field_witnesses [NameCertSetup] {Thread : Type} {name : DerivedName} :
     SealInterface Thread name -> Nonempty Thread ∧ Nonempty (NameCert name) ∧ Nonempty LedgerPolicy := by
   intro iface
