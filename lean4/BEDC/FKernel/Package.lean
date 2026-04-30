@@ -105,6 +105,14 @@ theorem packagePolicy_fields [AskSetup] [PackageSetup] {bundle : ProbeBundle Pro
     · intro p q samePkg
       exact policy.grounding samePkg
 
+omit [AskSetup] P in
+theorem packagePolicy_extensionality_witness [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle)
+    {s t : BHist} {p q : Pkg} :
+    hsame s t -> TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q := by
+  intro same left right
+  exact policy.extensionality same left right
+
 theorem packagePolicy_classifies_signatures
     {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle)
     {s t : BHist} {p q : Pkg} :

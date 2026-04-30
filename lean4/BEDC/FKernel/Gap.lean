@@ -260,6 +260,34 @@ theorem inGapSig_same_source_signature_events_same [AskSetup] [PackageSetup] [Do
                                   (And.intro hpTok
                                     (And.intro hqTok hst)))))
 
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_same_source_sigRel_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) → InGapSig bundle D p h → InGapSig bundle D q h →
+      ∃ s : BHist, ∃ t : BHist,
+        SigRel bundle h s ∧ SigRel bundle h t ∧ hsame s t := by
+  intro askPolicy hp hq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro hIn hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs _ =>
+                      cases htData with
+                      | intro ht _ =>
+                          have hst : hsame s t :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D) (h := h) (s := s) (t := t)
+                              askPolicy hIn hs ht
+                          exact Exists.intro s
+                            (Exists.intro t (And.intro hs (And.intro ht hst)))
+
 theorem concrete_gap_separation
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg}
     (askPolicy : AskPolicy (InDom D)) :
