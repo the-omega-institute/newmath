@@ -192,6 +192,15 @@ theorem inGapSig_witness_pair_iff [AskSetup] [PackageSetup] [DomainSetup]
       (bundle := bundle) (D := D) (p := p) (h := h) witness
 
 omit [AskSetup] [PackageSetup] G in
+theorem GapMembership_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    GapMembership bundle D p h →
+      ∃ s : BHist, InDom D h ∧ SigRel bundle h s ∧ TokIntro bundle s p := by
+  intro hgap
+  have hin : InGapSig bundle D p h := Iff.mp GapMembership_iff_InGapSig hgap
+  exact inGapSig_witness_pair (bundle := bundle) (D := D) (p := p) (h := h) hin
+
+omit [AskSetup] [PackageSetup] G in
 theorem policy_supported_signature_gap_iff_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     PolicySupportedSignatureGap bundle D p h ↔

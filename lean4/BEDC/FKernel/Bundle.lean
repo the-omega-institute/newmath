@@ -338,6 +338,18 @@ theorem probeBundle_two_cons_ne_tail {PName : Type} :
       intro h
       exact ih q r (ProbeBundle.Bcons.inj h).right
 
+theorem probeBundle_three_cons_ne_tail {PName : Type} :
+    ∀ (p q r : PName) (tail : ProbeBundle PName),
+      ProbeBundle.Bcons p (ProbeBundle.Bcons q (ProbeBundle.Bcons r tail)) ≠ tail := by
+  intro p q r tail
+  induction tail generalizing p q r with
+  | Bnil =>
+      intro h
+      cases h
+  | Bcons s tail ih =>
+      intro h
+      exact ih q r s (ProbeBundle.Bcons.inj h).right
+
 theorem probeBundle_generated_induction {PName : Type} {M : ProbeBundle PName → Prop} :
     M ProbeBundle.Bnil →
       (∀ p tail, M tail → M (ProbeBundle.Bcons p tail)) →

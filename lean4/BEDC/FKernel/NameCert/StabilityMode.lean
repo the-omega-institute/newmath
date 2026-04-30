@@ -61,6 +61,19 @@ theorem stabilityMode_pairwise_no_confusion :
                   · intro h
                     cases h
 
+theorem stabilityMode_descent_composition_seal_no_confusion :
+    (StabilityMode.descent = StabilityMode.composition → False) ∧
+      (StabilityMode.descent = StabilityMode.seal → False) ∧
+        (StabilityMode.composition = StabilityMode.seal → False) := by
+  constructor
+  · intro h
+    cases h
+  · constructor
+    · intro h
+      cases h
+    · intro h
+      cases h
+
 theorem stabilityMode_exhaustive (mode : StabilityMode) :
     Or (mode = StabilityMode.closure)
       (Or (mode = StabilityMode.reuse)
