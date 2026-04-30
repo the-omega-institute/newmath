@@ -238,7 +238,11 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source cla
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-For reflexivity, case-analyze the carrier witness. The absent case rebuilds the absent classifier branch from the stored empty endpoint witness and reflexivity, symmetry, and transitivity of $\hsame$; the present case keeps the same payload and applies the reflexivity field of $\mathsf{cert}$ to the source carrier witness. For symmetry, case-analyze the tagged classifier witness. The absent branch reverses the stored endpoint links by symmetry of $\hsame$, and the present branch reverses the payload classifier with $\mathsf{cert.equiv\_symm}$ while swapping the two endpoint witnesses. For transitivity, the absent branch composes empty endpoint witnesses. In the present-present branch, invert the two classifier witnesses around the shared middle history to obtain endpoint witnesses for $\Eone(b)$ and $\Eone(b')$. Symmetry and transitivity of $\hsame$ yield $\hsame(\Eone(b),\Eone(b'))$, $e1$-constructor inversion yields $\hsame(b,b')$, and source hsame compatibility gives $b\sim_S b'$. The field $\mathsf{cert.equiv\_trans}$ then composes $a\sim_S b$, $b\sim_S b'$, and $b'\sim_S c$ into $a\sim_S c$. For carrier transport, case-analyze the classifier witness; the absent branch gives the empty endpoint carrier, and the present branch stores the target payload carrier directly. Same-tag exactness, right-absent exactness, and mixed constructor separation are isolated in Theorems~\ref{thm:tagged-option-history-same-tag-exactness}, \ref{thm:tagged-option-history-right-absent-exactness}, and \ref{thm:tagged-option-history-mixed-tag-separation}.
+For reflexivity, case-analyze the carrier witness. The absent case rebuilds the absent classifier branch from the stored empty endpoint witness and reflexivity, symmetry, and transitivity of $\hsame$; the present case keeps the same payload and applies the reflexivity field of $\mathsf{cert}$ to the source carrier witness. For symmetry, case-analyze the tagged classifier witness. The absent branch reverses the stored endpoint links by symmetry of $\hsame$, and the present branch reverses the payload classifier with $\mathsf{cert.equiv\_symm}$ while swapping the two endpoint witnesses.
+
+For transitivity, split the two classifier witnesses by their visible branches. In the absent/absent case, both witnesses expose the shared middle history as an empty endpoint, so transitivity of $\hsame$ composes the empty endpoint presentations and rebuilds the absent classifier branch from $h$ to $u$. In the absent/present case, the first witness presents the middle history as $\emp$, while the second presents the same middle history as $\Eone(b)$ for some source payload $b$; symmetry and transitivity of $\hsame$ give $\hsame(\emp,\Eone(b))$, contradicting empty-versus-one no-confusion. In the present/absent case, the first witness presents the middle history as $\Eone(b)$ and the second presents it as $\emp$, so the same no-confusion argument applies with the endpoints exchanged. In the present/present case, invert the two classifier witnesses around the shared middle history to obtain endpoint witnesses for $\Eone(b)$ and $\Eone(b')$. Symmetry and transitivity of $\hsame$ yield $\hsame(\Eone(b),\Eone(b'))$, $e1$-constructor inversion yields $\hsame(b,b')$, and source hsame compatibility gives $b\sim_S b'$. The field $\mathsf{cert.equiv\_trans}$ then composes $a\sim_S b$, $b\sim_S b'$, and $b'\sim_S c$ into $a\sim_S c$.
+
+For carrier transport, case-analyze the classifier witness; the absent branch gives the empty endpoint carrier, and the present branch stores the target payload carrier directly. Same-tag exactness, right-absent exactness, and mixed constructor separation are isolated in Theorems~\ref{thm:tagged-option-history-same-tag-exactness}, \ref{thm:tagged-option-history-right-absent-exactness}, and \ref{thm:tagged-option-history-mixed-tag-separation}.
 \end{proof}
 
 \begin{theorem}[Tagged option history same-tag exactness]
@@ -452,6 +456,22 @@ For optional BEDC histories, the option classifier induced by \(\hsame\) is symm
 The none--none case returns the existing classifier witness. The mixed constructor cases contradict the classifier definition, and the some--some case reverses the underlying BEDC history witness by \(\hsame\) symmetry.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_symm}
+
+\begin{theorem}[Option classifier symmetry from a source certificate]
+\label{thm:option-classifier-symm-from-namecert}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let $\sim_S$ be a source classifier on BEDC histories, and let $\mathsf{cert}:\NameCert(S,\sim_S)$ be a source naming certificate. For optional BEDC-history carriers $x,y:\mathsf{OptionCarrier}(\mathsf{BHist})$, if
+$$
+\mathsf{OptionClassifierSpec}(\sim_S,x,y)
+$$
+holds, then
+$$
+\mathsf{OptionClassifierSpec}(\sim_S,y,x)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Case-analyze $x$ and $y$. The none--none case is immediate from the none classifier clause. The mixed none--some and some--none cases are impossible by the typed option classifier clauses. In the some--some case, the classifier witness is a source witness between the two payload histories, and $\mathsf{cert.equiv\_symm}$ reverses it.
+\end{proof}
 
 \begin{definition}[Option stability certificate]
 \label{def:option-stability-certificate}
