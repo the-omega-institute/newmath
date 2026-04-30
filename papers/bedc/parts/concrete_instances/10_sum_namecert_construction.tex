@@ -77,6 +77,32 @@ stored right carrier proof.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_e1\_inversion}
 
+\begin{theorem}[Sum history carrier visible-tag exactness]
+\label{thm:sum-history-carrier-visible-tag-exactness}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, the visible
+tags of the tagged sum-history carrier are exactly the corresponding source
+carrier payloads:
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(l))
+\Longleftrightarrow
+\exists a:\mathsf{BHist}.\; Left(a)\land \hsame(l,a),
+$$
+and
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,\Eone(r))
+\Longleftrightarrow
+\exists b:\mathsf{BHist}.\; Right(b)\land \hsame(r,b).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implications, apply the checked left-tag and right-tag inversion
+theorems to the carrier witness. For the reverse implications, start from the
+payload witness, use the checked tagged-injection constructor for the matching
+branch, convert the payload endpoint by constructor congruence for $\hsame$,
+and transport carrier membership along the resulting history sameness by
+$\mathsf{SumHistoryCarrier\_hsame\_transport}$.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Sum source specification]

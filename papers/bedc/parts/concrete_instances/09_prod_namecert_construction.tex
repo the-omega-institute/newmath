@@ -233,19 +233,32 @@ $$
 $$
 \end{definition}
 
+\begin{definition}[Product componentwise history classifier]
+\label{def:prod-component-history-classifier}
+For source-history carriers $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and source
+classifiers $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+define $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ by
+the existence of component histories $l_h,r_h,l_k,r_k$ such that
+$$
+\mathsf{ProdPairRep}_{L,R}(h,l_h,r_h)
+\wedge
+\mathsf{ProdPairRep}_{L,R}(k,l_k,r_k)
+\wedge
+l_h\sim_L l_k
+\wedge
+r_h\sim_R r_k.
+$$
+\end{definition}
+
 \begin{theorem}[Product componentwise history classifier certificate target]
 \label{thm:prod-component-history-classifier-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
 $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
 classifiers, and assume $\NameCert(L,\sim_L)$, $\NameCert(R,\sim_R)$, and
-$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Define
-$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ by the
-existence of component histories $l_h,r_h,l_k,r_k$ such that
-$\mathsf{ProdPairRep}_{L,R}(h,l_h,r_h)$,
-$\mathsf{ProdPairRep}_{L,R}(k,l_k,r_k)$, $l_h\sim_L l_k$, and
-$r_h\sim_R r_k$. Then this classifier has carrier-relative reflexivity,
-symmetry, transitivity, and classifier-induced carrier transport for
-$\mathsf{ProdHistoryCarrier}(L,R)$. Taking
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the classifier from
+Definition~\ref{def:prod-component-history-classifier} has carrier-relative
+reflexivity, symmetry, transitivity, and classifier-induced carrier transport
+for $\mathsf{ProdHistoryCarrier}(L,R)$. Taking
 $\mathsf{ProdHistoryCarrier}(L,R)$ as both pattern carrier and ledger carrier
 therefore gives the paper-side componentwise product certificate target.
 \end{theorem}
