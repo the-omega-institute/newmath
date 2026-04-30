@@ -30,6 +30,15 @@ theorem PsameBase_inversion_exists
   | intro left right same =>
       exact Exists.intro _ (Exists.intro _ (And.intro left (And.intro right same)))
 
+theorem PsameBase_single_constructor_witnesses
+    {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameBase s P p q → ∃ x : s.SigObj, ∃ y : s.SigObj,
+      s.TokIntro P x p ∧ s.TokIntro P y q ∧ s.hsame x y := by
+  intro base
+  cases base with
+  | intro left right same =>
+      exact Exists.intro _ (Exists.intro _ (And.intro left (And.intro right same)))
+
 abbrev PsameSig (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop := PsameBase s P
 
 theorem PsameSig_iff_PsameBase {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :

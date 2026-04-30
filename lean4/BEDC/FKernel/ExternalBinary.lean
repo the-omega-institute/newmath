@@ -14,6 +14,9 @@ nil / bit0 / bit1, and `append` is reused from `BEDC.FKernel.Cont`. -/
 abbrev BWord : Type := BHist
 abbrev Mbin : Type := BWord
 
+theorem Mbin_eq_BHist : Mbin = BHist := by
+  rfl
+
 /-- Reuse the kernel-level continuation function as the metamodel's append. -/
 abbrev append : BWord → BWord → BWord := BEDC.FKernel.Cont.append
 
