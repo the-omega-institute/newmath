@@ -124,6 +124,17 @@ theorem external_length_zero_iff_nil (w : BWord) : bwordLength w = 0 ↔ w = BHi
     cases h
     rfl
 
+theorem external_append_left_length_zero :
+    forall {a b : BWord}, bwordLength (append a b) = bwordLength b -> a = BHist.Empty := by
+  intro a b h
+  induction b generalizing a with
+  | Empty =>
+      exact Iff.mp (external_length_zero_iff_nil a) h
+  | e0 b ih =>
+      exact ih (Nat.succ.inj h)
+  | e1 b ih =>
+      exact ih (Nat.succ.inj h)
+
 theorem external_append_nil_result_inversion :
     ∀ {a b : BWord}, append a b = BHist.Empty → a = BHist.Empty ∧ b = BHist.Empty := by
   intro a b h

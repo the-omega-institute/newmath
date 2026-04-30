@@ -77,6 +77,10 @@ theorem unary_transport {h k : BHist} : UnaryHistory h -> hsame h k -> UnaryHist
   cases hhk
   exact uh
 
+theorem unary_transport_symm {h k : BHist} : UnaryHistory k -> hsame h k -> UnaryHistory h := by
+  intro uk hhk
+  exact unary_transport uk (hsame_symm hhk)
+
 theorem unary_no_zero_extension {h : BHist} : UnaryHistory (.e0 h) -> False := by
   intro uh
   exact uh
