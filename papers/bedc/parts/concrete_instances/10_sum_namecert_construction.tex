@@ -273,13 +273,19 @@ contradict the \(e0/e1\) no-confusion rule.
 
 \begin{definition}[Sum stability certificate]
 \label{def:sum-stability-certificate}
-The stability certificate consists of:
+The displayed checked theorem records the typed structural stability
+subcertificate:
 \begin{enumerate}
-  \item lifted reflexivity on left and right constructors
-  \item lifted transitivity within each constructor
-  \item constructor separation between left and right
-  \item closure under both injections
+  \item $\mathsf{inl}$ and $\mathsf{inr}$ reflexivity
+  \item typed classifier transitivity
+  \item mixed $\mathsf{inl}/\mathsf{inr}$ separation in both directions
 \end{enumerate}
+Carrier transport, classifier symmetry, endpoint transport, and history-level
+transitivity are supplied by
+Theorems~\ref{thm:sum-history-carrier-hsame-transport},
+\ref{thm:sum-history-classifier-hsame-symmetry},
+\ref{thm:sum-history-classifier-hsame-transport}, and
+\ref{thm:sum-history-classifier-transitivity}.
 \end{definition}
 \leanchecked{BEDC.Derived.SumUp.sum\_stability\_certificate\_fields}
 
@@ -357,6 +363,31 @@ $\hsame(\rho,\Ezero(l))$ and $\hsame(v,\Eone(r))$ witnesses. For the symmetric
 right-to-left pair, use classifier symmetry from
 Theorem~\ref{thm:sum-history-classifier-hsame-symmetry} and apply the same mixed-tag
 separation theorem to the exchanged endpoints.
+\end{proof}
+
+\begin{theorem}[Sum ledger same-tag payload exactness]
+\label{thm:sum-ledger-same-tag-payload-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,l,l',r,r':\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ holds, then the visible
+same-tag endpoint pairs determine their payloads:
+$$
+(\hsame(\rho,\Ezero(l))\land\hsame(v,\Ezero(l')))\to\hsame(l,l')
+$$
+and
+$$
+(\hsame(\rho,\Eone(r))\land\hsame(v,\Eone(r')))\to\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-raw-visible-classifier} to obtain the
+raw-visible $\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,v)$
+witness. For the left-tagged endpoint pair, transport this witness along the
+displayed $\hsame(\rho,\Ezero(l))$ and $\hsame(v,\Ezero(l'))$ links by
+Theorem~\ref{thm:sum-history-classifier-hsame-transport}, then apply the
+left inversion Theorem~\ref{thm:sum-history-classifier-left-hsame-inversion}
+to extract $\hsame(l,l')$. The right-tagged case is identical with
+Theorem~\ref{thm:sum-history-classifier-right-hsame-inversion}.
 \end{proof}
 
 \begin{theorem}[Concrete $\SumUp$ semantic name certificate]
