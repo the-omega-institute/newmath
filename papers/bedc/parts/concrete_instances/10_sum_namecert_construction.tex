@@ -10,9 +10,9 @@ The disjoint sum interface \(\SumUp\) is licensed over two source carriers each 
   \item \textbf{BEDC source}: two licensed source carriers $A$ and $B$, each with its own name certificate.
   \item \textbf{Carrier choice}: tagged left carriers use $e0$ histories and tagged right carriers use $e1$ histories.
   \item \textbf{Classifier choice}: the sum classifier stores tag endpoints plus the matching $A$ or $B$ classifier witness, and excludes mixed tags; source-carrier evidence is supplied by $\mathsf{SumHistoryCarrier}$.
-  \item \textbf{Stability obligations}: tagged carrier transport, left/right inversion, mixed-tag exclusion, classifier symmetry, classifier transitivity, and endpoint transport.
+  \item \textbf{Stability obligations}: tagged carrier transport, source-certified classifier-induced carrier transport, left/right inversion, mixed-tag exclusion, classifier symmetry, classifier transitivity, and endpoint transport.
   \item \textbf{Ledger}: the tag is visible data; payload evidence is retained from the corresponding source certificate.
-  \item \textbf{Core theorem list}: tagged injections, carrier transport, left and right inversions, classifier inversion, generic same-tag exactness, mixed-tag exclusion, and the semantic name certificate.
+  \item \textbf{Core theorem list}: tagged injections, $\hsame$ carrier transport, source-certified classifier-induced carrier transport, left and right inversions, classifier inversion, generic same-tag exactness, mixed-tag exclusion, and the semantic name certificate.
   \item \textbf{Exactness predicate}: the left-tag and right-tag iff clauses identify classifier-only payload witnesses and the matching source classifier, while carrier exactness is supplied by $\mathsf{SumHistoryCarrier}$.
   \item \textbf{Standard bridge}: tagged histories read back as ordinary $\mathsf{inl}(a)$ and $\mathsf{inr}(b)$ values.
   \item \textbf{Status}: the $\mathsf{SemanticNameCert}$ at Theorem~\ref{thm:concrete-sum-namecert} is $\mathsf{CheckedCert}$; Theorem~\ref{thm:sum-history-classifier-source-same-tag-exactness} is the paper-side matching-source formulation, and Theorem~\ref{thm:sum-history-classifier-generic-same-tag-exactness} records the witness-level same-tag formulation.
@@ -349,6 +349,11 @@ supplied by Theorems~\ref{thm:sum-history-carrier-hsame-transport},
 is the $\hsame$ specialization of classifier symmetry. For the arbitrary source
 classifiers used by the concrete semantic certificate, classifier symmetry is
 supplied by Theorem~\ref{thm:sum-history-classifier-symm-from-namecert}.
+For the arbitrary source classifiers used by Theorem~\ref{thm:concrete-sum-namecert},
+the classifier-induced carrier transport field is
+Theorem~\ref{thm:sum-history-classifier-carrier-transport-from-namecert};
+Theorem~\ref{thm:sum-history-carrier-hsame-transport} transports only a
+displayed carrier witness along $\hsame$.
 \end{definition}
 \leanchecked{BEDC.Derived.SumUp.sum\_stability\_certificate\_fields}
 

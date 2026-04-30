@@ -301,6 +301,40 @@ $\hsame(\Eone(h),\emp)$, and the present-present branch forces an endpoint
 witness from $\emp$ to a present endpoint.
 \end{proof}
 
+\begin{theorem}[Tagged option history carrier-level mixed-tag separation]
+\label{thm:tagged-option-history-carrier-mixed-tag-separation}
+This theorem fits the per-object template as follows: the traditional target is
+absent/present option tag separation; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is mixed-tag
+no-confusion under carrier presentations; the ledger is the visible tag; the
+core theorem is this separation; exactness is absent-vs-present impossibility;
+the standard bridge is none/some; and the status is $\mathsf{ProofTarget}$.
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\mathsf{sameS}:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+histories $h,k$, and payload history $a$, the classifier cannot relate endpoints
+that are merely presented as opposite tags:
+$$
+\hsame(h,\emp)\to S(a)\to \hsame(k,\Eone(a))\to
+\mathsf{TaggedOptionHistoryClassifier}_{S,\mathsf{sameS}}(h,k)\to\bot
+$$
+and
+$$
+S(a)\to \hsame(h,\Eone(a))\to \hsame(k,\emp)\to
+\mathsf{TaggedOptionHistoryClassifier}_{S,\mathsf{sameS}}(h,k)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. In the first direction, the
+absent-absent branch stores an endpoint witness from $k$ to $\emp$; composing it
+with the displayed witness from $k$ to $\Eone(a)$ gives empty-versus-one
+no-confusion. The present-present branch stores an endpoint witness from $h$ to
+some $\Eone(b)$; composing it with the displayed witness from $h$ to $\emp$ again
+gives empty-versus-one no-confusion. The second direction is symmetric: the
+absent-absent branch contradicts the displayed present presentation of $h$, and
+the present-present branch contradicts the displayed absent presentation of $k$.
+\end{proof}
+
 \begin{theorem}[Tagged option history semantic certificate target]
 \label{thm:tagged-option-history-semantic-certificate}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a source classifier on source histories, and assume a source $\NameCert(S,\sim_S)$ together with $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. Then $\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,\mathsf{TaggedOptionHistoryPattern}_S,\mathsf{TaggedOptionHistoryLedger}_S,\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S})$ is the tagged option history semantic certificate.
