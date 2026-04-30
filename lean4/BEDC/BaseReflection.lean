@@ -494,6 +494,15 @@ theorem ExactGlobalizeBase_no_closure_export
   intro h k p q hp hq
   exact ExactGlobalizeBase_classify_iff ex hp hq
 
+theorem ExactGlobalizeBase_relation_is_base
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    ∀ {h k : s.Hist} {p q : s.Pkg},
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  intro h k p q hp hq
+  exact ExactGlobalizeBase_classify_iff ex hp hq
+
 theorem ClosureReflect_preserves_base_export
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) (_closure : ClosureReflect s P) :

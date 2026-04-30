@@ -213,6 +213,11 @@ theorem unary_commutativity_refined {h k r r' : BHist} :
   intro uh uk hr hr'
   exact unary_cont_comm uh uk hr hr'
 
+theorem unary_commutativity_concrete_direct {h k r r' : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
+  intro uh uk hr hr'
+  exact comm_from_obligations unary_shift_witness (fun same => hsame_e1_congr same) uh uk hr hr'
+
 theorem unary_add_activation {h k r r' : BHist} :
     UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r' -> hsame r r' := by
   intro uh uk hr hr'
