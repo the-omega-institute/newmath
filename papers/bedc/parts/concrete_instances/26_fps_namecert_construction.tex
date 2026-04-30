@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\FormalPowerSeriesUp\)}
 \label{ch:concrete-instances-fps-namecert}
 
-The formal power series interface \(\FormalPowerSeriesUp\) is licensed over a scalar ring from \autoref{ch:concrete-instances-ring-namecert} as functions \(\mathbb{N} \to R\), interpreted as coefficient sequences without termination. The classifier is pointwise sameness on every index. Formal series addition and Cauchy product are derived operations licensed by the ring's certificate fields. Convergence is not asserted: this is the formal carrier, not analytic series.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-fps-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The formal power series interface \(\FormalPowerSeriesUp\) has certificate obligations over a scalar ring from \autoref{ch:concrete-instances-ring-namecert} as functions \(\mathbb{N} \to R\), interpreted as coefficient sequences without termination. The classifier is pointwise sameness on every index. Formal series addition and Cauchy product are derived operations governed by the ring's certificate fields. Convergence is not asserted: this is the formal carrier, not analytic series.
 
 \section{Carrier definition}
 
@@ -51,18 +44,15 @@ The stability certificate consists of:
 Record the coefficient rule and scalar ledgers at queried indices.
 \end{definition}
 
-\begin{theorem}[Concrete \(\FormalPowerSeriesUp\) naming certificate]
-\label{thm:concrete-fps-namecert}
-The pointwise-coefficient tuple forms a valid NameCert for \(\FormalPowerSeriesUp(R)\).
-\end{theorem}
+\begin{definition}[\(\FormalPowerSeriesUp\) certificate obligations]
+\label{def:fps-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\FormalPowerSeriesUp\).
+\end{definition}
 
-\begin{corollary}[\(\FormalPowerSeriesUp\) is licensed, not primitive]
-\label{cor:fps-licensed-not-primitive}
-\(\FormalPowerSeriesUp\) is licensed as a formal indexed carrier, not as analytic series.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\FormalPowerSeriesUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:fps-zero-axiom-note}
 Avoids funext by using pointwise classifier sameness.
 \end{remark}
-

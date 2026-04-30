@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\RingUp\)}
 \label{ch:concrete-instances-ring-namecert}
 
-The ring interface \(\RingUp\) is licensed by a carrier with two binary operations \(+\) and \(\cdot\) such that \((C, +)\) satisfies \autoref{ch:concrete-instances-abgroup-namecert} and \((C, \cdot)\) satisfies \autoref{ch:concrete-instances-monoid-namecert}, together with left and right distributivity of \(\cdot\) over \(+\). It is not a primitive structure; it is licensed only by composing the additive abelian group and multiplicative monoid certificates with the distributive law.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-ring-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The ring interface \(\RingUp\) has certificate obligations over a carrier with two binary operations \(+\) and \(\cdot\) such that \((C, +)\) satisfies \autoref{ch:concrete-instances-abgroup-namecert} and \((C, \cdot)\) satisfies \autoref{ch:concrete-instances-monoid-namecert}, together with left and right distributivity of \(\cdot\) over \(+\). It is not a primitive structure; it is admitted only by composing the additive abelian group and multiplicative monoid certificates with the distributive law.
 
 \section{Carrier definition}
 
@@ -52,12 +45,10 @@ The stability certificate consists of:
 Record the shared carrier ledger and the operation tree for ring expressions.
 \end{definition}
 
-\begin{theorem}[Concrete \(\RingUp\) naming certificate]
-\label{thm:concrete-ring-namecert}
-Any shared-carrier additive abelian group and multiplicative monoid satisfying distributivity forms a valid NameCert for \(\RingUp(C)\).
-\end{theorem}
+\begin{definition}[\(\RingUp\) certificate obligations]
+\label{def:ring-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RingUp\).
+\end{definition}
 
-\begin{corollary}[\(\RingUp\) is licensed, not primitive]
-\label{cor:ring-licensed-not-primitive}
-\(\RingUp\) is licensed by composing additive, multiplicative, and distributive certificates.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\RingUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\PreorderUp\)}
 \label{ch:concrete-instances-preorder-namecert}
 
-The preorder interface \(\PreorderUp\) is licensed by a carrier with a binary relation \(\le : C \times C \to \mathsf{Prop}\) satisfying reflexivity and transitivity under the carrier's classifier. It is the simplest order-theoretic NameCert and self-contained: no other licensed object is required as a dependency.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-preorder-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The preorder interface \(\PreorderUp\) has certificate obligations over a carrier with a binary relation \(\le : C \times C \to \mathsf{Prop}\) satisfying reflexivity and transitivity under the carrier's classifier. It is the simplest order-theoretic NameCert and self-contained: no other licensed object is required as a dependency.
 
 \section{Carrier definition}
 
@@ -51,12 +44,10 @@ The stability certificate consists of:
 Record the compared carrier witnesses and the relation derivation.
 \end{definition}
 
-\begin{theorem}[Concrete \(\PreorderUp\) naming certificate]
-\label{thm:concrete-preorder-namecert}
-Any carrier relation satisfying reflexivity and transitivity forms a valid NameCert for \(\PreorderUp(C)\).
-\end{theorem}
+\begin{definition}[\(\PreorderUp\) certificate obligations]
+\label{def:preorder-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\PreorderUp\).
+\end{definition}
 
-\begin{corollary}[\(\PreorderUp\) is licensed, not primitive]
-\label{cor:preorder-licensed-not-primitive}
-\(\PreorderUp\) is licensed by relational fields, not as a primitive order.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\PreorderUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

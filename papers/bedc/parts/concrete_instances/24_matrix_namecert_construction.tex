@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\MatrixUp\)}
 \label{ch:concrete-instances-matrix-namecert}
 
-The matrix interface \(\MatrixUp\) is licensed over a scalar ring from \autoref{ch:concrete-instances-ring-namecert} and two natural-number dimensions from \autoref{ch:concrete-instances-nat-namecert}. The carrier is functions \(\mathsf{Fin}(n) \times \mathsf{Fin}(m) \to R\); the classifier is pointwise scalar sameness on all index pairs. Matrix addition and multiplication are derived operations licensed by the ring's certificate fields. It is not a primitive matrix type; it is licensed only as a derived function carrier.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-matrix-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The matrix interface \(\MatrixUp\) has certificate obligations over a scalar ring from \autoref{ch:concrete-instances-ring-namecert} and two natural-number dimensions from \autoref{ch:concrete-instances-nat-namecert}. The carrier is functions \(\mathsf{Fin}(n) \times \mathsf{Fin}(m) \to R\); the classifier is pointwise scalar sameness on all index pairs. Matrix addition and multiplication are derived operations governed by the ring's certificate fields. It is not a primitive matrix type; it is admitted only as a derived function carrier.
 
 \section{Carrier definition}
 
@@ -52,18 +45,15 @@ The stability certificate consists of:
 Record the dimension witnesses, index discipline, and scalar ledger for each entry.
 \end{definition}
 
-\begin{theorem}[Concrete \(\MatrixUp\) naming certificate]
-\label{thm:concrete-matrix-namecert}
-The finite-table tuple forms a valid NameCert for \(\MatrixUp(R,n,m)\).
-\end{theorem}
+\begin{definition}[\(\MatrixUp\) certificate obligations]
+\label{def:matrix-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\MatrixUp\).
+\end{definition}
 
-\begin{corollary}[\(\MatrixUp\) is licensed, not primitive]
-\label{cor:matrix-licensed-not-primitive}
-\(\MatrixUp\) is licensed as a finite function carrier over a ring.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\MatrixUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:matrix-zero-axiom-note}
 Avoids funext by using pointwise classifier sameness; finite indices are inductive, not quotient indices.
 \end{remark}
-

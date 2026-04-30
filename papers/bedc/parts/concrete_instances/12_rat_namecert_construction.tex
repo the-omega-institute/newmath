@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\RatUp\)}
 \label{ch:concrete-instances-rat-namecert}
 
-The rational number interface \(\RatUp\) is licensed by ordered pairs \((p, q)\) with \(p\) drawn from \autoref{ch:concrete-instances-int-namecert} and \(q\) a positive integer, normalized to coprime numerator and denominator with positive denominator. The classifier is structural equality on the normalized representative, not the equivalence relation \(p_1 q_2 = p_2 q_1\) on unnormalized pairs (which would otherwise demand quotient-type machinery and \(\mathsf{Quot.sound}\)). It is not a primitive field; it is licensed only via the integer source and the normalization function.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-rat-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The rational number interface \(\RatUp\) has certificate obligations over ordered pairs \((p, q)\) with \(p\) drawn from \autoref{ch:concrete-instances-int-namecert} and \(q\) a positive integer, normalized to coprime numerator and denominator with positive denominator. The classifier is structural equality on the normalized representative, not the equivalence relation \(p_1 q_2 = p_2 q_1\) on unnormalized pairs (which would otherwise demand quotient-type machinery and \(\mathsf{Quot.sound}\)). It is not a primitive field; it is admitted only via the integer source and the normalization function.
 
 \section{Carrier definition}
 
@@ -51,15 +44,13 @@ The stability certificate consists of:
 Record the pre-normalized integer pair and the normalized representative used for the visible rational.
 \end{definition}
 
-\begin{theorem}[Concrete \(\RatUp\) naming certificate]
-\label{thm:concrete-rat-namecert}
-The normalized-pair tuple forms a valid NameCert for \(\RatUp\).
-\end{theorem}
+\begin{definition}[\(\RatUp\) certificate obligations]
+\label{def:rat-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RatUp\).
+\end{definition}
 
-\begin{corollary}[\(\RatUp\) is licensed, not primitive]
-\label{cor:rat-licensed-not-primitive}
-\(\RatUp\) is licensed by normalized representatives, not by a quotient of pairs.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\RatUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:rat-zero-axiom-note}

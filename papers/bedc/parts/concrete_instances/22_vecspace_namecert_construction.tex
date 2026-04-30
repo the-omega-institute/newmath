@@ -3,13 +3,6 @@
 
 The vector space interface \(\VecSpaceUp\) is the specialization of \autoref{ch:concrete-instances-module-namecert} to the case where the scalar ring satisfies \autoref{ch:concrete-instances-field-namecert}. No new fields are required beyond the module ones; the change is the strengthened scalar source. The \(n\)-fold rational tuple space (an iterated product over \(\RatUp\)) is the canonical concrete instance.
 
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-vecspace-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
-
 \section{Carrier definition}
 
 \begin{definition}[VecSpace carrier]
@@ -49,15 +42,13 @@ The stability certificate consists of:
 Record module ledgers plus the field ledger for scalar operations.
 \end{definition}
 
-\begin{theorem}[Concrete \(\VecSpaceUp\) naming certificate]
-\label{thm:concrete-vecspace-namecert}
-Any module over a certified field forms a valid NameCert for \(\VecSpaceUp(F,V)\).
-\end{theorem}
+\begin{definition}[\(\VecSpaceUp\) certificate obligations]
+\label{def:vecspace-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\VecSpaceUp\).
+\end{definition}
 
-\begin{corollary}[\(\VecSpaceUp\) is licensed, not primitive]
-\label{cor:vecspace-licensed-not-primitive}
-\(\VecSpaceUp\) is licensed as the field-scalar specialization of \(\ModuleUp\).
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\VecSpaceUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:vecspace-zero-axiom-note}

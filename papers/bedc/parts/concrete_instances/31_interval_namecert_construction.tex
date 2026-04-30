@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\IntervalUp\)}
 \label{ch:concrete-instances-interval-namecert}
 
-The unit interval interface \(\IntervalUp\) is licensed over Bishop reals from \autoref{ch:concrete-instances-real-namecert} as the predicate "\(0 \le x\) and \(x \le 1\)" interpreted constructively (with explicit moduli for the inequalities). The classifier is real sameness restricted to interval witnesses. It is not a primitive geometric object; it is licensed only as a derived sub-carrier of \(\RealUp\).
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-interval-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The unit interval interface \(\IntervalUp\) has certificate obligations over Bishop reals from \autoref{ch:concrete-instances-real-namecert} as the predicate "\(0 \le x\) and \(x \le 1\)" interpreted constructively (with explicit moduli for the inequalities). The classifier is real sameness restricted to interval witnesses. It is not a primitive geometric object; it is admitted only as a derived sub-carrier of \(\RealUp\).
 
 \section{Carrier definition}
 
@@ -51,15 +44,13 @@ The stability certificate consists of:
 Record the real ledger and both inequality moduli.
 \end{definition}
 
-\begin{theorem}[Concrete \(\IntervalUp\) naming certificate]
-\label{thm:concrete-interval-namecert}
-The bounded-real subcarrier tuple forms a valid NameCert for \(\IntervalUp\).
-\end{theorem}
+\begin{definition}[\(\IntervalUp\) certificate obligations]
+\label{def:interval-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\IntervalUp\).
+\end{definition}
 
-\begin{corollary}[\(\IntervalUp\) is licensed, not primitive]
-\label{cor:interval-licensed-not-primitive}
-\(\IntervalUp\) is licensed as a subcarrier of \(\RealUp\).
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\IntervalUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:interval-zero-axiom-note}

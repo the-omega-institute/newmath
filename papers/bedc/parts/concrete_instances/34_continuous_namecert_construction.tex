@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\ContinuousFunctionUp\)}
 \label{ch:concrete-instances-continuous-namecert}
 
-The continuous function interface \(\ContinuousFunctionUp\) is licensed between two metric spaces from \autoref{ch:concrete-instances-metric-namecert}. The carrier is the predicate "\(f : X \to Y\) is uniformly continuous on every totally bounded subset of \(X\), with explicit modulus of continuity \(\delta : \mathbb{N} \to \mathbb{N}\)". Bishop's choice of uniform continuity over pointwise continuity is required for 0-axiom workability: pointwise continuity in BEDC would require LEM to discharge the standard \(\epsilon\)-\(\delta\) argument.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-continuous-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The continuous function interface \(\ContinuousFunctionUp\) has certificate obligations between two metric spaces from \autoref{ch:concrete-instances-metric-namecert}. The carrier is the predicate "\(f : X \to Y\) is uniformly continuous on every totally bounded subset of \(X\), with explicit modulus of continuity \(\delta : \mathbb{N} \to \mathbb{N}\)". Bishop's choice of uniform continuity over pointwise continuity is required for 0-axiom workability: pointwise continuity in BEDC would require LEM to discharge the standard \(\epsilon\)-\(\delta\) argument.
 
 \section{Carrier definition}
 
@@ -52,15 +45,13 @@ The stability certificate consists of:
 Record the function identifier, metric ledgers, subset witness, and continuity modulus.
 \end{definition}
 
-\begin{theorem}[Concrete \(\ContinuousFunctionUp\) naming certificate]
-\label{thm:concrete-continuous-namecert}
-The function-with-uniform-moduli tuple forms a valid NameCert for \(\ContinuousFunctionUp(X,Y)\).
-\end{theorem}
+\begin{definition}[\(\ContinuousFunctionUp\) certificate obligations]
+\label{def:continuous-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\ContinuousFunctionUp\).
+\end{definition}
 
-\begin{corollary}[\(\ContinuousFunctionUp\) is licensed, not primitive]
-\label{cor:continuous-licensed-not-primitive}
-\(\ContinuousFunctionUp\) is licensed by explicit uniform-continuity data.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\ContinuousFunctionUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:continuous-zero-axiom-note}

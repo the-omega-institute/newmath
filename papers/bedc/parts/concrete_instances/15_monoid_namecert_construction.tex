@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\MonoidUp\)}
 \label{ch:concrete-instances-monoid-namecert}
 
-The monoid interface \(\MonoidUp\) is licensed by an abstract carrier endowed with a binary operation \(\cdot : C \times C \to C\), an identity element \(e : C\), associativity of \(\cdot\), and left and right identity laws of \(e\) under the carrier's source classifier. It is the simplest algebraic NameCert and is self-contained: no other licensed object is required as a dependency. It is not a primitive structure; it is licensed only when the carrier's classifier admits the algebraic equational fields.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-monoid-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The monoid interface \(\MonoidUp\) has certificate obligations over an abstract carrier endowed with a binary operation \(\cdot : C \times C \to C\), an identity element \(e : C\), associativity of \(\cdot\), and left and right identity laws of \(e\) under the carrier's source classifier. It is the simplest algebraic NameCert and is self-contained: no other licensed object is required as a dependency. It is not a primitive structure; it is admitted only when the carrier's classifier admits the algebraic equational fields.
 
 \section{Carrier definition}
 
@@ -53,12 +46,10 @@ The stability certificate consists of:
 Record the carrier witnesses and operation tree behind each monoid expression.
 \end{definition}
 
-\begin{theorem}[Concrete \(\MonoidUp\) naming certificate]
-\label{thm:concrete-monoid-namecert}
-Any setup satisfying the monoid fields forms a valid NameCert for \(\MonoidUp(C)\).
-\end{theorem}
+\begin{definition}[\(\MonoidUp\) certificate obligations]
+\label{def:monoid-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\MonoidUp\).
+\end{definition}
 
-\begin{corollary}[\(\MonoidUp\) is licensed, not primitive]
-\label{cor:monoid-licensed-not-primitive}
-\(\MonoidUp\) is licensed exactly when the carrier supplies the monoid law fields.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\MonoidUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

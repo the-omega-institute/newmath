@@ -35,31 +35,37 @@ A name may require one or more of these modes.
 A ledger policy \(\LedgerPolicy\) records what the name hides and how the hidden material is tracked. It must specify whether the ledger is a gap, a composite gap, a tail ledger, a phase ledger, a source ledger, or another derived ledger.
 \end{definition}
 
-\begin{definition}[Naming certificate]
+\begin{definition}[Paper naming certificate template]
 \label{def:typed-naming-certificate}
 \label{def:naming-certificate}
-A naming certificate is a record
-\[
+A paper naming certificate for a proposed derived interface \(N\) is the five-field template
+$$
 \NameCert(N)=
 (\SourceSpec_N,\PatternSpec_N,\ClassifierSpec_N,\StabCert_N,\LedgerPolicy_N).
-\]
+$$
 The proposed name \(N\) is licensed only if all required fields are supplied.
+\end{definition}
+
+\begin{definition}[Lean carrier naming certificate]
+\label{def:lean-carrier-naming-certificate}
+At the formal finite-kernel layer, the Lean structure
+\(\mathsf{NameCert}(\mathsf{Carrier},\mathsf{Equiv})\) is a carrier-and-equivalence certificate over histories. It supplies inhabitedness of the carrier, reflexivity, symmetry, and transitivity for the equivalence relation, and transport of carrier membership along that relation.
 \end{definition}
 \leandef{BEDC.FKernel.NameCert.NameCert}
 \leanchecked{BEDC.FKernel.NameCert.nameCert\_carrier\_witness}
 
-\begin{theorem}[Derived interfaces require certificates]
-\label{thm:derived-interfaces-require-certificates}
+\begin{principle}[Derived interfaces require certificates]
+\label{prin:derived-interfaces-require-certificates}
 No interface marked by an upward arrow is licensed without a \(\NameCert\).
-\end{theorem}
+\end{principle}
 \begin{proof}
-This is the formation rule for derived interfaces: derived names are not object-language primitives. They enter the theory only by a naming certificate.
+This is the formation rule for the paper template: derived names are not object-language primitives. They enter the theory only by the five supplied certificate fields.
 \end{proof}
 
-\begin{corollary}[Limit-like interfaces carry a ledger]
-\label{cor:limit-like-interfaces-derived}
+\begin{principle}[Limit-like interfaces carry a ledger]
+\label{prin:limit-like-interfaces-derived}
 Every certified derived interface carries a ledger policy witness.
-\end{corollary}
+\end{principle}
 \begin{proof}
-Case analysis on the naming certificate exposes its five fields. The ledger field is the required witness.
+Case analysis on the paper template exposes its five fields. The ledger field is the required witness.
 \end{proof}

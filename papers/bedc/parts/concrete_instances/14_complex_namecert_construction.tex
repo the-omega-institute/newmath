@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\ComplexUp\)}
 \label{ch:concrete-instances-complex-namecert}
 
-The complex number interface \(\ComplexUp\) is licensed by ordered pairs of Bishop reals from \autoref{ch:concrete-instances-real-namecert}, read as Cartesian real and imaginary components. The classifier is componentwise real sameness. It is not a primitive number system; it is licensed only via the real source and the pair constructor of \autoref{ch:concrete-instances-prod-namecert}.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-complex-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The complex number interface \(\ComplexUp\) has certificate obligations over ordered pairs of Bishop reals from \autoref{ch:concrete-instances-real-namecert}, read as Cartesian real and imaginary components. The classifier is componentwise real sameness. It is not a primitive number system; it is admitted only via the real source and the pair constructor of \autoref{ch:concrete-instances-prod-namecert}.
 
 \section{Carrier definition}
 
@@ -50,12 +43,10 @@ The stability certificate consists of:
 Record both real component ledgers.
 \end{definition}
 
-\begin{theorem}[Concrete \(\ComplexUp\) naming certificate]
-\label{thm:concrete-complex-namecert}
-The real-pair tuple forms a valid NameCert for \(\ComplexUp\).
-\end{theorem}
+\begin{definition}[\(\ComplexUp\) certificate obligations]
+\label{def:complex-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\ComplexUp\).
+\end{definition}
 
-\begin{corollary}[\(\ComplexUp\) is licensed, not primitive]
-\label{cor:complex-licensed-not-primitive}
-\(\ComplexUp\) is licensed as a derived pair interface over \(\RealUp\).
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\ComplexUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

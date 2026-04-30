@@ -3,13 +3,6 @@
 
 The commutative ring interface \(\CommRingUp\) extends \autoref{ch:concrete-instances-ring-namecert} with the commutativity field \(a \cdot b = b \cdot a\) for the multiplicative operation under the carrier's classifier. The integer ring from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
 
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-commring-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
-
 \section{Carrier definition}
 
 \begin{definition}[CommRing carrier]
@@ -49,12 +42,10 @@ The stability certificate consists of:
 Record ring expression provenance and the multiplicative commutativity law when used.
 \end{definition}
 
-\begin{theorem}[Concrete \(\CommRingUp\) naming certificate]
-\label{thm:concrete-commring-namecert}
-Any ring setup with multiplicative commutativity forms a valid NameCert for \(\CommRingUp(C)\).
-\end{theorem}
+\begin{definition}[\(\CommRingUp\) certificate obligations]
+\label{def:commring-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\CommRingUp\).
+\end{definition}
 
-\begin{corollary}[\(\CommRingUp\) is licensed, not primitive]
-\label{cor:commring-licensed-not-primitive}
-\(\CommRingUp\) is licensed as the commutative specialization of \(\RingUp\).
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\CommRingUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

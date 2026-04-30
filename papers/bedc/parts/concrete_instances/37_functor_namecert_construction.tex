@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\FunctorUp\)}
 \label{ch:concrete-instances-functor-namecert}
 
-The functor interface \(\FunctorUp\) is licensed between two categories from \autoref{ch:concrete-instances-category-namecert} as a pair of mappings (one on objects, one on morphisms) preserving identity and composition under the morphism classifier of the codomain. It is not a primitive function space between categories; it is licensed only as a structure-preserving pair of carrier mappings.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-functor-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The functor interface \(\FunctorUp\) has certificate obligations between two categories from \autoref{ch:concrete-instances-category-namecert} as a pair of mappings (one on objects, one on morphisms) preserving identity and composition under the morphism classifier of the codomain. It is not a primitive function space between categories; it is admitted only as a structure-preserving pair of carrier mappings.
 
 \section{Carrier definition}
 
@@ -52,15 +45,13 @@ The stability certificate consists of:
 Record the two category ledgers and the preservation witnesses.
 \end{definition}
 
-\begin{theorem}[Concrete \(\FunctorUp\) naming certificate]
-\label{thm:concrete-functor-namecert}
-The mapping-with-preservation tuple forms a valid NameCert for \(\FunctorUp(C,D)\).
-\end{theorem}
+\begin{definition}[\(\FunctorUp\) certificate obligations]
+\label{def:functor-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\FunctorUp\).
+\end{definition}
 
-\begin{corollary}[\(\FunctorUp\) is licensed, not primitive]
-\label{cor:functor-licensed-not-primitive}
-\(\FunctorUp\) is licensed as structure-preserving data between categories.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\FunctorUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:functor-zero-axiom-note}

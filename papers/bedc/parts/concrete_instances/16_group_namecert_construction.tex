@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\GroupUp\)}
 \label{ch:concrete-instances-group-namecert}
 
-The group interface \(\GroupUp\) extends \autoref{ch:concrete-instances-monoid-namecert} with a unary inverse operation \({}^{-1} : C \to C\) satisfying left and right inverse laws under the carrier's classifier. It is not a primitive structure; it is licensed only by composing the monoid certificate with the inverse field.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-group-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The group interface \(\GroupUp\) extends \autoref{ch:concrete-instances-monoid-namecert} with a unary inverse operation \({}^{-1} : C \to C\) satisfying left and right inverse laws under the carrier's classifier. It is not a primitive structure; it is admitted only by composing the monoid certificate with the inverse field.
 
 \section{Carrier definition}
 
@@ -51,12 +44,10 @@ The stability certificate consists of:
 Record the monoid ledger plus every inverse operation applied.
 \end{definition}
 
-\begin{theorem}[Concrete \(\GroupUp\) naming certificate]
-\label{thm:concrete-group-namecert}
-Any monoid setup with inverse fields forms a valid NameCert for \(\GroupUp(C)\).
-\end{theorem}
+\begin{definition}[\(\GroupUp\) certificate obligations]
+\label{def:group-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\GroupUp\).
+\end{definition}
 
-\begin{corollary}[\(\GroupUp\) is licensed, not primitive]
-\label{cor:group-licensed-not-primitive}
-\(\GroupUp\) is licensed by a monoid certificate plus inverse laws.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\GroupUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
