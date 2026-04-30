@@ -87,6 +87,24 @@ theorem ask_policy_fields [AskSetup] {D : BHist → Prop} (policy : AskPolicy D)
     · intro π h k m n δ θ same left right
       exact policy.respectsHistory same left right
 
+omit S in
+theorem AskPolicy_iff_fields [AskSetup] {D : BHist → Prop} :
+    AskPolicy D ↔
+      ((∀ {π : ProbeName} {h : BHist}, D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ) ∧
+      (∀ {π : ProbeName} {h : BHist} {m n : BMark} {δ θ : Evidence},
+        Ask π h m δ → Ask π h n θ → msame m n) ∧
+      (∀ {π : ProbeName} {h k : BHist} {m n : BMark} {δ θ : Evidence},
+        hsame h k → Ask π h m δ → Ask π k n θ → msame m n)) := by
+  constructor
+  · intro policy
+    exact ask_policy_fields policy
+  · intro fields
+    cases fields with
+    | intro total rest =>
+        cases rest with
+        | intro deterministic respectsHistory =>
+            exact AskPolicy.mk total deterministic respectsHistory
+
 def MinimalAskSetup : AskSetup where
   ProbeName := Unit
   Evidence := Unit

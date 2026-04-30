@@ -90,6 +90,22 @@ theorem packagePolicy_field_witnesses {bundle : ProbeBundle ProbeName}
     · exact policy.extensionality
     · exact policy.grounding
 
+omit [AskSetup] P in
+theorem PackagePolicy_iff_fields [AskSetup] [PackageSetup] {bundle : ProbeBundle ProbeName} :
+    PackagePolicy bundle ↔
+      ((∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) ∧
+      (∀ {s t : BHist} {p q : Pkg}, hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q) ∧
+      (∀ {p q : Pkg}, psame bundle p q → ∃ s : BHist, ∃ t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t)) := by
+  constructor
+  · intro policy
+    exact packagePolicy_field_witnesses policy
+  · intro fields
+    cases fields with
+    | intro existence rest =>
+        cases rest with
+        | intro extensionality grounding =>
+            exact PackagePolicy.mk existence extensionality grounding
+
 theorem packagePolicy_token_exists {bundle : ProbeBundle ProbeName}
     (policy : PackagePolicy bundle) (s : BHist) :
     exists p : Pkg, TokIntro bundle s p := by
