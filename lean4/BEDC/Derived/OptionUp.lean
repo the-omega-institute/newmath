@@ -91,4 +91,14 @@ theorem OptionClassifierSpec_none_some_absurd {A : Type} {rel : A → A → Prop
   intro h
   exact h
 
+theorem OptionClassifierSpec_trans {A : Type} {Rel : A → A → Prop}
+    (rel_trans : ∀ {a b c : A}, Rel a b → Rel b c → Rel a c) :
+    ∀ {x y z : Option A},
+      OptionClassifierSpec Rel x y →
+        OptionClassifierSpec Rel y z →
+          OptionClassifierSpec Rel x z := by
+  intro x y z hxy hyz
+  cases x <;> cases y <;> cases z <;> simp [OptionClassifierSpec] at *
+  exact rel_trans hxy hyz
+
 end BEDC.Derived.OptionUp

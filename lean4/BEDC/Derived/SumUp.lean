@@ -58,4 +58,17 @@ theorem sum_stability_certificate_fields {A B : Type} {sameA : A → A → Prop}
         · intro a b h
           exact h
 
+theorem SumClassifierSpec_trans {A B : Type} {RelA : A → A → Prop}
+    {RelB : B → B → Prop}
+    (relA_trans : ∀ {a b c : A}, RelA a b → RelA b c → RelA a c)
+    (relB_trans : ∀ {a b c : B}, RelB a b → RelB b c → RelB a c) :
+    ∀ {x y z : Sum A B},
+      SumClassifierSpec RelA RelB x y →
+        SumClassifierSpec RelA RelB y z →
+          SumClassifierSpec RelA RelB x z := by
+  intro x y z hxy hyz
+  cases x <;> cases y <;> cases z <;> simp [SumClassifierSpec] at *
+  · exact relA_trans hxy hyz
+  · exact relB_trans hxy hyz
+
 end BEDC.Derived.SumUp

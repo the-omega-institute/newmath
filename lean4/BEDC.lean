@@ -34,6 +34,6 @@ import BEDC.Derived.IntUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.ProdUp
-import BEDC.Derived.ListUp
 import BEDC.Derived.SumUp
+import BEDC.Derived.ListUp
 import BEDC.Derived.MonoidUp
