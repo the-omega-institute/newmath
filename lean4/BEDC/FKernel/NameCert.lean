@@ -36,6 +36,13 @@ theorem derived_interfaces_require_certificates {n : DerivedName} :
   intro cert
   exact ⟨cert⟩
 
+theorem derived_interfaces_have_ledger {name : DerivedName} :
+    NameCert name -> Nonempty LedgerPolicy := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact Nonempty.intro ledger
+
 end Cert
 
 theorem NameCert_add_activation [NameCertSetup] {name : DerivedName}

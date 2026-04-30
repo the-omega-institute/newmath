@@ -391,6 +391,25 @@ theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
   exact policy.transport hh hhk
 
 omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage_from_layers
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop} {InterOk : Inter -> Prop}
+    {CGap : Inter -> Source -> Prop} {DGap : Final -> Inter -> Prop}
+    (cCoverage :
+      forall {h : Source}, SourceOk h -> exists y : Inter, And (CGap y h) (InterOk y))
+    (dCoverage : forall {y : Inter}, InterOk y -> exists z : Final, DGap z y)
+    {h : Source} :
+    SourceOk h -> exists z : Final, exists y : Inter, And (CGap y h) (DGap z y) := by
+  intro sourceOk
+  cases cCoverage sourceOk with
+  | intro y cData =>
+      cases cData with
+      | intro cGap interOk =>
+          cases dCoverage interOk with
+          | intro z dGap =>
+              exact Exists.intro z (Exists.intro y (And.intro cGap dGap))
+
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage : True := True.intro
 
 def MinimalDomainSetup : DomainSetup where

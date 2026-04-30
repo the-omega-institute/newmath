@@ -51,3 +51,12 @@ No interface marked by an upward arrow is licensed without a \(\NameCert\).
 \begin{proof}
 This is the formation rule for derived interfaces: derived names are not object-language primitives. They enter the theory only by a naming certificate.
 \end{proof}
+
+\begin{corollary}[Limit-like interfaces carry a ledger]
+\label{cor:limit-like-interfaces-derived}
+Every certified derived interface carries a ledger policy witness.
+\end{corollary}
+\leanchecked{BEDC.FKernel.NameCert.derived\_interfaces\_have\_ledger}
+\begin{proof}
+Case analysis on the naming certificate exposes its five fields. The ledger field is the required witness.
+\end{proof}
