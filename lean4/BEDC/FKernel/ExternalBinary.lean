@@ -444,6 +444,11 @@ theorem external_append_cancel_hsame_pair :
   · intro a b c same
     exact external_append_left_cancel_hsame same
 
+theorem external_append_cancellation_soundness :
+    (∀ {a b c : BWord}, hsame (append a c) (append b c) → hsame a b) ∧
+      (∀ {a b c : BWord}, hsame (append c a) (append c b) → hsame a b) := by
+  exact external_append_cancel_hsame_pair
+
 theorem external_append_cancel_pair :
     (forall {a b c : BWord}, append a c = append b c -> a = b) /\
       (forall {a b c : BWord}, append c a = append c b -> a = b) := by

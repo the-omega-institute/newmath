@@ -270,6 +270,12 @@ theorem hsame_constructor_characterization {h k : BHist} :
                             cases right
                             exact hsame_e1_congr sameTail
 
+theorem history_constructor_characterization {h k : BHist} :
+    hsame h k ↔ (h = BHist.Empty ∧ k = BHist.Empty) ∨
+      (∃ h0 k0 : BHist, h = BHist.e0 h0 ∧ k = BHist.e0 k0 ∧ hsame h0 k0) ∨
+      (∃ h0 k0 : BHist, h = BHist.e1 h0 ∧ k = BHist.e1 k0 ∧ hsame h0 k0) := by
+  exact hsame_constructor_characterization
+
 theorem hsame_no_confusion_symmetric :
     (forall {h : BHist}, hsame (.e0 h) .Empty -> False) ∧
       (forall {h : BHist}, hsame (.e1 h) .Empty -> False) ∧

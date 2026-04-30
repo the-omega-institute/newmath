@@ -132,6 +132,10 @@ theorem CanonicalTokenMode_implies_TokUnique
       exact mode.canonicalUnique (mode.introToCanonical left) (mode.introToCanonical right)
   }
 
+theorem canonical_implies_unique {s : BaseReflectionSetup} {P : s.Pi}
+    (mode : CanonicalTokenMode s P) : TokUnique s P := by
+  exact CanonicalTokenMode_implies_TokUnique mode
+
 theorem CanonicalTokenMode_tokenReplacement {s : BaseReflectionSetup} {P : s.Pi}
     (mode : CanonicalTokenMode s P) {x y : s.SigObj} {p : s.Pkg} :
     s.TokIntro P x p -> s.TokIntro P y p -> s.hsame x y := by
