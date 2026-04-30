@@ -167,6 +167,17 @@ theorem domain_transport_two_way_chain [AskSetup] [PackageSetup] [DomainSetup]
     exact policy.transport (policy.transport hl hlk) (hsame_symm hhk)
 
 omit [AskSetup] [PackageSetup] G in
+theorem domain_transport_three_way_equiv [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l : BHist} :
+    hsame h k -> hsame k l -> (InDom D h <-> InDom D l) := by
+  intro hhk hkl
+  constructor
+  · intro hh
+    exact policy.transport (policy.transport hh hhk) hkl
+  · intro hl
+    exact policy.transport (policy.transport hl (hsame_symm hkl)) (hsame_symm hhk)
+
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_transport_iff_with_signature_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
     (policy : DomainPolicy D) (same : hsame h k)

@@ -21,4 +21,17 @@ theorem external_append_bit_result_cases_by_right_word :
       · intro a b r h
         exact BHist.e1.inj h
 
+theorem external_append_bit_result_tail_eq_pair :
+    (forall {a b r b0 : BWord}, append a b = BHist.e0 r ->
+      b = BHist.e0 b0 -> append a b0 = r) /\
+    (forall {a b r b1 : BWord}, append a b = BHist.e1 r ->
+      b = BHist.e1 b1 -> append a b1 = r) := by
+  constructor
+  · intro a b r b0 h hb
+    cases hb
+    exact BHist.e0.inj h
+  · intro a b r b1 h hb
+    cases hb
+    exact BHist.e1.inj h
+
 end BEDC.FKernel.ExternalBinary
