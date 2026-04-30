@@ -54,6 +54,14 @@ theorem psame_sound {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
   intro hp hq hst
   exact psame.intro hp hq hst
 
+theorem psame_symm_constructor
+    {bundle : ProbeBundle ProbeName} {p q : Pkg} :
+    psame bundle p q -> psame bundle q p := by
+  intro hpq
+  cases hpq with
+  | intro hp hq hst =>
+      exact psame.intro hq hp (hsame_symm hst)
+
 theorem psame_constructor_grounding
     {bundle : ProbeBundle ProbeName} {p q : Pkg} :
     psame bundle p q ->

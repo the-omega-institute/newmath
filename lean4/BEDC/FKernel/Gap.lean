@@ -53,6 +53,17 @@ def CompGap {Source Inter Final : Type}
     (z : Final) (x : Source) : Prop :=
   ∃ y : Inter, firstGap y x ∧ secondGap z y
 
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_inversion
+    {Source Inter Final : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    {z : Final} {x : Source} :
+    CompGap firstGap secondGap z x ->
+      exists y : Inter, firstGap y x /\ secondGap z y := by
+  intro h
+  exact h
+
 structure GapPolicy (bundle : ProbeBundle ProbeName) (D : Domain) : Prop where
   generation : ∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h → ∃ s : BHist, TokIntro bundle s p
   coverage : ∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h
