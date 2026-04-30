@@ -104,6 +104,31 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source 
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Tagged option history mixed endpoint separation]
+\label{thm:tagged-option-history-mixed-endpoint-separation}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and payload history $h$, the tagged option history
+classifier cannot relate the absent endpoint to the visible present endpoint in
+either order:
+$$
+\neg\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\emp,\Eone(h))
+\quad\text{and}\quad
+\neg\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. For
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\emp,\Eone(h))$, the
+absent-absent branch contains $\hsame(\Eone(h),\emp)$, contradicting
+one-versus-empty no-confusion. The present-present branch contains
+$\hsame(\emp,\Eone(a))$ for some source payload $a$, contradicting
+empty-versus-one no-confusion. The opposite mixed endpoint
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\emp)$ is identical
+with the two endpoint contradictions exchanged: absent-absent gives
+$\hsame(\Eone(h),\emp)$, while present-present gives $\hsame(\emp,\Eone(b))$
+for the target payload $b$.
+\end{proof}
+
 \begin{theorem}[Tagged option history present-present exactness]
 \label{thm:tagged-option-history-present-present-exactness}
 For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and histories $h,k$, the tagged option history classifier is exact on two visible present endpoints:

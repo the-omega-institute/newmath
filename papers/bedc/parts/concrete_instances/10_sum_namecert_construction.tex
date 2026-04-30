@@ -247,10 +247,19 @@ $\mathsf{SumHistoryCarrier}(Left,Right,k)$ holds.
 \begin{proof}
 Case-analyze the displayed carrier witness and the tagged classifier witness.
 Mixed source tags are impossible by BEDC $e0/e1$ no-confusion. In the left-left
-case, apply $\mathsf{NameCert.carrier\_respects\_equiv}$ from the left source
-certificate to transport the payload carrier witness across the $LeftEq$
-witness, then rebuild the left tagged carrier. The right-right case is identical
-using the right source certificate and the $RightEq$ witness.
+case, let $c$ be the payload supplied by the carrier witness, and let $a,a'$ be
+the source payloads supplied by the classifier witness. The carrier branch stores
+$\hsame(h,\Ezero(c))$ and $Left(c)$, while the classifier branch stores
+$\hsame(h,\Ezero(a))$, $\hsame(k,\Ezero(a'))$, and $LeftEq(a,a')$.
+Composing the symmetric carrier endpoint witness with the classifier endpoint
+witness gives $\hsame(\Ezero(c),\Ezero(a))$; $e0$ constructor inversion aligns
+the carrier payload with the classifier source payload, so the left carrier
+witness may be read as $Left(a)$. Apply
+$\mathsf{NameCert.carrier\_respects\_equiv}$ from the left source certificate
+along $LeftEq(a,a')$ to obtain $Left(a')$, then rebuild the target left tagged
+carrier using the stored endpoint witness $\hsame(k,\Ezero(a'))$. The right-right
+case is identical with payloads aligned through $e1$ constructor inversion and
+the right source certificate applied along $RightEq$.
 \end{proof}
 
 \begin{theorem}[Sum history classifier source-certified symmetry]
