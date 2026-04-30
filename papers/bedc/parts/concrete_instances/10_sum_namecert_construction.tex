@@ -132,8 +132,21 @@ The stability certificate consists of:
 
 \begin{definition}[Sum ledger policy]
 \label{def:sum-ledger-policy}
-Record the injection tag and the ledger of the selected source.
+Record a raw sum history carrying the selected injection tag and source ledger
+together with an \(\hsame\) link to the visible history exposed by the ledger.
 \end{definition}
+\leandef{BEDC.Derived.SumUp.SumHistoryLedgerPolicy}
+
+\begin{theorem}[Sum ledger visible carrier]
+\label{thm:sum-ledger-visible-carrier}
+If a visible history is linked by \(\hsame\) to a raw sum-ledger history, then
+the visible history is itself a sum carrier.
+\end{theorem}
+\begin{proof}
+Unpack the raw sum carrier and transport it across the stored \(\hsame\) link
+by sum-carrier transport.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_visible\_carrier}
 
 \begin{theorem}[Concrete \(\SumUp\) licensing data]
 \label{thm:concrete-sum-namecert}

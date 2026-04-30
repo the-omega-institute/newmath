@@ -13,6 +13,15 @@ def bundleAppend {PName : Type} : ProbeBundle PName → ProbeBundle PName → Pr
   | .Bnil, right => right
   | .Bcons p tail, right => .Bcons p (bundleAppend tail right)
 
+theorem bundleAppend_nil_right {PName : Type} :
+    ∀ bundle : ProbeBundle PName, bundleAppend bundle ProbeBundle.Bnil = bundle := by
+  intro bundle
+  induction bundle with
+  | Bnil =>
+      rfl
+  | Bcons p tail ih =>
+      exact congrArg (ProbeBundle.Bcons p) ih
+
 theorem bundleAppend_assoc {PName : Type} :
     ∀ left middle right : ProbeBundle PName,
       bundleAppend (bundleAppend left middle) right =

@@ -110,8 +110,21 @@ Invert the componentwise product classifier. Each component witness reverses by 
 
 \begin{definition}[Prod ledger policy]
 \label{def:prod-ledger-policy}
-Record both component ledgers in order.
+Record a raw product history carrying both component ledgers together with an
+\(\hsame\) link to the visible history exposed by the ledger.
 \end{definition}
+\leandef{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy}
+
+\begin{theorem}[Prod ledger visible carrier]
+\label{thm:prod-ledger-visible-carrier}
+If a visible history is linked by \(\hsame\) to a raw product-ledger history,
+then the visible history is itself a product carrier.
+\end{theorem}
+\begin{proof}
+Unpack the raw product carrier and transport it across the stored \(\hsame\)
+link by product-carrier transport.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_visible\_carrier}
 
 \begin{theorem}[Concrete \(\ProdUp\) naming certificate]
 \label{thm:concrete-prod-namecert}
