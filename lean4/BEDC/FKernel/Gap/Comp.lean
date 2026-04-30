@@ -131,4 +131,31 @@ theorem compGap_right_witness
   cases h with
   | intro y data =>
       exact Exists.intro y data.right
+
+theorem compGap_separation_from_layers
+    {Source Inter Final : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    {interSame : Inter -> Inter -> Prop}
+    {finalSame : Final -> Final -> Prop}
+    (firstSeparation :
+      forall {x : Source} {y1 y2 : Inter},
+        firstGap y1 x -> firstGap y2 x -> interSame y1 y2)
+    (secondSeparation :
+      forall {z1 z2 : Final} {y1 y2 : Inter},
+        secondGap z1 y1 -> secondGap z2 y2 -> interSame y1 y2 -> finalSame z1 z2)
+    {z1 z2 : Final} {x : Source} :
+    CompGap firstGap secondGap z1 x -> CompGap firstGap secondGap z2 x ->
+      finalSame z1 z2 := by
+  intro left right
+  cases left with
+  | intro y1 leftData =>
+      cases right with
+      | intro y2 rightData =>
+          cases leftData with
+          | intro firstLeft secondLeft =>
+              cases rightData with
+              | intro firstRight secondRight =>
+                  exact secondSeparation secondLeft secondRight
+                    (firstSeparation firstLeft firstRight)
 end BEDC.FKernel.Gap

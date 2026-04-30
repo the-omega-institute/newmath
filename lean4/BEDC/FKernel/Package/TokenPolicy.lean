@@ -228,6 +228,16 @@ theorem packageTokenPolicy_psame_symm_on_introduced {bundle : ProbeBundle ProbeN
   intro left right samePkg
   exact policy.soundness right left (hsame_symm (policy.reflection left right samePkg))
 
+omit [AskSetup] P in
+theorem packageTokenPolicy_reflection_symmetry_pair [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q ->
+      hsame s t /\ psame bundle q p := by
+  intro left right samePkg
+  have sameHist : hsame s t := policy.reflection left right samePkg
+  exact And.intro sameHist (policy.soundness right left (hsame_symm sameHist))
+
 theorem psame_trans_under_policy
     {bundle : ProbeBundle ProbeName} {a b c : BHist} {p q r : Pkg} :
     PackageTokenPolicy bundle ->
