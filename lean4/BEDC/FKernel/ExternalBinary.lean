@@ -30,6 +30,16 @@ theorem bwordLength_append : ∀ a b : BWord, bwordLength (append a b) = bwordLe
   | bit1 b ih =>
       exact congrArg Nat.succ ih
 
+theorem external_append_length : ∀ a b : BWord, bwordLength (append a b) = bwordLength a + bwordLength b := by
+  intro a b
+  induction b with
+  | nil =>
+      rfl
+  | bit0 b ih =>
+      exact congrArg Nat.succ ih
+  | bit1 b ih =>
+      exact congrArg Nat.succ ih
+
 private theorem nat_eq_add_succ_false (n m : Nat) : n = n + m + 1 -> False := by
   intro h
   have hlt : n < n + m + 1 := by

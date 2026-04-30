@@ -38,8 +38,12 @@ theorem PkgSig_iff_TokIntro [AskSetup] [PackageSetup]
 omit [AskSetup] P in
 theorem TokIntro_iff_PkgSig [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} {s : BHist} {p : Pkg} :
-    TokIntro bundle s p ↔ PkgSig bundle s p := by
-  exact Iff.symm PkgSig_iff_TokIntro
+    TokIntro bundle s p <-> PkgSig bundle s p := by
+  constructor
+  · intro token
+    exact token
+  · intro pkg
+    exact pkg
 
 omit [AskSetup] P in
 theorem PkgSig_intro_from_token [AskSetup] [PackageSetup]
