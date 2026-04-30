@@ -1,7 +1,48 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v1.0 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v2.0 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+
+## v2.0 — Anti-hollow semantic discipline (HARD GATE)
+
+A prior project review discovered that the `NameCert` license abstraction was
+structurally hollow: certificate fields (SourceSpec, PatternSpec, ClassifierSpec,
+StabilityCert, LedgerPolicy) were declared as bare `Type` and instantiated with
+`Unit`, so `nat_up_name_certificate := NameCert.mk () () () () ()` typechecked
+without saying anything about Unary histories or `hsame`. Markers pointed to
+real Lean targets but the Lean targets carried no semantic content.
+
+Effective from v2.0:
+
+1. NEVER pick a target whose Lean implementation would be `Unit`, `True`,
+   `True.intro`, `()`, or any other trivially-inhabited placeholder. The
+   implementation must non-trivially relate to a BEDC kernel construct
+   (BMark, BHist, msame, hsame, Ext, Cont, ProbeBundle, SigRel, sameSig,
+   Pkg, InGap, NameCert, BaseReflectionSetup, or a derived predicate over
+   them).
+
+2. When implementing a `NameCertSetup` instance for a derived interface
+   `<Object>Up`, the carrier and classifier MUST be tied to the BEDC
+   kernel. For example:
+   - NatUp's carrier is the `Unary : BHist → Prop` predicate; the classifier
+     is `hsame` restricted to unary histories.
+   - AddUp's pattern is `ContR` between unary histories, classifier is `hsame`
+     on continuation results.
+   - Future objects (IntUp, RatUp, BoolUp, etc.) must define their own
+     carrier predicate over BHist (or over an existing BEDC inductive) and
+     classifier as a restricted `hsame` / structural sameness, not a fresh
+     opaque Type.
+
+3. NEVER use `MinimalNameCertSetup` for new license proofs. That instance
+   sets every field to `Unit` and is preserved only for legacy compatibility.
+   New license proofs must use the `SemanticNameCert` shape introduced in
+   `lean4/BEDC/FKernel/NameCert.lean` (post v2.0 commit 2 of the rectification).
+
+4. If the new target file requires importing `Init.Data.Unit` or otherwise
+   constructs the proof from `()` exclusively, the target is INVALID — abort
+   and pick a different target.
+
+This is a stricter superset of the existing HARD GATE in Step 2 below.
 
 ## Project Layout
 - lean4/BEDC/ — Lean 4 code (mathlib-free; stdlib only)

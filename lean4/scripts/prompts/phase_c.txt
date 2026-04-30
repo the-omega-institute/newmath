@@ -1,7 +1,36 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v1.0 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.0 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## v2.0 — Anti-hollow semantic discipline (HARD GATE)
+
+The legacy `NameCert.mk () () () () ()` pattern is forbidden. Specifically:
+
+1. NO `Unit`-only proofs. Any new `def` / `theorem` / `lemma` whose body is
+   `()`, `Unit.unit`, `True.intro`, `trivial`, or a sequence of these for
+   each constructor argument is INVALID. Such proofs say nothing about the
+   BEDC kernel and are forbidden by v2.0 discipline.
+
+2. NO `MinimalNameCertSetup` in license proofs. New `NameCert` constructions
+   must inhabit the `SemanticNameCert` shape, which forces the carrier to be
+   a predicate over `BHist` (or another BEDC inductive) and the classifier
+   to be a real equivalence relation (typically restriction of `hsame`).
+
+3. Proofs that construct a `NameCert.mk` from non-Unit witnesses tied to
+   the BEDC kernel remain valid in the legacy track but are NOT preferred.
+   New work MUST use the semantic track.
+
+4. Step 5.5 HARD GATE is supplemented: if `git diff --cached lean4/BEDC/`
+   contains any line matching `:= ()$`, `:= Unit$`, `:= Unit.unit$`,
+   `NameCert.mk \(\)`, `NameCert.mk Unit\.unit`, `(NameCert.mk \(\) \(\) \(\) \(\) \(\))`,
+   or similar trivial constructions, the round is INVALID. Discard the
+   paper-only changes and the trivial Lean changes; pick a target that
+   produces real semantic content.
+
+If you cannot find a target that satisfies these constraints, output
+`{"targets": []}` from Phase B and let gate_check fail the round.
+Vacuous certificates are worse than empty rounds.
 
 ## Round R<ROUND_NUM>
 
@@ -118,12 +147,12 @@ Also do NOT add new `\leanvariant` markers in this round. The 760+ existing `\le
 git add lean4/BEDC papers/bedc
 git commit -m "R<ROUND_NUM>: [brief description of what was proved and registered]
 
-prompts: v1.0
+prompts: v2.0
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v1.0` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_b.txt` and `phase_c.txt` is different (e.g. v1.1, v2.0), use that value in the commit body instead. This gives every R-round commit a permanent record of which prompt pair produced it.
+The `prompts: v2.0` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_b.txt` and `phase_c.txt` is different (e.g. v1.1, v2.0), use that value in the commit body instead. This gives every R-round commit a permanent record of which prompt pair produced it.
 
 ## IMPORTANT
 - Do NOT git push. The merge and push will be handled externally.
