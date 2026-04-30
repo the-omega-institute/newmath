@@ -426,6 +426,14 @@ theorem unary_add_activation {h k r r' : BHist} :
   intro uh uk hr hr'
   exact unary_commutativity_refined uh uk hr hr'
 
+theorem add_up_commutative_license {h k r r' : BHist} :
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r' ->
+      hsame r r' /\ Nonempty (NameCert AddName) := by
+  intro uh uk hr hr'
+  constructor
+  · exact unary_add_activation uh uk hr hr'
+  · exact add_up_name_certificate_exists
+
 theorem unary_comm_from_obligations
     (rightShift : ∀ {k h r' : BHist}, UnaryHistory k → Cont k (.e1 h) r' → ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v))
     (e1Cong : ∀ {u v : BHist}, hsame u v → hsame (.e1 u) (.e1 v))

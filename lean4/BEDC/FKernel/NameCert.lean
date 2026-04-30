@@ -127,6 +127,17 @@ theorem derived_interfaces_have_stability [NameCertSetup] {name : DerivedName} :
       exact Nonempty.intro stability
 
 omit N in
+theorem sealInterface_nameCert_stability_ledger [NameCertSetup] {Thread : Type}
+    {name : DerivedName} :
+    SealInterface Thread name -> NameCert name /\ Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
+  intro iface
+  constructor
+  · exact iface.nameCert
+  · constructor
+    · exact derived_interfaces_have_stability iface.nameCert
+    · exact iface.ledger
+
+omit N in
 theorem nameCert_source_witness_from_cert [NameCertSetup] {name : DerivedName} :
     NameCert name -> Nonempty SourceSpec := by
   intro cert
@@ -423,6 +434,20 @@ theorem StableTransformation_descentCertificate_exists
   cases cert with
   | mk map respects ledger =>
       exact Nonempty.intro { map := map, respects := respects }
+
+theorem stableTransformation_descent_certificate_respects
+    {Source Target Ledger : Type}
+    {sourceSame : Source -> Source -> Prop}
+    {targetSame : Target -> Target -> Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame)
+    {a b : Source} :
+    sourceSame a b ->
+      exists descent : DescentCertificate Source Target sourceSame targetSame,
+        targetSame (descent.map a) (descent.map b) := by
+  intro same
+  cases cert with
+  | mk map respects ledger =>
+      exact ⟨{ map := map, respects := respects }, respects same⟩
 
 theorem stableTransformation_descends_to_packages
     {Source Target Ledger : Type}
