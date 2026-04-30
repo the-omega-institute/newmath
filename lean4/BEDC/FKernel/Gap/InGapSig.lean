@@ -87,6 +87,17 @@ theorem inGapSig_intro_from_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
           | intro hsig htok =>
               exact And.intro hdom (Exists.intro s (And.intro hsig htok))
 
+theorem signature_gap_membership [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h <->
+      exists s : BHist, InDom D h /\ SigRel bundle h s /\ TokIntro bundle s p := by
+  constructor
+  · intro hgap
+    exact inGapSig_witness_pair (bundle := bundle) (D := D) (p := p) (h := h) hgap
+  · intro witness
+    exact inGapSig_intro_from_witness_pair
+      (bundle := bundle) (D := D) (p := p) (h := h) witness
+
 theorem inGapSig_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h -> exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p := by

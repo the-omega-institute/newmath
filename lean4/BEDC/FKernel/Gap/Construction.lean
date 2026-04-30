@@ -399,6 +399,29 @@ theorem policy_gap_separation_witnesses [AskSetup] [PackageSetup] [DomainSetup]
                                     (And.intro hqTok
                                       (And.intro hst hpq))))))
 
+theorem gap_separation_policy [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    DomainPolicy D → AskPolicy (InDom D) → PackageTokenPolicy bundle →
+      InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q := by
+  intro _ askPolicy packagePolicy hp hq
+  cases inGapSig_witness_pair (bundle := bundle) (D := D) (p := p) (h := h) hp with
+  | intro s hpData =>
+      cases inGapSig_witness_pair (bundle := bundle) (D := D) (p := q) (h := h) hq with
+      | intro t hqData =>
+          cases hpData with
+          | intro hIn hpRest =>
+              cases hpRest with
+              | intro hs hpTok =>
+                  cases hqData with
+                  | intro _ hqRest =>
+                      cases hqRest with
+                      | intro ht hqTok =>
+                          have hst : hsame s t :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D) (h := h) (s := s) (t := t)
+                              askPolicy hIn hs ht
+                          exact packagePolicy.soundness hpTok hqTok hst
+
 theorem concrete_gap_policy
     {bundle : ProbeBundle ProbeName} {D : Domain}
     (askPolicy : AskPolicy (InDom D))
