@@ -108,6 +108,17 @@ theorem RatCarrier_of_int_positive_denominator {sign : BEDC.FKernel.Mark.BMark}
                 (BEDC.FKernel.Hist.hsame_trans
                   (BEDC.FKernel.Hist.hsame_symm sameTail) sameEmpty)
 
+theorem RatCarrier_denominator_hsame_transport {sign : BEDC.FKernel.Mark.BMark}
+    {numerator denominator denominator2 : BHist} :
+    RatCarrier sign numerator denominator -> hsame denominator denominator2 ->
+      RatCarrier sign numerator denominator2 := by
+  intro carrier sameDenominator
+  cases carrier with
+  | intro intCarrier denominatorData =>
+      exact RatCarrier_of_int_positive_denominator intCarrier
+        (PositiveUnaryDenominator_hsame_transport sameDenominator
+          (RatCarrier_positive_denominator ⟨intCarrier, denominatorData⟩))
+
 theorem RatSourceSpec_to_RatCarrier {normalized : BMark -> BHist -> BHist -> Prop}
     {sign : BMark} {num den : BHist} :
     RatSourceSpec normalized sign num den -> RatCarrier sign num den := by

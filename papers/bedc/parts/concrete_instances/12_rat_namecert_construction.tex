@@ -45,6 +45,19 @@ along \(\hsame\). Non-emptiness follows because an \(\Eone\)-history cannot be
 internally same as \(\emp\).
 \end{proof}
 
+\begin{theorem}[Rat carrier denominator transport]
+\label{thm:rat-carrier-denominator-hsame-transport}
+If \(\mathsf{RatCarrier}(s,n,d)\) and \(d\hsame d'\), then
+\(\mathsf{RatCarrier}(s,n,d')\).
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_denominator\_hsame\_transport}
+\begin{proof}
+Extract the positive denominator witness from the rational carrier, transport
+that witness across denominator sameness, and rebuild the rational carrier from
+the unchanged integer numerator together with the transported positive
+denominator.
+\end{proof}
+
 \begin{theorem}[Positive unary denominator transport]
 \label{thm:rat-positive-unary-denominator-hsame-transport}
 If a denominator history has a positive unary witness and is \(\hsame\)-equivalent to another history, then the other history has the same positive unary denominator witness.
