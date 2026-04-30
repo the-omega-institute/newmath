@@ -130,6 +130,31 @@ theorem gap_policy_fields {bundle : ProbeBundle ProbeName} {D : Domain} (policy 
     · exact policy.generation
 
 omit [AskSetup] [PackageSetup] G in
+theorem GapPolicy_iff_fields [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} :
+    GapPolicy bundle D <->
+      ((forall {h : BHist}, InDom D h -> exists p : Pkg, InGapSig bundle D p h) /\
+        (forall {h : BHist} {p q : Pkg}, InDom D h -> InGapSig bundle D p h ->
+          InGapSig bundle D q h -> psame bundle p q) /\
+        (forall {p : Pkg} {h : BHist}, InGapSig bundle D p h ->
+          exists s : BHist, TokIntro bundle s p)) := by
+  constructor
+  case mp =>
+    intro policy
+    exact gap_policy_fields policy
+  case mpr =>
+    intro fields
+    cases fields with
+    | intro coverage rest =>
+        cases rest with
+        | intro separation generation =>
+            exact {
+              generation := generation
+              coverage := coverage
+              separation := separation
+            }
+
+omit [AskSetup] [PackageSetup] G in
 theorem globalization_has_three_layers [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} :
     AskPolicy (InDom D) → PackagePolicy bundle → GapPolicy bundle D →
@@ -809,6 +834,19 @@ theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D h → hsame h k → InDom D k := by
   intro hh hhk
   exact policy.transport hh hhk
+
+omit [AskSetup] [PackageSetup] G in
+theorem DomainPolicy_iff_transport [AskSetup] [PackageSetup] [DomainSetup] {D : Domain} :
+    DomainPolicy D <-> (forall {h k : BHist}, InDom D h -> hsame h k -> InDom D k) := by
+  constructor
+  case mp =>
+    intro policy
+    exact policy.transport
+  case mpr =>
+    intro transport
+    exact {
+      transport := transport
+    }
 
 omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_domain_transport_source [AskSetup] [PackageSetup] [DomainSetup]

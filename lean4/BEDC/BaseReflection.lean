@@ -665,6 +665,25 @@ theorem ExactGlobalizeBase_fields
     case right =>
       exact ex.completeness
 
+theorem ExactGlobalizeBase_iff_fields {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} :
+    ExactGlobalizeBase s P D <->
+      ((forall h, s.InDom D h -> exists p, s.InGapSig P D p h) /\
+        (forall h k p q, s.InGapSig P D p h -> s.InGapSig P D q k ->
+          GeneratedSameSig s P h k -> PsameBase s P p q) /\
+        (forall h k p q, s.InGapSig P D p h -> s.InGapSig P D q k ->
+          PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k))) := by
+  constructor
+  case mp =>
+    intro ex
+    exact ExactGlobalizeBase_fields ex
+  case mpr =>
+    intro fields
+    cases fields with
+    | intro coverage rest =>
+        cases rest with
+        | intro soundness completeness =>
+            exact ExactGlobalizeBase_from_fields coverage soundness completeness
+
 theorem ExactGlobalizeBase_classify_iff
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
     {h k : s.Hist} {p q : s.Pkg}
