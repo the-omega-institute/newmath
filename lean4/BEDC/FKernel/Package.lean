@@ -16,6 +16,12 @@ variable [AskSetup] [P : PackageSetup]
 abbrev Pkg : Type := P.Pkg
 abbrev TokIntro : ProbeBundle ProbeName → BHist → Pkg → Prop := P.TokIntro
 
+omit [AskSetup] P in
+theorem TokIntro_iff_setup_field [A : AskSetup] [P : PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s : BHist} {p : P.Pkg} :
+    @TokIntro A P bundle s p ↔ P.TokIntro bundle s p := by
+  rfl
+
 def PkgSig [AskSetup] [PackageSetup] (bundle : ProbeBundle ProbeName) (s : BHist) (p : Pkg) : Prop :=
   TokIntro bundle s p
 

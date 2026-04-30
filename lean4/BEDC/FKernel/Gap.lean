@@ -115,6 +115,17 @@ theorem inGapSig_token_witness [AskSetup] [PackageSetup] [DomainSetup]
       exact Exists.intro s data.right
 
 omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_domain_token_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h → InDom D h ∧ ∃ s : BHist, TokIntro bundle s p := by
+  intro hgap
+  constructor
+  · exact hgap.left
+  · cases hgap.right with
+    | intro s data =>
+        exact Exists.intro s data.right
+
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ->
