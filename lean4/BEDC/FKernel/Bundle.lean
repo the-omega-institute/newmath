@@ -223,6 +223,30 @@ theorem inBundle_cons_three_head_or_tail {PName : Type} {x a b c : PName} :
           | inr hnil =>
               exact False.elim hnil
 
+theorem inBundle_cons_four_head_or_tail {PName : Type} {x a b c d : PName} :
+    InBundle x
+        (ProbeBundle.Bcons a
+          (ProbeBundle.Bcons b (ProbeBundle.Bcons c (ProbeBundle.Bcons d ProbeBundle.Bnil)))) →
+      x = a ∨ x = b ∨ x = c ∨ x = d := by
+  intro h
+  cases h with
+  | inl ha =>
+      exact Or.inl ha
+  | inr htail =>
+      cases htail with
+      | inl hb =>
+          exact Or.inr (Or.inl hb)
+      | inr hrest =>
+          cases hrest with
+          | inl hc =>
+              exact Or.inr (Or.inr (Or.inl hc))
+          | inr hmore =>
+              cases hmore with
+              | inl hd =>
+                  exact Or.inr (Or.inr (Or.inr hd))
+              | inr hnil =>
+                  exact False.elim hnil
+
 theorem inBundle_cons_four_rotate_iff {PName : Type} {x a b c d : PName}
     {tail : ProbeBundle PName} :
     InBundle x

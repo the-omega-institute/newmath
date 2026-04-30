@@ -7,6 +7,12 @@ def threadFamily_base_stage {StageData : StageInterface -> Type} :
   intro family
   exact family StageInterface.base
 
+theorem threadFamily_stage_base_heq {StageData : StageInterface → Type}
+    (family : ThreadFamily StageData) (stage : StageInterface) :
+    HEq (family stage) (family StageInterface.base) := by
+  cases stage
+  rfl
+
 theorem nameCert_all_fields_nonempty [NameCertSetup] {name : DerivedName} :
     NameCert name ->
       Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec /\
