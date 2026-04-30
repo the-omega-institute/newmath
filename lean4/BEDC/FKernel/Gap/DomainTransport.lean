@@ -86,6 +86,14 @@ theorem domain_transport_three_step_chain [AskSetup] [PackageSetup] [DomainSetup
   intro hdom hhk hkl hlm
   exact policy.transport (policy.transport (policy.transport hdom hhk) hkl) hlm
 
+theorem domain_transport_four_step_chain [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l m n : BHist} :
+    InDom D h → hsame h k → hsame k l → hsame l m → hsame m n → InDom D n := by
+  intro hdom hhk hkl hlm hmn
+  exact policy.transport
+    (policy.transport (policy.transport (policy.transport hdom hhk) hkl) hlm)
+    hmn
+
 omit [AskSetup] [PackageSetup] G in
 theorem domain_transport_backward_chain [AskSetup] [PackageSetup] [DomainSetup]
     {D : Domain} (policy : DomainPolicy D) {h k l : BHist} :
