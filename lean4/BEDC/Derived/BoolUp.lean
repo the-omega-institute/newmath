@@ -12,6 +12,14 @@ def BoolSourceSpec (value : BEDC.FKernel.Mark.BMark) : Prop :=
   BEDC.FKernel.Mark.msame value BEDC.FKernel.Mark.BMark.b0 ∨
     BEDC.FKernel.Mark.msame value BEDC.FKernel.Mark.BMark.b1
 
+def BoolPatternSpec : Prop :=
+  BEDC.FKernel.Mark.msame BEDC.FKernel.Mark.BMark.b0 BEDC.FKernel.Mark.BMark.b0 ∧
+    BEDC.FKernel.Mark.msame BEDC.FKernel.Mark.BMark.b1 BEDC.FKernel.Mark.BMark.b1 ∧
+      (BEDC.FKernel.Mark.msame BEDC.FKernel.Mark.BMark.b0 BEDC.FKernel.Mark.BMark.b1 →
+        False) ∧
+        (BEDC.FKernel.Mark.msame BEDC.FKernel.Mark.BMark.b1 BEDC.FKernel.Mark.BMark.b0 →
+          False)
+
 theorem BoolSourceSpec_msame_transport {v w : BEDC.FKernel.Mark.BMark} :
     BEDC.FKernel.Mark.msame v w → BoolSourceSpec v → BoolSourceSpec w := by
   intro same src
@@ -19,9 +27,9 @@ theorem BoolSourceSpec_msame_transport {v w : BEDC.FKernel.Mark.BMark} :
   exact src
 
 def BoolLedgerPolicy
-    (visible source : BEDC.FKernel.Mark.BMark) : Prop :=
+    (source visible : BEDC.FKernel.Mark.BMark) : Prop :=
   BEDC.Derived.BoolUp.BoolSourceSpec source ∧
-    BEDC.Derived.BoolUp.BoolClassifierSpec visible source
+    BEDC.FKernel.Mark.msame source visible
 
 theorem BoolClassifierSpec_constructor_separation :
     BoolClassifierSpec BEDC.FKernel.Mark.BMark.b0 BEDC.FKernel.Mark.BMark.b1 → False := by

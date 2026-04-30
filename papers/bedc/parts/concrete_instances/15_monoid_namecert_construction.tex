@@ -48,6 +48,15 @@ The stability certificate consists of:
 \end{definition}
 \leanchecked{BEDC.Derived.MonoidUp.monoid\_stability\_certificate\_fields}
 
+\begin{theorem}[History continuation monoid laws]
+\label{thm:history-continuation-monoid-laws}
+The BEDC history continuation relation has empty history as a left and right unit, and the two parenthesizations of a triple continuation have the same resulting history.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonoidUp.history\_continuation\_monoid\_laws}
+\begin{proof}
+The unit fields are the empty-history continuation constructors. For associativity, each continuation witness unfolds to history append, and the result follows from associativity of BEDC history append.
+\end{proof}
+
 \begin{definition}[Monoid ledger policy]
 \label{def:monoid-ledger-policy}
 Record the carrier witnesses and operation tree behind each monoid expression.

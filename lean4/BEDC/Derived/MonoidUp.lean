@@ -1,3 +1,5 @@
+import BEDC.FKernel.Cont
+
 namespace BEDC.Derived.MonoidUp
 
 def MonoidClassifierSpec {C : Type} (sameC : C → C → Prop) (x y : C) : Prop :=
@@ -38,5 +40,27 @@ theorem monoid_stability_certificate_fields {C : Type} {sameC : C → C → Prop
             exact rightId x
           · intro a a' b b' haa' hbb'
             exact mulCongr haa' hbb'
+
+theorem history_continuation_monoid_laws :
+    (∀ h : BEDC.FKernel.Hist.BHist,
+      BEDC.FKernel.Cont.Cont BEDC.FKernel.Hist.BHist.Empty h h) ∧
+      (∀ h : BEDC.FKernel.Hist.BHist,
+        BEDC.FKernel.Cont.Cont h BEDC.FKernel.Hist.BHist.Empty h) ∧
+      (∀ {a b c ab abc bc abc' : BEDC.FKernel.Hist.BHist},
+        BEDC.FKernel.Cont.Cont a b ab →
+          BEDC.FKernel.Cont.Cont ab c abc →
+          BEDC.FKernel.Cont.Cont b c bc →
+          BEDC.FKernel.Cont.Cont a bc abc' →
+          BEDC.FKernel.Hist.hsame abc abc') := by
+  constructor
+  · exact BEDC.FKernel.Cont.cont_left_unit
+  · constructor
+    · exact BEDC.FKernel.Cont.cont_right_unit
+    · intro a b c ab abc bc abc' hab habc hbc habc'
+      cases hab
+      cases habc
+      cases hbc
+      cases habc'
+      exact BEDC.FKernel.Cont.append_assoc a b c
 
 end BEDC.Derived.MonoidUp
