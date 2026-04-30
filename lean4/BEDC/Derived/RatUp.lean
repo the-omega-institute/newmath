@@ -158,6 +158,21 @@ theorem RatCarrier_component_hsame_transport {s t : BEDC.FKernel.Mark.BMark}
               exact denominatorNonempty
                 (BEDC.FKernel.Hist.hsame_trans sameDenominator sameEmpty)
 
+theorem RatCarrier_hsame_transport {s t : BMark} {n n' d d' : BHist} :
+    RatCarrier s n d -> msame s t -> hsame n n' -> hsame d d' -> RatCarrier t n' d' := by
+  intro carrier sameSign sameNumerator sameDenominator
+  cases sameSign
+  cases carrier with
+  | intro intCarrier denominatorData =>
+      cases denominatorData with
+      | intro denominatorUnary denominatorNonempty =>
+          constructor
+          · exact IntUp.IntCarrier_magnitude_hsame_transport intCarrier sameNumerator
+          · constructor
+            · exact unary_transport denominatorUnary sameDenominator
+            · intro sameEmpty
+              exact denominatorNonempty (hsame_trans sameDenominator sameEmpty)
+
 def rat_classifier_spec_trans_carrier
     (sign : BEDC.FKernel.Mark.BMark) (numerator denominator : BEDC.FKernel.Hist.BHist) :
     Prop :=

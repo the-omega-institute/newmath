@@ -99,6 +99,20 @@ denominator closure along the denominator history sameness, and compose the
 denominator sameness with the empty-denominator contradiction.
 \end{proof}
 
+\begin{theorem}[Rat carrier hsame transport]
+\label{thm:rat-carrier-hsame-transport}
+If a rational carrier \(\mathsf{RatCarrier}(s,n,d)\) is transported along
+\(\msame(s,t)\), \(\hsame(n,n')\), and \(\hsame(d,d')\), then the transported
+triple is again a rational carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_hsame\_transport}
+\begin{proof}
+Eliminate the sign sameness, then unpack the rational carrier. The numerator
+is transported by the integer carrier transport theorem, denominator unary
+closure is transported along \(\hsame(d,d')\), and denominator non-emptiness is
+preserved by composing \(\hsame(d,d')\) with any empty-target witness.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Rat source specification]

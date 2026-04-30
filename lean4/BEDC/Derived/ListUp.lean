@@ -257,6 +257,33 @@ theorem ListClassifierSpec_reverse_hsame :
     ∀ {xs ys : BEDC.Derived.ListUp.ListCarrier BEDC.FKernel.Hist.BHist},
       ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys →
         ListClassifierSpec BEDC.FKernel.Hist.hsame xs.reverse ys.reverse := by
+  have appendAssocPure :
+      ∀ {A : Type}, ∀ xs ys zs : List A, (xs ++ ys) ++ zs = xs ++ (ys ++ zs) := by
+    intro A xs
+    induction xs with
+    | nil =>
+        intro ys zs
+        rfl
+    | cons x xs ih =>
+        intro ys zs
+        exact congrArg (List.cons x) (ih ys zs)
+  have reverseAuxPure :
+      ∀ {A : Type}, ∀ xs ys : List A, List.reverseAux xs ys = List.reverseAux xs [] ++ ys := by
+    intro A xs
+    induction xs with
+    | nil =>
+        intro ys
+        rfl
+    | cons x xs ih =>
+        intro ys
+        exact (ih (x :: ys)).trans
+          ((appendAssocPure (List.reverseAux xs []) [x] ys).symm.trans
+            (congrArg (fun tail => tail ++ ys) (ih [x]).symm))
+  have reverseConsPure :
+      ∀ {A : Type}, ∀ x : A, ∀ xs : List A, List.reverse (x :: xs) = List.reverse xs ++ [x] := by
+    intro A x xs
+    change List.reverseAux xs [x] = List.reverseAux xs [] ++ [x]
+    exact reverseAuxPure xs [x]
   intro xs
   induction xs with
   | nil =>
@@ -274,7 +301,7 @@ theorem ListClassifierSpec_reverse_hsame :
       | cons y ys =>
           cases hxy with
           | intro hhead htail =>
-              rw [List.reverse_cons, List.reverse_cons]
+              rw [reverseConsPure x xs, reverseConsPure y ys]
               apply ListClassifierSpec_append_hsame
               · exact ih htail
               · constructor
