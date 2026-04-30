@@ -21,6 +21,15 @@ theorem OptionHistoryCarrier_hsame_transport {source : BHist -> Prop} {h k : BHi
 def OptionHistoryClassifier (source : BHist -> Prop) (h k : BHist) : Prop :=
   OptionHistoryCarrier source h ∧ OptionHistoryCarrier source k ∧ hsame h k
 
+theorem OptionHistoryClassifier_symm {source : BHist → Prop} {h k : BHist} :
+    OptionHistoryClassifier source h k → OptionHistoryClassifier source k h := by
+  intro classifier
+  cases classifier with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          exact And.intro carrierK (And.intro carrierH (hsame_symm sameHK))
+
 theorem OptionHistoryClassifier_hsame_transport {source : BHist -> Prop}
     {h h' k k' : BHist} :
     hsame h h' -> hsame k k' -> OptionHistoryClassifier source h k ->

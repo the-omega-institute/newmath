@@ -148,6 +148,20 @@ append-result equality.
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail}
 
+\begin{theorem}[Prefix left context cancellation]
+\label{thm:preorder-prefix-left-context-cancellation}
+If appending the same left context to \(h\) and \(k\) makes
+\(\mathsf{append}(x,h)\le\mathsf{append}(x,k)\), then \(h\le k\).
+\end{theorem}
+\begin{proof}
+Unpack the prefix witness as a unary tail and a continuation equation from
+\(\mathsf{append}(x,h)\) to \(\mathsf{append}(x,k)\). Continuation associativity rewrites the
+right side as a common left append by \(x\); left cancellation removes that
+context and gives the continuation equation from \(h\) to \(k\) with the same
+unary tail.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_cancel\_left\_context}
+
 \begin{definition}[Preorder stability certificate]
 \label{def:preorder-stability-certificate}
 The stability certificate consists of:

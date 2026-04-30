@@ -135,6 +135,16 @@ theorem PreorderPrefixLE_append_tail {h tail : BHist} :
   intro tailUnary
   exact ⟨tail, tailUnary, cont_intro rfl⟩
 
+theorem PreorderPrefixLE_cancel_left_context {x h k : BHist} :
+    PreorderPrefixLE (append x h) (append x k) → PreorderPrefixLE h k := by
+  intro prefixLE
+  cases prefixLE with
+  | intro tail tailData =>
+      cases tailData with
+      | intro tailUnary tailCont =>
+          exact ⟨tail, tailUnary,
+            append_left_cancel (h := x) (tailCont.trans (append_assoc x h tail))⟩
+
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)
     (carrier_transport : ∀ {h k : BHist}, hsame h k → Carrier h → Carrier k)
