@@ -327,9 +327,10 @@ The history-level $\BoolUp$ stability used by Theorem~\ref{thm:concrete-bool-nam
 \leanvariant{BEDC.Derived.BoolUp.boolClassifierSpec\_stability}
 \leanvariant{BEDC.Derived.BoolUp.bool\_stability\_certificate}
 
-\begin{definition}[Bool ledger policy]
+\begin{definition}[Bool mark ledger policy]
 \label{def:bool-ledger-policy}
-Record the raw source mark for every visible boolean class.
+The mark-level $\mathsf{BoolLedgerPolicy}(source,visible)$ records a raw
+source mark and its visible mark under $\msame(source,visible)$.
 \end{definition}
 \leandef{BEDC.Derived.BoolUp.BoolLedgerPolicy}
 
@@ -341,6 +342,10 @@ The history carrier $\mathsf{BoolHistoryCarrier}$ and classifier $\mathsf{BoolHi
 
 \begin{definition}[Bool history semantic fields]
 \label{def:bool-history-semantic-fields}
+The semantic history ledger used for
+Theorem~\ref{thm:bool-semantic-namecert-target} is the carrier-as-ledger
+predicate $\mathsf{BoolHistoryCarrier}$, not the mark-level
+$\mathsf{BoolLedgerPolicy}$.
 The history-level semantic fields used by the boolean certificate are all the
 same carrier predicate.  For a BEDC history $h$,
 $$
@@ -380,6 +385,8 @@ constructor data for the corresponding semantic naming certificate.
 Theorem~\ref{thm:concrete-bool-namecert} asserts the checked core history
 $\NameCert$ for $\mathsf{BoolHistoryCarrier}$ and
 $\mathsf{BoolHistoryClassifier}$ only. Theorem~\ref{thm:bool-semantic-namecert-target}
-is the carrier-as-pattern semantic certificate target. In both cases
+is the carrier-as-pattern semantic certificate target. Thus the checked core
+$\NameCert$, the mark-level ledger definition, and the paper-side
+carrier-as-ledger semantic target occupy separate roles. In both cases
 $\BoolUp$ is derived from mark and history sameness, and is not primitive.
 \end{corollary}

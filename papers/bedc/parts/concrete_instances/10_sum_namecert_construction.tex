@@ -537,6 +537,27 @@ $\hsame$ on the selected component to build the matching classifier branch.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_raw\_visible\_classifier}
 
+\begin{theorem}[Sum ledger history-same transport]
+\label{thm:sum-ledger-history-same-transport}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$raw,raw',visible,visible':\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,raw,visible)$,
+$\hsame(raw,raw')$, and $\hsame(visible,visible')$ hold, then
+$$
+  \mathsf{SumHistoryLedgerPolicy}(Left,Right,raw',visible')
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into the raw $\mathsf{SumHistoryCarrier}$ witness and the
+stored link $\hsame(raw,visible)$. Transport the raw carrier along
+$\hsame(raw,raw')$ by
+Theorem~\ref{thm:sum-history-carrier-hsame-transport}. For the raw-visible
+link of the transported ledger, compose symmetry of $\hsame(raw,raw')$, the
+stored $\hsame(raw,visible)$ link, and $\hsame(visible,visible')$ to obtain
+$\hsame(raw',visible')$.
+\end{proof}
+
 \begin{theorem}[Sum ledger classifier composition]
 \label{thm:sum-ledger-classifier-extension}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
