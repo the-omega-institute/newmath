@@ -90,6 +90,21 @@ structure BundleAskPolicy (bundle : ProbeBundle ProbeName) (D : BHist → Prop) 
       InBundle pi bundle → hsame h k → Ask pi h m delta → Ask pi k n theta → msame m n
 
 omit S in
+theorem bundleAskPolicy_of_membership_inclusion [AskSetup]
+    {source target : ProbeBundle ProbeName} {D : BHist → Prop} :
+    BundleAskPolicy source D →
+      (∀ {pi : ProbeName}, InBundle pi target → InBundle pi source) →
+      BundleAskPolicy target D := by
+  intro policy subset
+  constructor
+  · intro pi h inTarget hD
+    exact policy.total (subset inTarget) hD
+  · intro pi h m n delta theta inTarget left right
+    exact policy.deterministic (subset inTarget) left right
+  · intro pi h k m n delta theta inTarget same left right
+    exact policy.respectsHistory (subset inTarget) same left right
+
+omit S in
 theorem bundleAskPolicy_tail [AskSetup]
     {pi : ProbeName} {tail : ProbeBundle ProbeName} {D : BHist → Prop} :
     BundleAskPolicy (ProbeBundle.Bcons pi tail) D → BundleAskPolicy tail D := by
