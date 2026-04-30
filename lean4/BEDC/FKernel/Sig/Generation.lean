@@ -220,4 +220,45 @@ theorem signature_generation_bundle_append [AskSetup] {left right : ProbeBundle 
                        (SigRel.cons pi (bundleAppend tail right) h joined (BHist.e1 joined)
                          BMark.b1 delta hask joinedSig (Ext.e1 joined)))
 
+theorem signature_generation_bundle_append_inversion [AskSetup]
+    {left right : ProbeBundle ProbeName} {h u : BHist} :
+    SigRel (bundleAppend left right) h u ->
+      exists s : BHist, exists t : BHist,
+        SigRel left h s /\ SigRel right h t /\ Cont t s u := by
+  intro appended
+  induction left generalizing u with
+  | Bnil =>
+      exact Exists.intro BHist.Empty
+        (Exists.intro u
+          (And.intro (SigRel.empty h)
+            (And.intro appended (cont_right_unit u))))
+  | Bcons pi tail ih =>
+      cases appended with
+      | cons _ _ _ joined _ m delta hask tailAppendSig step =>
+          cases ih tailAppendSig with
+          | intro tailResult recovered =>
+              cases recovered with
+              | intro rightResult recoveredData =>
+                  cases recoveredData with
+                  | intro tailSig rightData =>
+                      cases rightData with
+                      | intro rightSig tailCont =>
+                          cases step with
+                          | e0 =>
+                              exact Exists.intro (BHist.e0 tailResult)
+                                (Exists.intro rightResult
+                                  (And.intro
+                                    (SigRel.cons pi tail h tailResult
+                                      (BHist.e0 tailResult) BMark.b0 delta hask tailSig
+                                      (Ext.e0 tailResult))
+                                    (And.intro rightSig (cont_step_zero tailCont))))
+                          | e1 =>
+                              exact Exists.intro (BHist.e1 tailResult)
+                                (Exists.intro rightResult
+                                  (And.intro
+                                    (SigRel.cons pi tail h tailResult
+                                      (BHist.e1 tailResult) BMark.b1 delta hask tailSig
+                                      (Ext.e1 tailResult))
+                                    (And.intro rightSig (cont_step_one tailCont))))
+
 end BEDC.FKernel.Sig

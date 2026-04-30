@@ -95,6 +95,15 @@ theorem PreorderPrefixLE_preserves_carrier {h k : BEDC.FKernel.Hist.BHist} :
       | intro tailCarrier hCont =>
           exact unary_cont_closed hCarrier tailCarrier hCont
 
+theorem PreorderPrefixLE_source_carrier_of_target_carrier {h k : BHist} :
+    PreorderPrefixLE h k -> PreorderCarrier k -> PreorderCarrier h := by
+  intro prefixWitness targetCarrier
+  cases prefixWitness with
+  | intro tail tailData =>
+      cases tailData with
+      | intro _tailCarrier hCont =>
+          exact unary_cont_left_factor hCont targetCarrier
+
 theorem PreorderPrefixLE_antisymm_hsame {h k : BHist} :
     PreorderPrefixLE h k -> PreorderPrefixLE k h -> hsame h k := by
   intro hk kh
