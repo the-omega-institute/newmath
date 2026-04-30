@@ -186,4 +186,12 @@ theorem sameSig_equivalence {bundle : ProbeBundle ProbeName} {D : BHist → Prop
                                           huk
                                       exact ⟨s, v, hs, hvl, hsame_trans hst (hsame_trans htu huv)⟩
 
+omit [AskSetup] in
+theorem sameSig_equivalence_under_policy [AskSetup] {bundle : ProbeBundle ProbeName} {D : BHist → Prop}
+    (policy : AskPolicy D) :
+    (∀ {h : BHist}, D h → SameSig bundle h h) ∧
+      (∀ {h k : BHist}, SameSig bundle h k → SameSig bundle k h) ∧
+      (∀ {h k l : BHist}, D k → SameSig bundle h k → SameSig bundle k l → SameSig bundle h l) := by
+  exact sameSig_equivalence (bundle := bundle) (D := D) policy
+
 end BEDC.FKernel.Sig

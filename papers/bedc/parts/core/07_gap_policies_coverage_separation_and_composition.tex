@@ -8,6 +8,7 @@ The judgment \(\InGap(\Pi,p,h)\) means that source history \(h\) lies in the gap
 \end{definition}
 
 \begin{definition}[Gap policy]
+\label{def:gap-policy-generation}
 A gap policy \(\GapPol(\Pi,D)\) over source specification \(D\) consists of:
 \begin{enumerate}
   \item generation: \(\InGap(\Pi,p,h)\) is generated only from a signature \(\Sig(\Pi,h,s,\Delta)\) and a package \(\Pkg(\Pi,s,p)\);
@@ -16,6 +17,7 @@ A gap policy \(\GapPol(\Pi,D)\) over source specification \(D\) consists of:
   \item ledger visibility: a package is not complete without its gap ledger.
 \end{enumerate}
 \end{definition}
+\leanchecked{BEDC.FKernel.Gap.gap\_generation\_witness}
 
 \begin{theorem}[Gap coverage]
 Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi)\), and \(\GapPol(\Pi,D)\). Every admitted source history belongs to at least one generated package gap.

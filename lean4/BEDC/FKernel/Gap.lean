@@ -33,6 +33,14 @@ structure GapPolicy (bundle : ProbeBundle ProbeName) (D : Domain) : Prop where
   coverage : ∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h
   separation : ∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q
 
+omit [AskSetup] [PackageSetup] G in
+theorem gap_generation_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
+    (policy : GapPolicy bundle D) :
+    InGapSig bundle D p h → ∃ s : BHist, TokIntro bundle s p := by
+  intro hgap
+  exact policy.generation hgap
+
 theorem internalized_gap_coverage
     {bundle : ProbeBundle ProbeName} {D : Domain}
     (askPolicy : AskPolicy (InDom D))
