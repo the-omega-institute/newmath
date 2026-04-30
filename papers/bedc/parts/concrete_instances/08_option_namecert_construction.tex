@@ -32,7 +32,13 @@ The checked BEDC-history carrier used below is the nullable semantic carrier $\m
 
 \begin{definition}[Option source specification]
 \label{def:option-source-specification}
-The source is the source NameCert for \(A\), lifted through the optional carrier.
+There are two source scopes. For the checked nullable-history certificate, the
+source input is a BEDC history predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+$\mathsf{OptionHistoryCarrier}_S(h)$ is exactly the empty-or-source envelope
+$\hsame(h,\emp)\lor S(h)$. A source $\NameCert$ belongs only to the typed and
+constructor-tagged option interface used later in
+Theorem~\ref{thm:tagged-option-history-semantic-certificate}; it is not part of
+the checked nullable-envelope definition displayed here.
 \end{definition}
 \leandef{BEDC.Derived.OptionUp.OptionHistoryCarrier}
 
