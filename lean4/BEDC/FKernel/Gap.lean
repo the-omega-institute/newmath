@@ -721,6 +721,16 @@ theorem concrete_globalize_completeness_sameSig [AskSetup] [PackageSetup] [Domai
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     packagePolicy hp hq hpq
 
+theorem concrete_globalize_completeness_from_package_same
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
+    (packagePolicy : PackageTokenPolicy bundle) :
+    InGapSig bundle D p h -> InGapSig bundle D q k -> psame bundle p q ->
+      SameSig bundle h k := by
+  intro hp hq hpq
+  exact internalized_globalize_completeness
+    (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+    packagePolicy hp hq hpq
+
 theorem internalized_globalize_completeness_with_tokens
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle → InGapSig bundle D p h → InGapSig bundle D q k →
@@ -1188,6 +1198,30 @@ theorem compGap_assoc_forward
                   exact Exists.intro b
                     (And.intro firstWitness
                       (Exists.intro c (And.intro secondWitness thirdWitness)))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_right_nested_witnesses
+    {Source Inter Final Top : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    {thirdGap : Top -> Final -> Prop}
+    {z : Top} {x : Source} :
+    CompGap firstGap (CompGap secondGap thirdGap) z x ->
+      exists y : Inter, exists w : Final,
+        firstGap y x /\ secondGap w y /\ thirdGap z w := by
+  intro h
+  cases h with
+  | intro y outer =>
+      cases outer with
+      | intro firstWitness nested =>
+          cases nested with
+          | intro w nestedData =>
+              cases nestedData with
+              | intro secondWitness thirdWitness =>
+                  exact Exists.intro y
+                    (Exists.intro w
+                      (And.intro firstWitness
+                        (And.intro secondWitness thirdWitness)))
 
 omit [AskSetup] [PackageSetup] G in
 theorem compGap_assoc_witnesses

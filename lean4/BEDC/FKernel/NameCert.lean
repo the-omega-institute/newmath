@@ -369,6 +369,17 @@ theorem nameCert_all_field_witnesses_from_nonempty [NameCertSetup] {name : Deriv
   | intro cert =>
       exact nameCert_field_witnesses cert
 
+theorem nameCert_stability_ledger_from_nonempty [NameCertSetup] {name : DerivedName} :
+    Nonempty (NameCert name) -> Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
+  intro certNonempty
+  cases certNonempty with
+  | intro cert =>
+      cases cert with
+      | mk _ _ _ stability ledger =>
+          constructor
+          · exact Nonempty.intro stability
+          · exact Nonempty.intro ledger
+
 theorem NameCert_add_activation [NameCertSetup] {name : DerivedName}
     (source : SourceSpec)
     (pattern : PatternSpec)
