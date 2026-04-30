@@ -26,16 +26,76 @@ The kernel "input set" — sum of `inductive` types + `class` declarations + the
 - When both a `def` and an `inductive` would express the same closed-generation idea, prefer `def` — `def` is conservative (no new logical commitment), `inductive` is a structural input.
 - A target whose primary effect is to add a parallel input duplicating an existing input MUST be skipped. Note this in `strategy` and pick a different open obligation.
 
-## Task
-Select 3 formalization targets for R<ROUND_NUM>.
+## Anti-Variant Hard Rule
+Phase C will NOT produce `\leanvariant` markers in automated rounds. Therefore Phase B MUST NOT propose targets whose only contribution is a wrapper, projection, weakening, strengthening, alias, pair-bundling, witness-extraction, chain-composition, iff-rewrite, field-extractor, or naming-convention restatement of any theorem that already has a `\leanchecked` marker.
 
-Steps:
-1. Scan `papers/bedc/parts/` to find theorem/definition/proposition sites that do NOT yet have a nearby `\leanchecked`, `\leanstmt`, or `\leandef` marker at the primary site.
-2. Confirm the matching Lean target does NOT already exist in `lean4/BEDC/`.
-3. Pick 3 targets:
-   - Not all from the same chapter
-   - At least 1 must be medium difficulty (for example induction, constructor inversion, or a multi-step structure elimination proof)
-   - Prefer targets that fit the existing BEDC namespaces and setup classes
+A proposed target is INVALID if any of the following hold:
+1. There exists in `lean4/BEDC/` a theorem `T_canonical` with the same logical content as the proposed target, marked `\leanchecked` somewhere in `papers/bedc/parts/`, and the proposed proof reduces to `exact T_canonical`, `apply T_canonical`, `T_canonical.symm`, `T_canonical.mp`, `T_canonical.mpr`, `⟨T_canonical.1, T_canonical.2⟩`, or any single-step rewrite of `T_canonical`.
+2. The proposed target name ends in `_pair`, `_witnesses`, `_witness`, `_iff`, `_inversion`, `_projection`, `_chain`, `_directions`, `_field`, `_fields`, `_complete`, `_three_step`, `_four_step`, `_five_step`, `_with_factor`, `_alias`, `_wrapper`, `_for_*` AND a `\leanchecked` already exists for a logically equivalent claim.
+3. The proposed target's role is to "enable easier consumption" of an existing canonical theorem.
+
+If you find yourself reaching for these, you are in variant-churn mode — STOP and walk down the priority order below until you find genuine work.
+
+## Task
+Select up to 3 formalization targets for R<ROUND_NUM> from the following priority order. Walk classes in order; do NOT advance to a lower-priority class while a higher-priority class still has actionable items.
+
+### Class A — Marker drift fix-up (HIGHEST PRIORITY, ~40 items remaining)
+A paper-stated block exists with NO marker, AND the matching Lean target ALREADY EXISTS.
+1. Scan `papers/bedc/parts/**/*.tex` for `\begin{theorem}` / `\begin{lemma}` / `\begin{proposition}` / `\begin{corollary}` / `\begin{definition}` / `\begin{principle}` / `\begin{kernelrule}` blocks where no `\leanchecked`, `\leanstmt`, or `\leandef` marker appears within the block content or within 8 lines after `\end{...}`.
+2. Infer the canonical Lean name from the block's `\label{...}` or theorem title and grep `lean4/BEDC/` to confirm the target ALREADY EXISTS.
+3. Phase C work is marker-only — record existing Lean signature in `lean_signature`.
+4. Mark `paper_block_status: "exists_without_marker"`, `lean_target_already_exists: true`.
+
+### Class B — Paper-stated, Lean missing (~10 items remaining)
+A paper-stated block exists with NO marker, AND the matching Lean target does NOT exist.
+1. Scan as in Class A.
+2. Confirm via grep that NO Lean target with the appropriate name exists.
+3. Phase C work implements the Lean target AND adds the marker.
+4. Mark `paper_block_status: "exists_without_marker"`, `lean_target_already_exists: false`.
+
+### Class C — Object licensing (long-tail steady-state work)
+BEDC is a 0-axiom export engine; mathematical objects (NatUp, AddUp licensed; IntUp, RatUp, RealUp_Bishop, ... pending) are inputs licensed through the engine via NameCert constructions. When Class A and B are exhausted, advance the licensing of the next object in the queue.
+
+Each object follows the 5-field NameCert template established by `parts/concrete_instances/04_nat_namecert_construction.tex` and `05_add_namecert_construction.tex`:
+1. **Carrier definition** — inductive predicate or def expressing the object over BEDC primitives.
+2. **`<Object>SourceSpec`** — which generated objects qualify.
+3. **`<Object>PatternSpec`** — how they're generated.
+4. **`<Object>ClassifierSpec`** — how to identify them up to internal sameness.
+5. **`<Object>StabilityCert`** — closure / well-definedness fields.
+6. **`<Object>LedgerPolicy`** — provenance bookkeeping.
+7. **Main `NameCert_<Object>` theorem** — tuple forms valid certificate.
+8. **License corollary** — `<Object>Up is licensed, not primitive`.
+
+A round may propose a SINGLE field of a SINGLE object's NameCert, OR the carrier definition, OR the main theorem, OR the license corollary. Do NOT attempt the entire 8-step package in one round.
+
+Canonical licensing queue, in dependency order (always pick the lowest open item):
+- IntUp (integers; depends on NatUp ✓)
+- RatUp (rationals; depends on IntUp)
+- RealUp (Bishop reals with explicit Cauchy modulus; depends on RatUp)
+- ComplexUp (Cartesian; depends on RealUp)
+- S1Up (circle; depends on RealUp)
+- GroupUp (abstract group; self-contained Setup-class)
+- RingUp (depends on GroupUp)
+- VecSpaceUp (depends on RingUp)
+- MatrixUp (depends on RingUp + Nat)
+- FoldUp (paper §11; depends on Pkg + Sig)
+
+If all 10 listed objects are fully licensed in the current paper, propose the next mathematical object in dependency order from the broader canon (FieldUp, ModuleUp, AlgebraUp, PolynomialUp, MetricSpaceUp, OrderUp, LatticeUp, MonoidUp, SemigroupUp, FunctorUp, CategoryUp, etc.). The class C work queue is effectively unlimited.
+
+NN for the new chapter file is the next unused index in `parts/concrete_instances/` (currently 06 for IntUp).
+
+0-AXIOM BARRIER: if the standard mathematical definition requires LEM / `Classical.choice` / `Quot.sound` / `propext`:
+- For real-like objects: fall back to the Bishop / constructive variant (Cauchy with modulus, located sets, decidable subsets only).
+- For sup / inf over arbitrary subsets: only license the located / totally-bounded version.
+- For function extensionality: do NOT license; functions are intensional in BEDC.
+- If even the constructive variant pulls in a forbidden axiom, abort the target. Mark `paper_block_status: "blocked_by_zero_axiom_barrier"`, document in `strategy`, and pick a different licensing queue item.
+
+### Selection requirements
+- Up to 3 targets; fewer is acceptable if Class A/B together yield only 1-2 items.
+- When multiple Class A items are available, fill all 3 slots from Class A.
+- When Class A is exhausted, fill from Class B; when both are exhausted, fill from Class C.
+- Diversity gate (mixed chapters / mixed difficulties) applies only when 3 targets are picked.
+- Class C contains object licensing work; you must NEVER fall back to variant generation. The Anti-Variant Hard Rule is absolute.
 
 ## Output Format (MUST follow exactly)
 Output a single JSON block:
@@ -45,12 +105,18 @@ Output a single JSON block:
   "targets": [
     {
       "paper_label": "thm:xxx or def:xxx or prop:xxx or cor:xxx",
-      "lean_name": "BEDC.FKernel.Sig.sig_deterministic",
+      "paper_block_kind": "theorem | lemma | proposition | corollary | definition | principle | kernelrule",
+      "paper_block_status": "exists_without_marker | exists_lean_missing | new_block_needed_for_object_licensing | blocked_by_zero_axiom_barrier",
+      "lean_name": "BEDC.FKernel.Sig.sig_deterministic | BEDC.Derived.IntUp.intSourceSpec",
       "lean_signature": "theorem sig_deterministic [...] : ... := by ...",
+      "lean_target_already_exists": true,
       "target_file": "lean4/BEDC/FKernel/Sig.lean",
-      "strategy": "Brief proof strategy",
+      "paper_file": "papers/bedc/parts/<chapter>.tex",
+      "class": "A | B | C",
+      "strategy": "Brief proof or construction strategy. For Class C, name which of the 8 NameCert steps and which object.",
       "difficulty": "low/medium/high",
       "chapter": "core/proof_obligations/concrete_instances/etc",
+      "novelty_justification": "(Class C only) what this object adds beyond NatUp/AddUp; reference specific existing theorem names by greppable name.",
       "grep_confirmed_missing": true
     }
   ]
@@ -58,7 +124,7 @@ Output a single JSON block:
 ```
 
 Requirements:
-- `lean_name` must use the BEDC namespace and respect the existing typeclass parameterization.
+- `lean_name` must use the BEDC namespace and respect the existing typeclass parameterization. For Class C object-licensing work, use the namespace `BEDC.Derived.<Object>Up.*`.
 - `lean_signature` must be a plausible theorem statement that can be proved without mathlib, axioms, or sorry.
-- You MUST confirm each target is missing from `lean4/BEDC/`; do not guess.
-- Do NOT propose targets that would require editing `lean4/lakefile.lean`, `lean4/lean-toolchain`, or existing paper source during this selection phase.
+- You MUST confirm each target is missing from `lean4/BEDC/` (Class B/C) or already present (Class A); do not guess. Use grep to verify.
+- Do NOT propose targets that would require editing `lean4/lakefile.lean`, `lean4/lean-toolchain`, or existing paper source during this selection phase. (Class B/C may CREATE new paper text in Phase C, but not edit existing paper claims.)
