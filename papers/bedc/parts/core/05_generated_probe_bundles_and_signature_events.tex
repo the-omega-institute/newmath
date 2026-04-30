@@ -204,6 +204,7 @@ $$
 Induct on $\Pi$. In the empty bundle case, empty-signature inversion identifies $s$ with $\emp$; take $u=t$, use the right-unit continuation constructor, and reuse the given signature for $\Theta$. In the cons case, invert the left signature. The tail signature for $\Pi$ and the signature for $\Theta$ feed the induction hypothesis, producing a tail result $u_0$ with $\ContR(t,s_0,u_0)$ and a signature for $\mathsf{BAppend}(\Pi,\Theta)$. Rebuild the cons signature using the original head asking event and the tail signature. The final extension branch supplies either the $\Ezero$ or $\Eone$ continuation step, yielding $\ContR(t,s,u)$ for the rebuilt result.
 \end{proof}
 \leanchecked{BEDC.FKernel.Sig.sigRel\_bundleAppend\_forward}
+\leanchecked{BEDC.FKernel.Sig.sigRel\_bundleAppend\_generation}
 
 \begin{theorem}[Signature generation append inversion]
 \label{thm:signature-generation-bundle-append-inversion}
@@ -237,6 +238,7 @@ $$
 \begin{proof}
 Unpack the two signature-sameness witnesses. The $\Pi$ witnesses give signatures from $h$ and $k$ whose answer histories are $\hsame$; the $\Theta$ witnesses give another such pair. Apply Theorem~\ref{thm:signature-generation-bundle-append} to the two $h$-side signatures and separately to the two $k$-side signatures. Continuation respect for $\hsame$ transports the two answer-history sameness witnesses across the appended continuations, so the appended signatures have $\hsame$ results. These appended signatures are the witnesses for $\sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)$.
 \end{proof}
+\leanchecked{BEDC.FKernel.Sig.sameSig\_bundleAppend\_closure}
 
 \begin{theorem}[Cons tail signatures from result-sameness]
 \label{thm:signature-cons-tail-hsame-from-result-hsame}
