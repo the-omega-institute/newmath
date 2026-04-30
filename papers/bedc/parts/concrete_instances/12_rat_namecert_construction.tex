@@ -284,6 +284,19 @@ If a raw rational history satisfies the ledger policy for a visible history, the
 Unpack the ledger policy into a raw rational-history carrier and an $\hsame$ link from the raw history to the visible history. Transport the raw carrier across that link.
 \end{proof}
 
+\begin{theorem}[Rat ledger raw-visible classifier]
+\label{thm:rat-ledger-raw-visible-classifier}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, then
+$\mathsf{RatHistoryClassifier}(\rho,v)$ holds.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_raw\_visible\_classifier}
+\begin{proof}
+Unpack the ledger into the raw rational-history carrier for $\rho$ and the
+stored $\hsame(\rho,v)$ link. The visible-carrier theorem supplies the
+rational-history carrier for $v$, and these witnesses form the raw-visible
+rational history classifier.
+\end{proof}
+
 \begin{definition}[\(\RatUp\) certificate obligations]
 \label{def:rat-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RatUp\).

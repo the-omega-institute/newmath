@@ -182,6 +182,11 @@ theorem RatHistoryLedgerPolicy_visible_carrier {raw visible : BHist} :
   intro ledger
   exact RatHistoryCarrier_hsame_transport ledger.right ledger.left
 
+theorem RatHistoryLedgerPolicy_raw_visible_classifier {raw visible : BHist} :
+    RatHistoryLedgerPolicy raw visible -> RatHistoryClassifier raw visible := by
+  intro ledger
+  exact ⟨ledger.left, RatHistoryLedgerPolicy_visible_carrier ledger, ledger.right⟩
+
 theorem rat_history_semantic_name_certificate :
     SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
       RatHistoryClassifier := by
