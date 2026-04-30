@@ -103,6 +103,9 @@ theorem add_up_certificate_field_witnesses :
 theorem add_up_certificate_has_ledger : Nonempty LedgerPolicy := by
   exact derived_interfaces_have_ledger add_up_name_certificate
 
+theorem add_up_ledger_policy_nonempty : Nonempty LedgerPolicy := by
+  exact add_up_certificate_has_ledger
+
 theorem add_up_certificate_stability_and_ledger :
     Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
   exact nameCert_stability_and_ledger_from_cert add_up_name_certificate

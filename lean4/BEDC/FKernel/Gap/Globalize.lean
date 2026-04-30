@@ -401,6 +401,16 @@ theorem internalized_globalize_classifies_iff [AskSetup] [PackageSetup] [DomainS
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     askPolicy packagePolicy hp hq
 
+omit [AskSetup] [PackageSetup] G in
+theorem concrete_globalize_classifies_sameSig [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
+    (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle)
+    (hp : InGapSig bundle D p h) (hq : InGapSig bundle D q k) :
+    psame bundle p q ↔ SameSig bundle h k := by
+  exact concrete_globalize_classifies_by_signatures
+    (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+    askPolicy packagePolicy hp hq
+
 theorem concrete_globalize_classifies_by_signatures_directions [AskSetup] [PackageSetup]
     [DomainSetup] {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
     (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle)
