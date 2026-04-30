@@ -253,6 +253,23 @@ witness, then rebuild the left tagged carrier. The right-right case is identical
 using the right source certificate and the $RightEq$ witness.
 \end{proof}
 
+\begin{theorem}[Sum history classifier source-certified symmetry]
+\label{thm:sum-history-classifier-symm-from-namecert}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume source certificates $\NameCert(Left,LeftEq)$ and
+$\NameCert(Right,RightEq)$. If
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)$ holds, then
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,k,h)$ holds.
+\end{theorem}
+\begin{proof}
+Invert the tagged classifier witness. In the left branch, swap the two visible
+$e0$ endpoint witnesses and apply the left source certificate field
+$\mathsf{equiv\_symm}$ to the stored $LeftEq$ witness. In the right branch,
+swap the two visible $e1$ endpoint witnesses and apply the right source
+certificate field $\mathsf{equiv\_symm}$ to the stored $RightEq$ witness.
+\end{proof}
+
 \begin{theorem}[Sum history classifier tag separation]
 \label{thm:sum-history-classifier-tag-separation}
 If \(h\) is \(e0\)-tagged and \(k\) is \(e1\)-tagged, then the
@@ -299,12 +316,13 @@ subcertificate:
   \item typed classifier transitivity
   \item mixed $\mathsf{inl}/\mathsf{inr}$ separation in both directions
 \end{enumerate}
-Carrier transport, classifier symmetry, endpoint transport, and history-level
-transitivity are supplied by
-Theorems~\ref{thm:sum-history-carrier-hsame-transport},
-\ref{thm:sum-history-classifier-hsame-symmetry},
+Carrier transport, endpoint transport, and history-level transitivity are
+supplied by Theorems~\ref{thm:sum-history-carrier-hsame-transport},
 \ref{thm:sum-history-classifier-hsame-transport}, and
-\ref{thm:sum-history-classifier-transitivity}.
+\ref{thm:sum-history-classifier-transitivity}. Theorem~\ref{thm:sum-history-classifier-hsame-symmetry}
+is the $\hsame$ specialization of classifier symmetry. For the arbitrary source
+classifiers used by the concrete semantic certificate, classifier symmetry is
+supplied by Theorem~\ref{thm:sum-history-classifier-symm-from-namecert}.
 \end{definition}
 \leanchecked{BEDC.Derived.SumUp.sum\_stability\_certificate\_fields}
 
