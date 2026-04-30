@@ -252,6 +252,17 @@ theorem PackageReflection_base
       have y_to_y0 := tok.tokenReplacement right right0
       exact eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
 
+theorem PackageReflection_base_from_data
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
+    (data : PBaseData s P p q) : s.hsame x y := by
+  cases data with
+  | mk x0 y0 left0 right0 same0 =>
+      exact eqv.trans (tok.tokenReplacement left left0)
+        (eqv.trans same0 (eqv.symm (tok.tokenReplacement right right0)))
+
 theorem BaseReflection_active
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
@@ -440,6 +451,14 @@ theorem GeneratedSameSig_left_witness
   cases gen with
   | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
       exact Exists.intro leftSigObj (Exists.intro leftEvidence leftSig)
+
+theorem GeneratedSameSig_right_witness
+    {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
+    (gen : GeneratedSameSig s P h k) :
+    exists y : s.SigObj, exists e : s.Evidence, s.SigGen P k y e := by
+  cases gen with
+  | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
+      exact Exists.intro rightSigObj (Exists.intro rightEvidence rightSig)
 
 theorem GeneratedSameSig_witnesses
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}

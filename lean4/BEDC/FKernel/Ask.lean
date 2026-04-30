@@ -65,6 +65,13 @@ theorem asking_determinacy {D : BHist → Prop} (policy : AskPolicy D)
   intro hm hn
   exact policy.deterministic hm hn
 
+omit S in
+theorem asking_determinacy_field [AskSetup] {D : BHist -> Prop} (policy : AskPolicy D) :
+    (forall {pi : ProbeName} {h : BHist} {m n : BMark} {delta theta : Evidence},
+      Ask pi h m delta -> Ask pi h n theta -> msame m n) := by
+  intro pi h m n delta theta left right
+  exact policy.deterministic left right
+
 theorem ask_respects_history {D : BHist → Prop} (policy : AskPolicy D)
     {pi : ProbeName} {h k : BHist} {m n : BMark} {delta theta : Evidence} :
     hsame h k → Ask pi h m delta → Ask pi k n theta → msame m n := by
