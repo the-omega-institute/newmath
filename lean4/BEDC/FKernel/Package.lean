@@ -63,6 +63,13 @@ theorem PackagePolicy_signature_facing {bundle : ProbeBundle ProbeName}
   intro left right sameHist
   exact policy.extensionality sameHist left right
 
+theorem PackagePolicy_grounding_witness {bundle : ProbeBundle ProbeName}
+    (policy : PackagePolicy bundle) {p q : Pkg} :
+    psame bundle p q -> exists s : BHist, exists t : BHist,
+      TokIntro bundle s p /\ TokIntro bundle t q /\ hsame s t := by
+  intro samePkg
+  exact policy.grounding samePkg
+
 theorem package_tokens_signature_facing {bundle : ProbeBundle ProbeName}
     (policy : PackagePolicy bundle) {s t : BHist} {p q : Pkg} :
     hsame s t -> TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q := by

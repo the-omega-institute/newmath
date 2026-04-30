@@ -73,4 +73,8 @@ theorem not_hsame_e0_e1 : ∀ {h k : BHist}, hsame (.e0 h) (.e1 k) → False := 
   intro h k hs
   cases hs
 
+theorem not_hsame_e1_e0 : forall {h k : BHist}, hsame (.e1 h) (.e0 k) -> False := by
+  intro h k hs
+  cases hs
+
 end BEDC.FKernel.Hist

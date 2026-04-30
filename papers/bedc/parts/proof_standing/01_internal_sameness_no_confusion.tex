@@ -38,6 +38,7 @@ The generated histories are built from an empty history \(\emp\) and two extensi
 \end{definition}
 
 \begin{theorem}[History no-confusion]
+\label{thm:history-no-confusion}
 The following judgments are not derivable:
 \[
 \HSame(\emp,\Ezero(h)),\quad
@@ -49,6 +50,7 @@ The following judgments are not derivable:
 \begin{proof}
 By closed generation, a derivation of \(\HSame\) must follow the displayed structural constructors. Empty histories can only be matched with empty histories. A history beginning with \(\Ezero\) can only be matched with a history beginning with \(\Ezero\), and similarly for \(\Eone\). There is no displayed constructor crossing \(\Ezero\) with \(\Eone\), nor a constructor crossing either extension with \(\emp\). Therefore the listed judgments are not generated.
 \end{proof}
+\leanchecked{BEDC.FKernel.Hist.not\_hsame\_e1\_e0}
 
 \begin{theorem}[\(\HSame\) is an internal equivalence]
 The judgment \(\HSame\) is reflexive, symmetric, and transitive on generated histories.
