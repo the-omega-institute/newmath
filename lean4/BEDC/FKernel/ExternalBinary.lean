@@ -254,6 +254,12 @@ theorem external_append_left_cancel_hsame :
   intro a b c same
   exact external_append_left_cancel a b c same
 
+theorem external_append_right_unit_unique {a b : BWord} : append a b = a → b = BHist.Empty := by
+  intro h
+  have hright : append a b = append a BHist.Empty :=
+    Eq.trans h (external_append_empty_right a).symm
+  exact external_append_left_cancel b BHist.Empty a hright
+
 theorem external_finite_kernel_soundness :
     (∀ w : BWord, append w BHist.Empty = w) ∧
       (∀ a b c : BWord, append (append a b) c = append a (append b c)) :=

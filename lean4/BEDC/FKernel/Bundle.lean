@@ -49,6 +49,16 @@ theorem inBundle_cons_cons_inversion {PName : Type} {x p q : PName}
   intro h
   exact h
 
+theorem inBundle_nonempty_from_membership {PName : Type} {p : PName} :
+    ∀ {bundle : ProbeBundle PName}, InBundle p bundle →
+      ∃ q : PName, ∃ tail : ProbeBundle PName, bundle = ProbeBundle.Bcons q tail := by
+  intro bundle h
+  cases bundle with
+  | Bnil =>
+      exact False.elim h
+  | Bcons q tail =>
+      exact ⟨q, tail, rfl⟩
+
 theorem bundle_generation_cases {PName : Type} (bundle : ProbeBundle PName) :
     bundle = ProbeBundle.Bnil ∨
       ∃ p : PName, ∃ tail : ProbeBundle PName, bundle = ProbeBundle.Bcons p tail := by
