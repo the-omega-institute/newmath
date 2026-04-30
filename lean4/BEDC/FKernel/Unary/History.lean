@@ -117,6 +117,24 @@ theorem unary_histories_induction_from_generators {P : BHist -> Prop} :
   | e1 h ih =>
       exact step h uh (ih uh)
 
+theorem unary_histories_closed_generation {P : BHist → Prop} :
+    P BHist.Empty →
+      (∀ h : BHist, UnaryHistory h → P h → P (BHist.e1 h)) →
+      (∀ h : BHist, UnaryHistory h → P h) ∧
+        (∀ h : BHist, UnaryHistory (BHist.e0 h) → False) := by
+  intro base step
+  constructor
+  · intro h uh
+    induction h with
+    | Empty =>
+        exact base
+    | e0 h ih =>
+        cases uh
+    | e1 h ih =>
+        exact step h uh (ih uh)
+  · intro h uh
+    cases uh
+
 theorem unary_transport {h k : BHist} : UnaryHistory h -> hsame h k -> UnaryHistory k := by
   intro uh hhk
   cases hhk

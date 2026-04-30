@@ -112,6 +112,18 @@ theorem concrete_package_sameness_policy [AskSetup] [PackageSetup]
   intro left right same
   exact psame.intro left right same
 
+omit [AskSetup] P in
+theorem package_token_and_psame_generated_pair [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p → TokIntro bundle t q → hsame s t →
+      TokIntro bundle s p ∧ TokIntro bundle t q ∧ psame bundle p q := by
+  intro left right same
+  constructor
+  · exact left
+  · constructor
+    · exact right
+    · exact psame.intro left right same
+
 def TokUnique (bundle : ProbeBundle ProbeName) : Prop :=
   ∀ {s t : BHist} {p : Pkg}, TokIntro bundle s p → TokIntro bundle t p → hsame s t
 
