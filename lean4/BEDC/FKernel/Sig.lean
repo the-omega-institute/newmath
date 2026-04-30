@@ -120,15 +120,28 @@ theorem sig_respects_history :
               have hm : msame m m' := pol.respectsHistory hhk ask ask'
               exact ext_respects_sameness hsameTail hm hx hy
 
-theorem sameSig_of_hsame_under_policy :
+omit [AskSetup] in
+theorem sameSig_of_hsame_under_policy [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist → Prop} {h k : BHist} (policy : AskPolicy D)
+    (total : SigTotalOn bundle D) :
+    D h → D k → hsame h k → SameSig bundle h k := by
+  intro hIn kIn hhk
+  cases total h hIn with
+  | intro s hs =>
+      cases total k kIn with
+      | intro t ht =>
+          exact ⟨s, t, hs, ht, sig_respects_history policy hhk hs ht⟩
+
+theorem sameSig_of_hsame_from_ask_policy :
     forall {bundle : ProbeBundle ProbeName} {D : BHist -> Prop} {h k : BHist},
       AskPolicy D -> D h -> D k -> hsame h k -> SameSig bundle h k := by
   intro bundle D h k policy dh dk hhk
-  cases sig_total_from_policy (bundle := bundle) (D := D) (h := h) policy dh with
-  | intro s hs =>
-      cases sig_total_from_policy (bundle := bundle) (D := D) (h := k) policy dk with
-      | intro t ht =>
-          exact ⟨s, t, hs, ht, sig_respects_history (bundle := bundle) (D := D) policy hhk hs ht⟩
+  have total : SigTotalOn bundle D := by
+    intro h0 hIn
+    exact sig_total_from_policy (bundle := bundle) (D := D) (h := h0) policy hIn
+  exact sameSig_of_hsame_under_policy
+    (bundle := bundle) (D := D) (h := h) (k := k)
+    policy total dh dk hhk
 
 theorem sameSig_refl :
     ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h : BHist},

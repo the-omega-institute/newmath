@@ -65,6 +65,18 @@ theorem gap_policy_fields {bundle : ProbeBundle ProbeName} {D : Domain} (policy 
     · exact policy.generation
 
 omit [AskSetup] [PackageSetup] G in
+theorem globalization_has_three_layers [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} :
+    AskPolicy (InDom D) → PackagePolicy bundle → GapPolicy bundle D →
+      AskPolicy (InDom D) ∧ PackagePolicy bundle ∧ GapPolicy bundle D := by
+  intro askPolicy packagePolicy gapPolicy
+  constructor
+  · exact askPolicy
+  · constructor
+    · exact packagePolicy
+    · exact gapPolicy
+
+omit [AskSetup] [PackageSetup] G in
 theorem gap_generation_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
     (policy : GapPolicy bundle D) :
@@ -650,6 +662,25 @@ theorem compGap_coverage_exact
       | intro z secondWitness =>
           exact Exists.intro z
             (Exists.intro y (And.intro firstWitness secondWitness))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_witness_from_layers
+    {Source Inter Final : Type}
+    {SourceOk : Source → Prop} {InterOk : Inter → Prop}
+    {CGap : Inter → Source → Prop} {DGap : Final → Inter → Prop}
+    (cCoverage :
+      ∀ {x : Source}, SourceOk x → ∃ y : Inter, CGap y x ∧ InterOk y)
+    (dCoverage : ∀ {y : Inter}, InterOk y → ∃ z : Final, DGap z y)
+    {x : Source} :
+    SourceOk x → ∃ z : Final, CompGap CGap DGap z x := by
+  intro sourceOk
+  cases cCoverage sourceOk with
+  | intro y cData =>
+      cases cData with
+      | intro cGap interOk =>
+          cases dCoverage interOk with
+          | intro z dGap =>
+              exact Exists.intro z (Exists.intro y (And.intro cGap dGap))
 
 omit [AskSetup] [PackageSetup] in
 theorem domain_invariance {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
