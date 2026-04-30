@@ -78,7 +78,7 @@ This is a metalanguage description of the composite ledger policy.
 \begin{theorem}[Composite gap coverage]
 \label{thm:composite-coverage}
 \label{thm:composite-gap-coverage-spine}
-If the first interface has gap coverage and the second interface has gap coverage over the first interface's visible tokens, then the composite interface has gap coverage.
+If the first interface has gap coverage in the form that every admitted source $h$ has an intermediate token $y$ with $\InGap_C(y,h)$ and an admissibility certificate $\mathsf{InterOk}(y)$, and if the second interface has gap coverage for every intermediate token satisfying $\mathsf{InterOk}$, then the composite interface has gap coverage.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.compGap\_coverage\_from\_layers}
 \leanvariant{BEDC.FKernel.Gap.compGap\_composite\_coverage\_witness}
@@ -87,7 +87,7 @@ If the first interface has gap coverage and the second interface has gap coverag
 \leanvariant{BEDC.FKernel.Gap.compGap\_coverage\_with\_intermediate\_ok}
 \leanvariant{BEDC.FKernel.Gap.compGap\_coverage\_final\_witness\_pair}
 \begin{proof}
-Given a source, first coverage produces an intermediate token whose gap contains the source. Second coverage produces a final token whose gap contains that intermediate token. Thus the source belongs to the composite gap of the final token.
+Given an admitted source, first coverage supplies both an intermediate token whose first gap contains the source and the admissibility certificate for that intermediate token. Second coverage applies to that certificate and produces a final token whose second gap contains the intermediate token. Thus the source belongs to the composite gap of the final token.
 \end{proof}
 
 \begin{principle}[Ledger composition]
