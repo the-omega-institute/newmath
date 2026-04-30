@@ -21,6 +21,10 @@ inductive SigRel : ProbeBundle ProbeName → BHist → BHist → Prop where
       Ext s m r →
       SigRel (ProbeBundle.Bcons pi tail) h r
 
+theorem sig_empty_constructor [AskSetup] (h : BHist) :
+    SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) h BHist.Empty := by
+  exact SigRel.empty h
+
 theorem sig_cons_inversion {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r : BHist} :
     SigRel (ProbeBundle.Bcons pi tail) h r →
       ∃ s : BHist, ∃ m : BMark, ∃ delta : Evidence,

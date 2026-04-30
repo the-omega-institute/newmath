@@ -45,6 +45,13 @@ theorem derived_interfaces_have_ledger {name : DerivedName} :
 
 end Cert
 
+theorem ledger_witness_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name → ∃ _ledger : LedgerPolicy, True := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact ⟨ledger, True.intro⟩
+
 theorem NameCert_add_activation [NameCertSetup] {name : DerivedName}
     (source : SourceSpec)
     (pattern : PatternSpec)
