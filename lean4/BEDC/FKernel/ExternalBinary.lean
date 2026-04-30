@@ -24,6 +24,19 @@ theorem external_append_empty_right : forall w : BWord, append w .nil = w := by
   intro w
   rfl
 
+theorem external_append_nil_result_inversion :
+    ∀ {a b : BWord}, append a b = BWord.nil → a = BWord.nil ∧ b = BWord.nil := by
+  intro a b h
+  cases b with
+  | nil =>
+      constructor
+      · exact h
+      · rfl
+  | bit0 b =>
+      cases h
+  | bit1 b =>
+      cases h
+
 theorem external_append_assoc :
     forall a b c : BWord, append (append a b) c = append a (append b c) := by
   intro a b c

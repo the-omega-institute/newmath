@@ -85,6 +85,24 @@ theorem psame_constructor_grounding
   | intro hp hq hst =>
       exact Exists.intro _ (Exists.intro _ (And.intro hp (And.intro hq hst)))
 
+theorem psame_iff_constructor_witnesses {bundle : ProbeBundle ProbeName} {p q : Pkg} :
+    psame bundle p q ↔ ∃ s : BHist, ∃ t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t := by
+  constructor
+  · intro hpq
+    cases hpq with
+    | intro hp hq hst =>
+        exact Exists.intro _ (Exists.intro _ (And.intro hp (And.intro hq hst)))
+  · intro witnesses
+    cases witnesses with
+    | intro s rest =>
+        cases rest with
+        | intro t fields =>
+            cases fields with
+            | intro hp right =>
+                cases right with
+                | intro hq hst =>
+                    exact psame.intro hp hq hst
+
 structure PackagePolicy (bundle : ProbeBundle ProbeName) : Prop where
   existence : ∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p
   extensionality :

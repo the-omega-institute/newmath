@@ -387,6 +387,11 @@ theorem unary_shift_witness {k h r' : BHist} :
         intro r hshift
         exact ih uk hshift) hr
 
+theorem unary_right_shift_obligation_holds :
+    (∀ {k h r' : BHist}, UnaryHistory k → Cont k (.e1 h) r' → ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v)) := by
+  intro k h r' uk hr
+  exact unary_shift_witness uk hr
+
 theorem unary_commutativity_refined {h k r r' : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
   intro uh uk hr hr'
