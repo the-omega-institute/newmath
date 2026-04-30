@@ -110,7 +110,7 @@ $$
 \leanchecked{BEDC.FKernel.Gap.internalized\_globalize\_classifies\_by\_signatures}
 
 \begin{proof}
-The forward direction is the concrete completeness clause applied to the two gap memberships and the package-sameness premise. The reverse direction applies asking-policy determinacy to the generated signatures and then package-token soundness to the introduced token witnesses contained in the gap memberships.
+The forward direction is the concrete completeness clause applied to the two gap memberships and the package-sameness premise. For the reverse direction, unpack the two $\InGapSig$ premises. The $p$-membership supplies a domain witness for $h$, a generated signature $u$, and the token-introduction witness for $p$; the $q$-membership supplies a domain witness for $k$, a generated signature $v$, and the token-introduction witness for $q$. Separately unpack the displayed existential into signatures $s$ from $h$ and $t$ from $k$, together with $\hsame(s,t)$. Asking-policy determinacy at $h$ gives $\hsame(s,u)$, and determinacy at $k$ gives $\hsame(t,v)$. By symmetry and transitivity, these three history-sameness facts compose to $\hsame(u,v)$. The package-token policy soundness field then consumes the two token-introduction witnesses and $\hsame(u,v)$ to conclude $\psame(p,q)$.
 \end{proof}
 
 \begin{proposition}[What is intentionally not exported]

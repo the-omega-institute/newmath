@@ -66,6 +66,29 @@ $$
 \end{definition}
 \leandef{BEDC.FKernel.Bundle.bundleAppend}
 
+\begin{definition}[Probe bundle length]
+\label{def:bundle-length}
+The length $\mathsf{BLEN}(\Pi)$ of a generated probe bundle is recursion on the bundle:
+$$
+\mathsf{BLEN}(\Bnil)=0,
+\qquad
+\mathsf{BLEN}(\Bcons(\pi,\Pi))=1+\mathsf{BLEN}(\Pi).
+$$
+\end{definition}
+
+\begin{theorem}[Probe bundle append length]
+\label{thm:probe-bundle-append-length}
+For all probe bundles $\Pi,\Theta$,
+$$
+\mathsf{BLEN}(\mathsf{BAppend}(\Pi,\Theta))
+=
+\mathsf{BLEN}(\Pi)+\mathsf{BLEN}(\Theta).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $\Pi$. In the empty case, the append term reduces to $\Theta$ and the length equation reduces to the left identity of addition. In the cons case, both sides reduce by one successor, and the tail equation is the induction hypothesis.
+\end{proof}
+
 \begin{theorem}[Probe bundle append right unit]
 \label{thm:bundle-append-right-unit}
 For every probe bundle \(\Pi\),
@@ -133,6 +156,22 @@ Induct on $\Pi$. The empty case is immediate because both displayed append terms
 reduce to their suffix bundles. In the cons case, constructor injectivity reduces
 the equality of cons bundles to equality of their tails, and the induction
 hypothesis cancels the remaining common prefix.
+\end{proof}
+
+\begin{theorem}[Probe bundle suffix cancellation]
+\label{thm:probe-bundle-suffix-cancellation}
+For any probe bundles $\Pi,\Theta,\Omega$, if
+$$
+\mathsf{BAppend}(\Pi,\Omega)=\mathsf{BAppend}(\Theta,\Omega),
+$$
+then $\Pi=\Theta$.
+\end{theorem}
+\begin{proof}
+Induct on $\Pi$ and then case-split $\Theta$. The empty-empty case is immediate. In the empty-cons and cons-empty cases, apply Theorem~\ref{thm:probe-bundle-append-length} to both sides of the displayed equality; the resulting natural-number equality would identify $\mathsf{BLEN}(\Omega)$ with a strict successor of a length plus $\mathsf{BLEN}(\Omega)$, which is impossible by natural-number constructor no-confusion. In the cons-cons case, the displayed equality is an equality of cons bundles. Constructor injectivity identifies the two head probes and reduces the tail equality to
+$$
+\mathsf{BAppend}(\Pi_0,\Omega)=\mathsf{BAppend}(\Theta_0,\Omega).
+$$
+The induction hypothesis gives $\Pi_0=\Theta_0$, and the head equality rebuilds $\Pi=\Theta$.
 \end{proof}
 
 \begin{lemma}[Probe bundle append empty-result inversion]
