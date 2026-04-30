@@ -949,6 +949,15 @@ theorem ExactGlobalizeBase_no_closure_export_directions
       ExactGlobalizeBase_no_closure_export ex hp hq
     exact exactness.mpr generated
 
+theorem ExactGlobalizeBase_no_eqClosure_export
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    ∀ {h k : s.Hist} {p q : s.Pkg},
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  intro h k p q hp hq
+  exact ExactGlobalizeBase_classify_iff ex hp hq
+
 theorem no_implicit_closure_exports_base
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) :
