@@ -27,6 +27,21 @@ def GeneratedSameSig_from_witnesses
     sigSame := same
   }
 
+theorem GeneratedSameSig_refl_nonempty_from_sig
+    {s : BaseReflectionSetup} {P : s.Pi} {h : s.Hist} {x : s.SigObj} {e : s.Evidence}
+    (eqv : HSameEquiv s) :
+    s.SigGen P h x e → Nonempty (GeneratedSameSig s P h h) := by
+  intro sig
+  exact Nonempty.intro {
+    leftSigObj := x
+    rightSigObj := x
+    leftEvidence := e
+    rightEvidence := e
+    leftSig := sig
+    rightSig := sig
+    sigSame := eqv.refl x
+  }
+
 theorem GeneratedSameSig_hsame
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
     (gen : GeneratedSameSig s P h k) :

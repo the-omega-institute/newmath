@@ -48,6 +48,17 @@ theorem external_append_unit_laws :
       (∀ w : BWord, append w BHist.Empty = w) :=
   ⟨external_append_empty_left, external_append_empty_right⟩
 
+theorem external_append_left_absorb_empty :
+    ∀ {a b : BWord}, append a b = b → a = BHist.Empty := by
+  intro a b h
+  induction b with
+  | Empty =>
+      exact h
+  | e0 b ih =>
+      exact ih (BHist.e0.inj h)
+  | e1 b ih =>
+      exact ih (BHist.e1.inj h)
+
 theorem external_append_e1_right (a b : BWord) : append a (.e1 b) = .e1 (append a b) := rfl
 
 theorem external_append_assoc :
