@@ -203,9 +203,22 @@ unary tail.
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_cancel\_left\_context}
 
-\begin{definition}[Preorder stability certificate]
+\begin{definition}[Concrete prefix stability certificate]
+\label{def:preorder-prefix-stability-certificate}
+The concrete prefix stability certificate for $\mathsf{PreorderPrefixLE}$ under $\mathsf{PreorderClassifierSpec}$ consists of:
+\begin{enumerate}
+  \item classifier reflexivity
+  \item classifier transitivity
+  \item prefix preorder reflexivity
+  \item prefix preorder transitivity
+  \item prefix relation congruence in both arguments
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.PreorderUp.preorder\_prefix\_stability\_certificate\_fields}
+
+\begin{definition}[Abstract preorder stability certificate]
 \label{def:preorder-stability-certificate}
-The stability certificate consists of:
+The abstract preorder stability certificate for an arbitrary relation $leC$ consists of:
 \begin{enumerate}
   \item classifier reflexivity
   \item classifier transitivity
@@ -214,7 +227,6 @@ The stability certificate consists of:
   \item relation congruence in both arguments
 \end{enumerate}
 \end{definition}
-\leanchecked{BEDC.Derived.PreorderUp.preorder\_prefix\_stability\_certificate\_fields}
 \leanchecked{BEDC.Derived.PreorderUp.preorder\_stability\_certificate\_fields}
 
 \begin{definition}[Preorder ledger policy]

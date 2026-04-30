@@ -302,7 +302,7 @@ Unpack the two signature-sameness witnesses. The $\Pi$ witnesses give signatures
 
 \begin{theorem}[Signature-sameness left cancellation under bundle append]
 \label{thm:samesig-bundle-append-left-cancellation}
-Assume $\AskPol(\Pi,D)$ and $h,k\in D$. If
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$ and $h,k\in D$. If
 $$
 \sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)
 $$
@@ -312,12 +312,12 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-Invert the appended signature-sameness witnesses using Theorem~\ref{thm:signature-generation-bundle-append-inversion}. This recovers $\Pi$ signatures, $\Theta$ signatures, and continuation witnesses on the $h$ and $k$ sides. Compare the recovered left $\Pi$ signatures with the witnesses from $\sameSig_\Pi(h,k)$ using signature determinacy at $h$ and at $k$. Transport one continuation along that left-result sameness. The common right continuation can then be cancelled against the appended result-sameness, yielding $\hsame$ for the recovered $\Theta$ results. Those recovered $\Theta$ signatures are the witnesses for $\sameSig_\Theta(h,k)$.
+Invert the appended signature-sameness witnesses using Theorem~\ref{thm:signature-generation-bundle-append-inversion}. This recovers $\Pi$ signatures, $\Theta$ signatures, and continuation witnesses on the $h$ and $k$ sides. Compare the recovered left $\Pi$ signatures with the witnesses from $\sameSig_\Pi(h,k)$ using Theorem~\ref{thm:bundle-local-signature-determinacy} at $h$ and at $k$. Transport one continuation along that left-result sameness. The common right continuation can then be cancelled against the appended result-sameness, yielding $\hsame$ for the recovered $\Theta$ results. Those recovered $\Theta$ signatures are the witnesses for $\sameSig_\Theta(h,k)$.
 \end{proof}
 
 \begin{theorem}[Signature-sameness right cancellation under bundle append]
 \label{thm:samesig-bundle-append-right-cancellation}
-Assume $\AskPol(\Theta,D)$ and $h,k\in D$. If
+Assume $\mathsf{BundleAskPolicy}(\Theta,D)$ and $h,k\in D$. If
 $$
 \sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)
 $$
@@ -327,7 +327,25 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-Invert the appended signature-sameness witnesses using Theorem~\ref{thm:signature-generation-bundle-append-inversion}. This recovers $\Pi$ signatures, $\Theta$ signatures, and continuation witnesses on the $h$ and $k$ sides. Compare the recovered $\Theta$ signatures with the supplied witnesses from $\sameSig_\Theta(h,k)$ by signature determinacy under $\AskPol(\Theta,D)$ at $h$ and at $k$. Transport the continuation contexts along the resulting $\hsame$ facts. The appended result-sameness then has matching left contexts, so the two-sided cancellation law of Theorem~\ref{thm:continuation-right-cancellation} yields $\hsame$ for the recovered $\Pi$ results. Those recovered $\Pi$ signatures are the witnesses for $\sameSig_\Pi(h,k)$.
+Invert the appended signature-sameness witnesses using Theorem~\ref{thm:signature-generation-bundle-append-inversion}. This recovers $\Pi$ signatures, $\Theta$ signatures, and continuation witnesses on the $h$ and $k$ sides. Compare the recovered $\Theta$ signatures with the supplied witnesses from $\sameSig_\Theta(h,k)$ using Theorem~\ref{thm:bundle-local-signature-determinacy} at $h$ and at $k$. Transport the continuation contexts along the resulting $\hsame$ facts. The appended result-sameness then has matching left contexts, so the two-sided cancellation law of Theorem~\ref{thm:continuation-right-cancellation} yields $\hsame$ for the recovered $\Pi$ results. Those recovered $\Pi$ signatures are the witnesses for $\sameSig_\Pi(h,k)$.
+\end{proof}
+
+\begin{theorem}[Known component residual for signature-sameness under bundle append]
+\label{thm:samesig-bundle-append-residual-iff}
+For probe bundles $\Pi,\Theta$ and histories $h,k$, the following residual equivalences hold.
+\begin{enumerate}
+  \item If $\mathsf{BundleAskPolicy}(\Pi,D)$, $h,k\in D$, and $\sameSig_\Pi(h,k)$, then
+  $$
+  \sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)\Longleftrightarrow\sameSig_\Theta(h,k).
+  $$
+  \item If $\mathsf{BundleAskPolicy}(\Theta,D)$, $h,k\in D$, and $\sameSig_\Theta(h,k)$, then
+  $$
+  \sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)\Longleftrightarrow\sameSig_\Pi(h,k).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the first equivalence, the forward direction is Theorem~\ref{thm:samesig-bundle-append-left-cancellation}, using the known $\Pi$ component and the bundle-local policy on $\Pi$. The reverse direction combines the known $\sameSig_\Pi(h,k)$ with the supplied $\sameSig_\Theta(h,k)$ by Theorem~\ref{thm:samesig-bundle-append-closure}. The second equivalence is symmetric: its forward direction is Theorem~\ref{thm:samesig-bundle-append-right-cancellation}, and its reverse direction is again the append closure theorem.
 \end{proof}
 
 \begin{theorem}[Cons tail signatures from result-sameness]
