@@ -253,4 +253,32 @@ theorem ListClassifierSpec_hsame_append_left_cancel
       | intro _ sameTail =>
           exact ih sameTail
 
+theorem ListClassifierSpec_reverse_hsame :
+    ∀ {xs ys : BEDC.Derived.ListUp.ListCarrier BEDC.FKernel.Hist.BHist},
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys →
+        ListClassifierSpec BEDC.FKernel.Hist.hsame xs.reverse ys.reverse := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro ys hxy
+      cases ys with
+      | nil =>
+          constructor
+      | cons _ _ =>
+          cases hxy
+  | cons x xs ih =>
+      intro ys hxy
+      cases ys with
+      | nil =>
+          cases hxy
+      | cons y ys =>
+          cases hxy with
+          | intro hhead htail =>
+              rw [List.reverse_cons, List.reverse_cons]
+              apply ListClassifierSpec_append_hsame
+              · exact ih htail
+              · constructor
+                · exact hhead
+                · constructor
+
 end BEDC.Derived.ListUp

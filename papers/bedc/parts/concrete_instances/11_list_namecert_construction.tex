@@ -121,6 +121,15 @@ classification. In the cons-prefix case, invert the structural classifier and
 apply the induction hypothesis to the classified tails.
 \end{proof}
 
+\begin{theorem}[List classifier stability under reverse]
+\label{thm:list-classifier-reverse-hsame}
+For BEDC history lists, structural classification by $\HSame$ is preserved when both lists are reversed.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Shape mismatches are impossible by the classifier clauses. In the cons-cons case, reverse turns each list into the reversed tail followed by a singleton head; the induction hypothesis handles the tails and append stability combines it with the head witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame}
+
 \begin{theorem}[List classifier transitivity from a source certificate]
 \label{thm:list-classifier-trans-from-namecert}
 If the source classifier is supplied by a \(\NameCert\), then the lifted list classifier is transitive on finite list spines.

@@ -51,6 +51,15 @@ theorem PreorderPrefixLE_right_extension {h k tail result : BEDC.FKernel.Hist.BH
           exact ⟨append leftTail tail, unary_append_closed leftUnary tailUnary,
             tailCont.trans (append_assoc h leftTail tail)⟩
 
+theorem PreorderPrefixLE_preserves_carrier {h k : BEDC.FKernel.Hist.BHist} :
+    PreorderCarrier h → PreorderPrefixLE h k → PreorderCarrier k := by
+  intro hCarrier prefixWitness
+  cases prefixWitness with
+  | intro tail tailData =>
+      cases tailData with
+      | intro tailCarrier hCont =>
+          exact unary_cont_closed hCarrier tailCarrier hCont
+
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)
     (carrier_transport : ∀ {h k : BHist}, hsame h k → Carrier h → Carrier k)

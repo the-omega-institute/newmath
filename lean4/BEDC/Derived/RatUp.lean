@@ -112,6 +112,43 @@ def RatClassifierSpec
         BEDC.FKernel.Hist.hsame n1 n2 ∧
           BEDC.FKernel.Hist.hsame d1 d2
 
+theorem RatCarrier_iff_positive_unary_denominator {sign : BEDC.FKernel.Mark.BMark}
+    {num den : BEDC.FKernel.Hist.BHist} :
+    RatCarrier sign num den ↔
+      BEDC.Derived.IntUp.IntCarrier sign num ∧ PositiveUnaryDenominator den := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro intCarrier rest =>
+        cases rest with
+        | intro denUnary denNonempty =>
+            constructor
+            · exact intCarrier
+            · cases unary_history_empty_or_e1_tail denUnary with
+              | inl denEmpty =>
+                  cases denEmpty
+                  exact False.elim (denNonempty (hsame_refl BHist.Empty))
+              | inr denTail =>
+                  cases denTail with
+                  | intro tail tailData =>
+                      cases tailData with
+                      | intro denEq tailUnary =>
+                          cases denEq
+                          exact ⟨tail, hsame_refl (BHist.e1 tail), tailUnary⟩
+  · intro data
+    cases data with
+    | intro intCarrier positive =>
+        cases positive with
+        | intro tail positiveData =>
+            cases positiveData with
+            | intro denSame tailUnary =>
+                constructor
+                · exact intCarrier
+                · constructor
+                  · exact unary_transport (unary_e1_closed tailUnary) (hsame_symm denSame)
+                  · intro denEmpty
+                    exact not_hsame_e1_empty (hsame_trans (hsame_symm denSame) denEmpty)
+
 theorem RatClassifierSpec_trans
     {s1 s2 s3 : BEDC.FKernel.Mark.BMark}
     {n1 n2 n3 d1 d2 d3 : BEDC.FKernel.Hist.BHist} :
