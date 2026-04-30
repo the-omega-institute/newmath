@@ -38,4 +38,9 @@ theorem not_msame_b1_b0 : msame .b1 .b0 → False := by
   intro h
   cases h
 
+theorem msame_no_confusion : (msame .b0 .b1 → False) ∧ (msame .b1 .b0 → False) := by
+  constructor
+  · exact not_msame_b0_b1
+  · exact not_msame_b1_b0
+
 end BEDC.FKernel.Mark
