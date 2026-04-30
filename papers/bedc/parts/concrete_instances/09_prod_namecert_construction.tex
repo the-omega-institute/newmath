@@ -279,6 +279,14 @@ fields for the raw ledger history and the visible history.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_raw\_visible\_classifier}
 
+\begin{theorem}[Prod ledger component exposure]
+\label{thm:prod-ledger-component-exposure}
+If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then there exist histories $l$ and $r$ such that $L(l)$, $R(r)$, $\Cont(l,r,\rho)$, $\hsame(\rho,v)$, $\mathsf{ProdHistoryCarrier}(L,R,v)$, and $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ all hold.
+\end{theorem}
+\begin{proof}
+Unfold the ledger into the raw product carrier for $\rho$ and the stored raw-visible witness $\hsame(\rho,v)$. Unfold the raw carrier to expose component histories $l$ and $r$ with $L(l)$, $R(r)$, and $\Cont(l,r,\rho)$. Theorem~\ref{thm:prod-ledger-visible-carrier} supplies $\mathsf{ProdHistoryCarrier}(L,R,v)$, and Theorem~\ref{thm:prod-ledger-raw-visible-classifier} supplies $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$. These witnesses give the stated component exposure.
+\end{proof}
+
 \begin{theorem}[Concrete \(\ProdUp\) naming certificate]
 \label{thm:concrete-prod-namecert}
 For source-history predicates $L$ and $R$ on $\mathsf{BHist}$, assume only that
