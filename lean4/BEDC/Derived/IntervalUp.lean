@@ -61,6 +61,25 @@ theorem IntervalClassifierSpec_empty_boundary_of_hsame {h k : BHist} :
     · exact IntervalCarrier_empty_boundary_of_hsame kEmpty
     · exact hsame_trans hEmpty (hsame_symm kEmpty)
 
+theorem IntervalClassifierSpec_empty_boundary_iff {h k : BHist} :
+    IntervalClassifierSpec
+      (fun x : BHist => hsame BHist.Empty x)
+      (fun x : BHist => hsame x BHist.Empty) h k <->
+        hsame h BHist.Empty /\ hsame k BHist.Empty := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro hCarrier rest =>
+        cases rest with
+        | intro kCarrier _ =>
+            constructor
+            · exact hCarrier.right.right
+            · exact kCarrier.right.right
+  · intro boundaries
+    cases boundaries with
+    | intro hEmpty kEmpty =>
+        exact IntervalClassifierSpec_empty_boundary_of_hsame hEmpty kEmpty
+
 theorem IntervalClassifierSpec_trans {lower upper : BEDC.FKernel.Hist.BHist -> Prop}
     {h k r : BEDC.FKernel.Hist.BHist} :
     IntervalClassifierSpec lower upper h k ->
