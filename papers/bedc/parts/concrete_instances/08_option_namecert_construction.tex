@@ -371,6 +371,20 @@ the symmetric form of the assumed \(\hsame(k,\emp)\).
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_empty\_left\_iff}
 
+\begin{theorem}[Option history classifier empty right iff]
+\label{thm:option-history-classifier-empty-right-iff}
+For any source predicate $S$ on BEDC histories and any history $h$,
+$$
+\mathsf{OptionHistoryClassifier}(S,h,\emp)\quad\Longleftrightarrow\quad\hsame(h,\emp).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the classifier and read off its stored
+$\hsame(h,\emp)$ link. In the reverse direction, the absent branch supplies
+both endpoint carrier witnesses, and the supplied $\hsame(h,\emp)$ witness is
+exactly the classifier link.
+\end{proof}
+
 \begin{theorem}[Option classifier \(\hsame\) symmetry]
 \label{thm:option-classifier-hsame-symm}
 For optional BEDC histories, the option classifier induced by \(\hsame\) is symmetric.
