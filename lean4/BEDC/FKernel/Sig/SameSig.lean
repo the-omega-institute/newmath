@@ -24,6 +24,13 @@ theorem sameSig_right_witness [AskSetup] {bundle : ProbeBundle ProbeName} {h k :
       | intro t data =>
           exact Exists.intro t data.right.left
 
+theorem sameSig_empty_bundle [AskSetup] {h k : BHist} :
+    SameSig (ProbeBundle.Bnil : ProbeBundle ProbeName) h k := by
+  exact Exists.intro BHist.Empty
+    (Exists.intro BHist.Empty
+      (And.intro (SigRel.empty h)
+        (And.intro (SigRel.empty k) (hsame_refl BHist.Empty))))
+
 theorem sameSig_witness_pair_symm [AskSetup] {bundle : ProbeBundle ProbeName}
     {h k : BHist} :
     SameSig bundle h k -> Exists (fun s : BHist => Exists (fun t : BHist =>

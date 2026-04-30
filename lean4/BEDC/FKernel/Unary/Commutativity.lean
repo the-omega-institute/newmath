@@ -318,6 +318,23 @@ theorem unary_shift_unique_witness {k h r' : BHist} :
             intro w hw
             exact cont_deterministic hv hw⟩
 
+theorem unary_shift_unique_closed_witness {k h r' : BHist} :
+    UnaryHistory k → UnaryHistory h → Cont k (.e1 h) r' →
+      ∃ v : BHist,
+        Cont k h v ∧ hsame r' (.e1 v) ∧ UnaryHistory v ∧
+          (∀ {w : BHist}, Cont k h w → hsame v w) := by
+  intro uk uh hr
+  cases unary_shift_unique_witness uk hr with
+  | intro v shifted =>
+      cases shifted with
+      | intro hv shiftedTail =>
+          cases shiftedTail with
+          | intro same unique =>
+              exact Exists.intro v
+                (And.intro hv
+                  (And.intro same
+                    (And.intro (unary_cont_closed uk uh hv) unique)))
+
 theorem unary_shift_witness_with_factor {k h r' : BHist} :
     UnaryHistory k → UnaryHistory h → Cont k (.e1 h) r' →
       exists v : BHist, Cont k h v /\ hsame r' (.e1 v) /\ UnaryHistory v := by
