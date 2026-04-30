@@ -1278,12 +1278,16 @@ def verify_worktree_commits(
             logger.error(f"[P{wt.round_number}] REGISTER-ONLY: {v}")
         return False, new
 
-    # Gate B — new \leanvariant markers
+    # Gate B — new \leanvariant markers were rejected here; relaxed to
+    # WARN only. The register-only gate above already rejects the truly
+    # bad case (round whose only effect is adding \leanvariant lines).
+    # When a substantive revise also incidentally adds a \leanvariant
+    # (e.g. splitting one paper block into two propositions, each
+    # pointing to a different Lean target), let it through.
     var_v = detect_new_leanvariant_markers(wt)
     if var_v:
         for v in var_v[:10]:
-            logger.error(f"[P{wt.round_number}] NEW LEANVARIANT: {v}")
-        return False, new
+            logger.warning(f"[P{wt.round_number}] NEW LEANVARIANT (allowed): {v}")
 
     # Gate C — forbidden iteration-narrative vocabulary
     vocab_v = detect_forbidden_vocab(wt)
