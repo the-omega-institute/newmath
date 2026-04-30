@@ -604,4 +604,10 @@ theorem signature_package_token_exists [A : AskSetup] (bundle : ProbeBundle Prob
       @TokIntro A (@SignaturePackageSetup A) bundle s p := by
   exact ⟨s, hsame_refl s⟩
 
+omit P [AskSetup] in
+theorem signature_package_existence [A : AskSetup] (bundle : ProbeBundle ProbeName) (s : BHist) :
+    exists p : @Pkg A (@SignaturePackageSetup A),
+      @TokIntro A (@SignaturePackageSetup A) bundle s p := by
+  exact ⟨s, hsame_refl s⟩
+
 end BEDC.FKernel.Package

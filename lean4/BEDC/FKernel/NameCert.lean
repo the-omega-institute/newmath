@@ -6,6 +6,9 @@ namespace BEDC.FKernel.NameCert
 inductive StageInterface where
   | base : StageInterface
 
+def ThreadFamily (StageData : StageInterface -> Type) : Type :=
+  (stage : StageInterface) -> StageData stage
+
 class NameCertSetup where
   DerivedName : Type
   SourceSpec : Type

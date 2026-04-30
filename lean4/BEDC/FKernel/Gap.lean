@@ -1128,6 +1128,31 @@ theorem exact_globalize_classifies_signatures
       (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
       askPolicy packagePolicy hp hq
 
+theorem active_reading_policy_dependencies
+    {bundle : ProbeBundle ProbeName} {D : Domain}
+    (askPolicy : AskPolicy (InDom D))
+    (packagePolicy : PackageTokenPolicy bundle)
+    (tokenExists : forall s : BHist, exists p : Pkg, TokIntro bundle s p) :
+    (forall {h : BHist}, InDom D h -> exists p : Pkg, InGapSig bundle D p h) /\
+    (forall {h k : BHist} {p q : Pkg},
+      InGapSig bundle D p h -> InGapSig bundle D q k -> psame bundle p q ->
+        exists s : BHist, exists t : BHist,
+          SigRel bundle h s /\ SigRel bundle k t /\ hsame s t) /\
+    (forall {h k : BHist} {p q : Pkg},
+      InGapSig bundle D p h -> InGapSig bundle D q k ->
+        (exists s : BHist, exists t : BHist,
+          SigRel bundle h s /\ SigRel bundle k t /\ hsame s t) -> psame bundle p q) := by
+  have classification :=
+    exact_globalize_classifies_signatures
+      (bundle := bundle) (D := D) askPolicy packagePolicy tokenExists
+  constructor
+  · exact classification.left
+  · constructor
+    · intro h k p q hp hq samePkg
+      exact (classification.right hp hq).mp samePkg
+    · intro h k p q hp hq sameSig
+      exact (classification.right hp hq).mpr sameSig
+
 omit [AskSetup] [PackageSetup] in
 theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D h → hsame h k → InDom D k := by
