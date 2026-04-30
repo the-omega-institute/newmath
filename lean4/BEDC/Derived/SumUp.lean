@@ -9,6 +9,27 @@ def SumHistoryCarrier (Left Right : BHist → Prop) (h : BHist) : Prop :=
   (∃ l : BHist, hsame h (BHist.e0 l) ∧ Left l) ∨
     (∃ r : BHist, hsame h (BHist.e1 r) ∧ Right r)
 
+theorem SumHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BHist} :
+    hsame h k -> SumHistoryCarrier Left Right h -> SumHistoryCarrier Left Right k := by
+  intro same carrier
+  cases carrier with
+  | inl leftData =>
+      cases leftData with
+      | intro leftHist data =>
+          cases data with
+          | intro sameTag leftCarrier =>
+              exact Or.inl
+                (Exists.intro leftHist
+                  (And.intro (hsame_trans (hsame_symm same) sameTag) leftCarrier))
+  | inr rightData =>
+      cases rightData with
+      | intro rightHist data =>
+          cases data with
+          | intro sameTag rightCarrier =>
+              exact Or.inr
+                (Exists.intro rightHist
+                  (And.intro (hsame_trans (hsame_symm same) sameTag) rightCarrier))
+
 def SumHistoryClassifier (_Left _Right : BHist → Prop)
     (LeftEq RightEq : BHist → BHist → Prop) (h k : BHist) : Prop :=
   (∃ l : BHist, ∃ l' : BHist,

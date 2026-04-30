@@ -11,6 +11,15 @@ For licensed source carriers \(A\) and \(B\), define an inductive carrier with c
 \end{definition}
 \leandef{BEDC.Derived.SumUp.SumHistoryCarrier}
 
+\begin{theorem}[Sum history carrier transport]
+\label{thm:sum-history-carrier-hsame-transport}
+If $h$ and $k$ are internally the same BEDC histories, then membership of $h$ in the tagged sum-history carrier transfers to membership of $k$ in the same carrier.
+\end{theorem}
+\begin{proof}
+Invert the sum carrier witness. In the left-tag case, compose symmetry of the given $\hsame(h,k)$ witness with the stored $\hsame(h,e0(l))$ tag witness, and keep the same left source-carrier proof. The right-tag case is identical with $e1(r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_hsame\_transport}
+
 \section{The certificate}
 
 \begin{definition}[Sum source specification]
