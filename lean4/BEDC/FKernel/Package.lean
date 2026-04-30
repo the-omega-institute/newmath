@@ -292,6 +292,20 @@ theorem psame_trans_under_policy
     (hsame_trans (policy.reflection left middle leftSame)
       (policy.reflection middle right rightSame))
 
+theorem packageTokenPolicy_psame_equivalence_on_introduced {bundle : ProbeBundle ProbeName}
+    (policy : PackageTokenPolicy bundle) :
+    (forall {s : BHist} {p : Pkg}, TokIntro bundle s p -> psame bundle p p) /\
+    (forall {s t : BHist} {p q : Pkg}, TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q -> psame bundle q p) /\
+    (forall {a b c : BHist} {p q r : Pkg}, TokIntro bundle a p -> TokIntro bundle b q -> TokIntro bundle c r -> psame bundle p q -> psame bundle q r -> psame bundle p r) := by
+  constructor
+  · intro s p tok
+    exact policy.soundness tok tok (hsame_refl s)
+  · constructor
+    · intro s t p q left right samePkg
+      exact psame_symm_under_policy policy left right samePkg
+    · intro a b c p q r left middle right leftSame rightSame
+      exact psame_trans_under_policy policy left middle right leftSame rightSame
+
 omit [AskSetup] P in
 theorem stable_transformations_descend_to_packages [AskSetup] [PackageSetup]
     {source target : ProbeBundle ProbeName}
