@@ -9,4 +9,8 @@ def InBundle {PName : Type} (p : PName) : ProbeBundle PName → Prop
   | .Bnil => False
   | .Bcons q b => p = q ∨ InBundle p b
 
+theorem inBundle_cons_self {PName : Type} (p : PName) (tail : ProbeBundle PName) :
+    InBundle p (ProbeBundle.Bcons p tail) := by
+  exact Or.inl rfl
+
 end BEDC.FKernel.Bundle

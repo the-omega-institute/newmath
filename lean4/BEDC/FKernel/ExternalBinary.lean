@@ -67,6 +67,16 @@ theorem external_append_assoc :
   | bit1 c ih =>
       exact congrArg BWord.bit1 ih
 
+theorem external_append_right_cancel : forall a b c : BWord, append a c = append b c -> a = b := by
+  intro a b c h
+  induction c with
+  | nil =>
+      exact h
+  | bit0 c ih =>
+      exact ih (BWord.bit0.inj h)
+  | bit1 c ih =>
+      exact ih (BWord.bit1.inj h)
+
 theorem external_finite_kernel_soundness :
     (∀ w : BWord, append w .nil = w) ∧
       (∀ a b c : BWord, append (append a b) c = append a (append b c)) := by
