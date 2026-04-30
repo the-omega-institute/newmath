@@ -207,8 +207,6 @@ $$
 The soundness field is Lemma~\ref{lem:psame-sound}. The reflection field is the displayed introduced-token reflection direction.
 \end{proof}
 
-\leanchecked{BEDC.FKernel.Package.concrete\_packageTokenPolicy}
-
 \begin{corollary}[Exact signature package]
 \label{cor:exact-signature-package}
 Assume \(\TokUnique(\Pi)\). For the concrete signature-token instance, \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\) between introduced tokens is equivalent to internal sameness of the answer histories that introduced them.
@@ -352,13 +350,12 @@ The policy supplies package-token introduction and the generated package-samenes
 
 \begin{theorem}[PackageTokenPolicy from token uniqueness]
 \label{thm:package-token-policy-from-token-unique}
-The concrete signature-token package policy is exact when it includes token introduction, one-constructor package-sameness, and \(\mathsf{TokUnique}(\Pi)\).
+Assume $\mathsf{TokUnique}(\Pi)$. For the concrete signature-token relation $\psame_{\Pi}^{\mathrm{sig}}$, the package token policy $\PkgTokPol(\Pi)$ holds.
 \end{theorem}
-\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_from\_reflection}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_from\_tokUnique}
+\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_from\_tokUnique}
 
 \begin{proof}
-Existence and soundness are supplied by token introduction and the package-sameness constructor. Reflection is Theorem~\ref{thm:package-reflection-token-unique}. The no-extra-constructor clause is the closed-generation clause for \(\psame_{\Pi}^{\mathrm{sig}}\).
+The soundness field is the single constructor of $\psame_{\Pi}^{\mathrm{sig}}$. The reflection field is Theorem~\ref{thm:package-reflection-token-unique}.
 \end{proof}
 
 \section{Token-Uniqueness Modes}

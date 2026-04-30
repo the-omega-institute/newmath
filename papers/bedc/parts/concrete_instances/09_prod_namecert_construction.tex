@@ -84,6 +84,14 @@ $\hsame(h',h)$ link with the stored $\hsame(h,k)$ classifier witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_left\_hsame\_transport}
 
+\begin{theorem}[Product history classifier transitivity]
+\label{thm:prod-history-classifier-transitivity}
+For source-history predicates $L$ and $R$ on $\mathsf{BHist}$, if $\mathsf{ProdHistoryClassifier}(L,R,h,k)$ and $\mathsf{ProdHistoryClassifier}(L,R,k,u)$, then $\mathsf{ProdHistoryClassifier}(L,R,h,u)$.
+\end{theorem}
+\begin{proof}
+Unpack both classifier witnesses. Keep the left carrier from the first witness and the right carrier from the second witness, then compose the stored $\hsame(h,k)$ and $\hsame(k,u)$ witnesses by transitivity to obtain the classifier link from $h$ to $u$.
+\end{proof}
+
 \begin{definition}[Prod stability certificate]
 \label{def:prod-stability-certificate}
 The stability certificate consists of:
