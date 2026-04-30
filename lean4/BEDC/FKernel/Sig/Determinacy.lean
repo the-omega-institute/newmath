@@ -32,4 +32,30 @@ theorem sig_cons_result_hsame_from_policy [AskSetup]
           have markSame : msame m n := policy.deterministic leftAsk rightAsk
           exact ext_respects_sameness tailSame markSame leftExt rightExt
 
+theorem sig_cons_tail_hsame_from_policy [AskSetup]
+    {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {D : BHist → Prop} {h r r' : BHist} (policy : AskPolicy D) :
+    D h → SigRel (ProbeBundle.Bcons pi tail) h r →
+      SigRel (ProbeBundle.Bcons pi tail) h r' →
+      ∃ s : BHist, ∃ t : BHist, SigRel tail h s ∧ SigRel tail h t ∧ hsame s t := by
+  intro dh left right
+  cases left with
+  | cons _ _ _ s _ _ _ _ leftTail _ =>
+      cases right with
+      | cons _ _ _ t _ _ _ _ rightTail _ =>
+          exact Exists.intro s
+            (Exists.intro t
+              (And.intro leftTail
+                (And.intro rightTail
+                  (sig_deterministic
+                    (bundle := tail)
+                    (D := D)
+                    (h := h)
+                    (s := s)
+                    (t := t)
+                    policy
+                    dh
+                    leftTail
+                    rightTail))))
+
 end BEDC.FKernel.Sig

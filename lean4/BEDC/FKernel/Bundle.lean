@@ -33,6 +33,10 @@ theorem inBundle_cons_inversion {PName : Type} {p q : PName} {tail : ProbeBundle
   intro h
   exact h
 
+theorem inBundle_cons_iff {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
+    InBundle p (ProbeBundle.Bcons q tail) ↔ p = q ∨ InBundle p tail := by
+  rfl
+
 theorem inBundle_cons_cons_inversion {PName : Type} {x p q : PName}
     {tail : ProbeBundle PName} :
     InBundle x (ProbeBundle.Bcons p (ProbeBundle.Bcons q tail)) →
