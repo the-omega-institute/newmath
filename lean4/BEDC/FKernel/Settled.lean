@@ -205,6 +205,45 @@ theorem settledKernelCriterion_signature_kernel_projection [AskSetup] [PackageSe
                                       | intro sameSigEquivalence _ =>
                                           exact ⟨signatureDeterminacy, sameSigEquivalence⟩
 
+theorem settledKernelCriterion_package_gap_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      (∀ {bundle : ProbeBundle ProbeName}, PackagePolicy bundle →
+        (∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) ∧
+        (∀ {s t : BHist} {p q : Pkg},
+          hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q) ∧
+        (∀ {p q : Pkg}, psame bundle p q →
+          ∃ s : BHist, ∃ t : BHist,
+            TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t)) ∧
+      (∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
+        GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h) := by
+  intro criterion
+  cases criterion with
+  | intro _ rest =>
+      cases rest with
+      | intro _ rest =>
+          cases rest with
+          | intro _ rest =>
+              cases rest with
+              | intro _ rest =>
+                  cases rest with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro _ rest =>
+                          cases rest with
+                          | intro _ rest =>
+                              cases rest with
+                              | intro _ rest =>
+                                  cases rest with
+                                  | intro _ rest =>
+                                      cases rest with
+                                      | intro _ rest =>
+                                          cases rest with
+                                          | intro packagePolicy rest =>
+                                              cases rest with
+                                              | intro gapCoverage _ =>
+                                                  exact ⟨packagePolicy, gapCoverage⟩
+
 theorem settledKernelCriterion_namecert_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →
