@@ -72,4 +72,28 @@ theorem IntCarrier_transport_hsame_magnitude {sign : BEDC.FKernel.Mark.BMark}
       · exact signCases
       · exact BEDC.FKernel.Unary.unary_transport magnitudeUnary sameMagnitude
 
+theorem IntClassifierSpec_trans
+    {x y z : BEDC.FKernel.Mark.BMark × BEDC.FKernel.Hist.BHist} :
+    IntClassifierSpec x y -> IntClassifierSpec y z -> IntClassifierSpec x z := by
+  intro xy yz
+  cases xy with
+  | intro carrierX xyRest =>
+      cases xyRest with
+      | intro _ xySame =>
+          cases xySame with
+          | intro sameSignXY sameMagnitudeXY =>
+              cases yz with
+              | intro _ yzRest =>
+                  cases yzRest with
+                  | intro carrierZ yzSame =>
+                      cases yzSame with
+                      | intro sameSignYZ sameMagnitudeYZ =>
+                          constructor
+                          · exact carrierX
+                          · constructor
+                            · exact carrierZ
+                            · constructor
+                              · exact BEDC.FKernel.Mark.msame_trans sameSignXY sameSignYZ
+                              · exact BEDC.FKernel.Hist.hsame_trans sameMagnitudeXY sameMagnitudeYZ
+
 end BEDC.Derived.IntUp

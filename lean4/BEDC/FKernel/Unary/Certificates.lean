@@ -60,6 +60,15 @@ theorem nat_up_name_certificate_exists :
     Nonempty (NameCert UnaryHistory UnaryClassifierSpec) := by
   exact Nonempty.intro nat_up_name_certificate
 
+theorem nat_up_semantic_name_certificate :
+    SemanticNameCert UnaryHistory UnaryHistory UnaryHistory UnaryClassifierSpec := by
+  constructor
+  · exact nat_up_name_certificate
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 theorem nat_up_licensed_not_primitive :
     NameCert UnaryHistory UnaryClassifierSpec ∧
       Nonempty (NameCert UnaryHistory UnaryClassifierSpec) := by

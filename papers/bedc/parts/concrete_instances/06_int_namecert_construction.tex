@@ -68,4 +68,18 @@ The classifier for two signed unary representatives requires both representative
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntClassifierSpec}
 
+\begin{theorem}[Integer classifier transitivity]
+\label{thm:int-classifier-transitivity}
+If \(\mathsf{IntClassifierSpec}(x,y)\) and
+\(\mathsf{IntClassifierSpec}(y,z)\), then
+\(\mathsf{IntClassifierSpec}(x,z)\).
+\end{theorem}
+\begin{proof}
+Eliminating the two classifier witnesses exposes the carrier evidence for the
+endpoints, together with sign sameness and magnitude sameness along both
+links. Transitivity of \(\msame\) composes the sign components, and
+transitivity of \(\hsame\) composes the magnitude components.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_trans}
+
 \section{The certificate}
