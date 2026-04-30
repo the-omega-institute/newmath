@@ -144,6 +144,17 @@ theorem PreorderPrefixLE_append_tail {h tail : BHist} :
   intro tailUnary
   exact ⟨tail, tailUnary, cont_intro rfl⟩
 
+theorem PreorderPrefixLE_append_tail_backforces_empty {h tail : BHist} :
+    UnaryHistory tail → PreorderPrefixLE (append h tail) h → hsame tail BHist.Empty := by
+  intro tailUnary backward
+  have forward : PreorderPrefixLE h (append h tail) :=
+    PreorderPrefixLE_append_unary_tail tailUnary
+  have same : hsame h (append h tail) :=
+    PreorderPrefixLE_antisymm_hsame forward backward
+  have loop : append h BHist.Empty = append h tail :=
+    (append_empty_right h).symm.trans same
+  exact hsame_symm (append_left_cancel loop)
+
 theorem PreorderPrefixLE_cancel_left_context {x h k : BHist} :
     PreorderPrefixLE (append x h) (append x k) → PreorderPrefixLE h k := by
   intro prefixLE

@@ -175,6 +175,20 @@ append-result equality.
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail}
 
+\begin{theorem}[Prefix append tail backforces empty]
+\label{thm:preorder-prefix-append-tail-backforces-empty}
+If \(t\) is unary and \(\mathsf{append}(h,t)\le h\), then \(t\) is internally
+the same as \(\emp\).
+\end{theorem}
+\begin{proof}
+The unary tail gives the forward prefix comparison
+\(h\le\mathsf{append}(h,t)\). Together with the assumed backward comparison,
+prefix antisymmetry gives \(\hsame(h,\mathsf{append}(h,t))\). Rewriting the
+left endpoint as \(\mathsf{append}(h,\emp)\) and cancelling the common left
+context forces \(\hsame(t,\emp)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail\_backforces\_empty}
+
 \begin{theorem}[Prefix left context monotonicity]
 \label{thm:preorder-prefix-left-context-monotonicity}
 If \(h\le k\) is witnessed by a unary continuation tail, then appending the
