@@ -78,6 +78,16 @@ theorem internalized_gap_separation_packed [AskSetup] [PackageSetup] [DomainSetu
           | intro t data =>
               exact data.right.right.right.right.right.right
 
+theorem proof_sprint_gap_separation [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) -> InGapSig bundle D p h -> InGapSig bundle D q h ->
+      psame bundle p q := by
+  intro policy hp hq
+  exact
+    internalized_gap_separation_packed
+      (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
+      policy (And.intro hp hq)
+
 theorem policy_gap_separation_pair [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → InGapSig bundle D p h ∧ InGapSig bundle D q h →

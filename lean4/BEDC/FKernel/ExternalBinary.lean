@@ -505,6 +505,13 @@ theorem external_finite_kernel_soundness_full :
       · exact external_append_assoc
       · exact external_append_right_cancel
 
+theorem external_model_finite_kernel_soundness :
+    (Mbin = BHist) /\ (append = BEDC.FKernel.Cont.append) /\
+      (forall w : BWord, append BHist.Empty w = w) /\
+      (forall w : BWord, append w BHist.Empty = w) /\
+      (forall a b c : BWord, append (append a b) c = append a (append b c)) := by
+  exact ⟨rfl, rfl, external_append_empty_left, external_append_empty_right, external_append_assoc⟩
+
 theorem external_model_soundness_finite_kernel :
     (forall w : BWord, append BHist.Empty w = w) /\
       (forall w : BWord, append w BHist.Empty = w) /\
