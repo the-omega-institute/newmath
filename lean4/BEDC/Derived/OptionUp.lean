@@ -11,6 +11,21 @@ def OptionHistoryCarrier (source : BHist -> Prop) (h : BHist) : Prop :=
 def OptionHistoryClassifier (source : BHist -> Prop) (h k : BHist) : Prop :=
   OptionHistoryCarrier source h ∧ OptionHistoryCarrier source k ∧ hsame h k
 
+theorem OptionHistoryClassifier_trans {source : BEDC.FKernel.Hist.BHist -> Prop}
+    {h k r : BEDC.FKernel.Hist.BHist} :
+    OptionHistoryClassifier source h k -> OptionHistoryClassifier source k r ->
+      OptionHistoryClassifier source h r := by
+  intro sameHK sameKR
+  cases sameHK with
+  | intro carrierH restHK =>
+      cases restHK with
+      | intro _ histHK =>
+          cases sameKR with
+          | intro _ restKR =>
+              cases restKR with
+              | intro carrierR histKR =>
+                  exact And.intro carrierH (And.intro carrierR (hsame_trans histHK histKR))
+
 theorem option_history_semantic_name_certificate (source : BHist -> Prop) :
     SemanticNameCert (OptionHistoryCarrier source) (OptionHistoryCarrier source)
       (OptionHistoryCarrier source) (OptionHistoryClassifier source) := by

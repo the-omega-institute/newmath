@@ -129,6 +129,23 @@ theorem BoolHistoryClassifier_constructor_separation :
       | intro _ same =>
           exact BEDC.FKernel.Hist.not_hsame_emp_e1 same
 
+theorem BoolHistoryClassifier_trans {h k r : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryClassifier h k -> BoolHistoryClassifier k r -> BoolHistoryClassifier h r := by
+  intro sameHK sameKR
+  cases sameHK with
+  | intro carrierH restHK =>
+      cases restHK with
+      | intro _ histHK =>
+          cases sameKR with
+          | intro _ restKR =>
+              cases restKR with
+              | intro carrierR histKR =>
+                  constructor
+                  · exact carrierH
+                  · constructor
+                    · exact carrierR
+                    · exact BEDC.FKernel.Hist.hsame_trans histHK histKR
+
 theorem BoolHistoryCarrier_hsame_transport {h k : BEDC.FKernel.Hist.BHist} :
     BEDC.FKernel.Hist.hsame h k -> BoolHistoryCarrier h -> BoolHistoryCarrier k := by
   intro same carrier

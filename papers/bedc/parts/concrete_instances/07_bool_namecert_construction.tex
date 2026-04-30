@@ -106,6 +106,18 @@ no-confusion rules out such a witness.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_constructor\_separation}
 
+\begin{theorem}[Bool history classifier transitivity]
+\label{thm:bool-history-classifier-transitivity}
+If a boolean history classifier relates \(h\) to \(k\), and relates \(k\) to
+\(r\), then it relates \(h\) to \(r\).
+\end{theorem}
+\begin{proof}
+Eliminate the two classifier witnesses. The endpoint carrier witnesses for
+\(h\) and \(r\) are retained, while the exposed \(\hsame(h,k)\) and
+\(\hsame(k,r)\) links compose by generated-history transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_trans}
+
 \begin{definition}[Bool stability certificate]
 \label{def:bool-stability-certificate}
 The stability certificate consists of:

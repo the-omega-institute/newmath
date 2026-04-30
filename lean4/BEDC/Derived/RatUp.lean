@@ -224,6 +224,16 @@ theorem RatCarrier_iff_positive_unary_denominator {sign : BEDC.FKernel.Mark.BMar
                   · intro denEmpty
                     exact not_hsame_e1_empty (hsame_trans (hsame_symm denSame) denEmpty)
 
+theorem RatCarrier_append_unary_denominator_closed {sign : BEDC.FKernel.Mark.BMark}
+    {numerator denominator tail : BEDC.FKernel.Hist.BHist} :
+    RatCarrier sign numerator denominator -> BEDC.FKernel.Unary.UnaryHistory tail ->
+      RatCarrier sign numerator (BEDC.FKernel.Cont.append denominator tail) := by
+  intro carrier tailUnary
+  cases Iff.mp RatCarrier_iff_positive_unary_denominator carrier with
+  | intro intCarrier positiveDenominator =>
+      exact RatCarrier_of_int_positive_denominator intCarrier
+        (PositiveUnaryDenominator_append_unary_tail positiveDenominator tailUnary)
+
 theorem RatClassifierSpec_trans
     {s1 s2 s3 : BEDC.FKernel.Mark.BMark}
     {n1 n2 n3 d1 d2 d3 : BEDC.FKernel.Hist.BHist} :

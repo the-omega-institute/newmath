@@ -284,28 +284,34 @@ theorem ListClassifierSpec_reverse_hsame :
     intro A x xs
     change List.reverseAux xs [x] = List.reverseAux xs [] ++ [x]
     exact reverseAuxPure xs [x]
-  intro xs
-  induction xs with
-  | nil =>
-      intro ys hxy
-      cases ys with
-      | nil =>
-          constructor
-      | cons _ _ =>
-          cases hxy
-  | cons x xs ih =>
-      intro ys hxy
-      cases ys with
-      | nil =>
-          cases hxy
-      | cons y ys =>
-          cases hxy with
-          | intro hhead htail =>
-              rw [reverseConsPure x xs, reverseConsPure y ys]
-              apply ListClassifierSpec_append_hsame
-              · exact ih htail
-              · constructor
-                · exact hhead
-                · constructor
+  have aux :
+      ∀ {xs ys accX accY : BEDC.Derived.ListUp.ListCarrier BEDC.FKernel.Hist.BHist},
+        ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys →
+          ListClassifierSpec BEDC.FKernel.Hist.hsame accX accY →
+            ListClassifierSpec BEDC.FKernel.Hist.hsame
+              (List.reverseAux xs accX) (List.reverseAux ys accY) := by
+    intro xs
+    induction xs with
+    | nil =>
+        intro ys accX accY hxy hacc
+        cases ys with
+        | nil =>
+            exact hacc
+        | cons _ _ =>
+            cases hxy
+    | cons x xs ih =>
+        intro ys accX accY hxy hacc
+        cases ys with
+        | nil =>
+            cases hxy
+        | cons y ys =>
+            cases hxy with
+            | intro hhead htail =>
+                exact ih (ys := ys) (accX := x :: accX) (accY := y :: accY)
+                  htail (And.intro hhead hacc)
+  intro xs ys hxy
+  change ListClassifierSpec BEDC.FKernel.Hist.hsame
+    (List.reverseAux xs []) (List.reverseAux ys [])
+  exact aux hxy (by constructor)
 
 end BEDC.Derived.ListUp

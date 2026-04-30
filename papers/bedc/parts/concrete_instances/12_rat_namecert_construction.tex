@@ -85,6 +85,19 @@ Write the denominator as internally the same as \(\Eone(t)\) for a unary tail \(
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_tail}
 
+\begin{theorem}[Rat carrier append unary denominator closure]
+\label{thm:rat-carrier-append-unary-denominator-closed}
+If a rational carrier has denominator \(d\), then appending any unary history to
+\(d\) preserves rational-carrier membership.
+\end{theorem}
+\begin{proof}
+Use the carrier equivalence to expose the integer numerator carrier and the
+positive unary denominator witness. Positive denominators are closed under
+appending unary tails, and the rational carrier is rebuilt from the same
+integer numerator and the resulting positive denominator.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_append\_unary\_denominator\_closed}
+
 \begin{theorem}[Rat carrier component transport]
 \label{thm:rat-carrier-component-hsame-transport}
 If a rational carrier \(\mathsf{RatCarrier}(s,n,d)\) is transported along
