@@ -21,6 +21,24 @@ The carrier predicate for \(\IntUp\) uses an existing mark as the sign component
 This is a definitional clause over the finite-kernel mark constructors and the unary-history predicate. With the sign fixed, continuation of two carrier magnitudes remains inside the same signed carrier.
 \end{proof}
 
+\begin{theorem}[Signed carrier transports along history sameness]
+\label{thm:int-carrier-transport-hsame-magnitude}
+For a fixed sign \(s\), if \(\mathsf{IntCarrier}(s,h)\) and \(\hsame(h,k)\), then \(\mathsf{IntCarrier}(s,k)\).
+\end{theorem}
+\begin{proof}
+The carrier splits into the sign clause and the unary magnitude clause. The sign clause is unchanged, while the unary-history witness is transported along \(\hsame(h,k)\).
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_transport\_hsame\_magnitude}
+
+\begin{theorem}[Integer magnitude transport along history sameness]
+\label{prop:intup-magnitude-hsame-transport}
+For a fixed sign \(s\), if \(\mathsf{IntCarrier}(s,h)\) holds and \(h\) is internally the same history as \(k\), then \(\mathsf{IntCarrier}(s,k)\) holds.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_magnitude\_hsame\_transport}
+\begin{proof}
+The sign disjunction is preserved unchanged, while the unary-history component is transported across \(\hsame(h,k)\) by the finite-kernel unary transport theorem.
+\end{proof}
+
 \begin{definition}[Integer source specification]
 \label{def:intup-source-specification}
 The source specification for \(\IntUp\) is exactly the signed unary integer carrier:
@@ -35,5 +53,46 @@ The source specification for \(\IntUp\) is exactly the signed unary integer carr
 \begin{proof}
 This is a direct definitional identification of the source specification with the carrier predicate.
 \end{proof}
+
+\begin{definition}[Integer classifier specification]
+\label{def:intup-classifier-specification}
+The classifier for two signed unary representatives requires both representatives to be in the integer carrier, their signs to be mark-same, and their magnitudes to be history-same:
+\[
+  \mathsf{IntClassifierSpec}((s,h),(t,k))
+  :=
+  \mathsf{IntCarrier}(s,h)\land
+  \mathsf{IntCarrier}(t,k)\land
+  \msame(s,t)\land
+  \hsame(h,k).
+\]
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntClassifierSpec}
+
+\begin{theorem}[Integer classifier symmetry]
+\label{thm:int-classifier-symmetry}
+If \(\mathsf{IntClassifierSpec}(x,y)\), then
+\(\mathsf{IntClassifierSpec}(y,x)\).
+\end{theorem}
+\begin{proof}
+Eliminating the classifier witness exposes carrier evidence for both
+representatives, sign sameness, and magnitude sameness. The carrier evidence is
+swapped, while symmetry of \(\msame\) and \(\hsame\) reverses the two sameness
+components.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_symm}
+
+\begin{theorem}[Integer classifier transitivity]
+\label{thm:int-classifier-transitivity}
+If \(\mathsf{IntClassifierSpec}(x,y)\) and
+\(\mathsf{IntClassifierSpec}(y,z)\), then
+\(\mathsf{IntClassifierSpec}(x,z)\).
+\end{theorem}
+\begin{proof}
+Eliminating the two classifier witnesses exposes the carrier evidence for the
+endpoints, together with sign sameness and magnitude sameness along both
+links. Transitivity of \(\msame\) composes the sign components, and
+transitivity of \(\hsame\) composes the magnitude components.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_trans}
 
 \section{The certificate}

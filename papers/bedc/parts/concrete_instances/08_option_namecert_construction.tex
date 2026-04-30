@@ -17,6 +17,7 @@ For a licensed source carrier \(A\), define an inductive carrier with constructo
 \label{def:option-source-specification}
 The source is the source NameCert for \(A\), lifted through the optional carrier.
 \end{definition}
+\leandef{BEDC.Derived.OptionUp.OptionHistoryCarrier}
 
 \begin{definition}[Option pattern specification]
 \label{def:option-pattern-specification}
@@ -30,9 +31,19 @@ The classifier relates \(\mathsf{none}\) only to \(\mathsf{none}\), and relates 
 \leandef{BEDC.Derived.OptionUp.OptionClassifierSpec}
 \leanchecked{BEDC.Derived.OptionUp.optionClassifierSpec\_cases}
 \leandef{BEDC.Derived.OptionUp.OptionClassifier}
+\leandef{BEDC.Derived.OptionUp.OptionHistoryClassifier}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_none\_some\_absurd}
 \leanchecked{BEDC.Derived.OptionUp.optionClassifier\_some\_iff}
 \leanchecked{BEDC.Derived.OptionUp.option\_classifier\_inversion}
+
+\begin{theorem}[Option classifier \(\hsame\) symmetry]
+\label{thm:option-classifier-hsame-symm}
+For optional BEDC histories, the option classifier induced by \(\hsame\) is symmetric.
+\end{theorem}
+\begin{proof}
+The none--none case returns the existing classifier witness. The mixed constructor cases contradict the classifier definition, and the some--some case reverses the underlying BEDC history witness by \(\hsame\) symmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_symm}
 
 \begin{definition}[Option stability certificate]
 \label{def:option-stability-certificate}
@@ -57,6 +68,10 @@ Record whether the visible optional value is absent or present, and retain the s
 \label{thm:concrete-option-namecert}
 The lifted tuple forms a valid NameCert for \(\OptionUp(A)\).
 \end{theorem}
+\begin{proof}
+The history carrier contains the empty history and any source history. The classifier records both carrier witnesses and the BEDC history equality witness. Reflexivity, symmetry, transitivity, and carrier transport are the corresponding \(\hsame\) fields, while pattern and ledger soundness are carrier projections.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate}
 
 \begin{corollary}[\(\OptionUp\) is licensed, not primitive]
 \label{cor:option-licensed-not-primitive}

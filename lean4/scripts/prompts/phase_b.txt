@@ -1,18 +1,17 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v2.1 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v2.2 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
-## v2.1 — Anti-hollow semantic discipline (HARD GATE)
+## Anti-hollow semantic discipline (HARD GATE)
 
-A prior project review discovered that the `NameCert` license abstraction was
-structurally hollow: certificate fields (SourceSpec, PatternSpec, ClassifierSpec,
-StabilityCert, LedgerPolicy) were declared as bare `Type` and instantiated with
-`Unit`, so `nat_up_name_certificate := NameCert.mk () () () () ()` typechecked
-without saying anything about Unary histories or `hsame`. Markers pointed to
-real Lean targets but the Lean targets carried no semantic content.
+The `NameCert` license abstraction must not be structurally hollow: certificate
+fields (SourceSpec, PatternSpec, ClassifierSpec, StabilityCert, LedgerPolicy)
+must not be instantiated with `Unit` so that a certificate typechecks without
+saying anything about Unary histories or `hsame`. Markers must point to Lean
+targets with semantic content.
 
-Effective from v2.1:
+Effective from the current prompt version:
 
 1. NEVER pick a target whose Lean implementation would be `Unit`, `True`,
    `True.intro`, `()`, or any other trivially-inhabited placeholder. The
@@ -34,7 +33,7 @@ Effective from v2.1:
      opaque Type.
 
 3. NEVER use `MinimalNameCertSetup` for new license proofs. That instance
-   sets every field to `Unit` and is preserved only for legacy compatibility.
+   sets every field to `Unit` and exists only as an inert compatibility object.
    New license proofs must use the `SemanticNameCert` shape introduced in
    `lean4/BEDC/FKernel/NameCert.lean`.
 
@@ -44,7 +43,45 @@ Effective from v2.1:
 
 This is a stricter superset of the existing HARD GATE in Step 2 below.
 
-## v2.1 — Script-backed quality gates
+## No nursery-shell growth (HARD GATE)
+
+Automated rounds can add syntactically non-trivial but theoretically shallow growth by introducing an abstract carrier/spec shell and immediately returning assumptions supplied as parameters. This is forbidden for target selection.
+
+A target is INVALID if its main contribution is any of these shapes:
+
+1. Parameter echo: a theorem that takes `le_refl`, `le_trans`,
+   `carrier_transport`, `lower_transport`, `upper_transport`, `normalized`, or a
+   similar semantic law as an input and returns the same law unchanged or merely
+   bundled with a `NameCert`. Such a theorem is an adapter, not theory growth.
+
+2. Abstract-shell classifier: a new `Carrier : BHist → Prop`,
+   `lower upper : BHist → Prop`, `Le : BHist → BHist → Prop`, or
+   `normalized : ... → Prop` interface with no concrete BEDC-derived predicate
+   tying it to existing constructors/relations beyond `hsame` bookkeeping.
+
+3. Isolated derived `def`: a new `RatUp`, `IntervalUp`, `PreorderUp`, or similar
+   horizon object that only adds carrier/spec definitions. A valid target for a
+   horizon object must also add at least one real closure theorem, transport
+   theorem, constructor/inversion theorem, or certificate whose proof uses the
+   concrete definition.
+
+4. Unclosed certificate shell: a `NameCert` theorem for a derived object whose
+   proof works for arbitrary uninterpreted predicates supplied by parameters and
+   does not prove any object-specific closure from a BEDC construction.
+
+Prefer targets that close a concrete block:
+- Define a carrier over existing BEDC constructors, then prove its transport or
+  closure theorem in the same round.
+- For RatUp, prove denominator positivity transport / numerator transport /
+  normalized stability from concrete assumptions already present in the file.
+- For IntervalUp, prove a theorem about a specific boundary predicate or a real
+  transport lemma that consumes the interval carrier definition.
+- For PreorderUp, prove a concrete preorder instance or derived composition law,
+  not a restatement of arbitrary `Le` assumptions.
+
+This supplements the anti-hollow rules: non-hollow code can still be rejected if it does not
+make the theory more closed, composable, or concrete.
+
 
 Phase D now enforces these constraints mechanically. Select targets that will pass them:
 

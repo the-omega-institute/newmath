@@ -246,5 +246,52 @@ class QualityGateTests(unittest.TestCase):
             self.assertEqual(violations, [])
 
 
+class PromptVersionTests(unittest.TestCase):
+    def test_phase_prompts_declare_version_once(self):
+        for name in ("phase_b", "phase_c"):
+            prompt = cf._load_prompt(name)
+            version = cf._prompt_version(prompt)
+            self.assertEqual(prompt.count(version), 1, name)
+
+    def test_phase_c_prompt_keeps_commit_version_as_placeholder(self):
+        prompt = cf.build_phase_c_prompt(1, [])
+
+        version = cf._prompt_version(prompt)
+        self.assertEqual(prompt.count(version), 1)
+        self.assertIn("prompts: <PROMPTS_VERSION>", prompt)
+
+
+class PipelinePidTokenTests(unittest.TestCase):
+    def test_pipeline_token_is_current_only_when_pid_file_matches_process(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+            cf.write_pipeline_pid(pid_file, 1234)
+
+            self.assertTrue(cf.pipeline_token_is_current(pid_file, 1234))
+            self.assertFalse(cf.pipeline_token_is_current(pid_file, 5678))
+
+    def test_missing_pipeline_token_requests_drain(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+
+            self.assertFalse(cf.pipeline_token_is_current(pid_file, 1234))
+
+    def test_stale_or_malformed_pipeline_token_requests_drain(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+            pid_file.write_text("not-a-pid\n", encoding="utf-8")
+
+            self.assertFalse(cf.pipeline_token_is_current(pid_file, 1234))
+
+    def test_remove_pipeline_pid_is_idempotent(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+            cf.write_pipeline_pid(pid_file, 1234)
+
+            self.assertTrue(cf.remove_pipeline_pid(pid_file))
+            self.assertFalse(pid_file.exists())
+            self.assertFalse(cf.remove_pipeline_pid(pid_file))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -54,18 +54,29 @@ At the formal finite-kernel layer, the Lean structure
 \leandef{BEDC.FKernel.NameCert.NameCert}
 \leanchecked{BEDC.FKernel.NameCert.nameCert\_carrier\_witness}
 
-\begin{principle}[Derived interfaces require certificates]
-\label{prin:derived-interfaces-require-certificates}
+\begin{theorem}[Naming certificate classifier transitivity]
+\label{thm:namecert-equivalence-transitivity}
+For every naming certificate over a history carrier and classifier, the classifier is transitive on finite-kernel histories.
+\end{theorem}
+\begin{proof}
+The certificate record contains the classifier transitivity field. Projecting that field supplies the required composition of two classifier witnesses.
+\end{proof}
+\leanchecked{BEDC.FKernel.NameCert.nameCert\_equiv\_trans}
+
+\begin{theorem}[Derived interfaces require certificates]
+\label{thm:derived-interfaces-require-certificates}
 No interface marked by an upward arrow is licensed without a \(\NameCert\).
-\end{principle}
+\end{theorem}
 \begin{proof}
 This is the formation rule for the paper template: derived names are not object-language primitives. They enter the theory only by the five supplied certificate fields.
 \end{proof}
+\leanchecked{BEDC.FKernel.NameCert.derived\_interfaces\_require\_certificates}
 
 \begin{principle}[Limit-like interfaces carry a ledger]
 \label{prin:limit-like-interfaces-derived}
 Every certified derived interface carries a ledger policy witness.
 \end{principle}
 \begin{proof}
-Case analysis on the paper template exposes its five fields. The ledger field is the required witness.
+Case analysis on the semantic naming certificate exposes the source witness in the core certificate. Applying the ledger soundness field to that same source witness gives the required ledger witness.
 \end{proof}
+\leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_ledger\_policy\_witness}

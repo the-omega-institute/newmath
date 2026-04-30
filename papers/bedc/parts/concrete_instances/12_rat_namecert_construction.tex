@@ -1,14 +1,90 @@
 \chapter{A Concrete Naming Certificate for \(\RatUp\)}
 \label{ch:concrete-instances-rat-namecert}
 
-The rational number interface \(\RatUp\) has certificate obligations over ordered pairs \((p, q)\) with \(p\) drawn from \autoref{ch:concrete-instances-int-namecert} and \(q\) a positive integer, normalized to coprime numerator and denominator with positive denominator. The classifier is structural equality on the normalized representative, not the equivalence relation \(p_1 q_2 = p_2 q_1\) on unnormalized pairs (which would otherwise demand quotient-type machinery and \(\mathsf{Quot.sound}\)). It is not a primitive field; it is admitted only via the integer source and the normalization function.
+The rational number interface \(\RatUp\) is licensed by ordered pairs \((p, q)\) with \(p\) drawn from \autoref{ch:concrete-instances-int-namecert} and \(q\) a positive integer, normalized to coprime numerator and denominator with positive denominator. The classifier is structural equality on the normalized representative, not the equivalence relation \(p_1 q_2 = p_2 q_1\) on unnormalized pairs (which would otherwise demand quotient-type machinery and \(\mathsf{Quot.sound}\)). It is not a primitive field; it is licensed only via the integer source and the normalization function.
+
+\begin{remark}[Rational certificate scope]
+\label{rem:concrete-instances-rat-namecert-roadmap}
+This chapter records the rational licensing target through normalized
+integer-positive-natural representatives and structural classifier data.
+The Lean-backed core of this chapter covers the kernel carrier spine and classifier transitivity. Normalization, coprimality, and operation closure remain part of the paper specification.
+\end{remark}
 
 \section{Carrier definition}
 
 \begin{definition}[Rat carrier]
 \label{def:rat-carrier}
-Use normalized integer-positive-natural pairs \((p,q)\) with \(q>0\), \(\gcd(|p|,q)=1\), and denominator positivity carried as data.
+Use a signed unary integer numerator together with a unary denominator history that is not internally the same as \(\emp\):
+\[
+  \mathsf{RatCarrier}(s,n,d)
+  :=
+  \mathsf{IntCarrier}(s,n)\land \mathsf{Unary}(d)\land \neg\hsame(d,\emp).
+\]
+Equivalently, this is an \(\IntUp\) numerator with a positive unary-history denominator. At the carrier skeleton layer, positivity is witnessed by writing the denominator as a one-extension of a unary tail; normalization and coprimality belong to the later source and pattern specifications.
 \end{definition}
+\leandef{BEDC.Derived.RatUp.RatCarrier}
+
+\begin{theorem}[Rat carrier positive denominator]
+\label{thm:rat-carrier-positive-denominator}
+If \(\mathsf{RatCarrier}(s,n,d)\), then the denominator is internally the same as \(\Eone(t)\) for some unary tail \(t\).
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_positive\_denominator}
+\begin{proof}
+Unpack the carrier into its integer numerator, unary denominator, and non-emptiness clauses. The unary denominator is either \(\emp\) or a one-extension of a unary tail. The empty case contradicts non-emptiness, while the one-extension case gives the displayed positive-denominator witness.
+\end{proof}
+
+\begin{theorem}[Positive denominator yields a rational carrier]
+\label{thm:rat-carrier-from-positive-denominator}
+An \(\IntUp\) numerator together with a denominator internally same as
+\(\Eone(t)\) for a unary tail \(t\) forms a \(\RatUp\) carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_of\_int\_positive\_denominator}
+\begin{proof}
+Transport unary closure from the displayed \(\Eone\)-shape to the denominator
+along \(\hsame\). Non-emptiness follows because an \(\Eone\)-history cannot be
+internally same as \(\emp\).
+\end{proof}
+
+\begin{theorem}[Positive unary denominator transport]
+\label{thm:rat-positive-unary-denominator-hsame-transport}
+If a denominator history has a positive unary witness and is \(\hsame\)-equivalent to another history, then the other history has the same positive unary denominator witness.
+\end{theorem}
+\begin{proof}
+Write the positive denominator as an \(\Eone\)-extension of a unary tail. Compose the reverse \(\hsame\) witness from the target history to the source history with the source witness to the \(\Eone\)-extension, and keep the unary tail witness.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_hsame\_transport}
+
+\begin{theorem}[Positive unary denominator carrier equivalence]
+\label{thm:rat-carrier-iff-positive-unary-denominator}
+The rational carrier condition is equivalent to an $\IntUp$ numerator together with a denominator that has a positive unary tail witness.
+\end{theorem}
+\begin{proof}
+Unpack the carrier. A unary denominator that is not $\hsame$-empty cannot be the empty unary history, so unary case analysis gives a one-extension tail. Conversely, a denominator $\hsame$-equal to a one-extension of a unary tail is unary by transport, and it cannot be $\hsame$-empty by constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_iff\_positive\_unary\_denominator}
+
+\begin{theorem}[Positive denominator append unary tail]
+\label{thm:rat-positive-denominator-append-unary-tail}
+If a denominator has a positive unary witness and the appended tail is unary, then the continued denominator still has a positive unary witness.
+\end{theorem}
+\begin{proof}
+Write the denominator as internally the same as \(\Eone(t)\) for a unary tail \(t\), and transport unary membership back to the denominator itself. The appended tail is either \(\emp\) or a one-step unary tail. The empty case keeps the original witness, while the one-step case takes the continued denominator without that final step as the new positive tail; closure follows from unary append closure.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_tail}
+
+\begin{theorem}[Rat carrier component transport]
+\label{thm:rat-carrier-component-hsame-transport}
+If a rational carrier \(\mathsf{RatCarrier}(s,n,d)\) is transported along
+\(\msame(s,t)\), \(\hsame(n,n')\), and \(\hsame(d,d')\), then
+\(\mathsf{RatCarrier}(t,n',d')\) also holds.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_component\_hsame\_transport}
+\begin{proof}
+Eliminate the sign sameness and unpack the carrier. Transport the integer
+numerator carrier along the numerator history sameness, transport unary
+denominator closure along the denominator history sameness, and compose the
+denominator sameness with the empty-denominator contradiction.
+\end{proof}
 
 \section{The certificate}
 
@@ -16,6 +92,22 @@ Use normalized integer-positive-natural pairs \((p,q)\) with \(q>0\), \(\gcd(|p|
 \label{def:rat-source-specification}
 The source is \(\IntUp \times \NatUp\) restricted to normalized denominator-positive pairs.
 \end{definition}
+\leandef{BEDC.Derived.RatUp.RatSourceSpec}
+
+\begin{theorem}[Rat source specification yields the carrier]
+\label{thm:rat-source-spec-to-carrier}
+A rational source witness determines a rational carrier witness: the numerator
+is an integer carrier, the denominator is unary, and the positive one-tail
+witness excludes internal sameness with \(\emp\).
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatSourceSpec\_to\_RatCarrier}
+\begin{proof}
+Unpack the source witness. The positive-denominator component gives a unary
+tail \(t\) with \(d \hsame e_1(t)\). Unary closure under one-extension and
+transport along \(\hsame\) give \(\mathsf{Unary}(d)\). If \(d\hsame \emp\),
+then symmetry and transitivity give \(e_1(t)\hsame \emp\), contradicting
+finite-kernel history no-confusion.
+\end{proof}
 
 \begin{definition}[Rat pattern specification]
 \label{def:rat-pattern-specification}
@@ -24,8 +116,18 @@ The pattern is normalized numerator/denominator construction via a total normali
 
 \begin{definition}[Rat classifier specification]
 \label{def:rat-classifier-specification}
-The classifier is structural sameness of normalized numerator and denominator representatives.
+The classifier is structural sameness of normalized numerator and denominator representatives, tracked by mark sameness on signs and history sameness on the numerator and denominator histories.
 \end{definition}
+\leandef{BEDC.Derived.RatUp.RatClassifierSpec}
+
+\begin{theorem}[Rat classifier transitivity]
+\label{thm:rat-classifier-transitivity}
+If one rational representative is classified the same as a second representative, and the second representative is classified the same as a third representative, then the first and third representatives are classified the same.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_trans}
+\begin{proof}
+Unpack both classifier witnesses. The endpoint carriers are preserved, while sign sameness and the two history-sameness components compose by the finite-kernel transitivity theorems for \(\msame\) and \(\hsame\).
+\end{proof}
 
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}
@@ -56,4 +158,3 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:rat-zero-axiom-note}
 Replaces quotient equivalence and \(\mathsf{Quot.sound}\) with canonical normalization.
 \end{remark}
-

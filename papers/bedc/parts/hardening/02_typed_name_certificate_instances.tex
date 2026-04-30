@@ -21,6 +21,21 @@ The fields have the following intended roles:
   \item \(\LedgerPolicy_N\): specifies which gap ledger records the compression performed by the name.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.FKernel.NameCert.SemanticNameCert}
+\leanchecked{BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields}
+
+\begin{theorem}[Semantic NameCert pattern-ledger witness]
+\label{thm:semantic-namecert-pattern-ledger-witness}
+Every semantic naming certificate contains a source history whose pattern
+condition and ledger policy both hold.
+\end{theorem}
+\begin{proof}
+Eliminate the semantic certificate to expose its core naming certificate and
+the pattern and ledger soundness fields. The core certificate supplies a source
+history satisfying the source specification. Applying the two soundness fields
+to that same source witness yields the required pattern and ledger witnesses.
+\end{proof}
+\leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_pattern\_ledger\_witness}
 
 \section{Unary repetition as \texorpdfstring{\(\NatUp\)}{Nat-up} seed}
 

@@ -113,6 +113,19 @@ The source, pattern, classifier, stability, and ledger fields are explicitly sup
 \end{proof}
 \leanchecked{BEDC.FKernel.Unary.nat\_up\_name\_certificate}
 
+\begin{theorem}[Semantic \(\NatUp\) naming certificate]
+\label{thm:natup-semantic-namecert}
+The \(\NatUp\) naming certificate lifts to a semantic certificate whose source,
+pattern, and ledger predicates all preserve the same unary-history witness.
+\end{theorem}
+\begin{proof}
+The core certificate is the concrete unary \(\mathsf{NameCert}\). Pattern
+soundness and ledger soundness are both identity preservation of the unary
+history witness, so no information is erased between the source predicate and
+the two semantic predicates.
+\end{proof}
+\leanchecked{BEDC.FKernel.Unary.nat\_up\_semantic\_name\_certificate}
+
 \begin{corollary}[\(\NatUp\) is licensed, not primitive]
 \label{cor:natup-licensed-not-primitive}
 The interface \(\NatUp\) is licensed by \(\mathsf{NameCert}_{\NatUp}\). It is not a primitive object of the finite kernel.

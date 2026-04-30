@@ -10,6 +10,7 @@ The disjoint sum interface \(\SumUp\) is licensed over two source carriers each 
 For licensed source carriers \(A\) and \(B\), define an inductive carrier with constructors \(\mathsf{inl}(a)\) and \(\mathsf{inr}(b)\).
 \end{definition}
 \leandef{BEDC.Derived.SumUp.SumCarrier}
+\leandef{BEDC.Derived.SumUp.SumHistoryCarrier}
 
 \section{The certificate}
 
@@ -27,6 +28,7 @@ The pattern is left-or-right injection from the corresponding source witness.
 \label{def:sum-classifier-specification}
 The classifier relates left values through the \(A\)-classifier, right values through the \(B\)-classifier, and never relates opposite constructors.
 \end{definition}
+\leandef{BEDC.Derived.SumUp.SumHistoryClassifier}
 \leandef{BEDC.Derived.SumUp.SumClassifierSpec}
 \leanchecked{BEDC.Derived.SumUp.sum\_classifier\_inversion}
 
@@ -52,6 +54,10 @@ Record the injection tag and the ledger of the selected source.
 \label{thm:concrete-sum-namecert}
 The displayed carrier, classifier, stability certificate, and ledger policy are the \(\SumUp(A,B)\) licensing data. The checked Lean coverage in this chapter is the carrier, classifier, and stability layer recorded above.
 \end{theorem}
+\begin{proof}
+The carrier is represented by \(e0\)-tagged left histories and \(e1\)-tagged right histories. The classifier delegates within matching tags to the corresponding source certificate. Reflexivity, symmetry, transitivity, and carrier transport follow from the source \(\NameCert\) fields, while the mixed-tag cases are excluded by BEDC history constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate}
 
 \begin{corollary}[\(\SumUp\) is licensed, not primitive]
 \label{cor:sum-licensed-not-primitive}

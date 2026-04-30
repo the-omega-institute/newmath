@@ -17,6 +17,7 @@ For licensed source carriers \(A\) and \(B\), define a pair carrier with constru
 \label{def:prod-source-specification}
 The source is the ordered product of the two source certificates.
 \end{definition}
+\leandef{BEDC.Derived.ProdUp.ProdHistoryCarrier}
 
 \begin{definition}[Prod pattern specification]
 \label{def:prod-pattern-specification}
@@ -28,6 +29,7 @@ The pattern is paired generation from one \(A\)-witness and one \(B\)-witness.
 The classifier relates pairs componentwise using the classifiers of \(A\) and \(B\).
 \end{definition}
 \leandef{BEDC.Derived.ProdUp.ProdClassifier}
+\leandef{BEDC.Derived.ProdUp.ProdHistoryClassifier}
 \leanchecked{BEDC.Derived.ProdUp.prodClassifier\_iff}
 
 \begin{definition}[Prod stability certificate]
@@ -45,6 +47,15 @@ The stability certificate consists of:
 \leanvariant{BEDC.Derived.ProdUp.prod\_stability\_certificate}
 \leanchecked{BEDC.Derived.ProdUp.ProdClassifierSpec\_trans}
 
+\begin{theorem}[History product classifier is symmetric]
+\label{thm:prod-classifier-hsame-symm}
+For pairs of finite-kernel histories, if the product classifier relates \(x\) to \(y\) componentwise by \(\hsame\), then it relates \(y\) to \(x\).
+\end{theorem}
+\begin{proof}
+Invert the componentwise product classifier. Each component witness reverses by symmetry of \(\hsame\), and the reversed witnesses rebuild the product classifier in the opposite direction.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdClassifierSpec\_hsame\_symm}
+
 \begin{definition}[Prod ledger policy]
 \label{def:prod-ledger-policy}
 Record both component ledgers in order.
@@ -54,6 +65,10 @@ Record both component ledgers in order.
 \label{thm:concrete-prod-namecert}
 The componentwise tuple forms a valid NameCert for \(\ProdUp(A,B)\).
 \end{theorem}
+\begin{proof}
+Choose one left source history and one right source history. BEDC continuation joins them into a product history. The product classifier stores the two carrier witnesses and an \(\hsame\) witness between product histories, so the certificate fields follow by \(\hsame\) reflexivity, symmetry, transitivity, and carrier projection.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.prod\_history\_semantic\_name\_certificate}
 
 \begin{corollary}[\(\ProdUp\) is licensed, not primitive]
 \label{cor:prod-licensed-not-primitive}
