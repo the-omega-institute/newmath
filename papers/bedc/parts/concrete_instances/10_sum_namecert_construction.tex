@@ -83,6 +83,21 @@ The classifier relates left values through the \(A\)-classifier, right values th
 \leandef{BEDC.Derived.SumUp.SumClassifierSpec}
 \leanchecked{BEDC.Derived.SumUp.sum\_classifier\_inversion}
 
+\begin{theorem}[Sum classifier does not carry source membership]
+\label{thm:sum-classifier-no-source-membership}
+Let $\mathsf{FalseCarrier}(h)$ mean $\mathsf{False}$ for every BEDC history $h$. Then
+$$
+\mathsf{SumHistoryClassifier}(\mathsf{FalseCarrier},\mathsf{FalseCarrier},\hsame,\hsame,\Ezero(\emp),\Ezero(\emp))
+$$
+holds, while
+$$
+\neg \mathsf{SumHistoryCarrier}(\mathsf{FalseCarrier},\mathsf{FalseCarrier},\Ezero(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Build the classifier by the left-tag branch, using $\emp$ as both stored left payloads, reflexivity of $\hsame$ for the two visible $\Ezero(\emp)$ endpoints, and reflexivity of $\hsame$ for the payload relation. A carrier witness for $\Ezero(\emp)$ would be either a left branch with some payload satisfying $\mathsf{FalseCarrier}$ or a right branch with some payload satisfying $\mathsf{FalseCarrier}$. Both cases unfold to $\mathsf{False}$, so no carrier witness exists.
+\end{proof}
+
 \begin{theorem}[Sum history classifier left-tag inversion]
 \label{thm:sum-history-classifier-left-hsame-inversion}
 When the history-level sum classifier uses \(\hsame\) on both components and
@@ -110,6 +125,8 @@ witnesses and a stored component \(\hsame\) witness; constructor inversion for
 \(e1\) composes them into payload sameness.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_right\_hsame\_inversion}
+
+The same-tag iff clauses below are classifier-only statements; carrier and ledger evidence are supplied separately by $\mathsf{SumHistoryCarrier}$ and the ledger policy.
 
 \begin{theorem}[Sum history classifier same-tag exactness]
 \label{thm:sum-history-classifier-same-tag-exactness}
