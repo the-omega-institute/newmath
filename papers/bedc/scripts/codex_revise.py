@@ -1805,6 +1805,13 @@ def main() -> int:
 
     stop_peer_sync_ticker()
 
+    # Final sync so any rounds that landed after the last ticker tick reach
+    # the peer branch before the session exits.
+    if (not args.dry_run and PEER_BRANCH and not args.no_peer_sync
+            and total_succeeded > 0):
+        logger.info(f"Final peer sync: {PEER_BRANCH} ⇄ {BASE_BRANCH}")
+        sync_with_peer_branch(model=args.model)
+
     logger.info(f"{'='*60}")
     logger.info(f"Session complete: {total_succeeded} succeeded, {total_failed} failed")
     logger.info(f"Final round: P{state.round_number}")
