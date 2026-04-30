@@ -48,6 +48,11 @@ theorem ext_source_deterministic_from_result :
   intro h h' r m left right
   cases left <;> cases right <;> rfl
 
+theorem ext_result_injective_pair {h h' r : BHist} {m m' : BMark} :
+    Ext h m r -> Ext h' m' r -> hsame h h' ∧ msame m m' := by
+  intro left right
+  cases left <;> cases right <;> constructor <;> rfl
+
 theorem ext_cross_mark_result_impossible {h r : BHist} :
     Ext h BMark.b0 r -> Ext h BMark.b1 r -> False := by
   intro left right
