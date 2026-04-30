@@ -65,6 +65,8 @@ After `lake build` passes:
    - If your new target is a genuinely different paper claim (different theorem statement) → look for its own paper site; do not stack under an unrelated theorem.
 3. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
 
+4. For targets with `paper_block_status: "discovery"`: the paper does not yet have a block for this claim, so you must INSERT a new block into the existing chapter file given by `paper_target_chapter`. Insert a `\begin{theorem}[<short title>]\label{thm:<concept>}` (or `\begin{definition}` / `\begin{lemma}` / `\begin{corollary}` as appropriate) at a thematically correct location within an existing section of that chapter, write a brief `\begin{proof}...\end{proof}` sketch, and place the marker on the next line after `\end{...}`. Do NOT create a new chapter file. Do NOT modify any other chapter's existing content.
+
 The `bedc_ci.py audit` will fail if any `\leanchecked{X}` / `\leanvariant{X}` / `\leanstmt{X}` / `\leandef{X}` references X not present in `lean4/BEDC/`.
 
 ## Step 4: Full verification
@@ -90,6 +92,23 @@ Conflict resolution rules:
 - Same Lean file with conflicting edits to the SAME declaration: abandon your edit, prefer the upstream version. Re-target your remaining work.
 
 After resolving, run `cd lean4 && python3 scripts/lake_gate.py build` once more to confirm the rebased tree still compiles. If it fails after rebase, fix the rebase (do not push a broken tree).
+
+## Step 5.5: HARD GATE — round must contain real formalization
+
+Before committing, run:
+```bash
+git diff --cached --stat lean4/BEDC/ | tail -1
+```
+
+If the staged changes show ZERO insertions in `lean4/BEDC/` (i.e., the round only modified `papers/bedc/` to register markers, with no new Lean theorems / defs / inductives / structures), the round is INVALID — it is a "register-only round" and is forbidden. Do NOT commit. Instead:
+
+1. Discard the paper-only changes: `git restore --staged papers/bedc/ && git checkout -- papers/bedc/`.
+2. Pick a different target from Phase B output that requires writing actual Lean code.
+3. Re-do the implementation (Steps 1-5) for that target and re-check this gate.
+
+A valid round produces a non-trivial Lean diff. Marker registration alone is not formalization.
+
+Also do NOT add new `\leanvariant` markers in this round. The 760+ existing `\leanvariant` markers stay; the `bedc_ci.py audit` still requires their Lean targets to resolve. But Phase C in automated rounds must not produce new variants — if a target's only effect is to be a wrapper / projection / iff-rewrite / pair-bundle / weaker form of an already-`\leanchecked` theorem, abort that target and pick something that produces a genuinely new theorem statement.
 
 ## Step 6: Single combined commit
 ```bash

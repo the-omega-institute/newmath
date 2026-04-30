@@ -31,11 +31,20 @@ Select 3 formalization targets for R<ROUND_NUM>.
 
 Steps:
 1. Scan `papers/bedc/parts/` to find theorem/definition/proposition sites that do NOT yet have a nearby `\leanchecked`, `\leanstmt`, or `\leandef` marker at the primary site.
-2. Confirm the matching Lean target does NOT already exist in `lean4/BEDC/`.
+2. **HARD GATE — confirm the matching Lean target does NOT already exist in `lean4/BEDC/`.** Run `grep -rE "(theorem|lemma|def|inductive|structure|class) <name>" lean4/BEDC/` for the canonical name AND for any plausible underscore/case variant of it. If the grep returns ANY hit whose declaration body matches the paper claim, the target is INVALID — it would only register a marker on existing code (a "register-only round"), which is forbidden. Skip and pick another target. A round must add new Lean code, not paper-side bookkeeping for pre-existing implementations.
 3. Pick 3 targets:
    - Not all from the same chapter
    - At least 1 must be medium difficulty (for example induction, constructor inversion, or a multi-step structure elimination proof)
    - Prefer targets that fit the existing BEDC namespaces and setup classes
+   - Each target's `lean_signature` must describe code you will WRITE, not code you will only register a marker for.
+
+4. Discovery fallback (only when Step 3 cannot fill 3 slots after the HARD GATE filter): you MAY supplement the round with up to 3 total discovery targets — NEW theorem or definition statements that do not yet appear in any paper block but capture genuinely new content over BEDC primitives. Allowed shapes:
+   - Constructor inversion / no-confusion / determinacy / functionality lemma for an existing `inductive` or relation that lacks one.
+   - Chain / composition theorem combining 2+ existing \leanchecked theorems into a non-trivial multi-step conclusion.
+   - Setup-class field-projection theorem extracting one structure field as a standalone result.
+   - Carrier definition or NameCert spec field for a canonical math object in the BEDC licensing horizon: BoolUp / OptionUp / ProdUp / SumUp / ListUp / IntUp / RatUp / RealUp (Bishop) / ComplexUp / MonoidUp / GroupUp / AbGroupUp / RingUp / CommRingUp / FieldUp / ModuleUp / VecSpaceUp / LinearMapUp / MatrixUp / PolynomialUp / FormalPowerSeriesUp / PreorderUp / POSetUp / TotalOrderUp / LatticeUp / IntervalUp / MetricSpaceUp / S1Up / ContinuousFunctionUp / CompactUp / CategoryUp / FunctorUp / NatTransUp.
+
+   A discovery target is INVALID if its proof reduces to `exact T` / `apply T` / `T.symm` / `T.mp` / `T.mpr` / single-step rewrite of any existing \leanchecked theorem T (those are variants — already disallowed elsewhere). JSON requires `paper_block_status: "discovery"`, `novelty_justification` (one sentence on what new content is captured), and `paper_target_chapter` (the existing chapter file into which Phase C will insert the new \begin{...} block).
 
 ## Output Format (MUST follow exactly)
 Output a single JSON block:
@@ -51,7 +60,10 @@ Output a single JSON block:
       "strategy": "Brief proof strategy",
       "difficulty": "low/medium/high",
       "chapter": "core/proof_obligations/concrete_instances/etc",
-      "grep_confirmed_missing": true
+      "grep_confirmed_missing": true,
+      "paper_block_status": "exists_without_marker | discovery",
+      "novelty_justification": "(discovery only) one sentence on what new content this captures",
+      "paper_target_chapter": "(discovery only) e.g. parts/concrete_instances/15_monoid_namecert_construction.tex"
     }
   ]
 }
