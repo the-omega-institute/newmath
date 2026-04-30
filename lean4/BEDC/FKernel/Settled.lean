@@ -362,4 +362,13 @@ theorem settledKernelCriterion_history_kernel_projection [AskSetup] [PackageSetu
                       · exact histEquivalence
                       · exact histInversion
 
+theorem settledKernelCriterion_bundle_generation_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion ->
+      ∀ bundle : ProbeBundle ProbeName,
+        bundle = ProbeBundle.Bnil ∨
+          ∃ p : ProbeName, ∃ tail : ProbeBundle ProbeName, bundle = ProbeBundle.Bcons p tail := by
+  intro _ bundle
+  exact bundle_generation_cases bundle
+
 end BEDC.FKernel.Settled

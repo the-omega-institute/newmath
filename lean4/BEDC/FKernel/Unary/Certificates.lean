@@ -73,6 +73,10 @@ theorem UnaryPatternSpec_fields :
 def UnaryClassifierSpec (h k : BHist) : Prop :=
   UnaryHistory h ∧ UnaryHistory k ∧ hsame h k
 
+theorem UnaryClassifierSpec_iff_fields {h k : BHist} :
+    UnaryClassifierSpec h k <-> UnaryHistory h ∧ UnaryHistory k ∧ hsame h k := by
+  rfl
+
 def UnaryLedgerPolicy : Prop :=
   Nonempty LedgerPolicy
 
