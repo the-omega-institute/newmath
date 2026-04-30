@@ -48,6 +48,13 @@ theorem PkgSig_intro_from_token [AskSetup] [PackageSetup]
   intro token
   exact token
 
+omit [AskSetup] P in
+theorem TokIntro_nonempty_pkg [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s : BHist} {p : Pkg} :
+    TokIntro bundle s p → Nonempty Pkg := by
+  intro _
+  exact Nonempty.intro p
+
 inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
   | intro {s t : BHist} {p q : Pkg} :
       TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q

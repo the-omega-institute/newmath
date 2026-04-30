@@ -494,6 +494,20 @@ theorem unary_shift_step {k0 h r' : BHist} :
   intro _ _ hr'
   exact ⟨append (.e1 k0) h, rfl, hr'⟩
 
+theorem unary_shift_step_with_unary_result {k0 h r' : BHist} :
+    UnaryHistory k0 → UnaryHistory h →
+      (forall {r : BHist}, Cont k0 (BHist.e1 h) r ->
+        exists v : BHist, Cont k0 h v /\ hsame r (BHist.e1 v)) →
+      Cont (BHist.e1 k0) (BHist.e1 h) r' →
+      exists v : BHist,
+        Cont (BHist.e1 k0) h v /\ hsame r' (BHist.e1 v) /\ UnaryHistory v := by
+  intro uk uh shift hr'
+  cases unary_shift_step uk shift hr' with
+  | intro v shifted =>
+      cases shifted with
+      | intro hv same =>
+          exact ⟨v, hv, same, unary_cont_closed (unary_e1_closed uk) uh hv⟩
+
 theorem unary_shift_base {h r : BHist} :
     Cont .Empty (.e1 h) r -> exists v : BHist, Cont .Empty h v /\ hsame r (.e1 v) := by
   intro hr

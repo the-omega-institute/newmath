@@ -15,6 +15,11 @@ theorem msame_refl : ∀ m : BMark, msame m m := by
   intro m
   rfl
 
+theorem msame_generated_rules : msame BMark.b0 BMark.b0 ∧ msame BMark.b1 BMark.b1 := by
+  constructor
+  · rfl
+  · rfl
+
 theorem msame_symm : ∀ {m n : BMark}, msame m n → msame n m := by
   intro m n h
   exact h.symm
