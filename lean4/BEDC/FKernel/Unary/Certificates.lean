@@ -59,6 +59,10 @@ theorem nat_up_interface_seed :
       exact unary_repetition_closed_under_continuation_seed uh uk hr
     · exact Nonempty.intro nat_up_name_certificate
 
+def UnaryPatternSpec : Prop :=
+  UnaryHistory BHist.Empty /\
+    forall {h : BHist}, UnaryHistory h -> UnaryHistory (BHist.e1 h)
+
 theorem nat_up_certificate_seed_not_primitive :
     NameCert UnaryName ∧ Nonempty (NameCert UnaryName) := by
   exact nat_up_licensed_not_primitive
@@ -149,6 +153,11 @@ def AddLedgerPolicy : Prop :=
 theorem addLedgerPolicy_from_unary_cont_closed : AddLedgerPolicy := by
   intro h k r uh uk cont
   exact unary_cont_closed uh uk cont
+
+theorem additive_pattern_result_unary_iff_inputs {h k r : BHist} :
+    Cont h k r -> (UnaryHistory h /\ UnaryHistory k <-> UnaryHistory r) := by
+  intro hr
+  exact unary_cont_factors_iff_result hr
 
 theorem unary_addition_seed_from_policy :
     AddLedgerPolicy -> forall {h k r : BHist},

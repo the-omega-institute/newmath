@@ -33,6 +33,10 @@ def UnaryDomain : Domain := ()
 def UnaryName : DerivedName := ()
 def AddName : DerivedName := ()
 
+theorem unaryDomain_inDom_iff_unaryHistory {h : BHist} :
+    InDom UnaryDomain h <-> UnaryHistory h := by
+  rfl
+
 theorem unary_domain_gap_transport {bundle : ProbeBundle ProbeName} {p : Pkg} {h k s : BHist} :
     InGapSig bundle UnaryDomain p h -> hsame h k -> BEDC.FKernel.Sig.SigRel bundle k s ->
       TokIntro bundle s p -> InGapSig bundle UnaryDomain p k := by
