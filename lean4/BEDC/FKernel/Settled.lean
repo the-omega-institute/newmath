@@ -253,6 +253,21 @@ theorem settledKernelCriterion_signature_determinacy_projection [AskSetup] [Pack
   exact (settledKernelCriterion_signature_kernel_projection criterion).left
     askPolicy hIn left right
 
+theorem settledKernelCriterion_package_gap_kernel_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      (∀ {bundle : ProbeBundle ProbeName}, PackagePolicy bundle →
+        (∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) ∧
+        (∀ {s t : BHist} {p q : Pkg},
+          hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q) ∧
+        (∀ {p q : Pkg}, psame bundle p q →
+          ∃ s : BHist, ∃ t : BHist,
+            TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t)) ∧
+      (∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
+        GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h) := by
+  intro criterion
+  exact settledKernelCriterion_package_gap_projection criterion
+
 theorem settledKernelCriterion_namecert_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →
