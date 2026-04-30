@@ -29,6 +29,15 @@ def Cont (h k r : BHist) : Prop := r = append h k
 theorem cont_iff_append {h k r : BHist} : Cont h k r <-> r = append h k := by
   rfl
 
+theorem cont_right_step_rules {h k r : BHist} :
+    Cont h k r → Cont h (BHist.e0 k) (BHist.e0 r) ∧ Cont h (BHist.e1 k) (BHist.e1 r) := by
+  intro hr
+  constructor
+  · cases hr
+    rfl
+  · cases hr
+    rfl
+
 theorem append_assoc : ∀ a b c : BHist, append (append a b) c = append a (append b c) := by
   intro a b c
   induction c with

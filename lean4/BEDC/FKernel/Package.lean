@@ -260,6 +260,24 @@ theorem PackageTokenPolicy_iff_fields [AskSetup] [PackageSetup]
     | intro soundness reflection =>
         exact PackageTokenPolicy.mk soundness reflection
 
+theorem PackageTokenPolicy_iff_soundness_reflection {bundle : ProbeBundle ProbeName} :
+    PackageTokenPolicy bundle ↔
+      ((∀ {s t : BHist} {p q : Pkg},
+          TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q) ∧
+        (∀ {s t : BHist} {p q : Pkg},
+          TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t)) := by
+  constructor
+  · intro policy
+    constructor
+    · intro s t p q left right sameHist
+      exact policy.soundness left right sameHist
+    · intro s t p q left right samePkg
+      exact policy.reflection left right samePkg
+  · intro fields
+    cases fields with
+    | intro soundness reflection =>
+        exact PackageTokenPolicy.mk soundness reflection
+
 theorem packageTokenPolicy_signature_facing {bundle : ProbeBundle ProbeName}
     (policy : PackageTokenPolicy bundle) {s t : BHist} {p q : Pkg} :
     hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q := by
@@ -428,6 +446,14 @@ theorem signature_package_policy [A : AskSetup] (bundle : ProbeBundle ProbeName)
       cases hpq with
       | intro hp hq hst =>
           exact ⟨_, _, hp, hq, hst⟩)
+
+omit P [AskSetup] in
+theorem signature_package_extensionality [A : AskSetup] (bundle : ProbeBundle ProbeName) {s t p q : BHist} :
+    @TokIntro A (@SignaturePackageSetup A) bundle s p →
+      @TokIntro A (@SignaturePackageSetup A) bundle t q →
+        hsame s t → @psame A (@SignaturePackageSetup A) bundle p q := by
+  intro left right sameHist
+  exact @psame.intro A (@SignaturePackageSetup A) bundle s t p q left right sameHist
 
 omit P [AskSetup] in
 theorem signature_package_grounding [A : AskSetup] (bundle : ProbeBundle ProbeName)
