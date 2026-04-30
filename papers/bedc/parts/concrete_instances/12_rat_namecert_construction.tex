@@ -134,6 +134,19 @@ positive witness for $\mathsf{append}(u,d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_prefix}
 
+\begin{theorem}[Rat carrier prepend unary denominator closure]
+\label{thm:rat-carrier-prepend-unary-denominator-closed}
+If a rational carrier has denominator \(d\), then prepending any unary history
+to \(d\) preserves rational-carrier membership.
+\end{theorem}
+\begin{proof}
+Use the carrier equivalence to expose the integer numerator carrier and the
+positive unary denominator witness. Positive denominators are closed under
+unary prefix continuation, and the rational carrier is rebuilt from the same
+integer numerator and the resulting positive denominator.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_prepend\_unary\_denominator\_closed}
+
 \begin{theorem}[Rat carrier hsame transport]
 \label{thm:rat-carrier-hsame-transport}
 If a rational carrier \(\mathsf{RatCarrier}(s,n,d)\) is transported along
@@ -218,6 +231,22 @@ eliminating the original denominator and tail sameness witnesses and applying
 reflexivity to the resulting append history.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_append\_unary\_denominators\_closed}
+
+\begin{theorem}[Rat classifier denominator prepend closure]
+\label{thm:rat-classifier-prepend-unary-denominators-closed}
+If two rational representatives are classified the same, then prepending
+\(\hsame\)-matching unary histories to their denominators preserves the
+rational classifier relation.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two endpoint carriers and the sign,
+numerator, and denominator sameness fields. Close both endpoint denominator
+carriers under unary prepend, transporting unary membership of the first prefix
+across prefix sameness for the second endpoint. The resulting denominator
+sameness follows by eliminating the original denominator and prefix sameness
+witnesses and applying reflexivity to the resulting append history.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_prepend\_unary\_denominators\_closed}
 
 \begin{theorem}[Rat classifier transitivity]
 \label{thm:rat-classifier-transitivity}
