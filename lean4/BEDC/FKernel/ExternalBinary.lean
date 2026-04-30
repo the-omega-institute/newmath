@@ -163,6 +163,18 @@ theorem external_append_nil_inversion :
     ∀ {a b : BWord}, append a b = BHist.Empty → a = BHist.Empty ∧ b = BHist.Empty :=
   external_append_nil_result_inversion
 
+theorem external_append_empty_result_iff {a b : BWord} :
+    append a b = BHist.Empty ↔ a = BHist.Empty ∧ b = BHist.Empty := by
+  constructor
+  · intro h
+    exact external_append_nil_result_inversion h
+  · intro h
+    cases h with
+    | intro ha hb =>
+        cases ha
+        cases hb
+        rfl
+
 theorem external_append_bit_result_inversion :
     (∀ {a b r : BWord}, append a b = BHist.e0 r →
       (b = BHist.Empty ∧ a = BHist.e0 r) ∨
