@@ -51,6 +51,35 @@ theorem append_assoc : ∀ a b c : BHist, append (append a b) c = append a (appe
   | e1 c ih =>
       simp [append, ih]
 
+theorem append_right_cancel :
+    ∀ {h h' k : BHist}, append h k = append h' k → hsame h h' := by
+  intro h h' k same
+  induction k generalizing h h' with
+  | Empty =>
+      exact same
+  | e0 k ih =>
+      have inner : append h k = append h' k := by
+        simpa [append] using
+          congrArg (fun x =>
+            match x with
+            | BHist.e0 y => y
+            | _ => BHist.Empty) same
+      exact ih inner
+  | e1 k ih =>
+      have inner : append h k = append h' k := by
+        simpa [append] using
+          congrArg (fun x =>
+            match x with
+            | BHist.e1 y => y
+            | _ => BHist.Empty) same
+      exact ih inner
+
+theorem cont_right_cancel :
+    ∀ {h h' k r : BHist}, Cont h k r → Cont h' k r → hsame h h' := by
+  intro h h' k r left right
+  apply append_right_cancel (k := k)
+  exact left.symm.trans right
+
 theorem cont_deterministic :
     ∀ {h k r r' : BHist}, Cont h k r → Cont h k r' → hsame r r' := by
   intro h k r r' hr hr'
