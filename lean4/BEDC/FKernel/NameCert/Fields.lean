@@ -25,6 +25,12 @@ theorem definition_demotion_certificate_fields [NameCertSetup] {name : DerivedNa
   intro cert
   exact nameCert_all_fields_nonempty cert
 
+theorem typed_naming_certificate_expanded_template [NameCertSetup] {name : DerivedName} :
+    NameCert name → Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧
+      Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  intro cert
+  exact nameCert_all_fields_nonempty cert
+
 theorem no_inherited_mathematical_primitives [NameCertSetup] {name : DerivedName} :
     NameCert name -> Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧
       Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by

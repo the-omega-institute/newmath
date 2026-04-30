@@ -76,6 +76,15 @@ theorem gapPolicy_coverage_separation_generation [AskSetup] [PackageSetup] [Doma
     · intro p h hgap
       exact hgap.right
 
+theorem gap_policy_provenance_interface [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
+    (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
+      (∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h →
+        InGapSig bundle D q h → psame bundle p q) ∧
+      (∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h →
+        ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p) := by
+  exact gapPolicy_coverage_separation_generation policy
+
 theorem GapPolicy_iff_fields [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} :
     GapPolicy bundle D <->

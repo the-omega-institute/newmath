@@ -14,4 +14,8 @@ theorem cont_assoc_spine_symmetric_witnesses {a b c ab bc : BHist} :
   exact ⟨append (append a b) c, append a (append b c), rfl, rfl,
     append_assoc a b c, hsame_symm (append_assoc a b c)⟩
 
+theorem continuation_associativity_spine {h k l u v w z : BHist} :
+    Cont h k u -> Cont u l v -> Cont k l w -> Cont h w z -> hsame v z := by
+  exact cont_assoc_relational
+
 end BEDC.FKernel.Cont
