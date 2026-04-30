@@ -60,6 +60,20 @@ identity.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_left\_inverse\_involutive}
 
+\begin{theorem}[Group left cancellation]
+\label{thm:group-left-cancellation}
+For a history-level group operation with associativity, left identity,
+multiplication congruence, and left inverses, equality of \(ab\) and \(ac\)
+under \(\hsame\) implies equality of \(b\) and \(c\) under \(\hsame\).
+\end{theorem}
+\begin{proof}
+Chain \(b\) through the left identity, replace that identity by
+\(a^{-1}a\), reassociate to \(a^{-1}(ab)\), use multiplication congruence on
+the assumed product equality, reassociate back to \((a^{-1}a)c\), collapse the
+left inverse, and finish by the left identity on \(c\).
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_cancel}
+
 \begin{definition}[Group ledger policy]
 \label{def:group-ledger-policy}
 Record the monoid ledger plus every inverse operation applied.

@@ -21,6 +21,11 @@ theorem PreorderPrefixLE_of_hsame {h k : BHist} :
   cases same
   exact ⟨BHist.Empty, unary_empty, cont_right_unit h⟩
 
+theorem PreorderPrefixLE_append_unary_tail {h tail : BHist} :
+    UnaryHistory tail -> PreorderPrefixLE h (append h tail) := by
+  intro tailUnary
+  exact Exists.intro tail (And.intro tailUnary (cont_intro rfl))
+
 theorem PreorderPrefixLE_empty_left_iff_unary {h : BHist} :
     PreorderPrefixLE BHist.Empty h ↔ PreorderCarrier h := by
   constructor

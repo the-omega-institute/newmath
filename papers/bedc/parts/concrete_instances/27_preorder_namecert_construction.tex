@@ -39,6 +39,18 @@ the empty unary tail together with the right-unit continuation law for $h$.
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_of\_hsame}
 
+\begin{theorem}[Prefix append by unary tail]
+\label{thm:preorder-prefix-append-unary-tail}
+For every history \(h\), appending a unary tail to \(h\) gives a concrete
+prefix relation from \(h\) to the append result.
+\end{theorem}
+\begin{proof}
+Use the unary tail itself as the prefix witness. The continuation component is
+the definitional append equation, introduced by the BEDC continuation
+constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_unary\_tail}
+
 \begin{theorem}[Prefix from empty is unary carrier]
 \label{thm:preorder-prefix-empty-left-iff-unary}
 For the concrete unary history preorder, $\emp\le h$ holds exactly when $h$ is in the preorder carrier.

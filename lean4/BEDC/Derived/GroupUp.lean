@@ -65,4 +65,20 @@ theorem group_left_inverse_involutive {mul : BHist → BHist → BHist} {e : BHi
       (hsame_trans (hsame_symm (assocC (inv (inv x)) (inv x) x))
         (hsame_trans (mulCongr (leftInv (inv x)) (hsame_refl x)) (leftId x))))
 
+theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x, hsame (mul e x) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x, hsame (mul (inv x) x) e) {a b c : BHist} :
+    hsame (mul a b) (mul a c) -> hsame b c := by
+  intro sameProducts
+  exact hsame_trans (hsame_symm (leftId b))
+    (hsame_trans (mulCongr (hsame_symm (leftInv a)) (hsame_refl b))
+      (hsame_trans (assocC (inv a) a b)
+        (hsame_trans (mulCongr (hsame_refl (inv a)) sameProducts)
+          (hsame_trans (hsame_symm (assocC (inv a) a c))
+            (hsame_trans (mulCongr (leftInv a) (hsame_refl c)) (leftId c))))))
+
 end BEDC.Derived.GroupUp
