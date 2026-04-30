@@ -111,6 +111,21 @@ Induct on $\Pi$. The empty case reduces membership to $\Theta$. The cons case sp
 membership from tail membership, then applies the induction hypothesis to the tail.
 \end{proof}
 
+\begin{theorem}[Probe bundle prefix cancellation]
+\label{thm:probe-bundle-prefix-cancellation}
+For any fixed probe bundle $\Pi$ and any probe bundles $\Theta,\Omega$, if
+$$
+\mathsf{BAppend}(\Pi,\Theta)=\mathsf{BAppend}(\Pi,\Omega),
+$$
+then $\Theta=\Omega$.
+\end{theorem}
+\begin{proof}
+Induct on $\Pi$. The empty case is immediate because both displayed append terms
+reduce to their suffix bundles. In the cons case, constructor injectivity reduces
+the equality of cons bundles to equality of their tails, and the induction
+hypothesis cancels the remaining common prefix.
+\end{proof}
+
 \section{Signature generation}
 
 \begin{definition}[Signature event]
