@@ -242,6 +242,23 @@ tail classifier witness unchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_cons\_head\_transport}
 
+\begin{theorem}[List classifier stability under certified entry descent]
+\label{thm:list-classifier-certified-entry-descent}
+Let $R,T:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history
+classifiers, and let
+$\mathsf{cert}:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},R,T)$
+have map field $f:\mathsf{BHist}\to\mathsf{BHist}$. If
+$\mathsf{ListClassifierSpec}(R,xs,ys)$ holds, then
+$\mathsf{ListClassifierSpec}(T,\mathsf{map}(f,xs),\mathsf{map}(f,ys))$ holds.
+\end{theorem}
+\begin{proof}
+Induct on the finite list-classifier witness. The nil witness maps to the nil
+classifier clause. In the cons-cons case, apply
+$\mathsf{descentCertificate\_respects}$ to the head witness and use the
+induction hypothesis on the tail witness, then rebuild the cons-cons
+$\mathsf{ListClassifierSpec}$ clause for the mapped lists.
+\end{proof}
+
 \begin{theorem}[History list classifier is stable under $e0$-mapping]
 \label{thm:list-classifier-hsame-map-e0}
 For BEDC history lists, structural classification by $\hsame$ is preserved when every entry of both lists is mapped through the $e0$ history constructor.
@@ -664,9 +681,9 @@ $\mathsf{cert}:\NameCert(A,\sim_A)$. If
 $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds, then the existential
 spine-representation classifier of Definition~\ref{def:list-spine-representation}
 is transitive: whenever
-$\mathsf{ListHistoryClassifier}_{\sim_A}(h,k)$ and
-$\mathsf{ListHistoryClassifier}_{\sim_A}(k,u)$ hold, then
-$\mathsf{ListHistoryClassifier}_{\sim_A}(h,u)$ holds.
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$ and
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,u)$ hold, then
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u)$ holds.
 \end{theorem}
 \begin{proof}
 Unpack the two history-classifier witnesses. The first gives spines $xs,ys$
@@ -681,7 +698,7 @@ $\mathsf{ListClassifierSpec\_trans\_from\_nameCert}$, applied with
 $\mathsf{cert}$, first composes $xs$ with $ys'$ through $ys$ and then composes
 the result with $zs$ through $ys'$. Repack the original representation of $h$,
 the original representation of $u$, and the composed finite-spine classifier
-witness to obtain $\mathsf{ListHistoryClassifier}_{\sim_A}(h,u)$.
+witness to obtain $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u)$.
 \end{proof}
 
 \begin{theorem}[List spine classifier preserves represented length]
@@ -738,11 +755,11 @@ source classifier $\sim_A$, source certificate
 $\mathsf{cert} : \NameCert(A,\sim_A)$, and a witness of
 $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$, define
 $\mathsf{ListSource}(A)$ as the history carrier
-$\mathsf{ListHistoryCarrier}_A$, define
-$\mathsf{ListHistoryClassifier}_{\sim_A}$ by
-Definition~\ref{def:list-spine-representation}, use
-Theorem~\ref{thm:list-spine-representation-exactness} as its recursive
-generated presentation, define
+$\mathsf{ListHistoryCarrier}_A$, take the certificate classifier
+$\mathsf{ListHistoryClassifier}_{\sim_A}$ to be the spine-induced bridge
+classifier from Definition~\ref{def:list-spine-representation}, use
+Theorem~\ref{thm:list-spine-representation-exactness} as its finite-spine
+exactness theorem, define
 $\mathsf{ListPattern}(A)$ as the nil-or-cons constructor-shape predicate over
 represented histories, and define $\mathsf{ListLedger}(A)$ as the visible
 length together with the source ledger read from a represented finite spine.
@@ -755,8 +772,8 @@ The source $\NameCert$ supplies the head-level reflexivity, symmetry,
 transitivity, and carrier transport fields. The generated nil/cons carrier
 supplies the BEDC histories, and
 Theorem~\ref{thm:list-spine-representation-exactness} supplies the exact
-recursive generated presentation through which the checked structural
-classifier is applied. Classifier reflexivity uses
+finite-spine presentation through which the checked structural classifier is
+applied. Classifier reflexivity uses
 Theorem~\ref{thm:list-spine-representation-coverage} to choose the representing
 spine for the same history and applies induction on that spine. Symmetry is
 obtained by keeping the two representation witnesses and reversing the
