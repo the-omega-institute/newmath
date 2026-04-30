@@ -169,6 +169,15 @@ theorem external_append_left_length_zero :
   | e1 b ih =>
       exact ih (Nat.succ.inj h)
 
+theorem external_append_length_eq_right_iff_left_empty {a b : BWord} :
+    bwordLength (append a b) = bwordLength b <-> a = BHist.Empty := by
+  constructor
+  · intro h
+    exact external_append_left_length_zero h
+  · intro h
+    cases h
+    exact congrArg bwordLength (external_append_empty_left b)
+
 theorem external_append_nil_result_inversion :
     ∀ {a b : BWord}, append a b = BHist.Empty → a = BHist.Empty ∧ b = BHist.Empty := by
   intro a b h

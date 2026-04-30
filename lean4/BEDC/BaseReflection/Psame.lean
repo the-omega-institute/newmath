@@ -89,6 +89,12 @@ theorem PsameSig_iff_PsameBase {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg
     PsameSig s P p q <-> PsameBase s P p q := by
   rfl
 
+theorem PsameSig_constructor
+    {s : BaseReflectionSetup} {P : s.Pi} {x y : s.SigObj} {p q : s.Pkg} :
+    s.TokIntro P x p → s.TokIntro P y q → s.hsame x y → PsameSig s P p q := by
+  intro left right same
+  exact PsameBase.intro left right same
+
 theorem PsameSig_constructor_inversion
     {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PsameSig s P p q ->
