@@ -99,6 +99,13 @@ theorem inGapSig_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
   exact hgap.right
 
 omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_signature_and_token_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h -> exists s : BHist, SigRel bundle h s ∧ TokIntro bundle s p := by
+  intro hgap
+  exact hgap.right
+
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_token_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h -> exists s : BHist, TokIntro bundle s p := by

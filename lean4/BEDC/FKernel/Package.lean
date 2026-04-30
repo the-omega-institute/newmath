@@ -149,6 +149,18 @@ theorem packagePolicy_fields [AskSetup] [PackageSetup] {bundle : ProbeBundle Pro
       exact policy.grounding samePkg
 
 omit [AskSetup] P in
+theorem packagePolicy_signature_facing_from_fields [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName}
+    (fields :
+      (forall s : BHist, exists p : Pkg, TokIntro bundle s p) ∧
+      (forall {s t : BHist} {p q : Pkg}, hsame s t -> TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q) ∧
+      (forall {p q : Pkg}, psame bundle p q -> exists s : BHist, exists t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t))
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t q -> hsame s t -> psame bundle p q := by
+  intro left right sameHist
+  exact fields.right.left sameHist left right
+
+omit [AskSetup] P in
 theorem packagePolicy_extensionality_witness [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle)
     {s t : BHist} {p q : Pkg} :
