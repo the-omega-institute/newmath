@@ -317,6 +317,25 @@ def GeneratedSameSig_symm
         sigSame := eqv.symm sigSame
       }
 
+theorem GeneratedSameSig_symm_nonempty
+    {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
+    (eqv : HSameEquiv s) :
+    Nonempty (GeneratedSameSig s P h k) → Nonempty (GeneratedSameSig s P k h) := by
+  intro hgen
+  cases hgen with
+  | intro gen =>
+      cases gen with
+      | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
+          exact Nonempty.intro {
+            leftSigObj := rightSigObj
+            rightSigObj := leftSigObj
+            leftEvidence := rightEvidence
+            rightEvidence := leftEvidence
+            leftSig := rightSig
+            rightSig := leftSig
+            sigSame := eqv.symm sigSame
+          }
+
 theorem GeneratedSameSig_psameBase
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist} {p q : s.Pkg}
     (gen : GeneratedSameSig s P h k)

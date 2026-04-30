@@ -40,4 +40,30 @@ theorem ext_constructor_inversion {h r : BHist} {m : BMark} :
   ·
       exact Or.inr (And.intro rfl rfl)
 
+theorem ext_constructor_characterization {h r : BHist} {m : BMark} :
+    Ext h m r ↔ (m = BMark.b0 ∧ r = BHist.e0 h) ∨ (m = BMark.b1 ∧ r = BHist.e1 h) := by
+  constructor
+  ·
+      intro hr
+      cases hr
+      ·
+          exact Or.inl (And.intro rfl rfl)
+      ·
+          exact Or.inr (And.intro rfl rfl)
+  ·
+      intro hcase
+      cases hcase with
+      | inl left =>
+          cases left with
+          | intro hm hr =>
+              cases hm
+              cases hr
+              exact Ext.e0 h
+      | inr right =>
+          cases right with
+          | intro hm hr =>
+              cases hm
+              cases hr
+              exact Ext.e1 h
+
 end BEDC.FKernel.Ext
