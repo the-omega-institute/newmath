@@ -46,6 +46,29 @@ theorem ExactGlobalizeBase_field_projection_pair
     · intro h k p q hp hq
       exact ExactGlobalizeBase_classify_iff ex hp hq
 
+theorem exact_globalize_base_target
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (coverage : forall h, s.InDom D h -> exists p, s.InGapSig P D p h)
+    (soundness : forall h k p q,
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      GeneratedSameSig s P h k -> PsameBase s P p q)
+    (completeness : forall h k p q,
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)) :
+    ExactGlobalizeBase s P D /\
+      forall {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h -> s.InGapSig P D q k ->
+        (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k)) := by
+  constructor
+  · exact ExactGlobalizeBase_from_fields coverage soundness completeness
+  · intro h k p q hp hq
+    constructor
+    · intro base
+      exact completeness h k p q hp hq base
+    · intro generated
+      cases generated with
+      | intro gen => exact soundness h k p q hp hq gen
+
 theorem ExactGlobalizeBase_covered_classification
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) {h k : s.Hist}

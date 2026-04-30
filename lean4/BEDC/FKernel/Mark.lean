@@ -45,6 +45,12 @@ theorem msame_equivalence :
     · exact msame_symm
     · exact msame_trans
 
+theorem mark_sameness_equivalence :
+    (forall m : BMark, msame m m) /\
+      (forall {m n : BMark}, msame m n -> msame n m) /\
+      (forall {a b c : BMark}, msame a b -> msame b c -> msame a c) := by
+  exact msame_equivalence
+
 theorem msame_internal_equivalence_spine :
     (forall m : BMark, msame m m) /\
       (forall {m n : BMark}, msame m n -> msame n m) /\
