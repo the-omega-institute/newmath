@@ -37,4 +37,20 @@ theorem policy_gap_separation_with_domain_witnesses [AskSetup] [PackageSetup] [D
                             ⟨s, t, hD, hs, ht, hpTok, hqTok, hst,
                               psame.intro hpTok hqTok hst⟩
 
+theorem internalized_gap_separation_packed [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) -> InGapSig bundle D p h /\ InGapSig bundle D q h ->
+      psame bundle p q := by
+  intro policy memberships
+  cases memberships with
+  | intro hp hq =>
+      have witness :=
+        policy_gap_separation_with_domain_witnesses
+          (bundle := bundle) (D := D) (h := h) (p := p) (q := q) policy hp hq
+      cases witness with
+      | intro s rest =>
+          cases rest with
+          | intro t data =>
+              exact data.right.right.right.right.right.right
+
 end BEDC.FKernel.Gap

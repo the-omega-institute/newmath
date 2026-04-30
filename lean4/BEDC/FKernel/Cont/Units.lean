@@ -31,6 +31,11 @@ theorem cont_right_unit_result {h r : BHist} : Cont h BHist.Empty r -> hsame r h
   intro hr
   exact hr
 
+theorem cont_unit_laws_spine :
+    (forall k : BHist, Cont BHist.Empty k k) /\
+      (forall {h r : BHist}, Cont h BHist.Empty r -> hsame r h) := by
+  exact cont_unit_laws
+
 theorem cont_step_result_iff_pair {h k r : BHist} :
     (Cont h (BHist.e0 k) (BHist.e0 r) ↔ Cont h k r) ∧
       (Cont h (BHist.e1 k) (BHist.e1 r) ↔ Cont h k r) := by
