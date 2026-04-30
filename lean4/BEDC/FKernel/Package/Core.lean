@@ -29,6 +29,12 @@ def SignatureTokenGenerator [AskSetup] [PackageSetup] (bundle : ProbeBundle Prob
     (s : BHist) : Prop :=
   ∃ p : Pkg, TokIntro bundle s p
 
+omit [AskSetup] P in
+theorem SignatureTokenGenerator_iff_exists [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s : BHist} :
+    SignatureTokenGenerator bundle s ↔ ∃ p : Pkg, TokIntro bundle s p := by
+  rfl
+
 def PkgSig [AskSetup] [PackageSetup] (bundle : ProbeBundle ProbeName) (s : BHist) (p : Pkg) : Prop :=
   TokIntro bundle s p
 
