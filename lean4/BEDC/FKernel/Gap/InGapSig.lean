@@ -11,6 +11,11 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 
 variable [AskSetup] [PackageSetup] [G : DomainSetup]
+
+def PolicySupportedSignatureGap [AskSetup] [PackageSetup] [DomainSetup]
+    (bundle : ProbeBundle ProbeName) (D : Domain) (p : Pkg) (h : BHist) : Prop :=
+  InGapSig bundle D p h
+
 theorem inGapSig_iff_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ↔ InDom D h ∧ ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p := by

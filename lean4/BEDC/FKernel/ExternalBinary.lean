@@ -249,6 +249,11 @@ theorem external_append_left_cancel : ∀ a b c : BWord, append c a = append c b
       | e0 b => cases h
       | e1 b => exact congrArg BHist.e1 (ih b c (BHist.e1.inj h))
 
+theorem external_append_left_cancel_hsame :
+    ∀ {a b c : BWord}, hsame (append c a) (append c b) → hsame a b := by
+  intro a b c same
+  exact external_append_left_cancel a b c same
+
 theorem external_finite_kernel_soundness :
     (∀ w : BWord, append w BHist.Empty = w) ∧
       (∀ a b c : BWord, append (append a b) c = append a (append b c)) :=
