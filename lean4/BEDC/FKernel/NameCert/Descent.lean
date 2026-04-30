@@ -14,6 +14,17 @@ theorem stableTransformation_descent_and_ledger
       · exact Nonempty.intro { map := map, respects := respects }
       · exact ledger
 
+theorem function_like_interface_seed_not_primitive
+    {Source Target Ledger : Type}
+    {sourceSame : Source -> Source -> Prop}
+    {targetSame : Target -> Target -> Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame) :
+    Nonempty (DescentCertificate Source Target sourceSame targetSame) /\ Nonempty Ledger := by
+  have derived := function_like_interface_seed_is_derived cert
+  constructor
+  · exact derived.left
+  · exact derived.right
+
 theorem stableTransformation_descent_respects_and_ledger
     {Source Target Ledger : Type}
     {sourceSame : Source -> Source -> Prop}

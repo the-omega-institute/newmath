@@ -115,6 +115,16 @@ theorem add_up_certificate_field_witnesses :
       Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
   exact nameCert_field_witnesses add_up_name_certificate
 
+theorem add_up_license_complete :
+    NameCert AddName /\ Nonempty (NameCert AddName) /\ Nonempty SourceSpec /\
+      Nonempty PatternSpec /\ Nonempty ClassifierSpec /\ Nonempty StabilityCert /\
+        Nonempty LedgerPolicy := by
+  constructor
+  · exact add_up_name_certificate
+  · constructor
+    · exact add_up_name_certificate_exists
+    · exact add_up_certificate_field_witnesses
+
 theorem add_up_name_certificate_complete :
     NameCert AddName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧
       Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by

@@ -63,6 +63,21 @@ theorem compGap_coverage_exact
           exact Exists.intro z
             (Exists.intro y (And.intro firstWitness secondWitness))
 
+omit [AskSetup] [PackageSetup] G in
+theorem proof_spine_composite_gap_coverage
+    {Source Inter Final : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall x : Source, exists y : Inter, firstGap y x)
+    (secondCoverage : forall y : Inter, exists z : Final, secondGap z y)
+    {x : Source} :
+    exists z : Final, CompGap firstGap secondGap z x := by
+  cases firstCoverage x with
+  | intro y firstWitness =>
+      cases secondCoverage y with
+      | intro z secondWitness =>
+          exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
+
 theorem compGap_composite_coverage_witness
     {Source Inter Final : Type}
     {SourceOk : Source -> Prop}
