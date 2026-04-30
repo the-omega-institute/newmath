@@ -79,6 +79,12 @@ theorem nat_up_name_certificate_complete :
 theorem nat_up_certificate_has_ledger : Nonempty LedgerPolicy := by
   exact derived_interfaces_have_ledger nat_up_name_certificate
 
+theorem nat_up_certificate_source_and_ledger :
+    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty LedgerPolicy := by
+  constructor
+  · exact nat_up_name_certificate
+  · exact nameCert_source_and_ledger_from_cert nat_up_name_certificate
+
 theorem nat_up_stability_witness : Nonempty StabilityCert := by
   exact Nonempty.intro ()
 

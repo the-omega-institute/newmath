@@ -104,6 +104,11 @@ theorem ExactGlobalizeBase_coverage
     (ex : ExactGlobalizeBase s P D) : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h := by
   exact ex.coverage
 
+theorem ExactGlobalizeBase_coverage_projection
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D) :
+    ∀ h : s.Hist, s.InDom D h → ∃ p : s.Pkg, s.InGapSig P D p h := by
+  exact ex.coverage
+
 theorem ExactGlobalizeBase_coverage_sound_complete
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D) :
     (forall h, s.InDom D h -> exists p, s.InGapSig P D p h) /\
