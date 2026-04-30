@@ -217,6 +217,14 @@ theorem cont_left_unit_result {k r : BHist} : Cont BHist.Empty k r -> hsame r k 
   intro hr
   exact cont_deterministic hr (cont_left_unit k)
 
+theorem cont_left_unit_iff {h r : BHist} : Cont BHist.Empty h r ↔ hsame r h := by
+  constructor
+  · intro hr
+    exact cont_left_unit_result hr
+  · intro same
+    cases same
+    exact cont_left_unit h
+
 theorem cont_left_unit_unique : forall {h k : BHist}, Cont h k k -> hsame h BHist.Empty := by
   intro h k hk
   induction k generalizing h with

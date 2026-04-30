@@ -31,6 +31,10 @@ theorem unary_empty : UnaryHistory BHist.Empty := by
 def UnaryCont (h k r : BHist) : Prop :=
   UnaryHistory h ∧ UnaryHistory k ∧ Cont h k r
 
+theorem UnaryCont_iff_fields {h k r : BHist} :
+    UnaryCont h k r ↔ UnaryHistory h ∧ UnaryHistory k ∧ Cont h k r := by
+  rfl
+
 theorem unary_history_cases {h : BHist} :
     UnaryHistory h -> h = BHist.Empty \/ exists k : BHist, h = BHist.e1 k /\ UnaryHistory k := by
   intro uh

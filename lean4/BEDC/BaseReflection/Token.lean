@@ -61,6 +61,15 @@ theorem TokUnique_replacement_symm
   intro left right
   exact eqv.symm (tok.tokenReplacement left right)
 
+theorem TokUnique_replacement_pair
+    {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y : s.SigObj} {p : s.Pkg} :
+    s.TokIntro P x p → s.TokIntro P y p → s.hsame x y ∧ s.hsame y x := by
+  intro left right
+  constructor
+  · exact tok.tokenReplacement left right
+  · exact eqv.symm (tok.tokenReplacement left right)
+
 theorem TokUnique_replacement_trans
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
