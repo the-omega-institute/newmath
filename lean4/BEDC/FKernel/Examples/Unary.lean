@@ -56,6 +56,15 @@ theorem unary_cont_closed {h k r : BHist} :
   | e1 k ih =>
       exact ih uh uk
 
+theorem unary_cont_result_closed {h k r : BHist} :
+    UnaryHistory h ∧ UnaryHistory k ∧ Cont h k r → UnaryHistory r := by
+  intro packed
+  cases packed with
+  | intro uh rest =>
+      cases rest with
+      | intro uk hr =>
+          exact unary_cont_closed uh uk hr
+
 theorem unary_cont_right_factor {h k r : BHist} :
     Cont h k r → UnaryHistory r → UnaryHistory k := by
   intro hr ur
@@ -102,6 +111,14 @@ def AddName : DerivedName := ()
 
 theorem nat_up_name_certificate : NameCert UnaryName := by
   exact NameCert.mk () () () () ()
+
+theorem nat_up_name_certificate_witnesses :
+    ∃ source : SourceSpec, ∃ pattern : PatternSpec, ∃ classifier : ClassifierSpec,
+      ∃ stability : StabilityCert, ∃ ledger : LedgerPolicy, True := by
+  have cert : NameCert UnaryName := nat_up_name_certificate
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact ⟨source, pattern, classifier, stability, ledger, True.intro⟩
 
 theorem nat_up_name_certificate_exists : Nonempty (NameCert UnaryName) := by
   exact Nonempty.intro nat_up_name_certificate
