@@ -185,6 +185,11 @@ theorem PsameEqClosure_symm {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
   intro h
   exact PsameEqClosure.symm h
 
+theorem PsameEqClosure_trans {s : BaseReflectionSetup} {P : s.Pi} {p q r : s.Pkg} :
+    PsameEqClosure s P p q -> PsameEqClosure s P q r -> PsameEqClosure s P p r := by
+  intro left right
+  exact PsameEqClosure.trans left right
+
 theorem PsameEqClosure_equivalence {s : BaseReflectionSetup} {P : s.Pi} :
     (forall p : s.Pkg, PsameEqClosure s P p p) /\
       (forall {p q : s.Pkg}, PsameEqClosure s P p q -> PsameEqClosure s P q p) /\

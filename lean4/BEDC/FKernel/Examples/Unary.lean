@@ -101,6 +101,11 @@ theorem unary_stability_certificate_fields :
     · intro h uh
       exact unary_no_zero_extension uh
 
+theorem unary_stability_certificate_no_zero_projection {h : BHist} :
+    UnaryHistory (BHist.e0 h) -> False := by
+  intro uh
+  exact unary_no_zero_extension uh
+
 theorem unary_append_closed : ∀ {h k : BHist}, UnaryHistory h -> UnaryHistory k -> UnaryHistory (append h k) := by
   intro h k uh uk
   induction k generalizing h with

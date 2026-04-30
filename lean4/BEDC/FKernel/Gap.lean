@@ -206,6 +206,26 @@ theorem ledger_composition_principle
                         (And.intro hsecond hthird)))
 
 omit [AskSetup] [PackageSetup] G in
+theorem ledger_composition_principle_inverse
+    {A B C D : Type} {first : B -> A -> Prop} {second : C -> B -> Prop}
+    {third : D -> C -> Prop} {z : D} {x : A} :
+    (exists b : B, exists c : C, first b x /\ second c b /\ third z c) ->
+      CompGap (fun c a => CompGap first second c a) third z x := by
+  intro witnesses
+  cases witnesses with
+  | intro b rest =>
+      cases rest with
+      | intro c data =>
+          cases data with
+          | intro hfirst tail =>
+              cases tail with
+              | intro hsecond hthird =>
+                  exact Exists.intro c
+                    (And.intro
+                      (Exists.intro b (And.intro hfirst hsecond))
+                      hthird)
+
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_left_witness
     {Source Inter Final : Type}
     {firstGap : Inter → Source → Prop}
