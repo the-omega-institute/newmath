@@ -15,7 +15,7 @@ The boolean interface \(\BoolUp\) is licensed by raw mark sameness on the two-el
   \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, and the history core $\NameCert$.
   \item \textbf{Exactness predicate}: the two endpoints are exactly the $\bzero$ and $\bone$ branches licensed by $\msame$.
   \item \textbf{Standard bridge}: false and true are read back as the two finite-kernel marks.
-  \item \textbf{Status}: $\mathsf{CheckedCert}$, with the boolean history core $\NameCert$ checked in Lean.
+  \item \textbf{Status}: $\mathsf{CheckedCert}$ for the boolean history core $\NameCert$ and $\mathsf{ProofTarget}$ for the semantic history certificate.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -292,44 +292,41 @@ Record the raw source mark for every visible boolean class.
 \end{definition}
 \leandef{BEDC.Derived.BoolUp.BoolLedgerPolicy}
 
+\begin{definition}[Bool history pattern]
+\label{def:bool-history-pattern}
+For a BEDC history $h$, $\mathsf{BoolHistoryPattern}(h)$ holds exactly when
+$\hsame(h,\emp)$ or $\hsame(h,\Eone(\emp))$.
+\end{definition}
+
+\begin{definition}[Bool history ledger]
+\label{def:bool-history-ledger}
+For a BEDC history $h$, $\mathsf{BoolHistoryLedger}(h)$ records the visible
+endpoint: either $h$ is internally the empty endpoint $\emp$, or $h$ is
+internally the one endpoint $\Eone(\emp)$.
+\end{definition}
+
 \begin{theorem}[Concrete \(\BoolUp\) naming certificate]
 \label{thm:concrete-bool-namecert}
 The history carrier $\mathsf{BoolHistoryCarrier}$ and classifier $\mathsf{BoolHistoryClassifier}$ form a core $\NameCert$ for $\BoolUp$.
 \end{theorem}
 \leanchecked{BEDC.Derived.BoolUp.bool\_history\_name\_certificate}
 
-\begin{definition}[Bool history semantic fields]
-\label{def:bool-history-semantic-fields}
-The history-level semantic fields used by the boolean certificate are predicates
-on $\mathsf{BHist}$.  For a BEDC history $h$,
-$$
-  \mathsf{BoolHistoryPattern}(h)
-  \quad\text{and}\quad
-  \mathsf{BoolHistoryLedger}(h)
-$$
-both mean that $h$ is internally the same as one of the two visible boolean
-endpoints:
-$$
-  \hsame(h,\emp)
-  \quad\text{or}\quad
-  \hsame(h,\Eone(\emp)).
-$$
-\end{definition}
-
 \begin{theorem}[BoolUp semantic certificate target]
 \label{thm:bool-semantic-namecert-target}
-For $\mathsf{BoolHistoryCarrier}$, the checked core certificate assembles with
-the history predicates $\mathsf{BoolHistoryPattern}$ and
-$\mathsf{BoolHistoryLedger}$ into the paper-side target
-$\mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryPattern},\mathsf{BoolHistoryLedger},\mathsf{BoolHistoryClassifier})$.
+For $\mathsf{BoolHistoryCarrier}$, the checked core certificate supplies the
+$\NameCert$ component of the paper-side target
+$$
+\mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryPattern},
+\mathsf{BoolHistoryLedger},\mathsf{BoolHistoryClassifier}).
+$$
 \end{theorem}
 \begin{proof}
-Use the checked core certificate $\mathsf{bool\_history\_name\_certificate}$ as
-the $\NameCert$ component.  A carrier witness for a licensed boolean history is
-already one of the two endpoint cases $\hsame(h,\emp)$ or
-$\hsame(h,\Eone(\emp))$, so the pattern and ledger fields have the required
-history-level type $\mathsf{BHist}\to\mathsf{Prop}$.  These three fields are
-exactly the constructor data for the corresponding semantic naming certificate.
+Use the checked core certificate
+$\mathsf{bool\_history\_name\_certificate}$ as the $\NameCert$ component. A
+carrier witness for a boolean history has exactly the empty-endpoint or
+one-endpoint form, so it gives the pattern soundness field for
+$\mathsf{BoolHistoryPattern}$ and the ledger soundness field for
+$\mathsf{BoolHistoryLedger}$.
 \end{proof}
 
 \begin{corollary}[\(\BoolUp\) is licensed, not primitive]
