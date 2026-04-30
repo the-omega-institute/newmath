@@ -145,6 +145,16 @@ theorem nat_up_name_certificate_complete :
       Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
   exact And.intro nat_up_name_certificate nat_up_certificate_field_witnesses
 
+theorem nat_up_name_certificate_field_nonempty_pack :
+    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧
+      Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  have cert : NameCert UnaryName := nat_up_name_certificate
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact ⟨NameCert.mk source pattern classifier stability ledger,
+        Nonempty.intro source, Nonempty.intro pattern, Nonempty.intro classifier,
+        Nonempty.intro stability, Nonempty.intro ledger⟩
+
 theorem nat_up_certificate_license_and_fields :
     NameCert UnaryName ∧ Nonempty (NameCert UnaryName) ∧ Nonempty SourceSpec ∧
       Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧
