@@ -354,16 +354,16 @@ induction hypothesis gives equality of tail lengths, and the two cons lengths
 are equal.
 \end{proof}
 
-\begin{definition}[List stability certificate]
+\begin{definition}[Finite-spine helper stability certificate]
 \label{def:list-stability-certificate}
-The machine-checked ListUp stability fields recorded here are finite-spine
-$\mathsf{ListClassifierSpec}$ fields: reflexivity, symmetry, transitivity from
-the source $\NameCert$, nil/cons no-confusion with cons head/tail inversion,
-constructor-map preservation/reflection for $e0$ and $e1$ with mixed-tag
-separation, append stability with left, right, and two-sided cancellation,
-reverse preservation/reflection/equivalence, and length preservation.
-History-level $\mathsf{ListSpineBridgeClassifier}$ obtains transitivity only
-under $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$, via Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence}.
+The checked facts recorded here are finite-spine helper facts for $\mathsf{ListClassifierSpec}$:
+reflexivity, symmetry, transitivity from the source $\NameCert$,
+nil/cons no-confusion with cons head/tail inversion,
+constructor-map preservation/reflection for $e0$ and $e1$ with mixed-tag separation,
+append stability with cancellation, reverse equivalence, and length preservation.
+They are not the public generated-history $\ListUp$ certificate:
+that certificate is obtained only through $\mathsf{ListSpineRep}$,
+$\mathsf{ListSpineBridgeClassifier}$, $\mathsf{ListSpineRepCoherent}$, and Theorem~\ref{thm:concrete-list-namecert}.
 \end{definition}
 
 \begin{theorem}[List classifier reflexivity]
@@ -745,7 +745,7 @@ recovered tail carrier witness, the continuation witness, and the displayed
 $\hsame(h,\Eone(p))$ endpoint.
 \end{proof}
 
-\begin{theorem}[Conditional concrete $\ListUp$ certificate target]
+\begin{theorem}[Conditional $\ListUp$ semantic certificate from the spine bridge]
 \label{thm:concrete-list-namecert}
 Given a BEDC history source carrier $A : \mathsf{BHist} \to \mathsf{Prop}$,
 source classifier $\sim_A$, source certificate
@@ -759,7 +759,7 @@ Theorem~\ref{thm:list-spine-representation-exactness} as its finite-spine
 exactness theorem, take $\mathsf{ListHistoryPattern}_A$ from
 Definition~\ref{def:list-history-pattern} as the pattern, and take
 $\mathsf{ListHistoryLedger}_A$ from Definition~\ref{def:list-history-ledger}
-as the ledger. Under the source $\NameCert$ and the spine-coherence witness,
+as the ledger. The host-list spine model is a presentation witness, not the exported carrier. Under the source $\NameCert$ and the spine-coherence witness,
 these fields form the paper-side target
 $\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,\mathsf{ListHistoryPattern}_A,\mathsf{ListHistoryLedger}_A,\mathsf{ListHistoryClassifier}_{A,\sim_A})$
 for $\ListUp(A)$.

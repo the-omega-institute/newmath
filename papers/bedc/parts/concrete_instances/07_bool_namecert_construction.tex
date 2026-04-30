@@ -40,6 +40,24 @@ The source specification for \(\BoolUp\) is the mark-level classifier generated 
 \leandef{BEDC.Derived.BoolUp.BoolSourceSpec}
 \leandef{BEDC.Derived.BoolUp.BoolHistoryCarrier}
 
+\begin{definition}[Bool endpoint embedding]
+\label{def:bool-endpoint-embedding}
+The endpoint map $\mathsf{BoolEndpoint}:\mathsf{BMark}\to\mathsf{BHist}$ sends the two traditional boolean points from the BEDC mark source into the displayed history endpoints:
+$$
+  \mathsf{BoolEndpoint}(\bzero)=\emp,\qquad
+  \mathsf{BoolEndpoint}(\bone)=\Eone(\emp).
+$$
+The carrier endpoint choice is therefore $\mathsf{BoolHistoryCarrier}$, the classifier transport target is $\mathsf{BoolHistoryClassifier}$, the stability obligation is endpoint carrier and classifier preservation, and the ledger displays exactly these two endpoint encodings.
+\end{definition}
+
+\begin{theorem}[Bool endpoint bridge]
+\label{thm:bool-endpoint-bridge}
+For every $v:\mathsf{BMark}$, $\mathsf{BoolHistoryCarrier}(\mathsf{BoolEndpoint}(v))$. For all $v,w:\mathsf{BMark}$, if $\mathsf{BoolClassifierSpec}(v,w)$ holds, then $\mathsf{BoolHistoryClassifier}(\mathsf{BoolEndpoint}(v),\mathsf{BoolEndpoint}(w))$ holds. Equivalently, the source classifier $\msame$ on $\bzero$ and $\bone$ transports to the history classifier on $\emp$ and $\Eone(\emp)$, the two endpoint coverages are exact, and the standard false/true reading is the displayed endpoint encoding. This endpoint bridge is a $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Proceed by cases on the mark constructors. The $\bzero$ branch reduces the carrier witness to the empty-history endpoint; the $\bone$ branch reduces it to the one-extension endpoint. For classifier transport, eliminate the $\msame$ witness in $\mathsf{BoolClassifierSpec}(v,w)$, so the two marks are the same constructor, then use the corresponding endpoint carrier witness together with reflexivity of history sameness. The mixed constructor cases are excluded by mark no-confusion.
+\end{proof}
+
 \begin{theorem}[Bool source respects mark sameness]
 \label{thm:bool-source-spec-respects-msame}
 If \(v\) satisfies \(\mathsf{BoolSourceSpec}\) and \(\msame(v,w)\), then \(w\) also satisfies \(\mathsf{BoolSourceSpec}\).
