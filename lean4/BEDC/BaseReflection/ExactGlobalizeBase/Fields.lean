@@ -213,6 +213,10 @@ theorem ExactGlobalizeBase_notExported_public_shape
   · intro h k p q hp hq
     exact ExactGlobalizeBase_classify_iff ex hp hq
 
+theorem not_exported {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) : NotExported s P D ex := by
+  exact NotExported_from_exact ex
+
 theorem ExactGlobalizeBase_no_closure_export_sound_complete_pair
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) {h k : s.Hist} {p q : s.Pkg}

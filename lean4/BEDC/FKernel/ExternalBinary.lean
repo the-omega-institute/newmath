@@ -17,6 +17,9 @@ abbrev Mbin : Type := BWord
 theorem Mbin_eq_BHist : Mbin = BHist := by
   rfl
 
+theorem external_model_mbin : Mbin = BHist := by
+  exact Mbin_eq_BHist
+
 theorem Mbin_reuses_kernel_history : (Mbin = BHist) ∧ (BWord = BHist) := by
   constructor
   · rfl
