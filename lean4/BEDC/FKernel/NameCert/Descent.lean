@@ -14,6 +14,17 @@ theorem stableTransformation_descent_and_ledger
       · exact Nonempty.intro { map := map, respects := respects }
       · exact ledger
 
+theorem StableTransformation_descentCertificate_respects_projection
+    {Source Target Ledger : Type}
+    {sourceSame : Source -> Source -> Prop}
+    {targetSame : Target -> Target -> Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame) :
+    exists descent : DescentCertificate Source Target sourceSame targetSame,
+      forall {a b : Source}, sourceSame a b -> targetSame (descent.map a) (descent.map b) := by
+  cases cert with
+  | mk map respects ledger =>
+      exact ⟨{ map := map, respects := respects }, fun {a b} same => respects same⟩
+
 theorem function_like_interface_seed_not_primitive
     {Source Target Ledger : Type}
     {sourceSame : Source -> Source -> Prop}

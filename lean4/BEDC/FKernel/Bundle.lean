@@ -39,6 +39,22 @@ theorem inBundle_cons_cons_tail {PName : Type} {x p q : PName}
   intro h
   exact Or.inr (Or.inr h)
 
+theorem inBundle_cons_cons_tail_iff_of_head_ne {PName : Type} {x p q : PName}
+    {tail : ProbeBundle PName} :
+    x ≠ p →
+      (InBundle x (ProbeBundle.Bcons p (ProbeBundle.Bcons q tail)) ↔
+        x = q ∨ InBundle x tail) := by
+  intro hne
+  constructor
+  · intro h
+    cases h with
+    | inl hp =>
+        exact False.elim (hne hp)
+    | inr htail =>
+        exact htail
+  · intro h
+    exact Or.inr h
+
 theorem inBundle_cons_inversion {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
     InBundle p (ProbeBundle.Bcons q tail) -> p = q \/ InBundle p tail := by
   intro h

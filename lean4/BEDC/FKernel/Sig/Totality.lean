@@ -44,6 +44,18 @@ theorem sig_total_unique_from_policy [AskSetup] {bundle : ProbeBundle ProbeName}
   | intro s hsig =>
       exact ⟨s, hsig, fun {t} ht => sig_deterministic policy hd ht hsig⟩
 
+theorem sig_total_unique_pair_from_policy [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : AskPolicy D) {h : BHist} :
+    D h ->
+      exists s : BHist, SigRel bundle h s /\
+        forall {t : BHist}, SigRel bundle h t -> hsame s t := by
+  intro hd
+  cases sig_total_unique_from_policy (bundle := bundle) (D := D) policy hd with
+  | intro s data =>
+      cases data with
+      | intro hsig unique =>
+          exact ⟨s, hsig, fun {t} ht => hsame_symm (unique ht)⟩
+
 theorem sigTotalOn_cons_iff [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
     {D : BHist -> Prop} :
     SigTotalOn (ProbeBundle.Bcons pi tail) D <->
