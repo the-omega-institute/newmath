@@ -51,6 +51,13 @@ For each target in the list above:
 5. If the target removes dead material: delete the entire block AND any references to its label elsewhere in the paper (`grep -rn "<label>" papers/bedc/`). A dangling `\autoref` is a build failure.
 6. If the target tightens or generalizes a statement: update both the theorem block AND its proof to match the new statement. Do not leave a proof that proves the OLD statement attached to the NEW statement.
 7. If the target requires touching Lean code: edit `lean4/BEDC/...`, write a real proof (no `sorry`, no `axiom`), and verify with `cd lean4 && lake build` that it compiles.
+8. If the target's `kind` is `theory_extension` (a new theorem awaiting formalization):
+   - Insert a new `\begin{theorem}[<short title>]\label{thm:<concept>}` / `\begin{lemma}` / `\begin{definition}` block at the chapter location given by `paper_files`. Pick a thematically correct subsection — adjacent to similar results.
+   - State the theorem precisely. Use only `$…$` and `$$…$$` math. Reference concrete BEDC kernel/setup objects by name (BMark, BHist, msame, hsame, Pkg, NameCert, etc.) — do not introduce abstract Prop placeholders.
+   - Write a brief PROSE proof sketch in `\begin{proof}…\end{proof}` describing the constructive strategy (which constructor / which existing checked theorem / which induction). The sketch is informational; it does not need to be machine-checkable.
+   - Do **NOT** add `\leanchecked`, `\leanvariant`, `\leanstmt`, or `\leandef`. The Lean side runs an independent formalize pipeline that scans `papers/bedc/parts/` for theorem sites without markers and picks them up. Adding a marker now would point at a non-existent Lean target and fail the drift audit.
+   - Do **NOT** introduce a new `inductive` type or new `class` field merely to support the proposed theorem. The proposal must be statable using existing kernel + setup objects.
+   - Do **NOT** edit `lean4/BEDC/...` for a theory_extension target. Paper proposes; Lean implements separately.
 
 ## Step 2: Compile the paper
 ```bash
