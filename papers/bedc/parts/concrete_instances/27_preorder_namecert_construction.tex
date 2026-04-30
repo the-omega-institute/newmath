@@ -42,6 +42,15 @@ If \(h\le k\) is witnessed by a unary continuation tail, and \(k\) continues by 
 Unpack the first prefix witness as a unary tail from \(h\) to \(k\). Compose this continuation with the continuation from \(k\) to \(r\); associativity of continuation supplies the resulting path from \(h\), and unary closure under append supplies the combined unary tail.
 \end{proof}
 
+\begin{theorem}[Prefix target remains in the preorder carrier]
+\label{thm:preorder-prefix-target-carrier}
+For the history preorder carrier, if \(h\) is unary and \(k\) is reached from \(h\) by a unary continuation tail, then \(k\) is also unary.
+\end{theorem}
+\begin{proof}
+Unpack the prefix relation into a unary tail and a continuation witness. Unary closure under continuation sends the source carrier witness and the tail witness to the target history.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_target\_carrier}
+
 \begin{definition}[Preorder stability certificate]
 \label{def:preorder-stability-certificate}
 The stability certificate consists of:

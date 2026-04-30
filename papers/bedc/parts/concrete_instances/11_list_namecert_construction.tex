@@ -56,6 +56,15 @@ Induct on the first list. Shape mismatches are impossible by the classifier clau
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_symm}
 
+\begin{theorem}[History list classifier preserves length]
+\label{thm:list-classifier-hsame-length-eq}
+For lists of finite-kernel histories, structural classification by \(\hsame\) can only relate lists with equal length.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Nil can only classify with nil. In the cons case, classifier inversion forces the second list to be cons, and the induction hypothesis gives equality of the tail lengths.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_length\_eq}
+
 \begin{definition}[List stability certificate]
 \label{def:list-stability-certificate}
 The stability certificate consists of:

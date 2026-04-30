@@ -9,6 +9,15 @@ open BEDC.FKernel.Unary
 def PositiveUnaryDenominator (den : BHist) : Prop :=
   ∃ tail : BHist, hsame den (BHist.e1 tail) ∧ UnaryHistory tail
 
+theorem PositiveUnaryDenominator_hsame_transport {d e : BHist} :
+    hsame d e -> PositiveUnaryDenominator d -> PositiveUnaryDenominator e := by
+  intro same positive
+  cases positive with
+  | intro tail data =>
+      cases data with
+      | intro denSame tailUnary =>
+          exact ⟨tail, hsame_trans (hsame_symm same) denSame, tailUnary⟩
+
 def rat_classifier_spec_trans_positive_unary_denominator_carrier
     (sign : BEDC.FKernel.Mark.BMark)
     (numerator denominator : BEDC.FKernel.Hist.BHist) : Prop :=

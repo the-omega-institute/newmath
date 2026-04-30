@@ -15,6 +15,15 @@ def PreorderCarrier (h : BHist) : Prop :=
 def PreorderPrefixLE (h k : BHist) : Prop :=
   ∃ tail : BHist, UnaryHistory tail ∧ Cont h tail k
 
+theorem PreorderPrefixLE_target_carrier {h k : BHist} :
+    PreorderCarrier h -> PreorderPrefixLE h k -> PreorderCarrier k := by
+  intro carrier prefixWitness
+  cases prefixWitness with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary cont =>
+          exact unary_cont_closed carrier tailUnary cont
+
 def PreorderClassifierSpec (h k : BHist) : Prop :=
   hsame h k
 

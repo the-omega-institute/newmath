@@ -179,6 +179,30 @@ theorem ListClassifierSpec_hsame_symm :
               · exact BEDC.FKernel.Hist.hsame_symm hhead
               · exact ih htail
 
+theorem ListClassifierSpec_hsame_length_eq :
+    forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
+        xs.length = ys.length := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro ys same
+      cases ys with
+      | nil =>
+          rfl
+      | cons _ _ =>
+          cases same
+  | cons _ xs ih =>
+      intro ys same
+      cases ys with
+      | nil =>
+          cases same
+      | cons _ ys =>
+          cases same with
+          | intro headSame tailSame =>
+              cases headSame
+              exact congrArg Nat.succ (ih tailSame)
+
 theorem ListClassifierSpec_append_hsame
     {xs ys zs ws : ListCarrier BEDC.FKernel.Hist.BHist} :
     ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
