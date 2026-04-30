@@ -86,6 +86,15 @@ theorem nameCert_equiv_refl
   | mk _ equiv_refl _ _ _ =>
       exact equiv_refl carrier
 
+theorem nameCert_equiv_trans
+    {Carrier : BEDC.FKernel.Hist.BHist -> Prop}
+    {Equiv : BEDC.FKernel.Hist.BHist -> BEDC.FKernel.Hist.BHist -> Prop}
+    (cert : BEDC.FKernel.NameCert.NameCert Carrier Equiv)
+    {h k r : BEDC.FKernel.Hist.BHist} :
+    Equiv h k -> Equiv k r -> Equiv h r := by
+  intro sameHK sameKR
+  exact BEDC.FKernel.NameCert.NameCert.equiv_trans cert sameHK sameKR
+
 theorem nameCert_carrier_transport
     {Carrier : BHist -> Prop}
     {Equiv : BHist -> BHist -> Prop}

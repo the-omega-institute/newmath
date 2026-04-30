@@ -41,6 +41,44 @@ theorem listClassifier_refl {α : Type} {sourceSame : α → α → Prop}
       · exact sourceRefl x
       · exact ih
 
+theorem ListClassifierSpec_trans {A : Type} {rel : A → A → Prop}
+    (rel_trans : ∀ {a b c : A}, rel a b → rel b c → rel a c) :
+    ∀ {xs ys zs : BEDC.Derived.ListUp.ListCarrier A},
+      BEDC.Derived.ListUp.ListClassifierSpec rel xs ys →
+        BEDC.Derived.ListUp.ListClassifierSpec rel ys zs →
+          BEDC.Derived.ListUp.ListClassifierSpec rel xs zs := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro ys zs hxy hyz
+      cases ys with
+      | nil =>
+          cases zs with
+          | nil =>
+              change BEDC.Derived.ListUp.ListClassifierSpec rel [] []
+              constructor
+          | cons z zs =>
+              cases hyz
+      | cons y ys =>
+          cases hxy
+  | cons x xs ih =>
+      intro ys zs hxy hyz
+      cases ys with
+      | nil =>
+          cases hxy
+      | cons y ys =>
+          cases zs with
+          | nil =>
+              cases hyz
+          | cons z zs =>
+              cases hxy with
+              | intro hxyHead hxyTail =>
+                  cases hyz with
+                  | intro hyzHead hyzTail =>
+                      constructor
+                      · exact rel_trans hxyHead hyzHead
+                      · exact ih hxyTail hyzTail
+
 theorem ListClassifierSpec_hsame_trans :
     forall {xs ys zs : ListCarrier BEDC.FKernel.Hist.BHist},
       ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->

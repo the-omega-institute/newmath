@@ -54,4 +54,18 @@ The source specification for \(\IntUp\) is exactly the signed unary integer carr
 This is a direct definitional identification of the source specification with the carrier predicate.
 \end{proof}
 
+\begin{definition}[Integer classifier specification]
+\label{def:intup-classifier-specification}
+The classifier for two signed unary representatives requires both representatives to be in the integer carrier, their signs to be mark-same, and their magnitudes to be history-same:
+\[
+  \mathsf{IntClassifierSpec}((s,h),(t,k))
+  :=
+  \mathsf{IntCarrier}(s,h)\land
+  \mathsf{IntCarrier}(t,k)\land
+  \msame(s,t)\land
+  \hsame(h,k).
+\]
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntClassifierSpec}
+
 \section{The certificate}

@@ -29,6 +29,15 @@ The classifier relates nil with nil and cons with cons when heads are source-cla
 \end{definition}
 \leandef{BEDC.Derived.ListUp.ListClassifierSpec}
 
+\begin{theorem}[List classifier is transitive]
+\label{thm:list-classifier-transitivity}
+For any transitive source classifier on \(A\), the structural list classifier lifted from it is transitive on \(\ListUp(A)\).
+\end{theorem}
+\begin{proof}
+Induct on the first list. Shape mismatches are impossible by the classifier clauses. In the cons-cons-cons case, the head witnesses compose by source transitivity and the tail witnesses compose by the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_trans}
+
 \begin{theorem}[History list classifier is transitive]
 \label{thm:list-classifier-hsame-trans}
 For lists of finite-kernel histories, if the structural list classifier relates \(x\) to \(y\) and \(y\) to \(z\) using \(\hsame\) on heads, then it relates \(x\) to \(z\).
