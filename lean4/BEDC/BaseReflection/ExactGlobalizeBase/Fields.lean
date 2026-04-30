@@ -72,6 +72,27 @@ theorem ExactGlobalizeBase_admitted_pair_export_shape
       | intro q hq =>
           exact ⟨ex, p, q, hp, hq, ExactGlobalizeBase_classify_iff ex hp hq⟩
 
+theorem ExactGlobalizeBase_from_fields_admitted_pair_export
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (coverage : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h)
+    (soundness : ∀ h k p q,
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      GeneratedSameSig s P h k → PsameBase s P p q)
+    (completeness : ∀ h k p q,
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      PsameBase s P p q → Nonempty (GeneratedSameSig s P h k))
+    {h k : s.Hist} (hdom : s.InDom D h) (kdom : s.InDom D k) :
+    ExactGlobalizeBase s P D ∧ ∃ p : s.Pkg, ∃ q : s.Pkg,
+      s.InGapSig P D p h ∧ s.InGapSig P D q k ∧
+        (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  have ex : ExactGlobalizeBase s P D :=
+    ExactGlobalizeBase_from_fields coverage soundness completeness
+  cases coverage h hdom with
+  | intro p hp =>
+      cases coverage k kdom with
+      | intro q hq =>
+          exact ⟨ex, p, q, hp, hq, ExactGlobalizeBase_classify_iff ex hp hq⟩
+
 theorem ExactGlobalizeBase_covered_sound_complete
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) {h k : s.Hist}

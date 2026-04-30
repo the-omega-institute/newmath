@@ -121,6 +121,12 @@ theorem PsameSig_constructor_inversion
   | intro left right same =>
       exact Exists.intro _ (Exists.intro _ (And.intro left (And.intro right same)))
 
+theorem PsameSig_iff_constructor_witnesses
+    {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameSig s P p q ↔ ∃ x : s.SigObj, ∃ y : s.SigObj,
+      s.TokIntro P x p ∧ s.TokIntro P y q ∧ s.hsame x y := by
+  exact PsameBase_iff_constructor_witnesses
+
 inductive PsameEqClosure (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop where
   | refl {p : s.Pkg} : PsameEqClosure s P p p
   | base {p q : s.Pkg} : PsameBase s P p q → PsameEqClosure s P p q
