@@ -123,6 +123,18 @@ theorem unary_repetition_continuation_closed {h k r : BHist} :
   | e1 k ih =>
       exact ih uh uk
 
+theorem unary_repetition_closed_under_continuation_seed {h k r : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → UnaryHistory r := by
+  intro uh uk hr
+  cases hr
+  induction k generalizing h with
+  | Empty =>
+      exact uh
+  | e0 k ih =>
+      cases uk
+  | e1 k ih =>
+      exact ih uh uk
+
 theorem unary_cont_right_factor {h k r : BHist} :
     Cont h k r → UnaryHistory r → UnaryHistory k := by
   intro hr ur

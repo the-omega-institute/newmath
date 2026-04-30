@@ -230,6 +230,13 @@ theorem package_reflection {bundle : ProbeBundle ProbeName} {s t : BHist} {p q :
   intro policy hp hq hpq
   exact policy.reflection hp hq hpq
 
+theorem concrete_package_completeness_policy_grounded
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t := by
+  intro hp hq hpq
+  exact policy.reflection hp hq hpq
+
 theorem packageTokenPolicy_from_reflection
     {bundle : ProbeBundle ProbeName}
     (reflection :

@@ -8,10 +8,12 @@ Unary repetition histories are histories generated from \(\emp\) by repeated \(\
 \end{definition}
 
 \begin{proposition}[Unary repetition is closed under continuation]
+\label{prop:unary-repetition-closed-under-continuation}
 If \(h\) and \(k\) are unary repetition histories and \(\ContR(h,k,r)\), then \(r\) is a unary repetition history.
 \end{proposition}
+\leanchecked{BEDC.FKernel.Examples.Unary.unary\_repetition\_closed\_under\_continuation\_seed}
 \begin{proof}
-Induct on the derivation of \(\ContR(h,k,r)\). The empty case returns \(k\). The only extension case possible for unary repetition is the \(\Eone\)-case, which preserves unary repetition by the induction hypothesis.
+Read \(\ContR(h,k,r)\) as append equality and induct on the right unary history \(k\). The empty case returns \(h\). The \(\Ezero\)-case is incompatible with unary repetition, and the \(\Eone\)-case follows from the induction hypothesis.
 \end{proof}
 
 \begin{corollary}[Natural-number-like interface seed]
