@@ -15,6 +15,20 @@ def ComplexHistoryClassifier (h k : BHist) : Prop :=
   BEDC.Derived.ProdUp.ProdHistoryClassifier BEDC.Derived.RatUp.RatHistoryCarrier
     BEDC.Derived.RatUp.RatHistoryCarrier h k
 
+theorem ComplexHistoryClassifier_trans {h k r : BHist} :
+    ComplexHistoryClassifier h k -> ComplexHistoryClassifier k r ->
+      ComplexHistoryClassifier h r := by
+  intro classifiedHK classifiedKR
+  cases classifiedHK with
+  | intro carrierH restHK =>
+      cases restHK with
+      | intro _ sameHK =>
+          cases classifiedKR with
+          | intro _ restKR =>
+              cases restKR with
+              | intro carrierR sameKR =>
+                  exact And.intro carrierH (And.intro carrierR (hsame_trans sameHK sameKR))
+
 theorem complex_history_semantic_name_certificate :
     SemanticNameCert ComplexHistoryCarrier ComplexHistoryCarrier ComplexHistoryCarrier
       ComplexHistoryClassifier := by

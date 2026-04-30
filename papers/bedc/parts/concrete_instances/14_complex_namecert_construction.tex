@@ -40,6 +40,20 @@ carriers.
 \end{definition}
 \leandef{BEDC.Derived.ComplexUp.ComplexHistoryClassifier}
 
+\begin{theorem}[Complex history classifier transitivity]
+\label{thm:complex-history-classifier-transitivity}
+If a complex history classifier relates \(h\) to \(k\), and also relates
+\(k\) to \(r\), then it relates \(h\) to \(r\). The left endpoint carrier is
+taken from the first classification, the right endpoint carrier is taken from
+the second classification, and the history-sameness witnesses compose.
+\end{theorem}
+\begin{proof}
+Unfolding the classifier exposes the two endpoint carrier witnesses together
+with two \(hsame\) links. The endpoint carriers are preserved at the outside
+of the chain, and the internal links compose by transitivity of \(hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_trans}
+
 \begin{definition}[Complex stability certificate]
 \label{def:complex-stability-certificate}
 The stability certificate consists of:

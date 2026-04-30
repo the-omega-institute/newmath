@@ -288,6 +288,68 @@ class QualityGateTests(unittest.TestCase):
 
             self.assertEqual(violations, [])
 
+    def test_verify_filters_rebased_upstream_commits_to_round_commit(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            subprocess.run(["git", "checkout", "-q", "-b", "upstream"], cwd=root, check=True)
+            tex = root / "papers" / "bedc" / "parts" / "core" / "base.tex"
+            tex.write_text(
+                tex.read_text(encoding="utf-8")
+                + "\\leanchecked{BEDC.existing\_kernel\_theorem}\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "upstream marker"], cwd=root, check=True)
+            upstream_sha = subprocess.run(
+                ["git", "rev-parse", "HEAD"], cwd=root, check=True, text=True, capture_output=True
+            ).stdout.strip()
+
+            subprocess.run(["git", "checkout", "-q", "-B", "test", base_sha], cwd=root, check=True)
+            subprocess.run(["git", "rebase", "upstream"], cwd=root, check=True)
+            (root / "lean4" / "BEDC" / "FKernel" / "Fresh.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "def fresh_history : BEDC.BHist := BEDC.BHist.empty\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "R1: prove fresh history"], cwd=root, check=True)
+            wt = cf.WorktreeInfo(
+                path=root,
+                branch="test",
+                round_number=1,
+                base_sha=base_sha,
+                formalization_base_sha=base_sha,
+            )
+            patched = [
+                "detect_signature_degradation",
+                "detect_forbidden_target_paths",
+                "detect_oversized_lean_files",
+                "detect_shell_pattern",
+                "detect_register_only_round",
+                "detect_hollow_semantic_patterns",
+                "detect_new_leanvariant_markers",
+                "detect_markers_not_backed_by_new_decls",
+                "detect_decls_without_kernel_touchpoint",
+                "detect_shallow_growth_patterns",
+                "detect_sorry_literals",
+                "detect_duplicate_symbols",
+            ]
+            originals = {name: getattr(cf, name) for name in patched}
+            try:
+                for name in patched:
+                    setattr(cf, name, lambda _wt: [])
+
+                ok, new = cf.verify_worktree_commits(wt, [])
+            finally:
+                for name, value in originals.items():
+                    setattr(cf, name, value)
+
+            self.assertTrue(ok)
+            self.assertEqual(len(new), 1)
+            self.assertIn("R1: prove fresh history", new[0])
+            self.assertEqual(wt.formalization_base_sha, upstream_sha)
+
     def test_new_declaration_without_kernel_touchpoint_is_rejected(self):
         td, root, base_sha = self.init_repo()
         with td:
