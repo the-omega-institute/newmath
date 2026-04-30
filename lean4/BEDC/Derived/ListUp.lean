@@ -283,6 +283,32 @@ theorem ListClassifierSpec_hsame_map_e1_inversion :
               · exact BEDC.FKernel.Hist.hsame_e1_iff.mp head
               · exact ih tail
 
+theorem ListClassifierSpec_hsame_map_e0_map_e1_empty :
+    forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
+      ListClassifierSpec BEDC.FKernel.Hist.hsame
+        (xs.map BEDC.FKernel.Hist.BHist.e0) (ys.map BEDC.FKernel.Hist.BHist.e1) ->
+        xs = [] /\ ys = [] := by
+  intro xs
+  cases xs with
+  | nil =>
+      intro ys same
+      cases ys with
+      | nil =>
+          constructor
+          · rfl
+          · rfl
+      | cons _ _ =>
+          cases same
+  | cons _ _ =>
+      intro ys same
+      cases ys with
+      | nil =>
+          cases same
+      | cons _ _ =>
+          cases same with
+          | intro headSame _ =>
+              exact False.elim (BEDC.FKernel.Hist.not_hsame_e0_e1 headSame)
+
 theorem ListClassifierSpec_hsame_length_eq :
     forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
       ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
