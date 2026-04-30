@@ -78,6 +78,17 @@ theorem unary_append_comm_hsame :
       exact (hsame_e1_congr (ih uh uk)).trans
         (unary_append_e1_left (h := h) (k := k) uh).symm
 
+theorem unary_append_comm_with_closed_results {h k : BHist} :
+    UnaryHistory h → UnaryHistory k →
+      hsame (append h k) (append k h) ∧
+        UnaryHistory (append h k) ∧ UnaryHistory (append k h) := by
+  intro uh uk
+  constructor
+  · exact unary_append_comm_hsame uh uk
+  · constructor
+    · exact unary_append_closed uh uk
+    · exact unary_append_closed uk uh
+
 theorem unary_cont_comm {h k r r' : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
   intro uh uk hr hr'

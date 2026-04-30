@@ -107,4 +107,10 @@ theorem ext_result_for_mark {h r : BHist} {m : BMark} :
     · cases hm
     · rfl
 
+theorem ext_b0_result_hsame {h r : BHist} :
+    Ext h BMark.b0 r -> hsame r (BHist.e0 h) := by
+  intro hr
+  cases hr
+  rfl
+
 end BEDC.FKernel.Ext

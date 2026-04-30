@@ -23,6 +23,11 @@ theorem inBundle_cons_self {PName : Type} (p : PName) (tail : ProbeBundle PName)
     InBundle p (ProbeBundle.Bcons p tail) := by
   exact Or.inl rfl
 
+theorem inBundle_cons_of_eq {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
+    p = q -> InBundle p (ProbeBundle.Bcons q tail) := by
+  intro hp
+  exact Or.inl hp
+
 theorem inBundle_cons_tail {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
     InBundle p tail -> InBundle p (ProbeBundle.Bcons q tail) := by
   intro h
