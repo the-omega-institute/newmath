@@ -473,18 +473,116 @@ def _peer_sync_via_worktree(peer_sha: str, *, model: Optional[str] = None) -> bo
             shutil.rmtree(wt_path, ignore_errors=True)
 
 
-def sync_with_peer_branch(*, push: bool = True, model: Optional[str] = None) -> bool:
-    """Fetch PEER_BRANCH from origin and merge it into local BASE_BRANCH.
+def _push_base_into_peer(*, model: Optional[str] = None) -> bool:
+    """Reverse direction of peer-sync: merge BASE_BRANCH into PEER_BRANCH and
+    push origin/PEER_BRANCH. Done in a temp worktree on PEER_BRANCH so the
+    main checkout stays put. Codex resolves conflicts the same way the
+    forward direction does. Idempotent: no-op if peer already contains base.
+    """
+    f = run_cmd(["git", "fetch", "origin", PEER_BRANCH],
+                cwd=REPO_ROOT, timeout=300)
+    if f.returncode != 0:
+        logger.warning(f"[peer-sync] reverse fetch failed: {f.stderr.strip()[:200]}")
+        return False
 
-    Path: ff first → `git merge --no-ff` (handles the common disjoint-
-    subtree case without codex) → `_codex_resolve_merge_conflicts` if
-    that conflicts. Used at session start AND from the background ticker.
-    Returns True iff BASE_BRANCH ends up containing PEER_BRANCH.
+    base_sha = run_cmd(["git", "rev-parse", BASE_BRANCH],
+                       cwd=REPO_ROOT, timeout=10).stdout.strip()
+    peer_origin = run_cmd(["git", "rev-parse", f"origin/{PEER_BRANCH}"],
+                          cwd=REPO_ROOT, timeout=10).stdout.strip()
+    if not base_sha or not peer_origin:
+        return False
+
+    already = run_cmd(["git", "merge-base", "--is-ancestor", base_sha, peer_origin],
+                      cwd=REPO_ROOT, timeout=10)
+    if already.returncode == 0:
+        logger.debug(f"[peer-sync] {BASE_BRANCH} ({base_sha[:8]}) already in origin/{PEER_BRANCH}")
+        return True
+
+    # Update local PEER_BRANCH ref to origin via ref-only ff (don't disturb
+    # current working tree). If local is ahead of origin (rare; would mean
+    # we previously pushed), the fetch refuses non-ff and we proceed with
+    # whatever local has.
+    run_cmd(["git", "fetch", ".", f"origin/{PEER_BRANCH}:{PEER_BRANCH}"],
+            cwd=REPO_ROOT, timeout=30)
+
+    WORKTREE_DIR.mkdir(parents=True, exist_ok=True)
+    wt_path = WORKTREE_DIR / "_peer_sync_reverse"
+    if wt_path.exists():
+        run_cmd(["git", "worktree", "remove", "--force", str(wt_path)], cwd=REPO_ROOT)
+        if wt_path.exists():
+            shutil.rmtree(wt_path, ignore_errors=True)
+    add = run_cmd(["git", "worktree", "add", str(wt_path), PEER_BRANCH],
+                  cwd=REPO_ROOT, timeout=60)
+    if add.returncode != 0:
+        logger.error(f"[peer-sync] reverse worktree add failed: {add.stderr.strip()[:200]}")
+        return False
+
+    try:
+        ff = run_cmd(["git", "merge", "--ff-only", base_sha], cwd=wt_path, timeout=30)
+        if ff.returncode == 0:
+            logger.info(f"[peer-sync] reverse ff-advanced {PEER_BRANCH} to {base_sha[:8]}")
+        else:
+            m = run_cmd(
+                ["git", "merge", "--no-ff", base_sha,
+                 "-m", f"Sync {BASE_BRANCH} into {PEER_BRANCH}"],
+                cwd=wt_path, timeout=120,
+            )
+            if m.returncode != 0:
+                logger.warning(
+                    f"[peer-sync] reverse merge conflict; invoking codex "
+                    f"(stdout={m.stdout.strip()[:200]})"
+                )
+                if not _codex_resolve_merge_conflicts(
+                    wt_path, BASE_BRANCH, model=model
+                ):
+                    return False
+            logger.info(f"[peer-sync] reverse merged {BASE_BRANCH} into {PEER_BRANCH}")
+
+        # Push with one retry: peer pipeline might have pushed during our merge.
+        for attempt in (1, 2):
+            p = run_cmd(["git", "push", "origin", PEER_BRANCH],
+                        cwd=wt_path, timeout=300)
+            if p.returncode == 0:
+                logger.info(f"[peer-sync] {PEER_BRANCH} pushed to origin (reverse)")
+                return True
+            if attempt == 2:
+                logger.warning(f"[peer-sync] reverse push failed: {p.stderr.strip()[:200]}")
+                return False
+            logger.info(f"[peer-sync] reverse push rejected; rebasing on new origin tip and retrying")
+            run_cmd(["git", "fetch", "origin", PEER_BRANCH], cwd=wt_path, timeout=300)
+            r = run_cmd(["git", "rebase", f"origin/{PEER_BRANCH}"],
+                        cwd=wt_path, timeout=180)
+            if r.returncode != 0:
+                logger.warning(f"[peer-sync] reverse rebase failed: {r.stderr.strip()[:200]}")
+                run_cmd(["git", "rebase", "--abort"], cwd=wt_path, timeout=10)
+                return False
+        return False
+    finally:
+        run_cmd(["git", "worktree", "remove", "--force", str(wt_path)],
+                cwd=REPO_ROOT, timeout=60)
+        if wt_path.exists():
+            shutil.rmtree(wt_path, ignore_errors=True)
+
+
+def sync_with_peer_branch(*, push: bool = True, model: Optional[str] = None) -> bool:
+    """Bidirectional sync between BASE_BRANCH (paper) and PEER_BRANCH (lean).
+
+    Direction 1 (forward): pull peer into base — fetch origin/PEER, merge
+    into BASE_BRANCH (ff → no-ff merge → codex on conflict), push base.
+    Direction 2 (reverse): push base back into peer — merge BASE_BRANCH
+    into PEER_BRANCH (in temp worktree, same ladder), push peer. Touches
+    the peer branch only via git merge — never modifies any file under
+    lean4/scripts/ directly.
+
+    Used at session start and by the background ticker. Returns True iff
+    both directions succeeded (already-up-to-date in either direction
+    counts as success).
     """
     if not PEER_BRANCH or PEER_BRANCH == BASE_BRANCH:
         return True
 
     with _git_lock:
+        # ── Direction 1: peer → base ──────────────────────────────
         logger.info(f"[peer-sync] fetching origin/{PEER_BRANCH}…")
         f = run_cmd(["git", "fetch", "origin", PEER_BRANCH],
                     cwd=REPO_ROOT, timeout=300)
@@ -500,48 +598,52 @@ def sync_with_peer_branch(*, push: bool = True, model: Optional[str] = None) -> 
             logger.warning(f"[peer-sync] cannot resolve refs (peer={peer!r}, base={base!r})")
             return False
 
-        already = run_cmd(["git", "merge-base", "--is-ancestor", peer, base],
-                          cwd=REPO_ROOT, timeout=10)
-        if already.returncode == 0:
+        forward_already = run_cmd(["git", "merge-base", "--is-ancestor", peer, base],
+                                  cwd=REPO_ROOT, timeout=10).returncode == 0
+        if forward_already:
             logger.debug(f"[peer-sync] origin/{PEER_BRANCH} ({peer[:8]}) already in {BASE_BRANCH}")
-            return True
-
-        head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
-                       cwd=REPO_ROOT, timeout=10).stdout.strip()
-        on_base = head == BASE_BRANCH
-
-        if on_base:
-            ff = run_cmd(["git", "merge", "--ff-only", peer],
-                         cwd=REPO_ROOT, timeout=30)
-            if ff.returncode == 0:
-                logger.info(f"[peer-sync] ff-advanced {BASE_BRANCH} to {peer[:8]}")
-            else:
-                m = run_cmd(
-                    ["git", "merge", "--no-ff", peer,
-                     "-m", f"Sync {PEER_BRANCH} into {BASE_BRANCH}"],
-                    cwd=REPO_ROOT, timeout=120,
-                )
-                if m.returncode != 0:
-                    logger.warning(
-                        f"[peer-sync] merge conflict; invoking codex "
-                        f"(stdout={m.stdout.strip()[:200]})"
-                    )
-                    if not _codex_resolve_merge_conflicts(
-                        REPO_ROOT, f"origin/{PEER_BRANCH}", model=model
-                    ):
-                        return False
-                logger.info(f"[peer-sync] merged {PEER_BRANCH} into {BASE_BRANCH}")
         else:
-            if not _peer_sync_via_worktree(peer, model=model):
-                return False
+            head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
+                           cwd=REPO_ROOT, timeout=10).stdout.strip()
+            on_base = head == BASE_BRANCH
+            if on_base:
+                ff = run_cmd(["git", "merge", "--ff-only", peer],
+                             cwd=REPO_ROOT, timeout=30)
+                if ff.returncode == 0:
+                    logger.info(f"[peer-sync] ff-advanced {BASE_BRANCH} to {peer[:8]}")
+                else:
+                    m = run_cmd(
+                        ["git", "merge", "--no-ff", peer,
+                         "-m", f"Sync {PEER_BRANCH} into {BASE_BRANCH}"],
+                        cwd=REPO_ROOT, timeout=120,
+                    )
+                    if m.returncode != 0:
+                        logger.warning(
+                            f"[peer-sync] merge conflict; invoking codex "
+                            f"(stdout={m.stdout.strip()[:200]})"
+                        )
+                        if not _codex_resolve_merge_conflicts(
+                            REPO_ROOT, f"origin/{PEER_BRANCH}", model=model
+                        ):
+                            return False
+                    logger.info(f"[peer-sync] merged {PEER_BRANCH} into {BASE_BRANCH}")
+            else:
+                if not _peer_sync_via_worktree(peer, model=model):
+                    return False
 
+            if push:
+                p = run_cmd(["git", "push", "origin", BASE_BRANCH],
+                            cwd=REPO_ROOT, timeout=300)
+                if p.returncode != 0:
+                    logger.warning(f"[peer-sync] push failed: {p.stderr.strip()[:200]}")
+                    return False
+                logger.info(f"[peer-sync] {BASE_BRANCH} pushed to origin")
+
+        # ── Direction 2: base → peer (reverse) ────────────────────
         if push:
-            p = run_cmd(["git", "push", "origin", BASE_BRANCH],
-                        cwd=REPO_ROOT, timeout=300)
-            if p.returncode != 0:
-                logger.warning(f"[peer-sync] push failed: {p.stderr.strip()[:200]}")
+            if not _push_base_into_peer(model=model):
+                logger.warning(f"[peer-sync] reverse direction failed; forward succeeded")
                 return False
-            logger.info(f"[peer-sync] {BASE_BRANCH} pushed to origin")
         return True
 
 
