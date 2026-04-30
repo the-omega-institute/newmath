@@ -40,6 +40,18 @@ The classifier relates left values through the \(A\)-classifier, right values th
 \leandef{BEDC.Derived.SumUp.SumClassifierSpec}
 \leanchecked{BEDC.Derived.SumUp.sum\_classifier\_inversion}
 
+\begin{theorem}[Sum history classifier tag separation]
+\label{thm:sum-history-classifier-tag-separation}
+If \(h\) is \(e0\)-tagged and \(k\) is \(e1\)-tagged, then the
+history-level \(\SumUp\) classifier cannot relate \(h\) to \(k\).
+\end{theorem}
+\begin{proof}
+Invert the classifier witness. In the left branch \(k\) is also
+\(e0\)-tagged, contradicting its \(e1\)-tag witness. In the right branch
+\(h\) is \(e1\)-tagged, contradicting its \(e0\)-tag witness.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_left\_right\_absurd}
+
 \begin{definition}[Sum stability certificate]
 \label{def:sum-stability-certificate}
 The stability certificate consists of:
