@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.3 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.4 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Anti-hollow semantic discipline (HARD GATE)
 
@@ -99,6 +99,8 @@ new targets rather than committing shallow growth.
 <TARGETS>
 
 ## Step 0: Sync with remote base before any edits
+A new pipeline process may be started while an old one is still draining. The PID token file is authoritative: the newest process replaces `.pipeline.pid`, old processes stop dispatching once they notice the mismatch, and current rounds finish naturally. Do not wait for old pipeline PIDs before beginning this round.
+
 Before reading or writing any code, run:
 ```bash
 git fetch origin lean4-codex-auto-dev

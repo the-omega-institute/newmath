@@ -379,6 +379,25 @@ class PipelinePidTokenTests(unittest.TestCase):
             self.assertTrue(cf.remove_pipeline_pid(pid_file))
             self.assertFalse(pid_file.exists())
             self.assertFalse(cf.remove_pipeline_pid(pid_file))
+    def test_starting_new_pipeline_replaces_existing_pid_token(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+            cf.write_pipeline_pid(pid_file, 111)
+
+            previous = cf.claim_pipeline_pid(pid_file, 222)
+
+            self.assertEqual(previous, 111)
+            self.assertFalse(cf.pipeline_token_is_current(pid_file, 111))
+            self.assertTrue(cf.pipeline_token_is_current(pid_file, 222))
+
+    def test_claim_pipeline_pid_reports_no_previous_token(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+
+            previous = cf.claim_pipeline_pid(pid_file, 222)
+
+            self.assertIsNone(previous)
+            self.assertTrue(cf.pipeline_token_is_current(pid_file, 222))
 
 
 if __name__ == "__main__":

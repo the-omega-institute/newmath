@@ -72,8 +72,21 @@ FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "p
 MAX_LEAN_FILE_LINES = 800
 
 
+def _read_pipeline_pid(pid_file: Path = PID_FILE) -> int | None:
+    try:
+        return int(pid_file.read_text(encoding="utf-8").strip())
+    except (FileNotFoundError, ValueError):
+        return None
+
+
 def write_pipeline_pid(pid_file: Path = PID_FILE, pid: int | None = None) -> None:
     pid_file.write_text(f"{os.getpid() if pid is None else pid}\n", encoding="utf-8")
+
+
+def claim_pipeline_pid(pid_file: Path = PID_FILE, pid: int | None = None) -> int | None:
+    previous = _read_pipeline_pid(pid_file)
+    write_pipeline_pid(pid_file, pid)
+    return previous
 
 
 def remove_pipeline_pid(pid_file: Path = PID_FILE) -> bool:
@@ -84,10 +97,7 @@ def remove_pipeline_pid(pid_file: Path = PID_FILE) -> bool:
 
 
 def pipeline_token_is_current(pid_file: Path = PID_FILE, pid: int | None = None) -> bool:
-    try:
-        recorded = int(pid_file.read_text(encoding="utf-8").strip())
-    except (FileNotFoundError, ValueError):
-        return False
+    recorded = _read_pipeline_pid(pid_file)
     return recorded == (os.getpid() if pid is None else pid)
 
 
@@ -2812,7 +2822,12 @@ def main() -> int:
     logger.info(f"Base branch: {BASE_BRANCH}")
     logger.info(f"Parallelism: {args.parallel}")
     if not args.dry_run:
-        write_pipeline_pid()
+        previous_pid = claim_pipeline_pid()
+        if previous_pid is not None and previous_pid != os.getpid():
+            logger.info(
+                f"Pipeline PID token replaced previous owner {previous_pid}; "
+                f"old pipeline will drain while this process dispatches new rounds"
+            )
         logger.info(f"Pipeline PID token: {PID_FILE} ({os.getpid()})")
 
     # Ensure base branch
