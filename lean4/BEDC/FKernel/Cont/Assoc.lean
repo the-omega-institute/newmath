@@ -58,4 +58,24 @@ theorem cont_assoc_five {a b c d e ab abc abcd de cde bcde left right : BHist} :
     ((append_assoc (append a b) c (append d e)).trans
       (append_assoc a b (append c (append d e))))
 
+theorem cont_assoc_six {a b c d e f ab abc abcd abcde ef «def» cdef bcdef left right : BHist} :
+    Cont a b ab -> Cont ab c abc -> Cont abc d abcd -> Cont abcd e abcde ->
+      Cont e f ef -> Cont d ef «def» -> Cont c «def» cdef -> Cont b cdef bcdef ->
+      Cont abcde f left -> Cont a bcdef right -> hsame left right := by
+  intro hab habc habcd habcde hef hdef hcdef hbcdef hleft hright
+  cases hab
+  cases habc
+  cases habcd
+  cases habcde
+  cases hef
+  cases hdef
+  cases hcdef
+  cases hbcdef
+  cases hleft
+  cases hright
+  exact (append_assoc (append (append (append a b) c) d) e f).trans
+    ((append_assoc (append (append a b) c) d (append e f)).trans
+      ((append_assoc (append a b) c (append d (append e f))).trans
+        (append_assoc a b (append c (append d (append e f))))))
+
 end BEDC.FKernel.Cont

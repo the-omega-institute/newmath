@@ -147,6 +147,10 @@ theorem canonical_implies_unique {s : BaseReflectionSetup} {P : s.Pi}
     (mode : CanonicalTokenMode s P) : TokUnique s P := by
   exact CanonicalTokenMode_implies_TokUnique mode
 
+theorem CanonicalTokenMode_to_PolicyTokenMode {s : BaseReflectionSetup} {P : s.Pi}
+    (mode : CanonicalTokenMode s P) : PolicyTokenMode s P := by
+  exact CanonicalTokenMode_implies_TokUnique mode
+
 theorem CanonicalTokenMode_tokenReplacement {s : BaseReflectionSetup} {P : s.Pi}
     (mode : CanonicalTokenMode s P) {x y : s.SigObj} {p : s.Pkg} :
     s.TokIntro P x p -> s.TokIntro P y p -> s.hsame x y := by
