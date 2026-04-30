@@ -69,6 +69,9 @@ theorem UnaryPatternSpec_fields :
         (∀ {h : BHist}, UnaryHistory h → UnaryHistory (BHist.e1 h)) := by
   rfl
 
+def UnaryClassifierSpec (h k : BHist) : Prop :=
+  UnaryHistory h ∧ UnaryHistory k ∧ hsame h k
+
 theorem nat_up_certificate_seed_not_primitive :
     NameCert UnaryName ∧ Nonempty (NameCert UnaryName) := by
   exact nat_up_licensed_not_primitive
@@ -160,9 +163,17 @@ theorem add_up_certificate_stability_and_ledger :
     Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
   exact nameCert_stability_and_ledger_from_cert add_up_name_certificate
 
-def AddSourceSpec : Prop :=
-  exists h : BHist, exists k : BHist, exists r : BHist,
-    UnaryHistory h /\ UnaryHistory k /\ Cont h k r
+def AddSourceSpec (h k r : BHist) : Prop :=
+  UnaryHistory h ∧ UnaryHistory k ∧ Cont h k r
+
+theorem AddSourceSpec_result_unary {h k r : BHist} :
+    AddSourceSpec h k r → UnaryHistory r := by
+  intro spec
+  cases spec with
+  | intro uh rest =>
+      cases rest with
+      | intro uk cont =>
+          exact unary_cont_preserves_unary_by_induction uh uk cont
 
 theorem additive_stability_and_ledger_policy :
     Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by

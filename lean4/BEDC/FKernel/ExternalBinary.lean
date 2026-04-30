@@ -35,6 +35,9 @@ theorem external_model_reuses_kernel_histories :
 /-- Reuse the kernel-level continuation function as the metamodel's append. -/
 abbrev append : BWord → BWord → BWord := BEDC.FKernel.Cont.append
 
+theorem external_model_append_reuses_cont : append = BEDC.FKernel.Cont.append := by
+  rfl
+
 def bwordLength : BWord → Nat
   | .Empty => 0
   | .e0 w => Nat.succ (bwordLength w)
