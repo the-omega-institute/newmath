@@ -9,5 +9,6 @@ import BEDC.FKernel.Package
 import BEDC.FKernel.ExternalBinary
 import BEDC.FKernel.Gap
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.NameCert.StabilityMode
 import BEDC.FKernel.Unary
 import BEDC.BaseReflection

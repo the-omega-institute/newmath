@@ -20,6 +20,9 @@ def append : BWord → BWord → BWord
 theorem external_append_bit1_right (a b : BWord) : append a (.bit1 b) = .bit1 (append a b) := by
   rfl
 
+theorem external_append_bit0_right (a b : BWord) : append a (.bit0 b) = .bit0 (append a b) := by
+  rfl
+
 theorem bwordLength_append : ∀ a b : BWord, bwordLength (append a b) = bwordLength a + bwordLength b := by
   intro a b
   induction b with
