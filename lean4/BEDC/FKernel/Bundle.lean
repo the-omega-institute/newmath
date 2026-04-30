@@ -28,6 +28,18 @@ theorem inBundle_cons_of_eq {PName : Type} {p q : PName} {tail : ProbeBundle PNa
   intro hp
   exact Or.inl hp
 
+theorem inBundle_singleton_iff {PName : Type} {p q : PName} :
+    InBundle p (ProbeBundle.Bcons q (ProbeBundle.Bnil : ProbeBundle PName)) ↔ p = q := by
+  constructor
+  · intro h
+    cases h with
+    | inl hp =>
+        exact hp
+    | inr hnil =>
+        exact False.elim hnil
+  · intro hp
+    exact inBundle_cons_of_eq hp
+
 theorem inBundle_cons_tail {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
     InBundle p tail -> InBundle p (ProbeBundle.Bcons q tail) := by
   intro h

@@ -54,4 +54,11 @@ theorem external_append_cancel_four_context_hsame {a b l m n r : BWord} :
       withoutLeft
   exact external_append_right_cancel_hsame (a := a) (b := b) (c := m) withoutN
 
+theorem external_append_cancel_two_sided_hsame_symmetric {a b l r : BWord} :
+    hsame (append (append l a) r) (append (append l b) r) → hsame b a := by
+  intro same
+  have forward : hsame a b :=
+    external_append_cancel_common_context (a := a) (b := b) (l := l) (r := r) same
+  exact hsame_symm forward
+
 end BEDC.FKernel.ExternalBinary
