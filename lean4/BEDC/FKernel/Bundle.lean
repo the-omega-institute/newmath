@@ -33,6 +33,12 @@ theorem inBundle_cons_tail {PName : Type} {p q : PName} {tail : ProbeBundle PNam
   intro h
   exact Or.inr h
 
+theorem inBundle_cons_cons_tail {PName : Type} {x p q : PName}
+    {tail : ProbeBundle PName} :
+    InBundle x tail → InBundle x (ProbeBundle.Bcons p (ProbeBundle.Bcons q tail)) := by
+  intro h
+  exact Or.inr (Or.inr h)
+
 theorem inBundle_cons_inversion {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
     InBundle p (ProbeBundle.Bcons q tail) -> p = q \/ InBundle p tail := by
   intro h

@@ -108,6 +108,38 @@ theorem sig_cons_tail_hsame_from_policy [AskSetup]
                     leftTail
                     rightTail))))
 
+theorem sig_cons_policy_result_and_tail [AskSetup]
+    {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {D : BHist → Prop} {h r r' : BHist} (policy : AskPolicy D) :
+    D h → SigRel (ProbeBundle.Bcons pi tail) h r →
+      SigRel (ProbeBundle.Bcons pi tail) h r' →
+      (∃ s : BHist, ∃ t : BHist, SigRel tail h s ∧ SigRel tail h t ∧ hsame s t) ∧
+        hsame r r' := by
+  intro dh left right
+  exact And.intro
+    (sig_cons_tail_hsame_from_policy
+      (pi := pi)
+      (tail := tail)
+      (D := D)
+      (h := h)
+      (r := r)
+      (r' := r')
+      policy
+      dh
+      left
+      right)
+    (sig_cons_result_hsame_from_policy
+      (pi := pi)
+      (tail := tail)
+      (D := D)
+      (h := h)
+      (r := r)
+      (r' := r')
+      policy
+      dh
+      left
+      right)
+
 theorem sig_cons_head_tail_determinacy [AskSetup]
     {pi : ProbeName} {tail : ProbeBundle ProbeName}
     {D : BHist → Prop} {h r r' : BHist} (policy : AskPolicy D) :

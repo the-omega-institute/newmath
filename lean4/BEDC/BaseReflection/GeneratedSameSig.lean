@@ -258,6 +258,21 @@ theorem GeneratedSameSig_chain_witnesses_under_determinacy
                     (And.intro rightSig
                       (eqv.trans leftSame (eqv.trans (det midSig midSig') rightSame)))))))
 
+theorem GeneratedSameSig_trans_nonempty_witnesses_under_determinacy
+    {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s)
+    (det : ∀ {h : s.Hist} {x y : s.SigObj} {ex ey : s.Evidence},
+      s.SigGen P h x ex → s.SigGen P h y ey → s.hsame x y)
+    {h k l : s.Hist} :
+    Nonempty (GeneratedSameSig s P h k) → Nonempty (GeneratedSameSig s P k l) →
+      ∃ x : s.SigObj, ∃ z : s.SigObj, ∃ ex : s.Evidence, ∃ ez : s.Evidence,
+        s.SigGen P h x ex ∧ s.SigGen P l z ez ∧ s.hsame x z := by
+  intro left right
+  cases left with
+  | intro leftGen =>
+      cases right with
+      | intro rightGen =>
+          exact GeneratedSameSig_chain_witnesses_under_determinacy eqv det leftGen rightGen
+
 theorem GeneratedSameSig_trans_witness_object_under_determinacy
     {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s)
     (det : forall {h : s.Hist} {x y : s.SigObj} {ex ey : s.Evidence},
