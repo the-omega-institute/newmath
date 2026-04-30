@@ -204,6 +204,25 @@ theorem inBundle_cons_three_rotate_iff {PName : Type} {x a b c : PName}
             | inr htail =>
                 exact Or.inr (Or.inr (Or.inr htail))
 
+theorem inBundle_cons_three_head_or_tail {PName : Type} {x a b c : PName} :
+    InBundle x
+        (ProbeBundle.Bcons a (ProbeBundle.Bcons b (ProbeBundle.Bcons c ProbeBundle.Bnil))) →
+      x = a ∨ x = b ∨ x = c := by
+  intro h
+  cases h with
+  | inl ha =>
+      exact Or.inl ha
+  | inr htail =>
+      cases htail with
+      | inl hb =>
+          exact Or.inr (Or.inl hb)
+      | inr hrest =>
+          cases hrest with
+          | inl hc =>
+              exact Or.inr (Or.inr hc)
+          | inr hnil =>
+              exact False.elim hnil
+
 theorem inBundle_cons_four_rotate_iff {PName : Type} {x a b c d : PName}
     {tail : ProbeBundle PName} :
     InBundle x
