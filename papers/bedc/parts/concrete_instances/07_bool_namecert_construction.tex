@@ -63,6 +63,21 @@ $$
 Proceed by cases on $v$ and $w$. The matching $\bzero/\bzero$ and $\bone/\bone$ cases reduce both directions to reflexivity. In the mixed cases, the mark-to-history direction has no $\msame$ witness by mark no-confusion, and the history-to-mark direction has no $\hsame$ witness by the no-confusion between $\emp$ and $\Eone(\emp)$.
 \end{proof}
 
+\begin{theorem}[Bool history carrier endpoint coverage]
+\label{thm:bool-history-carrier-endpoint-coverage}
+For every history $h:\mathsf{BHist}$, the checked boolean history carrier is exactly the image of the endpoint bridge:
+$$
+  \mathsf{BoolHistoryCarrier}(h)
+  \quad\Longleftrightarrow\quad
+  \exists v:\mathsf{BMark},\ \hsame(h,\mathsf{BoolEndpoint}(v)).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, split the carrier witness into its empty and one-endpoint branches. In the empty branch choose $v=\bzero$ and use the defining endpoint equality $\mathsf{BoolEndpoint}(\bzero)=\emp$; in the one-endpoint branch choose $v=\bone$ and use $\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$.
+
+In the reverse direction, case-analyze the displayed mark $v$. The $\bzero$ case rewrites the endpoint witness to an $\hsame$ witness against $\emp$ and gives the empty carrier branch. The $\bone$ case rewrites it to an $\hsame$ witness against $\Eone(\emp)$ and gives the one-endpoint carrier branch.
+\end{proof}
+
 \begin{theorem}[Bool source respects mark sameness]
 \label{thm:bool-source-spec-respects-msame}
 If \(v\) satisfies \(\mathsf{BoolSourceSpec}\) and \(\msame(v,w)\), then \(w\) also satisfies \(\mathsf{BoolSourceSpec}\).
