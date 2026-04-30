@@ -373,6 +373,15 @@ theorem external_append_cancel_hsame_pair :
   · intro a b c same
     exact external_append_left_cancel_hsame same
 
+theorem external_append_cancel_pair :
+    (forall {a b c : BWord}, append a c = append b c -> a = b) /\
+      (forall {a b c : BWord}, append c a = append c b -> a = b) := by
+  constructor
+  · intro a b c same
+    exact external_append_right_cancel a b c same
+  · intro a b c same
+    exact external_append_left_cancel a b c same
+
 theorem external_append_right_unit_unique {a b : BWord} : append a b = a → b = BHist.Empty := by
   intro h
   have hright : append a b = append a BHist.Empty :=

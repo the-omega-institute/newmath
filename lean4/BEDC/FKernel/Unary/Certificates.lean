@@ -115,6 +115,9 @@ theorem add_up_certificate_field_witnesses :
       Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
   exact nameCert_field_witnesses add_up_name_certificate
 
+theorem add_up_certificate_classifier_witness : Nonempty ClassifierSpec := by
+  exact nameCert_classifier_witness_from_cert add_up_name_certificate
+
 theorem add_up_license_complete :
     NameCert AddName /\ Nonempty (NameCert AddName) /\ Nonempty SourceSpec /\
       Nonempty PatternSpec /\ Nonempty ClassifierSpec /\ Nonempty StabilityCert /\
