@@ -49,17 +49,17 @@ then
 \leanvariant{BEDC.FKernel.Gap.gap\_separation\_same\_signature\_witness\_pair}
 
 \begin{proof}
-The two gap premises yield signatures \(s,t\) with
-\[
+The two gap premises yield the admitted-source witness $\InDom(D,h)$ and signatures $s,t$ with
+$$
   \Sig(\Pi,h,s,\Delta),\quad
   \Sig(\Pi,h,t,\Theta),
-\]
+$$
 and token-introduction judgments
-\[
+$$
   \TokIntro(\Pi,s,p),\quad
   \TokIntro(\Pi,t,q).
-\]
-The determinacy field of \(\AskPol(\Pi,D)\) gives \(\hsame(s,t)\). The package-sameness constructor then gives \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\).
+$$
+Theorem~\ref{thm:signature-determinacy-under-asking-policy}, applied to $\AskPol(\Pi,D)$, the admitted-source witness, and the two generated signatures, gives $\hsame(s,t)$. The package-sameness constructor then gives $\psame_{\Pi}^{\mathrm{sig}}(p,q)$.
 \end{proof}
 
 \begin{theorem}[Concrete Globalize soundness]

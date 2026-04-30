@@ -142,6 +142,14 @@ If $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ holds, then both $
 Use Theorem~\ref{thm:bundle-append-membership}. A member of $\Pi$ maps into $\mathsf{BAppend}(\Pi,\Theta)$ through the left disjunct, and a member of $\Theta$ maps into $\mathsf{BAppend}(\Pi,\Theta)$ through the right disjunct. Restrict the totality, mark determinacy, and history-respect fields of the appended bundle-local policy along these two membership maps.
 \end{proof}
 
+\begin{theorem}[Bundle-local policy append introduction]
+\label{thm:bundle-local-policy-append-introduction}
+If $\mathsf{BundleAskPolicy}(\Pi,D)$ and $\mathsf{BundleAskPolicy}(\Theta,D)$ hold, then $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ holds.
+\end{theorem}
+\begin{proof}
+Use Theorem~\ref{thm:bundle-append-membership}. For each probe membership in $\mathsf{BAppend}(\Pi,\Theta)$, split it into a left membership in $\Pi$ or a right membership in $\Theta$. In the left case, take totality, mark-determinacy, and source-respect from the policy on $\Pi$; in the right case, take the same three fields from the policy on $\Theta$. These case analyses assemble the bundle-local asking policy for the appended bundle.
+\end{proof}
+
 \begin{theorem}[Probe bundle prefix cancellation]
 \label{thm:probe-bundle-prefix-cancellation}
 For any fixed probe bundle $\Pi$ and any probe bundles $\Theta,\Omega$, if
@@ -476,18 +484,19 @@ Bundle-local signature source respect transports the premise $\hsame(h,k)$ acros
 \end{proof}
 
 \begin{theorem}[Signature determinacy under an asking policy]
-Assume \(\AskPol(\Pi,D)\). If \(h\) is admitted by \(D\) and
-\[
+\label{thm:signature-determinacy-under-asking-policy}
+Assume $\AskPol(\Pi,D)$. If $h$ is admitted by $D$ and
+$$
 \Sig(\Pi,h,s,\Delta),
 \qquad
 \Sig(\Pi,h,t,\Theta),
-\]
-then \(\hsame(s,t)\).
+$$
+then $\hsame(s,t)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Sig.sig\_deterministic}
 \leanvariant{BEDC.FKernel.Sig.sig\_cons\_determinacy\_spine}
 \begin{proof}
-Induct on the generated bundle \(\Pi\). The empty case uses reflexivity of \(\hsame\). In the cons case, asking determinacy gives \(\msame\) of the first emitted marks. The induction hypothesis gives \(\hsame\) of the tail signatures. Extension respects mark-sameness and history-sameness, so the resulting answer histories are \(\hsame\).
+Induct on the generated bundle $\Pi$. The empty case uses reflexivity of $\hsame$. In the cons case, asking determinacy gives $\msame$ of the first emitted marks. The induction hypothesis gives $\hsame$ of the tail signatures. Extension respects mark-sameness and history-sameness, so the resulting answer histories are $\hsame$.
 \end{proof}
 
 \begin{theorem}[Signature generation respects source history-sameness]
