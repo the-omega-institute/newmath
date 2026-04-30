@@ -91,6 +91,14 @@ theorem PsameBase_left_token_witness
   | intro left right same =>
       exact Exists.intro _ left
 
+theorem PsameBase_right_token_witness
+    {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameBase s P p q → ∃ y : s.SigObj, s.TokIntro P y q := by
+  intro base
+  cases base with
+  | intro left right same =>
+      exact Exists.intro _ right
+
 abbrev PsameSig (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg → Prop := PsameBase s P
 
 theorem PsameSig_iff_PsameBase {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
