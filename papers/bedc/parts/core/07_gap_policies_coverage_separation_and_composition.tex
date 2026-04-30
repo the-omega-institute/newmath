@@ -4,7 +4,7 @@
 \section{Gap policy}
 
 \begin{definition}[Gap membership]
-The judgment \(\InGap(\Pi,p,h)\) means that source history \(h\) lies in the gap ledger of package token \(p\) under bundle \(\Pi\).
+The finite-kernel judgment $\InGapSig(\Pi,D,p,h)$ means that source history $h$ lies in the signature gap ledger of package token $p$ under bundle $\Pi$ and source specification $D$.
 \end{definition}
 
 \begin{definition}[Gap policy]
@@ -31,27 +31,27 @@ The ledger remains part of the package interface: a visible package token is use
 \leanvariant{BEDC.FKernel.Gap.GapPolicyInterface\_generation\_projection}
 
 \begin{theorem}[Gap coverage]
-Assume \(\GapPol(\Pi,D)\). Every admitted source history belongs to at least one generated package gap.
+Assume $\GapPol(\Pi,D)$. For every source history $h$, if $\InDom(D,h)$ then there exists a package token $p$ such that $\InGapSig(\Pi,D,p,h)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_coverage}
 \begin{proof}
-This is the coverage field of \(\GapPol\), which directly supplies a package gap containing each admitted source history.
+This is the coverage field of $\GapPol$, which directly supplies a package token whose finite-kernel gap judgment contains the admitted source history.
 \end{proof}
 
 \begin{theorem}[Gap separation]
-Assume \(\GapPol(\Pi,D)\). If an admitted source history belongs to the gaps of package tokens \(p\) and \(q\), then \(\psame(p,q)\).
+Assume $\GapPol(\Pi,D)$. If $\InDom(D,h)$, $\InGapSig(\Pi,D,p,h)$, and $\InGapSig(\Pi,D,q,h)$, then $\psame(p,q)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_separation}
 \begin{proof}
-This is the separation field of \(\GapPol\), applied to the two gap memberships of the same admitted source history.
+This is the separation field of $\GapPol$, applied to the two finite-kernel gap memberships of the same admitted source history.
 \end{proof}
 
 \begin{theorem}[Gap representative for admitted source]
 \label{thm:gap-representative-for-admitted-source}
-Assume $\GapPol(\Pi,D)$ and $\InDom(D,h)$. Then there exists a package token $p$ such that $\InGap(\Pi,p,h)$ and, for every package token $q$, if $\InGap(\Pi,q,h)$ then $\psame(p,q)$.
+Assume $\GapPol(\Pi,D)$ and $\InDom(D,h)$. Then there exists a package token $p$ such that $\InGapSig(\Pi,D,p,h)$ and, for every package token $q$, if $\InGapSig(\Pi,D,q,h)$ then $\psame(p,q)$.
 \end{theorem}
 \begin{proof}
-Coverage supplies a package token $p$ with $\InGap(\Pi,p,h)$. For any package token $q$ with $\InGap(\Pi,q,h)$, separation applies to the two gap memberships over the same admitted source history $h$ and gives $\psame(p,q)$.
+Coverage supplies a package token $p$ with $\InGapSig(\Pi,D,p,h)$. For any package token $q$ with $\InGapSig(\Pi,D,q,h)$, separation applies to the two finite-kernel gap memberships over the same admitted source history $h$ and gives $\psame(p,q)$.
 \end{proof}
 
 \section{Composite gaps}

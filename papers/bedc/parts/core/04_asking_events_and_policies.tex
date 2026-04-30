@@ -64,6 +64,14 @@ Thus $\AskPol(\Pi,D)$ is a sufficient global certificate, while $\mathsf{BundleA
 \end{definition}
 \leanstmt{BEDC.FKernel.Ask.BundleAskPolicy}
 
+\begin{theorem}[Global asking policy restricts to bundle-local policy]
+\label{thm:global-asking-policy-restricts-to-bundle-local}
+If $\AskPol(\Pi,D)$ holds, then $\mathsf{BundleAskPolicy}(\Pi,D)$ holds.
+\end{theorem}
+\begin{proof}
+Use the totality, mark determinacy, and history-respect clauses supplied by $\AskPol(\Pi,D)$. For each probe-name occurrence $\pi\in\Pi$, the globally quantified totality clause gives an asking event for every admitted source history in $D$; the same global determinacy and history-respect clauses apply to the restricted occurrence $\pi$. These three projections are exactly the clauses of $\mathsf{BundleAskPolicy}(\Pi,D)$.
+\end{proof}
+
 \begin{lemma}[Asking determinacy]
 \label{thm:asking-determinacy}
 \label{lem:asking-determinacy}
