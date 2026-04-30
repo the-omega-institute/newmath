@@ -399,6 +399,31 @@ representations, and these two endpoint carriers together with
 $\hsame(h,k)$ rebuild $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
 \end{proof}
 
+\begin{theorem}[Product componentwise history classifier displayed exactness]
+\label{thm:prod-component-history-classifier-displayed-exactness}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\NameCert(L,\sim_L)$, $\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. If
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$, then
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+\Longleftrightarrow
+(l\sim_L l')\wedge(r\sim_R r').
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:prod-component-history-classifier-inversion} to the two
+displayed pair representations and the assumed componentwise classifier. For
+the reverse direction, use the displayed pair representations
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$ as the existential witnesses in
+Definition~\ref{def:prod-component-history-classifier}; the two displayed
+component relations supply the remaining conjuncts.
+\end{proof}
+
 \begin{definition}[Prod stability certificate]
 \label{def:prod-stability-certificate}
 The stability certificate consists of:
