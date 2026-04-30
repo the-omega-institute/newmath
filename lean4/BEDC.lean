@@ -6,6 +6,7 @@ import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Sig
+import BEDC.FKernel.Sig.Totality
 import BEDC.FKernel.Sig.WitnessChain
 import BEDC.FKernel.Sig.SameSig
 import BEDC.FKernel.Sig.Determinacy
