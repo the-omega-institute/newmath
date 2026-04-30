@@ -14,4 +14,53 @@ def RatSourceSpec (normalized : BMark → BHist → BHist → Prop) (sign : BMar
   BEDC.Derived.IntUp.IntCarrier sign num ∧ PositiveUnaryDenominator den ∧
     normalized sign num den
 
+def RatCarrier
+    (sign : BEDC.FKernel.Mark.BMark) (numerator denominator : BEDC.FKernel.Hist.BHist) :
+    Prop :=
+  BEDC.Derived.IntUp.IntCarrier sign numerator ∧
+    BEDC.FKernel.Unary.UnaryHistory denominator ∧
+      (BEDC.FKernel.Hist.hsame denominator BEDC.FKernel.Hist.BHist.Empty → False)
+
+def RatClassifierSpec
+    (s1 : BEDC.FKernel.Mark.BMark) (n1 d1 : BEDC.FKernel.Hist.BHist)
+    (s2 : BEDC.FKernel.Mark.BMark) (n2 d2 : BEDC.FKernel.Hist.BHist) : Prop :=
+  RatCarrier s1 n1 d1 ∧
+    RatCarrier s2 n2 d2 ∧
+      BEDC.FKernel.Mark.msame s1 s2 ∧
+        BEDC.FKernel.Hist.hsame n1 n2 ∧
+          BEDC.FKernel.Hist.hsame d1 d2
+
+theorem RatClassifierSpec_trans
+    {s1 s2 s3 : BEDC.FKernel.Mark.BMark}
+    {n1 n2 n3 d1 d2 d3 : BEDC.FKernel.Hist.BHist} :
+    RatClassifierSpec s1 n1 d1 s2 n2 d2 →
+      RatClassifierSpec s2 n2 d2 s3 n3 d3 →
+        RatClassifierSpec s1 n1 d1 s3 n3 d3 := by
+  intro left right
+  cases left with
+  | intro carrier1 leftRest =>
+      cases leftRest with
+      | intro _ leftRest =>
+          cases leftRest with
+          | intro sign12 leftRest =>
+              cases leftRest with
+              | intro numerator12 denominator12 =>
+                  cases right with
+                  | intro _ rightRest =>
+                      cases rightRest with
+                      | intro carrier3 rightRest =>
+                          cases rightRest with
+                          | intro sign23 rightRest =>
+                              cases rightRest with
+                              | intro numerator23 denominator23 =>
+                                  constructor
+                                  · exact carrier1
+                                  · constructor
+                                    · exact carrier3
+                                    · constructor
+                                      · exact BEDC.FKernel.Mark.msame_trans sign12 sign23
+                                      · constructor
+                                        · exact BEDC.FKernel.Hist.hsame_trans numerator12 numerator23
+                                        · exact BEDC.FKernel.Hist.hsame_trans denominator12 denominator23
+
 end BEDC.Derived.RatUp

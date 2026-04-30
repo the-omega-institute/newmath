@@ -24,6 +24,16 @@ theorem IntCarrier_sign_cases {sign : BEDC.FKernel.Mark.BMark}
       | inr hone =>
           exact Or.inr ⟨hone, hmagnitude⟩
 
+theorem IntCarrier_magnitude_hsame_transport {sign : BEDC.FKernel.Mark.BMark}
+    {h k : BEDC.FKernel.Hist.BHist} :
+    IntCarrier sign h → BEDC.FKernel.Hist.hsame h k → IntCarrier sign k := by
+  intro carrier same
+  cases carrier with
+  | intro signCases magnitude =>
+      constructor
+      · exact signCases
+      · exact BEDC.FKernel.Unary.unary_transport magnitude same
+
 def IntSourceSpec (sign : BEDC.FKernel.Mark.BMark) (magnitude : BEDC.FKernel.Hist.BHist) :
     Prop :=
   IntCarrier sign magnitude

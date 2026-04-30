@@ -33,6 +33,15 @@ The source condition is a disjunction of \(\msame(v,\bzero)\) and \(\msame(v,\bo
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolSourceSpec\_respects\_msame}
 
+\begin{theorem}[Bool source transport along mark sameness]
+\label{prop:bool-source-msame-transport}
+If \(v\) and \(w\) are internally the same mark, then the boolean source predicate transports from \(v\) to \(w\).
+\end{theorem}
+\leanchecked{BEDC.Derived.BoolUp.BoolSourceSpec\_msame\_transport}
+\begin{proof}
+The proof eliminates the \(\msame(v,w)\) witness, reducing \(w\) definitionally to \(v\), and reuses the original source-classifier witness.
+\end{proof}
+
 \begin{definition}[Bool pattern specification]
 \label{def:bool-pattern-specification}
 The pattern is exactly the two displayed mark constructors, with no history growth.

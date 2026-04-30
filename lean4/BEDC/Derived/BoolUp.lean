@@ -11,6 +11,12 @@ def BoolSourceSpec (value : BEDC.FKernel.Mark.BMark) : Prop :=
   BEDC.FKernel.Mark.msame value BEDC.FKernel.Mark.BMark.b0 ∨
     BEDC.FKernel.Mark.msame value BEDC.FKernel.Mark.BMark.b1
 
+theorem BoolSourceSpec_msame_transport {v w : BEDC.FKernel.Mark.BMark} :
+    BEDC.FKernel.Mark.msame v w → BoolSourceSpec v → BoolSourceSpec w := by
+  intro same src
+  cases same
+  exact src
+
 theorem BoolClassifierSpec_constructor_separation :
     BoolClassifierSpec BEDC.FKernel.Mark.BMark.b0 BEDC.FKernel.Mark.BMark.b1 → False := by
   exact BEDC.FKernel.Mark.not_msame_b0_b1

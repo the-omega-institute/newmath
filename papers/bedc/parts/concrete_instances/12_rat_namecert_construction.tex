@@ -7,14 +7,21 @@ The rational number interface \(\RatUp\) is licensed by ordered pairs \((p, q)\)
 \label{rem:concrete-instances-rat-namecert-roadmap}
 This chapter records the rational licensing target through normalized
 integer-positive-natural representatives and structural classifier data.
+The Lean-backed core of this chapter covers the kernel carrier spine and classifier transitivity. Normalization, coprimality, and operation closure remain part of the paper specification.
 \end{remark}
 
 \section{Carrier definition}
 
 \begin{definition}[Rat carrier]
 \label{def:rat-carrier}
-Use normalized integer-positive-natural pairs \((p,q)\) with \(q>0\), \(\gcd(|p|,q)=1\), and denominator positivity carried as data.
+Use a signed unary integer numerator together with a unary denominator history that is not internally the same as \(\emp\):
+\[
+  \mathsf{RatCarrier}(s,n,d)
+  :=
+  \mathsf{IntCarrier}(s,n)\land \mathsf{Unary}(d)\land \neg\hsame(d,\emp).
+\]
 \end{definition}
+\leandef{BEDC.Derived.RatUp.RatCarrier}
 
 \section{The certificate}
 
@@ -31,8 +38,18 @@ The pattern is normalized numerator/denominator construction via a total normali
 
 \begin{definition}[Rat classifier specification]
 \label{def:rat-classifier-specification}
-The classifier is structural sameness of normalized numerator and denominator representatives.
+The classifier is structural sameness of normalized numerator and denominator representatives, tracked by mark sameness on signs and history sameness on the numerator and denominator histories.
 \end{definition}
+\leandef{BEDC.Derived.RatUp.RatClassifierSpec}
+
+\begin{theorem}[Rat classifier transitivity]
+\label{thm:rat-classifier-transitivity}
+If one rational representative is classified the same as a second representative, and the second representative is classified the same as a third representative, then the first and third representatives are classified the same.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_trans}
+\begin{proof}
+Unpack both classifier witnesses. The endpoint carriers are preserved, while sign sameness and the two history-sameness components compose by the finite-kernel transitivity theorems for \(\msame\) and \(\hsame\).
+\end{proof}
 
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}
