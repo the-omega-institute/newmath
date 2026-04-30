@@ -70,6 +70,19 @@ theorem PositiveUnaryDenominator_append_unary_tail {den tail : BEDC.FKernel.Hist
                               (BEDC.FKernel.Cont.append den tailCore)),
                           BEDC.FKernel.Unary.unary_append_closed denUnary tailCoreUnary⟩
 
+theorem PositiveUnaryDenominator_append_unary_prefix {«prefix» den : BHist} :
+    UnaryHistory «prefix» → PositiveUnaryDenominator den →
+      PositiveUnaryDenominator (BEDC.FKernel.Cont.append «prefix» den) := by
+  intro prefixUnary positive
+  cases positive with
+  | intro tail data =>
+      cases data with
+      | intro denSame tailUnary =>
+          cases denSame
+          exact ⟨BEDC.FKernel.Cont.append «prefix» tail,
+            hsame_refl (BHist.e1 (BEDC.FKernel.Cont.append «prefix» tail)),
+            unary_append_closed prefixUnary tailUnary⟩
+
 def RatSourceSpec (normalized : BMark → BHist → BHist → Prop) (sign : BMark)
     (num den : BHist) : Prop :=
   BEDC.Derived.IntUp.IntCarrier sign num ∧ PositiveUnaryDenominator den ∧

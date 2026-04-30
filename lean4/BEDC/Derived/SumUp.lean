@@ -30,6 +30,15 @@ theorem SumHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BH
                 (Exists.intro rightHist
                   (And.intro (hsame_trans (hsame_symm same) sameTag) rightCarrier))
 
+theorem SumHistoryCarrier_tagged_injections {Left Right : BHist → Prop} :
+    (∀ {l : BHist}, Left l → SumHistoryCarrier Left Right (BHist.e0 l)) ∧
+      (∀ {r : BHist}, Right r → SumHistoryCarrier Left Right (BHist.e1 r)) := by
+  constructor
+  · intro l leftCarrier
+    exact Or.inl (Exists.intro l (And.intro (hsame_refl (BHist.e0 l)) leftCarrier))
+  · intro r rightCarrier
+    exact Or.inr (Exists.intro r (And.intro (hsame_refl (BHist.e1 r)) rightCarrier))
+
 def SumHistoryClassifier (_Left _Right : BHist → Prop)
     (LeftEq RightEq : BHist → BHist → Prop) (h k : BHist) : Prop :=
   (∃ l : BHist, ∃ l' : BHist,
