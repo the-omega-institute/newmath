@@ -80,6 +80,23 @@ theorem group_left_right_inverse_uniqueness {mul : BHist → BHist → BHist} {e
       (hsame_trans (hsame_symm (assocC y x z))
         (hsame_trans (mulCongr left (hsame_refl z)) (leftId z))))
 
+theorem group_inverse_congruence_from_laws {mul : BHist → BHist → BHist} {e : BHist}
+    {inv : BHist → BHist}
+    (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : ∀ x, hsame (mul e x) x)
+    (rightId : ∀ x, hsame (mul x e) x)
+    (mulCongr : ∀ {a a' b b' : BHist}, hsame a a' → hsame b b' →
+      hsame (mul a b) (mul a' b'))
+    (leftInv : ∀ x, hsame (mul (inv x) x) e)
+    (rightInv : ∀ x, hsame (mul x (inv x)) e) :
+    ∀ {x y : BHist}, hsame x y → hsame (inv x) (inv y) := by
+  intro x y same
+  exact group_left_right_inverse_uniqueness assocC leftId rightId mulCongr
+    (hsame_trans
+      (hsame_symm (mulCongr (hsame_refl (inv x)) same))
+      (leftInv x))
+    (rightInv y)
+
 theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
