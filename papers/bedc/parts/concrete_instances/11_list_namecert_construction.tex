@@ -15,7 +15,7 @@ The list interface $\ListUp$ is licensed over a source carrier endowed with a $\
   \item \textbf{Core theorem list}: history carrier case analysis, history classifier constructor exactness, list spine representation coverage, classifier transitivity, classifier symmetry from the source $\NameCert$, cons inversion, singleton equivalence, map stability, append cancellation, reverse stability, checked $\hsame$ length preservation, and the paper-side source-parametric length lemma of Theorem~\ref{thm:list-classifier-length-eq}.
   \item \textbf{Exactness predicate}: classification holds exactly when both lists have the same constructor shape and all corresponding entries classify through the source, with semantic certificate use conditioned on $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$.
   \item \textbf{Standard bridge}: the generated carrier reads back as the ordinary finite list syntax for $A$.
-  \item \textbf{Status}: $\mathsf{ProofTarget}$ for the full generated-history semantic certificate conditional on $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$; the finite-spine classifier already has checked structural fields including source-certificate transitivity, $\hsame$ symmetry and transitivity, constructor-map facts, length preservation, append cancellation, and reverse stability.
+  \item \textbf{Status}: $\mathsf{ProofTarget}$ for the full generated-history semantic certificate conditional on $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$; the finite-spine classifier already has checked structural fields including source-certificate transitivity, $\hsame$ symmetry and transitivity, constructor-map facts, checked $\hsame$ length preservation, plus the paper-side source-parametric length lemma of Theorem~\ref{thm:list-classifier-length-eq}, append cancellation, and reverse stability.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -359,9 +359,9 @@ are equal.
 The checked finite-spine fields recorded in this chapter are the marked $\mathsf{ListClassifierSpec}$ facts:
 reflexivity, symmetry, source-certificate transitivity, nil/cons separation with cons inversion,
 constructor-map preservation/reflection with mixed-tag separation, append stability,
-left and right cancellation, reverse stability with reverse inversion, and length preservation.
+left and right cancellation, reverse stability with reverse inversion, and checked $\hsame$ length preservation.
 Reverse equivalence, two-sided classified context cancellation, classified append-context equivalence,
-source-certificate symmetry, and source-certificate carrier transport are paper-side composite targets built from these checked fields.
+source-certificate symmetry, source-certificate carrier transport, and source-parametric length preservation are paper-side composite targets built from these checked fields.
 The public generated-history $\ListUp$ certificate is obtained only through $\mathsf{ListSpineRep}$,
 $\mathsf{ListSpineBridgeClassifier}$, $\mathsf{ListSpineRepCoherent}$, and Theorem~\ref{thm:concrete-list-namecert}.
 \end{definition}
@@ -718,7 +718,7 @@ $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. Coherence applied at $h$
 classifies $xs_0$ with $xs$, and coherence applied at $k$ classifies $ys$ with
 $ys_0$. Compose these three finite-spine classifier witnesses by
 $\mathsf{ListClassifierSpec\_trans\_from\_nameCert}$ and $\mathsf{cert}$ to get
-$\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$. The arbitrary-source finite-spine length lemma in Theorem~\ref{thm:list-classifier-length-eq} gives equality of the represented finite lengths.
+$\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$. The paper-side arbitrary-source finite-spine length lemma in Theorem~\ref{thm:list-classifier-length-eq} gives equality of the represented finite lengths.
 \end{proof}
 
 \begin{theorem}[List spine representation coverage]

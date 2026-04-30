@@ -492,15 +492,40 @@ $$
 \label{thm:option-history-carrier-absent-source-separation}
 For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if
 $\mathsf{OptionSourceExcludesEmpty}(S)$, $\hsame(h,\emp)$, and $S(h)$ hold, then
-$\bot$. Traditional target absent-vs-present option data; BEDC source
-$\mathsf{BHist}$ with $\hsame$; carrier $\mathsf{OptionHistoryCarrier}_S$;
-classifier $\mathsf{OptionHistoryClassifier}_S$; core theorem absent/source
-separation; status $\mathsf{ProofTarget}$.
+$\bot$.
 \end{theorem}
 \begin{proof}
 Apply the exclusion predicate to the source witness $S(h)$ and the displayed
 empty endpoint witness $\hsame(h,\emp)$.
 \end{proof}
+
+\begin{theorem}[Nullable option classifier absent-source separation]
+\label{thm:option-history-classifier-absent-source-separation}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if
+$\mathsf{OptionSourceExcludesEmpty}(S)$ and $S(h)$ hold, then both
+$$
+\neg\mathsf{OptionHistoryClassifier}_S(h,\emp)
+$$
+and
+$$
+\neg\mathsf{OptionHistoryClassifier}_S(\emp,h)
+$$
+hold.
+\end{theorem}
+\begin{proof}
+For the right-empty classifier, use
+Theorem~\ref{thm:option-history-classifier-empty-right-iff} to turn a classifier
+witness into $\hsame(h,\emp)$, then apply
+$\mathsf{OptionSourceExcludesEmpty}(S)$ to $S(h)$. For the left-empty
+classifier, use Theorem~\ref{thm:option-history-classifier-empty-left-iff} to
+obtain the same $\hsame(h,\emp)$ witness and apply the same exclusion predicate.
+\end{proof}
+
+Per-object fit: traditional target absent-vs-present option separation; BEDC
+source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{OptionHistoryCarrier}_S$; classifier
+$\mathsf{OptionHistoryClassifier}_S$; ledger impact none; status paper theorem
+awaiting Lean formalization.
 
 \begin{theorem}[Option classifier \(\hsame\) symmetry]
 \label{thm:option-classifier-hsame-symm}
