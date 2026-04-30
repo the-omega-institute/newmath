@@ -47,7 +47,7 @@ jobs:
       - name: Audit paper-Lean drift
         run: python3 lean4/scripts/bedc_ci.py audit
 
-      - name: Audit transitive axiom dependencies (strict: forbid all Lean stdlib axioms)
+      - name: "Audit transitive axiom dependencies (strict: forbid all Lean stdlib axioms)"
         run: python3 lean4/scripts/bedc_ci.py axiom-purity --strict
 
       - name: Save Lean .lake cache (canonical branches only)
