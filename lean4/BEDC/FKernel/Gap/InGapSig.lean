@@ -30,6 +30,14 @@ theorem PolicySupportedSignatureGap_domain_witness [AskSetup] [PackageSetup] [Do
   exact hgap.left
 
 omit [AskSetup] [PackageSetup] G in
+theorem PolicySupportedSignatureGap_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    PolicySupportedSignatureGap bundle D p h →
+      InDom D h ∧ ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p := by
+  intro hgap
+  exact hgap
+
+omit [AskSetup] [PackageSetup] G in
 theorem internalized_signature_gap_iff [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     PolicySupportedSignatureGap bundle D p h ↔

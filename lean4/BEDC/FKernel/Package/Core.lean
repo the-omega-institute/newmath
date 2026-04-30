@@ -258,6 +258,22 @@ theorem psame_symm_constructor
   | intro hp hq hst =>
       exact psame.intro hq hp (hsame_symm hst)
 
+omit [AskSetup] P in
+theorem psame_constructor_symm_witnesses [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {p q : Pkg} :
+    psame bundle p q → psame bundle q p ∧
+      ∃ s : BHist, ∃ t : BHist,
+        TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame t s := by
+  intro samePkg
+  cases samePkg with
+  | intro left right sameHist =>
+      constructor
+      · exact psame.intro right left (hsame_symm sameHist)
+      · exact Exists.intro _
+          (Exists.intro _
+            (And.intro left
+              (And.intro right (hsame_symm sameHist))))
+
 theorem psame_constructor_grounding
     {bundle : ProbeBundle ProbeName} {p q : Pkg} :
     psame bundle p q ->

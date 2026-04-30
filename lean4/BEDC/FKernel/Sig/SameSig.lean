@@ -470,4 +470,105 @@ theorem sameSig_equivalence_witness_pack [AskSetup] {bundle : ProbeBundle ProbeN
                                                   hvl
                                                   hsv)))))
 
+theorem sameSig_equivalence_explicit_witnesses [AskSetup]
+    {bundle : ProbeBundle ProbeName} {D : BHist → Prop} (policy : AskPolicy D) :
+    (∀ {h : BHist}, D h →
+        ∃ s : BHist, SigRel bundle h s ∧ SameSig bundle h h) ∧
+      (∀ {h k : BHist}, SameSig bundle h k →
+        ∃ s : BHist, ∃ t : BHist,
+          SigRel bundle h s ∧ SigRel bundle k t ∧ hsame t s ∧ SameSig bundle k h) ∧
+      (∀ {h k l : BHist}, D k → SameSig bundle h k → SameSig bundle k l →
+        ∃ s : BHist, ∃ t : BHist, ∃ u : BHist, ∃ v : BHist,
+          SigRel bundle h s ∧ SigRel bundle k t ∧ SigRel bundle k u ∧
+            SigRel bundle l v ∧ hsame t u ∧ hsame s v ∧ SameSig bundle h l) := by
+  constructor
+  · intro h dh
+    cases sig_total_from_policy (bundle := bundle) (D := D) (h := h) policy dh with
+    | intro s hsig =>
+        exact (Exists.intro s
+          (And.intro hsig
+            (sameSig_intro_from_witnesses
+              (bundle := bundle)
+              (h := h)
+              (k := h)
+              (s := s)
+              (t := s)
+              hsig
+              hsig
+              (hsame_refl s))))
+  · constructor
+    · intro h k hsameSig
+      cases hsameSig with
+      | intro s tail =>
+          cases tail with
+          | intro t data =>
+              cases data with
+              | intro hs rest =>
+                  cases rest with
+                  | intro ht hst =>
+                      have hts : hsame t s := hsame_symm hst
+                      exact (Exists.intro s
+                        (Exists.intro t
+                          (And.intro hs
+                            (And.intro ht
+                              (And.intro hts
+                                (sameSig_intro_from_witnesses
+                                  (bundle := bundle)
+                                  (h := k)
+                                  (k := h)
+                                  (s := t)
+                                  (t := s)
+                                  ht
+                                  hs
+                                  hts))))))
+    · intro h k l dk hhk hkl
+      cases hhk with
+      | intro s hhkTail =>
+          cases hhkTail with
+          | intro t hhkData =>
+              cases hhkData with
+              | intro hs hhkRest =>
+                  cases hhkRest with
+                  | intro htk hst =>
+                      cases hkl with
+                      | intro u hklTail =>
+                          cases hklTail with
+                          | intro v hklData =>
+                              cases hklData with
+                              | intro huk hklRest =>
+                                  cases hklRest with
+                                  | intro hvl huv =>
+                                      have htu : hsame t u :=
+                                        sig_deterministic
+                                          (bundle := bundle)
+                                          (D := D)
+                                          (h := k)
+                                          (s := t)
+                                          (t := u)
+                                          policy
+                                          dk
+                                          htk
+                                          huk
+                                      have hsv : hsame s v :=
+                                        hsame_trans hst (hsame_trans htu huv)
+                                      exact (Exists.intro s
+                                        (Exists.intro t
+                                          (Exists.intro u
+                                            (Exists.intro v
+                                              (And.intro hs
+                                                (And.intro htk
+                                                  (And.intro huk
+                                                    (And.intro hvl
+                                                      (And.intro htu
+                                                        (And.intro hsv
+                                                          (sameSig_intro_from_witnesses
+                                                            (bundle := bundle)
+                                                            (h := h)
+                                                            (k := l)
+                                                            (s := s)
+                                                            (t := v)
+                                                            hs
+                                                            hvl
+                                                            hsv)))))))))))
+
 end BEDC.FKernel.Sig
