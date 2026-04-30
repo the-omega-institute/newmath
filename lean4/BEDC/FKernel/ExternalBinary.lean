@@ -409,6 +409,13 @@ theorem external_append_middle_cancel_hsame {a b c d : BWord} :
       (Eq.trans same (external_append_assoc a b d).symm)
   exact external_append_left_cancel_hsame reassociated
 
+theorem external_append_middle_cancel_eq {a b c d : BWord} :
+    append a (append b c) = append a (append b d) → c = d := by
+  intro same
+  exact external_append_left_cancel c d (append a b)
+    (Eq.trans (external_append_assoc a b c)
+      (Eq.trans same (external_append_assoc a b d).symm))
+
 theorem external_append_left_cancel_by_induction :
     ∀ {a b c : BWord}, append c a = append c b → hsame a b := by
   intro a

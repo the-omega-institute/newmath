@@ -310,6 +310,14 @@ theorem settledKernelCriterion_package_gap_kernel_projection [AskSetup] [Package
   intro criterion
   exact settledKernelCriterion_package_gap_projection criterion
 
+theorem settledKernelCriterion_gap_coverage_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      ∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
+        GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h := by
+  intro criterion bundle D h policy hIn
+  exact (settledKernelCriterion_package_gap_projection criterion).right policy hIn
+
 theorem settledKernelCriterion_namecert_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →
