@@ -75,6 +75,26 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, define $\m
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Tagged option history present inversion]
+\label{thm:tagged-option-history-present-inversion}
+For any BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, a present endpoint in the tagged carrier exposes a source payload:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(\Eone(h))
+\quad\Longrightarrow\quad
+\exists a:\mathsf{BHist}.\; S(a)\land \hsame(h,a).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged carrier witness for $\Eone(h)$. The absent branch gives
+$\hsame(\Eone(h),\emp)$ and is eliminated by generated-history no-confusion
+between a present endpoint and the empty endpoint. The present branch gives a
+payload history $a$, a source witness $S(a)$, and
+$\hsame(\Eone(h),\Eone(a))$; applying the one-constructor inversion theorem for
+$\hsame$ strips the visible present tags and yields $\hsame(h,a)$, so $a$ is the
+required payload.
+\end{proof}
+
 \begin{definition}[Tagged option history classifier]
 \label{def:tagged-option-history-classifier}
 For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, define $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ by the two constructor-matching cases:
