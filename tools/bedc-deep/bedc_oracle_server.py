@@ -277,10 +277,14 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 }
                 recent = _agent_summary(now)
                 active_recent = [aid for aid, rec in recent.items() if rec["recent"]]
+                stale_busy = [
+                    aid for aid in pending_tasks
+                    if not recent.get(aid, {}).get("recent", False)
+                ]
                 if task_queue and not pending_tasks and not active_recent:
                     diagnosis = "queue_waiting_for_browser_agent"
                 elif pending_tasks:
-                    diagnosis = "agent_busy"
+                    diagnosis = "agent_busy_with_stale" if stale_busy else "agent_busy"
                 elif task_queue:
                     diagnosis = "queue_waiting_for_free_agent"
                 else:
@@ -293,6 +297,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     "agents": agents_info,
                     "recent_agents": recent,
                     "active_recent_agents": active_recent,
+                    "stale_busy_agents": stale_busy,
                     "agent_recent_seconds": AGENT_RECENT_SECONDS,
                     "completed": len(results),
                     "active_sessions": len(sessions),
@@ -365,6 +370,9 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             return
         if self.path == "/retry":
             self._handle_retry(data)
+            return
+        if self.path == "/cancel":
+            self._handle_cancel(data)
             return
         if self.path == "/pin-conv-url":
             self._handle_pin_conv_url(data)
@@ -510,6 +518,39 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 dispatch_times[agent_id] = time.time()
         print(f"[server] Ack {task_id} by {agent_id}")
         self._send_json({"status": "ok"})
+
+    def _handle_cancel(self, data: dict):
+        task_id = data.get("task_id", "")
+        cancel_all = bool(data.get("all", False))
+        cancelled: list[str] = []
+        with _lock:
+            if cancel_all:
+                while task_queue:
+                    task = task_queue.popleft()
+                    cancelled.append(task.get("task_id", ""))
+                for aid, task in list(pending_tasks.items()):
+                    cancelled.append(task.get("task_id", ""))
+                    pending_tasks.pop(aid, None)
+                    dispatch_times.pop(aid, None)
+            elif task_id:
+                kept: deque[dict] = deque()
+                while task_queue:
+                    task = task_queue.popleft()
+                    if task.get("task_id") == task_id:
+                        cancelled.append(task_id)
+                    else:
+                        kept.append(task)
+                task_queue.extend(kept)
+                for aid, task in list(pending_tasks.items()):
+                    if task.get("task_id") == task_id:
+                        cancelled.append(task_id)
+                        pending_tasks.pop(aid, None)
+                        dispatch_times.pop(aid, None)
+            else:
+                self._send_json({"error": "task_id or all=true required"}, 400)
+                return
+        print(f"[server] Cancelled {len(cancelled)} task(s): {cancelled}")
+        self._send_json({"status": "cancelled", "tasks": cancelled})
 
     def _handle_close(self, data: dict):
         conv_id = data.get("conversation_id", "")

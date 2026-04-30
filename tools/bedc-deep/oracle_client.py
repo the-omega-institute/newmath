@@ -88,6 +88,11 @@ def print_status_hint(server_url: str) -> dict:
     return status
 
 
+def cancel_tasks(server_url: str, *, task_id: str = "", all_tasks: bool = False) -> dict:
+    payload = {"all": True} if all_tasks else {"task_id": task_id}
+    return http_post(f"{server_url}/cancel", payload, timeout=30)
+
+
 def watch_status(server_url: str, interval: int) -> None:
     while True:
         status = print_status_hint(server_url)
@@ -216,6 +221,7 @@ def run_loop(args: argparse.Namespace) -> int:
     conversation_id = ""
     started_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     prompt = build_initial_prompt(target)
+    packet_allowed = False
 
     for turn in range(args.max_turns):
         if turn > 0:
@@ -244,11 +250,14 @@ def run_loop(args: argparse.Namespace) -> int:
         write_text(out_dir / f"turn_{turn:02d}_response.md", response)
         verdict = detect_verdict(response)
         turns.append({"turn": turn, "task_id": task_id, "response_file": f"turn_{turn:02d}_response.md", "verdict": verdict})
+        if verdict == "AGENT_ERROR":
+            break
+        packet_allowed = True
         if verdict in {"DERIVED_CANDIDATE", "OBSTRUCTION", "STUCK"} and turn + 1 >= args.min_turns:
             break
 
     packet_file = ""
-    if args.write_packet and conversation_id:
+    if args.write_packet and conversation_id and packet_allowed:
         packet_prompt = CLAIM_PACKET_PROMPT.read_text(encoding="utf-8")
         task_id = f"bedc_{target.target_id.lower()}_packet_{int(time.time() * 1000)}"
         write_text(out_dir / "claim_packet_prompt.md", packet_prompt)
@@ -270,6 +279,8 @@ def run_loop(args: argparse.Namespace) -> int:
         if packet:
             packet_file = "claim_packet.md"
             write_text(out_dir / packet_file, packet)
+    elif args.write_packet and not packet_allowed:
+        print("[packet] skipped: no successful reasoning turn completed", flush=True)
 
     state = {
         "target_id": target.target_id,
@@ -300,8 +311,17 @@ def main() -> int:
     parser.add_argument("--preflight-agent-wait", type=int, default=0, help="Wait this many seconds for an active browser agent before submitting")
     parser.add_argument("--status", action="store_true", help="Print server status and exit")
     parser.add_argument("--watch-status", type=int, default=0, metavar="SECONDS", help="Continuously print server status every N seconds")
+    parser.add_argument("--cancel-task", default="", help="Cancel one queued or pending task id")
+    parser.add_argument("--cancel-all", action="store_true", help="Cancel all queued and pending tasks")
     parser.add_argument("--write-packet", action="store_true", help="Ask for a terminal claim packet")
     args = parser.parse_args()
+    if args.cancel_all or args.cancel_task:
+        print(json.dumps(
+            cancel_tasks(args.server, task_id=args.cancel_task, all_tasks=args.cancel_all),
+            ensure_ascii=False,
+            indent=2,
+        ))
+        return 0
     if args.watch_status > 0:
         try:
             watch_status(args.server, args.watch_status)

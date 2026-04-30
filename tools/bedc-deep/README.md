@@ -68,6 +68,7 @@ Check server status:
 
 ```bash
 python3 tools/bedc-deep/oracle_client.py --status
+python3 tools/bedc-deep/oracle_client.py --watch-status 5
 ```
 
 Open one or more ChatGPT tabs with the BEDC userscript installed:
@@ -93,6 +94,13 @@ Ask for a terminal claim packet after the loop:
 
 ```bash
 python3 tools/bedc-deep/oracle_client.py B-01 --max-turns 6 --write-packet
+```
+
+Cancel stuck queued or pending work:
+
+```bash
+python3 tools/bedc-deep/oracle_client.py --cancel-task <task_id>
+python3 tools/bedc-deep/oracle_client.py --cancel-all
 ```
 
 The oracle server expected by `oracle_client.py` is `http://localhost:8767`.
