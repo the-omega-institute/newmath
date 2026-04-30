@@ -36,6 +36,15 @@ theorem cont_unit_laws_spine :
       (forall {h r : BHist}, Cont h BHist.Empty r -> hsame r h) := by
   exact cont_unit_laws
 
+theorem cont_unit_uniqueness_pair :
+    (∀ {h k : BHist}, Cont h k k → hsame h BHist.Empty) ∧
+      (∀ {h k : BHist}, Cont h k h → hsame k BHist.Empty) := by
+  constructor
+  · intro h k hcont
+    exact cont_left_unit_unique hcont
+  · intro h k hcont
+    exact cont_right_unit_unique hcont
+
 theorem cont_step_result_iff_pair {h k r : BHist} :
     (Cont h (BHist.e0 k) (BHist.e0 r) ↔ Cont h k r) ∧
       (Cont h (BHist.e1 k) (BHist.e1 r) ↔ Cont h k r) := by

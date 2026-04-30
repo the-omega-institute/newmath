@@ -172,6 +172,48 @@ theorem settledKernelCriterion_globalize_exactness_projection [AskSetup] [Packag
                                                       exact globalizeExactness
                                                         askPolicy packagePolicy tokenExists
 
+theorem settledKernelCriterion_composite_gap_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      ∀ {Mid Final : Type} {D : Domain}
+          {firstGap : Mid → BHist → Prop} {secondGap : Final → Mid → Prop},
+        (∀ {h : BHist}, InDom D h → ∃ y : Mid, firstGap y h) →
+        (∀ {y : Mid},
+          (∃ h : BHist, InDom D h ∧ firstGap y h) → ∃ z : Final, secondGap z y) →
+        ∀ {h : BHist}, InDom D h →
+          ∃ z : Final, ∃ y : Mid, firstGap y h ∧ secondGap z y := by
+  intro criterion Mid Final D firstGap secondGap firstCoverage secondCoverage h hIn
+  cases criterion with
+  | intro _ rest =>
+      cases rest with
+      | intro _ rest =>
+          cases rest with
+          | intro _ rest =>
+              cases rest with
+              | intro _ rest =>
+                  cases rest with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro _ rest =>
+                          cases rest with
+                          | intro _ rest =>
+                              cases rest with
+                              | intro _ rest =>
+                                  cases rest with
+                                  | intro _ rest =>
+                                      cases rest with
+                                      | intro _ rest =>
+                                          cases rest with
+                                          | intro _ rest =>
+                                              cases rest with
+                                              | intro _ rest =>
+                                                  cases rest with
+                                                  | intro _ rest =>
+                                                      cases rest with
+                                                      | intro compositeCoverage _ =>
+                                                          exact compositeCoverage
+                                                            firstCoverage secondCoverage hIn
+
 theorem settledKernelCriterion_signature_kernel_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →
