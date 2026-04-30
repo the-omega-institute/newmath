@@ -31,6 +31,12 @@ theorem TokUnique_replacement
   intro left right
   exact tok.tokenReplacement left right
 
+theorem TokUnique_replacement_self
+    {s : BaseReflectionSetup} {P : s.Pi} (tok : TokUnique s P)
+    {x : s.SigObj} {p : s.Pkg} : s.TokIntro P x p -> s.hsame x x := by
+  intro introProof
+  exact tok.tokenReplacement introProof introProof
+
 theorem TokUnique_replacement_symm
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
@@ -272,6 +278,13 @@ theorem ClosureReflect_from_eqClosure
   intro x y p q left right closure
   exact PackageReflection_eqClosure eqv tok introOf left right closure
 
+theorem ClosureReflect_from_canonical
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (mode : CanonicalTokenMode s P)
+    (introOf : forall p : s.Pkg, Nonempty (Subtype (fun x : s.SigObj => s.TokIntro P x p))) :
+    ClosureReflect s P := by
+  exact ClosureReflect_from_eqClosure eqv (CanonicalTokenMode_implies_TokUnique mode) introOf
+
 theorem eqClosure_export_requires_closure_reflect
     {s : BaseReflectionSetup} {P : s.Pi} (reflect : ClosureReflect s P)
     {x y : s.SigObj} {p q : s.Pkg} :
@@ -502,6 +515,12 @@ theorem ExactGlobalizeBase_relation_is_base
       (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
   intro h k p q hp hq
   exact ExactGlobalizeBase_classify_iff ex hp hq
+
+def NotExported (s : BaseReflectionSetup) (P : s.Pi) (D : s.Domain)
+    (_ex : ExactGlobalizeBase s P D) : Prop :=
+  forall {h k : s.Hist} {p q : s.Pkg},
+    s.InGapSig P D p h -> s.InGapSig P D q k ->
+      (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k))
 
 theorem ClosureReflect_preserves_base_export
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
