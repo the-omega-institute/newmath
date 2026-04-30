@@ -42,6 +42,32 @@ theorem sig_total_pair_from_policy [AskSetup] {bundle : ProbeBundle ProbeName} {
       | intro t ht =>
           exact ⟨s, t, hs, ht⟩
 
+theorem signature_totality_witness_chain [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : AskPolicy D) {h k : BHist} :
+    D h -> hsame h k -> D k ->
+      exists s : BHist, exists t : BHist,
+        SigRel bundle h s /\ SigRel bundle k t /\ hsame s t := by
+  intro dh hhk dk
+  cases sig_total_from_policy (bundle := bundle) (D := D) (h := h) policy dh with
+  | intro s hs =>
+      cases sig_total_from_policy (bundle := bundle) (D := D) (h := k) policy dk with
+      | intro t ht =>
+          exact Exists.intro s
+            (Exists.intro t
+              (And.intro hs
+                (And.intro ht
+                  (sig_respects_history
+                    (bundle := bundle)
+                    (D := D)
+                    (h := h)
+                    (k := k)
+                    (s := s)
+                    (t := t)
+                    policy
+                    hhk
+                    hs
+                    ht))))
+
 theorem sameSig_three_step_witness_chain_under_policy [AskSetup]
     {bundle : ProbeBundle ProbeName} {D : BHist -> Prop} (policy : AskPolicy D)
     {h k l m : BHist} :

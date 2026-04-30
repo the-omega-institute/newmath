@@ -134,6 +134,17 @@ theorem domain_invariance_of_concrete_source_admission [AskSetup] [PackageSetup]
     exact policy.transport hk (hsame_symm hhk)
 
 omit [AskSetup] [PackageSetup] G in
+theorem domain_transport_two_way_chain [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l : BHist} :
+    hsame h k -> hsame l k -> (InDom D h <-> InDom D l) := by
+  intro hhk hlk
+  constructor
+  · intro hh
+    exact policy.transport (policy.transport hh hhk) (hsame_symm hlk)
+  · intro hl
+    exact policy.transport (policy.transport hl hlk) (hsame_symm hhk)
+
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_transport_iff_with_signature_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
     (policy : DomainPolicy D) (same : hsame h k)
