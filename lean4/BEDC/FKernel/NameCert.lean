@@ -271,6 +271,13 @@ theorem add_like_behavior_certified_not_operation [NameCertSetup] {name : Derive
   · exact NameCert.mk source pattern classifier stability ledger
   · exact Nonempty.intro stability
 
+structure DescentCertificate
+    (Source Target : Type)
+    (sourceSame : Source -> Source -> Prop)
+    (targetSame : Target -> Target -> Prop) : Type where
+  map : Source -> Target
+  respects : forall {a b : Source}, sourceSame a b -> targetSame (map a) (map b)
+
 structure StableTransformation
     (Source Target Ledger : Type)
     (sourceSame : Source -> Source -> Prop)
