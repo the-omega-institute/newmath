@@ -1,4 +1,5 @@
 import BEDC.FKernel.Sig
+import BEDC.FKernel.Cont
 
 namespace BEDC.FKernel.Sig
 
@@ -7,6 +8,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Ext
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 
 theorem sigRel_generation_cases [AskSetup] {bundle : ProbeBundle ProbeName} {h r : BHist} :
     SigRel bundle h r →
@@ -87,5 +89,31 @@ theorem signature_event_generation_pack [AskSetup] :
               (Exists.intro delta
                 (And.intro hask
                   (And.intro htail hext))))
+
+theorem sigRel_bundleAppend_forward [AskSetup] {left right : ProbeBundle ProbeName}
+    {h s t : BHist} :
+    SigRel left h s -> SigRel right h t ->
+      exists u : BHist,
+        BEDC.FKernel.Cont.Cont t s u /\ SigRel (bundleAppend left right) h u := by
+  intro hleft hright
+  induction hleft with
+  | empty h =>
+      exact Exists.intro t (And.intro (cont_right_unit t) hright)
+  | cons pi tail h s r m delta hask htail hext ih =>
+      cases ih hright with
+      | intro u data =>
+          cases data with
+          | intro hcont hsig =>
+              cases hext with
+              | e0 =>
+                  exact Exists.intro (BHist.e0 u)
+                    (And.intro (cont_step_zero hcont)
+                      (SigRel.cons pi (bundleAppend tail right) h u (BHist.e0 u)
+                        BMark.b0 delta hask hsig (Ext.e0 u)))
+              | e1 =>
+                  exact Exists.intro (BHist.e1 u)
+                    (And.intro (cont_step_one hcont)
+                      (SigRel.cons pi (bundleAppend tail right) h u (BHist.e1 u)
+                        BMark.b1 delta hask hsig (Ext.e1 u)))
 
 end BEDC.FKernel.Sig
