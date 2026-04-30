@@ -138,29 +138,32 @@ payload histories, source witnesses, and endpoint links, so both classified
 endpoints are tagged option carrier endpoints.
 \end{proof}
 
-\begin{theorem}[Tagged option history mixed endpoint separation]
-\label{thm:tagged-option-history-mixed-endpoint-separation}
-For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
-source classifier $\sim_S$, and payload history $h$, the tagged option history
-classifier cannot relate the absent endpoint to the visible present endpoint in
-either order:
+\begin{theorem}[Tagged option history present-present exactness]
+\label{thm:tagged-option-history-present-present-exactness}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and histories $h,k$, the tagged option history classifier is exact on two visible present endpoints:
 $$
-\neg\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\emp,\Eone(h))
-\quad\text{and}\quad
-\neg\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\emp).
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\Eone(k))
+\quad\Longleftrightarrow\quad
+\exists a,b:\mathsf{BHist}.\; S(a)\land S(b)\land \hsame(h,a)\land \hsame(k,b)\land a\sim_S b.
 $$
 \end{theorem}
 \begin{proof}
-Case-analyze the tagged classifier witness. For
-$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\emp,\Eone(h))$, the
-absent-absent branch contains $\hsame(\Eone(h),\emp)$, contradicting
-one-versus-empty no-confusion. The present-present branch contains
-$\hsame(\emp,\Eone(a))$ for some source payload $a$, contradicting
-empty-versus-one no-confusion. The opposite mixed endpoint
-$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\emp)$ is identical
-with the two endpoint contradictions exchanged: absent-absent gives
-$\hsame(\Eone(h),\emp)$, while present-present gives $\hsame(\emp,\Eone(b))$
-for the target payload $b$.
+For the forward direction, case-analyze the tagged classifier witness. The absent-absent branch would contain $\hsame(\Eone(h),\emp)$ and is eliminated by one-versus-empty no-confusion. The present-present branch gives payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, a source classifier witness $a\sim_S b$, and endpoint witnesses $\hsame(\Eone(h),\Eone(a))$ and $\hsame(\Eone(k),\Eone(b))$; one-constructor inversion strips the visible $e1$ tags and yields $\hsame(h,a)$ and $\hsame(k,b)$. For the reverse direction, the displayed payload data rebuilds the present-present classifier branch after applying one-constructor congruence for $\hsame$ to the two payload endpoint witnesses.
+\end{proof}
+
+\begin{theorem}[Tagged option history visible present exactness]
+\label{thm:tagged-option-history-visible-present-exactness}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, source certificate $\mathsf{cert}:\NameCert(S,\sim_S)$, and $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, if $S(h)$ and $S(k)$, then the tagged option history classifier is exact on the two source-visible present endpoints:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\Eone(k))
+\quad\Longleftrightarrow\quad
+h\sim_S k.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply Theorem~\ref{thm:tagged-option-history-present-present-exactness} to the tagged classifier witness. It provides payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, endpoint witnesses $\hsame(h,a)$ and $\hsame(k,b)$, and a payload classifier witness $a\sim_S b$. The compatibility hypothesis gives $h\sim_S a$ from $S(h)$, $S(a)$, and $\hsame(h,a)$; symmetry of $\hsame$ turns $\hsame(k,b)$ into $\hsame(b,k)$, and compatibility gives $b\sim_S k$ from $S(b)$, $S(k)$, and that symmetric endpoint witness. Two uses of $\mathsf{cert.equiv\_trans}$ compose $h\sim_S a$, $a\sim_S b$, and $b\sim_S k$ into $h\sim_S k$.
+
+For the reverse direction, use Theorem~\ref{thm:tagged-option-history-present-present-exactness} with payloads $h$ and $k$. The source witnesses are the assumptions $S(h)$ and $S(k)$, the endpoint witnesses are reflexivity of $\hsame$ at $h$ and $k$, and the payload classifier witness is the assumed $h\sim_S k$.
 \end{proof}
 
 \begin{definition}[Tagged option source hsame compatibility]
