@@ -19,6 +19,19 @@ The source is the ordered product of the two source certificates.
 \end{definition}
 \leandef{BEDC.Derived.ProdUp.ProdHistoryCarrier}
 
+\begin{theorem}[Product history carrier append introduction]
+\label{thm:prod-history-carrier-append-intro}
+If \(l\) lies in the left source carrier and \(r\) lies in the right source
+carrier, then \(\mathsf{append}(l,r)\) lies in the product history carrier.
+\end{theorem}
+\begin{proof}
+Use \(l\) and \(r\) as the two component witnesses. The BEDC continuation
+judgment is witnessed by reflexivity of the defining append result, so the
+product history carrier is rebuilt from the two source proofs and that
+continuation witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_append\_intro}
+
 \begin{theorem}[Product history carrier transport]
 \label{thm:prod-history-carrier-hsame-transport}
 If two product histories are internally the same and the first is generated from a left witness, a right witness, and a continuation proof, then the second is generated from the same component witnesses and the transported continuation proof.
@@ -50,6 +63,27 @@ Invert the product-history classifier into the left carrier, the right carrier, 
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_right\_hsame\_transport}
 
+\begin{theorem}[Product history classifier endpoint transport]
+\label{thm:prod-history-classifier-hsame-transport}
+If a product-history classifier relates $h$ to $k$, and $h$ is internally the same as $h'$ while $k$ is internally the same as $k'$, then the classifier relates $h'$ to $k'$.
+\end{theorem}
+\begin{proof}
+Invert the product-history classifier into endpoint carriers and the stored $\hsame(h,k)$ witness. Transport both endpoint carriers across their respective $\hsame$ witnesses, then compose symmetry of $\hsame(h,h')$, the stored link, and $\hsame(k,k')$ to obtain $\hsame(h',k')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_hsame\_transport}
+
+\begin{theorem}[Product history classifier left transport]
+\label{thm:prod-history-classifier-left-hsame-transport}
+If a product-history classifier relates $h$ to $k$, and $h$ is internally the
+same as $h'$, then the classifier relates $h'$ to $k$.
+\end{theorem}
+\begin{proof}
+Invert the classifier witness. Transport the left carrier through the
+$\hsame(h,h')$ witness, keep the right carrier, and compose the symmetric
+$\hsame(h',h)$ link with the stored $\hsame(h,k)$ classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_left\_hsame\_transport}
+
 \begin{definition}[Prod stability certificate]
 \label{def:prod-stability-certificate}
 The stability certificate consists of:
@@ -76,8 +110,21 @@ Invert the componentwise product classifier. Each component witness reverses by 
 
 \begin{definition}[Prod ledger policy]
 \label{def:prod-ledger-policy}
-Record both component ledgers in order.
+Record a raw product history carrying both component ledgers together with an
+\(\hsame\) link to the visible history exposed by the ledger.
 \end{definition}
+\leandef{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy}
+
+\begin{theorem}[Prod ledger visible carrier]
+\label{thm:prod-ledger-visible-carrier}
+If a visible history is linked by \(\hsame\) to a raw product-ledger history,
+then the visible history is itself a product carrier.
+\end{theorem}
+\begin{proof}
+Unpack the raw product carrier and transport it across the stored \(\hsame\)
+link by product-carrier transport.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_visible\_carrier}
 
 \begin{theorem}[Concrete \(\ProdUp\) naming certificate]
 \label{thm:concrete-prod-namecert}

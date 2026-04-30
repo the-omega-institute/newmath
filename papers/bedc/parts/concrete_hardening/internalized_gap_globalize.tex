@@ -53,7 +53,7 @@ By token existence, obtain \(p\) with \(\TokIntro(\Pi,s,p)\). These data witness
 
 \begin{theorem}[Internalized gap separation]
 \label{thm:gap-separation-concrete}
-Assume \(\AskPol(\Pi,D)\), concrete token existence, and concrete package reflection. If
+Assume \(\AskPol(\Pi,D)\). If
 \[
   \InGapSig(\Pi,D,p,h)
   \quad\text{and}\quad
@@ -105,12 +105,12 @@ Unpack the two gap memberships. Signature determinacy for their shared source hi
 
 \begin{theorem}[Concrete Globalize soundness]
 \label{thm:internalized-globalize-soundness-intro}
-If histories have internally same generated signatures, then their concrete signature packages are package-same.
+If \(\Sig(\Pi,h,s,\Delta)\), \(\Sig(\Pi,k,t,\Theta)\), \(\TokIntro(\Pi,s,p)\), \(\TokIntro(\Pi,t,q)\), and \(\hsame(s,t)\), then \(\psame(p,q)\).
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.concrete\_globalize\_soundness\_intro}
 
 \begin{proof}
-Let signatures \(s,t\) be generated from the two histories and suppose \(\hsame(s,t)\). Introduce tokens \(p,q\) from \(s,t\). Package-sameness follows by the concrete package-sameness rule.
+Apply the concrete package-sameness constructor to the two token-introduction premises and the internal signature-sameness premise.
 \end{proof}
 
 \begin{theorem}[Concrete Globalize completeness]

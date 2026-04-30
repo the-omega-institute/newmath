@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\MetricSpaceUp\)}
 \label{ch:concrete-instances-metric-namecert}
 
-The metric space interface \(\MetricSpaceUp\) is licensed over a carrier together with a distance function \(d : C \times C \to \RealUp\) satisfying non-negativity, identity-of-indiscernibles (with apartness in place of decidable equality), symmetry, and the triangle inequality, all expressed in Bishop-style with explicit real moduli. It depends on \autoref{ch:concrete-instances-real-namecert}.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-metric-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The metric space interface \(\MetricSpaceUp\) has certificate obligations over a carrier together with a distance function \(d : C \times C \to \RealUp\) satisfying non-negativity, identity-of-indiscernibles (with apartness in place of decidable equality), symmetry, and the triangle inequality, all expressed in Bishop-style with explicit real moduli. It depends on \autoref{ch:concrete-instances-real-namecert}.
 
 \section{Carrier definition}
 
@@ -52,15 +45,13 @@ The stability certificate consists of:
 Record carrier witnesses and the real ledger of each distance value.
 \end{definition}
 
-\begin{theorem}[Concrete \(\MetricSpaceUp\) naming certificate]
-\label{thm:concrete-metric-namecert}
-Any carrier with constructive metric law fields forms a valid NameCert for \(\MetricSpaceUp(C)\).
-\end{theorem}
+\begin{definition}[\(\MetricSpaceUp\) certificate obligations]
+\label{def:metric-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\MetricSpaceUp\).
+\end{definition}
 
-\begin{corollary}[\(\MetricSpaceUp\) is licensed, not primitive]
-\label{cor:metric-licensed-not-primitive}
-\(\MetricSpaceUp\) is licensed by explicit Bishop-real metric data.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\MetricSpaceUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:metric-zero-axiom-note}

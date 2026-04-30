@@ -4,23 +4,20 @@
 \section{Domain Policy and Transport Obligations}
 \label{sec:po-domain-policy-abstract}
 
-This chapter records the internal domain judgment \(\InDom(D,h)\) and the additional proof obligations needed for domain behavior.
+This chapter records the internal domain judgment $\InDom(D,h)$ and the transport obligation needed for domain behavior.
 
 \begin{definition}[Domain policy]
 \label{def:domain-policy}
-A source-domain name \(D\) is equipped with a domain policy, written
-\[
+A source-domain name $D$ is equipped with a domain policy, written
+$$
   \DomainPolicy(D),
-\]
-when the following BEDC-level behavior is supplied.
-\begin{enumerate}
-  \item \textbf{Admission judgment.} Source membership is expressed only by \(\InDom(D,h)\).
-  \item \textbf{History transport.} If \(\InDom(D,h)\) and \(\hsame(h,k)\), then \(\InDom(D,k)\).
-  \item \textbf{No set-membership import.} No theorem in the active concrete layer may use the notation \(h\in D\) as an internal premise.
-\end{enumerate}
+$$
+when the following BEDC-level transport behavior is supplied: if $\InDom(D,h)$ and $\hsame(h,k)$, then $\InDom(D,k)$.
 \end{definition}
 \leanchecked{BEDC.FKernel.Gap.DomainPolicy\_transport\_field}
 \leanvariant{BEDC.FKernel.Gap.DomainPolicy\_iff\_transport\_and\_invariance}
+
+The carrier $D$ and judgment $\InDom(D,h)$ are supplied by the domain setup. Concrete gap statements use $\InDom(D,h)$ as their source-admission premise rather than imported set-membership notation.
 
 \begin{theorem}[Domain transport]
 \label{thm:domain-transport}
@@ -51,7 +48,10 @@ This is the transport field of \(\DomainPolicy(D)\). The theorem is recorded sep
 
 \begin{corollary}[Domain invariance of concrete source admission]
 \label{cor:domain-invariance-of-concrete-source-admission}
-Under \(\DomainPolicy(D)\), the source side of the concrete signature gap is invariant under internal history-sameness.
+Under $\DomainPolicy(D)$, if $\hsame(h,k)$, then
+$$
+  \InDom(D,h)\Longleftrightarrow\InDom(D,k).
+$$
 \end{corollary}
 \leanchecked{BEDC.FKernel.Gap.domain\_invariance\_of\_concrete\_source\_admission}
 \leanvariant{BEDC.FKernel.Gap.domain\_invariance}
@@ -62,10 +62,22 @@ Under \(\DomainPolicy(D)\), the source side of the concrete signature gap is inv
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_transport\_iff\_with\_signature\_witnesses}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_domain\_transport\_equiv\_with\_witnesses}
 \leanvariant{BEDC.FKernel.Gap.domain\_transport\_two\_way\_chain}
-\leanchecked{BEDC.FKernel.Gap.domain\_transport\_three\_way\_equiv}
 
 \begin{proof}
 Immediate from Theorem~\ref{thm:domain-transport} in both directions, using symmetry of \(\hsame\) for the reverse direction. The other parts of a concrete gap, namely signature generation and token introduction, require their own policies and are not bundled into domain transport.
+\end{proof}
+
+\begin{corollary}[Three-history domain transport equivalence]
+\label{cor:domain-three-way-transport-equivalence}
+Under $\DomainPolicy(D)$, if $\hsame(h,k)$ and $\hsame(k,l)$, then
+$$
+  \InDom(D,h)\Longleftrightarrow\InDom(D,l).
+$$
+\end{corollary}
+\leanchecked{BEDC.FKernel.Gap.domain\_transport\_three\_way\_equiv}
+
+\begin{proof}
+Apply Theorem~\ref{thm:domain-transport} along $\hsame(h,k)$ and then along $\hsame(k,l)$ for the forward direction. For the reverse direction, use symmetry of the same two history-sameness premises in the opposite order.
 \end{proof}
 
 \begin{remark}[Active reading]

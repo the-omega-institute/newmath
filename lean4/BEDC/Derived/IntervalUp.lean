@@ -28,6 +28,23 @@ theorem IntervalCarrier_empty_boundary_of_hsame {h : BEDC.FKernel.Hist.BHist} :
     · exact BEDC.FKernel.Hist.hsame_symm sameEmpty
     · exact sameEmpty
 
+theorem IntervalCarrier_empty_boundary_iff_hsame_empty {h : BEDC.FKernel.Hist.BHist} :
+    IntervalCarrier
+      (fun x : BEDC.FKernel.Hist.BHist =>
+        BEDC.FKernel.Hist.hsame BEDC.FKernel.Hist.BHist.Empty x)
+      (fun x : BEDC.FKernel.Hist.BHist =>
+        BEDC.FKernel.Hist.hsame x BEDC.FKernel.Hist.BHist.Empty)
+      h <-> BEDC.FKernel.Hist.hsame h BEDC.FKernel.Hist.BHist.Empty := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro _ boundaries =>
+        cases boundaries with
+        | intro _ upper =>
+            exact upper
+  · intro sameEmpty
+    exact IntervalCarrier_empty_boundary_of_hsame sameEmpty
+
 theorem IntervalCarrier_empty_boundary_hsame_transport {h k : BEDC.FKernel.Hist.BHist} :
     BEDC.FKernel.Hist.hsame h k ->
       IntervalCarrier
@@ -48,6 +65,15 @@ theorem IntervalCarrier_empty_boundary_hsame_transport {h k : BEDC.FKernel.Hist.
           · constructor
             · exact BEDC.FKernel.Hist.hsame_trans lower same
             · exact BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm same) upper
+
+theorem IntervalCarrier_empty_boundary_unique {h k : BHist} :
+    IntervalCarrier (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) h →
+      IntervalCarrier (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) k →
+      hsame h k := by
+  intro hCarrier kCarrier
+  exact hsame_trans hCarrier.right.right (hsame_symm kCarrier.right.right)
 
 theorem IntervalClassifierSpec_empty_boundary_of_hsame {h k : BHist} :
     hsame h BHist.Empty -> hsame k BHist.Empty ->

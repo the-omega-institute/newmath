@@ -65,6 +65,43 @@ Induct on the first list. Nil and cons shape mismatches are impossible by the cl
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e0}
 
+\begin{theorem}[History list classifier reflects $e0$-mapping]
+\label{thm:list-classifier-hsame-map-e0-inversion}
+For BEDC history lists, if the lists obtained by mapping every entry through
+the $e0$ history constructor are structurally classified by $\hsame$, then the
+original lists are structurally classified by $\hsame$.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Nil and cons shape mismatches are impossible by the
+classifier clauses. In the cons-cons case, invert the mapped head witness using
+the $e0$ constructor characterization for $\hsame$, then apply the induction
+hypothesis to the mapped-tail classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e0\_inversion}
+
+\begin{theorem}[History list classifier is stable under $e1$-mapping]
+\label{thm:list-classifier-hsame-map-e1}
+For BEDC history lists, structural classification by $\hsame$ is preserved when every entry of both lists is mapped through the $e1$ history constructor.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Nil and cons shape mismatches are impossible by the classifier clauses. In the cons-cons case, apply $e1$-congruence of $\hsame$ to the heads and apply the induction hypothesis to the classified tails.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e1}
+
+\begin{theorem}[History list classifier reflects $e1$-mapping]
+\label{thm:list-classifier-hsame-map-e1-inversion}
+For BEDC history lists, if the lists obtained by mapping every entry through
+the $e1$ history constructor are structurally classified by $\hsame$, then the
+original lists are structurally classified by $\hsame$.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Nil and cons shape mismatches are impossible by the
+classifier clauses. In the cons-cons case, invert the mapped head witness using
+the $e1$ constructor characterization for $\hsame$, then apply the induction
+hypothesis to the mapped-tail classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e1\_inversion}
+
 \begin{theorem}[History list classifier preserves length]
 \label{thm:list-classifier-hsame-length-eq}
 For lists of finite-kernel histories, structural classification by \(\hsame\) can only relate lists with equal length.

@@ -9,6 +9,7 @@ The disjoint sum interface \(\SumUp\) is licensed over two source carriers each 
 \label{def:sum-carrier}
 For licensed source carriers \(A\) and \(B\), define an inductive carrier with constructors \(\mathsf{inl}(a)\) and \(\mathsf{inr}(b)\).
 \end{definition}
+\leandef{BEDC.Derived.SumUp.SumCarrier}
 \leandef{BEDC.Derived.SumUp.SumHistoryCarrier}
 
 \begin{theorem}[Sum history carrier transport]
@@ -19,6 +20,32 @@ If $h$ and $k$ are internally the same BEDC histories, then membership of $h$ in
 Invert the sum carrier witness. In the left-tag case, compose symmetry of the given $\hsame(h,k)$ witness with the stored $\hsame(h,e0(l))$ tag witness, and keep the same left source-carrier proof. The right-tag case is identical with $e1(r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_hsame\_transport}
+
+\begin{theorem}[Sum history left-tag inversion]
+\label{thm:sum-history-carrier-left-tag-inversion}
+If an \(e0\)-tagged history belongs to the tagged sum-history carrier, then
+its payload is history-same to a left carrier witness.
+\end{theorem}
+\begin{proof}
+Invert the tagged carrier witness. In the left branch, BEDC \(e0\)-constructor
+inversion recovers the payload sameness and keeps the stored left carrier
+proof. In the right branch, the \(e0/e1\) no-confusion theorem contradicts the
+stored tag witness.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_e0\_inversion}
+
+\begin{theorem}[Sum history right-tag inversion]
+\label{thm:sum-history-carrier-e1-inversion}
+If an $e1$-tagged history belongs to the tagged sum-history carrier, then
+its payload is history-same to a right carrier witness.
+\end{theorem}
+\begin{proof}
+Invert the tagged carrier witness. In the left branch, the $e1/e0$
+no-confusion theorem contradicts the stored tag witness. In the right branch,
+BEDC $e1$-constructor inversion recovers the payload sameness and keeps the
+stored right carrier proof.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_e1\_inversion}
 
 \section{The certificate}
 
@@ -31,6 +58,7 @@ The source is the disjoint union of the two source certificates.
 \label{def:sum-pattern-specification}
 The pattern is left-or-right injection from the corresponding source witness.
 \end{definition}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_tagged\_injections}
 
 \begin{definition}[Sum classifier specification]
 \label{def:sum-classifier-specification}
@@ -39,6 +67,43 @@ The classifier relates left values through the \(A\)-classifier, right values th
 \leandef{BEDC.Derived.SumUp.SumHistoryClassifier}
 \leandef{BEDC.Derived.SumUp.SumClassifierSpec}
 \leanchecked{BEDC.Derived.SumUp.sum\_classifier\_inversion}
+
+\begin{theorem}[Sum history classifier left-tag inversion]
+\label{thm:sum-history-classifier-left-hsame-inversion}
+When the history-level sum classifier uses \(\hsame\) on both components and
+relates two \(e0\)-tagged histories, the two left payload histories are
+internally the same.
+\end{theorem}
+\begin{proof}
+Invert the tagged classifier witness. The left branch gives two \(e0\)-tag
+witnesses and a stored component \(\hsame\) witness; constructor inversion for
+\(e0\) composes them into payload sameness. The right branch contradicts
+constructor separation between \(e0\) and \(e1\).
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_left\_hsame\_inversion}
+
+\begin{theorem}[Sum history classifier symmetry under history sameness]
+\label{thm:sum-history-classifier-hsame-symmetry}
+When both component classifiers are \(\hsame\), the history-level sum classifier is symmetric.
+\end{theorem}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_hsame\_symm}
+\begin{proof}
+Invert the classifier witness. In the left-tagged case, swap the two tagged witnesses and use symmetry of \(\hsame\) on the left component. The right-tagged case is identical with the right component.
+\end{proof}
+
+\begin{theorem}[Sum history classifier history transport]
+\label{thm:sum-history-classifier-hsame-transport}
+If both endpoints of a history-level \(\SumUp\) classifier are transported by
+\(\hsame\), then the same classifier witness transports to the transported
+endpoints.
+\end{theorem}
+\begin{proof}
+Invert the tagged classifier witness. In the left branch, keep the same left
+component witnesses and compose the reversed endpoint transports with the two
+stored \(e0\)-tag witnesses. The right branch is identical using the \(e1\)-tag
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_hsame\_transport}
 
 \begin{theorem}[Sum history classifier tag separation]
 \label{thm:sum-history-classifier-tag-separation}
@@ -50,7 +115,20 @@ Invert the classifier witness. In the left branch \(k\) is also
 \(e0\)-tagged, contradicting its \(e1\)-tag witness. In the right branch
 \(h\) is \(e1\)-tagged, contradicting its \(e0\)-tag witness.
 \end{proof}
-\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_left\_right\_absurd}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_mixed\_tags\_absurd}
+
+\begin{theorem}[Sum history classifier transitivity]
+\label{thm:sum-history-classifier-transitivity}
+If the left and right source classifiers are transitive, then the
+history-level \(\SumUp\) classifier is transitive.
+\end{theorem}
+\begin{proof}
+Invert both classifier witnesses. Matching left--left and right--right branches
+identify the shared tagged middle history by BEDC constructor inversion and
+compose the corresponding source-classifier witnesses. Mixed branches
+contradict the \(e0/e1\) no-confusion rule.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_trans}
 
 \begin{definition}[Sum stability certificate]
 \label{def:sum-stability-certificate}
@@ -67,12 +145,25 @@ The stability certificate consists of:
 
 \begin{definition}[Sum ledger policy]
 \label{def:sum-ledger-policy}
-Record the injection tag and the ledger of the selected source.
+Record a raw sum history carrying the selected injection tag and source ledger
+together with an \(\hsame\) link to the visible history exposed by the ledger.
 \end{definition}
+\leandef{BEDC.Derived.SumUp.SumHistoryLedgerPolicy}
 
-\begin{theorem}[Concrete \(\SumUp\) naming certificate]
+\begin{theorem}[Sum ledger visible carrier]
+\label{thm:sum-ledger-visible-carrier}
+If a visible history is linked by \(\hsame\) to a raw sum-ledger history, then
+the visible history is itself a sum carrier.
+\end{theorem}
+\begin{proof}
+Unpack the raw sum carrier and transport it across the stored \(\hsame\) link
+by sum-carrier transport.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_visible\_carrier}
+
+\begin{theorem}[Concrete \(\SumUp\) licensing data]
 \label{thm:concrete-sum-namecert}
-The constructor-discriminating tuple forms a valid NameCert for \(\SumUp(A,B)\).
+The displayed carrier, classifier, stability certificate, and ledger policy are the \(\SumUp(A,B)\) licensing data. The checked Lean coverage in this chapter is the carrier, classifier, and stability layer recorded above.
 \end{theorem}
 \begin{proof}
 The carrier is represented by \(e0\)-tagged left histories and \(e1\)-tagged right histories. The classifier delegates within matching tags to the corresponding source certificate. Reflexivity, symmetry, transitivity, and carrier transport follow from the source \(\NameCert\) fields, while the mixed-tag cases are excluded by BEDC history constructor separation.
@@ -83,4 +174,3 @@ The carrier is represented by \(e0\)-tagged left histories and \(e1\)-tagged rig
 \label{cor:sum-licensed-not-primitive}
 \(\SumUp\) is licensed as a derived disjoint sum, not as a primitive coproduct.
 \end{corollary}
-\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_mixed\_tags\_absurd}

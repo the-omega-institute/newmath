@@ -72,8 +72,21 @@ FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "p
 MAX_LEAN_FILE_LINES = 800
 
 
+def _read_pipeline_pid(pid_file: Path = PID_FILE) -> int | None:
+    try:
+        return int(pid_file.read_text(encoding="utf-8").strip())
+    except (FileNotFoundError, ValueError):
+        return None
+
+
 def write_pipeline_pid(pid_file: Path = PID_FILE, pid: int | None = None) -> None:
     pid_file.write_text(f"{os.getpid() if pid is None else pid}\n", encoding="utf-8")
+
+
+def claim_pipeline_pid(pid_file: Path = PID_FILE, pid: int | None = None) -> int | None:
+    previous = _read_pipeline_pid(pid_file)
+    write_pipeline_pid(pid_file, pid)
+    return previous
 
 
 def remove_pipeline_pid(pid_file: Path = PID_FILE) -> bool:
@@ -84,10 +97,7 @@ def remove_pipeline_pid(pid_file: Path = PID_FILE) -> bool:
 
 
 def pipeline_token_is_current(pid_file: Path = PID_FILE, pid: int | None = None) -> bool:
-    try:
-        recorded = int(pid_file.read_text(encoding="utf-8").strip())
-    except (FileNotFoundError, ValueError):
-        return False
+    recorded = _read_pipeline_pid(pid_file)
     return recorded == (os.getpid() if pid is None else pid)
 
 
@@ -231,7 +241,8 @@ class WorktreeInfo:
     path: Path
     branch: str
     round_number: int
-    base_sha: str = ""  # HEAD at worktree creation; ground truth for "new" commits
+    base_sha: str = ""  # HEAD at worktree creation; ground truth for the round's full integration range
+    formalization_base_sha: str = ""  # HEAD immediately before Phase C creates this round's commits
 
 
 # ---------------------------------------------------------------------------
@@ -743,6 +754,24 @@ def merge_lake_cache_back(wt: WorktreeInfo, new_commits: list[str]) -> None:
         )
 
 
+def run_pre_merge_hard_gates(wt: WorktreeInfo) -> bool:
+    gates = [
+        (["lake", "build"], wt.path / "lean4", 7200),
+        (["python3", "tools/check-axioms.py"], wt.path, 600),
+        (["python3", "lean4/scripts/bedc_ci.py", "audit"], wt.path, 600),
+        (["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], wt.path, 1800),
+    ]
+    for cmd, cwd, timeout in gates:
+        result = run_cmd(cmd, cwd=cwd, timeout=timeout)
+        if result.returncode != 0:
+            logger.error(
+                f"[R{wt.round_number}] Pre-merge hard gate failed: {' '.join(cmd)}\n"
+                f"{(result.stdout or '')[-2000:]}{(result.stderr or '')[-2000:]}"
+            )
+            return False
+    return True
+
+
 def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
     """Merge the worktree branch into BASE_BRANCH and push.
 
@@ -818,6 +847,9 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                     f"latest {BASE_BRANCH}, {len(dup)} new symbol(s) collide with "
                     f"files concurrent workers already merged."
                 )
+                return False
+
+            if not run_pre_merge_hard_gates(wt):
                 return False
 
             # 4. Fast-forward local BASE_BRANCH to rebased worktree tip.
@@ -1246,15 +1278,17 @@ def _file_is_shell_new(text: str) -> Optional[str]:
 def detect_shell_pattern(wt: WorktreeInfo) -> list[str]:
     """Scan .lean files NEWLY added in this round for the abstract-Prop shell pattern."""
     violations: list[str] = []
+    base = _round_diff_base(wt)
+    if not base:
+        return violations
     try:
-        # Get newly-added files in this round vs. base branch.
         result = run_cmd(
-            ["git", "diff", "--name-status", f"origin/{BASE_BRANCH}...HEAD"],
+            ["git", "diff", "--name-status", f"{base}..HEAD", "--", "lean4/BEDC/"],
             cwd=wt.path,
         )
         lines = (result.stdout or "").splitlines()
     except Exception:
-        return violations  # can't check, allow through
+        return violations
 
     new_files: list[str] = []
     for ln in lines:
@@ -1280,7 +1314,7 @@ def detect_shell_pattern(wt: WorktreeInfo) -> list[str]:
 _SORRY_LITERAL_RE = re.compile(
     r"(?<![A-Za-z_])(?:sorry|admit)(?![A-Za-z_])"
 )
-_AXIOM_DECL_RE = re.compile(r"^\s*axiom\s+\w", re.MULTILINE)
+_FORBIDDEN_DECL_RE = re.compile(r"^\s*(axiom|constant|opaque)\s+\w", re.MULTILINE)
 
 
 def _strip_lean_comments(src: str) -> str:
@@ -1325,12 +1359,19 @@ def _strip_lean_comments(src: str) -> str:
     return "".join(out)
 
 
+def _round_diff_base(wt: WorktreeInfo) -> str:
+    return wt.formalization_base_sha or wt.base_sha
+
+
 def _lines_added_in_round(wt: WorktreeInfo, rel_path: str) -> set[int]:
     """Line numbers (1-indexed, of the HEAD version) that this round added to
     `rel_path`."""
+    base = _round_diff_base(wt)
+    if not base:
+        return set()
     try:
         r = run_cmd(
-            ["git", "diff", "--unified=0", f"{wt.base_sha}..HEAD", "--", rel_path],
+            ["git", "diff", "--unified=0", f"{base}..HEAD", "--", rel_path],
             cwd=wt.path,
         )
     except Exception:
@@ -1371,12 +1412,13 @@ def detect_sorry_literals(wt: WorktreeInfo) -> list[str]:
     from English prose in docstrings that happens to contain the word
     "admit"."""
     violations: list[str] = []
-    if not wt.base_sha:
+    base = _round_diff_base(wt)
+    if not base:
         return violations
     try:
         r = run_cmd(
             ["git", "diff", "--name-only", "--diff-filter=AM",
-             f"{wt.base_sha}..HEAD", "--", "lean4/BEDC/"],
+             f"{base}..HEAD", "--", "lean4/BEDC/"],
             cwd=wt.path,
         )
     except Exception:
@@ -1397,21 +1439,23 @@ def detect_sorry_literals(wt: WorktreeInfo) -> list[str]:
             if line_no in added_lines:
                 ctx = src.splitlines()[line_no - 1].strip()[:140]
                 violations.append(f"{rel}:{line_no}: {m.group()} — {ctx}")
-        for m in _AXIOM_DECL_RE.finditer(stripped):
+        for m in _FORBIDDEN_DECL_RE.finditer(stripped):
             line_no = stripped.count("\n", 0, m.start()) + 1
             if line_no in added_lines:
+                kind = m.group(1)
                 ctx = src.splitlines()[line_no - 1].strip()[:140]
-                violations.append(f"{rel}:{line_no}: axiom — {ctx}")
+                violations.append(f"{rel}:{line_no}: {kind} — {ctx}")
     return violations
 
 
 def _changed_lean_files(wt: WorktreeInfo, diff_filter: str = "AM") -> list[str]:
-    if not wt.base_sha:
+    base = _round_diff_base(wt)
+    if not base:
         return []
     try:
         r = run_cmd(
             ["git", "diff", "--name-only", f"--diff-filter={diff_filter}",
-             f"{wt.base_sha}..HEAD", "--", "lean4/BEDC/"],
+             f"{base}..HEAD", "--", "lean4/BEDC/"],
             cwd=wt.path,
         )
     except Exception:
@@ -1516,7 +1560,8 @@ def _lean_decl_blocks(src: str) -> list[tuple[str, int, int, str]]:
 def collect_added_lean_declarations(wt: WorktreeInfo) -> dict[str, tuple[str, str]]:
     """Return newly introduced BEDC declarations as name -> (rel_path, block)."""
     added: dict[str, tuple[str, str]] = {}
-    if not wt.base_sha:
+    base_ref = _round_diff_base(wt)
+    if not base_ref:
         return added
     for rel in _changed_lean_files(wt):
         try:
@@ -1526,7 +1571,7 @@ def collect_added_lean_declarations(wt: WorktreeInfo) -> dict[str, tuple[str, st
         current = {name: block for name, _start, _end, block in _lean_decl_blocks(current_src)}
         try:
             base_src = run_cmd(
-                ["git", "show", f"{wt.base_sha}:{rel}"],
+                ["git", "show", f"{base_ref}:{rel}"],
                 cwd=wt.path, check=False,
             ).stdout
         except Exception:
@@ -1539,12 +1584,13 @@ def collect_added_lean_declarations(wt: WorktreeInfo) -> dict[str, tuple[str, st
 
 
 def _changed_paper_files(wt: WorktreeInfo) -> list[str]:
-    if not wt.base_sha:
+    base = _round_diff_base(wt)
+    if not base:
         return []
     try:
         r = run_cmd(
             ["git", "diff", "--name-only", "--diff-filter=AM",
-             f"{wt.base_sha}..HEAD", "--", "papers/bedc/"],
+             f"{base}..HEAD", "--", "papers/bedc/"],
             cwd=wt.path,
         )
     except Exception:
@@ -1554,11 +1600,12 @@ def _changed_paper_files(wt: WorktreeInfo) -> list[str]:
 
 def _added_marker_lines(wt: WorktreeInfo) -> list[tuple[str, str, str]]:
     markers: list[tuple[str, str, str]] = []
-    if not wt.base_sha:
+    base = _round_diff_base(wt)
+    if not base:
         return markers
     try:
         r = run_cmd(
-            ["git", "diff", "--unified=0", f"{wt.base_sha}..HEAD", "--", "papers/bedc/"],
+            ["git", "diff", "--unified=0", f"{base}..HEAD", "--", "papers/bedc/"],
             cwd=wt.path,
         )
     except Exception:
@@ -1915,15 +1962,15 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
                 f"or duplicate theorem inflation. Pick a concrete closure/transport target."
             )
             return False, new
-        # Gate 5: sorry/admit/axiom literals in newly-added or modified lines
+        # Gate 5: sorry/admit/axiom/constant/opaque literals in newly-added or modified lines
         sorry_violations = detect_sorry_literals(wt)
         if sorry_violations:
             for v in sorry_violations[:10]:
-                logger.error(f"[R{wt.round_number}] SORRY LITERAL: {v}")
+                logger.error(f"[R{wt.round_number}] FORBIDDEN LEAN PLACEHOLDER: {v}")
             logger.error(
                 f"[R{wt.round_number}] Rejecting round: {len(sorry_violations)} added "
-                f"line(s) contain sorry/admit/axiom literals. The completion contract "
-                f"in phase_c.txt forbids these in committed code."
+                f"line(s) contain sorry/admit/axiom/constant/opaque placeholders. The completion "
+                f"contract in phase_c.txt forbids these in committed code."
             )
             return False, new
         # Gate 6: duplicate-symbol clash with base branch
@@ -2022,6 +2069,10 @@ def run_round_in_worktree(
 
         # ── Phase C ───────────────────────────────────────────────
         logger.info(f"[{tag}] Phase C: Implementation (in worktree)...")
+        if wt is not None and not dry_run:
+            wt.formalization_base_sha = run_cmd(
+                ["git", "rev-parse", "HEAD"], cwd=wt.path, check=False
+            ).stdout.strip()
         phase_c_prompt = build_phase_c_prompt(round_num, phase_b.targets)
         phase_c_raw = codex_exec(
             phase_c_prompt,
@@ -2188,6 +2239,10 @@ def run_parallel_batch(
     Dispatch `parallel` rounds concurrently using worktrees.
     Returns (succeeded_count, failed_count).
     """
+    if not dry_run and not pipeline_token_is_current():
+        logger.info(f"Pipeline PID token is not current ({PID_FILE}), skipping batch dispatch")
+        return 0, 0
+
     round_nums = allocate_round_numbers(state, parallel)
     total_theorems = state.total_theorems
     recent = state.recent_commits
@@ -2201,6 +2256,11 @@ def run_parallel_batch(
     with ThreadPoolExecutor(max_workers=parallel, thread_name_prefix="worker") as pool:
         futures: dict[Future, int] = {}
         for rn in round_nums:
+            if not dry_run and not pipeline_token_is_current():
+                logger.info(
+                    f"Pipeline PID token is not current ({PID_FILE}), stopping batch dispatch"
+                )
+                break
             memory_pressure_wait(context=f"dispatch R{rn}")
             fut = pool.submit(
                 run_round_in_worktree,
@@ -2812,7 +2872,12 @@ def main() -> int:
     logger.info(f"Base branch: {BASE_BRANCH}")
     logger.info(f"Parallelism: {args.parallel}")
     if not args.dry_run:
-        write_pipeline_pid()
+        previous_pid = claim_pipeline_pid()
+        if previous_pid is not None and previous_pid != os.getpid():
+            logger.info(
+                f"Pipeline PID token replaced previous owner {previous_pid}; "
+                f"old pipeline will drain while this process dispatches new rounds"
+            )
         logger.info(f"Pipeline PID token: {PID_FILE} ({os.getpid()})")
 
     # Ensure base branch

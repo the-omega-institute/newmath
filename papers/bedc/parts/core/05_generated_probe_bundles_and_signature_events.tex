@@ -66,6 +66,50 @@ $$
 \end{definition}
 \leandef{BEDC.FKernel.Bundle.bundleAppend}
 
+\begin{theorem}[Probe bundle append right unit]
+\label{thm:bundle-append-right-unit}
+For every probe bundle \(\Pi\),
+$$
+\mathsf{BAppend}(\Pi,\Bnil)=\Pi .
+$$
+\end{theorem}
+\begin{proof}
+Induct on \(\Pi\). The empty bundle case is definitional. In the cons case,
+both sides expose the same head probe, and the tail equality is the induction
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_nil\_right}
+
+\begin{theorem}[Probe bundle append associativity]
+\label{thm:probe-bundle-append-associativity}
+For all probe bundles \(\Pi,\Theta,\Omega\),
+$$
+\mathsf{BAppend}(\mathsf{BAppend}(\Pi,\Theta),\Omega)
+=
+\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\Omega)).
+$$
+\end{theorem}
+\begin{proof}
+Induct on \(\Pi\). The empty bundle case is definitional. In the cons case,
+both sides expose the same head probe, and the tail equality is the induction
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_assoc}
+
+\begin{theorem}[Probe bundle append right unit]
+\label{thm:probe-bundle-append-right-unit}
+For every probe bundle \(\Pi\),
+$$
+\mathsf{BAppend}(\Pi,\Bnil)=\Pi .
+$$
+\end{theorem}
+\begin{proof}
+Induct on \(\Pi\). The empty bundle case is definitional. In the cons case,
+both sides expose the same head probe, and the tail equality is the induction
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_right\_nil}
+
 \begin{theorem}[Bundle append membership]
 \label{thm:bundle-append-membership}
 For every probe $p$ and bundles $\Pi,\Theta$,
@@ -127,6 +171,31 @@ then
 \]
 Here \(\delta\star\Delta\) is the evidence-composition operation licensed by the relevant asking policy.
 \end{kernelrule}
+
+\begin{theorem}[Signature generation over bundle append]
+\label{thm:signature-generation-bundle-append}
+For probe bundles $\Pi,\Theta$ and source history $h$, if $\Sig(\Pi,h,s,\Delta)$ and $\Sig(\Theta,h,t,\Gamma)$, then there exist a history $u$ and evidence $\Lambda$ such that
+$$
+\ContR(t,s,u)
+\quad\text{and}\quad
+\Sig(\mathsf{BAppend}(\Pi,\Theta),h,u,\Lambda).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $\Pi$. In the empty bundle case, empty-signature inversion identifies $s$ with $\emp$; take $u=t$, use the right-unit continuation constructor, and reuse the given signature for $\Theta$. In the cons case, invert the left signature. The tail signature for $\Pi$ and the signature for $\Theta$ feed the induction hypothesis, producing a tail result $u_0$ with $\ContR(t,s_0,u_0)$ and a signature for $\mathsf{BAppend}(\Pi,\Theta)$. Rebuild the cons signature using the original head asking event and the tail signature. The final extension branch supplies either the $\Ezero$ or $\Eone$ continuation step, yielding $\ContR(t,s,u)$ for the rebuilt result.
+\end{proof}
+
+\begin{theorem}[Cons tail signatures from result-sameness]
+\label{thm:signature-cons-tail-hsame-from-result-hsame}
+If two derivations of \(\Sig(\Bcons(\pi,\Pi),h,r,\Delta)\) and
+\(\Sig(\Bcons(\pi,\Pi),h,r',\Theta)\) have \(\hsame(r,r')\), then there exist
+tail results \(s,t\) such that \(\Sig(\Pi,h,s,\Delta_s)\), \(\Sig(\Pi,h,t,\Delta_t)\), and
+\(\hsame(s,t)\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sig\_cons\_tail\_hsame\_from\_result\_hsame}
+\begin{proof}
+Invert both cons-signature derivations and their final extension witnesses. Cross-mark extension branches contradict result-sameness by history no-confusion, while matching marks expose matching outer history constructors; constructor injectivity yields \(\hsame\) of the tail results.
+\end{proof}
 
 \begin{theorem}[Cons head mark determinacy]
 \label{thm:signature-cons-head-mark-determinacy}

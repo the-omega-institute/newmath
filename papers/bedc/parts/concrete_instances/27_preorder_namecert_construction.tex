@@ -28,6 +28,29 @@ The source is the carrier \(C\) with its classifier and relation.
 The pattern is relational judgment formation \(a\le_C b\) over carrier witnesses.
 \end{definition}
 
+\begin{theorem}[Prefix from history sameness]
+\label{thm:preorder-prefix-le-of-hsame}
+If $h$ and $k$ are internally history-same, then $h\le k$ in the concrete unary
+history prefix relation.
+\end{theorem}
+\begin{proof}
+Eliminate the $\hsame(h,k)$ witness. The prefix relation is then witnessed by
+the empty unary tail together with the right-unit continuation law for $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_of\_hsame}
+
+\begin{theorem}[Prefix append by unary tail]
+\label{thm:preorder-prefix-append-unary-tail}
+For every history \(h\), appending a unary tail to \(h\) gives a concrete
+prefix relation from \(h\) to the append result.
+\end{theorem}
+\begin{proof}
+Use the unary tail itself as the prefix witness. The continuation component is
+the definitional append equation, introduced by the BEDC continuation
+constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_unary\_tail}
+
 \begin{theorem}[Prefix from empty is unary carrier]
 \label{thm:preorder-prefix-empty-left-iff-unary}
 For the concrete unary history preorder, $\emp\le h$ holds exactly when $h$ is in the preorder carrier.
@@ -37,18 +60,18 @@ Eliminate the prefix witness from $\emp$ to expose its unary tail and continuati
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_empty\_left\_iff\_unary}
 
-\begin{theorem}[Preorder prefix results remain in the carrier]
-\label{thm:preorder-prefix-result-carrier}
-For the unary history preorder prefix relation, if \(h\) is in the preorder
-carrier and \(h\le k\) is witnessed by a unary continuation tail, then \(k\)
-is also in the preorder carrier.
+\begin{theorem}[Prefix to empty identifies the source]
+\label{thm:preorder-prefix-empty-target-iff}
+For the concrete unary history preorder, $h\le \emp$ holds exactly when
+$h\hsame \emp$.
 \end{theorem}
-\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_result\_carrier}
 \begin{proof}
-Unpack the prefix witness into a tail \(t\), its unary carrier proof, and a
-continuation proof \(\Cont(h,t,k)\). The finite-kernel unary continuation
-closure theorem gives unary membership of the result \(k\).
+Eliminate the prefix witness into a unary tail and a continuation into
+$\emp$. The empty-result inversion theorem forces the source history to be
+$\emp$. Conversely, after the history-sameness proof identifies the source
+with $\emp$, use the empty unary tail and the continuation right unit.
 \end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_empty\_target\_iff}
 
 \begin{theorem}[Prefix relation preserves the carrier]
 \label{thm:preorder-prefix-preserves-carrier}
@@ -73,14 +96,17 @@ If \(h\le k\) is witnessed by a unary continuation tail, and \(k\) continues by 
 Unpack the first prefix witness as a unary tail from \(h\) to \(k\). Compose this continuation with the continuation from \(k\) to \(r\); associativity of continuation supplies the resulting path from \(h\), and unary closure under append supplies the combined unary tail.
 \end{proof}
 
-\begin{theorem}[Prefix target remains in the preorder carrier]
-\label{thm:preorder-prefix-target-carrier}
-For the history preorder carrier, if \(h\) is unary and \(k\) is reached from \(h\) by a unary continuation tail, then \(k\) is also unary.
+\begin{theorem}[Prefix transitivity]
+\label{thm:preorder-prefix-transitivity}
+If \(h\le k\) and \(k\le r\) are witnessed by unary continuation tails, then
+\(h\le r\).
 \end{theorem}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_trans}
 \begin{proof}
-Unpack the prefix relation into a unary tail and a continuation witness. Unary closure under continuation sends the source carrier witness and the tail witness to the target history.
+Unpack the two prefix witnesses. Append the two unary tails, use unary closure
+under append for the combined tail, and use continuation associativity to
+identify the direct continuation from \(h\) to \(r\).
 \end{proof}
-\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_target\_carrier}
 
 \begin{theorem}[Prefix antisymmetry collapses to history sameness]
 \label{thm:preorder-prefix-le-antisymm-hsame}
@@ -110,6 +136,32 @@ continuation associativity to identify the resulting continuation from \(x\) to
 \(k\).
 \end{proof}
 
+\begin{theorem}[Prefix append tail]
+\label{thm:preorder-prefix-append-tail}
+For every history \(h\), appending a unary history \(t\) gives a concrete
+prefix comparison \(h \le \mathsf{append}(h,t)\).
+\end{theorem}
+\begin{proof}
+Use \(t\) itself as the prefix witness. Its unary membership is the supplied
+carrier for the tail, and the continuation component is the defining
+append-result equality.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail}
+
+\begin{theorem}[Prefix left context cancellation]
+\label{thm:preorder-prefix-left-context-cancellation}
+If appending the same left context to \(h\) and \(k\) makes
+\(\mathsf{append}(x,h)\le\mathsf{append}(x,k)\), then \(h\le k\).
+\end{theorem}
+\begin{proof}
+Unpack the prefix witness as a unary tail and a continuation equation from
+\(\mathsf{append}(x,h)\) to \(\mathsf{append}(x,k)\). Continuation associativity rewrites the
+right side as a common left append by \(x\); left cancellation removes that
+context and gives the continuation equation from \(h\) to \(k\) with the same
+unary tail.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_cancel\_left\_context}
+
 \begin{definition}[Preorder stability certificate]
 \label{def:preorder-stability-certificate}
 The stability certificate consists of:
@@ -127,6 +179,11 @@ The stability certificate consists of:
 \begin{definition}[Preorder ledger policy]
 \label{def:preorder-ledger-policy}
 Record the compared carrier witnesses and the relation derivation.
+\end{definition}
+
+\begin{definition}[\(\PreorderUp\) certificate obligations]
+\label{def:preorder-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\PreorderUp\).
 \end{definition}
 
 \begin{theorem}[Concrete \(\PreorderUp\) naming certificate]

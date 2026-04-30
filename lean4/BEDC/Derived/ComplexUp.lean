@@ -1,0 +1,85 @@
+import BEDC.Derived.ProdUp
+import BEDC.Derived.RatUp
+
+namespace BEDC.Derived.ComplexUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+
+def ComplexHistoryCarrier (h : BHist) : Prop :=
+  BEDC.Derived.ProdUp.ProdHistoryCarrier BEDC.Derived.RatUp.RatHistoryCarrier
+    BEDC.Derived.RatUp.RatHistoryCarrier h
+
+def ComplexHistoryClassifier (h k : BHist) : Prop :=
+  BEDC.Derived.ProdUp.ProdHistoryClassifier BEDC.Derived.RatUp.RatHistoryCarrier
+    BEDC.Derived.RatUp.RatHistoryCarrier h k
+
+theorem complex_history_semantic_name_certificate :
+    SemanticNameCert ComplexHistoryCarrier ComplexHistoryCarrier ComplexHistoryCarrier
+      ComplexHistoryClassifier := by
+  have ratCert :
+      SemanticNameCert BEDC.Derived.RatUp.RatHistoryCarrier
+        BEDC.Derived.RatUp.RatHistoryCarrier BEDC.Derived.RatUp.RatHistoryCarrier
+        BEDC.Derived.RatUp.RatHistoryClassifier :=
+    BEDC.Derived.RatUp.rat_history_semantic_name_certificate
+  cases ratCert.core.carrier_inhabited with
+  | intro realHist realCarrier =>
+      cases ratCert.core.carrier_inhabited with
+      | intro imagHist imagCarrier =>
+          exact {
+            core := {
+              carrier_inhabited := Exists.intro (append realHist imagHist)
+                (Exists.intro realHist
+                  (Exists.intro imagHist
+                    (And.intro realCarrier
+                      (And.intro imagCarrier
+                        (cont_intro (h := realHist) (k := imagHist) rfl)))))
+              equiv_refl := by
+                intro h carrier
+                exact And.intro carrier (And.intro carrier (hsame_refl h))
+              equiv_symm := by
+                intro h k classified
+                cases classified with
+                | intro carrierH rest =>
+                    cases rest with
+                    | intro carrierK sameHK =>
+                        exact And.intro carrierK (And.intro carrierH (hsame_symm sameHK))
+              equiv_trans := by
+                intro h k r classifiedHK classifiedKR
+                cases classifiedHK with
+                | intro carrierH restHK =>
+                    cases restHK with
+                    | intro _ sameHK =>
+                        cases classifiedKR with
+                        | intro _ restKR =>
+                            cases restKR with
+                            | intro carrierR sameKR =>
+                                exact And.intro carrierH
+                                  (And.intro carrierR (hsame_trans sameHK sameKR))
+              carrier_respects_equiv := by
+                intro h k classified carrier
+                cases carrier with
+                | intro leftHist rest =>
+                    cases rest with
+                    | intro rightHist data =>
+                        cases data with
+                        | intro leftCarrier rightData =>
+                            cases rightData with
+                            | intro rightCarrier cont =>
+                                exact Exists.intro leftHist
+                                  (Exists.intro rightHist
+                                    (And.intro leftCarrier
+                                      (And.intro rightCarrier
+                                        (cont_result_hsame_transport cont
+                                          classified.right.right))))
+            }
+            pattern_sound := by
+              intro h source
+              exact source
+            ledger_sound := by
+              intro h source
+              exact source
+          }
+
+end BEDC.Derived.ComplexUp

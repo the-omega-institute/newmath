@@ -24,6 +24,31 @@ It is a relation, not a function.
 \leanvariant{BEDC.FKernel.Ext.ext\_source\_deterministic\_from\_result}
 \leanvariant{BEDC.FKernel.Ext.ext\_cross\_mark\_result\_impossible}
 
+\begin{theorem}[Extension result constructor characterization]
+\label{thm:extension-result-constructor-characterization}
+For any histories \(h\) and \(t\), an extension result of shape \(\Ezero(t)\)
+is generated exactly by mark \(\bzero\) together with \(\hsame(h,t)\). An
+extension result of shape \(\Eone(t)\) is generated exactly by mark \(\bone\)
+together with \(\hsame(h,t)\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_result\_constructor\_iff}
+\begin{proof}
+Invert the generated extension witness. In the zero-result branch, closed
+generation forces the emitted mark to be \(\bzero\) and the source to be the
+tail up to history sameness; the converse reconstructs the zero extension after
+eliminating those equalities. The one-result branch is identical with the
+\(\Eone\) constructor.
+\end{proof}
+
+\begin{lemma}[Cross-mark extension results are separated]
+\label{lem:extension-cross-mark-result-separation}
+If \(\ExtR(\bzero,h,r_0)\), \(\ExtR(\bone,h,r_1)\), and \(\hsame(r_0,r_1)\), then contradiction follows.
+\end{lemma}
+\leanchecked{BEDC.FKernel.Ext.ext\_same\_source\_cross\_mark\_results\_not\_hsame}
+\begin{proof}
+Invert the two extension witnesses. The result histories are \(\Ezero(h)\) and \(\Eone(h)\), and history no-confusion excludes \(\hsame(\Ezero(h),\Eone(h))\).
+\end{proof}
+
 \begin{theorem}[Extension result injectivity]
 \label{thm:ext-result-injective-pair}
 If \(\ExtR(m,h,r)\) and \(\ExtR(m',h',r)\), then \(\hsame(h,h')\) and \(\msame(m,m')\).
@@ -220,6 +245,15 @@ If \(\ContR(h,k,u)\), \(\ContR(u,l,v)\), \(\ContR(k,l,w)\), and \(\ContR(h,w,z)\
 \leanvariant{BEDC.FKernel.Cont.cont\_assoc\_spine\_symmetric\_witnesses}
 \begin{proof}
 Induct on the derivation of \(\ContR(h,k,u)\). The empty case reduces both sides to the determinacy of \(\ContR(k,l,-)\). In the \(\Ezero\) and \(\Eone\) cases, no-confusion forces matching outer constructors in the relevant continuation derivations; use the induction hypothesis on inner histories and rebuild \(\hsame\) under the same outer constructor.
+\end{proof}
+
+\begin{theorem}[Continuation right append decomposition]
+\label{thm:cont-right-append-decompose}
+If \(\ContR(h,k\mathbin{\cdot}l,r)\), then there exists a generated history \(m\) such that \(\ContR(h,k,m)\) and \(\ContR(m,l,r)\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_right\_append\_decompose}
+\begin{proof}
+Unfold continuation as append equality. Take \(m\) to be the append of \(h\) and \(k\). The first continuation is definitional, and the second is the reverse direction of append associativity.
 \end{proof}
 
 \begin{corollary}[Continuation gives an addition-like seed]

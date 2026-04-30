@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\CompactUp\)}
 \label{ch:concrete-instances-compact-namecert}
 
-The compactness interface \(\CompactUp\) is licensed for subsets of metric spaces from \autoref{ch:concrete-instances-metric-namecert}. In Bishop-style constructive analysis, compact means located + totally bounded, with both fields expressed via explicit witness functions: locatedness gives, for any point and rational \(\epsilon\), a decision whether the point is within \(\epsilon\) of the subset; total boundedness gives, for any rational \(\epsilon\), a finite \(\epsilon\)-net. The classical Heine-Borel formulation (every open cover has a finite subcover) is not directly licensable in BEDC because it requires LEM in general; the located + totally bounded formulation is constructively equivalent for compact metric spaces and is the form licensed here.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-compact-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The compactness interface \(\CompactUp\) has certificate obligations for subsets of metric spaces from \autoref{ch:concrete-instances-metric-namecert}. The BEDC-licensed carrier is a subset predicate equipped with explicit locatedness witnesses and finite-net witnesses: locatedness gives, for any point and rational \(\epsilon\), a decision whether the point is within \(\epsilon\) of the subset; finite-net data gives, for any rational \(\epsilon\), a finite \(\epsilon\)-net.
 
 \section{Carrier definition}
 
@@ -51,18 +44,15 @@ The stability certificate consists of:
 Record the subset predicate, locatedness decisions, and finite net ledgers.
 \end{definition}
 
-\begin{theorem}[Concrete \(\CompactUp\) naming certificate]
-\label{thm:concrete-compact-namecert}
-The located-and-totally-bounded tuple forms a valid NameCert for \(\CompactUp(X)\).
-\end{theorem}
+\begin{definition}[\(\CompactUp\) certificate obligations]
+\label{def:compact-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\CompactUp\).
+\end{definition}
 
-\begin{corollary}[\(\CompactUp\) is licensed, not primitive]
-\label{cor:compact-licensed-not-primitive}
-\(\CompactUp\) is licensed by constructive metric compactness data.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\CompactUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:compact-zero-axiom-note}
-Replaces open-cover compactness and LEM with locatedness plus explicit finite nets.
+Open-cover compactness is not the exported carrier for \(\CompactUp\); the exported carrier is locatedness plus explicit finite-net data.
 \end{remark}
-

@@ -61,20 +61,36 @@ By closed generation, a derivation of \(\HSame\) must follow the displayed struc
 \leanvariant{BEDC.FKernel.Hist.history\_no\_confusion\_four\_cases}
 \leanvariant{BEDC.FKernel.Hist.history\_no\_confusion\_empty\_pair}
 \leanvariant{BEDC.FKernel.Hist.history\_no\_confusion\_expanded\_pair}
-\leanchecked{BEDC.FKernel.Hist.hsame\_constructor\_kind\_preserved}
 \leanvariant{BEDC.FKernel.Hist.hsame\_no\_confusion\_symmetric}
 \leanvariant{BEDC.FKernel.Hist.hsame\_no\_confusion\_complete}
 \leanvariant{BEDC.FKernel.Hist.history\_no\_confusion\_empty\_cross\_pair}
 \leanvariant{BEDC.FKernel.Hist.hsame\_empty\_iff}
-\leanchecked{BEDC.FKernel.Hist.hsame\_e0\_iff}
-\leanvariant{BEDC.FKernel.Hist.hsame\_e0\_inversion\_iff}
-\leanvariant{BEDC.FKernel.Hist.hsame\_e1\_iff}
+
+\begin{theorem}[History constructor kind preservation]
+\label{thm:history-constructor-kind-preserved}
+If \(\HSame(h,k)\) is derivable, then \(h\) and \(k\) have the same outer constructor kind: empty with empty, \(\Ezero\) with \(\Ezero\), or \(\Eone\) with \(\Eone\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Hist.hsame\_constructor\_kind\_preserved}
+
+\begin{proof}
+Invert the displayed derivation of \(\HSame(h,k)\). Each constructor of the generated judgment relates histories built by the same outer history constructor, so the conclusion follows by cases on that final constructor.
+\end{proof}
 
 \begin{theorem}[\(\HSame\) is an internal equivalence]
 The judgment \(\HSame\) is reflexive, symmetric, and transitive on generated histories.
 \end{theorem}
 \begin{proof}
 Reflexivity is proved by induction on generated histories. Symmetry is proved by induction on the displayed derivation of \(\HSame\). Transitivity is proved by induction on the first derivation, using history no-confusion to invert the second derivation into the matching constructor case.
+\end{proof}
+
+\begin{corollary}[\(\Ezero\)-constructor inversion]
+\label{cor:ezero-constructor-inversion}
+For histories \(h\) and \(k\), \(\HSame(\Ezero(h),\Ezero(k))\) is derivable exactly when \(\HSame(h,k)\) is derivable.
+\end{corollary}
+\leanchecked{BEDC.FKernel.Hist.hsame\_e0\_iff}
+
+\begin{proof}
+The forward direction inverts the final constructor of the displayed derivation. The reverse direction applies the \(\Ezero\)-congruence constructor for \(\HSame\).
 \end{proof}
 
 \begin{corollary}[Constructor inversion]

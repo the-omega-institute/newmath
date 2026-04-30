@@ -3,13 +3,6 @@
 
 The field interface \(\FieldUp\) extends \autoref{ch:concrete-instances-commring-namecert} with the multiplicative inverse field: every element classified as nonzero by the carrier's apartness predicate admits a multiplicative inverse. The apartness discipline (constructive nonzeroness) replaces the classical "\(a \ne 0\) implies \(a\) invertible" formulation, which would otherwise require LEM. The rational field from \autoref{ch:concrete-instances-rat-namecert} is the canonical concrete instance.
 
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-field-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
-
 \section{Carrier definition}
 
 \begin{definition}[Field carrier]
@@ -51,15 +44,13 @@ The stability certificate consists of:
 Record the ring ledger and the apartness witness used for each inverse.
 \end{definition}
 
-\begin{theorem}[Concrete \(\FieldUp\) naming certificate]
-\label{thm:concrete-field-namecert}
-Any commutative ring with constructive nonzero inverse fields forms a valid NameCert for \(\FieldUp(C)\).
-\end{theorem}
+\begin{definition}[\(\FieldUp\) certificate obligations]
+\label{def:field-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\FieldUp\).
+\end{definition}
 
-\begin{corollary}[\(\FieldUp\) is licensed, not primitive]
-\label{cor:field-licensed-not-primitive}
-\(\FieldUp\) is licensed by apartness-based invertibility, not by classical nonzero elimination.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\FieldUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:field-zero-axiom-note}

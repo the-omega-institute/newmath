@@ -41,6 +41,9 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: "false"
 
+      - name: Test codex formalize gates
+        run: python3 lean4/scripts/test_codex_formalize_gates.py
+
       - name: Audit axioms (BEDC zero-axiom invariant)
         run: python3 tools/check-axioms.py
 

@@ -123,11 +123,30 @@ theorem BoolHistoryCarrier_e1_tail_empty {h : BEDC.FKernel.Hist.BHist} :
   | inr oneCase =>
       exact BEDC.FKernel.Hist.hsame_e1_iff.mp oneCase
 
+theorem BoolHistoryCarrier_e1_iff_tail_empty {h : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryCarrier (BEDC.FKernel.Hist.BHist.e1 h) ↔
+      BEDC.FKernel.Hist.hsame h BEDC.FKernel.Hist.BHist.Empty := by
+  constructor
+  · exact BoolHistoryCarrier_e1_tail_empty
+  · intro tailEmpty
+    exact Or.inr (BEDC.FKernel.Hist.hsame_e1_congr tailEmpty)
+
 def BoolHistoryClassifier
     (h k : BEDC.FKernel.Hist.BHist) : Prop :=
   BoolHistoryCarrier h /\
     BoolHistoryCarrier k /\
       BEDC.FKernel.Hist.hsame h k
+
+theorem BoolHistoryClassifier_e1_tail_hsame {h k : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryClassifier (BEDC.FKernel.Hist.BHist.e1 h)
+      (BEDC.FKernel.Hist.BHist.e1 k) ->
+      BEDC.FKernel.Hist.hsame h k := by
+  intro classifier
+  cases classifier with
+  | intro _ rest =>
+      cases rest with
+      | intro _ same =>
+          exact BEDC.FKernel.Hist.hsame_e1_iff.mp same
 
 theorem BoolHistoryClassifier_constructor_separation :
     BoolHistoryClassifier BEDC.FKernel.Hist.BHist.Empty
@@ -155,6 +174,24 @@ theorem BoolHistoryClassifier_trans {h k r : BEDC.FKernel.Hist.BHist} :
                   · constructor
                     · exact carrierR
                     · exact BEDC.FKernel.Hist.hsame_trans histHK histKR
+
+theorem BoolHistoryClassifier_empty_left_iff {k : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryClassifier BEDC.FKernel.Hist.BHist.Empty k <->
+      BEDC.FKernel.Hist.hsame k BEDC.FKernel.Hist.BHist.Empty := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro _ rest =>
+        cases rest with
+        | intro _ same =>
+            exact BEDC.FKernel.Hist.hsame_symm same
+  · intro same
+    constructor
+    · exact Or.inl
+        (BEDC.FKernel.Hist.hsame_refl BEDC.FKernel.Hist.BHist.Empty)
+    · constructor
+      · exact Or.inl same
+      · exact BEDC.FKernel.Hist.hsame_symm same
 
 theorem BoolHistoryCarrier_hsame_transport {h k : BEDC.FKernel.Hist.BHist} :
     BEDC.FKernel.Hist.hsame h k -> BoolHistoryCarrier h -> BoolHistoryCarrier k := by

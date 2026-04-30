@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\LinearMapUp\)}
 \label{ch:concrete-instances-linearmap-namecert}
 
-The linear map interface \(\LinearMapUp\) is licensed between two vector spaces over the same scalar field from \autoref{ch:concrete-instances-vecspace-namecert}. The carrier is the predicate "\(f : V \to W\) preserves the additive structure and commutes with scalar multiplication"; the classifier is pointwise carrier sameness on the codomain restricted to maps satisfying linearity. It is not a primitive function space; it is licensed only as a derived predicate over function pairs.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-linearmap-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The linear map interface \(\LinearMapUp\) has certificate obligations between two vector spaces over the same scalar field from \autoref{ch:concrete-instances-vecspace-namecert}. The carrier is the predicate "\(f : V \to W\) preserves the additive structure and commutes with scalar multiplication"; the classifier is pointwise carrier sameness on the codomain restricted to maps satisfying linearity. It is not a primitive function space; it is admitted only as a derived predicate over function pairs.
 
 \section{Carrier definition}
 
@@ -52,15 +45,13 @@ The stability certificate consists of:
 Record the function identifier, its linearity witnesses, and codomain ledgers for pointwise comparisons.
 \end{definition}
 
-\begin{theorem}[Concrete \(\LinearMapUp\) naming certificate]
-\label{thm:concrete-linearmap-namecert}
-The function-with-linearity tuple forms a valid NameCert for \(\LinearMapUp(V,W)\).
-\end{theorem}
+\begin{definition}[\(\LinearMapUp\) certificate obligations]
+\label{def:linearmap-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\LinearMapUp\).
+\end{definition}
 
-\begin{corollary}[\(\LinearMapUp\) is licensed, not primitive]
-\label{cor:linearmap-licensed-not-primitive}
-\(\LinearMapUp\) is licensed as a predicate-bearing carrier over functions, not as a primitive function space.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\LinearMapUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:linearmap-zero-axiom-note}

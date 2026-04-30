@@ -3,10 +3,10 @@
 
 The partially ordered set interface \(\POSetUp\) extends \autoref{ch:concrete-instances-preorder-namecert} with the antisymmetry field: if \(a \le b\) and \(b \le a\) then \(a\) and \(b\) are classified the same by the carrier. The integer order from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
 
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-poset-namecert-roadmap}
+\begin{remark}[\(\POSetUp\) interface scope]
+\label{rem:concrete-instances-poset-namecert-scope}
 This chapter records the \(\POSetUp\) licensing target. The concrete prefix
-antisymmetry theorem is linked to the unary preorder classifier; the remaining
+antisymmetry theorem is linked to the unary preorder classifier, and the
 certificate fields are specified below.
 \end{remark}
 
@@ -39,7 +39,7 @@ The classifier is the preorder carrier classifier.
 For the concrete unary history prefix preorder, if \(h\le k\) and \(k\le h\),
 then \(h\) and \(k\) are classified the same by the preorder classifier.
 \end{theorem}
-\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_antisymm\_classifier}
+\leanvariant{BEDC.Derived.PreorderUp.PreorderPrefixLE\_antisymm\_hsame}
 \begin{proof}
 Unpack the two prefix witnesses. Substituting the first continuation into the
 second gives a loop from \(h\) through the appended forward and backward tails.
@@ -63,12 +63,10 @@ The stability certificate consists of:
 Record both comparison derivations when antisymmetry is used.
 \end{definition}
 
-\begin{theorem}[Concrete \(\POSetUp\) naming certificate]
-\label{thm:concrete-poset-namecert}
-Any preorder setup with antisymmetry forms a valid NameCert for \(\POSetUp(C)\).
-\end{theorem}
+\begin{definition}[\(\POSetUp\) certificate obligations]
+\label{def:poset-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\POSetUp\).
+\end{definition}
 
-\begin{corollary}[\(\POSetUp\) is licensed, not primitive]
-\label{cor:poset-licensed-not-primitive}
-\(\POSetUp\) is licensed as the antisymmetric specialization of \(\PreorderUp\).
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\POSetUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

@@ -56,6 +56,11 @@ The unit fields are the empty-history continuation constructors. For associativi
 Record the carrier witnesses and operation tree behind each monoid expression.
 \end{definition}
 
+\begin{definition}[\(\MonoidUp\) certificate obligations]
+\label{def:monoid-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\MonoidUp\).
+\end{definition}
+
 \begin{theorem}[Concrete \(\MonoidUp\) naming certificate]
 \label{thm:concrete-monoid-namecert}
 Any setup satisfying the monoid fields forms a valid NameCert for \(\MonoidUp(C)\).
@@ -65,7 +70,5 @@ The identity element inhabits the carrier. The monoid classifier records source 
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.monoid\_history\_semantic\_name\_certificate}
 
-\begin{corollary}[\(\MonoidUp\) is licensed, not primitive]
-\label{cor:monoid-licensed-not-primitive}
-\(\MonoidUp\) is licensed exactly when the carrier supplies the monoid law fields.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\MonoidUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

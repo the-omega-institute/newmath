@@ -3,13 +3,6 @@
 
 The lattice interface \(\LatticeUp\) extends \autoref{ch:concrete-instances-poset-namecert} with binary meet \(\wedge\) and join \(\vee\) operations, each classified as the greatest lower bound and least upper bound of two elements under the partial order. Idempotence, commutativity, associativity, and absorption laws are derived from the bound characterizations under the carrier's classifier.
 
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-lattice-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
-
 \section{Carrier definition}
 
 \begin{definition}[Lattice carrier]
@@ -52,12 +45,10 @@ The stability certificate consists of:
 Record operands and the bound-characterization certificate for each meet or join.
 \end{definition}
 
-\begin{theorem}[Concrete \(\LatticeUp\) naming certificate]
-\label{thm:concrete-lattice-namecert}
-Any poset with certified binary meets and joins forms a valid NameCert for \(\LatticeUp(C)\).
-\end{theorem}
+\begin{definition}[\(\LatticeUp\) certificate obligations]
+\label{def:lattice-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\LatticeUp\).
+\end{definition}
 
-\begin{corollary}[\(\LatticeUp\) is licensed, not primitive]
-\label{cor:lattice-licensed-not-primitive}
-\(\LatticeUp\) is licensed by order-theoretic bound data.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\LatticeUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

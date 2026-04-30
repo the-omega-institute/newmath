@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\CategoryUp\)}
 \label{ch:concrete-instances-category-namecert}
 
-The category interface \(\CategoryUp\) is licensed by an object carrier together with, for each ordered pair of objects, a morphism carrier, identity morphisms at each object, a binary composition operation respecting source and target, and the associativity and identity laws expressed as morphism-classifier sameness. The size discipline is BEDC-internal: object and morphism carriers are individually licensed by their own NameCerts, avoiding any global "set of all objects" assumption. It is not a primitive structure; it is licensed only as a multi-sorted carrier with relational composition.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-category-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The category interface \(\CategoryUp\) has certificate obligations over an object carrier together with, for each ordered pair of objects, a morphism carrier, identity morphisms at each object, a binary composition operation respecting source and target, and the associativity and identity laws expressed as morphism-classifier sameness. The size discipline is BEDC-internal: object and morphism carriers are each covered by their own NameCert obligations, avoiding any global "set of all objects" assumption. It is not a primitive structure; it is admitted only as a multi-sorted carrier with relational composition.
 
 \section{Carrier definition}
 
@@ -53,18 +46,15 @@ The stability certificate consists of:
 Record object ledgers, hom-carrier ledgers, and composition trees.
 \end{definition}
 
-\begin{theorem}[Concrete \(\CategoryUp\) naming certificate]
-\label{thm:concrete-category-namecert}
-Any multi-sorted setup satisfying category law fields forms a valid NameCert for \(\CategoryUp\).
-\end{theorem}
+\begin{definition}[\(\CategoryUp\) certificate obligations]
+\label{def:category-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\CategoryUp\).
+\end{definition}
 
-\begin{corollary}[\(\CategoryUp\) is licensed, not primitive]
-\label{cor:category-licensed-not-primitive}
-\(\CategoryUp\) is licensed as indexed carrier data with composition laws.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\CategoryUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:category-zero-axiom-note}
 Avoids a global universe of all objects by using explicit licensed carriers.
 \end{remark}
-

@@ -1,14 +1,10 @@
 import BEDC.FKernel.NameCert
-
 namespace BEDC.Derived.SumUp
-
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
-
 def SumHistoryCarrier (Left Right : BHist → Prop) (h : BHist) : Prop :=
   (∃ l : BHist, hsame h (BHist.e0 l) ∧ Left l) ∨
     (∃ r : BHist, hsame h (BHist.e1 r) ∧ Right r)
-
 theorem SumHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BHist} :
     hsame h k -> SumHistoryCarrier Left Right h -> SumHistoryCarrier Left Right k := by
   intro same carrier
@@ -16,19 +12,50 @@ theorem SumHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BH
   | inl leftData =>
       cases leftData with
       | intro leftHist data =>
-          cases data with
-          | intro sameTag leftCarrier =>
-              exact Or.inl
-                (Exists.intro leftHist
-                  (And.intro (hsame_trans (hsame_symm same) sameTag) leftCarrier))
+          exact Or.inl
+            (Exists.intro leftHist
+              (And.intro (hsame_trans (hsame_symm same) data.left) data.right))
   | inr rightData =>
       cases rightData with
       | intro rightHist data =>
-          cases data with
-          | intro sameTag rightCarrier =>
-              exact Or.inr
-                (Exists.intro rightHist
-                  (And.intro (hsame_trans (hsame_symm same) sameTag) rightCarrier))
+          exact Or.inr
+            (Exists.intro rightHist
+              (And.intro (hsame_trans (hsame_symm same) data.left) data.right))
+
+theorem SumHistoryCarrier_tagged_injections {Left Right : BHist → Prop} :
+    (∀ {l : BHist}, Left l → SumHistoryCarrier Left Right (BHist.e0 l)) ∧
+      (∀ {r : BHist}, Right r → SumHistoryCarrier Left Right (BHist.e1 r)) := by
+  constructor
+  · intro l leftCarrier
+    exact Or.inl (Exists.intro l (And.intro (hsame_refl (BHist.e0 l)) leftCarrier))
+  · intro r rightCarrier
+    exact Or.inr (Exists.intro r (And.intro (hsame_refl (BHist.e1 r)) rightCarrier))
+
+theorem SumHistoryCarrier_e0_inversion {Left Right : BHist -> Prop} {h : BHist} :
+    SumHistoryCarrier Left Right (BHist.e0 h) -> ∃ l : BHist, hsame h l ∧ Left l := by
+  intro carrier
+  cases carrier with
+  | inl leftData =>
+      cases leftData with
+      | intro l data =>
+          exact Exists.intro l (And.intro (hsame_e0_iff.mp data.left) data.right)
+  | inr rightData =>
+      cases rightData with
+      | intro r data =>
+          exact False.elim (not_hsame_e0_e1 data.left)
+
+theorem SumHistoryCarrier_e1_inversion {Left Right : BHist -> Prop} {h : BHist} :
+    SumHistoryCarrier Left Right (BHist.e1 h) -> ∃ r : BHist, hsame h r ∧ Right r := by
+  intro carrier
+  cases carrier with
+  | inl leftData =>
+      cases leftData with
+      | intro l data =>
+          exact False.elim (not_hsame_e1_e0 data.left)
+  | inr rightData =>
+      cases rightData with
+      | intro r data =>
+          exact Exists.intro r (And.intro (hsame_e1_iff.mp data.left) data.right)
 
 def SumHistoryClassifier (_Left _Right : BHist → Prop)
     (LeftEq RightEq : BHist → BHist → Prop) (h k : BHist) : Prop :=
@@ -36,6 +63,167 @@ def SumHistoryClassifier (_Left _Right : BHist → Prop)
     hsame h (BHist.e0 l) ∧ hsame k (BHist.e0 l') ∧ LeftEq l l') ∨
     (∃ r : BHist, ∃ r' : BHist,
       hsame h (BHist.e1 r) ∧ hsame k (BHist.e1 r') ∧ RightEq r r')
+
+theorem SumHistoryClassifier_trans {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop}
+    (left_trans : forall {a b c : BHist}, LeftEq a b -> LeftEq b c -> LeftEq a c)
+    (right_trans : forall {a b c : BHist}, RightEq a b -> RightEq b c -> RightEq a c)
+    {h k r : BHist} :
+    SumHistoryClassifier Left Right LeftEq RightEq h k ->
+      SumHistoryClassifier Left Right LeftEq RightEq k r ->
+        SumHistoryClassifier Left Right LeftEq RightEq h r := by
+  intro sameHK sameKR
+  cases sameHK with
+  | inl leftHK =>
+      cases leftHK with
+      | intro hLeft leftRest =>
+          cases leftRest with
+          | intro kLeft dataHK =>
+              cases dataHK with
+              | intro sameH restHK =>
+                  cases restHK with
+                  | intro sameKLeft sameLeftHK =>
+                      cases sameKR with
+                      | inl leftKR =>
+                          cases leftKR with
+                          | intro kLeft' leftRestKR =>
+                              cases leftRestKR with
+                              | intro rLeft dataKR =>
+                                  cases dataKR with
+                                  | intro sameKLeft' restKR =>
+                                      cases restKR with
+                                      | intro sameR sameLeftKR =>
+                                          have sameMiddle :
+                                              hsame (BHist.e0 kLeft) (BHist.e0 kLeft') :=
+                                            hsame_trans (hsame_symm sameKLeft) sameKLeft'
+                                          cases sameMiddle
+                                          exact Or.inl
+                                            (Exists.intro hLeft
+                                              (Exists.intro rLeft
+                                                (And.intro sameH
+                                                  (And.intro sameR
+                                                    (left_trans sameLeftHK sameLeftKR)))))
+                      | inr rightKR =>
+                          cases rightKR with
+                          | intro kRight rightRestKR =>
+                              cases rightRestKR with
+                              | intro rRight dataKR =>
+                                  cases dataKR with
+                                  | intro sameKRight _ =>
+                                      have impossible :
+                                          hsame (BHist.e0 kLeft) (BHist.e1 kRight) :=
+                                        hsame_trans (hsame_symm sameKLeft) sameKRight
+                                      exact False.elim (not_hsame_e0_e1 impossible)
+  | inr rightHK =>
+      cases rightHK with
+      | intro hRight rightRest =>
+          cases rightRest with
+          | intro kRight dataHK =>
+              cases dataHK with
+              | intro sameH restHK =>
+                  cases restHK with
+                  | intro sameKRight sameRightHK =>
+                      cases sameKR with
+                      | inl leftKR =>
+                          cases leftKR with
+                          | intro kLeft leftRestKR =>
+                              cases leftRestKR with
+                              | intro rLeft dataKR =>
+                                  cases dataKR with
+                                  | intro sameKLeft _ =>
+                                      have impossible :
+                                          hsame (BHist.e1 kRight) (BHist.e0 kLeft) :=
+                                        hsame_trans (hsame_symm sameKRight) sameKLeft
+                                      exact False.elim (not_hsame_e1_e0 impossible)
+                      | inr rightKR =>
+                          cases rightKR with
+                          | intro kRight' rightRestKR =>
+                              cases rightRestKR with
+                              | intro rRight dataKR =>
+                                  cases dataKR with
+                                  | intro sameKRight' restKR =>
+                                      cases restKR with
+                                      | intro sameR sameRightKR =>
+                                          have sameMiddle :
+                                              hsame (BHist.e1 kRight) (BHist.e1 kRight') :=
+                                            hsame_trans (hsame_symm sameKRight) sameKRight'
+                                          cases sameMiddle
+                                          exact Or.inr
+                                            (Exists.intro hRight
+                                              (Exists.intro rRight
+                                                (And.intro sameH
+                                                  (And.intro sameR
+                                                    (right_trans sameRightHK sameRightKR)))))
+
+theorem SumHistoryClassifier_hsame_symm {Left Right : BHist -> Prop} {h k : BHist} :
+    SumHistoryClassifier Left Right hsame hsame h k ->
+      SumHistoryClassifier Left Right hsame hsame k h := by
+  intro classifier
+  cases classifier with
+  | inl leftData =>
+      cases leftData with
+      | intro l leftRest =>
+          cases leftRest with
+          | intro l' data =>
+              cases data with
+              | intro sameH rest =>
+                  cases rest with
+                  | intro sameK sameLeft =>
+                      exact Or.inl
+                        (Exists.intro l'
+                          (Exists.intro l
+                            (And.intro sameK (And.intro sameH (hsame_symm sameLeft)))))
+  | inr rightData =>
+      cases rightData with
+      | intro r rightRest =>
+          cases rightRest with
+          | intro r' data =>
+              cases data with
+              | intro sameH rest =>
+                  cases rest with
+                  | intro sameK sameRight =>
+                      exact Or.inr
+                        (Exists.intro r'
+                          (Exists.intro r
+                            (And.intro sameK (And.intro sameH (hsame_symm sameRight)))))
+
+theorem SumHistoryClassifier_hsame_transport {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop} {h h' k k' : BHist} :
+    hsame h h' -> hsame k k' ->
+      SumHistoryClassifier Left Right LeftEq RightEq h k ->
+        SumHistoryClassifier Left Right LeftEq RightEq h' k' := by
+  intro sameH sameK classifier
+  cases classifier with
+  | inl leftData =>
+      cases leftData with
+      | intro l leftRest =>
+          cases leftRest with
+          | intro l' data =>
+              cases data with
+              | intro sameHTag rest =>
+                  cases rest with
+                  | intro sameKTag sameLeft =>
+                      exact Or.inl
+                        (Exists.intro l
+                          (Exists.intro l'
+                            (And.intro (hsame_trans (hsame_symm sameH) sameHTag)
+                              (And.intro (hsame_trans (hsame_symm sameK) sameKTag)
+                                sameLeft))))
+  | inr rightData =>
+      cases rightData with
+      | intro r rightRest =>
+          cases rightRest with
+          | intro r' data =>
+              cases data with
+              | intro sameHTag rest =>
+                  cases rest with
+                  | intro sameKTag sameRight =>
+                      exact Or.inr
+                        (Exists.intro r
+                          (Exists.intro r'
+                            (And.intro (hsame_trans (hsame_symm sameH) sameHTag)
+                              (And.intro (hsame_trans (hsame_symm sameK) sameKTag)
+                                sameRight))))
 
 theorem SumHistoryClassifier_mixed_tags_absurd {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop} {h k l r : BHist} :
@@ -62,36 +250,24 @@ theorem SumHistoryClassifier_mixed_tags_absurd {Left Right : BHist → Prop}
               | intro sameHRight _ =>
                   exact not_hsame_e0_e1 (hsame_trans (hsame_symm sameHLeft) sameHRight)
 
-theorem SumHistoryClassifier_left_right_absurd {Left Right : BHist → Prop}
-    {LeftEq RightEq : BHist → BHist → Prop} {h k l r : BHist} :
-    hsame h (BHist.e0 l) →
-      hsame k (BHist.e1 r) →
-        SumHistoryClassifier Left Right LeftEq RightEq h k →
-          False := by
-  intro hLeft kRight classified
-  cases classified with
+theorem SumHistoryClassifier_left_hsame_inversion {Left Right : BHist -> Prop}
+    {l r : BHist} :
+    SumHistoryClassifier Left Right hsame hsame (BHist.e0 l) (BHist.e0 r) -> hsame l r := by
+  intro classifier
+  cases classifier with
   | inl leftData =>
       cases leftData with
-      | intro source leftRest =>
-          cases leftRest with
-          | intro target data =>
-              cases data with
-              | intro _ rest =>
-                  cases rest with
-                  | intro kLeft _ =>
-                      have impossible : hsame (BHist.e0 target) (BHist.e1 r) :=
-                        hsame_trans (hsame_symm kLeft) kRight
-                      exact not_hsame_e0_e1 impossible
+      | intro l0 rest =>
+          cases rest with
+          | intro r0 data =>
+              exact hsame_trans (hsame_trans (hsame_e0_iff.mp data.left) data.right.right)
+                (hsame_symm (hsame_e0_iff.mp data.right.left))
   | inr rightData =>
       cases rightData with
-      | intro source rightRest =>
-          cases rightRest with
+      | intro right0 rest =>
+          cases rest with
           | intro _ data =>
-              cases data with
-              | intro hRight _ =>
-                  have impossible : hsame (BHist.e0 l) (BHist.e1 source) :=
-                    hsame_trans (hsame_symm hLeft) hRight
-                  exact not_hsame_e0_e1 impossible
+              exact False.elim (not_hsame_e0_e1 data.left)
 
 theorem sum_history_semantic_name_certificate {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop}

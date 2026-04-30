@@ -80,6 +80,19 @@ one-constructor inversion to \(\hsame(h,\emp)\).
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_e1\_tail\_empty}
 
+\begin{theorem}[Bool history one-extension carrier iff]
+\label{thm:bool-history-carrier-e1-iff-tail-empty}
+A one-extension history \(\Eone(h)\) lies in the boolean history carrier exactly
+when its tail is internally the same as \(\emp\).
+\end{theorem}
+\begin{proof}
+The forward direction is the tail inversion result above. Conversely, if
+\(\hsame(h,\emp)\), one-constructor congruence gives
+\(\hsame(\Eone(h),\Eone(\emp))\), which is the nonempty endpoint case of the
+boolean history carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_e1\_iff\_tail\_empty}
+
 \begin{definition}[Bool pattern specification]
 \label{def:bool-pattern-specification}
 The pattern is exactly the two displayed mark constructors, with no history growth.
@@ -93,6 +106,18 @@ The classifier is \(\msame\) on marks, with the two constructors distinguished.
 \leandef{BEDC.Derived.BoolUp.BoolClassifierSpec}
 \leandef{BEDC.Derived.BoolUp.BoolHistoryClassifier}
 \leanchecked{BEDC.Derived.BoolUp.BoolClassifierSpec\_constructor\_separation}
+
+\begin{theorem}[Bool history classifier one-tail sameness]
+\label{thm:bool-history-classifier-e1-tail-hsame}
+If the boolean history classifier relates $\Eone(h)$ to $\Eone(k)$, then the
+tails $h$ and $k$ are internally history-same.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness to expose its underlying
+$\hsame(\Eone(h),\Eone(k))$ field. One-constructor inversion for generated
+histories then yields $\hsame(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e1\_tail\_hsame}
 
 \begin{theorem}[Bool history classifier cases]
 \label{thm:bool-history-classifier-cases}
@@ -130,6 +155,19 @@ Eliminate the two classifier witnesses. The endpoint carrier witnesses for
 \(\hsame(k,r)\) links compose by generated-history transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_trans}
+
+\begin{theorem}[Bool history classifier empty-left equivalence]
+\label{thm:bool-history-classifier-empty-left-iff}
+The boolean history classifier relates \(\emp\) to \(k\) exactly when \(k\)
+is internally the same history as \(\emp\).
+\end{theorem}
+\begin{proof}
+For the forward direction, eliminate the classifier witness and symmetrize the
+exposed \(\hsame(\emp,k)\) link. For the reverse direction, the empty carrier
+witness supplies the left endpoint, the assumed \(\hsame(k,\emp)\) supplies the
+right endpoint, and symmetry supplies the classifier link.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_empty\_left\_iff}
 
 \begin{definition}[Bool stability certificate]
 \label{def:bool-stability-certificate}

@@ -1,14 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\NatTransUp\)}
 \label{ch:concrete-instances-nattrans-namecert}
 
-The natural transformation interface \(\NatTransUp\) is licensed between two functors from \autoref{ch:concrete-instances-functor-namecert} sharing source and target categories. The carrier is, for each object \(X\) of the source category, a morphism in the target category from the first functor's image of \(X\) to the second functor's image of \(X\), satisfying the naturality square under the codomain category's morphism classifier. It is not a primitive 2-cell; it is licensed only as an object-indexed family of morphisms with the naturality field.
-
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-nattrans-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
+The natural transformation interface \(\NatTransUp\) has certificate obligations between two functors from \autoref{ch:concrete-instances-functor-namecert} sharing source and target categories. The carrier is, for each object \(X\) of the source category, a morphism in the target category from the first functor's image of \(X\) to the second functor's image of \(X\), satisfying the naturality square under the codomain category's morphism classifier. It is not a primitive 2-cell; it is admitted only as an object-indexed family of morphisms with the naturality field.
 
 \section{Carrier definition}
 
@@ -52,15 +45,13 @@ The stability certificate consists of:
 Record the functor ledgers, component morphism ledgers, and naturality derivations.
 \end{definition}
 
-\begin{theorem}[Concrete \(\NatTransUp\) naming certificate]
-\label{thm:concrete-nattrans-namecert}
-The component-family tuple forms a valid NameCert for \(\NatTransUp(F,G)\).
-\end{theorem}
+\begin{definition}[\(\NatTransUp\) certificate obligations]
+\label{def:nattrans-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\NatTransUp\).
+\end{definition}
 
-\begin{corollary}[\(\NatTransUp\) is licensed, not primitive]
-\label{cor:nattrans-licensed-not-primitive}
-\(\NatTransUp\) is licensed as indexed morphism-family data with naturality laws.
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\NatTransUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:nattrans-zero-axiom-note}

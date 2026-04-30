@@ -25,6 +25,19 @@ If a history \(h\) is internally the same as \(\emp\), then \(h\) inhabits the i
 Transport the unary empty history across the symmetry of the given \(\hsame(h,\emp)\) witness. The lower boundary uses the symmetric witness, and the upper boundary uses the original witness.
 \end{proof}
 
+\begin{theorem}[Interval empty-boundary carrier iff endpoint]
+\label{thm:interval-empty-boundary-carrier-iff-endpoint}
+For the interval carrier whose lower boundary is \(\hsame(\emp,-)\) and whose
+upper boundary is \(\hsame(-,\emp)\), carrier membership of \(h\) is equivalent
+to the endpoint witness \(\hsame(h,\emp)\).
+\end{theorem}
+\begin{proof}
+In the forward direction, eliminate the concrete interval-carrier conjunction
+and project the upper-boundary witness. In the reverse direction, apply the
+empty-boundary carrier constructor to the endpoint witness.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalCarrier\_empty\_boundary\_iff\_hsame\_empty}
+
 \begin{theorem}[Interval empty boundary hsame transport]
 \label{thm:interval-empty-boundary-hsame-transport}
 For the interval carrier whose lower boundary is \(\hsame(\emp,-)\) and whose upper boundary is \(\hsame(-,\emp)\), internal sameness transports carrier membership.
@@ -33,6 +46,19 @@ For the interval carrier whose lower boundary is \(\hsame(\emp,-)\) and whose up
 Unpack the interval carrier into unary membership and the two boundary witnesses. Unary membership transports along the given \(\hsame\) witness. The lower boundary composes \(\hsame(\emp,h)\) with \(\hsame(h,k)\), and the upper boundary composes the symmetric witness \(\hsame(k,h)\) with \(\hsame(h,\emp)\).
 \end{proof}
 \leanchecked{BEDC.Derived.IntervalUp.IntervalCarrier\_empty\_boundary\_hsame\_transport}
+
+\begin{theorem}[Interval empty boundary carrier uniqueness]
+\label{thm:interval-empty-boundary-carrier-uniqueness}
+For the interval carrier whose lower boundary is \(\hsame(\emp,-)\) and whose
+upper boundary is \(\hsame(-,\emp)\), any two carrier inhabitants are
+internally the same history.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalCarrier\_empty\_boundary\_unique}
+\begin{proof}
+Unpack the two carrier witnesses and read their upper-bound witnesses
+\(\hsame(h,\emp)\) and \(\hsame(k,\emp)\). Compose the first with the symmetry
+of the second to obtain \(\hsame(h,k)\).
+\end{proof}
 
 \begin{theorem}[Interval empty-boundary classifier]
 \label{thm:interval-empty-boundary-classifier}
@@ -112,16 +138,19 @@ The stability certificate consists of:
 Record the real ledger and both inequality moduli.
 \end{definition}
 
+\begin{definition}[\(\IntervalUp\) certificate obligations]
+\label{def:interval-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\IntervalUp\).
+\end{definition}
+
 \begin{theorem}[Concrete \(\IntervalUp\) naming certificate]
 \label{thm:concrete-interval-namecert}
 The bounded-real subcarrier tuple forms a valid NameCert for \(\IntervalUp\).
 \end{theorem}
 \leanchecked{BEDC.Derived.IntervalUp.interval\_name\_certificate}
 
-\begin{corollary}[\(\IntervalUp\) is licensed, not primitive]
-\label{cor:interval-licensed-not-primitive}
-\(\IntervalUp\) is licensed as a subcarrier of \(\RealUp\).
-\end{corollary}
+\paragraph{Primitive boundary.}
+\(\IntervalUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
 \begin{remark}[Zero-axiom encoding note]
 \label{rem:interval-zero-axiom-note}

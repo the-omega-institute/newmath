@@ -19,6 +19,19 @@ The source is the source NameCert for \(A\), lifted through the optional carrier
 \end{definition}
 \leandef{BEDC.Derived.OptionUp.OptionHistoryCarrier}
 
+\begin{theorem}[Option history carrier transport]
+\label{thm:option-history-carrier-hsame-transport}
+If two BEDC histories are internally the same, then optional history-carrier
+membership transfers from the first history to the second.
+\end{theorem}
+\begin{proof}
+Invert the optional carrier witness. In the absent case, compose the symmetric
+history-sameness link with the stored empty-history witness. In the present
+case, constructor inversion of the history-sameness witness identifies the two
+histories, so the source witness is reused.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_transport}
+
 \begin{definition}[Option pattern specification]
 \label{def:option-pattern-specification}
 The pattern is absent-or-present generation: one null constructor and one wrapper constructor over source witnesses.
@@ -35,6 +48,31 @@ The classifier relates \(\mathsf{none}\) only to \(\mathsf{none}\), and relates 
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_none\_some\_absurd}
 \leanchecked{BEDC.Derived.OptionUp.optionClassifier\_some\_iff}
 \leanchecked{BEDC.Derived.OptionUp.option\_classifier\_inversion}
+
+\begin{theorem}[Option history classifier endpoint transport]
+\label{thm:option-history-classifier-hsame-transport}
+If the optional history classifier relates \(h\) to \(k\), and
+\(\hsame(h,h')\) and \(\hsame(k,k')\), then it relates \(h'\) to \(k'\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier into its endpoint carrier witnesses and the stored
+\(\hsame(h,k)\) link. Transport both carriers along the endpoint sameness
+links, then compose symmetry of \(\hsame(h,h')\), the stored link, and
+\(\hsame(k,k')\).
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_hsame\_transport}
+
+\begin{theorem}[Option history classifier symmetry]
+\label{thm:option-history-classifier-symmetry}
+For any source predicate on BEDC histories, the optional history classifier is
+symmetric.
+\end{theorem}
+\begin{proof}
+Unpack the classifier into endpoint carrier witnesses and the stored
+\(\hsame(h,k)\) link. Swap the endpoint witnesses and reverse the stored link
+by symmetry of \(\hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_symm}
 
 \begin{theorem}[Option history classifier transitivity]
 \label{thm:option-history-classifier-transitivity}
@@ -85,6 +123,20 @@ If source-history membership transports across $\hsame$, then every option ledge
 Unpack the raw carrier and the raw-to-visible history link. In the absent case, compose the symmetric visible-to-raw link with the raw empty-history witness. In the present case, transport the raw source witness along the raw-to-visible link.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_carrier}
+
+\begin{theorem}[Option ledger history-same transport]
+\label{thm:option-ledger-hsame-transport}
+If both raw histories and both visible histories are related by $\hsame$, then
+an option ledger policy transports from the first raw-visible pair to the
+second.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into its raw carrier witness and raw-to-visible history link.
+The raw carrier transports along the raw $\hsame$ witness. The transported
+raw-to-visible link is the composite of the symmetric raw link, the stored
+ledger link, and the visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_hsame\_transport}
 
 \begin{theorem}[Concrete \(\OptionUp\) naming certificate]
 \label{thm:concrete-option-namecert}

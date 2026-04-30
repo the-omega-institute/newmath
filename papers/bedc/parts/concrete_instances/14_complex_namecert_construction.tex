@@ -1,38 +1,42 @@
 \chapter{A Concrete Naming Certificate for \(\ComplexUp\)}
 \label{ch:concrete-instances-complex-namecert}
 
-The complex number interface \(\ComplexUp\) is licensed by ordered pairs of Bishop reals from \autoref{ch:concrete-instances-real-namecert}, read as Cartesian real and imaginary components. The classifier is componentwise real sameness. It is not a primitive number system; it is licensed only via the real source and the pair constructor of \autoref{ch:concrete-instances-prod-namecert}.
+The complex number interface \(\ComplexUp\) is licensed by ordered pairs of certified rational histories from \autoref{ch:concrete-instances-rat-namecert}, read as Cartesian real and imaginary components. The classifier is product history sameness restricted to the two rational-history carriers. It is not a primitive number system; it is licensed only via the rational source and the pair constructor of \autoref{ch:concrete-instances-prod-namecert}.
 
-\begin{remark}[Roadmap chapter---formalization pending]
+\begin{remark}[Complex certificate scope]
 \label{rem:concrete-instances-complex-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
+This chapter records the concrete history-level license: a complex history is
+the continuation product of two rational-history witnesses, and the classifier
+is the corresponding product classifier over internal history sameness.
 \end{remark}
 
 \section{Carrier definition}
 
 \begin{definition}[Complex carrier]
 \label{def:complex-carrier}
-Use ordered pairs of Bishop reals \((x,y)\) from \(\RealUp\).
+Use the BEDC product history carrier over two certified rational-history
+components.
 \end{definition}
+\leandef{BEDC.Derived.ComplexUp.ComplexHistoryCarrier}
 
 \section{The certificate}
 
 \begin{definition}[Complex source specification]
 \label{def:complex-source-specification}
-The source is \(\ProdUp(\RealUp,\RealUp)\).
+The source is \(\ProdUp(\RatUp,\RatUp)\) at the history-carrier level.
 \end{definition}
 
 \begin{definition}[Complex pattern specification]
 \label{def:complex-pattern-specification}
-The pattern is Cartesian pairing of real and imaginary components.
+The pattern is Cartesian pairing of rational real and imaginary components.
 \end{definition}
 
 \begin{definition}[Complex classifier specification]
 \label{def:complex-classifier-specification}
-The classifier is componentwise \(\RealUp\) sameness.
+The classifier is product history classification over two rational-history
+carriers.
 \end{definition}
+\leandef{BEDC.Derived.ComplexUp.ComplexHistoryClassifier}
 
 \begin{definition}[Complex stability certificate]
 \label{def:complex-stability-certificate}
@@ -52,10 +56,11 @@ Record both real component ledgers.
 
 \begin{theorem}[Concrete \(\ComplexUp\) naming certificate]
 \label{thm:concrete-complex-namecert}
-The real-pair tuple forms a valid NameCert for \(\ComplexUp\).
+The rational-pair history tuple forms a valid semantic NameCert for \(\ComplexUp\).
 \end{theorem}
+\leanchecked{BEDC.Derived.ComplexUp.complex\_history\_semantic\_name\_certificate}
 
 \begin{corollary}[\(\ComplexUp\) is licensed, not primitive]
 \label{cor:complex-licensed-not-primitive}
-\(\ComplexUp\) is licensed as a derived pair interface over \(\RealUp\).
+\(\ComplexUp\) is licensed as a derived pair interface over \(\RatUp\).
 \end{corollary}
