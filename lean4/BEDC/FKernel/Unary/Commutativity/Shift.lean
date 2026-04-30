@@ -31,6 +31,22 @@ theorem unary_shift_witness_result_unique_pair {k h r' : BHist} :
             intro w hw
             exact cont_deterministic hv hw⟩
 
+theorem unary_shift_witness_two_results_unique {k h r1 r2 : BHist} :
+    UnaryHistory k → Cont k (BHist.e1 h) r1 → Cont k (BHist.e1 h) r2 →
+      exists v1 : BHist, exists v2 : BHist,
+        Cont k h v1 ∧ Cont k h v2 ∧ hsame v1 v2 ∧ hsame r1 r2 := by
+  intro uk left right
+  cases unary_shift_witness uk left with
+  | intro v1 shiftedLeft =>
+      cases shiftedLeft with
+      | intro hv1 _ =>
+          cases unary_shift_witness uk right with
+          | intro v2 shiftedRight =>
+              cases shiftedRight with
+              | intro hv2 _ =>
+                  exact ⟨v1, v2, hv1, hv2, cont_deterministic hv1 hv2,
+                    cont_deterministic left right⟩
+
 theorem unary_shift_witness_closed_unique_result {k h r' : BHist} :
     UnaryHistory k -> UnaryHistory h -> Cont k (BHist.e1 h) r' ->
       ∃ v : BHist, Cont k h v ∧ hsame r' (BHist.e1 v) ∧ UnaryHistory v ∧

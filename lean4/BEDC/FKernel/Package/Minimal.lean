@@ -41,6 +41,15 @@ theorem signature_package_extensionality [A : AskSetup] (bundle : ProbeBundle Pr
   exact @psame.intro A (@SignaturePackageSetup A) bundle s t p q left right sameHist
 
 omit P [AskSetup] in
+theorem signature_package_extensionality_hsame [A : AskSetup] (bundle : ProbeBundle ProbeName)
+    {s t p q : BHist} :
+    @TokIntro A (@SignaturePackageSetup A) bundle s p →
+      @TokIntro A (@SignaturePackageSetup A) bundle t q →
+        hsame s t → hsame p q := by
+  intro left right sameHist
+  exact hsame_trans (hsame_symm left) (hsame_trans sameHist right)
+
+omit P [AskSetup] in
 theorem signature_package_grounding [A : AskSetup] (bundle : ProbeBundle ProbeName)
     {p q : @Pkg A (@SignaturePackageSetup A)} :
     @psame A (@SignaturePackageSetup A) bundle p q ->

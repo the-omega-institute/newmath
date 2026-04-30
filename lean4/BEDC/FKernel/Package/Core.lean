@@ -91,6 +91,13 @@ def ConcretePackageSamenessPolicy [AskSetup] [PackageSetup]
     TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
 
 omit [AskSetup] P in
+theorem ConcretePackageSamenessPolicy_holds [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} :
+    ConcretePackageSamenessPolicy bundle := by
+  intro s t p q left right same
+  exact psame.intro left right same
+
+omit [AskSetup] P in
 theorem psame_source_history_pair [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} {p q : Pkg} :
     psame bundle p q → ∃ s : BHist, ∃ t : BHist,
