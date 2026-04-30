@@ -81,24 +81,29 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, define $\m
 \end{enumerate}
 \end{definition}
 
-\begin{theorem}[Tagged option history present inversion]
-\label{thm:tagged-option-history-present-inversion}
+\begin{theorem}[Tagged option history present exactness]
+\label{thm:tagged-option-history-present-exactness}
 For any BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and
-history $h$, a present endpoint in the tagged carrier exposes a source payload:
+history $h$, a present endpoint in the tagged carrier is exactly a source
+payload at the visible present tag:
 $$
 \mathsf{TaggedOptionHistoryCarrier}_S(\Eone(h))
-\quad\Longrightarrow\quad
+\quad\Longleftrightarrow\quad
 \exists a:\mathsf{BHist}.\; S(a)\land \hsame(h,a).
 $$
 \end{theorem}
 \begin{proof}
-Case-analyze the tagged carrier witness for $\Eone(h)$. The absent branch gives
-$\hsame(\Eone(h),\emp)$ and is eliminated by generated-history no-confusion
-between a present endpoint and the empty endpoint. The present branch gives a
-payload history $a$, a source witness $S(a)$, and
-$\hsame(\Eone(h),\Eone(a))$; applying the one-constructor inversion theorem for
-$\hsame$ strips the visible present tags and yields $\hsame(h,a)$, so $a$ is the
-required payload.
+For the forward implication, case-analyze the tagged carrier witness for
+$\Eone(h)$. The absent branch gives $\hsame(\Eone(h),\emp)$ and is eliminated
+by generated-history no-confusion between a present endpoint and the empty
+endpoint. The present branch gives a payload history $a$, a source witness
+$S(a)$, and $\hsame(\Eone(h),\Eone(a))$; applying the one-constructor inversion
+theorem for $\hsame$ strips the visible present tags and yields $\hsame(h,a)$,
+so $a$ is the required payload. Conversely, given a payload $a$ with $S(a)$ and
+$\hsame(h,a)$, use the present branch of
+$\mathsf{TaggedOptionHistoryCarrier}_S$. The endpoint witness is
+$\hsame(\Eone(h),\Eone(a))$, obtained by applying $e1$ congruence to
+$\hsame(h,a)$.
 \end{proof}
 
 For the finite-data certificate template, the traditional target is
