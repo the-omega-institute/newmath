@@ -22,6 +22,11 @@ theorem ext_deterministic :
   intro h r r' m hr hr'
   cases hr <;> cases hr' <;> rfl
 
+theorem ext_mark_deterministic_from_result :
+    ∀ {h r : BHist} {m n : BMark}, Ext h m r → Ext h n r → msame m n := by
+  intro h r m n hr hs
+  cases hr <;> cases hs <;> rfl
+
 theorem ext_respects_sameness :
     ∀ {h h' r r' : BHist} {m m' : BMark},
       hsame h h' → msame m m' → Ext h m r → Ext h' m' r' → hsame r r' := by

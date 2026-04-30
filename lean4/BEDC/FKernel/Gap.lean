@@ -53,6 +53,17 @@ structure GapPolicy (bundle : ProbeBundle ProbeName) (D : Domain) : Prop where
   coverage : ∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h
   separation : ∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q
 
+theorem gap_policy_fields {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
+    (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
+      (∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h →
+        InGapSig bundle D q h → psame bundle p q) ∧
+      (∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h → ∃ s : BHist, TokIntro bundle s p) := by
+  constructor
+  · exact policy.coverage
+  · constructor
+    · exact policy.separation
+    · exact policy.generation
+
 omit [AskSetup] [PackageSetup] G in
 theorem gap_generation_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
