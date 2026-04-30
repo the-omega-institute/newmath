@@ -40,4 +40,18 @@ theorem ExactGlobalizeBase_covered_classification
       | intro q hq =>
           exact ⟨p, q, hp, hq, ExactGlobalizeBase_classify_iff ex hp hq⟩
 
+theorem NotExported_sound_complete_pair
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    {ex : ExactGlobalizeBase s P D}
+    (notExported : NotExported s P D ex)
+    {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    (GeneratedSameSig s P h k -> PsameBase s P p q) /\
+      (PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)) := by
+  constructor
+  · intro generated
+    exact (notExported hp hq).mpr (Nonempty.intro generated)
+  · intro base
+    exact (notExported hp hq).mp base
+
 end BEDC.BaseReflection
