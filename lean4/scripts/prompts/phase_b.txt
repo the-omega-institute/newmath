@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v2.4 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v2.5 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Anti-hollow semantic discipline (HARD GATE)
 
@@ -92,7 +92,7 @@ Phase D now enforces these constraints mechanically. Select targets that will pa
 5. Added Lean lines using `Unit`, `()`, `Unit.unit`, `True.intro`, `trivial`, `NameCert.mk ()`, `NameCert.mk Unit.unit`, `MinimalNameCertSetup`, or `import Init.Data.Unit` are rejected as hollow.
 6. Parameter echo theorem bodies are rejected. Do not select a target whose proof is essentially `exact le_refl`, `exact le_trans`, `exact carrier_transport`, `exact lower_transport`, `exact upper_transport`, `exact normalized`, `apply ...`, or constructor-packaging of those assumptions.
 7. Carrier/spec-only growth is rejected. If a target adds a `Carrier`, `SourceSpec`, `PatternSpec`, `ClassifierSpec`, `LedgerPolicy`, `Lower`, `Upper`, or `Normalized` definition, the same target must also add a theorem whose statement uses that concrete definition.
-8. Duplicate theorem inflation is rejected. Do not select two new theorems in the same file with the same BEDC-touching conclusion under different names; combine them or pick a theorem with new content.
+8. Duplicate theorem inflation is rejected, both within-round and tree-wide. Do not select a target whose conclusion matches an existing theorem under `lean4/BEDC/` — anywhere in the tree — modulo binder renaming, hypothesis reordering, qualified-name rewriting, or definitional unfolding the file already proves. Two new theorems in the same round whose conclusions match each other under those rules are also rejected. The cleanup that produced prompts v2.5 deleted six theorems accumulated this way across rounds R509/R516/R517 (`PreorderPrefixLE_target_carrier` / `_result_carrier` / `_preserves_carrier`, `RatCarrier_component_hsame_transport` / `_hsame_transport`, `SumHistoryClassifier_left_right_absurd` / `_mixed_tags_absurd`, `cont_assoc_proof_standing` / `_up_to_hsame_spine`). Do not reintroduce that pattern.
 
 ## Project Layout
 - lean4/BEDC/ — Lean 4 code (mathlib-free; stdlib only)
@@ -126,6 +126,19 @@ Select 3 formalization targets for R<ROUND_NUM>.
 Steps:
 1. Scan `papers/bedc/parts/` to find theorem/definition/proposition sites that do NOT yet have a nearby `\leanchecked`, `\leanstmt`, or `\leandef` marker at the primary site.
 2. **HARD GATE — confirm the matching Lean target does NOT already exist in `lean4/BEDC/`.** Run `grep -rE "(theorem|lemma|def|inductive|structure|class) <name>" lean4/BEDC/` for the canonical name AND for any plausible underscore/case variant of it. If the grep returns ANY hit whose declaration body matches the paper claim, the target is INVALID — it would only register a marker on existing code (a "register-only round"), which is forbidden. Skip and pick another target. A round must add new Lean code, not paper-side bookkeeping for pre-existing implementations.
+
+   **HARD GATE — tree-wide semantic dedup.** Name-grep alone misses renames. Before committing to the candidate, OPEN the target file and every sibling `*.lean` under the same namespace directory and read every theorem statement. Reject the candidate if any existing theorem has a conclusion equivalent to the candidate's modulo:
+   - binder renaming or hypothesis reordering (`{h k : BHist}` vs `{a b : BHist}`),
+   - qualified-name rewriting (`BEDC.FKernel.Hist.hsame` vs `hsame` after `open`),
+   - definitional unfolding the same file already proves (e.g. if `PreorderClassifierSpec h k := hsame h k` is the file's definition, then `... → PreorderClassifierSpec h k` and `... → hsame h k` count as the SAME conclusion),
+   - swapping `RatCarrier` for its iff-equivalent `IntCarrier ∧ PositiveUnaryDenominator` shape, or any other already-proved iff in the file.
+
+   The trigger is conclusion shape, not proof. If the candidate's conclusion can be substituted into an existing theorem's statement, the candidate is a rename and is INVALID; pick something else.
+
+   **HARD GATE — alias-only `def` is forbidden.** A new `def` whose body is `Existing` (single-token alias) or whose body re-bundles fields already exposed by an existing predicate is INVALID. If the existing predicate already inhabits the namespace, downstream code should `open` it and use it directly. Examples of forbidden aliases:
+   - `def rat_classifier_spec_trans_carrier ... : Prop := RatCarrier ...`
+   - `def MyCarrier h : Prop := UnaryHistory h`
+   - `def Foo h k := hsame h k` when `hsame` is already the file's classifier.
 3. Pick 3 targets:
    - Not all from the same chapter
    - At least 1 must be medium difficulty (for example induction, constructor inversion, or a multi-step structure elimination proof)

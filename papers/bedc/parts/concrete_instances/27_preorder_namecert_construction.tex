@@ -61,19 +61,6 @@ with $\emp$, use the empty unary tail and the continuation right unit.
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_empty\_target\_iff}
 
-\begin{theorem}[Preorder prefix results remain in the carrier]
-\label{thm:preorder-prefix-result-carrier}
-For the unary history preorder prefix relation, if \(h\) is in the preorder
-carrier and \(h\le k\) is witnessed by a unary continuation tail, then \(k\)
-is also in the preorder carrier.
-\end{theorem}
-\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_result\_carrier}
-\begin{proof}
-Unpack the prefix witness into a tail \(t\), its unary carrier proof, and a
-continuation proof \(\Cont(h,t,k)\). The finite-kernel unary continuation
-closure theorem gives unary membership of the result \(k\).
-\end{proof}
-
 \begin{theorem}[Prefix relation preserves the carrier]
 \label{thm:preorder-prefix-preserves-carrier}
 For the concrete unary history carrier, if $h$ is a carrier history and $h$ is related to $k$ by appending a unary prefix tail, then $k$ is also in the carrier.
@@ -108,15 +95,6 @@ Unpack the two prefix witnesses. Append the two unary tails, use unary closure
 under append for the combined tail, and use continuation associativity to
 identify the direct continuation from \(h\) to \(r\).
 \end{proof}
-
-\begin{theorem}[Prefix target remains in the preorder carrier]
-\label{thm:preorder-prefix-target-carrier}
-For the history preorder carrier, if \(h\) is unary and \(k\) is reached from \(h\) by a unary continuation tail, then \(k\) is also unary.
-\end{theorem}
-\begin{proof}
-Unpack the prefix relation into a unary tail and a continuation witness. Unary closure under continuation sends the source carrier witness and the tail witness to the target history.
-\end{proof}
-\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_target\_carrier}
 
 \begin{theorem}[Prefix antisymmetry collapses to history sameness]
 \label{thm:preorder-prefix-le-antisymm-hsame}

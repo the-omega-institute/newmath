@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.4 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.5 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Anti-hollow semantic discipline (HARD GATE)
 
@@ -42,7 +42,9 @@ Phase D rejects the commit even if Lean and LaTeX compile when any of the follow
 5. No BEDC touchpoint: every new declaration must mention a concrete BEDC kernel/setup object in its body, such as `BMark`, `BHist`, `msame`, `hsame`, `Ext`, `Cont`, `ProbeBundle`, `SigRel`, `sameSig`, `Pkg`, `InGap`, `NameCert`, `SemanticNameCert`, `BaseReflectionSetup`, `AskSetup`, `PackageSetup`, `DomainSetup`, `NameCertSetup`, or a `BEDC.` object.
 6. Parameter echo: new theorem bodies that mainly return assumptions named like `le_refl`, `le_trans`, `carrier_transport`, `lower_transport`, `upper_transport`, or `normalized` are rejected.
 7. Carrier/spec-only growth: new `Carrier`, `SourceSpec`, `PatternSpec`, `ClassifierSpec`, `LedgerPolicy`, `Lower`, `Upper`, or `Normalized` definitions are rejected unless the same round adds a theorem whose statement uses those concrete definitions.
-8. Duplicate theorem inflation: two new theorems in the same file with the same BEDC-touching conclusion are rejected.
+8. Duplicate theorem inflation (tree-wide). A new theorem is rejected if any existing theorem under `lean4/BEDC/` has a conclusion equivalent to the new one modulo: binder renaming, hypothesis reordering, qualified-name rewriting (`BEDC.FKernel.Hist.hsame` vs `hsame` after `open`), or definitional unfolding the same file already proves (e.g. `PreorderClassifierSpec h k := hsame h k` makes `... → PreorderClassifierSpec h k` and `... → hsame h k` the same conclusion). Two new theorems in the same round whose conclusions match each other under these rules are also rejected. The cleanup that produced v2.5 deleted six theorems accumulated this way across rounds (`PreorderPrefixLE_target_carrier` / `_result_carrier` / `_preserves_carrier`; `RatCarrier_component_hsame_transport` / `_hsame_transport`; `SumHistoryClassifier_left_right_absurd` / `_mixed_tags_absurd`; `cont_assoc_proof_standing` / `_up_to_hsame_spine`). Do not reintroduce that pattern.
+
+9. Alias `def` rejection. A `def` whose body is `Existing` (single-token alias) or whose body re-bundles fields already exposed by an iff-equivalent predicate the same file already proves is rejected. Concrete forbidden shapes: `def Foo ... := RatCarrier ...`, `def Bar h := UnaryHistory h`, `def Baz h k := hsame h k` next to an existing classifier of the same shape. Use the existing predicate directly via `open`.
 
 ## No nursery-shell growth (HARD GATE)
 
