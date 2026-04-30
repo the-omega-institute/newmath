@@ -21,4 +21,9 @@ theorem cont_cancel_common_context {a b c d ab ad left right : BHist} :
     exact leftDef.symm.trans (same.trans rightDef)
   exact append_left_cancel (h := a) commonSuffix
 
+theorem continuation_right_cancellation {h h' k r : BHist} :
+    Cont h k r -> Cont h' k r -> hsame h h' := by
+  intro left right
+  exact cont_right_cancel left right
+
 end BEDC.FKernel.Cont

@@ -36,6 +36,11 @@ theorem typed_naming_certificate_expanded_template [NameCertSetup] {name : Deriv
   intro cert
   exact nameCert_all_fields_nonempty cert
 
+theorem addition_like_behavior_certificate_not_operation [NameCertSetup] {name : DerivedName} :
+    NameCert name -> Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
+  intro cert
+  exact nameCert_stability_and_ledger_from_cert cert
+
 theorem no_inherited_mathematical_primitives [NameCertSetup] {name : DerivedName} :
     NameCert name -> Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧
       Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by

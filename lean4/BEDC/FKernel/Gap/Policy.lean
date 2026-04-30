@@ -20,6 +20,15 @@ def GapPolicyInterface [AskSetup] [PackageSetup] [DomainSetup]
     (bundle : ProbeBundle ProbeName) (D : Domain) : Prop :=
   GapPolicy bundle D
 
+omit [AskSetup] [PackageSetup] G in
+theorem GapPolicyInterface_generation_projection [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} :
+    GapPolicyInterface bundle D ->
+      forall {p : Pkg} {h : BHist}, InGapSig bundle D p h ->
+        exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p := by
+  intro _ p h hgap
+  exact hgap.right
+
 theorem gap_policy_fields {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
     (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
       (∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h →
