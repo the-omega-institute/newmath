@@ -209,6 +209,49 @@ the reflexive tag witnesses for $\Ezero$ or $\Eone$, and the supplied matching
 source-classifier witness to rebuild the corresponding classifier branch.
 \end{proof}
 
+\begin{theorem}[Sum history classifier hsame same-tag carrier exactness]
+\label{thm:sum-history-classifier-hsame-same-tag-carrier-exactness}
+For source carriers $Left,Right:\Hist\to\mathsf{Prop}$, the $\hsame$-specialized
+history-level sum classifier is exact for same-tag endpoints together with the
+matching source-carrier evidence:
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(l))
+\land
+\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(l'))
+\land
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\Ezero(l),\Ezero(l'))
+\quad\Longleftrightarrow\quad
+\exists a,a'.\; Left(a)\land Left(a')\land \hsame(l,a)\land \hsame(l',a')\land \hsame(a,a')
+$$
+and
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,\Eone(r))
+\land
+\mathsf{SumHistoryCarrier}(Left,Right,\Eone(r'))
+\land
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\Eone(r),\Eone(r'))
+\quad\Longleftrightarrow\quad
+\exists b,b'.\; Right(b)\land Right(b')\land \hsame(r,b)\land \hsame(r',b')\land \hsame(b,b').
+$$
+Its roadmap-template role is: traditional target disjoint-sum same-tag payload
+exactness; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{SumHistoryCarrier}$; classifier the $\hsame$ specialization of
+$\mathsf{SumHistoryClassifier}$; ledger visible tag plus payload carrier
+witnesses; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward left-tag direction, apply the two $\Ezero$ carrier inversions to
+obtain payload witnesses $a,a'$ with $Left(a)$, $Left(a')$, $\hsame(l,a)$, and
+$\hsame(l',a')$. Apply the left $\hsame$ classifier inversion to the same-tag
+classifier witness to obtain $\hsame(l,l')$. Symmetry and transitivity of
+$\hsame$ compose the displayed endpoint links with $\hsame(l,l')$ to derive
+$\hsame(a,a')$. The right-tag direction is identical using the two $\Eone$
+carrier inversions and the right $\hsame$ classifier inversion. For the reverse
+left-tag direction, the displayed witnesses rebuild the two left carrier
+branches and the left classifier branch. The reverse right-tag direction
+rebuilds the two right carrier branches and the right classifier branch.
+\end{proof}
+
 \begin{theorem}[Sum history classifier generic same-tag exactness]
 \label{thm:sum-history-classifier-generic-same-tag-exactness}
 For source carriers $Left,Right:\Hist\to\mathsf{Prop}$ and source classifiers $LeftEq,RightEq:\Hist\to\Hist\to\mathsf{Prop}$, the history-level sum classifier is exact on each visible tag:
