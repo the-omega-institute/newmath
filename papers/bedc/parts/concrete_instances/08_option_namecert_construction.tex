@@ -126,6 +126,11 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source 
 \end{enumerate}
 \end{definition}
 
+\begin{definition}[Tagged option source hsame compatibility]
+\label{def:tagged-option-source-hsame-compatibility}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, define $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ to be the property that for all payload histories $a,b$, if $S(a)$, $S(b)$, and $\hsame(a,b)$, then $a\sim_S b$.
+\end{definition}
+
 \begin{theorem}[Tagged option history classifier endpoint carriers]
 \label{thm:tagged-option-history-classifier-endpoint-carriers}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
@@ -173,11 +178,6 @@ For the forward direction, apply Theorem~\ref{thm:tagged-option-history-present-
 For the reverse direction, use Theorem~\ref{thm:tagged-option-history-present-present-exactness} with payloads $h$ and $k$. The source witnesses are the assumptions $S(h)$ and $S(k)$, the endpoint witnesses are reflexivity of $\hsame$ at $h$ and $k$, and the payload classifier witness is the assumed $h\sim_S k$.
 \end{proof}
 
-\begin{definition}[Tagged option source hsame compatibility]
-\label{def:tagged-option-source-hsame-compatibility}
-For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, define $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ to be the property that for all payload histories $a,b$, if $S(a)$, $S(b)$, and $\hsame(a,b)$, then $a\sim_S b$.
-\end{definition}
-
 \begin{theorem}[Tagged option hsame source compatibility]
 \label{thm:tagged-option-source-hsame-compatibility-hsame}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
@@ -188,6 +188,19 @@ holds.
 \end{theorem}
 \begin{proof}
 Unfold Definition~\ref{def:tagged-option-source-hsame-compatibility}. Given payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, and the displayed witness $\hsame(a,b)$, return that same history-sameness witness as the source classifier witness.
+\end{proof}
+
+\begin{theorem}[Tagged option hsame present exactness]
+\label{thm:tagged-option-history-hsame-present-exactness}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and histories $h,k$,
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}(\Eone(h),\Eone(k))
+\quad\Longleftrightarrow\quad
+S(h)\land S(k)\land \hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-present-present-exactness} with source classifier $\hsame$. In the forward direction, the exactness witness gives payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, endpoint links $\hsame(h,a)$ and $\hsame(k,b)$, and a payload link $\hsame(a,b)$. Compatibility of $\hsame$ with the source carrier transports the two source witnesses along the exposed endpoint links, and transitivity composes $\hsame(h,a)$, $\hsame(a,b)$, and the symmetry of $\hsame(k,b)$ into $\hsame(h,k)$. In the reverse direction, choose payloads $h$ and $k$ in Theorem~\ref{thm:tagged-option-history-present-present-exactness}; the two source witnesses are displayed, the endpoint links are reflexivity of $\hsame$, and the payload classifier witness is the displayed $\hsame(h,k)$.
 \end{proof}
 
 \begin{definition}[Tagged option history pattern]
