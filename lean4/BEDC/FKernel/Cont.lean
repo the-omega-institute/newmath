@@ -293,6 +293,50 @@ theorem cont_right_constructor_inversion {h k r : BHist} :
       right
       exact ⟨k0, append h k0, rfl, hr, rfl⟩
 
+theorem cont_relation_constructor_characterization {h k r : BHist} :
+    Cont h k r ↔ (k = BHist.Empty ∧ hsame r h) ∨
+      (∃ k0 : BHist, ∃ r0 : BHist,
+        k = BHist.e0 k0 ∧ r = BHist.e0 r0 ∧ Cont h k0 r0) ∨
+      (∃ k0 : BHist, ∃ r0 : BHist,
+        k = BHist.e1 k0 ∧ r = BHist.e1 r0 ∧ Cont h k0 r0) := by
+  constructor
+  · intro hcont
+    exact cont_right_constructor_inversion hcont
+  · intro data
+    cases data with
+    | inl base =>
+        cases base with
+        | intro hk same =>
+            cases hk
+            cases same
+            exact cont_right_unit h
+    | inr stepCases =>
+        cases stepCases with
+        | inl zeroCase =>
+            cases zeroCase with
+            | intro k0 rest =>
+                cases rest with
+                | intro r0 fields =>
+                    cases fields with
+                    | intro hk tail =>
+                        cases tail with
+                        | intro hr hcont =>
+                            cases hk
+                            cases hr
+                            exact cont_step_zero hcont
+        | inr oneCase =>
+            cases oneCase with
+            | intro k0 rest =>
+                cases rest with
+                | intro r0 fields =>
+                    cases fields with
+                    | intro hk tail =>
+                        cases tail with
+                        | intro hr hcont =>
+                            cases hk
+                            cases hr
+                            exact cont_step_one hcont
+
 theorem cont_empty_result_inversion {h k : BHist} :
     Cont h k BHist.Empty -> h = BHist.Empty ∧ k = BHist.Empty := by
   intro hc

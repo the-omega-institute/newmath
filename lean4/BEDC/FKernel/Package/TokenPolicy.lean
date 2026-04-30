@@ -232,6 +232,19 @@ theorem packages_classify_introduced_signatures [AskSetup] [PackageSetup]
     exact policy.soundness left right sameHist
 
 omit [AskSetup] P in
+theorem packages_classify_introduced_signatures_directional [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg}
+    (policy : PackageTokenPolicy bundle) :
+    TokIntro bundle s p → TokIntro bundle t q →
+      (psame bundle p q → hsame s t) ∧ (hsame s t → psame bundle p q) := by
+  intro left right
+  constructor
+  · intro samePkg
+    exact policy.reflection left right samePkg
+  · intro sameHist
+    exact policy.soundness left right sameHist
+
+omit [AskSetup] P in
 theorem package_reflection_iff_hsame [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
     {s t : BHist} {p q : Pkg} :

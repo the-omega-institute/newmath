@@ -195,6 +195,21 @@ theorem unary_continuation_closure {h k r : BHist} :
       | intro uk hr =>
           exact unary_cont_closed uh uk hr
 
+theorem unary_continuation_closure_spine {h k r : BHist} :
+    UnaryCont h k r → UnaryHistory r ∧ Cont h k r ∧ UnaryHistory h ∧ UnaryHistory k := by
+  intro packed
+  cases packed with
+  | intro uh rest =>
+      cases rest with
+      | intro uk hr =>
+          constructor
+          · exact unary_cont_closed uh uk hr
+          · constructor
+            · exact hr
+            · constructor
+              · exact uh
+              · exact uk
+
 theorem unary_repetition_continuation_closed {h k r : BHist} :
     UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r := by
   intro uh uk hr
