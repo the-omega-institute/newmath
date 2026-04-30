@@ -79,6 +79,24 @@ theorem unary_e1_closed {h : BHist} : UnaryHistory h -> UnaryHistory (.e1 h) := 
   intro uh
   exact uh
 
+theorem unary_histories_iff_empty_or_eone_tail {h : BHist} :
+    UnaryHistory h ↔ h = BHist.Empty ∨ ∃ t : BHist, h = BHist.e1 t ∧ UnaryHistory t := by
+  constructor
+  · intro uh
+    exact unary_history_empty_or_e1_tail uh
+  · intro casesForH
+    cases casesForH with
+    | inl hEmpty =>
+        cases hEmpty
+        exact unary_empty
+    | inr tail =>
+        cases tail with
+        | intro t tailData =>
+            cases tailData with
+            | intro hEq tailUnary =>
+                cases hEq
+                exact unary_e1_closed tailUnary
+
 theorem unary_closure_under_one_extension {h : BHist} :
     UnaryHistory h -> UnaryHistory (BHist.e1 h) := by
   intro uh

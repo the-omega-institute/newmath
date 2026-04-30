@@ -211,6 +211,18 @@ theorem NotExported_base_relation_pair {s : BaseReflectionSetup} {P : s.Pi} {D :
   · intro generated
     exact exactness.mpr generated
 
+theorem NotExported_scope_boundary {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    {ex : ExactGlobalizeBase s P D} (notExported : NotExported s P D ex) :
+    (∀ {h k : s.Hist} {p q : s.Pkg}, s.InGapSig P D p h → s.InGapSig P D q k →
+      PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)) ∧
+    (∀ {h k : s.Hist} {p q : s.Pkg}, s.InGapSig P D p h → s.InGapSig P D q k →
+      Nonempty (GeneratedSameSig s P h k) → PsameBase s P p q) := by
+  constructor
+  · intro h k p q hp hq base
+    exact (notExported hp hq).mp base
+  · intro h k p q hp hq generated
+    exact (notExported hp hq).mpr generated
+
 theorem ExactGlobalizeBase_sound_complete_and_classify
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) {h k : s.Hist} {p q : s.Pkg}

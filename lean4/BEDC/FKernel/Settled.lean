@@ -531,4 +531,23 @@ theorem settledKernelCriterion_bundle_generation_projection [AskSetup] [PackageS
   intro _ bundle
   exact bundle_generation_cases bundle
 
+theorem settledKernelCriterion_milestoneB_signature_kernel [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      (∀ bundle : ProbeBundle ProbeName,
+        bundle = ProbeBundle.Bnil ∨
+          ∃ p : ProbeName, ∃ tail : ProbeBundle ProbeName,
+            bundle = ProbeBundle.Bcons p tail) ∧
+      (∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h s t : BHist},
+        AskPolicy D → D h → SigRel bundle h s → SigRel bundle h t → hsame s t) ∧
+      (∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop}, AskPolicy D →
+        (∀ {h : BHist}, D h → SameSig bundle h h) ∧
+          (∀ {h k : BHist}, SameSig bundle h k → SameSig bundle k h) ∧
+          (∀ {h k l : BHist}, D k → SameSig bundle h k → SameSig bundle k l →
+            SameSig bundle h l)) := by
+  intro criterion
+  constructor
+  · exact settledKernelCriterion_bundle_generation_projection criterion
+  · exact settledKernelCriterion_signature_kernel_projection criterion
+
 end BEDC.FKernel.Settled
