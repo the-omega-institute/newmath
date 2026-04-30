@@ -596,6 +596,22 @@ theorem, and the stored link supplies the classifier equality field.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_raw\_visible\_classifier}
 
+\begin{theorem}[Option ledger classifier composition]
+\label{thm:option-ledger-classifier-extension}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source predicate and let
+$\rho,v,w:\mathsf{BHist}$. If
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ and
+$\mathsf{OptionHistoryClassifier}(S,v,w)$ hold, then
+$\mathsf{OptionHistoryClassifier}(S,\rho,w)$ holds.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:option-ledger-raw-visible-classifier} to the ledger
+policy to obtain $\mathsf{OptionHistoryClassifier}(S,\rho,v)$. Compose that
+raw-visible classifier with the visible-target classifier by
+Theorem~\ref{thm:option-history-classifier-transitivity}, yielding
+$\mathsf{OptionHistoryClassifier}(S,\rho,w)$.
+\end{proof}
+
 \begin{theorem}[Option ledger history-same transport]
 \label{thm:option-ledger-hsame-transport}
 If both raw histories and both visible histories are related by $\hsame$, then

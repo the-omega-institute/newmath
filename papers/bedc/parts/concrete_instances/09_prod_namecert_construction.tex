@@ -435,14 +435,17 @@ component relations supply the remaining conjuncts.
 
 \begin{definition}[Prod stability certificate]
 \label{def:prod-stability-certificate}
-The stability certificate consists of:
+The checked stability subcertificate consists of:
 \begin{enumerate}
-  \item componentwise reflexivity
-  \item componentwise symmetry
-  \item componentwise transitivity
-  \item closure under pair construction
-  \item projection stability for first and second components
+  \item componentwise reflexivity obtained from the two source reflexivity fields
+  \item componentwise transitivity obtained from the two source transitivity fields
+  \item coordinate exposure: any
+  $\mathsf{ProdClassifierSpec}(R_A,R_B,x,y)$ witness yields
+  $R_A(x.1,y.1)$ and $R_B(x.2,y.2)$
 \end{enumerate}
+Source-certificate symmetry is supplied by
+Theorem~\ref{thm:prod-classifier-symm-from-namecert}, while the $\hsame$
+specialization is Theorem~\ref{thm:prod-classifier-hsame-symm}.
 \end{definition}
 \leanchecked{BEDC.Derived.ProdUp.prod\_stability\_certificate\_fields}
 
