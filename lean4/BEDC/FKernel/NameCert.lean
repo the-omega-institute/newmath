@@ -331,6 +331,18 @@ structure DescentCertificate
   map : Source -> Target
   respects : forall {a b : Source}, sourceSame a b -> targetSame (map a) (map b)
 
+theorem descentCertificate_respects
+    {Source Target : Type}
+    {sourceSame : Source → Source → Prop}
+    {targetSame : Target → Target → Prop}
+    (cert : DescentCertificate Source Target sourceSame targetSame)
+    {a b : Source} :
+    sourceSame a b → targetSame (cert.map a) (cert.map b) := by
+  intro same
+  cases cert with
+  | mk map respects =>
+      exact respects same
+
 structure StableTransformation
     (Source Target Ledger : Type)
     (sourceSame : Source -> Source -> Prop)

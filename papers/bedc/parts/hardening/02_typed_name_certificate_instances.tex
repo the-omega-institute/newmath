@@ -98,6 +98,16 @@ A descent certificate for a transformation pattern states that the pattern respe
 \leandef{BEDC.FKernel.NameCert.DescentCertificate}
 \leanchecked{BEDC.FKernel.NameCert.StableTransformation\_descentCertificate\_exists}
 
+\begin{theorem}[Descent certificate respects source sameness]
+\label{thm:descent-certificate-respects}
+If a descent certificate maps a source classifier to a target classifier, then source-same inputs have target-same mapped outputs.
+\end{theorem}
+\leanchecked{BEDC.FKernel.NameCert.descentCertificate\_respects}
+
+\begin{proof}
+Unpack the descent certificate and apply its respect field to the source-sameness witness.
+\end{proof}
+
 \begin{theorem}[Stable transformations descend to packages]
 \label{thm:stable-transformations-descend-to-packages}
 If visible source package tokens introduce \(p\) and \(q\), and the source classifier identifies them, then any supplied stability witness that respects the package classifier transports that identification to the target package classifier.

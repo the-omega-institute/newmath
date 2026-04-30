@@ -41,6 +41,32 @@ theorem sig_cons_inversion {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r 
   | cons _ _ _ s _ m delta hask htail hext =>
       exact ⟨s, m, delta, hask, htail, hext⟩
 
+omit [AskSetup] in
+theorem sig_cons_head_mark_determinacy [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {D : BHist → Prop} {h r r' : BHist} (policy : AskPolicy D) :
+    D h → SigRel (ProbeBundle.Bcons pi tail) h r →
+      SigRel (ProbeBundle.Bcons pi tail) h r' →
+      ∃ s : BHist, ∃ t : BHist, ∃ m : BMark, ∃ n : BMark,
+      ∃ delta : Evidence, ∃ theta : Evidence,
+        Ask pi h m delta ∧ Ask pi h n theta ∧
+        SigRel tail h s ∧ SigRel tail h t ∧ msame m n := by
+  intro _ left right
+  cases left with
+  | cons _ _ _ s _ m delta leftAsk leftTail _ =>
+      cases right with
+      | cons _ _ _ t _ n theta rightAsk rightTail _ =>
+          exact Exists.intro s
+            (Exists.intro t
+              (Exists.intro m
+                (Exists.intro n
+                  (Exists.intro delta
+                    (Exists.intro theta
+                      (And.intro leftAsk
+                        (And.intro rightAsk
+                          (And.intro leftTail
+                            (And.intro rightTail
+                              (policy.deterministic leftAsk rightAsk))))))))))
+
 theorem sig_cons_result_inversion [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
     {h r : BHist} :
     SigRel (ProbeBundle.Bcons pi tail) h r ->

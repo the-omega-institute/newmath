@@ -60,6 +60,15 @@ then
 Here \(\delta\star\Delta\) is the evidence-composition operation licensed by the relevant asking policy.
 \end{kernelrule}
 
+\begin{theorem}[Cons head mark determinacy]
+\label{thm:signature-cons-head-mark-determinacy}
+Assume an asking policy on \(D\). If \(h\in D\) and two cons-signature derivations for \(\Bcons(\pi,\Pi)\) start from the same source history \(h\), then their head asking events emit internally same marks.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sig\_cons\_head\_mark\_determinacy}
+\begin{proof}
+Invert both cons-signature derivations. Their head premises are asking events for the same probe and source history. Asking-policy determinacy gives internal sameness of the emitted marks, while the tail signature witnesses are retained from the two inverted derivations.
+\end{proof}
+
 \begin{theorem}[Signature existence under an asking policy]
 Assume \(\AskPol(\Pi,D)\). If \(h\) is admitted by \(D\), then bundle \(\Pi\) generates some signature event from \(h\).
 \end{theorem}
