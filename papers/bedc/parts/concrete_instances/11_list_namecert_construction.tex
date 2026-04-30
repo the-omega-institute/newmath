@@ -556,7 +556,7 @@ Induct on the structural list-classifier witness. The nil clause reverses to nil
 
 \begin{theorem}[List carrier transport from a source certificate]
 \label{thm:list-carrier-transport-from-namecert}
-Let $C:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier predicate and let $\sim_C$ be a classifier equipped with $\NameCert(C,\sim_C)$. For finite history spines $xs,ys:\mathsf{HistSpine}$, if every entry of $xs$ satisfies $C$ and $\mathsf{ListClassifierSpec}(\sim_C,xs,ys)$ holds, then every entry of $ys$ satisfies $C$.
+Let $C:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier predicate, let $\sim_C:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a source classifier, and assume $\mathsf{cert}:\NameCert(C,\sim_C)$. For finite BEDC-history spines $xs,ys:\mathsf{HistSpine}$, if every entry of $xs$ satisfies $C$ and $\mathsf{ListClassifierSpec}(\sim_C,xs,ys)$ holds, then every entry of $ys$ satisfies $C$.
 \end{theorem}
 \begin{proof}
 Induct on the structural classifier derivation. The nil clause has no entries to transport. In the cons clause, the source certificate field $\mathsf{NameCert.carrier\_respects\_equiv}$ transports the head carrier witness across the head classifier witness, and the induction hypothesis transports all tail entries across the tail classifier witness.

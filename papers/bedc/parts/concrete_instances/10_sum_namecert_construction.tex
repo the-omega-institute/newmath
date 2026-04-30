@@ -234,6 +234,25 @@ witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_hsame\_transport}
 
+\begin{theorem}[Sum history classifier source-certified carrier transport]
+\label{thm:sum-history-classifier-carrier-transport-from-namecert}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume source certificates $\NameCert(Left,LeftEq)$ and
+$\NameCert(Right,RightEq)$. If
+$\mathsf{SumHistoryCarrier}(Left,Right,h)$ and
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)$ hold, then
+$\mathsf{SumHistoryCarrier}(Left,Right,k)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze the displayed carrier witness and the tagged classifier witness.
+Mixed source tags are impossible by BEDC $e0/e1$ no-confusion. In the left-left
+case, apply $\mathsf{NameCert.carrier\_respects\_equiv}$ from the left source
+certificate to transport the payload carrier witness across the $LeftEq$
+witness, then rebuild the left tagged carrier. The right-right case is identical
+using the right source certificate and the $RightEq$ witness.
+\end{proof}
+
 \begin{theorem}[Sum history classifier tag separation]
 \label{thm:sum-history-classifier-tag-separation}
 If \(h\) is \(e0\)-tagged and \(k\) is \(e1\)-tagged, then the
