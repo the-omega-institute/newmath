@@ -174,6 +174,15 @@ theorem cont_assoc_middle_exists :
   cases habc
   exact ⟨append b c, rfl, append_assoc a b c⟩
 
+theorem cont_assoc_forward_witness {a b c ab abc : BHist} :
+    Cont a b ab -> Cont ab c abc ->
+      exists bc : BHist, exists abc' : BHist,
+        Cont b c bc /\ Cont a bc abc' /\ hsame abc abc' := by
+  intro hab habc
+  cases hab
+  cases habc
+  exact ⟨append b c, append a (append b c), rfl, rfl, append_assoc a b c⟩
+
 theorem cont_assoc_left_exists {h k l u v : BHist} :
     Cont h k u -> Cont u l v -> exists w : BHist, Cont k l w /\ Cont h w v := by
   intro hku huv

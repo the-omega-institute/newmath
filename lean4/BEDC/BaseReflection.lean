@@ -456,6 +456,22 @@ structure GeneratedSameSig (s : BaseReflectionSetup) (P : s.Pi) (h k : s.Hist) :
   rightSig : s.SigGen P k rightSigObj rightEvidence
   sigSame : s.hsame leftSigObj rightSigObj
 
+def GeneratedSameSig_from_witnesses
+    {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist} {x y : s.SigObj}
+    {ex ey : s.Evidence} :
+    s.SigGen P h x ex -> s.SigGen P k y ey -> s.hsame x y ->
+      GeneratedSameSig s P h k := by
+  intro left right same
+  exact {
+    leftSigObj := x
+    rightSigObj := y
+    leftEvidence := ex
+    rightEvidence := ey
+    leftSig := left
+    rightSig := right
+    sigSame := same
+  }
+
 theorem GeneratedSameSig_hsame
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
     (gen : GeneratedSameSig s P h k) :

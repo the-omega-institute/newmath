@@ -22,6 +22,10 @@ theorem TokIntro_iff_setup_field [A : AskSetup] [P : PackageSetup]
     @TokIntro A P bundle s p ↔ P.TokIntro bundle s p := by
   rfl
 
+def SignatureTokenIntro [AskSetup] [PackageSetup]
+    (bundle : ProbeBundle ProbeName) (s : BHist) (p : Pkg) : Prop :=
+  TokIntro bundle s p
+
 def PkgSig [AskSetup] [PackageSetup] (bundle : ProbeBundle ProbeName) (s : BHist) (p : Pkg) : Prop :=
   TokIntro bundle s p
 
