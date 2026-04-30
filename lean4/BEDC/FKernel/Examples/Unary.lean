@@ -398,6 +398,10 @@ theorem unary_cont_comm {h k r r' : BHist} :
   intro uh uk hr hr'
   exact hr.trans ((unary_append_comm uh uk).trans hr'.symm)
 
+theorem unary_cont_comm_obligation_holds : UnaryContinuationCommutativityObligation := by
+  intro h k r r2 uh uk hr hr2
+  exact unary_cont_comm uh uk hr hr2
+
 theorem add_up_commutative_certificate_upgrade {h k r rprime : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h rprime →
       NameCert AddName ∧ Nonempty StabilityCert ∧ hsame r rprime := by

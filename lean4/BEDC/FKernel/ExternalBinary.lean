@@ -46,6 +46,21 @@ private theorem nat_eq_add_succ_false (n m : Nat) : n = n + m + 1 -> False := by
     exact Nat.lt_add_of_pos_right (Nat.succ_pos m)
   exact (Nat.lt_irrefl n) (Nat.lt_of_lt_of_eq hlt h.symm)
 
+theorem external_append_right_length_zero {a b : BWord} :
+    bwordLength (append a b) = bwordLength a -> b = BWord.nil := by
+  intro h
+  cases b with
+  | nil =>
+      rfl
+  | bit0 b =>
+      have hlen := h
+      simp [append, bwordLength, bwordLength_append] at hlen
+      exact False.elim (nat_eq_add_succ_false (bwordLength a) (bwordLength b) hlen.symm)
+  | bit1 b =>
+      have hlen := h
+      simp [append, bwordLength, bwordLength_append] at hlen
+      exact False.elim (nat_eq_add_succ_false (bwordLength a) (bwordLength b) hlen.symm)
+
 theorem external_append_empty_left : forall w : BWord, append .nil w = w := by
   intro w
   induction w with

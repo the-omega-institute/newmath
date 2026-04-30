@@ -824,6 +824,18 @@ theorem ExactGlobalizeBase_classify_iff
     | intro hsig =>
         exact ex.soundness h k p q hp hq hsig
 
+theorem ExactGlobalizeBase_classify_directions
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
+    {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    (PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)) /\
+      (Nonempty (GeneratedSameSig s P h k) -> PsameBase s P p q) := by
+  constructor
+  case left =>
+    exact (ExactGlobalizeBase_classify_iff ex hp hq).mp
+  case right =>
+    exact (ExactGlobalizeBase_classify_iff ex hp hq).mpr
+
 theorem no_scaffold_laundering_fields_and_classifier
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) :
