@@ -229,6 +229,16 @@ def git_log_oneline(n: int = 5, *, cwd: Optional[Path] = None) -> list[str]:
     return [l.strip() for l in result.stdout.strip().splitlines() if l.strip()]
 
 
+def latest_committed_round(*, cwd: Optional[Path] = None) -> int:
+    result = run_cmd(["git", "log", "--format=%s"], cwd=cwd or REPO_ROOT)
+    latest = 0
+    for line in result.stdout.splitlines():
+        m = re.match(r"R(\d+)\b", line.strip())
+        if m:
+            latest = max(latest, int(m.group(1)))
+    return latest
+
+
 # ---------------------------------------------------------------------------
 # Memory-pressure guard (macOS)
 #
@@ -1675,16 +1685,23 @@ STATE_FILE = LOG_DIR / "formalize_state.json"
 
 
 def load_state() -> RoundState:
+    latest_round = latest_committed_round()
     if STATE_FILE.exists():
         try:
             with open(STATE_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            return RoundState(**data)
+            state = RoundState(**data)
+            if latest_round > state.round_number:
+                logger.info(
+                    f"Advancing round state from R{state.round_number} to latest git commit R{latest_round}"
+                )
+                state.round_number = latest_round
+            return state
         except Exception:
             logger.warning("Failed to load state, rebuilding from IMPLEMENTATION_PLAN")
     plan_text = read_impl_plan_header(30)
     return RoundState(
-        round_number=parse_round_from_plan(plan_text),
+        round_number=max(parse_round_from_plan(plan_text), latest_round),
         total_theorems=count_lean_theorems(),
         recent_commits=git_log_oneline(5),
     )
@@ -2452,8 +2469,9 @@ def main() -> int:
                     return
                 _maybe_cooldown()
                 with _round_lock:
-                    rn = state.round_number
                     state.round_number += 1
+                    rn = state.round_number
+                    save_state(state)
                 memory_pressure_wait(context=f"dispatch R{rn}")
                 fut = pool.submit(
                     run_round_in_worktree,
