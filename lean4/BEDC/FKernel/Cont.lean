@@ -116,6 +116,18 @@ theorem cont_right_unit : ∀ h : BHist, Cont h .Empty h := by
   intro h
   rfl
 
+theorem cont_relation_generated_rules :
+    (forall h : BHist, Cont h .Empty h) /\
+      (forall {h k r : BHist}, Cont h k r -> Cont h (.e0 k) (.e0 r)) /\
+      (forall {h k r : BHist}, Cont h k r -> Cont h (.e1 k) (.e1 r)) := by
+  constructor
+  · exact cont_right_unit
+  · constructor
+    · intro h k r hcont
+      exact cont_step_zero hcont
+    · intro h k r hcont
+      exact cont_step_one hcont
+
 theorem cont_right_constructor_inversion {h k r : BHist} :
     Cont h k r ->
       (k = BHist.Empty ∧ r = h) ∨

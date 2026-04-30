@@ -58,6 +58,12 @@ theorem domain_transport_symmetric [AskSetup] [PackageSetup] [DomainSetup]
   intro hk hhk
   exact policy.transport hk (hsame_symm hhk)
 
+theorem domain_transport_transitive [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l : BHist} :
+    InDom D h -> hsame h k -> hsame k l -> InDom D l := by
+  intro hdom hhk hkl
+  exact policy.transport (policy.transport hdom hhk) hkl
+
 omit [AskSetup] [PackageSetup] G in
 theorem DomainPolicy_transport_and_invariance [AskSetup] [PackageSetup] [DomainSetup]
     {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
