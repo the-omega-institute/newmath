@@ -203,12 +203,12 @@ $\hsame$ on the selected component to build the matching classifier branch.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_raw\_visible\_classifier}
 
-\begin{theorem}[Concrete \(\SumUp\) licensing data]
+\begin{theorem}[Concrete $\SumUp$ semantic name certificate]
 \label{thm:concrete-sum-namecert}
-The displayed carrier, classifier, stability certificate, and ledger policy are the \(\SumUp(A,B)\) licensing data. The checked Lean coverage in this chapter is the carrier, classifier, and stability layer recorded above.
+Let $Left,Right:\Hist\to\mathsf{Prop}$ be source carriers with classifiers $LeftEq$ and $RightEq$. If $\NameCert(Left,LeftEq)$ and $\NameCert(Right,RightEq)$ are supplied, then the tagged sum carrier, the tagged sum classifier, and the carrier-as-pattern and carrier-as-ledger tuple form a $\mathsf{SemanticNameCert}$ for $\mathsf{SumHistoryCarrier}(Left,Right)$ and $\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq)$.
 \end{theorem}
 \begin{proof}
-The carrier is represented by \(e0\)-tagged left histories and \(e1\)-tagged right histories. The classifier delegates within matching tags to the corresponding source certificate. Reflexivity, symmetry, transitivity, and carrier transport follow from the source \(\NameCert\) fields, while the mixed-tag cases are excluded by BEDC history constructor separation.
+The carrier is represented by $e0$-tagged left histories and $e1$-tagged right histories. The classifier delegates within matching tags to the corresponding source certificate. Reflexivity is built by tagging the source certificate reflexivity field on the selected component. Symmetry and transitivity invert the tagged classifier witnesses, use the matching source certificate fields inside a left--left or right--right branch, and discharge mixed tags by constructor no-confusion. Carrier transport in each branch applies the corresponding source field $\mathsf{NameCert.carrier\_respects\_equiv}$ to the payload classifier witness, then rebuilds the tagged carrier witness. The carrier-as-pattern and carrier-as-ledger components use the same tagged carrier evidence, so the displayed tuple satisfies the semantic certificate fields.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate}
 
