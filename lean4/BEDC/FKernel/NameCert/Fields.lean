@@ -247,4 +247,13 @@ theorem sealInterface_full_witnesses [NameCertSetup] {Thread : Type} {name : Der
                 exact Nonempty.intro stability
           · exact ledger
 
+theorem sealInterface_thread_name_pair [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealInterface Thread name → Nonempty Thread ∧ Nonempty (NameCert name) := by
+  intro iface
+  cases iface with
+  | mk thread sealCertType sealCert nameCert ledger =>
+      constructor
+      · exact Nonempty.intro thread
+      · exact Nonempty.intro nameCert
+
 end BEDC.FKernel.NameCert
