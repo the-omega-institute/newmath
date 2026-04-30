@@ -31,4 +31,15 @@ theorem sameSig_trans_chain_witnesses_under_policy [AskSetup]
           (And.intro hv
             (hsame_trans hst (hsame_trans htu huv))))))
 
+theorem sig_total_pair_from_policy [AskSetup] {bundle : ProbeBundle ProbeName} {D : BHist -> Prop}
+    (policy : AskPolicy D) {h k : BHist} :
+    D h -> D k ->
+      exists s : BHist, exists t : BHist, SigRel bundle h s ∧ SigRel bundle k t := by
+  intro dh dk
+  cases sig_total_from_policy (bundle := bundle) (D := D) (h := h) policy dh with
+  | intro s hs =>
+      cases sig_total_from_policy (bundle := bundle) (D := D) (h := k) policy dk with
+      | intro t ht =>
+          exact ⟨s, t, hs, ht⟩
+
 end BEDC.FKernel.Sig

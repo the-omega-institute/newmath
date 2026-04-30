@@ -286,6 +286,20 @@ theorem unary_shift_induction_spine {k h r' : BHist} :
         intro r hshift
         exact ih uk hshift) hr
 
+theorem unary_shift_unique_witness {k h r' : BHist} :
+    UnaryHistory k → Cont k (.e1 h) r' →
+      exists v : BHist,
+        Cont k h v ∧ hsame r' (.e1 v) ∧
+          forall {w : BHist}, Cont k h w -> hsame v w := by
+  intro uk hr
+  cases unary_shift_witness uk hr with
+  | intro v shifted =>
+      cases shifted with
+      | intro hv same =>
+          exact ⟨v, hv, same, by
+            intro w hw
+            exact cont_deterministic hv hw⟩
+
 theorem unary_shift_witness_with_factor {k h r' : BHist} :
     UnaryHistory k → UnaryHistory h → Cont k (.e1 h) r' →
       exists v : BHist, Cont k h v /\ hsame r' (.e1 v) /\ UnaryHistory v := by

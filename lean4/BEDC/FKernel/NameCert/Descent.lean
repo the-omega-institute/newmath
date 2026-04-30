@@ -52,6 +52,23 @@ theorem stableTransformation_respects_and_ledger
   · exact stableTransformation_descends_to_packages cert same
   · exact stableTransformation_ledger_witness cert
 
+theorem stableTransformation_respects_with_descent_certificate
+    {Source Target Ledger : Type}
+    {sourceSame : Source -> Source -> Prop}
+    {targetSame : Target -> Target -> Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame)
+    {a b : Source} :
+    sourceSame a b ->
+      exists descent : DescentCertificate Source Target sourceSame targetSame,
+        targetSame (descent.map a) (descent.map b) ∧
+          targetSame (cert.map a) (cert.map b) ∧ Nonempty Ledger := by
+  intro same
+  cases cert with
+  | mk map respects ledger =>
+      exact Exists.intro { map := map, respects := respects }
+        (And.intro (respects same)
+          (And.intro (respects same) ledger))
+
 theorem function_like_interfaces_derived_core
     {Source Target Ledger : Type}
     {sourceSame : Source -> Source -> Prop}
