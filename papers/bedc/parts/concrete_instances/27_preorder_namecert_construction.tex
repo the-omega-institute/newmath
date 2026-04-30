@@ -124,6 +124,18 @@ continuation associativity to identify the resulting continuation from \(x\) to
 \(k\).
 \end{proof}
 
+\begin{theorem}[Prefix append tail]
+\label{thm:preorder-prefix-append-tail}
+For every history \(h\), appending a unary history \(t\) gives a concrete
+prefix comparison \(h \le \mathsf{append}(h,t)\).
+\end{theorem}
+\begin{proof}
+Use \(t\) itself as the prefix witness. Its unary membership is the supplied
+carrier for the tail, and the continuation component is the defining
+append-result equality.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail}
+
 \begin{definition}[Preorder stability certificate]
 \label{def:preorder-stability-certificate}
 The stability certificate consists of:

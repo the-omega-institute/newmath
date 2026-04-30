@@ -125,6 +125,11 @@ theorem PreorderPrefixLE_left_extension {x h k tail : BEDC.FKernel.Hist.BHist} :
           exact ⟨append tail rightTail, unary_append_closed tailUnary rightUnary,
             rightCont.trans (append_assoc x tail rightTail)⟩
 
+theorem PreorderPrefixLE_append_tail {h tail : BHist} :
+    UnaryHistory tail -> PreorderPrefixLE h (append h tail) := by
+  intro tailUnary
+  exact ⟨tail, tailUnary, cont_intro rfl⟩
+
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)
     (carrier_transport : ∀ {h k : BHist}, hsame h k → Carrier h → Carrier k)
