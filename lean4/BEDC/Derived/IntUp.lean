@@ -33,4 +33,17 @@ theorem intup_source_specification
     IntSourceSpec sign magnitude <-> IntCarrier sign magnitude := by
   rfl
 
+theorem IntCarrier_continuation_closed_same_sign {sign : BEDC.FKernel.Mark.BMark}
+    {h k r : BEDC.FKernel.Hist.BHist} :
+    IntCarrier sign h -> IntCarrier sign k -> BEDC.FKernel.Cont.Cont h k r ->
+      IntCarrier sign r := by
+  intro ih ik cont
+  cases ih with
+  | intro signCases hUnary =>
+      cases ik with
+      | intro _ kUnary =>
+          constructor
+          · exact signCases
+          · exact BEDC.FKernel.Unary.unary_cont_closed hUnary kUnary cont
+
 end BEDC.Derived.IntUp

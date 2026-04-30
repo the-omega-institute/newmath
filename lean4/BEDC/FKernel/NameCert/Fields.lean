@@ -312,4 +312,14 @@ theorem sealInterface_thread_name_pair [NameCertSetup] {Thread : Type} {name : D
       · exact Nonempty.intro thread
       · exact Nonempty.intro nameCert
 
+theorem thin_seal_interface_requires_thread_and_ledger [NameCertSetup] {Thread : Type}
+    {name : DerivedName} :
+    SealInterface Thread name -> Nonempty Thread ∧ Nonempty LedgerPolicy := by
+  intro iface
+  cases iface with
+  | mk thread sealCertType sealCert nameCert ledger =>
+      constructor
+      · exact Nonempty.intro thread
+      · exact ledger
+
 end BEDC.FKernel.NameCert
