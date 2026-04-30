@@ -44,6 +44,14 @@ The classifier relates nil with nil and cons with cons when heads are source-cla
 \end{definition}
 \leandef{BEDC.Derived.ListUp.ListClassifierSpec}
 
+\begin{theorem}[List classifier case exactness]
+\label{thm:list-classifier-case-exactness}
+For any source relation $\mathsf{sameA}$ on $A$ and any generated lists $xs,ys : \ListUp(A)$, $\mathsf{ListClassifierSpec}(\mathsf{sameA},xs,ys)$ holds exactly in the matching constructor cases: both lists are $\mathsf{nil}$, or both lists are $\mathsf{cons}$ lists with a source-head witness $\mathsf{sameA}(a,b)$ and a recursive tail witness $\mathsf{ListClassifierSpec}(\mathsf{sameA},xs',ys')$. It is false for the mixed shapes $\mathsf{nil}$ against $\mathsf{cons}(b,ys')$ and $\mathsf{cons}(a,xs')$ against $\mathsf{nil}$.
+\end{theorem}
+\begin{proof}
+Case-analyze the two generated list constructors. In the nil-nil case the classifier is the nil clause. In the cons-cons case the classifier unfolds to its head source witness together with the recursive tail classifier witness, and conversely those two witnesses rebuild the cons classifier clause. The nil-cons and cons-nil cases have no classifier clause, so any assumed witness is eliminated by constructor case analysis.
+\end{proof}
+
 \begin{lemma}[List classifier nil-cons no-confusion]
 \label{lem:list-classifier-nil-cons-no-confusion}
 For any source classifier on $A$, $\mathsf{ListClassifierSpec}$ never relates
@@ -311,12 +319,12 @@ Proceed by induction on the first list. The nil case forces the middle list to b
 Record the finite constructor spine and the source ledger for each element.
 \end{definition}
 
-\begin{theorem}[Concrete $\ListUp$ naming certificate]
+\begin{theorem}[Concrete $\ListUp$ certificate target]
 \label{thm:concrete-list-namecert}
-Assume a source carrier $A$ is equipped with a $\NameCert$ for the source classifier $\sim_A$. Let $\ListUp(A)$ be the generated list carrier with nil and cons constructors, and let $\mathsf{ListClassifierSpec}(\sim_A)$ be the lifted structural classifier. Then the generated carrier, lifted classifier, and inherited transport data satisfy the naming-certificate obligations for $\ListUp(A)$.
+Assume a source carrier $A$ is equipped with a $\NameCert$ for the source classifier $\sim_A$. Let $\ListUp(A)$ be the generated list carrier with nil and cons constructors, and let $\mathsf{ListClassifierSpec}(\sim_A)$ be the lifted structural classifier. The field-by-field certificate target for $\ListUp(A)$ consists of the source $\NameCert$, the generated list carrier, the structural classifier, classifier reflexivity, classifier symmetry, classifier transitivity, carrier transport, nil/cons case analysis, the length and source-ledger policy, and exactness for the matching constructor shapes.
 \end{theorem}
 \begin{proof}
-The nil constructor supplies an inhabited carrier. Classifier reflexivity is by induction on the generated list spine, using the reflexivity field of the source certificate at each cons head. Symmetry is by induction on the structural classifier derivation: nil is immediate, and the cons-cons case uses source symmetry on the heads and the induction hypothesis on the tails. Transitivity is the structural induction of Theorem~\ref{thm:list-classifier-trans-from-namecert}, using the source certificate transitivity field for matching heads. Carrier transport follows by induction over the lifted classifier derivation, with nil transported to nil and cons transported componentwise by the source certificate field and the tail induction hypothesis.
+The source $\NameCert$ supplies the head-level reflexivity, symmetry, transitivity, and carrier transport fields. The generated list carrier supplies nil and cons. Classifier reflexivity is by induction on the generated list spine. Symmetry is by induction on the structural classifier derivation. Transitivity is the structural induction of Theorem~\ref{thm:list-classifier-trans-from-namecert}. Carrier transport follows by induction over the lifted classifier derivation, with nil transported to nil and cons transported componentwise by the source certificate and the tail induction hypothesis. Nil/cons case analysis is the constructor no-confusion lemma, length and source-ledger policy are read from the finite spine, and exactness is the matching-shape statement of Theorem~\ref{thm:list-classifier-case-exactness}.
 \end{proof}
 
 \begin{corollary}[\(\ListUp\) is licensed, not primitive]
