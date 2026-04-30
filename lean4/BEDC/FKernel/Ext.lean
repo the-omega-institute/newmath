@@ -53,6 +53,21 @@ theorem ext_result_injective_pair {h h' r : BHist} {m m' : BMark} :
   intro left right
   cases left <;> cases right <;> constructor <;> rfl
 
+theorem ext_result_hsame_injective_pair {h h' r r' : BHist} {m m' : BMark} :
+    Ext h m r -> Ext h' m' r' -> hsame r r' -> hsame h h' ∧ msame m m' := by
+  intro left right sameResult
+  cases left
+  · cases right
+    · constructor
+      · exact Iff.mp hsame_e0_iff sameResult
+      · rfl
+    · exact False.elim (not_hsame_e0_e1 sameResult)
+  · cases right
+    · exact False.elim (not_hsame_e1_e0 sameResult)
+    · constructor
+      · exact Iff.mp hsame_e1_iff sameResult
+      · rfl
+
 theorem ext_cross_mark_result_impossible {h r : BHist} :
     Ext h BMark.b0 r -> Ext h BMark.b1 r -> False := by
   intro left right

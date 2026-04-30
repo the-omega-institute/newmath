@@ -15,6 +15,28 @@ def ComplexHistoryClassifier (h k : BHist) : Prop :=
   BEDC.Derived.ProdUp.ProdHistoryClassifier BEDC.Derived.RatUp.RatHistoryCarrier
     BEDC.Derived.RatUp.RatHistoryCarrier h k
 
+def ComplexHistoryLedgerPolicy (raw visible : BHist) : Prop :=
+  ComplexHistoryCarrier raw ∧ hsame raw visible
+
+theorem ComplexHistoryLedgerPolicy_visible_carrier {raw visible : BHist} :
+    ComplexHistoryLedgerPolicy raw visible -> ComplexHistoryCarrier visible := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      cases rawCarrier with
+      | intro leftHist rest =>
+          cases rest with
+          | intro rightHist data =>
+              cases data with
+              | intro leftCarrier rightData =>
+                  cases rightData with
+                  | intro rightCarrier cont =>
+                      exact Exists.intro leftHist
+                        (Exists.intro rightHist
+                          (And.intro leftCarrier
+                            (And.intro rightCarrier
+                              (cont_result_hsame_transport cont sameRawVisible))))
+
 theorem ComplexHistoryClassifier_trans {h k r : BHist} :
     ComplexHistoryClassifier h k -> ComplexHistoryClassifier k r ->
       ComplexHistoryClassifier h r := by

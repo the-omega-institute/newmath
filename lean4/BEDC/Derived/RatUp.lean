@@ -182,6 +182,16 @@ theorem RatHistoryLedgerPolicy_visible_carrier {raw visible : BHist} :
   intro ledger
   exact RatHistoryCarrier_hsame_transport ledger.right ledger.left
 
+theorem RatHistoryLedgerPolicy_hsame_transport {raw raw' visible visible' : BHist} :
+    RatHistoryLedgerPolicy raw visible -> hsame raw raw' -> hsame visible visible' ->
+      RatHistoryLedgerPolicy raw' visible' := by
+  intro ledger sameRaw sameVisible
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      constructor
+      · exact RatHistoryCarrier_hsame_transport sameRaw rawCarrier
+      · exact hsame_trans (hsame_trans (hsame_symm sameRaw) sameRawVisible) sameVisible
+
 theorem RatHistoryLedgerPolicy_raw_visible_classifier {raw visible : BHist} :
     RatHistoryLedgerPolicy raw visible -> RatHistoryClassifier raw visible := by
   intro ledger

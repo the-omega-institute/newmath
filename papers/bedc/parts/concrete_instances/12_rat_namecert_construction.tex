@@ -326,6 +326,19 @@ If a raw rational history satisfies the ledger policy for a visible history, the
 Unpack the ledger policy into a raw rational-history carrier and an $\hsame$ link from the raw history to the visible history. Transport the raw carrier across that link.
 \end{proof}
 
+\begin{theorem}[Rat ledger history-sameness transport]
+\label{thm:rat-ledger-hsame-transport}
+If a rational ledger relates raw and visible histories, then transporting the
+raw endpoint and the visible endpoint along \(\hsame\) yields another rational
+ledger relation.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_hsame\_transport}
+\begin{proof}
+Unpack the ledger into a raw carrier and a raw-visible link. Transport the raw
+carrier across the raw-endpoint link, then compose the reversed raw transport
+link, the stored ledger link, and the visible-endpoint link.
+\end{proof}
+
 \begin{theorem}[Rat ledger raw-visible classifier]
 \label{thm:rat-ledger-raw-visible-classifier}
 If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, then

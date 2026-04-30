@@ -62,6 +62,17 @@ If \(\ExtR(m,h,r)\) and \(\ExtR(m',h',r)\), then \(\hsame(h,h')\) and \(\msame(m
 Inspect the two generated extension witnesses. A common result can only arise from matching extension constructors, so the source histories and emitted marks are internally same.
 \end{proof}
 
+\begin{theorem}[Extension result hsame injectivity]
+\label{thm:extension-result-hsame-injective-pair}
+If \(\ExtR(m,h,r)\), \(\ExtR(m',h',r')\), and \(\hsame(r,r')\), then \(\hsame(h,h')\) and \(\msame(m,m')\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_result\_hsame\_injective\_pair}
+\begin{proof}
+Invert both generated extension witnesses. Matching outer constructors reduce
+the result-sameness witness to source history sameness and diagonal
+mark-sameness. Mixed outer constructors contradict history no-confusion.
+\end{proof}
+
 \begin{lemma}[Extension respects mark-sameness]
 If \(\msame(m,n)\), \(\ExtR(m,h,r)\), and \(\ExtR(n,h,s)\), then \(\hsame(r,s)\).
 \end{lemma}
