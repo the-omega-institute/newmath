@@ -109,6 +109,13 @@ theorem concrete_globalize_completeness_sameSig [AskSetup] [PackageSetup] [Domai
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     packagePolicy hp hq hpq
 
+omit [AskSetup] [PackageSetup] G in
+theorem concrete_globalization_completeness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
+    PackageTokenPolicy bundle -> InGapSig bundle D p h -> InGapSig bundle D q k ->
+      psame bundle p q -> SameSig bundle h k := by
+  exact concrete_globalize_completeness_sameSig
+
 theorem globalize_completeness_from_package_reflection [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle -> InGapSig bundle D p h -> InGapSig bundle D q k ->
