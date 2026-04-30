@@ -124,6 +124,20 @@ Unpack the raw carrier and the raw-to-visible history link. In the absent case, 
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_carrier}
 
+\begin{theorem}[Option ledger history-same transport]
+\label{thm:option-ledger-hsame-transport}
+If both raw histories and both visible histories are related by $\hsame$, then
+an option ledger policy transports from the first raw-visible pair to the
+second.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into its raw carrier witness and raw-to-visible history link.
+The raw carrier transports along the raw $\hsame$ witness. The transported
+raw-to-visible link is the composite of the symmetric raw link, the stored
+ledger link, and the visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_hsame\_transport}
+
 \begin{theorem}[Concrete \(\OptionUp\) naming certificate]
 \label{thm:concrete-option-namecert}
 The lifted tuple forms a valid NameCert for \(\OptionUp(A)\).

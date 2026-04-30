@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v2.7 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v2.8 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -114,7 +114,7 @@ Phase D now enforces these constraints mechanically. Select targets that will pa
 - Do NOT select targets under `lean4/BEDC/**/Examples/**`; `Examples/` is not a theorem-bearing target tree.
 - Do NOT select or propose modules/files with `Example`, `Examples`, `Scaffold`, `Stub`, `Placeholder`, or `Demo` in the path or module name.
 - Formal targets must live in canonical semantic BEDC modules. If an existing file is near 600 lines, target a focused non-example submodule and import it through the nearest index.
-- Respect the existing typeclass-parameterized layers: use `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the target belongs to those layers. Do NOT reintroduce abstract carriers as ad hoc constants or axioms.
+- Respect the existing typeclass-parameterized layers: use `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the target belongs to those layers. Do NOT reintroduce abstract carriers as ad hoc constants, opaque declarations, or axioms.
 
 ## Input Hygiene (kernel basis is locked)
 The kernel "input set" — sum of `inductive` types + `class` declarations + the `BaseReflectionSetup` structure — is intentionally minimal (~16). All theorem growth must be derived from this fixed basis, not by adding parallel inputs.

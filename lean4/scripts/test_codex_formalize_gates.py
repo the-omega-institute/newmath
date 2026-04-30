@@ -60,6 +60,26 @@ class QualityGateTests(unittest.TestCase):
     def wt(self, root: Path, base_sha: str):
         return cf.WorktreeInfo(path=root, branch="test", round_number=1, base_sha=base_sha)
 
+    def test_forbidden_placeholders_reject_constant_and_opaque(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            path = root / "lean4" / "BEDC" / "FKernel" / "Placeholder.lean"
+            path.write_text(
+                "namespace BEDC.FKernel\n"
+                "constant bad_constant : BEDC.BHist\n"
+                "opaque bad_opaque : BEDC.BHist := BEDC.BHist.empty\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "placeholder"], cwd=root, check=True)
+
+            violations = cf.detect_sorry_literals(self.wt(root, base_sha))
+
+            self.assertEqual(len(violations), 2)
+            self.assertTrue(any("constant" in v for v in violations))
+            self.assertTrue(any("opaque" in v for v in violations))
+
     def test_hollow_semantic_patterns_reject_unit_true_and_minimal_namecert(self):
         td, root, base_sha = self.init_repo()
         with td:
@@ -81,6 +101,76 @@ class QualityGateTests(unittest.TestCase):
             self.assertGreaterEqual(len(violations), 4)
             self.assertTrue(any("NameCert.mk" in v for v in violations))
             self.assertTrue(any("MinimalNameCertSetup" in v for v in violations))
+
+    def test_multi_commit_round_checks_all_commits_after_formalization_base(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            upstream_sha = subprocess.run(
+                ["git", "rev-parse", "HEAD"], cwd=root, check=True, text=True, capture_output=True
+            ).stdout.strip()
+            (root / "lean4" / "BEDC" / "FKernel" / "First.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "def first_history : BEDC.BHist := BEDC.BHist.empty\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "first"], cwd=root, check=True)
+            (root / "lean4" / "BEDC" / "FKernel" / "Second.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "constant second_placeholder : BEDC.BHist\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "second"], cwd=root, check=True)
+            wt = cf.WorktreeInfo(
+                path=root,
+                branch="test",
+                round_number=1,
+                base_sha=base_sha,
+                formalization_base_sha=upstream_sha,
+            )
+
+            changed = cf._changed_lean_files(wt)
+            violations = cf.detect_sorry_literals(wt)
+
+            self.assertIn("lean4/BEDC/FKernel/First.lean", changed)
+            self.assertIn("lean4/BEDC/FKernel/Second.lean", changed)
+            self.assertEqual(len(violations), 1)
+            self.assertIn("second_placeholder", violations[0])
+
+    def test_shell_pattern_uses_round_diff_base_not_origin_branch(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            subprocess.run(["git", "checkout", "-q", "-b", cf.BASE_BRANCH], cwd=root, check=True)
+            upstream_sha = subprocess.run(
+                ["git", "rev-parse", "HEAD"], cwd=root, check=True, text=True, capture_output=True
+            ).stdout.strip()
+            subprocess.run(["git", "update-ref", f"refs/remotes/origin/{cf.BASE_BRANCH}", base_sha], cwd=root, check=True)
+            (root / "lean4" / "BEDC" / "FKernel" / "AllowedShell.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "structure PaperShell where\n"
+                "  P : Prop\n"
+                "  Q : Prop\n"
+                "  P_h : P\n"
+                "theorem paper_shell (D : PaperShell) : D.P := D.P_h\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "upstream shell"], cwd=root, check=True)
+            wt = cf.WorktreeInfo(
+                path=root,
+                branch="test",
+                round_number=1,
+                base_sha=base_sha,
+                formalization_base_sha=upstream_sha,
+            )
+
+            violations = cf.detect_shell_pattern(wt)
+
+            self.assertEqual(violations, [])
 
     def test_register_only_round_is_rejected(self):
         td, root, base_sha = self.init_repo()
@@ -436,6 +526,90 @@ class PipelinePidTokenTests(unittest.TestCase):
 
             self.assertIsNone(previous)
             self.assertTrue(cf.pipeline_token_is_current(pid_file, 222))
+
+    def test_batch_dispatch_stops_when_pid_token_is_not_current(self):
+        state = cf.RoundState(round_number=10, total_theorems=1, recent_commits=[])
+        calls: list[int] = []
+        allocations: list[int] = []
+        original_allocate = cf.allocate_round_numbers
+        original_token = cf.pipeline_token_is_current
+        original_memory = cf.memory_pressure_wait
+        original_run_round = cf.run_round_in_worktree
+        original_count = cf.count_lean_theorems
+        original_log = cf.git_log_oneline
+        original_save = cf.save_state
+        try:
+            cf.allocate_round_numbers = lambda _state, count: allocations.append(count) or list(range(11, 11 + count))
+            cf.pipeline_token_is_current = lambda: False
+            cf.memory_pressure_wait = lambda context="": None
+            cf.run_round_in_worktree = lambda rn, *args, **kwargs: calls.append(rn) or (True, rn, ["x"])
+            cf.count_lean_theorems = lambda: 1
+            cf.git_log_oneline = lambda n=5, *, cwd=None: []
+            cf.save_state = lambda _state: None
+
+            succeeded, failed = cf.run_parallel_batch(state, parallel=3)
+
+            self.assertEqual((succeeded, failed), (0, 0))
+            self.assertEqual(allocations, [])
+            self.assertEqual(calls, [])
+        finally:
+            cf.allocate_round_numbers = original_allocate
+            cf.pipeline_token_is_current = original_token
+            cf.memory_pressure_wait = original_memory
+            cf.run_round_in_worktree = original_run_round
+            cf.count_lean_theorems = original_count
+            cf.git_log_oneline = original_log
+            cf.save_state = original_save
+
+
+class PreMergeHardGateTests(unittest.TestCase):
+    def test_pre_merge_hard_gates_run_build_and_audits(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            wt = cf.WorktreeInfo(path=root, branch="test", round_number=1)
+            calls: list[tuple[str, tuple[str, ...], Path | None]] = []
+            original_run_cmd = cf.run_cmd
+            try:
+                def fake_run_cmd(cmd, *, cwd=None, timeout=120, check=False):
+                    calls.append((" ".join(cmd), tuple(cmd), cwd))
+                    return subprocess.CompletedProcess(cmd, 0, "", "")
+
+                cf.run_cmd = fake_run_cmd
+
+                self.assertTrue(cf.run_pre_merge_hard_gates(wt))
+            finally:
+                cf.run_cmd = original_run_cmd
+
+            commands = [call[0] for call in calls]
+            self.assertIn("lake build", commands)
+            self.assertIn("python3 tools/check-axioms.py", commands)
+            self.assertIn("python3 lean4/scripts/bedc_ci.py audit", commands)
+            self.assertIn("python3 lean4/scripts/bedc_ci.py axiom-purity --strict", commands)
+            self.assertIn(root / "lean4", [call[2] for call in calls])
+            self.assertIn(root, [call[2] for call in calls])
+
+    def test_pre_merge_hard_gates_stop_on_first_failure(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            wt = cf.WorktreeInfo(path=root, branch="test", round_number=1)
+            calls: list[str] = []
+            original_run_cmd = cf.run_cmd
+            try:
+                def fake_run_cmd(cmd, *, cwd=None, timeout=120, check=False):
+                    calls.append(" ".join(cmd))
+                    rc = 1 if cmd == ["python3", "tools/check-axioms.py"] else 0
+                    return subprocess.CompletedProcess(cmd, rc, "", "boom")
+
+                cf.run_cmd = fake_run_cmd
+
+                self.assertFalse(cf.run_pre_merge_hard_gates(wt))
+            finally:
+                cf.run_cmd = original_run_cmd
+
+            self.assertEqual(
+                calls,
+                ["lake build", "python3 tools/check-axioms.py"],
+            )
 
 
 if __name__ == "__main__":

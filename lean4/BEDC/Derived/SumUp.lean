@@ -1,14 +1,10 @@
 import BEDC.FKernel.NameCert
-
 namespace BEDC.Derived.SumUp
-
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
-
 def SumHistoryCarrier (Left Right : BHist → Prop) (h : BHist) : Prop :=
   (∃ l : BHist, hsame h (BHist.e0 l) ∧ Left l) ∨
     (∃ r : BHist, hsame h (BHist.e1 r) ∧ Right r)
-
 theorem SumHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BHist} :
     hsame h k -> SumHistoryCarrier Left Right h -> SumHistoryCarrier Left Right k := by
   intro same carrier
@@ -16,19 +12,15 @@ theorem SumHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BH
   | inl leftData =>
       cases leftData with
       | intro leftHist data =>
-          cases data with
-          | intro sameTag leftCarrier =>
-              exact Or.inl
-                (Exists.intro leftHist
-                  (And.intro (hsame_trans (hsame_symm same) sameTag) leftCarrier))
+          exact Or.inl
+            (Exists.intro leftHist
+              (And.intro (hsame_trans (hsame_symm same) data.left) data.right))
   | inr rightData =>
       cases rightData with
       | intro rightHist data =>
-          cases data with
-          | intro sameTag rightCarrier =>
-              exact Or.inr
-                (Exists.intro rightHist
-                  (And.intro (hsame_trans (hsame_symm same) sameTag) rightCarrier))
+          exact Or.inr
+            (Exists.intro rightHist
+              (And.intro (hsame_trans (hsame_symm same) data.left) data.right))
 
 theorem SumHistoryCarrier_tagged_injections {Left Right : BHist → Prop} :
     (∀ {l : BHist}, Left l → SumHistoryCarrier Left Right (BHist.e0 l)) ∧
@@ -46,15 +38,24 @@ theorem SumHistoryCarrier_e0_inversion {Left Right : BHist -> Prop} {h : BHist} 
   | inl leftData =>
       cases leftData with
       | intro l data =>
-          cases data with
-          | intro sameTag leftCarrier =>
-              exact Exists.intro l (And.intro (hsame_e0_iff.mp sameTag) leftCarrier)
+          exact Exists.intro l (And.intro (hsame_e0_iff.mp data.left) data.right)
   | inr rightData =>
       cases rightData with
       | intro r data =>
-          cases data with
-          | intro sameTag _ =>
-              exact False.elim (not_hsame_e0_e1 sameTag)
+          exact False.elim (not_hsame_e0_e1 data.left)
+
+theorem SumHistoryCarrier_e1_inversion {Left Right : BHist -> Prop} {h : BHist} :
+    SumHistoryCarrier Left Right (BHist.e1 h) -> ∃ r : BHist, hsame h r ∧ Right r := by
+  intro carrier
+  cases carrier with
+  | inl leftData =>
+      cases leftData with
+      | intro l data =>
+          exact False.elim (not_hsame_e1_e0 data.left)
+  | inr rightData =>
+      cases rightData with
+      | intro r data =>
+          exact Exists.intro r (And.intro (hsame_e1_iff.mp data.left) data.right)
 
 def SumHistoryClassifier (_Left _Right : BHist → Prop)
     (LeftEq RightEq : BHist → BHist → Prop) (h k : BHist) : Prop :=
