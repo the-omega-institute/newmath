@@ -310,6 +310,20 @@ theorem compGap_assoc_witnesses
                       (And.intro firstWitness
                         (And.intro secondWitness thirdWitness)))
 
+theorem compGap_assoc_witness_pack
+    {A B C D : Type}
+    {first : B → A → Prop}
+    {second : C → B → Prop}
+    {third : D → C → Prop}
+    {z : D} {x : A} :
+    CompGap (fun c a => CompGap first second c a) third z x →
+      (∃ b : B, ∃ c : C, first b x ∧ second c b ∧ third z c) ∧
+        CompGap first (fun z b => CompGap second third z b) z x := by
+  intro left
+  constructor
+  · exact compGap_assoc_witnesses left
+  · exact compGap_assoc_forward left
+
 theorem compGap_assoc_iff_witnesses
     {A B C D : Type}
     {first : B -> A -> Prop}
