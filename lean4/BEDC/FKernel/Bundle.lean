@@ -13,6 +13,19 @@ def bundleAppend {PName : Type} : ProbeBundle PName → ProbeBundle PName → Pr
   | .Bnil, right => right
   | .Bcons p tail, right => .Bcons p (bundleAppend tail right)
 
+theorem bundleAppend_assoc {PName : Type} :
+    ∀ left middle right : ProbeBundle PName,
+      bundleAppend (bundleAppend left middle) right =
+        bundleAppend left (bundleAppend middle right) := by
+  intro left
+  induction left with
+  | Bnil =>
+      intro middle right
+      rfl
+  | Bcons p tail ih =>
+      intro middle right
+      exact congrArg (ProbeBundle.Bcons p) (ih middle right)
+
 theorem inBundle_bundleAppend_iff {PName : Type} {p : PName}
     {left right : ProbeBundle PName} :
     InBundle p (bundleAppend left right) ↔ InBundle p left ∨ InBundle p right := by
