@@ -176,6 +176,52 @@ theorem sameSig_middle_witnesses_hsame_under_policy [AskSetup] {bundle : ProbeBu
                                         htk
                                         huk))))
 
+theorem sameSig_trans_explicit_witness_chain [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist → Prop} (policy : AskPolicy D) {h k l : BHist} :
+    D k → SameSig bundle h k → SameSig bundle k l →
+      ∃ s : BHist, ∃ t : BHist, ∃ u : BHist, ∃ v : BHist,
+        SigRel bundle h s ∧ SigRel bundle k t ∧ SigRel bundle k u ∧
+          SigRel bundle l v ∧ hsame t u ∧ hsame s v := by
+  intro dk hhk hkl
+  cases hhk with
+  | intro s hhkTail =>
+      cases hhkTail with
+      | intro t hhkData =>
+          cases hhkData with
+          | intro hs hhkRest =>
+              cases hhkRest with
+              | intro htk hst =>
+                  cases hkl with
+                  | intro u hklTail =>
+                      cases hklTail with
+                      | intro v hklData =>
+                          cases hklData with
+                          | intro huk hklRest =>
+                              cases hklRest with
+                              | intro hvl huv =>
+                                  have htu : hsame t u :=
+                                    sig_deterministic
+                                      (bundle := bundle)
+                                      (D := D)
+                                      (h := k)
+                                      (s := t)
+                                      (t := u)
+                                      policy
+                                      dk
+                                      htk
+                                      huk
+                                  exact Exists.intro s
+                                    (Exists.intro t
+                                      (Exists.intro u
+                                        (Exists.intro v
+                                          (And.intro hs
+                                            (And.intro htk
+                                              (And.intro huk
+                                                (And.intro hvl
+                                                  (And.intro htu
+                                                    (hsame_trans hst
+                                                      (hsame_trans htu huv))))))))))
+
 theorem sameSig_four_step_chain_under_policy [AskSetup] {bundle : ProbeBundle ProbeName}
     {D : BHist → Prop} (policy : AskPolicy D) {a b c d : BHist} :
     D b → D c → SameSig bundle a b → SameSig bundle b c → SameSig bundle c d →

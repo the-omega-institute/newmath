@@ -114,6 +114,12 @@ theorem PolicyTokenMode_iff_TokUnique {s : BaseReflectionSetup} {P : s.Pi} :
     (fun mode => mode)
     (fun tok => tok)
 
+theorem PolicyTokenMode_tokenReplacement {s : BaseReflectionSetup} {P : s.Pi}
+    (mode : PolicyTokenMode s P) {x y : s.SigObj} {p : s.Pkg} :
+    s.TokIntro P x p → s.TokIntro P y p → s.hsame x y := by
+  intro left right
+  exact TokUnique_replacement mode left right
+
 theorem PolicyTokenMode_replacement_pair {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (mode : PolicyTokenMode s P)
     {x y : s.SigObj} {p : s.Pkg} :
