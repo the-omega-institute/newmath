@@ -144,6 +144,19 @@ histories then yields $\hsame(h,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e1\_tail\_hsame}
 
+\begin{theorem}[Bool history classifier one-tail empty equivalence]
+\label{thm:bool-history-classifier-e1-iff-tails-empty}
+The boolean history classifier relates \(\Eone(h)\) to \(\Eone(k)\) exactly
+when both tails \(h\) and \(k\) are internally history-same as \(\emp\).
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the classifier into its endpoint carrier
+witnesses and apply the one-tail carrier inversion at both endpoints. For the
+reverse direction, the tail witnesses rebuild both endpoint carriers, while
+their composite \(\hsame(h,k)\) link lifts through the \(\Eone\) constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e1\_iff\_tails\_empty}
+
 \begin{theorem}[Bool history classifier cases]
 \label{thm:bool-history-classifier-cases}
 Every boolean history classifier witness relates two histories in the same

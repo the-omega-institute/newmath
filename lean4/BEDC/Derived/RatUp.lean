@@ -177,6 +177,18 @@ theorem RatHistoryCarrier_hsame_transport {d e : BHist} :
       | intro numerator ratCarrier =>
           exact ⟨sign, numerator, RatCarrier_denominator_hsame_transport ratCarrier same⟩
 
+theorem RatHistoryClassifier_hsame_transport {d d' e e' : BHist} :
+    hsame d d' -> hsame e e' ->
+      RatHistoryClassifier d e -> RatHistoryClassifier d' e' := by
+  intro sameD sameE classified
+  cases classified with
+  | intro carrierD rest =>
+      cases rest with
+      | intro carrierE sameDE =>
+          exact ⟨RatHistoryCarrier_hsame_transport sameD carrierD,
+            RatHistoryCarrier_hsame_transport sameE carrierE,
+              hsame_trans (hsame_symm sameD) (hsame_trans sameDE sameE)⟩
+
 theorem RatHistoryLedgerPolicy_visible_carrier {raw visible : BHist} :
     RatHistoryLedgerPolicy raw visible → RatHistoryCarrier visible := by
   intro ledger

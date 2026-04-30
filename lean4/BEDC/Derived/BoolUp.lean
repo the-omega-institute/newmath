@@ -166,6 +166,30 @@ theorem BoolHistoryClassifier_e1_tail_hsame {h k : BEDC.FKernel.Hist.BHist} :
       | intro _ same =>
           exact BEDC.FKernel.Hist.hsame_e1_iff.mp same
 
+theorem BoolHistoryClassifier_e1_iff_tails_empty {h k : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryClassifier (BEDC.FKernel.Hist.BHist.e1 h)
+      (BEDC.FKernel.Hist.BHist.e1 k) <->
+      BEDC.FKernel.Hist.hsame h BEDC.FKernel.Hist.BHist.Empty /\
+        BEDC.FKernel.Hist.hsame k BEDC.FKernel.Hist.BHist.Empty := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro carrierH rest =>
+        cases rest with
+        | intro carrierK _same =>
+            exact And.intro (BoolHistoryCarrier_e1_tail_empty carrierH)
+              (BoolHistoryCarrier_e1_tail_empty carrierK)
+  · intro tails
+    cases tails with
+    | intro tailH tailK =>
+        constructor
+        · exact (BoolHistoryCarrier_e1_iff_tail_empty (h := h)).mpr tailH
+        · constructor
+          · exact (BoolHistoryCarrier_e1_iff_tail_empty (h := k)).mpr tailK
+          · exact BEDC.FKernel.Hist.hsame_e1_congr
+              (BEDC.FKernel.Hist.hsame_trans tailH
+                (BEDC.FKernel.Hist.hsame_symm tailK))
+
 theorem BoolHistoryClassifier_constructor_separation :
     BoolHistoryClassifier BEDC.FKernel.Hist.BHist.Empty
       (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty) -> False := by
