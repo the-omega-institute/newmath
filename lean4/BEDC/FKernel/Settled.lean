@@ -393,6 +393,33 @@ theorem settledKernelCriterion_package_gap_kernel_projection [AskSetup] [Package
   intro criterion
   exact settledKernelCriterion_package_gap_projection criterion
 
+theorem settledKernelCriterion_milestoneC_package_gap_kernel [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      (∀ {bundle : ProbeBundle ProbeName}, PackagePolicy bundle →
+        (∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) ∧
+        (∀ {s t : BHist} {p q : Pkg},
+          hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q) ∧
+        (∀ {p q : Pkg}, psame bundle p q →
+          ∃ s : BHist, ∃ t : BHist,
+            TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t)) ∧
+      (∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
+        GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
+      (∀ {Mid Final : Type} {D : Domain}
+          {firstGap : Mid → BHist → Prop} {secondGap : Final → Mid → Prop},
+        (∀ {h : BHist}, InDom D h → ∃ y : Mid, firstGap y h) →
+        (∀ {y : Mid},
+          (∃ h : BHist, InDom D h ∧ firstGap y h) → ∃ z : Final, secondGap z y) →
+        ∀ {h : BHist}, InDom D h →
+          ∃ z : Final, ∃ y : Mid, firstGap y h ∧ secondGap z y) := by
+  intro criterion
+  constructor
+  · exact (settledKernelCriterion_package_gap_projection criterion).left
+  · constructor
+    · exact (settledKernelCriterion_package_gap_projection criterion).right
+    · intro Mid Final D firstGap secondGap firstCoverage secondCoverage h hIn
+      exact settledKernelCriterion_composite_gap_projection criterion firstCoverage secondCoverage hIn
+
 theorem settledKernelCriterion_gap_coverage_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →

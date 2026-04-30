@@ -36,6 +36,9 @@ theorem cont_unit_laws_spine :
       (forall {h r : BHist}, Cont h BHist.Empty r -> hsame r h) := by
   exact cont_unit_laws
 
+theorem cont_right_unit_proof_sprint : ∀ h : BHist, Cont h BHist.Empty h := by
+  exact cont_right_unit
+
 theorem cont_left_unit_induction_spine : ∀ k : BHist, Cont BHist.Empty k k := by
   intro k
   induction k with
