@@ -2,12 +2,14 @@
 \label{ch:core-packages-and-package-policies}
 
 \begin{definition}[Package token and package-sameness]
+\label{def:core-package-token-and-package-sameness}
 \(\Pkg\) is a judgment
 \[
 \Pkg(\Pi,s,p)
 \]
 meaning that answer-history \(s\) under bundle \(\Pi\) is represented by package token \(p\). The internal package-sameness judgment is \(\psame(p,q)\).
 \end{definition}
+\leanchecked{BEDC.FKernel.Package.package\_token\_and\_psame\_generated\_pair}
 
 \begin{definition}[Package policy]
 A package policy \(\PkgPol(\Pi)\) consists of the following certified fields:
@@ -20,8 +22,10 @@ A package policy \(\PkgPol(\Pi)\) consists of the following certified fields:
 \end{definition}
 
 \begin{theorem}[Packages classify signatures]
+\label{thm:packages-classify-signatures-core}
 Under \(\PkgPol(\Pi)\), package-sameness is determined by signature-sameness of answer histories.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Package.packagePolicy\_classifies\_signature\_witnesses}
 \begin{proof}
 The forward direction is the grounding field. The backward direction is the extensionality field.
 \end{proof}

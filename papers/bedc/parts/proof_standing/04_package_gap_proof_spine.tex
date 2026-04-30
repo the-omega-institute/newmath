@@ -13,25 +13,33 @@ The finite globalization interface is not a single primitive. It stands on three
 \end{definition}
 
 \begin{theorem}[Gap coverage]
+\label{thm:gap-coverage-spine}
 Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi,D)\), and \(\GapPol(\Pi,D)\). If \(h\in D\), then there exists a package token \(p\) such that \(\InGap(\Pi,D,p,h)\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Gap.gap\_coverage\_from\_policy\_layers}
 \begin{proof}
 By asking totality, generate a signature \(s\) of \(h\). By package existence, generate a package token \(p\) for \(s\). By the gap policy, \(h\) is a member of the gap of \(p\).
 \end{proof}
 
 \begin{theorem}[Gap separation]
+\label{thm:gap-separation-proof-standing}
 Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi,D)\), and \(\GapPol(\Pi,D)\). If \(h\in D\), \(\InGap(\Pi,D,p,h)\), and \(\InGap(\Pi,D,q,h)\), then \(\PSame(p,q)\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Gap.gap\_separation\_witnesses\_from\_policy\_layers}
 \begin{proof}
 By the gap policy, gap membership yields signatures \(s,t\) of \(h\) packaged by \(p,q\). Signature determinacy gives \(\HSame(s,t)\). Package extensionality then yields \(\PSame(p,q)\).
 \end{proof}
 
 \begin{theorem}[Globalization classifies by signatures]
 \label{thm:packages-classify-signatures}
+\label{thm:packages-classify-signatures-directional}
 Under \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi,D)\), and \(\GapPol(\Pi,D)\), package tokens classify histories in \(D\) by signature sameness: histories with the same signature inhabit internally same packages, and histories in internally same grounded packages have internally same signatures.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Package.packagePolicy\_classifies\_signatures}
+\leanvariant{BEDC.FKernel.Package.packages\_classify\_signatures}
 \leanvariant{BEDC.FKernel.Package.PackagePolicy\_grounding\_witness}
+\leanvariant{BEDC.FKernel.Package.packagePolicy\_classification\_directions}
+\leanvariant{BEDC.FKernel.Package.packages\_classify\_signatures\_directional}
 \begin{proof}
 The first direction follows from package extensionality. The second follows from package grounding. The gap policy connects package membership back to source histories, ensuring that the classification is not a detached visible label but a provenance-preserving package.
 \end{proof}
@@ -45,12 +53,16 @@ when there exists an intermediate visible item \(y\) such that \(x\) lies in the
 \end{definition}
 
 \begin{theorem}[Composite gap coverage]
+\label{thm:composite-gap-coverage-proof-standing}
 If the \(C\)-gap covers each source item and the \(D\)-gap covers each \(C\)-visible item, then the composite gap covers each source item.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Gap.proof\_spine\_composite\_gap\_coverage}
 \begin{proof}
 Given a source item \(x\), choose a \(C\)-visible item \(y\) whose gap contains \(x\). Then choose a \(D\)-visible item \(z\) whose gap contains \(y\). By definition of composite gap, \(x\) lies in the composite gap of \(z\).
 \end{proof}
 
 \begin{corollary}[Ledger composition principle]
+\label{cor:ledger-composition-principle-proof-standing}
 A composite compression has a ledger made of the first compression ledger plus the pullback of the second compression ledger along the first visible interface.
 \end{corollary}
+\leanchecked{BEDC.FKernel.Gap.ledger\_composition\_principle\_proof\_standing}

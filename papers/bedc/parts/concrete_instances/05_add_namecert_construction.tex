@@ -8,7 +8,7 @@ The addition-like interface is licensed by continuation of unary histories. It i
 \begin{lemma}[Continuation preserves unary histories]
 If \(\mathsf{Unary}(h)\), \(\mathsf{Unary}(k)\), and \(\ContR(h,k,r)\), then \(\mathsf{Unary}(r)\).
 \end{lemma}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_cont\_preserves\_unary\_by\_induction}
+\leanchecked{BEDC.FKernel.Unary.unary\_cont\_preserves\_unary\_by\_induction}
 \begin{proof}
 By induction on the generated proof of \(\ContR(h,k,r)\). In the empty case, \(r=k\), hence \(\mathsf{Unary}(r)\) follows from the second premise. In the \(\Eone\)-continuation case, use the induction hypothesis on the subcontinuation and then apply unary closure under \(\Eone\). The \(\Ezero\)-case is incompatible with \(\mathsf{Unary}(h)\) by unary no-zero-extension, hence it is not generated under the unary source discipline.
 \end{proof}
@@ -17,7 +17,8 @@ By induction on the generated proof of \(\ContR(h,k,r)\). In the empty case, \(r
 \label{lem:unary-continuation-unit}
 For every unary history \(h\), continuation by the empty history and continuation from the empty history produce unary histories internally same to the expected unary source.
 \end{lemma}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_cont\_unit}
+\leanchecked{BEDC.FKernel.Unary.unary\_cont\_unit}
+\leanvariant{BEDC.FKernel.Unary.unary\_cont\_unit\_same\_pair}
 \begin{proof}
 The left unit is the empty continuation generator. The right unit follows from the continuation unit theorem in the proof-standing layer, restricted to unary histories. Unary closure ensures the resulting histories remain within the unary source discipline.
 \end{proof}
@@ -26,7 +27,7 @@ The left unit is the empty continuation generator. The right unit follows from t
 \label{lem:unary-continuation-associativity}
 Unary continuation is associative up to \(\HSame\) when all participating histories are unary.
 \end{lemma}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_continuation\_associativity}
+\leanchecked{BEDC.FKernel.Unary.unary\_continuation\_associativity}
 \begin{proof}
 This is the continuation associativity theorem specialized to unary histories, together with continuation-preserves-unary-histories for the intermediate results.
 \end{proof}
@@ -34,22 +35,32 @@ This is the continuation associativity theorem specialized to unary histories, t
 \section{The certificate}
 
 \begin{definition}[Additive source specification]
+\label{def:additive-source-specification}
 The source specification \(\mathsf{AddSource}\) consists of ordered pairs of unary histories together with a continuation witness.
 \end{definition}
+\leandef{BEDC.FKernel.Unary.AddSourceSpec}
+\leanvariant{BEDC.FKernel.Unary.AddSourceSpec\_from\_unary\_cont}
+\leanchecked{BEDC.FKernel.Unary.AddSourceSpec\_result\_unary}
 
 \begin{definition}[Additive pattern specification]
+\label{def:additive-pattern-specification}
 The pattern specification \(\mathsf{AddPattern}\) is unary continuation:
 \[
   \ContR(h,k,r)
 \]
 with \(\mathsf{Unary}(h)\) and \(\mathsf{Unary}(k)\).
 \end{definition}
+\leanchecked{BEDC.FKernel.Unary.additive\_pattern\_result\_unary\_iff\_inputs}
 
 \begin{definition}[Additive classifier specification]
+\label{def:additive-classifier-specification}
 The classifier specification \(\mathsf{AddClassifier}\) classifies additive outputs by \(\HSame\) of the generated result histories.
 \end{definition}
+\leandef{BEDC.FKernel.Unary.AddClassifierSpec}
+\leanchecked{BEDC.FKernel.Unary.add\_up\_certificate\_classifier\_witness}
 
 \begin{definition}[Additive stability certificate]
+\label{def:additive-stability-certificate}
 The stability certificate \(\mathsf{AddStabilityCert}\) consists of:
 \begin{enumerate}
   \item continuation preserves unary histories;
@@ -58,10 +69,20 @@ The stability certificate \(\mathsf{AddStabilityCert}\) consists of:
   \item continuation determinacy up to \(\HSame\).
 \end{enumerate}
 \end{definition}
+\leanchecked{BEDC.FKernel.Unary.additive\_stability\_certificate\_fields}
+\leanvariant{BEDC.FKernel.Unary.additive\_stability\_certificate\_determinacy\_field}
+\leanvariant{BEDC.FKernel.Unary.additive\_stability\_certificate\_unit\_assoc\_determinacy}
 
 \begin{definition}[Additive ledger policy]
+\label{def:additive-stability-and-ledger-policy}
 The additive ledger policy \(\mathsf{AddLedger}\) records the two input unary histories and the continuation witness generating the output history. For composite additive uses, the ledger composes by the composite gap principle.
 \end{definition}
+\leandef{BEDC.FKernel.Unary.AddLedgerPolicy}
+\leanvariant{BEDC.FKernel.Unary.AddLedgerPolicy\_iff\_unary\_cont\_closed}
+\leanvariant{BEDC.FKernel.Unary.addLedgerPolicy\_from\_unary\_cont\_closed}
+\leanvariant{BEDC.FKernel.Unary.unary\_addition\_seed\_from\_policy}
+\leanchecked{BEDC.FKernel.Unary.additive\_stability\_and\_ledger\_policy}
+\leanchecked{BEDC.FKernel.Unary.add\_up\_ledger\_policy\_nonempty}
 
 \begin{theorem}[Concrete \(\AddUp\) naming certificate]
 \label{thm:concrete-addup-namecert}
@@ -77,10 +98,14 @@ The tuple
 \]
 forms a valid naming certificate for the derived interface \(\AddUp\).
 \end{theorem}
-\leanchecked{BEDC.FKernel.Examples.Unary.add\_up\_name\_certificate\_exists}
-\leanvariant{BEDC.FKernel.Examples.Unary.add\_up\_name\_certificate}
-\leanvariant{BEDC.FKernel.Examples.Unary.add\_up\_certificate\_field\_witnesses}
-\leanvariant{BEDC.FKernel.Examples.Unary.add\_up\_certificate\_has\_ledger}
+\leanchecked{BEDC.FKernel.Unary.add\_up\_name\_certificate\_exists}
+\leanvariant{BEDC.FKernel.Unary.concrete\_addup\_namecert}
+\leanvariant{BEDC.FKernel.Unary.add\_up\_name\_certificate}
+\leanvariant{BEDC.FKernel.Unary.add\_up\_certificate\_field\_witnesses}
+\leanvariant{BEDC.FKernel.Unary.add\_up\_name\_certificate\_complete}
+\leanvariant{BEDC.FKernel.Unary.add\_up\_certificate\_has\_ledger}
+\leanvariant{BEDC.FKernel.Unary.add\_up\_certificate\_source\_and\_ledger}
+\leanvariant{BEDC.FKernel.Unary.add\_up\_certificate\_stability\_and\_ledger}
 \begin{proof}
 The source, pattern, classifier, stability, and ledger fields are supplied by the preceding definitions. Stability is justified by the three unary continuation lemmas and continuation determinacy. The ledger policy records the exact continuation witness rather than erasing it. Thus the naming protocol is satisfied.
 \end{proof}
@@ -88,4 +113,4 @@ The source, pattern, classifier, stability, and ledger fields are supplied by th
 \begin{corollary}[\(\AddUp\) is licensed by continuation]
 The additive interface \(\AddUp\) is licensed by unary continuation. It is not a primitive operation of the finite kernel.
 \end{corollary}
-\leanchecked{BEDC.FKernel.Examples.Unary.add\_up\_licensed\_not\_primitive}
+\leanchecked{BEDC.FKernel.Unary.add\_up\_licensed\_not\_primitive}

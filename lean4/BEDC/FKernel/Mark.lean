@@ -8,9 +8,24 @@ inductive BMark where
 
 def msame : BMark → BMark → Prop := Eq
 
+theorem msame_iff_eq {m n : BMark} : msame m n ↔ m = n := by
+  rfl
+
 theorem msame_refl : ∀ m : BMark, msame m m := by
   intro m
   rfl
+
+theorem msame_generated_rules : msame BMark.b0 BMark.b0 ∧ msame BMark.b1 BMark.b1 := by
+  constructor
+  · rfl
+  · rfl
+
+theorem BMark_generated_cases (m : BMark) : m = BMark.b0 ∨ m = BMark.b1 := by
+  cases m with
+  | b0 =>
+      exact Or.inl rfl
+  | b1 =>
+      exact Or.inr rfl
 
 theorem msame_symm : ∀ {m n : BMark}, msame m n → msame n m := by
   intro m n h
@@ -30,6 +45,18 @@ theorem msame_equivalence :
     · exact msame_symm
     · exact msame_trans
 
+theorem mark_sameness_equivalence :
+    (forall m : BMark, msame m m) /\
+      (forall {m n : BMark}, msame m n -> msame n m) /\
+      (forall {a b c : BMark}, msame a b -> msame b c -> msame a c) := by
+  exact msame_equivalence
+
+theorem msame_internal_equivalence_spine :
+    (forall m : BMark, msame m m) /\
+      (forall {m n : BMark}, msame m n -> msame n m) /\
+      (forall {a b c : BMark}, msame a b -> msame b c -> msame a c) := by
+  exact msame_equivalence
+
 theorem not_msame_b0_b1 : msame .b0 .b1 → False := by
   intro h
   cases h
@@ -42,6 +69,24 @@ theorem msame_no_confusion : (msame .b0 .b1 → False) ∧ (msame .b1 .b0 → Fa
   constructor
   · exact not_msame_b0_b1
   · exact not_msame_b1_b0
+
+theorem mark_no_confusion :
+    (msame BMark.b0 BMark.b1 -> False) /\ (msame BMark.b1 BMark.b0 -> False) := by
+  constructor
+  · exact not_msame_b0_b1
+  · exact not_msame_b1_b0
+
+theorem msame_cross_iff_false :
+    (msame BMark.b0 BMark.b1 ↔ False) ∧ (msame BMark.b1 BMark.b0 ↔ False) := by
+  constructor
+  · constructor
+    · exact not_msame_b0_b1
+    · intro impossible
+      cases impossible
+  · constructor
+    · exact not_msame_b1_b0
+    · intro impossible
+      cases impossible
 
 theorem msame_cross_impossible {m n : BMark} :
     ((m = BMark.b0 ∧ n = BMark.b1) ∨ (m = BMark.b1 ∧ n = BMark.b0)) →
@@ -77,5 +122,10 @@ theorem msame_constructor_characterization {m n : BMark} :
         cases hb1.left
         cases hb1.right
         rfl
+
+theorem msame_cases {m n : BMark} :
+    msame m n -> (m = BMark.b0 /\ n = BMark.b0) \/ (m = BMark.b1 /\ n = BMark.b1) := by
+  intro h
+  exact msame_constructor_characterization.mp h
 
 end BEDC.FKernel.Mark

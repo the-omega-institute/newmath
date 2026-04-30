@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for \(\TotalOrderUp\)}
+\label{ch:concrete-instances-totalorder-namecert}
+
+The total order interface \(\TotalOrderUp\) extends \autoref{ch:concrete-instances-poset-namecert} with the trichotomy field, expressed constructively: for any \(a, b\) in the carrier, the carrier's apartness predicate decides \(a < b\), \(a = b\) (under the classifier), or \(a > b\). The classical formulation (LEM-style "either \(a \le b\) or \(b \le a\)") is replaced by decidable comparison so that the total-order certificate remains 0-axiom.
+
+\section{Carrier definition}
+
+\begin{definition}[TotalOrder carrier]
+\label{def:totalorder-carrier}
+Use a poset setup extended with constructive comparison data returning less, same, or greater.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[TotalOrder source specification]
+\label{def:totalorder-source-specification}
+The source is a certified poset carrier plus apartness-aware trichotomy.
+\end{definition}
+
+\begin{definition}[TotalOrder pattern specification]
+\label{def:totalorder-pattern-specification}
+The pattern is comparison formation producing one of three certified comparison cases.
+\end{definition}
+
+\begin{definition}[TotalOrder classifier specification]
+\label{def:totalorder-classifier-specification}
+The classifier is the poset carrier classifier, with apartness stable under classifier replacement.
+\end{definition}
+
+\begin{definition}[TotalOrder stability certificate]
+\label{def:totalorder-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all poset stability fields
+  \item strict-order-to-apartness field
+  \item trichotomy as explicit comparison data
+  \item comparison stability under classifier replacement
+  \item transitivity of strict comparison where supplied
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[TotalOrder ledger policy]
+\label{def:totalorder-ledger-policy}
+Record the comparison certificate selected for each pair.
+\end{definition}
+
+\begin{theorem}[Concrete \(\TotalOrderUp\) naming certificate]
+\label{thm:concrete-totalorder-namecert}
+Any poset with constructive trichotomy forms a valid NameCert for \(\TotalOrderUp(C)\).
+\end{theorem}
+
+\begin{corollary}[\(\TotalOrderUp\) is licensed, not primitive]
+\label{cor:totalorder-licensed-not-primitive}
+\(\TotalOrderUp\) is licensed by explicit comparison, not by LEM over order propositions.
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:totalorder-zero-axiom-note}
+Replaces LEM-style totality with decidable comparison data and apartness.
+\end{remark}
+

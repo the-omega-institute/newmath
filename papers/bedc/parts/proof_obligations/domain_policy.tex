@@ -7,6 +7,7 @@
 This chapter records the internal domain judgment \(\InDom(D,h)\) and the additional proof obligations needed for domain behavior.
 
 \begin{definition}[Domain policy]
+\label{def:domain-policy}
 A source-domain name \(D\) is equipped with a domain policy, written
 \[
   \DomainPolicy(D),
@@ -18,6 +19,8 @@ when the following BEDC-level behavior is supplied.
   \item \textbf{No set-membership import.} No theorem in the active concrete layer may use the notation \(h\in D\) as an internal premise.
 \end{enumerate}
 \end{definition}
+\leanchecked{BEDC.FKernel.Gap.DomainPolicy\_transport\_field}
+\leanvariant{BEDC.FKernel.Gap.DomainPolicy\_iff\_transport\_and\_invariance}
 
 \begin{theorem}[Domain transport]
 \label{thm:domain-transport}
@@ -34,8 +37,13 @@ then
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.domain\_transport}
 \leanvariant{BEDC.FKernel.Gap.domain\_transport\_refl}
+\leanvariant{BEDC.FKernel.Gap.domain\_policy\_transport\_witnesses}
 \leanvariant{BEDC.FKernel.Gap.DomainPolicy\_iff\_transport}
 \leanvariant{BEDC.FKernel.Gap.domain\_transport\_symmetric}
+\leanvariant{BEDC.FKernel.Gap.domain\_transport\_transitive}
+\leanvariant{BEDC.FKernel.Gap.domain\_transport\_three\_step\_chain}
+\leanvariant{BEDC.FKernel.Gap.domain\_transport\_four\_step\_chain}
+\leanvariant{BEDC.FKernel.Gap.domain\_transport\_backward\_chain}
 
 \begin{proof}
 This is the transport field of \(\DomainPolicy(D)\). The theorem is recorded separately because later gap arguments must cite it explicitly rather than silently treating \(D\) as a set.
@@ -45,9 +53,16 @@ This is the transport field of \(\DomainPolicy(D)\). The theorem is recorded sep
 \label{cor:domain-invariance-of-concrete-source-admission}
 Under \(\DomainPolicy(D)\), the source side of the concrete signature gap is invariant under internal history-sameness.
 \end{corollary}
-\leanchecked{BEDC.FKernel.Gap.domain\_invariance}
+\leanchecked{BEDC.FKernel.Gap.domain\_invariance\_of\_concrete\_source\_admission}
+\leanvariant{BEDC.FKernel.Gap.domain\_invariance}
+\leanvariant{BEDC.FKernel.Gap.DomainPolicy\_transport\_and\_invariance}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_domain\_transport\_with\_signature}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_domain\_transport\_source}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_transport\_existing\_signature\_witness}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_transport\_iff\_with\_signature\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_domain\_transport\_equiv\_with\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.domain\_transport\_two\_way\_chain}
+\leanchecked{BEDC.FKernel.Gap.domain\_transport\_three\_way\_equiv}
 
 \begin{proof}
 Immediate from Theorem~\ref{thm:domain-transport} in both directions, using symmetry of \(\hsame\) for the reverse direction. The other parts of a concrete gap, namely signature generation and token introduction, require their own policies and are not bundled into domain transport.
@@ -63,6 +78,7 @@ Active concrete gap statements use \(\InDom(D,h)\), not \(h\in D\). What is not 
 \autoref{sec:po-domain-policy-abstract} introduces \(\mathsf{DomainPolicy}(D)\) as the condition allowing \(\InDom(D,h)\) to be transported along internal history-sameness. This section records the unary source instance.
 
 \begin{definition}[Unary source domain]
+\label{def:unary-source-domain}
 Let \(\mathsf{UnarySource}\) be the source-domain name whose internal domain judgment is
 \[
   \InDom(\mathsf{UnarySource},h)
@@ -71,6 +87,7 @@ Let \(\mathsf{UnarySource}\) be the source-domain name whose internal domain jud
 \]
 This is not a set-membership statement. It is a domain judgment licensed by the unary-generation rules.
 \end{definition}
+\leanchecked{BEDC.FKernel.Unary.unaryDomain\_inDom\_iff\_unaryHistory}
 
 \begin{lemma}[Unary is transported by history-sameness]
 \label{lem:unary-transport}
@@ -83,7 +100,9 @@ then
   \Unary(k).
 \]
 \end{lemma}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_transport}
+\leanchecked{BEDC.FKernel.Unary.unary\_transport}
+\leanvariant{BEDC.FKernel.Unary.unary\_transport\_symm}
+\leanvariant{BEDC.FKernel.Unary.unary\_history\_hsame\_iff}
 
 \begin{proof}
 Proceed by induction on the derivation of \(\Unary(h)\).
@@ -99,7 +118,7 @@ For the step case, the unary derivation has the form \(\Unary(h_0)\Rightarrow\Un
   \mathsf{DomainPolicy}(\mathsf{UnarySource}).
 \]
 \end{theorem}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_domain\_policy}
+\leanchecked{BEDC.FKernel.Unary.unary\_domain\_policy}
 
 \begin{proof}
 Assume \(\InDom(\mathsf{UnarySource},h)\) and \(\hsame(h,k)\). By definition of \(\mathsf{UnarySource}\), the first premise is \(\Unary(h)\). Lemma~\ref{lem:unary-transport} gives \(\Unary(k)\), hence \(\InDom(\mathsf{UnarySource},k)\).
@@ -108,7 +127,7 @@ Assume \(\InDom(\mathsf{UnarySource},h)\) and \(\hsame(h,k)\). By definition of 
 \begin{corollary}[Unary-domain gaps may transport sources]
 Any concrete gap theorem whose source domain is \(\mathsf{UnarySource}\) may use domain transport along \(\hsame\), provided no additional source-domain restriction is imposed.
 \end{corollary}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_domain\_gap\_transport}
+\leanchecked{BEDC.FKernel.Unary.unary\_domain\_gap\_transport}
 
 \begin{proof}
 Immediate from Theorem~\ref{thm:unary-domain-policy} and Lemma~\ref{thm:domain-transport}.

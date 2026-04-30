@@ -12,6 +12,7 @@ Given a source domain specification \(D\), a generated probe bundle \(\Pi\), and
 \]
 It is read as a visible package layer plus a provenance ledger layer.
 \end{definition}
+\leandef{BEDC.FKernel.Gap.signature\_globalization\_instance}
 
 \begin{theorem}[Concrete globalization soundness]
 \label{thm:concrete-globalize-soundness}
@@ -28,15 +29,20 @@ If \(\Pkg^{\mathrm{sig}}(\Pi,s,p)\) and \(\Pkg^{\mathrm{sig}}(\Pi,t,q)\), packag
 \end{proof}
 
 \begin{theorem}[Concrete globalization completeness]
+\label{thm:concrete-globalization-completeness}
 Assume \(\AskPol(\Pi,D)\). If histories \(h,k\in D\) lie in package-same visible tokens of the signature globalization instance, then their generated signatures are signature-same.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Gap.concrete\_globalize\_completeness\_sameSig}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalization\_completeness}
 \begin{proof}
 Unfold the concrete gap membership. The memberships provide signatures \(s,t\) such that \(h\) generates \(s\), \(k\) generates \(t\), and the corresponding tokens are package-same. By the grounding part of the signature package policy, package-sameness of the visible tokens is grounded in \(\hsame(s,t)\). Hence \(\sameSig(\Pi,h,k)\).
 \end{proof}
 
 \begin{corollary}[Globalize equals signature classification in the concrete instance]
+\label{cor:globalize-equals-signature-classification-concrete}
 For \(\mathsf{Glob}^{\mathrm{sig}}(\Pi,D)\), visible package sameness coincides with signature sameness, up to the package and gap policies of the instance.
 \end{corollary}
+\leanchecked{BEDC.FKernel.Gap.globalize\_equals\_signature\_classification\_concrete}
 
 \begin{remark}[Why this matters]
 The surrounding theory states that Globalize is classification by signatures. This chapter gives the first concrete finite-kernel inhabitant of that claim. It does not yet build real-like, circle-like, or fold-like interfaces; it only makes the finite signature globalization stand.

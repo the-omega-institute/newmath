@@ -28,10 +28,31 @@ theorem ext_deterministic :
   intro h r r' m hr hr'
   cases hr <;> cases hr' <;> rfl
 
+theorem ext_determinacy_up_to_hsame_spine {h r r' : BHist} {m : BMark} :
+    Ext h m r -> Ext h m r' -> hsame r r' := by
+  intro left right
+  exact ext_deterministic left right
+
+theorem proof_sprint_extension_determinacy {h r r' : BHist} {m : BMark} :
+    Ext h m r → Ext h m r' → hsame r r' := by
+  intro left right
+  exact ext_deterministic left right
+
 theorem ext_mark_deterministic_from_result :
     ∀ {h r : BHist} {m n : BMark}, Ext h m r → Ext h n r → msame m n := by
   intro h r m n hr hs
   cases hr <;> cases hs <;> rfl
+
+theorem ext_source_deterministic_from_result :
+    ∀ {h h' r : BHist} {m : BMark}, Ext h m r → Ext h' m r → hsame h h' := by
+  intro h h' r m left right
+  cases left <;> cases right <;> rfl
+
+theorem ext_cross_mark_result_impossible {h r : BHist} :
+    Ext h BMark.b0 r -> Ext h BMark.b1 r -> False := by
+  intro left right
+  cases left
+  cases right
 
 theorem ext_respects_sameness :
     ∀ {h h' r r' : BHist} {m m' : BMark},
@@ -40,6 +61,13 @@ theorem ext_respects_sameness :
   cases hh
   cases hm
   cases hr <;> cases hr' <;> rfl
+
+theorem ext_respects_internal_sameness_spine {h k r s : BHist} {m n : BMark} :
+    msame m n → hsame h k → Ext h m r → Ext k n s → hsame r s := by
+  intro hm hh left right
+  cases hm
+  cases hh
+  cases left <;> cases right <;> rfl
 
 theorem ext_respects_mark_sameness :
     forall {h r r' : BHist} {m n : BMark}, msame m n -> Ext h m r -> Ext h n r' -> hsame r r' := by
@@ -82,5 +110,30 @@ theorem ext_constructor_characterization {h r : BHist} {m : BMark} :
               cases hm
               cases hr
               exact Ext.e1 h
+
+theorem ext_result_for_mark {h r : BHist} {m : BMark} :
+    Ext h m r → (m = BMark.b0 → r = BHist.e0 h) ∧ (m = BMark.b1 → r = BHist.e1 h) := by
+  intro hr
+  constructor
+  · intro hm
+    cases hr
+    · rfl
+    · cases hm
+  · intro hm
+    cases hr
+    · cases hm
+    · rfl
+
+theorem ext_b0_result_hsame {h r : BHist} :
+    Ext h BMark.b0 r -> hsame r (BHist.e0 h) := by
+  intro hr
+  cases hr
+  rfl
+
+theorem ext_b1_result_hsame {h r : BHist} :
+    Ext h BMark.b1 r -> hsame r (BHist.e1 h) := by
+  intro hr
+  cases hr
+  rfl
 
 end BEDC.FKernel.Ext

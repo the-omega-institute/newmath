@@ -6,6 +6,9 @@ namespace BEDC.FKernel.NameCert
 inductive StageInterface where
   | base : StageInterface
 
+def ThreadFamily (StageData : StageInterface -> Type) : Type :=
+  (stage : StageInterface) -> StageData stage
+
 class NameCertSetup where
   DerivedName : Type
   SourceSpec : Type
@@ -54,6 +57,12 @@ structure SealInterface (Thread : Type) (name : DerivedName) : Type 1 where
   sealCert : Nonempty sealCertType
   nameCert : NameCert name
   ledger : Nonempty LedgerPolicy
+
+omit N in
+theorem sealInterface_thread_witness [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealInterface Thread name -> Nonempty Thread := by
+  intro iface
+  exact Nonempty.intro iface.thread
 
 omit N in
 theorem sealInterface_field_witnesses [NameCertSetup] {Thread : Type} {name : DerivedName} :
@@ -121,6 +130,31 @@ theorem derived_interfaces_have_stability [NameCertSetup] {name : DerivedName} :
       exact Nonempty.intro stability
 
 omit N in
+theorem sealInterface_nameCert_stability_ledger [NameCertSetup] {Thread : Type}
+    {name : DerivedName} :
+    SealInterface Thread name -> NameCert name /\ Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
+  intro iface
+  constructor
+  · exact iface.nameCert
+  · constructor
+    · exact derived_interfaces_have_stability iface.nameCert
+    · exact iface.ledger
+
+omit N in
+theorem thin_seal_interface_shape [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealInterface Thread name →
+      Nonempty Thread ∧ Nonempty (NameCert name) ∧ Nonempty StabilityCert ∧
+        Nonempty LedgerPolicy := by
+  intro iface
+  constructor
+  · exact Nonempty.intro iface.thread
+  · constructor
+    · exact Nonempty.intro iface.nameCert
+    · constructor
+      · exact derived_interfaces_have_stability iface.nameCert
+      · exact iface.ledger
+
+omit N in
 theorem nameCert_source_witness_from_cert [NameCertSetup] {name : DerivedName} :
     NameCert name -> Nonempty SourceSpec := by
   intro cert
@@ -143,6 +177,16 @@ theorem nameCert_classifier_witness_from_cert [NameCertSetup] {name : DerivedNam
   cases cert with
   | mk source pattern classifier stability ledger =>
       exact Nonempty.intro classifier
+
+omit N in
+theorem nameCert_classifier_and_ledger_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name → Nonempty ClassifierSpec ∧ Nonempty LedgerPolicy := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      constructor
+      · exact Nonempty.intro classifier
+      · exact Nonempty.intro ledger
 
 omit N in
 theorem nameCert_source_pattern_classifier_witnesses [NameCertSetup] {name : DerivedName} :
@@ -193,6 +237,18 @@ theorem nameCert_source_and_ledger_from_cert [NameCertSetup] {name : DerivedName
       constructor
       · exact Nonempty.intro source
       · exact Nonempty.intro ledger
+
+omit N in
+theorem nameCert_source_stability_ledger_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name -> Nonempty SourceSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  intro cert
+  cases cert with
+  | mk source _ _ stability ledger =>
+      constructor
+      · exact Nonempty.intro source
+      · constructor
+        · exact Nonempty.intro stability
+        · exact Nonempty.intro ledger
 
 theorem nameCert_witnesses_from_cert {name : DerivedName} :
     NameCert name ->
@@ -305,6 +361,64 @@ theorem nameCert_field_witnesses [NameCertSetup] {name : DerivedName} :
               (Nonempty.intro stability)
               (Nonempty.intro ledger))))
 
+theorem nameCert_field_witnesses_iff [NameCertSetup] {name : DerivedName} :
+    NameCert name ↔
+      Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧
+        Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  constructor
+  · intro cert
+    cases cert with
+    | mk source pattern classifier stability ledger =>
+        constructor
+        · exact Nonempty.intro source
+        · constructor
+          · exact Nonempty.intro pattern
+          · constructor
+            · exact Nonempty.intro classifier
+            · constructor
+              · exact Nonempty.intro stability
+              · exact Nonempty.intro ledger
+  · intro witnesses
+    cases witnesses with
+    | intro sourceNonempty rest =>
+        cases rest with
+        | intro patternNonempty rest =>
+            cases rest with
+            | intro classifierNonempty rest =>
+                cases rest with
+                | intro stabilityNonempty ledgerNonempty =>
+                    cases sourceNonempty with
+                    | intro source =>
+                        cases patternNonempty with
+                        | intro pattern =>
+                            cases classifierNonempty with
+                            | intro classifier =>
+                                cases stabilityNonempty with
+                                | intro stability =>
+                                    cases ledgerNonempty with
+                                    | intro ledger =>
+                                        exact NameCert.mk source pattern classifier stability ledger
+
+theorem nameCert_all_field_witnesses_from_nonempty [NameCertSetup] {name : DerivedName} :
+    Nonempty (NameCert name) ->
+      Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧
+        Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  intro certNonempty
+  cases certNonempty with
+  | intro cert =>
+      exact nameCert_field_witnesses cert
+
+theorem nameCert_stability_ledger_from_nonempty [NameCertSetup] {name : DerivedName} :
+    Nonempty (NameCert name) -> Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
+  intro certNonempty
+  cases certNonempty with
+  | intro cert =>
+      cases cert with
+      | mk _ _ _ stability ledger =>
+          constructor
+          · exact Nonempty.intro stability
+          · exact Nonempty.intro ledger
+
 theorem NameCert_add_activation [NameCertSetup] {name : DerivedName}
     (source : SourceSpec)
     (pattern : PatternSpec)
@@ -330,6 +444,18 @@ structure DescentCertificate
     (targetSame : Target -> Target -> Prop) : Type where
   map : Source -> Target
   respects : forall {a b : Source}, sourceSame a b -> targetSame (map a) (map b)
+
+theorem descentCertificate_respects
+    {Source Target : Type}
+    {sourceSame : Source → Source → Prop}
+    {targetSame : Target → Target → Prop}
+    (cert : DescentCertificate Source Target sourceSame targetSame)
+    {a b : Source} :
+    sourceSame a b → targetSame (cert.map a) (cert.map b) := by
+  intro same
+  cases cert with
+  | mk map respects =>
+      exact respects same
 
 structure StableTransformation
     (Source Target Ledger : Type)
@@ -359,6 +485,20 @@ theorem StableTransformation_descentCertificate_exists
   | mk map respects ledger =>
       exact Nonempty.intro { map := map, respects := respects }
 
+theorem stableTransformation_descent_certificate_respects
+    {Source Target Ledger : Type}
+    {sourceSame : Source -> Source -> Prop}
+    {targetSame : Target -> Target -> Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame)
+    {a b : Source} :
+    sourceSame a b ->
+      exists descent : DescentCertificate Source Target sourceSame targetSame,
+        targetSame (descent.map a) (descent.map b) := by
+  intro same
+  cases cert with
+  | mk map respects ledger =>
+      exact ⟨{ map := map, respects := respects }, respects same⟩
+
 theorem stableTransformation_descends_to_packages
     {Source Target Ledger : Type}
     {sourceSame : Source -> Source -> Prop}
@@ -370,6 +510,31 @@ theorem stableTransformation_descends_to_packages
   cases cert with
   | mk map respects ledger =>
       exact respects same
+
+theorem function_like_interfaces_are_derived
+    {Source Target Ledger : Type}
+    {sourceSame : Source → Source → Prop}
+    {targetSame : Target → Target → Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame) :
+    Nonempty (DescentCertificate Source Target sourceSame targetSame) ∧
+      (∀ {a b : Source}, sourceSame a b → targetSame (cert.map a) (cert.map b)) ∧
+      Nonempty Ledger := by
+  constructor
+  · exact StableTransformation_descentCertificate_exists cert
+  · constructor
+    · intro a b same
+      exact stableTransformation_descends_to_packages cert same
+    · exact stableTransformation_ledger_witness cert
+
+theorem function_like_interface_seed_is_derived
+    {Source Target Ledger : Type}
+    {sourceSame : Source → Source → Prop}
+    {targetSame : Target → Target → Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame) :
+    Nonempty (DescentCertificate Source Target sourceSame targetSame) ∧ Nonempty Ledger := by
+  constructor
+  · exact StableTransformation_descentCertificate_exists cert
+  · exact stableTransformation_ledger_witness cert
 
 theorem stable_transform_descends_to_packages
     {Source Target Ledger : Type}

@@ -5,6 +5,7 @@ The signature package instance provides visible tokens. We now define the concre
 
 \begin{definition}[Signature gap membership]
 \label{def:signature-gap-membership}
+\label{def:gap-membership}
 Fix a probe bundle \(\Pi\), a source domain specification \(D\,\), and the signature package instance of \autoref{ch:concrete-instances-signature-package}. A history \(h\) lies in the signature gap of a package token \(p\) when there exist an answer history \(s\) and evidence ledger \(\Delta\) such that
 \[
   h\in D,
@@ -18,11 +19,19 @@ We write this as
   \InGap^{\mathrm{sig}}(\Pi,D,p,h).
 \]
 \end{definition}
+\leandef{BEDC.FKernel.Gap.GapMembership}
+\leandef{BEDC.FKernel.Gap.SignatureGapMembership}
+\leanvariant{BEDC.FKernel.Gap.GapMembership\_iff\_InGapSig}
+\leanvariant{BEDC.FKernel.Gap.GapMembership\_witness\_pair}
 \leanchecked{BEDC.FKernel.Gap.inGapSig\_iff\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.signature\_gap\_membership\_iff}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_intro}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_intro\_from\_signature\_witness}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_elim}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_domain\_and\_signature\_witness}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_domain\_signature\_token\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_domain\_signature\_token\_witness\_pair}
+\leanvariant{BEDC.FKernel.Gap.signature\_gap\_membership}
 \leanchecked{BEDC.FKernel.Gap.inGapSig\_signature\_and\_token\_witness}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_token\_witness}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_witnesses}
@@ -48,6 +57,7 @@ Therefore \(\InGap^{\mathrm{sig}}(\Pi,D,p,h)\) holds by definition.
 \end{proof}
 
 \begin{lemma}[Concrete gap separation]
+\label{lem:concrete-gap-separation}
 Assume \(\AskPol(\Pi,D)\). Suppose
 \[
   \InGap^{\mathrm{sig}}(\Pi,D,p,h),
@@ -56,6 +66,7 @@ Assume \(\AskPol(\Pi,D)\). Suppose
 \]
 Then \(\psame(p,q)\).
 \end{lemma}
+\leanchecked{BEDC.FKernel.Gap.gap\_separation\_concrete}
 \begin{proof}
 By the two gap memberships, there are signatures \(s,t\) and ledgers \(\Delta,\Theta\) such that
 \[
@@ -78,9 +89,11 @@ This is precisely concrete gap coverage and concrete gap separation.
 \end{proof}
 
 \begin{corollary}[First concrete globalization ledger]
+\label{cor:first-concrete-globalization-ledger}
 The pair
 \[
   (\Pkg^{\mathrm{sig}},\InGap^{\mathrm{sig}})
 \]
 forms the first concrete finite-kernel globalization interface for the domain \(D\) and probe bundle \(\Pi\), conditional on \(\AskPol(\Pi,D)\).
 \end{corollary}
+\leanchecked{BEDC.FKernel.Gap.first\_concrete\_globalization\_ledger}

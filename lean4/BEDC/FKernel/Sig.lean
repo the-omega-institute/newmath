@@ -41,6 +41,45 @@ theorem sig_cons_inversion {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r 
   | cons _ _ _ s _ m delta hask htail hext =>
       exact ⟨s, m, delta, hask, htail, hext⟩
 
+omit [AskSetup] in
+theorem sig_cons_head_mark_determinacy [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {D : BHist → Prop} {h r r' : BHist} (policy : AskPolicy D) :
+    D h → SigRel (ProbeBundle.Bcons pi tail) h r →
+      SigRel (ProbeBundle.Bcons pi tail) h r' →
+      ∃ s : BHist, ∃ t : BHist, ∃ m : BMark, ∃ n : BMark,
+      ∃ delta : Evidence, ∃ theta : Evidence,
+        Ask pi h m delta ∧ Ask pi h n theta ∧
+        SigRel tail h s ∧ SigRel tail h t ∧ msame m n := by
+  intro _ left right
+  cases left with
+  | cons _ _ _ s _ m delta leftAsk leftTail _ =>
+      cases right with
+      | cons _ _ _ t _ n theta rightAsk rightTail _ =>
+          exact Exists.intro s
+            (Exists.intro t
+              (Exists.intro m
+                (Exists.intro n
+                  (Exists.intro delta
+                    (Exists.intro theta
+                      (And.intro leftAsk
+                        (And.intro rightAsk
+                          (And.intro leftTail
+                            (And.intro rightTail
+                              (policy.deterministic leftAsk rightAsk))))))))))
+
+omit [AskSetup] in
+theorem sig_cons_head_marks_same [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {D : BHist -> Prop} {h r r' : BHist} (policy : AskPolicy D) :
+    D h -> SigRel (ProbeBundle.Bcons pi tail) h r ->
+      SigRel (ProbeBundle.Bcons pi tail) h r' ->
+      exists m : BMark, exists n : BMark, msame m n := by
+  intro _ left right
+  cases left with
+  | cons _ _ _ _ _ m _ leftAsk _ _ =>
+      cases right with
+      | cons _ _ _ _ _ n _ rightAsk _ _ =>
+          exact Exists.intro m (Exists.intro n (policy.deterministic leftAsk rightAsk))
+
 theorem sig_cons_result_inversion [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
     {h r : BHist} :
     SigRel (ProbeBundle.Bcons pi tail) h r ->
@@ -80,6 +119,32 @@ theorem sig_empty_inversion {h r : BHist} :
 def SameSig (bundle : ProbeBundle ProbeName) (h k : BHist) : Prop :=
   ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t
 
+omit [AskSetup] in
+theorem sameSig_intro_from_witnesses [AskSetup] {bundle : ProbeBundle ProbeName} {h k s t : BHist} :
+    SigRel bundle h s → SigRel bundle k t → hsame s t → SameSig bundle h k := by
+  intro hs ht hst
+  exact Exists.intro s
+    (Exists.intro t
+      (And.intro hs
+        (And.intro ht hst)))
+
+omit [AskSetup] in
+theorem sameSig_witnesses [AskSetup] {bundle : ProbeBundle ProbeName} {h k : BHist} :
+    SameSig bundle h k →
+      ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t := by
+  intro witnesses
+  exact witnesses
+
+omit [AskSetup] in
+theorem sameSig_refl_from_witness [AskSetup] {bundle : ProbeBundle ProbeName} {h s : BHist} :
+    SigRel bundle h s → SameSig bundle h h := by
+  intro witness
+  exact Exists.intro s
+    (Exists.intro s
+      (And.intro witness
+        (And.intro witness
+          (hsame_refl s))))
+
 def SigTotalOn (bundle : ProbeBundle ProbeName) (D : BHist → Prop) : Prop :=
   ∀ h : BHist, D h → ∃ s : BHist, SigRel bundle h s
 
@@ -105,6 +170,28 @@ theorem sig_total_from_policy :
                   | b1 =>
                       exact ⟨BHist.e1 s, SigRel.cons pi tail h s (BHist.e1 s) BMark.b1 delta hask hsig (Ext.e1 s)⟩
 
+omit [AskSetup] in
+theorem sigTotalOn_from_policy [AskSetup] {bundle : ProbeBundle ProbeName} {D : BHist -> Prop} :
+    AskPolicy D -> SigTotalOn bundle D := by
+  intro policy
+  intro h hd
+  exact sig_total_from_policy (bundle := bundle) (D := D) (h := h) policy hd
+
+omit [AskSetup] in
+theorem sigTotalOn_tail_of_cons [AskSetup]
+    {pi : ProbeName} {tail : ProbeBundle ProbeName} {D : BHist → Prop} :
+    SigTotalOn (ProbeBundle.Bcons pi tail) D → SigTotalOn tail D := by
+  intro total h hd
+  cases total h hd with
+  | intro r hsig =>
+      cases sig_cons_inversion hsig with
+      | intro s rest =>
+          cases rest with
+          | intro m rest2 =>
+              cases rest2 with
+              | intro delta data =>
+                  exact Exists.intro s data.right.left
+
 theorem sig_deterministic :
     ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h s t : BHist},
       AskPolicy D → D h → SigRel bundle h s → SigRel bundle h t → hsame s t := by
@@ -122,6 +209,42 @@ theorem sig_deterministic :
               have hsameTail : hsame s t := ih hh hs' ht'
               have hm : msame m m' := pol.deterministic ask ask'
               exact ext_respects_sameness hsameTail hm hx hy
+
+omit [AskSetup] in
+theorem sig_cons_determinacy_spine [AskSetup] {pi : ProbeName}
+    {tail : ProbeBundle ProbeName} {D : BHist -> Prop} {h r r' : BHist}
+    (policy : AskPolicy D) :
+    D h → SigRel (ProbeBundle.Bcons pi tail) h r →
+      SigRel (ProbeBundle.Bcons pi tail) h r' →
+      ∃ s : BHist, ∃ t : BHist, ∃ m : BMark, ∃ n : BMark,
+        SigRel tail h s ∧ SigRel tail h t ∧ msame m n ∧ hsame s t ∧ hsame r r' := by
+  intro dh left right
+  cases left with
+  | cons _ _ _ s _ m _ leftAsk leftTail leftExt =>
+      cases right with
+      | cons _ _ _ t _ n _ rightAsk rightTail rightExt =>
+          have hmarks : msame m n := policy.deterministic leftAsk rightAsk
+          have htails : hsame s t :=
+            sig_deterministic
+              (bundle := tail)
+              (D := D)
+              (h := h)
+              (s := s)
+              (t := t)
+              policy
+              dh
+              leftTail
+              rightTail
+          have hresults : hsame r r' :=
+            ext_respects_sameness htails hmarks leftExt rightExt
+          exact Exists.intro s
+            (Exists.intro t
+              (Exists.intro m
+                (Exists.intro n
+                  (And.intro leftTail
+                    (And.intro rightTail
+                      (And.intro hmarks
+                        (And.intro htails hresults)))))))
 
 omit [AskSetup] in
 theorem sig_cons_tail_deterministic [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
@@ -199,6 +322,16 @@ theorem sameSig_refl :
   intro bundle D h htotal hh
   rcases htotal h hh with ⟨s, hs⟩
   exact ⟨s, s, hs, hs, hsame_refl s⟩
+
+omit [AskSetup] in
+theorem sameSig_refl_under_policy [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : AskPolicy D) {h : BHist} :
+    D h -> SameSig bundle h h := by
+  intro hd
+  exact sameSig_refl
+    (fun h0 hd0 =>
+      sig_total_from_policy (bundle := bundle) (D := D) (h := h0) policy hd0)
+    hd
 
 theorem sameSig_symm :
     ∀ {bundle : ProbeBundle ProbeName} {h k : BHist}, SameSig bundle h k → SameSig bundle k h := by
@@ -280,6 +413,75 @@ theorem sameSig_trans_under_policy {bundle : ProbeBundle ProbeName} {D : BHist -
                                         (And.intro hvl
                                           (hsame_trans hst (hsame_trans htu huv)))))
 
+omit [AskSetup] in
+theorem sameSig_equivalence_from_total_and_determinacy [AskSetup]
+    {bundle : ProbeBundle ProbeName} {D : BHist -> Prop}
+    (total : SigTotalOn bundle D)
+    (det : forall {h s t : BHist}, D h -> SigRel bundle h s -> SigRel bundle h t ->
+      hsame s t) :
+    (forall {h : BHist}, D h -> SameSig bundle h h) /\
+      (forall {h k : BHist}, SameSig bundle h k -> SameSig bundle k h) /\
+      (forall {h k l : BHist}, D k -> SameSig bundle h k -> SameSig bundle k l ->
+        SameSig bundle h l) := by
+  constructor
+  · intro h hd
+    cases total h hd with
+    | intro s hsig =>
+        exact Exists.intro s
+          (Exists.intro s
+            (And.intro hsig
+              (And.intro hsig
+                (hsame_refl s))))
+  · constructor
+    · intro h k hhk
+      exact sameSig_symm hhk
+    · intro h k l hk hhk hkl
+      cases hhk with
+      | intro s hhkTail =>
+          cases hhkTail with
+          | intro t hhkData =>
+              cases hhkData with
+              | intro hs hhkRest =>
+                  cases hhkRest with
+                  | intro htk hst =>
+                      cases hkl with
+                      | intro u hklTail =>
+                          cases hklTail with
+                          | intro v hklData =>
+                              cases hklData with
+                              | intro huk hklRest =>
+                                  cases hklRest with
+                                  | intro hvl huv =>
+                                      have htu : hsame t u := det hk htk huk
+                                      exact Exists.intro s
+                                        (Exists.intro v
+                                          (And.intro hs
+                                            (And.intro hvl
+                                              (hsame_trans hst (hsame_trans htu huv)))))
+
+omit [AskSetup] in
+theorem sameSig_trans_witnesses_under_policy [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : AskPolicy D) {h k l s t u v : BHist} :
+    D k -> SigRel bundle h s -> SigRel bundle k t -> hsame s t ->
+      SigRel bundle k u -> SigRel bundle l v -> hsame u v -> SameSig bundle h l := by
+  intro hk hs ht hst hu hv huv
+  have htu : hsame t u :=
+    sig_deterministic
+      (bundle := bundle)
+      (D := D)
+      (h := k)
+      (s := t)
+      (t := u)
+      policy
+      hk
+      ht
+      hu
+  exact Exists.intro s
+    (Exists.intro v
+      (And.intro hs
+        (And.intro hv
+          (hsame_trans hst (hsame_trans htu huv)))))
+
 theorem sameSig_equivalence {bundle : ProbeBundle ProbeName} {D : BHist → Prop} (policy : AskPolicy D) :
     (∀ {h : BHist}, D h → SameSig bundle h h) ∧
       (∀ {h k : BHist}, SameSig bundle h k → SameSig bundle k h) ∧
@@ -329,6 +531,69 @@ theorem sameSig_equivalence {bundle : ProbeBundle ProbeName} {D : BHist → Prop
                                           htk
                                           huk
                                       exact ⟨s, v, hs, hvl, hsame_trans hst (hsame_trans htu huv)⟩
+
+omit [AskSetup] in
+theorem signature_sameness_equivalence_policy_spine [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : AskPolicy D) :
+    (forall {h : BHist}, D h -> SameSig bundle h h) /\
+      (forall {h k : BHist}, SameSig bundle h k -> SameSig bundle k h) /\
+      (forall {h k l : BHist},
+        D k -> SameSig bundle h k -> SameSig bundle k l -> SameSig bundle h l) := by
+  constructor
+  · intro h hd
+    cases sig_total_from_policy (bundle := bundle) (D := D) (h := h) policy hd with
+    | intro s hsig =>
+        exact Exists.intro s
+          (Exists.intro s
+            (And.intro hsig
+              (And.intro hsig (hsame_refl s))))
+  · constructor
+    · intro h k hsameSig
+      cases hsameSig with
+      | intro s hsameSigTail =>
+          cases hsameSigTail with
+          | intro t hsameSigData =>
+              cases hsameSigData with
+              | intro hs hsameSigRest =>
+                  cases hsameSigRest with
+                  | intro ht hst =>
+                      exact Exists.intro t
+                        (Exists.intro s
+                          (And.intro ht
+                            (And.intro hs (hsame_symm hst))))
+    · intro h k l hk hhk hkl
+      cases hhk with
+      | intro s hhkTail =>
+          cases hhkTail with
+          | intro t hhkData =>
+              cases hhkData with
+              | intro hs hhkRest =>
+                  cases hhkRest with
+                  | intro htk hst =>
+                      cases hkl with
+                      | intro u hklTail =>
+                          cases hklTail with
+                          | intro v hklData =>
+                              cases hklData with
+                              | intro huk hklRest =>
+                                  cases hklRest with
+                                  | intro hvl huv =>
+                                      have htu : hsame t u :=
+                                        sig_deterministic
+                                          (bundle := bundle)
+                                          (D := D)
+                                          (h := k)
+                                          (s := t)
+                                          (t := u)
+                                          policy
+                                          hk
+                                          htk
+                                          huk
+                                      exact Exists.intro s
+                                        (Exists.intro v
+                                          (And.intro hs
+                                            (And.intro hvl
+                                              (hsame_trans hst (hsame_trans htu huv)))))
 
 omit [AskSetup] in
 theorem sameSig_equivalence_under_policy [AskSetup] {bundle : ProbeBundle ProbeName} {D : BHist → Prop}

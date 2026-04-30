@@ -46,6 +46,9 @@ CTOR_RE = re.compile(r"^\s*\|\s+(?P<name>[A-Za-z0-9_']+)\b")
 LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanvariant|leansorryd|leanstmt|leandef)\{([^}]+)\}")
 
+NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
+END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
+
 FORBIDDEN_PATTERNS = {
     "axiom": re.compile(r"\baxiom\b"),
     "sorry": re.compile(r"\bsorry\b"),
@@ -188,20 +191,56 @@ def collect_forbidden_tokens(path: Path) -> list[dict[str, object]]:
     return violations
 
 
+def declaration_namespace(module: str, namespace_stack: list[str]) -> str:
+    if not namespace_stack:
+        return module
+    return namespace_stack[-1]
+
+
+def qualified_name(name: str, namespace: str) -> str:
+    if name.startswith("BEDC.") or name.startswith(f"{namespace}."):
+        return name
+    return f"{namespace}.{name}"
+
+
+def resolve_namespace(name: str, namespace_stack: list[str]) -> str:
+    if not namespace_stack or name.startswith("BEDC."):
+        return name
+    return f"{namespace_stack[-1]}.{name}"
+
+
+def update_namespace_stack(line: str, namespace_stack: list[str]) -> None:
+    namespace_match = NAMESPACE_RE.match(line)
+    if namespace_match:
+        namespace_stack.append(resolve_namespace(namespace_match.group("name"), namespace_stack))
+        return
+
+    end_match = END_RE.match(line)
+    if not end_match or not namespace_stack:
+        return
+
+    name = end_match.group("name")
+    if name is None or namespace_stack[-1] == name or namespace_stack[-1].endswith(f".{name}"):
+        namespace_stack.pop()
+
+
 def collect_declarations(path: Path) -> tuple[list[DeclarationRecord], list[FieldRecord]]:
     text = strip_comments_and_strings(read_text(path))
     lines = text.splitlines()
     module = module_name(path)
+    namespace_stack: list[str] = []
     decls: list[DeclarationRecord] = []
     fields: list[FieldRecord] = []
 
     for idx, line in enumerate(lines, start=1):
+        update_namespace_stack(line, namespace_stack)
+        namespace = declaration_namespace(module, namespace_stack)
         match = DECL_RE.match(line)
         if not match:
             continue
         kind = match.group("kind")
         name = (match.group("name") or f"<anonymous_{kind}_{idx}>").strip()
-        qualified = name if name.startswith(module + ".") else f"{module}.{name}"
+        qualified = qualified_name(name, namespace)
         decls.append(
             DeclarationRecord(
                 module=module,
@@ -255,7 +294,7 @@ def collect_declarations(path: Path) -> tuple[list[DeclarationRecord], list[Fiel
                         FieldRecord(
                             parent=parent,
                             name=ctor_name,
-                            qualified_name=f"{module}.{ctor_name}",
+                            qualified_name=f"{namespace}.{ctor_name}",
                             file=str(path.relative_to(REPO_ROOT)),
                             line=j + 1,
                         )
@@ -532,6 +571,126 @@ def cmd_manifest(args: argparse.Namespace) -> int:
     return 0
 
 
+DEFAULT_FORBIDDEN_AXIOMS: tuple[str, ...] = (
+    "Classical.choice",
+    "Quot.sound",
+)
+STRICT_FORBIDDEN_AXIOMS: tuple[str, ...] = DEFAULT_FORBIDDEN_AXIOMS + ("propext",)
+PRINT_AXIOMS_RE = re.compile(
+    r"'([\w.·’]+)'\s+(?:does not depend on any axioms|depends on axioms:\s*\[(.*?)\])"
+)
+
+
+def cmd_axiom_purity(args: argparse.Namespace) -> int:
+    """Check that every BEDC theorem's transitive axiom dependency set is
+    contained within the allowed Lean stdlib subset.
+
+    Default forbidden: Classical.choice, Quot.sound (the controversial axioms).
+    --strict additionally forbids propext (true zero-axiom-dependency mode).
+
+    Implementation: writes a temp Lean file that does `#print axioms X` for
+    every public BEDC theorem (from inventory), runs `lake env lean`, parses
+    the output, and reports any forbidden axiom dependency.
+    """
+    import tempfile
+
+    if args.allow_propext:
+        forbidden = set(DEFAULT_FORBIDDEN_AXIOMS)
+    else:
+        forbidden = set(STRICT_FORBIDDEN_AXIOMS) if args.strict else set(DEFAULT_FORBIDDEN_AXIOMS)
+    extra = [a.strip() for a in (args.also_forbid or "").split(",") if a.strip()]
+    forbidden.update(extra)
+
+    declarations, _fields = build_declaration_inventory()
+    theorems = sorted(
+        {d.qualified_name for d in declarations if d.kind in ("theorem", "lemma") and d.qualified_name.startswith("BEDC.")}
+    )
+    if not theorems:
+        print("[bedc-ci] axiom-purity: no BEDC theorems found", file=sys.stderr)
+        return 0
+
+    lean_lines = ["import BEDC", ""]
+    lean_lines.extend(f"#print axioms {name}" for name in theorems)
+    lean_source = "\n".join(lean_lines) + "\n"
+
+    with tempfile.NamedTemporaryFile(
+        mode="w",
+        suffix=".lean",
+        prefix="axiom_audit_",
+        dir=str(LEAN_ROOT),
+        delete=False,
+        encoding="utf-8",
+    ) as tmp:
+        tmp.write(lean_source)
+        tmp_path = Path(tmp.name)
+
+    try:
+        result = subprocess.run(
+            ["lake", "env", "lean", str(tmp_path)],
+            cwd=LEAN_ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    finally:
+        try:
+            tmp_path.unlink()
+        except OSError:
+            pass
+
+    output = (result.stdout or "") + "\n" + (result.stderr or "")
+    pure: list[str] = []
+    impure: list[tuple[str, list[str]]] = []
+    violations: list[tuple[str, str]] = []
+    for match in PRINT_AXIOMS_RE.finditer(output):
+        decl = match.group(1)
+        axs_raw = match.group(2)
+        if axs_raw is None:
+            pure.append(decl)
+            continue
+        axs = [a.strip() for a in axs_raw.split(",") if a.strip()]
+        impure.append((decl, axs))
+        for ax in axs:
+            if ax in forbidden:
+                violations.append((decl, ax))
+
+    if args.json:
+        payload = {
+            "theorems_total": len(theorems),
+            "pure_count": len(pure),
+            "impure_count": len(impure),
+            "violations": [
+                {"declaration": decl, "axiom": ax} for decl, ax in violations
+            ],
+            "forbidden_axioms": sorted(forbidden),
+            "passed": len(violations) == 0,
+        }
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            f"[bedc-ci] axiom-purity:"
+            f" theorems={len(theorems)}"
+            f" pure={len(pure)}"
+            f" impure={len(impure)}"
+            f" forbidden={sorted(forbidden)}"
+        )
+        if impure and args.verbose:
+            counts: Counter[str] = Counter()
+            for _decl, axs in impure:
+                for ax in axs:
+                    counts[ax] += 1
+            for ax, n in counts.most_common():
+                print(f"  axiom dep: {ax} ({n} declarations)")
+        if violations:
+            print(f"[bedc-ci] axiom-purity FAIL: {len(violations)} forbidden dependency(s)")
+            for decl, ax in violations[:50]:
+                print(f"  {decl} -> {ax}")
+            if len(violations) > 50:
+                print(f"  ... and {len(violations) - 50} more")
+
+    return 0 if not violations else 1
+
+
 def cmd_verify_files(args: argparse.Namespace) -> int:
     lean_files_to_check = [resolve_lean_file(p) for p in args.paths]
     overall_rc = 0
@@ -570,6 +729,20 @@ def parser() -> argparse.ArgumentParser:
     manifest_p.add_argument("--output", type=str, default=None, help="Output file path (defaults to stdout)")
     manifest_p.add_argument("--release-tag", type=str, default=None, help="Release tag to embed (overrides $RELEASE_TAG env)")
     manifest_p.set_defaults(func=cmd_manifest)
+
+    purity_p = sub.add_parser(
+        "axiom-purity",
+        help="Audit transitive axiom dependencies of BEDC theorems (forbids Classical.choice, Quot.sound)",
+    )
+    purity_p.add_argument("--strict", action="store_true",
+                          help="Additionally forbid propext (true zero-axiom-dependency mode)")
+    purity_p.add_argument("--allow-propext", action="store_true",
+                          help="Explicitly allow propext (override --strict)")
+    purity_p.add_argument("--also-forbid", type=str, default="",
+                          help="Comma-separated axiom names to additionally forbid")
+    purity_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    purity_p.add_argument("--verbose", "-v", action="store_true", help="Show axiom dep counts")
+    purity_p.set_defaults(func=cmd_axiom_purity)
 
     verify_p = sub.add_parser("verify-files", help="Run lake env lean on selected files")
     verify_p.add_argument("paths", nargs="+", help="Lean file paths, relative to lean4/")

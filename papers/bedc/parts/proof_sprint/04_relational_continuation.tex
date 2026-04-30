@@ -18,22 +18,28 @@ means that continuing history \(h\) by history \(k\) may generate result \(r\). 
 \end{definition}
 
 \begin{theorem}[Continuation determinacy]
+\label{thm:continuation-determinacy}
 If \(\Cont(h,k,r)\) and \(\Cont(h,k,r')\), then \(\HSame(r,r')\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_deterministic}
 \begin{proof}
 By induction on the first continuation derivation.  In the empty case, both results must be internally the same as \(k\).  In the \(\Ezero\)-case, closed generation forces the second derivation to be an \(\Ezero\)-case, and the induction hypothesis applies to the subresults.  The \(\Eone\)-case is analogous.
 \end{proof}
 
 \begin{theorem}[Continuation left unit]
+\label{thm:continuation-left-unit-proof-sprint}
 For every generated history \(k\), \(\Cont(\e,k,k)\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_unit\_induction\_spine}
 \begin{proof}
 This is the first generator of \(\Cont\).
 \end{proof}
 
 \begin{theorem}[Continuation right unit]
+\label{thm:continuation-right-unit}
 For every generated history \(h\), \(\Cont(h,\e,h)\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_right\_unit}
 \begin{proof}
 By induction on \(h\).  The empty case is \(\Cont(\e,\e,\e)\).  If \(h=\Ezero(h_0)\), apply the \(\Ezero\)-continuation rule to the induction hypothesis.  The \(\Eone\)-case is analogous.
 \end{proof}

@@ -21,7 +21,17 @@ when there exist an answer history \(s\) and an evidence ledger \(\Delta\) such 
   \TokIntro(\Pi,s,p).
 \]
 \end{definition}
+\leandef{BEDC.FKernel.Gap.InGapSig}
+\leandef{BEDC.FKernel.Gap.PolicySupportedSignatureGap}
 \leanchecked{BEDC.FKernel.Gap.inGapSig\_witness\_pair}
+\leanvariant{BEDC.FKernel.Gap.PolicySupportedSignatureGap\_iff\_InGapSig}
+\leanvariant{BEDC.FKernel.Gap.PolicySupportedSignatureGap\_domain\_witness}
+\leanvariant{BEDC.FKernel.Gap.PolicySupportedSignatureGap\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.PolicySupportedSignatureGap\_domain\_transport\_with\_signature}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_witness\_pair\_iff}
+\leanvariant{BEDC.FKernel.Gap.policy\_supported\_signature\_gap\_iff\_witness\_pair}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_intro\_from\_witness\_pair}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_domain\_token\_witness}
 
 \begin{theorem}[Policy-supported gap coverage]
 \label{thm:gap-coverage-policy}
@@ -35,6 +45,7 @@ then there exists a token \(p\) such that
 \]
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.policy\_gap\_coverage}
+\leanvariant{BEDC.FKernel.Gap.gap\_coverage\_policy}
 
 \begin{proof}
 From \(\AskPol(\Pi,D)\) and \(\InDom(D,h)\), obtain a generated signature event \(\Sig(\Pi,h,s,\Delta)\). From token existence in \(\PkgTokPol(\Pi)\), obtain \(p\) with \(\TokIntro(\Pi,s,p)\). These data witness \(\InGapSig(\Pi,D,p,h)\).
@@ -54,6 +65,14 @@ then
 \]
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.policy\_gap\_separation}
+\leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_with\_domain\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_signature\_hsame}
+\leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_pair}
+\leanvariant{BEDC.FKernel.Gap.gap\_separation\_policy}
+\leanvariant{BEDC.FKernel.Gap.gapPolicy\_separation\_field}
+\leanvariant{BEDC.FKernel.Gap.gapPolicy\_separation\_packed}
+\leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_signature\_token\_witnesses}
 
 \begin{proof}
 Unpack both gap memberships. We obtain signatures \(s,t\) and evidence ledgers \(\Delta,\Theta\) such that
@@ -77,5 +96,8 @@ This is Theorem~\ref{thm:psame-iff-hsame}; the domain and asking policies are ne
 \end{proof}
 
 \begin{corollary}[Active reading]
+\label{cor:active-reading}
 The concrete signature Globalize instance is presented only as a policy-supported construction. Its exactness depends on \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\).
 \end{corollary}
+\leanchecked{BEDC.FKernel.Gap.active\_reading\_policy\_dependencies}
+\leanvariant{BEDC.FKernel.Gap.active\_reading\_policy\_dependency\_fields}

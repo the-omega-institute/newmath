@@ -26,8 +26,13 @@ The active notation \(\psame_{\Pi}^{\mathrm{sig}}\) is identified with this base
 \]
 \leandef{BEDC.BaseReflection.PsameSig}
 \leanchecked{BEDC.BaseReflection.PsameSig\_iff\_PsameBase}
+\leanvariant{BEDC.BaseReflection.PsameSig\_constructor}
 \leanvariant{BEDC.BaseReflection.PsameSig\_constructor\_inversion}
+\leanvariant{BEDC.BaseReflection.PsameSig\_iff\_constructor\_witnesses}
+\leanvariant{BEDC.BaseReflection.PsameBase\_iff\_constructor\_witnesses}
 \leanvariant{BEDC.BaseReflection.PsameBase\_symm\_under\_equiv}
+\leanvariant{BEDC.BaseReflection.PsameBase\_refl\_from\_token}
+\leanvariant{BEDC.BaseReflection.PsameBase\_swapped\_constructor\_witnesses}
 \end{definition}
 
 \begin{principle}[No implicit equivalence closure]
@@ -44,8 +49,11 @@ If a future package-algebra layer needs an equivalence relation, it must introdu
   := \EqCl(\psame_{\Pi}^{\mathrm{base}})(p,q).
 \]
 \leanchecked{BEDC.BaseReflection.PsameEqClosure\_base\_inclusion}
+\leanvariant{BEDC.BaseReflection.PsameEqClosure\_base\_symm\_inclusion}
+\leanvariant{BEDC.BaseReflection.PsameEqClosure\_refl}
 \leanvariant{BEDC.BaseReflection.PsameEqClosure\_equivalence}
 \leanvariant{BEDC.BaseReflection.PsameEqClosure\_symm}
+\leanvariant{BEDC.BaseReflection.PsameEqClosure\_trans}
 This relation is not the active relation for concrete Globalize exactness.
 \end{definition}
 \leanchecked{BEDC.BaseReflection.PsameEqClosure\_base\_intro}
@@ -63,6 +71,8 @@ The optional equivalence-closure relation is reflection-safe only if the followi
 \]
 This obligation is named \(\ClosureReflect(\Pi)\).
 \leandef{BEDC.BaseReflection.ClosureReflect}
+\leanchecked{BEDC.BaseReflection.ClosureReflect\_base\_edge}
+\leanvariant{BEDC.BaseReflection.ClosureReflect\_apply}
 \end{definition}
 
 \begin{theorem}[Base reflection remains the active theorem]
@@ -109,6 +119,7 @@ For fixed \(\Pi,p,q\), define the witness predicate
 \]
 \end{definition}
 \leanchecked{BEDC.BaseReflection.PBaseData\_witnesses}
+\leanvariant{BEDC.BaseReflection.PBaseData\_nonempty\_from\_witnesses}
 \leanvariant{BEDC.BaseReflection.PsameBase\_iff\_PBaseData}
 
 \begin{lemma}[Base constructor]
@@ -134,8 +145,15 @@ This is the single constructor of Definition~\ref{def:base-psame}. The important
 If \(\psame_{\Pi}^{\mathrm{base}}(p,q)\), then \(\PBaseData(\Pi,p,q)\).
 \end{lemma}
 \leanchecked{BEDC.BaseReflection.PsameBase\_inversion}
+\leanvariant{BEDC.BaseReflection.psame\_base\_inversion}
 \leanvariant{BEDC.BaseReflection.PsameBase\_witnesses\_from\_base}
 \leanvariant{BEDC.BaseReflection.PsameBase\_inversion\_exists}
+\leanvariant{BEDC.BaseReflection.PsameBase\_single\_constructor\_witnesses}
+\leanvariant{BEDC.BaseReflection.PsameBase\_token\_intro\_witnesses}
+\leanvariant{BEDC.BaseReflection.PsameBase\_left\_token\_witness}
+\leanvariant{BEDC.BaseReflection.PsameBase\_right\_token\_witness}
+\leanvariant{BEDC.BaseReflection.PsameBase\_inversion\_data\_and\_witnesses}
+\leanvariant{BEDC.BaseReflection.PsameBase\_inversion\_witness\_object}
 
 \begin{proof}
 Invert the one-constructor inductive proof of \(\psame_{\Pi}^{\mathrm{base}}(p,q)\). The inversion exposes introducing signatures \(s_0,t_0\) and a proof \(\hsame(s_0,t_0)\). This is exactly \(\PBaseData(\Pi,p,q)\).
@@ -155,6 +173,12 @@ then \(\hsame(s,t)\).
 This is the token-uniqueness field applied at the same visible package token \(p\). In a canonical-constructor implementation it may instead be obtained by the no-confusion theorem described in Definition~\ref{def:canonical-mode}.
 \end{proof}
 \leanchecked{BEDC.BaseReflection.TokUnique\_replacement}
+\leanvariant{BEDC.BaseReflection.token\_replacement\_base}
+\leanvariant{BEDC.BaseReflection.tok\_unique\_replacement\_base}
+\leanvariant{BEDC.BaseReflection.TokUnique\_replacement\_pair}
+\leanvariant{BEDC.BaseReflection.TokUnique\_replacement\_from\_pair}
+\leanvariant{BEDC.BaseReflection.TokUnique\_replacement\_from\_shared\_token}
+\leanvariant{BEDC.BaseReflection.TokUnique\_replacement\_shared\_token\_triangle}
 
 \begin{theorem}[Base package reflection]
 \label{thm:base-package-reflection}
@@ -169,7 +193,11 @@ then
 \]
 \end{theorem}
 \leanchecked{BEDC.BaseReflection.PackageReflection\_base}
+\leanvariant{BEDC.BaseReflection.base\_package\_reflection}
+\leanvariant{BEDC.BaseReflection.package\_reflection\_base}
 \leanvariant{BEDC.BaseReflection.PackageReflection\_base\_from\_data}
+\leanvariant{BEDC.BaseReflection.PackageReflection\_base\_witness\_chain}
+\leanvariant{BEDC.BaseReflection.PackageReflection\_base\_three\_step\_chain}
 
 \begin{proof}
 By Lemma~\ref{lem:psame-base-inversion}, choose witnesses \(s_0,t_0\) such that
@@ -198,6 +226,7 @@ Base package reflection & \texttt{PackageReflection.base}\\
 \bottomrule
 \end{tabular}
 \end{center}
+\leanchecked{BEDC.BaseReflection.base\_reflection\_public\_name\_contract}
 \end{protocol}
 
 \section{Optional Closure Reflection Target}
@@ -224,6 +253,7 @@ The theorem \texttt{PackageReflection.eqClosure} proves \(\ClosureReflect(\Pi)\)
   \item symmetric case: use symmetry of \(\hsame\);
   \item transitive case: use transitivity of \(\hsame\).
 \end{enumerate}
+\leanchecked{BEDC.BaseReflection.closure\_reflection\_route\_cases}
 \end{protocol}
 
 \begin{proposition}[Conditional closure-reflection schema]
@@ -236,8 +266,13 @@ Assume \(\hsame\) is an equivalence relation, assume \(\TokUnique(\Pi)\), assume
 \end{aligned}
 \]
 \leanchecked{BEDC.BaseReflection.PackageReflection\_eqClosure}
+\leanvariant{BEDC.BaseReflection.PsameEqClosure\_iff\_hsame\_under\_tok\_unique}
 \leanvariant{BEDC.BaseReflection.ClosureReflect\_from\_eqClosure}
 \leanvariant{BEDC.BaseReflection.conditional\_closure\_reflection\_schema}
+\leanvariant{BEDC.BaseReflection.PsameEqClosure\_endpoint\_reflection\_pair}
+\leanvariant{BEDC.BaseReflection.PsameEqClosure\_two\_base\_reflection}
+\leanvariant{BEDC.BaseReflection.PsameEqClosure\_three\_base\_reflection}
+\leanchecked{BEDC.BaseReflection.PsameEqClosure\_four\_base\_reflection}
 \leanvariant{BEDC.BaseReflection.ClosureReflect\_from\_canonical}
 \end{proposition}
 

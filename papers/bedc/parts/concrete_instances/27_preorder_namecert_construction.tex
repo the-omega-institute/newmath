@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for \(\PreorderUp\)}
+\label{ch:concrete-instances-preorder-namecert}
+
+The preorder interface \(\PreorderUp\) is licensed by a carrier with a binary relation \(\le : C \times C \to \mathsf{Prop}\) satisfying reflexivity and transitivity under the carrier's classifier. It is the simplest order-theoretic NameCert and self-contained: no other licensed object is required as a dependency.
+
+\section{Carrier definition}
+
+\begin{definition}[Preorder carrier]
+\label{def:preorder-carrier}
+Use an abstract carrier \(C\), classifier \(\sim_C\), and relation \(\le_C\) with preorder law fields.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Preorder source specification]
+\label{def:preorder-source-specification}
+The source is the carrier \(C\) with its classifier and relation.
+\end{definition}
+
+\begin{definition}[Preorder pattern specification]
+\label{def:preorder-pattern-specification}
+The pattern is relational judgment formation \(a\le_C b\) over carrier witnesses.
+\end{definition}
+
+\begin{definition}[Preorder classifier specification]
+\label{def:preorder-classifier-specification}
+The classifier is the supplied carrier sameness, and the relation is stable under classifier replacement.
+\end{definition}
+
+\begin{definition}[Preorder stability certificate]
+\label{def:preorder-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item classifier reflexivity
+  \item classifier transitivity
+  \item preorder reflexivity
+  \item preorder transitivity
+  \item relation congruence in both arguments
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Preorder ledger policy]
+\label{def:preorder-ledger-policy}
+Record the compared carrier witnesses and the relation derivation.
+\end{definition}
+
+\begin{theorem}[Concrete \(\PreorderUp\) naming certificate]
+\label{thm:concrete-preorder-namecert}
+Any carrier relation satisfying reflexivity and transitivity forms a valid NameCert for \(\PreorderUp(C)\).
+\end{theorem}
+
+\begin{corollary}[\(\PreorderUp\) is licensed, not primitive]
+\label{cor:preorder-licensed-not-primitive}
+\(\PreorderUp\) is licensed by relational fields, not as a primitive order.
+\end{corollary}

@@ -1,0 +1,218 @@
+import BEDC.FKernel.Gap.InGapSig
+
+namespace BEDC.FKernel.Gap
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.FKernel.Ext
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
+
+variable [AskSetup] [PackageSetup] [G : DomainSetup]
+omit [AskSetup] [PackageSetup] in
+theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
+    InDom D h → hsame h k → InDom D k := by
+  intro hh hhk
+  exact policy.transport hh hhk
+
+theorem DomainPolicy_transport_field [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) :
+    (∀ {h k : BHist}, InDom D h → hsame h k → InDom D k) := by
+  exact policy.transport
+
+theorem domain_transport_refl [AskSetup] [PackageSetup] [DomainSetup] {D : Domain}
+    (policy : DomainPolicy D) {h : BHist} :
+    InDom D h -> InDom D h := by
+  intro hdom
+  exact policy.transport hdom (hsame_refl h)
+
+theorem domain_policy_transport_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) :
+    (∀ {h k : BHist}, InDom D h → hsame h k → InDom D k) ∧
+      (∀ {h : BHist}, InDom D h → InDom D h) := by
+  constructor
+  · intro h k hdom same
+    exact policy.transport hdom same
+  · intro h hdom
+    exact hdom
+
+theorem DomainPolicy_iff_transport [AskSetup] [PackageSetup] [DomainSetup] {D : Domain} :
+    DomainPolicy D <-> (forall {h k : BHist}, InDom D h -> hsame h k -> InDom D k) := by
+  constructor
+  case mp =>
+    intro policy
+    exact policy.transport
+  case mpr =>
+    intro transport
+    exact {
+      transport := transport
+    }
+
+omit [AskSetup] [PackageSetup] G in
+theorem DomainPolicy_iff_transport_and_invariance [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} :
+    DomainPolicy D ↔
+      (∀ {h k : BHist}, InDom D h → hsame h k → InDom D k) ∧
+        (∀ {h k : BHist}, hsame h k → (InDom D h ↔ InDom D k)) := by
+  constructor
+  · intro policy
+    constructor
+    · intro h k hdom same
+      exact policy.transport hdom same
+    · intro h k same
+      constructor
+      · intro hdom
+        exact policy.transport hdom same
+      · intro kdom
+        exact policy.transport kdom (hsame_symm same)
+  · intro fields
+    exact {
+      transport := fields.left
+    }
+
+theorem inGapSig_domain_transport_source [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
+    (policy : DomainPolicy D) :
+    InGapSig bundle D p h -> hsame h k -> InDom D k := by
+  intro hgap hhk
+  exact policy.transport hgap.left hhk
+
+theorem inGapSig_transport_existing_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
+    (policy : DomainPolicy D) :
+    InGapSig bundle D p h -> hsame h k ->
+      (exists s : BHist, SigRel bundle k s /\ TokIntro bundle s p) ->
+        InGapSig bundle D p k := by
+  intro hgap hhk sigTok
+  cases hgap with
+  | intro hdom _ =>
+      exact And.intro (policy.transport hdom hhk) sigTok
+
+theorem domain_transport_symmetric [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
+    InDom D k → hsame h k → InDom D h := by
+  intro hk hhk
+  exact policy.transport hk (hsame_symm hhk)
+
+theorem domain_transport_transitive [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l : BHist} :
+    InDom D h -> hsame h k -> hsame k l -> InDom D l := by
+  intro hdom hhk hkl
+  exact policy.transport (policy.transport hdom hhk) hkl
+
+theorem domain_transport_three_step_chain [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l m : BHist} :
+    InDom D h → hsame h k → hsame k l → hsame l m → InDom D m := by
+  intro hdom hhk hkl hlm
+  exact policy.transport (policy.transport (policy.transport hdom hhk) hkl) hlm
+
+theorem domain_transport_four_step_chain [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l m n : BHist} :
+    InDom D h → hsame h k → hsame k l → hsame l m → hsame m n → InDom D n := by
+  intro hdom hhk hkl hlm hmn
+  exact policy.transport
+    (policy.transport (policy.transport (policy.transport hdom hhk) hkl) hlm)
+    hmn
+
+omit [AskSetup] [PackageSetup] G in
+theorem domain_transport_backward_chain [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l : BHist} :
+    InDom D h -> hsame h k -> hsame l k -> InDom D l := by
+  intro hdom hhk hlk
+  exact policy.transport (policy.transport hdom hhk) (hsame_symm hlk)
+
+omit [AskSetup] [PackageSetup] G in
+theorem DomainPolicy_transport_and_invariance [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
+    hsame h k → (InDom D h → InDom D k) ∧ (InDom D k → InDom D h) := by
+  intro hhk
+  constructor
+  · intro hh
+    exact policy.transport hh hhk
+  · intro hk
+    exact policy.transport hk (hsame_symm hhk)
+
+omit [AskSetup] [PackageSetup] in
+theorem domain_invariance {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
+    hsame h k -> (InDom D h <-> InDom D k) := by
+  intro hhk
+  constructor
+  · intro hh
+    exact policy.transport hh hhk
+  · intro hk
+    exact policy.transport hk (hsame_symm hhk)
+
+omit [AskSetup] [PackageSetup] G in
+theorem domain_invariance_of_concrete_source_admission [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
+    hsame h k -> (InDom D h <-> InDom D k) := by
+  intro hhk
+  constructor
+  · intro hh
+    exact policy.transport hh hhk
+  · intro hk
+    exact policy.transport hk (hsame_symm hhk)
+
+omit [AskSetup] [PackageSetup] G in
+theorem domain_transport_two_way_chain [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l : BHist} :
+    hsame h k -> hsame l k -> (InDom D h <-> InDom D l) := by
+  intro hhk hlk
+  constructor
+  · intro hh
+    exact policy.transport (policy.transport hh hhk) (hsame_symm hlk)
+  · intro hl
+    exact policy.transport (policy.transport hl hlk) (hsame_symm hhk)
+
+omit [AskSetup] [PackageSetup] G in
+theorem domain_transport_three_way_equiv [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l : BHist} :
+    hsame h k -> hsame k l -> (InDom D h <-> InDom D l) := by
+  intro hhk hkl
+  constructor
+  · intro hh
+    exact policy.transport (policy.transport hh hhk) hkl
+  · intro hl
+    exact policy.transport (policy.transport hl (hsame_symm hkl)) (hsame_symm hhk)
+
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_transport_iff_with_signature_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
+    (policy : DomainPolicy D) (same : hsame h k)
+    (hsig : exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p)
+    (ksig : exists s : BHist, SigRel bundle k s /\ TokIntro bundle s p) :
+    InGapSig bundle D p h <-> InGapSig bundle D p k := by
+  constructor
+  · intro hgap
+    exact And.intro (policy.transport hgap.left same) ksig
+  · intro kgap
+    exact And.intro (policy.transport kgap.left (hsame_symm same)) hsig
+
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_domain_transport_equiv_with_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
+    (policy : DomainPolicy D) :
+    hsame h k ->
+      ((InGapSig bundle D p h /\
+          (exists s : BHist, SigRel bundle k s /\ TokIntro bundle s p)) <->
+        (InGapSig bundle D p k /\
+          (exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p))) := by
+  intro hhk
+  constructor
+  · intro source
+    cases source with
+    | intro hgap kWitness =>
+        cases hgap with
+        | intro hdom hWitness =>
+            exact And.intro (And.intro (policy.transport hdom hhk) kWitness) hWitness
+  · intro target
+    cases target with
+    | intro kgap hWitness =>
+        cases kgap with
+        | intro kdom kWitness =>
+            exact And.intro
+              (And.intro (policy.transport kdom (hsame_symm hhk)) hWitness)
+              kWitness
+end BEDC.FKernel.Gap

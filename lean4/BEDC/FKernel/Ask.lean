@@ -24,12 +24,47 @@ structure AskEvent (pi : ProbeName) (h : BHist) : Type where
   event : Ask pi h mark evidence
 
 omit S in
+theorem askEvent_components [AskSetup] {pi : ProbeName} {h : BHist} (ev : AskEvent pi h) :
+    Ask pi h ev.mark ev.evidence := by
+  exact ev.event
+
+omit S in
 theorem askEvent_witness [AskSetup] {pi : ProbeName} {h : BHist} :
     AskEvent pi h -> ∃ m : BMark, ∃ delta : Evidence, Ask pi h m delta := by
   intro ev
   cases ev with
   | mk mark evidence event =>
       exact Exists.intro mark (Exists.intro evidence event)
+
+omit S in
+theorem AskEvent_iff_exists [AskSetup] {pi : ProbeName} {h : BHist} :
+    Nonempty (AskEvent pi h) ↔ ∃ m : BMark, ∃ delta : Evidence, Ask pi h m delta := by
+  constructor
+  · intro witness
+    cases witness with
+    | intro ev =>
+        exact askEvent_witness ev
+  · intro witness
+    cases witness with
+    | intro mark rest =>
+        cases rest with
+        | intro evidence event =>
+            exact Nonempty.intro (AskEvent.mk mark evidence event)
+
+omit S in
+theorem askEvent_from_witness [AskSetup] {pi : ProbeName} {h : BHist} {m : BMark}
+    {delta : Evidence} :
+    Ask pi h m delta -> Nonempty (AskEvent pi h) := by
+  intro event
+  exact Nonempty.intro (AskEvent.mk m delta event)
+
+omit S in
+theorem askEvent_evidence_witness [AskSetup] {pi : ProbeName} {h : BHist} :
+    AskEvent pi h -> Nonempty Evidence := by
+  intro ev
+  cases ev with
+  | mk _ evidence _ =>
+      exact Nonempty.intro evidence
 
 structure AskPolicy (D : BHist → Prop) : Prop where
   total :
@@ -40,6 +75,17 @@ structure AskPolicy (D : BHist → Prop) : Prop where
   respectsHistory :
     ∀ {π : ProbeName} {h k : BHist} {m n : BMark} {δ θ : Evidence},
       hsame h k → Ask π h m δ → Ask π k n θ → msame m n
+
+omit S in
+theorem askPolicy_total_event [AskSetup] {D : BHist → Prop} (policy : AskPolicy D)
+    {pi : ProbeName} {h : BHist} :
+    D h → Nonempty (AskEvent pi h) := by
+  intro hD
+  cases policy.total (π := pi) (h := h) hD with
+  | intro mark rest =>
+      cases rest with
+      | intro evidence event =>
+          exact Nonempty.intro (AskEvent.mk mark evidence event)
 
 theorem ask_total_from_policy {D : BHist → Prop} (policy : AskPolicy D)
     {π : ProbeName} {h : BHist} :
@@ -58,6 +104,55 @@ theorem ask_deterministic {D : BHist → Prop} (policy : AskPolicy D)
     Ask π h m δ → Ask π h n θ → msame m n := by
   intro left right
   exact policy.deterministic left right
+
+omit S in
+theorem askPolicy_total_deterministic_pair [AskSetup] {D : BHist → Prop}
+    (policy : AskPolicy D) :
+    (∀ {π : ProbeName} {h : BHist}, D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ) ∧
+    (∀ {π : ProbeName} {h : BHist} {m n : BMark} {δ θ : Evidence},
+      Ask π h m δ → Ask π h n θ → msame m n) := by
+  constructor
+  · intro π h hD
+    exact policy.total hD
+  · intro π h m n δ θ left right
+    exact policy.deterministic left right
+
+omit S in
+theorem askPolicy_total_respects_pair [AskSetup] {D : BHist → Prop} (policy : AskPolicy D) :
+    (∀ {π : ProbeName} {h : BHist}, D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ) ∧
+    (∀ {π : ProbeName} {h k : BHist} {m n : BMark} {δ θ : Evidence},
+      hsame h k → Ask π h m δ → Ask π k n θ → msame m n) := by
+  constructor
+  · intro π h hD
+    exact policy.total hD
+  · intro π h k m n δ θ same left right
+    exact policy.respectsHistory same left right
+
+omit S in
+theorem askPolicy_deterministic_respects_pair [AskSetup] {D : BHist → Prop}
+    (policy : AskPolicy D) :
+    (∀ {π : ProbeName} {h : BHist} {m n : BMark} {δ θ : Evidence},
+      Ask π h m δ → Ask π h n θ → msame m n) ∧
+    (∀ {π : ProbeName} {h k : BHist} {m n : BMark} {δ θ : Evidence},
+      hsame h k → Ask π h m δ → Ask π k n θ → msame m n) := by
+  constructor
+  · intro π h m n δ θ left right
+    exact policy.deterministic left right
+  · intro π h k m n δ θ same left right
+    exact policy.respectsHistory same left right
+
+omit S in
+theorem AskPolicy_total_deterministic_pair [AskSetup] {D : BHist -> Prop}
+    (policy : AskPolicy D) :
+    (forall {pi : ProbeName} {h : BHist},
+      D h -> exists m : BMark, exists delta : Evidence, Ask pi h m delta) /\
+    (forall {pi : ProbeName} {h : BHist} {m n : BMark} {delta theta : Evidence},
+      Ask pi h m delta -> Ask pi h n theta -> msame m n) := by
+  constructor
+  · intro pi h hD
+    exact policy.total hD
+  · intro pi h m n delta theta left right
+    exact policy.deterministic left right
 
 theorem asking_determinacy {D : BHist → Prop} (policy : AskPolicy D)
     {pi : ProbeName} {h : BHist} {m n : BMark} {delta theta : Evidence} :
@@ -79,6 +174,13 @@ theorem ask_respects_history {D : BHist → Prop} (policy : AskPolicy D)
   exact policy.respectsHistory same left right
 
 omit S in
+theorem askPolicy_respects_history_field [AskSetup] {D : BHist -> Prop} (policy : AskPolicy D) :
+    (forall {pi : ProbeName} {h k : BHist} {m n : BMark} {delta theta : Evidence},
+      hsame h k -> Ask pi h m delta -> Ask pi k n theta -> msame m n) := by
+  intro pi h k m n delta theta same left right
+  exact policy.respectsHistory same left right
+
+omit S in
 theorem ask_policy_fields [AskSetup] {D : BHist → Prop} (policy : AskPolicy D) :
     (∀ {π : ProbeName} {h : BHist}, D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ) ∧
     (∀ {π : ProbeName} {h : BHist} {m n : BMark} {δ θ : Evidence},
@@ -92,6 +194,23 @@ theorem ask_policy_fields [AskSetup] {D : BHist → Prop} (policy : AskPolicy D)
     · intro π h m n δ θ left right
       exact policy.deterministic left right
     · intro π h k m n δ θ same left right
+      exact policy.respectsHistory same left right
+
+omit S in
+theorem askPolicy_event_determinacy_respects_fields [AskSetup] {D : BHist -> Prop}
+    (policy : AskPolicy D) :
+    (forall {pi : ProbeName} {h : BHist}, D h -> Nonempty (AskEvent pi h)) /\
+    (forall {pi : ProbeName} {h : BHist} {m n : BMark} {delta theta : Evidence},
+      Ask pi h m delta -> Ask pi h n theta -> msame m n) /\
+    (forall {pi : ProbeName} {h k : BHist} {m n : BMark} {delta theta : Evidence},
+      hsame h k -> Ask pi h m delta -> Ask pi k n theta -> msame m n) := by
+  constructor
+  · intro pi h hD
+    exact askPolicy_total_event policy hD
+  · constructor
+    · intro pi h m n delta theta left right
+      exact policy.deterministic left right
+    · intro pi h k m n delta theta same left right
       exact policy.respectsHistory same left right
 
 omit S in

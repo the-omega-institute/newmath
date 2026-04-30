@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for \(\SumUp\)}
+\label{ch:concrete-instances-sum-namecert}
+
+The disjoint sum interface \(\SumUp\) is licensed over two source carriers each endowed with a \(\NameCert\). The carrier is the inductive sum with left and right constructors wrapping a witness of either source; the classifier is the constructor-discriminating relation that within each constructor falls back to the corresponding source classifier. It is not a primitive coproduct; it is licensed only as a derived constructor over the two sources.
+
+\section{Carrier definition}
+
+\begin{definition}[Sum carrier]
+\label{def:sum-carrier}
+For licensed source carriers \(A\) and \(B\), define an inductive carrier with constructors \(\mathsf{inl}(a)\) and \(\mathsf{inr}(b)\).
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Sum source specification]
+\label{def:sum-source-specification}
+The source is the disjoint union of the two source certificates.
+\end{definition}
+
+\begin{definition}[Sum pattern specification]
+\label{def:sum-pattern-specification}
+The pattern is left-or-right injection from the corresponding source witness.
+\end{definition}
+
+\begin{definition}[Sum classifier specification]
+\label{def:sum-classifier-specification}
+The classifier relates left values through the \(A\)-classifier, right values through the \(B\)-classifier, and never relates opposite constructors.
+\end{definition}
+
+\begin{definition}[Sum stability certificate]
+\label{def:sum-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item lifted reflexivity on left and right constructors
+  \item lifted transitivity within each constructor
+  \item constructor separation between left and right
+  \item closure under both injections
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Sum ledger policy]
+\label{def:sum-ledger-policy}
+Record the injection tag and the ledger of the selected source.
+\end{definition}
+
+\begin{theorem}[Concrete \(\SumUp\) naming certificate]
+\label{thm:concrete-sum-namecert}
+The constructor-discriminating tuple forms a valid NameCert for \(\SumUp(A,B)\).
+\end{theorem}
+
+\begin{corollary}[\(\SumUp\) is licensed, not primitive]
+\label{cor:sum-licensed-not-primitive}
+\(\SumUp\) is licensed as a derived disjoint sum, not as a primitive coproduct.
+\end{corollary}

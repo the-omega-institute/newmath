@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for \(\CompactUp\)}
+\label{ch:concrete-instances-compact-namecert}
+
+The compactness interface \(\CompactUp\) is licensed for subsets of metric spaces from \autoref{ch:concrete-instances-metric-namecert}. In Bishop-style constructive analysis, compact means located + totally bounded, with both fields expressed via explicit witness functions: locatedness gives, for any point and rational \(\epsilon\), a decision whether the point is within \(\epsilon\) of the subset; total boundedness gives, for any rational \(\epsilon\), a finite \(\epsilon\)-net. The classical Heine-Borel formulation (every open cover has a finite subcover) is not directly licensable in BEDC because it requires LEM in general; the located + totally bounded formulation is constructively equivalent for compact metric spaces and is the form licensed here.
+
+\section{Carrier definition}
+
+\begin{definition}[Compact carrier]
+\label{def:compact-carrier}
+Use a metric-space subset predicate equipped with locatedness and total-boundedness witness functions.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Compact source specification]
+\label{def:compact-source-specification}
+The source is a certified metric space plus a subset predicate over its carrier.
+\end{definition}
+
+\begin{definition}[Compact pattern specification]
+\label{def:compact-pattern-specification}
+The pattern is compact-subset formation by attaching locatedness and finite-net data for each rational precision.
+\end{definition}
+
+\begin{definition}[Compact classifier specification]
+\label{def:compact-classifier-specification}
+The classifier relates compact witnesses when their membership predicates agree by explicit bidirectional evidence under carrier sameness.
+\end{definition}
+
+\begin{definition}[Compact stability certificate]
+\label{def:compact-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item membership stability under carrier classifier
+  \item locatedness witness validity
+  \item total-bounded finite-net validity
+  \item monotonicity of precision witnesses where required
+  \item stability under compact-witness classifier
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Compact ledger policy]
+\label{def:compact-ledger-policy}
+Record the subset predicate, locatedness decisions, and finite net ledgers.
+\end{definition}
+
+\begin{theorem}[Concrete \(\CompactUp\) naming certificate]
+\label{thm:concrete-compact-namecert}
+The located-and-totally-bounded tuple forms a valid NameCert for \(\CompactUp(X)\).
+\end{theorem}
+
+\begin{corollary}[\(\CompactUp\) is licensed, not primitive]
+\label{cor:compact-licensed-not-primitive}
+\(\CompactUp\) is licensed by constructive metric compactness data.
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:compact-zero-axiom-note}
+Replaces open-cover compactness and LEM with locatedness plus explicit finite nets.
+\end{remark}
+

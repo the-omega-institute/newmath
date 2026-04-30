@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for \(\RingUp\)}
+\label{ch:concrete-instances-ring-namecert}
+
+The ring interface \(\RingUp\) is licensed by a carrier with two binary operations \(+\) and \(\cdot\) such that \((C, +)\) satisfies \autoref{ch:concrete-instances-abgroup-namecert} and \((C, \cdot)\) satisfies \autoref{ch:concrete-instances-monoid-namecert}, together with left and right distributivity of \(\cdot\) over \(+\). It is not a primitive structure; it is licensed only by composing the additive abelian group and multiplicative monoid certificates with the distributive law.
+
+\section{Carrier definition}
+
+\begin{definition}[Ring carrier]
+\label{def:ring-carrier}
+Use a setup with carrier \(C\), classifier, addition, zero, additive inverse, multiplication, one, and ring law fields.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Ring source specification]
+\label{def:ring-source-specification}
+The source is an additive \(\AbGroupUp\) and multiplicative \(\MonoidUp\) on the same carrier and classifier.
+\end{definition}
+
+\begin{definition}[Ring pattern specification]
+\label{def:ring-pattern-specification}
+The pattern is expression formation from \(0,1,+,-,\cdot\).
+\end{definition}
+
+\begin{definition}[Ring classifier specification]
+\label{def:ring-classifier-specification}
+The classifier is the shared carrier sameness relation, congruent for both operations.
+\end{definition}
+
+\begin{definition}[Ring stability certificate]
+\label{def:ring-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item additive abelian-group laws
+  \item multiplicative monoid laws
+  \item addition and multiplication congruence
+  \item left distributivity
+  \item right distributivity
+  \item zero multiplication laws derived or supplied constructively
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Ring ledger policy]
+\label{def:ring-ledger-policy}
+Record the shared carrier ledger and the operation tree for ring expressions.
+\end{definition}
+
+\begin{theorem}[Concrete \(\RingUp\) naming certificate]
+\label{thm:concrete-ring-namecert}
+Any shared-carrier additive abelian group and multiplicative monoid satisfying distributivity forms a valid NameCert for \(\RingUp(C)\).
+\end{theorem}
+
+\begin{corollary}[\(\RingUp\) is licensed, not primitive]
+\label{cor:ring-licensed-not-primitive}
+\(\RingUp\) is licensed by composing additive, multiplicative, and distributive certificates.
+\end{corollary}

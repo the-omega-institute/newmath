@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for \(\AbGroupUp\)}
+\label{ch:concrete-instances-abgroup-namecert}
+
+The abelian group interface \(\AbGroupUp\) extends \autoref{ch:concrete-instances-group-namecert} with the commutativity field \(a \cdot b = b \cdot a\) under the carrier's classifier. It is the abelian specialization of the group certificate; the integer additive group from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
+
+\section{Carrier definition}
+
+\begin{definition}[AbGroup carrier]
+\label{def:abgroup-carrier}
+Use a group setup extended with commutativity of the binary operation.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[AbGroup source specification]
+\label{def:abgroup-source-specification}
+The source is a certified group carrier plus a commutativity field.
+\end{definition}
+
+\begin{definition}[AbGroup pattern specification]
+\label{def:abgroup-pattern-specification}
+The pattern is group expression formation under an operation whose operands may be exchanged by certificate law.
+\end{definition}
+
+\begin{definition}[AbGroup classifier specification]
+\label{def:abgroup-classifier-specification}
+The classifier is the group carrier classifier.
+\end{definition}
+
+\begin{definition}[AbGroup stability certificate]
+\label{def:abgroup-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all group stability fields
+  \item commutativity under classifier
+  \item compatibility of commutativity with inverse and multiplication congruence
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[AbGroup ledger policy]
+\label{def:abgroup-ledger-policy}
+Record group expression provenance and the commutativity law when used.
+\end{definition}
+
+\begin{theorem}[Concrete \(\AbGroupUp\) naming certificate]
+\label{thm:concrete-abgroup-namecert}
+Any group setup with commutativity forms a valid NameCert for \(\AbGroupUp(C)\).
+\end{theorem}
+
+\begin{corollary}[\(\AbGroupUp\) is licensed, not primitive]
+\label{cor:abgroup-licensed-not-primitive}
+\(\AbGroupUp\) is licensed as the abelian specialization of \(\GroupUp\).
+\end{corollary}

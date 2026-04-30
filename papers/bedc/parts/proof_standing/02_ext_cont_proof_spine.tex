@@ -17,6 +17,7 @@ It expresses that emitting mark \(m\) after history \(h\) generates result \(r\)
 \end{definition}
 
 \begin{theorem}[Extension determinacy up to history-sameness]
+\label{thm:extension-determinacy-up-to-history-sameness}
 If
 \[
 \ExtR(m,h,r)
@@ -25,13 +26,16 @@ If
 \]
 then \(\HSame(r,r')\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_determinacy\_up\_to\_hsame\_spine}
 \begin{proof}
 By case analysis on the generated extension proof. If \(m=\bzero\), both generated results have the form \(\Ezero(h)\), hence they are history-same by reflexivity. If \(m=\bone\), both generated results have the form \(\Eone(h)\), hence they are history-same by reflexivity. No cross mark case is generated for the same mark input.
 \end{proof}
 
 \begin{theorem}[Extension respects internal sameness]
+\label{thm:extension-respects-internal-sameness-spine}
 Suppose \(\MSame(m,n)\), \(\HSame(h,k)\), \(\ExtR(m,h,r)\), and \(\ExtR(n,k,s)\). Then \(\HSame(r,s)\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_respects\_internal\_sameness\_spine}
 \begin{proof}
 By induction on the generated proof of \(\MSame(m,n)\). There are only two cases. In the \(\bzero\) case, the extension results are generated with outer constructor \(\Ezero\), and the conclusion follows by applying the \(\Ezero\) history-sameness constructor to \(\HSame(h,k)\). The \(\bone\) case is identical with \(\Eone\).
 \end{proof}
@@ -49,20 +53,26 @@ It expresses continuation of history \(h\) by history \(k\) without treating con
 \end{definition}
 
 \begin{theorem}[Continuation determinacy up to history-sameness]
+\label{thm:continuation-determinacy-up-to-history-sameness}
 If \(\ContR(h,k,r)\) and \(\ContR(h,k,r')\), then \(\HSame(r,r')\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_determinacy\_up\_to\_hsame\_spine}
 \begin{proof}
 By induction on the first generated continuation proof. In the empty case, the second proof must also be the empty case, hence both results are \(k\). In the \(\Ezero\) case, the second proof must also have outer \(\Ezero\) by closed generation; apply the induction hypothesis to the sub-results and then apply the \(\Ezero\) constructor for \(\HSame\). The \(\Eone\) case is analogous.
 \end{proof}
 
 \begin{theorem}[Continuation unit laws]
+\label{thm:continuation-unit-laws-spine}
 For every generated history \(k\), \(\ContR(\emp,k,k)\). Moreover, if \(\ContR(h,\emp,r)\), then \(\HSame(r,h)\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_right\_unit\_iff}
+\leanvariant{BEDC.FKernel.Cont.cont\_unit\_laws\_spine}
 \begin{proof}
 The left unit is the empty continuation constructor. The right unit is proved by induction on \(h\). The empty case is immediate. If \(h=\Ezero(h')\), use the induction hypothesis for \(h'\) and rebuild with the \(\Ezero\)-constructor. The \(\Eone\)-case is analogous.
 \end{proof}
 
 \begin{theorem}[Associativity up to history-sameness]
+\label{thm:continuation-associativity-up-to-hsame-proof-standing}
 Suppose
 \[
 \ContR(a,b,ab),\quad \ContR(ab,c,left),\quad
@@ -70,10 +80,13 @@ Suppose
 \]
 Then \(\HSame(left,right)\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_assoc\_proof\_standing}
 \begin{proof}
 By induction on the generated structure of \(a\). If \(a=\emp\), then \(ab\) is history-same to \(b\), and both sides reduce, by continuation determinacy, to the continuation of \(b\) by \(c\). If \(a=\Ezero(a')\), the generated continuation proofs have outer \(\Ezero\) form. Strip this outer constructor using closed-generation inversion, apply the induction hypothesis to the subcontinuations, and re-apply the \(\Ezero\) history-sameness constructor. The \(\Eone\)-case is identical.
 \end{proof}
 
 \begin{corollary}[Addition-like behavior requires no primitive addition]
+\label{cor:addition-like-behavior-requires-no-primitive-addition}
 The continuation relation supplies a finite-kernel seed for addition-like derived interfaces. The additive interface is not primitive; it may be licensed only by a naming certificate whose stability component cites continuation unit and associativity.
 \end{corollary}
+\leanchecked{BEDC.FKernel.Cont.continuation\_addition\_like\_seed\_has\_unit\_assoc}

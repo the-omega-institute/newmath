@@ -1,0 +1,39 @@
+\chapter{A Concrete Naming Certificate for \(\IntUp\)}
+\label{ch:concrete-instances-int-namecert}
+
+The integer interface \(\IntUp\) is licensed by signed unary histories: a sign component together with a unary magnitude under continuation discipline. It is not a primitive operation of the finite kernel. The construction follows the 5-field NameCert template established by \autoref{ch:concrete-instances-nat-namecert} and \autoref{ch:concrete-instances-add-namecert}, with the carrier extended by a sign indicator and the stability fields adjusted for sign-aware continuation.
+
+\section{Carrier definition}
+
+\begin{definition}[Signed unary integer carrier]
+\label{def:intup-carrier}
+The carrier predicate for \(\IntUp\) uses an existing mark as the sign component and an existing unary history as the magnitude component:
+\[
+  \mathsf{IntCarrier}(s,h)
+  :=
+  (s=\bzero \lor s=\bone)\land \mathsf{Unary}(h).
+\]
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntCarrier}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_sign\_cases}
+\leanvariant{BEDC.Derived.IntUp.IntCarrier\_continuation\_closed\_same\_sign}
+\begin{proof}
+This is a definitional clause over the finite-kernel mark constructors and the unary-history predicate. With the sign fixed, continuation of two carrier magnitudes remains inside the same signed carrier.
+\end{proof}
+
+\begin{definition}[Integer source specification]
+\label{def:intup-source-specification}
+The source specification for \(\IntUp\) is exactly the signed unary integer carrier:
+\[
+  \mathsf{IntSourceSpec}(s,h)
+  :=
+  \mathsf{IntCarrier}(s,h).
+\]
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntSourceSpec}
+\leanchecked{BEDC.Derived.IntUp.intup\_source\_specification}
+\begin{proof}
+This is a direct definitional identification of the source specification with the carrier predicate.
+\end{proof}
+
+\section{The certificate}

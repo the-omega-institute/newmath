@@ -28,8 +28,13 @@ The stability component \(\StabCert\) is typed by modes:
 \end{align*}
 A name may require one or more of these modes.
 \end{definition}
+\leandef{BEDC.FKernel.NameCert.StabilityMode}
 \leandef{BEDC.FKernel.NameCert.StabilityCert}
 \leanchecked{BEDC.FKernel.NameCert.derived\_interfaces\_have\_stability}
+\leanvariant{BEDC.FKernel.NameCert.stabilityMode\_no\_confusion}
+\leanvariant{BEDC.FKernel.NameCert.stabilityMode\_pairwise\_no\_confusion}
+\leanvariant{BEDC.FKernel.NameCert.stabilityMode\_descent\_composition\_seal\_no\_confusion}
+\leanvariant{BEDC.FKernel.NameCert.stabilityMode\_exhaustive}
 
 \begin{definition}[Ledger policy]
 A ledger policy \(\LedgerPolicy\) records what the name hides and how the hidden material is tracked. It must specify whether the ledger is a gap, a composite gap, a tail ledger, a phase ledger, a source ledger, or another derived ledger.
@@ -37,6 +42,8 @@ A ledger policy \(\LedgerPolicy\) records what the name hides and how the hidden
 \leandef{BEDC.FKernel.NameCert.LedgerPolicy}
 
 \begin{definition}[Naming certificate]
+\label{def:typed-naming-certificate}
+\label{def:naming-certificate}
 A naming certificate is a record
 \[
 \NameCert(N)=
@@ -44,12 +51,16 @@ A naming certificate is a record
 \]
 The proposed name \(N\) is licensed only if all required fields are supplied.
 \end{definition}
+\leanstmt{BEDC.FKernel.NameCert.NameCertSetup}
+\leandef{BEDC.FKernel.NameCert.NameCert}
+\leanchecked{BEDC.FKernel.NameCert.nameCert\_core\_five\_field\_witnesses}
 
 \begin{theorem}[Derived interfaces require certificates]
 \label{thm:derived-interfaces-require-certificates}
 No interface marked by an upward arrow is licensed without a \(\NameCert\).
 \end{theorem}
 \leanchecked{BEDC.FKernel.NameCert.derived\_interfaces\_require\_certificates}
+\leanvariant{BEDC.FKernel.NameCert.nameCert\_nonempty\_iff\_field\_witnesses}
 \begin{proof}
 This is the formation rule for derived interfaces: derived names are not object-language primitives. They enter the theory only by a naming certificate.
 \end{proof}

@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for \(\ProdUp\)}
+\label{ch:concrete-instances-prod-namecert}
+
+The product interface \(\ProdUp\) is licensed over two source carriers each endowed with a \(\NameCert\). The carrier is the pair constructor of source witnesses; the classifier is the conjunction of the component classifiers under their respective internal sameness judgments. It is not a primitive cartesian product; it is licensed only as a derived constructor over the two sources.
+
+\section{Carrier definition}
+
+\begin{definition}[Prod carrier]
+\label{def:prod-carrier}
+For licensed source carriers \(A\) and \(B\), define a pair carrier with constructor \(\mathsf{pair}(a,b)\).
+\end{definition}
+\leandef{BEDC.Derived.ProdUp.ProdCarrier}
+
+\section{The certificate}
+
+\begin{definition}[Prod source specification]
+\label{def:prod-source-specification}
+The source is the ordered product of the two source certificates.
+\end{definition}
+
+\begin{definition}[Prod pattern specification]
+\label{def:prod-pattern-specification}
+The pattern is paired generation from one \(A\)-witness and one \(B\)-witness.
+\end{definition}
+
+\begin{definition}[Prod classifier specification]
+\label{def:prod-classifier-specification}
+The classifier relates pairs componentwise using the classifiers of \(A\) and \(B\).
+\end{definition}
+\leandef{BEDC.Derived.ProdUp.ProdClassifier}
+
+\begin{definition}[Prod stability certificate]
+\label{def:prod-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item componentwise reflexivity
+  \item componentwise transitivity
+  \item closure under pair construction
+  \item projection stability for first and second components
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.ProdUp.prod\_stability\_certificate\_fields}
+
+\begin{definition}[Prod ledger policy]
+\label{def:prod-ledger-policy}
+Record both component ledgers in order.
+\end{definition}
+
+\begin{theorem}[Concrete \(\ProdUp\) naming certificate]
+\label{thm:concrete-prod-namecert}
+The componentwise tuple forms a valid NameCert for \(\ProdUp(A,B)\).
+\end{theorem}
+
+\begin{corollary}[\(\ProdUp\) is licensed, not primitive]
+\label{cor:prod-licensed-not-primitive}
+\(\ProdUp\) is licensed as a derived binary constructor over two sources.
+\end{corollary}

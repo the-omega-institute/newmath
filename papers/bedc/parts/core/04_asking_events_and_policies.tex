@@ -11,14 +11,20 @@
 
 \begin{definition}[Asking event]
 \label{def:asking-event}
+\label{def:asking-event-evidence-witness}
 An asking event is a judgment
 \[
 \Ask(\pi,h,m,\delta),
 \]
 where \(\pi:\PN\), \(h:\Hist\), \(m:\Mark\), and \(\delta:\Ev\). It is read: asking probe name \(\pi\) of history \(h\) emits mark \(m\) with evidence token \(\delta\).
 \end{definition}
+\leandef{BEDC.FKernel.Ask.Ask}
 \leandef{BEDC.FKernel.Ask.AskEvent}
 \leanchecked{BEDC.FKernel.Ask.askEvent\_witness}
+\leanvariant{BEDC.FKernel.Ask.askEvent\_components}
+\leanvariant{BEDC.FKernel.Ask.AskEvent\_iff\_exists}
+\leanvariant{BEDC.FKernel.Ask.askEvent\_from\_witness}
+\leanvariant{BEDC.FKernel.Ask.askEvent\_evidence\_witness}
 
 \section{Asking policies}
 
@@ -35,9 +41,15 @@ The word ``consists'' is a metalanguage description of a certificate record; the
 \end{definition}
 \leanchecked{BEDC.FKernel.Ask.AskPolicy\_iff\_fields}
 \leanvariant{BEDC.FKernel.Ask.ask\_policy\_fields}
+\leanvariant{BEDC.FKernel.Ask.askPolicy\_total\_event}
+\leanvariant{BEDC.FKernel.Ask.askPolicy\_total\_deterministic\_pair}
+\leanvariant{BEDC.FKernel.Ask.askPolicy\_total\_respects\_pair}
+\leanvariant{BEDC.FKernel.Ask.askPolicy\_deterministic\_respects\_pair}
+\leanvariant{BEDC.FKernel.Ask.AskPolicy\_total\_deterministic\_pair}
 \leanvariant{BEDC.FKernel.Ask.ask\_total\_from\_policy}
 \leanvariant{BEDC.FKernel.Ask.ask\_total}
 \leanvariant{BEDC.FKernel.Ask.ask\_respects\_history}
+\leanvariant{BEDC.FKernel.Ask.askPolicy\_respects\_history\_field}
 \leanvariant{BEDC.FKernel.Sig.sig\_respects\_history}
 
 \begin{lemma}[Asking determinacy]

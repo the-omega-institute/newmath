@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for \(\OptionUp\)}
+\label{ch:concrete-instances-option-namecert}
+
+The optional value interface \(\OptionUp\) is licensed over any source carrier already endowed with a \(\NameCert\). The carrier is the inductive sum of an absent constructor and a present constructor wrapping a witness of the source. It is not a primitive type former; it is licensed only via its underlying inductive carrier and the classifier that lifts the source classifier through the present constructor.
+
+\section{Carrier definition}
+
+\begin{definition}[Option carrier]
+\label{def:option-carrier}
+For a licensed source carrier \(A\), define an inductive carrier with constructors \(\mathsf{none}\) and \(\mathsf{some}(a)\).
+\end{definition}
+\leanchecked{BEDC.Derived.OptionUp.OptionCarrier\_cases}
+
+\section{The certificate}
+
+\begin{definition}[Option source specification]
+\label{def:option-source-specification}
+The source is the source NameCert for \(A\), lifted through the optional carrier.
+\end{definition}
+
+\begin{definition}[Option pattern specification]
+\label{def:option-pattern-specification}
+The pattern is absent-or-present generation: one null constructor and one wrapper constructor over source witnesses.
+\end{definition}
+
+\begin{definition}[Option classifier specification]
+\label{def:option-classifier-specification}
+The classifier relates \(\mathsf{none}\) only to \(\mathsf{none}\), and relates \(\mathsf{some}(a)\) to \(\mathsf{some}(a')\) exactly when the source classifier relates \(a\) and \(a'\).
+\end{definition}
+
+\begin{definition}[Option stability certificate]
+\label{def:option-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item reflexivity for none
+  \item lifted reflexivity for some
+  \item lifted transitivity for some
+  \item constructor separation between none and some
+  \item closure under the present constructor
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Option ledger policy]
+\label{def:option-ledger-policy}
+Record whether the visible optional value is absent or present, and retain the source ledger for present witnesses.
+\end{definition}
+
+\begin{theorem}[Concrete \(\OptionUp\) naming certificate]
+\label{thm:concrete-option-namecert}
+The lifted tuple forms a valid NameCert for \(\OptionUp(A)\).
+\end{theorem}
+
+\begin{corollary}[\(\OptionUp\) is licensed, not primitive]
+\label{cor:option-licensed-not-primitive}
+\(\OptionUp\) is licensed as an inductive wrapper over \(A\), not as a primitive type former.
+\end{corollary}

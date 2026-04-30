@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for \(\CommRingUp\)}
+\label{ch:concrete-instances-commring-namecert}
+
+The commutative ring interface \(\CommRingUp\) extends \autoref{ch:concrete-instances-ring-namecert} with the commutativity field \(a \cdot b = b \cdot a\) for the multiplicative operation under the carrier's classifier. The integer ring from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
+
+\section{Carrier definition}
+
+\begin{definition}[CommRing carrier]
+\label{def:commring-carrier}
+Use a ring setup extended with commutativity of multiplication.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[CommRing source specification]
+\label{def:commring-source-specification}
+The source is a certified ring carrier plus multiplicative commutativity.
+\end{definition}
+
+\begin{definition}[CommRing pattern specification]
+\label{def:commring-pattern-specification}
+The pattern is ring expression formation where multiplication may be exchanged by the commutativity field.
+\end{definition}
+
+\begin{definition}[CommRing classifier specification]
+\label{def:commring-classifier-specification}
+The classifier is the ring carrier classifier.
+\end{definition}
+
+\begin{definition}[CommRing stability certificate]
+\label{def:commring-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all ring stability fields
+  \item multiplicative commutativity
+  \item compatibility of multiplication commutativity with ring congruence
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[CommRing ledger policy]
+\label{def:commring-ledger-policy}
+Record ring expression provenance and the multiplicative commutativity law when used.
+\end{definition}
+
+\begin{theorem}[Concrete \(\CommRingUp\) naming certificate]
+\label{thm:concrete-commring-namecert}
+Any ring setup with multiplicative commutativity forms a valid NameCert for \(\CommRingUp(C)\).
+\end{theorem}
+
+\begin{corollary}[\(\CommRingUp\) is licensed, not primitive]
+\label{cor:commring-licensed-not-primitive}
+\(\CommRingUp\) is licensed as the commutative specialization of \(\RingUp\).
+\end{corollary}

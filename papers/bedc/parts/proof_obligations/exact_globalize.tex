@@ -45,6 +45,7 @@ By the totality field of \(\AskPol(\Pi,D)\), the history \(h\) generates some si
 \end{proof}
 
 \begin{theorem}[Concrete gap separation]
+\label{thm:concrete-gap-separation}
 \label{thm:gap-separation-globalize}
 Assume \(\AskPol(\Pi,D)\), \(\mathsf{TokUnique}(\Pi)\), and the one-constructor concrete package-sameness relation. If
 \[
@@ -58,6 +59,9 @@ then
 \]
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_separation\_globalize}
+\leanvariant{BEDC.FKernel.Gap.gap\_separation\_with\_domain\_pair}
+\leanvariant{BEDC.FKernel.Gap.signature\_gap\_separation\_from\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.gap\_separation\_same\_signature\_witness\_pair}
 
 \begin{proof}
 The two gap premises yield signatures \(s,t\) with
@@ -146,12 +150,20 @@ The following statements are not exported:
 Each item requires an exactness predicate whose exported relation is not \(\psame_{\Pi}^{\mathrm{base}}\), an implementation artifact, or a derived-object construction that is outside the declared scope of this verification contract.
 \end{proof}
 \leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_soundness\_exports\_base}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_export\_soundness\_direction}
 \leanvariant{BEDC.BaseReflection.NotExported\_relation\_is\_base}
+\leanvariant{BEDC.BaseReflection.NotExported\_sound\_complete\_pair}
 \leanvariant{BEDC.BaseReflection.PsameBase\_trans\_under\_tok\_unique}
 \leandef{BEDC.BaseReflection.NotExported}
-\leanchecked{BEDC.BaseReflection.NotExported\_from\_exact}
+\leanchecked{BEDC.BaseReflection.NotExported\_scope\_boundary}
+\leanvariant{BEDC.BaseReflection.NotExported\_from\_fields}
 \leanvariant{BEDC.BaseReflection.NotExported\_classify\_iff}
+\leanvariant{BEDC.BaseReflection.NotExported\_classify\_directions}
 \leanvariant{BEDC.BaseReflection.NotExported\_base\_to\_GeneratedSameSig}
+\leanvariant{BEDC.BaseReflection.NotExported\_no\_eqClosure\_export}
+\leanvariant{BEDC.BaseReflection.NotExported\_base\_relation\_pair}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_notExported\_public\_shape}
+\leanvariant{BEDC.BaseReflection.not\_exported}
 
 \begin{protocol}[Export discipline]
 \label{prot:export-discipline}
@@ -177,12 +189,23 @@ This is the checker-facing predicate corresponding to ``the two admitted histori
 \end{definition}
 \leandef{BEDC.BaseReflection.GeneratedSameSig}
 \leanchecked{BEDC.BaseReflection.GeneratedSameSig\_hsame}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_from\_witnesses}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_refl\_nonempty\_from\_sig}
 \leanvariant{BEDC.BaseReflection.GeneratedSameSig\_left\_witness}
 \leanvariant{BEDC.BaseReflection.GeneratedSameSig\_right\_witness}
 \leanvariant{BEDC.BaseReflection.GeneratedSameSig\_witnesses}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_nonempty\_witnesses}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_iff\_witnesses}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_swap\_witnesses}
 \leanvariant{BEDC.BaseReflection.GeneratedSameSig\_symm}
 \leanvariant{BEDC.BaseReflection.GeneratedSameSig\_symm\_nonempty}
 \leanvariant{BEDC.BaseReflection.GeneratedSameSig\_trans\_nonempty\_under\_determinacy}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_trans\_under\_determinacy}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_trans\_nonempty\_direct\_under\_determinacy}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_chain\_witnesses\_under\_determinacy}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_trans\_nonempty\_witnesses\_under\_determinacy}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_trans\_witness\_object\_under\_determinacy}
+\leanvariant{BEDC.BaseReflection.GeneratedSameSig\_equivalence\_nonempty\_under\_determinacy}
 
 \begin{definition}[Base exact Globalize structure]
 \label{def:exact-globalize-base}
@@ -222,8 +245,25 @@ The fourth field may be implemented as a derived theorem from soundness and comp
 \end{definition}
 \leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_iff\_fields}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_soundness}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_soundness\_nonempty}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_completeness}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_sound\_complete}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_constructor}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_public\_export\_shape}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_four\_field\_export}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_coverage\_soundness\_completeness\_and\_classify}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_field\_projection\_pair}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_coverage\_pair}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_sound\_complete\_and\_classify}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_local\_sound\_complete\_classification}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_coverage\_sound\_complete\_classify}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_coverage\_and\_classification}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_classification\_four\_fields}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_classification\_field}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_symmetric\_classify\_iff}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_admitted\_pair\_export\_shape}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_self\_covered\_classification}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields\_covered\_classification}
 
 \begin{proposition}[Classification is derivable from the two directions]
 \label{prop:iff-derived}
@@ -233,6 +273,7 @@ If coverage, base soundness, and base completeness hold, then for all \(h,k,p,q\
 \]
 \end{proposition}
 \leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_iff}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_directions}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_classify\_iff\_from\_directions}
 
 \begin{proof}
@@ -269,9 +310,21 @@ Then
 \end{theorem}
 \leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_fields}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_coverage\_sound\_complete}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields\_classify\_iff}
 \leanvariant{BEDC.BaseReflection.globalize\_exact\_base}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_target}
+\leanvariant{BEDC.BaseReflection.exact\_globalize\_base\_target}
+\leanvariant{BEDC.BaseReflection.Globalize.exactBase}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_export\_from\_fields}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_coverage\_projection}
+\leanvariant{BEDC.BaseReflection.no\_scaffold\_laundering\_fields\_and\_classifier}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_covered\_classification}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_covered\_sound\_complete}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_covered\_soundness\_direction}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_covered\_completeness\_direction}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_covered\_classification\_directions}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields\_admitted\_pair\_export}
 
 \begin{proof}
 Coverage is the policy-supported gap coverage theorem from this proof-obligation spine, with internal domain transport supplied by \(\DomainPolicy(D)\). Base soundness follows from generated signature sameness plus the single constructor of \(\psame_{\Pi}^{\mathrm{base}}\). Base completeness follows by applying base package reflection to the visible packages and then unpacking \(\GeneratedSameSig\). The local classification equivalence is Proposition~\ref{prop:iff-derived}.
@@ -288,6 +341,11 @@ The statement concludes \(\ExactGlobalizeBase(\Pi,D)\), whose relation field is 
 \leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_relation\_is\_base}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_exports\_base\_relation}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_no\_closure\_export}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_no\_closure\_export\_directions}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_no\_closure\_export\_sound\_complete\_pair}
+\leanvariant{BEDC.BaseReflection.ClosureReflect\_preserves\_base\_sound\_complete\_pair}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_no\_closure\_export\_classification\_iff}
+\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_no\_eqClosure\_export}
 
 \begin{protocol}[Acceptance gate for a checked report]
 \label{prot:checked-acceptance-gate}
@@ -300,4 +358,5 @@ This target may be upgraded from paper-level to checked only if the report inclu
   \item no public theorem that replaces \(\TokIntro\) by a host function without a relational wrapper;
   \item a list of every remaining axiom, postulate, or imported theorem used by the checked artifact.
 \end{enumerate}
+\leanchecked{BEDC.BaseReflection.checked\_acceptance\_gate\_exactBase\_exports\_public\_shape}
 \end{protocol}

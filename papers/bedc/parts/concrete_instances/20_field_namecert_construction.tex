@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for \(\FieldUp\)}
+\label{ch:concrete-instances-field-namecert}
+
+The field interface \(\FieldUp\) extends \autoref{ch:concrete-instances-commring-namecert} with the multiplicative inverse field: every element classified as nonzero by the carrier's apartness predicate admits a multiplicative inverse. The apartness discipline (constructive nonzeroness) replaces the classical "\(a \ne 0\) implies \(a\) invertible" formulation, which would otherwise require LEM. The rational field from \autoref{ch:concrete-instances-rat-namecert} is the canonical concrete instance.
+
+\section{Carrier definition}
+
+\begin{definition}[Field carrier]
+\label{def:field-carrier}
+Use a commutative ring setup extended with apartness \(a \# 0\) and inverse data for apart-from-zero elements.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Field source specification]
+\label{def:field-source-specification}
+The source is a certified commutative ring carrier plus constructive apartness.
+\end{definition}
+
+\begin{definition}[Field pattern specification]
+\label{def:field-pattern-specification}
+The pattern is commutative-ring expression formation extended by inverse formation only with an apartness witness.
+\end{definition}
+
+\begin{definition}[Field classifier specification]
+\label{def:field-classifier-specification}
+The classifier is ring sameness, and apartness is stable under classifier replacement.
+\end{definition}
+
+\begin{definition}[Field stability certificate]
+\label{def:field-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all commutative-ring stability fields
+  \item apartness irreflexivity against zero
+  \item apartness stability under classifier
+  \item inverse closure for apart-from-zero elements
+  \item left and right multiplicative inverse laws for apartness witnesses
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Field ledger policy]
+\label{def:field-ledger-policy}
+Record the ring ledger and the apartness witness used for each inverse.
+\end{definition}
+
+\begin{theorem}[Concrete \(\FieldUp\) naming certificate]
+\label{thm:concrete-field-namecert}
+Any commutative ring with constructive nonzero inverse fields forms a valid NameCert for \(\FieldUp(C)\).
+\end{theorem}
+
+\begin{corollary}[\(\FieldUp\) is licensed, not primitive]
+\label{cor:field-licensed-not-primitive}
+\(\FieldUp\) is licensed by apartness-based invertibility, not by classical nonzero elimination.
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:field-zero-axiom-note}
+Replaces LEM-based \(a\ne0\) reasoning with explicit apartness witnesses.
+\end{remark}
+

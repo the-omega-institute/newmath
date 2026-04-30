@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for \(\FormalPowerSeriesUp\)}
+\label{ch:concrete-instances-fps-namecert}
+
+The formal power series interface \(\FormalPowerSeriesUp\) is licensed over a scalar ring from \autoref{ch:concrete-instances-ring-namecert} as functions \(\mathbb{N} \to R\), interpreted as coefficient sequences without termination. The classifier is pointwise sameness on every index. Formal series addition and Cauchy product are derived operations licensed by the ring's certificate fields. Convergence is not asserted: this is the formal carrier, not analytic series.
+
+\section{Carrier definition}
+
+\begin{definition}[FormalPowerSeries carrier]
+\label{def:fps-carrier}
+Use coefficient functions \(\NatUp\to R\) over a certified scalar ring \(R\).
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[FormalPowerSeries source specification]
+\label{def:fps-source-specification}
+The source is the natural index source and scalar ring source.
+\end{definition}
+
+\begin{definition}[FormalPowerSeries pattern specification]
+\label{def:fps-pattern-specification}
+The pattern is infinite coefficient assignment indexed by unary natural histories.
+\end{definition}
+
+\begin{definition}[FormalPowerSeries classifier specification]
+\label{def:fps-classifier-specification}
+The classifier relates two series when all corresponding coefficients are scalar-classified the same.
+\end{definition}
+
+\begin{definition}[FormalPowerSeries stability certificate]
+\label{def:fps-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item pointwise reflexivity
+  \item pointwise transitivity
+  \item addition closure pointwise
+  \item Cauchy product closure by finite sums at each coefficient index
+  \item no convergence field is required
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[FormalPowerSeries ledger policy]
+\label{def:fps-ledger-policy}
+Record the coefficient rule and scalar ledgers at queried indices.
+\end{definition}
+
+\begin{theorem}[Concrete \(\FormalPowerSeriesUp\) naming certificate]
+\label{thm:concrete-fps-namecert}
+The pointwise-coefficient tuple forms a valid NameCert for \(\FormalPowerSeriesUp(R)\).
+\end{theorem}
+
+\begin{corollary}[\(\FormalPowerSeriesUp\) is licensed, not primitive]
+\label{cor:fps-licensed-not-primitive}
+\(\FormalPowerSeriesUp\) is licensed as a formal indexed carrier, not as analytic series.
+\end{corollary}
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:fps-zero-axiom-note}
+Avoids funext by using pointwise classifier sameness.
+\end{remark}
+
