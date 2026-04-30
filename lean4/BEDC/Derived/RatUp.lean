@@ -29,6 +29,18 @@ theorem PositiveUnaryDenominator_hsame_transport {d e : BHist} :
       | intro denSame tailUnary =>
           exact ⟨tail, hsame_trans (hsame_symm same) denSame, tailUnary⟩
 
+theorem PositiveUnaryDenominator_unary_and_nonempty {den : BHist} :
+    PositiveUnaryDenominator den -> UnaryHistory den /\ (hsame den BHist.Empty -> False) := by
+  intro positive
+  cases positive with
+  | intro tail data =>
+      cases data with
+      | intro sameTail tailUnary =>
+          constructor
+          · exact unary_transport (unary_e1_closed tailUnary) (hsame_symm sameTail)
+          · intro sameEmpty
+            exact not_hsame_e1_empty (hsame_trans (hsame_symm sameTail) sameEmpty)
+
 theorem PositiveUnaryDenominator_append_unary_tail {den tail : BEDC.FKernel.Hist.BHist} :
     PositiveUnaryDenominator den -> BEDC.FKernel.Unary.UnaryHistory tail ->
       PositiveUnaryDenominator (BEDC.FKernel.Cont.append den tail) := by

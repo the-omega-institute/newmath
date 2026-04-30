@@ -41,6 +41,15 @@ The classifier relates left values through the \(A\)-classifier, right values th
 \leandef{BEDC.Derived.SumUp.SumClassifierSpec}
 \leanchecked{BEDC.Derived.SumUp.sum\_classifier\_inversion}
 
+\begin{theorem}[Sum history classifier symmetry under history sameness]
+\label{thm:sum-history-classifier-hsame-symmetry}
+When both component classifiers are \(\hsame\), the history-level sum classifier is symmetric.
+\end{theorem}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_hsame\_symm}
+\begin{proof}
+Invert the classifier witness. In the left-tagged case, swap the two tagged witnesses and use symmetry of \(\hsame\) on the left component. The right-tagged case is identical with the right component.
+\end{proof}
+
 \begin{theorem}[Sum history classifier tag separation]
 \label{thm:sum-history-classifier-tag-separation}
 If \(h\) is \(e0\)-tagged and \(k\) is \(e1\)-tagged, then the

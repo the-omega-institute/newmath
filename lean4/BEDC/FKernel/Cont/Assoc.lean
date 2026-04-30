@@ -33,6 +33,12 @@ theorem cont_assoc_up_to_hsame_spine {a b c ab bc left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont b c bc -> Cont a bc right -> hsame left right := by
   exact cont_assoc_hsame
 
+theorem cont_right_append_decompose {h k l r : BHist} :
+    Cont h (append k l) r -> exists mid : BHist, Cont h k mid /\ Cont mid l r := by
+  intro hcont
+  cases hcont
+  exact ⟨append h k, rfl, (append_assoc h k l).symm⟩
+
 theorem cont_assoc_proof_standing {a b c ab bc left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont b c bc -> Cont a bc right -> hsame left right := by
   intro hab hleft hbc hright

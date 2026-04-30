@@ -231,6 +231,15 @@ If \(\ContR(h,k,u)\), \(\ContR(u,l,v)\), \(\ContR(k,l,w)\), and \(\ContR(h,w,z)\
 Induct on the derivation of \(\ContR(h,k,u)\). The empty case reduces both sides to the determinacy of \(\ContR(k,l,-)\). In the \(\Ezero\) and \(\Eone\) cases, no-confusion forces matching outer constructors in the relevant continuation derivations; use the induction hypothesis on inner histories and rebuild \(\hsame\) under the same outer constructor.
 \end{proof}
 
+\begin{theorem}[Continuation right append decomposition]
+\label{thm:cont-right-append-decompose}
+If \(\ContR(h,k\mathbin{\cdot}l,r)\), then there exists a generated history \(m\) such that \(\ContR(h,k,m)\) and \(\ContR(m,l,r)\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_right\_append\_decompose}
+\begin{proof}
+Unfold continuation as append equality. Take \(m\) to be the append of \(h\) and \(k\). The first continuation is definitional, and the second is the reverse direction of append associativity.
+\end{proof}
+
 \begin{corollary}[Continuation gives an addition-like seed]
 \label{cor:continuation-addition-like-seed}
 Unary repetition histories with relational continuation license an addition-like derived interface \(\AddUp\), but no primitive addition is introduced into the kernel.
