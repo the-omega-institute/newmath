@@ -160,6 +160,15 @@ The classifier is structural sameness of normalized numerator and denominator re
 \end{definition}
 \leandef{BEDC.Derived.RatUp.RatClassifierSpec}
 
+\begin{theorem}[Rat classifier reflexivity]
+\label{thm:rat-classifier-reflexivity}
+Every rational carrier witness classifies its representative with itself.
+\end{theorem}
+\begin{proof}
+Reuse the carrier witness for both endpoints. The sign component is witnessed by reflexivity of \(\msame\), and the numerator and denominator components are witnessed by reflexivity of \(\hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_refl}
+
 \begin{theorem}[Rat classifier transitivity]
 \label{thm:rat-classifier-transitivity}
 If one rational representative is classified the same as a second representative, and the second representative is classified the same as a third representative, then the first and third representatives are classified the same.

@@ -50,6 +50,15 @@ Invert the product-history classifier into the left carrier, the right carrier, 
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_right\_hsame\_transport}
 
+\begin{theorem}[Product history classifier endpoint transport]
+\label{thm:prod-history-classifier-hsame-transport}
+If a product-history classifier relates $h$ to $k$, and $h$ is internally the same as $h'$ while $k$ is internally the same as $k'$, then the classifier relates $h'$ to $k'$.
+\end{theorem}
+\begin{proof}
+Invert the product-history classifier into endpoint carriers and the stored $\hsame(h,k)$ witness. Transport both endpoint carriers across their respective $\hsame$ witnesses, then compose symmetry of $\hsame(h,h')$, the stored link, and $\hsame(k,k')$ to obtain $\hsame(h',k')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_hsame\_transport}
+
 \begin{definition}[Prod stability certificate]
 \label{def:prod-stability-certificate}
 The stability certificate consists of:
