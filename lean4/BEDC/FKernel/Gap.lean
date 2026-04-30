@@ -314,6 +314,29 @@ theorem internalized_globalize_completeness_with_tokens
                                     (And.intro hqTok
                                       (packagePolicy.reflection hpTok hqTok hpq))))))
 
+theorem internalized_globalize_completeness_hsame_only
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
+    PackageTokenPolicy bundle -> InGapSig bundle D p h -> InGapSig bundle D q k ->
+      psame bundle p q -> exists s : BHist, exists t : BHist, hsame s t := by
+  intro packagePolicy hp hq hpq
+  have generated :=
+    internalized_globalize_completeness_with_tokens
+      (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+      packagePolicy hp hq hpq
+  cases generated with
+  | intro s generatedTail =>
+      cases generatedTail with
+      | intro t generatedData =>
+          cases generatedData with
+          | intro hs generatedRest =>
+              cases generatedRest with
+              | intro ht generatedTokenRest =>
+                  cases generatedTokenRest with
+                  | intro hpTok generatedTokenTail =>
+                      cases generatedTokenTail with
+                      | intro hqTok hst =>
+                          exact Exists.intro s (Exists.intro t hst)
+
 omit [AskSetup] [PackageSetup] G in
 theorem internalized_globalize_completeness_projection [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :

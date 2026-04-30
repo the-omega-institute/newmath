@@ -72,6 +72,23 @@ theorem ledger_witness_from_cert [NameCertSetup] {name : DerivedName} :
   | mk source pattern classifier stability ledger =>
       exact ⟨ledger, True.intro⟩
 
+theorem nameCert_field_witnesses [NameCertSetup] {name : DerivedName} :
+    NameCert name ->
+      Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec /\
+        Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact And.intro
+        (Nonempty.intro source)
+        (And.intro
+          (Nonempty.intro pattern)
+          (And.intro
+            (Nonempty.intro classifier)
+            (And.intro
+              (Nonempty.intro stability)
+              (Nonempty.intro ledger))))
+
 theorem NameCert_add_activation [NameCertSetup] {name : DerivedName}
     (source : SourceSpec)
     (pattern : PatternSpec)
