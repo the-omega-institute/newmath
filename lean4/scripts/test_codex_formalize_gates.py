@@ -122,6 +122,21 @@ class QualityGateTests(unittest.TestCase):
             self.assertEqual(len(violations), 1)
             self.assertIn("leanvariant", violations[0])
 
+    def test_new_leanvariant_marker_ignores_non_tex_prompt_templates(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            (root / "papers" / "bedc" / "scripts" / "prompts").mkdir(parents=True)
+            (root / "papers" / "bedc" / "scripts" / "prompts" / "phase_revise.txt").write_text(
+                "Do not add \\leanvariant{X} markers.\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "prompt template"], cwd=root, check=True)
+
+            violations = cf.detect_new_leanvariant_markers(self.wt(root, base_sha))
+
+            self.assertEqual(violations, [])
+
     def test_marker_must_reference_current_round_declaration(self):
         td, root, base_sha = self.init_repo()
         with td:
@@ -242,6 +257,79 @@ class QualityGateTests(unittest.TestCase):
             subprocess.run(["git", "commit", "-q", "-m", "kernel sig"], cwd=root, check=True)
 
             violations = cf.detect_decls_without_kernel_touchpoint(self.wt(root, base_sha))
+
+            self.assertEqual(violations, [])
+
+    def test_parameter_echo_theorem_is_rejected(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            (root / "lean4" / "BEDC" / "FKernel" / "Echo.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "theorem echo_le_refl "
+                "(le_refl : forall h : BEDC.BHist, BEDC.hsame h h) : "
+                "forall h : BEDC.BHist, BEDC.hsame h h := by\n"
+                "  exact le_refl\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "echo"], cwd=root, check=True)
+
+            violations = cf.detect_shallow_growth_patterns(self.wt(root, base_sha))
+
+            self.assertEqual(len(violations), 1)
+            self.assertIn("parameter echo", violations[0])
+
+    def test_carrier_only_round_is_rejected(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            (root / "lean4" / "BEDC" / "FKernel" / "CarrierOnly.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "def RatCarrier (h : BEDC.BHist) : Prop := BEDC.hsame h h\n"
+                "def RatSourceSpec (h : BEDC.BHist) : Prop := RatCarrier h\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "carrier only"], cwd=root, check=True)
+
+            violations = cf.detect_shallow_growth_patterns(self.wt(root, base_sha))
+
+            self.assertEqual(len(violations), 1)
+            self.assertIn("carrier/spec definitions", violations[0])
+
+    def test_duplicate_theorem_conclusions_are_rejected(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            (root / "lean4" / "BEDC" / "FKernel" / "DuplicateShape.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "theorem first_carrier_fact (h : BEDC.BHist) : BEDC.hsame h h := by rfl\n"
+                "theorem second_carrier_fact (h : BEDC.BHist) : BEDC.hsame h h := by rfl\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "duplicate shape"], cwd=root, check=True)
+
+            violations = cf.detect_shallow_growth_patterns(self.wt(root, base_sha))
+
+            self.assertEqual(len(violations), 1)
+            self.assertIn("duplicate theorem conclusion", violations[0])
+
+    def test_carrier_with_concrete_closure_is_accepted(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            (root / "lean4" / "BEDC" / "FKernel" / "CarrierClosure.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "def RatCarrier (h : BEDC.BHist) : Prop := BEDC.hsame h h\n"
+                "theorem RatCarrier_self (h : BEDC.BHist) : RatCarrier h := by rfl\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "carrier closure"], cwd=root, check=True)
+
+            violations = cf.detect_shallow_growth_patterns(self.wt(root, base_sha))
 
             self.assertEqual(violations, [])
 

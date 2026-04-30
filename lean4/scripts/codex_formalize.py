@@ -1568,6 +1568,8 @@ def _added_marker_lines(wt: WorktreeInfo) -> list[tuple[str, str, str]]:
         if line.startswith("+++ b/"):
             current_file = line[6:]
             continue
+        if not current_file.endswith(".tex"):
+            continue
         if not line.startswith("+") or line.startswith("+++"):
             continue
         for m in _LEAN_MARKER_RE.finditer(line[1:]):
@@ -1626,6 +1628,83 @@ def detect_decls_without_kernel_touchpoint(wt: WorktreeInfo) -> list[str]:
         semantic_block = "\n".join(semantic_lines)
         if not _BEDC_TOUCHPOINT_RE.search(semantic_block):
             violations.append(f"{rel}: new declaration {name} does not mention a BEDC kernel/setup touchpoint")
+    return violations
+
+
+_SHALLOW_ECHO_NAMES = {
+    "le_refl", "le_trans", "carrier_transport", "lower_transport", "upper_transport",
+    "normalized", "transport", "closure", "stable", "stability"
+}
+_CARRIER_ONLY_NAME_RE = re.compile(
+    r"(?:Carrier|SourceSpec|PatternSpec|ClassifierSpec|LedgerPolicy|Lower|Upper|Normalized)"
+)
+
+
+def _decl_kind(block: str) -> str:
+    m = _DECL_HEADER_RE.match(block)
+    return m.group(1) if m else ""
+
+
+def _decl_short_name(name: str) -> str:
+    return name.rsplit(".", 1)[-1]
+
+
+def _decl_conclusion(block: str) -> str:
+    header = block.split(":=", 1)[0]
+    idx = header.rfind(":")
+    if idx == -1:
+        return ""
+    return " ".join(header[idx + 1:].split())
+
+
+def _is_parameter_echo(block: str) -> bool:
+    lines = [line.strip() for line in block.splitlines()]
+    for candidate in _SHALLOW_ECHO_NAMES:
+        if not re.search(rf"\b{re.escape(candidate)}\b", block):
+            continue
+        if any(line in {f"exact {candidate}", f"apply {candidate}"} for line in lines):
+            return True
+    return False
+
+
+def detect_shallow_growth_patterns(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    added = collect_added_lean_declarations(wt)
+    if not added:
+        return violations
+
+    carrier_like: list[tuple[str, str]] = []
+    theorem_like: list[tuple[str, str, str]] = []
+    concrete_theorem_blocks: list[str] = []
+    conclusion_owner: dict[tuple[str, str], str] = {}
+
+    for name, (rel, block) in added.items():
+        kind = _decl_kind(block)
+        short = _decl_short_name(name)
+        if kind in {"def", "abbrev"} and _CARRIER_ONLY_NAME_RE.search(short):
+            carrier_like.append((rel, name))
+        if kind in {"theorem", "lemma"}:
+            theorem_like.append((rel, name, block))
+            if _CARRIER_ONLY_NAME_RE.search(block):
+                concrete_theorem_blocks.append(block)
+            if _is_parameter_echo(block):
+                violations.append(f"{rel}: new theorem {name} is a parameter echo")
+            conclusion = _decl_conclusion(block)
+            if conclusion and _BEDC_TOUCHPOINT_RE.search(conclusion):
+                key = (rel, conclusion)
+                if key in conclusion_owner:
+                    violations.append(
+                        f"{rel}: duplicate theorem conclusion in {conclusion_owner[key]} and {name}"
+                    )
+                else:
+                    conclusion_owner[key] = name
+
+    if carrier_like and not concrete_theorem_blocks:
+        rel = carrier_like[0][0]
+        names = ", ".join(name for _rel, name in carrier_like[:4])
+        violations.append(
+            f"{rel}: carrier/spec definitions added without a theorem using the concrete definitions ({names})"
+        )
     return violations
 
 
@@ -1824,6 +1903,16 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
             logger.error(
                 f"[R{wt.round_number}] Rejecting round: {len(touchpoint_violations)} new "
                 f"declaration(s) do not mention BEDC kernel/setup objects."
+            )
+            return False, new
+        shallow_violations = detect_shallow_growth_patterns(wt)
+        if shallow_violations:
+            for v in shallow_violations[:10]:
+                logger.error(f"[R{wt.round_number}] SHALLOW GROWTH PATTERN: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(shallow_violations)} new "
+                f"declaration pattern(s) look like parameter echo, carrier-only growth, "
+                f"or duplicate theorem inflation. Pick a concrete closure/transport target."
             )
             return False, new
         # Gate 5: sorry/admit/axiom literals in newly-added or modified lines

@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v2.2 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v2.3 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Anti-hollow semantic discipline (HARD GATE)
 
@@ -90,6 +90,9 @@ Phase D now enforces these constraints mechanically. Select targets that will pa
 3. Automated rounds must not add new `\leanvariant` markers. If a candidate is only a wrapper, projection, weakened theorem, pair-bundle, or forwarding lemma for an already checked claim, skip it.
 4. Every new declaration must mention a concrete BEDC kernel/setup touchpoint in its declaration body: `BMark`, `BHist`, `msame`, `hsame`, `Ext`, `Cont`, `ProbeBundle`, `SigRel`, `sameSig`, `Pkg`, `InGap`, `NameCert`, `SemanticNameCert`, `BaseReflectionSetup`, `AskSetup`, `PackageSetup`, `DomainSetup`, `NameCertSetup`, or a `BEDC.` object.
 5. Added Lean lines using `Unit`, `()`, `Unit.unit`, `True.intro`, `trivial`, `NameCert.mk ()`, `NameCert.mk Unit.unit`, `MinimalNameCertSetup`, or `import Init.Data.Unit` are rejected as hollow.
+6. Parameter echo theorem bodies are rejected. Do not select a target whose proof is essentially `exact le_refl`, `exact le_trans`, `exact carrier_transport`, `exact lower_transport`, `exact upper_transport`, `exact normalized`, `apply ...`, or constructor-packaging of those assumptions.
+7. Carrier/spec-only growth is rejected. If a target adds a `Carrier`, `SourceSpec`, `PatternSpec`, `ClassifierSpec`, `LedgerPolicy`, `Lower`, `Upper`, or `Normalized` definition, the same target must also add a theorem whose statement uses that concrete definition.
+8. Duplicate theorem inflation is rejected. Do not select two new theorems in the same file with the same BEDC-touching conclusion under different names; combine them or pick a theorem with new content.
 
 ## Project Layout
 - lean4/BEDC/ — Lean 4 code (mathlib-free; stdlib only)
