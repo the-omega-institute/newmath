@@ -117,6 +117,33 @@ theorem compGap_coverage_from_sourced_layers
       | intro z secondWitness =>
           exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
 
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage_sourced_witness
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, firstGap y x)
+    (secondCoverage :
+      forall {y : Inter},
+        (exists x : Source, SourceOk x /\ firstGap y x) -> exists z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x ->
+      exists z : Final, exists y : Inter,
+        firstGap y x /\ secondGap z y /\
+          (exists x0 : Source, SourceOk x0 /\ firstGap y x0) := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstWitness =>
+      have sourced : exists x0 : Source, SourceOk x0 /\ firstGap y x0 :=
+        Exists.intro x (And.intro sourceOk firstWitness)
+      cases secondCoverage sourced with
+      | intro z secondWitness =>
+          exact Exists.intro z
+            (Exists.intro y
+              (And.intro firstWitness
+                (And.intro secondWitness sourced)))
+
 theorem compGap_witness_from_layers
     {Source Inter Final : Type}
     {SourceOk : Source → Prop} {InterOk : Inter → Prop}

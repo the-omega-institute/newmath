@@ -57,4 +57,23 @@ theorem sameSig_three_step_witness_chain_under_policy [AskSetup]
       policy dl hhl hlm
   exact hhm
 
+theorem sameSig_four_step_witness_chain_under_policy [AskSetup]
+    {bundle : ProbeBundle ProbeName} {D : BHist -> Prop} (policy : AskPolicy D)
+    {h k l m n : BHist} :
+    D k -> D l -> D m -> SameSig bundle h k -> SameSig bundle k l ->
+      SameSig bundle l m -> SameSig bundle m n ->
+        exists s : BHist, exists v : BHist,
+          SigRel bundle h s /\ SigRel bundle n v /\ hsame s v := by
+  intro dk dl dm hhk hkl hlm hmn
+  have hhl : SameSig bundle h l :=
+    sameSig_trans (bundle := bundle) (D := D) (h := h) (k := k) (l := l)
+      policy dk hhk hkl
+  have hhm : SameSig bundle h m :=
+    sameSig_trans (bundle := bundle) (D := D) (h := h) (k := l) (l := m)
+      policy dl hhl hlm
+  have hhn : SameSig bundle h n :=
+    sameSig_trans (bundle := bundle) (D := D) (h := h) (k := m) (l := n)
+      policy dm hhm hmn
+  exact hhn
+
 end BEDC.FKernel.Sig

@@ -166,6 +166,11 @@ theorem add_up_certificate_stability_and_ledger :
 def AddSourceSpec (h k r : BHist) : Prop :=
   UnaryHistory h ∧ UnaryHistory k ∧ Cont h k r
 
+theorem AddSourceSpec_from_unary_cont {h k r : BHist} :
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> AddSourceSpec h k r := by
+  intro uh uk cont
+  exact And.intro uh (And.intro uk cont)
+
 theorem AddSourceSpec_result_unary {h k r : BHist} :
     AddSourceSpec h k r → UnaryHistory r := by
   intro spec
