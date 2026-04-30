@@ -203,6 +203,13 @@ theorem history_no_confusion :
       (∀ {h k : BHist}, hsame (.e1 h) (.e0 k) → False) := by
   exact hsame_no_confusion
 
+theorem history_no_confusion_empty_pair :
+    (∀ {h : BHist}, hsame BHist.Empty (BHist.e0 h) -> False) ∧
+      (∀ {h : BHist}, hsame (BHist.e0 h) BHist.Empty -> False) ∧
+      (∀ {h : BHist}, hsame BHist.Empty (BHist.e1 h) -> False) ∧
+      (∀ {h : BHist}, hsame (BHist.e1 h) BHist.Empty -> False) := by
+  exact ⟨not_hsame_emp_e0, not_hsame_e0_empty, not_hsame_emp_e1, not_hsame_e1_empty⟩
+
 theorem hsame_constructor_kind_preserved {h k : BHist} :
     hsame h k ->
       (h = BHist.Empty ∧ k = BHist.Empty) ∨
