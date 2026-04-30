@@ -86,4 +86,9 @@ theorem msame_constructor_characterization {m n : BMark} :
         cases hb1.right
         rfl
 
+theorem msame_cases {m n : BMark} :
+    msame m n -> (m = BMark.b0 /\ n = BMark.b0) \/ (m = BMark.b1 /\ n = BMark.b1) := by
+  intro h
+  exact msame_constructor_characterization.mp h
+
 end BEDC.FKernel.Mark

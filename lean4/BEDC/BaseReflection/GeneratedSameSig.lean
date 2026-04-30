@@ -199,6 +199,27 @@ theorem GeneratedSameSig_chain_witnesses_under_determinacy
             (Exists.intro rightSigObj
               (Exists.intro leftEvidence
                 (Exists.intro rightEvidence
+                    (And.intro leftSig
+                    (And.intro rightSig
+                      (eqv.trans leftSame (eqv.trans (det midSig midSig') rightSame)))))))
+
+theorem GeneratedSameSig_trans_witness_object_under_determinacy
+    {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s)
+    (det : forall {h : s.Hist} {x y : s.SigObj} {ex ey : s.Evidence},
+      s.SigGen P h x ex -> s.SigGen P h y ey -> s.hsame x y)
+    {h k l : s.Hist} :
+    GeneratedSameSig s P h k -> GeneratedSameSig s P k l ->
+      exists x : s.SigObj, exists z : s.SigObj, exists ex : s.Evidence, exists ez : s.Evidence,
+        s.SigGen P h x ex /\ s.SigGen P l z ez /\ s.hsame x z := by
+  intro left right
+  cases left with
+  | mk leftSigObj midSigObj leftEvidence midEvidence leftSig midSig leftSame =>
+      cases right with
+      | mk midSigObj' rightSigObj midEvidence' rightEvidence midSig' rightSig rightSame =>
+          exact Exists.intro leftSigObj
+            (Exists.intro rightSigObj
+              (Exists.intro leftEvidence
+                (Exists.intro rightEvidence
                   (And.intro leftSig
                     (And.intro rightSig
                       (eqv.trans leftSame (eqv.trans (det midSig midSig') rightSame)))))))
