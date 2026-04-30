@@ -86,6 +86,12 @@ theorem gapPolicy_generation_field [AskSetup] [PackageSetup] [DomainSetup]
       ∃ s : BHist, TokIntro bundle s p) := by
   exact policy.generation
 
+theorem gapPolicy_separation_field [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
+    (∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h →
+      InGapSig bundle D q h → psame bundle p q) := by
+  exact policy.separation
+
 theorem gapPolicy_signature_determination [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
     (_policy : GapPolicy bundle D) :

@@ -160,6 +160,15 @@ theorem unary_addition_like_unit_with_certificate :
 def AddLedgerPolicy : Prop :=
   forall {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r
 
+theorem AddLedgerPolicy_iff_unary_cont_closed :
+    AddLedgerPolicy ↔
+      (∀ {h k r : BHist}, UnaryHistory h → UnaryHistory k → Cont h k r → UnaryHistory r) := by
+  constructor
+  · intro policy
+    exact policy
+  · intro closed
+    exact closed
+
 theorem addLedgerPolicy_from_unary_cont_closed : AddLedgerPolicy := by
   intro h k r uh uk cont
   exact unary_cont_closed uh uk cont
