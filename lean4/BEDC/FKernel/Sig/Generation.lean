@@ -91,7 +91,7 @@ theorem signature_event_generation_pack [AskSetup] :
                 (And.intro hask
                   (And.intro htail hext))))
 
-theorem sigRel_bundleAppend_forward [AskSetup] {left right : ProbeBundle ProbeName}
+theorem sigRel_bundleAppend [AskSetup] {left right : ProbeBundle ProbeName}
     {h s t : BHist} :
     SigRel left h s -> SigRel right h t ->
       exists u : BHist,
@@ -117,36 +117,46 @@ theorem sigRel_bundleAppend_forward [AskSetup] {left right : ProbeBundle ProbeNa
                       (SigRel.cons pi (bundleAppend tail right) h u (BHist.e1 u)
                         BMark.b1 delta hask hsig (Ext.e1 u)))
 
-theorem sigRel_bundleAppend_generation [AskSetup] :
-    forall {left right : ProbeBundle ProbeName} {h s t : BHist},
-      SigRel left h s -> SigRel right h t ->
-        exists u : BHist, Cont t s u /\ SigRel (bundleAppend left right) h u := by
-  intro left right h s t leftSig rightSig
-  induction leftSig generalizing right t with
-  | empty h =>
-      exact Exists.intro t (And.intro (cont_right_unit t) rightSig)
-  | cons pi tail h s r m delta hask tailSig finalExt ih =>
-      cases finalExt with
-      | e0 =>
-          cases ih rightSig with
-          | intro u tailData =>
-              cases tailData with
-              | intro tailCont tailAppendSig =>
-                  exact Exists.intro (BHist.e0 u)
-                    (And.intro
-                      (cont_step_zero tailCont)
-                      (SigRel.cons pi (bundleAppend tail right) h u (BHist.e0 u) BMark.b0
-                        delta hask tailAppendSig (Ext.e0 u)))
-      | e1 =>
-          cases ih rightSig with
-          | intro u tailData =>
-              cases tailData with
-              | intro tailCont tailAppendSig =>
-                  exact Exists.intro (BHist.e1 u)
-                    (And.intro
-                      (cont_step_one tailCont)
-                      (SigRel.cons pi (bundleAppend tail right) h u (BHist.e1 u) BMark.b1
-                        delta hask tailAppendSig (Ext.e1 u)))
+theorem sigRel_bundleAppend_inversion [AskSetup] {left right : ProbeBundle ProbeName}
+    {h u : BHist} :
+    SigRel (bundleAppend left right) h u ->
+      exists s : BHist, exists t : BHist,
+        SigRel left h s /\ SigRel right h t /\ Cont t s u := by
+  intro hsig
+  induction left generalizing u with
+  | Bnil =>
+      exact Exists.intro BHist.Empty
+        (Exists.intro u
+          (And.intro (SigRel.empty h)
+            (And.intro hsig (cont_right_unit u))))
+  | Bcons pi tail ih =>
+      cases hsig with
+      | cons _ _ _ tailAppendResult _ m delta hask tailAppendSig finalExt =>
+          cases ih tailAppendSig with
+          | intro tailLeftResult rest =>
+              cases rest with
+              | intro rightResult data =>
+                  cases data with
+                  | intro tailLeftSig tailData =>
+                      cases tailData with
+                      | intro rightSig tailCont =>
+                          cases finalExt with
+                          | e0 =>
+                              exact Exists.intro (BHist.e0 tailLeftResult)
+                                (Exists.intro rightResult
+                                  (And.intro
+                                    (SigRel.cons pi tail h tailLeftResult
+                                      (BHist.e0 tailLeftResult) BMark.b0 delta hask
+                                      tailLeftSig (Ext.e0 tailLeftResult))
+                                    (And.intro rightSig (cont_step_zero tailCont))))
+                          | e1 =>
+                              exact Exists.intro (BHist.e1 tailLeftResult)
+                                (Exists.intro rightResult
+                                  (And.intro
+                                    (SigRel.cons pi tail h tailLeftResult
+                                      (BHist.e1 tailLeftResult) BMark.b1 delta hask
+                                      tailLeftSig (Ext.e1 tailLeftResult))
+                                    (And.intro rightSig (cont_step_one tailCont))))
 
 theorem sameSig_bundleAppend_closure [AskSetup] {left right : ProbeBundle ProbeName}
     {h k : BHist} :
@@ -168,11 +178,11 @@ theorem sameSig_bundleAppend_closure [AskSetup] {left right : ProbeBundle ProbeN
                           | intro rightHSig rightTail =>
                               cases rightTail with
                               | intro rightKSig rightResultsSame =>
-                                  cases sigRel_bundleAppend_generation leftHSig rightHSig with
+                                  cases sigRel_bundleAppend leftHSig rightHSig with
                                   | intro appendH appendHData =>
                                       cases appendHData with
                                       | intro contH appendHSig =>
-                                          cases sigRel_bundleAppend_generation leftKSig rightKSig with
+                                          cases sigRel_bundleAppend leftKSig rightKSig with
                                           | intro appendK appendKData =>
                                               cases appendKData with
                                               | intro contK appendKSig =>
