@@ -210,38 +210,25 @@ This is the checker-facing predicate corresponding to ``the two admitted histori
 \begin{definition}[Base exact Globalize structure]
 \label{def:exact-globalize-base}
 For a bundle \(\Pi\) and a concrete domain policy \(D\), the proposition
-\[
+$$
   \ExactGlobalizeBase(\Pi,D)
-\]
-is the conjunction of the following four fields.
+$$
+is the conjunction of the following three structural fields.
 \begin{enumerate}
   \item \textbf{Coverage.}
-  \[
+  $$
     \forall h,\; \InDom(D,h)\Rightarrow \exists p,\;\InGapSig(\Pi,D,p,h).
-  \]
+  $$
   \item \textbf{Base soundness.}
-  \[
-  \begin{aligned}
-    \forall h,k,p,q,\;&\InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)\wedge\GeneratedSameSig(\Pi,h,k)\;\Rightarrow\\
-    &\psame_{\Pi}^{\mathrm{base}}(p,q).
-  \end{aligned}
-  \]
+  $$
+    \forall h,k,p,q,\; \InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)\wedge\GeneratedSameSig(\Pi,h,k)\Rightarrow \psame_{\Pi}^{\mathrm{base}}(p,q).
+  $$
   \item \textbf{Base completeness.}
-  \[
-  \begin{aligned}
-    \forall h,k,p,q,\;&\InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)\wedge\psame_{\Pi}^{\mathrm{base}}(p,q)\;\Rightarrow\\
-    &\GeneratedSameSig(\Pi,h,k).
-  \end{aligned}
-  \]
-  \item \textbf{Classification iff.}
-  \[
-  \begin{aligned}
-    \forall h,k,p,q,\;&\InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)\;\Rightarrow\\
-    &\bigl(\psame_{\Pi}^{\mathrm{base}}(p,q)\Longleftrightarrow \GeneratedSameSig(\Pi,h,k)\bigr).
-  \end{aligned}
-  \]
+  $$
+    \forall h,k,p,q,\; \InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)\wedge\psame_{\Pi}^{\mathrm{base}}(p,q)\Rightarrow \GeneratedSameSig(\Pi,h,k).
+  $$
 \end{enumerate}
-The fourth field may be implemented as a derived theorem from soundness and completeness; it is recorded here because it is the public export shape.
+The local classification equivalence is derived from soundness and completeness.
 \end{definition}
 \leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_iff\_fields}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_soundness}
@@ -251,7 +238,6 @@ The fourth field may be implemented as a derived theorem from soundness and comp
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_constructor}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_public\_export\_shape}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_four\_field\_export}
-\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_coverage\_soundness\_completeness\_and\_classify}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_field\_projection\_pair}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_coverage\_pair}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_sound\_complete\_and\_classify}
@@ -280,9 +266,24 @@ If coverage, base soundness, and base completeness hold, then for all \(h,k,p,q\
 The forward implication is base completeness. The reverse implication is base soundness. Coverage is not needed for this local equivalence, but it remains part of the global exactness structure because exact Globalize must also classify every admitted history, not only pairs already carrying visible packages.
 \end{proof}
 
+\begin{corollary}[Exact Globalize projections and classification]
+\label{cor:exact-globalize-projections-and-classification}
+From \(\ExactGlobalizeBase(\Pi,D)\) one obtains coverage, base soundness, base completeness, and the derived local classification equivalence
+$$
+  \InGapSig(\Pi,D,p,h)\wedge\InGapSig(\Pi,D,q,k)
+  \quad\Rightarrow\quad
+  \bigl(\psame_{\Pi}^{\mathrm{base}}(p,q)\Longleftrightarrow \GeneratedSameSig(\Pi,h,k)\bigr).
+$$
+\end{corollary}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_coverage\_soundness\_completeness\_and\_classify}
+
+\begin{proof}
+The first three clauses are the projections of \(\ExactGlobalizeBase(\Pi,D)\). The displayed equivalence is Proposition~\ref{prop:iff-derived}.
+\end{proof}
+
 \begin{protocol}[Export replacement for prose exactness]
 \label{prot:export-replacement}
-Future modules should cite \(\ExactGlobalizeBase(\Pi,D)\) rather than a prose phrase such as ``visible packages classify histories exactly''. If a theorem needs only the local iff, it should cite the classification field. If it needs existence of a visible package for every admitted history, it must also cite coverage.
+Future modules should cite \(\ExactGlobalizeBase(\Pi,D)\) rather than a prose phrase such as ``visible packages classify histories exactly''. If a theorem needs only the local iff, it should cite the derived classification theorem. If it needs existence of a visible package for every admitted history, it must also cite coverage.
 \end{protocol}
 
 \section{Exact Globalize Base Contract}
