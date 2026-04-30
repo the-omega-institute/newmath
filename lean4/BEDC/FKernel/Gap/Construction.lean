@@ -480,6 +480,17 @@ theorem concrete_gap_policy
       (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
       askPolicy packagePolicy hp hq
 
+omit [AskSetup] [PackageSetup] G in
+theorem internalized_concrete_globalize_instance [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain}
+    (askPolicy : AskPolicy (InDom D))
+    (packagePolicy : PackageTokenPolicy bundle)
+    (tokenExists : ∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) :
+    GapPolicy bundle D := by
+  exact concrete_gap_policy
+    (bundle := bundle) (D := D)
+    askPolicy packagePolicy tokenExists
+
 theorem first_concrete_globalization_ledger [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain}
     (askPolicy : AskPolicy (InDom D))

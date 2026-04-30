@@ -470,6 +470,16 @@ theorem unary_commutativity_obligation_from_named_obligations :
   intro h k r r' uh uk hr hr'
   exact comm_from_obligations rightShift eoneCong uh uk hr hr'
 
+theorem additive_naming_boundary_from_obligations
+    (rightShift : UnaryRightShiftObligation)
+    (eoneCong : EOneCongruenceObligation) :
+    UnaryContinuationCommutativityObligation := by
+  unfold UnaryRightShiftObligation at rightShift
+  unfold EOneCongruenceObligation at eoneCong
+  unfold UnaryContinuationCommutativityObligation
+  intro h k r r' uh uk hr hr'
+  exact comm_from_obligations rightShift eoneCong uh uk hr hr'
+
 theorem unary_shift {k h r' : BHist} :
     UnaryHistory k → Cont k (.e1 h) r' →
       ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) := by
