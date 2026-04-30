@@ -33,6 +33,31 @@ theorem signature_determinacy_proof_spine [AskSetup] {bundle : ProbeBundle Probe
               have markSame : msame m n := policy.deterministic leftAsk rightAsk
               exact ext_respects_sameness tailSame markSame leftExt rightExt
 
+theorem signature_determinacy_spine [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist -> Prop} {h s t : BHist} :
+    AskPolicy D -> D h -> SigRel bundle h s -> SigRel bundle h t -> hsame s t := by
+  intro policy dh left right
+  induction bundle generalizing h s t with
+  | Bnil =>
+      cases left
+      cases right
+      rfl
+  | Bcons pi tail ih =>
+      cases left with
+      | cons _ _ _ sTail _ m _ leftAsk leftTail leftExt =>
+          cases right with
+          | cons _ _ _ tTail _ n _ rightAsk rightTail rightExt =>
+              have tailSame : hsame sTail tTail :=
+                ih
+                  (h := h)
+                  (s := sTail)
+                  (t := tTail)
+                  dh
+                  leftTail
+                  rightTail
+              have markSame : msame m n := policy.deterministic leftAsk rightAsk
+              exact ext_respects_sameness tailSame markSame leftExt rightExt
+
 theorem sig_cons_result_hsame_from_policy [AskSetup]
     {pi : ProbeName} {tail : ProbeBundle ProbeName}
     {D : BHist -> Prop} {h r r' : BHist} (policy : AskPolicy D) :

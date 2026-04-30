@@ -62,6 +62,13 @@ theorem globalization_has_three_layers [AskSetup] [PackageSetup] [DomainSetup]
     · exact packagePolicy
     · exact gapPolicy
 
+theorem gap_coverage_from_policy_layers [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} :
+    AskPolicy (InDom D) -> PackagePolicy bundle -> GapPolicy bundle D -> InDom D h ->
+      exists p : Pkg, InGapSig bundle D p h := by
+  intro _ _ gapPolicy hdom
+  exact gapPolicy.coverage hdom
+
 theorem gap_generation_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
     (policy : GapPolicy bundle D) :

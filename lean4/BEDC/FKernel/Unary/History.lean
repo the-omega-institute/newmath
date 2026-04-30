@@ -343,6 +343,14 @@ theorem unary_cont_unit {h left right : BHist} :
       · exact leftSame
       · exact rightSame
 
+theorem addition_like_unit_laws {h left right : BHist} :
+    UnaryHistory h -> Cont BHist.Empty h left -> Cont h BHist.Empty right ->
+      hsame left h /\ hsame right h := by
+  intro _ hleft hright
+  constructor
+  · exact cont_deterministic hleft (cont_left_unit h)
+  · exact cont_deterministic hright (cont_right_unit h)
+
 theorem unary_cont_unit_same_pair {h left right : BHist} :
     UnaryHistory h → Cont h BHist.Empty left → Cont BHist.Empty h right →
       hsame left right ∧ UnaryHistory left ∧ UnaryHistory right := by
