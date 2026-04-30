@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.ListUp
 
@@ -75,6 +76,45 @@ theorem ListClassifierSpec_hsame_trans :
                       constructor
                       · exact BEDC.FKernel.Hist.hsame_trans hxyHead hyzHead
                       · exact ih hxyTail hyzTail
+
+theorem ListClassifierSpec_trans_from_nameCert
+    {Carrier : BEDC.FKernel.Hist.BHist -> Prop}
+    {sameA : BEDC.FKernel.Hist.BHist -> BEDC.FKernel.Hist.BHist -> Prop}
+    (cert : BEDC.FKernel.NameCert.NameCert Carrier sameA) :
+    forall {xs ys zs : List BEDC.FKernel.Hist.BHist},
+      ListClassifierSpec sameA xs ys ->
+        ListClassifierSpec sameA ys zs ->
+          ListClassifierSpec sameA xs zs := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro ys zs sameXY sameYZ
+      cases ys with
+      | nil =>
+          cases zs with
+          | nil =>
+              constructor
+          | cons z zs =>
+              cases sameYZ
+      | cons y ys =>
+          cases sameXY
+  | cons x xs ih =>
+      intro ys zs sameXY sameYZ
+      cases ys with
+      | nil =>
+          cases sameXY
+      | cons y ys =>
+          cases zs with
+          | nil =>
+              cases sameYZ
+          | cons z zs =>
+              cases sameXY with
+              | intro sameXYHead sameXYTail =>
+                  cases sameYZ with
+                  | intro sameYZHead sameYZTail =>
+                      constructor
+                      · exact cert.equiv_trans sameXYHead sameYZHead
+                      · exact ih sameXYTail sameYZTail
 
 theorem ListClassifierSpec_append_hsame
     {xs ys zs ws : ListCarrier BEDC.FKernel.Hist.BHist} :

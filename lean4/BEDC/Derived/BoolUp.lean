@@ -1,4 +1,5 @@
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.BoolUp
 
@@ -89,5 +90,64 @@ theorem BoolSourceSpec_respects_msame {v w : BEDC.FKernel.Mark.BMark} :
   | inr hv1 =>
       exact Or.inr
         (BEDC.FKernel.Mark.msame_trans (BEDC.FKernel.Mark.msame_symm hvw) hv1)
+
+def BoolHistoryCarrier (h : BEDC.FKernel.Hist.BHist) : Prop :=
+  BEDC.FKernel.Hist.hsame h BEDC.FKernel.Hist.BHist.Empty \/
+    BEDC.FKernel.Hist.hsame h
+      (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty)
+
+def BoolHistoryClassifier
+    (h k : BEDC.FKernel.Hist.BHist) : Prop :=
+  BoolHistoryCarrier h /\
+    BoolHistoryCarrier k /\
+      BEDC.FKernel.Hist.hsame h k
+
+theorem bool_history_name_certificate :
+    BEDC.FKernel.NameCert.NameCert BoolHistoryCarrier BoolHistoryClassifier := by
+  exact {
+    carrier_inhabited :=
+      Exists.intro BEDC.FKernel.Hist.BHist.Empty
+        (Or.inl (BEDC.FKernel.Hist.hsame_refl BEDC.FKernel.Hist.BHist.Empty))
+    equiv_refl := by
+      intro h carrier
+      constructor
+      · exact carrier
+      · constructor
+        · exact carrier
+        · exact BEDC.FKernel.Hist.hsame_refl h
+    equiv_symm := by
+      intro h k same
+      cases same with
+      | intro carrierH rest =>
+          cases rest with
+          | intro carrierK histSame =>
+              constructor
+              · exact carrierK
+              · constructor
+                · exact carrierH
+                · exact BEDC.FKernel.Hist.hsame_symm histSame
+    equiv_trans := by
+      intro h k r sameHK sameKR
+      cases sameHK with
+      | intro carrierH restHK =>
+          cases restHK with
+          | intro _ histHK =>
+              cases sameKR with
+              | intro _ restKR =>
+                  cases restKR with
+                  | intro carrierR histKR =>
+                      constructor
+                      · exact carrierH
+                      · constructor
+                        · exact carrierR
+                        · exact BEDC.FKernel.Hist.hsame_trans histHK histKR
+    carrier_respects_equiv := by
+      intro h k same _
+      cases same with
+      | intro _ rest =>
+          cases rest with
+          | intro carrierK _ =>
+              exact carrierK
+  }
 
 end BEDC.Derived.BoolUp

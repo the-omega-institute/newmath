@@ -27,6 +27,45 @@ structure SemanticNameCert
   pattern_sound : forall {h : BHist}, SourceSpec h -> PatternSpec h
   ledger_sound : forall {h : BHist}, SourceSpec h -> LedgerPolicy h
 
+theorem NameCert_iff_semantic_fields
+    {Carrier : BHist -> Prop}
+    {Equiv : BHist -> BHist -> Prop} :
+    NameCert Carrier Equiv <->
+      (exists h : BHist, Carrier h) /\
+        (forall {h : BHist}, Carrier h -> Equiv h h) /\
+        (forall {h k : BHist}, Equiv h k -> Equiv k h) /\
+        (forall {h k r : BHist}, Equiv h k -> Equiv k r -> Equiv h r) /\
+        (forall {h k : BHist}, Equiv h k -> Carrier h -> Carrier k) := by
+  constructor
+  · intro cert
+    cases cert with
+    | mk carrier_inhabited equiv_refl equiv_symm equiv_trans carrier_respects_equiv =>
+        constructor
+        · exact carrier_inhabited
+        · constructor
+          · exact equiv_refl
+          · constructor
+            · exact equiv_symm
+            · constructor
+              · exact equiv_trans
+              · exact carrier_respects_equiv
+  · intro fields
+    cases fields with
+    | intro carrier_inhabited rest =>
+        cases rest with
+        | intro equiv_refl rest =>
+            cases rest with
+            | intro equiv_symm rest =>
+                cases rest with
+                | intro equiv_trans carrier_respects_equiv =>
+                    exact {
+                      carrier_inhabited := carrier_inhabited
+                      equiv_refl := equiv_refl
+                      equiv_symm := equiv_symm
+                      equiv_trans := equiv_trans
+                      carrier_respects_equiv := carrier_respects_equiv
+                    }
+
 theorem nameCert_carrier_witness
     {Carrier : BHist -> Prop}
     {Equiv : BHist -> BHist -> Prop}
