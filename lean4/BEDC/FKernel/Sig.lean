@@ -106,6 +106,13 @@ theorem sig_empty_inversion {h r : BHist} :
 def SameSig (bundle : ProbeBundle ProbeName) (h k : BHist) : Prop :=
   ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t
 
+omit [AskSetup] in
+theorem sameSig_witnesses [AskSetup] {bundle : ProbeBundle ProbeName} {h k : BHist} :
+    SameSig bundle h k →
+      ∃ s : BHist, ∃ t : BHist, SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t := by
+  intro witnesses
+  exact witnesses
+
 def SigTotalOn (bundle : ProbeBundle ProbeName) (D : BHist → Prop) : Prop :=
   ∀ h : BHist, D h → ∃ s : BHist, SigRel bundle h s
 

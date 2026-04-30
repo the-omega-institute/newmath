@@ -178,6 +178,47 @@ theorem hsame_constructor_kind_preserved {h k : BHist} :
     right
     exact Exists.intro _ (Exists.intro _ (And.intro rfl (And.intro rfl rfl)))
 
+theorem hsame_constructor_characterization {h k : BHist} :
+    hsame h k ↔ (h = BHist.Empty ∧ k = BHist.Empty) ∨
+      (∃ h0 k0 : BHist, h = BHist.e0 h0 ∧ k = BHist.e0 k0 ∧ hsame h0 k0) ∨
+      (∃ h0 k0 : BHist, h = BHist.e1 h0 ∧ k = BHist.e1 k0 ∧ hsame h0 k0) := by
+  constructor
+  · exact hsame_constructor_kind_preserved
+  · intro data
+    cases data with
+    | inl emptyCase =>
+        cases emptyCase with
+        | intro left right =>
+            cases left
+            cases right
+            rfl
+    | inr stepCases =>
+        cases stepCases with
+        | inl zeroCase =>
+            cases zeroCase with
+            | intro h0 rest =>
+                cases rest with
+                | intro k0 fields =>
+                    cases fields with
+                    | intro left tail =>
+                        cases tail with
+                        | intro right sameTail =>
+                            cases left
+                            cases right
+                            exact hsame_e0_congr sameTail
+        | inr oneCase =>
+            cases oneCase with
+            | intro h0 rest =>
+                cases rest with
+                | intro k0 fields =>
+                    cases fields with
+                    | intro left tail =>
+                        cases tail with
+                        | intro right sameTail =>
+                            cases left
+                            cases right
+                            exact hsame_e1_congr sameTail
+
 theorem hsame_no_confusion_symmetric :
     (forall {h : BHist}, hsame (.e0 h) .Empty -> False) ∧
       (forall {h : BHist}, hsame (.e1 h) .Empty -> False) ∧

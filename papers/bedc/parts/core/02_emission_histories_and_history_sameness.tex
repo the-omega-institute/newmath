@@ -39,6 +39,15 @@ There is no rule relating \(\emp\) to a nonempty history, nor any rule relating 
 History formation and history-sameness are generated only by their displayed rules. Inversion and no-confusion principles are justified by this closed generation.
 \end{axiomlike}
 
+\begin{theorem}[History constructor characterization]
+\label{thm:history-constructor-characterization}
+If two generated histories are internally same, then they are both empty, both \(\Ezero\)-histories with internally same predecessors, or both \(\Eone\)-histories with internally same predecessors. Conversely, any of those three constructor-aligned cases gives internal history-sameness.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Hist.hsame\_constructor\_characterization}
+\begin{proof}
+For the forward implication, invert the internal sameness derivation and inspect the common outer constructor. For the reverse implication, eliminate the displayed alternatives and their witnesses, then rebuild the corresponding internal sameness judgment.
+\end{proof}
+
 \begin{lemma}[History-sameness reflexivity]
 For every generated history \(h\), \(\hsame(h,h)\).
 \end{lemma}

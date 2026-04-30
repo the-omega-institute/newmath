@@ -25,6 +25,13 @@ theorem PkgSig_iff_TokIntro [AskSetup] [PackageSetup]
     PkgSig bundle s p <-> TokIntro bundle s p := by
   rfl
 
+omit [AskSetup] P in
+theorem PkgSig_intro_from_token [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s : BHist} {p : Pkg} :
+    TokIntro bundle s p → PkgSig bundle s p := by
+  intro token
+  exact token
+
 inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
   | intro {s t : BHist} {p q : Pkg} :
       TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
