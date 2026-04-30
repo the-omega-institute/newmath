@@ -82,6 +82,20 @@ constructor separation between \(e0\) and \(e1\).
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_left\_hsame\_inversion}
 
+\begin{theorem}[Sum history classifier right-tag inversion]
+\label{thm:sum-history-classifier-right-hsame-inversion}
+When the history-level sum classifier uses \(\hsame\) on both components and
+relates two \(e1\)-tagged histories, the two right payload histories are
+internally the same.
+\end{theorem}
+\begin{proof}
+Invert the tagged classifier witness. The left branch contradicts constructor
+separation between \(e1\) and \(e0\). The right branch gives two \(e1\)-tag
+witnesses and a stored component \(\hsame\) witness; constructor inversion for
+\(e1\) composes them into payload sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_right\_hsame\_inversion}
+
 \begin{theorem}[Sum history classifier symmetry under history sameness]
 \label{thm:sum-history-classifier-hsame-symmetry}
 When both component classifiers are \(\hsame\), the history-level sum classifier is symmetric.

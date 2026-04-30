@@ -148,6 +148,20 @@ append-result equality.
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail}
 
+\begin{theorem}[Prefix left context monotonicity]
+\label{thm:preorder-prefix-left-context-monotonicity}
+If \(h\le k\) is witnessed by a unary continuation tail, then appending the
+same left context to both endpoints preserves the prefix comparison:
+\(\mathsf{append}(x,h)\le\mathsf{append}(x,k)\).
+\end{theorem}
+\begin{proof}
+Unpack the prefix witness as a unary tail and a continuation equation from
+\(h\) to \(k\). Reuse the same unary tail after the common left context.
+Associativity of append identifies the resulting continuation endpoint with
+\(\mathsf{append}(x,k)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_left\_context}
+
 \begin{theorem}[Prefix left context cancellation]
 \label{thm:preorder-prefix-left-context-cancellation}
 If appending the same left context to \(h\) and \(k\) makes

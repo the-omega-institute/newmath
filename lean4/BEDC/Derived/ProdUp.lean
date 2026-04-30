@@ -49,6 +49,16 @@ theorem ProdHistoryLedgerPolicy_visible_carrier {Left Right : BHist -> Prop}
   | intro rawCarrier sameRawVisible =>
       exact ProdHistoryCarrier_hsame_transport sameRawVisible rawCarrier
 
+theorem ProdHistoryLedgerPolicy_raw_visible_classifier {Left Right : BHist -> Prop}
+    {raw visible : BHist} :
+    ProdHistoryLedgerPolicy Left Right raw visible -> ProdHistoryClassifier Left Right raw visible := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      exact And.intro rawCarrier
+        (And.intro (ProdHistoryLedgerPolicy_visible_carrier
+          (And.intro rawCarrier sameRawVisible)) sameRawVisible)
+
 theorem ProdHistoryClassifier_right_hsame_transport {Left Right : BHist -> Prop}
     {h k k' : BHist} :
     ProdHistoryClassifier Left Right h k ->

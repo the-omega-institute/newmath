@@ -56,6 +56,19 @@ Induct on the first list. Shape mismatches are impossible by the classifier clau
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_symm}
 
+\begin{lemma}[History list classifier cons inversion]
+\label{lem:list-classifier-hsame-cons-inversion}
+For BEDC history lists, if the structural classifier relates \(x::xs\) to
+\(y::ys\) using \(\hsame\), then \(x\) is internally the same history as \(y\)
+and the tails \(xs\) and \(ys\) are structurally classified by \(\hsame\).
+\end{lemma}
+\begin{proof}
+Eliminate the cons-cons classifier witness. Its head component is the
+\(\hsame(x,y)\) witness, and its tail component is the structural classifier
+witness for \(xs\) and \(ys\).
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_cons\_inversion}
+
 \begin{theorem}[History list classifier is stable under $e0$-mapping]
 \label{thm:list-classifier-hsame-map-e0}
 For BEDC history lists, structural classification by $\hsame$ is preserved when every entry of both lists is mapped through the $e0$ history constructor.
@@ -101,6 +114,21 @@ the $e1$ constructor characterization for $\hsame$, then apply the induction
 hypothesis to the mapped-tail classifier witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e1\_inversion}
+
+\begin{theorem}[History list classifier separates mixed mapped tags]
+\label{thm:list-classifier-mixed-tag-empty}
+For BEDC history lists, if the list obtained by mapping every entry of \(x\)
+through \(e0\) is structurally classified by \(\hsame\) with the list obtained
+by mapping every entry of \(y\) through \(e1\), then \(x\) and \(y\) are both
+empty.
+\end{theorem}
+\begin{proof}
+Split both lists by constructors. The nil-nil case is immediate. Nil-cons and
+cons-nil cases contradict the structural classifier clauses. In the cons-cons
+case, the head witness would relate an \(e0\)-tagged history to an \(e1\)-tagged
+history, contradicting BEDC history constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e0\_map\_e1\_empty}
 
 \begin{theorem}[History list classifier preserves length]
 \label{thm:list-classifier-hsame-length-eq}

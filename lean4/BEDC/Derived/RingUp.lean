@@ -6,6 +6,14 @@ namespace BEDC.Derived.RingUp
 open BEDC.FKernel.Hist
 open BEDC.Derived.MonoidUp
 
+theorem ring_add_right_inverse {add : BHist -> BHist -> BHist} {neg : BHist -> BHist}
+    {zero : BHist}
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (negLeft : forall x : BHist, hsame (add (neg x) x) zero) :
+    forall x : BHist, hsame (add x (neg x)) zero := by
+  intro x
+  exact hsame_trans (addComm x (neg x)) (negLeft x)
+
 theorem ring_mul_zero_absorption {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist} {zero : BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))

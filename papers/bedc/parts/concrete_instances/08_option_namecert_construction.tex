@@ -86,6 +86,20 @@ middle history.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_trans}
 
+\begin{theorem}[Option history classifier empty left iff]
+\label{thm:option-history-classifier-empty-left-iff}
+For any source predicate on BEDC histories, the optional history classifier
+relates the empty history on the left to \(k\) exactly when \(k\) is
+history-same as the empty history.
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the classifier and reverse its stored
+\(\hsame(\emp,k)\) link. In the reverse direction, both endpoint carrier
+witnesses are supplied by the absent-history branch, and the classifier link is
+the symmetric form of the assumed \(\hsame(k,\emp)\).
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_empty\_left\_iff}
+
 \begin{theorem}[Option classifier \(\hsame\) symmetry]
 \label{thm:option-classifier-hsame-symm}
 For optional BEDC histories, the option classifier induced by \(\hsame\) is symmetric.
