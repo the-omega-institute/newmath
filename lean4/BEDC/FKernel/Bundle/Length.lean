@@ -2,6 +2,19 @@ import BEDC.FKernel.Bundle
 
 namespace BEDC.FKernel.Bundle
 
+theorem bundleLength_eq_zero_iff_nil {PName : Type} {bundle : ProbeBundle PName} :
+    bundleLength bundle = 0 ↔ bundle = ProbeBundle.Bnil := by
+  constructor
+  · intro h
+    cases bundle with
+    | Bnil =>
+        rfl
+    | Bcons _ _ =>
+        cases h
+  · intro h
+    cases h
+    rfl
+
 theorem bundleAppend_nonempty_prefix_length_separation {PName : Type} (p : PName)
     (pref suff : ProbeBundle PName) :
     bundleLength (bundleAppend (ProbeBundle.Bcons p pref) suff) ≠ bundleLength suff ∧

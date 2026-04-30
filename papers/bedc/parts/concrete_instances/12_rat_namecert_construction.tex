@@ -426,6 +426,22 @@ carrier under append, and combine the denominator \(\hsame\) with the tail
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_append\_unary\_denominator\_closed}
 
+\begin{theorem}[Rat history classifier unary denominator prepend closure]
+\label{thm:rat-history-classifier-prepend-unary-denominator-closed}
+If denominator histories $d$ and $e$ are related by the rational history
+classifier, and unary prefixes $p_d$ and $p_e$ satisfy $\hsame(p_d,p_e)$, then
+prepending the prefixes to the corresponding denominator histories preserves the
+rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into endpoint carriers and denominator
+$\hsame$. Close the left endpoint carrier under unary denominator prepend.
+Transport unary membership from $p_d$ to $p_e$, close the right endpoint carrier
+under prepend, and combine the prefix $\hsame$ with the denominator $\hsame$ by
+constructor cases on continuation append.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_prepend\_unary\_denominator\_closed}
+
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}
 The stability certificate consists of:

@@ -232,6 +232,19 @@ symmetry.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_symm}
 
+\begin{theorem}[Bool history classifier endpoint transport]
+\label{thm:bool-history-classifier-hsame-transport}
+If $h$ is internally the same as $h'$ and $k$ is internally the same as $k'$,
+then the boolean history classifier transports from $(h,k)$ to $(h',k')$.
+\end{theorem}
+\begin{proof}
+Eliminate the classifier witness into its two endpoint carrier proofs and the
+exposed $\hsame(h,k)$ link. Transport each endpoint carrier along its
+corresponding $\hsame$ proof, then compose symmetry of the left endpoint with
+the stored classifier link and the right endpoint transport.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_hsame\_transport}
+
 \begin{theorem}[Bool history classifier empty-left equivalence]
 \label{thm:bool-history-classifier-empty-left-iff}
 The boolean history classifier relates \(\emp\) to \(k\) exactly when \(k\)

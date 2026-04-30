@@ -77,6 +77,17 @@ $$
 \end{definition}
 \leandef{BEDC.FKernel.Bundle.bundleLength}
 
+\begin{theorem}[Probe bundle zero length equivalence]
+\label{thm:probe-bundle-length-zero-iff-nil}
+A generated probe bundle has length zero exactly when it is the empty bundle
+$\Bnil$.
+\end{theorem}
+\begin{proof}
+Eliminate the generated bundle. The empty case reduces by computation. In the
+cons case the length reduces to a successor, which cannot equal zero.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleLength\_eq\_zero\_iff\_nil}
+
 \begin{theorem}[Probe bundle append length]
 \label{thm:probe-bundle-append-length}
 For all probe bundles $\Pi,\Theta$,
