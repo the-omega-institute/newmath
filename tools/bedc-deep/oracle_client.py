@@ -64,11 +64,13 @@ def server_alive(server_url: str) -> bool:
 
 def status_line(status: dict) -> str:
     recent = status.get("active_recent_agents") or []
+    active_poll = status.get("active_poll_agents") or []
     return (
         f"diagnosis={status.get('diagnosis', 'unknown')} "
         f"queue={status.get('queue_length', '?')} "
         f"busy={status.get('agents_busy', '?')}/{status.get('max_agents', '?')} "
-        f"recent_agents={len(recent)} completed={status.get('completed', '?')}"
+        f"recent_agents={len(recent)} poll_agents={len(active_poll)} "
+        f"completed={status.get('completed', '?')}"
     )
 
 

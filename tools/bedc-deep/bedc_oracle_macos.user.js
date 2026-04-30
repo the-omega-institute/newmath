@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.6
+// @version      1.7
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.6";
+  const SCRIPT_VERSION = "bedc-1.7";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -782,8 +782,9 @@
       const nowMs = Date.now();
       if (task_id && nowMs - lastHeartbeat >= 60000) {
         lastHeartbeat = nowMs;
+        let ack = null;
         try {
-          await serverPost("/ack", {
+          ack = await serverPost("/ack", {
             task_id,
             agent_id: agentId(),
             heartbeat: true,
@@ -797,6 +798,9 @@
             },
           });
         } catch {}
+        if (ack && ack.status === "cancelled") {
+          throw new Error(`Task cancelled by server: ${task_id}`);
+        }
       }
       if (elapsed - lastLogTime >= 300) {
         lastLogTime = elapsed;

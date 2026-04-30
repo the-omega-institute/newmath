@@ -64,6 +64,7 @@ pending_tasks: dict[str, dict] = {}       # agent_id -> task currently in flight
 dispatch_times: dict[str, float] = {}     # agent_id -> dispatch timestamp
 recent_agents: dict[str, dict] = {}       # agent_id -> latest poll/ack/result
 sessions: dict[str, dict] = {}            # conv_id -> session record
+cancelled_tasks: set[str] = set()
 _lock = threading.Lock()
 
 
@@ -294,11 +295,15 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 }
                 recent = _agent_summary(now)
                 active_recent = [aid for aid, rec in recent.items() if rec["recent"]]
+                active_poll = [
+                    aid for aid, rec in recent.items()
+                    if rec["recent"] and rec.get("event") == "poll"
+                ]
                 stale_busy = [
                     aid for aid in pending_tasks
                     if not recent.get(aid, {}).get("recent", False)
                 ]
-                if task_queue and not pending_tasks and not active_recent:
+                if task_queue and not pending_tasks and not active_poll:
                     diagnosis = "queue_waiting_for_browser_agent"
                 elif pending_tasks:
                     diagnosis = "agent_busy_with_stale" if stale_busy else "agent_busy"
@@ -314,6 +319,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     "agents": agents_info,
                     "recent_agents": recent,
                     "active_recent_agents": active_recent,
+                    "active_poll_agents": active_poll,
                     "stale_busy_agents": stale_busy,
                     "agent_recent_seconds": AGENT_RECENT_SECONDS,
                     "completed": len(results),
@@ -440,6 +446,8 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             "submitted_ts": time.time(),
             "status": "queued",
         }
+        with _lock:
+            cancelled_tasks.discard(task_id)
         # Optional PDF passthrough, kept for forward compatibility.
         if "pdf_base64" in data:
             task["pdf_base64"] = data["pdf_base64"]
@@ -551,6 +559,11 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             }
         with _lock:
             _record_agent_seen(agent_id, event=event, metrics=metrics)
+            if event == "heartbeat" and task_id:
+                still_pending = any(t.get("task_id") == task_id for t in pending_tasks.values())
+                if task_id in cancelled_tasks or (not still_pending and task_id not in results):
+                    self._send_json({"status": "cancelled", "task_id": task_id})
+                    return
             if agent_id in dispatch_times:
                 dispatch_times[agent_id] = time.time()
         if event == "ack":
@@ -565,9 +578,15 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             if cancel_all:
                 while task_queue:
                     task = task_queue.popleft()
-                    cancelled.append(task.get("task_id", ""))
+                    tid = task.get("task_id", "")
+                    cancelled.append(tid)
+                    if tid:
+                        cancelled_tasks.add(tid)
                 for aid, task in list(pending_tasks.items()):
-                    cancelled.append(task.get("task_id", ""))
+                    tid = task.get("task_id", "")
+                    cancelled.append(tid)
+                    if tid:
+                        cancelled_tasks.add(tid)
                     pending_tasks.pop(aid, None)
                     dispatch_times.pop(aid, None)
             elif task_id:
@@ -576,12 +595,14 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     task = task_queue.popleft()
                     if task.get("task_id") == task_id:
                         cancelled.append(task_id)
+                        cancelled_tasks.add(task_id)
                     else:
                         kept.append(task)
                 task_queue.extend(kept)
                 for aid, task in list(pending_tasks.items()):
                     if task.get("task_id") == task_id:
                         cancelled.append(task_id)
+                        cancelled_tasks.add(task_id)
                         pending_tasks.pop(aid, None)
                         dispatch_times.pop(aid, None)
             else:
