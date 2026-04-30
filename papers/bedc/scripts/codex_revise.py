@@ -426,11 +426,13 @@ def _codex_resolve_merge_conflicts(
     return True
 
 
-def _peer_sync_via_worktree(peer_sha: str, *, model: Optional[str] = None,
-                             ff_only: bool = False) -> bool:
+def _peer_sync_via_worktree(peer_sha: str, *, model: Optional[str] = None) -> bool:
     """Merge peer_sha into BASE_BRANCH from inside a temporary worktree
     checked out on BASE_BRANCH, leaving REPO_ROOT's current HEAD untouched.
-    Falls back to codex on conflict unless ff_only=True.
+
+    Try fast-forward first; if non-ff, do `git merge --no-ff` (the
+    auto-merge handles the common disjoint-subtree case without codex).
+    On real conflict, escalate to `_codex_resolve_merge_conflicts`.
     """
     WORKTREE_DIR.mkdir(parents=True, exist_ok=True)
     wt_path = WORKTREE_DIR / "_peer_sync"
@@ -448,12 +450,6 @@ def _peer_sync_via_worktree(peer_sha: str, *, model: Optional[str] = None,
         if ff.returncode == 0:
             logger.info(f"[peer-sync] ff-advanced {BASE_BRANCH} to {peer_sha[:8]} (via worktree)")
             return True
-        if ff_only:
-            logger.info(
-                f"[peer-sync] non-ff and ff_only=True; will retry on next opportunity "
-                f"(or rerun with `--peer-sync-only` for codex-assisted merge)"
-            )
-            return False
         m = run_cmd(
             ["git", "merge", "--no-ff", peer_sha,
              "-m", f"Sync {PEER_BRANCH} into {BASE_BRANCH}"],
@@ -477,17 +473,13 @@ def _peer_sync_via_worktree(peer_sha: str, *, model: Optional[str] = None,
             shutil.rmtree(wt_path, ignore_errors=True)
 
 
-def sync_with_peer_branch(*, push: bool = True, model: Optional[str] = None,
-                           ff_only: bool = False) -> bool:
+def sync_with_peer_branch(*, push: bool = True, model: Optional[str] = None) -> bool:
     """Fetch PEER_BRANCH from origin and merge it into local BASE_BRANCH.
 
-    The two pipelines write disjoint subtrees so the merge is normally
-    clean; on conflict we delegate resolution to codex (long, blocks
-    rounds via _git_lock). Pass `ff_only=True` to skip the codex path —
-    used by the background sync ticker so a stuck merge never starves
-    the rest of the pipeline. Returns True iff BASE_BRANCH ends up
-    containing PEER_BRANCH (already-up-to-date counts as True; ff_only
-    refusal counts as False so callers can retry later).
+    Path: ff first → `git merge --no-ff` (handles the common disjoint-
+    subtree case without codex) → `_codex_resolve_merge_conflicts` if
+    that conflicts. Used at session start AND from the background ticker.
+    Returns True iff BASE_BRANCH ends up containing PEER_BRANCH.
     """
     if not PEER_BRANCH or PEER_BRANCH == BASE_BRANCH:
         return True
@@ -523,11 +515,6 @@ def sync_with_peer_branch(*, push: bool = True, model: Optional[str] = None,
                          cwd=REPO_ROOT, timeout=30)
             if ff.returncode == 0:
                 logger.info(f"[peer-sync] ff-advanced {BASE_BRANCH} to {peer[:8]}")
-            elif ff_only:
-                logger.info(
-                    f"[peer-sync] non-ff and ff_only=True; will retry on next opportunity"
-                )
-                return False
             else:
                 m = run_cmd(
                     ["git", "merge", "--no-ff", peer,
@@ -545,7 +532,7 @@ def sync_with_peer_branch(*, push: bool = True, model: Optional[str] = None,
                         return False
                 logger.info(f"[peer-sync] merged {PEER_BRANCH} into {BASE_BRANCH}")
         else:
-            if not _peer_sync_via_worktree(peer, model=model, ff_only=ff_only):
+            if not _peer_sync_via_worktree(peer, model=model):
                 return False
 
         if push:
@@ -561,12 +548,12 @@ def sync_with_peer_branch(*, push: bool = True, model: Optional[str] = None,
 # ---------------------------------------------------------------------------
 # Background peer-sync ticker
 #
-# Runs sync_with_peer_branch(ff_only=True) on a fixed interval while the
-# pipeline is dispatching rounds. Background ticks are ff-only because they
-# share `_git_lock` with worker merges — letting a tick block on a 3-minute
-# codex resolve would starve every in-flight worker. Conflicts surfaced by
-# ff-only refusal can be resolved by the operator running
-# `--peer-sync-only` between batches, or by the next session-start sync.
+# Runs sync_with_peer_branch on a fixed interval while the pipeline is
+# dispatching rounds. Conflicts go to codex (the same codex resolver used
+# by the session-start sync) so the ticker can actually keep BASE_BRANCH
+# current with PEER_BRANCH after the first non-trivial divergence — an
+# ff-only tick gets stuck the moment the initial sync produces a merge
+# commit.
 # ---------------------------------------------------------------------------
 
 _peer_sync_stop = threading.Event()
@@ -574,12 +561,12 @@ _peer_sync_thread: Optional[threading.Thread] = None
 
 
 def _peer_sync_loop(interval: int, model: Optional[str]) -> None:
-    logger.info(f"[peer-sync] background ticker started (interval={interval}s, ff-only)")
+    logger.info(f"[peer-sync] background ticker started (interval={interval}s)")
     while not _peer_sync_stop.is_set():
         if _peer_sync_stop.wait(timeout=interval):
             break
         try:
-            sync_with_peer_branch(model=model, ff_only=True)
+            sync_with_peer_branch(model=model)
         except Exception as exc:
             logger.warning(f"[peer-sync] background tick failed: {exc}")
     logger.info("[peer-sync] background ticker stopped")
@@ -1538,8 +1525,8 @@ def main() -> int:
     parser.add_argument("--peer-sync-interval", type=int, default=600,
                         help="Background peer-sync ticker interval in seconds "
                              "(default 600). 0 = disable, only initial sync. "
-                             "Background ticks are ff-only — non-ff merges "
-                             "wait for the next initial / manual sync.")
+                             "Each tick runs the same ff → auto-merge → codex-"
+                             "resolve path as the session-start sync.")
     parser.add_argument("--no-mem-guard", action="store_true",
                         help="Disable macOS memory-pressure dispatch guard")
     args = parser.parse_args()
