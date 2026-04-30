@@ -22,6 +22,16 @@ theorem Mbin_reuses_kernel_history : (Mbin = BHist) ∧ (BWord = BHist) := by
   · rfl
   · rfl
 
+theorem external_model_reuses_kernel_histories :
+    (Mbin = BHist) /\ (BWord = BHist) /\
+      (forall w : BWord, BHist.Empty = BHist.e0 w -> False) := by
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · intro _ h
+      cases h
+
 /-- Reuse the kernel-level continuation function as the metamodel's append. -/
 abbrev append : BWord → BWord → BWord := BEDC.FKernel.Cont.append
 
