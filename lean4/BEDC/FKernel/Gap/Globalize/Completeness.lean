@@ -66,4 +66,16 @@ theorem concrete_globalize_classifies_token_witness_directions [AskSetup] [Packa
                         | intro rightTok sameHist =>
                             exact packagePolicy.soundness leftTok rightTok sameHist
 
+theorem concrete_globalize_classifies_by_signatures_primary [AskSetup] [PackageSetup]
+    [DomainSetup] {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist}
+    {p q : Pkg} (askPolicy : AskPolicy (InDom D))
+    (packagePolicy : PackageTokenPolicy bundle) (hp : InGapSig bundle D p h)
+    (hq : InGapSig bundle D q k) :
+    psame bundle p q ↔
+      ∃ s : BHist, ∃ t : BHist,
+        SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t := by
+  exact concrete_globalize_classifies_by_signatures
+    (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+    askPolicy packagePolicy hp hq
+
 end BEDC.FKernel.Gap
