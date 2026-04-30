@@ -95,4 +95,20 @@ theorem prod_stability_certificate {A B : Type} {sameA : A -> A -> Prop}
       · intro x y hxy
         exact hxy.right
 
+theorem ProdClassifierSpec_trans {A B : Type} {relA : A → A → Prop} {relB : B → B → Prop}
+    (transA : ∀ {a b c : A}, relA a b → relA b c → relA a c)
+    (transB : ∀ {a b c : B}, relB a b → relB b c → relB a c)
+    {x y z : ProdCarrier A B} :
+    ProdClassifierSpec relA relB x y →
+      ProdClassifierSpec relA relB y z →
+        ProdClassifierSpec relA relB x z := by
+  intro hxy hyz
+  cases hxy with
+  | intro leftXY rightXY =>
+      cases hyz with
+      | intro leftYZ rightYZ =>
+          constructor
+          · exact transA leftXY leftYZ
+          · exact transB rightXY rightYZ
+
 end BEDC.Derived.ProdUp

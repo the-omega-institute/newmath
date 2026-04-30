@@ -2,12 +2,12 @@ namespace BEDC.Derived.OptionUp
 
 def OptionCarrier (A : Type) := Option A
 
-def OptionClassifierSpec {A : Type} (sameA : A → A → Prop) :
+def OptionClassifierSpec {A : Type} (rel : A → A → Prop) :
     OptionCarrier A → OptionCarrier A → Prop
-  | none, none => True
-  | some a, some b => sameA a b
-  | none, some _ => False
-  | some _, none => False
+  | Option.none, Option.none => True
+  | Option.some a, Option.some b => rel a b
+  | Option.none, Option.some _ => False
+  | Option.some _, Option.none => False
 
 theorem OptionCarrier_cases {α : Type} (x : Option α) :
     x = Option.none ∨ ∃ a : α, x = Option.some a := by
@@ -85,5 +85,10 @@ theorem option_stability_certificate_fields {A : Type} {sameA : A → A → Prop
           exact h
         · intro a h
           exact h
+
+theorem OptionClassifierSpec_none_some_absurd {A : Type} {rel : A → A → Prop} {a : A} :
+    OptionClassifierSpec rel (Option.none : OptionCarrier A) (Option.some a) → False := by
+  intro h
+  exact h
 
 end BEDC.Derived.OptionUp
