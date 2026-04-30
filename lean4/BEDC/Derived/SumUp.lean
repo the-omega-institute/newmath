@@ -160,6 +160,44 @@ theorem SumHistoryClassifier_hsame_symm {Left Right : BHist -> Prop} {h k : BHis
                           (Exists.intro r
                             (And.intro sameK (And.intro sameH (hsame_symm sameRight)))))
 
+theorem SumHistoryClassifier_hsame_transport {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop} {h h' k k' : BHist} :
+    hsame h h' -> hsame k k' ->
+      SumHistoryClassifier Left Right LeftEq RightEq h k ->
+        SumHistoryClassifier Left Right LeftEq RightEq h' k' := by
+  intro sameH sameK classifier
+  cases classifier with
+  | inl leftData =>
+      cases leftData with
+      | intro l leftRest =>
+          cases leftRest with
+          | intro l' data =>
+              cases data with
+              | intro sameHTag rest =>
+                  cases rest with
+                  | intro sameKTag sameLeft =>
+                      exact Or.inl
+                        (Exists.intro l
+                          (Exists.intro l'
+                            (And.intro (hsame_trans (hsame_symm sameH) sameHTag)
+                              (And.intro (hsame_trans (hsame_symm sameK) sameKTag)
+                                sameLeft))))
+  | inr rightData =>
+      cases rightData with
+      | intro r rightRest =>
+          cases rightRest with
+          | intro r' data =>
+              cases data with
+              | intro sameHTag rest =>
+                  cases rest with
+                  | intro sameKTag sameRight =>
+                      exact Or.inr
+                        (Exists.intro r
+                          (Exists.intro r'
+                            (And.intro (hsame_trans (hsame_symm sameH) sameHTag)
+                              (And.intro (hsame_trans (hsame_symm sameK) sameKTag)
+                                sameRight))))
+
 theorem SumHistoryClassifier_mixed_tags_absurd {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop} {h k l r : BHist} :
     hsame h (BHist.e0 l) → hsame k (BHist.e1 r) →

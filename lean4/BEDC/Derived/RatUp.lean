@@ -358,4 +358,30 @@ theorem RatClassifierSpec_symm
                         · exact BEDC.FKernel.Hist.hsame_symm sameNumerator
                         · exact BEDC.FKernel.Hist.hsame_symm sameDenominator
 
+theorem RatClassifierSpec_component_transport {s1 s2 t1 t2 : BMark}
+    {n1 n2 n1' n2' d1 d2 d1' d2' : BHist} :
+    RatClassifierSpec s1 n1 d1 s2 n2 d2 -> msame s1 t1 -> msame s2 t2 ->
+      hsame n1 n1' -> hsame n2 n2' -> hsame d1 d1' -> hsame d2 d2' ->
+        RatClassifierSpec t1 n1' d1' t2 n2' d2' := by
+  intro classifier sameS1 sameS2 sameN1 sameN2 sameD1 sameD2
+  cases classifier with
+  | intro carrier1 rest =>
+      cases rest with
+      | intro carrier2 rest =>
+          cases rest with
+          | intro sameSign rest =>
+              cases rest with
+              | intro sameNumerator sameDenominator =>
+                  constructor
+                  · exact RatCarrier_hsame_transport carrier1 sameS1 sameN1 sameD1
+                  · constructor
+                    · exact RatCarrier_hsame_transport carrier2 sameS2 sameN2 sameD2
+                    · constructor
+                      · exact msame_trans (msame_trans (msame_symm sameS1) sameSign) sameS2
+                      · constructor
+                        · exact hsame_trans (hsame_trans (hsame_symm sameN1) sameNumerator)
+                            sameN2
+                        · exact hsame_trans (hsame_trans (hsame_symm sameD1) sameDenominator)
+                            sameD2
+
 end BEDC.Derived.RatUp
