@@ -189,6 +189,63 @@ $\mathsf{ProdHistoryClassifier}(L,R,h,h')$.
 Transport the left source witness $L(l)$ along $\hsame(l,l')$ to obtain $L(l')$, and transport the right source witness $R(r)$ along $\hsame(r,r')$ to obtain $R(r')$. Product history carrier continuation introduction builds endpoint carrier witnesses for $h$ and $h'$ from the two continuation witnesses. Continuation respect for $\hsame$ transports the result endpoints across the two component links, yielding $\hsame(h,h')$. These three pieces are exactly the history-envelope classifier fields.
 \end{proof}
 
+\begin{definition}[Product pair representation]
+\label{def:prod-pair-rep}
+For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$, define
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ to mean that $l$ is a left source
+history, $r$ is a right source history, and their continuation presents $h$:
+$$
+  \mathsf{ProdPairRep}_{L,R}(h,l,r)
+  \quad:\Longleftrightarrow\quad
+  L(l)\wedge R(r)\wedge \Cont(l,r,h).
+$$
+\end{definition}
+
+\begin{definition}[Product pair-representation coherence]
+\label{def:prod-pair-rep-coherent}
+For source classifiers $\sim_L$ and $\sim_R$, define
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ to mean that any two pair
+representations of the same product history classify their corresponding
+components:
+$$
+  \forall h\,l\,r\,l'\,r'.\;
+  \mathsf{ProdPairRep}_{L,R}(h,l,r)\wedge
+  \mathsf{ProdPairRep}_{L,R}(h,l',r')
+  \to (l\sim_L l')\wedge(r\sim_R r').
+$$
+\end{definition}
+
+\begin{theorem}[Product componentwise history classifier certificate target]
+\label{thm:prod-component-history-classifier-certificate-target}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\NameCert(L,\sim_L)$, $\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Define
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ by the
+existence of component histories $l_h,r_h,l_k,r_k$ such that
+$\mathsf{ProdPairRep}_{L,R}(h,l_h,r_h)$,
+$\mathsf{ProdPairRep}_{L,R}(k,l_k,r_k)$, $l_h\sim_L l_k$, and
+$r_h\sim_R r_k$. Then this classifier has carrier-relative reflexivity,
+symmetry, transitivity, and classifier-induced carrier transport for
+$\mathsf{ProdHistoryCarrier}(L,R)$. Taking
+$\mathsf{ProdHistoryCarrier}(L,R)$ as both pattern carrier and ledger carrier
+therefore gives the paper-side componentwise product certificate target.
+\end{theorem}
+\begin{proof}
+For reflexivity, unpack a $\mathsf{ProdHistoryCarrier}(L,R,h)$ witness into
+left and right histories and reuse that pair representation on both sides;
+the two source $\NameCert$ witnesses give component reflexivity. Symmetry is
+obtained by applying source symmetry to the two component classifier witnesses.
+For transitivity, compose the first left component witness with the first
+middle representation, use pair-representation coherence to relate the two
+middle representations of the same history, and then compose with the second
+left component witness; the right component is identical. Carrier transport is
+immediate from the target classifier witness for the right endpoint, since its
+pair representation rebuilds $\mathsf{ProdHistoryCarrier}(L,R,k)$ by
+continuation introduction. Pattern and ledger soundness are identities because
+both are chosen to be the same product-history carrier.
+\end{proof}
+
 \begin{definition}[Prod stability certificate]
 \label{def:prod-stability-certificate}
 The stability certificate consists of:
@@ -290,16 +347,15 @@ If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then there exist histor
 Unfold the ledger into the raw product carrier for $\rho$ and the stored raw-visible witness $\hsame(\rho,v)$. Unfold the raw carrier to expose component histories $l$ and $r$ with $L(l)$, $R(r)$, and $\Cont(l,r,\rho)$. Theorem~\ref{thm:prod-ledger-visible-carrier} supplies $\mathsf{ProdHistoryCarrier}(L,R,v)$, and Theorem~\ref{thm:prod-ledger-raw-visible-classifier} supplies $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$. These witnesses give the stated component exposure.
 \end{proof}
 
-\begin{theorem}[Concrete \(\ProdUp\) naming certificate]
+\begin{theorem}[Concrete product history-envelope semantic certificate]
 \label{thm:concrete-prod-namecert}
 For source-history predicates $L$ and $R$ on $\mathsf{BHist}$, assume only that
 there are carrier witnesses $l$ and $r$ with $L(l)$ and $R(r)$. Then the checked
 certificate is for $\mathsf{ProdHistoryCarrier}(L,R)$ and the history-envelope
 classifier $\mathsf{ProdHistoryClassifier}(L,R)$ under these explicit left and
-right carrier witnesses. Source certificates are one way to supply the
-witnesses through their carrier-inhabited fields. The explicit ordered-product
-interface additionally uses the typed componentwise classifier and projection
-fields.
+right carrier witnesses. This certificate does not by itself certify
+componentwise product equality. Source certificates are one way to supply the
+witnesses through their carrier-inhabited fields.
 \end{theorem}
 \begin{proof}
 Choose the left and right carrier witnesses first. BEDC continuation joins them
@@ -311,11 +367,12 @@ fields provide the same witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.prod\_history\_semantic\_name\_certificate}
 
-\begin{corollary}[\(\ProdUp\) is licensed, not primitive]
+\begin{corollary}[$\ProdUp$ is licensed, not primitive]
 \label{cor:prod-licensed-not-primitive}
-The checked theorem licenses the history-envelope product certificate for
-$\mathsf{ProdHistoryCarrier}$ and $\mathsf{ProdHistoryClassifier}$ under
-explicit left and right carrier witnesses. Componentwise ordered-product claims
-require the typed $\mathsf{ProdClassifierSpec}$, source certificates, and
-projection-stability fields described in Definition~\ref{def:prod-stability-certificate}.
+The checked theorem licenses the history-envelope product as a derived
+constructor for $\mathsf{ProdHistoryCarrier}$ and
+$\mathsf{ProdHistoryClassifier}$ under explicit left and right carrier
+witnesses. Full componentwise $\ProdUp$ use additionally requires the
+componentwise classifier, projection stability, and ledger fields described
+earlier in this chapter.
 \end{corollary}
