@@ -157,6 +157,23 @@ Induct on $\Pi$. The empty case reduces membership to $\Theta$. The cons case sp
 membership from tail membership, then applies the induction hypothesis to the tail.
 \end{proof}
 
+\begin{theorem}[Bundle append membership left residual]
+\label{thm:bundle-append-membership-left-of-not-right}
+For every probe \(p\) and bundles \(\Pi,\Theta\), if
+$$
+p\in\mathsf{BAppend}(\Pi,\Theta)
+$$
+and \(p\notin\Theta\), then \(p\in\Pi\).
+\end{theorem}
+\begin{proof}
+Induct on \(\Pi\). In the empty case, appended membership is membership in
+\(\Theta\), contradicting the exclusion premise. In the cons case, either the
+probe is the head of \(\Pi\), or it lies in the appended tail. The head branch is
+immediate, and the tail branch follows from the induction hypothesis with the
+same exclusion premise.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.inBundle\_bundleAppend\_left\_of\_not\_right}
+
 \begin{theorem}[Bundle-local policy append restriction]
 \label{thm:bundle-local-policy-append-restriction}
 If $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ holds, then both $\mathsf{BundleAskPolicy}(\Pi,D)$ and $\mathsf{BundleAskPolicy}(\Theta,D)$ hold.
