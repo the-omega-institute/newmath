@@ -60,6 +60,19 @@ The pattern is subcarrier formation by attaching lower and upper bound witnesses
 The classifier is \(\RealUp\) sameness restricted to interval witnesses.
 \end{definition}
 
+\begin{theorem}[Interval classifier transitivity]
+\label{thm:interval-classifier-transitivity}
+If interval classifier witnesses relate \(h\) to \(k\) and \(k\) to \(r\), then
+they determine an interval classifier witness from \(h\) to \(r\).
+\end{theorem}
+\begin{proof}
+Eliminate both restricted classifier witnesses. The first left carrier and the
+second right carrier become the endpoint data for the composite classifier, and
+the underlying history link is the transitive composite of the two \(\HSame\)
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_trans}
+
 \begin{definition}[Interval stability certificate]
 \label{def:interval-stability-certificate}
 The stability certificate consists of:

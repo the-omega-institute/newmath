@@ -81,6 +81,20 @@ The classifier is \(\msame\) on marks, with the two constructors distinguished.
 \leandef{BEDC.Derived.BoolUp.BoolHistoryClassifier}
 \leanchecked{BEDC.Derived.BoolUp.BoolClassifierSpec\_constructor\_separation}
 
+\begin{theorem}[Bool history classifier cases]
+\label{thm:bool-history-classifier-cases}
+Every boolean history classifier witness relates two histories in the same
+displayed endpoint class: either both are internally the same as \(\emp\), or
+both are internally the same as \(\Eone(\emp)\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into endpoint carrier data and the internal
+\(\HSame\) link. The left endpoint carrier has exactly two cases. In either
+case, symmetry of the classifier link followed by transitivity transports the
+left endpoint class to the right endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_cases}
+
 \begin{theorem}[Bool history classifier constructor separation]
 \label{thm:bool-history-classifier-constructor-separation}
 The boolean history classifier cannot relate \(\emp\) to \(\Eone(\emp)\).

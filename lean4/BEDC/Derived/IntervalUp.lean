@@ -61,6 +61,26 @@ theorem IntervalClassifierSpec_empty_boundary_of_hsame {h k : BHist} :
     · exact IntervalCarrier_empty_boundary_of_hsame kEmpty
     · exact hsame_trans hEmpty (hsame_symm kEmpty)
 
+theorem IntervalClassifierSpec_trans {lower upper : BEDC.FKernel.Hist.BHist -> Prop}
+    {h k r : BEDC.FKernel.Hist.BHist} :
+    IntervalClassifierSpec lower upper h k ->
+      IntervalClassifierSpec lower upper k r ->
+        IntervalClassifierSpec lower upper h r := by
+  intro left right
+  cases left with
+  | intro carrierH leftRest =>
+      cases leftRest with
+      | intro _ sameHK =>
+          cases right with
+          | intro _ rightRest =>
+              cases rightRest with
+              | intro carrierR sameKR =>
+                  constructor
+                  · exact carrierH
+                  · constructor
+                    · exact carrierR
+                    · exact BEDC.FKernel.Hist.hsame_trans sameHK sameKR
+
 theorem interval_name_certificate (lower upper : BHist → Prop)
     (lower_empty : lower BHist.Empty) (upper_empty : upper BHist.Empty)
     (lower_transport : ∀ {h k : BHist}, hsame h k → lower h → lower k)

@@ -231,4 +231,27 @@ theorem RatClassifierSpec_trans
                                         · exact BEDC.FKernel.Hist.hsame_trans numerator12 numerator23
                                         · exact BEDC.FKernel.Hist.hsame_trans denominator12 denominator23
 
+theorem RatClassifierSpec_symm
+    {s1 s2 : BEDC.FKernel.Mark.BMark} {n1 n2 d1 d2 : BEDC.FKernel.Hist.BHist} :
+    RatClassifierSpec s1 n1 d1 s2 n2 d2 ->
+      RatClassifierSpec s2 n2 d2 s1 n1 d1 := by
+  intro classifier
+  cases classifier with
+  | intro carrier1 rest =>
+      cases rest with
+      | intro carrier2 rest =>
+          cases rest with
+          | intro sameSign rest =>
+              cases rest with
+              | intro sameNumerator sameDenominator =>
+                  constructor
+                  · exact carrier2
+                  · constructor
+                    · exact carrier1
+                    · constructor
+                      · exact BEDC.FKernel.Mark.msame_symm sameSign
+                      · constructor
+                        · exact BEDC.FKernel.Hist.hsame_symm sameNumerator
+                        · exact BEDC.FKernel.Hist.hsame_symm sameDenominator
+
 end BEDC.Derived.RatUp

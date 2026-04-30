@@ -140,6 +140,31 @@ theorem BoolHistoryCarrier_hsame_transport {h k : BEDC.FKernel.Hist.BHist} :
       exact Or.inr
         (BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm same) oneCase)
 
+theorem BoolHistoryClassifier_cases {h k : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryClassifier h k ->
+      (BEDC.FKernel.Hist.hsame h BEDC.FKernel.Hist.BHist.Empty ∧
+          BEDC.FKernel.Hist.hsame k BEDC.FKernel.Hist.BHist.Empty) ∨
+        (BEDC.FKernel.Hist.hsame h
+            (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty) ∧
+          BEDC.FKernel.Hist.hsame k
+            (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty)) := by
+  intro classifier
+  cases classifier with
+  | intro carrierH rest =>
+      cases rest with
+      | intro _ sameHK =>
+          cases carrierH with
+          | inl emptyH =>
+              exact Or.inl
+                ⟨emptyH,
+                  BEDC.FKernel.Hist.hsame_trans
+                    (BEDC.FKernel.Hist.hsame_symm sameHK) emptyH⟩
+          | inr oneH =>
+              exact Or.inr
+                ⟨oneH,
+                  BEDC.FKernel.Hist.hsame_trans
+                    (BEDC.FKernel.Hist.hsame_symm sameHK) oneH⟩
+
 theorem bool_history_name_certificate :
     BEDC.FKernel.NameCert.NameCert BoolHistoryCarrier BoolHistoryClassifier := by
   exact {
