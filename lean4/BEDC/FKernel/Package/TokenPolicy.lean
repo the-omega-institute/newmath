@@ -350,6 +350,19 @@ theorem packageTokenPolicy_psame_three_step_reflect_on_introduced [AskSetup] [Pa
       sameLeft sameMid sameRight)
 
 omit [AskSetup] P in
+theorem packageTokenPolicy_three_step_reflect_on_introduced [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
+    {a b c d : BHist} {p q r u : Pkg} :
+    TokIntro bundle a p -> TokIntro bundle b q -> TokIntro bundle c r ->
+      TokIntro bundle d u -> psame bundle p q -> psame bundle q r ->
+        psame bundle r u -> hsame a d := by
+  intro left mid1 mid2 right sameLeft sameMid sameRight
+  have ab : hsame a b := policy.reflection left mid1 sameLeft
+  have bc : hsame b c := policy.reflection mid1 mid2 sameMid
+  have cd : hsame c d := policy.reflection mid2 right sameRight
+  exact hsame_trans ab (hsame_trans bc cd)
+
+omit [AskSetup] P in
 theorem packageTokenPolicy_psame_four_step_on_introduced [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
     {a b c d e : BHist} {p q r u v : Pkg} :

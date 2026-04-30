@@ -42,4 +42,19 @@ theorem sig_total_pair_from_policy [AskSetup] {bundle : ProbeBundle ProbeName} {
       | intro t ht =>
           exact ⟨s, t, hs, ht⟩
 
+theorem sameSig_three_step_witness_chain_under_policy [AskSetup]
+    {bundle : ProbeBundle ProbeName} {D : BHist -> Prop} (policy : AskPolicy D)
+    {h k l m : BHist} :
+    D k -> D l -> SameSig bundle h k -> SameSig bundle k l -> SameSig bundle l m ->
+      exists s : BHist, exists v : BHist,
+        SigRel bundle h s /\ SigRel bundle m v /\ hsame s v := by
+  intro dk dl hhk hkl hlm
+  have hhl : SameSig bundle h l :=
+    sameSig_trans (bundle := bundle) (D := D) (h := h) (k := k) (l := l)
+      policy dk hhk hkl
+  have hhm : SameSig bundle h m :=
+    sameSig_trans (bundle := bundle) (D := D) (h := h) (k := l) (l := m)
+      policy dl hhl hlm
+  exact hhm
+
 end BEDC.FKernel.Sig

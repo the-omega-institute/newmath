@@ -131,4 +131,30 @@ theorem inGapSig_transport_iff_with_signature_witnesses [AskSetup] [PackageSetup
     exact And.intro (policy.transport hgap.left same) ksig
   · intro kgap
     exact And.intro (policy.transport kgap.left (hsame_symm same)) hsig
+
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_domain_transport_equiv_with_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
+    (policy : DomainPolicy D) :
+    hsame h k ->
+      ((InGapSig bundle D p h /\
+          (exists s : BHist, SigRel bundle k s /\ TokIntro bundle s p)) <->
+        (InGapSig bundle D p k /\
+          (exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p))) := by
+  intro hhk
+  constructor
+  · intro source
+    cases source with
+    | intro hgap kWitness =>
+        cases hgap with
+        | intro hdom hWitness =>
+            exact And.intro (And.intro (policy.transport hdom hhk) kWitness) hWitness
+  · intro target
+    cases target with
+    | intro kgap hWitness =>
+        cases kgap with
+        | intro kdom kWitness =>
+            exact And.intro
+              (And.intro (policy.transport kdom (hsame_symm hhk)) hWitness)
+              kWitness
 end BEDC.FKernel.Gap
