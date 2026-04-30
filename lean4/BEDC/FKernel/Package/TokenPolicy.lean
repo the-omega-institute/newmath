@@ -293,6 +293,18 @@ theorem packageTokenPolicy_psame_trans_on_introduced {bundle : ProbeBundle Probe
   exact psame_trans_under_policy policy left middle right leftSame rightSame
 
 omit [AskSetup] P in
+theorem packageTokenPolicy_psame_chain_three_on_introduced [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
+    {a b c d : BHist} {p q r s : Pkg} :
+    TokIntro bundle a p → TokIntro bundle b q → TokIntro bundle c r →
+      TokIntro bundle d s → psame bundle p q → psame bundle q r →
+        psame bundle r s → psame bundle p s := by
+  intro left middle right last leftSame middleSame rightSame
+  have firstChain : psame bundle p r :=
+    packageTokenPolicy_psame_trans_on_introduced policy left middle right leftSame middleSame
+  exact packageTokenPolicy_psame_trans_on_introduced policy left right last firstChain rightSame
+
+omit [AskSetup] P in
 theorem packageTokenPolicy_two_step_reflect_on_introduced [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
     {a b c : BHist} {p q r : Pkg} :

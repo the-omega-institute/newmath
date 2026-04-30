@@ -136,6 +136,10 @@ theorem additive_stability_and_ledger_policy :
 def AddLedgerPolicy : Prop :=
   forall {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r
 
+theorem addLedgerPolicy_from_unary_cont_closed : AddLedgerPolicy := by
+  intro h k r uh uk cont
+  exact unary_cont_closed uh uk cont
+
 theorem unary_addition_seed_from_policy :
     AddLedgerPolicy -> forall {h k r : BHist},
       UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r := by
