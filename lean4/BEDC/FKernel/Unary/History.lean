@@ -25,6 +25,12 @@ def UnaryContinuationCommutativityObligation : Prop :=
   forall {h k r r2 : BHist},
     UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r2 -> hsame r r2
 
+theorem unary_commutativity_obligation_iff :
+    UnaryContinuationCommutativityObligation ↔
+      (∀ {h k r r' : BHist}, UnaryHistory h → UnaryHistory k →
+        Cont h k r → Cont k h r' → hsame r r') := by
+  rfl
+
 theorem unary_empty : UnaryHistory BHist.Empty := by
   exact True.intro
 

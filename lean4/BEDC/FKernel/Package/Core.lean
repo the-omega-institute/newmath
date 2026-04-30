@@ -133,6 +133,17 @@ theorem psame_reflect_under_tok_unique {bundle : ProbeBundle ProbeName}
   | intro left0 right0 same0 =>
       exact hsame_trans (tok left left0) (hsame_trans same0 (hsame_symm (tok right right0)))
 
+omit [AskSetup] P in
+theorem psame_source_hsame_under_tok_unique [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (tok : TokUnique bundle)
+    {s : BHist} {p q : Pkg} :
+    TokIntro bundle s p → psame bundle p q →
+      ∃ t : BHist, TokIntro bundle t q ∧ hsame s t := by
+  intro source samePkg
+  cases samePkg with
+  | intro source0 target sameHist =>
+      exact Exists.intro _ (And.intro target (hsame_trans (tok source source0) sameHist))
+
 theorem psame_trans_under_tok_unique {bundle : ProbeBundle ProbeName} (tok : TokUnique bundle) {p q r : Pkg} :
     psame bundle p q → psame bundle q r → psame bundle p r := by
   intro leftSame rightSame

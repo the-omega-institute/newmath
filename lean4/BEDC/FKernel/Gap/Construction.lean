@@ -318,6 +318,42 @@ theorem concrete_gap_separation
     (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
     askPolicy hp hq
 
+theorem concrete_gap_separation_witnesses
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg}
+    (askPolicy : AskPolicy (InDom D)) :
+    InGapSig bundle D p h → InGapSig bundle D q h →
+      ∃ s : BHist, ∃ t : BHist,
+        SigRel bundle h s ∧ TokIntro bundle s p ∧
+          SigRel bundle h t ∧ TokIntro bundle t q ∧
+            hsame s t ∧ psame bundle p q := by
+  intro hp hq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro hIn hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs hpTok =>
+                      cases htData with
+                      | intro ht hqTok =>
+                          have hst : hsame s t :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D) (h := h) (s := s) (t := t)
+                              askPolicy hIn hs ht
+                          have hpq : psame bundle p q := psame.intro hpTok hqTok hst
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro hs
+                                (And.intro hpTok
+                                  (And.intro ht
+                                    (And.intro hqTok
+                                      (And.intro hst hpq))))))
+
 
 omit [PackageSetup] in
 theorem policy_sig_total
