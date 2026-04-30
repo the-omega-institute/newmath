@@ -217,6 +217,22 @@ theorem packagePolicy_classification_directions [AskSetup] [PackageSetup]
   · intro samePkg
     exact policy.grounding samePkg
 
+omit [AskSetup] P in
+theorem packagePolicy_classifies_signature_witnesses [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle)
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t q ->
+      (hsame s t -> psame bundle p q) ∧
+      (psame bundle p q ->
+        ∃ u : BHist, ∃ v : BHist,
+          TokIntro bundle u p ∧ TokIntro bundle v q ∧ hsame u v) := by
+  intro left right
+  constructor
+  · intro sameHist
+    exact policy.extensionality sameHist left right
+  · intro samePkg
+    exact policy.grounding samePkg
+
 theorem PackagePolicy_signature_facing {bundle : ProbeBundle ProbeName}
     (policy : PackagePolicy bundle) {s t : BHist} {p q : Pkg} :
     TokIntro bundle s p -> TokIntro bundle t q -> hsame s t -> psame bundle p q := by

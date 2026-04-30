@@ -252,6 +252,15 @@ theorem nat_up_licensed_not_primitive : NameCert UnaryName ∧ Nonempty (NameCer
   · exact nat_up_name_certificate
   · exact nat_up_name_certificate_exists
 
+theorem nat_up_seed_from_unary_continuation :
+    NameCert UnaryName ∧
+      (∀ {h k r : BHist},
+        UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r) := by
+  constructor
+  · exact nat_up_name_certificate
+  · intro h k r uh uk hr
+    exact unary_cont_closed uh uk hr
+
 theorem nat_up_certificate_source_witness : Nonempty SourceSpec := by
   exact nameCert_source_witness_from_cert nat_up_name_certificate
 

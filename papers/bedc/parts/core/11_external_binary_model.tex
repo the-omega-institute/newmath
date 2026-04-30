@@ -38,3 +38,12 @@ The external model \(\Mbin\) satisfies the mark, history, extension, continuatio
 \begin{proof}
 Each rule is interpreted by the corresponding operation on finite binary words. Mark and history no-confusion follow from the distinct constructors of the external word model. Extension and continuation determinacy follow from deterministic token append and word concatenation. Signature determinacy follows from the asking policy. Package and gap coverage/separation follow from the interpretation of packages as signature classes and gaps as inverse images.
 \end{proof}
+
+\begin{theorem}[External append bit result inversion]
+\label{thm:external-append-bit-result-inversion}
+If an external append result is a zero-bit word, then either the right word is empty and the left word is that zero-bit word, or the right word starts with zero and the tail append is the result tail. The same alternative holds for one-bit words.
+\end{theorem}
+\leanchecked{BEDC.FKernel.ExternalBinary.external\_append\_bit\_result\_inversion}
+\begin{proof}
+Case-analyze the right appended word. The empty case returns the left word. Matching bit constructors expose the tail equality by constructor injectivity, and opposite bit constructors are impossible by constructor disjointness.
+\end{proof}
