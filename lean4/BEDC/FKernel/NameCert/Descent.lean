@@ -124,4 +124,15 @@ theorem StableTransformation_descent_certificate_and_respects
       · intro a b same
         exact respects same
 
+theorem descentCertificate_respects_witness
+    {Source Target : Type}
+    {sourceSame : Source → Source → Prop}
+    {targetSame : Target → Target → Prop}
+    (cert : DescentCertificate Source Target sourceSame targetSame)
+    {a b : Source} :
+    sourceSame a b →
+      ∃ map : Source → Target, map = cert.map ∧ targetSame (map a) (map b) := by
+  intro same
+  exact Exists.intro cert.map (And.intro rfl (descentCertificate_respects cert same))
+
 end BEDC.FKernel.NameCert
