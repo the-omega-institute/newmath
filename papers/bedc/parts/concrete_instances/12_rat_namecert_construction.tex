@@ -271,8 +271,18 @@ The stability certificate consists of:
 
 \begin{definition}[Rat ledger policy]
 \label{def:rat-ledger-policy}
-Record the pre-normalized integer pair and the normalized representative used for the visible rational.
+Record the raw rational-history carrier and an $\hsame$ link to the visible denominator history.
 \end{definition}
+\leandef{BEDC.Derived.RatUp.RatHistoryLedgerPolicy}
+
+\begin{theorem}[Rat ledger visible carrier]
+\label{thm:rat-ledger-visible-carrier}
+If a raw rational history satisfies the ledger policy for a visible history, then the visible history is itself a rational-history carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_visible\_carrier}
+\begin{proof}
+Unpack the ledger policy into a raw rational-history carrier and an $\hsame$ link from the raw history to the visible history. Transport the raw carrier across that link.
+\end{proof}
 
 \begin{definition}[\(\RatUp\) certificate obligations]
 \label{def:rat-certificate-obligations}

@@ -152,6 +152,9 @@ def RatHistoryCarrier (denominator : BHist) : Prop :=
 def RatHistoryClassifier (d e : BHist) : Prop :=
   RatHistoryCarrier d ∧ RatHistoryCarrier e ∧ hsame d e
 
+def RatHistoryLedgerPolicy (raw visible : BHist) : Prop :=
+  RatHistoryCarrier raw ∧ hsame raw visible
+
 theorem RatHistoryClassifier_trans {d e f : BHist} :
     RatHistoryClassifier d e -> RatHistoryClassifier e f -> RatHistoryClassifier d f := by
   intro de ef
@@ -173,6 +176,11 @@ theorem RatHistoryCarrier_hsame_transport {d e : BHist} :
       cases signData with
       | intro numerator ratCarrier =>
           exact ⟨sign, numerator, RatCarrier_denominator_hsame_transport ratCarrier same⟩
+
+theorem RatHistoryLedgerPolicy_visible_carrier {raw visible : BHist} :
+    RatHistoryLedgerPolicy raw visible → RatHistoryCarrier visible := by
+  intro ledger
+  exact RatHistoryCarrier_hsame_transport ledger.right ledger.left
 
 theorem rat_history_semantic_name_certificate :
     SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
