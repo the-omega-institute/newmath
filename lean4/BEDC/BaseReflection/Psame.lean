@@ -45,6 +45,16 @@ theorem PsameBase_single_constructor_witnesses
   | intro left right same =>
       exact Exists.intro _ (Exists.intro _ (And.intro left (And.intro right same)))
 
+theorem PsameBase_swapped_constructor_witnesses
+    {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} (eqv : HSameEquiv s) :
+    PsameBase s P p q → ∃ y : s.SigObj, ∃ x : s.SigObj,
+      s.TokIntro P y q ∧ s.TokIntro P x p ∧ s.hsame y x := by
+  intro base
+  cases base with
+  | intro left right same =>
+      exact Exists.intro _
+        (Exists.intro _ (And.intro right (And.intro left (eqv.symm same))))
+
 theorem PsameBase_iff_constructor_witnesses
     {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PsameBase s P p q ↔ ∃ x : s.SigObj, ∃ y : s.SigObj,

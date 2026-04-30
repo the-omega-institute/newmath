@@ -129,6 +129,15 @@ theorem external_append_right_length_zero {a b : BWord} :
       simp [append, BEDC.FKernel.Cont.append, bwordLength, bwordLength_append] at h
       exact False.elim (nat_eq_add_succ_false (bwordLength a) (bwordLength b) h.symm)
 
+theorem external_append_length_eq_left_iff_right_empty {a b : BWord} :
+    bwordLength (append a b) = bwordLength a ↔ b = BHist.Empty := by
+  constructor
+  · intro h
+    exact external_append_right_length_zero h
+  · intro h
+    cases h
+    rfl
+
 theorem external_length_zero_iff_nil (w : BWord) : bwordLength w = 0 ↔ w = BHist.Empty := by
   constructor
   · intro h
