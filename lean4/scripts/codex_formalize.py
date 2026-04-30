@@ -1420,6 +1420,184 @@ _NEW_DECL_RE = re.compile(
     re.MULTILINE,
 )
 
+_DECL_HEADER_RE = re.compile(
+    r"^\s*(?:@\[[^\]]*\]\s*)*"
+    r"(?:private\s+|protected\s+|noncomputable\s+|scoped\s+|local\s+)*"
+    r"(def|theorem|lemma|abbrev|structure|class|inductive|instance)\s+"
+    r"([A-Za-z_][\w.]*)",
+    re.MULTILINE,
+)
+_NAMESPACE_RE = re.compile(r"^\s*namespace\s+([A-Za-z0-9_'.]+)\s*$")
+_END_RE = re.compile(r"^\s*end(?:\s+[A-Za-z0-9_'.]+)?\s*$")
+_LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef|leanvariant)\{([^}]+)\}")
+_BEDC_TOUCHPOINT_RE = re.compile(
+    r"\b("
+    r"BMark|BHist|msame|hsame|Ext|Cont|ProbeBundle|SigRel|sameSig|Pkg|InGap|"
+    r"NameCert|SemanticNameCert|BaseReflectionSetup|AskSetup|PackageSetup|"
+    r"DomainSetup|NameCertSetup|BEDC\."
+    r")\b"
+)
+_HOLLOW_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
+    ("import Init.Data.Unit", re.compile(r"^\s*import\s+Init\.Data\.Unit\s*$")),
+    ("Unit-only construction", re.compile(r"(?::\s*Unit\b.*:=\s*\(\)|:=\s*(?:\(\)|Unit\.unit|Unit)(?![A-Za-z_])|\bexact\s+(?:\(\)|Unit\.unit|Unit)(?![A-Za-z_]))")),
+    ("True-only proof", re.compile(r"(?::\s*True\b.*:=\s*(?:True\.intro|trivial)|:=\s*(?:True\.intro|trivial)(?![A-Za-z_])|\bexact\s+(?:True\.intro|trivial)(?![A-Za-z_]))")),
+    ("NameCert.mk Unit tuple", re.compile(r"NameCert\.mk\s+(?:\(\)|Unit\.unit)")),
+    ("MinimalNameCertSetup", re.compile(r"\bMinimalNameCertSetup\b")),
+]
+
+
+def _normalize_marker_name(name: str) -> str:
+    return name.replace(r"\_", "_").strip()
+
+
+def _qualified_decl_name(name: str, namespace_stack: list[str]) -> str:
+    if name.startswith("BEDC."):
+        return name
+    if namespace_stack:
+        return f"{'.'.join(namespace_stack)}.{name}"
+    return name
+
+
+def _lean_decl_blocks(src: str) -> list[tuple[str, int, int, str]]:
+    stripped = _strip_lean_comments(src)
+    lines = stripped.splitlines()
+    raw_lines = src.splitlines()
+    namespace_stack: list[str] = []
+    decls: list[tuple[str, int, int, str]] = []
+    pending: list[tuple[str, int, list[str], int]] = []
+    for idx, line in enumerate(lines, start=1):
+        ns = _NAMESPACE_RE.match(line)
+        if ns:
+            namespace_stack.append(ns.group(1))
+            continue
+        if _END_RE.match(line) and namespace_stack:
+            namespace_stack.pop()
+            continue
+        m = _DECL_HEADER_RE.match(line)
+        if m:
+            pending.append((_qualified_decl_name(m.group(2), namespace_stack), idx, list(namespace_stack), len(decls)))
+    for i, (name, start, _ns, _pos) in enumerate(pending):
+        end = pending[i + 1][1] - 1 if i + 1 < len(pending) else len(lines)
+        block = "\n".join(raw_lines[start - 1:end])
+        decls.append((name, start, end, block))
+    return decls
+
+
+def collect_added_lean_declarations(wt: WorktreeInfo) -> dict[str, tuple[str, str]]:
+    """Return newly introduced BEDC declarations as name -> (rel_path, block)."""
+    added: dict[str, tuple[str, str]] = {}
+    if not wt.base_sha:
+        return added
+    for rel in _changed_lean_files(wt):
+        try:
+            current_src = (wt.path / rel).read_text(encoding="utf-8")
+        except Exception:
+            continue
+        current = {name: block for name, _start, _end, block in _lean_decl_blocks(current_src)}
+        try:
+            base_src = run_cmd(
+                ["git", "show", f"{wt.base_sha}:{rel}"],
+                cwd=wt.path, check=False,
+            ).stdout
+        except Exception:
+            base_src = ""
+        base = {name for name, _start, _end, _block in _lean_decl_blocks(base_src)} if base_src else set()
+        for name, block in current.items():
+            if name not in base:
+                added[name] = (rel, block)
+    return added
+
+
+def _changed_paper_files(wt: WorktreeInfo) -> list[str]:
+    if not wt.base_sha:
+        return []
+    try:
+        r = run_cmd(
+            ["git", "diff", "--name-only", "--diff-filter=AM",
+             f"{wt.base_sha}..HEAD", "--", "papers/bedc/"],
+            cwd=wt.path,
+        )
+    except Exception:
+        return []
+    return [l.strip() for l in (r.stdout or "").splitlines() if l.strip().endswith(".tex")]
+
+
+def _added_marker_lines(wt: WorktreeInfo) -> list[tuple[str, str, str]]:
+    markers: list[tuple[str, str, str]] = []
+    if not wt.base_sha:
+        return markers
+    try:
+        r = run_cmd(
+            ["git", "diff", "--unified=0", f"{wt.base_sha}..HEAD", "--", "papers/bedc/"],
+            cwd=wt.path,
+        )
+    except Exception:
+        return markers
+    current_file = ""
+    for line in (r.stdout or "").splitlines():
+        if line.startswith("+++ b/"):
+            current_file = line[6:]
+            continue
+        if not line.startswith("+") or line.startswith("+++"):
+            continue
+        for m in _LEAN_MARKER_RE.finditer(line[1:]):
+            markers.append((current_file, m.group(1), _normalize_marker_name(m.group(2))))
+    return markers
+
+
+def detect_register_only_round(wt: WorktreeInfo) -> list[str]:
+    if _changed_paper_files(wt) and not collect_added_lean_declarations(wt):
+        return ["paper registration changed but the round added no Lean declarations under lean4/BEDC/"]
+    return []
+
+
+def detect_hollow_semantic_patterns(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    for rel in _changed_lean_files(wt):
+        try:
+            src = (wt.path / rel).read_text(encoding="utf-8")
+        except Exception:
+            continue
+        stripped = _strip_lean_comments(src)
+        added_lines = _lines_added_in_round(wt, rel)
+        for line_no, line in enumerate(stripped.splitlines(), start=1):
+            if line_no not in added_lines:
+                continue
+            raw = src.splitlines()[line_no - 1].strip()[:160]
+            for label, pattern in _HOLLOW_PATTERNS:
+                if pattern.search(line):
+                    violations.append(f"{rel}:{line_no}: {label} — {raw}")
+                    break
+    return violations
+
+
+def detect_new_leanvariant_markers(wt: WorktreeInfo) -> list[str]:
+    return [f"{rel}: new leanvariant marker for {name}" for rel, kind, name in _added_marker_lines(wt) if kind == "leanvariant"]
+
+
+def detect_markers_not_backed_by_new_decls(wt: WorktreeInfo) -> list[str]:
+    new_decls = set(collect_added_lean_declarations(wt))
+    violations: list[str] = []
+    for rel, kind, name in _added_marker_lines(wt):
+        if kind not in {"leanchecked", "leanstmt", "leandef"}:
+            continue
+        if name not in new_decls:
+            violations.append(f"{rel}: {kind} marker {name} does not reference a current-round Lean declaration")
+    return violations
+
+
+def detect_decls_without_kernel_touchpoint(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    for name, (rel, block) in collect_added_lean_declarations(wt).items():
+        semantic_lines = [
+            line for line in block.splitlines()
+            if not _NAMESPACE_RE.match(line) and not _END_RE.match(line)
+        ]
+        semantic_block = "\n".join(semantic_lines)
+        if not _BEDC_TOUCHPOINT_RE.search(semantic_block):
+            violations.append(f"{rel}: new declaration {name} does not mention a BEDC kernel/setup touchpoint")
+    return violations
+
 
 def detect_duplicate_symbols(wt: WorktreeInfo) -> list[str]:
     """Gate 5: reject rounds that add `def/theorem/lemma/abbrev/structure/
@@ -1572,7 +1750,53 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
                 f"\\leanpartial{{…}}{{reason}} if proof is incomplete."
             )
             return False, new
-        # Gate 4: sorry/admit/axiom literals in newly-added or modified lines
+        # Gate 4: semantic-quality gates for automated rounds
+        register_only_violations = detect_register_only_round(wt)
+        if register_only_violations:
+            for v in register_only_violations:
+                logger.error(f"[R{wt.round_number}] REGISTER-ONLY ROUND: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: paper markers changed without "
+                f"new Lean declarations. Pick a target that adds real formal content."
+            )
+            return False, new
+        hollow_violations = detect_hollow_semantic_patterns(wt)
+        if hollow_violations:
+            for v in hollow_violations[:10]:
+                logger.error(f"[R{wt.round_number}] HOLLOW SEMANTIC PATTERN: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(hollow_violations)} added "
+                f"line(s) use Unit/True/trivial/MinimalNameCertSetup hollow constructions."
+            )
+            return False, new
+        variant_violations = detect_new_leanvariant_markers(wt)
+        if variant_violations:
+            for v in variant_violations[:10]:
+                logger.error(f"[R{wt.round_number}] NEW LEANVARIANT: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: automated rounds must add "
+                f"canonical leanchecked/leanstmt/leandef markers, not new variants."
+            )
+            return False, new
+        marker_violations = detect_markers_not_backed_by_new_decls(wt)
+        if marker_violations:
+            for v in marker_violations[:10]:
+                logger.error(f"[R{wt.round_number}] STALE MARKER TARGET: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(marker_violations)} marker(s) "
+                f"do not reference declarations introduced by this round."
+            )
+            return False, new
+        touchpoint_violations = detect_decls_without_kernel_touchpoint(wt)
+        if touchpoint_violations:
+            for v in touchpoint_violations[:10]:
+                logger.error(f"[R{wt.round_number}] NO BEDC TOUCHPOINT: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(touchpoint_violations)} new "
+                f"declaration(s) do not mention BEDC kernel/setup objects."
+            )
+            return False, new
+        # Gate 5: sorry/admit/axiom literals in newly-added or modified lines
         sorry_violations = detect_sorry_literals(wt)
         if sorry_violations:
             for v in sorry_violations[:10]:
@@ -1583,7 +1807,7 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
                 f"in phase_c.txt forbids these in committed code."
             )
             return False, new
-        # Gate 5: duplicate-symbol clash with base branch
+        # Gate 6: duplicate-symbol clash with base branch
         dup_violations = detect_duplicate_symbols(wt)
         if dup_violations:
             for v in dup_violations[:10]:

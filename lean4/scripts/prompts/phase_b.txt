@@ -1,9 +1,9 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v2.0 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v2.1 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
-## v2.0 — Anti-hollow semantic discipline (HARD GATE)
+## v2.1 — Anti-hollow semantic discipline (HARD GATE)
 
 A prior project review discovered that the `NameCert` license abstraction was
 structurally hollow: certificate fields (SourceSpec, PatternSpec, ClassifierSpec,
@@ -12,7 +12,7 @@ StabilityCert, LedgerPolicy) were declared as bare `Type` and instantiated with
 without saying anything about Unary histories or `hsame`. Markers pointed to
 real Lean targets but the Lean targets carried no semantic content.
 
-Effective from v2.0:
+Effective from v2.1:
 
 1. NEVER pick a target whose Lean implementation would be `Unit`, `True`,
    `True.intro`, `()`, or any other trivially-inhabited placeholder. The
@@ -36,13 +36,23 @@ Effective from v2.0:
 3. NEVER use `MinimalNameCertSetup` for new license proofs. That instance
    sets every field to `Unit` and is preserved only for legacy compatibility.
    New license proofs must use the `SemanticNameCert` shape introduced in
-   `lean4/BEDC/FKernel/NameCert.lean` (post v2.0 commit 2 of the rectification).
+   `lean4/BEDC/FKernel/NameCert.lean`.
 
 4. If the new target file requires importing `Init.Data.Unit` or otherwise
    constructs the proof from `()` exclusively, the target is INVALID — abort
    and pick a different target.
 
 This is a stricter superset of the existing HARD GATE in Step 2 below.
+
+## v2.1 — Script-backed quality gates
+
+Phase D now enforces these constraints mechanically. Select targets that will pass them:
+
+1. The round must add at least one new declaration under `lean4/BEDC/`. Paper-only registration of existing Lean names is rejected.
+2. Any new paper marker added by Phase C must point to a declaration introduced in the same round. Do not select a target whose only Lean work already exists.
+3. Automated rounds must not add new `\leanvariant` markers. If a candidate is only a wrapper, projection, weakened theorem, pair-bundle, or forwarding lemma for an already checked claim, skip it.
+4. Every new declaration must mention a concrete BEDC kernel/setup touchpoint in its declaration body: `BMark`, `BHist`, `msame`, `hsame`, `Ext`, `Cont`, `ProbeBundle`, `SigRel`, `sameSig`, `Pkg`, `InGap`, `NameCert`, `SemanticNameCert`, `BaseReflectionSetup`, `AskSetup`, `PackageSetup`, `DomainSetup`, `NameCertSetup`, or a `BEDC.` object.
+5. Added Lean lines using `Unit`, `()`, `Unit.unit`, `True.intro`, `trivial`, `NameCert.mk ()`, `NameCert.mk Unit.unit`, `MinimalNameCertSetup`, or `import Init.Data.Unit` are rejected as hollow.
 
 ## Project Layout
 - lean4/BEDC/ — Lean 4 code (mathlib-free; stdlib only)
@@ -118,3 +128,4 @@ Requirements:
 - `lean_signature` must be a plausible theorem statement that can be proved without mathlib, axioms, or sorry.
 - You MUST confirm each target is missing from `lean4/BEDC/`; do not guess.
 - Do NOT propose targets that would require editing `lean4/lakefile.lean`, `lean4/lean-toolchain`, or existing paper source during this selection phase.
+- Pick targets whose implementation body will visibly use BEDC kernel/setup objects, not just namespace placement or abstract `Prop` parameters.

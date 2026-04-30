@@ -1,16 +1,16 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.0 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.1 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
-## v2.0 — Anti-hollow semantic discipline (HARD GATE)
+## v2.1 — Anti-hollow semantic discipline (HARD GATE)
 
 The legacy `NameCert.mk () () () () ()` pattern is forbidden. Specifically:
 
 1. NO `Unit`-only proofs. Any new `def` / `theorem` / `lemma` whose body is
    `()`, `Unit.unit`, `True.intro`, `trivial`, or a sequence of these for
    each constructor argument is INVALID. Such proofs say nothing about the
-   BEDC kernel and are forbidden by v2.0 discipline.
+   BEDC kernel and are forbidden by v2.1 discipline.
 
 2. NO `MinimalNameCertSetup` in license proofs. New `NameCert` constructions
    must inhabit the `SemanticNameCert` shape, which forces the carrier to be
@@ -31,6 +31,16 @@ The legacy `NameCert.mk () () () () ()` pattern is forbidden. Specifically:
 If you cannot find a target that satisfies these constraints, output
 `{"targets": []}` from Phase B and let gate_check fail the round.
 Vacuous certificates are worse than empty rounds.
+
+## v2.1 — Script-backed Phase D gates
+
+Phase D rejects the commit even if Lean and LaTeX compile when any of the following occurs:
+
+1. Register-only round: paper markers changed but no new declaration was added under `lean4/BEDC/`.
+2. Stale marker target: a new `\leanchecked`, `\leanstmt`, or `\leandef` marker points to a Lean declaration that was not introduced in this round.
+3. New `\leanvariant`: automated rounds must not add variants. If your target only yields a wrapper, projection, weakened form, pair-bundle, or forwarding lemma for an already checked theorem, abandon it and implement a genuinely new statement.
+4. Hollow construction: added Lean lines using `Unit`, `()`, `Unit.unit`, `True.intro`, `trivial`, `NameCert.mk ()`, `NameCert.mk Unit.unit`, `MinimalNameCertSetup`, or `import Init.Data.Unit` are rejected.
+5. No BEDC touchpoint: every new declaration must mention a concrete BEDC kernel/setup object in its body, such as `BMark`, `BHist`, `msame`, `hsame`, `Ext`, `Cont`, `ProbeBundle`, `SigRel`, `sameSig`, `Pkg`, `InGap`, `NameCert`, `SemanticNameCert`, `BaseReflectionSetup`, `AskSetup`, `PackageSetup`, `DomainSetup`, `NameCertSetup`, or a `BEDC.` object.
 
 ## Round R<ROUND_NUM>
 
@@ -87,14 +97,15 @@ If errors occur, fix them before continuing. If a target is stuck, choose a diff
 After `lake build` passes:
 1. For each new Lean target, find the relevant paper theorem/definition site in `papers/bedc/parts/`. Decide which marker macro to use:
    - `\leanchecked{X}` — the primary canonical implementation of a paper claim. ONE per paper site.
-   - `\leanvariant{X}` — alternative implementation of the SAME paper claim already covered by an existing `\leanchecked` at this site: typeclass-binder wrappers (e.g. `concrete_*` vs `internalized_*`), weakened conclusions (`_hsame_only`), strengthened conclusions (`_with_tokens`), projections, or pure forwarding lemmas (`exact other_theorem`). MAY be multiple per primary marker.
    - `\leanstmt{X}` — statement-only / structure-field reference (no proof yet).
    - `\leandef{X}` — `def` or `inductive` definition reference.
+   Do NOT add `\leanvariant{X}` in automated rounds; Phase D rejects it. If a target would only be a variant, wrapper, projection, weaker conclusion, strengthened conclusion, pair-bundle, or pure forwarding lemma, abandon that target and implement a different one.
    Escape underscores as `\_` in target names.
-2. Decision rule for `\leanchecked` vs `\leanvariant` at an existing site:
-   - If no `\leanchecked` exists yet at this site → use `\leanchecked{X}` and pick the strongest / most general version as canonical.
-   - If a `\leanchecked` already exists and your new target is a wrapper / variant / projection / weaker form of the same claim → use `\leanvariant{X}`.
-   - If your new target is a genuinely different paper claim (different theorem statement) → look for its own paper site; do not stack under an unrelated theorem.
+2. Decision rule for markers:
+   - If the new declaration proves the paper claim → use `\leanchecked{X}`.
+   - If the new declaration is statement-only / structure-field reference → use `\leanstmt{X}`.
+   - If the new declaration is a `def` or `inductive` reference → use `\leandef{X}`.
+   - If the paper site already has `\leanchecked` and your new target would only be a variant of it → do not register it; pick another target.
 3. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
 
 4. For targets with `paper_block_status: "discovery"`: the paper does not yet have a block for this claim, so you must INSERT a new block into the existing chapter file given by `paper_target_chapter`. Insert a `\begin{theorem}[<short title>]\label{thm:<concept>}` (or `\begin{definition}` / `\begin{lemma}` / `\begin{corollary}` as appropriate) at a thematically correct location within an existing section of that chapter, write a brief `\begin{proof}...\end{proof}` sketch, and place the marker on the next line after `\end{...}`. Do NOT create a new chapter file. Do NOT modify any other chapter's existing content.
@@ -147,12 +158,12 @@ Also do NOT add new `\leanvariant` markers in this round. The 760+ existing `\le
 git add lean4/BEDC papers/bedc
 git commit -m "R<ROUND_NUM>: [brief description of what was proved and registered]
 
-prompts: v2.0
+prompts: v2.1
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v2.0` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_b.txt` and `phase_c.txt` is different (e.g. v1.1, v2.0), use that value in the commit body instead. This gives every R-round commit a permanent record of which prompt pair produced it.
+The `prompts: v2.1` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_b.txt` and `phase_c.txt` is different, use that value in the commit body instead. This gives every R-round commit a permanent record of which prompt pair produced it.
 
 ## IMPORTANT
 - Do NOT git push. The merge and push will be handled externally.
