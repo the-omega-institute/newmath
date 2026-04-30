@@ -4,21 +4,18 @@
 \section{Package Token Policy and Reflection}
 \label{sec:po-package-token-policy-abstract}
 
-This chapter replaces the function-like token notation \(\Tok_{\Pi}(s)\) by the judgment \(\TokIntro(\Pi,s,p)\) and packages the necessary token behavior into a single proof interface.
+This chapter replaces the function-like token notation $\Tok_{\Pi}(s)$ by the judgment $\TokIntro(\Pi,s,p)$ and records the proof interface governing introduced tokens.
 
 \begin{definition}[Package token policy]
 \label{def:package-token-policy}
-For a probe bundle \(\Pi\), a package token policy, written
-\[
+For a probe bundle $\Pi$, a package token policy, written
+$$
   \PkgTokPol(\Pi),
-\]
+$$
 consists of the following clauses for the concrete signature-token instance.
 \begin{enumerate}
-  \item \textbf{Token existence.} Every generated answer history \(s\) that is intended to be visible admits some token \(p\) with \(\TokIntro(\Pi,s,p)\).
-  \item \textbf{Soundness.} If \(\TokIntro(\Pi,s,p)\), \(\TokIntro(\Pi,t,q)\), and \(\hsame(s,t)\), then \(\psame(p,q)\).
-  \item \textbf{Reflection.} If \(\TokIntro(\Pi,s,p)\), \(\TokIntro(\Pi,t,q)\), and \(\psame(p,q)\), then \(\hsame(s,t)\).
-  \item \textbf{Package-sameness closure.} On introduced tokens, \(\psame\) is closed under reflexivity, symmetry, and transitivity.
-  \item \textbf{No external token equality.} Visible tokens are compared by \(\psame\), not by any imported equality judgment.
+  \item \textbf{Soundness.} If $\TokIntro(\Pi,s,p)$, $\TokIntro(\Pi,t,q)$, and $\hsame(s,t)$, then $\psame(p,q)$.
+  \item \textbf{Reflection.} If $\TokIntro(\Pi,s,p)$, $\TokIntro(\Pi,t,q)$, and $\psame(p,q)$, then $\hsame(s,t)$.
 \end{enumerate}
 \end{definition}
 \leanchecked{BEDC.FKernel.Package.PackageTokenPolicy\_iff\_fields}
@@ -35,6 +32,12 @@ consists of the following clauses for the concrete signature-token instance.
 \leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_trans\_on\_introduced}
 \leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_three\_step\_on\_introduced}
 \leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_reflect\_sound\_reflect\_chain}
+
+Package-sameness closure on introduced tokens is a consequence of soundness and reflection, recorded by the checked closure theorem above. Token existence is a separate premise, written
+$$
+  \forall s,\;\exists p,\;\TokIntro(\Pi,s,p).
+$$
+The rule that visible tokens are compared by $\psame$ rather than by imported equality is a token-comparison principle for theorem statements, not a field of $\PkgTokPol(\Pi)$.
 
 \begin{theorem}[Package tokens are signature-facing]
 \label{thm:package-tokens-signature-facing}

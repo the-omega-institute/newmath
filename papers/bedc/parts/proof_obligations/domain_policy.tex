@@ -4,23 +4,20 @@
 \section{Domain Policy and Transport Obligations}
 \label{sec:po-domain-policy-abstract}
 
-This chapter records the internal domain judgment \(\InDom(D,h)\) and the additional proof obligations needed for domain behavior.
+This chapter records the internal domain judgment $\InDom(D,h)$ and the transport obligation needed for domain behavior.
 
 \begin{definition}[Domain policy]
 \label{def:domain-policy}
-A source-domain name \(D\) is equipped with a domain policy, written
-\[
+A source-domain name $D$ is equipped with a domain policy, written
+$$
   \DomainPolicy(D),
-\]
-when the following BEDC-level behavior is supplied.
-\begin{enumerate}
-  \item \textbf{Admission judgment.} Source membership is expressed only by \(\InDom(D,h)\).
-  \item \textbf{History transport.} If \(\InDom(D,h)\) and \(\hsame(h,k)\), then \(\InDom(D,k)\).
-  \item \textbf{No set-membership import.} No theorem in the active concrete layer may use the notation \(h\in D\) as an internal premise.
-\end{enumerate}
+$$
+when the following BEDC-level transport behavior is supplied: if $\InDom(D,h)$ and $\hsame(h,k)$, then $\InDom(D,k)$.
 \end{definition}
 \leanchecked{BEDC.FKernel.Gap.DomainPolicy\_transport\_field}
 \leanvariant{BEDC.FKernel.Gap.DomainPolicy\_iff\_transport\_and\_invariance}
+
+The carrier $D$ and judgment $\InDom(D,h)$ are supplied by the domain setup. Concrete gap statements use $\InDom(D,h)$ as their source-admission premise rather than imported set-membership notation.
 
 \begin{theorem}[Domain transport]
 \label{thm:domain-transport}
