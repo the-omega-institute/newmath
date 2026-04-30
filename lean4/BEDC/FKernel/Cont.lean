@@ -41,6 +41,14 @@ theorem cont_right_unit : ∀ h : BHist, Cont h .Empty h := by
   intro h
   rfl
 
+theorem cont_unit_laws :
+    (∀ k : BHist, Cont .Empty k k) ∧
+      (∀ {h r : BHist}, Cont h .Empty r → hsame r h) := by
+  constructor
+  · exact cont_left_unit
+  · intro h r hr
+    exact cont_deterministic hr (cont_right_unit h)
+
 theorem cont_assoc_exists :
     ∀ {a b c ab bc : BHist},
       Cont a b ab → Cont b c bc → ∃ abc : BHist, Cont ab c abc ∧ Cont a bc abc := by

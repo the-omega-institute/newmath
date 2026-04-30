@@ -25,6 +25,16 @@ theorem hsame_trans : ∀ {a b c : BHist}, hsame a b → hsame b c → hsame a c
   intro a b c hab hbc
   exact hab.trans hbc
 
+theorem hsame_equivalence :
+    (∀ h : BHist, hsame h h) ∧
+      (∀ {h k : BHist}, hsame h k → hsame k h) ∧
+      (∀ {a b c : BHist}, hsame a b → hsame b c → hsame a c) := by
+  constructor
+  · exact hsame_refl
+  · constructor
+    · exact hsame_symm
+    · exact hsame_trans
+
 theorem hsame_constructor_inversion :
     (∀ {h x : BHist}, hsame (.e0 h) x → ∃ k : BHist, x = .e0 k ∧ hsame h k) ∧
       (∀ {h x : BHist}, hsame (.e1 h) x → ∃ k : BHist, x = .e1 k ∧ hsame h k) := by

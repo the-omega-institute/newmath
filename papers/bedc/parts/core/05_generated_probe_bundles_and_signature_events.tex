@@ -30,6 +30,15 @@ The signature event \(\Sig(\Pi,h,s,\Delta)\) means that bundle \(\Pi\) applied t
 where \(\Delta_0\) is the neutral signature evidence token.
 \end{kernelrule}
 
+\begin{lemma}[Empty signature inversion]
+\label{lem:empty-signature-inversion}
+If \(\Sig(\Bnil,h,r,\Delta_0)\), then \(\hsame(r,\emp)\).
+\end{lemma}
+\leanchecked{BEDC.FKernel.Sig.sig\_empty\_inversion}
+\begin{proof}
+Invert the signature derivation. For the empty bundle, only the empty-signature rule applies, so the result history is \(\emp\).
+\end{proof}
+
 \begin{kernelrule}[Cons signature]
 If
 \[
