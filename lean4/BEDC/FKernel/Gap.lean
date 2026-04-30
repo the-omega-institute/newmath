@@ -339,6 +339,40 @@ theorem internalized_globalize_soundness
                                             hsame_trans (hsame_symm hsu) (hsame_trans hst htv)
                                           exact packagePolicy.soundness hpTok hqTok huv
 
+theorem internalized_globalize_soundness_for_witnesses
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} {s t : BHist} :
+    AskPolicy (InDom D) -> PackageTokenPolicy bundle ->
+      InGapSig bundle D p h -> InGapSig bundle D q k ->
+      SigRel bundle h s -> SigRel bundle k t -> hsame s t -> psame bundle p q := by
+  intro askPolicy packagePolicy hp hq hs ht hst
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro hIn hpSig =>
+      cases hq with
+      | intro kIn hqSig =>
+          cases hpSig with
+          | intro u huData =>
+              cases hqSig with
+              | intro v hvData =>
+                  cases huData with
+                  | intro huSig hpTok =>
+                      cases hvData with
+                      | intro hvSig hqTok =>
+                          have hsu : hsame s u :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D)
+                              (h := h) (s := s) (t := u)
+                              askPolicy hIn hs huSig
+                          have htv : hsame t v :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D)
+                              (h := k) (s := t) (t := v)
+                              askPolicy kIn ht hvSig
+                          have huv : hsame u v :=
+                            hsame_trans (hsame_symm hsu) (hsame_trans hst htv)
+                          exact packagePolicy.soundness hpTok hqTok huv
+
 theorem exact_concrete_globalize
     {bundle : ProbeBundle ProbeName} {D : Domain}
     (domainPolicy : DomainPolicy D)

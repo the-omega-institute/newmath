@@ -6,6 +6,7 @@ The BEDC kernel separates asking, packaging, and gap recording. This chapter ref
 \section{Package policy as a public interface}
 
 \begin{definition}[Package-policy interface]
+\label{def:package-policy-interface}
 A package policy for a bundle \(\Pi\) is a public contract specifying how generated answer histories are represented by visible package tokens. It is not a quotient object and it is not a set of equivalence classes. It consists of three obligations:
 \begin{enumerate}
   \item \textbf{Existence:} every admitted signature history has an admitted package token.
@@ -13,6 +14,7 @@ A package policy for a bundle \(\Pi\) is a public contract specifying how genera
   \item \textbf{Grounding:} internally same package tokens are justified by internally same admitted signatures.
 \end{enumerate}
 \end{definition}
+\leanchecked{BEDC.FKernel.Package.packagePolicy\_token\_exists}
 
 \begin{principle}[No quotient shortcut]
 A package token is not introduced as a quotient class. It is introduced through a package policy. Quotient-like behavior is then a theorem, not a primitive.

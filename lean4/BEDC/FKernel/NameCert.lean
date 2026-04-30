@@ -51,6 +51,18 @@ theorem derived_interfaces_have_stability [NameCertSetup] {name : DerivedName} :
   | mk source pattern classifier stability ledger =>
       exact Nonempty.intro stability
 
+theorem nameCert_witnesses_from_cert {name : DerivedName} :
+    NameCert name ->
+      exists source : SourceSpec,
+      exists pattern : PatternSpec,
+      exists classifier : ClassifierSpec,
+      exists stability : StabilityCert,
+      exists ledger : LedgerPolicy, True := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact ⟨source, pattern, classifier, stability, ledger, True.intro⟩
+
 end Cert
 
 theorem ledger_witness_from_cert [NameCertSetup] {name : DerivedName} :

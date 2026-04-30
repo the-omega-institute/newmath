@@ -42,6 +42,11 @@ structure PackagePolicy (bundle : ProbeBundle ProbeName) : Prop where
   grounding :
     ∀ {p q : Pkg}, psame bundle p q → ∃ s : BHist, ∃ t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t
 
+theorem packagePolicy_token_exists {bundle : ProbeBundle ProbeName}
+    (policy : PackagePolicy bundle) (s : BHist) :
+    exists p : Pkg, TokIntro bundle s p := by
+  exact policy.existence s
+
 theorem packagePolicy_classifies_signatures
     {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle)
     {s t : BHist} {p q : Pkg} :
