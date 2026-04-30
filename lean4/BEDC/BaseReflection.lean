@@ -613,6 +613,24 @@ theorem ExactGlobalizeBase_coverage
     (ex : ExactGlobalizeBase s P D) : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h := by
   exact ex.coverage
 
+theorem ExactGlobalizeBase_fields
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    (forall h, s.InDom D h -> exists p, s.InGapSig P D p h) /\
+      (forall h k p q, s.InGapSig P D p h -> s.InGapSig P D q k ->
+        GeneratedSameSig s P h k -> PsameBase s P p q) /\
+      (forall h k p q, s.InGapSig P D p h -> s.InGapSig P D q k ->
+        PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)) := by
+  constructor
+  case left =>
+    exact ex.coverage
+  case right =>
+    constructor
+    case left =>
+      exact ex.soundness
+    case right =>
+      exact ex.completeness
+
 theorem ExactGlobalizeBase_classify_iff
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
     {h k : s.Hist} {p q : s.Pkg}
