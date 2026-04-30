@@ -126,6 +126,15 @@ theorem psame_left_token_witness {bundle : ProbeBundle ProbeName} {p q : Pkg} :
   | intro hp _ _ =>
       exact Exists.intro _ hp
 
+omit [AskSetup] P in
+theorem psame_right_token_witness [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {p q : Pkg} :
+    psame bundle p q → ∃ t : BHist, TokIntro bundle t q := by
+  intro hpq
+  cases hpq with
+  | intro _ hq _ =>
+      exact Exists.intro _ hq
+
 theorem psame_iff_constructor_witnesses {bundle : ProbeBundle ProbeName} {p q : Pkg} :
     psame bundle p q ↔ ∃ s : BHist, ∃ t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t := by
   constructor

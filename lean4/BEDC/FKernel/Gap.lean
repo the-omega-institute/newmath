@@ -92,6 +92,20 @@ theorem inGapSig_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
               exact Exists.intro s (And.intro hdom (And.intro hsig htok))
 
 omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_intro_from_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    (∃ s : BHist, InDom D h ∧ SigRel bundle h s ∧ TokIntro bundle s p) →
+      InGapSig bundle D p h := by
+  intro witness
+  cases witness with
+  | intro s data =>
+      cases data with
+      | intro hdom rest =>
+          cases rest with
+          | intro hsig htok =>
+              exact And.intro hdom (Exists.intro s (And.intro hsig htok))
+
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h -> exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p := by
@@ -1345,6 +1359,29 @@ theorem compGap_right_nested_witnesses
           | intro w nestedData =>
               cases nestedData with
               | intro secondWitness thirdWitness =>
+                  exact Exists.intro y
+                    (Exists.intro w
+                      (And.intro firstWitness
+                        (And.intro secondWitness thirdWitness)))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_left_nested_witnesses
+    {Source Inter Final Top : Type}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    {thirdGap : Top → Final → Prop}
+    {z : Top} {x : Source} :
+    CompGap (fun w x => CompGap firstGap secondGap w x) thirdGap z x →
+      ∃ y : Inter, ∃ w : Final, firstGap y x ∧ secondGap w y ∧ thirdGap z w := by
+  intro h
+  cases h with
+  | intro w outer =>
+      cases outer with
+      | intro nested thirdWitness =>
+          cases nested with
+          | intro y nestedData =>
+              cases nestedData with
+              | intro firstWitness secondWitness =>
                   exact Exists.intro y
                     (Exists.intro w
                       (And.intro firstWitness
