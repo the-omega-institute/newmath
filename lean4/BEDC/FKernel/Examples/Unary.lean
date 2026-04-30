@@ -76,6 +76,19 @@ theorem unary_no_zero_extension {h : BHist} : UnaryHistory (.e0 h) -> False := b
   intro uh
   exact uh
 
+theorem unary_history_judgment_generators :
+    And (UnaryHistory BHist.Empty)
+      (And
+        (forall h : BHist, UnaryHistory h -> UnaryHistory (BHist.e1 h))
+        (forall h : BHist, UnaryHistory (BHist.e0 h) -> False)) := by
+  constructor
+  · exact unary_empty
+  · constructor
+    · intro h uh
+      exact unary_e1_closed uh
+    · intro h uh
+      exact unary_no_zero_extension uh
+
 theorem unary_append_closed : ∀ {h k : BHist}, UnaryHistory h -> UnaryHistory k -> UnaryHistory (append h k) := by
   intro h k uh uk
   induction k generalizing h with
