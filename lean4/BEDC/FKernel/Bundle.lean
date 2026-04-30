@@ -240,6 +240,13 @@ theorem probeBundle_cons_injective_pair {PName : Type} {p q : PName}
   cases h
   exact ⟨rfl, rfl⟩
 
+theorem probeBundle_cons_injective {PName : Type} {p q : PName}
+    {tail tail' : ProbeBundle PName} :
+    ProbeBundle.Bcons p tail = ProbeBundle.Bcons q tail' → p = q /\ tail = tail' := by
+  intro h
+  cases h
+  exact ⟨rfl, rfl⟩
+
 theorem probeBundle_cons_ne_self {PName : Type} :
     ∀ (p : PName) (tail : ProbeBundle PName), ProbeBundle.Bcons p tail ≠ tail := by
   intro p tail

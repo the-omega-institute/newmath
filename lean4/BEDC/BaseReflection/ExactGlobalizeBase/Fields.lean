@@ -40,6 +40,19 @@ theorem ExactGlobalizeBase_covered_classification
       | intro q hq =>
           exact ⟨p, q, hp, hq, ExactGlobalizeBase_classify_iff ex hp hq⟩
 
+theorem ExactGlobalizeBase_admitted_pair_export_shape
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) {h k : s.Hist}
+    (hdom : s.InDom D h) (kdom : s.InDom D k) :
+    ExactGlobalizeBase s P D /\ ∃ p : s.Pkg, ∃ q : s.Pkg,
+      s.InGapSig P D p h ∧ s.InGapSig P D q k ∧
+        (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  cases ex.coverage h hdom with
+  | intro p hp =>
+      cases ex.coverage k kdom with
+      | intro q hq =>
+          exact ⟨ex, p, q, hp, hq, ExactGlobalizeBase_classify_iff ex hp hq⟩
+
 theorem ExactGlobalizeBase_covered_sound_complete
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) {h k : s.Hist}
