@@ -96,6 +96,16 @@ theorem psame_source_history_pair [AskSetup] [PackageSetup]
       exact Exists.intro _ (Exists.intro _ (And.intro left right))
 
 omit [AskSetup] P in
+theorem psame_constructor_witnesses_with_hsame [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {p q : Pkg} :
+    psame bundle p q → ∃ s : BHist, ∃ t : BHist,
+      TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t := by
+  intro same
+  cases same with
+  | intro left right sameHist =>
+      exact Exists.intro _ (Exists.intro _ (And.intro left (And.intro right sameHist)))
+
+omit [AskSetup] P in
 theorem concrete_package_sameness_policy [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     TokIntro bundle s p -> TokIntro bundle t q -> hsame s t -> psame bundle p q := by

@@ -20,6 +20,13 @@ theorem msame_generated_rules : msame BMark.b0 BMark.b0 ∧ msame BMark.b1 BMark
   · rfl
   · rfl
 
+theorem BMark_generated_cases (m : BMark) : m = BMark.b0 ∨ m = BMark.b1 := by
+  cases m with
+  | b0 =>
+      exact Or.inl rfl
+  | b1 =>
+      exact Or.inr rfl
+
 theorem msame_symm : ∀ {m n : BMark}, msame m n → msame n m := by
   intro m n h
   exact h.symm

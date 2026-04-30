@@ -31,6 +31,12 @@ theorem unary_commutativity_obligation_iff :
         Cont h k r → Cont k h r' → hsame r r') := by
   rfl
 
+theorem UnaryContinuationCommutativityObligation_iff_fields :
+    UnaryContinuationCommutativityObligation ↔
+      (∀ {h k r r2 : BHist}, UnaryHistory h → UnaryHistory k →
+        Cont h k r → Cont k h r2 → hsame r r2) := by
+  rfl
+
 theorem unary_empty : UnaryHistory BHist.Empty := by
   exact True.intro
 
