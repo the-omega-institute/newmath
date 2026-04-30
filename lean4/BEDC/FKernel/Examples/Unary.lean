@@ -21,6 +21,10 @@ def UnaryHistory : BHist → Prop
   | .e1 h => UnaryHistory h
   | .e0 _ => False
 
+def UnaryRightShiftObligation : Prop :=
+  forall {k h r : BHist}, UnaryHistory k -> Cont k (BHist.e1 h) r ->
+    exists v : BHist, Cont k h v /\ hsame r (BHist.e1 v)
+
 theorem unary_empty : UnaryHistory BHist.Empty := by
   exact True.intro
 

@@ -495,6 +495,21 @@ theorem GeneratedSameSig_witnesses
             (Exists.intro rightEvidence
               (And.intro leftSig (And.intro rightSig sigSame)))))
 
+theorem GeneratedSameSig_swap_witnesses
+    {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
+    (eqv : HSameEquiv s) (gen : GeneratedSameSig s P h k) :
+    exists y : s.SigObj, exists x : s.SigObj,
+      exists rightEvidence : s.Evidence, exists leftEvidence : s.Evidence,
+        s.SigGen P k y rightEvidence /\
+        s.SigGen P h x leftEvidence /\ s.hsame y x := by
+  cases gen with
+  | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
+      exact Exists.intro rightSigObj
+        (Exists.intro leftSigObj
+          (Exists.intro rightEvidence
+            (Exists.intro leftEvidence
+              (And.intro rightSig (And.intro leftSig (eqv.symm sigSame))))))
+
 def GeneratedSameSig_symm
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
     (eqv : HSameEquiv s) :
