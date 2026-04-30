@@ -70,9 +70,11 @@ Invert both cons-signature derivations. Their head premises are asking events fo
 \end{proof}
 
 \begin{theorem}[Signature existence under an asking policy]
+\label{thm:signature-totality-under-policy}
 Assume \(\AskPol(\Pi,D)\). If \(h\) is admitted by \(D\), then bundle \(\Pi\) generates some signature event from \(h\).
 \end{theorem}
 \leanchecked{BEDC.FKernel.Sig.sig\_total\_from\_policy}
+\leanvariant{BEDC.FKernel.Sig.sigTotalOn\_from\_policy}
 \begin{proof}
 Induct on the generated bundle \(\Pi\). The empty bundle produces the empty answer-history. In the cons case, asking-policy totality supplies the first emitted mark and evidence token; the induction hypothesis supplies the tail signature; the emitted mark chooses the corresponding extension constructor.
 \end{proof}

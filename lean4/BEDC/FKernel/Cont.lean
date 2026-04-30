@@ -151,6 +151,15 @@ theorem cont_assoc_relational {h k l u v w z : BHist} :
   cases hwz
   exact append_assoc h k l
 
+theorem cont_assoc_hsame {a b c ab bc left right : BHist} :
+    Cont a b ab -> Cont ab c left -> Cont b c bc -> Cont a bc right -> hsame left right := by
+  intro hab hleft hbc hright
+  cases hab
+  cases hleft
+  cases hbc
+  cases hright
+  exact append_assoc a b c
+
 theorem cont_assoc_unique {a b c ab bc abc abc' : BHist} :
     Cont a b ab -> Cont b c bc -> Cont ab c abc -> Cont a bc abc' -> hsame abc abc' := by
   intro hab hbc habc habc'
