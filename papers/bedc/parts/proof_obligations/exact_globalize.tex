@@ -87,26 +87,6 @@ Token-uniqueness reflection converts the base package-sameness premise, together
 
 This chapter records the three-clause gap export used for active development. It is intentionally narrower than a full package algebra theorem.
 
-\begin{theorem}[Exact concrete signature Globalize]
-\label{thm:exact-concrete-globalize}
-Assume:
-\begin{enumerate}
-  \item \(\AskPol(\Pi,D)\);
-  \item \(\PkgTokPol(\Pi)\), supplying package soundness and reflection for introduced tokens;
-  \item token existence for every generated signature.
-\end{enumerate}
-Then the visible packages of \(\GlobSig(\Pi,D)\) satisfy the following three exported clauses:
-\begin{enumerate}
-  \item coverage for admitted histories: if \(\InDom(D,h)\), then some \(p\) satisfies \(\InGapSig(\Pi,D,p,h)\);
-  \item same-source gap separation: if \(\InGapSig(\Pi,D,p,h)\) and \(\InGapSig(\Pi,D,q,h)\), then \(\psame(p,q)\);
-  \item package-sameness-to-generated-signature completeness: if \(\InGapSig(\Pi,D,p,h)\), \(\InGapSig(\Pi,D,q,k)\), and \(\psame(p,q)\), then there exist \(s,t\) and generation evidence \(\Delta,\Theta\) with \(\Sig(\Pi,h,s,\Delta)\), \(\Sig(\Pi,k,t,\Theta)\), and \(\hsame(s,t)\).
-\end{enumerate}
-\end{theorem}
-
-\begin{proof}
-Coverage is Theorem~\ref{thm:gap-coverage-globalize}. Same-source separation is Theorem~\ref{thm:gap-separation-globalize}. Completeness is supplied by the reflection field of \(\PkgTokPol(\Pi)\) after unpacking the two gap-signature memberships.
-\end{proof}
-
 \begin{theorem}[Local signature classification]
 \label{thm:internalized-globalize-classifies-by-signatures}
 Assume $\AskPol(\Pi,D)$, $\PkgTokPol(\Pi)$,
@@ -166,7 +146,7 @@ Each item requires an exactness predicate whose exported relation is not $\psame
 
 \begin{protocol}[Export discipline]
 \label{prot:export-discipline}
-Modules cite Theorem~\ref{thm:exact-concrete-globalize} as the current exactness theorem. If a module needs \(\psame_{\Pi}^{\mathrm{eq}}\)-exactness, it must state an exactness predicate whose exported relation is \(\psame_{\Pi}^{\mathrm{eq}}\), or explicitly downgrade its result from exact reflection to closure-level compatibility.
+Modules cite Definition~\ref{def:exact-globalize-base} for the exactness predicate and Theorem~\ref{thm:exact-globalize-base-target} for its field constructor. If a module needs $\psame_{\Pi}^{\mathrm{eq}}$-exactness, it must state an exactness predicate whose exported relation is $\psame_{\Pi}^{\mathrm{eq}}$, or explicitly downgrade its result from exact reflection to closure-level compatibility.
 \end{protocol}
 
 \section{Checker-Friendly Exactness Predicate}

@@ -127,50 +127,16 @@ the equality of cons bundles to equality of their tails, and the induction
 hypothesis cancels the remaining common prefix.
 \end{proof}
 
-\begin{definition}[Probe bundle size]
-\label{def:probe-bundle-size}
-The size $\mathsf{BSize}(\Pi)$ of a probe bundle is defined by recursion on the generated bundle:
+\begin{lemma}[Probe bundle append empty-result inversion]
+\label{lem:probe-bundle-append-empty-result-inversion}
+For probe bundles $\Pi,\Theta$, if
 $$
-\mathsf{BSize}(\Bnil)=0,
-\qquad
-\mathsf{BSize}(\Bcons(\pi,\Pi))=1+\mathsf{BSize}(\Pi).
+\mathsf{BAppend}(\Pi,\Theta)=\Bnil,
 $$
-\end{definition}
-
-\begin{lemma}[Probe bundle append size]
-\label{lem:probe-bundle-append-size}
-For all probe bundles $\Theta$ and $\Pi$,
-$$
-\mathsf{BSize}(\mathsf{BAppend}(\Theta,\Pi))
-=
-\mathsf{BSize}(\Theta)+\mathsf{BSize}(\Pi).
-$$
+then $\Pi=\Bnil$ and $\Theta=\Bnil$.
 \end{lemma}
 \begin{proof}
-Induct on $\Theta$. The empty case is definitional. In the cons case, the append
-definition exposes one leading probe on both sides, and the induction hypothesis
-identifies the sizes of the appended tails.
-\end{proof}
-
-\begin{theorem}[Probe bundle suffix cancellation]
-\label{thm:probe-bundle-suffix-cancellation}
-For any fixed probe bundle $\Pi$ and any probe bundles $\Theta,\Omega$, if
-$$
-\mathsf{BAppend}(\Theta,\Pi)=\mathsf{BAppend}(\Omega,\Pi),
-$$
-then $\Theta=\Omega$.
-\end{theorem}
-\begin{proof}
-Induct on the left prefix $\Theta$ and split on $\Omega$. If both prefixes are
-empty, the claim is immediate. If exactly one prefix is empty, apply the
-append-size lemma to both displayed append bundles. The same equality would
-force a natural number to equal its successor after the common suffix size is
-accounted for, which is impossible by natural-number constructor no-confusion.
-If both prefixes are cons bundles, the append
-definition exposes cons bundles on both sides; constructor injectivity
-identifies the heads and reduces the equality to the appended tails. The
-induction hypothesis cancels the common suffix on those tails, giving
-$\Theta=\Omega$.
+Proceed by cases on $\Pi$. In the empty case the displayed equality reduces to $\Theta=\Bnil$. In the cons case the append definition exposes a cons bundle equal to $\Bnil$, contradicting probe-bundle constructor no-confusion.
 \end{proof}
 
 \begin{lemma}[Probe bundle append cons-result inversion]
