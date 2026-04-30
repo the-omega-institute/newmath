@@ -182,6 +182,28 @@ theorem inBundle_cons_three_rotate {PName : Type} {x a b c : PName}
           | inr htail =>
               exact Or.inr (Or.inr (Or.inr htail))
 
+theorem inBundle_cons_three_rotate_iff {PName : Type} {x a b c : PName}
+    {tail : ProbeBundle PName} :
+    InBundle x (ProbeBundle.Bcons a (ProbeBundle.Bcons b (ProbeBundle.Bcons c tail))) ↔
+      InBundle x (ProbeBundle.Bcons c (ProbeBundle.Bcons a (ProbeBundle.Bcons b tail))) := by
+  constructor
+  · intro h
+    exact inBundle_cons_three_rotate h
+  · intro h
+    cases h with
+    | inl hc =>
+        exact Or.inr (Or.inr (Or.inl hc))
+    | inr htail =>
+        cases htail with
+        | inl ha =>
+            exact Or.inl ha
+        | inr hrest =>
+            cases hrest with
+            | inl hb =>
+                exact Or.inr (Or.inl hb)
+            | inr htail =>
+                exact Or.inr (Or.inr (Or.inr htail))
+
 theorem inBundle_nonempty_from_membership {PName : Type} {p : PName} :
     ∀ {bundle : ProbeBundle PName}, InBundle p bundle →
       ∃ q : PName, ∃ tail : ProbeBundle PName, bundle = ProbeBundle.Bcons q tail := by

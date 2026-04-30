@@ -239,6 +239,25 @@ theorem PsameEqClosure_two_base_reflection
         (PackageReflection_base eqv tok left mid.property pq)
         (PackageReflection_base eqv tok mid.property right qr)
 
+theorem PsameEqClosure_three_base_reflection
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x w : s.SigObj} {p q r u : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P w u)
+    (midQ : Nonempty (Subtype (fun y : s.SigObj => s.TokIntro P y q)))
+    (midR : Nonempty (Subtype (fun z : s.SigObj => s.TokIntro P z r)))
+    (pq : PsameBase s P p q) (qr : PsameBase s P q r)
+    (ru : PsameBase s P r u) : s.hsame x w := by
+  cases midQ with
+  | intro y =>
+      cases midR with
+      | intro z =>
+          exact eqv.trans
+            (eqv.trans
+              (PackageReflection_base eqv tok left y.property pq)
+              (PackageReflection_base eqv tok y.property z.property qr))
+            (PackageReflection_base eqv tok z.property right ru)
+
 theorem ClosureReflect_from_eqClosure
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)

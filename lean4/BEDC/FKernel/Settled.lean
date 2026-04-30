@@ -367,6 +367,17 @@ theorem settledKernelCriterion_signature_determinacy_projection [AskSetup] [Pack
   exact (settledKernelCriterion_signature_kernel_projection criterion).left
     askPolicy hIn left right
 
+theorem settledKernelCriterion_sameSig_equivalence_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop}, AskPolicy D →
+        (∀ {h : BHist}, D h → SameSig bundle h h) ∧
+          (∀ {h k : BHist}, SameSig bundle h k → SameSig bundle k h) ∧
+          (∀ {h k l : BHist}, D k → SameSig bundle h k → SameSig bundle k l →
+            SameSig bundle h l) := by
+  intro criterion bundle D askPolicy
+  exact (settledKernelCriterion_signature_kernel_projection criterion).right askPolicy
+
 theorem settledKernelCriterion_package_gap_kernel_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →
