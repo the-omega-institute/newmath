@@ -278,6 +278,15 @@ theorem PackageTokenPolicy_iff_soundness_reflection {bundle : ProbeBundle ProbeN
     | intro soundness reflection =>
         exact PackageTokenPolicy.mk soundness reflection
 
+omit [AskSetup] P in
+theorem PackageTokenPolicy_fields [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle) :
+    (∀ {s t : BHist} {p q : Pkg}, TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q) ∧
+    (∀ {s t : BHist} {p q : Pkg}, TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t) := by
+  constructor
+  · exact policy.soundness
+  · exact policy.reflection
+
 theorem packageTokenPolicy_signature_facing {bundle : ProbeBundle ProbeName}
     (policy : PackageTokenPolicy bundle) {s t : BHist} {p q : Pkg} :
     hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q := by

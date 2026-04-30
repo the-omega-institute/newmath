@@ -151,6 +151,26 @@ theorem compGap_inversion
   exact h
 
 omit [AskSetup] [PackageSetup] G in
+theorem ledger_composition_principle
+    {A B C D : Type} {first : B → A → Prop} {second : C → B → Prop}
+    {third : D → C → Prop} {z : D} {x : A} :
+    CompGap (fun c a => CompGap first second c a) third z x →
+      ∃ b : B, ∃ c : C, first b x ∧ second c b ∧ third z c := by
+  intro h
+  cases h with
+  | intro c outer =>
+      cases outer with
+      | intro inner hthird =>
+          cases inner with
+          | intro b firstSecond =>
+              cases firstSecond with
+              | intro hfirst hsecond =>
+                  exact Exists.intro b
+                    (Exists.intro c
+                      (And.intro hfirst
+                        (And.intro hsecond hthird)))
+
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_left_witness
     {Source Inter Final : Type}
     {firstGap : Inter → Source → Prop}

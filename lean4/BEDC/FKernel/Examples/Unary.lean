@@ -229,6 +229,9 @@ theorem unary_domain_gap_transport {bundle : ProbeBundle ProbeName} {p : Pkg} {h
 theorem nat_up_name_certificate : NameCert UnaryName := by
   exact NameCert.mk () () () () ()
 
+theorem concrete_natup_namecert : NameCert UnaryName := by
+  exact nat_up_name_certificate
+
 theorem nat_up_name_certificate_witnesses :
     ∃ source : SourceSpec, ∃ pattern : PatternSpec, ∃ classifier : ClassifierSpec,
       ∃ stability : StabilityCert, ∃ ledger : LedgerPolicy, True := by
