@@ -307,6 +307,22 @@ theorem PsameBase_equivalence_under_tok_unique
       intro p q r leftBase rightBase
       exact PsameBase_trans_under_tok_unique eqv tok leftBase rightBase
 
+theorem exact_package_sameness
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    (introOf : forall p : s.Pkg, Nonempty (Subtype (fun x : s.SigObj => s.TokIntro P x p))) :
+    (forall {x y : s.SigObj} {p q : s.Pkg},
+      s.TokIntro P x p -> s.TokIntro P y q -> (PsameBase s P p q <-> s.hsame x y)) /\
+    (forall p : s.Pkg, PsameBase s P p p) /\
+    (forall {p q : s.Pkg}, PsameBase s P p q -> PsameBase s P q p) /\
+    (forall {p q r : s.Pkg}, PsameBase s P p q -> PsameBase s P q r -> PsameBase s P p r) := by
+  constructor
+  case left =>
+    intro x y p q left right
+    exact PsameBase_iff_hsame_under_tok_unique eqv tok left right
+  case right =>
+    exact PsameBase_equivalence_under_tok_unique eqv tok introOf
+
 theorem PackageReflection_eqClosure
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
@@ -332,6 +348,15 @@ theorem ClosureReflect_from_eqClosure
     (introOf : forall p : s.Pkg, Nonempty (Subtype (fun x : s.SigObj => s.TokIntro P x p))) :
     ClosureReflect s P := by
   intro x y p q left right closure
+  exact PackageReflection_eqClosure eqv tok introOf left right closure
+
+theorem conditional_closure_reflection_schema
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    (introOf : forall p : s.Pkg, Nonempty (Subtype (fun x : s.SigObj => s.TokIntro P x p)))
+    {x y : s.SigObj} {p q : s.Pkg} :
+    s.TokIntro P x p -> s.TokIntro P y q -> PsameEqClosure s P p q -> s.hsame x y := by
+  intro left right closure
   exact PackageReflection_eqClosure eqv tok introOf left right closure
 
 theorem ClosureReflect_from_canonical
