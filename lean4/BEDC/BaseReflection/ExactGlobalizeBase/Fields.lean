@@ -225,4 +225,17 @@ theorem ExactGlobalizeBase_self_covered_classification
   | intro p hp =>
       exact ⟨p, hp, ExactGlobalizeBase_classify_iff ex hp hp⟩
 
+theorem ExactGlobalizeBase_local_sound_complete_classification
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    (GeneratedSameSig s P h k → PsameBase s P p q) ∧
+      (PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)) ∧
+      (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  constructor
+  · exact ex.soundness h k p q hp hq
+  · constructor
+    · exact ex.completeness h k p q hp hq
+    · exact ExactGlobalizeBase_classify_iff ex hp hq
+
 end BEDC.BaseReflection

@@ -189,6 +189,17 @@ theorem compGap_left_right_witness_pair
   | intro y data =>
       exact And.intro (Exists.intro y data.left) (Exists.intro y data.right)
 
+theorem compGap_second_first_witness
+    {Source Inter Final : Type}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    {z : Final} {x : Source} :
+    CompGap firstGap secondGap z x → ∃ y : Inter, secondGap z y ∧ firstGap y x := by
+  intro h
+  cases h with
+  | intro y data =>
+      exact Exists.intro y (And.intro data.right data.left)
+
 theorem compGap_separation_from_layers
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}

@@ -96,4 +96,17 @@ theorem unary_shift_witness_by_induction {k h r : BHist} :
         intro r hshift
         exact ih uk hshift) hr
 
+theorem unary_shift_witness_by_induction_result_closed {k h r : BHist} :
+    UnaryHistory k → UnaryHistory h → Cont k (BHist.e1 h) r →
+      ∃ v : BHist, Cont k h v ∧ hsame r (BHist.e1 v) ∧
+        UnaryHistory v ∧ UnaryHistory r := by
+  intro uk uh hr
+  cases unary_shift_witness_by_induction uk hr with
+  | intro v shifted =>
+      cases shifted with
+      | intro hv same =>
+          have uv : UnaryHistory v := unary_cont_closed uk uh hv
+          have ur : UnaryHistory r := unary_transport (unary_e1_closed uv) (hsame_symm same)
+          exact ⟨v, hv, same, uv, ur⟩
+
 end BEDC.FKernel.Unary
