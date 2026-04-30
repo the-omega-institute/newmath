@@ -115,6 +115,14 @@ theorem PsameBase_constructor
   intro left right same
   exact PsameBase.intro left right same
 
+theorem PsameBase_symm_under_equiv {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) {p q : s.Pkg} :
+    PsameBase s P p q → PsameBase s P q p := by
+  intro base
+  cases base with
+  | intro left right same =>
+      exact PsameBase.intro right left (eqv.symm same)
+
 theorem PsameBase_inversion_exists
     {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PsameBase s P p q ->

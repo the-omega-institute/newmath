@@ -111,6 +111,9 @@ theorem nat_up_licensed_not_primitive : NameCert UnaryName ∧ Nonempty (NameCer
   · exact nat_up_name_certificate
   · exact nat_up_name_certificate_exists
 
+theorem nat_up_certificate_source_witness : Nonempty SourceSpec := by
+  exact nameCert_source_witness_from_cert nat_up_name_certificate
+
 theorem nat_up_certificate_field_witnesses :
     Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec /\
       Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
@@ -127,6 +130,11 @@ theorem add_up_name_certificate_exists : Nonempty (NameCert AddName) := by
 
 theorem add_up_name_certificate : NameCert AddName := by
   exact NameCert.mk () () () () ()
+
+theorem add_up_certificate_field_witnesses :
+    Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec /\
+      Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
+  exact nameCert_field_witnesses add_up_name_certificate
 
 theorem add_up_certificate_has_ledger : Nonempty LedgerPolicy := by
   exact derived_interfaces_have_ledger add_up_name_certificate
