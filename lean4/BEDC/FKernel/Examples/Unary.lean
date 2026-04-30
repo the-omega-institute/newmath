@@ -21,6 +21,10 @@ def UnaryHistory : BHist → Prop
   | .e1 h => UnaryHistory h
   | .e0 _ => False
 
+theorem unary_e1_closed {h : BHist} : UnaryHistory h -> UnaryHistory (.e1 h) := by
+  intro uh
+  exact uh
+
 theorem unary_transport {h k : BHist} : UnaryHistory h -> hsame h k -> UnaryHistory k := by
   intro uh hhk
   cases hhk

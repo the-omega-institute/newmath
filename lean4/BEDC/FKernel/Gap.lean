@@ -390,6 +390,25 @@ theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
   intro hh hhk
   exact policy.transport hh hhk
 
+omit [AskSetup] [PackageSetup] in
+theorem composite_coverage {Mid Final : Type} {D : Domain}
+    {firstGap : Mid -> BHist -> Prop} {secondGap : Final -> Mid -> Prop}
+    (firstCoverage : forall {h : BHist}, InDom D h -> exists y : Mid, firstGap y h)
+    (secondCoverage :
+      forall {y : Mid},
+        (exists h : BHist, InDom D h ∧ firstGap y h) ->
+          exists z : Final, secondGap z y)
+    {h : BHist} :
+    InDom D h -> exists z : Final, exists y : Mid, firstGap y h ∧ secondGap z y := by
+  intro hIn
+  cases firstCoverage hIn with
+  | intro y hy =>
+      have ySource : exists h0 : BHist, InDom D h0 ∧ firstGap y h0 :=
+        Exists.intro h (And.intro hIn hy)
+      cases secondCoverage ySource with
+      | intro z hz =>
+          exact Exists.intro z (Exists.intro y (And.intro hy hz))
+
 omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage_from_layers
     {Source Inter Final : Type}

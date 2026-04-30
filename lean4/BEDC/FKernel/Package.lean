@@ -53,6 +53,12 @@ theorem PackagePolicy_signature_facing {bundle : ProbeBundle ProbeName}
   intro left right sameHist
   exact policy.extensionality sameHist left right
 
+theorem package_tokens_signature_facing {bundle : ProbeBundle ProbeName}
+    (policy : PackagePolicy bundle) {s t : BHist} {p q : Pkg} :
+    hsame s t -> TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q := by
+  intro sameHist left right
+  exact policy.extensionality sameHist left right
+
 structure PackageTokenPolicy (bundle : ProbeBundle ProbeName) : Prop where
   soundness :
     ∀ {s t : BHist} {p q : Pkg}, TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
