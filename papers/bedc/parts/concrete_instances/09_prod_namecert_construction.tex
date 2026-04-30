@@ -106,14 +106,16 @@ The typed classifier $\mathsf{ProdClassifierSpec}$ relates pairs componentwise u
 \leandef{BEDC.Derived.ProdUp.ProdHistoryClassifier}
 \leanchecked{BEDC.Derived.ProdUp.prodClassifier\_iff}
 
-\begin{theorem}[Product history classifier component inversion]
+\begin{theorem}[Product history classifier endpoint carrier exposure]
 \label{thm:prod-history-classifier-component-inversion}
 For source predicates $L,R:\Hist\to\mathsf{Prop}$, the product history
-classifier exposes exactly the two component envelopes stored at its endpoints.
-It holds for $h$ and $k$ exactly when there exist histories $l,r,l',r'$ with
-$L(l)$, $R(r)$, $\Cont(l,r,h)$, $L(l')$, $R(r')$, $\Cont(l',r',k)$, and
-$\hsame(h,k)$. Conversely, those data rebuild
-$\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+classifier exposes one product-carrier decomposition for each endpoint together
+with the endpoint witness $\hsame(h,k)$. It holds for $h$ and $k$ exactly when
+there exist histories $l,r,l',r'$ with $L(l)$, $R(r)$, $\Cont(l,r,h)$,
+$L(l')$, $R(r')$, $\Cont(l',r',k)$, and $\hsame(h,k)$. Conversely, those data
+rebuild $\mathsf{ProdHistoryClassifier}(L,R,h,k)$. Componentwise equality and
+componentwise classification belong to $\mathsf{ProdClassifierSpec}$, not to
+the history-envelope classifier.
 \end{theorem}
 \begin{proof}
 Unfold $\mathsf{ProdHistoryClassifier}$. Its two endpoint premises are
@@ -123,7 +125,8 @@ one left witness, one right witness, the two source-membership proofs, and the
 continuation proof producing the visible endpoint. Pair those two carrier
 inversions with the stored $\hsame(h,k)$ witness for the forward direction.
 Conversely, the displayed data rebuild the two product-history carrier
-premises and then the classifier witness.
+premises and then the classifier witness. The result is endpoint exposure
+rather than coordinate projection.
 \end{proof}
 
 \begin{theorem}[Product history classifier right transport]
