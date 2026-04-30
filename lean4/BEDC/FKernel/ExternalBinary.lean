@@ -17,6 +17,11 @@ abbrev Mbin : Type := BWord
 theorem Mbin_eq_BHist : Mbin = BHist := by
   rfl
 
+theorem Mbin_reuses_kernel_history : (Mbin = BHist) ∧ (BWord = BHist) := by
+  constructor
+  · rfl
+  · rfl
+
 /-- Reuse the kernel-level continuation function as the metamodel's append. -/
 abbrev append : BWord → BWord → BWord := BEDC.FKernel.Cont.append
 
