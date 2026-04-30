@@ -80,12 +80,27 @@ def print_status_hint(server_url: str) -> dict:
             f"oracle server is not reachable at {server_url}; "
             "start: python3 tools/bedc-deep/bedc_oracle_server.py"
         ) from exc
-    print(f"[status] {status_line(status)}")
+    print(f"[status] {status_line(status)}", flush=True)
     if status.get("diagnosis") == "queue_waiting_for_browser_agent":
-        print("[status] queued work has no active BEDC ChatGPT tab.")
-        print("[status] install userscript: tools/bedc-deep/bedc_oracle_macos.user.js")
-        print("[status] open: https://chatgpt.com/?bedc=1 and click Start in the BEDC panel")
+        print("[status] queued work has no active BEDC ChatGPT tab.", flush=True)
+        print("[status] install userscript: tools/bedc-deep/bedc_oracle_macos.user.js", flush=True)
+        print("[status] open: https://chatgpt.com/?bedc=1 and click Start in the BEDC panel", flush=True)
     return status
+
+
+def watch_status(server_url: str, interval: int) -> None:
+    while True:
+        status = print_status_hint(server_url)
+        queued = status.get("queued_tasks") or []
+        if queued:
+            oldest = queued[0]
+            print(
+                "[watch] oldest="
+                f"{oldest.get('task_id', '')} age={oldest.get('age_seconds', '?')}s "
+                f"chars={oldest.get('prompt_chars', '?')}",
+                flush=True,
+            )
+        time.sleep(max(1, interval))
 
 
 def submit_turn(
@@ -139,11 +154,11 @@ def poll_result(
         if now >= next_status_at:
             try:
                 status = server_status(server_url)
-                print(f"[wait:{task_id}] {status_line(status)}")
+                print(f"[wait:{task_id}] {status_line(status)}", flush=True)
                 if status.get("diagnosis") == "queue_waiting_for_browser_agent":
-                    print("[wait] no active BEDC ChatGPT tab is polling; start one with https://chatgpt.com/?bedc=1")
+                    print("[wait] no active BEDC ChatGPT tab is polling; start one with https://chatgpt.com/?bedc=1", flush=True)
             except Exception as exc:
-                print(f"[wait:{task_id}] status unavailable: {exc}")
+                print(f"[wait:{task_id}] status unavailable: {exc}", flush=True)
             next_status_at = now + max(1, status_interval)
         time.sleep(poll_interval)
     return ""
@@ -211,7 +226,8 @@ def run_loop(args: argparse.Namespace) -> int:
         conversation_id = submit.get("conversation_id") or conversation_id
         print(
             f"[submit] task={task_id} conv={conversation_id[:12]} "
-            f"queue_position={submit.get('queue_position', '?')}"
+            f"queue_position={submit.get('queue_position', '?')}",
+            flush=True,
         )
         response = poll_result(
             args.server,
@@ -239,7 +255,8 @@ def run_loop(args: argparse.Namespace) -> int:
             raise SystemExit(f"claim packet submit failed: {submit['error']}")
         print(
             f"[submit] task={task_id} conv={conversation_id[:12]} "
-            f"queue_position={submit.get('queue_position', '?')}"
+            f"queue_position={submit.get('queue_position', '?')}",
+            flush=True,
         )
         packet = poll_result(
             args.server,
@@ -262,9 +279,9 @@ def run_loop(args: argparse.Namespace) -> int:
         "claim_packet_file": packet_file,
     }
     state_path = save_state(target, state)
-    print(f"state: {state_path}")
+    print(f"state: {state_path}", flush=True)
     if packet_file:
-        print(f"claim_packet: {out_dir / packet_file}")
+        print(f"claim_packet: {out_dir / packet_file}", flush=True)
     return 0
 
 
@@ -280,8 +297,15 @@ def main() -> int:
     parser.add_argument("--status-interval", type=int, default=30, help="Status print interval while waiting")
     parser.add_argument("--preflight-agent-wait", type=int, default=0, help="Wait this many seconds for an active browser agent before submitting")
     parser.add_argument("--status", action="store_true", help="Print server status and exit")
+    parser.add_argument("--watch-status", type=int, default=0, metavar="SECONDS", help="Continuously print server status every N seconds")
     parser.add_argument("--write-packet", action="store_true", help="Ask for a terminal claim packet")
     args = parser.parse_args()
+    if args.watch_status > 0:
+        try:
+            watch_status(args.server, args.watch_status)
+        except KeyboardInterrupt:
+            print("\n[watch] stopped", flush=True)
+        return 0
     if args.status:
         print(json.dumps(print_status_hint(args.server), ensure_ascii=False, indent=2))
         return 0
