@@ -55,6 +55,18 @@ followed by transitivity transports the endpoint equality to \(k\).
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_hsame\_transport}
 
+\begin{theorem}[Bool history carrier is unary]
+\label{thm:bool-history-carrier-unary}
+Every boolean history carrier witness determines a unary history.
+\end{theorem}
+\begin{proof}
+The carrier has two endpoint cases. In the empty endpoint case, unary closure
+of \(\emp\) transports back along history sameness. In the one-endpoint case,
+unary closure of \(\Eone(\emp)\) transports back along the corresponding
+history-sameness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_unary}
+
 \begin{theorem}[Bool history carrier excludes zero-extension]
 \label{thm:bool-history-carrier-e0-absurd}
 No zero-extension history \(\Ezero(h)\) lies in the boolean history carrier.
@@ -107,6 +119,19 @@ The classifier is \(\msame\) on marks, with the two constructors distinguished.
 \leandef{BEDC.Derived.BoolUp.BoolHistoryClassifier}
 \leanchecked{BEDC.Derived.BoolUp.BoolClassifierSpec\_constructor\_separation}
 
+\begin{theorem}[Bool history classifier excludes zero-growth endpoints]
+\label{thm:bool-history-classifier-e0-endpoint-absurd}
+The boolean history classifier cannot relate a history of the form \(\Ezero(h)\)
+from either endpoint position.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness. On the left endpoint, its first carrier field is
+a boolean history carrier witness for \(\Ezero(h)\); on the right endpoint, its
+second carrier field is such a witness. The zero-growth carrier exclusion
+eliminates both cases.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e0\_endpoint\_absurd\_pair}
+
 \begin{theorem}[Bool history classifier one-tail sameness]
 \label{thm:bool-history-classifier-e1-tail-hsame}
 If the boolean history classifier relates $\Eone(h)$ to $\Eone(k)$, then the
@@ -118,6 +143,34 @@ $\hsame(\Eone(h),\Eone(k))$ field. One-constructor inversion for generated
 histories then yields $\hsame(h,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e1\_tail\_hsame}
+
+\begin{theorem}[Bool history classifier one-tail empty equivalence]
+\label{thm:bool-history-classifier-e1-iff-tails-empty}
+The boolean history classifier relates \(\Eone(h)\) to \(\Eone(k)\) exactly
+when both tails \(h\) and \(k\) are internally history-same as \(\emp\).
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the classifier into its endpoint carrier
+witnesses and apply the one-tail carrier inversion at both endpoints. For the
+reverse direction, the tail witnesses rebuild both endpoint carriers, while
+their composite \(\hsame(h,k)\) link lifts through the \(\Eone\) constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e1\_iff\_tails\_empty}
+
+\begin{theorem}[Bool history classifier one-left endpoints]
+\label{thm:bool-history-classifier-eone-left-endpoints}
+The boolean history classifier relates \(\Eone(h)\) to \(k\) exactly when
+\(h\) is internally the same as \(\emp\) and \(k\) is internally the same as
+\(\Eone(\emp)\).
+\end{theorem}
+\begin{proof}
+Forward, the left carrier forces the one-extension tail to be empty, and the
+exposed classifier sameness transports the right endpoint to
+\(\Eone(\emp)\). Reverse, the endpoint sameness witnesses provide both carrier
+witnesses, and one-extension congruence composed with the right endpoint
+symmetry gives the classifier link.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e1\_left\_iff}
 
 \begin{theorem}[Bool history classifier cases]
 \label{thm:bool-history-classifier-cases}

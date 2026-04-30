@@ -285,4 +285,17 @@ theorem gap_separation :
       GapPolicy bundle D → InDom D h → InGapSig bundle D p h → InGapSig bundle D q h → psame bundle p q := by
   intro bundle D h p q hgap hh hp hq
   exact hgap.separation hh hp hq
+
+omit [AskSetup] [PackageSetup] G in
+theorem gap_representative_for_admitted_source [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} (policy : GapPolicy bundle D) :
+    InDom D h →
+      ∃ p : Pkg, InGapSig bundle D p h ∧
+        ∀ q : Pkg, InGapSig bundle D q h → psame bundle p q := by
+  intro hdom
+  cases policy.coverage hdom with
+  | intro p hp =>
+      exact Exists.intro p
+        (And.intro hp
+          (fun q hq => policy.separation hdom hp hq))
 end BEDC.FKernel.Gap

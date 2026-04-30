@@ -79,10 +79,23 @@ The stability certificate consists of:
 
 \begin{definition}[Complex ledger policy]
 \label{def:complex-ledger-policy}
-The ledger predicate is the same rational-pair history carrier used by the
-semantic certificate. Ledger soundness therefore states that every certified
-source history is already accepted by that rational-pair ledger predicate.
+Record a raw rational-pair complex history carrier together with an \(\hsame\)
+link to the visible complex history.
 \end{definition}
+\leandef{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy}
+
+\begin{theorem}[Complex ledger visible carrier]
+\label{thm:complex-ledger-visible-carrier}
+If a complex ledger relates a raw complex history to a visible history, then
+the visible endpoint is a complex history carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_visible\_carrier}
+\begin{proof}
+Unpack the raw complex carrier as a product of two rational-history carriers
+and a continuation witness. Transport the continuation result across the
+stored raw-visible \(\hsame\) link and rebuild the rational-pair carrier at
+the visible endpoint.
+\end{proof}
 
 \begin{theorem}[Concrete \(\ComplexUp\) naming certificate]
 \label{thm:concrete-complex-namecert}

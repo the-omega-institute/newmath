@@ -393,4 +393,36 @@ theorem sig_deterministic_from_bundle_policy [AskSetup] {bundle : ProbeBundle Pr
                 policy.deterministic headInBundle leftAsk rightAsk
               exact ext_respects_sameness tailSame markSame leftExt rightExt
 
+theorem sig_respects_history_from_bundle_policy [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist → Prop} {h k s t : BHist} :
+    BundleAskPolicy bundle D → hsame h k → SigRel bundle h s → SigRel bundle k t →
+      hsame s t := by
+  intro policy same left right
+  induction bundle generalizing h k s t with
+  | Bnil =>
+      cases left
+      cases right
+      rfl
+  | Bcons pi tail ih =>
+      cases left with
+      | cons _ _ _ sTail _ m _ leftAsk leftTail leftExt =>
+          cases right with
+          | cons _ _ _ tTail _ n _ rightAsk rightTail rightExt =>
+              have tailPolicy : BundleAskPolicy tail D :=
+                bundleAskPolicy_tail policy
+              have tailSame : hsame sTail tTail :=
+                ih
+                  (h := h)
+                  (k := k)
+                  (s := sTail)
+                  (t := tTail)
+                  tailPolicy
+                  same
+                  leftTail
+                  rightTail
+              have headInBundle : InBundle pi (ProbeBundle.Bcons pi tail) := Or.inl rfl
+              have markSame : msame m n :=
+                policy.respectsHistory headInBundle same leftAsk rightAsk
+              exact ext_respects_sameness tailSame markSame leftExt rightExt
+
 end BEDC.FKernel.Sig

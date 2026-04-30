@@ -138,6 +138,7 @@ membership from tail membership, then applies the induction hypothesis to the ta
 \label{thm:bundle-local-policy-append-restriction}
 If $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ holds, then both $\mathsf{BundleAskPolicy}(\Pi,D)$ and $\mathsf{BundleAskPolicy}(\Theta,D)$ hold.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Ask.bundleAskPolicy\_append\_restriction}
 \begin{proof}
 Use Theorem~\ref{thm:bundle-append-membership}. A member of $\Pi$ maps into $\mathsf{BAppend}(\Pi,\Theta)$ through the left disjunct, and a member of $\Theta$ maps into $\mathsf{BAppend}(\Pi,\Theta)$ through the right disjunct. Restrict the totality, mark determinacy, and history-respect fields of the appended bundle-local policy along these two membership maps.
 \end{proof}
@@ -495,6 +496,7 @@ $$
 $$
 then $\hsame(s,t)$.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sig\_respects\_history\_from\_bundle\_policy}
 \begin{proof}
 Induct on $\Pi$. The empty case gives empty signatures on both sides. In the cons case, invert both signature derivations. Apply the bundle-local source-history respect field to the shared head occurrence and the premise $\hsame(h,k)$. The tail policy is obtained by restricting bundle membership, and the induction hypothesis applies to the two tail signatures. Extension respect combines the head mark-sameness with the tail history-sameness.
 \end{proof}

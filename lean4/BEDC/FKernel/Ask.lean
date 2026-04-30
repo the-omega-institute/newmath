@@ -103,6 +103,81 @@ theorem bundleAskPolicy_tail [AskSetup]
     exact policy.respectsHistory (Or.inr inTail) same left right
 
 omit S in
+theorem askPolicy_to_bundleAskPolicy [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist → Prop} :
+    AskPolicy D → BundleAskPolicy bundle D := by
+  intro policy
+  induction bundle with
+  | Bnil =>
+      constructor
+      · intro _ _ inNil _
+        exact False.elim inNil
+      · intro _ _ _ _ _ _ _ left right
+        exact policy.deterministic left right
+      · intro _ _ _ _ _ _ _ _ same left right
+        exact policy.respectsHistory same left right
+  | Bcons _ tail ih =>
+      constructor
+      · intro pi h inCons hD
+        cases inCons with
+        | inl _ =>
+            exact policy.total hD
+        | inr inTail =>
+            exact ih.total inTail hD
+      · intro pi h m n delta theta inCons left right
+        cases inCons with
+        | inl _ =>
+            exact policy.deterministic left right
+        | inr inTail =>
+            exact ih.deterministic inTail left right
+      · intro pi h k m n delta theta inCons same left right
+        cases inCons with
+        | inl _ =>
+            exact policy.respectsHistory same left right
+        | inr inTail =>
+            exact ih.respectsHistory inTail same left right
+
+omit S in
+theorem bundleAskPolicy_append_restriction [AskSetup]
+    {left right : ProbeBundle ProbeName} {D : BHist → Prop} :
+    BundleAskPolicy (bundleAppend left right) D →
+      BundleAskPolicy left D ∧ BundleAskPolicy right D := by
+  intro policy
+  constructor
+  · constructor
+    · intro pi h inLeft hD
+      have inApp : InBundle pi (bundleAppend left right) :=
+        (inBundle_bundleAppend_iff (p := pi) (left := left) (right := right)).mpr
+          (Or.inl inLeft)
+      exact policy.total inApp hD
+    · intro pi h m n delta theta inLeft first second
+      have inApp : InBundle pi (bundleAppend left right) :=
+        (inBundle_bundleAppend_iff (p := pi) (left := left) (right := right)).mpr
+          (Or.inl inLeft)
+      exact policy.deterministic inApp first second
+    · intro pi h k m n delta theta inLeft same first second
+      have inApp : InBundle pi (bundleAppend left right) :=
+        (inBundle_bundleAppend_iff (p := pi) (left := left) (right := right)).mpr
+          (Or.inl inLeft)
+      exact policy.respectsHistory inApp same first second
+  · constructor
+    · intro pi h inRight hD
+      have inApp : InBundle pi (bundleAppend left right) :=
+        (inBundle_bundleAppend_iff (p := pi) (left := left) (right := right)).mpr
+          (Or.inr inRight)
+      exact policy.total inApp hD
+    · intro pi h m n delta theta inRight first second
+      have inApp : InBundle pi (bundleAppend left right) :=
+        (inBundle_bundleAppend_iff (p := pi) (left := left) (right := right)).mpr
+          (Or.inr inRight)
+      exact policy.deterministic inApp first second
+    · intro pi h k m n delta theta inRight same first second
+      have inApp : InBundle pi (bundleAppend left right) :=
+        (inBundle_bundleAppend_iff (p := pi) (left := left) (right := right)).mpr
+          (Or.inr inRight)
+      exact policy.respectsHistory inApp same first second
+
+omit S in
 theorem askPolicy_total_event [AskSetup] {D : BHist → Prop} (policy : AskPolicy D)
     {pi : ProbeName} {h : BHist} :
     D h → Nonempty (AskEvent pi h) := by

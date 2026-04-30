@@ -92,6 +92,11 @@ theorem extension_as_singleton_continuation {h r : BHist} :
               cases same
               exact BEDC.FKernel.Ext.Ext.e1 h
 
+theorem ext_singleton_continuation_iff_pair {h r : BHist} :
+    (BEDC.FKernel.Ext.Ext h BMark.b0 r ↔ Cont h (BHist.e0 BHist.Empty) r) ∧
+      (BEDC.FKernel.Ext.Ext h BMark.b1 r ↔ Cont h (BHist.e1 BHist.Empty) r) := by
+  exact extension_as_singleton_continuation
+
 theorem continuation_step_rules_iff_pair :
     (forall {h k r : BHist}, Cont h (BHist.e0 k) (BHist.e0 r) <-> Cont h k r) /\
       (forall {h k r : BHist}, Cont h (BHist.e1 k) (BHist.e1 r) <-> Cont h k r) := by
