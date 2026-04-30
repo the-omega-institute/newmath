@@ -26,6 +26,15 @@ theorem inGapSig_intro {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {
   intro hdom hsig htok
   exact And.intro hdom (Exists.intro s (And.intro hsig htok))
 
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_intro_from_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InDom D h ->
+      (exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p) ->
+        InGapSig bundle D p h := by
+  intro hdom sigTok
+  exact And.intro hdom sigTok
+
 theorem inGapSig_domain_witness
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h -> InDom D h := by

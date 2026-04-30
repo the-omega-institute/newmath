@@ -142,6 +142,12 @@ theorem ClosureReflect_base_edge {s : BaseReflectionSetup} {P : s.Pi}
   intro left right base
   exact reflect left right (PsameEqClosure.base base)
 
+theorem ClosureReflect_apply {s : BaseReflectionSetup} {P : s.Pi}
+    (reflect : ClosureReflect s P) {x y : s.SigObj} {p q : s.Pkg} :
+    s.TokIntro P x p -> s.TokIntro P y q -> PsameEqClosure s P p q -> s.hsame x y := by
+  intro left right closure
+  exact reflect left right closure
+
 structure PBaseData (s : BaseReflectionSetup) (P : s.Pi) (p q : s.Pkg) : Type where
   x : s.SigObj
   y : s.SigObj
