@@ -87,6 +87,9 @@ theorem hsame_e1_congruence {h k : BHist} : hsame h k -> hsame (.e1 h) (.e1 k) :
 theorem eone_congruence {h k : BHist} : hsame h k -> hsame (.e1 h) (.e1 k) := by
   exact hsame_e1_congruence
 
+theorem eone_cong {h k : BHist} : hsame h k → hsame (BHist.e1 h) (BHist.e1 k) := by
+  exact hsame_e1_congr
+
 theorem hsame_e0_congr {h k : BHist} : hsame h k -> hsame (BHist.e0 h) (BHist.e0 k) := by
   intro hs
   cases hs
@@ -201,6 +204,13 @@ theorem history_no_confusion :
       (∀ {h : BHist}, hsame .Empty (.e1 h) → False) ∧
       (∀ {h k : BHist}, hsame (.e0 h) (.e1 k) → False) ∧
       (∀ {h k : BHist}, hsame (.e1 h) (.e0 k) → False) := by
+  exact hsame_no_confusion
+
+theorem history_no_confusion_four_cases :
+    (∀ {h : BHist}, hsame BHist.Empty (BHist.e0 h) → False) ∧
+      (∀ {h : BHist}, hsame BHist.Empty (BHist.e1 h) → False) ∧
+      (∀ {h k : BHist}, hsame (BHist.e0 h) (BHist.e1 k) → False) ∧
+      (∀ {h k : BHist}, hsame (BHist.e1 h) (BHist.e0 k) → False) := by
   exact hsame_no_confusion
 
 theorem history_no_confusion_empty_pair :

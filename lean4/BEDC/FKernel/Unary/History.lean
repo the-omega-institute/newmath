@@ -152,6 +152,12 @@ theorem unary_history_judgment_generators :
     · intro h uh
       exact unary_no_zero_extension uh
 
+theorem unary_repetition_histories_generators :
+    UnaryHistory BHist.Empty ∧
+      (∀ h : BHist, UnaryHistory h → UnaryHistory (BHist.e1 h)) ∧
+      (∀ h : BHist, UnaryHistory (BHist.e0 h) → False) := by
+  exact unary_history_judgment_generators
+
 theorem unary_stability_certificate_fields :
     UnaryHistory BHist.Empty /\
       (forall h : BHist, UnaryHistory h -> UnaryHistory (.e1 h)) /\
