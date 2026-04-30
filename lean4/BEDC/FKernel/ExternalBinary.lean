@@ -71,6 +71,17 @@ theorem external_append_left_absorb_empty :
 
 theorem external_append_e1_right (a b : BWord) : append a (.e1 b) = .e1 (append a b) := rfl
 
+theorem external_append_bit_constructor_rules :
+    (∀ a b : BWord, append a (.e0 b) = .e0 (append a b)) ∧
+      (∀ a b : BWord, append a (.e1 b) = .e1 (append a b)) := by
+  constructor
+  case left =>
+    intro a b
+    rfl
+  case right =>
+    intro a b
+    rfl
+
 theorem external_append_assoc :
     ∀ a b c : BWord, append (append a b) c = append a (append b c) := by
   intro a b c
