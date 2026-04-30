@@ -112,6 +112,43 @@ theorem compGap_left_nested_witnesses
                       (And.intro firstWitness
                         (And.intro secondWitness thirdWitness)))
 
+theorem compGap_three_witnesses_iff
+    {Source Inter Final Top : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    {thirdGap : Top -> Final -> Prop}
+    {z : Top} {x : Source} :
+    CompGap (fun w x => CompGap firstGap secondGap w x) thirdGap z x <->
+      (exists y : Inter, exists w : Final,
+        firstGap y x /\ secondGap w y /\ thirdGap z w) := by
+  constructor
+  · intro h
+    cases h with
+    | intro w outer =>
+        cases outer with
+        | intro nested thirdWitness =>
+            cases nested with
+            | intro y nestedData =>
+                cases nestedData with
+                | intro firstWitness secondWitness =>
+                    exact Exists.intro y
+                      (Exists.intro w
+                        (And.intro firstWitness
+                          (And.intro secondWitness thirdWitness)))
+  · intro witnesses
+    cases witnesses with
+    | intro y rest =>
+        cases rest with
+        | intro w data =>
+            cases data with
+            | intro firstWitness restData =>
+                cases restData with
+                | intro secondWitness thirdWitness =>
+                    exact Exists.intro w
+                      (And.intro
+                        (Exists.intro y (And.intro firstWitness secondWitness))
+                        thirdWitness)
+
 theorem compGap_assoc_witnesses
     {A B C D : Type}
     {first : B → A → Prop}

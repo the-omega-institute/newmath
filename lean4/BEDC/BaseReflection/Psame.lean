@@ -53,6 +53,10 @@ inductive PsameEqClosure (s : BaseReflectionSetup) (P : s.Pi) : s.Pkg → s.Pkg 
   | trans {p q r : s.Pkg} :
       PsameEqClosure s P p q → PsameEqClosure s P q r → PsameEqClosure s P p r
 
+theorem PsameEqClosure_refl {s : BaseReflectionSetup} {P : s.Pi} (p : s.Pkg) :
+    PsameEqClosure s P p p := by
+  exact PsameEqClosure.refl
+
 theorem PsameEqClosure_base_inclusion
     {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PsameBase s P p q -> PsameEqClosure s P p q := by
