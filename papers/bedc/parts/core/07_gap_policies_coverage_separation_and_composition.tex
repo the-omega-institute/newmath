@@ -11,13 +11,13 @@ The judgment \(\InGap(\Pi,p,h)\) means that source history \(h\) lies in the gap
 \label{def:gap-policy}
 \label{def:gap-policy-interface}
 \label{def:gap-policy-generation}
-A gap policy \(\GapPol(\Pi,D)\) over source specification \(D\) consists of:
+A gap policy $\GapPol(\Pi,D)$ over source specification $D$ consists of:
 \begin{enumerate}
-  \item generation: \(\InGap(\Pi,p,h)\) is generated only from a signature \(\Sig(\Pi,h,s,\Delta)\) and a package \(\Pkg(\Pi,s,p)\);
+  \item provenance/generation: a checked signature-gap membership $\InGapSig(\Pi,D,p,h)$ exposes the admitted-source judgment $\InDom(D,h)$ and witnesses $s,\Delta$ with $\Sig(\Pi,h,s,\Delta)$ and $\TokIntro(\Pi,s,p)$;
   \item coverage: every admitted source history belongs to some package gap;
-  \item separation: if the same admitted source history belongs to the gaps of \(p\) and \(q\), then \(\psame(p,q)\);
-  \item ledger visibility: a package is not complete without its gap ledger.
+  \item separation: if the same admitted source history belongs to the gaps of $p$ and $q$, then $\psame(p,q)$.
 \end{enumerate}
+The ledger remains part of the package interface: a visible package token is used together with its gap ledger, but ledger visibility is not a separate component of $\GapPol(\Pi,D)$.
 \end{definition}
 \leandef{BEDC.FKernel.Gap.GapPolicy}
 \leandef{BEDC.FKernel.Gap.GapPolicyInterface}
@@ -147,6 +147,22 @@ $$
 \leanchecked{BEDC.FKernel.Gap.compGap\_exactness\_from\_layers\_on\_histories}
 \begin{proof}
 The first conclusion is Theorem~\ref{thm:composite-coverage}: choose the first-layer intermediate witness and its $\mathsf{InterOk}$ certificate, then apply second-layer coverage to obtain a final token. The second conclusion is Theorem~\ref{thm:composite-gap-separation}: unpack the two composite witnesses over the same source, use first-layer separation to identify the intermediate witnesses by $\mathsf{interSame}$, and apply second-layer transport to obtain $\mathsf{finalSame}$ for the final tokens.
+\end{proof}
+
+\begin{theorem}[Composite representative for admitted source]
+\label{thm:composite-representative-for-admitted-source}
+Under the same layered coverage and separation hypotheses as Theorem~\ref{thm:composite-exactness-from-layers}, if $\mathsf{SourceOk}(x)$, then there exists a final token $z$ such that
+$$
+\CompGap(\mathsf{firstGap},\mathsf{secondGap},z,x)
+$$
+and every final token $z'$ satisfying
+$$
+\CompGap(\mathsf{firstGap},\mathsf{secondGap},z',x)
+$$
+also satisfies $\mathsf{finalSame}(z,z')$.
+\end{theorem}
+\begin{proof}
+Composite coverage supplies a final token $z$ with $\CompGap(\mathsf{firstGap},\mathsf{secondGap},z,x)$. For any other final token $z'$ with $\CompGap(\mathsf{firstGap},\mathsf{secondGap},z',x)$, composite separation applies to the two composite memberships over the same admitted source and gives $\mathsf{finalSame}(z,z')$.
 \end{proof}
 
 \begin{principle}[Ledger composition]

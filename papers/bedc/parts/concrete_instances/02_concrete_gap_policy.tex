@@ -6,18 +6,18 @@ The signature package instance provides visible tokens. We now define the concre
 \begin{definition}[Signature gap membership]
 \label{def:signature-gap-membership}
 \label{def:gap-membership}
-Fix a probe bundle \(\Pi\), a source domain specification \(D\,\), and the signature package instance of \autoref{ch:concrete-instances-signature-package}. A history \(h\) lies in the signature gap of a package token \(p\) when there exist an answer history \(s\) and evidence ledger \(\Delta\) such that
-\[
-  h\in D,
+Fix a probe bundle $\Pi$, a source domain specification $D$, and the signature package instance of \autoref{ch:concrete-instances-signature-package}, whose visible package relation is $\PkgSig$. A history $h$ lies in the signature gap of a package token $p$ when there exist an answer history $s$ and evidence ledger $\Delta$ such that
+$$
+  \InDom(D,h),
   \qquad
   \Sig(\Pi,h,s,\Delta),
   \qquad
-  \Pkg^{\mathrm{sig}}(\Pi,s,p).
-\]
+  \TokIntro(\Pi,s,p).
+$$
 We write this as
-\[
-  \InGap^{\mathrm{sig}}(\Pi,D,p,h).
-\]
+$$
+  \InGapSig(\Pi,D,p,h).
+$$
 \end{definition}
 \leandef{BEDC.FKernel.Gap.GapMembership}
 \leandef{BEDC.FKernel.Gap.SignatureGapMembership}
@@ -38,62 +38,62 @@ We write this as
 
 \begin{lemma}[Concrete gap coverage]
 \label{thm:concrete-gap-coverage}
-Assume \(\AskPol(\Pi,D)\). For every generated history \(h\in D\), there exists a package token \(p\) such that
-\[
-  \InGap^{\mathrm{sig}}(\Pi,D,p,h).
-\]
+Assume $\AskPol(\Pi,D)$. For every generated history $h$ with $\InDom(D,h)$, there exists a package token $p$ such that
+$$
+  \InGapSig(\Pi,D,p,h).
+$$
 \end{lemma}
 \leanchecked{BEDC.FKernel.Gap.concrete\_gap\_coverage}
 \begin{proof}
-By totality in \(\AskPol(\Pi,D)\), the bundle \(\Pi\) produces some signature event
-\[
+By totality in $\AskPol(\Pi,D)$, the bundle $\Pi$ produces some signature event
+$$
   \Sig(\Pi,h,s,\Delta).
-\]
-By signature package existence, there is a package token \(p\) such that
-\[
-  \Pkg^{\mathrm{sig}}(\Pi,s,p).
-\]
-Therefore \(\InGap^{\mathrm{sig}}(\Pi,D,p,h)\) holds by definition.
+$$
+By token existence, there is a package token $p$ such that
+$$
+  \TokIntro(\Pi,s,p).
+$$
+Therefore $\InGapSig(\Pi,D,p,h)$ holds by definition.
 \end{proof}
 
 \begin{lemma}[Concrete gap separation]
 \label{lem:concrete-gap-separation}
-Assume \(\AskPol(\Pi,D)\). Suppose
-\[
-  \InGap^{\mathrm{sig}}(\Pi,D,p,h),
+Assume $\AskPol(\Pi,D)$. Suppose
+$$
+  \InGapSig(\Pi,D,p,h),
   \qquad
-  \InGap^{\mathrm{sig}}(\Pi,D,q,h).
-\]
-Then \(\psame(p,q)\).
+  \InGapSig(\Pi,D,q,h).
+$$
+Then $\psame(p,q)$.
 \end{lemma}
 \leanchecked{BEDC.FKernel.Gap.gap\_separation\_concrete}
 \begin{proof}
-By the two gap memberships, there are signatures \(s,t\) and ledgers \(\Delta,\Theta\) such that
-\[
-  \Sig(\Pi,h,s,\Delta),\quad \Pkg^{\mathrm{sig}}(\Pi,s,p),
-\]
-\[
-  \Sig(\Pi,h,t,\Theta),\quad \Pkg^{\mathrm{sig}}(\Pi,t,q).
-\]
-By signature determinacy under \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). By signature package extensionality, \(\psame(p,q)\).
+By the two gap memberships, there are signatures $s,t$ and ledgers $\Delta,\Theta$ such that
+$$
+  \Sig(\Pi,h,s,\Delta),\quad \TokIntro(\Pi,s,p),
+$$
+$$
+  \Sig(\Pi,h,t,\Theta),\quad \TokIntro(\Pi,t,q).
+$$
+By signature determinacy under $\AskPol(\Pi,D)$, $\hsame(s,t)$. By signature package extensionality, $\psame(p,q)$.
 \end{proof}
 
-\begin{theorem}[Concrete \(\GapPol\) for signature packages]
+\begin{theorem}[Concrete GapPol for signature packages]
 \label{thm:concrete-gap-policy}
-Assume \(\AskPol(\Pi,D)\), \(\PkgTokPol(\Pi)\), and token existence for every generated signature: for each generated answer history \(s\), there is a visible package \(p\) with \(\TokIntro(\Pi,s,p)\). Then the relation \(\InGap^{\mathrm{sig}}(\Pi,D,p,h)\) satisfies coverage and separation for the signature package instance.
+Assume $\AskPol(\Pi,D)$, $\PkgTokPol(\Pi)$, and token existence for every generated signature: for each generated answer history $s$, there is a visible package $p$ with $\TokIntro(\Pi,s,p)$. Then the package relation $\PkgSig$ together with $\InGapSig(\Pi,D,p,h)$ satisfies coverage and separation for the signature package instance.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.concrete\_gap\_policy}
 \leanvariant{BEDC.FKernel.Gap.gapPolicy\_coverage\_signature\_witness}
 \begin{proof}
-Coverage is supplied by signature generation under \(\AskPol(\Pi,D)\) together with token existence. Separation is supplied by signature determinacy under \(\AskPol(\Pi,D)\) and package soundness from \(\PkgTokPol(\Pi)\).
+Coverage is supplied by signature generation under $\AskPol(\Pi,D)$ together with token existence. Separation is supplied by signature determinacy under $\AskPol(\Pi,D)$ and package soundness from $\PkgTokPol(\Pi)$.
 \end{proof}
 
 \begin{corollary}[First concrete globalization ledger]
 \label{cor:first-concrete-globalization-ledger}
 The pair
 $$
-  (\Pkg^{\mathrm{sig}},\InGap^{\mathrm{sig}})
+  (\PkgSig,\InGapSig)
 $$
-forms the first concrete finite-kernel globalization interface for the domain \(D\) and probe bundle \(\Pi\), conditional on \(\AskPol(\Pi,D)\), \(\PkgTokPol(\Pi)\), and token existence for every generated signature.
+forms the first concrete finite-kernel globalization interface for the domain $D$ and probe bundle $\Pi$, conditional on $\AskPol(\Pi,D)$, $\PkgTokPol(\Pi)$, and token existence for every generated signature.
 \end{corollary}
 \leanchecked{BEDC.FKernel.Gap.first\_concrete\_globalization\_ledger}
