@@ -1,8 +1,10 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Ext
 
 namespace BEDC.FKernel.Cont
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
 
 theorem cont_determinacy_up_to_hsame_spine {h k r r' : BHist} :
     Cont h k r -> Cont h k r' -> hsame r r' := by
@@ -41,6 +43,16 @@ theorem cont_step_rules_iff_pair :
   constructor
   · exact cont_step_zero_iff
   · exact cont_step_one_iff
+
+theorem cont_ext_right_step {h k k' r r' : BHist} {m : BMark} :
+    Cont h k r → BEDC.FKernel.Ext.Ext k m k' → BEDC.FKernel.Ext.Ext r m r' →
+      Cont h k' r' := by
+  intro hcont left right
+  cases left
+  · cases right
+    exact cont_step_zero hcont
+  · cases right
+    exact cont_step_one hcont
 
 theorem continuation_step_rules_iff_pair :
     (forall {h k r : BHist}, Cont h (BHist.e0 k) (BHist.e0 r) <-> Cont h k r) /\

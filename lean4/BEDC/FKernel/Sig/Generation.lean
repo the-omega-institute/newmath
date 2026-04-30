@@ -1,5 +1,6 @@
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Step
 
 namespace BEDC.FKernel.Sig
 
@@ -181,5 +182,32 @@ theorem sameSig_bundleAppend_closure [AskSetup] {left right : ProbeBundle ProbeN
                                                         (And.intro appendKSig
                                                           (cont_respects_hsame rightResultsSame
                                                             leftResultsSame contH contK))))
+
+theorem signature_generation_bundle_append [AskSetup] {left right : ProbeBundle ProbeName}
+    {h s t : BHist} :
+    SigRel left h s → SigRel right h t →
+      ∃ u : BHist, Cont t s u ∧ SigRel (bundleAppend left right) h u := by
+  intro leftSig rightSig
+  induction leftSig with
+  | empty h =>
+      exact Exists.intro t (And.intro rfl rightSig)
+  | cons pi tail h tailResult result m delta hask tailSig step ih =>
+      cases ih rightSig with
+      | intro joined joinedData =>
+          cases joinedData with
+          | intro hcont joinedSig =>
+              cases step
+              ·
+                  exact Exists.intro (BHist.e0 joined)
+                    (And.intro
+                      (cont_ext_right_step hcont (Ext.e0 tailResult) (Ext.e0 joined))
+                      (SigRel.cons pi (bundleAppend tail right) h joined (BHist.e0 joined)
+                        BMark.b0 delta hask joinedSig (Ext.e0 joined)))
+              ·
+                  exact Exists.intro (BHist.e1 joined)
+                     (And.intro
+                       (cont_ext_right_step hcont (Ext.e1 tailResult) (Ext.e1 joined))
+                       (SigRel.cons pi (bundleAppend tail right) h joined (BHist.e1 joined)
+                         BMark.b1 delta hask joinedSig (Ext.e1 joined)))
 
 end BEDC.FKernel.Sig

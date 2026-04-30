@@ -216,6 +216,7 @@ $$
 \Sig(\mathsf{BAppend}(\Pi,\Theta),h,u,\Lambda).
 $$
 \end{theorem}
+\leanchecked{BEDC.FKernel.Sig.signature\_generation\_bundle\_append}
 \begin{proof}
 Induct on $\Pi$. In the empty bundle case, empty-signature inversion identifies $s$ with $\emp$; take $u=t$, use the right-unit continuation constructor, and reuse the given signature for $\Theta$. In the cons case, invert the left signature. The tail signature for $\Pi$ and the signature for $\Theta$ feed the induction hypothesis, producing a tail result $u_0$ with $\ContR(t,s_0,u_0)$ and a signature for $\mathsf{BAppend}(\Pi,\Theta)$. Rebuild the cons signature using the original head asking event and the tail signature. The final extension branch supplies either the $\Ezero$ or $\Eone$ continuation step, yielding $\ContR(t,s,u)$ for the rebuilt result.
 \end{proof}
