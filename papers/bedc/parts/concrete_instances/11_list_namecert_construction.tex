@@ -510,35 +510,31 @@ $\mathsf{ListHistoryLedger}_S(t)$, $\ContR(a,t,p)$, and
 $\hsame(h,\Eone(p))$.
 \end{definition}
 
+\begin{definition}[List spine representation]
+\label{def:list-spine-representation}
+For a BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, the relation $\mathsf{ListSpineRep}_A(h,xs)$ says that the history $h$ represents the finite list spine $xs$ by the same nil and cons clauses used by $\mathsf{ListHistoryCarrier}_A$:
+\begin{enumerate}
+  \item nil: $xs=\mathsf{nil}$ and $\hsame(h,\emp)$;
+  \item cons: $xs=\mathsf{cons}(ah,xs')$ and there are histories $ah,t,p$ with $A(ah)$, $\mathsf{ListSpineRep}_A(t,xs')$, $\ContR(ah,t,p)$, and $\hsame(h,\Eone(p))$.
+\end{enumerate}
+The history-level classifier used by the certificate is
+$$
+  \mathsf{ListHistoryClassifier}_{\sim_A}(h,k)
+  \quad\Longleftrightarrow\quad
+  \exists xs,ys.\;
+  \mathsf{ListSpineRep}_A(h,xs)\land
+  \mathsf{ListSpineRep}_A(k,ys)\land
+  \mathsf{ListClassifierSpec}(\sim_A,xs,ys).
+$$
+Thus $\mathsf{ListClassifierSpec}$ remains the finite-spine classifier, and $\mathsf{ListHistoryClassifier}_{\sim_A}$ is the classifier whose endpoints are BEDC histories.
+\end{definition}
+
 \begin{theorem}[Concrete $\ListUp$ certificate target]
 \label{thm:concrete-list-namecert}
-Given a BEDC history source carrier $A : \mathsf{BHist} \to \mathsf{Prop}$,
-source classifier $\sim_A$, and source certificate
-$\mathsf{cert} : \NameCert(A,\sim_A)$, take the semantic source field to be
-$\mathsf{ListHistoryCarrier}_A$, the semantic classifier field to be
-$\mathsf{ListHistoryClassifier}_{A,\sim_A}$, the semantic pattern field to be
-the BHist-level nil-or-cons constructor-shape predicate, and the semantic
-ledger field to be the BHist-level visible length and source-ledger predicate.
-These fields form the paper-side target
-$$
-\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,\mathsf{ListHistoryPattern}_A,
-\mathsf{ListHistoryLedger}_A,\mathsf{ListHistoryClassifier}_{A,\sim_A})
-$$
-for $\ListUp(A)$.
+Given a BEDC history source carrier $A : \mathsf{BHist} \to \mathsf{Prop}$, source classifier $\sim_A$, and source certificate $\mathsf{cert} : \NameCert(A,\sim_A)$, define $\mathsf{ListSource}(A)$ as the history carrier $\mathsf{ListHistoryCarrier}_A$, define $\mathsf{ListHistoryClassifier}_{\sim_A}$ by Definition~\ref{def:list-spine-representation}, define $\mathsf{ListPattern}(A)$ as the nil-or-cons constructor-shape predicate over represented histories, and define $\mathsf{ListLedger}(A)$ as the visible length together with the source ledger read from a represented finite spine. These fields form the paper-side target $\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,\mathsf{ListPattern}(A),\mathsf{ListLedger}(A),\mathsf{ListHistoryClassifier}_{\sim_A})$ for $\ListUp(A)$.
 \end{theorem}
 \begin{proof}
-The source $\NameCert$ supplies the head-level reflexivity, symmetry,
-transitivity, and carrier transport fields. The generated nil/cons carrier
-supplies the BEDC spine, and the history classifier endpoint theorem ensures
-each classified pair lands back in $\mathsf{ListHistoryCarrier}_A$. Reflexivity
-is by induction on the history carrier witness. Symmetry and transitivity are
-by induction on the history classifier witness, using the corresponding source
-certificate fields for heads and the induction hypothesis for tails. Carrier
-transport follows by induction over the history classifier derivation, with nil
-transported to nil and cons transported componentwise by the source certificate
-and the tail induction hypothesis. Nil/cons case analysis uses
-Theorem~\ref{thm:list-history-carrier-generated-cases}; the visible length, constructor
-shape, and source-ledger entries are read from the BHist-level nil/cons spine.
+The source $\NameCert$ supplies the head-level reflexivity, symmetry, transitivity, and carrier transport fields. The generated nil/cons carrier supplies the BEDC histories, and Definition~\ref{def:list-spine-representation} supplies the finite spine through which the checked structural classifier is applied. Classifier reflexivity chooses the representing spine for the same history and applies induction on that spine. Symmetry is obtained by keeping the two representation witnesses and reversing the finite-spine classifier with Theorem~\ref{thm:list-classifier-symm-from-namecert}. Transitivity composes the finite-spine classifier witnesses with Theorem~\ref{thm:list-classifier-trans-from-namecert} after matching the middle represented history. Carrier transport follows by induction over the represented spine, with nil transported to nil and cons transported componentwise by the source certificate and the tail induction hypothesis. Nil/cons case analysis uses Theorem~\ref{thm:list-history-carrier-generated-cases} for the generated history carrier and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} inside the finite-spine bridge, length and source-ledger policy are read from the representing spine, and exactness is the matching-shape statement of Theorem~\ref{thm:list-classifier-case-exactness} transported through the representation relation.
 \end{proof}
 
 \begin{corollary}[\(\ListUp\) is licensed, not primitive]

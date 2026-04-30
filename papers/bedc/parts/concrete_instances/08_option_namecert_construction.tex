@@ -76,6 +76,14 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, define $\m
 The matching classifier relates two histories by either the absent-absent case $\hsame(h,\emp)$ and $\hsame(k,\emp)$, or by a present-present case with payload histories $a,b$ such that the source classifier relates $a$ to $b$, $\hsame(h,\Eone(a))$, and $\hsame(k,\Eone(b))$.
 \end{definition}
 
+\begin{theorem}[Tagged option history carrier transport]
+\label{thm:tagged-option-history-carrier-hsame-transport}
+For any BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, if $\mathsf{TaggedOptionHistoryCarrier}_S(h)$ and $\hsame(h,k)$, then $\mathsf{TaggedOptionHistoryCarrier}_S(k)$.
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged carrier witness for $h$. In the absent case, compose the symmetry of $\hsame(h,k)$ with the stored endpoint witness $\hsame(h,\emp)$ to obtain $\hsame(k,\emp)$, then rebuild the absent clause. In the present case, keep the same payload $a$ and source witness $S(a)$. Compose the symmetry of $\hsame(h,k)$ with the stored endpoint witness $\hsame(h,\Eone(a))$ to obtain $\hsame(k,\Eone(a))$, then rebuild the present clause.
+\end{proof}
+
 \begin{theorem}[Tagged option history constructor exactness]
 \label{thm:tagged-option-history-constructor-exactness}
 For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, the tagged optional-history classifier separates the absent and present constructors at the BEDC history level. An absent-present or present-absent classification is impossible; every present-present classification inverts to payload histories $a,b$ with $a\sim_S b$ and endpoint witnesses $\hsame(h,\Eone(a))$ and $\hsame(k,\Eone(b))$; and classifier reflexivity, symmetry, and transitivity are inherited from the corresponding source classifier fields.
