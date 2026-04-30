@@ -9,11 +9,11 @@ The product interface $\ProdUp$ is licensed over two source carriers each endowe
   \item \textbf{Traditional target}: ordered product data with one left component and one right component.
   \item \textbf{BEDC source}: two licensed source carriers $A$ and $B$, each with its own name certificate.
   \item \textbf{Carrier choice}: the paired history carrier records a left history, a right history, and the continuation that combines them.
-  \item \textbf{Classifier choice}: $\mathsf{ProdClassifierSpec}$ is the typed componentwise classifier checked by $\mathsf{prodClassifier\_iff}$; $\mathsf{ProdHistoryClassifier}$ is the checked history-envelope classifier consisting of endpoint product-carrier witnesses and endpoint $\hsame$.
+  \item \textbf{Classifier choice}: $\mathsf{ProdClassifierSpec}$ is the typed componentwise classifier; $\mathsf{ProdHistoryClassifier}$ is the checked history-envelope classifier consisting of two $\mathsf{ProdHistoryCarrier}$ endpoint witnesses and endpoint $\hsame$.
   \item \textbf{Stability obligations}: component transport, continuation transport, unary closure from components, history-envelope classifier symmetry and transitivity, typed classifier symmetry and transitivity, and typed coordinate inversion.
   \item \textbf{Ledger}: no product quotient is used; pairing records both component witnesses and their generated continuation.
   \item \textbf{Core theorem list}: append introduction, continuation introduction, carrier transport, unary closure, classifier equivalence, and the semantic name certificate.
-  \item \textbf{Exactness predicate}: typed classification holds exactly when both coordinates classify in their respective sources; history-envelope classification holds when both endpoints lie in the product-history carrier and are related by endpoint $\hsame$.
+  \item \textbf{Exactness predicate}: typed classification holds exactly when both coordinates classify in their respective sources; history-envelope classification holds when both endpoints lie in $\mathsf{ProdHistoryCarrier}(L,R)$ and are related by endpoint $\hsame$.
   \item \textbf{Standard bridge}: the licensed pair reads back as the ordinary ordered pair $(a,b)$.
   \item \textbf{Status}: the product-history semantic envelope is checked in Lean; the explicit ordered-product interface uses the typed componentwise classifier and the projection fields checked around $\mathsf{prodClassifier\_iff}$.
 \end{enumerate}
@@ -100,9 +100,9 @@ The pattern is paired generation from one \(A\)-witness and one \(B\)-witness.
 
 \begin{definition}[Prod classifier specification]
 \label{def:prod-classifier-specification}
-The typed classifier $\mathsf{ProdClassifierSpec}$ relates pairs componentwise using the classifiers of $A$ and $B$. Separately, the history-envelope classifier $\mathsf{ProdHistoryClassifier}$ relates histories by endpoint product-carrier witnesses together with endpoint $\hsame$.
+The typed classifier $\mathsf{ProdClassifierSpec}$ relates pairs componentwise using the classifiers of $A$ and $B$. The typed wrapper $\mathsf{ProdClassifier}$ has the same componentwise content. Separately, the checked history-level scope is $\mathsf{ProdHistoryClassifier}(L,R)$: it relates histories $h$ and $k$ exactly when $h$ lies in $\mathsf{ProdHistoryCarrier}(L,R)$, $k$ lies in $\mathsf{ProdHistoryCarrier}(L,R)$, and $\hsame(h,k)$ holds.
 \end{definition}
-\leandef{BEDC.Derived.ProdUp.ProdClassifier}
+\leandef{BEDC.Derived.ProdUp.ProdClassifierSpec}
 \leandef{BEDC.Derived.ProdUp.ProdHistoryClassifier}
 \leanchecked{BEDC.Derived.ProdUp.prodClassifier\_iff}
 
@@ -234,10 +234,11 @@ fields for the raw ledger history and the visible history.
 For source-history predicates $L$ and $R$ on $\mathsf{BHist}$, assume there
 are carrier witnesses $l$ and $r$ with $L(l)$ and $R(r)$. Equivalently, the
 witnesses may be supplied by source certificates whose carrier-inhabited
-fields provide them. Then the endpoint-carrier tuple forms the product-history
-semantic envelope for $\mathsf{ProdHistoryCarrier}(L,R)$ and
-$\mathsf{ProdHistoryClassifier}(L,R)$. The explicit ordered-product interface
-additionally uses the typed componentwise classifier and projection fields.
+fields provide them. Then the checked certificate is for
+$\mathsf{ProdHistoryCarrier}(L,R)$ and the history-envelope classifier
+$\mathsf{ProdHistoryClassifier}(L,R)$ under these explicit left and right
+carrier witnesses. The explicit ordered-product interface additionally uses
+the typed componentwise classifier and projection fields.
 \end{theorem}
 \begin{proof}
 Take the left and right witnesses from the two source certificates, or from
