@@ -200,6 +200,24 @@ then
 This is Definition~\ref{def:token-unique} applied to the two token-introduction judgments for the same token \(p\).
 \end{proof}
 
+\begin{lemma}[Symmetric token replacement]
+\label{lem:token-replacement-policy-symm}
+Assume \(\mathsf{TokUnique}(\Pi)\) and that \(\hsame\) is symmetric. If
+\[
+  \TokIntro(\Pi,s,p),\quad
+  \TokIntro(\Pi,t,p),
+\]
+then
+\[
+  \hsame(t,s).
+\]
+\end{lemma}
+\leanchecked{BEDC.BaseReflection.TokUnique\_replacement\_symm}
+
+\begin{proof}
+Token-introduction uniqueness gives \(\hsame(s,t)\); symmetry of \(\hsame\) gives \(\hsame(t,s)\).
+\end{proof}
+
 \begin{theorem}[Concrete package reflection with token uniqueness]
 \label{thm:package-reflection-token-unique}
 Assume \(\mathsf{TokUnique}(\Pi)\). If

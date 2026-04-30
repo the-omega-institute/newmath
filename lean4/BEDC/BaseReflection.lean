@@ -31,6 +31,14 @@ theorem TokUnique_replacement
   intro left right
   exact tok.tokenReplacement left right
 
+theorem TokUnique_replacement_symm
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y : s.SigObj} {p : s.Pkg} :
+    s.TokIntro P x p → s.TokIntro P y p → s.hsame y x := by
+  intro left right
+  exact eqv.symm (tok.tokenReplacement left right)
+
 def PolicyTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Prop := TokUnique s P
 
 structure CanonicalTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Type where
@@ -355,6 +363,15 @@ theorem ExactGlobalizeBase_classify_iff
         exact ex.soundness h k p q hp hq hsig
 
 theorem ExactGlobalizeBase_exports_base_relation
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    ∀ {h k : s.Hist} {p q : s.Pkg},
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  intro h k p q hp hq
+  exact ExactGlobalizeBase_classify_iff ex hp hq
+
+theorem ExactGlobalizeBase_no_closure_export
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) :
     ∀ {h k : s.Hist} {p q : s.Pkg},
