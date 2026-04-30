@@ -247,11 +247,12 @@ Induct on the first list. Nil can only classify with nil. In the cons case, clas
 \label{def:list-stability-certificate}
 The stability certificate consists of:
 \begin{enumerate}
-  \item reflexivity by list induction
-  \item transitivity by paired source/list induction
-  \item nil/cons separation
-  \item closure under cons
-  \item tail inversion and head inversion for classified cons values
+  \item classifier reflexivity by list induction, symmetry from the source $\NameCert$, and transitivity by paired source/list induction
+  \item nil/cons no-confusion together with head and tail inversion for classified cons values
+  \item constructor-map preservation and reflection for $e0$ and $e1$, with mixed-tag separation
+  \item append stability, left prefix cancellation, right suffix cancellation, and two-sided cancellation
+  \item reverse preservation, reverse reflection, and reverse equivalence
+  \item length preservation for structurally classified BEDC history lists
 \end{enumerate}
 \end{definition}
 
