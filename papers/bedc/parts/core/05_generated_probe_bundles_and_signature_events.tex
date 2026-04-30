@@ -288,6 +288,21 @@ Unpack the two signature-sameness witnesses. The $\Pi$ witnesses give signatures
 \end{proof}
 \leanchecked{BEDC.FKernel.Sig.sameSig\_bundleAppend\_closure}
 
+\begin{theorem}[Signature-sameness left cancellation under bundle append]
+\label{thm:samesig-bundle-append-left-cancellation}
+Assume $\AskPol(\Pi,D)$ and $h,k\in D$. If
+$$
+\sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)
+$$
+and $\sameSig_\Pi(h,k)$, then
+$$
+\sameSig_\Theta(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Invert the appended signature-sameness witnesses using Theorem~\ref{thm:signature-generation-bundle-append-inversion}. This recovers $\Pi$ signatures, $\Theta$ signatures, and continuation witnesses on the $h$ and $k$ sides. Compare the recovered left $\Pi$ signatures with the witnesses from $\sameSig_\Pi(h,k)$ using signature determinacy at $h$ and at $k$. Transport one continuation along that left-result sameness. The common right continuation can then be cancelled against the appended result-sameness, yielding $\hsame$ for the recovered $\Theta$ results. Those recovered $\Theta$ signatures are the witnesses for $\sameSig_\Theta(h,k)$.
+\end{proof}
+
 \begin{theorem}[Cons tail signatures from result-sameness]
 \label{thm:signature-cons-tail-hsame-from-result-hsame}
 If two derivations of \(\Sig(\Bcons(\pi,\Pi),h,r,\Delta)\) and
