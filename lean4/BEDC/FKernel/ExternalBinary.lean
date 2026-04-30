@@ -345,6 +345,15 @@ theorem external_append_left_cancel_hsame :
   intro a b c same
   exact external_append_left_cancel a b c same
 
+theorem external_append_cancel_hsame_pair :
+    (∀ {a b c : BWord}, hsame (append a c) (append b c) → hsame a b) ∧
+      (∀ {a b c : BWord}, hsame (append c a) (append c b) → hsame a b) := by
+  constructor
+  · intro a b c same
+    exact external_append_right_cancel_hsame same
+  · intro a b c same
+    exact external_append_left_cancel_hsame same
+
 theorem external_append_right_unit_unique {a b : BWord} : append a b = a → b = BHist.Empty := by
   intro h
   have hright : append a b = append a BHist.Empty :=

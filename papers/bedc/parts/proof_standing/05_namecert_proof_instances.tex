@@ -34,8 +34,10 @@ The unary continuation pattern is the restriction of \(\ContR\) to unary source 
 \end{definition}
 
 \begin{theorem}[Unary continuation closure]
+\label{thm:unary-continuation-closure-up-to-hsame}
 If \(h\) and \(k\) are unary histories and \(\ContR(h,k,r)\), then \(r\) is unary up to \(\HSame\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Unary.unary\_continuation\_closure\_up\_to\_hsame}
 \begin{proof}
 Induct on the generation of \(h\). If \(h=\emp\), then \(r\) is internally same as \(k\), hence unary. If \(h=\Eone(h')\), the continuation rule reduces the result to \(\Eone(r')\) where \(r'\) is obtained by continuing \(h'\) by \(k\). Apply the induction hypothesis and close under \(\Eone\). The \(\Ezero\)-case is absent for unary histories.
 \end{proof}

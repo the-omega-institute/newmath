@@ -213,6 +213,11 @@ theorem unary_cont_closed {h k r : BHist} :
   | e1 k ih =>
       exact ih uh uk
 
+theorem unary_continuation_closure_up_to_hsame {h k r r' : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → hsame r r' → UnaryHistory r' := by
+  intro uh uk hr same
+  exact unary_transport (unary_cont_closed uh uk hr) same
+
 theorem unary_cont_preserves_unary_by_induction {h k r : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → UnaryHistory r := by
   intro uh uk hr

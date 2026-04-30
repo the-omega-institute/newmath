@@ -468,6 +468,42 @@ theorem policy_gap_separation_witnesses [AskSetup] [PackageSetup] [DomainSetup]
                                     (And.intro hqTok
                                       (And.intro hst hpq))))))
 
+theorem gap_separation_witnesses_from_policy_layers [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) → PackagePolicy bundle → GapPolicy bundle D → InDom D h →
+      InGapSig bundle D p h → InGapSig bundle D q h →
+        ∃ s : BHist, ∃ t : BHist,
+          SigRel bundle h s ∧ SigRel bundle h t ∧
+            TokIntro bundle s p ∧ TokIntro bundle t q ∧
+              hsame s t ∧ psame bundle p q := by
+  intro askPolicy _ _ hIn hp hq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro _ hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs hpTok =>
+                      cases htData with
+                      | intro ht hqTok =>
+                          have hst : hsame s t :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D) (h := h) (s := s) (t := t)
+                              askPolicy hIn hs ht
+                          have hpq : psame bundle p q := psame.intro hpTok hqTok hst
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro hs
+                                (And.intro ht
+                                  (And.intro hpTok
+                                    (And.intro hqTok
+                                      (And.intro hst hpq))))))
+
 theorem gap_separation_policy [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     DomainPolicy D → AskPolicy (InDom D) → PackageTokenPolicy bundle →
