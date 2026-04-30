@@ -68,6 +68,19 @@ The classifier for two signed unary representatives requires both representative
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntClassifierSpec}
 
+\begin{theorem}[Integer classifier symmetry]
+\label{thm:int-classifier-symmetry}
+If \(\mathsf{IntClassifierSpec}(x,y)\), then
+\(\mathsf{IntClassifierSpec}(y,x)\).
+\end{theorem}
+\begin{proof}
+Eliminating the classifier witness exposes carrier evidence for both
+representatives, sign sameness, and magnitude sameness. The carrier evidence is
+swapped, while symmetry of \(\msame\) and \(\hsame\) reverses the two sameness
+components.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_symm}
+
 \begin{theorem}[Integer classifier transitivity]
 \label{thm:int-classifier-transitivity}
 If \(\mathsf{IntClassifierSpec}(x,y)\) and

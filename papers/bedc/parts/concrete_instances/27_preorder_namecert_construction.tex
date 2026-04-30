@@ -73,6 +73,21 @@ Unpack the prefix relation into a unary tail and a continuation witness. Unary c
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_target\_carrier}
 
+\begin{theorem}[Prefix antisymmetry collapses to history sameness]
+\label{thm:preorder-prefix-le-antisymm-hsame}
+If \(h\le k\) and \(k\le h\) are both witnessed by unary continuation tails,
+then \(\hsame(h,k)\).
+\end{theorem}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_antisymm\_hsame}
+\begin{proof}
+Unpack the two prefix witnesses. Substituting the first continuation equation
+into the second gives a round trip from \(h\) through the two tails back to
+\(h\). Associativity rewrites this as equality between the empty right tail and
+the combined tail under the same left prefix, and left cancellation forces the
+forward tail to be empty. The first continuation equation then reduces to
+\(\hsame(h,k)\).
+\end{proof}
+
 \begin{definition}[Preorder stability certificate]
 \label{def:preorder-stability-certificate}
 The stability certificate consists of:

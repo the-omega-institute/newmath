@@ -60,6 +60,29 @@ theorem PreorderPrefixLE_preserves_carrier {h k : BEDC.FKernel.Hist.BHist} :
       | intro tailCarrier hCont =>
           exact unary_cont_closed hCarrier tailCarrier hCont
 
+theorem PreorderPrefixLE_antisymm_hsame {h k : BHist} :
+    PreorderPrefixLE h k -> PreorderPrefixLE k h -> hsame h k := by
+  intro hk kh
+  cases hk with
+  | intro forwardTail forwardData =>
+      cases forwardData with
+      | intro _ forwardCont =>
+          cases kh with
+          | intro backwardTail backwardData =>
+              cases backwardData with
+              | intro _ backwardCont =>
+                  cases forwardCont
+                  have loop :
+                      append h BHist.Empty = append h (append forwardTail backwardTail) :=
+                    (cont_right_unit h).symm.trans
+                      (backwardCont.trans (append_assoc h forwardTail backwardTail))
+                  have emptyTail : hsame BHist.Empty (append forwardTail backwardTail) :=
+                    append_left_cancel (h := h) loop
+                  have forwardTailEmpty : forwardTail = BHist.Empty :=
+                    (append_eq_empty_iff.mp emptyTail.symm).left
+                  cases forwardTailEmpty
+                  exact rfl
+
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)
     (carrier_transport : ∀ {h k : BHist}, hsame h k → Carrier h → Carrier k)

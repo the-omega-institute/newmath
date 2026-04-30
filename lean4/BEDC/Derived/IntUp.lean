@@ -96,4 +96,22 @@ theorem IntClassifierSpec_trans
                               · exact BEDC.FKernel.Mark.msame_trans sameSignXY sameSignYZ
                               · exact BEDC.FKernel.Hist.hsame_trans sameMagnitudeXY sameMagnitudeYZ
 
+theorem IntClassifierSpec_symm
+    {x y : BEDC.FKernel.Mark.BMark × BEDC.FKernel.Hist.BHist} :
+    IntClassifierSpec x y -> IntClassifierSpec y x := by
+  intro xy
+  cases xy with
+  | intro carrierX xyRest =>
+      cases xyRest with
+      | intro carrierY sameXY =>
+          cases sameXY with
+          | intro sameSign sameMagnitude =>
+              constructor
+              · exact carrierY
+              · constructor
+                · exact carrierX
+                · constructor
+                  · exact BEDC.FKernel.Mark.msame_symm sameSign
+                  · exact BEDC.FKernel.Hist.hsame_symm sameMagnitude
+
 end BEDC.Derived.IntUp
