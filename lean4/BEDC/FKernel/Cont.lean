@@ -80,6 +80,15 @@ theorem cont_step_rules_pair :
   · intro h k r hcont
     exact cont_step_one hcont
 
+theorem cont_step_rules_inversion_pair :
+    (∀ {h k r : BHist}, Cont h (.e0 k) (.e0 r) → Cont h k r) ∧
+      (∀ {h k r : BHist}, Cont h (.e1 k) (.e1 r) → Cont h k r) := by
+  constructor
+  · intro h k r hcont
+    exact BHist.e0.inj hcont
+  · intro h k r hcont
+    exact BHist.e1.inj hcont
+
 theorem cont_step_result_inversions {h k r : BHist} :
     (Cont h (BHist.e0 k) r -> exists r0 : BHist, r = BHist.e0 r0 /\ Cont h k r0) /\
       (Cont h (BHist.e1 k) r -> exists r0 : BHist, r = BHist.e1 r0 /\ Cont h k r0) := by

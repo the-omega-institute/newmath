@@ -96,6 +96,18 @@ theorem package_reflection {bundle : ProbeBundle ProbeName} {s t : BHist} {p q :
   intro policy hp hq hpq
   exact policy.reflection hp hq hpq
 
+omit [AskSetup] P in
+theorem package_reflection_forward [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p ∧ TokIntro bundle t q ∧ psame bundle p q → hsame s t := by
+  intro packed
+  cases packed with
+  | intro left rest =>
+      cases rest with
+      | intro right samePkg =>
+          exact policy.reflection left right samePkg
+
 theorem concrete_package_completeness_policy_grounded
     {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
     {s t : BHist} {p q : Pkg} :
