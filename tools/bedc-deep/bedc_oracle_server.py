@@ -139,15 +139,18 @@ def _record_turn(conv_id: str, turn: dict) -> None:
         _write_session(sess)
 
 
-def _record_agent_seen(agent_id: str, *, event: str) -> None:
+def _record_agent_seen(agent_id: str, *, event: str, metrics: dict | None = None) -> None:
     if not agent_id:
         return
-    recent_agents[agent_id] = {
+    rec = {
         "agent_id": agent_id,
         "event": event,
         "last_seen": time.time(),
         "last_seen_at": _now(),
     }
+    if metrics:
+        rec["metrics"] = metrics
+    recent_agents[agent_id] = rec
 
 
 def _agent_summary(now: float) -> dict[str, dict]:
@@ -160,6 +163,8 @@ def _agent_summary(now: float) -> dict[str, dict]:
             "idle_seconds": idle,
             "recent": idle <= AGENT_RECENT_SECONDS,
         }
+        if isinstance(rec.get("metrics"), dict):
+            summary[aid]["metrics"] = rec["metrics"]
     return summary
 
 
@@ -533,8 +538,19 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
         task_id = data.get("task_id", "")
         agent_id = data.get("agent_id", "?")
         event = "heartbeat" if data.get("heartbeat") else "ack"
+        metrics = data.get("metrics") if isinstance(data.get("metrics"), dict) else None
+        if metrics:
+            metrics = {
+                "task_id": task_id,
+                "elapsed_seconds": metrics.get("elapsed_seconds"),
+                "extracted_chars": metrics.get("extracted_chars"),
+                "page_chars": metrics.get("page_chars"),
+                "stable_count": metrics.get("stable_count"),
+                "generating": metrics.get("generating"),
+                "url_tail": metrics.get("url_tail"),
+            }
         with _lock:
-            _record_agent_seen(agent_id, event=event)
+            _record_agent_seen(agent_id, event=event, metrics=metrics)
             if agent_id in dispatch_times:
                 dispatch_times[agent_id] = time.time()
         if event == "ack":

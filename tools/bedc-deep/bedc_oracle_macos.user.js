@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.5
+// @version      1.6
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.5";
+  const SCRIPT_VERSION = "bedc-1.6";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -775,17 +775,29 @@
     let lastHeartbeat = 0;
     while (Date.now() - startTime < MAX_WAIT) {
       await sleep(STABLE_INTERVAL);
-      const nowMs = Date.now();
-      if (task_id && nowMs - lastHeartbeat >= 60000) {
-        lastHeartbeat = nowMs;
-        try {
-          await serverPost("/ack", { task_id, agent_id: agentId(), heartbeat: true });
-        } catch {}
-      }
       const responseText = extractResponseText();
       const generating = isStillGenerating();
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
       const mainLen = (document.querySelector("main")?.innerText || "").length;
+      const nowMs = Date.now();
+      if (task_id && nowMs - lastHeartbeat >= 60000) {
+        lastHeartbeat = nowMs;
+        try {
+          await serverPost("/ack", {
+            task_id,
+            agent_id: agentId(),
+            heartbeat: true,
+            metrics: {
+              elapsed_seconds: elapsed,
+              extracted_chars: responseText.length,
+              page_chars: mainLen,
+              stable_count: stableCount,
+              generating,
+              url_tail: window.location.href.slice(-60),
+            },
+          });
+        } catch {}
+      }
       if (elapsed - lastLogTime >= 300) {
         lastLogTime = elapsed;
         log(`Wait: ${elapsed}s, extracted=${responseText.length}, page=${mainLen}, stable=${stableCount}, gen=${generating}, url=${window.location.href.slice(-30)}`);
