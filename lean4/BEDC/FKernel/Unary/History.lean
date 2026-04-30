@@ -201,6 +201,17 @@ theorem unary_append_factors_iff_result {h k : BHist} :
     | e1 k ih =>
         exact ih ur
 
+theorem unary_append_right_factor {h k : BHist} :
+    UnaryHistory (append h k) → UnaryHistory k := by
+  intro ur
+  induction k generalizing h with
+  | Empty =>
+      exact unary_empty
+  | e0 k ih =>
+      cases ur
+  | e1 k ih =>
+      exact ih ur
+
 theorem unary_cont_closed {h k r : BHist} :
     UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r := by
   intro uh uk hr

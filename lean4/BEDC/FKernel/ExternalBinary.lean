@@ -379,6 +379,15 @@ theorem external_append_right_unit_unique {a b : BWord} : append a b = a → b =
     Eq.trans h (external_append_empty_right a).symm
   exact external_append_left_cancel b BHist.Empty a hright
 
+theorem external_append_right_unit_iff {a b : BWord} :
+    append a b = a ↔ b = BHist.Empty := by
+  constructor
+  · intro h
+    exact external_append_right_unit_unique h
+  · intro h
+    cases h
+    exact external_append_empty_right a
+
 theorem external_append_unit_uniqueness_pair :
     (∀ {a b : BWord}, append a b = b → a = BHist.Empty) ∧
       (∀ {a b : BWord}, append a b = a → b = BHist.Empty) := by

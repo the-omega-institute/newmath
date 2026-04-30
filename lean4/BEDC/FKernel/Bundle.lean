@@ -53,6 +53,16 @@ theorem inBundle_tail_of_cons_ne {PName : Type} {p q : PName} {tail : ProbeBundl
   | inr htail =>
       exact htail
 
+theorem inBundle_cons_tail_iff_of_ne {PName : Type} {p q : PName}
+    {tail : ProbeBundle PName} :
+    p ≠ q → (InBundle p (ProbeBundle.Bcons q tail) ↔ InBundle p tail) := by
+  intro hne
+  constructor
+  · intro h
+    exact inBundle_tail_of_cons_ne h hne
+  · intro h
+    exact inBundle_cons_tail h
+
 theorem inBundle_cons_iff {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
     InBundle p (ProbeBundle.Bcons q tail) ↔ p = q ∨ InBundle p tail := by
   rfl
