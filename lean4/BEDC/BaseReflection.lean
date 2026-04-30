@@ -875,4 +875,32 @@ theorem ExactGlobalizeBase_exact
     intro h k p q hp hq
     exact ExactGlobalizeBase_classify_iff ex hp hq)
 
+theorem ExactGlobalizeBase_export_from_fields
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} :
+    ((forall h, s.InDom D h -> exists p, s.InGapSig P D p h) /\
+      (forall h k p q, s.InGapSig P D p h -> s.InGapSig P D q k ->
+        GeneratedSameSig s P h k -> PsameBase s P p q) /\
+      (forall h k p q, s.InGapSig P D p h -> s.InGapSig P D q k ->
+        PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k))) ->
+    (forall h, s.InDom D h -> exists p, s.InGapSig P D p h) /\
+      (forall {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h -> s.InGapSig P D q k ->
+        (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k))) := by
+  intro fields
+  cases fields with
+  | intro coverage rest =>
+      cases rest with
+      | intro soundness completeness =>
+          exact And.intro coverage (by
+            intro h k p q hp hq
+            constructor
+            case mp =>
+              intro base
+              exact completeness h k p q hp hq base
+            case mpr =>
+              intro generated
+              cases generated with
+              | intro gen =>
+                  exact soundness h k p q hp hq gen)
+
 end BEDC.BaseReflection
