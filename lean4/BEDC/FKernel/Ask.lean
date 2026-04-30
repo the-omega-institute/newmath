@@ -197,6 +197,23 @@ theorem ask_policy_fields [AskSetup] {D : BHist → Prop} (policy : AskPolicy D)
       exact policy.respectsHistory same left right
 
 omit S in
+theorem askPolicy_event_determinacy_respects_fields [AskSetup] {D : BHist -> Prop}
+    (policy : AskPolicy D) :
+    (forall {pi : ProbeName} {h : BHist}, D h -> Nonempty (AskEvent pi h)) /\
+    (forall {pi : ProbeName} {h : BHist} {m n : BMark} {delta theta : Evidence},
+      Ask pi h m delta -> Ask pi h n theta -> msame m n) /\
+    (forall {pi : ProbeName} {h k : BHist} {m n : BMark} {delta theta : Evidence},
+      hsame h k -> Ask pi h m delta -> Ask pi k n theta -> msame m n) := by
+  constructor
+  · intro pi h hD
+    exact askPolicy_total_event policy hD
+  · constructor
+    · intro pi h m n delta theta left right
+      exact policy.deterministic left right
+    · intro pi h k m n delta theta same left right
+      exact policy.respectsHistory same left right
+
+omit S in
 theorem AskPolicy_iff_fields [AskSetup] {D : BHist → Prop} :
     AskPolicy D ↔
       ((∀ {π : ProbeName} {h : BHist}, D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ) ∧

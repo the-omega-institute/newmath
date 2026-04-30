@@ -64,4 +64,28 @@ theorem sigRel_generation_constructor_pair [AskSetup] :
                           (And.intro hask
                             (And.intro htail hext))))))))
 
+theorem signature_event_generation_pack [AskSetup] :
+    (forall h : BHist, SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) h BHist.Empty) /\
+    (forall {pi : ProbeName} {tail : ProbeBundle ProbeName} {h s r : BHist} {m : BMark}
+      {delta : Evidence}, Ask pi h m delta -> SigRel tail h s -> Ext s m r ->
+        SigRel (ProbeBundle.Bcons pi tail) h r) /\
+    (forall {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r : BHist},
+      SigRel (ProbeBundle.Bcons pi tail) h r ->
+        exists s : BHist, exists m : BMark, exists delta : Evidence,
+          Ask pi h m delta /\ SigRel tail h s /\ Ext s m r) := by
+  constructor
+  · intro h
+    exact SigRel.empty h
+  · constructor
+    · intro pi tail h s r m delta hask htail hext
+      exact SigRel.cons pi tail h s r m delta hask htail hext
+    · intro pi tail h r hsig
+      cases hsig with
+      | cons _ _ _ s _ m delta hask htail hext =>
+          exact Exists.intro s
+            (Exists.intro m
+              (Exists.intro delta
+                (And.intro hask
+                  (And.intro htail hext))))
+
 end BEDC.FKernel.Sig
