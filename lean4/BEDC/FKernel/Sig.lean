@@ -67,6 +67,19 @@ theorem sig_cons_head_mark_determinacy [AskSetup] {pi : ProbeName} {tail : Probe
                             (And.intro rightTail
                               (policy.deterministic leftAsk rightAsk))))))))))
 
+omit [AskSetup] in
+theorem sig_cons_head_marks_same [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {D : BHist -> Prop} {h r r' : BHist} (policy : AskPolicy D) :
+    D h -> SigRel (ProbeBundle.Bcons pi tail) h r ->
+      SigRel (ProbeBundle.Bcons pi tail) h r' ->
+      exists m : BMark, exists n : BMark, msame m n := by
+  intro _ left right
+  cases left with
+  | cons _ _ _ _ _ m _ leftAsk _ _ =>
+      cases right with
+      | cons _ _ _ _ _ n _ rightAsk _ _ =>
+          exact Exists.intro m (Exists.intro n (policy.deterministic leftAsk rightAsk))
+
 theorem sig_cons_result_inversion [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
     {h r : BHist} :
     SigRel (ProbeBundle.Bcons pi tail) h r ->

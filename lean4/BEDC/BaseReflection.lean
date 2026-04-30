@@ -988,6 +988,18 @@ theorem NotExported_from_exact
   intro h k p q hp hq
   exact ExactGlobalizeBase_classify_iff ex hp hq
 
+theorem NotExported_from_fields
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (coverage : forall h, s.InDom D h -> exists p, s.InGapSig P D p h)
+    (soundness : forall h k p q,
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      GeneratedSameSig s P h k -> PsameBase s P p q)
+    (completeness : forall h k p q,
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)) :
+    NotExported s P D (ExactGlobalizeBase_from_fields coverage soundness completeness) := by
+  exact NotExported_from_exact (ExactGlobalizeBase_from_fields coverage soundness completeness)
+
 theorem NotExported_classify_iff
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     {ex : ExactGlobalizeBase s P D}

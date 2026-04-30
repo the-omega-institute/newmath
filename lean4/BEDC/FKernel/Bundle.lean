@@ -18,4 +18,9 @@ theorem inBundle_cons_tail {PName : Type} {p q : PName} {tail : ProbeBundle PNam
   intro h
   exact Or.inr h
 
+theorem inBundle_cons_inversion {PName : Type} {p q : PName} {tail : ProbeBundle PName} :
+    InBundle p (ProbeBundle.Bcons q tail) -> p = q \/ InBundle p tail := by
+  intro h
+  exact h
+
 end BEDC.FKernel.Bundle
