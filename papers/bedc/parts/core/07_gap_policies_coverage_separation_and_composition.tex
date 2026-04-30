@@ -13,7 +13,7 @@ The finite-kernel judgment $\InGapSig(\Pi,D,p,h)$ means that source history $h$ 
 \label{def:gap-policy-generation}
 A gap policy $\GapPol(\Pi,D)$ over source specification $D$ consists of:
 \begin{enumerate}
-  \item provenance/generation: a checked signature-gap membership $\InGapSig(\Pi,D,p,h)$ exposes the admitted-source judgment $\InDom(D,h)$ and witnesses $s,\Delta$ with $\Sig(\Pi,h,s,\Delta)$ and $\TokIntro(\Pi,s,p)$;
+  \item provenance/generation: the membership judgment $\InGapSig(\Pi,D,p,h)$ itself exposes the admitted-source judgment $\InDom(D,h)$ and witnesses $s,\Delta$ with $\Sig(\Pi,h,s,\Delta)$ and $\TokIntro(\Pi,s,p)$; the generation field of $\GapPol(\Pi,D)$ records the token-witness projection from such a membership to some $s$ with $\TokIntro(\Pi,s,p)$;
   \item coverage: every admitted source history belongs to some package gap;
   \item separation: if the same admitted source history belongs to the gaps of $p$ and $q$, then $\psame(p,q)$.
 \end{enumerate}
@@ -39,11 +39,20 @@ This is the coverage field of $\GapPol$, which directly supplies a package token
 \end{proof}
 
 \begin{theorem}[Gap separation]
+\label{thm:gap-separation}
 Assume $\GapPol(\Pi,D)$. If $\InDom(D,h)$, $\InGapSig(\Pi,D,p,h)$, and $\InGapSig(\Pi,D,q,h)$, then $\psame(p,q)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_separation}
 \begin{proof}
 This is the separation field of $\GapPol$, applied to the two finite-kernel gap memberships of the same admitted source history.
+\end{proof}
+
+\begin{theorem}[Gap separation from memberships]
+\label{thm:gap-separation-from-memberships}
+Assume $\GapPol(\Pi,D)$. If $\InGapSig(\Pi,D,p,h)$ and $\InGapSig(\Pi,D,q,h)$, then $\psame(p,q)$.
+\end{theorem}
+\begin{proof}
+Either finite-kernel gap membership exposes the admitted-source judgment $\InDom(D,h)$ by the membership definition recorded in Definition~\ref{def:gap-policy-interface}. Apply Theorem~\ref{thm:gap-separation} to this admitted-source witness and to the two memberships over the same source history $h$.
 \end{proof}
 
 \begin{theorem}[Gap representative for admitted source]
