@@ -144,6 +144,14 @@ def UnaryDomain : Domain := ()
 def UnaryName : DerivedName := ()
 def AddName : DerivedName := ()
 
+theorem unary_domain_gap_transport {bundle : ProbeBundle ProbeName} {p : Pkg} {h k s : BHist} :
+    InGapSig bundle UnaryDomain p h -> hsame h k -> BEDC.FKernel.Sig.SigRel bundle k s ->
+      TokIntro bundle s p -> InGapSig bundle UnaryDomain p k := by
+  intro hgap hhk hsig htok
+  exact inGapSig_domain_transport_with_signature
+    (bundle := bundle) (D := UnaryDomain) (p := p) (h := h) (k := k) (s := s)
+    unary_domain_policy hgap hhk hsig htok
+
 theorem nat_up_name_certificate : NameCert UnaryName := by
   exact NameCert.mk () () () () ()
 

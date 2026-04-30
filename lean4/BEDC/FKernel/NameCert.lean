@@ -74,6 +74,14 @@ theorem sealInterface_certificate_witnesses [NameCertSetup] {Thread : Type} {nam
   | mk thread sealCertType sealCert nameCert ledger =>
       exact And.intro nameCert ledger
 
+omit N in
+theorem sealInterface_requires_nameCert [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealInterface Thread name -> NameCert name ∧ Nonempty LedgerPolicy := by
+  intro interface
+  constructor
+  · exact interface.nameCert
+  · exact interface.ledger
+
 theorem derived_interfaces_require_certificates {n : DerivedName} :
     NameCert n -> Nonempty (NameCert n) := by
   intro cert

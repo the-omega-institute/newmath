@@ -130,6 +130,17 @@ theorem gap_generation_witness [AskSetup] [PackageSetup] [DomainSetup]
   intro hgap
   exact policy.generation hgap
 
+omit [AskSetup] [PackageSetup] G in
+theorem gapPolicy_requires_ledger_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
+    InDom D h -> ∃ p : Pkg, ∃ s : BHist, InGapSig bundle D p h ∧ TokIntro bundle s p := by
+  intro hdom
+  cases policy.coverage hdom with
+  | intro p hgap =>
+      cases policy.generation hgap with
+      | intro s htok =>
+          exact Exists.intro p (Exists.intro s (And.intro hgap htok))
+
 theorem internalized_gap_coverage
     {bundle : ProbeBundle ProbeName} {D : Domain}
     (askPolicy : AskPolicy (InDom D))
