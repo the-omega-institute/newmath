@@ -109,6 +109,15 @@ theorem PolicyTokenMode_iff_TokUnique {s : BaseReflectionSetup} {P : s.Pi} :
     (fun mode => mode)
     (fun tok => tok)
 
+theorem PolicyTokenMode_replacement_pair {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (mode : PolicyTokenMode s P)
+    {x y : s.SigObj} {p : s.Pkg} :
+    s.TokIntro P x p -> s.TokIntro P y p -> s.hsame x y ∧ s.hsame y x := by
+  intro left right
+  constructor
+  · exact mode.tokenReplacement left right
+  · exact eqv.symm (mode.tokenReplacement left right)
+
 structure CanonicalTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Type where
   TokCan : s.SigObj -> s.Pkg -> Prop
   introToCanonical : forall {x : s.SigObj} {p : s.Pkg}, s.TokIntro P x p -> TokCan x p

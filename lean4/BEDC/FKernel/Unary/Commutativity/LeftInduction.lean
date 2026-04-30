@@ -17,4 +17,15 @@ theorem unary_append_comm_hsame_left_induction :
   | e1 h ih =>
       exact (unary_append_e1_left (h := k) (k := h) uk).trans (hsame_e1_congr (ih uh uk))
 
+theorem unary_append_comm_hsame_left_induction_closed_pair :
+    forall {h k : BHist}, UnaryHistory h -> UnaryHistory k ->
+      hsame (append h k) (append k h) ∧
+        UnaryHistory (append h k) ∧ UnaryHistory (append k h) := by
+  intro h k uh uk
+  constructor
+  · exact unary_append_comm_hsame_left_induction uh uk
+  · constructor
+    · exact unary_append_closed uh uk
+    · exact unary_append_closed uk uh
+
 end BEDC.FKernel.Unary
