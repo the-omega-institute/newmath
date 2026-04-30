@@ -187,6 +187,28 @@ $$
 Induct on $\Pi$. In the empty bundle case, empty-signature inversion identifies $s$ with $\emp$; take $u=t$, use the right-unit continuation constructor, and reuse the given signature for $\Theta$. In the cons case, invert the left signature. The tail signature for $\Pi$ and the signature for $\Theta$ feed the induction hypothesis, producing a tail result $u_0$ with $\ContR(t,s_0,u_0)$ and a signature for $\mathsf{BAppend}(\Pi,\Theta)$. Rebuild the cons signature using the original head asking event and the tail signature. The final extension branch supplies either the $\Ezero$ or $\Eone$ continuation step, yielding $\ContR(t,s,u)$ for the rebuilt result.
 \end{proof}
 
+\begin{theorem}[Signature generation append inversion]
+\label{thm:signature-generation-bundle-append-inversion}
+For probe bundles $\Pi,\Theta$ and source history $h$, if
+$\Sig(\mathsf{BAppend}(\Pi,\Theta),h,u,\Lambda)$, then there exist histories
+$s,t$ and evidence tokens $\Delta,\Gamma$ such that
+$\Sig(\Pi,h,s,\Delta)$, $\Sig(\Theta,h,t,\Gamma)$, and $\ContR(t,s,u)$.
+\end{theorem}
+\begin{proof}
+Induct on $\Pi$. In the empty bundle case, the appended bundle is $\Theta$;
+generate the empty signature for $\Bnil$, take $s=\emp$ and $t=u$, reuse the
+given signature for $\Theta$, and apply the continuation right-unit
+constructor. In the cons case, invert the appended cons signature. The
+inversion exposes the head asking event, the tail signature for
+$\mathsf{BAppend}(\Pi,\Theta)$, and the final extension witness. Apply the
+induction hypothesis to the tail append signature to obtain signatures for
+$\Pi$ and $\Theta$ together with a continuation $\ContR(t,s_0,u_0)$. Rebuild
+the left cons signature from the exposed head asking event, the recovered tail
+signature for $\Pi$, and the final extension witness. The same extension
+constructor lifts the recovered tail continuation to $\ContR(t,s,u)$ for the
+whole appended signature.
+\end{proof}
+
 \begin{theorem}[Cons tail signatures from result-sameness]
 \label{thm:signature-cons-tail-hsame-from-result-hsame}
 If two derivations of \(\Sig(\Bcons(\pi,\Pi),h,r,\Delta)\) and
