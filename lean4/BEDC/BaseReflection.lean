@@ -412,6 +412,27 @@ theorem ExactGlobalizeBase_classify_iff
     | intro hsig =>
         exact ex.soundness h k p q hp hq hsig
 
+theorem ExactGlobalizeBase_classify_iff_from_directions
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (soundness : ∀ h k p q,
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      GeneratedSameSig s P h k → PsameBase s P p q)
+    (completeness : ∀ h k p q,
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      PsameBase s P p q → Nonempty (GeneratedSameSig s P h k))
+    {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k) := by
+  constructor
+  case mp =>
+    intro hbase
+    exact completeness h k p q hp hq hbase
+  case mpr =>
+    intro hgen
+    cases hgen with
+    | intro hsig =>
+        exact soundness h k p q hp hq hsig
+
 theorem ExactGlobalizeBase_exports_base_relation
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) :

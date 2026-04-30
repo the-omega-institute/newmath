@@ -169,4 +169,10 @@ theorem signature_package_policy [A : AskSetup] (bundle : ProbeBundle ProbeName)
       | intro hp hq hst =>
           exact ⟨_, _, hp, hq, hst⟩)
 
+omit P [AskSetup] in
+theorem signature_package_token_exists [A : AskSetup] (bundle : ProbeBundle ProbeName) (s : BHist) :
+    ∃ p : @Pkg A (@SignaturePackageSetup A),
+      @TokIntro A (@SignaturePackageSetup A) bundle s p := by
+  exact ⟨s, hsame_refl s⟩
+
 end BEDC.FKernel.Package

@@ -93,6 +93,26 @@ theorem sig_deterministic :
               have hm : msame m m' := pol.deterministic ask ask'
               exact ext_respects_sameness hsameTail hm hx hy
 
+theorem sig_respects_history :
+    ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h k s t : BHist},
+      AskPolicy D → hsame h k → SigRel bundle h s → SigRel bundle k t → hsame s t := by
+  intro bundle
+  induction bundle with
+  | Bnil =>
+      intro D h k s t pol hhk hs ht
+      cases hs
+      cases ht
+      rfl
+  | Bcons pi tail ih =>
+      intro D h k s t pol hhk hs ht
+      cases hs with
+      | cons _ _ _ s0 _ m delta ask hsTail hx =>
+          cases ht with
+          | cons _ _ _ t0 _ m' delta' ask' htTail hy =>
+              have hsameTail : hsame s0 t0 := ih pol hhk hsTail htTail
+              have hm : msame m m' := pol.respectsHistory hhk ask ask'
+              exact ext_respects_sameness hsameTail hm hx hy
+
 theorem sameSig_refl :
     ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h : BHist},
       SigTotalOn bundle D → D h → SameSig bundle h h := by
