@@ -123,6 +123,15 @@ theorem external_append_assoc_four :
   intro a b c d
   exact Eq.trans (external_append_assoc (append a b) c d) (external_append_assoc a b (append c d))
 
+theorem external_append_assoc_five :
+    ∀ a b c d e : BWord, append (append (append (append a b) c) d) e =
+      append a (append b (append c (append d e))) := by
+  intro a b c d e
+  exact
+    Eq.trans (external_append_assoc (append (append a b) c) d e)
+      (Eq.trans (external_append_assoc (append a b) c (append d e))
+        (external_append_assoc a b (append c (append d e))))
+
 theorem external_word_no_confusion :
     (∀ w : BWord, BHist.Empty = BHist.e0 w → False) ∧
       (∀ w : BWord, BHist.Empty = BHist.e1 w → False) ∧
