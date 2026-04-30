@@ -74,4 +74,13 @@ theorem cont_assoc_relational {h k l u v w z : BHist} :
   cases hwz
   exact append_assoc h k l
 
+theorem cont_assoc_unique {a b c ab bc abc abc' : BHist} :
+    Cont a b ab -> Cont b c bc -> Cont ab c abc -> Cont a bc abc' -> hsame abc abc' := by
+  intro hab hbc habc habc'
+  cases hab
+  cases hbc
+  cases habc
+  cases habc'
+  exact append_assoc a b c
+
 end BEDC.FKernel.Cont

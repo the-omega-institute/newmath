@@ -295,6 +295,16 @@ theorem internalized_globalize_completeness_with_tokens
                                     (And.intro hqTok
                                       (packagePolicy.reflection hpTok hqTok hpq))))))
 
+omit [AskSetup] [PackageSetup] G in
+theorem internalized_globalize_completeness_projection [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
+    PackageTokenPolicy bundle -> InGapSig bundle D p h -> InGapSig bundle D q k ->
+      psame bundle p q ->
+      exists s : BHist, exists t : BHist,
+        SigRel bundle h s /\ SigRel bundle k t /\ hsame s t := by
+  intro packagePolicy hp hq hpq
+  exact internalized_globalize_completeness packagePolicy hp hq hpq
+
 theorem internalized_globalize_soundness
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → PackageTokenPolicy bundle →

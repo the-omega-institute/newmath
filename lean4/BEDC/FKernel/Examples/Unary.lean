@@ -86,6 +86,9 @@ theorem nat_up_stability_witness : Nonempty StabilityCert := by
 theorem add_up_name_certificate_exists : Nonempty (NameCert AddName) := by
   exact Nonempty.intro (NameCert.mk () () () () ())
 
+theorem add_up_name_certificate : NameCert AddName := by
+  exact NameCert.mk () () () () ()
+
 theorem unary_addition_seed : True := True.intro
 
 theorem add_activation_stability_field (cert : NameCert UnaryName) : Nonempty StabilityCert := by
