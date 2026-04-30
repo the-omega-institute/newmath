@@ -767,6 +767,14 @@ theorem internalized_globalize_completeness_projection [AskSetup] [PackageSetup]
   intro packagePolicy hp hq hpq
   exact internalized_globalize_completeness packagePolicy hp hq hpq
 
+theorem concrete_globalize_soundness_intro
+    {bundle : ProbeBundle ProbeName} {h k s t : BHist} {p q : Pkg} :
+    SigRel bundle h s → SigRel bundle k t → TokIntro bundle s p →
+      TokIntro bundle t q → hsame s t → psame bundle p q := by
+  have _domainSetup := G
+  intro _ _ hp hq hst
+  exact psame.intro hp hq hst
+
 theorem internalized_globalize_soundness
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → PackageTokenPolicy bundle →

@@ -4,6 +4,7 @@
 Subcommands:
   - audit: scan Lean / paper sources for BEDC-specific forbidden constructs and mismatches
   - inventory: build a declaration + paper-label + Lean-marker inventory
+  - manifest: emit a release-grade JSON manifest (inventory + git/package metadata)
   - verify-files: run ``lake env lean`` on one or more Lean files
 
 Newmath adaptation note:
@@ -16,11 +17,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
 from collections import Counter
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
 
@@ -451,6 +454,84 @@ def cmd_inventory(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_manifest(args: argparse.Namespace) -> int:
+    """Emit a release-grade manifest combining declaration inventory, paper
+    labels, lean-marker correspondence, and git/package metadata. Suitable as
+    a release artifact alongside the PDF."""
+    declarations, fields = build_declaration_inventory()
+    inv = inventory_payload(
+        declarations,
+        fields,
+        collect_part_labels(),
+        collect_lean_markers(),
+    )
+
+    try:
+        git_sha = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=REPO_ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        ).stdout.strip()
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        git_sha = ""
+
+    lakefile_path = LEAN_ROOT / "lakefile.lean"
+    toolchain_path = LEAN_ROOT / "lean-toolchain"
+    lakefile = lakefile_path.read_text(encoding="utf-8") if lakefile_path.exists() else ""
+    toolchain = toolchain_path.read_text(encoding="utf-8").strip() if toolchain_path.exists() else ""
+    pkg_match = re.search(r'package\s+"?([A-Za-z0-9_]+)', lakefile)
+    package_name = pkg_match.group(1) if pkg_match else "BEDC"
+    mathlib_free = "mathlib" not in lakefile.lower()
+
+    release_tag = args.release_tag or os.environ.get("RELEASE_TAG") or None
+
+    manifest = {
+        "schema_version": 1,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "git": {
+            "sha": git_sha,
+            "tag": release_tag,
+        },
+        "package": {
+            "name": package_name,
+            "entry_module": "BEDC",
+            "lean_toolchain": toolchain,
+            "mathlib_free": mathlib_free,
+            "axiom_policy": "zero (enforced by tools/check-axioms.py)",
+            "sorry_policy": "zero (enforced by Phase D in lean4/scripts/codex_formalize.py)",
+        },
+        "stats": {
+            "lean_files": inv["lean_files_scanned"],
+            "paper_part_files": inv["paper_part_files_scanned"],
+            "paper_tex_files": inv["paper_tex_files_scanned"],
+            "declarations_total": inv["declarations_total"],
+            "field_targets_total": inv["field_targets_total"],
+            "declaration_kinds": inv["declaration_kinds"],
+            "part_labels_total": inv["part_labels_total"],
+            "part_label_prefixes": inv["part_label_prefixes"],
+            "lean_markers_total": inv["lean_markers_total"],
+            "lean_marker_macros": inv["lean_marker_macros"],
+        },
+        "modules": sorted({d["module"] for d in inv["declarations"]}),
+        "declarations": inv["declarations"],
+        "field_targets": inv["field_targets"],
+        "paper_labels": inv["paper_labels"],
+        "lean_markers": inv["lean_markers"],
+    }
+
+    text = json.dumps(manifest, indent=2, ensure_ascii=False) + "\n"
+    if args.output:
+        out = Path(args.output)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text, encoding="utf-8")
+        print(f"[bedc-ci] manifest written to {out}")
+    else:
+        sys.stdout.write(text)
+    return 0
+
+
 def cmd_verify_files(args: argparse.Namespace) -> int:
     lean_files_to_check = [resolve_lean_file(p) for p in args.paths]
     overall_rc = 0
@@ -484,6 +565,11 @@ def parser() -> argparse.ArgumentParser:
     inv_p = sub.add_parser("inventory", help="Emit declaration and paper inventory")
     inv_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     inv_p.set_defaults(func=cmd_inventory)
+
+    manifest_p = sub.add_parser("manifest", help="Emit release-grade JSON manifest (inventory + git/package metadata)")
+    manifest_p.add_argument("--output", type=str, default=None, help="Output file path (defaults to stdout)")
+    manifest_p.add_argument("--release-tag", type=str, default=None, help="Release tag to embed (overrides $RELEASE_TAG env)")
+    manifest_p.set_defaults(func=cmd_manifest)
 
     verify_p = sub.add_parser("verify-files", help="Run lake env lean on selected files")
     verify_p.add_argument("paths", nargs="+", help="Lean file paths, relative to lean4/")

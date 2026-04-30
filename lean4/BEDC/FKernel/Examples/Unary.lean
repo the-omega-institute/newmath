@@ -42,6 +42,10 @@ theorem unary_e1_closed {h : BHist} : UnaryHistory h -> UnaryHistory (.e1 h) := 
   intro uh
   exact uh
 
+theorem unary_e1_inversion {h : BHist} : UnaryHistory (BHist.e1 h) -> UnaryHistory h := by
+  intro uh
+  exact uh
+
 theorem unary_history_induction {P : BHist → Prop} :
     P BHist.Empty →
       (∀ h : BHist, UnaryHistory h → P h → P (BHist.e1 h)) →
@@ -119,6 +123,18 @@ theorem unary_repetition_continuation_closed {h k r : BHist} :
   | e1 k ih =>
       exact ih uh uk
 
+theorem unary_repetition_closed_under_continuation_seed {h k r : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → UnaryHistory r := by
+  intro uh uk hr
+  cases hr
+  induction k generalizing h with
+  | Empty =>
+      exact uh
+  | e0 k ih =>
+      cases uk
+  | e1 k ih =>
+      exact ih uh uk
+
 theorem unary_cont_right_factor {h k r : BHist} :
     Cont h k r → UnaryHistory r → UnaryHistory k := by
   intro hr ur
@@ -142,6 +158,17 @@ theorem unary_cont_left_factor {h k r : BHist} :
       cases ur
   | e1 k ih =>
       exact ih ur
+
+theorem unary_continuation_closed_and_factors {h k r : BHist} :
+    UnaryCont h k r ->
+      UnaryHistory r /\ (Cont h k r -> UnaryHistory r -> UnaryHistory h /\ UnaryHistory k) := by
+  intro cont
+  constructor
+  · exact unary_cont_result_closed cont
+  · intro hr ur
+    constructor
+    · exact unary_cont_left_factor hr ur
+    · exact unary_cont_right_factor hr ur
 
 theorem unary_cont_unit {h left right : BHist} :
     UnaryHistory h -> Cont h BHist.Empty left -> Cont BHist.Empty h right ->

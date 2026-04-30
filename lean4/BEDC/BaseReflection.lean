@@ -855,6 +855,16 @@ theorem NotExported_base_to_GeneratedSameSig
   intro hp hq base
   exact (notExported hp hq).mp base
 
+theorem NotExported_GeneratedSameSig_to_base
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    {ex : ExactGlobalizeBase s P D}
+    (notExported : NotExported s P D ex)
+    {h k : s.Hist} {p q : s.Pkg} :
+    s.InGapSig P D p h → s.InGapSig P D q k →
+      Nonempty (GeneratedSameSig s P h k) → PsameBase s P p q := by
+  intro hp hq gen
+  exact (notExported hp hq).mpr gen
+
 theorem ClosureReflect_preserves_base_export
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) (_closure : ClosureReflect s P) :
