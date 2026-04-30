@@ -85,6 +85,12 @@ theorem TokUnique_replacement_trans
 
 def PolicyTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Prop := TokUnique s P
 
+theorem PolicyTokenMode_iff_TokUnique {s : BaseReflectionSetup} {P : s.Pi} :
+    PolicyTokenMode s P <-> TokUnique s P := by
+  exact Iff.intro
+    (fun mode => mode)
+    (fun tok => tok)
+
 structure CanonicalTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Type where
   TokCan : s.SigObj -> s.Pkg -> Prop
   introToCanonical : forall {x : s.SigObj} {p : s.Pkg}, s.TokIntro P x p -> TokCan x p

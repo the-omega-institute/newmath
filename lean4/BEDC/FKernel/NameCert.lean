@@ -3,6 +3,9 @@ import BEDC.FKernel.Gap
 /-! Typed naming certificates license derived interfaces through five certified fields. -/
 namespace BEDC.FKernel.NameCert
 
+inductive StageInterface where
+  | base : StageInterface
+
 class NameCertSetup where
   DerivedName : Type
   SourceSpec : Type
