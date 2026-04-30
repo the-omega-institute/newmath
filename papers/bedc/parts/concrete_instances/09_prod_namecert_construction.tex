@@ -219,6 +219,19 @@ $$
 $$
 \end{definition}
 
+\begin{theorem}[Product pair representation coverage]
+\label{thm:prod-pair-rep-coverage}
+For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and history $h$,
+$$
+  \mathsf{ProdHistoryCarrier}(L,R,h)
+  \quad\Longleftrightarrow\quad
+  \exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{ProdHistoryCarrier}$ and $\mathsf{ProdPairRep}$. In the forward direction, the carrier witness exposes component histories $l$ and $r$, source witnesses $L(l)$ and $R(r)$, and the continuation witness $\Cont(l,r,h)$; these are exactly the displayed pair representation witnesses. In the reverse direction, a displayed pair representation supplies the same two component histories, source witnesses, and continuation witness, so it rebuilds the product history carrier witness for $h$.
+\end{proof}
+
 \begin{definition}[Product pair-representation coherence]
 \label{def:prod-pair-rep-coherent}
 For source classifiers $\sim_L$ and $\sim_R$, define
