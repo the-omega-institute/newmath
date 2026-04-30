@@ -113,6 +113,23 @@ theorem probeBundle_nil_ne_cons {PName : Type} {p : PName} {tail : ProbeBundle P
   intro h
   cases h
 
+theorem probeBundle_no_confusion_all {PName : Type} :
+    (∀ {p : PName} {tail : ProbeBundle PName},
+      ProbeBundle.Bnil ≠ ProbeBundle.Bcons p tail) ∧
+      (∀ {p : PName} {tail : ProbeBundle PName},
+        ProbeBundle.Bcons p tail ≠ ProbeBundle.Bnil) ∧
+        (∀ {p q : PName} {tail tail' : ProbeBundle PName},
+          ProbeBundle.Bcons p tail = ProbeBundle.Bcons q tail' → p = q ∧ tail = tail') := by
+  constructor
+  · intro p tail h
+    cases h
+  · constructor
+    · intro p tail h
+      cases h
+    · intro p q tail tail' h
+      cases h
+      exact ⟨rfl, rfl⟩
+
 theorem probeBundle_cons_ne_self {PName : Type} :
     ∀ (p : PName) (tail : ProbeBundle PName), ProbeBundle.Bcons p tail ≠ tail := by
   intro p tail

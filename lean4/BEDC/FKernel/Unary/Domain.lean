@@ -21,6 +21,9 @@ def UnaryDomainSetup : DomainSetup where
 
 def UnarySourceSpec (h : BHist) : Prop := UnaryHistory h
 
+theorem UnarySourceSpec_iff_unaryHistory {h : BHist} : UnarySourceSpec h ↔ UnaryHistory h := by
+  rfl
+
 local instance : DomainSetup := UnaryDomainSetup
 
 theorem unary_domain_policy :
