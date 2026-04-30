@@ -84,4 +84,18 @@ theorem function_like_interfaces_derived_core
       exact stableTransformation_descends_to_packages cert same
     · exact stableTransformation_ledger_witness cert
 
+theorem StableTransformation_descent_certificate_and_respects
+    {Source Target Ledger : Type}
+    {sourceSame : Source -> Source -> Prop}
+    {targetSame : Target -> Target -> Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame) :
+    Nonempty (DescentCertificate Source Target sourceSame targetSame) ∧
+      (∀ {a b : Source}, sourceSame a b → targetSame (cert.map a) (cert.map b)) := by
+  cases cert with
+  | mk map respects ledger =>
+      constructor
+      · exact Nonempty.intro { map := map, respects := respects }
+      · intro a b same
+        exact respects same
+
 end BEDC.FKernel.NameCert

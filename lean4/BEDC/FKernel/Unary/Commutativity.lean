@@ -290,6 +290,20 @@ theorem unary_shift_witness {k h r' : BHist} :
         intro r hshift
         exact ih uk hshift) hr
 
+theorem unary_shift_witness_primary {k h r' : BHist} :
+    UnaryHistory k → Cont k (.e1 h) r' →
+      ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) := by
+  intro uk hr
+  induction k generalizing h r' with
+  | Empty =>
+      exact unary_shift_base hr
+  | e0 _ _ =>
+      cases uk
+  | e1 k ih =>
+      exact unary_shift_step uk (by
+        intro r hshift
+        exact ih uk hshift) hr
+
 theorem unary_shift_induction_spine {k h r' : BHist} :
     UnaryHistory k -> Cont k (BHist.e1 h) r' ->
       ∃ v : BHist, Cont k h v ∧ hsame r' (BHist.e1 v) := by

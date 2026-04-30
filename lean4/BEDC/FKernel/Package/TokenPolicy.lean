@@ -400,6 +400,23 @@ theorem packageTokenPolicy_psame_equivalence_on_introduced {bundle : ProbeBundle
       exact psame_trans_under_policy policy left middle right leftSame rightSame
 
 omit [AskSetup] P in
+theorem PackageTokenPolicy_soundness_reflection_and_closure [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle) :
+    ((∀ {s t : BHist} {p q : Pkg},
+        TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q) ∧
+      (∀ {s t : BHist} {p q : Pkg},
+        TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t)) ∧
+      ((∀ {s : BHist} {p : Pkg}, TokIntro bundle s p → psame bundle p p) ∧
+        (∀ {s t : BHist} {p q : Pkg},
+          TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → psame bundle q p) ∧
+        (∀ {a b c : BHist} {p q r : Pkg},
+          TokIntro bundle a p → TokIntro bundle b q → TokIntro bundle c r →
+            psame bundle p q → psame bundle q r → psame bundle p r)) := by
+  constructor
+  · exact PackageTokenPolicy_fields policy
+  · exact packageTokenPolicy_psame_equivalence_on_introduced policy
+
+omit [AskSetup] P in
 theorem stable_transformations_descend_to_packages [AskSetup] [PackageSetup]
     {source target : ProbeBundle ProbeName}
     (respects :
