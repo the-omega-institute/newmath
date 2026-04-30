@@ -179,6 +179,7 @@ This is an internal uniqueness condition up to history-sameness. It is not host-
 \end{definition}
 \leanchecked{BEDC.BaseReflection.TokUnique\_intro}
 \leanchecked{BEDC.BaseReflection.TokUnique\_iff\_tokenReplacement}
+\leandef{BEDC.FKernel.Package.TokUnique}
 
 \begin{remark}[Why this is needed]
 From a derivation of \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\), inversion yields some generated signatures \(s_0,t_0\) introducing \(p,q\), together with \(\hsame(s_0,t_0)\). If the displayed premises use \(s,t\) instead, one still needs to compare \(s\) with \(s_0\) and \(t\) with \(t_0\). This is exactly the role of \(\mathsf{TokUnique}(\Pi)\).
@@ -265,11 +266,12 @@ Under a package token policy, consecutive package-sameness judgments between int
 The forward direction is Theorem~\ref{thm:package-reflection-token-unique}. The reverse direction is the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\). Transitivity follows by reflecting both package-sameness premises to history-sameness, composing the histories, and applying package-token soundness.
 \end{proof}
 
-\begin{corollary}[Updated PackageTokenPolicy]
-\label{cor:updated-package-token-policy}
+\begin{theorem}[PackageTokenPolicy from token uniqueness]
+\label{thm:package-token-policy-from-token-unique}
 The concrete signature-token package policy is exact when it includes token introduction, one-constructor package-sameness, and \(\mathsf{TokUnique}(\Pi)\).
-\end{corollary}
+\end{theorem}
 \leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_from\_reflection}
+\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_from\_tokUnique}
 
 \begin{proof}
 Existence and soundness are supplied by token introduction and the package-sameness constructor. Reflection is Theorem~\ref{thm:package-reflection-token-unique}. The no-extra-constructor clause is the closed-generation clause for \(\psame_{\Pi}^{\mathrm{sig}}\).

@@ -20,6 +20,9 @@ inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
   | intro {s t : BHist} {p q : Pkg} :
       TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
 
+def TokUnique (bundle : ProbeBundle ProbeName) : Prop :=
+  ∀ {s t : BHist} {p : Pkg}, TokIntro bundle s p → TokIntro bundle t p → hsame s t
+
 theorem psame_sound {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q := by
   intro hp hq hst
@@ -110,6 +113,19 @@ theorem packageTokenPolicy_from_reflection
     reflection := by
       intro s t p q hp hq hpq
       exact reflection hp hq hpq
+  }
+
+theorem packageTokenPolicy_from_tokUnique {bundle : ProbeBundle ProbeName}
+    (tok : TokUnique bundle) : PackageTokenPolicy bundle := by
+  exact {
+    soundness := by
+      intro s t p q hp hq hst
+      exact psame.intro hp hq hst
+    reflection := by
+      intro s t p q hp hq hpq
+      cases hpq with
+      | intro hp0 hq0 hst0 =>
+          exact hsame_trans (tok hp hp0) (hsame_trans hst0 (hsame_symm (tok hq hq0)))
   }
 
 theorem concrete_package_token_policy

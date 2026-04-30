@@ -18,6 +18,11 @@ abbrev ProbeName : Type := S.ProbeName
 abbrev Evidence : Type := S.Evidence
 abbrev Ask : ProbeName → BHist → BMark → Evidence → Prop := S.Ask
 
+structure AskEvent (pi : ProbeName) (h : BHist) : Type where
+  mark : BMark
+  evidence : Evidence
+  event : Ask pi h mark evidence
+
 structure AskPolicy (D : BHist → Prop) : Prop where
   total :
     ∀ {π : ProbeName} {h : BHist}, D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ
