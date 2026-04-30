@@ -68,4 +68,15 @@ theorem bool_stability_certificate :
     · exact Or.inr rfl
     · exact BEDC.FKernel.Mark.mark_no_confusion
 
+theorem BoolSourceSpec_respects_msame {v w : BEDC.FKernel.Mark.BMark} :
+    BoolSourceSpec v -> BEDC.FKernel.Mark.msame v w -> BoolSourceSpec w := by
+  intro hv hvw
+  cases hv with
+  | inl hv0 =>
+      exact Or.inl
+        (BEDC.FKernel.Mark.msame_trans (BEDC.FKernel.Mark.msame_symm hvw) hv0)
+  | inr hv1 =>
+      exact Or.inr
+        (BEDC.FKernel.Mark.msame_trans (BEDC.FKernel.Mark.msame_symm hvw) hv1)
+
 end BEDC.Derived.BoolUp

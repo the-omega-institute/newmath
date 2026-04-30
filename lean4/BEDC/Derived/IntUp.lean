@@ -46,4 +46,14 @@ theorem IntCarrier_continuation_closed_same_sign {sign : BEDC.FKernel.Mark.BMark
           · exact signCases
           · exact BEDC.FKernel.Unary.unary_cont_closed hUnary kUnary cont
 
+theorem IntCarrier_transport_hsame_magnitude {sign : BEDC.FKernel.Mark.BMark}
+    {h k : BEDC.FKernel.Hist.BHist} :
+    IntCarrier sign h -> BEDC.FKernel.Hist.hsame h k -> IntCarrier sign k := by
+  intro carrier sameMagnitude
+  cases carrier with
+  | intro signCases magnitudeUnary =>
+      constructor
+      · exact signCases
+      · exact BEDC.FKernel.Unary.unary_transport magnitudeUnary sameMagnitude
+
 end BEDC.Derived.IntUp

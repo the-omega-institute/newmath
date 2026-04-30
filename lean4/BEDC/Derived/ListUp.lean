@@ -1,3 +1,5 @@
+import BEDC.FKernel.Hist
+
 namespace BEDC.Derived.ListUp
 
 def ListCarrier (A : Type) := List A
@@ -37,5 +39,41 @@ theorem listClassifier_refl {α : Type} {sourceSame : α → α → Prop}
       constructor
       · exact sourceRefl x
       · exact ih
+
+theorem ListClassifierSpec_hsame_trans :
+    forall {xs ys zs : ListCarrier BEDC.FKernel.Hist.BHist},
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame ys zs ->
+          ListClassifierSpec BEDC.FKernel.Hist.hsame xs zs := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro ys zs hxy hyz
+      cases ys with
+      | nil =>
+          cases zs with
+          | nil =>
+              constructor
+          | cons z zs =>
+              cases hyz
+      | cons y ys =>
+          cases hxy
+  | cons x xs ih =>
+      intro ys zs hxy hyz
+      cases ys with
+      | nil =>
+          cases hxy
+      | cons y ys =>
+          cases zs with
+          | nil =>
+              cases hyz
+          | cons z zs =>
+              cases hxy with
+              | intro hxyHead hxyTail =>
+                  cases hyz with
+                  | intro hyzHead hyzTail =>
+                      constructor
+                      · exact BEDC.FKernel.Hist.hsame_trans hxyHead hyzHead
+                      · exact ih hxyTail hyzTail
 
 end BEDC.Derived.ListUp

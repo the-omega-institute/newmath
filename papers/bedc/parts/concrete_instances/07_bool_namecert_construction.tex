@@ -24,6 +24,15 @@ The source specification for \(\BoolUp\) is the mark-level classifier generated 
 \end{definition}
 \leandef{BEDC.Derived.BoolUp.BoolSourceSpec}
 
+\begin{theorem}[Bool source respects mark sameness]
+\label{thm:bool-source-spec-respects-msame}
+If \(v\) satisfies \(\mathsf{BoolSourceSpec}\) and \(\msame(v,w)\), then \(w\) also satisfies \(\mathsf{BoolSourceSpec}\).
+\end{theorem}
+\begin{proof}
+The source condition is a disjunction of \(\msame(v,\bzero)\) and \(\msame(v,\bone)\). In either case, symmetry gives \(\msame(w,v)\), and transitivity transports the corresponding constructor witness from \(v\) to \(w\).
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolSourceSpec\_respects\_msame}
+
 \begin{definition}[Bool pattern specification]
 \label{def:bool-pattern-specification}
 The pattern is exactly the two displayed mark constructors, with no history growth.
