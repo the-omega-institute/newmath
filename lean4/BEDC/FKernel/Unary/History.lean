@@ -155,6 +155,12 @@ theorem unary_no_zero_extension {h : BHist} : UnaryHistory (.e0 h) -> False := b
   intro uh
   exact uh
 
+theorem unary_history_not_e0_head {h t : BHist} :
+    UnaryHistory h -> h = BHist.e0 t -> False := by
+  intro uh eq
+  cases eq
+  exact unary_no_zero_extension uh
+
 theorem unary_history_e0_iff_false {h : BHist} : UnaryHistory (BHist.e0 h) ↔ False := by
   constructor
   · intro uh

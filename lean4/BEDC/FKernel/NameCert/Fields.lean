@@ -199,6 +199,13 @@ theorem nameCert_nonempty_iff_field_witnesses [NameCertSetup] {name : DerivedNam
                     exact nameCert_from_field_nonempty sourceNonempty patternNonempty
                       classifierNonempty stabilityNonempty ledgerNonempty
 
+theorem sealEvent_stability_witness [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealEvent Thread name -> Nonempty StabilityCert := by
+  intro event
+  cases event with
+  | mk sealCert ledger =>
+      exact Nonempty.intro sealCert
+
 theorem limit_like_interfaces_are_derived [NameCertSetup] {Thread : Type} {name : DerivedName} :
     SealInterface Thread name → Nonempty (NameCert name) ∧ Nonempty StabilityCert ∧
       Nonempty LedgerPolicy := by

@@ -209,6 +209,18 @@ theorem psame_two_step_reflect_under_tok_unique [AskSetup] [PackageSetup]
   exact psame_reflect_under_tok_unique tok left right
     (psame_trans_under_tok_unique tok leftSame rightSame)
 
+omit [AskSetup] P in
+theorem psame_three_step_reflect_under_tok_unique [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (tok : TokUnique bundle)
+    {s u : BHist} {p q r v : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle u v -> psame bundle p q -> psame bundle q r ->
+      psame bundle r v -> hsame s u := by
+  intro left right first second third
+  exact psame_reflect_under_tok_unique tok left right
+    (psame_trans_under_tok_unique tok
+      (psame_trans_under_tok_unique tok first second)
+      third)
+
 theorem psame_sound {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q := by
   intro hp hq hst
