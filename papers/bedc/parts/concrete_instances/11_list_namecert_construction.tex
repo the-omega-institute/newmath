@@ -571,6 +571,23 @@ $$
 Thus $\mathsf{ListClassifierSpec}$ remains the finite-spine classifier, and $\mathsf{ListHistoryClassifier}_{\sim_A}$ is the classifier whose endpoints are BEDC histories. The certificate uses this spine-representation classifier, while $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{S,\sim_S}$ from Definition~\ref{def:list-history-classifier} is a paper-side generator for carrier and endpoint reasoning.
 \end{definition}
 
+\begin{theorem}[List spine representation exactness]
+\label{thm:list-spine-representation-exactness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let $\sim_A$ be a source classifier. The spine representation of Definition~\ref{def:list-spine-representation} is exact for the generated list carrier and classifier:
+\begin{enumerate}
+  \item if $\mathsf{ListSpineRep}_A(h,xs)$ holds, then $\mathsf{ListHistoryCarrier}_A(h)$ holds;
+  \item if $\mathsf{ListHistoryCarrier}_A(h)$ holds, then there is a finite spine $xs$ such that $\mathsf{ListSpineRep}_A(h,xs)$ holds;
+  \item for all histories $h,k$, the spine-induced classifier $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$ holds exactly when the generated classifier $\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ holds, where the bridge classifier is the existential finite-spine classifier obtained from $\mathsf{ListSpineRep}_A(h,xs)$, $\mathsf{ListSpineRep}_A(k,ys)$, and $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For soundness, induct on the displayed derivation of $\mathsf{ListSpineRep}_A(h,xs)$. The nil representation is exactly the nil generator of $\mathsf{ListHistoryCarrier}_A$, and the cons representation carries the head witness $A(ah)$, the recursive representation of the tail, the continuation witness $\ContR(ah,t,p)$, and the endpoint witness $\hsame(h,\Eone(p))$, so the cons generator rebuilds the carrier.
+
+For completeness, induct on the displayed generation of $\mathsf{ListHistoryCarrier}_A(h)$. The nil carrier chooses $xs=\mathsf{nil}$ and the stored empty endpoint witness. The cons carrier first applies the induction hypothesis to the tail carrier, then chooses $xs=\mathsf{cons}(ah,xs')$ and reuses the source, continuation, and endpoint witnesses.
+
+For classifier equivalence, unfold both classifier presentations. A bridge witness exposes finite spines and a $\mathsf{ListClassifierSpec}$ witness; applying carrier soundness to both representation endpoints gives the generated list histories, and induction on the finite-spine classifier derivation rebuilds the nil-nil and cons-cons classifier clauses. Conversely, a generated classifier derivation is handled by induction on its nil/cons clauses: the nil case chooses two nil spines, and the cons case uses the induction hypotheses for the tail classifier together with the stored source head classification and continuation witnesses to construct the finite-spine classifier witness.
+\end{proof}
+
 \begin{definition}[List history split coherence]
 \label{def:list-history-split-coherence}
 For a BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$ and
