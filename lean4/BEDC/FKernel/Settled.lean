@@ -128,4 +128,48 @@ theorem settledKernelCriterion_from_current_targets [AskSetup] [PackageSetup] [D
                                   · intro Source Target Ledger sourceSame targetSame cert a b same
                                     exact function_like_interfaces_require_descent cert same
 
+theorem settledKernelCriterion_globalize_exactness_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      ∀ {bundle : ProbeBundle ProbeName} {D : Domain},
+        AskPolicy (InDom D) →
+          PackageTokenPolicy bundle →
+            (∀ s : BHist, ∃ p : Pkg, TokIntro bundle s p) →
+              (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
+                (∀ {h k : BHist} {p q : Pkg},
+                  InGapSig bundle D p h →
+                    InGapSig bundle D q k →
+                      (psame bundle p q ↔
+                        ∃ s : BHist, ∃ t : BHist,
+                          SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t)) := by
+  intro criterion bundle D askPolicy packagePolicy tokenExists
+  cases criterion with
+  | intro _ rest =>
+      cases rest with
+      | intro _ rest =>
+          cases rest with
+          | intro _ rest =>
+              cases rest with
+              | intro _ rest =>
+                  cases rest with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro _ rest =>
+                          cases rest with
+                          | intro _ rest =>
+                              cases rest with
+                              | intro _ rest =>
+                                  cases rest with
+                                  | intro _ rest =>
+                                      cases rest with
+                                      | intro _ rest =>
+                                          cases rest with
+                                          | intro _ rest =>
+                                              cases rest with
+                                              | intro _ rest =>
+                                                  cases rest with
+                                                  | intro globalizeExactness _ =>
+                                                      exact globalizeExactness
+                                                        askPolicy packagePolicy tokenExists
+
 end BEDC.FKernel.Settled

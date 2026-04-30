@@ -17,6 +17,10 @@ def UnaryRightShiftObligation : Prop :=
 def EOneCongruenceObligation : Prop :=
   ∀ {u v : BHist}, hsame u v → hsame (.e1 u) (.e1 v)
 
+theorem eone_congruence_obligation_holds : EOneCongruenceObligation := by
+  intro u v h
+  exact hsame_e1_congr h
+
 def UnaryContinuationCommutativityObligation : Prop :=
   forall {h k r r2 : BHist},
     UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r2 -> hsame r r2
