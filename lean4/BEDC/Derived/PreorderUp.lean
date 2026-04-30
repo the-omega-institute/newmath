@@ -15,6 +15,18 @@ def PreorderCarrier (h : BHist) : Prop :=
 def PreorderPrefixLE (h k : BHist) : Prop :=
   ∃ tail : BHist, UnaryHistory tail ∧ Cont h tail k
 
+theorem PreorderPrefixLE_empty_left_iff_unary {h : BHist} :
+    PreorderPrefixLE BHist.Empty h ↔ PreorderCarrier h := by
+  constructor
+  · intro prefixWitness
+    cases prefixWitness with
+    | intro tail data =>
+        cases data with
+        | intro tailUnary cont =>
+            exact unary_transport tailUnary (hsame_symm (cont_left_unit_result cont))
+  · intro carrier
+    exact Exists.intro h (And.intro carrier (cont_left_unit h))
+
 theorem PreorderPrefixLE_target_carrier {h k : BHist} :
     PreorderCarrier h -> PreorderPrefixLE h k -> PreorderCarrier k := by
   intro carrier prefixWitness

@@ -11,6 +11,22 @@ def OptionHistoryCarrier (source : BHist -> Prop) (h : BHist) : Prop :=
 def OptionHistoryClassifier (source : BHist -> Prop) (h k : BHist) : Prop :=
   OptionHistoryCarrier source h ∧ OptionHistoryCarrier source k ∧ hsame h k
 
+def OptionHistoryLedgerPolicy (source : BHist -> Prop) (raw visible : BHist) : Prop :=
+  OptionHistoryCarrier source raw ∧ hsame raw visible
+
+theorem OptionHistoryLedgerPolicy_visible_carrier {source : BHist -> Prop}
+    (source_transport : ∀ {h k : BHist}, hsame h k -> source h -> source k)
+    {raw visible : BHist} :
+    OptionHistoryLedgerPolicy source raw visible -> OptionHistoryCarrier source visible := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier same =>
+      cases rawCarrier with
+      | inl rawEmpty =>
+          exact Or.inl (hsame_trans (hsame_symm same) rawEmpty)
+      | inr rawSource =>
+          exact Or.inr (source_transport same rawSource)
+
 theorem OptionHistoryClassifier_trans {source : BEDC.FKernel.Hist.BHist -> Prop}
     {h k r : BEDC.FKernel.Hist.BHist} :
     OptionHistoryClassifier source h k -> OptionHistoryClassifier source k r ->

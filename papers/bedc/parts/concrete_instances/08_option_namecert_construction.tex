@@ -73,8 +73,18 @@ The stability certificate consists of:
 
 \begin{definition}[Option ledger policy]
 \label{def:option-ledger-policy}
-Record whether the visible optional value is absent or present, and retain the source ledger for present witnesses.
+The ledger keeps a raw optional-history carrier witness and an $\hsame$ link from the raw history to the visible history.
 \end{definition}
+\leandef{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy}
+
+\begin{theorem}[Option visible ledger carrier]
+\label{thm:option-ledger-policy-visible-carrier}
+If source-history membership transports across $\hsame$, then every option ledger policy exposes a visible optional-history carrier witness.
+\end{theorem}
+\begin{proof}
+Unpack the raw carrier and the raw-to-visible history link. In the absent case, compose the symmetric visible-to-raw link with the raw empty-history witness. In the present case, transport the raw source witness along the raw-to-visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_carrier}
 
 \begin{theorem}[Concrete \(\OptionUp\) naming certificate]
 \label{thm:concrete-option-namecert}
