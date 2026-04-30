@@ -27,6 +27,19 @@ structure SemanticNameCert
   pattern_sound : forall {h : BHist}, SourceSpec h -> PatternSpec h
   ledger_sound : forall {h : BHist}, SourceSpec h -> LedgerPolicy h
 
+theorem semanticNameCert_ledger_policy_witness
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (cert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec) :
+    exists h : BHist, LedgerPolicy h := by
+  cases cert with
+  | mk core _ ledger_sound =>
+      cases core with
+      | mk carrier_inhabited _ _ _ _ =>
+          cases carrier_inhabited with
+          | intro h source =>
+              exact Exists.intro h (ledger_sound source)
+
 theorem NameCert_iff_semantic_fields
     {Carrier : BHist -> Prop}
     {Equiv : BHist -> BHist -> Prop} :

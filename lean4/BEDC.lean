@@ -48,5 +48,6 @@ import BEDC.Derived.ListUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.GroupUp
+import BEDC.Derived.RingUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.IntervalUp
