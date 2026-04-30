@@ -248,6 +248,10 @@ theorem cont_right_unit : ∀ h : BHist, Cont h .Empty h := by
   intro h
   rfl
 
+theorem cont_right_unit_unique {h k : BHist} : Cont h k h -> hsame k BHist.Empty := by
+  intro hcont
+  exact cont_left_cancel hcont (cont_right_unit h)
+
 theorem cont_right_unit_iff {h r : BHist} : Cont h BHist.Empty r ↔ hsame r h := by
   constructor
   · intro hr
