@@ -31,10 +31,19 @@ If errors occur, fix them before continuing. If a target is stuck, choose a diff
 
 ## Step 3: Paper marker registration
 After `lake build` passes:
-1. Add `\leanchecked{Lean.target.name}` at the primary site in `papers/bedc/parts/` (escape underscores as `\_`). Use `\leanstmt` / `\leandef` for statement-only or definition-only entries.
-2. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
+1. For each new Lean target, find the relevant paper theorem/definition site in `papers/bedc/parts/`. Decide which marker macro to use:
+   - `\leanchecked{X}` — the primary canonical implementation of a paper claim. ONE per paper site.
+   - `\leanvariant{X}` — alternative implementation of the SAME paper claim already covered by an existing `\leanchecked` at this site: typeclass-binder wrappers (e.g. `concrete_*` vs `internalized_*`), weakened conclusions (`_hsame_only`), strengthened conclusions (`_with_tokens`), projections, or pure forwarding lemmas (`exact other_theorem`). MAY be multiple per primary marker.
+   - `\leanstmt{X}` — statement-only / structure-field reference (no proof yet).
+   - `\leandef{X}` — `def` or `inductive` definition reference.
+   Escape underscores as `\_` in target names.
+2. Decision rule for `\leanchecked` vs `\leanvariant` at an existing site:
+   - If no `\leanchecked` exists yet at this site → use `\leanchecked{X}` and pick the strongest / most general version as canonical.
+   - If a `\leanchecked` already exists and your new target is a wrapper / variant / projection / weaker form of the same claim → use `\leanvariant{X}`.
+   - If your new target is a genuinely different paper claim (different theorem statement) → look for its own paper site; do not stack under an unrelated theorem.
+3. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
 
-The `bedc_ci.py audit` will fail if a `\leanchecked{X}` references X not present in `lean4/BEDC/`.
+The `bedc_ci.py audit` will fail if any `\leanchecked{X}` / `\leanvariant{X}` / `\leanstmt{X}` / `\leandef{X}` references X not present in `lean4/BEDC/`.
 
 ## Step 4: Full verification
 All of the following must exit 0 before commit:

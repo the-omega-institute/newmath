@@ -62,9 +62,46 @@ theorem inGapSig_elim [AskSetup] [PackageSetup] [DomainSetup]
   exact hgap
 
 omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_domain_and_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h ->
+      InDom D h /\ exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p := by
+  intro hgap
+  exact hgap
+
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_domain_signature_token_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h ->
+      InDom D h /\ exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p := by
+  intro hgap
+  exact hgap
+
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h ->
+      exists s : BHist, InDom D h /\ SigRel bundle h s /\ TokIntro bundle s p := by
+  intro hgap
+  cases hgap with
+  | intro hdom hsigTok =>
+      cases hsigTok with
+      | intro s hsigTokData =>
+          cases hsigTokData with
+          | intro hsig htok =>
+              exact Exists.intro s (And.intro hdom (And.intro hsig htok))
+
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h -> exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p := by
+  intro hgap
+  exact hgap.right
+
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_signature_and_token_witness [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h -> exists s : BHist, SigRel bundle h s ∧ TokIntro bundle s p := by
   intro hgap
   exact hgap.right
 
@@ -112,6 +149,30 @@ theorem compGap_inversion
       exists y : Inter, firstGap y x /\ secondGap z y := by
   intro h
   exact h
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_left_witness
+    {Source Inter Final : Type}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    {z : Final} {x : Source} :
+    CompGap firstGap secondGap z x → ∃ y : Inter, firstGap y x := by
+  intro h
+  cases h with
+  | intro y data =>
+      exact Exists.intro y data.left
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_right_witness
+    {Source Inter Final : Type}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    {z : Final} {x : Source} :
+    CompGap firstGap secondGap z x → ∃ y : Inter, secondGap z y := by
+  intro h
+  cases h with
+  | intro y data =>
+      exact Exists.intro y data.right
 
 structure GapPolicy (bundle : ProbeBundle ProbeName) (D : Domain) : Prop where
   generation : ∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h → ∃ s : BHist, TokIntro bundle s p
@@ -178,6 +239,17 @@ omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_requires_ledger_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
     InDom D h -> ∃ p : Pkg, ∃ s : BHist, InGapSig bundle D p h ∧ TokIntro bundle s p := by
+  intro hdom
+  cases policy.coverage hdom with
+  | intro p hgap =>
+      cases policy.generation hgap with
+      | intro s htok =>
+          exact Exists.intro p (Exists.intro s (And.intro hgap htok))
+
+omit [AskSetup] [PackageSetup] G in
+theorem gap_ledgers_not_optional [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
+    InDom D h → ∃ p : Pkg, ∃ s : BHist, InGapSig bundle D p h ∧ TokIntro bundle s p := by
   intro hdom
   cases policy.coverage hdom with
   | intro p hgap =>
@@ -377,6 +449,42 @@ theorem inGapSig_same_source_signature_events_same [AskSetup] [PackageSetup] [Do
                                     (And.intro hqTok hst)))))
 
 omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_same_source_package_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) → InGapSig bundle D p h → InGapSig bundle D q h →
+      ∃ s : BHist, ∃ t : BHist,
+        SigRel bundle h s ∧ SigRel bundle h t ∧
+          TokIntro bundle s p ∧ TokIntro bundle t q ∧
+            hsame s t ∧ psame bundle p q := by
+  intro askPolicy hp hq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro hIn hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs hpTok =>
+                      cases htData with
+                      | intro ht hqTok =>
+                          have hst : hsame s t :=
+                            sig_deterministic
+                              (bundle := bundle) (D := InDom D) (h := h) (s := s) (t := t)
+                              askPolicy hIn hs ht
+                          have hpq : psame bundle p q := psame.intro hpTok hqTok hst
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro hs
+                                (And.intro ht
+                                  (And.intro hpTok
+                                    (And.intro hqTok
+                                      (And.intro hst hpq))))))
+
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_same_source_sigRel_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → InGapSig bundle D p h → InGapSig bundle D q h →
@@ -460,6 +568,19 @@ theorem policy_gap_coverage
   | intro s hs =>
       have hTok := tokenExists s
       cases hTok with
+      | intro p hp =>
+          exact Exists.intro p (And.intro hIn (Exists.intro s (And.intro hs hp)))
+
+theorem concrete_gap_coverage
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist}
+    (askPolicy : AskPolicy (InDom D))
+    (tokenExists : forall s : BHist, exists p : Pkg, TokIntro bundle s p) :
+    InDom D h -> exists p : Pkg, InGapSig bundle D p h := by
+  intro hIn
+  have hSigTotal := policy_sig_total (bundle := bundle) (D := D) (h := h) askPolicy hIn
+  cases hSigTotal with
+  | intro s hs =>
+      cases tokenExists s with
       | intro p hp =>
           exact Exists.intro p (And.intro hIn (Exists.intro s (And.intro hs hp)))
 
@@ -689,6 +810,14 @@ theorem internalized_globalize_soundness
                                           have huv : hsame u v :=
                                             hsame_trans (hsame_symm hsu) (hsame_trans hst htv)
                                           exact packagePolicy.soundness hpTok hqTok huv
+
+theorem concrete_globalize_soundness_from_sameSig
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
+    (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle) :
+    InGapSig bundle D p h -> InGapSig bundle D q k -> SameSig bundle h k ->
+      psame bundle p q := by
+  intro hp hq sameSig
+  exact internalized_globalize_soundness askPolicy packagePolicy hp hq sameSig
 
 theorem internalized_globalize_soundness_for_witnesses
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} {s t : BHist} :

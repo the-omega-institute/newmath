@@ -72,6 +72,15 @@ theorem hsame_e1_congruence {h k : BHist} : hsame h k -> hsame (.e1 h) (.e1 k) :
   cases hs
   rfl
 
+theorem hsame_e0_iff {h k : BHist} : hsame (BHist.e0 h) (BHist.e0 k) ↔ hsame h k := by
+  constructor
+  · intro hs
+    cases hs
+    rfl
+  · intro hs
+    cases hs
+    rfl
+
 theorem hsame_e0_inversion {h x : BHist} : hsame (.e0 h) x → ∃ k : BHist, x = .e0 k ∧ hsame h k := by
   intro hs
   cases hs
@@ -132,6 +141,25 @@ theorem history_no_confusion :
       (∀ {h k : BHist}, hsame (.e0 h) (.e1 k) → False) ∧
       (∀ {h k : BHist}, hsame (.e1 h) (.e0 k) → False) := by
   exact hsame_no_confusion
+
+theorem hsame_constructor_kind_preserved {h k : BHist} :
+    hsame h k ->
+      (h = BHist.Empty ∧ k = BHist.Empty) ∨
+        (exists h0 : BHist, exists k0 : BHist, h = BHist.e0 h0 ∧ k = BHist.e0 k0 ∧ hsame h0 k0) ∨
+        (exists h0 : BHist, exists k0 : BHist, h = BHist.e1 h0 ∧ k = BHist.e1 k0 ∧ hsame h0 k0) := by
+  intro same
+  cases same
+  cases h
+  · left
+    constructor
+    · rfl
+    · rfl
+  · right
+    left
+    exact Exists.intro _ (Exists.intro _ (And.intro rfl (And.intro rfl rfl)))
+  · right
+    right
+    exact Exists.intro _ (Exists.intro _ (And.intro rfl (And.intro rfl rfl)))
 
 theorem hsame_no_confusion_symmetric :
     (forall {h : BHist}, hsame (.e0 h) .Empty -> False) ∧

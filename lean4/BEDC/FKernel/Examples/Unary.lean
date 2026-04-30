@@ -42,6 +42,19 @@ theorem unary_e1_closed {h : BHist} : UnaryHistory h -> UnaryHistory (.e1 h) := 
   intro uh
   exact uh
 
+theorem unary_history_induction {P : BHist → Prop} :
+    P BHist.Empty →
+      (∀ h : BHist, UnaryHistory h → P h → P (BHist.e1 h)) →
+      ∀ h : BHist, UnaryHistory h → P h := by
+  intro base step h uh
+  induction h with
+  | Empty =>
+      exact base
+  | e0 h ih =>
+      cases uh
+  | e1 h ih =>
+      exact step h uh (ih uh)
+
 theorem unary_transport {h k : BHist} : UnaryHistory h -> hsame h k -> UnaryHistory k := by
   intro uh hhk
   cases hhk
@@ -208,6 +221,9 @@ theorem add_up_name_certificate_exists : Nonempty (NameCert AddName) := by
 
 theorem add_up_name_certificate : NameCert AddName := by
   exact NameCert.mk () () () () ()
+
+theorem add_up_licensed_not_primitive : NameCert AddName ∧ Nonempty (NameCert AddName) := by
+  exact And.intro add_up_name_certificate add_up_name_certificate_exists
 
 theorem add_up_certificate_field_witnesses :
     Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec /\

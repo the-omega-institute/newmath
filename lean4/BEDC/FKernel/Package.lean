@@ -149,6 +149,18 @@ theorem packagePolicy_fields [AskSetup] [PackageSetup] {bundle : ProbeBundle Pro
       exact policy.grounding samePkg
 
 omit [AskSetup] P in
+theorem packagePolicy_signature_facing_from_fields [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName}
+    (fields :
+      (forall s : BHist, exists p : Pkg, TokIntro bundle s p) ∧
+      (forall {s t : BHist} {p q : Pkg}, hsame s t -> TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q) ∧
+      (forall {p q : Pkg}, psame bundle p q -> exists s : BHist, exists t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t))
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t q -> hsame s t -> psame bundle p q := by
+  intro left right sameHist
+  exact fields.right.left sameHist left right
+
+omit [AskSetup] P in
 theorem packagePolicy_extensionality_witness [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackagePolicy bundle)
     {s t : BHist} {p q : Pkg} :
@@ -201,6 +213,12 @@ theorem packageTokenPolicy_signature_facing {bundle : ProbeBundle ProbeName}
     hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q := by
   intro sameHist left right
   exact policy.soundness left right sameHist
+
+theorem packageTokenPolicy_psame_refl_on_introduced {bundle : ProbeBundle ProbeName}
+    (policy : PackageTokenPolicy bundle) {s : BHist} {p : Pkg} :
+    TokIntro bundle s p → psame bundle p p := by
+  intro tok
+  exact policy.soundness tok tok (hsame_refl s)
 
 theorem psame_reflect {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle -> TokIntro bundle s p -> TokIntro bundle t q -> psame bundle p q -> hsame s t := by

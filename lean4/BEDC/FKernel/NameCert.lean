@@ -145,6 +145,28 @@ theorem nameCert_classifier_witness_from_cert [NameCertSetup] {name : DerivedNam
       exact Nonempty.intro classifier
 
 omit N in
+theorem nameCert_source_pattern_classifier_witnesses [NameCertSetup] {name : DerivedName} :
+    NameCert name -> Nonempty SourceSpec /\ Nonempty PatternSpec /\ Nonempty ClassifierSpec := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact And.intro
+        (Nonempty.intro source)
+        (And.intro
+          (Nonempty.intro pattern)
+          (Nonempty.intro classifier))
+
+omit N in
+theorem nameCert_pattern_and_classifier_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name → Nonempty PatternSpec ∧ Nonempty ClassifierSpec := by
+  intro cert
+  cases cert with
+  | mk _ pattern classifier _ _ =>
+      constructor
+      · exact Nonempty.intro pattern
+      · exact Nonempty.intro classifier
+
+omit N in
 theorem nameCert_stability_witness_from_cert [NameCertSetup] {name : DerivedName} :
     NameCert name -> Nonempty StabilityCert := by
   intro cert
@@ -212,6 +234,27 @@ theorem nameCert_expanded_template [NameCertSetup] {name : DerivedName} :
                     cases rest with
                     | intro ledger _ =>
                         exact Nonempty.intro (NameCert.mk source pattern classifier stability ledger)
+
+theorem nameCert_from_field_witnesses [NameCertSetup] {name : DerivedName} :
+    SourceSpec -> PatternSpec -> ClassifierSpec -> StabilityCert -> LedgerPolicy -> NameCert name := by
+  intro source pattern classifier stability ledger
+  exact NameCert.mk source pattern classifier stability ledger
+
+theorem nameCert_from_field_nonempty [NameCertSetup] {name : DerivedName} :
+    Nonempty SourceSpec → Nonempty PatternSpec → Nonempty ClassifierSpec →
+      Nonempty StabilityCert → Nonempty LedgerPolicy → Nonempty (NameCert name) := by
+  intro sourceNonempty patternNonempty classifierNonempty stabilityNonempty ledgerNonempty
+  cases sourceNonempty with
+  | intro source =>
+      cases patternNonempty with
+      | intro pattern =>
+          cases classifierNonempty with
+          | intro classifier =>
+              cases stabilityNonempty with
+              | intro stability =>
+                  cases ledgerNonempty with
+                  | intro ledger =>
+                      exact Nonempty.intro (NameCert.mk source pattern classifier stability ledger)
 
 theorem nameCert_iff_field_witnesses [NameCertSetup] {name : DerivedName} :
     NameCert name ↔
@@ -305,6 +348,16 @@ theorem stableTransformation_ledger_witness
   cases cert with
   | mk map respects ledger =>
       exact ledger
+
+theorem StableTransformation_descentCertificate_exists
+    {Source Target Ledger : Type}
+    {sourceSame : Source -> Source -> Prop}
+    {targetSame : Target -> Target -> Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame) :
+    Nonempty (DescentCertificate Source Target sourceSame targetSame) := by
+  cases cert with
+  | mk map respects ledger =>
+      exact Nonempty.intro { map := map, respects := respects }
 
 theorem stableTransformation_descends_to_packages
     {Source Target Ledger : Type}

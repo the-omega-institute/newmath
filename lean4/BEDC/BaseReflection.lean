@@ -173,6 +173,11 @@ theorem PsameEqClosure_base_intro {s : BaseReflectionSetup} {P : s.Pi} {p q : s.
   intro base
   exact PsameEqClosure.base base
 
+theorem PsameEqClosure_symm {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameEqClosure s P p q -> PsameEqClosure s P q p := by
+  intro h
+  exact PsameEqClosure.symm h
+
 theorem PsameEqClosure_equivalence {s : BaseReflectionSetup} {P : s.Pi} :
     (forall p : s.Pkg, PsameEqClosure s P p p) /\
       (forall {p q : s.Pkg}, PsameEqClosure s P p q -> PsameEqClosure s P q p) /\
@@ -730,6 +735,27 @@ theorem ExactGlobalizeBase_from_fields_classify_iff
   exact ExactGlobalizeBase_classify_iff
     (ExactGlobalizeBase_from_fields coverage soundness completeness) hp hq
 
+theorem globalize_exact_base
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (coverage : forall h, s.InDom D h -> exists p, s.InGapSig P D p h)
+    (soundness : forall h k p q,
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      GeneratedSameSig s P h k -> PsameBase s P p q)
+    (completeness : forall h k p q,
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)) :
+    ExactGlobalizeBase s P D /\
+      forall {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h -> s.InGapSig P D q k ->
+        (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k)) := by
+  constructor
+  case left =>
+    exact ExactGlobalizeBase_from_fields coverage soundness completeness
+  case right =>
+    intro h k p q hp hq
+    exact ExactGlobalizeBase_classify_iff
+      (ExactGlobalizeBase_from_fields coverage soundness completeness) hp hq
+
 theorem ExactGlobalizeBase_classify_iff_from_directions
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (soundness : ∀ h k p q,
@@ -809,6 +835,26 @@ theorem NotExported_classify_iff
   intro hp hq
   exact notExported hp hq
 
+theorem NotExported_relation_is_base
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    {ex : ExactGlobalizeBase s P D}
+    (notExported : NotExported s P D ex)
+    {h k : s.Hist} {p q : s.Pkg} :
+    s.InGapSig P D p h -> s.InGapSig P D q k ->
+      (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k)) := by
+  intro hp hq
+  exact notExported hp hq
+
+theorem NotExported_base_to_GeneratedSameSig
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    {ex : ExactGlobalizeBase s P D}
+    (notExported : NotExported s P D ex)
+    {h k : s.Hist} {p q : s.Pkg} :
+    s.InGapSig P D p h → s.InGapSig P D q k →
+      PsameBase s P p q → Nonempty (GeneratedSameSig s P h k) := by
+  intro hp hq base
+  exact (notExported hp hq).mp base
+
 theorem ClosureReflect_preserves_base_export
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) (_closure : ClosureReflect s P) :
@@ -828,5 +874,33 @@ theorem ExactGlobalizeBase_exact
   exact And.intro ex.coverage (by
     intro h k p q hp hq
     exact ExactGlobalizeBase_classify_iff ex hp hq)
+
+theorem ExactGlobalizeBase_export_from_fields
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} :
+    ((forall h, s.InDom D h -> exists p, s.InGapSig P D p h) /\
+      (forall h k p q, s.InGapSig P D p h -> s.InGapSig P D q k ->
+        GeneratedSameSig s P h k -> PsameBase s P p q) /\
+      (forall h k p q, s.InGapSig P D p h -> s.InGapSig P D q k ->
+        PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k))) ->
+    (forall h, s.InDom D h -> exists p, s.InGapSig P D p h) /\
+      (forall {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h -> s.InGapSig P D q k ->
+        (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k))) := by
+  intro fields
+  cases fields with
+  | intro coverage rest =>
+      cases rest with
+      | intro soundness completeness =>
+          exact And.intro coverage (by
+            intro h k p q hp hq
+            constructor
+            case mp =>
+              intro base
+              exact completeness h k p q hp hq base
+            case mpr =>
+              intro generated
+              cases generated with
+              | intro gen =>
+                  exact soundness h k p q hp hq gen)
 
 end BEDC.BaseReflection
