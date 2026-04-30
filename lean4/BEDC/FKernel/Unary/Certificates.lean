@@ -125,6 +125,12 @@ theorem additive_stability_and_ledger_policy :
 def AddLedgerPolicy : Prop :=
   forall {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r
 
+theorem unary_addition_seed_from_policy :
+    AddLedgerPolicy -> forall {h k r : BHist},
+      UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r := by
+  intro policy h k r uh uk cont
+  exact policy uh uk cont
+
 theorem unary_addition_seed : True := True.intro
 
 theorem add_activation_stability_field (cert : NameCert UnaryName) : Nonempty StabilityCert := by

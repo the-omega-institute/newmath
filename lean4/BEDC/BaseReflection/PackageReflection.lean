@@ -175,6 +175,19 @@ theorem PackageReflection_eqClosure
       | intro middle =>
           exact eqv.trans (leftIH left middle.property) (rightIH middle.property right)
 
+theorem PsameEqClosure_two_base_reflection
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x z : s.SigObj} {p q r : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P z r)
+    (middle : Nonempty (Subtype (fun y : s.SigObj => s.TokIntro P y q)))
+    (pq : PsameBase s P p q) (qr : PsameBase s P q r) : s.hsame x z := by
+  cases middle with
+  | intro mid =>
+      exact eqv.trans
+        (PackageReflection_base eqv tok left mid.property pq)
+        (PackageReflection_base eqv tok mid.property right qr)
+
 theorem ClosureReflect_from_eqClosure
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
