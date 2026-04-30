@@ -176,6 +176,34 @@ theorem sameSig_middle_witnesses_hsame_under_policy [AskSetup] {bundle : ProbeBu
                                         htk
                                         huk))))
 
+theorem sameSig_four_step_chain_under_policy [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist → Prop} (policy : AskPolicy D) {a b c d : BHist} :
+    D b → D c → SameSig bundle a b → SameSig bundle b c → SameSig bundle c d →
+      SameSig bundle a d := by
+  intro db dc hab hbc hcd
+  have hac : SameSig bundle a c :=
+    sameSig_trans
+      (bundle := bundle)
+      (D := D)
+      (h := a)
+      (k := b)
+      (l := c)
+      policy
+      db
+      hab
+      hbc
+  exact
+    sameSig_trans
+      (bundle := bundle)
+      (D := D)
+      (h := a)
+      (k := c)
+      (l := d)
+      policy
+      dc
+      hac
+      hcd
+
 theorem signature_sameness_equivalence_total_determinacy [AskSetup]
     {bundle : ProbeBundle ProbeName} {D : BHist -> Prop}
     (total : SigTotalOn bundle D)
