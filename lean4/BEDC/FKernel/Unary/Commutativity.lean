@@ -257,6 +257,14 @@ theorem unary_commutativity_from_shift_induction
               have inner : hsame (append h k) v := ih uh uk rfl hv
               exact left.trans ((hsame_e1_congr inner).trans sameRight.symm)
 
+theorem unary_commutativity_concrete_from_shift_witness
+    (rightShift : forall {k h r' : BHist}, UnaryHistory k -> Cont k (.e1 h) r' ->
+      exists v : BHist, Cont k h v ∧ hsame r' (.e1 v))
+    {h k r r' : BHist} :
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r' -> hsame r r' := by
+  intro uh uk hr hr'
+  exact unary_commutativity_from_shift_induction rightShift uh uk hr hr'
+
 theorem unary_commutativity_concrete_obligation {h k r r' : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
   intro uh uk hr hr'
