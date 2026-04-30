@@ -24,6 +24,24 @@ theorem sameSig_right_witness [AskSetup] {bundle : ProbeBundle ProbeName} {h k :
       | intro t data =>
           exact Exists.intro t data.right.left
 
+theorem sameSig_witness_pair_symm [AskSetup] {bundle : ProbeBundle ProbeName}
+    {h k : BHist} :
+    SameSig bundle h k -> Exists (fun s : BHist => Exists (fun t : BHist =>
+      And (SigRel bundle k t) (And (SigRel bundle h s) (hsame t s)))) := by
+  intro hsameSig
+  cases hsameSig with
+  | intro s tail =>
+      cases tail with
+      | intro t data =>
+          cases data with
+          | intro hs rest =>
+              cases rest with
+              | intro ht hst =>
+                  exact Exists.intro s
+                    (Exists.intro t
+                      (And.intro ht
+                        (And.intro hs (hsame_symm hst))))
+
 theorem sameSig_trans_with_middle_witness [AskSetup] {bundle : ProbeBundle ProbeName}
     {D : BHist -> Prop} (policy : AskPolicy D) {h k l : BHist} :
     D k -> SameSig bundle h k -> SameSig bundle k l ->

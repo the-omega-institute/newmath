@@ -119,6 +119,25 @@ theorem compGap_coverage_with_intermediate
                   (Exists.intro z
                     (Exists.intro y (And.intro cGap dGap))))
 
+theorem compGap_coverage_intermediate_and_final
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop}
+    {CGap : Inter -> Source -> Prop} {DGap : Final -> Inter -> Prop}
+    (cCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, CGap y x)
+    (dCoverage : forall {y : Inter}, exists z : Final, DGap z y)
+    {x : Source} :
+    SourceOk x -> Exists (fun y : Inter => And (CGap y x)
+      (Exists (fun z : Final => CompGap CGap DGap z x))) := by
+  intro sourceOk
+  cases cCoverage sourceOk with
+  | intro y cGap =>
+      cases dCoverage (y := y) with
+      | intro z dGap =>
+          exact Exists.intro y
+            (And.intro cGap
+              (Exists.intro z
+                (Exists.intro y (And.intro cGap dGap))))
+
 theorem compGap_coverage_with_intermediate_ok
     {Source Inter Final : Type}
     {SourceOk : Source -> Prop} {InterOk : Inter -> Prop}

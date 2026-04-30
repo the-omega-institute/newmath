@@ -54,4 +54,15 @@ theorem NotExported_sound_complete_pair
   · intro base
     exact (notExported hp hq).mp base
 
+theorem ExactGlobalizeBase_sound_complete_and_classify
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    And (And (GeneratedSameSig s P h k -> PsameBase s P p q)
+      (PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)))
+      (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k)) := by
+  exact And.intro
+    (ExactGlobalizeBase_sound_complete ex hp hq)
+    (ExactGlobalizeBase_classify_iff ex hp hq)
+
 end BEDC.BaseReflection
