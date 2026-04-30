@@ -126,6 +126,21 @@ the equality of cons bundles to equality of their tails, and the induction
 hypothesis cancels the remaining common prefix.
 \end{proof}
 
+\begin{lemma}[Probe bundle append cons-result inversion]
+\label{lem:probe-bundle-append-cons-result-inversion}
+For probe bundles $\Pi,\Theta,\Omega$ and probe $\pi$, if
+$$
+\mathsf{BAppend}(\Pi,\Theta)=\Bcons(\pi,\Omega),
+$$
+then either $\Pi=\Bnil$ and $\Theta=\Bcons(\pi,\Omega)$, or there exists a bundle $\Pi_0$ such that $\Pi=\Bcons(\pi,\Pi_0)$ and
+$$
+\mathsf{BAppend}(\Pi_0,\Theta)=\Omega.
+$$
+\end{lemma}
+\begin{proof}
+Proceed by cases on $\Pi$. In the empty case the displayed equality reduces to $\Theta=\Bcons(\pi,\Omega)$, giving the left alternative. In the cons case the append definition exposes a cons bundle on the left; constructor injectivity identifies its head with $\pi$ and its appended tail with $\Omega$, giving the required tail bundle $\Pi_0$.
+\end{proof}
+
 \section{Signature generation}
 
 \begin{definition}[Signature event]

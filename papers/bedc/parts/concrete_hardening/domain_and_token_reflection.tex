@@ -87,13 +87,21 @@ Apply the reflection field of $\PkgTokPol(\Pi)$ to the displayed token-introduct
 
 \begin{corollary}[Concrete package equivalence is signature-grounded]
 \label{cor:concrete-package-equivalence-signature-grounded}
-In the signature-token instance, visible package equality up to \(\psame\) carries no information beyond internal sameness of answer histories.
+Assume $\PkgTokPol(\Pi)$ for the concrete signature-token package policy. If
+$$
+\TokIntro(\Pi,s,p)
+\qquad\text{and}\qquad
+\TokIntro(\Pi,t,q),
+$$
+then
+$$
+\psame(p,q)
+\quad\Longleftrightarrow\quad
+\hsame(s,t).
+$$
 \end{corollary}
-\leanchecked{BEDC.FKernel.Package.concrete\_package\_equivalence\_signature\_grounded}
-\leanvariant{BEDC.FKernel.Package.psame\_constructor\_grounding}
-\leanvariant{BEDC.FKernel.Package.psame\_symm\_constructor}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_symm\_on\_introduced}
+\leanchecked{BEDC.FKernel.Package.package\_reflection\_iff\_hsame}
 
 \begin{proof}
-The forward direction is Theorem~\ref{thm:package-reflection} under the required $\PkgTokPol(\Pi)$ premise. The reverse direction is exactly the soundness field of $\PkgTokPol(\Pi)$, equivalently the introduction rule for concrete package-sameness.
+Apply the two fields of $\PkgTokPol(\Pi)$ to the displayed token-introduction judgments. The reflection field sends $\psame(p,q)$ to $\hsame(s,t)$, and the soundness field sends $\hsame(s,t)$ back to $\psame(p,q)$.
 \end{proof}

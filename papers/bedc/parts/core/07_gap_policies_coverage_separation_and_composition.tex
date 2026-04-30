@@ -101,10 +101,43 @@ Unpack the first composite membership into an intermediate witness $y_1$ with $\
 
 \begin{theorem}[Composite exactness from layered exactness]
 \label{thm:composite-exactness-from-layers}
-For a staged BEDC interface represented by $\CompGap$, assume the first layer has source coverage with an $\mathsf{InterOk}$ certificate, the second layer has coverage for every $\mathsf{InterOk}$ intermediate token, the first layer separates same-source intermediate witnesses by $\mathsf{interSame}$, and the second layer carries $\mathsf{interSame}$ witnesses to $\mathsf{finalSame}$ final tokens. Then the composite gap has both source coverage and same-source final separation.
+Let $\mathsf{Source}$, $\mathsf{Inter}$, and $\mathsf{Final}$ be the source, intermediate, and final token types. Let $\mathsf{SourceOk}$ and $\mathsf{InterOk}$ be admissibility predicates, let $\mathsf{firstGap}$ and $\mathsf{secondGap}$ be the first and second gap relations, and let $\mathsf{interSame}$ and $\mathsf{finalSame}$ be the intermediate and final sameness relations. Assume:
+$$
+\forall x,\ \mathsf{SourceOk}(x) \to
+\exists y,\ \mathsf{firstGap}(y,x)\ \text{and}\ \mathsf{InterOk}(y),
+$$
+$$
+\forall y,\ \mathsf{InterOk}(y) \to
+\exists z,\ \mathsf{secondGap}(z,y),
+$$
+$$
+\forall x,y_1,y_2,\ \mathsf{SourceOk}(x) \to
+\mathsf{firstGap}(y_1,x) \to
+\mathsf{firstGap}(y_2,x) \to
+\mathsf{interSame}(y_1,y_2),
+$$
+and
+$$
+\forall y_1,y_2,z_1,z_2,\ \mathsf{interSame}(y_1,y_2) \to
+\mathsf{secondGap}(z_1,y_1) \to
+\mathsf{secondGap}(z_2,y_2) \to
+\mathsf{finalSame}(z_1,z_2).
+$$
+Then the composite gap satisfies both conclusions:
+$$
+\forall x,\ \mathsf{SourceOk}(x) \to
+\exists z,\ \CompGap(\mathsf{firstGap},\mathsf{secondGap},z,x)
+$$
+and
+$$
+\forall x,z_1,z_2,\ \mathsf{SourceOk}(x) \to
+\CompGap(\mathsf{firstGap},\mathsf{secondGap},z_1,x) \to
+\CompGap(\mathsf{firstGap},\mathsf{secondGap},z_2,x) \to
+\mathsf{finalSame}(z_1,z_2).
+$$
 \end{theorem}
 \begin{proof}
-The coverage component is exactly the composite gap coverage theorem: choose the first-layer intermediate witness and its $\mathsf{InterOk}$ certificate, then apply second-layer coverage to obtain a final token. The separation component is exactly the composite gap separation theorem: unpack the two composite witnesses over the same source, use first-layer separation to identify the intermediate witnesses by $\mathsf{interSame}$, and apply second-layer separation to obtain $\mathsf{finalSame}$ for the final tokens.
+The first conclusion is Theorem~\ref{thm:composite-coverage}: choose the first-layer intermediate witness and its $\mathsf{InterOk}$ certificate, then apply second-layer coverage to obtain a final token. The second conclusion is Theorem~\ref{thm:composite-gap-separation}: unpack the two composite witnesses over the same source, use first-layer separation to identify the intermediate witnesses by $\mathsf{interSame}$, and apply second-layer transport to obtain $\mathsf{finalSame}$ for the final tokens.
 \end{proof}
 
 \begin{principle}[Ledger composition]
