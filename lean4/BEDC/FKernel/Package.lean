@@ -111,6 +111,12 @@ theorem packagePolicy_token_exists {bundle : ProbeBundle ProbeName}
     exists p : Pkg, TokIntro bundle s p := by
   exact policy.existence s
 
+theorem packagePolicy_nonempty_token {bundle : ProbeBundle ProbeName}
+    (policy : PackagePolicy bundle) (s : BHist) : Nonempty Pkg := by
+  cases policy.existence s with
+  | intro p tok =>
+      exact Nonempty.intro p
+
 omit [AskSetup] P in
 theorem packagePolicy_fields [AskSetup] [PackageSetup] {bundle : ProbeBundle ProbeName}
     (policy : PackagePolicy bundle) :

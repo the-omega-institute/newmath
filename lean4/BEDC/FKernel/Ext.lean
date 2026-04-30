@@ -41,6 +41,12 @@ theorem ext_respects_sameness :
   cases hm
   cases hr <;> cases hr' <;> rfl
 
+theorem ext_respects_mark_sameness :
+    forall {h r r' : BHist} {m n : BMark}, msame m n -> Ext h m r -> Ext h n r' -> hsame r r' := by
+  intro h r r' m n hm hr hr'
+  cases hm
+  cases hr <;> cases hr' <;> rfl
+
 theorem ext_constructor_inversion {h r : BHist} {m : BMark} :
     Ext h m r ->
       (m = BMark.b0 /\ r = BHist.e0 h) \/ (m = BMark.b1 /\ r = BHist.e1 h) := by
