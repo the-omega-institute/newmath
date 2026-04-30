@@ -34,6 +34,14 @@ theorem IntCarrier_magnitude_hsame_transport {sign : BEDC.FKernel.Mark.BMark}
       · exact signCases
       · exact BEDC.FKernel.Unary.unary_transport magnitude same
 
+theorem IntCarrier_sign_msame_transport {sign sign' : BEDC.FKernel.Mark.BMark}
+    {magnitude : BEDC.FKernel.Hist.BHist} :
+    IntCarrier sign magnitude -> BEDC.FKernel.Mark.msame sign sign' ->
+      IntCarrier sign' magnitude := by
+  intro carrier sameSign
+  cases sameSign
+  exact carrier
+
 def IntSourceSpec (sign : BEDC.FKernel.Mark.BMark) (magnitude : BEDC.FKernel.Hist.BHist) :
     Prop :=
   IntCarrier sign magnitude
