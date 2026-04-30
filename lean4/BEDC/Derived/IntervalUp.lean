@@ -28,6 +28,27 @@ theorem IntervalCarrier_empty_boundary_of_hsame {h : BEDC.FKernel.Hist.BHist} :
     · exact BEDC.FKernel.Hist.hsame_symm sameEmpty
     · exact sameEmpty
 
+theorem IntervalCarrier_empty_boundary_hsame_transport {h k : BEDC.FKernel.Hist.BHist} :
+    BEDC.FKernel.Hist.hsame h k ->
+      IntervalCarrier
+        (fun x => BEDC.FKernel.Hist.hsame BEDC.FKernel.Hist.BHist.Empty x)
+        (fun x => BEDC.FKernel.Hist.hsame x BEDC.FKernel.Hist.BHist.Empty)
+        h ->
+      IntervalCarrier
+        (fun x => BEDC.FKernel.Hist.hsame BEDC.FKernel.Hist.BHist.Empty x)
+        (fun x => BEDC.FKernel.Hist.hsame x BEDC.FKernel.Hist.BHist.Empty)
+        k := by
+  intro same carrier
+  cases carrier with
+  | intro hUnary boundary =>
+      cases boundary with
+      | intro lower upper =>
+          constructor
+          · exact BEDC.FKernel.Unary.unary_transport hUnary same
+          · constructor
+            · exact BEDC.FKernel.Hist.hsame_trans lower same
+            · exact BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm same) upper
+
 theorem interval_name_certificate (lower upper : BHist → Prop)
     (lower_empty : lower BHist.Empty) (upper_empty : upper BHist.Empty)
     (lower_transport : ∀ {h k : BHist}, hsame h k → lower h → lower k)

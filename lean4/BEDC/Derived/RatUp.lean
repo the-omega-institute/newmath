@@ -18,6 +18,35 @@ theorem PositiveUnaryDenominator_hsame_transport {d e : BHist} :
       | intro denSame tailUnary =>
           exact ⟨tail, hsame_trans (hsame_symm same) denSame, tailUnary⟩
 
+theorem PositiveUnaryDenominator_append_unary_tail {den tail : BEDC.FKernel.Hist.BHist} :
+    PositiveUnaryDenominator den -> BEDC.FKernel.Unary.UnaryHistory tail ->
+      PositiveUnaryDenominator (BEDC.FKernel.Cont.append den tail) := by
+  intro positive tailUnary
+  cases positive with
+  | intro denTail data =>
+      cases data with
+      | intro denSame denTailUnary =>
+          have denUnary : BEDC.FKernel.Unary.UnaryHistory den :=
+            BEDC.FKernel.Unary.unary_transport
+              (BEDC.FKernel.Unary.unary_e1_closed denTailUnary)
+              (BEDC.FKernel.Hist.hsame_symm denSame)
+          cases BEDC.FKernel.Unary.unary_history_cases tailUnary with
+          | inl tailEmpty =>
+              cases tailEmpty
+              exact ⟨denTail, denSame, denTailUnary⟩
+          | inr tailWitness =>
+              cases tailWitness with
+              | intro tailCore tailData =>
+                  cases tailData with
+                  | intro tailEq tailCoreUnary =>
+                      cases tailEq
+                      exact
+                        ⟨BEDC.FKernel.Cont.append den tailCore,
+                          BEDC.FKernel.Hist.hsame_refl
+                            (BEDC.FKernel.Hist.BHist.e1
+                              (BEDC.FKernel.Cont.append den tailCore)),
+                          BEDC.FKernel.Unary.unary_append_closed denUnary tailCoreUnary⟩
+
 def rat_classifier_spec_trans_positive_unary_denominator_carrier
     (sign : BEDC.FKernel.Mark.BMark)
     (numerator denominator : BEDC.FKernel.Hist.BHist) : Prop :=

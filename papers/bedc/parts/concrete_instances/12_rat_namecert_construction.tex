@@ -63,6 +63,15 @@ Unpack the carrier. A unary denominator that is not $\hsame$-empty cannot be the
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatCarrier\_iff\_positive\_unary\_denominator}
 
+\begin{theorem}[Positive denominator append unary tail]
+\label{thm:rat-positive-denominator-append-unary-tail}
+If a denominator has a positive unary witness and the appended tail is unary, then the continued denominator still has a positive unary witness.
+\end{theorem}
+\begin{proof}
+Write the denominator as internally the same as \(\Eone(t)\) for a unary tail \(t\), and transport unary membership back to the denominator itself. The appended tail is either \(\emp\) or a one-step unary tail. The empty case keeps the original witness, while the one-step case takes the continued denominator without that final step as the new positive tail; closure follows from unary append closure.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_tail}
+
 \section{The certificate}
 
 \begin{definition}[Rat source specification]
