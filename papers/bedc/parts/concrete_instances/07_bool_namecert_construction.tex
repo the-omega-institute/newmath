@@ -12,10 +12,10 @@ The boolean interface \(\BoolUp\) is licensed by raw mark sameness on the two-el
   \item \textbf{Classifier choice}: the classifier is $\msame$ on marks and $\mathsf{BoolHistoryClassifier}$ on the two licensed histories.
   \item \textbf{Stability obligations}: mark transport, history-carrier transport, unary closure, endpoint exclusion, classifier symmetry, and classifier transitivity.
   \item \textbf{Ledger}: no quotient is used; the hidden data are only the generated history witnesses for the two boolean endpoints.
-  \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, and the history $\NameCert$.
+  \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, and the history core $\NameCert$.
   \item \textbf{Exactness predicate}: the two endpoints are exactly the $\bzero$ and $\bone$ branches licensed by $\msame$.
   \item \textbf{Standard bridge}: false and true are read back as the two finite-kernel marks.
-  \item \textbf{Status}: $\mathsf{CheckedCert}$, with the boolean history $\NameCert$ checked in Lean.
+  \item \textbf{Status}: $\mathsf{CheckedCert}$, with the boolean history core $\NameCert$ checked in Lean.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -294,9 +294,17 @@ Record the raw source mark for every visible boolean class.
 
 \begin{theorem}[Concrete \(\BoolUp\) naming certificate]
 \label{thm:concrete-bool-namecert}
-The tuple \((\mathsf{BoolSource},\mathsf{BoolPattern},\mathsf{BoolClassifier},\mathsf{BoolStability},\mathsf{BoolLedger})\) forms a valid NameCert for \(\BoolUp\).
+The history carrier $\mathsf{BoolHistoryCarrier}$ and classifier $\mathsf{BoolHistoryClassifier}$ form a core $\NameCert$ for $\BoolUp$.
 \end{theorem}
 \leanchecked{BEDC.Derived.BoolUp.bool\_history\_name\_certificate}
+
+\begin{theorem}[BoolUp semantic certificate target]
+\label{thm:bool-semantic-namecert-target}
+For $\mathsf{BoolHistoryCarrier}$, once $\mathsf{BoolPatternSpec}$ is supplied as the two-endpoint pattern soundness field and $\mathsf{BoolLedgerPolicy}$ is supplied as the raw-source ledger soundness field, the checked core certificate assembles into the paper-side target $\mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolPatternSpec},\mathsf{BoolLedgerPolicy},\mathsf{BoolHistoryClassifier})$.
+\end{theorem}
+\begin{proof}
+Use the checked core certificate $\mathsf{bool\_history\_name\_certificate}$ as the $\NameCert$ component. The supplied pattern soundness field maps each licensed boolean history to the displayed false-or-true endpoint pattern, and the supplied ledger soundness field records the raw mark behind that licensed history. These three fields are exactly the constructor data for the corresponding semantic naming certificate.
+\end{proof}
 
 \begin{corollary}[\(\BoolUp\) is licensed, not primitive]
 \label{cor:bool-licensed-not-primitive}
