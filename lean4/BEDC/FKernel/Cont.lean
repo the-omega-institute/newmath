@@ -199,6 +199,15 @@ theorem cont_assoc_primary {h k l u v w z : BHist} :
   cases hwz
   exact append_assoc h k l
 
+theorem continuation_associativity {h k l u v w z : BHist} :
+    Cont h k u -> Cont u l v -> Cont k l w -> Cont h w z -> hsame v z := by
+  intro hku hulv klw hwz
+  cases hku
+  cases hulv
+  cases klw
+  cases hwz
+  exact append_assoc h k l
+
 theorem cont_assoc_hsame {a b c ab bc left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont b c bc -> Cont a bc right -> hsame left right := by
   intro hab hleft hbc hright
