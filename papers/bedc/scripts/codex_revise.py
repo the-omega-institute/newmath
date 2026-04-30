@@ -231,7 +231,7 @@ def latest_committed_round(*, cwd: Optional[Path] = None) -> int:
     result = run_cmd(["git", "log", "--format=%s"], cwd=cwd or REPO_ROOT)
     latest = 0
     for line in result.stdout.splitlines():
-        m = re.match(r"R(\d+)\b", line.strip())
+        m = re.match(r"P(\d+)\b", line.strip())
         if m:
             latest = max(latest, int(m.group(1)))
     return latest
@@ -351,8 +351,8 @@ def ensure_base_branch() -> None:
 
 def create_worktree(round_num: int) -> WorktreeInfo:
     WORKTREE_DIR.mkdir(parents=True, exist_ok=True)
-    branch = f"paper-R{round_num}"
-    wt_path = WORKTREE_DIR / f"paper_R{round_num}"
+    branch = f"paper-P{round_num}"
+    wt_path = WORKTREE_DIR / f"paper_P{round_num}"
     with _git_lock:
         if wt_path.exists():
             logger.warning(f"Removing stale worktree at {wt_path}")
@@ -386,14 +386,14 @@ def cleanup_all_worktrees() -> int:
         return 0
     count = 0
     for entry in WORKTREE_DIR.iterdir():
-        if entry.is_dir() and entry.name.startswith("paper_R"):
+        if entry.is_dir() and entry.name.startswith("paper_P"):
             logger.info(f"Cleaning up {entry}")
             run_cmd(["git", "worktree", "remove", "--force", str(entry)], cwd=REPO_ROOT)
             if entry.exists():
                 shutil.rmtree(entry, ignore_errors=True)
-            m = re.match(r"paper_R(\d+)", entry.name)
+            m = re.match(r"paper_P(\d+)", entry.name)
             if m:
-                run_cmd(["git", "branch", "-D", f"paper-R{m.group(1)}"], cwd=REPO_ROOT)
+                run_cmd(["git", "branch", "-D", f"paper-P{m.group(1)}"], cwd=REPO_ROOT)
             count += 1
     run_cmd(["git", "worktree", "prune"], cwd=REPO_ROOT)
     return count
@@ -846,7 +846,7 @@ def run_pdf_build(wt: WorktreeInfo, *, timeout: int = 600) -> tuple[bool, str]:
     paper_dir = wt.path / "papers" / "bedc"
     if not paper_dir.exists():
         return False, "papers/bedc/ missing in worktree"
-    log_path = LOG_DIR / f"pdf_build_R{wt.round_number}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+    log_path = LOG_DIR / f"pdf_build_P{wt.round_number}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
     try:
         with open(log_path, "w", encoding="utf-8") as lf:
             lf.write(f"# make at {datetime.now().isoformat()} cwd={paper_dir}\n\n")
@@ -905,10 +905,10 @@ def verify_worktree_commits(
         new = [c for c in post if c not in pre_commits]
 
     if not new:
-        logger.warning(f"[R{wt.round_number}] Verify: no new commits")
+        logger.warning(f"[P{wt.round_number}] Verify: no new commits")
         return False, []
 
-    logger.info(f"[R{wt.round_number}] Verify: {len(new)} new commit(s)")
+    logger.info(f"[P{wt.round_number}] Verify: {len(new)} new commit(s)")
     for c in new:
         logger.info(f"  {c}")
 
@@ -916,22 +916,22 @@ def verify_worktree_commits(
     rv = detect_register_only_round(wt)
     if rv:
         for v in rv:
-            logger.error(f"[R{wt.round_number}] REGISTER-ONLY: {v}")
+            logger.error(f"[P{wt.round_number}] REGISTER-ONLY: {v}")
         return False, new
 
     # Gate B — new \leanvariant markers
     var_v = detect_new_leanvariant_markers(wt)
     if var_v:
         for v in var_v[:10]:
-            logger.error(f"[R{wt.round_number}] NEW LEANVARIANT: {v}")
+            logger.error(f"[P{wt.round_number}] NEW LEANVARIANT: {v}")
         return False, new
 
     # Gate C — forbidden iteration-narrative vocabulary
     vocab_v = detect_forbidden_vocab(wt)
     if vocab_v:
         for v in vocab_v[:10]:
-            logger.error(f"[R{wt.round_number}] FORBIDDEN VOCAB: {v}")
-        logger.error(f"[R{wt.round_number}] Rejecting round: iteration-narrative "
+            logger.error(f"[P{wt.round_number}] FORBIDDEN VOCAB: {v}")
+        logger.error(f"[P{wt.round_number}] Rejecting round: iteration-narrative "
                      "vocabulary detected. Replace silently — no version annotations.")
         return False, new
 
@@ -939,44 +939,44 @@ def verify_worktree_commits(
     math_v = detect_forbidden_math(wt)
     if math_v:
         for v in math_v[:10]:
-            logger.error(f"[R{wt.round_number}] FORBIDDEN MATH ENV: {v}")
+            logger.error(f"[P{wt.round_number}] FORBIDDEN MATH ENV: {v}")
         return False, new
 
     # Gate E — oversized .tex files
     size_v = detect_oversized_tex(wt)
     if size_v:
         for v in size_v[:10]:
-            logger.error(f"[R{wt.round_number}] OVERSIZED .TEX: {v}")
+            logger.error(f"[P{wt.round_number}] OVERSIZED .TEX: {v}")
         return False, new
 
     # Gate F — PDF compile
     ok, tail = run_pdf_build(wt)
     if not ok:
-        logger.error(f"[R{wt.round_number}] PDF build FAILED")
+        logger.error(f"[P{wt.round_number}] PDF build FAILED")
         for ln in (tail or "").splitlines()[-15:]:
             logger.error(f"  {ln}")
         return False, new
-    logger.info(f"[R{wt.round_number}] PDF build OK")
+    logger.info(f"[P{wt.round_number}] PDF build OK")
 
     # Gate G — paper ↔ Lean drift audit
     ok, msg = run_drift_audit(wt)
     if not ok:
-        logger.error(f"[R{wt.round_number}] Drift audit FAILED")
+        logger.error(f"[P{wt.round_number}] Drift audit FAILED")
         for ln in msg.splitlines()[-10:]:
             logger.error(f"  {ln}")
         return False, new
-    logger.info(f"[R{wt.round_number}] Drift audit OK")
+    logger.info(f"[P{wt.round_number}] Drift audit OK")
 
     # Gate H — axiom audit (only if Lean files were touched)
     lean_changed = [f for f in _changed_files(wt) if f.startswith("lean4/")]
     if lean_changed:
         ok, msg = run_axiom_audit(wt)
         if not ok:
-            logger.error(f"[R{wt.round_number}] Axiom audit FAILED")
+            logger.error(f"[P{wt.round_number}] Axiom audit FAILED")
             for ln in msg.splitlines()[-10:]:
                 logger.error(f"  {ln}")
             return False, new
-        logger.info(f"[R{wt.round_number}] Axiom audit OK")
+        logger.info(f"[P{wt.round_number}] Axiom audit OK")
 
     return True, new
 
@@ -994,7 +994,7 @@ def run_round_in_worktree(
     review_timeout: int = 1200,
     revise_timeout: int = 3600,
 ) -> tuple[bool, int, list[str]]:
-    tag = f"R{round_num}"
+    tag = f"P{round_num}"
     logger.info(f"{'='*60}")
     logger.info(f"[{tag}] Starting paper revision round")
     logger.info(f"{'='*60}")
@@ -1022,7 +1022,7 @@ def run_round_in_worktree(
             timeout_seconds=review_timeout,
             model=model,
             dry_run=dry_run,
-            log_tag=f"R{round_num}_review",
+            log_tag=f"P{round_num}_review",
         )
         review = parse_review_output(review_raw)
 
@@ -1064,7 +1064,7 @@ def run_round_in_worktree(
             timeout_seconds=revise_timeout,
             model=model,
             dry_run=dry_run,
-            log_tag=f"R{round_num}_revise",
+            log_tag=f"P{round_num}_revise",
         )
         revise = parse_revise_output(revise_raw)
 
@@ -1124,8 +1124,8 @@ def load_state() -> RoundState:
             state = RoundState(**data)
             if latest > state.round_number:
                 logger.info(
-                    f"Advancing round state from R{state.round_number} to "
-                    f"latest commit R{latest}"
+                    f"Advancing round state from P{state.round_number} to "
+                    f"latest commit P{latest}"
                 )
                 state.round_number = latest
             return state
@@ -1154,7 +1154,7 @@ def _save_round_log(
     success: bool,
 ) -> Path:
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_path = LOG_DIR / f"round_R{round_num}_{ts}.json"
+    log_path = LOG_DIR / f"round_P{round_num}_{ts}.json"
     with open(log_path, "w", encoding="utf-8") as f:
         json.dump({
             "round": round_num,
@@ -1195,13 +1195,13 @@ def run_parallel_batch(
 ) -> tuple[int, int]:
     nums = allocate_round_numbers(state, parallel)
     recent = state.recent_commits
-    logger.info(f"Dispatching batch: R{nums[0]}..R{nums[-1]} ({parallel} workers)")
+    logger.info(f"Dispatching batch: P{nums[0]}..P{nums[-1]} ({parallel} workers)")
 
     succeeded = failed = 0
     with ThreadPoolExecutor(max_workers=parallel, thread_name_prefix="worker") as pool:
         futures: dict[Future, int] = {}
         for rn in nums:
-            memory_pressure_wait(context=f"dispatch R{rn}")
+            memory_pressure_wait(context=f"dispatch P{rn}")
             fut = pool.submit(
                 run_round_in_worktree,
                 rn, recent,
@@ -1216,13 +1216,13 @@ def run_parallel_batch(
                 ok, _, commits = fut.result()
                 if ok:
                     succeeded += 1
-                    logger.info(f"[R{rn}] SUCCESS ({len(commits)} commits)")
+                    logger.info(f"[P{rn}] SUCCESS ({len(commits)} commits)")
                 else:
                     failed += 1
-                    logger.warning(f"[R{rn}] FAILED")
+                    logger.warning(f"[P{rn}] FAILED")
             except Exception as exc:
                 failed += 1
-                logger.error(f"[R{rn}] EXCEPTION: {exc}")
+                logger.error(f"[P{rn}] EXCEPTION: {exc}")
 
     state.recent_commits = git_log_oneline(5)
     if failed == parallel:
@@ -1297,8 +1297,8 @@ def main() -> int:
     if args.status:
         state = load_state()
         wt_result = run_cmd(["git", "worktree", "list"], cwd=REPO_ROOT)
-        active = [l for l in wt_result.stdout.splitlines() if "paper_R" in l]
-        print(f"Round:                 R{state.round_number}")
+        active = [l for l in wt_result.stdout.splitlines() if "paper_P" in l]
+        print(f"Round:                 P{state.round_number}")
         print(f"Consecutive failures:  {state.consecutive_failures}")
         print(f"Base branch:           {BASE_BRANCH}")
         print(f"Active worktrees:      {len(active)}")
@@ -1328,7 +1328,7 @@ def main() -> int:
         run_cmd(["git", "worktree", "prune"], cwd=REPO_ROOT)
         if WORKTREE_DIR.exists():
             for entry in WORKTREE_DIR.iterdir():
-                if entry.is_dir() and entry.name.startswith("paper_R"):
+                if entry.is_dir() and entry.name.startswith("paper_P"):
                     wt_result = run_cmd(["git", "worktree", "list", "--porcelain"],
                                         cwd=REPO_ROOT)
                     if str(entry) not in wt_result.stdout:
@@ -1340,7 +1340,7 @@ def main() -> int:
         logger.info(f"Resetting consecutive_failures={state.consecutive_failures}")
         state.consecutive_failures = 0
         save_state(state)
-    logger.info(f"Starting at R{state.round_number}")
+    logger.info(f"Starting at P{state.round_number}")
 
     total_succeeded = total_failed = 0
 
@@ -1372,7 +1372,7 @@ def main() -> int:
                     state.round_number += 1
                     rn = state.round_number
                     save_state(state)
-                memory_pressure_wait(context=f"dispatch R{rn}")
+                memory_pressure_wait(context=f"dispatch P{rn}")
                 fut = pool.submit(
                     run_round_in_worktree,
                     rn, state.recent_commits,
@@ -1381,7 +1381,7 @@ def main() -> int:
                     revise_timeout=args.revise_timeout,
                 )
                 futures[fut] = rn
-                logger.info(f"Dispatching R{rn} (rolling)")
+                logger.info(f"Dispatching P{rn} (rolling)")
 
             for _ in range(args.parallel):
                 _submit_next()
@@ -1402,7 +1402,7 @@ def main() -> int:
                     except Exception as exc:
                         total_failed += 1
                         state.consecutive_failures += 1
-                        logger.error(f"[R{rn}] EXCEPTION: {exc}")
+                        logger.error(f"[P{rn}] EXCEPTION: {exc}")
                     state.recent_commits = git_log_oneline(5)
                     save_state(state)
                     if not STOP_FILE.exists():
@@ -1428,7 +1428,7 @@ def main() -> int:
 
     logger.info(f"{'='*60}")
     logger.info(f"Session complete: {total_succeeded} succeeded, {total_failed} failed")
-    logger.info(f"Final round: R{state.round_number}")
+    logger.info(f"Final round: P{state.round_number}")
     logger.info(f"{'='*60}")
     return 0 if total_succeeded > 0 or args.dry_run else 1
 
