@@ -211,6 +211,15 @@ theorem external_append_bit1_result_inversion :
         (∃ b0 : BWord, b = BHist.e1 b0 ∧ append a b0 = r) :=
   external_append_bit_result_inversion.right
 
+theorem external_append_constructor_result_inversion :
+    (∀ {a b r : BWord}, append a b = BHist.e0 r →
+      (b = BHist.Empty ∧ a = BHist.e0 r) ∨
+        (∃ b0 : BWord, b = BHist.e0 b0 ∧ append a b0 = r)) ∧
+    (∀ {a b r : BWord}, append a b = BHist.e1 r →
+      (b = BHist.Empty ∧ a = BHist.e1 r) ∨
+        (∃ b1 : BWord, b = BHist.e1 b1 ∧ append a b1 = r)) := by
+  exact external_append_bit_result_inversion
+
 theorem external_append_right_cancel : ∀ a b c : BWord, append a c = append b c → a = b := by
   intro a b c h
   induction c generalizing a b with

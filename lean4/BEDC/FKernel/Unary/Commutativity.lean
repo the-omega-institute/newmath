@@ -336,6 +336,16 @@ theorem unary_commutativity_concrete_with_closed_results {h k r r' : BHist} :
     · exact unary_cont_closed uh uk hr
     · exact unary_cont_closed uk uh hr'
 
+theorem unary_cont_commutativity_with_closed_results {h k r r' : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' →
+      UnaryHistory r ∧ UnaryHistory r' ∧ hsame r r' := by
+  intro uh uk hr hr'
+  constructor
+  · exact unary_cont_closed uh uk hr
+  · constructor
+    · exact unary_cont_closed uk uh hr'
+    · exact unary_cont_comm uh uk hr hr'
+
 theorem unary_commutativity_concrete_induction {h k r r' : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
   intro uh uk hr hr'

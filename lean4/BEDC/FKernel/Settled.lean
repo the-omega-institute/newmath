@@ -172,6 +172,53 @@ theorem settledKernelCriterion_globalize_exactness_projection [AskSetup] [Packag
                                                       exact globalizeExactness
                                                         askPolicy packagePolicy tokenExists
 
+theorem settledKernelCriterion_namecert_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      Nonempty (@NameCert MinimalNameCertSetup BEDC.FKernel.Unary.UnaryName) ∧
+      Nonempty (@NameCert MinimalNameCertSetup BEDC.FKernel.Unary.AddName) ∧
+      (Nonempty (@StabilityCert MinimalNameCertSetup) ∧
+        Nonempty (@LedgerPolicy MinimalNameCertSetup)) := by
+  intro criterion
+  cases criterion with
+  | intro _ rest =>
+      cases rest with
+      | intro _ rest =>
+          cases rest with
+          | intro _ rest =>
+              cases rest with
+              | intro _ rest =>
+                  cases rest with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro _ rest =>
+                          cases rest with
+                          | intro _ rest =>
+                              cases rest with
+                              | intro _ rest =>
+                                  cases rest with
+                                  | intro _ rest =>
+                                      cases rest with
+                                      | intro _ rest =>
+                                          cases rest with
+                                          | intro _ rest =>
+                                              cases rest with
+                                              | intro _ rest =>
+                                                  cases rest with
+                                                  | intro _ rest =>
+                                                      cases rest with
+                                                      | intro _ rest =>
+                                                          cases rest with
+                                                          | intro unaryName rest =>
+                                                              cases rest with
+                                                              | intro addName rest =>
+                                                                  cases rest with
+                                                                  | intro stabilityAndLedger _ =>
+                                                                      exact
+                                                                        ⟨unaryName,
+                                                                          addName,
+                                                                          stabilityAndLedger⟩
+
 theorem settledKernelCriterion_history_kernel_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
     SettledKernelCriterion →
