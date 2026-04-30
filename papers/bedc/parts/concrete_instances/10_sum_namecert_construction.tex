@@ -189,6 +189,18 @@ Invert the classifier witness. In the left branch \(k\) is also
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_mixed\_tags\_absurd}
 
+\begin{theorem}[Sum history classifier reverse tag separation]
+\label{thm:sum-history-classifier-reverse-tag-separation}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers with classifiers $LeftEq$ and $RightEq$. If $h$ is $e1$-tagged and $k$ is $e0$-tagged, then
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)
+$$
+is impossible.
+\end{theorem}
+\begin{proof}
+Invert the classifier witness. In the left branch, the classifier forces $h$ to be $e0$-tagged, contradicting the displayed $e1$-tag witness by $e1/e0$ no-confusion. In the right branch, the classifier forces $k$ to be $e1$-tagged, contradicting the displayed $e0$-tag witness by $e0/e1$ no-confusion.
+\end{proof}
+
 \begin{theorem}[Sum history classifier transitivity]
 \label{thm:sum-history-classifier-transitivity}
 If the left and right source classifiers are transitive, then the
