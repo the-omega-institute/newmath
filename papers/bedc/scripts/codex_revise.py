@@ -64,7 +64,10 @@ BASE_BRANCH = BASE_BRANCH_DEFAULT
 # both pipelines (paper / Lean) see each other's progress; the merge is
 # normally clean because the two pipelines write to disjoint subtrees
 # (papers/bedc/* vs lean4/BEDC/*).
-PEER_BRANCH_DEFAULT = "lean4-codex-auto-dev"
+# Empty default: peer-sync is opt-in. Pass `--peer-branch lean4-codex-auto-dev`
+# (or any other branch name) to enable bidirectional sync. Background ticker
+# and final-sync hook key off PEER_BRANCH being non-empty.
+PEER_BRANCH_DEFAULT = ""
 PEER_BRANCH = PEER_BRANCH_DEFAULT
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 
@@ -1634,9 +1637,10 @@ def main() -> int:
                         help=f"Remove {STOP_FILE.name}")
     parser.add_argument("--base-branch", type=str, default=BASE_BRANCH_DEFAULT)
     parser.add_argument("--peer-branch", type=str, default=PEER_BRANCH_DEFAULT,
-                        help=f"Peer branch to bidirectionally sync with at "
-                             f"session start (default: {PEER_BRANCH_DEFAULT}). "
-                             f"Pass empty string to disable.")
+                        help="Peer branch to bidirectionally sync with at "
+                             "session start. Default is empty (peer-sync "
+                             "disabled). To enable, pass e.g. "
+                             "`--peer-branch lean4-codex-auto-dev`.")
     parser.add_argument("--no-peer-sync", action="store_true",
                         help="Skip the pre-flight peer-branch sync.")
     parser.add_argument("--peer-sync-only", action="store_true",
