@@ -12,7 +12,7 @@ This chapter separates two certificate scopes. The checked BEDC object is the nu
   \item \textbf{Classifier choice}: the typed $\mathsf{OptionClassifierSpec}$ relates only matching option tags through the source classifier; $\mathsf{OptionHistoryClassifier}$ is the nullable-history classifier consisting of endpoint envelope-carrier witnesses and endpoint $\hsame$.
   \item \textbf{Stability obligations}: typed optional carrier transport, typed absent/present separation, lifted typed classifier symmetry and transitivity, nullable-history endpoint transport, nullable-history classifier symmetry and transitivity, and for the constructor-tagged optional-history certificate a payload coherence condition converting source-carrier $\hsame$ between middle payloads into the source classifier.
   \item \textbf{Ledger}: the typed option interface records the absent-or-present tag and present payload evidence, while the checked nullable-history envelope ledger records only the raw envelope-carrier witness and the raw-to-visible $\hsame$ link.
-  \item \textbf{Core theorem list}: typed carrier cases, typed absent/present no-confusion, present inversion, typed classifier equivalence, tagged same-tag exactness, tagged mixed-tag separation, nullable-history carrier transport, nullable-history classifier transport, and the nullable-history semantic certificate.
+  \item \textbf{Core theorem list}: typed carrier cases, typed absent/present no-confusion, present inversion, typed classifier equivalence, tagged same-tag exactness, tagged mixed-tag separation, source-compatibility for the tagged semantic target, nullable-history carrier transport, nullable-history classifier transport, and the nullable-history semantic certificate.
   \item \textbf{Exactness predicate}: matching-tag exactness belongs to $\mathsf{OptionClassifierSpec}$; the tagged history classifier has same-tag exactness through visible absent and present endpoints plus mixed-tag separation, while the checked nullable-history classifier exactness is endpoint envelope membership plus endpoint $\hsame$ and carries no present constructor tag.
   \item \textbf{Standard bridge}: the checked nullable envelope has only empty-or-source endpoint readback. Ordinary $\mathsf{none}$ and $\mathsf{some}(a)$ readback belongs to the typed and tagged option interface under $\mathsf{TaggedOptionHistoryCarrier}$, $\mathsf{TaggedOptionHistoryClassifier}$, same-tag exactness, mixed-tag separation, and the tag-plus-source ledger.
   \item \textbf{Status}: the nullable history-envelope $\mathsf{SemanticNameCert}$ is $\mathsf{CheckedCert}$; the constructor-tagged optional-history certificate is $\mathsf{ProofTarget}$.
@@ -620,6 +620,8 @@ envelope only. It is not a checked constructor-tagged $\OptionUp$ certificate:
 citations to Theorem~\ref{thm:concrete-option-namecert} assert the nullable
 history-envelope certificate, while the explicit optional value interface is
 licensed only when the typed tag classifier $\mathsf{OptionClassifierSpec}$,
-none/some no-confusion, some-inversion, and the tag-plus-source ledger are
-supplied together with that envelope.
+none/some no-confusion, some-inversion, the tag-plus-source ledger, and either
+a $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ witness or the
+specialized $\hsame$ classifier certificate are supplied together with that
+envelope.
 \end{corollary}
