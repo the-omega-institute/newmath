@@ -51,6 +51,18 @@ theorem msame_no_confusion : (msame .b0 .b1 → False) ∧ (msame .b1 .b0 → Fa
   · exact not_msame_b0_b1
   · exact not_msame_b1_b0
 
+theorem msame_cross_iff_false :
+    (msame BMark.b0 BMark.b1 ↔ False) ∧ (msame BMark.b1 BMark.b0 ↔ False) := by
+  constructor
+  · constructor
+    · exact not_msame_b0_b1
+    · intro impossible
+      cases impossible
+  · constructor
+    · exact not_msame_b1_b0
+    · intro impossible
+      cases impossible
+
 theorem msame_cross_impossible {m n : BMark} :
     ((m = BMark.b0 ∧ n = BMark.b1) ∨ (m = BMark.b1 ∧ n = BMark.b0)) →
       msame m n → False := by

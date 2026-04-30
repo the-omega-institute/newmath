@@ -172,6 +172,17 @@ theorem unary_append_closed : ∀ {h k : BHist}, UnaryHistory h -> UnaryHistory 
   | e1 k ih =>
       exact ih uh uk
 
+theorem unary_append_closed_right_induction :
+    ∀ {h k : BHist}, UnaryHistory h → UnaryHistory k → UnaryHistory (append h k) := by
+  intro h k uh uk
+  induction k generalizing h with
+  | Empty =>
+      exact uh
+  | e0 k ih =>
+      cases uk
+  | e1 k ih =>
+      exact ih uh uk
+
 theorem unary_append_factors_iff_result {h k : BHist} :
     UnaryHistory h ∧ UnaryHistory k ↔ UnaryHistory (append h k) := by
   constructor
