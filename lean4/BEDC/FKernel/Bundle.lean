@@ -74,6 +74,21 @@ theorem inBundle_cons_cons_inversion {PName : Type} {x p q : PName}
   intro h
   exact h
 
+theorem inBundle_cons_cons_swap {PName : Type} {x p q : PName}
+    {tail : ProbeBundle PName} :
+    InBundle x (ProbeBundle.Bcons p (ProbeBundle.Bcons q tail)) →
+      x = q ∨ x = p ∨ InBundle x tail := by
+  intro h
+  cases h with
+  | inl hp =>
+      exact Or.inr (Or.inl hp)
+  | inr htail =>
+      cases htail with
+      | inl hq =>
+          exact Or.inl hq
+      | inr hrest =>
+          exact Or.inr (Or.inr hrest)
+
 theorem inBundle_nonempty_from_membership {PName : Type} {p : PName} :
     ∀ {bundle : ProbeBundle PName}, InBundle p bundle →
       ∃ q : PName, ∃ tail : ProbeBundle PName, bundle = ProbeBundle.Bcons q tail := by

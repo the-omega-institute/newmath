@@ -46,4 +46,12 @@ theorem cont_step_result_iff_pair {h k r : BHist} :
     · intro hcont
       exact cont_step_one hcont
 
+theorem cont_empty_result_iff {h k : BHist} :
+    Cont h k BHist.Empty ↔ h = BHist.Empty /\ k = BHist.Empty := by
+  constructor
+  · intro hc
+    exact append_eq_empty_iff.mp hc.symm
+  · intro hk
+    exact (append_eq_empty_iff.mpr hk).symm
+
 end BEDC.FKernel.Cont
