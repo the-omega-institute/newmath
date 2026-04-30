@@ -47,4 +47,33 @@ theorem continuation_step_rules_iff_pair :
       (forall {h k r : BHist}, Cont h (BHist.e1 k) (BHist.e1 r) <-> Cont h k r) := by
   exact cont_step_rules_iff_pair
 
+theorem continuation_step_result_witness_iff_pair :
+    (∀ {h k r : BHist},
+        Cont h (BHist.e0 k) r ↔ ∃ r0 : BHist, r = BHist.e0 r0 ∧ Cont h k r0) ∧
+      (∀ {h k r : BHist},
+        Cont h (BHist.e1 k) r ↔ ∃ r0 : BHist, r = BHist.e1 r0 ∧ Cont h k r0) := by
+  constructor
+  · intro h k r
+    constructor
+    · intro hcont
+      exact cont_step_result_inversions.left hcont
+    · intro witness
+      cases witness with
+      | intro r0 packed =>
+          cases packed with
+          | intro result hcont =>
+              cases result
+              exact cont_step_zero hcont
+  · intro h k r
+    constructor
+    · intro hcont
+      exact cont_step_result_inversions.right hcont
+    · intro witness
+      cases witness with
+      | intro r0 packed =>
+          cases packed with
+          | intro result hcont =>
+              cases result
+              exact cont_step_one hcont
+
 end BEDC.FKernel.Cont

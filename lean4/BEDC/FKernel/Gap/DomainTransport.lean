@@ -50,6 +50,28 @@ theorem DomainPolicy_iff_transport [AskSetup] [PackageSetup] [DomainSetup] {D : 
       transport := transport
     }
 
+omit [AskSetup] [PackageSetup] G in
+theorem DomainPolicy_iff_transport_and_invariance [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} :
+    DomainPolicy D ↔
+      (∀ {h k : BHist}, InDom D h → hsame h k → InDom D k) ∧
+        (∀ {h k : BHist}, hsame h k → (InDom D h ↔ InDom D k)) := by
+  constructor
+  · intro policy
+    constructor
+    · intro h k hdom same
+      exact policy.transport hdom same
+    · intro h k same
+      constructor
+      · intro hdom
+        exact policy.transport hdom same
+      · intro kdom
+        exact policy.transport kdom (hsame_symm same)
+  · intro fields
+    exact {
+      transport := fields.left
+    }
+
 theorem inGapSig_domain_transport_source [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
     (policy : DomainPolicy D) :

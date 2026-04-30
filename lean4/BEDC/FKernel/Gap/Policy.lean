@@ -109,6 +109,17 @@ theorem GapPolicy_iff_fields [AskSetup] [PackageSetup] [DomainSetup]
               separation := separation
             }
 
+omit [AskSetup] [PackageSetup] G in
+theorem GapPolicyInterface_iff_fields [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} :
+    GapPolicyInterface bundle D ↔
+      ((∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
+        (∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h →
+          InGapSig bundle D q h → psame bundle p q) ∧
+        (∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h →
+          ∃ s : BHist, TokIntro bundle s p)) := by
+  exact GapPolicy_iff_fields
+
 theorem globalization_has_three_layers [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} :
     AskPolicy (InDom D) → PackagePolicy bundle → GapPolicy bundle D →
