@@ -81,12 +81,51 @@ jobs:
       checkout_ref: ${{ needs.resolve_target.outputs.target_sha }}
     secrets: inherit
 
-  publish_release:
-    name: Publish GitHub release
-    needs: [resolve_target, build_pdf, build_lean4]
-    if: ${{ always() && needs.resolve_target.result == 'success' && needs.build_pdf.result == 'success' && needs.build_lean4.result == 'success' && needs.resolve_target.outputs.publish_release == 'true' }}
+  generate_manifest:
+    name: Generate Lean4 manifest
+    needs: resolve_target
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      RELEASE_TAG: ${{ needs.resolve_target.outputs.release_tag }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          ref: ${{ needs.resolve_target.outputs.target_sha }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Generate Lean4 manifest
+        id: gen_manifest
+        run: |
+          manifest_name="bedc_lean_manifest_$(git show -s --format=%cs HEAD).json"
+          mkdir -p release-assets
+          python3 lean4/scripts/bedc_ci.py manifest \
+            --output "release-assets/${manifest_name}" \
+            --release-tag "${RELEASE_TAG}"
+          echo "manifest_name=${manifest_name}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Lean4 manifest artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-lean4-manifest
+          path: release-assets/${{ steps.gen_manifest.outputs.manifest_name }}
+          if-no-files-found: error
+          retention-days: 7
+
+  publish_release:
+    name: Publish GitHub release
+    needs: [resolve_target, build_pdf, build_lean4, generate_manifest]
+    if: ${{ always() && needs.resolve_target.result == 'success' && needs.build_pdf.result == 'success' && needs.build_lean4.result == 'success' && needs.generate_manifest.result == 'success' && needs.resolve_target.outputs.publish_release == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
     steps:
       - name: Download built main.pdf artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -94,15 +133,43 @@ jobs:
           name: release-pdf
           path: release-assets/pdf
 
-      - name: Resolve release asset
-        id: resolve_asset
+      - name: Download Lean4 manifest artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: release-lean4-manifest
+          path: release-assets/lean4
+
+      - name: Resolve release assets
+        id: resolve_assets
         run: |
           pdf_path="$(find release-assets/pdf -maxdepth 1 -type f -name 'bedc_*.pdf' -print -quit)"
           if [ -z "$pdf_path" ]; then
-            echo "Expected a dated PDF artifact in release-assets" >&2
+            echo "Expected a dated PDF artifact in release-assets/pdf" >&2
+            exit 1
+          fi
+          manifest_path="$(find release-assets/lean4 -maxdepth 1 -type f -name 'bedc_lean_manifest_*.json' -print -quit)"
+          if [ -z "$manifest_path" ]; then
+            echo "Expected a Lean4 manifest artifact in release-assets/lean4" >&2
             exit 1
           fi
           echo "pdf_path=$pdf_path" >> "$GITHUB_OUTPUT"
+          echo "manifest_path=$manifest_path" >> "$GITHUB_OUTPUT"
+
+      - name: Delete orphan releases sharing this tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ needs.resolve_target.outputs.release_tag }}
+        run: |
+          drafts=$(gh api "/repos/${GITHUB_REPOSITORY}/releases" --paginate \
+            --jq ".[] | select(.tag_name == \"${RELEASE_TAG}\" and .draft == true) | .id")
+          if [ -n "$drafts" ]; then
+            for id in $drafts; do
+              echo "Deleting orphan draft release id=$id (tag=${RELEASE_TAG})"
+              gh api -X DELETE "/repos/${GITHUB_REPOSITORY}/releases/${id}"
+            done
+          else
+            echo "No orphan draft for tag ${RELEASE_TAG}"
+          fi
 
       - name: Write release summary
         run: |
@@ -111,7 +178,8 @@ jobs:
             echo
             echo "- target SHA: \`${{ needs.resolve_target.outputs.target_sha }}\`"
             echo "- release tag: \`${{ needs.resolve_target.outputs.release_tag }}\`"
-            echo "- PDF asset: \`${{ steps.resolve_asset.outputs.pdf_path }}\`"
+            echo "- PDF asset: \`${{ steps.resolve_assets.outputs.pdf_path }}\`"
+            echo "- Lean manifest: \`${{ steps.resolve_assets.outputs.manifest_path }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish release
@@ -120,6 +188,7 @@ jobs:
           tag_name: ${{ needs.resolve_target.outputs.release_tag }}
           name: ${{ needs.resolve_target.outputs.release_tag }}
           files: |
-            ${{ steps.resolve_asset.outputs.pdf_path }}
+            ${{ steps.resolve_assets.outputs.pdf_path }}
+            ${{ steps.resolve_assets.outputs.manifest_path }}
           fail_on_unmatched_files: true
           generate_release_notes: true
