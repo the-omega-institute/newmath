@@ -241,6 +241,21 @@ theorem PsameBase_inversion {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
         sigSame := same
       }
 
+theorem PsameBase_inversion_witness_object {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameBase s P p q →
+      ∃ data : PBaseData s P p q,
+        s.TokIntro P data.x p ∧ s.TokIntro P data.y q ∧ s.hsame data.x data.y := by
+  intro base
+  cases base with
+  | intro left right same =>
+      exact Exists.intro {
+        x := _
+        y := _
+        leftIntro := left
+        rightIntro := right
+        sigSame := same
+      } (And.intro left (And.intro right same))
+
 theorem PsameBase_inversion_data_and_witnesses
     {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PsameBase s P p q →

@@ -31,6 +31,59 @@ theorem sameSig_trans_chain_witnesses_under_policy [AskSetup]
           (And.intro hv
             (hsame_trans hst (hsame_trans htu huv))))))
 
+theorem sameSig_trans_witness_chain_with_result [AskSetup]
+    {bundle : ProbeBundle ProbeName} {D : BHist → Prop} (policy : AskPolicy D)
+    {h k l : BHist} :
+    D k → SameSig bundle h k → SameSig bundle k l →
+      ∃ s : BHist, ∃ t : BHist, ∃ u : BHist, ∃ v : BHist,
+        SigRel bundle h s ∧ SigRel bundle k t ∧ SigRel bundle k u ∧
+          SigRel bundle l v ∧ hsame t u ∧ hsame s v ∧ SameSig bundle h l := by
+  intro hk hhk hkl
+  cases hhk with
+  | intro s hhkTail =>
+      cases hhkTail with
+      | intro t hhkData =>
+          cases hhkData with
+          | intro hs hhkRest =>
+              cases hhkRest with
+              | intro ht hst =>
+                  cases hkl with
+                  | intro u hklTail =>
+                      cases hklTail with
+                      | intro v hklData =>
+                          cases hklData with
+                          | intro hu hklRest =>
+                              cases hklRest with
+                              | intro hv huv =>
+                                  have htu : hsame t u :=
+                                    sig_deterministic
+                                      (bundle := bundle)
+                                      (D := D)
+                                      (h := k)
+                                      (s := t)
+                                      (t := u)
+                                      policy
+                                      hk
+                                      ht
+                                      hu
+                                  have hsv : hsame s v :=
+                                    hsame_trans hst (hsame_trans htu huv)
+                                  have result : SameSig bundle h l :=
+                                    Exists.intro s
+                                      (Exists.intro v
+                                        (And.intro hs
+                                          (And.intro hv hsv)))
+                                  exact Exists.intro s
+                                    (Exists.intro t
+                                      (Exists.intro u
+                                        (Exists.intro v
+                                          (And.intro hs
+                                            (And.intro ht
+                                              (And.intro hu
+                                                (And.intro hv
+                                                  (And.intro htu
+                                                    (And.intro hsv result)))))))))
+
 theorem sig_total_pair_from_policy [AskSetup] {bundle : ProbeBundle ProbeName} {D : BHist -> Prop}
     (policy : AskPolicy D) {h k : BHist} :
     D h -> D k ->
