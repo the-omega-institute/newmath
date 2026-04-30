@@ -62,4 +62,18 @@ theorem nameCert_classifier_stability_ledger_from_cert [NameCertSetup] {name : D
         · exact Nonempty.intro stability
         · exact Nonempty.intro ledger
 
+theorem limit_like_interfaces_are_derived [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealInterface Thread name → Nonempty (NameCert name) ∧ Nonempty StabilityCert ∧
+      Nonempty LedgerPolicy := by
+  intro iface
+  cases iface with
+  | mk thread sealCertType sealCert nameCert ledger =>
+      constructor
+      · exact Nonempty.intro nameCert
+      · constructor
+        · cases nameCert with
+          | mk source pattern classifier stability certLedger =>
+              exact Nonempty.intro stability
+        · exact ledger
+
 end BEDC.FKernel.NameCert

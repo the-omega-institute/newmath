@@ -172,4 +172,34 @@ theorem settledKernelCriterion_globalize_exactness_projection [AskSetup] [Packag
                                                       exact globalizeExactness
                                                         askPolicy packagePolicy tokenExists
 
+theorem settledKernelCriterion_history_kernel_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      ((∀ m : BMark, msame m m) ∧
+        (∀ {m n : BMark}, msame m n → msame n m) ∧
+        (∀ {a b c : BMark}, msame a b → msame b c → msame a c)) ∧
+      ((msame BMark.b0 BMark.b1 → False) ∧ (msame BMark.b1 BMark.b0 → False)) ∧
+      ((∀ h : BHist, hsame h h) ∧
+        (∀ {h k : BHist}, hsame h k → hsame k h) ∧
+        (∀ {a b c : BHist}, hsame a b → hsame b c → hsame a c)) ∧
+      ((∀ {h x : BHist}, hsame (.e0 h) x → ∃ k : BHist, x = .e0 k ∧ hsame h k) ∧
+        (∀ {h x : BHist}, hsame (.e1 h) x → ∃ k : BHist, x = .e1 k ∧ hsame h k) ∧
+        (∀ {h k : BHist}, hsame (.e1 h) (.e0 k) → False)) := by
+  intro criterion
+  cases criterion with
+  | intro markEquivalence rest =>
+      cases rest with
+      | intro markNoConfusion rest =>
+          cases rest with
+          | intro histEquivalence rest =>
+              cases rest with
+              | intro histInversion rest =>
+                  constructor
+                  · exact markEquivalence
+                  · constructor
+                    · exact markNoConfusion
+                    · constructor
+                      · exact histEquivalence
+                      · exact histInversion
+
 end BEDC.FKernel.Settled
