@@ -26,8 +26,10 @@ By induction on the generated bundle.  The empty bundle produces empty signature
 \end{proof}
 
 \begin{theorem}[Signature-sameness is an equivalence under policy]
+\label{thm:proof-sprint-signature-sameness-equivalence-under-policy}
 Assume \(\mathsf{AskPolicy}(\Pi,D)\).  On histories in \(D\), \(\SameSig(\Pi,-,-)\) is reflexive, symmetric, and transitive.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Sig.proof\_sprint\_signature\_sameness\_equivalence\_under\_policy}
 \begin{proof}
 Reflexivity uses totality of signature generation and reflexivity of \(\HSame\).  Symmetry uses symmetry of \(\HSame\).  For transitivity, suppose \(h\) is signature-same to \(k\), and \(k\) is signature-same to \(l\).  The two signatures generated for \(k\) are internally the same by signature determinacy.  Transitivity of \(\HSame\) then composes the answer-history sameness witnesses.
 \end{proof}

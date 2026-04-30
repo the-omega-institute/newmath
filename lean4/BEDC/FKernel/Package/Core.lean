@@ -85,6 +85,11 @@ inductive psame (bundle : ProbeBundle ProbeName) : Pkg → Pkg → Prop where
   | intro {s t : BHist} {p q : Pkg} :
       TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
 
+def ConcretePackageSamenessPolicy [AskSetup] [PackageSetup]
+    (bundle : ProbeBundle ProbeName) : Prop :=
+  ∀ {s t : BHist} {p q : Pkg},
+    TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q
+
 omit [AskSetup] P in
 theorem psame_source_history_pair [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} {p q : Pkg} :

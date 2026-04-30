@@ -5,6 +5,7 @@ import BEDC.FKernel.Gap.Comp
 import BEDC.FKernel.Gap.Policy
 import BEDC.FKernel.Gap.Construction
 import BEDC.FKernel.Gap.Globalize
+import BEDC.FKernel.Gap.Globalize.Instance
 import BEDC.FKernel.Gap.Globalize.Classification
 import BEDC.FKernel.Gap.Globalize.Completeness
 import BEDC.FKernel.Gap.DomainTransport
