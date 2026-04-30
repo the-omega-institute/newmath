@@ -70,7 +70,6 @@ theorem ExactGlobalizeBase_sound_complete
   case right =>
     intro base
     exact ex.completeness h k p q hp hq base
-
 theorem ExactGlobalizeBase_from_fields
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (coverage : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h)
@@ -199,7 +198,6 @@ theorem ExactGlobalizeBase_iff_fields {s : BaseReflectionSetup} {P : s.Pi} {D : 
         cases rest with
         | intro soundness completeness =>
             exact ExactGlobalizeBase_from_fields coverage soundness completeness
-
 theorem ExactGlobalizeBase_classify_iff
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
     {h k : s.Hist} {p q : s.Pkg}
@@ -215,6 +213,11 @@ theorem ExactGlobalizeBase_classify_iff
     | intro hsig =>
         exact ex.soundness h k p q hp hq hsig
 
+theorem ExactGlobalizeBase_classification_field {s : BaseReflectionSetup} {P : s.Pi}
+    {D : s.Domain} (ex : ExactGlobalizeBase s P D) :
+    ∀ {h k : s.Hist} {p q : s.Pkg}, s.InGapSig P D p h → s.InGapSig P D q k →
+      (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k)) := by
+  intro h k p q hp hq; exact ExactGlobalizeBase_classify_iff ex hp hq
 theorem ExactGlobalizeBase_symmetric_classify_iff
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (eqv : HSameEquiv s)
     (ex : ExactGlobalizeBase s P D) {h k : s.Hist} {p q : s.Pkg}
@@ -249,7 +252,6 @@ theorem ExactGlobalizeBase_coverage_and_classification
   case right =>
     intro h k p q hp hq
     exact ExactGlobalizeBase_classify_iff ex hp hq
-
 theorem ExactGlobalizeBase_classification_four_fields
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D) :
     (∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h) ∧
@@ -286,7 +288,6 @@ theorem ExactGlobalizeBase_classify_directions
     exact (ExactGlobalizeBase_classify_iff ex hp hq).mp
   case right =>
     exact (ExactGlobalizeBase_classify_iff ex hp hq).mpr
-
 theorem no_scaffold_laundering_fields_and_classifier
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) :

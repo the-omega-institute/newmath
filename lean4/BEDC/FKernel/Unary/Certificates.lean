@@ -106,6 +106,21 @@ theorem nat_up_certificate_pattern_classifier_ledger :
         · exact Nonempty.intro classifier
         · exact Nonempty.intro ledger
 
+theorem nat_up_certificate_source_pattern_classifier_ledger :
+    Nonempty (@SourceSpec MinimalNameCertSetup) ∧ Nonempty (@PatternSpec MinimalNameCertSetup) ∧
+      Nonempty (@ClassifierSpec MinimalNameCertSetup) ∧
+        Nonempty (@LedgerPolicy MinimalNameCertSetup) := by
+  have cert : @NameCert MinimalNameCertSetup UnaryName := nat_up_name_certificate
+  cases cert with
+  | mk source pattern classifier _ ledger =>
+      constructor
+      · exact Nonempty.intro source
+      · constructor
+        · exact Nonempty.intro pattern
+        · constructor
+          · exact Nonempty.intro classifier
+          · exact Nonempty.intro ledger
+
 theorem nat_up_name_certificate_complete :
     NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧
       Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
