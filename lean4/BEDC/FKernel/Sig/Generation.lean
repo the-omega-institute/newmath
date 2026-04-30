@@ -261,4 +261,38 @@ theorem signature_generation_bundle_append_inversion [AskSetup]
                                       (Ext.e1 tailResult))
                                     (And.intro rightSig (cont_step_one tailCont))))
 
+theorem signature_generation_three_bundle_coherence [AskSetup]
+    {left middle right : ProbeBundle ProbeName} {h s t w : BHist} :
+    SigRel left h s -> SigRel middle h t -> SigRel right h w ->
+      exists a : BHist, exists b : BHist, exists uL : BHist, exists uR : BHist,
+        SigRel (bundleAppend left middle) h a /\ Cont t s a /\
+        SigRel (bundleAppend (bundleAppend left middle) right) h uL /\ Cont w a uL /\
+        SigRel (bundleAppend middle right) h b /\ Cont w t b /\
+        SigRel (bundleAppend left (bundleAppend middle right)) h uR /\ Cont b s uR /\
+        hsame uL uR := by
+  intro leftSig middleSig rightSig
+  cases signature_generation_bundle_append leftSig middleSig with
+  | intro a leftMiddle =>
+      cases leftMiddle with
+      | intro middleOverLeft leftMiddleSig =>
+          cases signature_generation_bundle_append leftMiddleSig rightSig with
+          | intro uL leftGrouped =>
+              cases leftGrouped with
+              | intro rightOverLeftMiddle leftGroupedSig =>
+                  cases signature_generation_bundle_append middleSig rightSig with
+                  | intro b middleRight =>
+                      cases middleRight with
+                      | intro rightOverMiddle middleRightSig =>
+                          cases signature_generation_bundle_append leftSig middleRightSig with
+                          | intro uR rightGrouped =>
+                              cases rightGrouped with
+                              | intro middleRightOverLeft rightGroupedSig =>
+                                  exact
+                                    ⟨a, b, uL, uR, leftMiddleSig, middleOverLeft,
+                                      leftGroupedSig, rightOverLeftMiddle, middleRightSig,
+                                      rightOverMiddle, rightGroupedSig, middleRightOverLeft,
+                                      hsame_symm
+                                        (cont_assoc_hsame rightOverMiddle middleRightOverLeft
+                                          middleOverLeft rightOverLeftMiddle)⟩
+
 end BEDC.FKernel.Sig

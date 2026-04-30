@@ -39,4 +39,11 @@ theorem cont_mutual_extension_hsame {h k leftTail rightTail : BHist} :
   cases leftEmpty
   exact left.symm
 
+theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
+    Cont a b r -> Cont a' d r' -> hsame a a' -> hsame r r' -> hsame b d := by
+  intro left right sameContext sameResult
+  cases sameContext
+  cases sameResult
+  exact cont_left_cancel left right
+
 end BEDC.FKernel.Cont
