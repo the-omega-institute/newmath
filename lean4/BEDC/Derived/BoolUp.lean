@@ -124,6 +124,13 @@ theorem BoolHistoryCarrier_e1_tail_empty {h : BEDC.FKernel.Hist.BHist} :
   | inr oneCase =>
       exact BEDC.FKernel.Hist.hsame_e1_iff.mp oneCase
 
+theorem BoolHistoryCarrier_e1_e1_absurd {h : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryCarrier (BEDC.FKernel.Hist.BHist.e1 (BEDC.FKernel.Hist.BHist.e1 h)) ->
+      False := by
+  intro carrier
+  exact BEDC.FKernel.Hist.not_hsame_e1_empty
+    (BoolHistoryCarrier_e1_tail_empty carrier)
+
 theorem BoolHistoryCarrier_e1_iff_tail_empty {h : BEDC.FKernel.Hist.BHist} :
     BoolHistoryCarrier (BEDC.FKernel.Hist.BHist.e1 h) ↔
       BEDC.FKernel.Hist.hsame h BEDC.FKernel.Hist.BHist.Empty := by

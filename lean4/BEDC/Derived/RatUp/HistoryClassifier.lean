@@ -5,6 +5,16 @@ namespace BEDC.Derived.RatUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+theorem RatHistoryCarrier_e0_absurd {tail : BEDC.FKernel.Hist.BHist} :
+    RatHistoryCarrier (BEDC.FKernel.Hist.BHist.e0 tail) -> False := by
+  intro carrier
+  cases carrier with
+  | intro _ signData =>
+      cases signData with
+      | intro _ ratCarrier =>
+          exact PositiveUnaryDenominator_e0_absurd
+            (RatCarrier_positive_denominator ratCarrier)
+
 theorem RatHistoryClassifier_append_unary_denominator_closed {d e tailD tailE : BHist} :
     RatHistoryClassifier d e -> UnaryHistory tailD -> hsame tailD tailE ->
       RatHistoryClassifier (BEDC.FKernel.Cont.append d tailD)
