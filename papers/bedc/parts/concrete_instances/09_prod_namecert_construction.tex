@@ -232,6 +232,23 @@ $$
 Unfold $\mathsf{ProdHistoryCarrier}$ and $\mathsf{ProdPairRep}$. In the forward direction, the carrier witness exposes component histories $l$ and $r$, source witnesses $L(l)$ and $R(r)$, and the continuation witness $\Cont(l,r,h)$; these are exactly the displayed pair representation witnesses. In the reverse direction, a displayed pair representation supplies the same two component histories, source witnesses, and continuation witness, so it rebuilds the product history carrier witness for $h$.
 \end{proof}
 
+\begin{theorem}[Product pair representation determinism]
+\label{thm:prod-pair-rep-determinism}
+For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and histories $h,k,l,r$,
+if $\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l,r)$, then
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+\end{theorem}
+\begin{proof}
+Unfold both displayed pair representations. The first supplies $L(l)$, $R(r)$,
+and $\Cont(l,r,h)$; the second supplies the same component source witnesses and
+$\Cont(l,r,k)$. These data rebuild $\mathsf{ProdHistoryCarrier}(L,R,h)$ and
+$\mathsf{ProdHistoryCarrier}(L,R,k)$. Applying continuation determinism to the
+two continuation witnesses gives $\hsame(h,k)$, and the two endpoint carriers
+together with this $\hsame$ witness rebuild
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+\end{proof}
+
 \begin{definition}[Product pair-representation coherence]
 \label{def:prod-pair-rep-coherent}
 For source classifiers $\sim_L$ and $\sim_R$, define
