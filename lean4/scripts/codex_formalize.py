@@ -1363,6 +1363,31 @@ def _round_diff_base(wt: WorktreeInfo) -> str:
     return wt.formalization_base_sha or wt.base_sha
 
 
+def _round_commit_base(wt: WorktreeInfo) -> str:
+    """Return the parent of this round's first own commit, excluding rebased upstream commits."""
+    if not wt.base_sha:
+        return ""
+    try:
+        result = run_cmd(
+            ["git", "log", "--reverse", "--format=%H%x00%s", f"{wt.base_sha}..HEAD"],
+            cwd=wt.path,
+        )
+    except Exception:
+        return _round_diff_base(wt)
+    prefix = f"R{wt.round_number}:"
+    for line in (result.stdout or "").splitlines():
+        sha, sep, subject = line.partition("\x00")
+        if sep and subject.startswith(prefix):
+            try:
+                parent = run_cmd(["git", "rev-parse", f"{sha}^"], cwd=wt.path).stdout.strip()
+            except Exception:
+                return _round_diff_base(wt)
+            if parent:
+                wt.formalization_base_sha = parent
+                return parent
+    return _round_diff_base(wt)
+
+
 def _lines_added_in_round(wt: WorktreeInfo, rel_path: str) -> set[int]:
     """Line numbers (1-indexed, of the HEAD version) that this round added to
     `rel_path`."""
@@ -1850,9 +1875,10 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
     that already exist on origin); a window-based comparison against
     `pre_commits` mistakenly counted those as new in earlier versions.
     """
+    base = _round_commit_base(wt) or wt.base_sha
     if wt.base_sha:
         result = run_cmd(
-            ["git", "log", "--oneline", f"{wt.base_sha}..HEAD"],
+            ["git", "log", "--oneline", f"{base}..HEAD"],
             cwd=wt.path,
         )
         new = [l.strip() for l in result.stdout.splitlines() if l.strip()]
