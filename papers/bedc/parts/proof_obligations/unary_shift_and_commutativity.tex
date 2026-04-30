@@ -52,12 +52,12 @@ then
 
 \begin{theorem}[Commutativity from right-shift and \(\Eone\)-congruence]
 \label{thm:comm-from-obligations}
-Assume unary right-shift, \(\Eone\)-congruence, continuation unit laws, continuation associativity up to \(\hsame\), and unary closure of continuation. Then unary continuation commutativity holds.
+Assume unary right-shift and \(\Eone\)-congruence. Then unary continuation commutativity holds.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Unary.comm\_from\_obligations}
 
 \begin{proof}
-Induct on the unary derivation of the left input \(h\). The empty case follows from the unit laws. In the step case, write \(h=\Eone(h_0)\). Invert \(\ContR(\Eone(h_0),k,r)\) to obtain \(u\) with \(\ContR(h_0,k,u)\) and \(\hsame(r,\Eone(u))\). Apply unary right-shift to \(\ContR(k,\Eone(h_0),r')\) to obtain \(v\) with \(\ContR(k,h_0,v)
+Induct on the unary derivation of the left input \(h\). The empty case follows from Theorem~\ref{thm:continuation-unit-laws}. In the step case, write \(h=\Eone(h_0)\). Invert \(\ContR(\Eone(h_0),k,r)\) to obtain \(u\) with \(\ContR(h_0,k,u)\) and \(\hsame(r,\Eone(u))\). Apply unary right-shift to \(\ContR(k,\Eone(h_0),r')\) to obtain \(v\) with \(\ContR(k,h_0,v)
 \) and \(\hsame(r',\Eone(v))\). By the induction hypothesis, \(\hsame(u,v)\). By \(\Eone\)-congruence, \(\hsame(\Eone(u),\Eone(v))\). Transitivity of \(\hsame\) yields \(\hsame(r,r')\).
 \end{proof}
 \leanchecked{BEDC.FKernel.Unary.unary\_comm\_from\_obligations}
@@ -70,7 +70,7 @@ The name \(\AddUp\) is licensed only after the unary right-shift and \(\Eone\)-c
 \leanchecked{BEDC.FKernel.Unary.additive\_naming\_boundary\_from\_obligations}
 
 \begin{proof}
-The monoid-like name requires unit and associativity. The additive name requires the additional commutativity field. Theorem~\ref{thm:comm-from-obligations} reduces that field to two smaller obligations plus the already known continuation laws.
+The monoid-like name requires unit and associativity. The additive name requires the additional commutativity field. Theorem~\ref{thm:comm-from-obligations} reduces that field to the two named obligations.
 \end{proof}
 
 \section{Unary Shift and the Additive License}

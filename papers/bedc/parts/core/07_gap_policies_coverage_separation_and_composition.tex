@@ -31,19 +31,19 @@ A gap policy \(\GapPol(\Pi,D)\) over source specification \(D\) consists of:
 \leanvariant{BEDC.FKernel.Gap.GapPolicyInterface\_generation\_projection}
 
 \begin{theorem}[Gap coverage]
-Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi)\), and \(\GapPol(\Pi,D)\). Every admitted source history belongs to at least one generated package gap.
+Assume \(\GapPol(\Pi,D)\). Every admitted source history belongs to at least one generated package gap.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_coverage}
 \begin{proof}
-By the totality field of \(\AskPol\), an admitted history generates a signature. By package existence, the signature has a package token. By the generation and coverage fields of \(\GapPol\), the source history lies in that package's gap.
+This is the coverage field of \(\GapPol\), which directly supplies a package gap containing each admitted source history.
 \end{proof}
 
 \begin{theorem}[Gap separation]
-Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi)\), and \(\GapPol(\Pi,D)\). If an admitted source history belongs to the gaps of package tokens \(p\) and \(q\), then \(\psame(p,q)\).
+Assume \(\GapPol(\Pi,D)\). If an admitted source history belongs to the gaps of package tokens \(p\) and \(q\), then \(\psame(p,q)\).
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_separation}
 \begin{proof}
-By the generation field of \(\GapPol\), both memberships arise from signatures of the same source history and package tokens for those signatures. Signature determinacy under \(\AskPol\) gives \(\hsame\) of the two signatures. Package extensionality then gives \(\psame(p,q)\).
+This is the separation field of \(\GapPol\), applied to the two gap memberships of the same admitted source history.
 \end{proof}
 
 \section{Composite gaps}
