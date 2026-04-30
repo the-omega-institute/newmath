@@ -12,7 +12,7 @@ The product interface $\ProdUp$ has two layers. The checked history-envelope cer
   \item \textbf{Classifier choice}: $\mathsf{ProdClassifierSpec}$ is the typed componentwise classifier; $\mathsf{ProdHistoryClassifier}$ is the checked history-envelope classifier consisting of two $\mathsf{ProdHistoryCarrier}$ endpoint witnesses and endpoint $\hsame$.
   \item \textbf{Stability obligations}: component transport, continuation transport, unary closure from components, history-envelope classifier symmetry and transitivity, typed classifier symmetry and transitivity, and typed coordinate inversion.
   \item \textbf{Ledger}: no product quotient is used; pairing records both component witnesses and their generated continuation.
-  \item \textbf{Core theorem list}: append introduction, continuation introduction, carrier transport, unary closure, classifier equivalence, component-envelope inversion, and the semantic name certificate.
+  \item \textbf{Core theorem list}: append introduction, continuation introduction, carrier transport, unary closure, classifier equivalence, component-envelope inversion, componentwise-to-envelope descent, and the semantic name certificate.
   \item \textbf{Exactness predicate}: typed classification holds exactly when both coordinates classify in their respective sources; history-envelope classification holds when both endpoints lie in $\mathsf{ProdHistoryCarrier}(L,R)$ and are related by endpoint $\hsame$.
   \item \textbf{Standard bridge}: the checked history-envelope bridge reads back only as a generated product endpoint with a displayed pair representation. Ordinary ordered-pair and componentwise readback belong to the componentwise certificate target under $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and the typed $\mathsf{ProdClassifierSpec}$ fields.
   \item \textbf{Status}: the product-history semantic envelope is checked in Lean from explicit left and right carrier witnesses; the explicit ordered-product interface is conditional on $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and uses the typed componentwise classifier and the projection fields checked around $\mathsf{prodClassifier\_iff}$.
@@ -329,6 +329,36 @@ representation $(l',r')$, yielding $l_k\sim_L l'$ and $r_k\sim_R r'$. The
 transitivity fields of the two source $\NameCert$ witnesses compose the left
 chain $l\sim_L l_h\sim_L l_k\sim_L l'$ and the right chain
 $r\sim_R r_h\sim_R r_k\sim_R r'$.
+\end{proof}
+
+The descent theorem instantiates the roadmap template as traditional ordered-pair descent over the BEDC source $\mathsf{BHist}$ with $\Cont$, carrier $\mathsf{ProdHistoryCarrier}$, classifier bridge from componentwise to envelope, ledger by displayed pair representations, and status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Product componentwise history classifier descends to envelope]
+\label{thm:prod-component-history-classifier-descends-to-envelope}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers. Assume the source classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+If $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ holds,
+then $\mathsf{ProdHistoryClassifier}(L,R,h,k)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the componentwise classifier into component histories
+$l_h,r_h,l_k,r_k$, pair representations
+$\mathsf{ProdPairRep}_{L,R}(h,l_h,r_h)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l_k,r_k)$, and component links
+$l_h\sim_L l_k$ and $r_h\sim_R r_k$. The two $\hsame$-sound assumptions turn
+the component links into $\hsame(l_h,l_k)$ and $\hsame(r_h,r_k)$. The pair
+representations expose $\Cont(l_h,r_h,h)$ and $\Cont(l_k,r_k,k)$, so
+continuation respect for $\hsame$ yields $\hsame(h,k)$. Pair-representation
+coverage rebuilds $\mathsf{ProdHistoryCarrier}(L,R,h)$ and
+$\mathsf{ProdHistoryCarrier}(L,R,k)$ from the two displayed pair
+representations, and these two endpoint carriers together with
+$\hsame(h,k)$ rebuild $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
 \end{proof}
 
 \begin{definition}[Prod stability certificate]
