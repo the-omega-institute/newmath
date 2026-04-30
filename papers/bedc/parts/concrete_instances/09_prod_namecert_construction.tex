@@ -191,6 +191,7 @@ Transport the left source witness $L(l)$ along $\hsame(l,l')$ to obtain $L(l')$,
 The stability certificate consists of:
 \begin{enumerate}
   \item componentwise reflexivity
+  \item componentwise symmetry
   \item componentwise transitivity
   \item closure under pair construction
   \item projection stability for first and second components
@@ -216,6 +217,26 @@ Invert the product classifier witnesses by their constructor. The first
 components compose by transitivity of $R_A$, the second components compose by
 transitivity of $R_B$, and the paired typed witness rebuilds the product
 classifier.
+\end{proof}
+
+\begin{theorem}[Product classifier symmetry from source certificates]
+\label{thm:prod-classifier-symm-from-namecert}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their
+source classifiers, and let
+$\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$ be source name certificates. For product
+carriers $x,y:\mathsf{ProdCarrier}(\mathsf{BHist},\mathsf{BHist})$,
+$\mathsf{ProdClassifierSpec}(\sim_L,\sim_R,x,y)$ implies
+$\mathsf{ProdClassifierSpec}(\sim_L,\sim_R,y,x)$.
+\end{theorem}
+\begin{proof}
+Invert the product classifier witness into its left and right component
+classifier proofs. Apply the $\mathsf{equiv\_symm}$ field of
+$\mathsf{cert}_L$ to reverse the left component, and the
+$\mathsf{equiv\_symm}$ field of $\mathsf{cert}_R$ to reverse the right
+component. The product classifier constructor then rebuilds the componentwise
+witness in the opposite order.
 \end{proof}
 
 \begin{theorem}[History product classifier is symmetric]
