@@ -74,6 +74,27 @@ theorem nameCert_classifier_stability_ledger_from_cert [NameCertSetup] {name : D
         · exact Nonempty.intro stability
         · exact Nonempty.intro ledger
 
+theorem nameCert_nonempty_iff_field_witnesses [NameCertSetup] {name : DerivedName} :
+    Nonempty (NameCert name) ↔
+      Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧
+        Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  constructor
+  · intro certNonempty
+    cases certNonempty with
+    | intro cert =>
+        exact nameCert_field_witnesses cert
+  · intro witnesses
+    cases witnesses with
+    | intro sourceNonempty rest =>
+        cases rest with
+        | intro patternNonempty rest =>
+            cases rest with
+            | intro classifierNonempty rest =>
+                cases rest with
+                | intro stabilityNonempty ledgerNonempty =>
+                    exact nameCert_from_field_nonempty sourceNonempty patternNonempty
+                      classifierNonempty stabilityNonempty ledgerNonempty
+
 theorem limit_like_interfaces_are_derived [NameCertSetup] {Thread : Type} {name : DerivedName} :
     SealInterface Thread name → Nonempty (NameCert name) ∧ Nonempty StabilityCert ∧
       Nonempty LedgerPolicy := by

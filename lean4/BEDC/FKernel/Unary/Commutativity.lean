@@ -130,6 +130,16 @@ theorem unary_shift_witness_exact_append {k h r' : BHist} :
   intro _ hr'
   exact ⟨append k h, rfl, hr', rfl⟩
 
+theorem unary_shift_witness_with_result_shape {k h r' : BHist} :
+    UnaryHistory k → Cont k (.e1 h) r' →
+      ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) ∧ r' = .e1 v := by
+  intro uk hr'
+  cases unary_shift_result_shape uk hr' with
+  | intro v shifted =>
+      cases shifted with
+      | intro hv shape =>
+          exact ⟨v, hv, shape, shape⟩
+
 theorem add_up_commutative_certificate_upgrade {h k r rprime : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h rprime →
       NameCert AddName ∧ Nonempty StabilityCert ∧ hsame r rprime := by

@@ -286,6 +286,11 @@ theorem external_append_right_unit_unique {a b : BWord} : append a b = a → b =
     Eq.trans h (external_append_empty_right a).symm
   exact external_append_left_cancel b BHist.Empty a hright
 
+theorem external_append_unit_uniqueness_pair :
+    (∀ {a b : BWord}, append a b = b → a = BHist.Empty) ∧
+      (∀ {a b : BWord}, append a b = a → b = BHist.Empty) := by
+  exact ⟨external_append_left_absorb_empty, external_append_right_unit_unique⟩
+
 theorem external_finite_kernel_soundness :
     (∀ w : BWord, append w BHist.Empty = w) ∧
       (∀ a b c : BWord, append (append a b) c = append a (append b c)) :=
