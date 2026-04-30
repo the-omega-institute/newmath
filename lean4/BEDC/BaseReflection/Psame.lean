@@ -241,6 +241,11 @@ theorem PsameBase_inversion {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
         sigSame := same
       }
 
+theorem psame_base_inversion {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
+    PsameBase s P p q → Nonempty (PBaseData s P p q) := by
+  intro h
+  exact PsameBase_inversion h
+
 theorem PsameBase_inversion_witness_object {s : BaseReflectionSetup} {P : s.Pi} {p q : s.Pkg} :
     PsameBase s P p q →
       ∃ data : PBaseData s P p q,

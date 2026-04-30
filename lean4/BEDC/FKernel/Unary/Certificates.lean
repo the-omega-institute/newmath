@@ -250,6 +250,12 @@ theorem unary_addition_like_unit_with_certificate :
   · intro h left right uh hleft hright
     exact unary_cont_unit uh hleft hright
 
+theorem unary_addition_like_unit_spine {h left right : BHist} :
+    UnaryHistory h → Cont h BHist.Empty left → Cont BHist.Empty h right →
+      UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h := by
+  intro uh hleft hright
+  exact unary_cont_unit uh hleft hright
+
 def AddLedgerPolicy : Prop :=
   forall {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r
 

@@ -33,6 +33,22 @@ theorem sameSig_hsame_witness [AskSetup] {bundle : ProbeBundle ProbeName} {h k :
       | intro t data =>
           exact Exists.intro s (Exists.intro t data.right.right)
 
+theorem signature_sameness_witnesses [AskSetup] {bundle : ProbeBundle ProbeName}
+    {h k : BHist} :
+    SameSig bundle h k → ∃ s : BHist, ∃ t : BHist,
+      SigRel bundle h s ∧ SigRel bundle k t ∧ hsame s t := by
+  intro hsameSig
+  cases hsameSig with
+  | intro s rest =>
+      cases rest with
+      | intro t data =>
+          cases data with
+          | intro hs tail =>
+              cases tail with
+              | intro ht hst =>
+                  exact Exists.intro s
+                    (Exists.intro t (And.intro hs (And.intro ht hst)))
+
 theorem sameSig_empty_bundle [AskSetup] {h k : BHist} :
     SameSig (ProbeBundle.Bnil : ProbeBundle ProbeName) h k := by
   exact Exists.intro BHist.Empty
