@@ -24,6 +24,13 @@ def UnarySourceSpec (h : BHist) : Prop := UnaryHistory h
 theorem UnarySourceSpec_iff_unaryHistory {h : BHist} : UnarySourceSpec h ↔ UnaryHistory h := by
   rfl
 
+theorem UnarySourceSpec_induction {P : BHist -> Prop} :
+    P BHist.Empty ->
+      (forall h : BHist, UnarySourceSpec h -> P h -> P (BHist.e1 h)) ->
+      forall h : BHist, UnarySourceSpec h -> P h := by
+  intro base step h uh
+  exact unary_history_induction base (by intro h uh ph; exact step h uh ph) h uh
+
 local instance : DomainSetup := UnaryDomainSetup
 
 theorem unary_domain_policy :

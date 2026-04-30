@@ -4,6 +4,11 @@ namespace BEDC.FKernel.Cont
 
 open BEDC.FKernel.Hist
 
+theorem cont_determinacy_up_to_hsame_spine {h k r r' : BHist} :
+    Cont h k r -> Cont h k r' -> hsame r r' := by
+  intro left right
+  exact cont_deterministic left right
+
 theorem cont_e0_result_witness {h k r : BHist} :
     Cont h (BHist.e0 k) r -> exists r0 : BHist, r = BHist.e0 r0 /\ Cont h k r0 := by
   intro hcont

@@ -17,6 +17,7 @@ It expresses that emitting mark \(m\) after history \(h\) generates result \(r\)
 \end{definition}
 
 \begin{theorem}[Extension determinacy up to history-sameness]
+\label{thm:extension-determinacy-up-to-history-sameness}
 If
 \[
 \ExtR(m,h,r)
@@ -25,6 +26,7 @@ If
 \]
 then \(\HSame(r,r')\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_determinacy\_up\_to\_hsame\_spine}
 \begin{proof}
 By case analysis on the generated extension proof. If \(m=\bzero\), both generated results have the form \(\Ezero(h)\), hence they are history-same by reflexivity. If \(m=\bone\), both generated results have the form \(\Eone(h)\), hence they are history-same by reflexivity. No cross mark case is generated for the same mark input.
 \end{proof}
@@ -51,8 +53,10 @@ It expresses continuation of history \(h\) by history \(k\) without treating con
 \end{definition}
 
 \begin{theorem}[Continuation determinacy up to history-sameness]
+\label{thm:continuation-determinacy-up-to-history-sameness}
 If \(\ContR(h,k,r)\) and \(\ContR(h,k,r')\), then \(\HSame(r,r')\).
 \end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_determinacy\_up\_to\_hsame\_spine}
 \begin{proof}
 By induction on the first generated continuation proof. In the empty case, the second proof must also be the empty case, hence both results are \(k\). In the \(\Ezero\) case, the second proof must also have outer \(\Ezero\) by closed generation; apply the induction hypothesis to the sub-results and then apply the \(\Ezero\) constructor for \(\HSame\). The \(\Eone\) case is analogous.
 \end{proof}

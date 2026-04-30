@@ -28,6 +28,11 @@ theorem ext_deterministic :
   intro h r r' m hr hr'
   cases hr <;> cases hr' <;> rfl
 
+theorem ext_determinacy_up_to_hsame_spine {h r r' : BHist} {m : BMark} :
+    Ext h m r -> Ext h m r' -> hsame r r' := by
+  intro left right
+  exact ext_deterministic left right
+
 theorem ext_mark_deterministic_from_result :
     ∀ {h r : BHist} {m n : BMark}, Ext h m r → Ext h n r → msame m n := by
   intro h r m n hr hs
