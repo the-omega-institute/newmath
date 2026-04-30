@@ -59,6 +59,17 @@ theorem PackageTokenPolicy_fields [AskSetup] [PackageSetup]
   · exact policy.reflection
 
 omit [AskSetup] P in
+theorem PackageTokenPolicy_classification_fields_on_introduced [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle) :
+    (∀ {s t : BHist} {p q : Pkg},
+      TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t) ∧
+    (∀ {s t : BHist} {p q : Pkg},
+      TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q) := by
+  constructor
+  · exact policy.reflection
+  · exact policy.soundness
+
+omit [AskSetup] P in
 theorem PackageTokenPolicy_soundness_reflection_pair [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle) :
     ((forall {s t : BHist} {p q : Pkg},

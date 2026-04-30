@@ -199,6 +199,35 @@ theorem concrete_globalize_completeness_with_tokens [AskSetup] [PackageSetup] [D
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     packagePolicy hp hq hpq
 
+omit [AskSetup] [PackageSetup] G in
+theorem concrete_globalize_classifies_with_token_witnesses_iff [AskSetup] [PackageSetup]
+    [DomainSetup] {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
+    (packagePolicy : PackageTokenPolicy bundle) (hp : InGapSig bundle D p h)
+    (hq : InGapSig bundle D q k) :
+    psame bundle p q ↔
+      ∃ s : BHist, ∃ t : BHist,
+        SigRel bundle h s ∧ SigRel bundle k t ∧
+          TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t := by
+  constructor
+  · intro hpq
+    exact internalized_globalize_completeness_with_tokens
+      (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
+      packagePolicy hp hq hpq
+  · intro witnesses
+    cases witnesses with
+    | intro s rest =>
+        cases rest with
+        | intro t data =>
+            cases data with
+            | intro _ tail =>
+                cases tail with
+                | intro _ tokenData =>
+                    cases tokenData with
+                    | intro leftTok tokenTail =>
+                        cases tokenTail with
+                        | intro rightTok sameHist =>
+                            exact packagePolicy.soundness leftTok rightTok sameHist
+
 theorem internalized_globalize_completeness_hsame_only
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle -> InGapSig bundle D p h -> InGapSig bundle D q k ->
