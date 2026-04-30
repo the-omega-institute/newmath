@@ -87,6 +87,18 @@ theorem ExactGlobalizeBase_from_fields
     completeness := completeness
   }
 
+theorem ExactGlobalizeBase_constructor
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (coverage : forall h, s.InDom D h -> exists p, s.InGapSig P D p h)
+    (soundness : forall h k p q,
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      GeneratedSameSig s P h k -> PsameBase s P p q)
+    (completeness : forall h k p q,
+      s.InGapSig P D p h -> s.InGapSig P D q k ->
+      PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)) :
+    ExactGlobalizeBase s P D := by
+  exact ExactGlobalizeBase_from_fields coverage soundness completeness
+
 theorem ExactGlobalizeBase_coverage
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) : ∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h := by

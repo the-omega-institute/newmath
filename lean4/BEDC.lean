@@ -7,10 +7,12 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Sig.WitnessChain
 import BEDC.FKernel.Sig.SameSig
+import BEDC.FKernel.Sig.Determinacy
 import BEDC.FKernel.Package
 import BEDC.FKernel.ExternalBinary
 import BEDC.FKernel.Gap
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.NameCert.Descent
 import BEDC.FKernel.NameCert.StabilityMode
 import BEDC.FKernel.Unary
 import BEDC.BaseReflection
