@@ -257,6 +257,36 @@ theorem internalized_globalize_completeness_concrete
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     packagePolicy hp hq hpq
 
+theorem internalized_globalize_completeness_with_tokens
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
+    PackageTokenPolicy bundle → InGapSig bundle D p h → InGapSig bundle D q k →
+      psame bundle p q →
+      ∃ s : BHist, ∃ t : BHist,
+        SigRel bundle h s ∧ SigRel bundle k t ∧
+          TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t := by
+  intro packagePolicy hp hq hpq
+  unfold InGapSig at hp
+  unfold InGapSig at hq
+  cases hp with
+  | intro _ hpSig =>
+      cases hq with
+      | intro _ hqSig =>
+          cases hpSig with
+          | intro s hsData =>
+              cases hqSig with
+              | intro t htData =>
+                  cases hsData with
+                  | intro hs hpTok =>
+                      cases htData with
+                      | intro ht hqTok =>
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro hs
+                                (And.intro ht
+                                  (And.intro hpTok
+                                    (And.intro hqTok
+                                      (packagePolicy.reflection hpTok hqTok hpq))))))
+
 theorem internalized_globalize_soundness
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → PackageTokenPolicy bundle →
