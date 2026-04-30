@@ -43,12 +43,12 @@ For a source carrier $S:\Hist\to\mathsf{Prop}$, define $\mathsf{ListHistoryCarri
 \end{enumerate}
 \end{definition}
 
-\begin{lemma}[List history carrier case analysis]
-\label{lem:list-history-carrier-cases}
-For any source carrier $S:\Hist\to\mathsf{Prop}$ and any BEDC history $h$, if $\mathsf{ListHistoryCarrier}_S(h)$, then either $\hsame(h,\emp)$, or there exist histories $a,t,p$ such that $S(a)$, $\mathsf{ListHistoryCarrier}_S(t)$, $\ContR(a,t,p)$, and $\hsame(h,\Eone(p))$.
-\end{lemma}
+\begin{theorem}[List history carrier generated cases]
+\label{thm:list-history-carrier-generated-cases}
+For any source carrier $S:\Hist\to\mathsf{Prop}$ and any history $h$, if $\mathsf{ListHistoryCarrier}_S(h)$, then either $\hsame(h,\emp)$, or there exist histories $a,t,p$ such that $S(a)$, $\mathsf{ListHistoryCarrier}_S(t)$, $\ContR(a,t,p)$, and $\hsame(h,\Eone(p))$.
+\end{theorem}
 \begin{proof}
-Proceed by cases on the displayed generation of the least predicate $\mathsf{ListHistoryCarrier}_S$. The nil generator gives the left disjunct directly. The cons generator exposes the histories $a,t,p$ together with the source witness, recursive carrier witness, continuation witness, and endpoint $\hsame$ witness, giving the right disjunct.
+Apply the induction principle for the least predicate displayed in the preceding definition. The nil constructor gives the left disjunct directly. The cons constructor exposes its witnesses $a,t,p$ together with $S(a)$, the recursive carrier witness for $t$, the continuation witness $\ContR(a,t,p)$, and the endpoint witness $\hsame(h,\Eone(p))$, which are exactly the data required for the right disjunct.
 \end{proof}
 
 \begin{theorem}[List history carrier transport]
@@ -420,7 +420,7 @@ Record the finite constructor spine and the source ledger for each element.
 Given a BEDC history source carrier $A : \mathsf{BHist} \to \mathsf{Prop}$, source classifier $\sim_A$, and source certificate $\mathsf{cert} : \NameCert(A,\sim_A)$, define $\mathsf{ListSource}(A)$ as the finite nil/cons carrier generated from source elements in $A$, define $\mathsf{ListClassifierSpec}(\sim_A)$ as the lifted structural classifier, define $\mathsf{ListPattern}(A)$ as the nil-or-cons constructor-shape predicate, and define $\mathsf{ListLedger}(A)$ as the visible length together with the source ledger for each element. These fields form the paper-side target $\mathsf{SemanticNameCert}(\mathsf{ListSource}(A),\mathsf{ListPattern}(A),\mathsf{ListLedger}(A),\mathsf{ListClassifierSpec}(\sim_A))$ for $\ListUp(A)$.
 \end{theorem}
 \begin{proof}
-The source $\NameCert$ supplies the head-level reflexivity, symmetry, transitivity, and carrier transport fields. The generated nil/cons carrier supplies the BEDC spine. Classifier reflexivity is by induction on that spine. Symmetry is the structural induction of Theorem~\ref{thm:list-classifier-symm-from-namecert}. Transitivity is the structural induction of Theorem~\ref{thm:list-classifier-trans-from-namecert}. Carrier transport follows by induction over the lifted classifier derivation, with nil transported to nil and cons transported componentwise by the source certificate and the tail induction hypothesis. Nil/cons case analysis uses Lemma~\ref{lem:list-history-carrier-cases} for the generated history carrier and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} for the classifier, length and source-ledger policy are read from the finite spine, and exactness is the matching-shape statement of Theorem~\ref{thm:list-classifier-case-exactness}.
+The source $\NameCert$ supplies the head-level reflexivity, symmetry, transitivity, and carrier transport fields. The generated nil/cons carrier supplies the BEDC spine. Classifier reflexivity is by induction on that spine. Symmetry is the structural induction of Theorem~\ref{thm:list-classifier-symm-from-namecert}. Transitivity is the structural induction of Theorem~\ref{thm:list-classifier-trans-from-namecert}. Carrier transport follows by induction over the lifted classifier derivation, with nil transported to nil and cons transported componentwise by the source certificate and the tail induction hypothesis. Nil/cons case analysis uses Theorem~\ref{thm:list-history-carrier-generated-cases} for the generated history carrier and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} for the classifier, length and source-ledger policy are read from the finite spine, and exactness is the matching-shape statement of Theorem~\ref{thm:list-classifier-case-exactness}.
 \end{proof}
 
 \begin{corollary}[\(\ListUp\) is licensed, not primitive]
