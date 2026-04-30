@@ -224,6 +224,22 @@ Proceed by cases on $\Pi$. In the empty case the displayed equality reduces to $
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_cons\_result\_inversion}
 
+\begin{theorem}[Probe bundle append split uniqueness at fixed left length]
+\label{thm:bundle-append-split-unique-fixed-length}
+For probe bundles $\Pi,\Theta,\Pi',\Theta'$, if
+$$
+\mathsf{BAppend}(\Pi,\Theta)=\mathsf{BAppend}(\Pi',\Theta')
+$$
+and
+$$
+\mathsf{BLEN}(\Pi)=\mathsf{BLEN}(\Pi'),
+$$
+then $\Pi=\Pi'$ and $\Theta=\Theta'$.
+\end{theorem}
+\begin{proof}
+Proceed by simultaneous cases on the two left bundles. The empty-empty case reduces the append equality to the suffix equality $\Theta=\Theta'$. The empty-cons and cons-empty cases contradict the displayed length equality by natural-number constructor no-confusion. In the cons-cons case, constructor injectivity on the append equality identifies the two head probes and gives equality of the appended tails; constructor injectivity on the length equality gives equal tail lengths. The induction hypothesis applied to the tails gives equality of the left tails and suffixes, and the head equality rebuilds $\Pi=\Pi'$.
+\end{proof}
+
 \section{Signature generation}
 
 \begin{definition}[Signature event]

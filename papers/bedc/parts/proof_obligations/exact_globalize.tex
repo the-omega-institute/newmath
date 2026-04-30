@@ -10,7 +10,10 @@ $$
   +
   \PkgTokPol(\Pi)
   +
-  \forall s,\;\exists p,\;\TokIntro(\Pi,s,p).
+  \forall h,s,\Delta,\;
+  \InDom(D,h)\wedge\Sig(\Pi,h,s,\Delta)
+  \Longrightarrow
+  \exists p,\;\TokIntro(\Pi,s,p).
 $$
 This chapter records the exactness theorem in its non-overclaiming form. Domain transport is the separate policy recorded in Theorem~\ref{thm:domain-transport}.
 
@@ -18,15 +21,15 @@ The predicate $\InGapSig(\Pi,D,p,h)$ is Definition~\ref{def:internalized-signatu
 
 \begin{theorem}[Concrete gap coverage]
 \label{thm:gap-coverage-globalize}
-Assume \(\AskPol(\Pi,D)\) and that token introduction is available for every generated signature. If \(\InDom(D,h)\), then there exists a token \(p\) such that
-\[
+Assume $\AskPol(\Pi,D)$ and the dependent generated-signature token condition: whenever $\InDom(D,h)$ and $\Sig(\Pi,h,s,\Delta)$, there exists a token $p$ with $\TokIntro(\Pi,s,p)$. If $\InDom(D,h)$, then there exists a token $p$ such that
+$$
   \InGapSig(\Pi,D,p,h).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_coverage\_globalize}
 
 \begin{proof}
-By the totality field of \(\AskPol(\Pi,D)\), the history \(h\) generates some signature \(s\) with evidence \(\Delta\). Token introduction supplies a token \(p\) with \(\TokIntro(\Pi,s,p)\). The three displayed judgments witness \(\InGapSig(\Pi,D,p,h)\).
+By the totality field of $\AskPol(\Pi,D)$, the admitted history $h$ generates some signature $s$ with evidence $\Delta$. The dependent token condition applied to $\InDom(D,h)$ and $\Sig(\Pi,h,s,\Delta)$ supplies a token $p$ with $\TokIntro(\Pi,s,p)$. The three displayed judgments witness $\InGapSig(\Pi,D,p,h)$.
 \end{proof}
 
 \begin{theorem}[Concrete gap separation]
