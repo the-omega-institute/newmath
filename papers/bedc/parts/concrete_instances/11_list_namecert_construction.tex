@@ -24,7 +24,8 @@ The list interface \(\ListUp\) is licensed over a source carrier endowed with a 
 \label{def:list-carrier}
 For a licensed source carrier \(A\), define the inductive list carrier by \(\mathsf{nil}\) and \(\mathsf{cons}(a,\ell)\).
 \end{definition}
-\leandef{BEDC.Derived.ListUp.ListCarrier}
+
+The checked $\ListUp$ lemmas below operate on a finite-spine classifier model, while the $\NameCert$ carrier remains the generated nil/cons BEDC carrier described in this definition.
 
 \section{The certificate}
 
@@ -294,6 +295,19 @@ reverse-reverse induction, giving the desired structural classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame\_inversion}
 
+\begin{theorem}[List classifier reverse equivalence]
+\label{thm:list-classifier-reverse-hsame-equiv}
+For BEDC history lists $xs$ and $ys$, structural classification by $\HSame$ is equivalent before and after reversing both lists:
+$$
+  \mathsf{ListClassifierSpec}(\hsame,xs,ys)
+  \Longleftrightarrow
+  \mathsf{ListClassifierSpec}(\hsame,\mathsf{reverse}(xs),\mathsf{reverse}(ys)).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the reverse-stability theorem. The reverse direction is the reverse-inversion theorem applied to the classified reversed lists.
+\end{proof}
+
 \begin{theorem}[List classifier append right cancellation]
 \label{thm:list-classifier-append-right-cancel-hsame}
 For BEDC history lists, if adding the same right suffix to two lists gives a
@@ -338,10 +352,10 @@ Record the finite constructor spine and the source ledger for each element.
 
 \begin{theorem}[Concrete $\ListUp$ certificate target]
 \label{thm:concrete-list-namecert}
-Assume a source carrier $A$ is equipped with a $\NameCert$ for the source classifier $\sim_A$. Let $\ListUp(A)$ be the generated list carrier with nil and cons constructors, and let $\mathsf{ListClassifierSpec}(\sim_A)$ be the lifted structural classifier. The field-by-field certificate target for $\ListUp(A)$ consists of the source $\NameCert$, the generated list carrier, the structural classifier, classifier reflexivity, classifier symmetry, classifier transitivity, carrier transport, nil/cons case analysis, the length and source-ledger policy, and exactness for the matching constructor shapes.
+Assume a source carrier $A$ is equipped with a $\NameCert$ for the source classifier $\sim_A$. Let $\ListUp(A)$ be the generated nil/cons BEDC carrier, and let $\mathsf{ListClassifierSpec}(\sim_A)$ be finite-spine classifier evidence for that carrier. The field-by-field certificate target for $\ListUp(A)$ consists of the source $\NameCert$, the generated carrier, the structural classifier, classifier reflexivity, classifier symmetry, classifier transitivity, carrier transport, nil/cons case analysis, the length and source-ledger policy, and exactness for the matching constructor shapes.
 \end{theorem}
 \begin{proof}
-The source $\NameCert$ supplies the head-level reflexivity, symmetry, transitivity, and carrier transport fields. The generated list carrier supplies nil and cons. Classifier reflexivity is by induction on the generated list spine. Symmetry is by induction on the structural classifier derivation. Transitivity is the structural induction of Theorem~\ref{thm:list-classifier-trans-from-namecert}. Carrier transport follows by induction over the lifted classifier derivation, with nil transported to nil and cons transported componentwise by the source certificate and the tail induction hypothesis. Nil/cons case analysis is the constructor no-confusion lemma, length and source-ledger policy are read from the finite spine, and exactness is the matching-shape statement of Theorem~\ref{thm:list-classifier-case-exactness}.
+The source $\NameCert$ supplies the head-level reflexivity, symmetry, transitivity, and carrier transport fields. The generated nil/cons carrier supplies the BEDC spine. Classifier reflexivity is by induction on that spine. Symmetry is by induction on the structural classifier derivation. Transitivity is the structural induction of Theorem~\ref{thm:list-classifier-trans-from-namecert}. Carrier transport follows by induction over the lifted classifier derivation, with nil transported to nil and cons transported componentwise by the source certificate and the tail induction hypothesis. Nil/cons case analysis is the constructor no-confusion lemma, length and source-ledger policy are read from the finite spine, and exactness is the matching-shape statement of Theorem~\ref{thm:list-classifier-case-exactness}.
 \end{proof}
 
 \begin{corollary}[\(\ListUp\) is licensed, not primitive]
