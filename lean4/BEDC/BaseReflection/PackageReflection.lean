@@ -15,6 +15,18 @@ theorem PackageReflection_base
       have y_to_y0 := tok.tokenReplacement right right0
       exact eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
 
+theorem base_package_reflection
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y : s.SigObj} {p q : s.Pkg}
+    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
+    (base : PsameBase s P p q) : s.hsame x y := by
+  cases base with
+  | intro left0 right0 same0 =>
+      have x_to_x0 := tok.tokenReplacement left left0
+      have y_to_y0 := tok.tokenReplacement right right0
+      exact eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
+
 theorem active_token_mode_reflects_base
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (mode : PolicyTokenMode s P)
