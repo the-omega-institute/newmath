@@ -118,4 +118,17 @@ theorem domain_invariance_of_concrete_source_admission [AskSetup] [PackageSetup]
     exact policy.transport hh hhk
   · intro hk
     exact policy.transport hk (hsame_symm hhk)
+
+omit [AskSetup] [PackageSetup] G in
+theorem inGapSig_transport_iff_with_signature_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
+    (policy : DomainPolicy D) (same : hsame h k)
+    (hsig : exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p)
+    (ksig : exists s : BHist, SigRel bundle k s /\ TokIntro bundle s p) :
+    InGapSig bundle D p h <-> InGapSig bundle D p k := by
+  constructor
+  · intro hgap
+    exact And.intro (policy.transport hgap.left same) ksig
+  · intro kgap
+    exact And.intro (policy.transport kgap.left (hsame_symm same)) hsig
 end BEDC.FKernel.Gap
