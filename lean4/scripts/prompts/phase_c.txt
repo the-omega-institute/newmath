@@ -32,8 +32,6 @@ If `git fetch` reports no changes, proceed unchanged. If it pulls new commits, r
   Use `Eq`-only rewrites freely; `propext` is only triggered by `Iff`-shaped substitutions.
 - Do NOT use `Classical.*` (Classical.choice, Classical.byContradiction, Classical.em) — proofs must be fully constructive.
 - Do NOT use `Quot.*` quotient constructions — encode equivalences as `inductive` predicates instead.
-- Do NOT add `\leanvariant` markers in this round. `\leanvariant` is a manual documentation tool for human-curated naming history; producing them in an automated round is forbidden. If a Phase B target's only effect would be to register a `\leanvariant`, abort that target and pick a different one. Each new Lean theorem in this round corresponds to exactly one of `\leanchecked` (theorem/lemma/proposition/corollary), `\leandef` (definition/inductive), or `\leanstmt` (statement-only), placed at the paper-stated block.
-- Auxiliary lemmas needed only to prove a target must be declared as `private theorem` inside the same Lean file. Private declarations are not subject to paper-marker requirements. Do NOT promote auxiliaries to public theorems unless the paper has a corresponding theorem block.
 
 ## Step 1: Implement proofs
 For each target:
@@ -56,27 +54,16 @@ If errors occur, fix them before continuing. If a target is stuck, choose a diff
 ## Step 3: Paper marker registration
 After `lake build` passes:
 1. For each new Lean target, find the relevant paper theorem/definition site in `papers/bedc/parts/`. Decide which marker macro to use:
-   - `\leanchecked{X}` — implementation of a paper-stated theorem/lemma/proposition/corollary block.
-   - `\leandef{X}` — `def` or `inductive` definition reference.
+   - `\leanchecked{X}` — the primary canonical implementation of a paper claim. ONE per paper site.
+   - `\leanvariant{X}` — alternative implementation of the SAME paper claim already covered by an existing `\leanchecked` at this site: typeclass-binder wrappers (e.g. `concrete_*` vs `internalized_*`), weakened conclusions (`_hsame_only`), strengthened conclusions (`_with_tokens`), projections, or pure forwarding lemmas (`exact other_theorem`). MAY be multiple per primary marker.
    - `\leanstmt{X}` — statement-only / structure-field reference (no proof yet).
+   - `\leandef{X}` — `def` or `inductive` definition reference.
    Escape underscores as `\_` in target names.
-2. Decision rule:
-   - The new target's paper block must be a `\begin{theorem}` / `\begin{lemma}` / `\begin{definition}` / etc. without any existing marker (Class A or B) — register `\leanchecked` / `\leandef` / `\leanstmt` directly on it.
-   - For Class C (object licensing), if the paper block does not yet exist, create it (Step 3.5) before registering the marker.
-   - `\leanvariant` is FORBIDDEN in this round. If the new Lean target is logically equivalent to an existing `\leanchecked` theorem (proof reduces to `exact T_canonical` / `apply T_canonical` / `T_canonical.symm` / `T_canonical.mp` / `T_canonical.mpr` / single-step rewrite) it is a variant and must NOT be added — abort the target.
+2. Decision rule for `\leanchecked` vs `\leanvariant` at an existing site:
+   - If no `\leanchecked` exists yet at this site → use `\leanchecked{X}` and pick the strongest / most general version as canonical.
+   - If a `\leanchecked` already exists and your new target is a wrapper / variant / projection / weaker form of the same claim → use `\leanvariant{X}`.
+   - If your new target is a genuinely different paper claim (different theorem statement) → look for its own paper site; do not stack under an unrelated theorem.
 3. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
-
-## Step 3.5: Paper writeback for Class C object-licensing targets
-For Class C work, the paper block may not yet exist. In that case:
-1. Locate the chapter file `papers/bedc/parts/concrete_instances/NN_<object>_namecert_construction.tex` where NN is the next unused index (currently 06 for IntUp). If the chapter file does not exist, create it following the template established by `04_nat_namecert_construction.tex` and `05_add_namecert_construction.tex`:
-   - `\chapter{A Concrete Naming Certificate for \(\<Object>Up\)}`
-   - `\label{ch:concrete-instances-<object>-namecert}`
-   - One sentence describing the chapter scope.
-   - `\section{Carrier definition}` and `\section{The certificate}`.
-2. Insert the appropriate paper block (`\begin{definition}[...]\label{def:...}` for spec / carrier; `\begin{theorem}[...]\label{thm:...}` for the main NameCert tuple; `\begin{corollary}[...]` for the license corollary; `\begin{lemma}[...]` for stability auxiliaries) at the correct location for the field this round implements.
-3. Write the statement in display math, give a brief `\begin{proof}...\end{proof}` sketch, and place the `\leanchecked` / `\leandef` marker on the next line after `\end{...}`.
-4. Add `\input{parts/concrete_instances/NN_<object>_namecert_construction.tex}` to `papers/bedc/main.tex` if the chapter is newly created (insert it immediately after `\input{parts/concrete_instances/05_add_namecert_construction.tex}`).
-5. Do NOT write the paper block to a "verification queue" / "status table" / "milestone schedule" file — those are forbidden iteration narrative.
 
 The `bedc_ci.py audit` will fail if any `\leanchecked{X}` / `\leanvariant{X}` / `\leanstmt{X}` / `\leandef{X}` references X not present in `lean4/BEDC/`.
 
