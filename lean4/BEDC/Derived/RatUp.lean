@@ -22,7 +22,7 @@ def RatSourceSpec (normalized : BMark → BHist → BHist → Prop) (sign : BMar
   BEDC.Derived.IntUp.IntCarrier sign num ∧ PositiveUnaryDenominator den ∧
     normalized sign num den
 
-def RatCarrier
+def rat_classifier_spec_trans_carrier
     (sign : BEDC.FKernel.Mark.BMark) (numerator denominator : BEDC.FKernel.Hist.BHist) :
     Prop :=
   BEDC.Derived.IntUp.IntCarrier sign numerator ∧
@@ -32,8 +32,8 @@ def RatCarrier
 def RatClassifierSpec
     (s1 : BEDC.FKernel.Mark.BMark) (n1 d1 : BEDC.FKernel.Hist.BHist)
     (s2 : BEDC.FKernel.Mark.BMark) (n2 d2 : BEDC.FKernel.Hist.BHist) : Prop :=
-  RatCarrier s1 n1 d1 ∧
-    RatCarrier s2 n2 d2 ∧
+  rat_classifier_spec_trans_carrier s1 n1 d1 ∧
+    rat_classifier_spec_trans_carrier s2 n2 d2 ∧
       BEDC.FKernel.Mark.msame s1 s2 ∧
         BEDC.FKernel.Hist.hsame n1 n2 ∧
           BEDC.FKernel.Hist.hsame d1 d2
