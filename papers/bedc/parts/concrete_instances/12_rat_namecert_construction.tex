@@ -3,11 +3,10 @@
 
 The rational number interface \(\RatUp\) is licensed by ordered pairs \((p, q)\) with \(p\) drawn from \autoref{ch:concrete-instances-int-namecert} and \(q\) a positive integer, normalized to coprime numerator and denominator with positive denominator. The classifier is structural equality on the normalized representative, not the equivalence relation \(p_1 q_2 = p_2 q_1\) on unnormalized pairs (which would otherwise demand quotient-type machinery and \(\mathsf{Quot.sound}\)). It is not a primitive field; it is licensed only via the integer source and the normalization function.
 
-\begin{remark}[Roadmap chapter---formalization pending]
+\begin{remark}[Rational certificate scope]
 \label{rem:concrete-instances-rat-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
+This chapter records the rational licensing target through normalized
+integer-positive-natural representatives and structural classifier data.
 \end{remark}
 
 \section{Carrier definition}
@@ -23,6 +22,7 @@ Use normalized integer-positive-natural pairs \((p,q)\) with \(q>0\), \(\gcd(|p|
 \label{def:rat-source-specification}
 The source is \(\IntUp \times \NatUp\) restricted to normalized denominator-positive pairs.
 \end{definition}
+\leandef{BEDC.Derived.RatUp.RatSourceSpec}
 
 \begin{definition}[Rat pattern specification]
 \label{def:rat-pattern-specification}
@@ -65,4 +65,3 @@ The normalized-pair tuple forms a valid NameCert for \(\RatUp\).
 \label{rem:rat-zero-axiom-note}
 Replaces quotient equivalence and \(\mathsf{Quot.sound}\) with canonical normalization.
 \end{remark}
-

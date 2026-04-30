@@ -3,11 +3,10 @@
 
 The unit interval interface \(\IntervalUp\) is licensed over Bishop reals from \autoref{ch:concrete-instances-real-namecert} as the predicate "\(0 \le x\) and \(x \le 1\)" interpreted constructively (with explicit moduli for the inequalities). The classifier is real sameness restricted to interval witnesses. It is not a primitive geometric object; it is licensed only as a derived sub-carrier of \(\RealUp\).
 
-\begin{remark}[Roadmap chapter---formalization pending]
+\begin{remark}[Interval certificate scope]
 \label{rem:concrete-instances-interval-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
+This chapter records the interval licensing target as a bounded subcarrier
+with classifier transport inherited from internal history sameness.
 \end{remark}
 
 \section{Carrier definition}
@@ -55,6 +54,7 @@ Record the real ledger and both inequality moduli.
 \label{thm:concrete-interval-namecert}
 The bounded-real subcarrier tuple forms a valid NameCert for \(\IntervalUp\).
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.interval\_name\_certificate}
 
 \begin{corollary}[\(\IntervalUp\) is licensed, not primitive]
 \label{cor:interval-licensed-not-primitive}
@@ -65,4 +65,3 @@ The bounded-real subcarrier tuple forms a valid NameCert for \(\IntervalUp\).
 \label{rem:interval-zero-axiom-note}
 Uses constructive inequality witnesses with moduli rather than classical order trichotomy.
 \end{remark}
-
