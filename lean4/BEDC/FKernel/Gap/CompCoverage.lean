@@ -163,6 +163,34 @@ theorem compGap_coverage_with_intermediate_ok
                       (Exists.intro y (And.intro cGap dGap)))))
 
 omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage_with_source_and_intermediate
+    {Source Inter Final : Type}
+    {SourceOk : Source → Prop} {InterOk : Inter → Prop}
+    {firstGap : Inter → Source → Prop} {secondGap : Final → Inter → Prop}
+    (firstCoverage :
+      ∀ {x : Source}, SourceOk x → ∃ y : Inter, firstGap y x ∧ InterOk y)
+    (secondCoverage : ∀ {y : Inter}, InterOk y → ∃ z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x →
+      ∃ z : Final, ∃ y : Inter,
+        firstGap y x ∧ InterOk y ∧ secondGap z y ∧
+          CompGap firstGap secondGap z x := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstData =>
+      cases firstData with
+      | intro firstWitness interOk =>
+          cases secondCoverage interOk with
+          | intro z secondWitness =>
+              exact Exists.intro z
+                (Exists.intro y
+                  (And.intro firstWitness
+                    (And.intro interOk
+                      (And.intro secondWitness
+                        (Exists.intro y
+                          (And.intro firstWitness secondWitness))))))
+
+omit [AskSetup] [PackageSetup] G in
 theorem hardening_composite_coverage
     {Source Inter Final : Type}
     {SourceOk : Source -> Prop}

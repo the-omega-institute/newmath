@@ -40,6 +40,14 @@ theorem TokUnique_replacement
   intro left right
   exact tok.tokenReplacement left right
 
+theorem TokUnique_replacement_from_pair {s : BaseReflectionSetup} {P : s.Pi}
+    (tok : TokUnique s P) {x y : s.SigObj} {p : s.Pkg} :
+    (s.TokIntro P x p ∧ s.TokIntro P y p) → s.hsame x y := by
+  intro pair
+  cases pair with
+  | intro left right =>
+      exact tok.tokenReplacement left right
+
 theorem TokUnique_replacement_congr {s : BaseReflectionSetup} {P : s.Pi} (tok : TokUnique s P)
     {x y : s.SigObj} {p q : s.Pkg} :
     p = q → s.TokIntro P x p → s.TokIntro P y q → s.hsame x y := by
