@@ -162,6 +162,22 @@ theorem unary_no_zero_extension {h : BHist} : UnaryHistory (.e0 h) -> False := b
   intro uh
   exact uh
 
+theorem unary_pattern_induction_with_discrimination {P : BHist → Prop} :
+    P BHist.Empty →
+      (∀ h : BHist, UnaryHistory h → P h → P (BHist.e1 h)) →
+      (∀ h : BHist, UnaryHistory h → P h) ∧
+        (∀ h : BHist, UnaryHistory (BHist.e0 h) → False) ∧
+          (∀ h : BHist, hsame BHist.Empty (BHist.e1 h) → False) := by
+  intro base step
+  constructor
+  · intro h uh
+    exact unary_history_induction base step h uh
+  · constructor
+    · intro h uh
+      exact unary_no_zero_extension uh
+    · intro h same
+      exact not_hsame_emp_e1 same
+
 theorem unary_history_not_e0_head {h t : BHist} :
     UnaryHistory h -> h = BHist.e0 t -> False := by
   intro uh eq

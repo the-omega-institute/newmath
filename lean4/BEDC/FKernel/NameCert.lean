@@ -141,6 +141,20 @@ theorem sealInterface_nameCert_stability_ledger [NameCertSetup] {Thread : Type}
     · exact iface.ledger
 
 omit N in
+theorem thin_seal_interface_shape [NameCertSetup] {Thread : Type} {name : DerivedName} :
+    SealInterface Thread name →
+      Nonempty Thread ∧ Nonempty (NameCert name) ∧ Nonempty StabilityCert ∧
+        Nonempty LedgerPolicy := by
+  intro iface
+  constructor
+  · exact Nonempty.intro iface.thread
+  · constructor
+    · exact Nonempty.intro iface.nameCert
+    · constructor
+      · exact derived_interfaces_have_stability iface.nameCert
+      · exact iface.ledger
+
+omit N in
 theorem nameCert_source_witness_from_cert [NameCertSetup] {name : DerivedName} :
     NameCert name -> Nonempty SourceSpec := by
   intro cert

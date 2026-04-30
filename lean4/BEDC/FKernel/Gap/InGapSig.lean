@@ -16,6 +16,10 @@ def PolicySupportedSignatureGap [AskSetup] [PackageSetup] [DomainSetup]
     (bundle : ProbeBundle ProbeName) (D : Domain) (p : Pkg) (h : BHist) : Prop :=
   InGapSig bundle D p h
 
+def GapMembership [AskSetup] [PackageSetup] [DomainSetup]
+    (bundle : ProbeBundle ProbeName) (D : Domain) (p : Pkg) (h : BHist) : Prop :=
+  InGapSig bundle D p h
+
 omit [AskSetup] [PackageSetup] G in
 theorem PolicySupportedSignatureGap_iff_InGapSig [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
