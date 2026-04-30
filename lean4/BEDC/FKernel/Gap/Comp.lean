@@ -122,6 +122,39 @@ theorem ledger_composition_principle_inverse
                       (Exists.intro b (And.intro hfirst hsecond))
                       hthird)
 
+theorem ledger_composition_principle_proof_standing [AskSetup] [PackageSetup] [DomainSetup]
+    {A B C D : Type} {first : B → A → Prop} {second : C → B → Prop}
+    {third : D → C → Prop} {z : D} {x : A} :
+    CompGap (fun c a => CompGap first second c a) third z x ↔
+      ∃ b : B, ∃ c : C, first b x ∧ second c b ∧ third z c := by
+  constructor
+  · intro h
+    cases h with
+    | intro c outer =>
+        cases outer with
+        | intro inner hthird =>
+            cases inner with
+            | intro b firstSecond =>
+                cases firstSecond with
+                | intro hfirst hsecond =>
+                    exact Exists.intro b
+                      (Exists.intro c
+                        (And.intro hfirst
+                          (And.intro hsecond hthird)))
+  · intro witnesses
+    cases witnesses with
+    | intro b rest =>
+        cases rest with
+        | intro c data =>
+            cases data with
+            | intro hfirst tail =>
+                cases tail with
+                | intro hsecond hthird =>
+                    exact Exists.intro c
+                      (And.intro
+                        (Exists.intro b (And.intro hfirst hsecond))
+                        hthird)
+
 theorem compGap_left_witness
     {Source Inter Final : Type}
     {firstGap : Inter → Source → Prop}
