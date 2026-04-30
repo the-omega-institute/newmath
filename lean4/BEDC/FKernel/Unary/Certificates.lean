@@ -177,6 +177,15 @@ theorem nat_up_name_certificate_with_source_pattern :
   · exact nat_up_name_certificate
   · exact nameCert_source_pattern_ledger_from_cert nat_up_name_certificate
 
+theorem nat_up_name_certificate_source_pattern_stability_ledger :
+    NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty StabilityCert ∧
+      Nonempty LedgerPolicy := by
+  have cert : NameCert UnaryName := nat_up_name_certificate
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact ⟨NameCert.mk source pattern classifier stability ledger, Nonempty.intro source,
+        Nonempty.intro pattern, Nonempty.intro stability, Nonempty.intro ledger⟩
+
 theorem nat_up_stability_witness : Nonempty StabilityCert := by
   exact Nonempty.intro ()
 
