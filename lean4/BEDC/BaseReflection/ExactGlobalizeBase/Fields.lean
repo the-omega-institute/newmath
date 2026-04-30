@@ -161,4 +161,15 @@ theorem ExactGlobalizeBase_no_closure_export_sound_complete_pair
   · intro base
     exact exactness.mp base
 
+theorem ExactGlobalizeBase_self_covered_classification
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) {h : s.Hist} :
+    s.InDom D h → ∃ p : s.Pkg,
+      s.InGapSig P D p h ∧
+        (PsameBase s P p p ↔ Nonempty (GeneratedSameSig s P h h)) := by
+  intro hdom
+  cases ex.coverage h hdom with
+  | intro p hp =>
+      exact ⟨p, hp, ExactGlobalizeBase_classify_iff ex hp hp⟩
+
 end BEDC.BaseReflection

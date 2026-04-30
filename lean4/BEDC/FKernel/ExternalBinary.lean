@@ -38,6 +38,22 @@ abbrev append : BWord → BWord → BWord := BEDC.FKernel.Cont.append
 theorem external_model_append_reuses_cont : append = BEDC.FKernel.Cont.append := by
   rfl
 
+theorem external_model_kernel_input_reuse :
+    (BWord = BHist) ∧ (Mbin = BHist) ∧ (append = BEDC.FKernel.Cont.append) ∧
+      (∀ w : BWord, BHist.Empty = BHist.e0 w → False) ∧
+      (∀ w : BWord, BHist.Empty = BHist.e1 w → False) := by
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · intro _ h
+          cases h
+        · intro _ h
+          cases h
+
 def bwordLength : BWord → Nat
   | .Empty => 0
   | .e0 w => Nat.succ (bwordLength w)
