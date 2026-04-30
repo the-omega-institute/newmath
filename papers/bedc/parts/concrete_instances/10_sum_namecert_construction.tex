@@ -12,7 +12,7 @@ The disjoint sum interface \(\SumUp\) is licensed over two source carriers each 
   \item \textbf{Classifier choice}: the sum classifier stores tag endpoints plus the matching $A$ or $B$ classifier witness, and excludes mixed tags; source-carrier evidence is supplied by $\mathsf{SumHistoryCarrier}$.
   \item \textbf{Stability obligations}: tagged carrier transport, source-certified classifier-induced carrier transport, left/right inversion, mixed-tag exclusion, classifier symmetry, classifier transitivity, and endpoint transport.
   \item \textbf{Ledger}: the tag is visible data; payload evidence is retained from the corresponding source certificate.
-  \item \textbf{Core theorem list}: tagged injections, $\hsame$ carrier transport, source-certified classifier-induced carrier transport, left and right inversions, classifier inversion, generic same-tag exactness, carrier-aware same-tag exactness, mixed-tag exclusion, and the semantic name certificate.
+  \item \textbf{Core theorem list}: tagged injections, $\hsame$ carrier transport, source-certified classifier-induced carrier transport, left and right inversions, classifier inversion, source-parameter irrelevance of the classifier, generic same-tag exactness, carrier-aware same-tag exactness, mixed-tag exclusion, and the semantic name certificate.
   \item \textbf{Exactness predicate}: the left-tag and right-tag iff clauses identify classifier-only payload witnesses and the matching source classifier, while carrier-aware exactness combines $\mathsf{SumHistoryCarrier}$ with explicit carrier transport along $\hsame$.
   \item \textbf{Standard bridge}: tagged histories read back as ordinary $\mathsf{inl}(a)$ and $\mathsf{inr}(b)$ values.
   \item \textbf{Status}: the $\mathsf{SemanticNameCert}$ at Theorem~\ref{thm:concrete-sum-namecert} is $\mathsf{CheckedCert}$; Theorem~\ref{thm:sum-history-classifier-source-same-tag-exactness} is the paper-side matching-source formulation, and Theorem~\ref{thm:sum-history-classifier-generic-same-tag-exactness} records the witness-level same-tag formulation.
@@ -137,6 +137,27 @@ $$
 \end{theorem}
 \begin{proof}
 Build the classifier by the left-tag branch, using $\emp$ as both stored left payloads, reflexivity of $\hsame$ for the two visible $\Ezero(\emp)$ endpoints, and reflexivity of $\hsame$ for the payload relation. A carrier witness for $\Ezero(\emp)$ would be either a left branch with some payload satisfying $\mathsf{FalseCarrier}$ or a right branch with some payload satisfying $\mathsf{FalseCarrier}$. Both cases unfold to $\mathsf{False}$, so no carrier witness exists.
+\end{proof}
+
+\begin{theorem}[Sum history classifier source-parameter irrelevance]
+\label{thm:sum-history-classifier-source-parameter-irrelevance}
+For source carriers $Left,Right,LeftAlt,RightAlt:\mathsf{BHist}\to\mathsf{Prop}$,
+component classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+and histories $h,k:\mathsf{BHist}$,
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)
+\Longrightarrow
+\mathsf{SumHistoryClassifier}(LeftAlt,RightAlt,LeftEq,RightEq,h,k).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the classifier witness. In the left-tag branch, keep the same
+stored left payloads, endpoint tag witnesses, and $LeftEq$ witness, and build
+the left branch for the alternate source carriers. In the right-tag branch,
+keep the same stored right payloads, endpoint tag witnesses, and $RightEq$
+witness, and build the right branch for the alternate source carriers. No
+source-carrier proof occurs inside the classifier witness; those proofs belong
+to $\mathsf{SumHistoryCarrier}$ and to certificate transport.
 \end{proof}
 
 \begin{theorem}[Sum history classifier left-tag inversion]
