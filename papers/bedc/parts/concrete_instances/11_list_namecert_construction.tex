@@ -568,6 +568,41 @@ $\mathsf{ListHistoryLedger}_S(t)$, $\ContR(a,t,p)$, and
 $\hsame(h,\Eone(p))$.
 \end{definition}
 
+\begin{theorem}[List history carrier, pattern, and ledger equivalence]
+\label{thm:list-history-carrier-pattern-ledger-equivalence}
+For every source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and history $h$,
+the three displayed list-history fields determine the same endpoints:
+$$
+  \mathsf{ListHistoryCarrier}_S(h)
+  \Longleftrightarrow
+  \mathsf{ListHistoryPattern}_S(h),
+$$
+and
+$$
+  \mathsf{ListHistoryCarrier}_S(h)
+  \Longleftrightarrow
+  \mathsf{ListHistoryLedger}_S(h).
+$$
+\end{theorem}
+\begin{proof}
+For the carrier-pattern equivalence, use the displayed generated cases for
+$\mathsf{ListHistoryCarrier}_S$. The nil case gives $\hsame(h,\emp)$, which is
+the nil pattern branch. The cons case exposes histories $a,t,p$ with $S(a)$,
+$\mathsf{ListHistoryCarrier}_S(t)$, $\ContR(a,t,p)$, and
+$\hsame(h,\Eone(p))$, which is exactly the cons pattern branch. Conversely,
+each pattern branch is one of the two carrier constructors, using the same
+$\hsame$, $S(a)$, $\ContR(a,t,p)$, and tail carrier witnesses.
+
+For the carrier-ledger equivalence, induct over the displayed nil/cons
+generation in each direction. From carrier to ledger, the nil constructor
+becomes the nil ledger clause, and the cons constructor reuses $S(a)$,
+$\ContR(a,t,p)$, the endpoint witness $\hsame(h,\Eone(p))$, and the induction
+hypothesis on the tail. From ledger to carrier, the nil ledger clause rebuilds
+the nil carrier clause, and the cons ledger clause reuses the same source,
+continuation, endpoint, and tail witnesses, with the induction hypothesis
+turning the tail ledger witness into the required tail carrier witness.
+\end{proof}
+
 \begin{definition}[List spine representation]
 \label{def:list-spine-representation}
 For a BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, the relation $\mathsf{ListSpineRep}_A(h,xs)$ says that the history $h$ represents the finite list spine $xs$ by the same nil and cons clauses used by $\mathsf{ListHistoryCarrier}_A$:
