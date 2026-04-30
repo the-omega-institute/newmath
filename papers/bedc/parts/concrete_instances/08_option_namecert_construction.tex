@@ -149,6 +149,19 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source cla
 The mixed cases reduce to BEDC history constructor no-confusion: $\mathsf{not\_hsame\_emp\_e1}$ eliminates an empty history classified with an $e1$-tagged present history, and $\mathsf{not\_hsame\_e1\_empty}$ eliminates the reverse direction. In the present-present case, $\mathsf{hsame\_e1\_iff}$ strips the visible $e1$ tags and exposes the payload histories, so the source certificate supplies $S(a)$, $S(b)$, the payload classification, and the fields $\mathsf{cert.equiv\_refl}$, $\mathsf{cert.equiv\_symm}$, $\mathsf{cert.equiv\_trans}$, and $\mathsf{cert.carrier\_respects\_equiv}$. The absent-absent case is the empty-history classifier clause.
 \end{proof}
 
+\begin{theorem}[Tagged option history absent exactness]
+\label{thm:tagged-option-history-absent-exactness}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and history $k$, the tagged option history classifier has the exact absent endpoint:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\emp,k)
+\quad\Longleftrightarrow\quad
+\hsame(k,\emp).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, case-analyze the classifier witness. The absent-absent case directly provides the endpoint witness $\hsame(k,\emp)$. The present-present case would classify $\emp$ with some $\Eone(a)$ endpoint, contradicting the BEDC empty-vs-$\Eone$ no-confusion theorem. For the reverse direction, combine the assumed $\hsame(k,\emp)$ with reflexivity of $\hsame$ at $\emp$ and rebuild the absent-absent classifier clause.
+\end{proof}
+
 \begin{theorem}[Tagged option history semantic certificate target]
 \label{thm:tagged-option-history-semantic-certificate}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a source classifier on source histories, and assume a source $\NameCert(S,\sim_S)$. Then $\mathsf{TaggedOptionHistoryCarrier}_S$, $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}$, $\mathsf{TaggedOptionHistoryPattern}_S$, and $\mathsf{TaggedOptionHistoryLedger}_S$ form a $\mathsf{SemanticNameCert}$.

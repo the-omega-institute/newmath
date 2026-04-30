@@ -629,11 +629,11 @@ $$
 $$
 The certificate classifier is this bridge classifier:
 $$
-  \mathsf{ListHistoryClassifier}_{\sim_A}(h,k)
+  \mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)
   \quad\Longleftrightarrow\quad
   \mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k).
 $$
-Thus $\mathsf{ListClassifierSpec}$ remains the finite-spine classifier, $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}$ names the BEDC-history bridge through finite spines, and $\mathsf{ListHistoryClassifier}_{\sim_A}$ is the certificate classifier whose endpoints are BEDC histories. The recursive classifier $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{S,\sim_S}$ from Definition~\ref{def:list-history-classifier} is a paper-side generator for carrier and endpoint reasoning.
+Thus $\mathsf{ListClassifierSpec}$ remains the finite-spine classifier, $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}$ names the BEDC-history bridge through finite spines, and $\mathsf{ListHistoryClassifier}_{A,\sim_A}$ is the certificate classifier whose endpoints are BEDC histories. The recursive classifier $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{S,\sim_S}$ from Definition~\ref{def:list-history-classifier} is a paper-side generator for carrier and endpoint reasoning.
 \end{definition}
 
 \begin{theorem}[List spine nil-cons no-confusion]\label{thm:list-spine-rep-nil-cons-no-confusion}
@@ -708,7 +708,7 @@ $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds, then represented finite
 spines have equal length along the spine-induced history classifier: whenever
 $\mathsf{ListSpineRep}_A(h,xs_0)$,
 $\mathsf{ListSpineRep}_A(k,ys_0)$, and
-$\mathsf{ListHistoryClassifier}_{\sim_A}(h,k)$ hold, the finite spines
+$\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ hold, the finite spines
 $xs_0$ and $ys_0$ have the same length.
 \end{theorem}
 \begin{proof}
@@ -754,7 +754,7 @@ $\mathsf{cert} : \NameCert(A,\sim_A)$, and a witness of
 $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$, define
 $\mathsf{ListSource}(A)$ as the history carrier
 $\mathsf{ListHistoryCarrier}_A$, take the certificate classifier
-$\mathsf{ListHistoryClassifier}_{\sim_A}$ to be the spine-induced bridge
+$\mathsf{ListHistoryClassifier}_{A,\sim_A}$ to be the spine-induced bridge
 classifier from Definition~\ref{def:list-spine-representation}, use
 Theorem~\ref{thm:list-spine-representation-exactness} as its finite-spine
 exactness theorem, define
@@ -762,7 +762,7 @@ $\mathsf{ListPattern}(A)$ as the nil-or-cons constructor-shape predicate over
 represented histories, and define $\mathsf{ListLedger}(A)$ as the visible
 length together with the source ledger read from a represented finite spine.
 Under the source $\NameCert$ and the spine-coherence witness, these fields form the paper-side target
-$\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,\mathsf{ListPattern}(A),\mathsf{ListLedger}(A),\mathsf{ListHistoryClassifier}_{\sim_A})$
+$\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,\mathsf{ListPattern}(A),\mathsf{ListLedger}(A),\mathsf{ListHistoryClassifier}_{A,\sim_A})$
 for $\ListUp(A)$.
 \end{theorem}
 \begin{proof}
