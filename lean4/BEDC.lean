@@ -21,6 +21,7 @@ import BEDC.FKernel.Package
 import BEDC.FKernel.Settled
 import BEDC.FKernel.ExternalBinary
 import BEDC.FKernel.ExternalBinary.BitInversion
+import BEDC.FKernel.ExternalBinary.Inversion
 import BEDC.FKernel.ExternalBinary.Model
 import BEDC.FKernel.ExternalBinary.Cancellation
 import BEDC.FKernel.Gap

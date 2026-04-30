@@ -76,4 +76,15 @@ theorem continuation_step_result_witness_iff_pair :
               cases result
               exact cont_step_one hcont
 
+theorem cont_step_result_witnesses_by_constructor :
+    (∀ {h k r : BHist},
+      Cont h (BHist.e0 k) r → ∃ r0 : BHist, r = BHist.e0 r0 ∧ Cont h k r0) ∧
+      (∀ {h k r : BHist},
+        Cont h (BHist.e1 k) r → ∃ r0 : BHist, r = BHist.e1 r0 ∧ Cont h k r0) := by
+  constructor
+  · intro h k r hcont
+    exact cont_step_result_inversions.left hcont
+  · intro h k r hcont
+    exact cont_step_result_inversions.right hcont
+
 end BEDC.FKernel.Cont
