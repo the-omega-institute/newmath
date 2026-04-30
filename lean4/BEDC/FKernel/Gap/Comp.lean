@@ -63,6 +63,18 @@ theorem compGap_inversion
   intro h
   exact h
 
+theorem compGap_pullback_witnesses
+    {Source Inter Final : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    {z : Final} {x : Source} :
+    CompGap firstGap secondGap z x ->
+      exists y : Inter, firstGap y x /\ secondGap z y := by
+  intro h
+  cases h with
+  | intro y data =>
+      exact Exists.intro y (And.intro data.left data.right)
+
 theorem composite_gap_ledger_witnesses
     {Source Inter Final : Type}
     {firstGap : Inter → Source → Prop}

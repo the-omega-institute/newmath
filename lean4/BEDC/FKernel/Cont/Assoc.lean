@@ -17,6 +17,18 @@ theorem cont_assoc_common_witness {a b c ab bc left right : BHist} :
           have hrightSame : hsame right common := cont_deterministic hright hrightCommon
           exact ⟨common, hleftCommon, hrightCommon, hleftSame, hrightSame⟩
 
+theorem cont_assoc_common_witness_symmetric {a b c ab bc left right : BHist} :
+    Cont a b ab -> Cont b c bc -> Cont ab c left -> Cont a bc right ->
+      exists common : BHist,
+        Cont ab c common /\ Cont a bc common /\ hsame left common /\ hsame common left /\
+          hsame right common /\ hsame common right := by
+  intro hab hbc hleft hright
+  cases cont_assoc_common_witness hab hbc hleft hright with
+  | intro common data =>
+      exact ⟨common, data.left, data.right.left, data.right.right.left,
+        hsame_symm data.right.right.left, data.right.right.right,
+        hsame_symm data.right.right.right⟩
+
 theorem cont_assoc_up_to_hsame_spine {a b c ab bc left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont b c bc -> Cont a bc right -> hsame left right := by
   exact cont_assoc_hsame
