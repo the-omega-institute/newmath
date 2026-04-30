@@ -13,6 +13,9 @@ inductive BHist where
 
 def hsame : BHist → BHist → Prop := Eq
 
+theorem hsame_iff_eq {h k : BHist} : hsame h k ↔ h = k := by
+  rfl
+
 theorem hsame_refl : ∀ h : BHist, hsame h h := by
   intro h
   rfl

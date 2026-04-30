@@ -208,6 +208,24 @@ structure PackageTokenPolicy (bundle : ProbeBundle ProbeName) : Prop where
   reflection :
     ∀ {s t : BHist} {p q : Pkg}, TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t
 
+omit [AskSetup] P in
+theorem PackageTokenPolicy_iff_fields [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} :
+    PackageTokenPolicy bundle ↔
+      ((∀ {s t : BHist} {p q : Pkg},
+          TokIntro bundle s p → TokIntro bundle t q → hsame s t → psame bundle p q) ∧
+        (∀ {s t : BHist} {p q : Pkg},
+          TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t)) := by
+  constructor
+  · intro policy
+    constructor
+    · exact policy.soundness
+    · exact policy.reflection
+  · intro fields
+    cases fields with
+    | intro soundness reflection =>
+        exact PackageTokenPolicy.mk soundness reflection
+
 theorem packageTokenPolicy_signature_facing {bundle : ProbeBundle ProbeName}
     (policy : PackageTokenPolicy bundle) {s t : BHist} {p q : Pkg} :
     hsame s t → TokIntro bundle s p → TokIntro bundle t q → psame bundle p q := by

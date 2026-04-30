@@ -1160,6 +1160,29 @@ theorem compGap_assoc_forward
                       (Exists.intro c (And.intro secondWitness thirdWitness)))
 
 omit [AskSetup] [PackageSetup] G in
+theorem compGap_assoc_witnesses
+    {A B C D : Type}
+    {first : B → A → Prop}
+    {second : C → B → Prop}
+    {third : D → C → Prop}
+    {z : D} {x : A} :
+    CompGap (fun c a => CompGap first second c a) third z x →
+      ∃ b : B, ∃ c : C, first b x ∧ second c b ∧ third z c := by
+  intro left
+  cases left with
+  | intro c cData =>
+      cases cData with
+      | intro firstSecond thirdWitness =>
+          cases firstSecond with
+          | intro b bData =>
+              cases bData with
+              | intro firstWitness secondWitness =>
+                  exact Exists.intro b
+                    (Exists.intro c
+                      (And.intro firstWitness
+                        (And.intro secondWitness thirdWitness)))
+
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_assoc_backward
     {A B C Final : Type}
     {first : B → A → Prop}
