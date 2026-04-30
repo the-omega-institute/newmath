@@ -45,6 +45,18 @@ theorem bundleAppend_right_nil {PName : Type} :
   | Bcons p tail ih =>
       exact congrArg (ProbeBundle.Bcons p) ih
 
+theorem bundleAppend_prefix_cancel {PName : Type} :
+    ∀ pref left right : ProbeBundle PName,
+      bundleAppend pref left = bundleAppend pref right → left = right := by
+  intro pref
+  induction pref with
+  | Bnil =>
+      intro left right same
+      exact same
+  | Bcons p tail ih =>
+      intro left right same
+      exact ih left right (ProbeBundle.Bcons.inj same).right
+
 theorem inBundle_bundleAppend_iff {PName : Type} {p : PName}
     {left right : ProbeBundle PName} :
     InBundle p (bundleAppend left right) ↔ InBundle p left ∨ InBundle p right := by
