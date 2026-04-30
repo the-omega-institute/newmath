@@ -26,6 +26,9 @@ theorem append_empty_left : forall h : BHist, append .Empty h = h := by
 
 def Cont (h k r : BHist) : Prop := r = append h k
 
+theorem cont_intro {h k r : BHist} (hr : r = append h k) : Cont h k r := by
+  exact hr
+
 theorem cont_iff_append {h k r : BHist} : Cont h k r <-> r = append h k := by
   rfl
 
