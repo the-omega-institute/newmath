@@ -315,6 +315,23 @@ theorem unary_cont_unit {h left right : BHist} :
       · exact leftSame
       · exact rightSame
 
+theorem unary_cont_unit_same_pair {h left right : BHist} :
+    UnaryHistory h → Cont h BHist.Empty left → Cont BHist.Empty h right →
+      hsame left right ∧ UnaryHistory left ∧ UnaryHistory right := by
+  intro uh hleft hright
+  have packed := unary_cont_unit uh hleft hright
+  cases packed with
+  | intro leftUnary rest =>
+      cases rest with
+      | intro rightUnary sameRest =>
+          cases sameRest with
+          | intro leftSame rightSame =>
+              constructor
+              · exact hsame_trans leftSame (hsame_symm rightSame)
+              · constructor
+                · exact leftUnary
+                · exact rightUnary
+
 theorem unaryCont_empty_units_same {h left right : BHist} :
     UnaryCont h BHist.Empty left -> UnaryCont BHist.Empty h right -> hsame left right := by
   intro leftCont rightCont

@@ -132,6 +132,18 @@ theorem hsame_e1_inversion {h x : BHist} : hsame (.e1 h) x → ∃ k : BHist, x 
   cases hs
   exact Exists.intro h (And.intro rfl rfl)
 
+theorem hsame_e1_inversion_iff {h x : BHist} :
+    hsame (BHist.e1 h) x ↔ ∃ k : BHist, x = BHist.e1 k ∧ hsame h k := by
+  constructor
+  · exact hsame_e1_inversion
+  · intro witness
+    cases witness with
+    | intro k data =>
+        cases data with
+        | intro hx same =>
+            cases hx
+            exact hsame_e1_congr same
+
 theorem not_hsame_emp_e0 : ∀ {h : BHist}, hsame .Empty (.e0 h) → False := by
   intro h hs
   cases hs

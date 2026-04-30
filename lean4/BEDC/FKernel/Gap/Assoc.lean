@@ -111,6 +111,18 @@ theorem compGap_witnesses_to_right_nested
                     (And.intro firstWitness
                       (Exists.intro w (And.intro secondWitness thirdWitness)))
 
+theorem compGap_right_nested_iff_witnesses
+    {Source Inter Final Top : Type}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    {thirdGap : Top → Final → Prop}
+    {z : Top} {x : Source} :
+    CompGap firstGap (CompGap secondGap thirdGap) z x ↔
+      ∃ y : Inter, ∃ w : Final, firstGap y x ∧ secondGap w y ∧ thirdGap z w := by
+  constructor
+  · exact compGap_right_nested_witnesses
+  · exact compGap_witnesses_to_right_nested
+
 theorem compGap_left_nested_witnesses
     {Source Inter Final Top : Type}
     {firstGap : Inter → Source → Prop}
