@@ -81,6 +81,17 @@ theorem nat_up_certificate_field_witnesses :
       Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
   exact nameCert_field_witnesses nat_up_name_certificate
 
+theorem nat_up_certificate_pattern_classifier_ledger :
+    Nonempty PatternSpec /\ Nonempty ClassifierSpec /\ Nonempty LedgerPolicy := by
+  have cert : NameCert UnaryName := nat_up_name_certificate
+  cases cert with
+  | mk _ pattern classifier _ ledger =>
+      constructor
+      · exact Nonempty.intro pattern
+      · constructor
+        · exact Nonempty.intro classifier
+        · exact Nonempty.intro ledger
+
 theorem nat_up_name_certificate_complete :
     NameCert UnaryName ∧ Nonempty SourceSpec ∧ Nonempty PatternSpec ∧
       Nonempty ClassifierSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
