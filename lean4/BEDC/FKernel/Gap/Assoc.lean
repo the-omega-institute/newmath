@@ -279,4 +279,40 @@ theorem compGap_assoc_backward
                     (And.intro
                       (Exists.intro b (And.intro firstWitness secondWitness))
                       thirdWitness)
+
+theorem ledger_composition_principle_iff
+    {A B C D : Type}
+    {first : B → A → Prop}
+    {second : C → B → Prop}
+    {third : D → C → Prop}
+    {z : D} {x : A} :
+    CompGap (fun c a => CompGap first second c a) third z x ↔
+      ∃ b : B, ∃ c : C, first b x ∧ second c b ∧ third z c := by
+  constructor
+  · intro left
+    cases left with
+    | intro c cData =>
+        cases cData with
+        | intro firstSecond thirdWitness =>
+            cases firstSecond with
+            | intro b bData =>
+                cases bData with
+                | intro firstWitness secondWitness =>
+                    exact Exists.intro b
+                      (Exists.intro c
+                        (And.intro firstWitness
+                          (And.intro secondWitness thirdWitness)))
+  · intro witnesses
+    cases witnesses with
+    | intro b rest =>
+        cases rest with
+        | intro c data =>
+            cases data with
+            | intro firstWitness tail =>
+                cases tail with
+                | intro secondWitness thirdWitness =>
+                    exact Exists.intro c
+                      (And.intro
+                        (Exists.intro b (And.intro firstWitness secondWitness))
+                        thirdWitness)
 end BEDC.FKernel.Gap
