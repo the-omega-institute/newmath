@@ -78,6 +78,22 @@ In the forward direction, split the carrier witness into its empty and one-endpo
 In the reverse direction, case-analyze the displayed mark $v$. The $\bzero$ case rewrites the endpoint witness to an $\hsame$ witness against $\emp$ and gives the empty carrier branch. The $\bone$ case rewrites it to an $\hsame$ witness against $\Eone(\emp)$ and gives the one-endpoint carrier branch.
 \end{proof}
 
+\begin{theorem}[Bool endpoint bridge classifier completeness]
+\label{thm:bool-endpoint-bridge-classifier-completeness}
+The endpoint bridge preserves the checked boolean history classifier in both finite certificate directions. For marks $v,w:\mathsf{BMark}$,
+$$
+  \mathsf{BoolHistoryClassifier}(\mathsf{BoolEndpoint}(v),\mathsf{BoolEndpoint}(w))
+  \quad\Longleftrightarrow\quad
+  \msame(v,w).
+$$
+Moreover, for every history $h:\mathsf{BHist}$ satisfying $\mathsf{BoolHistoryCarrier}(h)$, there exists a mark $v:\mathsf{BMark}$ such that both $\mathsf{BoolSourceSpec}(v)$ and $\mathsf{BoolHistoryClassifier}(h,\mathsf{BoolEndpoint}(v))$ hold.
+\end{theorem}
+\begin{proof}
+For the first clause, unfold the classifier at the two displayed endpoints. The endpoint carrier fields are supplied by the two endpoint cases, so the classifier is equivalent to history sameness between the two endpoint images. The endpoint bridge exactness theorem then identifies this condition with $\msame(v,w)$.
+
+For the second clause, apply carrier endpoint coverage to the carrier witness for $h$ and obtain an endpoint $v$ with $\hsame(h,\mathsf{BoolEndpoint}(v))$. Case analysis on $v$ supplies $\mathsf{BoolSourceSpec}(v)$, since the two mark constructors satisfy the source specification by reflexivity. The same history-sameness witness, together with the carrier witness for $h$ and the endpoint carrier witness, is exactly the data required by the definition of the displayed classifier relation.
+\end{proof}
+
 \begin{theorem}[Bool source respects mark sameness]
 \label{thm:bool-source-spec-respects-msame}
 If \(v\) satisfies \(\mathsf{BoolSourceSpec}\) and \(\msame(v,w)\), then \(w\) also satisfies \(\mathsf{BoolSourceSpec}\).
