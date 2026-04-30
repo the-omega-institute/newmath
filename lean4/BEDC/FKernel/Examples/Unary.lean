@@ -111,6 +111,15 @@ theorem unary_cont_result_closed {h k r : BHist} :
       | intro uk hr =>
           exact unary_cont_closed uh uk hr
 
+theorem unary_continuation_closure {h k r : BHist} :
+    UnaryCont h k r → UnaryHistory r := by
+  intro packed
+  cases packed with
+  | intro uh rest =>
+      cases rest with
+      | intro uk hr =>
+          exact unary_cont_closed uh uk hr
+
 theorem unary_repetition_continuation_closed {h k r : BHist} :
     UnaryHistory h -> UnaryHistory k -> Cont h k r -> UnaryHistory r := by
   intro uh uk hr

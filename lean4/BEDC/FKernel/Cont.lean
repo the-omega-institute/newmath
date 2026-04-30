@@ -148,4 +148,16 @@ theorem cont_assoc_unique {a b c ab bc abc abc' : BHist} :
   cases habc'
   exact append_assoc a b c
 
+theorem cont_addition_like_seed :
+    (∀ h : BHist, Cont BHist.Empty h h) ∧
+      (∀ h : BHist, Cont h BHist.Empty h) ∧
+        (∀ {a b c ab bc abc abc' : BHist},
+          Cont a b ab → Cont b c bc → Cont ab c abc → Cont a bc abc' → hsame abc abc') := by
+  constructor
+  · exact cont_left_unit
+  · constructor
+    · exact cont_right_unit
+    · intro a b c ab bc abc abc' hab hbc habc habc'
+      exact cont_assoc_unique hab hbc habc habc'
+
 end BEDC.FKernel.Cont

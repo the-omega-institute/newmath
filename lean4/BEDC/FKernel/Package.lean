@@ -289,6 +289,14 @@ theorem concrete_package_completeness_policy_grounded
   intro hp hq hpq
   exact policy.reflection hp hq hpq
 
+omit [AskSetup] P in
+theorem package_completeness_reflection_field [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t := by
+  intro left right samePkg
+  exact policy.reflection left right samePkg
+
 theorem packageTokenPolicy_from_reflection
     {bundle : ProbeBundle ProbeName}
     (reflection :
