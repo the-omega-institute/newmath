@@ -36,4 +36,11 @@ theorem unaryCont_comm_sameness_pair {h k r r' : BHist} :
                   have same : hsame r r' := unary_cont_comm uh uk hr hr'
                   exact ⟨same, hsame_symm same⟩
 
+theorem unary_cont_comm_symmetric_pair {h k r r' : BHist} :
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h r' ->
+      hsame r r' /\ hsame r' r := by
+  intro uh uk hr hr'
+  have same : hsame r r' := unary_cont_comm uh uk hr hr'
+  exact ⟨same, hsame_symm same⟩
+
 end BEDC.FKernel.Unary

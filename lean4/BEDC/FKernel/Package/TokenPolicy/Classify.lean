@@ -18,4 +18,11 @@ theorem packageTokenPolicy_psame_hsame_equivalence_fields [AskSetup] [PackageSet
   · intro sameHist
     exact policy.soundness left right sameHist
 
+theorem packageTokenPolicy_classification_iff_symm_on_introduced [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t q -> (psame bundle q p <-> hsame t s) := by
+  intro left right
+  exact packageTokenPolicy_compares_introduced_by_psame policy right left
+
 end BEDC.FKernel.Package
