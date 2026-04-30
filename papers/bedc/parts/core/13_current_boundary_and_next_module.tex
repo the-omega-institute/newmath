@@ -1,13 +1,15 @@
-\chapter{Current Boundary and Next Module}
-\label{ch:core-current-boundary-and-next-module}
+\chapter{Boundary of the Finite Kernel}
+\label{ch:core-finite-kernel-boundary}
 
-The finite kernel is now explicit enough to begin formal verification of its first theorem set. It remains intentionally incomplete in four directions:
+The finite kernel covers the chain
+\[
+\Mark \to \Hist \to \msame, \hsame \to \ExtR, \ContR \to \Ask \to \Sig \to \sameSig \to \Pkg \to \Gap \to \NameCert.
+\]
+It is intentionally bounded: four families of derived interfaces sit outside the finite kernel and are licensed, when admissible, only by separate naming certificates.
 \begin{enumerate}
   \item the completion module for seal-certified threads;
   \item the full arithmetic module for induction, recursion, multiplication, and order;
   \item the phase module for circle-like derived interfaces;
   \item the fold module for normal representatives and fiber ledgers beyond signature packages.
 \end{enumerate}
-
-The next theoretical target is not more horizontal expansion. It is the verification of the finite kernel theorem manifest.
-
+None of these families is a primitive of the finite kernel; each is admitted only through its own naming certificate, with the certificate's stability fields supplied by the finite-kernel chain.

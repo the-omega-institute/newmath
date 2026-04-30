@@ -352,7 +352,7 @@ Existence and soundness are supplied by token introduction and the package-samen
 \section{Token-Uniqueness Modes}
 \label{sec:po-token-uniqueness-modes}
 
-This section makes \(\TokUnique(\Pi)\) explicit as an active policy field and separates two implementation modes so that the next machine sprint has a precise target.
+This section makes \(\TokUnique(\Pi)\) explicit as an active policy field and separates two implementation modes for the same reflection contract.
 
 \begin{definition}[Policy mode]
 \label{def:policy-mode}
@@ -403,7 +403,7 @@ Given \(\TokIntro(\Pi,s,p)\) and \(\TokIntro(\Pi,t,p)\), unfold the implementati
 
 \begin{principle}[Active mode]
 \label{prin:active-token-mode}
-The active paper theorem uses policy mode. Canonical-constructor mode is an implementation target, not a paper-level replacement, until a checked build records the implementation and no-confusion theorem.
+Paper theorems express the assumption as \(\TokUnique(\Pi)\) (policy mode). Canonical-constructor mode is an alternative carrier that derives \(\TokUnique(\Pi)\) from a constructor no-confusion rule.
 \end{principle}
 \leanchecked{BEDC.BaseReflection.active\_token\_mode\_reflects\_base}
 

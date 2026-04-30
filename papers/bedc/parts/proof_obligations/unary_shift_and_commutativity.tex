@@ -75,7 +75,7 @@ The monoid-like name requires unit and associativity. The additive name requires
 \section{Unary Shift and the Additive License}
 \label{sec:po-unary-shift-instance}
 
-\autoref{sec:po-unary-obligations-abstract} decomposes unary continuation commutativity into auxiliary obligations. This section isolates the obligations that should be proved before the name \(\AddUp\) is treated as active rather than conditional.
+\autoref{sec:po-unary-obligations-abstract} decomposes unary continuation commutativity into auxiliary obligations. This section states the concrete instances of those obligations whose proofs license the additive name \(\AddUp\).
 
 \begin{lemma}[\(\Eone\)-congruence]
 \label{lem:eone-congruence}
@@ -177,14 +177,10 @@ If Theorem~\ref{thm:unary-commutativity-concrete} is included in the stability f
 The unit and associativity fields license a monoid-like continuation interface. Commutativity is the additional stability field needed for the additive name.
 \end{proof}
 
-\begin{remark}[Machine target]
-The next proof implementation should not attempt the full \(\AddUp\) interface first. It should first check \(\Eone\)-congruence, unary right-shift, and then Theorem~\ref{thm:unary-commutativity-concrete}.
-\end{remark}
-
 \section{Unary Right-Shift: Micro-Lemmas for the Additive License}
 \label{sec:po-unary-shift-micro-lemmas}
 
-The theorem \(\UnaryShift\) is the remaining proof obligation needed before the name \(\AddUp\) can replace the conservative name \(\UnaryContMonoidUp\). This chapter decomposes that obligation into smaller lemmas suitable for a local verification sprint.
+The theorem \(\UnaryShift\) supplies the commutativity field of the additive naming certificate that licenses \(\AddUp\) over the conservative name \(\UnaryContMonoidUp\). This section decomposes its proof into smaller lemmas.
 
 \begin{lemma}[\(\Eone\)-congruence]
 \label{lem:eone-cong}

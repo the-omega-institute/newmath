@@ -9,9 +9,9 @@ This manuscript presents the BEDC theory, its proof targets, and its implementat
 \toprule
 \textbf{Reader goal} & \textbf{Recommended route}\\
 \midrule
-Understand the theory & Read the Preface, the finite-kernel core, and the hardening and proof-obligation parts. The core gives the object theory; the later parts record the active refinements and proof targets.\\
-Follow the proof plan & Read the proof-sprint part, then \autoref{ch:theorem-dependency-dag}. The sprint chapters give the finite-kernel proof target; the dependency chapter gives the execution order.\\
-Understand the governance and proof posture & Read Project Status, Project Governance, and Chapter~\ref{ch:theory-amendment-policy}. These chapters record the active contract, the amendment policy, and the next verification targets.\\
+Understand the theory & Read the Preface, the finite-kernel core, and the hardening and proof-obligation parts. The core gives the object theory; the later parts record the active refinements and proof obligations.\\
+Follow the theorem chain & Read the proof-sprint part, then \autoref{ch:theorem-dependency-dag}. The chain chapters state the finite-kernel theorems; the dependency chapter records the order in which they compose.\\
+Understand the governance and proof posture & Read the Project Governance part and Chapter~\ref{ch:theory-amendment-policy}. These chapters record the active contract and the amendment policy.\\
 Prepare implementation work & Read the implementation-facing contract and Appendix~\ref{app:lean-scaffold}. The contract is external guidance for formalization work, not part of the core object theory.\\
 Extend the book & Add new material to the relevant thematic chapter and update the registry, correspondence table, and amendment policy when the active reading changes.\\
 \bottomrule
@@ -22,8 +22,8 @@ Extend the book & Add new material to the relevant thematic chapter and update t
 This manuscript intentionally separates four layers:
 \begin{enumerate}
   \item \textbf{Core theory}: clean-room BEDC object-theory specification.
-  \item \textbf{Proof target}: theorem statements and proof plans for the finite kernel.
-  \item \textbf{Implementation-facing contract}: external guidance for a future proof-assistant encoding.
+  \item \textbf{Theorem chain}: theorem statements and proofs for the finite kernel.
+  \item \textbf{Implementation-facing contract}: external guidance for the proof-assistant encoding.
   \item \textbf{Project governance}: editing, registry, and maintenance rules.
 \end{enumerate}
 Terms such as ``model'', ``theorem'', ``table'', ``implementation'', and ``module'' belong to the explanatory metalanguage unless explicitly introduced as BEDC-derived interfaces.
@@ -34,4 +34,4 @@ The proof boundary is not the reconstruction of all traditional mathematics. It 
 \[
 \msame\to \hsame\to \ExtR/\ContR\to \Sig\to \sameSig\to \PkgPol/\GapPol\to \CompGap\to \NameCert.
 \]
-Large derived interfaces such as \(\RealUp\), \(\CircleUp\), and \(\FoldUp\) remain thin interfaces or future extension modules until the finite kernel is mechanically checked.
+Large derived interfaces such as \(\RealUp\), \(\CircleUp\), and \(\FoldUp\) remain thin interfaces whose full reconstruction is licensed only by future naming certificates beyond the finite kernel.
