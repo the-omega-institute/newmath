@@ -76,6 +76,25 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, define $\m
 The matching classifier relates two histories by either the absent-absent case $\hsame(h,\emp)$ and $\hsame(k,\emp)$, or by a present-present case with payload histories $a,b$ such that $S(a)$, $S(b)$, $a\sim_S b$, $\hsame(h,\Eone(a))$, and $\hsame(k,\Eone(b))$.
 \end{definition}
 
+\begin{definition}[Tagged option history classifier]
+\label{def:tagged-option-history-classifier}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, define $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ by the two constructor-matching cases:
+\begin{enumerate}
+  \item absent-absent: $\hsame(h,\emp)$ and $\hsame(k,\emp)$;
+  \item present-present: there are payload histories $a,b$ such that $S(a)$, $S(b)$, $a\sim_S b$, $\hsame(h,\Eone(a))$, and $\hsame(k,\Eone(b))$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Tagged option history pattern]
+\label{def:tagged-option-history-pattern}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, the visible tag pattern $\mathsf{TaggedOptionHistoryPattern}_S(h)$ holds exactly when $h$ is either an absent endpoint with $\hsame(h,\emp)$ or a present endpoint with payload history $a$ satisfying $S(a)$ and $\hsame(h,\Eone(a))$.
+\end{definition}
+
+\begin{definition}[Tagged option history ledger]
+\label{def:tagged-option-history-ledger}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, the visible tag ledger $\mathsf{TaggedOptionHistoryLedger}_S(h)$ records the same two endpoint forms as certificate data: the absent record stores $\hsame(h,\emp)$, and the present record stores a payload history $a$ together with $S(a)$ and $\hsame(h,\Eone(a))$.
+\end{definition}
+
 \begin{theorem}[Tagged option history carrier transport]
 \label{thm:tagged-option-history-carrier-hsame-transport}
 For any BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, if $\mathsf{TaggedOptionHistoryCarrier}_S(h)$ and $\hsame(h,k)$, then $\mathsf{TaggedOptionHistoryCarrier}_S(k)$.
@@ -86,7 +105,7 @@ Case-analyze the tagged carrier witness for $h$. In the absent case, compose the
 
 \begin{theorem}[Tagged option history constructor exactness]
 \label{thm:tagged-option-history-constructor-exactness}
-For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and source certificate $\mathsf{cert}:\NameCert(S,\sim_S)$, the tagged optional-history classifier separates the absent and present constructors at the BEDC history level. An absent-present or present-absent classification is impossible; every present-present classification inverts to payload histories $a,b$ with $S(a)$, $S(b)$, $a\sim_S b$, and endpoint witnesses $\hsame(h,\Eone(a))$ and $\hsame(k,\Eone(b))$; and classifier reflexivity, symmetry, transitivity, and carrier transport are induced by the corresponding fields of $\mathsf{cert}$.
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and source certificate $\mathsf{cert}:\NameCert(S,\sim_S)$, the classifier $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}$ from Definition~\ref{def:tagged-option-history-classifier} separates the absent and present constructors at the BEDC history level. An absent-present or present-absent classification is impossible; every present-present classification inverts to payload histories $a,b$ with $S(a)$, $S(b)$, $a\sim_S b$, and endpoint witnesses $\hsame(h,\Eone(a))$ and $\hsame(k,\Eone(b))$; and classifier reflexivity, symmetry, transitivity, and carrier transport are induced by the corresponding fields of $\mathsf{cert}$.
 \end{theorem}
 \begin{proof}
 The mixed cases reduce to BEDC history constructor no-confusion: $\mathsf{not\_hsame\_emp\_e1}$ eliminates an empty history classified with an $e1$-tagged present history, and $\mathsf{not\_hsame\_e1\_empty}$ eliminates the reverse direction. In the present-present case, $\mathsf{hsame\_e1\_iff}$ strips the visible $e1$ tags and exposes the payload histories, so the source certificate supplies $S(a)$, $S(b)$, the payload classification, and the fields $\mathsf{cert.equiv\_refl}$, $\mathsf{cert.equiv\_symm}$, $\mathsf{cert.equiv\_trans}$, and $\mathsf{cert.carrier\_respects\_equiv}$. The absent-absent case is the empty-history classifier clause.

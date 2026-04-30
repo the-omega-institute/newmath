@@ -116,20 +116,20 @@ For any source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, if $\hsame(h,k)$ and 
 Proceed by cases on the displayed generation of $\mathsf{ListHistoryCarrier}_S(h)$. In the nil case, compose the symmetry of $\hsame(h,k)$ with the endpoint witness $\hsame(h,\emp)$ to obtain $\hsame(k,\emp)$, then use the nil clause. In the cons case, keep the witnesses $a,t,p$, the source witness $S(a)$, the recursive carrier witness for $t$, and the continuation witness $\ContR(a,t,p)$. Compose the symmetry of $\hsame(h,k)$ with the endpoint witness $\hsame(h,\Eone(p))$ to obtain $\hsame(k,\Eone(p))$, then rebuild the cons clause for $k$.
 \end{proof}
 
-\begin{theorem}[List history classifier equivalence fields from a source certificate]
-\label{thm:list-history-classifier-equivalence-fields}
-Let $A : \mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let $\sim_A : \mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a source classifier, and let $\mathsf{cert} : \NameCert(A,\sim_A)$. The generated classifier $\mathsf{ListHistoryClassifier}_{A,\sim_A}$ has the equivalence and endpoint fields required by the history certificate:
+\begin{theorem}[List recursive history classifier equivalence fields from a source certificate]
+\label{thm:list-recursive-history-classifier-equivalence-fields}
+Let $A : \mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let $\sim_A : \mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a source classifier, and let $\mathsf{cert} : \NameCert(A,\sim_A)$. The generated classifier $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}$ has the equivalence and endpoint fields required by the history certificate:
 \begin{enumerate}
-  \item if $\mathsf{ListHistoryCarrier}_A(h)$ holds, then $\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,h)$ holds;
-  \item if $\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ holds, then $\mathsf{ListHistoryClassifier}_{A,\sim_A}(k,h)$ holds;
-  \item if $\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ and $\mathsf{ListHistoryClassifier}_{A,\sim_A}(k,u)$ hold, then $\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,u)$ holds;
-  \item if $\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ holds, then both $\mathsf{ListHistoryCarrier}_A(h)$ and $\mathsf{ListHistoryCarrier}_A(k)$ hold.
+  \item if $\mathsf{ListHistoryCarrier}_A(h)$ holds, then $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,h)$ holds;
+  \item if $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,k)$ holds, then $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(k,h)$ holds;
+  \item if $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,k)$ and $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(k,u)$ hold, then $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,u)$ holds;
+  \item if $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,k)$ holds, then both $\mathsf{ListHistoryCarrier}_A(h)$ and $\mathsf{ListHistoryCarrier}_A(k)$ hold.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
 For reflexivity, induct on the displayed generation of $\mathsf{ListHistoryCarrier}_A(h)$. The nil clause is rebuilt from $\hsame$ reflexivity and the given endpoint link. In the cons clause, the source certificate supplies head reflexivity from the head carrier witness, the induction hypothesis supplies tail reflexivity, and the stored $\ContR$ witness and endpoint $\hsame$ link rebuild the cons-cons classifier clause.
 
-For endpoint membership, induct on the displayed generation of $\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$. The nil-nil clause rebuilds two nil carrier witnesses. The cons-cons clause combines the two source carrier witnesses, the induction hypotheses for the two tails, the two $\ContR$ witnesses, and the two endpoint $\hsame$ links to rebuild both cons carrier witnesses.
+For endpoint membership, induct on the displayed generation of $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,k)$. The nil-nil clause rebuilds two nil carrier witnesses. The cons-cons clause combines the two source carrier witnesses, the induction hypotheses for the two tails, the two $\ContR$ witnesses, and the two endpoint $\hsame$ links to rebuild both cons carrier witnesses.
 
 For symmetry, induct on the classifier generation. The nil-nil case swaps the two endpoint $\hsame$ witnesses. The cons-cons case uses the symmetry field of $\mathsf{cert}$ on the head classifier witness, applies the induction hypothesis to the tail classifier witness, swaps the two $\ContR$ witnesses and endpoint links, and rebuilds the cons-cons clause.
 
