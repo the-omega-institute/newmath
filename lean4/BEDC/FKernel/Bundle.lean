@@ -74,6 +74,11 @@ theorem bundle_generation_cases {PName : Type} (bundle : ProbeBundle PName) :
   | Bcons p tail =>
       exact Or.inr ⟨p, tail, rfl⟩
 
+theorem probeBundle_nil_ne_cons {PName : Type} {p : PName} {tail : ProbeBundle PName} :
+    ProbeBundle.Bnil ≠ ProbeBundle.Bcons p tail := by
+  intro h
+  cases h
+
 theorem probeBundle_generated_induction {PName : Type} {M : ProbeBundle PName → Prop} :
     M ProbeBundle.Bnil →
       (∀ p tail, M tail → M (ProbeBundle.Bcons p tail)) →
