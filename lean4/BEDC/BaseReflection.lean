@@ -56,6 +56,17 @@ theorem TokUnique_replacement_symm
   intro left right
   exact eqv.symm (tok.tokenReplacement left right)
 
+theorem TokUnique_replacement_trans
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    {x y z : s.SigObj} {p q : s.Pkg} :
+    s.TokIntro P x p -> s.TokIntro P y p ->
+    s.TokIntro P y q -> s.TokIntro P z q -> s.hsame x z := by
+  intro xp yp yq zq
+  have xy : s.hsame x y := tok.tokenReplacement xp yp
+  have yz : s.hsame y z := tok.tokenReplacement yq zq
+  exact eqv.trans xy yz
+
 def PolicyTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Prop := TokUnique s P
 
 structure CanonicalTokenMode (s : BaseReflectionSetup) (P : s.Pi) : Type where
@@ -450,6 +461,21 @@ theorem ExactGlobalizeBase_completeness
     PsameBase s P p q → Nonempty (GeneratedSameSig s P h k) := by
   intro hp hq base
   exact ex.completeness h k p q hp hq base
+
+theorem ExactGlobalizeBase_sound_complete
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D)
+    {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    (GeneratedSameSig s P h k -> PsameBase s P p q) /\
+      (PsameBase s P p q -> Nonempty (GeneratedSameSig s P h k)) := by
+  constructor
+  case left =>
+    intro gen
+    exact ex.soundness h k p q hp hq gen
+  case right =>
+    intro base
+    exact ex.completeness h k p q hp hq base
 
 theorem ExactGlobalizeBase_from_fields
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
