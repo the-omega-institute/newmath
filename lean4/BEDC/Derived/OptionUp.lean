@@ -1,4 +1,55 @@
+import BEDC.FKernel.NameCert
+
 namespace BEDC.Derived.OptionUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+
+def OptionHistoryCarrier (source : BHist -> Prop) (h : BHist) : Prop :=
+  hsame h BHist.Empty ∨ source h
+
+def OptionHistoryClassifier (source : BHist -> Prop) (h k : BHist) : Prop :=
+  OptionHistoryCarrier source h ∧ OptionHistoryCarrier source k ∧ hsame h k
+
+theorem option_history_semantic_name_certificate (source : BHist -> Prop) :
+    SemanticNameCert (OptionHistoryCarrier source) (OptionHistoryCarrier source)
+      (OptionHistoryCarrier source) (OptionHistoryClassifier source) := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty (Or.inl (hsame_refl BHist.Empty))
+      equiv_refl := by
+        intro h carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl h))
+      equiv_symm := by
+        intro h k same
+        cases same with
+        | intro carrierH rest =>
+            cases rest with
+            | intro carrierK sameHK =>
+                exact And.intro carrierK (And.intro carrierH (hsame_symm sameHK))
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        cases sameHK with
+        | intro carrierH restHK =>
+            cases restHK with
+            | intro _ sameHistHK =>
+                cases sameKR with
+                | intro _ restKR =>
+                    cases restKR with
+                    | intro carrierR sameHistKR =>
+                        exact And.intro carrierH
+                          (And.intro carrierR (hsame_trans sameHistHK sameHistKR))
+      carrier_respects_equiv := by
+        intro h k same _
+        exact same.right.left
+    }
+    pattern_sound := by
+      intro h carrier
+      exact carrier
+    ledger_sound := by
+      intro h carrier
+      exact carrier
+  }
 
 def OptionCarrier (A : Type) := Option A
 
