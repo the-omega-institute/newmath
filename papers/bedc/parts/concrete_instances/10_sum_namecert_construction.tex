@@ -12,10 +12,10 @@ The disjoint sum interface \(\SumUp\) is licensed over two source carriers each 
   \item \textbf{Classifier choice}: the sum classifier relates left tags through the $A$ classifier, right tags through the $B$ classifier, and excludes mixed tags.
   \item \textbf{Stability obligations}: tagged carrier transport, left/right inversion, mixed-tag exclusion, classifier symmetry, classifier transitivity, and endpoint transport.
   \item \textbf{Ledger}: the tag is visible data; payload evidence is retained from the corresponding source certificate.
-  \item \textbf{Core theorem list}: tagged injections, carrier transport, left and right inversions, classifier inversion, mixed-tag exclusion, and the semantic name certificate.
-  \item \textbf{Exactness predicate}: classification holds exactly for same-tag payloads classified by the matching source classifier.
+  \item \textbf{Core theorem list}: tagged injections, carrier transport, left and right inversions, classifier inversion, generic same-tag exactness, mixed-tag exclusion, and the semantic name certificate.
+  \item \textbf{Exactness predicate}: the left-tag and right-tag iff clauses identify classification exactly with endpoint payload witnesses and the matching source classifier.
   \item \textbf{Standard bridge}: tagged histories read back as ordinary $\mathsf{inl}(a)$ and $\mathsf{inr}(b)$ values.
-  \item \textbf{Status}: the $\mathsf{SemanticNameCert}$ at Theorem~\ref{thm:concrete-sum-namecert} is $\mathsf{CheckedCert}$; Theorem~\ref{thm:sum-history-classifier-same-tag-exactness} is a $\mathsf{ProofTarget}$ for the matching-tag iff formulation.
+  \item \textbf{Status}: the $\mathsf{SemanticNameCert}$ at Theorem~\ref{thm:concrete-sum-namecert} is $\mathsf{CheckedCert}$; Theorem~\ref{thm:sum-history-classifier-same-tag-exactness} and Theorem~\ref{thm:sum-history-classifier-generic-same-tag-exactness} are $\mathsf{ProofTarget}$ sites for matching-tag iff formulations.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -133,6 +133,25 @@ theorems above. For the reverse directions, rebuild the matching classifier
 branch using the given payload $\hsame$ witness, the reflexive visible-tag
 witnesses for $\Ezero(l)$ and $\Ezero(l')$ or for $\Eone(r)$ and
 $\Eone(r')$, and the corresponding left or right classifier constructor.
+\end{proof}
+
+\begin{theorem}[Sum history classifier generic same-tag exactness]
+\label{thm:sum-history-classifier-generic-same-tag-exactness}
+For source carriers $Left,Right:\Hist\to\mathsf{Prop}$ and source classifiers $LeftEq,RightEq:\Hist\to\Hist\to\mathsf{Prop}$, the history-level sum classifier is exact on each visible tag:
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,\Ezero(l),\Ezero(l'))
+\quad\Longleftrightarrow\quad
+\exists a,a'.\;\hsame(l,a)\wedge\hsame(l',a')\wedge LeftEq(a,a')
+$$
+and
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,\Eone(r),\Eone(r'))
+\quad\Longleftrightarrow\quad
+\exists b,b'.\;\hsame(r,b)\wedge\hsame(r',b')\wedge RightEq(b,b').
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{SumHistoryClassifier}$. In the left-tag forward direction, the left branch already stores payload witnesses for the two endpoints together with a $LeftEq$ witness; the opposite right branch is impossible by $e0/e1$ no-confusion, and $e0$-constructor inversion identifies the visible endpoints with the stored payload tags. The right-tag forward direction is identical with $e1$-constructor inversion and $RightEq$. For the reverse directions, the displayed payload witnesses rebuild the matching left or right classifier branch by constructor congruence for $e0$ or $e1$, together with the stored source-classifier witness. The surviving branch is constructor-stable, and the impossible branch is discharged by the same tag no-confusion principle.
 \end{proof}
 
 \begin{theorem}[Sum history classifier symmetry under history sameness]
