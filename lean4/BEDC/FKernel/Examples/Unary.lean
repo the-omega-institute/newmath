@@ -56,6 +56,18 @@ theorem unary_cont_closed {h k r : BHist} :
   | e1 k ih =>
       exact ih uh uk
 
+theorem unary_cont_right_factor {h k r : BHist} :
+    Cont h k r → UnaryHistory r → UnaryHistory k := by
+  intro hr ur
+  cases hr
+  induction k generalizing h with
+  | Empty =>
+      exact True.intro
+  | e0 k ih =>
+      cases ur
+  | e1 k ih =>
+      exact ih ur
+
 def UnaryDomainSetup : DomainSetup where
   Domain := Unit
   InDom := fun _ h => UnaryHistory h

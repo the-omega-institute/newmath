@@ -35,6 +35,22 @@ theorem TokUnique_intro {s : BaseReflectionSetup} {P : s.Pi} :
       exact h left right
   }
 
+theorem TokUnique_iff_tokenReplacement {s : BaseReflectionSetup} {P : s.Pi} :
+    TokUnique s P ↔
+      (∀ {x y : s.SigObj} {p : s.Pkg},
+        s.TokIntro P x p → s.TokIntro P y p → s.hsame x y) := by
+  constructor
+  case mp =>
+    intro tok
+    exact tok.tokenReplacement
+  case mpr =>
+    intro replacement
+    exact {
+      tokenReplacement := by
+        intro x y p left right
+        exact replacement left right
+    }
+
 theorem TokUnique_replacement
     {s : BaseReflectionSetup} {P : s.Pi} (tok : TokUnique s P)
     {x y : s.SigObj} {p : s.Pkg} :

@@ -25,6 +25,11 @@ theorem hsame_trans : ∀ {a b c : BHist}, hsame a b → hsame b c → hsame a c
   intro a b c hab hbc
   exact hab.trans hbc
 
+theorem hsame_empty_inversion {x : BHist} : hsame .Empty x → x = .Empty := by
+  intro hx
+  cases hx
+  rfl
+
 theorem hsame_equivalence :
     (∀ h : BHist, hsame h h) ∧
       (∀ {h k : BHist}, hsame h k → hsame k h) ∧
