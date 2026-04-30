@@ -46,6 +46,11 @@ theorem cont_step_zero {h k r : BHist} :
   intro hr
   exact (cont_right_step_rules hr).left
 
+theorem cont_step_one {h k r : BHist} :
+    Cont h k r -> Cont h (BHist.e1 k) (BHist.e1 r) := by
+  intro hr
+  exact (cont_right_step_rules hr).right
+
 theorem append_assoc : ∀ a b c : BHist, append (append a b) c = append a (append b c) := by
   intro a b c
   induction c with

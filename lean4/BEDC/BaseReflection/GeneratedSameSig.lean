@@ -165,6 +165,22 @@ def GeneratedSameSig_trans_under_determinacy
             sigSame := eqv.trans leftSame (eqv.trans (det midSig midSig') rightSame)
           }
 
+theorem GeneratedSameSig_trans_nonempty_direct_under_determinacy
+    {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s)
+    (det : forall {h : s.Hist} {x y : s.SigObj} {ex ey : s.Evidence},
+      s.SigGen P h x ex -> s.SigGen P h y ey -> s.hsame x y)
+    {h k l : s.Hist} :
+    Nonempty (GeneratedSameSig s P h k) ->
+      Nonempty (GeneratedSameSig s P k l) ->
+        Nonempty (GeneratedSameSig s P h l) := by
+  intro left right
+  cases left with
+  | intro leftGen =>
+      cases right with
+      | intro rightGen =>
+          exact Nonempty.intro
+            (GeneratedSameSig_trans_under_determinacy eqv det leftGen rightGen)
+
 theorem GeneratedSameSig_chain_witnesses_under_determinacy
     {s : BaseReflectionSetup} {P : s.Pi} (eqv : HSameEquiv s)
     (det : forall {h : s.Hist} {x y : s.SigObj} {ex ey : s.Evidence},

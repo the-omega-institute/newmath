@@ -43,6 +43,10 @@ theorem unary_e1_inversion {h : BHist} : UnaryHistory (BHist.e1 h) -> UnaryHisto
   intro uh
   exact uh
 
+theorem unary_history_e1_iff {h : BHist} :
+    UnaryHistory (BHist.e1 h) <-> UnaryHistory h := by
+  rfl
+
 theorem unary_history_induction {P : BHist → Prop} :
     P BHist.Empty →
       (∀ h : BHist, UnaryHistory h → P h → P (BHist.e1 h)) →
