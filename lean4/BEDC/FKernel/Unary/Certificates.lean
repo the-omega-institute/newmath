@@ -63,6 +63,12 @@ def UnaryPatternSpec : Prop :=
   UnaryHistory BHist.Empty /\
     forall {h : BHist}, UnaryHistory h -> UnaryHistory (BHist.e1 h)
 
+theorem UnaryPatternSpec_fields :
+    UnaryPatternSpec ↔
+      UnaryHistory BHist.Empty ∧
+        (∀ {h : BHist}, UnaryHistory h → UnaryHistory (BHist.e1 h)) := by
+  rfl
+
 theorem nat_up_certificate_seed_not_primitive :
     NameCert UnaryName ∧ Nonempty (NameCert UnaryName) := by
   exact nat_up_licensed_not_primitive

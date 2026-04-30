@@ -205,4 +205,12 @@ theorem signature_sameness_equivalence_total_determinacy [AskSetup]
                                               (hsame_trans hst
                                                 (hsame_trans htu huv)))))
 
+theorem signature_sameness_equivalence [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist → Prop} (policy : AskPolicy D) :
+    (∀ {h : BHist}, D h → SameSig bundle h h) ∧
+      (∀ {h k : BHist}, SameSig bundle h k → SameSig bundle k h) ∧
+      (∀ {h k l : BHist},
+        D k → SameSig bundle h k → SameSig bundle k l → SameSig bundle h l) := by
+  exact sameSig_equivalence (bundle := bundle) (D := D) policy
+
 end BEDC.FKernel.Sig
