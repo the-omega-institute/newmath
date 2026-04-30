@@ -72,6 +72,9 @@ theorem UnaryPatternSpec_fields :
 def UnaryClassifierSpec (h k : BHist) : Prop :=
   UnaryHistory h ∧ UnaryHistory k ∧ hsame h k
 
+def UnaryLedgerPolicy : Prop :=
+  Nonempty LedgerPolicy
+
 theorem nat_up_certificate_seed_not_primitive :
     NameCert UnaryName ∧ Nonempty (NameCert UnaryName) := by
   exact nat_up_licensed_not_primitive

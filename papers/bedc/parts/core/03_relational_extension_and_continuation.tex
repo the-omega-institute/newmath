@@ -140,6 +140,7 @@ Induct on the shared right history \(k\). The empty case is immediate. In the tw
 \label{thm:continuation-associativity}
 \label{thm:continuation-associativity-up-to-hsame}
 \label{thm:continuation-associativity-spine}
+\label{thm:continuation-associativity-up-to-hsame-spine}
 If \(\ContR(h,k,u)\), \(\ContR(u,l,v)\), \(\ContR(k,l,w)\), and \(\ContR(h,w,z)\), then \(\hsame(v,z)\).
 \end{theorem}
 \leanchecked{BEDC.FKernel.Cont.cont\_assoc\_relational}
@@ -154,6 +155,7 @@ If \(\ContR(h,k,u)\), \(\ContR(u,l,v)\), \(\ContR(k,l,w)\), and \(\ContR(h,w,z)\
 \leanvariant{BEDC.FKernel.Cont.continuation\_associativity}
 \leanvariant{BEDC.FKernel.Cont.continuation\_associativity\_up\_to\_hsame}
 \leanvariant{BEDC.FKernel.Cont.cont\_assoc\_common\_witness}
+\leanvariant{BEDC.FKernel.Cont.cont\_assoc\_up\_to\_hsame\_spine}
 \leanvariant{BEDC.FKernel.Cont.cont\_assoc\_spine\_symmetric\_witnesses}
 \begin{proof}
 Induct on the derivation of \(\ContR(h,k,u)\). The empty case reduces both sides to the determinacy of \(\ContR(k,l,-)\). In the \(\Ezero\) and \(\Eone\) cases, no-confusion forces matching outer constructors in the relevant continuation derivations; use the induction hypothesis on inner histories and rebuild \(\hsame\) under the same outer constructor.

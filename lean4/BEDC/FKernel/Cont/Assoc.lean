@@ -17,4 +17,8 @@ theorem cont_assoc_common_witness {a b c ab bc left right : BHist} :
           have hrightSame : hsame right common := cont_deterministic hright hrightCommon
           exact ⟨common, hleftCommon, hrightCommon, hleftSame, hrightSame⟩
 
+theorem cont_assoc_up_to_hsame_spine {a b c ab bc left right : BHist} :
+    Cont a b ab -> Cont ab c left -> Cont b c bc -> Cont a bc right -> hsame left right := by
+  exact cont_assoc_hsame
+
 end BEDC.FKernel.Cont
