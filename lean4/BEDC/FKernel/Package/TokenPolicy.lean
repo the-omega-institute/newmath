@@ -64,6 +64,14 @@ theorem packageTokenPolicy_signature_facing {bundle : ProbeBundle ProbeName}
   intro sameHist left right
   exact policy.soundness left right sameHist
 
+omit [AskSetup] P in
+theorem packageTokenPolicy_reflection_field [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle)
+    {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p → TokIntro bundle t q → psame bundle p q → hsame s t := by
+  intro left right samePkg
+  exact policy.reflection left right samePkg
+
 theorem packageTokenPolicy_psame_refl_on_introduced {bundle : ProbeBundle ProbeName}
     (policy : PackageTokenPolicy bundle) {s : BHist} {p : Pkg} :
     TokIntro bundle s p → psame bundle p p := by
