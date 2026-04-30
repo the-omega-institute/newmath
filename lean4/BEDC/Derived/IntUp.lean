@@ -12,4 +12,9 @@ def IntSourceSpec (sign : BEDC.FKernel.Mark.BMark) (magnitude : BEDC.FKernel.His
     Prop :=
   IntCarrier sign magnitude
 
+theorem intup_source_specification
+    (sign : BEDC.FKernel.Mark.BMark) (magnitude : BEDC.FKernel.Hist.BHist) :
+    IntSourceSpec sign magnitude <-> IntCarrier sign magnitude := by
+  rfl
+
 end BEDC.Derived.IntUp
