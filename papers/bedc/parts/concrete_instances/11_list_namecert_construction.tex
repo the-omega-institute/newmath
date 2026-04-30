@@ -176,6 +176,23 @@ hypothesis to the mapped-tail classifier witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e1\_inversion}
 
+\begin{theorem}[History list classifier constructor-map embeddings]
+\label{thm:list-classifier-constructor-map-embeddings}
+For BEDC history lists $xs$ and $ys$, structural classification by $\hsame$ is
+equivalent to structural classification after mapping both lists through the
+$e0$ history constructor, and likewise equivalent to structural classification
+after mapping both lists through the $e1$ history constructor.
+\end{theorem}
+\begin{proof}
+For the $e0$ equivalence, the forward implication is exactly the checked
+preservation theorem for $e0$-mapping, and the reverse implication is exactly
+the checked $e0$-mapping inversion theorem. The $e1$ equivalence is obtained in
+the same way from the checked preservation theorem for $e1$-mapping and the
+checked $e1$-mapping inversion theorem. Thus each BEDC history constructor
+preserves and reflects the list classifier, giving a classifier embedding in
+both constructor-map cases.
+\end{proof}
+
 \begin{theorem}[History list classifier separates mixed mapped tags]
 \label{thm:list-classifier-mixed-tag-empty}
 For BEDC history lists, if the list obtained by mapping every entry of \(x\)
