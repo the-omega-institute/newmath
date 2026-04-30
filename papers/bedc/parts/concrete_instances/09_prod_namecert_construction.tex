@@ -19,6 +19,15 @@ The source is the ordered product of the two source certificates.
 \end{definition}
 \leandef{BEDC.Derived.ProdUp.ProdHistoryCarrier}
 
+\begin{theorem}[Product history carrier transport]
+\label{thm:prod-history-carrier-hsame-transport}
+If two product histories are internally the same and the first is generated from a left witness, a right witness, and a continuation proof, then the second is generated from the same component witnesses and the transported continuation proof.
+\end{theorem}
+\begin{proof}
+Invert the product-history carrier into its left history, right history, component witnesses, and continuation proof. Transport the continuation result across \(\hsame\), and rebuild the product-history carrier with the same component witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_hsame\_transport}
+
 \begin{definition}[Prod pattern specification]
 \label{def:prod-pattern-specification}
 The pattern is paired generation from one \(A\)-witness and one \(B\)-witness.

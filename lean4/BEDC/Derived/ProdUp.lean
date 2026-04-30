@@ -14,6 +14,22 @@ def ProdHistoryCarrier (Left Right : BHist -> Prop) (h : BHist) : Prop :=
 def ProdHistoryClassifier (Left Right : BHist -> Prop) (h k : BHist) : Prop :=
   ProdHistoryCarrier Left Right h ∧ ProdHistoryCarrier Left Right k ∧ hsame h k
 
+theorem ProdHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BHist} :
+    hsame h k -> ProdHistoryCarrier Left Right h -> ProdHistoryCarrier Left Right k := by
+  intro same carrier
+  cases carrier with
+  | intro leftHist rest =>
+      cases rest with
+      | intro rightHist data =>
+          cases data with
+          | intro leftCarrier rightData =>
+              cases rightData with
+              | intro rightCarrier cont =>
+                  exact Exists.intro leftHist
+                    (Exists.intro rightHist
+                      (And.intro leftCarrier
+                        (And.intro rightCarrier (cont_result_hsame_transport cont same))))
+
 theorem prod_history_semantic_name_certificate (Left Right : BHist -> Prop)
     (left_witness : exists l : BHist, Left l) (right_witness : exists r : BHist, Right r) :
     SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)

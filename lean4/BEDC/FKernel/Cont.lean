@@ -213,6 +213,11 @@ theorem cont_deterministic :
   intro h k r r' hr hr'
   exact hr.trans hr'.symm
 
+theorem cont_result_hsame_transport {h k r r' : BHist} :
+    Cont h k r -> hsame r r' -> Cont h k r' := by
+  intro hr same
+  exact cont_intro (same.symm.trans hr)
+
 theorem cont_respects_hsame {h h' k k' r r' : BHist} :
     hsame h h' -> hsame k k' -> Cont h k r -> Cont h' k' r' -> hsame r r' := by
   intro hh hk hr hr'
