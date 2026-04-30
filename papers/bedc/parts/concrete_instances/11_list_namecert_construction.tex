@@ -242,6 +242,20 @@ remaining classifier witness returns the original list order.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_right\_cancel\_hsame}
 
+\begin{theorem}[List classifier right cancellation with equivalent suffixes]
+\label{thm:list-classifier-append-right-cancel-with-hsame-suffix}
+For BEDC history lists, if two right suffixes are structurally classified by
+\(\HSame\), and appending those suffixes to \(x\) and \(y\) gives a structural
+\(\HSame\)-classification, then \(x\) and \(y\) are structurally classified.
+\end{theorem}
+\begin{proof}
+Use symmetry on the suffix classifier and append stability with reflexivity on
+the left list \(y\) to classify \(y{++}\mathit{suffix}'\) with
+\(y{++}\mathit{suffix}\). Transitivity aligns the appended classification to a
+common right suffix, and ordinary right-append cancellation removes it.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_right\_cancel\_with\_hsame\_suffix}
+
 \begin{theorem}[List classifier transitivity from a source certificate]
 \label{thm:list-classifier-trans-from-namecert}
 If the source classifier is supplied by a \(\NameCert\), then the lifted list classifier is transitive on finite list spines.

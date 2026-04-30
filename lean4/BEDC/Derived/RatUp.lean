@@ -168,6 +168,16 @@ theorem RatCarrier_denominator_hsame_transport {sign : BEDC.FKernel.Mark.BMark}
 def RatHistoryCarrier (denominator : BHist) : Prop :=
   ∃ sign : BMark, ∃ numerator : BHist, RatCarrier sign numerator denominator
 
+theorem RatHistoryCarrier_not_empty {d : BHist} :
+    RatHistoryCarrier d -> hsame d BHist.Empty -> False := by
+  intro carrier sameEmpty
+  cases carrier with
+  | intro sign signData =>
+      cases signData with
+      | intro numerator ratCarrier =>
+          exact PositiveUnaryDenominator_not_empty
+            (RatCarrier_positive_denominator ratCarrier) sameEmpty
+
 def RatHistoryClassifier (d e : BHist) : Prop :=
   RatHistoryCarrier d ∧ RatHistoryCarrier e ∧ hsame d e
 

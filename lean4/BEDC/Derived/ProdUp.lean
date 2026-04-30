@@ -48,6 +48,19 @@ theorem ProdHistoryCarrier_unary_of_components {Left Right : BHist -> Prop}
               | intro rightCarrier cont =>
                   exact unary_cont_closed (left_unary leftCarrier) (right_unary rightCarrier) cont
 
+theorem ProdHistoryCarrier_unary {h : BHist} :
+    ProdHistoryCarrier UnaryHistory UnaryHistory h -> UnaryHistory h := by
+  intro carrier
+  cases carrier with
+  | intro leftHist rest =>
+      cases rest with
+      | intro rightHist data =>
+          cases data with
+          | intro leftUnary rightData =>
+              cases rightData with
+              | intro rightUnary cont =>
+                  exact unary_cont_closed leftUnary rightUnary cont
+
 theorem ProdHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BHist} :
     hsame h k -> ProdHistoryCarrier Left Right h -> ProdHistoryCarrier Left Right k := by
   intro same carrier

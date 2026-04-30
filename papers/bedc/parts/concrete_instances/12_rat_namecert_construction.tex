@@ -145,6 +145,18 @@ integer numerator and the resulting positive denominator.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatCarrier\_append\_unary\_denominator\_closed}
 
+\begin{theorem}[Rat history carrier is not empty]
+\label{thm:rat-history-carrier-not-empty}
+If a rational history carrier has denominator \(d\), then \(d\) cannot be
+internally the same as \(\emp\).
+\end{theorem}
+\begin{proof}
+Unpack the rational history carrier into its sign, numerator, and rational
+carrier. The rational carrier exposes a positive unary denominator witness, and
+positive unary denominators are separated from \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_not\_empty}
+
 \begin{theorem}[Rat history carrier append unary denominator closure]
 \label{thm:rat-history-carrier-append-unary-denominator-closed}
 If a rational history carrier has denominator \(d\), then appending any unary history to \(d\) preserves rational history carrier membership.

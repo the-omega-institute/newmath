@@ -170,7 +170,6 @@ theorem ListClassifierSpec_hsame_symm :
               constructor
               · exact BEDC.FKernel.Hist.hsame_symm hhead
               · exact ih htail
-
 theorem ListClassifierSpec_hsame_cons_inversion {x y : BEDC.FKernel.Hist.BHist}
     {xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
     ListClassifierSpec BEDC.FKernel.Hist.hsame (x :: xs) (y :: ys) ->
@@ -181,7 +180,6 @@ theorem ListClassifierSpec_hsame_cons_inversion {x y : BEDC.FKernel.Hist.BHist}
       constructor
       · exact headSame
       · exact tailSame
-
 theorem ListClassifierSpec_hsame_cons_head_transport {x y z : BEDC.FKernel.Hist.BHist}
     {xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
     BEDC.FKernel.Hist.hsame y z ->
@@ -193,7 +191,6 @@ theorem ListClassifierSpec_hsame_cons_head_transport {x y z : BEDC.FKernel.Hist.
       constructor
       · exact BEDC.FKernel.Hist.hsame_trans headSame replacement
       · exact tailSame
-
 theorem ListClassifierSpec_hsame_map_e0 :
     forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
       ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
@@ -347,7 +344,6 @@ theorem ListClassifierSpec_hsame_length_eq :
           | intro headSame tailSame =>
               cases headSame
               exact congrArg Nat.succ (ih tailSame)
-
 theorem ListClassifierSpec_append_hsame
     {xs ys zs ws : ListCarrier BEDC.FKernel.Hist.BHist} :
     ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
@@ -600,4 +596,17 @@ theorem ListClassifierSpec_hsame_singleton_iff {x y : BEDC.FKernel.Hist.BHist} :
   constructor
   · intro h; exact h.left
   · intro h; constructor; exact h; constructor
+
+theorem ListClassifierSpec_append_right_cancel_with_hsame_suffix
+    {xs ys suffix suffix' : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame suffix suffix' ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame (xs ++ suffix) (ys ++ suffix') ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys := by
+  intro suffixSame appended
+  exact ListClassifierSpec_append_right_cancel_hsame
+    (ListClassifierSpec_hsame_trans appended
+      (ListClassifierSpec_append_hsame
+        (list_stability_reflexive_by_induction BEDC.FKernel.Hist.hsame_refl ys)
+        (ListClassifierSpec_hsame_symm suffixSame)))
+
 end BEDC.Derived.ListUp
