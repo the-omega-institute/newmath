@@ -191,6 +191,20 @@ theorem PreorderPrefixLE_append_right_context {x h k : BHist} :
                   ((congrArg (fun y => append h y) (unary_append_comm tailUnary xUnary)).trans
                     (append_assoc h x tail).symm))⟩
 
+theorem PreorderPrefixLE_cancel_right_context {h k x : BHist} :
+    UnaryHistory x -> PreorderPrefixLE (append h x) (append k x) -> PreorderPrefixLE h k := by
+  intro xUnary prefixLE
+  cases prefixLE with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary hCont =>
+          have shifted : append k x = append (append h tail) x :=
+            hCont.trans
+              ((append_assoc h x tail).trans
+                ((congrArg (fun y => append h y) (unary_append_comm xUnary tailUnary)).trans
+                  (append_assoc h tail x).symm))
+          exact ⟨tail, tailUnary, cont_intro (append_right_cancel shifted)⟩
+
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)
     (carrier_transport : ∀ {h k : BHist}, hsame h k → Carrier h → Carrier k)

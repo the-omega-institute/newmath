@@ -75,6 +75,7 @@ $$
 \mathsf{BLEN}(\Bcons(\pi,\Pi))=1+\mathsf{BLEN}(\Pi).
 $$
 \end{definition}
+\leandef{BEDC.FKernel.Bundle.bundleLength}
 
 \begin{theorem}[Probe bundle append length]
 \label{thm:probe-bundle-append-length}
@@ -88,6 +89,7 @@ $$
 \begin{proof}
 Induct on $\Pi$. In the empty case, the append term reduces to $\Theta$ and the length equation reduces to the left identity of addition. In the cons case, both sides reduce by one successor, and the tail equation is the induction hypothesis.
 \end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleLength\_append}
 
 \begin{lemma}[Probe bundle nonempty prefix length separation]
 \label{lem:probe-bundle-nonempty-prefix-length-separation}
@@ -165,6 +167,7 @@ Use Theorem~\ref{thm:bundle-append-membership}. A member of $\Pi$ maps into $\ma
 \label{thm:bundle-local-policy-append-gluing}
 If $\mathsf{BundleAskPolicy}(\Pi,D)$ and $\mathsf{BundleAskPolicy}(\Theta,D)$ hold, then $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ holds.
 \end{theorem}
+\leanchecked{BEDC.FKernel.Ask.bundleAskPolicy\_append\_gluing}
 \begin{proof}
 Use Theorem~\ref{thm:bundle-append-membership}. For each probe membership in $\mathsf{BAppend}(\Pi,\Theta)$, split it into a left membership in $\Pi$ or a right membership in $\Theta$. In the left case, take totality, determinacy, and history-respect from the policy on $\Pi$; in the right case, take the same three fields from the policy on $\Theta$. These case analyses assemble the bundle-local asking policy for the appended bundle.
 \end{proof}

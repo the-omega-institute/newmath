@@ -213,6 +213,20 @@ If \(x\) is unary and \(h\le k\) is witnessed by a unary continuation tail, then
 Unpack the prefix witness as a unary tail and a continuation equation from \(h\) to \(k\). Reuse the same tail. Associativity moves the right context next to the tail, unary commutativity swaps the two unary histories, and associativity moves the tail back to the continuation endpoint.
 \end{proof}
 
+\begin{theorem}[Prefix right context cancellation]
+\label{thm:preorder-prefix-right-context-cancellation}
+If \(x\) is unary and
+\(\mathsf{append}(h,x)\le\mathsf{append}(k,x)\), then \(h\le k\).
+\end{theorem}
+\begin{proof}
+Unpack the prefix witness as a unary tail and a continuation equation. Append
+associativity brings the right context next to that tail, unary commutativity
+exchanges the two unary histories, and associativity restores a common right
+context. Right cancellation removes the shared \(x\), leaving the continuation
+witness from \(h\) to \(k\).
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_cancel\_right\_context}
+
 \begin{theorem}[Prefix left context cancellation]
 \label{thm:preorder-prefix-left-context-cancellation}
 If appending the same left context to \(h\) and \(k\) makes
