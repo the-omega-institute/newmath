@@ -73,6 +73,33 @@ theorem nameCert_witnesses_from_cert {name : DerivedName} :
 
 end Cert
 
+theorem nameCert_expanded_template [NameCertSetup] {name : DerivedName} :
+    Nonempty (NameCert name) ↔
+      ∃ _ : SourceSpec,
+      ∃ _ : PatternSpec,
+      ∃ _ : ClassifierSpec,
+      ∃ _ : StabilityCert,
+      ∃ _ : LedgerPolicy, True := by
+  constructor
+  · intro certNonempty
+    cases certNonempty with
+    | intro cert =>
+        cases cert with
+        | mk source pattern classifier stability ledger =>
+            exact ⟨source, pattern, classifier, stability, ledger, True.intro⟩
+  · intro witnesses
+    cases witnesses with
+    | intro source rest =>
+        cases rest with
+        | intro pattern rest =>
+            cases rest with
+            | intro classifier rest =>
+                cases rest with
+                | intro stability rest =>
+                    cases rest with
+                    | intro ledger _ =>
+                        exact Nonempty.intro (NameCert.mk source pattern classifier stability ledger)
+
 theorem ledger_witness_from_cert [NameCertSetup] {name : DerivedName} :
     NameCert name → ∃ _ledger : LedgerPolicy, True := by
   intro cert
