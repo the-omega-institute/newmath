@@ -264,6 +264,30 @@ continuation introduction. Pattern and ledger soundness are identities because
 both are chosen to be the same product-history carrier.
 \end{proof}
 
+\begin{theorem}[Product componentwise history classifier inversion]
+\label{thm:prod-component-history-classifier-inversion}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\NameCert(L,\sim_L)$, $\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. If
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$,
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$, and
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ hold, then
+$l\sim_L l'$ and $r\sim_R r'$.
+\end{theorem}
+\begin{proof}
+Unpack the componentwise classifier witness to obtain component histories
+$l_h,r_h,l_k,r_k$ with pair representations for $h$ and $k$, together with
+$l_h\sim_L l_k$ and $r_h\sim_R r_k$. Apply pair-representation coherence at
+$h$ to the displayed representation $(l,r)$ and the witness representation
+$(l_h,r_h)$, yielding $l\sim_L l_h$ and $r\sim_R r_h$. Apply coherence at
+$k$ to the witness representation $(l_k,r_k)$ and the displayed
+representation $(l',r')$, yielding $l_k\sim_L l'$ and $r_k\sim_R r'$. The
+transitivity fields of the two source $\NameCert$ witnesses compose the left
+chain $l\sim_L l_h\sim_L l_k\sim_L l'$ and the right chain
+$r\sim_R r_h\sim_R r_k\sim_R r'$.
+\end{proof}
+
 \begin{definition}[Prod stability certificate]
 \label{def:prod-stability-certificate}
 The stability certificate consists of:
