@@ -90,6 +90,27 @@ theorem compGap_right_nested_witnesses
                       (And.intro firstWitness
                         (And.intro secondWitness thirdWitness)))
 
+theorem compGap_witnesses_to_right_nested
+    {Source Inter Final Top : Type}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    {thirdGap : Top → Final → Prop}
+    {z : Top} {x : Source} :
+    (∃ y : Inter, ∃ w : Final, firstGap y x ∧ secondGap w y ∧ thirdGap z w) →
+      CompGap firstGap (CompGap secondGap thirdGap) z x := by
+  intro witnesses
+  cases witnesses with
+  | intro y rest =>
+      cases rest with
+      | intro w data =>
+          cases data with
+          | intro firstWitness tail =>
+              cases tail with
+              | intro secondWitness thirdWitness =>
+                  exact Exists.intro y
+                    (And.intro firstWitness
+                      (Exists.intro w (And.intro secondWitness thirdWitness)))
+
 theorem compGap_left_nested_witnesses
     {Source Inter Final Top : Type}
     {firstGap : Inter → Source → Prop}
