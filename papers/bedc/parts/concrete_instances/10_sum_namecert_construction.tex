@@ -245,6 +245,32 @@ $\hsame$ on the selected component to build the matching classifier branch.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_raw\_visible\_classifier}
 
+\begin{theorem}[Sum ledger preserves visible tag separation]
+\label{thm:sum-ledger-visible-tag-separation}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,l,r:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ holds, then both visible
+mixed-tag endpoint pairs are impossible:
+$$
+(\hsame(\rho,\Ezero(l))\land \hsame(v,\Eone(r)))\to\bot
+$$
+and
+$$
+(\hsame(\rho,\Eone(r))\land \hsame(v,\Ezero(l)))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-raw-visible-classifier} to the ledger policy
+to obtain
+$\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,v)$. The
+left-to-right mixed endpoint pair is then discharged by
+$\mathsf{SumHistoryClassifier\_mixed\_tags\_absurd}$ with the displayed
+$\hsame(\rho,\Ezero(l))$ and $\hsame(v,\Eone(r))$ witnesses. For the symmetric
+right-to-left pair, use classifier symmetry from
+Theorem~\ref{thm:sum-history-classifier-hsame-symmetry} and apply the same mixed-tag
+separation theorem to the exchanged endpoints.
+\end{proof}
+
 \begin{theorem}[Concrete $\SumUp$ semantic name certificate]
 \label{thm:concrete-sum-namecert}
 Let $Left,Right:\Hist\to\mathsf{Prop}$ be source carriers with classifiers $LeftEq$ and $RightEq$. If $\NameCert(Left,LeftEq)$ and $\NameCert(Right,RightEq)$ are supplied, then the tagged sum carrier, the tagged sum classifier, and the carrier-as-pattern and carrier-as-ledger tuple form a $\mathsf{SemanticNameCert}$ for $\mathsf{SumHistoryCarrier}(Left,Right)$ and $\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq)$.
