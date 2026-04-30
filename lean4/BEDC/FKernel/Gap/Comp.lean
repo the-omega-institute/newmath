@@ -45,6 +45,15 @@ theorem compGap_inversion
   intro h
   exact h
 
+theorem composite_gap_ledger_witnesses
+    {Source Inter Final : Type}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    {z : Final} {x : Source} :
+    CompGap firstGap secondGap z x → ∃ y : Inter, firstGap y x ∧ secondGap z y := by
+  intro h
+  exact h
+
 theorem ledger_composition_principle
     {A B C D : Type} {first : B → A → Prop} {second : C → B → Prop}
     {third : D → C → Prop} {z : D} {x : A} :

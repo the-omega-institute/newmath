@@ -163,6 +163,19 @@ theorem ExactGlobalizeBase_classify_iff
     | intro hsig =>
         exact ex.soundness h k p q hp hq hsig
 
+theorem ExactGlobalizeBase_coverage_and_classification
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D) :
+    (∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h) ∧
+      (∀ {h k : s.Hist} {p q : s.Pkg},
+        s.InGapSig P D p h → s.InGapSig P D q k →
+          (PsameBase s P p q ↔ Nonempty (GeneratedSameSig s P h k))) := by
+  constructor
+  case left =>
+    exact ex.coverage
+  case right =>
+    intro h k p q hp hq
+    exact ExactGlobalizeBase_classify_iff ex hp hq
+
 theorem ExactGlobalizeBase_classify_directions
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
     {h k : s.Hist} {p q : s.Pkg}

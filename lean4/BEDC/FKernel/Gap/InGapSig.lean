@@ -16,6 +16,11 @@ theorem inGapSig_iff_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     InGapSig bundle D p h ↔ InDom D h ∧ ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p := by
   rfl
 
+theorem signature_gap_membership_iff [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
+    InGapSig bundle D p h ↔ InDom D h ∧ ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p := by
+  rfl
+
 theorem inGapSig_intro {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h s : BHist} :
     InDom D h -> SigRel bundle h s -> TokIntro bundle s p -> InGapSig bundle D p h := by
   intro hdom hsig htok
