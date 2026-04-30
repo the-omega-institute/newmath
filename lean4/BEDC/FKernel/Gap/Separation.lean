@@ -107,6 +107,21 @@ theorem internalized_gap_separation_packed [AskSetup] [PackageSetup] [DomainSetu
           | intro t data =>
               exact data.right.right.right.right.right.right
 
+theorem gap_separation_same_signature_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) -> InGapSig bundle D p h -> InGapSig bundle D q h ->
+      (exists s : BHist, exists t : BHist, SigRel bundle h s /\ SigRel bundle h t /\
+        hsame s t) /\ psame bundle p q := by
+  intro policy hp hq
+  constructor
+  · exact
+      policy_gap_separation_signature_hsame
+        (bundle := bundle) (D := D) (h := h) (p := p) (q := q) policy hp hq
+  · exact
+      internalized_gap_separation_packed
+        (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
+        policy (And.intro hp hq)
+
 theorem proof_sprint_gap_separation [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) -> InGapSig bundle D p h -> InGapSig bundle D q h ->

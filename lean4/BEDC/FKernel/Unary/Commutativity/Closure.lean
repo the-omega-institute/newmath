@@ -43,4 +43,16 @@ theorem unary_cont_comm_symmetric_pair {h k r r' : BHist} :
   have same : hsame r r' := unary_cont_comm uh uk hr hr'
   exact ⟨same, hsame_symm same⟩
 
+theorem unaryCont_comm_closed_symmetric_pair {h k r r' : BHist} :
+    UnaryCont h k r -> UnaryCont k h r' ->
+      UnaryHistory r /\ UnaryHistory r' /\ hsame r r' /\ hsame r' r := by
+  intro hcont khcont
+  have closed := unaryCont_comm_and_results_closed hcont khcont
+  have same := unaryCont_comm_sameness_pair hcont khcont
+  constructor
+  · exact closed.left
+  · constructor
+    · exact closed.right.left
+    · exact same
+
 end BEDC.FKernel.Unary

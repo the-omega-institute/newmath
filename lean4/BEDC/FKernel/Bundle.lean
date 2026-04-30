@@ -204,6 +204,52 @@ theorem inBundle_cons_three_rotate_iff {PName : Type} {x a b c : PName}
             | inr htail =>
                 exact Or.inr (Or.inr (Or.inr htail))
 
+theorem inBundle_cons_four_rotate_iff {PName : Type} {x a b c d : PName}
+    {tail : ProbeBundle PName} :
+    InBundle x
+        (ProbeBundle.Bcons a
+          (ProbeBundle.Bcons b (ProbeBundle.Bcons c (ProbeBundle.Bcons d tail)))) ↔
+      InBundle x
+        (ProbeBundle.Bcons b
+          (ProbeBundle.Bcons c (ProbeBundle.Bcons d (ProbeBundle.Bcons a tail)))) := by
+  constructor
+  · intro h
+    cases h with
+    | inl ha =>
+        exact Or.inr (Or.inr (Or.inr (Or.inl ha)))
+    | inr htail =>
+        cases htail with
+        | inl hb =>
+            exact Or.inl hb
+        | inr hrest =>
+            cases hrest with
+            | inl hc =>
+                exact Or.inr (Or.inl hc)
+            | inr hmore =>
+                cases hmore with
+                | inl hd =>
+                    exact Or.inr (Or.inr (Or.inl hd))
+                | inr htail =>
+                    exact Or.inr (Or.inr (Or.inr (Or.inr htail)))
+  · intro h
+    cases h with
+    | inl hb =>
+        exact Or.inr (Or.inl hb)
+    | inr htail =>
+        cases htail with
+        | inl hc =>
+            exact Or.inr (Or.inr (Or.inl hc))
+        | inr hrest =>
+            cases hrest with
+            | inl hd =>
+                exact Or.inr (Or.inr (Or.inr (Or.inl hd)))
+            | inr hmore =>
+                cases hmore with
+                | inl ha =>
+                    exact Or.inl ha
+                | inr htail =>
+                    exact Or.inr (Or.inr (Or.inr (Or.inr htail)))
+
 theorem inBundle_nonempty_from_membership {PName : Type} {p : PName} :
     ∀ {bundle : ProbeBundle PName}, InBundle p bundle →
       ∃ q : PName, ∃ tail : ProbeBundle PName, bundle = ProbeBundle.Bcons q tail := by
