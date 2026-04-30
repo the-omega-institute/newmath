@@ -138,6 +138,21 @@ theorem askPolicy_to_bundleAskPolicy [AskSetup] {bundle : ProbeBundle ProbeName}
             exact ih.respectsHistory inTail same left right
 
 omit S in
+theorem bundleAskPolicy_restrict_by_inclusion [AskSetup]
+    {source target : ProbeBundle ProbeName} {D : BHist → Prop} :
+    BundleAskPolicy source D →
+      (∀ {pi : ProbeName}, InBundle pi target → InBundle pi source) →
+      BundleAskPolicy target D := by
+  intro policy included
+  constructor
+  · intro pi h inTarget hD
+    exact policy.total (included inTarget) hD
+  · intro pi h m n delta theta inTarget left right
+    exact policy.deterministic (included inTarget) left right
+  · intro pi h k m n delta theta inTarget same left right
+    exact policy.respectsHistory (included inTarget) same left right
+
+omit S in
 theorem bundleAskPolicy_append_restriction [AskSetup]
     {left right : ProbeBundle ProbeName} {D : BHist → Prop} :
     BundleAskPolicy (bundleAppend left right) D →
@@ -176,6 +191,41 @@ theorem bundleAskPolicy_append_restriction [AskSetup]
         (inBundle_bundleAppend_iff (p := pi) (left := left) (right := right)).mpr
           (Or.inr inRight)
       exact policy.respectsHistory inApp same first second
+
+omit S in
+theorem bundleAskPolicy_append_gluing [AskSetup]
+    {left right : ProbeBundle ProbeName} {D : BHist → Prop} :
+    BundleAskPolicy left D → BundleAskPolicy right D →
+      BundleAskPolicy (bundleAppend left right) D := by
+  intro leftPolicy rightPolicy
+  constructor
+  · intro pi h inApp hD
+    have membership :
+        InBundle pi left ∨ InBundle pi right :=
+      (inBundle_bundleAppend_iff (p := pi) (left := left) (right := right)).mp inApp
+    cases membership with
+    | inl inLeft =>
+        exact leftPolicy.total inLeft hD
+    | inr inRight =>
+        exact rightPolicy.total inRight hD
+  · intro pi h m n delta theta inApp first second
+    have membership :
+        InBundle pi left ∨ InBundle pi right :=
+      (inBundle_bundleAppend_iff (p := pi) (left := left) (right := right)).mp inApp
+    cases membership with
+    | inl inLeft =>
+        exact leftPolicy.deterministic inLeft first second
+    | inr inRight =>
+        exact rightPolicy.deterministic inRight first second
+  · intro pi h k m n delta theta inApp same first second
+    have membership :
+        InBundle pi left ∨ InBundle pi right :=
+      (inBundle_bundleAppend_iff (p := pi) (left := left) (right := right)).mp inApp
+    cases membership with
+    | inl inLeft =>
+        exact leftPolicy.respectsHistory inLeft same first second
+    | inr inRight =>
+        exact rightPolicy.respectsHistory inRight same first second
 
 omit S in
 theorem askPolicy_total_event [AskSetup] {D : BHist → Prop} (policy : AskPolicy D)
