@@ -281,6 +281,28 @@ Assume \(\AskPol(\Pi,D)\). If \(h\) is admitted by \(D\), then bundle \(\Pi\) ge
 Induct on the generated bundle \(\Pi\). The empty bundle produces the empty answer-history. In the cons case, asking-policy totality supplies the first emitted mark and evidence token; the induction hypothesis supplies the tail signature; the emitted mark chooses the corresponding extension constructor.
 \end{proof}
 
+\begin{theorem}[Bundle-local signature existence]
+\label{thm:bundle-local-signature-existence}
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$. If $h\in D$, then there are an answer history $s$ and evidence bundle $\Delta$ such that $\Sig(\Pi,h,s,\Delta)$.
+\end{theorem}
+\begin{proof}
+Induct on $\Pi$. The empty bundle emits the empty signature. In the cons case, the head occurrence satisfies $\pi\in\Bcons(\pi,\Pi)$, so bundle-local totality supplies the head asking event. The tail policy is obtained by restricting membership from $\rho\in\Pi$ to $\rho\in\Bcons(\pi,\Pi)$, and the induction hypothesis supplies the tail signature. The emitted head mark then selects the matching extension constructor.
+\end{proof}
+
+\begin{theorem}[Bundle-local signature determinacy]
+\label{thm:bundle-local-signature-determinacy}
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$. If $h\in D$ and
+$$
+\Sig(\Pi,h,s,\Delta),
+\qquad
+\Sig(\Pi,h,t,\Theta),
+$$
+then $\hsame(s,t)$.
+\end{theorem}
+\begin{proof}
+Induct on $\Pi$. The empty case is reflexive. In the cons case, invert the two signature derivations. Bundle-local mark determinacy applies to the shared head occurrence, and the tail policy follows from tail membership. The induction hypothesis gives sameness of the tail results, and extension respect combines the head mark-sameness with the tail history-sameness.
+\end{proof}
+
 \begin{theorem}[Signature determinacy under an asking policy]
 Assume \(\AskPol(\Pi,D)\). If \(h\) is admitted by \(D\) and
 \[
@@ -294,6 +316,21 @@ then \(\hsame(s,t)\).
 \leanvariant{BEDC.FKernel.Sig.sig\_cons\_determinacy\_spine}
 \begin{proof}
 Induct on the generated bundle \(\Pi\). The empty case uses reflexivity of \(\hsame\). In the cons case, asking determinacy gives \(\msame\) of the first emitted marks. The induction hypothesis gives \(\hsame\) of the tail signatures. Extension respects mark-sameness and history-sameness, so the resulting answer histories are \(\hsame\).
+\end{proof}
+
+\begin{theorem}[Signature generation respects source history-sameness]
+\label{thm:signature-generation-respects-source-hsame}
+Assume $\AskPol(\Pi,D)$. If $\hsame(h,k)$,
+$$
+\Sig(\Pi,h,s,\Delta),
+\qquad
+\Sig(\Pi,k,t,\Theta),
+$$
+then $\hsame(s,t)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sig\_respects\_history}
+\begin{proof}
+Induct on $\Pi$. The empty case follows by reflexivity. In the cons case, invert the two signature derivations. Asking-policy history-respect transports the head asking events across $\hsame(h,k)$, the induction hypothesis transports the tail signatures, and extension respect combines the resulting mark-sameness and history-sameness for the generated histories.
 \end{proof}
 
 \section{Signature sameness}

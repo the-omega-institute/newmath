@@ -51,7 +51,17 @@ The object-language content is exactly totality, mark determinacy, and history-r
 \leanvariant{BEDC.FKernel.Ask.ask\_total}
 \leanvariant{BEDC.FKernel.Ask.ask\_respects\_history}
 \leanvariant{BEDC.FKernel.Ask.askPolicy\_respects\_history\_field}
-\leanvariant{BEDC.FKernel.Sig.sig\_respects\_history}
+
+\begin{definition}[Bundle-local asking policy]
+\label{def:bundle-local-asking-policy}
+A bundle-local asking policy $\mathsf{BundleAskPolicy}(\Pi,D)$ is the finite obligation needed by the signature construction for bundle $\Pi$. It consists of the following clauses, each restricted to probe-name occurrences $\pi\in\Pi$:
+\begin{enumerate}
+  \item totality on admitted sources: if $h\in D$, then there are $m:\Mark$ and $\delta:\Ev$ with $\Ask(\pi,h,m,\delta)$;
+  \item mark determinacy on the bundle: if $\Ask(\pi,h,m,\delta)$ and $\Ask(\pi,h,n,\theta)$, then $\msame(m,n)$;
+  \item history-respect on the bundle: if $\hsame(h,k)$, $\Ask(\pi,h,m,\delta)$, and $\Ask(\pi,k,n,\theta)$, then $\msame(m,n)$.
+\end{enumerate}
+Thus $\AskPol(\Pi,D)$ is a sufficient global certificate, while $\mathsf{BundleAskPolicy}(\Pi,D)$ records exactly the finite probe obligations consumed by signatures through $\Pi$.
+\end{definition}
 
 \begin{lemma}[Asking determinacy]
 \label{thm:asking-determinacy}
