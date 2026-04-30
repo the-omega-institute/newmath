@@ -174,11 +174,11 @@ theorem settledKernelCriterion_globalize_exactness_projection [AskSetup] [Packag
 
 theorem settledKernelCriterion_ext_cont_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :
-    SettledKernelCriterion ->
-      (forall {h r r' : BHist} {m : BMark}, Ext h m r -> Ext h m r' -> hsame r r') /\
-      (forall {h k r r' : BHist}, Cont h k r -> Cont h k r' -> hsame r r') /\
-      ((forall k : BHist, Cont .Empty k k) /\
-        (forall {h r : BHist}, Cont h .Empty r -> hsame r h)) := by
+    SettledKernelCriterion →
+      (∀ {h r r' : BHist} {m : BMark}, Ext h m r → Ext h m r' → hsame r r') ∧
+      (∀ {h k r r' : BHist}, Cont h k r → Cont h k r' → hsame r r') ∧
+      ((∀ k : BHist, Cont .Empty k k) ∧
+        (∀ {h r : BHist}, Cont h .Empty r → hsame r h)) := by
   intro criterion
   cases criterion with
   | intro _ rest =>
@@ -195,6 +195,54 @@ theorem settledKernelCriterion_ext_cont_projection [AskSetup] [PackageSetup]
                           cases rest with
                           | intro unitLaws _ =>
                               exact ⟨extDet, contDet, unitLaws⟩
+
+theorem settledKernelCriterion_function_like_descent_projection [AskSetup] [PackageSetup]
+    [DomainSetup] [NameCertSetup] :
+    SettledKernelCriterion →
+      (∀ {Source Target Ledger : Type} {sourceSame : Source → Source → Prop}
+        {targetSame : Target → Target → Prop}
+        (cert :
+          { map : Source → Target //
+            (∀ {a b : Source}, sourceSame a b → targetSame (map a) (map b)) ∧
+              Nonempty Ledger })
+        {a b : Source},
+        sourceSame a b → targetSame (cert.val a) (cert.val b)) := by
+  intro criterion Source Target Ledger sourceSame targetSame cert a b same
+  cases criterion with
+  | intro _ rest =>
+      cases rest with
+      | intro _ rest =>
+          cases rest with
+          | intro _ rest =>
+              cases rest with
+              | intro _ rest =>
+                  cases rest with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro _ rest =>
+                          cases rest with
+                          | intro _ rest =>
+                              cases rest with
+                              | intro _ rest =>
+                                  cases rest with
+                                  | intro _ rest =>
+                                      cases rest with
+                                      | intro _ rest =>
+                                          cases rest with
+                                          | intro _ rest =>
+                                              cases rest with
+                                              | intro _ rest =>
+                                                  cases rest with
+                                                  | intro _ rest =>
+                                                      cases rest with
+                                                      | intro _ rest =>
+                                                          cases rest with
+                                                          | intro _ rest =>
+                                                              cases rest with
+                                                              | intro _ rest =>
+                                                                  cases rest with
+                                                                  | intro _ descent =>
+                                                                      exact descent cert same
 
 theorem settledKernelCriterion_composite_gap_projection [AskSetup] [PackageSetup]
     [DomainSetup] [NameCertSetup] :

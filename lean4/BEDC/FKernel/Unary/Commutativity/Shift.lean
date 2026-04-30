@@ -18,6 +18,19 @@ theorem unary_shift_witness_closed_result_pair {k h r' : BHist} :
           have ur : UnaryHistory r' := unary_transport (unary_e1_closed uv) (hsame_symm same)
           exact ⟨v, hv, same, uv, ur⟩
 
+theorem unary_shift_witness_result_unique_pair {k h r' : BHist} :
+    UnaryHistory k → Cont k (.e1 h) r' →
+      ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) ∧
+        (∀ {w : BHist}, Cont k h w → hsame v w) := by
+  intro uk hr
+  cases unary_shift_witness uk hr with
+  | intro v shifted =>
+      cases shifted with
+      | intro hv same =>
+          exact ⟨v, hv, same, by
+            intro w hw
+            exact cont_deterministic hv hw⟩
+
 theorem unary_shift_witness_closed_unique_result {k h r' : BHist} :
     UnaryHistory k -> UnaryHistory h -> Cont k (BHist.e1 h) r' ->
       ∃ v : BHist, Cont k h v ∧ hsame r' (BHist.e1 v) ∧ UnaryHistory v ∧
