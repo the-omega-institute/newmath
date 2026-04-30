@@ -38,7 +38,7 @@ theorem sigRel_cons_inversion {pi : ProbeName} {tail : ProbeBundle ProbeName} {h
   exact sig_cons_inversion hsig
 
 theorem sig_empty_inversion {h r : BHist} :
-    SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) h r → hsame r BHist.Empty := by
+    SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) h r -> hsame r BHist.Empty := by
   intro hsig
   cases hsig
   rfl

@@ -188,6 +188,30 @@ theorem PsameBase_trans_under_tok_unique
           exact PsameBase.intro leftTok rightTok
             (eqv.trans leftSame (eqv.trans middleSame rightSame))
 
+theorem PsameBase_equivalence_under_tok_unique
+    {s : BaseReflectionSetup} {P : s.Pi}
+    (eqv : HSameEquiv s) (tok : TokUnique s P)
+    (introOf : forall p : s.Pkg, Nonempty (Subtype (fun x : s.SigObj => s.TokIntro P x p))) :
+    (forall p : s.Pkg, PsameBase s P p p) /\
+    (forall {p q : s.Pkg}, PsameBase s P p q -> PsameBase s P q p) /\
+    (forall {p q r : s.Pkg}, PsameBase s P p q -> PsameBase s P q r -> PsameBase s P p r) := by
+  constructor
+  case left =>
+    intro p
+    cases introOf p with
+    | intro witness =>
+        exact PsameBase.intro witness.property witness.property (eqv.refl witness.val)
+  case right =>
+    constructor
+    case left =>
+      intro p q base
+      cases base with
+      | intro left right same =>
+          exact PsameBase.intro right left (eqv.symm same)
+    case right =>
+      intro p q r leftBase rightBase
+      exact PsameBase_trans_under_tok_unique eqv tok leftBase rightBase
+
 theorem PackageReflection_eqClosure
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
@@ -252,6 +276,23 @@ theorem GeneratedSameSig_hsame
   cases gen with
   | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
       exact sigSame
+
+def GeneratedSameSig_symm
+    {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist}
+    (eqv : HSameEquiv s) :
+    GeneratedSameSig s P h k -> GeneratedSameSig s P k h := by
+  intro gen
+  cases gen with
+  | mk leftSigObj rightSigObj leftEvidence rightEvidence leftSig rightSig sigSame =>
+      exact {
+        leftSigObj := rightSigObj
+        rightSigObj := leftSigObj
+        leftEvidence := rightEvidence
+        rightEvidence := leftEvidence
+        leftSig := rightSig
+        rightSig := leftSig
+        sigSame := eqv.symm sigSame
+      }
 
 theorem GeneratedSameSig_psameBase
     {s : BaseReflectionSetup} {P : s.Pi} {h k : s.Hist} {p q : s.Pkg}
