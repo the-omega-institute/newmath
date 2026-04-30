@@ -110,6 +110,20 @@ theorem gapPolicy_coverage_signature_witness [AskSetup] [PackageSetup] [DomainSe
               exact Exists.intro p
                 (Exists.intro s (And.intro hgap (And.intro hsig htok)))
 
+theorem gapPolicy_coverage_full_witnesses [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
+    InDom D h → ∃ p : Pkg, ∃ s : BHist,
+      InGapSig bundle D p h ∧ InDom D h ∧ SigRel bundle h s ∧ TokIntro bundle s p := by
+  intro hdom
+  cases policy.coverage hdom with
+  | intro p hgap =>
+      cases hgap.right with
+      | intro s hsigTok =>
+          cases hsigTok with
+          | intro hsig htok =>
+              exact Exists.intro p
+                (Exists.intro s (And.intro hgap (And.intro hdom (And.intro hsig htok))))
+
 theorem gap_coverage :
     ∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
       GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h := by

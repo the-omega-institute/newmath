@@ -254,6 +254,18 @@ theorem unary_shift_result_closed {k h r' : BHist} :
           | intro same uv =>
               exact unary_transport (unary_e1_closed uv) (hsame_symm same)
 
+theorem unary_shift_closed_witness_and_result {k h r' : BHist} :
+    UnaryHistory k → UnaryHistory h → Cont k (.e1 h) r' →
+      ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v) ∧ UnaryHistory v ∧ UnaryHistory r' := by
+  intro uk uh hr
+  cases unary_shift_witness_with_factor uk uh hr with
+  | intro v shifted =>
+      cases shifted with
+      | intro hv shiftedTail =>
+          cases shiftedTail with
+          | intro same uv =>
+              exact ⟨v, hv, same, uv, unary_shift_result_closed uk uh hr⟩
+
 theorem unary_right_shift_obligation_holds :
     (∀ {k h r' : BHist}, UnaryHistory k → Cont k (.e1 h) r' → ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v)) := by
   intro k h r' uk hr
