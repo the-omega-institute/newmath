@@ -157,6 +157,16 @@ theorem nameCert_source_pattern_classifier_witnesses [NameCertSetup] {name : Der
           (Nonempty.intro classifier))
 
 omit N in
+theorem nameCert_pattern_and_classifier_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name → Nonempty PatternSpec ∧ Nonempty ClassifierSpec := by
+  intro cert
+  cases cert with
+  | mk _ pattern classifier _ _ =>
+      constructor
+      · exact Nonempty.intro pattern
+      · exact Nonempty.intro classifier
+
+omit N in
 theorem nameCert_stability_witness_from_cert [NameCertSetup] {name : DerivedName} :
     NameCert name -> Nonempty StabilityCert := by
   intro cert

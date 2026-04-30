@@ -72,6 +72,15 @@ theorem hsame_e1_congruence {h k : BHist} : hsame h k -> hsame (.e1 h) (.e1 k) :
   cases hs
   rfl
 
+theorem hsame_e0_iff {h k : BHist} : hsame (BHist.e0 h) (BHist.e0 k) ↔ hsame h k := by
+  constructor
+  · intro hs
+    cases hs
+    rfl
+  · intro hs
+    cases hs
+    rfl
+
 theorem hsame_e0_inversion {h x : BHist} : hsame (.e0 h) x → ∃ k : BHist, x = .e0 k ∧ hsame h k := by
   intro hs
   cases hs
