@@ -10,6 +10,10 @@ def append : BHist → BHist → BHist
   | h, .e0 k => .e0 (append h k)
   | h, .e1 k => .e1 (append h k)
 
+theorem append_empty_right : ∀ h : BHist, append h .Empty = h := by
+  intro h
+  rfl
+
 theorem append_empty_left : forall h : BHist, append .Empty h = h := by
   intro h
   induction h with
@@ -19,10 +23,6 @@ theorem append_empty_left : forall h : BHist, append .Empty h = h := by
       simp [append, ih]
   | e1 h ih =>
       simp [append, ih]
-
-theorem append_empty_right : forall h : BHist, append h BHist.Empty = h := by
-  intro h
-  rfl
 
 def Cont (h k r : BHist) : Prop := r = append h k
 

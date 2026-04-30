@@ -206,6 +206,33 @@ theorem sameSig_symm :
   rcases hs with ⟨s, t, hs, ht, hst⟩
   exact ⟨t, s, ht, hs, hsame_symm hst⟩
 
+theorem sameSig_trans_from_middle_determinacy {bundle : ProbeBundle ProbeName} {h k l : BHist}
+    (middleDet : ∀ {s t : BHist}, SigRel bundle k s → SigRel bundle k t → hsame s t) :
+    SameSig bundle h k → SameSig bundle k l → SameSig bundle h l := by
+  intro hhk hkl
+  cases hhk with
+  | intro s hhkTail =>
+      cases hhkTail with
+      | intro t hhkData =>
+          cases hhkData with
+          | intro hs hhkRest =>
+              cases hhkRest with
+              | intro htk hst =>
+                  cases hkl with
+                  | intro u hklTail =>
+                      cases hklTail with
+                      | intro v hklData =>
+                          cases hklData with
+                          | intro huk hklRest =>
+                              cases hklRest with
+                              | intro hvl huv =>
+                                  have htu : hsame t u := middleDet htk huk
+                                  exact Exists.intro s
+                                    (Exists.intro v
+                                      (And.intro hs
+                                        (And.intro hvl
+                                          (hsame_trans hst (hsame_trans htu huv)))))
+
 theorem sameSig_trans :
     ∀ {bundle : ProbeBundle ProbeName} {D : BHist → Prop} {h k l : BHist},
       AskPolicy D → D k → SameSig bundle h k → SameSig bundle k l → SameSig bundle h l := by

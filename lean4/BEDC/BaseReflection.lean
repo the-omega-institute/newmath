@@ -603,6 +603,14 @@ structure ExactGlobalizeBase (s : BaseReflectionSetup) (P : s.Pi) (D : s.Domain)
     s.InGapSig P D p h → s.InGapSig P D q k →
     PsameBase s P p q → Nonempty (GeneratedSameSig s P h k)
 
+theorem ExactGlobalizeBase_soundness
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    ∀ h k p q,
+      s.InGapSig P D p h → s.InGapSig P D q k →
+      GeneratedSameSig s P h k → PsameBase s P p q := by
+  exact ex.soundness
+
 theorem ExactGlobalizeBase_soundness_exports_base
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D)
     {h k : s.Hist} {p q : s.Pkg} :
