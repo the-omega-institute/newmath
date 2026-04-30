@@ -311,6 +311,16 @@ theorem stableTransformation_ledger_witness
   | mk map respects ledger =>
       exact ledger
 
+theorem StableTransformation_descentCertificate_exists
+    {Source Target Ledger : Type}
+    {sourceSame : Source -> Source -> Prop}
+    {targetSame : Target -> Target -> Prop}
+    (cert : StableTransformation Source Target Ledger sourceSame targetSame) :
+    Nonempty (DescentCertificate Source Target sourceSame targetSame) := by
+  cases cert with
+  | mk map respects ledger =>
+      exact Nonempty.intro { map := map, respects := respects }
+
 theorem stableTransformation_descends_to_packages
     {Source Target Ledger : Type}
     {sourceSame : Source -> Source -> Prop}

@@ -835,6 +835,16 @@ theorem NotExported_classify_iff
   intro hp hq
   exact notExported hp hq
 
+theorem NotExported_relation_is_base
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    {ex : ExactGlobalizeBase s P D}
+    (notExported : NotExported s P D ex)
+    {h k : s.Hist} {p q : s.Pkg} :
+    s.InGapSig P D p h -> s.InGapSig P D q k ->
+      (PsameBase s P p q <-> Nonempty (GeneratedSameSig s P h k)) := by
+  intro hp hq
+  exact notExported hp hq
+
 theorem ClosureReflect_preserves_base_export
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) (_closure : ClosureReflect s P) :

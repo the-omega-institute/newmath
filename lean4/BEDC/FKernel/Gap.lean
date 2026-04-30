@@ -709,6 +709,14 @@ theorem internalized_globalize_soundness
                                             hsame_trans (hsame_symm hsu) (hsame_trans hst htv)
                                           exact packagePolicy.soundness hpTok hqTok huv
 
+theorem concrete_globalize_soundness_from_sameSig
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
+    (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle) :
+    InGapSig bundle D p h -> InGapSig bundle D q k -> SameSig bundle h k ->
+      psame bundle p q := by
+  intro hp hq sameSig
+  exact internalized_globalize_soundness askPolicy packagePolicy hp hq sameSig
+
 theorem internalized_globalize_soundness_for_witnesses
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} {s t : BHist} :
     AskPolicy (InDom D) -> PackageTokenPolicy bundle ->
