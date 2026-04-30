@@ -9,6 +9,47 @@ def InBundle {PName : Type} (p : PName) : ProbeBundle PName → Prop
   | .Bnil => False
   | .Bcons q b => p = q ∨ InBundle p b
 
+def bundleAppend {PName : Type} : ProbeBundle PName → ProbeBundle PName → ProbeBundle PName
+  | .Bnil, right => right
+  | .Bcons p tail, right => .Bcons p (bundleAppend tail right)
+
+theorem inBundle_bundleAppend_iff {PName : Type} {p : PName}
+    {left right : ProbeBundle PName} :
+    InBundle p (bundleAppend left right) ↔ InBundle p left ∨ InBundle p right := by
+  induction left with
+  | Bnil =>
+      constructor
+      · intro h
+        exact Or.inr h
+      · intro h
+        cases h with
+        | inl hleft =>
+            exact False.elim hleft
+        | inr hright =>
+            exact hright
+  | Bcons q tail ih =>
+      constructor
+      · intro h
+        cases h with
+        | inl hpq =>
+            exact Or.inl (Or.inl hpq)
+        | inr htail =>
+            cases ih.mp htail with
+            | inl hleft =>
+                exact Or.inl (Or.inr hleft)
+            | inr hright =>
+                exact Or.inr hright
+      · intro h
+        cases h with
+        | inl hleft =>
+            cases hleft with
+            | inl hpq =>
+                exact Or.inl hpq
+            | inr htail =>
+                exact Or.inr (ih.mpr (Or.inl htail))
+        | inr hright =>
+            exact Or.inr (ih.mpr (Or.inr hright))
+
 theorem inBundle_nil_elim {PName : Type} {p : PName} :
     InBundle p (ProbeBundle.Bnil : ProbeBundle PName) → False := by
   intro h

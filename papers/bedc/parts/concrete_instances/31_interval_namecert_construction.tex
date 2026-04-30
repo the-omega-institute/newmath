@@ -3,11 +3,10 @@
 
 The unit interval interface \(\IntervalUp\) is licensed over Bishop reals from \autoref{ch:concrete-instances-real-namecert} as the predicate "\(0 \le x\) and \(x \le 1\)" interpreted constructively (with explicit moduli for the inequalities). The classifier is real sameness restricted to interval witnesses. It is not a primitive geometric object; it is licensed only as a derived sub-carrier of \(\RealUp\).
 
-\begin{remark}[Roadmap chapter---formalization pending]
+\begin{remark}[Interval certificate scope]
 \label{rem:concrete-instances-interval-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
+This chapter records the interval licensing target as a bounded subcarrier
+with classifier transport inherited from internal history sameness.
 \end{remark}
 
 \section{Carrier definition}
@@ -16,6 +15,55 @@ is a spec roadmap, not a formalized license.
 \label{def:interval-carrier}
 Use real witnesses \(x:\RealUp\) paired with constructive proofs \(0\le x\) and \(x\le1\).
 \end{definition}
+
+\begin{theorem}[Interval empty boundary]
+\label{thm:interval-empty-boundary-of-hsame}
+If a history \(h\) is internally the same as \(\emp\), then \(h\) inhabits the interval carrier whose lower boundary is \(\hsame(\emp,-)\) and whose upper boundary is \(\hsame(-,\emp)\).
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalCarrier\_empty\_boundary\_of\_hsame}
+\begin{proof}
+Transport the unary empty history across the symmetry of the given \(\hsame(h,\emp)\) witness. The lower boundary uses the symmetric witness, and the upper boundary uses the original witness.
+\end{proof}
+
+\begin{theorem}[Interval empty boundary hsame transport]
+\label{thm:interval-empty-boundary-hsame-transport}
+For the interval carrier whose lower boundary is \(\hsame(\emp,-)\) and whose upper boundary is \(\hsame(-,\emp)\), internal sameness transports carrier membership.
+\end{theorem}
+\begin{proof}
+Unpack the interval carrier into unary membership and the two boundary witnesses. Unary membership transports along the given \(\hsame\) witness. The lower boundary composes \(\hsame(\emp,h)\) with \(\hsame(h,k)\), and the upper boundary composes the symmetric witness \(\hsame(k,h)\) with \(\hsame(h,\emp)\).
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalCarrier\_empty\_boundary\_hsame\_transport}
+
+\begin{theorem}[Interval empty-boundary classifier]
+\label{thm:interval-empty-boundary-classifier}
+If \(h\) and \(k\) are both internally the same as \(\emp\), then they satisfy the interval classifier whose lower boundary is \(\hsame(\emp,-)\) and whose upper boundary is \(\hsame(-,\emp)\).
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_empty\_boundary\_of\_hsame}
+\begin{proof}
+Apply the empty-boundary carrier theorem to \(h\) and to \(k\). The classifier relation is \(\HSame(h,k)\), obtained by composing \(\HSame(h,\emp)\) with the symmetry of \(\HSame(k,\emp)\).
+\end{proof}
+
+\begin{theorem}[Interval empty-boundary classifier characterization]
+\label{thm:interval-empty-boundary-classifier-characterization}
+For the interval classifier whose lower boundary is \(\hsame(\emp,-)\) and
+whose upper boundary is \(\hsame(-,\emp)\), a pair \(h,k\) is classified
+exactly when both endpoint histories are internally the same as \(\emp\).
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_empty\_boundary\_iff}
+\begin{proof}
+In the forward direction, eliminate the restricted classifier witness and read
+the two upper-bound witnesses from the carrier data. In the reverse direction,
+apply the empty-boundary classifier theorem to the two endpoint witnesses.
+\end{proof}
+
+\begin{theorem}[Interval empty-boundary classifier iff endpoints]
+\label{thm:interval-empty-boundary-classifier-iff-endpoints}
+For the interval classifier whose lower boundary is $\hsame(\emp,-)$ and whose upper boundary is $\hsame(-,\emp)$, a classifier witness between $h$ and $k$ is equivalent to endpoint witnesses $\hsame(h,\emp)$ and $\hsame(k,\emp)$.
+\end{theorem}
+\begin{proof}
+In one direction, eliminate the restricted classifier witness and project the upper-boundary fields from the two interval carriers. In the other direction, apply the empty-boundary classifier constructor to the two endpoint witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_empty\_boundary\_iff\_endpoints}
 
 \section{The certificate}
 
@@ -33,6 +81,19 @@ The pattern is subcarrier formation by attaching lower and upper bound witnesses
 \label{def:interval-classifier-specification}
 The classifier is \(\RealUp\) sameness restricted to interval witnesses.
 \end{definition}
+
+\begin{theorem}[Interval classifier transitivity]
+\label{thm:interval-classifier-transitivity}
+If interval classifier witnesses relate \(h\) to \(k\) and \(k\) to \(r\), then
+they determine an interval classifier witness from \(h\) to \(r\).
+\end{theorem}
+\begin{proof}
+Eliminate both restricted classifier witnesses. The first left carrier and the
+second right carrier become the endpoint data for the composite classifier, and
+the underlying history link is the transitive composite of the two \(\HSame\)
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_trans}
 
 \begin{definition}[Interval stability certificate]
 \label{def:interval-stability-certificate}
@@ -55,6 +116,7 @@ Record the real ledger and both inequality moduli.
 \label{thm:concrete-interval-namecert}
 The bounded-real subcarrier tuple forms a valid NameCert for \(\IntervalUp\).
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.interval\_name\_certificate}
 
 \begin{corollary}[\(\IntervalUp\) is licensed, not primitive]
 \label{cor:interval-licensed-not-primitive}
@@ -65,4 +127,3 @@ The bounded-real subcarrier tuple forms a valid NameCert for \(\IntervalUp\).
 \label{rem:interval-zero-axiom-note}
 Uses constructive inequality witnesses with moduli rather than classical order trichotomy.
 \end{remark}
-

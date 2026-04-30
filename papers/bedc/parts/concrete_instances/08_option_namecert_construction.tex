@@ -17,6 +17,7 @@ For a licensed source carrier \(A\), define an inductive carrier with constructo
 \label{def:option-source-specification}
 The source is the source NameCert for \(A\), lifted through the optional carrier.
 \end{definition}
+\leandef{BEDC.Derived.OptionUp.OptionHistoryCarrier}
 
 \begin{definition}[Option pattern specification]
 \label{def:option-pattern-specification}
@@ -30,9 +31,31 @@ The classifier relates \(\mathsf{none}\) only to \(\mathsf{none}\), and relates 
 \leandef{BEDC.Derived.OptionUp.OptionClassifierSpec}
 \leanchecked{BEDC.Derived.OptionUp.optionClassifierSpec\_cases}
 \leandef{BEDC.Derived.OptionUp.OptionClassifier}
+\leandef{BEDC.Derived.OptionUp.OptionHistoryClassifier}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_none\_some\_absurd}
 \leanchecked{BEDC.Derived.OptionUp.optionClassifier\_some\_iff}
 \leanchecked{BEDC.Derived.OptionUp.option\_classifier\_inversion}
+
+\begin{theorem}[Option history classifier transitivity]
+\label{thm:option-history-classifier-transitivity}
+For any source predicate on BEDC histories, the optional history classifier is
+transitive.
+\end{theorem}
+\begin{proof}
+Unpack the two classifier witnesses. The source and target carrier witnesses
+are preserved, and the underlying \(\hsame\) links compose across the shared
+middle history.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_trans}
+
+\begin{theorem}[Option classifier \(\hsame\) symmetry]
+\label{thm:option-classifier-hsame-symm}
+For optional BEDC histories, the option classifier induced by \(\hsame\) is symmetric.
+\end{theorem}
+\begin{proof}
+The none--none case returns the existing classifier witness. The mixed constructor cases contradict the classifier definition, and the some--some case reverses the underlying BEDC history witness by \(\hsame\) symmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_symm}
 
 \begin{definition}[Option stability certificate]
 \label{def:option-stability-certificate}
@@ -50,13 +73,27 @@ The stability certificate consists of:
 
 \begin{definition}[Option ledger policy]
 \label{def:option-ledger-policy}
-Record whether the visible optional value is absent or present, and retain the source ledger for present witnesses.
+The ledger keeps a raw optional-history carrier witness and an $\hsame$ link from the raw history to the visible history.
 \end{definition}
+\leandef{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy}
+
+\begin{theorem}[Option visible ledger carrier]
+\label{thm:option-ledger-policy-visible-carrier}
+If source-history membership transports across $\hsame$, then every option ledger policy exposes a visible optional-history carrier witness.
+\end{theorem}
+\begin{proof}
+Unpack the raw carrier and the raw-to-visible history link. In the absent case, compose the symmetric visible-to-raw link with the raw empty-history witness. In the present case, transport the raw source witness along the raw-to-visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_carrier}
 
 \begin{theorem}[Concrete \(\OptionUp\) naming certificate]
 \label{thm:concrete-option-namecert}
 The lifted tuple forms a valid NameCert for \(\OptionUp(A)\).
 \end{theorem}
+\begin{proof}
+The history carrier contains the empty history and any source history. The classifier records both carrier witnesses and the BEDC history equality witness. Reflexivity, symmetry, transitivity, and carrier transport are the corresponding \(\hsame\) fields, while pattern and ledger soundness are carrier projections.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate}
 
 \begin{corollary}[\(\OptionUp\) is licensed, not primitive]
 \label{cor:option-licensed-not-primitive}

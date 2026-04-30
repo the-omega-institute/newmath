@@ -1,4 +1,96 @@
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+
 namespace BEDC.Derived.ProdUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+
+def ProdHistoryCarrier (Left Right : BHist -> Prop) (h : BHist) : Prop :=
+  exists l : BHist, exists r : BHist, Left l ∧ Right r ∧ Cont l r h
+
+def ProdHistoryClassifier (Left Right : BHist -> Prop) (h k : BHist) : Prop :=
+  ProdHistoryCarrier Left Right h ∧ ProdHistoryCarrier Left Right k ∧ hsame h k
+
+theorem ProdHistoryCarrier_hsame_transport {Left Right : BHist -> Prop} {h k : BHist} :
+    hsame h k -> ProdHistoryCarrier Left Right h -> ProdHistoryCarrier Left Right k := by
+  intro same carrier
+  cases carrier with
+  | intro leftHist rest =>
+      cases rest with
+      | intro rightHist data =>
+          cases data with
+          | intro leftCarrier rightData =>
+              cases rightData with
+              | intro rightCarrier cont =>
+                  exact Exists.intro leftHist
+                    (Exists.intro rightHist
+                      (And.intro leftCarrier
+                        (And.intro rightCarrier (cont_result_hsame_transport cont same))))
+
+theorem ProdHistoryClassifier_right_hsame_transport {Left Right : BHist -> Prop}
+    {h k k' : BHist} :
+    ProdHistoryClassifier Left Right h k ->
+      hsame k k' -> ProdHistoryClassifier Left Right h k' := by
+  intro classified sameRight
+  cases classified with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          exact And.intro carrierH
+            (And.intro (ProdHistoryCarrier_hsame_transport sameRight carrierK)
+              (hsame_trans sameHK sameRight))
+
+theorem prod_history_semantic_name_certificate (Left Right : BHist -> Prop)
+    (left_witness : exists l : BHist, Left l) (right_witness : exists r : BHist, Right r) :
+    SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)
+      (ProdHistoryCarrier Left Right) (ProdHistoryClassifier Left Right) := by
+  cases left_witness with
+  | intro l leftCarrier =>
+      cases right_witness with
+      | intro r rightCarrier =>
+          exact {
+            core := {
+              carrier_inhabited := Exists.intro (append l r)
+                (Exists.intro l
+                  (Exists.intro r
+                    (And.intro leftCarrier
+                      (And.intro rightCarrier (cont_intro (h := l) (k := r) rfl)))))
+              equiv_refl := by
+                intro h carrier
+                exact And.intro carrier (And.intro carrier (hsame_refl h))
+              equiv_symm := by
+                intro h k same
+                cases same with
+                | intro carrierH rest =>
+                    cases rest with
+                    | intro carrierK sameHK =>
+                        exact And.intro carrierK (And.intro carrierH (hsame_symm sameHK))
+              equiv_trans := by
+                intro h k s sameHK sameKS
+                cases sameHK with
+                | intro carrierH restHK =>
+                    cases restHK with
+                    | intro _ sameHistHK =>
+                        cases sameKS with
+                        | intro _ restKS =>
+                            cases restKS with
+                            | intro carrierS sameHistKS =>
+                                exact And.intro carrierH
+                                  (And.intro carrierS (hsame_trans sameHistHK sameHistKS))
+              carrier_respects_equiv := by
+                intro h k same _
+                exact same.right.left
+            }
+            pattern_sound := by
+              intro h carrier
+              exact carrier
+            ledger_sound := by
+              intro h carrier
+              exact carrier
+          }
 
 def ProdCarrier (A B : Type) := Prod A B
 
@@ -115,5 +207,16 @@ theorem ProdClassifierSpec_trans {A B : Type} {relA : A → A → Prop} {relB : 
           constructor
           · exact transA leftXY leftYZ
           · exact transB rightXY rightYZ
+
+theorem ProdClassifierSpec_hsame_symm
+    {x y : ProdCarrier BEDC.FKernel.Hist.BHist BEDC.FKernel.Hist.BHist} :
+    ProdClassifierSpec BEDC.FKernel.Hist.hsame BEDC.FKernel.Hist.hsame x y →
+      ProdClassifierSpec BEDC.FKernel.Hist.hsame BEDC.FKernel.Hist.hsame y x := by
+  intro hxy
+  cases hxy with
+  | intro leftXY rightXY =>
+      constructor
+      · exact BEDC.FKernel.Hist.hsame_symm leftXY
+      · exact BEDC.FKernel.Hist.hsame_symm rightXY
 
 end BEDC.Derived.ProdUp

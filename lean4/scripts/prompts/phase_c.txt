@@ -1,16 +1,16 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.1 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.3 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
-## v2.1 — Anti-hollow semantic discipline (HARD GATE)
+## Anti-hollow semantic discipline (HARD GATE)
 
-The legacy `NameCert.mk () () () () ()` pattern is forbidden. Specifically:
+The `NameCert.mk () () () () ()` pattern is forbidden. Specifically:
 
 1. NO `Unit`-only proofs. Any new `def` / `theorem` / `lemma` whose body is
    `()`, `Unit.unit`, `True.intro`, `trivial`, or a sequence of these for
    each constructor argument is INVALID. Such proofs say nothing about the
-   BEDC kernel and are forbidden by v2.1 discipline.
+   BEDC kernel and are forbidden by the current prompt discipline.
 
 2. NO `MinimalNameCertSetup` in license proofs. New `NameCert` constructions
    must inhabit the `SemanticNameCert` shape, which forces the carrier to be
@@ -18,8 +18,7 @@ The legacy `NameCert.mk () () () () ()` pattern is forbidden. Specifically:
    to be a real equivalence relation (typically restriction of `hsame`).
 
 3. Proofs that construct a `NameCert.mk` from non-Unit witnesses tied to
-   the BEDC kernel remain valid in the legacy track but are NOT preferred.
-   New work MUST use the semantic track.
+   the BEDC kernel remain valid, but new work MUST use the semantic track.
 
 4. Step 5.5 HARD GATE is supplemented: if `git diff --cached lean4/BEDC/`
    contains any line matching `:= ()$`, `:= Unit$`, `:= Unit.unit$`,
@@ -32,7 +31,7 @@ If you cannot find a target that satisfies these constraints, output
 `{"targets": []}` from Phase B and let gate_check fail the round.
 Vacuous certificates are worse than empty rounds.
 
-## v2.1 — Script-backed Phase D gates
+## Script-backed Phase D gates
 
 Phase D rejects the commit even if Lean and LaTeX compile when any of the following occurs:
 
@@ -41,8 +40,60 @@ Phase D rejects the commit even if Lean and LaTeX compile when any of the follow
 3. New `\leanvariant`: automated rounds must not add variants. If your target only yields a wrapper, projection, weakened form, pair-bundle, or forwarding lemma for an already checked theorem, abandon it and implement a genuinely new statement.
 4. Hollow construction: added Lean lines using `Unit`, `()`, `Unit.unit`, `True.intro`, `trivial`, `NameCert.mk ()`, `NameCert.mk Unit.unit`, `MinimalNameCertSetup`, or `import Init.Data.Unit` are rejected.
 5. No BEDC touchpoint: every new declaration must mention a concrete BEDC kernel/setup object in its body, such as `BMark`, `BHist`, `msame`, `hsame`, `Ext`, `Cont`, `ProbeBundle`, `SigRel`, `sameSig`, `Pkg`, `InGap`, `NameCert`, `SemanticNameCert`, `BaseReflectionSetup`, `AskSetup`, `PackageSetup`, `DomainSetup`, `NameCertSetup`, or a `BEDC.` object.
+6. Parameter echo: new theorem bodies that mainly return assumptions named like `le_refl`, `le_trans`, `carrier_transport`, `lower_transport`, `upper_transport`, or `normalized` are rejected.
+7. Carrier/spec-only growth: new `Carrier`, `SourceSpec`, `PatternSpec`, `ClassifierSpec`, `LedgerPolicy`, `Lower`, `Upper`, or `Normalized` definitions are rejected unless the same round adds a theorem whose statement uses those concrete definitions.
+8. Duplicate theorem inflation: two new theorems in the same file with the same BEDC-touching conclusion are rejected.
 
-## Round R<ROUND_NUM>
+## No nursery-shell growth (HARD GATE)
+
+Do not implement targets that only make a horizon module look larger. A round
+must make BEDC theory more closed, composable, or concrete.
+
+The following implementation shapes are INVALID even if they compile and pass
+the current anti-hollow checks:
+
+1. Parameter echo: a theorem that accepts semantic laws such as `le_refl`,
+   `le_trans`, `carrier_transport`, `lower_transport`, `upper_transport`, or
+   `normalized` and returns those same laws unchanged or simply bundles them.
+   If the proof is mostly `exact le_refl`, `exact le_trans`, or constructor
+   packaging of input assumptions, abandon the target.
+
+2. Abstract-shell classifier: adding `Carrier : BHist → Prop`,
+   `lower upper : BHist → Prop`, `Le : BHist → BHist → Prop`, or
+   `normalized : ... → Prop` without also proving a concrete closure theorem
+   about a BEDC-defined predicate. Do not fabricate general Prop interfaces just
+   to manufacture a `NameCert`.
+
+3. Isolated derived definitions: adding only carrier/spec definitions for
+   `RatUp`, `IntervalUp`, `PreorderUp`, or another horizon object. If you add a
+   new derived carrier/spec, the same round must also prove at least one theorem
+   that uses that concrete definition: transport, closure, constructor
+   inversion, determinacy, composition, or a certificate whose object-specific
+   content is not supplied entirely as parameters.
+
+4. Unclosed certificates: a `NameCert` theorem over arbitrary uninterpreted
+   predicates is invalid unless the theorem also proves an object-specific BEDC
+   property from concrete constructors/relations in the file.
+
+Valid examples:
+- `IntCarrier` transport across `hsame` because it uses the concrete carrier
+  fields and `unary_transport`.
+- List classifier transitivity because it performs induction over list structure
+  and uses `hsame_trans` elementwise.
+- Composite gap coverage because it constructs a new witness chain from two
+  coverage layers.
+
+Invalid examples:
+- A generic preorder theorem that takes arbitrary `Le` plus `le_refl` and
+  `le_trans`, then returns those assumptions.
+- An interval certificate over arbitrary `lower` and `upper` predicates where all
+  boundary transport is supplied as parameters and no concrete boundary theorem
+  is proved.
+- A rational carrier/spec file with no transport or certificate theorem.
+
+If all selected targets reduce to these invalid shapes, abandon them and pick
+new targets rather than committing shallow growth.
+
 
 ## Targets to Implement
 <TARGETS>
@@ -158,12 +209,12 @@ Also do NOT add new `\leanvariant` markers in this round. The 760+ existing `\le
 git add lean4/BEDC papers/bedc
 git commit -m "R<ROUND_NUM>: [brief description of what was proved and registered]
 
-prompts: v2.1
+prompts: <PROMPTS_VERSION>
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v2.1` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_b.txt` and `phase_c.txt` is different, use that value in the commit body instead. This gives every R-round commit a permanent record of which prompt pair produced it.
+The `prompts: <PROMPTS_VERSION>` line in the commit body is mandatory. Replace `<PROMPTS_VERSION>` with the single version value declared in the "Prompts version" section at the top of this file. If the value at the top of `phase_b.txt` and `phase_c.txt` is different, use the current file's top value in the commit body. This gives every R-round commit a permanent record of which prompt pair produced it.
 
 ## IMPORTANT
 - Do NOT git push. The merge and push will be handled externally.

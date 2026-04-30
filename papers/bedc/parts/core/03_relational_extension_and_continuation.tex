@@ -24,6 +24,15 @@ It is a relation, not a function.
 \leanvariant{BEDC.FKernel.Ext.ext\_source\_deterministic\_from\_result}
 \leanvariant{BEDC.FKernel.Ext.ext\_cross\_mark\_result\_impossible}
 
+\begin{theorem}[Extension result injectivity]
+\label{thm:ext-result-injective-pair}
+If \(\ExtR(m,h,r)\) and \(\ExtR(m',h',r)\), then \(\hsame(h,h')\) and \(\msame(m,m')\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_result\_injective\_pair}
+\begin{proof}
+Inspect the two generated extension witnesses. A common result can only arise from matching extension constructors, so the source histories and emitted marks are internally same.
+\end{proof}
+
 \begin{lemma}[Extension respects mark-sameness]
 If \(\msame(m,n)\), \(\ExtR(m,h,r)\), and \(\ExtR(n,h,s)\), then \(\hsame(r,s)\).
 \end{lemma}
@@ -89,6 +98,33 @@ It is a relation, not a primitive function.
 \leanvariant{BEDC.FKernel.Cont.cont\_e1\_result\_iff}
 \leanvariant{BEDC.FKernel.Cont.cont\_respects\_hsame}
 
+\begin{theorem}[Continuation step result no-confusion]
+\label{thm:cont-step-result-no-confusion-pair}
+No generated history \(r\) can be both the result of continuing by
+\(\Ezero(k_0)\) and the result of continuing by \(\Eone(k_1)\) from the same
+source history. The converse ordering of the two step constructors is equally
+impossible.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_step\_result\_no\_confusion\_pair}
+\begin{proof}
+Invert the two continuation witnesses. The zero-step witness forces the common
+result to have outer constructor \(\Ezero\), while the one-step witness forces
+the same result to have outer constructor \(\Eone\). Closed generation of
+histories gives constructor no-confusion. The converse direction is symmetric.
+\end{proof}
+
+\begin{theorem}[Continuation step result is nonempty]
+\label{thm:continuation-step-result-not-empty}
+For all histories $h,k$, neither $\ContR(h,\Ezero(k),\emp)$ nor
+$\ContR(h,\Eone(k),\emp)$ can hold.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_step\_result\_not\_empty\_pair}
+\begin{proof}
+Unfold the step result shape for $\ContR$. The zero branch would identify $\emp$ with
+$\Ezero(r)$, and the one branch would identify $\emp$ with $\Eone(r)$. Both contradict the
+generated history constructors.
+\end{proof}
+
 \begin{lemma}[Continuation right unit]
 For every history \(h\), \(\ContR(h,\emp,h)\).
 \end{lemma}
@@ -130,6 +166,15 @@ If \(\ContR(h,k,r)\) and \(\ContR(h,k,s)\), then \(\hsame(r,s)\).
 \begin{proof}
 Induct on the first derivation. In the empty case the second derivation is also the empty case by no-confusion, and the result follows by reflexivity. In the two extension cases, no-confusion forces the second derivation to use the same outer continuation constructor; apply the induction hypothesis and rebuild \(\hsame\) with the matching history constructor.
 \end{proof}
+
+\begin{theorem}[Continuation result transport]
+\label{thm:cont-result-hsame-transport}
+If \(\ContR(h,k,r)\) and \(\hsame(r,r')\), then \(\ContR(h,k,r')\).
+\end{theorem}
+\begin{proof}
+Unfold \(\ContR\) as the append-result equation. Symmetry of the result sameness followed by the original continuation equation gives the required append-result equation for \(r'\).
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_transport}
 
 \begin{theorem}[Continuation right cancellation]
 \label{thm:continuation-right-cancellation}

@@ -1,4 +1,86 @@
+import BEDC.FKernel.NameCert
+
 namespace BEDC.Derived.OptionUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+
+def OptionHistoryCarrier (source : BHist -> Prop) (h : BHist) : Prop :=
+  hsame h BHist.Empty ∨ source h
+
+def OptionHistoryClassifier (source : BHist -> Prop) (h k : BHist) : Prop :=
+  OptionHistoryCarrier source h ∧ OptionHistoryCarrier source k ∧ hsame h k
+
+def OptionHistoryLedgerPolicy (source : BHist -> Prop) (raw visible : BHist) : Prop :=
+  OptionHistoryCarrier source raw ∧ hsame raw visible
+
+theorem OptionHistoryLedgerPolicy_visible_carrier {source : BHist -> Prop}
+    (source_transport : ∀ {h k : BHist}, hsame h k -> source h -> source k)
+    {raw visible : BHist} :
+    OptionHistoryLedgerPolicy source raw visible -> OptionHistoryCarrier source visible := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier same =>
+      cases rawCarrier with
+      | inl rawEmpty =>
+          exact Or.inl (hsame_trans (hsame_symm same) rawEmpty)
+      | inr rawSource =>
+          exact Or.inr (source_transport same rawSource)
+
+theorem OptionHistoryClassifier_trans {source : BEDC.FKernel.Hist.BHist -> Prop}
+    {h k r : BEDC.FKernel.Hist.BHist} :
+    OptionHistoryClassifier source h k -> OptionHistoryClassifier source k r ->
+      OptionHistoryClassifier source h r := by
+  intro sameHK sameKR
+  cases sameHK with
+  | intro carrierH restHK =>
+      cases restHK with
+      | intro _ histHK =>
+          cases sameKR with
+          | intro _ restKR =>
+              cases restKR with
+              | intro carrierR histKR =>
+                  exact And.intro carrierH (And.intro carrierR (hsame_trans histHK histKR))
+
+theorem option_history_semantic_name_certificate (source : BHist -> Prop) :
+    SemanticNameCert (OptionHistoryCarrier source) (OptionHistoryCarrier source)
+      (OptionHistoryCarrier source) (OptionHistoryClassifier source) := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty (Or.inl (hsame_refl BHist.Empty))
+      equiv_refl := by
+        intro h carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl h))
+      equiv_symm := by
+        intro h k same
+        cases same with
+        | intro carrierH rest =>
+            cases rest with
+            | intro carrierK sameHK =>
+                exact And.intro carrierK (And.intro carrierH (hsame_symm sameHK))
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        cases sameHK with
+        | intro carrierH restHK =>
+            cases restHK with
+            | intro _ sameHistHK =>
+                cases sameKR with
+                | intro _ restKR =>
+                    cases restKR with
+                    | intro carrierR sameHistKR =>
+                        exact And.intro carrierH
+                          (And.intro carrierR (hsame_trans sameHistHK sameHistKR))
+      carrier_respects_equiv := by
+        intro h k same _
+        exact same.right.left
+    }
+    pattern_sound := by
+      intro h carrier
+      exact carrier
+    ledger_sound := by
+      intro h carrier
+      exact carrier
+  }
 
 def OptionCarrier (A : Type) := Option A
 
@@ -110,6 +192,24 @@ theorem OptionClassifierSpec_trans {A : Type} {Rel : A → A → Prop}
   intro x y z hxy hyz
   cases x <;> cases y <;> cases z <;> simp [OptionClassifierSpec] at *
   exact rel_trans hxy hyz
+
+theorem OptionClassifierSpec_hsame_symm :
+    ∀ {x y : OptionCarrier BHist}, OptionClassifierSpec hsame x y →
+      OptionClassifierSpec hsame y x := by
+  intro x y h
+  cases x with
+  | none =>
+      cases y with
+      | none =>
+          exact h
+      | some _ =>
+          cases h
+  | some _ =>
+      cases y with
+      | none =>
+          cases h
+      | some _ =>
+          exact hsame_symm h
 
 theorem optionClassifier_some_iff {α : Type} {sourceSame : α → α → Prop} {a b : α} :
     OptionClassifier sourceSame (Option.some a) (Option.some b) ↔ sourceSame a b := by

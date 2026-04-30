@@ -122,6 +122,21 @@ class QualityGateTests(unittest.TestCase):
             self.assertEqual(len(violations), 1)
             self.assertIn("leanvariant", violations[0])
 
+    def test_new_leanvariant_marker_ignores_non_tex_prompt_templates(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            (root / "papers" / "bedc" / "scripts" / "prompts").mkdir(parents=True)
+            (root / "papers" / "bedc" / "scripts" / "prompts" / "phase_revise.txt").write_text(
+                "Do not add \\leanvariant{X} markers.\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "prompt template"], cwd=root, check=True)
+
+            violations = cf.detect_new_leanvariant_markers(self.wt(root, base_sha))
+
+            self.assertEqual(violations, [])
+
     def test_marker_must_reference_current_round_declaration(self):
         td, root, base_sha = self.init_repo()
         with td:
@@ -244,6 +259,126 @@ class QualityGateTests(unittest.TestCase):
             violations = cf.detect_decls_without_kernel_touchpoint(self.wt(root, base_sha))
 
             self.assertEqual(violations, [])
+
+    def test_parameter_echo_theorem_is_rejected(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            (root / "lean4" / "BEDC" / "FKernel" / "Echo.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "theorem echo_le_refl "
+                "(le_refl : forall h : BEDC.BHist, BEDC.hsame h h) : "
+                "forall h : BEDC.BHist, BEDC.hsame h h := by\n"
+                "  exact le_refl\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "echo"], cwd=root, check=True)
+
+            violations = cf.detect_shallow_growth_patterns(self.wt(root, base_sha))
+
+            self.assertEqual(len(violations), 1)
+            self.assertIn("parameter echo", violations[0])
+
+    def test_carrier_only_round_is_rejected(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            (root / "lean4" / "BEDC" / "FKernel" / "CarrierOnly.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "def RatCarrier (h : BEDC.BHist) : Prop := BEDC.hsame h h\n"
+                "def RatSourceSpec (h : BEDC.BHist) : Prop := RatCarrier h\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "carrier only"], cwd=root, check=True)
+
+            violations = cf.detect_shallow_growth_patterns(self.wt(root, base_sha))
+
+            self.assertEqual(len(violations), 1)
+            self.assertIn("carrier/spec definitions", violations[0])
+
+    def test_duplicate_theorem_conclusions_are_rejected(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            (root / "lean4" / "BEDC" / "FKernel" / "DuplicateShape.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "theorem first_carrier_fact (h : BEDC.BHist) : BEDC.hsame h h := by rfl\n"
+                "theorem second_carrier_fact (h : BEDC.BHist) : BEDC.hsame h h := by rfl\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "duplicate shape"], cwd=root, check=True)
+
+            violations = cf.detect_shallow_growth_patterns(self.wt(root, base_sha))
+
+            self.assertEqual(len(violations), 1)
+            self.assertIn("duplicate theorem conclusion", violations[0])
+
+    def test_carrier_with_concrete_closure_is_accepted(self):
+        td, root, base_sha = self.init_repo()
+        with td:
+            (root / "lean4" / "BEDC" / "FKernel" / "CarrierClosure.lean").write_text(
+                "namespace BEDC.FKernel\n"
+                "def RatCarrier (h : BEDC.BHist) : Prop := BEDC.hsame h h\n"
+                "theorem RatCarrier_self (h : BEDC.BHist) : RatCarrier h := by rfl\n"
+                "end BEDC.FKernel\n",
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "carrier closure"], cwd=root, check=True)
+
+            violations = cf.detect_shallow_growth_patterns(self.wt(root, base_sha))
+
+            self.assertEqual(violations, [])
+
+
+class PromptVersionTests(unittest.TestCase):
+    def test_phase_prompts_declare_version_once(self):
+        for name in ("phase_b", "phase_c"):
+            prompt = cf._load_prompt(name)
+            version = cf._prompt_version(prompt)
+            self.assertEqual(prompt.count(version), 1, name)
+
+    def test_phase_c_prompt_keeps_commit_version_as_placeholder(self):
+        prompt = cf.build_phase_c_prompt(1, [])
+
+        version = cf._prompt_version(prompt)
+        self.assertEqual(prompt.count(version), 1)
+        self.assertIn("prompts: <PROMPTS_VERSION>", prompt)
+
+
+class PipelinePidTokenTests(unittest.TestCase):
+    def test_pipeline_token_is_current_only_when_pid_file_matches_process(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+            cf.write_pipeline_pid(pid_file, 1234)
+
+            self.assertTrue(cf.pipeline_token_is_current(pid_file, 1234))
+            self.assertFalse(cf.pipeline_token_is_current(pid_file, 5678))
+
+    def test_missing_pipeline_token_requests_drain(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+
+            self.assertFalse(cf.pipeline_token_is_current(pid_file, 1234))
+
+    def test_stale_or_malformed_pipeline_token_requests_drain(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+            pid_file.write_text("not-a-pid\n", encoding="utf-8")
+
+            self.assertFalse(cf.pipeline_token_is_current(pid_file, 1234))
+
+    def test_remove_pipeline_pid_is_idempotent(self):
+        with tempfile.TemporaryDirectory() as td:
+            pid_file = Path(td) / ".pipeline.pid"
+            cf.write_pipeline_pid(pid_file, 1234)
+
+            self.assertTrue(cf.remove_pipeline_pid(pid_file))
+            self.assertFalse(pid_file.exists())
+            self.assertFalse(cf.remove_pipeline_pid(pid_file))
 
 
 if __name__ == "__main__":

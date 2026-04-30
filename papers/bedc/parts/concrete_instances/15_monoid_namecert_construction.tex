@@ -3,13 +3,6 @@
 
 The monoid interface \(\MonoidUp\) is licensed by an abstract carrier endowed with a binary operation \(\cdot : C \times C \to C\), an identity element \(e : C\), associativity of \(\cdot\), and left and right identity laws of \(e\) under the carrier's source classifier. It is the simplest algebraic NameCert and is self-contained: no other licensed object is required as a dependency. It is not a primitive structure; it is licensed only when the carrier's classifier admits the algebraic equational fields.
 
-\begin{remark}[Roadmap chapter---formalization pending]
-\label{rem:concrete-instances-monoid-namecert-roadmap}
-This chapter sketches the licensing target. Lean implementations of the
-listed specifications and certificate are not yet present; the chapter
-is a spec roadmap, not a formalized license.
-\end{remark}
-
 \section{Carrier definition}
 
 \begin{definition}[Monoid carrier]
@@ -33,6 +26,7 @@ The pattern is closed expression formation from \(e\), carrier witnesses, and bi
 \label{def:monoid-classifier-specification}
 The classifier is the supplied carrier sameness relation, required to respect multiplication.
 \end{definition}
+\leandef{BEDC.Derived.MonoidUp.MonoidHistoryClassifier}
 
 \begin{definition}[Monoid stability certificate]
 \label{def:monoid-stability-certificate}
@@ -48,6 +42,15 @@ The stability certificate consists of:
 \end{definition}
 \leanchecked{BEDC.Derived.MonoidUp.monoid\_stability\_certificate\_fields}
 
+\begin{theorem}[History continuation monoid laws]
+\label{thm:history-continuation-monoid-laws}
+The BEDC history continuation relation has empty history as a left and right unit, and the two parenthesizations of a triple continuation have the same resulting history.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonoidUp.history\_continuation\_monoid\_laws}
+\begin{proof}
+The unit fields are the empty-history continuation constructors. For associativity, each continuation witness unfolds to history append, and the result follows from associativity of BEDC history append.
+\end{proof}
+
 \begin{definition}[Monoid ledger policy]
 \label{def:monoid-ledger-policy}
 Record the carrier witnesses and operation tree behind each monoid expression.
@@ -57,6 +60,10 @@ Record the carrier witnesses and operation tree behind each monoid expression.
 \label{thm:concrete-monoid-namecert}
 Any setup satisfying the monoid fields forms a valid NameCert for \(\MonoidUp(C)\).
 \end{theorem}
+\begin{proof}
+The identity element inhabits the carrier. The monoid classifier records source and target carrier witnesses together with the BEDC history equality witness, giving the certificate core by \(\hsame\) reflexivity, symmetry, transitivity, and carrier projection. Closure under multiplication supplies carrier witnesses for the exported identity, associativity, and multiplication-congruence fields.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.monoid\_history\_semantic\_name\_certificate}
 
 \begin{corollary}[\(\MonoidUp\) is licensed, not primitive]
 \label{cor:monoid-licensed-not-primitive}

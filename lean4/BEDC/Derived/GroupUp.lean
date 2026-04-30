@@ -1,0 +1,68 @@
+import BEDC.FKernel.Hist
+import BEDC.Derived.MonoidUp
+
+namespace BEDC.Derived.GroupUp
+
+open BEDC.FKernel.Hist
+
+theorem group_stability_certificate_fields {mul : BHist → BHist → BHist} {e : BHist}
+    {inv : BHist → BHist}
+    (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : ∀ x, hsame (mul e x) x)
+    (rightId : ∀ x, hsame (mul x e) x)
+    (mulCongr : ∀ {a a' b b'}, hsame a a' → hsame b b' →
+      hsame (mul a b) (mul a' b'))
+    (invCongr : ∀ {a b}, hsame a b → hsame (inv a) (inv b))
+    (leftInv : ∀ x, hsame (mul (inv x) x) e)
+    (rightInv : ∀ x, hsame (mul x (inv x)) e) :
+    ((∀ x : BHist, BEDC.Derived.MonoidUp.MonoidClassifierSpec hsame x x) ∧
+      (∀ {x y z : BHist}, BEDC.Derived.MonoidUp.MonoidClassifierSpec hsame x y →
+        BEDC.Derived.MonoidUp.MonoidClassifierSpec hsame y z →
+          BEDC.Derived.MonoidUp.MonoidClassifierSpec hsame x z) ∧
+      (∀ x y z : BHist,
+        BEDC.Derived.MonoidUp.MonoidClassifierSpec hsame
+          (mul (mul x y) z) (mul x (mul y z))) ∧
+      (∀ x : BHist,
+        BEDC.Derived.MonoidUp.MonoidClassifierSpec hsame (mul e x) x) ∧
+      (∀ x : BHist,
+        BEDC.Derived.MonoidUp.MonoidClassifierSpec hsame (mul x e) x) ∧
+      (∀ {a a' b b' : BHist}, BEDC.Derived.MonoidUp.MonoidClassifierSpec hsame a a' →
+        BEDC.Derived.MonoidUp.MonoidClassifierSpec hsame b b' →
+          BEDC.Derived.MonoidUp.MonoidClassifierSpec hsame (mul a b) (mul a' b'))) ∧
+      (∀ {a b : BHist}, hsame a b → hsame (inv a) (inv b)) ∧
+      (∀ x : BHist, hsame (mul (inv x) x) e) ∧
+      (∀ x : BHist, hsame (mul x (inv x)) e) := by
+  constructor
+  · exact BEDC.Derived.MonoidUp.monoid_stability_certificate_fields
+      BEDC.FKernel.Hist.hsame_refl
+      BEDC.FKernel.Hist.hsame_trans
+      assocC
+      leftId
+      rightId
+      mulCongr
+  · constructor
+    · intro a b same
+      exact invCongr same
+    · constructor
+      · intro x
+        exact leftInv x
+      · intro x
+        exact rightInv x
+
+theorem group_left_inverse_involutive {mul : BHist → BHist → BHist} {e : BHist}
+    {inv : BHist → BHist}
+    (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : ∀ x, hsame (mul e x) x)
+    (rightId : ∀ x, hsame (mul x e) x)
+    (mulCongr : ∀ {a a' b b' : BHist}, hsame a a' → hsame b b' →
+      hsame (mul a b) (mul a' b'))
+    (leftInv : ∀ x, hsame (mul (inv x) x) e) :
+    ∀ x : BHist, hsame (inv (inv x)) x := by
+  intro x
+  exact hsame_trans (hsame_symm (rightId (inv (inv x))))
+    (hsame_trans
+      (mulCongr (hsame_refl (inv (inv x))) (hsame_symm (leftInv x)))
+      (hsame_trans (hsame_symm (assocC (inv (inv x)) (inv x) x))
+        (hsame_trans (mulCongr (leftInv (inv x)) (hsame_refl x)) (leftId x))))
+
+end BEDC.Derived.GroupUp

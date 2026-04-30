@@ -63,12 +63,32 @@ CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 # 16 GB M-series Mac. Override via CLI flags (--lake-parallel, --lake-lock-dir).
 LAKE_GATE_LOCK_DIR = REPO_ROOT / ".worktrees" / ".lake-gate"
 LAKE_GATE_MAX_PARALLEL = 1
-# Graceful stop: create this file to prevent new rounds from being dispatched.
-# Current rounds finish normally; the process exits once the pool drains.
-STOP_FILE = REPO_ROOT / ".pipeline.stop"
+# Graceful stop token: a running pipeline owns this file while its PID is
+# current. Removing or replacing it prevents new rounds from being dispatched;
+# current rounds finish normally and the process exits once the pool drains.
+PID_FILE = REPO_ROOT / ".pipeline.pid"
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
 FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
 MAX_LEAN_FILE_LINES = 800
+
+
+def write_pipeline_pid(pid_file: Path = PID_FILE, pid: int | None = None) -> None:
+    pid_file.write_text(f"{os.getpid() if pid is None else pid}\n", encoding="utf-8")
+
+
+def remove_pipeline_pid(pid_file: Path = PID_FILE) -> bool:
+    if not pid_file.exists():
+        return False
+    pid_file.unlink()
+    return True
+
+
+def pipeline_token_is_current(pid_file: Path = PID_FILE, pid: int | None = None) -> bool:
+    try:
+        recorded = int(pid_file.read_text(encoding="utf-8").strip())
+    except (FileNotFoundError, ValueError):
+        return False
+    return recorded == (os.getpid() if pid is None else pid)
 
 
 def _load_prompt(name: str) -> str:
@@ -78,6 +98,16 @@ def _load_prompt(name: str) -> str:
     Editing prompts only requires changing the .txt files, not this script.
     """
     return (PROMPTS_DIR / f"{name}.txt").read_text(encoding="utf-8")
+
+
+def _prompt_version(prompt: str) -> str:
+    for line in prompt.splitlines():
+        m = re.match(r"^(v\d+\.\d+)\b", line.strip())
+        if m:
+            return m.group(1)
+    raise ValueError("prompt is missing a top-level version line")
+
+
 
 # Thread-safe lock for git operations on the main repo
 _git_lock = threading.Lock()
@@ -1538,6 +1568,8 @@ def _added_marker_lines(wt: WorktreeInfo) -> list[tuple[str, str, str]]:
         if line.startswith("+++ b/"):
             current_file = line[6:]
             continue
+        if not current_file.endswith(".tex"):
+            continue
         if not line.startswith("+") or line.startswith("+++"):
             continue
         for m in _LEAN_MARKER_RE.finditer(line[1:]):
@@ -1596,6 +1628,83 @@ def detect_decls_without_kernel_touchpoint(wt: WorktreeInfo) -> list[str]:
         semantic_block = "\n".join(semantic_lines)
         if not _BEDC_TOUCHPOINT_RE.search(semantic_block):
             violations.append(f"{rel}: new declaration {name} does not mention a BEDC kernel/setup touchpoint")
+    return violations
+
+
+_SHALLOW_ECHO_NAMES = {
+    "le_refl", "le_trans", "carrier_transport", "lower_transport", "upper_transport",
+    "normalized", "transport", "closure", "stable", "stability"
+}
+_CARRIER_ONLY_NAME_RE = re.compile(
+    r"(?:Carrier|SourceSpec|PatternSpec|ClassifierSpec|LedgerPolicy|Lower|Upper|Normalized)"
+)
+
+
+def _decl_kind(block: str) -> str:
+    m = _DECL_HEADER_RE.match(block)
+    return m.group(1) if m else ""
+
+
+def _decl_short_name(name: str) -> str:
+    return name.rsplit(".", 1)[-1]
+
+
+def _decl_conclusion(block: str) -> str:
+    header = block.split(":=", 1)[0]
+    idx = header.rfind(":")
+    if idx == -1:
+        return ""
+    return " ".join(header[idx + 1:].split())
+
+
+def _is_parameter_echo(block: str) -> bool:
+    lines = [line.strip() for line in block.splitlines()]
+    for candidate in _SHALLOW_ECHO_NAMES:
+        if not re.search(rf"\b{re.escape(candidate)}\b", block):
+            continue
+        if any(line in {f"exact {candidate}", f"apply {candidate}"} for line in lines):
+            return True
+    return False
+
+
+def detect_shallow_growth_patterns(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    added = collect_added_lean_declarations(wt)
+    if not added:
+        return violations
+
+    carrier_like: list[tuple[str, str]] = []
+    theorem_like: list[tuple[str, str, str]] = []
+    concrete_theorem_blocks: list[str] = []
+    conclusion_owner: dict[tuple[str, str], str] = {}
+
+    for name, (rel, block) in added.items():
+        kind = _decl_kind(block)
+        short = _decl_short_name(name)
+        if kind in {"def", "abbrev"} and _CARRIER_ONLY_NAME_RE.search(short):
+            carrier_like.append((rel, name))
+        if kind in {"theorem", "lemma"}:
+            theorem_like.append((rel, name, block))
+            if _CARRIER_ONLY_NAME_RE.search(block):
+                concrete_theorem_blocks.append(block)
+            if _is_parameter_echo(block):
+                violations.append(f"{rel}: new theorem {name} is a parameter echo")
+            conclusion = _decl_conclusion(block)
+            if conclusion and _BEDC_TOUCHPOINT_RE.search(conclusion):
+                key = (rel, conclusion)
+                if key in conclusion_owner:
+                    violations.append(
+                        f"{rel}: duplicate theorem conclusion in {conclusion_owner[key]} and {name}"
+                    )
+                else:
+                    conclusion_owner[key] = name
+
+    if carrier_like and not concrete_theorem_blocks:
+        rel = carrier_like[0][0]
+        names = ", ".join(name for _rel, name in carrier_like[:4])
+        violations.append(
+            f"{rel}: carrier/spec definitions added without a theorem using the concrete definitions ({names})"
+        )
     return violations
 
 
@@ -1794,6 +1903,16 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
             logger.error(
                 f"[R{wt.round_number}] Rejecting round: {len(touchpoint_violations)} new "
                 f"declaration(s) do not mention BEDC kernel/setup objects."
+            )
+            return False, new
+        shallow_violations = detect_shallow_growth_patterns(wt)
+        if shallow_violations:
+            for v in shallow_violations[:10]:
+                logger.error(f"[R{wt.round_number}] SHALLOW GROWTH PATTERN: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(shallow_violations)} new "
+                f"declaration pattern(s) look like parameter echo, carrier-only growth, "
+                f"or duplicate theorem inflation. Pick a concrete closure/transport target."
             )
             return False, new
         # Gate 5: sorry/admit/axiom literals in newly-added or modified lines
@@ -2526,11 +2645,11 @@ def main() -> int:
     )
     parser.add_argument(
         "--stop", action="store_true",
-        help=f"Create {STOP_FILE.name} to signal the running pipeline to drain and exit",
+        help=f"Remove {PID_FILE.name} to signal the running pipeline to drain and exit",
     )
     parser.add_argument(
         "--resume", action="store_true",
-        help=f"Remove {STOP_FILE.name} so the pipeline resumes dispatching new rounds",
+        help="Deprecated in PID mode; start the pipeline normally to create a fresh token",
     )
     parser.add_argument(
         "--base-branch", type=str, default=BASE_BRANCH,
@@ -2642,15 +2761,13 @@ def main() -> int:
 
     # ── Graceful stop / resume ─────────────────────────────────────
     if args.stop:
-        STOP_FILE.touch()
-        print(f"Created {STOP_FILE} — running pipeline will drain and exit after current rounds finish.")
+        if remove_pipeline_pid():
+            print(f"Removed {PID_FILE} — running pipeline will drain and exit after current rounds finish.")
+        else:
+            print(f"{PID_FILE} did not exist (pipeline was not running or was already draining).")
         return 0
     if args.resume:
-        if STOP_FILE.exists():
-            STOP_FILE.unlink()
-            print(f"Removed {STOP_FILE} — pipeline will resume dispatching new rounds.")
-        else:
-            print(f"{STOP_FILE} did not exist (pipeline was not stopped).")
+        print("Resume is no longer needed in PID mode; start the pipeline normally to create a fresh PID token.")
         return 0
 
     # ── Status ─────────────────────────────────────────────────────
@@ -2674,6 +2791,11 @@ def main() -> int:
             print(f"  {c}")
         print(f"Codex CLI:             {CODEX_PATH}")
         print(f"Log dir:               {LOG_DIR}")
+        if PID_FILE.exists():
+            token = PID_FILE.read_text(encoding="utf-8").strip()
+            print(f"Pipeline PID token:    {token} ({PID_FILE})")
+        else:
+            print(f"Pipeline PID token:    none ({PID_FILE})")
         return 0
 
     # ── Reset ──────────────────────────────────────────────────────
@@ -2689,6 +2811,9 @@ def main() -> int:
     logger.info(f"Codex CLI: {codex_bin}")
     logger.info(f"Base branch: {BASE_BRANCH}")
     logger.info(f"Parallelism: {args.parallel}")
+    if not args.dry_run:
+        write_pipeline_pid()
+        logger.info(f"Pipeline PID token: {PID_FILE} ({os.getpid()})")
 
     # Ensure base branch
     if not args.dry_run:
@@ -2748,7 +2873,7 @@ def main() -> int:
             # Cooldown after consecutive_failures hits the threshold: pause
             # dispatch for this many seconds, then reset the counter and
             # resume. The pipeline never exits on consecutive failures —
-            # only graceful stop via STOP_FILE or external SIGTERM.
+            # only graceful PID-token stop or external SIGTERM.
             cooldown_seconds = max(60, int(args.max_consecutive_failures) * 60)
 
             def _maybe_cooldown() -> None:
@@ -2764,8 +2889,8 @@ def main() -> int:
                 logger.info("[cooldown] resumed; consecutive_failures reset to 0")
 
             def _submit_next() -> None:
-                if STOP_FILE.exists():
-                    logger.info(f"Stop file detected ({STOP_FILE}), not dispatching new rounds")
+                if not pipeline_token_is_current():
+                    logger.info(f"Pipeline PID token is not current ({PID_FILE}), not dispatching new rounds")
                     return
                 _maybe_cooldown()
                 with _round_lock:
@@ -2789,8 +2914,8 @@ def main() -> int:
                 _submit_next()
 
             while futures:
-                if STOP_FILE.exists():
-                    logger.info(f"Stop file detected; draining {len(futures)} in-flight workers")
+                if not pipeline_token_is_current():
+                    logger.info(f"Pipeline PID token is not current; draining {len(futures)} in-flight workers")
                     # Don't break — finish in-flight, then the pool drains naturally.
                 done, _ = wait(futures, return_when=FIRST_COMPLETED)
                 for fut in done:
@@ -2814,7 +2939,7 @@ def main() -> int:
                     save_state(state)
                     # Immediately launch a replacement worker (will cooldown
                     # if too many consecutive failures, then resume).
-                    if not STOP_FILE.exists():
+                    if pipeline_token_is_current():
                         _submit_next()
 
     else:

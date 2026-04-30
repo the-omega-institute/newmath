@@ -23,18 +23,113 @@ The source specification for \(\BoolUp\) is the mark-level classifier generated 
 \]
 \end{definition}
 \leandef{BEDC.Derived.BoolUp.BoolSourceSpec}
+\leandef{BEDC.Derived.BoolUp.BoolHistoryCarrier}
+
+\begin{theorem}[Bool source respects mark sameness]
+\label{thm:bool-source-spec-respects-msame}
+If \(v\) satisfies \(\mathsf{BoolSourceSpec}\) and \(\msame(v,w)\), then \(w\) also satisfies \(\mathsf{BoolSourceSpec}\).
+\end{theorem}
+\begin{proof}
+The source condition is a disjunction of \(\msame(v,\bzero)\) and \(\msame(v,\bone)\). In either case, symmetry gives \(\msame(w,v)\), and transitivity transports the corresponding constructor witness from \(v\) to \(w\).
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolSourceSpec\_respects\_msame}
+
+\begin{theorem}[Bool source transport along mark sameness]
+\label{prop:bool-source-msame-transport}
+If \(v\) and \(w\) are internally the same mark, then the boolean source predicate transports from \(v\) to \(w\).
+\end{theorem}
+\leanchecked{BEDC.Derived.BoolUp.BoolSourceSpec\_msame\_transport}
+\begin{proof}
+The proof eliminates the \(\msame(v,w)\) witness, reducing \(w\) definitionally to \(v\), and reuses the original source-classifier witness.
+\end{proof}
+
+\begin{theorem}[Bool history carrier transport]
+\label{thm:bool-history-carrier-hsame-transport}
+If \(h\) is internally history-same as \(k\) and \(h\) lies in the boolean
+history carrier, then \(k\) also lies in the boolean history carrier.
+\end{theorem}
+\begin{proof}
+The carrier witness is either sameness to \(\emp\) or sameness to
+\(\Eone(\emp)\). In both cases, symmetry of the link from \(h\) to \(k\)
+followed by transitivity transports the endpoint equality to \(k\).
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_hsame\_transport}
+
+\begin{theorem}[Bool history carrier excludes zero-extension]
+\label{thm:bool-history-carrier-e0-absurd}
+No zero-extension history \(\Ezero(h)\) lies in the boolean history carrier.
+\end{theorem}
+\begin{proof}
+The carrier witness is either sameness to \(\emp\) or sameness to
+\(\Eone(\emp)\). The first case contradicts generated-history separation
+between \(\Ezero(h)\) and \(\emp\), and the second contradicts constructor
+separation between zero- and one-extensions.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_e0\_absurd}
+
+\begin{theorem}[Bool history one-extension tail]
+\label{thm:bool-history-carrier-e1-tail-empty}
+If \(\Eone(h)\) lies in the boolean history carrier, then \(h\) is internally
+the same as \(\emp\).
+\end{theorem}
+\begin{proof}
+The carrier witness is either sameness to \(\emp\) or sameness to
+\(\Eone(\emp)\). The empty endpoint contradicts generated-history
+no-confusion for \(\Eone(h)\). The \(\Eone(\emp)\) endpoint reduces by
+one-constructor inversion to \(\hsame(h,\emp)\).
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_e1\_tail\_empty}
 
 \begin{definition}[Bool pattern specification]
 \label{def:bool-pattern-specification}
 The pattern is exactly the two displayed mark constructors, with no history growth.
 \end{definition}
+\leandef{BEDC.Derived.BoolUp.BoolPatternSpec}
 
 \begin{definition}[Bool classifier specification]
 \label{def:bool-classifier-specification}
 The classifier is \(\msame\) on marks, with the two constructors distinguished.
 \end{definition}
 \leandef{BEDC.Derived.BoolUp.BoolClassifierSpec}
+\leandef{BEDC.Derived.BoolUp.BoolHistoryClassifier}
 \leanchecked{BEDC.Derived.BoolUp.BoolClassifierSpec\_constructor\_separation}
+
+\begin{theorem}[Bool history classifier cases]
+\label{thm:bool-history-classifier-cases}
+Every boolean history classifier witness relates two histories in the same
+displayed endpoint class: either both are internally the same as \(\emp\), or
+both are internally the same as \(\Eone(\emp)\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into endpoint carrier data and the internal
+\(\HSame\) link. The left endpoint carrier has exactly two cases. In either
+case, symmetry of the classifier link followed by transitivity transports the
+left endpoint class to the right endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_cases}
+
+\begin{theorem}[Bool history classifier constructor separation]
+\label{thm:bool-history-classifier-constructor-separation}
+The boolean history classifier cannot relate \(\emp\) to \(\Eone(\emp)\).
+\end{theorem}
+\begin{proof}
+Eliminating the classifier witness exposes the underlying \(\HSame\) witness
+between \(\emp\) and \(\Eone(\emp)\). Generated-history constructor
+no-confusion rules out such a witness.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_constructor\_separation}
+
+\begin{theorem}[Bool history classifier transitivity]
+\label{thm:bool-history-classifier-transitivity}
+If a boolean history classifier relates \(h\) to \(k\), and relates \(k\) to
+\(r\), then it relates \(h\) to \(r\).
+\end{theorem}
+\begin{proof}
+Eliminate the two classifier witnesses. The endpoint carrier witnesses for
+\(h\) and \(r\) are retained, while the exposed \(\hsame(h,k)\) and
+\(\hsame(k,r)\) links compose by generated-history transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_trans}
 
 \begin{definition}[Bool stability certificate]
 \label{def:bool-stability-certificate}
@@ -53,11 +148,13 @@ The stability certificate consists of:
 \label{def:bool-ledger-policy}
 Record the raw source mark for every visible boolean class.
 \end{definition}
+\leandef{BEDC.Derived.BoolUp.BoolLedgerPolicy}
 
 \begin{theorem}[Concrete \(\BoolUp\) naming certificate]
 \label{thm:concrete-bool-namecert}
 The tuple \((\mathsf{BoolSource},\mathsf{BoolPattern},\mathsf{BoolClassifier},\mathsf{BoolStability},\mathsf{BoolLedger})\) forms a valid NameCert for \(\BoolUp\).
 \end{theorem}
+\leanchecked{BEDC.Derived.BoolUp.bool\_history\_name\_certificate}
 
 \begin{corollary}[\(\BoolUp\) is licensed, not primitive]
 \label{cor:bool-licensed-not-primitive}

@@ -1,0 +1,333 @@
+import BEDC.Derived.IntUp
+import BEDC.FKernel.NameCert
+
+namespace BEDC.Derived.RatUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
+
+def PositiveUnaryDenominator (den : BHist) : Prop :=
+  ∃ tail : BHist, hsame den (BHist.e1 tail) ∧ UnaryHistory tail
+
+theorem PositiveUnaryDenominator_hsame_transport {d e : BHist} :
+    hsame d e -> PositiveUnaryDenominator d -> PositiveUnaryDenominator e := by
+  intro same positive
+  cases positive with
+  | intro tail data =>
+      cases data with
+      | intro denSame tailUnary =>
+          exact ⟨tail, hsame_trans (hsame_symm same) denSame, tailUnary⟩
+
+theorem PositiveUnaryDenominator_append_unary_tail {den tail : BEDC.FKernel.Hist.BHist} :
+    PositiveUnaryDenominator den -> BEDC.FKernel.Unary.UnaryHistory tail ->
+      PositiveUnaryDenominator (BEDC.FKernel.Cont.append den tail) := by
+  intro positive tailUnary
+  cases positive with
+  | intro denTail data =>
+      cases data with
+      | intro denSame denTailUnary =>
+          have denUnary : BEDC.FKernel.Unary.UnaryHistory den :=
+            BEDC.FKernel.Unary.unary_transport
+              (BEDC.FKernel.Unary.unary_e1_closed denTailUnary)
+              (BEDC.FKernel.Hist.hsame_symm denSame)
+          cases BEDC.FKernel.Unary.unary_history_cases tailUnary with
+          | inl tailEmpty =>
+              cases tailEmpty
+              exact ⟨denTail, denSame, denTailUnary⟩
+          | inr tailWitness =>
+              cases tailWitness with
+              | intro tailCore tailData =>
+                  cases tailData with
+                  | intro tailEq tailCoreUnary =>
+                      cases tailEq
+                      exact
+                        ⟨BEDC.FKernel.Cont.append den tailCore,
+                          BEDC.FKernel.Hist.hsame_refl
+                            (BEDC.FKernel.Hist.BHist.e1
+                              (BEDC.FKernel.Cont.append den tailCore)),
+                          BEDC.FKernel.Unary.unary_append_closed denUnary tailCoreUnary⟩
+
+def rat_classifier_spec_trans_positive_unary_denominator_carrier
+    (sign : BEDC.FKernel.Mark.BMark)
+    (numerator denominator : BEDC.FKernel.Hist.BHist) : Prop :=
+  BEDC.Derived.IntUp.IntCarrier sign numerator ∧
+    BEDC.FKernel.Unary.UnaryHistory denominator ∧
+      ∃ tail : BEDC.FKernel.Hist.BHist,
+        denominator = BEDC.FKernel.Hist.BHist.e1 tail ∧
+          BEDC.FKernel.Unary.UnaryHistory tail
+
+def RatSourceSpec (normalized : BMark → BHist → BHist → Prop) (sign : BMark)
+    (num den : BHist) : Prop :=
+  BEDC.Derived.IntUp.IntCarrier sign num ∧ PositiveUnaryDenominator den ∧
+    normalized sign num den
+
+def RatCarrier
+    (sign : BEDC.FKernel.Mark.BMark) (numerator denominator : BEDC.FKernel.Hist.BHist) :
+    Prop :=
+  BEDC.Derived.IntUp.IntCarrier sign numerator ∧
+    BEDC.FKernel.Unary.UnaryHistory denominator ∧
+      (BEDC.FKernel.Hist.hsame denominator BEDC.FKernel.Hist.BHist.Empty → False)
+
+theorem RatCarrier_positive_denominator {sign : BEDC.FKernel.Mark.BMark}
+    {numerator denominator : BEDC.FKernel.Hist.BHist} :
+    RatCarrier sign numerator denominator -> PositiveUnaryDenominator denominator := by
+  intro carrier
+  cases carrier with
+  | intro _ denominatorData =>
+      cases denominatorData with
+      | intro denominatorUnary denominatorNonempty =>
+          cases unary_history_cases denominatorUnary with
+          | inl denominatorEmpty =>
+              cases denominatorEmpty
+              exact False.elim (denominatorNonempty (hsame_refl BHist.Empty))
+          | inr tailWitness =>
+              cases tailWitness with
+              | intro tail tailData =>
+                  cases tailData with
+                  | intro denominatorEq tailUnary =>
+                      cases denominatorEq
+                      exact ⟨tail, hsame_refl (BHist.e1 tail), tailUnary⟩
+
+theorem RatCarrier_of_int_positive_denominator {sign : BEDC.FKernel.Mark.BMark}
+    {numerator denominator : BEDC.FKernel.Hist.BHist} :
+    BEDC.Derived.IntUp.IntCarrier sign numerator ->
+      PositiveUnaryDenominator denominator -> RatCarrier sign numerator denominator := by
+  intro intCarrier positive
+  cases positive with
+  | intro tail positiveData =>
+      cases positiveData with
+      | intro sameTail tailUnary =>
+          constructor
+          · exact intCarrier
+          · constructor
+            · exact BEDC.FKernel.Unary.unary_transport
+                (BEDC.FKernel.Unary.unary_e1_closed tailUnary)
+                (BEDC.FKernel.Hist.hsame_symm sameTail)
+            · intro sameEmpty
+              exact BEDC.FKernel.Hist.not_hsame_e1_empty
+                (BEDC.FKernel.Hist.hsame_trans
+                  (BEDC.FKernel.Hist.hsame_symm sameTail) sameEmpty)
+
+theorem RatCarrier_denominator_hsame_transport {sign : BEDC.FKernel.Mark.BMark}
+    {numerator denominator denominator2 : BHist} :
+    RatCarrier sign numerator denominator -> hsame denominator denominator2 ->
+      RatCarrier sign numerator denominator2 := by
+  intro carrier sameDenominator
+  cases carrier with
+  | intro intCarrier denominatorData =>
+      exact RatCarrier_of_int_positive_denominator intCarrier
+        (PositiveUnaryDenominator_hsame_transport sameDenominator
+          (RatCarrier_positive_denominator ⟨intCarrier, denominatorData⟩))
+
+def RatHistoryCarrier (denominator : BHist) : Prop :=
+  ∃ sign : BMark, ∃ numerator : BHist, RatCarrier sign numerator denominator
+
+def RatHistoryClassifier (d e : BHist) : Prop :=
+  RatHistoryCarrier d ∧ RatHistoryCarrier e ∧ hsame d e
+
+theorem RatHistoryCarrier_hsame_transport {d e : BHist} :
+    hsame d e -> RatHistoryCarrier d -> RatHistoryCarrier e := by
+  intro same carrier
+  cases carrier with
+  | intro sign signData =>
+      cases signData with
+      | intro numerator ratCarrier =>
+          exact ⟨sign, numerator, RatCarrier_denominator_hsame_transport ratCarrier same⟩
+
+theorem rat_history_semantic_name_certificate :
+    SemanticNameCert RatHistoryCarrier RatHistoryCarrier RatHistoryCarrier
+      RatHistoryClassifier := by
+  constructor
+  · constructor
+    · exact ⟨BHist.e1 BHist.Empty, BMark.b0, BHist.Empty,
+        ⟨Or.inl rfl, unary_empty⟩, unary_e1_closed unary_empty,
+          fun sameEmpty => not_hsame_e1_empty sameEmpty⟩
+    · intro h carrier
+      exact ⟨carrier, carrier, hsame_refl h⟩
+    · intro h k same
+      exact ⟨same.right.left, same.left, hsame_symm same.right.right⟩
+    · intro h k r hk kr
+      exact ⟨hk.left, RatHistoryCarrier_hsame_transport
+        (hsame_trans hk.right.right kr.right.right) hk.left,
+          hsame_trans hk.right.right kr.right.right⟩
+    · intro h k same carrier
+      exact RatHistoryCarrier_hsame_transport same.right.right carrier
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
+theorem RatSourceSpec_to_RatCarrier {normalized : BMark -> BHist -> BHist -> Prop}
+    {sign : BMark} {num den : BHist} :
+    RatSourceSpec normalized sign num den -> RatCarrier sign num den := by
+  intro source
+  cases source with
+  | intro intCarrier sourceRest =>
+      cases sourceRest with
+      | intro positive _normalized =>
+          cases positive with
+          | intro tail positiveData =>
+              cases positiveData with
+              | intro sameDen tailUnary =>
+                  constructor
+                  · exact intCarrier
+                  · constructor
+                    · exact unary_transport (unary_e1_closed tailUnary) (hsame_symm sameDen)
+                    · intro sameEmpty
+                      exact not_hsame_e1_empty
+                        (hsame_trans (hsame_symm sameDen) sameEmpty)
+
+theorem RatCarrier_component_hsame_transport {s t : BEDC.FKernel.Mark.BMark}
+    {n n' d d' : BEDC.FKernel.Hist.BHist} :
+    RatCarrier s n d -> BEDC.FKernel.Mark.msame s t -> BEDC.FKernel.Hist.hsame n n' ->
+      BEDC.FKernel.Hist.hsame d d' -> RatCarrier t n' d' := by
+  intro carrier sameSign sameNumerator sameDenominator
+  cases sameSign
+  cases carrier with
+  | intro intCarrier denominatorData =>
+      cases denominatorData with
+      | intro denominatorUnary denominatorNonempty =>
+          constructor
+          · exact BEDC.Derived.IntUp.IntCarrier_magnitude_hsame_transport
+              intCarrier sameNumerator
+          · constructor
+            · exact BEDC.FKernel.Unary.unary_transport denominatorUnary sameDenominator
+            · intro sameEmpty
+              exact denominatorNonempty
+                (BEDC.FKernel.Hist.hsame_trans sameDenominator sameEmpty)
+
+theorem RatCarrier_hsame_transport {s t : BMark} {n n' d d' : BHist} :
+    RatCarrier s n d -> msame s t -> hsame n n' -> hsame d d' -> RatCarrier t n' d' := by
+  intro carrier sameSign sameNumerator sameDenominator
+  cases sameSign
+  cases carrier with
+  | intro intCarrier denominatorData =>
+      cases denominatorData with
+      | intro denominatorUnary denominatorNonempty =>
+          constructor
+          · exact IntUp.IntCarrier_magnitude_hsame_transport intCarrier sameNumerator
+          · constructor
+            · exact unary_transport denominatorUnary sameDenominator
+            · intro sameEmpty
+              exact denominatorNonempty (hsame_trans sameDenominator sameEmpty)
+
+def rat_classifier_spec_trans_carrier
+    (sign : BEDC.FKernel.Mark.BMark) (numerator denominator : BEDC.FKernel.Hist.BHist) :
+    Prop :=
+  RatCarrier sign numerator denominator
+
+def RatClassifierSpec
+    (s1 : BEDC.FKernel.Mark.BMark) (n1 d1 : BEDC.FKernel.Hist.BHist)
+    (s2 : BEDC.FKernel.Mark.BMark) (n2 d2 : BEDC.FKernel.Hist.BHist) : Prop :=
+  rat_classifier_spec_trans_carrier s1 n1 d1 ∧
+    rat_classifier_spec_trans_carrier s2 n2 d2 ∧
+      BEDC.FKernel.Mark.msame s1 s2 ∧
+        BEDC.FKernel.Hist.hsame n1 n2 ∧
+          BEDC.FKernel.Hist.hsame d1 d2
+
+theorem RatCarrier_iff_positive_unary_denominator {sign : BEDC.FKernel.Mark.BMark}
+    {num den : BEDC.FKernel.Hist.BHist} :
+    RatCarrier sign num den ↔
+      BEDC.Derived.IntUp.IntCarrier sign num ∧ PositiveUnaryDenominator den := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro intCarrier rest =>
+        cases rest with
+        | intro denUnary denNonempty =>
+            constructor
+            · exact intCarrier
+            · cases unary_history_empty_or_e1_tail denUnary with
+              | inl denEmpty =>
+                  cases denEmpty
+                  exact False.elim (denNonempty (hsame_refl BHist.Empty))
+              | inr denTail =>
+                  cases denTail with
+                  | intro tail tailData =>
+                      cases tailData with
+                      | intro denEq tailUnary =>
+                          cases denEq
+                          exact ⟨tail, hsame_refl (BHist.e1 tail), tailUnary⟩
+  · intro data
+    cases data with
+    | intro intCarrier positive =>
+        cases positive with
+        | intro tail positiveData =>
+            cases positiveData with
+            | intro denSame tailUnary =>
+                constructor
+                · exact intCarrier
+                · constructor
+                  · exact unary_transport (unary_e1_closed tailUnary) (hsame_symm denSame)
+                  · intro denEmpty
+                    exact not_hsame_e1_empty (hsame_trans (hsame_symm denSame) denEmpty)
+
+theorem RatCarrier_append_unary_denominator_closed {sign : BEDC.FKernel.Mark.BMark}
+    {numerator denominator tail : BEDC.FKernel.Hist.BHist} :
+    RatCarrier sign numerator denominator -> BEDC.FKernel.Unary.UnaryHistory tail ->
+      RatCarrier sign numerator (BEDC.FKernel.Cont.append denominator tail) := by
+  intro carrier tailUnary
+  cases Iff.mp RatCarrier_iff_positive_unary_denominator carrier with
+  | intro intCarrier positiveDenominator =>
+      exact RatCarrier_of_int_positive_denominator intCarrier
+        (PositiveUnaryDenominator_append_unary_tail positiveDenominator tailUnary)
+
+theorem RatClassifierSpec_trans
+    {s1 s2 s3 : BEDC.FKernel.Mark.BMark}
+    {n1 n2 n3 d1 d2 d3 : BEDC.FKernel.Hist.BHist} :
+    RatClassifierSpec s1 n1 d1 s2 n2 d2 →
+      RatClassifierSpec s2 n2 d2 s3 n3 d3 →
+        RatClassifierSpec s1 n1 d1 s3 n3 d3 := by
+  intro left right
+  cases left with
+  | intro carrier1 leftRest =>
+      cases leftRest with
+      | intro _ leftRest =>
+          cases leftRest with
+          | intro sign12 leftRest =>
+              cases leftRest with
+              | intro numerator12 denominator12 =>
+                  cases right with
+                  | intro _ rightRest =>
+                      cases rightRest with
+                      | intro carrier3 rightRest =>
+                          cases rightRest with
+                          | intro sign23 rightRest =>
+                              cases rightRest with
+                              | intro numerator23 denominator23 =>
+                                  constructor
+                                  · exact carrier1
+                                  · constructor
+                                    · exact carrier3
+                                    · constructor
+                                      · exact BEDC.FKernel.Mark.msame_trans sign12 sign23
+                                      · constructor
+                                        · exact BEDC.FKernel.Hist.hsame_trans numerator12 numerator23
+                                        · exact BEDC.FKernel.Hist.hsame_trans denominator12 denominator23
+
+theorem RatClassifierSpec_symm
+    {s1 s2 : BEDC.FKernel.Mark.BMark} {n1 n2 d1 d2 : BEDC.FKernel.Hist.BHist} :
+    RatClassifierSpec s1 n1 d1 s2 n2 d2 ->
+      RatClassifierSpec s2 n2 d2 s1 n1 d1 := by
+  intro classifier
+  cases classifier with
+  | intro carrier1 rest =>
+      cases rest with
+      | intro carrier2 rest =>
+          cases rest with
+          | intro sameSign rest =>
+              cases rest with
+              | intro sameNumerator sameDenominator =>
+                  constructor
+                  · exact carrier2
+                  · constructor
+                    · exact carrier1
+                    · constructor
+                      · exact BEDC.FKernel.Mark.msame_symm sameSign
+                      · constructor
+                        · exact BEDC.FKernel.Hist.hsame_symm sameNumerator
+                        · exact BEDC.FKernel.Hist.hsame_symm sameDenominator
+
+end BEDC.Derived.RatUp
