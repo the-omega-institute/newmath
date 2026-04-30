@@ -19,6 +19,7 @@ import BEDC.FKernel.Sig.Generation
 import BEDC.FKernel.Package
 import BEDC.FKernel.Settled
 import BEDC.FKernel.ExternalBinary
+import BEDC.FKernel.ExternalBinary.Cancellation
 import BEDC.FKernel.Gap
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.NameCert.Descent
