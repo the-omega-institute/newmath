@@ -178,6 +178,23 @@ theorem sig_cons_head_tail_determinacy [AskSetup]
                             (And.intro rightTail
                               (And.intro markSame tailSame))))))))))
 
+theorem signature_cons_head_mark_determinacy [AskSetup]
+    {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {D : BHist -> Prop} {h r r' : BHist} (policy : AskPolicy D) :
+    D h -> SigRel (ProbeBundle.Bcons pi tail) h r ->
+      SigRel (ProbeBundle.Bcons pi tail) h r' ->
+      exists s : BHist, exists t : BHist, exists m : BMark, exists n : BMark,
+      exists delta : Evidence, exists theta : Evidence,
+        Ask pi h m delta /\ Ask pi h n theta /\
+        SigRel tail h s /\ SigRel tail h t /\ msame m n := by
+  intro _ left right
+  cases left with
+  | cons _ _ _ s _ m delta leftAsk leftTail _ =>
+      cases right with
+      | cons _ _ _ t _ n theta rightAsk rightTail _ =>
+          have markSame : msame m n := policy.deterministic leftAsk rightAsk
+          exact ⟨s, t, m, n, delta, theta, leftAsk, rightAsk, leftTail, rightTail, markSame⟩
+
 theorem sig_cons_witnesses_and_result_hsame_from_policy [AskSetup]
     {pi : ProbeName} {tail : ProbeBundle ProbeName}
     {D : BHist → Prop} {h r r' : BHist} (policy : AskPolicy D) :

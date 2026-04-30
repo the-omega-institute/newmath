@@ -1,5 +1,6 @@
 import BEDC.FKernel.Gap.Core
 import BEDC.FKernel.Gap.InGapSig
+import BEDC.FKernel.Gap.Coverage
 import BEDC.FKernel.Gap.Comp
 import BEDC.FKernel.Gap.Policy
 import BEDC.FKernel.Gap.Construction
