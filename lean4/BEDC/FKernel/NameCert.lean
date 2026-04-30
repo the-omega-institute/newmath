@@ -35,6 +35,13 @@ structure SealEvent (Thread : Type) (name : DerivedName) : Type where
   sealCert : StabilityCert
   ledger : LedgerPolicy
 
+structure SealInterface (Thread : Type) (name : DerivedName) : Type 1 where
+  thread : Thread
+  sealCertType : Type
+  sealCert : Nonempty sealCertType
+  nameCert : NameCert name
+  ledger : Nonempty LedgerPolicy
+
 theorem derived_interfaces_require_certificates {n : DerivedName} :
     NameCert n -> Nonempty (NameCert n) := by
   intro cert

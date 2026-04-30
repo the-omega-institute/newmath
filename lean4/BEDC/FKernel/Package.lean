@@ -280,6 +280,18 @@ theorem signature_package_policy [A : AskSetup] (bundle : ProbeBundle ProbeName)
           exact ⟨_, _, hp, hq, hst⟩)
 
 omit P [AskSetup] in
+theorem signature_package_grounding [A : AskSetup] (bundle : ProbeBundle ProbeName)
+    {p q : @Pkg A (@SignaturePackageSetup A)} :
+    @psame A (@SignaturePackageSetup A) bundle p q ->
+      exists s : BHist, exists t : BHist,
+        @TokIntro A (@SignaturePackageSetup A) bundle s p /\
+          @TokIntro A (@SignaturePackageSetup A) bundle t q /\ hsame s t := by
+  intro samePkg
+  cases samePkg with
+  | intro hp hq hst =>
+      exact ⟨_, _, hp, hq, hst⟩
+
+omit P [AskSetup] in
 theorem first_concrete_package_interface [A : AskSetup] (bundle : ProbeBundle ProbeName) :
     Nonempty (@PackagePolicy A (@SignaturePackageSetup A) bundle) := by
   exact Nonempty.intro (@signature_package_policy A bundle)

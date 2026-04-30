@@ -28,6 +28,11 @@ structure DomainPolicy (D : Domain) : Prop where
 def InGapSig (bundle : ProbeBundle ProbeName) (D : Domain) (p : Pkg) (h : BHist) : Prop :=
   InDom D h ∧ ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p
 
+theorem inGapSig_intro {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h s : BHist} :
+    InDom D h -> SigRel bundle h s -> TokIntro bundle s p -> InGapSig bundle D p h := by
+  intro hdom hsig htok
+  exact And.intro hdom (Exists.intro s (And.intro hsig htok))
+
 theorem inGapSig_domain_witness
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h -> InDom D h := by
