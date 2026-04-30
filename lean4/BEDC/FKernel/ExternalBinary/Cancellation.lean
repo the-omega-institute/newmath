@@ -34,4 +34,24 @@ theorem external_append_cancel_hsame_triple_suffix {a b c d e : BWord} :
       (a := append (append a c) d) (b := append (append b c) d) (c := e) same
   exact external_append_cancel_hsame_nested_pair withoutSuffix
 
+theorem external_append_cancel_four_context_hsame {a b l m n r : BWord} :
+    hsame (append (append l (append (append a m) n)) r)
+        (append (append l (append (append b m) n)) r) →
+      hsame a b := by
+  intro same
+  have withoutRight :
+      hsame (append l (append (append a m) n))
+        (append l (append (append b m) n)) :=
+    external_append_right_cancel_hsame
+      (a := append l (append (append a m) n))
+      (b := append l (append (append b m) n)) (c := r) same
+  have withoutLeft : hsame (append (append a m) n) (append (append b m) n) :=
+    external_append_left_cancel_hsame
+      (a := append (append a m) n) (b := append (append b m) n) (c := l)
+      withoutRight
+  have withoutN : hsame (append a m) (append b m) :=
+    external_append_right_cancel_hsame (a := append a m) (b := append b m) (c := n)
+      withoutLeft
+  exact external_append_right_cancel_hsame (a := a) (b := b) (c := m) withoutN
+
 end BEDC.FKernel.ExternalBinary

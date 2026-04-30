@@ -151,4 +151,14 @@ theorem unary_shift_witness_tail_unique_congruence {k h r' : BHist} :
             intro w hw
             exact hsame_e1_congr (cont_deterministic hv hw)⟩
 
+theorem unary_shift_witness_transport_result {k h r r' : BHist} :
+    UnaryHistory k → Cont k (BHist.e1 h) r → hsame r r' →
+      ∃ v : BHist, Cont k h v ∧ hsame r' (BHist.e1 v) := by
+  intro uk hr sameResult
+  cases unary_shift_witness uk hr with
+  | intro v shifted =>
+      cases shifted with
+      | intro hv sameShift =>
+          exact ⟨v, hv, hsame_trans (hsame_symm sameResult) sameShift⟩
+
 end BEDC.FKernel.Unary
