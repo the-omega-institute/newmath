@@ -11,6 +11,15 @@ open BEDC.FKernel.Unary
 def PositiveUnaryDenominator (den : BHist) : Prop :=
   ∃ tail : BHist, hsame den (BHist.e1 tail) ∧ UnaryHistory tail
 
+theorem PositiveUnaryDenominator_not_empty {den : BHist} :
+    PositiveUnaryDenominator den -> hsame den BHist.Empty -> False := by
+  intro positive sameEmpty
+  cases positive with
+  | intro tail data =>
+      cases data with
+      | intro sameTail _tailUnary =>
+          exact not_hsame_e1_empty (hsame_trans (hsame_symm sameTail) sameEmpty)
+
 theorem PositiveUnaryDenominator_hsame_transport {d e : BHist} :
     hsame d e -> PositiveUnaryDenominator d -> PositiveUnaryDenominator e := by
   intro same positive
@@ -127,6 +136,19 @@ def RatHistoryCarrier (denominator : BHist) : Prop :=
 def RatHistoryClassifier (d e : BHist) : Prop :=
   RatHistoryCarrier d ∧ RatHistoryCarrier e ∧ hsame d e
 
+theorem RatHistoryClassifier_trans {d e f : BHist} :
+    RatHistoryClassifier d e -> RatHistoryClassifier e f -> RatHistoryClassifier d f := by
+  intro de ef
+  cases de with
+  | intro carrierD deRest =>
+      cases deRest with
+      | intro _carrierE sameDE =>
+          cases ef with
+          | intro _carrierE' efRest =>
+              cases efRest with
+              | intro carrierF sameEF =>
+                  exact ⟨carrierD, carrierF, hsame_trans sameDE sameEF⟩
+
 theorem RatHistoryCarrier_hsame_transport {d e : BHist} :
     hsame d e -> RatHistoryCarrier d -> RatHistoryCarrier e := by
   intro same carrier
@@ -226,6 +248,20 @@ def RatClassifierSpec
       BEDC.FKernel.Mark.msame s1 s2 ∧
         BEDC.FKernel.Hist.hsame n1 n2 ∧
           BEDC.FKernel.Hist.hsame d1 d2
+
+theorem RatClassifierSpec_refl {s : BEDC.FKernel.Mark.BMark}
+    {n d : BEDC.FKernel.Hist.BHist} :
+    RatCarrier s n d -> RatClassifierSpec s n d s n d := by
+  intro carrier
+  constructor
+  · exact carrier
+  · constructor
+    · exact carrier
+    · constructor
+      · exact BEDC.FKernel.Mark.msame_refl s
+      · constructor
+        · exact BEDC.FKernel.Hist.hsame_refl n
+        · exact BEDC.FKernel.Hist.hsame_refl d
 
 theorem RatCarrier_iff_positive_unary_denominator {sign : BEDC.FKernel.Mark.BMark}
     {num den : BEDC.FKernel.Hist.BHist} :

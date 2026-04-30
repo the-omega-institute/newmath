@@ -129,6 +129,17 @@ def BoolHistoryClassifier
     BoolHistoryCarrier k /\
       BEDC.FKernel.Hist.hsame h k
 
+theorem BoolHistoryClassifier_e1_tail_hsame {h k : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryClassifier (BEDC.FKernel.Hist.BHist.e1 h)
+      (BEDC.FKernel.Hist.BHist.e1 k) ->
+      BEDC.FKernel.Hist.hsame h k := by
+  intro classifier
+  cases classifier with
+  | intro _ rest =>
+      cases rest with
+      | intro _ same =>
+          exact BEDC.FKernel.Hist.hsame_e1_iff.mp same
+
 theorem BoolHistoryClassifier_constructor_separation :
     BoolHistoryClassifier BEDC.FKernel.Hist.BHist.Empty
       (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty) -> False := by

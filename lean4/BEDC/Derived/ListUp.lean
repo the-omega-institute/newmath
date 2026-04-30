@@ -205,6 +205,32 @@ theorem ListClassifierSpec_hsame_map_e0 :
               · exact BEDC.FKernel.Hist.hsame_e0_congr hhead
               · exact ih htail
 
+theorem ListClassifierSpec_hsame_map_e1 :
+    forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
+      ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (xs.map BEDC.FKernel.Hist.BHist.e1) (ys.map BEDC.FKernel.Hist.BHist.e1) := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro ys hxy
+      cases ys with
+      | nil =>
+          constructor
+      | cons _ _ =>
+          cases hxy
+  | cons x xs ih =>
+      intro ys hxy
+      cases ys with
+      | nil =>
+          cases hxy
+      | cons y ys =>
+          cases hxy with
+          | intro hhead htail =>
+              constructor
+              · exact BEDC.FKernel.Hist.hsame_e1_congr hhead
+              · exact ih htail
+
 theorem ListClassifierSpec_hsame_length_eq :
     forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
       ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->

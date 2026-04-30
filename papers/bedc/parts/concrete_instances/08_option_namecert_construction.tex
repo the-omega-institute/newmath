@@ -19,6 +19,19 @@ The source is the source NameCert for \(A\), lifted through the optional carrier
 \end{definition}
 \leandef{BEDC.Derived.OptionUp.OptionHistoryCarrier}
 
+\begin{theorem}[Option history carrier transport]
+\label{thm:option-history-carrier-hsame-transport}
+If two BEDC histories are internally the same, then optional history-carrier
+membership transfers from the first history to the second.
+\end{theorem}
+\begin{proof}
+Invert the optional carrier witness. In the absent case, compose the symmetric
+history-sameness link with the stored empty-history witness. In the present
+case, constructor inversion of the history-sameness witness identifies the two
+histories, so the source witness is reused.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_transport}
+
 \begin{definition}[Option pattern specification]
 \label{def:option-pattern-specification}
 The pattern is absent-or-present generation: one null constructor and one wrapper constructor over source witnesses.

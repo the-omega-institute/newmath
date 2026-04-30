@@ -24,6 +24,15 @@ It is a relation, not a function.
 \leanvariant{BEDC.FKernel.Ext.ext\_source\_deterministic\_from\_result}
 \leanvariant{BEDC.FKernel.Ext.ext\_cross\_mark\_result\_impossible}
 
+\begin{lemma}[Cross-mark extension results are separated]
+\label{lem:extension-cross-mark-result-separation}
+If \(\ExtR(\bzero,h,r_0)\), \(\ExtR(\bone,h,r_1)\), and \(\hsame(r_0,r_1)\), then contradiction follows.
+\end{lemma}
+\leanchecked{BEDC.FKernel.Ext.ext\_same\_source\_cross\_mark\_results\_not\_hsame}
+\begin{proof}
+Invert the two extension witnesses. The result histories are \(\Ezero(h)\) and \(\Eone(h)\), and history no-confusion excludes \(\hsame(\Ezero(h),\Eone(h))\).
+\end{proof}
+
 \begin{theorem}[Extension result injectivity]
 \label{thm:ext-result-injective-pair}
 If \(\ExtR(m,h,r)\) and \(\ExtR(m',h',r)\), then \(\hsame(h,h')\) and \(\msame(m,m')\).

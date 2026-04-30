@@ -28,6 +28,17 @@ The source is the carrier \(C\) with its classifier and relation.
 The pattern is relational judgment formation \(a\le_C b\) over carrier witnesses.
 \end{definition}
 
+\begin{theorem}[Prefix from history sameness]
+\label{thm:preorder-prefix-le-of-hsame}
+If $h$ and $k$ are internally history-same, then $h\le k$ in the concrete unary
+history prefix relation.
+\end{theorem}
+\begin{proof}
+Eliminate the $\hsame(h,k)$ witness. The prefix relation is then witnessed by
+the empty unary tail together with the right-unit continuation law for $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_of\_hsame}
+
 \begin{theorem}[Prefix from empty is unary carrier]
 \label{thm:preorder-prefix-empty-left-iff-unary}
 For the concrete unary history preorder, $\emp\le h$ holds exactly when $h$ is in the preorder carrier.
@@ -36,6 +47,19 @@ For the concrete unary history preorder, $\emp\le h$ holds exactly when $h$ is i
 Eliminate the prefix witness from $\emp$ to expose its unary tail and continuation result. The left-unit result identifies the target with the tail, so unary membership transports to $h$. Conversely, use $h$ itself as the unary tail and the continuation left unit.
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_empty\_left\_iff\_unary}
+
+\begin{theorem}[Prefix to empty identifies the source]
+\label{thm:preorder-prefix-empty-target-iff}
+For the concrete unary history preorder, $h\le \emp$ holds exactly when
+$h\hsame \emp$.
+\end{theorem}
+\begin{proof}
+Eliminate the prefix witness into a unary tail and a continuation into
+$\emp$. The empty-result inversion theorem forces the source history to be
+$\emp$. Conversely, after the history-sameness proof identifies the source
+with $\emp$, use the empty unary tail and the continuation right unit.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_empty\_target\_iff}
 
 \begin{theorem}[Preorder prefix results remain in the carrier]
 \label{thm:preorder-prefix-result-carrier}

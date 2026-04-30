@@ -94,6 +94,18 @@ The classifier is \(\msame\) on marks, with the two constructors distinguished.
 \leandef{BEDC.Derived.BoolUp.BoolHistoryClassifier}
 \leanchecked{BEDC.Derived.BoolUp.BoolClassifierSpec\_constructor\_separation}
 
+\begin{theorem}[Bool history classifier one-tail sameness]
+\label{thm:bool-history-classifier-e1-tail-hsame}
+If the boolean history classifier relates $\Eone(h)$ to $\Eone(k)$, then the
+tails $h$ and $k$ are internally history-same.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness to expose its underlying
+$\hsame(\Eone(h),\Eone(k))$ field. One-constructor inversion for generated
+histories then yields $\hsame(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e1\_tail\_hsame}
+
 \begin{theorem}[Bool history classifier cases]
 \label{thm:bool-history-classifier-cases}
 Every boolean history classifier witness relates two histories in the same

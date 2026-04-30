@@ -141,4 +141,11 @@ theorem ext_b1_result_hsame {h r : BHist} :
   cases hr
   rfl
 
+theorem ext_same_source_cross_mark_results_not_hsame {h r0 r1 : BHist} :
+    Ext h BMark.b0 r0 -> Ext h BMark.b1 r1 -> hsame r0 r1 -> False := by
+  intro left right same
+  cases left
+  cases right
+  exact not_hsame_e0_e1 same
+
 end BEDC.FKernel.Ext
