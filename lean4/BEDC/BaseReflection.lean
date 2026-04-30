@@ -742,6 +742,15 @@ theorem ExactGlobalizeBase_coverage_sound_complete
       intro base
       exact ex.completeness h k p q hp hq base
 
+theorem no_scaffold_laundering_coverage_soundness
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
+    (ex : ExactGlobalizeBase s P D) :
+    (forall h, s.InDom D h -> exists p, s.InGapSig P D p h) /\
+      (forall h k p q,
+        s.InGapSig P D p h -> s.InGapSig P D q k ->
+        GeneratedSameSig s P h k -> PsameBase s P p q) := by
+  exact And.intro ex.coverage ex.soundness
+
 theorem ExactGlobalizeBase_fields
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain}
     (ex : ExactGlobalizeBase s P D) :

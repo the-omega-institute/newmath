@@ -452,6 +452,16 @@ theorem unary_shift_witness {k h r' : BHist} :
         intro r hshift
         exact ih uk hshift) hr
 
+theorem unary_shift_witness_with_factor {k h r' : BHist} :
+    UnaryHistory k → UnaryHistory h → Cont k (.e1 h) r' →
+      exists v : BHist, Cont k h v /\ hsame r' (.e1 v) /\ UnaryHistory v := by
+  intro uk uh hr
+  cases unary_shift_witness uk hr with
+  | intro v shifted =>
+      cases shifted with
+      | intro hv same =>
+          exact ⟨v, hv, same, unary_cont_closed uk uh hv⟩
+
 theorem unary_right_shift_obligation_holds :
     (∀ {k h r' : BHist}, UnaryHistory k → Cont k (.e1 h) r' → ∃ v : BHist, Cont k h v ∧ hsame r' (.e1 v)) := by
   intro k h r' uk hr
