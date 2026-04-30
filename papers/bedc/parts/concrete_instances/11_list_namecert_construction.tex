@@ -198,15 +198,16 @@ Induct on the first list. Shape mismatches are impossible by the classifier clau
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_symm}
 
-\begin{lemma}[List classifier cons equivalence]
-\label{lem:list-classifier-cons-iff}
-For any source type $A$, source relation $\mathsf{sameA}$ on $A$, heads
-$a,b : A$, and tails $xs,ys : \ListUp(A)$, $\mathsf{ListClassifierSpec}(\mathsf{sameA},a::xs,b::ys)$ holds if and only if $\mathsf{sameA}(a,b)\land\mathsf{ListClassifierSpec}(\mathsf{sameA},xs,ys)$.
-\end{lemma}
+\begin{theorem}[History list classifier cons inversion]
+\label{thm:list-classifier-hsame-cons-inversion}
+For BEDC histories $x,y$ and history-list tails $xs,ys$, if
+$\mathsf{ListClassifierSpec}(\hsame,x::xs,y::ys)$ holds, then $\hsame(x,y)$
+and $\mathsf{ListClassifierSpec}(\hsame,xs,ys)$ hold.
+\end{theorem}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_cons\_inversion}
 \begin{proof}
-Unfold the cons-cons classifier clause. The forward direction reads off its
-source-head and recursive-tail components, and the reverse direction pairs
-those components to rebuild the cons-cons classifier witness.
+Unfold the cons-cons classifier clause and read off its source-head and
+recursive-tail components.
 \end{proof}
 
 \begin{theorem}[History list classifier singleton equivalence]
@@ -355,15 +356,14 @@ are equal.
 
 \begin{definition}[List stability certificate]
 \label{def:list-stability-certificate}
-The stability certificate consists of:
-\begin{enumerate}
-  \item classifier reflexivity by list induction, symmetry from the source $\NameCert$, and transitivity by paired source/list induction
-  \item nil/cons no-confusion together with head and tail inversion for classified cons values
-  \item constructor-map preservation and reflection for $e0$ and $e1$, with mixed-tag separation
-  \item append stability, left prefix cancellation, right suffix cancellation, and two-sided cancellation
-  \item reverse preservation, reverse reflection, and reverse equivalence
-  \item length preservation for structurally classified BEDC history lists
-\end{enumerate}
+The machine-checked ListUp stability fields recorded here are finite-spine
+$\mathsf{ListClassifierSpec}$ fields: reflexivity, symmetry, transitivity from
+the source $\NameCert$, nil/cons no-confusion with cons head/tail inversion,
+constructor-map preservation/reflection for $e0$ and $e1$ with mixed-tag
+separation, append stability with left, right, and two-sided cancellation,
+reverse preservation/reflection/equivalence, and length preservation.
+History-level $\mathsf{ListSpineBridgeClassifier}$ obtains transitivity only
+under $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$, via Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence}.
 \end{definition}
 
 \begin{theorem}[List classifier reflexivity]
