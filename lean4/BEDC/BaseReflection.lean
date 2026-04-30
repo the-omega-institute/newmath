@@ -24,6 +24,17 @@ structure TokUnique (s : BaseReflectionSetup) (P : s.Pi) : Prop where
   tokenReplacement : ∀ {x y p},
     s.TokIntro P x p → s.TokIntro P y p → s.hsame x y
 
+theorem TokUnique_intro {s : BaseReflectionSetup} {P : s.Pi} :
+    (forall {x y : s.SigObj} {p : s.Pkg},
+      s.TokIntro P x p -> s.TokIntro P y p -> s.hsame x y) ->
+    TokUnique s P := by
+  intro h
+  exact {
+    tokenReplacement := by
+      intro x y p left right
+      exact h left right
+  }
+
 theorem TokUnique_replacement
     {s : BaseReflectionSetup} {P : s.Pi} (tok : TokUnique s P)
     {x y : s.SigObj} {p : s.Pkg} :

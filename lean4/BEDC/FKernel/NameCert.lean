@@ -51,6 +51,14 @@ theorem derived_interfaces_have_stability [NameCertSetup] {name : DerivedName} :
   | mk source pattern classifier stability ledger =>
       exact Nonempty.intro stability
 
+omit N in
+theorem nameCert_source_witness_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name -> Nonempty SourceSpec := by
+  intro cert
+  cases cert with
+  | mk source pattern classifier stability ledger =>
+      exact Nonempty.intro source
+
 theorem nameCert_witnesses_from_cert {name : DerivedName} :
     NameCert name ->
       exists source : SourceSpec,

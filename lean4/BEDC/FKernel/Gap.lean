@@ -162,6 +162,15 @@ theorem inGapSig_same_source_signatures_same [AskSetup] [PackageSetup] [DomainSe
                           exact Exists.intro s
                             (Exists.intro t (And.intro hpTok (And.intro hqTok hst)))
 
+theorem concrete_gap_separation
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg}
+    (askPolicy : AskPolicy (InDom D)) :
+    InGapSig bundle D p h -> InGapSig bundle D q h -> psame bundle p q := by
+  intro hp hq
+  exact internalized_gap_separation
+    (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
+    askPolicy hp hq
+
 theorem gap_coverage :
     ∀ {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist},
       GapPolicy bundle D → InDom D h → ∃ p : Pkg, InGapSig bundle D p h := by
