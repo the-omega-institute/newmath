@@ -128,6 +128,18 @@ then
 Here \(\delta\star\Delta\) is the evidence-composition operation licensed by the relevant asking policy.
 \end{kernelrule}
 
+\begin{theorem}[Cons tail signatures from result-sameness]
+\label{thm:signature-cons-tail-hsame-from-result-hsame}
+If two derivations of \(\Sig(\Bcons(\pi,\Pi),h,r,\Delta)\) and
+\(\Sig(\Bcons(\pi,\Pi),h,r',\Theta)\) have \(\hsame(r,r')\), then there exist
+tail results \(s,t\) such that \(\Sig(\Pi,h,s,\Delta_s)\), \(\Sig(\Pi,h,t,\Delta_t)\), and
+\(\hsame(s,t)\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sig\_cons\_tail\_hsame\_from\_result\_hsame}
+\begin{proof}
+Invert both cons-signature derivations and their final extension witnesses. Cross-mark extension branches contradict result-sameness by history no-confusion, while matching marks expose matching outer history constructors; constructor injectivity yields \(\hsame\) of the tail results.
+\end{proof}
+
 \begin{theorem}[Cons head mark determinacy]
 \label{thm:signature-cons-head-mark-determinacy}
 Assume an asking policy on \(D\). If \(h\in D\) and two cons-signature derivations for \(\Bcons(\pi,\Pi)\) start from the same source history \(h\), then their head asking events emit internally same marks.

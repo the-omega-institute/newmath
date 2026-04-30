@@ -335,4 +335,32 @@ theorem sig_cons_full_witness_determinacy [AskSetup]
           exact ⟨s, t, m, n, delta, theta, leftAsk, rightAsk, leftTail, rightTail,
             leftExt, rightExt, markSame, tailSame, resultSame⟩
 
+theorem sig_cons_tail_hsame_from_result_hsame [AskSetup]
+    {pi : ProbeName} {tail : ProbeBundle ProbeName} {h r r' : BHist} :
+    SigRel (ProbeBundle.Bcons pi tail) h r ->
+      SigRel (ProbeBundle.Bcons pi tail) h r' ->
+      hsame r r' ->
+      exists s : BHist, exists t : BHist,
+        SigRel tail h s /\ SigRel tail h t /\ hsame s t := by
+  intro left right resultSame
+  cases left with
+  | cons _ _ _ s _ _ _ _ leftTail leftExt =>
+      cases right with
+      | cons _ _ _ t _ _ _ _ rightTail rightExt =>
+          cases leftExt
+          · cases rightExt
+            · cases resultSame
+              exact Exists.intro s
+                (Exists.intro s
+                  (And.intro leftTail
+                    (And.intro rightTail rfl)))
+            · exact False.elim (not_hsame_e0_e1 resultSame)
+          · cases rightExt
+            · exact False.elim (not_hsame_e1_e0 resultSame)
+            · cases resultSame
+              exact Exists.intro s
+                (Exists.intro s
+                  (And.intro leftTail
+                    (And.intro rightTail rfl)))
+
 end BEDC.FKernel.Sig
