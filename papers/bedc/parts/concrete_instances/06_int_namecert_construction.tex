@@ -5,4 +5,18 @@ The integer interface \(\IntUp\) is licensed by signed unary histories: a sign c
 
 \section{Carrier definition}
 
+\begin{definition}[Signed unary integer carrier]
+\label{def:intup-carrier}
+The carrier predicate for \(\IntUp\) uses an existing mark as the sign component and an existing unary history as the magnitude component:
+\[
+  \mathsf{IntCarrier}(s,h)
+  :=
+  (s=\bzero \lor s=\bone)\land \mathsf{Unary}(h).
+\]
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntCarrier}
+\begin{proof}
+This is a definitional clause over the finite-kernel mark constructors and the unary-history predicate.
+\end{proof}
+
 \section{The certificate}
