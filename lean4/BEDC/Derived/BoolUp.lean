@@ -124,6 +124,13 @@ theorem BoolHistoryCarrier_e1_tail_empty {h : BEDC.FKernel.Hist.BHist} :
   | inr oneCase =>
       exact BEDC.FKernel.Hist.hsame_e1_iff.mp oneCase
 
+theorem BoolHistoryCarrier_e1_e1_absurd {h : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryCarrier (BEDC.FKernel.Hist.BHist.e1 (BEDC.FKernel.Hist.BHist.e1 h)) ->
+      False := by
+  intro carrier
+  exact BEDC.FKernel.Hist.not_hsame_e1_empty
+    (BoolHistoryCarrier_e1_tail_empty carrier)
+
 theorem BoolHistoryCarrier_e1_iff_tail_empty {h : BEDC.FKernel.Hist.BHist} :
     BoolHistoryCarrier (BEDC.FKernel.Hist.BHist.e1 h) ↔
       BEDC.FKernel.Hist.hsame h BEDC.FKernel.Hist.BHist.Empty := by
@@ -258,6 +265,33 @@ theorem BoolHistoryClassifier_symm {h k : BEDC.FKernel.Hist.BHist} :
             · exact carrierH
             · exact BEDC.FKernel.Hist.hsame_symm sameHK
 
+theorem BoolHistoryCarrier_hsame_transport {h k : BEDC.FKernel.Hist.BHist} :
+    BEDC.FKernel.Hist.hsame h k -> BoolHistoryCarrier h -> BoolHistoryCarrier k := by
+  intro same carrier
+  cases carrier with
+  | inl emptyCase =>
+      exact Or.inl
+        (BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm same) emptyCase)
+  | inr oneCase =>
+      exact Or.inr
+        (BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm same) oneCase)
+
+theorem BoolHistoryClassifier_hsame_transport {h h' k k' : BEDC.FKernel.Hist.BHist} :
+    BEDC.FKernel.Hist.hsame h h' -> BEDC.FKernel.Hist.hsame k k' ->
+      BoolHistoryClassifier h k -> BoolHistoryClassifier h' k' := by
+  intro sameH sameK classifier
+  cases classifier with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          constructor
+          · exact BoolHistoryCarrier_hsame_transport sameH carrierH
+          · constructor
+            · exact BoolHistoryCarrier_hsame_transport sameK carrierK
+            · exact BEDC.FKernel.Hist.hsame_trans
+                (BEDC.FKernel.Hist.hsame_symm sameH)
+                (BEDC.FKernel.Hist.hsame_trans sameHK sameK)
+
 theorem BoolHistoryClassifier_empty_left_iff {k : BEDC.FKernel.Hist.BHist} :
     BoolHistoryClassifier BEDC.FKernel.Hist.BHist.Empty k <->
       BEDC.FKernel.Hist.hsame k BEDC.FKernel.Hist.BHist.Empty := by
@@ -275,17 +309,6 @@ theorem BoolHistoryClassifier_empty_left_iff {k : BEDC.FKernel.Hist.BHist} :
     · constructor
       · exact Or.inl same
       · exact BEDC.FKernel.Hist.hsame_symm same
-
-theorem BoolHistoryCarrier_hsame_transport {h k : BEDC.FKernel.Hist.BHist} :
-    BEDC.FKernel.Hist.hsame h k -> BoolHistoryCarrier h -> BoolHistoryCarrier k := by
-  intro same carrier
-  cases carrier with
-  | inl emptyCase =>
-      exact Or.inl
-        (BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm same) emptyCase)
-  | inr oneCase =>
-      exact Or.inr
-        (BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm same) oneCase)
 
 theorem BoolHistoryCarrier_unary {h : BEDC.FKernel.Hist.BHist} :
     BoolHistoryCarrier h -> BEDC.FKernel.Unary.UnaryHistory h := by

@@ -65,6 +65,24 @@ theorem group_left_inverse_involutive {mul : BHist → BHist → BHist} {e : BHi
       (hsame_trans (hsame_symm (assocC (inv (inv x)) (inv x) x))
         (hsame_trans (mulCongr (leftInv (inv x)) (hsame_refl x)) (leftId x))))
 
+theorem group_right_inverse_involutive {mul : BHist → BHist → BHist} {e : BHist}
+    {inv : BHist → BHist}
+    (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : ∀ x, hsame (mul e x) x)
+    (rightId : ∀ x, hsame (mul x e) x)
+    (mulCongr : ∀ {a a' b b' : BHist}, hsame a a' → hsame b b' →
+      hsame (mul a b) (mul a' b'))
+    (rightInv : ∀ x, hsame (mul x (inv x)) e) :
+    ∀ x : BHist, hsame (inv (inv x)) x := by
+  intro x
+  exact hsame_trans (hsame_symm (leftId (inv (inv x))))
+    (hsame_trans
+      (mulCongr (hsame_symm (rightInv x)) (hsame_refl (inv (inv x))))
+      (hsame_trans (assocC x (inv x) (inv (inv x)))
+        (hsame_trans
+          (mulCongr (hsame_refl x) (rightInv (inv x)))
+          (rightId x))))
+
 theorem group_left_right_inverse_uniqueness {mul : BHist → BHist → BHist} {e : BHist}
     (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
     (leftId : ∀ x, hsame (mul e x) x)
@@ -79,6 +97,23 @@ theorem group_left_right_inverse_uniqueness {mul : BHist → BHist → BHist} {e
       (mulCongr (hsame_refl y) (hsame_symm right))
       (hsame_trans (hsame_symm (assocC y x z))
         (hsame_trans (mulCongr left (hsame_refl z)) (leftId z))))
+
+theorem group_inverse_congruence_from_laws {mul : BHist → BHist → BHist} {e : BHist}
+    {inv : BHist → BHist}
+    (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : ∀ x, hsame (mul e x) x)
+    (rightId : ∀ x, hsame (mul x e) x)
+    (mulCongr : ∀ {a a' b b' : BHist}, hsame a a' → hsame b b' →
+      hsame (mul a b) (mul a' b'))
+    (leftInv : ∀ x, hsame (mul (inv x) x) e)
+    (rightInv : ∀ x, hsame (mul x (inv x)) e) :
+    ∀ {x y : BHist}, hsame x y → hsame (inv x) (inv y) := by
+  intro x y same
+  exact group_left_right_inverse_uniqueness assocC leftId rightId mulCongr
+    (hsame_trans
+      (hsame_symm (mulCongr (hsame_refl (inv x)) same))
+      (leftInv x))
+    (rightInv y)
 
 theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}

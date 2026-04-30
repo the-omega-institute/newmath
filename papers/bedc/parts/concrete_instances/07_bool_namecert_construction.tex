@@ -92,6 +92,17 @@ one-constructor inversion to \(\hsame(h,\emp)\).
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_e1\_tail\_empty}
 
+\begin{theorem}[Bool history double one-extension exclusion]
+\label{thm:bool-history-carrier-double-one-absurd}
+No history of the form \(\Eone(\Eone(h))\) lies in the boolean history carrier.
+\end{theorem}
+\begin{proof}
+A carrier witness for \(\Eone(\Eone(h))\) forces its tail \(\Eone(h)\) to be
+internally the same as \(\emp\). Generated-history separation between
+\(\Eone(h)\) and \(\emp\) eliminates that possibility.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_e1\_e1\_absurd}
+
 \begin{theorem}[Bool history one-extension carrier iff]
 \label{thm:bool-history-carrier-e1-iff-tail-empty}
 A one-extension history \(\Eone(h)\) lies in the boolean history carrier exactly
@@ -220,6 +231,19 @@ places, and the exposed \(\hsame(h,k)\) link reverses by generated-history
 symmetry.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_symm}
+
+\begin{theorem}[Bool history classifier endpoint transport]
+\label{thm:bool-history-classifier-hsame-transport}
+If $h$ is internally the same as $h'$ and $k$ is internally the same as $k'$,
+then the boolean history classifier transports from $(h,k)$ to $(h',k')$.
+\end{theorem}
+\begin{proof}
+Eliminate the classifier witness into its two endpoint carrier proofs and the
+exposed $\hsame(h,k)$ link. Transport each endpoint carrier along its
+corresponding $\hsame$ proof, then compose symmetry of the left endpoint with
+the stored classifier link and the right endpoint transport.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_hsame\_transport}
 
 \begin{theorem}[Bool history classifier empty-left equivalence]
 \label{thm:bool-history-classifier-empty-left-iff}

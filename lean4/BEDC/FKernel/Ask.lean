@@ -259,6 +259,17 @@ theorem bundleAskPolicy_append_gluing [AskSetup]
         exact rightPolicy.respectsHistory inRight same first second
 
 omit S in
+theorem bundleAskPolicy_append_iff [AskSetup]
+    {left right : ProbeBundle ProbeName} {D : BHist -> Prop} :
+    BundleAskPolicy (bundleAppend left right) D <->
+      BundleAskPolicy left D /\ BundleAskPolicy right D := by
+  constructor
+  · intro policy
+    exact bundleAskPolicy_append_restriction policy
+  · intro policies
+    exact bundleAskPolicy_append_gluing policies.left policies.right
+
+omit S in
 theorem askPolicy_total_event [AskSetup] {D : BHist → Prop} (policy : AskPolicy D)
     {pi : ProbeName} {h : BHist} :
     D h → Nonempty (AskEvent pi h) := by

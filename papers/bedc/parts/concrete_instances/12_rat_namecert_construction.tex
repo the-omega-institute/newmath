@@ -157,6 +157,17 @@ positive unary denominators are separated from \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_not\_empty}
 
+\begin{theorem}[Rat history carrier excludes zero-extension]
+\label{thm:rat-history-carrier-e0-absurd}
+No zero-extension history \(\Ezero(t)\) lies in the rational history carrier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history carrier into its sign, numerator, and rational
+carrier. The rational carrier supplies a positive unary denominator witness,
+and positive unary denominators cannot have zero-extension shape.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_e0\_absurd}
+
 \begin{theorem}[Rat history carrier append unary denominator closure]
 \label{thm:rat-history-carrier-append-unary-denominator-closed}
 If a rational history carrier has denominator \(d\), then appending any unary history to \(d\) preserves rational history carrier membership.
@@ -414,6 +425,22 @@ carrier under append, and combine the denominator \(\hsame\) with the tail
 \(\hsame\) by constructor cases on append.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_append\_unary\_denominator\_closed}
+
+\begin{theorem}[Rat history classifier unary denominator prepend closure]
+\label{thm:rat-history-classifier-prepend-unary-denominator-closed}
+If denominator histories $d$ and $e$ are related by the rational history
+classifier, and unary prefixes $p_d$ and $p_e$ satisfy $\hsame(p_d,p_e)$, then
+prepending the prefixes to the corresponding denominator histories preserves the
+rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into endpoint carriers and denominator
+$\hsame$. Close the left endpoint carrier under unary denominator prepend.
+Transport unary membership from $p_d$ to $p_e$, close the right endpoint carrier
+under prepend, and combine the prefix $\hsame$ with the denominator $\hsame$ by
+constructor cases on continuation append.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_prepend\_unary\_denominator\_closed}
 
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}

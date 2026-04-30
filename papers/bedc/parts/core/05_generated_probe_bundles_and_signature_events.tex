@@ -77,6 +77,17 @@ $$
 \end{definition}
 \leandef{BEDC.FKernel.Bundle.bundleLength}
 
+\begin{theorem}[Probe bundle zero length equivalence]
+\label{thm:probe-bundle-length-zero-iff-nil}
+A generated probe bundle has length zero exactly when it is the empty bundle
+$\Bnil$.
+\end{theorem}
+\begin{proof}
+Eliminate the generated bundle. The empty case reduces by computation. In the
+cons case the length reduces to a successor, which cannot equal zero.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleLength\_eq\_zero\_iff\_nil}
+
 \begin{theorem}[Probe bundle append length]
 \label{thm:probe-bundle-append-length}
 For all probe bundles $\Pi,\Theta$,
@@ -157,6 +168,23 @@ Induct on $\Pi$. The empty case reduces membership to $\Theta$. The cons case sp
 membership from tail membership, then applies the induction hypothesis to the tail.
 \end{proof}
 
+\begin{theorem}[Bundle append membership left residual]
+\label{thm:bundle-append-membership-left-of-not-right}
+For every probe \(p\) and bundles \(\Pi,\Theta\), if
+$$
+p\in\mathsf{BAppend}(\Pi,\Theta)
+$$
+and \(p\notin\Theta\), then \(p\in\Pi\).
+\end{theorem}
+\begin{proof}
+Induct on \(\Pi\). In the empty case, appended membership is membership in
+\(\Theta\), contradicting the exclusion premise. In the cons case, either the
+probe is the head of \(\Pi\), or it lies in the appended tail. The head branch is
+immediate, and the tail branch follows from the induction hypothesis with the
+same exclusion premise.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.inBundle\_bundleAppend\_left\_of\_not\_right}
+
 \begin{theorem}[Bundle-local policy append restriction]
 \label{thm:bundle-local-policy-append-restriction}
 If $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ holds, then both $\mathsf{BundleAskPolicy}(\Pi,D)$ and $\mathsf{BundleAskPolicy}(\Theta,D)$ hold.
@@ -184,6 +212,7 @@ $$
 \bigl(\mathsf{BundleAskPolicy}(\Pi,D)\ \text{and}\ \mathsf{BundleAskPolicy}(\Theta,D)\bigr).
 $$
 \end{theorem}
+\leanchecked{BEDC.FKernel.Ask.bundleAskPolicy\_append\_iff}
 \begin{proof}
 The forward direction is exactly Theorem~\ref{thm:bundle-local-policy-append-restriction}. The reverse direction is exactly Theorem~\ref{thm:bundle-local-policy-append-gluing}.
 \end{proof}
@@ -371,6 +400,7 @@ $$
 \hsame(v,u).
 $$
 \end{theorem}
+\leanchecked{BEDC.FKernel.Sig.signature\_generation\_append\_component\_determinacy}
 \begin{proof}
 Theorem~\ref{thm:bundle-local-policy-append-gluing} gives
 $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ from the two component policies. Theorem~\ref{thm:signature-generation-bundle-append} applied to the two component signatures produces a history $v$ with $\ContR(t,s,v)$ and a generated signature for the appended bundle. Theorem~\ref{thm:bundle-local-signature-determinacy}, applied to the glued policy, the premise $h\in D$, that constructed appended signature, and the given appended signature for $u$, gives $\hsame(v,u)$.
@@ -391,6 +421,7 @@ $\Lambda_R$ such that
   \item $\hsame(u_L,u_R)$.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.FKernel.Sig.signature\_generation\_three\_bundle\_coherence}
 \begin{proof}
 Apply Theorem~\ref{thm:signature-generation-bundle-append} to the $\Pi$ and
 $\Theta$ signatures to obtain $a$ and $\Lambda_{\Pi\Theta}$ with
@@ -433,6 +464,7 @@ $$
 \begin{proof}
 Invert the appended signature-sameness witnesses using Theorem~\ref{thm:signature-generation-bundle-append-inversion}. This recovers $\Pi$ signatures, $\Theta$ signatures, and continuation witnesses on the $h$ and $k$ sides. Compare the recovered left $\Pi$ signatures with the witnesses from $\sameSig_\Pi(h,k)$ using Theorem~\ref{thm:bundle-local-signature-determinacy} at $h$ and at $k$. Transport one continuation along that left-result sameness. The common right continuation can then be cancelled against the appended result-sameness, yielding $\hsame$ for the recovered $\Theta$ results. Those recovered $\Theta$ signatures are the witnesses for $\sameSig_\Theta(h,k)$.
 \end{proof}
+\leanchecked{BEDC.FKernel.Sig.sameSig\_bundleAppend\_left\_cancellation}
 
 \begin{theorem}[Signature-sameness right cancellation under bundle append]
 \label{thm:samesig-bundle-append-right-cancellation}
@@ -564,6 +596,7 @@ $$
 $$
 Bundle-local signature source respect transports the premise $\hsame(h,k)$ across these two generated signatures and yields $\hsame(s,t)$. The two signature witnesses together with this generated-history sameness form $\sameSig_\Pi(h,k)$.
 \end{proof}
+\leanchecked{BEDC.FKernel.Sig.bundle\_local\_sameSig\_of\_hsame}
 
 \begin{theorem}[Bundle-local signature-sameness equivalence]
 \label{thm:bundle-local-signature-sameness-equivalence}

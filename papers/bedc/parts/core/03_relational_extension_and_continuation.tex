@@ -265,6 +265,18 @@ Unfold \(\ContR\) as the append-result equation. Symmetry of the result sameness
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_transport}
 
+\begin{theorem}[Continuation left-context cancellation up to history-sameness]
+\label{thm:cont-cancel-hsame-left-context}
+If $\ContR(a,b,r)$, $\ContR(a',d,r')$, $\hsame(a,a')$, and $\hsame(r,r')$,
+then $\hsame(b,d)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_cancel\_hsame\_left\_context}
+\begin{proof}
+Use $\hsame(a,a')$ to align the left context and $\hsame(r,r')$ to align the
+result. The two continuation derivations then have the same left context and
+the same result, so left-context cancellation gives $\hsame(b,d)$.
+\end{proof}
+
 \begin{theorem}[Continuation cancellation laws]
 \label{thm:continuation-right-cancellation}
 Continuation admits cancellation on both sides:

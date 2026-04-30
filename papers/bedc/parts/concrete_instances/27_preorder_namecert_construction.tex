@@ -255,6 +255,43 @@ unary tail.
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_cancel\_left\_context}
 
+\begin{theorem}[Prefix two-sided context cancellation]
+\label{thm:preorder-prefix-cancel-both-context}
+If \(r\) is unary and the two endpoints become prefix-comparable after adding a
+common left context outside a common right context,
+$$
+\mathsf{append}(\ell,\mathsf{append}(h,r))\le
+\mathsf{append}(\ell,\mathsf{append}(k,r)),
+$$
+then \(h\le k\).
+\end{theorem}
+\begin{proof}
+First cancel the common left context, giving
+\(\mathsf{append}(h,r)\le\mathsf{append}(k,r)\). Then use right-context
+cancellation with the unary witness for \(r\), leaving the prefix comparison
+from \(h\) to \(k\).
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_cancel\_both\_context}
+
+\begin{theorem}[Prefix two-sided context equivalence]
+\label{thm:preorder-prefix-append-both-context-iff}
+If \(r\) is unary, then placing the same left context outside both
+right-contexted endpoints preserves and reflects the concrete prefix
+comparison:
+\[
+  \mathsf{append}(\ell,\mathsf{append}(h,r))\le
+  \mathsf{append}(\ell,\mathsf{append}(k,r))
+  \quad\Longleftrightarrow\quad
+  h\le k.
+\]
+\end{theorem}
+\begin{proof}
+The forward direction first cancels the common left context, then cancels the
+common unary right context. The reverse direction is exactly two-sided context
+monotonicity.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_both\_context\_iff}
+
 \begin{definition}[Concrete prefix stability certificate]
 \label{def:preorder-prefix-stability-certificate}
 The concrete prefix stability certificate for $\mathsf{PreorderPrefixLE}$ under $\mathsf{PreorderClassifierSpec}$ consists of:

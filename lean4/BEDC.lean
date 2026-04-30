@@ -18,12 +18,14 @@ import BEDC.FKernel.Cont.Pattern
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Bundle.Length
+import BEDC.FKernel.Bundle.MembershipAppend
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Sig.Totality
 import BEDC.FKernel.Sig.WitnessChain
 import BEDC.FKernel.Sig.SameSig
 import BEDC.FKernel.Sig.SameSig.Endpoint
 import BEDC.FKernel.Sig.SameSig.Equivalence
+import BEDC.FKernel.Sig.SameSig.BundlePolicy
 import BEDC.FKernel.Sig.Determinacy
 import BEDC.FKernel.Sig.Generation
 import BEDC.FKernel.Package

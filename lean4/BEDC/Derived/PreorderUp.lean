@@ -212,6 +212,25 @@ theorem PreorderPrefixLE_cancel_right_context {h k x : BHist} :
                   (append_assoc h tail x).symm))
           exact ⟨tail, tailUnary, cont_intro (append_right_cancel shifted)⟩
 
+theorem PreorderPrefixLE_cancel_both_context {left right h k : BHist} :
+    UnaryHistory right -> PreorderPrefixLE (append left (append h right))
+      (append left (append k right)) -> PreorderPrefixLE h k := by
+  intro rightUnary prefixLE
+  exact PreorderPrefixLE_cancel_right_context rightUnary
+    (PreorderPrefixLE_cancel_left_context (x := left) prefixLE)
+
+theorem PreorderPrefixLE_append_both_context_iff {left right h k : BHist} :
+    UnaryHistory right ->
+      (PreorderPrefixLE (append left (append h right)) (append left (append k right)) ↔
+        PreorderPrefixLE h k) := by
+  intro rightUnary
+  constructor
+  · intro prefixLE
+    exact PreorderPrefixLE_cancel_right_context rightUnary
+      (PreorderPrefixLE_cancel_left_context prefixLE)
+  · intro prefixLE
+    exact PreorderPrefixLE_append_both_context rightUnary prefixLE
+
 theorem preorder_name_certificate (Carrier : BHist → Prop) (Le : BHist → BHist → Prop)
     (carrier_witness : ∃ h : BHist, Carrier h)
     (carrier_transport : ∀ {h k : BHist}, hsame h k → Carrier h → Carrier k)
