@@ -89,6 +89,24 @@ $$
 Induct on $\Pi$. In the empty case, the append term reduces to $\Theta$ and the length equation reduces to the left identity of addition. In the cons case, both sides reduce by one successor, and the tail equation is the induction hypothesis.
 \end{proof}
 
+\begin{lemma}[Probe bundle nonempty prefix length separation]
+\label{lem:probe-bundle-nonempty-prefix-length-separation}
+For every probe $\pi$ and probe bundles $\Pi_0,\Omega$,
+$$
+\mathsf{BLEN}(\mathsf{BAppend}(\Bcons(\pi,\Pi_0),\Omega))
+\neq
+\mathsf{BLEN}(\Omega).
+$$
+Consequently,
+$$
+\mathsf{BAppend}(\Bcons(\pi,\Pi_0),\Omega)\neq\Omega.
+$$
+\end{lemma}
+\begin{proof}
+Theorem~\ref{thm:probe-bundle-append-length} rewrites the left length as
+$1+\mathsf{BLEN}(\Pi_0)+\mathsf{BLEN}(\Omega)$. A natural number with an exposed successor constructor cannot be equal to the unextended suffix length by natural-number constructor no-confusion. If the appended bundle itself were equal to $\Omega$, applying $\mathsf{BLEN}$ to that equality would contradict the displayed length separation.
+\end{proof}
+
 \begin{theorem}[Probe bundle append right unit]
 \label{thm:bundle-append-right-unit}
 For every probe bundle \(\Pi\),
@@ -189,7 +207,7 @@ $$
 then $\Pi=\Theta$.
 \end{theorem}
 \begin{proof}
-Induct on $\Pi$ and then case-split $\Theta$. The empty-empty case is immediate. In the empty-cons and cons-empty cases, apply Theorem~\ref{thm:probe-bundle-append-length} to both sides of the displayed equality; the resulting natural-number equality would identify $\mathsf{BLEN}(\Omega)$ with a strict successor of a length plus $\mathsf{BLEN}(\Omega)$, which is impossible by natural-number constructor no-confusion. In the cons-cons case, the displayed equality is an equality of cons bundles. Constructor injectivity identifies the two head probes and reduces the tail equality to
+Induct on $\Pi$ and then case-split $\Theta$. The empty-empty case is immediate. In the empty-cons and cons-empty cases, Lemma~\ref{lem:probe-bundle-nonempty-prefix-length-separation} rules out equality between a bundle obtained by appending a nonempty prefix to $\Omega$ and the suffix $\Omega$. In the cons-cons case, the displayed equality is an equality of cons bundles. Constructor injectivity identifies the two head probes and reduces the tail equality to
 $$
 \mathsf{BAppend}(\Pi_0,\Omega)=\mathsf{BAppend}(\Theta_0,\Omega).
 $$
@@ -324,6 +342,30 @@ the left cons signature from the exposed head asking event, the recovered tail
 signature for $\Pi$, and the final extension witness. The same extension
 constructor lifts the recovered tail continuation to $\ContR(t,s,u)$ for the
 whole appended signature.
+\end{proof}
+
+\begin{theorem}[Signature generation append component determinacy]
+\label{thm:signature-generation-append-component-determinacy}
+For probe bundles $\Pi,\Theta$, domain $D$, and source history $h$, assume
+$\mathsf{BundleAskPolicy}(\Pi,D)$, $\mathsf{BundleAskPolicy}(\Theta,D)$, and
+$h\in D$. If
+$$
+\Sig(\Pi,h,s,\Delta),
+\qquad
+\Sig(\Theta,h,t,\Gamma),
+\qquad
+\Sig(\mathsf{BAppend}(\Pi,\Theta),h,u,\Lambda),
+$$
+then there exists a history $v$ such that
+$$
+\ContR(t,s,v)
+\quad\text{and}\quad
+\hsame(v,u).
+$$
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:bundle-local-policy-append-gluing} gives
+$\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ from the two component policies. Theorem~\ref{thm:signature-generation-bundle-append} applied to the two component signatures produces a history $v$ with $\ContR(t,s,v)$ and a generated signature for the appended bundle. Theorem~\ref{thm:bundle-local-signature-determinacy}, applied to the glued policy, the premise $h\in D$, that constructed appended signature, and the given appended signature for $u$, gives $\hsame(v,u)$.
 \end{proof}
 
 \begin{theorem}[Three-bundle signature generation coherence]
