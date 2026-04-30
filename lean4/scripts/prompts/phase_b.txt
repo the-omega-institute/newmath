@@ -68,21 +68,61 @@ Each object follows the 5-field NameCert template established by `parts/concrete
 
 A round may propose a SINGLE field of a SINGLE object's NameCert, OR the carrier definition, OR the main theorem, OR the license corollary. Do NOT attempt the entire 8-step package in one round.
 
-Canonical licensing queue, in dependency order (always pick the lowest open item):
-- IntUp (integers; depends on NatUp ✓)
-- RatUp (rationals; depends on IntUp)
-- RealUp (Bishop reals with explicit Cauchy modulus; depends on RatUp)
-- ComplexUp (Cartesian; depends on RealUp)
-- S1Up (circle; depends on RealUp)
-- GroupUp (abstract group; self-contained Setup-class)
-- RingUp (depends on GroupUp)
-- VecSpaceUp (depends on RingUp)
-- MatrixUp (depends on RingUp + Nat)
-- FoldUp (paper §11; depends on Pkg + Sig)
+Canonical licensing queue, in dependency order (always pick the lowest open item; the chapter index in `parts/concrete_instances/` matches the dependency order):
 
-If all 10 listed objects are fully licensed in the current paper, propose the next mathematical object in dependency order from the broader canon (FieldUp, ModuleUp, AlgebraUp, PolynomialUp, MetricSpaceUp, OrderUp, LatticeUp, MonoidUp, SemigroupUp, FunctorUp, CategoryUp, etc.). The class C work queue is effectively unlimited.
+Foundational types (Tier 1):
+- ch 07: BoolUp (raw mark sameness on two-element basis)
+- ch 08: OptionUp (over any source NameCert)
+- ch 09: ProdUp (over two source NameCerts)
+- ch 10: SumUp (over two source NameCerts)
+- ch 11: ListUp (over a source NameCert)
 
-NN for the new chapter file is the next unused index in `parts/concrete_instances/` (currently 06 for IntUp).
+Number systems (Tier 2):
+- ch 06: IntUp ✓ chapter exists, fields pending
+- ch 12: RatUp (over IntUp; normalized pairs)
+- ch 13: RealUp (Bishop Cauchy with explicit modulus; over RatUp)
+- ch 14: ComplexUp (Cartesian over RealUp + ProdUp)
+
+Algebraic structures (Tier 3):
+- ch 15: MonoidUp (self-contained)
+- ch 16: GroupUp (over MonoidUp)
+- ch 17: AbGroupUp (over GroupUp)
+- ch 18: RingUp (over AbGroupUp + MonoidUp)
+- ch 19: CommRingUp (over RingUp)
+- ch 20: FieldUp (over CommRingUp; constructive nonzero via apartness)
+
+Linear (Tier 4):
+- ch 21: ModuleUp (over RingUp + AbGroupUp)
+- ch 22: VecSpaceUp (over FieldUp + AbGroupUp)
+- ch 23: LinearMapUp (between two VecSpaceUp over the same field)
+- ch 24: MatrixUp (over RingUp + Fin n × Fin m)
+
+Polynomial / formal (Tier 5):
+- ch 25: PolynomialUp (over RingUp + ListUp; normalized)
+- ch 26: FormalPowerSeriesUp (over RingUp; functions Nat → R)
+
+Order (Tier 6):
+- ch 27: PreorderUp (self-contained; reflexive, transitive)
+- ch 28: POSetUp (over PreorderUp; antisymmetry)
+- ch 29: TotalOrderUp (over POSetUp; decidable trichotomy via apartness)
+- ch 30: LatticeUp (over POSetUp; meet, join)
+
+Geometric / topological (Tier 7, all Bishop-style):
+- ch 31: IntervalUp ([0,1]; over RealUp)
+- ch 32: MetricSpaceUp (over RealUp; non-neg, identity-of-indiscernibles via apartness, symmetry, triangle)
+- ch 33: S1Up (over RealUp; setoid by 2π shift, NOT Quot.sound)
+- ch 34: ContinuousFunctionUp (between two MetricSpaceUp; uniform continuity with explicit modulus)
+- ch 35: CompactUp (subset of MetricSpaceUp; located + totally bounded, NOT Heine-Borel which needs LEM)
+
+Categorical (Tier 8):
+- ch 36: CategoryUp (object carrier + morphism carriers + identity + composition + assoc/identity laws)
+- ch 37: FunctorUp (between two CategoryUp; preserves identity and composition)
+- ch 38: NatTransUp (between two FunctorUp sharing source and target; naturality square)
+
+Beyond Tier 8 (no skeleton chapter yet; codex creates via Step 3.5 if Tier 1-8 fully licensed):
+- AlgebraUp (over RingUp + ModuleUp), TensorProductUp, HilbertSpaceUp (Bishop), BanachSpaceUp (Bishop), MeasureUp (Bishop), DerivativeUp, IntegralUp (Bishop), GraphUp, TreeUp, etc.
+
+NN for the new chapter file is the next unused index in `parts/concrete_instances/` (currently 39 if Tier 8 is exceeded).
 
 0-AXIOM BARRIER: if the standard mathematical definition requires LEM / `Classical.choice` / `Quot.sound` / `propext`:
 - For real-like objects: fall back to the Bishop / constructive variant (Cauchy with modulus, located sets, decidable subsets only).
