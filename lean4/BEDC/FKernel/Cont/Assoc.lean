@@ -30,4 +30,20 @@ theorem cont_assoc_proof_standing {a b c ab bc left right : BHist} :
   cases hright
   exact append_assoc a b c
 
+theorem cont_assoc_five {a b c d e ab abc abcd de cde bcde left right : BHist} :
+    Cont a b ab → Cont ab c abc → Cont abc d abcd → Cont d e de → Cont c de cde →
+      Cont b cde bcde → Cont abcd e left → Cont a bcde right → hsame left right := by
+  intro hab habc habcd hde hcde hbcde hleft hright
+  cases hab
+  cases habc
+  cases habcd
+  cases hde
+  cases hcde
+  cases hbcde
+  cases hleft
+  cases hright
+  exact (append_assoc (append (append a b) c) d e).trans
+    ((append_assoc (append a b) c (append d e)).trans
+      (append_assoc a b (append c (append d e))))
+
 end BEDC.FKernel.Cont

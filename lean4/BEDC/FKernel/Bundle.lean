@@ -201,6 +201,16 @@ theorem bundle_generation_cases {PName : Type} (bundle : ProbeBundle PName) :
   | Bcons p tail =>
       exact Or.inr ⟨p, tail, rfl⟩
 
+theorem bundle_generation_head_tail_pair {PName : Type} :
+    (∀ (p : PName) (tail : ProbeBundle PName), InBundle p (ProbeBundle.Bcons p tail)) ∧
+      (∀ {p q : PName} {tail : ProbeBundle PName}, InBundle p tail →
+        InBundle p (ProbeBundle.Bcons q tail)) := by
+  constructor
+  · intro p tail
+    exact Or.inl rfl
+  · intro p q tail h
+    exact Or.inr h
+
 theorem probeBundle_nil_ne_cons {PName : Type} {p : PName} {tail : ProbeBundle PName} :
     ProbeBundle.Bnil ≠ ProbeBundle.Bcons p tail := by
   intro h

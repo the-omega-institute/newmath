@@ -126,6 +126,13 @@ theorem gapPolicy_separation_field [AskSetup] [PackageSetup] [DomainSetup]
       InGapSig bundle D q h → psame bundle p q) := by
   exact policy.separation
 
+theorem gapPolicy_separation_packed [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    GapPolicy bundle D → InDom D h → InGapSig bundle D p h ∧ InGapSig bundle D q h →
+      psame bundle p q := by
+  intro policy hdom hgap
+  exact policy.separation hdom hgap.left hgap.right
+
 theorem gapPolicy_signature_determination [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
     (_policy : GapPolicy bundle D) :
