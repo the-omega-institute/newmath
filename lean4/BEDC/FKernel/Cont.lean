@@ -80,6 +80,11 @@ theorem cont_step_rules_pair :
   · intro h k r hcont
     exact cont_step_one hcont
 
+theorem continuation_step_rules :
+    (∀ {h k r : BHist}, Cont h k r -> Cont h (BHist.e0 k) (BHist.e0 r)) ∧
+      (∀ {h k r : BHist}, Cont h k r -> Cont h (BHist.e1 k) (BHist.e1 r)) := by
+  exact cont_step_rules_pair
+
 theorem cont_step_rules_inversion_pair :
     (∀ {h k r : BHist}, Cont h (.e0 k) (.e0 r) → Cont h k r) ∧
       (∀ {h k r : BHist}, Cont h (.e1 k) (.e1 r) → Cont h k r) := by
