@@ -31,6 +31,14 @@ theorem askEvent_witness [AskSetup] {pi : ProbeName} {h : BHist} :
   | mk mark evidence event =>
       exact Exists.intro mark (Exists.intro evidence event)
 
+omit S in
+theorem askEvent_evidence_witness [AskSetup] {pi : ProbeName} {h : BHist} :
+    AskEvent pi h -> Nonempty Evidence := by
+  intro ev
+  cases ev with
+  | mk _ evidence _ =>
+      exact Nonempty.intro evidence
+
 structure AskPolicy (D : BHist → Prop) : Prop where
   total :
     ∀ {π : ProbeName} {h : BHist}, D h → ∃ m : BMark, ∃ δ : Evidence, Ask π h m δ

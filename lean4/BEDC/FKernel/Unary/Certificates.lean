@@ -103,6 +103,10 @@ theorem add_up_certificate_field_witnesses :
 theorem add_up_certificate_has_ledger : Nonempty LedgerPolicy := by
   exact derived_interfaces_have_ledger add_up_name_certificate
 
+theorem add_up_certificate_stability_and_ledger :
+    Nonempty StabilityCert /\ Nonempty LedgerPolicy := by
+  exact nameCert_stability_and_ledger_from_cert add_up_name_certificate
+
 theorem unary_addition_seed : True := True.intro
 
 theorem add_activation_stability_field (cert : NameCert UnaryName) : Nonempty StabilityCert := by

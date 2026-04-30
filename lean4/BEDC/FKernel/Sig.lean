@@ -414,6 +414,52 @@ theorem sameSig_trans_under_policy {bundle : ProbeBundle ProbeName} {D : BHist -
                                           (hsame_trans hst (hsame_trans htu huv)))))
 
 omit [AskSetup] in
+theorem sameSig_equivalence_from_total_and_determinacy [AskSetup]
+    {bundle : ProbeBundle ProbeName} {D : BHist -> Prop}
+    (total : SigTotalOn bundle D)
+    (det : forall {h s t : BHist}, D h -> SigRel bundle h s -> SigRel bundle h t ->
+      hsame s t) :
+    (forall {h : BHist}, D h -> SameSig bundle h h) /\
+      (forall {h k : BHist}, SameSig bundle h k -> SameSig bundle k h) /\
+      (forall {h k l : BHist}, D k -> SameSig bundle h k -> SameSig bundle k l ->
+        SameSig bundle h l) := by
+  constructor
+  · intro h hd
+    cases total h hd with
+    | intro s hsig =>
+        exact Exists.intro s
+          (Exists.intro s
+            (And.intro hsig
+              (And.intro hsig
+                (hsame_refl s))))
+  · constructor
+    · intro h k hhk
+      exact sameSig_symm hhk
+    · intro h k l hk hhk hkl
+      cases hhk with
+      | intro s hhkTail =>
+          cases hhkTail with
+          | intro t hhkData =>
+              cases hhkData with
+              | intro hs hhkRest =>
+                  cases hhkRest with
+                  | intro htk hst =>
+                      cases hkl with
+                      | intro u hklTail =>
+                          cases hklTail with
+                          | intro v hklData =>
+                              cases hklData with
+                              | intro huk hklRest =>
+                                  cases hklRest with
+                                  | intro hvl huv =>
+                                      have htu : hsame t u := det hk htk huk
+                                      exact Exists.intro s
+                                        (Exists.intro v
+                                          (And.intro hs
+                                            (And.intro hvl
+                                              (hsame_trans hst (hsame_trans htu huv)))))
+
+omit [AskSetup] in
 theorem sameSig_trans_witnesses_under_policy [AskSetup] {bundle : ProbeBundle ProbeName}
     {D : BHist -> Prop} (policy : AskPolicy D) {h k l s t u v : BHist} :
     D k -> SigRel bundle h s -> SigRel bundle k t -> hsame s t ->
