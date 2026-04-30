@@ -183,6 +183,14 @@ def write_text(path: Path, text: str) -> None:
 def detect_verdict(text: str) -> str:
     if re.match(r"^\s*ERROR\b", text, re.IGNORECASE):
         return "AGENT_ERROR"
+    if any(marker in text for marker in (
+        "Round 1: Discovery",
+        "Candidate open problems",
+        "Omega Project capability digest",
+        "TOP-3 picks for deep reasoning",
+        "EXPECTED-PUBLICATION:",
+    )):
+        return "CONTAMINATED"
     if re.search(r"\b(False|TooStrong)\b", text):
         return "OBSTRUCTION"
     if re.search(r"\bDerived\b", text):
@@ -250,7 +258,7 @@ def run_loop(args: argparse.Namespace) -> int:
         write_text(out_dir / f"turn_{turn:02d}_response.md", response)
         verdict = detect_verdict(response)
         turns.append({"turn": turn, "task_id": task_id, "response_file": f"turn_{turn:02d}_response.md", "verdict": verdict})
-        if verdict == "AGENT_ERROR":
+        if verdict in {"AGENT_ERROR", "CONTAMINATED"}:
             break
         packet_allowed = True
         if verdict in {"DERIVED_CANDIDATE", "OBSTRUCTION", "STUCK"} and turn + 1 >= args.min_turns:

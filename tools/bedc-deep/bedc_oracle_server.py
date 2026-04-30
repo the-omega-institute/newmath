@@ -192,6 +192,18 @@ def _response_is_error(text: str) -> bool:
     return bool(re.match(r"\s*ERROR\b", text or "", re.IGNORECASE))
 
 
+def _response_is_bedc_contaminated(text: str) -> bool:
+    markers = (
+        "Round 1: Discovery",
+        "Candidate open problems",
+        "Omega Project capability digest",
+        "Survivors ranked",
+        "TOP-3 picks for deep reasoning",
+        "EXPECTED-PUBLICATION:",
+    )
+    return any(marker in (text or "") for marker in markers)
+
+
 def _should_replace_result(existing: dict | None, response: str) -> bool:
     if not existing:
         return True
@@ -460,9 +472,17 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     freed_agent = aid
                     break
             existing = results.get(task_id)
+        if task is None and existing is None:
+            print(f"[server] Ignored orphan result {task_id} ({len(response)} chars)")
+            self._send_json({"status": "ignored_orphan", "task_id": task_id})
+            return
         conv_id = (task or {}).get("conversation_id", "") or (existing or {}).get("conversation_id", "")
         if not chatgpt_url:
             chatgpt_url = (task or {}).get("conversation_url", "") or (existing or {}).get("chatgpt_url", "")
+        if _response_is_bedc_contaminated(response):
+            print(f"[server] Ignored contaminated result {task_id} ({len(response)} chars)")
+            self._send_json({"status": "ignored_contaminated", "task_id": task_id})
+            return
 
         record = {
             "task_id": task_id,
