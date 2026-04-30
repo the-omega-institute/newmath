@@ -157,6 +157,16 @@ theorem cont_assoc_exists :
   cases hbc
   simpa [Cont] using append_assoc a b c
 
+theorem cont_assoc_exists_hsame {a b c ab bc : BHist} :
+    Cont a b ab -> Cont b c bc ->
+      exists left : BHist, exists right : BHist,
+        Cont ab c left ∧ Cont a bc right ∧ hsame left right := by
+  intro hab hbc
+  cases hab
+  cases hbc
+  exact ⟨append (append a b) c, append a (append b c), rfl, rfl,
+    append_assoc a b c⟩
+
 theorem cont_assoc_middle_exists :
     ∀ {a b c ab abc : BHist}, Cont a b ab → Cont ab c abc → ∃ bc : BHist, Cont b c bc ∧ Cont a bc abc := by
   intro a b c ab abc hab habc

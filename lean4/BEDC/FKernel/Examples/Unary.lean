@@ -275,6 +275,12 @@ theorem nat_up_certificate_has_ledger : Nonempty LedgerPolicy := by
 theorem nat_up_stability_witness : Nonempty StabilityCert := by
   exact Nonempty.intro ()
 
+theorem nat_up_certificate_stability_and_ledger :
+    Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  constructor
+  · exact nat_up_stability_witness
+  · exact nat_up_certificate_has_ledger
+
 theorem add_up_name_certificate_exists : Nonempty (NameCert AddName) := by
   exact Nonempty.intro (NameCert.mk () () () () ())
 

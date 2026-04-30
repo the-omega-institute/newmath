@@ -233,6 +233,16 @@ theorem sameSig_refl :
   rcases htotal h hh with ⟨s, hs⟩
   exact ⟨s, s, hs, hs, hsame_refl s⟩
 
+omit [AskSetup] in
+theorem sameSig_refl_under_policy [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : AskPolicy D) {h : BHist} :
+    D h -> SameSig bundle h h := by
+  intro hd
+  exact sameSig_refl
+    (fun h0 hd0 =>
+      sig_total_from_policy (bundle := bundle) (D := D) (h := h0) policy hd0)
+    hd
+
 theorem sameSig_symm :
     ∀ {bundle : ProbeBundle ProbeName} {h k : BHist}, SameSig bundle h k → SameSig bundle k h := by
   intro bundle h k hs
