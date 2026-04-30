@@ -330,6 +330,29 @@ theorem sameSig_trans_under_policy {bundle : ProbeBundle ProbeName} {D : BHist -
                                         (And.intro hvl
                                           (hsame_trans hst (hsame_trans htu huv)))))
 
+omit [AskSetup] in
+theorem sameSig_trans_witnesses_under_policy [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : AskPolicy D) {h k l s t u v : BHist} :
+    D k -> SigRel bundle h s -> SigRel bundle k t -> hsame s t ->
+      SigRel bundle k u -> SigRel bundle l v -> hsame u v -> SameSig bundle h l := by
+  intro hk hs ht hst hu hv huv
+  have htu : hsame t u :=
+    sig_deterministic
+      (bundle := bundle)
+      (D := D)
+      (h := k)
+      (s := t)
+      (t := u)
+      policy
+      hk
+      ht
+      hu
+  exact Exists.intro s
+    (Exists.intro v
+      (And.intro hs
+        (And.intro hv
+          (hsame_trans hst (hsame_trans htu huv)))))
+
 theorem sameSig_equivalence {bundle : ProbeBundle ProbeName} {D : BHist → Prop} (policy : AskPolicy D) :
     (∀ {h : BHist}, D h → SameSig bundle h h) ∧
       (∀ {h k : BHist}, SameSig bundle h k → SameSig bundle k h) ∧

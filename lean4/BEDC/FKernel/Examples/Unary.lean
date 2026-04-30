@@ -279,6 +279,10 @@ theorem nat_up_interface_seed :
       exact unary_repetition_closed_under_continuation_seed uh uk hr
     · exact Nonempty.intro nat_up_name_certificate
 
+theorem nat_up_certificate_seed_not_primitive :
+    NameCert UnaryName ∧ Nonempty (NameCert UnaryName) := by
+  exact nat_up_licensed_not_primitive
+
 theorem nat_up_certificate_source_witness : Nonempty SourceSpec := by
   exact nameCert_source_witness_from_cert nat_up_name_certificate
 
