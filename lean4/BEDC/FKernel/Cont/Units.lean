@@ -36,6 +36,18 @@ theorem cont_unit_laws_spine :
       (forall {h r : BHist}, Cont h BHist.Empty r -> hsame r h) := by
   exact cont_unit_laws
 
+theorem cont_left_unit_induction_spine : ∀ k : BHist, Cont BHist.Empty k k := by
+  intro k
+  induction k with
+  | Empty =>
+      rfl
+  | e0 k ih =>
+      change BHist.e0 k = BHist.e0 (append BHist.Empty k)
+      exact congrArg BHist.e0 ih
+  | e1 k ih =>
+      change BHist.e1 k = BHist.e1 (append BHist.Empty k)
+      exact congrArg BHist.e1 ih
+
 theorem cont_unit_uniqueness_pair :
     (∀ {h k : BHist}, Cont h k k → hsame h BHist.Empty) ∧
       (∀ {h k : BHist}, Cont h k h → hsame k BHist.Empty) := by

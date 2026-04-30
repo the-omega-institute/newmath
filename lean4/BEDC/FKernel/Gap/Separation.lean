@@ -107,4 +107,18 @@ theorem policy_gap_separation_pair [AskSetup] [PackageSetup] [DomainSetup]
           policy hp hq
       exact And.intro samePkg sameSig
 
+theorem gap_separation_with_domain_pair [AskSetup] [PackageSetup] [DomainSetup]
+    {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
+    AskPolicy (InDom D) -> InGapSig bundle D p h -> InGapSig bundle D q h ->
+      InDom D h ∧ psame bundle p q := by
+  intro policy hp hq
+  have witness :=
+    policy_gap_separation_with_domain_witnesses
+      (bundle := bundle) (D := D) (h := h) (p := p) (q := q) policy hp hq
+  cases witness with
+  | intro s rest =>
+      cases rest with
+      | intro t data =>
+          exact And.intro data.left data.right.right.right.right.right.right
+
 end BEDC.FKernel.Gap

@@ -124,6 +124,13 @@ theorem package_token_and_psame_generated_pair [AskSetup] [PackageSetup]
     · exact right
     · exact psame.intro left right same
 
+omit [AskSetup] P in
+theorem PkgSig_psame_intro [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {s t : BHist} {p q : Pkg} :
+    PkgSig bundle s p -> PkgSig bundle t q -> hsame s t -> psame bundle p q := by
+  intro left right same
+  exact psame.intro left right same
+
 def TokUnique (bundle : ProbeBundle ProbeName) : Prop :=
   ∀ {s t : BHist} {p : Pkg}, TokIntro bundle s p → TokIntro bundle t p → hsame s t
 
