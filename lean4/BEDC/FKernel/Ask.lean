@@ -101,6 +101,19 @@ theorem askPolicy_total_deterministic_pair [AskSetup] {D : BHist → Prop}
   · intro π h m n δ θ left right
     exact policy.deterministic left right
 
+omit S in
+theorem AskPolicy_total_deterministic_pair [AskSetup] {D : BHist -> Prop}
+    (policy : AskPolicy D) :
+    (forall {pi : ProbeName} {h : BHist},
+      D h -> exists m : BMark, exists delta : Evidence, Ask pi h m delta) /\
+    (forall {pi : ProbeName} {h : BHist} {m n : BMark} {delta theta : Evidence},
+      Ask pi h m delta -> Ask pi h n theta -> msame m n) := by
+  constructor
+  · intro pi h hD
+    exact policy.total hD
+  · intro pi h m n delta theta left right
+    exact policy.deterministic left right
+
 theorem asking_determinacy {D : BHist → Prop} (policy : AskPolicy D)
     {pi : ProbeName} {h : BHist} {m n : BMark} {delta theta : Evidence} :
     Ask pi h m delta → Ask pi h n theta → msame m n := by

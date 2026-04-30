@@ -180,6 +180,18 @@ theorem psame_iff_hsame_under_tok_unique [AskSetup] [PackageSetup]
     exact psame_sound hp hq sameHist
 
 omit [AskSetup] P in
+theorem psame_hsame_directions_under_tok_unique [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (tok : TokUnique bundle) {s t : BHist} {p q : Pkg} :
+    TokIntro bundle s p -> TokIntro bundle t q ->
+      (psame bundle p q -> hsame s t) /\ (hsame s t -> psame bundle p q) := by
+  intro hp hq
+  constructor
+  · intro samePkg
+    exact psame_reflect_under_tok_unique tok hp hq samePkg
+  · intro sameHist
+    exact psame_sound hp hq sameHist
+
+omit [AskSetup] P in
 theorem concrete_package_equivalence_signature_grounded [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} (tok : TokUnique bundle) {s t : BHist} {p q : Pkg} :
     TokIntro bundle s p → TokIntro bundle t q → (psame bundle p q ↔ hsame s t) := by
