@@ -30,6 +30,11 @@ theorem bundleLength_append {PName : Type} :
       exact Eq.trans (congrArg Nat.succ (ih right))
         (Eq.symm (Nat.succ_add (bundleLength tail) (bundleLength right)))
 
+theorem bundleLength_bundleAppend {PName : Type} :
+    ∀ left right : ProbeBundle PName,
+      bundleLength (bundleAppend left right) = bundleLength left + bundleLength right := by
+  exact bundleLength_append
+
 theorem bundleAppend_length {PName : Type} :
     ∀ left right : ProbeBundle PName,
       bundleLength (bundleAppend left right) = bundleLength left + bundleLength right := by
