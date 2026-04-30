@@ -69,6 +69,18 @@ witness for \(xs\) and \(ys\).
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_cons\_inversion}
 
+\begin{theorem}[History list classifier singleton equivalence]
+\label{thm:list-classifier-hsame-singleton-iff}
+For BEDC history singleton lists, structural classification by \(\hsame\) is
+equivalent to \(\hsame\) of the two displayed histories.
+\end{theorem}
+\begin{proof}
+Unfold the singleton cons-cons classifier shape. The forward direction keeps
+the head \(\hsame\) witness; the reverse direction pairs that head witness with
+the nil-tail classifier clause.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_singleton\_iff}
+
 \begin{theorem}[History list classifier head transport]
 \label{thm:list-classifier-hsame-cons-head-transport}
 For BEDC history lists, if \(y\) is internally the same history as \(z\) and
@@ -194,6 +206,20 @@ classification. In the cons-prefix case, invert the structural classifier and
 apply the induction hypothesis to the classified tails.
 \end{proof}
 
+\begin{theorem}[Classified list prefix cancellation]
+\label{thm:list-classifier-hsame-append-left-cancel-classified}
+For BEDC history lists, if \(p\) and \(p'\) are structurally classified by
+\(\hsame\), and \(p{++}x\) is structurally classified with \(p'{++}y\), then
+\(x\) is structurally classified with \(y\).
+\end{theorem}
+\begin{proof}
+Induct on \(p\). The empty case forces \(p'\) to be empty by the prefix
+classifier, leaving the appended classifier. In the cons case, the prefix
+classifier and appended classifier both expose matching classified tails, and
+the induction hypothesis applies to those tails.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_append\_left\_cancel\_classified}
+
 \begin{theorem}[List classifier stability under reverse]
 \label{thm:list-classifier-reverse-hsame}
 For BEDC history lists, structural classification by $\HSame$ is preserved when both lists are reversed.
@@ -202,6 +228,18 @@ For BEDC history lists, structural classification by $\HSame$ is preserved when 
 Induct on the first list. Shape mismatches are impossible by the classifier clauses. In the cons-cons case, reverse turns each list into the reversed tail followed by a singleton head; the induction hypothesis handles the tails and append stability combines it with the head witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame}
+
+\begin{theorem}[List classifier reverse inversion]
+\label{thm:list-classifier-reverse-hsame-inversion}
+For BEDC history lists, if the reversed lists are structurally classified by
+\(\HSame\), then the original lists are structurally classified by \(\HSame\).
+\end{theorem}
+\begin{proof}
+Apply reverse stability to the classified reversed lists. The double reverse of
+each list is definitionally identified with the original list by list
+reverse-reverse induction, giving the desired structural classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame\_inversion}
 
 \begin{theorem}[List classifier append right cancellation]
 \label{thm:list-classifier-append-right-cancel-hsame}
@@ -215,6 +253,20 @@ common left prefix, so left-append cancellation removes it. Reversing the
 remaining classifier witness returns the original list order.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_right\_cancel\_hsame}
+
+\begin{theorem}[List classifier right cancellation with equivalent suffixes]
+\label{thm:list-classifier-append-right-cancel-with-hsame-suffix}
+For BEDC history lists, if two right suffixes are structurally classified by
+\(\HSame\), and appending those suffixes to \(x\) and \(y\) gives a structural
+\(\HSame\)-classification, then \(x\) and \(y\) are structurally classified.
+\end{theorem}
+\begin{proof}
+Use symmetry on the suffix classifier and append stability with reflexivity on
+the left list \(y\) to classify \(y{++}\mathit{suffix}'\) with
+\(y{++}\mathit{suffix}\). Transitivity aligns the appended classification to a
+common right suffix, and ordinary right-append cancellation removes it.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_right\_cancel\_with\_hsame\_suffix}
 
 \begin{theorem}[List classifier transitivity from a source certificate]
 \label{thm:list-classifier-trans-from-namecert}

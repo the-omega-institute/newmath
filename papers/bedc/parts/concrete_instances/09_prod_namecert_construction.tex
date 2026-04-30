@@ -43,6 +43,19 @@ proof is exactly the result witness required by the product history carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_cont\_intro}
 
+\begin{theorem}[Product unary history closure]
+\label{thm:prod-history-carrier-unary}
+If a product history is generated from unary left and right histories, then the
+resulting product history is unary.
+\end{theorem}
+\begin{proof}
+Invert the product-history carrier into its left history, right history, unary
+component witnesses, and continuation proof. Unary closure under continuation
+turns the two unary component witnesses and the stored continuation proof into
+unary membership of the result history.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_unary}
+
 \begin{theorem}[Product history carrier transport]
 \label{thm:prod-history-carrier-hsame-transport}
 If two product histories are internally the same and the first is generated from a left witness, a right witness, and a continuation proof, then the second is generated from the same component witnesses and the transported continuation proof.
@@ -51,6 +64,19 @@ If two product histories are internally the same and the first is generated from
 Invert the product-history carrier into its left history, right history, component witnesses, and continuation proof. Transport the continuation result across \(\hsame\), and rebuild the product-history carrier with the same component witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_hsame\_transport}
+
+\begin{theorem}[Product history carrier unary from components]
+\label{thm:prod-history-carrier-unary-of-components}
+If the left and right source predicates each determine unary histories, then
+every product-history carrier generated from those predicates is unary.
+\end{theorem}
+\begin{proof}
+Unpack the product-history carrier into component histories \(l\) and \(r\),
+their source witnesses, and the BEDC continuation witness for the result.
+The component assumptions give unary witnesses for \(l\) and \(r\), and BEDC
+unary continuation closure gives unary membership of the product result.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_unary\_of\_components}
 
 \begin{definition}[Prod pattern specification]
 \label{def:prod-pattern-specification}

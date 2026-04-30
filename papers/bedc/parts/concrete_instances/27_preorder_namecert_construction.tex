@@ -213,6 +213,20 @@ If \(x\) is unary and \(h\le k\) is witnessed by a unary continuation tail, then
 Unpack the prefix witness as a unary tail and a continuation equation from \(h\) to \(k\). Reuse the same tail. Associativity moves the right context next to the tail, unary commutativity swaps the two unary histories, and associativity moves the tail back to the continuation endpoint.
 \end{proof}
 
+\begin{theorem}[Prefix two-sided context monotonicity]
+\label{thm:preorder-prefix-append-both-context}
+If \(r\) is unary and \(h\le k\) is witnessed by a unary continuation tail, then
+placing the same left context outside both right-contexted endpoints preserves
+the prefix comparison:
+\(\mathsf{append}(\ell,\mathsf{append}(h,r))\le
+\mathsf{append}(\ell,\mathsf{append}(k,r))\).
+\end{theorem}
+\begin{proof}
+First apply right-context monotonicity using the unary carrier of \(r\). Then
+apply left-context monotonicity to the resulting comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_both\_context}
+
 \begin{theorem}[Prefix right context cancellation]
 \label{thm:preorder-prefix-right-context-cancellation}
 If \(x\) is unary and

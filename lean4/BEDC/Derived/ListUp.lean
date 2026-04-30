@@ -1,24 +1,19 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
-
 namespace BEDC.Derived.ListUp
-
 abbrev ListCarrier (A : Type) := List A
-
 def ListClassifierSpec {A : Type} (sameA : A → A → Prop) :
     ListCarrier A → ListCarrier A → Prop
   | [], [] => True
   | x :: xs, y :: ys => sameA x y ∧ ListClassifierSpec sameA xs ys
   | [], _ :: _ => False
   | _ :: _, [] => False
-
 def ListClassifier {α : Type} (sourceSame : α → α → Prop) :
     List α → List α → Prop
   | [], [] => True
   | x :: xs, y :: ys => sourceSame x y ∧ ListClassifier sourceSame xs ys
   | [], _ :: _ => False
   | _ :: _, [] => False
-
 theorem list_stability_reflexive_by_induction {A : Type} {sameA : A → A → Prop}
     (reflA : ∀ a, sameA a a) : ∀ xs : ListCarrier A, ListClassifierSpec sameA xs xs := by
   intro xs
@@ -29,7 +24,6 @@ theorem list_stability_reflexive_by_induction {A : Type} {sameA : A → A → Pr
       constructor
       · exact reflA x
       · exact ih
-
 theorem listClassifier_refl {α : Type} {sourceSame : α → α → Prop}
     (sourceRefl : ∀ a : α, sourceSame a a) : ∀ xs : List α, ListClassifier sourceSame xs xs := by
   intro xs
@@ -40,7 +34,6 @@ theorem listClassifier_refl {α : Type} {sourceSame : α → α → Prop}
       constructor
       · exact sourceRefl x
       · exact ih
-
 theorem ListClassifierSpec_trans {A : Type} {rel : A → A → Prop}
     (rel_trans : ∀ {a b c : A}, rel a b → rel b c → rel a c) :
     ∀ {xs ys zs : BEDC.Derived.ListUp.ListCarrier A},
@@ -78,7 +71,6 @@ theorem ListClassifierSpec_trans {A : Type} {rel : A → A → Prop}
                       constructor
                       · exact rel_trans hxyHead hyzHead
                       · exact ih hxyTail hyzTail
-
 theorem ListClassifierSpec_hsame_trans :
     forall {xs ys zs : ListCarrier BEDC.FKernel.Hist.BHist},
       ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
@@ -178,7 +170,6 @@ theorem ListClassifierSpec_hsame_symm :
               constructor
               · exact BEDC.FKernel.Hist.hsame_symm hhead
               · exact ih htail
-
 theorem ListClassifierSpec_hsame_cons_inversion {x y : BEDC.FKernel.Hist.BHist}
     {xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
     ListClassifierSpec BEDC.FKernel.Hist.hsame (x :: xs) (y :: ys) ->
@@ -189,7 +180,6 @@ theorem ListClassifierSpec_hsame_cons_inversion {x y : BEDC.FKernel.Hist.BHist}
       constructor
       · exact headSame
       · exact tailSame
-
 theorem ListClassifierSpec_hsame_cons_head_transport {x y z : BEDC.FKernel.Hist.BHist}
     {xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
     BEDC.FKernel.Hist.hsame y z ->
@@ -201,7 +191,6 @@ theorem ListClassifierSpec_hsame_cons_head_transport {x y z : BEDC.FKernel.Hist.
       constructor
       · exact BEDC.FKernel.Hist.hsame_trans headSame replacement
       · exact tailSame
-
 theorem ListClassifierSpec_hsame_map_e0 :
     forall {xs ys : ListCarrier BEDC.FKernel.Hist.BHist},
       ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
@@ -355,7 +344,6 @@ theorem ListClassifierSpec_hsame_length_eq :
           | intro headSame tailSame =>
               cases headSame
               exact congrArg Nat.succ (ih tailSame)
-
 theorem ListClassifierSpec_append_hsame
     {xs ys zs ws : ListCarrier BEDC.FKernel.Hist.BHist} :
     ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys ->
@@ -392,7 +380,6 @@ theorem ListClassifierSpec_append_left_cancel_hsame
       cases sameWithPrefix with
       | intro _ sameTail =>
           exact ih sameTail
-
 theorem ListClassifierSpec_hsame_append_left_cancel
     {«prefix» xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
     ListClassifierSpec BEDC.FKernel.Hist.hsame («prefix» ++ xs) («prefix» ++ ys) ->
@@ -405,7 +392,21 @@ theorem ListClassifierSpec_hsame_append_left_cancel
       cases same with
       | intro _ sameTail =>
           exact ih sameTail
-
+theorem ListClassifierSpec_hsame_append_left_cancel_classified
+    {pref pref' xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame pref pref' ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame (pref ++ xs) (pref' ++ ys) ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys := by
+  intro prefixClass appendClass
+  induction pref generalizing pref' with
+  | nil =>
+      cases pref' with
+      | nil => exact appendClass
+      | cons _ _ => cases prefixClass
+  | cons _ pref ih =>
+      cases pref' with
+      | nil => cases prefixClass
+      | cons _ pref' => exact ih prefixClass.right appendClass.right
 theorem ListClassifierSpec_reverse_hsame :
     ∀ {xs ys : BEDC.Derived.ListUp.ListCarrier BEDC.FKernel.Hist.BHist},
       ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys →
@@ -590,5 +591,22 @@ theorem ListClassifierSpec_append_right_cancel_hsame
         (reverseReversePure ys)
     exact Eq.mp rightEq originalLeft
   exact original
+theorem ListClassifierSpec_hsame_singleton_iff {x y : BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame [x] [y] <-> BEDC.FKernel.Hist.hsame x y := by
+  constructor
+  · intro h; exact h.left
+  · intro h; constructor; exact h; constructor
+
+theorem ListClassifierSpec_append_right_cancel_with_hsame_suffix
+    {xs ys suffix suffix' : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame suffix suffix' ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame (xs ++ suffix) (ys ++ suffix') ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys := by
+  intro suffixSame appended
+  exact ListClassifierSpec_append_right_cancel_hsame
+    (ListClassifierSpec_hsame_trans appended
+      (ListClassifierSpec_append_hsame
+        (list_stability_reflexive_by_induction BEDC.FKernel.Hist.hsame_refl ys)
+        (ListClassifierSpec_hsame_symm suffixSame)))
 
 end BEDC.Derived.ListUp

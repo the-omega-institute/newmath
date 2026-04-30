@@ -90,6 +90,8 @@ $$
 Induct on $\Pi$. In the empty case, the append term reduces to $\Theta$ and the length equation reduces to the left identity of addition. In the cons case, both sides reduce by one successor, and the tail equation is the induction hypothesis.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleLength\_append}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_length}
+\leanchecked{BEDC.FKernel.Bundle.bundleLength\_bundleAppend}
 
 \begin{lemma}[Probe bundle nonempty prefix length separation]
 \label{lem:probe-bundle-nonempty-prefix-length-separation}
@@ -108,6 +110,7 @@ $$
 Theorem~\ref{thm:probe-bundle-append-length} rewrites the left length as
 $1+\mathsf{BLEN}(\Pi_0)+\mathsf{BLEN}(\Omega)$. A natural number with an exposed successor constructor cannot be equal to the unextended suffix length by natural-number constructor no-confusion. If the appended bundle itself were equal to $\Omega$, applying $\mathsf{BLEN}$ to that equality would contradict the displayed length separation.
 \end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_nonempty\_prefix\_length\_separation}
 
 \begin{theorem}[Probe bundle append right unit]
 \label{thm:bundle-append-right-unit}
@@ -216,6 +219,7 @@ $$
 $$
 The induction hypothesis gives $\Pi_0=\Theta_0$, and the head equality rebuilds $\Pi=\Theta$.
 \end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_suffix\_cancel}
 
 \begin{lemma}[Probe bundle append empty-result inversion]
 \label{lem:probe-bundle-append-empty-result-inversion}
@@ -261,6 +265,7 @@ then $\Pi=\Pi'$ and $\Theta=\Theta'$.
 \begin{proof}
 Proceed by simultaneous cases on the two left bundles. The empty-empty case reduces the append equality to the suffix equality $\Theta=\Theta'$. The empty-cons and cons-empty cases contradict the displayed length equality by natural-number constructor no-confusion. In the cons-cons case, constructor injectivity on the append equality identifies the two head probes and gives equality of the appended tails; constructor injectivity on the length equality gives equal tail lengths. The induction hypothesis applied to the tails gives equality of the left tails and suffixes, and the head equality rebuilds $\Pi=\Pi'$.
 \end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_split\_unique\_fixed\_length}
 
 \section{Signature generation}
 

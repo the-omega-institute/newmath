@@ -201,4 +201,28 @@ theorem IntClassifierSpec_hsame_magnitude_transport
                         (BEDC.FKernel.Hist.hsame_symm sameHx) sameMagnitude)
                       sameHy
 
+theorem IntClassifierSpec_msame_sign_transport
+    {sx sy sx' sy' : BEDC.FKernel.Mark.BMark} {hx hy : BEDC.FKernel.Hist.BHist} :
+    IntClassifierSpec (sx, hx) (sy, hy) ->
+      BEDC.FKernel.Mark.msame sx sx' ->
+        BEDC.FKernel.Mark.msame sy sy' ->
+          IntClassifierSpec (sx', hx) (sy', hy) := by
+  intro classifier sameSx sameSy
+  cases classifier with
+  | intro carrierX rest =>
+      cases rest with
+      | intro carrierY sameRest =>
+          cases sameRest with
+          | intro sameSign sameMagnitude =>
+              constructor
+              · exact IntCarrier_sign_msame_transport carrierX sameSx
+              · constructor
+                · exact IntCarrier_sign_msame_transport carrierY sameSy
+                · constructor
+                  · exact BEDC.FKernel.Mark.msame_trans
+                      (BEDC.FKernel.Mark.msame_trans
+                        (BEDC.FKernel.Mark.msame_symm sameSx) sameSign)
+                      sameSy
+                  · exact sameMagnitude
+
 end BEDC.Derived.IntUp

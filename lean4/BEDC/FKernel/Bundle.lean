@@ -30,6 +30,16 @@ theorem bundleLength_append {PName : Type} :
       exact Eq.trans (congrArg Nat.succ (ih right))
         (Eq.symm (Nat.succ_add (bundleLength tail) (bundleLength right)))
 
+theorem bundleLength_bundleAppend {PName : Type} :
+    ∀ left right : ProbeBundle PName,
+      bundleLength (bundleAppend left right) = bundleLength left + bundleLength right := by
+  exact bundleLength_append
+
+theorem bundleAppend_length {PName : Type} :
+    ∀ left right : ProbeBundle PName,
+      bundleLength (bundleAppend left right) = bundleLength left + bundleLength right := by
+  exact bundleLength_append
+
 theorem bundleAppend_nil_right {PName : Type} :
     ∀ bundle : ProbeBundle PName, bundleAppend bundle ProbeBundle.Bnil = bundle := by
   intro bundle
@@ -38,7 +48,6 @@ theorem bundleAppend_nil_right {PName : Type} :
       rfl
   | Bcons p tail ih =>
       exact congrArg (ProbeBundle.Bcons p) ih
-
 theorem bundleAppend_assoc {PName : Type} :
     ∀ left middle right : ProbeBundle PName,
       bundleAppend (bundleAppend left middle) right =
@@ -51,7 +60,6 @@ theorem bundleAppend_assoc {PName : Type} :
   | Bcons p tail ih =>
       intro middle right
       exact congrArg (ProbeBundle.Bcons p) (ih middle right)
-
 theorem bundleAppend_right_nil {PName : Type} :
     forall bundle : ProbeBundle PName,
       bundleAppend bundle (ProbeBundle.Bnil : ProbeBundle PName) = bundle := by
@@ -74,6 +82,69 @@ theorem bundleAppend_prefix_cancel {PName : Type} :
       intro left right same
       exact ih left right (ProbeBundle.Bcons.inj same).right
 
+theorem bundleAppend_split_unique_fixed_length {PName : Type}
+    {left right left' right' : ProbeBundle PName} :
+    bundleAppend left right = bundleAppend left' right' →
+      bundleLength left = bundleLength left' →
+        left = left' ∧ right = right' := by
+  induction left generalizing left' right with
+  | Bnil =>
+      intro happ hlen
+      cases left' with
+      | Bnil =>
+          exact ⟨rfl, happ⟩
+      | Bcons p tail =>
+          cases hlen
+  | Bcons p tail ih =>
+      intro happ hlen
+      cases left' with
+      | Bnil =>
+          cases hlen
+      | Bcons q tail' =>
+          have htail : bundleAppend tail right = bundleAppend tail' right' :=
+            (ProbeBundle.Bcons.inj happ).right
+          have hlenTail : bundleLength tail = bundleLength tail' := Nat.succ.inj hlen
+          have hrec := ih htail hlenTail
+          cases hrec with
+          | intro hleft hright =>
+              cases (ProbeBundle.Bcons.inj happ).left
+              cases hleft
+              exact ⟨rfl, hright⟩
+
+theorem bundleAppend_suffix_cancel {PName : Type} :
+    ∀ left right suff : ProbeBundle PName,
+      bundleAppend left suff = bundleAppend right suff → left = right := by
+  intro left
+  induction left with
+  | Bnil =>
+      intro right suff same
+      cases right with
+      | Bnil =>
+          rfl
+      | Bcons q tail =>
+          exact False.elim
+            ((Nat.lt_irrefl (bundleLength suff))
+              (Nat.lt_of_lt_of_eq
+                (Nat.lt_succ_of_le (Nat.le_add_left (bundleLength suff) (bundleLength tail)))
+                ((congrArg bundleLength same).trans
+                  (congrArg Nat.succ (bundleLength_append tail suff))).symm))
+  | Bcons p leftTail ih =>
+      intro right suff same
+      cases right with
+      | Bnil =>
+          exact False.elim
+            ((Nat.lt_irrefl (bundleLength suff))
+              (Nat.lt_of_lt_of_eq
+                (Nat.lt_succ_of_le (Nat.le_add_left (bundleLength suff) (bundleLength leftTail)))
+                ((congrArg Nat.succ (bundleLength_append leftTail suff)).symm.trans
+                  (congrArg bundleLength same))))
+      | Bcons q rightTail =>
+          have headSame : p = q := (ProbeBundle.Bcons.inj same).left
+          have tailSame : leftTail = rightTail :=
+            ih rightTail suff (ProbeBundle.Bcons.inj same).right
+          cases headSame
+          cases tailSame
+          rfl
 theorem bundleAppend_cons_result_inversion {PName : Type}
     {pref suff out : ProbeBundle PName} {p : PName} :
     bundleAppend pref suff = ProbeBundle.Bcons p out ->

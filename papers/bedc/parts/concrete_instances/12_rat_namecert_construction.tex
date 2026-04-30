@@ -145,6 +145,18 @@ integer numerator and the resulting positive denominator.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatCarrier\_append\_unary\_denominator\_closed}
 
+\begin{theorem}[Rat history carrier is not empty]
+\label{thm:rat-history-carrier-not-empty}
+If a rational history carrier has denominator \(d\), then \(d\) cannot be
+internally the same as \(\emp\).
+\end{theorem}
+\begin{proof}
+Unpack the rational history carrier into its sign, numerator, and rational
+carrier. The rational carrier exposes a positive unary denominator witness, and
+positive unary denominators are separated from \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_not\_empty}
+
 \begin{theorem}[Rat history carrier append unary denominator closure]
 \label{thm:rat-history-carrier-append-unary-denominator-closed}
 If a rational history carrier has denominator \(d\), then appending any unary history to \(d\) preserves rational history carrier membership.
@@ -180,6 +192,19 @@ unary prefix continuation, and the rational carrier is rebuilt from the same
 integer numerator and the resulting positive denominator.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatCarrier\_prepend\_unary\_denominator\_closed}
+
+\begin{theorem}[Rat history carrier prepend unary denominator closure]
+\label{thm:rat-history-carrier-prepend-unary-denominator-closed}
+If a rational history carrier has denominator \(d\), then prepending any unary
+history to \(d\) preserves rational history carrier membership.
+\end{theorem}
+\begin{proof}
+Unpack the rational history carrier into its sign, numerator, and rational
+carrier data. Apply rational-carrier denominator prepend closure to the
+concrete denominator component, then rebuild the existential rational history
+carrier with the same sign and numerator.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_prepend\_unary\_denominator\_closed}
 
 \begin{theorem}[Rat carrier hsame transport]
 \label{thm:rat-carrier-hsame-transport}
@@ -373,6 +398,22 @@ witnesses, and reverse the denominator history-sameness proof by symmetry of
 \(\hsame\).
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_symm}
+
+\begin{theorem}[Rat history classifier unary denominator append closure]
+\label{thm:rat-history-classifier-append-unary-denominator-closed}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, and unary tails \(t_d\) and \(t_e\) satisfy \(\hsame(t_d,t_e)\),
+then appending the tails to the corresponding denominator histories preserves
+the rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into endpoint carriers and denominator
+\(\hsame\). Close the left endpoint carrier under unary denominator append.
+Transport unary membership from \(t_d\) to \(t_e\), close the right endpoint
+carrier under append, and combine the denominator \(\hsame\) with the tail
+\(\hsame\) by constructor cases on append.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_append\_unary\_denominator\_closed}
 
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}

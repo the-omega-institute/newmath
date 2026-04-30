@@ -191,6 +191,13 @@ theorem PreorderPrefixLE_append_right_context {x h k : BHist} :
                   ((congrArg (fun y => append h y) (unary_append_comm tailUnary xUnary)).trans
                     (append_assoc h x tail).symm))⟩
 
+theorem PreorderPrefixLE_append_both_context {left right h k : BHist} :
+    UnaryHistory right -> PreorderPrefixLE h k ->
+      PreorderPrefixLE (append left (append h right)) (append left (append k right)) := by
+  intro rightUnary prefixLE
+  exact PreorderPrefixLE_append_left_context
+    (PreorderPrefixLE_append_right_context rightUnary prefixLE)
+
 theorem PreorderPrefixLE_cancel_right_context {h k x : BHist} :
     UnaryHistory x -> PreorderPrefixLE (append h x) (append k x) -> PreorderPrefixLE h k := by
   intro xUnary prefixLE
