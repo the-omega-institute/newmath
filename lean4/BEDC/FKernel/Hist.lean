@@ -33,6 +33,15 @@ theorem hsame_empty_inversion {x : BHist} : hsame .Empty x → x = .Empty := by
   cases hx
   rfl
 
+theorem hsame_empty_iff {h : BHist} : hsame h BHist.Empty ↔ h = BHist.Empty := by
+  constructor
+  · intro hs
+    cases hs
+    rfl
+  · intro heq
+    cases heq
+    rfl
+
 theorem hsame_equivalence :
     (∀ h : BHist, hsame h h) ∧
       (∀ {h k : BHist}, hsame h k → hsame k h) ∧
