@@ -194,6 +194,67 @@ theorem sameSig_bundleAppend_closure [AskSetup] {left right : ProbeBundle ProbeN
                                                           (cont_respects_hsame rightResultsSame
                                                             leftResultsSame contH contK))))
 
+theorem sameSig_bundleAppend_left_cancellation [AskSetup] {left right : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : AskPolicy D) {h k : BHist} :
+    D h -> D k -> SameSig (bundleAppend left right) h k -> SameSig left h k ->
+      SameSig right h k := by
+  intro dh dk appendedSame leftSame
+  cases appendedSame with
+  | intro appendedH appendedRest =>
+      cases appendedRest with
+      | intro appendedK appendedData =>
+          cases appendedData with
+          | intro appendedHSig appendedTail =>
+              cases appendedTail with
+              | intro appendedKSig appendedResultsSame =>
+                  cases sigRel_bundleAppend_inversion appendedHSig with
+                  | intro recoveredLeftH recoveredHRest =>
+                      cases recoveredHRest with
+                      | intro recoveredRightH recoveredHData =>
+                          cases recoveredHData with
+                          | intro recoveredLeftHSig recoveredHTail =>
+                              cases recoveredHTail with
+                              | intro recoveredRightHSig recoveredHCont =>
+                                  cases sigRel_bundleAppend_inversion appendedKSig with
+                                  | intro recoveredLeftK recoveredKRest =>
+                                      cases recoveredKRest with
+                                      | intro recoveredRightK recoveredKData =>
+                                          cases recoveredKData with
+                                          | intro recoveredLeftKSig recoveredKTail =>
+                                              cases recoveredKTail with
+                                              | intro recoveredRightKSig recoveredKCont =>
+                                                  cases leftSame with
+                                                  | intro suppliedLeftH suppliedRest =>
+                                                      cases suppliedRest with
+                                                      | intro suppliedLeftK suppliedData =>
+                                                          cases suppliedData with
+                                                          | intro suppliedLeftHSig suppliedTail =>
+                                                              cases suppliedTail with
+                                                              | intro suppliedLeftKSig suppliedResultsSame =>
+                                                                  have alignH :
+                                                                      hsame recoveredLeftH suppliedLeftH :=
+                                                                    sig_deterministic policy dh
+                                                                      recoveredLeftHSig suppliedLeftHSig
+                                                                  have alignK :
+                                                                      hsame suppliedLeftK recoveredLeftK :=
+                                                                    sig_deterministic policy dk
+                                                                      suppliedLeftKSig recoveredLeftKSig
+                                                                  have recoveredLeftSame :
+                                                                      hsame recoveredLeftH recoveredLeftK :=
+                                                                    hsame_trans alignH
+                                                                      (hsame_trans suppliedResultsSame alignK)
+                                                                  cases recoveredLeftSame
+                                                                  have recoveredRightSame :
+                                                                      hsame recoveredRightH recoveredRightK :=
+                                                                    cont_common_suffix_cancellation
+                                                                      recoveredHCont recoveredKCont
+                                                                      appendedResultsSame
+                                                                  exact Exists.intro recoveredRightH
+                                                                    (Exists.intro recoveredRightK
+                                                                      (And.intro recoveredRightHSig
+                                                                        (And.intro recoveredRightKSig
+                                                                          recoveredRightSame)))
+
 theorem signature_generation_bundle_append [AskSetup] {left right : ProbeBundle ProbeName}
     {h s t : BHist} :
     SigRel left h s → SigRel right h t →
