@@ -172,6 +172,10 @@ theorem cont_left_unit : ∀ k : BHist, Cont .Empty k k := by
   | e1 k ih =>
       simpa [Cont, append] using congrArg BHist.e1 ih
 
+theorem cont_left_unit_result {k r : BHist} : Cont BHist.Empty k r -> hsame r k := by
+  intro hr
+  exact cont_deterministic hr (cont_left_unit k)
+
 theorem cont_left_unit_unique : forall {h k : BHist}, Cont h k k -> hsame h BHist.Empty := by
   intro h k hk
   induction k generalizing h with

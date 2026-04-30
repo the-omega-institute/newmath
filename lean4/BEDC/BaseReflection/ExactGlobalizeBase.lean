@@ -185,6 +185,28 @@ theorem ExactGlobalizeBase_classify_iff
     | intro hsig =>
         exact ex.soundness h k p q hp hq hsig
 
+theorem ExactGlobalizeBase_symmetric_classify_iff
+    {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (eqv : HSameEquiv s)
+    (ex : ExactGlobalizeBase s P D) {h k : s.Hist} {p q : s.Pkg}
+    (hp : s.InGapSig P D p h) (hq : s.InGapSig P D q k) :
+    PsameBase s P q p ↔ Nonempty (GeneratedSameSig s P k h) := by
+  constructor
+  case mp =>
+    intro base
+    have forwardBase : PsameBase s P p q := PsameBase_symm_under_equiv eqv base
+    have forwardGen : Nonempty (GeneratedSameSig s P h k) :=
+      ex.completeness h k p q hp hq forwardBase
+    exact GeneratedSameSig_symm_nonempty eqv forwardGen
+  case mpr =>
+    intro generated
+    have forwardGen : Nonempty (GeneratedSameSig s P h k) :=
+      GeneratedSameSig_symm_nonempty eqv generated
+    have forwardBase : PsameBase s P p q := by
+      cases forwardGen with
+      | intro gen =>
+          exact ex.soundness h k p q hp hq gen
+    exact PsameBase_symm_under_equiv eqv forwardBase
+
 theorem ExactGlobalizeBase_coverage_and_classification
     {s : BaseReflectionSetup} {P : s.Pi} {D : s.Domain} (ex : ExactGlobalizeBase s P D) :
     (∀ h, s.InDom D h → ∃ p, s.InGapSig P D p h) ∧

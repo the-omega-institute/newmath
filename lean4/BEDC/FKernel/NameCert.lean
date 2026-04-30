@@ -224,6 +224,18 @@ theorem nameCert_source_and_ledger_from_cert [NameCertSetup] {name : DerivedName
       · exact Nonempty.intro source
       · exact Nonempty.intro ledger
 
+omit N in
+theorem nameCert_source_stability_ledger_from_cert [NameCertSetup] {name : DerivedName} :
+    NameCert name -> Nonempty SourceSpec ∧ Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  intro cert
+  cases cert with
+  | mk source _ _ stability ledger =>
+      constructor
+      · exact Nonempty.intro source
+      · constructor
+        · exact Nonempty.intro stability
+        · exact Nonempty.intro ledger
+
 theorem nameCert_witnesses_from_cert {name : DerivedName} :
     NameCert name ->
       exists source : SourceSpec,
