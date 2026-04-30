@@ -25,6 +25,7 @@ import BEDC.FKernel.Sig.WitnessChain
 import BEDC.FKernel.Sig.SameSig
 import BEDC.FKernel.Sig.SameSig.Endpoint
 import BEDC.FKernel.Sig.SameSig.Equivalence
+import BEDC.FKernel.Sig.SameSig.BundlePolicy
 import BEDC.FKernel.Sig.Determinacy
 import BEDC.FKernel.Sig.Generation
 import BEDC.FKernel.Package
