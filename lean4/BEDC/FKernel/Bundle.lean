@@ -13,6 +13,23 @@ def bundleAppend {PName : Type} : ProbeBundle PName → ProbeBundle PName → Pr
   | .Bnil, right => right
   | .Bcons p tail, right => .Bcons p (bundleAppend tail right)
 
+def bundleLength {PName : Type} : ProbeBundle PName → Nat
+  | .Bnil => 0
+  | .Bcons _ tail => Nat.succ (bundleLength tail)
+
+theorem bundleLength_append {PName : Type} :
+    ∀ left right : ProbeBundle PName,
+      bundleLength (bundleAppend left right) = bundleLength left + bundleLength right := by
+  intro left
+  induction left with
+  | Bnil =>
+      intro right
+      exact (Nat.zero_add (bundleLength right)).symm
+  | Bcons p tail ih =>
+      intro right
+      exact Eq.trans (congrArg Nat.succ (ih right))
+        (Eq.symm (Nat.succ_add (bundleLength tail) (bundleLength right)))
+
 theorem bundleAppend_nil_right {PName : Type} :
     ∀ bundle : ProbeBundle PName, bundleAppend bundle ProbeBundle.Bnil = bundle := by
   intro bundle

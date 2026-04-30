@@ -65,6 +65,21 @@ theorem group_left_inverse_involutive {mul : BHist → BHist → BHist} {e : BHi
       (hsame_trans (hsame_symm (assocC (inv (inv x)) (inv x) x))
         (hsame_trans (mulCongr (leftInv (inv x)) (hsame_refl x)) (leftId x))))
 
+theorem group_left_right_inverse_uniqueness {mul : BHist → BHist → BHist} {e : BHist}
+    (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : ∀ x, hsame (mul e x) x)
+    (rightId : ∀ x, hsame (mul x e) x)
+    (mulCongr : ∀ {a a' b b' : BHist}, hsame a a' → hsame b b' →
+      hsame (mul a b) (mul a' b'))
+    {x y z : BHist} :
+    hsame (mul y x) e → hsame (mul x z) e → hsame y z := by
+  intro left right
+  exact hsame_trans (hsame_symm (rightId y))
+    (hsame_trans
+      (mulCongr (hsame_refl y) (hsame_symm right))
+      (hsame_trans (hsame_symm (assocC y x z))
+        (hsame_trans (mulCongr left (hsame_refl z)) (leftId z))))
+
 theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))

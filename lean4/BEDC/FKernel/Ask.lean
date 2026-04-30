@@ -105,6 +105,17 @@ theorem bundleAskPolicy_of_membership_inclusion [AskSetup]
     exact policy.respectsHistory (subset inTarget) same left right
 
 omit S in
+theorem empty_bundleAskPolicy [AskSetup] {D : BHist → Prop} :
+    BundleAskPolicy (ProbeBundle.Bnil : ProbeBundle ProbeName) D := by
+  constructor
+  · intro pi h inNil hD
+    exact False.elim inNil
+  · intro pi h m n delta theta inNil left right
+    exact False.elim inNil
+  · intro pi h k m n delta theta inNil same left right
+    exact False.elim inNil
+
+omit S in
 theorem bundleAskPolicy_tail [AskSetup]
     {pi : ProbeName} {tail : ProbeBundle ProbeName} {D : BHist → Prop} :
     BundleAskPolicy (ProbeBundle.Bcons pi tail) D → BundleAskPolicy tail D := by
