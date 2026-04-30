@@ -311,6 +311,44 @@ theorem nameCert_field_witnesses [NameCertSetup] {name : DerivedName} :
               (Nonempty.intro stability)
               (Nonempty.intro ledger))))
 
+theorem nameCert_field_witnesses_iff [NameCertSetup] {name : DerivedName} :
+    NameCert name ↔
+      Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧
+        Nonempty StabilityCert ∧ Nonempty LedgerPolicy := by
+  constructor
+  · intro cert
+    cases cert with
+    | mk source pattern classifier stability ledger =>
+        constructor
+        · exact Nonempty.intro source
+        · constructor
+          · exact Nonempty.intro pattern
+          · constructor
+            · exact Nonempty.intro classifier
+            · constructor
+              · exact Nonempty.intro stability
+              · exact Nonempty.intro ledger
+  · intro witnesses
+    cases witnesses with
+    | intro sourceNonempty rest =>
+        cases rest with
+        | intro patternNonempty rest =>
+            cases rest with
+            | intro classifierNonempty rest =>
+                cases rest with
+                | intro stabilityNonempty ledgerNonempty =>
+                    cases sourceNonempty with
+                    | intro source =>
+                        cases patternNonempty with
+                        | intro pattern =>
+                            cases classifierNonempty with
+                            | intro classifier =>
+                                cases stabilityNonempty with
+                                | intro stability =>
+                                    cases ledgerNonempty with
+                                    | intro ledger =>
+                                        exact NameCert.mk source pattern classifier stability ledger
+
 theorem nameCert_all_field_witnesses_from_nonempty [NameCertSetup] {name : DerivedName} :
     Nonempty (NameCert name) ->
       Nonempty SourceSpec ∧ Nonempty PatternSpec ∧ Nonempty ClassifierSpec ∧

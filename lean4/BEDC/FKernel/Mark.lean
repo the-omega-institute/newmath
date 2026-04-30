@@ -8,6 +8,9 @@ inductive BMark where
 
 def msame : BMark → BMark → Prop := Eq
 
+theorem msame_iff_eq {m n : BMark} : msame m n ↔ m = n := by
+  rfl
+
 theorem msame_refl : ∀ m : BMark, msame m m := by
   intro m
   rfl

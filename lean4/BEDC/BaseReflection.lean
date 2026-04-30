@@ -58,6 +58,13 @@ theorem TokUnique_replacement
   intro left right
   exact tok.tokenReplacement left right
 
+theorem TokUnique_replacement_congr {s : BaseReflectionSetup} {P : s.Pi} (tok : TokUnique s P)
+    {x y : s.SigObj} {p q : s.Pkg} :
+    p = q → s.TokIntro P x p → s.TokIntro P y q → s.hsame x y := by
+  intro same left right
+  cases same
+  exact tok.tokenReplacement left right
+
 theorem TokUnique_replacement_self
     {s : BaseReflectionSetup} {P : s.Pi} (tok : TokUnique s P)
     {x : s.SigObj} {p : s.Pkg} : s.TokIntro P x p -> s.hsame x x := by
