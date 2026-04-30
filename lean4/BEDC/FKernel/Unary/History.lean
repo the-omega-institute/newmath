@@ -85,6 +85,12 @@ theorem unary_no_zero_extension {h : BHist} : UnaryHistory (.e0 h) -> False := b
   intro uh
   exact uh
 
+theorem unary_history_hsame_zero_absurd {h k : BHist} :
+    UnaryHistory h -> hsame h (BHist.e0 k) -> False := by
+  intro uh same
+  cases same
+  exact unary_no_zero_extension uh
+
 theorem unary_history_judgment_generators :
     And (UnaryHistory BHist.Empty)
       (And
