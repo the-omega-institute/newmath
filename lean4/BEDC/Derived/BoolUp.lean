@@ -138,6 +138,23 @@ def BoolHistoryClassifier
     BoolHistoryCarrier k /\
       BEDC.FKernel.Hist.hsame h k
 
+theorem BoolHistoryClassifier_e0_endpoint_absurd_pair :
+    (∀ {h k : BEDC.FKernel.Hist.BHist},
+        BoolHistoryClassifier (BEDC.FKernel.Hist.BHist.e0 h) k → False) ∧
+      (∀ {h k : BEDC.FKernel.Hist.BHist},
+        BoolHistoryClassifier h (BEDC.FKernel.Hist.BHist.e0 k) → False) := by
+  constructor
+  · intro h k classifier
+    cases classifier with
+    | intro carrierLeft _ =>
+        exact BoolHistoryCarrier_e0_absurd carrierLeft
+  · intro h k classifier
+    cases classifier with
+    | intro _ rest =>
+        cases rest with
+        | intro carrierRight _ =>
+            exact BoolHistoryCarrier_e0_absurd carrierRight
+
 theorem BoolHistoryClassifier_e1_tail_hsame {h k : BEDC.FKernel.Hist.BHist} :
     BoolHistoryClassifier (BEDC.FKernel.Hist.BHist.e1 h)
       (BEDC.FKernel.Hist.BHist.e1 k) ->

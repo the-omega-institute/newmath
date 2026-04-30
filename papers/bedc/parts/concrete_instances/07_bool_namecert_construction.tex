@@ -119,6 +119,19 @@ The classifier is \(\msame\) on marks, with the two constructors distinguished.
 \leandef{BEDC.Derived.BoolUp.BoolHistoryClassifier}
 \leanchecked{BEDC.Derived.BoolUp.BoolClassifierSpec\_constructor\_separation}
 
+\begin{theorem}[Bool history classifier excludes zero-growth endpoints]
+\label{thm:bool-history-classifier-e0-endpoint-absurd}
+The boolean history classifier cannot relate a history of the form \(\Ezero(h)\)
+from either endpoint position.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness. On the left endpoint, its first carrier field is
+a boolean history carrier witness for \(\Ezero(h)\); on the right endpoint, its
+second carrier field is such a witness. The zero-growth carrier exclusion
+eliminates both cases.
+\end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e0\_endpoint\_absurd\_pair}
+
 \begin{theorem}[Bool history classifier one-tail sameness]
 \label{thm:bool-history-classifier-e1-tail-hsame}
 If the boolean history classifier relates $\Eone(h)$ to $\Eone(k)$, then the

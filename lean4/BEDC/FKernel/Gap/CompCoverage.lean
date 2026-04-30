@@ -372,4 +372,42 @@ theorem compGap_coverage_final_witness_pair
             (And.intro
               (Exists.intro y (And.intro firstWitness secondWitness))
               (Exists.intro y (And.intro firstWitness secondWitness)))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_representative_for_admitted_source
+    {Inter Final : Type}
+    {SourceOk : BHist → Prop} {InterOk : Inter → Prop}
+    {firstGap : Inter → BHist → Prop} {secondGap : Final → Inter → Prop}
+    {interSame : Inter → Inter → Prop} {finalSame : Final → Final → Prop}
+    (firstCoverage :
+      ∀ {h : BHist}, SourceOk h → ∃ y : Inter, firstGap y h ∧ InterOk y)
+    (secondCoverage : ∀ {y : Inter}, InterOk y → ∃ z : Final, secondGap z y)
+    (firstSeparation :
+      ∀ {h : BHist} {y1 y2 : Inter},
+        SourceOk h → firstGap y1 h → firstGap y2 h → interSame y1 y2)
+    (secondSeparation :
+      ∀ {z1 z2 : Final} {y1 y2 : Inter},
+        interSame y1 y2 → secondGap z1 y1 → secondGap z2 y2 → finalSame z1 z2)
+    {h : BHist} :
+    SourceOk h →
+      ∃ z : Final, CompGap firstGap secondGap z h ∧
+        ∀ z' : Final, CompGap firstGap secondGap z' h → finalSame z z' := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstData =>
+      cases firstData with
+      | intro firstWitness interOk =>
+          cases secondCoverage interOk with
+          | intro z secondWitness =>
+              exact Exists.intro z
+                (And.intro
+                  (Exists.intro y (And.intro firstWitness secondWitness))
+                  (fun z' competing =>
+                    match competing with
+                    | Exists.intro y' competingData =>
+                        match competingData with
+                        | And.intro firstCompeting secondCompeting =>
+                            secondSeparation
+                              (firstSeparation sourceOk firstWitness firstCompeting)
+                              secondWitness secondCompeting))
 end BEDC.FKernel.Gap
