@@ -176,7 +176,7 @@ $\hsame(h',h)$ link with the stored $\hsame(h,k)$ classifier witness.
 For source-history predicates $L$ and $R$ on $\mathsf{BHist}$, if $\mathsf{ProdHistoryClassifier}(L,R,h,k)$ and $\mathsf{ProdHistoryClassifier}(L,R,k,u)$, then $\mathsf{ProdHistoryClassifier}(L,R,h,u)$.
 \end{theorem}
 \begin{proof}
-Unpack both classifier witnesses. Keep the left carrier from the first witness and the right carrier from the second witness, then compose the stored $\hsame(h,k)$ and $\hsame(k,u)$ witnesses by transitivity to obtain the classifier link from $h$ to $u$.
+Unpack the endpoint $\mathsf{ProdHistoryCarrier}(L,R)$ witnesses for $h$ and $k$ from the first classifier witness, and for $k$ and $u$ from the second. Keep the $h$ endpoint carrier from the first witness and the $u$ endpoint carrier from the second, compose the stored $\hsame(h,k)$ and $\hsame(k,u)$ links, and rebuild $\mathsf{ProdHistoryClassifier}(L,R,h,u)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_trans}
 
