@@ -414,6 +414,23 @@ theorem unary_continuation_associativity {a b c ab bc abc abc' : BHist} :
   cases habc'
   exact append_assoc a b c
 
+theorem add_up_interface_seed_with_units :
+    Nonempty (NameCert AddName) ∧
+      (∀ {h left right : BHist},
+        UnaryHistory h → Cont h BHist.Empty left → Cont BHist.Empty h right →
+          UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h) ∧
+      (∀ {a b c ab bc abc abc' : BHist},
+        UnaryHistory a → UnaryHistory b → UnaryHistory c →
+          Cont a b ab → Cont b c bc → Cont ab c abc → Cont a bc abc' →
+            hsame abc abc') := by
+  constructor
+  · exact add_up_name_certificate_exists
+  · constructor
+    · intro h left right uh hleft hright
+      exact unary_cont_unit uh hleft hright
+    · intro a b c ab bc abc abc' ua ub uc hab hbc habc habc'
+      exact unary_continuation_associativity ua ub uc hab hbc habc habc'
+
 theorem unary_cont_assoc_with_closure {a b c ab bc abc abc' : BHist} :
     UnaryHistory a → UnaryHistory b → UnaryHistory c →
     Cont a b ab → Cont b c bc → Cont ab c abc → Cont a bc abc' →
@@ -522,6 +539,27 @@ theorem unary_commutativity_concrete_direct {h k r r' : BHist} :
   exact comm_from_obligations unary_shift_witness (fun same => hsame_e1_congr same) uh uk hr hr'
 
 theorem unary_commutativity_concrete_induction {h k r r' : BHist} :
+    UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
+  intro uh uk hr hr'
+  induction h generalizing k r r' with
+  | Empty =>
+      cases hr
+      cases hr'
+      exact (cont_left_unit k).symm
+  | e0 h ih =>
+      cases uh
+  | e1 h ih =>
+      have left : hsame r (.e1 (append h k)) := by
+        cases hr
+        exact unary_append_e1_left (h := k) (k := h) uk
+      cases unary_shift_witness uk hr' with
+      | intro v shifted =>
+          cases shifted with
+          | intro hv sameRight =>
+              have inner : hsame (append h k) v := ih uh uk rfl hv
+              exact left.trans ((hsame_e1_congr inner).trans sameRight.symm)
+
+theorem unary_commutativity_obligation_induction {h k r r' : BHist} :
     UnaryHistory h → UnaryHistory k → Cont h k r → Cont k h r' → hsame r r' := by
   intro uh uk hr hr'
   induction h generalizing k r r' with
