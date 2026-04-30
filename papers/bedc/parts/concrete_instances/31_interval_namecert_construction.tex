@@ -34,6 +34,15 @@ Unpack the interval carrier into unary membership and the two boundary witnesses
 \end{proof}
 \leanchecked{BEDC.Derived.IntervalUp.IntervalCarrier\_empty\_boundary\_hsame\_transport}
 
+\begin{theorem}[Interval empty-boundary classifier]
+\label{thm:interval-empty-boundary-classifier}
+If \(h\) and \(k\) are both internally the same as \(\emp\), then they satisfy the interval classifier whose lower boundary is \(\hsame(\emp,-)\) and whose upper boundary is \(\hsame(-,\emp)\).
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_empty\_boundary\_of\_hsame}
+\begin{proof}
+Apply the empty-boundary carrier theorem to \(h\) and to \(k\). The classifier relation is \(\HSame(h,k)\), obtained by composing \(\HSame(h,\emp)\) with the symmetry of \(\HSame(k,\emp)\).
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Interval source specification]
@@ -50,6 +59,19 @@ The pattern is subcarrier formation by attaching lower and upper bound witnesses
 \label{def:interval-classifier-specification}
 The classifier is \(\RealUp\) sameness restricted to interval witnesses.
 \end{definition}
+
+\begin{theorem}[Interval classifier transitivity]
+\label{thm:interval-classifier-transitivity}
+If interval classifier witnesses relate \(h\) to \(k\) and \(k\) to \(r\), then
+they determine an interval classifier witness from \(h\) to \(r\).
+\end{theorem}
+\begin{proof}
+Eliminate both restricted classifier witnesses. The first left carrier and the
+second right carrier become the endpoint data for the composite classifier, and
+the underlying history link is the transitive composite of the two \(\HSame\)
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_trans}
 
 \begin{definition}[Interval stability certificate]
 \label{def:interval-stability-certificate}

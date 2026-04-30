@@ -46,6 +46,20 @@ The stability certificate consists of:
 \end{definition}
 \leanchecked{BEDC.Derived.RingUp.ring\_stability\_certificate\_fields}
 
+\begin{theorem}[Ring multiplication zero absorption]
+\label{thm:ring-mul-zero-absorption}
+For BEDC history operations satisfying additive associativity, left zero,
+left inverse, congruence, and both distributive laws, multiplication by zero on
+either side is internally the same as zero.
+\end{theorem}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_zero\_absorption}
+\begin{proof}
+First cancel a duplicated summand \(a\hsame a+a\) by adding the left inverse,
+reassociating, and using the left-zero law. Then apply distributivity to
+\(x\cdot(0+0)\) and \((0+0)\cdot x\), transport along \(0+0\hsame0\), and use
+the duplicate-cancellation step on the two resulting products.
+\end{proof}
+
 \begin{definition}[Ring ledger policy]
 \label{def:ring-ledger-policy}
 Record the shared carrier ledger and the operation tree for ring expressions.

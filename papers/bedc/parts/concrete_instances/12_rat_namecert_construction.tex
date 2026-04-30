@@ -45,6 +45,19 @@ along \(\hsame\). Non-emptiness follows because an \(\Eone\)-history cannot be
 internally same as \(\emp\).
 \end{proof}
 
+\begin{theorem}[Rat carrier denominator transport]
+\label{thm:rat-carrier-denominator-hsame-transport}
+If \(\mathsf{RatCarrier}(s,n,d)\) and \(d\hsame d'\), then
+\(\mathsf{RatCarrier}(s,n,d')\).
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_denominator\_hsame\_transport}
+\begin{proof}
+Extract the positive denominator witness from the rational carrier, transport
+that witness across denominator sameness, and rebuild the rational carrier from
+the unchanged integer numerator together with the transported positive
+denominator.
+\end{proof}
+
 \begin{theorem}[Positive unary denominator transport]
 \label{thm:rat-positive-unary-denominator-hsame-transport}
 If a denominator history has a positive unary witness and is \(\hsame\)-equivalent to another history, then the other history has the same positive unary denominator witness.
@@ -72,6 +85,19 @@ Write the denominator as internally the same as \(\Eone(t)\) for a unary tail \(
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_tail}
 
+\begin{theorem}[Rat carrier append unary denominator closure]
+\label{thm:rat-carrier-append-unary-denominator-closed}
+If a rational carrier has denominator \(d\), then appending any unary history to
+\(d\) preserves rational-carrier membership.
+\end{theorem}
+\begin{proof}
+Use the carrier equivalence to expose the integer numerator carrier and the
+positive unary denominator witness. Positive denominators are closed under
+appending unary tails, and the rational carrier is rebuilt from the same
+integer numerator and the resulting positive denominator.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_append\_unary\_denominator\_closed}
+
 \begin{theorem}[Rat carrier component transport]
 \label{thm:rat-carrier-component-hsame-transport}
 If a rational carrier \(\mathsf{RatCarrier}(s,n,d)\) is transported along
@@ -84,6 +110,20 @@ Eliminate the sign sameness and unpack the carrier. Transport the integer
 numerator carrier along the numerator history sameness, transport unary
 denominator closure along the denominator history sameness, and compose the
 denominator sameness with the empty-denominator contradiction.
+\end{proof}
+
+\begin{theorem}[Rat carrier hsame transport]
+\label{thm:rat-carrier-hsame-transport}
+If a rational carrier \(\mathsf{RatCarrier}(s,n,d)\) is transported along
+\(\msame(s,t)\), \(\hsame(n,n')\), and \(\hsame(d,d')\), then the transported
+triple is again a rational carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatCarrier\_hsame\_transport}
+\begin{proof}
+Eliminate the sign sameness, then unpack the rational carrier. The numerator
+is transported by the integer carrier transport theorem, denominator unary
+closure is transported along \(\hsame(d,d')\), and denominator non-emptiness is
+preserved by composing \(\hsame(d,d')\) with any empty-target witness.
 \end{proof}
 
 \section{The certificate}
@@ -128,6 +168,18 @@ If one rational representative is classified the same as a second representative
 \begin{proof}
 Unpack both classifier witnesses. The endpoint carriers are preserved, while sign sameness and the two history-sameness components compose by the finite-kernel transitivity theorems for \(\msame\) and \(\hsame\).
 \end{proof}
+
+\begin{theorem}[Rat classifier symmetry]
+\label{thm:rat-classifier-symmetry}
+If one rational representative is classified the same as a second representative,
+then the second representative is classified the same as the first.
+\end{theorem}
+\begin{proof}
+Unpack the endpoint carriers and the sign, numerator, and denominator sameness
+fields. Rebuild the classifier in the reverse direction using symmetry of
+\(\msame\) for signs and symmetry of \(\hsame\) for both history components.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_symm}
 
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}

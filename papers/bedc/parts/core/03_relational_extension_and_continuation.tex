@@ -140,6 +140,15 @@ If \(\ContR(h,k,r)\) and \(\ContR(h,k,s)\), then \(\hsame(r,s)\).
 Induct on the first derivation. In the empty case the second derivation is also the empty case by no-confusion, and the result follows by reflexivity. In the two extension cases, no-confusion forces the second derivation to use the same outer continuation constructor; apply the induction hypothesis and rebuild \(\hsame\) with the matching history constructor.
 \end{proof}
 
+\begin{theorem}[Continuation result transport]
+\label{thm:cont-result-hsame-transport}
+If \(\ContR(h,k,r)\) and \(\hsame(r,r')\), then \(\ContR(h,k,r')\).
+\end{theorem}
+\begin{proof}
+Unfold \(\ContR\) as the append-result equation. Symmetry of the result sameness followed by the original continuation equation gives the required append-result equation for \(r'\).
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_transport}
+
 \begin{theorem}[Continuation right cancellation]
 \label{thm:continuation-right-cancellation}
 If \(\ContR(h,k,r)\) and \(\ContR(h',k,r)\), then \(\hsame(h,h')\).

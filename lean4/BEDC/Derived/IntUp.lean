@@ -62,6 +62,49 @@ theorem IntCarrier_continuation_closed_same_sign {sign : BEDC.FKernel.Mark.BMark
           · exact signCases
           · exact BEDC.FKernel.Unary.unary_cont_closed hUnary kUnary cont
 
+theorem IntClassifierSpec_continuation_closed_same_sign
+    {sx sy sx' sy' : BEDC.FKernel.Mark.BMark}
+    {hx hy hx' hy' r r' : BEDC.FKernel.Hist.BHist} :
+    IntClassifierSpec (sx, hx) (sx', hx') ->
+      IntClassifierSpec (sy, hy) (sy', hy') ->
+        BEDC.FKernel.Mark.msame sx sy ->
+          BEDC.FKernel.Cont.Cont hx hy r ->
+            BEDC.FKernel.Cont.Cont hx' hy' r' ->
+              IntClassifierSpec (sx, r) (sx', r') := by
+  intro first second sameSigns cont cont'
+  cases first with
+  | intro carrierX firstRest =>
+      cases firstRest with
+      | intro carrierX' firstSame =>
+          cases firstSame with
+          | intro sameXX' sameHX =>
+              cases second with
+              | intro carrierY secondRest =>
+                  cases secondRest with
+                  | intro carrierY' secondSame =>
+                      cases secondSame with
+                      | intro sameYY' sameHY =>
+                          have carrierYAsSX : IntCarrier sx hy := by
+                            cases sameSigns
+                            exact carrierY
+                          have sameSX'SY' : BEDC.FKernel.Mark.msame sx' sy' :=
+                            BEDC.FKernel.Mark.msame_trans
+                              (BEDC.FKernel.Mark.msame_symm sameXX')
+                              (BEDC.FKernel.Mark.msame_trans sameSigns sameYY')
+                          have carrierY'AsSX' : IntCarrier sx' hy' := by
+                            cases sameSX'SY'
+                            exact carrierY'
+                          constructor
+                          · exact IntCarrier_continuation_closed_same_sign
+                              carrierX carrierYAsSX cont
+                          · constructor
+                            · exact IntCarrier_continuation_closed_same_sign
+                                carrierX' carrierY'AsSX' cont'
+                            · constructor
+                              · exact sameXX'
+                              · exact BEDC.FKernel.Cont.cont_respects_hsame
+                                  sameHX sameHY cont cont'
+
 theorem IntCarrier_transport_hsame_magnitude {sign : BEDC.FKernel.Mark.BMark}
     {h k : BEDC.FKernel.Hist.BHist} :
     IntCarrier sign h -> BEDC.FKernel.Hist.hsame h k -> IntCarrier sign k := by

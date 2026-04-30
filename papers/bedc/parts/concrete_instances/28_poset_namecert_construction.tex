@@ -3,6 +3,13 @@
 
 The partially ordered set interface \(\POSetUp\) extends \autoref{ch:concrete-instances-preorder-namecert} with the antisymmetry field: if \(a \le b\) and \(b \le a\) then \(a\) and \(b\) are classified the same by the carrier. The integer order from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
 
+\begin{remark}[\(\POSetUp\) interface scope]
+\label{rem:concrete-instances-poset-namecert-scope}
+This chapter records the \(\POSetUp\) licensing target. The concrete prefix
+antisymmetry theorem is linked to the unary preorder classifier, and the
+certificate fields are specified below.
+\end{remark}
+
 \section{Carrier definition}
 
 \begin{definition}[POSet carrier]
@@ -26,6 +33,20 @@ The pattern is preorder relation formation with classifier collapse from bidirec
 \label{def:poset-classifier-specification}
 The classifier is the preorder carrier classifier.
 \end{definition}
+
+\begin{theorem}[Prefix antisymmetry]
+\label{thm:poset-prefix-antisymmetry}
+For the concrete unary history prefix preorder, if \(h\le k\) and \(k\le h\),
+then \(h\) and \(k\) are classified the same by the preorder classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_antisymm\_classifier}
+\begin{proof}
+Unpack the two prefix witnesses. Substituting the first continuation into the
+second gives a loop from \(h\) through the appended forward and backward tails.
+Right-unit uniqueness and append-empty inversion force the forward tail to be
+\(\emp\), so the first continuation reduces to \(\hsame(h,k)\), which is the
+classifier specification.
+\end{proof}
 
 \begin{definition}[POSet stability certificate]
 \label{def:poset-stability-certificate}

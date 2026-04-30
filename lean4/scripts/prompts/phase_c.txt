@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.2 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.3 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Anti-hollow semantic discipline (HARD GATE)
 
@@ -40,6 +40,9 @@ Phase D rejects the commit even if Lean and LaTeX compile when any of the follow
 3. New `\leanvariant`: automated rounds must not add variants. If your target only yields a wrapper, projection, weakened form, pair-bundle, or forwarding lemma for an already checked theorem, abandon it and implement a genuinely new statement.
 4. Hollow construction: added Lean lines using `Unit`, `()`, `Unit.unit`, `True.intro`, `trivial`, `NameCert.mk ()`, `NameCert.mk Unit.unit`, `MinimalNameCertSetup`, or `import Init.Data.Unit` are rejected.
 5. No BEDC touchpoint: every new declaration must mention a concrete BEDC kernel/setup object in its body, such as `BMark`, `BHist`, `msame`, `hsame`, `Ext`, `Cont`, `ProbeBundle`, `SigRel`, `sameSig`, `Pkg`, `InGap`, `NameCert`, `SemanticNameCert`, `BaseReflectionSetup`, `AskSetup`, `PackageSetup`, `DomainSetup`, `NameCertSetup`, or a `BEDC.` object.
+6. Parameter echo: new theorem bodies that mainly return assumptions named like `le_refl`, `le_trans`, `carrier_transport`, `lower_transport`, `upper_transport`, or `normalized` are rejected.
+7. Carrier/spec-only growth: new `Carrier`, `SourceSpec`, `PatternSpec`, `ClassifierSpec`, `LedgerPolicy`, `Lower`, `Upper`, or `Normalized` definitions are rejected unless the same round adds a theorem whose statement uses those concrete definitions.
+8. Duplicate theorem inflation: two new theorems in the same file with the same BEDC-touching conclusion are rejected.
 
 ## No nursery-shell growth (HARD GATE)
 

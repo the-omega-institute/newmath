@@ -6,6 +6,58 @@ namespace BEDC.Derived.RingUp
 open BEDC.FKernel.Hist
 open BEDC.Derived.MonoidUp
 
+theorem ring_mul_zero_absorption {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist} {zero : BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add zero x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) zero)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z))) :
+    And (forall x : BHist, hsame (mul x zero) zero)
+      (forall x : BHist, hsame (mul zero x) zero) := by
+  have duplicate_eq_zero :
+      forall a : BHist, hsame a (add a a) -> hsame a zero := by
+    intro a duplicate
+    have negStep : hsame (add (neg a) a) (add (neg a) (add a a)) := by
+      exact addCongr (hsame_refl (neg a)) duplicate
+    have assocBack : hsame (add (neg a) (add a a)) (add (add (neg a) a) a) := by
+      exact hsame_symm (addAssoc (neg a) a a)
+    have negToZeroAdd : hsame (add (add (neg a) a) a) (add zero a) := by
+      exact addCongr (negLeft a) (hsame_refl a)
+    have negToA : hsame (add (neg a) a) a := by
+      exact hsame_trans negStep
+        (hsame_trans assocBack (hsame_trans negToZeroAdd (zeroLeft a)))
+    have zeroToA : hsame zero a := by
+      exact hsame_trans (hsame_symm (negLeft a)) negToA
+    exact hsame_symm zeroToA
+  constructor
+  · intro x
+    have zeroZero : hsame (add zero zero) zero := by
+      exact zeroLeft zero
+    have sameLeft : hsame (mul x (add zero zero)) (mul x zero) := by
+      exact mulCongr (hsame_refl x) zeroZero
+    have distrib : hsame (mul x (add zero zero)) (add (mul x zero) (mul x zero)) := by
+      exact leftDistrib x zero zero
+    have duplicate : hsame (mul x zero) (add (mul x zero) (mul x zero)) := by
+      exact hsame_trans (hsame_symm sameLeft) distrib
+    exact duplicate_eq_zero (mul x zero) duplicate
+  · intro x
+    have zeroZero : hsame (add zero zero) zero := by
+      exact zeroLeft zero
+    have sameLeft : hsame (mul (add zero zero) x) (mul zero x) := by
+      exact mulCongr zeroZero (hsame_refl x)
+    have distrib : hsame (mul (add zero zero) x) (add (mul zero x) (mul zero x)) := by
+      exact rightDistrib zero zero x
+    have duplicate : hsame (mul zero x) (add (mul zero x) (mul zero x)) := by
+      exact hsame_trans (hsame_symm sameLeft) distrib
+    exact duplicate_eq_zero (mul zero x) duplicate
+
 theorem ring_stability_certificate_fields {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist} {zero one : BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))

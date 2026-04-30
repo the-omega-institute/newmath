@@ -83,6 +83,29 @@ theorem PreorderPrefixLE_antisymm_hsame {h k : BHist} :
                   cases forwardTailEmpty
                   exact rfl
 
+theorem PreorderPrefixLE_antisymm_classifier {h k : BHist} :
+    PreorderPrefixLE h k -> PreorderPrefixLE k h -> PreorderClassifierSpec h k := by
+  intro hk kh
+  cases hk with
+  | intro forwardTail forwardData =>
+      cases forwardData with
+      | intro _ forwardCont =>
+          cases kh with
+          | intro backwardTail backwardData =>
+              cases backwardData with
+              | intro _ backwardCont =>
+                  cases forwardCont
+                  have loop :
+                      append h BHist.Empty = append h (append forwardTail backwardTail) :=
+                    (cont_right_unit h).symm.trans
+                      (backwardCont.trans (append_assoc h forwardTail backwardTail))
+                  have emptyTail : hsame BHist.Empty (append forwardTail backwardTail) :=
+                    append_left_cancel (h := h) loop
+                  have forwardTailEmpty : forwardTail = BHist.Empty :=
+                    (append_eq_empty_iff.mp emptyTail.symm).left
+                  cases forwardTailEmpty
+                  exact rfl
+
 theorem PreorderPrefixLE_left_extension {x h k tail : BEDC.FKernel.Hist.BHist} :
     BEDC.FKernel.Unary.UnaryHistory tail -> BEDC.FKernel.Cont.Cont x tail h ->
       PreorderPrefixLE h k -> PreorderPrefixLE x k := by
