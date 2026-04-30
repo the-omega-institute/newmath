@@ -200,6 +200,18 @@ theorem psame_token_witness_pair [AskSetup] [PackageSetup]
       · exact Exists.intro _ hp
       · exact Exists.intro _ hq
 
+omit [AskSetup] P in
+theorem psame_token_witnesses [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {p q : Pkg} :
+    psame bundle p q -> (exists s : BHist, TokIntro bundle s p) /\
+      (exists t : BHist, TokIntro bundle t q) := by
+  intro hpq
+  cases hpq with
+  | intro hp hq _ =>
+      constructor
+      · exact Exists.intro _ hp
+      · exact Exists.intro _ hq
+
 theorem psame_iff_constructor_witnesses {bundle : ProbeBundle ProbeName} {p q : Pkg} :
     psame bundle p q ↔ ∃ s : BHist, ∃ t : BHist, TokIntro bundle s p ∧ TokIntro bundle t q ∧ hsame s t := by
   constructor

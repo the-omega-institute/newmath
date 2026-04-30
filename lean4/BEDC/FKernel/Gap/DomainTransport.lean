@@ -65,6 +65,13 @@ theorem domain_transport_transitive [AskSetup] [PackageSetup] [DomainSetup]
   exact policy.transport (policy.transport hdom hhk) hkl
 
 omit [AskSetup] [PackageSetup] G in
+theorem domain_transport_backward_chain [AskSetup] [PackageSetup] [DomainSetup]
+    {D : Domain} (policy : DomainPolicy D) {h k l : BHist} :
+    InDom D h -> hsame h k -> hsame l k -> InDom D l := by
+  intro hdom hhk hlk
+  exact policy.transport (policy.transport hdom hhk) (hsame_symm hlk)
+
+omit [AskSetup] [PackageSetup] G in
 theorem DomainPolicy_transport_and_invariance [AskSetup] [PackageSetup] [DomainSetup]
     {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     hsame h k → (InDom D h → InDom D k) ∧ (InDom D k → InDom D h) := by
