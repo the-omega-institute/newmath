@@ -164,6 +164,14 @@ theorem not_hsame_e0_e1 : ∀ {h k : BHist}, hsame (.e0 h) (.e1 k) → False := 
   intro h k hs
   cases hs
 
+theorem hsame_e0_e1_iff_false {h k : BHist} :
+    hsame (BHist.e0 h) (BHist.e1 k) ↔ False := by
+  constructor
+  · intro hs
+    exact not_hsame_e0_e1 hs
+  · intro hf
+    exact False.elim hf
+
 theorem not_hsame_e1_e0 : forall {h k : BHist}, hsame (.e1 h) (.e0 k) -> False := by
   intro h k hs
   cases hs

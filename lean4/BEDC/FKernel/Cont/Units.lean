@@ -18,6 +18,15 @@ theorem append_left_unit_iff {h k : BHist} : append h k = k ↔ hsame h BHist.Em
     cases hh
     exact append_empty_left k
 
+theorem append_right_unit_iff {h k : BHist} : append h k = h ↔ hsame k BHist.Empty := by
+  constructor
+  · intro eq
+    apply append_left_cancel (h := h)
+    exact eq.trans (append_empty_right h).symm
+  · intro hk
+    cases hk
+    exact append_empty_right h
+
 theorem cont_right_unit_result {h r : BHist} : Cont h BHist.Empty r -> hsame r h := by
   intro hr
   exact hr
