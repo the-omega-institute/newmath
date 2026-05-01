@@ -18,6 +18,57 @@ $$
 $$
 \end{definition}
 
+\begin{theorem}[Tagged option payload descent image branch exactness]
+\label{thm:tagged-option-payload-descent-image-branch-exactness}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+For every target endpoint $k:\mathsf{BHist}$, the payload descent image carrier is
+exactly the absent endpoint together with the transported present payload
+endpoints:
+$$
+\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}(S,T,\rho_{\delta};k)
+\Longleftrightarrow
+\hsame(k,\emp)\lor
+\exists a:\mathsf{BHist}.\;
+S(a)\land T(\delta.\mathsf{map}(a))\land
+\hsame(k,\Eone(\delta.\mathsf{map}(a))).
+$$
+This result is not a variant of a checked theorem: it combines the image-carrier
+definition with the concrete map relation and supplies coverage and completeness
+for the image predicate.
+\end{theorem}
+\begin{proof}
+For the forward direction, split the stored image-carrier witness. This exposes a
+source endpoint $h$, a source tagged-option carrier witness, and a
+$\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)$ witness.
+
+Now split the map-relation witness. In the absent branch, the relation gives the
+target presentation $\hsame(k,\emp)$, so the left side of the displayed
+disjunction holds. In the present branch, the relation exposes a payload
+$a:\mathsf{BHist}$, the source witness $S(a)$, the transported target witness
+$T(\delta.\mathsf{map}(a))$, and the endpoint presentation
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$, giving the right side.
+
+For the reverse direction, split the displayed disjunction. In the absent case,
+choose the source endpoint $\emp$. The absent tagged carrier constructor and the
+absent map-relation constructor use reflexivity of $\hsame$ at $\emp$ together
+with the displayed target endpoint witness to build the image-carrier
+existential.
+
+In the present case, unpack the payload $a$, the source witness $S(a)$, the target
+witness $T(\delta.\mathsf{map}(a))$, and the presentation
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$. Choose the source endpoint
+$\Eone(a)$; the present tagged carrier constructor uses $S(a)$ and reflexivity of
+$\hsame$ at $\Eone(a)$, while the present map-relation constructor uses the
+displayed target endpoint witness and the payload witnesses. These data repack
+exactly into the image-carrier existential.
+\end{proof}
+
 \begin{theorem}[Tagged option payload descent image certificate]
 \label{thm:tagged-option-payload-descent-image-certificate}
 Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
