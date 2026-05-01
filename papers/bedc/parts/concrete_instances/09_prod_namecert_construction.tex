@@ -228,6 +228,34 @@ clause to both endpoint carriers, and keep the stored $\hsame(h,k)$ witness
 unchanged to rebuild $\mathsf{ProdHistoryClassifier}(L',R',h,k)$.
 \end{proof}
 
+\begin{theorem}[Product history source equivalence]
+\label{thm:prod-history-source-equivalence}
+The roadmap-template fit is: traditional target ordered-product envelope
+invariance under equivalent source presentations; BEDC source $\mathsf{BHist}$
+with $\Cont$; carrier $\mathsf{ProdHistoryCarrier}$; classifier
+$\mathsf{ProdHistoryClassifier}$; stability obligation source-presentation
+equivalence; ledger unchanged continuation evidence; exactness preservation of
+the visible product endpoints; standard bridge unchanged ordered-pair readback;
+status $\mathsf{ProofTarget}$.
+
+For predicates $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$, suppose
+$\forall h.\; L(h)\leftrightarrow L'(h)$ and
+$\forall h.\; R(h)\leftrightarrow R'(h)$. Then for every history $h$,
+$\mathsf{ProdHistoryCarrier}(L,R,h)$ holds exactly when
+$\mathsf{ProdHistoryCarrier}(L',R',h)$ holds. Under the same hypotheses, for
+every pair of histories $h,k$, $\mathsf{ProdHistoryClassifier}(L,R,h,k)$ holds
+exactly when $\mathsf{ProdHistoryClassifier}(L',R',h,k)$ holds.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:prod-history-source-monotonicity} from left to right using
+the forward halves of the two source equivalences. This gives the carrier
+implication and the classifier implication from $(L,R)$ to $(L',R')$ with the
+same continuation evidence and the same $\hsame$ endpoint witness. Apply the
+same monotonicity theorem from right to left using the reverse halves of the two
+source equivalences. Pair the two implications for the carrier clause and pair
+the two implications for the classifier clause.
+\end{proof}
+
 \begin{theorem}[Product history classifier right transport]
 \label{thm:prod-history-classifier-right-hsame-transport}
 If a product-history classifier relates $h$ to $k$, and $k$ is internally the same as $k'$, then the classifier relates $h$ to $k'$.
