@@ -570,6 +570,27 @@ fields for the raw ledger history and the visible history.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_raw\_visible\_classifier}
 
+\begin{theorem}[Prod ledger classifier composition]
+\label{thm:prod-ledger-classifier-extension}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds and
+$\mathsf{ProdHistoryClassifier}(L,R,v,w)$ holds, then
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$ holds. The object fit is:
+traditional target ordered-product ledger propagation; BEDC source
+$\mathsf{BHist}$ with $\Cont$; carrier $\mathsf{ProdHistoryCarrier}$;
+classifier $\mathsf{ProdHistoryClassifier}$; ledger evidence the raw-visible
+pair; exactness raw-to-visible-to-target composition; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-ledger-raw-visible-classifier} to the ledger
+policy to obtain $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$. Compose that
+raw-visible classifier with the visible-target classifier by product history
+classifier transitivity, yielding
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$.
+\end{proof}
+
 \begin{theorem}[Prod ledger component exposure]
 \label{thm:prod-ledger-component-exposure}
 If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then there exist histories $l$ and $r$ such that $L(l)$, $R(r)$, $\Cont(l,r,\rho)$, $\hsame(\rho,v)$, $\mathsf{ProdHistoryCarrier}(L,R,v)$, and $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ all hold.
