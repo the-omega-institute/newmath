@@ -94,6 +94,24 @@ shared suffix $a$ identifies the prefixes $q$ and $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_target\_prefix\_deterministic}
 
+\begin{theorem}[NatTrans vertical composite target-prefix determinacy]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-target-prefix-deterministic}
+For prefix components over unary histories, if $\eta$ is a component from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$, $\theta$ is a component from
+$\mathsf{append}(q,a)$ to $\mathsf{append}(r,a)$,
+$\ContR(\eta,\theta,\eta\theta)$, and the composite history $\eta\theta$ is
+also presented as a component from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(s,a)$, then $\HSame(r,s)$.
+\end{theorem}
+\begin{proof}
+Vertical composition closure first turns the two displayed component witnesses
+and the continuation witness into a component from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(r,a)$. Target-prefix determinacy then compares this component
+with the displayed component ending at $\mathsf{append}(s,a)$ and cancels the
+shared suffix $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_target\_prefix\_deterministic}
+
 \begin{theorem}[NatTrans prefix component source-prefix determinacy]
 \label{thm:nattrans-prefix-component-carrier-source-prefix-deterministic}
 For prefix components over unary histories, if a fixed component history

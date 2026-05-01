@@ -12,6 +12,120 @@ def TaggedOptionMapRel (S T : BHist → Prop) {RelS RelT : BHist → BHist → P
       S a ∧ T (delta.map a) ∧ hsame h (BHist.e1 a) ∧
         hsame k (BHist.e1 (delta.map a))
 
+theorem TaggedOptionMapRel_visible_branch_equivalence {S T : BHist -> Prop}
+    {RelS RelT : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT) {h k : BHist} :
+    TaggedOptionMapRel S T delta h k ->
+      (hsame h BHist.Empty <-> hsame k BHist.Empty) /\
+        ((exists a : BHist, S a /\ hsame h (BHist.e1 a)) <->
+          (exists b : BHist, T b /\ hsame k (BHist.e1 b))) := by
+  intro mapRel
+  constructor
+  · constructor
+    · intro sameHEmpty
+      cases mapRel with
+      | inl absent =>
+          exact absent.right
+      | inr present =>
+          cases present with
+          | intro a data =>
+              cases data with
+              | intro _ rest =>
+                  cases rest with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro sameHPresent _ =>
+                          exact False.elim
+                            (not_hsame_e1_empty
+                              (hsame_trans (hsame_symm sameHPresent) sameHEmpty))
+    · intro sameKEmpty
+      cases mapRel with
+      | inl absent =>
+          exact absent.left
+      | inr present =>
+          cases present with
+          | intro a data =>
+              cases data with
+              | intro _ rest =>
+                  cases rest with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro _ sameKPresent =>
+                          exact False.elim
+                            (not_hsame_e1_empty
+                              (hsame_trans (hsame_symm sameKPresent) sameKEmpty))
+  · constructor
+    · intro presentH
+      cases mapRel with
+      | inl absent =>
+          cases presentH with
+          | intro a data =>
+              cases data with
+              | intro _ sameHPresent =>
+                  exact False.elim
+                    (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.left) sameHPresent))
+      | inr present =>
+          cases present with
+          | intro a data =>
+              cases data with
+              | intro _ rest =>
+                  cases rest with
+                  | intro targetA rest =>
+                      cases rest with
+                      | intro _ sameKPresent =>
+                          exact Exists.intro (delta.map a)
+                            (And.intro targetA sameKPresent)
+    · intro presentK
+      cases mapRel with
+      | inl absent =>
+          cases presentK with
+          | intro b data =>
+              cases data with
+              | intro _ sameKPresent =>
+                  exact False.elim
+                    (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.right) sameKPresent))
+      | inr present =>
+          cases present with
+          | intro a data =>
+              cases data with
+              | intro sourceA rest =>
+                  cases rest with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro sameHPresent _ =>
+                          exact Exists.intro a (And.intro sourceA sameHPresent)
+
+theorem TaggedOptionMapRel_total_carrier_transport {S T : BHist -> Prop}
+    {RelS RelT : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (payload_transport : forall a : BHist, S a -> T (delta.map a)) {h : BHist} :
+    TaggedOptionHistoryCarrier S h ->
+      exists k : BHist, TaggedOptionMapRel S T delta h k /\ TaggedOptionHistoryCarrier T k := by
+  intro carrier
+  cases carrier with
+  | inl absent =>
+      exact Exists.intro BHist.Empty
+        (And.intro
+          (Or.inl (And.intro absent (hsame_refl BHist.Empty)))
+          (Or.inl (hsame_refl BHist.Empty)))
+  | inr present =>
+      cases present with
+      | intro a data =>
+          cases data with
+          | intro sourceA sameHPresent =>
+              exact Exists.intro (BHist.e1 (delta.map a))
+                (And.intro
+                  (Or.inr
+                    (Exists.intro a
+                      (And.intro sourceA
+                        (And.intro (payload_transport a sourceA)
+                          (And.intro sameHPresent
+                            (hsame_refl (BHist.e1 (delta.map a))))))))
+                  (Or.inr
+                    (Exists.intro (delta.map a)
+                      (And.intro (payload_transport a sourceA)
+                        (hsame_refl (BHist.e1 (delta.map a)))))))
+
 theorem TaggedOptionMapRel_preserves_classification {S T : BHist → Prop}
     {RelS RelT : BHist → BHist → Prop}
     (delta : DescentCertificate BHist BHist RelS RelT)
