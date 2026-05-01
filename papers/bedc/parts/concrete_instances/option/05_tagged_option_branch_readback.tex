@@ -302,3 +302,82 @@ $\hsame(h,\Eone(a))$ and $\hsame(h,\Eone(a'))$, and then to
 $\hsame(k,\Eone(b))$ and $\hsame(k,\Eone(b'))$. The two payload equalities give
 $\hsame(a,a')\land\hsame(b,b')$, completing the right disjunct.
 \end{proof}
+
+\begin{theorem}[Tagged option public self-readback exactness]
+\label{thm:tagged-option-public-self-readback-exactness}
+This theorem fits the per-object template as follows: the traditional target is
+optional identity readback; the BEDC source is $\mathsf{BHist}$ with a source
+$\NameCert$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the
+classifier is $\mathsf{TaggedOptionHistoryClassifier}$; the stability
+obligations are semantic certification, carrier-relative reflexivity,
+endpoint-carrier inversion, and single-valued branch readback; the ledger is the
+visible absent/present tag plus payload evidence; the core theorem is public
+self-readback; exactness is the self-classifier iff carrier with exclusive
+branch readback; the standard bridge is $\mathsf{none}$/$\mathsf{some}$
+identity; and the status is $\mathsf{ProofTarget}$. Let
+$S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a source
+classifier, let $\mathsf{cert}:\NameCert(S,\sim_S)$ be a source certificate,
+and assume $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. Then
+$$
+\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,
+\mathsf{TaggedOptionHistoryPattern}_S,
+\mathsf{TaggedOptionHistoryLedger}_S,
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S})
+$$
+holds, and every history $h$ satisfies the public identity exactness clause
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)
+\Longleftrightarrow
+\mathsf{TaggedOptionHistoryCarrier}_S(h).
+$$
+Moreover, for every history $h$, every carrier witness yields the
+self-classifier readback
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)\to
+\Bigl(
+\bigl(
+\hsame(h,\emp)\land
+\neg\bigl(\exists a:\mathsf{BHist}.\; S(a)\land\hsame(h,\Eone(a))\bigr)
+\bigr)
+\lor
+\bigl(
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land
+\hsame(h,\Eone(a))\land
+\hsame(h,\Eone(b))\land
+a\sim_S b\land
+\neg\hsame(h,\emp)\land
+\bigl(\forall a',b':\mathsf{BHist}.\;
+\bigl(
+S(a')\land S(b')\land
+\hsame(h,\Eone(a'))\land
+\hsame(h,\Eone(b'))
+\bigr)\to
+\hsame(a,a')\land\hsame(b,b')\bigr)
+\bigr)
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-semantic-certificate} to
+$\mathsf{cert}$ and the displayed source hsame compatibility hypothesis. This
+gives the public semantic certificate for the tagged option carrier, pattern,
+ledger, and classifier.
+
+For the forward direction of the identity exactness clause, assume
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)$. Apply
+Theorem~\ref{thm:tagged-option-history-classifier-endpoint-carriers} and take
+either endpoint carrier.
+
+For the reverse direction, assume $\mathsf{TaggedOptionHistoryCarrier}_S(h)$.
+Use the carrier-relative reflexivity field of
+Theorem~\ref{thm:tagged-option-history-stability-fields} to obtain
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)$.
+
+For the readback clause, start from a carrier witness for $h$ and build the
+self-classifier by the same carrier-relative reflexivity field. Apply
+Theorem~\ref{thm:tagged-option-public-branch-readback-single-valued} to that
+self-classifier with the two endpoints both equal to $h$, then contract the
+duplicated absent endpoint, duplicated present endpoint, and duplicated
+non-absent endpoint into the displayed self-readback disjunction.
+\end{proof}
