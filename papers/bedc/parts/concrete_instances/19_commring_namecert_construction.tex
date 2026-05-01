@@ -166,6 +166,35 @@ The zero laws remove this neutral summand, leaving
 $(a\cdot a)+(-(b\cdot b))$ under $\hsame$.
 \end{proof}
 
+\begin{theorem}[CommRing signed binary product normal form]
+\label{thm:commring-signed-binary-product-normal-form}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ satisfies
+$$
+(a+(-b))\cdot(c+(-d))\hsame
+(a\cdot c+(-(a\cdot d)))+((-(b\cdot c))+(b\cdot d)).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-mul-add-add-expand} with the four inputs
+$a$, $-b$, $c$, and $-d$. The left side expands to
+$$
+(a\cdot c+a\cdot(-d))+((-b)\cdot c+(-b)\cdot(-d)).
+$$
+
+Next normalize the signed products. Theorem~\ref{thm:ring-mul-neg-right-eq-neg-mul}
+rewrites $a\cdot(-d)$ as $-(a\cdot d)$,
+Theorem~\ref{thm:ring-mul-neg-left-eq-neg-mul} rewrites $(-b)\cdot c$ as
+$-(b\cdot c)$, and Theorem~\ref{thm:ring-mul-neg-neg-eq-mul} rewrites
+$(-b)\cdot(-d)$ as $b\cdot d$.
+
+Use nested additive congruence to transport the three rewritten summands
+through the outer two additions. Transitivity of $\hsame$ composes the
+expansion step with this transport, giving the stated four-term normal form.
+\end{proof}
+
 \begin{definition}[CommRing ledger policy]
 \label{def:commring-ledger-policy}
 Record ring expression provenance and the multiplicative commutativity law when used.
