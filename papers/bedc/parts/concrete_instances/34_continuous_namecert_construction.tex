@@ -64,6 +64,52 @@ the associativity equality $(s\cdot\delta_1)\cdot\delta_2
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_composite\_closed}
 
+\begin{theorem}[Prefixed continuous modulus composite closure]
+\label{thm:continuous-modulus-prefixed-composite-closed}
+For unary histories $p,s,\delta_1,\delta_2,t,\delta$, a unary prefix $p$, a
+two-link modulus chain from $s$ through $\delta_1$ and $\delta_2$ to $t$, and a
+continuation ledger composing $\delta_1$ and $\delta_2$ into $\delta$ determine
+a prefixed continuous modulus witness:
+
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(p)
+\Longrightarrow
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t)
+\Longrightarrow
+\\
+\mathsf{Cont}(\delta_1,\delta_2,\delta)
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta,p\cdot t).
+\end{array}
+$$
+
+\end{theorem}
+\begin{proof}
+Unpack the chain into unary endpoint and modulus histories, together with the
+continuation ledgers from $s$ to the middle history and from the middle history
+to $t$.
+
+The prefixed source and target histories are unary by unary append closure
+applied to $p$ with $s$ and $t$. The composite modulus history is unary by unary
+continuation closure applied to the two modulus histories and their composition
+ledger.
+
+The remaining continuation ledger is obtained by associating the concatenation
+spine:
+
+$$
+(p\cdot s)\cdot\delta
+=
+p\cdot(s\cdot\delta)
+=
+p\cdot t.
+$$
+
+Thus the prefixed endpoints and the same composite modulus satisfy the public
+continuous modulus witness predicate.
+\end{proof}
+
 \begin{definition}[ContinuousMap ledger policy]
 \label{def:continuous-ledger-policy}
 Record the graph relation, source and target metric ledgers, the totally bounded subset witness, the unary precision ledger, and the modulus ledger.
