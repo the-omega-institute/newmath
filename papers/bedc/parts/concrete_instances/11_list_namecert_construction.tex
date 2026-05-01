@@ -689,8 +689,7 @@ Unpack the two history-classifier witnesses. The first gives spines $xs,ys$ with
 \begin{theorem}[List spine classifier preserves represented length]
 \label{thm:list-spine-classifier-represented-length}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
-$\sim_A$ be a source classifier, and let
-$\mathsf{cert}:\NameCert(A,\sim_A)$. If
+$\sim_A$ be a source classifier. If
 $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds, then represented finite
 spines have equal length along the spine-induced history classifier: whenever
 $\mathsf{ListSpineRep}_A(h,xs_0)$,
@@ -703,9 +702,9 @@ Unpack the history-classifier witness to finite spines $xs,ys$ with
 $\mathsf{ListSpineRep}_A(h,xs)$, $\mathsf{ListSpineRep}_A(k,ys)$, and
 $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. Coherence applied at $h$
 classifies $xs_0$ with $xs$, and coherence applied at $k$ classifies $ys$ with
-$ys_0$. Compose these three finite-spine classifier witnesses by
-$\mathsf{ListClassifierSpec\_trans\_from\_nameCert}$ and $\mathsf{cert}$ to get
-$\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$. The paper-side arbitrary-source finite-spine length lemma in Theorem~\ref{thm:list-classifier-length-eq} gives equality of the represented finite lengths.
+$ys_0$. Apply Theorem~\ref{thm:list-classifier-length-eq} separately to the
+three finite-spine classifier witnesses $xs_0\sim_A xs$, $xs\sim_A ys$, and
+$ys\sim_A ys_0$, then chain the three finite-length equalities.
 \end{proof}
 
 \begin{theorem}[List spine representation coverage]
