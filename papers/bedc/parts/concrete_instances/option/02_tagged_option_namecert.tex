@@ -123,6 +123,7 @@ $$
 \begin{proof}
 For the forward direction, case-analyze the tagged classifier witness. The absent-absent branch would contain $\hsame(\Eone(h),\emp)$ and is eliminated by one-versus-empty no-confusion. The present-present branch gives payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, a source classifier witness $a\sim_S b$, and endpoint witnesses $\hsame(\Eone(h),\Eone(a))$ and $\hsame(\Eone(k),\Eone(b))$; one-constructor inversion strips the visible $e1$ tags and yields $\hsame(h,a)$ and $\hsame(k,b)$. For the reverse direction, the displayed payload data rebuilds the present-present classifier branch after applying one-constructor congruence for $\hsame$ to the two payload endpoint witnesses.
 \end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_present\_present\_exactness}
 
 \begin{theorem}[Tagged option history visible present exactness]
 \label{thm:tagged-option-history-visible-present-exactness}
@@ -168,6 +169,7 @@ $$
 \begin{proof}
 Apply Theorem~\ref{thm:tagged-option-history-present-present-exactness} with source classifier $\hsame$. In the forward direction, the exactness witness gives payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, endpoint links $\hsame(h,a)$ and $\hsame(k,b)$, and a payload link $\hsame(a,b)$. Symmetry turns $\hsame(h,a)$ into $\hsame(a,h)$, so the first application of $\mathsf{source\_transport}$ sends $S(a)$ to $S(h)$; symmetry turns $\hsame(k,b)$ into $\hsame(b,k)$, so the second application sends $S(b)$ to $S(k)$. Compose $\hsame(h,a)$, $\hsame(a,b)$, and the symmetric form of $\hsame(k,b)$ to obtain $\hsame(h,k)$. In the reverse direction, choose payloads $h$ and $k$; the two source witnesses are displayed, the endpoint links are reflexivity of $\hsame$, and the payload classifier witness is the displayed $\hsame(h,k)$.
 \end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_hsame\_present\_exactness}
 
 \begin{definition}[Tagged option history pattern]
 \label{def:tagged-option-history-pattern}

@@ -204,11 +204,12 @@ $\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ also holds.
 
 \begin{theorem}[Sum ledger chain classifier composition]
 \label{thm:sum-ledger-chain-classifier-composition}
+\label{thm:sum-history-ledger-chain-classifier-composition}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
-$\rho,z:\mathsf{BHist}$ be histories. If
-$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ holds, then
+$raw,visible:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(raw,visible)$ holds, then
 $$
-\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,z)
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,raw,visible)
 $$
 holds. The ten-field fit is: traditional target disjoint-sum finite ledger
 classifier closure; BEDC source $\mathsf{BHist}$ with $\hsame$; source carriers
@@ -222,12 +223,14 @@ $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 Induct on the displayed
-$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ witness. In the single
-case, apply Theorem~\ref{thm:sum-ledger-raw-visible-classifier} to the displayed
-ledger policy. In the cons case, apply the induction hypothesis to the tail
-chain to obtain the classifier from the middle history to $z$, then compose it
-with the first ledger by Theorem~\ref{thm:sum-ledger-classifier-extension}.
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(raw,visible)$ witness. In the
+one-ledger case, apply
+Theorem~\ref{thm:sum-ledger-raw-visible-classifier}. In the cons case, apply
+the induction hypothesis to the tail chain to obtain the classifier from the
+middle history to $visible$, then compose it with the first ledger by
+Theorem~\ref{thm:sum-ledger-classifier-extension}.
 \end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerChain\_classifier\_composition}
 
 \begin{theorem}[Sum ledger chain endpoint exactness]
 \label{thm:sum-ledger-chain-endpoint-exactness}

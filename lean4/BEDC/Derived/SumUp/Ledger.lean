@@ -87,6 +87,17 @@ theorem SumHistoryLedgerPolicy_two_step_classifier_composition {Left Right : BHi
     (SumHistoryLedgerPolicy_raw_visible_classifier firstLedger)
     (SumHistoryLedgerPolicy_raw_visible_classifier secondLedger)
 
+theorem SumHistoryLedgerChain_classifier_composition {Left Right : BHist -> Prop}
+    {raw visible : BHist} :
+    SumHistoryLedgerChain Left Right raw visible ->
+      SumHistoryClassifier Left Right hsame hsame raw visible := by
+  intro chain
+  induction chain with
+  | single ledger =>
+      exact SumHistoryLedgerPolicy_raw_visible_classifier ledger
+  | cons ledger _ ih =>
+      exact SumHistoryLedgerPolicy_classifier_composition ledger ih
+
 theorem SumHistoryLedgerPolicy_two_step_endpoint_exactness {Left Right : BHist -> Prop}
     {rho v w l l' r r' : BHist} :
     SumHistoryLedgerPolicy Left Right rho v ->
@@ -346,11 +357,7 @@ theorem SumHistoryLedgerChain_endpoint_exactness {Left Right : BHist → Prop}
         exact ih
   have classifier : SumHistoryClassifier Left Right hsame hsame rho z := by
     clear carrierZ
-    induction chain with
-    | single ledger =>
-        exact SumHistoryLedgerPolicy_raw_visible_classifier ledger
-    | cons ledger _ ih =>
-        exact SumHistoryLedgerPolicy_classifier_composition ledger ih
+    exact SumHistoryLedgerChain_classifier_composition chain
   constructor
   · intro mixed
     exact SumHistoryClassifier_mixed_tags_absurd mixed.left mixed.right classifier
