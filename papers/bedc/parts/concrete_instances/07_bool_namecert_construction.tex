@@ -552,7 +552,15 @@ $$
 
 \begin{theorem}[BoolUp paper-side semantic certificate target]
 \label{thm:bool-semantic-namecert-target}
-The Bool public-object certificate target fixes the three history predicates by
+The Bool public-object paper certificate asserts that
+$$
+\mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryCarrier},
+\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier})
+$$
+holds, with source, pattern, and ledger all fixed to
+$\mathsf{BoolHistoryCarrier}$ and with classifier fixed to
+$\mathsf{BoolHistoryClassifier}$.  Equivalently, the three history predicates
+are
 $$
 \mathsf{SourceSpec}
 =
@@ -560,20 +568,9 @@ $$
 =
 \mathsf{LedgerPolicy}
 =
-\mathsf{BoolHistoryCarrier}
+\mathsf{BoolHistoryCarrier}.
 $$
-and fixes
-$$
-\mathsf{ClassifierSpec}
-=
-\mathsf{BoolHistoryClassifier}.
-$$
-For the resulting
-$$
-\mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryCarrier},
-\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}),
-$$
-the constructor fields are the checked core
+Its constructor fields are the checked core
 $\mathsf{BEDC.Derived.BoolUp.bool\_history\_name\_certificate}$, the pattern
 soundness implication
 $$
