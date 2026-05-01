@@ -324,7 +324,7 @@ three finite-length equalities.
 \end{proof}
 
 \begin{corollary}[Framed finite-spine paper certificate]
-\label{cor:framed-list-public-object-paper-certificate}
+\label{cor:framed-list-carrier-certificate}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
 $\sim_A$ be a source classifier, and let
 $\mathsf{cert}:\NameCert(A,\sim_A)$. Assume
@@ -373,7 +373,7 @@ are the carrier itself, their soundness fields are identity implications.
 \end{proof}
 
 \begin{corollary}[Framed finite-spine paper certificate for hsame]
-\label{cor:framed-list-public-object-paper-certificate-hsame}
+\label{cor:framed-list-carrier-certificate-hsame}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
 $\mathsf{cert}:\NameCert(A,\hsame)$. Define the framed carrier by
 $$
@@ -401,7 +401,7 @@ $$
 $$
 \end{corollary}
 \begin{proof}
-Apply Corollary~\ref{cor:framed-list-public-object-paper-certificate} with
+Apply Corollary~\ref{cor:framed-list-carrier-certificate} with
 source classifier $\hsame$. The compatibility premise is exactly
 Theorem~\ref{thm:list-source-hsame-compatible-hsame}, and the remaining source
 certificate input is the displayed $\mathsf{cert}:\NameCert(A,\hsame)$.
@@ -723,17 +723,18 @@ A_{a_0}(x)\Longleftrightarrow\hsame(x,a_0).
 $$
 \end{definition}
 
-\begin{theorem}[List singleton source framed public-object certificate]
-\label{thm:list-singleton-source-framed-public-object-certificate}
+\begin{theorem}[List singleton source framed carrier certificate]
+\label{thm:list-singleton-source-framed-carrier-certificate}
 Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
 history source of Definition~\ref{def:list-singleton-history-source}. The
-ten-field per-object fit is: traditional target finite lists over one BEDC
-history class; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+ten-field per-object fit is: traditional target framed carrier certificate for
+finite lists over one BEDC history class; BEDC source $\mathsf{BHist}$ with
+$\hsame$; carrier
 $\mathsf{FramedListHistoryCarrier}_{A_{a_0}}$; classifier
 $\mathsf{FramedListBridgeClassifier}_{A_{a_0},\hsame}$; stability from
 $\mathsf{ListSourceHsameCompatible}(A_{a_0},\hsame)$ and framed endpoint
 coherence; ledger finite framed spine; core theorem
-Corollary~\ref{cor:framed-list-public-object-paper-certificate}; exactness
+Corollary~\ref{cor:framed-list-carrier-certificate}; exactness
 through framed spine representation; standard bridge finite spines; status
 $\mathsf{ProofTarget}$. The framed semantic certificate
 $$
@@ -751,7 +752,7 @@ certificate $\NameCert(A_{a_0},\hsame)$.
 The compatibility predicate $\mathsf{ListSourceHsameCompatible}(A_{a_0},\hsame)$
 is immediate: given $A_{a_0}(a)$, $A_{a_0}(b)$, and $\hsame(a,b)$, the required
 source classifier witness is exactly the displayed $\hsame(a,b)$ witness. Apply
-Corollary~\ref{cor:framed-list-public-object-paper-certificate} with the
+Corollary~\ref{cor:framed-list-carrier-certificate} with the
 singleton source certificate and this compatibility witness.
 \end{proof}
 

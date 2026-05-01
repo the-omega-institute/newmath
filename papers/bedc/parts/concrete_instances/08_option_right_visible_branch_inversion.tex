@@ -332,3 +332,47 @@ the source-classifier implication to the same two source witnesses and the
 given $a\sim_S b$ witness to obtain $a\sim_T b$. These fields rebuild the
 tagged classifier witness for $T$ and $\sim_T$.
 \end{proof}
+
+\begin{theorem}[Tagged option semantic fields source weakening]
+\label{thm:tagged-option-semantic-fields-source-weakening}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim_S$ and $\sim_T$ be source classifiers. Assume
+$$
+\forall h.\; S(h)\to T(h)
+$$
+and
+$$
+\forall a\,b.\; S(a)\to S(b)\to a\sim_S b\to a\sim_T b.
+$$
+Then for every history $h$, the four tagged option semantic fields transport
+from $S$ to $T$ as follows:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)\to
+\mathsf{TaggedOptionHistoryCarrier}_T(h),
+$$
+$$
+\mathsf{TaggedOptionHistoryPattern}_S(h)\to
+\mathsf{TaggedOptionHistoryPattern}_T(h),
+$$
+and
+$$
+\mathsf{TaggedOptionHistoryLedger}_S(h)\to
+\mathsf{TaggedOptionHistoryLedger}_T(h).
+$$
+For every pair of histories $h,k$, the classifier also transports:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-source-weakening} to the displayed
+source-carrier and source-classifier implications. This gives the carrier
+transport and classifier transport directly. For the pattern field, use
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence} to
+convert a $\mathsf{TaggedOptionHistoryPattern}_S(h)$ witness into the
+$S$-carrier witness, transport that carrier witness from $S$ to $T$, and convert
+the resulting $T$-carrier witness back to
+$\mathsf{TaggedOptionHistoryPattern}_T(h)$. The ledger field is identical, using
+the ledger half of the same carrier-pattern-ledger equivalence.
+\end{proof}
