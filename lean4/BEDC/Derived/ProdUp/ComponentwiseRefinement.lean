@@ -223,4 +223,44 @@ theorem ProdHistoryClassifier_pair_coherent_componentwise_hsame
                                                             (And.intro contK
                                                               components)))))))))
 
+theorem ProdComponentHistoryClassifier_symm_from_source_certificates
+    {Left Right : BHist → Prop} {LeftEq RightEq : BHist → BHist → Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    {h k : BHist} :
+    ProdComponentHistoryClassifier Left Right LeftEq RightEq h k →
+      ProdComponentHistoryClassifier Left Right LeftEq RightEq k h := by
+  intro classifier
+  exact
+    match classifier with
+    | ⟨lh, rh, lk, rk, leftH, rightH, contH, leftK, rightK, contK,
+        sameLeft, sameRight⟩ =>
+        ⟨lk, rk, lh, rh, leftK, rightK, contK, leftH, rightH, contH,
+          leftCert.equiv_symm sameLeft, rightCert.equiv_symm sameRight⟩
+
+theorem ProdComponentHistoryClassifier_trans_from_pair_coherence
+    {Left Right : BHist → Prop} {LeftEq RightEq : BHist → BHist → Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) {h k u : BHist} :
+    ProdComponentHistoryClassifier Left Right LeftEq RightEq h k →
+      ProdComponentHistoryClassifier Left Right LeftEq RightEq k u →
+        ProdComponentHistoryClassifier Left Right LeftEq RightEq h u := by
+  intro classifierHK classifierKU
+  exact
+    match classifierHK, classifierKU with
+    | ⟨lh, rh, lk, rk, leftH, rightH, contH, leftK, rightK, contK,
+        sameLeftHK, sameRightHK⟩,
+      ⟨lk', rk', lu, ru, leftK', rightK', contK', leftU, rightU, contU,
+        sameLeftKU, sameRightKU⟩ =>
+        let repK : ProdPairRep Left Right k lk rk := ⟨leftK, rightK, contK⟩
+        let repK' : ProdPairRep Left Right k lk' rk' := ⟨leftK', rightK', contK'⟩
+        let middle : LeftEq lk lk' ∧ RightEq rk rk' := coherent repK repK'
+        let sameLeftHU : LeftEq lh lu :=
+          leftCert.equiv_trans sameLeftHK
+            (leftCert.equiv_trans middle.left sameLeftKU)
+        let sameRightHU : RightEq rh ru :=
+          rightCert.equiv_trans sameRightHK
+            (rightCert.equiv_trans middle.right sameRightKU)
+        ⟨lh, rh, lu, ru, leftH, rightH, contH, leftU, rightU, contU,
+          sameLeftHU, sameRightHU⟩
+
 end BEDC.Derived.ProdUp

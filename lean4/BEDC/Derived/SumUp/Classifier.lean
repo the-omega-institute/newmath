@@ -99,6 +99,20 @@ theorem SumHistoryClassifier_carrier_transport_from_nameCert {Left Right : BHist
                                         (rightCert.carrier_respects_equiv sameSource
                                           carrierRight)))
 
+  theorem SumHistoryClassifier_symm_from_nameCert
+    {Left Right : BHist → Prop}
+    {LeftEq RightEq : BHist → BHist → Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq) {h k : BHist} :
+    SumHistoryClassifier Left Right LeftEq RightEq h k →
+      SumHistoryClassifier Left Right LeftEq RightEq k h := by
+  intro classifier
+  exact
+    match classifier with
+    | Or.inl ⟨l, l', sameH, sameK, sameLeft⟩ =>
+        Or.inl ⟨l', l, sameK, sameH, leftCert.equiv_symm sameLeft⟩
+    | Or.inr ⟨r, r', sameH, sameK, sameRight⟩ =>
+        Or.inr ⟨r', r, sameK, sameH, rightCert.equiv_symm sameRight⟩
+
 theorem SumHistoryClassifier_no_source_membership :
     SumHistoryClassifier (fun _ : BHist => False) (fun _ : BHist => False) hsame hsame
         (BHist.e0 BHist.Empty) (BHist.e0 BHist.Empty) ∧
