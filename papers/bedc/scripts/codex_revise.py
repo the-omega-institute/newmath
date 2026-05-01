@@ -844,15 +844,50 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                 if not _codex_resolve_conflicts(wt.path, model=model):
                     run_cmd(["git", "rebase", "--abort"], cwd=wt.path)
                     return False
+            rebased_new = run_cmd(
+                ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
+                cwd=wt.path, timeout=30,
+            )
+            rebased_lines = [
+                l.strip() for l in rebased_new.stdout.splitlines() if l.strip()
+            ]
+            own_prefix = f"P{wt.round_number}:"
+            if not any(own_prefix in l for l in rebased_lines):
+                logger.error(
+                    f"[P{wt.round_number}] Rebase left no own-round commit "
+                    f"unique to {BASE_BRANCH}; refusing to report merge success"
+                )
+                return False
             wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
             ok, msg = _ff_local_branch_to(wt_tip)
             if not ok:
                 logger.error(f"ff update of {BASE_BRANCH} failed: {msg.strip()}")
                 return False
+            local_contains = run_cmd(
+                ["git", "merge-base", "--is-ancestor", wt_tip, BASE_BRANCH],
+                cwd=REPO_ROOT, timeout=10,
+            ).returncode == 0
+            if not local_contains:
+                logger.error(
+                    f"{BASE_BRANCH} does not contain {wt.branch} tip {wt_tip[:8]} "
+                    "after ff update"
+                )
+                return False
             push = run_cmd(["git", "push", "origin", BASE_BRANCH],
                            cwd=REPO_ROOT, timeout=300)
             if push.returncode == 0:
-                return True
+                run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+                origin_contains = run_cmd(
+                    ["git", "merge-base", "--is-ancestor", wt_tip, f"origin/{BASE_BRANCH}"],
+                    cwd=REPO_ROOT, timeout=10,
+                ).returncode == 0
+                if origin_contains:
+                    return True
+                logger.error(
+                    f"origin/{BASE_BRANCH} does not contain {wt.branch} tip "
+                    f"{wt_tip[:8]} after push"
+                )
+                return False
             if attempt == 1:
                 logger.warning("Push rejected, retrying")
                 return False
@@ -1262,20 +1297,25 @@ def verify_worktree_commits(
     wt: WorktreeInfo, pre_commits: list[str]
 ) -> tuple[bool, list[str]]:
     """Run all pipeline-side gates. Returns (success, new_commit_oneline_list)."""
-    if wt.base_sha:
-        result = run_cmd(
-            ["git", "log", "--oneline", f"{wt.base_sha}..HEAD"], cwd=wt.path,
-        )
-        new = [l.strip() for l in result.stdout.splitlines() if l.strip()]
-    else:
-        post = git_log_oneline(40, cwd=wt.path)
-        new = [c for c in post if c not in pre_commits]
+    result = run_cmd(
+        ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"], cwd=wt.path,
+    )
+    new = [l.strip() for l in result.stdout.splitlines() if l.strip()]
 
     if not new:
-        logger.warning(f"[P{wt.round_number}] Verify: no new commits")
+        logger.warning(f"[P{wt.round_number}] Verify: no commits unique to this round")
         return False, []
 
-    logger.info(f"[P{wt.round_number}] Verify: {len(new)} new commit(s)")
+    own_prefix = f"P{wt.round_number}:"
+    own = [c for c in new if own_prefix in c]
+    if not own:
+        logger.error(
+            f"[P{wt.round_number}] Verify: no own-round commit found; "
+            f"unique commits were: {new[:5]}"
+        )
+        return False, new
+
+    logger.info(f"[P{wt.round_number}] Verify: {len(new)} unique commit(s)")
     for c in new:
         logger.info(f"  {c}")
 
