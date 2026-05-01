@@ -175,53 +175,51 @@ is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefix\_closed}
 
-\begin{theorem}[Continuous function carrier prefix exactness]
-\label{thm:continuous-function-carrier-prefix-exact}
-For histories $p,source,map,target,modulus,cert$, a visible unary prefix is an
-exact invariant of the full continuous-function carrier:
+\begin{theorem}[Continuous modulus witness prefix exactness]
+\label{thm:continuous-modulus-witness-prefix-iff}
+For histories $p,s,\delta,t$, a common visible unary prefix on the source and
+target ledgers is exactly the same as unary evidence for the prefix together
+with the unprefixed one-step modulus witness:
 
 $$
-\mathsf{UnaryHistory}(p)
-\Longrightarrow
-\left(
-\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,modulus,p\cdot cert)
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta,p\cdot t)
 \Longleftrightarrow
-\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
-\right).
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousModulusWitness}(s,\delta,t).
 $$
 \end{theorem}
 \begin{proof}
-For the reverse direction, use
-\autoref{thm:continuous-function-carrier-prefix-closed}. It prefixes the
-source, target, and certificate ledgers by the unary history $p$ while reusing
-the same unary map and unary modulus witnesses.
-
-For the forward direction, unpack the prefixed carrier. Unary append
-factorization recovers unary witnesses for $source$ and $target$ from the
-unary histories $p\cdot source$ and $p\cdot target$ together with
-$\mathsf{UnaryHistory}(p)$. The map and modulus unary witnesses are already
-part of the prefixed carrier, so no transport is needed for those fields.
-
-The prefixed graph ledger has the form
+For the forward direction, unpack the prefixed witness into unary histories for
+$p\cdot s$, $\delta$, and $p\cdot t$, together with the continuation ledger
 
 $$
-(p\cdot source)\cdot map=p\cdot target.
+(p\cdot s)\cdot\delta=p\cdot t.
 $$
 
-Associativity rewrites its left side to $p\cdot(source\cdot map)$, and
-continuation prefix cancellation removes the common visible prefix $p$. This
-recovers the unprefixed graph ledger $source\cdot map=target$.
+Unary append factorization on $p\cdot s$ recovers
+$\mathsf{UnaryHistory}(p)$ and $\mathsf{UnaryHistory}(s)$. The same
+factorization on $p\cdot t$ recovers $\mathsf{UnaryHistory}(t)$. Associativity
+rewrites the displayed continuation ledger as
+$p\cdot(s\cdot\delta)=p\cdot t$, and left cancellation on the continuation
+ledger recovers $s\cdot\delta=t$. These data reassemble
+$\mathsf{ContinuousModulusWitness}(s,\delta,t)$.
 
-The modulus-certificate ledger is treated in the same way. From
+For the reverse direction, project $\mathsf{UnaryHistory}(p)$ and the
+unprefixed witness from the conjunction. Unpacking the witness supplies unary
+histories for $s$, $\delta$, and $t$, and the continuation ledger
+$s\cdot\delta=t$.
 
-$$
-(p\cdot target)\cdot modulus=p\cdot cert
-$$
+Unary append closure gives unary histories for $p\cdot s$ and $p\cdot t$.
+Prefixed continuation associativity transports the unprefixed ledger to
+$(p\cdot s)\cdot\delta=p\cdot t$, so the prefixed witness is reconstructed.
 
-associativity and the same prefix cancellation principle recover
-$target\cdot modulus=cert$. The recovered unary endpoint histories, the reused
-unary map and modulus histories, and the two cancelled ledgers reassemble
-$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$.
+The ten-field certificate fit is the following. The traditional target is
+one-step modulus readback. The BEDC source is $BHist$ equipped with
+$\mathsf{Cont}$. The carrier is $\mathsf{ContinuousModulusWitness}$ and the
+classifier is $\mathsf{hsame}$. The stability obligation is prefix exactness.
+The ledger consists of source, modulus, target, and prefix histories. The core
+theorem is this iff, exactness is the displayed iff, the standard bridge is
+deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 
 \begin{theorem}[Continuous function carrier prefix exactness]
