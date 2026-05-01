@@ -1,4 +1,4 @@
-\begin{theorem}[Product componentwise history classifier certificate target]
+\begin{theorem}[Product componentwise history classifier core fields]
 \label{thm:prod-component-history-classifier-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
 $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
@@ -6,16 +6,9 @@ classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
 $\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
 $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Write
 $C(h,k)$ for
-$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$. Then the
-paper-side componentwise product certificate target is
-$$
-\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
-\mathsf{ProdHistoryCarrier}(L,R),
-\mathsf{ProdHistoryCarrier}(L,R),
-C).
-$$
-Its five core $\NameCert$ fields for $\mathsf{ProdHistoryCarrier}(L,R)$
-decompose as follows:
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$. Then its
+five core $\NameCert$ fields for $\mathsf{ProdHistoryCarrier}(L,R)$ decompose as
+follows:
 \begin{enumerate}
   \item carrier inhabitation:
   $$
@@ -45,9 +38,8 @@ Theorem~\ref{thm:prod-component-history-classifier-endpoint-carriers}; the
 displayed source-carrier premise is retained because it is the
 carrier-transport field shape of the certificate.
 \end{enumerate}
-Taking
-$\mathsf{ProdHistoryCarrier}(L,R)$ as both pattern carrier and ledger carrier
-therefore gives the paper-side componentwise product certificate target.
+These five fields are the core $\NameCert$ data used by
+Theorem~\ref{thm:prod-component-history-semantic-certificate-target}.
 \end{theorem}
 \begin{proof}
 For carrier inhabitation, $\mathsf{cert}_L.\mathsf{carrier\_inhabited}$ and
@@ -71,7 +63,33 @@ $l_h\sim_L l_k\sim_L l'_k\sim_L l_u$ and the right chain
 $r_h\sim_R r_k\sim_R r'_k\sim_R r_u$ separately. For carrier transport, the
 classifier witness for the right endpoint contains a displayed pair
 representation of $k$, and pair-representation coverage rebuilds
-$\mathsf{ProdHistoryCarrier}(L,R,k)$. Pattern and ledger soundness are the two
-identity projections from $\mathsf{ProdHistoryCarrier}(L,R)$, so the displayed
-tuple is exactly the componentwise product paper certificate target.
+$\mathsf{ProdHistoryCarrier}(L,R,k)$. Thus the displayed five-field tuple is
+exactly the componentwise product core classifier data.
+\end{proof}
+
+\begin{theorem}[Product componentwise history semantic certificate target]
+\label{thm:prod-component-history-semantic-certificate-target}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the componentwise
+classifier forms the semantic naming certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-component-history-classifier-certificate-target} to
+obtain carrier inhabitation, carrier-relative reflexivity, source-certified
+symmetry, source-certified transitivity, and classifier-induced carrier
+transport for
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ over
+$\mathsf{ProdHistoryCarrier}(L,R)$. Package these five fields as the core
+$\NameCert$ certificate. The semantic pattern carrier and ledger carrier are
+both $\mathsf{ProdHistoryCarrier}(L,R)$, so the
+$\mathsf{pattern\_sound}$ and $\mathsf{ledger\_sound}$ maps are identities.
 \end{proof}
