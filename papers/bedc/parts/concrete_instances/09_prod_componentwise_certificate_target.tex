@@ -67,6 +67,29 @@ $\mathsf{ProdHistoryCarrier}(L,R,k)$. Thus the displayed five-field tuple is
 exactly the componentwise product core classifier data.
 \end{proof}
 
+\begin{theorem}[Singleton product pair-representation coherence]
+\label{thm:prod-pair-rep-singleton-coherence}
+Fix histories $l_0,r_0:\mathsf{BHist}$. Let
+$L(x):\Longleftrightarrow\hsame(x,l_0)$ and
+$R(y):\Longleftrightarrow\hsame(y,r_0)$. With both source classifiers
+specialized to $\hsame$, the singleton source carriers satisfy product
+pair-representation coherence:
+$$
+\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}.
+$$
+\end{theorem}
+\begin{proof}
+Take two displayed pair representations of the same product history $h$, with
+components $(l,r)$ and $(l',r')$. The left carrier witnesses give
+$\hsame(l,l_0)$ and $\hsame(l',l_0)$, and the right carrier witnesses give
+$\hsame(r,r_0)$ and $\hsame(r',r_0)$. By symmetry of $\hsame$, turn
+$\hsame(l',l_0)$ into $\hsame(l_0,l')$ and
+$\hsame(r',r_0)$ into $\hsame(r_0,r')$. By transitivity of $\hsame$, compose
+$l$ through $l_0$ to obtain $\hsame(l,l')$, and compose $r$ through $r_0$ to
+obtain $\hsame(r,r')$. These are exactly the two component classifier
+conclusions required by $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$.
+\end{proof}
+
 \begin{theorem}[Product componentwise history semantic certificate target]
 \label{thm:prod-component-history-semantic-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let

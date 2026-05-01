@@ -15,7 +15,7 @@ The boolean interface \(\BoolUp\) is licensed by raw mark sameness on the two-el
   \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, Theorem~\ref{thm:bool-endpoint-bridge-exactness}, Theorem~\ref{thm:bool-history-carrier-endpoint-coverage}, endpoint readback determinism, Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness}, Theorem~\ref{thm:bool-history-classifier-endpoint-readback}, and the history core $\NameCert$.
   \item \textbf{Exactness predicate}: the mark source has exactly the $\bzero$ and $\bone$ branches licensed by $\msame$, while the checked history certificate has exactly the $\emp$ and $\Eone(\emp)$ endpoints licensed by $\hsame$.
   \item \textbf{Standard bridge}: false and true are read through the two displayed marks $\bzero,\bone$ together with their displayed history endpoints $\emp,\Eone(\emp)$; endpoint coverage and classifier completeness are functional up to $\msame$.
-  \item \textbf{Status}: the core history $\NameCert$ is $\mathsf{CheckedCert}$ via the $BEDC.Derived.BoolUp$ Lean target $\mathsf{bool\_history\_name\_certificate}$. The generic carrier-as-pattern construction is represented by $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$, while the Bool-specific canonical public-object theorem under $BEDC.Derived.BoolUp$ is not present; Theorem~\ref{thm:bool-semantic-namecert-target} remains $\mathsf{ProofTarget}$ for that public-object scope.
+  \item \textbf{Status}: the core history $\NameCert$ is $\mathsf{CheckedCert}$ via the $BEDC.Derived.BoolUp$ Lean target $\mathsf{bool\_history\_name\_certificate}$. The generic carrier-as-pattern semantic certificate is the paper theorem in Theorem~\ref{thm:carrier-as-pattern-semantic-namecert}; the Lean theorem $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$ only records the five core $\NameCert$ fields. The Bool-specific canonical public-object theorem under $BEDC.Derived.BoolUp$ is not present; Theorem~\ref{thm:bool-semantic-namecert-target} remains $\mathsf{ProofTarget}$ for that public-object scope.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -504,6 +504,26 @@ The history carrier $\mathsf{BoolHistoryCarrier}$ and classifier $\mathsf{BoolHi
 \end{theorem}
 \leanchecked{BEDC.Derived.BoolUp.bool\_history\_name\_certificate}
 
+\begin{theorem}[Carrier-as-pattern semantic certificate]
+\label{thm:carrier-as-pattern-semantic-namecert}
+Let $C:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history predicate, let
+$E:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history
+classifier, and assume a core certificate $\mathsf{cert}:\NameCert(C,E)$. Then
+the carrier-as-pattern and carrier-as-ledger semantic certificate exists:
+$$
+\mathsf{SemanticNameCert}(C,C,C,E).
+$$
+Its core field is $\mathsf{cert}$, its pattern soundness field is
+$\forall h.\;C(h)\to C(h)$, and its ledger soundness field is
+$\forall h.\;C(h)\to C(h)$.
+\end{theorem}
+\begin{proof}
+Use the semantic certificate constructor with the supplied core $\NameCert(C,E)$.
+Because source, pattern, and ledger predicates are all the same predicate $C$,
+both displayed soundness obligations are discharged by the identity implication
+on $C(h)$ for an arbitrary BEDC history $h$.
+\end{proof}
+
 \begin{definition}[Bool history semantic fields]
 \label{def:bool-history-semantic-fields}
 The semantic history ledger used for
@@ -567,8 +587,9 @@ $$
 $$
 This displayed object is a paper-side $\mathsf{ProofTarget}$ for the
 Bool-specific public-object scope and carries no checked Lean marker. The
-generic carrier-as-pattern constructor theorem is represented by
-$BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$, while the canonical
+generic carrier-as-pattern semantic construction is Theorem~\ref{thm:carrier-as-pattern-semantic-namecert}.
+The checked Lean theorem $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$
+only records the five core $\NameCert$ fields, while the canonical
 $BEDC.Derived.BoolUp$ public-object theorem for this Bool certificate is not
 present.
 \end{theorem}
