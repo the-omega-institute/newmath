@@ -126,6 +126,21 @@ successor observation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_hsame\_transport}
 
+\begin{theorem}[Real stream prefix classifier transitivity]
+\label{thm:real-stream-prefix-classifier-trans}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
+prefix classifier relates $x$ to $y$ through index $n$ and relates $y$
+to $z$ through the same index, then it relates $x$ to $z$ through
+index $n$.
+\end{theorem}
+\begin{proof}
+Induct on the prefix index. At zero, use rational history classifier
+transitivity. At a successor index, combine the induction hypothesis for the
+shorter prefix with rational history classifier transitivity at the new
+endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_trans}
+
 \begin{theorem}[Real stream prefix one-tail pair readback]
 \label{thm:real-stream-prefix-e1-pair-readback}
 If a classified finite rational-observation prefix displays its selected left and right endpoints as one-extension histories, then the displayed tails are unary and internally the same.

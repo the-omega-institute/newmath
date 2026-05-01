@@ -124,6 +124,27 @@ the head to the unit, and the left identity law leaves $b$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_mul\_inverse\_left\_cancel\_from\_apartness}
 
+\begin{theorem}[Field middle multiplication equation solution from apartness]
+\label{thm:field-middle-mul-equation-solution-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+explicit witnesses $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$ make
+$$
+(a x)b\hsame c
+$$
+imply
+$$
+x\hsame \mathsf{inv}(a,p_a)(c\mathsf{inv}(b,p_b)).
+$$
+\end{theorem}
+\begin{proof}
+First solve the right factor equation using the indexed right inverse of $b$,
+obtaining $a x\hsame c\mathsf{inv}(b,p_b)$. Then cancel the left factor
+with the indexed left inverse of $a$, transporting the right-factor solution
+through left multiplication by $\mathsf{inv}(a,p_a)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_solution\_from\_apartness}
+
 \begin{definition}[Field ledger policy]
 \label{def:field-ledger-policy}
 Record the ring ledger and the $\mathsf{NonZero}_F$ witness used for each inverse.

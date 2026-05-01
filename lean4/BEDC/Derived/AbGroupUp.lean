@@ -38,6 +38,25 @@ theorem abgroup_mul_middle_four {mul : BHist -> BHist -> BHist}
     exact hsame_symm (assocC a c (mul b d))
   exact hsame_trans reassocLeft (hsame_trans transportRight reassocRight)
 
+theorem abgroup_mul_inverse_pair_collapse {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (rightId : forall x : BHist, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) e) :
+    forall a b : BHist, hsame (mul (mul a b) (mul (inv a) (inv b))) e := by
+  intro a b
+  have regroup :
+      hsame (mul (mul a b) (mul (inv a) (inv b)))
+        (mul (mul a (inv a)) (mul b (inv b))) := by
+    exact abgroup_mul_middle_four assocC commC mulCongr a b (inv a) (inv b)
+  have collapseFactors :
+      hsame (mul (mul a (inv a)) (mul b (inv b))) (mul e e) := by
+    exact mulCongr (rightInv a) (rightInv b)
+  exact hsame_trans regroup (hsame_trans collapseFactors (rightId e))
+
 theorem abgroup_conjugation_collapse {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
