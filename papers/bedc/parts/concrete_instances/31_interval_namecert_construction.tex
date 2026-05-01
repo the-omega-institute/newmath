@@ -47,6 +47,28 @@ Unpack the interval carrier into unary membership and the two boundary witnesses
 \end{proof}
 \leanchecked{BEDC.Derived.IntervalUp.IntervalCarrier\_empty\_boundary\_hsame\_transport}
 
+\begin{definition}[Interval empty-boundary ledger policy]
+\label{def:interval-empty-boundary-ledger-policy}
+The empty-boundary interval ledger records a raw endpoint in the concrete
+carrier whose lower boundary is \(\hsame(\emp,-)\) and whose upper boundary is
+\(\hsame(-,\emp)\), together with an internal history-sameness link from the
+raw endpoint to the visible endpoint.
+\end{definition}
+\leandef{BEDC.Derived.IntervalUp.IntervalEmptyBoundaryLedgerPolicy}
+
+\begin{theorem}[Interval empty-boundary ledger visible carrier]
+\label{thm:interval-empty-boundary-ledger-visible-carrier}
+If an empty-boundary interval ledger relates a raw endpoint to a visible
+endpoint, then the visible endpoint remains in the same concrete
+empty-boundary interval carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalEmptyBoundaryLedgerPolicy\_visible\_carrier}
+\begin{proof}
+Unpack the ledger into raw carrier evidence and the raw-visible
+\(\hsame\) link. The empty-boundary carrier transport theorem carries the raw
+carrier evidence across that link to the visible endpoint.
+\end{proof}
+
 \begin{theorem}[Interval empty boundary carrier uniqueness]
 \label{thm:interval-empty-boundary-carrier-uniqueness}
 For the interval carrier whose lower boundary is \(\hsame(\emp,-)\) and whose

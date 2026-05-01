@@ -128,6 +128,18 @@ singleton head, or tail membership, which is impossible for \(\Bnil\).
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.inBundle\_length\_one\_singleton}
 
+\begin{theorem}[Probe bundle length-one membership uniqueness]
+\label{thm:bundle-length-one-membership-unique}
+If a generated probe bundle has length one and contains probes \(\pi\) and
+\(\rho\), then \(\pi=\rho\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Bundle.inBundle\_length\_one\_unique}
+\begin{proof}
+Apply the length-one member singleton theorem to each membership witness. Both
+identify the same bundle as a singleton, so constructor injectivity identifies
+the two singleton heads.
+\end{proof}
+
 \begin{theorem}[Probe bundle successor length cons decomposition]
 \label{thm:bundle-length-succ-iff-cons}
 A generated probe bundle has successor length exactly when it is a cons whose

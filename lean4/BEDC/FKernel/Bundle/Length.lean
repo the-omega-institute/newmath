@@ -59,6 +59,18 @@ theorem inBundle_length_one_singleton {PName : Type} {p : PName}
           cases tailNil
           cases tailMember
 
+theorem inBundle_length_one_unique {PName : Type} {p q : PName}
+    {bundle : ProbeBundle PName} :
+    InBundle p bundle -> InBundle q bundle -> bundleLength bundle = Nat.succ 0 ->
+      p = q := by
+  intro pMember qMember lengthOne
+  have pSingleton : bundle = ProbeBundle.Bcons p ProbeBundle.Bnil :=
+    inBundle_length_one_singleton pMember lengthOne
+  have qSingleton : bundle = ProbeBundle.Bcons q ProbeBundle.Bnil :=
+    inBundle_length_one_singleton qMember lengthOne
+  cases pSingleton
+  exact (ProbeBundle.Bcons.inj qSingleton).left
+
 theorem bundleLength_eq_succ_iff_cons {PName : Type} {bundle : ProbeBundle PName} {n : Nat} :
     bundleLength bundle = Nat.succ n ↔
       ∃ p : PName, ∃ tail : ProbeBundle PName,

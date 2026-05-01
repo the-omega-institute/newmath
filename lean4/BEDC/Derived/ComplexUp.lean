@@ -37,6 +37,17 @@ theorem ComplexHistoryLedgerPolicy_visible_carrier {raw visible : BHist} :
                             (And.intro rightCarrier
                               (cont_result_hsame_transport cont sameRawVisible))))
 
+theorem ComplexHistoryLedgerPolicy_raw_visible_classifier {raw visible : BHist} :
+    ComplexHistoryLedgerPolicy raw visible -> ComplexHistoryClassifier raw visible := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      exact And.intro rawCarrier
+        (And.intro
+          (ComplexHistoryLedgerPolicy_visible_carrier
+            (And.intro rawCarrier sameRawVisible))
+          sameRawVisible)
+
 theorem ComplexHistoryClassifier_trans {h k r : BHist} :
     ComplexHistoryClassifier h k -> ComplexHistoryClassifier k r ->
       ComplexHistoryClassifier h r := by
