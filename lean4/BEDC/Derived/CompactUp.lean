@@ -62,6 +62,22 @@ theorem CompactFiniteRefinementChain_transitivity
   | step prior extraCarrier finiteRel compactRel ih =>
       exact CompactFiniteRefinementChain.step ih extraCarrier finiteRel compactRel
 
+theorem CompactFiniteRefinementChain_final_endpoints_unary
+    {finite compact finalFinite finalCompact : BHist} :
+    CompactFiniteRefinementChain finite compact finalFinite finalCompact →
+      UnaryHistory finite → UnaryHistory compact →
+        UnaryHistory finalFinite ∧ UnaryHistory finalCompact := by
+  intro chain finiteCarrier compactCarrier
+  induction chain with
+  | base =>
+      exact And.intro finiteCarrier compactCarrier
+  | step prior extraCarrier finiteRel compactRel ih =>
+      cases ih with
+      | intro currentFiniteCarrier currentCompactCarrier =>
+          exact And.intro
+            (unary_cont_closed currentFiniteCarrier extraCarrier finiteRel)
+            (unary_cont_closed currentCompactCarrier extraCarrier compactRel)
+
 theorem CompactWitnessCarrier_finite_refinement_chain_closed
     {subset located finite intermediate compact finalFinite finalCompact : BHist} :
     CompactWitnessCarrier subset located finite intermediate compact ->
@@ -157,6 +173,28 @@ theorem CompactLocatedRefinementChain_transitivity
       exact first
   | step prior extraCarrier locatedRel intermediateRel compactRel ih =>
       exact CompactLocatedRefinementChain.step ih extraCarrier locatedRel intermediateRel compactRel
+
+theorem CompactLocatedRefinementChain_final_endpoints_unary
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :
+    CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
+        finalCompact →
+      UnaryHistory finite → UnaryHistory located → UnaryHistory intermediate → UnaryHistory compact →
+        UnaryHistory finalLocated ∧ UnaryHistory finalIntermediate ∧ UnaryHistory finalCompact := by
+  intro chain finiteCarrier locatedCarrier intermediateCarrier compactCarrier
+  induction chain with
+  | base =>
+      exact And.intro locatedCarrier (And.intro intermediateCarrier compactCarrier)
+  | step prior extraCarrier locatedRel intermediateRel compactRel ih =>
+      cases ih with
+      | intro currentLocatedCarrier rest =>
+          cases rest with
+          | intro currentIntermediateCarrier _currentCompactCarrier =>
+              have nextIntermediateCarrier :=
+                unary_cont_closed currentIntermediateCarrier extraCarrier intermediateRel
+              exact And.intro
+                (unary_cont_closed currentLocatedCarrier extraCarrier locatedRel)
+                (And.intro nextIntermediateCarrier
+                  (unary_cont_closed nextIntermediateCarrier finiteCarrier compactRel))
 
 theorem CompactWitnessCarrier_located_refinement_chain_closed
     {subset finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :

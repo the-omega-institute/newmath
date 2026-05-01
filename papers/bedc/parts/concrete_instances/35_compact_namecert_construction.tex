@@ -87,6 +87,35 @@ case.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_transitivity}
 
+\begin{theorem}[Compact finite refinement chain final endpoints unary]
+\label{thm:compact-finite-refinement-chain-final-endpoints-unary}
+If
+
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact),
+$$
+
+and the starting finite-net and compactness ledgers are unary histories, then
+the final finite-net and compactness ledgers are unary histories:
+
+$$
+\mathsf{UnaryHistory}(finite)\land\mathsf{UnaryHistory}(compact)
+\Longrightarrow
+\mathsf{UnaryHistory}(finalFinite)\land
+\mathsf{UnaryHistory}(finalCompact).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the compact finite refinement chain. In the base case, the final
+endpoints are the starting endpoints, so the supplied unary-history witnesses
+are the desired witnesses. In the step case, the induction hypothesis gives
+unary-history witnesses for the prior finite-net and compactness ledgers. The
+step constructor supplies a unary refinement history and two continuation
+witnesses. Closure of unary histories under continuation gives unary histories
+for both final ledgers.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_final\_endpoints\_unary}
+
 \begin{theorem}[Compact witness carrier finite refinement chain closure]
 \label{thm:compact-witness-carrier-finite-refinement-chain-closed}
 If
@@ -246,6 +275,41 @@ chain from $(located,intermediate,compact)$ to $(l',i',c')$, which is the final
 triple in the step case.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_transitivity}
+
+\begin{theorem}[Compact located refinement chain final endpoints unary]
+\label{thm:compact-located-refinement-chain-final-endpoints-unary}
+If
+
+$$
+\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,finalLocated,finalIntermediate,finalCompact),
+$$
+
+and the fixed finite-net ledger plus the starting locatedness, intermediate,
+and compactness ledgers are unary histories, then the final locatedness,
+intermediate, and compactness ledgers are unary histories:
+
+$$
+\mathsf{UnaryHistory}(finite)\land
+\mathsf{UnaryHistory}(located)\land
+\mathsf{UnaryHistory}(intermediate)\land
+\mathsf{UnaryHistory}(compact)
+\Longrightarrow
+\mathsf{UnaryHistory}(finalLocated)\land
+\mathsf{UnaryHistory}(finalIntermediate)\land
+\mathsf{UnaryHistory}(finalCompact).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the compact located refinement chain. In the base case, the final
+endpoints are the starting locatedness, intermediate, and compactness ledgers.
+In the step case, the induction hypothesis gives unary-history witnesses for
+the prior locatedness and intermediate ledgers. The step constructor supplies a
+unary refinement history and continuation witnesses for the next locatedness
+and intermediate ledgers, so continuation closure gives unary histories for
+those two ledgers. The fixed finite-net unary-history witness and the final
+continuation witness then give the final compactness unary-history witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_final\_endpoints\_unary}
 
 \begin{theorem}[Compact witness carrier located refinement chain closure]
 \label{thm:compact-witness-carrier-located-refinement-chain-closed}
