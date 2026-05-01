@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v1.6 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v1.7 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Round P<ROUND_NUM>
 
@@ -55,6 +55,19 @@ Allowed split pattern:
 - After splitting, every touched `.tex` file must be ≤ 800 lines.
 
 If the target includes a line-cap split, perform the split before applying any new theorem/prose content, then apply the content in the appropriate child file. If the target is only a split with no substantive theorem/definition/proof/certificate change, it is INVALID; skip the round rather than committing file movement.
+
+## Step 0.5: File-size pre-check (HARD GATE)
+
+For each `target.paper_files[0]`, run `wc -l <file>`. If any value is ≥780 AND the target's `proposed_change` does not begin with a content split, ABORT this round entirely:
+
+```bash
+git restore --staged papers/bedc/ 2>/dev/null
+git checkout -- papers/bedc/ 2>/dev/null
+```
+
+Then exit with a clear log line so the gate marks the round failed without spending PDF/audit budget. The next dispatched round will pick a different target. The 800-line hard cap is enforced by the verify gate — do NOT try to cram a theorem into a 780-line file and rely on hyphenation-fix luck.
+
+If the target's `proposed_change` IS a split (move existing content into child files in the same theme subdirectory and replace the parent with `\input` lines), proceed and the new theorem/definition content lands in a child file that starts well under 800 lines.
 
 ## Step 1: Apply each target
 For each target in the list above:
@@ -154,12 +167,12 @@ If the diff only re-indents existing lines or only adds new `\leanvariant` marke
 git add papers/bedc lean4/BEDC
 git commit -m "P<ROUND_NUM>: [brief description of what was revised]
 
-prompts: v1.6
+prompts: v1.7
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v1.6` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+The `prompts: v1.7` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
 
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 
