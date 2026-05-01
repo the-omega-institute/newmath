@@ -83,9 +83,14 @@ def _completed_summary() -> str:
     return summary
 
 
+def _safe(text: str) -> str:
+    return (text or "").replace("{", "{{").replace("}", "}}")
+
+
 def _run_codex_pass(template_path: Path, log_tag: str, **format_kwargs) -> tuple[bool, list[dict], str]:
     template = template_path.read_text(encoding="utf-8")
-    prompt = template.format(**format_kwargs)
+    safe_kwargs = {k: _safe(v) if isinstance(v, str) else v for k, v in format_kwargs.items()}
+    prompt = template.format(**safe_kwargs)
     result = codex_orchestrator.codex_exec(prompt, timeout=PROBE_TIMEOUT, log_tag=log_tag)
     if not result.ok:
         return (False, [], result.error or f"codex rc={result.rc}")
@@ -104,9 +109,9 @@ def _run_claude_review(candidates: list[dict], log_tag: str) -> tuple[bool, list
         return (True, [], [], "")
     template = (PROMPTS_DIR / "auto_discovery_review.txt").read_text(encoding="utf-8")
     prompt = template.format(
-        repo_root=str(REPO_ROOT),
-        board_content=_board_text(),
-        candidates_json=json.dumps({"candidates": candidates}, ensure_ascii=False, indent=2),
+        repo_root=_safe(str(REPO_ROOT)),
+        board_content=_safe(_board_text()),
+        candidates_json=_safe(json.dumps({"candidates": candidates}, ensure_ascii=False, indent=2)),
     )
     ok, stdout, rc = killo_golden_writeback.claude_exec(prompt, timeout=REVIEW_TIMEOUT, log_tag=log_tag)
     if not ok:

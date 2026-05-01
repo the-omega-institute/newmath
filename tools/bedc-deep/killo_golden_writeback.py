@@ -176,13 +176,15 @@ def writeback(
     suggested_target_tex: str,
 ) -> WritebackResult:
     template = (PROMPTS_DIR / "killo_golden_writeback.txt").read_text(encoding="utf-8")
+    def _safe(s: str) -> str:
+        return (s or "").replace("{", "{{").replace("}", "}}")
     prompt = template.format(
-        target_id=target_id,
-        target_title=target_title,
-        transcript_dir=str(transcript_dir),
-        raw_latex_path=str(raw_latex_path),
-        target_tex_file=suggested_target_tex,
-        repo_root=str(REPO_ROOT),
+        target_id=_safe(target_id),
+        target_title=_safe(target_title),
+        transcript_dir=_safe(str(transcript_dir)),
+        raw_latex_path=_safe(str(raw_latex_path)),
+        target_tex_file=_safe(suggested_target_tex),
+        repo_root=_safe(str(REPO_ROOT)),
     )
     ok, stdout, rc = claude_exec(prompt, log_tag=f"writeback_{target_id}")
     if not ok:

@@ -59,6 +59,11 @@ def _truncate(text: str, limit: int) -> str:
     return text[: limit - 3].rstrip() + "..."
 
 
+def _safe(text: str) -> str:
+    """Escape braces so str.format() never interprets user data as a placeholder."""
+    return (text or "").replace("{", "{{").replace("}", "}}")
+
+
 def _strip_jsonl_to_text(stdout: str) -> str:
     """Best-effort: extract assistant output from codex --json stdout."""
     parts: list[str] = []
@@ -209,12 +214,12 @@ def orchestrate_turn(
     template = (PROMPTS_DIR / "codex_orchestrator.txt").read_text(encoding="utf-8")
     paper_context = _read_paper_tail(target_tex_file) if target_tex_file else "(none)"
     prompt = template.format(
-        target_id=target_id,
-        target_title=target_title,
-        target_context=target_context,
-        history_summary=_format_history(history_turns),
-        last_response=last_response,
-        paper_context=paper_context,
+        target_id=_safe(target_id),
+        target_title=_safe(target_title),
+        target_context=_safe(target_context),
+        history_summary=_safe(_format_history(history_turns)),
+        last_response=_safe(last_response),
+        paper_context=_safe(paper_context),
     )
     return codex_exec(prompt, log_tag=f"orchestrate_{target_id}")
 
@@ -229,10 +234,10 @@ def discover_topics(
     """Ask codex for adjacent topic candidates. Returns CodexResult with parsed payload."""
     template = (PROMPTS_DIR / "topic_discovery.txt").read_text(encoding="utf-8")
     prompt = template.format(
-        target_id=target_id,
-        target_title=target_title,
-        full_transcript=full_transcript,
-        board_content=board_content,
+        target_id=_safe(target_id),
+        target_title=_safe(target_title),
+        full_transcript=_safe(full_transcript),
+        board_content=_safe(board_content),
     )
     return codex_exec(prompt, log_tag=f"discover_{target_id}", timeout=900)
 
