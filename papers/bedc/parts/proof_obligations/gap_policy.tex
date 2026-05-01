@@ -4,78 +4,104 @@
 \section{Consolidated Signature Gap Policy}
 \label{sec:po-gap-policy-abstract}
 
-This chapter restates the concrete signature gap using the two policies introduced above and records the exact assumptions needed for coverage, separation, soundness, and completeness.
+This chapter restates the concrete signature gap and records the exact assumptions needed for coverage, separation, soundness, and completeness.
 
 \begin{definition}[Policy-supported signature gap]
 \label{def:policy-supported-signature-gap}
-Given \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\), define
-\[
+For a probe bundle $\Pi$, source domain $D$, package $p$, and history $h$, define
+$$
   \InGapSig(\Pi,D,p,h)
-\]
+$$
 when there exist an answer history \(s\) and an evidence ledger \(\Delta\) such that
-\[
+$$
   \InDom(D,h),
   \qquad
   \Sig(\Pi,h,s,\Delta),
   \qquad
   \TokIntro(\Pi,s,p).
-\]
+$$
 \end{definition}
+\leandef{BEDC.FKernel.Gap.InGapSig}
+\leandef{BEDC.FKernel.Gap.PolicySupportedSignatureGap}
 \leanchecked{BEDC.FKernel.Gap.inGapSig\_witness\_pair}
+\leanvariant{BEDC.FKernel.Gap.PolicySupportedSignatureGap\_iff\_InGapSig}
+\leanvariant{BEDC.FKernel.Gap.PolicySupportedSignatureGap\_domain\_witness}
+\leanvariant{BEDC.FKernel.Gap.PolicySupportedSignatureGap\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.PolicySupportedSignatureGap\_domain\_transport\_with\_signature}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_witness\_pair\_iff}
+\leanvariant{BEDC.FKernel.Gap.policy\_supported\_signature\_gap\_iff\_witness\_pair}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_intro\_from\_witness\_pair}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_domain\_token\_witness}
 
 \begin{theorem}[Policy-supported gap coverage]
 \label{thm:gap-coverage-policy}
-Assume \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\). If
-\[
+Assume $\AskPol(\Pi,D)$ and
+$$
+  \forall s,\;\exists p,\;\TokIntro(\Pi,s,p).
+$$
+If
+$$
   \InDom(D,h),
-\]
+$$
 then there exists a token \(p\) such that
-\[
+$$
   \InGapSig(\Pi,D,p,h).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.policy\_gap\_coverage}
+\leanvariant{BEDC.FKernel.Gap.gap\_coverage\_policy}
 
 \begin{proof}
-From \(\AskPol(\Pi,D)\) and \(\InDom(D,h)\), obtain a generated signature event \(\Sig(\Pi,h,s,\Delta)\). From token existence in \(\PkgTokPol(\Pi)\), obtain \(p\) with \(\TokIntro(\Pi,s,p)\). These data witness \(\InGapSig(\Pi,D,p,h)\).
+From $\AskPol(\Pi,D)$ and $\InDom(D,h)$, obtain a generated signature event $\Sig(\Pi,h,s,\Delta)$. From the explicit token-existence premise, obtain $p$ with $\TokIntro(\Pi,s,p)$. These data witness $\InGapSig(\Pi,D,p,h)$.
 \end{proof}
 
 \begin{theorem}[Policy-supported gap separation]
 \label{thm:gap-separation-policy}
-Assume \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\). If
-\[
+Assume $\AskPol(\Pi,D)$ and $\PkgTokPol(\Pi)$. If
+$$
   \InGapSig(\Pi,D,p,h)
   \quad\text{and}\quad
   \InGapSig(\Pi,D,q,h),
-\]
+$$
 then
-\[
+$$
   \psame(p,q).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.policy\_gap\_separation}
+\leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_with\_domain\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_signature\_hsame}
+\leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_pair}
+\leanvariant{BEDC.FKernel.Gap.gap\_separation\_policy}
+\leanvariant{BEDC.FKernel.Gap.gapPolicy\_separation\_field}
+\leanvariant{BEDC.FKernel.Gap.gapPolicy\_separation\_packed}
+\leanvariant{BEDC.FKernel.Gap.policy\_gap\_separation\_signature\_token\_witnesses}
 
 \begin{proof}
-Unpack both gap memberships. We obtain signatures \(s,t\) and evidence ledgers \(\Delta,\Theta\) such that
-\[
+Unpack both gap memberships. We obtain the admitted-source witness $\InDom(D,h)$, signatures $s,t$, and evidence ledgers $\Delta,\Theta$ such that
+$$
   \Sig(\Pi,h,s,\Delta),\qquad \TokIntro(\Pi,s,p),
-\]
-\[
+$$
+$$
   \Sig(\Pi,h,t,\Theta),\qquad \TokIntro(\Pi,t,q).
-\]
-By signature determinacy supplied through \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). By package soundness in \(\PkgTokPol(\Pi)\), \(\psame(p,q)\).
+$$
+Theorem~\ref{thm:signature-determinacy-under-asking-policy}, applied to $\AskPol(\Pi,D)$, the admitted-source witness, and the two generated signatures, gives $\hsame(s,t)$. Package soundness in $\PkgTokPol(\Pi)$ then gives $\psame(p,q)$.
 \end{proof}
 
-\begin{theorem}[Policy-supported concrete Globalize exactness]
+\begin{theorem}[Token-level Globalize exactness]
 \label{thm:globalize-exact}
-Under \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\), two introduced visible tokens are package-same exactly when their generating signatures are internally same.
+Assume $\PkgTokPol(\Pi)$, $\TokIntro(\Pi,s,p)$, and $\TokIntro(\Pi,t,q)$. Then $\psame(p,q)\Longleftrightarrow\hsame(s,t)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.policy\_globalize\_exact}
 
 \begin{proof}
-This is Theorem~\ref{thm:psame-iff-hsame}; the domain and asking policies are needed to ensure that the tokens arise from admitted histories with generated signatures.
+This is Theorem~\ref{thm:psame-iff-hsame}.
 \end{proof}
 
 \begin{corollary}[Active reading]
+\label{cor:active-reading}
 The concrete signature Globalize instance is presented only as a policy-supported construction. Its exactness depends on \(\DomainPolicy(D)\), \(\AskPol(\Pi,D)\), and \(\PkgTokPol(\Pi)\).
 \end{corollary}
+\leanchecked{BEDC.FKernel.Gap.active\_reading\_policy\_dependencies}
+\leanvariant{BEDC.FKernel.Gap.active\_reading\_policy\_dependency\_fields}

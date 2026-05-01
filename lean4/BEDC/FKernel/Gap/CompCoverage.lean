@@ -1,0 +1,413 @@
+import BEDC.FKernel.Gap.Comp
+
+namespace BEDC.FKernel.Gap
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.FKernel.Ext
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
+
+variable [AskSetup] [PackageSetup] [G : DomainSetup]
+omit [AskSetup] [PackageSetup] in
+theorem composite_coverage {Mid Final : Type} {D : Domain}
+    {firstGap : Mid -> BHist -> Prop} {secondGap : Final -> Mid -> Prop}
+    (firstCoverage : forall {h : BHist}, InDom D h -> exists y : Mid, firstGap y h)
+    (secondCoverage :
+      forall {y : Mid},
+        (exists h : BHist, InDom D h ∧ firstGap y h) ->
+          exists z : Final, secondGap z y)
+    {h : BHist} :
+    InDom D h -> exists z : Final, exists y : Mid, firstGap y h ∧ secondGap z y := by
+  intro hIn
+  cases firstCoverage hIn with
+  | intro y hy =>
+      have ySource : exists h0 : BHist, InDom D h0 ∧ firstGap y h0 :=
+        Exists.intro h (And.intro hIn hy)
+      cases secondCoverage ySource with
+      | intro z hz =>
+          exact Exists.intro z (Exists.intro y (And.intro hy hz))
+
+theorem compGap_coverage_from_layers
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop} {InterOk : Inter -> Prop}
+    {CGap : Inter -> Source -> Prop} {DGap : Final -> Inter -> Prop}
+    (cCoverage :
+      forall {h : Source}, SourceOk h -> exists y : Inter, And (CGap y h) (InterOk y))
+    (dCoverage : forall {y : Inter}, InterOk y -> exists z : Final, DGap z y)
+    {h : Source} :
+    SourceOk h -> exists z : Final, exists y : Inter, And (CGap y h) (DGap z y) := by
+  intro sourceOk
+  cases cCoverage sourceOk with
+  | intro y cData =>
+      cases cData with
+      | intro cGap interOk =>
+          cases dCoverage interOk with
+          | intro z dGap =>
+              exact Exists.intro z (Exists.intro y (And.intro cGap dGap))
+
+theorem compGap_coverage_exact
+    {Source Inter Final : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall x : Source, exists y : Inter, firstGap y x)
+    (secondCoverage : forall y : Inter, exists z : Final, secondGap z y)
+    (x : Source) :
+    exists z : Final, CompGap firstGap secondGap z x := by
+  cases firstCoverage x with
+  | intro y firstWitness =>
+      cases secondCoverage y with
+      | intro z secondWitness =>
+          exact Exists.intro z
+            (Exists.intro y (And.intro firstWitness secondWitness))
+
+omit [AskSetup] [PackageSetup] G in
+theorem proof_spine_composite_gap_coverage
+    {Source Inter Final : Type}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall x : Source, exists y : Inter, firstGap y x)
+    (secondCoverage : forall y : Inter, exists z : Final, secondGap z y)
+    {x : Source} :
+    exists z : Final, CompGap firstGap secondGap z x := by
+  cases firstCoverage x with
+  | intro y firstWitness =>
+      cases secondCoverage y with
+      | intro z secondWitness =>
+          exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
+
+theorem compGap_composite_coverage_witness
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, firstGap y x)
+    (secondCoverage :
+      forall {x : Source} {y : Inter},
+        SourceOk x -> firstGap y x -> exists z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x -> exists z : Final, CompGap firstGap secondGap z x := by
+  intro hx
+  cases firstCoverage hx with
+  | intro y hy =>
+      cases secondCoverage hx hy with
+      | intro z hz =>
+          exact Exists.intro z (compGap_intro (y := y) hy hz)
+
+omit [AskSetup] [PackageSetup] G in
+theorem composite_gap_coverage_spine
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, firstGap y x)
+    (secondCoverage :
+      forall {x : Source} {y : Inter},
+        SourceOk x -> firstGap y x -> exists z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x -> exists z : Final, CompGap firstGap secondGap z x := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstWitness =>
+      cases secondCoverage sourceOk firstWitness with
+      | intro z secondWitness =>
+          exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage_from_sourced_layers
+    {Source Inter Final : Type}
+    {SourceOk : Source → Prop}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    (firstCoverage : ∀ {x : Source}, SourceOk x → ∃ y : Inter, firstGap y x)
+    (secondCoverage :
+      ∀ {y : Inter},
+        (∃ x : Source, SourceOk x ∧ firstGap y x) → ∃ z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x → ∃ z : Final, CompGap firstGap secondGap z x := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstWitness =>
+      have sourced : ∃ x0 : Source, SourceOk x0 ∧ firstGap y x0 :=
+        Exists.intro x (And.intro sourceOk firstWitness)
+      cases secondCoverage sourced with
+      | intro z secondWitness =>
+          exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage_sourced_witness
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, firstGap y x)
+    (secondCoverage :
+      forall {y : Inter},
+        (exists x : Source, SourceOk x /\ firstGap y x) -> exists z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x ->
+      exists z : Final, exists y : Inter,
+        firstGap y x /\ secondGap z y /\
+          (exists x0 : Source, SourceOk x0 /\ firstGap y x0) := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstWitness =>
+      have sourced : exists x0 : Source, SourceOk x0 /\ firstGap y x0 :=
+        Exists.intro x (And.intro sourceOk firstWitness)
+      cases secondCoverage sourced with
+      | intro z secondWitness =>
+          exact Exists.intro z
+            (Exists.intro y
+              (And.intro firstWitness
+                (And.intro secondWitness sourced)))
+
+theorem compGap_witness_from_layers
+    {Source Inter Final : Type}
+    {SourceOk : Source → Prop} {InterOk : Inter → Prop}
+    {CGap : Inter → Source → Prop} {DGap : Final → Inter → Prop}
+    (cCoverage :
+      ∀ {x : Source}, SourceOk x → ∃ y : Inter, CGap y x ∧ InterOk y)
+    (dCoverage : ∀ {y : Inter}, InterOk y → ∃ z : Final, DGap z y)
+    {x : Source} :
+    SourceOk x → ∃ z : Final, CompGap CGap DGap z x := by
+  intro sourceOk
+  cases cCoverage sourceOk with
+  | intro y cData =>
+      cases cData with
+      | intro cGap interOk =>
+          cases dCoverage interOk with
+          | intro z dGap =>
+              exact Exists.intro z (Exists.intro y (And.intro cGap dGap))
+
+theorem compGap_coverage_with_intermediate
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop} {InterOk : Inter -> Prop}
+    {CGap : Inter -> Source -> Prop} {DGap : Final -> Inter -> Prop}
+    (cCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, CGap y x /\ InterOk y)
+    (dCoverage : forall {y : Inter}, InterOk y -> exists z : Final, DGap z y)
+    {x : Source} :
+    SourceOk x -> exists y : Inter, CGap y x /\ exists z : Final, CompGap CGap DGap z x := by
+  intro sourceOk
+  cases cCoverage sourceOk with
+  | intro y cData =>
+      cases cData with
+      | intro cGap interOk =>
+          cases dCoverage interOk with
+          | intro z dGap =>
+              exact Exists.intro y
+                (And.intro cGap
+                  (Exists.intro z
+                    (Exists.intro y (And.intro cGap dGap))))
+
+theorem compGap_coverage_intermediate_and_final
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop}
+    {CGap : Inter -> Source -> Prop} {DGap : Final -> Inter -> Prop}
+    (cCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, CGap y x)
+    (dCoverage : forall {y : Inter}, exists z : Final, DGap z y)
+    {x : Source} :
+    SourceOk x -> Exists (fun y : Inter => And (CGap y x)
+      (Exists (fun z : Final => CompGap CGap DGap z x))) := by
+  intro sourceOk
+  cases cCoverage sourceOk with
+  | intro y cGap =>
+      cases dCoverage (y := y) with
+      | intro z dGap =>
+          exact Exists.intro y
+            (And.intro cGap
+              (Exists.intro z
+                (Exists.intro y (And.intro cGap dGap))))
+
+theorem compGap_coverage_with_intermediate_ok
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop} {InterOk : Inter -> Prop}
+    {CGap : Inter -> Source -> Prop} {DGap : Final -> Inter -> Prop}
+    (cCoverage :
+      forall {x : Source}, SourceOk x -> exists y : Inter, CGap y x /\ InterOk y)
+    (dCoverage : forall {y : Inter}, InterOk y -> exists z : Final, DGap z y)
+    {x : Source} :
+    SourceOk x ->
+      exists y : Inter,
+        CGap y x /\ InterOk y /\ exists z : Final, CompGap CGap DGap z x := by
+  intro sourceOk
+  cases cCoverage sourceOk with
+  | intro y cData =>
+      cases cData with
+      | intro cGap interOk =>
+          cases dCoverage interOk with
+          | intro z dGap =>
+              exact Exists.intro y
+                (And.intro cGap
+                  (And.intro interOk
+                    (Exists.intro z
+                      (Exists.intro y (And.intro cGap dGap)))))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage_with_source_and_intermediate
+    {Source Inter Final : Type}
+    {SourceOk : Source → Prop} {InterOk : Inter → Prop}
+    {firstGap : Inter → Source → Prop} {secondGap : Final → Inter → Prop}
+    (firstCoverage :
+      ∀ {x : Source}, SourceOk x → ∃ y : Inter, firstGap y x ∧ InterOk y)
+    (secondCoverage : ∀ {y : Inter}, InterOk y → ∃ z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x →
+      ∃ z : Final, ∃ y : Inter,
+        firstGap y x ∧ InterOk y ∧ secondGap z y ∧
+          CompGap firstGap secondGap z x := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstData =>
+      cases firstData with
+      | intro firstWitness interOk =>
+          cases secondCoverage interOk with
+          | intro z secondWitness =>
+              exact Exists.intro z
+                (Exists.intro y
+                  (And.intro firstWitness
+                    (And.intro interOk
+                      (And.intro secondWitness
+                        (Exists.intro y
+                          (And.intro firstWitness secondWitness))))))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_exactness_from_layers_on_histories
+    {Inter Final : Type}
+    {SourceOk : BHist -> Prop} {InterOk : Inter -> Prop}
+    {firstGap : Inter -> BHist -> Prop} {secondGap : Final -> Inter -> Prop}
+    {interSame : Inter -> Inter -> Prop} {finalSame : Final -> Final -> Prop}
+    (firstCoverage :
+      forall {h : BHist}, SourceOk h -> exists y : Inter, firstGap y h ∧ InterOk y)
+    (secondCoverage : forall {y : Inter}, InterOk y -> exists z : Final, secondGap z y)
+    (firstSeparation :
+      forall {h : BHist} {y1 y2 : Inter},
+        SourceOk h -> firstGap y1 h -> firstGap y2 h -> interSame y1 y2)
+    (secondSeparation :
+      forall {z1 z2 : Final} {y1 y2 : Inter},
+        interSame y1 y2 -> secondGap z1 y1 -> secondGap z2 y2 -> finalSame z1 z2) :
+    (forall {h : BHist}, SourceOk h -> exists z : Final, CompGap firstGap secondGap z h) ∧
+      (forall {h : BHist} {z1 z2 : Final},
+        SourceOk h -> CompGap firstGap secondGap z1 h ->
+          CompGap firstGap secondGap z2 h -> finalSame z1 z2) := by
+  constructor
+  · intro h sourceOk
+    cases firstCoverage sourceOk with
+    | intro y firstData =>
+        cases firstData with
+        | intro firstWitness interOk =>
+            cases secondCoverage interOk with
+            | intro z secondWitness =>
+                exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
+  · intro h z1 z2 sourceOk left right
+    cases left with
+    | intro y1 leftData =>
+        cases right with
+        | intro y2 rightData =>
+            cases leftData with
+            | intro firstLeft secondLeft =>
+                cases rightData with
+                | intro firstRight secondRight =>
+                    exact secondSeparation
+                      (firstSeparation sourceOk firstLeft firstRight) secondLeft secondRight
+
+omit [AskSetup] [PackageSetup] G in
+theorem hardening_composite_coverage
+    {Source Inter Final : Type}
+    {SourceOk : Source -> Prop}
+    {firstGap : Inter -> Source -> Prop}
+    {secondGap : Final -> Inter -> Prop}
+    (firstCoverage : forall {x : Source}, SourceOk x -> exists y : Inter, firstGap y x)
+    (secondCoverage :
+      forall {x : Source} {y : Inter},
+        SourceOk x -> firstGap y x -> exists z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x -> exists z : Final, CompGap firstGap secondGap z x := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstWitness =>
+      cases secondCoverage sourceOk firstWitness with
+      | intro z secondWitness =>
+          exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage
+    {Source Inter Final : Type}
+    {SourceOk : Source → Prop}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    (firstCoverage : ∀ {x : Source}, SourceOk x → ∃ y : Inter, firstGap y x)
+    (secondCoverage :
+      ∀ {x : Source} {y : Inter},
+        SourceOk x → firstGap y x → ∃ z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x → ∃ z : Final, CompGap firstGap secondGap z x := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstWitness =>
+      cases secondCoverage sourceOk firstWitness with
+      | intro z secondWitness =>
+          exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_coverage_final_witness_pair
+    {Source Inter Final : Type}
+    {SourceOk : Source → Prop}
+    {firstGap : Inter → Source → Prop}
+    {secondGap : Final → Inter → Prop}
+    (firstCoverage : ∀ {x : Source}, SourceOk x → ∃ y : Inter, firstGap y x)
+    (secondCoverage : ∀ {y : Inter}, ∃ z : Final, secondGap z y)
+    {x : Source} :
+    SourceOk x →
+      ∃ z : Final,
+        (∃ y : Inter, firstGap y x ∧ secondGap z y) ∧
+          CompGap firstGap secondGap z x := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstWitness =>
+      cases secondCoverage (y := y) with
+      | intro z secondWitness =>
+          exact Exists.intro z
+            (And.intro
+              (Exists.intro y (And.intro firstWitness secondWitness))
+              (Exists.intro y (And.intro firstWitness secondWitness)))
+
+omit [AskSetup] [PackageSetup] G in
+theorem compGap_representative_for_admitted_source
+    {Inter Final : Type}
+    {SourceOk : BHist → Prop} {InterOk : Inter → Prop}
+    {firstGap : Inter → BHist → Prop} {secondGap : Final → Inter → Prop}
+    {interSame : Inter → Inter → Prop} {finalSame : Final → Final → Prop}
+    (firstCoverage :
+      ∀ {h : BHist}, SourceOk h → ∃ y : Inter, firstGap y h ∧ InterOk y)
+    (secondCoverage : ∀ {y : Inter}, InterOk y → ∃ z : Final, secondGap z y)
+    (firstSeparation :
+      ∀ {h : BHist} {y1 y2 : Inter},
+        SourceOk h → firstGap y1 h → firstGap y2 h → interSame y1 y2)
+    (secondSeparation :
+      ∀ {z1 z2 : Final} {y1 y2 : Inter},
+        interSame y1 y2 → secondGap z1 y1 → secondGap z2 y2 → finalSame z1 z2)
+    {h : BHist} :
+    SourceOk h →
+      ∃ z : Final, CompGap firstGap secondGap z h ∧
+        ∀ z' : Final, CompGap firstGap secondGap z' h → finalSame z z' := by
+  intro sourceOk
+  cases firstCoverage sourceOk with
+  | intro y firstData =>
+      cases firstData with
+      | intro firstWitness interOk =>
+          cases secondCoverage interOk with
+          | intro z secondWitness =>
+              exact Exists.intro z
+                (And.intro
+                  (Exists.intro y (And.intro firstWitness secondWitness))
+                  (fun z' competing =>
+                    match competing with
+                    | Exists.intro y' competingData =>
+                        match competingData with
+                        | And.intro firstCompeting secondCompeting =>
+                            secondSeparation
+                              (firstSeparation sourceOk firstWitness firstCompeting)
+                              secondWitness secondCompeting))
+end BEDC.FKernel.Gap

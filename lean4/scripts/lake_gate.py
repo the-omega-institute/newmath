@@ -81,6 +81,7 @@ WAIT_TIMEOUT = max(60.0, _env_float("LAKE_GATE_WAIT_TIMEOUT", 14400.0))
 MEM_GUARD = _env_bool("LAKE_GATE_MEM_GUARD", sys.platform == "darwin")
 MEM_THRESHOLD = max(2, _env_int("LAKE_GATE_MEM_THRESHOLD", 2))
 VERBOSE = _env_bool("LAKE_GATE_VERBOSE", True)
+LEAN_FILE_LINE_CAP = max(1, _env_int("LAKE_GATE_LEAN_FILE_LINE_CAP", 800))
 
 
 def _log(msg: str) -> None:
@@ -185,7 +186,41 @@ def _release_slot(fd: int, slot: Path) -> None:
     _log(f"released {slot.name}")
 
 
+def _check_lean_file_sizes() -> int:
+    violations: list[tuple[int, Path]] = []
+    bedc = LEAN_ROOT / "BEDC"
+    if not bedc.exists():
+        return 0
+    for path in sorted(bedc.rglob("*.lean")):
+        try:
+            line_count = len(path.read_text(encoding="utf-8").splitlines())
+        except OSError:
+            continue
+        if line_count > LEAN_FILE_LINE_CAP:
+            violations.append((line_count, path))
+    if not violations:
+        return 0
+    print(
+        f"lake_gate: Lean file size gate failed; {len(violations)} file(s) exceed "
+        f"{LEAN_FILE_LINE_CAP} lines.",
+        file=sys.stderr,
+    )
+    for line_count, path in violations[:20]:
+        rel = path.relative_to(REPO_ROOT)
+        print(f"lake_gate: {rel}: {line_count} lines", file=sys.stderr)
+    print(
+        "lake_gate: split oversized files into focused semantic submodules and keep "
+        "the original file as an import-only index.",
+        file=sys.stderr,
+    )
+    return 1
+
+
 def _exec_lake(forwarded: list[str]) -> int:
+    if forwarded and forwarded[0] == "build":
+        size_rc = _check_lean_file_sizes()
+        if size_rc != 0:
+            return size_rc
     lake = shutil.which("lake")
     if not lake:
         print("lake_gate: `lake` not found in PATH", file=sys.stderr)

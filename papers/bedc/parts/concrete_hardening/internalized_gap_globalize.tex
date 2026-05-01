@@ -4,90 +4,100 @@
 This chapter restates the concrete gap policy using \(\InDom\) and \(\TokIntro\). This removes the remaining set-membership notation from the concrete instance.
 
 \begin{definition}[Internalized signature gap]
+\label{def:internalized-signature-gap}
 Given a source domain name \(D\), a bundle \(\Pi\), and a package token \(p\), define
-\[
+$$
   \InGapSig(\Pi,D,p,h)
-\]
+$$
 to mean that there exist an answer history \(s\) and an evidence ledger \(\Delta\) such that
-\[
+$$
   \InDom(D,h),
   \qquad
   \Sig(\Pi,h,s,\Delta),
   \qquad
   \TokIntro(\Pi,s,p).
-\]
+$$
 \end{definition}
+\leanchecked{BEDC.FKernel.Gap.internalized\_signature\_gap\_iff}
+\leanvariant{BEDC.FKernel.Gap.policySupportedSignatureGap\_token\_witness}
 
 \begin{definition}[Internalized concrete Globalize instance]
+\label{def:internalized-concrete-globalize-instance}
 The internalized concrete signature globalization is the triple
-\[
+$$
   \GlobSig(\Pi,D)
   :=
   (\PkgSig,\psame,\InGapSig).
-\]
+$$
 It is the active concrete finite-kernel Globalize instance.
 \end{definition}
+\leandef{BEDC.FKernel.Gap.InternalizedConcreteGlobalizeInstance}
+\leanchecked{BEDC.FKernel.Gap.internalized\_concrete\_globalize\_instance}
 
 \begin{theorem}[Internalized gap coverage]
 \label{thm:gap-coverage-concrete}
-Assume \(\AskPol(\Pi,D)\) and assume that every generated signature has an introduced token. If \(\InDom(D,h)\), then there exists a token \(p\) such that
-\[
+Assume $\AskPol(\Pi,D)$ and the dependent generated-signature token condition: whenever $\InDom(D,h)$ and $\Sig(\Pi,h,s,\Delta)$, there exists a token $p$ with $\TokIntro(\Pi,s,p)$. If $\InDom(D,h)$, then there exists a token $p$ such that
+$$
   \InGapSig(\Pi,D,p,h).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.internalized\_gap\_coverage}
 
 \begin{proof}
-From \(\AskPol(\Pi,D)\), obtain a generated signature event
-\[
+From $\AskPol(\Pi,D)$ and $\InDom(D,h)$, obtain a generated signature event
+$$
   \Sig(\Pi,h,s,\Delta).
-\]
-By token existence, obtain \(p\) with \(\TokIntro(\Pi,s,p)\). These data witness \(\InGapSig(\Pi,D,p,h)\).
+$$
+By the dependent token condition, obtain $p$ with $\TokIntro(\Pi,s,p)$. These data witness $\InGapSig(\Pi,D,p,h)$.
 \end{proof}
 
 \begin{theorem}[Internalized gap separation]
 \label{thm:gap-separation-concrete}
-Assume \(\AskPol(\Pi,D)\), concrete token existence, and concrete package reflection. If
-\[
+Assume \(\AskPol(\Pi,D)\). If
+$$
   \InGapSig(\Pi,D,p,h)
   \quad\text{and}\quad
   \InGapSig(\Pi,D,q,h),
-\]
+$$
 then
-\[
+$$
   \psame(p,q).
-\]
+$$
 \end{theorem}
-\leanchecked{BEDC.FKernel.Gap.concrete\_gap\_separation}
-\leanvariant{BEDC.FKernel.Gap.internalized\_gap\_separation}
+\leanchecked{BEDC.FKernel.Gap.internalized\_gap\_separation}
+\leanvariant{BEDC.FKernel.Gap.concrete\_gap\_separation\_witnesses}
 \leanvariant{BEDC.FKernel.Gap.internalized\_gap\_separation\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.internalized\_gap\_separation\_packed}
+\leanvariant{BEDC.FKernel.Gap.gap\_separation\_concrete}
 
 \begin{proof}
 Unpack the two gap memberships. We obtain signatures \(s,t\) and evidence ledgers \(\Delta,\Theta\) such that
-\[
+$$
   \Sig(\Pi,h,s,\Delta),\qquad
   \TokIntro(\Pi,s,p),
-\]
-\[
+$$
+$$
   \Sig(\Pi,h,t,\Theta),\qquad
   \TokIntro(\Pi,t,q).
-\]
+$$
 By signature determinacy under \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). The concrete package-sameness introduction rule then yields \(\psame(p,q)\).
 \end{proof}
 
 \begin{theorem}[Same-source gap memberships share signatures]
 \label{thm:gap-memberships-share-signature}
 Assume \(\AskPol(\Pi,D)\). If
-\[
+$$
   \InGapSig(\Pi,D,p,h)
   \quad\text{and}\quad
   \InGapSig(\Pi,D,q,h),
-\]
+$$
 then there exist generated signatures \(s,t\) introducing \(p,q\) such that \(\hsame(s,t)\).
 \end{theorem}
-\leanchecked{BEDC.FKernel.Gap.inGapSig\_same\_source\_signature\_events\_same}
 \leanchecked{BEDC.FKernel.Gap.inGapSig\_same\_source\_package\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_same\_source\_full\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.inGapSig\_same\_source\_signature\_events\_same}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_same\_source\_sigRel\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.gap\_memberships\_share\_signature}
 
 \begin{proof}
 Unpack the two gap memberships. Signature determinacy for their shared source history gives \(\hsame(s,t)\), while the unpacked memberships provide the two token-introduction witnesses.
@@ -95,37 +105,96 @@ Unpack the two gap memberships. Signature determinacy for their shared source hi
 
 \begin{theorem}[Concrete Globalize soundness]
 \label{thm:internalized-globalize-soundness-intro}
-If histories have internally same generated signatures, then their concrete signature packages are package-same.
+If \(\Sig(\Pi,h,s,\Delta)\), \(\Sig(\Pi,k,t,\Theta)\), \(\TokIntro(\Pi,s,p)\), \(\TokIntro(\Pi,t,q)\), and \(\hsame(s,t)\), then \(\psame(p,q)\).
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.concrete\_globalize\_soundness\_intro}
 
 \begin{proof}
-Let signatures \(s,t\) be generated from the two histories and suppose \(\hsame(s,t)\). Introduce tokens \(p,q\) from \(s,t\). Package-sameness follows by the concrete package-sameness rule.
+Apply the concrete package-sameness constructor to the two token-introduction premises and the internal signature-sameness premise.
 \end{proof}
 
 \begin{theorem}[Concrete Globalize completeness]
 \label{thm:globalize-completeness}
-Assume concrete package reflection. If two histories generate package-same visible tokens in \(\GlobSig(\Pi,D)\), then their generated signatures are internally same.
+\label{thm:concrete-globalization-completeness-samesig}
+\label{thm:concrete-globalize-completeness}
+Assume $\PkgTokPol(\Pi)$. If
+$$
+  \InGapSig(\Pi,D,p,h),
+  \qquad
+  \InGapSig(\Pi,D,q,k),
+  \qquad
+  \psame(p,q),
+$$
+then there exist answer histories $s,t$ and evidence ledgers $\Delta,\Theta$ such that
+$$
+  \Sig(\Pi,h,s,\Delta),
+  \qquad
+  \Sig(\Pi,k,t,\Theta),
+  \qquad
+  \hsame(s,t).
+$$
 \end{theorem}
 
 \begin{proof}
-The histories generate signatures \(s,t\) and tokens \(p,q\). The hypothesis gives \(\psame(p,q)\). By Theorem~\ref{thm:package-reflection}, \(\hsame(s,t)\).
+The two gap premises provide generated signatures and token-introduction witnesses for $p$ and $q$. The package-token policy reflects $\psame(p,q)$ back to internal sameness of those generated signatures, giving the displayed witnesses.
 \end{proof}
 \leanchecked{BEDC.FKernel.Gap.concrete\_globalize\_completeness}
+\leanvariant{BEDC.FKernel.Gap.globalize\_completeness\_primary}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalization\_completeness\_samesig}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_completeness\_sameSig}
 \leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_completeness\_with\_tokens}
 \leanvariant{BEDC.FKernel.Gap.internalized\_globalize\_completeness\_concrete}
 \leanvariant{BEDC.FKernel.Gap.internalized\_globalize\_completeness\_with\_tokens}
 \leanvariant{BEDC.FKernel.Gap.internalized\_globalize\_completeness\_hsame\_only}
 \leanvariant{BEDC.FKernel.Gap.internalized\_globalize\_completeness}
 \leanvariant{BEDC.FKernel.Gap.internalized\_globalize\_completeness\_projection}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_completeness\_from\_package\_same}
+\leanvariant{BEDC.FKernel.Gap.globalize\_completeness\_from\_package\_reflection}
+\leanvariant{BEDC.FKernel.Gap.globalize\_completeness}
 
 \begin{corollary}[Concrete Globalize classifies exactly by signatures]
 \label{cor:concrete-globalize-classifies-by-signatures}
-For the internalized signature-token instance, visible package sameness is equivalent to internal sameness of generated answer histories.
+Assume $\AskPol(\Pi,D)$, $\PkgTokPol(\Pi)$,
+$$
+  \InGapSig(\Pi,D,p,h),
+  \qquad
+  \InGapSig(\Pi,D,q,k).
+$$
+Then visible package sameness and internal sameness of generated answer histories agree in both orientations:
+$$
+  \psame(p,q)
+  \Longleftrightarrow
+  \exists s,t,\Delta,\Theta.\;
+  \Sig(\Pi,h,s,\Delta)
+  \wedge
+  \Sig(\Pi,k,t,\Theta)
+  \wedge
+  \hsame(s,t).
+$$
+Symmetrically,
+$$
+  \psame(q,p)
+  \Longleftrightarrow
+  \exists t,s,\Theta,\Delta.\;
+  \Sig(\Pi,k,t,\Theta)
+  \wedge
+  \Sig(\Pi,h,s,\Delta)
+  \wedge
+  \hsame(t,s).
+$$
 \end{corollary}
 
 \begin{proof}
-Soundness is the introduction direction. Completeness is Theorem~\ref{thm:globalize-completeness}.
+The forward directions are Theorem~\ref{thm:concrete-globalize-completeness} applied to the two ordered pairs of gap memberships. The reverse direction for $\psame(p,q)$ is Theorem~\ref{thm:internalized-globalize-classifies-by-signatures} applied to the ordered memberships for $p$ and $q$. The reverse direction for $\psame(q,p)$ applies the same local classification theorem to the ordered memberships for $q$ and $p$. In both cases, the local theorem performs the transport from the displayed existential signatures to the token-introducing signatures carried by the two gap witnesses.
 \end{proof}
-\leanchecked{BEDC.FKernel.Gap.internalized\_globalize\_soundness}
+\leanchecked{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_symmetric\_package\_pair}
+\leanvariant{BEDC.FKernel.Gap.internalized\_globalize\_classifies\_iff}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_sameSig\_mp}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_sameSig\_mpr}
 \leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_by\_signatures}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_by\_signatures\_primary}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_sameSig}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_with\_token\_witnesses\_iff}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_token\_witness\_directions}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_sameSig\_directions}
+\leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_by\_signatures\_directions}

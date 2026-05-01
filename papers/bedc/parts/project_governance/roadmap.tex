@@ -1,0 +1,304 @@
+\chapter{Roadmap for Re-deriving Mature Mathematics}
+\label{ch:project-governance-roadmap}
+
+\section{Research thesis}
+\label{sec:roadmap-thesis}
+
+Given the BEDC finite kernel
+$$
+b_0,b_1
+\;\to\;
+\Hist
+\;\to\;
+\msame,\hsame
+\;\to\;
+\Ext,\Cont
+\;\to\;
+\Ask,\Sig
+\;\to\;
+\Pkg,\Gap
+\;\to\;
+\NameCert,
+$$
+the project re-derives mature mathematical objects $N$ as licensed naming certificates
+$$
+\NameCert(N)
+\;=\;
+(\SourceSpec_N, \PatternSpec_N, \ClassifierSpec_N, \StabilityCert_N, \LedgerPolicy_N).
+$$
+A mature object such as $\mathbb{N}$, $\mathbb{R}$, $S^1$, a metric space, or a category is admitted only as the stable interface of a generative behaviour, never as a primitive input.
+
+\section{Strength gradient}
+\label{sec:roadmap-strength-gradient}
+
+Every claim about a derived mature object falls into exactly one of four strengths, and lower strengths must not be reported as higher ones.
+$$
+\boxed{\text{naming seed} \;<\; \text{paper certificate} \;<\; \text{machine-checked certificate} \;<\; \text{conservative bridge to the standard model}.}
+$$
+
+\begin{description}
+  \item[\textbf{Naming seed}] A paper-side proposal that an object can be reached. Carrier and classifier are sketched, no obligations are checked.
+  \item[\textbf{Paper certificate}] All five $\NameCert$ fields are written down with prose proofs in the paper. No Lean target yet.
+  \item[\textbf{Machine-checked certificate}] $\NameCert$ fields and $\StabilityCert$ obligations are formalised under \texttt{lean4/BEDC/}, with each paper site holding a single canonical \texttt{\textbackslash leanchecked} marker.
+  \item[\textbf{Conservative bridge}] An auxiliary, external bidirectional translation between the BEDC certificate and the mature object as it exists in a standard reference (Bourbaki / mathlib / HoTT). The bridge is interpretive only and never replaces the internal proof obligation.
+\end{description}
+
+\section{Anti-primitive principle}
+\label{sec:roadmap-anti-primitive}
+
+Mature constructs are not BEDC primitives:
+$$
+\boxed{\text{equality, function, } \mathbb{N}, \text{ addition, limit, } \mathbb{R}, \text{ circle, fold, set, type — none are kernel inputs.}}
+$$
+They are admitted only as licensed names. Any host-level $\texttt{Nat}$, $\texttt{List}$, definitional equality, $\texttt{Quot.sound}$, $\texttt{Classical.choice}$, or $\texttt{propext}$ that leaks into the BEDC public surface is a contamination, not a derivation. The Lean discipline (mathlib-free, $0$ axiom, $0$ sorry, no $\texttt{Classical}$, no $\texttt{Quot}$, no $\texttt{propext}$) is the mechanical enforcement of this principle.
+
+\section{Layer index}
+\label{sec:roadmap-layer-index}
+
+The path from kernel to mature mathematics is layered. Every layer depends only on layers below it.
+
+\begin{description}
+  \item[\textbf{L0}] Marks: $b_0,b_1$.
+  \item[\textbf{L1}] Histories: $\Hist$, $\msame$, $\hsame$.
+  \item[\textbf{L2}] Generative dynamics: $\Ext$, $\Cont$.
+  \item[\textbf{L3}] Asking and signature: $\Ask$, $\Sig$, $\sameSig$.
+  \item[\textbf{L4}] Package relations and gaps: $\Pkg$, $\Gap$, $\ExactGlobalizeBase$.
+  \item[\textbf{L5}] Naming and stability: $\NameCert$, $\StabilityCert$, $\LedgerPolicy$.
+  \item[\textbf{L6}] Finite data: $\BoolUp$, $\OptionUp$, $\SumUp$, $\ProdUp$, $\ListUp$.
+  \item[\textbf{L7}] Arithmetic: $\NatUp$, $\AddUp$, $\MulUp$, $\OrderUp$, $\IntUp$, $\RatUp$.
+  \item[\textbf{L8}] Algebra: $\MonoidUp$, $\GroupUp$, $\AbGroupUp$, $\RingUp$, $\FieldUp$, $\ModuleUp$, $\VecSpaceUp$.
+  \item[\textbf{L9}] Order, logic, set, type: $\PreorderUp$, $\PosetUp$, $\LatticeUp$, $\SetLikeUp$, $\TypeLikeUp$.
+  \item[\textbf{L10}] Topology, metric, completion, real: $\MetricUp$, $\TopologyUp$, $\CompletionUp$, $\RealUp$.
+  \item[\textbf{L11}] Analysis: $\CalculusUp$, $\MeasureUp$, $\FunctionalAnalysisUp$.
+  \item[\textbf{L12}] Geometry, category, homology: $\CategoryUp$, $\ManifoldUp$, $\BundleUp$, $\HomologyUp$.
+  \item[\textbf{L13}] Number theory and spectra: $\PrimeUp$, $\PadicUp$, $\AdeleUp$, $\ZetaUp$.
+  \item[\textbf{L14}] Mature-system bridge: standard models, mathlib bridge, conservativity reports.
+\end{description}
+
+The layer index is also the reviewer's priority order: directed development MUST advance the lowest open layer before nibbling above.
+
+\section{L0--L5 finite kernel checked baseline}
+\label{sec:roadmap-l0-l5-baseline}
+
+The kernel proof DAG, in dependency order, is
+$$
+\Mark
+\;\to\;
+\Hist
+\;\to\;
+\Ext, \Cont
+\;\to\;
+\Ask, \Sig
+\;\to\;
+\sameSig
+\;\to\;
+\Pkg, \Gap
+\;\to\;
+\CompGap
+\;\to\;
+\NameCert.
+$$
+Before any derived interface is attempted, every node above must hold a machine-checked certificate at the strength of paragraph~\ref{sec:roadmap-strength-gradient}: $\msame$ and $\hsame$ as equivalences with no-confusion, $\Ext$ and $\Cont$ with associativity and unit laws, $\Ask$ and $\Sig$ with totality and determinism under the relevant policies, $\Pkg$ and $\Gap$ with their soundness/coverage/separation theorems, and $\NameCert$ as the universal admission rule.
+
+\section{L4 exact globalization contract}
+\label{sec:roadmap-l4-exact-globalization}
+
+For any classification interface, exactness is recorded as a structured datum, not as natural language. The base contract is
+$$
+\ExactGlobalizeBase(\Pi,D)
+\;=\;
+\bigl(\text{coverage} \wedge \text{base soundness} \wedge \text{base completeness}\bigr),
+$$
+with the local classification $\iff$ as a derived corollary. Every downstream module that wants to claim ``visible packages classify histories exactly'' must cite $\ExactGlobalizeBase(\Pi,D)$, never the prose phrase.
+
+\section{L6 finite data certificates}
+\label{sec:roadmap-l6-finite-data}
+
+For each of $\BoolUp$, $\OptionUp$, $\SumUp$, $\ProdUp$, $\ListUp$, the obligations are: a carrier predicate over $\Hist$; a classifier whose $\StabilityCert$ supplies reflexivity, symmetry, transitivity, and carrier transport; constructor and case-analysis stability; and ledger entries for whatever is hidden by the carrier predicate (tag bits, length unary, etc).
+
+The finite-data public-object certificate scope is the boolean history $\mathsf{SemanticNameCert}$, the constructor-tagged optional-history certificate, the explicit ordered-product bridge together with its envelope certificate, the tagged sum $\mathsf{SemanticNameCert}$, and the list spine-bridge $\mathsf{SemanticNameCert}$. These scopes are the phase objects for $\BoolUp$ through $\ListUp$ when a chapter separates an envelope certificate from the public constructor interface.
+
+\section{L7 arithmetic}
+\label{sec:roadmap-l7-arithmetic}
+
+\begin{itemize}
+  \item $\NatUp$: unary repetition carrier; zero, successor, induction, recursion. The unary history $E_1$-tower is a seed, not a complete arithmetic.
+  \item $\AddUp$: addition as a $\Cont$-driven operation, with associativity, commutativity, zero law.
+  \item $\MulUp$: repeated addition, with distributivity, associativity, commutativity, one law.
+  \item $\OrderUp$: comparison from the unary tower, with reflexivity, antisymmetry, totality, well-foundedness.
+  \item $\IntUp$: signed pairs $(a,b)$ with $(a,b) \sim (c,d) \iff a+d = c+b$; ordered ring structure.
+  \item $\RatUp$: certified rational histories with positive unary denominator; ordered field structure.
+\end{itemize}
+
+\section{L8 algebra}
+\label{sec:roadmap-l8-algebra}
+
+The algebra hierarchy is
+$$
+\MagmaUp
+\;\to\;
+\SemigroupUp
+\;\to\;
+\MonoidUp
+\;\to\;
+\GroupUp
+\;\to\;
+\AbGroupUp
+\;\to\;
+\RingUp
+\;\to\;
+\CommRingUp
+\;\to\;
+\FieldUp
+\;\to\;
+\ModuleUp
+\;\to\;
+\VecSpaceUp.
+$$
+Each layer ships a carrier, a classifier shared with the layer above, operation stability obligations, congruence laws, and a ledger of normalised expression provenance. $\LinMapUp$, $\MatrixUp$, $\PolynomialUp$ live above $\VecSpaceUp$.
+
+\section{L9 order, logic, set-like, type-like}
+\label{sec:roadmap-l9-order-logic-set-type}
+
+$\PreorderUp$, $\PosetUp$, $\TotalOrderUp$, $\LatticeUp$ are licensed by stable comparison behaviour. $\SetLikeUp$ is licensed by classifier-based membership: the membership predicate is generated, never assumed; subset is implication of membership; comprehension is restricted to certified families; extensionality is a certificate field, not a primitive. $\TypeLikeUp$ is the corresponding carrier-plus-classifier-plus-transport interface.
+
+\section{L10 topology, metric, completion, real}
+\label{sec:roadmap-l10-topology-metric-completion-real}
+
+This layer crosses the line between finite-history objects and countable-name objects. The architectural cost has to be paid up front.
+
+\subsection*{Architectural gate: countable names}
+\label{sec:roadmap-l10-stream-name}
+
+A finite history $\Hist$ cannot itself encode an infinite object. To license $\RealUp$ and onward, the project admits \emph{certified countable names}: a name is a function whose finite observations are individually certified by an existing carrier, and whose stability is the pointwise classifier of those observations. Concretely, the milestone $\StreamNameUp$ supplies a carrier of the form
+$$
+\StreamCarrier_X(s) \;\equiv\; \forall n,\; \UnaryHistory(n) \to X{\text{Carrier}}(s\,n),
+$$
+with the pointwise classifier
+$$
+\StreamSame_X(s,t) \;\equiv\; \forall n,\; \UnaryHistory(n) \to X{\text{Same}}(s\,n,\,t\,n),
+$$
+and stability obligations: pointwise reflexivity / symmetry / transitivity inherited from the point certificate, carrier transport along the pointwise classifier, reindexing stability under $\hsame$, mapped-stream stability, and an inhabited stream from a constant certified point.
+
+This is not optional. Without $\StreamNameUp$, the L10 layer is not feasible under the discipline.
+
+\subsection*{Construction order}
+\label{sec:roadmap-l10-construction-order}
+
+The interior of L10 is itself a sub-roadmap. The construction order, with each step depending only on earlier steps, is
+
+\begin{enumerate}
+  \item $\DyadicRatCore$: dyadic rationals over $\IntUp$ and the unary exponent tower. Carrier: signed mantissa with unary exponent. Classifier: dyadic equality by common-exponent scaling, encoded as a predicate, not via $\Quot$. Obligations: arithmetic stability, monotone $2^{-n}$ radii, distance and absolute value stability. Estimated $25$--$40$ rounds.
+  \item $\StreamNameUp$ (architectural gate above). Estimated $8$--$12$ rounds.
+  \item $\RegSeqRat$: Bishop-style regular Cauchy sequences over dyadic rationals. Carrier: a stream over $\DyadicRatCore$ satisfying $|x_n - x_m| \le 2^{-n} + 2^{-m}$. Classifier: regular-sequence closeness via dyadic $\varepsilon$-tolerance. Obligations: regularity carrier, refl/symm/trans by $\varepsilon$ halving, shift and tail stability. Estimated $30$--$45$ rounds.
+  \item $\RealUp$: real names sealed as $\RegSeqRat$ data with classifier closeness. Constant dyadic embedding respects classifier. No claim of completeness yet. Estimated $20$--$35$ rounds.
+  \item $\RealAlgOrder$: addition, negation, multiplication, absolute value, nonnegative order, strict apartness on $\RealUp$. Order is constructive: prefer apartness over classical trichotomy. Estimated $35$--$60$ rounds.
+  \item $\MetricSpaceUp$: certified metric structure over a parameterised point carrier, with a $\RealUp$-valued distance, classifier-based identity of indiscernibles, symmetry, triangle inequality. Estimated $12$--$20$ rounds.
+  \item $\SOneUp$: $S^1$ as the certified subspace of $\RealUp \times \RealUp$ with $x^2 + y^2 \approx 1$ under $\RealClassifier$. No angle parametrisation yet. Estimated $20$--$35$ rounds.
+  \item $\TotallyBoundedUp$: total boundedness as explicit dyadic $\varepsilon$-net data, witnessed via $\mathsf{ProbeBundle}$ induction. Not open-cover compactness. Estimated $18$--$30$ rounds.
+  \item $\CompleteMetricUp$: metric completeness as convergence of regular Cauchy point names; uniqueness of limits conditional on separatedness. Estimated $25$--$40$ rounds.
+  \item $\CompactMetricUp$: $\CompactMetricCarrier(X) \equiv \MetricSpaceCarrier(X) \wedge \CompleteCarrier(X) \wedge \TotallyBoundedCarrier(X)$. Compact $[0,1]$ and compact $S^1$ are exhibited via explicit dyadic nets. Estimated $12$--$20$ rounds for the definition; $40+$ for product / subspace theorems.
+  \item $\ContinuousMapUp$: uniformly continuous maps with explicit modulus, classifier-based equality on source carrier points, identity and composition stability. Estimated $20$--$35$ rounds.
+\end{enumerate}
+
+The L10 sub-roadmap totals roughly $250$--$400$ rounds. The honest first reportable target is finishing items 1--4, which produces the project's first fully licensed infinite mature-object name: $\RealUp$.
+
+\subsection*{Constructive constraints to honour}
+\label{sec:roadmap-l10-constructive-constraints}
+
+The standard equivalences below are not generally derivable in this discipline and must not be claimed as such:
+\begin{itemize}
+  \item Dedekind-cut construction of $\mathbb{R}$.
+  \item Open-cover compactness as a general theorem on $\CompactMetricUp$.
+  \item Sequential compactness without choice-like data.
+  \item Heine-Borel as a general result on subsets of $\RealUp$.
+  \item Trichotomy of constructive reals.
+  \item Quotient-by-equivalence-class as a primitive.
+\end{itemize}
+Workable substitutes are the constructive analogues: located reals, total boundedness with explicit nets, separated metric spaces with explicit completion data, apartness in place of classical trichotomy, and classifier predicates in place of quotient types.
+
+\section{L10 topology continued and L11 analysis}
+\label{sec:roadmap-l11-analysis}
+
+$\TopologyUp$ is licensed by an open-set classifier predicate, neighbourhood interface, finite intersection and arbitrary union closure, continuous maps stable under the classifier, product and quotient topologies via the existing product / classifier mechanisms. $\CompletionUp$ generalises the regular-Cauchy completion mechanism beyond $\RatUp$ to any metric carrier, with operation descent recorded in the ledger.
+
+$\CalculusUp$ admits derivative as a stable local linear approximation, integral via completion of finite sums or via a measure-based interface, with the fundamental theorem deferred until the measure interface is stable. $\MeasureUp$ admits stable event algebra, $\sigma$-stability, integration, conditional expectation, $L^p$ spaces. $\FunctionalAnalysisUp$ admits normed and inner-product spaces, Banach and Hilbert completion, bounded and compact operators, spectrum, with the spectral theorem as a major target.
+
+\section{L12 categories, geometry, homology}
+\label{sec:roadmap-l12-categories-geometry-homology}
+
+$\CategoryUp$ admits objects as certified carriers, morphisms as records over $\ContinuousMapUp$ or other certified maps, identity and composition stability, associativity and unit laws up to morphism classifier. Object equality is never extensional: subcategory inclusion is data, isomorphism is a record. $\FunctorUp$ and $\NatTransUp$ extend the same pattern. $\ManifoldUp$ admits charts, atlas compatibility, gluing; $\BundleUp$ admits local trivialisation, transition functions, cocycle conditions, connections, curvature. $\HomologyUp$ admits chain complex, kernel/cokernel, exact sequence, derived functor.
+
+\section{L13 number theory and spectra}
+\label{sec:roadmap-l13-number-theory-spectra}
+
+$\PrimeUp$ admits divisibility, irreducibility, primality, gcd, Euclidean algorithm, unique factorisation. $\PadicUp$ admits the $p$-adic valuation, $p$-adic metric, completion to a local field. $\AdeleUp$ admits the local-global product formula, adele-like interface. $\ZetaUp$ admits dynamical zeta, Euler product, Dirichlet series, with analytic continuation deferred to a stable analysis substrate. Riemann-hypothesis-shaped statements remain theorem targets, never naming-seed assertions.
+
+\section{L14 conservative bridge to mature systems}
+\label{sec:roadmap-l14-bridge}
+
+For every certified mature object $N$ a bidirectional bridge is established:
+$$
+\BEDC(N) \;\longrightarrow\; \mathrm{Std}(N),
+\qquad
+\mathrm{Std}(N) \;\longrightarrow\; \BEDC(N).
+$$
+The bridge proves at minimum: BEDC certificates interpret as standard objects; standard objects encode as BEDC certificates; basic theorems hold on both sides; no host primitive enters the BEDC public surface. The bridge to Lean / mathlib in particular records mapping tables, theorem correspondences, proof dependency maps, unsupported features, and a contamination audit.
+
+\section{Per-object research template}
+\label{sec:roadmap-per-object-template}
+
+Every milestone is filed under the same ten-field template:
+\begin{enumerate}
+  \item \textbf{Traditional target}: how $N$ appears in mature mathematics.
+  \item \textbf{BEDC source}: which already-licensed BEDC objects generate it.
+  \item \textbf{Carrier choice}: predicate (or stream) over the source.
+  \item \textbf{Classifier choice}: equivalence relation, never $\Quot$.
+  \item \textbf{Stability obligations}: refl/symm/trans, carrier transport, operation congruence, descent, completion / seal where relevant.
+  \item \textbf{Ledger}: what is hidden, projected, compressed, completed.
+  \item \textbf{Core theorem list}: the minimum set that must hold.
+  \item \textbf{Exactness predicate}: coverage, soundness, completeness, classification $\iff$.
+  \item \textbf{Standard bridge}: the conservative back-and-forth to the mature reference.
+  \item \textbf{Status}: $\text{Seed} \mid \text{PaperCert} \mid \text{ProofTarget} \mid \text{CheckedCert} \mid \text{InteropCert} \mid \text{Deferred}$.
+\end{enumerate}
+
+\section{Near-term phases}
+\label{sec:roadmap-near-term-phases}
+
+The near-term path is a small number of phase bundles. Each phase has a specific exit criterion and is the only sanctioned advancement direction during its tenure.
+
+\begin{description}
+  \item[\textbf{Phase Kernel-Checked Baseline}] L0--L5 fully machine-checked, including $\msame$, $\hsame$, $\Ext$, $\Cont$, $\Sig$, $\Gap$, $\NameCert$, $\ExactGlobalizeBase$. Exit criterion: every kernel theorem holds a \texttt{\textbackslash leanchecked}.
+  \item[\textbf{Phase Finite Data}] L6 machine-checked, $\BoolUp$ through $\ListUp$, with the ten-field template completed for each. Exit criterion: $\bedcciaudit$ green over all five objects and $\mathsf{CheckedCert}$ status at the public-object certificate scopes listed in \autoref{sec:roadmap-l6-finite-data}. An envelope-only checked core does not close an object whose chapter still records a stronger public-object $\mathsf{ProofTarget}$.
+  \item[\textbf{Phase Full Nat Arithmetic}] L7 machine-checked, $\NatUp$ through $\RatUp$, with full induction, recursion, ordered-ring and ordered-field structure. Exit criterion: $\RatUp$ NameCert holds at the $\mathsf{SemanticNameCert}$ machine-checked certificate strength, not merely as a weaker paper-side certificate or theorem target.
+  \item[\textbf{Phase Algebra Hierarchy}] L8 up to $\FieldUp$. Exit criterion: $\FieldUp(\RatUp)$ as a fully derived instance.
+  \item[\textbf{Phase Real and Completion}] L10 items 1--4 of section~\ref{sec:roadmap-l10-construction-order}: $\DyadicRatCore$, $\StreamNameUp$, $\RegSeqRat$, $\RealUp$. Exit criterion: $\RealUp$ NameCert holds at the machine-checked strength, with the dyadic embedding theorem live.
+  \item[\textbf{Phase Real Algebra and Geometry}] L10 items 5--7: $\RealAlgOrder$, $\MetricSpaceUp$, $\SOneUp$. Exit criterion: $\SOneUp$ shipped with the unit-circle equation transport.
+  \item[\textbf{Phase Compact and Continuous}] L10 items 8--11: $\TotallyBoundedUp$, $\CompleteMetricUp$, $\CompactMetricUp$, $\ContinuousMapUp$. Exit criterion: explicit compact $[0,1]$ and compact $S^1$ certificates, plus a non-trivial uniformly continuous map between them.
+  \item[\textbf{Phase Linear Algebra and Analysis Seed}] L8 vector-space layer plus L11 calculus seed: $\VecSpaceUp$, $\LinMapUp$, $\MatrixUp$, $\NormUp$, $\HilbertUp$. Exit criterion: at least one non-trivial spectral statement, even if confined to a finite-dimensional space.
+  \item[\textbf{Phase Category and Bridge}] L12 $\CategoryUp$ and L14 bridge for already-checked objects. Exit criterion: a certified category whose objects are $\RealUp$ and $\SOneUp$ and whose morphisms are $\ContinuousMapUp$, plus a documented mathlib bridge for $\NatUp$ and $\IntUp$.
+\end{description}
+
+The reviewer pipeline picks targets in service of the current open phase. Targets that advance a later phase while the current phase is open are deferred. The roadmap is amended in place when a phase exits, never via patch markers or version annotations.
+
+\section{Claims explicitly off the table}
+\label{sec:roadmap-off-the-table}
+
+Until each milestone holds at the strength specified above, the project does not claim:
+\begin{enumerate}
+  \item BEDC has re-derived all of mature mathematics.
+  \item $\RealUp$ is complete.
+  \item $\SOneUp$ is complete.
+  \item $\FoldUp$ is complete.
+  \item $\NatUp$ seed equals full natural-number theory.
+  \item $\AddUp$ seed equals full addition.
+  \item Paper certificates equal machine-checked certificates.
+  \item Lean scaffolds equal verified implementations.
+  \item External standard models replace BEDC internal proof obligations.
+  \item Host equality, host $\texttt{Nat}$, or host functions are part of the BEDC public surface.
+\end{enumerate}
+
+The discipline of this roadmap is condensed in one line:
+$$
+\boxed{\text{a derivation does not assume the mature object exists; it proves a name has earned the right to be used.}}
+$$

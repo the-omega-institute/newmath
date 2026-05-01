@@ -4,71 +4,178 @@
 \section{Gap policy}
 
 \begin{definition}[Gap membership]
-The judgment \(\InGap(\Pi,p,h)\) means that source history \(h\) lies in the gap ledger of package token \(p\) under bundle \(\Pi\).
+The finite-kernel judgment $\InGapSig(\Pi,D,p,h)$ means that source history $h$ lies in the signature gap ledger of package token $p$ under bundle $\Pi$ and source specification $D$.
 \end{definition}
 
 \begin{definition}[Gap policy]
+\label{def:gap-policy}
+\label{def:gap-policy-interface}
 \label{def:gap-policy-generation}
-A gap policy \(\GapPol(\Pi,D)\) over source specification \(D\) consists of:
+A gap policy $\GapPol(\Pi,D)$ over source specification $D$ consists of:
 \begin{enumerate}
-  \item generation: \(\InGap(\Pi,p,h)\) is generated only from a signature \(\Sig(\Pi,h,s,\Delta)\) and a package \(\Pkg(\Pi,s,p)\);
+  \item provenance/generation: the membership judgment $\InGapSig(\Pi,D,p,h)$ itself exposes the admitted-source judgment $\InDom(D,h)$ and witnesses $s,\Delta$ with $\Sig(\Pi,h,s,\Delta)$ and $\TokIntro(\Pi,s,p)$; the generation field of $\GapPol(\Pi,D)$ records the token-witness projection from such a membership to some $s$ with $\TokIntro(\Pi,s,p)$;
   \item coverage: every admitted source history belongs to some package gap;
-  \item separation: if the same admitted source history belongs to the gaps of \(p\) and \(q\), then \(\psame(p,q)\);
-  \item ledger visibility: a package is not complete without its gap ledger.
+  \item separation: if the same admitted source history belongs to the gaps of $p$ and $q$, then $\psame(p,q)$.
 \end{enumerate}
+The ledger remains part of the package interface: a visible package token is used together with its gap ledger, but ledger visibility is not a separate component of $\GapPol(\Pi,D)$.
 \end{definition}
+\leandef{BEDC.FKernel.Gap.GapPolicy}
+\leandef{BEDC.FKernel.Gap.GapPolicyInterface}
 \leanchecked{BEDC.FKernel.Gap.gap\_generation\_witness}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_domain\_witness}
 \leanvariant{BEDC.FKernel.Gap.inGapSig\_signature\_witness}
 \leanvariant{BEDC.FKernel.Gap.gap\_policy\_fields}
 \leanvariant{BEDC.FKernel.Gap.GapPolicy\_iff\_fields}
+\leanvariant{BEDC.FKernel.Gap.gapPolicy\_generation\_field}
+\leanvariant{BEDC.FKernel.Gap.gapPolicy\_signature\_determination}
+\leanvariant{BEDC.FKernel.Gap.GapPolicyInterface\_generation\_projection}
 
 \begin{theorem}[Gap coverage]
-Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi)\), and \(\GapPol(\Pi,D)\). Every admitted source history belongs to at least one generated package gap.
+Assume $\GapPol(\Pi,D)$. For every source history $h$, if $\InDom(D,h)$ then there exists a package token $p$ such that $\InGapSig(\Pi,D,p,h)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_coverage}
 \begin{proof}
-By the totality field of \(\AskPol\), an admitted history generates a signature. By package existence, the signature has a package token. By the generation and coverage fields of \(\GapPol\), the source history lies in that package's gap.
+This is the coverage field of $\GapPol$, which directly supplies a package token whose finite-kernel gap judgment contains the admitted source history.
 \end{proof}
 
 \begin{theorem}[Gap separation]
-Assume \(\AskPol(\Pi,D)\), \(\PkgPol(\Pi)\), and \(\GapPol(\Pi,D)\). If an admitted source history belongs to the gaps of package tokens \(p\) and \(q\), then \(\psame(p,q)\).
+\label{thm:gap-separation}
+Assume $\GapPol(\Pi,D)$. If $\InDom(D,h)$, $\InGapSig(\Pi,D,p,h)$, and $\InGapSig(\Pi,D,q,h)$, then $\psame(p,q)$.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.gap\_separation}
 \begin{proof}
-By the generation field of \(\GapPol\), both memberships arise from signatures of the same source history and package tokens for those signatures. Signature determinacy under \(\AskPol\) gives \(\hsame\) of the two signatures. Package extensionality then gives \(\psame(p,q)\).
+This is the separation field of $\GapPol$, applied to the two finite-kernel gap memberships of the same admitted source history.
 \end{proof}
+
+\begin{theorem}[Gap separation from memberships]
+\label{thm:gap-separation-from-memberships}
+Assume $\GapPol(\Pi,D)$. If $\InGapSig(\Pi,D,p,h)$ and $\InGapSig(\Pi,D,q,h)$, then $\psame(p,q)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Gap.gap\_separation\_from\_memberships}
+\begin{proof}
+Either finite-kernel gap membership exposes the admitted-source judgment $\InDom(D,h)$ by the membership definition recorded in Definition~\ref{def:gap-policy-interface}. Apply Theorem~\ref{thm:gap-separation} to this admitted-source witness and to the two memberships over the same source history $h$.
+\end{proof}
+
+\begin{theorem}[Gap representative for admitted source]
+\label{thm:gap-representative-for-admitted-source}
+Assume $\GapPol(\Pi,D)$ and $\InDom(D,h)$. Then there exists a package token $p$ such that $\InGapSig(\Pi,D,p,h)$ and, for every package token $q$, if $\InGapSig(\Pi,D,q,h)$ then $\psame(p,q)$.
+\end{theorem}
+\begin{proof}
+Coverage supplies a package token $p$ with $\InGapSig(\Pi,D,p,h)$. For any package token $q$ with $\InGapSig(\Pi,D,q,h)$, separation applies to the two finite-kernel gap memberships over the same admitted source history $h$ and gives $\psame(p,q)$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Gap.gap\_representative\_for\_admitted\_source}
 
 \section{Composite gaps}
 
 \begin{definition}[Composite gap]
-\label{def:composite-gap}
+\label{def:composite-gap-ledger}
 Suppose an interface \(C\) packages sources into intermediate visible tokens and an interface \(D\) packages those intermediate tokens into final visible tokens. The composite gap judgment
-\[
+$$
 \CompGap_{D\circ C}(z,x)
-\]
+$$
 means that source \(x\) lies behind final visible token \(z\) through some intermediate token.
 Externally this is described by the existence of an intermediate token \(y\) with
-\[
+$$
 \InGap_C(y,x)
 \quad\text{and}\quad
 \InGap_D(z,y).
-\]
+$$
 This is a metalanguage description of the composite ledger policy.
 \end{definition}
 \leandef{BEDC.FKernel.Gap.CompGap}
+\leanvariant{BEDC.FKernel.Gap.compGap\_iff\_exists}
+\leanvariant{BEDC.FKernel.Gap.compGap\_witness\_pair\_iff}
+\leanvariant{BEDC.FKernel.Gap.composite\_gap\_ledger\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.composite\_gap\_ledger}
 \leanchecked{BEDC.FKernel.Gap.compGap\_intro}
 \leanvariant{BEDC.FKernel.Gap.compGap\_left\_witness}
 \leanchecked{BEDC.FKernel.Gap.compGap\_right\_witness}
+\leanvariant{BEDC.FKernel.Gap.compGap\_left\_right\_witness\_pair}
+\leanvariant{BEDC.FKernel.Gap.compGap\_second\_first\_witness}
+\leanvariant{BEDC.FKernel.Gap.compGap\_right\_nested\_witnesses}
 
 \begin{theorem}[Composite gap coverage]
 \label{thm:composite-coverage}
-If the first interface has gap coverage and the second interface has gap coverage over the first interface's visible tokens, then the composite interface has gap coverage.
+\label{thm:composite-gap-coverage-spine}
+If the first interface has gap coverage in the form that every admitted source $h$ has an intermediate token $y$ with $\InGap_C(y,h)$ and an admissibility certificate $\mathsf{InterOk}(y)$, and if the second interface has gap coverage for every intermediate token satisfying $\mathsf{InterOk}$, then the composite interface has gap coverage.
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.compGap\_coverage\_from\_layers}
+\leanvariant{BEDC.FKernel.Gap.compGap\_composite\_coverage\_witness}
+\leanvariant{BEDC.FKernel.Gap.composite\_gap\_coverage\_spine}
+\leanvariant{BEDC.FKernel.Gap.compGap\_coverage\_intermediate\_and\_final}
+\leanvariant{BEDC.FKernel.Gap.compGap\_coverage\_with\_intermediate\_ok}
+\leanvariant{BEDC.FKernel.Gap.compGap\_coverage\_final\_witness\_pair}
 \begin{proof}
-Given a source, first coverage produces an intermediate token whose gap contains the source. Second coverage produces a final token whose gap contains that intermediate token. Thus the source belongs to the composite gap of the final token.
+Given an admitted source, first coverage supplies both an intermediate token whose first gap contains the source and the admissibility certificate for that intermediate token. Second coverage applies to that certificate and produces a final token whose second gap contains the intermediate token. Thus the source belongs to the composite gap of the final token.
 \end{proof}
+
+\begin{theorem}[Composite gap separation]
+\label{thm:composite-gap-separation}
+If the first gap separates two intermediate witnesses over the same source by $\mathsf{interSame}$, and the second gap sends $\mathsf{interSame}$ intermediate witnesses to $\mathsf{finalSame}$ final tokens, then two composite memberships over the same source imply $\mathsf{finalSame}(z_1,z_2)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Gap.compGap\_separation\_from\_layers}
+\begin{proof}
+Unpack the first composite membership into an intermediate witness $y_1$ with $\InGap_C(y_1,h)$ and $\InGap_D(z_1,y_1)$. Unpack the second composite membership into $y_2$ with $\InGap_C(y_2,h)$ and $\InGap_D(z_2,y_2)$. First-layer separation gives $\mathsf{interSame}(y_1,y_2)$, and second-layer separation carries this relation across the two second-layer memberships to obtain $\mathsf{finalSame}(z_1,z_2)$.
+\end{proof}
+
+\begin{theorem}[Composite exactness from layered exactness]
+\label{thm:composite-exactness-from-layers}
+Let $\mathsf{Source}$, $\mathsf{Inter}$, and $\mathsf{Final}$ be the source, intermediate, and final token types. Let $\mathsf{SourceOk}$ and $\mathsf{InterOk}$ be admissibility predicates, let $\mathsf{firstGap}$ and $\mathsf{secondGap}$ be the first and second gap relations, and let $\mathsf{interSame}$ and $\mathsf{finalSame}$ be the intermediate and final sameness relations. Assume:
+$$
+\forall x,\ \mathsf{SourceOk}(x) \to
+\exists y,\ \mathsf{firstGap}(y,x)\ \text{and}\ \mathsf{InterOk}(y),
+$$
+$$
+\forall y,\ \mathsf{InterOk}(y) \to
+\exists z,\ \mathsf{secondGap}(z,y),
+$$
+$$
+\forall x,y_1,y_2,\ \mathsf{SourceOk}(x) \to
+\mathsf{firstGap}(y_1,x) \to
+\mathsf{firstGap}(y_2,x) \to
+\mathsf{interSame}(y_1,y_2),
+$$
+and
+$$
+\forall y_1,y_2,z_1,z_2,\ \mathsf{interSame}(y_1,y_2) \to
+\mathsf{secondGap}(z_1,y_1) \to
+\mathsf{secondGap}(z_2,y_2) \to
+\mathsf{finalSame}(z_1,z_2).
+$$
+Then the composite gap satisfies both conclusions:
+$$
+\forall x,\ \mathsf{SourceOk}(x) \to
+\exists z,\ \CompGap(\mathsf{firstGap},\mathsf{secondGap},z,x)
+$$
+and
+$$
+\forall x,z_1,z_2,\ \mathsf{SourceOk}(x) \to
+\CompGap(\mathsf{firstGap},\mathsf{secondGap},z_1,x) \to
+\CompGap(\mathsf{firstGap},\mathsf{secondGap},z_2,x) \to
+\mathsf{finalSame}(z_1,z_2).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Gap.compGap\_exactness\_from\_layers\_on\_histories}
+\begin{proof}
+The first conclusion is Theorem~\ref{thm:composite-coverage}: choose the first-layer intermediate witness and its $\mathsf{InterOk}$ certificate, then apply second-layer coverage to obtain a final token. The second conclusion is Theorem~\ref{thm:composite-gap-separation}: unpack the two composite witnesses over the same source, use first-layer separation to identify the intermediate witnesses by $\mathsf{interSame}$, and apply second-layer transport to obtain $\mathsf{finalSame}$ for the final tokens.
+\end{proof}
+
+\begin{theorem}[Composite representative for admitted source]
+\label{thm:composite-representative-for-admitted-source}
+Under the same layered coverage and separation hypotheses as Theorem~\ref{thm:composite-exactness-from-layers}, if $\mathsf{SourceOk}(x)$, then there exists a final token $z$ such that
+$$
+\CompGap(\mathsf{firstGap},\mathsf{secondGap},z,x)
+$$
+and every final token $z'$ satisfying
+$$
+\CompGap(\mathsf{firstGap},\mathsf{secondGap},z',x)
+$$
+also satisfies $\mathsf{finalSame}(z,z')$.
+\end{theorem}
+\begin{proof}
+Composite coverage supplies a final token $z$ with $\CompGap(\mathsf{firstGap},\mathsf{secondGap},z,x)$. For any other final token $z'$ with $\CompGap(\mathsf{firstGap},\mathsf{secondGap},z',x)$, composite separation applies to the two composite memberships over the same admitted source and gives $\mathsf{finalSame}(z,z')$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Gap.compGap\_representative\_for\_admitted\_source}
 
 \begin{principle}[Ledger composition]
 \label{cor:ledger-composition-principle}
@@ -78,4 +185,17 @@ The ledger of a composite compression is not the last ledger alone. It is the fi
 \leanvariant{BEDC.FKernel.Gap.compGap\_witness\_from\_layers}
 \leanvariant{BEDC.FKernel.Gap.compGap\_assoc}
 \leanvariant{BEDC.FKernel.Gap.compGap\_assoc\_forward}
+\leanvariant{BEDC.FKernel.Gap.compGap\_assoc\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.compGap\_assoc\_witness\_pack}
+\leanvariant{BEDC.FKernel.Gap.compGap\_assoc\_iff\_witnesses}
 \leanvariant{BEDC.FKernel.Gap.compGap\_assoc\_backward}
+\leanvariant{BEDC.FKernel.Gap.ledger\_composition\_principle}
+\leanvariant{BEDC.FKernel.Gap.ledger\_composition\_principle\_iff}
+\leanvariant{BEDC.FKernel.Gap.compGap\_left\_nested\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.compGap\_witnesses\_to\_right\_nested}
+\leanvariant{BEDC.FKernel.Gap.compGap\_right\_nested\_iff\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.compGap\_three\_witnesses\_iff}
+\leanvariant{BEDC.FKernel.Gap.compGap\_four\_witnesses\_iff}
+\leanvariant{BEDC.FKernel.Gap.compGap\_pullback\_witnesses}
+\leanvariant{BEDC.FKernel.Gap.compGap\_four\_right\_nested\_iff}
+\leanvariant{BEDC.FKernel.Gap.ledger\_composition\_principle\_inverse}

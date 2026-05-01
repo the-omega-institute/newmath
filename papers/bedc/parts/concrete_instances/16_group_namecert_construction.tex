@@ -1,0 +1,211 @@
+\chapter{A Concrete Naming Certificate for \(\GroupUp\)}
+\label{ch:concrete-instances-group-namecert}
+
+The group interface \(\GroupUp\) extends \autoref{ch:concrete-instances-monoid-namecert} with a unary inverse operation \({}^{-1} : C \to C\) satisfying left and right inverse laws under the carrier's classifier. It is not a primitive structure; it is licensed only by composing the monoid certificate with the inverse field.
+
+\begin{remark}[Roadmap chapter]
+\label{rem:concrete-instances-group-namecert-roadmap}
+This chapter records the licensing target. Lean markers identify the
+algebraic fields and derived laws that are formalized for the certificate.
+\end{remark}
+
+\section{Carrier definition}
+
+\begin{definition}[Group carrier]
+\label{def:group-carrier}
+Use a monoid setup extended with inverse operation \(a^{-1}\).
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Group source specification]
+\label{def:group-source-specification}
+The source is a certified monoid carrier plus inverse data.
+\end{definition}
+
+\begin{definition}[Group pattern specification]
+\label{def:group-pattern-specification}
+The pattern is monoid expression formation extended by inverse formation.
+\end{definition}
+
+\begin{definition}[Group classifier specification]
+\label{def:group-classifier-specification}
+The classifier is the monoid carrier classifier, with inverse congruence.
+\end{definition}
+
+\begin{definition}[Group stability certificate]
+\label{def:group-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all monoid stability fields
+  \item inverse congruence
+  \item left inverse law
+  \item right inverse law
+  \item closure under inverse
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.GroupUp.group\_stability\_certificate\_fields}
+
+\begin{theorem}[Group inverse of identity]
+\label{thm:group-inverse-identity}
+For a history-level group operation with right identity and left inverses, the
+inverse of the identity is internally the same as the identity:
+\(\hsame(e^{-1},e)\).
+\end{theorem}
+\begin{proof}
+Chain \(e^{-1}\) backward through the right identity
+\(e^{-1}\cdot e\hsame e^{-1}\), then apply the left inverse law at \(e\).
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_identity}
+
+\begin{theorem}[Left inverse involutivity]
+\label{thm:group-left-inverse-involutive}
+For a history-level group operation with associativity, left and right
+identity, multiplication congruence, and left inverses, the left inverse
+operation is involutive: \((x^{-1})^{-1}\hsame x\).
+\end{theorem}
+\begin{proof}
+Rewrite \((x^{-1})^{-1}\) through the right identity. Replace the identity
+by \(x^{-1}x\), reassociate, collapse
+\((x^{-1})^{-1}x^{-1}\) by the left inverse law, and finish with the left
+identity.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_inverse\_involutive}
+
+\begin{theorem}[Right inverse involutivity]
+\label{thm:group-right-inverse-involutive}
+For a history-level group operation with associativity, left and right
+identity, multiplication congruence, and right inverses, the right inverse
+operation is involutive: $(x^{-1})^{-1}\hsame x$.
+\end{theorem}
+\begin{proof}
+Rewrite $(x^{-1})^{-1}$ through the left identity. Replace the identity
+by $xx^{-1}$, reassociate, collapse $x^{-1}(x^{-1})^{-1}$ by the right
+inverse law, and finish with the right identity.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_inverse\_involutive}
+
+\begin{theorem}[Left and right inverse witnesses agree]
+\label{thm:group-left-right-inverse-uniqueness}
+For a history-level group operation with associativity, left and right identity,
+and multiplication congruence, if histories $y$ and $z$ satisfy
+$$
+\hsame(yx,e)
+$$
+and
+$$
+\hsame(xz,e),
+$$
+then $\hsame(y,z)$.
+\end{theorem}
+\begin{proof}
+Chain $y$ through the right identity, replace the identity $e$ by $xz$,
+reassociate to $(yx)z$, replace $yx$ by $e$, and finish with the left identity
+on $z$. Each replacement is licensed by multiplication congruence and the
+displayed inverse hypotheses.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_right\_inverse\_uniqueness}
+
+\begin{theorem}[Group inverse congruence from laws]
+\label{thm:group-inverse-congruence-from-laws}
+For a history-level group operation with associativity, left and right identity,
+multiplication congruence, and left and right inverses, \(\hsame(x,y)\) implies
+\(\hsame(x^{-1},y^{-1})\).
+\end{theorem}
+\begin{proof}
+Transport the left inverse witness for \(x^{-1}\) from \(x\) to \(y\) using
+multiplication congruence. Combine it with the right inverse witness for
+\(y^{-1}\) at \(y\), and apply uniqueness of left and right inverse witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_congruence\_from\_laws}
+
+\begin{theorem}[Group inverse cancellation from laws]
+\label{thm:group-inverse-cancel-from-laws}
+For a history-level group operation with associativity, left and right
+identity, multiplication congruence, and left and right inverses, equality of
+inverses under $\hsame$ implies equality of the original histories:
+$$
+\hsame(x^{-1},y^{-1})\to\hsame(x,y).
+$$
+\end{theorem}
+\begin{proof}
+Apply the derived inverse congruence theorem to the displayed equality of
+inverses, yielding $\hsame((x^{-1})^{-1},(y^{-1})^{-1})$. Chain the left
+inverse involutivity law backward at $x$, across this double-inverse equality,
+and forward at $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_cancel\_from\_laws}
+
+\begin{theorem}[Group inverse reverses multiplication]
+\label{thm:group-inverse-mul-reverse}
+For a history-level group operation with associativity, left and right identity,
+multiplication congruence, and left and right inverses, the inverse of a product
+is internally the same as the reversed product of inverses:
+$$
+\hsame((xy)^{-1},y^{-1}x^{-1}).
+$$
+\end{theorem}
+\begin{proof}
+The product $y^{-1}x^{-1}$ is a right inverse of $xy$: reassociate
+$(xy)(y^{-1}x^{-1})$ to $x(y(y^{-1}x^{-1}))$, reassociate the inner product to
+$(yy^{-1})x^{-1}$, collapse $yy^{-1}$ to the identity, and finish with the
+left identity followed by the right inverse law for $x$. The left inverse law
+for $xy$ and uniqueness of left and right inverse witnesses identify
+$(xy)^{-1}$ with $y^{-1}x^{-1}$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_mul\_reverse}
+
+\begin{theorem}[Group left cancellation]
+\label{thm:group-left-cancellation}
+For a history-level group operation with associativity, left identity,
+multiplication congruence, and left inverses, equality of \(ab\) and \(ac\)
+under \(\hsame\) implies equality of \(b\) and \(c\) under \(\hsame\).
+\end{theorem}
+\begin{proof}
+Chain \(b\) through the left identity, replace that identity by
+\(a^{-1}a\), reassociate to \(a^{-1}(ab)\), use multiplication congruence on
+the assumed product equality, reassociate back to \((a^{-1}a)c\), collapse the
+left inverse, and finish by the left identity on \(c\).
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_cancel}
+
+\begin{theorem}[Group right cancellation]
+\label{thm:group-right-cancellation}
+For a history-level group operation with associativity, right identity,
+multiplication congruence, and right inverses, equality of \(ba\) and \(ca\)
+under \(\hsame\) implies equality of \(b\) and \(c\) under \(\hsame\).
+\end{theorem}
+\begin{proof}
+Chain \(b\) through the right identity, replace that identity by
+\(aa^{-1}\), reassociate to \((ba)a^{-1}\), use multiplication congruence on
+the assumed product equality, reassociate back to \(c(aa^{-1})\), collapse the
+right inverse, and finish by the right identity on \(c\).
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_cancel}
+
+\begin{theorem}[Group two-sided cancellation]
+\label{thm:group-two-sided-cancellation}
+For a history-level group operation with associativity, left and right
+identities, multiplication congruence, and two-sided inverses, equality of
+$(ab)c$ and $(ad)c$ under $\hsame$ implies equality of $b$ and $d$ under
+$\hsame$.
+\end{theorem}
+\begin{proof}
+First apply right cancellation to the common final factor $c$, reducing the
+displayed equality to $\hsame(ab,ad)$. Then apply left cancellation to the
+common initial factor $a$, yielding $\hsame(b,d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_two\_sided\_cancel}
+
+\begin{definition}[Group ledger policy]
+\label{def:group-ledger-policy}
+Record the monoid ledger plus every inverse operation applied.
+\end{definition}
+
+\begin{definition}[\(\GroupUp\) certificate obligations]
+\label{def:group-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\GroupUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\GroupUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

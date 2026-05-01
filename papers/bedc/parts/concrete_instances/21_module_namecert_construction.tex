@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for \(\ModuleUp\)}
+\label{ch:concrete-instances-module-namecert}
+
+The module interface \(\ModuleUp\) has certificate obligations over a fixed scalar ring satisfying \autoref{ch:concrete-instances-ring-namecert} together with an additive abelian group from \autoref{ch:concrete-instances-abgroup-namecert} as carrier, equipped with a scalar multiplication \(\cdot : R \times M \to M\) satisfying associativity with the ring product, distributivity over additions on both sides, and unit law for the ring identity. It is not a primitive structure; it is admitted only by composing the ring and abelian group certificates with the scalar action fields.
+
+\section{Carrier definition}
+
+\begin{definition}[Module carrier]
+\label{def:module-carrier}
+Use a scalar ring \(R\), an additive abelian group \(M\), and scalar multiplication \(R\times M\to M\).
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Module source specification]
+\label{def:module-source-specification}
+The source is a certified \(\RingUp(R)\) and certified \(\AbGroupUp(M)\) sharing a scalar action.
+\end{definition}
+
+\begin{definition}[Module pattern specification]
+\label{def:module-pattern-specification}
+The pattern is module expression formation from vector addition, zero, negation, and scalar multiplication.
+\end{definition}
+
+\begin{definition}[Module classifier specification]
+\label{def:module-classifier-specification}
+The classifier is the module carrier classifier, with scalar action congruent in both scalar and vector inputs.
+\end{definition}
+
+\begin{definition}[Module stability certificate]
+\label{def:module-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item additive abelian-group laws on \(M\)
+  \item ring laws on \(R\)
+  \item scalar action congruence
+  \item scalar associativity with ring multiplication
+  \item scalar distributivity over module addition
+  \item scalar distributivity over ring addition
+  \item scalar unit law
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Module ledger policy]
+\label{def:module-ledger-policy}
+Record scalar and module ledgers for every scalar-action expression.
+\end{definition}
+
+\begin{definition}[\(\ModuleUp\) certificate obligations]
+\label{def:module-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\ModuleUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\ModuleUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

@@ -7,23 +7,26 @@ A stage interface \(\Stage\) is a generated visibility level in an iterative obs
 \leandef{BEDC.FKernel.NameCert.StageInterface}
 
 \begin{definition}[Thread]
+\label{def:thread}
 A thread \(\Thread\) is a compatible family of stage-level visible data. Compatibility is not developed fully in this finite kernel; it is reserved for the completion module.
 \end{definition}
+\leandef{BEDC.FKernel.NameCert.ThreadFamily}
 
 \begin{definition}[Seal interface]
 \label{def:seal-interface}
+\label{def:thin-seal-interface}
 A seal event \(\Seal(T,N)\) licenses a name \(N\) for a compatible thread \(T\), provided a \(\SealCert\) and a ledger policy are supplied.
 \end{definition}
 \leandef{BEDC.FKernel.NameCert.SealEvent}
 \leandef{BEDC.FKernel.NameCert.SealInterface}
-\leanchecked{BEDC.FKernel.NameCert.sealEvent\_field\_witnesses}
-\leanvariant{BEDC.FKernel.NameCert.sealInterface\_field\_witnesses}
-\leanvariant{BEDC.FKernel.NameCert.sealInterface\_certificate\_witnesses}
+\leanvariant{BEDC.FKernel.NameCert.sealInterface\_thread\_witness}
+\leanchecked{BEDC.FKernel.NameCert.sealInterface\_certificate\_witness}
 
 \begin{corollary}[Limit-like interfaces are derived]
+\label{cor:limit-like-interfaces-are-derived}
 A \(\LimitUp\) interface is a derived name for seal-certified compatible-thread behavior. It is not primitive in the finite kernel.
 \end{corollary}
 
 \begin{remark}
-The seal layer is intentionally thin in this chapter. Real-like, circle-like, and completion-like derived interfaces require a separate completion module.
+The seal layer is intentionally thin in this chapter. Completion and thread sealing are not primitive finite-kernel steps. Real-like and circle-like names may appear in this manuscript only as $\NameCert$-governed certificate-obligation schemas, such as $\RealUp$ and $\SOneUp$, not as quotient, completion, or topological primitives.
 \end{remark}

@@ -1,0 +1,116 @@
+\chapter{A Concrete Naming Certificate for \(\RingUp\)}
+\label{ch:concrete-instances-ring-namecert}
+
+The ring interface \(\RingUp\) is licensed by a carrier with two binary operations \(+\) and \(\cdot\) such that \((C, +)\) satisfies \autoref{ch:concrete-instances-abgroup-namecert} and \((C, \cdot)\) satisfies \autoref{ch:concrete-instances-monoid-namecert}, together with left and right distributivity of \(\cdot\) over \(+\). It is not a primitive structure; it is licensed only by composing the additive abelian group and multiplicative monoid certificates with the distributive law.
+
+\begin{remark}[Concrete stability fields]
+\label{rem:concrete-instances-ring-namecert-roadmap}
+This chapter records the shared additive, multiplicative, congruence, and distributivity fields for the \(\RingUp\) naming certificate over BEDC histories.
+\end{remark}
+
+\section{Carrier definition}
+
+\begin{definition}[Ring carrier]
+\label{def:ring-carrier}
+Use a setup with carrier \(C\), classifier, addition, zero, additive inverse, multiplication, one, and ring law fields.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Ring source specification]
+\label{def:ring-source-specification}
+The source is an additive \(\AbGroupUp\) and multiplicative \(\MonoidUp\) on the same carrier and classifier.
+\end{definition}
+
+\begin{definition}[Ring pattern specification]
+\label{def:ring-pattern-specification}
+The pattern is expression formation from \(0,1,+,-,\cdot\).
+\end{definition}
+
+\begin{definition}[Ring classifier specification]
+\label{def:ring-classifier-specification}
+The classifier is the shared carrier sameness relation, congruent for both operations.
+\end{definition}
+
+\begin{definition}[Ring stability certificate]
+\label{def:ring-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item additive abelian-group laws
+  \item multiplicative monoid laws
+  \item addition and multiplication congruence
+  \item left distributivity
+  \item right distributivity
+  \item zero multiplication laws derived or supplied constructively
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.RingUp.ring\_stability\_certificate\_fields}
+
+\begin{theorem}[Ring additive right inverse]
+\label{thm:ring-add-right-inverse}
+For BEDC history addition, additive commutativity and the supplied left inverse
+law imply the matching right inverse law \(x+(-x)\hsame0\).
+\end{theorem}
+\begin{proof}
+Commute \(x+(-x)\) to \((-x)+x\), then apply the left inverse law.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_add\_right\_inverse}
+
+\begin{theorem}[Ring additive inverse of zero]
+\label{thm:ring-neg-zero}
+For BEDC history addition, additive commutativity, the left-zero law, and the
+left inverse law imply \(\hsame(-0,0)\).
+\end{theorem}
+\begin{proof}
+Chain \(-0\) backward through the left-zero equation \(0+(-0)\hsame -0\),
+commute \(0+(-0)\) to \((-0)+0\), and apply the left inverse law at \(0\).
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_neg\_zero}
+
+\begin{theorem}[Ring duplicate addition collapses to zero]
+\label{thm:ring-add-duplicate-eq-zero}
+For BEDC history addition, if an element is the same as its duplicate sum
+\(a+a\), then the element is the same as zero.
+\end{theorem}
+\begin{proof}
+Add the left inverse of \(a\) on the left, reassociate to bring
+\((-a)+a\) together, collapse that pair to zero, and use the left-zero law.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_add\_duplicate\_eq\_zero}
+
+\begin{theorem}[Ring additive right zero]
+\label{thm:ring-add-right-zero}
+For BEDC history addition, additive commutativity and the supplied left-zero
+law imply the matching right-zero law $x+0\hsame x$.
+\end{theorem}
+\begin{proof}
+Commute $x+0$ to $0+x$, then apply the left-zero law.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_add\_right\_zero}
+
+\begin{theorem}[Ring multiplication zero absorption]
+\label{thm:ring-mul-zero-absorption}
+For BEDC history operations satisfying additive associativity, left zero,
+left inverse, congruence, and both distributive laws, multiplication by zero on
+either side is internally the same as zero.
+\end{theorem}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_zero\_absorption}
+\begin{proof}
+First cancel a duplicated summand \(a\hsame a+a\) by adding the left inverse,
+reassociating, and using the left-zero law. Then apply distributivity to
+\(x\cdot(0+0)\) and \((0+0)\cdot x\), transport along \(0+0\hsame0\), and use
+the duplicate-cancellation step on the two resulting products.
+\end{proof}
+
+\begin{definition}[Ring ledger policy]
+\label{def:ring-ledger-policy}
+Record the shared carrier ledger and the operation tree for ring expressions.
+\end{definition}
+
+\begin{definition}[\(\RingUp\) certificate obligations]
+\label{def:ring-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RingUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\RingUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

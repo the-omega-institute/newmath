@@ -1,0 +1,150 @@
+\begin{theorem}[Bounded $\hsame$ product pair-representation coherence]
+\label{thm:prod-pair-rep-bounded-hsame-coherence}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. Suppose
+there are histories $l_0,r_0:\mathsf{BHist}$ such that
+$$
+\forall l.\;L(l)\to\hsame(l,l_0)
+$$
+and
+$$
+\forall r.\;R(r)\to\hsame(r,r_0).
+$$
+With both source classifiers specialized to $\hsame$, the product
+pair-representation coherence condition holds:
+$$
+\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}.
+$$
+\end{theorem}
+\begin{proof}
+Take two displayed pair representations of the same product history $h$, with
+components $(l,r)$ and $(l',r')$. The pair-representation witnesses include
+$L(l)$, $L(l')$, $R(r)$, and $R(r')$. The boundedness hypotheses give
+$\hsame(l,l_0)$, $\hsame(l',l_0)$, $\hsame(r,r_0)$, and $\hsame(r',r_0)$.
+By symmetry of $\hsame$, turn $\hsame(l',l_0)$ into $\hsame(l_0,l')$ and
+$\hsame(r',r_0)$ into $\hsame(r_0,r')$. By transitivity of $\hsame$, compose
+$l$ through $l_0$ to obtain $\hsame(l,l')$, and compose $r$ through $r_0$ to
+obtain $\hsame(r,r')$. These are exactly the two component classifier
+conclusions required by $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$.
+\end{proof}
+
+\begin{theorem}[Product pair-representation coherence from classifier-bounded sources]
+\label{thm:prod-pair-rep-classifier-bounded-coherence}
+The ten-field fit is: traditional target ordered-product component readback
+through bounded source classifiers; BEDC source $\mathsf{BHist}$ with $\Cont$;
+carriers $L$ and $R$; classifiers $\sim_L$ and $\sim_R$; stability obligation
+pair-representation coherence; ledger displayed pair representation; core
+theorem classifier-bounded coherence; exactness component comparison through
+the source classifiers; standard bridge source certificates plus center
+histories; status $\mathsf{ProofTarget}$.
+
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume
+$\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$. Suppose there are histories
+$l_0,r_0:\mathsf{BHist}$ such that
+$$
+\forall l.\;L(l)\to l\sim_L l_0
+$$
+and
+$$
+\forall r.\;R(r)\to r\sim_R r_0.
+$$
+Then the product pair-representation coherence condition holds:
+$$
+\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}.
+$$
+\end{theorem}
+\begin{proof}
+Take two displayed pair representations of the same product history $h$, with
+components $(l,r)$ and $(l',r')$. The displayed witnesses contain the source
+facts $L(l)$, $L(l')$, $R(r)$, and $R(r')$. The boundedness assumptions give
+$l\sim_L l_0$, $l'\sim_L l_0$, $r\sim_R r_0$, and $r'\sim_R r_0$. Apply the
+symmetry fields of $\mathsf{cert}_L$ and $\mathsf{cert}_R$ to turn the second
+left and right bounds into $l_0\sim_L l'$ and $r_0\sim_R r'$. Apply the
+transitivity fields of the two certificates to compose through the center
+histories, obtaining $l\sim_L l'$ and $r\sim_R r'$. These two component
+classifier witnesses are exactly the conclusion required by
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$.
+\end{proof}
+
+\begin{theorem}[Singleton product pair-representation coherence]
+\label{thm:prod-pair-rep-singleton-coherence}
+Fix histories $l_0,r_0:\mathsf{BHist}$. Let
+$L(x):\Longleftrightarrow\hsame(x,l_0)$ and
+$R(y):\Longleftrightarrow\hsame(y,r_0)$. With both source classifiers
+specialized to $\hsame$, the singleton source carriers satisfy product
+pair-representation coherence:
+$$
+\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-pair-rep-bounded-hsame-coherence}. The required
+left bound sends a witness $L(l)$ to the displayed clause $\hsame(l,l_0)$, and
+the required right bound sends a witness $R(r)$ to the displayed clause
+$\hsame(r,r_0)$.
+\end{proof}
+
+\begin{theorem}[Product componentwise history semantic certificate target]
+\label{thm:prod-component-history-semantic-certificate-target}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the componentwise
+classifier forms the semantic naming certificate with displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-component-history-classifier-certificate-target} to
+obtain carrier inhabitation, carrier-relative reflexivity, source-certified
+symmetry, source-certified transitivity, and classifier-induced carrier
+transport for
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ over
+$\mathsf{ProdHistoryCarrier}(L,R)$. Package these five fields as the core
+$\NameCert$ certificate. Carrier transport is still the right-endpoint
+transport supplied by the classifier witness and pair-representation coverage.
+The semantic pattern carrier is $\mathsf{ProdHistoryCarrier}(L,R)$, so
+$\mathsf{pattern\_sound}$ is identity on the carrier. Ledger soundness is the
+forward direction of Theorem~\ref{thm:prod-pair-rep-coverage}: every product
+history carrier witness exposes component histories $l,r$ and hence a displayed
+pair ledger witness $D(h)$.
+\end{proof}
+
+\begin{theorem}[Product componentwise classifier exposes displayed pair ledgers]
+\label{thm:prod-component-history-classifier-displayed-ledger-endpoints}
+The ten-field fit is: traditional target ordered-product displayed ledger
+exposure; BEDC source $\mathsf{BHist}$ with $\Cont$; carrier through
+$\mathsf{ProdPairRep}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$; ledger $D$; core theorem endpoint
+ledger exposure; exactness classifier endpoints carry displayed pair
+representatives; standard bridge ordered-pair readback; status
+$\mathsf{ProofTarget}$.
+
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be component
+classifiers. Define the displayed pair ledger
+$D(x):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(x,l,r)$.
+For all histories $h,k:\mathsf{BHist}$, if
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+$$
+holds, then $D(h)\land D(k)$.
+\end{theorem}
+\begin{proof}
+Unpack the componentwise classifier witness. Its endpoint data include a
+displayed pair representation of $h$ by some left and right component histories
+and a displayed pair representation of $k$ by some left and right component
+histories. Repack the first representation as the ledger witness for $D(h)$ and
+the second representation as the ledger witness for $D(k)$. These two witnesses
+give the required conjunction.
+\end{proof}

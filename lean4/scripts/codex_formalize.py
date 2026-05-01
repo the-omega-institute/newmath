@@ -56,16 +56,50 @@ PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = LEAN_ROOT / "scripts" / "logs"
 WORKTREE_DIR = REPO_ROOT / ".worktrees"
 
-BASE_BRANCH = "lean4-codex-auto-dev"
+BASE_BRANCH_DEFAULT = "lean4-codex-auto-dev"
+BASE_BRANCH = BASE_BRANCH_DEFAULT
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 # Lake-gate config exported to every codex child so they all coordinate on
 # the same lock dir / slot count. Defaults below are conservative for a
 # 16 GB M-series Mac. Override via CLI flags (--lake-parallel, --lake-lock-dir).
 LAKE_GATE_LOCK_DIR = REPO_ROOT / ".worktrees" / ".lake-gate"
 LAKE_GATE_MAX_PARALLEL = 1
-# Graceful stop: create this file to prevent new rounds from being dispatched.
-# Current rounds finish normally; the process exits once the pool drains.
-STOP_FILE = REPO_ROOT / ".pipeline.stop"
+# Graceful stop token: a running pipeline owns this file while its PID is
+# current. Removing or replacing it prevents new rounds from being dispatched;
+# current rounds finish normally and the process exits once the pool drains.
+PID_FILE = REPO_ROOT / ".pipeline.pid"
+FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
+FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
+MAX_LEAN_FILE_LINES = 800
+
+
+def _read_pipeline_pid(pid_file: Path = PID_FILE) -> int | None:
+    try:
+        return int(pid_file.read_text(encoding="utf-8").strip())
+    except (FileNotFoundError, ValueError):
+        return None
+
+
+def write_pipeline_pid(pid_file: Path = PID_FILE, pid: int | None = None) -> None:
+    pid_file.write_text(f"{os.getpid() if pid is None else pid}\n", encoding="utf-8")
+
+
+def claim_pipeline_pid(pid_file: Path = PID_FILE, pid: int | None = None) -> int | None:
+    previous = _read_pipeline_pid(pid_file)
+    write_pipeline_pid(pid_file, pid)
+    return previous
+
+
+def remove_pipeline_pid(pid_file: Path = PID_FILE) -> bool:
+    if not pid_file.exists():
+        return False
+    pid_file.unlink()
+    return True
+
+
+def pipeline_token_is_current(pid_file: Path = PID_FILE, pid: int | None = None) -> bool:
+    recorded = _read_pipeline_pid(pid_file)
+    return recorded == (os.getpid() if pid is None else pid)
 
 
 def _load_prompt(name: str) -> str:
@@ -75,6 +109,16 @@ def _load_prompt(name: str) -> str:
     Editing prompts only requires changing the .txt files, not this script.
     """
     return (PROMPTS_DIR / f"{name}.txt").read_text(encoding="utf-8")
+
+
+def _prompt_version(prompt: str) -> str:
+    for line in prompt.splitlines():
+        m = re.match(r"^(v\d+\.\d+)\b", line.strip())
+        if m:
+            return m.group(1)
+    raise ValueError("prompt is missing a top-level version line")
+
+
 
 # Thread-safe lock for git operations on the main repo
 _git_lock = threading.Lock()
@@ -198,7 +242,8 @@ class WorktreeInfo:
     path: Path
     branch: str
     round_number: int
-    base_sha: str = ""  # HEAD at worktree creation; ground truth for "new" commits
+    base_sha: str = ""  # HEAD at worktree creation; ground truth for the round's full integration range
+    formalization_base_sha: str = ""  # HEAD immediately before Phase C creates this round's commits
 
 
 # ---------------------------------------------------------------------------
@@ -227,6 +272,16 @@ def run_cmd(
 def git_log_oneline(n: int = 5, *, cwd: Optional[Path] = None) -> list[str]:
     result = run_cmd(["git", "log", "--oneline", f"-{n}"], cwd=cwd or REPO_ROOT)
     return [l.strip() for l in result.stdout.strip().splitlines() if l.strip()]
+
+
+def latest_committed_round(*, cwd: Optional[Path] = None) -> int:
+    result = run_cmd(["git", "log", "--format=%s"], cwd=cwd or REPO_ROOT)
+    latest = 0
+    for line in result.stdout.splitlines():
+        m = re.match(r"R(\d+)\b", line.strip())
+        if m:
+            latest = max(latest, int(m.group(1)))
+    return latest
 
 
 # ---------------------------------------------------------------------------
@@ -700,44 +755,133 @@ def merge_lake_cache_back(wt: WorktreeInfo, new_commits: list[str]) -> None:
         )
 
 
+def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Optional[str]]:
+    """Run the pre-merge gate sequence.
+
+    Returns (ok, failed_gate_name, output_tail).
+    failed_gate_name is one of {'lake_build', 'check_axioms', 'audit',
+    'axiom_purity'} on failure; None on success.
+    output_tail is the last ~4000 chars of combined stdout+stderr for the
+    failing gate, suitable for passing to a codex recovery prompt.
+    """
+    gates = [
+        ("lake_build", ["lake", "build"], wt.path / "lean4", 7200),
+        ("check_axioms", ["python3", "tools/check-axioms.py"], wt.path, 600),
+        ("audit", ["python3", "lean4/scripts/bedc_ci.py", "audit"], wt.path, 600),
+        ("axiom_purity", ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], wt.path, 1800),
+    ]
+    for name, cmd, cwd, timeout in gates:
+        result = run_cmd(cmd, cwd=cwd, timeout=timeout)
+        if result.returncode != 0:
+            tail = ((result.stdout or "")[-2000:] + (result.stderr or "")[-2000:])
+            logger.error(
+                f"[R{wt.round_number}] Pre-merge hard gate failed: {' '.join(cmd)}\n{tail}"
+            )
+            return False, name, tail
+    return True, None, None
+
+
+def _codex_resolve_post_rebase_audit(
+    wt_path: Path,
+    round_number: int,
+    audit_tail: str,
+    *,
+    model: Optional[str] = None,
+    timeout: int = 1200,
+) -> bool:
+    """After a clean rebase, `bedc_ci.py audit` may still fail because a
+    sibling R-round (or a P-round) merged a colliding paper label /
+    unresolved marker into BASE_BRANCH while this worktree was working.
+    Ask codex to drop this round's offending additions only.
+    """
+    prompt = textwrap.dedent(f"""\
+        You are recovering a BEDC Lean formalization worktree after rebase.
+
+        The rebase succeeded (no merge conflicts), and `lake build` plus
+        `tools/check-axioms.py` passed, but
+        `python3 lean4/scripts/bedc_ci.py audit` is now reporting failures
+        on the rebased tree. The cause is usually a sibling round (paper
+        or Lean) that merged onto BASE_BRANCH while this worktree was
+        working — your additions and theirs collided.
+
+        Typical causes:
+          - duplicate `\\label{{thm:...}}` in `papers/bedc/parts/...`;
+          - duplicate `\\leanchecked{{X}}` for a Lean target that a
+            sibling already registered at a different paper site;
+          - `\\leanchecked` / `\\leanstmt` / `\\leandef` pointing at a
+            Lean name that, after rebase, no longer exists in
+            `lean4/BEDC/` (the sibling round renamed or deleted it).
+
+        ## Audit output (tail)
+        {audit_tail}
+
+        ## Your task
+        Remove ONLY this round's (R{round_number}) offending additions:
+
+        1. Run `python3 lean4/scripts/bedc_ci.py audit` to see the live
+           list of duplicate labels / unresolved markers / forbidden
+           constructs.
+        2. Use `git diff HEAD@{{1}}` (or `git show HEAD`) to identify the
+           lines this round added in `papers/bedc/parts/`.
+        3. For each duplicate label this round added: delete the line
+           and, if the surrounding `\\begin{{theorem}}…\\end{{theorem}}`
+           block exists only because of this round, delete the block too.
+           Do NOT delete the sibling block already on the base branch.
+        4. For each unresolved marker this round added: delete that
+           single `\\leanchecked` / `\\leanstmt` / `\\leandef` line.
+        5. Do NOT touch `lean4/BEDC/`. Do NOT introduce iteration
+           narrative vocabulary.
+        6. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
+           until both exit 0. If the round's paper-side contribution
+           becomes empty after the cleanup, that is acceptable — keep
+           the Lean-side commits and let the pipeline merge what
+           remains.
+        7. Once everything passes, `git add papers/bedc` and `git commit
+           --amend --no-edit` so the round's commit retains the same
+           identity, just with the colliding additions stripped out.
+           Do NOT git push.
+
+        If the only valid recovery is to drop the round entirely, run
+        `git reset HEAD~1` and exit cleanly.
+    """)
+    codex_exec(prompt, work_dir=wt_path, timeout_seconds=timeout, model=model)
+    return True
+
+
+def _ff_local_branch_to(target: str) -> tuple[bool, str]:
+    """Fast-forward local BASE_BRANCH to target without moving the wrong branch."""
+    head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
+                   cwd=REPO_ROOT, timeout=10)
+    current = (head.stdout or "").strip()
+    if current == BASE_BRANCH:
+        r = run_cmd(["git", "merge", "--ff-only", target],
+                    cwd=REPO_ROOT, timeout=30)
+    else:
+        r = run_cmd(["git", "fetch", ".", f"{target}:{BASE_BRANCH}"],
+                    cwd=REPO_ROOT, timeout=30)
+    return r.returncode == 0, (r.stderr or r.stdout or "")[-300:]
+
+
 def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
-    """Merge the worktree branch into BASE_BRANCH and push.
+    """Rebase the worktree branch onto BASE_BRANCH, ff-update locally, push.
 
     Strategy:
     1. Fetch origin so we have the latest remote state.
-    2. Fast-forward LOCAL BASE_BRANCH from origin (if origin is ahead).
-       Uses ``git fetch . origin/BASE:BASE`` which is ff-only and safe —
-       it never overwrites local-only commits that haven't been pushed yet.
-    3. Rebase the worktree branch onto the LOCAL BASE_BRANCH (not origin/).
-       This ensures any local-only commits (e.g. prompt/script edits made
-       directly on the branch without pushing first) are included in the
-       rebase base and are not lost.
-    4. Fast-forward LOCAL BASE_BRANCH to the rebased worktree tip via
-       ``git fetch . wt_tip:BASE_BRANCH`` (ff-only, never force-moves the
-       ref past local-only commits, never touches the working tree).
-    5. Push to origin.
-
-    The old ``git update-ref + git reset --hard HEAD`` pattern was unsafe:
-    it unconditionally moved the branch pointer to the worktree tip (which
-    was rebased on origin/, not on local commits) and then discarded any
-    local-only working-tree changes.
+    2. Best-effort fast-forward LOCAL BASE_BRANCH from origin; keep local-only
+       base commits if origin cannot be fast-forwarded into the local branch.
+    3. Rebase the worktree branch onto the LOCAL BASE_BRANCH.
+    4. Fast-forward LOCAL BASE_BRANCH to the rebased worktree tip.
+    5. Push to origin and verify origin contains the worktree tip.
     """
     with _git_lock:
         logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
 
         def _do_rebase_and_ff(attempt: int) -> bool:
-            # 1. Fetch latest remote state
             run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+            ok, msg = _ff_local_branch_to(f"origin/{BASE_BRANCH}")
+            if not ok:
+                logger.info(f"local {BASE_BRANCH} ff from origin skipped: {msg.strip()}")
 
-            # 2. Fast-forward local BASE_BRANCH from origin if origin is ahead.
-            #    git merge --ff-only works on a checked-out branch (unlike git fetch .).
-            #    Silently no-ops if local is already at or ahead of origin.
-            run_cmd(
-                ["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
-                cwd=REPO_ROOT, timeout=30,
-            )
-
-            # 3. Rebase worktree onto LOCAL BASE_BRANCH (includes local-only commits)
             rebase = run_cmd(
                 ["git", "rebase", BASE_BRANCH],
                 cwd=wt.path,
@@ -754,10 +898,21 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                     run_cmd(["git", "rebase", "--abort"], cwd=wt.path)
                     return False
 
-            # 3.5. Post-rebase Gate 5: under the merge lock, re-check symbol
-            #      uniqueness against the NOW-current base tip. Catches the
-            #      concurrent case where two workers each passed Gate 5 at
-            #      commit time but introduce the same symbol vs each other.
+            rebased_new = run_cmd(
+                ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
+                cwd=wt.path, timeout=30,
+            )
+            rebased_lines = [
+                l.strip() for l in rebased_new.stdout.splitlines() if l.strip()
+            ]
+            own_prefix = f"R{wt.round_number}:"
+            if not any(own_prefix in l for l in rebased_lines):
+                logger.error(
+                    f"[R{wt.round_number}] Rebase left no own-round commit "
+                    f"unique to {BASE_BRANCH}; refusing to report merge success"
+                )
+                return False
+
             latest_base_sha = run_cmd(
                 ["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT
             ).stdout.strip()
@@ -777,28 +932,61 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                 )
                 return False
 
-            # 4. Fast-forward local BASE_BRANCH to rebased worktree tip.
-            #    git merge --ff-only works on checked-out branches; git fetch . does not.
-            wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
-            ff = run_cmd(
-                ["git", "merge", "--ff-only", wt_tip],
-                cwd=REPO_ROOT, timeout=30,
-            )
-            if ff.returncode != 0:
-                logger.error(f"ff update of {BASE_BRANCH} failed: {ff.stderr[:300]}")
+            gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
+            if not gates_ok and failed_gate == "audit":
+                logger.warning(
+                    f"[R{wt.round_number}] Pre-merge audit failed — "
+                    "asking codex to drop colliding paper additions"
+                )
+                _codex_resolve_post_rebase_audit(
+                    wt.path, wt.round_number, gate_tail or "", model=model
+                )
+                gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
+                if gates_ok:
+                    logger.info(
+                        f"[R{wt.round_number}] Audit recovered after "
+                        "codex resolution; continuing merge"
+                    )
+            if not gates_ok:
                 return False
 
-            # 5. Push to origin
+            wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
+            ok, msg = _ff_local_branch_to(wt_tip)
+            if not ok:
+                logger.error(f"ff update of {BASE_BRANCH} failed: {msg.strip()}")
+                return False
+            local_contains = run_cmd(
+                ["git", "merge-base", "--is-ancestor", wt_tip, BASE_BRANCH],
+                cwd=REPO_ROOT, timeout=10,
+            ).returncode == 0
+            if not local_contains:
+                logger.error(
+                    f"{BASE_BRANCH} does not contain {wt.branch} tip {wt_tip[:8]} "
+                    "after ff update"
+                )
+                return False
+
             push = run_cmd(
                 ["git", "push", "origin", BASE_BRANCH],
                 cwd=REPO_ROOT, timeout=300,
             )
             if push.returncode == 0:
-                return True
+                run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+                origin_contains = run_cmd(
+                    ["git", "merge-base", "--is-ancestor", wt_tip, f"origin/{BASE_BRANCH}"],
+                    cwd=REPO_ROOT, timeout=10,
+                ).returncode == 0
+                if origin_contains:
+                    return True
+                logger.error(
+                    f"origin/{BASE_BRANCH} does not contain {wt.branch} tip "
+                    f"{wt_tip[:8]} after push"
+                )
+                return False
 
             if attempt == 1:
                 logger.warning("Push rejected, retrying after fetch + rebase...")
-                return False  # caller will retry
+                return False
 
             logger.error(f"Push retry failed: {push.stderr[:300]}")
             return False
@@ -807,7 +995,6 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             logger.info(f"Merged and pushed {wt.branch} to {BASE_BRANCH}")
             return True
 
-        # Retry once (someone else pushed between our rebase and push)
         if _do_rebase_and_ff(attempt=2):
             logger.info(f"Merged and pushed {wt.branch} to {BASE_BRANCH}")
             return True
@@ -997,6 +1184,16 @@ def parse_phase_b_output(raw: str) -> PhaseBResult:
     return result
 
 
+def _path_has_forbidden_target_part(raw_path: str) -> bool:
+    parts = Path(raw_path).parts
+    return any(part in FORBIDDEN_TARGET_PATH_PARTS for part in parts)
+
+
+def _name_has_forbidden_fragment(value: str) -> bool:
+    lowered = value.lower()
+    return any(fragment in lowered for fragment in FORBIDDEN_TARGET_NAME_FRAGMENTS)
+
+
 def gate_check(targets: list[dict]) -> tuple[bool, str]:
     if len(targets) < 1:
         return False, "No targets found"
@@ -1009,6 +1206,13 @@ def gate_check(targets: list[dict]) -> tuple[bool, str]:
         issues.append("No medium/high difficulty target")
     if len(targets) >= 3 and len(chapters) <= 1:
         issues.append(f"All targets from same chapter: {chapters}")
+    for t in targets:
+        target_file = str(t.get("target_file", ""))
+        lean_name = str(t.get("lean_name", ""))
+        if _path_has_forbidden_target_part(target_file):
+            issues.append(f"Forbidden target path: {target_file}")
+        if _name_has_forbidden_fragment(target_file) or _name_has_forbidden_fragment(lean_name):
+            issues.append(f"Forbidden scaffold/example target name: {lean_name or target_file}")
     if issues:
         return False, "; ".join(issues)
     return True, "Gate passed"
@@ -1186,15 +1390,17 @@ def _file_is_shell_new(text: str) -> Optional[str]:
 def detect_shell_pattern(wt: WorktreeInfo) -> list[str]:
     """Scan .lean files NEWLY added in this round for the abstract-Prop shell pattern."""
     violations: list[str] = []
+    base = _round_diff_base(wt)
+    if not base:
+        return violations
     try:
-        # Get newly-added files in this round vs. base branch.
         result = run_cmd(
-            ["git", "diff", "--name-status", f"origin/{BASE_BRANCH}...HEAD"],
+            ["git", "diff", "--name-status", f"{base}..HEAD", "--", "lean4/BEDC/"],
             cwd=wt.path,
         )
         lines = (result.stdout or "").splitlines()
     except Exception:
-        return violations  # can't check, allow through
+        return violations
 
     new_files: list[str] = []
     for ln in lines:
@@ -1220,7 +1426,7 @@ def detect_shell_pattern(wt: WorktreeInfo) -> list[str]:
 _SORRY_LITERAL_RE = re.compile(
     r"(?<![A-Za-z_])(?:sorry|admit)(?![A-Za-z_])"
 )
-_AXIOM_DECL_RE = re.compile(r"^\s*axiom\s+\w", re.MULTILINE)
+_FORBIDDEN_DECL_RE = re.compile(r"^\s*(axiom|constant|opaque)\s+\w", re.MULTILINE)
 
 
 def _strip_lean_comments(src: str) -> str:
@@ -1265,12 +1471,44 @@ def _strip_lean_comments(src: str) -> str:
     return "".join(out)
 
 
+def _round_diff_base(wt: WorktreeInfo) -> str:
+    return wt.formalization_base_sha or wt.base_sha
+
+
+def _round_commit_base(wt: WorktreeInfo) -> str:
+    """Return the parent of this round's first own commit, excluding rebased upstream commits."""
+    if not wt.base_sha:
+        return ""
+    try:
+        result = run_cmd(
+            ["git", "log", "--reverse", "--format=%H%x00%s", f"{wt.base_sha}..HEAD"],
+            cwd=wt.path,
+        )
+    except Exception:
+        return _round_diff_base(wt)
+    prefix = f"R{wt.round_number}:"
+    for line in (result.stdout or "").splitlines():
+        sha, sep, subject = line.partition("\x00")
+        if sep and subject.startswith(prefix):
+            try:
+                parent = run_cmd(["git", "rev-parse", f"{sha}^"], cwd=wt.path).stdout.strip()
+            except Exception:
+                return _round_diff_base(wt)
+            if parent:
+                wt.formalization_base_sha = parent
+                return parent
+    return _round_diff_base(wt)
+
+
 def _lines_added_in_round(wt: WorktreeInfo, rel_path: str) -> set[int]:
     """Line numbers (1-indexed, of the HEAD version) that this round added to
     `rel_path`."""
+    base = _round_diff_base(wt)
+    if not base:
+        return set()
     try:
         r = run_cmd(
-            ["git", "diff", "--unified=0", f"{wt.base_sha}..HEAD", "--", rel_path],
+            ["git", "diff", "--unified=0", f"{base}..HEAD", "--", rel_path],
             cwd=wt.path,
         )
     except Exception:
@@ -1311,12 +1549,13 @@ def detect_sorry_literals(wt: WorktreeInfo) -> list[str]:
     from English prose in docstrings that happens to contain the word
     "admit"."""
     violations: list[str] = []
-    if not wt.base_sha:
+    base = _round_diff_base(wt)
+    if not base:
         return violations
     try:
         r = run_cmd(
             ["git", "diff", "--name-only", "--diff-filter=AM",
-             f"{wt.base_sha}..HEAD", "--", "lean4/BEDC/"],
+             f"{base}..HEAD", "--", "lean4/BEDC/"],
             cwd=wt.path,
         )
     except Exception:
@@ -1337,11 +1576,50 @@ def detect_sorry_literals(wt: WorktreeInfo) -> list[str]:
             if line_no in added_lines:
                 ctx = src.splitlines()[line_no - 1].strip()[:140]
                 violations.append(f"{rel}:{line_no}: {m.group()} — {ctx}")
-        for m in _AXIOM_DECL_RE.finditer(stripped):
+        for m in _FORBIDDEN_DECL_RE.finditer(stripped):
             line_no = stripped.count("\n", 0, m.start()) + 1
             if line_no in added_lines:
+                kind = m.group(1)
                 ctx = src.splitlines()[line_no - 1].strip()[:140]
-                violations.append(f"{rel}:{line_no}: axiom — {ctx}")
+                violations.append(f"{rel}:{line_no}: {kind} — {ctx}")
+    return violations
+
+
+def _changed_lean_files(wt: WorktreeInfo, diff_filter: str = "AM") -> list[str]:
+    base = _round_diff_base(wt)
+    if not base:
+        return []
+    try:
+        r = run_cmd(
+            ["git", "diff", "--name-only", f"--diff-filter={diff_filter}",
+             f"{base}..HEAD", "--", "lean4/BEDC/"],
+            cwd=wt.path,
+        )
+    except Exception:
+        return []
+    return [l.strip() for l in (r.stdout or "").splitlines() if l.strip().endswith(".lean")]
+
+
+def detect_forbidden_target_paths(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    for rel in _changed_lean_files(wt):
+        if _path_has_forbidden_target_part(rel):
+            violations.append(f"{rel}: theorem-bearing targets cannot live under Examples/")
+        if _name_has_forbidden_fragment(rel):
+            violations.append(f"{rel}: target path contains scaffold/example/demo naming")
+    return violations
+
+
+def detect_oversized_lean_files(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    for rel in _changed_lean_files(wt):
+        p = wt.path / rel
+        try:
+            line_count = len(p.read_text(encoding="utf-8").splitlines())
+        except Exception:
+            continue
+        if line_count > MAX_LEAN_FILE_LINES:
+            violations.append(f"{rel}: {line_count} lines exceeds cap {MAX_LEAN_FILE_LINES}")
     return violations
 
 
@@ -1352,6 +1630,266 @@ _NEW_DECL_RE = re.compile(
     r"([A-Za-z_][\w.]*)",
     re.MULTILINE,
 )
+
+_DECL_HEADER_RE = re.compile(
+    r"^\s*(?:@\[[^\]]*\]\s*)*"
+    r"(?:private\s+|protected\s+|noncomputable\s+|scoped\s+|local\s+)*"
+    r"(def|theorem|lemma|abbrev|structure|class|inductive|instance)\s+"
+    r"([A-Za-z_][\w.]*)",
+    re.MULTILINE,
+)
+_NAMESPACE_RE = re.compile(r"^\s*namespace\s+([A-Za-z0-9_'.]+)\s*$")
+_END_RE = re.compile(r"^\s*end(?:\s+[A-Za-z0-9_'.]+)?\s*$")
+_LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef|leanvariant)\{([^}]+)\}")
+_BEDC_TOUCHPOINT_RE = re.compile(
+    r"\b("
+    r"BMark|BHist|msame|hsame|Ext|Cont|ProbeBundle|SigRel|sameSig|Pkg|InGap|"
+    r"NameCert|SemanticNameCert|BaseReflectionSetup|AskSetup|PackageSetup|"
+    r"DomainSetup|NameCertSetup|BEDC\."
+    r")\b"
+)
+_HOLLOW_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
+    ("import Init.Data.Unit", re.compile(r"^\s*import\s+Init\.Data\.Unit\s*$")),
+    ("Unit-only construction", re.compile(r"(?::\s*Unit\b.*:=\s*\(\)|:=\s*(?:\(\)|Unit\.unit|Unit)(?![A-Za-z_])|\bexact\s+(?:\(\)|Unit\.unit|Unit)(?![A-Za-z_]))")),
+    ("True-only proof", re.compile(r"(?::\s*True\b.*:=\s*(?:True\.intro|trivial)|:=\s*(?:True\.intro|trivial)(?![A-Za-z_])|\bexact\s+(?:True\.intro|trivial)(?![A-Za-z_]))")),
+    ("NameCert.mk Unit tuple", re.compile(r"NameCert\.mk\s+(?:\(\)|Unit\.unit)")),
+    ("MinimalNameCertSetup", re.compile(r"\bMinimalNameCertSetup\b")),
+]
+
+
+def _normalize_marker_name(name: str) -> str:
+    return name.replace(r"\_", "_").strip()
+
+
+def _qualified_decl_name(name: str, namespace_stack: list[str]) -> str:
+    if name.startswith("BEDC."):
+        return name
+    if namespace_stack:
+        return f"{'.'.join(namespace_stack)}.{name}"
+    return name
+
+
+def _lean_decl_blocks(src: str) -> list[tuple[str, int, int, str]]:
+    stripped = _strip_lean_comments(src)
+    lines = stripped.splitlines()
+    raw_lines = src.splitlines()
+    namespace_stack: list[str] = []
+    decls: list[tuple[str, int, int, str]] = []
+    pending: list[tuple[str, int, list[str], int]] = []
+    for idx, line in enumerate(lines, start=1):
+        ns = _NAMESPACE_RE.match(line)
+        if ns:
+            namespace_stack.append(ns.group(1))
+            continue
+        if _END_RE.match(line) and namespace_stack:
+            namespace_stack.pop()
+            continue
+        m = _DECL_HEADER_RE.match(line)
+        if m:
+            pending.append((_qualified_decl_name(m.group(2), namespace_stack), idx, list(namespace_stack), len(decls)))
+    for i, (name, start, _ns, _pos) in enumerate(pending):
+        end = pending[i + 1][1] - 1 if i + 1 < len(pending) else len(lines)
+        block = "\n".join(raw_lines[start - 1:end])
+        decls.append((name, start, end, block))
+    return decls
+
+
+def collect_added_lean_declarations(wt: WorktreeInfo) -> dict[str, tuple[str, str]]:
+    """Return newly introduced BEDC declarations as name -> (rel_path, block)."""
+    added: dict[str, tuple[str, str]] = {}
+    base_ref = _round_diff_base(wt)
+    if not base_ref:
+        return added
+    for rel in _changed_lean_files(wt):
+        try:
+            current_src = (wt.path / rel).read_text(encoding="utf-8")
+        except Exception:
+            continue
+        current = {name: block for name, _start, _end, block in _lean_decl_blocks(current_src)}
+        try:
+            base_src = run_cmd(
+                ["git", "show", f"{base_ref}:{rel}"],
+                cwd=wt.path, check=False,
+            ).stdout
+        except Exception:
+            base_src = ""
+        base = {name for name, _start, _end, _block in _lean_decl_blocks(base_src)} if base_src else set()
+        for name, block in current.items():
+            if name not in base:
+                added[name] = (rel, block)
+    return added
+
+
+def _changed_paper_files(wt: WorktreeInfo) -> list[str]:
+    base = _round_diff_base(wt)
+    if not base:
+        return []
+    try:
+        r = run_cmd(
+            ["git", "diff", "--name-only", "--diff-filter=AM",
+             f"{base}..HEAD", "--", "papers/bedc/"],
+            cwd=wt.path,
+        )
+    except Exception:
+        return []
+    return [l.strip() for l in (r.stdout or "").splitlines() if l.strip().endswith(".tex")]
+
+
+def _added_marker_lines(wt: WorktreeInfo) -> list[tuple[str, str, str]]:
+    markers: list[tuple[str, str, str]] = []
+    base = _round_diff_base(wt)
+    if not base:
+        return markers
+    try:
+        r = run_cmd(
+            ["git", "diff", "--unified=0", f"{base}..HEAD", "--", "papers/bedc/"],
+            cwd=wt.path,
+        )
+    except Exception:
+        return markers
+    current_file = ""
+    for line in (r.stdout or "").splitlines():
+        if line.startswith("+++ b/"):
+            current_file = line[6:]
+            continue
+        if not current_file.endswith(".tex"):
+            continue
+        if not line.startswith("+") or line.startswith("+++"):
+            continue
+        for m in _LEAN_MARKER_RE.finditer(line[1:]):
+            markers.append((current_file, m.group(1), _normalize_marker_name(m.group(2))))
+    return markers
+
+
+def detect_register_only_round(wt: WorktreeInfo) -> list[str]:
+    if _changed_paper_files(wt) and not collect_added_lean_declarations(wt):
+        return ["paper registration changed but the round added no Lean declarations under lean4/BEDC/"]
+    return []
+
+
+def detect_hollow_semantic_patterns(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    for rel in _changed_lean_files(wt):
+        try:
+            src = (wt.path / rel).read_text(encoding="utf-8")
+        except Exception:
+            continue
+        stripped = _strip_lean_comments(src)
+        added_lines = _lines_added_in_round(wt, rel)
+        for line_no, line in enumerate(stripped.splitlines(), start=1):
+            if line_no not in added_lines:
+                continue
+            raw = src.splitlines()[line_no - 1].strip()[:160]
+            for label, pattern in _HOLLOW_PATTERNS:
+                if pattern.search(line):
+                    violations.append(f"{rel}:{line_no}: {label} — {raw}")
+                    break
+    return violations
+
+
+def detect_new_leanvariant_markers(wt: WorktreeInfo) -> list[str]:
+    return [f"{rel}: new leanvariant marker for {name}" for rel, kind, name in _added_marker_lines(wt) if kind == "leanvariant"]
+
+
+def detect_markers_not_backed_by_new_decls(wt: WorktreeInfo) -> list[str]:
+    new_decls = set(collect_added_lean_declarations(wt))
+    violations: list[str] = []
+    for rel, kind, name in _added_marker_lines(wt):
+        if kind not in {"leanchecked", "leanstmt", "leandef"}:
+            continue
+        if name not in new_decls:
+            violations.append(f"{rel}: {kind} marker {name} does not reference a current-round Lean declaration")
+    return violations
+
+
+def detect_decls_without_kernel_touchpoint(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    for name, (rel, block) in collect_added_lean_declarations(wt).items():
+        semantic_lines = [
+            line for line in block.splitlines()
+            if not _NAMESPACE_RE.match(line) and not _END_RE.match(line)
+        ]
+        semantic_block = "\n".join(semantic_lines)
+        if not _BEDC_TOUCHPOINT_RE.search(semantic_block):
+            violations.append(f"{rel}: new declaration {name} does not mention a BEDC kernel/setup touchpoint")
+    return violations
+
+
+_SHALLOW_ECHO_NAMES = {
+    "le_refl", "le_trans", "carrier_transport", "lower_transport", "upper_transport",
+    "normalized", "transport", "closure", "stable", "stability"
+}
+_CARRIER_ONLY_NAME_RE = re.compile(
+    r"(?:Carrier|SourceSpec|PatternSpec|ClassifierSpec|LedgerPolicy|Lower|Upper|Normalized)"
+)
+
+
+def _decl_kind(block: str) -> str:
+    m = _DECL_HEADER_RE.match(block)
+    return m.group(1) if m else ""
+
+
+def _decl_short_name(name: str) -> str:
+    return name.rsplit(".", 1)[-1]
+
+
+def _decl_conclusion(block: str) -> str:
+    header = block.split(":=", 1)[0]
+    idx = header.rfind(":")
+    if idx == -1:
+        return ""
+    return " ".join(header[idx + 1:].split())
+
+
+def _is_parameter_echo(block: str) -> bool:
+    lines = [line.strip() for line in block.splitlines()]
+    for candidate in _SHALLOW_ECHO_NAMES:
+        if not re.search(rf"\b{re.escape(candidate)}\b", block):
+            continue
+        if any(line in {f"exact {candidate}", f"apply {candidate}"} for line in lines):
+            return True
+    return False
+
+
+def detect_shallow_growth_patterns(wt: WorktreeInfo) -> list[str]:
+    violations: list[str] = []
+    added = collect_added_lean_declarations(wt)
+    if not added:
+        return violations
+
+    carrier_like: list[tuple[str, str]] = []
+    theorem_like: list[tuple[str, str, str]] = []
+    concrete_theorem_blocks: list[str] = []
+    conclusion_owner: dict[tuple[str, str], str] = {}
+
+    for name, (rel, block) in added.items():
+        kind = _decl_kind(block)
+        short = _decl_short_name(name)
+        if kind in {"def", "abbrev"} and _CARRIER_ONLY_NAME_RE.search(short):
+            carrier_like.append((rel, name))
+        if kind in {"theorem", "lemma"}:
+            theorem_like.append((rel, name, block))
+            if _CARRIER_ONLY_NAME_RE.search(block):
+                concrete_theorem_blocks.append(block)
+            if _is_parameter_echo(block):
+                violations.append(f"{rel}: new theorem {name} is a parameter echo")
+            conclusion = _decl_conclusion(block)
+            if conclusion and _BEDC_TOUCHPOINT_RE.search(conclusion):
+                key = (rel, conclusion)
+                if key in conclusion_owner:
+                    violations.append(
+                        f"{rel}: duplicate theorem conclusion in {conclusion_owner[key]} and {name}"
+                    )
+                else:
+                    conclusion_owner[key] = name
+
+    if carrier_like and not concrete_theorem_blocks:
+        rel = carrier_like[0][0]
+        names = ", ".join(name for _rel, name in carrier_like[:4])
+        violations.append(
+            f"{rel}: carrier/spec definitions added without a theorem using the concrete definitions ({names})"
+        )
+    return violations
 
 
 def detect_duplicate_symbols(wt: WorktreeInfo) -> list[str]:
@@ -1449,9 +1987,10 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
     that already exist on origin); a window-based comparison against
     `pre_commits` mistakenly counted those as new in earlier versions.
     """
+    base = _round_commit_base(wt) or wt.base_sha
     if wt.base_sha:
         result = run_cmd(
-            ["git", "log", "--oneline", f"{wt.base_sha}..HEAD"],
+            ["git", "log", "--oneline", f"{base}..HEAD"],
             cwd=wt.path,
         )
         new = [l.strip() for l in result.stdout.splitlines() if l.strip()]
@@ -1460,6 +1999,13 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
         post = git_log_oneline(40, cwd=wt.path)
         new = [c for c in post if c not in pre_commits]
     if new:
+        own_prefix = f"R{wt.round_number}:"
+        if not any(own_prefix in c for c in new):
+            logger.error(
+                f"[R{wt.round_number}] Phase D: no own-round commit found; "
+                f"new commits were: {new[:5]}"
+            )
+            return False, new
         logger.info(f"[R{wt.round_number}] Phase D: {len(new)} new commit(s):")
         for c in new:
             logger.info(f"  {c}")
@@ -1474,7 +2020,26 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
                 f"Fix: keep original signature and leave proof as-is if stuck."
             )
             return False, new
-        # Gate 2: new abstract-Prop shell files
+        # Gate 2: canonical target paths and file size
+        path_violations = detect_forbidden_target_paths(wt)
+        if path_violations:
+            for v in path_violations[:10]:
+                logger.error(f"[R{wt.round_number}] FORBIDDEN TARGET PATH: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(path_violations)} Lean file(s) "
+                f"use Examples/scaffold target paths. Use canonical semantic BEDC modules."
+            )
+            return False, new
+        size_violations = detect_oversized_lean_files(wt)
+        if size_violations:
+            for v in size_violations[:10]:
+                logger.error(f"[R{wt.round_number}] OVERSIZED LEAN FILE: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(size_violations)} Lean file(s) "
+                f"exceed the {MAX_LEAN_FILE_LINES}-line cap. Split into focused submodules."
+            )
+            return False, new
+        # Gate 3: new abstract-Prop shell files
         shell_violations = detect_shell_pattern(wt)
         if shell_violations:
             for v in shell_violations:
@@ -1486,18 +2051,74 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
                 f"\\leanpartial{{…}}{{reason}} if proof is incomplete."
             )
             return False, new
-        # Gate 3: sorry/admit/axiom literals in newly-added or modified lines
+        # Gate 4: semantic-quality gates for automated rounds
+        register_only_violations = detect_register_only_round(wt)
+        if register_only_violations:
+            for v in register_only_violations:
+                logger.error(f"[R{wt.round_number}] REGISTER-ONLY ROUND: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: paper markers changed without "
+                f"new Lean declarations. Pick a target that adds real formal content."
+            )
+            return False, new
+        hollow_violations = detect_hollow_semantic_patterns(wt)
+        if hollow_violations:
+            for v in hollow_violations[:10]:
+                logger.error(f"[R{wt.round_number}] HOLLOW SEMANTIC PATTERN: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(hollow_violations)} added "
+                f"line(s) use Unit/True/trivial/MinimalNameCertSetup hollow constructions."
+            )
+            return False, new
+        variant_violations = detect_new_leanvariant_markers(wt)
+        if variant_violations:
+            for v in variant_violations[:10]:
+                logger.error(f"[R{wt.round_number}] NEW LEANVARIANT: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: automated rounds must add "
+                f"canonical leanchecked/leanstmt/leandef markers, not new variants."
+            )
+            return False, new
+        marker_violations = detect_markers_not_backed_by_new_decls(wt)
+        if marker_violations:
+            for v in marker_violations[:10]:
+                logger.error(f"[R{wt.round_number}] STALE MARKER TARGET: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(marker_violations)} marker(s) "
+                f"do not reference declarations introduced by this round."
+            )
+            return False, new
+        touchpoint_violations = detect_decls_without_kernel_touchpoint(wt)
+        if touchpoint_violations:
+            for v in touchpoint_violations[:10]:
+                logger.error(f"[R{wt.round_number}] NO BEDC TOUCHPOINT: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(touchpoint_violations)} new "
+                f"declaration(s) do not mention BEDC kernel/setup objects."
+            )
+            return False, new
+        shallow_violations = detect_shallow_growth_patterns(wt)
+        if shallow_violations:
+            for v in shallow_violations[:10]:
+                logger.error(f"[R{wt.round_number}] SHALLOW GROWTH PATTERN: {v}")
+            logger.error(
+                f"[R{wt.round_number}] Rejecting round: {len(shallow_violations)} new "
+                f"declaration pattern(s) look like parameter echo, carrier-only growth, "
+                f"or duplicate theorem inflation. Pick a concrete closure/transport target."
+            )
+            return False, new
+        # Gate 5: sorry/admit/axiom/constant/opaque literals in newly-added or modified lines
         sorry_violations = detect_sorry_literals(wt)
         if sorry_violations:
             for v in sorry_violations[:10]:
-                logger.error(f"[R{wt.round_number}] SORRY LITERAL: {v}")
+                logger.error(f"[R{wt.round_number}] FORBIDDEN LEAN PLACEHOLDER: {v}")
             logger.error(
                 f"[R{wt.round_number}] Rejecting round: {len(sorry_violations)} added "
-                f"line(s) contain sorry/admit/axiom literals. The completion contract "
-                f"in phase_c.txt forbids these in committed code."
+                f"line(s) contain sorry/admit/axiom/constant/opaque placeholders. The completion "
+                f"contract in phase_c.txt forbids these in committed code."
             )
             return False, new
-        # Gate 5: duplicate-symbol clash with base branch
+        # Gate 6: duplicate-symbol clash with base branch
         dup_violations = detect_duplicate_symbols(wt)
         if dup_violations:
             for v in dup_violations[:10]:
@@ -1593,6 +2214,10 @@ def run_round_in_worktree(
 
         # ── Phase C ───────────────────────────────────────────────
         logger.info(f"[{tag}] Phase C: Implementation (in worktree)...")
+        if wt is not None and not dry_run:
+            wt.formalization_base_sha = run_cmd(
+                ["git", "rev-parse", "HEAD"], cwd=wt.path, check=False
+            ).stdout.strip()
         phase_c_prompt = build_phase_c_prompt(round_num, phase_b.targets)
         phase_c_raw = codex_exec(
             phase_c_prompt,
@@ -1675,16 +2300,23 @@ STATE_FILE = LOG_DIR / "formalize_state.json"
 
 
 def load_state() -> RoundState:
+    latest_round = latest_committed_round()
     if STATE_FILE.exists():
         try:
             with open(STATE_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            return RoundState(**data)
+            state = RoundState(**data)
+            if latest_round > state.round_number:
+                logger.info(
+                    f"Advancing round state from R{state.round_number} to latest git commit R{latest_round}"
+                )
+                state.round_number = latest_round
+            return state
         except Exception:
             logger.warning("Failed to load state, rebuilding from IMPLEMENTATION_PLAN")
     plan_text = read_impl_plan_header(30)
     return RoundState(
-        round_number=parse_round_from_plan(plan_text),
+        round_number=max(parse_round_from_plan(plan_text), latest_round),
         total_theorems=count_lean_theorems(),
         recent_commits=git_log_oneline(5),
     )
@@ -1752,6 +2384,10 @@ def run_parallel_batch(
     Dispatch `parallel` rounds concurrently using worktrees.
     Returns (succeeded_count, failed_count).
     """
+    if not dry_run and not pipeline_token_is_current():
+        logger.info(f"Pipeline PID token is not current ({PID_FILE}), skipping batch dispatch")
+        return 0, 0
+
     round_nums = allocate_round_numbers(state, parallel)
     total_theorems = state.total_theorems
     recent = state.recent_commits
@@ -1765,6 +2401,11 @@ def run_parallel_batch(
     with ThreadPoolExecutor(max_workers=parallel, thread_name_prefix="worker") as pool:
         futures: dict[Future, int] = {}
         for rn in round_nums:
+            if not dry_run and not pipeline_token_is_current():
+                logger.info(
+                    f"Pipeline PID token is not current ({PID_FILE}), stopping batch dispatch"
+                )
+                break
             memory_pressure_wait(context=f"dispatch R{rn}")
             fut = pool.submit(
                 run_round_in_worktree,
@@ -2173,6 +2814,7 @@ def main() -> int:
               python3 lean4/scripts/codex_formalize.py                          # 1 round
               python3 lean4/scripts/codex_formalize.py --parallel 3             # 3 parallel
               python3 lean4/scripts/codex_formalize.py --parallel 3 --continuous  # continuous
+              python3 lean4/scripts/codex_formalize.py --base-branch lean4-codex-auto-dev --parallel 5 --continuous
               python3 lean4/scripts/codex_formalize.py --dry-run --parallel 2   # preview
               python3 lean4/scripts/codex_formalize.py --status                 # state
               python3 lean4/scripts/codex_formalize.py --cleanup                # remove worktrees
@@ -2209,15 +2851,15 @@ def main() -> int:
     )
     parser.add_argument(
         "--stop", action="store_true",
-        help=f"Create {STOP_FILE.name} to signal the running pipeline to drain and exit",
+        help=f"Remove {PID_FILE.name} to signal the running pipeline to drain and exit",
     )
     parser.add_argument(
         "--resume", action="store_true",
-        help=f"Remove {STOP_FILE.name} so the pipeline resumes dispatching new rounds",
+        help="Deprecated in PID mode; start the pipeline normally to create a fresh token",
     )
     parser.add_argument(
-        "--base-branch", type=str, default=BASE_BRANCH,
-        help=f"Base branch name (default: {BASE_BRANCH})",
+        "--base-branch", type=str, default=BASE_BRANCH_DEFAULT,
+        help=f"Base branch name (default: {BASE_BRANCH_DEFAULT})",
     )
     parser.add_argument(
         "--mem-guard", dest="mem_guard", action="store_true", default=None,
@@ -2325,15 +2967,13 @@ def main() -> int:
 
     # ── Graceful stop / resume ─────────────────────────────────────
     if args.stop:
-        STOP_FILE.touch()
-        print(f"Created {STOP_FILE} — running pipeline will drain and exit after current rounds finish.")
+        if remove_pipeline_pid():
+            print(f"Removed {PID_FILE} — running pipeline will drain and exit after current rounds finish.")
+        else:
+            print(f"{PID_FILE} did not exist (pipeline was not running or was already draining).")
         return 0
     if args.resume:
-        if STOP_FILE.exists():
-            STOP_FILE.unlink()
-            print(f"Removed {STOP_FILE} — pipeline will resume dispatching new rounds.")
-        else:
-            print(f"{STOP_FILE} did not exist (pipeline was not stopped).")
+        print("Resume is no longer needed in PID mode; start the pipeline normally to create a fresh PID token.")
         return 0
 
     # ── Status ─────────────────────────────────────────────────────
@@ -2357,6 +2997,11 @@ def main() -> int:
             print(f"  {c}")
         print(f"Codex CLI:             {CODEX_PATH}")
         print(f"Log dir:               {LOG_DIR}")
+        if PID_FILE.exists():
+            token = PID_FILE.read_text(encoding="utf-8").strip()
+            print(f"Pipeline PID token:    {token} ({PID_FILE})")
+        else:
+            print(f"Pipeline PID token:    none ({PID_FILE})")
         return 0
 
     # ── Reset ──────────────────────────────────────────────────────
@@ -2372,6 +3017,14 @@ def main() -> int:
     logger.info(f"Codex CLI: {codex_bin}")
     logger.info(f"Base branch: {BASE_BRANCH}")
     logger.info(f"Parallelism: {args.parallel}")
+    if not args.dry_run:
+        previous_pid = claim_pipeline_pid()
+        if previous_pid is not None and previous_pid != os.getpid():
+            logger.info(
+                f"Pipeline PID token replaced previous owner {previous_pid}; "
+                f"old pipeline will drain while this process dispatches new rounds"
+            )
+        logger.info(f"Pipeline PID token: {PID_FILE} ({os.getpid()})")
 
     # Ensure base branch
     if not args.dry_run:
@@ -2431,7 +3084,7 @@ def main() -> int:
             # Cooldown after consecutive_failures hits the threshold: pause
             # dispatch for this many seconds, then reset the counter and
             # resume. The pipeline never exits on consecutive failures —
-            # only graceful stop via STOP_FILE or external SIGTERM.
+            # only graceful PID-token stop or external SIGTERM.
             cooldown_seconds = max(60, int(args.max_consecutive_failures) * 60)
 
             def _maybe_cooldown() -> None:
@@ -2447,13 +3100,14 @@ def main() -> int:
                 logger.info("[cooldown] resumed; consecutive_failures reset to 0")
 
             def _submit_next() -> None:
-                if STOP_FILE.exists():
-                    logger.info(f"Stop file detected ({STOP_FILE}), not dispatching new rounds")
+                if not pipeline_token_is_current():
+                    logger.info(f"Pipeline PID token is not current ({PID_FILE}), not dispatching new rounds")
                     return
                 _maybe_cooldown()
                 with _round_lock:
-                    rn = state.round_number
                     state.round_number += 1
+                    rn = state.round_number
+                    save_state(state)
                 memory_pressure_wait(context=f"dispatch R{rn}")
                 fut = pool.submit(
                     run_round_in_worktree,
@@ -2471,8 +3125,8 @@ def main() -> int:
                 _submit_next()
 
             while futures:
-                if STOP_FILE.exists():
-                    logger.info(f"Stop file detected; draining {len(futures)} in-flight workers")
+                if not pipeline_token_is_current():
+                    logger.info(f"Pipeline PID token is not current; draining {len(futures)} in-flight workers")
                     # Don't break — finish in-flight, then the pool drains naturally.
                 done, _ = wait(futures, return_when=FIRST_COMPLETED)
                 for fut in done:
@@ -2496,7 +3150,7 @@ def main() -> int:
                     save_state(state)
                     # Immediately launch a replacement worker (will cooldown
                     # if too many consecutive failures, then resume).
-                    if not STOP_FILE.exists():
+                    if pipeline_token_is_current():
                         _submit_next()
 
     else:

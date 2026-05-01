@@ -1,5 +1,103 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
+## Prompts version
+v3.0 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+
+## Environment
+
+Codex has lean-lsp MCP (20 tools: hover, goto-definition, references, workspace-symbol, document-symbol, diagnostics, type-at-position, etc.) plus full shell access (git, lake, grep, python). When checking whether a candidate target is semantically equivalent to existing code (HARD GATEs in Step 2 below), prefer LSP queries — workspace-symbol, references on the candidate's conclusion type, hover on the existing theorem — over name-grep. LSP resolves through `open` directives, namespace paths, and `def` unfolding, which text grep misses. Use shell tools for build (`lake_gate.py build`), staging diffs (`git diff --cached`), and audit hooks (`tools/check-axioms.py`, `bedc_ci.py audit`). If any lean4 skills are available in the runtime, use them — they encode project conventions (build, proof patterns, dedup checks) better than ad-hoc shell.
+
+## Anti-hollow semantic discipline (HARD GATE)
+
+The `NameCert` license abstraction must not be structurally hollow: certificate
+fields (SourceSpec, PatternSpec, ClassifierSpec, StabilityCert, LedgerPolicy)
+must not be instantiated with `Unit` so that a certificate typechecks without
+saying anything about Unary histories or `hsame`. Markers must point to Lean
+targets with semantic content.
+
+Effective from the current prompt version:
+
+1. NEVER pick a target whose Lean implementation would be `Unit`, `True`,
+   `True.intro`, `()`, or any other trivially-inhabited placeholder. The
+   implementation must non-trivially relate to a BEDC kernel construct
+   (BMark, BHist, msame, hsame, Ext, Cont, ProbeBundle, SigRel, sameSig,
+   Pkg, InGap, NameCert, BaseReflectionSetup, or a derived predicate over
+   them).
+
+2. When implementing a `NameCertSetup` instance for a derived interface
+   `<Object>Up`, the carrier and classifier MUST be tied to the BEDC
+   kernel. For example:
+   - NatUp's carrier is the `Unary : BHist → Prop` predicate; the classifier
+     is `hsame` restricted to unary histories.
+   - AddUp's pattern is `ContR` between unary histories, classifier is `hsame`
+     on continuation results.
+   - Future objects (IntUp, RatUp, BoolUp, etc.) must define their own
+     carrier predicate over BHist (or over an existing BEDC inductive) and
+     classifier as a restricted `hsame` / structural sameness, not a fresh
+     opaque Type.
+
+3. NEVER use `MinimalNameCertSetup` for new license proofs. That instance
+   sets every field to `Unit` and exists only as an inert compatibility object.
+   New license proofs must use the `SemanticNameCert` shape introduced in
+   `lean4/BEDC/FKernel/NameCert.lean`.
+
+4. If the new target file requires importing `Init.Data.Unit` or otherwise
+   constructs the proof from `()` exclusively, the target is INVALID — abort
+   and pick a different target.
+
+This is a stricter superset of the existing HARD GATE in Step 2 below.
+
+## No nursery-shell growth (HARD GATE)
+
+Automated rounds can add syntactically non-trivial but theoretically shallow growth by introducing an abstract carrier/spec shell and immediately returning assumptions supplied as parameters. This is forbidden for target selection.
+
+A target is INVALID if its main contribution is any of these shapes:
+
+1. Parameter echo: a theorem that takes `le_refl`, `le_trans`,
+   `carrier_transport`, `lower_transport`, `upper_transport`, `normalized`, or a
+   similar semantic law as an input and returns the same law unchanged or merely
+   bundled with a `NameCert`. Such a theorem is an adapter, not theory growth.
+
+2. Abstract-shell classifier: a new `Carrier : BHist → Prop`,
+   `lower upper : BHist → Prop`, `Le : BHist → BHist → Prop`, or
+   `normalized : ... → Prop` interface with no concrete BEDC-derived predicate
+   tying it to existing constructors/relations beyond `hsame` bookkeeping.
+
+3. Isolated derived `def`: a new `RatUp`, `IntervalUp`, `PreorderUp`, or similar
+   horizon object that only adds carrier/spec definitions. A valid target for a
+   horizon object must also add at least one real closure theorem, transport
+   theorem, constructor/inversion theorem, or certificate whose proof uses the
+   concrete definition.
+
+4. Unclosed certificate shell: a `NameCert` theorem for a derived object whose
+   proof works for arbitrary uninterpreted predicates supplied by parameters and
+   does not prove any object-specific closure from a BEDC construction.
+
+Prefer targets that close a concrete block:
+- Define a carrier over existing BEDC constructors, then prove its transport or
+  closure theorem in the same round.
+- For RatUp, prove denominator positivity transport / numerator transport /
+  normalized stability from concrete assumptions already present in the file.
+- For IntervalUp, prove a theorem about a specific boundary predicate or a real
+  transport lemma that consumes the interval carrier definition.
+- For PreorderUp, prove a concrete preorder instance or derived composition law,
+  not a restatement of arbitrary `Le` assumptions.
+
+This supplements the anti-hollow rules: non-hollow code can still be rejected if it does not
+make the theory more closed, composable, or concrete.
+
+
+Phase D now enforces these constraints mechanically. Select targets that will pass them:
+
+1. The round must add at least one new declaration under `lean4/BEDC/`. Paper-only registration of existing Lean names is rejected.
+2. Any new paper marker added by Phase C must point to a declaration introduced in the same round. Do not select a target whose only Lean work already exists.
+3. Automated rounds must not add new `\leanvariant` markers. If a candidate is only a wrapper, projection, weakened theorem, pair-bundle, or forwarding lemma for an already checked claim, skip it.
+4. Every new declaration must mention a concrete BEDC kernel/setup touchpoint in its declaration body: `BMark`, `BHist`, `msame`, `hsame`, `Ext`, `Cont`, `ProbeBundle`, `SigRel`, `sameSig`, `Pkg`, `InGap`, `NameCert`, `SemanticNameCert`, `BaseReflectionSetup`, `AskSetup`, `PackageSetup`, `DomainSetup`, `NameCertSetup`, or a `BEDC.` object.
+5. Added Lean lines using `Unit`, `()`, `Unit.unit`, `True.intro`, `trivial`, `NameCert.mk ()`, `NameCert.mk Unit.unit`, `MinimalNameCertSetup`, or `import Init.Data.Unit` are rejected as hollow.
+6. Parameter echo theorem bodies are rejected. Do not select a target whose proof is essentially `exact le_refl`, `exact le_trans`, `exact carrier_transport`, `exact lower_transport`, `exact upper_transport`, `exact normalized`, `apply ...`, or constructor-packaging of those assumptions.
+7. Carrier/spec-only growth is rejected. If a target adds a `Carrier`, `SourceSpec`, `PatternSpec`, `ClassifierSpec`, `LedgerPolicy`, `Lower`, `Upper`, or `Normalized` definition, the same target must also add a theorem whose statement uses that concrete definition.
+8. Duplicate theorem inflation is rejected, both within-round and tree-wide. Do not select a target whose conclusion matches an existing theorem under `lean4/BEDC/` — anywhere in the tree — modulo binder renaming, hypothesis reordering, qualified-name rewriting, or definitional unfolding the file already proves. Two new theorems in the same round whose conclusions match each other under those rules are also rejected. The cleanup that produced prompts v2.5 deleted six theorems accumulated this way across rounds R509/R516/R517 (`PreorderPrefixLE_target_carrier` / `_result_carrier` / `_preserves_carrier`, `RatCarrier_component_hsame_transport` / `_hsame_transport`, `SumHistoryClassifier_left_right_absurd` / `_mixed_tags_absurd`, `cont_assoc_proof_standing` / `_up_to_hsame_spine`). Do not reintroduce that pattern.
+
 ## Project Layout
 - lean4/BEDC/ — Lean 4 code (mathlib-free; stdlib only)
 - papers/bedc/parts/ — theory chapters and proof-obligation chapters
@@ -13,18 +111,51 @@ You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_N
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
 - Do NOT add `axiom` declarations. Encode primitives as `inductive` / `def` / `class` / `structure` setup field. The audit `python3 tools/check-axioms.py` will reject any axiom and CI will fail.
 - Do NOT leave `sorry`. Every theorem must have a real proof. If you genuinely cannot prove the theorem, do NOT add it; pick a different target.
-- Respect the existing typeclass-parameterized layers: use `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the target belongs to those layers. Do NOT reintroduce abstract carriers as ad hoc constants or axioms.
+- Do NOT select targets under `lean4/BEDC/**/Examples/**`; `Examples/` is not a theorem-bearing target tree.
+- Do NOT select or propose modules/files with `Example`, `Examples`, `Scaffold`, `Stub`, `Placeholder`, or `Demo` in the path or module name.
+- Formal targets must live in canonical semantic BEDC modules. If an existing file is near 600 lines, target a focused non-example submodule and import it through the nearest index.
+- Respect the existing typeclass-parameterized layers: use `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the target belongs to those layers. Do NOT reintroduce abstract carriers as ad hoc constants, opaque declarations, or axioms.
+
+## Input Hygiene (kernel basis is locked)
+The kernel "input set" — sum of `inductive` types + `class` declarations + the `BaseReflectionSetup` structure — is intentionally minimal (~16). All theorem growth must be derived from this fixed basis, not by adding parallel inputs.
+
+- If a candidate target would require introducing a NEW `inductive` type, FIRST grep `lean4/BEDC/**/*.lean` for any existing `inductive` whose constructors match (e.g. `BHist (Empty / e0 / e1)` already covers any sequence-of-binary-marks type — a new `BWord (nil / bit0 / bit1)` is redundant). Re-use the existing type via `def Alias := Existing` or use it directly. Do NOT propose a target that introduces a parallel inductive isomorphic to one that already exists.
+- If a candidate target would require a new `class` setup, check whether an existing setup class can carry the new field. Adding a new class is permitted only when the field is genuinely orthogonal to all four existing setup interfaces.
+- When both a `def` and an `inductive` would express the same closed-generation idea, prefer `def` — `def` is conservative (no new logical commitment), `inductive` is a structural input.
+- A target whose primary effect is to add a parallel input duplicating an existing input MUST be skipped. Note this in `strategy` and pick a different open obligation.
 
 ## Task
 Select 3 formalization targets for R<ROUND_NUM>.
 
 Steps:
 1. Scan `papers/bedc/parts/` to find theorem/definition/proposition sites that do NOT yet have a nearby `\leanchecked`, `\leanstmt`, or `\leandef` marker at the primary site.
-2. Confirm the matching Lean target does NOT already exist in `lean4/BEDC/`.
+2. **HARD GATE — confirm the matching Lean target does NOT already exist in `lean4/BEDC/`.** Run `grep -rE "(theorem|lemma|def|inductive|structure|class) <name>" lean4/BEDC/` for the canonical name AND for any plausible underscore/case variant of it. If the grep returns ANY hit whose declaration body matches the paper claim, the target is INVALID — it would only register a marker on existing code (a "register-only round"), which is forbidden. Skip and pick another target. A round must add new Lean code, not paper-side bookkeeping for pre-existing implementations.
+
+   **HARD GATE — tree-wide semantic dedup.** Name-grep alone misses renames. Before committing to the candidate, OPEN the target file and every sibling `*.lean` under the same namespace directory and read every theorem statement. Reject the candidate if any existing theorem has a conclusion equivalent to the candidate's modulo:
+   - binder renaming or hypothesis reordering (`{h k : BHist}` vs `{a b : BHist}`),
+   - qualified-name rewriting (`BEDC.FKernel.Hist.hsame` vs `hsame` after `open`),
+   - definitional unfolding the same file already proves (e.g. if `PreorderClassifierSpec h k := hsame h k` is the file's definition, then `... → PreorderClassifierSpec h k` and `... → hsame h k` count as the SAME conclusion),
+   - swapping `RatCarrier` for its iff-equivalent `IntCarrier ∧ PositiveUnaryDenominator` shape, or any other already-proved iff in the file.
+
+   The trigger is conclusion shape, not proof. If the candidate's conclusion can be substituted into an existing theorem's statement, the candidate is a rename and is INVALID; pick something else.
+
+   **HARD GATE — alias-only `def` is forbidden.** A new `def` whose body is `Existing` (single-token alias) or whose body re-bundles fields already exposed by an existing predicate is INVALID. If the existing predicate already inhabits the namespace, downstream code should `open` it and use it directly. Examples of forbidden aliases:
+   - `def rat_classifier_spec_trans_carrier ... : Prop := RatCarrier ...`
+   - `def MyCarrier h : Prop := UnaryHistory h`
+   - `def Foo h k := hsame h k` when `hsame` is already the file's classifier.
 3. Pick 3 targets:
    - Not all from the same chapter
    - At least 1 must be medium difficulty (for example induction, constructor inversion, or a multi-step structure elimination proof)
    - Prefer targets that fit the existing BEDC namespaces and setup classes
+   - Each target's `lean_signature` must describe code you will WRITE, not code you will only register a marker for.
+
+4. Discovery fallback (only when Step 3 cannot fill 3 slots after the HARD GATE filter): you MAY supplement the round with up to 3 total discovery targets — NEW theorem or definition statements that do not yet appear in any paper block but capture genuinely new content over BEDC primitives. Allowed shapes:
+   - Constructor inversion / no-confusion / determinacy / functionality lemma for an existing `inductive` or relation that lacks one.
+   - Chain / composition theorem combining 2+ existing \leanchecked theorems into a non-trivial multi-step conclusion.
+   - Setup-class field-projection theorem extracting one structure field as a standalone result.
+   - Carrier definition or NameCert spec field for a canonical math object in the BEDC licensing horizon: BoolUp / OptionUp / ProdUp / SumUp / ListUp / IntUp / RatUp / RealUp (Bishop) / ComplexUp / MonoidUp / GroupUp / AbGroupUp / RingUp / CommRingUp / FieldUp / ModuleUp / VecSpaceUp / LinearMapUp / MatrixUp / PolynomialUp / FormalPowerSeriesUp / PreorderUp / POSetUp / TotalOrderUp / LatticeUp / IntervalUp / MetricSpaceUp / S1Up / ContinuousFunctionUp / CompactUp / CategoryUp / FunctorUp / NatTransUp.
+
+   A discovery target is INVALID if its proof reduces to `exact T` / `apply T` / `T.symm` / `T.mp` / `T.mpr` / single-step rewrite of any existing \leanchecked theorem T (those are variants — already disallowed elsewhere). JSON requires `paper_block_status: "discovery"`, `novelty_justification` (one sentence on what new content is captured), and `paper_target_chapter` (the existing chapter file into which Phase C will insert the new \begin{...} block).
 
 ## Output Format (MUST follow exactly)
 Output a single JSON block:
@@ -40,7 +171,10 @@ Output a single JSON block:
       "strategy": "Brief proof strategy",
       "difficulty": "low/medium/high",
       "chapter": "core/proof_obligations/concrete_instances/etc",
-      "grep_confirmed_missing": true
+      "grep_confirmed_missing": true,
+      "paper_block_status": "exists_without_marker | discovery",
+      "novelty_justification": "(discovery only) one sentence on what new content this captures",
+      "paper_target_chapter": "(discovery only) e.g. parts/concrete_instances/15_monoid_namecert_construction.tex"
     }
   ]
 }
@@ -51,3 +185,4 @@ Requirements:
 - `lean_signature` must be a plausible theorem statement that can be proved without mathlib, axioms, or sorry.
 - You MUST confirm each target is missing from `lean4/BEDC/`; do not guess.
 - Do NOT propose targets that would require editing `lean4/lakefile.lean`, `lean4/lean-toolchain`, or existing paper source during this selection phase.
+- Pick targets whose implementation body will visibly use BEDC kernel/setup objects, not just namespace placement or abstract `Prop` parameters.

@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for \(\MonoidUp\)}
+\label{ch:concrete-instances-monoid-namecert}
+
+The monoid interface \(\MonoidUp\) is licensed by an abstract carrier endowed with a binary operation \(\cdot : C \times C \to C\), an identity element \(e : C\), associativity of \(\cdot\), and left and right identity laws of \(e\) under the carrier's source classifier. It is the simplest algebraic NameCert and is self-contained: no other licensed object is required as a dependency. It is not a primitive structure; it is licensed only when the carrier's classifier admits the algebraic equational fields.
+
+\section{Carrier definition}
+
+\begin{definition}[Monoid carrier]
+\label{def:monoid-carrier}
+Use an abstract setup structure with carrier \(C\), classifier \(\sim_C\), operation \(\cdot\), identity \(e\), and law fields.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Monoid source specification]
+\label{def:monoid-source-specification}
+The source is the carrier \(C\) with its classifier and operation data.
+\end{definition}
+
+\begin{definition}[Monoid pattern specification]
+\label{def:monoid-pattern-specification}
+The pattern is closed expression formation from \(e\), carrier witnesses, and binary multiplication.
+\end{definition}
+
+\begin{definition}[Monoid classifier specification]
+\label{def:monoid-classifier-specification}
+The classifier is the supplied carrier sameness relation, required to respect multiplication.
+\end{definition}
+\leandef{BEDC.Derived.MonoidUp.MonoidHistoryClassifier}
+
+\begin{definition}[Monoid stability certificate]
+\label{def:monoid-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item classifier reflexivity
+  \item classifier transitivity
+  \item associativity under classifier
+  \item left identity law
+  \item right identity law
+  \item multiplication congruence in both arguments
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.MonoidUp.monoid\_stability\_certificate\_fields}
+
+\begin{theorem}[Monoid identity uniqueness]
+\label{thm:monoid-identity-unique}
+For BEDC history multiplication, if \(e\) is a left identity and \(e'\) is a
+right identity under \(\hsame\), then \(e\hsame e'\).
+\end{theorem}
+\begin{proof}
+Use the right-identity law for \(e'\) at \(e\) to identify \(e\) with
+\(e\cdot e'\), then use the left-identity law for \(e\) at \(e'\).
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.monoid\_identity\_unique}
+
+\begin{theorem}[History continuation monoid laws]
+\label{thm:history-continuation-monoid-laws}
+The BEDC history continuation relation has empty history as a left and right unit, and the two parenthesizations of a triple continuation have the same resulting history.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonoidUp.history\_continuation\_monoid\_laws}
+\begin{proof}
+The unit fields are the empty-history continuation constructors. For associativity, each continuation witness unfolds to history append, and the result follows from associativity of BEDC history append.
+\end{proof}
+
+\begin{definition}[Monoid ledger policy]
+\label{def:monoid-ledger-policy}
+Record the carrier witnesses and operation tree behind each monoid expression.
+\end{definition}
+
+\begin{definition}[\(\MonoidUp\) certificate obligations]
+\label{def:monoid-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\MonoidUp\).
+\end{definition}
+
+\begin{theorem}[Concrete \(\MonoidUp\) naming certificate]
+\label{thm:concrete-monoid-namecert}
+Any setup satisfying the monoid fields forms a valid NameCert for \(\MonoidUp(C)\).
+\end{theorem}
+\begin{proof}
+The identity element inhabits the carrier. The monoid classifier records source and target carrier witnesses together with the BEDC history equality witness, giving the certificate core by \(\hsame\) reflexivity, symmetry, transitivity, and carrier projection. Closure under multiplication supplies carrier witnesses for the exported identity, associativity, and multiplication-congruence fields.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.monoid\_history\_semantic\_name\_certificate}
+
+\paragraph{Primitive boundary.}
+\(\MonoidUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

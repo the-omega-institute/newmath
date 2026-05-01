@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for \(\ContinuousFunctionUp\)}
+\label{ch:concrete-instances-continuous-namecert}
+
+The continuous function interface \(\ContinuousFunctionUp\) has certificate obligations between two metric spaces from \autoref{ch:concrete-instances-metric-namecert}. The carrier is the predicate "\(f : X \to Y\) is uniformly continuous on every totally bounded subset of \(X\), with explicit modulus of continuity \(\delta : \mathbb{N} \to \mathbb{N}\)". The licensed interface uses explicit uniform moduli because the stability and transport fields must produce witnesses that can be carried through the BEDC certificate boundary.
+
+\section{Carrier definition}
+
+\begin{definition}[ContinuousFunction carrier]
+\label{def:continuous-carrier}
+Use a function \(f:X\to Y\) between metric spaces plus explicit uniform-continuity moduli on every totally bounded subset.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[ContinuousFunction source specification]
+\label{def:continuous-source-specification}
+The source is a pair of certified metric spaces and the totally bounded subset discipline on the domain.
+\end{definition}
+
+\begin{definition}[ContinuousFunction pattern specification]
+\label{def:continuous-pattern-specification}
+The pattern is function-with-modulus formation, attaching a modulus \(\delta\) for each requested precision context.
+\end{definition}
+
+\begin{definition}[ContinuousFunction classifier specification]
+\label{def:continuous-classifier-specification}
+The classifier relates continuous-function witnesses pointwise by codomain classifier on every domain witness.
+\end{definition}
+
+\begin{definition}[ContinuousFunction stability certificate]
+\label{def:continuous-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item pointwise classifier reflexivity
+  \item pointwise classifier transitivity
+  \item modulus validity for uniform continuity
+  \item stability of modulus under function classifier replacement
+  \item closure under identity
+  \item closure under composition by composing moduli
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[ContinuousFunction ledger policy]
+\label{def:continuous-ledger-policy}
+Record the function identifier, metric ledgers, subset witness, and continuity modulus.
+\end{definition}
+
+\begin{definition}[\(\ContinuousFunctionUp\) certificate obligations]
+\label{def:continuous-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\ContinuousFunctionUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\ContinuousFunctionUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:continuous-zero-axiom-note}
+Avoids funext by pointwise classifier sameness and replaces pointwise classical continuity with explicit uniform moduli.
+\end{remark}

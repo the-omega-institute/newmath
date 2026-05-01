@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for \(\MatrixUp\)}
+\label{ch:concrete-instances-matrix-namecert}
+
+The matrix interface \(\MatrixUp\) has certificate obligations over a scalar ring from \autoref{ch:concrete-instances-ring-namecert} and two natural-number dimensions from \autoref{ch:concrete-instances-nat-namecert}. The carrier is functions \(\mathsf{Fin}(n) \times \mathsf{Fin}(m) \to R\); the classifier is pointwise scalar sameness on all index pairs. Matrix addition and multiplication are derived operations governed by the ring's certificate fields. It is not a primitive matrix type; it is admitted only as a derived function carrier.
+
+\section{Carrier definition}
+
+\begin{definition}[Matrix carrier]
+\label{def:matrix-carrier}
+Use functions \(\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R\) with \(n,m:\NatUp\) and scalar ring \(R\).
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Matrix source specification]
+\label{def:matrix-source-specification}
+The source is the finite index carrier from \(\NatUp\) and the scalar source \(\RingUp(R)\).
+\end{definition}
+
+\begin{definition}[Matrix pattern specification]
+\label{def:matrix-pattern-specification}
+The pattern is finite table formation assigning a scalar witness to each index pair.
+\end{definition}
+
+\begin{definition}[Matrix classifier specification]
+\label{def:matrix-classifier-specification}
+The classifier relates matrices pointwise by scalar classifier at every index pair.
+\end{definition}
+
+\begin{definition}[Matrix stability certificate]
+\label{def:matrix-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item pointwise reflexivity
+  \item pointwise transitivity
+  \item finite index closure
+  \item addition closure by scalar addition
+  \item multiplication closure by finite scalar sums and products
+  \item identity matrix closure when dimensions match
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Matrix ledger policy]
+\label{def:matrix-ledger-policy}
+Record the dimension witnesses, index discipline, and scalar ledger for each entry.
+\end{definition}
+
+\begin{definition}[\(\MatrixUp\) certificate obligations]
+\label{def:matrix-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\MatrixUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\MatrixUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:matrix-zero-axiom-note}
+Avoids funext by using pointwise classifier sameness; finite indices are inductive, not quotient indices.
+\end{remark}

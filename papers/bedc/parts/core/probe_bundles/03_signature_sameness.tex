@@ -1,0 +1,99 @@
+\section{Signature sameness}
+
+\begin{definition}[Signature-sameness]
+\label{def:signature-sameness-witnesses}
+\label{def:signature-sameness}
+Given a bundle \(\Pi\), histories \(h,k\) are signature-same, written \(\sameSig_\Pi(h,k)\), if there exist generated signatures
+$$
+\Sig(\Pi,h,s,\Delta),
+\qquad
+\Sig(\Pi,k,t,\Theta),
+$$
+such that \(\hsame(s,t)\).
+\end{definition}
+\leandef{BEDC.FKernel.Sig.SameSig}
+\leanchecked{BEDC.FKernel.Sig.sameSig\_witnesses}
+\leanvariant{BEDC.FKernel.Sig.signature\_sameness\_witnesses}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_intro\_from\_witnesses}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_left\_witness}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_right\_witness}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_hsame\_witness}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_witness\_pair\_symm}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_refl\_from\_witness}
+
+\begin{theorem}[Empty-bundle signature-sameness]
+\label{thm:samesig-empty-bundle}
+For all histories $h,k$, $\sameSig_{\Bnil}(h,k)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sameSig\_empty\_bundle}
+\begin{proof}
+Take both generated signatures for $\Bnil$ to be the empty signature with
+result $\emp$. The two results are then related by $\hsame$ reflexivity, and
+these witnesses form $\sameSig_{\Bnil}(h,k)$.
+\end{proof}
+
+\begin{theorem}[History-sameness gives signature-sameness under policy]
+\label{thm:samesig-of-hsame-under-policy}
+Assume $\AskPol(\Pi,D)$. If $h,k\in D$ and $\hsame(h,k)$, then $\sameSig_\Pi(h,k)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sameSig\_of\_hsame\_from\_ask\_policy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_of\_hsame\_witnesses\_under\_policy}
+\leanvariant{BEDC.FKernel.Sig.signature\_totality\_respects\_hsame\_witnesses}
+\leanvariant{BEDC.FKernel.Sig.signature\_totality\_witness\_chain}
+\begin{proof}
+Obtain total signatures for $h$ and $k$ from the asking policy. The same policy transports $\hsame(h,k)$ across signature generation, yielding $\hsame$ of the generated signatures. These witnesses form $\sameSig_\Pi(h,k)$.
+\end{proof}
+
+\begin{theorem}[Signature-sameness equivalence]
+\label{thm:signature-sameness-equivalence}
+\label{thm:signature-sameness-equivalence-policy-spine}
+\label{thm:signature-sameness-equivalence-total-determinacy}
+Assume $\AskPol(\Pi,D)$. If $h\in D$, then $\sameSig_\Pi(h,h)$; if
+$\sameSig_\Pi(h,k)$, then $\sameSig_\Pi(k,h)$; and if $k\in D$,
+$\sameSig_\Pi(h,k)$, and $\sameSig_\Pi(k,l)$, then $\sameSig_\Pi(h,l)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sameSig\_equivalence}
+\leanvariant{BEDC.FKernel.Sig.signature\_sameness\_equivalence}
+\leanvariant{BEDC.FKernel.Sig.signature\_sameness\_equivalence\_policy\_spine}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_equivalence\_under\_policy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_equivalence\_policy\_spine\_fields}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_equivalence\_from\_total\_and\_determinacy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_refl\_under\_policy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_trans\_under\_policy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_trans\_with\_middle\_witness}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_middle\_witnesses\_hsame\_under\_policy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_trans\_explicit\_witness\_chain}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_trans\_witnesses\_under\_policy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_trans\_chain\_witnesses\_under\_policy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_three\_step\_witness\_chain\_under\_policy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_four\_step\_witness\_chain\_under\_policy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_four\_step\_chain\_under\_policy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_trans\_from\_middle\_determinacy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_trans\_witness\_chain\_with\_result}
+\leanvariant{BEDC.FKernel.Sig.signature\_sameness\_equivalence\_total\_determinacy}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_equivalence\_witness\_pack}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_equivalence\_explicit\_witnesses}
+\begin{proof}
+For an admitted $h$, policy totality produces a generated signature for $h$,
+and $\hsame$-reflexivity gives $\sameSig_\Pi(h,h)$. Symmetry reverses the two
+signature witnesses and uses $\hsame$-symmetry, with no admission hypothesis.
+For transitivity through $k$, unpack the two signature-sameness witnesses. They
+contain two generated signatures from the admitted middle history $k$. Signature
+determinacy under $\AskPol(\Pi,D)$ and $k\in D$ relates those two middle results;
+two applications of $\hsame$-transitivity then connect a signature of $h$ with a
+signature of $l$.
+\end{proof}
+
+\begin{theorem}[Signature-sameness endpoint replacement]
+\label{thm:signature-sameness-endpoint-replacement}
+Assume $\AskPol(\Pi,D)$. If $h,h',k,k'\in D$, $\hsame(h,h')$, $\sameSig_\Pi(h,k)$, and $\hsame(k,k')$, then
+$$
+  \sameSig_\Pi(h',k').
+$$
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{thm:samesig-of-hsame-under-policy}, the left endpoint hypothesis gives $\sameSig_\Pi(h,h')$, and the right endpoint hypothesis gives $\sameSig_\Pi(k,k')$. Symmetry from Theorem~\ref{thm:signature-sameness-equivalence} turns the first relation into $\sameSig_\Pi(h',h)$. Transitivity through the middle $h$ yields $\sameSig_\Pi(h',k)$, and transitivity through the middle $k$ yields $\sameSig_\Pi(h',k')$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Sig.sameSig\_endpoint\_replacement}
+\leanvariant{BEDC.FKernel.Sig.sameSig\_endpoint\_replacement\_under\_policy}

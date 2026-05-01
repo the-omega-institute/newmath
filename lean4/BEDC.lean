@@ -1,13 +1,87 @@
+/-
+Finite kernel imports are kept separate from derived interface imports.
+The kernel boundary is `BEDC.FKernel.*` plus `BEDC.BaseReflection.*`;
+`BEDC.Derived.*` modules are licensed objects built over that boundary.
+-/
+
+/- Finite kernel. -/
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Ext
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.Cont.Assoc
+import BEDC.FKernel.Cont.AssocSpine
+import BEDC.FKernel.Cont.Step
+import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.Cont.Pattern
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Bundle.Length
+import BEDC.FKernel.Bundle.MembershipAppend
 import BEDC.FKernel.Sig
+import BEDC.FKernel.Sig.Totality
+import BEDC.FKernel.Sig.WitnessChain
+import BEDC.FKernel.Sig.SameSig
+import BEDC.FKernel.Sig.SameSig.Endpoint
+import BEDC.FKernel.Sig.SameSig.Equivalence
+import BEDC.FKernel.Sig.SameSig.BundlePolicy
+import BEDC.FKernel.Sig.Determinacy
+import BEDC.FKernel.Sig.Generation
 import BEDC.FKernel.Package
+import BEDC.FKernel.Settled
 import BEDC.FKernel.ExternalBinary
+import BEDC.FKernel.ExternalBinary.BitInversion
+import BEDC.FKernel.ExternalBinary.Inversion
+import BEDC.FKernel.ExternalBinary.Model
+import BEDC.FKernel.ExternalBinary.Cancellation
+import BEDC.FKernel.ExternalBinary.Congruence
 import BEDC.FKernel.Gap
 import BEDC.FKernel.NameCert
-import BEDC.FKernel.Examples.Unary
+import BEDC.FKernel.NameCert.Descent
+import BEDC.FKernel.NameCert.StabilityMode
+import BEDC.FKernel.Unary
 import BEDC.BaseReflection
+
+/- Derived interfaces (licensed objects). -/
+import BEDC.Derived.IntUp
+import BEDC.Derived.BoolUp
+import BEDC.Derived.BoolUpEndpoint
+import BEDC.Derived.BoolUp.SemanticCertificate
+import BEDC.Derived.OptionUp
+import BEDC.Derived.OptionUp.LedgerEndpoint
+import BEDC.Derived.OptionUp.BranchExactness
+import BEDC.Derived.OptionUp.SourceWeakening
+import BEDC.Derived.OptionUp.TaggedPayload
+import BEDC.Derived.OptionUp.PayloadDescent
+import BEDC.Derived.OptionUp.StabilityFields
+import BEDC.Derived.OptionUp.VisibleBranchInversion
+import BEDC.Derived.OptionUpNullableBridge
+import BEDC.Derived.ProdUp
+import BEDC.Derived.ProdUp.LedgerEndpoint
+import BEDC.Derived.ProdUp.SourceMonotonicity
+import BEDC.Derived.ProdUp.ComponentwiseRefinement
+import BEDC.Derived.ProdUp.PairRepresentation
+import BEDC.Derived.ProdUp.Typed
+import BEDC.Derived.ComplexUp
+import BEDC.Derived.SumUp
+import BEDC.Derived.SumUp.Branch
+import BEDC.Derived.SumUp.Classifier
+import BEDC.Derived.SumUp.Ledger
+import BEDC.Derived.ListUp
+import BEDC.Derived.ListUp.AppendContext
+import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.Length
+import BEDC.Derived.ListUp.Reverse
+import BEDC.Derived.ListUp.SourceEquivalence
+import BEDC.Derived.MonoidUp
+import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.DenominatorContext
+import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.Derived.GroupUp
+import BEDC.Derived.AbGroupUp
+import BEDC.Derived.RingUp
+import BEDC.Derived.CommRingUp
+import BEDC.Derived.FieldUp
+import BEDC.Derived.PreorderUp
+import BEDC.Derived.IntervalUp

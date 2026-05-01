@@ -3,7 +3,7 @@
 
 \section{Purpose of This Core}
 The purpose of this core is not to extend the theory toward more traditional mathematical objects. Its purpose is to make the finite kernel more checkable. The kernel is centered on the following generated chain:
-\[
+$$
 \bzero,\bone
 \to \Hist
 \to \msame,\hsame
@@ -15,25 +15,31 @@ The purpose of this core is not to extend the theory toward more traditional mat
 \to \Pkg
 \to \InGap
 \to \NameCert.
-\]
+$$
 
 The target is a minimal rule system in which derived interfaces are licensed by certificates rather than assumed.
 
 \begin{principle}[Layer isolation]
+\label{prin:layer-isolation}
 The words used in this text to explain the kernel, such as relation, family, model, property, coverage, proof, and class, belong to the explanatory metalanguage. They are not object-language primitives. The object-language content consists only of the displayed generated judgments and certificates.
 \end{principle}
+\leanchecked{BEDC.FKernel.Settled.layer\_isolation\_policy\_memory\_projection}
 
 \begin{principle}[No inherited mathematical primitives]
+\label{prin:no-inherited-mathematical-primitives}
 No traditional mathematical interface is an internal primitive of the calculus. In particular, equality, function, natural number, addition, limit, real number, circle, and fold are derived interfaces only.
 \end{principle}
 
 \begin{principle}[Definition demotion]
+\label{prin:definition-demotion}
 A definition is not an initial source of objects. A definition is a naming certificate for a behavior that has already been generated and stabilized by the kernel.
 \end{principle}
 
 \begin{principle}[Compression requires memory]
+\label{prin:compression-requires-memory}
 Every operation that identifies, packages, hides, projects, seals, or otherwise compresses generated material must carry a gap ledger.
 \end{principle}
+\leanchecked{BEDC.FKernel.Gap.compression\_requires\_memory}
 
 \section{Boundary of This Core}
 This document contains the finite kernel specification. The seal and completion interface is retained only as a thin placeholder. Interfaces such as \(\RealUp\), \(\CircleUp\), and \(\FoldUp\) are mentioned only as derived names and motivation, not as fully reconstructed theories.

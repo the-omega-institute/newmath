@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for \(\AbGroupUp\)}
+\label{ch:concrete-instances-abgroup-namecert}
+
+The abelian group interface \(\AbGroupUp\) extends \autoref{ch:concrete-instances-group-namecert} with the commutativity field \(a \cdot b = b \cdot a\) under the carrier's classifier. It is the abelian specialization of the group certificate; the integer additive group from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
+
+\section{Carrier definition}
+
+\begin{definition}[AbGroup carrier]
+\label{def:abgroup-carrier}
+Use a group setup extended with commutativity of the binary operation.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[AbGroup source specification]
+\label{def:abgroup-source-specification}
+The source is a certified group carrier plus a commutativity field.
+\end{definition}
+
+\begin{definition}[AbGroup pattern specification]
+\label{def:abgroup-pattern-specification}
+The pattern is group expression formation under an operation whose operands may be exchanged by certificate law.
+\end{definition}
+
+\begin{definition}[AbGroup classifier specification]
+\label{def:abgroup-classifier-specification}
+The classifier is the group carrier classifier.
+\end{definition}
+
+\begin{definition}[AbGroup stability certificate]
+\label{def:abgroup-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all group stability fields
+  \item commutativity under classifier
+  \item compatibility of commutativity with inverse and multiplication congruence
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[AbGroup left-right multiplication swap]
+\label{thm:abgroup-mul-left-right-swap}
+For BEDC histories equipped with an associative multiplication, commutativity,
+and multiplication congruence under \(\hsame\), the expression
+\(a\cdot(b\cdot c)\) is internally the same as \(b\cdot(a\cdot c)\).
+\end{theorem}
+\begin{proof}
+Reassociate \(a\cdot(b\cdot c)\) to \((a\cdot b)\cdot c\), transport the
+left factor across commutativity, and reassociate \((b\cdot a)\cdot c\) back to
+\(b\cdot(a\cdot c)\).
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_left\_right\_swap}
+
+\begin{theorem}[AbGroup middle-four interchange]
+\label{thm:abgroup-middle-four-interchange}
+For BEDC histories equipped with an associative multiplication, commutativity,
+and multiplication congruence under \(\hsame\),
+$$
+\hsame((a\cdot b)\cdot(c\cdot d),(a\cdot c)\cdot(b\cdot d)).
+$$
+\end{theorem}
+\begin{proof}
+Reassociate \((a\cdot b)\cdot(c\cdot d)\) to
+\(a\cdot(b\cdot(c\cdot d))\). Apply the abelian left-right swap to the right
+factor, obtaining \(a\cdot(c\cdot(b\cdot d))\), and reassociate back to
+\((a\cdot c)\cdot(b\cdot d)\).
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_middle\_four}
+
+\begin{definition}[AbGroup ledger policy]
+\label{def:abgroup-ledger-policy}
+Record group expression provenance and the commutativity law when used.
+\end{definition}
+
+\begin{definition}[\(\AbGroupUp\) certificate obligations]
+\label{def:abgroup-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\AbGroupUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\AbGroupUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

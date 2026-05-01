@@ -1,0 +1,58 @@
+\chapter{Certificate Obligations for $\RealUp$}
+\label{ch:concrete-instances-real-namecert}
+
+The real number interface $\RealUp$ is specified here as a certificate-obligation schema over sealed $\RegSeqRat$ stream names. These names are built from $\DyadicRatCore$ observations through $\StreamNameUp$, then sealed with regular-sequence data and a closeness classifier. The classical Dedekind / Cauchy completion is outside this schema because quotient and completion infrastructure is not exported by the mathlib-free BEDC kernel; the interface name is available only through the dyadic rational core, certified stream names, regular-sequence certificates, and their classifier.
+
+\section{Carrier definition}
+
+\begin{definition}[Real carrier]
+\label{def:real-carrier}
+Use a sealed $\RegSeqRat$ name. Its observations form a $\StreamNameUp$ stream over $\DyadicRatCore$, and its regularity certificate is exposed only through the $\RealUp$ seal.
+\end{definition}
+
+\section{The certificate-obligation schema}
+
+\begin{definition}[Real source specification]
+\label{def:real-source-specification}
+The source has three supplied layers: $\DyadicRatCore$ observations, $\StreamNameUp$ stream naming, and the $\RegSeqRat$ certificate over those observations.
+\end{definition}
+
+\begin{definition}[Real pattern specification]
+\label{def:real-pattern-specification}
+The pattern is sealed regular-sequence generation: every finite observation is a certified dyadic rational, stream observations are stable pointwise, and the $\RegSeqRat$ regularity witness supplies the dyadic Cauchy bound.
+\end{definition}
+
+\begin{definition}[Real classifier specification]
+\label{def:real-classifier-specification}
+The classifier is $\RegSeqRat$ closeness: two sealed real names classify together when their dyadic regular-sequence witnesses supply comparison certificates at every requested dyadic tolerance.
+\end{definition}
+
+\begin{definition}[Real stability certificate]
+\label{def:real-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item pointwise stream stability inherited from $\StreamNameUp$
+  \item transport of the $\RegSeqRat$ regularity witness along stream classification
+  \item classifier reflexivity, symmetry, and transitivity by dyadic tolerance comparison
+  \item compatibility of constant dyadic embedding with the closeness classifier
+  \item closure of real operations only when supplied as certified $\RegSeqRat$ transformations
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Real ledger policy]
+\label{def:real-ledger-policy}
+Record finite stream observations, dyadic comparison witnesses, regularity certificates, and classifier comparison certificates when sameness is used.
+\end{definition}
+
+\begin{definition}[RealUp certificate obligations]
+\label{def:real-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the required fields for using the interface name $\RealUp$.
+\end{definition}
+
+\paragraph{Primitive boundary.}
+$\RealUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:real-zero-axiom-note}
+The interface avoids quotient machinery. It does not use $\mathsf{Quot.sound}$; sameness is carried by dyadic comparison certificates and the $\RegSeqRat$ classifier.
+\end{remark}

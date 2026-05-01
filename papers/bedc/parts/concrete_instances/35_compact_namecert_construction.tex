@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for \(\CompactUp\)}
+\label{ch:concrete-instances-compact-namecert}
+
+The compactness interface \(\CompactUp\) has certificate obligations for subsets of metric spaces from \autoref{ch:concrete-instances-metric-namecert}. The BEDC-licensed carrier is a subset predicate equipped with explicit locatedness witnesses and finite-net witnesses: locatedness gives, for any point and rational \(\epsilon\), a decision whether the point is within \(\epsilon\) of the subset; finite-net data gives, for any rational \(\epsilon\), a finite \(\epsilon\)-net.
+
+\section{Carrier definition}
+
+\begin{definition}[Compact carrier]
+\label{def:compact-carrier}
+Use a metric-space subset predicate equipped with locatedness and total-boundedness witness functions.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Compact source specification]
+\label{def:compact-source-specification}
+The source is a certified metric space plus a subset predicate over its carrier.
+\end{definition}
+
+\begin{definition}[Compact pattern specification]
+\label{def:compact-pattern-specification}
+The pattern is compact-subset formation by attaching locatedness and finite-net data for each rational precision.
+\end{definition}
+
+\begin{definition}[Compact classifier specification]
+\label{def:compact-classifier-specification}
+The classifier relates compact witnesses when their membership predicates agree by explicit bidirectional evidence under carrier sameness.
+\end{definition}
+
+\begin{definition}[Compact stability certificate]
+\label{def:compact-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item membership stability under carrier classifier
+  \item locatedness witness validity
+  \item total-bounded finite-net validity
+  \item monotonicity of precision witnesses where required
+  \item stability under compact-witness classifier
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Compact ledger policy]
+\label{def:compact-ledger-policy}
+Record the subset predicate, locatedness decisions, and finite net ledgers.
+\end{definition}
+
+\begin{definition}[\(\CompactUp\) certificate obligations]
+\label{def:compact-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\CompactUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\CompactUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:compact-zero-axiom-note}
+Open-cover compactness is not the exported carrier for \(\CompactUp\); the exported carrier is locatedness plus explicit finite-net data.
+\end{remark}

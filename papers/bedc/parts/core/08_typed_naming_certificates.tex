@@ -4,17 +4,14 @@
 \begin{definition}[Source specification]
 A source specification \(\SourceSpec\) records the generated material from which a proposed name is licensed. It may refer to raw marks, histories, bundles, packages, gaps, or previously licensed names.
 \end{definition}
-\leandef{BEDC.FKernel.NameCert.SourceSpec}
 
 \begin{definition}[Pattern specification]
 A pattern specification \(\PatternSpec\) records the stable behavior observed in the source. Examples include repetition, continuation, signature classification, package stability, or compatible threading.
 \end{definition}
-\leandef{BEDC.FKernel.NameCert.PatternSpec}
 
 \begin{definition}[Classifier specification]
 A classifier specification \(\ClassifierSpec\) records how source material is grouped. At the finite kernel level this is normally given by a bundle, an asking policy, a package policy, and a gap policy.
 \end{definition}
-\leandef{BEDC.FKernel.NameCert.ClassifierSpec}
 
 \begin{definition}[Stability certificates]
 \label{def:naming-certificate-stability-field}
@@ -28,40 +25,58 @@ The stability component \(\StabCert\) is typed by modes:
 \end{align*}
 A name may require one or more of these modes.
 \end{definition}
-\leandef{BEDC.FKernel.NameCert.StabilityCert}
-\leanchecked{BEDC.FKernel.NameCert.derived\_interfaces\_have\_stability}
+\leandef{BEDC.FKernel.NameCert.StabilityMode}
+\leanvariant{BEDC.FKernel.NameCert.stabilityMode\_no\_confusion}
+\leanvariant{BEDC.FKernel.NameCert.stabilityMode\_pairwise\_no\_confusion}
+\leanvariant{BEDC.FKernel.NameCert.stabilityMode\_descent\_composition\_seal\_no\_confusion}
+\leanvariant{BEDC.FKernel.NameCert.stabilityMode\_exhaustive}
 
 \begin{definition}[Ledger policy]
 A ledger policy \(\LedgerPolicy\) records what the name hides and how the hidden material is tracked. It must specify whether the ledger is a gap, a composite gap, a tail ledger, a phase ledger, a source ledger, or another derived ledger.
 \end{definition}
-\leandef{BEDC.FKernel.NameCert.LedgerPolicy}
 
-\begin{definition}[Naming certificate]
-A naming certificate is a record
-\[
+\begin{definition}[Paper naming certificate template]
+\label{def:typed-naming-certificate}
+\label{def:naming-certificate}
+A paper naming certificate for a proposed derived interface \(N\) is the five-field template
+$$
 \NameCert(N)=
 (\SourceSpec_N,\PatternSpec_N,\ClassifierSpec_N,\StabCert_N,\LedgerPolicy_N).
-\]
+$$
 The proposed name \(N\) is licensed only if all required fields are supplied.
 \end{definition}
+
+\begin{definition}[Lean carrier naming certificate]
+\label{def:lean-carrier-naming-certificate}
+At the formal finite-kernel layer, the Lean structure
+\(\mathsf{NameCert}(\mathsf{Carrier},\mathsf{Equiv})\) is a carrier-and-equivalence certificate over histories. It supplies inhabitedness of the carrier, reflexivity, symmetry, and transitivity for the equivalence relation, and transport of carrier membership along that relation.
+\end{definition}
+\leandef{BEDC.FKernel.NameCert.NameCert}
+\leanchecked{BEDC.FKernel.NameCert.nameCert\_carrier\_witness}
+
+\begin{theorem}[Naming certificate classifier transitivity]
+\label{thm:namecert-equivalence-transitivity}
+For every naming certificate over a history carrier and classifier, the classifier is transitive on finite-kernel histories.
+\end{theorem}
+\begin{proof}
+The certificate record contains the classifier transitivity field. Projecting that field supplies the required composition of two classifier witnesses.
+\end{proof}
+\leanchecked{BEDC.FKernel.NameCert.nameCert\_equiv\_trans}
 
 \begin{theorem}[Derived interfaces require certificates]
 \label{thm:derived-interfaces-require-certificates}
 No interface marked by an upward arrow is licensed without a \(\NameCert\).
 \end{theorem}
+\begin{proof}
+This is the formation rule for the paper template: derived names are not object-language primitives. They enter the theory only by the five supplied certificate fields.
+\end{proof}
 \leanchecked{BEDC.FKernel.NameCert.derived\_interfaces\_require\_certificates}
-\begin{proof}
-This is the formation rule for derived interfaces: derived names are not object-language primitives. They enter the theory only by a naming certificate.
-\end{proof}
 
-\begin{corollary}[Limit-like interfaces carry a ledger]
-\label{cor:limit-like-interfaces-derived}
+\begin{principle}[Limit-like interfaces carry a ledger]
+\label{prin:limit-like-interfaces-derived}
 Every certified derived interface carries a ledger policy witness.
-\end{corollary}
-\leanchecked{BEDC.FKernel.NameCert.limit\_like\_interfaces\_derived}
-\leanvariant{BEDC.FKernel.NameCert.derived\_interfaces\_have\_ledger}
-\leanvariant{BEDC.FKernel.NameCert.ledger\_witness\_from\_cert}
-\leanvariant{BEDC.FKernel.NameCert.sealInterface\_requires\_nameCert}
+\end{principle}
 \begin{proof}
-Case analysis on the naming certificate exposes its five fields. The ledger field is the required witness.
+Case analysis on the semantic naming certificate exposes the source witness in the core certificate. Applying the ledger soundness field to that same source witness gives the required ledger witness.
 \end{proof}
+\leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_ledger\_policy\_witness}

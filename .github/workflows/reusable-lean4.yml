@@ -41,11 +41,17 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: "false"
 
+      - name: Test codex formalize gates
+        run: python3 lean4/scripts/test_codex_formalize_gates.py
+
       - name: Audit axioms (BEDC zero-axiom invariant)
         run: python3 tools/check-axioms.py
 
       - name: Audit paper-Lean drift
         run: python3 lean4/scripts/bedc_ci.py audit
+
+      - name: "Audit transitive axiom dependencies (strict: forbid all Lean stdlib axioms)"
+        run: python3 lean4/scripts/bedc_ci.py axiom-purity --strict
 
       - name: Save Lean .lake cache (canonical branches only)
         if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/lean4-codex-auto-dev')

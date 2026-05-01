@@ -11,34 +11,102 @@
 
 \begin{definition}[Asking event]
 \label{def:asking-event}
+\label{def:asking-event-evidence-witness}
 An asking event is a judgment
-\[
+$$
 \Ask(\pi,h,m,\delta),
-\]
+$$
 where \(\pi:\PN\), \(h:\Hist\), \(m:\Mark\), and \(\delta:\Ev\). It is read: asking probe name \(\pi\) of history \(h\) emits mark \(m\) with evidence token \(\delta\).
 \end{definition}
+\leandef{BEDC.FKernel.Ask.Ask}
 \leandef{BEDC.FKernel.Ask.AskEvent}
 \leanchecked{BEDC.FKernel.Ask.askEvent\_witness}
+\leanvariant{BEDC.FKernel.Ask.askEvent\_components}
+\leanvariant{BEDC.FKernel.Ask.AskEvent\_iff\_exists}
+\leanvariant{BEDC.FKernel.Ask.askEvent\_from\_witness}
+\leanvariant{BEDC.FKernel.Ask.askEvent\_evidence\_witness}
 
 \section{Asking policies}
 
 \begin{definition}[Asking policy]
 \label{def:asking-policy}
-An asking policy \(\AskPol(\Pi,D)\) for a bundle \(\Pi\) over a source specification \(D\) consists of:
+An asking policy $\AskPol(\Pi,D)$ is paper notation for using a checked $\mathsf{AskPolicy}(D)$ certificate at bundle $\Pi$.
+The bundle is not a field of the certificate; it determines which probe-name occurrences the surrounding signature construction consumes.
+The certificate provides:
 \begin{enumerate}
-  \item totality: every admitted history in \(D\) has generated asking events for every probe in \(\Pi\);
-  \item mark determinacy: if \(\Ask(\pi,h,m,\delta)\) and \(\Ask(\pi,h,n,\theta)\), then \(\msame(m,n)\);
-  \item evidence composability: evidence tokens produced by sequential asking can be combined into a signature evidence token;
-  \item history-respect: if \(\hsame(h,k)\), then asking results agree up to \(\msame\) whenever both are generated.
+  \item totality: every admitted history in $D$ has generated asking events for each probe name, with the Lean field quantified over all probe names;
+  \item mark determinacy: if $\Ask(\pi,h,m,\delta)$ and $\Ask(\pi,h,n,\theta)$, then $\msame(m,n)$;
+  \item history-respect: if $\hsame(h,k)$, then asking results agree up to $\msame$ whenever both are generated.
 \end{enumerate}
-The word ``consists'' is a metalanguage description of a certificate record; the object-language content is the availability of these certified properties.
+The object-language content is exactly totality, mark determinacy, and history-respect.
 \end{definition}
 \leanchecked{BEDC.FKernel.Ask.AskPolicy\_iff\_fields}
 \leanvariant{BEDC.FKernel.Ask.ask\_policy\_fields}
+\leanvariant{BEDC.FKernel.Ask.askPolicy\_total\_event}
+\leanvariant{BEDC.FKernel.Ask.askPolicy\_total\_deterministic\_pair}
+\leanvariant{BEDC.FKernel.Ask.askPolicy\_total\_respects\_pair}
+\leanvariant{BEDC.FKernel.Ask.askPolicy\_deterministic\_respects\_pair}
+\leanvariant{BEDC.FKernel.Ask.AskPolicy\_total\_deterministic\_pair}
 \leanvariant{BEDC.FKernel.Ask.ask\_total\_from\_policy}
 \leanvariant{BEDC.FKernel.Ask.ask\_total}
 \leanvariant{BEDC.FKernel.Ask.ask\_respects\_history}
-\leanvariant{BEDC.FKernel.Sig.sig\_respects\_history}
+\leanvariant{BEDC.FKernel.Ask.askPolicy\_respects\_history\_field}
+
+\begin{definition}[Bundle-local asking policy]
+\label{def:bundle-local-asking-policy}
+A bundle-local asking policy $\mathsf{BundleAskPolicy}(\Pi,D)$ is the finite obligation needed by the signature construction for bundle $\Pi$. It consists of the following clauses, each restricted to probe-name occurrences $\pi\in\Pi$:
+\begin{enumerate}
+  \item totality on admitted sources: if $h\in D$, then there are $m:\Mark$ and $\delta:\Ev$ with $\Ask(\pi,h,m,\delta)$;
+  \item mark determinacy on the bundle: if $\Ask(\pi,h,m,\delta)$ and $\Ask(\pi,h,n,\theta)$, then $\msame(m,n)$;
+  \item history-respect on the bundle: if $\hsame(h,k)$, $\Ask(\pi,h,m,\delta)$, and $\Ask(\pi,k,n,\theta)$, then $\msame(m,n)$.
+\end{enumerate}
+Thus $\AskPol(\Pi,D)$ is a sufficient global certificate, while $\mathsf{BundleAskPolicy}(\Pi,D)$ records exactly the finite probe obligations consumed by signatures through $\Pi$.
+\end{definition}
+\leanstmt{BEDC.FKernel.Ask.BundleAskPolicy}
+
+\begin{theorem}[Empty bundle-local asking policy]
+\label{thm:empty-bundle-local-asking-policy}
+For every source specification $D$, $\mathsf{BundleAskPolicy}(\Bnil,D)$ holds.
+\end{theorem}
+\begin{proof}
+Each totality, determinacy, and history-respect clause begins from an
+occurrence proof $\pi\in\Bnil$. Empty-bundle membership inversion eliminates
+that occurrence, so all three fields are satisfied.
+\end{proof}
+\leanchecked{BEDC.FKernel.Ask.empty\_bundleAskPolicy}
+\leanchecked{BEDC.FKernel.Ask.bundleAskPolicy\_empty}
+
+\begin{theorem}[Bundle-local policy restriction by membership inclusion]
+\label{thm:bundle-local-policy-restriction-by-membership-inclusion}
+For probe bundles $\Pi,\Theta$ and a domain policy $D$, suppose $\mathsf{BundleAskPolicy}(\Pi,D)$ holds and every probe-name occurrence of $\Theta$ is an occurrence of $\Pi$:
+$$
+\forall \rho,\; \rho\in\Theta\Rightarrow \rho\in\Pi.
+$$
+Then $\mathsf{BundleAskPolicy}(\Theta,D)$ holds.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ask.bundleAskPolicy\_restrict\_by\_inclusion}
+\begin{proof}
+Let $\rho$ be a probe-name occurrence of $\Theta$. The displayed membership inclusion gives $\rho\in\Pi$. Apply the totality, mark determinacy, and history-respect fields of $\mathsf{BundleAskPolicy}(\Pi,D)$ at that occurrence. These three precomposed fields are exactly the bundle-local asking policy fields for $\Theta$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Ask.bundleAskPolicy\_of\_membership\_inclusion}
+
+\begin{lemma}[Bundle-local asking policy tail restriction]
+\label{lem:bundle-local-asking-policy-tail-restriction}
+If $\mathsf{BundleAskPolicy}(\Bcons(\pi,\Pi),D)$ holds, then $\mathsf{BundleAskPolicy}(\Pi,D)$ holds.
+\end{lemma}
+\leanchecked{BEDC.FKernel.Ask.bundleAskPolicy\_tail}
+\begin{proof}
+Each tail occurrence $\rho\in\Pi$ is also an occurrence $\rho\in\Bcons(\pi,\Pi)$. Restrict totality, mark determinacy, and history-respect along this membership inclusion, field by field.
+\end{proof}
+
+\begin{theorem}[Global asking policy restricts to bundle-local policy]
+\label{thm:global-asking-policy-restricts-to-bundle-local}
+If $\AskPol(\Pi,D)$ holds, then $\mathsf{BundleAskPolicy}(\Pi,D)$ holds.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ask.askPolicy\_to\_bundleAskPolicy}
+\begin{proof}
+Use the totality, mark determinacy, and history-respect clauses supplied by $\AskPol(\Pi,D)$. For each probe-name occurrence $\pi\in\Pi$, the globally quantified totality clause gives an asking event for every admitted source history in $D$; the same global determinacy and history-respect clauses apply to the restricted occurrence $\pi$. These three projections are exactly the clauses of $\mathsf{BundleAskPolicy}(\Pi,D)$.
+\end{proof}
 
 \begin{lemma}[Asking determinacy]
 \label{thm:asking-determinacy}

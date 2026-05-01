@@ -1,15 +1,142 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
-## Round R<ROUND_NUM>
+## Prompts version
+v3.0 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## Environment
+
+Codex has lean-lsp MCP (20 tools: hover, goto-definition, references, workspace-symbol, document-symbol, diagnostics, type-at-position, etc.) plus full shell access (git, lake, grep, python). Use LSP for semantic checks (Phase D rule 8 tree-wide dedup, rule 9 alias-def detection): workspace-symbol to enumerate existing names in the namespace, hover/type-at-position to compare conclusion types after `open`-resolution, references to confirm a deletion is safe. Use shell for build (`lake_gate.py build`), staged diffs (`git diff --cached lean4/BEDC/`), and audit hooks (`tools/check-axioms.py`, `bedc_ci.py audit`, `bedc_ci.py axiom-purity`). If any lean4 skills are available in the runtime, use them — they encode project conventions (build, proof patterns, dedup checks) better than ad-hoc shell.
+
+## Anti-hollow semantic discipline (HARD GATE)
+
+The `NameCert.mk () () () () ()` pattern is forbidden. Specifically:
+
+1. NO `Unit`-only proofs. Any new `def` / `theorem` / `lemma` whose body is
+   `()`, `Unit.unit`, `True.intro`, `trivial`, or a sequence of these for
+   each constructor argument is INVALID. Such proofs say nothing about the
+   BEDC kernel and are forbidden by the current prompt discipline.
+
+2. NO `MinimalNameCertSetup` in license proofs. New `NameCert` constructions
+   must inhabit the `SemanticNameCert` shape, which forces the carrier to be
+   a predicate over `BHist` (or another BEDC inductive) and the classifier
+   to be a real equivalence relation (typically restriction of `hsame`).
+
+3. Proofs that construct a `NameCert.mk` from non-Unit witnesses tied to
+   the BEDC kernel remain valid, but new work MUST use the semantic track.
+
+4. Step 5.5 HARD GATE is supplemented: if `git diff --cached lean4/BEDC/`
+   contains any line matching `:= ()$`, `:= Unit$`, `:= Unit.unit$`,
+   `NameCert.mk \(\)`, `NameCert.mk Unit\.unit`, `(NameCert.mk \(\) \(\) \(\) \(\) \(\))`,
+   or similar trivial constructions, the round is INVALID. Discard the
+   paper-only changes and the trivial Lean changes; pick a target that
+   produces real semantic content.
+
+If you cannot find a target that satisfies these constraints, output
+`{"targets": []}` from Phase B and let gate_check fail the round.
+Vacuous certificates are worse than empty rounds.
+
+## Script-backed Phase D gates
+
+Phase D rejects the commit even if Lean and LaTeX compile when any of the following occurs:
+
+1. Register-only round: paper markers changed but no new declaration was added under `lean4/BEDC/`.
+2. Stale marker target: a new `\leanchecked`, `\leanstmt`, or `\leandef` marker points to a Lean declaration that was not introduced in this round.
+3. New `\leanvariant`: automated rounds must not add variants. If your target only yields a wrapper, projection, weakened form, pair-bundle, or forwarding lemma for an already checked theorem, abandon it and implement a genuinely new statement.
+4. Hollow construction: added Lean lines using `Unit`, `()`, `Unit.unit`, `True.intro`, `trivial`, `NameCert.mk ()`, `NameCert.mk Unit.unit`, `MinimalNameCertSetup`, or `import Init.Data.Unit` are rejected.
+5. No BEDC touchpoint: every new declaration must mention a concrete BEDC kernel/setup object in its body, such as `BMark`, `BHist`, `msame`, `hsame`, `Ext`, `Cont`, `ProbeBundle`, `SigRel`, `sameSig`, `Pkg`, `InGap`, `NameCert`, `SemanticNameCert`, `BaseReflectionSetup`, `AskSetup`, `PackageSetup`, `DomainSetup`, `NameCertSetup`, or a `BEDC.` object.
+6. Parameter echo: new theorem bodies that mainly return assumptions named like `le_refl`, `le_trans`, `carrier_transport`, `lower_transport`, `upper_transport`, or `normalized` are rejected.
+7. Carrier/spec-only growth: new `Carrier`, `SourceSpec`, `PatternSpec`, `ClassifierSpec`, `LedgerPolicy`, `Lower`, `Upper`, or `Normalized` definitions are rejected unless the same round adds a theorem whose statement uses those concrete definitions.
+8. Duplicate theorem inflation (tree-wide). A new theorem is rejected if any existing theorem under `lean4/BEDC/` has a conclusion equivalent to the new one modulo: binder renaming, hypothesis reordering, qualified-name rewriting (`BEDC.FKernel.Hist.hsame` vs `hsame` after `open`), or definitional unfolding the same file already proves (e.g. `PreorderClassifierSpec h k := hsame h k` makes `... → PreorderClassifierSpec h k` and `... → hsame h k` the same conclusion). Two new theorems in the same round whose conclusions match each other under these rules are also rejected. The cleanup that produced v2.5 deleted six theorems accumulated this way across rounds (`PreorderPrefixLE_target_carrier` / `_result_carrier` / `_preserves_carrier`; `RatCarrier_component_hsame_transport` / `_hsame_transport`; `SumHistoryClassifier_left_right_absurd` / `_mixed_tags_absurd`; `cont_assoc_proof_standing` / `_up_to_hsame_spine`). Do not reintroduce that pattern.
+
+9. Alias `def` rejection. A `def` whose body is `Existing` (single-token alias) or whose body re-bundles fields already exposed by an iff-equivalent predicate the same file already proves is rejected. Concrete forbidden shapes: `def Foo ... := RatCarrier ...`, `def Bar h := UnaryHistory h`, `def Baz h k := hsame h k` next to an existing classifier of the same shape. Use the existing predicate directly via `open`.
+
+## No nursery-shell growth (HARD GATE)
+
+Do not implement targets that only make a horizon module look larger. A round
+must make BEDC theory more closed, composable, or concrete.
+
+The following implementation shapes are INVALID even if they compile and pass
+the current anti-hollow checks:
+
+1. Parameter echo: a theorem that accepts semantic laws such as `le_refl`,
+   `le_trans`, `carrier_transport`, `lower_transport`, `upper_transport`, or
+   `normalized` and returns those same laws unchanged or simply bundles them.
+   If the proof is mostly `exact le_refl`, `exact le_trans`, or constructor
+   packaging of input assumptions, abandon the target.
+
+2. Abstract-shell classifier: adding `Carrier : BHist → Prop`,
+   `lower upper : BHist → Prop`, `Le : BHist → BHist → Prop`, or
+   `normalized : ... → Prop` without also proving a concrete closure theorem
+   about a BEDC-defined predicate. Do not fabricate general Prop interfaces just
+   to manufacture a `NameCert`.
+
+3. Isolated derived definitions: adding only carrier/spec definitions for
+   `RatUp`, `IntervalUp`, `PreorderUp`, or another horizon object. If you add a
+   new derived carrier/spec, the same round must also prove at least one theorem
+   that uses that concrete definition: transport, closure, constructor
+   inversion, determinacy, composition, or a certificate whose object-specific
+   content is not supplied entirely as parameters.
+
+4. Unclosed certificates: a `NameCert` theorem over arbitrary uninterpreted
+   predicates is invalid unless the theorem also proves an object-specific BEDC
+   property from concrete constructors/relations in the file.
+
+Valid examples:
+- `IntCarrier` transport across `hsame` because it uses the concrete carrier
+  fields and `unary_transport`.
+- List classifier transitivity because it performs induction over list structure
+  and uses `hsame_trans` elementwise.
+- Composite gap coverage because it constructs a new witness chain from two
+  coverage layers.
+
+Invalid examples:
+- A generic preorder theorem that takes arbitrary `Le` plus `le_refl` and
+  `le_trans`, then returns those assumptions.
+- An interval certificate over arbitrary `lower` and `upper` predicates where all
+  boundary transport is supplied as parameters and no concrete boundary theorem
+  is proved.
+- A rational carrier/spec file with no transport or certificate theorem.
+
+If all selected targets reduce to these invalid shapes, abandon them and pick
+new targets rather than committing shallow growth.
+
 
 ## Targets to Implement
 <TARGETS>
+
+## Step 0: Local worktree boundary
+This phase runs inside a disposable round worktree whose branch was already created from the pipeline's local base branch. Do not perform any remote-branch synchronization in this phase.
+
+Forbidden in Phase C:
+```bash
+git fetch origin lean4-codex-auto-dev
+git pull
+git rebase origin/lean4-codex-auto-dev
+git merge origin/lean4-codex-auto-dev
+git checkout lean4-codex-auto-dev
+git switch lean4-codex-auto-dev
+git push
+```
+
+If you believe the base is stale, stop and leave the round uncommitted. The outer `codex_formalize.py` process owns all base-branch synchronization, merge, rebase, and push operations. Phase C only edits files in the current worktree, verifies them, stages the intended files, and creates one local commit on the current round branch.
 
 ## Hard Constraints
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
 - Do NOT add `axiom` declarations. Encode primitives as `inductive` / `def` / `class` / `structure` setup field. The audit `python3 tools/check-axioms.py` will reject any axiom and CI will fail.
 - Do NOT leave `sorry`. Every theorem must have a real proof. If you genuinely cannot prove the theorem, do NOT add it; pick a different target.
+- Do NOT create or edit theorem-bearing targets under `lean4/BEDC/**/Examples/**`; `Examples/` is not a formal target tree.
+- Do NOT create scaffold/stub/placeholder/demo/example modules or names. Use canonical semantic BEDC modules.
+- Keep every modified or added Lean file at or below 600 lines. If a target would exceed that cap, create or use a focused non-example submodule and import it through the nearest index.
 - Reuse the existing setup layers: `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the theorem belongs to those interfaces.
+- Do NOT introduce a new `inductive` type that is isomorphic to an existing one in `lean4/BEDC/`. Re-use the existing inductive (or alias it via `def`) instead. Adding a parallel inductive (e.g. another emission-history type beyond `BHist`) is forbidden.
+- If, while proving a target, you discover that an existing `inductive` is redundant (isomorphic to another), do NOT fix it in-place during this round — it will cascade into many proofs. Note the redundancy in the commit message under "Followup:" so a future compression round can address it.
+- Do NOT cause any BEDC theorem to transitively depend on Lean stdlib axioms (`propext`, `Quot.sound`, `Classical.choice`). The `bedc_ci.py axiom-purity --strict` audit forbids all three. Common patterns that pull in `propext`:
+  - `simp [h]` or `rw [h]` where `h : a ↔ b` — use `Iff.mp h` / `Iff.mpr h` explicitly, or destructure `obtain ⟨fwd, bwd⟩ := h`.
+  - `simp` on a goal whose default rewrite set contains `Iff` lemmas — use `simp only [<curated lemmas>]` excluding any that produce `Iff = Eq` rewrites.
+  - Implicit Iff substitution under `congr` / `congrArg` — replace with manual case analysis.
+  Use `Eq`-only rewrites freely; `propext` is only triggered by `Iff`-shaped substitutions.
+- Do NOT use `Classical.*` (Classical.choice, Classical.byContradiction, Classical.em) — proofs must be fully constructive.
+- Do NOT use `Quot.*` quotient constructions — encode equivalences as `inductive` predicates instead.
 
 ## Step 1: Implement proofs
 For each target:
@@ -33,15 +160,18 @@ If errors occur, fix them before continuing. If a target is stuck, choose a diff
 After `lake build` passes:
 1. For each new Lean target, find the relevant paper theorem/definition site in `papers/bedc/parts/`. Decide which marker macro to use:
    - `\leanchecked{X}` — the primary canonical implementation of a paper claim. ONE per paper site.
-   - `\leanvariant{X}` — alternative implementation of the SAME paper claim already covered by an existing `\leanchecked` at this site: typeclass-binder wrappers (e.g. `concrete_*` vs `internalized_*`), weakened conclusions (`_hsame_only`), strengthened conclusions (`_with_tokens`), projections, or pure forwarding lemmas (`exact other_theorem`). MAY be multiple per primary marker.
    - `\leanstmt{X}` — statement-only / structure-field reference (no proof yet).
    - `\leandef{X}` — `def` or `inductive` definition reference.
+   Do NOT add `\leanvariant{X}` in automated rounds; Phase D rejects it. If a target would only be a variant, wrapper, projection, weaker conclusion, strengthened conclusion, pair-bundle, or pure forwarding lemma, abandon that target and implement a different one.
    Escape underscores as `\_` in target names.
-2. Decision rule for `\leanchecked` vs `\leanvariant` at an existing site:
-   - If no `\leanchecked` exists yet at this site → use `\leanchecked{X}` and pick the strongest / most general version as canonical.
-   - If a `\leanchecked` already exists and your new target is a wrapper / variant / projection / weaker form of the same claim → use `\leanvariant{X}`.
-   - If your new target is a genuinely different paper claim (different theorem statement) → look for its own paper site; do not stack under an unrelated theorem.
+2. Decision rule for markers:
+   - If the new declaration proves the paper claim → use `\leanchecked{X}`.
+   - If the new declaration is statement-only / structure-field reference → use `\leanstmt{X}`.
+   - If the new declaration is a `def` or `inductive` reference → use `\leandef{X}`.
+   - If the paper site already has `\leanchecked` and your new target would only be a variant of it → do not register it; pick another target.
 3. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
+
+4. For targets with `paper_block_status: "discovery"`: the paper does not yet have a block for this claim, so you must INSERT a new block into the existing chapter file given by `paper_target_chapter`. Insert a `\begin{theorem}[<short title>]\label{thm:<concept>}` (or `\begin{definition}` / `\begin{lemma}` / `\begin{corollary}` as appropriate) at a thematically correct location within an existing section of that chapter, write a brief `\begin{proof}...\end{proof}` sketch, and place the marker on the next line after `\end{...}`. Do NOT create a new chapter file. Do NOT modify any other chapter's existing content.
 
 The `bedc_ci.py audit` will fail if any `\leanchecked{X}` / `\leanvariant{X}` / `\leanstmt{X}` / `\leandef{X}` references X not present in `lean4/BEDC/`.
 
@@ -53,30 +183,84 @@ cd papers/bedc && make
 python3 tools/check-axioms.py
 ```
 
-## Step 5: Rebase
+## Step 5: Do not sync remote before commit
+Do not fetch, pull, merge, rebase against, checkout, or push any remote branch before committing. The outer pipeline serializes remote synchronization after Phase C returns.
+
+If verification fails because the worktree appears stale or conflicts with upstream work, do not resolve that by syncing with `origin/lean4-codex-auto-dev`. Either adjust the local proof against the current worktree or leave the round uncommitted so the outer pipeline can discard/retry it.
+
+## Step 5.3: Paper-side discovery anti-parameter-echo (HARD GATE)
+
+When this round inserts a `\\begin{{theorem}}` / `\\begin{{definition}}` / `\\begin{{lemma}}` block into `papers/bedc/parts/` (a `discovery` target, or a paper insertion produced during conflict resolution), the inserted block MUST NOT be a parameter-echo theorem. Forbidden shapes:
+
+1. **Source-equivalence echo.** A theorem of the form: assume $A \\Leftrightarrow B$ as carriers and $\\sim_A \\Leftrightarrow \\sim_B$ as classifiers, conclude that every previously proved $A$-side property holds on the $B$-side. Look for paired carrier/pattern/ledger $\\Leftrightarrow$ chains, fields-by-fields equivalence lists, or "Restate certificate $\\mathsf{{cert}}_A$ for $\\mathsf{{cert}}_B$" structures.
+
+2. **Indexed restatement of an existing theorem.** Inserting `[<X> source equivalence]`, `[<X> under source equivalence]`, `[<X> source-equivalence with fields]`, `[<X> classifier source equivalence]`, or any sibling whose only difference from a label already present in the same chapter directory is the `_with_fields` / `_under` / `_alt` / `_v2` / `_again` suffix.
+
+3. **Pure $A$-vs-$B$ parametric statement** with no concrete BEDC kernel construction (BMark, BHist, ProbeBundle, SigRel, specific Pkg / NameCert instance, specific cons-boundary witness) on the conclusion side.
+
+If the existing chapter has 2 or more theorems whose label or title contains `source-equivalence` or `under-source-equivalence`, do NOT insert another. Either pick a different paper site (different chapter, different concrete kernel object), or drop the discovery target entirely from this round and let the round commit Lean code only — register-only is forbidden, but Lean-only is fine when the Lean code is meaningful.
+
+The Lean side of this round must still proceed: write the formal theorem in `lean4/BEDC/`, but skip the paper insertion if the only available paper site would be a parameter-echo block.
+
+## Step 5.4: Paper-side label collision pre-check (HARD GATE)
+
+When this round adds new paper-side blocks (from a `discovery` target — a `\\begin{{theorem}}…\\end{{theorem}}` block inserted into `papers/bedc/parts/`), the parallel paper pipeline may be inserting blocks at the same time. Before commit, run a fast collision scan:
+
 ```bash
-git fetch origin lean4-codex-auto-dev
-git rebase --autostash origin/lean4-codex-auto-dev
+git diff --cached -- papers/bedc/ \
+  | grep -nE "^\+\\\\label\{" \
+  | sed -E 's/.*label\{([^}]+)\}.*/\1/' \
+  | while read L; do
+      cnt=$(grep -rE "\\\\label\{${L}\}" papers/bedc/ | wc -l | tr -d ' ');
+      if [ "$cnt" -gt 1 ]; then echo "DUPLICATE: $L"; fi;
+    done
 ```
-If conflicts occur in additive registration files, resolve them by keeping all valid additions from both sides, then continue the rebase.
+
+Any DUPLICATE line means this round is about to introduce a `\\label{}` that is already present in `papers/bedc/parts/` on the current worktree. Even if the rebased base branch does not yet have this label, a sibling paper round could land it before this round merges, and the combined audit would fail. Fix one of:
+
+1. Drop the offending paper insertion entirely from this round and let the paper pipeline own that block; the round still keeps its Lean additions.
+2. Rename the `\\label{}` to something that genuinely encodes new content (not a `_v2`, `_alt`, `_under`, `_again` suffix — those are version-narrative and disallowed). Update any internal `\\autoref{}` consumers in the same patch.
+
+Do NOT commit until the duplicate scan returns no DUPLICATE lines.
+
+## Step 5.5: HARD GATE — round must contain real formalization
+
+Before committing, run:
+```bash
+git diff --cached --stat lean4/BEDC/ | tail -1
+```
+
+If the staged changes show ZERO insertions in `lean4/BEDC/` (i.e., the round only modified `papers/bedc/` to register markers, with no new Lean theorems / defs / inductives / structures), the round is INVALID — it is a "register-only round" and is forbidden. Do NOT commit. Instead:
+
+1. Discard the paper-only changes: `git restore --staged papers/bedc/ && git checkout -- papers/bedc/`.
+2. Pick a different target from Phase B output that requires writing actual Lean code.
+3. Re-do the implementation (Steps 1-5) for that target and re-check this gate.
+
+A valid round produces a non-trivial Lean diff. Marker registration alone is not formalization.
+
+Also do NOT add new `\leanvariant` markers in this round. The 760+ existing `\leanvariant` markers stay; the `bedc_ci.py audit` still requires their Lean targets to resolve. But Phase C in automated rounds must not produce new variants — if a target's only effect is to be a wrapper / projection / iff-rewrite / pair-bundle / weaker form of an already-`\leanchecked` theorem, abort that target and pick something that produces a genuinely new theorem statement.
 
 ## Step 6: Single combined commit
 ```bash
 git add lean4/BEDC papers/bedc
 git commit -m "R<ROUND_NUM>: [brief description of what was proved and registered]
 
+prompts: <PROMPTS_VERSION>
+
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
+
+The `prompts: <PROMPTS_VERSION>` line in the commit body is mandatory. Replace `<PROMPTS_VERSION>` with the single version value declared in the "Prompts version" section at the top of this file. If the value at the top of `phase_b.txt` and `phase_c.txt` is different, use the current file's top value in the commit body. This gives every R-round commit a permanent record of which prompt pair produced it.
 
 ## IMPORTANT
 - Do NOT git push. The merge and push will be handled externally.
 - Do NOT edit `lean4/lakefile.lean` or `lean4/lean-toolchain`.
-- Do NOT introduce `constant` declarations as placeholders.
+- Do NOT introduce `constant` or `opaque` declarations as placeholders.
 - Do NOT refactor unrelated files.
 - Do NOT fabricate shell structures that package the theorem as abstract `Prop` fields. State the theorem about concrete BEDC objects and prove it directly.
 
 ## Completion Contract
-- No `sorry`, no `admit`, no `axiom`, no `constant` placeholders in committed Lean code
+- No `sorry`, no `admit`, no `axiom`, no `constant`, no `opaque` placeholders in committed Lean code
 - `cd lean4 && python3 scripts/lake_gate.py build` passes
 - `cd papers/bedc && make` passes
 - `python3 tools/check-axioms.py` passes

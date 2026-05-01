@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for \(\POSetUp\)}
+\label{ch:concrete-instances-poset-namecert}
+
+The partially ordered set interface \(\POSetUp\) extends \autoref{ch:concrete-instances-preorder-namecert} with the antisymmetry field: if \(a \le b\) and \(b \le a\) then \(a\) and \(b\) are classified the same by the carrier. The integer order from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
+
+\begin{remark}[\(\POSetUp\) interface scope]
+\label{rem:concrete-instances-poset-namecert-scope}
+This chapter records the \(\POSetUp\) licensing target. The concrete prefix
+antisymmetry theorem is linked to the unary preorder classifier, and the
+certificate fields are specified below.
+\end{remark}
+
+\section{Carrier definition}
+
+\begin{definition}[POSet carrier]
+\label{def:poset-carrier}
+Use a preorder setup extended with antisymmetry under the carrier classifier.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[POSet source specification]
+\label{def:poset-source-specification}
+The source is a certified preorder carrier plus an antisymmetry field.
+\end{definition}
+
+\begin{definition}[POSet pattern specification]
+\label{def:poset-pattern-specification}
+The pattern is preorder relation formation with classifier collapse from bidirectional comparison.
+\end{definition}
+
+\begin{definition}[POSet classifier specification]
+\label{def:poset-classifier-specification}
+The classifier is the preorder carrier classifier.
+\end{definition}
+
+\begin{theorem}[Prefix antisymmetry]
+\label{thm:poset-prefix-antisymmetry}
+For the concrete unary history prefix preorder, if \(h\le k\) and \(k\le h\),
+then \(h\) and \(k\) are classified the same by the preorder classifier.
+\end{theorem}
+\leanvariant{BEDC.Derived.PreorderUp.PreorderPrefixLE\_antisymm\_hsame}
+\begin{proof}
+Unpack the two prefix witnesses. Substituting the first continuation into the
+second gives a loop from \(h\) through the appended forward and backward tails.
+Right-unit uniqueness and append-empty inversion force the forward tail to be
+\(\emp\), so the first continuation reduces to \(\hsame(h,k)\), which is the
+classifier specification.
+\end{proof}
+
+\begin{definition}[POSet stability certificate]
+\label{def:poset-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all preorder stability fields
+  \item antisymmetry: \(a\le b\) and \(b\le a\) imply \(a\sim_C b\)
+  \item compatibility of antisymmetry with relation congruence
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[POSet ledger policy]
+\label{def:poset-ledger-policy}
+Record both comparison derivations when antisymmetry is used.
+\end{definition}
+
+\begin{definition}[\(\POSetUp\) certificate obligations]
+\label{def:poset-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\POSetUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\POSetUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

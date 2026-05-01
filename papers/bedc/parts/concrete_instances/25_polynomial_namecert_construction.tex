@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for \(\PolynomialUp\)}
+\label{ch:concrete-instances-polynomial-namecert}
+
+The polynomial interface \(\PolynomialUp\) has certificate obligations over a scalar ring from \autoref{ch:concrete-instances-ring-namecert} as finite coefficient sequences from \autoref{ch:concrete-instances-list-namecert}, normalized to remove trailing zeros so that the highest-index entry is nonzero (or the sequence is empty for the zero polynomial). The classifier is structural sameness on the normalized representative. Polynomial addition and multiplication are derived operations governed by the ring's certificate fields.
+
+\section{Carrier definition}
+
+\begin{definition}[Polynomial carrier]
+\label{def:polynomial-carrier}
+Use finite coefficient lists over a scalar ring, normalized by removing trailing zero coefficients.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[Polynomial source specification]
+\label{def:polynomial-source-specification}
+The source is \(\ListUp(R)\) over a certified scalar ring \(\RingUp(R)\), restricted to normalized lists.
+\end{definition}
+
+\begin{definition}[Polynomial pattern specification]
+\label{def:polynomial-pattern-specification}
+The pattern is finite coefficient-sequence generation followed by canonical trimming.
+\end{definition}
+
+\begin{definition}[Polynomial classifier specification]
+\label{def:polynomial-classifier-specification}
+The classifier is structural list sameness on normalized coefficient lists.
+\end{definition}
+
+\begin{definition}[Polynomial stability certificate]
+\label{def:polynomial-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item normalization removes trailing zeros
+  \item normalization is idempotent
+  \item zero polynomial represented by empty list
+  \item structural reflexivity and transitivity
+  \item addition and multiplication closure after normalization
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Polynomial ledger policy]
+\label{def:polynomial-ledger-policy}
+Record the original coefficient list and its normalized representative.
+\end{definition}
+
+\begin{definition}[\(\PolynomialUp\) certificate obligations]
+\label{def:polynomial-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\PolynomialUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\PolynomialUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:polynomial-zero-axiom-note}
+Replaces quotienting by trailing-zero equivalence with normalization.
+\end{remark}

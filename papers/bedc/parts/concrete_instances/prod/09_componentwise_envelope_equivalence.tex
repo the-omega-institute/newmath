@@ -1,0 +1,413 @@
+\begin{theorem}[Product ledger visible pair-representation readback]
+\label{thm:prod-ledger-visible-pair-representation-readback}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history predicates and let
+$\rho,v:\mathsf{BHist}$. Define the displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$.
+If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then both
+$D(v)$ and $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ hold.
+\end{theorem}
+\begin{proof}
+The per-object fit is: traditional target ordered-product visible ledger
+readback; BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$ through $\mathsf{ProdPairRep}$; classifier
+$\mathsf{ProdHistoryClassifier}$; stability endpoint transport; ledger
+$\mathsf{ProdHistoryLedgerPolicy}$ plus displayed pair ledger $D$; core theorem
+checked ledger descent; exactness visible endpoint pair representation; standard
+bridge ordered-pair visible readback; status $\mathsf{ProofTarget}$. Unpack the
+ledger policy to obtain the raw product carrier and the raw-visible $\hsame$
+endpoint link. Apply
+Theorem~\ref{thm:prod-pair-rep-coverage} to the raw carrier, giving histories
+$l,r$ with $\mathsf{ProdPairRep}_{L,R}(\rho,l,r)$. Transport this displayed pair
+representation along the raw-visible endpoint link by
+Theorem~\ref{thm:prod-pair-rep-hsame-transport}; the result is the witness for
+$D(v)$. The classifier clause is exactly
+Theorem~\ref{thm:prod-ledger-raw-visible-classifier}.
+\end{proof}
+
+\begin{theorem}[Product checked envelope admits displayed pair ledger]
+\label{thm:prod-checked-envelope-displayed-pair-ledger}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and assume
+$\exists l:\mathsf{BHist}.\;L(l)$ and $\exists r:\mathsf{BHist}.\;R(r)$.
+Define the displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$. Then
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdHistoryClassifier}(L,R))
+$$
+holds.
+\end{theorem}
+\begin{proof}
+The per-object fit is: traditional target ordered-product visible ledger; BEDC
+source $\mathsf{BHist}$ with $\Cont$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier $\mathsf{ProdHistoryClassifier}$;
+ledger displayed pair representation; core theorem
+Theorem~\ref{thm:concrete-prod-namecert}; exactness via pair-representation
+coverage; standard bridge ordinary ordered pairs; public certificate scope
+$\mathsf{SemanticNameCert}$; status $\mathsf{ProofTarget}$. Instantiate
+Theorem~\ref{thm:concrete-prod-namecert} with the two source-history witnesses.
+Its checked envelope certificate supplies the $\NameCert$ core fields and
+pattern soundness for source and pattern both equal to
+$\mathsf{ProdHistoryCarrier}(L,R)$. It remains only to replace the ledger field:
+given a source witness $\mathsf{ProdHistoryCarrier}(L,R,h)$, apply the forward
+direction of Theorem~\ref{thm:prod-pair-rep-coverage} to obtain histories $l$
+and $r$ with $\mathsf{ProdPairRep}_{L,R}(h,l,r)$, which is exactly $D(h)$.
+\end{proof}
+
+\begin{theorem}[Singleton history source certificate]
+\label{thm:singleton-history-source-namecert}
+Fix a BEDC history $a_0:\mathsf{BHist}$, and define
+$A_{a_0}:\mathsf{BHist}\to\mathsf{Prop}$ by
+$A_{a_0}(x)\Longleftrightarrow\hsame(x,a_0)$. Then
+$\NameCert(A_{a_0},\hsame)$ holds.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by $a_0$ using reflexivity of $\hsame$. The
+reflexivity, symmetry, and transitivity fields of the certificate are exactly
+the corresponding fields of $\hsame$. For carrier transport, start with
+$A_{a_0}(x)$, namely $\hsame(x,a_0)$, and a classifier witness
+$\hsame(x,y)$. Symmetry turns the classifier witness into $\hsame(y,x)$, and
+transitivity with $\hsame(x,a_0)$ yields $\hsame(y,a_0)$, which is
+$A_{a_0}(y)$.
+\end{proof}
+
+\begin{theorem}[Singleton componentwise product semantic certificate]
+\label{thm:prod-singleton-componentwise-semantic-certificate}
+Fix histories $l_0,r_0:\mathsf{BHist}$. Define singleton source carriers
+$L(x):\Longleftrightarrow\hsame(x,l_0)$ and
+$R(y):\Longleftrightarrow\hsame(y,r_0)$. With displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, the
+componentwise product classifier specialized to $\hsame$ forms the semantic
+certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:singleton-history-source-namecert} at $l_0$ and at
+$r_0$ to obtain the two singleton $\NameCert$ records for $L$ and $R$.
+Theorem~\ref{thm:prod-pair-rep-singleton-coherence} supplies the
+pair-representation coherence hypothesis for these singleton carriers. Apply
+Theorem~\ref{thm:prod-component-history-semantic-certificate-target} with the
+two singleton certificates and this coherence witness.
+\end{proof}
+
+\begin{theorem}[Product componentwise certificate refines the checked envelope]
+\label{thm:prod-componentwise-certificate-refines-checked-envelope}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Assume also that the source
+classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+With $D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, both of the
+following hold:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R})
+$$
+and, for all histories $h,k$,
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+\to
+\mathsf{ProdHistoryClassifier}(L,R,h,k).
+$$
+\end{theorem}
+\begin{proof}
+The first conclusion is Theorem~\ref{thm:prod-component-history-semantic-certificate-target}
+applied to the two source certificates and the pair-representation coherence
+witness. The second conclusion is
+Theorem~\ref{thm:prod-component-history-classifier-descends-to-envelope}
+applied to the two $\hsame$-soundness assumptions.
+\end{proof}
+
+\begin{theorem}[Bounded classifier product certificate refines the checked envelope]
+\label{thm:prod-classifier-bounded-componentwise-certificate-refines-envelope}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$. Assume also that the source classifiers
+are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+Suppose there are histories $l_0,r_0:\mathsf{BHist}$ such that
+$$
+\forall l.\;L(l)\to l\sim_L l_0
+$$
+and
+$$
+\forall r.\;R(r)\to r\sim_R r_0.
+$$
+With $D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, both of the
+following hold:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R})
+$$
+and, for all histories $h,k$,
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+\to
+\mathsf{ProdHistoryClassifier}(L,R,h,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-pair-rep-classifier-bounded-coherence} to the two
+source certificates and the two center-history bounds. This yields
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then apply
+Theorem~\ref{thm:prod-componentwise-certificate-refines-checked-envelope} with
+the two source certificates, this coherence witness, and the two
+$\hsame$-soundness hypotheses.
+\end{proof}
+
+\begin{theorem}[Product componentwise certificate descends to the checked envelope]
+\label{thm:prod-public-object-scope-componentwise-envelope}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Assume also that both source
+classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+With displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, the following
+three clauses hold:
+\begin{enumerate}
+  \item the componentwise public certificate
+  $$
+  \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  D,
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R});
+  $$
+  \item the checked envelope certificate
+  $$
+  \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryClassifier}(L,R));
+  $$
+  \item for all histories $h,k$,
+  $$
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+  \to
+  D(h)\land D(k)\land
+  \mathsf{ProdHistoryClassifier}(L,R,h,k).
+  $$
+\end{enumerate}
+This theorem records componentwise-to-envelope compatibility and displayed
+ledger endpoint exposure for the ordered-product public scope; classifier
+equivalence is supplied by the $\hsame$-specialized
+Theorem~\ref{thm:prod-hsame-componentwise-certificate-envelope-equivalent}.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:prod-componentwise-certificate-refines-checked-envelope}
+supplies the componentwise public certificate and the descent implication from
+the componentwise classifier to the checked envelope classifier.
+Theorem~\ref{thm:prod-component-history-classifier-displayed-ledger-endpoints}
+supplies $D(h)$ and $D(k)$ from the same componentwise classifier witness.
+Conjoin those two displayed ledger endpoints with the descent implication. The
+checked envelope certificate is Theorem~\ref{thm:concrete-prod-namecert}: the
+inhabited carrier fields of $\mathsf{cert}_L$ and $\mathsf{cert}_R$ provide the
+left and right carrier witnesses required by that theorem.
+\end{proof}
+
+\begin{theorem}[Product envelope displayed-pair component exactness]
+\label{thm:prod-envelope-displayed-pair-component-exactness}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers. Assume $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and
+assume both source classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+For histories $h,k,l,r,l',r':\mathsf{BHist}$, if
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$ hold, then
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+(l\sim_L l')\wedge(r\sim_R r').
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the checked envelope classifier to obtain
+the endpoint link $\hsame(h,k)$. Symmetry gives $\hsame(k,h)$, and
+Theorem~\ref{thm:prod-pair-rep-hsame-transport} carries the displayed
+representation of $k$ with components $l',r'$ back to a displayed
+representation of $h$ with the same components. The
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ witness then compares this
+transported representation with the given displayed representation
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and yields
+$l\sim_L l'$ and $r\sim_R r'$.
+
+For the reverse direction, use the two displayed representations and the two
+component links as a witness of
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$. Apply
+Theorem~\ref{thm:prod-component-history-classifier-descends-to-envelope} with
+the two $\hsame$-soundness assumptions to obtain
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+\end{proof}
+
+\begin{theorem}[Product hsame componentwise certificate is envelope-equivalent]
+\label{thm:prod-hsame-componentwise-certificate-envelope-equivalent}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. Assume
+$\mathsf{cert}_L:\NameCert(L,\hsame)$,
+$\mathsf{cert}_R:\NameCert(R,\hsame)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$. With displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, both
+semantic certificates hold:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryClassifier}(L,R))
+$$
+and
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}).
+$$
+Moreover, for all histories $h,k$,
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The checked envelope certificate is Theorem~\ref{thm:concrete-prod-namecert}
+applied to $\mathsf{cert}_L.\mathsf{carrier\_inhabited}$ and
+$\mathsf{cert}_R.\mathsf{carrier\_inhabited}$. The displayed componentwise
+certificate is Theorem~\ref{thm:prod-component-history-semantic-certificate-target}
+with both source classifiers specialized to $\hsame$ and with the given
+$\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$ witness. The classifier
+equivalence is exactly
+Theorem~\ref{thm:prod-envelope-componentwise-hsame-classifiers-coincide}.
+\end{proof}
+
+\begin{theorem}[Bounded hsame product certificates are envelope-equivalent]
+\label{thm:prod-bounded-hsame-envelope-equivalent}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and
+assume $\mathsf{cert}_L:\NameCert(L,\hsame)$ and
+$\mathsf{cert}_R:\NameCert(R,\hsame)$. Suppose there are histories
+$l_0,r_0:\mathsf{BHist}$ such that
+$$
+\forall l.\;L(l)\to\hsame(l,l_0)
+$$
+and
+$$
+\forall r.\;R(r)\to\hsame(r,r_0).
+$$
+With displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, both
+semantic certificates hold:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryClassifier}(L,R))
+$$
+and
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}).
+$$
+Moreover, for all histories $h,k$,
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-pair-rep-bounded-hsame-coherence} to the two
+center histories and the two boundedness hypotheses. This gives the coherence
+witness $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$. Then apply
+Theorem~\ref{thm:prod-hsame-componentwise-certificate-envelope-equivalent} to
+$\mathsf{cert}_L$, $\mathsf{cert}_R$, and that coherence witness. Its displayed
+ledger is exactly $D$, and its conclusion is the two semantic certificates
+together with the classifier equivalence for arbitrary histories $h$ and $k$.
+\end{proof}
+
+\begin{theorem}[Singleton hsame product certificates are envelope-equivalent]
+\label{thm:prod-singleton-hsame-envelope-equivalent}
+This theorem fits the per-object template as follows: the traditional target is
+the singleton ordered-product bridge; the BEDC source is $\mathsf{BHist}$ with
+$\Cont$ and $\hsame$; the carrier is $\mathsf{ProdHistoryCarrier}(L,R)$; the
+classifier pair is the envelope classifier and the componentwise classifier; the
+stability data are the singleton source certificates and pair coherence; the
+ledger is the displayed pair representation; the core theorem is the pair of
+semantic certificates together with the classifier equivalence; exactness is
+the classifier equivalence; the standard bridge is singleton ordered-pair
+readback; and the status is $\mathsf{ProofTarget}$. Fix histories
+$l_0,r_0:\mathsf{BHist}$. Define
+$L(x):\Longleftrightarrow\hsame(x,l_0)$ and
+$R(y):\Longleftrightarrow\hsame(y,r_0)$. With displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, both
+semantic certificates hold:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryClassifier}(L,R))
+$$
+and
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}).
+$$
+Moreover, for all histories $h,k$,
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Obtain the two singleton source $\NameCert$ records from
+Theorem~\ref{thm:singleton-history-source-namecert}, first at $l_0$ and then
+at $r_0$. The singleton definitions of $L$ and $R$ supply the left and right
+carrier witnesses for the checked envelope. Theorem~\ref{thm:prod-pair-rep-singleton-coherence}
+gives the required pair-representation coherence. Applying
+Theorem~\ref{thm:prod-hsame-componentwise-certificate-envelope-equivalent}
+with these certificates, witnesses, and the coherence proof yields the two
+semantic certificates and the displayed classifier equivalence.
+\end{proof}

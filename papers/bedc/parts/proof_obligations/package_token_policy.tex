@@ -4,60 +4,90 @@
 \section{Package Token Policy and Reflection}
 \label{sec:po-package-token-policy-abstract}
 
-This chapter replaces the function-like token notation \(\Tok_{\Pi}(s)\) by the judgment \(\TokIntro(\Pi,s,p)\) and packages the necessary token behavior into a single proof interface.
+This chapter replaces the function-like token notation $\Tok_{\Pi}(s)$ by the judgment $\TokIntro(\Pi,s,p)$ and records the proof interface governing introduced tokens.
 
 \begin{definition}[Package token policy]
-For a probe bundle \(\Pi\), a package token policy, written
-\[
+\label{def:package-token-policy}
+For a probe bundle $\Pi$, a package token policy, written
+$$
   \PkgTokPol(\Pi),
-\]
+$$
 consists of the following clauses for the concrete signature-token instance.
 \begin{enumerate}
-  \item \textbf{Token existence.} Every generated answer history \(s\) that is intended to be visible admits some token \(p\) with \(\TokIntro(\Pi,s,p)\).
-  \item \textbf{Soundness.} If \(\TokIntro(\Pi,s,p)\), \(\TokIntro(\Pi,t,q)\), and \(\hsame(s,t)\), then \(\psame(p,q)\).
-  \item \textbf{Reflection.} If \(\TokIntro(\Pi,s,p)\), \(\TokIntro(\Pi,t,q)\), and \(\psame(p,q)\), then \(\hsame(s,t)\).
-  \item \textbf{Package-sameness closure.} On introduced tokens, \(\psame\) is closed under reflexivity, symmetry, and transitivity.
-  \item \textbf{No external token equality.} Visible tokens are compared by \(\psame\), not by any imported equality judgment.
+  \item \textbf{Soundness.} If $\TokIntro(\Pi,s,p)$, $\TokIntro(\Pi,t,q)$, and $\hsame(s,t)$, then $\psame(p,q)$.
+  \item \textbf{Reflection.} If $\TokIntro(\Pi,s,p)$, $\TokIntro(\Pi,t,q)$, and $\psame(p,q)$, then $\hsame(s,t)$.
 \end{enumerate}
 \end{definition}
+\leanchecked{BEDC.FKernel.Package.PackageTokenPolicy\_iff\_fields}
+\leanvariant{BEDC.FKernel.Package.PackageTokenPolicy\_iff\_soundness\_reflection}
+\leanvariant{BEDC.FKernel.Package.PackageTokenPolicy\_fields}
+\leanvariant{BEDC.FKernel.Package.PackageTokenPolicy\_classification\_fields\_on\_introduced}
+\leanvariant{BEDC.FKernel.Package.PackageTokenPolicy\_soundness\_reflection\_pair}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_soundness\_field}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_reflection\_field}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_compares\_introduced\_by\_psame}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_classification\_equiv\_on\_introduced\_pair}
+\leanvariant{BEDC.FKernel.Package.PackageTokenPolicy\_soundness\_reflection\_and\_closure}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_closure\_fields\_on\_introduced}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_trans\_on\_introduced}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_three\_step\_on\_introduced}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_reflect\_sound\_reflect\_chain}
+
+Package-sameness closure on introduced tokens is a consequence of soundness and reflection, recorded by the checked closure theorem above. Token existence is a separate premise, written
+$$
+  \forall s,\;\exists p,\;\TokIntro(\Pi,s,p).
+$$
+The rule that visible tokens are compared by $\psame$ rather than by imported equality is a token-comparison principle for theorem statements, not a field of $\PkgTokPol(\Pi)$.
 
 \begin{theorem}[Package tokens are signature-facing]
 \label{thm:package-tokens-signature-facing}
-Assume \(\PkgPol(\Pi)\). If
-\[
+Assume $\PkgTokPol(\Pi)$. If
+$$
   \TokIntro(\Pi,s,p),\quad
   \TokIntro(\Pi,t,q),\quad
   \hsame(s,t),
-\]
+$$
 then
-\[
+$$
   \psame(p,q).
-\]
+$$
 \end{theorem}
-\leanchecked{BEDC.FKernel.Package.PackagePolicy\_signature\_facing}
-\leanchecked{BEDC.FKernel.Package.packagePolicy\_signature\_facing\_from\_fields}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_signature\_facing}
+\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_signature\_facing}
 
 \begin{proof}
-This is the extensionality field of the package policy applied to the two token-introduction premises and the history-sameness premise.
+This is the soundness field of the package token policy applied to the two token-introduction premises and the history-sameness premise.
 \end{proof}
 
 \begin{theorem}[Package-sameness is equivalent to signature-sameness]
 \label{thm:psame-iff-hsame}
+\label{thm:packages-classify-introduced-signatures}
 Assume \(\PkgTokPol(\Pi)\). If
-\[
+$$
   \TokIntro(\Pi,s,p),
   \qquad
   \TokIntro(\Pi,t,q),
-\]
+$$
 then
-\[
+$$
   \psame(p,q)
   \quad\Longleftrightarrow\quad
   \hsame(s,t).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Package.psame\_iff\_hsame}
+\leanvariant{BEDC.FKernel.Package.PackageTokenPolicy\_iff\_classifies\_introduced}
+\leanvariant{BEDC.FKernel.Package.PackageTokenPolicy\_sound\_complete}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_classifies\_introduced\_signatures}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_classification\_roundtrip}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_classification\_roundtrip\_on\_introduced}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_classification\_directions\_pair}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_five\_step\_on\_introduced}
+\leanvariant{BEDC.FKernel.Package.packages\_classify\_introduced\_signatures}
+\leanvariant{BEDC.FKernel.Package.packages\_classify\_introduced\_signatures\_directional}
+\leanvariant{BEDC.FKernel.Package.packagePolicy\_classifies\_signatures\_directions}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_three\_step\_reflect\_on\_introduced}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_hsame\_equivalence\_fields}
+\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_classification\_iff\_symm\_on\_introduced}
 
 \begin{proof}
 The implication from right to left is the soundness clause of \(\PkgTokPol(\Pi)\). The implication from left to right is the reflection clause. No external token equality is used.
@@ -68,6 +98,7 @@ The implication from right to left is the soundness clause of \(\PkgTokPol(\Pi)\
 The completeness direction of the concrete signature Globalize instance holds only under \(\PkgTokPol(\Pi)\). In particular, it is not a theorem for arbitrary package-sameness relations.
 \end{corollary}
 \leanchecked{BEDC.FKernel.Package.concrete\_package\_completeness\_policy\_grounded}
+\leanvariant{BEDC.FKernel.Package.package\_completeness\_reflection\_field}
 
 \begin{proof}
 Completeness requires recovering \(\hsame(s,t)\) from \(\psame(p,q)\). This is exactly the reflection field of \(\PkgTokPol(\Pi)\).
@@ -80,19 +111,23 @@ The token policy is deliberately narrow. It applies to the concrete signature-to
 \section{Inductive Package-Token Policy for Signature Packages}
 \label{sec:po-inductive-package-token-policy-instance}
 
-\autoref{sec:po-package-token-policy-abstract} introduces \(\mathsf{PackageTokenPolicy}(\Pi)\). This section removes one remaining ambiguity: package-sameness for the concrete signature-token instance should be generated by one rule only. Package reflection should then be a constructor-inversion theorem, not an extra informal assumption.
+\autoref{sec:po-package-token-policy-abstract} introduces \(\mathsf{PackageTokenPolicy}(\Pi)\). This section removes one remaining ambiguity: package-sameness for the concrete signature-token instance should be generated by one rule only. The one-constructor relation supplies soundness directly; reflection is supplied either by the active package-token policy or by a token-uniqueness theorem that derives the policy field.
 
 \begin{definition}[Concrete signature-token introduction]
+\label{def:concrete-signature-token-introduction}
 For the concrete signature-token instance, the judgment
-\[
+$$
   \TokIntro(\Pi,s,p)
-\]
+$$
 means that token \(p\) is introduced as a visible token for answer history \(s\) under probe bundle \(\Pi\).
 \end{definition}
+\leanchecked{BEDC.FKernel.Package.SignatureTokenIntro\_nonempty\_pkg}
 
 \begin{definition}[Inductive package-sameness for signature tokens]
+\label{def:package-token-and-package-sameness}
+\label{def:concrete-package-sameness-policy}
 For the concrete signature-token instance, \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\) is generated only by the following rule:
-\[
+$$
 \frac{
   \TokIntro(\Pi,s,p)
   \qquad
@@ -102,22 +137,37 @@ For the concrete signature-token instance, \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\) 
 }{
   \psame_{\Pi}^{\mathrm{sig}}(p,q)
 }.
-\]
+$$
 No other package-sameness constructors are admitted for this concrete instance.
 \end{definition}
+\leandef{BEDC.FKernel.Package.psame}
+\leandef{BEDC.FKernel.Package.ConcretePackageSamenessPolicy}
+\leanchecked{BEDC.FKernel.Package.PkgSig\_psame\_intro}
+\leanvariant{BEDC.FKernel.Package.ConcretePackageSamenessPolicy\_holds}
+\leanvariant{BEDC.FKernel.Package.concrete\_package\_sameness\_policy}
+\leanvariant{BEDC.FKernel.Package.psame\_left\_token\_witness}
+\leanvariant{BEDC.FKernel.Package.psame\_right\_token\_witness}
+\leanvariant{BEDC.FKernel.Package.psame\_token\_witness\_pair}
+\leanvariant{BEDC.FKernel.Package.psame\_token\_witnesses}
+\leanvariant{BEDC.FKernel.Package.psame\_source\_history\_pair}
+\leanvariant{BEDC.FKernel.Package.psame\_constructor\_witnesses\_with\_hsame}
+\leanvariant{BEDC.FKernel.Package.psame\_constructor\_symm\_witnesses}
+\leanvariant{BEDC.FKernel.Package.psame\_source\_hsame\_under\_tok\_unique}
 
 \begin{lemma}[Package-sameness soundness]
 \label{lem:psame-sound}
+\label{lem:signature-package-extensionality}
 If
-\[
+$$
   \TokIntro(\Pi,s,p),\quad \TokIntro(\Pi,t,q),\quad \hsame(s,t),
-\]
+$$
 then
-\[
+$$
   \psame_{\Pi}^{\mathrm{sig}}(p,q).
-\]
+$$
 \end{lemma}
-\leanchecked{BEDC.FKernel.Package.psame\_sound}
+\leanchecked{BEDC.FKernel.Package.signature\_package\_extensionality}
+\leanvariant{BEDC.FKernel.Package.signature\_package\_extensionality\_hsame}
 
 \begin{proof}
 This is the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\).
@@ -125,46 +175,53 @@ This is the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\).
 
 \begin{lemma}[Package-sameness reflection]
 \label{lem:psame-reflect}
-If
-\[
+Assume \(\PkgTokPol(\Pi)\). If
+$$
   \TokIntro(\Pi,s,p),\quad \TokIntro(\Pi,t,q),\quad
   \psame_{\Pi}^{\mathrm{sig}}(p,q),
-\]
+$$
 then
-\[
+$$
   \hsame(s,t).
-\]
+$$
 \end{lemma}
 \leanchecked{BEDC.FKernel.Package.psame\_reflect}
 
 \begin{proof}
-By inversion on the derivation of \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\). Since the concrete package-sameness relation has only the displayed constructor, any such derivation is generated from introduced signatures that are \(\hsame\). Therefore \(\hsame(s,t)\), up to the token-introduction premises used to identify the displayed tokens.
+Apply the reflection field of \(\PkgTokPol(\Pi)\) to the two token-introduction premises and the package-sameness premise.
 \end{proof}
 
 \begin{theorem}[Concrete PackageTokenPolicy]
 \label{thm:concrete-package-token-policy}
-The concrete signature-token instance satisfies \(\mathsf{PackageTokenPolicy}(\Pi)\) whenever token introduction is available for generated signatures and package-sameness is interpreted as \(\psame_{\Pi}^{\mathrm{sig}}\).
+The concrete signature-token instance satisfies \(\mathsf{PackageTokenPolicy}(\Pi)\) from the introduced-token reflection direction
+$$
+  \TokIntro(\Pi,s,p),\quad \TokIntro(\Pi,t,q),\quad
+  \psame_{\Pi}^{\mathrm{sig}}(p,q)
+  \quad\Longrightarrow\quad
+  \hsame(s,t).
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Package.concrete\_package\_token\_policy}
 
 \begin{proof}
-Token introduction is supplied by the chosen concrete token-introduction rule. Package-sameness introduction is Lemma~\ref{lem:psame-sound}. Package reflection is Lemma~\ref{lem:psame-reflect}. The no-extra-constructor clause holds by definition of \(\psame_{\Pi}^{\mathrm{sig}}\).
+The soundness field is Lemma~\ref{lem:psame-sound}. The reflection field is the displayed introduced-token reflection direction.
 \end{proof}
-
-\leanchecked{BEDC.FKernel.Package.concrete\_packageTokenPolicy}
 
 \begin{corollary}[Exact signature package]
 \label{cor:exact-signature-package}
-For the concrete signature-token instance, \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\) between introduced tokens is equivalent to internal sameness of the answer histories that introduced them.
+Assume \(\TokUnique(\Pi)\). For the concrete signature-token instance, \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\) between introduced tokens is equivalent to internal sameness of the answer histories that introduced them.
 \end{corollary}
-\leanchecked{BEDC.FKernel.Package.psame\_reflect\_under\_tok\_unique}
+\leanchecked{BEDC.FKernel.Package.psame\_iff\_hsame\_under\_tok\_unique}
+\leanvariant{BEDC.FKernel.Package.psame\_hsame\_directions\_under\_tok\_unique}
+\leanvariant{BEDC.FKernel.Package.psame\_reflect\_under\_tok\_unique}
+\leanvariant{BEDC.FKernel.Package.exact\_signature\_package}
 
 \begin{proof}
-The forward direction is Lemma~\ref{lem:psame-reflect}; the reverse direction is Lemma~\ref{lem:psame-sound}.
+The forward direction is package reflection derived from token-introduction uniqueness. The reverse direction is Lemma~\ref{lem:psame-sound}.
 \end{proof}
 
 \begin{remark}[Implementation note]
-In a machine implementation, this chapter should be realized by defining package-sameness as an inductive relation with exactly one constructor. Reflection should then be proved by case analysis on that constructor.
+In a machine implementation, this chapter should be realized by defining package-sameness as an inductive relation with exactly one constructor and by supplying either an explicit reflection field or token-introduction uniqueness for the visible tokens.
 \end{remark}
 
 \section{Token-Introduction Uniqueness and Package Reflection}
@@ -175,12 +232,12 @@ In a machine implementation, this chapter should be realized by defining package
 \begin{definition}[Token-introduction uniqueness]
 \label{def:token-unique}
 For a fixed generated probe bundle \(\Pi\), define the token-introduction uniqueness obligation \(\mathsf{TokUnique}(\Pi)\) as the following principle:
-\[
+$$
   \TokIntro(\Pi,s,p),\quad
   \TokIntro(\Pi,t,p)
   \quad\Longrightarrow\quad
   \hsame(s,t).
-\]
+$$
 This is an internal uniqueness condition up to history-sameness. It is not host-level equality of tokens or signatures.
 \end{definition}
 \leanchecked{BEDC.BaseReflection.TokUnique\_intro}
@@ -196,17 +253,18 @@ From a derivation of \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\), inversion yields some
 \begin{lemma}[Token replacement]
 \label{lem:token-replacement-policy}
 Assume \(\mathsf{TokUnique}(\Pi)\). If
-\[
+$$
   \TokIntro(\Pi,s,p),\quad
   \TokIntro(\Pi,s_0,p),
-\]
+$$
 then
-\[
+$$
   \hsame(s,s_0).
-\]
+$$
 \end{lemma}
 \leandef{BEDC.BaseReflection.TokUnique.tokenReplacement}
 \leanchecked{BEDC.BaseReflection.TokUnique\_replacement\_self}
+\leanvariant{BEDC.BaseReflection.TokUnique\_replacement\_congr}
 
 \begin{proof}
 This is Definition~\ref{def:token-unique} applied to the two token-introduction judgments for the same token \(p\).
@@ -215,17 +273,18 @@ This is Definition~\ref{def:token-unique} applied to the two token-introduction 
 \begin{lemma}[Symmetric token replacement]
 \label{lem:token-replacement-policy-symm}
 Assume \(\mathsf{TokUnique}(\Pi)\) and that \(\hsame\) is symmetric. If
-\[
+$$
   \TokIntro(\Pi,s,p),\quad
   \TokIntro(\Pi,t,p),
-\]
+$$
 then
-\[
+$$
   \hsame(t,s).
-\]
+$$
 \end{lemma}
 \leanchecked{BEDC.BaseReflection.TokUnique\_replacement\_symm}
 \leanvariant{BEDC.BaseReflection.TokUnique\_replacement\_trans}
+\leanvariant{BEDC.FKernel.Package.tokUnique\_replacement\_symm}
 
 \begin{proof}
 Token-introduction uniqueness gives \(\hsame(s,t)\); symmetry of \(\hsame\) gives \(\hsame(t,s)\).
@@ -234,91 +293,113 @@ Token-introduction uniqueness gives \(\hsame(s,t)\); symmetry of \(\hsame\) give
 \begin{theorem}[Concrete package reflection with token uniqueness]
 \label{thm:package-reflection-token-unique}
 Assume \(\mathsf{TokUnique}(\Pi)\). If
-\[
+$$
   \TokIntro(\Pi,s,p),\quad
   \TokIntro(\Pi,t,q),\quad
   \psame_{\Pi}^{\mathrm{sig}}(p,q),
-\]
+$$
 then
-\[
+$$
   \hsame(s,t).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.BaseReflection.PackageReflection\_token\_unique}
+\leanvariant{BEDC.BaseReflection.PackageReflection\_token\_unique\_witness\_chain}
+\leanvariant{BEDC.BaseReflection.PackageReflection\_token\_unique\_symmetric\_chain}
+\leanvariant{BEDC.BaseReflection.PackageReflection\_token\_unique\_from\_inversion}
+\leanvariant{BEDC.FKernel.Package.package\_reflection\_token\_unique}
+\leanvariant{BEDC.FKernel.Package.psame\_two\_step\_reflect\_under\_tok\_unique}
 
 \begin{proof}
 Invert the derivation of \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\). Since the concrete signature-token package-sameness relation has only the constructor displayed in \autoref{sec:po-inductive-package-token-policy-instance}, the derivation supplies signatures \(s_0,t_0\) such that
-\[
+$$
   \TokIntro(\Pi,s_0,p),\quad
   \TokIntro(\Pi,t_0,q),\quad
   \hsame(s_0,t_0).
-\]
+$$
 By Lemma~\ref{lem:token-replacement-policy}, the first token-introduction premise gives \(\hsame(s,s_0)\), and the second gives \(\hsame(t,t_0)\). Symmetry and transitivity of \(\hsame\) now yield \(\hsame(s,t)\).
 \end{proof}
 
 \begin{corollary}[Exact package-sameness under token uniqueness]
 \label{cor:exact-package-sameness}
 Assume \(\mathsf{TokUnique}(\Pi)\). For introduced tokens,
-\[
+$$
   \psame_{\Pi}^{\mathrm{sig}}(p,q)
-\]
+$$
 if and only if their introducing signatures are internally history-same.
-Under a package token policy, consecutive package-sameness judgments between introduced tokens compose to the outer package-sameness judgment.
 \end{corollary}
 \leanchecked{BEDC.BaseReflection.PsameBase\_iff\_hsame\_under\_tok\_unique}
 \leanvariant{BEDC.BaseReflection.PsameBase\_equivalence\_under\_tok\_unique}
 \leanvariant{BEDC.BaseReflection.exact\_package\_sameness}
-\leanvariant{BEDC.FKernel.Package.psame\_symm\_under\_policy}
-\leanvariant{BEDC.FKernel.Package.psame\_trans\_under\_policy}
-\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_psame\_refl\_on\_introduced}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_psame\_equivalence\_on\_introduced}
 \leanvariant{BEDC.FKernel.Package.psame\_trans\_under\_tok\_unique}
+\leanvariant{BEDC.FKernel.Package.psame\_three\_step\_reflect\_under\_tok\_unique}
 
 \begin{proof}
-The forward direction is Theorem~\ref{thm:package-reflection-token-unique}. The reverse direction is the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\). Transitivity follows by reflecting both package-sameness premises to history-sameness, composing the histories, and applying package-token soundness.
+The forward direction is Theorem~\ref{thm:package-reflection-token-unique}. The reverse direction is the single constructor of \(\psame_{\Pi}^{\mathrm{sig}}\).
+\end{proof}
+
+\begin{corollary}[Introduced-token closure under package token policy]
+\label{cor:package-token-policy-introduced-closure}
+Assume $\PkgTokPol(\Pi)$. For package tokens introduced by $\Pi$, the following three clauses hold:
+$$
+\TokIntro(\Pi,s,p) \Rightarrow \psame(p,p),
+$$
+$$
+\TokIntro(\Pi,s,p),\ \TokIntro(\Pi,t,q),\ \psame(p,q) \Rightarrow \psame(q,p),
+$$
+and
+$$
+\TokIntro(\Pi,a,p),\ \TokIntro(\Pi,b,q),\ \TokIntro(\Pi,c,r),\ \psame(p,q),\ \psame(q,r) \Rightarrow \psame(p,r).
+$$
+\end{corollary}
+\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_psame\_equivalence\_on\_introduced}
+
+\begin{proof}
+For reflexivity, apply package-token soundness to the same token-introduction premise on both sides, together with reflexivity of $\hsame$. For symmetry, reflect $\psame(p,q)$ across the two token-introduction premises to obtain $\hsame(s,t)$, reverse it by symmetry of $\hsame$, and apply package-token soundness to the reversed pair. For transitivity, reflect $\psame(p,q)$ along the first two token-introduction premises and $\psame(q,r)$ along the last two; compose the resulting $\hsame(a,b)$ and $\hsame(b,c)$ judgments, then apply package-token soundness to the first and last token-introduction premises.
 \end{proof}
 
 \begin{theorem}[PackageTokenPolicy from token uniqueness]
 \label{thm:package-token-policy-from-token-unique}
-The concrete signature-token package policy is exact when it includes token introduction, one-constructor package-sameness, and \(\mathsf{TokUnique}(\Pi)\).
+Assume $\mathsf{TokUnique}(\Pi)$. For the concrete signature-token relation $\psame_{\Pi}^{\mathrm{sig}}$, the package token policy $\PkgTokPol(\Pi)$ holds.
 \end{theorem}
-\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_from\_reflection}
-\leanvariant{BEDC.FKernel.Package.packageTokenPolicy\_from\_tokUnique}
+\leanchecked{BEDC.FKernel.Package.packageTokenPolicy\_from\_tokUnique}
 
 \begin{proof}
-Existence and soundness are supplied by token introduction and the package-sameness constructor. Reflection is Theorem~\ref{thm:package-reflection-token-unique}. The no-extra-constructor clause is the closed-generation clause for \(\psame_{\Pi}^{\mathrm{sig}}\).
+The soundness field is the single constructor of $\psame_{\Pi}^{\mathrm{sig}}$. The reflection field is Theorem~\ref{thm:package-reflection-token-unique}.
 \end{proof}
 
 \section{Token-Uniqueness Modes}
 \label{sec:po-token-uniqueness-modes}
 
-This section makes \(\TokUnique(\Pi)\) explicit as an active policy field and separates two implementation modes so that the next machine sprint has a precise target.
+This section makes \(\TokUnique(\Pi)\) explicit as an active policy field and separates two implementation modes for the same reflection contract.
 
 \begin{definition}[Policy mode]
 \label{def:policy-mode}
 In policy mode, \(\TokUnique(\Pi)\) is a field of the concrete package-token policy:
-\[
+$$
   \TokIntro(\Pi,s,p),\quad \TokIntro(\Pi,t,p)
   \quad\Longrightarrow\quad
   \hsame(s,t).
-\]
+$$
 Concrete Globalize exactness theorems may use this field as an assumption.
 \end{definition}
 \leandef{BEDC.BaseReflection.PolicyTokenMode}
 \leanchecked{BEDC.BaseReflection.PolicyTokenMode\_iff\_TokUnique}
+\leanvariant{BEDC.BaseReflection.PolicyTokenMode\_tokenReplacement}
+\leanvariant{BEDC.BaseReflection.PolicyTokenMode\_replacement\_pair}
 
 \begin{definition}[Canonical-constructor mode]
 \label{def:canonical-mode}
 In canonical-constructor mode, token introduction is implemented by a canonical token constructor, written schematically as
-\[
+$$
   \TokCan(\Pi,s,p).
-\]
+$$
 The implementation must provide the no-confusion rule
-\[
+$$
   \TokCan(\Pi,s,p),\quad \TokCan(\Pi,t,p)
   \quad\Longrightarrow\quad
   \hsame(s,t).
-\]
+$$
 If \(\TokIntro\) is defined by \(\TokCan\), then \(\TokUnique(\Pi)\) follows.
 \end{definition}
 \leandef{BEDC.BaseReflection.CanonicalTokenMode}
@@ -332,11 +413,20 @@ Assume \(\TokIntro(\Pi,s,p)\) is definitionally implemented by \(\TokCan(\Pi,s,p
 Given \(\TokIntro(\Pi,s,p)\) and \(\TokIntro(\Pi,t,p)\), unfold the implementation to obtain \(\TokCan(\Pi,s,p)\) and \(\TokCan(\Pi,t,p)\). The no-confusion rule gives \(\hsame(s,t)\), which is exactly \(\TokUnique(\Pi)\).
 \end{proof}
 \leanchecked{BEDC.BaseReflection.CanonicalTokenMode\_implies\_TokUnique}
+\leanvariant{BEDC.BaseReflection.canonical\_implies\_unique}
+\leanvariant{BEDC.BaseReflection.CanonicalTokenMode\_to\_PolicyTokenMode}
 \leanvariant{BEDC.BaseReflection.CanonicalTokenMode\_tokenReplacement}
+\leanvariant{BEDC.BaseReflection.canonical\_mode\_token\_unique}
+\leanvariant{BEDC.BaseReflection.CanonicalTokenMode\_replacement\_and\_unique}
+\leanvariant{BEDC.BaseReflection.CanonicalTokenMode\_witnesses\_TokUnique}
+\leanvariant{BEDC.BaseReflection.CanonicalTokenMode\_replacement\_pair}
+\leanvariant{BEDC.BaseReflection.CanonicalTokenMode\_witness\_pair}
+\leanvariant{BEDC.BaseReflection.CanonicalTokenMode\_witness\_pair\_symm}
+\leanvariant{BEDC.BaseReflection.CanonicalTokenMode\_unique\_and\_policy\_pair}
 
 \begin{principle}[Active mode]
 \label{prin:active-token-mode}
-The active paper theorem uses policy mode. Canonical-constructor mode is an implementation target, not a paper-level replacement, until a checked build records the implementation and no-confusion theorem.
+Paper theorems express the assumption as \(\TokUnique(\Pi)\) (policy mode). Canonical-constructor mode is an alternative carrier that derives \(\TokUnique(\Pi)\) from a constructor no-confusion rule.
 \end{principle}
 \leanchecked{BEDC.BaseReflection.active\_token\_mode\_reflects\_base}
 
@@ -355,4 +445,5 @@ It may be used for \(\psame_{\Pi}^{\mathrm{eq}}\) only through the checked closu
 The first form is Theorem~\ref{thm:base-reflection-active}. The second form follows from Lemma~\ref{lem:canonical-implies-unique}. The final exclusion is Corollary~\ref{cor:eq-not-exported}.
 \end{proof}
 \leanchecked{BEDC.BaseReflection.PackageReflection\_base\_from\_canonical}
+\leanvariant{BEDC.BaseReflection.PackageReflection\_base\_from\_policy}
 \leanvariant{BEDC.BaseReflection.StableReflectionContract}

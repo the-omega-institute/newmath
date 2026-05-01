@@ -1,0 +1,180 @@
+\chapter{A Concrete Naming Certificate for \(\IntUp\)}
+\label{ch:concrete-instances-int-namecert}
+
+The integer interface \(\IntUp\) is licensed by signed unary histories: a sign component together with a unary magnitude under continuation discipline. It is not a primitive operation of the finite kernel. The construction follows the 5-field NameCert template established by \autoref{ch:concrete-instances-nat-namecert} and \autoref{ch:concrete-instances-add-namecert}, with the carrier extended by a sign indicator and the stability fields adjusted for sign-aware continuation.
+
+\section{Carrier definition}
+
+\begin{definition}[Signed unary integer carrier]
+\label{def:intup-carrier}
+The carrier predicate for \(\IntUp\) uses an existing mark as the sign component and an existing unary history as the magnitude component:
+$$
+  \mathsf{IntCarrier}(s,h)
+  :=
+  (s=\bzero \lor s=\bone)\land \mathsf{Unary}(h).
+$$
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntCarrier}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_sign\_cases}
+\leanvariant{BEDC.Derived.IntUp.IntCarrier\_continuation\_closed\_same\_sign}
+\begin{proof}
+This is a definitional clause over the finite-kernel mark constructors and the unary-history predicate. With the sign fixed, continuation of two carrier magnitudes remains inside the same signed carrier.
+\end{proof}
+
+\begin{theorem}[Signed carrier transports along mark sameness]
+\label{thm:int-carrier-sign-msame-transport}
+If \(\mathsf{IntCarrier}(s,h)\) and \(\msame(s,s')\), then
+\(\mathsf{IntCarrier}(s',h)\).
+\end{theorem}
+\begin{proof}
+The sign-sameness witness identifies the two finite-kernel sign marks. After
+that identification, the original signed unary carrier witness has the required
+transported sign.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_sign\_msame\_transport}
+
+\begin{theorem}[Signed carrier transports along history sameness]
+\label{thm:int-carrier-transport-hsame-magnitude}
+For a fixed sign \(s\), if \(\mathsf{IntCarrier}(s,h)\) and \(\hsame(h,k)\), then \(\mathsf{IntCarrier}(s,k)\).
+\end{theorem}
+\begin{proof}
+The carrier splits into the sign clause and the unary magnitude clause. The sign clause is unchanged, while the unary-history witness is transported along \(\hsame(h,k)\).
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_transport\_hsame\_magnitude}
+
+\begin{theorem}[Integer magnitude transport along history sameness]
+\label{prop:intup-magnitude-hsame-transport}
+For a fixed sign \(s\), if \(\mathsf{IntCarrier}(s,h)\) holds and \(h\) is internally the same history as \(k\), then \(\mathsf{IntCarrier}(s,k)\) holds.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_magnitude\_hsame\_transport}
+\begin{proof}
+The sign disjunction is preserved unchanged, while the unary-history component is transported across \(\hsame(h,k)\) by the finite-kernel unary transport theorem.
+\end{proof}
+
+\begin{definition}[Integer source specification]
+\label{def:intup-source-specification}
+The source specification for \(\IntUp\) is exactly the signed unary integer carrier:
+$$
+  \mathsf{IntSourceSpec}(s,h)
+  :=
+  \mathsf{IntCarrier}(s,h).
+$$
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntSourceSpec}
+\leanchecked{BEDC.Derived.IntUp.intup\_source\_specification}
+\begin{proof}
+This is a direct definitional identification of the source specification with the carrier predicate.
+\end{proof}
+
+\begin{definition}[Integer classifier specification]
+\label{def:intup-classifier-specification}
+The classifier for two signed unary representatives requires both representatives to be in the integer carrier, their signs to be mark-same, and their magnitudes to be history-same:
+$$
+  \mathsf{IntClassifierSpec}((s,h),(t,k))
+  :=
+  \mathsf{IntCarrier}(s,h)\land
+  \mathsf{IntCarrier}(t,k)\land
+  \msame(s,t)\land
+  \hsame(h,k).
+$$
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntClassifierSpec}
+
+\begin{theorem}[Integer classifier magnitude transport]
+\label{thm:int-classifier-hsame-magnitude-transport}
+If \(\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))\), and the two
+magnitudes transport to \(h_x'\) and \(h_y'\) by \(\hsame\), then
+\(\mathsf{IntClassifierSpec}((s_x,h_x'),(s_y,h_y'))\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two signed unary carrier witnesses,
+the sign sameness component, and the magnitude sameness component. Transport
+both carriers across the new magnitude links, keep the sign sameness
+unchanged, and compose the magnitude links through the original classifier
+link.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_hsame\_magnitude\_transport}
+
+\begin{theorem}[Integer classifier sign transport]
+\label{thm:int-classifier-msame-sign-transport}
+If \(\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))\), and the two
+signs transport to \(s_x'\) and \(s_y'\) by \(\msame\), then
+\(\mathsf{IntClassifierSpec}((s_x',h_x),(s_y',h_y))\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two signed unary carrier witnesses,
+the sign sameness component, and the magnitude sameness component. Transport
+both carriers across the given sign links, compose the sign links through the
+original classifier link, and keep the magnitude sameness unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_msame\_sign\_transport}
+
+\begin{theorem}[Integer classifier sign and magnitude transport]
+\label{thm:int-classifier-sign-magnitude-transport}
+If $\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))$, the signs transport to
+$s_x'$ and $s_y'$ by $\msame$, and the magnitudes transport to $h_x'$ and
+$h_y'$ by $\hsame$, then
+$\mathsf{IntClassifierSpec}((s_x',h_x'),(s_y',h_y'))$.
+\end{theorem}
+\begin{proof}
+First transport the classifier along the two magnitude links, preserving the
+sign component. Then transport the resulting classifier along the two sign
+links, preserving the transported magnitude component.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_sign\_magnitude\_transport}
+
+\begin{theorem}[Integer classifier reflexivity]
+\label{thm:int-classifier-refl}
+If $\mathsf{IntCarrier}(s,h)$, then
+$\mathsf{IntClassifierSpec}((s,h),(s,h))$.
+\end{theorem}
+\begin{proof}
+Use the same signed unary carrier witness on both classifier endpoints. The sign component is related by reflexivity of $\msame$, and the magnitude component is related by reflexivity of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_refl}
+
+\begin{theorem}[Integer classifier symmetry]
+\label{thm:int-classifier-symmetry}
+If \(\mathsf{IntClassifierSpec}(x,y)\), then
+\(\mathsf{IntClassifierSpec}(y,x)\).
+\end{theorem}
+\begin{proof}
+Eliminating the classifier witness exposes carrier evidence for both
+representatives, sign sameness, and magnitude sameness. The carrier evidence is
+swapped, while symmetry of \(\msame\) and \(\hsame\) reverses the two sameness
+components.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_symm}
+
+\begin{theorem}[Integer classifier transitivity]
+\label{thm:int-classifier-transitivity}
+If \(\mathsf{IntClassifierSpec}(x,y)\) and
+\(\mathsf{IntClassifierSpec}(y,z)\), then
+\(\mathsf{IntClassifierSpec}(x,z)\).
+\end{theorem}
+\begin{proof}
+Eliminating the two classifier witnesses exposes the carrier evidence for the
+endpoints, together with sign sameness and magnitude sameness along both
+links. Transitivity of \(\msame\) composes the sign components, and
+transitivity of \(\hsame\) composes the magnitude components.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_trans}
+
+\begin{theorem}[Integer classifier continuation with the same sign]
+\label{thm:int-classifier-continuation-closed-same-sign}
+If two integer classifier witnesses relate \((s_x,h_x)\) to \((s_x',h_x')\)
+and \((s_y,h_y)\) to \((s_y',h_y')\), and the left signs \(s_x\) and \(s_y\)
+are mark-same, then continuation of the two left magnitudes and continuation
+of the two right magnitudes yield another integer classifier witness.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witnesses into carrier data, sign sameness, and magnitude
+sameness. Transport the second left carrier along \(\msame(s_x,s_y)\), and
+transport the second right carrier along the composed sign link
+\(s_x'\sim s_x\sim s_y\sim s_y'\). Carrier closure under same-sign continuation
+gives the two result carriers, while continuation respects the two magnitude
+\(\hsame\) links and gives the result magnitude sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_continuation\_closed\_same\_sign}
+
+\section{The certificate}

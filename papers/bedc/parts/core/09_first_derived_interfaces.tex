@@ -4,25 +4,33 @@
 \section{Unary repetition}
 
 \begin{definition}[Unary repetition histories]
+\label{def:core-unary-repetition-histories}
 Unary repetition histories are histories generated from \(\emp\) by repeated \(\Eone\)-extension.
 \end{definition}
+\leandef{BEDC.FKernel.Unary.UnaryRepetitionHistory}
 
 \begin{proposition}[Unary repetition is closed under continuation]
 \label{prop:unary-repetition-closed-under-continuation}
 If \(h\) and \(k\) are unary repetition histories and \(\ContR(h,k,r)\), then \(r\) is a unary repetition history.
 \end{proposition}
-\leanchecked{BEDC.FKernel.Examples.Unary.unary\_repetition\_closed\_under\_continuation\_seed}
+\leanchecked{BEDC.FKernel.Unary.unary\_repetition\_closed\_under\_continuation\_seed}
+\leanvariant{BEDC.FKernel.Unary.unary\_repetition\_closed\_under\_continuation}
+\leanvariant{BEDC.FKernel.Unary.unary\_append\_right\_factor}
 \begin{proof}
 Read \(\ContR(h,k,r)\) as append equality and induct on the right unary history \(k\). The empty case returns \(h\). The \(\Ezero\)-case is incompatible with unary repetition, and the \(\Eone\)-case follows from the induction hypothesis.
 \end{proof}
 
 \begin{corollary}[Natural-number-like interface seed]
+\label{cor:natural-number-like-interface-seed}
 Unary repetition histories with their continuation behavior license a minimal \(\NatUp\) interface seed. This is not a full arithmetic theory and does not import primitive natural numbers.
 \end{corollary}
+\leanchecked{BEDC.FKernel.Unary.nat\_up\_interface\_seed}
 
 \begin{corollary}[Addition-like interface seed]
+\label{cor:addition-like-interface-seed}
 Continuation of unary repetition histories licenses a minimal \(\AddUp\) interface seed. Associativity follows from continuation associativity, and the empty history supplies the unit behavior.
 \end{corollary}
+\leanchecked{BEDC.FKernel.Unary.add\_up\_interface\_seed\_with\_units}
 
 \section{Stable transformations}
 
@@ -34,12 +42,16 @@ A stable transformation between packaged interfaces is a generated transformatio
 \leanchecked{BEDC.FKernel.NameCert.stableTransformation\_ledger\_witness}
 
 \begin{theorem}[Stable transformations descend to packages]
+\label{thm:stable-transformations-descend-to-packages-core}
 If a generated transformation sends signature-same source histories to package-same target histories, then it descends to a derived transformation interface between package tokens.
 \end{theorem}
+\leanchecked{BEDC.FKernel.NameCert.stableTransformation\_descent\_certificate\_respects}
 \begin{proof}
 The descent condition says that the visible result depends only on the source package, not on the chosen representative source history. Therefore the transformation is licensed at the package level, with its gap ledger recording the source representative information suppressed by the descent.
 \end{proof}
 
 \begin{corollary}[Function-like interfaces are derived]
+\label{cor:function-like-interface-seed-not-primitive}
 A \(\FuncUp\) interface is a derived name for stable transformations. It is not an internal primitive.
 \end{corollary}
+\leanchecked{BEDC.FKernel.NameCert.function\_like\_interface\_seed\_not\_primitive}

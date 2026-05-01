@@ -1,0 +1,163 @@
+\chapter{A Concrete Naming Certificate for \(\ComplexUp\)}
+\label{ch:concrete-instances-complex-namecert}
+
+The complex number interface \(\ComplexUp\) is licensed here by the product of two certified rational-history components from \autoref{ch:concrete-instances-rat-namecert}. The carrier, pattern, and ledger predicates are the same rational-pair history carrier, and the classifier is product history sameness restricted to those two rational-history components. It is not a primitive number system; it is licensed only via the rational source and the pair constructor of \autoref{ch:concrete-instances-prod-namecert}.
+
+\begin{remark}[Complex certificate scope]
+\label{rem:concrete-instances-complex-namecert-roadmap}
+This chapter records the concrete history-level license: a complex history is
+the continuation product of two rational-history witnesses, and the classifier
+is the corresponding product classifier over internal history sameness.
+\end{remark}
+
+\section{Carrier definition}
+
+\begin{definition}[Complex carrier]
+\label{def:complex-carrier}
+Use the BEDC product history carrier over two certified rational-history
+components.
+\end{definition}
+\leandef{BEDC.Derived.ComplexUp.ComplexHistoryCarrier}
+
+\begin{theorem}[Complex history carrier is unary]
+\label{thm:complex-history-carrier-unary}
+Every complex history carrier is a unary BEDC history.
+\end{theorem}
+\begin{proof}
+Unpack the complex carrier as a product of two rational-history carriers and a
+continuation witness. Each rational component gives a positive unary
+denominator, hence a unary history. Unary histories are closed under the stored
+continuation, so the complex carrier endpoint is unary.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_unary}
+
+\begin{theorem}[Complex carrier positive components]
+\label{thm:complex-history-carrier-positive-components}
+Every complex history carrier exposes real and imaginary rational-history
+components whose denominators are positive unary histories, together with the
+continuation witness assembling those components into the complex history.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_positive\_components}
+\begin{proof}
+Unpack the product-history carrier into its real component, imaginary
+component, component carrier witnesses, and continuation witness. Apply the
+rational-history carrier characterization to each component to read back the
+positive unary denominator evidence, and keep the same continuation witness.
+\end{proof}
+
+\section{The certificate}
+
+\begin{definition}[Complex source specification]
+\label{def:complex-source-specification}
+The source is \(\ProdUp(\RatUp,\RatUp)\) at the history-carrier level.
+\end{definition}
+
+\begin{definition}[Complex pattern specification]
+\label{def:complex-pattern-specification}
+The pattern predicate is exactly the rational-pair history carrier: a history
+matches the pattern when it is a product history assembled from two certified
+rational-history components.
+\end{definition}
+
+\begin{definition}[Complex classifier specification]
+\label{def:complex-classifier-specification}
+The classifier is product history classification over two rational-history
+carriers.
+\end{definition}
+\leandef{BEDC.Derived.ComplexUp.ComplexHistoryClassifier}
+
+\begin{theorem}[Complex history classifier transitivity]
+\label{thm:complex-history-classifier-transitivity}
+If a complex history classifier relates \(h\) to \(k\), and also relates
+\(k\) to \(r\), then it relates \(h\) to \(r\). The left endpoint carrier is
+taken from the first classification, the right endpoint carrier is taken from
+the second classification, and the history-sameness witnesses compose.
+\end{theorem}
+\begin{proof}
+Unfolding the classifier exposes the two endpoint carrier witnesses together
+with two \(hsame\) links. The endpoint carriers are preserved at the outside
+of the chain, and the internal links compose by transitivity of \(hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_trans}
+
+\begin{theorem}[Complex history classifier symmetry]
+\label{thm:complex-history-classifier-symmetry}
+If $\mathsf{ComplexHistoryClassifier}(h,k)$, then $\mathsf{ComplexHistoryClassifier}(k,h)$.
+\end{theorem}
+\begin{proof}
+Unfold the classifier as the product history classifier over two $\mathsf{RatHistoryCarrier}$ endpoints. The endpoint carrier witnesses are swapped, and the stored $\hsame(h,k)$ witness is reversed by symmetry to obtain $\hsame(k,h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_symm}
+
+\begin{definition}[Complex stability certificate]
+\label{def:complex-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item an inhabited rational-pair history carrier
+  \item reflexivity of the product classifier on carrier histories
+  \item symmetry of the product classifier
+  \item transitivity of the product classifier
+  \item carrier transport along product-classifier sameness
+  \item pattern soundness for the rational-pair history carrier
+  \item ledger soundness for the rational-pair history carrier
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Complex ledger policy]
+\label{def:complex-ledger-policy}
+Record a raw rational-pair complex history carrier together with an \(\hsame\)
+link to the visible complex history.
+\end{definition}
+\leandef{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy}
+
+\begin{theorem}[Complex ledger visible carrier]
+\label{thm:complex-ledger-visible-carrier}
+If a complex ledger relates a raw complex history to a visible history, then
+the visible endpoint is a complex history carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_visible\_carrier}
+\begin{proof}
+Unpack the raw complex carrier as a product of two rational-history carriers
+and a continuation witness. Transport the continuation result across the
+stored raw-visible \(\hsame\) link and rebuild the rational-pair carrier at
+the visible endpoint.
+\end{proof}
+
+\begin{theorem}[Complex ledger raw-visible classifier]
+\label{thm:complex-ledger-raw-visible-classifier}
+If a complex ledger relates a raw complex history to a visible history, then
+the raw and visible endpoints satisfy the complex history classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_raw\_visible\_classifier}
+\begin{proof}
+Unpack the ledger into the raw complex carrier and the raw-visible
+\(\hsame\) link. The visible carrier theorem supplies the visible endpoint
+carrier, and these two carrier witnesses with the stored history link rebuild
+the restricted product classifier.
+\end{proof}
+
+\begin{theorem}[Complex ledger classifier extension]
+\label{thm:complex-ledger-classifier-extension}
+If a complex ledger relates a raw history to a visible history, and the visible
+history is classified with a target history, then the raw history is classified
+with the same target.
+\end{theorem}
+\begin{proof}
+Unpack the complex ledger into the raw carrier and the raw-visible
+\(\hsame\) link. Unpack the visible-target classifier to keep the target
+carrier and the visible-target \(\hsame\) link. The raw carrier and target
+carrier form the endpoint data, and transitivity of \(\hsame\) composes the
+two links.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_classifier\_extension}
+
+\begin{theorem}[Concrete \(\ComplexUp\) naming certificate]
+\label{thm:concrete-complex-namecert}
+The rational-pair history tuple forms a valid semantic NameCert for \(\ComplexUp\).
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexUp.complex\_history\_semantic\_name\_certificate}
+
+\begin{corollary}[\(\ComplexUp\) is licensed, not primitive]
+\label{cor:complex-licensed-not-primitive}
+\(\ComplexUp\) is licensed as a derived pair interface over \(\RatUp\).
+\end{corollary}

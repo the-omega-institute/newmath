@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for \(\VecSpaceUp\)}
+\label{ch:concrete-instances-vecspace-namecert}
+
+The vector space interface \(\VecSpaceUp\) is the specialization of \autoref{ch:concrete-instances-module-namecert} to the case where the scalar ring satisfies \autoref{ch:concrete-instances-field-namecert}. No new fields are required beyond the module ones; the change is the strengthened scalar source. The \(n\)-fold rational tuple space (an iterated product over \(\RatUp\)) is the canonical concrete instance.
+
+\section{Carrier definition}
+
+\begin{definition}[VecSpace carrier]
+\label{def:vecspace-carrier}
+Use a module setup whose scalar source is a certified field.
+\end{definition}
+
+\section{The certificate}
+
+\begin{definition}[VecSpace source specification]
+\label{def:vecspace-source-specification}
+The source is \(\FieldUp(F)\) together with a certified \(F\)-module carrier.
+\end{definition}
+
+\begin{definition}[VecSpace pattern specification]
+\label{def:vecspace-pattern-specification}
+The pattern is exactly module expression formation over field scalars.
+\end{definition}
+
+\begin{definition}[VecSpace classifier specification]
+\label{def:vecspace-classifier-specification}
+The classifier is the module carrier classifier, with scalar congruence inherited from the field.
+\end{definition}
+
+\begin{definition}[VecSpace stability certificate]
+\label{def:vecspace-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all module stability fields
+  \item all scalar field stability fields
+  \item inverse-enabled scalar reasoning for apart-from-zero scalars
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[VecSpace ledger policy]
+\label{def:vecspace-ledger-policy}
+Record module ledgers plus the field ledger for scalar operations.
+\end{definition}
+
+\begin{definition}[\(\VecSpaceUp\) certificate obligations]
+\label{def:vecspace-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\VecSpaceUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\VecSpaceUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:vecspace-zero-axiom-note}
+Inverses use field apartness witnesses rather than LEM-based nonzero tests.
+\end{remark}
+

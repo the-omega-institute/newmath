@@ -1,0 +1,186 @@
+Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
+
+## Prompts version
+v1.7 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## Round P<ROUND_NUM>
+
+## Targets to Implement
+<TARGETS>
+
+## Step 0: Sync with remote base before any edits
+Before reading or writing any file, run:
+```bash
+git fetch origin <BASE_BRANCH>
+git rebase --autostash origin/<BASE_BRANCH>
+```
+Multiple producers may push to the same base branch. Working on a stale base wastes effort and can produce conflicting edits. If the rebase reports conflicts, resolve them following the same rules as Step 5 (additive merges, keep both sides' independent paragraphs, keep all valid markers). After resolving, re-run `cd papers/bedc && make` once to confirm the rebased tree still compiles.
+
+If `git fetch` reports no changes, proceed unchanged. If it pulls new commits, re-confirm via grep that each target you are about to apply has not already been resolved by another producer; if so, abandon that target rather than re-doing it.
+
+## Hard Constraints — DO NOT violate these
+The Phase Verify step will reject the round if any of these is broken.
+
+1. **No iteration narrative anywhere in the diff.** The forbidden vocabulary list (banned even in commit body and prose) is:
+   `新增`, `新版`, `修订`, `修复了上一版本`, `patch`, `migration`, `frozen`, `supersede`, `superseded`, `deprecated`, `legacy`, `increment`, `增量`, `修改记录`, `变更记录`, `变更原因`, `rectification`, `amendment`, `v1.5.X`, `v1.4.X`, `v14-…`, `v15-…` (or any `vNN-` prefix in labels).
+   The paper is a CURRENT-STATE document. To replace old text with new text: delete the old, write the new, do not annotate the change.
+2. **Single .tex file ≤ 800 lines after your edits.** If a substantive theorem/definition/proof/certificate edit would make a file exceed 800 lines, you MUST split: extract content into a focused child file in the same `parts/<theme>/` directory or a thematic subdirectory below it, then leave the parent as a pure index containing only ordered `\input` lines. Splitting by itself is not a valid round.
+3. **Math notation.** Use only `$…$` for inline math and `$$…$$` (each `$$` on its own line) for display. Do NOT introduce `\[…\]`, `\begin{equation}`, `\begin{align}`, `\begin{equation*}`, `\begin{eqnarray}`, etc.
+4. **No inline file comments.** Do not add `% TODO …` style notes, do not insert "see git log for history" lines, do not add change-tracking comments. The paper is the artifact; the diff is the audit trail.
+5. **Marker discipline.**
+   - At most one `\leanchecked{X}` per paper site; multiple variants use `\leanvariant{Y}`.
+   - Underscores in Lean target names MUST be `\_` inside `\leanchecked{…}` / `\leanvariant{…}` / `\leanstmt{…}` / `\leandef{…}`.
+   - Every marker target X you ADD must be a real declaration under `lean4/BEDC/`. The audit `python3 lean4/scripts/bedc_ci.py audit` rejects unresolved markers.
+6. **Lean discipline (if you touch Lean code).**
+   - No `import Mathlib.…`. Stdlib + built-in tactics only.
+   - No new `axiom`. No new `sorry`. No new `constant`.
+   - Do not weaken existing theorem signatures.
+   - The audit `python3 tools/check-axioms.py` rejects any `axiom` keyword under `lean4/BEDC/`.
+7. **No top-level new directories or files.** Place new content inside an existing `papers/bedc/parts/<theme>/` directory.
+8. **Do NOT git push.** The merge and push are handled externally.
+9. **Do NOT edit `papers/bedc/main.tex`'s structure.** You may edit it ONLY to add a single `\input{parts/<theme>/<file>}` if you split a chapter. Do not reorder chapters here.
+10. **Do NOT edit `lean4/lakefile.lean`, `lean4/lean-toolchain`, or `papers/bedc/preamble.tex` unless a target explicitly requires a new macro.** Adding a macro must be conservative (no breaking changes to existing macros).
+
+## Structural split rule
+
+If an edited `.tex` file is already above 720 lines, or the target would add more than 25 lines to a file above 760 lines, prefer a split instead of appending. This is especially important for concrete instance files that accumulate certificate variants.
+
+Allowed split pattern:
+- Create child files under the same theme directory, preferably inside a thematic subdirectory such as `papers/bedc/parts/concrete_instances/list/<child>.tex` or `papers/bedc/parts/concrete_instances/option/<child>.tex`.
+- Move all substantive content out of the parent into child files: headings, orientation prose, theorem clusters, definitions, proofs, certificate blocks, and cross-reference prose belong in children.
+- Leave the original numbered parent file as a pure index: ordered `\input{...}` lines only, with no heading, no orientation paragraph, no theorem/proof content, and no explanatory prose.
+- Preserve existing labels exactly unless the label is semantically wrong.
+- Do not edit `papers/bedc/main.tex` when splitting content already included by an existing parent file.
+- Use `\input` paths in the same style as the rest of the paper, relative to `papers/bedc/main.tex`.
+- After splitting, every touched `.tex` file must be ≤ 800 lines.
+
+If the target includes a line-cap split, perform the split before applying any new theorem/prose content, then apply the content in the appropriate child file. If the target is only a split with no substantive theorem/definition/proof/certificate change, it is INVALID; skip the round rather than committing file movement.
+
+## Step 0.5: File-size pre-check (HARD GATE)
+
+For each `target.paper_files[0]`, run `wc -l <file>`. If any value is ≥780 AND the target's `proposed_change` does not begin with a content split, ABORT this round entirely:
+
+```bash
+git restore --staged papers/bedc/ 2>/dev/null
+git checkout -- papers/bedc/ 2>/dev/null
+```
+
+Then exit with a clear log line so the gate marks the round failed without spending PDF/audit budget. The next dispatched round will pick a different target. The 800-line hard cap is enforced by the verify gate — do NOT try to cram a theorem into a 780-line file and rely on hyphenation-fix luck.
+
+If the target's `proposed_change` IS a split (move existing content into child files in the same theme subdirectory and replace the parent with `\input` lines), proceed and the new theorem/definition content lands in a child file that starts well under 800 lines.
+
+## Step 1: Apply each target
+For each target in the list above:
+
+1. Open the listed `paper_files` and locate the `anchor` (theorem/definition block or section).
+2. Apply `proposed_change` exactly. Read the surrounding ~30 lines so the edit lands in the correct semantic context, not just by string match.
+3. If the target adds a new theorem/definition block: place it inside an existing section, with a semantic `\label{thm:<concept>}` / `\label{def:<concept>}`. NEVER use a version-prefixed label.
+4. If the target adds a `\leanchecked` / `\leanstmt` / `\leandef` marker: confirm via grep that the named Lean target exists (`grep -rE "(theorem|lemma|def|inductive|structure|class)\s+<name>" lean4/BEDC/`), then add the marker on the line immediately after `\end{theorem}` / `\end{definition}` / `\end{lemma}` / `\end{corollary}`. Escape underscores with `\_`.
+5. If the target removes dead material: delete the entire block AND any references to its label elsewhere in the paper (`grep -rn "<label>" papers/bedc/`). A dangling `\autoref` is a build failure.
+6. If the target tightens or generalizes a statement: update both the theorem block AND its proof to match the new statement. Do not leave a proof that proves the OLD statement attached to the NEW statement.
+7. If the target requires touching Lean code: edit `lean4/BEDC/...`, write a real proof (no `sorry`, no `axiom`), and verify with `cd lean4 && lake build` that it compiles.
+8. If the target's `kind` is `theory_extension` (a new theorem awaiting formalization):
+   - Insert a new `\begin{theorem}[<short title>]\label{thm:<concept>}` / `\begin{lemma}` / `\begin{definition}` block at the chapter location given by `paper_files`. Pick a thematically correct subsection — adjacent to similar results.
+   - State the theorem precisely. Use only `$…$` and `$$…$$` math. Reference concrete BEDC kernel/setup objects by name (BMark, BHist, msame, hsame, Pkg, NameCert, etc.) — do not introduce abstract Prop placeholders.
+   - Write a brief PROSE proof sketch in `\begin{proof}…\end{proof}` describing the constructive strategy (which constructor / which existing checked theorem / which induction). The sketch is informational; it does not need to be machine-checkable.
+   - Do **NOT** add `\leanchecked`, `\leanvariant`, `\leanstmt`, or `\leandef`. The Lean side runs an independent formalize pipeline that scans `papers/bedc/parts/` for theorem sites without markers and picks them up. Adding a marker now would point at a non-existent Lean target and fail the drift audit.
+   - Do **NOT** introduce a new `inductive` type or new `class` field merely to support the proposed theorem. The proposal must be statable using existing kernel + setup objects.
+   - Do **NOT** edit `lean4/BEDC/...` for a theory_extension target. Paper proposes; Lean implements separately.
+
+## Step 2: Compile the paper
+```bash
+cd papers/bedc && make
+```
+The Makefile runs `pdflatex -interaction=nonstopmode main.tex` twice. Both passes must exit 0 and produce a clean `main.pdf`. If LaTeX reports `Undefined control sequence`, `Missing $ inserted`, `\label{...} multiply defined`, or `reference ... on page ... undefined`, fix the cause before continuing — do NOT bury warnings.
+
+If a target turns out to be unproveable, compile-breaking, purely explanatory, or lacking a concrete downstream use, REVERT it (`git checkout -- <files>`) and continue with the remaining targets. A round that lands 1 high-value target is acceptable; a round that lands 0 high-value targets should output an explicit failure message and skip Step 6.
+
+## Step 3: Drift audit
+```bash
+python3 lean4/scripts/bedc_ci.py audit
+```
+This walks every `\leanchecked{X}` / `\leanvariant{X}` / `\leanstmt{X}` / `\leandef{X}` and confirms X exists under `lean4/BEDC/`. Any unresolved marker is a hard failure — fix by either pointing the marker at the correct Lean name OR removing the marker.
+
+If you also touched Lean code:
+```bash
+cd lean4 && lake build
+python3 tools/check-axioms.py
+```
+Both must exit 0. The axiom audit is non-negotiable: any new `axiom` keyword under `lean4/BEDC/` rejects the round.
+
+## Step 4: Lint the diff against the iteration-narrative ban
+Run a quick scan over your staged diff:
+```bash
+git diff --cached -- papers/bedc/ \
+  | grep -nE "^\+" \
+  | grep -iE "(新增|新版|修订|修复了上一版本|patch|migration|frozen|supersede|deprecated|legacy|increment|增量|修改记录|变更记录|变更原因|rectification|amendment|v1\.[0-9]+\.[Xx0-9]+|v[0-9]+-)"
+```
+Any hit is a violation of Hard Constraint #1. Edit the offending lines until the grep returns nothing.
+
+## Step 4.5: Lint the diff against parameter-echo expansion (HARD GATE)
+Even after Phase Review picked the target, re-check that the implementation did not drift into a parameter-echo theorem. Run:
+```bash
+git diff --cached -- papers/bedc/ \
+  | grep -nE "^\+" \
+  | grep -E "Longleftrightarrow|hookleftarrow"
+```
+If the new `\Longleftrightarrow` / `\hookleftarrow` count exceeds 3 within a single new theorem block AND the theorem statement introduces fresh universally-quantified parametric carriers ($A,B$) and parametric classifiers ($\sim_A,\sim_B$) and concludes with paired field-by-field $\Leftrightarrow$ chains, the round is a parameter-echo restatement. ABORT: `git restore --staged papers/bedc/ && git checkout -- papers/bedc/`, then pick a different target whose conclusion is a closure / inversion / coverage / determinacy claim about a CONCRETE BEDC kernel object.
+
+Also lint for label collision before commit:
+```bash
+git diff --cached -- papers/bedc/ \
+  | grep -nE "^\+\\\\label\{" \
+  | sed -E 's/.*label\{([^}]+)\}.*/\1/' \
+  | while read L; do
+      cnt=$(grep -rE "\\\\label\{${L}\}" papers/bedc/ | wc -l | tr -d ' ');
+      if [ "$cnt" -gt 1 ]; then echo "DUPLICATE: $L appears $cnt times"; fi;
+    done
+```
+Any DUPLICATE line means the proposed change collides with a label already in the tree (either a sibling round added the same label, or you're echoing an existing definition under a new name). ABORT and either pick a fresh label or drop the target.
+
+## Step 5: Re-sync with remote before commit
+```bash
+git fetch origin <BASE_BRANCH>
+git rebase --autostash origin/<BASE_BRANCH>
+```
+
+Conflict resolution rules:
+- Independent paragraphs in the same chapter: keep both.
+- Same paragraph touched by both sides: prefer upstream IF the upstream change subsumes yours; otherwise keep yours and re-target your remaining work.
+- `\leanchecked` / `\leanvariant` lines added by both sides: dedup identical lines, keep both if they reference different targets.
+- `lean4/BEDC.lean` and other index files: union the imports, dedup.
+
+After resolving, re-run `cd papers/bedc && make` AND `python3 lean4/scripts/bedc_ci.py audit` to confirm the rebased tree is still clean.
+
+## Step 5.5: HARD GATE — round must contain real revision
+Before committing, run:
+```bash
+git diff --cached --stat | tail -1
+```
+
+If the diff is empty, only whitespace, only renames a theorem title, only softens/explains a scope boundary, only moves existing content between files, or only adds a caution sentence without changing a theorem/definition/proof dependency/certificate, the round is INVALID — DO NOT commit. The gate prefers a no-op round over a vacuous commit.
+
+If the diff only re-indents existing lines or only adds new `\leanvariant` markers, the round is INVALID. Variants are not added by automated rounds; this round must produce real theory revision.
+
+## Step 6: Single combined commit
+```bash
+git add papers/bedc lean4/BEDC
+git commit -m "P<ROUND_NUM>: [brief description of what was revised]
+
+prompts: v1.7
+
+Co-Authored-By: Codex <noreply@openai.com>"
+```
+
+The `prompts: v1.7` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+
+DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
+
+## Completion Contract
+- `cd papers/bedc && make` exits 0 and produces `main.pdf`.
+- `python3 lean4/scripts/bedc_ci.py audit` exits 0.
+- If Lean was touched: `cd lean4 && lake build` and `python3 tools/check-axioms.py` exit 0.
+- Diff contains zero forbidden iteration-narrative words.
+- Every modified `.tex` file is ≤ 800 lines.
+- No new `\leanvariant` markers introduced by this round.
+- No `git push`. Merge and push are external.
