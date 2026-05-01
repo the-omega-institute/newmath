@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.0 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v3.1 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -115,6 +115,34 @@ Phase D now enforces these constraints mechanically. Select targets that will pa
 - Do NOT select or propose modules/files with `Example`, `Examples`, `Scaffold`, `Stub`, `Placeholder`, or `Demo` in the path or module name.
 - Formal targets must live in canonical semantic BEDC modules. If an existing file is near 600 lines, target a focused non-example submodule and import it through the nearest index.
 - Respect the existing typeclass-parameterized layers: use `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the target belongs to those layers. Do NOT reintroduce abstract carriers as ad hoc constants, opaque declarations, or axioms.
+
+## Naming and decomposition discipline (HARD GATE)
+
+Read `lean4/NAMING.md` before extracting targets. Every target you emit must satisfy ALL of the following:
+
+1. **Word-order naming** (NAMING.md §1). The `lean_name` reads as `<Object>_<predicate>` with the object first, predicate last, `_iff` (when present) trailing. Names that reverse word order or hide `_iff` mid-name are INVALID.
+
+2. **No mechanical-arity expansion** (NAMING.md §3). Forbidden suffix shapes that you may NOT introduce: `_two`, `_three`, `_four`, `_five`, `_six`, `_two_step_*`, `_three_step_*`, `_witness_chain_*`, `_three_step_chain_*`. If the binary / one-step version of the same fact already exists (grep for it), the multi-element / multi-step version is rejected — that is a tactic-level expansion, not a theorem.
+
+   Concrete patterns currently polluting the tree (do NOT extend):
+   - `external_append_assoc_three` / `_four` / `_five` (binary `external_append_assoc` already exists; chain by induction inside callers)
+   - `compGap_three_witnesses_iff` / `_four_witnesses_iff` / `_four_right_nested_iff`
+   - `PsameEqClosure_two_base_reflection` / `_three_base_reflection` / `_four_base_reflection`
+   - `PackageReflection_base_witness_chain` / `_three_step_chain` / `_from_canonical` next to a primary `PackageReflection_base`
+
+3. **No directional twin of an `_iff`** (NAMING.md §4). If a candidate's conclusion is the `.mp` or `.mpr` direction of an existing `_iff` theorem under `lean4/BEDC/`, it is INVALID. Use the `_iff` directly via `.mp` / `.mpr` at call sites instead of registering a new theorem.
+
+4. **Pre-add grep** (NAMING.md §7). Before emitting `lean_name`:
+   ```bash
+   grep -rE "(theorem|lemma|def)\s+<lean_basename>\b" lean4/BEDC/
+   ```
+   AND grep for plausible α-renamings (`_iff` ↔ no-iff, `_witnesses` ↔ `_witness`, prefix vs suffix object). A hit means duplicate; pick a different target.
+
+5. **Single canonical name per statement** (NAMING.md §2). Two declarations with α-equivalent types must not co-exist. If you discover a known alias pair (e.g. `Mbin_eq_BHist` ⇄ `external_model_mbin`, `Mbin_reuses_kernel_history` ⇄ `external_model_no_parallel_word_input`, `bwordLength_append` ⇄ `external_append_length`), a target that re-introduces or extends the alias is INVALID; instead pick a deduplication target that removes the non-canonical name and updates callers.
+
+6. **Derived-domain non-trivial novelty** (NAMING.md §5). For new `lean_name` under `BEDC.Derived.<X>Up.*`, if the conclusion shape is one of `<X>HistoryClassifier_exactness`, `<X>HistoryEndpoint_pair`, `<X>HistoryLedgerPolicy_envelope_closure`, `<X>HistoryClassifier_branch_inversion`, `<X>HistoryCarrier_*_readback`, the candidate is **discouraged** — it is the per-domain copy of an already-saturated shape. Prefer either: a closure / determinism / inversion / no-confusion theorem specific to this domain's underlying inductive (e.g. constructor disjointness for `SumUp`, denominator-positivity transport for `RatUp`, distributivity for `RingUp`), OR an abstraction step that hoists the shared shape into a `BEDC.Derived` typeclass.
+
+In `strategy`, briefly state which NAMING.md rules you checked and the grep result confirming no collision.
 
 ## Input Hygiene (kernel basis is locked)
 The kernel "input set" — sum of `inductive` types + `class` declarations + the `BaseReflectionSetup` structure — is intentionally minimal (~16). All theorem growth must be derived from this fixed basis, not by adding parallel inputs.

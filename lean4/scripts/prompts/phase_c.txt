@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v3.0 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v3.1 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -187,6 +187,30 @@ python3 tools/check-axioms.py
 Do not fetch, pull, merge, rebase against, checkout, or push any remote branch before committing. The outer pipeline serializes remote synchronization after Phase C returns.
 
 If verification fails because the worktree appears stale or conflicts with upstream work, do not resolve that by syncing with `origin/lean4-codex-auto-dev`. Either adjust the local proof against the current worktree or leave the round uncommitted so the outer pipeline can discard/retry it.
+
+## Step 5.2: NAMING.md compliance pre-commit lint (HARD GATE)
+
+Run before commit; abort on any hit:
+
+```bash
+# 1. Mechanical-arity suffix on a NEW declaration
+git diff --cached -- lean4/BEDC/ \
+  | grep -nE "^\+(theorem|lemma|def)\s+\w+(_two|_three|_four|_five|_six|_two_step|_three_step|_witness_chain|_three_step_chain)\b"
+
+# 2. Directional twin: new declaration whose name is the `.mp` / `.mpr` shape
+#    of an existing `_iff` in the same module
+git diff --cached -- lean4/BEDC/ \
+  | grep -nE "^\+(theorem|lemma)\s+\w*_(from|to|imply|implies)_\w+"
+
+# 3. Discouraged saturated Derived shape — only allow if the round also adds
+#    a non-trivial accompanying theorem about the domain's concrete inductive
+git diff --cached -- 'lean4/BEDC/Derived/' \
+  | grep -nE "^\+(theorem|lemma)\s+\w+HistoryClassifier_exactness\b|^\+(theorem|lemma)\s+\w+HistoryEndpoint_pair\b|^\+(theorem|lemma)\s+\w+HistoryLedgerPolicy_envelope_closure\b|^\+(theorem|lemma)\s+\w+HistoryClassifier_branch_inversion\b"
+```
+
+If shape (1) hits, ABORT this round entirely (`git restore --staged lean4/`). If shape (2) hits, ABORT and either drop the directional twin or refactor to use `.mp` / `.mpr` of the existing `_iff`. If shape (3) hits, the diff must also contain at least one OTHER new theorem in the same `Derived/<X>Up*.lean` whose conclusion mentions the domain's concrete constructor / payload / boundary — confirm by re-reading the diff before committing.
+
+The mathlib-style naming and decomposition discipline lives in `lean4/NAMING.md`. The full ruleset is binding; the lint above only catches the most common violations.
 
 ## Step 5.3: Paper-side discovery anti-parameter-echo (HARD GATE)
 
