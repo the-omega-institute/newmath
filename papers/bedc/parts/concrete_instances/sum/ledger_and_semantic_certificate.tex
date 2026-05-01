@@ -317,6 +317,43 @@ inversion theorem to extract the matching source payload evidence.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerChain\_endpoint\_exactness}
 
+\begin{theorem}[Sum ledger chain branch readback soundness]
+\label{thm:sum-ledger-chain-branch-readback-soundness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,z:\mathsf{BHist}$ be histories. The finite ledger-chain relation forces
+exact same-branch payload readback:
+$$
+\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)
+\to
+\bigl(\exists l\,l':\mathsf{BHist}.\; Left(l)\land Left(l')\land\hsame(\rho,\Ezero(l))\land\hsame(z,\Ezero(l'))\land\hsame(l,l')\bigr)
+\lor
+\bigl(\exists r\,r':\mathsf{BHist}.\; Right(r)\land Right(r')\land\hsame(\rho,\Eone(r))\land\hsame(z,\Eone(r'))\land\hsame(r,r')\bigr).
+$$
+The ten-field fit is: traditional target disjoint-sum finite ledger branch
+readback; BEDC source $\mathsf{BHist}$ with $\hsame$; source carriers $Left$
+and $Right$; carrier $\mathsf{SumHistoryCarrier}$; classifier supplied by
+Theorem~\ref{thm:sum-ledger-chain-classifier-composition}; ledger
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}$; core theorem this branch
+readback soundness; finite ledger-chain witnesses map into same-branch payload
+readback; standard bridge tagged sum finite ledger provenance; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the displayed $\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$
+witness. In the one-ledger case, apply
+Theorem~\ref{thm:sum-ledger-raw-visible-branch-exactness} and choose the same
+payload at the raw and visible endpoints, with $\hsame$ reflexivity for the
+payload link.
+
+In the cons case, combine the raw-visible branch exactness of the first ledger
+with the induction hypothesis for the tail chain. The mixed left-right and
+right-left cases contradict generated-history no-confusion between $\Ezero$ and
+$\Eone$ at the shared middle endpoint. In the same-branch cases, use
+Theorem~\ref{thm:sum-visible-branch-payload-determinism} at the middle endpoint
+and $\hsame$ transitivity to compose the first payload with the final payload.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerChain\_branch\_exactness}
+
 \begin{theorem}[Sum ledger chain branch exactness]
 \label{thm:sum-ledger-chain-branch-exactness}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
@@ -339,18 +376,8 @@ relation by same-branch payload readback; standard bridge tagged sum finite
 ledger provenance; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-For the forward direction, induct on the displayed
-$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ witness. In the one-ledger
-case, apply Theorem~\ref{thm:sum-ledger-raw-visible-branch-exactness} and choose
-the same payload at the raw and visible endpoints, with $\hsame$ reflexivity for
-the payload link.
-
-In the cons case, combine the raw-visible branch exactness of the first ledger
-with the induction hypothesis for the tail chain. The mixed left-right and
-right-left cases contradict generated-history no-confusion between $\Ezero$ and
-$\Eone$ at the shared middle endpoint. In the same-branch cases, use
-Theorem~\ref{thm:sum-visible-branch-payload-determinism} at the middle endpoint
-and $\hsame$ transitivity to compose the first payload with the final payload.
+For the forward direction, apply
+Theorem~\ref{thm:sum-ledger-chain-branch-readback-soundness}.
 
 For the reverse direction, split the displayed disjunction. In the left branch,
 the witnesses $Left(l)$, $\hsame(\rho,\Ezero(l))$, $\hsame(z,\Ezero(l'))$, and
@@ -368,7 +395,6 @@ $\hsame(\rho,\Eone(r))$, $\hsame(z,\Eone(r'))$, and $\hsame(r,r')$, with
 constructor congruence for $\Eone$ before applying the same raw-visible branch
 exactness theorem and the one-ledger chain constructor.
 \end{proof}
-\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerChain\_branch\_exactness}
 
 \begin{theorem}[Sum ledger chain raw branch forces final branch readback]
 \label{thm:sum-ledger-chain-raw-branch-forces-final-readback}
