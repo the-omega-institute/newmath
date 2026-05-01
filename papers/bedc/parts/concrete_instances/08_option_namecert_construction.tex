@@ -6,6 +6,51 @@
 \section{Exclusive classifier branch readback}
 \label{sec:option-classifier-exclusive-branch-readback}
 
+\begin{theorem}[Tagged option carrier single-valued visible readback]
+\label{thm:tagged-option-history-carrier-single-valued-visible-readback}
+This theorem fits the per-object template as follows: the traditional target is
+tagged optional carrier readback; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier
+is unused; the stability obligation is constructor inversion plus branch
+exclusion; the ledger is the visible absent/present tag and present payload; the
+core theorem is carrier single-valued visible readback; exactness is existence,
+opposite-branch exclusion, and payload uniqueness; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$; and the status is $\mathsf{ProofTarget}$. For
+every source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and history
+$h:\mathsf{BHist}$, if $\mathsf{TaggedOptionHistoryCarrier}_S(h)$ holds, then
+either
+$$
+\hsame(h,\emp)\land
+\neg\exists a:\mathsf{BHist}.\; S(a)\land\hsame(h,\Eone(a))
+$$
+or
+$$
+\exists a:\mathsf{BHist}.\;
+S(a)\land
+\hsame(h,\Eone(a))\land
+\neg\hsame(h,\emp)\land
+\bigl(\forall a':\mathsf{BHist}.\;
+S(a')\to \hsame(h,\Eone(a'))\to \hsame(a,a')\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-carrier-exclusive-branch-partition}
+to the carrier witness. This gives the displayed absent branch or a visible
+present payload branch.
+
+In the absent branch, keep the equality $\hsame(h,\emp)$ and the negative
+source-present clause supplied by the carrier partition. These are exactly the
+two fields required for the first displayed alternative.
+
+In the present branch, keep the payload $a$, the source witness $S(a)$, the
+endpoint link $\hsame(h,\Eone(a))$, and the non-absence proof supplied by the
+carrier partition. For any other visible present payload $a'$, apply
+Theorem~\ref{thm:tagged-option-history-present-payload-determinism} to the two
+endpoint links $\hsame(h,\Eone(a))$ and $\hsame(h,\Eone(a'))$. The resulting
+$\hsame(a,a')$ gives the payload uniqueness field, completing the second
+displayed alternative.
+\end{proof}
+
 \begin{theorem}[Tagged option history classifier exclusive branch readback]
 \label{thm:tagged-option-history-classifier-exclusive-branch-readback}
 This theorem fits the per-object template as follows: the traditional target is
