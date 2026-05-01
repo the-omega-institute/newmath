@@ -104,6 +104,53 @@ unit-equation classifier and the BEDC continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_rational\_unit\_components}
 
+\begin{theorem}[SOne component classifier ledger determinacy]
+\label{thm:s1-component-classifier-ledger-determinacy}
+For histories $x,y,e,p,x',y',e',p'$, componentwise BEDC history
+classification of two concrete $\SOneUp$ carrier witnesses determines both
+hidden ledgers:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x',y',e',p')
+\Longrightarrow
+\hsame(x,x')
+\Longrightarrow
+\hsame(y,y')
+\Longrightarrow
+\hsame(e,e') \wedge \hsame(p,p').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two circle-carrier witnesses into their four fields. The first gives
+the real-constant component carriers for $x$ and $y$, the equation classifier
+$\mathsf{RealConstantHistoryClassifier}(e,\mathsf{SOneUnitHistory})$, and the
+continuation ledger $\mathsf{Cont}(x,y,p)$. The second gives the corresponding
+fields for $x'$, $y'$, $e'$, and $p'$.
+
+For the equation ledger, unpack the two
+$\mathsf{RealConstantHistoryClassifier}(-,\mathsf{SOneUnitHistory})$ witnesses.
+Each contains a $\mathsf{RatHistoryClassifier}$ tail against the fixed
+$\mathsf{SOneUnitHistory}$ endpoint. Constructor inversion for the
+one-constructor rational history spine exposes the same rational tail on both
+sides. The $\hsame$ symmetry and transitivity rules then connect $e$ to $e'$,
+and rebuilding the history classifier witness yields $\hsame(e,e')$.
+
+For the point ledger, apply continuation $\hsame$-respect to the two
+$\mathsf{ContR}$ ledgers using the supplied component witnesses
+$\hsame(x,x')$ and $\hsame(y,y')$. Continuation determinacy identifies the
+resulting point histories, giving $\hsame(p,p')$.
+
+Pair the two conclusions. The certificate fit is the traditional target
+unit-circle classifier determinacy; the BEDC source $\mathsf{BHist}$ with
+$\mathsf{RealConstantHistoryClassifier}$ and $\mathsf{ContR}$; the carrier
+$\mathsf{SOneHistoryCarrier}$; the classifier $\hsame$ on exposed components;
+the ledger equation proof and point continuation; the core theorem this
+determinacy statement; the exactness claim hidden-ledger uniqueness; the
+standard bridge deferred outside this theorem; and the status
+$\mathsf{ProofTarget}$.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[SOne source specification]
