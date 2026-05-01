@@ -36,6 +36,7 @@ import os
 from dispatch_bedc_target import SCRIPT_DIR, BedcTarget, build_initial_prompt, parse_board, BOARD_PATH
 import codex_orchestrator
 import killo_golden_writeback
+import lifecycle
 from locks import file_lock
 
 
@@ -371,6 +372,7 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "stage1_verdict": "already_in_paper",
                 "paper_coverage": coverage[:20],
             }
+            lifecycle.annotate(state, attempts=int((load_cursor(target).get("attempts") or 1)))
             write_text(STATE_DIR / f"{target.slug}.json", json.dumps(state, ensure_ascii=False, indent=2))
             return state
 
@@ -651,6 +653,8 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
         "stage15_spawned": spawned_ids,
         "stage2": stage2_summary,
     }
+    cursor_attempts = int((cursor.get("attempts") or 1))
+    lifecycle.annotate(final_state, attempts=cursor_attempts)
     write_text(STATE_DIR / f"{target.slug}.json", json.dumps(final_state, ensure_ascii=False, indent=2))
     return final_state
 
@@ -851,14 +855,17 @@ def _run_target_safe(args: argparse.Namespace, target: BedcTarget) -> dict:
         raise
     except Exception as exc:
         print(f"[loop] target {target.target_id} crashed: {exc}", flush=True)
-        write_text(STATE_DIR / f"{target.slug}.json", json.dumps({
+        crash_state = {
             "target_id": target.target_id,
             "title": target.title,
             "stage1_verdict": "crashed",
             "error": str(exc),
             "completed_at": _now_iso(),
-        }, ensure_ascii=False, indent=2))
-        return {"target_id": target.target_id, "stage1_verdict": "crashed"}
+        }
+        cursor_attempts = int((load_cursor(target).get("attempts") or 1))
+        lifecycle.annotate(crash_state, attempts=cursor_attempts)
+        write_text(STATE_DIR / f"{target.slug}.json", json.dumps(crash_state, ensure_ascii=False, indent=2))
+        return crash_state
     finally:
         release_claim(target)
 
@@ -867,9 +874,9 @@ def run_loop(args: argparse.Namespace) -> int:
     cleaned = cleanup_stale_claims()
     if cleaned:
         print(f"[startup] cleaned {cleaned} stale .in_progress claims", flush=True)
-    reset = reset_retriable_crashes()
+    reset = lifecycle.reset_retriable()
     if reset:
-        print(f"[startup] reset {reset} crashed targets for retry", flush=True)
+        print(f"[startup] reset {reset} retriable failures (lifecycle-driven)", flush=True)
     targets = parse_board()
     if not args.target_id and not args.loop:
         print("error: either pass a target_id or --loop", flush=True)

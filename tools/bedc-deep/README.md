@@ -183,6 +183,47 @@ Logs land in `tools/bedc-deep/state/supervisor_logs/`:
 - `supervisor.log` — supervisor's own decisions
 - `inner.log` — oracle_client.py --loop stdout/stderr concatenated across restarts
 
+## Target lifecycle
+
+`lifecycle.py` classifies every final state into a `failure_kind` and
+records `attempts` / `retry_budget` / `next_action` on the state file.
+The supervisor's retry sweep uses these to decide what to do, instead of
+the coarse stage1_verdict bucket. Failure kinds:
+
+| kind | retry_budget | next_action | meaning |
+|---|---|---|---|
+| `none` | 0 | complete | Stage 2 accepted, paper updated |
+| `pre_flight_duplicate` | 0 | skip | already_in_paper detection |
+| `stage2_duplicate_content` | 0 | skip | Stage 2 caught a real duplicate |
+| `oracle_transport_failure` | 5 | retry_resume | empty / short / extractor failure |
+| `oracle_timeout` | 3 | retry_resume | poll exhausted |
+| `agent_error` | 5 | retry_resume | userscript ERROR or transport bug |
+| `format_crash` | 3 | retry_resume | Python error (legacy format() bug class) |
+| `wall_clock_exhausted` | 1 | retry_resume | 12h ceiling hit |
+| `math_stuck` | 0 | skip | three turns ≤ 1 progress |
+| `stage2_hygiene_reject` | 0 | alert_user | needs prompt repair |
+| `stage2_compile_failed` | 1 | retry_resume | pdflatex failed after append |
+| `stage2_blocked_after_retries` | 0 | alert_user | corrective retry exhausted |
+
+`lifecycle.reset_retriable()` runs at oracle_client startup and on every
+supervisor sweep: it walks `state/*.json`, finds entries whose
+`next_action == retry_resume` and `attempts <= 6`, deletes the final
+state file, and bumps `cursor.json.attempts` so the resumed run picks
+up from the saved turns.
+
+## Dashboard
+
+Single-screen status view:
+
+```bash
+python3 tools/bedc-deep/dashboard.py
+```
+
+Shows: server diagnosis, BOARD breakdown, target lifecycle table,
+failure_kind histogram, Stage 2 reject clusters, recent commits,
+supervisor log tail. Refresh with `watch -n 30 python3
+tools/bedc-deep/dashboard.py` for a live view.
+
 Tune Stage 1.5 spawn aggressiveness (lower thresholds → more candidates,
 lower quality):
 

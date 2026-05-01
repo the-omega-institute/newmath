@@ -148,8 +148,8 @@ def stale_cleanup() -> int:
 
 
 def crash_retry_sweep() -> int:
-    from oracle_client import reset_retriable_crashes
-    return reset_retriable_crashes()
+    from lifecycle import reset_retriable
+    return reset_retriable()
 
 
 _REJECTION_ITEM_RE = re.compile(r"item\s*(\d+)|build\s*invariant|content\s*duplication|non-?LaTeX")
