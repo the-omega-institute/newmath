@@ -348,18 +348,14 @@ Induct on the first list. Nil can only classify with nil. In the cons case, clas
 
 \begin{theorem}[List classifier preserves length]
 \label{thm:list-classifier-length-eq}
-For any source type $A$, any source relation $sameA:A\to A\to\mathsf{Prop}$,
-and finite spines $xs,ys:\mathsf{ListCarrier}(A)$, if
-$\mathsf{ListClassifierSpec}(sameA,xs,ys)$ holds, then $xs$ and $ys$ have the
-same finite length.
+For finite-spine presentation witnesses only, write $\ell(xs)$ for their meta-level finite length; this notation is neither a $\NatUp$ operation nor a certificate field. For any source type $A$, any source relation $sameA:A\to A\to\mathsf{Prop}$, and finite spines $xs,ys:\mathsf{ListCarrier}(A)$, if
+$\mathsf{ListClassifierSpec}(sameA,xs,ys)$ holds, then
+$$
+\ell(xs)=\ell(ys).
+$$
 \end{theorem}
 \begin{proof}
-Induct on the first list spine. The nil case can classify only against nil by
-the mixed-shape clauses of $\mathsf{ListClassifierSpec}$. In the cons case,
-the classifier can classify only against a cons spine; its tail witness is again
-a $\mathsf{ListClassifierSpec}$ witness for entries related by $sameA$, so the
-induction hypothesis gives equality of tail lengths, and the two cons lengths
-are equal.
+Induct on the first list spine. The nil case can classify only against nil by the mixed-shape clauses of $\mathsf{ListClassifierSpec}$. In the cons case, the classifier can classify only against a cons spine; its tail witness is again a $\mathsf{ListClassifierSpec}$ witness for entries related by $sameA$. The induction hypothesis gives equality of tail lengths, and the two cons lengths are equal.
 \end{proof}
 
 \begin{definition}[Finite-spine helper stability certificate]
@@ -702,13 +698,10 @@ Unpack the two history-classifier witnesses. The first gives spines $xs,ys$ with
 \begin{theorem}[List spine classifier preserves represented length]
 \label{thm:list-spine-classifier-represented-length}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
-$\sim_A$ be a source classifier. If
-$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds, then represented finite
-spines have equal length along the spine-induced history classifier: whenever
-$\mathsf{ListSpineRep}_A(h,xs_0)$,
-$\mathsf{ListSpineRep}_A(k,ys_0)$, and
-$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, the finite spines
-$xs_0$ and $ys_0$ have the same length.
+$\sim_A$ be a source classifier. If $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds, then represented finite spines have equal presentation length along the spine-induced history classifier: whenever $\mathsf{ListSpineRep}_A(h,xs_0)$, $\mathsf{ListSpineRep}_A(k,ys_0)$, and $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then
+$$
+\ell(xs_0)=\ell(ys_0).
+$$
 \end{theorem}
 \begin{proof}
 Unpack the history-classifier witness to finite spines $xs,ys$ with
