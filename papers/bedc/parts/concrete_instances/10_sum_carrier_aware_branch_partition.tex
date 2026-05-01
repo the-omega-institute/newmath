@@ -1,0 +1,43 @@
+\begin{theorem}[Sum history classifier carrier-aware branch partition]
+\label{thm:sum-history-classifier-carrier-aware-branch-partition}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume the two carriers transport along $\hsame$:
+$$
+\forall x\,y.\; Left(x)\to \hsame(x,y)\to Left(y)
+$$
+and
+$$
+\forall x\,y.\; Right(x)\to \hsame(x,y)\to Right(y).
+$$
+If $\mathsf{SumHistoryCarrier}(Left,Right,h)$,
+$\mathsf{SumHistoryCarrier}(Left,Right,k)$, and
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)$ hold, then a
+visible classifier side supplies the branch data used by the carrier-backed
+certificate analysis:
+$$
+\begin{array}{l}
+\exists a,b.\; Left(a)\land Left(b)\land
+\hsame(h,\Ezero(a))\land \hsame(k,\Ezero(b))\land LeftEq(a,b)
+\end{array}
+$$
+or
+$$
+\begin{array}{l}
+\exists a,b.\; Right(a)\land Right(b)\land
+\hsame(h,\Eone(a))\land \hsame(k,\Eone(b))\land RightEq(a,b).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Split the displayed $\mathsf{SumHistoryClassifier}$ witness into its visible
+left or right constructor branch. In the left branch, combine the two endpoint
+carrier witnesses with the visible $\Ezero$ endpoints stored by the classifier.
+The checked left carrier inversion for $\mathsf{SumHistoryCarrier}$ reads the
+endpoint carrier data back to left payload carriers, and the displayed carrier
+transport assumption aligns those source-membership witnesses with the
+classifier payloads. The stored $LeftEq$ witness then supplies the left
+disjunct. The right branch is identical, using the checked right carrier
+inversion, the $\Eone$ endpoints, the right carrier-transport assumption, and
+the stored $RightEq$ witness.
+\end{proof}
