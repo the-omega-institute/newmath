@@ -79,6 +79,65 @@ Theorem~\ref{thm:list-classifier-length-eq} gives equality of the two finite
 spine lengths.
 \end{proof}
 
+\begin{definition}[List public length readback]
+\label{def:list-public-length-readback}
+For a BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, define
+$\mathsf{ListPublicLength}_A(h,n)$ by
+$$
+\mathsf{ListPublicLength}_A(h,n)
+\quad\Longleftrightarrow\quad
+\exists xs:\mathsf{HistSpine}.\;
+\mathsf{ListSpineRep}_A(h,xs)\land \ell(xs)=n.
+$$
+Here $\ell$ is the finite-spine presentation length. It is not a $\NatUp$
+operation and is not an additional field of the public certificate.
+\end{definition}
+
+\begin{theorem}[List public length readback is well-defined under cons-boundary coherence]
+\label{thm:list-public-length-readback-well-defined}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. Assume
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. Then the public length readback
+has the following two properties.
+\begin{enumerate}
+  \item If $\mathsf{ListPublicLength}_A(h,n)$ and
+  $\mathsf{ListPublicLength}_A(h,m)$, then $n=m$.
+  \item If $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$,
+  $\mathsf{ListPublicLength}_A(h,n)$, and
+  $\mathsf{ListPublicLength}_A(k,m)$, then $n=m$.
+\end{enumerate}
+The roadmap ten-field fit is: traditional target finite-list length readback;
+BEDC source $\mathsf{BHist}$ with $\NameCert$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; ledger finite-spine length
+witnesses; exactness through $\mathsf{ListSpineRep}_A$ and
+$\mathsf{ListClassifierSpec}$; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For uniqueness at one endpoint, unpack the two
+$\mathsf{ListPublicLength}_A$ witnesses. They give finite spines $xs$ and $ys$,
+representations $\mathsf{ListSpineRep}_A(h,xs)$ and
+$\mathsf{ListSpineRep}_A(h,ys)$, and displayed equalities
+$\ell(xs)=n$ and $\ell(ys)=m$. Apply
+Theorem~\ref{thm:list-spine-cons-boundary-length-deterministic} to the two
+representations of $h$ under the cons-boundary coherence hypothesis, obtaining
+$\ell(xs)=\ell(ys)$. Chain the inverse of $\ell(xs)=n$, this equality, and
+$\ell(ys)=m$ to get $n=m$.
+
+For preservation along the public classifier, unpack the two public length
+witnesses as represented spines $xs$ for $h$ and $ys$ for $k$, with
+$\ell(xs)=n$ and $\ell(ys)=m$. First apply
+Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence} to obtain
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Then apply
+Theorem~\ref{thm:list-spine-classifier-represented-length}, using
+$\mathsf{cert}$, the coherence witness, the displayed endpoint
+representations, and the classifier witness
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$, to obtain
+$\ell(xs)=\ell(ys)$. Chain this length equality with $\ell(xs)=n$ and
+$\ell(ys)=m$ to get $n=m$.
+\end{proof}
+
 \begin{definition}[List source hsame compatibility]
 \label{def:list-source-hsame-compatible}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
