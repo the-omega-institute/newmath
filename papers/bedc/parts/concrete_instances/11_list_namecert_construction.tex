@@ -82,20 +82,24 @@ $\hsame(k,\Eone(q))$ to rebuild the two cons carrier clauses.
 \label{thm:list-history-classifier-constructor-exactness}
 For any source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier
 $\sim_S:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$, and histories $h,k$,
-every witness of $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{S,\sim_S}(h,k)$ is exactly one
-of the two displayed constructor cases: either nil-nil endpoint witnesses
-$\hsame(h,\emp)$ and $\hsame(k,\emp)$, or cons-cons witnesses $a,b,t,u,p,q$ with
-$S(a)$, $S(b)$, $a\sim_S b$, $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{S,\sim_S}(t,u)$,
-$\ContR(a,t,p)$, $\ContR(b,u,q)$, $\hsame(h,\Eone(p))$, and
-$\hsame(k,\Eone(q))$. A nil endpoint classified against a cons endpoint, or a
-cons endpoint classified against a nil endpoint, has no classifier case.
+the recursive classifier is exactly the constructor disjunction
+$$
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{S,\sim_S}(h,k)
+\Longleftrightarrow
+\bigl(\hsame(h,\emp)\wedge\hsame(k,\emp)\bigr)\vee
+\exists a\,b\,t\,u\,p\,q.\;S(a)\wedge S(b)\wedge a\sim_S b
+\wedge \mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{S,\sim_S}(t,u)
+\wedge \ContR(a,t,p)\wedge \ContR(b,u,q)\wedge \hsame(h,\Eone(p))\wedge \hsame(k,\Eone(q)).
+$$
 \end{theorem}
 \begin{proof}
-Induct on the generated classifier witness. The nil-nil constructor gives
-exactly the two empty endpoint witnesses. The cons-cons constructor gives
-exactly the source head witnesses, the recursive tail-classifier witness, the
-two continuation witnesses, and the two visible $e1$ endpoint witnesses. The
-mixed endpoint claims reduce to BEDC history no-confusion:
+For the forward implication, induct on the generated classifier witness. The
+nil-nil constructor gives the left disjunct, and the cons-cons constructor
+gives the right disjunct with its source head witnesses, recursive tail-classifier
+witness, continuation witnesses, and visible $e1$ endpoint witnesses. For the
+reverse implication, the left disjunct is exactly the nil-nil generation clause,
+and the right disjunct is exactly the cons-cons generation clause. Mixed nil/cons
+endpoint claims reduce to BEDC history no-confusion:
 $\mathsf{not\_hsame\_emp\_e1}$ eliminates nil against cons, and
 $\mathsf{not\_hsame\_e1\_empty}$ eliminates cons against nil.
 \end{proof}
