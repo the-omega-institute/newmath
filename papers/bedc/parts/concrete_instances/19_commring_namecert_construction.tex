@@ -200,6 +200,31 @@ The zero laws remove this neutral summand, leaving
 $(a\cdot a)+(-(b\cdot b))$ under $\hsame$.
 \end{proof}
 
+\begin{theorem}[CommRing equal squares give a signed zero factor]
+\label{thm:commring-equal-squares-signed-factor-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ with
+$a\cdot a\hsame b\cdot b$ satisfies
+$$
+(a+b)\cdot(a+(-b))\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-difference-of-squares} to rewrite the signed
+factor product as $(a\cdot a)+(-(b\cdot b))$. This expansion already includes
+the negative-product normalizations and the commutation of the middle product.
+
+Transport the assumed square equality $a\cdot a\hsame b\cdot b$ through
+additive congruence while keeping the right summand $-(b\cdot b)$ fixed. The
+right side is therefore identified with $(b\cdot b)+(-(b\cdot b))$.
+
+Theorem~\ref{thm:ring-add-right-inverse} collapses this final additive inverse
+pair to $0$. Transitivity of $\hsame$ composes the difference-of-squares
+normal form, the transported square equality, and the inverse collapse.
+\end{proof}
+
 \begin{theorem}[CommRing signed binary product normal form]
 \label{thm:commring-signed-binary-product-normal-form}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
