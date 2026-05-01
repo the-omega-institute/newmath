@@ -141,6 +141,47 @@ theorem ProdComponentHistoryClassifier_endpoint_carriers {Left Right : BHist -> 
                                               ProdHistoryCarrier_cont_intro
                                                 leftK rightK contK
 
+theorem ProdComponentHistoryClassifier_hsame_transport {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop} {h h' k k' : BHist} :
+    hsame h h' -> hsame k k' ->
+      ProdComponentHistoryClassifier Left Right LeftEq RightEq h k ->
+        ProdComponentHistoryClassifier Left Right LeftEq RightEq h' k' := by
+  intro sameH sameK classifier
+  cases classifier with
+  | intro lh restLH =>
+      cases restLH with
+      | intro rh restRH =>
+          cases restRH with
+          | intro lk restLK =>
+              cases restLK with
+              | intro rk data =>
+                  cases data with
+                  | intro leftH rest =>
+                      cases rest with
+                      | intro rightH rest =>
+                          cases rest with
+                          | intro contH rest =>
+                              cases rest with
+                              | intro leftK rest =>
+                                  cases rest with
+                                  | intro rightK rest =>
+                                      cases rest with
+                                      | intro contK componentSame =>
+                                          exact Exists.intro lh
+                                            (Exists.intro rh
+                                              (Exists.intro lk
+                                                (Exists.intro rk
+                                                  (And.intro leftH
+                                                    (And.intro rightH
+                                                      (And.intro
+                                                        (cont_result_hsame_transport contH sameH)
+                                                        (And.intro leftK
+                                                          (And.intro rightK
+                                                            (And.intro
+                                                              (cont_result_hsame_transport
+                                                                contK sameK)
+                                                              componentSame)))))))))
+
 theorem ProdHistoryCarrier_unary_of_components {Left Right : BHist -> Prop}
     (left_unary : forall {l : BHist}, Left l -> BEDC.FKernel.Unary.UnaryHistory l)
     (right_unary : forall {r : BHist}, Right r -> BEDC.FKernel.Unary.UnaryHistory r)
