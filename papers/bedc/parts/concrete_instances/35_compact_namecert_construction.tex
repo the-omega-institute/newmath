@@ -9,6 +9,23 @@ The compactness interface \(\CompactUp\) has certificate obligations for subsets
 \label{def:compact-carrier}
 Use a metric-space subset predicate equipped with locatedness and total-boundedness witness functions.
 \end{definition}
+\leandef{BEDC.Derived.CompactUp.CompactWitnessCarrier}
+
+\begin{theorem}[Compact witness carrier finite extension closure]
+\label{thm:compact-witness-carrier-finite-extension-closed}
+If a compact witness carrier records unary subset, locatedness, and finite-net
+histories through locatedness and compactness ledgers, then appending a unary
+finite-net refinement preserves the same witness shape.
+\end{theorem}
+\begin{proof}
+The existing carrier supplies unary histories for the subset, locatedness, and
+finite-net ledgers together with continuations through the located and compact
+witnesses. Unary continuation closure gives the refined finite-net carrier.
+Continuation associativity combines the old compactness ledger with the
+refinement ledger, and determinism identifies the associated witness with the
+named refined finite-net history.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_finite\_extension\_closed}
 
 \section{The certificate}
 
