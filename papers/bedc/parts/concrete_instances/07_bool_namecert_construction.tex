@@ -92,6 +92,28 @@ direction of Theorem~\ref{thm:bool-endpoint-bridge-exactness} converts this
 displayed endpoint sameness into $\msame(v,w)$.
 \end{proof}
 
+\begin{theorem}[Bool endpoint readback total uniqueness]
+\label{thm:bool-endpoint-readback-total-unique}
+For every history $h:\mathsf{BHist}$, if $\mathsf{BoolHistoryCarrier}(h)$
+holds, then there exists a mark $v:\mathsf{BMark}$ such that
+$$
+  \hsame(h,\mathsf{BoolEndpoint}(v))
+  \quad\text{and}\quad
+  \mathsf{BoolSourceSpec}(v)
+  \quad\text{and}\quad
+  \forall w:\mathsf{BMark},\
+    \hsame(h,\mathsf{BoolEndpoint}(w)) \to \msame(v,w).
+$$
+\end{theorem}
+\begin{proof}
+Use Theorem~\ref{thm:bool-history-carrier-endpoint-coverage} on the carrier
+witness for $h$ to obtain a displayed endpoint $v$ and a readback witness
+$\hsame(h,\mathsf{BoolEndpoint}(v))$. Case analysis on $v$ gives
+$\mathsf{BoolSourceSpec}(v)$ for both boolean marks. For any other displayed
+readback $w$, Theorem~\ref{thm:bool-endpoint-readback-determinism} applied to
+the two endpoint witnesses gives $\msame(v,w)$.
+\end{proof}
+
 \begin{theorem}[Bool endpoint bridge classifier completeness]
 \label{thm:bool-endpoint-bridge-classifier-completeness}
 The endpoint bridge preserves the checked boolean history classifier in both finite certificate directions. For marks $v,w:\mathsf{BMark}$,
