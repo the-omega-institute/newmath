@@ -41,6 +41,39 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Continuous modulus chain factorization]
+\label{thm:continuous-modulus-chain-factorizes}
+For histories $s,\delta_1,\delta_2,t$, assume the two-link chain
+$$
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t).
+$$
+Then there is a history $m$ such that both one-step links are certified:
+$$
+\mathsf{ContinuousModulusWitness}(s,\delta_1,m)
+\quad\text{and}\quad
+\mathsf{ContinuousModulusWitness}(m,\delta_2,t).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the chain into unary data for $s$, $\delta_1$, $\delta_2$, and $t$,
+together with a middle history $m$ and continuation ledgers
+$s\cdot\delta_1=m$ and $m\cdot\delta_2=t$.
+
+The first ledger and the unary source and modulus data assemble
+$$
+\mathsf{ContinuousModulusWitness}(s,\delta_1,m).
+$$
+
+Unary continuation closure then makes the middle history unary. The second
+ledger and the unary $\delta_2$ and target data assemble
+$$
+\mathsf{ContinuousModulusWitness}(m,\delta_2,t).
+$$
+
+Taking this middle history as the existential witness gives the displayed
+factorization of the chain into its two certified one-step modulus witnesses.
+\end{proof}
+
 \begin{theorem}[Continuous modulus chain composite closure]
 \label{thm:continuous-modulus-chain-composite-closed}
 For unary histories $s,\delta_1,\delta_2,t$, a two-link modulus chain from
