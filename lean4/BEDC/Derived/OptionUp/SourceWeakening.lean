@@ -52,4 +52,27 @@ theorem TaggedOptionHistorySource_weakening {S T : BHist -> Prop}
                                               (classifierWeakening a b sourceA sourceB
                                                 relAB)))))))
 
+theorem OptionHistorySource_monotonicity {S T : BHist → Prop}
+    (source_mono : ∀ h : BHist, S h → T h) :
+    (∀ {h : BHist}, OptionHistoryCarrier S h → OptionHistoryCarrier T h) ∧
+      (∀ {h k : BHist}, OptionHistoryClassifier S h k →
+        OptionHistoryClassifier T h k) := by
+  have carrier_mono : ∀ {h : BHist},
+      OptionHistoryCarrier S h → OptionHistoryCarrier T h := by
+    intro h carrier
+    cases carrier with
+    | inl emptyCase =>
+        exact Or.inl emptyCase
+    | inr sourceCase =>
+        exact Or.inr (source_mono h sourceCase)
+  constructor
+  · exact carrier_mono
+  · intro h k classifier
+    cases classifier with
+    | intro carrierH rest =>
+        cases rest with
+        | intro carrierK sameHK =>
+            exact And.intro (carrier_mono carrierH)
+              (And.intro (carrier_mono carrierK) sameHK)
+
 end BEDC.Derived.OptionUp

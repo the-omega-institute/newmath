@@ -233,4 +233,34 @@ theorem FramedListSpineRep_coherence {A : BHist → Prop} {Rel : BHist → BHist
                       (And.intro entriesXTail (hsame_refl (FramedListEndpoint xs)))
                       (And.intro entriesYTail split.right)
 
+theorem FramedListSpineRep_length_determinism {A : BHist → Prop}
+    {Rel : BHist → BHist → Prop} (compat : ListSourceHsameCompatible A Rel)
+    {h : BHist} {xs ys : ListCarrier BHist} :
+    FramedListSpineRep A h xs →
+      FramedListSpineRep A h ys → xs.length = ys.length := by
+  intro repX repY
+  have classified : ListClassifierSpec Rel xs ys :=
+    FramedListSpineRep_coherence compat repX repY
+  have classifier_length :
+      ∀ {xs ys : ListCarrier BHist}, ListClassifierSpec Rel xs ys → xs.length = ys.length := by
+    intro xs
+    induction xs with
+    | nil =>
+        intro ys same
+        cases ys with
+        | nil =>
+            rfl
+        | cons _ _ =>
+            cases same
+    | cons _ xs ih =>
+        intro ys same
+        cases ys with
+        | nil =>
+            cases same
+        | cons _ ys =>
+            cases same with
+            | intro _ tailClassified =>
+                exact congrArg Nat.succ (ih tailClassified)
+  exact classifier_length classified
+
 end BEDC.Derived.ListUp
