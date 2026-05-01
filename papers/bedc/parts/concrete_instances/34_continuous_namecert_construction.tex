@@ -88,6 +88,55 @@ is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefix\_closed}
 
+\begin{theorem}[Continuous function carrier prefix exactness]
+\label{thm:continuous-function-carrier-prefix-exact}
+For histories $p,source,map,target,modulus,cert$, a visible unary prefix is an
+exact invariant of the full continuous-function carrier:
+
+$$
+\mathsf{UnaryHistory}(p)
+\Longrightarrow
+\left(
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,modulus,p\cdot cert)
+\Longleftrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+For the reverse direction, use
+\autoref{thm:continuous-function-carrier-prefix-closed}. It prefixes the
+source, target, and certificate ledgers by the unary history $p$ while reusing
+the same unary map and unary modulus witnesses.
+
+For the forward direction, unpack the prefixed carrier. Unary append
+factorization recovers unary witnesses for $source$ and $target$ from the
+unary histories $p\cdot source$ and $p\cdot target$ together with
+$\mathsf{UnaryHistory}(p)$. The map and modulus unary witnesses are already
+part of the prefixed carrier, so no transport is needed for those fields.
+
+The prefixed graph ledger has the form
+
+$$
+(p\cdot source)\cdot map=p\cdot target.
+$$
+
+Associativity rewrites its left side to $p\cdot(source\cdot map)$, and
+continuation prefix cancellation removes the common visible prefix $p$. This
+recovers the unprefixed graph ledger $source\cdot map=target$.
+
+The modulus-certificate ledger is treated in the same way. From
+
+$$
+(p\cdot target)\cdot modulus=p\cdot cert
+$$
+
+associativity and the same prefix cancellation principle recover
+$target\cdot modulus=cert$. The recovered unary endpoint histories, the reused
+unary map and modulus histories, and the two cancelled ledgers reassemble
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[ContinuousMap source specification]
