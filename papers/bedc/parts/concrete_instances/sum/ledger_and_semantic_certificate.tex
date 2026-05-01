@@ -350,6 +350,60 @@ endpoint and $\hsame$ transitivity to compose the first payload with the final
 payload.
 \end{proof}
 
+\begin{theorem}[Sum ledger chain raw branch forces final branch readback]
+\label{thm:sum-ledger-chain-raw-branch-forces-final-readback}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,z,l,r:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ holds, then raw visible
+branch evidence forces the matching final visible branch. The left clause is
+$$
+\begin{array}{l}
+Left(l)\to \hsame(\rho,\Ezero(l))\to
+\exists l':\mathsf{BHist}.\; Left(l')\land\hsame(z,\Ezero(l'))\land
+\hsame(l,l')\land
+\neg(\exists r':\mathsf{BHist}.\; Right(r')\land\hsame(z,\Eone(r')))
+\end{array}
+$$
+and the right clause is
+$$
+\begin{array}{l}
+Right(r)\to \hsame(\rho,\Eone(r))\to
+\exists r':\mathsf{BHist}.\; Right(r')\land\hsame(z,\Eone(r'))\land
+\hsame(r,r')\land
+\neg(\exists l':\mathsf{BHist}.\; Left(l')\land\hsame(z,\Ezero(l'))).
+\end{array}
+$$
+The ten-field fit is: traditional target disjoint-sum finite ledger branch
+forcing; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier final
+$\mathsf{SumHistoryCarrier}$; classifier supplied by the chain classifier
+composition theorem; ledger $\mathsf{SumHistoryLedgerChain}_{Left,Right}$; core
+theorem this raw-branch forcing readback; exactness same-tag payload determinacy
+plus mixed-tag exclusion; standard bridge tagged sum finite ledger provenance;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-chain-visible-carrier} to the chain and then
+Theorem~\ref{thm:sum-history-carrier-single-valued-visible-readback} to the
+final carrier. This splits the endpoint $z$ into a left visible presentation
+with right-presentation exclusion, or a right visible presentation with
+left-presentation exclusion.
+
+For the left raw premise, keep the left final presentation from the split. The
+same-tag payload clause of
+Theorem~\ref{thm:sum-ledger-chain-endpoint-exactness}, applied to
+$\hsame(\rho,\Ezero(l))$ and the displayed $\hsame(z,\Ezero(l'))$, gives
+$\hsame(l,l')$; combine it with the source witness for $l'$ and the carried
+right-presentation exclusion.
+
+The right final presentation cannot occur under the left raw premise, because
+the mixed endpoint clause of
+Theorem~\ref{thm:sum-ledger-chain-endpoint-exactness} contradicts
+$\hsame(\rho,\Ezero(l))$ and $\hsame(z,\Eone(r'))$. The right raw premise is
+symmetric: the right final presentation supplies the witness and the
+left-presentation exclusion, while the mixed endpoint clause excludes any left
+final presentation.
+\end{proof}
+
 \begin{theorem}[Sum ledger preserves visible tag separation]
 \label{thm:sum-ledger-visible-tag-separation}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
