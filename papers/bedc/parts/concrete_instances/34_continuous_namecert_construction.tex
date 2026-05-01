@@ -29,6 +29,61 @@ composite modulus certificate.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_comp\_closed}
 
+\begin{theorem}[Continuous function carrier prefix closure]
+\label{thm:continuous-function-carrier-prefix-closed}
+For histories $p,source,map,target,modulus,cert$, a visible unary prefix
+preserves the full continuous-function carrier:
+
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(p)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\\
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,modulus,p\cdot cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the carrier into unary source, target, map, and modulus histories,
+together with the graph ledger $source\cdot map=target$ and the certificate
+ledger $target\cdot modulus=cert$.
+
+Unary append closure supplies the prefixed source and target histories
+$p\cdot source$ and $p\cdot target$. The map and modulus histories are kept
+unchanged, so their unary witnesses are reused directly.
+
+The graph ledger for the prefixed carrier follows by associativity:
+
+$$
+(p\cdot source)\cdot map
+=
+p\cdot(source\cdot map)
+=
+p\cdot target.
+$$
+
+The modulus-certificate ledger is transported in the same way:
+
+$$
+(p\cdot target)\cdot modulus
+=
+p\cdot(target\cdot modulus)
+=
+p\cdot cert.
+$$
+
+The ten-field certificate fit is the following. The traditional target is
+prefix-stable continuous graph evidence. The BEDC source is $BHist$ equipped
+with $\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and
+the classifier is $\mathsf{hsame}$. The stability obligation is prefix closure
+of the graph and modulus-certificate ledgers. The ledger consists of source,
+map, target, modulus, and certificate histories. The core theorem is this
+prefix closure, exactness is the displayed carrier witness, the standard bridge
+is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[ContinuousMap source specification]
