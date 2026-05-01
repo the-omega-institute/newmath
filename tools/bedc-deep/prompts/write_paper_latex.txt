@@ -33,7 +33,7 @@ Output requirements:
    `\msame`, `\Hist`, `\Ezero`, `\Eone`, `\Ext`, `\Cont`, `\psame`,
    `\TokIntro`, `\TokUnique`, `\hsame`, `\PBaseData` (where present).
    If you need a name not already defined, expand it inline using
-   `\mathsf{...}`, `\mathrm{...}`, or `\operatorname{...}`. NEVER write a
+   `\mathsf{{...}}`, `\mathrm{{...}}`, or `\operatorname{{...}}`. NEVER write a
    bare `\PsameBase`, `\NewMacro`, or any backslash-name that is not in
    the preamble — the appended block will fail pdflatex.
 
@@ -44,14 +44,14 @@ Output requirements:
    than the brief `Insertion target:` and a one-paragraph plain summary
    will be treated as a hygiene violation.
 
-8. **Hard rule: do not redeclare any `\label{...}` that already exists
+8. **Hard rule: do not redeclare any `\label{{...}}` that already exists
    anywhere under `papers/bedc/parts/`.** Common existing labels include
    `thm:psame-base-inversion`, `lem:psame-base-inversion`,
    `def:psame-base-data`, `thm:base-package-reflection`,
    `thm:gap-coverage-globalize`, `thm:gap-coverage-policy`,
    `thm:gap-separation-globalize`, `thm:gap-separation-policy`,
    `lem:eone-congruence`, `def:eone-congruence-obligation`. The full set
-   is available via grep `\\label{` over the parts/ tree.
+   is available via grep `\\label{{` over the parts/ tree.
 
    If your canonical statement is the same theorem the paper already has
    under one of those labels, do NOT emit a duplicate LaTeX block. Instead
