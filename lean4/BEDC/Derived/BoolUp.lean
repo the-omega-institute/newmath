@@ -184,6 +184,33 @@ theorem BoolEndpoint_readback_determinism {v w : BEDC.FKernel.Mark.BMark}
       (BEDC.FKernel.Hist.hsame_symm readV)
       readW)
 
+theorem BoolEndpoint_readback_total_unique {h : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryCarrier h →
+      ∃ v : BEDC.FKernel.Mark.BMark,
+        BEDC.FKernel.Hist.hsame h (BoolEndpoint v) ∧
+          BoolSourceSpec v ∧
+            ∀ w : BEDC.FKernel.Mark.BMark,
+              BEDC.FKernel.Hist.hsame h (BoolEndpoint w) →
+                BEDC.FKernel.Mark.msame v w := by
+  intro carrier
+  cases (BoolHistoryCarrier_endpoint_coverage (h := h)).mp carrier with
+  | intro v sameEndpoint =>
+      exact Exists.intro v
+        (And.intro sameEndpoint
+          (And.intro
+            (by
+              cases v with
+              | b0 =>
+                  exact Or.inl
+                    (BEDC.FKernel.Mark.msame_refl BEDC.FKernel.Mark.BMark.b0)
+              | b1 =>
+                  exact Or.inr
+                    (BEDC.FKernel.Mark.msame_refl BEDC.FKernel.Mark.BMark.b1))
+            (by
+              intro w sameOther
+              exact BoolEndpoint_readback_determinism (v := v) (w := w)
+                (h := h) sameEndpoint sameOther)))
+
 theorem BoolHistoryCarrier_e0_absurd {h : BEDC.FKernel.Hist.BHist} :
     BoolHistoryCarrier (BEDC.FKernel.Hist.BHist.e0 h) -> False := by
   intro carrier

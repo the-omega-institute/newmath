@@ -147,6 +147,21 @@ theorem OptionHistoryClassifier_empty_left_iff {source : BHist -> Prop} {k : BHi
       · exact Or.inl same
       · exact hsame_symm same
 
+theorem OptionHistoryClassifier_absent_source_separation {source : BHist → Prop}
+    (sourceExcludesEmpty : OptionSourceExcludesEmpty source) {h : BHist} :
+    source h →
+      (OptionHistoryClassifier source h BHist.Empty → False) ∧
+        (OptionHistoryClassifier source BHist.Empty h → False) := by
+  intro sourceH
+  constructor
+  · intro classifier
+    exact sourceExcludesEmpty h sourceH
+      ((OptionHistoryClassifier_empty_left_iff (source := source) (k := h)).mp
+        (OptionHistoryClassifier_symm classifier))
+  · intro classifier
+    exact sourceExcludesEmpty h sourceH
+      ((OptionHistoryClassifier_empty_left_iff (source := source) (k := h)).mp classifier)
+
 theorem OptionHistoryCarrier_exclusive_readback {source : BHist -> Prop}
     (sourceExcludesEmpty : OptionSourceExcludesEmpty source) {h : BHist} :
     OptionHistoryCarrier source h ->

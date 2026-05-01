@@ -56,4 +56,19 @@ theorem SumHistoryLedgerPolicy_hsame_transport {Left Right : BHist -> Prop}
       exact And.intro (SumHistoryCarrier_hsame_transport sameRaw rawCarrier)
         (hsame_trans (hsame_symm sameRaw) (hsame_trans sameRawVisible sameVisible))
 
+theorem SumHistoryLedgerPolicy_visible_tag_separation {Left Right : BHist → Prop}
+    {raw visible l r : BHist} :
+    SumHistoryLedgerPolicy Left Right raw visible →
+      ((hsame raw (BHist.e0 l) ∧ hsame visible (BHist.e1 r)) → False) ∧
+        ((hsame raw (BHist.e1 r) ∧ hsame visible (BHist.e0 l)) → False) := by
+  intro ledger
+  have classifier : SumHistoryClassifier Left Right hsame hsame raw visible :=
+    SumHistoryLedgerPolicy_raw_visible_classifier ledger
+  constructor
+  · intro mixed
+    exact SumHistoryClassifier_mixed_tags_absurd mixed.left mixed.right classifier
+  · intro mixed
+    exact SumHistoryClassifier_mixed_tags_absurd mixed.right mixed.left
+      (SumHistoryClassifier_hsame_symm classifier)
+
 end BEDC.Derived.SumUp
