@@ -725,3 +725,74 @@ direction of Theorem~\ref{thm:list-spine-representation-coverage} to these
 representation witnesses recovers
 $\mathsf{ListHistoryCarrier}_A(h)$ and $\mathsf{ListHistoryCarrier}_A(k)$.
 \end{proof}
+
+\begin{theorem}[List public-object constructor audit]
+\label{thm:list-public-object-constructor-audit}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. Assume
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. The ten-field fit is:
+traditional target finite-list public constructor audit; BEDC source
+$\mathsf{BHist}$ with $\ContR$; carrier $\mathsf{ListHistoryCarrier}_A$;
+classifier $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability from
+the source $\NameCert(A,\sim_A)$ and cons-boundary coherence; ledger finite-spine
+endpoint witnesses; core theorem this constructor audit package; exactness nil/cons
+constructor equivalence; standard bridge finite spines; status
+$\mathsf{ProofTarget}$. The semantic public-object certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,
+\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A})
+$$
+holds. Moreover, for all histories $h,k:\mathsf{BHist}$, every
+certificate-classifier witness exposes endpoint spine ledgers:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)
+\to
+\left(
+\begin{array}{l}
+(\exists xs:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(h,xs))\\
+\land\\
+(\exists ys:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(k,ys))
+\end{array}
+\right).
+$$
+The same classifier is exactly the nil-nil or cons-cons constructor
+disjunction:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)
+\Longleftrightarrow
+\begin{array}{l}
+(\hsame(h,\emp)\land \hsame(k,\emp))\\
+\lor\\
+\exists a\,b\,t\,u\,p\,q:\mathsf{BHist}.\;
+\left(
+\begin{array}{l}
+A(a)\land A(b)\land
+\mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListHistoryCarrier}_A(u)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+\sim_A(a,b)\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,u)
+\end{array}
+\right).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:list-public-object-endpoint-spine-ledgers} to the source
+certificate and the cons-boundary coherence witness. This gives the displayed
+semantic certificate and, for each classifier witness, the two finite-spine
+endpoint ledgers.
+
+Next apply
+Theorem~\ref{thm:list-public-classifier-constructor-exactness} with source
+classifier $\sim_A$. Its statement is exactly the displayed nil-nil or cons-cons
+constructor equivalence for arbitrary histories $h$ and $k$.
+
+Combining these two outputs gives the public-object certificate, its endpoint
+ledger witnesses, and the constructor-level classifier audit as one package.
+\end{proof}
