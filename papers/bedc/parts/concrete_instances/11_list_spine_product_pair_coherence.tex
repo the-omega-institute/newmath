@@ -141,6 +141,44 @@ $$
 $$
 \end{definition}
 
+\begin{theorem}[Framed list endpoint no-confusion and cons inversion]
+\label{thm:framed-list-endpoint-no-confusion-cons-inversion}
+The ten-field fit is: traditional target finite-list endpoint readback; BEDC
+source $\mathsf{BHist}$ with $\hsame$; carrier framed finite spines; classifier
+endpoint $\hsame$; stability obligations nil/cons separation and cons inversion;
+ledger constructor frame; core theorem this block; exactness framed endpoint
+exposes list shape; standard bridge finite spines; status
+$\mathsf{ProofTarget}$. For all histories $a,b:\mathsf{BHist}$ and finite
+spines $xs,ys$,
+$$
+\neg\hsame(\mathsf{FramedListEndpoint}(\mathsf{nil}),
+\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs))),
+$$
+$$
+\neg\hsame(\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs)),
+\mathsf{FramedListEndpoint}(\mathsf{nil})),
+$$
+and
+$$
+\hsame(\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs)),
+\mathsf{FramedListEndpoint}(\mathsf{cons}(b,ys)))
+$$
+implies both $\hsame(a,b)$ and
+$\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))$.
+\end{theorem}
+\begin{proof}
+The nil endpoint has outer constructor $\Ezero$, while every cons endpoint has
+outer constructor $\Eone$, so the two mixed cases contradict BEDC history
+no-confusion in the $\Ezero/\Eone$ and $\Eone/\Ezero$ directions. For the
+cons-cons clause, invert the outer $\Eone$ equality and obtain equality of the
+two displayed pair frames. Lemma~\ref{lem:list-pair-frame-injectivity} applies:
+its proof is an induction on the first frame argument, with constructor
+no-confusion separating the empty and tagged nonempty cases and with recursive
+inversion exposing the first and second frame arguments. The two projections of
+that lemma give $\hsame(a,b)$ and
+$\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))$.
+\end{proof}
+
 \begin{definition}[Framed list-spine representation]
 \label{def:framed-list-spine-representation}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. Define
@@ -227,17 +265,21 @@ representation of the target history. Since the pattern and ledger predicates
 are the carrier itself, their soundness fields are identity implications.
 \end{proof}
 
-The per-object fit is: traditional target finite lists; BEDC source $A$ with
-$\NameCert(A,\sim_A)$; carrier $\mathsf{ListHistoryCarrier}_A$; classifier
-$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability supplied by the
-source certificate and cons-boundary coherence; ledger
-$\mathsf{ListHistoryLedger}_A$; core theorem list
-Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence},
-Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence}, and
-Theorem~\ref{thm:concrete-list-namecert}; exactness via the spine bridge;
-standard bridge finite spines; status paper certificate target under
-cons-boundary coherence, with the separate framed carrier certificate recorded
-by Corollary~\ref{cor:framed-list-public-object-paper-certificate}.
+The framed per-object fit in
+Corollary~\ref{cor:framed-list-public-object-paper-certificate} is:
+traditional target finite lists; BEDC source $A$ with $\NameCert(A,\sim_A)$ and
+$\mathsf{ListSourceHsameCompatible}(A,\sim_A)$; carrier
+$\mathsf{FramedListHistoryCarrier}_A$; classifier
+$\mathsf{FramedListBridgeClassifier}_{A,\sim_A}$; pattern and ledger both
+$\mathsf{FramedListHistoryCarrier}_A$; stability supplied by the source
+certificate and source $\hsame$ compatibility; ledger constructor framed
+endpoint readback; core certificate the displayed framed semantic certificate;
+exactness by framed endpoint readback; standard bridge finite spines; status
+$\mathsf{ProofTarget}$. The unframed
+$\mathsf{ListHistoryCarrier}_A$ and
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$ scope is the separate target of
+Theorem~\ref{thm:list-public-object-certificate-from-cons-boundary-coherence}
+and Theorem~\ref{thm:concrete-list-namecert}.
 
 \begin{theorem}[List spine bridge endpoint exposure and symmetry]
 \label{thm:list-spine-bridge-endpoint-exposure-symmetry}
