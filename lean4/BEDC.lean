@@ -70,6 +70,7 @@ import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.GroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
+import BEDC.Derived.CommRingUp
 import BEDC.Derived.FieldUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.IntervalUp

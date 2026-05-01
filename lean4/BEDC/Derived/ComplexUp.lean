@@ -84,6 +84,18 @@ theorem ComplexHistoryLedgerPolicy_classifier_extension {raw visible t : BHist} 
               exact And.intro rawCarrier
                 (And.intro targetCarrier (hsame_trans sameRawVisible sameVisibleTarget))
 
+theorem ComplexHistoryCarrier_unary {h : BHist} :
+    ComplexHistoryCarrier h -> BEDC.FKernel.Unary.UnaryHistory h := by
+  intro carrier
+  exact BEDC.Derived.ProdUp.ProdHistoryCarrier_unary_of_components
+    (fun {d : BHist} ratCarrier =>
+      (BEDC.Derived.RatUp.PositiveUnaryDenominator_unary_and_nonempty
+        (BEDC.Derived.RatUp.RatHistoryCarrier_iff_positive_denominator.mp ratCarrier)).left)
+    (fun {d : BHist} ratCarrier =>
+      (BEDC.Derived.RatUp.PositiveUnaryDenominator_unary_and_nonempty
+        (BEDC.Derived.RatUp.RatHistoryCarrier_iff_positive_denominator.mp ratCarrier)).left)
+    carrier
+
 theorem complex_history_semantic_name_certificate :
     SemanticNameCert ComplexHistoryCarrier ComplexHistoryCarrier ComplexHistoryCarrier
       ComplexHistoryClassifier := by

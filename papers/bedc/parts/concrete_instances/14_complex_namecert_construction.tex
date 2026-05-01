@@ -19,6 +19,18 @@ components.
 \end{definition}
 \leandef{BEDC.Derived.ComplexUp.ComplexHistoryCarrier}
 
+\begin{theorem}[Complex history carrier is unary]
+\label{thm:complex-history-carrier-unary}
+Every complex history carrier is a unary BEDC history.
+\end{theorem}
+\begin{proof}
+Unpack the complex carrier as a product of two rational-history carriers and a
+continuation witness. Each rational component gives a positive unary
+denominator, hence a unary history. Unary histories are closed under the stored
+continuation, so the complex carrier endpoint is unary.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_unary}
+
 \section{The certificate}
 
 \begin{definition}[Complex source specification]
