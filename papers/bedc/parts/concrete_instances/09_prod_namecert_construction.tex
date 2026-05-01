@@ -668,34 +668,4 @@ Invert the componentwise product classifier. Each component witness reverses by 
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdClassifierSpec\_hsame\_symm}
 
-\input{parts/concrete_instances/09_prod_ledger_policy}
-
-\begin{theorem}[Concrete product history-envelope semantic certificate]
-\label{thm:concrete-prod-namecert}
-For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$, assume
-$\exists l:\mathsf{BHist}.\;L(l)$ and $\exists r:\mathsf{BHist}.\;R(r)$. Then
-$$
-\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),\mathsf{ProdHistoryCarrier}(L,R),\mathsf{ProdHistoryCarrier}(L,R),\mathsf{ProdHistoryClassifier}(L,R))
-$$
-holds. This is the checked ordered-product history-envelope certificate; source
-certificates supply the two inhabited-carrier hypotheses through their fields.
-\end{theorem}
-\begin{proof}
-Choose the left and right carrier witnesses first. BEDC continuation joins them
-into a product history. The history-envelope classifier stores the two endpoint
-carrier witnesses and an $\hsame$ witness between product histories, so the
-certificate fields follow by $\hsame$ reflexivity, symmetry, transitivity, and
-carrier transport. When source certificates are present, their carrier-inhabited
-fields provide the same witnesses.
-\end{proof}
-\leanchecked{BEDC.Derived.ProdUp.prod\_history\_semantic\_name\_certificate}
-
-\begin{corollary}[Product history envelope is licensed, not primitive]
-\label{cor:prod-history-envelope-licensed-not-primitive}
-The checked theorem licenses only $\mathsf{ProdHistoryCarrier}$ with
-$\mathsf{ProdHistoryClassifier}$ under explicit left and right carrier
-witnesses. The public ordered-product certificate uses the history-level
-$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ induced by
-$\mathsf{ProdPairRep}$ and source classifiers, together with displayed
-component exposure, $\hsame$-sound descent, and ledger fields from this chapter.
-\end{corollary}
+\input{parts/concrete_instances/09_prod_ledger_and_semantic_certificate.tex}
