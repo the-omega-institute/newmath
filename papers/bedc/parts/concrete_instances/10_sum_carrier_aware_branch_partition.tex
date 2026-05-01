@@ -181,6 +181,46 @@ branch presentations; they are not needed by the constructor inversion itself.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_visible\_payload\_determinism}
 
+\begin{theorem}[Sum carrier single-valued visible branch readback]
+\label{thm:sum-history-carrier-single-valued-visible-readback}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$h:\mathsf{BHist}$. If $\mathsf{SumHistoryCarrier}(Left,Right,h)$ holds, then
+the visible tagged payload presentation of $h$ is single-valued:
+$$
+\begin{array}{l}
+\exists l.\; Left(l)\land \hsame(h,\Ezero(l))\land
+(\forall l'.\; Left(l')\to \hsame(h,\Ezero(l'))\to \hsame(l,l'))\land
+\neg(\exists r.\; Right(r)\land \hsame(h,\Eone(r)))
+\end{array}
+$$
+or
+$$
+\begin{array}{l}
+\exists r.\; Right(r)\land \hsame(h,\Eone(r))\land
+(\forall r'.\; Right(r')\to \hsame(h,\Eone(r'))\to \hsame(r,r'))\land
+\neg(\exists l.\; Left(l)\land \hsame(h,\Ezero(l))).
+\end{array}
+$$
+In the ten-field fit, the traditional target is tagged disjoint-sum readback;
+the BEDC source is $\mathsf{BHist}$; the carrier is
+$\mathsf{SumHistoryCarrier}$; the classifier is $\hsame$ on same-tag visible
+payloads; stability is constructor inversion plus branch exclusion; the ledger
+stores the visible tag and payload source evidence; the core theorem is this
+single-valued readback; exactness is existence, uniqueness, and opposite-tag
+exclusion; the standard bridge is $\mathsf{inl}$ and $\mathsf{inr}$; and the
+status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sum-history-carrier-exclusive-visible-branch-partition} to
+the carrier witness. In the left branch, unpack $l$, $Left(l)$, the endpoint
+link $\hsame(h,\Ezero(l))$, and the exclusion of right visible presentations.
+For an arbitrary left visible payload $l'$, apply
+\autoref{thm:sum-visible-branch-payload-determinism} to the two left endpoint
+links and the two source-carrier witnesses to obtain $\hsame(l,l')$. The right
+branch is symmetric, using the right payload clause and carrying the exclusion
+of left visible presentations unchanged.
+\end{proof}
+
 \begin{theorem}[Sum history classifier carrier-aware branch partition]
 \label{thm:sum-history-classifier-carrier-aware-branch-partition}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
