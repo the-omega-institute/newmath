@@ -74,11 +74,13 @@ $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
 classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
 $\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
 $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the componentwise
-classifier forms the semantic naming certificate
+classifier forms the semantic naming certificate with displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$:
 $$
 \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
 \mathsf{ProdHistoryCarrier}(L,R),
-\mathsf{ProdHistoryCarrier}(L,R),
+D,
 \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
 $$
 \end{theorem}
@@ -89,7 +91,11 @@ symmetry, source-certified transitivity, and classifier-induced carrier
 transport for
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ over
 $\mathsf{ProdHistoryCarrier}(L,R)$. Package these five fields as the core
-$\NameCert$ certificate. The semantic pattern carrier and ledger carrier are
-both $\mathsf{ProdHistoryCarrier}(L,R)$, so the
-$\mathsf{pattern\_sound}$ and $\mathsf{ledger\_sound}$ maps are identities.
+$\NameCert$ certificate. Carrier transport is still the right-endpoint
+transport supplied by the classifier witness and pair-representation coverage.
+The semantic pattern carrier is $\mathsf{ProdHistoryCarrier}(L,R)$, so
+$\mathsf{pattern\_sound}$ is identity on the carrier. Ledger soundness is the
+forward direction of Theorem~\ref{thm:prod-pair-rep-coverage}: every product
+history carrier witness exposes component histories $l,r$ and hence a displayed
+pair ledger witness $D(h)$.
 \end{proof}
