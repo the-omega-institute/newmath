@@ -297,4 +297,26 @@ theorem SumHistoryLedgerPolicy_two_step_branch_exactness {Left Right : BHist -> 
                                             (And.intro sameRhoRight
                                               (And.intro sameWRight samePayload))))))
 
+theorem SumHistoryLedgerPolicy_visible_payload_readback {Left Right : BHist -> Prop}
+    {raw visible l r : BHist} :
+    SumHistoryLedgerPolicy Left Right raw visible ->
+      (hsame visible (BHist.e0 l) -> ∃ a : BHist, Left a ∧ hsame l a) ∧
+        (hsame visible (BHist.e1 r) -> ∃ b : BHist, Right b ∧ hsame r b) := by
+  intro ledger
+  have visibleCarrier : SumHistoryCarrier Left Right visible :=
+    SumHistoryLedgerPolicy_visible_carrier ledger
+  constructor
+  · intro sameVisible
+    have carrierAt : SumHistoryCarrier Left Right (BHist.e0 l) :=
+      SumHistoryCarrier_hsame_transport sameVisible visibleCarrier
+    cases SumHistoryCarrier_e0_inversion carrierAt with
+    | intro a data =>
+        exact Exists.intro a (And.intro data.right data.left)
+  · intro sameVisible
+    have carrierAt : SumHistoryCarrier Left Right (BHist.e1 r) :=
+      SumHistoryCarrier_hsame_transport sameVisible visibleCarrier
+    cases SumHistoryCarrier_e1_inversion carrierAt with
+    | intro b data =>
+        exact Exists.intro b (And.intro data.right data.left)
+
 end BEDC.Derived.SumUp

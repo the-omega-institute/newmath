@@ -197,6 +197,21 @@ theorem group_right_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
           (hsame_trans (assocC c a (inv a))
             (hsame_trans (mulCongr (hsame_refl c) (rightInv a)) (rightId c))))))
 
+theorem group_two_sided_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x, hsame (mul e x) x)
+    (rightId : forall x, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x, hsame (mul (inv x) x) e)
+    (rightInv : forall x, hsame (mul x (inv x)) e) {a b c d : BHist} :
+    hsame (mul (mul a b) c) (mul (mul a d) c) -> hsame b d := by
+  intro sameProducts
+  have sameLeftProducts : hsame (mul a b) (mul a d) :=
+    group_right_cancel assocC rightId mulCongr rightInv sameProducts
+  exact group_left_cancel assocC leftId mulCongr leftInv sameLeftProducts
+
 theorem group_left_right_inverse_unique {mul : BHist → BHist → BHist} {e : BHist}
     (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
     (leftId : ∀ x, hsame (mul e x) x)
