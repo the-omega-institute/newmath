@@ -15,7 +15,7 @@ The boolean interface \(\BoolUp\) is licensed by raw mark sameness on the two-el
   \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, Theorem~\ref{thm:bool-endpoint-bridge-exactness}, Theorem~\ref{thm:bool-history-carrier-endpoint-coverage}, endpoint readback determinism, Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness}, Theorem~\ref{thm:bool-history-classifier-endpoint-readback}, and the history core $\NameCert$.
   \item \textbf{Exactness predicate}: the mark source has exactly the $\bzero$ and $\bone$ branches licensed by $\msame$, while the checked history certificate has exactly the $\emp$ and $\Eone(\emp)$ endpoints licensed by $\hsame$.
   \item \textbf{Standard bridge}: false and true are read through the two displayed marks $\bzero,\bone$ together with their displayed history endpoints $\emp,\Eone(\emp)$; endpoint coverage and classifier completeness are functional up to $\msame$.
-  \item \textbf{Status}: the core history $\NameCert$ is $\mathsf{CheckedCert}$ via the $BEDC.Derived.BoolUp$ Lean target $\mathsf{bool\_history\_name\_certificate}$. The generic carrier-as-pattern semantic certificate is the paper theorem in Theorem~\ref{thm:carrier-as-pattern-semantic-namecert}; the Lean theorem $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$ only records the five core $\NameCert$ fields. The Bool-specific canonical public-object theorem under $BEDC.Derived.BoolUp$ is not present; Theorem~\ref{thm:bool-semantic-namecert-target} remains $\mathsf{ProofTarget}$ for that public-object scope.
+  \item \textbf{Status}: the core history $\NameCert$ is $\mathsf{CheckedCert}$ via the $BEDC.Derived.BoolUp$ Lean target $\mathsf{bool\_history\_name\_certificate}$. The generic carrier-as-pattern semantic certificate is the paper theorem in Theorem~\ref{thm:carrier-as-pattern-semantic-namecert}; the Lean theorem $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$ only records the five core $\NameCert$ fields. Theorem~\ref{thm:bool-semantic-namecert-target} is the Bool public-object paper certificate obtained from that checked core and the identity pattern and ledger fields; the Bool-specific canonical public-object theorem under $BEDC.Derived.BoolUp$ is not present in Lean.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -609,23 +609,26 @@ $$
 \Rightarrow
 \mathsf{BoolHistoryCarrier}(h).
 $$
-This displayed object is a paper-side $\mathsf{ProofTarget}$ for the
-Bool-specific public-object scope and carries no checked Lean marker. The
-generic carrier-as-pattern semantic construction is Theorem~\ref{thm:carrier-as-pattern-semantic-namecert}.
+This displayed object is the Bool-specific public-object paper certificate and
+carries no checked Lean marker. It is the instance of the generic
+carrier-as-pattern semantic construction in
+Theorem~\ref{thm:carrier-as-pattern-semantic-namecert}.
 The checked Lean theorem $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$
 only records the five core $\NameCert$ fields, while the canonical
 $BEDC.Derived.BoolUp$ public-object theorem for this Bool certificate is not
 present.
 \end{theorem}
 \begin{proof}
-The Lean-checked component is
-$\mathsf{bool\_history\_name\_certificate}$, which proves the history
-$\NameCert$ for $\mathsf{BoolHistoryCarrier}$ and
-$\mathsf{BoolHistoryClassifier}$. This supplies the $\mathsf{core}$ field of
-the displayed $\mathsf{SemanticNameCert}$. Since the source, pattern, and
-ledger predicates are all $\mathsf{BoolHistoryCarrier}$, both
-$\mathsf{pattern\_sound}$ and $\mathsf{ledger\_sound}$ are the identity
-implication on the same history carrier predicate.
+Invoke Theorem~\ref{thm:carrier-as-pattern-semantic-namecert} with
+$C=\mathsf{BoolHistoryCarrier}$,
+$E=\mathsf{BoolHistoryClassifier}$, and
+$\mathsf{cert}=\mathsf{bool\_history\_name\_certificate}$. The supplied
+certificate is the Lean-checked history $\NameCert$ for
+$\mathsf{BoolHistoryCarrier}$ and $\mathsf{BoolHistoryClassifier}$, so it
+provides the $\mathsf{core}$ field. Since the source, pattern, and ledger
+predicates are all $\mathsf{BoolHistoryCarrier}$, the generic theorem supplies
+both $\mathsf{pattern\_sound}$ and $\mathsf{ledger\_sound}$ as the identity
+implication on that history carrier predicate.
 \end{proof}
 
 The endpoint coverage, endpoint bridge classifier completeness, and endpoint
@@ -639,9 +642,9 @@ Theorem~\ref{thm:concrete-bool-namecert} cites only the checked core history
 $\NameCert$ for $\mathsf{BoolHistoryCarrier}$ and
 $\mathsf{BoolHistoryClassifier}$, namely the $BEDC.Derived.BoolUp$ Lean target
 $\mathsf{bool\_history\_name\_certificate}$. It does not assert the public-object
-$\mathsf{SemanticNameCert}$. The public-object certificate scope remains the
-$\mathsf{ProofTarget}$ in Theorem~\ref{thm:bool-semantic-namecert-target}, where
-the same checked core $\NameCert$ is paired with the carrier-as-pattern fields.
+$\mathsf{SemanticNameCert}$. The public-object certificate scope is the paper
+certificate in Theorem~\ref{thm:bool-semantic-namecert-target}, where the same
+checked core $\NameCert$ is paired with the carrier-as-pattern fields.
 Thus the core certificate, the mark-level ledger definition, and the
 paper-side carrier-as-ledger semantic target occupy separate roles. In both
 cases $\BoolUp$ is derived from mark and history sameness, and is not

@@ -58,6 +58,130 @@ implication is precisely
 Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence}.
 \end{proof}
 
+\begin{definition}[List source hsame compatibility]
+\label{def:list-source-hsame-compatible}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. Define
+$\mathsf{ListSourceHsameCompatible}(A,\sim_A)$ as source-carrier completeness for
+$\hsame$:
+$$
+\forall a\,b.\;
+A(a)\to A(b)\to \hsame(a,b)\to a\sim_A b.
+$$
+\end{definition}
+
+\begin{definition}[Pair frame]
+\label{def:list-pair-frame}
+For histories $u,t:\mathsf{BHist}$, define $\mathsf{PairFrame}(u,t)$ by
+structural recursion on the first BEDC history:
+$$
+\begin{array}{rcl}
+\mathsf{PairFrame}(\emp,t) &=& \Ezero(t),\\
+\mathsf{PairFrame}(\Ezero(a),t) &=& \Eone(\Ezero(\mathsf{PairFrame}(a,t))),\\
+\mathsf{PairFrame}(\Eone(a),t) &=& \Eone(\Eone(\mathsf{PairFrame}(a,t))).
+\end{array}
+$$
+The outer $\Eone$ marks a nonempty first component, while the inner
+$\Ezero/\Eone$ tag records the constructor of that first component.
+\end{definition}
+
+\begin{definition}[Framed list endpoint]
+\label{def:framed-list-endpoint}
+For finite BEDC-history spines, define the framed endpoint by recursion on the
+spine:
+$$
+\begin{array}{rcl}
+\mathsf{FramedListEndpoint}(\mathsf{nil}) &=& \Ezero(\emp),\\
+\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs)) &=&
+\Eone(\mathsf{PairFrame}(a,\mathsf{FramedListEndpoint}(xs))).
+\end{array}
+$$
+\end{definition}
+
+\begin{definition}[Framed list-spine representation]
+\label{def:framed-list-spine-representation}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. Define
+$\mathsf{FramedListSpineRep}_A(h,xs)$ to mean that every entry of the finite
+spine $xs$ satisfies $A$ and that
+$$
+\hsame(h,\mathsf{FramedListEndpoint}(xs)).
+$$
+\end{definition}
+
+\begin{theorem}[Framed list-spine coherence]
+\label{thm:framed-list-spine-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. If
+$\mathsf{ListSourceHsameCompatible}(A,\sim_A)$ holds, then any two framed
+presentations of the same history classify their finite spines:
+$$
+\forall h\,xs\,ys.\;
+\mathsf{FramedListSpineRep}_A(h,xs)\to
+\mathsf{FramedListSpineRep}_A(h,ys)\to
+\mathsf{ListClassifierSpec}(\sim_A,xs,ys).
+$$
+\end{theorem}
+\begin{proof}
+First prove injectivity of $\mathsf{PairFrame}$ by induction on the first
+history argument, using BEDC constructor no-confusion for the $\emp$,
+$\Ezero$, and $\Eone$ cases. The framed list endpoint separates nil and cons by
+the outer $\Ezero/\Eone$ tag, so mixed nil/cons presentations contradict BEDC
+history no-confusion. In the nil-nil case the finite-spine classifier is the nil
+constructor. In the cons-cons case, injectivity of the outer $\Eone$ endpoint
+and then injectivity of $\mathsf{PairFrame}$ expose $\hsame$ between the two
+heads and $\hsame$ between the framed tails. The representation hypotheses give
+$A$ for both heads, so $\mathsf{ListSourceHsameCompatible}(A,\sim_A)$ supplies
+the head classifier. Apply the induction hypothesis to the two framed tail
+presentations, and combine the head classifier with the tail classifier by the
+cons constructor of $\mathsf{ListClassifierSpec}$.
+\end{proof}
+
+\begin{corollary}[Framed ListUp public-object paper certificate]
+\label{cor:framed-list-public-object-paper-certificate}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. Assume
+$\mathsf{ListSourceHsameCompatible}(A,\sim_A)$. Define the framed carrier by
+$$
+\mathsf{FramedListHistoryCarrier}_A(h)
+\quad\Longleftrightarrow\quad
+\exists xs:\mathsf{HistSpine}.\;\mathsf{FramedListSpineRep}_A(h,xs),
+$$
+and define the framed bridge classifier by
+$$
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)
+\quad\Longleftrightarrow\quad
+\exists xs\,ys.\;
+\mathsf{FramedListSpineRep}_A(h,xs)\land
+\mathsf{FramedListSpineRep}_A(k,ys)\land
+\mathsf{ListClassifierSpec}(\sim_A,xs,ys).
+$$
+With pattern and ledger predicates both given by
+$\mathsf{FramedListHistoryCarrier}_A$, these fields form the paper certificate
+target
+$$
+\mathsf{SemanticNameCert}(\mathsf{FramedListHistoryCarrier}_A,
+\mathsf{FramedListHistoryCarrier}_A,
+\mathsf{FramedListHistoryCarrier}_A,
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}).
+$$
+\end{corollary}
+\begin{proof}
+The source certificate supplies the entrywise reflexivity, symmetry,
+transitivity, and carrier transport facts for $\sim_A$. The framed endpoint
+definition supplies a separated finite-spine readback, and
+Theorem~\ref{thm:framed-list-spine-coherence} supplies the comparison datum for
+two presentations of the same history. Reflexivity chooses the displayed spine
+for a framed carrier witness and classifies it entry by entry using
+$\mathsf{cert}$. Symmetry and transitivity unpack the two existential framed
+bridge witnesses and apply the structural finite-spine symmetry and
+transitivity theorems for $\mathsf{ListClassifierSpec}$; at the shared middle
+history, framed coherence identifies the two exposed middle spines. Carrier
+transport follows because a framed bridge witness contains a framed
+representation of the target history. Since the pattern and ledger predicates
+are the carrier itself, their soundness fields are identity implications.
+\end{proof}
+
 The per-object fit is: traditional target finite lists; BEDC source $A$ with
 $\NameCert(A,\sim_A)$; carrier $\mathsf{ListHistoryCarrier}_A$; classifier
 $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability supplied by the
@@ -66,7 +190,9 @@ $\mathsf{ListHistoryLedger}_A$; core theorem list
 Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence},
 Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence}, and
 Theorem~\ref{thm:concrete-list-namecert}; exactness via the spine bridge;
-standard bridge finite spines; status $\mathsf{ProofTarget}$.
+standard bridge finite spines; status paper certificate target under either
+cons-boundary coherence or the framed route of
+Corollary~\ref{cor:framed-list-public-object-paper-certificate}.
 
 \begin{theorem}[List spine bridge endpoint exposure and symmetry]
 \label{thm:list-spine-bridge-endpoint-exposure-symmetry}
