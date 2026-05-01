@@ -1,3 +1,50 @@
+\begin{theorem}[Product componentwise history classifier source equivalence]
+\label{thm:prod-component-history-classifier-source-equivalence}
+The ten-field roadmap fit is: traditional ordered-product classifier
+invariance under equivalent source presentations; BEDC source $\mathsf{BHist}$
+with $\Cont$; carrier $\mathsf{ProdPairRep}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$; stability under equivalent carrier
+and classifier presentations; ledger displayed pair representations; exactness
+as a two-way classifier equivalence; standard bridge ordered-pair readback;
+status $\mathsf{ProofTarget}$.
+
+For carriers $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$ and classifiers
+$\sim_L,\sim_R,\sim'_L,\sim'_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+suppose
+$$
+\forall u.\;L(u)\leftrightarrow L'(u),
+$$
+$$
+\forall u.\;R(u)\leftrightarrow R'(u),
+$$
+$$
+\forall x\,y.\;x\sim_L y\leftrightarrow x\sim'_L y,
+$$
+and
+$$
+\forall x\,y.\;x\sim_R y\leftrightarrow x\sim'_R y.
+$$
+Then for all histories $h,k:\mathsf{BHist}$,
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+\leftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L',R',\sim'_L,\sim'_R}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-component-history-classifier-source-refinement}
+from left to right using the forward halves of the four equivalence hypotheses:
+the left and right carrier equivalences provide the two carrier inclusions, and
+the two classifier equivalences provide the classifier inclusions. This yields
+the implication from
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ to
+$\mathsf{ProdComponentHistoryClassifier}_{L',R',\sim'_L,\sim'_R}(h,k)$.
+Apply the same source-refinement theorem in the reverse presentation, using the
+reverse halves of the four equivalence hypotheses, to obtain the converse
+implication. Pairing these two implications gives the displayed classifier
+equivalence for arbitrary histories $h$ and $k$.
+\end{proof}
+
 \begin{theorem}[Product pair-representation coherence under source restriction and classifier weakening]
 \label{thm:prod-pair-rep-coherence-under-classifier-weakening}
 The ten-field roadmap fit is: target displayed ordered-product coherence
