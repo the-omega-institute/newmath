@@ -104,4 +104,30 @@ theorem MetricDistanceWitness_prefix_closed {p x y dist : BHist} :
                     (And.intro (unary_append_closed prefixCarrier distCarrier)
                       (cont_intro (append_assoc p x y).symm)))
 
+theorem MetricDistanceWitness_semanticNameCert {x y : BHist} :
+    UnaryHistory x -> UnaryHistory y ->
+      BEDC.FKernel.NameCert.SemanticNameCert (MetricDistanceWitness x y)
+        (MetricDistanceWitness x y) (MetricDistanceWitness x y) hsame := by
+  intro xCarrier yCarrier
+  constructor
+  · constructor
+    · exact
+        Exists.intro (append x y)
+          (And.intro xCarrier
+            (And.intro yCarrier
+              (And.intro (unary_append_closed xCarrier yCarrier) (cont_intro rfl))))
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      cases same
+      exact carrier
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 end BEDC.Derived.MetricUp

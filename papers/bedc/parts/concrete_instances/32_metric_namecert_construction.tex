@@ -157,6 +157,22 @@ $q$ to append the visible target ledger and obtain
 $\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$.
 \end{proof}
 
+\begin{theorem}[Metric distance witness semantic name certificate]
+\label{thm:metric-distance-witness-semantic-namecert}
+For unary endpoint histories $x,y$, the concrete distance-witness predicate
+$d\mapsto\mathsf{MetricDistanceWitness}(x,y,d)$ carries a semantic naming
+certificate whose source, pattern, and ledger predicates are the same concrete
+witness predicate and whose classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The carrier witness is the concrete distance history $x\cdot y$. Unary append
+closure supplies its unary carrier witness, and the continuation field is the
+reflexive ledger $\ContR(x,y,x\cdot y)$. The classifier fields are the
+reflexive, symmetric, and transitive laws for $\hsame$. Carrier transport is
+history-sameness transport of the concrete distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_semanticNameCert}
+
 \begin{definition}[MetricSpace ledger policy]
 \label{def:metric-ledger-policy}
 Record carrier witnesses and the real ledger of each distance value.

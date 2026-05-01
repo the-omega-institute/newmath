@@ -166,4 +166,26 @@ theorem category_cont_left_e0_result_cases {h k r : BHist} :
   | e1 k0 =>
       cases hcont
 
+theorem CategoryHomCarrier_identity_semanticNameCert {a : BHist} :
+    UnaryHistory a ->
+      BEDC.FKernel.NameCert.SemanticNameCert (CategoryHomCarrier a a)
+        (CategoryHomCarrier a a) (CategoryHomCarrier a a) hsame := by
+  intro carrier
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty (CategoryHomCarrier_empty_identity carrier)
+    · intro h _homCarrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same homCarrier
+      cases same
+      exact homCarrier
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 end BEDC.Derived.CategoryUp

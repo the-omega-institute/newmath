@@ -99,4 +99,33 @@ theorem NatTransPrefixComponentCarrier_source_prefix_deterministic {p q r a eta 
     CategoryHomCarrier_source_deterministic left.right.right.right right.right.right.right
   exact append_right_cancel (k := a) sameSource
 
+theorem NatTransPrefixComponentCarrier_identity_semanticNameCert {p a : BHist} :
+    UnaryHistory p -> UnaryHistory a ->
+      BEDC.FKernel.NameCert.SemanticNameCert (NatTransPrefixComponentCarrier p p a)
+        (NatTransPrefixComponentCarrier p p a) (NatTransPrefixComponentCarrier p p a)
+          hsame := by
+  intro prefixCarrier objectCarrier
+  constructor
+  · constructor
+    · exact
+        Exists.intro BHist.Empty
+          (And.intro prefixCarrier
+            (And.intro prefixCarrier
+              (And.intro objectCarrier
+                (CategoryHomCarrier_empty_identity
+                  (unary_append_closed prefixCarrier objectCarrier)))))
+    · intro h _componentCarrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same componentCarrier
+      cases same
+      exact componentCarrier
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 end BEDC.Derived.NatTransUp

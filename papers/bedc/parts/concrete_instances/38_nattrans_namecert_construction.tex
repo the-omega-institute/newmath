@@ -110,6 +110,22 @@ square.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixIdentity\_identity\_component\_square\_closed}
 
+\begin{theorem}[NatTrans prefix component identity semantic name certificate]
+\label{thm:nattrans-prefix-component-identity-semantic-namecert}
+For unary histories $p,a$, the identity prefix-component predicate
+$\eta\mapsto\mathsf{NatTransPrefixComponentCarrier}(p,p,a,\eta)$ carries a
+semantic naming certificate whose source, pattern, and ledger predicates are
+this component predicate and whose classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The carrier witness is the empty component history. Unary append closure gives
+the object carrier for $\mathsf{append}(p,a)$, and the category empty identity
+hom-carrier supplies the component witness at that object. The classifier laws
+are the reflexive, symmetric, and transitive laws for $\hsame$, and component
+carrier transport follows by history-sameness transport.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_identity\_semanticNameCert}
+
 \section{The certificate}
 
 \begin{definition}[NatTrans source specification]
