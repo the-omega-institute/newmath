@@ -87,6 +87,35 @@ the required right bound sends a witness $R(r)$ to the displayed clause
 $\hsame(r,r_0)$.
 \end{proof}
 
+\begin{definition}[Product displayed pair ledger]\label{def:prod-displayed-pair-ledger}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. The product
+displayed pair ledger is the predicate
+$$
+\mathsf{ProdDisplayedPairLedger}_{L,R}(h)
+\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r).
+$$
+\end{definition}
+
+\begin{theorem}[Product displayed pair ledger soundness]\label{thm:prod-displayed-pair-ledger-soundness}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. For every
+history $h:\mathsf{BHist}$,
+$$
+\mathsf{ProdHistoryCarrier}(L,R,h)
+\to
+\mathsf{ProdDisplayedPairLedger}_{L,R}(h).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{ProdHistoryCarrier}(L,R,h)$. Apply the forward direction of
+Theorem~\ref{thm:prod-pair-rep-coverage} to this carrier witness.
+
+The theorem returns histories $l,r:\mathsf{BHist}$ with
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$. By
+Definition~\ref{def:prod-displayed-pair-ledger}, this existential witness is
+exactly $\mathsf{ProdDisplayedPairLedger}_{L,R}(h)$.
+\end{proof}
+
 \begin{theorem}[Product componentwise history core certificate]
 \label{thm:prod-component-history-core-namecert}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
@@ -119,13 +148,12 @@ $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
 classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
 $\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
 $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the componentwise
-classifier forms the semantic naming certificate with displayed pair ledger
-$D(h):\Longleftrightarrow
-\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$:
+classifier forms the semantic naming certificate with the product displayed pair
+ledger:
 $$
 \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
 \mathsf{ProdHistoryCarrier}(L,R),
-D,
+\mathsf{ProdDisplayedPairLedger}_{L,R},
 \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
 $$
 \end{theorem}
@@ -136,10 +164,11 @@ core $\NameCert$ certificate for
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ over
 $\mathsf{ProdHistoryCarrier}(L,R)$.
 The semantic pattern carrier is $\mathsf{ProdHistoryCarrier}(L,R)$, so
-$\mathsf{pattern\_sound}$ is identity on the carrier. Ledger soundness is the
-forward direction of Theorem~\ref{thm:prod-pair-rep-coverage}: every product
-history carrier witness exposes component histories $l,r$ and hence a displayed
-pair ledger witness $D(h)$.
+$\mathsf{pattern\_sound}$ is identity on the carrier.
+
+Ledger soundness is Theorem~\ref{thm:prod-displayed-pair-ledger-soundness}: every
+product history carrier witness exposes a named
+$\mathsf{ProdDisplayedPairLedger}_{L,R}$ witness.
 \end{proof}
 
 \begin{theorem}[Product componentwise classifier exposes displayed pair ledgers]
@@ -147,27 +176,32 @@ pair ledger witness $D(h)$.
 The ten-field fit is: traditional target ordered-product displayed ledger
 exposure; BEDC source $\mathsf{BHist}$ with $\Cont$; carrier through
 $\mathsf{ProdPairRep}$; classifier
-$\mathsf{ProdComponentHistoryClassifier}$; ledger $D$; core theorem endpoint
-ledger exposure; exactness classifier endpoints carry displayed pair
-representatives; standard bridge ordered-pair readback; status
+$\mathsf{ProdComponentHistoryClassifier}$; ledger
+$\mathsf{ProdDisplayedPairLedger}$; core theorem endpoint ledger exposure;
+exactness classifier endpoints carry displayed pair representatives; standard
+bridge ordered-pair readback; status
 $\mathsf{ProofTarget}$.
 
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and let
 $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be component
-classifiers. Define the displayed pair ledger
-$D(x):\Longleftrightarrow
-\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(x,l,r)$.
-For all histories $h,k:\mathsf{BHist}$, if
+classifiers. For all histories $h,k:\mathsf{BHist}$, if
 $$
 \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
 $$
-holds, then $D(h)\land D(k)$.
+holds, then
+$$
+\mathsf{ProdDisplayedPairLedger}_{L,R}(h)
+\land
+\mathsf{ProdDisplayedPairLedger}_{L,R}(k).
+$$
 \end{theorem}
 \begin{proof}
 Unpack the componentwise classifier witness. Its endpoint data include a
 displayed pair representation of $h$ by some left and right component histories
 and a displayed pair representation of $k$ by some left and right component
-histories. Repack the first representation as the ledger witness for $D(h)$ and
-the second representation as the ledger witness for $D(k)$. These two witnesses
-give the required conjunction.
+histories.
+
+By Definition~\ref{def:prod-displayed-pair-ledger}, the first representation is
+the named ledger witness for $h$, and the second representation is the named
+ledger witness for $k$. These two witnesses give the required conjunction.
 \end{proof}

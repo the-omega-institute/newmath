@@ -484,16 +484,15 @@ $$
 \qquad\hbox{and}\qquad
 \forall x\,y.\;x\sim_R y\to\hsame(x,y).
 $$
-With displayed pair ledger
-$D(h):\Longleftrightarrow
-\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, the following
-two clauses hold:
+With the named displayed pair ledger
+$\mathsf{ProdDisplayedPairLedger}_{L,R}$ from
+Definition~\ref{def:prod-displayed-pair-ledger}, the following two clauses hold:
 \begin{enumerate}
   \item the componentwise public certificate
   $$
   \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
   \mathsf{ProdHistoryCarrier}(L,R),
-  D,
+  \mathsf{ProdDisplayedPairLedger}_{L,R},
   \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R});
   $$
   \item for all histories $\rho,z,l,r:\mathsf{BHist}$, if
@@ -522,8 +521,8 @@ provenance; status $\mathsf{ProofTarget}$.
 The public certificate clause is
 Theorem~\ref{thm:prod-component-history-semantic-certificate-target} applied to
 $\mathsf{cert}_L$, $\mathsf{cert}_R$, and
-$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$, with the displayed pair ledger
-$D$ as stated.
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$, with the named displayed pair
+ledger from Definition~\ref{def:prod-displayed-pair-ledger}.
 
 For the ledger-chain readback clause, fix $\rho,z,l,r:\mathsf{BHist}$ and assume
 $\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$ together with
