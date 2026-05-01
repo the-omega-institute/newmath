@@ -138,6 +138,60 @@ $\ell(xs)=\ell(ys)$. Chain this length equality with $\ell(xs)=n$ and
 $\ell(ys)=m$ to get $n=m$.
 \end{proof}
 
+\begin{theorem}[List public length readback totality and classifier stability]
+\label{thm:list-public-length-readback-total-stable}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. Assume
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. Then the public length readback
+forms a total and stable finite-spine readback package:
+\begin{enumerate}
+  \item If $\mathsf{ListHistoryCarrier}_A(h)$, then
+  $\exists n.\;\mathsf{ListPublicLength}_A(h,n)$.
+  \item If $\mathsf{ListPublicLength}_A(h,n)$ and
+  $\mathsf{ListPublicLength}_A(h,m)$, then $n=m$.
+  \item If $\mathsf{ListHistoryCarrier}_A(h)$,
+  $\mathsf{ListHistoryCarrier}_A(k)$, and
+  $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$, then
+  $\exists n.\;
+  \mathsf{ListPublicLength}_A(h,n)\land
+  \mathsf{ListPublicLength}_A(k,n)$.
+\end{enumerate}
+The roadmap ten-field fit is: traditional target public finite-list length
+readback; BEDC source $\mathsf{BHist}$ with $\NameCert$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; ledger finite-spine
+presentations; exactness through $\mathsf{ListSpineRep}_A$ and the public
+length definition; stability under cons-boundary coherence; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+  \item For totality, apply the forward direction of
+  Theorem~\ref{thm:list-spine-representation-coverage} to the displayed
+  $\mathsf{ListHistoryCarrier}_A(h)$ witness. This gives a finite spine $xs$
+  with $\mathsf{ListSpineRep}_A(h,xs)$. Choose $n=\ell(xs)$ and repack this
+  representation with the reflexive length equality in
+  Definition~\ref{def:list-public-length-readback}.
+
+  \item For uniqueness, apply the first clause of
+  Theorem~\ref{thm:list-public-length-readback-well-defined} under the same
+  $\mathsf{cert}$ and cons-boundary coherence hypotheses. The two displayed
+  public length witnesses are exactly the inputs of that clause.
+
+  \item For the common classified readback, first use the totality clause just
+  proved on the two carrier witnesses. This produces public lengths $n_h$ and
+  $n_k$ for $h$ and $k$.
+
+  Next apply the classifier-preservation clause of
+  Theorem~\ref{thm:list-public-length-readback-well-defined} to the classifier
+  witness and these two public readbacks. It identifies $n_h=n_k$.
+
+  Finally rewrite the second public length witness along this equality and
+  choose the common value $n_h$.
+\end{enumerate}
+\end{proof}
+
 \begin{definition}[List source hsame compatibility]
 \label{def:list-source-hsame-compatible}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
