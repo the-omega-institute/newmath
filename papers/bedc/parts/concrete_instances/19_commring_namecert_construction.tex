@@ -97,6 +97,30 @@ equalities through additive congruence.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_mul\_add\_add\_expand}
 
+\begin{theorem}[CommRing column expansion of binary sums]
+\label{thm:commring-mul-add-add-column-expand}
+For BEDC history addition and multiplication, additive associativity,
+additive commutativity, additive congruence, multiplicative commutativity,
+and left distributivity imply, for every $a,b,c,d : \mathsf{BHist}$,
+$$
+(a+b)\cdot(c+d)\hsame
+(a\cdot c+b\cdot c)+(a\cdot d+b\cdot d).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-mul-add-add-expand} to obtain the row-major
+expansion of $(a+b)\cdot(c+d)$ as
+$$
+(a\cdot c+a\cdot d)+(b\cdot c+b\cdot d).
+$$
+
+On the additive operation, apply
+Theorem~\ref{thm:abgroup-middle-four-interchange} with the four summands
+$a\cdot c$, $a\cdot d$, $b\cdot c$, and $b\cdot d$. Additive congruence then
+composes this interchange with the row-major expansion and yields the
+column-major normal form.
+\end{proof}
+
 \begin{theorem}[CommRing left distributivity with commuted terms]
 \label{thm:commring-left-distrib-commuted-terms}
 For BEDC history addition and multiplication, multiplicative commutativity,
