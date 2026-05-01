@@ -500,14 +500,25 @@ $\Ezero/\Eone$ no-confusion.
 
 \begin{theorem}[Sum history classifier transitivity]
 \label{thm:sum-history-classifier-transitivity}
-If the left and right source classifiers are transitive, then the
-history-level \(\SumUp\) classifier is transitive.
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and let $h,k,u:\mathsf{BHist}$. Assume
+$$
+\forall a\,b\,c:\mathsf{BHist}.\; LeftEq(a,b)\to LeftEq(b,c)\to LeftEq(a,c)
+$$
+and
+$$
+\forall a\,b\,c:\mathsf{BHist}.\; RightEq(a,b)\to RightEq(b,c)\to RightEq(a,c).
+$$
+Then
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,k,u)\to
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,u).
+$$
 \end{theorem}
 \begin{proof}
-Invert both classifier witnesses. Matching left--left and right--right branches
-identify the shared tagged middle history by BEDC constructor inversion and
-compose the corresponding source-classifier witnesses. Mixed branches
-contradict the \(e0/e1\) no-confusion rule.
+Invert both classifier witnesses. Matching left--left and right--right branches identify the shared tagged middle history by BEDC constructor inversion and compose the corresponding source-classifier witnesses. Mixed branches contradict the $e0/e1$ no-confusion rule.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_trans}
 
