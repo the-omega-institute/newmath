@@ -683,6 +683,35 @@ yielding $\mathsf{OptionHistoryClassifier}_S(\rho,w)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_classifier\_extension}
 
+\begin{theorem}[Option ledger classifier endpoint equivalence]
+\label{thm:option-ledger-classifier-endpoint-equivalence}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source predicate and let
+$\rho,v,w:\mathsf{BHist}$. Assume
+$$
+  \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k).
+$$
+If $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ holds, then
+$\mathsf{OptionHistoryClassifier}_S(\rho,w) \Longleftrightarrow
+\mathsf{OptionHistoryClassifier}_S(v,w)$. The ten-field fit is the
+traditional target of nullable optional ledger endpoint replacement, BEDC
+source $\mathsf{BHist}$ with $\hsame$, carrier $\mathsf{OptionHistoryCarrier}$,
+classifier $\mathsf{OptionHistoryClassifier}$, stability given by raw-visible
+ledger classifier together with classifier symmetry and transitivity, ledger
+$\mathsf{OptionHistoryLedgerPolicy}$, core theorem this endpoint equivalence,
+exactness as classifier-invariant raw and visible endpoints, standard bridge
+the nullable option envelope readback, and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:option-ledger-raw-visible-classifier} to the ledger
+witness to obtain $\mathsf{OptionHistoryClassifier}_S(\rho,v)$. For the forward
+direction, use Theorem~\ref{thm:option-history-classifier-symmetry} to reverse
+this raw-visible classifier and then compose it with the assumed
+$\mathsf{OptionHistoryClassifier}_S(\rho,w)$ by
+Theorem~\ref{thm:option-history-classifier-transitivity}. For the reverse
+direction, apply Theorem~\ref{thm:option-ledger-classifier-extension} directly
+to the ledger witness and the assumed visible-endpoint classifier.
+\end{proof}
+
 \begin{theorem}[Option ledger history-same transport]
 \label{thm:option-ledger-hsame-transport}
 If both raw histories and both visible histories are related by $\hsame$, then
