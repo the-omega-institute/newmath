@@ -469,20 +469,19 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-Use the checked core certificate $\mathsf{bool\_history\_name\_certificate}$ as
-the $\NameCert$ component.  A carrier witness for a licensed boolean history is
-already one of the two endpoint cases $\hsame(h,\emp)$ or
-$\hsame(h,\Eone(\emp))$, so the carrier predicate itself supplies the required
-history-level pattern and ledger fields. The $\mathsf{SemanticNameCert}$ core
-is $\mathsf{bool\_history\_name\_certificate}$, while
-$\mathsf{pattern\_sound}$ and $\mathsf{ledger\_sound}$ are identity maps
-because the source, pattern, and ledger predicates are all
-$\mathsf{BoolHistoryCarrier}$.
+Construct the displayed $\mathsf{SemanticNameCert}$ from the checked core
+certificate $\mathsf{bool\_history\_name\_certificate}$. Its
+$\mathsf{core}$ field is that history $\NameCert$. Since the source, pattern,
+and ledger predicates are all $\mathsf{BoolHistoryCarrier}$, the
+$\mathsf{pattern\_sound}$ and $\mathsf{ledger\_sound}$ fields are the identity
+implications from a carrier witness of $\mathsf{BoolHistoryCarrier}(h)$ to the
+same proposition.
 \end{proof}
 
-The endpoint coverage, classifier completeness, and endpoint readback theorems
-are separate public readback exactness facts for the $\BoolUp$ interface, not
-fields of the $\mathsf{SemanticNameCert}$ constructor.
+The endpoint coverage, endpoint bridge classifier completeness, and endpoint
+readback theorems justify the Bool public-object readback and bridge promised
+by the roadmap template; they are not internal fields of the
+$\mathsf{SemanticNameCert}$ constructor.
 
 \begin{corollary}[\(\BoolUp\) certificate scope]
 \label{cor:bool-certificate-scope}
