@@ -151,6 +151,35 @@ that factor and yields $b\hsame c$.
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_balanced\_cancel}
 
+\begin{theorem}[AbGroup middle-four double cancellation]
+\label{thm:abgroup-middle-four-double-cancel}
+For BEDC histories equipped with group laws, commutativity, and multiplication
+congruence under $\hsame$, if
+$$
+\hsame((a\cdot b)\cdot(c\cdot d),(a\cdot c)\cdot(u\cdot d)),
+$$
+then $\hsame(b,u)$.
+\end{theorem}
+\begin{proof}
+The rule depends on the AbGroup middle-four theorem and on the Group left and
+right cancellation theorems; it is not merely a renamed form of any one
+theorem. Apply Theorem~\ref{thm:abgroup-middle-four-interchange} to the left
+endpoint of the hypothesis and compose by symmetry and transitivity of
+$\hsame$. This turns the supplied comparison into
+$$
+\hsame((a\cdot c)\cdot(b\cdot d),(a\cdot c)\cdot(u\cdot d)).
+$$
+
+Now apply group left cancellation, Theorem~\ref{thm:group-left-cancellation},
+to the common left factor $a\cdot c$. The remaining comparison is
+$$
+\hsame(b\cdot d,u\cdot d).
+$$
+
+Finally apply group right cancellation, Theorem~\ref{thm:group-right-cancellation},
+to the common right factor $d$, yielding $\hsame(b,u)$.
+\end{proof}
+
 \begin{theorem}[Nonempty history append cannot be right-absorbed]
 \label{thm:abgroup-history-append-nonempty-left-ne-right}
 For every BEDC history $h$ and right tail $k$, neither
