@@ -262,7 +262,35 @@ def stop_inner(inner: subprocess.Popen, grace_seconds: int = 30) -> None:
 # ---------------------------------------------------------------------------
 
 
+def git_sync_dev() -> bool:
+    """Fetch + fast-forward-merge origin/dev into current branch.
+
+    Skips if uncommitted changes exist or merge would conflict. Acquires
+    paper_writes lock so a Stage 2 append never races against the merge.
+    Returns True iff dev's commits were pulled in.
+    """
+    status = _git(["status", "--porcelain"])
+    if status.stdout.strip():
+        return False
+    _git(["fetch", "origin", "dev"], capture=False)
+    behind = _git(["rev-list", "--count", "HEAD..origin/dev"])
+    n = behind.stdout.strip() or "0"
+    if n == "0":
+        return False
+    supervisor_log(f"git_sync_dev: pulling {n} commits from origin/dev")
+    from locks import file_lock
+    with file_lock("paper_writes"):
+        merge = _git(["merge", "--no-edit", "origin/dev"])
+    if merge.returncode != 0:
+        supervisor_log("git_sync_dev: merge failed (conflict?); aborting merge")
+        _git(["merge", "--abort"], capture=False)
+        return False
+    supervisor_log(f"git_sync_dev: merged origin/dev cleanly ({n} commits)")
+    return True
+
+
 def trigger_probe() -> None:
+    git_sync_dev()
     supervisor_log("triggering auto_discovery probe")
     subprocess.Popen(
         ["python3", str(AUTO_DISCOVERY), "probe", "--append"],
@@ -274,6 +302,7 @@ def trigger_probe() -> None:
 
 
 def trigger_curator() -> None:
+    git_sync_dev()
     supervisor_log("triggering auto_discovery curator")
     subprocess.Popen(
         ["python3", str(AUTO_DISCOVERY), "curator", "--append"],
@@ -405,6 +434,7 @@ def main() -> int:
     parser.add_argument("--claude-review-hours", type=float, default=DEFAULT_CLAUDE_REVIEW_HOURS)
     parser.add_argument("--no-claude-review", action="store_true")
     parser.add_argument("--no-auto-commit", action="store_true")
+    parser.add_argument("--no-dev-sync", action="store_true", help="Skip auto-merging origin/dev at startup and before probe/curator")
     parser.add_argument("--inner-restart-backoff", type=int, default=DEFAULT_INNER_RESTART_BACKOFF_S)
     args = parser.parse_args()
 
@@ -414,6 +444,12 @@ def main() -> int:
 
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
     supervisor_log(f"supervisor starting (parallel={args.parallel}, claude_review={'off' if args.no_claude_review else 'on'}, auto_commit={'off' if args.no_auto_commit else 'on'})")
+
+    if not args.no_dev_sync:
+        try:
+            git_sync_dev()
+        except Exception as exc:
+            supervisor_log(f"git_sync_dev startup error: {exc}")
 
     last_probe_ts = 0.0
     last_curator_ts = 0.0
