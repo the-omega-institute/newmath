@@ -4,6 +4,7 @@ import BEDC.FKernel.NameCert
 namespace BEDC.Derived.MonoidUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 
 def MonoidHistoryClassifier (Carrier : BHist -> Prop) (h k : BHist) : Prop :=
@@ -148,5 +149,14 @@ theorem history_continuation_monoid_laws :
       cases hbc
       cases habc'
       exact BEDC.FKernel.Cont.append_assoc a b c
+
+theorem history_continuation_nonempty_suffix_source_absurd :
+    (∀ {h k : BHist}, Cont h (BHist.e0 k) h → False) ∧
+      (∀ {h k : BHist}, Cont h (BHist.e1 k) h → False) := by
+  constructor
+  · intro h k hcont
+    exact not_hsame_e0_empty (cont_right_unit_unique hcont)
+  · intro h k hcont
+    exact not_hsame_e1_empty (cont_right_unit_unique hcont)
 
 end BEDC.Derived.MonoidUp

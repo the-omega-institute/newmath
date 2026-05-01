@@ -62,6 +62,18 @@ The BEDC history continuation relation has empty history as a left and right uni
 The unit fields are the empty-history continuation constructors. For associativity, each continuation witness unfolds to history append, and the result follows from associativity of BEDC history append.
 \end{proof}
 
+\begin{theorem}[Nonempty continuation suffix changes the source]
+\label{thm:history-continuation-nonempty-suffix-source-absurd}
+For any source history \(h\), no continuation by a suffix of the form \(\Ezero(k)\)
+or \(\Eone(k)\) can have result \(h\) itself.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonoidUp.history\_continuation\_nonempty\_suffix\_source\_absurd}
+\begin{proof}
+Right-unit uniqueness for continuation forces any suffix whose result is the
+source to be \(\emp\). BEDC history no-confusion separates \(\Ezero(k)\) and
+\(\Eone(k)\) from \(\emp\).
+\end{proof}
+
 \begin{definition}[Monoid ledger policy]
 \label{def:monoid-ledger-policy}
 Record the carrier witnesses and operation tree behind each monoid expression.
