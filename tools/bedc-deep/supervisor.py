@@ -578,7 +578,11 @@ def main() -> int:
                 since_claude_h = (_now() - last_claude_review_ts) / 3600.0
                 if since_claude_h > args.claude_review_hours:
                     supervisor_log("running periodic PI agent review")
-                    plan = run_pi_review(supervisor_state)
+                    try:
+                        plan = run_pi_review(supervisor_state)
+                    except Exception as exc:
+                        supervisor_log(f"pi review error (continuing): {exc}")
+                        plan = None
                     last_claude_review_ts = _now()
                     if plan:
                         for entry in plan.get("autonomous_actions") or []:
