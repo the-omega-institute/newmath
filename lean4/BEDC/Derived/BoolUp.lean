@@ -144,6 +144,15 @@ theorem BoolEndpoint_bridge_exactness {v w : BEDC.FKernel.Mark.BMark} :
           · intro _
             exact BEDC.FKernel.Mark.msame_refl BEDC.FKernel.Mark.BMark.b1
 
+theorem BoolEndpoint_readback_deterministic {v w : BEDC.FKernel.Mark.BMark}
+    {h : BEDC.FKernel.Hist.BHist} :
+    BEDC.FKernel.Hist.hsame h (BoolEndpoint v) →
+      BEDC.FKernel.Hist.hsame h (BoolEndpoint w) →
+        BEDC.FKernel.Mark.msame v w := by
+  intro sameV sameW
+  exact BoolEndpoint_bridge_exactness.mpr
+    (BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm sameV) sameW)
+
 theorem BoolHistoryCarrier_endpoint_coverage {h : BEDC.FKernel.Hist.BHist} :
     BoolHistoryCarrier h ↔
       ∃ v : BEDC.FKernel.Mark.BMark,

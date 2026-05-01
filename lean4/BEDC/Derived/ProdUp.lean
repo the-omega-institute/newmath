@@ -16,6 +16,76 @@ def ProdHistoryCarrier (Left Right : BHist -> Prop) (h : BHist) : Prop :=
 def ProdHistoryClassifier (Left Right : BHist -> Prop) (h k : BHist) : Prop :=
   ProdHistoryCarrier Left Right h ∧ ProdHistoryCarrier Left Right k ∧ hsame h k
 
+theorem ProdHistoryClassifier_component_inversion {Left Right : BHist → Prop} {h k : BHist} :
+    ProdHistoryClassifier Left Right h k ↔
+      ∃ l r l' r' : BHist,
+        Left l ∧ Right r ∧ Cont l r h ∧
+          Left l' ∧ Right r' ∧ Cont l' r' k ∧ hsame h k := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro carrierH rest =>
+        cases rest with
+        | intro carrierK sameHK =>
+            cases carrierH with
+            | intro l leftRest =>
+                cases leftRest with
+                | intro r leftData =>
+                    cases leftData with
+                    | intro leftCarrier rightData =>
+                        cases rightData with
+                        | intro rightCarrier contH =>
+                            cases carrierK with
+                            | intro l' rightRest =>
+                                cases rightRest with
+                                | intro r' rightData' =>
+                                    cases rightData' with
+                                    | intro leftCarrier' tailData =>
+                                        cases tailData with
+                                        | intro rightCarrier' contK =>
+                                            exact Exists.intro l
+                                              (Exists.intro r
+                                                (Exists.intro l'
+                                                  (Exists.intro r'
+                                                    (And.intro leftCarrier
+                                                      (And.intro rightCarrier
+                                                        (And.intro contH
+                                                          (And.intro leftCarrier'
+                                                            (And.intro rightCarrier'
+                                                              (And.intro contK sameHK)))))))))
+  · intro witness
+    cases witness with
+    | intro l rest =>
+        cases rest with
+        | intro r rest =>
+            cases rest with
+            | intro l' rest =>
+                cases rest with
+                | intro r' data =>
+                    cases data with
+                    | intro leftCarrier rest =>
+                        cases rest with
+                        | intro rightCarrier rest =>
+                            cases rest with
+                            | intro contH rest =>
+                                cases rest with
+                                | intro leftCarrier' rest =>
+                                    cases rest with
+                                    | intro rightCarrier' rest =>
+                                        cases rest with
+                                        | intro contK sameHK =>
+                                            exact And.intro
+                                              (Exists.intro l
+                                                (Exists.intro r
+                                                  (And.intro leftCarrier
+                                                    (And.intro rightCarrier contH))))
+                                              (And.intro
+                                                (Exists.intro l'
+                                                  (Exists.intro r'
+                                                    (And.intro leftCarrier'
+                                                      (And.intro rightCarrier' contK))))
+                                                sameHK)
+
 theorem ProdHistoryCarrier_append_intro {Left Right : BHist -> Prop} {l r : BHist} :
     Left l -> Right r -> ProdHistoryCarrier Left Right (append l r) := by
   intro leftCarrier rightCarrier

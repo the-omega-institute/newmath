@@ -11,6 +11,31 @@ def OptionHistoryCarrier (source : BHist -> Prop) (h : BHist) : Prop :=
 def OptionSourceExcludesEmpty (source : BHist -> Prop) : Prop :=
   forall h : BHist, source h -> hsame h BHist.Empty -> False
 
+def TaggedOptionHistoryCarrier (S : BHist → Prop) (h : BHist) : Prop :=
+  hsame h BHist.Empty ∨ ∃ a : BHist, S a ∧ hsame h (BHist.e1 a)
+
+theorem TaggedOptionHistoryCarrier_present_exactness {S : BHist → Prop} {h : BHist} :
+    TaggedOptionHistoryCarrier S (BHist.e1 h) ↔ ∃ a : BHist, S a ∧ hsame h a := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | inl emptyCase =>
+        exact False.elim (not_hsame_e1_empty emptyCase)
+    | inr presentCase =>
+        cases presentCase with
+        | intro a data =>
+            cases data with
+            | intro sourceCase sameEndpoint =>
+                exact Exists.intro a
+                  (And.intro sourceCase (hsame_e1_iff.mp sameEndpoint))
+  · intro presentCase
+    cases presentCase with
+    | intro a data =>
+        cases data with
+        | intro sourceCase samePayload =>
+            exact Or.inr
+              (Exists.intro a (And.intro sourceCase (hsame_e1_congr samePayload)))
+
 theorem OptionHistoryCarrier_hsame_transport {source : BHist -> Prop} {h k : BHist} :
     hsame h k -> OptionHistoryCarrier source h -> OptionHistoryCarrier source k := by
   intro same carrier
