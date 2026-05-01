@@ -82,6 +82,50 @@ associativity equality $(p\cdot x)\cdot y=p\cdot(x\cdot y)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_closed}
 
+\begin{theorem}[Metric distance witness prefix iff]
+\label{thm:metric-distance-witness-prefix-iff}
+For histories $p,x,y,d$, a prefixed source and distance witness is equivalent
+to unary evidence for the prefix together with the unprefixed distance witness:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y,p\cdot d)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+From the prefixed witness, unary append factorization recovers unary evidence
+for $p$, $x$, and $d$, and continuation prefix cancellation recovers
+$\mathsf{Cont}(x,y,d)$.
+
+Conversely, unary append closure builds the prefixed source and distance
+histories, and continuation associativity transports the original ledger
+$d=x\cdot y$ to $p\cdot d=(p\cdot x)\cdot y$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_iff}
+
+\begin{theorem}[Metric distance witness suffix iff]
+\label{thm:metric-distance-witness-suffix-iff}
+For histories $p,x,y,d$, a common right suffix on the target and distance is
+equivalent to unary evidence for the suffix together with the unextended
+distance witness:
+$$
+\mathsf{MetricDistanceWitness}(x,y\cdot p,d\cdot p)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+From the suffixed witness, unary append factorization recovers unary evidence
+for $y$, $p$, and $d$. Reassociation exposes a common right suffix $p$, and
+right append cancellation recovers the base continuation
+$\mathsf{Cont}(x,y,d)$.
+
+Conversely, unary append closure builds the suffixed target and distance
+histories, and associativity transports the original ledger
+$d=x\cdot y$ to $d\cdot p=x\cdot(y\cdot p)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_suffix\_iff}
+
 \begin{definition}[MetricSpace ledger policy]
 \label{def:metric-ledger-policy}
 Record carrier witnesses and the real ledger of each distance value.
