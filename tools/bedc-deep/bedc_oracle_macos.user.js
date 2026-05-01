@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.10
+// @version      1.11
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.10";
+  const SCRIPT_VERSION = "bedc-1.11";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -115,9 +115,13 @@
   // ── HTTP helpers ─────────────────────────────────────────────────────
   function serverGet(path) {
     return new Promise((resolve, reject) => {
+      const sep = path.includes("?") ? "&" : "?";
+      const meta = `${sep}script_version=${encodeURIComponent(SCRIPT_VERSION)}`
+        + `&page_url=${encodeURIComponent(window.location.href)}`
+        + `&chatgpt_url=${encodeURIComponent(currentChatUrl())}`;
       GM_xmlhttpRequest({
         method: "GET",
-        url: `${SERVER}${path}`,
+        url: `${SERVER}${path}${meta}`,
         timeout: 10000,
         onload: (r) => {
           try { resolve(JSON.parse(r.responseText)); }
@@ -131,11 +135,16 @@
 
   function serverPost(path, data) {
     return new Promise((resolve, reject) => {
+      const payload = Object.assign({}, data || {}, {
+        script_version: SCRIPT_VERSION,
+        page_url: window.location.href,
+        chatgpt_url: (data && data.chatgpt_url) || currentChatUrl(),
+      });
       GM_xmlhttpRequest({
         method: "POST",
         url: `${SERVER}${path}`,
         headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(data),
+        data: JSON.stringify(payload),
         timeout: 30000,
         onload: (r) => {
           try { resolve(JSON.parse(r.responseText)); }

@@ -264,8 +264,13 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             agent_id = (qs.get("agent", [None])[0]
                         or qs.get("agent_id", [None])[0]
                         or "default")
+            poll_metrics = {
+                "script_version": (qs.get("script_version", [""])[0] or ""),
+                "page_url": (qs.get("page_url", [""])[0] or ""),
+                "chatgpt_url": (qs.get("chatgpt_url", [""])[0] or ""),
+            }
             with _lock:
-                _record_agent_seen(agent_id, event="poll")
+                _record_agent_seen(agent_id, event="poll", metrics=poll_metrics)
                 if agent_id in pending_tasks:
                     self._send_json(pending_tasks[agent_id])
                     return
@@ -504,6 +509,8 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             "chatgpt_url": chatgpt_url,
             "model": data.get("model", "chatgpt-5.5-pro"),
             "agent_id": agent_id,
+            "script_version": data.get("script_version", ""),
+            "page_url": data.get("page_url", ""),
             "completed_at": _now(),
             "status": "completed",
             "response_chars": len(response),
@@ -550,12 +557,22 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
         if metrics:
             metrics = {
                 "task_id": task_id,
+                "script_version": data.get("script_version", ""),
+                "page_url": data.get("page_url", ""),
+                "chatgpt_url": data.get("chatgpt_url", ""),
                 "elapsed_seconds": metrics.get("elapsed_seconds"),
                 "extracted_chars": metrics.get("extracted_chars"),
                 "page_chars": metrics.get("page_chars"),
                 "stable_count": metrics.get("stable_count"),
                 "generating": metrics.get("generating"),
                 "url_tail": metrics.get("url_tail"),
+            }
+        else:
+            metrics = {
+                "task_id": task_id,
+                "script_version": data.get("script_version", ""),
+                "page_url": data.get("page_url", ""),
+                "chatgpt_url": data.get("chatgpt_url", ""),
             }
         with _lock:
             _record_agent_seen(agent_id, event=event, metrics=metrics)
