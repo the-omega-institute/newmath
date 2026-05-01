@@ -66,6 +66,23 @@ with the displayed carrier from \(a\) to \(d\).
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_target\_deterministic}
 
+\begin{theorem}[Category hom carrier composite middle-object determinacy]
+\label{thm:category-hom-carrier-comp-middle-object-deterministic}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
+\(b\), \(g\) is a hom-carrier from \(b'\) to \(c\),
+\(\ContR(f,g,fg)\), and \(fg\) is displayed as a hom-carrier from \(a\) to
+\(c\), then \(\HSame(b,b')\).
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witnesses. The left leg gives \(\ContR(a,f,b)\), the
+composite gives \(\ContR(f,g,fg)\), and the displayed composite gives
+\(\ContR(a,fg,c)\). Associativity of append turns these three continuation
+facts into \(\ContR(b,g,c)\). Comparing this continuation with the right leg
+\(\ContR(b',g,c)\) by right-context cancellation identifies the two middle
+objects.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_object\_deterministic}
+
 \begin{theorem}[Category hom carrier tail commutativity]
 \label{thm:category-hom-carrier-tail-comm-hsame}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to

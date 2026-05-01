@@ -52,6 +52,34 @@ $\hsame(h,\Eone(a))$, giving the required present witness for $h$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_present\_branch\_equivalence}
 
+\begin{theorem}[Tagged option present-chain payload witness]
+\label{thm:tagged-option-present-chain-payload-witness}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, histories $h,k,r$, and visible payloads $a,c$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k),\qquad
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(k,r),\qquad
+\hsame(h,\Eone(a)),\qquad
+\hsame(r,\Eone(c)),
+$$
+then there are payload histories $a_0,b,b',c_0$ such that
+$$
+S(a_0)\land S(b)\land S(b')\land S(c_0)\land
+\hsame(a,a_0)\land\hsame(b,b')\land\hsame(c_0,c)\land
+a_0\sim_S b\land b'\sim_S c_0.
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the two tagged classifier witnesses. Any absent branch
+contradicts one of the displayed visible present endpoints. In the remaining
+present-present branches, the two classifier witnesses expose payload legs
+$a_0\sim_S b$ and $b'\sim_S c_0$. The two visible presentations of the shared
+middle endpoint $k$ are identified by the $\Eone$ constructor inversion
+principle, giving $\hsame(b,b')$; the endpoint witnesses for $h$ and $r$
+similarly identify $a$ with $a_0$ and $c_0$ with $c$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_present\_chain\_payload\_witness}
+
 \begin{theorem}[Tagged option history classifier presented payload exactness]
 \label{thm:tagged-option-history-classifier-presented-payload-exactness}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,

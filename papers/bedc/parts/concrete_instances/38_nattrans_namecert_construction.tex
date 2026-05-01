@@ -112,6 +112,24 @@ shared suffix $a$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_target\_prefix\_deterministic}
 
+\begin{theorem}[NatTrans vertical composite middle-prefix determinacy]
+\label{thm:nattrans-prefix-component-vert-comp-middle-prefix-deterministic}
+For prefix components over unary histories, if \(\eta\) is a component from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(q,a)\), \(\theta\) is a
+component from \(\mathsf{append}(q',a)\) to \(\mathsf{append}(r,a)\),
+\(\ContR(\eta,\theta,\eta\theta)\), and the composite history
+\(\eta\theta\) is displayed as a component from \(\mathsf{append}(p,a)\) to
+\(\mathsf{append}(r,a)\), then \(\HSame(q,q')\).
+\end{theorem}
+\begin{proof}
+Expose the category hom-carrier witnesses inside the two component carriers
+and inside the displayed composite component. Category middle-object
+determinacy identifies the prefixed middle endpoints
+\(\mathsf{append}(q,a)\) and \(\mathsf{append}(q',a)\). Cancellation of the
+shared suffix \(a\) gives \(\HSame(q,q')\).
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_middle\_prefix\_deterministic}
+
 \begin{theorem}[NatTrans prefix component source-prefix determinacy]
 \label{thm:nattrans-prefix-component-carrier-source-prefix-deterministic}
 For prefix components over unary histories, if a fixed component history

@@ -175,6 +175,19 @@ theorem NatTransPrefixComponentCarrier_vert_comp_target_prefix_deterministic
   exact NatTransPrefixComponentCarrier_target_prefix_deterministic
     (NatTransPrefixComponentCarrier_vert_comp_closed left right comp) target
 
+theorem NatTransPrefixComponentCarrier_vert_comp_middle_prefix_deterministic
+    {p q q' r a eta theta composite : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q' r a theta ->
+        Cont eta theta composite ->
+          NatTransPrefixComponentCarrier p r a composite -> hsame q q' := by
+  intro left right comp displayed
+  have sameMiddle :
+      hsame (append q a) (append q' a) :=
+    CategoryHomCarrier_comp_middle_object_deterministic left.right.right.right
+      right.right.right.right comp displayed.right.right.right
+  exact append_right_cancel (k := a) sameMiddle
+
 theorem NatTransPrefixComponentCarrier_source_prefix_deterministic {p q r a eta : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
       NatTransPrefixComponentCarrier r q a eta -> hsame p r := by
