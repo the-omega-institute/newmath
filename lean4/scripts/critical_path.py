@@ -29,6 +29,21 @@ DEPS_READY_THRESHOLD = 5
 # bloat.
 SATURATION_THRESHOLD = 10
 
+# Horizons whose paper schemas are parametric (the chapter writes laws as
+# `mul / add / neg : BHist -> BHist -> BHist` without specifying a
+# concrete BHist function). Lean rounds picking these targets can only
+# produce `(name : forall x y z, hsame ...)` parameter-echo schema —
+# Phase D mechanically rejects exactly that shape, so the round is
+# guaranteed to fail. Keep them out of `top` until the paper side adds a
+# concrete `mul := λ h k => ...` definition.
+SCHEMA_ONLY_HORIZONS: set[str] = {
+    "abgroup", "group", "monoid",
+    "ring", "commring", "field",
+    "module", "vecspace", "linearmap", "matrix",
+    "polynomial", "fps",
+    "lattice", "totalorder", "preorder", "poset",
+}
+
 NAME_RE = re.compile(r"^\d+_([a-z][a-z0-9]*)_namecert_construction\.tex$")
 UP_REF_RE = re.compile(r"\\?([A-Z][A-Za-z]*)Up\b")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef)\{")
@@ -117,6 +132,8 @@ def main() -> int:
     downstream = transitive_downstream(horizons)
     ranked: list[dict] = []
     for n, info in horizons.items():
+        if n in SCHEMA_ONLY_HORIZONS:
+            continue
         if info["thms"] >= SATURATION_THRESHOLD:
             continue
         if not deps_ready(n, horizons):
