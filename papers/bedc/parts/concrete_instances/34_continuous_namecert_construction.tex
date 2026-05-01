@@ -31,47 +31,50 @@ composite modulus certificate.
 
 \begin{theorem}[Continuous function carrier prefix closure]
 \label{thm:continuous-function-carrier-prefix-closed}
-For histories $p,source,map,target,modulus,cert$, a visible unary prefix
-preserves the full continuous-function carrier:
+For histories $p$, $source$, $map$, $targetHist$, $modulus$, and $certHist$, a
+visible unary prefix on the source, target, and certificate ledgers preserves
+the full continuous-function carrier:
 
 $$
 \begin{array}{l}
 \mathsf{UnaryHistory}(p)
 \Longrightarrow
-\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\mathsf{ContinuousFunctionCarrier}(source,map,targetHist,modulus,certHist)
 \Longrightarrow
 \\
-\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,modulus,p\cdot cert).
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot targetHist,modulus,
+p\cdot certHist).
 \end{array}
 $$
 \end{theorem}
 \begin{proof}
-Unpack the carrier into unary source, target, map, and modulus histories,
-together with the graph ledger $source\cdot map=target$ and the certificate
-ledger $target\cdot modulus=cert$.
+Unpack the carrier into unary histories for the source, target, map, and
+modulus, together with continuations $targetHist=source\cdot map$ and
+$certHist=targetHist\cdot modulus$.
 
 Unary append closure supplies the prefixed source and target histories
-$p\cdot source$ and $p\cdot target$. The map and modulus histories are kept
-unchanged, so their unary witnesses are reused directly.
+$p\cdot source$ and $p\cdot targetHist$. The map and modulus histories are
+kept unchanged, so their unary witnesses are reused directly.
 
-The graph ledger for the prefixed carrier follows by associativity:
+The graph ledger for the prefixed carrier follows by applying the prefix $p$ to
+the continuation and reassociating append:
 
 $$
 (p\cdot source)\cdot map
 =
 p\cdot(source\cdot map)
 =
-p\cdot target.
+p\cdot targetHist.
 $$
 
 The modulus-certificate ledger is transported in the same way:
 
 $$
-(p\cdot target)\cdot modulus
+(p\cdot targetHist)\cdot modulus
 =
-p\cdot(target\cdot modulus)
+p\cdot(targetHist\cdot modulus)
 =
-p\cdot cert.
+p\cdot certHist.
 $$
 
 The ten-field certificate fit is the following. The traditional target is
@@ -83,6 +86,7 @@ map, target, modulus, and certificate histories. The core theorem is this
 prefix closure, exactness is the displayed carrier witness, the standard bridge
 is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefix\_closed}
 
 \section{The certificate}
 

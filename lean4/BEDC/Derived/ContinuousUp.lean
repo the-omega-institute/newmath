@@ -117,6 +117,35 @@ theorem ContinuousFunctionCarrier_comp_closed
                                                   (And.intro modFGCarrier
                                                     (And.intro sourceTarget certRel))))
 
+theorem ContinuousFunctionCarrier_prefix_closed
+    {p source map targetHist modulus certHist : BHist} :
+    UnaryHistory p -> ContinuousFunctionCarrier source map targetHist modulus certHist ->
+      ContinuousFunctionCarrier (append p source) map (append p targetHist) modulus
+        (append p certHist) := by
+  intro prefixCarrier carrier
+  cases carrier with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro targetCarrier rest =>
+          cases rest with
+          | intro mapCarrier rest =>
+              cases rest with
+              | intro modulusCarrier rest =>
+                  cases rest with
+                  | intro sourceMap targetCert =>
+                      exact
+                        And.intro (unary_append_closed prefixCarrier sourceCarrier)
+                          (And.intro (unary_append_closed prefixCarrier targetCarrier)
+                            (And.intro mapCarrier
+                              (And.intro modulusCarrier
+                                (And.intro
+                                  (cont_intro
+                                    ((congrArg (append p) sourceMap).trans
+                                      (append_assoc p source map).symm))
+                                  (cont_intro
+                                    ((congrArg (append p) targetCert).trans
+                                      (append_assoc p targetHist modulus).symm))))))
+
 theorem ContinuousModulusChain_prefix_closed {p source first second target : BHist} :
     UnaryHistory p -> ContinuousModulusChain source first second target ->
       ContinuousModulusChain (append p source) first second (append p target) := by

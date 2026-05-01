@@ -50,6 +50,18 @@ inductive CompactFiniteRefinementChain : BHist -> BHist -> BHist -> BHist -> Pro
           Cont currentCompact extra nextCompact ->
             CompactFiniteRefinementChain finite compact nextFinite nextCompact
 
+theorem CompactFiniteRefinementChain_transitivity
+    {finite compact midFinite midCompact finalFinite finalCompact : BHist} :
+    CompactFiniteRefinementChain finite compact midFinite midCompact ->
+      CompactFiniteRefinementChain midFinite midCompact finalFinite finalCompact ->
+        CompactFiniteRefinementChain finite compact finalFinite finalCompact := by
+  intro first second
+  induction second with
+  | base =>
+      exact first
+  | step prior extraCarrier finiteRel compactRel ih =>
+      exact CompactFiniteRefinementChain.step ih extraCarrier finiteRel compactRel
+
 theorem CompactWitnessCarrier_finite_refinement_chain_closed
     {subset located finite intermediate compact finalFinite finalCompact : BHist} :
     CompactWitnessCarrier subset located finite intermediate compact ->
