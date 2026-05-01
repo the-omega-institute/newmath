@@ -2,13 +2,16 @@
 \label{def:list-cons-boundary-coherence}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
 $\sim_A$ be a source classifier. Define
-$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ to mean that any two displayed
-cons presentations of the same list endpoint classify the displayed heads and
-tails. Concretely, for histories $m,a,a',t,t',p,p'$ and finite spines $xs,xs'$,
-assume $A(a)$, $A(a')$, $\mathsf{ListSpineRep}_A(t,xs)$,
-$\mathsf{ListSpineRep}_A(t',xs')$, $\ContR(a,t,p)$, $\ContR(a',t',p')$,
-$\hsame(m,\Eone(p))$, and $\hsame(m,\Eone(p'))$. The required outputs are
-exactly $a\sim_A a'$ and $\mathsf{ListClassifierSpec}(\sim_A,xs,xs')$.
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ as the predicate
+$$
+\forall m\,a\,a'\,t\,t'\,p\,p'\,xs\,xs'.\;
+A(a)\to A(a')\to
+\mathsf{ListSpineRep}_A(t,xs)\to
+\mathsf{ListSpineRep}_A(t',xs')\to
+\ContR(a,t,p)\to \ContR(a',t',p')\to
+\hsame(m,\Eone(p))\to \hsame(m,\Eone(p'))\to
+((a\sim_A a')\land \mathsf{ListClassifierSpec}(\sim_A,xs,xs')).
+$$
 \end{definition}
 
 \begin{theorem}[List spine coherence from cons-boundary coherence]
@@ -26,8 +29,10 @@ Theorem~\ref{thm:list-spine-rep-nil-cons-no-confusion}. In the cons-cons case,
 both presentations expose the same list endpoint together with displayed head
 histories, tail spines, tail representations, continuation witnesses, and
 endpoint witnesses. Definition~\ref{def:list-cons-boundary-coherence} supplies
-exactly the head classifier witness and the tail finite-spine classifier
-witness, and these are the two constructor arguments needed for
+the conjunction
+$(a\sim_A a')\land \mathsf{ListClassifierSpec}(\sim_A,xs,xs')$; its left
+conjunct is the head classifier witness, and its right conjunct is the tail
+finite-spine classifier witness. These are the two constructor arguments for
 $\mathsf{ListClassifierSpec}(\sim_A,-,-)$ on the whole cons spines.
 \end{proof}
 
