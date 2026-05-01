@@ -1,0 +1,35 @@
+\begin{theorem}[List history semantic fields source refinement]
+\label{thm:list-history-semantic-fields-source-refinement}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers. The
+ten-field fit is: traditional target finite-list source refinement; BEDC source
+$\mathsf{BHist}$; carrier $\mathsf{ListHistoryCarrier}$, pattern
+$\mathsf{ListHistoryPattern}$, and ledger $\mathsf{ListHistoryLedger}$ as the
+three list semantic fields; classifier unused; stability source inclusion;
+ledger finite spine; core theorem the three displayed implications below;
+exactness endpoint preservation; standard bridge finite spines; status
+$\mathsf{ProofTarget}$. If the source carrier of $A$ is included in the source
+carrier of $B$,
+$$
+\forall h:\mathsf{BHist}.\; A(h)\to B(h),
+$$
+then for every history $h$,
+$$
+\mathsf{ListHistoryCarrier}_A(h)\to\mathsf{ListHistoryCarrier}_B(h),
+$$
+$$
+\mathsf{ListHistoryPattern}_A(h)\to\mathsf{ListHistoryPattern}_B(h),
+$$
+and
+$$
+\mathsf{ListHistoryLedger}_A(h)\to\mathsf{ListHistoryLedger}_B(h).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the displayed generation of the carrier and ledger witnesses. The nil
+case reuses the empty endpoint witness. The cons case applies the source
+inclusion to the head witness, applies the induction hypothesis to the tail,
+and rebuilds the same continuation endpoint. For the pattern field, use the
+displayed nil and cons cases: the nil pattern is unchanged, and the cons pattern
+uses the source inclusion on the head together with the carrier-refinement
+clause for the tail.
+\end{proof}
