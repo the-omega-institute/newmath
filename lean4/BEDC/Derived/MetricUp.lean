@@ -25,6 +25,36 @@ theorem MetricDistanceWitness_empty_distance_iff {x y : BHist} :
           And.intro unary_empty
             (And.intro unary_empty (And.intro unary_empty (cont_intro rfl)))
 
+def MetricDistanceDepth : BHist → Nat
+  | BHist.Empty => 0
+  | BHist.e0 h => Nat.succ (MetricDistanceDepth h)
+  | BHist.e1 h => Nat.succ (MetricDistanceDepth h)
+
+private theorem MetricDistanceDepth_append :
+    ∀ x y : BHist, MetricDistanceDepth (append x y) =
+      MetricDistanceDepth x + MetricDistanceDepth y := by
+  intro x y
+  induction y with
+  | Empty =>
+      rfl
+  | e0 y ih =>
+      exact congrArg Nat.succ ih
+  | e1 y ih =>
+      exact congrArg Nat.succ ih
+
+theorem MetricDistanceWitness_depth_add {x y d : BHist} :
+    MetricDistanceWitness x y d →
+      MetricDistanceDepth d = MetricDistanceDepth x + MetricDistanceDepth y := by
+  intro witness
+  cases witness with
+  | intro _xCarrier rest =>
+      cases rest with
+      | intro _yCarrier rest =>
+          cases rest with
+          | intro _dCarrier distance =>
+              cases distance
+              exact MetricDistanceDepth_append x y
+
 theorem MetricDistanceWitness_prefix_iff {p x y d : BHist} :
     MetricDistanceWitness (append p x) y (append p d) ↔
       UnaryHistory p ∧ MetricDistanceWitness x y d := by

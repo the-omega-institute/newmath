@@ -61,6 +61,29 @@ are unary, and the continuation ledger is the reflexive empty concatenation.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_distance\_iff}
 
+\begin{theorem}[Metric distance witness depth additivity]
+\label{thm:metric-distance-witness-depth-add}
+Let $\mathsf{MetricDistanceDepth}$ be the structural depth of a BEDC history,
+counting each visible constructor above $\emp$. For histories $x,y,d$, every
+concrete metric distance witness carries exactly the append-depth ledger:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d)
+=
+\mathsf{MetricDistanceDepth}(x)+\mathsf{MetricDistanceDepth}(y).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the concrete witness. Its continuation field is precisely the BEDC
+append ledger $d=x\cdot y$. The structural-depth equation follows by induction
+on the right history $y$, with the empty case reflexive and both visible
+constructor cases obtained by applying successor congruence to the induction
+hypothesis.
+\end{proof}
+\leandef{BEDC.Derived.MetricUp.MetricDistanceDepth}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_depth\_add}
+
 \begin{theorem}[Metric distance witness symmetric classifier]
 \label{thm:metric-distance-witness-symmetric-classifier}
 For unary endpoint histories $x,y$, if $d_{xy}$ is witnessed by the

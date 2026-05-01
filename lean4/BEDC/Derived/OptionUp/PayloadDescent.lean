@@ -12,6 +12,134 @@ def TaggedOptionMapRel (S T : BHist → Prop) {RelS RelT : BHist → BHist → P
       S a ∧ T (delta.map a) ∧ hsame h (BHist.e1 a) ∧
         hsame k (BHist.e1 (delta.map a))
 
+def TaggedOptionDescentComp {RelS RelT RelU : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU) :
+    DescentCertificate BHist BHist RelS RelU :=
+  { map := fun a => epsilon.map (delta.map a)
+    respects := by
+      intro _a _b same
+      exact epsilon.respects (delta.respects same) }
+
+theorem TaggedOptionMapRel_composition_closed {S T U : BHist → Prop}
+    {RelS RelT RelU : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (rhoE : ∀ b : BHist, T b → U (epsilon.map b))
+    (epsilon_hsame :
+      ∀ x y : BHist, T x → T y → hsame x y → hsame (epsilon.map x) (epsilon.map y))
+    {h k m : BHist} :
+    TaggedOptionMapRel S T delta h k →
+      TaggedOptionMapRel T U epsilon k m →
+        TaggedOptionMapRel S U (TaggedOptionDescentComp delta epsilon) h m := by
+  intro deltaRel epsilonRel
+  cases deltaRel with
+  | inl deltaAbsent =>
+      cases epsilonRel with
+      | inl epsilonAbsent =>
+          exact Or.inl (And.intro deltaAbsent.left epsilonAbsent.right)
+      | inr epsilonPresent =>
+          cases epsilonPresent with
+          | intro b data =>
+              cases data with
+              | intro _targetB rest =>
+                  cases rest with
+                  | intro _targetEpsilonB rest =>
+                      cases rest with
+                      | intro sameKPresent _sameMPresent =>
+                          exact False.elim
+                            (not_hsame_emp_e1
+                              (hsame_trans (hsame_symm deltaAbsent.right) sameKPresent))
+  | inr deltaPresent =>
+      cases deltaPresent with
+      | intro a data =>
+          cases data with
+          | intro sourceA rest =>
+              cases rest with
+              | intro targetDeltaA rest =>
+                  cases rest with
+                  | intro sameHPresent sameKDelta =>
+                      cases epsilonRel with
+                      | inl epsilonAbsent =>
+                          exact False.elim
+                            (not_hsame_e1_empty
+                              (hsame_trans (hsame_symm sameKDelta) epsilonAbsent.left))
+                      | inr epsilonPresent =>
+                          cases epsilonPresent with
+                          | intro b dataB =>
+                              cases dataB with
+                              | intro targetB restB =>
+                                  cases restB with
+                                  | intro _targetEpsilonB restB =>
+                                      cases restB with
+                                      | intro sameKB sameMPresent =>
+                                          have sameDeltaB : hsame (delta.map a) b :=
+                                            hsame_e1_iff.mp
+                                              (hsame_trans (hsame_symm sameKDelta) sameKB)
+                                          have sameEpsilon :
+                                              hsame (epsilon.map (delta.map a)) (epsilon.map b) :=
+                                            epsilon_hsame (delta.map a) b targetDeltaA targetB
+                                              sameDeltaB
+                                          exact Or.inr
+                                            (Exists.intro a
+                                              (And.intro sourceA
+                                                (And.intro (rhoE (delta.map a) targetDeltaA)
+                                                  (And.intro sameHPresent
+                                                    (hsame_trans sameMPresent
+                                                      (hsame_symm
+                                                        (hsame_e1_congr sameEpsilon)))))))
+
+theorem TaggedOptionMapRel_composition_factorization_iff {S T U : BHist → Prop}
+    {RelS RelT RelU : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (rhoD : ∀ a : BHist, S a → T (delta.map a))
+    (rhoE : ∀ b : BHist, T b → U (epsilon.map b))
+    (epsilon_hsame :
+      ∀ x y : BHist, T x → T y → hsame x y → hsame (epsilon.map x) (epsilon.map y))
+    {h m : BHist} :
+    TaggedOptionMapRel S U (TaggedOptionDescentComp delta epsilon) h m ↔
+      ∃ k : BHist,
+        TaggedOptionMapRel S T delta h k ∧ TaggedOptionMapRel T U epsilon k m := by
+  constructor
+  · intro compRel
+    cases compRel with
+    | inl absent =>
+        exact Exists.intro BHist.Empty
+          (And.intro
+            (Or.inl (And.intro absent.left (hsame_refl BHist.Empty)))
+            (Or.inl (And.intro (hsame_refl BHist.Empty) absent.right)))
+    | inr present =>
+        cases present with
+        | intro a data =>
+            cases data with
+            | intro sourceA rest =>
+                cases rest with
+                | intro targetComp rest =>
+                    cases rest with
+                    | intro sameHPresent sameMPresent =>
+                        exact Exists.intro (BHist.e1 (delta.map a))
+                          (And.intro
+                            (Or.inr
+                              (Exists.intro a
+                                (And.intro sourceA
+                                  (And.intro (rhoD a sourceA)
+                                    (And.intro sameHPresent
+                                      (hsame_refl (BHist.e1 (delta.map a))))))))
+                            (Or.inr
+                              (Exists.intro (delta.map a)
+                                (And.intro (rhoD a sourceA)
+                                  (And.intro targetComp
+                                    (And.intro (hsame_refl (BHist.e1 (delta.map a)))
+                                      sameMPresent))))))
+  · intro factorized
+    cases factorized with
+    | intro k data =>
+        cases data with
+        | intro deltaRel epsilonRel =>
+            exact TaggedOptionMapRel_composition_closed delta epsilon rhoE epsilon_hsame
+              deltaRel epsilonRel
+
 theorem TaggedOptionMapRel_visible_branch_equivalence {S T : BHist -> Prop}
     {RelS RelT : BHist -> BHist -> Prop}
     (delta : DescentCertificate BHist BHist RelS RelT) {h k : BHist} :
