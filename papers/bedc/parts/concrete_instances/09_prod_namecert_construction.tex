@@ -770,13 +770,13 @@ Unfold the ledger into the raw product carrier for $\rho$ and the stored raw-vis
 
 \begin{theorem}[Concrete product history-envelope semantic certificate]
 \label{thm:concrete-prod-namecert}
-For source-history predicates $L$ and $R$ on $\mathsf{BHist}$, assume only that
-there are carrier witnesses $l$ and $r$ with $L(l)$ and $R(r)$. Then the checked
-certificate is for $\mathsf{ProdHistoryCarrier}(L,R)$ and the history-envelope
-classifier $\mathsf{ProdHistoryClassifier}(L,R)$ under these explicit left and
-right carrier witnesses. This certificate does not by itself certify
-componentwise product equality. Source certificates are one way to supply the
-witnesses through their carrier-inhabited fields.
+For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$, assume
+$\exists l:\mathsf{BHist}.\;L(l)$ and $\exists r:\mathsf{BHist}.\;R(r)$. Then
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),\mathsf{ProdHistoryCarrier}(L,R),\mathsf{ProdHistoryCarrier}(L,R),\mathsf{ProdHistoryClassifier}(L,R))
+$$
+holds. This is the checked ordered-product history-envelope certificate; source
+certificates supply the two inhabited-carrier hypotheses through their fields.
 \end{theorem}
 \begin{proof}
 Choose the left and right carrier witnesses first. BEDC continuation joins them
