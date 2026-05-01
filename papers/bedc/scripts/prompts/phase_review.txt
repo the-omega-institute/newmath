@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v1.8 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.0 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -115,6 +115,46 @@ Every candidate target must pass this 0–12 quality score before it may be sele
 - `downstream_use`: 0–2. Is there a concrete later theorem, bridge, certificate, roadmap exit criterion, or Lean formalization site that will consume this target?
 
 Reject any candidate with total score < 9, with `verifiability = 0`, with `line_cap_safety = 0`, with `downstream_use = 0`, or whose only effect is explanatory wording. Empty rounds are preferred over speculative targets.
+
+## Critical-path discovery (HARD GATE)
+
+Run before target selection:
+
+```bash
+python3 lean4/scripts/critical_path.py
+```
+
+The script ranks every horizon `<X>Up` chapter by `transitive_downstream / (1 + thms)` after excluding nodes that are saturated (`thms >= 10`) or whose dependencies are not yet ready. **At least 1 candidate's `paper_files[0]` MUST correspond to a chapter from `top[0..2]`** of that JSON output (e.g. `top[0].file_paper` → `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`). Prefer `kind="theory_extension"` or `kind="missing_companion"` in those chapters — those are the kinds that grow the chapter.
+
+If a top-3 chapter is technically blocked (its schema explicitly notes infrastructure not yet in BEDC), record the blocker in `evidence` and use `top[3..]` instead. Do NOT silently fall back to depth-refinement of saturated horizons (Bool / Option / Sum / Prod / List / Rat / Tagged Option / Framed List).
+
+## Theme saturation (HARD GATE)
+
+After the file-frequency check in `Anti-saturated-file` above, also compute the **theme** of `paper_files[0]`:
+
+```
+theme = stem(paper_files[0]) before "_namecert"
+e.g. "08_option" → option,  "11_list" → list,  "10_sum" → sum
+```
+
+Run `git log --oneline -20 -- papers/bedc/parts/` and count how many of the last 20 paper-side commits touched a chapter sharing this theme. If `theme_count >= 6`, the candidate is INVALID **unless** the theme corresponds to a `top[0..2]` node from the critical-path JSON. The library has already received six rounds of attention on that theme; the marginal value of a seventh is below the marginal value of opening a top-3 chapter.
+
+## Theory-extension quota (HARD GATE)
+
+In any rolling window of 5 consecutive paper rounds, **at least 1 round** must emit a target with `kind = "theory_extension"`. Inspect the last 4 paper-round commits via `git log --oneline -4 -- papers/bedc/parts/` and look at their `prompts: vN.M` body line plus the commit subject — if none of them committed a theory_extension, this round MUST. Record the contribution in `notes`.
+
+If no genuinely valid `theory_extension` candidate exists this round (the candidate pool is empty for that kind), emit `{"targets": []}` and the obligation rolls forward to the next round.
+
+## Roadmap-phase hard gate
+
+After reading `papers/bedc/parts/project_governance/roadmap.tex`, identify the chapter currently labelled as the OPEN phase (look for headings like "## Currently OPEN:" or the most recent phase block whose exit criteria are unmet) and emit it as `current_open_phase` in the JSON output.
+
+For each `targets[i]`, the `roadmap_phase` field MUST be exactly one of:
+- the value of `current_open_phase` (the target advances the open phase);
+- `"discipline"` (the target enforces a `Section roadmap` "claims explicitly off the table" rule);
+- a non-current phase IF accompanied by an `out_of_phase_justification` field of one short sentence stating why this target must be done now (it blocks the open phase, fixes a build break, etc.).
+
+Phase Revise will reject the round if `roadmap_phase` is missing, empty, or names a phase other than `current_open_phase` without `out_of_phase_justification`.
 
 ## Candidate pool and selection rule
 
