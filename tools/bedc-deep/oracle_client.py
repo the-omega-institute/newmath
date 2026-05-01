@@ -347,6 +347,33 @@ def _build_full_transcript(out_dir: Path, turns: list[dict]) -> str:
 def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
     """Run Stage 1 → 1.5 → 2 for one target. Returns final state dict."""
     out_dir = artifact_dir(target)
+
+    # Pre-flight: if the target's Object is already covered by a paper marker
+    # or a theorem/lemma/proposition label, skip Stage 1 entirely. The oracle
+    # would otherwise burn hours re-deriving an existing result and Stage 2
+    # would reject the duplicate. Override with --force.
+    if not getattr(args, "force", False):
+        from prior_art import find_paper_coverage
+        coverage = find_paper_coverage(target.fields.get("Object", ""))
+        if coverage:
+            print(
+                f"[stage1] target {target.target_id} already covered by paper "
+                f"({len(coverage)} hits); skipping (use --force to override)",
+                flush=True,
+            )
+            for h in coverage[:3]:
+                print(f"  - {h['kind']}: {h['matched']} @ {h['file']}:{h['line']}", flush=True)
+            state = {
+                "target_id": target.target_id,
+                "title": target.title,
+                "started_at": _now_iso(),
+                "completed_at": _now_iso(),
+                "stage1_verdict": "already_in_paper",
+                "paper_coverage": coverage[:20],
+            }
+            write_text(STATE_DIR / f"{target.slug}.json", json.dumps(state, ensure_ascii=False, indent=2))
+            return state
+
     cursor = load_cursor(target)
     turns: list[dict] = cursor.get("turns") or []
     conversation_id = cursor.get("conversation_id") or ""
@@ -722,6 +749,7 @@ def main() -> int:
     parser.add_argument("--parallel", type=int, default=1, help="Number of concurrent target workers in --loop mode (default 1; cap to active ChatGPT tabs)")
     parser.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD, help="Minimum fit_score for Stage 1.5 to accept a spawned candidate")
     parser.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD, help="Minimum novelty for Stage 1.5 to accept a spawned candidate")
+    parser.add_argument("--force", action="store_true", help="Bypass already-in-paper pre-flight check")
     parser.add_argument("--server", default=ORACLE_SERVER, help="Oracle server URL")
     parser.add_argument("--model", default="chatgpt-5.5-pro", help="Model name passed to the oracle server")
     parser.add_argument("--timeout", type=int, default=14400, help="Per-turn timeout in seconds")

@@ -23,6 +23,7 @@ PAPER_PARTS = REPO_ROOT / "papers" / "bedc" / "parts"
 LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 THEOREM_OPEN_RE = re.compile(r"\\begin\{(theorem|lemma|proposition|corollary|definition)\}")
 DEFINITION_NAME_RE = re.compile(r"\\(?:newcommand|def|DeclareMathOperator)\*?\s*\{?\\([A-Za-z]+)\}?")
+LEAN_MARKER_RE = re.compile(r"\\(?:leanchecked|leanvariant|leansorryd|leandef|leanstmt)\{([^}]+)\}")
 
 MAX_HITS = 12
 SNIPPET_BEFORE = 1
@@ -105,14 +106,99 @@ def render_block(hits: list[PriorArtHit]) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def _normalize_canonical(name: str) -> str:
+    return name.strip().strip("`").strip().lower()
+
+
+def _split_canonicals(object_field: str) -> list[str]:
+    raw = (object_field or "").strip()
+    if not raw:
+        return []
+    return [s.strip().strip("`").strip() for s in raw.split(",") if s.strip().strip("`").strip()]
+
+
+def _camel_tokens(canonical: str) -> set[str]:
+    out: set[str] = set()
+    for token in re.findall(r"[A-Za-z][A-Za-z0-9]*", canonical):
+        spaced = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", token)
+        for piece in spaced.split():
+            piece = piece.strip().lower()
+            if len(piece) >= 3:
+                out.add(piece)
+    return out
+
+
+def _label_tokens(label: str) -> set[str]:
+    return {t for t in re.findall(r"[a-z0-9]+", label.lower()) if len(t) >= 3}
+
+
+def find_paper_coverage(object_field: str) -> list[dict]:
+    """Detect whether target's Object is already covered by paper markers/labels.
+
+    Returns list of hit dicts. Empty list means the target appears genuinely
+    new and is safe to send through Stage 1.
+    """
+    canonicals = _split_canonicals(object_field)
+    if not canonicals:
+        return []
+    hits: list[dict] = []
+    for canonical in canonicals:
+        canon_lower = canonical.lower()
+        canon_tokens = _camel_tokens(canonical)
+        if not canon_tokens:
+            continue
+        for path in _iter_part_files():
+            try:
+                text = path.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            rel = str(path.relative_to(REPO_ROOT))
+
+            for m in LEAN_MARKER_RE.finditer(text):
+                target_name_raw = m.group(1)
+                target_name = target_name_raw.replace("\\_", "_").replace("\\\\_", "_")
+                if target_name.lower().endswith(canon_lower):
+                    line_no = text.count("\n", 0, m.start()) + 1
+                    hits.append({
+                        "kind": "lean_marker",
+                        "file": rel,
+                        "line": line_no,
+                        "matched": target_name,
+                        "object": canonical,
+                    })
+
+            for m in LABEL_RE.finditer(text):
+                label = m.group(1)
+                if canon_tokens.issubset(_label_tokens(label)):
+                    line_no = text.count("\n", 0, m.start()) + 1
+                    hits.append({
+                        "kind": "label",
+                        "file": rel,
+                        "line": line_no,
+                        "matched": label,
+                        "object": canonical,
+                    })
+    return hits
+
+
 def main() -> int:
     import argparse
+    import json
     import sys
 
     parser = argparse.ArgumentParser(description="prior-art lookup for BEDC targets")
     parser.add_argument("--object", required=True, help="target Object name, e.g. PsameBase.inversion")
     parser.add_argument("--title", default="", help="target title")
+    parser.add_argument("--coverage", action="store_true", help="Run already-in-paper coverage check instead of prior-art block")
     args = parser.parse_args()
+
+    if args.coverage:
+        hits = find_paper_coverage(args.object)
+        if not hits:
+            print("(no paper coverage hits — target appears new)", file=sys.stderr)
+            return 0
+        print(json.dumps(hits, ensure_ascii=False, indent=2))
+        return 0
 
     hits = lookup(args.object, args.title)
     if not hits:

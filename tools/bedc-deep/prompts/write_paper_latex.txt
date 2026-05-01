@@ -22,9 +22,33 @@ Output requirements:
    and inversions. If you reach a true obstruction, state it as a separate
    numbered remark (`\begin{{remark}}...`), not as a hand-wave.
 
-4. Math uses only `$...$` and `$$...$$`. `$$` must be on its own line.
+4. Math uses only `$...$` and `$$...$$`. `$$` must be on its own line —
+   both the opening and the closing `$$`. Never put `$$` inline at the start
+   or end of a paragraph; always break to a new line.
 
 5. Do not exceed 400 lines of LaTeX in the fenced block.
+
+6. Use ONLY LaTeX macros that exist in `papers/bedc/preamble.tex`. The
+   common ones already defined include `\BEDC`, `\bzero`, `\bone`, `\Mark`,
+   `\msame`, `\Hist`, `\Ezero`, `\Eone`, `\Ext`, `\Cont`, `\psame`,
+   `\TokIntro`, `\TokUnique`, `\hsame`, `\PBaseData` (where present).
+   If you need a name not already defined, expand it inline using
+   `\mathsf{...}`, `\mathrm{...}`, or `\operatorname{...}`. NEVER write a
+   bare `\PsameBase`, `\NewMacro`, or any backslash-name that is not in
+   the preamble — the appended block will fail pdflatex.
+
+7. Do NOT include a `NEXT:` line, a `Insertion target:` paragraph alone
+   on its own (this is fine when paired with the LaTeX block), or any
+   meta question / open question / next-turn prompt. This is the terminal
+   turn; there is no follow-up. Anything after the fenced block other
+   than the brief `Insertion target:` and a one-paragraph plain summary
+   will be treated as a hygiene violation.
+
+8. Do NOT introduce a label that already exists in `papers/bedc/parts/`.
+   If your canonical statement is already labeled in the paper (under any
+   form), pick a NEW label like `thm:<concept>-<distinguishing-suffix>`
+   or — better — say so in the summary paragraph and emit the LaTeX block
+   only if it offers a strictly stronger or distinct result.
 
 CRITICAL constraints (will cause auto-rejection downstream if violated):
 
