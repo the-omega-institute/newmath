@@ -373,6 +373,30 @@ symmetry gives the classifier link.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e1\_left\_iff}
 
+\begin{theorem}[Bool history classifier one-right endpoints]
+\label{thm:bool-history-classifier-eone-right-endpoints}
+The boolean history classifier relates $h$ to $\Eone(k)$ exactly when
+$h$ is internally the same as $\Eone(\emp)$ and $k$ is internally the same as
+$\emp$.
+
+The per-object fit is: traditional target boolean one-endpoint readback; BEDC
+source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{BoolHistoryCarrier}$; classifier $\mathsf{BoolHistoryClassifier}$;
+stability obligation right-endpoint constructor inversion; ledger the displayed
+boolean endpoint; core theorem this right-endpoint iff; exactness one-endpoint
+readback; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Use classifier symmetry to turn a witness for
+$\mathsf{BoolHistoryClassifier}(h,\Eone(k))$ into a witness for
+$\mathsf{BoolHistoryClassifier}(\Eone(k),h)$, then apply
+Theorem~\ref{thm:bool-history-classifier-eone-left-endpoints}. This gives
+$\hsame(k,\emp)$ and $\hsame(h,\Eone(\emp))$. Conversely, the displayed
+endpoint witnesses satisfy the left-endpoint theorem for
+$\mathsf{BoolHistoryClassifier}(\Eone(k),h)$, and classifier symmetry returns
+the right-endpoint classifier witness.
+\end{proof}
+
 \begin{theorem}[Bool history classifier cases]
 \label{thm:bool-history-classifier-cases}
 Every boolean history classifier witness relates two histories in the same

@@ -1,12 +1,32 @@
 \begin{definition}[List cons-boundary coherence]
-\label{def:list-cons-boundary-coherent}
-Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let $\sim_A$ be a source classifier. Define $\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ to mean that any two displayed cons presentations of the same list endpoint classify the displayed heads and tails. Concretely, for histories $m,a,a',t,t',p,p'$ and finite spines $xs,xs'$, assume $A(a)$, $A(a')$, $\mathsf{ListSpineRep}_A(t,xs)$, $\mathsf{ListSpineRep}_A(t',xs')$, $\ContR(a,t,p)$, $\ContR(a',t',p')$, $\hsame(m,\Eone(p))$, and $\hsame(m,\Eone(p'))$. The required outputs are exactly $a\sim_A a'$ and $\mathsf{ListClassifierSpec}(\sim_A,xs,xs')$.
+\label{def:list-cons-boundary-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. Define
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ to mean that any two displayed
+cons presentations of the same list endpoint classify the displayed heads and
+tails. Concretely, for histories $m,a,a',t,t',p,p'$ and finite spines $xs,xs'$,
+assume $A(a)$, $A(a')$, $\mathsf{ListSpineRep}_A(t,xs)$,
+$\mathsf{ListSpineRep}_A(t',xs')$, $\ContR(a,t,p)$, $\ContR(a',t',p')$,
+$\hsame(m,\Eone(p))$, and $\hsame(m,\Eone(p'))$. The required outputs are
+exactly $a\sim_A a'$ and $\mathsf{ListClassifierSpec}(\sim_A,xs,xs')$.
 \end{definition}
 
 \begin{theorem}[List spine coherence from cons-boundary coherence]
 \label{thm:list-spine-coherence-from-cons-boundary-coherence}
-Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let $\sim_A$ be a source classifier. If $\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ holds, then $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds.
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. If
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ holds, then
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds.
 \end{theorem}
 \begin{proof}
-Compare two finite-spine presentations of the same history by cases on the displayed spines. The nil-nil case is the nil constructor of $\mathsf{ListClassifierSpec}$. The mixed nil-cons cases contradict Theorem~\ref{thm:list-spine-rep-nil-cons-no-confusion}. In the cons-cons case, both presentations expose the same list endpoint together with displayed head histories, tail spines, tail representations, continuation witnesses, and endpoint witnesses. Definition~\ref{def:list-cons-boundary-coherent} supplies exactly the head classifier witness and the tail finite-spine classifier witness, and these are the two constructor arguments needed for $\mathsf{ListClassifierSpec}(\sim_A,-,-)$ on the whole cons spines.
+Compare two finite-spine presentations of the same history by cases on the
+displayed spines. The nil-nil case is the nil constructor of
+$\mathsf{ListClassifierSpec}$. The mixed nil-cons cases contradict
+Theorem~\ref{thm:list-spine-rep-nil-cons-no-confusion}. In the cons-cons case,
+both presentations expose the same list endpoint together with displayed head
+histories, tail spines, tail representations, continuation witnesses, and
+endpoint witnesses. Definition~\ref{def:list-cons-boundary-coherence} supplies
+exactly the head classifier witness and the tail finite-spine classifier
+witness, and these are the two constructor arguments needed for
+$\mathsf{ListClassifierSpec}(\sim_A,-,-)$ on the whole cons spines.
 \end{proof}
