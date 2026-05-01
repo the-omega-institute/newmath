@@ -384,32 +384,7 @@ r_h\sim_R r_k.
 $$
 \end{definition}
 
-\begin{theorem}[Product componentwise history classifier endpoint transport]
-\label{thm:prod-component-history-classifier-hsame-transport}
-For source-history carriers $L,R:\mathsf{BHist}\to\mathsf{Prop}$, source
-classifiers $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
-and histories $h,k,h',k'$, if
-$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$,
-$\hsame(h,h')$, and $\hsame(k,k')$ hold, then
-$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h',k')$ holds.
-\end{theorem}
-\begin{proof}
-The per-object fit is: traditional target ordered-pair classifier endpoint
-stability; BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
-$\mathsf{ProdHistoryCarrier}$ through $\mathsf{ProdPairRep}$; classifier
-$\mathsf{ProdComponentHistoryClassifier}$; stability obligation endpoint
-transport; ledger displayed pair representations; core theorem this transport
-law; exactness classifier preservation under endpoint $\hsame$; standard bridge
-stable ordered-pair endpoints; status $\mathsf{ProofTarget}$. Unpack the
-componentwise classifier witness into pair representations for $h$ and $k$ and
-component classifier witnesses $l_h\sim_L l_k$ and $r_h\sim_R r_k$. Apply
-Theorem~\ref{thm:prod-pair-rep-hsame-transport} to move the displayed
-representation of $h$ along $\hsame(h,h')$, and apply the same theorem to move
-the displayed representation of $k$ along $\hsame(k,k')$. The component
-classifier witnesses are unchanged, so the transported pair representations
-and the original component witnesses rebuild
-$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h',k')$.
-\end{proof}
+\input{parts/concrete_instances/09_prod_componentwise_history_classifier_endpoints}
 
 \begin{theorem}[Product componentwise history classifier certificate target]
 \label{thm:prod-component-history-classifier-certificate-target}
@@ -464,8 +439,14 @@ identities because both are chosen to be the same product-history carrier.
 \label{thm:prod-component-history-classifier-inversion}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
 $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
-classifiers, and assume $\NameCert(L,\sim_L)$, $\NameCert(R,\sim_R)$, and
-$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. If
+classifiers. Assume $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and the
+displayed source transitivity laws
+$$
+\forall a\,b\,c.\;a\sim_L b\to b\sim_L c\to a\sim_L c
+\qquad\hbox{and}\qquad
+\forall a\,b\,c.\;a\sim_R b\to b\sim_R c\to a\sim_R c.
+$$
+If
 $\mathsf{ProdPairRep}_{L,R}(h,l,r)$,
 $\mathsf{ProdPairRep}_{L,R}(k,l',r')$, and
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ hold, then
@@ -479,8 +460,8 @@ $h$ to the displayed representation $(l,r)$ and the witness representation
 $(l_h,r_h)$, yielding $l\sim_L l_h$ and $r\sim_R r_h$. Apply coherence at
 $k$ to the witness representation $(l_k,r_k)$ and the displayed
 representation $(l',r')$, yielding $l_k\sim_L l'$ and $r_k\sim_R r'$. The
-transitivity fields of the two source $\NameCert$ witnesses compose the left
-chain $l\sim_L l_h\sim_L l_k\sim_L l'$ and the right chain
+displayed source transitivity hypotheses compose the left chain
+$l\sim_L l_h\sim_L l_k\sim_L l'$ and the right chain
 $r\sim_R r_h\sim_R r_k\sim_R r'$.
 \end{proof}
 
@@ -569,8 +550,14 @@ pair representations, and status $\mathsf{ProofTarget}$.
 \label{thm:prod-component-history-classifier-displayed-exactness}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
 $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
-classifiers, and assume $\NameCert(L,\sim_L)$, $\NameCert(R,\sim_R)$, and
-$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. If
+classifiers. Assume $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and the
+displayed source transitivity laws
+$$
+\forall a\,b\,c.\;a\sim_L b\to b\sim_L c\to a\sim_L c
+\qquad\hbox{and}\qquad
+\forall a\,b\,c.\;a\sim_R b\to b\sim_R c\to a\sim_R c.
+$$
+If
 $\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
 $\mathsf{ProdPairRep}_{L,R}(k,l',r')$, then
 $$
