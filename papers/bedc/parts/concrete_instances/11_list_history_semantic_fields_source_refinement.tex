@@ -166,3 +166,77 @@ $y$. In the cons case, invert the appended classifier at the exposed cons heads;
 its tail is a classifier for the two appended tails. Apply the induction
 hypothesis to the tail prefix classifier and that tail-appended classifier.
 \end{proof}
+
+\begin{theorem}[Source-parametric classified list suffix cancellation]
+\label{thm:list-classifier-source-append-right-cancel-classified}
+For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
+spines $x,y,s,s':\mathsf{ListCarrier}(A)$, the ten-field fit is: traditional
+target finite-list suffix cancellation; BEDC source carried by the source
+entries of the finite spine; carrier $\mathsf{ListCarrier}(A)$; classifier
+$\mathsf{ListClassifierSpec}(sameA)$; stability append under classified
+suffixes; ledger finite spine; core theorem classified right suffix
+cancellation; exactness inherited from structural nil/cons classification and
+reverse readback; standard bridge finite-spine readback; status
+$\mathsf{ProofTarget}$. If
+$$
+\mathsf{ListClassifierSpec}(sameA,s,s')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(sameA,x{++}s,y{++}s')
+$$
+hold, then
+$$
+\mathsf{ListClassifierSpec}(sameA,x,y)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Reverse both classified appended spines. Source-parametric reverse equivalence
+turns the second witness into a classifier on
+$\mathsf{reverse}(s){++}\mathsf{reverse}(x)$ and
+$\mathsf{reverse}(s'){++}\mathsf{reverse}(y)$, while the suffix classifier
+becomes a classifier between $\mathsf{reverse}(s)$ and
+$\mathsf{reverse}(s')$. Apply Theorem~\ref{thm:list-classifier-source-append-left-cancel-classified}
+to cancel these reversed prefixes, obtaining a classifier between
+$\mathsf{reverse}(x)$ and $\mathsf{reverse}(y)$. Reverse equivalence again,
+together with finite-spine reverse involutivity, transports the result back to
+$\mathsf{ListClassifierSpec}(sameA,x,y)$.
+\end{proof}
+
+\begin{theorem}[Source-parametric classified append context equivalence]
+\label{thm:list-classifier-source-append-context-equiv}
+For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
+spines $p,p',x,y,s,s':\mathsf{ListCarrier}(A)$, the ten-field fit is:
+traditional target finite-list two-sided context equivalence; BEDC source
+carried by the source entries of the finite spine; carrier
+$\mathsf{ListCarrier}(A)$; classifier $\mathsf{ListClassifierSpec}(sameA)$;
+stability append under classified prefixes and suffixes; ledger finite spine;
+core theorem classified append-context equivalence; exactness inherited from
+structural nil/cons classification; standard bridge finite-spine readback;
+status $\mathsf{ProofTarget}$. If
+$$
+\mathsf{ListClassifierSpec}(sameA,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(sameA,s,s')
+$$
+hold, then
+$$
+\mathsf{ListClassifierSpec}(sameA,x,y)
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(sameA,p{++}x{++}s,p'{++}y{++}s')
+$$
+holds.
+\end{theorem}
+\begin{proof}
+For the forward implication, append stability first adds the classified
+prefixes $p$ and $p'$ to the witness for $x$ and $y$, and then adds the
+classified suffixes $s$ and $s'$. For the reverse implication, use
+Theorem~\ref{thm:list-classifier-source-append-right-cancel-classified} to
+cancel the classified suffixes from the two contextual spines. The remaining
+classifier relates $p{++}x$ to $p'{++}y$, so
+Theorem~\ref{thm:list-classifier-source-append-left-cancel-classified} cancels
+the classified prefixes and yields $\mathsf{ListClassifierSpec}(sameA,x,y)$.
+\end{proof}
