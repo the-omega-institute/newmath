@@ -245,3 +245,66 @@ Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence}.
 The concrete absent-or-present equivalence is exactly
 Theorem~\ref{thm:tagged-option-history-classifier-branch-exactness}.
 \end{proof}
+
+\begin{theorem}[Tagged option public branch readback is single-valued]
+\label{thm:tagged-option-public-branch-readback-single-valued}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a
+source classifier, let $\mathsf{cert}:\NameCert(S,\sim_S)$ be a source
+certificate, and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For all histories $h,k$
+and every classifier witness
+$\gamma:\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$, the public tag
+readback is exclusive and single-valued:
+$$
+\bigl(
+\hsame(h,\emp)\land
+\hsame(k,\emp)\land
+\neg\bigl(\exists a:\mathsf{BHist}.\; S(a)\land\hsame(h,\Eone(a))\bigr)\land
+\neg\bigl(\exists b:\mathsf{BHist}.\; S(b)\land\hsame(k,\Eone(b))\bigr)
+\bigr)
+\lor
+\bigl(
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land
+\hsame(h,\Eone(a))\land
+\hsame(k,\Eone(b))\land
+a\sim_S b\land
+\neg\hsame(h,\emp)\land
+\neg\hsame(k,\emp)\land
+\bigl(\forall a',b':\mathsf{BHist}.\;
+\bigl(
+S(a')\land S(b')\land
+\hsame(h,\Eone(a'))\land
+\hsame(k,\Eone(b'))
+\bigr)\to
+\hsame(a,a')\land\hsame(b,b')\bigr)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The source certificate and compatibility hypothesis place the statement in the
+public certificate scope of
+Theorem~\ref{thm:tagged-option-public-certificate-branch-exactness}. For the
+readback itself, apply
+Theorem~\ref{thm:tagged-option-history-classifier-branch-exactness} to the
+witness $\gamma$ and split the resulting two concrete branches.
+
+In the absent branch, the branch data give $\hsame(h,\emp)$ and
+$\hsame(k,\emp)$. A source-present endpoint for $h$ would combine
+$S(a)$ and $\hsame(h,\Eone(a))$ with $\hsame(h,\emp)$, contradicting
+Lemma~\ref{lem:tagged-option-history-carrier-constructor-separation}. The same
+argument at $k$ rules out every source-present endpoint on the right side. This
+is the left disjunct.
+
+In the present branch, unpack $a,b$ with $S(a)$, $S(b)$,
+$\hsame(h,\Eone(a))$, $\hsame(k,\Eone(b))$, and $a\sim_S b$.
+Lemma~\ref{lem:tagged-option-history-carrier-constructor-separation} rules out
+$\hsame(h,\emp)$ and $\hsame(k,\emp)$ from the two visible present endpoints.
+
+It remains to show single-valuedness of the payload readback. Given any other
+source-present witnesses $a'$ for $h$ and $b'$ for $k$, apply
+Theorem~\ref{thm:tagged-option-history-present-payload-determinism} first to
+$\hsame(h,\Eone(a))$ and $\hsame(h,\Eone(a'))$, and then to
+$\hsame(k,\Eone(b))$ and $\hsame(k,\Eone(b'))$. The two payload equalities give
+$\hsame(a,a')\land\hsame(b,b')$, completing the right disjunct.
+\end{proof}
