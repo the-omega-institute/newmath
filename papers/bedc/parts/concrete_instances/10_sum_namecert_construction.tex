@@ -52,6 +52,21 @@ Assume both presentations. The left witness gives $\hsame(h,\Ezero(l))$, and the
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_branch\_exclusivity}
 
+\begin{theorem}[Sum history carrier excludes empty]
+\label{thm:sum-history-carrier-empty-absurd}
+For any source carriers \(Left,Right:\mathsf{BHist}\to\mathsf{Prop}\), the
+empty history is not a tagged sum-history carrier:
+$$
+\neg\mathsf{SumHistoryCarrier}(Left,Right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Eliminate the tagged carrier witness. A left branch would identify \(\emp\)
+with an \(\Ezero\)-tagged payload, and a right branch would identify \(\emp\)
+with an \(\Eone\)-tagged payload. Both contradict history no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_empty\_absurd}
+
 \begin{theorem}[Sum history left-tag inversion]
 \label{thm:sum-history-carrier-left-tag-inversion}
 If an \(e0\)-tagged history belongs to the tagged sum-history carrier, then

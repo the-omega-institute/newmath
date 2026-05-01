@@ -39,6 +39,19 @@ theorem SumHistoryCarrier_visible_branch_exactness {Left Right : BHist → Prop}
             | intro rightCarrier sameRight =>
                 exact Or.inr (Exists.intro r (And.intro sameRight rightCarrier))
 
+theorem SumHistoryCarrier_empty_absurd {Left Right : BHist → Prop} :
+    SumHistoryCarrier Left Right BHist.Empty → False := by
+  intro carrier
+  cases carrier with
+  | inl leftBranch =>
+      cases leftBranch with
+      | intro l leftData =>
+          exact not_hsame_emp_e0 leftData.left
+  | inr rightBranch =>
+      cases rightBranch with
+      | intro r rightData =>
+          exact not_hsame_emp_e1 rightData.left
+
 theorem SumHistoryCarrier_visible_payload_determinism {Left Right : BHist → Prop}
     {h l l' r r' : BHist} :
     (hsame h (BHist.e0 l) → Left l → hsame h (BHist.e0 l') → Left l' → hsame l l') ∧

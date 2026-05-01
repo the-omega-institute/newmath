@@ -450,6 +450,27 @@ transports and the target endpoint transports.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_component\_transport}
 
+\begin{theorem}[Rat history classifier one-tail exactness]
+\label{thm:rat-history-classifier-e1-tail-unary-iff}
+For denominator tails \(d,e:\mathsf{BHist}\), the rational history classifier
+relates the one-extension denominators exactly when both tails are unary and
+internally the same:
+$$
+\mathsf{RatHistoryClassifier}(\Eone(d),\Eone(e))
+\Longleftrightarrow
+\mathsf{Unary}(d)\land \mathsf{Unary}(e)\land \hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the classifier into two rational history
+carrier witnesses and the endpoint \(\hsame\) link. The one-tail carrier
+equivalence extracts unary membership of both tails, and \(\Eone\)-constructor
+inversion gives \(\hsame(d,e)\). For the reverse direction, rebuild both
+rational history carriers from the unary tails and lift \(\hsame(d,e)\) by
+\(\Eone\)-congruence.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_e1\_tail\_unary\_iff}
+
 \begin{theorem}[Rat history classifier exposes positive denominators]
 \label{thm:rat-history-classifier-positive-denominators}
 If denominator histories $d$ and $e$ are related by the rational history
