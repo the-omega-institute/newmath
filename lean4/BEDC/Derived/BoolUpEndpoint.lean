@@ -29,6 +29,35 @@ theorem BoolHistoryClassifier_endpoint_exactness {h k : BEDC.FKernel.Hist.BHist}
           · exact BEDC.FKernel.Hist.hsame_trans oneEndpoints.left
               (BEDC.FKernel.Hist.hsame_symm oneEndpoints.right)
 
+theorem BoolHistoryClassifier_endpoint_bridge_exactness {v w : BEDC.FKernel.Mark.BMark} :
+    BoolHistoryClassifier (BoolEndpoint v) (BoolEndpoint w) ↔
+      BEDC.FKernel.Mark.msame v w := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro _ rest =>
+        cases rest with
+        | intro _ endpointSame =>
+            exact (BoolEndpoint_bridge_exactness (v := v) (w := w)).mpr endpointSame
+  · intro sameVW
+    have carrierV : BoolHistoryCarrier (BoolEndpoint v) := by
+      cases v with
+      | b0 =>
+          exact Or.inl (BEDC.FKernel.Hist.hsame_refl BEDC.FKernel.Hist.BHist.Empty)
+      | b1 =>
+          exact Or.inr
+            (BEDC.FKernel.Hist.hsame_refl
+              (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty))
+    have carrierW : BoolHistoryCarrier (BoolEndpoint w) := by
+      cases w with
+      | b0 =>
+          exact Or.inl (BEDC.FKernel.Hist.hsame_refl BEDC.FKernel.Hist.BHist.Empty)
+      | b1 =>
+          exact Or.inr
+            (BEDC.FKernel.Hist.hsame_refl
+              (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty))
+    exact ⟨carrierV, carrierW, (BoolEndpoint_bridge_exactness (v := v) (w := w)).mp sameVW⟩
+
 theorem BoolHistoryClassifier_source_qualified_readback_exactness
     {h k : BEDC.FKernel.Hist.BHist} :
     BoolHistoryClassifier h k ↔

@@ -420,3 +420,17 @@ then $\Pi=\Pi'$ and $\Theta=\Theta'$.
 Proceed by simultaneous cases on the two left bundles. The empty-empty case reduces the append equality to the suffix equality $\Theta=\Theta'$. The empty-cons and cons-empty cases contradict the displayed length equality by natural-number constructor no-confusion. In the cons-cons case, constructor injectivity on the append equality identifies the two head probes and gives equality of the appended tails; constructor injectivity on the length equality gives equal tail lengths. The induction hypothesis applied to the tails gives equality of the left tails and suffixes, and the head equality rebuilds $\Pi=\Pi'$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_split\_unique\_fixed\_length}
+
+\begin{theorem}[Probe bundle append three-split uniqueness at fixed lengths]
+\label{thm:bundle-append-three-split-unique-fixed-lengths}
+For probe bundles $\Pi,\Theta,\Omega,\Pi',\Theta',\Omega'$, if
+$$
+\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\Omega))
+=\mathsf{BAppend}(\Pi',\mathsf{BAppend}(\Theta',\Omega'))
+$$
+and $\mathsf{BLEN}(\Pi)=\mathsf{BLEN}(\Pi')$ and $\mathsf{BLEN}(\Theta)=\mathsf{BLEN}(\Theta')$, then $\Pi=\Pi'$, $\Theta=\Theta'$, and $\Omega=\Omega'$.
+\end{theorem}
+\begin{proof}
+Apply fixed-left-length split uniqueness to the outer append, using the equality of $\Pi$ and $\Pi'$ lengths. This identifies the two first segments and leaves equality of the two residual inner appends. Apply the same split uniqueness theorem to those residual appends with the equality of $\Theta$ and $\Theta'$ lengths, obtaining equality of the middle and final segments.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_three\_split\_unique\_fixed\_lengths}

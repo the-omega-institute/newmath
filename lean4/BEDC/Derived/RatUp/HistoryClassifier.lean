@@ -27,6 +27,16 @@ theorem RatHistoryCarrier_e1_tail_unary_iff {tail : BHist} :
       PositiveUnaryDenominator_e1_iff_unary.mpr tailUnary
     exact RatHistoryCarrier_iff_positive_denominator.mpr positive
 
+theorem RatHistoryClassifier_positive_denominators {d e : BEDC.FKernel.Hist.BHist} :
+    RatHistoryClassifier d e → PositiveUnaryDenominator d ∧ PositiveUnaryDenominator e := by
+  intro classifier
+  cases classifier with
+  | intro carrierD rest =>
+      cases rest with
+      | intro carrierE _sameDE =>
+          exact ⟨RatHistoryCarrier_iff_positive_denominator.mp carrierD,
+            RatHistoryCarrier_iff_positive_denominator.mp carrierE⟩
+
 theorem RatHistoryClassifier_append_unary_denominator_closed {d e tailD tailE : BHist} :
     RatHistoryClassifier d e -> UnaryHistory tailD -> hsame tailD tailE ->
       RatHistoryClassifier (BEDC.FKernel.Cont.append d tailD)

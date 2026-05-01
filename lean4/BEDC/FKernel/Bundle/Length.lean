@@ -144,4 +144,23 @@ theorem bundleAppend_eq_left_iff_right_nil {PName : Type}
     cases rightNil
     exact bundleAppend_right_nil left
 
+theorem bundleAppend_three_split_unique_fixed_lengths {PName : Type}
+    {a b c a' b' c' : ProbeBundle PName} :
+    bundleAppend a (bundleAppend b c) = bundleAppend a' (bundleAppend b' c') →
+      bundleLength a = bundleLength a' →
+        bundleLength b = bundleLength b' →
+          a = a' ∧ b = b' ∧ c = c' := by
+  intro appendSame lengthA lengthB
+  have outer :=
+    bundleAppend_split_unique_fixed_length (left := a) (right := bundleAppend b c)
+      (left' := a') (right' := bundleAppend b' c') appendSame lengthA
+  cases outer with
+  | intro sameA residualSame =>
+      have inner :=
+        bundleAppend_split_unique_fixed_length (left := b) (right := c)
+          (left' := b') (right' := c') residualSame lengthB
+      cases inner with
+      | intro sameB sameC =>
+          exact ⟨sameA, sameB, sameC⟩
+
 end BEDC.FKernel.Bundle
