@@ -769,24 +769,10 @@ def _codex_resolve_conflicts(wt_path: Path, *, model: Optional[str] = None,
     if not conflicted:
         return True
     logger.info(f"Codex conflict resolution: {len(conflicted)} file(s): {conflicted}")
-    prompt = textwrap.dedent(f"""\
-        You are resolving git rebase conflicts in the BEDC paper repository.
-
-        Conflicted files: {', '.join(conflicted)}
-
-        ## Resolution rules
-        - papers/bedc/parts/**/*.tex: keep both sides' independent edits;
-          dedup identical \\leanchecked / \\leanvariant lines; if both sides
-          touched the SAME paragraph in incompatible ways, prefer the upstream
-          (origin/{BASE_BRANCH}) version.
-        - lean4/BEDC.lean and lean4/BEDC/**/*.lean: union all `import` lines,
-          dedup; for declaration conflicts, prefer upstream.
-        - Do NOT introduce iteration-narrative words (修订/新增/patch/legacy/
-          frozen/supersede/deprecated/etc.) when reconciling text.
-
-        After resolving, `git add` each file and `git rebase --continue`. Do
-        NOT run `git push`.
-    """)
+    prompt = _load_prompt("conflict_resolve").format(
+        conflicted=", ".join(conflicted),
+        base_branch=BASE_BRANCH,
+    )
     codex_exec(prompt, work_dir=wt_path, timeout_seconds=timeout, model=model)
     still = run_cmd(["git", "status"], cwd=wt_path)
     if "rebase in progress" in still.stdout.lower():
@@ -816,53 +802,9 @@ def _codex_resolve_post_rebase_audit(
     that points at a Lean target the sibling already covered) without
     touching the rest of the round's content.
     """
-    prompt = textwrap.dedent(f"""\
-        You are recovering a BEDC paper revision worktree after rebase.
-
-        The rebase succeeded (no merge conflicts), but the combined tree now
-        fails `python3 lean4/scripts/bedc_ci.py audit`. The audit failure
-        comes from this round's additions colliding with a sibling round
-        that landed on the base branch concurrently — typical causes:
-
-          - duplicate `\\label{{thm:...}}` (you added the same label name
-            that a sibling round just merged);
-          - duplicate `\\leanchecked{{X}}` for a Lean target that a sibling
-            round already registered at a different paper site;
-          - an `\\leanchecked` / `\\leanstmt` / `\\leandef` referencing a
-            Lean name that no longer exists after rebase.
-
-        ## Audit output (last lines)
-        {audit_msg}
-
-        ## Your task
-        Remove ONLY this round's offending additions to make audit pass:
-
-        1. Run `python3 lean4/scripts/bedc_ci.py audit` to see the live
-           failure list.
-        2. For each duplicate label: identify which `\\label{{...}}`
-           occurrence is the one this round added (`git log` / `git diff
-           HEAD@{{1}}` from the most recent local commit shows your delta).
-           DELETE that occurrence and the surrounding `\\begin{{theorem}} …
-           \\end{{theorem}}` block if the block exists only because of this
-           round. Do NOT delete the sibling round's existing block on the
-           base branch.
-        3. For each unresolved marker added by this round: delete the
-           offending `\\leanchecked` / `\\leanstmt` / `\\leandef` line.
-        4. Do NOT introduce iteration-narrative words.
-        5. Do NOT touch lean4/BEDC/.
-        6. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
-           until both exit 0. If the round becomes empty after removing the
-           collisions, that is acceptable — you can amend the round commit
-           with `git commit --amend --no-edit` once everything passes.
-        7. After audit passes, `git add papers/bedc` and `git commit --amend
-           --no-edit` so the rebased history retains the round commit at the
-           same SHA. Do NOT git push.
-
-        If the only valid recovery is to drop the round entirely (every
-        addition collided), reset the round commit with `git reset HEAD~1`
-        but do NOT abort — just leave the worktree clean so the pipeline
-        can record the failure cleanly.
-    """)
+    prompt = _load_prompt("post_rebase_audit_resolve").format(
+        audit_msg=audit_msg,
+    )
     codex_exec(prompt, work_dir=wt_path, timeout_seconds=timeout, model=model)
     return True
 

@@ -623,31 +623,9 @@ def _codex_resolve_conflicts(
 
     logger.info(f"Codex conflict resolution: {len(conflicted)} file(s): {conflicted}")
 
-    prompt = textwrap.dedent(f"""\
-        You are resolving git rebase conflicts in a Lean4 formalization project.
-
-        The following files have merge conflicts (with <<<<<<< / ======= / >>>>>>> markers):
-        {', '.join(conflicted)}
-
-        ## Context
-        Two parallel formalization rounds modified shared files:
-        - lean4/BEDC.lean: both rounds added `import` lines — keep ALL imports from both sides
-        - lean4/IMPLEMENTATION_PLAN.md: both rounds updated the header — keep the incoming
-          (HEAD/ours) version as base, then ADD the new round info from the other side
-        - theory/*.tex: both rounds added \\leanverified annotations — keep ALL annotations
-
-        ## Instructions
-        1. For each conflicted file, read it and resolve the conflict markers
-        2. The resolution strategy is ALWAYS "keep both sides' additions"
-        3. For BEDC.lean: merge all import lines (union, no duplicates)
-        4. For IMPLEMENTATION_PLAN.md: keep both rounds' Phase entries
-        5. For .tex files: keep all \\leanverified lines
-        6. After resolving, run: git add <file> for each resolved file
-        7. Then run: git rebase --continue
-        8. Do NOT run git push
-
-        Resolve ALL conflicts and complete the rebase.
-    """)
+    prompt = _load_prompt("conflict_resolve").format(
+        conflicted=", ".join(conflicted),
+    )
 
     output = codex_exec(
         prompt,
@@ -815,56 +793,10 @@ def _codex_resolve_post_rebase_audit(
     unresolved marker into BASE_BRANCH while this worktree was working.
     Ask codex to drop this round's offending additions only.
     """
-    prompt = textwrap.dedent(f"""\
-        You are recovering a BEDC Lean formalization worktree after rebase.
-
-        The rebase succeeded (no merge conflicts), and `lake build` plus
-        `tools/check-axioms.py` passed, but
-        `python3 lean4/scripts/bedc_ci.py audit` is now reporting failures
-        on the rebased tree. The cause is usually a sibling round (paper
-        or Lean) that merged onto BASE_BRANCH while this worktree was
-        working — your additions and theirs collided.
-
-        Typical causes:
-          - duplicate `\\label{{thm:...}}` in `papers/bedc/parts/...`;
-          - duplicate `\\leanchecked{{X}}` for a Lean target that a
-            sibling already registered at a different paper site;
-          - `\\leanchecked` / `\\leanstmt` / `\\leandef` pointing at a
-            Lean name that, after rebase, no longer exists in
-            `lean4/BEDC/` (the sibling round renamed or deleted it).
-
-        ## Audit output (tail)
-        {audit_tail}
-
-        ## Your task
-        Remove ONLY this round's (R{round_number}) offending additions:
-
-        1. Run `python3 lean4/scripts/bedc_ci.py audit` to see the live
-           list of duplicate labels / unresolved markers / forbidden
-           constructs.
-        2. Use `git diff HEAD@{{1}}` (or `git show HEAD`) to identify the
-           lines this round added in `papers/bedc/parts/`.
-        3. For each duplicate label this round added: delete the line
-           and, if the surrounding `\\begin{{theorem}}…\\end{{theorem}}`
-           block exists only because of this round, delete the block too.
-           Do NOT delete the sibling block already on the base branch.
-        4. For each unresolved marker this round added: delete that
-           single `\\leanchecked` / `\\leanstmt` / `\\leandef` line.
-        5. Do NOT touch `lean4/BEDC/`. Do NOT introduce iteration
-           narrative vocabulary.
-        6. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
-           until both exit 0. If the round's paper-side contribution
-           becomes empty after the cleanup, that is acceptable — keep
-           the Lean-side commits and let the pipeline merge what
-           remains.
-        7. Once everything passes, `git add papers/bedc` and `git commit
-           --amend --no-edit` so the round's commit retains the same
-           identity, just with the colliding additions stripped out.
-           Do NOT git push.
-
-        If the only valid recovery is to drop the round entirely, run
-        `git reset HEAD~1` and exit cleanly.
-    """)
+    prompt = _load_prompt("post_rebase_audit_resolve").format(
+        audit_tail=audit_tail,
+        round_number=round_number,
+    )
     codex_exec(prompt, work_dir=wt_path, timeout_seconds=timeout, model=model)
     return True
 

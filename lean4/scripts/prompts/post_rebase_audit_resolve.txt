@@ -1,0 +1,48 @@
+You are recovering a BEDC Lean formalization worktree after rebase.
+
+The rebase succeeded (no merge conflicts), and `lake build` plus
+`tools/check-axioms.py` passed, but
+`python3 lean4/scripts/bedc_ci.py audit` is now reporting failures
+on the rebased tree. The cause is usually a sibling round (paper
+or Lean) that merged onto BASE_BRANCH while this worktree was
+working — your additions and theirs collided.
+
+Typical causes:
+  - duplicate `\label{{thm:...}}` in `papers/bedc/parts/...`;
+  - duplicate `\leanchecked{{X}}` for a Lean target that a
+    sibling already registered at a different paper site;
+  - `\leanchecked` / `\leanstmt` / `\leandef` pointing at a
+    Lean name that, after rebase, no longer exists in
+    `lean4/BEDC/` (the sibling round renamed or deleted it).
+
+## Audit output (tail)
+{audit_tail}
+
+## Your task
+Remove ONLY this round's (R{round_number}) offending additions:
+
+1. Run `python3 lean4/scripts/bedc_ci.py audit` to see the live
+   list of duplicate labels / unresolved markers / forbidden
+   constructs.
+2. Use `git diff HEAD@{{1}}` (or `git show HEAD`) to identify the
+   lines this round added in `papers/bedc/parts/`.
+3. For each duplicate label this round added: delete the line
+   and, if the surrounding `\begin{{theorem}}…\end{{theorem}}`
+   block exists only because of this round, delete the block too.
+   Do NOT delete the sibling block already on the base branch.
+4. For each unresolved marker this round added: delete that
+   single `\leanchecked` / `\leanstmt` / `\leandef` line.
+5. Do NOT touch `lean4/BEDC/`. Do NOT introduce iteration
+   narrative vocabulary.
+6. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
+   until both exit 0. If the round's paper-side contribution
+   becomes empty after the cleanup, that is acceptable — keep
+   the Lean-side commits and let the pipeline merge what
+   remains.
+7. Once everything passes, `git add papers/bedc` and `git commit
+   --amend --no-edit` so the round's commit retains the same
+   identity, just with the colliding additions stripped out.
+   Do NOT git push.
+
+If the only valid recovery is to drop the round entirely, run
+`git reset HEAD~1` and exit cleanly.
