@@ -230,7 +230,7 @@ Unfold Definition~\ref{def:tagged-option-source-hsame-compatibility}. Given payl
 
 \begin{theorem}[Tagged option hsame present exactness]
 \label{thm:tagged-option-history-hsame-present-exactness}
-For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and histories $h,k$,
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and assume $\mathsf{cert}:\NameCert(S,\hsame)$. For histories $h,k$,
 $$
 \mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}(\Eone(h),\Eone(k))
 \quad\Longleftrightarrow\quad
@@ -238,7 +238,7 @@ S(h)\land S(k)\land \hsame(h,k).
 $$
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:tagged-option-history-present-present-exactness} with source classifier $\hsame$. In the forward direction, the exactness witness gives payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, endpoint links $\hsame(h,a)$ and $\hsame(k,b)$, and a payload link $\hsame(a,b)$. Eliminate the endpoint witnesses $\hsame(h,a)$ and $\hsame(k,b)$; after substitution, the displayed source witnesses are $S(h)$ and $S(k)$, and the remaining payload link is an $\hsame(h,k)$ witness. In the reverse direction, choose payloads $h$ and $k$ in Theorem~\ref{thm:tagged-option-history-present-present-exactness}; the two source witnesses are displayed, the endpoint links are reflexivity of $\hsame$, and the payload classifier witness is the displayed $\hsame(h,k)$.
+Apply Theorem~\ref{thm:tagged-option-history-present-present-exactness} with source classifier $\hsame$. In the forward direction, the exactness witness gives payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, endpoint links $\hsame(h,a)$ and $\hsame(k,b)$, and a payload link $\hsame(a,b)$. Use $\mathsf{cert}.\mathsf{carrier\_transport}$, with symmetry of the endpoint links where needed, to transport $S(a)$ to $S(h)$ and $S(b)$ to $S(k)$. Compose $\hsame(h,a)$, $\hsame(a,b)$, and the symmetric form of $\hsame(k,b)$ to obtain $\hsame(h,k)$. In the reverse direction, choose payloads $h$ and $k$; the two source witnesses are displayed, the endpoint links are reflexivity of $\hsame$, and the payload classifier witness is the displayed $\hsame(h,k)$.
 \end{proof}
 
 \begin{definition}[Tagged option history pattern]

@@ -123,6 +123,34 @@ history carrier witness exposes component histories $l,r$ and hence a displayed
 pair ledger witness $D(h)$.
 \end{proof}
 
+\begin{theorem}[Singleton componentwise product semantic certificate]
+\label{thm:prod-singleton-componentwise-semantic-certificate}
+Fix histories $l_0,r_0:\mathsf{BHist}$. Define singleton source carriers
+$L(x):\Longleftrightarrow\hsame(x,l_0)$ and
+$R(y):\Longleftrightarrow\hsame(y,r_0)$. With displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, the
+componentwise product classifier specialized to $\hsame$ forms the semantic
+certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}).
+$$
+\end{theorem}
+\begin{proof}
+Build the two singleton $\NameCert$ records from the $\hsame$ fields:
+inhabitation is $l_0$ and $r_0$ by reflexivity, reflexivity is transitivity
+through the fixed endpoint, symmetry swaps the two endpoint paths through the
+fixed history, transitivity composes the two source chains, and carrier
+transport composes the carried source witness with the classifier link through
+$l_0$ or $r_0$. Theorem~\ref{thm:prod-pair-rep-singleton-coherence} supplies
+the pair-representation coherence hypothesis for these singleton carriers.
+Apply Theorem~\ref{thm:prod-component-history-semantic-certificate-target} with
+the two singleton certificates and this coherence witness.
+\end{proof}
+
 \begin{theorem}[Product componentwise certificate refines the checked envelope]
 \label{thm:prod-componentwise-certificate-refines-checked-envelope}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
