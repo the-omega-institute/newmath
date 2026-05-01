@@ -611,12 +611,18 @@ $$
 
 \begin{theorem}[BoolUp paper-side semantic certificate target]
 \label{thm:bool-semantic-namecert-target}
-The canonical public-object certificate proposition for $\BoolUp$ is
+The canonical public-object certificate proposition for $\BoolUp$ is the
+following formal implication: for any core witness
+$$
+\mathsf{core}:
+\NameCert(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}),
+$$
+derive
 $$
 \mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryCarrier},
-\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier})
+\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}).
 $$
-where source, pattern, and ledger are all fixed to
+Here source, pattern, and ledger are all fixed to
 $\mathsf{BoolHistoryCarrier}$, and the classifier is fixed to
 $\mathsf{BoolHistoryClassifier}$. Equivalently, the three history predicates are
 $$
@@ -629,8 +635,7 @@ $$
 \mathsf{BoolHistoryCarrier}.
 $$
 Its $\mathsf{SemanticNameCert}$ record decomposes as follows:
-$\mathsf{core}$ is the checked theorem
-$\mathsf{BEDC.Derived.BoolUp.bool\_history\_name\_certificate}$;
+$\mathsf{core}$ is the supplied core witness;
 $\mathsf{pattern\_sound}$ is the identity implication on
 $\mathsf{BoolHistoryCarrier}$,
 $$
@@ -648,24 +653,30 @@ $$
 \mathsf{BoolHistoryCarrier}(h).
 $$
 The displayed proposition is the paper-side public-object certificate scope for
-$\BoolUp$ and has status $\mathsf{ProofTarget}$. It is the instance of the
-generic carrier-self semantic construction in
+$\BoolUp$ and has status $\mathsf{ProofTarget}$. Specializing
+$\mathsf{core}$ to Theorem~\ref{thm:concrete-bool-namecert} gives the intended
+Bool public-object certificate. The implication is the instance of the generic
+carrier-self semantic construction in
 Theorem~\ref{thm:namecert-carrier-self-semantic-lifting} and carries no checked
-Lean marker. The checked Lean target at this site is only the core
+Lean marker until this semantic construction is checked for the Bool site. The
+checked Lean target at this site is only the core
 $\NameCert$, Theorem~\ref{thm:concrete-bool-namecert}, via
 $BEDC.Derived.BoolUp.bool\_history\_name\_certificate$. The checked Lean theorem
 $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$ only records the five
 core $\NameCert$ fields.
 \end{theorem}
 \begin{proof}
-The checked theorem
-$BEDC.Derived.BoolUp.bool\_history\_name\_certificate$ supplies the core
-$\NameCert$ for $\mathsf{BoolHistoryCarrier}$ and
-$\mathsf{BoolHistoryClassifier}$. Apply
-Theorem~\ref{thm:namecert-carrier-self-semantic-lifting} to that core
-certificate. Since source, pattern, and ledger are all
+Start with an arbitrary core witness
+$\mathsf{core}:\NameCert(\mathsf{BoolHistoryCarrier},
+\mathsf{BoolHistoryClassifier})$. Apply
+Theorem~\ref{thm:namecert-carrier-self-semantic-lifting} to
+$\mathsf{core}$. Since source, pattern, and ledger are all
 $\mathsf{BoolHistoryCarrier}$, the semantic pattern and ledger fields are the
-identity implication on the Bool history carrier predicate.
+identity implication on the Bool history carrier predicate. Taking
+$\mathsf{core}$ to be Theorem~\ref{thm:concrete-bool-namecert}, equivalently
+the checked Lean theorem
+$BEDC.Derived.BoolUp.bool\_history\_name\_certificate$, yields the Bool
+instance of the displayed implication.
 \end{proof}
 
 The endpoint coverage, endpoint bridge classifier completeness, and endpoint
