@@ -755,11 +755,17 @@ $\mathsf{ListSpineRepCoherent}_{A_{a_0},\hsame}$ holds.
 \begin{proof}
 Compare two singleton-source spine presentations of the same endpoint by cases
 on the displayed spines. The mixed nil/cons cases contradict
-Theorem~\ref{thm:list-spine-rep-nil-cons-no-confusion}; the nil/nil case is the nil finite-spine classifier. In the cons/cons case, one-constructor and
-continuation-pair inversion expose comparable tails. Each displayed head lies in
-$A_{a_0}$, so both heads are $\hsame$ to $a_0$ and hence $\hsame$ to each other;
-apply the induction hypothesis to the exposed tail presentations and rebuild
-the $\mathsf{ListClassifierSpec}(\hsame,-,-)$ cons witness.
+Theorem~\ref{thm:list-spine-rep-nil-cons-no-confusion}; the nil/nil case is the nil finite-spine classifier. In the cons/cons case, write the two displayed
+outer endpoints as $\Eone(p)$ and $\Eone(p')$. The common endpoint witness gives
+$\hsame(\Eone(p),\Eone(p'))$; Theorem~\ref{thm:history-constructor-characterization}
+inverts it to $\hsame(p,p')$. The source facts $A_{a_0}(a)$ and $A_{a_0}(a')$
+give $\hsame(a,a_0)$ and $\hsame(a',a_0)$, hence $\hsame(a,a')$ by symmetry and
+transitivity. Apply Theorem~\ref{thm:cont-cancel-hsame-left-context} to
+$\ContR(a,t,p)$, $\ContR(a',t',p')$, the head sameness, and the result sameness;
+this yields $\hsame(t,t')$. Transport the second tail representation along
+Lemma~\ref{lem:list-spine-representation-endpoint-transport}, apply the
+induction hypothesis to the two tail presentations at the aligned endpoint, and
+rebuild the $\mathsf{ListClassifierSpec}(\hsame,-,-)$ cons witness.
 \end{proof}
 
 \begin{theorem}[List singleton source unframed certificate]
