@@ -11,6 +11,20 @@ Use a graph relation between source point histories and target point histories, 
 \end{definition}
 \leandef{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier}
 
+\begin{definition}[Continuous modulus witness]
+\label{def:continuous-modulus-witness}
+For histories $source$, $modulus$, and $cert$,
+$\mathsf{ContinuousModulusWitness}(source,modulus,cert)$ records the four
+components
+$$
+\mathsf{UnaryHistory}(source),\quad
+\mathsf{UnaryHistory}(modulus),\quad
+\mathsf{UnaryHistory}(cert),\quad
+\mathsf{Cont}(source,modulus,cert).
+$$
+\end{definition}
+\leandef{BEDC.Derived.ContinuousUp.ContinuousModulusWitness}
+
 \begin{theorem}[Continuous function carrier composition closure]
 \label{thm:continuous-function-carrier-comp-closed}
 If $f$ carries a source history to a middle history with modulus $modF$, and
@@ -28,6 +42,39 @@ history append, while the supplied target-to-certificate ledger records the
 composite modulus certificate.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_comp\_closed}
+
+\begin{theorem}[Continuous function carrier empty-map identity]
+\label{thm:continuous-function-carrier-empty-map-identity}
+For histories $source$, $modulus$, and $cert$, a certified modulus witness over
+the source ledger determines the identity continuous-function carrier:
+$$
+\mathsf{ContinuousModulusWitness}(source,modulus,cert)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,\emp,source,modulus,cert).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the modulus witness. It supplies unary histories for $source$, $modulus$,
+and $cert$, together with the supplied certificate continuation
+$\mathsf{Cont}(source,modulus,cert)$.
+
+The empty map ledger is unary by the empty-history constructor. The graph part of
+the identity carrier is the right-unit continuation
+$\mathsf{Cont}(source,\emp,source)$.
+
+Reassemble $\mathsf{ContinuousFunctionCarrier}$ from the unary source ledger
+used for both source and target slots, the unary empty map ledger, the unary
+modulus ledger, the right-unit graph continuation, and the supplied certificate
+continuation.
+
+The ten-field certificate fit is the following. The traditional target is the
+identity uniformly continuous graph. The BEDC source is $BHist$ with
+$\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and the
+classifier is $\mathsf{hsame}$. The stability obligation is identity closure.
+The ledger consists of source, empty map, modulus, and certificate histories.
+The core theorem is this identity carrier, exactness is the displayed carrier,
+the standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
 
 \begin{theorem}[Continuous function carrier target-certificate determinacy]
 \label{thm:continuous-function-carrier-target-cert-deterministic}
