@@ -399,7 +399,15 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
         prompt = cursor.get("pending_prompt") or build_initial_prompt(target)
 
     verdict = "open"
-    while True:
+    if turns and (turns[-1].get("response_verdict") or "").lower() == "done":
+        print(
+            f"[stage1] cursor shows turn {turns[-1].get('turn')} already done "
+            f"(progress_delta={turns[-1].get('progress_delta')}); "
+            f"skipping Stage 1 loop, proceeding to terminal LaTeX",
+            flush=True,
+        )
+        verdict = "done"
+    while verdict == "open":
         turn_idx = len(turns)
         wall_hours = (time.time() - wall_clock_start) / 3600.0
         if wall_hours >= args.wall_clock_hours:
@@ -521,7 +529,13 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
 
     # ----- Stage 1 terminal: WRITE_PAPER_LATEX (only if done) -----
     raw_latex_path = out_dir / "raw_oracle_latex.md"
-    if verdict == "done":
+    if verdict == "done" and raw_latex_path.exists() and raw_latex_path.stat().st_size > 100:
+        print(
+            f"[stage1] raw_oracle_latex.md already exists ({raw_latex_path.stat().st_size} bytes) "
+            f"from prior attempt; skipping terminal WRITE_PAPER_LATEX, going straight to Stage 1.5/2",
+            flush=True,
+        )
+    elif verdict == "done":
         latex_prompt = WRITE_LATEX_PROMPT_PATH.read_text(encoding="utf-8").format(
             target_id=target.target_id,
             target_title=target.title,
