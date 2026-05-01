@@ -178,8 +178,9 @@ $\hsame(h,\Eone(a))$, giving the required present witness for $h$.
 \begin{theorem}[Tagged option history classifier presented payload exactness]
 \label{thm:tagged-option-history-classifier-presented-payload-exactness}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
-source classifier $\sim_S$, source certificate
-$\mathsf{cert}:\NameCert(S,\sim_S)$, and
+source classifier $\sim_S$, transitivity hypothesis
+$\forall x\,y\,z:\mathsf{BHist}.\;x\sim_S y\to y\sim_S z\to x\sim_S z$,
+and
 $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, if histories $h,k,a,b$
 satisfy
 $$
@@ -200,7 +201,7 @@ Use Theorem~\ref{thm:tagged-option-history-classifier-hsame-transport} to
 transport the classifier witness from $(h,k)$ to the displayed endpoints
 $(\Eone(a),\Eone(b))$. Then apply
 Theorem~\ref{thm:tagged-option-history-visible-present-exactness} with the
-transitivity field $\mathsf{cert.equiv\_trans}$, the compatibility hypothesis,
+displayed transitivity hypothesis, the compatibility hypothesis,
 and the source witnesses $S(a)$ and $S(b)$. The resulting visible present
 exactness is precisely $a\sim_S b$.
 \end{proof}

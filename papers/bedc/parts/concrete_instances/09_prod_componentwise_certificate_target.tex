@@ -540,3 +540,51 @@ $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$ witness. The classifier
 equivalence is exactly
 Theorem~\ref{thm:prod-envelope-componentwise-hsame-classifiers-coincide}.
 \end{proof}
+
+\begin{theorem}[Singleton hsame product certificates are envelope-equivalent]
+\label{thm:prod-singleton-hsame-envelope-equivalent}
+This theorem fits the per-object template as follows: the traditional target is
+the singleton ordered-product bridge; the BEDC source is $\mathsf{BHist}$ with
+$\Cont$ and $\hsame$; the carrier is $\mathsf{ProdHistoryCarrier}(L,R)$; the
+classifier pair is the envelope classifier and the componentwise classifier; the
+stability data are the singleton source certificates and pair coherence; the
+ledger is the displayed pair representation; the core theorem is the pair of
+semantic certificates together with the classifier equivalence; exactness is
+the classifier equivalence; the standard bridge is singleton ordered-pair
+readback; and the status is $\mathsf{ProofTarget}$. Fix histories
+$l_0,r_0:\mathsf{BHist}$. Define
+$L(x):\Longleftrightarrow\hsame(x,l_0)$ and
+$R(y):\Longleftrightarrow\hsame(y,r_0)$. With displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, both
+semantic certificates hold:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryClassifier}(L,R))
+$$
+and
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}).
+$$
+Moreover, for all histories $h,k$,
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Obtain the two singleton source $\NameCert$ records from
+Theorem~\ref{thm:singleton-history-source-namecert}, first at $l_0$ and then
+at $r_0$. The singleton definitions of $L$ and $R$ supply the left and right
+carrier witnesses for the checked envelope. Theorem~\ref{thm:prod-pair-rep-singleton-coherence}
+gives the required pair-representation coherence. Applying
+Theorem~\ref{thm:prod-hsame-componentwise-certificate-envelope-equivalent}
+with these certificates, witnesses, and the coherence proof yields the two
+semantic certificates and the displayed classifier equivalence.
+\end{proof}
