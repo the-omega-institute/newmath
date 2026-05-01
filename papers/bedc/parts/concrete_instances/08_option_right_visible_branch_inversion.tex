@@ -124,15 +124,14 @@ exactness is precisely $a\sim_S b$.
 \begin{theorem}[Tagged option present payload determinism]
 \label{thm:tagged-option-history-present-payload-determinism}
 This theorem fits the per-object template as follows: the traditional target is
-present optional payload determinism; the BEDC source is $\mathsf{BHist}$ with
-$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier
+present optional payload determinism; the BEDC source and carrier are
+$\mathsf{BHist}$ with $\hsame$ and the visible present endpoint; the classifier
 is unused; the stability obligation is constructor inversion; the ledger is the
 visible present payload; exactness says that the same visible present endpoint
-has the same payload; and the status is $\mathsf{ProofTarget}$. For every BEDC
-history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, history $h$, and
-payloads $a,b:\mathsf{BHist}$, if
+has the same payload; and the status is $\mathsf{ProofTarget}$. For all BEDC
+histories $h,a,b:\mathsf{BHist}$, if
 $$
-S(a),\qquad S(b),\qquad \hsame(h,\Eone(a)),\qquad \hsame(h,\Eone(b)),
+\hsame(h,\Eone(a)),\qquad \hsame(h,\Eone(b)),
 $$
 then the two displayed payloads are the same BEDC history:
 $$
