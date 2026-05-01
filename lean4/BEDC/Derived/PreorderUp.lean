@@ -105,6 +105,17 @@ theorem PreorderPrefixLE_source_carrier_of_target_carrier {h k : BHist} :
       | intro _tailCarrier hCont =>
           exact unary_cont_left_factor hCont targetCarrier
 
+theorem PreorderPrefixLE_carrier_no_e0_target {h k : BHist} :
+    PreorderCarrier h -> PreorderPrefixLE h (BHist.e0 k) -> False := by
+  intro sourceCarrier prefixLE
+  exact unary_no_zero_extension (PreorderPrefixLE_preserves_carrier sourceCarrier prefixLE)
+
+theorem PreorderPrefixLE_carrier_no_e0_source {h k : BHist} :
+    PreorderPrefixLE (BHist.e0 h) k -> PreorderCarrier k -> False := by
+  intro prefixLE targetCarrier
+  exact unary_no_zero_extension
+    (PreorderPrefixLE_source_carrier_of_target_carrier prefixLE targetCarrier)
+
 theorem PreorderPrefixLE_antisymm_hsame {h k : BHist} :
     PreorderPrefixLE h k -> PreorderPrefixLE k h -> hsame h k := by
   intro hk kh

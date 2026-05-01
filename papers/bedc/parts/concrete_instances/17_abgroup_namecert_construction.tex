@@ -110,6 +110,20 @@ multiplication by $a$.
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_common\_left\_factor\_collect}
 
+\begin{theorem}[Nonempty history append cannot be right-absorbed]
+\label{thm:abgroup-history-append-nonempty-left-ne-right}
+For every BEDC history $h$ and right tail $k$, neither
+$\mathsf{append}(\mathsf{e0}(h),k)=k$ nor
+$\mathsf{append}(\mathsf{e1}(h),k)=k$ holds.
+\end{theorem}
+\begin{proof}
+Induct on the right tail $k$. The empty case is constructor disjointness
+against $\emp$. In the nonempty cases, append exposes the same outer
+constructor as the tail, so constructor injectivity reduces the claim to the
+induction hypothesis on the inner tail.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.history\_append\_nonempty\_left\_ne\_right}
+
 \begin{definition}[AbGroup ledger policy]
 \label{def:abgroup-ledger-policy}
 Record group expression provenance and the commutativity law when used.

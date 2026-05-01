@@ -1,9 +1,11 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.Derived.GroupUp
 
 namespace BEDC.Derived.AbGroupUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 
 theorem abgroup_mul_left_right_swap {mul : BHist -> BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -79,5 +81,26 @@ theorem abgroup_mul_common_left_factor_collect {mul : BHist -> BHist -> BHist}
       hsame (mul a (mul b (mul a c))) (mul a (mul a (mul b c))) := by
     exact mulCongr (hsame_refl a) collectTail
   exact hsame_trans reassoc transportTail
+
+theorem history_append_nonempty_left_ne_right :
+    (forall {h k : BHist}, append (BHist.e0 h) k = k -> False) ∧
+      (forall {h k : BHist}, append (BHist.e1 h) k = k -> False) := by
+  constructor
+  · intro h k same
+    induction k generalizing h with
+    | Empty =>
+        cases same
+    | e0 k ih =>
+        exact ih (BHist.e0.inj same)
+    | e1 k ih =>
+        exact ih (BHist.e1.inj same)
+  · intro h k same
+    induction k generalizing h with
+    | Empty =>
+        cases same
+    | e0 k ih =>
+        exact ih (BHist.e0.inj same)
+    | e1 k ih =>
+        exact ih (BHist.e1.inj same)
 
 end BEDC.Derived.AbGroupUp

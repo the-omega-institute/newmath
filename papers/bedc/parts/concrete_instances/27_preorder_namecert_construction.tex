@@ -94,6 +94,30 @@ unary membership of the source history \(h\).
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_source\_carrier\_of\_target\_carrier}
 
+\begin{theorem}[Prefix carrier excludes zero target]
+\label{thm:preorder-prefix-carrier-no-e0-target}
+If $h$ is in the concrete preorder carrier, then a prefix comparison from
+$h$ to $\mathsf{e0}(k)$ is impossible.
+\end{theorem}
+\begin{proof}
+The prefix relation preserves the concrete carrier from source to target.
+Thus $\mathsf{e0}(k)$ would be a unary history, contradicting the BEDC unary
+history zero-extension exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_carrier\_no\_e0\_target}
+
+\begin{theorem}[Prefix carrier excludes zero source]
+\label{thm:preorder-prefix-carrier-no-e0-source}
+If $k$ is in the concrete preorder carrier, then a prefix comparison from
+$\mathsf{e0}(h)$ to $k$ is impossible.
+\end{theorem}
+\begin{proof}
+The target carrier reflects through a concrete unary prefix witness to the
+source carrier. Thus $\mathsf{e0}(h)$ would be a unary history, contradicting
+the BEDC unary history zero-extension exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_carrier\_no\_e0\_source}
+
 \begin{definition}[Preorder classifier specification]
 \label{def:preorder-classifier-specification}
 The classifier is the supplied carrier sameness, and the relation is stable under classifier replacement.
