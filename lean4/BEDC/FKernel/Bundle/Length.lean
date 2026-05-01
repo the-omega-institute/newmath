@@ -59,6 +59,18 @@ theorem inBundle_length_one_singleton {PName : Type} {p : PName}
           cases tailNil
           cases tailMember
 
+theorem inBundle_length_one_unique {PName : Type} {p q : PName}
+    {bundle : ProbeBundle PName} :
+    InBundle p bundle -> InBundle q bundle -> bundleLength bundle = Nat.succ 0 ->
+      p = q := by
+  intro pMember qMember lengthOne
+  have pSingleton : bundle = ProbeBundle.Bcons p ProbeBundle.Bnil :=
+    inBundle_length_one_singleton pMember lengthOne
+  have qSingleton : bundle = ProbeBundle.Bcons q ProbeBundle.Bnil :=
+    inBundle_length_one_singleton qMember lengthOne
+  cases pSingleton
+  exact (ProbeBundle.Bcons.inj qSingleton).left
+
 theorem bundleLength_eq_succ_iff_cons {PName : Type} {bundle : ProbeBundle PName} {n : Nat} :
     bundleLength bundle = Nat.succ n ↔
       ∃ p : PName, ∃ tail : ProbeBundle PName,
@@ -131,5 +143,24 @@ theorem bundleAppend_eq_left_iff_right_nil {PName : Type}
   · intro rightNil
     cases rightNil
     exact bundleAppend_right_nil left
+
+theorem bundleAppend_three_split_unique_fixed_lengths {PName : Type}
+    {a b c a' b' c' : ProbeBundle PName} :
+    bundleAppend a (bundleAppend b c) = bundleAppend a' (bundleAppend b' c') →
+      bundleLength a = bundleLength a' →
+        bundleLength b = bundleLength b' →
+          a = a' ∧ b = b' ∧ c = c' := by
+  intro appendSame lengthA lengthB
+  have outer :=
+    bundleAppend_split_unique_fixed_length (left := a) (right := bundleAppend b c)
+      (left' := a') (right' := bundleAppend b' c') appendSame lengthA
+  cases outer with
+  | intro sameA residualSame =>
+      have inner :=
+        bundleAppend_split_unique_fixed_length (left := b) (right := c)
+          (left' := b') (right' := c') residualSame lengthB
+      cases inner with
+      | intro sameB sameC =>
+          exact ⟨sameA, sameB, sameC⟩
 
 end BEDC.FKernel.Bundle

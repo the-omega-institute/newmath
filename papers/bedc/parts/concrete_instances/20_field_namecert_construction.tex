@@ -48,6 +48,20 @@ Transport the left inverse law for $\mathsf{inv}(a,p)$ across $a\sim_F b$ to obt
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_inverse\_congruence\_from\_apartness}
 
+\begin{theorem}[Field inverse cancel from apartness-indexed inverses]
+\label{thm:field-inverse-cancel-from-apartness}
+For a BEDC history-level \(\FieldUp\) candidate with proof-indexed inverses,
+if \(\mathsf{inv}(a,p)\hsame\mathsf{inv}(b,q)\), then \(a\hsame b\).
+\end{theorem}
+\begin{proof}
+Transport the left inverse law for \(a\) across the equality of
+proof-indexed inverses to make \(a\) a right inverse of the common inverse
+\(\mathsf{inv}(b,q)\). The right inverse law for \(b\) makes \(b\) the
+matching left inverse. Group left/right inverse uniqueness identifies \(b\)
+with \(a\), and symmetry gives \(a\hsame b\).
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_cancel\_from\_apartness}
+
 \begin{definition}[Field ledger policy]
 \label{def:field-ledger-policy}
 Record the ring ledger and the $\mathsf{NonZero}_F$ witness used for each inverse.

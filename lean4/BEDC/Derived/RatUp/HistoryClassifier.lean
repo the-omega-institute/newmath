@@ -27,6 +27,30 @@ theorem RatHistoryCarrier_e1_tail_unary_iff {tail : BHist} :
       PositiveUnaryDenominator_e1_iff_unary.mpr tailUnary
     exact RatHistoryCarrier_iff_positive_denominator.mpr positive
 
+theorem RatHistoryClassifier_positive_denominators {d e : BEDC.FKernel.Hist.BHist} :
+    RatHistoryClassifier d e → PositiveUnaryDenominator d ∧ PositiveUnaryDenominator e := by
+  intro classifier
+  cases classifier with
+  | intro carrierD rest =>
+      cases rest with
+      | intro carrierE _sameDE =>
+          exact ⟨RatHistoryCarrier_iff_positive_denominator.mp carrierD,
+            RatHistoryCarrier_iff_positive_denominator.mp carrierE⟩
+
+theorem RatHistoryClassifier_endpoints_not_empty {d e : BHist} :
+    RatHistoryClassifier d e →
+      (hsame d BHist.Empty → False) ∧ (hsame e BHist.Empty → False) := by
+  intro classifier
+  cases classifier with
+  | intro carrierD rest =>
+      cases rest with
+      | intro carrierE _sameDE =>
+          constructor
+          · intro sameEmpty
+            exact RatHistoryCarrier_not_empty carrierD sameEmpty
+          · intro sameEmpty
+            exact RatHistoryCarrier_not_empty carrierE sameEmpty
+
 theorem RatHistoryClassifier_append_unary_denominator_closed {d e tailD tailE : BHist} :
     RatHistoryClassifier d e -> UnaryHistory tailD -> hsame tailD tailE ->
       RatHistoryClassifier (BEDC.FKernel.Cont.append d tailD)
@@ -88,5 +112,17 @@ theorem RatHistoryClassifier_unary_denominator_context_closed
         (BEDC.FKernel.Cont.append e tailE) :=
     RatHistoryClassifier_append_unary_denominator_closed classifier tailDUnary tailSame
   exact RatHistoryClassifier_prepend_unary_denominator_closed tailClosed prefDUnary prefSame
+
+theorem RatHistoryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist} :
+    RatHistoryLedgerPolicy rho v ->
+      (RatHistoryClassifier rho w <-> RatHistoryClassifier v w) := by
+  intro ledger
+  constructor
+  · intro classified
+    exact RatHistoryClassifier_trans
+      (RatHistoryClassifier_symm (RatHistoryLedgerPolicy_raw_visible_classifier ledger))
+      classified
+  · intro classified
+    exact RatHistoryLedgerPolicy_classifier_extension ledger classified
 
 end BEDC.Derived.RatUp

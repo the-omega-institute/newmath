@@ -6,17 +6,17 @@ This chapter restates the concrete gap policy using \(\InDom\) and \(\TokIntro\)
 \begin{definition}[Internalized signature gap]
 \label{def:internalized-signature-gap}
 Given a source domain name \(D\), a bundle \(\Pi\), and a package token \(p\), define
-\[
+$$
   \InGapSig(\Pi,D,p,h)
-\]
+$$
 to mean that there exist an answer history \(s\) and an evidence ledger \(\Delta\) such that
-\[
+$$
   \InDom(D,h),
   \qquad
   \Sig(\Pi,h,s,\Delta),
   \qquad
   \TokIntro(\Pi,s,p).
-\]
+$$
 \end{definition}
 \leanchecked{BEDC.FKernel.Gap.internalized\_signature\_gap\_iff}
 \leanvariant{BEDC.FKernel.Gap.policySupportedSignatureGap\_token\_witness}
@@ -24,11 +24,11 @@ to mean that there exist an answer history \(s\) and an evidence ledger \(\Delta
 \begin{definition}[Internalized concrete Globalize instance]
 \label{def:internalized-concrete-globalize-instance}
 The internalized concrete signature globalization is the triple
-\[
+$$
   \GlobSig(\Pi,D)
   :=
   (\PkgSig,\psame,\InGapSig).
-\]
+$$
 It is the active concrete finite-kernel Globalize instance.
 \end{definition}
 \leandef{BEDC.FKernel.Gap.InternalizedConcreteGlobalizeInstance}
@@ -54,15 +54,15 @@ By the dependent token condition, obtain $p$ with $\TokIntro(\Pi,s,p)$. These da
 \begin{theorem}[Internalized gap separation]
 \label{thm:gap-separation-concrete}
 Assume \(\AskPol(\Pi,D)\). If
-\[
+$$
   \InGapSig(\Pi,D,p,h)
   \quad\text{and}\quad
   \InGapSig(\Pi,D,q,h),
-\]
+$$
 then
-\[
+$$
   \psame(p,q).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.internalized\_gap\_separation}
 \leanvariant{BEDC.FKernel.Gap.concrete\_gap\_separation\_witnesses}
@@ -72,25 +72,25 @@ then
 
 \begin{proof}
 Unpack the two gap memberships. We obtain signatures \(s,t\) and evidence ledgers \(\Delta,\Theta\) such that
-\[
+$$
   \Sig(\Pi,h,s,\Delta),\qquad
   \TokIntro(\Pi,s,p),
-\]
-\[
+$$
+$$
   \Sig(\Pi,h,t,\Theta),\qquad
   \TokIntro(\Pi,t,q).
-\]
+$$
 By signature determinacy under \(\AskPol(\Pi,D)\), \(\hsame(s,t)\). The concrete package-sameness introduction rule then yields \(\psame(p,q)\).
 \end{proof}
 
 \begin{theorem}[Same-source gap memberships share signatures]
 \label{thm:gap-memberships-share-signature}
 Assume \(\AskPol(\Pi,D)\). If
-\[
+$$
   \InGapSig(\Pi,D,p,h)
   \quad\text{and}\quad
   \InGapSig(\Pi,D,q,h),
-\]
+$$
 then there exist generated signatures \(s,t\) introducing \(p,q\) such that \(\hsame(s,t)\).
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.inGapSig\_same\_source\_package\_witnesses}

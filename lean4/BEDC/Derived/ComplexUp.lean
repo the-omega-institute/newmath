@@ -37,6 +37,42 @@ theorem ComplexHistoryLedgerPolicy_visible_carrier {raw visible : BHist} :
                             (And.intro rightCarrier
                               (cont_result_hsame_transport cont sameRawVisible))))
 
+theorem ComplexHistoryLedgerPolicy_raw_visible_classifier {raw visible : BHist} :
+    ComplexHistoryLedgerPolicy raw visible -> ComplexHistoryClassifier raw visible := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      exact And.intro rawCarrier
+        (And.intro
+          (ComplexHistoryLedgerPolicy_visible_carrier
+            (And.intro rawCarrier sameRawVisible))
+          sameRawVisible)
+
+theorem ComplexHistoryCarrier_positive_components {h : BHist} :
+    ComplexHistoryCarrier h →
+      ∃ real imag : BHist,
+        RatUp.RatHistoryCarrier real ∧ RatUp.RatHistoryCarrier imag ∧ Cont real imag h ∧
+          RatUp.PositiveUnaryDenominator real ∧ RatUp.PositiveUnaryDenominator imag := by
+  intro carrier
+  cases carrier with
+  | intro real rest =>
+      cases rest with
+      | intro imag data =>
+          cases data with
+          | intro realCarrier rest =>
+              cases rest with
+              | intro imagCarrier cont =>
+                  exact Exists.intro real
+                    (Exists.intro imag
+                      (And.intro realCarrier
+                        (And.intro imagCarrier
+                          (And.intro cont
+                            (And.intro
+                              (RatUp.RatHistoryCarrier_iff_positive_denominator.mp
+                                realCarrier)
+                              (RatUp.RatHistoryCarrier_iff_positive_denominator.mp
+                                imagCarrier))))))
+
 theorem ComplexHistoryClassifier_trans {h k r : BHist} :
     ComplexHistoryClassifier h k -> ComplexHistoryClassifier k r ->
       ComplexHistoryClassifier h r := by
@@ -72,6 +108,18 @@ theorem ComplexHistoryLedgerPolicy_classifier_extension {raw visible t : BHist} 
           | intro targetCarrier sameVisibleTarget =>
               exact And.intro rawCarrier
                 (And.intro targetCarrier (hsame_trans sameRawVisible sameVisibleTarget))
+
+theorem ComplexHistoryCarrier_unary {h : BHist} :
+    ComplexHistoryCarrier h -> BEDC.FKernel.Unary.UnaryHistory h := by
+  intro carrier
+  exact BEDC.Derived.ProdUp.ProdHistoryCarrier_unary_of_components
+    (fun {d : BHist} ratCarrier =>
+      (BEDC.Derived.RatUp.PositiveUnaryDenominator_unary_and_nonempty
+        (BEDC.Derived.RatUp.RatHistoryCarrier_iff_positive_denominator.mp ratCarrier)).left)
+    (fun {d : BHist} ratCarrier =>
+      (BEDC.Derived.RatUp.PositiveUnaryDenominator_unary_and_nonempty
+        (BEDC.Derived.RatUp.RatHistoryCarrier_iff_positive_denominator.mp ratCarrier)).left)
+    carrier
 
 theorem complex_history_semantic_name_certificate :
     SemanticNameCert ComplexHistoryCarrier ComplexHistoryCarrier ComplexHistoryCarrier

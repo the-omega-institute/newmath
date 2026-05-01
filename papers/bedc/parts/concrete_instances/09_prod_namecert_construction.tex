@@ -146,6 +146,7 @@ It is the typed source-carrier predicate for the explicit ordered-product
 interface: the left coordinate is licensed by $L$ and the right coordinate is
 licensed by $R$.
 \end{definition}
+\leandef{BEDC.Derived.ProdUp.ProdTypedCarrier}
 
 \begin{theorem}[Product typed carrier transport from source certificates]
 \label{thm:product-typed-carrier-transport-source-certificates}
@@ -169,6 +170,7 @@ $\mathsf{carrier\_respects\_equiv}$ fields of $\mathsf{cert}_L$ and
 $\mathsf{cert}_R$ transport $L(l)$ to $L(l')$ and $R(r)$ to $R(r')$.
 Those transported witnesses rebuild $\mathsf{ProdTypedCarrier}_{L,R}(y)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdTypedCarrier\_transport\_from\_source\_certificates}
 
 \begin{theorem}[Product history classifier endpoint carrier exposure]
 \label{thm:prod-history-classifier-component-inversion}
@@ -228,6 +230,7 @@ For the classifier clause, unfold the stored classifier data. Apply the carrier
 clause to both endpoint carriers, and keep the stored $\hsame(h,k)$ witness
 unchanged to rebuild $\mathsf{ProdHistoryClassifier}(L',R',h,k)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistorySource\_monotonicity}
 
 \begin{theorem}[Product history source equivalence]
 \label{thm:prod-history-source-equivalence}
@@ -336,6 +339,7 @@ $$
   L(l)\wedge R(r)\wedge \Cont(l,r,h).
 $$
 \end{definition}
+\leandef{BEDC.Derived.ProdUp.ProdPairRep}
 
 \begin{theorem}[Product pair representation coverage]
 \label{thm:prod-pair-rep-coverage}
@@ -368,6 +372,7 @@ using continuation result transport. The transported continuation witness
 together with the unchanged source witnesses rebuilds
 $\mathsf{ProdPairRep}_{L,R}(k,l,r)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdPairRep\_hsame\_transport}
 
 \begin{theorem}[Product fixed-pair endpoint determinism]
 \label{thm:prod-pair-rep-determinism}
@@ -387,7 +392,30 @@ $\mathsf{ProdHistoryCarrier}(L,R,k)$, and these endpoint carriers together with
 the $\hsame$ witness rebuild
 $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_fixed\_pair\_determinism}
 This statement fixes both component histories; comparison of two different pair presentations of one endpoint is exactly the separate coherence datum in Definition~\ref{def:prod-pair-rep-coherent}.
+
+\begin{theorem}[Product fixed-pair endpoint exactness]
+\label{thm:prod-pair-rep-fixed-endpoint-exactness}
+For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and histories
+$h,k,l,r$, if $\mathsf{ProdPairRep}_{L,R}(h,l,r)$ holds, then
+$$
+  \mathsf{ProdPairRep}_{L,R}(k,l,r)\Longleftrightarrow\hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The per-object fit is: traditional target ordered-pair endpoint readback; BEDC
+source $\mathsf{BHist}$ with $\Cont$; carrier $\mathsf{ProdPairRep}$;
+classifier endpoint $\hsame$; stability by endpoint transport and continuation
+determinism; ledger fixed displayed pair; core theorem fixed-pair endpoint
+exactness; exactness predicate the displayed iff; standard bridge fixed
+ordered-pair endpoint; status $\mathsf{ProofTarget}$. For the forward
+direction, apply Theorem~\ref{thm:prod-pair-rep-determinism} to the displayed
+base representation and the target representation, then project the
+$\hsame(h,k)$ conjunct. For the reverse direction, apply
+Theorem~\ref{thm:prod-pair-rep-hsame-transport} to the base representation and
+the displayed endpoint sameness.
+\end{proof}
 
 \begin{definition}[Product pair-representation coherence]
 \label{def:prod-pair-rep-coherent}
@@ -460,6 +488,7 @@ the transported component witnesses as a
 $\mathsf{ProdComponentHistoryClassifier}_{L',R',\sim'_L,\sim'_R}(h,k)$
 witness.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_source\_refinement}
 
 \input{parts/concrete_instances/09_prod_componentwise_history_classifier_endpoints}
 
@@ -524,6 +553,7 @@ $\mathsf{ProdHistoryCarrier}(L,R,k)$ from the two displayed pair
 representations, and these two endpoint carriers together with
 $\hsame(h,k)$ rebuild $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_descends\_to\_envelope}
 
 \begin{theorem}[Product envelope hsame classifier recovers componentwise classifier]
 \label{thm:prod-history-envelope-to-componentwise-hsame}
@@ -688,6 +718,7 @@ $\mathsf{equiv\_symm}$ field of $\mathsf{cert}_R$ to reverse the right
 component. The product classifier constructor then rebuilds the componentwise
 witness in the opposite order.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdClassifierSpec\_symm\_from\_nameCert}
 
 \begin{theorem}[History product classifier is symmetric]
 \label{thm:prod-classifier-hsame-symm}

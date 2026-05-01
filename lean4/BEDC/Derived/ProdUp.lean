@@ -344,6 +344,16 @@ theorem ProdHistoryLedgerPolicy_classifier_backward_composition
   exact ProdHistoryClassifier_trans classifier
     (ProdHistoryClassifier_symm (ProdHistoryLedgerPolicy_raw_visible_classifier ledger))
 
+theorem ProdHistoryLedgerPolicy_two_step_classifier_composition
+    {Left Right : BHist -> Prop} {rho v w : BHist} :
+    ProdHistoryLedgerPolicy Left Right rho v ->
+      ProdHistoryLedgerPolicy Left Right v w ->
+        ProdHistoryClassifier Left Right rho w := by
+  intro firstLedger secondLedger
+  exact ProdHistoryClassifier_trans
+    (ProdHistoryLedgerPolicy_raw_visible_classifier firstLedger)
+    (ProdHistoryLedgerPolicy_raw_visible_classifier secondLedger)
+
 theorem ProdHistoryLedgerPolicy_component_exposure {Left Right : BHist -> Prop}
     {rho v : BHist} :
     ProdHistoryLedgerPolicy Left Right rho v ->

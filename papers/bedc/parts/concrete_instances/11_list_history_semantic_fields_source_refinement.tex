@@ -134,13 +134,15 @@ involutivity by induction on each spine, using the nil and cons clauses of
 reverse and append, then transport the resulting classifier back to
 $\mathsf{ListClassifierSpec}(sameA,xs,ys)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_iff}
 
-\begin{theorem}[Source-parametric classified list prefix cancellation]
+\begin{theorem}[BHist-parametric classified list prefix cancellation]
 \label{thm:list-classifier-source-append-left-cancel-classified}
-For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
-spines $p,p',x,y:\mathsf{ListCarrier}(A)$, the ten-field fit is: traditional
-target finite-list prefix cancellation; BEDC source carried by the source
-entries of the finite spine; carrier $\mathsf{ListCarrier}(A)$; classifier
+For any relation $sameA:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ and
+finite spines $p,p',x,y:\mathsf{ListCarrier}(\mathsf{BHist})$, the ten-field
+fit is: traditional target finite-list prefix cancellation; BEDC source carried
+by the history entries of the finite spine; carrier
+$\mathsf{ListCarrier}(\mathsf{BHist})$; classifier
 $\mathsf{ListClassifierSpec}(sameA)$; stability append under classified
 prefixes; ledger finite spine; core theorem classified left prefix
 cancellation; exactness inherited from structural nil/cons classification;
@@ -166,6 +168,7 @@ $y$. In the cons case, invert the appended classifier at the exposed cons heads;
 its tail is a classifier for the two appended tails. Apply the induction
 hypothesis to the tail prefix classifier and that tail-appended classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_BHist\_append\_left\_cancel\_classified}
 
 \begin{theorem}[Source-parametric classified list suffix cancellation]
 \label{thm:list-classifier-source-append-right-cancel-classified}
@@ -269,4 +272,144 @@ $\mathsf{ListClassifierSpec}(\sim_A,ys,ys_0)$. Apply the source-certificate
 transitivity theorem $\mathsf{ListClassifierSpec\_trans\_from\_nameCert}$ with
 $\mathsf{cert}$ to compose the three finite-spine classifier links, yielding
 $\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$.
+\end{proof}
+
+\begin{theorem}[List represented-spine classifier displayed exactness]
+\label{thm:list-represented-spine-classifier-displayed-exactness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. The ten-field fit is:
+traditional finite-list readback; BEDC source $\mathsf{BHist}$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability from the source
+certificate and spine coherence; ledger finite spines $xs_0$ and $ys_0$; core
+theorem displayed-spine exactness; exactness by the displayed-spine
+equivalence; standard bridge finite-spine readback; status
+$\mathsf{ProofTarget}$. For histories $h,k:\mathsf{BHist}$ and finite
+BEDC-history spines $xs_0,ys_0$, if
+$$
+\mathsf{ListSpineRep}_A(h,xs_0)
+$$
+and
+$$
+\mathsf{ListSpineRep}_A(k,ys_0)
+$$
+hold, then
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+For the forward implication, apply
+Theorem~\ref{thm:list-represented-spine-classifier-alignment} to the two
+displayed representation witnesses and the public classifier witness. For the
+reverse implication, unfold the bridge classifier definition. The displayed
+witnesses $\mathsf{ListSpineRep}_A(h,xs_0)$ and
+$\mathsf{ListSpineRep}_A(k,ys_0)$, together with the finite-spine classifier
+witness $\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$, are exactly the
+existential bridge data, so they repack as
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$.
+\end{proof}
+
+\begin{theorem}[List represented-spine nil classifier inversion]
+\label{thm:list-represented-spine-nil-classifier-inversion}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. The ten-field fit is:
+traditional target finite-list nil readback; BEDC source $A$ with
+$\NameCert(A,\sim_A)$; carrier $\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability from
+$\mathsf{cert}$ plus spine coherence; ledger finite spines; core theorem nil
+classifier inversion; exactness by represented-spine alignment; standard bridge
+finite spines; status $\mathsf{ProofTarget}$. For histories $h,k:\mathsf{BHist}$
+and a finite BEDC-history spine $ys$, if
+$$
+\mathsf{ListSpineRep}_A(h,\mathsf{nil}),
+$$
+$$
+\mathsf{ListSpineRep}_A(k,ys),
+$$
+and
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)
+$$
+hold, then $ys=\mathsf{nil}$. Symmetrically, for a finite BEDC-history spine
+$xs$, if $\mathsf{ListSpineRep}_A(h,xs)$,
+$\mathsf{ListSpineRep}_A(k,\mathsf{nil})$, and
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then
+$xs=\mathsf{nil}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-represented-spine-classifier-alignment} to the
+displayed represented nil spine, the represented spine $ys$, and the public
+classifier witness. This gives
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{nil},ys).
+$$
+Case-analyze the finite spine $ys$. The nil branch is immediate. In the cons
+branch, Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} contradicts the
+mixed nil-cons classifier witness, equivalently the mixed branch excluded by
+Theorem~\ref{thm:list-classifier-case-exactness}. The symmetric clause applies
+the same alignment theorem to obtain
+$$
+\mathsf{ListClassifierSpec}(\sim_A,xs,\mathsf{nil})
+$$
+and then case-analyzes $xs$; the nil branch is immediate, and the cons branch is
+the symmetric mixed case ruled out by the same no-confusion lemma and case
+exactness theorem.
+\end{proof}
+
+\begin{theorem}[List represented-spine classifier constructor exactness]
+\label{thm:list-represented-spine-classifier-constructor-exactness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. The ten-field fit is:
+traditional target finite-list readback over $\mathsf{BHist}$; BEDC source $A$
+with $\NameCert(A,\sim_A)$; carrier $\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability from
+$\mathsf{cert}$ and spine coherence; ledger finite spines; core theorem
+represented-spine classifier constructor exactness; exactness by
+displayed-spine classifier exactness; standard bridge finite spines; status
+$\mathsf{ProofTarget}$. For histories $h,k,a,b:\mathsf{BHist}$ and finite
+BEDC-history spines $xs,ys$, the public classifier has the following
+represented-spine constructor behavior:
+\begin{enumerate}
+  \item if $\mathsf{ListSpineRep}_A(h,\mathsf{nil})$,
+  $\mathsf{ListSpineRep}_A(k,\mathsf{cons}(b,ys))$, and
+  $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then $\bot$;
+  \item if $\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$,
+  $\mathsf{ListSpineRep}_A(k,\mathsf{nil})$, and
+  $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then $\bot$;
+  \item if $\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$,
+  $\mathsf{ListSpineRep}_A(k,\mathsf{cons}(b,ys))$, and
+  $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then
+  $$
+  (a\sim_A b)\land \mathsf{ListClassifierSpec}(\sim_A,xs,ys).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the nil-cons clause, apply the forward direction of
+Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} to the
+two represented endpoints and the public classifier witness. This gives
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{nil},\mathsf{cons}(b,ys)).
+$$
+Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} eliminates that mixed
+finite-spine classifier. The cons-nil clause uses the same displayed exactness
+theorem to obtain
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{cons}(a,xs),\mathsf{nil}),
+$$
+and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} eliminates this mixed
+shape as well. For the cons-cons clause, apply the same theorem to obtain
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{cons}(a,xs),\mathsf{cons}(b,ys)).
+$$
+The cons-cons branch of Theorem~\ref{thm:list-classifier-case-exactness} then
+projects the source-head classifier $a\sim_A b$ and the recursive tail
+classifier $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
 \end{proof}

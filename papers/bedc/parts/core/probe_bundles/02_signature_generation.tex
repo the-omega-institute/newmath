@@ -46,6 +46,19 @@ $$
 Here \(\delta\star\Delta\) records the head asking evidence together with the tail derivation ledger; it is not a field of the asking policy.
 \end{kernelrule}
 
+\begin{theorem}[Cons signature result is nonempty]
+\label{thm:signature-cons-result-ne-empty}
+If a cons bundle \(\Bcons(\pi,\Pi)\) generates a result history \(r\), then \(r\)
+cannot be internally the same as \(\emp\).
+\end{theorem}
+\begin{proof}
+Invert the cons signature derivation. The final step is an extension witness
+\(\ExtR(m,s,r)\). Each extension constructor produces either an \(\Ezero\) or
+an \(\Eone\) result, and BEDC history no-confusion separates both constructors
+from \(\emp\).
+\end{proof}
+\leanchecked{BEDC.FKernel.Sig.sig\_cons\_result\_ne\_empty}
+
 \begin{theorem}[Signature generation over bundle append]
 \label{thm:signature-generation-bundle-append}
 For probe bundles $\Pi,\Theta$ and source history $h$, if $\Sig(\Pi,h,s,\Delta)$ and $\Sig(\Theta,h,t,\Gamma)$, then there exist a history $u$ and evidence $\Lambda$ such that

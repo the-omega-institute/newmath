@@ -22,15 +22,15 @@ The carrier $D$ and judgment $\InDom(D,h)$ are supplied by the domain setup. Con
 \begin{theorem}[Domain transport]
 \label{thm:domain-transport}
 Assume \(\DomainPolicy(D)\). If
-\[
+$$
   \InDom(D,h)
   \quad\text{and}\quad
   \hsame(h,k),
-\]
+$$
 then
-\[
+$$
   \InDom(D,k).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Gap.domain\_transport}
 \leanvariant{BEDC.FKernel.Gap.domain\_transport\_refl}
@@ -92,11 +92,11 @@ Active concrete gap statements use \(\InDom(D,h)\), not \(h\in D\). What is not 
 \begin{definition}[Unary source domain]
 \label{def:unary-source-domain}
 Let \(\mathsf{UnarySource}\) be the source-domain name whose internal domain judgment is
-\[
+$$
   \InDom(\mathsf{UnarySource},h)
   \quad\text{exactly when}\quad
   \Unary(h).
-\]
+$$
 This is not a set-membership statement. It is a domain judgment licensed by the unary-generation rules.
 \end{definition}
 \leanchecked{BEDC.FKernel.Unary.unaryDomain\_inDom\_iff\_unaryHistory}
@@ -104,13 +104,13 @@ This is not a set-membership statement. It is a domain judgment licensed by the 
 \begin{lemma}[Unary is transported by history-sameness]
 \label{lem:unary-transport}
 If
-\[
+$$
   \Unary(h),\qquad \hsame(h,k),
-\]
+$$
 then
-\[
+$$
   \Unary(k).
-\]
+$$
 \end{lemma}
 \leanchecked{BEDC.FKernel.Unary.unary\_transport}
 \leanvariant{BEDC.FKernel.Unary.unary\_transport\_symm}
@@ -126,9 +126,9 @@ For the step case, the unary derivation has the form \(\Unary(h_0)\Rightarrow\Un
 
 \begin{theorem}[Unary source satisfies DomainPolicy]
 \label{thm:unary-domain-policy}
-\[
+$$
   \mathsf{DomainPolicy}(\mathsf{UnarySource}).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Unary.unary\_domain\_policy}
 

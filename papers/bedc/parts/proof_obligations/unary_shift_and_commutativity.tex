@@ -9,17 +9,17 @@ The additive boundary correctly states that \(\AddUp\) requires unary continuati
 \begin{definition}[Unary right-shift obligation]
 \label{def:unary-right-shift-obligation}
 The unary right-shift obligation is the statement that if
-\[
+$$
   \Unary(k),
   \qquad
   \ContR(k,\Eone(h),r),
-\]
+$$
 then there exists a history \(v\) such that
-\[
+$$
   \ContR(k,h,v)
   \quad\text{and}\quad
   \hsame(r,\Eone(v)).
-\]
+$$
 \end{definition}
 \leandef{BEDC.FKernel.Unary.UnaryRightShiftObligation}
 \leanvariant{BEDC.FKernel.Unary.UnaryRightShiftObligation\_iff\_fields}
@@ -28,11 +28,11 @@ then there exists a history \(v\) such that
 \begin{definition}[\(\Eone\)-congruence obligation]
 \label{def:eone-congruence-obligation}
 The \(\Eone\)-congruence obligation is the statement that
-\[
+$$
   \hsame(u,v)
   \quad\Rightarrow\quad
   \hsame(\Eone(u),\Eone(v)).
-\]
+$$
 \end{definition}
 \leandef{BEDC.FKernel.Unary.EOneCongruenceObligation}
 \leanchecked{BEDC.FKernel.Unary.EOneCongruenceObligation\_holds}
@@ -40,14 +40,14 @@ The \(\Eone\)-congruence obligation is the statement that
 
 \begin{definition}[Unary continuation commutativity obligation]
 The unary continuation commutativity obligation is the statement that if
-\[
+$$
   \Unary(h),\quad \Unary(k),\quad
   \ContR(h,k,r),\quad \ContR(k,h,r'),
-\]
+$$
 then
-\[
+$$
   \hsame(r,r').
-\]
+$$
 \end{definition}
 
 \begin{theorem}[Commutativity from right-shift and \(\Eone\)-congruence]
@@ -83,9 +83,9 @@ The monoid-like name requires unit and associativity. The additive name requires
 \begin{lemma}[\(\Eone\)-congruence]
 \label{lem:eone-congruence}
 If \(\hsame(h,k)\), then
-\[
+$$
   \hsame(\Eone(h),\Eone(k)).
-\]
+$$
 \end{lemma}
 \leanchecked{BEDC.FKernel.Hist.eone\_congruence}
 \leanvariant{BEDC.FKernel.Hist.hsame\_e1\_congruence}
@@ -97,11 +97,11 @@ This is the \(\Eone\)-constructor rule for \(\hsame\).
 \begin{lemma}[Unary right-shift, witness form]
 \label{lem:unary-shift-witness}
 Assume \(\Unary(k)\) and \(\ContR(k,\Eone(h),r')\). Then there exists a history \(v\) such that
-\[
+$$
   \ContR(k,h,v)
   \qquad\text{and}\qquad
   \hsame(r',\Eone(v)).
-\]
+$$
 \end{lemma}
 
 \begin{proof}
@@ -154,9 +154,9 @@ The theorem \(\UnaryShift\) supplies the commutativity field of the additive nam
 \begin{lemma}[\(\Eone\)-congruence]
 \label{lem:eone-cong}
 If \(\hsame(h,k)\), then
-\[
+$$
   \hsame(\Eone(h),\Eone(k)).
-\]
+$$
 \end{lemma}
 
 \begin{proof}
@@ -168,11 +168,11 @@ This is the \(\Eone\)-constructor rule for \(\hsame\).
 \begin{lemma}[Unary right-shift base]
 \label{lem:unary-shift-base}
 If \(\ContR(\emp,\Eone(h),r)\), then there exists a history \(v\) such that
-\[
+$$
   \ContR(\emp,h,v)
   \quad\text{and}\quad
   \hsame(r,\Eone(v)).
-\]
+$$
 \end{lemma}
 \leanchecked{BEDC.FKernel.Unary.unary\_shift\_base}
 
@@ -183,17 +183,17 @@ By the left-unit law for \(\ContR\), the first premise yields \(\hsame(r,\Eone(h
 \begin{lemma}[Unary right-shift step]
 \label{lem:unary-shift-step}
 Assume the right-shift statement holds for a unary history \(k_0\). If
-\[
+$$
   \Unary(k_0),
   \qquad
   \ContR(\Eone(k_0),\Eone(h),r'),
-\]
+$$
 then there exists a history \(v\) such that
-\[
+$$
   \ContR(\Eone(k_0),h,v)
   \quad\text{and}\quad
   \hsame(r',\Eone(v)).
-\]
+$$
 \end{lemma}
 \leanchecked{BEDC.FKernel.Unary.unary\_shift\_step}
 \leanvariant{BEDC.FKernel.Unary.unary\_shift\_step\_with\_unary\_result}
@@ -203,32 +203,32 @@ then there exists a history \(v\) such that
 
 \begin{proof}
 Invert the continuation premise. The only active constructor for a left source headed by \(\Eone\) exposes a history \(u\) with
-\[
+$$
   \ContR(k_0,\Eone(h),u)
   \quad\text{and}\quad
   \hsame(r',\Eone(u)).
-\]
+$$
 By the induction hypothesis applied to \(k_0\), there exists \(v_0\) such that
-\[
+$$
   \ContR(k_0,h,v_0)
   \quad\text{and}\quad
   \hsame(u,\Eone(v_0)).
-\]
+$$
 The continuation step gives
-\[
+$$
   \ContR(\Eone(k_0),h,\Eone(v_0)).
-\]
+$$
 Let \(v=\Eone(v_0)\). By Lemma~\ref{lem:eone-cong}, \(\hsame(u,v)\) gives \(\hsame(\Eone(u),\Eone(v))\). Together with \(\hsame(r',\Eone(u))\) and transitivity, this yields \(\hsame(r',\Eone(v))\).
 \end{proof}
 
 \begin{theorem}[Unary right-shift]
 \label{thm:unary-shift}
 Assume \(\Unary(k)\) and \(\ContR(k,\Eone(h),r')\). Then there exists a history \(v\) such that
-\[
+$$
   \ContR(k,h,v)
   \quad\text{and}\quad
   \hsame(r',\Eone(v)).
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Unary.unary\_shift}
 \leanvariant{BEDC.FKernel.Unary.unary\_shift\_result\_shape}
@@ -245,14 +245,14 @@ Induct on the derivation of \(\Unary(k)\). The empty case is Lemma~\ref{lem:unar
 \begin{theorem}[Unary continuation commutativity]
 \label{thm:unary-commutativity-refined}
 If
-\[
+$$
   \Unary(h),\quad \Unary(k),\quad
   \ContR(h,k,r),\quad \ContR(k,h,r'),
-\]
+$$
 then
-\[
+$$
   \hsame(r,r').
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.FKernel.Unary.unary\_commutativity\_refined}
 \leanvariant{BEDC.FKernel.Unary.unary\_continuation\_commutativity}

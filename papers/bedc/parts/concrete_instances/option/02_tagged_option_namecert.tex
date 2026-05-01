@@ -70,6 +70,7 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source 
 \label{def:tagged-option-source-hsame-compatibility}
 For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, define $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ to be the property that for all payload histories $a,b$, if $S(a)$, $S(b)$, and $\hsame(a,b)$, then $a\sim_S b$.
 \end{definition}
+\leandef{BEDC.Derived.OptionUp.TaggedOptionSourceHsameCompatible}
 
 \begin{theorem}[Tagged option history classifier endpoint carriers]
 \label{thm:tagged-option-history-classifier-endpoint-carriers}
@@ -140,6 +141,7 @@ For the forward direction, apply Theorem~\ref{thm:tagged-option-history-present-
 
 For the reverse direction, use Theorem~\ref{thm:tagged-option-history-present-present-exactness} with payloads $h$ and $k$. The source witnesses are the assumptions $S(h)$ and $S(k)$, the endpoint witnesses are reflexivity of $\hsame$ at $h$ and $k$, and the payload classifier witness is the assumed $h\sim_S k$.
 \end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_visible\_present\_exactness}
 
 \begin{theorem}[Tagged option hsame source compatibility]
 \label{thm:tagged-option-source-hsame-compatibility-hsame}
@@ -272,6 +274,7 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source cla
   \item classifier endpoint transport: if $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$, $\hsame(h,h')$, and $\hsame(k,k')$ hold, then $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h',k')$ holds.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_stability\_fields}
 \begin{proof}
 For reflexivity, case-analyze the carrier witness. The absent case rebuilds the absent classifier branch from the stored empty endpoint witness and reflexivity, symmetry, and transitivity of $\hsame$; the present case keeps the same payload and applies the reflexivity field of $\mathsf{cert}$ to the source carrier witness. For symmetry, case-analyze the tagged classifier witness. The absent branch reverses the stored endpoint links by symmetry of $\hsame$, and the present branch reverses the payload classifier with $\mathsf{cert.equiv\_symm}$ while swapping the two endpoint witnesses.
 
@@ -313,6 +316,7 @@ $$
 \begin{proof}
 For the forward direction, case-analyze the tagged classifier witness. The absent-absent branch directly provides the endpoint witness $\hsame(h,\emp)$. The present-present branch would force $\hsame(\emp,\Eone(b))$ for some source payload $b$, contradicting BEDC history no-confusion between the empty endpoint and a one-extension endpoint. For the reverse direction, combine the assumed $\hsame(h,\emp)$ with reflexivity of $\hsame$ at $\emp$ and rebuild the absent-absent classifier branch.
 \end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_right\_absent\_exactness}
 
 \begin{theorem}[Tagged option history mixed-tag separation]
 \label{thm:tagged-option-history-mixed-tag-separation}
@@ -402,6 +406,7 @@ S(a')\land S(b)\land \hsame(a,a')\land a'\sim_S b\land
 \hsame(k,\Eone(b)).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_visible\_branch\_inversion}
 \begin{proof}
 For the absent clause, case-analyze the tagged classifier witness. The
 absent-absent branch already stores $\hsame(k,\emp)$. The present-present branch
@@ -415,6 +420,34 @@ payloads $a'$ and $b$ with $S(a')$, $S(b)$, $a'\sim_S b$,
 $\hsame(h,\Eone(a'))$, and $\hsame(k,\Eone(b))$. Compose the two presentations
 of $h$ and invert the one-constructor equality to get $\hsame(a,a')$; the
 remaining fields are exactly the displayed witnesses.
+\end{proof}
+
+\begin{theorem}[Tagged option classifier branch occupancy equivalence]
+\label{thm:tagged-option-history-classifier-branch-occupancy-equivalence}
+This theorem fits the per-object template with traditional target tagged optional
+history branch occupancy, BEDC source $\mathsf{BHist}$ with $\hsame$, carrier
+$\mathsf{TaggedOptionHistoryCarrier}$, classifier
+$\mathsf{TaggedOptionHistoryClassifier}$, stability obligation branch preservation,
+ledger visible absent/present occupancy, core theorem this equivalence, exactness
+constructor no-confusion, standard bridge $\mathsf{none}$/$\mathsf{some}$, and
+status $\mathsf{ProofTarget}$.
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source
+classifier $\sim_S$, histories $h,k$, and witness
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$, the visible branch
+occupancy is preserved:
+$$
+(\hsame(h,\emp) \Longleftrightarrow \hsame(k,\emp))
+\land
+((\exists a.\; S(a)\land\hsame(h,\Eone(a))) \Longleftrightarrow
+(\exists b.\; S(b)\land\hsame(k,\Eone(b)))).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. The absent-absent branch gives both
+empty endpoint witnesses and rules out either present endpoint by
+empty-versus-one no-confusion. The present-present branch projects the two source
+payload witnesses and their visible endpoint witnesses, and rules out either
+empty endpoint by the same no-confusion argument.
 \end{proof}
 
 \input{parts/concrete_instances/08_option_right_visible_branch_inversion.tex}
@@ -712,6 +745,7 @@ Theorem~\ref{thm:option-history-classifier-transitivity}. For the reverse
 direction, apply Theorem~\ref{thm:option-ledger-classifier-extension} directly
 to the ledger witness and the assumed visible-endpoint classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_classifier\_endpoint\_equivalence}
 
 \begin{theorem}[Option ledger history-same transport]
 \label{thm:option-ledger-hsame-transport}

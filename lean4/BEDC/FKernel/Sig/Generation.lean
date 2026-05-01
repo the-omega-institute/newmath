@@ -92,6 +92,18 @@ theorem signature_event_generation_pack [AskSetup] :
                 (And.intro hask
                   (And.intro htail hext))))
 
+theorem sig_cons_result_ne_empty [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
+    {h r : BHist} :
+    SigRel (ProbeBundle.Bcons pi tail) h r -> hsame r BHist.Empty -> False := by
+  intro hsig sameEmpty
+  cases sig_cons_inversion hsig with
+  | intro s rest =>
+      cases rest with
+      | intro m rest =>
+          cases rest with
+          | intro delta data =>
+              exact ext_result_ne_empty data.right.right sameEmpty
+
 theorem sigRel_bundleAppend [AskSetup] {left right : ProbeBundle ProbeName}
     {h s t : BHist} :
     SigRel left h s -> SigRel right h t ->

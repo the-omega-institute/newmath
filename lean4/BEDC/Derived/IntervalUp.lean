@@ -13,6 +13,11 @@ def IntervalCarrier (lower upper : BHist → Prop) (h : BHist) : Prop :=
 def IntervalClassifierSpec (lower upper : BHist → Prop) (h k : BHist) : Prop :=
   IntervalCarrier lower upper h ∧ IntervalCarrier lower upper k ∧ hsame h k
 
+def IntervalEmptyBoundaryLedgerPolicy (raw visible : BHist) : Prop :=
+  IntervalCarrier (fun x : BHist => hsame BHist.Empty x)
+      (fun x : BHist => hsame x BHist.Empty) raw ∧
+    hsame raw visible
+
 theorem IntervalCarrier_empty_boundary_of_hsame {h : BEDC.FKernel.Hist.BHist} :
     BEDC.FKernel.Hist.hsame h BEDC.FKernel.Hist.BHist.Empty ->
       IntervalCarrier
@@ -65,6 +70,29 @@ theorem IntervalCarrier_empty_boundary_hsame_transport {h k : BEDC.FKernel.Hist.
           · constructor
             · exact BEDC.FKernel.Hist.hsame_trans lower same
             · exact BEDC.FKernel.Hist.hsame_trans (BEDC.FKernel.Hist.hsame_symm same) upper
+
+theorem IntervalEmptyBoundaryLedgerPolicy_visible_carrier {raw visible : BHist} :
+    IntervalEmptyBoundaryLedgerPolicy raw visible ->
+      IntervalCarrier (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) visible := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      exact IntervalCarrier_empty_boundary_hsame_transport sameRawVisible rawCarrier
+
+theorem IntervalEmptyBoundaryLedgerPolicy_raw_visible_classifier {raw visible : BHist} :
+    IntervalEmptyBoundaryLedgerPolicy raw visible →
+      IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) raw visible := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      constructor
+      · exact rawCarrier
+      · constructor
+        · exact IntervalEmptyBoundaryLedgerPolicy_visible_carrier
+            (And.intro rawCarrier sameRawVisible)
+        · exact sameRawVisible
 
 theorem IntervalCarrier_empty_boundary_unique {h k : BHist} :
     IntervalCarrier (fun x : BHist => hsame BHist.Empty x)
@@ -121,6 +149,13 @@ theorem IntervalClassifierSpec_empty_boundary_iff_endpoints {h k : BHist} :
   · intro endpoints
     exact IntervalClassifierSpec_empty_boundary_of_hsame endpoints.left endpoints.right
 
+theorem IntervalClassifierSpec_empty_boundary_no_e0_left {tail k : BHist} :
+    IntervalClassifierSpec
+      (fun x : BHist => hsame BHist.Empty x)
+      (fun x : BHist => hsame x BHist.Empty) (BHist.e0 tail) k -> False := by
+  intro classifier
+  exact not_hsame_e0_empty classifier.left.right.right
+
 theorem IntervalClassifierSpec_trans {lower upper : BEDC.FKernel.Hist.BHist -> Prop}
     {h k r : BEDC.FKernel.Hist.BHist} :
     IntervalClassifierSpec lower upper h k ->
@@ -150,6 +185,23 @@ theorem IntervalClassifierSpec_symm {lower upper : BEDC.FKernel.Hist.BHist -> Pr
       cases rest with
       | intro carrierK sameHK =>
           exact ⟨carrierK, carrierH, BEDC.FKernel.Hist.hsame_symm sameHK⟩
+
+theorem IntervalEmptyBoundaryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist} :
+    IntervalEmptyBoundaryLedgerPolicy rho v ->
+      (IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) rho w <->
+        IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
+          (fun x : BHist => hsame x BHist.Empty) v w) := by
+  intro ledger
+  have rawVisible :
+      IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) rho v :=
+    IntervalEmptyBoundaryLedgerPolicy_raw_visible_classifier ledger
+  constructor
+  · intro classified
+    exact IntervalClassifierSpec_trans (IntervalClassifierSpec_symm rawVisible) classified
+  · intro classified
+    exact IntervalClassifierSpec_trans rawVisible classified
 
 theorem interval_name_certificate (lower upper : BHist → Prop)
     (lower_empty : lower BHist.Empty) (upper_empty : upper BHist.Empty)

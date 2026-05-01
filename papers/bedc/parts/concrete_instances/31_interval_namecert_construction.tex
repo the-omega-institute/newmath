@@ -47,6 +47,60 @@ Unpack the interval carrier into unary membership and the two boundary witnesses
 \end{proof}
 \leanchecked{BEDC.Derived.IntervalUp.IntervalCarrier\_empty\_boundary\_hsame\_transport}
 
+\begin{definition}[Interval empty-boundary ledger policy]
+\label{def:interval-empty-boundary-ledger-policy}
+The empty-boundary interval ledger records a raw endpoint in the concrete
+carrier whose lower boundary is \(\hsame(\emp,-)\) and whose upper boundary is
+\(\hsame(-,\emp)\), together with an internal history-sameness link from the
+raw endpoint to the visible endpoint.
+\end{definition}
+\leandef{BEDC.Derived.IntervalUp.IntervalEmptyBoundaryLedgerPolicy}
+
+\begin{theorem}[Interval empty-boundary ledger visible carrier]
+\label{thm:interval-empty-boundary-ledger-visible-carrier}
+If an empty-boundary interval ledger relates a raw endpoint to a visible
+endpoint, then the visible endpoint remains in the same concrete
+empty-boundary interval carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalEmptyBoundaryLedgerPolicy\_visible\_carrier}
+\begin{proof}
+Unpack the ledger into raw carrier evidence and the raw-visible
+\(\hsame\) link. The empty-boundary carrier transport theorem carries the raw
+carrier evidence across that link to the visible endpoint.
+\end{proof}
+
+\begin{theorem}[Interval empty-boundary ledger raw-visible classifier]
+\label{thm:interval-empty-boundary-ledger-raw-visible-classifier}
+If an empty-boundary interval ledger relates a raw endpoint to a visible
+endpoint, then those endpoints satisfy the restricted empty-boundary interval
+classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalEmptyBoundaryLedgerPolicy\_raw\_visible\_classifier}
+\begin{proof}
+Unpack the ledger into raw carrier evidence and the raw-visible \(\hsame\)
+link. The visible carrier theorem supplies the visible endpoint carrier, and
+the two carrier witnesses with the stored link rebuild the interval classifier.
+\end{proof}
+
+\begin{theorem}[Interval empty-boundary ledger classifier endpoint equivalence]
+\label{thm:interval-empty-boundary-ledger-classifier-endpoint-equivalence}
+If $\mathsf{IntervalEmptyBoundaryLedgerPolicy}(\rho,v)$ holds, then every
+target history $w$ is classified from $\rho$ exactly when it is classified from
+$v$ by the empty-boundary interval classifier:
+$$
+\mathsf{IntervalClassifierSpec}_{\emp}(\rho,w)\leftrightarrow
+\mathsf{IntervalClassifierSpec}_{\emp}(v,w).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalEmptyBoundaryLedgerPolicy\_classifier\_endpoint\_equivalence}
+\begin{proof}
+The ledger supplies the raw-visible empty-boundary interval classifier. For the
+raw-to-visible direction, reverse that classifier by symmetry and compose it
+with the raw-target classifier by transitivity. For the visible-to-raw
+direction, compose the raw-visible classifier with the visible-target
+classifier.
+\end{proof}
+
 \begin{theorem}[Interval empty boundary carrier uniqueness]
 \label{thm:interval-empty-boundary-carrier-uniqueness}
 For the interval carrier whose lower boundary is \(\hsame(\emp,-)\) and whose
@@ -90,6 +144,19 @@ For the interval classifier whose lower boundary is $\hsame(\emp,-)$ and whose u
 In one direction, eliminate the restricted classifier witness and project the upper-boundary fields from the two interval carriers. In the other direction, apply the empty-boundary classifier constructor to the two endpoint witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_empty\_boundary\_iff\_endpoints}
+
+\begin{theorem}[Interval empty boundary excludes left zero-extension]
+\label{thm:interval-empty-boundary-e0-left-absurd}
+For the interval classifier whose lower boundary is \(\hsame(\emp,-)\) and
+whose upper boundary is \(\hsame(-,\emp)\), no classifier witness can have
+left endpoint \(\Ezero(t)\).
+\end{theorem}
+\begin{proof}
+Eliminate the classifier witness and read the upper-boundary field of the left
+carrier. It gives \(\hsame(\Ezero(t),\emp)\), contradicting BEDC history
+no-confusion for zero-extension versus the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_empty\_boundary\_no\_e0\_left}
 
 \section{The certificate}
 

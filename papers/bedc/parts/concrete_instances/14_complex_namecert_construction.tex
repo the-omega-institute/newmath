@@ -19,6 +19,32 @@ components.
 \end{definition}
 \leandef{BEDC.Derived.ComplexUp.ComplexHistoryCarrier}
 
+\begin{theorem}[Complex history carrier is unary]
+\label{thm:complex-history-carrier-unary}
+Every complex history carrier is a unary BEDC history.
+\end{theorem}
+\begin{proof}
+Unpack the complex carrier as a product of two rational-history carriers and a
+continuation witness. Each rational component gives a positive unary
+denominator, hence a unary history. Unary histories are closed under the stored
+continuation, so the complex carrier endpoint is unary.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_unary}
+
+\begin{theorem}[Complex carrier positive components]
+\label{thm:complex-history-carrier-positive-components}
+Every complex history carrier exposes real and imaginary rational-history
+components whose denominators are positive unary histories, together with the
+continuation witness assembling those components into the complex history.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_positive\_components}
+\begin{proof}
+Unpack the product-history carrier into its real component, imaginary
+component, component carrier witnesses, and continuation witness. Apply the
+rational-history carrier characterization to each component to read back the
+positive unary denominator evidence, and keep the same continuation witness.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Complex source specification]
@@ -95,6 +121,19 @@ Unpack the raw complex carrier as a product of two rational-history carriers
 and a continuation witness. Transport the continuation result across the
 stored raw-visible \(\hsame\) link and rebuild the rational-pair carrier at
 the visible endpoint.
+\end{proof}
+
+\begin{theorem}[Complex ledger raw-visible classifier]
+\label{thm:complex-ledger-raw-visible-classifier}
+If a complex ledger relates a raw complex history to a visible history, then
+the raw and visible endpoints satisfy the complex history classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_raw\_visible\_classifier}
+\begin{proof}
+Unpack the ledger into the raw complex carrier and the raw-visible
+\(\hsame\) link. The visible carrier theorem supplies the visible endpoint
+carrier, and these two carrier witnesses with the stored history link rebuild
+the restricted product classifier.
 \end{proof}
 
 \begin{theorem}[Complex ledger classifier extension]
