@@ -68,3 +68,25 @@ from $\hsame(k,\emp)$, right visible-branch inversion gives
 $\hsame(h,\emp)$. These two implications assemble the displayed
 $\Longleftrightarrow$.
 \end{proof}
+
+\begin{theorem}[Tagged option history classifier present-branch equivalence]
+\label{thm:tagged-option-history-classifier-present-branch-equivalence}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, histories $h,k$, and classifier witness $\gamma:\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$, classified endpoints agree on presentness:
+$$
+\bigl(\exists a:\mathsf{BHist}.\; S(a)\land\hsame(h,\Eone(a))\bigr)
+\Longleftrightarrow
+\bigl(\exists b:\mathsf{BHist}.\; S(b)\land\hsame(k,\Eone(b))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, unpack a source payload $a$ with $S(a)$ and
+$\hsame(h,\Eone(a))$. Apply the present clause of
+Theorem~\ref{thm:tagged-option-history-classifier-visible-branch-inversion} to
+the witness $\gamma$; the exposed right payload supplies $S(b)$ and
+$\hsame(k,\Eone(b))$, which is the required present witness for $k$. For the
+reverse implication, unpack a right payload $b$ with $S(b)$ and
+$\hsame(k,\Eone(b))$. Apply the present clause of
+Theorem~\ref{thm:tagged-option-history-classifier-right-visible-branch-inversion}
+to $\gamma$; the exposed left payload supplies $S(a)$ and
+$\hsame(h,\Eone(a))$, giving the required present witness for $h$.
+\end{proof}

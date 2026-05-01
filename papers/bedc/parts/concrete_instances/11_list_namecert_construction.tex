@@ -571,7 +571,7 @@ Induct on the structural classifier derivation. The nil clause has no entries to
 
 \begin{definition}[List ledger policy]
 \label{def:list-ledger-policy}
-Record the finite constructor spine and the source ledger for each element.
+Record the finite constructor spine and source-carrier evidence for each visible element; the paper-side $\mathsf{ListHistoryLedger}$ used in Theorem~\ref{thm:concrete-list-namecert} does not carry a separate source ledger.
 \end{definition}
 
 \begin{definition}[List history ledger]
@@ -785,7 +785,7 @@ history, and Definition~\ref{def:list-spine-rep-coherence} supplies the
 finite-spine classifier witness that lets
 Theorem~\ref{thm:list-classifier-trans-from-namecert} compose the two endpoint
 classifiers. Carrier transport for the certificate core unpacks
-$\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ as a $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$, extracts the displayed target representation $\mathsf{ListSpineRep}_A(k,ys)$, and applies the reverse direction of Theorem~\ref{thm:list-spine-representation-coverage}, equivalently the soundness direction of Theorem~\ref{thm:list-spine-representation-exactness}, to recover $\mathsf{ListHistoryCarrier}_A(k)$. Source-certificate transport is used only for entrywise source evidence and ledger data along the finite-spine classifier. Nil/cons case analysis uses
+$\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ as a $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$, extracts the displayed target representation $\mathsf{ListSpineRep}_A(k,ys)$, and applies the reverse direction of Theorem~\ref{thm:list-spine-representation-coverage}, equivalently the soundness direction of Theorem~\ref{thm:list-spine-representation-exactness}, to recover $\mathsf{ListHistoryCarrier}_A(k)$. Source-certificate transport is used only for entrywise source-carrier evidence, while the list ledger is the carrier-shaped constructor spine from Definition~\ref{def:list-history-ledger}. Nil/cons case analysis uses
 Theorem~\ref{thm:list-history-carrier-generated-cases} for the generated history
 carrier and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} inside the
 finite-spine bridge, and exactness is the matching-shape statement of
