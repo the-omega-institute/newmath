@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.8
+// @version      1.9
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.8";
+  const SCRIPT_VERSION = "bedc-1.9";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -534,6 +534,17 @@
     return CHROME_RE.some(re => re.test(t));
   }
 
+  function stableResponseKey(text) {
+    const normalized = cleanText(text)
+      .replace(/Thought for\s+\d+(?:\s*m\s*\d+\s*s|\s*s|\s+min)/gi, "Thought for <elapsed>")
+      .replace(/\b\d{1,2}:\d{2}(?::\d{2})?\b/g, "<clock>")
+      .replace(/\b(Pro thinking|Extended Pro|Reasoning…)\b/gi, "")
+      .replace(/[ \t]+/g, " ")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+    return normalized.length >= 5 ? normalized : text.trim();
+  }
+
   function isSsrLine(t) {
     if (!t || t.length > 400) return false;
     return SSR_LINE_RE.test(t);
@@ -769,7 +780,8 @@
   async function waitForResponse(task_id) {
     log("Waiting for ChatGPT response...");
     const startTime = Date.now();
-    let lastText = "";
+    let lastResponseText = "";
+    let lastStableKey = "";
     let stableCount = 0;
     let lastLogTime = 0;
     let lastHeartbeat = 0;
@@ -809,14 +821,16 @@
       if (responseText.length >= 5) {
         if (looksLikePromptEcho(responseText)) {
           if (stableCount === 0) log(`Prompt echo detected (${responseText.length} chars) — waiting`);
-          stableCount = 0; lastText = ""; continue;
+          stableCount = 0; lastResponseText = ""; lastStableKey = ""; continue;
         }
         if (isSSRGarbage(responseText)) {
           if (stableCount === 0) log(`SSR garbage detected — page hydrating, waiting`);
-          stableCount = 0; lastText = ""; continue;
+          stableCount = 0; lastResponseText = ""; lastStableKey = ""; continue;
         }
-        if (responseText === lastText) {
+        const stableKey = stableResponseKey(responseText);
+        if (stableKey === lastStableKey) {
           stableCount++;
+          lastResponseText = responseText;
           let minChecks;
           if (responseText.length >= 2000) minChecks = STABLE_CHECKS;
           else if (responseText.length >= 200) minChecks = STABLE_CHECKS + 2;
@@ -829,14 +843,15 @@
           }
         } else {
           stableCount = 0;
-          lastText = responseText;
+          lastResponseText = responseText;
+          lastStableKey = stableKey;
         }
       } else if (generating) {
         stableCount = 0;
       }
     }
-    log(`TIMEOUT (${MAX_WAIT/1000}s), returning partial: ${lastText.length} chars`);
-    return lastText;
+    log(`TIMEOUT (${MAX_WAIT/1000}s), returning partial: ${lastResponseText.length} chars`);
+    return lastResponseText;
   }
 
   // ── Process a task (BEDC ADD: multi-turn navigation + reload-safe) ─
