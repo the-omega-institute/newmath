@@ -156,3 +156,25 @@ theorem TaggedOptionHistoryClassifier_hsame_transport {S : BHist → Prop}
                                             relAB))))))
 
 end BEDC.Derived.OptionUp
+
+theorem BEDC.Derived.OptionUp.OptionClassifierSpec_symm_from_source_symmetry
+    {A : Type} {Rel : A → A → Prop}
+    (rel_symm : ∀ {a b : A}, Rel a b → Rel b a) :
+    ∀ {x y : BEDC.Derived.OptionUp.OptionCarrier A},
+      BEDC.Derived.OptionUp.OptionClassifierSpec Rel x y →
+        BEDC.Derived.OptionUp.OptionClassifierSpec Rel y x := by
+  intro x y classified
+  change BEDC.Derived.OptionUp.OptionClassifierSpec Rel y x
+  cases x with
+  | none =>
+      cases y with
+      | none =>
+          exact classified
+      | some _ =>
+          cases classified
+  | some _ =>
+      cases y with
+      | none =>
+          cases classified
+      | some _ =>
+          exact rel_symm classified

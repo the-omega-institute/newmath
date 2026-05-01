@@ -13,6 +13,20 @@ inductive ProdHistoryLedgerChain (Left Right : BHist -> Prop) : BHist -> BHist -
         ProdHistoryLedgerChain Left Right v z ->
           ProdHistoryLedgerChain Left Right rho z
 
+theorem ProdHistoryLedgerChain_trans {Left Right : BEDC.FKernel.Hist.BHist → Prop}
+    {rho mid z : BEDC.FKernel.Hist.BHist} :
+    BEDC.Derived.ProdUp.ProdHistoryLedgerChain Left Right rho mid →
+      BEDC.Derived.ProdUp.ProdHistoryLedgerChain Left Right mid z →
+        BEDC.Derived.ProdUp.ProdHistoryLedgerChain Left Right rho z := by
+  intro first
+  induction first generalizing z with
+  | step ledger =>
+      intro second
+      exact BEDC.Derived.ProdUp.ProdHistoryLedgerChain.cons ledger second
+  | cons ledger _ ih =>
+      intro second
+      exact BEDC.Derived.ProdUp.ProdHistoryLedgerChain.cons ledger (ih second)
+
 theorem ProdHistoryLedgerPolicy_classifier_endpoint_equivalence {Left Right : BHist → Prop}
     {rho v w : BHist} :
     ProdHistoryLedgerPolicy Left Right rho v →

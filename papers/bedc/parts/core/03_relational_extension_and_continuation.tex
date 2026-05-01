@@ -265,6 +265,18 @@ Unfold \(\ContR\) as the append-result equation. Symmetry of the result sameness
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_transport}
 
+\begin{theorem}[Continuation hsame transport]
+\label{thm:cont-hsame-transport}
+If $\hsame(h,h')$, $\hsame(k,k')$, $\hsame(r,r')$, and $\ContR(h,k,r)$, then
+$\ContR(h',k',r')$.
+\end{theorem}
+\begin{proof}
+Eliminate the two input $\hsame$ witnesses to align the left and right
+continuation inputs. The remaining result endpoint is transported by
+Theorem~\ref{thm:cont-result-hsame-transport}.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_hsame\_transport}
+
 \begin{theorem}[Continuation left-context cancellation up to history-sameness]
 \label{thm:cont-cancel-hsame-left-context}
 If $\ContR(a,b,r)$, $\ContR(a',d,r')$, $\hsame(a,a')$, and $\hsame(r,r')$,

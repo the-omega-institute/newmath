@@ -10,6 +10,13 @@ theorem cont_right_cancel_hsame_result {h h' k r r' : BHist} :
   apply append_right_cancel (k := k)
   exact left.symm.trans (same.trans right)
 
+theorem cont_hsame_transport {h h' k k' r r' : BHist} :
+    hsame h h' → hsame k k' → hsame r r' → Cont h k r → Cont h' k' r' := by
+  intro sameH sameK sameR hcont
+  cases sameH
+  cases sameK
+  exact BEDC.FKernel.Cont.cont_result_hsame_transport hcont sameR
+
 theorem cont_cancel_common_context {a b c d ab ad left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont a d ad -> Cont ad c right ->
       hsame left right -> hsame b d := by

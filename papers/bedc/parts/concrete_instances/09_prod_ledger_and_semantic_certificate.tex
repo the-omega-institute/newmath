@@ -261,6 +261,22 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.ProdUp.ProdHistoryLedgerChain}
 
+\begin{theorem}[Product ledger chain transitivity]
+\label{thm:prod-ledger-chain-transitivity}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers. If
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,v)$ and
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(v,z)$ hold, then
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$ holds.
+\end{theorem}
+\begin{proof}
+Induct on the first ledger-chain derivation. A one-ledger derivation is a
+displayed $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$; composing it with the
+second chain is exactly the cons constructor. In the cons case, apply the
+induction hypothesis to concatenate the tail chain with the second chain, then
+reapply the leading displayed ledger by the cons constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerChain\_trans}
+
 \begin{theorem}[Product ledger chain componentwise classifier endpoint equivalence]
 \label{thm:prod-ledger-chain-componentwise-classifier-endpoint-equivalence}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
