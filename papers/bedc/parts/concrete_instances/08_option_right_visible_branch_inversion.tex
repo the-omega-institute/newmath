@@ -82,6 +82,47 @@ exactly the carrier and endpoint-equality fields of
 $\mathsf{OptionHistoryClassifier}_S(h,k)$.
 \end{proof}
 
+\begin{theorem}[Tagged option public certificate descends to nullable envelope]
+\label{thm:tagged-option-public-certificate-descends-to-nullable-envelope}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a
+source classifier, let $\mathsf{cert}:\NameCert(S,\sim_S)$, and assume both
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ and
+$\mathsf{TaggedOptionToNullableBridge}(S,\sim_S)$. Then the constructor-tagged
+public certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,
+\mathsf{TaggedOptionHistoryPattern}_S,
+\mathsf{TaggedOptionHistoryLedger}_S,
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S})
+$$
+holds, and the tagged carrier and classifier compare to the nullable envelope:
+$$
+\forall h.\;
+\mathsf{TaggedOptionHistoryCarrier}_S(h)\to
+\mathsf{OptionHistoryCarrier}_S(h),
+$$
+and
+$$
+\forall h\,k.\;
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+\mathsf{OptionHistoryClassifier}_S(h,k).
+$$
+This is one-way compatibility of the constructor-tagged public certificate with
+the checked nullable envelope; it is not an equality of the two carrier
+presentations.
+\end{theorem}
+\begin{proof}
+The tagged semantic certificate is exactly
+Theorem~\ref{thm:tagged-option-history-semantic-certificate}, applied to the
+source certificate $\mathsf{cert}$ and the compatibility hypothesis
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. The two displayed
+implications are exactly
+Theorem~\ref{thm:tagged-option-to-nullable-classifier-bridge}, applied to the
+bridge hypothesis $\mathsf{TaggedOptionToNullableBridge}(S,\sim_S)$. The
+construction therefore transports the tagged public certificate into the
+nullable envelope only through the supplied bridge data.
+\end{proof}
+
 \begin{theorem}[Tagged option history classifier absent-branch equivalence]
 \label{thm:tagged-option-history-classifier-absent-branch-equivalence}
 This theorem fits the per-object template as follows: the traditional target is
