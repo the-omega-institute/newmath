@@ -636,6 +636,49 @@ def in_progress_marker(target: BedcTarget) -> Path:
     return STATE_DIR / target.slug / ".in_progress"
 
 
+STALE_CLAIM_MAX_AGE_SECONDS = 30 * 60
+
+
+def _pid_alive(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+        return True
+    except (OSError, ProcessLookupError):
+        return False
+
+
+def cleanup_stale_claims(max_age_seconds: int = STALE_CLAIM_MAX_AGE_SECONDS) -> int:
+    """Remove .in_progress markers whose PID is dead or whose mtime is too old.
+
+    Returns the number of markers cleaned. Safe to call from oracle_client
+    startup and from supervisor health checks.
+    """
+    if not STATE_DIR.exists():
+        return 0
+    cleaned = 0
+    for marker in STATE_DIR.glob("*/.in_progress"):
+        try:
+            content = marker.read_text(encoding="utf-8")
+            age = time.time() - marker.stat().st_mtime
+        except OSError:
+            continue
+        m = re.match(r"pid=(\d+)", content.strip())
+        pid_alive = _pid_alive(int(m.group(1))) if m else False
+        if pid_alive and age <= max_age_seconds:
+            continue
+        try:
+            marker.unlink()
+            cleaned += 1
+            print(
+                f"[cleanup] stale claim removed: {marker.parent.name} "
+                f"(pid_alive={pid_alive}, age={int(age)}s)",
+                flush=True,
+            )
+        except OSError:
+            pass
+    return cleaned
+
+
 def claim_next_unfinished() -> BedcTarget | None:
     """Pick one unfinished+unclaimed target under target-picker lock."""
     with file_lock("target_picker"):
@@ -681,6 +724,9 @@ def _run_target_safe(args: argparse.Namespace, target: BedcTarget) -> dict:
 
 
 def run_loop(args: argparse.Namespace) -> int:
+    cleaned = cleanup_stale_claims()
+    if cleaned:
+        print(f"[startup] cleaned {cleaned} stale .in_progress claims", flush=True)
     targets = parse_board()
     if not args.target_id and not args.loop:
         print("error: either pass a target_id or --loop", flush=True)

@@ -140,6 +140,49 @@ python3 tools/bedc-deep/auto_discovery.py curator --append
 Both commands write the full audit record (codex output, claude verdict per
 candidate, appended ids) to `state/discovery_logs/<mode>_<ts>.json`.
 
+## Supervisor (recommended for unattended runs)
+
+`supervisor.py` is the outer-loop wrapper that keeps the pipeline alive
+without manual babysitting:
+
+- spawns `oracle_client.py --loop` and restarts it on crash with backoff
+- ensures `bedc_oracle_server.py` is up; respawns if missing
+- prunes stale `.in_progress` markers each pass (also fixed at oracle_client
+  startup for direct invocations)
+- when BOARD unfinished count drops below `--low-water`, triggers probe
+- after `COMPLETIONS_PER_CURATOR` (5) targets land, triggers curator
+- when `papers/bedc/parts/` or `BOARD.md` change, auto-commits and pushes
+- alerts when `queue_waiting_for_browser_agent` stays stuck > 5 min
+  (browser tabs probably went idle)
+- every `--claude-review-hours` (6h default), runs a `claude -p` progress
+  review over state + server snapshot; verdicts with
+  `recommend_probe` / `recommend_curator` are auto-applied within their
+  cooldowns; flagged `stuck_targets` and `concerns` are logged for human
+
+Start (background, no on-boot):
+
+```bash
+nohup python3 tools/bedc-deep/supervisor.py --parallel 3 \
+  > tools/bedc-deep/state/supervisor_logs/supervisor.out 2>&1 &
+```
+
+Stop cleanly:
+
+```bash
+touch tools/bedc-deep/.stop
+# or: kill <supervisor pid>; supervisor will SIGTERM the inner loop
+```
+
+Disable individual tiers if needed:
+
+```bash
+python3 tools/bedc-deep/supervisor.py --no-claude-review --no-auto-commit
+```
+
+Logs land in `tools/bedc-deep/state/supervisor_logs/`:
+- `supervisor.log` — supervisor's own decisions
+- `inner.log` — oracle_client.py --loop stdout/stderr concatenated across restarts
+
 Tune Stage 1.5 spawn aggressiveness (lower thresholds → more candidates,
 lower quality):
 
