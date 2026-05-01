@@ -327,4 +327,48 @@ theorem FramedListBridgeClassifier_displayed_spine_exactness
     exact Exists.intro xs
       (Exists.intro ys (And.intro repH (And.intro repK classified)))
 
+theorem FramedListBridgeClassifier_represented_length {A : BHist → Prop}
+    {Rel : BHist → BHist → Prop} (compat : ListSourceHsameCompatible A Rel)
+    {h k : BHist} {xs0 ys0 : ListCarrier BHist} :
+    FramedListSpineRep A h xs0 →
+      FramedListSpineRep A k ys0 →
+        FramedListBridgeClassifier A Rel h k → xs0.length = ys0.length := by
+  intro repH repK bridge
+  cases bridge with
+  | intro xs bridgeTail =>
+      cases bridgeTail with
+      | intro ys bridgeData =>
+          cases bridgeData with
+          | intro repHX bridgeRest =>
+              cases bridgeRest with
+              | intro repKY classifiedBridge =>
+                  have classifiedLeft : ListClassifierSpec Rel xs0 xs :=
+                    FramedListSpineRep_coherence compat repH repHX
+                  have classifiedRight : ListClassifierSpec Rel ys0 ys :=
+                    FramedListSpineRep_coherence compat repK repKY
+                  have classifierLength :
+                      ∀ {xs ys : ListCarrier BHist},
+                        ListClassifierSpec Rel xs ys → xs.length = ys.length := by
+                    intro xs
+                    induction xs with
+                    | nil =>
+                        intro ys classified
+                        cases ys with
+                        | nil =>
+                            rfl
+                        | cons _ _ =>
+                            cases classified
+                    | cons _ xs ih =>
+                        intro ys classified
+                        cases ys with
+                        | nil =>
+                            cases classified
+                        | cons _ ys =>
+                            cases classified with
+                            | intro _ tailClassified =>
+                                exact congrArg Nat.succ (ih tailClassified)
+                  exact Eq.trans (classifierLength classifiedLeft)
+                    (Eq.trans (classifierLength classifiedBridge)
+                      (Eq.symm (classifierLength classifiedRight)))
+
 end BEDC.Derived.ListUp
