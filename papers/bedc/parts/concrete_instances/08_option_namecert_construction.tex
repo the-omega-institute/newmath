@@ -51,9 +51,10 @@ carrier.
 \begin{proof}
 Invert the optional carrier witness. In the absent branch, compose the
 symmetric $\hsame(h,k)$ link with the stored $\hsame(h,\emp)$ witness. In the
-source branch, case-analyze the $\hsame(h,k)$ witness; the endpoints are then
-identified, and the stored $S(h)$ witness is reused as the required $S(k)$
-witness.
+source branch, apply the checked identity-reflection fact
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ to the displayed $\hsame(h,k)$
+witness; the endpoints are identified by kernel equality, so the stored $S(h)$
+witness transports to the required $S(k)$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_transport}
 

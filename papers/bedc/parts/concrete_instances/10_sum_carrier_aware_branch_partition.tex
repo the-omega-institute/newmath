@@ -165,6 +165,50 @@ inversion, the $\Eone$ endpoints, the right carrier-transport assumption, and
 the stored $RightEq$ witness.
 \end{proof}
 
+\begin{theorem}[Sum history classifier carrier-aware branch exactness]
+\label{thm:sum-history-classifier-carrier-aware-branch-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume the two carriers transport along $\hsame$:
+$$
+\forall x\,y.\; Left(x)\to \hsame(x,y)\to Left(y)
+$$
+and
+$$
+\forall x\,y.\; Right(x)\to \hsame(x,y)\to Right(y).
+$$
+Then the carrier-backed classifier assertion
+$$
+\begin{array}{l}
+\mathsf{SumHistoryCarrier}(Left,Right,h)\land
+\mathsf{SumHistoryCarrier}(Left,Right,k)\land\\
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)
+\end{array}
+$$
+is equivalent to the visible branch assertion
+$$
+\begin{array}{l}
+\bigl(\exists a,b.\; Left(a)\land Left(b)\land
+\hsame(h,\Ezero(a))\land \hsame(k,\Ezero(b))\land LeftEq(a,b)\bigr)\\
+\lor\\
+\bigl(\exists a,b.\; Right(a)\land Right(b)\land
+\hsame(h,\Eone(a))\land \hsame(k,\Eone(b))\land RightEq(a,b)\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:sum-history-classifier-carrier-aware-branch-partition}. For the
+reverse direction, split the displayed branch assertion. In the left branch,
+unpack $a,b$ with their $Left$ witnesses, the two visible $\Ezero$ endpoint
+links, and the stored $LeftEq(a,b)$ witness. The same data rebuilds the two
+$\mathsf{SumHistoryCarrier}$ witnesses by the left carrier constructor and
+rebuilds the matching $\mathsf{SumHistoryClassifier}$ witness by the left
+classifier constructor. The right branch is identical, using the two $Right$
+witnesses, the visible $\Eone$ endpoint links, $RightEq(a,b)$, and the right
+carrier and classifier constructors.
+\end{proof}
+
 \begin{theorem}[Sum history source weakening]
 \label{thm:sum-history-source-weakening}
 Let $Left,Right,Left',Right':\mathsf{BHist}\to\mathsf{Prop}$ be source
