@@ -446,6 +446,14 @@ Induct on the first list. Shape mismatches are impossible by the classifier clau
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame}
 
+\begin{theorem}[Source-parametric list classifier stability under reverse]
+\label{thm:list-classifier-reverse-source-relation}
+For any source type $A$, source relation $\sim_A:A\to A\to\mathsf{Prop}$, and finite spines $xs,ys:\mathsf{ListCarrier}(A)$, $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ implies $\mathsf{ListClassifierSpec}(\sim_A,\mathsf{reverse}(xs),\mathsf{reverse}(ys))$.
+\end{theorem}
+\begin{proof}
+Induct on the first spine and case-analyze the second. Mixed shapes are impossible by the classifier clauses. In the cons-cons case, reverse writes both spines as reversed tails followed by singleton heads; the induction hypothesis classifies the reversed tails, and append stability combines that tail witness with the singleton head classifier witness.
+\end{proof}
+
 \begin{theorem}[List classifier reverse inversion]
 \label{thm:list-classifier-reverse-hsame-inversion}
 For BEDC history lists, if the reversed lists are structurally classified by
