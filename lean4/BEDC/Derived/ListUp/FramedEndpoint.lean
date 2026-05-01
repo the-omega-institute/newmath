@@ -532,4 +532,121 @@ theorem FramedListBridgeClassifier_equivalence_fields {A : BHist -> Prop}
                       | intro repK _ =>
                           exact Exists.intro ys repK
 
+theorem FramedListBridgeClassifier_semantic_name_certificate {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) :
+    SemanticNameCert
+      (fun h : BHist => exists xs : ListCarrier BHist, FramedListSpineRep A h xs)
+      (fun h : BHist => exists xs : ListCarrier BHist, FramedListSpineRep A h xs)
+      (fun h : BHist => exists xs : ListCarrier BHist, FramedListSpineRep A h xs)
+      (FramedListBridgeClassifier A Rel) := by
+  have listRefl :
+      forall {xs : ListCarrier BHist},
+        (forall x : BHist, x ∈ xs -> A x) -> ListClassifierSpec Rel xs xs := by
+    intro xs entries
+    induction xs with
+    | nil =>
+        constructor
+    | cons x xs ih =>
+        constructor
+        · exact cert.equiv_refl (entries x (List.Mem.head xs))
+        · exact ih (by
+            intro z memZ
+            exact entries z (List.Mem.tail x memZ))
+  have core :
+      NameCert
+        (fun h : BHist => exists xs : ListCarrier BHist, FramedListSpineRep A h xs)
+        (FramedListBridgeClassifier A Rel) := by
+    exact {
+      carrier_inhabited := by
+        cases cert.carrier_inhabited with
+        | intro a sourceA =>
+            exact Exists.intro (FramedListEndpoint [a])
+              (Exists.intro [a]
+                (And.intro
+                  (by
+                    intro x mem
+                    cases mem with
+                    | head =>
+                        exact sourceA
+                    | tail _ tailMem =>
+                        cases tailMem)
+                  (hsame_refl (FramedListEndpoint [a]))))
+      equiv_refl := by
+        intro h carrierH
+        cases carrierH with
+        | intro xs repH =>
+            cases repH with
+            | intro entries endpoint =>
+                exact Exists.intro xs
+                  (Exists.intro xs
+                    (And.intro (And.intro entries endpoint)
+                      (And.intro (And.intro entries endpoint) (listRefl entries))))
+      equiv_symm := by
+        intro h k bridge
+        cases bridge with
+        | intro xs bridgeTail =>
+            cases bridgeTail with
+            | intro ys bridgeData =>
+                cases bridgeData with
+                | intro repH bridgeRest =>
+                    cases bridgeRest with
+                    | intro repK classified =>
+                        exact Exists.intro ys
+                          (Exists.intro xs
+                            (And.intro repK
+                              (And.intro repH
+                                (ListClassifierSpec_symm_from_nameCert cert classified))))
+      equiv_trans := by
+        intro h k r bridgeHK bridgeKR
+        cases bridgeHK with
+        | intro xs bridgeHKTail =>
+            cases bridgeHKTail with
+            | intro ys bridgeHKData =>
+                cases bridgeHKData with
+                | intro repH bridgeHKRest =>
+                    cases bridgeHKRest with
+                    | intro repK classifiedHK =>
+                        cases bridgeKR with
+                        | intro ys0 bridgeKRTail =>
+                            cases bridgeKRTail with
+                            | intro zs bridgeKRData =>
+                                cases bridgeKRData with
+                                | intro repK0 bridgeKRRest =>
+                                    cases bridgeKRRest with
+                                    | intro repR classifiedKR =>
+                                        have middle : ListClassifierSpec Rel ys ys0 :=
+                                          FramedListSpineRep_coherence compat repK repK0
+                                        have leftMiddle : ListClassifierSpec Rel xs ys0 :=
+                                          ListClassifierSpec_trans_from_nameCert cert
+                                            classifiedHK middle
+                                        have classifiedHR : ListClassifierSpec Rel xs zs :=
+                                          ListClassifierSpec_trans_from_nameCert cert
+                                            leftMiddle classifiedKR
+                                        exact Exists.intro xs
+                                          (Exists.intro zs
+                                            (And.intro repH
+                                              (And.intro repR classifiedHR)))
+      carrier_respects_equiv := by
+        intro h k bridge _sourceH
+        cases bridge with
+        | intro xs bridgeTail =>
+            cases bridgeTail with
+            | intro ys bridgeData =>
+                cases bridgeData with
+                | intro _repH bridgeRest =>
+                    cases bridgeRest with
+                    | intro repK _classified =>
+                        exact Exists.intro ys repK
+    }
+  exact {
+    core := core
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+
 end BEDC.Derived.ListUp

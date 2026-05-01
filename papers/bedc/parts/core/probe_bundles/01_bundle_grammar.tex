@@ -438,6 +438,26 @@ Proceed by simultaneous cases on the two left bundles. The empty-empty case redu
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_split\_unique\_fixed\_length}
 
+\begin{theorem}[Probe bundle append split uniqueness at fixed suffix length]
+\label{thm:bundle-append-split-unique-fixed-suffix-length}
+For probe bundles $\Pi,\Theta,\Pi',\Theta'$, if
+$$
+\mathsf{BAppend}(\Pi,\Theta)=\mathsf{BAppend}(\Pi',\Theta')
+$$
+and
+$$
+\mathsf{BLEN}(\Theta)=\mathsf{BLEN}(\Theta'),
+$$
+then $\Pi=\Pi'$ and $\Theta=\Theta'$.
+\end{theorem}
+\begin{proof}
+Apply append length preservation to the displayed equality. The equality of
+suffix lengths cancels the right summand in the resulting natural-number length
+identity, giving $\mathsf{BLEN}(\Pi)=\mathsf{BLEN}(\Pi')$. Fixed-left-length
+split uniqueness then identifies the two prefixes and the two suffixes.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_split\_unique\_fixed\_suffix\_length}
+
 \begin{theorem}[Probe bundle append three-split uniqueness at fixed lengths]
 \label{thm:bundle-append-three-split-unique-fixed-lengths}
 For probe bundles $\Pi,\Theta,\Omega,\Pi',\Theta',\Omega'$, if

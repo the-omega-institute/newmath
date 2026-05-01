@@ -144,6 +144,46 @@ theorem bundleAppend_eq_left_iff_right_nil {PName : Type}
     cases rightNil
     exact bundleAppend_right_nil left
 
+theorem bundleAppend_split_unique_fixed_suffix_length {PName : Type}
+    {left right left' right' : ProbeBundle PName} :
+    bundleAppend left right = bundleAppend left' right' →
+      bundleLength right = bundleLength right' → left = left' ∧ right = right' := by
+  induction left generalizing left' right with
+  | Bnil =>
+      intro appendSame suffixLength
+      cases left' with
+      | Bnil =>
+          exact And.intro rfl appendSame
+      | Bcons p tail =>
+          have lengthContradiction :
+              bundleLength (bundleAppend (ProbeBundle.Bcons p tail) right') =
+                bundleLength right' :=
+            Eq.trans (congrArg bundleLength appendSame.symm) suffixLength
+          exact False.elim
+            ((bundleAppend_nonempty_prefix_length_separation p tail right').left
+              lengthContradiction)
+  | Bcons p tail ih =>
+      intro appendSame suffixLength
+      cases left' with
+      | Bnil =>
+          have lengthContradiction :
+              bundleLength (bundleAppend (ProbeBundle.Bcons p tail) right) =
+                bundleLength right :=
+            Eq.trans (congrArg bundleLength appendSame) suffixLength.symm
+          exact False.elim
+            ((bundleAppend_nonempty_prefix_length_separation p tail right).left
+              lengthContradiction)
+      | Bcons q tail' =>
+          have headSame : p = q := (ProbeBundle.Bcons.inj appendSame).left
+          have tailAppendSame : bundleAppend tail right = bundleAppend tail' right' :=
+            (ProbeBundle.Bcons.inj appendSame).right
+          have recursive := ih tailAppendSame suffixLength
+          cases recursive with
+          | intro tailSame rightSame =>
+              cases headSame
+              cases tailSame
+              exact And.intro rfl rightSame
+
 theorem bundleAppend_three_split_unique_fixed_lengths {PName : Type}
     {a b c a' b' c' : ProbeBundle PName} :
     bundleAppend a (bundleAppend b c) = bundleAppend a' (bundleAppend b' c') →
