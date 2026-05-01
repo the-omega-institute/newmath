@@ -457,11 +457,25 @@ empty endpoint by the same no-confusion argument.
 
 \begin{theorem}[Tagged option history semantic certificate target]
 \label{thm:tagged-option-history-semantic-certificate}
-Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a source classifier on source histories, and assume a source $\NameCert(S,\sim_S)$ together with $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. Then $\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,\mathsf{TaggedOptionHistoryPattern}_S,\mathsf{TaggedOptionHistoryLedger}_S,\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S})$ is the tagged option history semantic certificate.
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a
+source classifier on source histories, and assume a source
+$\NameCert(S,\sim_S)$. Then
+$\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,
+\mathsf{TaggedOptionHistoryCarrier}_S,\mathsf{TaggedOptionHistoryCarrier}_S,
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S})$ is the tagged option history
+semantic certificate.
 \end{theorem}
 \begin{proof}
-Inhabitation is supplied by the absent carrier witness at $\emp$. The five non-inhabitation stability fields of the semantic certificate, namely carrier-relative reflexivity, classifier symmetry, classifier transitivity, classifier-induced carrier transport, and classifier endpoint transport, are exactly Theorem~\ref{thm:tagged-option-history-stability-fields} under the given source $\NameCert$ and source hsame compatibility hypotheses. The visible tag pattern and visible tag ledger fields are supplied by Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence}, which identifies both certificate presentations with the tagged option history carrier.
+Inhabitation is supplied by the absent carrier witness at $\emp$. The five
+stability fields of the semantic certificate, namely carrier-relative
+reflexivity, classifier symmetry, classifier transitivity, classifier-induced
+carrier transport, and classifier endpoint transport, are exactly
+Theorem~\ref{thm:tagged-option-history-stability-fields} under the source
+$\NameCert$. The pattern and ledger soundness fields are identity projections
+because all three semantic certificate predicates are the tagged option history
+carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_semanticNameCert}
 
 \begin{corollary}[Tagged option history certificate over hsame]
 \label{cor:tagged-option-history-semantic-certificate-hsame}

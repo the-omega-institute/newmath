@@ -60,6 +60,7 @@ import BEDC.Derived.OptionUp.TaggedPayload
 import BEDC.Derived.OptionUp.PayloadDescent
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 import BEDC.Derived.OptionUp.StabilityFields
+import BEDC.Derived.OptionUp.SemanticCertificate
 import BEDC.Derived.OptionUp.VisibleBranchInversion
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp

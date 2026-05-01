@@ -117,4 +117,33 @@ theorem SOneHistoryCarrier_equation_witness_transport
                         (hsame_refl SOneUnitHistory) equationCarrier)
                       pointCont))
 
+theorem SOneHistoryCarrier_coordinate_transport
+    {x y equation point x' y' equation' point' : BHist} :
+    SOneHistoryCarrier x y equation point -> hsame x x' -> hsame y y' ->
+      hsame equation equation' -> hsame point point' ->
+        SOneHistoryCarrier x' y' equation' point' := by
+  intro carrier sameX sameY sameEquation samePoint
+  cases carrier with
+  | intro xCarrier rest =>
+      cases rest with
+      | intro yCarrier rest =>
+          cases rest with
+          | intro equationCarrier pointCont =>
+              have xCarrier' : RealConstantHistoryCarrier x' := by
+                cases sameX
+                exact xCarrier
+              have yCarrier' : RealConstantHistoryCarrier y' := by
+                cases sameY
+                exact yCarrier
+              have equationCarrier' :
+                  RealConstantHistoryClassifier equation' SOneUnitHistory := by
+                exact RealConstantHistoryClassifier_endpoint_transport sameEquation
+                  (hsame_refl SOneUnitHistory) equationCarrier
+              have pointCont' : Cont x' y' point' := by
+                cases sameX
+                cases sameY
+                exact cont_result_hsame_transport pointCont samePoint
+              exact And.intro xCarrier'
+                (And.intro yCarrier' (And.intro equationCarrier' pointCont'))
+
 end BEDC.Derived.S1Up
