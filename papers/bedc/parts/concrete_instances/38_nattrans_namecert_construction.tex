@@ -44,6 +44,27 @@ composes the two component morphisms across the shared middle object
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_closed}
 
+\begin{theorem}[NatTrans prefix component vertical composition associativity closure]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-assoc-closed}
+For prefix components over unary histories, let \(\eta\), \(\theta\), and
+\(\iota\) be consecutive components from \(p\) to \(q\), \(q\) to \(r\), and
+\(r\) to \(s\) at the object \(a\). If \(\eta\theta\), \(\theta\iota\),
+\((\eta\theta)\iota\), and \(\eta(\theta\iota)\) are supplied by the BEDC
+continuation relation, then the two bracketed composites are components from
+\(p\) to \(s\) at \(a\), and they are \(\HSame\).
+\end{theorem}
+\begin{proof}
+Unpack the three prefix-component carrier witnesses to their underlying
+category hom-carriers between
+\(\mathsf{append}(p,a)\), \(\mathsf{append}(q,a)\),
+\(\mathsf{append}(r,a)\), and \(\mathsf{append}(s,a)\). Category hom-carrier
+associativity closure gives hom-carrier witnesses for both bracketed
+composites and identifies them by \(\HSame\). Repackage the shared source
+prefix, target prefix, and object unary witnesses around those two underlying
+hom-carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_assoc\_closed}
+
 \begin{theorem}[NatTrans prefix component target-prefix determinacy]
 \label{thm:nattrans-prefix-component-carrier-target-prefix-deterministic}
 For prefix components over unary histories, if a fixed component history

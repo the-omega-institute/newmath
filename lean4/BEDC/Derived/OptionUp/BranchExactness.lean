@@ -62,6 +62,50 @@ theorem TaggedOptionHistoryClassifier_right_absent_exactness {S : BHist → Prop
   · intro sameEmpty
     exact Or.inl (And.intro sameEmpty (hsame_refl BHist.Empty))
 
+theorem TaggedOptionHistoryClassifier_carrier_mixed_tag_separation {S : BHist → Prop}
+    {Rel : BHist → BHist → Prop} {h k a : BHist} :
+    (hsame h BHist.Empty -> S a -> hsame k (BHist.e1 a) ->
+      TaggedOptionHistoryClassifier S Rel h k -> False) ∧
+      (S a -> hsame h (BHist.e1 a) -> hsame k BHist.Empty ->
+        TaggedOptionHistoryClassifier S Rel h k -> False) := by
+  constructor
+  · intro sameHEmpty _sourceA sameKPresent classifier
+    cases classifier with
+    | inl absentPair =>
+        exact not_hsame_emp_e1 (hsame_trans (hsame_symm absentPair.right) sameKPresent)
+    | inr presentPair =>
+        cases presentPair with
+        | intro b restB =>
+            cases restB with
+            | intro c data =>
+                cases data with
+                | intro _sourceB rest =>
+                    cases rest with
+                    | intro _sourceC rest =>
+                        cases rest with
+                        | intro sameHPresent _rest =>
+                            exact not_hsame_emp_e1
+                              (hsame_trans (hsame_symm sameHEmpty) sameHPresent)
+  · intro _sourceA sameHPresent sameKEmpty classifier
+    cases classifier with
+    | inl absentPair =>
+        exact not_hsame_emp_e1 (hsame_trans (hsame_symm absentPair.left) sameHPresent)
+    | inr presentPair =>
+        cases presentPair with
+        | intro b restB =>
+            cases restB with
+            | intro c data =>
+                cases data with
+                | intro _sourceB rest =>
+                    cases rest with
+                    | intro _sourceC rest =>
+                        cases rest with
+                        | intro _sameHPresent rest =>
+                            cases rest with
+                            | intro sameKPresent _rel =>
+                                exact not_hsame_e1_empty
+                                  (hsame_trans (hsame_symm sameKPresent) sameKEmpty)
+
 theorem TaggedOptionHistoryClassifier_endpoint_carriers {S : BHist → Prop}
     {Rel : BHist → BHist → Prop} {h k : BHist} :
     TaggedOptionHistoryClassifier S Rel h k →
