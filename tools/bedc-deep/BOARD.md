@@ -196,276 +196,311 @@ Failure criterion:
 Show that the additive name is being asserted before the needed stability
 claim is available.
 
-### B-07 - Descent certificate composition
+---
+
+### B-07 - Lattice idempotence and absorption from bound characterization
 
 | field | value |
 |---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Descent certificate composition |
-| Layer | adjacent |
+| Status | Candidate (audit-curated 2026-05-02) |
+| Source | hand audit of `concrete_instances/30_lattice_namecert_construction.tex` |
+| Object | Lattice meet/join idempotence + absorption |
+| Layer | concrete_instances |
 | Route | proof |
-| Risk | unknown |
+| Risk | medium |
 | Fit | 9/10 |
-| Novelty | 7/10 |
+| Novelty | 9/10 |
 
 Problem:
-Under the NameCert descent setup, if δ : DescentCertificate Source Mid sourceSame midSame and ε : DescentCertificate Mid Target midSame targetSame, then λ a => ε.map (δ.map a) carries a DescentCertificate Source Target sourceSame targetSame.
+Under a lattice classifier whose meet $\wedge$ and join $\vee$ obligations are
+specified by greatest-lower-bound and least-upper-bound characterizations,
+the laws $x \wedge x = x$, $x \vee x = x$, $x \wedge (x \vee y) = x$,
+$x \vee (x \wedge y) = x$ hold up to the lattice classifier.
 
 Local inputs:
-- `papers/bedc/parts/hardening/02_typed_name_certificate_instances.tex`
-- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
-- `lean4/BEDC/FKernel/NameCert.lean`
-- `lean4/BEDC/FKernel/NameCert/Descent.lean`
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
 
 Rationale:
-The descent layer exposes a single certificate with a map and a sameness-respect proof, and the surrounding text uses descent as a reusable transport mode across concrete certificate families. The missing structural step is closure under composition: without it, chained payload or certificate transports must be rebuilt manually instead of following from the descent interface itself.
+Definition 30:30-41 lists "meet/join congruence" as a stability obligation
+and defers to a "bound-characterization certificate", but no
+`\begin{theorem|lemma}` proves idempotence or absorption from those
+characterizations. Grep for "idempotence" / "absorption" in lattice files
+returns 0 labeled theorems.
 
 ---
 
-
-### B-08 - Semantic certificate presentation weakening
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Semantic certificate presentation weakening |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-Under the SemanticNameCert setup, if cert : SemanticNameCert S P L C, ∀h, P h -> P' h, and ∀h, L h -> L' h, then SemanticNameCert S P' L' C.
-
-Local inputs:
-- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
-- `papers/bedc/parts/hardening/02_typed_name_certificate_instances.tex`
-- `lean4/BEDC/FKernel/NameCert.lean`
-
-Rationale:
-Concrete certificates repeatedly separate a core semantic certificate from presentation predicates and ledger predicates. Existing theorems project fields out of a semantic certificate and build selected concrete certificates, but there is no general lemma saying that weakening the public pattern and ledger presentations preserves the same semantic certificate.
-
----
-
-
-### B-09 - Tagged option map relation endpoint transport
+### B-08 - Module scalar action compatibility theorem
 
 | field | value |
 |---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Tagged option map relation endpoint transport |
-| Layer | adjacent |
+| Status | Candidate (audit-curated 2026-05-02) |
+| Source | hand audit of `concrete_instances/21_module_namecert_construction.tex` |
+| Object | Module scalar action compatibility |
+| Layer | concrete_instances |
 | Route | proof |
-| Risk | unknown |
+| Risk | medium |
 | Fit | 9/10 |
-| Novelty | 7/10 |
+| Novelty | 8/10 |
 
 Problem:
-Under the tagged option payload descent setup, if TaggedOptionMapRel S T δ h k, hsame h h', and hsame k k', then TaggedOptionMapRel S T δ h' k'.
+For a module $M$ over a commutative ring $R$ with abelian-group structure on
+$M$, if the scalar action respects the ring multiplication classifier and
+the group addition classifier, then $r \cdot (s \cdot m) = (r \cdot s) \cdot m$
+is exact up to the module classifier.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/option/06_tagged_option_payload_descent.tex`
-- `papers/bedc/parts/concrete_instances/option/02_tagged_option_namecert.tex`
-- `lean4/BEDC/Derived/OptionUp/PayloadDescent.lean`
-- `lean4/BEDC/Derived/OptionUp.lean`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
 
 Rationale:
-TaggedOptionMapRel is the concrete bridge between a nullable source endpoint and its mapped target endpoint, and its definition is expressed through endpoint sameness to empty or one-step histories. The current theory proves classification preservation, but the relation itself lacks the expected closure under replacing either endpoint by an hsame endpoint.
+Definition 21:30-42 (Module stability certificate) lists scalar associativity
+and distributivity as named obligations, but they never become standalone
+theorems. No `\label{thm:module-...}` in 21_module_namecert.
 
 ---
 
-
-### B-10 - Option ledger source monotonicity
+### B-09 - Polynomial normalize commutes with add and multiply
 
 | field | value |
 |---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Option ledger source monotonicity |
-| Layer | adjacent |
+| Status | Candidate (audit-curated 2026-05-02) |
+| Source | hand audit of `concrete_instances/25_polynomial_namecert_construction.tex` |
+| Object | Polynomial normalization commutativity |
+| Layer | concrete_instances |
 | Route | proof |
-| Risk | unknown |
+| Risk | medium-high |
 | Fit | 8/10 |
-| Novelty | 6/10 |
+| Novelty | 9/10 |
 
 Problem:
-Under nullable option source inclusion, if ∀h, S h -> T h and OptionHistoryLedgerPolicy S raw visible holds, then OptionHistoryLedgerPolicy T raw visible holds.
+For coefficient lists $p, q$ over a commutative ring with normalization
+removing trailing zeros, $\mathrm{normalize}(\mathrm{add}(p, q)) = \mathrm{add}(\mathrm{normalize}(p), \mathrm{normalize}(q))$ and similarly for multiplication, both up to the polynomial classifier.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/option/02_tagged_option_namecert.tex`
-- `lean4/BEDC/Derived/OptionUp.lean`
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
 
 Rationale:
-The option layer has source monotonicity for the carrier and classifier predicates, while the ledger policy is the carrier together with the raw-to-visible endpoint link. Since ledger predicates are used as certificate-facing evidence, the monotonicity theorem should also exist at that level instead of requiring consumers to unfold the ledger definition.
+Chapter 25:5 says "Polynomial addition and multiplication are derived
+operations governed by the ring's certificate fields" and lists obligations
+"normalization removes trailing zeros / idempotence / closure after
+normalization", but no theorem proves `add` or `multiply` preserve
+normalization. Grep "polynomial.*commut.*normali" = 0 hits.
 
 ---
 
-
-### B-11 - Product ledger source monotonicity
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Product ledger source monotonicity |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 6/10 |
-
-Problem:
-Under product source inclusions, if ∀h, L h -> L' h, ∀h, R h -> R' h, and ProdHistoryLedgerPolicy L R raw visible holds, then ProdHistoryLedgerPolicy L' R' raw visible holds.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/09_prod_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/09_prod_ledger_and_semantic_certificate.tex`
-- `lean4/BEDC/Derived/ProdUp.lean`
-- `lean4/BEDC/Derived/ProdUp/SourceMonotonicity.lean`
-
-Rationale:
-Product source monotonicity is already represented for carriers and classifiers, but the public ledger policy sits one layer above those predicates. A direct ledger monotonicity theorem would connect the source-weakening results to the semantic certificate ledger interface without exposing the internal carrier conjunction at every use site.
-
----
-
-
-### B-12 - Sum ledger source weakening
+### B-10 - Interval classifier nested-bound refinement
 
 | field | value |
 |---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Sum ledger source weakening |
-| Layer | adjacent |
+| Status | Candidate (audit-curated 2026-05-02) |
+| Source | hand audit of `concrete_instances/31_interval_namecert_construction.tex` |
+| Object | Interval nested bound refinement |
+| Layer | concrete_instances |
 | Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 6/10 |
-
-Problem:
-Under sum source inclusions, if ∀h, Left h -> Left' h, ∀h, Right h -> Right' h, and SumHistoryLedgerPolicy Left Right raw visible holds, then SumHistoryLedgerPolicy Left' Right' raw visible holds.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/10_sum_carrier_aware_branch_partition.tex`
-- `papers/bedc/parts/concrete_instances/sum/ledger_and_semantic_certificate.tex`
-- `lean4/BEDC/Derived/SumUp/Ledger.lean`
-- `lean4/BEDC/Derived/SumUp/Branch.lean`
-
-Rationale:
-The sum development contains branch and source weakening results for the carrier/classifier layer, while the ledger policy is the form consumed by certificate construction. A one-step ledger weakening theorem would make the connection explicit and prevent the ledger certificate path from relying on manual unfolding.
-
----
-
-
-### B-13 - Framed list bridge endpoint transport
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Framed list bridge endpoint transport |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-Under the framed list bridge setup, if FramedListBridgeClassifier A Rel h k, hsame h h', and hsame k k', then FramedListBridgeClassifier A Rel h' k'.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/list/11_framed_endpoint_bridge.tex`
-- `lean4/BEDC/Derived/ListUp/FramedEndpoint.lean`
-
-Rationale:
-The framed list bridge classifier packages represented source and displayed endpoints, and the file already proves hsame transport for framed spine representations. The classifier built from those representations should inherit endpoint transport, but that closure is not stated as its own theorem.
-
----
-
-
-### B-14 - Framed list bridge source refinement
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Framed list bridge source refinement |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-Under framed list source refinement, if ∀x, A x -> B x, ∀x y, RelA x y -> RelB x y, and FramedListBridgeClassifier A RelA h k holds, then FramedListBridgeClassifier B RelB h k holds.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/list/11_framed_endpoint_bridge.tex`
-- `papers/bedc/parts/concrete_instances/list/11_cons_boundary_and_source.tex`
-- `lean4/BEDC/Derived/ListUp/FramedEndpoint.lean`
-
-Rationale:
-The unframed list layer discusses source and relation weakening, while the framed endpoint bridge is the certificate-facing package for displayed list endpoints. The framed bridge lacks the analogous refinement theorem, leaving a gap between source weakening and the framed semantic certificate construction.
-
----
-
-
-### B-15 - Product pair fixed-left tail uniqueness
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Product pair fixed-left tail uniqueness |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
+| Risk | low-medium |
 | Fit | 9/10 |
-| Novelty | 7/10 |
+| Novelty | 8/10 |
 
 Problem:
-Under product pair representation, if ProdPairRep L R h l r and ProdPairRep L R h l r' hold for the same endpoint and left component, then hsame r r'.
+If interval classifiers $(l_1, u_1)$ and $(l_2, u_2)$ are transitively
+composed and $l_1 \leq l_2$, $u_2 \leq u_1$ (nested), then the composed
+classifier refines to the outer interval $(l_1, u_1)$ up to history-sameness.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/09_prod_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/09_prod_componentwise_history_classifier_endpoints.tex`
-- `lean4/BEDC/Derived/ProdUp/PairRepresentation.lean`
-- `lean4/BEDC/FKernel/Cont.lean`
+- `papers/bedc/parts/concrete_instances/31_interval_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
 
 Rationale:
-The product theory distinguishes generated endpoint facts from stronger coherence assumptions about pair readback. Fixed-left tail uniqueness is a narrow generated fact obtainable from continuation cancellation, and stating it would clarify exactly which part of product pair coherence is theorem-level rather than policy-level.
+Theorem 31:190-200 proves general transitivity of interval classifiers but
+no theorem states the refinement property under nested bounds. Grep
+"interval.*nested|interval.*bound.*refine" = 0 labeled theorems.
 
 ---
 
-
-### B-16 - Product pair fixed-right head uniqueness
+### B-11 - Functor composition preserves hom-carrier classifier
 
 | field | value |
 |---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Product pair fixed-right head uniqueness |
-| Layer | adjacent |
+| Status | Candidate (audit-curated 2026-05-02) |
+| Source | hand audit of `concrete_instances/37_functor_namecert_construction.tex` |
+| Object | Functor composition closure |
+| Layer | concrete_instances |
 | Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
+| Risk | high |
+| Fit | 10/10 |
+| Novelty | 10/10 |
 
 Problem:
-Under product pair representation, if ProdPairRep L R h l r and ProdPairRep L R h l' r hold for the same endpoint and right component, then hsame l l'.
+If functors $F: C \to D$ and $G: D \to E$ have named certificates with
+hom-carrier classifiers, the composite functor $G \circ F$ carries the
+composed classifier: $\mathrm{HomCarrier}(G \circ F)(x, y) = \mathrm{HomCarrier}_E(G(F(x)), G(F(y)))$.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/09_prod_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/09_prod_componentwise_history_classifier_endpoints.tex`
-- `lean4/BEDC/Derived/ProdUp/PairRepresentation.lean`
-- `lean4/BEDC/FKernel/Cont.lean`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
 
 Rationale:
-This is the dual fixed-component fact to tail uniqueness. It belongs directly to the product pair representation layer and would help separate cancellation consequences of the continuation kernel from the stronger external coherence premise used for full componentwise readback.
+Chapters 36, 37, 38 are 100% definition-only (7 definitions each, 0
+theorems, all `\leandef`). Functor composition is foundational but no
+theorem proves the composite carries the certificate.
 
 ---
 
+### B-12 - Continuous function modulus composition
+
+| field | value |
+|---|---|
+| Status | Candidate (audit-curated 2026-05-02) |
+| Source | hand audit of `concrete_instances/34_continuous_namecert_construction.tex` |
+| Object | Uniform continuity modulus composition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | high |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+For metric spaces $X, Y, Z$ with certified moduli $\delta_1$ for $X \to Y$
+and $\delta_2$ for $Y \to Z$, on any totally bounded $S \subseteq X$, the
+composition $\delta_1(S, Y) \circ \delta_2(Y, Z)$ witnesses uniform
+continuity of $f \circ g$ on $S$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+Definition 34:30-41 lists "closure under composition by composing moduli"
+as a stability obligation but no theorem proves it. Grep
+"continuous.*compos|modulus.*compos" returns only the obligation statement.
+
+---
+
+### B-13 - Total order trichotomy reduces classifier fields
+
+| field | value |
+|---|---|
+| Status | Candidate (audit-curated 2026-05-02) |
+| Source | hand audit of `concrete_instances/29_totalorder_namecert_construction.tex` |
+| Object | Total order trichotomy classifier reduction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | low-medium |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a total order whose classification is given by trichotomy
+($x \leq y$ or $y < x$), the classifier is determined by a single direction
+of ordering: $\leq(x, y) \vee \leq(y, x)$ together with the negation of
+strict inequality is definitionally equivalent to the order classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+Definition 29:25-28 says the classifier is "the partial-order classifier
+plus trichotomy" but no theorem proves the reduction. Grep
+"total.*trichotomy|trichotomy.*thm" returns 0 labeled theorems.
+
+---
+
+### B-14 - Natural transformation composition naturality
+
+| field | value |
+|---|---|
+| Status | Candidate (audit-curated 2026-05-02) |
+| Source | hand audit of `concrete_instances/38_nattrans_namecert_construction.tex` |
+| Object | NatTrans composition preserves naturality square |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | high |
+| Fit | 10/10 |
+| Novelty | 10/10 |
+
+Problem:
+For natural transformations $\alpha: F \Rightarrow G$ and
+$\beta: G \Rightarrow H$ with component certificates, the composite
+$(\beta \circ \alpha)_C$ satisfies the naturality square:
+$H(f) \circ (\beta \circ \alpha)_C = (\beta \circ \alpha)_{C'} \circ F(f)$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Chapter 38 is 100% definitions (7 def, 0 thm). Definition 38:25-28 has a
+"component coherence certificate"; composition preserving it is the next
+natural theorem. Grep "nattrans.*compos" = 0 labeled theorems.
+
+---
+
+### B-15 - Real history-sameness under limit-classifier transport
+
+| field | value |
+|---|---|
+| Status | Candidate (audit-curated 2026-05-02) |
+| Source | hand audit of `concrete_instances/13_real_namecert_construction.tex` |
+| Object | Bishop real sameness preserved under limit-classifier transport |
+| Layer | concrete_instances / core |
+| Route | proof |
+| Risk | high |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+For real numbers $x, y: \RealUp$ with $\hsame(x, y)$ via construction
+histories, if a limit interface $L$ classifies $x$ and $y$ with a common
+carrier witness, then the limit-endpoint history-sameness is congruent
+with the base real sameness.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+- `papers/bedc/parts/core/10_thin_seal_interface.tex`
+
+Rationale:
+Definition 13 (Real certificate) describes Bishop reals with explicit
+moduli; Chapter 10 remark says "completion / thread sealing are not
+primitive finite-kernel steps" and "real-like names may appear only as
+certificate-obligation schemas" but no theorem states the sameness transport
+when sealing does occur.
+
+---
+
+### B-16 - Concrete token reflection duality
+
+| field | value |
+|---|---|
+| Status | Candidate (audit-curated 2026-05-02) |
+| Source | hand audit of `proof_obligations/package_token_policy.tex` |
+| Object | Concrete-term token reflection from package sameness |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | high |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a package token policy whose `\TokIntro(\Pi, s, p)` predicate is given
+a concrete term-level definition (rather than left abstract), $\psame(p, q)$
+implies $\hsame(s, t)$ for the introducing signatures, decidably from the
+concrete predicate without invoking the abstract policy.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `lean4/BEDC/FKernel/Package.lean`
+
+Rationale:
+Theorem 21:64-75 proves "package-sameness ↔ signature-sameness" under the
+abstract policy. Line 40 hints at "the concrete signature-token instance"
+but no theorem treats concrete `\TokIntro` directly. Grep
+"token.*concrete|concrete.*reflect" = 0 new labeled theorems.
+
+---
