@@ -222,6 +222,39 @@ left inverse law collapses $\mathsf{inv}(b,p_b)b$ to the unit. The left and
 right identity laws then leave $c$.
 \end{proof}
 
+\begin{theorem}[Field multiplication cancellation from apartness-certified factors]
+\label{thm:field-nonzero-mul-cancel-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+right and left multiplication by apartness-certified nonzero factors are
+cancellative. Any witness $p_b:\mathsf{NonZero}_F(b)$ makes
+$$
+xb\hsame yb
+\quad\Longrightarrow\quad
+x\hsame y,
+$$
+and any witness $p_a:\mathsf{NonZero}_F(a)$ makes
+$$
+ax\hsame ay
+\quad\Longrightarrow\quad
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+For the right clause, apply
+Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness} to
+$xb\hsame yb$. This gives
+$x\hsame (yb)\mathsf{inv}(b,p_b)$. Theorem~\ref{thm:field-mul-inverse-right-cancel-from-apartness}
+identifies $(yb)\mathsf{inv}(b,p_b)$ with $y$, so transitivity of
+$\hsame$ gives $x\hsame y$.
+
+For the left clause, apply
+Theorem~\ref{thm:field-left-mul-equation-solution-from-apartness} to
+$ax\hsame ay$. This gives
+$x\hsame \mathsf{inv}(a,p_a)(ay)$. Theorem~\ref{thm:field-mul-inverse-left-cancel-from-apartness}
+identifies $\mathsf{inv}(a,p_a)(ay)$ with $y$, and transitivity of
+$\hsame$ finishes.
+\end{proof}
+
 \begin{definition}[Field ledger policy]
 \label{def:field-ledger-policy}
 Record the ring ledger and the $\mathsf{NonZero}_F$ witness used for each inverse.
