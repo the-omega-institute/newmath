@@ -137,6 +137,25 @@ $\Eone$ congruence yields equality of the framed cons endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.FramedListEndpoint\_classifier\_exactness}
 
+\begin{theorem}[Framed list endpoint length reflection]
+\label{thm:framed-list-endpoint-length-reflection}
+For finite BEDC-history spines $xs,ys$, if
+$$
+\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))
+$$
+holds, then
+$$
+\ell(xs)=\ell(ys).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:framed-list-endpoint-classifier-exactness} from left to
+right to convert the displayed endpoint equality into
+$\mathsf{ListClassifierSpec}(\hsame,xs,ys)$. Then apply
+Theorem~\ref{thm:list-classifier-length-eq} to obtain equality of the finite
+spine lengths.
+\end{proof}
+
 \begin{definition}[Framed list-spine representation]
 \label{def:framed-list-spine-representation}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. Define
