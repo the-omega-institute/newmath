@@ -2,19 +2,19 @@
 \label{sec:concrete-hardening-domain-token-reflection}
 
 This chapter replaces two external-looking concrete notations by internal judgments:
-\[
+$$
   h\in D,
   \qquad
   \Tok_{\Pi}(s).
-\]
+$$
 They are readable, but both carry too much external mathematical flavor. This chapter replaces them with internal judgments.
 
 \begin{definition}[Internal domain judgment]
 \label{def:internal-domain-judgment}
 A concrete source domain is not treated as a set. It is a source name \(D\) equipped with a judgment
-\[
+$$
   \InDom(D,h),
-\]
+$$
 read as: the history \(h\) is admitted by the source domain name \(D\).
 \end{definition}
 \leanchecked{BEDC.FKernel.Gap.InDom\_iff\_setup\_field}
@@ -26,9 +26,9 @@ The notation \(\InDom(D,h)\) is still written in the metalanguage, but it is the
 \begin{definition}[Signature token introduction]
 \label{def:signature-token-introduction}
 For a probe bundle \(\Pi\) and an answer history \(s\), a visible package token is introduced by a judgment
-\[
+$$
   \TokIntro(\Pi,s,p).
-\]
+$$
 It means that \(p\) is a package token introduced from the signature history \(s\) under bundle \(\Pi\).
 \end{definition}
 \leanchecked{BEDC.FKernel.Package.TokIntro\_iff\_setup\_field}
@@ -38,11 +38,11 @@ It means that \(p\) is a package token introduced from the signature history \(s
 \begin{definition}[Concrete signature package]
 \label{def:concrete-signature-package}
 The concrete signature package relation is defined by token introduction:
-\[
+$$
   \PkgSig(\Pi,s,p)
   \quad\Longleftrightarrow\quad
   \TokIntro(\Pi,s,p).
-\]
+$$
 \end{definition}
 \leandef{BEDC.FKernel.Package.PkgSig}
 \leanchecked{BEDC.FKernel.Package.PkgSig\_iff\_TokIntro}
@@ -52,13 +52,13 @@ The concrete signature package relation is defined by token introduction:
 
 \begin{definition}[Concrete package-sameness policy]
 For the signature-token instance, package-sameness is generated only from history-sameness of source signatures:
-\[
+$$
   \TokIntro(\Pi,s,p),\quad
   \TokIntro(\Pi,t,q),\quad
   \hsame(s,t)
   \quad\Rightarrow\quad
   \psame(p,q).
-\]
+$$
 No additional package-sameness constructors are admitted for the concrete signature-token instance.
 \end{definition}
 
