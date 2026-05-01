@@ -317,6 +317,126 @@ theorem SumHistoryLedgerPolicy_two_step_branch_exactness {Left Right : BHist -> 
                                             (And.intro sameRhoRight
                                               (And.intro sameWRight samePayload))))))
 
+theorem SumHistoryLedgerChain_branch_exactness {Left Right : BHist -> Prop}
+    {rho z : BHist} :
+    SumHistoryLedgerChain Left Right rho z ->
+      ((exists l : BHist, exists l' : BHist,
+          Left l /\ Left l' /\ hsame rho (BHist.e0 l) /\ hsame z (BHist.e0 l') /\
+            hsame l l') \/
+        (exists r : BHist, exists r' : BHist,
+          Right r /\ Right r' /\ hsame rho (BHist.e1 r) /\ hsame z (BHist.e1 r') /\
+            hsame r r')) := by
+  intro chain
+  induction chain with
+  | single ledger =>
+      have branches := SumHistoryLedgerPolicy_raw_visible_branch_exactness.mp ledger
+      cases branches with
+      | inl leftBranch =>
+          cases leftBranch with
+          | intro l leftData =>
+              cases leftData with
+              | intro leftL leftRest =>
+                  exact Or.inl
+                    (Exists.intro l
+                      (Exists.intro l
+                        (And.intro leftL
+                          (And.intro leftL
+                            (And.intro leftRest.left
+                              (And.intro leftRest.right (hsame_refl l)))))))
+      | inr rightBranch =>
+          cases rightBranch with
+          | intro r rightData =>
+              cases rightData with
+              | intro rightR rightRest =>
+                  exact Or.inr
+                    (Exists.intro r
+                      (Exists.intro r
+                        (And.intro rightR
+                          (And.intro rightR
+                            (And.intro rightRest.left
+                              (And.intro rightRest.right (hsame_refl r)))))))
+  | cons ledger _ ih =>
+      have firstBranches := SumHistoryLedgerPolicy_raw_visible_branch_exactness.mp ledger
+      cases firstBranches with
+      | inl firstLeft =>
+          cases firstLeft with
+          | intro l firstData =>
+              cases firstData with
+              | intro leftL firstRest =>
+                  cases ih with
+                  | inl chainLeft =>
+                      cases chainLeft with
+                      | intro lMid chainLeftRest =>
+                          cases chainLeftRest with
+                          | intro l' chainLeftData =>
+                              cases chainLeftData with
+                              | intro leftMid chainLeftRest =>
+                                  cases chainLeftRest with
+                                  | intro leftL' chainLeftRest =>
+                                      have samePayload : hsame l lMid :=
+                                        hsame_e0_iff.mp
+                                          (hsame_trans (hsame_symm firstRest.right)
+                                            chainLeftRest.left)
+                                      exact Or.inl
+                                        (Exists.intro l
+                                          (Exists.intro l'
+                                            (And.intro leftL
+                                              (And.intro leftL'
+                                                (And.intro firstRest.left
+                                                  (And.intro chainLeftRest.right.left
+                                                    (hsame_trans samePayload
+                                                      chainLeftRest.right.right)))))))
+                  | inr chainRight =>
+                      cases chainRight with
+                      | intro rMid chainRightRest =>
+                          cases chainRightRest with
+                          | intro r' chainRightData =>
+                              cases chainRightData with
+                              | intro _rightMid chainRightRest =>
+                                  exact False.elim
+                                    (not_hsame_e0_e1
+                                      (hsame_trans (hsame_symm firstRest.right)
+                                        chainRightRest.right.left))
+      | inr firstRight =>
+          cases firstRight with
+          | intro r firstData =>
+              cases firstData with
+              | intro rightR firstRest =>
+                  cases ih with
+                  | inl chainLeft =>
+                      cases chainLeft with
+                      | intro lMid chainLeftRest =>
+                          cases chainLeftRest with
+                          | intro l' chainLeftData =>
+                              cases chainLeftData with
+                              | intro _leftMid chainLeftRest =>
+                                  exact False.elim
+                                    (not_hsame_e1_e0
+                                      (hsame_trans (hsame_symm firstRest.right)
+                                        chainLeftRest.right.left))
+                  | inr chainRight =>
+                      cases chainRight with
+                      | intro rMid chainRightRest =>
+                          cases chainRightRest with
+                          | intro r' chainRightData =>
+                              cases chainRightData with
+                              | intro rightMid chainRightRest =>
+                                  cases chainRightRest with
+                                  | intro rightR' chainRightRest =>
+                                      have samePayload : hsame r rMid :=
+                                        hsame_e1_iff.mp
+                                          (hsame_trans (hsame_symm firstRest.right)
+                                            chainRightRest.left)
+                                      exact Or.inr
+                                        (Exists.intro r
+                                          (Exists.intro r'
+                                            (And.intro rightR
+                                              (And.intro rightR'
+                                                (And.intro firstRest.left
+                                                  (And.intro chainRightRest.right.left
+                                                    (hsame_trans samePayload
+                                                      chainRightRest.right.right)))))))
+
 theorem SumHistoryLedgerPolicy_visible_payload_readback {Left Right : BHist -> Prop}
     {raw visible l r : BHist} :
     SumHistoryLedgerPolicy Left Right raw visible ->

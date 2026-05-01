@@ -1,4 +1,4 @@
-import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 
 namespace BEDC.Derived.RatUp
 
@@ -48,5 +48,19 @@ theorem RatClassifierSpec_append_unary_denominator_context_closed {s1 s2 : BMark
     RatClassifierSpec_prepend_unary_denominators_closed
       (RatClassifierSpec_append_unary_denominators_closed classifier tail1Unary sameTail)
       pref1Unary samePref
+
+theorem RatHistoryLedgerPolicy_unary_denominator_context_closed
+    {raw visible prefRaw prefVisible tailRaw tailVisible : BHist} :
+    RatHistoryLedgerPolicy raw visible -> UnaryHistory prefRaw -> hsame prefRaw prefVisible ->
+      UnaryHistory tailRaw -> hsame tailRaw tailVisible ->
+        RatHistoryLedgerPolicy
+          (BEDC.FKernel.Cont.append prefRaw (BEDC.FKernel.Cont.append raw tailRaw))
+          (BEDC.FKernel.Cont.append prefVisible (BEDC.FKernel.Cont.append visible tailVisible)) := by
+  intro ledger prefRawUnary samePref tailRawUnary sameTail
+  have appended :
+      RatHistoryLedgerPolicy (BEDC.FKernel.Cont.append raw tailRaw)
+        (BEDC.FKernel.Cont.append visible tailVisible) :=
+    RatHistoryLedgerPolicy_append_unary_denominator_closed ledger tailRawUnary sameTail
+  exact RatHistoryLedgerPolicy_prepend_unary_denominator_closed appended prefRawUnary samePref
 
 end BEDC.Derived.RatUp

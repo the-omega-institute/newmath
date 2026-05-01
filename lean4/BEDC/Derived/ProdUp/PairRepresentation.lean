@@ -106,6 +106,29 @@ theorem ProdPairRep_hsame_coherence {Left Right : BHist → Prop}
     ProdPairRep_hsame_transport repK (hsame_symm sameHK)
   exact coherent repH repKAtH
 
+theorem ProdPairRep_classifier_bounded_coherence {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : BEDC.FKernel.NameCert.NameCert Left LeftEq)
+    (rightCert : BEDC.FKernel.NameCert.NameCert Right RightEq)
+    {leftCenter rightCenter : BHist}
+    (leftBound : forall {l : BHist}, Left l -> LeftEq l leftCenter)
+    (rightBound : forall {r : BHist}, Right r -> RightEq r rightCenter) :
+    ProdPairRepCoherent Left Right LeftEq RightEq := by
+  intro h l r l' r' rep rep'
+  cases rep with
+  | intro leftL rest =>
+      cases rest with
+      | intro rightR _cont =>
+          cases rep' with
+          | intro leftL' rest' =>
+              cases rest' with
+              | intro rightR' _cont' =>
+                  constructor
+                  · exact leftCert.equiv_trans (leftBound leftL)
+                      (leftCert.equiv_symm (leftBound leftL'))
+                  · exact rightCert.equiv_trans (rightBound rightR)
+                      (rightCert.equiv_symm (rightBound rightR'))
+
 theorem ProdHistoryClassifier_cont_congr {Left Right : BHist → Prop}
     (left_transport : ∀ {x y : BHist}, hsame x y → Left x → Left y)
     (right_transport : ∀ {x y : BHist}, hsame x y → Right x → Right y)

@@ -665,6 +665,24 @@ unary prefix, and the two $\hsame$ links identify the prefixed raw and visible
 histories.
 \end{proof}
 
+\begin{theorem}[Rat ledger unary denominator context closure]
+\label{thm:rat-ledger-unary-denominator-context-closed}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, unary prefixes $p,p'$
+satisfy $\hsame(p,p')$, and unary tails $t,t'$ satisfy $\hsame(t,t')$, then
+placing the matching prefix and tail around the raw and visible denominator
+histories preserves the rational ledger:
+$$
+\mathsf{RatHistoryLedgerPolicy}(\mathsf{append}(p,\mathsf{append}(\rho,t)),
+\mathsf{append}(p',\mathsf{append}(v,t'))).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_unary\_denominator\_context\_closed}
+\begin{proof}
+First apply rat ledger append unary denominator closure to the displayed ledger
+and the matching tails. Then apply rat ledger prepend unary denominator closure
+to the resulting ledger and the matching prefixes.
+\end{proof}
+
 \begin{theorem}[Rat ledger history-sameness transport]
 \label{thm:rat-ledger-hsame-transport}
 If a rational ledger relates raw and visible histories, then transporting the
