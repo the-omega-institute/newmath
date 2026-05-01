@@ -147,6 +147,70 @@ def stale_cleanup() -> int:
     return cleanup_stale_claims()
 
 
+def crash_retry_sweep() -> int:
+    from oracle_client import reset_retriable_crashes
+    return reset_retriable_crashes()
+
+
+_REJECTION_ITEM_RE = re.compile(r"item\s*(\d+)|build\s*invariant|content\s*duplication|non-?LaTeX")
+
+
+def stage2_reject_clusters(min_count: int = 3) -> dict[str, int]:
+    """Count Stage 2 rejection reason categories across all completed targets.
+
+    Returns dict of category → count when count >= min_count.
+    Categories are normalized: 'item N' (hygiene checklist item N),
+    'build_invariant' (label / undefined macro), 'content_duplication',
+    'non_latex_trailing'.
+    """
+    if not STATE_DIR.exists():
+        return {}
+    counts: dict[str, int] = {}
+    targets_dir = SCRIPT_DIR / "targets"
+    if not targets_dir.exists():
+        return {}
+    for stage2_file in targets_dir.glob("*/stage2_result.json"):
+        try:
+            data = json.loads(stage2_file.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if data.get("verdict") != "reject":
+            continue
+        for reason in data.get("rejection_reasons") or []:
+            r = (reason or "").lower()
+            cat = "other"
+            m = _REJECTION_ITEM_RE.search(r)
+            if m and m.group(1):
+                cat = f"item_{m.group(1)}"
+            elif "build invariant" in r:
+                cat = "build_invariant"
+            elif "content duplication" in r:
+                cat = "content_duplication"
+            elif "non-latex" in r or "trailing" in r:
+                cat = "non_latex_trailing"
+            counts[cat] = counts.get(cat, 0) + 1
+    return {k: v for k, v in counts.items() if v >= min_count}
+
+
+def macos_notify(title: str, body: str) -> None:
+    """Send a macOS user-visible notification via osascript. No-op on errors."""
+    if sys.platform != "darwin":
+        return
+    safe_title = title.replace('"', '\\"')
+    safe_body = body.replace('"', '\\"')
+    script = f'display notification "{safe_body}" with title "{safe_title}"'
+    try:
+        subprocess.run(
+            ["osascript", "-e", script],
+            timeout=5,
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except Exception:
+        pass
+
+
 # ---------------------------------------------------------------------------
 # inner loop manager
 # ---------------------------------------------------------------------------
@@ -366,6 +430,10 @@ def main() -> int:
             if cleaned:
                 supervisor_log(f"cleaned {cleaned} stale claims")
 
+            retried = crash_retry_sweep()
+            if retried:
+                supervisor_log(f"reset {retried} crashed targets for retry")
+
             if inner is None or inner.poll() is not None:
                 if inner is not None:
                     rc = inner.poll()
@@ -391,7 +459,15 @@ def main() -> int:
             if queue_stuck_too_long(TAB_STUCK_THRESHOLD_S):
                 if _now() - last_tab_alert_ts > 600:
                     supervisor_log("tab health: queue_waiting_for_browser_agent > 5min — verify ChatGPT tabs ACTIVE")
+                    macos_notify(
+                        "BEDC supervisor: tab stuck",
+                        "ChatGPT tab stuck > 5 min — open https://chatgpt.com/?bedc=1 and click Start",
+                    )
                     last_tab_alert_ts = _now()
+
+            clusters = stage2_reject_clusters()
+            if clusters:
+                supervisor_log(f"stage2 reject clusters: {clusters} — consider hardening WRITE_PAPER_LATEX prompt")
 
             if not args.no_auto_commit:
                 try:

@@ -647,6 +647,60 @@ def _pid_alive(pid: int) -> bool:
         return False
 
 
+DEFAULT_CRASHED_RETRY_BUDGET = 3
+
+
+def reset_retriable_crashes(max_retries: int = DEFAULT_CRASHED_RETRY_BUDGET) -> int:
+    """Delete crashed final states whose retry budget is not yet exhausted.
+
+    Cursor.json is preserved (so resumed turns are kept) but its
+    `crashed_retries` field is bumped. After max_retries the final state
+    stays in place and the target is permanently skipped.
+    """
+    if not STATE_DIR.exists():
+        return 0
+    reset = 0
+    for state_file in STATE_DIR.glob("*.json"):
+        try:
+            data = json.loads(state_file.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if data.get("stage1_verdict") != "crashed":
+            continue
+        slug = state_file.stem
+        cursor_path_local = STATE_DIR / slug / "cursor.json"
+        retries = 0
+        cursor_blob: dict = {}
+        if cursor_path_local.exists():
+            try:
+                cursor_blob = json.loads(cursor_path_local.read_text(encoding="utf-8"))
+                retries = int(cursor_blob.get("crashed_retries", 0) or 0)
+            except (OSError, json.JSONDecodeError, ValueError):
+                cursor_blob = {}
+        if retries >= max_retries:
+            continue
+        cursor_blob["crashed_retries"] = retries + 1
+        if cursor_path_local.exists() or cursor_blob.get("turns"):
+            try:
+                cursor_path_local.parent.mkdir(parents=True, exist_ok=True)
+                cursor_path_local.write_text(
+                    json.dumps(cursor_blob, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+            except OSError:
+                pass
+        try:
+            state_file.unlink()
+            reset += 1
+            print(
+                f"[crash-retry] reset {slug} (retry {retries + 1}/{max_retries})",
+                flush=True,
+            )
+        except OSError:
+            pass
+    return reset
+
+
 def cleanup_stale_claims(max_age_seconds: int = STALE_CLAIM_MAX_AGE_SECONDS) -> int:
     """Remove .in_progress markers whose PID is dead or whose mtime is too old.
 
@@ -727,6 +781,9 @@ def run_loop(args: argparse.Namespace) -> int:
     cleaned = cleanup_stale_claims()
     if cleaned:
         print(f"[startup] cleaned {cleaned} stale .in_progress claims", flush=True)
+    reset = reset_retriable_crashes()
+    if reset:
+        print(f"[startup] reset {reset} crashed targets for retry", flush=True)
     targets = parse_board()
     if not args.target_id and not args.loop:
         print("error: either pass a target_id or --loop", flush=True)
