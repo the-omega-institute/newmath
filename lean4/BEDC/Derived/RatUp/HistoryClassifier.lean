@@ -110,6 +110,20 @@ theorem RatHistoryLedgerPolicy_append_unary_denominator_closed
         cases tailSame
         exact hsame_refl (BEDC.FKernel.Cont.append raw tailRaw)
 
+theorem RatHistoryLedgerPolicy_prepend_unary_denominator_closed
+    {raw visible prefRaw prefVisible : BHist} :
+    RatHistoryLedgerPolicy raw visible -> UnaryHistory prefRaw -> hsame prefRaw prefVisible ->
+      RatHistoryLedgerPolicy (BEDC.FKernel.Cont.append prefRaw raw)
+        (BEDC.FKernel.Cont.append prefVisible visible) := by
+  intro ledger prefRawUnary prefSame
+  cases ledger with
+  | intro rawCarrier rawVisibleSame =>
+      constructor
+      · exact RatHistoryCarrier_prepend_unary_denominator_closed prefRawUnary rawCarrier
+      · cases prefSame
+        cases rawVisibleSame
+        exact hsame_refl (BEDC.FKernel.Cont.append prefRaw raw)
+
 theorem RatHistoryClassifier_prepend_unary_denominator_closed {d e prefD prefE : BHist} :
     RatHistoryClassifier d e -> UnaryHistory prefD -> hsame prefD prefE ->
       RatHistoryClassifier (BEDC.FKernel.Cont.append prefD d)
