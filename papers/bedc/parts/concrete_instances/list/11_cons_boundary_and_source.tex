@@ -312,6 +312,50 @@ $n\neq 0$, and the cons witnesses together with this length exclusion are the
 required existential data.
 \end{proof}
 
+\begin{theorem}[List public successor length cons readback]
+\label{thm:list-public-successor-length-cons-readback}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For
+every history $h$ and every finite length value $n$, if
+$\mathsf{ListPublicLength}_A(h,n+1)$ holds, then
+$$
+\exists a\,t\,p:\mathsf{BHist}.\;
+\left(
+\begin{array}{l}
+A(a)\land \mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListPublicLength}_A(t,n)\land\\
+\ContR(a,t,p)\land \hsame(h,\Eone(p))
+\end{array}
+\right).
+$$
+The ten-field fit is: traditional target finite-list successor readback; BEDC
+source $\mathsf{BHist}$ with $\ContR$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier-independent spine exposure; ledger
+$\mathsf{ListPublicLength}_A$; core theorem successor public length inversion;
+exactness by finite-spine constructor analysis; standard bridge finite spines;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:list-public-length-readback}. The public length
+witness gives a finite spine $xs$ with $\mathsf{ListSpineRep}_A(h,xs)$ and
+$\ell(xs)=n+1$.
+
+Case-analyze $xs$. In the nil case, the displayed length equality would force
+$0=n+1$, which is impossible for a finite length value. Thus the represented
+spine is a cons spine.
+
+The cons representation exposes histories $a,t,p$ with $A(a)$, a tail spine
+representation for $t$, the continuation boundary $\ContR(a,t,p)$, and the
+endpoint presentation $\hsame(h,\Eone(p))$. The tail representation supplies
+$\mathsf{ListHistoryCarrier}_A(t)$ by the carrier coverage direction for
+represented spines.
+
+The cons length equality identifies the tail-spine length with $n$. Repack the
+tail representation and this predecessor length equality through
+Definition~\ref{def:list-public-length-readback}, obtaining
+$\mathsf{ListPublicLength}_A(t,n)$. Together with $A(a)$, $\ContR(a,t,p)$, and
+$\hsame(h,\Eone(p))$, these data are the required existential witnesses.
+\end{proof}
+
 \begin{definition}[List source hsame compatibility]
 \label{def:list-source-hsame-compatible}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
