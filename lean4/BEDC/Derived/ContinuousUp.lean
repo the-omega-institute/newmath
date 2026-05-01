@@ -87,4 +87,34 @@ theorem ContinuousFunctionCarrier_comp_closed
                                                   (And.intro modFGCarrier
                                                     (And.intro sourceTarget certRel))))
 
+theorem ContinuousModulusChain_prefix_closed {p source first second target : BHist} :
+    UnaryHistory p -> ContinuousModulusChain source first second target ->
+      ContinuousModulusChain (append p source) first second (append p target) := by
+  intro prefixCarrier chain
+  cases chain with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro firstCarrier rest =>
+          cases rest with
+          | intro secondCarrier rest =>
+              cases rest with
+              | intro targetCarrier chainWitness =>
+                  cases chainWitness with
+                  | intro middle middleData =>
+                      cases middleData with
+                      | intro firstRel secondRel =>
+                          exact
+                            And.intro (unary_append_closed prefixCarrier sourceCarrier)
+                              (And.intro firstCarrier
+                                (And.intro secondCarrier
+                                  (And.intro (unary_append_closed prefixCarrier targetCarrier)
+                                    (Exists.intro (append p middle)
+                                      (And.intro
+                                        (cont_intro
+                                          ((congrArg (append p) firstRel).trans
+                                            (append_assoc p source first).symm))
+                                        (cont_intro
+                                          ((congrArg (append p) secondRel).trans
+                                            (append_assoc p middle second).symm)))))))
+
 end BEDC.Derived.ContinuousUp

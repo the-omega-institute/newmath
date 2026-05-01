@@ -187,6 +187,26 @@ the associativity equality $(p\cdot c)\cdot\epsilon=p\cdot(c\cdot\epsilon)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_closed}
 
+\begin{theorem}[Compact net witness prefix exactness]
+\label{thm:compact-net-witness-prefix-iff}
+For histories $p,c,\epsilon,n$, a prefixed compact-net witness is equivalent
+to unary prefix evidence together with the unprefixed witness:
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\epsilon,p \cdot n)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{CompactNetWitness}(c,\epsilon,n).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the prefixed witness. Unary append
+factorization recovers the unary prefix and the unary center and net histories,
+while prefix cancellation on the continuation ledger recovers
+$\mathsf{Cont}(c,\epsilon,n)$. For the reverse direction, apply prefix closure
+to the unary prefix and the original compact-net witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_iff}
+
 \begin{definition}[Compact ledger policy]
 \label{def:compact-ledger-policy}
 Record the subset predicate, locatedness decisions, and finite net ledgers.

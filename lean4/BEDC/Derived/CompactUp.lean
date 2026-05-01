@@ -95,4 +95,26 @@ theorem CompactWitnessCarrier_located_extension_closed
                                 (And.intro finiteCarrier
                                   (And.intro subsetShifted extendedLedger)))
 
+theorem CompactNetWitness_prefix_iff {p center precision net : BHist} :
+    CompactNetWitness (append p center) precision (append p net) ↔
+      UnaryHistory p ∧ CompactNetWitness center precision net := by
+  constructor
+  · intro witness
+    cases witness with
+    | intro prefixedCenter rest =>
+        cases rest with
+        | intro precisionCarrier rest =>
+            cases rest with
+            | intro prefixedNet netRel =>
+                exact
+                  And.intro (unary_append_left_factor prefixedCenter)
+                    (And.intro (unary_append_right_factor prefixedCenter)
+                      (And.intro precisionCarrier
+                        (And.intro (unary_append_right_factor prefixedNet)
+                          (cont_prefix_cancel netRel))))
+  · intro prefixed
+    cases prefixed with
+    | intro prefixCarrier witness =>
+        exact CompactNetWitness_prefix_closed prefixCarrier witness
+
 end BEDC.Derived.CompactUp

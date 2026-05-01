@@ -162,6 +162,27 @@ Thus the prefixed endpoints and the same composite modulus satisfy the public
 continuous modulus witness predicate.
 \end{proof}
 
+\begin{theorem}[Continuous modulus chain prefix closure]
+\label{thm:continuous-modulus-chain-prefix-closed}
+For histories $p,s,\delta_1,\delta_2,t$, a unary prefix on the source and
+target preserves a two-link continuous modulus chain:
+$$
+\mathsf{UnaryHistory}(p)
+\Longrightarrow
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t)
+\Longrightarrow
+\mathsf{ContinuousModulusChain}(p \cdot s,\delta_1,\delta_2,p \cdot t).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the chain into unary endpoint data and a middle history $m$ with
+continuations $m=s\cdot\delta_1$ and $t=m\cdot\delta_2$. Use $p\cdot m$ as the
+middle history for the prefixed chain. Unary append closure supplies the
+prefixed endpoints, and continuation associativity prefixes both ledger
+equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_prefix\_closed}
+
 \begin{definition}[ContinuousMap ledger policy]
 \label{def:continuous-ledger-policy}
 Record the graph relation, source and target metric ledgers, the totally bounded subset witness, the unary precision ledger, and the modulus ledger.
