@@ -13,7 +13,7 @@ The list interface $\ListUp$ is licensed over a source carrier endowed with a $\
   \item \textbf{Stability obligations}: structural symmetry from the source $\NameCert$, structural transitivity, list-carrier transport, nil/cons separation, map stability, append stability, reverse stability, and cancellation facts.
   \item \textbf{Ledger}: list length and constructor shape remain visible; payload classification is delegated to the source certificate.
   \item \textbf{Core theorem list}: history carrier case analysis, history classifier constructor exactness, list spine representation coverage, classifier transitivity, classifier symmetry from the source $\NameCert$, cons inversion, singleton equivalence, map stability, append cancellation, reverse stability, checked $\hsame$ length preservation, and the paper-side source-parametric length lemma of Theorem~\ref{thm:list-classifier-length-eq}.
-  \item \textbf{Exactness predicate}: classification holds exactly when both lists have the same constructor shape and all corresponding entries classify through the source, with semantic certificate use conditioned on $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$.
+  \item \textbf{Exactness predicate}: classification holds exactly when there exist finite spines $xs,ys$ such that $\mathsf{ListSpineRep}_A(h,xs)$, $\mathsf{ListSpineRep}_A(k,ys)$, and $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ hold; $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ makes alternate presentations of the same endpoint compatible for certificate use.
   \item \textbf{Standard bridge}: the generated carrier reads back as the ordinary finite list syntax for $A$.
   \item \textbf{Status}: $\mathsf{ProofTarget}$ for the full generated-history semantic certificate conditional on $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$; the finite-spine classifier already has checked structural fields including source-certificate transitivity, $\hsame$ symmetry and transitivity, constructor-map facts, checked $\hsame$ length preservation, plus the paper-side source-parametric length lemma of Theorem~\ref{thm:list-classifier-length-eq}, append cancellation, and reverse stability.
 \end{enumerate}
@@ -788,9 +788,10 @@ classifiers. Carrier transport for the certificate core unpacks
 $\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ as a $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$, extracts the displayed target representation $\mathsf{ListSpineRep}_A(k,ys)$, and applies the reverse direction of Theorem~\ref{thm:list-spine-representation-coverage}, equivalently the soundness direction of Theorem~\ref{thm:list-spine-representation-exactness}, to recover $\mathsf{ListHistoryCarrier}_A(k)$. Source-certificate transport is used only for entrywise source-carrier evidence, while the list ledger is the carrier-shaped constructor spine from Definition~\ref{def:list-history-ledger}. Nil/cons case analysis uses
 Theorem~\ref{thm:list-history-carrier-generated-cases} for the generated history
 carrier and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} inside the
-finite-spine bridge, and exactness is the matching-shape statement of
-Theorem~\ref{thm:list-classifier-case-exactness} transported through the
-representation relation.
+finite-spine bridge, and exactness means that there exist finite spines $xs,ys$
+with $\mathsf{ListSpineRep}_A(h,xs)$, $\mathsf{ListSpineRep}_A(k,ys)$, and
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$; Definition~\ref{def:list-spine-rep-coherence}
+makes alternate presentations of the same endpoint compatible for certificate use.
 \end{proof}
 
 \begin{corollary}[$\ListUp$ conditional license]
