@@ -423,6 +423,48 @@ $\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(b)),b)$ back to $c$. This gives
 $\mathsf{add}(\mathsf{mul}(a,x),b)\hsame c$.
 \end{proof}
 
+\begin{theorem}[Field two-sided affine multiplication equation exactness from apartness]
+\label{thm:field-two-sided-affine-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive abelian-group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity and congruence, and left and right inverse laws
+indexed by $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$, every
+$x,d,c:\mathsf{BHist}$ satisfies
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b))).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$ through right
+addition by $\mathsf{neg}(d)$. Addition congruence gives an equality between
+$\mathsf{add}(\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d),\mathsf{neg}(d))$
+and $\mathsf{add}(c,\mathsf{neg}(d))$.
+
+Associativity, the additive inverse law for $d$, and the additive identity
+law collapse the left side to $\mathsf{mul}(\mathsf{mul}(a,x),b)$. Apply
+Theorem~\ref{thm:field-middle-mul-equation-solution-from-apartness} with
+right side $\mathsf{add}(c,\mathsf{neg}(d))$ to obtain the displayed
+solution for $x$.
+
+For the reverse direction, use the reverse half of
+Theorem~\ref{thm:field-middle-mul-equation-exact-from-apartness} with right
+side $\mathsf{add}(c,\mathsf{neg}(d))$. The assumed displayed solution gives
+$\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame\mathsf{add}(c,\mathsf{neg}(d))$.
+
+Add $d$ on the right and use addition congruence. Associativity, additive
+commutativity for the middle pair when needed, the additive inverse law for
+$d$, and the additive identity law collapse
+$\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(d)),d)$ back to $c$. This gives
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$.
+\end{proof}
+
 \begin{definition}[Field ledger policy]
 \label{def:field-ledger-policy}
 Record the ring ledger and the $\mathsf{NonZero}_F$ witness used for each inverse.
@@ -441,7 +483,7 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
   \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
   \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
   \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
-  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product cancellation, affine left equation exactness, and distributivity inherited from $\CommRingUp$.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product cancellation, affine left equation exactness, two-sided affine equation exactness, and distributivity inherited from $\CommRingUp$.
   \item Exactness predicate: coverage, soundness, completeness, and cancellation inside certified two-sided multiplication for admitted field packages.
   \item Standard bridge: deferred conservative bridge.
   \item Status: ProofTarget.
