@@ -82,6 +82,22 @@ theorem abgroup_mul_common_left_factor_collect {mul : BHist -> BHist -> BHist}
     exact mulCongr (hsame_refl a) collectTail
   exact hsame_trans reassoc transportTail
 
+theorem abgroup_mul_common_right_factor_collect {mul : BHist -> BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b')) :
+    forall a b c : BHist, hsame (mul (mul b a) (mul c a))
+      (mul a (mul a (mul b c))) := by
+  intro a b c
+  have exposeLeftFactors :
+      hsame (mul (mul b a) (mul c a)) (mul (mul a b) (mul a c)) := by
+    exact mulCongr (commC b a) (commC c a)
+  have collect :
+      hsame (mul (mul a b) (mul a c)) (mul a (mul a (mul b c))) := by
+    exact abgroup_mul_common_left_factor_collect assocC commC mulCongr a b c
+  exact hsame_trans exposeLeftFactors collect
+
 theorem history_append_nonempty_left_ne_right :
     (forall {h k : BHist}, append (BHist.e0 h) k = k -> False) ∧
       (forall {h k : BHist}, append (BHist.e1 h) k = k -> False) := by

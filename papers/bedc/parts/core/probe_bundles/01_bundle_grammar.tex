@@ -392,6 +392,22 @@ The induction hypothesis gives $\Pi_0=\Theta_0$, and the head equality rebuilds 
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_suffix\_cancel}
 
+\begin{theorem}[Probe bundle common context cancellation]
+\label{thm:bundle-append-common-context-cancel}
+For probe bundles $\Pi,\Theta,\Omega,\Theta'$, if
+$$
+\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\Omega))
+=\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta',\Omega)),
+$$
+then $\Theta=\Theta'$.
+\end{theorem}
+\begin{proof}
+First cancel the common left bundle $\Pi$ by prefix cancellation. The remaining
+equality has the same suffix $\Omega$ on both sides, so suffix cancellation
+identifies the middle bundles.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_common\_context\_cancel}
+
 \begin{lemma}[Probe bundle append empty-result inversion]
 \label{lem:probe-bundle-append-empty-result-inversion}
 For probe bundles $\Pi,\Theta$, if

@@ -17,6 +17,7 @@ import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Cont.Pattern
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Bundle.Cancellation
 import BEDC.FKernel.Bundle.Length
 import BEDC.FKernel.Bundle.MembershipAppend
 import BEDC.FKernel.Bundle.ResultInversion
