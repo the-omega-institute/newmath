@@ -56,4 +56,21 @@ theorem ContinuationMorphism_identity_comp_closure :
             cases leftRel
             exact rightRel.trans (append_assoc a leftTail rightTail)
 
+theorem category_cont_left_e0_result_cases {h k r : BHist} :
+    Cont (BHist.e0 h) k (BHist.e0 r) ->
+      (k = BHist.Empty ∧ hsame h r) ∨
+        (∃ k0 : BHist, k = BHist.e0 k0 ∧ Cont (BHist.e0 h) k0 r) := by
+  intro hcont
+  cases k with
+  | Empty =>
+      left
+      constructor
+      · rfl
+      · exact (BHist.e0.inj hcont).symm
+  | e0 k0 =>
+      right
+      exact Exists.intro k0 (And.intro rfl (BHist.e0.inj hcont))
+  | e1 k0 =>
+      cases hcont
+
 end BEDC.Derived.CategoryUp

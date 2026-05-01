@@ -63,6 +63,21 @@ Record object ledgers, hom-carrier ledgers, and composition trees.
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\CategoryUp\).
 \end{definition}
 
+\begin{theorem}[Category left zero-headed continuation result cases]
+\label{thm:category-cont-left-e0-result-cases}
+If $\ContR(\Ezero(h),k,\Ezero(r))$, then either $k=\emp$ and
+$\HSame(h,r)$, or $k=\Ezero(k_0)$ for some $k_0$ and
+$\ContR(\Ezero(h),k_0,r)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.category\_cont\_left\_e0\_result\_cases}
+\begin{proof}
+Classify the continuation history $k$. The empty branch identifies the inner
+histories. The zero branch exposes the predecessor of $k$ and removes the
+matching outer constructor from the continuation result. The one branch would
+identify a zero-headed history with a one-headed history, which is impossible
+by generated-history no-confusion.
+\end{proof}
+
 \paragraph{Primitive boundary.}
 \(\CategoryUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
