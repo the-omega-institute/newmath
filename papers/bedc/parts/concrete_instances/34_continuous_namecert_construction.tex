@@ -368,21 +368,28 @@ exactness is the displayed carrier conclusion, the standard bridge is deferred,
 and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 
-\begin{theorem}[Prefixed continuous function carrier modulus-chain replacement]
-\label{thm:continuous-function-carrier-prefixed-modulus-chain-replacement}
-For histories $p,source,map,target,oldMod,oldCert,\delta_1,\delta_2,\delta,cert$,
-a unary visible prefix, an existing continuous-function carrier, a two-step
-modulus chain from the target history to a certificate history, and a
-continuation ledger composing the two modulus steps determine the same prefixed
-graph carrier with the composite modulus certificate:
+\begin{theorem}[Prefixed continuous function carrier graph-chain closure]
+\label{thm:continuous-function-carrier-prefixed-graph-chain-closed}
+For histories $p,source,map,target,\delta_1,\delta_2,\delta,cert$, unary
+source, map, target, and visible-prefix histories, a graph continuation ledger,
+a two-step modulus chain from the target history to a certificate history, and a
+continuation ledger composing the two modulus steps determine the prefixed graph
+carrier with the composite modulus certificate:
 
 $$
 \begin{array}{l}
 \mathsf{UnaryHistory}(p)
 \Longrightarrow
-\mathsf{ContinuousFunctionCarrier}(source,map,target,oldMod,oldCert)
+\mathsf{UnaryHistory}(source)
 \Longrightarrow
 \\
+\mathsf{UnaryHistory}(target)
+\Longrightarrow
+\mathsf{UnaryHistory}(map)
+\Longrightarrow
+\\
+\mathsf{Cont}(source,map,target)
+\Longrightarrow
 \mathsf{ContinuousModulusChain}(target,\delta_1,\delta_2,cert)
 \Longrightarrow
 \mathsf{Cont}(\delta_1,\delta_2,\delta)
@@ -393,35 +400,47 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-First apply Theorem~\ref{thm:continuous-function-carrier-prefix-closed} to the
-given carrier and unary prefix $p$. This yields the prefixed source, target, and
-map ledgers, so the graph component already has
-$\mathsf{Cont}(p\cdot source,map,p\cdot target)$.
-
-Next apply Theorem~\ref{thm:continuous-modulus-prefixed-composite-closed} to
-the same prefix, the chain
+First apply Theorem~\ref{thm:continuous-modulus-prefixed-composite-closed} to
+the prefix $p$, the chain
 $\mathsf{ContinuousModulusChain}(target,\delta_1,\delta_2,cert)$, and the
 composition ledger $\mathsf{Cont}(\delta_1,\delta_2,\delta)$. This gives the
-new modulus witness
+modulus witness
 $$
 \mathsf{ContinuousModulusWitness}(p\cdot target,\delta,p\cdot cert).
 $$
 
-The carrier is then reassembled from the prefixed source, target, and map
-ledgers supplied by the first step and the replacement modulus ledger supplied
-by the second step. The old modulus and certificate are used only to expose the
-original carrier data; the public witness uses $\delta$ and $p\cdot cert$.
+Unpack this witness into unary data for $p\cdot target$, the composite modulus
+$\delta$, and $p\cdot cert$, together with the certificate ledger
+$\mathsf{Cont}(p\cdot target,\delta,p\cdot cert)$.
+
+The graph ledger is prefixed directly from
+$\mathsf{Cont}(source,map,target)$. Associativity of history append gives
+
+$$
+(p\cdot source)\cdot map
+=
+p\cdot(source\cdot map)
+=
+p\cdot target.
+$$
+
+Unary append closure applied to $p$ and $source$ supplies the unary source
+history $p\cdot source$. The unary map hypothesis is reused, and the prefixed
+target, composite modulus, and prefixed certificate data come from the modulus
+witness. These fields assemble
+$\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,\delta,
+p\cdot cert)$.
 
 The ten-field certificate fit is the following. The traditional target is
 uniformly continuous map composition under visible finite-prefix evidence. The
 BEDC source is $BHist$ equipped with $\mathsf{Cont}$. The carrier is
 $\mathsf{ContinuousFunctionCarrier}$ and the classifier is $\mathsf{hsame}$. The
-stability obligation is carrier preservation when the modulus certificate is
-recomputed through a prefixed two-link chain. The ledger consists of source,
-map, target, old modulus, old certificate, two modulus steps, the composite
-modulus, the terminal certificate, and the visible prefix. The core theorem is
-this carrier-level closure, exactness is the displayed carrier conclusion, the
-standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+stability obligation is carrier preservation from graph data and a prefixed
+two-link modulus chain. The ledger consists of source, map, target, two modulus
+steps, the composite modulus, the terminal certificate, and the visible prefix.
+The core theorem is this carrier-level closure, exactness is the displayed
+carrier conclusion, the standard bridge is deferred, and the status is
+$\mathsf{ProofTarget}$.
 \end{proof}
 
 \begin{theorem}[Prefixed continuous modulus composite closure]
