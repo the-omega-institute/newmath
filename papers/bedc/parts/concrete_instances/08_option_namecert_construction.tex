@@ -645,10 +645,10 @@ obtain the same $\hsame(h,\emp)$ witness and apply the same exclusion predicate.
 
 \begin{theorem}[Option classifier \(\hsame\) symmetry]
 \label{thm:option-classifier-hsame-symm}
-For optional BEDC histories, the option classifier induced by \(\hsame\) is symmetric.
+For typed option carrier values $x,y:\mathsf{OptionCarrier}(\mathsf{BHist})$, if $\mathsf{OptionClassifierSpec}(\hsame,x,y)$ holds, then $\mathsf{OptionClassifierSpec}(\hsame,y,x)$ holds.
 \end{theorem}
 \begin{proof}
-The none--none case returns the existing classifier witness. The mixed constructor cases contradict the classifier definition, and the some--some case reverses the underlying BEDC history witness by \(\hsame\) symmetry.
+The proof case-analyzes typed $\mathsf{none}$ and $\mathsf{some}$ carrier values: the none--none branch returns the existing classifier witness, the mixed branches contradict the typed classifier clauses, and the some--some branch reverses the BEDC history witness by $\hsame$ symmetry.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_symm}
 
