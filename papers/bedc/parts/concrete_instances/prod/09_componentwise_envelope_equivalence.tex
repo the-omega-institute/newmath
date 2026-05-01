@@ -233,6 +233,45 @@ carrier fields of $\mathsf{cert}_L$ and $\mathsf{cert}_R$ provide the left and
 right carrier witnesses required by that theorem.
 \end{proof}
 
+\begin{theorem}[Product envelope displayed-pair component exactness]
+\label{thm:prod-envelope-displayed-pair-component-exactness}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers. Assume $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and
+assume both source classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+For histories $h,k,l,r,l',r':\mathsf{BHist}$, if
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$ hold, then
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+(l\sim_L l')\wedge(r\sim_R r').
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the checked envelope classifier to obtain
+the endpoint link $\hsame(h,k)$. Symmetry gives $\hsame(k,h)$, and
+Theorem~\ref{thm:prod-pair-rep-hsame-transport} carries the displayed
+representation of $k$ with components $l',r'$ back to a displayed
+representation of $h$ with the same components. The
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ witness then compares this
+transported representation with the given displayed representation
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and yields
+$l\sim_L l'$ and $r\sim_R r'$.
+
+For the reverse direction, use the two displayed representations and the two
+component links as a witness of
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$. Apply
+Theorem~\ref{thm:prod-component-history-classifier-descends-to-envelope} with
+the two $\hsame$-soundness assumptions to obtain
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+\end{proof}
+
 \begin{theorem}[Product hsame componentwise certificate is envelope-equivalent]
 \label{thm:prod-hsame-componentwise-certificate-envelope-equivalent}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. Assume
