@@ -472,6 +472,39 @@ theorem BoolHistoryClassifier_mark_readback_exactness {h k : BEDC.FKernel.Hist.B
                             ((BoolEndpoint_bridge_exactness (v := v) (w := w)).mp sameVW)
                             (BEDC.FKernel.Hist.hsame_symm readK))
 
+theorem BoolHistoryCarrier_classifier_endpoint_exactness
+    {h : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryCarrier h <->
+      exists v : BEDC.FKernel.Mark.BMark,
+        BoolSourceSpec v /\ BoolHistoryClassifier h (BoolEndpoint v) := by
+  constructor
+  · intro carrier
+    cases (BoolHistoryCarrier_endpoint_coverage (h := h)).mp carrier with
+    | intro v sameEndpoint =>
+        have source : BoolSourceSpec v := by
+          cases v with
+          | b0 =>
+              exact Or.inl (BEDC.FKernel.Mark.msame_refl BEDC.FKernel.Mark.BMark.b0)
+          | b1 =>
+              exact Or.inr (BEDC.FKernel.Mark.msame_refl BEDC.FKernel.Mark.BMark.b1)
+        have endpointCarrier : BoolHistoryCarrier (BoolEndpoint v) := by
+          cases v with
+          | b0 =>
+              exact Or.inl (BEDC.FKernel.Hist.hsame_refl BEDC.FKernel.Hist.BHist.Empty)
+          | b1 =>
+              exact Or.inr
+                (BEDC.FKernel.Hist.hsame_refl
+                  (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty))
+        exact Exists.intro v
+          (And.intro source
+            (And.intro carrier (And.intro endpointCarrier sameEndpoint)))
+  · intro witness
+    cases witness with
+    | intro _ payload =>
+        cases payload with
+        | intro _ classifier =>
+            exact classifier.left
+
 theorem bool_history_name_certificate :
     BEDC.FKernel.NameCert.NameCert BoolHistoryCarrier BoolHistoryClassifier := by
   exact {

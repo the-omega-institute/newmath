@@ -46,4 +46,14 @@ theorem SumHistoryLedgerPolicy_raw_visible_classifier {Left Right : BHist -> Pro
                           (And.intro (hsame_trans (hsame_symm sameRawVisible) sameRawTag)
                             (hsame_refl rightHist)))))
 
+theorem SumHistoryLedgerPolicy_hsame_transport {Left Right : BHist -> Prop}
+    {raw raw' visible visible' : BHist} :
+    SumHistoryLedgerPolicy Left Right raw visible -> hsame raw raw' -> hsame visible visible' ->
+      SumHistoryLedgerPolicy Left Right raw' visible' := by
+  intro ledger sameRaw sameVisible
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      exact And.intro (SumHistoryCarrier_hsame_transport sameRaw rawCarrier)
+        (hsame_trans (hsame_symm sameRaw) (hsame_trans sameRawVisible sameVisible))
+
 end BEDC.Derived.SumUp
