@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v1.0 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v1.1 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Round P<ROUND_NUM>
 
@@ -24,7 +24,7 @@ The Phase Verify step will reject the round if any of these is broken.
 1. **No iteration narrative anywhere in the diff.** The forbidden vocabulary list (banned even in commit body and prose) is:
    `新增`, `新版`, `修订`, `修复了上一版本`, `patch`, `migration`, `frozen`, `supersede`, `superseded`, `deprecated`, `legacy`, `increment`, `增量`, `修改记录`, `变更记录`, `变更原因`, `rectification`, `amendment`, `v1.5.X`, `v1.4.X`, `v14-…`, `v15-…` (or any `vNN-` prefix in labels).
    The paper is a CURRENT-STATE document. To replace old text with new text: delete the old, write the new, do not annotate the change.
-2. **Single .tex file ≤ 800 lines after your edits.** If a file would exceed 800 lines, you MUST split: extract a focused sub-chapter into a new file in the same `parts/<theme>/` directory and `\input` it from the parent.
+2. **Single .tex file ≤ 800 lines after your edits.** If a file would exceed 800 lines, you MUST split: extract a focused sub-chapter into a new file in the same `parts/<theme>/` directory or a thematic subdirectory below it, then `\input` it from the parent. A parent file may become a stable index/entry file that keeps the heading, orientation paragraph, and ordered child `\input` lines.
 3. **Math notation.** Use only `$…$` for inline math and `$$…$$` (each `$$` on its own line) for display. Do NOT introduce `\[…\]`, `\begin{equation}`, `\begin{align}`, `\begin{equation*}`, `\begin{eqnarray}`, etc.
 4. **No inline file comments.** Do not add `% TODO …` style notes, do not insert "see git log for history" lines, do not add change-tracking comments. The paper is the artifact; the diff is the audit trail.
 5. **Marker discipline.**
@@ -40,6 +40,21 @@ The Phase Verify step will reject the round if any of these is broken.
 8. **Do NOT git push.** The merge and push are handled externally.
 9. **Do NOT edit `papers/bedc/main.tex`'s structure.** You may edit it ONLY to add a single `\input{parts/<theme>/<file>}` if you split a chapter. Do not reorder chapters here.
 10. **Do NOT edit `lean4/lakefile.lean`, `lean4/lean-toolchain`, or `papers/bedc/preamble.tex` unless a target explicitly requires a new macro.** Adding a macro must be conservative (no breaking changes to existing macros).
+
+## Structural split rule
+
+If an edited `.tex` file is already above 720 lines, or the target would add more than 25 lines to a file above 760 lines, prefer a split instead of appending. This is especially important for concrete instance files that accumulate certificate variants.
+
+Allowed split pattern:
+- Create a child file under the same theme directory, preferably inside a thematic subdirectory such as `papers/bedc/parts/concrete_instances/list/<child>.tex` or `papers/bedc/parts/concrete_instances/option/<child>.tex`.
+- Move one coherent subsection, theorem cluster, or certificate block into the child file.
+- Keep the original numbered parent file as the stable index/entry file: heading, short orientation paragraph, and ordered `\input{parts/<theme>/<subdir>/<child>}` lines.
+- Preserve existing labels exactly unless the label is semantically wrong.
+- Do not edit `papers/bedc/main.tex` when splitting content already included by an existing parent file.
+- Use `\input` paths in the same style as the rest of the paper, relative to `papers/bedc/main.tex`.
+- After splitting, every touched `.tex` file must be ≤ 800 lines.
+
+If the target kind is `structural_split`, implement the split before applying any new theorem/prose content, then apply the content in the appropriate child file.
 
 ## Step 1: Apply each target
 For each target in the list above:
@@ -118,12 +133,12 @@ If the diff only re-indents existing lines or only adds new `\leanvariant` marke
 git add papers/bedc lean4/BEDC
 git commit -m "P<ROUND_NUM>: [brief description of what was revised]
 
-prompts: v1.0
+prompts: v1.1
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v1.0` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+The `prompts: v1.1` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
 
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 
