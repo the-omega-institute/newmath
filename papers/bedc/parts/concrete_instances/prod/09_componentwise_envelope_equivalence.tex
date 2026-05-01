@@ -156,29 +156,48 @@ and
 $$
 \forall r.\;R(r)\to r\sim_R r_0.
 $$
-With $D(h):\Longleftrightarrow
-\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, both of the
-following hold:
-$$
-\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
-\mathsf{ProdHistoryCarrier}(L,R),
-D,
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R})
-$$
-and, for all histories $h,k$,
-$$
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
-\to
-\mathsf{ProdHistoryClassifier}(L,R,h,k).
-$$
+With displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, the following
+three clauses hold:
+\begin{enumerate}
+  \item the componentwise public certificate
+  $$
+  \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  D,
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R});
+  $$
+  \item the checked envelope certificate
+  $$
+  \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryClassifier}(L,R));
+  $$
+  \item for all histories $h,k$,
+  $$
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+  \to
+  D(h)\land D(k)\land
+  \mathsf{ProdHistoryClassifier}(L,R,h,k).
+  $$
+\end{enumerate}
 \end{theorem}
 \begin{proof}
 Apply Theorem~\ref{thm:prod-pair-rep-classifier-bounded-coherence} to the two
 source certificates and the two center-history bounds. This yields
-$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then apply
-Theorem~\ref{thm:prod-componentwise-certificate-refines-checked-envelope} with
-the two source certificates, this coherence witness, and the two
-$\hsame$-soundness hypotheses.
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. The componentwise public
+certificate is Theorem~\ref{thm:prod-component-history-semantic-certificate-target}
+applied to the two source certificates and this coherence witness. The checked
+envelope certificate is Theorem~\ref{thm:concrete-prod-namecert}, using the
+inhabited carrier fields of $\mathsf{cert}_L$ and $\mathsf{cert}_R$ as the two
+source-history witnesses. For the endpoint exposure clause,
+Theorem~\ref{thm:prod-component-history-classifier-displayed-ledger-endpoints}
+supplies $D(h)$ and $D(k)$ from the componentwise classifier witness, while
+Theorem~\ref{thm:prod-component-history-classifier-descends-to-envelope} supplies
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$ from the same witness and the two
+$\hsame$-soundness hypotheses. Conjoin the three conclusions.
 \end{proof}
 
 \begin{theorem}[Product componentwise certificate descends to the checked envelope]
