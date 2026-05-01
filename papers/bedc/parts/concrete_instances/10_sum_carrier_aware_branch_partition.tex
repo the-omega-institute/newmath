@@ -126,7 +126,15 @@ branch presentations; they are not needed by the constructor inversion itself.
 \label{thm:sum-history-classifier-carrier-aware-branch-partition}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
 $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
-classifiers. If $\mathsf{SumHistoryCarrier}(Left,Right,h)$,
+classifiers. Assume source-carrier closure under history sameness:
+$$
+\forall x\,y.\; Left(x)\to \hsame(x,y)\to Left(y)
+$$
+and
+$$
+\forall x\,y.\; Right(x)\to \hsame(x,y)\to Right(y).
+$$
+If $\mathsf{SumHistoryCarrier}(Left,Right,h)$,
 $\mathsf{SumHistoryCarrier}(Left,Right,k)$, and
 $\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)$ hold, then a
 visible classifier side supplies the branch data used by the carrier-backed
@@ -147,27 +155,33 @@ $$
 \end{theorem}
 \begin{proof}
 Split the displayed $\mathsf{SumHistoryClassifier}$ witness into its visible
-left or right constructor branch. In the left branch, use
-$\mathsf{SumHistoryCarrier\_hsame\_transport}$ to move the two carrier
-witnesses along the classifier endpoint links to
-$\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(a))$ and
-$\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(b))$. Applying
-$\mathsf{SumHistoryCarrier\_e0\_inversion}$ gives left source-membership
-witnesses for payloads with $\hsame$ links to $a$ and $b$; converting those
-links through $\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ identifies the
-payloads with the classifier payloads, so the membership witnesses become
-$Left(a)$ and $Left(b)$. Together with the stored $LeftEq(a,b)$ witness, these
-data give the left disjunct. The right branch is identical, using the
-$\Eone$ endpoint links, $\mathsf{SumHistoryCarrier\_e1\_inversion}$,
-$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$, and the stored $RightEq(a,b)$
-witness.
+left or right constructor branch. In the left branch, let the classifier
+payloads be $a,b$. Compose the carrier endpoint for $h$ with the classifier
+endpoint $\hsame(h,\Ezero(a))$ and apply
+$\mathsf{SumHistoryCarrier\_e0\_inversion}$ to obtain a source payload $l$,
+$Left(l)$, and a payload link $\hsame(l,a)$; the same argument at $k$ gives
+$l'$, $Left(l')$, and $\hsame(l',b)$. The left source-carrier closure turns
+these into $Left(a)$ and $Left(b)$. Together with the stored $LeftEq(a,b)$
+witness and the two classifier endpoint links, these data give the left
+disjunct. In the right branch, apply the analogous $\Eone$ endpoint
+composition and $\mathsf{SumHistoryCarrier\_e1\_inversion}$ argument to obtain
+$Right(a)$ and $Right(b)$ from the right source-carrier closure, then pair them
+with the stored $RightEq(a,b)$ witness and the two right endpoint links.
 \end{proof}
 
 \begin{theorem}[Sum history classifier carrier-aware branch exactness]
 \label{thm:sum-history-classifier-carrier-aware-branch-exactness}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
 $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
-classifiers. Then the carrier-backed classifier assertion
+classifiers. Assume source-carrier closure under history sameness:
+$$
+\forall x\,y.\; Left(x)\to \hsame(x,y)\to Left(y)
+$$
+and
+$$
+\forall x\,y.\; Right(x)\to \hsame(x,y)\to Right(y).
+$$
+Then the carrier-backed classifier assertion
 $$
 \begin{array}{l}
 \mathsf{SumHistoryCarrier}(Left,Right,h)\land
@@ -188,10 +202,11 @@ $$
 \end{theorem}
 \begin{proof}
 For the forward direction, apply
-\autoref{thm:sum-history-classifier-carrier-aware-branch-partition}. For the
-reverse direction, split the displayed branch assertion. In the left branch,
-unpack $a,b$ with their $Left$ witnesses, the two visible $\Ezero$ endpoint
-links, and the stored $LeftEq(a,b)$ witness. The same data rebuilds the two
+\autoref{thm:sum-history-classifier-carrier-aware-branch-partition} with the
+two displayed source-carrier closure hypotheses. For the reverse direction,
+split the displayed branch assertion. In the left branch, unpack $a,b$ with
+their $Left$ witnesses, the two visible $\Ezero$ endpoint links, and the stored
+$LeftEq(a,b)$ witness. The same data rebuilds the two
 $\mathsf{SumHistoryCarrier}$ witnesses by the left carrier constructor and
 rebuilds the matching $\mathsf{SumHistoryClassifier}$ witness by the left
 classifier constructor. The right branch is identical, using the two $Right$
