@@ -269,6 +269,54 @@ or right source payload witness.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_visible\_payload\_readback}
 
+\begin{theorem}[Sum ledger one-step endpoint exactness]
+\label{thm:sum-ledger-one-step-endpoint-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,l,l',r,r':\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ holds, then the one-ledger
+link has endpoint exactness from $\rho$ to $v$. First, both mixed endpoint pairs
+are impossible:
+$$
+(\hsame(\rho,\Ezero(l))\land\hsame(v,\Eone(r')))\to\bot
+$$
+and
+$$
+(\hsame(\rho,\Eone(r))\land\hsame(v,\Ezero(l')))\to\bot.
+$$
+Second, same-tag endpoint pairs determine their payloads:
+$$
+(\hsame(\rho,\Ezero(l))\land\hsame(v,\Ezero(l')))\to\hsame(l,l')
+$$
+and
+$$
+(\hsame(\rho,\Eone(r))\land\hsame(v,\Eone(r')))\to\hsame(r,r').
+$$
+Third, final visible endpoints read back source payload evidence:
+$$
+(\hsame(v,\Ezero(l'))\to\exists a:\mathsf{BHist}.\;Left(a)\land\hsame(l',a))
+$$
+and
+$$
+(\hsame(v,\Eone(r'))\to\exists b:\mathsf{BHist}.\;Right(b)\land\hsame(r',b)).
+$$
+The roadmap ten-field fit is: traditional target disjoint-sum one-ledger
+endpoint audit; BEDC source $\mathsf{BHist}$ with $\hsame$; source carriers
+$Left$ and $Right$; carrier $\mathsf{SumHistoryCarrier}$; classifier
+$\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame)$; ledger
+$\mathsf{SumHistoryLedgerPolicy}$; core theorem this endpoint exactness package;
+exactness raw-to-visible tag separation, same-tag payload determinacy, and
+visible source readback; standard bridge tagged sum ledger readback; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-visible-tag-separation} to the ledger witness
+for the two mixed clauses. Apply
+Theorem~\ref{thm:sum-ledger-same-tag-payload-exactness} to the same ledger
+witness for the two same-tag payload clauses. Apply
+Theorem~\ref{thm:sum-ledger-visible-payload-readback} to the ledger witness for
+the two final visible readback clauses.
+\end{proof}
+
 \begin{theorem}[Concrete $\SumUp$ semantic name certificate]
 \label{thm:concrete-sum-namecert}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers with classifiers
