@@ -114,6 +114,39 @@ readback $w$, Theorem~\ref{thm:bool-endpoint-readback-determinism} applied to
 the two endpoint witnesses gives $\msame(v,w)$.
 \end{proof}
 
+\begin{theorem}[Bool classifier readback total uniqueness]
+\label{thm:bool-classifier-readback-total-unique}
+For every history $h:\mathsf{BHist}$, if $\mathsf{BoolHistoryCarrier}(h)$
+holds, then there exists a mark $v:\mathsf{BMark}$ such that
+$$
+  \mathsf{BoolSourceSpec}(v)
+  \quad\land\quad
+  \mathsf{BoolHistoryClassifier}(h,\mathsf{BoolEndpoint}(v))
+  \quad\land\quad
+  \forall w:\mathsf{BMark},\
+    \mathsf{BoolHistoryClassifier}(h,\mathsf{BoolEndpoint}(w)) \to \msame(v,w).
+$$
+The ten-field fit is: traditional target public boolean readback; BEDC source
+$\mathsf{BHist}$ with $\hsame$; carrier $\mathsf{BoolHistoryCarrier}$;
+classifier $\mathsf{BoolHistoryClassifier}$; stability obligations endpoint
+coverage and classifier determinacy; ledger displayed
+$\mathsf{BoolEndpoint}(v)$; core theorem this total uniqueness statement;
+exactness classifier-visible existence and uniqueness up to $\msame$; standard
+bridge ordinary booleans through $\bzero,\bone$ endpoints; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness} to the
+carrier witness for $h$. This gives a mark $v$ with
+$\mathsf{BoolSourceSpec}(v)$ and
+$\mathsf{BoolHistoryClassifier}(h,\mathsf{BoolEndpoint}(v))$. For uniqueness,
+unpack this classifier witness and any displayed classifier readback at
+$\mathsf{BoolEndpoint}(w)$ to expose endpoint witnesses
+$\hsame(h,\mathsf{BoolEndpoint}(v))$ and
+$\hsame(h,\mathsf{BoolEndpoint}(w))$. Theorem~\ref{thm:bool-endpoint-readback-determinism}
+then gives $\msame(v,w)$.
+\end{proof}
+
 \begin{theorem}[Bool endpoint bridge classifier completeness]
 \label{thm:bool-endpoint-bridge-classifier-completeness}
 The endpoint bridge preserves the checked boolean history classifier in both finite certificate directions. For marks $v,w:\mathsf{BMark}$,

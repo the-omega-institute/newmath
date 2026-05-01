@@ -440,10 +440,10 @@ $\hsame(h,\Ezero(c))$ and $Left(c)$, while the classifier branch stores
 $\hsame(h,\Ezero(a))$, $\hsame(k,\Ezero(a'))$, and $LeftEq(a,a')$.
 Composing the symmetric carrier endpoint witness with the classifier endpoint
 witness gives $\hsame(\Ezero(c),\Ezero(a))$; $e0$ constructor inversion gives
-$\hsame(c,a)$. Eliminating this BEDC history-sameness witness reads the stored
-source-carrier proof $Left(c)$ at the classifier payload as $Left(a)$, and only
-then applies $\mathsf{NameCert.carrier\_respects\_equiv}$ from the left source
-certificate along $LeftEq(a,a')$ to obtain $Left(a')$, before rebuilding the target left tagged
+$\hsame(c,a)$. By the checked principle
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$, this payload $\hsame$ witness is kernel equality, so $Left(c)$ rewrites to $Left(a)$. Only then apply
+$\mathsf{NameCert.carrier\_respects\_equiv}$ from the left source certificate
+along $LeftEq(a,a')$ to obtain $Left(a')$, before rebuilding the target left tagged
 carrier using the stored endpoint witness $\hsame(k,\Ezero(a'))$. The right-right
 case is identical with payloads aligned through $e1$ constructor inversion and
 the right source certificate applied along $RightEq$.
@@ -787,9 +787,9 @@ $$
 \begin{proof}
 The carrier is represented by $e0$-tagged left histories and $e1$-tagged right histories. Theorem~\ref{thm:sum-classifier-no-source-membership} marks the split: the classifier delegates within matching tags to the corresponding source certificate, while source-carrier evidence is taken from $\mathsf{SumHistoryCarrier}$ when certificate fields require it. Reflexivity is built by tagging the source certificate reflexivity field on the selected component. Symmetry and transitivity invert the tagged classifier witnesses, use the matching source certificate fields inside a left--left or right--right branch, and discharge mixed tags by constructor no-confusion.
 
-For carrier transport in the left branch, the carrier witness stores $\hsame(h,\Ezero(l))$ and $Left(l)$, while the classifier endpoint stores $\hsame(h,\Ezero(a))$, $\hsame(k,\Ezero(b))$, and $LeftEq(a,b)$. Symmetry of the carrier endpoint and transitivity with the classifier endpoint give $\hsame(\Ezero(l),\Ezero(a))$; $e0$ constructor inversion gives $\hsame(l,a)$. Eliminating this BEDC history-sameness witness reads the stored source-carrier proof $Left(l)$ at the classifier payload as $Left(a)$; only then does the left source certificate field $\mathsf{NameCert.carrier\_respects\_equiv}$ apply along $LeftEq(a,b)$ to obtain $Left(b)$, and the target left carrier is rebuilt with $\hsame(k,\Ezero(b))$.
+For carrier transport in the left branch, the carrier witness stores $\hsame(h,\Ezero(l))$ and $Left(l)$, while the classifier endpoint stores $\hsame(h,\Ezero(a))$, $\hsame(k,\Ezero(b))$, and $LeftEq(a,b)$. Symmetry of the carrier endpoint and transitivity with the classifier endpoint give $\hsame(\Ezero(l),\Ezero(a))$; $e0$ constructor inversion gives $\hsame(l,a)$. By the checked principle $\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$, this payload $\hsame$ witness is kernel equality, so the stored source-carrier proof $Left(l)$ rewrites to $Left(a)$; only then does the left source certificate field $\mathsf{NameCert.carrier\_respects\_equiv}$ apply along $LeftEq(a,b)$ to obtain $Left(b)$, and the target left carrier is rebuilt with $\hsame(k,\Ezero(b))$.
 
-For carrier transport in the right branch, the carrier witness stores $\hsame(h,\Eone(r))$ and $Right(r)$, while the classifier endpoint stores $\hsame(h,\Eone(a))$, $\hsame(k,\Eone(b))$, and $RightEq(a,b)$. Symmetry and transitivity produce $\hsame(\Eone(r),\Eone(a))$; $e1$ constructor inversion gives $\hsame(r,a)$. Eliminating this BEDC history-sameness witness reads the stored source-carrier proof $Right(r)$ at the classifier payload as $Right(a)$; only then does the right source certificate field $\mathsf{NameCert.carrier\_respects\_equiv}$ apply along $RightEq(a,b)$ to obtain $Right(b)$, and the target right carrier is rebuilt with $\hsame(k,\Eone(b))$. The carrier-as-pattern and carrier-as-ledger components use the same tagged carrier evidence, so the displayed tuple satisfies the semantic certificate fields.
+For carrier transport in the right branch, the carrier witness stores $\hsame(h,\Eone(r))$ and $Right(r)$, while the classifier endpoint stores $\hsame(h,\Eone(a))$, $\hsame(k,\Eone(b))$, and $RightEq(a,b)$. Symmetry and transitivity produce $\hsame(\Eone(r),\Eone(a))$; $e1$ constructor inversion gives $\hsame(r,a)$. By the checked principle $\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$, this payload $\hsame$ witness is kernel equality, so the stored source-carrier proof $Right(r)$ rewrites to $Right(a)$; only then does the right source certificate field $\mathsf{NameCert.carrier\_respects\_equiv}$ apply along $RightEq(a,b)$ to obtain $Right(b)$, and the target right carrier is rebuilt with $\hsame(k,\Eone(b))$. The carrier-as-pattern and carrier-as-ledger components use the same tagged carrier evidence, so the displayed tuple satisfies the semantic certificate fields.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate}
 
