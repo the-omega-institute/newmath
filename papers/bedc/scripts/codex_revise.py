@@ -190,6 +190,7 @@ class RoundState:
 class ReviewResult:
     raw_output: str = ""
     targets: list[dict] = field(default_factory=list)
+    candidate_pool: list[dict] = field(default_factory=list)
     notes: str = ""
     success: bool = False
 
@@ -1016,6 +1017,7 @@ def parse_review_output(raw: str) -> ReviewResult:
         try:
             data = json.loads(json_match.group(1))
             result.targets = data.get("targets", []) or []
+            result.candidate_pool = data.get("candidate_pool", []) or []
             result.notes = data.get("notes", "") or ""
         except json.JSONDecodeError:
             pass
@@ -1024,6 +1026,7 @@ def parse_review_output(raw: str) -> ReviewResult:
             try:
                 data = json.loads(m.group(0))
                 result.targets = data.get("targets", []) or []
+                result.candidate_pool = data.get("candidate_pool", []) or []
                 if result.targets:
                     break
             except json.JSONDecodeError:
@@ -1042,6 +1045,19 @@ def review_gate_check(review: ReviewResult) -> tuple[bool, str, bool]:
     """Quick sanity check on review JSON. Returns (proceed_to_revise, reason, benign_skip)."""
     if not review.targets:
         return False, "Reviewer reported no high-value targets (empty round)", True
+
+    pool = review.candidate_pool or []
+    if not pool:
+        return False, "missing candidate_pool", False
+    ranked = [c for c in pool if c.get("feasible") is True and c.get("selection_rank") == 1]
+    if len(ranked) != 1:
+        return False, "candidate_pool must contain exactly one feasible selection_rank=1", False
+    selected_id = ranked[0].get("candidate_id")
+    target_id = review.targets[0].get("candidate_id") if review.targets else None
+    if selected_id and target_id and selected_id != target_id:
+        return False, f"selected target {target_id} does not match candidate_pool rank 1 {selected_id}", False
+    if not target_id:
+        return False, "selected target missing candidate_id", False
 
     kept: list[dict] = []
     issues: list[str] = []
@@ -1571,6 +1587,7 @@ def _save_round_log(
             "round": round_num,
             "timestamp": ts,
             "success": success,
+            "candidate_pool": review.candidate_pool,
             "review_targets": review.targets,
             "review_notes": review.notes,
             "review_success": review.success,
