@@ -126,6 +126,61 @@ Theorem~\ref{thm:list-hsame-bounded-source-spine-coherence}. Apply
 Theorem~\ref{thm:concrete-list-namecert} with these two inputs.
 \end{proof}
 
+\begin{theorem}[Hsame-bounded list source endpoint spine ledgers]
+\label{thm:list-hsame-bounded-source-public-object-endpoint-spine-ledgers}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ and $a_0:\mathsf{BHist}$. If
+$\mathsf{cert}:\NameCert(A,\hsame)$ and
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, then the displayed public-object
+semantic certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,
+\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame})
+$$
+holds. Moreover, for all histories $h$ and $k$, every classifier witness
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,k)
+$$
+yields finite spines $xs,ys:\mathsf{HistSpine}$ with
+$$
+\mathsf{ListSpineRep}_A(h,xs)
+$$
+and
+$$
+\mathsf{ListSpineRep}_A(k,ys).
+$$
+Consequently,
+$$
+\mathsf{ListHistoryCarrier}_A(h)\land\mathsf{ListHistoryCarrier}_A(k)
+$$
+holds. The per-object fit is: traditional target finite lists over one
+hsame-bounded BEDC history source; BEDC source $\mathsf{BHist}$ with $\hsame$;
+carrier $\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}$; ledger finite-spine endpoint
+exposure; core route Theorem~\ref{thm:list-hsame-bounded-source-spine-coherence},
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence}, and
+Theorem~\ref{thm:list-public-object-endpoint-spine-ledgers}; standard bridge
+finite spines; status Phase Finite Data.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-hsame-bounded-source-spine-coherence} turns the
+hsame-bounded source hypothesis into
+$\mathsf{ListSpineRepCoherent}_{A,\hsame}$. The forward implication of
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence} converts this
+spine coherence datum into
+$\mathsf{ListConsBoundaryCoherent}_{A,\hsame}$. Apply
+Theorem~\ref{thm:list-public-object-endpoint-spine-ledgers} to the source
+certificate $\mathsf{cert}$ and this cons-boundary witness. Its certificate
+component is exactly the displayed
+$\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame})$, and its endpoint-ledger
+component supplies the finite spines $xs$ and $ys$ with the two displayed
+$\mathsf{ListSpineRep}_A$ facts. The final carrier conjunction follows from
+Theorem~\ref{thm:list-spine-representation-coverage}.
+\end{proof}
+
 \begin{theorem}[List singleton source unframed certificate]
 \label{thm:list-singleton-source-public-object-certificate}
 Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
