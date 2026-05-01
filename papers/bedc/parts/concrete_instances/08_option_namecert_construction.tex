@@ -2,3 +2,64 @@
 \input{parts/concrete_instances/option/02_tagged_option_namecert.tex}
 \input{parts/concrete_instances/08_option_right_visible_branch_inversion.tex}
 \input{parts/concrete_instances/option/08_tagged_option_payload_descent_image_classifier.tex}
+
+\section{Exclusive classifier branch readback}
+\label{sec:option-classifier-exclusive-branch-readback}
+
+\begin{theorem}[Tagged option history classifier exclusive branch readback]
+\label{thm:tagged-option-history-classifier-exclusive-branch-readback}
+This theorem fits the per-object template as follows: the traditional target is
+tagged option classifier readback; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier
+is $\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is
+constructor no-confusion plus endpoint carrier exposure; the ledger is the
+visible absent/present tags and payloads; the core theorem is exclusive
+classifier branch readback; exactness is branch coverage with disjointness; the
+standard bridge is $\mathsf{none}$/$\mathsf{some}$; and the status is
+$\mathsf{ProofTarget}$. For every BEDC history source carrier
+$S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, histories
+$h,k$, and witness
+$\gamma:\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$, either
+$$
+\hsame(h,\emp)\land
+\hsame(k,\emp)\land
+\bigl(\neg\exists a:\mathsf{BHist}.\;
+S(a)\land\hsame(h,\Eone(a))\bigr)\land
+\bigl(\neg\exists b:\mathsf{BHist}.\;
+S(b)\land\hsame(k,\Eone(b))\bigr)
+$$
+or
+$$
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land
+\hsame(h,\Eone(a))\land
+\hsame(k,\Eone(b))\land
+a\sim_S b\land
+\neg\hsame(h,\emp)\land
+\neg\hsame(k,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-classifier-branch-exactness} to
+the classifier witness $\gamma$. This splits the proof into the exact
+absent-absent branch and the exact present-present branch.
+
+In the absent-absent branch, keep the two displayed endpoint equalities. Apply
+Theorem~\ref{thm:tagged-option-history-classifier-endpoint-carriers} to
+$\gamma$ to obtain carrier witnesses for both endpoints. Then apply
+Theorem~\ref{thm:tagged-option-history-carrier-exclusive-branch-partition} to
+each endpoint carrier. The partition result rules out any source payload whose
+visible present endpoint is $\hsame$-equal to the displayed absent endpoint, so
+the two negative existential clauses follow.
+
+In the present-present branch, keep the payload histories $a,b$, the source
+witnesses $S(a)$ and $S(b)$, the endpoint equalities, and the source classifier
+witness $a\sim_S b$ exposed by branch exactness. Apply
+Theorem~\ref{thm:tagged-option-history-classifier-endpoint-carriers} to
+$\gamma$, and then apply
+Theorem~\ref{thm:tagged-option-history-carrier-exclusive-branch-partition} to
+both endpoint carriers. The supplied present payload witnesses rule out the
+absent alternatives, so the present alternatives of the two carrier partitions
+give $\neg\hsame(h,\emp)$ and $\neg\hsame(k,\emp)$, completing the displayed
+present-present branch.
+\end{proof}
