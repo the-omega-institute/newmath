@@ -141,6 +141,32 @@ through right multiplication by $\mathsf{inv}(b,p_b)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_right\_mul\_equation\_solution\_from\_apartness}
 
+\begin{theorem}[Field right-multiplication equation exactness from apartness]
+\label{thm:field-right-mul-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+any witness $p_b:\mathsf{NonZero}_F(b)$ makes the right-multiplication
+equation and its displayed solution equivalent:
+$$
+x b\hsame a
+\Longleftrightarrow
+x\hsame a\mathsf{inv}(b,p_b).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness}. This is
+the one-way solver from the equation $x b\hsame a$ to the proof-indexed
+solution $x\hsame a\mathsf{inv}(b,p_b)$.
+
+For the reverse direction, transport the assumed solution through right
+multiplication by $b$. The transported right side is
+$(a\mathsf{inv}(b,p_b))b$.
+
+Reassociate the factors as $a(\mathsf{inv}(b,p_b)b)$. The indexed left
+inverse law collapses $\mathsf{inv}(b,p_b)b$ to the unit, and the right
+identity law leaves $a$.
+\end{proof}
+
 \begin{theorem}[Field multiplication by an indexed left inverse cancels]
 \label{thm:field-mul-inverse-left-cancel-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
@@ -169,6 +195,32 @@ to identify $x$ with $\mathsf{inv}(a,p_a)(a x)$.
 Then transport the supplied equality $a x\hsame c$ through left multiplication
 by $\mathsf{inv}(a,p_a)$, yielding
 $\mathsf{inv}(a,p_a)(a x)\hsame \mathsf{inv}(a,p_a)c$.
+\end{proof}
+
+\begin{theorem}[Field left-multiplication equation exactness from apartness]
+\label{thm:field-left-mul-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+any witness $p_a:\mathsf{NonZero}_F(a)$ makes the left-multiplication
+equation and its displayed solution equivalent:
+$$
+a x\hsame c
+\Longleftrightarrow
+x\hsame \mathsf{inv}(a,p_a)c.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:field-left-mul-equation-solution-from-apartness}. This is
+the one-way solver from the equation $a x\hsame c$ to the proof-indexed
+solution $x\hsame \mathsf{inv}(a,p_a)c$.
+
+For the reverse direction, transport the assumed solution through left
+multiplication by $a$. The transported right side is
+$a(\mathsf{inv}(a,p_a)c)$.
+
+Reassociate the factors as $(a\mathsf{inv}(a,p_a))c$. The indexed right
+inverse law collapses $a\mathsf{inv}(a,p_a)$ to the unit, and the left
+identity law leaves $c$.
 \end{proof}
 
 \begin{theorem}[Field middle multiplication equation solution from apartness]
@@ -273,7 +325,7 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
   \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
   \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
   \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
-  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, left-multiplication equation solving, middle multiplication equation solving, middle multiplication equation exactness, and distributivity inherited from $\CommRingUp$.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, and distributivity inherited from $\CommRingUp$.
   \item Exactness predicate: coverage, soundness, and completeness for admitted field packages.
   \item Standard bridge: deferred conservative bridge.
   \item Status: ProofTarget.
