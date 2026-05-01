@@ -97,4 +97,66 @@ theorem SumHistoryClassifier_carrier_aware_branch_partition {Left Right : BHist 
                                                 (And.intro sameH
                                                   (And.intro sameK sameRight))))))
 
+theorem SumHistoryClassifier_carrier_aware_branch_exactness {Left Right : BHist → Prop}
+    {LeftEq RightEq : BHist → BHist → Prop} {h k : BHist} :
+    (SumHistoryCarrier Left Right h ∧ SumHistoryCarrier Left Right k ∧
+        SumHistoryClassifier Left Right LeftEq RightEq h k) ↔
+      ((∃ a : BHist, ∃ b : BHist,
+          Left a ∧ Left b ∧ hsame h (BHist.e0 a) ∧ hsame k (BHist.e0 b) ∧
+            LeftEq a b) ∨
+        (∃ a : BHist, ∃ b : BHist,
+          Right a ∧ Right b ∧ hsame h (BHist.e1 a) ∧ hsame k (BHist.e1 b) ∧
+            RightEq a b)) := by
+  constructor
+  · intro packed
+    cases packed with
+    | intro carrierH rest =>
+        cases rest with
+        | intro carrierK classifier =>
+            exact SumHistoryClassifier_carrier_aware_branch_partition carrierH carrierK classifier
+  · intro branch
+    cases branch with
+    | inl leftBranch =>
+        cases leftBranch with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro leftA rest =>
+                    cases rest with
+                    | intro leftB rest =>
+                        cases rest with
+                        | intro sameH rest =>
+                            cases rest with
+                            | intro sameK leftEq =>
+                                exact And.intro
+                                  (Or.inl (Exists.intro a (And.intro sameH leftA)))
+                                  (And.intro
+                                    (Or.inl (Exists.intro b (And.intro sameK leftB)))
+                                    (Or.inl
+                                      (Exists.intro a
+                                        (Exists.intro b
+                                          (And.intro sameH (And.intro sameK leftEq))))))
+    | inr rightBranch =>
+        cases rightBranch with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro rightA rest =>
+                    cases rest with
+                    | intro rightB rest =>
+                        cases rest with
+                        | intro sameH rest =>
+                            cases rest with
+                            | intro sameK rightEq =>
+                                exact And.intro
+                                  (Or.inr (Exists.intro a (And.intro sameH rightA)))
+                                  (And.intro
+                                    (Or.inr (Exists.intro b (And.intro sameK rightB)))
+                                    (Or.inr
+                                      (Exists.intro a
+                                        (Exists.intro b
+                                          (And.intro sameH (And.intro sameK rightEq))))))
+
 end BEDC.Derived.SumUp

@@ -71,4 +71,57 @@ theorem SumHistoryLedgerPolicy_visible_tag_separation {Left Right : BHist → Pr
     exact SumHistoryClassifier_mixed_tags_absurd mixed.right mixed.left
       (SumHistoryClassifier_hsame_symm classifier)
 
+theorem SumHistoryLedgerPolicy_raw_visible_branch_exactness {Left Right : BHist → Prop}
+    {raw visible : BHist} :
+    SumHistoryLedgerPolicy Left Right raw visible ↔
+      ((∃ l : BHist, Left l ∧ hsame raw (BHist.e0 l) ∧ hsame visible (BHist.e0 l)) ∨
+        (∃ r : BHist, Right r ∧ hsame raw (BHist.e1 r) ∧ hsame visible (BHist.e1 r))) := by
+  constructor
+  · intro ledger
+    cases ledger with
+    | intro rawCarrier sameRawVisible =>
+        cases rawCarrier with
+        | inl leftData =>
+            cases leftData with
+            | intro l data =>
+                cases data with
+                | intro sameRawTag leftL =>
+                    exact Or.inl
+                      (Exists.intro l
+                        (And.intro leftL
+                          (And.intro sameRawTag
+                            (hsame_trans (hsame_symm sameRawVisible) sameRawTag))))
+        | inr rightData =>
+            cases rightData with
+            | intro r data =>
+                cases data with
+                | intro sameRawTag rightR =>
+                    exact Or.inr
+                      (Exists.intro r
+                        (And.intro rightR
+                          (And.intro sameRawTag
+                            (hsame_trans (hsame_symm sameRawVisible) sameRawTag))))
+  · intro branch
+    cases branch with
+    | inl leftData =>
+        cases leftData with
+        | intro l data =>
+            cases data with
+            | intro leftL rest =>
+                cases rest with
+                | intro sameRawTag sameVisibleTag =>
+                    exact And.intro
+                      (Or.inl (Exists.intro l (And.intro sameRawTag leftL)))
+                      (hsame_trans sameRawTag (hsame_symm sameVisibleTag))
+    | inr rightData =>
+        cases rightData with
+        | intro r data =>
+            cases data with
+            | intro rightR rest =>
+                cases rest with
+                | intro sameRawTag sameVisibleTag =>
+                    exact And.intro
+                      (Or.inr (Exists.intro r (And.intro sameRawTag rightR)))
+                      (hsame_trans sameRawTag (hsame_symm sameVisibleTag))
+
 end BEDC.Derived.SumUp
