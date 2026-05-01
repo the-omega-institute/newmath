@@ -56,7 +56,8 @@ PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = LEAN_ROOT / "scripts" / "logs"
 WORKTREE_DIR = REPO_ROOT / ".worktrees"
 
-BASE_BRANCH = "lean4-codex-auto-dev"
+BASE_BRANCH_DEFAULT = "lean4-codex-auto-dev"
+BASE_BRANCH = BASE_BRANCH_DEFAULT
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 # Lake-gate config exported to every codex child so they all coordinate on
 # the same lock dir / slot count. Defaults below are conservative for a
@@ -2723,6 +2724,7 @@ def main() -> int:
               python3 lean4/scripts/codex_formalize.py                          # 1 round
               python3 lean4/scripts/codex_formalize.py --parallel 3             # 3 parallel
               python3 lean4/scripts/codex_formalize.py --parallel 3 --continuous  # continuous
+              python3 lean4/scripts/codex_formalize.py --base-branch lean4-codex-auto-dev --parallel 5 --continuous
               python3 lean4/scripts/codex_formalize.py --dry-run --parallel 2   # preview
               python3 lean4/scripts/codex_formalize.py --status                 # state
               python3 lean4/scripts/codex_formalize.py --cleanup                # remove worktrees
@@ -2766,8 +2768,8 @@ def main() -> int:
         help="Deprecated in PID mode; start the pipeline normally to create a fresh token",
     )
     parser.add_argument(
-        "--base-branch", type=str, default=BASE_BRANCH,
-        help=f"Base branch name (default: {BASE_BRANCH})",
+        "--base-branch", type=str, default=BASE_BRANCH_DEFAULT,
+        help=f"Base branch name (default: {BASE_BRANCH_DEFAULT})",
     )
     parser.add_argument(
         "--mem-guard", dest="mem_guard", action="store_true", default=None,

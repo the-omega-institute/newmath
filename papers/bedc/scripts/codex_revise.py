@@ -1676,6 +1676,7 @@ def main() -> int:
               python3 papers/bedc/scripts/codex_revise.py
               python3 papers/bedc/scripts/codex_revise.py --parallel 3
               python3 papers/bedc/scripts/codex_revise.py --parallel 3 --continuous
+              python3 papers/bedc/scripts/codex_revise.py --base-branch paper-codex-auto-dev --parallel 5 --continuous
               python3 papers/bedc/scripts/codex_revise.py --dry-run --parallel 2
               python3 papers/bedc/scripts/codex_revise.py --status
               python3 papers/bedc/scripts/codex_revise.py --cleanup
@@ -1700,8 +1701,8 @@ def main() -> int:
     parser.add_argument("--peer-branch", type=str, default=PEER_BRANCH_DEFAULT,
                         help="Peer branch to bidirectionally sync with at "
                              "session start. Default is empty (peer-sync "
-                             "disabled). To enable, pass e.g. "
-                             "`--peer-branch lean4-codex-auto-dev`.")
+                             "disabled). Use only when pipelines work on "
+                             "separate branches.")
     parser.add_argument("--no-peer-sync", action="store_true",
                         help="Skip the pre-flight peer-branch sync.")
     parser.add_argument("--peer-sync-only", action="store_true",
