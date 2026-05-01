@@ -189,6 +189,69 @@ $\mathsf{ProofTarget}$.
 \end{enumerate}
 \end{proof}
 
+\begin{theorem}[List public zero length and nonempty readback]
+\label{thm:list-public-zero-length-and-nonempty-readback}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\mathsf{Rel}:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a source
+classifier, and assume
+$\mathsf{ListConsBoundaryCoherent}_{A,\mathsf{Rel}}$. For every history $h$, the
+public length ledger is exact at zero and exposes a cons readback at nonzero
+public endpoints:
+\begin{enumerate}
+  \item $\mathsf{ListPublicLength}_A(h,0)$ holds if and only if
+  $\hsame(h,\emp)$ holds.
+  \item If $\mathsf{ListHistoryCarrier}_A(h)$ and $\neg\hsame(h,\emp)$ hold, then
+  $$
+  \exists a\,t\,p:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A(a)\land \mathsf{ListHistoryCarrier}_A(t)\land
+  \ContR(a,t,p)\land\\
+  \hsame(h,\Eone(p))\land\\
+  \forall n.\;\mathsf{ListPublicLength}_A(h,n)\to n\neq 0
+  \end{array}
+  \right).
+  $$
+\end{enumerate}
+The ten-field fit is: traditional target finite-list zero/nonempty readback;
+BEDC source $\mathsf{BHist}$ with $\ContR$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}$; stability from
+cons-boundary coherence; ledger $\mathsf{ListPublicLength}_A$; core theorem
+zero/nonempty exactness; exactness nil iff zero and nonempty gives cons;
+standard bridge finite spines; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the zero endpoint, unfold
+Definition~\ref{def:list-public-length-readback}. A public length witness with
+value $0$ gives a finite spine $xs$ with $\mathsf{ListSpineRep}_A(h,xs)$ and
+$\ell(xs)=0$. Case-analyze $xs$. The cons case has successor length, so it cannot
+have length $0$; the remaining nil case is exactly the nil representation, hence
+it supplies $\hsame(h,\emp)$.
+
+Conversely, from $\hsame(h,\emp)$ choose the nil finite spine. The nil clause of
+$\mathsf{ListSpineRep}_A$ gives $\mathsf{ListSpineRep}_A(h,\mathsf{nil})$, and
+$\ell(\mathsf{nil})=0$ repacks it as $\mathsf{ListPublicLength}_A(h,0)$.
+
+For the nonempty readback, first turn the cons-boundary hypothesis into
+$\mathsf{ListSpineRepCoherent}_{A,\mathsf{Rel}}$ by
+Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence}. Apply
+Theorem~\ref{thm:list-public-carrier-constructor-readback-under-spine-coherence}
+to the displayed $\mathsf{ListHistoryCarrier}_A(h)$ witness.
+
+The nil alternative contains $\hsame(h,\emp)$ and is eliminated by the assumed
+$\neg\hsame(h,\emp)$. The cons alternative supplies histories $a,t,p$ with
+$A(a)$, $\mathsf{ListHistoryCarrier}_A(t)$, $\ContR(a,t,p)$, and
+$\hsame(h,\Eone(p))$.
+
+It remains to show that no public length witness at this endpoint has value
+$0$. Given $\mathsf{ListPublicLength}_A(h,n)$ and an equality $n=0$, rewrite the
+witness to obtain $\mathsf{ListPublicLength}_A(h,0)$. The zero equivalence just
+proved gives $\hsame(h,\emp)$, contradicting the nonempty hypothesis. Therefore
+$n\neq 0$, and the cons witnesses together with this length exclusion are the
+required existential data.
+\end{proof}
+
 \begin{definition}[List source hsame compatibility]
 \label{def:list-source-hsame-compatible}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
