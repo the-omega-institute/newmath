@@ -755,12 +755,123 @@ def merge_lake_cache_back(wt: WorktreeInfo, new_commits: list[str]) -> None:
         )
 
 
+def _diff_added_decls(wt: WorktreeInfo) -> list[tuple[str, str]]:
+    """Return [(decl_name, full_signature_block)] for theorem/lemma/def
+    introduced in this round. Used by mechanical Phase D lints below."""
+    res = run_cmd(
+        ["git", "log", "-p", "--no-color", "--reverse",
+         f"{BASE_BRANCH}..HEAD", "--", "lean4/BEDC/"],
+        cwd=wt.path, timeout=60,
+    )
+    text = res.stdout or ""
+    out: list[tuple[str, str]] = []
+    pending: list[str] = []
+    pending_name: Optional[str] = None
+    for raw in text.splitlines():
+        if not raw.startswith("+") or raw.startswith("+++"):
+            if pending_name is not None and pending:
+                out.append((pending_name, "\n".join(pending)))
+                pending_name = None
+                pending = []
+            continue
+        line = raw[1:]
+        m = re.match(r"\s*(theorem|lemma|def|inductive|structure|class)\s+(\w+)", line)
+        if m:
+            if pending_name is not None and pending:
+                out.append((pending_name, "\n".join(pending)))
+            pending_name = m.group(2)
+            pending = [line]
+        elif pending_name is not None:
+            pending.append(line)
+            if len(pending) > 40:
+                out.append((pending_name, "\n".join(pending)))
+                pending_name = None
+                pending = []
+    if pending_name is not None and pending:
+        out.append((pending_name, "\n".join(pending)))
+    return out
+
+
+_MECHANICAL_ARITY_RE = re.compile(
+    r"_(two|three|four|five|six)(?:_step)?(?:_witness_chain)?\b"
+)
+_PARAMETER_ECHO_BIND_RE = re.compile(
+    r"\(\s*(\w+)\s*:\s*(?:∀|forall)\b[^)]*hsame\b", re.DOTALL
+)
+_BHIST_CONSTRUCTOR_RE = re.compile(
+    r"\b(BHist\.|Empty\b|e0\b|e1\b|cons\b|append\b|BMark\.|sameSig\b|"
+    r"ProbeBundle\b|SigRel\b|InGap\b|NameCert\b|Pkg\b|hsame\b|msame\b)"
+)
+
+
+def run_phase_d_lints(wt: WorktreeInfo) -> tuple[bool, Optional[str], Optional[str]]:
+    """Mechanical post-rebase lints. These were Phase B/C HARD GATEs in
+    the prompts but codex routinely ignored them; moving the checks into
+    pipeline code closes the gaming loophole.
+
+    Three checks, in order:
+      1. mechanical-arity suffix on a new declaration name
+         (`_two`, `_three`, `_four`, `_five`, `_six`, `_*_step`,
+         `_*_witness_chain`).
+      2. parameter-echo schema: signature contains `(name : forall …
+         hsame …)` binding — i.e. a hypothesis quantifying over hsame —
+         AND the conclusion does not mention any concrete BEDC kernel
+         constructor / object.
+      3. BHist-anchor: every new theorem under `BEDC.Derived.*` must
+         mention at least one concrete BEDC kernel symbol from
+         `_BHIST_CONSTRUCTOR_RE` somewhere in its signature.
+    """
+    decls = _diff_added_decls(wt)
+    if not decls:
+        return True, None, None
+    arity_hits: list[str] = []
+    echo_hits: list[str] = []
+    anchor_hits: list[str] = []
+    for name, body in decls:
+        if _MECHANICAL_ARITY_RE.search(name):
+            arity_hits.append(name)
+            continue  # arity violation already classifies as fail
+        sig = body.split(":=")[0]
+        is_derived = "BEDC.Derived" in (run_cmd(
+            ["git", "grep", "-l", "-F", f"theorem {name}", "--",
+             "lean4/BEDC/Derived/"], cwd=wt.path, timeout=10,
+        ).stdout or "")
+        if _PARAMETER_ECHO_BIND_RE.search(sig):
+            echo_hits.append(name)
+        if is_derived and not _BHIST_CONSTRUCTOR_RE.search(sig):
+            anchor_hits.append(name)
+    if arity_hits or echo_hits or anchor_hits:
+        msgs: list[str] = []
+        if arity_hits:
+            msgs.append(
+                "Mechanical arity suffix on new declaration(s) (NAMING.md §3 forbids"
+                " _two/_three/_four/_five/_six/_*_step/_*_witness_chain): "
+                + ", ".join(arity_hits[:5])
+            )
+        if echo_hits:
+            msgs.append(
+                "Parameter-echo schema: signature binds (name : forall … hsame …) "
+                "without anchoring on a concrete BEDC kernel object: "
+                + ", ".join(echo_hits[:5])
+            )
+        if anchor_hits:
+            msgs.append(
+                "Derived theorem missing a BHist / BMark / hsame / ProbeBundle / "
+                "SigRel / NameCert anchor in its signature: "
+                + ", ".join(anchor_hits[:5])
+            )
+        tail = "\n".join(msgs)
+        logger.error(f"[R{wt.round_number}] Phase D lint failed:\n{tail}")
+        return False, "phase_d_lint", tail
+    return True, None, None
+
+
 def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Optional[str]]:
     """Run the pre-merge gate sequence.
 
     Returns (ok, failed_gate_name, output_tail).
     failed_gate_name is one of {'lake_build', 'check_axioms', 'audit',
-    'axiom_purity'} on failure; None on success.
+    'axiom_purity', 'phase_d_lint'} on failure; None on success.
     output_tail is the last ~4000 chars of combined stdout+stderr for the
     failing gate, suitable for passing to a codex recovery prompt.
     """
@@ -778,7 +889,7 @@ def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Opt
                 f"[R{wt.round_number}] Pre-merge hard gate failed: {' '.join(cmd)}\n{tail}"
             )
             return False, name, tail
-    return True, None, None
+    return run_phase_d_lints(wt)
 
 
 def _codex_resolve_post_rebase_audit(

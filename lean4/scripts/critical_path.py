@@ -23,8 +23,11 @@ DERIVED_DIR = ROOT / "lean4/BEDC/Derived"
 
 # Lower bound for "node is implemented enough that its dependents may proceed".
 DEPS_READY_THRESHOLD = 5
-# Upper bound for "node is saturated; do not pick further".
-SATURATION_THRESHOLD = 20
+# Upper bound for "node is saturated; do not pick further". Tightened from
+# the original 20 to 10 because nat/int/ring at 12-15 thm were still in
+# `top` even though further per-domain instances were pure parameter-echo
+# bloat.
+SATURATION_THRESHOLD = 10
 
 NAME_RE = re.compile(r"^\d+_([a-z][a-z0-9]*)_namecert_construction\.tex$")
 UP_REF_RE = re.compile(r"\\?([A-Z][A-Za-z]*)Up\b")
@@ -37,6 +40,25 @@ def normalize_name(stem: str) -> str:
     return m.group(1) if m else stem.lower()
 
 
+def derive_lean_camel_case(paper_key: str, paper_text: str) -> str:
+    """Recover the canonical CamelCase form of a horizon name.
+
+    `paper_key` is the lowercase basename (e.g. "abgroup", "commring",
+    "linearmap"). The naive .capitalize() pass yields "Abgroup",
+    "Commring", "Linearmap" — wrong for the multi-word horizons. The
+    paper text always references the horizon as `\<X>Up`; we grep that
+    and take the first match whose lowercase form equals `paper_key`.
+    Falls back to `.capitalize()` only if no `<X>Up` reference exists
+    (which shouldn't happen for any chapter that has been written).
+    """
+    for m in UP_REF_RE.finditer(paper_text):
+        candidate = m.group(1)
+        if candidate.lower() == paper_key:
+            return candidate
+    # Underscored split fallback (kept for paper basenames like `nat_trans`):
+    return "".join(p.capitalize() for p in paper_key.split("_"))
+
+
 def extract_horizons() -> dict[str, dict]:
     """Scan namecert chapters; return {name: {file_paper, deps, thms}}."""
     horizons: dict[str, dict] = {}
@@ -46,9 +68,8 @@ def extract_horizons() -> dict[str, dict]:
         deps = {m.group(1).lower() for m in UP_REF_RE.finditer(text)}
         deps.discard(name)
         thms = len(LEAN_MARKER_RE.findall(text))
-        lean_file = DERIVED_DIR / (
-            "".join(p.capitalize() for p in name.split("_")) + "Up.lean"
-        )
+        camel = derive_lean_camel_case(name, text)
+        lean_file = DERIVED_DIR / f"{camel}Up.lean"
         horizons[name] = {
             "name": name,
             "deps": sorted(deps),
