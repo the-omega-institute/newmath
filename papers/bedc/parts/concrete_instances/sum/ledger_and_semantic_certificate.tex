@@ -101,6 +101,42 @@ the left and right instances of BEDC history equality transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_two\_step\_classifier\_composition}
 
+\begin{theorem}[Sum ledger raw-visible branch exactness]
+\label{thm:sum-ledger-raw-visible-branch-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$raw,visible:\mathsf{BHist}$ be histories. Then
+$$
+\mathsf{SumHistoryLedgerPolicy}(Left,Right,raw,visible)
+\Longleftrightarrow
+\bigl(\exists l:\mathsf{BHist}.\; Left(l)\land\hsame(raw,\Ezero(l))\land\hsame(visible,\Ezero(l))\bigr)
+\lor
+\bigl(\exists r:\mathsf{BHist}.\; Right(r)\land\hsame(raw,\Eone(r))\land\hsame(visible,\Eone(r))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the ledger into its raw sum carrier and the
+stored raw-visible link. Split the raw carrier branch.
+
+In the left branch, the carrier supplies $Left(l)$ and
+$\hsame(raw,\Ezero(l))$. Compose symmetry of the stored raw-visible link with
+this raw endpoint witness to obtain $\hsame(visible,\Ezero(l))$, and assemble the
+left disjunct.
+
+In the right branch, the same argument uses the witness $Right(r)$ and
+$\hsame(raw,\Eone(r))$ to obtain $\hsame(visible,\Eone(r))$ and assemble the right
+disjunct.
+
+For the reverse direction, split the displayed branch evidence. In the left
+branch, rebuild the raw sum carrier from $Left(l)$ and
+$\hsame(raw,\Ezero(l))$. Compose $\hsame(raw,\Ezero(l))$ with symmetry of
+$\hsame(visible,\Ezero(l))$ to recover the raw-visible ledger link.
+
+The right branch is identical, rebuilding the raw carrier from $Right(r)$ and
+$\hsame(raw,\Eone(r))$, then composing the two endpoint witnesses to recover the
+stored raw-visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_raw\_visible\_branch\_exactness}
+
 \begin{theorem}[Sum ledger two-step branch exactness]
 \label{thm:sum-ledger-two-step-branch-exactness}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
