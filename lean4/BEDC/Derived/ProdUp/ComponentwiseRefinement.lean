@@ -177,4 +177,50 @@ theorem ProdComponentHistoryClassifier_carrier_reflexivity_from_source_certifica
                                         (leftCert.equiv_refl leftCarrier)
                                         (rightCert.equiv_refl rightCarrier)))))))))))
 
+theorem ProdHistoryClassifier_pair_coherent_componentwise_hsame
+    {Left Right : BHist → Prop}
+    (coherent : ProdPairRepCoherent Left Right hsame hsame) {h k : BHist} :
+    ProdHistoryClassifier Left Right h k →
+      ProdComponentHistoryClassifier Left Right hsame hsame h k := by
+  intro classifier
+  cases classifier with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          cases carrierH with
+          | intro lh restLH =>
+              cases restLH with
+              | intro rh dataH =>
+                  cases dataH with
+                  | intro leftH restH =>
+                      cases restH with
+                      | intro rightH contH =>
+                          cases carrierK with
+                          | intro lk restLK =>
+                              cases restLK with
+                              | intro rk dataK =>
+                                  cases dataK with
+                                  | intro leftK restK =>
+                                      cases restK with
+                                      | intro rightK contK =>
+                                          have repH : ProdPairRep Left Right h lh rh :=
+                                            And.intro leftH (And.intro rightH contH)
+                                          have repK : ProdPairRep Left Right k lk rk :=
+                                            And.intro leftK (And.intro rightK contK)
+                                          have components :
+                                              hsame lh lk ∧ hsame rh rk :=
+                                            ProdPairRep_hsame_coherence coherent repH repK
+                                              sameHK
+                                          exact Exists.intro lh
+                                            (Exists.intro rh
+                                              (Exists.intro lk
+                                                (Exists.intro rk
+                                                  (And.intro leftH
+                                                    (And.intro rightH
+                                                      (And.intro contH
+                                                        (And.intro leftK
+                                                          (And.intro rightK
+                                                            (And.intro contK
+                                                              components)))))))))
+
 end BEDC.Derived.ProdUp

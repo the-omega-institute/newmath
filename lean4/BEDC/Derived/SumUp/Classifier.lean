@@ -238,4 +238,94 @@ theorem SumHistoryClassifier_generic_same_tag_exactness
                             (And.intro (hsame_e1_congr sameR)
                               (And.intro (hsame_e1_congr sameR') relBB'))))
 
+theorem SumHistoryClassifier_source_parameter_irrelevance
+    {Left Right LeftAlt RightAlt : BHist → Prop}
+    {LeftEq RightEq : BHist → BHist → Prop} {h k : BHist} :
+    SumHistoryClassifier Left Right LeftEq RightEq h k ↔
+      SumHistoryClassifier LeftAlt RightAlt LeftEq RightEq h k := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | inl leftData =>
+        cases leftData with
+        | intro l rest =>
+            cases rest with
+            | intro l' data =>
+                cases data with
+                | intro sameH rest =>
+                    cases rest with
+                    | intro sameK sameLeft =>
+                        exact Or.inl
+                          (Exists.intro l
+                            (Exists.intro l'
+                              (And.intro sameH (And.intro sameK sameLeft))))
+    | inr rightData =>
+        cases rightData with
+        | intro r rest =>
+            cases rest with
+            | intro r' data =>
+                cases data with
+                | intro sameH rest =>
+                    cases rest with
+                    | intro sameK sameRight =>
+                        exact Or.inr
+                          (Exists.intro r
+                            (Exists.intro r'
+                              (And.intro sameH (And.intro sameK sameRight))))
+  · intro classifier
+    cases classifier with
+    | inl leftData =>
+        cases leftData with
+        | intro l rest =>
+            cases rest with
+            | intro l' data =>
+                cases data with
+                | intro sameH rest =>
+                    cases rest with
+                    | intro sameK sameLeft =>
+                        exact Or.inl
+                          (Exists.intro l
+                            (Exists.intro l'
+                              (And.intro sameH (And.intro sameK sameLeft))))
+    | inr rightData =>
+        cases rightData with
+        | intro r rest =>
+            cases rest with
+            | intro r' data =>
+                cases data with
+                | intro sameH rest =>
+                    cases rest with
+                    | intro sameK sameRight =>
+                        exact Or.inr
+                          (Exists.intro r
+                            (Exists.intro r'
+                              (And.intro sameH (And.intro sameK sameRight))))
+
+theorem SumHistoryClassifier_reverse_tag_separation {Left Right : BHist → Prop}
+    {LeftEq RightEq : BHist → BHist → Prop} {h k l r : BHist} :
+    hsame h (BHist.e1 r) →
+      hsame k (BHist.e0 l) →
+        SumHistoryClassifier Left Right LeftEq RightEq h k → False := by
+  intro sameHRight sameKLeft classifier
+  cases classifier with
+  | inl leftData =>
+      cases leftData with
+      | intro sourceH rest =>
+          cases rest with
+          | intro _sourceK data =>
+              cases data with
+              | intro sameHLeft _rest =>
+                  exact not_hsame_e1_e0 (hsame_trans (hsame_symm sameHRight) sameHLeft)
+  | inr rightData =>
+      cases rightData with
+      | intro _sourceH rest =>
+          cases rest with
+          | intro sourceK data =>
+              cases data with
+              | intro _sameH rest =>
+                  cases rest with
+                  | intro sameKRight _sameSource =>
+                      exact not_hsame_e1_e0
+                        (hsame_trans (hsame_symm sameKRight) sameKLeft)
+
 end BEDC.Derived.SumUp
