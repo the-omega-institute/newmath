@@ -74,6 +74,32 @@ instances of BEDC history equality transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_classifier\_composition}
 
+\begin{theorem}[Sum ledger two-step classifier composition]
+\label{thm:sum-ledger-two-step-classifier-composition}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ and
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,v,w)$ hold, then
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,w)
+$$
+holds. The roadmap fit is: traditional target disjoint-sum ledger-chain
+closure; BEDC source $\mathsf{BHist}$ with tagged sum carrier; carrier
+$\mathsf{SumHistoryCarrier}$; classifier
+$\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame)$; stability by two
+raw-visible ledger exposures and classifier transitivity; ledger two
+composable $\mathsf{SumHistoryLedgerPolicy}$ witnesses; core theorem this
+closure; exactness raw-to-middle-to-visible; standard bridge tagged sum ledger
+chain; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-raw-visible-classifier} to the two ledger
+witnesses, obtaining classifiers from $\rho$ to $v$ and from $v$ to $w$.
+Compose them by Theorem~\ref{thm:sum-history-classifier-transitivity}; the
+branch classifiers are both $\hsame$, so the required transitivity inputs are
+the left and right instances of BEDC history equality transitivity.
+\end{proof}
+
 \begin{theorem}[Sum ledger preserves visible tag separation]
 \label{thm:sum-ledger-visible-tag-separation}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
