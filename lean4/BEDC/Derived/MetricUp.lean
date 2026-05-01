@@ -82,6 +82,36 @@ theorem MetricDistanceWitness_suffix_iff {p x y d : BHist} :
                               ((congrArg (fun result => append result p) baseRel).trans
                                 (append_assoc x y p)))))
 
+theorem MetricDistanceWitness_visible_context_iff {p q x y d : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p d) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ MetricDistanceWitness x y d := by
+  constructor
+  · intro visible
+    have suffixPart :=
+      (MetricDistanceWitness_suffix_iff (p := q) (x := append p x) (y := y)
+        (d := append p d)).mp visible
+    cases suffixPart with
+    | intro qCarrier prefixed =>
+        have prefixPart :=
+          (MetricDistanceWitness_prefix_iff (p := p) (x := x) (y := y) (d := d)).mp
+            prefixed
+        cases prefixPart with
+        | intro pCarrier witness =>
+            exact And.intro pCarrier (And.intro qCarrier witness)
+  · intro base
+    cases base with
+    | intro pCarrier rest =>
+        cases rest with
+        | intro qCarrier witness =>
+            have prefixed :
+                MetricDistanceWitness (append p x) y (append p d) :=
+              (MetricDistanceWitness_prefix_iff (p := p) (x := x) (y := y) (d := d)).mpr
+                (And.intro pCarrier witness)
+            exact
+              (MetricDistanceWitness_suffix_iff (p := q) (x := append p x) (y := y)
+                (d := append p d)).mpr
+                (And.intro qCarrier prefixed)
+
 theorem MetricDistanceWitness_symmetric_classifier {x y dxy dyx : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y x dyx -> hsame dxy dyx := by
   intro forward reverse
