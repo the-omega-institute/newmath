@@ -43,6 +43,23 @@ shared suffix $a$ identifies the prefixes $q$ and $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_target\_prefix\_deterministic}
 
+\begin{theorem}[NatTrans prefix component tail commutativity]
+\label{thm:nattrans-prefix-component-carrier-tail-comm-hsame}
+For prefix components over unary histories, if \(\eta\) is a component from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(q,a)\), \(\theta\) is a component
+from \(\mathsf{append}(q,a)\) to \(\mathsf{append}(r,a)\),
+\(\ContR(\eta,\theta,\eta\theta)\), and
+\(\ContR(\theta,\eta,\theta\eta)\), then
+\(\HSame(\eta\theta,\theta\eta)\).
+\end{theorem}
+\begin{proof}
+Each prefix-component carrier exposes an underlying category hom-carrier. The
+two hom-carriers expose unary membership for \(\eta\) and \(\theta\), and unary
+continuation commutativity identifies the forward and reversed component
+composites.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_tail\_comm\_hsame}
+
 \begin{theorem}[Prefix identity naturality square]
 \label{thm:nattrans-prefix-identity-naturality-square}
 For the unary-continuation category, let \(p\) be unary and let \(f\) be a

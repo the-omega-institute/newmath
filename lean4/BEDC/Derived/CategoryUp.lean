@@ -123,6 +123,12 @@ theorem CategoryHomCarrier_source_deterministic {a b c f : BHist} :
   intro left right
   exact cont_right_cancel left.right.right.right right.right.right.right
 
+theorem CategoryHomCarrier_tail_comm_hsame {a b c f g fg gf : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      Cont g f gf -> hsame fg gf := by
+  intro left right fgRel gfRel
+  exact unary_continuation_commutativity left.2.2.1 right.2.2.1 fgRel gfRel
+
 structure ContinuationMorphism (src tgt : BHist) where
   tail : BHist
   rel : Cont src tail tgt

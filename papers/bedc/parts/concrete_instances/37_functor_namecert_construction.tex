@@ -56,6 +56,22 @@ First use category hom-carrier composition closure to place \(fg\) from \(a\) to
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_preserves}
 
+\begin{theorem}[Prefix functor preserves hom composition with tail commutativity]
+\label{thm:functor-prefix-hom-carrier-tail-comm-closed}
+For the unary-continuation category, if \(p\) is unary, \(f\) is a
+hom-carrier from \(a\) to \(b\), \(g\) is a hom-carrier from \(b\) to \(c\),
+\(\ContR(f,g,fg)\), and \(\ContR(g,f,gf)\), then \(fg\) is a hom-carrier
+from \(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,c)\), and
+\(\HSame(fg,gf)\).
+\end{theorem}
+\begin{proof}
+Prefix hom-carrier composition preservation gives the prefixed carrier witness
+for \(fg\). The two underlying morphism histories are unary by their
+hom-carrier witnesses, so unary continuation commutativity identifies \(fg\)
+and \(gf\).
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_tail\_comm\_closed}
+
 \begin{theorem}[Prefix functor preserves associative hom composition]
 \label{thm:functor-prefix-hom-carrier-comp-assoc-preserves}
 For the unary-continuation category, if \(p\) is unary and \(f,g,h\) are

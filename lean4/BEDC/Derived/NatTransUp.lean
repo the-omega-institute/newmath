@@ -57,6 +57,14 @@ theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta compo
                                 (And.intro objectCarrier
                                   (CategoryHomCarrier_comp_closed leftComponent rightComponent comp)))
 
+theorem NatTransPrefixComponentCarrier_tail_comm_hsame
+    {p q r a eta theta etatheta thetaeta : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta ->
+        Cont eta theta etatheta -> Cont theta eta thetaeta -> hsame etatheta thetaeta := by
+  intro left right etathetaRel thetaetaRel
+  exact CategoryHomCarrier_tail_comm_hsame left.2.2.2 right.2.2.2 etathetaRel thetaetaRel
+
 theorem NatTransPrefixIdentity_identity_component_square_closed {p a id left right : BHist} :
     UnaryHistory p -> UnaryHistory a -> Cont BHist.Empty BHist.Empty id ->
       Cont id BHist.Empty left -> Cont BHist.Empty id right ->

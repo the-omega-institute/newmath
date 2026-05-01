@@ -65,6 +65,15 @@ theorem FunctorPrefixHomCarrier_comp_preserves {p a b c f g fg : BHist} :
     FunctorPrefixHomCarrier_preserves prefixCarrier
       (CategoryHomCarrier_comp_closed left right comp)
 
+theorem FunctorPrefixHomCarrier_tail_comm_closed {p a b c f g fg gf : BHist} :
+    UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      Cont g f gf -> CategoryHomCarrier (append p a) (append p c) fg ∧ hsame fg gf := by
+  intro prefixCarrier left right fgRel gfRel
+  exact
+    And.intro
+      (FunctorPrefixHomCarrier_comp_preserves prefixCarrier left right fgRel)
+      (CategoryHomCarrier_tail_comm_hsame left right fgRel gfRel)
+
 theorem FunctorPrefixHomCarrier_comp_assoc_preserves
     {p a b c d f g h fg gh left right : BHist} :
     UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
