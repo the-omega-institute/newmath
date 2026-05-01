@@ -171,6 +171,28 @@ At a successor index, the recursive prefix witness is a pair; its right
 component is the rational-history classifier at the selected endpoint.
 \end{proof}
 
+\begin{theorem}[Real stream finite-prefix exactness]
+\label{thm:real-stream-finite-prefix-exactness}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$,
+$$
+\mathsf{RealStreamClassifier}(x,y)
+\quad\Longleftrightarrow\quad
+\forall n,\ \mathsf{RealStreamPrefixClassifier}(x,y,n).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:real-stream-classifier-prefix}. The pointwise stream classifier
+supplies exactly the rational-history classifier needed at each endpoint of the
+recursive prefix construction.
+
+For the reverse direction, assume every finite prefix is classified and fix an
+observation index $n$. Apply the hypothesis at $n$, then use
+\autoref{thm:real-stream-prefix-classifier-endpoint} to recover
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$. Since $n$ was arbitrary, these
+endpoint classifiers are precisely $\mathsf{RealStreamClassifier}(x,y)$.
+\end{proof}
+
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}
 For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
