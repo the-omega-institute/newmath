@@ -139,6 +139,18 @@ collects the two occurrences of \(a\) and leaves the residual factor
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_common\_right\_factor\_collect}
 
+\begin{theorem}[AbGroup balanced multiplication cancellation]
+\label{thm:abgroup-mul-balanced-cancel}
+For BEDC histories equipped with group laws, commutativity, and multiplication
+congruence under $\hsame$, if $a\cdot b\hsame c\cdot a$, then $b\hsame c$.
+\end{theorem}
+\begin{proof}
+Commute the right endpoint $c\cdot a$ to $a\cdot c$. The hypothesis then has
+the common left factor $a$ on both sides, so group left cancellation removes
+that factor and yields $b\hsame c$.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_balanced\_cancel}
+
 \begin{theorem}[Nonempty history append cannot be right-absorbed]
 \label{thm:abgroup-history-append-nonempty-left-ne-right}
 For every BEDC history $h$ and right tail $k$, neither

@@ -115,6 +115,19 @@ theorem abgroup_mul_common_right_factor_collect {mul : BHist -> BHist -> BHist}
     exact abgroup_mul_common_left_factor_collect assocC commC mulCongr a b c
   exact hsame_trans exposeLeftFactors collect
 
+theorem abgroup_mul_balanced_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (leftId : forall x, hsame (mul e x) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x, hsame (mul (inv x) x) e) {a b c : BHist} :
+    hsame (mul a b) (mul c a) -> hsame b c := by
+  intro sameBalanced
+  exact BEDC.Derived.GroupUp.group_left_cancel assocC leftId mulCongr leftInv
+    (hsame_trans sameBalanced (commC c a))
+
 theorem history_append_nonempty_left_ne_right :
     (forall {h k : BHist}, append (BHist.e0 h) k = k -> False) ∧
       (forall {h k : BHist}, append (BHist.e1 h) k = k -> False) := by
