@@ -261,6 +261,22 @@ Induct on $\Pi$. The empty case reduces membership to $\Theta$. The cons case sp
 membership from tail membership, then applies the induction hypothesis to the tail.
 \end{proof}
 
+\begin{theorem}[Bundle append three-way membership split]
+\label{thm:bundle-append-three-membership-split}
+For every probe $p$ and bundles $\Pi,\Theta,\Omega$,
+$$
+p\in\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\Omega))
+\quad\Longleftrightarrow\quad
+p\in\Pi \ \text{or}\ p\in\Theta \ \text{or}\ p\in\Omega .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:bundle-append-membership} to the outer append, then
+apply it again to the inner append. The reverse direction rebuilds the same two
+append membership witnesses from the displayed three-way disjunction.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.inBundle\_bundleAppend\_three\_iff}
+
 \begin{theorem}[Bundle append membership left residual]
 \label{thm:bundle-append-membership-left-of-not-right}
 For every probe \(p\) and bundles \(\Pi,\Theta\), if

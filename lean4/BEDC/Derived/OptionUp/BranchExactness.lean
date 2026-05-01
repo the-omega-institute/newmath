@@ -32,4 +32,9 @@ theorem TaggedOptionHistoryClassifier_branch_exactness {S : BHist → Prop}
             | intro b data =>
                 exact Or.inr (Exists.intro a (Exists.intro b data))
 
+theorem TaggedOptionHistory_present_payload_determinism {h a b : BHist} :
+    hsame h (BHist.e1 a) → hsame h (BHist.e1 b) → hsame a b := by
+  intro sameA sameB
+  exact hsame_e1_iff.mp (hsame_trans (hsame_symm sameA) sameB)
+
 end BEDC.Derived.OptionUp
