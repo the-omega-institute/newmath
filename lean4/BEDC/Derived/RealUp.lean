@@ -97,6 +97,18 @@ theorem RealStreamPrefixClassifier_hsame_transport {x x' y y' : Nat -> BHist}
         (BEDC.Derived.RatUp.RatHistoryClassifier_hsame_transport
           (sameX (Nat.succ n)) (sameY (Nat.succ n)) classified.right)
 
+theorem RealStreamPrefixClassifier_symm {x y : Nat -> BHist} :
+    forall n : Nat, RealStreamPrefixClassifier x y n ->
+      RealStreamPrefixClassifier y x n := by
+  intro n
+  induction n with
+  | zero =>
+      intro classified
+      exact RatHistoryClassifier_symm classified
+  | succ n ih =>
+      intro classified
+      exact And.intro (ih classified.left) (RatHistoryClassifier_symm classified.right)
+
 theorem RealStreamPrefixClassifier_trans {x y z : Nat -> BHist} :
     forall n : Nat, RealStreamPrefixClassifier x y n -> RealStreamPrefixClassifier y z n ->
       RealStreamPrefixClassifier x z n := by

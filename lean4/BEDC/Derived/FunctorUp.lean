@@ -93,4 +93,30 @@ theorem FunctorPrefixHomCarrier_empty_identity_preserves {p a : BHist} :
   exact FunctorPrefixHomCarrier_preserves prefixCarrier
     (CategoryHomCarrier_empty_identity objectCarrier)
 
+theorem FunctorPrefixHomCarrier_empty_identity_iff {p a b : BHist} :
+    CategoryHomCarrier (append p a) (append p b) BHist.Empty ↔
+      UnaryHistory (append p a) ∧ UnaryHistory (append p b) ∧ hsame a b := by
+  constructor
+  · intro homCarrier
+    have exactIdentity :=
+      Iff.mp CategoryHomCarrier_empty_identity_iff homCarrier
+    cases exactIdentity with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier samePrefixed =>
+            exact
+              And.intro sourceCarrier
+                (And.intro targetCarrier (append_left_cancel samePrefixed))
+  · intro data
+    cases data with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier sameTail =>
+            have samePrefixed : hsame (append p a) (append p b) := by
+              cases sameTail
+              rfl
+            exact
+              Iff.mpr CategoryHomCarrier_empty_identity_iff
+                (And.intro sourceCarrier (And.intro targetCarrier samePrefixed))
+
 end BEDC.Derived.FunctorUp

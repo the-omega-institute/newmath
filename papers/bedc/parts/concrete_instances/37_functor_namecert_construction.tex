@@ -85,6 +85,28 @@ then transports that hom-carrier along the unary prefix \(p\).
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_identity\_preserves}
 
+\begin{theorem}[Prefix functor empty identity hom carrier exactness]
+\label{thm:functor-prefix-hom-carrier-empty-identity-iff}
+For histories \(p,a,b\), the empty history is a hom-carrier from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,b)\) exactly when the two
+prefixed endpoints are unary and the unprefixed tails \(a,b\) are internally
+the same:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(\mathsf{append}(p,a))\wedge
+\mathsf{UnaryHistory}(\mathsf{append}(p,b))\wedge \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty identity hom-carrier exactness in the category chapter to obtain
+sameness of the two prefixed endpoints. Left cancellation for generated-history
+append then reflects this sameness to the tails \(a,b\). Conversely, tail
+sameness lifts to sameness of the prefixed endpoints, and category empty
+identity exactness reconstructs the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_identity\_iff}
+
 \section{The certificate}
 
 \begin{definition}[Functor source specification]
