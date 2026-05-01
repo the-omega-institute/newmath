@@ -35,6 +35,23 @@ theorem ProdHistoryCarrier_empty_result_components {Left Right : BHist -> Prop} 
                         (And.intro rightCarrier
                           (And.intro emptyComponents.left emptyComponents.right))))
 
+theorem ProdPairRep_coverage {Left Right : BHist -> Prop} {h : BHist} :
+    ProdHistoryCarrier Left Right h <->
+      exists l : BHist, exists r : BHist, ProdPairRep Left Right h l r := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro l rest =>
+        cases rest with
+        | intro r data =>
+            exact Exists.intro l (Exists.intro r data)
+  · intro displayed
+    cases displayed with
+    | intro l rest =>
+        cases rest with
+        | intro r rep =>
+            exact Exists.intro l (Exists.intro r rep)
+
 theorem ProdHistoryClassifier_fixed_pair_determinism
     {Left Right : BHist → Prop} {h k l r : BHist} :
     Left l → Right r → Cont l r h → Cont l r k →

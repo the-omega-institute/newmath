@@ -422,6 +422,31 @@ theorem SumHistoryClassifier_branch_partition {Left Right : BHist → Prop}
           | intro r' data =>
               exact Or.inr (Exists.intro r (Exists.intro r' data))
 
+theorem SumHistoryClassifier_branch_iff {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop} {h k : BHist} :
+    SumHistoryClassifier Left Right LeftEq RightEq h k <->
+      ((exists l : BHist, exists l' : BHist,
+        hsame h (BHist.e0 l) /\ hsame k (BHist.e0 l') /\ LeftEq l l') \/
+        (exists r : BHist, exists r' : BHist,
+          hsame h (BHist.e1 r) /\ hsame k (BHist.e1 r') /\ RightEq r r')) := by
+  constructor
+  · intro classifier
+    exact SumHistoryClassifier_branch_partition classifier
+  · intro branch
+    cases branch with
+    | inl leftBranch =>
+        cases leftBranch with
+        | intro l rest =>
+            cases rest with
+            | intro l' data =>
+                exact Or.inl (Exists.intro l (Exists.intro l' data))
+    | inr rightBranch =>
+        cases rightBranch with
+        | intro r rest =>
+            cases rest with
+            | intro r' data =>
+                exact Or.inr (Exists.intro r (Exists.intro r' data))
+
 theorem SumHistorySource_weakening {Left Right Left' Right' : BHist -> Prop}
     {LeftEq RightEq LeftEq' RightEq' : BHist -> BHist -> Prop} :
     ((forall h : BHist, Left h -> Left' h) /\

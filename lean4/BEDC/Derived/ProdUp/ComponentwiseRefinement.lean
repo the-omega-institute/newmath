@@ -106,6 +106,44 @@ theorem ProdComponentHistoryClassifier_inversion
                                               · exact right_trans rightAtH
                                                   (right_trans sameRight rightAtK)
 
+theorem ProdComponentHistoryClassifier_displayed_exactness
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq)
+    (left_trans : forall {a b c : BHist}, LeftEq a b -> LeftEq b c -> LeftEq a c)
+    (right_trans : forall {a b c : BHist}, RightEq a b -> RightEq b c -> RightEq a c)
+    {h k l r l' r' : BHist} :
+    ProdPairRep Left Right h l r ->
+      ProdPairRep Left Right k l' r' ->
+        (ProdComponentHistoryClassifier Left Right LeftEq RightEq h k <->
+          LeftEq l l' /\ RightEq r r') := by
+  intro repH repK
+  constructor
+  · intro classifier
+    exact ProdComponentHistoryClassifier_inversion coherent left_trans right_trans
+      repH repK classifier
+  · intro componentRel
+    cases repH with
+    | intro leftH restH =>
+        cases restH with
+        | intro rightH contH =>
+            cases repK with
+            | intro leftK restK =>
+                cases restK with
+                | intro rightK contK =>
+                    cases componentRel with
+                    | intro sameLeft sameRight =>
+                        exact Exists.intro l
+                          (Exists.intro r
+                            (Exists.intro l'
+                              (Exists.intro r'
+                                (And.intro leftH
+                                  (And.intro rightH
+                                    (And.intro contH
+                                      (And.intro leftK
+                                        (And.intro rightK
+                                          (And.intro contK
+                                            (And.intro sameLeft sameRight))))))))))
+
 theorem ProdComponentHistoryClassifier_descends_to_envelope
     {Left Right : BHist → Prop} {LeftEq RightEq : BHist → BHist → Prop}
     (left_sound : ∀ {x y : BHist}, LeftEq x y → hsame x y)
