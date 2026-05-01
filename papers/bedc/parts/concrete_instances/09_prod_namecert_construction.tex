@@ -425,10 +425,13 @@ reuse that pair representation on both sides; the two source $\NameCert$
 witnesses give component reflexivity. For the second field, invert the
 componentwise classifier witness and apply source symmetry to the two component
 classifier witnesses, keeping the two pair representations with endpoints
-exchanged. For the third field, compose the first left component witness with
-the first middle representation, use pair-representation coherence to relate
-the two middle representations of the same history, and then compose with the
-second left component witness; the right component is identical. For the fourth
+exchanged. For the third field, unpack $\mathsf{C}(h,k)$ and
+$\mathsf{C}(k,u)$ into pair representations $(l_h,r_h)$, $(l_k,r_k)$,
+$(l'_k,r'_k)$, and $(l_u,r_u)$. Pair-representation coherence at the middle
+history $k$ gives both $l_k\sim_L l'_k$ and $r_k\sim_R r'_k$. The two source
+$\NameCert.\mathsf{equiv\_trans}$ fields then compose the left chain
+$l_h\sim_L l_k\sim_L l'_k\sim_L l_u$ and the right chain
+$r_h\sim_R r_k\sim_R r'_k\sim_R r_u$ separately. For the fourth
 field, the classifier witness for the right endpoint contains a displayed pair
 representation of $k$, and pair-representation coverage rebuilds
 $\mathsf{ProdHistoryCarrier}(L,R,k)$. Pattern and ledger soundness are
