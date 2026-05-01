@@ -74,6 +74,14 @@ theorem NatTransPrefixComponentCarrier_empty_identity_iff {p q a : BHist} :
                               (unary_append_closed targetPrefixCarrier objectCarrier)
                               sameComponent)))))
 
+theorem NatTransPrefixComponentCarrier_empty_identity_prefix_trans {p q r a : BHist} :
+    NatTransPrefixComponentCarrier p q a BHist.Empty ->
+      NatTransPrefixComponentCarrier q r a BHist.Empty -> hsame p r := by
+  intro left right
+  have leftData := Iff.mp NatTransPrefixComponentCarrier_empty_identity_iff left
+  have rightData := Iff.mp NatTransPrefixComponentCarrier_empty_identity_iff right
+  exact hsame_trans leftData.right.right.right rightData.right.right.right
+
 theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta composite : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
       NatTransPrefixComponentCarrier q r a theta ->

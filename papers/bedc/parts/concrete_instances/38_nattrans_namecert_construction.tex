@@ -27,6 +27,20 @@ the category empty identity carrier to the component carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_identity\_iff}
 
+\begin{theorem}[NatTrans empty identity prefix transitivity]
+\label{thm:nattrans-prefix-component-empty-identity-prefix-trans}
+For prefix components over unary histories, if the empty component identifies
+\(\mathsf{append}(p,a)\) with \(\mathsf{append}(q,a)\) and the empty component
+also identifies \(\mathsf{append}(q,a)\) with \(\mathsf{append}(r,a)\), then
+\(\HSame(p,r)\).
+\end{theorem}
+\begin{proof}
+Apply empty-identity exactness to the two component witnesses. The first
+component gives \(\HSame(p,q)\), and the second gives \(\HSame(q,r)\).
+Transitivity of history sameness identifies \(p\) and \(r\).
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_identity\_prefix\_trans}
+
 \begin{theorem}[NatTrans prefix component vertical composition closure]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-closed}
 For prefix components over unary histories, if \(\eta\) is a component from
