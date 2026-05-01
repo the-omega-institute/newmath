@@ -295,6 +295,39 @@ theorem to extract the matching source payload evidence.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerChain\_endpoint\_exactness}
 
+\begin{theorem}[Sum ledger chain branch exactness]
+\label{thm:sum-ledger-chain-branch-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,z:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ holds, then the finite
+ledger provenance has same-branch payload readback:
+$$
+\bigl(\exists l\,l':\mathsf{BHist}.\; Left(l)\land Left(l')\land\hsame(\rho,\Ezero(l))\land\hsame(z,\Ezero(l'))\land\hsame(l,l')\bigr)
+\lor
+\bigl(\exists r\,r':\mathsf{BHist}.\; Right(r)\land Right(r')\land\hsame(\rho,\Eone(r))\land\hsame(z,\Eone(r'))\land\hsame(r,r')\bigr).
+$$
+The ten-field fit is: traditional target disjoint-sum finite ledger branch
+readback; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{SumHistoryCarrier}$; classifier supplied by
+Theorem~\ref{thm:sum-ledger-chain-classifier-composition}; ledger
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}$; core theorem this branch exactness;
+exactness same-branch raw-to-final payload readback; standard bridge tagged sum
+finite ledger provenance; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the displayed
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ witness. In the one-ledger
+case, apply Theorem~\ref{thm:sum-ledger-raw-visible-branch-exactness} and choose
+the same payload at the raw and visible endpoints, with $\hsame$ reflexivity for
+the payload link. In the cons case, combine the raw-visible branch exactness of
+the first ledger with the induction hypothesis for the tail chain. The mixed
+left-right and right-left cases contradict generated-history no-confusion
+between $\Ezero$ and $\Eone$ at the shared middle endpoint. In the same-branch
+cases, use Theorem~\ref{thm:sum-visible-branch-payload-determinism} at the middle
+endpoint and $\hsame$ transitivity to compose the first payload with the final
+payload.
+\end{proof}
+
 \begin{theorem}[Sum ledger preserves visible tag separation]
 \label{thm:sum-ledger-visible-tag-separation}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
