@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.4 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v3.5 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -178,7 +178,30 @@ The script ranks every horizon `<X>Up` chapter by `transitive_downstream / (1 + 
 
 **At least 1 of your 3 selected targets MUST belong to `top[0..2]`** of that JSON output. The target's `target_file` should be the listed `file_lean` (creating it if it does not exist), and the paper site should be a missing-marker location in the listed `file_paper`.
 
-If a top-3 node is technically blocked (carrier definition cannot be constructed without infrastructure not yet in BEDC, e.g. real numbers needing Cauchy streams that the kernel does not yet expose), record the blocker in `strategy` and use `top[3..]` instead. Do NOT silently fall back to depth-refinement of already-saturated domains.
+### Mechanical blocker definition (no soft fallback)
+
+The previous prompt allowed "if technically blocked, use `top[3..]`" — which was wide enough that codex took it on every round and the v3.4 hit rate was 0/7. From v3.5 a top-3 node counts as "blocked" only when **ALL THREE** of the following are true:
+
+1. The chapter file `top[i].file_paper` contains fewer than 3 `\begin{definition}` blocks (the paper has not yet specified the carrier sufficiently to formalize). Verify with:
+   ```bash
+   grep -c '\\begin{definition}' <top[i].file_paper>
+   ```
+2. The implementation would require a Lean inductive type or `import` that does not currently exist anywhere under `lean4/BEDC/`. Verify with `grep -rE '(inductive|import) <name>' lean4/BEDC/`.
+3. The `critical_path.py` JSON shows `depsReady = false` for this node. By construction the script already excludes deps-not-ready nodes from `top`, so this condition is always false for any node IN `top`.
+
+If condition 3 fails alone (or any single condition fails), the node is NOT blocked. Pick a different top-3 node where all three conditions are absent. The 0/7 v3.4 misses were all rationalised through the soft "blocked" escape; from v3.5 a single-condition rationalisation is invalid.
+
+**If ALL of `top[0..2]` claim blocked** under the three-condition test above, output `{"targets": []}` and let the gate skip this round. Do NOT silently fall back to depth-refinement of saturated domains. Empty rounds are preferred over silent fallback.
+
+### Self-check before emitting JSON
+
+Before returning your JSON output, compute:
+
+```
+hit = any(t.target_file matches one of top[0..2].file_lean for t in targets)
+```
+
+If `hit == false` AND no genuine three-condition blocker exists for all of `top[0..2]`, replace your `targets` list with `[]` and emit an empty round. Do not silently emit non-top-3 candidates with a hand-waved blocker.
 
 This rule is what stops codex from re-saturating Bool / Option / Sum / Prod / List / Rat. Once those nodes are over the saturation threshold, they exit the `top` list automatically and depth refinement on them is no longer required.
 
