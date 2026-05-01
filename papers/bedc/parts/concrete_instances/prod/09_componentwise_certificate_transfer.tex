@@ -86,6 +86,30 @@ the required right bound sends a witness $R(r)$ to the displayed clause
 $\hsame(r,r_0)$.
 \end{proof}
 
+\begin{theorem}[Product componentwise history core certificate]
+\label{thm:prod-component-history-core-namecert}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the componentwise
+classifier carries the core product naming certificate:
+$$
+\NameCert(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
+$$
+\end{theorem}
+\begin{proof}
+Invoke
+Theorem~\ref{thm:prod-component-history-classifier-certificate-target}. Its
+five-field conclusion supplies carrier inhabitation, carrier-relative
+reflexivity, source-certified symmetry, source-certified transitivity, and
+classifier-induced carrier transport for
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ over
+$\mathsf{ProdHistoryCarrier}(L,R)$. Assemble these clauses as the corresponding
+fields of the core $\NameCert$ record.
+\end{proof}
+
 \begin{theorem}[Product componentwise history semantic certificate target]
 \label{thm:prod-component-history-semantic-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
@@ -104,14 +128,11 @@ D,
 $$
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:prod-component-history-classifier-certificate-target} to
-obtain carrier inhabitation, carrier-relative reflexivity, source-certified
-symmetry, source-certified transitivity, and classifier-induced carrier
-transport for
+Apply Theorem~\ref{thm:prod-component-history-core-namecert} to the two source
+certificates and the pair-representation coherence hypothesis. This gives the
+core $\NameCert$ certificate for
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ over
-$\mathsf{ProdHistoryCarrier}(L,R)$. Package these five fields as the core
-$\NameCert$ certificate. Carrier transport is still the right-endpoint
-transport supplied by the classifier witness and pair-representation coverage.
+$\mathsf{ProdHistoryCarrier}(L,R)$.
 The semantic pattern carrier is $\mathsf{ProdHistoryCarrier}(L,R)$, so
 $\mathsf{pattern\_sound}$ is identity on the carrier. Ledger soundness is the
 forward direction of Theorem~\ref{thm:prod-pair-rep-coverage}: every product
