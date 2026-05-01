@@ -392,6 +392,40 @@ The induction hypothesis gives $\Pi_0=\Theta_0$, and the head equality rebuilds 
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_suffix\_cancel}
 
+\begin{theorem}[Probe bundle common context cancellation]
+\label{thm:bundle-append-common-context-cancel}
+For probe bundles $\Pi,\Theta,\Omega,\Theta'$, if
+$$
+\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\Omega))
+=\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta',\Omega)),
+$$
+then $\Theta=\Theta'$.
+\end{theorem}
+\begin{proof}
+First cancel the common left bundle $\Pi$ by prefix cancellation. The remaining
+equality has the same suffix $\Omega$ on both sides, so suffix cancellation
+identifies the middle bundles.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_common\_context\_cancel}
+
+\begin{theorem}[Probe bundle append middle cancellation]
+\label{thm:probe-bundle-append-middle-cancel}
+For probe bundles $\Pi$, $\Theta$, $\Omega$, and $\Lambda$, if
+$$
+\mathsf{BAppend}(\mathsf{BAppend}(\Pi,\Theta),\Lambda)
+=
+\mathsf{BAppend}(\mathsf{BAppend}(\Pi,\Omega),\Lambda),
+$$
+then $\Theta=\Omega$.
+\end{theorem}
+\begin{proof}
+First cancel the common suffix $\Lambda$ using probe-bundle suffix
+cancellation. This leaves equality of $\mathsf{BAppend}(\Pi,\Theta)$ and
+$\mathsf{BAppend}(\Pi,\Omega)$. Then cancel the common prefix $\Pi$ using
+probe-bundle prefix cancellation.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_middle\_cancel}
+
 \begin{lemma}[Probe bundle append empty-result inversion]
 \label{lem:probe-bundle-append-empty-result-inversion}
 For probe bundles $\Pi,\Theta$, if
@@ -421,6 +455,26 @@ Proceed by cases on $\Pi$. In the empty case the displayed equality reduces to $
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_cons\_result\_inversion}
 
+\begin{theorem}[Probe bundle append cons-result iff]
+\label{thm:bundle-append-cons-result-iff}
+For probe bundles $\Pi,\Theta,\Omega$ and probe $\pi$,
+$$
+\mathsf{BAppend}(\Pi,\Theta)=\Bcons(\pi,\Omega)
+\quad\Longleftrightarrow\quad
+\bigl(\Pi=\Bnil\ \wedge\ \Theta=\Bcons(\pi,\Omega)\bigr)
+\ \vee\
+\exists \Pi_0,\ \Pi=\Bcons(\pi,\Pi_0)\ \wedge\
+\mathsf{BAppend}(\Pi_0,\Theta)=\Omega.
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the cons-result inversion lemma. For the converse,
+split the displayed disjunction. In the empty-prefix case the append computation
+is exactly the supplied suffix equality. In the cons-prefix case, substitute the
+displayed prefix and tail equality, then compute the append recursion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_cons\_result\_iff}
+
 \begin{theorem}[Probe bundle append split uniqueness at fixed left length]
 \label{thm:bundle-append-split-unique-fixed-length}
 For probe bundles $\Pi,\Theta,\Pi',\Theta'$, if
@@ -437,6 +491,26 @@ then $\Pi=\Pi'$ and $\Theta=\Theta'$.
 Proceed by simultaneous cases on the two left bundles. The empty-empty case reduces the append equality to the suffix equality $\Theta=\Theta'$. The empty-cons and cons-empty cases contradict the displayed length equality by natural-number constructor no-confusion. In the cons-cons case, constructor injectivity on the append equality identifies the two head probes and gives equality of the appended tails; constructor injectivity on the length equality gives equal tail lengths. The induction hypothesis applied to the tails gives equality of the left tails and suffixes, and the head equality rebuilds $\Pi=\Pi'$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_split\_unique\_fixed\_length}
+
+\begin{theorem}[Probe bundle append split uniqueness at fixed suffix length]
+\label{thm:bundle-append-split-unique-fixed-suffix-length}
+For probe bundles $\Pi,\Theta,\Pi',\Theta'$, if
+$$
+\mathsf{BAppend}(\Pi,\Theta)=\mathsf{BAppend}(\Pi',\Theta')
+$$
+and
+$$
+\mathsf{BLEN}(\Theta)=\mathsf{BLEN}(\Theta'),
+$$
+then $\Pi=\Pi'$ and $\Theta=\Theta'$.
+\end{theorem}
+\begin{proof}
+Apply append length preservation to the displayed equality. The equality of
+suffix lengths cancels the right summand in the resulting natural-number length
+identity, giving $\mathsf{BLEN}(\Pi)=\mathsf{BLEN}(\Pi')$. Fixed-left-length
+split uniqueness then identifies the two prefixes and the two suffixes.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_split\_unique\_fixed\_suffix\_length}
 
 \begin{theorem}[Probe bundle append three-split uniqueness at fixed lengths]
 \label{thm:bundle-append-three-split-unique-fixed-lengths}

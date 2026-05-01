@@ -91,6 +91,23 @@ If \(\ContR(h,l,k)\) and \(\ContR(k,r,h)\), then \(\HSame(h,k)\).
 Compose the two continuation equations into a cycle from $h$ back to $h$ with tail $\mathsf{append}(l,r)$. Right-unit uniqueness forces this composite tail to be empty. Empty append inversion forces $l$ to be empty, so the first continuation reduces to $\HSame(h,k)$.
 \end{proof}
 
+\begin{theorem}[Mutual continuation has empty tails]
+\label{thm:cont-mutual-extension-tails-empty}
+If $\ContR(h,l,k)$ and $\ContR(k,r,h)$, then
+$$
+\HSame(l,\emp)
+\quad\text{and}\quad
+\HSame(r,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Compose the two continuations into a cycle from $h$ back to $h$ whose tail is
+$\mathsf{append}(l,r)$. Right-unit uniqueness forces that composite tail to be
+empty, and empty-append inversion identifies both component tails with
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_mutual\_extension\_tails\_empty}
+
 \begin{theorem}[Associativity up to history-sameness]
 \label{thm:continuation-associativity-up-to-hsame-proof-standing}
 Suppose

@@ -1,0 +1,524 @@
+\begin{theorem}[Tagged option source weakening]
+\label{thm:tagged-option-source-weakening}
+This theorem fits the per-object template as follows: the traditional target is
+tagged option source weakening; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier
+is $\mathsf{TaggedOptionHistoryClassifier}$; the stability field is source
+monotonicity for tagged endpoints; the ledger is the visible absent/present tag
+with present payload evidence; the core theorem is tagged source weakening;
+exactness is endpoint witness preservation; the standard bridge is constructor
+tagged option syntax; and the status is $\mathsf{ProofTarget}$. Let
+$S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and let
+$\sim_S$ and $\sim_T$ be source classifiers. Assume
+$$
+\forall h.\; S(h)\to T(h)
+$$
+and
+$$
+\forall a\,b.\; S(a)\to S(b)\to a\sim_S b\to a\sim_T b.
+$$
+Then for every history $h$,
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)\to
+\mathsf{TaggedOptionHistoryCarrier}_T(h),
+$$
+and for every pair of histories $h,k$,
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+For the carrier implication, split the tagged carrier witness. The absent case
+has no source payload and is reused unchanged. The present case exposes a
+payload history $a$, a source witness $S(a)$, and the endpoint witness
+$\hsame(h,\Eone(a))$; apply the source-carrier implication to obtain $T(a)$ and
+reuse the same endpoint witness.
+
+For the classifier implication, split the tagged classifier witness. The
+absent-absent case is reused unchanged. In the present-present case, keep the
+payload histories $a,b$ and both endpoint witnesses. Apply the source-carrier
+implication to the two source witnesses to obtain $T(a)$ and $T(b)$, and apply
+the source-classifier implication to the same two source witnesses and the
+given $a\sim_S b$ witness to obtain $a\sim_T b$. These fields rebuild the
+tagged classifier witness for $T$ and $\sim_T$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistorySource\_weakening}
+
+\begin{theorem}[Tagged option semantic fields source weakening]
+\label{thm:tagged-option-semantic-fields-source-weakening}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim_S$ and $\sim_T$ be source classifiers. Assume
+$$
+\forall h.\; S(h)\to T(h)
+$$
+and
+$$
+\forall a\,b.\; S(a)\to S(b)\to a\sim_S b\to a\sim_T b.
+$$
+Then for every history $h$, the three unary tagged option semantic fields
+transport from $S$ to $T$:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)\to
+\mathsf{TaggedOptionHistoryCarrier}_T(h),
+$$
+$$
+\mathsf{TaggedOptionHistoryPattern}_S(h)\to
+\mathsf{TaggedOptionHistoryPattern}_T(h),
+$$
+and
+$$
+\mathsf{TaggedOptionHistoryLedger}_S(h)\to
+\mathsf{TaggedOptionHistoryLedger}_T(h).
+$$
+The binary classifier field transports separately:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-source-weakening} to the displayed
+source-carrier and source-classifier implications. This gives the carrier
+transport and classifier transport directly. For the pattern field, use
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence} to
+convert a $\mathsf{TaggedOptionHistoryPattern}_S(h)$ witness into the
+$S$-carrier witness, transport that carrier witness from $S$ to $T$, and convert
+the resulting $T$-carrier witness back to
+$\mathsf{TaggedOptionHistoryPattern}_T(h)$. The ledger field is identical, using
+the ledger half of the same carrier-pattern-ledger equivalence.
+\end{proof}
+
+\begin{definition}[Tagged option payload descent relation]
+\label{def:tagged-option-payload-descent-relation}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload-carrier preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+The relation $\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)$
+means that the tagged endpoint $h$ over $S$ is carried to the tagged endpoint
+$k$ over $T$ by preserving the visible option tag:
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+\Longleftrightarrow
+\bigl(\hsame(h,\emp)\land\hsame(k,\emp)\bigr)
+\lor
+\bigl(\exists a:\mathsf{BHist}.\;
+S(a)\land T(\delta.\mathsf{map}(a))\land
+\hsame(h,\Eone(a))\land
+\hsame(k,\Eone(\delta.\mathsf{map}(a)))\bigr).
+$$
+The displayed $T(\delta.\mathsf{map}(a))$ witness is the carrier preservation
+field $\rho_{\delta}$ applied to the exposed source payload.
+\end{definition}
+\leandef{BEDC.Derived.OptionUp.TaggedOptionMapRel}
+
+\begin{theorem}[Tagged option payload descent preserves classification]
+\label{thm:tagged-option-payload-descent-preserves-classification}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+For histories $h,h',k,k'$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h'),
+$$
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k),
+$$
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k'),
+$$
+$$
+\mathsf{cert}:\NameCert(S,\sim_S),
+$$
+and
+$$
+\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S),
+$$
+then
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+Split the source classifier witness by its tagged branch and split the two
+endpoint map-relation witnesses. In the absent classifier branch, both source
+endpoints are presented as $\emp$. A present map-relation branch would also
+present one of those endpoints as $\Eone(a)$, contradicting empty-versus-one
+no-confusion; hence both map-relation witnesses are absent branches, and the
+target classifier is rebuilt by the absent-absent constructor for $k$ and $k'$.
+
+In the present classifier branch, the source witness exposes payloads $a,b$ with
+$S(a)$, $S(b)$, endpoint presentations
+$\hsame(h,\Eone(a))$ and $\hsame(h',\Eone(b))$, and classifier witness
+$a\sim_S b$. The absent map-relation branch is impossible by the same
+constructor no-confusion argument, so the two map-relation witnesses expose
+payloads $c,d$ with target endpoints
+$\hsame(k,\Eone(\delta.\mathsf{map}(c)))$ and
+$\hsame(k',\Eone(\delta.\mathsf{map}(d)))$. Endpoint inversion between
+$\Eone(a)$ and $\Eone(c)$, and between $\Eone(b)$ and $\Eone(d)$, gives source
+history sameness between the corresponding payloads. Source hsame compatibility
+turns these sameness witnesses into source classifier witnesses; symmetry and
+transitivity from $\mathsf{cert}$ compose them with $a\sim_S b$ to obtain
+$c\sim_S d$. Applying $\delta.\mathsf{respects}$ yields
+$\delta.\mathsf{map}(c)\sim_T\delta.\mathsf{map}(d)$, while
+$\rho_{\delta}$ supplies both target carrier witnesses. These fields rebuild the
+present-present target classifier for $k$ and $k'$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionMapRel\_preserves\_classification}
+
+\begin{theorem}[Tagged option payload descent target branch readback]
+\label{thm:tagged-option-payload-descent-target-branch-readback}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+For histories $h,h',k,k'$, assume a source classifier witness
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h'),
+$$
+the two map-relation witnesses
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k'),
+$$
+a source certificate
+$$
+\mathsf{cert}:\NameCert(S,\sim_S),
+$$
+and
+$$
+\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S).
+$$
+Then the target endpoints carry both the transported classifier and the concrete
+absent-or-present branch exposure:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')
+\land
+\left(
+\bigl(\hsame(k,\emp)\land\hsame(k',\emp)\bigr)
+\lor
+\exists c,d:\mathsf{BHist}.\;
+T(c)\land T(d)\land
+\hsame(k,\Eone(c))\land \hsame(k',\Eone(d))\land c\sim_T d
+\right).
+$$
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:tagged-option-payload-descent-preserves-classification}
+to the source classifier witness, the two map-relation witnesses, the source
+certificate, and source hsame compatibility. This gives
+$\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')$.
+
+Next apply
+Theorem~\ref{thm:tagged-option-history-classifier-branch-exactness} with carrier
+$T$, classifier $\sim_T$, and endpoints $k,k'$ to the transported classifier.
+The forward direction of that exactness theorem gives exactly the displayed
+target branch disjunction. Conjoining the transported classifier with this
+branch exposure gives the stated target readback.
+\end{proof}
+
+\begin{theorem}[Tagged option map relation common-source target classification]
+\label{thm:tagged-option-maprel-common-source-target-classification}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload-carrier preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Assume also $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For
+histories $h,k,k'$, if
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k')
+$$
+then
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+Split the two map-relation witnesses. If both witnesses are absent, their
+target endpoint presentations are $\hsame(k,\emp)$ and $\hsame(k',\emp)$, so
+the absent-absent tagged classifier branch gives the conclusion.
+
+In a mixed branch, one witness presents the shared source endpoint $h$ as
+$\emp$, while the other presents it as $\Eone(a)$ for some payload $a$.
+Symmetry and transitivity of $\hsame$ compose these two presentations into
+$\hsame(\emp,\Eone(a))$ or its reverse, contradicting generated-history
+empty-versus-one no-confusion. Hence mixed branches cannot occur.
+
+In the present/present branch, the two witnesses expose payloads $a,b$ with
+$S(a)$, $S(b)$, target carrier witnesses
+$T(\delta.\mathsf{map}(a))$ and $T(\delta.\mathsf{map}(b))$, source endpoint
+presentations $\hsame(h,\Eone(a))$ and $\hsame(h,\Eone(b))$, and target
+endpoint presentations
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$ and
+$\hsame(k',\Eone(\delta.\mathsf{map}(b)))$. Composing the two source endpoint
+presentations and inverting the common one-step constructor yields
+$\hsame(a,b)$. Source hsame compatibility converts this to $a\sim_S b$, and
+$\delta.\mathsf{respects}$ sends it to
+$\delta.\mathsf{map}(a)\sim_T\delta.\mathsf{map}(b)$. Together with the stored
+target carrier and endpoint witnesses, this rebuilds the present-present
+target classifier for $k$ and $k'$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionMapRel\_common\_source\_target\_classification}
+
+\begin{theorem}[Tagged option payload descent transports semantic fields]
+\label{thm:tagged-option-payload-descent-semantic-fields}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload-carrier preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For histories
+$h,h',k,k'$, if
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k'),
+$$
+then the two source endpoints satisfy their three unary tagged option semantic
+fields:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)\land
+\mathsf{TaggedOptionHistoryPattern}_S(h)\land
+\mathsf{TaggedOptionHistoryLedger}_S(h),
+$$
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h')\land
+\mathsf{TaggedOptionHistoryPattern}_S(h')\land
+\mathsf{TaggedOptionHistoryLedger}_S(h'),
+$$
+and the two target endpoints satisfy the corresponding target fields:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_T(k)\land
+\mathsf{TaggedOptionHistoryPattern}_T(k)\land
+\mathsf{TaggedOptionHistoryLedger}_T(k),
+$$
+$$
+\mathsf{TaggedOptionHistoryCarrier}_T(k')\land
+\mathsf{TaggedOptionHistoryPattern}_T(k')\land
+\mathsf{TaggedOptionHistoryLedger}_T(k').
+$$
+Moreover, the binary tagged option classifier field descends along the same
+two map-relation witnesses:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h')\to
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+Split each instance of
+Definition~\ref{def:tagged-option-payload-descent-relation}. In an absent
+branch, the witness stores the presentation of the source endpoint as $\emp$
+and the target endpoint as $\emp$; these two presentations build the absent
+carrier witnesses for the corresponding source and target tagged option
+endpoints. In a present branch, the witness exposes a payload $a$ with
+$S(a)$, the target payload witness
+$T(\delta.\mathsf{map}(a))$ supplied by $\rho_{\delta}$, and the endpoint
+presentations $\hsame(h,\Eone(a))$ and
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$; these fields build the present
+carrier witnesses for the source and target endpoints. The same argument
+applies to the primed map-relation witness.
+
+For each of the four endpoint carriers just obtained, apply
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence} to
+convert the carrier witness into the corresponding visible tag pattern and
+visible tag ledger witnesses. The binary classifier clause is exactly
+Theorem~\ref{thm:tagged-option-payload-descent-preserves-classification},
+applied to the displayed source classifier witness, the two map-relation
+witnesses, the source certificate $\mathsf{cert}$, and the source hsame
+compatibility hypothesis.
+\end{proof}
+
+\begin{theorem}[Tagged option payload descent total endpoint transport]
+\label{thm:tagged-option-payload-descent-total-endpoint-transport}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload-carrier preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+For every history $h$, if
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$, then there exists
+$k:\mathsf{BHist}$ such that
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionHistoryCarrier}_T(k)\land
+\mathsf{TaggedOptionHistoryPattern}_T(k)\land
+\mathsf{TaggedOptionHistoryLedger}_T(k).
+$$
+\end{theorem}
+\begin{proof}
+Split the source carrier witness. In the absent case, choose $k=\emp$. The
+absent branch of Definition~\ref{def:tagged-option-payload-descent-relation}
+gives the map-relation witness, and the absent tagged carrier branch gives the
+target carrier witness.
+
+In the present case, the source witness exposes a payload $a$ with $S(a)$ and
+$\hsame(h,\Eone(a))$. Choose $k=\Eone(\delta.\mathsf{map}(a))$; the present
+branch of Definition~\ref{def:tagged-option-payload-descent-relation}, together
+with $\rho_{\delta}(a)$, gives the map-relation witness and the present target
+carrier witness.
+
+In both branches, apply
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence} to
+the target carrier witness. This converts it into the corresponding visible tag
+pattern and visible tag ledger witnesses, yielding the displayed conjunction.
+\end{proof}
+
+\begin{theorem}[Tagged option payload descent total classifier transport]
+\label{thm:tagged-option-payload-descent-total-classifier-transport}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload-carrier preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For every pair of
+histories $h,h'$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h'),
+$$
+then there exist $k,k':\mathsf{BHist}$ such that
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)\land
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k')\land
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+Split the source classifier witness. In the absent branch, choose $k=\emp$ and
+$k'=\emp$. The two absent endpoint presentations build the two absent branches
+of Definition~\ref{def:tagged-option-payload-descent-relation}.
+
+In the present branch, the source witness exposes payloads $a,b$ with $S(a)$,
+$S(b)$, endpoint presentations $\hsame(h,\Eone(a))$ and
+$\hsame(h',\Eone(b))$, and a classifier witness $a\sim_S b$. Choose
+$k=\Eone(\delta.\mathsf{map}(a))$ and
+$k'=\Eone(\delta.\mathsf{map}(b))$. The two present branches of
+Definition~\ref{def:tagged-option-payload-descent-relation}, using
+$\rho_{\delta}(a)$ and $\rho_{\delta}(b)$, give the required map-relation
+witnesses.
+
+With the map-relation witnesses in either branch, the target classifier is
+Theorem~\ref{thm:tagged-option-payload-descent-preserves-classification}
+applied to the source classifier witness, the two map-relation witnesses,
+$\mathsf{cert}$, and the source hsame compatibility hypothesis.
+\end{proof}
+
+\begin{theorem}[Tagged option payload descent public map certificate]
+\label{thm:tagged-option-payload-descent-public-map-certificate}
+This theorem fits the per-object template as follows: the traditional target is
+constructor-tagged option payload descent; the BEDC source is $\mathsf{BHist}$
+with $\NameCert$ and
+$\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$;
+the carrier is tagged option histories; the classifier is the tagged option
+history classifier; the stability fields are totality, target single-valuedness,
+and classifier preservation; the ledger is visible absent/present tags and
+transported payloads; the core theorem is this public map certificate; exactness
+is $\mathsf{TaggedOptionMapRel}$ branch analysis; the standard bridge is
+none/some payload mapping; and the status is $\mathsf{ProofTarget}$. Let
+$S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T),
+$$
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. Then the
+constructor-tagged option map relation satisfies the following public map
+certificate clauses.
+\begin{enumerate}
+  \item For every history $h$, if
+  $\mathsf{TaggedOptionHistoryCarrier}_S(h)$, then there exists $k:\mathsf{BHist}$
+  such that
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+  $$
+  and
+  $$
+  \mathsf{TaggedOptionHistoryCarrier}_T(k)\land
+  \mathsf{TaggedOptionHistoryPattern}_T(k)\land
+  \mathsf{TaggedOptionHistoryLedger}_T(k).
+  $$
+  \item For histories $h,k,k'$, if the same source endpoint $h$ maps to $k$ and
+  $k'$, so that
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+  $$
+  and
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k'),
+  $$
+  then
+  $$
+  \mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+  $$
+  \item For histories $h,h',k,k'$, if $h$ maps to $k$, $h'$ maps to $k'$, and
+  the source endpoints are classified together, so that
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k),
+  $$
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k'),
+  $$
+  and
+  $$
+  \mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h'),
+  $$
+  then
+  $$
+  \mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the endpoint totality clause, apply
+Theorem~\ref{thm:tagged-option-payload-descent-total-endpoint-transport} to the
+source carrier witness. It supplies the target endpoint, the
+$\mathsf{TaggedOptionMapRel}$ witness, and the target carrier, pattern, and
+ledger fields.
+
+For the same-source target classification clause, apply
+Theorem~\ref{thm:tagged-option-maprel-common-source-target-classification} to
+the two map-relation witnesses and the source hsame compatibility hypothesis.
+This gives the target classifier directly.
+
+For the classifier preservation clause, apply
+Theorem~\ref{thm:tagged-option-payload-descent-preserves-classification} to the
+source classifier witness, the two map-relation witnesses, the source
+certificate $\mathsf{cert}$, and the source hsame compatibility hypothesis.
+\end{proof}

@@ -53,6 +53,29 @@ If \(\ExtR(\bzero,h,r_0)\), \(\ExtR(\bone,h,r_1)\), and \(\hsame(r_0,r_1)\), the
 Invert the two extension witnesses. The result histories are \(\Ezero(h)\) and \(\Eone(h)\), and history no-confusion excludes \(\hsame(\Ezero(h),\Eone(h))\).
 \end{proof}
 
+\begin{theorem}[Extension result is not the source]
+\label{thm:extension-result-source-not-hsame}
+If \(\ExtR(m,h,r)\), then \(\hsame(r,h)\) is impossible.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_result\_source\_not\_hsame}
+\begin{proof}
+Invert the generated extension witness. The result is either \(\Ezero(h)\) or
+\(\Eone(h)\), and both cases are excluded by history constructor
+no-confusion for a one-constructor self-extension.
+\end{proof}
+
+\begin{theorem}[Extension two-step cycle is impossible]
+\label{thm:extension-two-step-cycle-absurd}
+If \(\ExtR(m,h,r)\) and \(\ExtR(n,r,h)\), then contradiction follows.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_two\_step\_cycle\_absurd}
+\begin{proof}
+Use the finite constructor length of histories. Each extension increases this
+length by one. Two extensions returning from \(h\) to \(h\) would force the
+length of \(h\) to equal its own double successor, which is impossible by
+natural-number constructor no-confusion.
+\end{proof}
+
 \begin{theorem}[Extension result injectivity]
 \label{thm:ext-result-injective-pair}
 If \(\ExtR(m,h,r)\) and \(\ExtR(m',h',r)\), then \(\hsame(h,h')\) and \(\msame(m,m')\).
@@ -264,6 +287,18 @@ If \(\ContR(h,k,r)\) and \(\hsame(r,r')\), then \(\ContR(h,k,r')\).
 Unfold \(\ContR\) as the append-result equation. Symmetry of the result sameness followed by the original continuation equation gives the required append-result equation for \(r'\).
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_transport}
+
+\begin{theorem}[Continuation hsame transport]
+\label{thm:cont-hsame-transport}
+If $\hsame(h,h')$, $\hsame(k,k')$, $\hsame(r,r')$, and $\ContR(h,k,r)$, then
+$\ContR(h',k',r')$.
+\end{theorem}
+\begin{proof}
+Eliminate the two input $\hsame$ witnesses to align the left and right
+continuation inputs. The remaining result endpoint is transported by
+Theorem~\ref{thm:cont-result-hsame-transport}.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_hsame\_transport}
 
 \begin{theorem}[Continuation left-context cancellation up to history-sameness]
 \label{thm:cont-cancel-hsame-left-context}

@@ -94,6 +94,30 @@ unary membership of the source history \(h\).
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_source\_carrier\_of\_target\_carrier}
 
+\begin{theorem}[Prefix carrier excludes zero target]
+\label{thm:preorder-prefix-carrier-no-e0-target}
+If $h$ is in the concrete preorder carrier, then a prefix comparison from
+$h$ to $\mathsf{e0}(k)$ is impossible.
+\end{theorem}
+\begin{proof}
+The prefix relation preserves the concrete carrier from source to target.
+Thus $\mathsf{e0}(k)$ would be a unary history, contradicting the BEDC unary
+history zero-extension exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_carrier\_no\_e0\_target}
+
+\begin{theorem}[Prefix carrier excludes zero source]
+\label{thm:preorder-prefix-carrier-no-e0-source}
+If $k$ is in the concrete preorder carrier, then a prefix comparison from
+$\mathsf{e0}(h)$ to $k$ is impossible.
+\end{theorem}
+\begin{proof}
+The target carrier reflects through a concrete unary prefix witness to the
+source carrier. Thus $\mathsf{e0}(h)$ would be a unary history, contradicting
+the BEDC unary history zero-extension exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_carrier\_no\_e0\_source}
+
 \begin{definition}[Preorder classifier specification]
 \label{def:preorder-classifier-specification}
 The classifier is the supplied carrier sameness, and the relation is stable under classifier replacement.
@@ -108,6 +132,20 @@ If \(h\le k\) is witnessed by a unary continuation tail, and \(k\) continues by 
 Unpack the first prefix witness as a unary tail from \(h\) to \(k\). Compose this continuation with the continuation from \(k\) to \(r\); associativity of continuation supplies the resulting path from \(h\), and unary closure under append supplies the combined unary tail.
 \end{proof}
 
+\begin{theorem}[Prefix preserves strict right extension]
+\label{thm:preorder-prefix-le-strict-right-extension}
+If $h\le k$ is witnessed by a unary continuation tail and $k$ is a strict
+unary prefix of $r$, then $h$ is a strict unary prefix of $r$.
+\end{theorem}
+\begin{proof}
+Unpack the weak prefix tail from $h$ to $k$ and the nonempty strict tail from
+$k$ to $r$. Appending the two tails gives a unary tail from $h$ to $r$ by
+unary append closure and continuation associativity. If the appended tail were
+$\emp$, append-empty inversion would force the strict right tail to be
+$\emp$, contradicting strictness.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_strict\_right\_extension}
+
 \begin{theorem}[Prefix transitivity]
 \label{thm:preorder-prefix-transitivity}
 If \(h\le k\) and \(k\le r\) are witnessed by unary continuation tails, then
@@ -119,6 +157,19 @@ Unpack the two prefix witnesses. Append the two unary tails, use unary closure
 under append for the combined tail, and use continuation associativity to
 identify the direct continuation from \(h\) to \(r\).
 \end{proof}
+
+\begin{theorem}[Strict unary prefix preserves right extension]
+\label{thm:nat-unary-strict-prefix-right-extension}
+If $h$ is a strict unary prefix of $k$ and $k\le r$ is witnessed by a unary
+continuation tail, then $h$ is a strict unary prefix of $r$.
+\end{theorem}
+\begin{proof}
+Unpack the nonempty strict tail from $h$ to $k$ and the weak prefix tail from
+$k$ to $r$. Their append is unary and composes the two continuations from
+$h$ to $r$. If the appended tail were $\emp$, append-empty inversion would
+force the original strict tail to be $\emp$, contradicting strictness.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.NatUnaryStrictPrefix\_right\_extension}
 
 \begin{theorem}[Prefix antisymmetry collapses to history sameness]
 \label{thm:preorder-prefix-le-antisymm-hsame}
@@ -188,6 +239,19 @@ left endpoint as \(\mathsf{append}(h,\emp)\) and cancelling the common left
 context forces \(\hsame(t,\emp)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail\_backforces\_empty}
+
+\begin{theorem}[Prefix append tail backforces empty equivalence]
+\label{thm:preorder-prefix-append-tail-backforces-empty-iff}
+If \(t\) is unary, then \(\mathsf{append}(h,t)\le h\) holds exactly when
+\(t\hsame\emp\).
+\end{theorem}
+\begin{proof}
+The forward direction is the backforces-empty implication for unary tails. For
+the reverse direction, \(t\hsame\emp\) identifies
+\(\mathsf{append}(h,t)\) with the right-unit endpoint \(h\); the prefix
+relation is then obtained from endpoint sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail\_backforces\_empty\_iff}
 
 \begin{theorem}[Prefix left context monotonicity]
 \label{thm:preorder-prefix-left-context-monotonicity}

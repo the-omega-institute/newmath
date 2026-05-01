@@ -66,6 +66,93 @@ factor, obtaining \(a\cdot(c\cdot(b\cdot d))\), and reassociate back to
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_middle\_four}
 
+\begin{theorem}[AbGroup conjugation collapse]
+\label{thm:abgroup-conjugation-collapse}
+For BEDC histories equipped with associative and commutative multiplication,
+a right identity, multiplication congruence, and right inverses, every
+expression $a\cdot(b\cdot a^{-1})$ is internally the same as $b$.
+\end{theorem}
+\begin{proof}
+Use the abelian left-right swap to rewrite $a\cdot(b\cdot a^{-1})$ as
+$b\cdot(a\cdot a^{-1})$. Collapse $a\cdot a^{-1}$ to the identity by the
+right-inverse law, then use the right-identity law for $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_conjugation\_collapse}
+
+\begin{theorem}[AbGroup inverse conjugation collapse]
+\label{thm:abgroup-inverse-conjugation-collapse}
+For BEDC histories equipped with associative and commutative multiplication,
+a right identity, multiplication congruence, and left inverses, every
+expression $a^{-1}\cdot(b\cdot a)$ is internally the same as $b$.
+\end{theorem}
+\begin{proof}
+Use the abelian left-right swap to rewrite $a^{-1}\cdot(b\cdot a)$ as
+$b\cdot(a^{-1}\cdot a)$. Collapse $a^{-1}\cdot a$ to the identity by the
+left-inverse law, then use the right-identity law for $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_inverse\_conjugation\_collapse}
+
+\begin{theorem}[AbGroup right factor swap]
+\label{thm:abgroup-mul-right-factor-swap}
+For BEDC histories equipped with an associative multiplication, commutativity,
+and multiplication congruence under $\hsame$,
+$$
+\hsame((a\cdot b)\cdot c,(a\cdot c)\cdot b).
+$$
+\end{theorem}
+\begin{proof}
+Reassociate $(a\cdot b)\cdot c$ to $a\cdot(b\cdot c)$, commute the inner
+factor $b\cdot c$ to $c\cdot b$ under multiplication congruence, and reassociate
+back to $(a\cdot c)\cdot b$.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_right\_factor\_swap}
+
+\begin{theorem}[AbGroup common left factor collection]
+\label{thm:abgroup-mul-common-left-factor-collect}
+For BEDC histories equipped with an associative multiplication, commutativity,
+and multiplication congruence under $\hsame$,
+$$
+\hsame((a\cdot b)\cdot(a\cdot c),a\cdot(a\cdot(b\cdot c))).
+$$
+\end{theorem}
+\begin{proof}
+Reassociate the left side to $a\cdot(b\cdot(a\cdot c))$. Apply the abelian
+left-right multiplication swap inside the tail to turn $b\cdot(a\cdot c)$
+into $a\cdot(b\cdot c)$, and transport that tail equality through left
+multiplication by $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_common\_left\_factor\_collect}
+
+\begin{theorem}[AbGroup common right factor collection]
+\label{thm:abgroup-mul-common-right-factor-collect}
+For BEDC histories equipped with an associative multiplication, commutativity,
+and multiplication congruence under $\hsame$,
+$$
+\hsame((b\cdot a)\cdot(c\cdot a),a\cdot(a\cdot(b\cdot c))).
+$$
+\end{theorem}
+\begin{proof}
+Commute the exposed right factors to rewrite the left side as
+\((a\cdot b)\cdot(a\cdot c)\). The common left factor collection theorem then
+collects the two occurrences of \(a\) and leaves the residual factor
+\(b\cdot c\).
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_common\_right\_factor\_collect}
+
+\begin{theorem}[Nonempty history append cannot be right-absorbed]
+\label{thm:abgroup-history-append-nonempty-left-ne-right}
+For every BEDC history $h$ and right tail $k$, neither
+$\mathsf{append}(\mathsf{e0}(h),k)=k$ nor
+$\mathsf{append}(\mathsf{e1}(h),k)=k$ holds.
+\end{theorem}
+\begin{proof}
+Induct on the right tail $k$. The empty case is constructor disjointness
+against $\emp$. In the nonempty cases, append exposes the same outer
+constructor as the tail, so constructor injectivity reduces the claim to the
+induction hypothesis on the inner tail.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.history\_append\_nonempty\_left\_ne\_right}
+
 \begin{definition}[AbGroup ledger policy]
 \label{def:abgroup-ledger-policy}
 Record group expression provenance and the commutativity law when used.

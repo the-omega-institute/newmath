@@ -1,0 +1,42 @@
+\begin{theorem}[Tagged option history classifier right visible-branch inversion]
+\label{thm:tagged-option-history-classifier-right-visible-branch-inversion}
+This theorem fits the per-object template as follows: the traditional target is
+tagged option branch inversion from the right endpoint; the BEDC source is
+$\mathsf{BHist}$ with $\hsame$; the carrier is
+$\mathsf{TaggedOptionHistoryCarrier}$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}$; the ledger is the visible
+absent/present tag plus payload; exactness is right-endpoint branch exposure;
+and the status is $\mathsf{ProofTarget}$. For every BEDC history source carrier
+$S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and histories
+$h,k$, the classifier determines the visible branch presented by the right
+endpoint:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+\hsame(k,\emp)\to
+\hsame(h,\emp)
+$$
+and, for every payload history $a$,
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+S(a)\to
+\hsame(k,\Eone(a))\to
+\exists b,a':\mathsf{BHist}.\;
+S(b)\land S(a')\land \hsame(a,a')\land b\sim_S a'\land
+\hsame(h,\Eone(b)).
+$$
+\end{theorem}
+\begin{proof}
+For the absent clause, case-analyze the tagged classifier witness. The
+absent-absent branch already stores $\hsame(h,\emp)$. The present-present branch
+stores $\hsame(k,\Eone(a'))$ for some right payload; composing it with the
+displayed witness $\hsame(k,\emp)$ gives empty-versus-one no-confusion.
+
+For the present clause, case-analyze the classifier witness again. The
+absent-absent branch stores $\hsame(k,\emp)$ and contradicts the displayed
+present endpoint $\hsame(k,\Eone(a))$. In the present-present branch, obtain
+payloads $b$ and $a'$ with $S(b)$, $S(a')$, $b\sim_S a'$,
+$\hsame(h,\Eone(b))$, and $\hsame(k,\Eone(a'))$. Compose the two presentations
+of $k$ and invert the one-constructor equality to get $\hsame(a,a')$; the
+remaining fields are exactly the displayed witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_right\_visible\_branch\_inversion}

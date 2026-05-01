@@ -1,8 +1,31 @@
-import BEDC.Derived.ProdUp
+import BEDC.Derived.ProdUp.PairRepresentation
 
 namespace BEDC.Derived.ProdUp
 
 open BEDC.FKernel.Hist
+
+inductive ProdHistoryLedgerChain (Left Right : BHist -> Prop) : BHist -> BHist -> Prop where
+  | step {rho z : BHist} :
+      ProdHistoryLedgerPolicy Left Right rho z ->
+        ProdHistoryLedgerChain Left Right rho z
+  | cons {rho v z : BHist} :
+      ProdHistoryLedgerPolicy Left Right rho v ->
+        ProdHistoryLedgerChain Left Right v z ->
+          ProdHistoryLedgerChain Left Right rho z
+
+theorem ProdHistoryLedgerChain_trans {Left Right : BEDC.FKernel.Hist.BHist → Prop}
+    {rho mid z : BEDC.FKernel.Hist.BHist} :
+    BEDC.Derived.ProdUp.ProdHistoryLedgerChain Left Right rho mid →
+      BEDC.Derived.ProdUp.ProdHistoryLedgerChain Left Right mid z →
+        BEDC.Derived.ProdUp.ProdHistoryLedgerChain Left Right rho z := by
+  intro first
+  induction first generalizing z with
+  | step ledger =>
+      intro second
+      exact BEDC.Derived.ProdUp.ProdHistoryLedgerChain.cons ledger second
+  | cons ledger _ ih =>
+      intro second
+      exact BEDC.Derived.ProdUp.ProdHistoryLedgerChain.cons ledger (ih second)
 
 theorem ProdHistoryLedgerPolicy_classifier_endpoint_equivalence {Left Right : BHist → Prop}
     {rho v w : BHist} :
@@ -30,5 +53,116 @@ theorem ProdHistoryLedgerPolicy_two_step_classifier_endpoint_equivalence
     exact ProdHistoryClassifier_trans (ProdHistoryClassifier_symm rhoW) rhoZ
   · intro wZ
     exact ProdHistoryClassifier_trans rhoW wZ
+
+theorem ProdHistoryLedgerChain_envelope_closure {Left Right : BHist -> Prop} {rho z : BHist} :
+    ProdHistoryLedgerChain Left Right rho z ->
+      ProdHistoryCarrier Left Right z /\
+        ProdHistoryClassifier Left Right rho z /\
+          (forall w : BHist,
+            (ProdHistoryClassifier Left Right rho w <->
+              ProdHistoryClassifier Left Right z w) /\
+              (ProdHistoryClassifier Left Right w rho <->
+                ProdHistoryClassifier Left Right w z)) := by
+  intro chain
+  induction chain with
+  | step ledger =>
+      have rhoZ :=
+        ProdHistoryLedgerPolicy_raw_visible_classifier ledger
+      constructor
+      · exact ProdHistoryLedgerPolicy_visible_carrier ledger
+      · constructor
+        · exact rhoZ
+        · intro w
+          have endpoint :=
+            ProdHistoryLedgerPolicy_classifier_endpoint_equivalence (w := w) ledger
+          constructor
+          · exact endpoint
+          · constructor
+            · intro wRho
+              exact ProdHistoryClassifier_trans wRho rhoZ
+            · intro wZ
+              exact ProdHistoryClassifier_trans wZ (ProdHistoryClassifier_symm rhoZ)
+  | cons ledger _ ih =>
+      cases ih with
+      | intro carrierZ rest =>
+          cases rest with
+          | intro vZ endpointZ =>
+              have rhoV :=
+                ProdHistoryLedgerPolicy_raw_visible_classifier ledger
+              have rhoZ :=
+                ProdHistoryClassifier_trans rhoV vZ
+              constructor
+              · exact carrierZ
+              · constructor
+                · exact rhoZ
+                · intro w
+                  have endpointV :=
+                    ProdHistoryLedgerPolicy_classifier_endpoint_equivalence (w := w) ledger
+                  have tailEndpoint := endpointZ w
+                  cases tailEndpoint with
+                  | intro tailLeft tailRight =>
+                      constructor
+                      · constructor
+                        · intro rhoW
+                          exact Iff.mp tailLeft (Iff.mp endpointV rhoW)
+                        · intro zW
+                          exact Iff.mpr endpointV (Iff.mpr tailLeft zW)
+                      · constructor
+                        · intro wRho
+                          exact ProdHistoryClassifier_trans wRho rhoZ
+                        · intro wZ
+                          exact ProdHistoryClassifier_trans wZ (ProdHistoryClassifier_symm rhoZ)
+
+theorem ProdHistoryLedgerChain_displayed_component_readback
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) {rho z l r : BHist} :
+    ProdHistoryLedgerChain Left Right rho z ->
+      ProdPairRep Left Right rho l r ->
+        ∃ l' : BHist, ∃ r' : BHist,
+          ProdPairRep Left Right z l' r' ∧ LeftEq l l' ∧ RightEq r r' := by
+  intro chain repRho
+  have envelope := ProdHistoryLedgerChain_envelope_closure chain
+  have carrierZ : ProdHistoryCarrier Left Right z := envelope.left
+  have classifierRhoZ : ProdHistoryClassifier Left Right rho z := envelope.right.left
+  have sameRhoZ : hsame rho z := classifierRhoZ.right.right
+  have displayedZ :
+      ∃ l' : BHist, ∃ r' : BHist, ProdPairRep Left Right z l' r' :=
+    Iff.mp (ProdPairRep_coverage (Left := Left) (Right := Right) (h := z)) carrierZ
+  cases displayedZ with
+  | intro l' rest =>
+      cases rest with
+      | intro r' repZ =>
+          have components : LeftEq l l' ∧ RightEq r r' :=
+            ProdPairRep_hsame_coherence coherent repRho repZ sameRhoZ
+          exact Exists.intro l'
+            (Exists.intro r'
+              (And.intro repZ (And.intro components.left components.right)))
+
+theorem ProdHistoryLedgerChain_componentwise_classifier_endpoint_equivalence
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    {rho z : BHist} :
+    ProdHistoryLedgerChain Left Right rho z ->
+      forall w : BHist,
+        (ProdComponentHistoryClassifier Left Right LeftEq RightEq rho w <->
+          ProdComponentHistoryClassifier Left Right LeftEq RightEq z w) /\
+          (ProdComponentHistoryClassifier Left Right LeftEq RightEq w rho <->
+            ProdComponentHistoryClassifier Left Right LeftEq RightEq w z) := by
+  intro chain w
+  have envelope := ProdHistoryLedgerChain_envelope_closure chain
+  have classifiedRhoZ : ProdHistoryClassifier Left Right rho z := envelope.right.left
+  have sameRhoZ : hsame rho z := classifiedRhoZ.right.right
+  constructor
+  · constructor
+    · intro classifier
+      exact ProdComponentHistoryClassifier_hsame_transport sameRhoZ (hsame_refl w) classifier
+    · intro classifier
+      exact ProdComponentHistoryClassifier_hsame_transport
+        (hsame_symm sameRhoZ) (hsame_refl w) classifier
+  · constructor
+    · intro classifier
+      exact ProdComponentHistoryClassifier_hsame_transport (hsame_refl w) sameRhoZ classifier
+    · intro classifier
+      exact ProdComponentHistoryClassifier_hsame_transport
+        (hsame_refl w) (hsame_symm sameRhoZ) classifier
 
 end BEDC.Derived.ProdUp

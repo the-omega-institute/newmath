@@ -69,44 +69,6 @@ presentations yields $\mathsf{ListClassifierSpec}(\sim,xs,ys)$, which is exactly
 the coherence datum required for $\mathsf{ListSpineRepCoherent}_{A,\sim}$.
 \end{proof}
 
-\begin{theorem}[List spine coherence source equivalence]
-\label{thm:list-spine-coherence-source-equivalence}
-Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
-let $\sim_A$ and $\sim_B$ be source classifiers. The ten-field fit is:
-traditional target finite-list source presentation invariance; BEDC source
-$\mathsf{BHist}$; carrier $\mathsf{ListSpineRep}$; classifier
-$\mathsf{ListClassifierSpec}$; stability source equivalence; ledger finite
-spine; core theorem coherence equivalence; exactness transported through the
-two presentations; standard bridge finite-spine readback; status
-$\mathsf{ProofTarget}$. If the source carriers are extensionally equivalent,
-$$
-\forall h:\mathsf{BHist}.\; A(h)\Longleftrightarrow B(h),
-$$
-and the source classifiers are extensionally equivalent,
-$$
-\forall x\,y:\mathsf{BHist}.\; x\sim_A y\Longleftrightarrow x\sim_B y,
-$$
-then spine coherence is invariant under the source presentation:
-$$
-\mathsf{ListSpineRepCoherent}_{A,\sim_A}
-\Longleftrightarrow
-\mathsf{ListSpineRepCoherent}_{B,\sim_B}.
-$$
-\end{theorem}
-\begin{proof}
-For the forward implication, take two
-$\mathsf{ListSpineRep}_B(m,xs)$ and $\mathsf{ListSpineRep}_B(m,ys)$ witnesses.
-Use the carrier equivalence in the $B\Rightarrow A$ direction to transport each
-source entry occurring in the displayed finite spines, obtaining
-$\mathsf{ListSpineRep}_A(m,xs)$ and $\mathsf{ListSpineRep}_A(m,ys)$. Apply
-$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ to these transported
-representations. The resulting $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ is
-converted entrywise to $\mathsf{ListClassifierSpec}(\sim_B,xs,ys)$ using the
-classifier equivalence in the $A\Rightarrow B$ direction. The reverse
-implication is the same construction with $A$ and $B$ interchanged, using the
-opposite directions of the displayed equivalences.
-\end{proof}
-
 \begin{theorem}[Source-parametric list classifier reverse equivalence]
 \label{thm:list-classifier-reverse-source-equivalence}
 For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
@@ -206,6 +168,7 @@ $\mathsf{reverse}(x)$ and $\mathsf{reverse}(y)$. Reverse equivalence again,
 together with finite-spine reverse involutivity, transports the result back to
 $\mathsf{ListClassifierSpec}(sameA,x,y)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_right\_cancel\_classified}
 
 \begin{theorem}[Source-parametric classified append context equivalence]
 \label{thm:list-classifier-source-append-context-equiv}
@@ -383,10 +346,11 @@ represented-spine constructor behavior:
   \item if $\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$,
   $\mathsf{ListSpineRep}_A(k,\mathsf{nil})$, and
   $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then $\bot$;
-  \item if $\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$,
-  $\mathsf{ListSpineRep}_A(k,\mathsf{cons}(b,ys))$, and
-  $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then
+  \item if $\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$ and
+  $\mathsf{ListSpineRep}_A(k,\mathsf{cons}(b,ys))$ hold, then
   $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)
+  \Longleftrightarrow
   (a\sim_A b)\land \mathsf{ListClassifierSpec}(\sim_A,xs,ys).
   $$
 \end{enumerate}
@@ -411,5 +375,15 @@ $$
 $$
 The cons-cons branch of Theorem~\ref{thm:list-classifier-case-exactness} then
 projects the source-head classifier $a\sim_A b$ and the recursive tail
-classifier $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
+classifier $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. Conversely, suppose the
+source-head classifier $a\sim_A b$ and the recursive tail classifier
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ are given. The cons-cons branch of
+Theorem~\ref{thm:list-classifier-case-exactness} rebuilds
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{cons}(a,xs),\mathsf{cons}(b,ys)).
+$$
+With the two displayed representation witnesses, the reverse direction of
+Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} repacks
+this finite-spine classifier as
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$.
 \end{proof}

@@ -1,9 +1,12 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.MonoidUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.FKernel.NameCert
 
 def MonoidHistoryClassifier (Carrier : BHist -> Prop) (h k : BHist) : Prop :=
@@ -127,6 +130,17 @@ theorem monoid_identity_unique {mul : BHist -> BHist -> BHist} {e e' : BHist}
     hsame e e' := by
   exact hsame_trans (hsame_symm (rightId' e)) (leftId e')
 
+theorem MonoidHistoryClassifier_identity_unique (Carrier : BHist -> Prop)
+    {mul : BHist -> BHist -> BHist} {e e' : BHist} (carrier_e : Carrier e)
+    (carrier_e' : Carrier e')
+    (leftId : forall {h : BHist}, Carrier h -> MonoidHistoryClassifier Carrier (mul e h) h)
+    (rightId' : forall {h : BHist}, Carrier h ->
+      MonoidHistoryClassifier Carrier (mul h e') h) :
+    MonoidHistoryClassifier Carrier e e' := by
+  have sameToE : hsame (mul e e') e := (rightId' carrier_e).right.right
+  have sameToE' : hsame (mul e e') e' := (leftId carrier_e').right.right
+  exact And.intro carrier_e (And.intro carrier_e' (hsame_trans (hsame_symm sameToE) sameToE'))
+
 theorem history_continuation_monoid_laws :
     (∀ h : BEDC.FKernel.Hist.BHist,
       BEDC.FKernel.Cont.Cont BEDC.FKernel.Hist.BHist.Empty h h) ∧
@@ -148,5 +162,61 @@ theorem history_continuation_monoid_laws :
       cases hbc
       cases habc'
       exact BEDC.FKernel.Cont.append_assoc a b c
+
+theorem history_continuation_nonempty_suffix_source_absurd :
+    (∀ {h k : BHist}, Cont h (BHist.e0 k) h → False) ∧
+      (∀ {h k : BHist}, Cont h (BHist.e1 k) h → False) := by
+  constructor
+  · intro h k hcont
+    exact not_hsame_e0_empty (cont_right_unit_unique hcont)
+  · intro h k hcont
+    exact not_hsame_e1_empty (cont_right_unit_unique hcont)
+
+theorem unary_append_monoid_semantic_name_certificate :
+    SemanticNameCert UnaryHistory UnaryHistory UnaryHistory (MonoidHistoryClassifier UnaryHistory) ∧
+      (forall {h : BHist}, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append BHist.Empty h) h) ∧
+      (forall {h : BHist}, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append h BHist.Empty) h) ∧
+      (forall {a b c : BHist}, UnaryHistory a -> UnaryHistory b -> UnaryHistory c ->
+        MonoidHistoryClassifier UnaryHistory (append (append a b) c) (append a (append b c))) ∧
+      (forall {a a' b b' : BHist}, UnaryHistory a -> UnaryHistory a' -> UnaryHistory b ->
+        UnaryHistory b' -> MonoidHistoryClassifier UnaryHistory a a' ->
+          MonoidHistoryClassifier UnaryHistory b b' ->
+            MonoidHistoryClassifier UnaryHistory (append a b) (append a' b')) := by
+  exact monoid_history_semantic_name_certificate UnaryHistory append BHist.Empty unary_empty
+    (by
+      intro h k uh uk
+      exact unary_append_closed uh uk)
+    (by
+      intro a b c _ _ _
+      exact BEDC.FKernel.Cont.append_assoc a b c)
+    (by
+      intro h _
+      exact BEDC.FKernel.Cont.append_empty_left h)
+    (by
+      intro h _
+      exact BEDC.FKernel.Cont.append_empty_right h)
+    (by
+      intro a a' b b' _ _ _ _ sameA sameB
+      cases sameA
+      cases sameB
+      exact hsame_refl (append a b))
+
+theorem unary_append_monoid_classifier_cancel_context {left right a b : BHist} :
+    UnaryHistory left -> UnaryHistory right -> UnaryHistory a -> UnaryHistory b ->
+      MonoidHistoryClassifier UnaryHistory (append left (append a right))
+        (append left (append b right)) ->
+        MonoidHistoryClassifier UnaryHistory a b := by
+  intro _ _ unaryA unaryB sameContext
+  cases sameContext with
+  | intro _ rest =>
+      cases rest with
+      | intro _ sameAppend =>
+          have sameMiddle : hsame (append a right) (append b right) := by
+            exact append_left_cancel (h := left) sameAppend
+          have sameAB : hsame a b := by
+            exact append_right_cancel (k := right) sameMiddle
+          exact And.intro unaryA (And.intro unaryB sameAB)
 
 end BEDC.Derived.MonoidUp

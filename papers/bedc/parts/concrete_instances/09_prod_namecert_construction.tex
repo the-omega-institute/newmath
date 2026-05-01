@@ -66,6 +66,20 @@ proof is exactly the result witness required by the product history carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_cont\_intro}
 
+\begin{theorem}[Product empty-result component exposure]
+\label{thm:prod-history-carrier-empty-result-components}
+If $\mathsf{ProdHistoryCarrier}(L,R,\mathsf{Empty})$ holds, then there are
+component histories $l$ and $r$ with $L(l)$ and $R(r)$ such that
+$l\hsame\mathsf{Empty}$ and $r\hsame\mathsf{Empty}$.
+\end{theorem}
+\begin{proof}
+Unpack the product carrier into component histories $l$ and $r$, their source
+witnesses, and the continuation proof $\Cont(l,r,\mathsf{Empty})$. BEDC
+empty-result inversion for continuations forces both component histories to be
+the empty history, giving the two displayed $\hsame$ facts.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_empty\_result\_components}
+
 \begin{theorem}[Product unary history closure]
 \label{thm:prod-history-carrier-unary}
 If a product history is generated from unary left and right histories, then the
@@ -232,34 +246,6 @@ unchanged to rebuild $\mathsf{ProdHistoryClassifier}(L',R',h,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistorySource\_monotonicity}
 
-\begin{theorem}[Product history source equivalence]
-\label{thm:prod-history-source-equivalence}
-The roadmap-template fit is: traditional target ordered-product envelope
-invariance under equivalent source presentations; BEDC source $\mathsf{BHist}$
-with $\Cont$; carrier $\mathsf{ProdHistoryCarrier}$; classifier
-$\mathsf{ProdHistoryClassifier}$; stability obligation source-presentation
-equivalence; ledger unchanged continuation evidence; exactness preservation of
-the visible product endpoints; standard bridge unchanged ordered-pair readback;
-status $\mathsf{ProofTarget}$.
-
-For predicates $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$, suppose
-$\forall h.\; L(h)\leftrightarrow L'(h)$ and
-$\forall h.\; R(h)\leftrightarrow R'(h)$. Then for every history $h$,
-$\mathsf{ProdHistoryCarrier}(L,R,h)$ holds exactly when
-$\mathsf{ProdHistoryCarrier}(L',R',h)$ holds. Under the same hypotheses, for
-every pair of histories $h,k$, $\mathsf{ProdHistoryClassifier}(L,R,h,k)$ holds
-exactly when $\mathsf{ProdHistoryClassifier}(L',R',h,k)$ holds.
-\end{theorem}
-\begin{proof}
-Apply \autoref{thm:prod-history-source-monotonicity} from left to right using
-the forward halves of the two source equivalences. This gives the carrier
-implication and the classifier implication from $(L,R)$ to $(L',R')$ with the
-same continuation evidence and the same $\hsame$ endpoint witness. Apply the
-same monotonicity theorem from right to left using the reverse halves of the two
-source equivalences. Pair the two implications for the carrier clause and pair
-the two implications for the classifier clause.
-\end{proof}
-
 \begin{theorem}[Product history classifier right transport]
 \label{thm:prod-history-classifier-right-hsame-transport}
 If a product-history classifier relates $h$ to $k$, and $k$ is internally the same as $k'$, then the classifier relates $h$ to $k'$.
@@ -327,6 +313,7 @@ $\mathsf{ProdHistoryClassifier}(L,R,h,h')$.
 \begin{proof}
 Apply the displayed left transport field to $L(l)$ and $\hsame(l,l')$ to obtain $L(l')$, and apply the displayed right transport field to $R(r)$ and $\hsame(r,r')$ to obtain $R(r')$. Product history carrier continuation introduction builds endpoint carrier witnesses for $h$ and $h'$ from the two continuation witnesses. Continuation respect for $\hsame$ transports the result endpoints across the two component links, yielding $\hsame(h,h')$. These three pieces are exactly the history-envelope classifier fields.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_cont\_congr}
 
 \begin{definition}[Product pair representation]
 \label{def:prod-pair-rep}
@@ -353,6 +340,7 @@ $$
 \begin{proof}
 Unfold $\mathsf{ProdHistoryCarrier}$ and $\mathsf{ProdPairRep}$. In the forward direction, the carrier witness exposes component histories $l$ and $r$, source witnesses $L(l)$ and $R(r)$, and the continuation witness $\Cont(l,r,h)$; these are exactly the displayed pair representation witnesses. In the reverse direction, a displayed pair representation supplies the same two component histories, source witnesses, and continuation witness, so it rebuilds the product history carrier witness for $h$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdPairRep\_coverage}
 
 \begin{theorem}[Product pair representation endpoint transport]
 \label{thm:prod-pair-rep-hsame-transport}
@@ -409,13 +397,14 @@ source $\mathsf{BHist}$ with $\Cont$; carrier $\mathsf{ProdPairRep}$;
 classifier endpoint $\hsame$; stability by endpoint transport and continuation
 determinism; ledger fixed displayed pair; core theorem fixed-pair endpoint
 exactness; exactness predicate the displayed iff; standard bridge fixed
-ordered-pair endpoint; status $\mathsf{ProofTarget}$. For the forward
-direction, apply Theorem~\ref{thm:prod-pair-rep-determinism} to the displayed
+ordered-pair endpoint. For the forward direction, apply
+Theorem~\ref{thm:prod-pair-rep-determinism} to the displayed
 base representation and the target representation, then project the
 $\hsame(h,k)$ conjunct. For the reverse direction, apply
 Theorem~\ref{thm:prod-pair-rep-hsame-transport} to the base representation and
 the displayed endpoint sameness.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdPairRep\_fixed\_endpoint\_exactness}
 
 \begin{definition}[Product pair-representation coherence]
 \label{def:prod-pair-rep-coherent}
@@ -523,6 +512,7 @@ displayed source transitivity hypotheses compose the left chain
 $l\sim_L l_h\sim_L l_k\sim_L l'$ and the right chain
 $r\sim_R r_h\sim_R r_k\sim_R r'$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_inversion}
 
 The descent theorem instantiates the roadmap template as traditional ordered-pair descent over the BEDC source $\mathsf{BHist}$ with $\Cont$, carrier $\mathsf{ProdHistoryCarrier}$, classifier bridge from componentwise to envelope under $\hsame$-sound source classifiers, ledger by displayed pair representations, and status $\mathsf{ProofTarget}$.
 
@@ -578,6 +568,7 @@ $\hsame(l_h,l_k)$ and $\hsame(r_h,r_k)$. These two component links together
 with the original displayed pair representations for $h$ and $k$ rebuild
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_pair\_coherent\_componentwise\_hsame}
 
 \begin{theorem}[Product envelope and componentwise hsame classifiers coincide]
 \label{thm:prod-envelope-componentwise-hsame-classifiers-coincide}
@@ -638,6 +629,7 @@ $\mathsf{ProdPairRep}_{L,R}(k,l',r')$ as the existential witnesses in
 Definition~\ref{def:prod-component-history-classifier}; the two displayed
 component relations supply the remaining conjuncts.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_displayed\_exactness}
 
 \begin{definition}[Prod stability certificate]
 \label{def:prod-stability-certificate}

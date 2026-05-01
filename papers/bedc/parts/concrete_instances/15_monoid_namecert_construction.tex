@@ -53,6 +53,20 @@ Use the right-identity law for \(e'\) at \(e\) to identify \(e\) with
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.monoid\_identity\_unique}
 
+\begin{theorem}[Monoid history classifier identity uniqueness]
+\label{thm:monoid-history-classifier-identity-unique}
+For a BEDC history-level monoid classifier over carrier $C$, if $e,e'\in C$,
+$e$ acts as a left identity and $e'$ acts as a right identity under the monoid
+classifier, then the classifier identifies $e$ and $e'$.
+\end{theorem}
+\begin{proof}
+The right-identity field at $e$ gives $e\cdot e'\hsame e$, while the
+left-identity field at $e'$ gives $e\cdot e'\hsame e'$. Symmetry and
+transitivity of $\hsame$ identify $e$ and $e'$, and the carrier witnesses for
+$e$ and $e'$ supply the classifier endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.MonoidHistoryClassifier\_identity\_unique}
+
 \begin{theorem}[History continuation monoid laws]
 \label{thm:history-continuation-monoid-laws}
 The BEDC history continuation relation has empty history as a left and right unit, and the two parenthesizations of a triple continuation have the same resulting history.
@@ -61,6 +75,54 @@ The BEDC history continuation relation has empty history as a left and right uni
 \begin{proof}
 The unit fields are the empty-history continuation constructors. For associativity, each continuation witness unfolds to history append, and the result follows from associativity of BEDC history append.
 \end{proof}
+
+\begin{theorem}[Nonempty continuation suffix changes the source]
+\label{thm:history-continuation-nonempty-suffix-source-absurd}
+For any source history \(h\), no continuation by a suffix of the form \(\Ezero(k)\)
+or \(\Eone(k)\) can have result \(h\) itself.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonoidUp.history\_continuation\_nonempty\_suffix\_source\_absurd}
+\begin{proof}
+Right-unit uniqueness for continuation forces any suffix whose result is the
+source to be \(\emp\). BEDC history no-confusion separates \(\Ezero(k)\) and
+\(\Eone(k)\) from \(\emp\).
+\end{proof}
+
+\begin{theorem}[Unary append monoid semantic name certificate]
+\label{thm:unary-append-monoid-semantic-name-certificate}
+The unary-history carrier, empty history, BEDC history append, and the
+history-sameness classifier instantiate the semantic naming certificate for
+\(\MonoidUp\). The certificate exports the empty-left, empty-right,
+associativity, and append-congruence fields under the classifier
+\(\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})\).
+\end{theorem}
+\begin{proof}
+Unary history is inhabited by empty history and is closed under BEDC append.
+The empty-history laws and associativity are the primitive append laws for
+histories. Congruence follows by transporting both append arguments across
+\(\hsame\), leaving the same appended history on both sides.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_semantic\_name\_certificate}
+
+\begin{theorem}[Unary append monoid classifier cancels common context]
+\label{thm:unary-append-monoid-classifier-cancel-context}
+For unary histories $l,r,a,b$, if the monoid classifier identifies
+$$
+l(a r)
+$$
+with
+$$
+l(b r),
+$$
+then it identifies $a$ with $b$.
+\end{theorem}
+\begin{proof}
+The classifier supplies the endpoint unary witnesses and a BEDC history equality
+between the two contextual appends. Left append cancellation removes the common
+left context $l$, and right append cancellation removes the common suffix $r$.
+The given unary witnesses for $a$ and $b$ supply the classifier endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_classifier\_cancel\_context}
 
 \begin{definition}[Monoid ledger policy]
 \label{def:monoid-ledger-policy}

@@ -136,6 +136,34 @@ and forward at $y$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_inverse\_cancel\_from\_laws}
 
+\begin{theorem}[Group multiplication by a right inverse cancels]
+\label{thm:group-mul-right-inverse-cancel}
+For a history-level group operation with associativity, right identity,
+multiplication congruence, and right inverses, every pair of histories satisfies
+$$
+(ab)b^{-1}\hsame a.
+$$
+\end{theorem}
+\begin{proof}
+Reassociate $(ab)b^{-1}$ to $a(bb^{-1})$. The right inverse law collapses
+$bb^{-1}$ to the identity, and the right identity law leaves $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_mul\_right\_inverse\_cancel}
+
+\begin{theorem}[Group multiplication by a left inverse cancels]
+\label{thm:group-mul-left-inverse-cancel}
+For a history-level group operation with associativity, left identity,
+multiplication congruence, and left inverses, every pair of histories satisfies
+$$
+a^{-1}(ab)\hsame b.
+$$
+\end{theorem}
+\begin{proof}
+Reassociate $a^{-1}(ab)$ back to $(a^{-1}a)b$. The left inverse law collapses
+$a^{-1}a$ to the identity, and the left identity law leaves $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_mul\_left\_inverse\_cancel}
+
 \begin{theorem}[Group inverse reverses multiplication]
 \label{thm:group-inverse-mul-reverse}
 For a history-level group operation with associativity, left and right identity,
@@ -169,6 +197,32 @@ left inverse, and finish by the left identity on \(c\).
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_left\_cancel}
 
+\begin{theorem}[Group left-multiplication equation solution]
+\label{thm:group-left-mul-equation-solution}
+For a history-level group operation with associativity, left identity,
+multiplication congruence, and left inverses, $ax\hsame b$ implies
+$x\hsame a^{-1}b$.
+\end{theorem}
+\begin{proof}
+Chain $x$ backward through the left identity $ex\hsame x$, replace $e$ by
+$a^{-1}a$ using the left inverse law, reassociate to $a^{-1}(ax)$, and
+transport the supplied equality $ax\hsame b$ through multiplication congruence.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_mul\_equation\_solution}
+
+\begin{theorem}[Group left absorption forces the right factor to the unit]
+\label{thm:group-left-absorb-right-factor-unit}
+For a history-level group operation with associativity, left and right
+identities, multiplication congruence, and left inverses, if $ab\hsame a$,
+then $b\hsame e$.
+\end{theorem}
+\begin{proof}
+Chain $ab$ through the assumption to $a$, then backward through the right
+identity $ae\hsame a$. Left cancellation of the common factor $a$ yields
+$b\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_absorb\_right\_factor\_unit}
+
 \begin{theorem}[Group right cancellation]
 \label{thm:group-right-cancellation}
 For a history-level group operation with associativity, right identity,
@@ -182,6 +236,19 @@ the assumed product equality, reassociate back to \(c(aa^{-1})\), collapse the
 right inverse, and finish by the right identity on \(c\).
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_right\_cancel}
+
+\begin{theorem}[Group right absorption forces the left factor to the unit]
+\label{thm:group-right-absorb-left-factor-unit}
+For a history-level group operation with associativity, left and right
+identities, multiplication congruence, and right inverses, if $ba\hsame a$,
+then $b\hsame e$.
+\end{theorem}
+\begin{proof}
+Chain $ba$ through the assumption to $a$, then backward through the left
+identity $ea\hsame a$. Right cancellation of the common factor $a$ yields
+$b\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_absorb\_left\_factor\_unit}
 
 \begin{theorem}[Group two-sided cancellation]
 \label{thm:group-two-sided-cancellation}

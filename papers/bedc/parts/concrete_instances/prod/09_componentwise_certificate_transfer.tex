@@ -67,6 +67,7 @@ histories, obtaining $l\sim_L l'$ and $r\sim_R r'$. These two component
 classifier witnesses are exactly the conclusion required by
 $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdPairRep\_classifier\_bounded\_coherence}
 
 \begin{theorem}[Singleton product pair-representation coherence]
 \label{thm:prod-pair-rep-singleton-coherence}
@@ -86,6 +87,205 @@ the required right bound sends a witness $R(r)$ to the displayed clause
 $\hsame(r,r_0)$.
 \end{proof}
 
+\begin{definition}[Product displayed pair ledger]\label{def:prod-displayed-pair-ledger}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. The product
+displayed pair ledger is the predicate
+$$
+\mathsf{ProdDisplayedPairLedger}_{L,R}(h)
+\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r).
+$$
+\end{definition}
+
+\begin{theorem}[Product displayed pair ledger soundness]\label{thm:prod-displayed-pair-ledger-soundness}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. For every
+history $h:\mathsf{BHist}$,
+$$
+\mathsf{ProdHistoryCarrier}(L,R,h)
+\to
+\mathsf{ProdDisplayedPairLedger}_{L,R}(h).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{ProdHistoryCarrier}(L,R,h)$. Apply the forward direction of
+Theorem~\ref{thm:prod-pair-rep-coverage} to this carrier witness.
+
+The theorem returns histories $l,r:\mathsf{BHist}$ with
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$. By
+Definition~\ref{def:prod-displayed-pair-ledger}, this existential witness is
+exactly $\mathsf{ProdDisplayedPairLedger}_{L,R}(h)$.
+\end{proof}
+
+\begin{definition}[Product displayed pair ledger chain]
+\label{def:prod-history-ledger-chain}
+For source carriers $L,R:\mathsf{BHist}\to\mathsf{Prop}$, the relation
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$ is the inductively generated
+displayed ledger-provenance relation on product histories with two
+constructors. A single displayed ledger gives a chain:
+$$
+\frac{\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,z)}
+{\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)}.
+$$
+A displayed ledger followed by a chain through an intermediate history gives a
+chain:
+$$
+\frac{\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)\quad
+\mathsf{ProdHistoryLedgerChain}_{L,R}(v,z)}
+{\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)}.
+$$
+\end{definition}
+\leandef{BEDC.Derived.ProdUp.ProdHistoryLedgerChain}
+
+\begin{theorem}[Product ledger chain envelope closure]
+\label{thm:prod-ledger-chain-envelope-closure}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
+$\rho,z:\mathsf{BHist}$. If
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$ holds, then
+$\mathsf{ProdHistoryCarrier}(L,R,z)$ and
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,z)$ hold. Moreover, for every
+$w:\mathsf{BHist}$ both history-envelope endpoint-replacement clauses hold:
+$$
+\mathsf{ProdHistoryClassifier}(L,R,\rho,w)
+\Longleftrightarrow
+\mathsf{ProdHistoryClassifier}(L,R,z,w)
+$$
+and
+$$
+\mathsf{ProdHistoryClassifier}(L,R,w,\rho)
+\Longleftrightarrow
+\mathsf{ProdHistoryClassifier}(L,R,w,z).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the derivation of
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$.
+
+In the one-ledger constructor, Theorem~\ref{thm:prod-ledger-visible-carrier}
+gives $\mathsf{ProdHistoryCarrier}(L,R,z)$ from the displayed ledger, and
+Theorem~\ref{thm:prod-ledger-raw-visible-classifier} gives
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,z)$. The left endpoint-replacement
+clause is Theorem~\ref{thm:prod-ledger-classifier-endpoint-equivalence}. The
+right endpoint-replacement clause follows by composing through the same
+raw-visible classifier with symmetry and transitivity of the product history
+classifier.
+
+In the cons constructor, write the first displayed ledger as
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ and the remaining chain as
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(v,z)$. The induction hypothesis supplies
+$\mathsf{ProdHistoryCarrier}(L,R,z)$,
+$\mathsf{ProdHistoryClassifier}(L,R,v,z)$, and the two endpoint equivalences
+from $v$ to $z$.
+
+The first ledger supplies
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ by
+Theorem~\ref{thm:prod-ledger-raw-visible-classifier}. Compose it with the
+induction classifier by Theorem~\ref{thm:prod-history-classifier-transitivity}
+to obtain $\mathsf{ProdHistoryClassifier}(L,R,\rho,z)$. Compose the one-ledger
+endpoint equivalence from $\rho$ to $v$ with the induction endpoint
+equivalence from $v$ to $z$ for the left clause, and use the same endpoint
+transport through symmetry for the right clause.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerChain\_envelope\_closure}
+
+\begin{theorem}[Product ledger chain displayed component readback]
+\label{thm:prod-ledger-chain-displayed-component-readback}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers. Assume $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$.
+For histories $\rho,z,l,r:\mathsf{BHist}$, if
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$ and
+$\mathsf{ProdPairRep}_{L,R}(\rho,l,r)$ hold, then there exist
+$l',r':\mathsf{BHist}$ such that
+$$
+\mathsf{ProdPairRep}_{L,R}(z,l',r')
+\quad\hbox{and}\quad
+l\sim_L l'
+\quad\hbox{and}\quad
+r\sim_R r'.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-ledger-chain-envelope-closure} to the ledger chain.
+It gives $\mathsf{ProdHistoryCarrier}(L,R,z)$ and
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,z)$. Project the endpoint link
+$\hsame(\rho,z)$ from this envelope classifier.
+
+Apply Theorem~\ref{thm:prod-pair-rep-coverage} to the final carrier to obtain
+$l',r':\mathsf{BHist}$ with
+$\mathsf{ProdPairRep}_{L,R}(z,l',r')$.
+
+Now apply Theorem~\ref{thm:prod-pair-rep-hsame-coherence} to the coherence
+witness, the source displayed representation
+$\mathsf{ProdPairRep}_{L,R}(\rho,l,r)$, the final displayed representation
+$\mathsf{ProdPairRep}_{L,R}(z,l',r')$, and the endpoint link
+$\hsame(\rho,z)$. It returns exactly $l\sim_L l'$ and $r\sim_R r'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerChain\_displayed\_component\_readback}
+
+\begin{theorem}[Product ledger chain componentwise classifier endpoint equivalence]
+\label{thm:prod-ledger-chain-componentwise-classifier-endpoint-equivalence}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers. If $\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$ holds, then for
+every $w:\mathsf{BHist}$ both public componentwise endpoint-replacement clauses
+hold:
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(\rho,w)
+\Longleftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(z,w)
+$$
+and
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,\rho)
+\Longleftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,z).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-ledger-chain-envelope-closure} to the ledger chain.
+It gives $\mathsf{ProdHistoryClassifier}(L,R,\rho,z)$, whose stored endpoint
+link is $\hsame(\rho,z)$.
+
+For the first displayed equivalence, transport a witness of
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(\rho,w)$ along
+$\hsame(\rho,z)$ on the left endpoint and $\hsame$-reflexivity on $w$ by
+Theorem~\ref{thm:prod-component-history-classifier-hsame-transport}. The
+reverse direction uses $\hsame$-symmetry on the same endpoint link and
+$\hsame$-reflexivity on $w$.
+
+For the second displayed equivalence, transport a witness of
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,\rho)$ along
+$\hsame$-reflexivity on $w$ and $\hsame(\rho,z)$ on the right endpoint. The
+reverse direction again uses $\hsame$-reflexivity on $w$ and $\hsame$-symmetry
+of $\hsame(\rho,z)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerChain\_componentwise\_classifier\_endpoint\_equivalence}
+
+\begin{theorem}[Product componentwise history core certificate]
+\label{thm:prod-component-history-core-namecert}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the componentwise
+classifier carries the core product naming certificate:
+$$
+\NameCert(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
+$$
+\end{theorem}
+\begin{proof}
+Invoke
+Theorem~\ref{thm:prod-component-history-classifier-certificate-target}. Its
+five-field conclusion supplies carrier inhabitation, carrier-relative
+reflexivity, source-certified symmetry, source-certified transitivity, and
+classifier-induced carrier transport for
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ over
+$\mathsf{ProdHistoryCarrier}(L,R)$. Assemble these clauses as the corresponding
+fields of the core $\NameCert$ record.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_name\_certificate}
+
 \begin{theorem}[Product componentwise history semantic certificate target]
 \label{thm:prod-component-history-semantic-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
@@ -93,30 +293,27 @@ $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
 classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
 $\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
 $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the componentwise
-classifier forms the semantic naming certificate with displayed pair ledger
-$D(h):\Longleftrightarrow
-\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$:
+classifier forms the semantic naming certificate with the product displayed pair
+ledger:
 $$
 \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
 \mathsf{ProdHistoryCarrier}(L,R),
-D,
+\mathsf{ProdDisplayedPairLedger}_{L,R},
 \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
 $$
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:prod-component-history-classifier-certificate-target} to
-obtain carrier inhabitation, carrier-relative reflexivity, source-certified
-symmetry, source-certified transitivity, and classifier-induced carrier
-transport for
+Apply Theorem~\ref{thm:prod-component-history-core-namecert} to the two source
+certificates and the pair-representation coherence hypothesis. This gives the
+core $\NameCert$ certificate for
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ over
-$\mathsf{ProdHistoryCarrier}(L,R)$. Package these five fields as the core
-$\NameCert$ certificate. Carrier transport is still the right-endpoint
-transport supplied by the classifier witness and pair-representation coverage.
+$\mathsf{ProdHistoryCarrier}(L,R)$.
 The semantic pattern carrier is $\mathsf{ProdHistoryCarrier}(L,R)$, so
-$\mathsf{pattern\_sound}$ is identity on the carrier. Ledger soundness is the
-forward direction of Theorem~\ref{thm:prod-pair-rep-coverage}: every product
-history carrier witness exposes component histories $l,r$ and hence a displayed
-pair ledger witness $D(h)$.
+$\mathsf{pattern\_sound}$ is identity on the carrier.
+
+Ledger soundness is Theorem~\ref{thm:prod-displayed-pair-ledger-soundness}: every
+product history carrier witness exposes a named
+$\mathsf{ProdDisplayedPairLedger}_{L,R}$ witness.
 \end{proof}
 
 \begin{theorem}[Product componentwise classifier exposes displayed pair ledgers]
@@ -124,27 +321,32 @@ pair ledger witness $D(h)$.
 The ten-field fit is: traditional target ordered-product displayed ledger
 exposure; BEDC source $\mathsf{BHist}$ with $\Cont$; carrier through
 $\mathsf{ProdPairRep}$; classifier
-$\mathsf{ProdComponentHistoryClassifier}$; ledger $D$; core theorem endpoint
-ledger exposure; exactness classifier endpoints carry displayed pair
-representatives; standard bridge ordered-pair readback; status
+$\mathsf{ProdComponentHistoryClassifier}$; ledger
+$\mathsf{ProdDisplayedPairLedger}$; core theorem endpoint ledger exposure;
+exactness classifier endpoints carry displayed pair representatives; standard
+bridge ordered-pair readback; status
 $\mathsf{ProofTarget}$.
 
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and let
 $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be component
-classifiers. Define the displayed pair ledger
-$D(x):\Longleftrightarrow
-\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(x,l,r)$.
-For all histories $h,k:\mathsf{BHist}$, if
+classifiers. For all histories $h,k:\mathsf{BHist}$, if
 $$
 \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
 $$
-holds, then $D(h)\land D(k)$.
+holds, then
+$$
+\mathsf{ProdDisplayedPairLedger}_{L,R}(h)
+\land
+\mathsf{ProdDisplayedPairLedger}_{L,R}(k).
+$$
 \end{theorem}
 \begin{proof}
 Unpack the componentwise classifier witness. Its endpoint data include a
 displayed pair representation of $h$ by some left and right component histories
 and a displayed pair representation of $k$ by some left and right component
-histories. Repack the first representation as the ledger witness for $D(h)$ and
-the second representation as the ledger witness for $D(k)$. These two witnesses
-give the required conjunction.
+histories.
+
+By Definition~\ref{def:prod-displayed-pair-ledger}, the first representation is
+the named ledger witness for $h$, and the second representation is the named
+ledger witness for $k$. These two witnesses give the required conjunction.
 \end{proof}

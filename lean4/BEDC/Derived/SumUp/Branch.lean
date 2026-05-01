@@ -39,6 +39,19 @@ theorem SumHistoryCarrier_visible_branch_exactness {Left Right : BHist → Prop}
             | intro rightCarrier sameRight =>
                 exact Or.inr (Exists.intro r (And.intro sameRight rightCarrier))
 
+theorem SumHistoryCarrier_empty_absurd {Left Right : BHist → Prop} :
+    SumHistoryCarrier Left Right BHist.Empty → False := by
+  intro carrier
+  cases carrier with
+  | inl leftBranch =>
+      cases leftBranch with
+      | intro l leftData =>
+          exact not_hsame_emp_e0 leftData.left
+  | inr rightBranch =>
+      cases rightBranch with
+      | intro r rightData =>
+          exact not_hsame_emp_e1 rightData.left
+
 theorem SumHistoryCarrier_visible_payload_determinism {Left Right : BHist → Prop}
     {h l l' r r' : BHist} :
     (hsame h (BHist.e0 l) → Left l → hsame h (BHist.e0 l') → Left l' → hsame l l') ∧
@@ -154,6 +167,94 @@ theorem SumHistoryCarrier_exclusive_visible_branch_partition_payload_first
                 cases rightData with
                 | intro rightCarrier sameRight =>
                     exact Or.inr (Exists.intro r (And.intro sameRight rightCarrier))
+
+theorem SumHistoryCarrier_single_valued_visible_readback {Left Right : BHist -> Prop}
+    {h : BHist} :
+    SumHistoryCarrier Left Right h ->
+      (exists l : BHist,
+        Left l /\ hsame h (BHist.e0 l) /\
+          (forall l' : BHist, Left l' -> hsame h (BHist.e0 l') -> hsame l l') /\
+            ((exists r : BHist, Right r /\ hsame h (BHist.e1 r)) -> False)) \/
+        (exists r : BHist,
+          Right r /\ hsame h (BHist.e1 r) /\
+            (forall r' : BHist, Right r' -> hsame h (BHist.e1 r') -> hsame r r') /\
+              ((exists l : BHist, Left l /\ hsame h (BHist.e0 l)) -> False)) := by
+  intro carrier
+  have partition :
+      (((∃ l : BHist, Left l ∧ hsame h (BHist.e0 l)) ∧
+          ((∃ r : BHist, Right r ∧ hsame h (BHist.e1 r)) → False)) ∨
+        ((∃ r : BHist, Right r ∧ hsame h (BHist.e1 r)) ∧
+          ((∃ l : BHist, Left l ∧ hsame h (BHist.e0 l)) → False))) :=
+    Iff.mp SumHistoryCarrier_exclusive_visible_branch_partition_payload_first carrier
+  cases partition with
+  | inl leftBranch =>
+      cases leftBranch with
+      | intro leftVisible noRight =>
+          cases leftVisible with
+          | intro l leftData =>
+              cases leftData with
+              | intro leftCarrier sameLeft =>
+                  exact Or.inl
+                    (Exists.intro l
+                      (And.intro leftCarrier
+                        (And.intro sameLeft
+                          (And.intro
+                            (fun l' _leftCarrier' sameLeft' =>
+                              hsame_e0_iff.mp (hsame_trans (hsame_symm sameLeft) sameLeft'))
+                            noRight))))
+  | inr rightBranch =>
+      cases rightBranch with
+      | intro rightVisible noLeft =>
+          cases rightVisible with
+          | intro r rightData =>
+              cases rightData with
+              | intro rightCarrier sameRight =>
+                  exact Or.inr
+                    (Exists.intro r
+                        (And.intro rightCarrier
+                          (And.intro sameRight
+                            (And.intro
+                              (fun r' _rightCarrier' sameRight' =>
+                                hsame_e1_iff.mp
+                                  (hsame_trans (hsame_symm sameRight) sameRight'))
+                              noLeft))))
+
+theorem SumHistoryCarrier_visible_tag_exactness {Left Right : BHist -> Prop} :
+    (forall {l : BHist}, SumHistoryCarrier Left Right (BHist.e0 l) <->
+      exists a : BHist, Left a /\ hsame l a) /\
+      (forall {r : BHist}, SumHistoryCarrier Left Right (BHist.e1 r) <->
+        exists b : BHist, Right b /\ hsame r b) := by
+  constructor
+  · intro l
+    constructor
+    · intro carrier
+      have inverted : exists a : BHist, hsame l a /\ Left a :=
+        SumHistoryCarrier_e0_inversion carrier
+      cases inverted with
+      | intro a data =>
+          exact Exists.intro a (And.intro data.right data.left)
+    · intro payload
+      cases payload with
+      | intro a data =>
+          have tagged : SumHistoryCarrier Left Right (BHist.e0 a) :=
+            SumHistoryCarrier_tagged_injections.left data.left
+          exact SumHistoryCarrier_hsame_transport
+            (hsame_e0_congr (hsame_symm data.right)) tagged
+  · intro r
+    constructor
+    · intro carrier
+      have inverted : exists b : BHist, hsame r b /\ Right b :=
+        SumHistoryCarrier_e1_inversion carrier
+      cases inverted with
+      | intro b data =>
+          exact Exists.intro b (And.intro data.right data.left)
+    · intro payload
+      cases payload with
+      | intro b data =>
+          have tagged : SumHistoryCarrier Left Right (BHist.e1 b) :=
+            SumHistoryCarrier_tagged_injections.right data.left
+          exact SumHistoryCarrier_hsame_transport
+            (hsame_e1_congr (hsame_symm data.right)) tagged
 
 theorem SumHistoryClassifier_carrier_aware_branch_partition {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop} {h k : BHist} :
@@ -320,6 +421,31 @@ theorem SumHistoryClassifier_branch_partition {Left Right : BHist → Prop}
           cases rest with
           | intro r' data =>
               exact Or.inr (Exists.intro r (Exists.intro r' data))
+
+theorem SumHistoryClassifier_branch_iff {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop} {h k : BHist} :
+    SumHistoryClassifier Left Right LeftEq RightEq h k <->
+      ((exists l : BHist, exists l' : BHist,
+        hsame h (BHist.e0 l) /\ hsame k (BHist.e0 l') /\ LeftEq l l') \/
+        (exists r : BHist, exists r' : BHist,
+          hsame h (BHist.e1 r) /\ hsame k (BHist.e1 r') /\ RightEq r r')) := by
+  constructor
+  · intro classifier
+    exact SumHistoryClassifier_branch_partition classifier
+  · intro branch
+    cases branch with
+    | inl leftBranch =>
+        cases leftBranch with
+        | intro l rest =>
+            cases rest with
+            | intro l' data =>
+                exact Or.inl (Exists.intro l (Exists.intro l' data))
+    | inr rightBranch =>
+        cases rightBranch with
+        | intro r rest =>
+            cases rest with
+            | intro r' data =>
+                exact Or.inr (Exists.intro r (Exists.intro r' data))
 
 theorem SumHistorySource_weakening {Left Right Left' Right' : BHist -> Prop}
     {LeftEq RightEq LeftEq' RightEq' : BHist -> BHist -> Prop} :

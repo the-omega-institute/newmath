@@ -17,8 +17,10 @@ import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Cont.Pattern
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Bundle.Cancellation
 import BEDC.FKernel.Bundle.Length
 import BEDC.FKernel.Bundle.MembershipAppend
+import BEDC.FKernel.Bundle.ResultInversion
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Sig.Totality
 import BEDC.FKernel.Sig.WitnessChain
@@ -44,6 +46,7 @@ import BEDC.FKernel.Unary
 import BEDC.BaseReflection
 
 /- Derived interfaces (licensed objects). -/
+import BEDC.Derived.NatUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
@@ -70,6 +73,7 @@ import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
+import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
@@ -78,6 +82,7 @@ import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.Derived.RealUp
 import BEDC.Derived.GroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp

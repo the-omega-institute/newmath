@@ -2,6 +2,7 @@ import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.Commutativity
 import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Hist
+import BEDC.Derived.NatUp
 
 namespace BEDC.Derived.PreorderUp
 
@@ -9,6 +10,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.NatUp
 
 def PreorderCarrier (h : BHist) : Prop :=
   UnaryHistory h
@@ -87,6 +89,48 @@ theorem PreorderPrefixLE_trans {h k r : BHist} :
                   exact ⟨append leftTail rightTail, unary_append_closed leftUnary rightUnary,
                     rightCont.trans (append_assoc h leftTail rightTail)⟩
 
+theorem PreorderPrefixLE_strict_right_extension {h k r : BHist} :
+    PreorderPrefixLE h k -> NatUnaryStrictPrefix k r -> NatUnaryStrictPrefix h r := by
+  intro weakPrefix strictPrefix
+  cases weakPrefix with
+  | intro leftTail leftData =>
+      cases leftData with
+      | intro leftUnary leftCont =>
+          cases strictPrefix with
+          | intro rightTail rightData =>
+              cases rightData with
+              | intro rightUnary rightStrictData =>
+                  cases rightStrictData with
+                  | intro rightNonempty rightCont =>
+                      cases leftCont
+                      exact
+                        ⟨append leftTail rightTail,
+                          unary_append_closed leftUnary rightUnary,
+                          (fun tailEmpty =>
+                            rightNonempty (append_eq_empty_iff.mp tailEmpty).right),
+                          rightCont.trans (append_assoc h leftTail rightTail)⟩
+
+theorem NatUnaryStrictPrefix_right_extension {h k r : BHist} :
+    NatUnaryStrictPrefix h k -> PreorderPrefixLE k r -> NatUnaryStrictPrefix h r := by
+  intro strictPrefix weakPrefix
+  cases strictPrefix with
+  | intro leftTail leftData =>
+      cases leftData with
+      | intro leftUnary leftStrictData =>
+          cases leftStrictData with
+          | intro leftNonempty leftCont =>
+              cases weakPrefix with
+              | intro rightTail rightData =>
+                  cases rightData with
+                  | intro rightUnary rightCont =>
+                      cases leftCont
+                      exact
+                        ⟨append leftTail rightTail,
+                          unary_append_closed leftUnary rightUnary,
+                          (fun tailEmpty =>
+                            leftNonempty (append_eq_empty_iff.mp tailEmpty).left),
+                          rightCont.trans (append_assoc h leftTail rightTail)⟩
+
 theorem PreorderPrefixLE_preserves_carrier {h k : BEDC.FKernel.Hist.BHist} :
     PreorderCarrier h → PreorderPrefixLE h k → PreorderCarrier k := by
   intro hCarrier prefixWitness
@@ -104,6 +148,17 @@ theorem PreorderPrefixLE_source_carrier_of_target_carrier {h k : BHist} :
       cases tailData with
       | intro _tailCarrier hCont =>
           exact unary_cont_left_factor hCont targetCarrier
+
+theorem PreorderPrefixLE_carrier_no_e0_target {h k : BHist} :
+    PreorderCarrier h -> PreorderPrefixLE h (BHist.e0 k) -> False := by
+  intro sourceCarrier prefixLE
+  exact unary_no_zero_extension (PreorderPrefixLE_preserves_carrier sourceCarrier prefixLE)
+
+theorem PreorderPrefixLE_carrier_no_e0_source {h k : BHist} :
+    PreorderPrefixLE (BHist.e0 h) k -> PreorderCarrier k -> False := by
+  intro prefixLE targetCarrier
+  exact unary_no_zero_extension
+    (PreorderPrefixLE_source_carrier_of_target_carrier prefixLE targetCarrier)
 
 theorem PreorderPrefixLE_antisymm_hsame {h k : BHist} :
     PreorderPrefixLE h k -> PreorderPrefixLE k h -> hsame h k := by
@@ -155,6 +210,16 @@ theorem PreorderPrefixLE_append_tail_backforces_empty {h tail : BHist} :
   have loop : append h BHist.Empty = append h tail :=
     (append_empty_right h).symm.trans same
   exact hsame_symm (append_left_cancel loop)
+
+theorem PreorderPrefixLE_append_tail_backforces_empty_iff {h tail : BHist} :
+    UnaryHistory tail → (PreorderPrefixLE (append h tail) h ↔ hsame tail BHist.Empty) := by
+  intro tailUnary
+  constructor
+  · intro backward
+    exact PreorderPrefixLE_append_tail_backforces_empty tailUnary backward
+  · intro tailEmpty
+    cases tailEmpty
+    exact PreorderPrefixLE_of_hsame (append_empty_right h)
 
 theorem PreorderPrefixLE_cancel_left_context {x h k : BHist} :
     PreorderPrefixLE (append x h) (append x k) → PreorderPrefixLE h k := by

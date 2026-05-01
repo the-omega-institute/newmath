@@ -8,6 +8,50 @@ open BEDC.FKernel.Cont
 def ProdPairRep (Left Right : BHist → Prop) (h l r : BHist) : Prop :=
   Left l ∧ Right r ∧ Cont l r h
 
+def ProdPairRepCoherent (Left Right : BHist → Prop)
+    (LeftEq RightEq : BHist → BHist → Prop) : Prop :=
+  ∀ {h l r l' r' : BHist},
+    ProdPairRep Left Right h l r →
+      ProdPairRep Left Right h l' r' →
+        LeftEq l l' ∧ RightEq r r'
+
+theorem ProdHistoryCarrier_empty_result_components {Left Right : BHist -> Prop} :
+    ProdHistoryCarrier Left Right BHist.Empty ->
+      exists l : BHist, exists r : BHist,
+        Left l /\ Right r /\ hsame l BHist.Empty /\ hsame r BHist.Empty := by
+  intro carrier
+  cases carrier with
+  | intro l rest =>
+      cases rest with
+      | intro r data =>
+          cases data with
+          | intro leftCarrier rightData =>
+              cases rightData with
+              | intro rightCarrier contEmpty =>
+                  have emptyComponents := cont_empty_result_inversion contEmpty
+                  exact Exists.intro l
+                    (Exists.intro r
+                      (And.intro leftCarrier
+                        (And.intro rightCarrier
+                          (And.intro emptyComponents.left emptyComponents.right))))
+
+theorem ProdPairRep_coverage {Left Right : BHist -> Prop} {h : BHist} :
+    ProdHistoryCarrier Left Right h <->
+      exists l : BHist, exists r : BHist, ProdPairRep Left Right h l r := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro l rest =>
+        cases rest with
+        | intro r data =>
+            exact Exists.intro l (Exists.intro r data)
+  · intro displayed
+    cases displayed with
+    | intro l rest =>
+        cases rest with
+        | intro r rep =>
+            exact Exists.intro l (Exists.intro r rep)
+
 theorem ProdHistoryClassifier_fixed_pair_determinism
     {Left Right : BHist → Prop} {h k l r : BHist} :
     Left l → Right r → Cont l r h → Cont l r k →
@@ -31,5 +75,75 @@ theorem ProdPairRep_hsame_transport {Left Right : BHist → Prop} {h k l r : BHi
       | intro rightCarrier contH =>
           exact And.intro leftCarrier
             (And.intro rightCarrier (cont_result_hsame_transport contH sameHK))
+
+theorem ProdPairRep_fixed_endpoint_exactness {Left Right : BHist → Prop} {h k l r : BHist} :
+    ProdPairRep Left Right h l r → (ProdPairRep Left Right k l r ↔ hsame h k) := by
+  intro repH
+  constructor
+  · intro repK
+    cases repH with
+    | intro leftCarrier restH =>
+        cases restH with
+        | intro rightCarrier contH =>
+            cases repK with
+            | intro _leftCarrierK restK =>
+                cases restK with
+                | intro _rightCarrierK contK =>
+                    exact
+                      (ProdHistoryClassifier_fixed_pair_determinism
+                        leftCarrier rightCarrier contH contK).left
+  · intro sameHK
+    exact ProdPairRep_hsame_transport repH sameHK
+
+theorem ProdPairRep_hsame_coherence {Left Right : BHist → Prop}
+    {LeftEq RightEq : BHist → BHist → Prop} {h k l r l' r' : BHist} :
+    ProdPairRepCoherent Left Right LeftEq RightEq →
+      ProdPairRep Left Right h l r →
+        ProdPairRep Left Right k l' r' →
+          hsame h k → LeftEq l l' ∧ RightEq r r' := by
+  intro coherent repH repK sameHK
+  have repKAtH : ProdPairRep Left Right h l' r' :=
+    ProdPairRep_hsame_transport repK (hsame_symm sameHK)
+  exact coherent repH repKAtH
+
+theorem ProdPairRep_classifier_bounded_coherence {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : BEDC.FKernel.NameCert.NameCert Left LeftEq)
+    (rightCert : BEDC.FKernel.NameCert.NameCert Right RightEq)
+    {leftCenter rightCenter : BHist}
+    (leftBound : forall {l : BHist}, Left l -> LeftEq l leftCenter)
+    (rightBound : forall {r : BHist}, Right r -> RightEq r rightCenter) :
+    ProdPairRepCoherent Left Right LeftEq RightEq := by
+  intro h l r l' r' rep rep'
+  cases rep with
+  | intro leftL rest =>
+      cases rest with
+      | intro rightR _cont =>
+          cases rep' with
+          | intro leftL' rest' =>
+              cases rest' with
+              | intro rightR' _cont' =>
+                  constructor
+                  · exact leftCert.equiv_trans (leftBound leftL)
+                      (leftCert.equiv_symm (leftBound leftL'))
+                  · exact rightCert.equiv_trans (rightBound rightR)
+                      (rightCert.equiv_symm (rightBound rightR'))
+
+theorem ProdHistoryClassifier_cont_congr {Left Right : BHist → Prop}
+    (left_transport : ∀ {x y : BHist}, hsame x y → Left x → Left y)
+    (right_transport : ∀ {x y : BHist}, hsame x y → Right x → Right y)
+    {l l' r r' h h' : BHist} :
+    Left l → Right r → hsame l l' → hsame r r' → Cont l r h → Cont l' r' h' →
+      ProdHistoryClassifier Left Right h h' := by
+  intro leftCarrier rightCarrier sameLeft sameRight contH contH'
+  have leftCarrier' : Left l' := left_transport sameLeft leftCarrier
+  have rightCarrier' : Right r' := right_transport sameRight rightCarrier
+  have sameEndpoints : hsame h h' :=
+    cont_respects_hsame sameLeft sameRight contH contH'
+  exact And.intro
+    (ProdHistoryCarrier_cont_intro leftCarrier rightCarrier contH)
+    (And.intro
+      (ProdHistoryCarrier_cont_intro leftCarrier' rightCarrier' contH')
+      sameEndpoints)
 
 end BEDC.Derived.ProdUp

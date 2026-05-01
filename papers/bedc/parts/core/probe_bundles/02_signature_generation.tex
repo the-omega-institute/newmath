@@ -59,6 +59,28 @@ from \(\emp\).
 \end{proof}
 \leanchecked{BEDC.FKernel.Sig.sig\_cons\_result\_ne\_empty}
 
+\begin{theorem}[Signature result length equals bundle length]
+\label{thm:signature-result-length-bundle-length}
+If \(\Sig(\Pi,h,r,\Delta)\), then the external binary length of the answer
+history \(r\) is the probe-bundle length of \(\Pi\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sigRel\_result\_length\_eq\_bundleLength}
+\begin{proof}
+Induct on the signature derivation. The empty rule gives zero length on both
+sides. In the cons rule, the final extension adds exactly one outer history
+constructor, and the bundle is one cons longer than its tail.
+\end{proof}
+
+\begin{theorem}[Empty signature result forces empty bundle]
+\label{thm:signature-empty-result-bundle-nil}
+If \(\Sig(\Pi,h,\emp,\Delta)\), then \(\Pi=\Bnil\).
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sigRel\_empty\_result\_bundle\_nil}
+\begin{proof}
+The result-length theorem gives bundle length zero because \(\emp\) has zero
+external binary length. Probe-bundle length zero characterizes \(\Bnil\).
+\end{proof}
+
 \begin{theorem}[Signature generation over bundle append]
 \label{thm:signature-generation-bundle-append}
 For probe bundles $\Pi,\Theta$ and source history $h$, if $\Sig(\Pi,h,s,\Delta)$ and $\Sig(\Theta,h,t,\Gamma)$, then there exist a history $u$ and evidence $\Lambda$ such that

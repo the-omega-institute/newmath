@@ -134,6 +134,58 @@ theorem bundleAskPolicy_tail [AskSetup]
     exact policy.respectsHistory (Or.inr inTail) same left right
 
 omit S in
+theorem bundleAskPolicy_cons_iff [AskSetup]
+    {pi : ProbeName} {tail : ProbeBundle ProbeName} {D : BHist → Prop} :
+    BundleAskPolicy (ProbeBundle.Bcons pi tail) D ↔
+      ((∀ {h : BHist}, D h → ∃ m : BMark, ∃ delta : Evidence, Ask pi h m delta) ∧
+        (∀ {h : BHist} {m n : BMark} {delta theta : Evidence},
+          Ask pi h m delta → Ask pi h n theta → msame m n) ∧
+        (∀ {h k : BHist} {m n : BMark} {delta theta : Evidence},
+          hsame h k → Ask pi h m delta → Ask pi k n theta → msame m n) ∧
+        BundleAskPolicy tail D) := by
+  constructor
+  · intro policy
+    constructor
+    · intro h hD
+      exact policy.total (Or.inl rfl) hD
+    · constructor
+      · intro h m n delta theta first second
+        exact policy.deterministic (Or.inl rfl) first second
+      · constructor
+        · intro h k m n delta theta same first second
+          exact policy.respectsHistory (Or.inl rfl) same first second
+        · exact bundleAskPolicy_tail policy
+  · intro data
+    cases data with
+    | intro headTotal rest =>
+        cases rest with
+        | intro headDeterministic rest =>
+            cases rest with
+            | intro headRespects tailPolicy =>
+                constructor
+                · intro rho h inCons hD
+                  cases inCons with
+                  | inl same =>
+                      cases same
+                      exact headTotal hD
+                  | inr inTail =>
+                      exact tailPolicy.total inTail hD
+                · intro rho h m n delta theta inCons first second
+                  cases inCons with
+                  | inl same =>
+                      cases same
+                      exact headDeterministic first second
+                  | inr inTail =>
+                      exact tailPolicy.deterministic inTail first second
+                · intro rho h k m n delta theta inCons same first second
+                  cases inCons with
+                  | inl sameName =>
+                      cases sameName
+                      exact headRespects same first second
+                  | inr inTail =>
+                      exact tailPolicy.respectsHistory inTail same first second
+
+omit S in
 theorem askPolicy_to_bundleAskPolicy [AskSetup] {bundle : ProbeBundle ProbeName}
     {D : BHist → Prop} :
     AskPolicy D → BundleAskPolicy bundle D := by

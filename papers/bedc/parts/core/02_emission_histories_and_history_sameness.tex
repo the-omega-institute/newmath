@@ -103,3 +103,20 @@ $$
 \begin{proof}
 By closed generation, the only conclusions of \(\hsame\) have matching outer constructors. The displayed cross-constructor conclusions are not produced by any rule.
 \end{proof}
+
+\begin{theorem}[History extension is not self-same]
+\label{thm:history-extension-self-absurd}
+No generated history is internally the same as its immediate \(\Ezero\)- or
+\(\Eone\)-extension:
+$$
+\forall h:\Hist,\; \neg\hsame(\Ezero(h),h)
+\qquad\text{and}\qquad
+\forall h:\Hist,\; \neg\hsame(\Eone(h),h).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the target history. Empty and cross-constructor cases are excluded
+by history no-confusion. Matching extension cases reduce by the corresponding
+constructor inversion to the induction hypothesis on the shorter history.
+\end{proof}
+\leanchecked{BEDC.FKernel.Hist.hsame\_extension\_self\_absurd}

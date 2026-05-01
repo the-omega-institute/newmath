@@ -102,6 +102,99 @@ reassociating, and using the left-zero law. Then apply distributivity to
 the duplicate-cancellation step on the two resulting products.
 \end{proof}
 
+\begin{theorem}[Ring left-negative product sum vanishes]
+\label{thm:ring-mul-neg-left-inverse-sum-zero}
+For BEDC history operations satisfying additive associativity, left zero,
+left inverse, operation congruence, and both distributive laws, every pair
+$x,y$ satisfies $(-x)y+xy\hsame0$.
+\end{theorem}
+\begin{proof}
+Apply right distributivity backward to identify $(-x)y+xy$ with
+$((-x)+x)y$. Transport the left factor across the additive left-inverse law
+$(-x)+x\hsame0$, then use the left zero-absorption half of multiplication by
+zero.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_left\_inverse\_sum\_zero}
+
+\begin{theorem}[Ring right-negative product sum vanishes]
+\label{thm:ring-mul-neg-right-inverse-sum-zero}
+For BEDC history operations satisfying additive associativity, left zero,
+left inverse, operation congruence, and both distributive laws, every pair
+$x,y$ satisfies $x(-y)+xy\hsame0$.
+\end{theorem}
+\begin{proof}
+Apply left distributivity backward to identify $x(-y)+xy$ with
+$x((-y)+y)$. Transport the right factor across the additive left-inverse law
+$(-y)+y\hsame0$, then use the right zero-absorption half of multiplication by
+zero.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_right\_inverse\_sum\_zero}
+
+\begin{theorem}[Ring left-negative and right-negative products agree]
+\label{thm:ring-mul-neg-left-right-same}
+For BEDC history operations satisfying additive abelian-group laws, operation
+congruence, and both distributive laws, the two negative products agree:
+$( -x )y\hsame x(-y)$.
+\end{theorem}
+\begin{proof}
+The left-negative and right-negative product sums both collapse to zero after
+adding the common summand $xy$ on the right. The additive right-zero and
+right-inverse laws supply the hypotheses for right cancellation in the
+underlying additive group, so the common summand cancels.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_left\_right\_same}
+
+\begin{theorem}[Ring left-negative product equals negative product]
+\label{thm:ring-mul-neg-left-eq-neg-mul}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, operation congruence, and both
+distributive laws, every pair $x,y$ satisfies
+$$
+\hsame((-x)y,-(xy)).
+$$
+\end{theorem}
+\begin{proof}
+The left-negative product sum theorem gives $(-x)y+xy\hsame0$. The additive
+right inverse theorem gives $xy+(-(xy))\hsame0$. Applying the additive
+left/right inverse uniqueness argument identifies $(-x)y$ with $-(xy)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_left\_eq\_neg\_mul}
+
+\begin{theorem}[Ring right-negative product equals negative product]
+\label{thm:ring-mul-neg-right-eq-neg-mul}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, operation congruence, and both
+distributive laws, every pair $x,y$ satisfies
+$$
+\hsame(x(-y),-(xy)).
+$$
+\end{theorem}
+\begin{proof}
+Apply left distributivity backward to identify $x(-y)+xy$ with
+$x((-y)+y)$. Transport the right factor across the additive left-inverse law,
+use right zero absorption for multiplication, and combine the resulting
+left-inverse witness with the additive right inverse of $xy$ by inverse
+uniqueness.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_right\_eq\_neg\_mul}
+
+\begin{theorem}[Ring double-negative product]
+\label{thm:ring-mul-neg-neg-eq-mul}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, operation congruence, and both
+distributive laws, every pair $x,y$ satisfies
+$$
+\hsame((-x)(-y),xy).
+$$
+\end{theorem}
+\begin{proof}
+The left-negative product theorem identifies $(-x)(-y)$ with $-(x(-y))$.
+The right-negative product theorem identifies $x(-y)$ with $-(xy)$. Additive
+inverse congruence transports this equality through the outer inverse, and
+additive inverse involutivity collapses $-(-(xy))$ to $xy$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_neg\_eq\_mul}
+
 \begin{definition}[Ring ledger policy]
 \label{def:ring-ledger-policy}
 Record the shared carrier ledger and the operation tree for ring expressions.
