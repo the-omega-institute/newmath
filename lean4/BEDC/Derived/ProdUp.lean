@@ -16,6 +16,12 @@ def ProdHistoryCarrier (Left Right : BHist -> Prop) (h : BHist) : Prop :=
 def ProdHistoryClassifier (Left Right : BHist -> Prop) (h k : BHist) : Prop :=
   ProdHistoryCarrier Left Right h ∧ ProdHistoryCarrier Left Right k ∧ hsame h k
 
+def ProdComponentHistoryClassifier (Left Right : BHist -> Prop)
+    (LeftEq RightEq : BHist -> BHist -> Prop) (h k : BHist) : Prop :=
+  exists lh rh lk rk : BHist,
+    Left lh /\ Right rh /\ Cont lh rh h /\
+      Left lk /\ Right rk /\ Cont lk rk k /\ LeftEq lh lk /\ RightEq rh rk
+
 theorem ProdHistoryClassifier_component_inversion {Left Right : BHist → Prop} {h k : BHist} :
     ProdHistoryClassifier Left Right h k ↔
       ∃ l r l' r' : BHist,
@@ -101,6 +107,39 @@ theorem ProdHistoryCarrier_cont_intro {Left Right : BHist -> Prop} {l r h : BHis
     (Exists.intro r
       (And.intro leftCarrier
         (And.intro rightCarrier hCont)))
+
+theorem ProdComponentHistoryClassifier_endpoint_carriers {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop} {h k : BHist} :
+    ProdComponentHistoryClassifier Left Right LeftEq RightEq h k ->
+      ProdHistoryCarrier Left Right h /\ ProdHistoryCarrier Left Right k := by
+  intro classifier
+  cases classifier with
+  | intro lh rest =>
+      cases rest with
+      | intro rh rest =>
+          cases rest with
+          | intro lk rest =>
+              cases rest with
+              | intro rk data =>
+                  cases data with
+                  | intro leftH rest =>
+                      cases rest with
+                      | intro rightH rest =>
+                          cases rest with
+                          | intro contH rest =>
+                              cases rest with
+                              | intro leftK rest =>
+                                  cases rest with
+                                  | intro rightK rest =>
+                                      cases rest with
+                                      | intro contK _componentSame =>
+                                          constructor
+                                          · exact
+                                              ProdHistoryCarrier_cont_intro
+                                                leftH rightH contH
+                                          · exact
+                                              ProdHistoryCarrier_cont_intro
+                                                leftK rightK contK
 
 theorem ProdHistoryCarrier_unary_of_components {Left Right : BHist -> Prop}
     (left_unary : forall {l : BHist}, Left l -> BEDC.FKernel.Unary.UnaryHistory l)
