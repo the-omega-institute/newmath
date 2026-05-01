@@ -40,6 +40,29 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Continuous modulus chain composite closure]
+\label{thm:continuous-modulus-chain-composite-closed}
+For unary histories $s,\delta_1,\delta_2,t$, a two-link modulus chain from
+$s$ through $\delta_1$ and $\delta_2$ to $t$, together with a continuation
+ledger composing $\delta_1$ and $\delta_2$ into $\delta$, determines a single
+continuous modulus witness from $s$ to $t$ using $\delta$:
+$$
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t)
+\Longrightarrow
+\mathsf{Cont}(\delta_1,\delta_2,\delta)
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(s,\delta,t).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the chain into unary endpoint and modulus data plus a middle history
+with ledgers $m=s\cdot\delta_1$ and $t=m\cdot\delta_2$. The composite modulus
+is unary by closure of unary continuation. The source-to-target continuation is
+the associativity equality $(s\cdot\delta_1)\cdot\delta_2
+=s\cdot(\delta_1\cdot\delta_2)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_composite\_closed}
+
 \begin{definition}[ContinuousFunction ledger policy]
 \label{def:continuous-ledger-policy}
 Record the function identifier, metric ledgers, subset witness, and continuity modulus.

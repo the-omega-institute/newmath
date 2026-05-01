@@ -40,6 +40,28 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Metric distance witness symmetric classifier]
+\label{thm:metric-distance-witness-symmetric-classifier}
+For unary endpoint histories $x,y$, if $d_{xy}$ is witnessed by the
+continuation ledger from $x$ to $y$ and $d_{yx}$ is witnessed by the reversed
+ledger from $y$ to $x$, then the two distance histories classify together by
+$\hsame$:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,x,d_{yx})
+\Longrightarrow
+\hsame(d_{xy},d_{yx}).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two concrete distance witnesses. The endpoint histories are unary in
+both directions, and the two displayed continuations are precisely the forward
+and reversed unary continuation ledgers. Unary continuation commutativity gives
+$\hsame(d_{xy},d_{yx})$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_symmetric\_classifier}
+
 \begin{definition}[MetricSpace ledger policy]
 \label{def:metric-ledger-policy}
 Record carrier witnesses and the real ledger of each distance value.
@@ -57,4 +79,3 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:metric-zero-axiom-note}
 Replaces decidable equality with apartness and explicit real-modulus inequalities.
 \end{remark}
-

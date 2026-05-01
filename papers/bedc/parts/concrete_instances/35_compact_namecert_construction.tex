@@ -56,6 +56,25 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Compact net witness prefix closure]
+\label{thm:compact-net-witness-prefix-closed}
+For unary histories $p,c,\epsilon,n$, if $n$ is a compact net witness obtained
+by continuing center $c$ with precision $\epsilon$, then prefixing the center
+and net by $p$ preserves the same precision witness:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+\Longrightarrow
+\mathsf{CompactNetWitness}(p \cdot c,\epsilon,p \cdot n).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness into unary center, precision, and net histories together
+with the continuation ledger $n=c\cdot\epsilon$. Unary closure gives unary
+histories for $p\cdot c$ and $p\cdot n$. The prefixed continuation ledger is
+the associativity equality $(p\cdot c)\cdot\epsilon=p\cdot(c\cdot\epsilon)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_closed}
+
 \begin{definition}[Compact ledger policy]
 \label{def:compact-ledger-policy}
 Record the subset predicate, locatedness decisions, and finite net ledgers.

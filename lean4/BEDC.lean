@@ -90,6 +90,9 @@ import BEDC.Derived.CommRingUp
 import BEDC.Derived.FieldUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.IntervalUp
+import BEDC.Derived.MetricUp
+import BEDC.Derived.ContinuousUp
+import BEDC.Derived.CompactUp
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CompactUp
 import BEDC.Derived.FunctorUp
