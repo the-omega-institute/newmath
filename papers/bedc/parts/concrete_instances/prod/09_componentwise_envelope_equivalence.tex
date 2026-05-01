@@ -257,6 +257,63 @@ inhabited carrier fields of $\mathsf{cert}_L$ and $\mathsf{cert}_R$ provide the
 left and right carrier witnesses required by that theorem.
 \end{proof}
 
+\begin{theorem}[Product componentwise public scope is stable under endpoint transport]
+\label{thm:prod-componentwise-public-scope-endpoint-transport}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Assume also that both source
+classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+Define the displayed pair ledger by
+$D(x):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(x,l,r)$.
+For histories $h,k,h',k':\mathsf{BHist}$, if
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k),
+\qquad
+\hsame(h,h'),
+\qquad
+\hsame(k,k')
+$$
+hold, then
+$$
+D(h')\land D(k')\land
+\mathsf{ProdHistoryCarrier}(L,R,h')\land
+\mathsf{ProdHistoryCarrier}(L,R,k')\land
+\mathsf{ProdHistoryClassifier}(L,R,h',k').
+$$
+The roadmap fit is: traditional target ordered-product public-scope endpoint
+stability; BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$ with checked envelope descent;
+stability endpoint transport; ledger displayed pair representation $D$; core
+theorem this transported public package; exactness displayed ledger plus
+envelope classifier; standard bridge ordered-pair readback; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-component-history-classifier-hsame-transport} to
+the componentwise classifier witness at $(h,k)$ and the two endpoint
+$\hsame$ links, obtaining
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h',k')$.
+Instantiate
+Theorem~\ref{thm:prod-public-object-scope-componentwise-envelope} with the two
+source certificates, the pair-representation coherence witness, and the two
+$\hsame$-soundness assumptions. Applying its public-scope clause to the
+transported componentwise classifier gives $D(h')$, $D(k')$, and
+$\mathsf{ProdHistoryClassifier}(L,R,h',k')$. Finally apply
+Theorem~\ref{thm:prod-component-history-classifier-endpoint-carriers} to the
+same transported classifier to expose
+$\mathsf{ProdHistoryCarrier}(L,R,h')$ and
+$\mathsf{ProdHistoryCarrier}(L,R,k')$, and conjoin the five outputs.
+\end{proof}
+
 \begin{theorem}[Product envelope displayed-pair component exactness]
 \label{thm:prod-envelope-displayed-pair-component-exactness}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
