@@ -383,6 +383,41 @@ closure to this composed witness and using associativity once more yields the
 ledger from $p\cdot c$ to $p\cdot m$ with precision $\theta$.
 \end{proof}
 
+\begin{theorem}[Prefixed composite compact net witness factorization]
+\label{thm:compact-net-witness-prefixed-composite-factorizes}
+For histories $p,c,\epsilon,\eta,\theta,m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$,
+$\mathsf{UnaryHistory}(\eta)$,
+$\mathsf{Cont}(\epsilon,\eta,\theta)$, and
+$\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m)$. Then there exists a
+history $n$ such that
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+$$
+and
+$$
+\mathsf{CompactNetWitness}(n,\eta,m).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:compact-net-witness-prefix-iff} to the visible-prefix
+witness. This removes the common prefix and recovers
+$\mathsf{CompactNetWitness}(c,\theta,m)$, hence the unary histories for
+$c,\theta,m$ and the continuation ledger $\mathsf{Cont}(c,\theta,m)$.
+
+Choose the intermediate history $n=c\cdot\epsilon$. The unary history of
+$\epsilon$ and the recovered unary history of $c$ give unary $n$, and the
+continuation constructor gives $\mathsf{Cont}(c,\epsilon,n)$. These data form
+$\mathsf{CompactNetWitness}(c,\epsilon,n)$.
+
+It remains to build the second witness. The hypothesis
+$\mathsf{Cont}(\epsilon,\eta,\theta)$ and the recovered continuation
+$\mathsf{Cont}(c,\theta,m)$ identify the ledger $m$ with
+$c\cdot(\epsilon\cdot\eta)$; associativity rewrites this as
+$(c\cdot\epsilon)\cdot\eta=n\cdot\eta$. Together with the unary histories of
+$n$, $\eta$, and $m$, this is $\mathsf{CompactNetWitness}(n,\eta,m)$.
+\end{proof}
+
 \begin{definition}[Compact ledger policy]
 \label{def:compact-ledger-policy}
 Record the subset predicate, locatedness decisions, and finite net ledgers.
