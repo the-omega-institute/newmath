@@ -188,6 +188,22 @@ the append definition at $\Bnil$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_eq\_right\_iff\_left\_nil}
 
+\begin{theorem}[Probe bundle append fixes the left side exactly at nil right]
+\label{thm:bundle-append-eq-left-iff-right-nil}
+For probe bundles $\Pi$ and $\Omega$,
+$$
+\mathsf{BAppend}(\Pi,\Omega)=\Pi
+$$
+if and only if $\Omega=\Bnil$.
+\end{theorem}
+\begin{proof}
+Induct on $\Pi$. In the empty case, the displayed equation is exactly
+$\Omega=\Bnil$. In the cons case, constructor injectivity reduces the fixed
+append equation to the tail. The reverse implication is the right-unit theorem
+for append.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_eq\_left\_iff\_right\_nil}
+
 \begin{theorem}[Probe bundle append right unit]
 \label{thm:bundle-append-right-unit}
 For every probe bundle \(\Pi\),

@@ -118,4 +118,18 @@ theorem bundleAppend_eq_right_iff_left_nil {PName : Type}
     cases leftNil
     rfl
 
+theorem bundleAppend_eq_left_iff_right_nil {PName : Type}
+    {left right : ProbeBundle PName} :
+    bundleAppend left right = left ↔ right = ProbeBundle.Bnil := by
+  constructor
+  · intro same
+    induction left with
+    | Bnil =>
+        exact same
+    | Bcons _ tail ih =>
+        exact ih (ProbeBundle.Bcons.inj same).right
+  · intro rightNil
+    cases rightNil
+    exact bundleAppend_right_nil left
+
 end BEDC.FKernel.Bundle

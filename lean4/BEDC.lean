@@ -46,6 +46,7 @@ import BEDC.BaseReflection
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.IntUp
 import BEDC.Derived.BoolUp
+import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.OptionUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ComplexUp
