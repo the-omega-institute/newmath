@@ -82,6 +82,41 @@ exactly the carrier and endpoint-equality fields of
 $\mathsf{OptionHistoryClassifier}_S(h,k)$.
 \end{proof}
 
+\begin{theorem}[Tagged option-to-nullable hsame bridge criterion]
+\label{thm:tagged-option-to-nullable-hsame-bridge-criterion}
+The ten-field fit is: traditional target nullable comparison for
+constructor-tagged options; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{TaggedOptionHistoryCarrier}$; classifier
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}$; stability obligation
+present-endpoint absorption; ledger visible absent/present tag; core theorem the
+bridge criterion; exactness one-way comparison to the nullable envelope; standard
+bridge none/some readback; status $\mathsf{ProofTarget}$. Let
+$S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier. If
+$$
+  \forall a\,h.\;
+    S(a)\to\hsame(h,\Eone(a))\to S(h),
+$$
+then $\mathsf{TaggedOptionToNullableBridge}(S,\hsame)$ holds. Consequently, for
+every history $h$,
+$$
+  \mathsf{TaggedOptionHistoryCarrier}_S(h)\to
+  \mathsf{OptionHistoryCarrier}_S(h),
+$$
+and for every pair of histories $h,k$,
+$$
+  \mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}(h,k)\to
+  \mathsf{OptionHistoryClassifier}_S(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Pair the displayed present-endpoint absorption hypothesis with identity
+classifier hsame soundness: from $S(a)$, $S(b)$, and $\hsame(a,b)$, the required
+history-sameness conclusion is the same witness. This gives
+$\mathsf{TaggedOptionToNullableBridge}(S,\hsame)$. The two descent conclusions
+are exactly Theorem~\ref{thm:tagged-option-to-nullable-classifier-bridge}
+specialized to the source classifier $\hsame$.
+\end{proof}
+
 \begin{theorem}[Tagged option public certificate compares with nullable envelope]
 \label{thm:tagged-option-public-certificate-descends-to-nullable-envelope}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a

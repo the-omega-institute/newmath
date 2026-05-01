@@ -12,7 +12,7 @@ The boolean interface \(\BoolUp\) is licensed by raw mark sameness on the two-el
   \item \textbf{Classifier choice}: the classifier is $\msame$ on marks and $\mathsf{BoolHistoryClassifier}$ on the two licensed histories.
   \item \textbf{Stability obligations}: mark transport, history-carrier transport, unary closure, endpoint exclusion, classifier symmetry, and classifier transitivity.
   \item \textbf{Ledger}: no quotient is used; the hidden data are only the generated history witnesses for the two boolean endpoints.
-  \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, Theorem~\ref{thm:bool-endpoint-bridge-exactness}, Theorem~\ref{thm:bool-history-carrier-endpoint-coverage}, endpoint readback determinism, Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness}, Theorem~\ref{thm:bool-history-classifier-endpoint-readback}, and the history core $\NameCert$.
+  \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, Theorem~\ref{thm:bool-endpoint-bridge-exactness}, Theorem~\ref{thm:bool-history-carrier-endpoint-coverage}, endpoint readback determinism, Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness}, Theorem~\ref{thm:bool-carrier-classifier-endpoint-exactness}, Theorem~\ref{thm:bool-history-classifier-endpoint-readback}, and the history core $\NameCert$.
   \item \textbf{Exactness predicate}: the mark source has exactly the $\bzero$ and $\bone$ branches licensed by $\msame$, while the checked history certificate has exactly the $\emp$ and $\Eone(\emp)$ endpoints licensed by $\hsame$.
   \item \textbf{Standard bridge}: false and true are read through the two displayed marks $\bzero,\bone$ together with their displayed history endpoints $\emp,\Eone(\emp)$; endpoint coverage and classifier completeness are functional up to $\msame$.
   \item \textbf{Status}: Theorem~\ref{thm:bool-semantic-namecert-target} is the canonical Phase Finite Data public-object scope
@@ -166,6 +166,25 @@ Moreover, for every history $h:\mathsf{BHist}$ satisfying $\mathsf{BoolHistoryCa
 For the first clause, unfold the classifier at the two displayed endpoints. The endpoint carrier fields are supplied by the two endpoint cases, so the classifier is equivalent to history sameness between the two endpoint images. The endpoint bridge exactness theorem then identifies this condition with $\msame(v,w)$.
 
 For the second clause, apply carrier endpoint coverage to the carrier witness for $h$ and obtain an endpoint $v$ with $\hsame(h,\mathsf{BoolEndpoint}(v))$. Case analysis on $v$ supplies $\mathsf{BoolSourceSpec}(v)$, since the two mark constructors satisfy the source specification by reflexivity. The same history-sameness witness, together with the carrier witness for $h$ and the endpoint carrier witness, is exactly the data required by the definition of the displayed classifier relation.
+\end{proof}
+
+\begin{theorem}[Bool carrier classifier endpoint exactness]
+\label{thm:bool-carrier-classifier-endpoint-exactness}
+For every history $h:\mathsf{BHist}$,
+$$
+  \mathsf{BoolHistoryCarrier}(h)
+  \quad\Longleftrightarrow\quad
+  \exists v:\mathsf{BMark}.\;
+    \mathsf{BoolSourceSpec}(v)\land
+    \mathsf{BoolHistoryClassifier}(h,\mathsf{BoolEndpoint}(v)).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the second clause of
+Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness}. For the reverse
+direction, unpack the displayed classifier witness. Its left endpoint carrier
+field is exactly $\mathsf{BoolHistoryCarrier}(h)$, so the carrier statement
+follows directly.
 \end{proof}
 
 \begin{theorem}[Bool history classifier endpoint readback]
