@@ -158,6 +158,43 @@ $\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_iff}
 
+\begin{theorem}[Metric distance witness visible-context result determinacy]
+\label{thm:metric-distance-witness-visible-context-result-deterministic}
+For histories $p,q,x,y,d,d'$, if the same visible endpoint histories carry two
+visible distance ledgers with central parts $d$ and $d'$, then those central
+parts classify together:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d')\cdot q)
+\Longrightarrow
+\hsame(d,d').
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to the first
+visible witness. This recovers $\mathsf{MetricDistanceWitness}(x,y,d)$ together
+with unary evidence for the visible prefix and suffix.
+
+Apply the same visible-context exactness theorem to the second visible witness.
+This recovers $\mathsf{MetricDistanceWitness}(x,y,d')$ over the same central
+endpoints.
+
+Unpack the two central witnesses. Their continuation ledgers have the same
+source endpoint $x$ and target endpoint $y$, namely $\ContR(x,y,d)$ and
+$\ContR(x,y,d')$. By continuation determinacy
+\autoref{thm:continuation-determinacy}, their results classify together, giving
+$\hsame(d,d')$.
+
+The per-object template is as follows. The traditional target is visible metric
+distance readback. The BEDC source is $\mathsf{BHist}$ with $\ContR$ and
+$\mathsf{UnaryHistory}$. The carrier is $\mathsf{MetricDistanceWitness}$ and the
+classifier is $\hsame$. The ledger is the visible prefix and suffix context
+around the central endpoints. The core theorem is central-result determinacy,
+exactness is uniqueness of the central distance, and the status is
+$\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{theorem}[Metric distance witness empty-left exactness]
 \label{thm:metric-distance-witness-empty-left-iff}
 For histories $y,d$, a concrete distance witness whose left endpoint is empty
