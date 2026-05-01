@@ -162,34 +162,8 @@ proof occurs inside the classifier witness; those proofs belong to
 $\mathsf{SumHistoryCarrier}$ and to certificate transport.
 \end{proof}
 
-In the roadmap template this records traditional disjoint-sum branch
-determinism for BEDC source $\mathsf{BHist}$ with $\hsame$, carrier
-$\mathsf{SumHistoryCarrier}$, classifier $\mathsf{SumHistoryClassifier}$,
-visible ledger tag, and $\mathsf{ProofTarget}$ status.
-
-\begin{theorem}[Sum history classifier branch determinism]
-\label{thm:sum-history-classifier-branch-determinism}
-For source classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
-histories $h,k,l,l',r,r':\mathsf{BHist}$, a single endpoint pair cannot carry
-both a left-branch presentation and a right-branch presentation:
-$$
-\neg\Bigl(
-\hsame(h,\Ezero(l))\land
-\hsame(k,\Ezero(l'))\land
-LeftEq(l,l')\land
-\hsame(h,\Eone(r))\land
-\hsame(k,\Eone(r'))\land
-RightEq(r,r')
-\Bigr).
-$$
-\end{theorem}
-\begin{proof}
-Assume both presentations. Compose symmetry of $\hsame(h,\Ezero(l))$ with
-$\hsame(h,\Eone(r))$ to obtain $\hsame(\Ezero(l),\Eone(r))$, then close by BEDC
-$e0/e1$ no-confusion. The endpoint $k$ and the stored component classifier
-witnesses are retained in the presentation but are not needed for the
-constructor contradiction.
-\end{proof}
+Mixed-tag classifier exclusion is recorded by
+Theorem~\ref{thm:sum-history-classifier-tag-separation}.
 
 \begin{theorem}[Sum history classifier left-tag inversion]
 \label{thm:sum-history-classifier-left-hsame-inversion}
