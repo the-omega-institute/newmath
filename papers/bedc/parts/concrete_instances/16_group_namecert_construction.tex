@@ -223,6 +223,34 @@ transport the supplied equality $xa\hsame b$ through multiplication congruence.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_solution}
 
+\begin{theorem}[Group multiplication equation exactness]
+\label{thm:group-mul-equation-exactness}
+For a history-level group operation with associativity, left and right
+identities, multiplication congruence, and two-sided inverses, the displayed
+left and right multiplication solutions classify the original equations:
+$$
+ax\hsame b \Longleftrightarrow x\hsame a^{-1}b
+$$
+and
+$$
+xa\hsame b \Longleftrightarrow x\hsame ba^{-1}.
+$$
+\end{theorem}
+\begin{proof}
+The forward implications are Theorem~\ref{thm:group-left-mul-equation-solution}
+and Theorem~\ref{thm:group-right-mul-equation-solution}.
+
+For the reverse direction of the left equation, transport
+$x\hsame a^{-1}b$ by left multiplication with $a$. Reassociate
+$a(a^{-1}b)$ to $(aa^{-1})b$, collapse $aa^{-1}$ by the right inverse law,
+and use the left identity on $b$.
+
+For the reverse direction of the right equation, transport
+$x\hsame ba^{-1}$ by right multiplication with $a$. Reassociate
+$(ba^{-1})a$ to $b(a^{-1}a)$, collapse $a^{-1}a$ by the left inverse law,
+and use the right identity on $b$.
+\end{proof}
+
 \begin{theorem}[Group left absorption forces the right factor to the unit]
 \label{thm:group-left-absorb-right-factor-unit}
 For a history-level group operation with associativity, left and right
