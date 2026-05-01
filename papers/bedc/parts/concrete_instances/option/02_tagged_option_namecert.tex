@@ -272,6 +272,7 @@ For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source cla
   \item classifier endpoint transport: if $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$, $\hsame(h,h')$, and $\hsame(k,k')$ hold, then $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h',k')$ holds.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_stability\_fields}
 \begin{proof}
 For reflexivity, case-analyze the carrier witness. The absent case rebuilds the absent classifier branch from the stored empty endpoint witness and reflexivity, symmetry, and transitivity of $\hsame$; the present case keeps the same payload and applies the reflexivity field of $\mathsf{cert}$ to the source carrier witness. For symmetry, case-analyze the tagged classifier witness. The absent branch reverses the stored endpoint links by symmetry of $\hsame$, and the present branch reverses the payload classifier with $\mathsf{cert.equiv\_symm}$ while swapping the two endpoint witnesses.
 
