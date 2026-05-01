@@ -53,4 +53,14 @@ theorem abgroup_conjugation_collapse {mul : BHist -> BHist -> BHist} {e : BHist}
     exact mulCongr (hsame_refl b) (rightInv a)
   exact hsame_trans swap (hsame_trans collapseInner (rightId b))
 
+theorem abgroup_mul_right_factor_swap {mul : BHist -> BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b')) :
+    forall a b c : BHist, hsame (mul (mul a b) c) (mul (mul a c) b) := by
+  intro a b c
+  exact hsame_trans (assocC a b c)
+    (hsame_trans (mulCongr (hsame_refl a) (commC b c)) (hsame_symm (assocC a c b)))
+
 end BEDC.Derived.AbGroupUp

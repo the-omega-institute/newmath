@@ -144,6 +144,40 @@ underlying additive group, so the common summand cancels.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_left\_right\_same}
 
+\begin{theorem}[Ring left-negative product equals negative product]
+\label{thm:ring-mul-neg-left-eq-neg-mul}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, operation congruence, and both
+distributive laws, every pair $x,y$ satisfies
+$$
+\hsame((-x)y,-(xy)).
+$$
+\end{theorem}
+\begin{proof}
+The left-negative product sum theorem gives $(-x)y+xy\hsame0$. The additive
+right inverse theorem gives $xy+(-(xy))\hsame0$. Applying the additive
+left/right inverse uniqueness argument identifies $(-x)y$ with $-(xy)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_left\_eq\_neg\_mul}
+
+\begin{theorem}[Ring right-negative product equals negative product]
+\label{thm:ring-mul-neg-right-eq-neg-mul}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, operation congruence, and both
+distributive laws, every pair $x,y$ satisfies
+$$
+\hsame(x(-y),-(xy)).
+$$
+\end{theorem}
+\begin{proof}
+Apply left distributivity backward to identify $x(-y)+xy$ with
+$x((-y)+y)$. Transport the right factor across the additive left-inverse law,
+use right zero absorption for multiplication, and combine the resulting
+left-inverse witness with the additive right inverse of $xy$ by inverse
+uniqueness.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_right\_eq\_neg\_mul}
+
 \begin{definition}[Ring ledger policy]
 \label{def:ring-ledger-policy}
 Record the shared carrier ledger and the operation tree for ring expressions.
