@@ -742,6 +742,24 @@ classifier transitivity, yielding
 $\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$.
 \end{proof}
 
+\begin{theorem}[Prod ledger two-step classifier composition]
+\label{thm:prod-ledger-two-step-classifier-composition}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ and
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,v,w)$ hold, then
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$ holds. The object fit is:
+ordered-product ledger chain; BEDC source $\mathsf{BHist}$ with $\Cont$;
+carrier $\mathsf{ProdHistoryCarrier}$; classifier
+$\mathsf{ProdHistoryClassifier}$; ledger evidence raw-visible-visible;
+exactness by classifier composition.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-ledger-raw-visible-classifier} to both ledger
+policies to obtain classifiers from $\rho$ to $v$ and from $v$ to $w$. Compose
+them by Theorem~\ref{thm:prod-history-classifier-transitivity}.
+\end{proof}
+
 \begin{theorem}[Prod ledger component exposure]
 \label{thm:prod-ledger-component-exposure}
 If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then there exist histories $l$ and $r$ such that $L(l)$, $R(r)$, $\Cont(l,r,\rho)$, $\hsame(\rho,v)$, $\mathsf{ProdHistoryCarrier}(L,R,v)$, and $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ all hold.
