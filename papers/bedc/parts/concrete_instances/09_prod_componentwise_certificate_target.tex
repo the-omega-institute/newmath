@@ -283,6 +283,68 @@ history carrier witness exposes component histories $l,r$ and hence a displayed
 pair ledger witness $D(h)$.
 \end{proof}
 
+\begin{theorem}[Product componentwise certificate under source restriction and classifier weakening]
+\label{thm:prod-componentwise-certificate-under-source-restriction}
+The ten-field fit is: traditional target ordered-product component certificate
+under restricted source carriers and weaker component classifiers; BEDC source
+$\mathsf{BHist}$ with $\Cont$; ambient carriers $L$ and $R$; restricted carriers
+$L'$ and $R'$; ambient classifiers $\sim_L,\sim_R$; certificate classifiers
+$\approx_L,\approx_R$; ledger displayed pair representations over the restricted
+carriers; stability datum transported by pair-representation coherence; exactness
+at the displayed product endpoint; standard bridge componentwise certificate
+formation; status $\mathsf{ProofTarget}$.
+
+Let $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and let
+$\sim_L,\sim_R,\approx_L,\approx_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$
+be component classifiers. Suppose the restricted sources carry certificates
+$\mathsf{cert}'_L:\NameCert(L',\approx_L)$ and
+$\mathsf{cert}'_R:\NameCert(R',\approx_R)$, and suppose the ambient displayed-pair
+representations are coherent:
+$$
+\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}.
+$$
+Suppose also that the restricted carriers include into the ambient carriers,
+$$
+\forall x.\;L'(x)\to L(x)
+$$
+and
+$$
+\forall x.\;R'(x)\to R(x),
+$$
+and that the ambient component classifiers weaken into the certificate
+classifiers,
+$$
+\forall x\,y.\;x\sim_L y\to x\approx_L y
+$$
+and
+$$
+\forall x\,y.\;x\sim_R y\to x\approx_R y.
+$$
+Define the restricted displayed-pair ledger by
+$$
+D'(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L',R'}(h,l,r).
+$$
+Then the restricted componentwise product classifier forms the semantic naming
+certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L',R'),
+\mathsf{ProdHistoryCarrier}(L',R'),
+D',
+\mathsf{ProdComponentHistoryClassifier}_{L',R',\approx_L,\approx_R}).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:prod-pair-rep-coherence-under-classifier-weakening} to the
+ambient coherence datum, the two carrier inclusions, and the two classifier
+weakenings. This yields
+$\mathsf{ProdPairRepCoherent}_{L',R',\approx_L,\approx_R}$. Then apply
+Theorem~\ref{thm:prod-component-history-semantic-certificate-target} to
+$\mathsf{cert}'_L$, $\mathsf{cert}'_R$, and the transported coherence witness.
+The ledger in that theorem is exactly the displayed predicate $D'$ above.
+\end{proof}
+
 \begin{theorem}[Product ledger visible pair-representation readback]
 \label{thm:prod-ledger-visible-pair-representation-readback}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history predicates and let
