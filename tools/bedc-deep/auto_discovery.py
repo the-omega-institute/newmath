@@ -124,43 +124,75 @@ def _safe(text: str) -> str:
     return (text or "").replace("{", "{{").replace("}", "}}")
 
 
-def _run_codex_pass(template_path: Path, log_tag: str, **format_kwargs) -> tuple[bool, list[dict], str]:
+def _run_claude_audit(template_path: Path, log_tag: str, **format_kwargs) -> tuple[bool, list[dict], list[dict], str]:
+    """Phase 1: claude does deep paper audit, returns candidates with evidence.
+
+    Returns (ok, candidates, rejected, error). Each candidate carries
+    title / concrete_claim / local_inputs / fit_score / novelty / rationale.
+    rejected is the calibration list claude considered and dropped.
+    """
     template = template_path.read_text(encoding="utf-8")
     safe_kwargs = {k: _safe(v) if isinstance(v, str) else v for k, v in format_kwargs.items()}
     prompt = template.format(**safe_kwargs)
-    result = codex_orchestrator.codex_exec(prompt, timeout=PROBE_TIMEOUT, log_tag=log_tag)
-    if not result.ok:
-        return (False, [], result.error or f"codex rc={result.rc}")
-    parsed = result.parsed
-    if not parsed:
-        return (False, [], "codex output was not JSON")
-    candidates = parsed.get("candidates") or []
-    if not isinstance(candidates, list):
-        return (False, [], "candidates field was not a list")
-    return (True, candidates, "")
-
-
-def _run_claude_review(candidates: list[dict], log_tag: str) -> tuple[bool, list[dict], list[dict], str]:
-    """Send candidates to claude review gate. Returns (ok, accepted, rejected, error)."""
-    if not candidates:
-        return (True, [], [], "")
-    template = (PROMPTS_DIR / "auto_discovery_review.txt").read_text(encoding="utf-8")
-    prompt = template.format(
-        repo_root=_safe(str(REPO_ROOT)),
-        board_content=_safe(_board_text()),
-        candidates_json=_safe(json.dumps({"candidates": candidates}, ensure_ascii=False, indent=2)),
-    )
-    ok, stdout, rc = killo_golden_writeback.claude_exec(prompt, timeout=REVIEW_TIMEOUT, log_tag=log_tag)
+    ok, stdout, rc = killo_golden_writeback.claude_exec(prompt, timeout=PROBE_TIMEOUT, log_tag=log_tag)
     if not ok:
         return (False, [], [], f"claude exec rc={rc}: {stdout[:400]}")
     parsed = _extract_json_object(stdout)
     if not parsed:
         return (False, [], [], "claude output was not JSON")
-    accepted = parsed.get("accepted") or []
+    candidates = parsed.get("candidates") or []
     rejected = parsed.get("rejected") or []
-    if not isinstance(accepted, list) or not isinstance(rejected, list):
-        return (False, [], [], "accepted/rejected fields had wrong type")
-    return (True, accepted, rejected, "")
+    if not isinstance(candidates, list) or not isinstance(rejected, list):
+        return (False, [], [], "candidates / rejected wrong type")
+    return (True, candidates, rejected, "")
+
+
+def _run_codex_cross_check(candidates: list[dict], log_tag: str) -> tuple[bool, list[dict], str]:
+    """Phase 2: codex independently cross-checks claude's candidates.
+
+    Returns (ok, decisions, error). decisions is a list of
+    {title, verdict: keep|drop, reason}.
+    """
+    if not candidates:
+        return (True, [], "")
+    template = (PROMPTS_DIR / "audit_cross_check.txt").read_text(encoding="utf-8")
+    prompt = template.format(
+        repo_root=_safe(str(REPO_ROOT)),
+        board_content=_safe(_board_text()),
+        candidates_json=_safe(json.dumps({"candidates": candidates}, ensure_ascii=False, indent=2)),
+    )
+    result = codex_orchestrator.codex_exec(prompt, timeout=REVIEW_TIMEOUT, log_tag=log_tag)
+    if not result.ok:
+        return (False, [], result.error or f"codex rc={result.rc}")
+    parsed = result.parsed
+    if not parsed:
+        return (False, [], "codex output was not JSON")
+    decisions = parsed.get("decisions") or []
+    if not isinstance(decisions, list):
+        return (False, [], "decisions field was not a list")
+    return (True, decisions, "")
+
+
+def _intersect_keep(candidates: list[dict], decisions: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Filter candidates by codex's verdicts. Returns (kept, dropped_with_reason)."""
+    by_title = {c.get("title", "").strip().lower(): c for c in candidates}
+    kept: list[dict] = []
+    dropped: list[dict] = []
+    decision_for_title: dict[str, dict] = {}
+    for d in decisions:
+        title = (d.get("title") or "").strip().lower()
+        if title:
+            decision_for_title[title] = d
+    for title_low, cand in by_title.items():
+        d = decision_for_title.get(title_low)
+        if d is None:
+            dropped.append({"title": cand.get("title"), "reason": "codex returned no decision for this candidate"})
+            continue
+        if (d.get("verdict") or "").lower() == "keep":
+            kept.append(cand)
+        else:
+            dropped.append({"title": cand.get("title"), "reason": d.get("reason") or "codex dropped"})
+    return kept, dropped
 
 
 def _extract_json_object(text: str) -> dict | None:
@@ -189,109 +221,89 @@ def _persist(mode: str, payload: dict) -> Path:
     return out
 
 
-def cmd_probe(args: argparse.Namespace) -> int:
+def _run_two_stage(args: argparse.Namespace, mode: str, claude_template: str, **claude_kwargs) -> int:
+    """Adversarial two-stage discovery: claude generates with evidence, codex
+    cross-checks independently, intersection lands on BOARD."""
     if not args.no_dev_sync:
         try:
             sync_dev_if_clean()
         except Exception as exc:
-            print(f"[probe] sync_dev error (continuing): {exc}", flush=True)
-    print("[probe] codex theory-probe pass starting...", flush=True)
-    ok, codex_candidates, err = _run_codex_pass(
-        PROMPTS_DIR / "theory_probe.txt",
-        "probe_codex",
-        board_content=_board_text(),
+            print(f"[{mode}] sync_dev error (continuing): {exc}", flush=True)
+
+    print(f"[{mode}] phase 1: claude audit (deep paper scan with evidence)", flush=True)
+    ok, claude_candidates, claude_rejected, err = _run_claude_audit(
+        PROMPTS_DIR / claude_template,
+        f"{mode}_claude",
+        **claude_kwargs,
     )
     if not ok:
-        print(f"[probe] codex failed: {err}", flush=True)
-        _persist("probe", {"ok": False, "stage": "codex", "error": err})
+        print(f"[{mode}] phase 1 failed: {err}", flush=True)
+        _persist(mode, {"ok": False, "stage": "claude_audit", "error": err})
         return 1
-    print(f"[probe] codex returned {len(codex_candidates)} candidates", flush=True)
-    if not codex_candidates:
-        print("[probe] empty list — nothing to review", flush=True)
-        _persist("probe", {"ok": True, "codex_candidates": [], "accepted": [], "rejected": []})
+    print(f"[{mode}] phase 1: {len(claude_candidates)} candidates, {len(claude_rejected)} self-rejected (calibration)", flush=True)
+    if not claude_candidates:
+        print(f"[{mode}] phase 1 produced empty candidate list; skipping cross-check", flush=True)
+        _persist(mode, {
+            "ok": True,
+            "ts": _now_iso(),
+            "claude_candidates": [],
+            "claude_rejected": claude_rejected,
+            "codex_decisions": [],
+            "kept": [],
+            "dropped_after_cross_check": [],
+        })
         return 0
 
-    ok, accepted, rejected, err = _run_claude_review(codex_candidates, "probe_review")
+    print(f"[{mode}] phase 2: codex adversarial cross-check", flush=True)
+    ok, decisions, err = _run_codex_cross_check(claude_candidates, f"{mode}_codex")
     if not ok:
-        print(f"[probe] claude review failed: {err}", flush=True)
-        _persist("probe", {"ok": False, "stage": "review", "codex_candidates": codex_candidates, "error": err})
-        return 1
-    print(f"[probe] claude accepted={len(accepted)} rejected={len(rejected)}", flush=True)
+        print(f"[{mode}] phase 2 failed: {err}; falling back to phase-1 candidates without cross-check", flush=True)
+        decisions = []
+    kept, dropped = _intersect_keep(claude_candidates, decisions)
+    print(f"[{mode}] phase 2: kept {len(kept)} of {len(claude_candidates)} (codex dropped {len(dropped)})", flush=True)
 
     final_state: dict = {
         "ok": True,
         "ts": _now_iso(),
-        "codex_candidates": codex_candidates,
-        "accepted": accepted,
-        "rejected": rejected,
+        "claude_candidates": claude_candidates,
+        "claude_rejected": claude_rejected,
+        "codex_decisions": decisions,
+        "kept": kept,
+        "dropped_after_cross_check": dropped,
     }
 
     appended: list[str] = []
-    if args.append and accepted:
+    if args.append and kept:
         appended = append_candidates_to_board(
-            accepted,
+            kept,
             fit_threshold=args.candidate_fit_threshold,
             novelty_threshold=args.candidate_novelty_threshold,
         )
         final_state["appended_ids"] = appended
-        print(f"[probe] appended {len(appended)} candidates to BOARD.md: {appended}", flush=True)
+        print(f"[{mode}] appended {len(appended)} to BOARD.md: {appended}", flush=True)
 
-    log_path = _persist("probe", final_state)
-    print(f"[probe] full record: {log_path}", flush=True)
+    log_path = _persist(mode, final_state)
+    print(f"[{mode}] full record: {log_path}", flush=True)
     return 0
+
+
+def cmd_probe(args: argparse.Namespace) -> int:
+    return _run_two_stage(
+        args,
+        "probe",
+        "theory_probe.txt",
+        board_content=_board_text(),
+    )
 
 
 def cmd_curator(args: argparse.Namespace) -> int:
-    if not args.no_dev_sync:
-        try:
-            sync_dev_if_clean()
-        except Exception as exc:
-            print(f"[curator] sync_dev error (continuing): {exc}", flush=True)
-    print("[curator] codex meta-review pass starting...", flush=True)
-    ok, codex_candidates, err = _run_codex_pass(
-        PROMPTS_DIR / "curator.txt",
-        "curator_codex",
+    return _run_two_stage(
+        args,
+        "curator",
+        "curator.txt",
         board_content=_board_text(),
         completed_summary=_completed_summary(),
     )
-    if not ok:
-        print(f"[curator] codex failed: {err}", flush=True)
-        _persist("curator", {"ok": False, "stage": "codex", "error": err})
-        return 1
-    print(f"[curator] codex returned {len(codex_candidates)} candidates", flush=True)
-    if not codex_candidates:
-        print("[curator] empty list — nothing to review", flush=True)
-        _persist("curator", {"ok": True, "codex_candidates": [], "accepted": [], "rejected": []})
-        return 0
-
-    ok, accepted, rejected, err = _run_claude_review(codex_candidates, "curator_review")
-    if not ok:
-        print(f"[curator] claude review failed: {err}", flush=True)
-        _persist("curator", {"ok": False, "stage": "review", "codex_candidates": codex_candidates, "error": err})
-        return 1
-    print(f"[curator] claude accepted={len(accepted)} rejected={len(rejected)}", flush=True)
-
-    final_state: dict = {
-        "ok": True,
-        "ts": _now_iso(),
-        "codex_candidates": codex_candidates,
-        "accepted": accepted,
-        "rejected": rejected,
-    }
-
-    appended: list[str] = []
-    if args.append and accepted:
-        appended = append_candidates_to_board(
-            accepted,
-            fit_threshold=args.candidate_fit_threshold,
-            novelty_threshold=args.candidate_novelty_threshold,
-        )
-        final_state["appended_ids"] = appended
-        print(f"[curator] appended {len(appended)} candidates to BOARD.md: {appended}", flush=True)
-
-    log_path = _persist("curator", final_state)
-    print(f"[curator] full record: {log_path}", flush=True)
-    return 0
 
 
 def main() -> int:

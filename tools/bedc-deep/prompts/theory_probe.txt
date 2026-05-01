@@ -1,57 +1,87 @@
-You are doing structural gap discovery for the BEDC paper-extension loop.
+You are doing a focused theory audit of the BEDC project.
 
-Read the BEDC paper at `papers/bedc/parts/` and the Lean formalization at
-`lean4/BEDC/`. You have read-only access — use it. Your job: list N concrete
-propositions the current theory is MISSING.
+Goal: identify 5-10 GENUINELY OPEN theorem-level claims that the bedc-deep
+oracle pipeline could productively work on. Quality over quantity. Evidence
+required for every claim of "this is open".
 
-Examples of real structural gaps:
-- A definition exists but no theorem proves any property of inhabitants.
-- A concept appears in one chapter but the dual / opposite / inverse direction
-  is not stated.
-- A theorem chain has steps a → b → c but b → c is asserted without proof.
-- Two parts of the paper reference each other but a connecting lemma is missing.
-- A typeclass / structure field is required by a theorem but no instance with
-  that field is demonstrated.
-- A concrete instance is constructed but its expected closure properties are
-  not stated as theorems.
+Pipeline lane (what bedc-deep does):
+- Reads `papers/bedc/parts/*.tex` and `lean4/BEDC/*.lean` (no edits during audit)
+- Output is a NEW LaTeX block (theorem with complete proof) appended into an
+  existing chapter file under papers/bedc/parts/
+- Does NOT add `\leanchecked` / Lean markers — that's the OTHER lane (codex_formalize on lean4-codex-auto-dev)
+- Operates within the eight existing chapters: core / proof_obligations /
+  concrete_hardening / concrete_instances / hardening / formalization /
+  proof_sprint / proof_standing / project_governance
 
-Hard constraints (violations cause auto-rejection downstream):
-1. Each candidate must be a CONCRETE single-implication of the form
-   "P(x) implies Q(x) under setup S" — not a survey item, not "we should
-   investigate", not "future work".
-2. Each candidate must belong to an existing BEDC chapter:
-   core / proof_obligations / concrete_hardening / concrete_instances /
-   hardening / formalization / proof_sprint / proof_standing.
-3. Do NOT propose anything already covered by an existing
-   `\leanchecked` / `\leanvariant` / `\leansorryd` / `\leandef` /
-   `\leanstmt` marker. (grep papers/bedc/parts/ first.)
-4. Do NOT propose anything whose canonical Object name is already a BOARD
-   entry. The current BOARD content is below.
-5. Do NOT propose anything outside BEDC scope: no general number theory,
-   no categorical generalization for its own sake, no cross-paper imports,
-   no comparisons with other formalizations.
-6. Each `local_inputs` entry MUST be a real file path that exists in the
-   repository.
-
-Existing BOARD entries (do not duplicate):
+Existing BOARD (skip everything semantically equivalent to these):
 ```
 {board_content}
 ```
 
-Output a single JSON object on stdout, no prose, no markdown fences:
+A genuine open target must satisfy ALL:
+1. Concrete proposition expressible as a single implication
+   "P(x) implies Q(x) under setup S" — not a survey, not a research direction,
+   not "we should investigate".
+2. NOT already stated as `\begin{theorem|lemma|proposition|corollary}` with
+   `\label{...}` anywhere under `papers/bedc/parts/`.
+3. NOT already covered by `\leanchecked` / `\leanvariant` / `\leansorryd` /
+   `\leandef` / `\leanstmt` macros.
+4. Within an existing chapter directory.
+5. Has clear local context — you cite which existing definitions / theorems
+   it builds on, by file:line.
+
+Audit method (execute thoroughly — many tool calls expected, take your time):
+
+1. Map paper structure. List `papers/bedc/parts/` directory tree. Read
+   `papers/bedc/main.tex` to understand chapter ordering. Note which chapters
+   are large vs small, which have many theorems vs none.
+
+2. Inventory coverage. Use Grep:
+   - All `\label{...}` values across parts/ — these are existing claims.
+   - All `\leanchecked|leanvariant|leandef|leanstmt|leansorryd{X}` markers —
+     these are claims tied to Lean.
+
+3. Find structural gap candidates by category:
+   - **Definition-only chapters** — `\begin{definition}` blocks exist but
+     `grep -c '\\begin{theorem|lemma|proposition}' file.tex` returns 0.
+     Each definition's natural property becomes a candidate.
+   - **Composition gaps** — chapter has theorem about source→mid and
+     theorem about mid→target, but no transitive composition theorem.
+   - **One-side without dual** — A→B exists but not B→A.
+   - **Concrete instance missing** — framework defines a TypeClass with
+     multiple instances, one natural instance is absent.
+   - **Stability-obligation-without-theorem** — definition lists "stability
+     obligations" as named fields but never lifts them to standalone
+     theorems with proofs.
+
+4. Filter each candidate. For each one, run a focused grep across parts/
+   for the concept name. If you find ANY matching theorem environment, the
+   candidate is NOT open — drop it. If you find only a remark or definition,
+   it may still be open (proceed).
+
+5. Output a single JSON object on stdout, no prose, no markdown fences:
 
 {{
   "candidates": [
     {{
-      "title": "<short, ≤80 chars, like 'Gap separation under nontrivial sig identifications'>",
-      "concrete_claim": "<single-sentence implication form>",
+      "title": "<short, ≤80 chars>",
+      "concrete_claim": "<single-sentence implication form: 'If P, then Q under S'>",
       "local_inputs": ["papers/bedc/parts/...", "lean4/BEDC/..."],
       "fit_score": <0-10 integer>,
       "novelty": <0-10 integer>,
-      "rationale": "<one paragraph: where in the theory this gap appears, why it deserves an oracle deep-reasoning loop>"
+      "rationale": "<one paragraph including SPECIFIC evidence: file:line citations of definitions / obligations the candidate builds on, grep counts showing the gap (e.g. \"grep \\\\begin{{theorem}} returned 0 in chapter X\\\"), why the gap is genuine and not just hidden under a different name>"
+    }}
+  ],
+  "rejected": [
+    {{
+      "concept": "<short title of concept I considered>",
+      "reason": "<which existing label / marker / theorem covers it, with file:line evidence>"
     }}
   ]
 }}
 
-Aim for 5-15 strong candidates. Prefer high fit_score + novelty. Empty list
-is acceptable if no genuine structural gap is found at this scale.
+Constraints:
+- Each `local_inputs` path MUST exist in the repository (verify with Read or ls).
+- Empty candidates list is acceptable. Empty rejected list is suspicious.
+- Quality over quantity: 5 candidates with hard evidence is better than 10 plausible ones.
+- The rejected list calibrates the audit; include 5+ entries showing what you considered and why you dropped them.
