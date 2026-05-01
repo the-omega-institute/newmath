@@ -545,6 +545,32 @@ $\hsame(h,k)$ rebuild $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_descends\_to\_envelope}
 
+The recovery theorem instantiates the roadmap template as traditional ordered-product envelope-to-componentwise readback over the BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$, carrier $\mathsf{ProdHistoryCarrier}$, classifier $\mathsf{ProdComponentHistoryClassifier}$, stability via pair-representation coherence, ledger displayed pair representation, core theorem coherent envelope recovery, exactness component readback from envelope, standard bridge ordered-pair readback, and status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Product envelope classifier recovers coherent componentwise classifier]
+\label{thm:prod-history-envelope-to-componentwise-coherent}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and let $h,k:\mathsf{BHist}$. Assume
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. If
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$ holds, then
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the envelope classifier into endpoint carriers for $h$ and $k$ and the
+stored endpoint link $\hsame(h,k)$. Apply
+Theorem~\ref{thm:prod-pair-rep-coverage} to the two endpoint carriers to choose
+displayed pair representations
+$\mathsf{ProdPairRep}_{L,R}(h,l_h,r_h)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l_k,r_k)$.
+
+Apply Theorem~\ref{thm:prod-pair-rep-hsame-coherence} to the coherence datum,
+the two displayed pair representations, and the endpoint link. The resulting
+component links $l_h\sim_L l_k$ and $r_h\sim_R r_k$, together with the displayed
+pair representations, repack as
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$.
+\end{proof}
+
 \begin{theorem}[Product envelope hsame classifier recovers componentwise classifier]
 \label{thm:prod-history-envelope-to-componentwise-hsame}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. Assume
