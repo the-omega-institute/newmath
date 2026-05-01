@@ -1517,7 +1517,7 @@ def run_round_in_worktree(
     *,
     dry_run: bool = False,
     model: Optional[str] = None,
-    review_timeout: int = 1200,
+    review_timeout: int = 1800,
     revise_timeout: int = 3600,
 ) -> tuple[bool, int, list[str]]:
     tag = f"P{round_num}"
@@ -1717,7 +1717,7 @@ def run_parallel_batch(
     parallel: int,
     dry_run: bool = False,
     model: Optional[str] = None,
-    review_timeout: int = 1200,
+    review_timeout: int = 1800,
     revise_timeout: int = 3600,
 ) -> tuple[int, int]:
     nums = allocate_round_numbers(state, parallel)
@@ -1786,7 +1786,7 @@ def main() -> int:
     parser.add_argument("--continuous", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--model", "-m", type=str, default=None)
-    parser.add_argument("--review-timeout", type=int, default=1200)
+    parser.add_argument("--review-timeout", type=int, default=1800)
     parser.add_argument("--revise-timeout", type=int, default=3600)
     parser.add_argument("--max-consecutive-failures", type=int, default=3)
     parser.add_argument("--reset-state", action="store_true")
