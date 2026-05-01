@@ -384,6 +384,36 @@ r_h\sim_R r_k.
 $$
 \end{definition}
 
+\begin{theorem}[Product componentwise history classifier source refinement]
+\label{thm:prod-component-history-classifier-source-refinement}
+The per-object fit is: traditional ordered-product classifier stability under
+source refinement; BEDC source $\mathsf{BHist}$ with $\Cont$; carrier through
+$\mathsf{ProdPairRep}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$; ledger unchanged displayed pair
+representations; exactness preservation under refined carriers and
+classifiers; status $\mathsf{ProofTarget}$.
+
+For carriers $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$ and classifiers
+$\sim_L,\sim_R,\sim'_L,\sim'_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+suppose $\forall h.\;L(h)\to L'(h)$, $\forall h.\;R(h)\to R'(h)$,
+$\forall x\,y.\;x\sim_L y\to x\sim'_L y$, and
+$\forall x\,y.\;x\sim_R y\to x\sim'_R y$. Then
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ implies
+$\mathsf{ProdComponentHistoryClassifier}_{L',R',\sim'_L,\sim'_R}(h,k)$.
+\end{theorem}
+\begin{proof}
+Unpack the componentwise classifier witness into displayed pair
+representations of $h$ and $k$ with components $l_h,r_h,l_k,r_k$, together
+with the two component classifier witnesses. Rebuild each displayed pair
+representation for $L',R'$ by applying the carrier inclusions to the stored
+component source witnesses and keeping the same continuation evidence.
+Transport the two component classifier witnesses through the classifier
+implications, then repack these two rebuilt displayed pair representations and
+the transported component witnesses as a
+$\mathsf{ProdComponentHistoryClassifier}_{L',R',\sim'_L,\sim'_R}(h,k)$
+witness.
+\end{proof}
+
 \input{parts/concrete_instances/09_prod_componentwise_history_classifier_endpoints}
 
 \begin{theorem}[Product componentwise history classifier certificate target]
@@ -510,11 +540,13 @@ Unpack the envelope classifier into endpoint carrier witnesses for $h$ and
 $k$ and an endpoint link $\hsame(h,k)$. Pair-representation coverage for the
 two endpoint carriers supplies displayed pair representations
 $\mathsf{ProdPairRep}_{L,R}(h,l_h,r_h)$ and
-$\mathsf{ProdPairRep}_{L,R}(k,l_k,r_k)$. Transport the displayed
-representation of $k$ across $\hsame(h,k)$ using continuation result
-transport, obtaining a second displayed pair representation of the $h$
-endpoint with the same components $l_k,r_k$. Pair-representation coherence at
-$h$ compares the two representations of $h$ and gives
+$\mathsf{ProdPairRep}_{L,R}(k,l_k,r_k)$. First reverse the endpoint link to
+obtain $\hsame(k,h)$. Apply
+Theorem~\ref{thm:prod-pair-rep-hsame-transport} to the displayed
+representation of $k$ and this reversed link, producing a displayed pair
+representation of $h$ with the same components $l_k,r_k$.
+Pair-representation coherence at $h$ compares the two representations of $h$
+and gives
 $\hsame(l_h,l_k)$ and $\hsame(r_h,r_k)$. These two component links together
 with the original displayed pair representations for $h$ and $k$ rebuild
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k)$.
