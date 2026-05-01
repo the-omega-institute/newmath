@@ -27,6 +27,23 @@ theorem FunctorPrefixHomCarrier_preserves {p a b f : BHist} :
                     (And.intro morphismCarrier
                       (cont_intro (append_assoc p a f).symm)))
 
+theorem FunctorPrefixHomCarrier_reflects {p a b f : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f -> CategoryHomCarrier a b f := by
+  intro homCarrier
+  cases homCarrier with
+  | intro sourceCarrier homRest =>
+      cases homRest with
+      | intro targetCarrier homRest =>
+          cases homRest with
+          | intro morphismCarrier homCont =>
+              exact
+                And.intro
+                  (unary_append_right_factor sourceCarrier)
+                  (And.intro
+                    (unary_append_right_factor targetCarrier)
+                    (And.intro morphismCarrier
+                      (cont_prefix_cancel homCont)))
+
 theorem FunctorPrefixHomCarrier_comp_preserves {p a b c f g fg : BHist} :
     UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier (append p a) (append p c) fg := by

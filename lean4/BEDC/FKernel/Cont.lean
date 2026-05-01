@@ -208,6 +208,12 @@ theorem cont_left_cancel :
   apply append_left_cancel (h := h)
   exact left.symm.trans right
 
+theorem cont_prefix_cancel {p a b f : BHist} : Cont (append p a) f (append p b) -> Cont a f b := by
+  intro hpref
+  apply cont_intro
+  apply append_left_cancel (h := p)
+  exact hpref.trans (append_assoc p a f)
+
 theorem cont_deterministic :
     ∀ {h k r r' : BHist}, Cont h k r → Cont h k r' → hsame r r' := by
   intro h k r r' hr hr'

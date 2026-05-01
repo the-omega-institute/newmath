@@ -57,6 +57,23 @@ theorem CategoryHomCarrier_comp_assoc_closed {a b c d f g h fg gh left right : B
         (CategoryHomCarrier_comp_closed first ghCarrier rightRel)
         (cont_assoc_hsame fgRel leftRel ghRel rightRel))
 
+theorem CategoryHomCarrier_morphism_deterministic {a b f g : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier a b g -> hsame f g := by
+  intro left right
+  cases left with
+  | intro _sourceCarrier leftRest =>
+      cases leftRest with
+      | intro _targetCarrier leftHomRest =>
+          cases leftHomRest with
+          | intro _fCarrier leftCont =>
+              cases right with
+              | intro _sourceCarrier' rightRest =>
+                  cases rightRest with
+                  | intro _targetCarrier' rightHomRest =>
+                      cases rightHomRest with
+                      | intro _gCarrier rightCont =>
+                          exact cont_left_cancel leftCont rightCont
+
 structure ContinuationMorphism (src tgt : BHist) where
   tail : BHist
   rel : Cont src tail tgt
