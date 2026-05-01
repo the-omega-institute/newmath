@@ -126,6 +126,37 @@ $d=x\cdot y$ to $d\cdot p=x\cdot(y\cdot p)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_suffix\_iff}
 
+\begin{theorem}[Metric distance witness visible-context exactness]
+\label{thm:metric-distance-witness-visible-context-iff}
+For histories $p,q,x,y,d$, simultaneous visible ledgers on the source side and
+target side are exactly equivalent to unary evidence for the two ledgers
+together with the central distance witness:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, apply
+\autoref{thm:metric-distance-witness-suffix-iff} with source $p\cdot x$,
+target $y$, distance $p\cdot d$, and suffix $q$. This recovers
+$\mathsf{UnaryHistory}(q)$ together with
+$\mathsf{MetricDistanceWitness}(p\cdot x,y,p\cdot d)$. Then apply
+\autoref{thm:metric-distance-witness-prefix-iff} to the remaining witness to
+recover $\mathsf{UnaryHistory}(p)$ and
+$\mathsf{MetricDistanceWitness}(x,y,d)$.
+
+Conversely, assume unary evidence for $p$ and $q$ together with the central
+distance witness. Apply \autoref{thm:metric-distance-witness-prefix-iff} from
+right to left to build
+$\mathsf{MetricDistanceWitness}(p\cdot x,y,p\cdot d)$. Then apply
+\autoref{thm:metric-distance-witness-suffix-iff} from right to left with suffix
+$q$ to append the visible target ledger and obtain
+$\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$.
+\end{proof}
+
 \begin{definition}[MetricSpace ledger policy]
 \label{def:metric-ledger-policy}
 Record carrier witnesses and the real ledger of each distance value.
