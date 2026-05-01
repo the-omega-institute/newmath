@@ -127,20 +127,20 @@ theorem CompactWitnessCarrier_located_extension_closed
                                 (And.intro finiteCarrier
                                   (And.intro subsetShifted extendedLedger)))
 
-inductive CompactLocatedRefinementChain (finite : BHist) :
-    BHist -> BHist -> BHist -> BHist -> BHist -> BHist -> Prop where
-  | base {located intermediate compact : BHist} :
+inductive CompactLocatedRefinementChain :
+    BHist -> BHist -> BHist -> BHist -> BHist -> BHist -> BHist -> Prop where
+  | base {finite located intermediate compact : BHist} :
       CompactLocatedRefinementChain finite located intermediate compact located intermediate compact
   | step
-      {located intermediate compact currentLocated currentIntermediate currentCompact extra
+      {finite located intermediate compact currentLocated currentIntermediate currentCompact extra
         nextLocated nextIntermediate nextCompact : BHist} :
-      CompactLocatedRefinementChain finite located intermediate compact currentLocated currentIntermediate
-        currentCompact ->
-        UnaryHistory extra -> Cont currentLocated extra nextLocated ->
-          Cont currentIntermediate extra nextIntermediate ->
-            Cont nextIntermediate finite nextCompact ->
-              CompactLocatedRefinementChain finite located intermediate compact nextLocated
-                nextIntermediate nextCompact
+      CompactLocatedRefinementChain finite located intermediate compact currentLocated
+        currentIntermediate currentCompact ->
+      UnaryHistory extra -> Cont currentLocated extra nextLocated ->
+        Cont currentIntermediate extra nextIntermediate ->
+          Cont nextIntermediate finite nextCompact ->
+          CompactLocatedRefinementChain finite located intermediate compact nextLocated
+            nextIntermediate nextCompact
 
 theorem CompactWitnessCarrier_located_refinement_chain_closed
     {subset finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :

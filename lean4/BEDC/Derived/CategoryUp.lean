@@ -118,6 +118,14 @@ theorem CategoryHomCarrier_target_deterministic {a b c f : BHist} :
   intro left right
   exact cont_deterministic left.right.right.right right.right.right.right
 
+theorem CategoryHomCarrier_comp_target_deterministic {a b c d f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      CategoryHomCarrier a d fg -> hsame c d := by
+  intro left right comp displayed
+  exact
+    CategoryHomCarrier_target_deterministic
+      (CategoryHomCarrier_comp_closed left right comp) displayed
+
 theorem CategoryHomCarrier_source_deterministic {a b c f : BHist} :
     CategoryHomCarrier a c f -> CategoryHomCarrier b c f -> hsame a b := by
   intro left right
