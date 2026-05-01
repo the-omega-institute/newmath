@@ -395,6 +395,21 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "started_at": started_at,
             })
             break
+
+        duplicate_of = None
+        for prev_idx in range(turn_idx):
+            prev_response_path = out_dir / f"turn_{prev_idx:02d}_response.md"
+            if prev_response_path.exists() and prev_response_path.read_text(encoding="utf-8") == response:
+                duplicate_of = prev_idx
+                break
+        if duplicate_of is not None:
+            duplicate_path = out_dir / f"turn_{turn_idx:02d}_response.duplicate.md"
+            write_text(duplicate_path, response)
+            raise RuntimeError(
+                f"oracle returned exact duplicate response for turn {turn_idx} "
+                f"(matches turn {duplicate_of}); wrote {duplicate_path}"
+            )
+
         write_text(out_dir / f"turn_{turn_idx:02d}_response.md", response)
 
         response_verdict = detect_response_verdict(response)
