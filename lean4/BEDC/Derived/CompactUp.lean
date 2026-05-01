@@ -210,4 +210,57 @@ theorem CompactNetWitness_prefixed_composite_closed
                                       (append_assoc center precision extra)).trans
                                       (append_assoc p center (append precision extra)).symm))))
 
+theorem CompactNetWitness_prefixed_composite_factorizes
+    {p center precision extra composite refined : BHist} :
+    UnaryHistory precision -> UnaryHistory extra -> Cont precision extra composite ->
+      CompactNetWitness (append p center) composite (append p refined) ->
+        ∃ net : BHist, CompactNetWitness center precision net ∧
+          CompactNetWitness net extra refined := by
+  intro precisionCarrier extraCarrier compositeRel prefixedWitness
+  have unprefixed := (CompactNetWitness_prefix_iff.mp prefixedWitness).right
+  cases unprefixed with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro _compositeCarrier rest =>
+          cases rest with
+          | intro refinedCarrier refinedRel =>
+              let net := append center precision
+              have netCarrier : UnaryHistory net :=
+                unary_append_closed centerCarrier precisionCarrier
+              have firstWitness : CompactNetWitness center precision net :=
+                And.intro centerCarrier
+                  (And.intro precisionCarrier (And.intro netCarrier (cont_intro rfl)))
+              have secondRel : Cont net extra refined := by
+                cases refinedRel
+                cases compositeRel
+                exact cont_intro (append_assoc center precision extra).symm
+              have secondWitness : CompactNetWitness net extra refined :=
+                And.intro netCarrier
+                  (And.intro extraCarrier (And.intro refinedCarrier secondRel))
+              exact Exists.intro net (And.intro firstWitness secondWitness)
+
+theorem CompactNetWitness_prefixed_composite_iff
+    {p center precision extra composite refined : BHist} :
+    UnaryHistory precision -> UnaryHistory extra -> Cont precision extra composite ->
+      (CompactNetWitness (append p center) composite (append p refined) ↔
+        UnaryHistory p ∧ ∃ net : BHist, CompactNetWitness center precision net ∧
+          CompactNetWitness net extra refined) := by
+  intro precisionCarrier extraCarrier compositeRel
+  constructor
+  · intro prefixedWitness
+    exact
+      And.intro (CompactNetWitness_prefix_iff.mp prefixedWitness).left
+        (CompactNetWitness_prefixed_composite_factorizes precisionCarrier extraCarrier
+          compositeRel prefixedWitness)
+  · intro data
+    cases data with
+    | intro prefixCarrier witness =>
+        cases witness with
+        | intro net witnessData =>
+            cases witnessData with
+            | intro firstWitness secondWitness =>
+                exact
+                  CompactNetWitness_prefixed_composite_closed prefixCarrier firstWitness
+                    secondWitness compositeRel
+
 end BEDC.Derived.CompactUp
