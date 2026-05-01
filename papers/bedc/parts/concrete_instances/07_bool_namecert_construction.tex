@@ -133,6 +133,33 @@ direction of Theorem~\ref{thm:bool-endpoint-bridge-exactness} converts this
 endpoint sameness into $\msame(v,w)$.
 \end{proof}
 
+\begin{theorem}[Bool history classifier mark-readback exactness]
+\label{thm:bool-history-classifier-mark-readback-exactness}
+For histories $h,k:\mathsf{BHist}$,
+$\mathsf{BoolHistoryClassifier}(h,k)$ holds if and only if there exist marks
+$v,w:\mathsf{BMark}$ satisfying
+$$
+  \hsame(h,\mathsf{BoolEndpoint}(v))
+  \land
+  \hsame(k,\mathsf{BoolEndpoint}(w))
+  \land
+  \msame(v,w).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is exactly
+Theorem~\ref{thm:bool-history-classifier-endpoint-readback}. For the reverse
+direction, take displayed marks $v,w$ with the two endpoint readbacks and
+$\msame(v,w)$. Endpoint carrier coverage gives
+$\mathsf{BoolHistoryCarrier}(\mathsf{BoolEndpoint}(v))$ and
+$\mathsf{BoolHistoryCarrier}(\mathsf{BoolEndpoint}(w))$. The forward direction
+of Theorem~\ref{thm:bool-endpoint-bridge-exactness} reads $\msame(v,w)$ as
+$\hsame(\mathsf{BoolEndpoint}(v),\mathsf{BoolEndpoint}(w))$, hence the displayed
+endpoints satisfy $\mathsf{BoolHistoryClassifier}$. Finally apply endpoint
+transport for $\mathsf{BoolHistoryClassifier}$ along the two given $\hsame$
+readbacks to obtain $\mathsf{BoolHistoryClassifier}(h,k)$.
+\end{proof}
+
 \begin{theorem}[Bool source respects mark sameness]
 \label{thm:bool-source-spec-respects-msame}
 If \(v\) satisfies \(\mathsf{BoolSourceSpec}\) and \(\msame(v,w)\), then \(w\) also satisfies \(\mathsf{BoolSourceSpec}\).
