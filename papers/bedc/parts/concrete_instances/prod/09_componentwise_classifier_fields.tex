@@ -27,6 +27,66 @@ the right comparison, contradicting the corresponding returned component
 witness.
 \end{proof}
 
+\begin{theorem}[Product componentwise history classifier carrier reflexivity from source certificates]
+\label{thm:prod-component-history-classifier-carrier-reflexivity-from-source-certificates}
+The ten-field fit is: traditional target ordered-pair classifier reflexivity;
+BEDC source $\mathsf{BHist}$ with $\Cont$ and displayed pair representations;
+carrier $\mathsf{ProdHistoryCarrier}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$; stability obligation
+carrier-relative reflexivity from the two source certificates; ledger one
+displayed product pair representation; exactness component reflexivity at the
+same endpoints; standard bridge diagonal ordered-pair comparison; status
+$\mathsf{ProofTarget}$.
+
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$. Then for every $h:\mathsf{BHist}$,
+$$
+\mathsf{ProdHistoryCarrier}(L,R,h)\to
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,h).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the product carrier witness into displayed source histories $l$ and
+$r$, source carrier witnesses for $L(l)$ and $R(r)$, and the corresponding
+pair representation of $h$. Use that same pair representation for both
+endpoints of the componentwise classifier. The source certificates provide
+$l\sim_L l$ and $r\sim_R r$ through their reflexivity fields, and these two
+component witnesses rebuild
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,h)$.
+\end{proof}
+
+\begin{theorem}[Product componentwise history classifier symmetry from source certificates]
+\label{thm:prod-component-history-classifier-symmetry-from-source-certificates}
+The ten-field fit is: traditional target ordered-pair classifier symmetry;
+BEDC source $\mathsf{BHist}$ with $\Cont$ and displayed pair representations;
+carrier $\mathsf{ProdHistoryCarrier}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$; stability obligation
+source-certified symmetry for the two component classifiers; ledger displayed
+pair representations at both endpoints; exactness reversed component
+comparison; standard bridge symmetric ordered-pair comparison; status
+$\mathsf{ProofTarget}$.
+
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$. Then for all $h,k:\mathsf{BHist}$,
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)\to
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(k,h).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the componentwise classifier witness into displayed pair
+representations of $h$ and $k$ and component classifier witnesses
+$l_h\sim_L l_k$ and $r_h\sim_R r_k$. Apply
+$\mathsf{cert}_L.\mathsf{equiv\_symm}$ and
+$\mathsf{cert}_R.\mathsf{equiv\_symm}$ to reverse the two component
+comparisons. Swap the endpoint pair representations and rebuild the
+componentwise classifier from the reversed left and right witnesses.
+\end{proof}
+
 \begin{theorem}[Product componentwise history classifier core fields]
 \label{thm:prod-component-history-classifier-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
@@ -78,12 +138,12 @@ Theorem~\ref{thm:prod-history-carrier-append-intro} to those two source
 carrier witnesses gives
 $\mathsf{ProdHistoryCarrier}(L,R,\mathsf{append}(l,r))$, so the product
 carrier is inhabited. For carrier-relative reflexivity, unpack a
-$\mathsf{ProdHistoryCarrier}(L,R,h)$ witness into left and right histories and
-reuse that pair representation on both sides; the two source $\NameCert$
-witnesses give component reflexivity. For symmetry, invert the
-componentwise classifier witness and apply source symmetry to the two component
-classifier witnesses, keeping the two pair representations with endpoints
-exchanged. For transitivity, unpack $\mathsf{C}(h,k)$ and
+$\mathsf{ProdHistoryCarrier}(L,R,h)$ witness and apply
+Theorem~\ref{thm:prod-component-history-classifier-carrier-reflexivity-from-source-certificates}.
+For symmetry, apply
+Theorem~\ref{thm:prod-component-history-classifier-symmetry-from-source-certificates}
+to the componentwise classifier witness. For transitivity, unpack
+$\mathsf{C}(h,k)$ and
 $\mathsf{C}(k,u)$ into pair representations $(l_h,r_h)$, $(l_k,r_k)$,
 $(l'_k,r'_k)$, and $(l_u,r_u)$. Pair-representation coherence at the middle
 history $k$ gives both $l_k\sim_L l'_k$ and $r_k\sim_R r'_k$. The two source
