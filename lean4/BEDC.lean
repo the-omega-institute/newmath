@@ -19,6 +19,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Bundle.Length
 import BEDC.FKernel.Bundle.MembershipAppend
+import BEDC.FKernel.Bundle.ResultInversion
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Sig.Totality
 import BEDC.FKernel.Sig.WitnessChain
@@ -79,6 +80,7 @@ import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.Derived.RealUp
 import BEDC.Derived.GroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp

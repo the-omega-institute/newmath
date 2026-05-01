@@ -421,6 +421,26 @@ Proceed by cases on $\Pi$. In the empty case the displayed equality reduces to $
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_cons\_result\_inversion}
 
+\begin{theorem}[Probe bundle append cons-result iff]
+\label{thm:bundle-append-cons-result-iff}
+For probe bundles $\Pi,\Theta,\Omega$ and probe $\pi$,
+$$
+\mathsf{BAppend}(\Pi,\Theta)=\Bcons(\pi,\Omega)
+\quad\Longleftrightarrow\quad
+\bigl(\Pi=\Bnil\ \wedge\ \Theta=\Bcons(\pi,\Omega)\bigr)
+\ \vee\
+\exists \Pi_0,\ \Pi=\Bcons(\pi,\Pi_0)\ \wedge\
+\mathsf{BAppend}(\Pi_0,\Theta)=\Omega.
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the cons-result inversion lemma. For the converse,
+split the displayed disjunction. In the empty-prefix case the append computation
+is exactly the supplied suffix equality. In the cons-prefix case, substitute the
+displayed prefix and tail equality, then compute the append recursion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_cons\_result\_iff}
+
 \begin{theorem}[Probe bundle append split uniqueness at fixed left length]
 \label{thm:bundle-append-split-unique-fixed-length}
 For probe bundles $\Pi,\Theta,\Pi',\Theta'$, if

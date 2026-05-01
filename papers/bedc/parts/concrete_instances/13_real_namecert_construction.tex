@@ -10,6 +10,34 @@ The real number interface $\RealUp$ is specified here as a certificate-obligatio
 Use a sealed $\RegSeqRat$ name. Its observations form a $\StreamNameUp$ stream over $\DyadicRatCore$, and its regularity certificate is exposed only through the $\RealUp$ seal.
 \end{definition}
 
+\begin{definition}[Constant real history carrier]
+\label{def:real-constant-history-carrier}
+A history is in the constant real history carrier when it is internally the same as an $\Eone$-sealed rational history:
+$$
+\mathsf{RealConstantHistoryCarrier}(h)
+\quad\Longleftrightarrow\quad
+\exists d,\ \hsame(h,\Eone(d))\ \wedge\ \mathsf{RatHistoryCarrier}(d).
+$$
+\end{definition}
+\leandef{BEDC.Derived.RealUp.RealConstantHistoryCarrier}
+
+\begin{theorem}[Constant real carrier at an e-one seal]
+\label{thm:real-constant-history-carrier-e1-iff-rat}
+For every history $d$,
+$$
+\mathsf{RealConstantHistoryCarrier}(\Eone(d))
+\quad\Longleftrightarrow\quad
+\mathsf{RatHistoryCarrier}(d).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the constant carrier witness. One-constructor inversion turns
+$\hsame(\Eone(d),\Eone(d'))$ into $\hsame(d,d')$, and rational history carrier
+transport moves the witness back along that equality. The converse uses $d$
+itself as the exposed rational history and reflexivity of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryCarrier\_e1\_iff\_rat}
+
 \section{The certificate-obligation schema}
 
 \begin{definition}[Real source specification]
@@ -26,6 +54,35 @@ The pattern is sealed regular-sequence generation: every finite observation is a
 \label{def:real-classifier-specification}
 The classifier is $\RegSeqRat$ closeness: two sealed real names classify together when their dyadic regular-sequence witnesses supply comparison certificates at every requested dyadic tolerance.
 \end{definition}
+
+\begin{definition}[Constant real history classifier]
+\label{def:real-constant-history-classifier}
+Two constant real histories classify together when each exposes an $\Eone$-sealed rational history and the exposed rational histories classify:
+$$
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\quad\Longleftrightarrow\quad
+\exists d,e,\ \hsame(h,\Eone(d))\ \wedge\ \hsame(k,\Eone(e))
+\ \wedge\ \mathsf{RatHistoryClassifier}(d,e).
+$$
+\end{definition}
+\leandef{BEDC.Derived.RealUp.RealConstantHistoryClassifier}
+
+\begin{theorem}[Constant real classifier at e-one seals]
+\label{thm:real-constant-history-classifier-e1-iff-rat}
+For all histories $d$ and $e$,
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))
+\quad\Longleftrightarrow\quad
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Eliminate the two seal witnesses. One-constructor inversion gives the two tail
+$\hsame$ witnesses, and rational classifier transport carries the exposed
+classifier back to the displayed tails. The reverse direction chooses the same
+two rational histories and uses reflexivity at both seals.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_iff\_rat}
 
 \begin{definition}[Real stability certificate]
 \label{def:real-stability-certificate}
