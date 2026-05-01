@@ -319,3 +319,34 @@ $\hsame(\rho,v)$ with that raw tag witness to obtain
 $\hsame(v,\Ezero(l))$. The right branch uses the same argument with the raw
 payload $r$, the $Right(r)$ witness, and the $\Eone$ tag.
 \end{proof}
+
+\begin{theorem}[Sum ledger raw-visible branch exactness]
+\label{thm:sum-ledger-raw-visible-branch-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v:\mathsf{BHist}$ be histories. Then the raw-visible sum ledger policy is
+equivalent to exact same-branch payload readback:
+$$
+\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)
+\Longleftrightarrow
+\bigl(\exists l.\; Left(l)\land\hsame(\rho,\Ezero(l))\land\hsame(v,\Ezero(l))\bigr)
+\lor
+\bigl(\exists r.\; Right(r)\land\hsame(\rho,\Eone(r))\land\hsame(v,\Eone(r))\bigr).
+$$
+In the ten-field fit, the traditional target is disjoint-sum ledger exact
+readback; the BEDC source is $\mathsf{BHist}$ with $\hsame$; the carrier is
+$\mathsf{SumHistoryCarrier}$; the classifier is unused; the ledger is
+$\mathsf{SumHistoryLedgerPolicy}$; the core theorem is iff raw-visible branch
+exactness; exactness is the same branch and payload on raw and visible endpoints;
+the standard bridge is $\mathsf{inl}/\mathsf{inr}$; and the status is
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The forward direction is Theorem~\ref{thm:sum-ledger-raw-visible-branch-partition}.
+For the reverse direction, split the displayed disjunction. In the left case,
+the witnesses $Left(l)$ and $\hsame(\rho,\Ezero(l))$ rebuild the raw
+$\mathsf{SumHistoryCarrier}$ by the left constructor, while transitivity of
+$\hsame(\rho,\Ezero(l))$ with symmetry of $\hsame(v,\Ezero(l))$ gives
+$\hsame(\rho,v)$. Pair these two witnesses to recover
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$. The right case repeats the
+same construction with the right constructor, $Right(r)$, and the $\Eone$ tag.
+\end{proof}
