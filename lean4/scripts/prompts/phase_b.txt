@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.2 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v3.3 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -166,31 +166,31 @@ This rule applies especially to:
 
 The library has roughly 1500 declarations; further mass-production of one-line lemmas degrades the average information density. Phase B's job is to find theorems that are NOT one-step-from-existing.
 
-## Cross-domain abstraction priority (preference)
+## HARD GATE — Derived shape saturation
 
-Five Derived horizons (BoolUp / OptionUp / SumUp / ProdUp / ListUp / RatUp / IntervalUp / RingUp / CommRingUp / FieldUp / GroupUp / MonoidUp / AbGroupUp / etc.) currently each carry their own copy of the shape family
+Before emitting a target under `BEDC.Derived.<X>Up.*`:
 
-```
-<X>HistoryClassifier_exactness
-<X>HistoryEndpoint_pair
-<X>HistoryLedgerPolicy_envelope_closure
-<X>HistoryClassifier_branch_inversion
-<X>HistoryCarrier_*_readback
-<X>HistoryClassifier_*_transport
-```
+1. Strip the domain prefix from the target's conclusion shape. Examples:
+   - `BoolHistoryClassifier_exactness` → `_HistoryClassifier_exactness`
+   - `RatHistoryEndpoint_pair` → `_HistoryEndpoint_pair`
+   - `ListHistoryLedgerPolicy_envelope_closure` → `_HistoryLedgerPolicy_envelope_closure`
+   - `ProdHistoryClassifier_branch_inversion` → `_HistoryClassifier_branch_inversion`
 
-When ≥3 horizons have the same shape proved as parallel concrete theorems, the **preferred** Phase B target is a refactor that hoists the shared shape into a single typeclass (e.g. `class DomainUpClassifier` with abstract carrier / classifier / exactness fields) under `BEDC.Derived` and rewrites the existing per-domain theorems as `instance` declarations of that class. A single round of this kind is worth ~5 per-domain theorem rounds because it deletes 3+ duplicate proofs and constrains future per-domain work to one location.
-
-Practical handling:
-
-1. Before picking the next per-domain target, scan how many horizons already prove the same shape. Use:
+2. Count existing concrete instances of that shape:
    ```bash
-   grep -lE '<X>HistoryClassifier_exactness|<X>HistoryEndpoint_pair' lean4/BEDC/Derived/ | wc -l
+   python3 lean4/scripts/bedc_ci.py audit --shape-saturation
    ```
-2. If ≥3 horizons hit, propose a `kind: "refactor"` target that hoists the shape (mark `paper_block_status: "exists_without_marker"` and `target_file: lean4/BEDC/Derived/<shape>.lean` for the new abstraction module).
-3. The Phase B output may include a refactor target alongside per-domain targets, or as a standalone target. Phase D accepts a refactor commit (deletions allowed) provided the build passes.
+   (or grep manually: `grep -rE 'theorem [A-Za-z]+HistoryClassifier_exactness\b' lean4/BEDC/Derived/ | wc -l`)
 
-If the refactor would touch >5 files or introduce a new typeclass with >3 fields, instead emit a smaller scoping target like "extract just the `_endpoint_pair` shape into one shared helper that the 4 existing instances import", and let later rounds extend the abstraction.
+3. If the count is **≥ 3**, this conclusion shape is SATURATED. You have two valid options, no third:
+
+   a) **Hoist** — replace this round's target with a refactor that introduces `class DomainUpClassifier` (or the analogous abstraction for whichever shape is saturated) in a new file under `lean4/BEDC/Derived/` and rewrites the existing 3+ concrete instances as `instance` declarations of that class. State in `strategy` that this is a hoist round and which existing per-domain theorems will become instances.
+
+   b) **Pivot** — pick a different target whose conclusion shape has count < 3 in `Derived/`, OR whose conclusion mentions the domain's concrete inductive (constructor disjointness, payload transport, boundary case, etc.) and is genuinely specific to this `X`Up — not the generic saturated shape with the prefix swapped.
+
+   Do NOT add the 4th, 5th, ... Nth concrete instance of a saturated shape. The library already knows the fact for that shape; mass-instantiating it across more domains makes the library larger without making the theory more closed or composable.
+
+If a hoist target would touch >5 files or introduce a typeclass with >3 fields in one round, scope down: extract just one of the saturated shapes into a single shared helper that the existing instances `import`, and let later rounds extend the abstraction.
 
 ## Single-concept round (preference)
 
