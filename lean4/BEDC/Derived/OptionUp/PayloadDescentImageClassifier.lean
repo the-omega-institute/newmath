@@ -129,6 +129,59 @@ theorem TaggedOptionPayloadDescentImageClassifier_branch_exactness {S T : BHist 
                     ⟨b, data.right.left, data.right.right.right.right.left,
                       hsame_refl (BHist.e1 b), data.right.right.right.right.right.right⟩⟩
 
+theorem TaggedOptionPayloadDescentImageClassifier_right_visible_branch_inversion
+    {S T : BHist → Prop} {RelS RelT : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (cert : NameCert S RelS)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {k k' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S T delta k k' →
+      (hsame k' BHist.Empty → hsame k BHist.Empty) ∧
+        (∀ {a : BHist}, T a → hsame k' (BHist.e1 a) →
+          ∃ b c : BHist,
+            S b ∧ S c ∧ RelS b c ∧ T (delta.map b) ∧ T (delta.map c) ∧
+              hsame a (delta.map c) ∧ hsame k (BHist.e1 (delta.map b))) := by
+  intro image
+  have branch :=
+    (TaggedOptionPayloadDescentImageClassifier_branch_exactness delta cert source_hsame).mp
+      image
+  constructor
+  · intro sameRightEmpty
+    cases branch with
+    | inl absent =>
+        exact absent.left
+    | inr present =>
+        cases present with
+        | intro b present =>
+            cases present with
+            | intro c data =>
+                exact False.elim
+                  (not_hsame_emp_e1
+                    (hsame_trans (hsame_symm sameRightEmpty)
+                      data.right.right.right.right.right.right))
+  · intro a _targetA visibleRight
+    cases branch with
+    | inl absent =>
+        exact False.elim
+          (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.right) visibleRight))
+    | inr present =>
+        cases present with
+        | intro b present =>
+            cases present with
+            | intro c data =>
+                have payloadSame : hsame a (delta.map c) :=
+                  hsame_e1_iff.mp
+                    (hsame_trans (hsame_symm visibleRight)
+                      data.right.right.right.right.right.right)
+                exact Exists.intro b
+                  (Exists.intro c
+                    (And.intro data.left
+                      (And.intro data.right.left
+                        (And.intro data.right.right.left
+                          (And.intro data.right.right.right.left
+                            (And.intro data.right.right.right.right.left
+                              (And.intro payloadSame
+                                data.right.right.right.right.right.left)))))))
+
 def TaggedOptionPayloadDescentReflectsSource (S : BHist → Prop)
     {RelS RelT : BHist → BHist → Prop}
     (delta : DescentCertificate BHist BHist RelS RelT) : Prop :=
