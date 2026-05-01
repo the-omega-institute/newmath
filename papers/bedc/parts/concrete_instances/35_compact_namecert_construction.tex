@@ -27,6 +27,47 @@ named refined finite-net history.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_finite\_extension\_closed}
 
+\begin{theorem}[Compact witness carrier iterated finite refinement closure]
+\label{thm:compact-witness-carrier-iterated-finite-refinement-closed}
+For histories $subset$, $located$, $finite$, $extra_0$, $extra_1$,
+$intermediate$, $compact$, $finite_0$, $compact_0$, $finite_1$, and
+$compact_1$, assume:
+\begin{enumerate}
+  \item
+  $$
+  \mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact);
+  $$
+  \item $\mathsf{UnaryHistory}(extra_0)$ and
+  $\mathsf{UnaryHistory}(extra_1)$;
+  \item $\Cont(finite,extra_0,finite_0)$ and
+  $\Cont(compact,extra_0,compact_0)$;
+  \item $\Cont(finite_0,extra_1,finite_1)$ and
+  $\Cont(compact_0,extra_1,compact_1)$.
+\end{enumerate}
+Then
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite_1,intermediate,compact_1)
+$$
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:compact-witness-carrier-finite-extension-closed} to
+the carrier with finite-net ledger $finite$ and compactness ledger $compact$,
+using $extra_0$ as the unary refinement history. This produces the intermediate
+carrier.
+
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite_0,intermediate,compact_0)
+$$
+
+Apply the same theorem again to that intermediate carrier, now using $extra_1$
+as the unary refinement history and the continuations from $finite_0$ to
+$finite_1$ and from $compact_0$ to $compact_1$. The resulting carrier is:
+
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite_1,intermediate,compact_1)
+$$
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Compact source specification]
