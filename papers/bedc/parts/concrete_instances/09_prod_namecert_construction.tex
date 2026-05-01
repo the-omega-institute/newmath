@@ -15,7 +15,7 @@ The product interface $\ProdUp$ has two layers. The checked history-envelope cer
   \item \textbf{Core theorem list}: append introduction, continuation introduction, carrier transport, unary closure, classifier equivalence, component-envelope inversion, componentwise-to-envelope descent under $\hsame$-sound source classifiers, and the semantic name certificate.
   \item \textbf{Exactness predicate}: typed classification holds exactly when both coordinates classify in their respective sources; history-envelope classification holds when both endpoints lie in $\mathsf{ProdHistoryCarrier}(L,R)$ and are related by endpoint $\hsame$.
   \item \textbf{Standard bridge}: the checked history-envelope bridge reads back only as a generated product endpoint with a displayed pair representation. Ordinary ordered-pair and componentwise readback belong to the componentwise certificate target under $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and the typed $\mathsf{ProdClassifierSpec}$ fields.
-  \item \textbf{Status}: the product-history semantic envelope is checked in Lean from explicit left and right carrier witnesses; the explicit ordered-product interface uses $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$, the typed componentwise classifier, projection fields, and $\hsame$-soundness when descending to the checked history envelope.
+  \item \textbf{Status}: $\mathsf{CheckedCert}$ for Theorem~\ref{thm:concrete-prod-namecert} is the product-history semantic envelope checked in Lean from explicit left and right carrier witnesses; $\mathsf{ProofTarget}$ for the explicit ordered-product interface uses $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$, the typed componentwise classifier, projection fields, and $\hsame$-soundness when descending to the checked history envelope.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -30,7 +30,15 @@ For licensed source carriers \(A\) and \(B\), define a pair carrier with constru
 
 \begin{definition}[Prod source specification]
 \label{def:prod-source-specification}
-The source is the ordered product of the two source certificates.
+For the checked history-envelope certificate, the source specification is a
+pair of inhabited predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$. The carrier
+is $\mathsf{ProdHistoryCarrier}(L,R)$, and the classifier is
+$\mathsf{ProdHistoryClassifier}(L,R)$; no source $\NameCert$ is required at
+this scope.
+
+For the explicit ordered-product interface, the source data are two licensed
+carriers with $\NameCert$ witnesses. Those certificates are used for typed
+component transport, pair-representation coherence, and projection fields.
 \end{definition}
 \leandef{BEDC.Derived.ProdUp.ProdHistoryCarrier}
 
@@ -183,6 +191,36 @@ inversions with the stored $\hsame(h,k)$ witness for the forward direction.
 Conversely, the displayed data rebuild the two product-history carrier
 premises and then the classifier witness. The result is endpoint exposure
 rather than coordinate projection.
+\end{proof}
+
+\begin{theorem}[Product history source monotonicity]
+\label{thm:prod-history-source-monotonicity}
+The roadmap-template fit is: traditional target ordered-product stability
+under source refinement; BEDC source $\mathsf{BHist}$ with $\Cont$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier $\mathsf{ProdHistoryClassifier}$;
+stability obligation source inclusion transport; ledger unchanged
+pair-continuation evidence; core theorem list carrier monotonicity plus
+classifier monotonicity; exactness predicate preservation of visible product
+endpoints under source refinement; standard bridge ordinary product source
+restriction; status $\mathsf{ProofTarget}$.
+
+For predicates $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$, suppose
+$\forall h.\; L(h)\to L'(h)$ and $\forall h.\; R(h)\to R'(h)$. Then every
+$\mathsf{ProdHistoryCarrier}(L,R,h)$ yields
+$\mathsf{ProdHistoryCarrier}(L',R',h)$. Under the same hypotheses, every
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$ yields
+$\mathsf{ProdHistoryClassifier}(L',R',h,k)$.
+\end{theorem}
+\begin{proof}
+For the carrier clause, unpack the product carrier into histories $l$ and $r$,
+source witnesses $L(l)$ and $R(r)$, and the continuation witness
+$\Cont(l,r,h)$. Apply the two source inclusions to obtain $L'(l)$ and $R'(r)$,
+then rebuild $\mathsf{ProdHistoryCarrier}(L',R',h)$ with the same continuation
+evidence.
+
+For the classifier clause, unfold the stored classifier data. Apply the carrier
+clause to both endpoint carriers, and keep the stored $\hsame(h,k)$ witness
+unchanged to rebuild $\mathsf{ProdHistoryClassifier}(L',R',h,k)$.
 \end{proof}
 
 \begin{theorem}[Product history classifier right transport]
