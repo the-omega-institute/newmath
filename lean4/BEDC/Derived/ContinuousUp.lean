@@ -117,6 +117,37 @@ theorem ContinuousFunctionCarrier_comp_closed
                                                   (And.intro modFGCarrier
                                                     (And.intro sourceTarget certRel))))
 
+theorem ContinuousFunctionCarrier_modulus_chain_replacement
+    {source map target oldMod oldCert delta1 delta2 delta cert : BHist} :
+    ContinuousFunctionCarrier source map target oldMod oldCert ->
+      ContinuousModulusChain target delta1 delta2 cert -> Cont delta1 delta2 delta ->
+        ContinuousFunctionCarrier source map target delta cert := by
+  intro carrier chain compositeRel
+  have replacementWitness : ContinuousModulusWitness target delta cert :=
+    ContinuousModulusChain_composite_closed chain compositeRel
+  cases carrier with
+  | intro sourceCarrier carrierRest =>
+      cases carrierRest with
+      | intro targetCarrier carrierRest =>
+          cases carrierRest with
+          | intro mapCarrier carrierRest =>
+              cases carrierRest with
+              | intro _oldModCarrier carrierRest =>
+                  cases carrierRest with
+                  | intro sourceMap _oldCertRel =>
+                      cases replacementWitness with
+                      | intro _targetCarrier witnessRest =>
+                          cases witnessRest with
+                          | intro deltaCarrier witnessRest =>
+                              cases witnessRest with
+                              | intro _certCarrier targetDelta =>
+                                  exact
+                                    And.intro sourceCarrier
+                                      (And.intro targetCarrier
+                                        (And.intro mapCarrier
+                                          (And.intro deltaCarrier
+                                            (And.intro sourceMap targetDelta))))
+
 theorem ContinuousFunctionCarrier_prefix_closed
     {p source map targetHist modulus certHist : BHist} :
     UnaryHistory p -> ContinuousFunctionCarrier source map targetHist modulus certHist ->
@@ -258,5 +289,33 @@ theorem ContinuousModulusWitness_prefixed_composite_closed
   exact
     ContinuousModulusChain_composite_closed
       (ContinuousModulusChain_prefix_closed prefixCarrier chain) compositeRel
+
+theorem ContinuousFunctionCarrier_prefixed_graph_chain_closed
+    {p source map target delta1 delta2 delta cert : BHist} :
+    UnaryHistory p -> UnaryHistory source -> UnaryHistory target -> UnaryHistory map ->
+      Cont source map target -> ContinuousModulusChain target delta1 delta2 cert ->
+        Cont delta1 delta2 delta ->
+          ContinuousFunctionCarrier (append p source) map (append p target) delta
+            (append p cert) := by
+  intro prefixCarrier sourceCarrier _targetCarrier mapCarrier graphRel chain compositeRel
+  have replacementWitness :
+      ContinuousModulusWitness (append p target) delta (append p cert) :=
+    ContinuousModulusWitness_prefixed_composite_closed prefixCarrier chain compositeRel
+  cases replacementWitness with
+  | intro prefixedTargetCarrier witnessRest =>
+      cases witnessRest with
+      | intro deltaCarrier witnessRest =>
+          cases witnessRest with
+          | intro _prefixedCertCarrier targetDelta =>
+              exact
+                And.intro (unary_append_closed prefixCarrier sourceCarrier)
+                  (And.intro prefixedTargetCarrier
+                    (And.intro mapCarrier
+                      (And.intro deltaCarrier
+                        (And.intro
+                          (cont_intro
+                            ((congrArg (append p) graphRel).trans
+                              (append_assoc p source map).symm))
+                          targetDelta))))
 
 end BEDC.Derived.ContinuousUp

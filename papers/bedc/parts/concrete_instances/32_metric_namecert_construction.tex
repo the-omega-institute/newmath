@@ -158,6 +158,31 @@ $\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_iff}
 
+\begin{theorem}[Metric distance witness visible-context symmetric classifier]
+\label{thm:metric-distance-witness-visible-context-symmetric-classifier}
+For histories $p,q,x,y,d_{xy},d_{yx}$, symmetric distance witnesses remain
+classified by $\hsame$ after the same visible source and target contexts are
+peeled away:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d_{xy})\cdot q)
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(p\cdot y,x\cdot q,(p\cdot d_{yx})\cdot q)
+\Longrightarrow
+\hsame(d_{xy},d_{yx}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to each
+contextual witness. The first application recovers
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$, and the second recovers
+$\mathsf{MetricDistanceWitness}(y,x,d_{yx})$. The central witnesses are then
+classified by \autoref{thm:metric-distance-witness-symmetric-classifier}.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_symmetric\_classifier}
+
 \begin{theorem}[Metric distance witness semantic name certificate]
 \label{thm:metric-distance-witness-semantic-namecert}
 For unary endpoint histories $x,y$, the concrete distance-witness predicate

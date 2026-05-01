@@ -117,6 +117,19 @@ theorem MetricDistanceWitness_symmetric_classifier {x y dxy dyx : BHist} :
   intro forward reverse
   exact unary_continuation_commutativity forward.1 forward.2.1 forward.2.2.2 reverse.2.2.2
 
+theorem MetricDistanceWitness_visible_context_symmetric_classifier {p q x y dxy dyx : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness (append p y) (append x q) (append (append p dyx) q) ->
+        hsame dxy dyx := by
+  intro forward reverse
+  have forwardCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp forward
+  have reverseCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := y) (y := x)
+      (d := dyx)).mp reverse
+  exact MetricDistanceWitness_symmetric_classifier forwardCentral.2.2 reverseCentral.2.2
+
 theorem MetricDistanceWitness_prefix_closed {p x y dist : BHist} :
     UnaryHistory p -> MetricDistanceWitness x y dist ->
       MetricDistanceWitness (append p x) y (append p dist) := by
