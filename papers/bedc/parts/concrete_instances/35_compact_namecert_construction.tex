@@ -422,6 +422,65 @@ $(c\cdot\epsilon)\cdot\eta=n\cdot\eta$. Together with the unary histories of
 $n$, $\eta$, and $m$, this is $\mathsf{CompactNetWitness}(n,\eta,m)$.
 \end{proof}
 
+\begin{definition}[Two-step compact net factor]
+\label{def:compact-net-two-step-factor}
+For histories $c,\epsilon,\eta,m$, the predicate
+$\mathsf{CompactNetTwoStepFactor}(c,\epsilon,\eta,m)$ records an intermediate
+net realizing the two visible precision steps:
+$$
+\mathsf{CompactNetTwoStepFactor}(c,\epsilon,\eta,m)
+\Longleftrightarrow
+\exists n.\;
+\mathsf{CompactNetWitness}(c,\epsilon,n)\wedge
+\mathsf{CompactNetWitness}(n,\eta,m).
+$$
+\end{definition}
+
+\begin{theorem}[Prefixed composite compact net witness exactness]
+\label{thm:compact-net-witness-prefixed-composite-exact}
+For histories $p,c,\epsilon,\eta,\theta,m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$,
+$\mathsf{UnaryHistory}(\eta)$, and
+$\mathsf{Cont}(\epsilon,\eta,\theta)$. Then the prefixed composite witness is
+equivalent to the same concrete two-step refinement datum:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\theta,p\cdot m)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{CompactNetTwoStepFactor}(c,\epsilon,\eta,m).
+$$
+
+The certificate fit has ten fields: the traditional target is finite-net
+precision composition; the BEDC source is $BHist$ with $\mathsf{Cont}$; the
+carrier is $\mathsf{CompactNetWitness}$ together with
+$\mathsf{CompactNetTwoStepFactor}$; the classifier is $\hsame$; the stability
+obligation is prefixed composite exactness; the ledger data are center,
+precision, intermediate net, and final net histories; the core theorem is this
+exactness result; the exactness predicate is the displayed equivalence; the
+standard bridge is deferred; the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:compact-net-witness-prefix-iff} to the prefixed witness. This
+recovers $\mathsf{UnaryHistory}(p)$ together with the unprefixed composite
+witness.
+
+Apply
+Theorem~\ref{thm:compact-net-witness-prefixed-composite-factorizes} to the same
+prefixed witness and the unary precision hypotheses. It supplies an
+intermediate history $n$ with
+$\mathsf{CompactNetWitness}(c,\epsilon,n)$ and
+$\mathsf{CompactNetWitness}(n,\eta,m)$, which is exactly
+$\mathsf{CompactNetTwoStepFactor}(c,\epsilon,\eta,m)$.
+
+For the reverse direction, unpack
+$\mathsf{CompactNetTwoStepFactor}(c,\epsilon,\eta,m)$ to obtain the
+intermediate witness pair. The unary prefix and the two witnesses satisfy the
+premises of
+Theorem~\ref{thm:compact-net-witness-prefixed-composite-closed}, so the
+prefixed composite compact net witness follows.
+\end{proof}
+
 \begin{definition}[Compact ledger policy]
 \label{def:compact-ledger-policy}
 Record the subset predicate, locatedness decisions, and finite net ledgers.
