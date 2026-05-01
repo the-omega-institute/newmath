@@ -3,6 +3,7 @@ import BEDC.Derived.ListUp
 namespace BEDC.Derived.ListUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 def PairFrame : BHist → BHist → BHist
   | BHist.Empty, tail => BHist.e0 tail
@@ -262,5 +263,68 @@ theorem FramedListSpineRep_length_determinism {A : BHist → Prop}
             | intro _ tailClassified =>
                 exact congrArg Nat.succ (ih tailClassified)
   exact classifier_length classified
+
+theorem ListClassifierSpec_symm_from_nameCert {Carrier : BHist → Prop}
+    {Rel : BHist → BHist → Prop} (cert : NameCert Carrier Rel) :
+    ∀ {xs ys : ListCarrier BHist},
+      ListClassifierSpec Rel xs ys → ListClassifierSpec Rel ys xs := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro ys classified
+      cases ys with
+      | nil =>
+          constructor
+      | cons _ _ =>
+          cases classified
+  | cons _ xs ih =>
+      intro ys classified
+      cases ys with
+      | nil =>
+          cases classified
+      | cons _ _ =>
+          cases classified with
+          | intro headClassified tailClassified =>
+              constructor
+              · exact cert.equiv_symm headClassified
+              · exact ih tailClassified
+
+def FramedListBridgeClassifier (A : BHist → Prop) (Rel : BHist → BHist → Prop)
+    (h k : BHist) : Prop :=
+  ∃ xs ys : ListCarrier BHist,
+    FramedListSpineRep A h xs ∧
+      FramedListSpineRep A k ys ∧ ListClassifierSpec Rel xs ys
+
+theorem FramedListBridgeClassifier_displayed_spine_exactness
+    {A : BHist → Prop} {Rel : BHist → BHist → Prop}
+    (cert : NameCert A Rel) (compat : ListSourceHsameCompatible A Rel)
+    {h k : BHist} {xs ys : ListCarrier BHist} :
+    FramedListSpineRep A h xs →
+      FramedListSpineRep A k ys →
+        (FramedListBridgeClassifier A Rel h k ↔ ListClassifierSpec Rel xs ys) := by
+  intro repH repK
+  constructor
+  · intro bridge
+    cases bridge with
+    | intro xs0 bridgeRest =>
+        cases bridgeRest with
+        | intro ys0 bridgeData =>
+            cases bridgeData with
+            | intro repH0 bridgeTail =>
+                cases bridgeTail with
+                | intro repK0 classifiedBridge =>
+                    have classifiedLeft : ListClassifierSpec Rel xs xs0 :=
+                      FramedListSpineRep_coherence compat repH repH0
+                    have classifiedRightForward : ListClassifierSpec Rel ys ys0 :=
+                      FramedListSpineRep_coherence compat repK repK0
+                    have classifiedRight : ListClassifierSpec Rel ys0 ys :=
+                      ListClassifierSpec_symm_from_nameCert cert classifiedRightForward
+                    exact ListClassifierSpec_trans_from_nameCert cert
+                      (ListClassifierSpec_trans_from_nameCert cert
+                        classifiedLeft classifiedBridge)
+                      classifiedRight
+  · intro classified
+    exact Exists.intro xs
+      (Exists.intro ys (And.intro repH (And.intro repK classified)))
 
 end BEDC.Derived.ListUp

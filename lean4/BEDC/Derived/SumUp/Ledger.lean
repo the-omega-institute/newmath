@@ -7,6 +7,15 @@ open BEDC.FKernel.Hist
 def SumHistoryLedgerPolicy (Left Right : BHist -> Prop) (raw visible : BHist) : Prop :=
   SumHistoryCarrier Left Right raw ∧ hsame raw visible
 
+inductive SumHistoryLedgerChain (Left Right : BHist → Prop) : BHist → BHist → Prop where
+  | single {raw visible : BHist} :
+      SumHistoryLedgerPolicy Left Right raw visible →
+        SumHistoryLedgerChain Left Right raw visible
+  | cons {raw mid visible : BHist} :
+      SumHistoryLedgerPolicy Left Right raw mid →
+        SumHistoryLedgerChain Left Right mid visible →
+          SumHistoryLedgerChain Left Right raw visible
+
 theorem SumHistoryLedgerPolicy_visible_carrier {Left Right : BHist -> Prop}
     {raw visible : BHist} :
     SumHistoryLedgerPolicy Left Right raw visible -> SumHistoryCarrier Left Right visible := by
@@ -318,5 +327,57 @@ theorem SumHistoryLedgerPolicy_visible_payload_readback {Left Right : BHist -> P
     cases SumHistoryCarrier_e1_inversion carrierAt with
     | intro b data =>
         exact Exists.intro b (And.intro data.right data.left)
+
+theorem SumHistoryLedgerChain_endpoint_exactness {Left Right : BHist → Prop}
+    {rho z l l' r r' : BHist} :
+    SumHistoryLedgerChain Left Right rho z →
+      (((hsame rho (BHist.e0 l) ∧ hsame z (BHist.e1 r')) → False) ∧
+        ((hsame rho (BHist.e1 r) ∧ hsame z (BHist.e0 l')) → False) ∧
+        ((hsame rho (BHist.e0 l) ∧ hsame z (BHist.e0 l')) → hsame l l') ∧
+        ((hsame rho (BHist.e1 r) ∧ hsame z (BHist.e1 r')) → hsame r r') ∧
+        (hsame z (BHist.e0 l') → ∃ a : BHist, Left a ∧ hsame l' a) ∧
+        (hsame z (BHist.e1 r') → ∃ b : BHist, Right b ∧ hsame r' b)) := by
+  intro chain
+  have carrierZ : SumHistoryCarrier Left Right z := by
+    induction chain with
+    | single ledger =>
+        exact SumHistoryLedgerPolicy_visible_carrier ledger
+    | cons _ _ ih =>
+        exact ih
+  have classifier : SumHistoryClassifier Left Right hsame hsame rho z := by
+    clear carrierZ
+    induction chain with
+    | single ledger =>
+        exact SumHistoryLedgerPolicy_raw_visible_classifier ledger
+    | cons ledger _ ih =>
+        exact SumHistoryLedgerPolicy_classifier_composition ledger ih
+  constructor
+  · intro mixed
+    exact SumHistoryClassifier_mixed_tags_absurd mixed.left mixed.right classifier
+  · constructor
+    · intro mixed
+      exact SumHistoryClassifier_mixed_tags_absurd mixed.right mixed.left
+        (SumHistoryClassifier_hsame_symm classifier)
+    · constructor
+      · intro sameTagged
+        exact SumHistoryClassifier_left_hsame_inversion
+          (SumHistoryClassifier_hsame_transport sameTagged.left sameTagged.right classifier)
+      · constructor
+        · intro sameTagged
+          exact SumHistoryClassifier_right_hsame_inversion
+            (SumHistoryClassifier_hsame_transport sameTagged.left sameTagged.right classifier)
+        · constructor
+          · intro sameZ
+            have carrierAt : SumHistoryCarrier Left Right (BHist.e0 l') :=
+              SumHistoryCarrier_hsame_transport sameZ carrierZ
+            cases SumHistoryCarrier_e0_inversion carrierAt with
+            | intro a data =>
+                exact Exists.intro a (And.intro data.right data.left)
+          · intro sameZ
+            have carrierAt : SumHistoryCarrier Left Right (BHist.e1 r') :=
+              SumHistoryCarrier_hsame_transport sameZ carrierZ
+            cases SumHistoryCarrier_e1_inversion carrierAt with
+            | intro b data =>
+                exact Exists.intro b (And.intro data.right data.left)
 
 end BEDC.Derived.SumUp
