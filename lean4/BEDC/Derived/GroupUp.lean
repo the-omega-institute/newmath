@@ -49,6 +49,13 @@ theorem group_stability_certificate_fields {mul : BHist → BHist → BHist} {e 
       · intro x
         exact rightInv x
 
+theorem group_inverse_identity {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (rightId : forall x : BHist, hsame (mul x e) x)
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) e) :
+    hsame (inv e) e := by
+  exact hsame_trans (hsame_symm (rightId (inv e))) (leftInv e)
+
 theorem group_left_inverse_involutive {mul : BHist → BHist → BHist} {e : BHist}
     {inv : BHist → BHist}
     (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))

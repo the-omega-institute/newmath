@@ -50,6 +50,22 @@ left factor across commutativity, and reassociate \((b\cdot a)\cdot c\) back to
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_left\_right\_swap}
 
+\begin{theorem}[AbGroup middle-four interchange]
+\label{thm:abgroup-middle-four-interchange}
+For BEDC histories equipped with an associative multiplication, commutativity,
+and multiplication congruence under \(\hsame\),
+$$
+\hsame((a\cdot b)\cdot(c\cdot d),(a\cdot c)\cdot(b\cdot d)).
+$$
+\end{theorem}
+\begin{proof}
+Reassociate \((a\cdot b)\cdot(c\cdot d)\) to
+\(a\cdot(b\cdot(c\cdot d))\). Apply the abelian left-right swap to the right
+factor, obtaining \(a\cdot(c\cdot(b\cdot d))\), and reassociate back to
+\((a\cdot c)\cdot(b\cdot d)\).
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_middle\_four}
+
 \begin{definition}[AbGroup ledger policy]
 \label{def:abgroup-ledger-policy}
 Record group expression provenance and the commutativity law when used.
