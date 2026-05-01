@@ -94,6 +94,22 @@ back to $(a\cdot c)\cdot b$.
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_right\_factor\_swap}
 
+\begin{theorem}[AbGroup common left factor collection]
+\label{thm:abgroup-mul-common-left-factor-collect}
+For BEDC histories equipped with an associative multiplication, commutativity,
+and multiplication congruence under $\hsame$,
+$$
+\hsame((a\cdot b)\cdot(a\cdot c),a\cdot(a\cdot(b\cdot c))).
+$$
+\end{theorem}
+\begin{proof}
+Reassociate the left side to $a\cdot(b\cdot(a\cdot c))$. Apply the abelian
+left-right multiplication swap inside the tail to turn $b\cdot(a\cdot c)$
+into $a\cdot(b\cdot c)$, and transport that tail equality through left
+multiplication by $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_common\_left\_factor\_collect}
+
 \begin{definition}[AbGroup ledger policy]
 \label{def:abgroup-ledger-policy}
 Record group expression provenance and the commutativity law when used.

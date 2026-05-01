@@ -63,4 +63,21 @@ theorem abgroup_mul_right_factor_swap {mul : BHist -> BHist -> BHist}
   exact hsame_trans (assocC a b c)
     (hsame_trans (mulCongr (hsame_refl a) (commC b c)) (hsame_symm (assocC a c b)))
 
+theorem abgroup_mul_common_left_factor_collect {mul : BHist -> BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b')) :
+    forall a b c : BHist, hsame (mul (mul a b) (mul a c)) (mul a (mul a (mul b c))) := by
+  intro a b c
+  have reassoc :
+      hsame (mul (mul a b) (mul a c)) (mul a (mul b (mul a c))) := by
+    exact assocC a b (mul a c)
+  have collectTail : hsame (mul b (mul a c)) (mul a (mul b c)) := by
+    exact abgroup_mul_left_right_swap assocC commC mulCongr b a c
+  have transportTail :
+      hsame (mul a (mul b (mul a c))) (mul a (mul a (mul b c))) := by
+    exact mulCongr (hsame_refl a) collectTail
+  exact hsame_trans reassoc transportTail
+
 end BEDC.Derived.AbGroupUp

@@ -80,4 +80,21 @@ theorem field_inverse_cancel_from_apartness {mul : BHist -> BHist -> BHist}
     (leftInv (mul a b) pab)
     reverseRight
 
+ theorem field_mul_inverse_right_cancel_from_apartness {mul : BHist -> BHist -> BHist}
+    {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one) :
+    forall (a b : BHist) (pb : NonZero b),
+      hsame (mul (mul a b) (inv b pb)) a := by
+  intro a b pb
+  have reassoc :
+      hsame (mul (mul a b) (inv b pb)) (mul a (mul b (inv b pb))) := by
+    exact assocC a b (inv b pb)
+  have cancelTail : hsame (mul a (mul b (inv b pb))) (mul a one) := by
+    exact mulCongr (hsame_refl a) (rightInv b pb)
+  exact hsame_trans reassoc (hsame_trans cancelTail (rightId a))
+
 end BEDC.Derived.FieldUp
