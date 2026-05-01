@@ -50,10 +50,10 @@ carrier.
 \end{theorem}
 \begin{proof}
 Invert the optional carrier witness. In the absent branch, compose the
-symmetric history-sameness link with the stored empty-history witness. In the
-source branch, use the checked $\hsame$ eliminator/transport principle for
-predicates on $\mathsf{BHist}$ to carry the stored source witness from $h$ to
-$k$.
+symmetric $\hsame(h,k)$ link with the stored $\hsame(h,\emp)$ witness. In the
+source branch, case-analyze the $\hsame(h,k)$ witness; the endpoints are then
+identified, and the stored $S(h)$ witness is reused as the required $S(k)$
+witness.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_transport}
 
