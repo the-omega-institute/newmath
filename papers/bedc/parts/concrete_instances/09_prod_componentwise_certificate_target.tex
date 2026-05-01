@@ -132,6 +132,35 @@ given $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ datum and return the
 same component classifier witnesses $l\sim_L l'$ and $r\sim_R r'$.
 \end{proof}
 
+\begin{theorem}[Product pair-representation coherence obstruction from separated presentations]
+\label{thm:prod-pair-rep-coherence-obstruction-separated-presentations}
+The ten-field fit is: traditional target ordered-pair presentation comparison;
+BEDC source $\mathsf{BHist}$ with $\Cont$; carrier $\mathsf{ProdPairRep}$;
+classifier pair $\sim_L,\sim_R$; stability obligation coherence; ledger
+displayed pair boundary; core theorem separated-presentation obstruction;
+exactness as failure of component comparison; standard bridge ordered-pair
+readback; status $\mathsf{ProofTarget}$.
+
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and let $h,l,r,l',r':\mathsf{BHist}$. Suppose
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(h,l',r')$ hold. If either
+$\neg(l\sim_L l')$ or $\neg(r\sim_R r')$ holds, then
+$$
+\neg\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Assume a coherence witness. Apply it to the two displayed representations of
+the same product history $h$. The coherence witness returns both component
+comparisons, namely $l\sim_L l'$ and $r\sim_R r'$. The separated component
+clause supplies either the negation of the left comparison or the negation of
+the right comparison, contradicting the corresponding returned component
+witness.
+\end{proof}
+
 \begin{theorem}[Product componentwise history classifier core fields]
 \label{thm:prod-component-history-classifier-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let

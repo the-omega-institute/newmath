@@ -49,12 +49,13 @@ $\mathsf{OptionHistoryCarrier}_S$ transports to membership of $k$ in the same
 carrier.
 \end{theorem}
 \begin{proof}
-Invert the optional carrier witness. In the absent branch, compose the
-symmetric $\hsame(h,k)$ link with the stored $\hsame(h,\emp)$ witness. In the
-source branch, apply the checked identity-reflection fact
-$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ to the displayed $\hsame(h,k)$
-witness; the endpoints are identified by kernel equality, so the stored $S(h)$
-witness transports to the required $S(k)$ witness.
+Invert the optional carrier witness. In the absent branch, use only symmetry and
+transitivity of $\hsame$: reverse the displayed $\hsame(h,k)$ link and compose
+it with the stored $\hsame(h,\emp)$ witness. In the source branch, use
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ only as closed-generation transport
+for the predicate argument of the arbitrary source predicate $S$; the reflected kernel equality transports the stored $S(h)$ witness to $S(k)$. The exported nullable classifier remains exactly
+$\mathsf{OptionHistoryCarrier}_S(h)\land\mathsf{OptionHistoryCarrier}_S(k)\land\hsame(h,k)$,
+so this proof does not export identity reflection as a public equality principle for $\OptionUp$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_transport}
 
