@@ -35,6 +35,33 @@ theorem SumHistoryCarrier_branch_exclusivity {Left Right : BHist → Prop} {h : 
 theorem SumHistoryCarrier_exclusive_visible_branch_partition {Left Right : BHist → Prop}
     {h : BHist} :
     SumHistoryCarrier Left Right h ↔
+      (((∃ l : BHist, hsame h (BHist.e0 l) ∧ Left l) ∧
+          ((∃ r : BHist, hsame h (BHist.e1 r) ∧ Right r) → False)) ∨
+        ((∃ r : BHist, hsame h (BHist.e1 r) ∧ Right r) ∧
+          ((∃ l : BHist, hsame h (BHist.e0 l) ∧ Left l) → False))) := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | inl leftBranch =>
+        exact Or.inl
+          (And.intro leftBranch
+            (fun rightBranch =>
+              SumHistoryCarrier_branch_exclusivity (And.intro leftBranch rightBranch)))
+    | inr rightBranch =>
+        exact Or.inr
+          (And.intro rightBranch
+            (fun leftBranch =>
+              SumHistoryCarrier_branch_exclusivity (And.intro leftBranch rightBranch)))
+  · intro partition
+    cases partition with
+    | inl leftData =>
+        exact Or.inl leftData.left
+    | inr rightData =>
+        exact Or.inr rightData.left
+
+theorem SumHistoryCarrier_exclusive_visible_branch_partition_payload_first
+    {Left Right : BHist → Prop} {h : BHist} :
+    SumHistoryCarrier Left Right h ↔
       (((∃ l : BHist, Left l ∧ hsame h (BHist.e0 l)) ∧
           ((∃ r : BHist, Right r ∧ hsame h (BHist.e1 r)) → False)) ∨
         ((∃ r : BHist, Right r ∧ hsame h (BHist.e1 r)) ∧
