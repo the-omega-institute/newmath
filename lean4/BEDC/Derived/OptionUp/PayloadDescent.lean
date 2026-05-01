@@ -126,6 +126,62 @@ theorem TaggedOptionMapRel_total_carrier_transport {S T : BHist -> Prop}
                       (And.intro (payload_transport a sourceA)
                         (hsame_refl (BHist.e1 (delta.map a)))))))
 
+def TaggedOptionPayloadDescentImageCarrier (S T : BHist → Prop)
+    {RelS RelT : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT) (k : BHist) : Prop :=
+  ∃ h : BHist, TaggedOptionHistoryCarrier S h ∧ TaggedOptionMapRel S T delta h k
+
+theorem TaggedOptionPayloadDescentImageCarrier_branch_exactness {S T : BHist → Prop}
+    {RelS RelT : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT) {k : BHist} :
+    TaggedOptionPayloadDescentImageCarrier S T delta k ↔
+      hsame k BHist.Empty ∨
+        ∃ a : BHist, S a ∧ T (delta.map a) ∧ hsame k (BHist.e1 (delta.map a)) := by
+  constructor
+  · intro image
+    cases image with
+    | intro h imageData =>
+        cases imageData with
+        | intro _sourceCarrier mapRel =>
+            cases mapRel with
+            | inl absent =>
+                exact Or.inl absent.right
+            | inr present =>
+                cases present with
+                | intro a data =>
+                    cases data with
+                    | intro sourceA rest =>
+                        cases rest with
+                        | intro targetA rest =>
+                            cases rest with
+                            | intro _sameSource sameTarget =>
+                                exact Or.inr
+                                  (Exists.intro a
+                                    (And.intro sourceA (And.intro targetA sameTarget)))
+  · intro branch
+    cases branch with
+    | inl sameEmpty =>
+        exact Exists.intro BHist.Empty
+          (And.intro (Or.inl (hsame_refl BHist.Empty))
+            (Or.inl (And.intro (hsame_refl BHist.Empty) sameEmpty)))
+    | inr present =>
+        cases present with
+        | intro a data =>
+            cases data with
+            | intro sourceA rest =>
+                cases rest with
+                | intro targetA sameTarget =>
+                    exact Exists.intro (BHist.e1 a)
+                      (And.intro
+                        (Or.inr
+                          (Exists.intro a
+                            (And.intro sourceA (hsame_refl (BHist.e1 a)))))
+                        (Or.inr
+                          (Exists.intro a
+                            (And.intro sourceA
+                              (And.intro targetA
+                                (And.intro (hsame_refl (BHist.e1 a)) sameTarget))))))
+
 theorem TaggedOptionMapRel_preserves_classification {S T : BHist → Prop}
     {RelS RelT : BHist → BHist → Prop}
     (delta : DescentCertificate BHist BHist RelS RelT)

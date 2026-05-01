@@ -112,6 +112,26 @@ theorem MetricDistanceWitness_visible_context_iff {p q x y d : BHist} :
                 (d := append p d)).mpr
                 (And.intro qCarrier prefixed)
 
+theorem MetricDistanceWitness_empty_left_iff {y d : BHist} :
+    MetricDistanceWitness BHist.Empty y d ↔ UnaryHistory y ∧ hsame d y := by
+  constructor
+  · intro witness
+    cases witness with
+    | intro _emptyCarrier rest =>
+        cases rest with
+        | intro yCarrier rest =>
+            cases rest with
+            | intro _distCarrier cont =>
+                exact And.intro yCarrier (cont_left_unit_result cont)
+  · intro data
+    cases data with
+    | intro yCarrier sameDY =>
+        exact
+          And.intro unary_empty
+            (And.intro yCarrier
+              (And.intro (unary_transport yCarrier (hsame_symm sameDY))
+                (cont_left_unit_iff.mpr sameDY)))
+
 theorem MetricDistanceWitness_symmetric_classifier {x y dxy dyx : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y x dyx -> hsame dxy dyx := by
   intro forward reverse

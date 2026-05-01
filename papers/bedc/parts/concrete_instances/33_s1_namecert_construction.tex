@@ -9,6 +9,33 @@ The circle interface $\SOneUp$ is a certificate-obligation schema over the produ
 \label{def:s1-carrier}
 Use pairs $(x,y)$ of Bishop real witnesses with a certified unit equation witness $x^2 + y^2 \approx 1$ under $\RealClassifier$.
 \end{definition}
+\leandef{BEDC.Derived.S1Up.SOneHistoryCarrier}
+
+\begin{theorem}[SOne history carrier rational components]
+\label{thm:s1-history-carrier-rational-components}
+For every history $h$, the concrete $\SOneUp$ history carrier exposes product
+components $x,y$ and rational denominator tails $d_x,d_y$ such that both
+components are displayed as real constants and the BEDC continuation ledger
+composes the two components into $h$:
+$$
+\mathsf{SOneHistoryCarrier}(h)
+\Longrightarrow
+\exists x,y,d_x,d_y.\;
+\hsame(x,\Eone(d_x))\land
+\mathsf{RatHistoryCarrier}(d_x)\land
+\hsame(y,\Eone(d_y))\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\ContR(x,y,h).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the $\SOneUp$ carrier as the $\ProdUp$ carrier over two real-constant
+history carriers. The product carrier supplies the two component histories and
+their continuation ledger into $h$. Each real-constant carrier then exposes a
+rational denominator tail together with the displayed $\Eone$ presentation of
+that component.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_rational\_components}
 
 \section{The certificate}
 

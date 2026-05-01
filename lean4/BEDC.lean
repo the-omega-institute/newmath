@@ -83,6 +83,7 @@ import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.RealUp
+import BEDC.Derived.S1Up
 import BEDC.Derived.GroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
