@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v1.1 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v1.3 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Round P<ROUND_NUM>
 
@@ -80,7 +80,7 @@ cd papers/bedc && make
 ```
 The Makefile runs `pdflatex -interaction=nonstopmode main.tex` twice. Both passes must exit 0 and produce a clean `main.pdf`. If LaTeX reports `Undefined control sequence`, `Missing $ inserted`, `\label{...} multiply defined`, or `reference ... on page ... undefined`, fix the cause before continuing — do NOT bury warnings.
 
-If a target turns out to be unproveable or compile-breaking, REVERT it (`git checkout -- <files>`) and continue with the remaining targets. A round that lands 1 of 3 targets is acceptable; a round that lands 0 of 3 should output an explicit failure message and skip Step 6.
+If a target turns out to be unproveable, compile-breaking, purely explanatory, or lacking a concrete downstream use, REVERT it (`git checkout -- <files>`) and continue with the remaining targets. A round that lands 1 high-value target is acceptable; a round that lands 0 high-value targets should output an explicit failure message and skip Step 6.
 
 ## Step 3: Drift audit
 ```bash
@@ -124,7 +124,7 @@ Before committing, run:
 git diff --cached --stat | tail -1
 ```
 
-If the diff is empty or only whitespace, the round is INVALID — DO NOT commit. The gate prefers a no-op round over a vacuous commit.
+If the diff is empty, only whitespace, only renames a theorem title, only softens/explains a scope boundary, or only adds a caution sentence without changing a theorem/definition/proof dependency/structural split, the round is INVALID — DO NOT commit. The gate prefers a no-op round over a vacuous commit.
 
 If the diff only re-indents existing lines or only adds new `\leanvariant` markers, the round is INVALID. Variants are not added by automated rounds; this round must produce real theory revision.
 
@@ -133,12 +133,12 @@ If the diff only re-indents existing lines or only adds new `\leanvariant` marke
 git add papers/bedc lean4/BEDC
 git commit -m "P<ROUND_NUM>: [brief description of what was revised]
 
-prompts: v1.1
+prompts: v1.3
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v1.1` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+The `prompts: v1.3` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
 
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 

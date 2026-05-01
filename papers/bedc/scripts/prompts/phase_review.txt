@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v1.1 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v1.3 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -68,17 +68,20 @@ Reject these as low-value (do NOT propose):
 - Edits that only relabel without changing logical content.
 - Renaming for cosmetic uniformity unless name collision causes ambiguity.
 - Pure prose smoothing whose expected diff does not change theorem hypotheses, theorem conclusions, proof dependency, marker alignment, definition scope, cross-reference correctness, or structural placement under the roadmap.
+- Scope-clarification targets that only rename a theorem, soften a claim, or add a caution sentence, unless the existing statement is mathematically false or causes a concrete downstream contradiction.
+- A second target that is merely explanatory cleanup bundled with a stronger theorem target. Mixed-strength bundles dilute the round; emit only the strongest target.
 
-A `theory_extension` target must include a precise theorem/lemma/definition shape in `proposed_change`, the existing definitions/theorems it depends on, a constructive proof skeleton, why it is not a trivial variant of one existing checked theorem, and the Lean namespace where it should naturally be formalized later.
+A `theory_extension` target must include a precise theorem/lemma/definition shape in `proposed_change`, the existing definitions/theorems it depends on, a constructive proof skeleton, why it is not a trivial variant of one existing checked theorem, and the Lean namespace where it should naturally be formalized later. It must also state one downstream use: a later theorem, certificate, bridge, roadmap exit criterion, or Lean formalization target that would consume the result.
 
-Every proposed target must pass this 0–10 quality score before you emit it:
+Every proposed target must pass this 0–12 quality score before you emit it:
 - `novelty`: 0–2. Is this more than a restatement or wording polish?
 - `theory_value`: 0–2. Does it improve a theorem, definition, proof obligation, certificate, or roadmap object?
 - `verifiability`: 0–2. Can the anchor and issue be confirmed by file inspection / grep?
 - `locality`: 0–2. Can the revise phase implement it without global rewrite or broad conflict risk?
 - `line_cap_safety`: 0–2. Does it stay below the 800-line cap, or include a concrete split plan?
+- `downstream_use`: 0–2. Is there a concrete later theorem, bridge, certificate, roadmap exit criterion, or Lean formalization site that will consume this target?
 
-Reject any target with total score < 7, with `verifiability = 0`, or with `line_cap_safety = 0`. Empty rounds are preferred over speculative targets.
+Reject any target with total score < 9, with `verifiability = 0`, with `line_cap_safety = 0`, with `downstream_use = 0`, or whose only effect is explanatory wording. Empty rounds are preferred over speculative targets.
 
 ## HARD constraints — every target MUST respect these
 The next phase will be REJECTED if its diff violates any of these, so do not propose a target that requires violating them.
@@ -107,7 +110,7 @@ Before producing JSON, build an inventory of real paper files:
 Do NOT propose targets that fail this sanity check. A target whose only effect is to register a marker pointing to a Lean theorem that does not exist is INVALID.
 
 ## Task
-Pick **exactly 1 primary review target by default** for P<ROUND_NUM>. Pick 2 targets only when both are backed by concrete evidence, edit disjoint files or disjoint theorem clusters, are safe under the 800-line cap, and are unlikely to collide with active parallel rounds. Pick 3 targets only when all 3 are small, non-overlapping, and independently verified. Empty rounds are better than low-confidence rounds.
+Pick **exactly 1 primary review target** for P<ROUND_NUM>. Emit more than one target only for a `structural_split` where the split and the new theorem must be implemented together in the same file move. Empty rounds are better than low-confidence rounds.
 
 At least one emitted target MUST advance the OPEN phase from the roadmap (record its `roadmap_phase` field in the JSON) unless the only valid high-quality target is a discipline/structural safety fix. If you emit multiple targets, prefer one from {1, 5, 6} (theory tightening) and one of category 9 (`theory_extension`) only when the extension meets the quality score gate. Do not force a `theory_extension` when the precise statement or proof skeleton is weak.
 
@@ -144,7 +147,8 @@ Output a single fenced JSON block:
         "theory_value": 0,
         "verifiability": 0,
         "locality": 0,
-        "line_cap_safety": 0
+        "line_cap_safety": 0,
+        "downstream_use": 0
       },
       "discovery_confirmed": true
     }
@@ -157,7 +161,7 @@ Field requirements:
 - `paper_files` lists EXACTLY the existing .tex file(s) the revise phase must edit. Do not list main.tex unless main.tex itself is what changes.
 - `new_files` is present only for `structural_split`; these paths must live under an existing `papers/bedc/parts/<theme>/` directory, preferably inside a thematic subdirectory.
 - `proposed_change` must be precise enough that the next phase can act without re-reading the entire chapter. Include line context, surrounding sentences, label names, and for `structural_split` the exact block boundary to move plus the parent index `\input` line to add.
-- `quality_score` must total at least 7, with nonzero `verifiability` and `line_cap_safety`.
+- `quality_score` must total at least 9, with nonzero `verifiability`, `line_cap_safety`, and `downstream_use`.
 - `discovery_confirmed` must be `true`, meaning you ran the grep / file inspection and the issue is real (not hallucinated from memory of an old draft).
 - Do NOT propose targets that contradict the HARD constraints above.
 - Do NOT propose targets that consist only of adding `\leanvariant` markers; variants are preserved as-is and not added by automated rounds.
