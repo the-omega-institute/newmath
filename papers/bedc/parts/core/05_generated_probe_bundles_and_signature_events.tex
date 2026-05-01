@@ -139,6 +139,22 @@ $1+\mathsf{BLEN}(\Pi_0)+\mathsf{BLEN}(\Omega)$. A natural number with an exposed
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_nonempty\_prefix\_length\_separation}
 
+\begin{theorem}[Probe bundle append fixes the right side exactly at nil left]
+\label{thm:bundle-append-eq-right-iff-left-nil}
+For probe bundles $\Pi$ and $\Omega$,
+$$
+\mathsf{BAppend}(\Pi,\Omega)=\Omega
+$$
+if and only if $\Pi=\Bnil$.
+\end{theorem}
+\begin{proof}
+Split on $\Pi$. The nil case is definitional. In the cons case, the
+nonempty-prefix length separation theorem says that appending a cons-prefix to
+$\Omega$ cannot equal $\Omega$. The reverse implication follows by reducing
+the append definition at $\Bnil$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleAppend\_eq\_right\_iff\_left\_nil}
+
 \begin{theorem}[Probe bundle append right unit]
 \label{thm:bundle-append-right-unit}
 For every probe bundle \(\Pi\),

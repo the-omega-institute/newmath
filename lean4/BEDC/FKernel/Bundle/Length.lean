@@ -45,4 +45,18 @@ theorem bundleAppend_nonempty_prefix_length_separation {PName : Type} (p : PName
   · intro h
     exact lengthNe (congrArg bundleLength h)
 
+theorem bundleAppend_eq_right_iff_left_nil {PName : Type}
+    {left right : ProbeBundle PName} :
+    bundleAppend left right = right <-> left = ProbeBundle.Bnil := by
+  constructor
+  · intro same
+    cases left with
+    | Bnil =>
+        rfl
+    | Bcons p pref =>
+        exact False.elim ((bundleAppend_nonempty_prefix_length_separation p pref right).right same)
+  · intro leftNil
+    cases leftNil
+    rfl
+
 end BEDC.FKernel.Bundle

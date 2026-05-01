@@ -157,6 +157,20 @@ positive unary denominators are separated from \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_not\_empty}
 
+\begin{theorem}[Rat history carrier positive denominator equivalence]
+\label{thm:rat-history-carrier-positive-denominator-equivalence}
+A denominator history lies in the rational history carrier exactly when it has
+a positive unary denominator witness.
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the rational history carrier into a sign,
+numerator, and rational carrier, then apply rational-carrier positivity of the
+denominator. In the reverse direction, use the concrete integer numerator
+carrier with sign $\bzero$ and empty magnitude, then rebuild the rational
+carrier from the positive denominator witness.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_iff\_positive\_denominator}
+
 \begin{theorem}[Rat history carrier excludes zero-extension]
 \label{thm:rat-history-carrier-e0-absurd}
 No zero-extension history \(\Ezero(t)\) lies in the rational history carrier.
