@@ -339,6 +339,48 @@ $$
 $$
 \end{proof}
 
+\begin{theorem}[Field two-sided zero product cancellation from apartness]
+\label{thm:field-two-sided-zero-product-cancel-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+ring zero absorption, multiplication congruence, and witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
+$x:\mathsf{BHist}$ satisfies
+$$
+(a x)b\hsame0
+\quad\Longrightarrow\quad
+x\hsame0.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness}
+with the right-factor witness $p_b$ to the hypothesis $(a x)b\hsame0$. This
+solves the right multiplication equation and gives
+$a x\hsame0\mathsf{inv}(b,p_b)$.
+
+Use Theorem~\ref{thm:ring-mul-zero-absorption} to identify
+$0\mathsf{inv}(b,p_b)$ with $0$. Transitivity of $\hsame$ therefore gives
+$a x\hsame0$.
+
+Now apply the checked left inverse cancellation chain with the left-factor
+witness $p_a$ to $a x\hsame0$. The left solver gives
+$x\hsame\mathsf{inv}(a,p_a)0$.
+
+Use Theorem~\ref{thm:ring-mul-zero-absorption} again to identify
+$\mathsf{inv}(a,p_a)0$ with $0$. Transitivity of $\hsame$ yields
+$x\hsame0$.
+\end{proof}
+
+\paragraph{Zero-product cancellation certificate.}
+Traditional target: constructive field zero cancellation. BEDC source:
+$\FieldUp$ plus $\RingUp$ zero absorption. Carrier choice:
+$\mathsf{BHist}$. Classifier choice: $\hsame$. Stability obligations:
+inverse laws, multiplication congruence, and zero absorption. Ledger: the two
+certified factors $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$ together with their inverse witnesses. Core theorem
+list: two-sided zero-product cancellation. Exactness predicate: cancellation
+inside certified two-sided multiplication. Standard bridge: deferred
+conservative bridge. Status: ProofTarget.
+
 \begin{definition}[Field ledger policy]
 \label{def:field-ledger-policy}
 Record the ring ledger and the $\mathsf{NonZero}_F$ witness used for each inverse.
@@ -357,8 +399,8 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
   \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
   \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
   \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
-  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, and distributivity inherited from $\CommRingUp$.
-  \item Exactness predicate: coverage, soundness, and completeness for admitted field packages.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product cancellation, and distributivity inherited from $\CommRingUp$.
+  \item Exactness predicate: coverage, soundness, completeness, and cancellation inside certified two-sided multiplication for admitted field packages.
   \item Standard bridge: deferred conservative bridge.
   \item Status: ProofTarget.
 \end{enumerate}
