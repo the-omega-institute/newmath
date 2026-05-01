@@ -32,6 +32,67 @@ theorem SumHistoryCarrier_branch_exclusivity {Left Right : BHist → Prop} {h : 
                       exact not_hsame_e0_e1
                         (hsame_trans (hsame_symm sameLeft) sameRight)
 
+theorem SumHistoryCarrier_exclusive_visible_branch_partition {Left Right : BHist → Prop}
+    {h : BHist} :
+    SumHistoryCarrier Left Right h ↔
+      (((∃ l : BHist, Left l ∧ hsame h (BHist.e0 l)) ∧
+          ((∃ r : BHist, Right r ∧ hsame h (BHist.e1 r)) → False)) ∨
+        ((∃ r : BHist, Right r ∧ hsame h (BHist.e1 r)) ∧
+          ((∃ l : BHist, Left l ∧ hsame h (BHist.e0 l)) → False))) := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | inl leftBranch =>
+        cases leftBranch with
+        | intro l leftData =>
+            cases leftData with
+            | intro sameLeft leftCarrier =>
+                exact Or.inl
+                  (And.intro
+                    (Exists.intro l (And.intro leftCarrier sameLeft))
+                    (by
+                      intro rightBranch
+                      cases rightBranch with
+                      | intro r rightData =>
+                          cases rightData with
+                          | intro _rightCarrier sameRight =>
+                              exact not_hsame_e0_e1
+                                (hsame_trans (hsame_symm sameLeft) sameRight)))
+    | inr rightBranch =>
+        cases rightBranch with
+        | intro r rightData =>
+            cases rightData with
+            | intro sameRight rightCarrier =>
+                exact Or.inr
+                  (And.intro
+                    (Exists.intro r (And.intro rightCarrier sameRight))
+                    (by
+                      intro leftBranch
+                      cases leftBranch with
+                      | intro l leftData =>
+                          cases leftData with
+                          | intro _leftCarrier sameLeft =>
+                              exact not_hsame_e0_e1
+                                (hsame_trans (hsame_symm sameLeft) sameRight)))
+  · intro branch
+    cases branch with
+    | inl leftBranch =>
+        cases leftBranch with
+        | intro leftVisible _noRight =>
+            cases leftVisible with
+            | intro l leftData =>
+                cases leftData with
+                | intro leftCarrier sameLeft =>
+                    exact Or.inl (Exists.intro l (And.intro sameLeft leftCarrier))
+    | inr rightBranch =>
+        cases rightBranch with
+        | intro rightVisible _noLeft =>
+            cases rightVisible with
+            | intro r rightData =>
+                cases rightData with
+                | intro rightCarrier sameRight =>
+                    exact Or.inr (Exists.intro r (And.intro sameRight rightCarrier))
+
 theorem SumHistoryClassifier_carrier_aware_branch_partition {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop} {h k : BHist} :
     SumHistoryCarrier Left Right h →

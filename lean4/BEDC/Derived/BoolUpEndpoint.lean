@@ -118,4 +118,30 @@ theorem BoolHistoryClassifier_source_qualified_readback_exactness
                                   (Exists.intro w
                                     (And.intro readH (And.intro readK sameVW))))
 
+theorem BoolEndpoint_classifier_exactness {v w : BEDC.FKernel.Mark.BMark} :
+    BoolHistoryClassifier (BoolEndpoint v) (BoolEndpoint w) ↔
+      BEDC.FKernel.Mark.msame v w := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro _carrierV rest =>
+        cases rest with
+        | intro _carrierW sameEndpoints =>
+            exact (BoolEndpoint_bridge_exactness (v := v) (w := w)).mpr sameEndpoints
+  · intro sameVW
+    have sameEndpoints :
+        BEDC.FKernel.Hist.hsame (BoolEndpoint v) (BoolEndpoint w) :=
+      (BoolEndpoint_bridge_exactness (v := v) (w := w)).mp sameVW
+    have carrierV : BoolHistoryCarrier (BoolEndpoint v) :=
+      (BoolHistoryCarrier_endpoint_coverage
+        (h := BoolEndpoint v)).mpr
+        (Exists.intro v
+          (BEDC.FKernel.Hist.hsame_refl (BoolEndpoint v)))
+    have carrierW : BoolHistoryCarrier (BoolEndpoint w) :=
+      (BoolHistoryCarrier_endpoint_coverage
+        (h := BoolEndpoint w)).mpr
+        (Exists.intro w
+          (BEDC.FKernel.Hist.hsame_refl (BoolEndpoint w)))
+    exact And.intro carrierV (And.intro carrierW sameEndpoints)
+
 end BEDC.Derived.BoolUp
