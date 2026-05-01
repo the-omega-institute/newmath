@@ -29,6 +29,46 @@ composite modulus certificate.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_comp\_closed}
 
+\begin{theorem}[Continuous function carrier target-certificate determinacy]
+\label{thm:continuous-function-carrier-target-cert-deterministic}
+For histories $source,map,target,target',modulus,cert,cert'$, if
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$ and
+$\mathsf{ContinuousFunctionCarrier}(source,map,target',modulus,cert')$, then
+both the target ledger and the certificate ledger are determined up to the
+history classifier:
+
+$$
+\mathsf{hsame}(target,target')\quad\text{and}\quad
+\mathsf{hsame}(cert,cert').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two carrier witnesses. The first carrier supplies the graph ledger
+$\mathsf{Cont}(source,map,target)$ and the certificate ledger
+$\mathsf{Cont}(target,modulus,cert)$; the second supplies
+$\mathsf{Cont}(source,map,target')$ and
+$\mathsf{Cont}(target',modulus,cert')$.
+
+Continuation determinacy applied to the two graph ledgers gives
+$\mathsf{hsame}(target,target')$. This is the target part of the displayed
+conclusion.
+
+For the certificate part, keep the common modulus ledger fixed and transport
+the first certificate continuation across the recovered target sameness. The
+transported ledger and the second certificate ledger now have the same source
+history up to $\mathsf{hsame}$ and the same modulus history, so continuation
+respect for $\mathsf{hsame}$ gives $\mathsf{hsame}(cert,cert')$.
+
+The ten-field certificate fit is the following. The traditional target is
+single-valued graph-with-modulus evidence. The BEDC source is $BHist$ equipped
+with $\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and
+the classifier is $\mathsf{hsame}$. The stability obligation is target and
+certificate determinacy. The ledger is source, map, target, modulus, and
+certificate histories. The core theorem is this determinacy result. The
+exactness predicate is the pair of displayed $\mathsf{hsame}$ conclusions. The
+standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{theorem}[Continuous function carrier prefix closure]
 \label{thm:continuous-function-carrier-prefix-closed}
 For histories $p$, $source$, $map$, $targetHist$, $modulus$, and $certHist$, a
