@@ -772,44 +772,40 @@ def run_pre_merge_hard_gates(wt: WorktreeInfo) -> bool:
     return True
 
 
+def _ff_local_branch_to(target: str) -> tuple[bool, str]:
+    """Fast-forward local BASE_BRANCH to target without moving the wrong branch."""
+    head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
+                   cwd=REPO_ROOT, timeout=10)
+    current = (head.stdout or "").strip()
+    if current == BASE_BRANCH:
+        r = run_cmd(["git", "merge", "--ff-only", target],
+                    cwd=REPO_ROOT, timeout=30)
+    else:
+        r = run_cmd(["git", "fetch", ".", f"{target}:{BASE_BRANCH}"],
+                    cwd=REPO_ROOT, timeout=30)
+    return r.returncode == 0, (r.stderr or r.stdout or "")[-300:]
+
+
 def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
-    """Merge the worktree branch into BASE_BRANCH and push.
+    """Rebase the worktree branch onto BASE_BRANCH, ff-update locally, push.
 
     Strategy:
     1. Fetch origin so we have the latest remote state.
-    2. Fast-forward LOCAL BASE_BRANCH from origin (if origin is ahead).
-       Uses ``git fetch . origin/BASE:BASE`` which is ff-only and safe —
-       it never overwrites local-only commits that haven't been pushed yet.
-    3. Rebase the worktree branch onto the LOCAL BASE_BRANCH (not origin/).
-       This ensures any local-only commits (e.g. prompt/script edits made
-       directly on the branch without pushing first) are included in the
-       rebase base and are not lost.
-    4. Fast-forward LOCAL BASE_BRANCH to the rebased worktree tip via
-       ``git fetch . wt_tip:BASE_BRANCH`` (ff-only, never force-moves the
-       ref past local-only commits, never touches the working tree).
-    5. Push to origin.
-
-    The old ``git update-ref + git reset --hard HEAD`` pattern was unsafe:
-    it unconditionally moved the branch pointer to the worktree tip (which
-    was rebased on origin/, not on local commits) and then discarded any
-    local-only working-tree changes.
+    2. Best-effort fast-forward LOCAL BASE_BRANCH from origin; keep local-only
+       base commits if origin cannot be fast-forwarded into the local branch.
+    3. Rebase the worktree branch onto the LOCAL BASE_BRANCH.
+    4. Fast-forward LOCAL BASE_BRANCH to the rebased worktree tip.
+    5. Push to origin and verify origin contains the worktree tip.
     """
     with _git_lock:
         logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
 
         def _do_rebase_and_ff(attempt: int) -> bool:
-            # 1. Fetch latest remote state
             run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+            ok, msg = _ff_local_branch_to(f"origin/{BASE_BRANCH}")
+            if not ok:
+                logger.info(f"local {BASE_BRANCH} ff from origin skipped: {msg.strip()}")
 
-            # 2. Fast-forward local BASE_BRANCH from origin if origin is ahead.
-            #    git merge --ff-only works on a checked-out branch (unlike git fetch .).
-            #    Silently no-ops if local is already at or ahead of origin.
-            run_cmd(
-                ["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
-                cwd=REPO_ROOT, timeout=30,
-            )
-
-            # 3. Rebase worktree onto LOCAL BASE_BRANCH (includes local-only commits)
             rebase = run_cmd(
                 ["git", "rebase", BASE_BRANCH],
                 cwd=wt.path,
@@ -826,10 +822,21 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                     run_cmd(["git", "rebase", "--abort"], cwd=wt.path)
                     return False
 
-            # 3.5. Post-rebase Gate 5: under the merge lock, re-check symbol
-            #      uniqueness against the NOW-current base tip. Catches the
-            #      concurrent case where two workers each passed Gate 5 at
-            #      commit time but introduce the same symbol vs each other.
+            rebased_new = run_cmd(
+                ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
+                cwd=wt.path, timeout=30,
+            )
+            rebased_lines = [
+                l.strip() for l in rebased_new.stdout.splitlines() if l.strip()
+            ]
+            own_prefix = f"R{wt.round_number}:"
+            if not any(own_prefix in l for l in rebased_lines):
+                logger.error(
+                    f"[R{wt.round_number}] Rebase left no own-round commit "
+                    f"unique to {BASE_BRANCH}; refusing to report merge success"
+                )
+                return False
+
             latest_base_sha = run_cmd(
                 ["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT
             ).stdout.strip()
@@ -852,28 +859,43 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             if not run_pre_merge_hard_gates(wt):
                 return False
 
-            # 4. Fast-forward local BASE_BRANCH to rebased worktree tip.
-            #    git merge --ff-only works on checked-out branches; git fetch . does not.
             wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
-            ff = run_cmd(
-                ["git", "merge", "--ff-only", wt_tip],
-                cwd=REPO_ROOT, timeout=30,
-            )
-            if ff.returncode != 0:
-                logger.error(f"ff update of {BASE_BRANCH} failed: {ff.stderr[:300]}")
+            ok, msg = _ff_local_branch_to(wt_tip)
+            if not ok:
+                logger.error(f"ff update of {BASE_BRANCH} failed: {msg.strip()}")
+                return False
+            local_contains = run_cmd(
+                ["git", "merge-base", "--is-ancestor", wt_tip, BASE_BRANCH],
+                cwd=REPO_ROOT, timeout=10,
+            ).returncode == 0
+            if not local_contains:
+                logger.error(
+                    f"{BASE_BRANCH} does not contain {wt.branch} tip {wt_tip[:8]} "
+                    "after ff update"
+                )
                 return False
 
-            # 5. Push to origin
             push = run_cmd(
                 ["git", "push", "origin", BASE_BRANCH],
                 cwd=REPO_ROOT, timeout=300,
             )
             if push.returncode == 0:
-                return True
+                run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+                origin_contains = run_cmd(
+                    ["git", "merge-base", "--is-ancestor", wt_tip, f"origin/{BASE_BRANCH}"],
+                    cwd=REPO_ROOT, timeout=10,
+                ).returncode == 0
+                if origin_contains:
+                    return True
+                logger.error(
+                    f"origin/{BASE_BRANCH} does not contain {wt.branch} tip "
+                    f"{wt_tip[:8]} after push"
+                )
+                return False
 
             if attempt == 1:
                 logger.warning("Push rejected, retrying after fetch + rebase...")
-                return False  # caller will retry
+                return False
 
             logger.error(f"Push retry failed: {push.stderr[:300]}")
             return False
@@ -882,7 +904,6 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             logger.info(f"Merged and pushed {wt.branch} to {BASE_BRANCH}")
             return True
 
-        # Retry once (someone else pushed between our rebase and push)
         if _do_rebase_and_ff(attempt=2):
             logger.info(f"Merged and pushed {wt.branch} to {BASE_BRANCH}")
             return True
@@ -1887,6 +1908,13 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
         post = git_log_oneline(40, cwd=wt.path)
         new = [c for c in post if c not in pre_commits]
     if new:
+        own_prefix = f"R{wt.round_number}:"
+        if not any(own_prefix in c for c in new):
+            logger.error(
+                f"[R{wt.round_number}] Phase D: no own-round commit found; "
+                f"new commits were: {new[:5]}"
+            )
+            return False, new
         logger.info(f"[R{wt.round_number}] Phase D: {len(new)} new commit(s):")
         for c in new:
             logger.info(f"  {c}")
