@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.1 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v3.2 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -143,6 +143,65 @@ Read `lean4/NAMING.md` before extracting targets. Every target you emit must sat
 6. **Derived-domain non-trivial novelty** (NAMING.md §5). For new `lean_name` under `BEDC.Derived.<X>Up.*`, if the conclusion shape is one of `<X>HistoryClassifier_exactness`, `<X>HistoryEndpoint_pair`, `<X>HistoryLedgerPolicy_envelope_closure`, `<X>HistoryClassifier_branch_inversion`, `<X>HistoryCarrier_*_readback`, the candidate is **discouraged** — it is the per-domain copy of an already-saturated shape. Prefer either: a closure / determinism / inversion / no-confusion theorem specific to this domain's underlying inductive (e.g. constructor disjointness for `SumUp`, denominator-positivity transport for `RatUp`, distributivity for `RingUp`), OR an abstraction step that hoists the shared shape into a `BEDC.Derived` typeclass.
 
 In `strategy`, briefly state which NAMING.md rules you checked and the grep result confirming no collision.
+
+## Try-close before adding (HARD GATE)
+
+Before emitting a Phase B target, FIRST verify the candidate's stated `lean_signature` cannot be closed by an existing tactic combo applied to existing primitives. Use `lean_multi_attempt` or open a scratch `lean_run_code` and try, in order:
+
+```
+by simp [<3-5 nearby existing lemmas>]
+by induction h <appropriate variable>; simp [<lemmas>]
+by exact <existing_theorem>.mp <h> -- when conclusion is one direction of an iff
+by omega -- for arithmetic-ish goals
+by decide -- for finite-case goals
+```
+
+If any of these closes the goal in under ~30s, the candidate is INVALID — the "theorem" is a one-liner that belongs INLINE inside whatever proof needs it, not as a public theorem with its own name. Discard the candidate and pick something that requires a multi-line constructive argument or a genuinely new combinator.
+
+This rule applies especially to:
+- `_iff` directions where one side is `T.mp h` for a single existing `T`;
+- arithmetic facts about `length`, `append`, `cons` that are visible after one `simp`;
+- carrier transports that are `.transport` projection of an existing classifier;
+- `_endpoint_pair` / `_branch_partition` shapes that decompose into one constructor case + reflexivity.
+
+The library has roughly 1500 declarations; further mass-production of one-line lemmas degrades the average information density. Phase B's job is to find theorems that are NOT one-step-from-existing.
+
+## Cross-domain abstraction priority (preference)
+
+Five Derived horizons (BoolUp / OptionUp / SumUp / ProdUp / ListUp / RatUp / IntervalUp / RingUp / CommRingUp / FieldUp / GroupUp / MonoidUp / AbGroupUp / etc.) currently each carry their own copy of the shape family
+
+```
+<X>HistoryClassifier_exactness
+<X>HistoryEndpoint_pair
+<X>HistoryLedgerPolicy_envelope_closure
+<X>HistoryClassifier_branch_inversion
+<X>HistoryCarrier_*_readback
+<X>HistoryClassifier_*_transport
+```
+
+When ≥3 horizons have the same shape proved as parallel concrete theorems, the **preferred** Phase B target is a refactor that hoists the shared shape into a single typeclass (e.g. `class DomainUpClassifier` with abstract carrier / classifier / exactness fields) under `BEDC.Derived` and rewrites the existing per-domain theorems as `instance` declarations of that class. A single round of this kind is worth ~5 per-domain theorem rounds because it deletes 3+ duplicate proofs and constrains future per-domain work to one location.
+
+Practical handling:
+
+1. Before picking the next per-domain target, scan how many horizons already prove the same shape. Use:
+   ```bash
+   grep -lE '<X>HistoryClassifier_exactness|<X>HistoryEndpoint_pair' lean4/BEDC/Derived/ | wc -l
+   ```
+2. If ≥3 horizons hit, propose a `kind: "refactor"` target that hoists the shape (mark `paper_block_status: "exists_without_marker"` and `target_file: lean4/BEDC/Derived/<shape>.lean` for the new abstraction module).
+3. The Phase B output may include a refactor target alongside per-domain targets, or as a standalone target. Phase D accepts a refactor commit (deletions allowed) provided the build passes.
+
+If the refactor would touch >5 files or introduce a new typeclass with >3 fields, instead emit a smaller scoping target like "extract just the `_endpoint_pair` shape into one shared helper that the 4 existing instances import", and let later rounds extend the abstraction.
+
+## Single-concept round (preference)
+
+Avoid emitting 3 targets that span 3 unrelated mathematical concepts (e.g. one Bool determinism + one Sum branch partition + one Rat denominator transport). Such "X and Y and Z" rounds produce commit messages like
+
+```
+prove sum and prod classifier closures
+prove option symmetry, product chain transitivity, and continuation transport
+```
+
+which are coverage sweeps, not concept-driven work. Prefer rounds whose 3 targets either (a) develop one concept on 3 different objects, or (b) develop 3 stages of one proof chain on one object. The commit message should read as a coherent claim, not a coverage list.
 
 ## Input Hygiene (kernel basis is locked)
 The kernel "input set" — sum of `inductive` types + `class` declarations + the `BaseReflectionSetup` structure — is intentionally minimal (~16). All theorem growth must be derived from this fixed basis, not by adding parallel inputs.
