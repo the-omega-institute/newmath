@@ -158,6 +158,80 @@ Theorem~\ref{thm:concrete-list-namecert} with this coherence witness and the
 displayed source certificate.
 \end{proof}
 
+\begin{theorem}[Hsame-compatible bounded list source public-object constructor audit]
+\label{thm:list-hsame-compatible-bounded-source-public-object-constructor-audit}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$, let $\mathsf{Rel}$ be a source
+classifier on $\mathsf{BHist}$, and let $a_0:\mathsf{BHist}$. If
+$\mathsf{cert}:\NameCert(A,\mathsf{Rel})$,
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, and
+$\mathsf{ListSourceHsameCompatible}(A,\mathsf{Rel})$ hold, then the ten-field fit
+is: traditional target finite lists over an hsame-bounded source; BEDC source
+$\mathsf{BHist}$ with $\NameCert(A,\mathsf{Rel})$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}$; stability from bounded
+head comparison plus source hsame compatibility; ledger finite-spine endpoint
+witnesses; core theorem bounded public constructor audit; exactness nil/cons
+constructor equivalence; standard bridge finite spines; status
+$\mathsf{ProofTarget}$. The semantic public-object certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,
+\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}})
+$$
+holds. Moreover, for all histories $h,k:\mathsf{BHist}$, every
+certificate-classifier witness exposes endpoint spine ledgers:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+\to
+\left(
+\begin{array}{l}
+(\exists xs:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(h,xs))\\
+\land\\
+(\exists ys:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(k,ys))
+\end{array}
+\right).
+$$
+The same classifier is exactly the nil-nil or cons-cons constructor
+disjunction:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+\Longleftrightarrow
+\begin{array}{l}
+(\hsame(h,\emp)\land \hsame(k,\emp))\\
+\lor\\
+\exists a\,b\,t\,u\,p\,q:\mathsf{BHist}.\;
+\left(
+\begin{array}{l}
+A(a)\land A(b)\land
+\mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListHistoryCarrier}_A(u)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+\mathsf{Rel}(a,b)\land
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(t,u)
+\end{array}
+\right).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-spine-coherence} turns the
+bounded-source and source-compatibility hypotheses into
+$\mathsf{ListSpineRepCoherent}_{A,\mathsf{Rel}}$.
+
+The forward implication of
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence} converts this
+spine coherence datum into
+$\mathsf{ListConsBoundaryCoherent}_{A,\mathsf{Rel}}$.
+
+Apply Theorem~\ref{thm:list-public-object-constructor-audit} to the displayed
+source certificate and this cons-boundary coherence witness. Its three outputs
+are exactly the semantic certificate, the endpoint spine ledgers for each
+classifier witness, and the displayed nil-nil or cons-cons constructor
+equivalence.
+\end{proof}
+
 \begin{corollary}[Hsame-bounded list source unframed certificate]
 \label{thm:list-hsame-bounded-source-public-object-certificate}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ and $a_0:\mathsf{BHist}$. If
