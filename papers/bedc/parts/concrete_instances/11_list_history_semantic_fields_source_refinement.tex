@@ -135,12 +135,13 @@ reverse and append, then transport the resulting classifier back to
 $\mathsf{ListClassifierSpec}(sameA,xs,ys)$.
 \end{proof}
 
-\begin{theorem}[Source-parametric classified list prefix cancellation]
+\begin{theorem}[BHist-parametric classified list prefix cancellation]
 \label{thm:list-classifier-source-append-left-cancel-classified}
-For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
-spines $p,p',x,y:\mathsf{ListCarrier}(A)$, the ten-field fit is: traditional
-target finite-list prefix cancellation; BEDC source carried by the source
-entries of the finite spine; carrier $\mathsf{ListCarrier}(A)$; classifier
+For any relation $sameA:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ and
+finite spines $p,p',x,y:\mathsf{ListCarrier}(\mathsf{BHist})$, the ten-field
+fit is: traditional target finite-list prefix cancellation; BEDC source carried
+by the history entries of the finite spine; carrier
+$\mathsf{ListCarrier}(\mathsf{BHist})$; classifier
 $\mathsf{ListClassifierSpec}(sameA)$; stability append under classified
 prefixes; ledger finite spine; core theorem classified left prefix
 cancellation; exactness inherited from structural nil/cons classification;
@@ -166,6 +167,7 @@ $y$. In the cons case, invert the appended classifier at the exposed cons heads;
 its tail is a classifier for the two appended tails. Apply the induction
 hypothesis to the tail prefix classifier and that tail-appended classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_BHist\_append\_left\_cancel\_classified}
 
 \begin{theorem}[Source-parametric classified list suffix cancellation]
 \label{thm:list-classifier-source-append-right-cancel-classified}

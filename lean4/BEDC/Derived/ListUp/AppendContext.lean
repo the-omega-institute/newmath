@@ -2,6 +2,27 @@ import BEDC.Derived.ListUp
 
 namespace BEDC.Derived.ListUp
 
+theorem ListClassifierSpec_BHist_append_left_cancel_classified
+    {sameA : BEDC.FKernel.Hist.BHist -> BEDC.FKernel.Hist.BHist -> Prop}
+    {pref pref' xs ys : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec sameA pref pref' ->
+      ListClassifierSpec sameA (pref ++ xs) (pref' ++ ys) ->
+        ListClassifierSpec sameA xs ys := by
+  intro prefixClass appendClass
+  induction pref generalizing pref' with
+  | nil =>
+      cases pref' with
+      | nil =>
+          exact appendClass
+      | cons _ _ =>
+          cases prefixClass
+  | cons _ pref ih =>
+      cases pref' with
+      | nil =>
+          cases prefixClass
+      | cons _ pref' =>
+          exact ih prefixClass.right appendClass.right
+
 theorem ListClassifierSpec_hsame_append_context_iff
     {pref pref' xs ys suffix suffix' : ListCarrier BEDC.FKernel.Hist.BHist} :
     ListClassifierSpec BEDC.FKernel.Hist.hsame pref pref' →
