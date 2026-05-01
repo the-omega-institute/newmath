@@ -62,4 +62,31 @@ theorem TaggedOptionHistoryClassifier_right_absent_exactness {S : BHist → Prop
   · intro sameEmpty
     exact Or.inl (And.intro sameEmpty (hsame_refl BHist.Empty))
 
+theorem TaggedOptionHistoryClassifier_endpoint_carriers {S : BHist → Prop}
+    {Rel : BHist → BHist → Prop} {h k : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k →
+      TaggedOptionHistoryCarrier S h ∧ TaggedOptionHistoryCarrier S k := by
+  intro classifier
+  cases classifier with
+  | inl absent =>
+      constructor
+      · exact Or.inl absent.left
+      · exact Or.inl absent.right
+  | inr present =>
+      cases present with
+      | intro a restA =>
+          cases restA with
+          | intro b data =>
+              cases data with
+              | intro sourceA rest =>
+                  cases rest with
+                  | intro sourceB rest =>
+                      cases rest with
+                      | intro sameH rest =>
+                          cases rest with
+                          | intro sameK _rel =>
+                              constructor
+                              · exact Or.inr (Exists.intro a (And.intro sourceA sameH))
+                              · exact Or.inr (Exists.intro b (And.intro sourceB sameK))
+
 end BEDC.Derived.OptionUp

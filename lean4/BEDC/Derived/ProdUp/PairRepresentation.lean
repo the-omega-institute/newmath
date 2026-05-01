@@ -69,4 +69,21 @@ theorem ProdPairRep_hsame_coherence {Left Right : BHist → Prop}
     ProdPairRep_hsame_transport repK (hsame_symm sameHK)
   exact coherent repH repKAtH
 
+theorem ProdHistoryClassifier_cont_congr {Left Right : BHist → Prop}
+    (left_transport : ∀ {x y : BHist}, hsame x y → Left x → Left y)
+    (right_transport : ∀ {x y : BHist}, hsame x y → Right x → Right y)
+    {l l' r r' h h' : BHist} :
+    Left l → Right r → hsame l l' → hsame r r' → Cont l r h → Cont l' r' h' →
+      ProdHistoryClassifier Left Right h h' := by
+  intro leftCarrier rightCarrier sameLeft sameRight contH contH'
+  have leftCarrier' : Left l' := left_transport sameLeft leftCarrier
+  have rightCarrier' : Right r' := right_transport sameRight rightCarrier
+  have sameEndpoints : hsame h h' :=
+    cont_respects_hsame sameLeft sameRight contH contH'
+  exact And.intro
+    (ProdHistoryCarrier_cont_intro leftCarrier rightCarrier contH)
+    (And.intro
+      (ProdHistoryCarrier_cont_intro leftCarrier' rightCarrier' contH')
+      sameEndpoints)
+
 end BEDC.Derived.ProdUp

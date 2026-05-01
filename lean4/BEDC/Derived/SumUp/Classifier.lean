@@ -121,4 +121,33 @@ theorem SumHistoryClassifier_no_source_membership :
         | intro _ data =>
             exact data.right
 
+theorem SumHistoryClassifier_hsame_same_tag_exactness {Left Right : BHist → Prop} :
+    (∀ {l l' : BHist},
+      SumHistoryClassifier Left Right hsame hsame (BHist.e0 l) (BHist.e0 l') ↔
+        hsame l l') ∧
+      (∀ {r r' : BHist},
+        SumHistoryClassifier Left Right hsame hsame (BHist.e1 r) (BHist.e1 r') ↔
+          hsame r r') := by
+  constructor
+  · intro l l'
+    constructor
+    · intro classifier
+      exact SumHistoryClassifier_left_hsame_inversion classifier
+    · intro samePayload
+      exact Or.inl
+        (Exists.intro l
+          (Exists.intro l'
+            (And.intro (hsame_refl (BHist.e0 l))
+              (And.intro (hsame_refl (BHist.e0 l')) samePayload))))
+  · intro r r'
+    constructor
+    · intro classifier
+      exact SumHistoryClassifier_right_hsame_inversion classifier
+    · intro samePayload
+      exact Or.inr
+        (Exists.intro r
+          (Exists.intro r'
+            (And.intro (hsame_refl (BHist.e1 r))
+              (And.intro (hsame_refl (BHist.e1 r')) samePayload))))
+
 end BEDC.Derived.SumUp
