@@ -473,27 +473,56 @@ $$
 
 \begin{theorem}[BoolUp paper-side semantic certificate target]
 \label{thm:bool-semantic-namecert-target}
-For $\mathsf{BoolHistoryCarrier}$, the checked core history $\NameCert$
-supplies the core component of the paper-side target
+The Bool public-object certificate target fixes the three history predicates by
+$$
+\mathsf{SourceSpec}
+=
+\mathsf{PatternSpec}
+=
+\mathsf{LedgerPolicy}
+=
+\mathsf{BoolHistoryCarrier}
+$$
+and fixes
+$$
+\mathsf{ClassifierSpec}
+=
+\mathsf{BoolHistoryClassifier}.
+$$
+For the resulting
 $$
 \mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryCarrier},
-\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}).
+\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}),
 $$
-This displayed tuple is the paper certificate target for the public-object
-scope and carries no checked Lean marker until the corresponding Lean
-$\mathsf{SemanticNameCert}$ theorem exists.
-The source, pattern, and ledger slots are all read through the
-carrier-as-pattern predicate $\mathsf{BoolHistoryCarrier}$.
+the constructor fields are the checked core
+$\mathsf{BEDC.Derived.BoolUp.bool\_history\_name\_certificate}$, the pattern
+soundness implication
+$$
+\forall h,
+\mathsf{BoolHistoryCarrier}(h)
+\Rightarrow
+\mathsf{BoolHistoryCarrier}(h),
+$$
+and the ledger soundness implication
+$$
+\forall h,
+\mathsf{BoolHistoryCarrier}(h)
+\Rightarrow
+\mathsf{BoolHistoryCarrier}(h).
+$$
+This displayed object is a paper-side $\mathsf{ProofTarget}$ for the
+public-object scope and carries no checked Lean marker while the exact
+semantic certificate theorem is absent from Lean.
 \end{theorem}
 \begin{proof}
 The Lean-checked component is
 $\mathsf{bool\_history\_name\_certificate}$, which proves the history
 $\NameCert$ for $\mathsf{BoolHistoryCarrier}$ and
-$\mathsf{BoolHistoryClassifier}$. The displayed semantic target uses that
-certificate as its core component. Its remaining paper-side fields are
-carrier-as-pattern fields: from a witness of
-$\mathsf{BoolHistoryCarrier}(h)$, the pattern and ledger requirements are the
-same predicate on the same history $h$.
+$\mathsf{BoolHistoryClassifier}$. This supplies the $\mathsf{core}$ field of
+the displayed $\mathsf{SemanticNameCert}$. Since the source, pattern, and
+ledger predicates are all $\mathsf{BoolHistoryCarrier}$, both
+$\mathsf{pattern\_sound}$ and $\mathsf{ledger\_sound}$ are the identity
+implication on the same history carrier predicate.
 \end{proof}
 
 The endpoint coverage, endpoint bridge classifier completeness, and endpoint
