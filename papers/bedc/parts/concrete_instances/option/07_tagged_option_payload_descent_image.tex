@@ -155,6 +155,89 @@ $\mathsf{cert}$, and the source hsame compatibility hypothesis. Its conclusion
 is the required target tagged option classifier.
 \end{proof}
 
+\begin{theorem}[Tagged option payload descent image public readback is single-valued]
+\label{thm:tagged-option-payload-descent-image-public-readback-single-valued}
+This theorem fits the per-object template as follows: the traditional target is
+image option readback for constructor-tagged $\mathsf{OptionUp}$; the BEDC
+source is $\mathsf{BHist}$ with a
+$\mathsf{DescentCertificate}$; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is deferred
+to the image classifier chapter; the stability obligation is branch exactness
+together with target semantic-field exposure; the ledger is the visible
+transported payload; the core theorem is public readback single-valuedness;
+exactness is exclusive absent/present coverage; the standard bridge is
+none/some image readback; and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For every target
+endpoint $k:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+(S,T,\rho_{\delta};k),
+$$
+then
+$$
+\mathsf{TaggedOptionHistoryCarrier}_T(k)\land
+\mathsf{TaggedOptionHistoryPattern}_T(k)\land
+\mathsf{TaggedOptionHistoryLedger}_T(k)
+$$
+and the public branch readback is exclusive and single-valued:
+$$
+\bigl(\hsame(k,\emp)\land
+\neg\exists a:\mathsf{BHist}.\;
+S(a)\land T(\delta.\mathsf{map}(a))\land
+\hsame(k,\Eone(\delta.\mathsf{map}(a)))\bigr)
+$$
+or
+$$
+\exists a:\mathsf{BHist}.\;
+S(a)\land T(\delta.\mathsf{map}(a))\land
+\hsame(k,\Eone(\delta.\mathsf{map}(a)))\land
+\neg\hsame(k,\emp)\land
+\forall b:\mathsf{BHist}.\;
+S(b)\to T(\delta.\mathsf{map}(b))\to
+\hsame(k,\Eone(\delta.\mathsf{map}(b)))\to
+\hsame(\delta.\mathsf{map}(a),\delta.\mathsf{map}(b)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the target endpoint-scope clause of
+Theorem~\ref{thm:tagged-option-payload-descent-image-certificate} to the image
+carrier witness. This supplies the target carrier, visible pattern, and visible
+ledger fields for $k$.
+
+Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-branch-exactness} to the
+same image carrier witness. The resulting disjunction says that $k$ is either
+presented as $\emp$ or presented as $\Eone(\delta.\mathsf{map}(a))$ for a
+transported source payload $a$ with the displayed source and target payload
+witnesses.
+
+In the absent branch, keep $\hsame(k,\emp)$. If a transported present endpoint
+also existed, composing the empty presentation with the present presentation
+would give an empty-versus-$\Eone$ contradiction by generated-history
+no-confusion. Hence no displayed transported present endpoint exists.
+
+In the present branch, keep the payload $a$, its source and target witnesses,
+and the presentation $\hsame(k,\Eone(\delta.\mathsf{map}(a)))$. A simultaneous
+presentation $\hsame(k,\emp)$ would again compose with the present presentation
+to contradict empty-versus-$\Eone$ no-confusion.
+
+It remains to show single-valuedness of the public payload readback. Let $b$ be
+any other displayed transported payload with source witness, target witness, and
+presentation $\hsame(k,\Eone(\delta.\mathsf{map}(b)))$. Apply
+Theorem~\ref{thm:tagged-option-history-present-payload-determinism} to the two
+present endpoint presentations of $k$; the result is exactly
+$\hsame(\delta.\mathsf{map}(a),\delta.\mathsf{map}(b))$.
+\end{proof}
+
 \begin{theorem}[Tagged option payload descent image composition factorization]
 \label{thm:tagged-option-payload-descent-image-composition-factorization}
 Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers,
