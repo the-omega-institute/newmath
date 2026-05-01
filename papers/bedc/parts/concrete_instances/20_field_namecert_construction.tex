@@ -307,6 +307,38 @@ identifies $\mathsf{inv}(a,p_a)(ay)$ with $y$, and transitivity of
 $\hsame$ finishes.
 \end{proof}
 
+\begin{theorem}[Field two-sided multiplication exactness from apartness]
+\label{thm:field-two-sided-mul-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+multiplication congruence, and witnesses $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$, every $x,y:\mathsf{BHist}$ satisfy
+$$
+(a x)b\hsame(a y)b
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} with the
+right-factor witness $p_b$. This cancels the certified factor $b$ and gives
+$a x\hsame a y$.
+
+Apply Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} again with
+the left-factor witness $p_a$. This cancels the certified factor $a$ and
+gives $x\hsame y$.
+
+For the reverse direction, start from $x\hsame y$. Multiplication congruence
+transports this classifier equality through left multiplication by $a$, giving
+$a x\hsame a y$.
+
+Apply multiplication congruence once more through right multiplication by $b$.
+The result is exactly
+$$
+(a x)b\hsame(a y)b.
+$$
+\end{proof}
+
 \begin{definition}[Field ledger policy]
 \label{def:field-ledger-policy}
 Record the ring ledger and the $\mathsf{NonZero}_F$ witness used for each inverse.
@@ -325,7 +357,7 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
   \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
   \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
   \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
-  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, and distributivity inherited from $\CommRingUp$.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, and distributivity inherited from $\CommRingUp$.
   \item Exactness predicate: coverage, soundness, and completeness for admitted field packages.
   \item Standard bridge: deferred conservative bridge.
   \item Status: ProofTarget.
