@@ -3,6 +3,7 @@ import BEDC.Derived.ProdUp.PairRepresentation
 namespace BEDC.Derived.ProdUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 
 theorem ProdComponentHistoryClassifier_source_refinement
@@ -300,5 +301,38 @@ theorem ProdComponentHistoryClassifier_trans_from_pair_coherence
             (rightCert.equiv_trans middle.right sameRightKU)
         ⟨lh, rh, lu, ru, leftH, rightH, contH, leftU, rightU, contU,
           sameLeftHU, sameRightHU⟩
+
+theorem ProdComponentHistoryClassifier_name_certificate
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) :
+    NameCert (ProdHistoryCarrier Left Right)
+      (ProdComponentHistoryClassifier Left Right LeftEq RightEq) := by
+  cases leftCert.carrier_inhabited with
+  | intro leftHist leftCarrier =>
+      cases rightCert.carrier_inhabited with
+      | intro rightHist rightCarrier =>
+          exact {
+            carrier_inhabited := Exists.intro (append leftHist rightHist)
+              (ProdHistoryCarrier_append_intro leftCarrier rightCarrier)
+            equiv_refl := by
+              intro h carrier
+              exact
+                ProdComponentHistoryClassifier_carrier_reflexivity_from_source_certificates
+                  leftCert rightCert carrier
+            equiv_symm := by
+              intro h k classifier
+              exact
+                ProdComponentHistoryClassifier_symm_from_source_certificates
+                  leftCert rightCert classifier
+            equiv_trans := by
+              intro h k u classifierHK classifierKU
+              exact
+                ProdComponentHistoryClassifier_trans_from_pair_coherence
+                  leftCert rightCert coherent classifierHK classifierKU
+            carrier_respects_equiv := by
+              intro h k classifier _carrier
+              exact (ProdComponentHistoryClassifier_endpoint_carriers classifier).right
+          }
 
 end BEDC.Derived.ProdUp

@@ -1,4 +1,4 @@
-import BEDC.Derived.ProdUp
+import BEDC.Derived.ProdUp.PairRepresentation
 
 namespace BEDC.Derived.ProdUp
 
@@ -112,6 +112,31 @@ theorem ProdHistoryLedgerChain_envelope_closure {Left Right : BHist -> Prop} {rh
                           exact ProdHistoryClassifier_trans wRho rhoZ
                         · intro wZ
                           exact ProdHistoryClassifier_trans wZ (ProdHistoryClassifier_symm rhoZ)
+
+theorem ProdHistoryLedgerChain_displayed_component_readback
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) {rho z l r : BHist} :
+    ProdHistoryLedgerChain Left Right rho z ->
+      ProdPairRep Left Right rho l r ->
+        ∃ l' : BHist, ∃ r' : BHist,
+          ProdPairRep Left Right z l' r' ∧ LeftEq l l' ∧ RightEq r r' := by
+  intro chain repRho
+  have envelope := ProdHistoryLedgerChain_envelope_closure chain
+  have carrierZ : ProdHistoryCarrier Left Right z := envelope.left
+  have classifierRhoZ : ProdHistoryClassifier Left Right rho z := envelope.right.left
+  have sameRhoZ : hsame rho z := classifierRhoZ.right.right
+  have displayedZ :
+      ∃ l' : BHist, ∃ r' : BHist, ProdPairRep Left Right z l' r' :=
+    Iff.mp (ProdPairRep_coverage (Left := Left) (Right := Right) (h := z)) carrierZ
+  cases displayedZ with
+  | intro l' rest =>
+      cases rest with
+      | intro r' repZ =>
+          have components : LeftEq l l' ∧ RightEq r r' :=
+            ProdPairRep_hsame_coherence coherent repRho repZ sameRhoZ
+          exact Exists.intro l'
+            (Exists.intro r'
+              (And.intro repZ (And.intro components.left components.right)))
 
 theorem ProdHistoryLedgerChain_componentwise_classifier_endpoint_equivalence
     {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
