@@ -169,4 +169,68 @@ theorem FramedListEndpoint_length_preservation {xs ys : ListCarrier BHist} :
   intro same
   exact ListClassifierSpec_hsame_length_eq (FramedListEndpoint_classifier_exactness.mp same)
 
+def ListSourceHsameCompatible (A : BHist → Prop) (Rel : BHist → BHist → Prop) :
+    Prop :=
+  ∀ {a b : BHist}, A a → A b → hsame a b → Rel a b
+
+theorem FramedListSpineRep_coherence {A : BHist → Prop} {Rel : BHist → BHist → Prop}
+    (compat : ListSourceHsameCompatible A Rel) :
+    ∀ {h : BHist} {xs ys : ListCarrier BHist},
+      FramedListSpineRep A h xs →
+        FramedListSpineRep A h ys → ListClassifierSpec Rel xs ys := by
+  intro h xs
+  induction xs generalizing h with
+  | nil =>
+      intro ys repX repY
+      cases repX with
+      | intro _ endpointX =>
+          cases repY with
+          | intro _ endpointY =>
+              have sameEndpoints : hsame (FramedListEndpoint []) (FramedListEndpoint ys) :=
+                hsame_trans (hsame_symm endpointX) endpointY
+              cases ys with
+              | nil =>
+                  constructor
+              | cons y ys =>
+                  exact False.elim
+                    ((FramedListEndpoint_no_confusion_cons_inversion
+                      (a := y) (b := y) (xs := ys) (ys := ys)).left sameEndpoints)
+  | cons x xs ih =>
+      intro ys repX repY
+      cases repX with
+      | intro entriesX endpointX =>
+          cases repY with
+          | intro entriesY endpointY =>
+              have sameEndpoints :
+                  hsame (FramedListEndpoint (x :: xs)) (FramedListEndpoint ys) :=
+                hsame_trans (hsame_symm endpointX) endpointY
+              cases ys with
+              | nil =>
+                  exact False.elim
+                    ((FramedListEndpoint_no_confusion_cons_inversion
+                      (a := x) (b := x) (xs := xs) (ys := xs)).right.left
+                        sameEndpoints)
+              | cons y ys =>
+                  have split :
+                      hsame x y ∧
+                        hsame (FramedListEndpoint xs) (FramedListEndpoint ys) :=
+                    (FramedListEndpoint_no_confusion_cons_inversion
+                      (a := x) (b := y) (xs := xs) (ys := ys)).right.right
+                        sameEndpoints
+                  constructor
+                  · exact compat
+                      (entriesX x (List.Mem.head xs))
+                      (entriesY y (List.Mem.head ys))
+                      split.left
+                  · have entriesXTail : ∀ z : BHist, z ∈ xs → A z := by
+                      intro z memZ
+                      exact entriesX z (List.Mem.tail x memZ)
+                    have entriesYTail : ∀ z : BHist, z ∈ ys → A z := by
+                      intro z memZ
+                      exact entriesY z (List.Mem.tail y memZ)
+                    exact ih
+                      (h := FramedListEndpoint xs)
+                      (And.intro entriesXTail (hsame_refl (FramedListEndpoint xs)))
+                      (And.intro entriesYTail split.right)
+
 end BEDC.Derived.ListUp
