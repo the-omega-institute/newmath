@@ -176,7 +176,11 @@ For the forward direction, case-analyze the tagged classifier witness. The absen
 
 \begin{theorem}[Tagged option history visible present exactness]
 \label{thm:tagged-option-history-visible-present-exactness}
-For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, source certificate $\mathsf{cert}:\NameCert(S,\sim_S)$, and $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, if $S(h)$ and $S(k)$, then the tagged option history classifier is exact on the two source-visible present endpoints:
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, a transitivity hypothesis
+$$
+\forall x\,y\,z.\;x\sim_S y\to y\sim_S z\to x\sim_S z,
+$$
+and $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, if $S(h)$ and $S(k)$, then the tagged option history classifier is exact on the two source-visible present endpoints:
 $$
 \mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\Eone(k))
 \quad\Longleftrightarrow\quad
@@ -184,7 +188,7 @@ h\sim_S k.
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, apply Theorem~\ref{thm:tagged-option-history-present-present-exactness} to the tagged classifier witness. It provides payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, endpoint witnesses $\hsame(h,a)$ and $\hsame(k,b)$, and a payload classifier witness $a\sim_S b$. The compatibility hypothesis gives $h\sim_S a$ from $S(h)$, $S(a)$, and $\hsame(h,a)$; symmetry of $\hsame$ turns $\hsame(k,b)$ into $\hsame(b,k)$, and compatibility gives $b\sim_S k$ from $S(b)$, $S(k)$, and that symmetric endpoint witness. Two uses of $\mathsf{cert.equiv\_trans}$ compose $h\sim_S a$, $a\sim_S b$, and $b\sim_S k$ into $h\sim_S k$.
+For the forward direction, apply Theorem~\ref{thm:tagged-option-history-present-present-exactness} to the tagged classifier witness. It provides payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, endpoint witnesses $\hsame(h,a)$ and $\hsame(k,b)$, and a payload classifier witness $a\sim_S b$. The compatibility hypothesis gives $h\sim_S a$ from $S(h)$, $S(a)$, and $\hsame(h,a)$; symmetry of $\hsame$ turns $\hsame(k,b)$ into $\hsame(b,k)$, and compatibility gives $b\sim_S k$ from $S(b)$, $S(k)$, and that symmetric endpoint witness. Two applications of the displayed transitivity hypothesis compose $h\sim_S a$, $a\sim_S b$, and $b\sim_S k$ into $h\sim_S k$.
 
 For the reverse direction, use Theorem~\ref{thm:tagged-option-history-present-present-exactness} with payloads $h$ and $k$. The source witnesses are the assumptions $S(h)$ and $S(k)$, the endpoint witnesses are reflexivity of $\hsame$ at $h$ and $k$, and the payload classifier witness is the assumed $h\sim_S k$.
 \end{proof}
