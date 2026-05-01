@@ -562,18 +562,17 @@ the symmetric form of the assumed \(\hsame(k,\emp)\).
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_empty\_left\_iff}
 
-\begin{theorem}[Option history classifier empty right iff]
+\begin{corollary}[Option history classifier empty right iff]
 \label{thm:option-history-classifier-empty-right-iff}
-For any source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and any history $h$,
+For any source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and any history $h$, this is the right-endpoint symmetry corollary of
+Theorem~\ref{thm:option-history-classifier-empty-left-iff} and Theorem~\ref{thm:option-history-classifier-symmetry}, not a separate finite-data certificate target:
 $$
 \mathsf{OptionHistoryClassifier}_S(h,\emp)\quad\Longleftrightarrow\quad\hsame(h,\emp).
 $$
-\end{theorem}
+\end{corollary}
 \begin{proof}
-In the forward direction, apply classifier symmetry to reduce to
-$\mathsf{OptionHistoryClassifier}_S(\emp,h)$, then use
-Theorem~\ref{thm:option-history-classifier-empty-left-iff}. In the reverse
-direction, use the reverse implication of
+In the forward direction, apply classifier symmetry to reduce to $\mathsf{OptionHistoryClassifier}_S(\emp,h)$, then use
+Theorem~\ref{thm:option-history-classifier-empty-left-iff}. In the reverse direction, use the reverse implication of
 Theorem~\ref{thm:option-history-classifier-empty-left-iff} to obtain
 $\mathsf{OptionHistoryClassifier}_S(\emp,h)$, then apply classifier symmetry.
 \end{proof}
@@ -638,7 +637,7 @@ hold.
 \end{theorem}
 \begin{proof}
 For the right-empty classifier, use
-Theorem~\ref{thm:option-history-classifier-empty-right-iff} to turn a classifier
+Corollary~\ref{thm:option-history-classifier-empty-right-iff} to turn a classifier
 witness into $\hsame(h,\emp)$, then apply
 $\mathsf{OptionSourceExcludesEmpty}(S)$ to $S(h)$. For the left-empty
 classifier, use Theorem~\ref{thm:option-history-classifier-empty-left-iff} to
