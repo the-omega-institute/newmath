@@ -55,6 +55,23 @@ theorem abgroup_conjugation_collapse {mul : BHist -> BHist -> BHist} {e : BHist}
     exact mulCongr (hsame_refl b) (rightInv a)
   exact hsame_trans swap (hsame_trans collapseInner (rightId b))
 
+theorem abgroup_inverse_conjugation_collapse {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (rightId : forall x : BHist, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) e) :
+    forall a b : BHist, hsame (mul (inv a) (mul b a)) b := by
+  intro a b
+  have swap :
+      hsame (mul (inv a) (mul b a)) (mul b (mul (inv a) a)) := by
+    exact abgroup_mul_left_right_swap assocC commC mulCongr (inv a) b a
+  have collapseInner : hsame (mul b (mul (inv a) a)) (mul b e) := by
+    exact mulCongr (hsame_refl b) (leftInv a)
+  exact hsame_trans swap (hsame_trans collapseInner (rightId b))
+
 theorem abgroup_mul_right_factor_swap {mul : BHist -> BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
     (commC : forall x y : BHist, hsame (mul x y) (mul y x))

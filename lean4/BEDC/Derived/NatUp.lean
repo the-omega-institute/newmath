@@ -50,4 +50,35 @@ theorem NatUnaryPrefix_total {h k : BHist} :
                       exact Or.inr
                         ⟨tail, tailUnary, cont_result_hsame_transport base same⟩
 
+theorem NatUnaryPrefix_directed_common_upper {h k : BHist} :
+    UnaryHistory h -> UnaryHistory k ->
+      exists upper : BHist, And (UnaryHistory upper)
+        (And (exists tail : BHist, And (UnaryHistory tail) (Cont h tail upper))
+          (exists tail : BHist, And (UnaryHistory tail) (Cont k tail upper))) := by
+  intro uh uk
+  have total := NatUnaryPrefix_total uh uk
+  cases total with
+  | inl left =>
+      cases left with
+      | intro tail data =>
+          cases data with
+          | intro tailUnary tailCont =>
+              exact Exists.intro k
+                (And.intro uk
+                  (And.intro
+                    (Exists.intro tail (And.intro tailUnary tailCont))
+                    (Exists.intro BHist.Empty
+                      (And.intro unary_empty (cont_right_unit k)))))
+  | inr right =>
+      cases right with
+      | intro tail data =>
+          cases data with
+          | intro tailUnary tailCont =>
+              exact Exists.intro h
+                (And.intro uh
+                  (And.intro
+                    (Exists.intro BHist.Empty
+                      (And.intro unary_empty (cont_right_unit h)))
+                    (Exists.intro tail (And.intro tailUnary tailCont))))
+
 end BEDC.Derived.NatUp

@@ -55,4 +55,24 @@ theorem commring_square_add_expand {add mul : BHist -> BHist -> BHist}
       (addCongr (mulComm b a) (hsame_refl (mul b b)))
   exact hsame_trans outer (hsame_trans expandLeft alignMiddle)
 
+theorem commring_mul_add_add_expand {add mul : BHist -> BHist -> BHist}
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z))) :
+    forall a b c d : BHist,
+      hsame (mul (add a b) (add c d))
+        (add (add (mul a c) (mul a d)) (add (mul b c) (mul b d))) := by
+  intro a b c d
+  have outer :
+      hsame (mul (add a b) (add c d))
+        (add (mul a (add c d)) (mul b (add c d))) := by
+    exact commring_right_distrib_from_left mulComm addCongr leftDistrib a b (add c d)
+  have inner :
+      hsame (add (mul a (add c d)) (mul b (add c d)))
+        (add (add (mul a c) (mul a d)) (add (mul b c) (mul b d))) := by
+    exact addCongr (leftDistrib a c d) (leftDistrib b c d)
+  exact hsame_trans outer inner
+
 end BEDC.Derived.CommRingUp
