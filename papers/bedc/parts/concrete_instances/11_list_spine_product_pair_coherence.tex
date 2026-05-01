@@ -747,29 +747,42 @@ hold.
 \end{theorem}
 \begin{proof}
 Theorem~\ref{thm:singleton-history-source-namecert} supplies the source
-certificate $\NameCert(A_{a_0},\hsame)$.
-
-The compatibility predicate $\mathsf{ListSourceHsameCompatible}(A_{a_0},\hsame)$
-is immediate: given $A_{a_0}(a)$, $A_{a_0}(b)$, and $\hsame(a,b)$, the required
-source classifier witness is exactly the displayed $\hsame(a,b)$ witness. Apply
-Corollary~\ref{cor:framed-list-carrier-certificate} with the
-singleton source certificate and this compatibility witness.
+certificate $\NameCert(A_{a_0},\hsame)$. The compatibility predicate
+$\mathsf{ListSourceHsameCompatible}(A_{a_0},\hsame)$ is immediate: the final displayed input is already the required $\hsame(a,b)$ witness. Apply
+Corollary~\ref{cor:framed-list-carrier-certificate} with the singleton source
+certificate and this compatibility witness.
 \end{proof}
 
-\begin{theorem}[List singleton source unframed certificate under cons-boundary coherence]
+\begin{theorem}[List singleton source spine coherence]
+\label{thm:list-singleton-source-spine-coherence}
+For any BEDC history $a_0$, let $A_{a_0}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source}. Then
+$\mathsf{ListSpineRepCoherent}_{A_{a_0},\hsame}$ holds.
+\end{theorem}
+\begin{proof}
+Compare two singleton-source spine presentations of the same endpoint by cases
+on the displayed spines. The mixed nil/cons cases contradict
+Theorem~\ref{thm:list-spine-rep-nil-cons-no-confusion}; the nil/nil case is the nil finite-spine classifier. In the cons/cons case, one-constructor and
+continuation-pair inversion expose comparable tails. Each displayed head lies in
+$A_{a_0}$, so both heads are $\hsame$ to $a_0$ and hence $\hsame$ to each other;
+apply the induction hypothesis to the exposed tail presentations and rebuild
+the $\mathsf{ListClassifierSpec}(\hsame,-,-)$ cons witness.
+\end{proof}
+
+\begin{theorem}[List singleton source unframed certificate]
 \label{thm:list-singleton-source-public-object-certificate}
 Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
-history source of Definition~\ref{def:list-singleton-history-source}. Assume
-$\mathsf{ListConsBoundaryCoherent}_{A_{a_0},\hsame}$. The ten-field
-per-object fit is: traditional target finite lists over one BEDC history class;
-BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+history source of Definition~\ref{def:list-singleton-history-source}. The
+ten-field per-object fit is: traditional target finite lists over one BEDC
+history class; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
 $\mathsf{ListHistoryCarrier}_{A_{a_0}}$; classifier
 $\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}$; stability from the
-singleton $\NameCert(A_{a_0},\hsame)$ and cons-boundary coherence; ledger
+singleton source certificate and
+Theorem~\ref{thm:list-singleton-source-spine-coherence}; ledger
 $\mathsf{ListHistoryLedger}_{A_{a_0}}$; core theorem
-Theorem~\ref{thm:list-public-object-certificate-from-cons-boundary-coherence};
-exactness through the spine bridge; standard bridge finite spines; status
-$\mathsf{ProofTarget}$. Then the displayed semantic certificate
+Theorem~\ref{thm:concrete-list-namecert}; exactness through the spine bridge;
+standard bridge finite spines; status $\mathsf{ProofTarget}$. Then the displayed
+semantic certificate
 $$
 \mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_{A_{a_0}},
 \mathsf{ListHistoryPattern}_{A_{a_0}},
@@ -779,11 +792,9 @@ $$
 holds.
 \end{theorem}
 \begin{proof}
-Use the singleton source certificate supplied by
-Theorem~\ref{thm:singleton-history-source-namecert}.
-The assumed $\mathsf{ListConsBoundaryCoherent}_{A_{a_0},\hsame}$ supplies the
-tail-comparison datum for unframed cons presentations. Apply
-Theorem~\ref{thm:list-public-object-certificate-from-cons-boundary-coherence}
-with the singleton source certificate and the displayed cons-boundary coherence
-witness.
+Theorem~\ref{thm:singleton-history-source-namecert} supplies
+$\NameCert(A_{a_0},\hsame)$, and
+Theorem~\ref{thm:list-singleton-source-spine-coherence} supplies
+$\mathsf{ListSpineRepCoherent}_{A_{a_0},\hsame}$. Apply
+Theorem~\ref{thm:concrete-list-namecert} directly with these two inputs.
 \end{proof}
