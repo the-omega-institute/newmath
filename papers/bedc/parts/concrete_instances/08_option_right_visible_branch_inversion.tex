@@ -159,6 +159,51 @@ envelope; it does not construct a nullable semantic certificate from the tagged
 one.
 \end{proof}
 
+\begin{theorem}[Tagged option hsame public certificate descends to nullable envelope]
+\label{thm:tagged-option-hsame-public-certificate-descends-to-nullable-envelope}
+The ten-field fit is: traditional target nullable comparison for a public
+option object; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{TaggedOptionHistoryCarrier}_S$; classifier
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}$; stability obligation
+present-endpoint absorption; ledger visible absent/present tag; core theorem the
+tagged $\hsame$ semantic certificate; exactness one-way comparison to the
+nullable envelope; standard bridge none/some readback; status
+$\mathsf{ProofTarget}$. Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source
+carrier, let $\mathsf{cert}:\NameCert(S,\hsame)$, and assume
+$$
+\forall a\,h.\;
+S(a)\to\hsame(h,\Eone(a))\to S(h).
+$$
+Then the constructor-tagged public certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,
+\mathsf{TaggedOptionHistoryPattern}_S,
+\mathsf{TaggedOptionHistoryLedger}_S,
+\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame})
+$$
+holds, and the tagged carrier and classifier descend to the nullable envelope:
+$$
+\forall h.\;
+\mathsf{TaggedOptionHistoryCarrier}_S(h)\to
+\mathsf{OptionHistoryCarrier}_S(h),
+$$
+and
+$$
+\forall h\,k.\;
+\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}(h,k)\to
+\mathsf{OptionHistoryClassifier}_S(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The tagged certificate is the $\hsame$ certificate corollary
+Corollary~\ref{cor:tagged-option-history-semantic-certificate-hsame}, applied to
+$\mathsf{cert}$. The displayed absorption hypothesis gives
+$\mathsf{TaggedOptionToNullableBridge}(S,\hsame)$ by
+Theorem~\ref{thm:tagged-option-to-nullable-hsame-bridge-criterion}. Applying
+Theorem~\ref{thm:tagged-option-to-nullable-classifier-bridge} to that bridge
+datum gives the carrier and classifier implications into the nullable envelope.
+\end{proof}
+
 \begin{theorem}[Tagged option history classifier absent-branch equivalence]
 \label{thm:tagged-option-history-classifier-absent-branch-equivalence}
 This theorem fits the per-object template as follows: the traditional target is
