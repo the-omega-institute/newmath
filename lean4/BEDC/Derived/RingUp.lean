@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.Derived.GroupUp
 import BEDC.Derived.MonoidUp
 
 namespace BEDC.Derived.RingUp
@@ -114,6 +115,66 @@ theorem ring_mul_neg_left_inverse_sum_zero {add mul : BHist -> BHist -> BHist}
     exact mulCongr (negLeft x) (hsame_refl y)
   exact hsame_trans (hsame_symm distrib)
     (hsame_trans inverseProduct (zeroAbsorption.right y))
+
+theorem ring_mul_neg_right_inverse_sum_zero {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist} {zero : BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add zero x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) zero)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z))) :
+    forall x y : BHist, hsame (add (mul x (neg y)) (mul x y)) zero := by
+  have zeroAbsorption :=
+    ring_mul_zero_absorption addAssoc zeroLeft negLeft addCongr mulCongr
+      leftDistrib rightDistrib
+  intro x y
+  have distrib :
+      hsame (mul x (add (neg y) y)) (add (mul x (neg y)) (mul x y)) := by
+    exact leftDistrib x (neg y) y
+  have inverseProduct : hsame (mul x (add (neg y) y)) (mul x zero) := by
+    exact mulCongr (hsame_refl x) (negLeft y)
+  exact hsame_trans (hsame_symm distrib)
+    (hsame_trans inverseProduct (zeroAbsorption.left x))
+
+theorem ring_mul_neg_left_right_same {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist} {zero : BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add zero x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) zero)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z))) :
+    forall x y : BHist, hsame (mul (neg x) y) (mul x (neg y)) := by
+  have addRightZero : forall x : BHist, hsame (add x zero) x := by
+    exact ring_add_right_zero addComm zeroLeft
+  have addRightInverse : forall x : BHist, hsame (add x (neg x)) zero := by
+    exact ring_add_right_inverse addComm negLeft
+  have leftNegative :
+      forall x y : BHist, hsame (add (mul (neg x) y) (mul x y)) zero := by
+    exact ring_mul_neg_left_inverse_sum_zero addAssoc zeroLeft negLeft addCongr mulCongr
+      leftDistrib rightDistrib
+  have rightNegative :
+      forall x y : BHist, hsame (add (mul x (neg y)) (mul x y)) zero := by
+    exact ring_mul_neg_right_inverse_sum_zero addAssoc zeroLeft negLeft addCongr mulCongr
+      leftDistrib rightDistrib
+  intro x y
+  have sameProducts :
+      hsame (add (mul (neg x) y) (mul x y)) (add (mul x (neg y)) (mul x y)) := by
+    exact hsame_trans (leftNegative x y) (hsame_symm (rightNegative x y))
+  exact BEDC.Derived.GroupUp.group_right_cancel addAssoc addRightZero addCongr addRightInverse
+    sameProducts
 
 theorem ring_stability_certificate_fields {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist} {zero one : BHist}

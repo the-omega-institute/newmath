@@ -116,6 +116,34 @@ zero.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_left\_inverse\_sum\_zero}
 
+\begin{theorem}[Ring right-negative product sum vanishes]
+\label{thm:ring-mul-neg-right-inverse-sum-zero}
+For BEDC history operations satisfying additive associativity, left zero,
+left inverse, operation congruence, and both distributive laws, every pair
+$x,y$ satisfies $x(-y)+xy\hsame0$.
+\end{theorem}
+\begin{proof}
+Apply left distributivity backward to identify $x(-y)+xy$ with
+$x((-y)+y)$. Transport the right factor across the additive left-inverse law
+$(-y)+y\hsame0$, then use the right zero-absorption half of multiplication by
+zero.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_right\_inverse\_sum\_zero}
+
+\begin{theorem}[Ring left-negative and right-negative products agree]
+\label{thm:ring-mul-neg-left-right-same}
+For BEDC history operations satisfying additive abelian-group laws, operation
+congruence, and both distributive laws, the two negative products agree:
+$( -x )y\hsame x(-y)$.
+\end{theorem}
+\begin{proof}
+The left-negative and right-negative product sums both collapse to zero after
+adding the common summand $xy$ on the right. The additive right-zero and
+right-inverse laws supply the hypotheses for right cancellation in the
+underlying additive group, so the common summand cancels.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_left\_right\_same}
+
 \begin{definition}[Ring ledger policy]
 \label{def:ring-ledger-policy}
 Record the shared carrier ledger and the operation tree for ring expressions.
