@@ -12,7 +12,7 @@ The boolean interface \(\BoolUp\) is licensed by raw mark sameness on the two-el
   \item \textbf{Classifier choice}: the classifier is $\msame$ on marks and $\mathsf{BoolHistoryClassifier}$ on the two licensed histories.
   \item \textbf{Stability obligations}: mark transport, history-carrier transport, unary closure, endpoint exclusion, classifier symmetry, and classifier transitivity.
   \item \textbf{Ledger}: no quotient is used; the hidden data are only the generated history witnesses for the two boolean endpoints.
-  \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, endpoint readback determinism, and the history core $\NameCert$.
+  \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, Theorem~\ref{thm:bool-endpoint-bridge-exactness}, Theorem~\ref{thm:bool-history-carrier-endpoint-coverage}, endpoint readback determinism, Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness}, Theorem~\ref{thm:bool-history-classifier-endpoint-readback}, and the history core $\NameCert$.
   \item \textbf{Exactness predicate}: the mark source has exactly the $\bzero$ and $\bone$ branches licensed by $\msame$, while the checked history certificate has exactly the $\emp$ and $\Eone(\emp)$ endpoints licensed by $\hsame$.
   \item \textbf{Standard bridge}: false and true are read through the two displayed marks $\bzero,\bone$ together with their displayed history endpoints $\emp,\Eone(\emp)$; endpoint coverage and classifier completeness are functional up to $\msame$.
   \item \textbf{Status}: the core history $\NameCert$ is $\mathsf{CheckedCert}$ in Lean, while Theorem~\ref{thm:bool-semantic-namecert-target} is the public-object $\mathsf{SemanticNameCert}$ $\mathsf{ProofTarget}$ for Phase Finite Data.
@@ -473,8 +473,12 @@ Use the checked core certificate $\mathsf{bool\_history\_name\_certificate}$ as
 the $\NameCert$ component.  A carrier witness for a licensed boolean history is
 already one of the two endpoint cases $\hsame(h,\emp)$ or
 $\hsame(h,\Eone(\emp))$, so the carrier predicate itself supplies the required
-history-level pattern and ledger fields.  These three fields are exactly the
-constructor data for the corresponding semantic naming certificate.
+history-level pattern and ledger fields. The public bridge obligations are
+supplied by Theorem~\ref{thm:bool-history-carrier-endpoint-coverage},
+Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness}, and
+Theorem~\ref{thm:bool-history-classifier-endpoint-readback}. These three fields
+are exactly the constructor data for the corresponding semantic naming
+certificate.
 \end{proof}
 
 \begin{corollary}[\(\BoolUp\) certificate scope]
