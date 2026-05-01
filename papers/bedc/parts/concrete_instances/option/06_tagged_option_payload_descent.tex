@@ -435,3 +435,90 @@ Theorem~\ref{thm:tagged-option-payload-descent-preserves-classification}
 applied to the source classifier witness, the two map-relation witnesses,
 $\mathsf{cert}$, and the source hsame compatibility hypothesis.
 \end{proof}
+
+\begin{theorem}[Tagged option payload descent public map certificate]
+\label{thm:tagged-option-payload-descent-public-map-certificate}
+This theorem fits the per-object template as follows: the traditional target is
+constructor-tagged option payload descent; the BEDC source is $\mathsf{BHist}$
+with $\NameCert$ and
+$\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$;
+the carrier is tagged option histories; the classifier is the tagged option
+history classifier; the stability fields are totality, target single-valuedness,
+and classifier preservation; the ledger is visible absent/present tags and
+transported payloads; the core theorem is this public map certificate; exactness
+is $\mathsf{TaggedOptionMapRel}$ branch analysis; the standard bridge is
+none/some payload mapping; and the status is $\mathsf{ProofTarget}$. Let
+$S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T),
+$$
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. Then the
+constructor-tagged option map relation satisfies the following public map
+certificate clauses.
+\begin{enumerate}
+  \item For every history $h$, if
+  $\mathsf{TaggedOptionHistoryCarrier}_S(h)$, then there exists $k:\mathsf{BHist}$
+  such that
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+  $$
+  and
+  $$
+  \mathsf{TaggedOptionHistoryCarrier}_T(k)\land
+  \mathsf{TaggedOptionHistoryPattern}_T(k)\land
+  \mathsf{TaggedOptionHistoryLedger}_T(k).
+  $$
+  \item For histories $h,k,k'$, if the same source endpoint $h$ maps to $k$ and
+  $k'$, so that
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+  $$
+  and
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k'),
+  $$
+  then
+  $$
+  \mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+  $$
+  \item For histories $h,h',k,k'$, if $h$ maps to $k$, $h'$ maps to $k'$, and
+  the source endpoints are classified together, so that
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k),
+  $$
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k'),
+  $$
+  and
+  $$
+  \mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h'),
+  $$
+  then
+  $$
+  \mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the endpoint totality clause, apply
+Theorem~\ref{thm:tagged-option-payload-descent-total-endpoint-transport} to the
+source carrier witness. It supplies the target endpoint, the
+$\mathsf{TaggedOptionMapRel}$ witness, and the target carrier, pattern, and
+ledger fields.
+
+For the same-source target classification clause, apply
+Theorem~\ref{thm:tagged-option-maprel-common-source-target-classification} to
+the two map-relation witnesses and the source hsame compatibility hypothesis.
+This gives the target classifier directly.
+
+For the classifier preservation clause, apply
+Theorem~\ref{thm:tagged-option-payload-descent-preserves-classification} to the
+source classifier witness, the two map-relation witnesses, the source
+certificate $\mathsf{cert}$, and the source hsame compatibility hypothesis.
+\end{proof}
