@@ -67,3 +67,55 @@ disjunct. The right branch is identical, using the checked right carrier
 inversion, the $\Eone$ endpoints, the right carrier-transport assumption, and
 the stored $RightEq$ witness.
 \end{proof}
+
+\begin{theorem}[Sum history source weakening]
+\label{thm:sum-history-source-weakening}
+Let $Left,Right,Left',Right':\mathsf{BHist}\to\mathsf{Prop}$ be source
+carriers, and let
+$LeftEq,RightEq,LeftEq',RightEq':\mathsf{BHist}\to\mathsf{BHist}\to
+\mathsf{Prop}$ be source classifiers. Assume source-carrier inclusion
+$$
+\forall h.\; Left(h)\to Left'(h)
+$$
+and
+$$
+\forall h.\; Right(h)\to Right'(h),
+$$
+and assume component-relation weakening
+$$
+\forall a\,b.\; LeftEq(a,b)\to LeftEq'(a,b)
+$$
+and
+$$
+\forall a\,b.\; RightEq(a,b)\to RightEq'(a,b).
+$$
+Then carrier and classifier witnesses refine over the same visible endpoints:
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,h)\to
+\mathsf{SumHistoryCarrier}(Left',Right',h)
+$$
+and
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to
+\mathsf{SumHistoryClassifier}(Left',Right',LeftEq',RightEq',h,k).
+$$
+In the ten-field fit, the traditional target is disjoint-sum stability under
+source refinement, the BEDC source is the two $\mathsf{BHist}$ carriers, the
+carrier is $\mathsf{SumHistoryCarrier}$, the component classifier is
+$\mathsf{SumHistoryClassifier}$, the stability datum is source inclusion plus
+component-relation weakening, the ledger keeps the visible tag unchanged, the
+core theorem is carrier and classifier weakening, exactness is preserved by
+the same endpoint witnesses, the standard bridge is the $\mathsf{inl}$ and
+$\mathsf{inr}$ restriction, and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the carrier claim, split the $\mathsf{SumHistoryCarrier}$ witness into its
+left and right constructor cases. The endpoint history witness is reused
+unchanged, while the displayed source-carrier inclusion maps the payload
+membership proof into the refined source carrier. For the classifier claim,
+split the $\mathsf{SumHistoryClassifier}$ witness into its left and right
+constructor cases. Reuse the same two visible endpoints and apply the matching
+component-relation weakening hypothesis to the stored $LeftEq$ or $RightEq$
+witness; the carrier-side endpoint data is transported by the corresponding
+source inclusion in the same branch.
+\end{proof}

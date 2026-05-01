@@ -694,14 +694,11 @@ $\mathsf{OptionHistoryClassifier}$, the certificate fields are:
 
 \begin{theorem}[Option classifier transitivity]
 \label{thm:option-classifier-transitivity}
-Let $R : A \to A \to \mathsf{Prop}$ be a source classifier relation.  If $R$
-is transitive, then for optional carriers $x$, $y$, and $z$,
-$$
-  \mathsf{OptionClassifierSpec}(R,x,y)
-  \quad\text{and}\quad
-  \mathsf{OptionClassifierSpec}(R,y,z)
-$$
-imply $\mathsf{OptionClassifierSpec}(R,x,z)$.
+Let $A$ be an entry type, let $R:A\to A\to\mathsf{Prop}$ be a source
+classifier relation, and let $x,y,z:\mathsf{OptionCarrier}(A)$. If $R$ is
+transitive and both $\mathsf{OptionClassifierSpec}(R,x,y)$ and
+$\mathsf{OptionClassifierSpec}(R,y,z)$ hold, then
+$\mathsf{OptionClassifierSpec}(R,x,z)$ holds.
 \end{theorem}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_trans}
 \begin{proof}
