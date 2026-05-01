@@ -12,10 +12,10 @@ The product interface $\ProdUp$ has two layers. The checked history-envelope cer
   \item \textbf{Classifier choice}: $\mathsf{ProdClassifierSpec}$ is the typed componentwise classifier; $\mathsf{ProdHistoryClassifier}$ is the checked history-envelope classifier consisting of two $\mathsf{ProdHistoryCarrier}$ endpoint witnesses and endpoint $\hsame$.
   \item \textbf{Stability obligations}: component transport, continuation transport, unary closure from components, history-envelope classifier symmetry and transitivity, typed classifier symmetry and transitivity, and typed coordinate inversion.
   \item \textbf{Ledger}: no product quotient is used; pairing records both component witnesses and their generated continuation.
-  \item \textbf{Core theorem list}: append introduction, continuation introduction, carrier transport, unary closure, classifier equivalence, component-envelope inversion, componentwise-to-envelope descent, and the semantic name certificate.
+  \item \textbf{Core theorem list}: append introduction, continuation introduction, carrier transport, unary closure, classifier equivalence, component-envelope inversion, componentwise-to-envelope descent under $\hsame$-sound source classifiers, and the semantic name certificate.
   \item \textbf{Exactness predicate}: typed classification holds exactly when both coordinates classify in their respective sources; history-envelope classification holds when both endpoints lie in $\mathsf{ProdHistoryCarrier}(L,R)$ and are related by endpoint $\hsame$.
   \item \textbf{Standard bridge}: the checked history-envelope bridge reads back only as a generated product endpoint with a displayed pair representation. Ordinary ordered-pair and componentwise readback belong to the componentwise certificate target under $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and the typed $\mathsf{ProdClassifierSpec}$ fields.
-  \item \textbf{Status}: the product-history semantic envelope is checked in Lean from explicit left and right carrier witnesses; the explicit ordered-product interface is conditional on $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and uses the typed componentwise classifier and the projection fields checked around $\mathsf{prodClassifier\_iff}$.
+  \item \textbf{Status}: the product-history semantic envelope is checked in Lean from explicit left and right carrier witnesses; the explicit ordered-product interface uses $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$, the typed componentwise classifier, projection fields, and $\hsame$-soundness when descending to the checked history envelope.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -278,6 +278,25 @@ $$
 Unfold $\mathsf{ProdHistoryCarrier}$ and $\mathsf{ProdPairRep}$. In the forward direction, the carrier witness exposes component histories $l$ and $r$, source witnesses $L(l)$ and $R(r)$, and the continuation witness $\Cont(l,r,h)$; these are exactly the displayed pair representation witnesses. In the reverse direction, a displayed pair representation supplies the same two component histories, source witnesses, and continuation witness, so it rebuilds the product history carrier witness for $h$.
 \end{proof}
 
+\begin{theorem}[Product pair representation endpoint transport]
+\label{thm:prod-pair-rep-endpoint-transport}
+For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and histories
+$h,k,l,r$, if $\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and $\hsame(h,k)$, then both
+$\mathsf{ProdHistoryCarrier}(L,R,k)$ and
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$ hold.
+\end{theorem}
+\begin{proof}
+The per-object fit is: traditional target ordered-pair endpoint stability; BEDC
+source $\mathsf{BHist}$ with $\Cont$; carrier $\mathsf{ProdHistoryCarrier}$ via
+$\mathsf{ProdPairRep}$; classifier $\mathsf{ProdHistoryClassifier}$; ledger the
+displayed pair representation; status $\mathsf{ProofTarget}$. Unfold the pair
+representation to obtain $L(l)$, $R(r)$, and $\Cont(l,r,h)$. These data rebuild
+$\mathsf{ProdHistoryCarrier}(L,R,h)$. Transport that carrier along
+$\hsame(h,k)$ using product history carrier transport, obtaining
+$\mathsf{ProdHistoryCarrier}(L,R,k)$. Assemble the classifier from the carrier
+at $h$, the transported carrier at $k$, and the same $\hsame(h,k)$ witness.
+\end{proof}
+
 \begin{theorem}[Product fixed-pair endpoint coherence]
 \label{thm:prod-pair-rep-determinism}
 For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and histories $h,k,l,r$,
@@ -378,7 +397,7 @@ chain $l\sim_L l_h\sim_L l_k\sim_L l'$ and the right chain
 $r\sim_R r_h\sim_R r_k\sim_R r'$.
 \end{proof}
 
-The descent theorem instantiates the roadmap template as traditional ordered-pair descent over the BEDC source $\mathsf{BHist}$ with $\Cont$, carrier $\mathsf{ProdHistoryCarrier}$, classifier bridge from componentwise to envelope, ledger by displayed pair representations, and status $\mathsf{ProofTarget}$.
+The descent theorem instantiates the roadmap template as traditional ordered-pair descent over the BEDC source $\mathsf{BHist}$ with $\Cont$, carrier $\mathsf{ProdHistoryCarrier}$, classifier bridge from componentwise to envelope under $\hsame$-sound source classifiers, ledger by displayed pair representations, and status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Product componentwise history classifier descends to envelope]
 \label{thm:prod-component-history-classifier-descends-to-envelope}
@@ -586,6 +605,6 @@ constructor for $\mathsf{ProdHistoryCarrier}$ and
 $\mathsf{ProdHistoryClassifier}$ under explicit left and right carrier
 witnesses. Full componentwise $\ProdUp$ use additionally requires
 $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$, the componentwise
-classifier, projection stability, and ledger fields described earlier in this
-chapter.
+classifier, projection stability, $\hsame$-soundness for descent to the checked
+history envelope, and ledger fields described earlier in this chapter.
 \end{corollary}
