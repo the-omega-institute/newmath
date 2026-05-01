@@ -34,6 +34,46 @@ def NatTransPrefixComponentCarrier (p q a eta : BHist) : Prop :=
   UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory a ∧
     CategoryHomCarrier (append p a) (append q a) eta
 
+theorem NatTransPrefixComponentCarrier_empty_identity_iff {p q a : BHist} :
+    NatTransPrefixComponentCarrier p q a BHist.Empty ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory a ∧ hsame p q := by
+  constructor
+  · intro component
+    cases component with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro targetPrefixCarrier rest =>
+            cases rest with
+            | intro objectCarrier homCarrier =>
+                have identityData :=
+                  Iff.mp CategoryHomCarrier_empty_identity_iff homCarrier
+                exact
+                  And.intro prefixCarrier
+                    (And.intro targetPrefixCarrier
+                      (And.intro objectCarrier
+                        (append_right_cancel (k := a) identityData.right.right)))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro targetPrefixCarrier rest =>
+            cases rest with
+            | intro objectCarrier samePrefix =>
+                have sameComponent :
+                    hsame (append p a) (append q a) := by
+                  cases samePrefix
+                  rfl
+                exact
+                  And.intro prefixCarrier
+                    (And.intro targetPrefixCarrier
+                      (And.intro objectCarrier
+                        (Iff.mpr CategoryHomCarrier_empty_identity_iff
+                          (And.intro
+                            (unary_append_closed prefixCarrier objectCarrier)
+                            (And.intro
+                              (unary_append_closed targetPrefixCarrier objectCarrier)
+                              sameComponent)))))
+
 theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta composite : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
       NatTransPrefixComponentCarrier q r a theta ->

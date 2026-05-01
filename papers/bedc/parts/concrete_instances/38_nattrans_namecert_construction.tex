@@ -11,6 +11,22 @@ Use an object-indexed family of codomain morphisms \(\eta_X:F(X)\to G(X)\) plus 
 \end{definition}
 \leandef{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier}
 
+\begin{theorem}[NatTrans prefix component empty identity exactness]
+\label{thm:nattrans-prefix-component-carrier-empty-identity-iff}
+For prefix components over unary histories, the empty component from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$ exists exactly when $p$, $q$,
+and $a$ are unary histories and $\HSame(p,q)$.
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier to its category hom-carrier over
+$\mathsf{append}(p,a)$ and $\mathsf{append}(q,a)$. Category empty-identity
+exactness identifies the two prefixed endpoints; cancellation of the shared
+suffix $a$ recovers $\HSame(p,q)$. Conversely, unary append closure supplies
+the two prefixed endpoint carriers, and the equality of $p$ and $q$ transports
+the category empty identity carrier to the component carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_identity\_iff}
+
 \begin{theorem}[NatTrans prefix component vertical composition closure]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-closed}
 For prefix components over unary histories, if \(\eta\) is a component from
