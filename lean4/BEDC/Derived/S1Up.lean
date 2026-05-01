@@ -69,6 +69,35 @@ theorem SOneHistoryCarrier_point_deterministic
   intro left right
   exact cont_deterministic left.right.right.right right.right.right.right
 
+theorem SOneHistoryCarrier_rational_unit_components {x y equation point : BHist} :
+    SOneHistoryCarrier x y equation point →
+      ∃ dx dy : BHist,
+        hsame x (BHist.e1 dx) ∧ RatHistoryCarrier dx ∧
+          hsame y (BHist.e1 dy) ∧ RatHistoryCarrier dy ∧
+            RealConstantHistoryClassifier equation SOneUnitHistory ∧ Cont x y point := by
+  intro carrier
+  cases carrier with
+  | intro xCarrier rest =>
+      cases rest with
+      | intro yCarrier rest =>
+          cases rest with
+          | intro equationCarrier pointCont =>
+              cases xCarrier with
+              | intro dx xData =>
+                  cases xData with
+                  | intro sameX dxCarrier =>
+                      cases yCarrier with
+                      | intro dy yData =>
+                          cases yData with
+                          | intro sameY dyCarrier =>
+                              exact Exists.intro dx
+                                (Exists.intro dy
+                                  (And.intro sameX
+                                    (And.intro dxCarrier
+                                      (And.intro sameY
+                                        (And.intro dyCarrier
+                                          (And.intro equationCarrier pointCont))))))
+
 theorem SOneHistoryCarrier_equation_witness_transport
     {x y equation equation' point : BHist} :
     SOneHistoryCarrier x y equation point -> hsame equation equation' ->

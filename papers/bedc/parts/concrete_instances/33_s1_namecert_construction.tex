@@ -79,6 +79,31 @@ results, giving $\hsame(p,p')$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_point\_deterministic}
 
+\begin{theorem}[SOne history carrier rational unit components]
+\label{thm:s1-history-carrier-rational-unit-components}
+For histories $x,y,e,p$, the concrete $\SOneUp$ history carrier exposes
+rational denominator tails for both real components while preserving the unit
+equation classifier and the continuation ledger:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\exists d_x,d_y.\;
+\hsame(x,\Eone(d_x))\land
+\mathsf{RatHistoryCarrier}(d_x)\land
+\hsame(y,\Eone(d_y))\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\mathsf{RealConstantHistoryClassifier}(e,\mathsf{SOneUnitHistory})\land
+\ContR(x,y,p).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the $\SOneUp$ history carrier. Its first two fields are real-constant
+carrier witnesses, so each component supplies a rational denominator tail and
+the corresponding $\Eone$ presentation. The remaining fields are exactly the
+unit-equation classifier and the BEDC continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_rational\_unit\_components}
+
 \section{The certificate}
 
 \begin{definition}[SOne source specification]
