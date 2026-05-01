@@ -33,3 +33,38 @@ displayed nil and cons cases: the nil pattern is unchanged, and the cons pattern
 uses the source inclusion on the head together with the carrier-refinement
 clause for the tail.
 \end{proof}
+
+\begin{theorem}[List spine coherence source restriction]
+\label{thm:list-spine-coherence-source-restriction}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim$ be a source classifier. The ten-field fit is: traditional target
+finite-list source restriction; BEDC source $\mathsf{BHist}$; carrier
+$\mathsf{ListSpineRep}$; classifier $\mathsf{ListClassifierSpec}(\sim)$;
+stability source inclusion; ledger finite spine; core theorem coherence
+restriction; exactness inherited from ambient spine coherence; standard bridge
+finite-spine readback; status $\mathsf{ProofTarget}$. If the restricted source
+is included in the ambient source,
+$$
+\forall h:\mathsf{BHist}.\; A(h)\to B(h),
+$$
+and the ambient source has coherent spine presentations,
+$$
+\mathsf{ListSpineRepCoherent}_{B,\sim},
+$$
+then the restricted source has coherent spine presentations:
+$$
+\mathsf{ListSpineRepCoherent}_{A,\sim}.
+$$
+\end{theorem}
+\begin{proof}
+Take two $A$-spine presentations $\mathsf{ListSpineRep}_A(m,xs)$ and
+$\mathsf{ListSpineRep}_A(m,ys)$ of the same history. Apply
+Theorem~\ref{thm:list-source-classifier-weakening} with the displayed source
+inclusion and identity classifier weakening
+$\forall x\,y:\mathsf{BHist}.\;x\sim y\to x\sim y$. Its spine-representation
+clause transports both presentations to $\mathsf{ListSpineRep}_B(m,xs)$ and
+$\mathsf{ListSpineRep}_B(m,ys)$. The ambient coherence hypothesis
+$\mathsf{ListSpineRepCoherent}_{B,\sim}$ applied to those two transported
+presentations yields $\mathsf{ListClassifierSpec}(\sim,xs,ys)$, which is exactly
+the coherence datum required for $\mathsf{ListSpineRepCoherent}_{A,\sim}$.
+\end{proof}

@@ -505,9 +505,7 @@ right carrier witnesses required by that theorem.
 \label{thm:prod-hsame-componentwise-certificate-envelope-equivalent}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. Assume
 $\mathsf{cert}_L:\NameCert(L,\hsame)$,
-$\mathsf{cert}_R:\NameCert(R,\hsame)$, carrier witnesses
-$\exists l:\mathsf{BHist}.\;L(l)$ and $\exists r:\mathsf{BHist}.\;R(r)$ for
-the checked envelope, and
+$\mathsf{cert}_R:\NameCert(R,\hsame)$, and
 $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$. With displayed pair ledger
 $D(h):\Longleftrightarrow
 \exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, both
@@ -534,9 +532,10 @@ $$
 \end{theorem}
 \begin{proof}
 The checked envelope certificate is Theorem~\ref{thm:concrete-prod-namecert}
-applied to the two carrier witnesses. The displayed componentwise certificate
-is Theorem~\ref{thm:prod-component-history-semantic-certificate-target} with
-both source classifiers specialized to $\hsame$ and with the given
+applied to $\mathsf{cert}_L.\mathsf{carrier\_inhabited}$ and
+$\mathsf{cert}_R.\mathsf{carrier\_inhabited}$. The displayed componentwise
+certificate is Theorem~\ref{thm:prod-component-history-semantic-certificate-target}
+with both source classifiers specialized to $\hsame$ and with the given
 $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$ witness. The classifier
 equivalence is exactly
 Theorem~\ref{thm:prod-envelope-componentwise-hsame-classifiers-coincide}.
