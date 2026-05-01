@@ -195,18 +195,6 @@ witnesses and a stored component \(\hsame\) witness; constructor inversion for
 
 The same-tag iff clauses below are classifier-only statements; carrier and ledger evidence are supplied separately by $\mathsf{SumHistoryCarrier}$ and the ledger policy.
 
-\begin{theorem}[Sum history classifier branch partition]
-\label{thm:sum-history-classifier-branch-partition}
-For branch carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, branch classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$, and histories $h,k$, every witness of $\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)$ exposes a visible constructor side:
-$$
-\bigl(\exists l,l'.\; \hsame(h,\Ezero(l))\land\hsame(k,\Ezero(l'))\land LeftEq(l,l')\bigr)\lor\bigl(\exists r,r'.\; \hsame(h,\Eone(r))\land\hsame(k,\Eone(r'))\land RightEq(r,r')\bigr).
-$$
-In the ten-field fit, the traditional target is disjoint-sum branch readback, the BEDC source is $\mathsf{BHist}$, the classifier is $\mathsf{SumHistoryClassifier}$, the ledger records the visible tag plus payload, and the status is $\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-Case-analyze the classifier witness. The left constructor supplies the two $\Ezero$ endpoint links and the stored $LeftEq$ payload relation, yielding the left disjunct. The right constructor supplies the two $\Eone$ endpoint links and the stored $RightEq$ payload relation, yielding the right disjunct.
-\end{proof}
-
 \begin{theorem}[Sum history classifier same-tag exactness]
 \label{thm:sum-history-classifier-same-tag-exactness}
 For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, the history-level sum

@@ -147,6 +147,23 @@ history carrier witness exposes component histories $l,r$ and hence a displayed
 pair ledger witness $D(h)$.
 \end{proof}
 
+\begin{theorem}[Singleton history source certificate]
+\label{thm:singleton-history-source-namecert}
+Fix a BEDC history $a_0:\mathsf{BHist}$, and define
+$A_{a_0}:\mathsf{BHist}\to\mathsf{Prop}$ by
+$A_{a_0}(x)\Longleftrightarrow\hsame(x,a_0)$. Then
+$\NameCert(A_{a_0},\hsame)$ holds.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by $a_0$ using reflexivity of $\hsame$. The
+reflexivity, symmetry, and transitivity fields of the certificate are exactly
+the corresponding fields of $\hsame$. For carrier transport, start with
+$A_{a_0}(x)$, namely $\hsame(x,a_0)$, and a classifier witness
+$\hsame(x,y)$. Symmetry turns the classifier witness into $\hsame(y,x)$, and
+transitivity with $\hsame(x,a_0)$ yields $\hsame(y,a_0)$, which is
+$A_{a_0}(y)$.
+\end{proof}
+
 \begin{theorem}[Singleton componentwise product semantic certificate]
 \label{thm:prod-singleton-componentwise-semantic-certificate}
 Fix histories $l_0,r_0:\mathsf{BHist}$. Define singleton source carriers
@@ -164,15 +181,12 @@ D,
 $$
 \end{theorem}
 \begin{proof}
-Build the two singleton $\NameCert$ records from the $\hsame$ fields:
-inhabitation is $l_0$ and $r_0$ by reflexivity, reflexivity is transitivity
-through the fixed endpoint, symmetry swaps the two endpoint paths through the
-fixed history, transitivity composes the two source chains, and carrier
-transport composes the carried source witness with the classifier link through
-$l_0$ or $r_0$. Theorem~\ref{thm:prod-pair-rep-singleton-coherence} supplies
-the pair-representation coherence hypothesis for these singleton carriers.
-Apply Theorem~\ref{thm:prod-component-history-semantic-certificate-target} with
-the two singleton certificates and this coherence witness.
+Apply Theorem~\ref{thm:singleton-history-source-namecert} at $l_0$ and at
+$r_0$ to obtain the two singleton $\NameCert$ records for $L$ and $R$.
+Theorem~\ref{thm:prod-pair-rep-singleton-coherence} supplies the
+pair-representation coherence hypothesis for these singleton carriers. Apply
+Theorem~\ref{thm:prod-component-history-semantic-certificate-target} with the
+two singleton certificates and this coherence witness.
 \end{proof}
 
 \begin{theorem}[Product componentwise certificate refines the checked envelope]

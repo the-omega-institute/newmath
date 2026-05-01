@@ -258,6 +258,33 @@ right branch. These are the only constructors of the tagged classifier witness,
 so the displayed disjunction exhausts the endpoints.
 \end{proof}
 
+\begin{theorem}[Tagged option history classifier branch exactness]
+\label{thm:tagged-option-history-classifier-branch-exactness}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k$, the tagged option classifier
+is exactly the disjoint absent-or-present constructor analysis:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)
+\Longleftrightarrow
+\bigl(\hsame(h,\emp)\land\hsame(k,\emp)\bigr)
+\lor
+\bigl(\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land
+\hsame(h,\Eone(a))\land \hsame(k,\Eone(b))\land a\sim_S b\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:tagged-option-history-classifier-branch-partition} to the
+displayed classifier witness. For the reverse direction, split the displayed
+disjunction. In the absent branch, use the absent-absent classifier constructor
+with the two $\hsame$ endpoint witnesses. In the present branch, unpack
+$a,b$, the two source-carrier witnesses, the two visible present endpoint
+witnesses, and the source classifier witness $a\sim_S b$, then rebuild the
+present-present classifier constructor. These two constructors exhaust the
+tagged classifier.
+\end{proof}
+
 \begin{theorem}[Tagged option source weakening]
 \label{thm:tagged-option-source-weakening}
 This theorem fits the per-object template as follows: the traditional target is
