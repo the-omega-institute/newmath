@@ -125,6 +125,21 @@ python3 tools/bedc-deep/paper_gap_scanner.py --append   # append to BOARD.md
 python3 tools/bedc-deep/paper_gap_scanner.py --json     # machine-readable
 ```
 
+Active target discovery — codex proposes, claude gates, accepted candidates
+land on BOARD.md (same shape as Stage 1.5 fan-out):
+
+```bash
+# Global structural gap scan over papers/bedc/parts + lean4/BEDC
+python3 tools/bedc-deep/auto_discovery.py probe --append
+
+# Meta-review after a batch of completed targets — proposes under-represented
+# directions across already-finished transcripts
+python3 tools/bedc-deep/auto_discovery.py curator --append
+```
+
+Both commands write the full audit record (codex output, claude verdict per
+candidate, appended ids) to `state/discovery_logs/<mode>_<ts>.json`.
+
 Tune Stage 1.5 spawn aggressiveness (lower thresholds → more candidates,
 lower quality):
 

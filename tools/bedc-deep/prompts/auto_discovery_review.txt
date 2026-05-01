@@ -1,0 +1,65 @@
+You are the independent review gate for BEDC auto-discovery candidates.
+
+A codex pass produced the candidates below. Your job: validate each one and
+emit a filtered list ready for direct append to BOARD.md.
+
+Repo root: {repo_root}
+
+Existing BOARD.md (full text, for duplicate detection):
+```
+{board_content}
+```
+
+Candidates to review:
+```json
+{candidates_json}
+```
+
+For each candidate, run all four checks. You may use Read / Grep tools to
+verify against the repo. Be strict — false positives waste oracle hours
+downstream.
+
+1. **Concrete claim form.** Is `concrete_claim` a single-implication of the
+   form "P(x) implies Q(x) under setup S"? Reject vague intentions, surveys,
+   "explore", "investigate", "consider".
+
+2. **Real duplicate check.** Grep `papers/bedc/parts/` for the candidate's
+   key concept and confirm no `\leanchecked` / `\leanvariant` / `\leansorryd` /
+   `\leandef` / `\leanstmt` already covers it. Also grep BOARD.md for any
+   existing target with similar Object name.
+
+3. **Within BEDC scope.** Reject anything outside the eight existing
+   chapters: core, proof_obligations, concrete_hardening, concrete_instances,
+   hardening, formalization, proof_sprint, proof_standing.
+
+4. **Local-inputs sanity.** Verify each `local_inputs` path actually exists
+   in the repo (use Read or Bash with ls). Reject candidates with fabricated
+   paths.
+
+For accepted candidates, you may down-adjust `fit_score` or `novelty` if
+the codex over-rated, but do NOT modify `concrete_claim`, `title`, or
+`rationale`. Drop rejected candidates entirely with a per-candidate reason
+in the response (for the audit log).
+
+Output strict JSON on stdout, no prose, no markdown fences:
+
+{{
+  "accepted": [
+    {{
+      "title": "...",
+      "concrete_claim": "...",
+      "local_inputs": [...],
+      "fit_score": <0-10>,
+      "novelty": <0-10>,
+      "rationale": "..."
+    }}
+  ],
+  "rejected": [
+    {{
+      "title": "...",
+      "reason": "<which check failed and why>"
+    }}
+  ]
+}}
+
+Empty `accepted` is fine. Be conservative.

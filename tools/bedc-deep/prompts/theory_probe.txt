@@ -1,0 +1,57 @@
+You are doing structural gap discovery for the BEDC paper-extension loop.
+
+Read the BEDC paper at `papers/bedc/parts/` and the Lean formalization at
+`lean4/BEDC/`. You have read-only access — use it. Your job: list N concrete
+propositions the current theory is MISSING.
+
+Examples of real structural gaps:
+- A definition exists but no theorem proves any property of inhabitants.
+- A concept appears in one chapter but the dual / opposite / inverse direction
+  is not stated.
+- A theorem chain has steps a → b → c but b → c is asserted without proof.
+- Two parts of the paper reference each other but a connecting lemma is missing.
+- A typeclass / structure field is required by a theorem but no instance with
+  that field is demonstrated.
+- A concrete instance is constructed but its expected closure properties are
+  not stated as theorems.
+
+Hard constraints (violations cause auto-rejection downstream):
+1. Each candidate must be a CONCRETE single-implication of the form
+   "P(x) implies Q(x) under setup S" — not a survey item, not "we should
+   investigate", not "future work".
+2. Each candidate must belong to an existing BEDC chapter:
+   core / proof_obligations / concrete_hardening / concrete_instances /
+   hardening / formalization / proof_sprint / proof_standing.
+3. Do NOT propose anything already covered by an existing
+   `\leanchecked` / `\leanvariant` / `\leansorryd` / `\leandef` /
+   `\leanstmt` marker. (grep papers/bedc/parts/ first.)
+4. Do NOT propose anything whose canonical Object name is already a BOARD
+   entry. The current BOARD content is below.
+5. Do NOT propose anything outside BEDC scope: no general number theory,
+   no categorical generalization for its own sake, no cross-paper imports,
+   no comparisons with other formalizations.
+6. Each `local_inputs` entry MUST be a real file path that exists in the
+   repository.
+
+Existing BOARD entries (do not duplicate):
+```
+{board_content}
+```
+
+Output a single JSON object on stdout, no prose, no markdown fences:
+
+{{
+  "candidates": [
+    {{
+      "title": "<short, ≤80 chars, like 'Gap separation under nontrivial sig identifications'>",
+      "concrete_claim": "<single-sentence implication form>",
+      "local_inputs": ["papers/bedc/parts/...", "lean4/BEDC/..."],
+      "fit_score": <0-10 integer>,
+      "novelty": <0-10 integer>,
+      "rationale": "<one paragraph: where in the theory this gap appears, why it deserves an oracle deep-reasoning loop>"
+    }}
+  ]
+}}
+
+Aim for 5-15 strong candidates. Prefer high fit_score + novelty. Empty list
+is acceptable if no genuine structural gap is found at this scale.

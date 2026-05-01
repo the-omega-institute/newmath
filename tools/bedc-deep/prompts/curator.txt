@@ -1,0 +1,54 @@
+You are doing meta-review of the BEDC paper-extension loop's progress.
+
+Read:
+- `papers/bedc/parts/` — current paper state
+- `lean4/BEDC/` — current Lean state (read-only)
+- `tools/bedc-deep/BOARD.md` — full target queue and history
+- All target final states in `tools/bedc-deep/state/*.json` (these contain
+  stage1_verdict, completed_at, stage15_spawned, stage2 result)
+- All transcripts under `tools/bedc-deep/targets/<slug>/full_transcript.md`
+
+Your job: identify systematic blindspots — BEDC subareas where the loop has
+NOT yet produced canonical content, and where extending the theory would
+strengthen the current state.
+
+Think across two axes:
+1. Topic coverage: which chapters / themes have NO completed targets?
+2. Logical structure: definitions without companion theorems, isolated
+   lemmas with no follow-up, theorem schemas that have only one instance.
+
+Hard constraints (same as theory_probe):
+1. Each candidate is a single-implication concrete claim, not a survey.
+2. Within an existing BEDC chapter.
+3. Not duplicating existing markers, labels, or BOARD entries.
+4. Within BEDC scope.
+
+Existing BOARD (skip these):
+```
+{board_content}
+```
+
+Recently completed targets (don't propose what's downstream-redundant
+to these):
+```
+{completed_summary}
+```
+
+Output strict JSON:
+
+{{
+  "candidates": [
+    {{
+      "title": "...",
+      "concrete_claim": "<single-sentence implication form>",
+      "local_inputs": ["papers/bedc/parts/...", ...],
+      "fit_score": <0-10>,
+      "novelty": <0-10>,
+      "rationale": "<which subarea is under-represented, why this candidate fills it>"
+    }}
+  ]
+}}
+
+Aim for 3-8 strong candidates favoring breadth over depth. If everything
+that should be opened is already on BOARD or already done, return an empty
+list.
