@@ -95,41 +95,56 @@ transported witnesses are exactly the component conclusions required by
 $\mathsf{ProdPairRepCoherent}_{L',R',\approx_L,\approx_R}$.
 \end{proof}
 
-\begin{theorem}[Product pair-representation coherence under carrier restriction]
-\label{thm:prod-pair-rep-coherence-under-carrier-restriction}
-The ten-field fit is: traditional target ordered-product coherence under source
-restriction; BEDC source $\mathsf{BHist}$ with $\Cont$; carrier
-$\mathsf{ProdPairRep}$; classifier unchanged; stability datum carrier
-restriction; ledger displayed pair representation; exactness unchanged at the
-product endpoint; standard bridge restricted-source ordered-product coherence;
-status $\mathsf{ProofTarget}$.
+\begin{theorem}[Product pair-representation coherence under source equivalence]
+\label{thm:prod-pair-rep-coherence-source-equivalence}
+The ten-field fit is: traditional target ordered-product coherence under
+equivalent source presentations; BEDC source $\mathsf{BHist}$ with $\Cont$;
+source carriers $L,R,L',R'$; source classifiers
+$\sim_L,\sim_R,\approx_L,\approx_R$; stability datum
+$\mathsf{ProdPairRepCoherent}$; ledger displayed pair representation; exactness
+as two-way preservation of component coherence; standard bridge source
+equivalence for ordered-product certificates; public product scope
+$\mathsf{ProofTarget}$.
 
 Let $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and
-let $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
-classifiers. Suppose
+let
+$\sim_L,\sim_R,\approx_L,\approx_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$
+be component classifiers. Suppose
 $$
-\forall x.\;L'(x)\to L(x)
+\forall x.\;L(x)\leftrightarrow L'(x),
+$$
+$$
+\forall x.\;R(x)\leftrightarrow R'(x),
+$$
+$$
+\forall x\,y.\;x\sim_L y\leftrightarrow x\approx_L y,
 $$
 and
 $$
-\forall y.\;R'(y)\to R(y)
+\forall x\,y.\;x\sim_R y\leftrightarrow x\approx_R y.
 $$
-and suppose $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ holds. Then
+Then
 $$
-\mathsf{ProdPairRepCoherent}_{L',R',\sim_L,\sim_R}
+\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}
+\leftrightarrow
+\mathsf{ProdPairRepCoherent}_{L',R',\approx_L,\approx_R}.
 $$
-holds.
 \end{theorem}
 \begin{proof}
-Take two displayed pair representations
-$\mathsf{ProdPairRep}_{L',R'}(h,l,r)$ and
-$\mathsf{ProdPairRep}_{L',R'}(h,l',r')$ of the same product history $h$. The
-left and right carrier inclusions convert their stored $L'$ and $R'$ witnesses
-into $L$ and $R$ witnesses while leaving the displayed product endpoint and
-component histories unchanged. Thus both witnesses become
-$\mathsf{ProdPairRep}_{L,R}$ witnesses for the same history $h$. Apply the
-given $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ datum and return the
-same component classifier witnesses $l\sim_L l'$ and $r\sim_R r'$.
+Apply Theorem~\ref{thm:prod-pair-rep-coherence-under-classifier-weakening} from
+the unprimed presentation to the primed presentation. The carrier hypotheses
+are used in the directions $L'(x)\to L(x)$ and $R'(x)\to R(x)$, while the
+classifier hypotheses are used in the forward directions
+$x\sim_L y\to x\approx_L y$ and $x\sim_R y\to x\approx_R y$. This gives
+$$
+\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}\to
+\mathsf{ProdPairRepCoherent}_{L',R',\approx_L,\approx_R}.
+$$
+Apply the same theorem in the reverse presentation, now using
+$L(x)\to L'(x)$ and $R(x)\to R'(x)$ together with
+$x\approx_L y\to x\sim_L y$ and $x\approx_R y\to x\sim_R y$. This gives the
+converse implication, and pairing the two implications yields the displayed
+equivalence.
 \end{proof}
 
 \begin{theorem}[Product pair-representation coherence obstruction from separated presentations]
