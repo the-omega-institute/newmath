@@ -100,6 +100,39 @@ branch classifiers are both $\hsame$, so the required transitivity inputs are
 the left and right instances of BEDC history equality transitivity.
 \end{proof}
 
+\begin{theorem}[Sum ledger two-step branch exactness]
+\label{thm:sum-ledger-two-step-branch-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ and
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,v,w)$ hold, then the whole
+two-step chain has a visible same-branch payload readback:
+$$
+\bigl(\exists l\,l':\mathsf{BHist}.\; Left(l)\land Left(l')\land\hsame(\rho,\Ezero(l))\land\hsame(w,\Ezero(l'))\land\hsame(l,l')\bigr)
+\lor
+\bigl(\exists r\,r':\mathsf{BHist}.\; Right(r)\land Right(r')\land\hsame(\rho,\Eone(r))\land\hsame(w,\Eone(r'))\land\hsame(r,r')\bigr).
+$$
+The ten-field fit is: traditional target disjoint-sum ledger-chain readback;
+BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{SumHistoryCarrier}$; classifier unused in the final exactness statement
+but supplied by Theorem~\ref{thm:sum-ledger-two-step-classifier-composition};
+ledger two composable $\mathsf{SumHistoryLedgerPolicy}$ witnesses; core theorem
+this branch exactness statement; exactness raw-to-visible same-branch payload
+readback; standard bridge tagged sum ledger chains; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-raw-visible-branch-exactness} to each ledger
+witness. The first application exposes either a left payload visible at
+$\rho$ and $v$, or a right payload visible at $\rho$ and $v$; the second exposes
+the corresponding alternatives at $v$ and $w$. Split the four branch cases. In
+the left-left case, use Theorem~\ref{thm:sum-visible-branch-payload-determinism}
+at the shared middle endpoint $v$ to identify the two left payloads and assemble
+the left disjunct. The right-right case is identical with the right branch.
+The mixed left-right and right-left cases contradict generated-history
+no-confusion between $\Ezero$ and $\Eone$ at the shared middle endpoint $v$.
+\end{proof}
+
 \begin{theorem}[Sum ledger two-step endpoint exactness]
 \label{thm:sum-ledger-two-step-endpoint-exactness}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
