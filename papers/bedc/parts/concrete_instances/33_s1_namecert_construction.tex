@@ -58,6 +58,27 @@ carrier introduction rule for the two real-constant component predicates.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_real\_pair}
 
+\begin{theorem}[SOne point ledger determinacy]
+\label{thm:s1-history-carrier-point-deterministic}
+For histories $x,y,e,e',p,p'$, two concrete $\SOneUp$ history-carrier witnesses
+with the same component histories determine the point ledger up to the BEDC
+history classifier:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x,y,e',p')
+\Longrightarrow
+\hsame(p,p').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two circle-carrier witnesses only as far as their point-continuation
+ledgers. Both ledgers have the same source component $x$ and the same right
+component $y$. Continuation determinacy therefore identifies their continuation
+results, giving $\hsame(p,p')$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_point\_deterministic}
+
 \section{The certificate}
 
 \begin{definition}[SOne source specification]

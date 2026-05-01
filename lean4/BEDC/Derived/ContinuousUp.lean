@@ -108,6 +108,23 @@ def ContinuousFunctionCarrier (source map target modulus cert : BHist) : Prop :=
   UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory map ∧ UnaryHistory modulus ∧
     Cont source map target ∧ Cont target modulus cert
 
+theorem ContinuousFunctionCarrier_empty_map_identity {source modulus cert : BHist} :
+    ContinuousModulusWitness source modulus cert ->
+      ContinuousFunctionCarrier source BHist.Empty source modulus cert := by
+  intro witness
+  cases witness with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro modulusCarrier rest =>
+          cases rest with
+          | intro _certCarrier certRel =>
+              exact
+                And.intro sourceCarrier
+                  (And.intro sourceCarrier
+                    (And.intro unary_empty
+                      (And.intro modulusCarrier
+                        (And.intro (cont_right_unit source) certRel))))
+
 theorem ContinuousFunctionCarrier_target_cert_deterministic
     {source map target target' modulus cert cert' : BHist} :
     ContinuousFunctionCarrier source map target modulus cert ->

@@ -62,4 +62,11 @@ theorem SOneHistoryCarrier_real_pair {x y equation point : BHist} :
           | intro _equationCarrier pointCont =>
               exact ProdHistoryCarrier_cont_intro xCarrier yCarrier pointCont
 
+theorem SOneHistoryCarrier_point_deterministic
+    {x y equation equation' point point' : BHist} :
+    SOneHistoryCarrier x y equation point ->
+      SOneHistoryCarrier x y equation' point' -> hsame point point' := by
+  intro left right
+  exact cont_deterministic left.right.right.right right.right.right.right
+
 end BEDC.Derived.S1Up

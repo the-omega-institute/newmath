@@ -142,6 +142,22 @@ inductive CompactLocatedRefinementChain :
           CompactLocatedRefinementChain finite located intermediate compact nextLocated
             nextIntermediate nextCompact
 
+theorem CompactLocatedRefinementChain_transitivity
+    {finite located intermediate compact midLocated midIntermediate midCompact finalLocated
+      finalIntermediate finalCompact : BHist} :
+    CompactLocatedRefinementChain finite located intermediate compact midLocated midIntermediate
+        midCompact ->
+      CompactLocatedRefinementChain finite midLocated midIntermediate midCompact finalLocated
+        finalIntermediate finalCompact ->
+        CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
+          finalCompact := by
+  intro first second
+  induction second with
+  | base =>
+      exact first
+  | step prior extraCarrier locatedRel intermediateRel compactRel ih =>
+      exact CompactLocatedRefinementChain.step ih extraCarrier locatedRel intermediateRel compactRel
+
 theorem CompactWitnessCarrier_located_refinement_chain_closed
     {subset finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :
     CompactWitnessCarrier subset located finite intermediate compact ->
