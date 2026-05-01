@@ -1,4 +1,4 @@
-import BEDC.Derived.SumUp
+import BEDC.Derived.SumUp.Classifier
 
 namespace BEDC.Derived.SumUp
 
@@ -66,6 +66,61 @@ theorem SumHistoryLedgerPolicy_classifier_composition {Left Right : BHist → Pr
     (LeftEq := hsame) (RightEq := hsame) (@hsame_trans) (@hsame_trans)
     (SumHistoryLedgerPolicy_raw_visible_classifier ledger)
     classifier
+
+theorem SumHistoryLedgerPolicy_two_step_classifier_composition {Left Right : BHist -> Prop}
+    {rho v w : BHist} :
+    SumHistoryLedgerPolicy Left Right rho v ->
+      SumHistoryLedgerPolicy Left Right v w ->
+        SumHistoryClassifier Left Right hsame hsame rho w := by
+  intro firstLedger secondLedger
+  exact SumHistoryClassifier_trans (Left := Left) (Right := Right)
+    (LeftEq := hsame) (RightEq := hsame) (@hsame_trans) (@hsame_trans)
+    (SumHistoryLedgerPolicy_raw_visible_classifier firstLedger)
+    (SumHistoryLedgerPolicy_raw_visible_classifier secondLedger)
+
+theorem SumHistoryLedgerPolicy_two_step_endpoint_exactness {Left Right : BHist -> Prop}
+    {rho v w l l' r r' : BHist} :
+    SumHistoryLedgerPolicy Left Right rho v ->
+      SumHistoryLedgerPolicy Left Right v w ->
+        (((hsame rho (BHist.e0 l) ∧ hsame w (BHist.e1 r')) -> False) ∧
+          ((hsame rho (BHist.e1 r) ∧ hsame w (BHist.e0 l')) -> False) ∧
+          ((hsame rho (BHist.e0 l) ∧ hsame w (BHist.e0 l')) -> hsame l l') ∧
+          ((hsame rho (BHist.e1 r) ∧ hsame w (BHist.e1 r')) -> hsame r r') ∧
+          (hsame w (BHist.e0 l') -> ∃ a : BHist, Left a ∧ hsame l' a) ∧
+          (hsame w (BHist.e1 r') -> ∃ b : BHist, Right b ∧ hsame r' b)) := by
+  intro firstLedger secondLedger
+  have classifier : SumHistoryClassifier Left Right hsame hsame rho w :=
+    SumHistoryLedgerPolicy_two_step_classifier_composition firstLedger secondLedger
+  have carrierW : SumHistoryCarrier Left Right w :=
+    SumHistoryLedgerPolicy_visible_carrier secondLedger
+  constructor
+  · intro mixed
+    exact SumHistoryClassifier_mixed_tags_absurd mixed.left mixed.right classifier
+  · constructor
+    · intro mixed
+      exact SumHistoryClassifier_mixed_tags_absurd mixed.right mixed.left
+        (SumHistoryClassifier_hsame_symm classifier)
+    · constructor
+      · intro sameTagged
+        exact SumHistoryClassifier_left_hsame_inversion
+          (SumHistoryClassifier_hsame_transport sameTagged.left sameTagged.right classifier)
+      · constructor
+        · intro sameTagged
+          exact SumHistoryClassifier_right_hsame_inversion
+            (SumHistoryClassifier_hsame_transport sameTagged.left sameTagged.right classifier)
+        · constructor
+          · intro sameW
+            have carrierAt : SumHistoryCarrier Left Right (BHist.e0 l') :=
+              SumHistoryCarrier_hsame_transport sameW carrierW
+            cases SumHistoryCarrier_e0_inversion carrierAt with
+            | intro a data =>
+                exact Exists.intro a (And.intro data.right data.left)
+          · intro sameW
+            have carrierAt : SumHistoryCarrier Left Right (BHist.e1 r') :=
+              SumHistoryCarrier_hsame_transport sameW carrierW
+            cases SumHistoryCarrier_e1_inversion carrierAt with
+            | intro b data =>
+                exact Exists.intro b (And.intro data.right data.left)
 
 theorem SumHistoryLedgerPolicy_visible_tag_separation {Left Right : BHist → Prop}
     {raw visible l r : BHist} :
