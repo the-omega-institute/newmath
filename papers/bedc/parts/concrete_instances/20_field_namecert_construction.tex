@@ -370,6 +370,53 @@ $\mathsf{inv}(a,p_a)0$ with $0$. Transitivity of $\hsame$ yields
 $x\hsame0$.
 \end{proof}
 
+\begin{theorem}[Field equal-squares signed factor exclusion]
+\label{thm:field-equal-squares-signed-factor-exclusion}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+ring zero absorption, multiplication congruence, the $\CommRingUp$ hypotheses
+required by Theorem~\ref{thm:commring-equal-squares-signed-factor-zero}, and
+every $a,b:\mathsf{BHist}$ with $a\cdot a\hsame b\cdot b$, the following
+constructive clauses hold.
+\begin{enumerate}
+\item If $p_+:\mathsf{NonZero}_F(a+b)$, then $a+(-b)\hsame0$.
+\item If $p_-:\mathsf{NonZero}_F(a+(-b))$, then $a+b\hsame0$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-equal-squares-signed-factor-zero} to the
+square equality. The signed factor product is therefore classified as zero:
+$$
+(a+b)\cdot(a+(-b))\hsame0.
+$$
+
+For the first clause, use the witness $p_+:\mathsf{NonZero}_F(a+b)$ and
+apply Theorem~\ref{thm:field-left-mul-equation-solution-from-apartness} with
+left factor $a+b$ and right variable $a+(-b)$. This gives
+$$
+a+(-b)\hsame \mathsf{inv}(a+b,p_+)0.
+$$
+
+Theorem~\ref{thm:ring-mul-zero-absorption} collapses
+$\mathsf{inv}(a+b,p_+)0$ to $0$. Transitivity of $\hsame$ yields
+$a+(-b)\hsame0$.
+
+For the second clause, use the witness $p_-:\mathsf{NonZero}_F(a+(-b))$ and
+apply Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness} with
+right factor $a+(-b)$ and left variable $a+b$. This gives
+$$
+a+b\hsame0\mathsf{inv}(a+(-b),p_-).
+$$
+
+Theorem~\ref{thm:ring-mul-zero-absorption} collapses
+$0\mathsf{inv}(a+(-b),p_-)$ to $0$. Transitivity of $\hsame$ yields
+$a+b\hsame0$.
+\end{proof}
+
+Per-object certificate: this is a Core theorem list item for constructive
+field square-factor reasoning. Source: $\FieldUp$ plus $\CommRingUp$. Carrier:
+$\mathsf{BHist}$. Classifier: $\hsame$. Ledger: the chosen nonzero signed
+factor witness $p_+$ or $p_-$. Status: ProofTarget.
+
 \paragraph{Zero-product cancellation certificate.}
 Traditional target: constructive field zero cancellation. BEDC source:
 $\FieldUp$ plus $\RingUp$ zero absorption. Carrier choice:
