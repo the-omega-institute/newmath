@@ -344,15 +344,16 @@ Induct on the first list. Nil can only classify with nil. In the cons case, clas
 
 \begin{theorem}[List classifier preserves length]
 \label{thm:list-classifier-length-eq}
-For any source relation $sameA$ on BEDC history entries and finite list spines
-$xs,ys$, if $\mathsf{ListClassifierSpec}(sameA,xs,ys)$ holds, then $xs$ and
-$ys$ have the same finite length.
+For any source type $A$, any source relation $sameA:A\to A\to\mathsf{Prop}$,
+and finite spines $xs,ys:\mathsf{ListCarrier}(A)$, if
+$\mathsf{ListClassifierSpec}(sameA,xs,ys)$ holds, then $xs$ and $ys$ have the
+same finite length.
 \end{theorem}
 \begin{proof}
 Induct on the first list spine. The nil case can classify only against nil by
 the mixed-shape clauses of $\mathsf{ListClassifierSpec}$. In the cons case,
 the classifier can classify only against a cons spine; its tail witness is again
-a $\mathsf{ListClassifierSpec}$ witness for the source relation $sameA$, so the
+a $\mathsf{ListClassifierSpec}$ witness for entries related by $sameA$, so the
 induction hypothesis gives equality of tail lengths, and the two cons lengths
 are equal.
 \end{proof}

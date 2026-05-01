@@ -1,3 +1,38 @@
+\begin{theorem}[Product pair-representation coherence under classifier weakening]
+\label{thm:prod-pair-rep-coherence-under-classifier-weakening}
+The ten-field roadmap fit is: target displayed ordered-product coherence
+transport; BEDC source $\mathsf{BHist}$ with $\Cont$; carriers $L$ and $R$;
+source classifiers $\sim_L,\sim_R$; target classifiers $\approx_L,\approx_R$;
+ledger displayed pair representation; stability datum
+$\mathsf{ProdPairRepCoherent}$; exactness unchanged at the product endpoint;
+standard bridge component classifier weakening; status $\mathsf{ProofTarget}$.
+
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and let
+$\sim_L,\sim_R,\approx_L,\approx_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$
+be component classifiers. Suppose
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ holds, and suppose
+$$
+\forall x\,y.\;x\sim_L y\to x\approx_L y
+$$
+and
+$$
+\forall x\,y.\;x\sim_R y\to x\approx_R y.
+$$
+Then $\mathsf{ProdPairRepCoherent}_{L,R,\approx_L,\approx_R}$ holds.
+\end{theorem}
+\begin{proof}
+Take two displayed pair representations
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(h,l',r')$ of the same product history $h$. Applying
+the given $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ datum to these
+two representations yields the component witnesses $l\sim_L l'$ and
+$r\sim_R r'$. Transport the first witness through the left classifier
+implication to obtain $l\approx_L l'$, and transport the second witness through
+the right classifier implication to obtain $r\approx_R r'$. These two
+transported witnesses are exactly the two component conclusions required by
+$\mathsf{ProdPairRepCoherent}_{L,R,\approx_L,\approx_R}$.
+\end{proof}
+
 \begin{theorem}[Product componentwise history classifier core fields]
 \label{thm:prod-component-history-classifier-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
