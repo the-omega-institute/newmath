@@ -451,6 +451,55 @@ Theorem~\ref{thm:prod-component-history-classifier-descends-to-envelope}
 applied to the two $\hsame$-soundness assumptions.
 \end{proof}
 
+\begin{theorem}[Product public-object scope combines componentwise and envelope certificates]
+\label{thm:prod-public-object-scope-componentwise-envelope}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Assume also that both source
+classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+With displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, the following
+three clauses hold:
+\begin{enumerate}
+  \item the componentwise public certificate
+  $$
+  \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  D,
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R});
+  $$
+  \item the checked envelope certificate
+  $$
+  \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryClassifier}(L,R));
+  $$
+  \item for all histories $h,k$,
+  $$
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+  \to
+  \mathsf{ProdHistoryClassifier}(L,R,h,k).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:prod-componentwise-certificate-refines-checked-envelope}
+supplies the componentwise public certificate and the descent implication from
+the componentwise classifier to the checked envelope classifier. The checked
+envelope certificate is Theorem~\ref{thm:concrete-prod-namecert}: the inhabited
+carrier fields of $\mathsf{cert}_L$ and $\mathsf{cert}_R$ provide the left and
+right carrier witnesses required by that theorem.
+\end{proof}
+
 \begin{theorem}[Product hsame componentwise certificate is envelope-equivalent]
 \label{thm:prod-hsame-componentwise-certificate-envelope-equivalent}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. Assume
