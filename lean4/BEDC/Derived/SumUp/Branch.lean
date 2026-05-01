@@ -15,6 +15,23 @@ theorem SumHistoryCarrier_visible_payload_determinism {Left Right : BHist → Pr
   · intro sameRight _ sameRight' _
     exact hsame_e1_iff.mp (hsame_trans (hsame_symm sameRight) sameRight')
 
+theorem SumHistoryCarrier_branch_exclusivity {Left Right : BHist → Prop} {h : BHist} :
+    ((∃ l : BHist, hsame h (BHist.e0 l) ∧ Left l) ∧
+      (∃ r : BHist, hsame h (BHist.e1 r) ∧ Right r)) → False := by
+  intro branches
+  cases branches with
+  | intro leftBranch rightBranch =>
+      cases leftBranch with
+      | intro l leftData =>
+          cases leftData with
+          | intro sameLeft _left =>
+              cases rightBranch with
+              | intro r rightData =>
+                  cases rightData with
+                  | intro sameRight _right =>
+                      exact not_hsame_e0_e1
+                        (hsame_trans (hsame_symm sameLeft) sameRight)
+
 theorem SumHistoryClassifier_carrier_aware_branch_partition {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop} {h k : BHist} :
     SumHistoryCarrier Left Right h →
