@@ -40,3 +40,31 @@ of $k$ and invert the one-constructor equality to get $\hsame(a,a')$; the
 remaining fields are exactly the displayed witnesses.
 \end{proof}
 
+\begin{theorem}[Tagged option history classifier absent-branch equivalence]
+\label{thm:tagged-option-history-classifier-absent-branch-equivalence}
+This theorem fits the per-object template as follows: the traditional target is
+option absent-branch agreement; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier
+is $\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is branch
+determinism; the ledger is the visible absent/present tag; the core theorem is
+absentness equivalence; exactness is absent endpoints agree under classifier;
+the standard bridge is $\mathsf{none}$/$\mathsf{some}$; and the status is
+$\mathsf{ProofTarget}$. For every BEDC history source carrier
+$S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and histories
+$h,k$, classified endpoints agree on absentness:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+\bigl(\hsame(h,\emp)\Longleftrightarrow\hsame(k,\emp)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume a classifier witness between $h$ and $k$. The forward implication is
+exactly the absent clause of
+Theorem~\ref{thm:tagged-option-history-classifier-visible-branch-inversion}:
+from $\hsame(h,\emp)$, left visible-branch inversion gives
+$\hsame(k,\emp)$. The reverse implication is the absent clause of
+Theorem~\ref{thm:tagged-option-history-classifier-right-visible-branch-inversion}:
+from $\hsame(k,\emp)$, right visible-branch inversion gives
+$\hsame(h,\emp)$. These two implications assemble the displayed
+$\Longleftrightarrow$.
+\end{proof}
