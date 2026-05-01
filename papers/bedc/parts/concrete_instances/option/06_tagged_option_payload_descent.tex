@@ -522,3 +522,93 @@ Theorem~\ref{thm:tagged-option-payload-descent-preserves-classification} to the
 source classifier witness, the two map-relation witnesses, the source
 certificate $\mathsf{cert}$, and the source hsame compatibility hypothesis.
 \end{proof}
+
+\begin{theorem}[Tagged option payload descent composition]
+\label{thm:tagged-option-payload-descent-composition}
+This theorem fits the per-object template as follows: the traditional target is
+constructor-tagged option map composition; the BEDC source is $\mathsf{BHist}$
+with two $\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionHistoryCarrier}$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is closure of
+$\mathsf{TaggedOptionMapRel}$ under composition; the ledger is visible
+absent/present tags with transported payloads; exactness is branch analysis; and
+the status is $\mathsf{ProofTarget}$. Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$
+be BEDC history source carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be source
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume also endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $p:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(p))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+For histories $h,k,m$, if
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,m),
+$$
+then
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};h,m).
+$$
+\end{theorem}
+\begin{proof}
+Split the first map-relation witness. In the absent case, the source endpoint
+is presented as $\emp$ and the intermediate endpoint is presented as $\emp$.
+The second map-relation witness cannot be present, since that would also
+present the same intermediate endpoint as $\Eone(b)$ and would contradict
+empty-versus-one no-confusion at $k$. Hence the second witness is absent, and
+the composed witness is the absent branch from $h$ to $m$.
+
+In the present case, the first witness exposes a payload $a$ with $S(a)$,
+$T(\delta.\mathsf{map}(a))$, source endpoint
+$\hsame(h,\Eone(a))$, and intermediate endpoint
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$. The second map-relation witness
+cannot be absent, since that would present $k$ as both a one-constructor
+endpoint and $\emp$.
+
+The remaining second witness is present. It exposes a payload $b$ with $T(b)$,
+$U(\epsilon.\mathsf{map}(b))$, intermediate endpoint $\hsame(k,\Eone(b))$, and
+final endpoint $\hsame(m,\Eone(\epsilon.\mathsf{map}(b)))$.
+
+Invert the two presentations of $k$ to obtain
+$\hsame(\delta.\mathsf{map}(a),b)$, and apply $\eta_{\epsilon}$ to the two
+target payload witnesses. This gives
+$\hsame(\epsilon.\mathsf{map}(\delta.\mathsf{map}(a)),
+\epsilon.\mathsf{map}(b))$.
+
+By one-constructor congruence and transitivity of $\hsame$, the final endpoint
+presentation for $m$ rewrites from $\Eone(\epsilon.\mathsf{map}(b))$ to
+$\Eone(\epsilon.\mathsf{map}(\delta.\mathsf{map}(a)))$.
+
+Together with $\rho_{\epsilon\circ\delta}(a,Sa)$ and the original source
+endpoint witness, these fields build the present branch of
+$\mathsf{TaggedOptionMapRel}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};h,m)$.
+\end{proof}
