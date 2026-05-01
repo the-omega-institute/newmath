@@ -57,6 +57,27 @@ as $h$, and the source witness can be reused.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_transport}
 
+\begin{theorem}[Option history carrier source monotonicity]
+\label{thm:option-history-carrier-source-monotonicity}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be source predicates. If
+$\forall h.\; S(h)\to T(h)$, then for every $h:\mathsf{BHist}$,
+$\mathsf{OptionHistoryCarrier}_S(h)$ implies
+$\mathsf{OptionHistoryCarrier}_T(h)$. Under the same hypothesis, for every
+$h,k:\mathsf{BHist}$, $\mathsf{OptionHistoryClassifier}_S(h,k)$ implies
+$\mathsf{OptionHistoryClassifier}_T(h,k)$.
+\end{theorem}
+\begin{proof}
+For the carrier clause, split the nullable carrier witness. The absent branch
+already supplies the same $\hsame(h,\emp)$ witness for the target envelope. In
+the source branch, apply the displayed implication to the stored $S(h)$ witness
+and obtain the required $T(h)$ witness.
+
+For the classifier clause, unfold the nullable classifier data: both endpoints
+come with carrier witnesses and the classifier stores the same endpoint
+$\hsame(h,k)$ witness. Apply the carrier clause to the two endpoint carrier
+witnesses, and keep the stored $\hsame(h,k)$ witness unchanged.
+\end{proof}
+
 \begin{definition}[Option pattern specification]
 \label{def:option-pattern-specification}
 The pattern is absent-or-present generation: one null constructor and one wrapper constructor over source witnesses.

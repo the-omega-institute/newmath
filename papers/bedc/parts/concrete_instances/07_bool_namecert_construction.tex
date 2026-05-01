@@ -108,17 +108,6 @@ For the first clause, unfold the classifier at the two displayed endpoints. The 
 For the second clause, apply carrier endpoint coverage to the carrier witness for $h$ and obtain an endpoint $v$ with $\hsame(h,\mathsf{BoolEndpoint}(v))$. Case analysis on $v$ supplies $\mathsf{BoolSourceSpec}(v)$, since the two mark constructors satisfy the source specification by reflexivity. The same history-sameness witness, together with the carrier witness for $h$ and the endpoint carrier witness, is exactly the data required by the definition of the displayed classifier relation.
 \end{proof}
 
-\begin{theorem}[Bool endpoint bridge readback determinism]
-\label{thm:bool-endpoint-bridge-readback-determinism}
-For $h:\mathsf{BHist}$ and $v,w:\mathsf{BMark}$, if $\mathsf{BoolHistoryCarrier}(h)$, $\hsame(h,\mathsf{BoolEndpoint}(v))$, and $\hsame(h,\mathsf{BoolEndpoint}(w))$, then the two selected marks are internally the same:
-$$
-  \msame(v,w).
-$$
-\end{theorem}
-\begin{proof}
-The carrier witness licenses $h$ as a boolean history. Symmetrize the first endpoint witness to obtain $\hsame(\mathsf{BoolEndpoint}(v),h)$, then compose it with the second endpoint witness to obtain $\hsame(\mathsf{BoolEndpoint}(v),\mathsf{BoolEndpoint}(w))$. The reverse direction of endpoint bridge exactness converts that displayed history sameness into $\msame(v,w)$.
-\end{proof}
-
 \begin{theorem}[Bool source respects mark sameness]
 \label{thm:bool-source-spec-respects-msame}
 If \(v\) satisfies \(\mathsf{BoolSourceSpec}\) and \(\msame(v,w)\), then \(w\) also satisfies \(\mathsf{BoolSourceSpec}\).

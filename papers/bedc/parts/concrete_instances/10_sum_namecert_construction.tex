@@ -223,7 +223,7 @@ The same-tag iff clauses below are classifier-only statements; carrier and ledge
 
 \begin{theorem}[Sum history classifier same-tag exactness]
 \label{thm:sum-history-classifier-same-tag-exactness}
-For source carriers $Left,Right:\Hist\to\mathsf{Prop}$, the history-level sum
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, the history-level sum
 classifier with $\hsame$ on both components is exact on each visible tag:
 $$
 \mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\Ezero(l),\Ezero(l'))
@@ -247,8 +247,8 @@ $\Eone(r')$, and the corresponding left or right classifier constructor.
 
 \begin{theorem}[Sum history classifier same-tag source exactness]
 \label{thm:sum-history-classifier-source-same-tag-exactness}
-For source carriers $Left,Right:\Hist\to\mathsf{Prop}$ and source classifiers
-$LeftEq,RightEq:\Hist\to\Hist\to\mathsf{Prop}$, suppose the source classifiers
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ and source classifiers
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$, suppose the source classifiers
 transport along endpoint history sameness:
 $$
 \forall l,l_0,l',l_0'.\;
@@ -289,7 +289,7 @@ source-classifier witness to rebuild the corresponding classifier branch.
 
 \begin{theorem}[Sum history classifier hsame same-tag carrier exactness]
 \label{thm:sum-history-classifier-hsame-same-tag-carrier-exactness}
-For source carriers $Left,Right:\Hist\to\mathsf{Prop}$, the $\hsame$-specialized
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, the $\hsame$-specialized
 history-level sum classifier is exact for same-tag endpoints together with the
 matching source-carrier evidence:
 $$
@@ -332,7 +332,7 @@ rebuilds the two right carrier branches and the right classifier branch.
 
 \begin{theorem}[Sum history classifier generic same-tag exactness]
 \label{thm:sum-history-classifier-generic-same-tag-exactness}
-For source carriers $Left,Right:\Hist\to\mathsf{Prop}$ and source classifiers $LeftEq,RightEq:\Hist\to\Hist\to\mathsf{Prop}$, the history-level sum classifier is exact on each visible tag:
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ and source classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$, the history-level sum classifier is exact on each visible tag:
 $$
 \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,\Ezero(l),\Ezero(l'))
 \quad\Longleftrightarrow\quad
@@ -766,7 +766,7 @@ or right source payload witness.
 
 \begin{theorem}[Concrete $\SumUp$ semantic name certificate]
 \label{thm:concrete-sum-namecert}
-Let $Left,Right:\Hist\to\mathsf{Prop}$ be source carriers with classifiers
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers with classifiers
 $LeftEq$ and $RightEq$. If $\NameCert(Left,LeftEq)$ and
 $\NameCert(Right,RightEq)$ are supplied, then the tagged sum carrier, the tagged
 sum classifier, and the carrier-as-pattern and carrier-as-ledger tuple form
