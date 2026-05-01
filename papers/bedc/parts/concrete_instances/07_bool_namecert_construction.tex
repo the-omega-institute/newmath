@@ -409,6 +409,18 @@ right endpoint, and symmetry supplies the classifier link.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_empty\_left\_iff}
 
+\begin{theorem}[Bool history classifier empty-right equivalence]
+\label{thm:bool-history-classifier-empty-right-iff}
+The boolean history classifier relates $h$ to $\emp$ exactly when $h$ is
+internally the same history as $\emp$.
+\end{theorem}
+\begin{proof}
+For the forward direction, use classifier symmetry to move the empty endpoint
+to the left, then apply Theorem~\ref{thm:bool-history-classifier-empty-left-iff}.
+For the reverse direction, apply Theorem~\ref{thm:bool-history-classifier-empty-left-iff}
+to the assumed $h$-to-$\emp$ sameness, then use classifier symmetry again.
+\end{proof}
+
 \begin{definition}[Bool stability certificate]
 \label{def:bool-stability-certificate}
 The checked mark-level structural subcertificate for $\mathsf{BoolClassifierSpec}$ consists of:
