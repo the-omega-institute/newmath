@@ -203,6 +203,23 @@ theorem unary_append_monoid_semantic_name_certificate :
       cases sameB
       exact hsame_refl (append a b))
 
+theorem unary_append_monoid_classifier_context_congr {left right a b : BHist} :
+    UnaryHistory left -> UnaryHistory right -> MonoidHistoryClassifier UnaryHistory a b ->
+      MonoidHistoryClassifier UnaryHistory (append left (append a right))
+        (append left (append b right)) := by
+  intro unaryLeft unaryRight sameAB
+  cases sameAB with
+  | intro unaryA rest =>
+      cases rest with
+      | intro _ sameHist =>
+          cases sameHist
+          have unaryTail : UnaryHistory (append a right) := by
+            exact unary_append_closed unaryA unaryRight
+          have unaryContext : UnaryHistory (append left (append a right)) := by
+            exact unary_append_closed unaryLeft unaryTail
+          exact And.intro unaryContext
+            (And.intro unaryContext (hsame_refl (append left (append a right))))
+
 theorem unary_append_monoid_classifier_cancel_context {left right a b : BHist} :
     UnaryHistory left -> UnaryHistory right -> UnaryHistory a -> UnaryHistory b ->
       MonoidHistoryClassifier UnaryHistory (append left (append a right))

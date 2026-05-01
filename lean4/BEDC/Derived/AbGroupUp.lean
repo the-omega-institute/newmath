@@ -72,6 +72,23 @@ theorem abgroup_inverse_conjugation_collapse {mul : BHist -> BHist -> BHist} {e 
     exact mulCongr (hsame_refl b) (leftInv a)
   exact hsame_trans swap (hsame_trans collapseInner (rightId b))
 
+theorem abgroup_inverse_mul {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul e x) x)
+    (rightId : forall x : BHist, hsame (mul x e) x)
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) e)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) e) :
+    forall x y : BHist, hsame (inv (mul x y)) (mul (inv x) (inv y)) := by
+  intro x y
+  exact hsame_trans
+    (BEDC.Derived.GroupUp.group_inverse_mul_reverse assocC leftId rightId mulCongr
+      leftInv rightInv x y)
+    (commC (inv y) (inv x))
+
 theorem abgroup_mul_right_factor_swap {mul : BHist -> BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
     (commC : forall x y : BHist, hsame (mul x y) (mul y x))

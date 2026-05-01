@@ -124,6 +124,26 @@ two appended histories.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_classifier\_append\_context}
 
+\begin{theorem}[Unary append monoid classifier preserves context]
+\label{thm:unary-append-monoid-classifier-context-congr}
+For unary histories $l,r,a,b$, if the monoid classifier identifies $a$ with
+$b$, then it identifies the common-context appends
+$$
+l(a r)
+$$
+and
+$$
+l(b r).
+$$
+\end{theorem}
+\begin{proof}
+The classifier gives unary endpoint witnesses for $a$ and $b$ and an $\hsame$
+witness between them. Unary histories are closed under BEDC append, so appending
+the common right and left contexts supplies the endpoint carriers. The $\hsame$
+witness identifies the middle history, leaving equal contextual appends.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_classifier\_context\_congr}
+
 \begin{theorem}[Unary append monoid classifier cancels common context]
 \label{thm:unary-append-monoid-classifier-cancel-context}
 For unary histories $l,r,a,b$, if the monoid classifier identifies
