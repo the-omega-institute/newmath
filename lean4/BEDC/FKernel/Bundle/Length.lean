@@ -38,6 +38,27 @@ theorem bundleLength_eq_one_iff_singleton {PName : Type} {bundle : ProbeBundle P
         cases hp
         rfl
 
+theorem inBundle_length_one_singleton {PName : Type} {p : PName}
+    {bundle : ProbeBundle PName} :
+    InBundle p bundle -> bundleLength bundle = Nat.succ 0 ->
+      bundle = ProbeBundle.Bcons p ProbeBundle.Bnil := by
+  intro member lengthOne
+  cases bundle with
+  | Bnil =>
+      cases member
+  | Bcons q tail =>
+      have tailLengthZero : bundleLength tail = 0 := Nat.succ.inj lengthOne
+      have tailNil : tail = ProbeBundle.Bnil :=
+        bundleLength_eq_zero_iff_nil.mp tailLengthZero
+      cases member with
+      | inl headSame =>
+          cases headSame
+          cases tailNil
+          rfl
+      | inr tailMember =>
+          cases tailNil
+          cases tailMember
+
 theorem bundleLength_eq_succ_iff_cons {PName : Type} {bundle : ProbeBundle PName} {n : Nat} :
     bundleLength bundle = Nat.succ n ↔
       ∃ p : PName, ∃ tail : ProbeBundle PName,
