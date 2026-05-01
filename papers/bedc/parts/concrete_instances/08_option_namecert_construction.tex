@@ -547,3 +547,107 @@ endpoints. The reverse direction of classifier branch exactness therefore gives
 $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
 (S,T,\rho_{\delta};k,k)$.
 \end{proof}
+
+\begin{theorem}[Tagged option payload descent image classifier stability package]
+\label{thm:tagged-option-payload-descent-image-classifier-stability-package}
+This theorem fits the per-object template as follows: the traditional target is
+certificate-facing stability for the option payload descent image classifier; the
+BEDC source is $\mathsf{BHist}$ with a payload descent certificate; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation is
+self-exactness, symmetry, transitivity, endpoint transport, and endpoint carrier
+exposure; the ledger is the classified target endpoints and the two transported
+source payload presentations; the core theorem is the public stability package;
+exactness is the self-classifier equivalence and the four closure fields below;
+the standard bridge is $\mathsf{none}$/$\mathsf{some}$ under tagged option
+payload descent; and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$, assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, and assume
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S).
+$$
+Then the option payload descent image classifier supplies the following five
+certificate-facing fields.
+\begin{enumerate}
+  \item For every target endpoint $k:\mathsf{BHist}$,
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,k)
+  \Longleftrightarrow
+  \mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+  (S,T,\rho_{\delta};k).
+  $$
+  \item For target endpoints $k,k':\mathsf{BHist}$,
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,k')
+  \to
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k',k).
+  $$
+  \item For target endpoints $k,\ell,m:\mathsf{BHist}$,
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,\ell)
+  \to
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};\ell,m)
+  \to
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,m).
+  $$
+  \item For target endpoints $k,k',u,u':\mathsf{BHist}$,
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,k')
+  \to
+  \hsame(k,u)
+  \to
+  \hsame(k',u')
+  \to
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};u,u').
+  $$
+  \item For target endpoints $k,k':\mathsf{BHist}$,
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,k')
+  \to
+  \mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+  (S,T,\rho_{\delta};k)
+  \land
+  \mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+  (S,T,\rho_{\delta};k').
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the self-exactness field, apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-self-exactness}
+at the chosen endpoint $k$. Its two directions are exactly the displayed
+equivalence between the self-classifier witness and image-carrier membership.
+
+For symmetry and carrier exposure, apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-stability-fields}.
+Its second field gives the reversed classifier witness for classified endpoints,
+and its third field gives the two image-carrier witnesses exposed by any
+classifier witness.
+
+For transitivity, apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-reflective-transitivity}
+to the two classifier witnesses at $(k,\ell)$ and $(\ell,m)$, using the stated
+source hsame compatibility and source-reflection hypotheses.
+
+For endpoint transport, apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-hsame-transport}
+to the classifier witness at $(k,k')$ and the two displayed $\hsame$ endpoint
+witnesses. Its conclusion is the transported classifier witness at $(u,u')$.
+\end{proof}
