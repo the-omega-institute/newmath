@@ -46,14 +46,14 @@ the checked nullable-envelope definition displayed here.
 \label{thm:option-history-carrier-hsame-transport}
 If $h$ and $k$ are internally history-same, membership of $h$ in
 $\mathsf{OptionHistoryCarrier}_S$ transports to membership of $k$ in the same
-carrier.
+carrier. In the source branch this does not assume that an arbitrary source classifier is stable under $\hsame$; it uses the checked identity characterization of history-sameness on $\mathsf{BHist}$,
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$.
 \end{theorem}
 \begin{proof}
 Invert the optional carrier witness. In the absent branch, use only symmetry and
 transitivity of $\hsame$: reverse the displayed $\hsame(h,k)$ link and compose
-it with the stored $\hsame(h,\emp)$ witness. In the source branch, use
-$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ only as closed-generation transport
-for the predicate argument of the arbitrary source predicate $S$; the reflected kernel equality transports the stored $S(h)$ witness to $S(k)$. The exported nullable classifier remains exactly
+it with the stored $\hsame(h,\emp)$ witness. In the source branch, convert the displayed $\hsame(h,k)$ witness via
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$, rewrite the endpoint, and transport the stored predicate witness from $S(h)$ to $S(k)$. The exported nullable classifier remains exactly
 $\mathsf{OptionHistoryCarrier}_S(h)\land\mathsf{OptionHistoryCarrier}_S(k)\land\hsame(h,k)$,
 so this proof does not export identity reflection as a public equality principle for $\OptionUp$.
 \end{proof}
