@@ -571,29 +571,74 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
 
     # ----- Stage 2: killo-golden writeback (only if done + raw latex present) -----
     stage2_summary: dict = {}
+    stage2_attempts: list[dict] = []
     if verdict == "done" and raw_latex_path.exists():
-        suggested = _extract_insertion_target(raw_latex_path.read_text(encoding="utf-8"))
-        result = killo_golden_writeback.writeback(
-            target_id=target.target_id,
-            target_title=target.title,
-            transcript_dir=out_dir,
-            raw_latex_path=raw_latex_path,
-            suggested_target_tex=suggested,
-        )
-        stage2_summary = {
-            "ok": result.ok,
-            "verdict": result.verdict,
-            "tex_file": result.tex_file,
-            "appended": result.appended,
-            "compile_ok": result.compile_ok,
-            "rejection_reasons": result.rejection_reasons,
-            "error": result.error,
-        }
+        max_stage2_attempts = 2
+        for attempt in range(1, max_stage2_attempts + 1):
+            suggested = _extract_insertion_target(raw_latex_path.read_text(encoding="utf-8"))
+            result = killo_golden_writeback.writeback(
+                target_id=target.target_id,
+                target_title=target.title,
+                transcript_dir=out_dir,
+                raw_latex_path=raw_latex_path,
+                suggested_target_tex=suggested,
+            )
+            attempt_record = {
+                "attempt": attempt,
+                "ok": result.ok,
+                "verdict": result.verdict,
+                "tex_file": result.tex_file,
+                "appended": result.appended,
+                "compile_ok": result.compile_ok,
+                "rejection_reasons": list(result.rejection_reasons),
+                "error": result.error,
+            }
+            stage2_attempts.append(attempt_record)
+            if result.appended and result.compile_ok:
+                print(f"[stage2 attempt {attempt}] appended to {result.tex_file} and `make` succeeded", flush=True)
+                break
+            print(f"[stage2 attempt {attempt}] verdict={result.verdict} appended={result.appended} compile_ok={result.compile_ok}", flush=True)
+            if attempt >= max_stage2_attempts:
+                break
+            if result.verdict != "reject" or not result.rejection_reasons:
+                break
+            corrective_response = _stage2_corrective_retry(
+                args=args,
+                target=target,
+                conversation_id=conversation_id,
+                rejection_reasons=result.rejection_reasons,
+                out_dir=out_dir,
+                attempt=attempt,
+            )
+            if corrective_response is None:
+                print(f"[stage2 attempt {attempt}] corrective retry skipped (oracle empty / timeout)", flush=True)
+                break
+            if corrective_response.startswith("DUPLICATE_OF:"):
+                label = corrective_response.split(":", 1)[1].strip()
+                print(f"[stage2 attempt {attempt}] oracle declared DUPLICATE_OF: {label}; marking already_in_paper", flush=True)
+                stage2_summary = {
+                    "ok": True,
+                    "verdict": "duplicate_of",
+                    "duplicate_label": label,
+                    "attempts": stage2_attempts,
+                }
+                verdict = "already_in_paper"
+                break
+            write_text(out_dir / f"raw_oracle_latex_attempt_{attempt + 1}.md", corrective_response)
+            raw_latex_path.write_text(corrective_response, encoding="utf-8")
+        if not stage2_summary:
+            last = stage2_attempts[-1] if stage2_attempts else {}
+            stage2_summary = {
+                "ok": last.get("ok", False),
+                "verdict": last.get("verdict", "error"),
+                "tex_file": last.get("tex_file", ""),
+                "appended": last.get("appended", False),
+                "compile_ok": last.get("compile_ok", False),
+                "rejection_reasons": last.get("rejection_reasons", []),
+                "error": last.get("error", ""),
+                "attempts": stage2_attempts,
+            }
         write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))
-        if result.appended and result.compile_ok:
-            print(f"[stage2] appended to {result.tex_file} and `make` succeeded", flush=True)
-        else:
-            print(f"[stage2] verdict={result.verdict} appended={result.appended} compile_ok={result.compile_ok}", flush=True)
 
     final_state = {
         "target_id": target.target_id,
@@ -608,6 +653,47 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
     }
     write_text(STATE_DIR / f"{target.slug}.json", json.dumps(final_state, ensure_ascii=False, indent=2))
     return final_state
+
+
+def _stage2_corrective_retry(
+    *,
+    args: argparse.Namespace,
+    target: BedcTarget,
+    conversation_id: str,
+    rejection_reasons: list,
+    out_dir: Path,
+    attempt: int,
+) -> str | None:
+    """Send rejection_reasons back to the oracle in the same conversation and
+    poll for a corrected LaTeX block. Returns the new response or None on
+    failure / empty / timeout."""
+    if not conversation_id:
+        return None
+    template_path = SCRIPT_DIR / "prompts" / "write_paper_latex_corrective.txt"
+    if not template_path.exists():
+        return None
+    reasons_block = "\n".join(f"- {r}" for r in rejection_reasons)
+    prompt = template_path.read_text(encoding="utf-8").format(
+        target_id=target.target_id,
+        target_title=target.title,
+        rejection_reasons=reasons_block,
+    )
+    write_text(out_dir / f"corrective_prompt_attempt_{attempt + 1}.md", prompt)
+    task_id = f"bedc_{target.target_id.lower()}_corrective{attempt}_{int(time.time() * 1000)}"
+    submit = submit_turn(args.server, task_id, prompt, conversation_id, model=args.model)
+    if "error" in submit:
+        print(f"[stage2 corrective] submit failed: {submit['error']}", flush=True)
+        return None
+    response = poll_result(
+        args.server,
+        task_id,
+        args.timeout,
+        args.poll_interval,
+        args.status_interval,
+    )
+    if not response:
+        return None
+    return response
 
 
 def _extract_insertion_target(latex_response: str) -> str:
