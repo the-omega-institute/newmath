@@ -87,6 +87,42 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[SOne equation-witness transport]
+\label{thm:s1-equation-witness-transport}
+For histories $x,y,e,e',p$, the concrete $\SOneUp$ history carrier is stable
+under replacement of the displayed unit-equation witness along the equation
+ledger:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\hsame(e,e')
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x,y,e',p).
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{SOneHistoryCarrier}(x,y,e,p)$ into the two
+$\mathsf{RealConstantHistoryCarrier}$ component fields, the
+$\mathsf{RealConstantHistoryClassifier}(e,\mathsf{SOneUnitHistory})$ field,
+and the continuation witness $\mathsf{Cont}(x,y,p)$.
+
+The equation ledger gives $\hsame(e,e')$. Combine it with
+$\hsame(\mathsf{SOneUnitHistory},\mathsf{SOneUnitHistory})$ by reflexivity and
+apply the endpoint-transport theorem for the real-constant history classifier.
+This produces
+$\mathsf{RealConstantHistoryClassifier}(e',\mathsf{SOneUnitHistory})$ while the
+two component carriers and the continuation ledger remain unchanged.
+
+Repack the four fields into $\mathsf{SOneHistoryCarrier}(x,y,e',p)$. The
+certificate fit is the traditional target unit-circle equation transport; the
+BEDC source $\mathsf{BHist}$ with $\mathsf{RealConstantHistoryClassifier}$; the
+carrier $\mathsf{SOneHistoryCarrier}$; the classifier $\hsame$ on the equation
+ledger; the stability obligation equation-witness transport; the ledger
+transported unit-equation proof; the core theorem equation-witness replacement;
+the exactness claim that the same $\SOneUp$ carrier is preserved; the standard
+bridge deferred outside this theorem; and the status $\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{definition}[SOne ledger policy]
 \label{def:s1-ledger-policy}
 Record both real witnesses, the componentwise real-classifier witnesses used in classifier derivations, and the transported unit equation proof.
