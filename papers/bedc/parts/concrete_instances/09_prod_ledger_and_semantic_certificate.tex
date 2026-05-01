@@ -313,6 +313,64 @@ $w,\rho$ to $w,z$. Thus finite displayed-pair ledger provenance preserves the
 public componentwise classifier at both endpoints.
 \end{proof}
 
+\begin{theorem}[Product ledger chain concatenation preserves public endpoints]
+\label{thm:prod-ledger-chain-concatenation-componentwise-endpoints}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume
+$\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. If
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,v)$ and
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(v,z)$ hold, then
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$ holds, and for every
+$w:\mathsf{BHist}$ both public componentwise endpoint clauses hold:
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(\rho,w)
+\Longleftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(z,w)
+$$
+and
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,\rho)
+\Longleftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,z).
+$$
+The object fit is: traditional target finite ordered-product ledger
+concatenation; BEDC source $\mathsf{BHist}$ with
+$\mathsf{ProdHistoryLedgerPolicy}$ and
+$\mathsf{ProdHistoryLedgerChain}$; carrier $\mathsf{ProdHistoryCarrier}$ plus
+displayed $\mathsf{ProdPairRep}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$; stability finite ledger-chain
+closure; ledger concatenated displayed-pair provenance; core theorem closure
+plus endpoint invariance; exactness component readback invariant across
+concatenated chains; standard bridge concatenated ordered-pair provenance;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the first derivation
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,v)$. In the one-ledger case, the
+first chain is a displayed ledger
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$, and the cons constructor
+combines it with the second chain
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(v,z)$ to obtain
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$.
+
+In the cons case, write the first derivation as a displayed ledger
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,u)$ followed by a tail chain
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(u,v)$. The induction hypothesis
+concatenates this tail with the second chain to obtain
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(u,z)$. Applying the cons constructor to
+the leading displayed ledger and that concatenated tail gives
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$.
+
+With the concatenated chain in hand,
+Theorem~\ref{thm:prod-ledger-chain-componentwise-classifier-endpoint-equivalence}
+applies using $\mathsf{cert}_L$, $\mathsf{cert}_R$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$, yielding the two public
+componentwise endpoint equivalences for every test history $w$.
+\end{proof}
+
 \begin{theorem}[Product ledger chain envelope closure]
 \label{thm:prod-ledger-chain-envelope-closure}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
