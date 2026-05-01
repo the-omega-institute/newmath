@@ -88,6 +88,22 @@ source to be \(\emp\). BEDC history no-confusion separates \(\Ezero(k)\) and
 \(\Eone(k)\) from \(\emp\).
 \end{proof}
 
+\begin{theorem}[Unary append monoid semantic name certificate]
+\label{thm:unary-append-monoid-semantic-name-certificate}
+The unary-history carrier, empty history, BEDC history append, and the
+history-sameness classifier instantiate the semantic naming certificate for
+\(\MonoidUp\). The certificate exports the empty-left, empty-right,
+associativity, and append-congruence fields under the classifier
+\(\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})\).
+\end{theorem}
+\begin{proof}
+Unary history is inhabited by empty history and is closed under BEDC append.
+The empty-history laws and associativity are the primitive append laws for
+histories. Congruence follows by transporting both append arguments across
+\(\hsame\), leaving the same appended history on both sides.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_semantic\_name\_certificate}
+
 \begin{definition}[Monoid ledger policy]
 \label{def:monoid-ledger-policy}
 Record the carrier witnesses and operation tree behind each monoid expression.

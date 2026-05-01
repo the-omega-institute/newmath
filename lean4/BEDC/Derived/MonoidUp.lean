@@ -1,10 +1,12 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.MonoidUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.FKernel.NameCert
 
 def MonoidHistoryClassifier (Carrier : BHist -> Prop) (h k : BHist) : Prop :=
@@ -169,5 +171,36 @@ theorem history_continuation_nonempty_suffix_source_absurd :
     exact not_hsame_e0_empty (cont_right_unit_unique hcont)
   · intro h k hcont
     exact not_hsame_e1_empty (cont_right_unit_unique hcont)
+
+theorem unary_append_monoid_semantic_name_certificate :
+    SemanticNameCert UnaryHistory UnaryHistory UnaryHistory (MonoidHistoryClassifier UnaryHistory) ∧
+      (forall {h : BHist}, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append BHist.Empty h) h) ∧
+      (forall {h : BHist}, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append h BHist.Empty) h) ∧
+      (forall {a b c : BHist}, UnaryHistory a -> UnaryHistory b -> UnaryHistory c ->
+        MonoidHistoryClassifier UnaryHistory (append (append a b) c) (append a (append b c))) ∧
+      (forall {a a' b b' : BHist}, UnaryHistory a -> UnaryHistory a' -> UnaryHistory b ->
+        UnaryHistory b' -> MonoidHistoryClassifier UnaryHistory a a' ->
+          MonoidHistoryClassifier UnaryHistory b b' ->
+            MonoidHistoryClassifier UnaryHistory (append a b) (append a' b')) := by
+  exact monoid_history_semantic_name_certificate UnaryHistory append BHist.Empty unary_empty
+    (by
+      intro h k uh uk
+      exact unary_append_closed uh uk)
+    (by
+      intro a b c _ _ _
+      exact BEDC.FKernel.Cont.append_assoc a b c)
+    (by
+      intro h _
+      exact BEDC.FKernel.Cont.append_empty_left h)
+    (by
+      intro h _
+      exact BEDC.FKernel.Cont.append_empty_right h)
+    (by
+      intro a a' b b' _ _ _ _ sameA sameB
+      cases sameA
+      cases sameB
+      exact hsame_refl (append a b))
 
 end BEDC.Derived.MonoidUp
