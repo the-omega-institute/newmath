@@ -119,3 +119,31 @@ component-relation weakening hypothesis to the stored $LeftEq$ or $RightEq$
 witness; the carrier-side endpoint data is transported by the corresponding
 source inclusion in the same branch.
 \end{proof}
+
+\begin{theorem}[Sum ledger raw-visible branch partition]
+\label{thm:sum-ledger-raw-visible-branch-partition}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ holds, then the same
+visible branch and payload appear on both ends of the ledger link:
+$$
+\bigl(\exists l.\; Left(l)\land\hsame(\rho,\Ezero(l))\land\hsame(v,\Ezero(l))\bigr)
+\lor
+\bigl(\exists r.\; Right(r)\land\hsame(\rho,\Eone(r))\land\hsame(v,\Eone(r))\bigr).
+$$
+In the ten-field fit, the traditional target is disjoint-sum ledger branch
+readback; the BEDC source is $\mathsf{BHist}$ with $\hsame$; the carrier is
+$\mathsf{SumHistoryCarrier}$; no classifier is needed for the direct branch
+exposure; the ledger is $\mathsf{SumHistoryLedgerPolicy}$; exactness is the
+same raw-visible branch and payload on both endpoints; and the status is
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into the raw $\mathsf{SumHistoryCarrier}$ witness and the
+stored raw-visible $\hsame(\rho,v)$ link. Split the raw carrier. In the left
+branch, keep the raw payload $l$ and its $Left(l)$ witness, retain the stored
+raw tag witness $\hsame(\rho,\Ezero(l))$, and compose symmetry of
+$\hsame(\rho,v)$ with that raw tag witness to obtain
+$\hsame(v,\Ezero(l))$. The right branch uses the same argument with the raw
+payload $r$, the $Right(r)$ witness, and the $\Eone$ tag.
+\end{proof}

@@ -670,15 +670,14 @@ the nullable history-envelope fields.
 
 For the typed $\mathsf{OptionClassifierSpec}$ classifier, the fields are:
 \begin{enumerate}
-  \item reflexivity for $\mathsf{none}$;
-  \item reflexivity for $\mathsf{some}(a)$ from source reflexivity;
+  \item reflexivity for $\mathsf{none}$ and for $\mathsf{some}(a)$ from source reflexivity;
+  \item symmetry from a source-symmetry hypothesis, as in Theorem~\ref{thm:option-classifier-symm-from-source-symmetry};
   \item transitivity from a source-transitivity hypothesis;
   \item no-confusion between $\mathsf{none}$ and $\mathsf{some}(a)$ in either order;
   \item present inversion, exposing the source classifier witness from a $\mathsf{some}$--$\mathsf{some}$ classification.
 \end{enumerate}
-Symmetry for this typed classifier is supplied only from a source-symmetry
-hypothesis; the checked optional-history instance specializes that principle to
-heads classified by $\hsame$.
+The checked $\hsame$ specialization is the Lean-marked instance of this
+symmetry field.
 
 For the nullable $\mathsf{OptionHistoryCarrier}$ envelope and its
 $\mathsf{OptionHistoryClassifier}$, the certificate fields are:
