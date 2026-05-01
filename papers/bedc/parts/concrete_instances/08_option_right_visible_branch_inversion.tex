@@ -216,3 +216,49 @@ $\hsame(k,\Eone(b))$, and the source classifier witness $a\sim_S b$, giving the
 right branch. These are the only constructors of the tagged classifier witness,
 so the displayed disjunction exhausts the endpoints.
 \end{proof}
+
+\begin{theorem}[Tagged option source weakening]
+\label{thm:tagged-option-source-weakening}
+This theorem fits the per-object template as follows: the traditional target is
+tagged option source weakening; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier
+is $\mathsf{TaggedOptionHistoryClassifier}$; the stability field is source
+monotonicity for tagged endpoints; the ledger is the visible absent/present tag
+with present payload evidence; the core theorem is tagged source weakening;
+exactness is endpoint witness preservation; the standard bridge is constructor
+tagged option syntax; and the status is $\mathsf{ProofTarget}$. Let
+$S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and let
+$\sim_S$ and $\sim_T$ be source classifiers. Assume
+$$
+\forall h.\; S(h)\to T(h)
+$$
+and
+$$
+\forall a\,b.\; S(a)\to S(b)\to a\sim_S b\to a\sim_T b.
+$$
+Then for every history $h$,
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)\to
+\mathsf{TaggedOptionHistoryCarrier}_T(h),
+$$
+and for every pair of histories $h,k$,
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+For the carrier implication, split the tagged carrier witness. The absent case
+has no source payload and is reused unchanged. The present case exposes a
+payload history $a$, a source witness $S(a)$, and the endpoint witness
+$\hsame(h,\Eone(a))$; apply the source-carrier implication to obtain $T(a)$ and
+reuse the same endpoint witness.
+
+For the classifier implication, split the tagged classifier witness. The
+absent-absent case is reused unchanged. In the present-present case, keep the
+payload histories $a,b$ and both endpoint witnesses. Apply the source-carrier
+implication to the two source witnesses to obtain $T(a)$ and $T(b)$, and apply
+the source-classifier implication to the same two source witnesses and the
+given $a\sim_S b$ witness to obtain $a\sim_T b$. These fields rebuild the
+tagged classifier witness for $T$ and $\sim_T$.
+\end{proof}
