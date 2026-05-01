@@ -801,6 +801,72 @@ def _codex_resolve_conflicts(wt_path: Path, *, model: Optional[str] = None,
     return True
 
 
+def _codex_resolve_post_rebase_audit(
+    wt_path: Path,
+    audit_msg: str,
+    *,
+    model: Optional[str] = None,
+    timeout: int = 1200,
+) -> bool:
+    """After a clean rebase, the combined tree may still fail
+    `bedc_ci.py audit` because a sibling P-round merged a colliding
+    label / unresolved marker into BASE_BRANCH while this worktree was
+    working. Ask codex to remove this round's offending additions
+    (typically: drop a duplicate `\\label{}` or unhook a `\\leanchecked`
+    that points at a Lean target the sibling already covered) without
+    touching the rest of the round's content.
+    """
+    prompt = textwrap.dedent(f"""\
+        You are recovering a BEDC paper revision worktree after rebase.
+
+        The rebase succeeded (no merge conflicts), but the combined tree now
+        fails `python3 lean4/scripts/bedc_ci.py audit`. The audit failure
+        comes from this round's additions colliding with a sibling round
+        that landed on the base branch concurrently — typical causes:
+
+          - duplicate `\\label{{thm:...}}` (you added the same label name
+            that a sibling round just merged);
+          - duplicate `\\leanchecked{{X}}` for a Lean target that a sibling
+            round already registered at a different paper site;
+          - an `\\leanchecked` / `\\leanstmt` / `\\leandef` referencing a
+            Lean name that no longer exists after rebase.
+
+        ## Audit output (last lines)
+        {audit_msg}
+
+        ## Your task
+        Remove ONLY this round's offending additions to make audit pass:
+
+        1. Run `python3 lean4/scripts/bedc_ci.py audit` to see the live
+           failure list.
+        2. For each duplicate label: identify which `\\label{{...}}`
+           occurrence is the one this round added (`git log` / `git diff
+           HEAD@{{1}}` from the most recent local commit shows your delta).
+           DELETE that occurrence and the surrounding `\\begin{{theorem}} …
+           \\end{{theorem}}` block if the block exists only because of this
+           round. Do NOT delete the sibling round's existing block on the
+           base branch.
+        3. For each unresolved marker added by this round: delete the
+           offending `\\leanchecked` / `\\leanstmt` / `\\leandef` line.
+        4. Do NOT introduce iteration-narrative words.
+        5. Do NOT touch lean4/BEDC/.
+        6. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
+           until both exit 0. If the round becomes empty after removing the
+           collisions, that is acceptable — you can amend the round commit
+           with `git commit --amend --no-edit` once everything passes.
+        7. After audit passes, `git add papers/bedc` and `git commit --amend
+           --no-edit` so the rebased history retains the round commit at the
+           same SHA. Do NOT git push.
+
+        If the only valid recovery is to drop the round entirely (every
+        addition collided), reset the round commit with `git reset HEAD~1`
+        but do NOT abort — just leave the worktree clean so the pipeline
+        can record the failure cleanly.
+    """)
+    codex_exec(prompt, work_dir=wt_path, timeout_seconds=timeout, model=model)
+    return True
+
+
 def _ff_local_branch_to(target: str) -> tuple[bool, str]:
     """Fast-forward local BASE_BRANCH to `target` (a SHA or revision).
 
@@ -859,6 +925,39 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                     f"unique to {BASE_BRANCH}; refusing to report merge success"
                 )
                 return False
+
+            # Post-rebase audit: drift / duplicate-label / forbidden-construct
+            # detection. If a sibling P-round merged a colliding label or
+            # marker into BASE_BRANCH while this worktree was working, the
+            # combined tree is now invalid even though each side individually
+            # passed. Re-run the audit on the rebased worktree and let codex
+            # try to resolve before giving up.
+            ok, audit_msg = run_drift_audit(wt)
+            if not ok:
+                logger.warning(
+                    f"[P{wt.round_number}] Post-rebase drift audit FAILED — "
+                    "asking codex to resolve before merge"
+                )
+                for ln in audit_msg.splitlines()[-20:]:
+                    logger.warning(f"  audit: {ln}")
+                if not _codex_resolve_post_rebase_audit(
+                    wt.path, audit_msg, model=model
+                ):
+                    logger.error(
+                        f"[P{wt.round_number}] Could not resolve post-rebase "
+                        "audit failure; refusing to merge"
+                    )
+                    return False
+                ok, audit_msg = run_drift_audit(wt)
+                if not ok:
+                    logger.error(
+                        f"[P{wt.round_number}] Audit still failing after "
+                        "codex resolution; refusing to merge"
+                    )
+                    for ln in audit_msg.splitlines()[-10:]:
+                        logger.error(f"  audit: {ln}")
+                    return False
+                logger.info(f"[P{wt.round_number}] Post-rebase audit recovered")
             wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
             ok, msg = _ff_local_branch_to(wt_tip)
             if not ok:

@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v1.5 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v1.6 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Round P<ROUND_NUM>
 
@@ -103,6 +103,27 @@ git diff --cached -- papers/bedc/ \
   | grep -iE "(新增|新版|修订|修复了上一版本|patch|migration|frozen|supersede|deprecated|legacy|increment|增量|修改记录|变更记录|变更原因|rectification|amendment|v1\.[0-9]+\.[Xx0-9]+|v[0-9]+-)"
 ```
 Any hit is a violation of Hard Constraint #1. Edit the offending lines until the grep returns nothing.
+
+## Step 4.5: Lint the diff against parameter-echo expansion (HARD GATE)
+Even after Phase Review picked the target, re-check that the implementation did not drift into a parameter-echo theorem. Run:
+```bash
+git diff --cached -- papers/bedc/ \
+  | grep -nE "^\+" \
+  | grep -E "Longleftrightarrow|hookleftarrow"
+```
+If the new `\Longleftrightarrow` / `\hookleftarrow` count exceeds 3 within a single new theorem block AND the theorem statement introduces fresh universally-quantified parametric carriers ($A,B$) and parametric classifiers ($\sim_A,\sim_B$) and concludes with paired field-by-field $\Leftrightarrow$ chains, the round is a parameter-echo restatement. ABORT: `git restore --staged papers/bedc/ && git checkout -- papers/bedc/`, then pick a different target whose conclusion is a closure / inversion / coverage / determinacy claim about a CONCRETE BEDC kernel object.
+
+Also lint for label collision before commit:
+```bash
+git diff --cached -- papers/bedc/ \
+  | grep -nE "^\+\\\\label\{" \
+  | sed -E 's/.*label\{([^}]+)\}.*/\1/' \
+  | while read L; do
+      cnt=$(grep -rE "\\\\label\{${L}\}" papers/bedc/ | wc -l | tr -d ' ');
+      if [ "$cnt" -gt 1 ]; then echo "DUPLICATE: $L appears $cnt times"; fi;
+    done
+```
+Any DUPLICATE line means the proposed change collides with a label already in the tree (either a sibling round added the same label, or you're echoing an existing definition under a new name). ABORT and either pick a fresh label or drop the target.
 
 ## Step 5: Re-sync with remote before commit
 ```bash
