@@ -36,6 +36,22 @@ theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
                                   (unary_cont_closed fCarrier gCarrier (cont_intro rfl))
                                   (cont_intro (append_assoc a f g))))
 
+theorem CategoryHomCarrier_comp_assoc_closed {a b c d f g h fg gh left right : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c d h ->
+      Cont f g fg -> Cont g h gh -> Cont fg h left -> Cont f gh right ->
+        CategoryHomCarrier a d left ∧ CategoryHomCarrier a d right ∧ hsame left right := by
+  intro first second third fgRel ghRel leftRel rightRel
+  have fgCarrier : CategoryHomCarrier a c fg :=
+    CategoryHomCarrier_comp_closed first second fgRel
+  have ghCarrier : CategoryHomCarrier b d gh :=
+    CategoryHomCarrier_comp_closed second third ghRel
+  exact
+    And.intro
+      (CategoryHomCarrier_comp_closed fgCarrier third leftRel)
+      (And.intro
+        (CategoryHomCarrier_comp_closed first ghCarrier rightRel)
+        (cont_assoc_hsame fgRel leftRel ghRel rightRel))
+
 structure ContinuationMorphism (src tgt : BHist) where
   tail : BHist
   rel : Cont src tail tgt

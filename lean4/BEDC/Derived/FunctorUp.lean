@@ -35,4 +35,25 @@ theorem FunctorPrefixHomCarrier_comp_preserves {p a b c f g fg : BHist} :
     FunctorPrefixHomCarrier_preserves prefixCarrier
       (CategoryHomCarrier_comp_closed left right comp)
 
+theorem FunctorPrefixHomCarrier_comp_assoc_preserves
+    {p a b c d f g h fg gh left right : BHist} :
+    UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
+      CategoryHomCarrier c d h -> Cont f g fg -> Cont g h gh -> Cont fg h left ->
+        Cont f gh right ->
+          CategoryHomCarrier (append p a) (append p d) left ∧
+            CategoryHomCarrier (append p a) (append p d) right ∧ hsame left right := by
+  intro prefixCarrier first second third fgRel ghRel leftRel rightRel
+  have closed :=
+    CategoryHomCarrier_comp_assoc_closed first second third fgRel ghRel leftRel rightRel
+  cases closed with
+  | intro leftCarrier rest =>
+      cases rest with
+      | intro rightCarrier same =>
+          exact
+            And.intro
+              (FunctorPrefixHomCarrier_preserves prefixCarrier leftCarrier)
+              (And.intro
+                (FunctorPrefixHomCarrier_preserves prefixCarrier rightCarrier)
+                same)
+
 end BEDC.Derived.FunctorUp

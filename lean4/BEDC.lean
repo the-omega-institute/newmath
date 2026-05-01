@@ -92,3 +92,4 @@ import BEDC.Derived.PreorderUp
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.FunctorUp
+import BEDC.Derived.NatTransUp

@@ -10,6 +10,23 @@ The natural transformation interface \(\NatTransUp\) has certificate obligations
 Use an object-indexed family of codomain morphisms \(\eta_X:F(X)\to G(X)\) plus naturality witnesses for every source morphism.
 \end{definition}
 
+\begin{theorem}[Prefix identity naturality square]
+\label{thm:nattrans-prefix-identity-naturality-square}
+For the unary-continuation category, let \(p\) be unary and let \(f\) be a
+hom-carrier from \(a\) to \(b\). If the two square composites are obtained by
+composing \(f\) with the empty continuation on the left and on the right, then
+both composites are hom-carriers from \(\mathsf{append}(p,a)\) to
+\(\mathsf{append}(p,b)\), and the two composites are history-same.
+\end{theorem}
+\begin{proof}
+The left empty continuation identifies the left composite with \(f\), and
+the right empty continuation identifies the right composite with \(f\). The
+given hom-carrier therefore supplies both unprefixed sides of the square.
+Prefix hom-carrier preservation sends both sides across \(p\), and
+transitivity of history sameness identifies the composites.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixIdentity\_naturality\_square}
+
 \section{The certificate}
 
 \begin{definition}[NatTrans source specification]
@@ -57,4 +74,3 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:nattrans-zero-axiom-note}
 Avoids funext by componentwise classifier sameness.
 \end{remark}
-
