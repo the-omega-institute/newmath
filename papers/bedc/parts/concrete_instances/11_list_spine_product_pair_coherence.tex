@@ -105,6 +105,47 @@ the final displayed input is already the required $\hsame(a,b)$ classifier
 witness. Return that witness.
 \end{proof}
 
+\begin{theorem}[List source-classifier weakening]
+\label{thm:list-source-classifier-weakening}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim_A$ and $\sim_B$ be source classifiers. The ten-field fit is:
+traditional target finite-list source refinement; BEDC source $\mathsf{BHist}$
+with $\ContR$; source relation carried by $\sim_A$ and $\sim_B$; carrier
+generated list/spine bridge; classifier recursive and spine bridge; stability
+under source/classifier refinement; ledger unchanged finite spine; core theorem
+the four displayed implications below; exactness preservation under
+source/classifier refinement; status $\mathsf{ProofTarget}$. If source
+membership and source classification weaken from $A$ to $B$,
+$$
+(\forall a:\mathsf{BHist}.\; A(a)\to B(a))
+\land
+(\forall a\,b:\mathsf{BHist}.\; a\sim_A b\to a\sim_B b),
+$$
+then for all histories $h,k$ and finite spines $xs$,
+$$
+\begin{array}{rcl}
+\mathsf{ListHistoryCarrier}_A(h) &\to&
+\mathsf{ListHistoryCarrier}_B(h),\\
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,k) &\to&
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{B,\sim_B}(h,k),\\
+\mathsf{ListSpineRep}_A(h,xs) &\to& \mathsf{ListSpineRep}_B(h,xs),\\
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k) &\to&
+\mathsf{ListSpineBridgeClassifier}_{B,\sim_B}(h,k).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Induct separately on the displayed carrier, recursive classifier, spine
+representation, and bridge witness. The nil clauses are rebuilt directly. In
+each cons clause, apply the source-carrier inclusion to the head datum, apply the
+classifier inclusion to the head classifier datum when present, and reuse the
+same $\ContR$ and endpoint $\hsame$ witnesses. For a bridge witness, keep the
+same finite spines, transport the two spine representations by the representation
+induction, transport the finite-spine classifier entry by entry using the
+classifier inclusion, and rebuild the bridge witness with those transported
+components.
+\end{proof}
+
 \begin{definition}[Pair frame]
 \label{def:list-pair-frame}
 For histories $u,t:\mathsf{BHist}$, define $\mathsf{PairFrame}(u,t)$ by
