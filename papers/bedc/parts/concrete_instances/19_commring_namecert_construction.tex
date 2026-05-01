@@ -112,6 +112,36 @@ multiplicative commutativity.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_left\_distrib\_commuted\_terms}
 
+\begin{theorem}[CommRing difference of squares]
+\label{thm:commring-difference-of-squares}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
+$$
+(a+b)\cdot(a+(-b))\hsame (a\cdot a)+(-(b\cdot b)).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-mul-add-add-expand} to expand
+$(a+b)\cdot(a+(-b))$ into the four-term ledger expression
+$(a\cdot a+a\cdot(-b))+(b\cdot a+b\cdot(-b))$.
+
+Use Theorem~\ref{thm:ring-mul-neg-right-eq-neg-mul} to rewrite
+$a\cdot(-b)$ as $-(a\cdot b)$. Commute $b\cdot a$ to $a\cdot b$ by
+multiplicative commutativity, and use the same right-negative product theorem
+to rewrite $b\cdot(-b)$ as $-(b\cdot b)$.
+
+The expression is therefore transported by additive congruence to
+$(a\cdot a+(-(a\cdot b)))+(a\cdot b+(-(b\cdot b)))$. Additive associativity
+and commutativity move the middle pair next to each other without changing the
+outer square terms.
+
+Finally, additive inverse collapse gives $(-(a\cdot b))+(a\cdot b)\hsame0$.
+The zero laws remove this neutral summand, leaving
+$(a\cdot a)+(-(b\cdot b))$ under $\hsame$.
+\end{proof}
+
 \begin{definition}[CommRing ledger policy]
 \label{def:commring-ledger-policy}
 Record ring expression provenance and the multiplicative commutativity law when used.
