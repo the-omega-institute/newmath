@@ -9,6 +9,16 @@ The category interface \(\CategoryUp\) has certificate obligations over an objec
 \label{def:category-carrier}
 Use a multi-sorted setup with object carrier, morphism carrier for each ordered object pair, identities, composition, and law fields.
 \end{definition}
+\leandef{BEDC.Derived.CategoryUp.CategoryHomCarrier}
+
+\begin{theorem}[Category hom carrier composition closure]
+\label{thm:category-hom-carrier-comp-closed}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to \(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and \(\ContR(f,g,fg)\), then \(fg\) is a hom-carrier from \(a\) to \(c\).
+\end{theorem}
+\begin{proof}
+Unpack the two hom-carrier witnesses. The source, middle, target, and morphism histories are unary. Unary continuation closure gives unary membership for the composite morphism \(fg\), and associativity of the recursive append representative underlying \(\ContR\) supplies the continuation from \(a\) through \(fg\) to \(c\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_closed}
 
 \section{The certificate}
 

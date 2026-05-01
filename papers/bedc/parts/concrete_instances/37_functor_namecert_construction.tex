@@ -10,6 +10,24 @@ The functor interface \(\FunctorUp\) has certificate obligations between two cat
 Use a structure with object mapping, morphism mapping, and proofs preserving identity and composition.
 \end{definition}
 
+\begin{theorem}[Prefix functor preserves hom carriers]
+\label{thm:functor-prefix-hom-carrier-preserves}
+For the unary-continuation category, if \(p\) is unary and \(f\) is a hom-carrier from \(a\) to \(b\), then the same morphism \(f\) is a hom-carrier from \(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,b)\).
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness into unary source, unary target, unary morphism, and a continuation from \(a\) through \(f\) to \(b\). Unary append closure gives the prefixed source and target carriers. Continuation associativity identifies appending \(f\) after \(\mathsf{append}(p,a)\) with \(\mathsf{append}(p,b)\).
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_preserves}
+
+\begin{theorem}[Prefix functor preserves hom composition]
+\label{thm:functor-prefix-hom-carrier-comp-preserves}
+For the unary-continuation category, if \(p\) is unary, \(f\) is a hom-carrier from \(a\) to \(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and \(\ContR(f,g,fg)\), then \(fg\) is a hom-carrier from \(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,c)\).
+\end{theorem}
+\begin{proof}
+First use category hom-carrier composition closure to place \(fg\) from \(a\) to \(c\). Then apply prefix preservation to that composite hom-carrier with the unary witness for \(p\).
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_preserves}
+
 \section{The certificate}
 
 \begin{definition}[Functor source specification]
@@ -57,4 +75,3 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:functor-zero-axiom-note}
 Avoids funext by pointwise classifier sameness for object and morphism mappings.
 \end{remark}
-
