@@ -80,6 +80,40 @@ commutativity to replace \(b\cdot a\) by \(a\cdot b\).
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_square\_add\_expand}
 
+\begin{theorem}[CommRing square of a signed difference]
+\label{thm:commring-square-signed-difference-expand}
+For BEDC history operations $add$, $mul$, and $neg$ satisfying the $\RingUp$
+additive abelian-group laws, addition and multiplication congruence, both
+distributive laws, multiplicative commutativity, and the $\RingUp$
+negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
+$$
+(a+(-b))\cdot(a+(-b))\hsame
+(a\cdot a+(-(a\cdot b)))+((-(a\cdot b))+(b\cdot b)).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-square-add-expand} with second input $-b$.
+This gives the ledger expression
+$$
+(a\cdot a+a\cdot(-b))+(a\cdot(-b)+(-b)\cdot(-b)).
+$$
+
+Use Theorem~\ref{thm:ring-mul-neg-right-eq-neg-mul} on each exposed
+$a\cdot(-b)$ term, and use Theorem~\ref{thm:ring-mul-neg-neg-eq-mul} on
+$(-b)\cdot(-b)$.
+
+Nested additive congruence transports these three product rewrites through the
+two additions. Transitivity of $\hsame$ composes the square expansion with the
+transported ledger, yielding the stated signed-difference square form.
+\end{proof}
+
+For the $\CommRingUp$ per-object template, this theorem is a Core theorem list
+item for traditional target commutative-ring polynomial algebra. Its BEDC source
+is $\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$, its carrier is
+$\mathsf{BHist}$, its classifier is $\hsame$, its stability obligations are
+distributivity, congruence, commutativity, and negative-product laws, and its
+ledger records polynomial expression provenance with status ProofTarget.
+
 \begin{theorem}[CommRing product of binary sums]
 \label{thm:commring-mul-add-add-expand}
 For BEDC history addition and multiplication, multiplicative commutativity,
