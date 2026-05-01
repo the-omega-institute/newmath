@@ -381,6 +381,48 @@ list: two-sided zero-product cancellation. Exactness predicate: cancellation
 inside certified two-sided multiplication. Standard bridge: deferred
 conservative bridge. Status: ProofTarget.
 
+\begin{theorem}[Field affine left multiplication equation exactness from apartness]
+\label{thm:field-affine-left-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive abelian-group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity and congruence, and left and right inverse laws
+indexed by $p_a:\mathsf{NonZero}_F(a)$, every
+$x,b,c:\mathsf{BHist}$ satisfy
+$$
+\mathsf{add}(\mathsf{mul}(a,x),b)\hsame c
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{add}(c,\mathsf{neg}(b))).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport
+$\mathsf{add}(\mathsf{mul}(a,x),b)\hsame c$ through right addition by
+$\mathsf{neg}(b)$. Addition congruence gives an equality between
+$\mathsf{add}(\mathsf{add}(\mathsf{mul}(a,x),b),\mathsf{neg}(b))$ and
+$\mathsf{add}(c,\mathsf{neg}(b))$.
+
+Associativity, the additive inverse law for $b$, and the additive identity law
+collapse the left side to $\mathsf{mul}(a,x)$. Apply
+Theorem~\ref{thm:field-left-mul-equation-solution-from-apartness} to obtain
+the displayed solution for $x$ with right side
+$\mathsf{add}(c,\mathsf{neg}(b))$.
+
+For the reverse direction, transport the assumed displayed solution through
+left multiplication by $a$. Multiplication congruence, associativity, the
+indexed inverse law for $p_a$, and the multiplicative identity law collapse the
+right side to $\mathsf{add}(c,\mathsf{neg}(b))$, so
+$\mathsf{mul}(a,x)\hsame\mathsf{add}(c,\mathsf{neg}(b))$.
+
+Add $b$ on the right and use addition congruence. Associativity, additive
+commutativity for the middle pair when needed, the additive inverse law for
+$b$, and the additive identity law collapse
+$\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(b)),b)$ back to $c$. This gives
+$\mathsf{add}(\mathsf{mul}(a,x),b)\hsame c$.
+\end{proof}
+
 \begin{definition}[Field ledger policy]
 \label{def:field-ledger-policy}
 Record the ring ledger and the $\mathsf{NonZero}_F$ witness used for each inverse.
@@ -399,7 +441,7 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
   \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
   \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
   \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
-  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product cancellation, and distributivity inherited from $\CommRingUp$.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product cancellation, affine left equation exactness, and distributivity inherited from $\CommRingUp$.
   \item Exactness predicate: coverage, soundness, completeness, and cancellation inside certified two-sided multiplication for admitted field packages.
   \item Standard bridge: deferred conservative bridge.
   \item Status: ProofTarget.
