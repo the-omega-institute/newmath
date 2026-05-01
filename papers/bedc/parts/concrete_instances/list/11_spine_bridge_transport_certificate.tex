@@ -113,6 +113,108 @@ $\mathsf{ListSpineHistoryClassifier}$ is the public certificate presentation of
 the same bridge classifier endpoints.
 \end{proof}
 
+\begin{theorem}[List finite-spine classifier source equivalence]
+\label{thm:list-finite-spine-classifier-source-equivalence}
+Let $\sim_A$ and $\sim_B$ be source classifiers on $\mathsf{BHist}$. Assume
+$$
+\forall x\,y:\mathsf{BHist}.\; x\sim_A y\Longleftrightarrow x\sim_B y.
+$$
+Then, for all finite spines $xs$ and $ys$,
+$$
+\mathsf{ListClassifierSpec}(\sim_A,xs,ys)
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(\sim_B,xs,ys).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, induct on the displayed
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ witness. The nil branch is rebuilt
+by the nil constructor. In the cons branch, transport the head classifier witness
+through the forward half of the classifier equivalence and apply the induction
+hypothesis to the tail witness; these two data rebuild the cons witness for
+$\sim_B$. The reverse implication is the same induction on the displayed
+$\mathsf{ListClassifierSpec}(\sim_B,xs,ys)$ witness, using the reverse half of
+the classifier equivalence at each head.
+\end{proof}
+
+\begin{theorem}[List spine-bridge coherence source equivalence]
+\label{thm:list-spine-bridge-coherence-source-equivalence}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim_A$ and $\sim_B$ be source classifiers. Assume
+$$
+\forall h:\mathsf{BHist}.\; A(h)\Longleftrightarrow B(h)
+$$
+and
+$$
+\forall x\,y:\mathsf{BHist}.\; x\sim_A y\Longleftrightarrow x\sim_B y.
+$$
+Then
+$$
+\mathsf{ListSpineRepCoherent}_{A,\sim_A}
+\Longleftrightarrow
+\mathsf{ListSpineRepCoherent}_{B,\sim_B}.
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Given two
+$B$-presentations of the same list endpoint, use
+Theorem~\ref{thm:list-spine-bridge-source-refinement} in the reverse carrier
+direction to view the displayed $\mathsf{ListSpineRep}_B$ witnesses as
+$\mathsf{ListSpineRep}_A$ witnesses over the same finite spines. Apply the
+$A$-coherence datum to obtain
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$, then transport that finite-spine
+classifier through
+Theorem~\ref{thm:list-finite-spine-classifier-source-equivalence} to obtain the
+required $\mathsf{ListClassifierSpec}(\sim_B,xs,ys)$ witness. This proves the
+forward implication. The converse repeats the same argument with the two source
+presentations interchanged, using the forward carrier direction and the reverse
+classifier direction.
+\end{proof}
+
+\begin{theorem}[List public-object certificate under source equivalence]
+\label{thm:list-public-object-certificate-source-equivalence}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim_A$ and $\sim_B$ be source classifiers. Assume
+$$
+\forall h:\mathsf{BHist}.\; A(h)\Longleftrightarrow B(h)
+$$
+and
+$$
+\forall x\,y:\mathsf{BHist}.\; x\sim_A y\Longleftrightarrow x\sim_B y.
+$$
+Let $\mathsf{cert}_A:\NameCert(A,\sim_A)$ and
+$\mathsf{cert}_B:\NameCert(B,\sim_B)$. If
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds, then both public certificate
+targets
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,
+\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A})
+$$
+and
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_B,
+\mathsf{ListHistoryPattern}_B,
+\mathsf{ListHistoryLedger}_B,
+\mathsf{ListSpineHistoryClassifier}_{B,\sim_B})
+$$
+hold, and their public carrier, pattern, ledger, bridge classifier, and
+certificate classifier fields are pairwise equivalent as in
+Theorem~\ref{thm:list-public-semantic-fields-source-equivalence}.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-spine-bridge-coherence-source-equivalence} to the
+carrier and classifier equivalences, obtaining
+$\mathsf{ListSpineRepCoherent}_{B,\sim_B}$ from the assumed
+$A$-coherence datum. Theorem~\ref{thm:concrete-list-namecert} applied to
+$\mathsf{cert}_A$ and the assumed $A$ coherence gives the first displayed
+semantic certificate. The same theorem applied to $\mathsf{cert}_B$ and the
+transported $B$ coherence gives the second displayed semantic certificate.
+Finally, Theorem~\ref{thm:list-public-semantic-fields-source-equivalence}
+supplies the pairwise equivalence of the exported public fields.
+\end{proof}
+
 \begin{lemma}[List spine representation endpoint transport]
 \label{lem:list-spine-representation-endpoint-transport}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For all
