@@ -128,6 +128,17 @@ theorem monoid_identity_unique {mul : BHist -> BHist -> BHist} {e e' : BHist}
     hsame e e' := by
   exact hsame_trans (hsame_symm (rightId' e)) (leftId e')
 
+theorem MonoidHistoryClassifier_identity_unique (Carrier : BHist -> Prop)
+    {mul : BHist -> BHist -> BHist} {e e' : BHist} (carrier_e : Carrier e)
+    (carrier_e' : Carrier e')
+    (leftId : forall {h : BHist}, Carrier h -> MonoidHistoryClassifier Carrier (mul e h) h)
+    (rightId' : forall {h : BHist}, Carrier h ->
+      MonoidHistoryClassifier Carrier (mul h e') h) :
+    MonoidHistoryClassifier Carrier e e' := by
+  have sameToE : hsame (mul e e') e := (rightId' carrier_e).right.right
+  have sameToE' : hsame (mul e e') e' := (leftId carrier_e').right.right
+  exact And.intro carrier_e (And.intro carrier_e' (hsame_trans (hsame_symm sameToE) sameToE'))
+
 theorem history_continuation_monoid_laws :
     (∀ h : BEDC.FKernel.Hist.BHist,
       BEDC.FKernel.Cont.Cont BEDC.FKernel.Hist.BHist.Empty h h) ∧

@@ -181,6 +181,20 @@ theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
           (hsame_trans (hsame_symm (assocC (inv a) a c))
             (hsame_trans (mulCongr (leftInv a) (hsame_refl c)) (leftId c))))))
 
+theorem group_left_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x, hsame (mul e x) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x, hsame (mul (inv x) x) e) {a x b : BHist} :
+    hsame (mul a x) b -> hsame x (mul (inv a) b) := by
+  intro sameProduct
+  exact hsame_trans (hsame_symm (leftId x))
+    (hsame_trans (mulCongr (hsame_symm (leftInv a)) (hsame_refl x))
+      (hsame_trans (assocC (inv a) a x)
+        (mulCongr (hsame_refl (inv a)) sameProduct)))
+
 theorem group_left_absorb_right_factor_unit {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))

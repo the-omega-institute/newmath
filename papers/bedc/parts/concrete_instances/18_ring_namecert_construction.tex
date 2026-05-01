@@ -178,6 +178,23 @@ uniqueness.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_right\_eq\_neg\_mul}
 
+\begin{theorem}[Ring double-negative product]
+\label{thm:ring-mul-neg-neg-eq-mul}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, operation congruence, and both
+distributive laws, every pair $x,y$ satisfies
+$$
+\hsame((-x)(-y),xy).
+$$
+\end{theorem}
+\begin{proof}
+The left-negative product theorem identifies $(-x)(-y)$ with $-(x(-y))$.
+The right-negative product theorem identifies $x(-y)$ with $-(xy)$. Additive
+inverse congruence transports this equality through the outer inverse, and
+additive inverse involutivity collapses $-(-(xy))$ to $xy$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_neg\_eq\_mul}
+
 \begin{definition}[Ring ledger policy]
 \label{def:ring-ledger-policy}
 Record the shared carrier ledger and the operation tree for ring expressions.
