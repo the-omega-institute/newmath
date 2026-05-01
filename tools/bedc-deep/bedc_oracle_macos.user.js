@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.9
+// @version      1.10
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.9";
+  const SCRIPT_VERSION = "bedc-1.10";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -503,6 +503,22 @@
     log(`Post-send captured: ${postSendLines.size} lines`);
   }
 
+  function postSendNovelText(text) {
+    if (postSendLines.size === 0) return "";
+    const newLines = cleanText(text).split("\n").filter(l => {
+      const t = l.trim();
+      return t.length > 0 && !postSendLines.has(t) && !isChromeLine(t);
+    });
+    if (newLines.length < 2) return "";
+    const joined = newLines.join("\n").trim();
+    return joined.length >= 100 ? joined : "";
+  }
+
+  function hasPostSendNovelContent(text) {
+    if (postSendLines.size === 0) return true;
+    return postSendNovelText(text).length >= 100;
+  }
+
   const CHROME_RE = [
     /^(进阶专业|ChatGPT\s*也可能会犯错|请核查重要信息|查看\s*Cookie|Cookie\s*首选项)/,
     /^(ChatGPT can make mistakes|Check important info)/,
@@ -660,6 +676,9 @@
       }
     }
 
+    const novelText = postSendNovelText(fullText);
+    if (novelText.length > 100 && !looksLikePromptEcho(novelText)) return novelText;
+
     const candidates = [];
     const allBlocks = main.querySelectorAll("div, article, section");
     for (const el of allBlocks) {
@@ -674,6 +693,7 @@
       const pageLen = fullText.length;
       if (cleaned.length > pageLen * 0.95 && candidates.length > 3) continue;
       if (looksLikePromptEcho(cleaned)) continue;
+      if (!hasPostSendNovelContent(cleaned)) continue;
       if (sentPromptText.length > 500) {
         const promptStart = sentPromptText.slice(0, 200).trim();
         if (cleaned.startsWith(promptStart)
@@ -700,6 +720,7 @@
           const cleaned = cleanText(text);
           if (cleaned.length < 200) continue;
           if (looksLikePromptEcho(cleaned)) continue;
+          if (!hasPostSendNovelContent(cleaned)) continue;
           if (sentPromptText.length > 30) {
             const ps = sentPromptText.slice(0, 40).trim();
             if (cleaned.startsWith(ps) && cleaned.length < sentPromptText.length * 1.2) continue;
@@ -727,16 +748,6 @@
       }
     }
 
-    if (postSendLines.size > 0) {
-      const newLines = fullText.split("\n").filter(l => {
-        const t = l.trim();
-        return t.length > 0 && !postSendLines.has(t) && !isChromeLine(t);
-      });
-      if (newLines.length > 3) {
-        const diffText = newLines.join("\n").trim();
-        if (diffText.length > 100 && !looksLikePromptEcho(diffText)) return diffText;
-      }
-    }
     return "";
   }
 
