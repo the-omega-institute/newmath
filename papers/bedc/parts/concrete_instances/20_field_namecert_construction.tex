@@ -192,6 +192,36 @@ through left multiplication by $\mathsf{inv}(a,p_a)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_solution\_from\_apartness}
 
+\begin{theorem}[Field middle multiplication equation exactness from apartness]
+\label{thm:field-middle-mul-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+explicit witnesses $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$ make the middle equation and its displayed
+solution equivalent:
+$$
+(a x)b\hsame c
+\Longleftrightarrow
+x\hsame \mathsf{inv}(a,p_a)(c\mathsf{inv}(b,p_b)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:field-middle-mul-equation-solution-from-apartness}. It is
+exactly the one-way solver from the middle equation to the proof-indexed
+displayed solution.
+
+For the reverse direction, transport the assumed solution through the
+congruence of left multiplication by $a$ and right multiplication by $b$.
+The resulting term is
+$\bigl(a(\mathsf{inv}(a,p_a)(c\mathsf{inv}(b,p_b)))\bigr)b$.
+
+Reassociate the factors so that $a\mathsf{inv}(a,p_a)$ is exposed at the
+left and $\mathsf{inv}(b,p_b)b$ is exposed at the right. The indexed right
+inverse law collapses $a\mathsf{inv}(a,p_a)$ to the unit, and the indexed
+left inverse law collapses $\mathsf{inv}(b,p_b)b$ to the unit. The left and
+right identity laws then leave $c$.
+\end{proof}
+
 \begin{definition}[Field ledger policy]
 \label{def:field-ledger-policy}
 Record the ring ledger and the $\mathsf{NonZero}_F$ witness used for each inverse.
@@ -210,7 +240,7 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
   \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
   \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
   \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
-  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, left-multiplication equation solving, middle multiplication equation solving, and distributivity inherited from $\CommRingUp$.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, left-multiplication equation solving, middle multiplication equation solving, middle multiplication equation exactness, and distributivity inherited from $\CommRingUp$.
   \item Exactness predicate: coverage, soundness, and completeness for admitted field packages.
   \item Standard bridge: deferred conservative bridge.
   \item Status: ProofTarget.
