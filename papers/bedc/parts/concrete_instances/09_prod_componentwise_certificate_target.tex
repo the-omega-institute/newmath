@@ -141,8 +141,13 @@ $\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
 $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Write
 $C(h,k)$ for
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$. Then its
-five core $\NameCert$ fields for $\mathsf{ProdHistoryCarrier}(L,R)$ decompose as
-follows:
+componentwise endpoint exposure is:
+$$
+\forall h\,k.\;C(h,k)\to\mathsf{ProdHistoryCarrier}(L,R,h)\land
+\mathsf{ProdHistoryCarrier}(L,R,k).
+$$
+Its five core $\NameCert$ fields for $\mathsf{ProdHistoryCarrier}(L,R)$
+decompose as follows:
 \begin{enumerate}
   \item carrier inhabitation:
   $$
@@ -160,17 +165,12 @@ follows:
   $$
   \forall h\,k\,u.\;C(h,k)\to C(k,u)\to C(h,u);
   $$
-  \item NameCert-shaped classifier-induced carrier transport:
+  \item projection-derived NameCert-shaped classifier-induced carrier
+  transport:
   $$
   \forall h\,k.\;C(h,k)\to\mathsf{ProdHistoryCarrier}(L,R,h)\to
   \mathsf{ProdHistoryCarrier}(L,R,k).
   $$
-The stronger endpoint exposure
-$C(h,k)\to\mathsf{ProdHistoryCarrier}(L,R,h)\land
-\mathsf{ProdHistoryCarrier}(L,R,k)$ is
-Theorem~\ref{thm:prod-component-history-classifier-endpoint-carriers}; the
-displayed theorem implies this field after adding the required source-endpoint
-carrier premise.
 \end{enumerate}
 These five fields are the core $\NameCert$ data used by
 Theorem~\ref{thm:prod-component-history-semantic-certificate-target}.
@@ -194,13 +194,14 @@ $(l'_k,r'_k)$, and $(l_u,r_u)$. Pair-representation coherence at the middle
 history $k$ gives both $l_k\sim_L l'_k$ and $r_k\sim_R r'_k$. The two source
 $\NameCert.\mathsf{equiv\_trans}$ fields then compose the left chain
 $l_h\sim_L l_k\sim_L l'_k\sim_L l_u$ and the right chain
-$r_h\sim_R r_k\sim_R r'_k\sim_R r_u$ separately. For carrier transport, the
-classifier witness first exposes a displayed pair representation of the right
-endpoint $k$, and pair-representation coverage rebuilds
-$\mathsf{ProdHistoryCarrier}(L,R,k)$. The source-endpoint carrier premise is
-the required $\NameCert$ field input and does not supply the right endpoint.
-Thus the displayed five-field tuple is exactly the componentwise product core
-classifier data.
+$r_h\sim_R r_k\sim_R r'_k\sim_R r_u$ separately. For endpoint exposure, apply
+Theorem~\ref{thm:prod-component-history-classifier-endpoint-carriers} directly
+to the classifier witness $C(h,k)$. For carrier transport, apply that endpoint
+exposure to $C(h,k)$, take the right projection
+$\mathsf{ProdHistoryCarrier}(L,R,k)$, and ignore the already supplied left
+carrier premise except as the required $\NameCert$ field input. Thus the
+displayed endpoint clause and five-field tuple are exactly the componentwise
+product core classifier data.
 \end{proof}
 
 \begin{theorem}[Bounded $\hsame$ product pair-representation coherence]
