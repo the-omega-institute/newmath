@@ -221,6 +221,58 @@ definition of $\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}$ to obtain
 the tail classifier $\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(t,u)$.
 \end{proof}
 
+\begin{theorem}[List public classifier cons endpoint exactness]
+\label{thm:list-public-classifier-cons-endpoint-exactness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\mathsf{Rel}:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a source
+classifier, let $\mathsf{cert}:\NameCert(A,\mathsf{Rel})$, and assume
+$\mathsf{ListSpineRepCoherent}_{A,\mathsf{Rel}}$. The ten-field fit is:
+traditional target finite-list cons constructor exactness; BEDC source
+$\mathsf{BHist}$ with $\ContR$; carrier $\mathsf{ListHistoryCarrier}_A$;
+classifier $\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}$; stability
+from $\mathsf{cert}$ and spine coherence; ledger finite-spine representatives
+for the two cons endpoints and the two tails; core theorem public cons endpoint
+exactness; exactness by
+Theorem~\ref{thm:list-represented-spine-classifier-constructor-exactness};
+standard bridge finite spines; status $\mathsf{ProofTarget}$. For histories
+$h,k,a,b,t,u,p,q:\mathsf{BHist}$, if
+$$
+\begin{array}{l}
+A(a)\land A(b)\land
+\mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListHistoryCarrier}_A(u)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))
+\end{array}
+$$
+holds, then
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+\Longleftrightarrow
+\mathsf{Rel}(a,b)\land
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(t,u).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, apply
+Theorem~\ref{thm:list-public-classifier-cons-endpoint-inversion} to the displayed
+cons endpoint data and the public classifier witness. This gives the head
+relation and the tail public classifier.
+
+For the reverse implication, unpack the tail public classifier into finite
+spines $xs$ and $ys$, tail representations $\mathsf{ListSpineRep}_A(t,xs)$ and
+$\mathsf{ListSpineRep}_A(u,ys)$, and a finite-spine classifier
+$\mathsf{ListClassifierSpec}(\mathsf{Rel},xs,ys)$. The cons constructor for
+$\mathsf{ListSpineRep}_A$ combines these tail representations with $A(a)$,
+$A(b)$, $\ContR(a,t,p)$, $\ContR(b,u,q)$, $\hsame(h,\Eone(p))$, and
+$\hsame(k,\Eone(q))$ to build cons spine representations of $h$ and $k$. The
+finite-spine cons clause combines the head witness $\mathsf{Rel}(a,b)$ with the
+tail classifier witness to obtain the cons-cons
+$\mathsf{ListClassifierSpec}$ witness. Repack the two cons representations and
+that finite-spine witness through the bridge definition of
+$\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}$.
+\end{proof}
+
 \begin{theorem}[List public classifier nil endpoint inversion]
 \label{thm:list-public-classifier-nil-endpoint-inversion}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
