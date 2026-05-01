@@ -277,6 +277,62 @@ nil inversion to force $xs=\mathsf{nil}$, and unfolds the resulting nil
 representation of $h$ to recover $\hsame(h,\emp)$.
 \end{proof}
 
+\begin{theorem}[List public classifier constructor decomposition]
+\label{thm:list-public-classifier-constructor-decomposition}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, and let
+$\mathsf{Rel}:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a source
+classifier. The ten-field fit is: traditional target finite-list public
+classifier case analysis; BEDC source $\mathsf{BHist}$ with $\ContR$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}$; stability constructor
+decomposition; ledger finite-spine constructor witnesses; exactness by
+$\mathsf{ListSpineRep}$ together with $\mathsf{ListClassifierSpec}$; standard
+bridge finite spines; status $\mathsf{ProofTarget}$. For all histories
+$h,k:\mathsf{BHist}$, if
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+$$
+holds, then
+$$
+\begin{array}{l}
+(\hsame(h,\emp)\land \hsame(k,\emp))\\
+\lor\\
+\exists a\,b\,t\,u\,p\,q:\mathsf{BHist}.\;
+\left(
+\begin{array}{l}
+A(a)\land A(b)\land
+\mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListHistoryCarrier}_A(u)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+\mathsf{Rel}(a,b)\land
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(t,u)
+\end{array}
+\right)
+\end{array}
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unfold the public classifier as the spine bridge, obtaining finite spines
+$xs$ and $ys$, endpoint representations $\mathsf{ListSpineRep}_A(h,xs)$ and
+$\mathsf{ListSpineRep}_A(k,ys)$, and a finite-spine classifier witness
+$\mathsf{ListClassifierSpec}(\mathsf{Rel},xs,ys)$. Case-analyze $xs$ and $ys$.
+The nil-nil case unfolds the two nil endpoint representations and gives
+$\hsame(h,\emp)$ and $\hsame(k,\emp)$. The mixed nil-cons and cons-nil cases
+contradict Lemma~\ref{lem:list-classifier-nil-cons-no-confusion}, equivalently
+the mixed branches of Theorem~\ref{thm:list-classifier-case-exactness}. In the
+cons-cons case, invert the two spine representations to obtain heads
+$a$ and $b$, tails $t$ and $u$, continuation histories $p$ and $q$, the source
+carrier witnesses, the tail carrier witnesses, the continuation witnesses, and
+the two endpoint links. Invert the finite-spine classifier to obtain
+$\mathsf{Rel}(a,b)$ and the tail finite-spine classifier. Use
+Theorem~\ref{thm:list-spine-representation-coverage} for the displayed tail
+carriers, then repack the tail representations with the tail classifier through
+the bridge definition to obtain
+$\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(t,u)$.
+\end{proof}
+
 \begin{theorem}[List public classifier nil-cons endpoint separation]
 \label{thm:list-public-classifier-nil-cons-endpoint-separation}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
