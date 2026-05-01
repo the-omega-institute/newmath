@@ -232,6 +232,29 @@ Theorem~\ref{thm:sum-ledger-classifier-extension}.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerChain\_classifier\_composition}
 
+\begin{theorem}[Sum ledger chain visible carrier]
+\label{thm:sum-ledger-chain-visible-carrier}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,z:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ holds, then
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,z)
+$$
+holds. The ten-field fit is: traditional target disjoint-sum finite ledger
+visible-carrier closure; BEDC source $\mathsf{BHist}$ with $\hsame$; source
+carriers $Left$ and $Right$; carrier $\mathsf{SumHistoryCarrier}$; classifier
+not needed for this unary closure; ledger
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}$; core theorem this carrier
+closure; exactness final visible endpoint remains in the sum carrier; standard
+bridge tagged sum finite ledger provenance; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the displayed
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ witness. In the
+one-ledger case, apply Theorem~\ref{thm:sum-ledger-visible-carrier}. In the
+cons case, use the carrier supplied by the tail induction hypothesis.
+\end{proof}
+
 \begin{theorem}[Sum ledger chain endpoint exactness]
 \label{thm:sum-ledger-chain-endpoint-exactness}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
@@ -286,12 +309,11 @@ clauses follow by transporting the classifier along the displayed endpoint
 $\hsame$ links and applying
 Theorem~\ref{thm:sum-history-classifier-left-hsame-inversion} or
 Theorem~\ref{thm:sum-history-classifier-right-hsame-inversion}. For the final
-visible readback, independently induct on the chain to obtain
-$\mathsf{SumHistoryCarrier}(Left,Right,z)$: the single case uses
-Theorem~\ref{thm:sum-ledger-visible-carrier}, and the cons case uses the carrier
-provided by the tail induction hypothesis. Transport this carrier along the
-displayed $\hsame$ endpoint at $z$ and apply the left or right carrier inversion
-theorem to extract the matching source payload evidence.
+visible readback, apply
+Theorem~\ref{thm:sum-ledger-chain-visible-carrier} to the displayed chain to
+obtain $\mathsf{SumHistoryCarrier}(Left,Right,z)$. Transport this carrier along
+the displayed $\hsame$ endpoint at $z$ and apply the left or right carrier
+inversion theorem to extract the matching source payload evidence.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerChain\_endpoint\_exactness}
 
