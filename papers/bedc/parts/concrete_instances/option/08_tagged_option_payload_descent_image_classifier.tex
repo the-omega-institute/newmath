@@ -22,6 +22,84 @@ $$
 $$
 \end{definition}
 
+\begin{theorem}[Tagged option payload descent image classifier branch exactness]
+\label{thm:tagged-option-payload-descent-image-classifier-branch-exactness}
+This theorem fits the per-object template as follows: the traditional target is
+classified image readback for option payload descent; the BEDC source is
+$\mathsf{BHist}$ with $\hsame$ endpoint presentations; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation is
+branch analysis of the source tagged classifier and the two
+$\mathsf{TaggedOptionMapRel}$ witnesses; the ledger is the pair of source
+endpoints and their transported visible payloads; the core theorem is exact
+absent/present pair readback; exactness is the displayed equivalence; the
+standard bridge is $\mathsf{none}$ and $\mathsf{some}$ under payload descent; and
+the status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For target endpoints
+$k,k':\mathsf{BHist}$, the image classifier is exactly the absent target pair or
+the transported present-payload pair:
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')
+\Longleftrightarrow
+\bigl(\hsame(k,\emp)\land\hsame(k',\emp)\bigr)
+\lor
+\bigl(\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+T(\delta.\mathsf{map}(a))\land T(\delta.\mathsf{map}(b))\land
+\hsame(k,\Eone(\delta.\mathsf{map}(a)))\land
+\hsame(k',\Eone(\delta.\mathsf{map}(b)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold
+Definition~\ref{def:tagged-option-payload-descent-image-classifier}. This
+exposes source endpoints $h,h'$, a source tagged classifier witness, and the two
+map-relation witnesses from $h$ to $k$ and from $h'$ to $k'$.
+
+In the absent source-classifier branch, both source endpoints are presented as
+$\emp$. Splitting the two map-relation witnesses rules out any present
+map-relation branch by empty-versus-$\Eone$ no-confusion, so both target
+endpoints are presented as $\emp$. This gives the absent side of the displayed
+disjunction.
+
+In the present source-classifier branch, the classifier exposes source payloads
+$p,q$ with $S(p)$, $S(q)$, $p\sim_S q$, and presentations of $h,h'$ as
+$\Eone(p),\Eone(q)$. The two map relations cannot be absent, again by
+empty-versus-$\Eone$ no-confusion, and their present branches expose payloads
+$a,b$ with $S(a)$, $S(b)$, the target carrier witnesses
+$T(\delta.\mathsf{map}(a))$, $T(\delta.\mathsf{map}(b))$, and the displayed
+target presentations.
+
+It remains to identify the source payload relation for $a$ and $b$. Invert the
+two $\Eone$ presentations around $h$ and $h'$ to obtain $\hsame(p,a)$ and
+$\hsame(q,b)$. Source hsame compatibility gives $p\sim_S a$ and $q\sim_S b$;
+symmetry and transitivity from $\mathsf{cert}$ compose these with
+$p\sim_S q$ to obtain $a\sim_S b$. The present side of the displayed
+disjunction follows.
+
+For the reverse direction, split the displayed disjunction. In the absent case,
+choose source endpoints $\emp$ and $\emp$, use the absent-absent source
+classifier constructor, and use the two absent map-relation constructors with
+the displayed target endpoint presentations.
+
+In the present case, unpack $a,b$, the two source carrier witnesses, the source
+classifier witness $a\sim_S b$, the two transported target carrier witnesses,
+and the two target endpoint presentations. Choose source endpoints $\Eone(a)$
+and $\Eone(b)$; the present-present source classifier constructor and the two
+present map-relation constructors rebuild exactly the existential data required
+by the image classifier definition.
+\end{proof}
+
 \begin{theorem}[Tagged option payload descent image classifier certificate]
 \label{thm:tagged-option-payload-descent-image-classifier-certificate}
 Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
