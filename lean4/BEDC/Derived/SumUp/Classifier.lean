@@ -99,4 +99,26 @@ theorem SumHistoryClassifier_carrier_transport_from_nameCert {Left Right : BHist
                                         (rightCert.carrier_respects_equiv sameSource
                                           carrierRight)))
 
+theorem SumHistoryClassifier_no_source_membership :
+    SumHistoryClassifier (fun _ : BHist => False) (fun _ : BHist => False) hsame hsame
+        (BHist.e0 BHist.Empty) (BHist.e0 BHist.Empty) ∧
+      (SumHistoryCarrier (fun _ : BHist => False) (fun _ : BHist => False)
+        (BHist.e0 BHist.Empty) → False) := by
+  constructor
+  · exact Or.inl
+      (Exists.intro BHist.Empty
+        (Exists.intro BHist.Empty
+          (And.intro (hsame_refl (BHist.e0 BHist.Empty))
+            (And.intro (hsame_refl (BHist.e0 BHist.Empty)) (hsame_refl BHist.Empty)))))
+  · intro carrier
+    cases carrier with
+    | inl leftData =>
+        cases leftData with
+        | intro _ data =>
+            exact data.right
+    | inr rightData =>
+        cases rightData with
+        | intro _ data =>
+            exact data.right
+
 end BEDC.Derived.SumUp
