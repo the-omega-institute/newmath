@@ -190,4 +190,95 @@ theorem SumHistoryLedgerPolicy_raw_visible_branch_exactness {Left Right : BHist 
                       (Or.inr (Exists.intro r (And.intro sameRawTag rightR)))
                       (hsame_trans sameRawTag (hsame_symm sameVisibleTag))
 
+theorem SumHistoryLedgerPolicy_two_step_branch_exactness {Left Right : BHist -> Prop}
+    {rho v w : BHist} :
+    SumHistoryLedgerPolicy Left Right rho v ->
+      SumHistoryLedgerPolicy Left Right v w ->
+        ((∃ l : BHist, ∃ l' : BHist,
+            Left l ∧ Left l' ∧ hsame rho (BHist.e0 l) ∧ hsame w (BHist.e0 l') ∧
+              hsame l l') ∨
+          (∃ r : BHist, ∃ r' : BHist,
+            Right r ∧ Right r' ∧ hsame rho (BHist.e1 r) ∧ hsame w (BHist.e1 r') ∧
+              hsame r r')) := by
+  intro firstLedger secondLedger
+  have firstBranches :
+      (∃ l : BHist, Left l ∧ hsame rho (BHist.e0 l) ∧ hsame v (BHist.e0 l)) ∨
+        (∃ r : BHist, Right r ∧ hsame rho (BHist.e1 r) ∧ hsame v (BHist.e1 r)) :=
+    (SumHistoryLedgerPolicy_raw_visible_branch_exactness.mp firstLedger)
+  have secondBranches :
+      (∃ l' : BHist, Left l' ∧ hsame v (BHist.e0 l') ∧ hsame w (BHist.e0 l')) ∨
+        (∃ r' : BHist, Right r' ∧ hsame v (BHist.e1 r') ∧ hsame w (BHist.e1 r')) :=
+    (SumHistoryLedgerPolicy_raw_visible_branch_exactness.mp secondLedger)
+  cases firstBranches with
+  | inl firstLeft =>
+      cases firstLeft with
+      | intro l firstData =>
+          cases firstData with
+          | intro leftL firstRest =>
+              cases firstRest with
+              | intro sameRhoLeft sameVLeft =>
+                  cases secondBranches with
+                  | inl secondLeft =>
+                      cases secondLeft with
+                      | intro l' secondData =>
+                          cases secondData with
+                          | intro leftL' secondRest =>
+                              cases secondRest with
+                              | intro sameVLeft' sameWLeft =>
+                                  have samePayload : hsame l l' :=
+                                    hsame_e0_iff.mp
+                                      (hsame_trans (hsame_symm sameVLeft) sameVLeft')
+                                  exact Or.inl
+                                    (Exists.intro l
+                                      (Exists.intro l'
+                                        (And.intro leftL
+                                          (And.intro leftL'
+                                            (And.intro sameRhoLeft
+                                              (And.intro sameWLeft samePayload))))))
+                  | inr secondRight =>
+                      cases secondRight with
+                      | intro r' secondData =>
+                          cases secondData with
+                          | intro _ secondRest =>
+                              cases secondRest with
+                              | intro sameVRight' _ =>
+                                  exact False.elim
+                                    (not_hsame_e0_e1
+                                      (hsame_trans (hsame_symm sameVLeft) sameVRight'))
+  | inr firstRight =>
+      cases firstRight with
+      | intro r firstData =>
+          cases firstData with
+          | intro rightR firstRest =>
+              cases firstRest with
+              | intro sameRhoRight sameVRight =>
+                  cases secondBranches with
+                  | inl secondLeft =>
+                      cases secondLeft with
+                      | intro l' secondData =>
+                          cases secondData with
+                          | intro _ secondRest =>
+                              cases secondRest with
+                              | intro sameVLeft' _ =>
+                                  exact False.elim
+                                    (not_hsame_e1_e0
+                                      (hsame_trans (hsame_symm sameVRight) sameVLeft'))
+                  | inr secondRight =>
+                      cases secondRight with
+                      | intro r' secondData =>
+                          cases secondData with
+                          | intro rightR' secondRest =>
+                              cases secondRest with
+                              | intro sameVRight' sameWRight =>
+                                  have samePayload : hsame r r' :=
+                                    hsame_e1_iff.mp
+                                      (hsame_trans (hsame_symm sameVRight) sameVRight')
+                                  exact Or.inr
+                                    (Exists.intro r
+                                      (Exists.intro r'
+                                        (And.intro rightR
+                                          (And.intro rightR'
+                                            (And.intro sameRhoRight
+                                              (And.intro sameWRight samePayload))))))
+
 end BEDC.Derived.SumUp

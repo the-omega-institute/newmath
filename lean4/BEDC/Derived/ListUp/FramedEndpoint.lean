@@ -164,4 +164,9 @@ theorem FramedListEndpoint_classifier_exactness {xs ys : ListCarrier BHist} :
                   (BHist.e1 (PairFrame y (FramedListEndpoint ys)))
                 exact hsame_e1_congr (PairFrame_congruence headSame (ih tailSame))
 
+theorem FramedListEndpoint_length_preservation {xs ys : ListCarrier BHist} :
+    hsame (FramedListEndpoint xs) (FramedListEndpoint ys) -> xs.length = ys.length := by
+  intro same
+  exact ListClassifierSpec_hsame_length_eq (FramedListEndpoint_classifier_exactness.mp same)
+
 end BEDC.Derived.ListUp

@@ -50,6 +50,7 @@ import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.BranchExactness
+import BEDC.Derived.OptionUp.TaggedPayload
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
