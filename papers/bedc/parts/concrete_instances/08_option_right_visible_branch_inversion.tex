@@ -488,6 +488,90 @@ $\mathsf{TaggedOptionHistoryPattern}_T(h)$. The ledger field is identical, using
 the ledger half of the same carrier-pattern-ledger equivalence.
 \end{proof}
 
+\begin{theorem}[Tagged option public-object certificate source equivalence]
+\label{thm:tagged-option-public-object-source-equivalence}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, and let
+$\mathsf{cert}_S:\NameCert(S,\sim_S)$ and
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$. Assume source-carrier equivalence
+$$
+\forall h.\; S(h)\Longleftrightarrow T(h),
+$$
+forward classifier preservation
+$$
+\forall a\,b.\; S(a)\to S(b)\to a\sim_S b\to a\sim_T b,
+$$
+reverse classifier preservation
+$$
+\forall a\,b.\; T(a)\to T(b)\to a\sim_T b\to a\sim_S b,
+$$
+and source hsame compatibility
+$$
+\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S).
+$$
+Then the $T$ presentation is source-hsame compatible:
+$$
+\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T),
+$$
+both tagged semantic certificate targets hold:
+$$
+\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,
+\mathsf{TaggedOptionHistoryPattern}_S,
+\mathsf{TaggedOptionHistoryLedger}_S,
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S})
+$$
+and
+$$
+\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_T,
+\mathsf{TaggedOptionHistoryPattern}_T,
+\mathsf{TaggedOptionHistoryLedger}_T,
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}),
+$$
+for every history $h$ the three unary public fields are pairwise equivalent:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)
+\Longleftrightarrow
+\mathsf{TaggedOptionHistoryCarrier}_T(h),
+$$
+$$
+\mathsf{TaggedOptionHistoryPattern}_S(h)
+\Longleftrightarrow
+\mathsf{TaggedOptionHistoryPattern}_T(h),
+$$
+$$
+\mathsf{TaggedOptionHistoryLedger}_S(h)
+\Longleftrightarrow
+\mathsf{TaggedOptionHistoryLedger}_T(h),
+$$
+and for every pair of histories $h,k$ the public classifiers are equivalent:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)
+\Longleftrightarrow
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+To obtain $\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, take payload
+histories $a,b$ with $T(a)$, $T(b)$, and $\hsame(a,b)$. The reverse directions
+of the source-carrier equivalence give $S(a)$ and $S(b)$. Apply the assumed
+$S$-compatibility to obtain $a\sim_S b$, then apply forward classifier
+preservation with the two $S$-carrier witnesses to obtain $a\sim_T b$.
+
+The semantic certificate for the $S$ presentation is
+Theorem~\ref{thm:tagged-option-history-semantic-certificate} applied to
+$\mathsf{cert}_S$ and the assumed $S$-compatibility. The semantic certificate
+for the $T$ presentation is the same theorem applied to $\mathsf{cert}_T$ and
+the derived $T$-compatibility.
+
+For the public field equivalences, apply
+Theorem~\ref{thm:tagged-option-semantic-fields-source-weakening} from $S$ to
+$T$ using the forward directions of the source-carrier equivalence and the
+forward classifier preservation hypothesis. Apply the same theorem from $T$ to
+$S$ using the reverse directions of the source-carrier equivalence and the
+reverse classifier preservation hypothesis. Pairing the two implications gives
+the carrier, pattern, ledger, and classifier equivalences.
+\end{proof}
+
 \begin{definition}[Tagged option payload descent relation]
 \label{def:tagged-option-payload-descent-relation}
 Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
