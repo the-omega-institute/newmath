@@ -108,6 +108,31 @@ For the first clause, unfold the classifier at the two displayed endpoints. The 
 For the second clause, apply carrier endpoint coverage to the carrier witness for $h$ and obtain an endpoint $v$ with $\hsame(h,\mathsf{BoolEndpoint}(v))$. Case analysis on $v$ supplies $\mathsf{BoolSourceSpec}(v)$, since the two mark constructors satisfy the source specification by reflexivity. The same history-sameness witness, together with the carrier witness for $h$ and the endpoint carrier witness, is exactly the data required by the definition of the displayed classifier relation.
 \end{proof}
 
+\begin{theorem}[Bool history classifier endpoint readback]
+\label{thm:bool-history-classifier-endpoint-readback}
+For histories $h,k:\mathsf{BHist}$, if
+$\mathsf{BoolHistoryClassifier}(h,k)$ holds, then there exist marks
+$v,w:\mathsf{BMark}$ such that
+$$
+  \hsame(h,\mathsf{BoolEndpoint}(v))
+  \quad\land\quad
+  \hsame(k,\mathsf{BoolEndpoint}(w))
+  \quad\land\quad
+  \msame(v,w).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two $\mathsf{BoolHistoryCarrier}$
+endpoint witnesses and the stored $\hsame(h,k)$ link. Apply
+Theorem~\ref{thm:bool-history-carrier-endpoint-coverage} to both carrier
+witnesses, obtaining marks $v$ and $w$ with endpoint readbacks from $h$ and
+$k$. Compose the readback for $h$, the stored $\hsame(h,k)$ witness, and the
+readback for $k$ to obtain
+$\hsame(\mathsf{BoolEndpoint}(v),\mathsf{BoolEndpoint}(w))$. The reverse
+direction of Theorem~\ref{thm:bool-endpoint-bridge-exactness} converts this
+endpoint sameness into $\msame(v,w)$.
+\end{proof}
+
 \begin{theorem}[Bool source respects mark sameness]
 \label{thm:bool-source-spec-respects-msame}
 If \(v\) satisfies \(\mathsf{BoolSourceSpec}\) and \(\msame(v,w)\), then \(w\) also satisfies \(\mathsf{BoolSourceSpec}\).

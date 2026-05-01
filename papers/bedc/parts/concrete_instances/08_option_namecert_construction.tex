@@ -44,16 +44,16 @@ the checked nullable-envelope definition displayed here.
 
 \begin{theorem}[Option history carrier transport]
 \label{thm:option-history-carrier-hsame-transport}
-For the checked finite kernel, this is kernel-equality transport: because
-$\hsame$ is generated-history equality, optional history-carrier membership
-transfers from the first history to the second.
+If $h$ and $k$ are internally history-same, membership of $h$ in
+$\mathsf{OptionHistoryCarrier}_S$ transports to membership of $k$ in the same
+carrier.
 \end{theorem}
 \begin{proof}
 Invert the optional carrier witness. In the absent branch, compose the
 symmetric history-sameness link with the stored empty-history witness. In the
-source branch, no source-transport hypothesis is needed precisely because
-$\hsame(h,k)$ eliminates as equality, so $k$ is definitionally the same history
-as $h$, and the source witness can be reused.
+source branch, use the checked $\hsame$ eliminator/transport principle for
+predicates on $\mathsf{BHist}$ to carry the stored source witness from $h$ to
+$k$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_transport}
 
