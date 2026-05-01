@@ -152,3 +152,79 @@ the source classifier witness, the two map-relation witnesses,
 $\mathsf{cert}$, and the source hsame compatibility hypothesis. Its conclusion
 is the required target tagged option classifier.
 \end{proof}
+
+\begin{theorem}[Tagged option payload descent image composition factorization]
+\label{thm:tagged-option-payload-descent-image-composition-factorization}
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers,
+let $\sim_S$, $\sim_T$, and $\sim_U$ be source classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume also endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $p:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(p))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+For every final endpoint $m:\mathsf{BHist}$, the composite image carrier
+factors through an intermediate tagged option endpoint:
+$$
+\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m)
+\Longleftrightarrow
+\exists k:\mathsf{BHist}.\;
+\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+(S,T,\rho_{\delta};k)\land
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,m).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the composite image-carrier witness. This
+exposes a source endpoint $h$, a
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$ witness, and a composite
+map-relation witness from $h$ to $m$.
+
+Apply
+Theorem~\ref{thm:tagged-option-payload-descent-composition-exactness} in the
+forward direction to the composite map-relation witness and
+$\eta_{\epsilon}$. It supplies an intermediate endpoint $k$, a
+$\delta$-map witness from $h$ to $k$, and an $\epsilon$-map witness from $k$ to
+$m$. The original source tagged carrier witness together with the
+$\delta$-map witness repacks as
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+(S,T,\rho_{\delta};k)$, while the $\epsilon$-map witness is the second factor.
+
+For the reverse direction, unpack the displayed factorization. The first factor
+exposes a source endpoint $h$, a
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$ witness, and a
+$\delta$-map witness from $h$ to the intermediate endpoint $k$; the second
+factor is the displayed $\epsilon$-map witness from $k$ to $m$.
+
+Apply
+Theorem~\ref{thm:tagged-option-payload-descent-composition-exactness} in the
+reverse direction to those two map witnesses. It returns the composite
+$\mathsf{TaggedOptionMapRel}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};h,m)$ witness. Repacking this composite
+map witness with the same source tagged carrier witness gives the composite
+image-carrier witness at $m$.
+\end{proof}
