@@ -125,15 +125,7 @@ branch presentations; they are not needed by the constructor inversion itself.
 \label{thm:sum-history-classifier-carrier-aware-branch-partition}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
 $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
-classifiers, and assume the two carriers transport along $\hsame$:
-$$
-\forall x\,y.\; Left(x)\to \hsame(x,y)\to Left(y)
-$$
-and
-$$
-\forall x\,y.\; Right(x)\to \hsame(x,y)\to Right(y).
-$$
-If $\mathsf{SumHistoryCarrier}(Left,Right,h)$,
+classifiers. If $\mathsf{SumHistoryCarrier}(Left,Right,h)$,
 $\mathsf{SumHistoryCarrier}(Left,Right,k)$, and
 $\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)$ hold, then a
 visible classifier side supplies the branch data used by the carrier-backed
@@ -154,30 +146,27 @@ $$
 \end{theorem}
 \begin{proof}
 Split the displayed $\mathsf{SumHistoryClassifier}$ witness into its visible
-left or right constructor branch. In the left branch, combine the two endpoint
-carrier witnesses with the visible $\Ezero$ endpoints stored by the classifier.
-The checked left carrier inversion for $\mathsf{SumHistoryCarrier}$ reads the
-endpoint carrier data back to left payload carriers, and the displayed carrier
-transport assumption aligns those source-membership witnesses with the
-classifier payloads. The stored $LeftEq$ witness then supplies the left
-disjunct. The right branch is identical, using the checked right carrier
-inversion, the $\Eone$ endpoints, the right carrier-transport assumption, and
-the stored $RightEq$ witness.
+left or right constructor branch. In the left branch, use
+$\mathsf{SumHistoryCarrier\_hsame\_transport}$ to move the two carrier
+witnesses along the classifier endpoint links to
+$\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(a))$ and
+$\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(b))$. Applying
+$\mathsf{SumHistoryCarrier\_e0\_inversion}$ gives left source-membership
+witnesses for payloads with $\hsame$ links to $a$ and $b$; converting those
+links through $\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ identifies the
+payloads with the classifier payloads, so the membership witnesses become
+$Left(a)$ and $Left(b)$. Together with the stored $LeftEq(a,b)$ witness, these
+data give the left disjunct. The right branch is identical, using the
+$\Eone$ endpoint links, $\mathsf{SumHistoryCarrier\_e1\_inversion}$,
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$, and the stored $RightEq(a,b)$
+witness.
 \end{proof}
 
 \begin{theorem}[Sum history classifier carrier-aware branch exactness]
 \label{thm:sum-history-classifier-carrier-aware-branch-exactness}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
 $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
-classifiers, and assume the two carriers transport along $\hsame$:
-$$
-\forall x\,y.\; Left(x)\to \hsame(x,y)\to Left(y)
-$$
-and
-$$
-\forall x\,y.\; Right(x)\to \hsame(x,y)\to Right(y).
-$$
-Then the carrier-backed classifier assertion
+classifiers. Then the carrier-backed classifier assertion
 $$
 \begin{array}{l}
 \mathsf{SumHistoryCarrier}(Left,Right,h)\land
