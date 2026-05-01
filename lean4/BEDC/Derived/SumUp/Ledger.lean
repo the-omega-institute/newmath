@@ -137,6 +137,22 @@ theorem SumHistoryLedgerPolicy_visible_tag_separation {Left Right : BHist → Pr
     exact SumHistoryClassifier_mixed_tags_absurd mixed.right mixed.left
       (SumHistoryClassifier_hsame_symm classifier)
 
+theorem SumHistoryLedgerPolicy_same_tag_payload_exactness {Left Right : BHist -> Prop}
+    {raw visible l l' r r' : BHist} :
+    SumHistoryLedgerPolicy Left Right raw visible ->
+      (((hsame raw (BHist.e0 l) ∧ hsame visible (BHist.e0 l')) -> hsame l l') ∧
+        ((hsame raw (BHist.e1 r) ∧ hsame visible (BHist.e1 r')) -> hsame r r')) := by
+  intro ledger
+  have classifier : SumHistoryClassifier Left Right hsame hsame raw visible :=
+    SumHistoryLedgerPolicy_raw_visible_classifier ledger
+  constructor
+  · intro sameTagged
+    exact SumHistoryClassifier_left_hsame_inversion
+      (SumHistoryClassifier_hsame_transport sameTagged.left sameTagged.right classifier)
+  · intro sameTagged
+    exact SumHistoryClassifier_right_hsame_inversion
+      (SumHistoryClassifier_hsame_transport sameTagged.left sameTagged.right classifier)
+
 theorem SumHistoryLedgerPolicy_raw_visible_branch_exactness {Left Right : BHist → Prop}
     {raw visible : BHist} :
     SumHistoryLedgerPolicy Left Right raw visible ↔
