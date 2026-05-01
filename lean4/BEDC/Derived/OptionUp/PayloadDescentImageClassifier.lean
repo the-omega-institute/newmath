@@ -182,6 +182,52 @@ theorem TaggedOptionPayloadDescentImageClassifier_right_visible_branch_inversion
                               (And.intro payloadSame
                                 data.right.right.right.right.right.left)))))))
 
+theorem TaggedOptionPayloadDescentImageClassifier_visible_payload_readback
+    {S T : BHist → Prop} {RelS RelT : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (cert : NameCert S RelS)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {k k' u v : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S T delta k k' →
+      T u →
+        T v →
+          hsame k (BHist.e1 u) →
+            hsame k' (BHist.e1 v) →
+              ∃ a : BHist,
+                ∃ b : BHist,
+                  S a ∧
+                    S b ∧
+                      RelS a b ∧
+                        T (delta.map a) ∧
+                          T (delta.map b) ∧
+                            hsame u (delta.map a) ∧ hsame v (delta.map b) := by
+  intro image _visibleU _visibleV sameK sameK'
+  have branch :=
+    (TaggedOptionPayloadDescentImageClassifier_branch_exactness delta cert source_hsame).mp image
+  cases branch with
+  | inl absent =>
+      exact False.elim
+        (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.left) sameK))
+  | inr present =>
+      cases present with
+      | intro a present =>
+          cases present with
+          | intro b data =>
+              have sameU : hsame u (delta.map a) :=
+                hsame_e1_iff.mp
+                  (hsame_trans (hsame_symm sameK) data.right.right.right.right.right.left)
+              have sameV : hsame v (delta.map b) :=
+                hsame_e1_iff.mp
+                  (hsame_trans (hsame_symm sameK')
+                    data.right.right.right.right.right.right)
+              exact Exists.intro a
+                (Exists.intro b
+                  (And.intro data.left
+                    (And.intro data.right.left
+                      (And.intro data.right.right.left
+                        (And.intro data.right.right.right.left
+                          (And.intro data.right.right.right.right.left
+                            (And.intro sameU sameV)))))))
+
 def TaggedOptionPayloadDescentReflectsSource (S : BHist → Prop)
     {RelS RelT : BHist → BHist → Prop}
     (delta : DescentCertificate BHist BHist RelS RelT) : Prop :=
