@@ -116,6 +116,65 @@ field $\rho_{\delta}$ applied to the exposed source payload.
 \end{definition}
 \leandef{BEDC.Derived.OptionUp.TaggedOptionMapRel}
 
+\begin{theorem}[Tagged option identity payload descent exactness]
+\label{thm:tagged-option-payload-descent-identity-exactness}
+This theorem fits the per-object template as follows: the traditional target is
+constructor-tagged option identity map; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier
+is $\mathsf{TaggedOptionHistoryClassifier}$ specialized to $\hsame$; the
+stability obligation is identity preservation of visible absent and present
+endpoints; the ledger is the visible tag and unchanged payload; the core theorem
+is identity exactness for $\mathsf{TaggedOptionMapRel}$; exactness is branch
+analysis; the standard bridge is none/some identity readback; and the status is
+$\mathsf{ProofTarget}$. Let $S:\mathsf{BHist}\to\mathsf{Prop}$. Write
+$\delta_{\mathsf{id}}$ for the descent certificate
+$$
+\delta_{\mathsf{id}}:
+\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\hsame,\hsame)
+$$
+whose map field is $a\mapsto a$ and whose respects field sends $p$ to $p$. Let
+$$
+\rho_{\mathsf{id}}:\forall a.\;S(a)\to S(\delta_{\mathsf{id}}.\mathsf{map}(a))
+$$
+be the preservation field that reuses the source witness. Then for all histories
+$h,k$,
+$$
+\mathsf{TaggedOptionMapRel}_{\delta_{\mathsf{id}}}
+(S,S,\rho_{\mathsf{id}};h,k)
+\Longleftrightarrow
+\mathsf{TaggedOptionHistoryCarrier}_S(h)\land\hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, split the map relation by its visible branch.
+
+In the absent branch, the witness gives $\hsame(h,\emp)$ and $\hsame(k,\emp)$.
+The first field builds the absent carrier for $h$. Composing $\hsame(h,\emp)$
+with symmetry of $\hsame(k,\emp)$ gives $\hsame(h,k)$.
+
+In the present branch, the witness exposes a payload $a$ with $S(a)$,
+$S(\delta_{\mathsf{id}}.\mathsf{map}(a))$, $\hsame(h,\Eone(a))$, and
+$\hsame(k,\Eone(\delta_{\mathsf{id}}.\mathsf{map}(a)))$. Since
+$\delta_{\mathsf{id}}.\mathsf{map}(a)$ is $a$, the first payload witness and the
+source endpoint presentation build the present carrier for $h$, and composing
+the two endpoint presentations gives $\hsame(h,k)$.
+
+For the reverse direction, split the carrier of $h$ by its tagged branch and use
+the assumed $\hsame(h,k)$.
+
+In the absent branch, compose symmetry of $\hsame(h,k)$ with the absent
+presentation of $h$ to obtain $\hsame(k,\emp)$. Together with the original absent
+presentation, this is the absent branch of
+$\mathsf{TaggedOptionMapRel}_{\delta_{\mathsf{id}}}$.
+
+In the present branch, keep the exposed payload $a$ and the witness $S(a)$.
+The field $\rho_{\mathsf{id}}$ supplies the target payload witness, and
+composing symmetry of $\hsame(h,k)$ with $\hsame(h,\Eone(a))$ gives
+$\hsame(k,\Eone(a))$. Because the identity descent leaves $a$ unchanged, these
+fields build the present branch of
+$\mathsf{TaggedOptionMapRel}_{\delta_{\mathsf{id}}}$.
+\end{proof}
+
 \begin{theorem}[Tagged option payload descent preserves classification]
 \label{thm:tagged-option-payload-descent-preserves-classification}
 Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
