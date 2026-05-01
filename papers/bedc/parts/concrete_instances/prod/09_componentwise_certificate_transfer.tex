@@ -116,6 +116,42 @@ Definition~\ref{def:prod-displayed-pair-ledger}, this existential witness is
 exactly $\mathsf{ProdDisplayedPairLedger}_{L,R}(h)$.
 \end{proof}
 
+\begin{theorem}[Product carrier single-valued displayed pair readback]
+\label{thm:prod-carrier-single-valued-displayed-pair-readback}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$.
+For every history $h:\mathsf{BHist}$, if
+$\mathsf{ProdHistoryCarrier}(L,R,h)$ holds, then there exist
+$l,r:\mathsf{BHist}$ such that
+$$
+\mathsf{ProdPairRep}_{L,R}(h,l,r)
+\quad\hbox{and}\quad
+\mathsf{ProdDisplayedPairLedger}_{L,R}(h)
+$$
+and, for all $l',r':\mathsf{BHist}$,
+$$
+\mathsf{ProdPairRep}_{L,R}(h,l',r')
+\to
+(l\sim_L l')\wedge(r\sim_R r').
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{ProdHistoryCarrier}(L,R,h)$. Apply the forward direction of
+Theorem~\ref{thm:prod-pair-rep-coverage} to choose histories $l,r$ with
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$.
+
+By Definition~\ref{def:prod-displayed-pair-ledger}, the same displayed
+representation gives $\mathsf{ProdDisplayedPairLedger}_{L,R}(h)$.
+
+It remains to compare any competing representation
+$\mathsf{ProdPairRep}_{L,R}(h,l',r')$. Apply
+Definition~\ref{def:prod-pair-rep-coherent} to the assumed
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$, the chosen representation,
+and the competing representation. The result is exactly
+$(l\sim_L l')\wedge(r\sim_R r')$.
+\end{proof}
+
 \begin{definition}[Product displayed pair ledger chain]
 \label{def:prod-history-ledger-chain}
 For source carriers $L,R:\mathsf{BHist}\to\mathsf{Prop}$, the relation
