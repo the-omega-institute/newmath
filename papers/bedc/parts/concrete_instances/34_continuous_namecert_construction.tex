@@ -271,6 +271,62 @@ the associativity equality $(s\cdot\delta_1)\cdot\delta_2
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_composite\_closed}
 
+\begin{theorem}[Prefixed continuous function carrier modulus-chain replacement]
+\label{thm:continuous-function-carrier-prefixed-modulus-chain-replacement}
+For histories $p,source,map,target,oldMod,oldCert,\delta_1,\delta_2,\delta,cert$,
+a unary visible prefix, an existing continuous-function carrier, a two-step
+modulus chain from the target history to a certificate history, and a
+continuation ledger composing the two modulus steps determine the same prefixed
+graph carrier with the composite modulus certificate:
+
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(p)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,oldMod,oldCert)
+\Longrightarrow
+\\
+\mathsf{ContinuousModulusChain}(target,\delta_1,\delta_2,cert)
+\Longrightarrow
+\mathsf{Cont}(\delta_1,\delta_2,\delta)
+\Longrightarrow
+\\
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,\delta,p\cdot cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:continuous-function-carrier-prefix-closed} to the
+given carrier and unary prefix $p$. This yields the prefixed source, target, and
+map ledgers, so the graph component already has
+$\mathsf{Cont}(p\cdot source,map,p\cdot target)$.
+
+Next apply Theorem~\ref{thm:continuous-modulus-prefixed-composite-closed} to
+the same prefix, the chain
+$\mathsf{ContinuousModulusChain}(target,\delta_1,\delta_2,cert)$, and the
+composition ledger $\mathsf{Cont}(\delta_1,\delta_2,\delta)$. This gives the
+new modulus witness
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot target,\delta,p\cdot cert).
+$$
+
+The carrier is then reassembled from the prefixed source, target, and map
+ledgers supplied by the first step and the replacement modulus ledger supplied
+by the second step. The old modulus and certificate are used only to expose the
+original carrier data; the public witness uses $\delta$ and $p\cdot cert$.
+
+The ten-field certificate fit is the following. The traditional target is
+uniformly continuous map composition under visible finite-prefix evidence. The
+BEDC source is $BHist$ equipped with $\mathsf{Cont}$. The carrier is
+$\mathsf{ContinuousFunctionCarrier}$ and the classifier is $\mathsf{hsame}$. The
+stability obligation is carrier preservation when the modulus certificate is
+recomputed through a prefixed two-link chain. The ledger consists of source,
+map, target, old modulus, old certificate, two modulus steps, the composite
+modulus, the terminal certificate, and the visible prefix. The core theorem is
+this carrier-level closure, exactness is the displayed carrier conclusion, the
+standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{theorem}[Prefixed continuous modulus composite closure]
 \label{thm:continuous-modulus-prefixed-composite-closed}
 For unary histories $p,s,\delta_1,\delta_2,t,\delta$, a unary prefix $p$, a
