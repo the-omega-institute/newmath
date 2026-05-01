@@ -216,8 +216,21 @@ def macos_notify(title: str, body: str) -> None:
 # ---------------------------------------------------------------------------
 
 
+def _active_tab_count() -> int:
+    s = server_status()
+    if not s:
+        return 0
+    return len(s.get("active_recent_agents") or [])
+
+
 def spawn_inner(parallel: int) -> subprocess.Popen:
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    tabs = _active_tab_count()
+    if tabs > 0 and tabs < parallel:
+        supervisor_log(f"clamp --parallel {parallel} → {tabs} (active recent tabs={tabs})")
+        parallel = tabs
+    elif tabs == 0:
+        supervisor_log("no active tabs detected at spawn time; using requested parallel and trusting preflight wait")
     log_handle = open(SUPERVISOR_LOG_DIR / "inner.log", "ab")
     log_handle.write(f"\n=== inner spawn at {_now_iso()} parallel={parallel} ===\n".encode())
     log_handle.flush()
@@ -419,6 +432,48 @@ def run_claude_review() -> dict | None:
     return parsed
 
 
+def run_pi_review(supervisor_state: dict) -> dict | None:
+    """PI agent action-capable review. supervisor_state carries mutable
+    cooldowns the PI agent may adjust autonomously."""
+    import pi_agent
+
+    def _restart_inner_cb() -> None:
+        proc: subprocess.Popen | None = supervisor_state.get("inner")
+        if proc is not None and proc.poll() is None:
+            stop_inner(proc, grace_seconds=20)
+        supervisor_state["inner"] = None
+
+    def _adjust_cooldown_cb(args: dict) -> None:
+        if not isinstance(args, dict):
+            return
+        if "probe_hours" in args:
+            try:
+                supervisor_state["probe_cooldown_hours"] = float(args["probe_hours"])
+            except (TypeError, ValueError):
+                pass
+        if "curator_hours" in args:
+            try:
+                supervisor_state["curator_cooldown_hours"] = float(args["curator_hours"])
+            except (TypeError, ValueError):
+                pass
+
+    callbacks = {
+        "restart_inner": _restart_inner_cb,
+        "adjust_cooldown": _adjust_cooldown_cb,
+    }
+    plan = pi_agent.run_review(supervisor_callbacks=callbacks)
+    if plan is None:
+        supervisor_log("pi_agent returned no plan")
+        return None
+    supervisor_log(
+        f"pi verdict: health={plan.get('loop_health')} "
+        f"autonomous={len(plan.get('autonomous_actions') or [])} "
+        f"inbox={len(plan.get('human_inbox') or [])} "
+        f"concerns={len(plan.get('concerns') or [])}"
+    )
+    return plan
+
+
 # ---------------------------------------------------------------------------
 # main supervision loop
 # ---------------------------------------------------------------------------
@@ -458,6 +513,12 @@ def main() -> int:
     last_tab_alert_ts = 0.0
     inner: subprocess.Popen | None = None
 
+    supervisor_state: dict = {
+        "inner": None,
+        "probe_cooldown_hours": args.probe_cooldown_hours,
+        "curator_cooldown_hours": args.curator_cooldown_hours,
+    }
+
     try:
         while not STOP_FILE.exists():
             ensure_server()
@@ -470,23 +531,25 @@ def main() -> int:
             if retried:
                 supervisor_log(f"reset {retried} crashed targets for retry")
 
+            inner = supervisor_state.get("inner")
             if inner is None or inner.poll() is not None:
-                if inner is not None:
+                if inner is not None and inner.poll() is not None:
                     rc = inner.poll()
                     supervisor_log(f"inner exited rc={rc}; backoff {args.inner_restart_backoff}s before respawn")
                     time.sleep(args.inner_restart_backoff)
                 inner = spawn_inner(args.parallel)
+                supervisor_state["inner"] = inner
 
             unfinished = board_unfinished_count()
             since_probe_h = (_now() - last_probe_ts) / 3600.0
-            if unfinished < args.low_water and since_probe_h > args.probe_cooldown_hours:
+            if unfinished < args.low_water and since_probe_h > supervisor_state["probe_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
                 trigger_probe()
                 last_probe_ts = _now()
 
             done_now = board_completed_count()
             since_curator_h = (_now() - last_curator_ts) / 3600.0
-            if done_now - last_completed_count >= COMPLETIONS_PER_CURATOR and since_curator_h > args.curator_cooldown_hours:
+            if done_now - last_completed_count >= COMPLETIONS_PER_CURATOR and since_curator_h > supervisor_state["curator_cooldown_hours"]:
                 supervisor_log(f"completions delta={done_now - last_completed_count} → curator")
                 trigger_curator()
                 last_curator_ts = _now()
@@ -514,32 +577,24 @@ def main() -> int:
             if not args.no_claude_review:
                 since_claude_h = (_now() - last_claude_review_ts) / 3600.0
                 if since_claude_h > args.claude_review_hours:
-                    supervisor_log("running periodic Claude progress review")
-                    verdict = run_claude_review()
+                    supervisor_log("running periodic PI agent review")
+                    plan = run_pi_review(supervisor_state)
                     last_claude_review_ts = _now()
-                    if verdict:
-                        supervisor_log(f"claude verdict: healthy={verdict.get('loop_healthy')} rationale={(verdict.get('rationale') or '')[:200]}")
-                        if verdict.get("recommend_probe"):
-                            since_p = (_now() - last_probe_ts) / 3600.0
-                            if since_p > args.probe_cooldown_hours:
-                                trigger_probe()
+                    if plan:
+                        for entry in plan.get("autonomous_actions") or []:
+                            action = (entry.get("action") or "").strip()
+                            if action == "run_probe":
                                 last_probe_ts = _now()
-                        if verdict.get("recommend_curator"):
-                            since_c = (_now() - last_curator_ts) / 3600.0
-                            if since_c > args.curator_cooldown_hours:
-                                trigger_curator()
+                            elif action == "run_curator":
                                 last_curator_ts = _now()
-                        for st in verdict.get("stuck_targets") or []:
-                            supervisor_log(f"claude flagged stuck: {st} (no auto-action)")
-                        for c in verdict.get("concerns") or []:
-                            supervisor_log(f"claude concern: {c}")
 
             time.sleep(args.poll_interval)
     except KeyboardInterrupt:
         supervisor_log("supervisor interrupted")
     finally:
-        if inner is not None:
-            stop_inner(inner)
+        final_inner = supervisor_state.get("inner") or inner
+        if final_inner is not None:
+            stop_inner(final_inner)
         if STOP_FILE.exists():
             try:
                 STOP_FILE.unlink()
