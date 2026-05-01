@@ -159,4 +159,70 @@ theorem SumHistoryClassifier_carrier_aware_branch_exactness {Left Right : BHist 
                                         (Exists.intro b
                                           (And.intro sameH (And.intro sameK rightEq))))))
 
+theorem SumHistorySource_weakening {Left Right Left' Right' : BHist -> Prop}
+    {LeftEq RightEq LeftEq' RightEq' : BHist -> BHist -> Prop} :
+    ((forall h : BHist, Left h -> Left' h) /\
+        (forall h : BHist, Right h -> Right' h)) ->
+      ((forall a b : BHist, LeftEq a b -> LeftEq' a b) /\
+        (forall a b : BHist, RightEq a b -> RightEq' a b)) ->
+        (forall {h : BHist},
+          SumHistoryCarrier Left Right h -> SumHistoryCarrier Left' Right' h) /\
+          (forall {h k : BHist},
+            SumHistoryClassifier Left Right LeftEq RightEq h k ->
+              SumHistoryClassifier Left' Right' LeftEq' RightEq' h k) := by
+  intro sourceWeakening relationWeakening
+  cases sourceWeakening with
+  | intro leftSource rightSource =>
+      cases relationWeakening with
+      | intro leftRelation rightRelation =>
+          constructor
+          · intro h carrier
+            cases carrier with
+            | inl leftBranch =>
+                cases leftBranch with
+                | intro l data =>
+                    cases data with
+                    | intro sameH leftCarrier =>
+                        exact Or.inl
+                          (Exists.intro l (And.intro sameH (leftSource l leftCarrier)))
+            | inr rightBranch =>
+                cases rightBranch with
+                | intro r data =>
+                    cases data with
+                    | intro sameH rightCarrier =>
+                        exact Or.inr
+                          (Exists.intro r (And.intro sameH (rightSource r rightCarrier)))
+          · intro h k classifier
+            cases classifier with
+            | inl leftBranch =>
+                cases leftBranch with
+                | intro a restA =>
+                    cases restA with
+                    | intro b data =>
+                        cases data with
+                        | intro sameH rest =>
+                            cases rest with
+                            | intro sameK sameLeft =>
+                                exact Or.inl
+                                  (Exists.intro a
+                                    (Exists.intro b
+                                      (And.intro sameH
+                                        (And.intro sameK
+                                          (leftRelation a b sameLeft)))))
+            | inr rightBranch =>
+                cases rightBranch with
+                | intro a restA =>
+                    cases restA with
+                    | intro b data =>
+                        cases data with
+                        | intro sameH rest =>
+                            cases rest with
+                            | intro sameK sameRight =>
+                                exact Or.inr
+                                  (Exists.intro a
+                                    (Exists.intro b
+                                      (And.intro sameH
+                                        (And.intro sameK
+                                          (rightRelation a b sameRight)))))
+
 end BEDC.Derived.SumUp

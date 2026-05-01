@@ -14,6 +14,57 @@ def OptionSourceExcludesEmpty (source : BHist -> Prop) : Prop :=
 def TaggedOptionHistoryCarrier (S : BHist → Prop) (h : BHist) : Prop :=
   hsame h BHist.Empty ∨ ∃ a : BHist, S a ∧ hsame h (BHist.e1 a)
 
+def TaggedOptionHistoryClassifier (S : BHist -> Prop) (Rel : BHist -> BHist -> Prop)
+    (h k : BHist) : Prop :=
+  (hsame h BHist.Empty ∧ hsame k BHist.Empty) ∨
+    ∃ a : BHist, ∃ b : BHist,
+      S a ∧ S b ∧ hsame h (BHist.e1 a) ∧ hsame k (BHist.e1 b) ∧ Rel a b
+
+theorem TaggedOptionHistoryClassifier_absent_branch_equivalence {S : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} {h k : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k ->
+      (hsame h BHist.Empty <-> hsame k BHist.Empty) := by
+  intro classifier
+  constructor
+  · intro sameHEmpty
+    cases classifier with
+    | inl absentPair =>
+        exact absentPair.right
+    | inr presentPair =>
+        cases presentPair with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro _ rest =>
+                    cases rest with
+                    | intro _ rest =>
+                        cases rest with
+                        | intro sameHPresent _ =>
+                            exact False.elim
+                              (not_hsame_emp_e1
+                                (hsame_trans (hsame_symm sameHEmpty) sameHPresent))
+  · intro sameKEmpty
+    cases classifier with
+    | inl absentPair =>
+        exact absentPair.left
+    | inr presentPair =>
+        cases presentPair with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro _ rest =>
+                    cases rest with
+                    | intro _ rest =>
+                        cases rest with
+                        | intro _ rest =>
+                            cases rest with
+                            | intro sameKPresent _ =>
+                                exact False.elim
+                                  (not_hsame_emp_e1
+                                    (hsame_trans (hsame_symm sameKEmpty) sameKPresent))
+
 theorem TaggedOptionHistoryCarrier_present_exactness {S : BHist → Prop} {h : BHist} :
     TaggedOptionHistoryCarrier S (BHist.e1 h) ↔ ∃ a : BHist, S a ∧ hsame h a := by
   constructor

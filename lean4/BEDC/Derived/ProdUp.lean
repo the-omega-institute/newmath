@@ -303,6 +303,40 @@ theorem ProdHistoryLedgerPolicy_classifier_backward_composition
   exact ProdHistoryClassifier_trans classifier
     (ProdHistoryClassifier_symm (ProdHistoryLedgerPolicy_raw_visible_classifier ledger))
 
+theorem ProdHistoryLedgerPolicy_component_exposure {Left Right : BHist -> Prop}
+    {rho v : BHist} :
+    ProdHistoryLedgerPolicy Left Right rho v ->
+      exists l : BHist, exists r : BHist,
+        Left l ∧ Right r ∧ Cont l r rho ∧ hsame rho v ∧
+          ProdHistoryCarrier Left Right v ∧ ProdHistoryClassifier Left Right rho v := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      cases rawCarrier with
+      | intro l restL =>
+          cases restL with
+          | intro r componentData =>
+              cases componentData with
+              | intro leftCarrier rest =>
+                  cases rest with
+                  | intro rightCarrier contRho =>
+                      have rawCarrierRho : ProdHistoryCarrier Left Right rho :=
+                        Exists.intro l
+                          (Exists.intro r
+                            (And.intro leftCarrier (And.intro rightCarrier contRho)))
+                      have ledgerRhoVisible : ProdHistoryLedgerPolicy Left Right rho v :=
+                        And.intro rawCarrierRho sameRawVisible
+                      exact Exists.intro l
+                        (Exists.intro r
+                          (And.intro leftCarrier
+                            (And.intro rightCarrier
+                              (And.intro contRho
+                                (And.intro sameRawVisible
+                                  (And.intro
+                                    (ProdHistoryLedgerPolicy_visible_carrier ledgerRhoVisible)
+                                    (ProdHistoryLedgerPolicy_raw_visible_classifier
+                                      ledgerRhoVisible)))))))
+
 theorem prod_history_semantic_name_certificate (Left Right : BHist -> Prop)
     (left_witness : exists l : BHist, Left l) (right_witness : exists r : BHist, Right r) :
     SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)
