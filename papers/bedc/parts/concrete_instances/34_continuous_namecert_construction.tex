@@ -137,6 +137,52 @@ unary map and modulus histories, and the two cancelled ledgers reassemble
 $\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$.
 \end{proof}
 
+\begin{theorem}[Continuous function carrier prefix exactness]
+\label{thm:continuous-function-carrier-prefix-iff}
+For histories $p,source,map,target,modulus,cert$, prefixing the visible source,
+target, and certificate ledgers is conservative for the continuous-function
+carrier:
+
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,modulus,p\cdot cert)
+\Longleftrightarrow
+\\
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the prefixed carrier. It supplies unary
+histories for $p\cdot source$, $p\cdot target$, $map$, and $modulus$, together
+with the two continuation ledgers
+$\mathsf{Cont}(p\cdot source,map,p\cdot target)$ and
+$\mathsf{Cont}(p\cdot target,modulus,p\cdot cert)$.
+
+Unary append factorization applied to the source ledger recovers
+$\mathsf{UnaryHistory}(p)$ and $\mathsf{UnaryHistory}(source)$. Applied to the
+target ledger, it recovers $\mathsf{UnaryHistory}(target)$. Prefix cancellation
+on the graph continuation ledger gives $\mathsf{Cont}(source,map,target)$, and
+prefix cancellation on the modulus-certificate continuation ledger gives
+$\mathsf{Cont}(target,modulus,cert)$. Repacking these witnesses gives
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$.
+
+For the reverse direction, project $\mathsf{UnaryHistory}(p)$ and the
+unprefixed carrier from the conjunction. Apply
+Theorem~\ref{thm:continuous-function-carrier-prefix-closed} to obtain the
+displayed prefixed carrier.
+
+The ten-field certificate fit is the following. The traditional target is
+prefix-invariant continuous graph evidence. The BEDC source is $BHist$ equipped
+with $\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and
+the classifier is $\mathsf{hsame}$. The stability obligation is exact prefix
+cancellation for graph and modulus-certificate ledgers. The ledger consists of
+source, map, target, modulus, and certificate histories. The core theorem is
+prefix exactness, the exactness predicate is the displayed iff, the standard
+bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[ContinuousMap source specification]
