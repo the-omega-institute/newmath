@@ -610,6 +610,23 @@ to $v$. Transport that carrier once more across $\hsame(v,\mathsf{e1}(t))$ and
 apply the one-extension rational-history carrier characterization.
 \end{proof}
 
+\begin{theorem}[Rat ledger append unary denominator closure]
+\label{thm:rat-ledger-append-unary-denominator-closed}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, $\mathsf{UnaryHistory}(t)$
+holds, and $\hsame(t,t')$ holds, then appending those unary denominator tails
+preserves the rational ledger:
+$$
+\mathsf{RatHistoryLedgerPolicy}(\mathsf{append}(\rho,t),\mathsf{append}(v,t')).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_append\_unary\_denominator\_closed}
+\begin{proof}
+Unpack the ledger into a raw rational-history carrier and an $\hsame(\rho,v)$
+link. The denominator-append carrier theorem closes the raw endpoint under the
+unary tail, and the two $\hsame$ links identify the appended raw and visible
+histories.
+\end{proof}
+
 \begin{theorem}[Rat ledger history-sameness transport]
 \label{thm:rat-ledger-hsame-transport}
 If a rational ledger relates raw and visible histories, then transporting the

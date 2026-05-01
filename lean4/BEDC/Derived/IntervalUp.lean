@@ -80,6 +80,15 @@ theorem IntervalEmptyBoundaryLedgerPolicy_visible_carrier {raw visible : BHist} 
   | intro rawCarrier sameRawVisible =>
       exact IntervalCarrier_empty_boundary_hsame_transport sameRawVisible rawCarrier
 
+theorem IntervalEmptyBoundaryLedgerPolicy_visible_no_e0 {raw tail : BHist} :
+    IntervalEmptyBoundaryLedgerPolicy raw (BHist.e0 tail) → False := by
+  intro ledger
+  have visibleCarrier :
+      IntervalCarrier (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) (BHist.e0 tail) :=
+    IntervalEmptyBoundaryLedgerPolicy_visible_carrier ledger
+  exact not_hsame_e0_empty visibleCarrier.right.right
+
 theorem IntervalEmptyBoundaryLedgerPolicy_raw_visible_classifier {raw visible : BHist} :
     IntervalEmptyBoundaryLedgerPolicy raw visible →
       IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)

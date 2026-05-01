@@ -99,6 +99,22 @@ If $\mathsf{BundleAskPolicy}(\Bcons(\pi,\Pi),D)$ holds, then $\mathsf{BundleAskP
 Each tail occurrence $\rho\in\Pi$ is also an occurrence $\rho\in\Bcons(\pi,\Pi)$. Restrict totality, mark determinacy, and history-respect along this membership inclusion, field by field.
 \end{proof}
 
+\begin{theorem}[Bundle-local asking policy cons decomposition]
+\label{thm:bundle-local-asking-policy-cons-decomposition}
+For a head probe $\pi$, a tail bundle $\Pi$, and a source specification $D$,
+$\mathsf{BundleAskPolicy}(\Bcons(\pi,\Pi),D)$ holds exactly when the head probe
+satisfies totality, mark determinacy, and history-respect over $D$, and
+$\mathsf{BundleAskPolicy}(\Pi,D)$ holds.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ask.bundleAskPolicy\_cons\_iff}
+\begin{proof}
+In the forward direction, use the head occurrence
+$\pi\in\Bcons(\pi,\Pi)$ to project the three head fields, and restrict the
+policy to the tail for the remaining field. In the reverse direction,
+case-analyze an occurrence of $\Bcons(\pi,\Pi)$: the head case uses the three
+head clauses, while the tail case uses the tail bundle-local policy.
+\end{proof}
+
 \begin{theorem}[Global asking policy restricts to bundle-local policy]
 \label{thm:global-asking-policy-restricts-to-bundle-local}
 If $\AskPol(\Pi,D)$ holds, then $\mathsf{BundleAskPolicy}(\Pi,D)$ holds.
