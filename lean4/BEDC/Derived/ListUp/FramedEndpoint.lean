@@ -1,4 +1,5 @@
 import BEDC.Derived.ListUp
+import BEDC.Derived.ListUp.CaseExactness
 
 namespace BEDC.Derived.ListUp
 
@@ -329,6 +330,66 @@ theorem FramedListBridgeClassifier_displayed_spine_exactness
   · intro classified
     exact Exists.intro xs
       (Exists.intro ys (And.intro repH (And.intro repK classified)))
+
+theorem FramedListBridgeClassifier_constructor_exactness
+    {A : BHist → Prop} {Rel : BHist → BHist → Prop}
+    (cert : NameCert A Rel) (compat : ListSourceHsameCompatible A Rel) :
+    (∀ {h k : BHist},
+      FramedListSpineRep A h ([] : ListCarrier BHist) →
+        FramedListSpineRep A k ([] : ListCarrier BHist) →
+          FramedListBridgeClassifier A Rel h k) ∧
+      (∀ {h k b : BHist} {ys : ListCarrier BHist},
+        FramedListSpineRep A h ([] : ListCarrier BHist) →
+          FramedListSpineRep A k (b :: ys) →
+            FramedListBridgeClassifier A Rel h k → False) ∧
+        (∀ {h k a : BHist} {xs : ListCarrier BHist},
+          FramedListSpineRep A h (a :: xs) →
+            FramedListSpineRep A k ([] : ListCarrier BHist) →
+              FramedListBridgeClassifier A Rel h k → False) ∧
+          (∀ {h k a b : BHist} {xs ys : ListCarrier BHist},
+            FramedListSpineRep A h (a :: xs) →
+              FramedListSpineRep A k (b :: ys) →
+                (FramedListBridgeClassifier A Rel h k ↔
+                  Rel a b ∧ ListClassifierSpec Rel xs ys)) := by
+  constructor
+  · intro h k repH repK
+    have classified :
+        ListClassifierSpec Rel ([] : ListCarrier BHist) [] :=
+      (ListClassifierSpec_case_exactness (sameA := Rel)).left
+    exact (FramedListBridgeClassifier_displayed_spine_exactness
+      cert compat repH repK).mpr classified
+  · constructor
+    · intro h k b ys repH repK bridge
+      have classified :
+          ListClassifierSpec Rel ([] : ListCarrier BHist) (b :: ys) :=
+        (FramedListBridgeClassifier_displayed_spine_exactness
+          cert compat repH repK).mp bridge
+      exact (ListClassifierSpec_case_exactness (sameA := Rel)).right.right.left
+        classified
+    · constructor
+      · intro h k a xs repH repK bridge
+        have classified :
+            ListClassifierSpec Rel (a :: xs) ([] : ListCarrier BHist) :=
+          (FramedListBridgeClassifier_displayed_spine_exactness
+            cert compat repH repK).mp bridge
+        exact (ListClassifierSpec_case_exactness (sameA := Rel)).right.right.right
+          classified
+      · intro h k a b xs ys repH repK
+        constructor
+        · intro bridge
+          have classified :
+              ListClassifierSpec Rel (a :: xs) (b :: ys) :=
+            (FramedListBridgeClassifier_displayed_spine_exactness
+              cert compat repH repK).mp bridge
+          exact (ListClassifierSpec_case_exactness (sameA := Rel)).right.left.mp
+            classified
+        · intro classifiedData
+          have classified :
+              ListClassifierSpec Rel (a :: xs) (b :: ys) :=
+            (ListClassifierSpec_case_exactness (sameA := Rel)).right.left.mpr
+              classifiedData
+          exact (FramedListBridgeClassifier_displayed_spine_exactness
+            cert compat repH repK).mpr classified
 
 theorem FramedListBridgeClassifier_represented_length {A : BHist → Prop}
     {Rel : BHist → BHist → Prop} (compat : ListSourceHsameCompatible A Rel)
