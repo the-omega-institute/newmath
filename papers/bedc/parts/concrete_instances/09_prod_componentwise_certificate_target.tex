@@ -75,30 +75,3 @@ $\mathsf{ProdHistoryCarrier}(L,R,k)$. Pattern and ledger soundness are the two
 identity projections from $\mathsf{ProdHistoryCarrier}(L,R)$, so the displayed
 tuple is exactly the componentwise product paper certificate target.
 \end{proof}
-
-\begin{theorem}[Product componentwise history semantic certificate target]
-\label{thm:prod-component-history-semantic-certificate-target}
-Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
-$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
-classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
-$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
-$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the componentwise
-classifier forms the semantic naming certificate
-$$
-\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
-\mathsf{ProdHistoryCarrier}(L,R),
-\mathsf{ProdHistoryCarrier}(L,R),
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
-$$
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:prod-component-history-classifier-certificate-target} to
-obtain carrier inhabitation, carrier-relative reflexivity, source-certified
-symmetry, source-certified transitivity, and classifier-induced carrier
-transport for
-$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ over
-$\mathsf{ProdHistoryCarrier}(L,R)$. Package these five fields as the core
-$\NameCert$ certificate. The semantic pattern carrier and ledger carrier are
-both $\mathsf{ProdHistoryCarrier}(L,R)$, so the
-$\mathsf{pattern\_sound}$ and $\mathsf{ledger\_sound}$ maps are identities.
-\end{proof}
