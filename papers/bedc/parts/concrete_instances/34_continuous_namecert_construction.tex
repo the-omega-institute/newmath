@@ -240,6 +240,43 @@ equalities.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_prefix\_closed}
 
+\begin{theorem}[Continuous modulus chain prefix exactness]
+\label{thm:continuous-modulus-chain-prefix-iff}
+For histories $p,s,\delta_1,\delta_2,t$, prefixing both endpoints of a
+two-link continuous modulus chain is exact:
+$$
+\mathsf{ContinuousModulusChain}(p\cdot s,\delta_1,\delta_2,p\cdot t)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t).
+$$
+The traditional target is prefix-stable uniform-modulus data. The BEDC source
+is $BHist$ with $\mathsf{Cont}$, the carrier is
+$\mathsf{ContinuousModulusChain}$, and the classifier is $\mathsf{hsame}$. The
+stability obligation is prefix exactness. The ledger records source, two
+precision histories, middle, and target continuations. The core theorem is
+this exactness statement, the exactness predicate is the displayed iff, the
+standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the prefixed chain. Unary append
+factorization gives unary $p$ and unary $s$. Let the unprefixed middle be
+$s\cdot\delta_1$.
+
+The first continuation ledger, together with associativity, identifies the
+prefixed middle as $p\cdot(s\cdot\delta_1)$. The second continuation ledger
+then has a common visible prefix $p$ on both sides. Associativity and left
+cancellation recover the unprefixed second continuation from
+$s\cdot\delta_1$ through $\delta_2$ to $t$. These data assemble
+$\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t)$, paired with unary
+$p$.
+
+For the reverse direction, take unary $p$ together with the unprefixed chain
+and apply Theorem~\ref{thm:continuous-modulus-chain-prefix-closed}. This gives
+the prefixed chain from $p\cdot s$ through the same two precision histories to
+$p\cdot t$.
+\end{proof}
+
 \begin{definition}[ContinuousMap ledger policy]
 \label{def:continuous-ledger-policy}
 Record the graph relation, source and target metric ledgers, the totally bounded subset witness, the unary precision ledger, and the modulus ledger.
