@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v1.3 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v1.4 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Round P<ROUND_NUM>
 
@@ -24,7 +24,7 @@ The Phase Verify step will reject the round if any of these is broken.
 1. **No iteration narrative anywhere in the diff.** The forbidden vocabulary list (banned even in commit body and prose) is:
    `新增`, `新版`, `修订`, `修复了上一版本`, `patch`, `migration`, `frozen`, `supersede`, `superseded`, `deprecated`, `legacy`, `increment`, `增量`, `修改记录`, `变更记录`, `变更原因`, `rectification`, `amendment`, `v1.5.X`, `v1.4.X`, `v14-…`, `v15-…` (or any `vNN-` prefix in labels).
    The paper is a CURRENT-STATE document. To replace old text with new text: delete the old, write the new, do not annotate the change.
-2. **Single .tex file ≤ 800 lines after your edits.** If a file would exceed 800 lines, you MUST split: extract a focused sub-chapter into a new file in the same `parts/<theme>/` directory or a thematic subdirectory below it, then `\input` it from the parent. A parent file may become a stable index/entry file that keeps the heading, orientation paragraph, and ordered child `\input` lines.
+2. **Single .tex file ≤ 800 lines after your edits.** If a substantive theorem/definition/proof/certificate edit would make a file exceed 800 lines, you MUST split: extract content into a focused child file in the same `parts/<theme>/` directory or a thematic subdirectory below it, then leave the parent as a pure index containing only ordered `\input` lines. Splitting by itself is not a valid round.
 3. **Math notation.** Use only `$…$` for inline math and `$$…$$` (each `$$` on its own line) for display. Do NOT introduce `\[…\]`, `\begin{equation}`, `\begin{align}`, `\begin{equation*}`, `\begin{eqnarray}`, etc.
 4. **No inline file comments.** Do not add `% TODO …` style notes, do not insert "see git log for history" lines, do not add change-tracking comments. The paper is the artifact; the diff is the audit trail.
 5. **Marker discipline.**
@@ -46,15 +46,15 @@ The Phase Verify step will reject the round if any of these is broken.
 If an edited `.tex` file is already above 720 lines, or the target would add more than 25 lines to a file above 760 lines, prefer a split instead of appending. This is especially important for concrete instance files that accumulate certificate variants.
 
 Allowed split pattern:
-- Create a child file under the same theme directory, preferably inside a thematic subdirectory such as `papers/bedc/parts/concrete_instances/list/<child>.tex` or `papers/bedc/parts/concrete_instances/option/<child>.tex`.
-- Move one coherent subsection, theorem cluster, or certificate block into the child file.
-- Keep the original numbered parent file as the stable index/entry file: heading, short orientation paragraph, and ordered `\input{parts/<theme>/<subdir>/<child>}` lines.
+- Create child files under the same theme directory, preferably inside a thematic subdirectory such as `papers/bedc/parts/concrete_instances/list/<child>.tex` or `papers/bedc/parts/concrete_instances/option/<child>.tex`.
+- Move all substantive content out of the parent into child files: headings, orientation prose, theorem clusters, definitions, proofs, certificate blocks, and cross-reference prose belong in children.
+- Leave the original numbered parent file as a pure index: ordered `\input{...}` lines only, with no heading, no orientation paragraph, no theorem/proof content, and no explanatory prose.
 - Preserve existing labels exactly unless the label is semantically wrong.
 - Do not edit `papers/bedc/main.tex` when splitting content already included by an existing parent file.
 - Use `\input` paths in the same style as the rest of the paper, relative to `papers/bedc/main.tex`.
 - After splitting, every touched `.tex` file must be ≤ 800 lines.
 
-If the target kind is `structural_split`, implement the split before applying any new theorem/prose content, then apply the content in the appropriate child file.
+If the target includes a line-cap split, perform the split before applying any new theorem/prose content, then apply the content in the appropriate child file. If the target is only a split with no substantive theorem/definition/proof/certificate change, it is INVALID; skip the round rather than committing file movement.
 
 ## Step 1: Apply each target
 For each target in the list above:
@@ -124,7 +124,7 @@ Before committing, run:
 git diff --cached --stat | tail -1
 ```
 
-If the diff is empty, only whitespace, only renames a theorem title, only softens/explains a scope boundary, or only adds a caution sentence without changing a theorem/definition/proof dependency/structural split, the round is INVALID — DO NOT commit. The gate prefers a no-op round over a vacuous commit.
+If the diff is empty, only whitespace, only renames a theorem title, only softens/explains a scope boundary, only moves existing content between files, or only adds a caution sentence without changing a theorem/definition/proof dependency/certificate, the round is INVALID — DO NOT commit. The gate prefers a no-op round over a vacuous commit.
 
 If the diff only re-indents existing lines or only adds new `\leanvariant` markers, the round is INVALID. Variants are not added by automated rounds; this round must produce real theory revision.
 
@@ -133,12 +133,12 @@ If the diff only re-indents existing lines or only adds new `\leanvariant` marke
 git add papers/bedc lean4/BEDC
 git commit -m "P<ROUND_NUM>: [brief description of what was revised]
 
-prompts: v1.3
+prompts: v1.4
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v1.3` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+The `prompts: v1.4` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
 
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 

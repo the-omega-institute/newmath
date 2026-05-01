@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v1.3 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v1.4 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -33,7 +33,7 @@ Use the roadmap's per-object template (Section "Per-object research template") t
 When a candidate target appears outside the open phase's chapter scope, briefly explain in `evidence` why it must still be addressed now (e.g. it is blocking the open phase, or it is a hard discipline violation per Section "Claims explicitly off the table"). Otherwise SKIP it and pick a target inside the open phase.
 
 ## What counts as a valid review target
-Pick targets that are HIGH-VALUE — each should be something a careful reader would flag during peer review. Acceptable categories:
+Pick targets that are HIGH-VALUE — each should be something a careful reader would flag during peer review. Acceptable categories are substantive theory/paper-quality categories; splitting may appear only as an attached implementation detail when required to land such a target:
 
 1. **Logical gap or unjustified step.** A theorem statement that is used downstream but whose proof skips a non-trivial case, or a definition that is invoked before being properly fixed.
 2. **Notational or definitional inconsistency.** Same symbol used with two meanings; a definition restated differently in two chapters; an undefined macro or label dangling.
@@ -42,7 +42,7 @@ Pick targets that are HIGH-VALUE — each should be something a careful reader w
 5. **Unclear or imprecise statement.** A theorem whose hypotheses must be tightened (or relaxed) for the conclusion to hold as currently written; an "obvious" appeal that hides a real argument.
 6. **Stronger statement available.** The paper proves a weaker form when the same proof yields more (e.g. uniform bound proved pointwise; restriction to finite case when general case is identical).
 7. **Cross-reference / structural improvement.** A theorem block that is mis-located (would be easier to follow earlier or later); a result that should be promoted from remark to numbered statement, or vice versa.
-8. **Structural split.** A chapter file has become too large for careful review or is close to the 800-line cap. Propose extracting a coherent theorem cluster into a child file under a same-theme subdirectory, while the original file remains the stable index/entry file with ordered `\input` lines.
+8. **Content-bearing split support.** If a substantive theorem/definition/proof/certificate target would push a chapter file near the line cap, include a split plan as an implementation detail: extract the relevant content into a child file under a same-theme subdirectory, and make the parent file a pure index containing only ordered `\input` lines. Do not emit split-only targets; file movement by itself is maintenance, not theory growth.
 9. **Theory extension awaiting formalization.** Propose a NEW theorem statement (not yet in the paper, not yet in Lean) that follows from the existing kernel and is worth formalizing. Acceptable shapes:
    - **Composite consequence.** A non-trivial conclusion combining 2+ existing `\leanchecked` theorems, where the combined statement is not already in the paper.
    - **Constructor inversion / determinism / no-confusion lemma** for an existing `inductive` (BMark / BHist / ProbeBundle / SigRel / psame / external binary words / derived-carrier inductives) that does not yet have one.
@@ -104,13 +104,13 @@ Before suggesting that a missing marker / missing companion result is REALLY mis
 Before producing JSON, build an inventory of real paper files:
 - Run `find papers/bedc/parts -name "*.tex" | sort`.
 - Every existing path in `paper_files` MUST be copied from this inventory exactly.
-- Do NOT invent companion file names. If the natural target file does not exist, either attach the target to an existing nearby parent chapter or propose a `structural_split` target whose `paper_files` is the existing parent file and whose `new_files` lists the child file(s) to create.
+- Do NOT invent companion file names. If the natural target file does not exist, attach the target to an existing nearby parent chapter and include a line-cap split plan only when needed to place the substantive content in child files.
 - A target with a nonexistent existing file in `paper_files` is invalid even if the concept is good.
 
-Do NOT propose targets that fail this sanity check. A target whose only effect is to register a marker pointing to a Lean theorem that does not exist is INVALID.
+Do NOT propose targets that fail this sanity check. A split-only target is INVALID even if the file is long; attach splitting only to a substantive theorem/definition/proof/certificate change that needs it. A target whose only effect is to register a marker pointing to a Lean theorem that does not exist is INVALID.
 
 ## Task
-Pick **exactly 1 primary review target** for P<ROUND_NUM>. Emit more than one target only for a `structural_split` where the split and the new theorem must be implemented together in the same file move. Empty rounds are better than low-confidence rounds.
+Pick **exactly 1 primary review target** for P<ROUND_NUM>. Emit more than one target only when the primary content-bearing target requires a split to stay under the line cap; in that case, the split is an implementation detail of the same substantive target, not a separate target. Empty rounds are better than low-confidence rounds.
 
 At least one emitted target MUST advance the OPEN phase from the roadmap (record its `roadmap_phase` field in the JSON) unless the only valid high-quality target is a discipline/structural safety fix. If you emit multiple targets, prefer one from {1, 5, 6} (theory tightening) and one of category 9 (`theory_extension`) only when the extension meets the quality score gate. Do not force a `theory_extension` when the precise statement or proof skeleton is weak.
 
@@ -129,9 +129,9 @@ Output a single fenced JSON block:
 {
   "targets": [
     {
-      "kind": "logical_gap | notation_inconsistency | dead_material | missing_companion | unclear_statement | stronger_available | structural | structural_split | theory_extension",
+      "kind": "logical_gap | notation_inconsistency | dead_material | missing_companion | unclear_statement | stronger_available | structural | theory_extension",
       "paper_files": ["papers/bedc/parts/core/05_xxx.tex"],
-      "new_files": ["(optional; only for structural_split targets) papers/bedc/parts/<theme>/<subdir>/<child>.tex"],
+      "new_files": ["(optional; only when the substantive target requires a line-cap split) papers/bedc/parts/<theme>/<subdir>/<child>.tex"],
       "section_label": "sec:core-some-concept",
       "anchor": "thm:concrete-name | def:concrete-name | the line near `\\begin{theorem}[Title]`",
       "summary": "One-sentence summary of the problem.",
@@ -159,8 +159,8 @@ Output a single fenced JSON block:
 
 Field requirements:
 - `paper_files` lists EXACTLY the existing .tex file(s) the revise phase must edit. Do not list main.tex unless main.tex itself is what changes.
-- `new_files` is present only for `structural_split`; these paths must live under an existing `papers/bedc/parts/<theme>/` directory, preferably inside a thematic subdirectory.
-- `proposed_change` must be precise enough that the next phase can act without re-reading the entire chapter. Include line context, surrounding sentences, label names, and for `structural_split` the exact block boundary to move plus the parent index `\input` line to add.
+- `new_files` is present only when the substantive target requires a line-cap split; these paths must live under an existing `papers/bedc/parts/<theme>/` directory, and the parent file must become a pure index containing only ordered `\input` lines.
+- `proposed_change` must be precise enough that the next phase can act without re-reading the entire chapter. Include line context, surrounding sentences, label names, and, when a line-cap split is needed, the exact block boundary to move plus the pure parent-index `\input` lines to leave behind.
 - `quality_score` must total at least 9, with nonzero `verifiability`, `line_cap_safety`, and `downstream_use`.
 - `discovery_confirmed` must be `true`, meaning you ran the grep / file inspection and the issue is real (not hallucinated from memory of an old draft).
 - Do NOT propose targets that contradict the HARD constraints above.
