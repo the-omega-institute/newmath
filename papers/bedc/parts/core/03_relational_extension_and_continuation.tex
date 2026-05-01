@@ -354,6 +354,24 @@ $\mathsf{append}(a,f)$, which is exactly the unprefixed continuation.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_prefix\_cancel}
 
+\begin{theorem}[Continuation prefix equivalence]
+\label{thm:cont-prefix-iff}
+For histories $p,a,b,f$,
+$$
+\ContR(\mathsf{append}(p,a),f,\mathsf{append}(p,b))
+\Longleftrightarrow
+\ContR(a,f,b).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is continuation prefix cancellation. For the reverse
+direction, prefix the equality witness for $\ContR(a,f,b)$ by
+$\mathsf{append}(p,-)$ and use associativity to identify
+$\mathsf{append}(p,\mathsf{append}(a,f))$ with
+$\mathsf{append}(\mathsf{append}(p,a),f)$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_prefix\_iff}
+
 \begin{theorem}[Continuation cancellation laws]
 \label{thm:continuation-right-cancellation}
 Continuation admits cancellation on both sides:

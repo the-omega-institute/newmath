@@ -147,14 +147,15 @@ theorem ContinuousFunctionCarrier_prefix_closed
                                       (append_assoc p targetHist modulus).symm))))))
 
 theorem ContinuousFunctionCarrier_prefix_iff {p source map target modulus cert : BHist} :
-    ContinuousFunctionCarrier (append p source) map (append p target) modulus (append p cert) ↔
+    ContinuousFunctionCarrier (append p source) map (append p target) modulus
+        (append p cert) ↔
       UnaryHistory p ∧ ContinuousFunctionCarrier source map target modulus cert := by
   constructor
-  · intro carrier
-    cases carrier with
-    | intro sourceCarrier rest =>
+  · intro prefixed
+    cases prefixed with
+    | intro prefixedSource rest =>
         cases rest with
-        | intro targetCarrier rest =>
+        | intro prefixedTarget rest =>
             cases rest with
             | intro mapCarrier rest =>
                 cases rest with
@@ -162,19 +163,15 @@ theorem ContinuousFunctionCarrier_prefix_iff {p source map target modulus cert :
                     cases rest with
                     | intro sourceMap targetCert =>
                         exact
-                          And.intro
-                            (unary_append_left_factor sourceCarrier)
-                            (And.intro
-                              (unary_append_right_factor sourceCarrier)
-                              (And.intro
-                                (unary_append_right_factor targetCarrier)
+                          And.intro (unary_append_left_factor prefixedSource)
+                            (And.intro (unary_append_right_factor prefixedSource)
+                              (And.intro (unary_append_right_factor prefixedTarget)
                                 (And.intro mapCarrier
                                   (And.intro modulusCarrier
-                                    (And.intro
-                                      (cont_prefix_cancel sourceMap)
+                                    (And.intro (cont_prefix_cancel sourceMap)
                                       (cont_prefix_cancel targetCert))))))
-  · intro prefixed
-    cases prefixed with
+  · intro base
+    cases base with
     | intro prefixCarrier carrier =>
         exact ContinuousFunctionCarrier_prefix_closed prefixCarrier carrier
 
@@ -212,45 +209,43 @@ theorem ContinuousModulusChain_prefix_iff {p source first second target : BHist}
     ContinuousModulusChain (append p source) first second (append p target) ↔
       UnaryHistory p ∧ ContinuousModulusChain source first second target := by
   constructor
-  · intro chain
-    cases chain with
-    | intro sourceCarrier rest =>
+  · intro prefixed
+    cases prefixed with
+    | intro prefixedSource rest =>
         cases rest with
         | intro firstCarrier rest =>
             cases rest with
             | intro secondCarrier rest =>
                 cases rest with
-                | intro targetCarrier chainWitness =>
+                | intro prefixedTarget chainWitness =>
                     cases chainWitness with
                     | intro middle middleData =>
                         cases middleData with
                         | intro firstRel secondRel =>
-                            have secondPrefixed :
-                                append p target =
-                                  append p (append (append source first) second) := by
+                            let baseMiddle := append source first
+                            have middlePrefixed :
+                                hsame middle (append p baseMiddle) := by
+                              exact firstRel.trans (append_assoc p source first)
+                            have prefixedSecond :
+                                hsame (append p target) (append p (append baseMiddle second)) := by
                               exact
                                 secondRel.trans
-                                  ((congrArg (fun h => append h second) firstRel).trans
-                                    ((congrArg (fun h => append h second)
-                                      (append_assoc p source first)).trans
-                                      (append_assoc p (append source first) second)))
-                            have secondUnprefixed :
-                                Cont (append source first) second target := by
+                                  ((congrArg (fun result => append result second)
+                                      middlePrefixed).trans
+                                    (append_assoc p baseMiddle second))
+                            have baseSecond : Cont baseMiddle second target := by
                               apply cont_intro
-                              exact append_left_cancel (h := p) secondPrefixed
+                              exact append_left_cancel (h := p) prefixedSecond
                             exact
-                              And.intro
-                                (unary_append_left_factor sourceCarrier)
-                                (And.intro
-                                  (unary_append_right_factor sourceCarrier)
+                              And.intro (unary_append_left_factor prefixedSource)
+                                (And.intro (unary_append_right_factor prefixedSource)
                                   (And.intro firstCarrier
                                     (And.intro secondCarrier
-                                      (And.intro
-                                        (unary_append_right_factor targetCarrier)
-                                        (Exists.intro (append source first)
-                                          (And.intro (cont_intro rfl) secondUnprefixed))))))
-  · intro prefixed
-    cases prefixed with
+                                      (And.intro (unary_append_right_factor prefixedTarget)
+                                        (Exists.intro baseMiddle
+                                          (And.intro (cont_intro rfl) baseSecond))))))
+  · intro base
+    cases base with
     | intro prefixCarrier chain =>
         exact ContinuousModulusChain_prefix_closed prefixCarrier chain
 

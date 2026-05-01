@@ -73,4 +73,12 @@ theorem cont_composite_tail_unique {h k r f g tail : BHist} :
     exact right.trans (append_assoc h f g)
   exact cont_left_cancel direct composite
 
+theorem cont_prefix_iff {p a b f : BHist} :
+    Cont (append p a) f (append p b) ↔ Cont a f b := by
+  constructor
+  · intro prefixed
+    exact cont_prefix_cancel prefixed
+  · intro base
+    exact cont_intro ((congrArg (append p) base).trans (append_assoc p a f).symm)
+
 end BEDC.FKernel.Cont
