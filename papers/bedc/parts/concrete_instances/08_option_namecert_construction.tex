@@ -548,6 +548,101 @@ $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
 (S,T,\rho_{\delta};k,k)$.
 \end{proof}
 
+\begin{theorem}[Tagged option payload descent image classifier composition factorization]
+\label{thm:tagged-option-payload-descent-image-classifier-composition-factorization}
+This theorem fits the per-object template as follows: the traditional target is
+composition of classified option images; the BEDC source is $\mathsf{BHist}$ with
+two $\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation is
+factoring two composite $\mathsf{TaggedOptionMapRel}$ witnesses through shared
+intermediate endpoints; the ledger is the paired intermediate target endpoints
+and transported visible payloads; the core theorem is classifier-level
+composition factorization; exactness is the displayed equivalence; the standard
+bridge is $\mathsf{none}$/$\mathsf{some}$ functorial image composition; and the
+status is $\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers,
+let $\sim_S$, $\sim_T$, and $\sim_U$ be source classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume also endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $p:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(p))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+For every pair of final endpoints $m,m':\mathsf{BHist}$, the composite image
+classifier factors through paired intermediate tagged option endpoints:
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+\Longleftrightarrow
+\exists k,k':\mathsf{BHist}.\;
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')
+\land
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,m)
+\land
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',m').
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold
+Definition~\ref{def:tagged-option-payload-descent-image-classifier}. This
+exposes source endpoints $h,h'$, a source tagged classifier witness, and two
+composite map-relation witnesses from $h$ to $m$ and from $h'$ to $m'$.
+
+Apply Theorem~\ref{thm:tagged-option-payload-descent-composition-exactness} in
+the forward direction to the first composite map-relation witness and
+$\eta_{\epsilon}$. It supplies an intermediate endpoint $k$, a $\delta$-map
+witness from $h$ to $k$, and an $\epsilon$-map witness from $k$ to $m$.
+
+Apply the same exactness theorem to the second composite map-relation witness.
+This supplies $k'$, a $\delta$-map witness from $h'$ to $k'$, and an
+$\epsilon$-map witness from $k'$ to $m'$. Repack the source tagged classifier
+witness with the two $\delta$-map witnesses to obtain the
+$\delta$-image-classifier factor, and keep the two $\epsilon$-map witnesses as
+the displayed endpoint factors.
+
+For the reverse direction, unpack the displayed factorization into endpoints
+$k,k'$, a $\delta$-image-classifier witness, and the two $\epsilon$-map witnesses
+from $k$ to $m$ and from $k'$ to $m'$.
+
+Unfold Definition~\ref{def:tagged-option-payload-descent-image-classifier} for
+the $\delta$-image-classifier witness. This exposes source endpoints $h,h'$, a
+source tagged classifier witness, and $\delta$-map witnesses from $h$ to $k$ and
+from $h'$ to $k'$.
+
+Apply Theorem~\ref{thm:tagged-option-payload-descent-composition-exactness} in
+the reverse direction to the left pair of map witnesses, and apply it again to
+the right pair. The two results are composite
+$\mathsf{TaggedOptionMapRel}_{\epsilon\circ\delta}$ witnesses from $h$ to $m$
+and from $h'$ to $m'$. Repacking these with the same source tagged classifier
+witness gives the composite image-classifier witness.
+\end{proof}
+
 \begin{theorem}[Tagged option payload descent image classifier stability package]
 \label{thm:tagged-option-payload-descent-image-classifier-stability-package}
 This theorem fits the per-object template as follows: the traditional target is
