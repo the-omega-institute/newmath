@@ -113,4 +113,31 @@ theorem ProdHistoryLedgerChain_envelope_closure {Left Right : BHist -> Prop} {rh
                         · intro wZ
                           exact ProdHistoryClassifier_trans wZ (ProdHistoryClassifier_symm rhoZ)
 
+theorem ProdHistoryLedgerChain_componentwise_classifier_endpoint_equivalence
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    {rho z : BHist} :
+    ProdHistoryLedgerChain Left Right rho z ->
+      forall w : BHist,
+        (ProdComponentHistoryClassifier Left Right LeftEq RightEq rho w <->
+          ProdComponentHistoryClassifier Left Right LeftEq RightEq z w) /\
+          (ProdComponentHistoryClassifier Left Right LeftEq RightEq w rho <->
+            ProdComponentHistoryClassifier Left Right LeftEq RightEq w z) := by
+  intro chain w
+  have envelope := ProdHistoryLedgerChain_envelope_closure chain
+  have classifiedRhoZ : ProdHistoryClassifier Left Right rho z := envelope.right.left
+  have sameRhoZ : hsame rho z := classifiedRhoZ.right.right
+  constructor
+  · constructor
+    · intro classifier
+      exact ProdComponentHistoryClassifier_hsame_transport sameRhoZ (hsame_refl w) classifier
+    · intro classifier
+      exact ProdComponentHistoryClassifier_hsame_transport
+        (hsame_symm sameRhoZ) (hsame_refl w) classifier
+  · constructor
+    · intro classifier
+      exact ProdComponentHistoryClassifier_hsame_transport (hsame_refl w) sameRhoZ classifier
+    · intro classifier
+      exact ProdComponentHistoryClassifier_hsame_transport
+        (hsame_refl w) (hsame_symm sameRhoZ) classifier
+
 end BEDC.Derived.ProdUp

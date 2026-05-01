@@ -295,6 +295,9 @@ def FramedListBridgeClassifier (A : BHist → Prop) (Rel : BHist → BHist → P
     FramedListSpineRep A h xs ∧
       FramedListSpineRep A k ys ∧ ListClassifierSpec Rel xs ys
 
+def FramedListHistoryCarrier (A : BHist -> Prop) (h : BHist) : Prop :=
+  exists xs : ListCarrier BHist, FramedListSpineRep A h xs
+
 theorem FramedListBridgeClassifier_displayed_spine_exactness
     {A : BHist → Prop} {Rel : BHist → BHist → Prop}
     (cert : NameCert A Rel) (compat : ListSourceHsameCompatible A Rel)
@@ -370,5 +373,102 @@ theorem FramedListBridgeClassifier_represented_length {A : BHist → Prop}
                   exact Eq.trans (classifierLength classifiedLeft)
                     (Eq.trans (classifierLength classifiedBridge)
                       (Eq.symm (classifierLength classifiedRight)))
+
+theorem FramedListBridgeClassifier_equivalence_fields {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) :
+    (forall {h : BHist},
+      FramedListHistoryCarrier A h -> FramedListBridgeClassifier A Rel h h) /\
+      (forall {h k : BHist},
+        FramedListBridgeClassifier A Rel h k ->
+          FramedListHistoryCarrier A h /\ FramedListHistoryCarrier A k) /\
+        (forall {h k : BHist},
+          FramedListBridgeClassifier A Rel h k ->
+            FramedListBridgeClassifier A Rel k h) /\
+          (forall {h k u : BHist},
+            FramedListBridgeClassifier A Rel h k ->
+              FramedListBridgeClassifier A Rel k u ->
+                FramedListBridgeClassifier A Rel h u) /\
+            (forall {h k : BHist},
+              FramedListHistoryCarrier A h ->
+                FramedListBridgeClassifier A Rel h k -> FramedListHistoryCarrier A k) := by
+  constructor
+  · intro h carrierH
+    cases carrierH with
+    | intro xs repH =>
+        exact Exists.intro xs
+          (Exists.intro xs
+            (And.intro repH
+              (And.intro repH (FramedListSpineRep_coherence compat repH repH))))
+  · constructor
+    · intro h k bridge
+      cases bridge with
+      | intro xs bridgeTail =>
+          cases bridgeTail with
+          | intro ys bridgeData =>
+              cases bridgeData with
+              | intro repH bridgeRest =>
+                  cases bridgeRest with
+                  | intro repK _ =>
+                      constructor
+                      · exact Exists.intro xs repH
+                      · exact Exists.intro ys repK
+    · constructor
+      · intro h k bridge
+        cases bridge with
+        | intro xs bridgeTail =>
+            cases bridgeTail with
+            | intro ys bridgeData =>
+                cases bridgeData with
+                | intro repH bridgeRest =>
+                    cases bridgeRest with
+                    | intro repK classified =>
+                        exact Exists.intro ys
+                          (Exists.intro xs
+                            (And.intro repK
+                              (And.intro repH
+                                (ListClassifierSpec_symm_from_nameCert cert classified))))
+      · constructor
+        · intro h k u bridgeHK bridgeKU
+          cases bridgeHK with
+          | intro xs bridgeHKTail =>
+              cases bridgeHKTail with
+              | intro ys bridgeHKData =>
+                  cases bridgeHKData with
+                  | intro repH bridgeHKRest =>
+                      cases bridgeHKRest with
+                      | intro repKLeft classifiedHK =>
+                          cases bridgeKU with
+                          | intro ys' bridgeKUTail =>
+                              cases bridgeKUTail with
+                              | intro zs bridgeKUData =>
+                                  cases bridgeKUData with
+                                  | intro repKRight bridgeKURest =>
+                                      cases bridgeKURest with
+                                      | intro repU classifiedKU =>
+                                          have middle :
+                                              ListClassifierSpec Rel ys ys' :=
+                                            FramedListSpineRep_coherence compat
+                                              repKLeft repKRight
+                                          have classifiedHYs' :
+                                              ListClassifierSpec Rel xs ys' :=
+                                            ListClassifierSpec_trans_from_nameCert cert
+                                              classifiedHK middle
+                                          exact Exists.intro xs
+                                            (Exists.intro zs
+                                              (And.intro repH
+                                                (And.intro repU
+                                                  (ListClassifierSpec_trans_from_nameCert
+                                                    cert classifiedHYs' classifiedKU))))
+        · intro h k _ bridge
+          cases bridge with
+          | intro xs bridgeTail =>
+              cases bridgeTail with
+              | intro ys bridgeData =>
+                  cases bridgeData with
+                  | intro _ bridgeRest =>
+                      cases bridgeRest with
+                      | intro repK _ =>
+                          exact Exists.intro ys repK
 
 end BEDC.Derived.ListUp
