@@ -15,7 +15,7 @@ The boolean interface \(\BoolUp\) is licensed by raw mark sameness on the two-el
   \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, Theorem~\ref{thm:bool-endpoint-bridge-exactness}, Theorem~\ref{thm:bool-history-carrier-endpoint-coverage}, endpoint readback determinism, Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness}, Theorem~\ref{thm:bool-history-classifier-endpoint-readback}, and the history core $\NameCert$.
   \item \textbf{Exactness predicate}: the mark source has exactly the $\bzero$ and $\bone$ branches licensed by $\msame$, while the checked history certificate has exactly the $\emp$ and $\Eone(\emp)$ endpoints licensed by $\hsame$.
   \item \textbf{Standard bridge}: false and true are read through the two displayed marks $\bzero,\bone$ together with their displayed history endpoints $\emp,\Eone(\emp)$; endpoint coverage and classifier completeness are functional up to $\msame$.
-  \item \textbf{Status}: the core history $\NameCert$ is $\mathsf{CheckedCert}$ via the $BEDC.Derived.BoolUp$ Lean target $\mathsf{bool\_history\_name\_certificate}$. The generic carrier-as-pattern semantic certificate is the paper theorem in Theorem~\ref{thm:carrier-as-pattern-semantic-namecert}; the Lean theorem $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$ only records the five core $\NameCert$ fields. Theorem~\ref{thm:bool-semantic-namecert-target} is the Bool public-object paper certificate obtained from that checked core and the identity pattern and ledger fields; the Bool-specific canonical public-object theorem under $BEDC.Derived.BoolUp$ is not present in Lean.
+  \item \textbf{Status}: the core history $\NameCert$ is $\mathsf{CheckedCert}$ via the $BEDC.Derived.BoolUp$ Lean target $\mathsf{bool\_history\_name\_certificate}$. The generic carrier-self semantic certificate is the paper theorem in Theorem~\ref{thm:namecert-carrier-self-semantic-lifting}; the Lean theorem $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$ only records the five core $\NameCert$ fields. Theorem~\ref{thm:bool-semantic-namecert-target} is the Bool public-object paper certificate obtained from that checked core and the identity pattern and ledger fields; the Bool-specific canonical public-object theorem under $BEDC.Derived.BoolUp$ is not present in Lean.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -528,26 +528,6 @@ The history carrier $\mathsf{BoolHistoryCarrier}$ and classifier $\mathsf{BoolHi
 \end{theorem}
 \leanchecked{BEDC.Derived.BoolUp.bool\_history\_name\_certificate}
 
-\begin{theorem}[Carrier-as-pattern semantic certificate]
-\label{thm:carrier-as-pattern-semantic-namecert}
-Let $C:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history predicate, let
-$E:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history
-classifier, and assume a core certificate $\mathsf{cert}:\NameCert(C,E)$. Then
-the carrier-as-pattern and carrier-as-ledger semantic certificate exists:
-$$
-\mathsf{SemanticNameCert}(C,C,C,E).
-$$
-Its core field is $\mathsf{cert}$, its pattern soundness field is
-$\forall h.\;C(h)\to C(h)$, and its ledger soundness field is
-$\forall h.\;C(h)\to C(h)$.
-\end{theorem}
-\begin{proof}
-Use the semantic certificate constructor with the supplied core $\NameCert(C,E)$.
-Because source, pattern, and ledger predicates are all the same predicate $C$,
-both displayed soundness obligations are discharged by the identity implication
-on $C(h)$ for an arbitrary BEDC history $h$.
-\end{proof}
-
 \begin{definition}[Bool history semantic fields]
 \label{def:bool-history-semantic-fields}
 The semantic history ledger used for
@@ -611,24 +591,22 @@ $$
 $$
 This displayed object is the Bool-specific public-object paper certificate and
 carries no checked Lean marker. It is the instance of the generic
-carrier-as-pattern semantic construction in
-Theorem~\ref{thm:carrier-as-pattern-semantic-namecert}.
+carrier-self semantic construction in
+Theorem~\ref{thm:namecert-carrier-self-semantic-lifting}.
 The checked Lean theorem $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$
 only records the five core $\NameCert$ fields, while the canonical
 $BEDC.Derived.BoolUp$ public-object theorem for this Bool certificate is not
 present.
 \end{theorem}
 \begin{proof}
-Invoke Theorem~\ref{thm:carrier-as-pattern-semantic-namecert} with
-$C=\mathsf{BoolHistoryCarrier}$,
-$E=\mathsf{BoolHistoryClassifier}$, and
-$\mathsf{cert}=\mathsf{bool\_history\_name\_certificate}$. The supplied
-certificate is the Lean-checked history $\NameCert$ for
-$\mathsf{BoolHistoryCarrier}$ and $\mathsf{BoolHistoryClassifier}$, so it
-provides the $\mathsf{core}$ field. Since the source, pattern, and ledger
-predicates are all $\mathsf{BoolHistoryCarrier}$, the generic theorem supplies
-both $\mathsf{pattern\_sound}$ and $\mathsf{ledger\_sound}$ as the identity
-implication on that history carrier predicate.
+The checked theorem
+$BEDC.Derived.BoolUp.bool\_history\_name\_certificate$ supplies the core
+$\NameCert$ for $\mathsf{BoolHistoryCarrier}$ and
+$\mathsf{BoolHistoryClassifier}$. Apply
+Theorem~\ref{thm:namecert-carrier-self-semantic-lifting} to that core
+certificate. Since source, pattern, and ledger are all
+$\mathsf{BoolHistoryCarrier}$, the semantic pattern and ledger fields are the
+identity implication on the Bool history carrier predicate.
 \end{proof}
 
 The endpoint coverage, endpoint bridge classifier completeness, and endpoint
@@ -644,7 +622,7 @@ $\mathsf{BoolHistoryClassifier}$, namely the $BEDC.Derived.BoolUp$ Lean target
 $\mathsf{bool\_history\_name\_certificate}$. It does not assert the public-object
 $\mathsf{SemanticNameCert}$. The public-object certificate scope is the paper
 certificate in Theorem~\ref{thm:bool-semantic-namecert-target}, where the same
-checked core $\NameCert$ is paired with the carrier-as-pattern fields.
+checked core $\NameCert$ is paired with the carrier-self semantic fields.
 Thus the core certificate, the mark-level ledger definition, and the
 paper-side carrier-as-ledger semantic target occupy separate roles. In both
 cases $\BoolUp$ is derived from mark and history sameness, and is not
