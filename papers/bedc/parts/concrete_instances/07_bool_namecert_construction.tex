@@ -15,7 +15,7 @@ The boolean interface \(\BoolUp\) is licensed by raw mark sameness on the two-el
   \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, Theorem~\ref{thm:bool-endpoint-bridge-exactness}, Theorem~\ref{thm:bool-history-carrier-endpoint-coverage}, endpoint readback determinism, Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness}, Theorem~\ref{thm:bool-history-classifier-endpoint-readback}, and the history core $\NameCert$.
   \item \textbf{Exactness predicate}: the mark source has exactly the $\bzero$ and $\bone$ branches licensed by $\msame$, while the checked history certificate has exactly the $\emp$ and $\Eone(\emp)$ endpoints licensed by $\hsame$.
   \item \textbf{Standard bridge}: false and true are read through the two displayed marks $\bzero,\bone$ together with their displayed history endpoints $\emp,\Eone(\emp)$; endpoint coverage and classifier completeness are functional up to $\msame$.
-  \item \textbf{Status}: the core history $\NameCert$ is $\mathsf{CheckedCert}$ via the $BEDC.Derived.BoolUp$ Lean target $\mathsf{bool\_history\_name\_certificate}$. Theorem~\ref{thm:bool-semantic-namecert-target} is $\mathsf{ProofTarget}$ for the public-object $\mathsf{SemanticNameCert}$ until that exact semantic certificate exists in Lean; the checked core history certificate alone does not close the public-object scope.
+  \item \textbf{Status}: the core history $\NameCert$ is $\mathsf{CheckedCert}$ via the $BEDC.Derived.BoolUp$ Lean target $\mathsf{bool\_history\_name\_certificate}$. The generic carrier-as-pattern construction is represented by $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$, while the Bool-specific canonical public-object theorem under $BEDC.Derived.BoolUp$ is not present; Theorem~\ref{thm:bool-semantic-namecert-target} remains $\mathsf{ProofTarget}$ for that public-object scope.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -180,6 +180,39 @@ $\hsame(\mathsf{BoolEndpoint}(v),\mathsf{BoolEndpoint}(w))$, hence the displayed
 endpoints satisfy $\mathsf{BoolHistoryClassifier}$. Finally apply endpoint
 transport for $\mathsf{BoolHistoryClassifier}$ along the two given $\hsame$
 readbacks to obtain $\mathsf{BoolHistoryClassifier}(h,k)$.
+\end{proof}
+
+\begin{theorem}[Bool source-qualified classifier readback exactness]
+\label{thm:bool-source-qualified-classifier-readback-exactness}
+For histories $h,k:\mathsf{BHist}$,
+$\mathsf{BoolHistoryClassifier}(h,k)$ holds if and only if there exist marks
+$v,w:\mathsf{BMark}$ satisfying
+$$
+  \mathsf{BoolSourceSpec}(v)
+  \land
+  \mathsf{BoolSourceSpec}(w)
+  \land
+  \hsame(h,\mathsf{BoolEndpoint}(v))
+  \land
+  \hsame(k,\mathsf{BoolEndpoint}(w))
+  \land
+  \msame(v,w).
+$$
+The traditional target is the two-point boolean readback; the BEDC source is
+$\mathsf{BMark}$ and $\mathsf{BHist}$, the carrier is
+$\mathsf{BoolHistoryCarrier}$, the classifier is
+$\mathsf{BoolHistoryClassifier}$, the exactness clause is source-qualified
+endpoint readback, and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:bool-history-classifier-mark-readback-exactness} to obtain
+endpoint marks $v,w$ with the two $\hsame$ readbacks and $\msame(v,w)$. Case
+analysis on the two displayed marks supplies $\mathsf{BoolSourceSpec}(v)$ and
+$\mathsf{BoolSourceSpec}(w)$, since the two constructors are exactly the
+allowed source marks. For the reverse direction, discard the two
+$\mathsf{BoolSourceSpec}$ witnesses and apply the reverse direction of
+Theorem~\ref{thm:bool-history-classifier-mark-readback-exactness}.
 \end{proof}
 
 \begin{theorem}[Bool source respects mark sameness]
@@ -533,8 +566,11 @@ $$
 \mathsf{BoolHistoryCarrier}(h).
 $$
 This displayed object is a paper-side $\mathsf{ProofTarget}$ for the
-public-object scope and carries no checked Lean marker while the exact
-semantic certificate theorem is absent from Lean.
+Bool-specific public-object scope and carries no checked Lean marker. The
+generic carrier-as-pattern constructor theorem is represented by
+$BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$, while the canonical
+$BEDC.Derived.BoolUp$ public-object theorem for this Bool certificate is not
+present.
 \end{theorem}
 \begin{proof}
 The Lean-checked component is
