@@ -152,10 +152,10 @@ The finite-spine helper classifier relates nil with nil and cons with cons when 
 
 \begin{theorem}[List classifier case exactness]
 \label{thm:list-classifier-case-exactness}
-For any source relation $\mathsf{sameA}$ on $A$ and any generated lists $xs,ys : \ListUp(A)$, $\mathsf{ListClassifierSpec}(\mathsf{sameA},xs,ys)$ holds exactly in the matching constructor cases: both lists are $\mathsf{nil}$, or both lists are $\mathsf{cons}$ lists with a source-head witness $\mathsf{sameA}(a,b)$ and a recursive tail witness $\mathsf{ListClassifierSpec}(\mathsf{sameA},xs',ys')$. It is false for the mixed shapes $\mathsf{nil}$ against $\mathsf{cons}(b,ys')$ and $\mathsf{cons}(a,xs')$ against $\mathsf{nil}$.
+For any source relation $\mathsf{sameA}$ on $A$ and any finite spines $xs,ys : \mathsf{ListCarrier}(A)$, $\mathsf{ListClassifierSpec}(\mathsf{sameA},xs,ys)$ holds exactly in the matching constructor cases: both spines are $\mathsf{nil}$, or both spines are $\mathsf{cons}$ spines with a source-head witness $\mathsf{sameA}(a,b)$ and a recursive tail witness $\mathsf{ListClassifierSpec}(\mathsf{sameA},xs',ys')$. It is false for the mixed shapes $\mathsf{nil}$ against $\mathsf{cons}(b,ys')$ and $\mathsf{cons}(a,xs')$ against $\mathsf{nil}$.
 \end{theorem}
 \begin{proof}
-Case-analyze the two generated list constructors. In the nil-nil case the classifier is the nil clause. In the cons-cons case the classifier unfolds to its head source witness together with the recursive tail classifier witness, and conversely those two witnesses rebuild the cons classifier clause. The nil-cons and cons-nil cases have no classifier clause, so any assumed witness is eliminated by constructor case analysis.
+Case-analyze the two finite-spine constructors. In the nil-nil case the classifier is the nil clause. In the cons-cons case the classifier unfolds to its head source witness together with the recursive tail classifier witness, and conversely those two witnesses rebuild the cons classifier clause. The nil-cons and cons-nil cases have no classifier clause, so any assumed witness is eliminated by constructor case analysis.
 \end{proof}
 
 \begin{lemma}[List classifier nil-cons no-confusion]
@@ -173,10 +173,10 @@ directions are discharged directly by case analysis on the impossible witness.
 
 \begin{theorem}[List classifier is transitive]
 \label{thm:list-classifier-transitivity}
-For any transitive source classifier on \(A\), the structural list classifier lifted from it is transitive on \(\ListUp(A)\).
+For any transitive source classifier on $A$, the structural list classifier lifted from it is transitive on finite spines over $A$.
 \end{theorem}
 \begin{proof}
-Induct on the first list. Shape mismatches are impossible by the classifier clauses. In the cons-cons-cons case, the head witnesses compose by source transitivity and the tail witnesses compose by the induction hypothesis.
+Induct on the first finite spine. Shape mismatches are impossible by the classifier clauses. In the cons-cons-cons case, the head witnesses compose by source transitivity and the tail witnesses compose by the induction hypothesis.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_trans}
 
