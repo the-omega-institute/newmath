@@ -126,6 +126,50 @@ successor observation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_hsame\_transport}
 
+\begin{theorem}[Real stream prefix classifier reflexivity]
+\label{thm:real-stream-prefix-classifier-refl}
+For every rational-observation stream $x:\mathbb{N}\to\Hist$, if
+$\mathsf{RatHistoryCarrier}(x(i))$ for every observation index $i$, then
+$\mathsf{RealStreamPrefixClassifier}(x,x,n)$ for every prefix index $n$.
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, the carrier witness for $x(0)$ supplies the rational
+history classifier for the endpoint, with $\hsame$ reflexivity providing the
+identity transport on both sides.
+
+At a successor index, pair the induction hypothesis for the shorter prefix with
+the same rational classifier construction at the new endpoint $n+1$.
+\end{proof}
+
+\begin{theorem}[Real stream prefix classifier symmetry]
+\label{thm:real-stream-prefix-classifier-symm}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$, then
+$\mathsf{RealStreamPrefixClassifier}(y,x,n)$.
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, apply rational-history classifier symmetry to the base
+endpoint classifier.
+
+At a successor index, reverse the shorter prefix by the induction hypothesis and
+reverse the displayed successor endpoint by rational-history classifier
+symmetry.
+\end{proof}
+
+\begin{theorem}[Real stream prefix classifier endpoint projection]
+\label{thm:real-stream-prefix-classifier-endpoint}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$, then
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$.
+\end{theorem}
+\begin{proof}
+Split on $n$. At $0$, the prefix witness is exactly the selected rational-history
+classifier.
+
+At a successor index, the recursive prefix witness is a pair; its right
+component is the rational-history classifier at the selected endpoint.
+\end{proof}
+
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}
 For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
