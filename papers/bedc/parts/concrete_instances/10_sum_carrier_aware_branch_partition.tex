@@ -88,6 +88,39 @@ right case, unpack the corresponding data for $r$ and rebuild the right carrier
 constructor.
 \end{proof}
 
+\begin{theorem}[Sum visible branch payload determinism]
+\label{thm:sum-visible-branch-payload-determinism}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$h,l,l',r,r':\mathsf{BHist}$ be histories. Same-branch visible presentations
+have unique payloads up to $\hsame$:
+$$
+\hsame(h,\Ezero(l))\to Left(l)\to
+\hsame(h,\Ezero(l'))\to Left(l')\to \hsame(l,l')
+$$
+and
+$$
+\hsame(h,\Eone(r))\to Right(r)\to
+\hsame(h,\Eone(r'))\to Right(r')\to \hsame(r,r').
+$$
+In the ten-field fit, the traditional target is disjoint-sum visible readback
+determinism; the BEDC source is $\mathsf{BHist}$; the carrier is
+$\mathsf{SumHistoryCarrier}$ presentations; the classifier is $\hsame$ on
+visible constructors; the stability obligation is constructor inversion; the
+ledger records the visible tag plus payload source evidence; the core theorem
+is same-branch payload uniqueness; exactness is deterministic readback; the
+standard bridge is $\mathsf{inl}$ and $\mathsf{inr}$; and the status is
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the left statement, use symmetry on the first endpoint link and compose it
+with the second endpoint link, obtaining
+$\hsame(\Ezero(l),\Ezero(l'))$. Constructor inversion for the visible left
+constructor gives $\hsame(l,l')$. The right statement is identical, composing
+the two $\Eone$ endpoint links and applying right-constructor inversion. The
+source-carrier witnesses record that both visible presentations are legitimate
+branch presentations; they are not needed by the constructor inversion itself.
+\end{proof}
+
 \begin{theorem}[Sum history classifier carrier-aware branch partition]
 \label{thm:sum-history-classifier-carrier-aware-branch-partition}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
@@ -137,51 +170,47 @@ the stored $RightEq$ witness.
 Let $Left,Right,Left',Right':\mathsf{BHist}\to\mathsf{Prop}$ be source
 carriers, and let
 $LeftEq,RightEq,LeftEq',RightEq':\mathsf{BHist}\to\mathsf{BHist}\to
-\mathsf{Prop}$ be source classifiers. Assume source-carrier inclusion
+\mathsf{Prop}$ be source classifiers. The two refinements have separate
+premises. Source-carrier inclusion gives carrier refinement:
 $$
-\forall h.\; Left(h)\to Left'(h)
+\bigl((\forall h.\; Left(h)\to Left'(h))\land
+(\forall h.\; Right(h)\to Right'(h))\bigr)
+\to
+\bigl(\mathsf{SumHistoryCarrier}(Left,Right,h)\to
+\mathsf{SumHistoryCarrier}(Left',Right',h)\bigr).
 $$
-and
+Component-relation weakening gives classifier refinement:
 $$
-\forall h.\; Right(h)\to Right'(h),
-$$
-and assume component-relation weakening
-$$
-\forall a\,b.\; LeftEq(a,b)\to LeftEq'(a,b)
-$$
-and
-$$
-\forall a\,b.\; RightEq(a,b)\to RightEq'(a,b).
-$$
-Then carrier and classifier witnesses refine over the same visible endpoints:
-$$
-\mathsf{SumHistoryCarrier}(Left,Right,h)\to
-\mathsf{SumHistoryCarrier}(Left',Right',h)
-$$
-and
-$$
-\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to
-\mathsf{SumHistoryClassifier}(Left',Right',LeftEq',RightEq',h,k).
+\bigl((\forall a\,b.\; LeftEq(a,b)\to LeftEq'(a,b))\land
+(\forall a\,b.\; RightEq(a,b)\to RightEq'(a,b))\bigr)
+\to
+\bigl(\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to
+\mathsf{SumHistoryClassifier}(Left',Right',LeftEq',RightEq',h,k)\bigr).
 $$
 In the ten-field fit, the traditional target is disjoint-sum stability under
 source refinement, the BEDC source is the two $\mathsf{BHist}$ carriers, the
 carrier is $\mathsf{SumHistoryCarrier}$, the component classifier is
 $\mathsf{SumHistoryClassifier}$, the stability datum is source inclusion plus
-component-relation weakening, the ledger keeps the visible tag unchanged, the
-core theorem is carrier and classifier weakening, exactness is preserved by
-the same endpoint witnesses, the standard bridge is the $\mathsf{inl}$ and
-$\mathsf{inr}$ restriction, and the status is $\mathsf{ProofTarget}$.
+component-relation weakening, the ledger keeps the visible tag unchanged, and
+the core theorem separates carrier weakening from classifier weakening. The
+classifier part uses only component-relation weakening because source
+membership is not a field of $\mathsf{SumHistoryClassifier}$. Exactness is
+preserved by the same endpoint witnesses, the standard bridge is the
+$\mathsf{inl}$ and $\mathsf{inr}$ restriction, and the status is
+$\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-For the carrier claim, split the $\mathsf{SumHistoryCarrier}$ witness into its
-left and right constructor cases. The endpoint history witness is reused
-unchanged, while the displayed source-carrier inclusion maps the payload
-membership proof into the refined source carrier. For the classifier claim,
-split the $\mathsf{SumHistoryClassifier}$ witness into its left and right
-constructor cases. Reuse the same two visible endpoints and apply the matching
-component-relation weakening hypothesis to the stored $LeftEq$ or $RightEq$
-witness; the carrier-side endpoint data is transported by the corresponding
-source inclusion in the same branch.
+For the carrier claim, assume the displayed pair of source-carrier inclusions
+and split the $\mathsf{SumHistoryCarrier}$ witness into its left and right
+constructor cases. The endpoint history witness is reused unchanged, while the
+matching source-carrier inclusion maps the payload membership proof into the
+refined source carrier. For the classifier claim, assume the displayed pair of
+component-relation weakenings and split the $\mathsf{SumHistoryClassifier}$
+witness into its left and right constructor cases. Reuse the same two visible
+endpoints and apply only the matching component-relation weakening hypothesis
+to the stored $LeftEq$ or $RightEq$ witness. Source membership is absent from
+$\mathsf{SumHistoryClassifier}$, so no source-carrier inclusion is needed for
+the classifier paragraph.
 \end{proof}
 
 \begin{theorem}[Sum history classifier relation weakening]

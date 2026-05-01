@@ -63,15 +63,15 @@ follows:
   $$
   \item NameCert-shaped classifier-induced carrier transport:
   $$
-  \forall h\,k.\;\mathsf{ProdHistoryCarrier}(L,R,h)\to C(h,k)\to
+  \forall h\,k.\;C(h,k)\to\mathsf{ProdHistoryCarrier}(L,R,h)\to
   \mathsf{ProdHistoryCarrier}(L,R,k).
   $$
 The stronger endpoint exposure
 $C(h,k)\to\mathsf{ProdHistoryCarrier}(L,R,h)\land
 \mathsf{ProdHistoryCarrier}(L,R,k)$ is
 Theorem~\ref{thm:prod-component-history-classifier-endpoint-carriers}; the
-displayed source-carrier premise is retained because it is the
-carrier-transport field shape of the certificate.
+displayed theorem implies this field after adding the required source-endpoint
+carrier premise.
 \end{enumerate}
 These five fields are the core $\NameCert$ data used by
 Theorem~\ref{thm:prod-component-history-semantic-certificate-target}.
@@ -96,10 +96,12 @@ history $k$ gives both $l_k\sim_L l'_k$ and $r_k\sim_R r'_k$. The two source
 $\NameCert.\mathsf{equiv\_trans}$ fields then compose the left chain
 $l_h\sim_L l_k\sim_L l'_k\sim_L l_u$ and the right chain
 $r_h\sim_R r_k\sim_R r'_k\sim_R r_u$ separately. For carrier transport, the
-classifier witness for the right endpoint contains a displayed pair
-representation of $k$, and pair-representation coverage rebuilds
-$\mathsf{ProdHistoryCarrier}(L,R,k)$. Thus the displayed five-field tuple is
-exactly the componentwise product core classifier data.
+classifier witness first exposes a displayed pair representation of the right
+endpoint $k$, and pair-representation coverage rebuilds
+$\mathsf{ProdHistoryCarrier}(L,R,k)$. The source-endpoint carrier premise is
+the required $\NameCert$ field input and does not supply the right endpoint.
+Thus the displayed five-field tuple is exactly the componentwise product core
+classifier data.
 \end{proof}
 
 \begin{theorem}[Bounded $\hsame$ product pair-representation coherence]
