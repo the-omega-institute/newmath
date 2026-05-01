@@ -406,19 +406,17 @@ symmetry gives the classifier link.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_e1\_left\_iff}
 
-\begin{theorem}[Bool history classifier one-right endpoints]
+\begin{corollary}[Bool history classifier one-right endpoints]
 \label{thm:bool-history-classifier-eone-right-endpoints}
 The boolean history classifier relates $h$ to $\Eone(k)$ exactly when
 $h$ is internally the same as $\Eone(\emp)$ and $k$ is internally the same as
 $\emp$.
 
-The per-object fit is: traditional target boolean one-endpoint readback; BEDC
-source $\mathsf{BHist}$ with $\hsame$; carrier
-$\mathsf{BoolHistoryCarrier}$; classifier $\mathsf{BoolHistoryClassifier}$;
-stability obligation right-endpoint constructor inversion; ledger the displayed
-boolean endpoint; core theorem this right-endpoint iff; exactness one-endpoint
-readback; status $\mathsf{ProofTarget}$.
-\end{theorem}
+This is the right-endpoint symmetry corollary of
+Theorem~\ref{thm:bool-history-classifier-eone-left-endpoints} and
+Theorem~\ref{thm:bool-history-classifier-symmetry}, rather than a separate
+finite-data certificate target.
+\end{corollary}
 \begin{proof}
 Use classifier symmetry to turn a witness for
 $\mathsf{BoolHistoryClassifier}(h,\Eone(k))$ into a witness for
@@ -521,11 +519,15 @@ right endpoint, and symmetry supplies the classifier link.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_empty\_left\_iff}
 
-\begin{theorem}[Bool history classifier empty-right equivalence]
+\begin{corollary}[Bool history classifier empty-right equivalence]
 \label{thm:bool-history-classifier-empty-right-iff}
 The boolean history classifier relates $h$ to $\emp$ exactly when $h$ is
 internally the same history as $\emp$.
-\end{theorem}
+This is the empty-endpoint symmetry corollary of
+Theorem~\ref{thm:bool-history-classifier-empty-left-iff} and
+Theorem~\ref{thm:bool-history-classifier-symmetry}, rather than a separate
+finite-data certificate target.
+\end{corollary}
 \begin{proof}
 For the forward direction, use classifier symmetry to move the empty endpoint
 to the left, then apply Theorem~\ref{thm:bool-history-classifier-empty-left-iff}.
