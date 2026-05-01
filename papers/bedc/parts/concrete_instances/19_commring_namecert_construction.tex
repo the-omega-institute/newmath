@@ -281,6 +281,41 @@ Transitivity of $\hsame$ composes the row-major normalization with this
 column reordering, yielding the stated column-major signed normal form.
 \end{proof}
 
+\begin{theorem}[CommRing signed column cancellations force zero product]
+\label{thm:commring-signed-column-cancellations-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ with
+$a\cdot c\hsame b\cdot c$ and $a\cdot d\hsame b\cdot d$ satisfies
+$$
+(a+(-b))\cdot(c+(-d))\hsame0.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-signed-column-binary-product-normal-form} to
+rewrite the signed product as
+$$
+(a\cdot c+(-(b\cdot c)))+((-(a\cdot d))+(b\cdot d)).
+$$
+
+The first hypothesis is transported by additive congruence through the left
+signed column. It identifies $a\cdot c+(-(b\cdot c))$ with
+$(b\cdot c)+(-(b\cdot c))$, and Theorem~\ref{thm:ring-add-right-inverse}
+collapses this right-inverse pair to $0$.
+
+For the second signed column, apply additive inverse congruence to
+$a\cdot d\hsame b\cdot d$ and identify $-(a\cdot d)$ with $-(b\cdot d)$.
+Additive congruence transports $(-(a\cdot d))+(b\cdot d)$ to
+$(-(b\cdot d))+(b\cdot d)$, and the additive left-inverse law collapses this
+left-inverse pair to $0$.
+
+The column normal form is therefore transported to $0+0$. The additive
+left-zero law collapses $0+0$ to $0$, and transitivity of $\hsame$ composes
+the normal-form step, the two signed-column collapses, and the final zero
+collapse.
+\end{proof}
+
 \begin{definition}[CommRing ledger policy]
 \label{def:commring-ledger-policy}
 Record ring expression provenance and the multiplicative commutativity law when used.
