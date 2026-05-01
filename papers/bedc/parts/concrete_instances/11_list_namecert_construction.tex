@@ -15,7 +15,7 @@ The list interface $\ListUp$ is licensed over a source carrier endowed with a $\
   \item \textbf{Core theorem list}: history carrier case analysis, history classifier constructor exactness, list spine representation coverage, classifier transitivity, classifier symmetry from the source $\NameCert$, cons inversion, singleton equivalence, map stability, append cancellation, reverse stability, checked $\hsame$ length preservation, and the paper-side source-parametric length lemma of Theorem~\ref{thm:list-classifier-length-eq}.
   \item \textbf{Exactness predicate}: classification holds exactly when there exist finite spines $xs,ys$ such that $\mathsf{ListSpineRep}_A(h,xs)$, $\mathsf{ListSpineRep}_A(k,ys)$, and $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ hold; $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ makes alternate presentations of the same endpoint compatible for certificate use.
   \item \textbf{Standard bridge}: the generated carrier reads back through $\mathsf{ListSpineRep}_A$ under $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$; ordinary finite list syntax is the finite-spine presentation witness, not exported carrier equality or a quotient.
-  \item \textbf{Status}: $\mathsf{ProofTarget}$ for a conditional public-object certificate target, not a closed $\ListUp$ license; the finite-spine classifier already has the checked structural fields and paper-side lemmas listed in Theorem~\ref{thm:list-classifier-length-eq}. Phase Finite Data remains open for $\ListUp$ until a concrete $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$ witness is supplied.
+  \item \textbf{Status}: $\mathsf{ProofTarget}$ for a conditional public-object certificate target, not a closed $\ListUp$ license; the finite-spine classifier already has the checked structural fields and paper-side lemmas listed in Theorem~\ref{thm:list-classifier-length-eq}. By Theorem~\ref{thm:list-spine-rep-unframed-coherence-obstruction}, Phase Finite Data remains open for $\ListUp$ because the displayed unframed $\mathsf{ListSpineRep}$ cannot itself provide the required coherence witness; a closed certificate must use a framed or separated spine representation, or an explicitly restricted source presentation proving coherence.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -679,30 +679,10 @@ $\mathsf{ListClassifierSpec}(\sim_A,ys,ys')$.
 
 \begin{theorem}[List history classifier transitivity from spine coherence]
 \label{thm:list-history-classifier-trans-from-spine-coherence}
-Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
-$\sim_A$ be a source classifier, and let
-$\mathsf{cert}:\NameCert(A,\sim_A)$. If
-$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds, then the existential
-spine-representation classifier of Definition~\ref{def:list-spine-representation}
-is transitive: whenever
-$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$ and
-$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,u)$ hold, then
-$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u)$ holds.
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let $\sim_A$ be a source classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. If $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds, then the existential spine-representation classifier of Definition~\ref{def:list-spine-representation} is transitive: whenever $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$ and $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,u)$ hold, then $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u)$ holds.
 \end{theorem}
 \begin{proof}
-Unpack the two history-classifier witnesses. The first gives spines $xs,ys$
-with representations of $h$ and $k$ and a witness
-$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. The second gives spines $ys',zs$
-with representations of $k$ and $u$ and a witness
-$\mathsf{ListClassifierSpec}(\sim_A,ys',zs)$. Apply
-Definition~\ref{def:list-spine-rep-coherence} to the two displayed
-representations of the middle history $k$ to obtain
-$\mathsf{ListClassifierSpec}(\sim_A,ys,ys')$. The checked finite-spine theorem
-$\mathsf{ListClassifierSpec\_trans\_from\_nameCert}$, applied with
-$\mathsf{cert}$, first composes $xs$ with $ys'$ through $ys$ and then composes
-the result with $zs$ through $ys'$. Repack the original representation of $h$,
-the original representation of $u$, and the composed finite-spine classifier
-witness to obtain $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u)$.
+Unpack the two history-classifier witnesses. The first gives spines $xs,ys$ with representations of $h$ and $k$ and a witness $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. The second gives spines $ys',zs$ with representations of $k$ and $u$ and a witness $\mathsf{ListClassifierSpec}(\sim_A,ys',zs)$. Apply Definition~\ref{def:list-spine-rep-coherence} to the two displayed representations of the middle history $k$ to obtain $\mathsf{ListClassifierSpec}(\sim_A,ys,ys')$. The checked finite-spine theorem $\mathsf{ListClassifierSpec\_trans\_from\_nameCert}$, applied with $\mathsf{cert}$, first composes $xs$ with $ys'$ through $ys$ and then composes the result with $zs$ through $ys'$. Repack the original representation of $h$, the original representation of $u$, and the composed finite-spine classifier witness to obtain $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u)$.
 \end{proof}
 
 \begin{theorem}[List spine classifier preserves represented length]
@@ -751,6 +731,14 @@ recovered tail carrier witness, the continuation witness, and the displayed
 $\hsame(h,\Eone(p))$ endpoint.
 \end{proof}
 
+\begin{theorem}[List spine unframed coherence obstruction]
+\label{thm:list-spine-rep-unframed-coherence-obstruction}
+The unframed relation $\mathsf{ListSpineRep}_A(h,xs)$ of Definition~\ref{def:list-spine-representation} is only an existential endpoint presentation: its cons clause stores $\hsame(h,\Eone(p))$ and the continuation witness but no separated recovery principle identifying a unique head and tail spine. Hence it cannot by itself supply $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ for the bridge classifier.
+\end{theorem}
+\begin{proof}
+Coherence compares two arbitrary finite-spine presentations of the same history and must produce $\mathsf{ListClassifierSpec}(\sim_A,ys,ys')$. Definition~\ref{def:list-spine-representation} only destructs a chosen presentation; it does not turn endpoint sameness into classified sameness of the hidden head and tail data. The needed comparison therefore has to come from a framed or separated spine representation, or from a source presentation whose restrictions prove that comparison directly.
+\end{proof}
+
 \begin{theorem}[Conditional $\ListUp$ public-object target from the spine bridge]
 \label{thm:concrete-list-namecert}
 Given a BEDC history source carrier $A : \mathsf{BHist} \to \mathsf{Prop}$,
@@ -795,5 +783,5 @@ makes alternate presentations of the same endpoint compatible for certificate us
 
 \begin{corollary}[$\ListUp$ conditional public-object target]
 \label{cor:list-conditional-license}
-By Theorem~\ref{thm:concrete-list-namecert}, $\ListUp(A)$ has a conditional public-object certificate target relative to the supplied source $\NameCert$ and a witness of $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Phase Finite Data remains open for $\ListUp$ until a concrete $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ witness is supplied.
+By Theorem~\ref{thm:concrete-list-namecert}, $\ListUp(A)$ has a conditional public-object certificate target relative to the supplied source $\NameCert$ and a witness of $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. By Theorem~\ref{thm:list-spine-rep-unframed-coherence-obstruction}, the displayed unframed $\mathsf{ListSpineRep}$ cannot itself provide this witness; Phase Finite Data remains open until a closed certificate uses a framed or separated spine representation, or an explicitly restricted source presentation proving coherence.
 \end{corollary}
