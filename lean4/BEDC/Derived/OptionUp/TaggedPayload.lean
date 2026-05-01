@@ -8,6 +8,57 @@ def TaggedOptionSourceHsameCompatible (S : BHist → Prop) (Rel : BHist → BHis
     Prop :=
   ∀ {a b : BHist}, S a → S b → hsame a b → Rel a b
 
+theorem TaggedOptionHistoryClassifier_present_present_exactness {S : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} {h k : BHist} :
+    TaggedOptionHistoryClassifier S Rel (BHist.e1 h) (BHist.e1 k) ↔
+      ∃ a : BHist, ∃ b : BHist,
+        S a ∧ S b ∧ hsame h a ∧ hsame k b ∧ Rel a b := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | inl absentPair =>
+        exact False.elim (not_hsame_e1_empty absentPair.left)
+    | inr presentPair =>
+        cases presentPair with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro sourceA rest =>
+                    cases rest with
+                    | intro sourceB rest =>
+                        cases rest with
+                        | intro sameHPresent rest =>
+                            cases rest with
+                            | intro sameKPresent relAB =>
+                                exact Exists.intro a
+                                  (Exists.intro b
+                                    (And.intro sourceA
+                                      (And.intro sourceB
+                                        (And.intro (hsame_e1_iff.mp sameHPresent)
+                                          (And.intro (hsame_e1_iff.mp sameKPresent)
+                                            relAB)))))
+  · intro presentPair
+    cases presentPair with
+    | intro a restA =>
+        cases restA with
+        | intro b data =>
+            cases data with
+            | intro sourceA rest =>
+                cases rest with
+                | intro sourceB rest =>
+                    cases rest with
+                    | intro sameHA rest =>
+                        cases rest with
+                        | intro sameKB relAB =>
+                            exact Or.inr
+                              (Exists.intro a
+                                (Exists.intro b
+                                  (And.intro sourceA
+                                    (And.intro sourceB
+                                      (And.intro (hsame_e1_congr sameHA)
+                                        (And.intro (hsame_e1_congr sameKB) relAB))))))
+
 theorem TaggedOptionHistoryClassifier_presented_payload_exactness {S : BHist -> Prop}
     {Rel : BHist -> BHist -> Prop}
     (rel_trans : forall {x y z : BHist}, Rel x y -> Rel y z -> Rel x z)
@@ -67,7 +118,44 @@ theorem TaggedOptionHistoryClassifier_visible_present_exactness {S : BHist → P
         (Exists.intro k
           (And.intro sourceH
             (And.intro sourceK
-              (And.intro (hsame_refl (BHist.e1 h))
-                (And.intro (hsame_refl (BHist.e1 k)) relHK))))))
+                (And.intro (hsame_refl (BHist.e1 h))
+                  (And.intro (hsame_refl (BHist.e1 k)) relHK))))))
+
+theorem TaggedOptionHistoryClassifier_hsame_present_exactness {S : BHist -> Prop}
+    (source_transport : ∀ {x y : BHist}, hsame x y -> S x -> S y) {h k : BHist} :
+    TaggedOptionHistoryClassifier S hsame (BHist.e1 h) (BHist.e1 k) ↔
+      S h ∧ S k ∧ hsame h k := by
+  constructor
+  · intro classifier
+    have presentPair :
+        ∃ a : BHist, ∃ b : BHist,
+          S a ∧ S b ∧ hsame h a ∧ hsame k b ∧ hsame a b :=
+      TaggedOptionHistoryClassifier_present_present_exactness.mp classifier
+    cases presentPair with
+    | intro a restA =>
+        cases restA with
+        | intro b data =>
+            cases data with
+            | intro sourceA rest =>
+                cases rest with
+                | intro sourceB rest =>
+                    cases rest with
+                    | intro sameHA rest =>
+                        cases rest with
+                        | intro sameKB sameAB =>
+                            exact And.intro (source_transport (hsame_symm sameHA) sourceA)
+                              (And.intro (source_transport (hsame_symm sameKB) sourceB)
+                                (hsame_trans sameHA (hsame_trans sameAB (hsame_symm sameKB))))
+  · intro data
+    cases data with
+    | intro sourceH rest =>
+        cases rest with
+        | intro sourceK sameHK =>
+            exact TaggedOptionHistoryClassifier_present_present_exactness.mpr
+              (Exists.intro h
+                (Exists.intro k
+                  (And.intro sourceH
+                    (And.intro sourceK
+                      (And.intro (hsame_refl h) (And.intro (hsame_refl k) sameHK))))))
 
 end BEDC.Derived.OptionUp

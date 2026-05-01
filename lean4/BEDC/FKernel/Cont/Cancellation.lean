@@ -10,6 +10,13 @@ theorem cont_right_cancel_hsame_result {h h' k r r' : BHist} :
   apply append_right_cancel (k := k)
   exact left.symm.trans (same.trans right)
 
+theorem cont_hsame_transport {h h' k k' r r' : BHist} :
+    hsame h h' → hsame k k' → hsame r r' → Cont h k r → Cont h' k' r' := by
+  intro sameH sameK sameR hcont
+  cases sameH
+  cases sameK
+  exact BEDC.FKernel.Cont.cont_result_hsame_transport hcont sameR
+
 theorem cont_cancel_common_context {a b c d ab ad left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont a d ad -> Cont ad c right ->
       hsame left right -> hsame b d := by
@@ -38,6 +45,18 @@ theorem cont_mutual_extension_hsame {h k leftTail rightTail : BHist} :
   have leftEmpty : leftTail = BHist.Empty := (append_eq_empty_iff.mp tailEmpty).left
   cases leftEmpty
   exact left.symm
+
+theorem cont_mutual_extension_tails_empty {h k leftTail rightTail : BHist} :
+    Cont h leftTail k -> Cont k rightTail h ->
+      hsame leftTail BHist.Empty ∧ hsame rightTail BHist.Empty := by
+  intro left right
+  have cycle : Cont h (append leftTail rightTail) h := by
+    exact right.trans
+      ((congrArg (fun x => append x rightTail) left).trans
+        (append_assoc h leftTail rightTail))
+  have tailEmpty : hsame (append leftTail rightTail) BHist.Empty :=
+    cont_right_unit_unique cycle
+  exact append_eq_empty_iff.mp tailEmpty
 
 theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
     Cont a b r -> Cont a' d r' -> hsame a a' -> hsame r r' -> hsame b d := by

@@ -49,6 +49,53 @@ No judgment \(\mathsf{Unary}(\Ezero(h))\) is generated.
 By closed generation for \(\mathsf{Unary}\), the only extension rule uses \(\Eone\). No \(\Ezero\)-extension constructor is displayed.
 \end{proof}
 
+\begin{theorem}[Unary prefix totality]
+\label{thm:nat-unary-prefix-total}
+If \(h\) and \(k\) are unary histories, then either \(h\) continues by a unary
+tail to \(k\), or \(k\) continues by a unary tail to \(h\).
+\end{theorem}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryPrefix\_total}
+\begin{proof}
+Induct on the unary generation of \(h\). The empty case uses \(k\) itself as
+the tail. In the \(\Eone\) case, split \(k\); the empty and \(\Ezero\) cases
+are immediate by the continuation unit and unary no-zero rule. When
+\(k=\Eone(k')\), apply the induction hypothesis to \(h'\) and \(k'\), then
+lift the resulting unary tail across the common \(\Eone\) boundary by the
+unary one-extension append law.
+\end{proof}
+
+\begin{theorem}[Unary prefix directed common upper]
+\label{thm:nat-unary-prefix-directed-common-upper}
+If $h$ and $k$ are unary histories, then there is a unary history $u$ such
+that both $h$ and $k$ continue to $u$ by unary tails.
+\end{theorem}
+\begin{proof}
+Apply unary prefix totality. If $h$ continues to $k$, choose $k$ as the
+common upper and use the empty tail on the $k$-side. If $k$ continues to
+$h$, choose $h$ as the common upper and use the empty tail on the $h$-side.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryPrefix\_directed\_common\_upper}
+
+\begin{definition}[Strict unary prefix]
+\label{def:nat-unary-strict-prefix}
+A strict unary prefix from $h$ to $k$ is a unary tail $t$ such that $t$ is not
+$\emp$ and $\mathsf{Cont}(h,t,k)$.
+\end{definition}
+\leandef{BEDC.Derived.NatUp.NatUnaryStrictPrefix}
+
+\begin{theorem}[Strict unary prefix asymmetry]
+\label{thm:nat-unary-strict-prefix-asymm}
+No pair of histories can strictly prefix each other through nonempty unary
+tails.
+\end{theorem}
+\begin{proof}
+Unpack the two strict witnesses. Mutual continuation makes the endpoints
+history-same. The right-unit continuation at the source then transports to the
+forward target, so left cancellation identifies the forward tail with $\emp$,
+contradicting its strictness.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_asymm}
+
 \section{The certificate}
 
 \begin{definition}[Unary source specification]

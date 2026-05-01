@@ -206,6 +206,33 @@ theorem hsame_e1_e0_iff_false {h k : BHist} :
   · intro hf
     cases hf
 
+theorem hsame_extension_self_absurd :
+    (∀ h : BHist, hsame (BHist.e0 h) h → False) ∧
+      (∀ h : BHist, hsame (BHist.e1 h) h → False) := by
+  constructor
+  · intro h
+    induction h with
+    | Empty =>
+        intro same
+        exact not_hsame_e0_empty same
+    | e0 h ih =>
+        intro same
+        exact ih (hsame_e0_iff.mp same)
+    | e1 h _ih =>
+        intro same
+        exact not_hsame_e0_e1 same
+  · intro h
+    induction h with
+    | Empty =>
+        intro same
+        exact not_hsame_e1_empty same
+    | e0 h _ih =>
+        intro same
+        exact not_hsame_e1_e0 same
+    | e1 h ih =>
+        intro same
+        exact ih (hsame_e1_iff.mp same)
+
 theorem hsame_no_confusion :
     (∀ {h : BHist}, hsame .Empty (.e0 h) → False) ∧
       (∀ {h : BHist}, hsame .Empty (.e1 h) → False) ∧

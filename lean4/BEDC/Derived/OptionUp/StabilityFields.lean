@@ -119,4 +119,62 @@ theorem TaggedOptionHistoryClassifier_stability_fields {S : BHist → Prop}
                                                       sameKPresent)
                                                     relAB))))))
 
+theorem TaggedOptionHistoryClassifier_hsame_transport {S : BHist → Prop}
+    {Rel : BHist → BHist → Prop} {h h' k k' : BHist} :
+    hsame h h' →
+      hsame k k' →
+        TaggedOptionHistoryClassifier S Rel h k →
+          TaggedOptionHistoryClassifier S Rel h' k' := by
+  intro sameH sameK classified
+  cases classified with
+  | inl absent =>
+      exact Or.inl
+        (And.intro (hsame_trans (hsame_symm sameH) absent.left)
+          (hsame_trans (hsame_symm sameK) absent.right))
+  | inr present =>
+      cases present with
+      | intro a rest =>
+          cases rest with
+          | intro b data =>
+              cases data with
+              | intro sourceA rest =>
+                  cases rest with
+                  | intro sourceB rest =>
+                      cases rest with
+                      | intro sameHPresent rest =>
+                          cases rest with
+                          | intro sameKPresent relAB =>
+                              exact Or.inr
+                                (Exists.intro a
+                                  (Exists.intro b
+                                    (And.intro sourceA
+                                      (And.intro sourceB
+                                        (And.intro
+                                          (hsame_trans (hsame_symm sameH) sameHPresent)
+                                          (And.intro
+                                            (hsame_trans (hsame_symm sameK) sameKPresent)
+                                            relAB))))))
+
 end BEDC.Derived.OptionUp
+
+theorem BEDC.Derived.OptionUp.OptionClassifierSpec_symm_from_source_symmetry
+    {A : Type} {Rel : A → A → Prop}
+    (rel_symm : ∀ {a b : A}, Rel a b → Rel b a) :
+    ∀ {x y : BEDC.Derived.OptionUp.OptionCarrier A},
+      BEDC.Derived.OptionUp.OptionClassifierSpec Rel x y →
+        BEDC.Derived.OptionUp.OptionClassifierSpec Rel y x := by
+  intro x y classified
+  change BEDC.Derived.OptionUp.OptionClassifierSpec Rel y x
+  cases x with
+  | none =>
+      cases y with
+      | none =>
+          exact classified
+      | some _ =>
+          cases classified
+  | some _ =>
+      cases y with
+      | none =>
+          cases classified
+      | some _ =>
+          exact rel_symm classified

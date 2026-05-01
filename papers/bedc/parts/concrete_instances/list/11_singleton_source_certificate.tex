@@ -96,6 +96,210 @@ induction hypothesis to the aligned tail presentations, and rebuild the cons
 witness for $\mathsf{ListClassifierSpec}(\hsame,-,-)$.
 \end{proof}
 
+\begin{theorem}[Hsame-compatible bounded list source spine coherence]
+\label{thm:list-hsame-compatible-bounded-source-spine-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$, let $\mathsf{Rel}$ be a source
+classifier on $\mathsf{BHist}$, and let $a_0:\mathsf{BHist}$. If
+$\mathsf{ListHsameBoundedSource}(A,a_0)$ and
+$\mathsf{ListSourceHsameCompatible}(A,\mathsf{Rel})$ hold, then the ten-field
+per-object fit is: traditional target finite-list readback over a bounded
+source; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier $\mathsf{Rel}$ lifted through
+$\mathsf{ListClassifierSpec}$; stability from bounded head comparison plus
+source hsame compatibility; ledger finite spine; core theorem this coherence
+law; exactness compatible spine readback; standard bridge finite spines; status
+$\mathsf{ProofTarget}$. Hence
+$$
+\mathsf{ListSpineRepCoherent}_{A,\mathsf{Rel}}
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Compare two spine presentations of a common endpoint by cases on the two
+spines. The nil/nil case is the nil classifier. The mixed nil/cons and cons/nil
+cases contradict Theorem~\ref{thm:list-spine-rep-nil-cons-no-confusion}. In the
+cons/cons case, write the displayed outer endpoints as $\Eone(p)$ and
+$\Eone(p')$. The common endpoint witness gives
+$\hsame(\Eone(p),\Eone(p'))$, and
+Theorem~\ref{thm:history-constructor-characterization} inverts it to
+$\hsame(p,p')$. The source facts $A(a)$ and $A(a')$, together with
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, give $\hsame(a,a_0)$ and
+$\hsame(a',a_0)$, hence $\hsame(a,a')$ by symmetry and transitivity. Apply
+$\mathsf{ListSourceHsameCompatible}(A,\mathsf{Rel})$ to obtain
+$\mathsf{Rel}(a,a')$. Apply
+Theorem~\ref{thm:cont-cancel-hsame-left-context} to $\ContR(a,t,p)$,
+$\ContR(a',t',p')$, the head sameness, and the result sameness to obtain
+$\hsame(t,t')$. Transport the second tail representation along
+Lemma~\ref{lem:list-spine-representation-endpoint-transport}, apply the
+induction hypothesis to the aligned tail presentations, and rebuild the cons
+witness for $\mathsf{ListClassifierSpec}(\mathsf{Rel},-,-)$.
+\end{proof}
+
+\begin{corollary}[Hsame-compatible bounded list source unframed certificate]
+\label{thm:list-hsame-compatible-bounded-source-public-object-certificate}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$, let $\mathsf{Rel}$ be a source
+classifier on $\mathsf{BHist}$, and let $a_0:\mathsf{BHist}$. If
+$\mathsf{cert}:\NameCert(A,\mathsf{Rel})$,
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, and
+$\mathsf{ListSourceHsameCompatible}(A,\mathsf{Rel})$ hold, then
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,
+\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}})
+$$
+holds.
+\end{corollary}
+\begin{proof}
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-spine-coherence} supplies
+$\mathsf{ListSpineRepCoherent}_{A,\mathsf{Rel}}$ from the bounded-source and
+source-compatibility hypotheses. Apply
+Theorem~\ref{thm:concrete-list-namecert} with this coherence witness and the
+displayed source certificate.
+\end{proof}
+
+\begin{theorem}[Hsame-compatible bounded list source endpoint spine ledgers]
+\label{thm:list-hsame-compatible-bounded-source-public-object-endpoint-spine-ledgers}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$, let $\mathsf{Rel}$ be a source
+classifier on $\mathsf{BHist}$, and let $a_0:\mathsf{BHist}$. If
+$\mathsf{cert}:\NameCert(A,\mathsf{Rel})$,
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, and
+$\mathsf{ListSourceHsameCompatible}(A,\mathsf{Rel})$ hold, then the ten-field
+fit is: traditional target finite lists over an $\hsame$-bounded BEDC history
+source with a compatible source classifier; BEDC source $\mathsf{BHist}$ with
+$\NameCert(A,\mathsf{Rel})$; carrier $\mathsf{ListHistoryCarrier}_A$;
+classifier $\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}$; stability
+from bounded head comparison plus source $\hsame$ compatibility; ledger
+finite-spine endpoint exposure; core route
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-spine-coherence},
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence}, and
+Theorem~\ref{thm:list-public-object-endpoint-spine-ledgers}; exactness through
+the finite-spine endpoint representation $\mathsf{ListSpineRep}_A$; standard
+bridge finite spines; status Phase Finite Data. The cons-boundary coherence
+target
+$$
+\mathsf{ListConsBoundaryCoherent}_{A,\mathsf{Rel}}
+$$
+holds, and the public-object semantic certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,
+\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}})
+$$
+holds. Moreover, for all histories $h,k:\mathsf{BHist}$, every witness of
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+$$
+exposes finite spines $xs,ys:\mathsf{HistSpine}$ with
+$$
+\mathsf{ListSpineRep}_A(h,xs)
+$$
+and
+$$
+\mathsf{ListSpineRep}_A(k,ys).
+$$
+Consequently,
+$$
+\mathsf{ListHistoryCarrier}_A(h)\land\mathsf{ListHistoryCarrier}_A(k)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-spine-coherence} turns the
+bounded-source and source-compatibility hypotheses into
+$\mathsf{ListSpineRepCoherent}_{A,\mathsf{Rel}}$.
+
+The forward implication of
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence} converts this
+spine coherence datum into
+$\mathsf{ListConsBoundaryCoherent}_{A,\mathsf{Rel}}$.
+
+Apply Theorem~\ref{thm:list-public-object-endpoint-spine-ledgers} to the source
+certificate $\mathsf{cert}$ and this cons-boundary witness. Its certificate
+component is exactly the displayed
+$\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}})$, and its endpoint-ledger
+component supplies the finite spines $xs$ and $ys$ with the two displayed
+$\mathsf{ListSpineRep}_A$ facts. The final carrier conjunction follows from
+Theorem~\ref{thm:list-spine-representation-coverage}.
+\end{proof}
+
+\begin{theorem}[Hsame-compatible bounded list source public-object constructor audit]
+\label{thm:list-hsame-compatible-bounded-source-public-object-constructor-audit}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$, let $\mathsf{Rel}$ be a source
+classifier on $\mathsf{BHist}$, and let $a_0:\mathsf{BHist}$. If
+$\mathsf{cert}:\NameCert(A,\mathsf{Rel})$,
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, and
+$\mathsf{ListSourceHsameCompatible}(A,\mathsf{Rel})$ hold, then the ten-field fit
+is: traditional target finite lists over an hsame-bounded source; BEDC source
+$\mathsf{BHist}$ with $\NameCert(A,\mathsf{Rel})$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}$; stability from bounded
+head comparison plus source hsame compatibility; ledger finite-spine endpoint
+witnesses; core theorem bounded public constructor audit; exactness nil/cons
+constructor equivalence; standard bridge finite spines; status
+$\mathsf{ProofTarget}$. The semantic public-object certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,
+\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}})
+$$
+holds. Moreover, for all histories $h,k:\mathsf{BHist}$, every
+certificate-classifier witness exposes endpoint spine ledgers:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+\to
+\left(
+\begin{array}{l}
+(\exists xs:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(h,xs))\\
+\land\\
+(\exists ys:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(k,ys))
+\end{array}
+\right).
+$$
+The same classifier is exactly the nil-nil or cons-cons constructor
+disjunction:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+\Longleftrightarrow
+\begin{array}{l}
+(\hsame(h,\emp)\land \hsame(k,\emp))\\
+\lor\\
+\exists a\,b\,t\,u\,p\,q:\mathsf{BHist}.\;
+\left(
+\begin{array}{l}
+A(a)\land A(b)\land
+\mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListHistoryCarrier}_A(u)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+\mathsf{Rel}(a,b)\land
+\mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(t,u)
+\end{array}
+\right).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-spine-coherence} turns the
+bounded-source and source-compatibility hypotheses into
+$\mathsf{ListSpineRepCoherent}_{A,\mathsf{Rel}}$.
+
+The forward implication of
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence} converts this
+spine coherence datum into
+$\mathsf{ListConsBoundaryCoherent}_{A,\mathsf{Rel}}$.
+
+Apply Theorem~\ref{thm:list-public-object-constructor-audit} to the displayed
+source certificate and this cons-boundary coherence witness. Its three outputs
+are exactly the semantic certificate, the endpoint spine ledgers for each
+classifier witness, and the displayed nil-nil or cons-cons constructor
+equivalence.
+\end{proof}
+
 \begin{corollary}[Hsame-bounded list source unframed certificate]
 \label{thm:list-hsame-bounded-source-public-object-certificate}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ and $a_0:\mathsf{BHist}$. If
@@ -124,6 +328,61 @@ $\NameCert(A,\hsame)$ input. The bounded-source hypothesis supplies
 $\mathsf{ListSpineRepCoherent}_{A,\hsame}$ by
 Theorem~\ref{thm:list-hsame-bounded-source-spine-coherence}. Apply
 Theorem~\ref{thm:concrete-list-namecert} with these two inputs.
+\end{proof}
+
+\begin{theorem}[Hsame-bounded list source endpoint spine ledgers]
+\label{thm:list-hsame-bounded-source-public-object-endpoint-spine-ledgers}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ and $a_0:\mathsf{BHist}$. If
+$\mathsf{cert}:\NameCert(A,\hsame)$ and
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, then the displayed public-object
+semantic certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,
+\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame})
+$$
+holds. Moreover, for all histories $h$ and $k$, every classifier witness
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,k)
+$$
+yields finite spines $xs,ys:\mathsf{HistSpine}$ with
+$$
+\mathsf{ListSpineRep}_A(h,xs)
+$$
+and
+$$
+\mathsf{ListSpineRep}_A(k,ys).
+$$
+Consequently,
+$$
+\mathsf{ListHistoryCarrier}_A(h)\land\mathsf{ListHistoryCarrier}_A(k)
+$$
+holds. The per-object fit is: traditional target finite lists over one
+hsame-bounded BEDC history source; BEDC source $\mathsf{BHist}$ with $\hsame$;
+carrier $\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}$; ledger finite-spine endpoint
+exposure; core route Theorem~\ref{thm:list-hsame-bounded-source-spine-coherence},
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence}, and
+Theorem~\ref{thm:list-public-object-endpoint-spine-ledgers}; standard bridge
+finite spines; status Phase Finite Data.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-hsame-bounded-source-spine-coherence} turns the
+hsame-bounded source hypothesis into
+$\mathsf{ListSpineRepCoherent}_{A,\hsame}$. The forward implication of
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence} converts this
+spine coherence datum into
+$\mathsf{ListConsBoundaryCoherent}_{A,\hsame}$. Apply
+Theorem~\ref{thm:list-public-object-endpoint-spine-ledgers} to the source
+certificate $\mathsf{cert}$ and this cons-boundary witness. Its certificate
+component is exactly the displayed
+$\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame})$, and its endpoint-ledger
+component supplies the finite spines $xs$ and $ys$ with the two displayed
+$\mathsf{ListSpineRep}_A$ facts. The final carrier conjunction follows from
+Theorem~\ref{thm:list-spine-representation-coverage}.
 \end{proof}
 
 \begin{theorem}[List singleton source unframed certificate]

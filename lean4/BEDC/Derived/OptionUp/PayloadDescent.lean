@@ -140,4 +140,68 @@ theorem TaggedOptionMapRel_preserves_classification {S T : BHist → Prop}
                                                                                     (delta.respects
                                                                                       relA0B0)))))))
 
+theorem TaggedOptionMapRel_common_source_target_classification {S T : BHist -> Prop}
+    {RelS RelT : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {h k k' : BHist} :
+    TaggedOptionMapRel S T delta h k ->
+      TaggedOptionMapRel S T delta h k' ->
+        TaggedOptionHistoryClassifier T RelT k k' := by
+  intro mapK mapK'
+  cases mapK with
+  | inl absentK =>
+      cases mapK' with
+      | inl absentK' =>
+          exact Or.inl (And.intro absentK.right absentK'.right)
+      | inr presentK' =>
+          cases presentK' with
+          | intro b dataK' =>
+              cases dataK' with
+              | intro _ restK' =>
+                  cases restK' with
+                  | intro _ restK' =>
+                      cases restK' with
+                      | intro sameHPresent _ =>
+                          exact False.elim
+                            (not_hsame_emp_e1
+                              (hsame_trans (hsame_symm absentK.left) sameHPresent))
+  | inr presentK =>
+      cases presentK with
+      | intro a dataK =>
+          cases dataK with
+          | intro sourceA restK =>
+              cases restK with
+              | intro targetA restK =>
+                  cases restK with
+                  | intro sameHPresentA sameKPresentA =>
+                      cases mapK' with
+                      | inl absentK' =>
+                          exact False.elim
+                            (not_hsame_emp_e1
+                              (hsame_trans (hsame_symm absentK'.left) sameHPresentA))
+                      | inr presentK' =>
+                          cases presentK' with
+                          | intro b dataK' =>
+                              cases dataK' with
+                              | intro sourceB restK' =>
+                                  cases restK' with
+                                  | intro targetB restK' =>
+                                      cases restK' with
+                                      | intro sameHPresentB sameK'PresentB =>
+                                          have sameAB : hsame a b :=
+                                            hsame_e1_iff.mp
+                                              (hsame_trans
+                                                (hsame_symm sameHPresentA)
+                                                sameHPresentB)
+                                          have relAB : RelS a b :=
+                                            source_hsame sourceA sourceB sameAB
+                                          exact Or.inr
+                                            (Exists.intro (delta.map a)
+                                              (Exists.intro (delta.map b)
+                                                (And.intro targetA
+                                                  (And.intro targetB
+                                                    (And.intro sameKPresentA
+                                                      (And.intro sameK'PresentB
+                                                        (delta.respects relAB)))))))
+
 end BEDC.Derived.OptionUp

@@ -101,6 +101,42 @@ the left and right instances of BEDC history equality transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_two\_step\_classifier\_composition}
 
+\begin{theorem}[Sum ledger raw-visible branch exactness]
+\label{thm:sum-ledger-raw-visible-branch-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$raw,visible:\mathsf{BHist}$ be histories. Then
+$$
+\mathsf{SumHistoryLedgerPolicy}(Left,Right,raw,visible)
+\Longleftrightarrow
+\bigl(\exists l:\mathsf{BHist}.\; Left(l)\land\hsame(raw,\Ezero(l))\land\hsame(visible,\Ezero(l))\bigr)
+\lor
+\bigl(\exists r:\mathsf{BHist}.\; Right(r)\land\hsame(raw,\Eone(r))\land\hsame(visible,\Eone(r))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the ledger into its raw sum carrier and the
+stored raw-visible link. Split the raw carrier branch.
+
+In the left branch, the carrier supplies $Left(l)$ and
+$\hsame(raw,\Ezero(l))$. Compose symmetry of the stored raw-visible link with
+this raw endpoint witness to obtain $\hsame(visible,\Ezero(l))$, and assemble the
+left disjunct.
+
+In the right branch, the same argument uses the witness $Right(r)$ and
+$\hsame(raw,\Eone(r))$ to obtain $\hsame(visible,\Eone(r))$ and assemble the right
+disjunct.
+
+For the reverse direction, split the displayed branch evidence. In the left
+branch, rebuild the raw sum carrier from $Left(l)$ and
+$\hsame(raw,\Ezero(l))$. Compose $\hsame(raw,\Ezero(l))$ with symmetry of
+$\hsame(visible,\Ezero(l))$ to recover the raw-visible ledger link.
+
+The right branch is identical, rebuilding the raw carrier from $Right(r)$ and
+$\hsame(raw,\Eone(r))$, then composing the two endpoint witnesses to recover the
+stored raw-visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_raw\_visible\_branch\_exactness}
+
 \begin{theorem}[Sum ledger two-step branch exactness]
 \label{thm:sum-ledger-two-step-branch-exactness}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
@@ -200,6 +236,60 @@ $\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ and
 $\mathsf{SumHistoryLedgerChain}_{Left,Right}(v,z)$ hold, then
 $\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ also holds.
 \end{definition}
+\leandef{BEDC.Derived.SumUp.SumHistoryLedgerChain}
+
+\begin{theorem}[Sum ledger chain classifier composition]
+\label{thm:sum-ledger-chain-classifier-composition}
+\label{thm:sum-history-ledger-chain-classifier-composition}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$raw,visible:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(raw,visible)$ holds, then
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,raw,visible)
+$$
+holds. The ten-field fit is: traditional target disjoint-sum finite ledger
+classifier closure; BEDC source $\mathsf{BHist}$ with $\hsame$; source carriers
+$Left$ and $Right$; carrier $\mathsf{SumHistoryCarrier}$; classifier
+$\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame)$; stability by
+raw-visible classification plus classifier transitivity; ledger
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}$; core theorem this finite-chain
+classifier closure; exactness finite raw-to-visible classifier reachability;
+standard bridge tagged sum finite ledger provenance; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the displayed
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(raw,visible)$ witness. In the
+one-ledger case, apply
+Theorem~\ref{thm:sum-ledger-raw-visible-classifier}. In the cons case, apply
+the induction hypothesis to the tail chain to obtain the classifier from the
+middle history to $visible$, then compose it with the first ledger by
+Theorem~\ref{thm:sum-ledger-classifier-extension}.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerChain\_classifier\_composition}
+
+\begin{theorem}[Sum ledger chain visible carrier]
+\label{thm:sum-ledger-chain-visible-carrier}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,z:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ holds, then
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,z)
+$$
+holds. The ten-field fit is: traditional target disjoint-sum finite ledger
+visible-carrier closure; BEDC source $\mathsf{BHist}$ with $\hsame$; source
+carriers $Left$ and $Right$; carrier $\mathsf{SumHistoryCarrier}$; classifier
+not needed for this unary closure; ledger
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}$; core theorem this carrier
+closure; exactness final visible endpoint remains in the sum carrier; standard
+bridge tagged sum finite ledger provenance; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the displayed
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ witness. In the
+one-ledger case, apply Theorem~\ref{thm:sum-ledger-visible-carrier}. In the
+cons case, use the carrier supplied by the tail induction hypothesis.
+\end{proof}
 
 \begin{theorem}[Sum ledger chain endpoint exactness]
 \label{thm:sum-ledger-chain-endpoint-exactness}
@@ -244,23 +334,156 @@ visible source readback; standard bridge tagged sum finite ledger provenance;
 status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-Induct on the displayed
-$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ witness. In the one-ledger
-case, the six endpoint clauses are exactly
-Theorem~\ref{thm:sum-ledger-one-step-endpoint-exactness}. In the cons case,
-write the first ledger as
-$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ and the remaining chain as
-$\mathsf{SumHistoryLedgerChain}_{Left,Right}(v,z)$. Use
-Theorem~\ref{thm:sum-ledger-one-step-endpoint-exactness} on the first ledger and
-the induction hypothesis on the tail. Split on the visible tag of $v$ supplied
-by Theorem~\ref{thm:sum-ledger-visible-carrier}. The middle alternatives that
-cross the initial endpoint tag are discharged by
-Theorem~\ref{thm:sum-ledger-visible-tag-separation}; the middle alternatives
-that cross the final endpoint tag are discharged by the mixed clauses supplied
-by the induction hypothesis. For same-tag endpoints, compose the first-ledger
-payload equality with the tail payload equality by transitivity of $\hsame$.
-The final visible readback clauses are inherited directly from the induction
-hypothesis, since the final endpoint is $z$.
+First apply Theorem~\ref{thm:sum-ledger-chain-classifier-composition} to the
+displayed chain, obtaining
+$\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,z)$. The two mixed
+endpoint clauses follow from
+Theorem~\ref{thm:sum-history-classifier-tag-separation}; for the reversed
+displayed order, first use classifier symmetry from
+Theorem~\ref{thm:sum-history-classifier-hsame-symmetry}. The same-tag endpoint
+clauses follow by transporting the classifier along the displayed endpoint
+$\hsame$ links and applying
+Theorem~\ref{thm:sum-history-classifier-left-hsame-inversion} or
+Theorem~\ref{thm:sum-history-classifier-right-hsame-inversion}. For the final
+visible readback, apply
+Theorem~\ref{thm:sum-ledger-chain-visible-carrier} to the displayed chain to
+obtain $\mathsf{SumHistoryCarrier}(Left,Right,z)$. Transport this carrier along
+the displayed $\hsame$ endpoint at $z$ and apply the left or right carrier
+inversion theorem to extract the matching source payload evidence.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerChain\_endpoint\_exactness}
+
+\begin{theorem}[Sum ledger chain branch readback soundness]
+\label{thm:sum-ledger-chain-branch-readback-soundness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,z:\mathsf{BHist}$ be histories. The finite ledger-chain relation forces
+exact same-branch payload readback:
+$$
+\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)
+\to
+\bigl(\exists l\,l':\mathsf{BHist}.\; Left(l)\land Left(l')\land\hsame(\rho,\Ezero(l))\land\hsame(z,\Ezero(l'))\land\hsame(l,l')\bigr)
+\lor
+\bigl(\exists r\,r':\mathsf{BHist}.\; Right(r)\land Right(r')\land\hsame(\rho,\Eone(r))\land\hsame(z,\Eone(r'))\land\hsame(r,r')\bigr).
+$$
+The ten-field fit is: traditional target disjoint-sum finite ledger branch
+readback; BEDC source $\mathsf{BHist}$ with $\hsame$; source carriers $Left$
+and $Right$; carrier $\mathsf{SumHistoryCarrier}$; classifier supplied by
+Theorem~\ref{thm:sum-ledger-chain-classifier-composition}; ledger
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}$; core theorem this branch
+readback soundness; finite ledger-chain witnesses map into same-branch payload
+readback; standard bridge tagged sum finite ledger provenance; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the displayed $\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$
+witness. In the one-ledger case, apply
+Theorem~\ref{thm:sum-ledger-raw-visible-branch-exactness} and choose the same
+payload at the raw and visible endpoints, with $\hsame$ reflexivity for the
+payload link.
+
+In the cons case, combine the raw-visible branch exactness of the first ledger
+with the induction hypothesis for the tail chain. The mixed left-right and
+right-left cases contradict generated-history no-confusion between $\Ezero$ and
+$\Eone$ at the shared middle endpoint. In the same-branch cases, use
+Theorem~\ref{thm:sum-visible-branch-payload-determinism} at the middle endpoint
+and $\hsame$ transitivity to compose the first payload with the final payload.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerChain\_branch\_exactness}
+
+\begin{theorem}[Sum ledger chain branch exactness]
+\label{thm:sum-ledger-chain-branch-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,z:\mathsf{BHist}$ be histories. The finite ledger-chain relation is
+equivalent to exact same-branch payload readback:
+$$
+\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)
+\Longleftrightarrow
+\bigl(\exists l\,l':\mathsf{BHist}.\; Left(l)\land Left(l')\land\hsame(\rho,\Ezero(l))\land\hsame(z,\Ezero(l'))\land\hsame(l,l')\bigr)
+\lor
+\bigl(\exists r\,r':\mathsf{BHist}.\; Right(r)\land Right(r')\land\hsame(\rho,\Eone(r))\land\hsame(z,\Eone(r'))\land\hsame(r,r')\bigr).
+$$
+The ten-field fit is: traditional target disjoint-sum finite ledger branch
+readback; BEDC source $\mathsf{BHist}$ with $\hsame$; source carriers $Left$
+and $Right$; carrier $\mathsf{SumHistoryCarrier}$; classifier supplied by
+Theorem~\ref{thm:sum-ledger-chain-classifier-composition}; ledger
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}$; core theorem this branch
+exactness; exactness coverage and completeness of the finite ledger-chain
+relation by same-branch payload readback; standard bridge tagged sum finite
+ledger provenance; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:sum-ledger-chain-branch-readback-soundness}.
+
+For the reverse direction, split the displayed disjunction. In the left branch,
+the witnesses $Left(l)$, $\hsame(\rho,\Ezero(l))$, $\hsame(z,\Ezero(l'))$, and
+$\hsame(l,l')$ determine a one-ledger left readback. Use symmetry of
+$\hsame(l,l')$ and constructor congruence for $\Ezero$ to transport
+$\hsame(z,\Ezero(l'))$ into $\hsame(z,\Ezero(l))$.
+
+Apply the reverse direction of
+Theorem~\ref{thm:sum-ledger-raw-visible-branch-exactness} to obtain
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,z)$, then use the one-ledger
+constructor of $\mathsf{SumHistoryLedgerChain}_{Left,Right}$.
+
+The right branch is identical, using the witnesses $Right(r)$,
+$\hsame(\rho,\Eone(r))$, $\hsame(z,\Eone(r'))$, and $\hsame(r,r')$, with
+constructor congruence for $\Eone$ before applying the same raw-visible branch
+exactness theorem and the one-ledger chain constructor.
+\end{proof}
+
+\begin{theorem}[Sum ledger chain raw branch forces final branch readback]
+\label{thm:sum-ledger-chain-raw-branch-forces-final-readback}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,z,l,r:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ holds, then raw visible
+branch evidence forces the matching final visible branch. The left clause is
+$$
+\begin{array}{l}
+Left(l)\to \hsame(\rho,\Ezero(l))\to
+\exists l':\mathsf{BHist}.\; Left(l')\land\hsame(z,\Ezero(l'))\land
+\hsame(l,l')\land
+\neg(\exists r':\mathsf{BHist}.\; Right(r')\land\hsame(z,\Eone(r')))
+\end{array}
+$$
+and the right clause is
+$$
+\begin{array}{l}
+Right(r)\to \hsame(\rho,\Eone(r))\to
+\exists r':\mathsf{BHist}.\; Right(r')\land\hsame(z,\Eone(r'))\land
+\hsame(r,r')\land
+\neg(\exists l':\mathsf{BHist}.\; Left(l')\land\hsame(z,\Ezero(l'))).
+\end{array}
+$$
+The ten-field fit is: traditional target disjoint-sum finite ledger branch
+forcing; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier final
+$\mathsf{SumHistoryCarrier}$; classifier supplied by the chain classifier
+composition theorem; ledger $\mathsf{SumHistoryLedgerChain}_{Left,Right}$; core
+theorem this raw-branch forcing readback; exactness same-tag payload determinacy
+plus mixed-tag exclusion; standard bridge tagged sum finite ledger provenance;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-chain-visible-carrier} to the chain and then
+Theorem~\ref{thm:sum-history-carrier-single-valued-visible-readback} to the
+final carrier. This splits the endpoint $z$ into a left visible presentation
+with right-presentation exclusion, or a right visible presentation with
+left-presentation exclusion.
+
+For the left raw premise, keep the left final presentation from the split. The
+same-tag payload clause of
+Theorem~\ref{thm:sum-ledger-chain-endpoint-exactness}, applied to
+$\hsame(\rho,\Ezero(l))$ and the displayed $\hsame(z,\Ezero(l'))$, gives
+$\hsame(l,l')$; combine it with the source witness for $l'$ and the carried
+right-presentation exclusion.
+
+The right final presentation cannot occur under the left raw premise, because
+the mixed endpoint clause of
+Theorem~\ref{thm:sum-ledger-chain-endpoint-exactness} contradicts
+$\hsame(\rho,\Ezero(l))$ and $\hsame(z,\Eone(r'))$. The right raw premise is
+symmetric: the right final presentation supplies the witness and the
+left-presentation exclusion, while the mixed endpoint clause excludes any left
+final presentation.
 \end{proof}
 
 \begin{theorem}[Sum ledger preserves visible tag separation]

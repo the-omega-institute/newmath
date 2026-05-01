@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.0 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v3.5 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -115,6 +115,132 @@ Phase D now enforces these constraints mechanically. Select targets that will pa
 - Do NOT select or propose modules/files with `Example`, `Examples`, `Scaffold`, `Stub`, `Placeholder`, or `Demo` in the path or module name.
 - Formal targets must live in canonical semantic BEDC modules. If an existing file is near 600 lines, target a focused non-example submodule and import it through the nearest index.
 - Respect the existing typeclass-parameterized layers: use `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the target belongs to those layers. Do NOT reintroduce abstract carriers as ad hoc constants, opaque declarations, or axioms.
+
+## Naming and decomposition discipline (HARD GATE)
+
+Read `lean4/NAMING.md` before extracting targets. Every target you emit must satisfy ALL of the following:
+
+1. **Word-order naming** (NAMING.md §1). The `lean_name` reads as `<Object>_<predicate>` with the object first, predicate last, `_iff` (when present) trailing. Names that reverse word order or hide `_iff` mid-name are INVALID.
+
+2. **No mechanical-arity expansion** (NAMING.md §3). Forbidden suffix shapes that you may NOT introduce: `_two`, `_three`, `_four`, `_five`, `_six`, `_two_step_*`, `_three_step_*`, `_witness_chain_*`, `_three_step_chain_*`. If the binary / one-step version of the same fact already exists (grep for it), the multi-element / multi-step version is rejected — that is a tactic-level expansion, not a theorem.
+
+   Concrete patterns currently polluting the tree (do NOT extend):
+   - `external_append_assoc_three` / `_four` / `_five` (binary `external_append_assoc` already exists; chain by induction inside callers)
+   - `compGap_three_witnesses_iff` / `_four_witnesses_iff` / `_four_right_nested_iff`
+   - `PsameEqClosure_two_base_reflection` / `_three_base_reflection` / `_four_base_reflection`
+   - `PackageReflection_base_witness_chain` / `_three_step_chain` / `_from_canonical` next to a primary `PackageReflection_base`
+
+3. **No directional twin of an `_iff`** (NAMING.md §4). If a candidate's conclusion is the `.mp` or `.mpr` direction of an existing `_iff` theorem under `lean4/BEDC/`, it is INVALID. Use the `_iff` directly via `.mp` / `.mpr` at call sites instead of registering a new theorem.
+
+4. **Pre-add grep** (NAMING.md §7). Before emitting `lean_name`:
+   ```bash
+   grep -rE "(theorem|lemma|def)\s+<lean_basename>\b" lean4/BEDC/
+   ```
+   AND grep for plausible α-renamings (`_iff` ↔ no-iff, `_witnesses` ↔ `_witness`, prefix vs suffix object). A hit means duplicate; pick a different target.
+
+5. **Single canonical name per statement** (NAMING.md §2). Two declarations with α-equivalent types must not co-exist. If you discover a known alias pair (e.g. `Mbin_eq_BHist` ⇄ `external_model_mbin`, `Mbin_reuses_kernel_history` ⇄ `external_model_no_parallel_word_input`, `bwordLength_append` ⇄ `external_append_length`), a target that re-introduces or extends the alias is INVALID; instead pick a deduplication target that removes the non-canonical name and updates callers.
+
+6. **Derived-domain non-trivial novelty** (NAMING.md §5). For new `lean_name` under `BEDC.Derived.<X>Up.*`, if the conclusion shape is one of `<X>HistoryClassifier_exactness`, `<X>HistoryEndpoint_pair`, `<X>HistoryLedgerPolicy_envelope_closure`, `<X>HistoryClassifier_branch_inversion`, `<X>HistoryCarrier_*_readback`, the candidate is **discouraged** — it is the per-domain copy of an already-saturated shape. Prefer either: a closure / determinism / inversion / no-confusion theorem specific to this domain's underlying inductive (e.g. constructor disjointness for `SumUp`, denominator-positivity transport for `RatUp`, distributivity for `RingUp`), OR an abstraction step that hoists the shared shape into a `BEDC.Derived` typeclass.
+
+In `strategy`, briefly state which NAMING.md rules you checked and the grep result confirming no collision.
+
+## Try-close before adding (HARD GATE)
+
+Before emitting a Phase B target, FIRST verify the candidate's stated `lean_signature` cannot be closed by an existing tactic combo applied to existing primitives. Use `lean_multi_attempt` or open a scratch `lean_run_code` and try, in order:
+
+```
+by simp [<3-5 nearby existing lemmas>]
+by induction h <appropriate variable>; simp [<lemmas>]
+by exact <existing_theorem>.mp <h> -- when conclusion is one direction of an iff
+by omega -- for arithmetic-ish goals
+by decide -- for finite-case goals
+```
+
+If any of these closes the goal in under ~30s, the candidate is INVALID — the "theorem" is a one-liner that belongs INLINE inside whatever proof needs it, not as a public theorem with its own name. Discard the candidate and pick something that requires a multi-line constructive argument or a genuinely new combinator.
+
+This rule applies especially to:
+- `_iff` directions where one side is `T.mp h` for a single existing `T`;
+- arithmetic facts about `length`, `append`, `cons` that are visible after one `simp`;
+- carrier transports that are `.transport` projection of an existing classifier;
+- `_endpoint_pair` / `_branch_partition` shapes that decompose into one constructor case + reflexivity.
+
+The library has roughly 1500 declarations; further mass-production of one-line lemmas degrades the average information density. Phase B's job is to find theorems that are NOT one-step-from-existing.
+
+## Critical-path discovery (HARD GATE)
+
+Run before target selection:
+
+```bash
+python3 lean4/scripts/critical_path.py
+```
+
+The script ranks every horizon `<X>Up` chapter by `transitive_downstream / (1 + thms)` after excluding nodes that are saturated (`thms >= 20`) or whose declared dependencies are not yet ready (`deps_thms < 5`). The output's `top` array is the next set of fronts the library should attack.
+
+**At least 1 of your 3 selected targets MUST belong to `top[0..2]`** of that JSON output. The target's `target_file` should be the listed `file_lean` (creating it if it does not exist), and the paper site should be a missing-marker location in the listed `file_paper`.
+
+### Mechanical blocker definition (no soft fallback)
+
+The previous prompt allowed "if technically blocked, use `top[3..]`" — which was wide enough that codex took it on every round and produced a 0/7 hit rate. A top-3 node counts as "blocked" only when **ALL THREE** of the following are true:
+
+1. The chapter file `top[i].file_paper` contains fewer than 3 `\begin{definition}` blocks (the paper has not yet specified the carrier sufficiently to formalize). Verify with:
+   ```bash
+   grep -c '\\begin{definition}' <top[i].file_paper>
+   ```
+2. The implementation would require a Lean inductive type or `import` that does not currently exist anywhere under `lean4/BEDC/`. Verify with `grep -rE '(inductive|import) <name>' lean4/BEDC/`.
+3. The `critical_path.py` JSON shows `depsReady = false` for this node. By construction the script already excludes deps-not-ready nodes from `top`, so this condition is always false for any node IN `top`.
+
+If condition 3 fails alone (or any single condition fails), the node is NOT blocked. Pick a different top-3 node where all three conditions are absent. The previous 0/7 round-misses were all rationalised through the soft "blocked" escape; a single-condition rationalisation is invalid.
+
+**If ALL of `top[0..2]` claim blocked** under the three-condition test above, output `{"targets": []}` and let the gate skip this round. Do NOT silently fall back to depth-refinement of saturated domains. Empty rounds are preferred over silent fallback.
+
+### Self-check before emitting JSON
+
+Before returning your JSON output, compute:
+
+```
+hit = any(t.target_file matches one of top[0..2].file_lean for t in targets)
+```
+
+If `hit == false` AND no genuine three-condition blocker exists for all of `top[0..2]`, replace your `targets` list with `[]` and emit an empty round. Do not silently emit non-top-3 candidates with a hand-waved blocker.
+
+This rule is what stops codex from re-saturating Bool / Option / Sum / Prod / List / Rat. Once those nodes are over the saturation threshold, they exit the `top` list automatically and depth refinement on them is no longer required.
+
+## HARD GATE — Derived shape saturation
+
+Before emitting a target under `BEDC.Derived.<X>Up.*`:
+
+1. Strip the domain prefix from the target's conclusion shape. Examples:
+   - `BoolHistoryClassifier_exactness` → `_HistoryClassifier_exactness`
+   - `RatHistoryEndpoint_pair` → `_HistoryEndpoint_pair`
+   - `ListHistoryLedgerPolicy_envelope_closure` → `_HistoryLedgerPolicy_envelope_closure`
+   - `ProdHistoryClassifier_branch_inversion` → `_HistoryClassifier_branch_inversion`
+
+2. Count existing concrete instances of that shape:
+   ```bash
+   python3 lean4/scripts/bedc_ci.py audit --shape-saturation
+   ```
+   (or grep manually: `grep -rE 'theorem [A-Za-z]+HistoryClassifier_exactness\b' lean4/BEDC/Derived/ | wc -l`)
+
+3. If the count is **≥ 3**, this conclusion shape is SATURATED. You have two valid options, no third:
+
+   a) **Hoist** — replace this round's target with a refactor that introduces `class DomainUpClassifier` (or the analogous abstraction for whichever shape is saturated) in a new file under `lean4/BEDC/Derived/` and rewrites the existing 3+ concrete instances as `instance` declarations of that class. State in `strategy` that this is a hoist round and which existing per-domain theorems will become instances.
+
+   b) **Pivot** — pick a different target whose conclusion shape has count < 3 in `Derived/`, OR whose conclusion mentions the domain's concrete inductive (constructor disjointness, payload transport, boundary case, etc.) and is genuinely specific to this `X`Up — not the generic saturated shape with the prefix swapped.
+
+   Do NOT add the 4th, 5th, ... Nth concrete instance of a saturated shape. The library already knows the fact for that shape; mass-instantiating it across more domains makes the library larger without making the theory more closed or composable.
+
+If a hoist target would touch >5 files or introduce a typeclass with >3 fields in one round, scope down: extract just one of the saturated shapes into a single shared helper that the existing instances `import`, and let later rounds extend the abstraction.
+
+## Single-concept round (preference)
+
+Avoid emitting 3 targets that span 3 unrelated mathematical concepts (e.g. one Bool determinism + one Sum branch partition + one Rat denominator transport). Such "X and Y and Z" rounds produce commit messages like
+
+```
+prove sum and prod classifier closures
+prove option symmetry, product chain transitivity, and continuation transport
+```
+
+which are coverage sweeps, not concept-driven work. Prefer rounds whose 3 targets either (a) develop one concept on 3 different objects, or (b) develop 3 stages of one proof chain on one object. The commit message should read as a coherent claim, not a coverage list.
 
 ## Input Hygiene (kernel basis is locked)
 The kernel "input set" — sum of `inductive` types + `class` declarations + the `BaseReflectionSetup` structure — is intentionally minimal (~16). All theorem growth must be derived from this fixed basis, not by adding parallel inputs.

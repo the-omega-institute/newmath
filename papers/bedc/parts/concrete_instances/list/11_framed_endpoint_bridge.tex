@@ -260,6 +260,69 @@ Theorem~\ref{thm:list-classifier-length-eq} to the three finite-spine classifier
 witnesses $xs_0\sim_A xs$, $xs\sim_A ys$, and $ys\sim_A ys_0$, then chain the
 three finite-length equalities.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_represented\_length}
+
+\begin{definition}[Framed list public length readback]
+\label{def:framed-list-public-length-readback}
+For a BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, define
+$\mathsf{FramedListPublicLength}_A(h,n)$ by
+$$
+\mathsf{FramedListPublicLength}_A(h,n)
+\quad\Longleftrightarrow\quad
+\exists xs:\mathsf{HistSpine}.\;
+\mathsf{FramedListSpineRep}_A(h,xs)\land \ell(xs)=n.
+$$
+Here $\ell$ is the finite-spine presentation length read from the framed spine
+representation. It is not a separate $\NatUp$ operation and is not an additional
+field of the framed semantic certificate.
+\end{definition}
+
+\begin{theorem}[Framed list public length readback is well-defined]
+\label{thm:framed-list-public-length-readback-well-defined}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. Assume
+$\mathsf{ListSourceHsameCompatible}(A,\sim_A)$. Then the framed public length
+readback has the following two properties.
+\begin{enumerate}
+  \item If $\mathsf{FramedListPublicLength}_A(h,n)$ and
+  $\mathsf{FramedListPublicLength}_A(h,m)$, then $n=m$.
+  \item If $\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)$ and
+  $\mathsf{FramedListPublicLength}_A(h,n)$, then
+  $\mathsf{FramedListPublicLength}_A(k,n)$.
+\end{enumerate}
+The roadmap ten-field fit is: traditional target finite-list framed length
+readback; BEDC source $\mathsf{BHist}$; carrier
+$\mathsf{FramedListHistoryCarrier}_A$; classifier
+$\mathsf{FramedListBridgeClassifier}_{A,\sim_A}$; stability obligation framed
+endpoint coherence; ledger finite-spine length witness; core theorem
+well-definedness and classifier preservation; exactness via
+$\mathsf{FramedListSpineRep}$; standard bridge finite spines; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For uniqueness at one endpoint, unpack the two
+$\mathsf{FramedListPublicLength}_A$ witnesses. They give finite spines $xs$ and
+$ys$, representations $\mathsf{FramedListSpineRep}_A(h,xs)$ and
+$\mathsf{FramedListSpineRep}_A(h,ys)$, and displayed equalities
+$\ell(xs)=n$ and $\ell(ys)=m$. Apply
+Theorem~\ref{thm:framed-list-spine-length-determinism} to the two framed
+representations of $h$, obtaining $\ell(xs)=\ell(ys)$. Chain the inverse of
+$\ell(xs)=n$, this equality, and $\ell(ys)=m$ to get $n=m$.
+
+For preservation along the framed bridge classifier, unpack the public length
+witness for $h$ as a finite spine $xs_0$ with
+$\mathsf{FramedListSpineRep}_A(h,xs_0)$ and $\ell(xs_0)=n$. Unpack the bridge
+classifier into finite spines $xs,ys$ with
+$\mathsf{FramedListSpineRep}_A(h,xs)$,
+$\mathsf{FramedListSpineRep}_A(k,ys)$, and
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
+
+Use Theorem~\ref{thm:framed-list-bridge-classifier-represented-length} with the
+displayed representative $xs_0$ at $h$, the bridge representative $ys$ at $k$,
+and the bridge classifier witness to obtain $\ell(xs_0)=\ell(ys)$. Chain this
+length equality with $\ell(xs_0)=n$, then choose $ys$ as the framed public length
+witness for $k$.
+\end{proof}
 
 \begin{theorem}[Framed list bridge classifier displayed-spine exactness]
 \label{thm:framed-list-bridge-classifier-displayed-spine-exactness}
@@ -297,6 +360,179 @@ Theorem~\ref{thm:list-classifier-trans-from-namecert} compose
 $xs\sim_A xs_0$, $xs_0\sim_A ys_0$, and $ys_0\sim_A ys$, yielding
 $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_displayed\_spine\_exactness}
+
+\begin{theorem}[Framed list bridge classifier constructor exactness]
+\label{thm:framed-list-bridge-classifier-constructor-inversion}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSourceHsameCompatible}(A,\sim_A)$. For histories
+$h,k:\mathsf{BHist}$, finite spines $xs,ys$, and source histories
+$a,b:\mathsf{BHist}$, the framed bridge classifier has the following constructor
+exactness behavior:
+The roadmap certificate reads: traditional target finite-list framed bridge
+constructor exactness; BEDC source $\mathsf{BHist}$ with $\mathsf{PairFrame}$
+and $\mathsf{FramedListEndpoint}$; carrier
+$\mathsf{FramedListHistoryCarrier}_A$; classifier
+$\mathsf{FramedListBridgeClassifier}$; stability from the source $\NameCert$
+plus $\mathsf{ListSourceHsameCompatible}$; ledger displayed framed spines; core
+theorem nil-nil introduction, mixed nil/cons separation, and cons-cons iff;
+exactness finite-spine constructor readback; standard bridge finite spines;
+status $\mathsf{CheckedCert}$.
+\begin{enumerate}
+  \item if $\mathsf{FramedListSpineRep}_A(h,\mathsf{nil})$ and
+  $\mathsf{FramedListSpineRep}_A(k,\mathsf{nil})$ hold, then
+  $\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)$ holds;
+  \item if $\mathsf{FramedListSpineRep}_A(h,\mathsf{nil})$,
+  $\mathsf{FramedListSpineRep}_A(k,\mathsf{cons}(b,ys))$, and
+  $\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)$ hold, then $\bot$;
+  \item if $\mathsf{FramedListSpineRep}_A(h,\mathsf{cons}(a,xs))$,
+  $\mathsf{FramedListSpineRep}_A(k,\mathsf{nil})$, and
+  $\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)$ hold, then $\bot$;
+  \item if $\mathsf{FramedListSpineRep}_A(h,\mathsf{cons}(a,xs))$ and
+  $\mathsf{FramedListSpineRep}_A(k,\mathsf{cons}(b,ys))$ hold, then
+
+  $$
+  \mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)
+  \Longleftrightarrow
+  (a\sim_A b)\land \mathsf{ListClassifierSpec}(\sim_A,xs,ys).
+  $$
+
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+In the nil-nil case, the nil branch of
+Theorem~\ref{thm:list-classifier-case-exactness} gives
+
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{nil},\mathsf{nil}).
+$$
+
+The reverse direction of
+Theorem~\ref{thm:framed-list-bridge-classifier-displayed-spine-exactness}
+repackages this finite-spine classifier with the two displayed nil endpoint
+representatives.
+
+In the nil-cons case, apply
+Theorem~\ref{thm:framed-list-bridge-classifier-displayed-spine-exactness} to the
+two displayed endpoint representatives and the bridge witness. This yields
+
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{nil},\mathsf{cons}(b,ys)).
+$$
+
+The mixed nil-cons clause of Theorem~\ref{thm:list-classifier-case-exactness}
+eliminates that finite-spine classifier.
+
+The cons-nil case is symmetric. Displayed-spine exactness gives
+
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{cons}(a,xs),\mathsf{nil}),
+$$
+
+and the mixed cons-nil clause of
+Theorem~\ref{thm:list-classifier-case-exactness} eliminates this shape.
+
+In the cons-cons case, displayed-spine exactness turns the bridge witness into
+
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{cons}(a,xs),\mathsf{cons}(b,ys)).
+$$
+
+The cons-cons clause of Theorem~\ref{thm:list-classifier-case-exactness}
+projects the source-head classifier $a\sim_A b$ and the tail classifier
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
+
+Conversely, suppose the source-head classifier $a\sim_A b$ and the tail
+classifier $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ are given. The cons-cons
+clause of Theorem~\ref{thm:list-classifier-case-exactness} rebuilds
+
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{cons}(a,xs),\mathsf{cons}(b,ys)).
+$$
+
+The reverse direction of
+Theorem~\ref{thm:framed-list-bridge-classifier-displayed-spine-exactness}
+repackages this finite-spine classifier as
+$\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_constructor\_exactness}
+
+\begin{theorem}[Framed list bridge classifier equivalence fields]
+\label{thm:framed-list-bridge-classifier-equivalence-fields}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSourceHsameCompatible}(A,\sim_A)$. Define the framed carrier
+by
+$$
+\mathsf{FramedListHistoryCarrier}_A(h)
+\quad\Longleftrightarrow\quad
+\exists xs:\mathsf{HistSpine}.\;\mathsf{FramedListSpineRep}_A(h,xs).
+$$
+\leandef{BEDC.Derived.ListUp.FramedListHistoryCarrier}
+Then $\mathsf{FramedListBridgeClassifier}_{A,\sim_A}$ satisfies the five
+classifier fields below. Carrier-relative reflexivity:
+$$
+\mathsf{FramedListHistoryCarrier}_A(h)\to
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,h).
+$$
+Endpoint exposure for any bridge witness:
+$$
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)\to
+\mathsf{FramedListHistoryCarrier}_A(h)\land
+\mathsf{FramedListHistoryCarrier}_A(k).
+$$
+Symmetry:
+$$
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)\to
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(k,h).
+$$
+Transitivity:
+$$
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)\to
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(k,u)\to
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,u).
+$$
+Carrier transport:
+$$
+\mathsf{FramedListHistoryCarrier}_A(h)\to
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)\to
+\mathsf{FramedListHistoryCarrier}_A(k).
+$$
+The ten-field fit is: traditional target finite-list framed bridge equivalence
+fields; BEDC source $\mathsf{BHist}$; carrier framed spine representation;
+classifier $\mathsf{FramedListBridgeClassifier}_{A,\sim_A}$; stability
+obligations the five displayed clauses; ledger finite displayed spines; core
+theorem this fields theorem; exactness by displayed-spine exactness and framed
+coherence; standard bridge finite spines; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Endpoint exposure unpacks the bridge witness into finite spines $xs,ys$ with
+$\mathsf{FramedListSpineRep}_A(h,xs)$,
+$\mathsf{FramedListSpineRep}_A(k,ys)$, and
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$; the two representation witnesses
+are exactly the two framed-carrier witnesses.
+
+For carrier-relative reflexivity, choose the displayed spine supplied by the
+framed-carrier witness at $h$ on both endpoints. Induct over that finite spine.
+The nil case is the nil constructor of $\mathsf{ListClassifierSpec}$. In the
+cons case, the entry predicate stored in $\mathsf{FramedListSpineRep}$ supplies
+$A$ for the displayed head, so $\mathsf{cert.equiv\_refl}$ gives the head
+classifier witness and the induction hypothesis supplies the tail witness.
+
+For symmetry, unpack the bridge witness, apply
+Theorem~\ref{thm:list-classifier-symm-from-namecert} to the finite-spine
+classifier witness, and rebuild the bridge with the two displayed endpoints
+swapped. For transitivity, unpack bridge witnesses for $h,k$ and $k,u$. The two
+middle spines both represent $k$, so Theorem~\ref{thm:framed-list-spine-coherence}
+compares them. Compose the first bridge classifier, the middle comparison, and
+the second bridge classifier by two applications of
+Theorem~\ref{thm:list-classifier-trans-from-namecert}, then rebuild the bridge
+from the exposed first and last spines. Carrier transport is the right endpoint
+projection of endpoint exposure, with the displayed left-carrier premise matching
+the $\NameCert$ field shape.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_equivalence\_fields}
 
 \begin{corollary}[Framed finite-spine paper certificate]
 \label{cor:framed-list-carrier-certificate}
@@ -318,6 +554,7 @@ $$
 \mathsf{FramedListSpineRep}_A(k,ys)\land
 \mathsf{ListClassifierSpec}(\sim_A,xs,ys).
 $$
+\leandef{BEDC.Derived.ListUp.FramedListBridgeClassifier}
 With pattern and ledger predicates both given by
 $\mathsf{FramedListHistoryCarrier}_A$, these fields form the paper certificate
 target
@@ -346,6 +583,7 @@ transport follows because a framed bridge witness contains a framed
 representation of the target history. Since the pattern and ledger predicates
 are the carrier itself, their soundness fields are identity implications.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_semantic\_name\_certificate}
 
 \begin{corollary}[Framed finite-spine paper certificate for hsame]
 \label{cor:framed-list-carrier-certificate-hsame}

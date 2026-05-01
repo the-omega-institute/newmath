@@ -447,7 +447,69 @@ def resolve_lean_file(raw_path: str) -> Path:
     return path
 
 
+DERIVED_DOMAIN_PREFIXES = [
+    "TaggedOption", "FramedList", "CommRing", "AbGroup",
+    "Bool", "Int", "Rat", "Field", "Ring", "Complex", "List", "Option",
+    "Prod", "Sum", "Group", "Monoid", "Preorder", "Interval", "Nat",
+    "Add", "Vec", "Matrix", "Polynomial", "Module", "Lattice",
+]
+
+
+def _strip_derived_domain_prefix(name: str) -> tuple[str | None, str]:
+    """Return (domain, suffix) if name begins with a known derived horizon
+    prefix, else (None, name). Longer prefixes are tried first so 'CommRing'
+    wins over 'Ring' and 'TaggedOption' wins over 'Option'."""
+    for prefix in sorted(DERIVED_DOMAIN_PREFIXES, key=len, reverse=True):
+        if name.startswith(prefix):
+            return prefix, "_" + name[len(prefix):]
+    return None, name
+
+
+def report_shape_saturation(threshold: int = 3) -> int:
+    """Group every theorem/lemma name under BEDC.Derived.* by its
+    domain-prefix-stripped suffix and print shapes that are reproduced
+    across >= threshold distinct horizons. Phase B uses this as the
+    'add fourth instance vs hoist a typeclass' decision input.
+    """
+    declarations, _ = build_declaration_inventory()
+    shape_to_domains: dict[str, set[str]] = {}
+    shape_to_examples: dict[str, list[str]] = {}
+    for d in declarations:
+        if not d.module.startswith("BEDC.Derived."):
+            continue
+        if d.kind not in ("theorem", "lemma"):
+            continue
+        domain, suffix = _strip_derived_domain_prefix(d.name)
+        if domain is None or len(suffix) <= 1:
+            continue
+        shape_to_domains.setdefault(suffix, set()).add(domain)
+        shape_to_examples.setdefault(suffix, []).append(d.qualified_name)
+    saturated = sorted(
+        ((shape, doms, shape_to_examples[shape])
+         for shape, doms in shape_to_domains.items()
+         if len(doms) >= threshold),
+        key=lambda t: (-len(t[1]), t[0]),
+    )
+    if not saturated:
+        print(f"[bedc-ci] shape-saturation: no shapes reproduced across >= {threshold} horizons")
+        return 0
+    print(f"[bedc-ci] shape-saturation: {len(saturated)} saturated shape(s) (threshold = {threshold})")
+    for shape, doms, examples in saturated:
+        domain_list = ", ".join(sorted(doms))
+        print(f"  {shape}  [{len(doms)} horizons: {domain_list}]")
+        for example in examples[:3]:
+            print(f"    e.g. {example}")
+    print(
+        "[bedc-ci] phase B HARD GATE: when a candidate target's "
+        "domain-stripped conclusion shape appears above, hoist a typeclass "
+        "or pivot — do not add the next concrete instance."
+    )
+    return 0
+
+
 def cmd_audit(args: argparse.Namespace) -> int:
+    if getattr(args, "shape_saturation", False):
+        return report_shape_saturation()
     payload = audit_payload()
     if args.json:
         print(json.dumps(payload, indent=2, ensure_ascii=False))
@@ -866,6 +928,15 @@ def parser() -> argparse.ArgumentParser:
 
     audit_p = sub.add_parser("audit", help="Run BEDC audit checks")
     audit_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    audit_p.add_argument(
+        "--shape-saturation",
+        action="store_true",
+        help=(
+            "Report Derived/<X>Up shape saturation (count of horizons that "
+            "carry each conclusion shape). Phase B uses count >= 3 as a hard "
+            "gate to switch from 'add another instance' to 'hoist a typeclass'."
+        ),
+    )
     audit_p.set_defaults(func=cmd_audit)
 
     inv_p = sub.add_parser("inventory", help="Emit declaration and paper inventory")

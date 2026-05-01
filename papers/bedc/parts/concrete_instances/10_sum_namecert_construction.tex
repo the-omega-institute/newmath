@@ -52,6 +52,21 @@ Assume both presentations. The left witness gives $\hsame(h,\Ezero(l))$, and the
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_branch\_exclusivity}
 
+\begin{theorem}[Sum history carrier excludes empty]
+\label{thm:sum-history-carrier-empty-absurd}
+For any source carriers \(Left,Right:\mathsf{BHist}\to\mathsf{Prop}\), the
+empty history is not a tagged sum-history carrier:
+$$
+\neg\mathsf{SumHistoryCarrier}(Left,Right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Eliminate the tagged carrier witness. A left branch would identify \(\emp\)
+with an \(\Ezero\)-tagged payload, and a right branch would identify \(\emp\)
+with an \(\Eone\)-tagged payload. Both contradict history no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_empty\_absurd}
+
 \begin{theorem}[Sum history left-tag inversion]
 \label{thm:sum-history-carrier-left-tag-inversion}
 If an \(e0\)-tagged history belongs to the tagged sum-history carrier, then
@@ -103,6 +118,7 @@ branch, convert the payload endpoint by constructor congruence for $\hsame$,
 and transport carrier membership along the resulting history sameness by
 $\mathsf{SumHistoryCarrier\_hsame\_transport}$.
 \end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_visible\_tag\_exactness}
 
 \section{The certificate}
 
@@ -163,6 +179,7 @@ source-carrier pairs and repeat the same branch analysis. No source-carrier
 proof occurs inside the classifier witness; those proofs belong to
 $\mathsf{SumHistoryCarrier}$ and to certificate transport.
 \end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_source\_parameter\_irrelevance}
 
 Mixed-tag classifier exclusion is recorded by
 Theorem~\ref{thm:sum-history-classifier-tag-separation}.
@@ -220,6 +237,7 @@ branch using the given payload $\hsame$ witness, the reflexive visible-tag
 witnesses for $\Ezero(l)$ and $\Ezero(l')$ or for $\Eone(r)$ and
 $\Eone(r')$, and the corresponding left or right classifier constructor.
 \end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_hsame\_same\_tag\_exactness}
 
 \begin{theorem}[Sum history classifier same-tag source exactness]
 \label{thm:sum-history-classifier-source-same-tag-exactness}
@@ -324,6 +342,7 @@ $$
 \begin{proof}
 Unfold $\mathsf{SumHistoryClassifier}$. In the left-tag forward direction, the left branch already stores payload witnesses for the two endpoints together with a $LeftEq$ witness; the opposite right branch is impossible by $e0/e1$ no-confusion, and $e0$-constructor inversion identifies the visible endpoints with the stored payload tags. The right-tag forward direction is identical with $e1$-constructor inversion and $RightEq$. For the reverse directions, the displayed payload witnesses rebuild the matching left or right classifier branch by constructor congruence for $e0$ or $e1$, together with the stored source-classifier witness. The surviving branch is constructor-stable, and the impossible branch is discharged by the same tag no-confusion principle.
 \end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_generic\_same\_tag\_exactness}
 
 \begin{theorem}[Sum history classifier carrier-aware same-tag exactness]
 \label{thm:sum-history-classifier-carrier-aware-same-tag-exactness}
@@ -444,6 +463,76 @@ certificate applied along the displayed source classifier $RightEq$.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_carrier\_transport\_from\_nameCert}
 
+\begin{theorem}[Sum classifier endpoint readback under source certificates]
+\label{thm:sum-history-classifier-source-certified-endpoint-readback}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, let $h,k:\mathsf{BHist}$, and assume source certificates
+$cert_L:\NameCert(Left,LeftEq)$ and $cert_R:\NameCert(Right,RightEq)$. If
+$\mathsf{SumHistoryCarrier}(Left,Right,h)$ and
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)$ hold, then all
+of the following assertions hold:
+\begin{enumerate}
+  \item $\mathsf{SumHistoryCarrier}(Left,Right,k)$.
+  \item The source endpoint $h$ satisfies the visible readback assertion
+  $$
+  \begin{array}{l}
+  \bigl(\exists l.\; Left(l)\land \hsame(h,\Ezero(l))\land
+  (\forall l'.\; Left(l')\to \hsame(h,\Ezero(l'))\to \hsame(l,l'))\land
+  \neg(\exists r.\; Right(r)\land \hsame(h,\Eone(r)))\bigr)\\
+  \lor\\
+  \bigl(\exists r.\; Right(r)\land \hsame(h,\Eone(r))\land
+  (\forall r'.\; Right(r')\to \hsame(h,\Eone(r'))\to \hsame(r,r'))\land
+  \neg(\exists l.\; Left(l)\land \hsame(h,\Ezero(l)))\bigr).
+  \end{array}
+  $$
+  \item The target endpoint $k$ satisfies the visible readback assertion
+  $$
+  \begin{array}{l}
+  \bigl(\exists l.\; Left(l)\land \hsame(k,\Ezero(l))\land
+  (\forall l'.\; Left(l')\to \hsame(k,\Ezero(l'))\to \hsame(l,l'))\land
+  \neg(\exists r.\; Right(r)\land \hsame(k,\Eone(r)))\bigr)\\
+  \lor\\
+  \bigl(\exists r.\; Right(r)\land \hsame(k,\Eone(r))\land
+  (\forall r'.\; Right(r')\to \hsame(k,\Eone(r'))\to \hsame(r,r'))\land
+  \neg(\exists l.\; Left(l)\land \hsame(k,\Ezero(l)))\bigr).
+  \end{array}
+  $$
+  \item The classifier pair satisfies the visible branch assertion
+  $$
+  \begin{array}{l}
+  \bigl(\exists a,b.\; Left(a)\land Left(b)\land
+  \hsame(h,\Ezero(a))\land \hsame(k,\Ezero(b))\land LeftEq(a,b)\bigr)\\
+  \lor\\
+  \bigl(\exists a,b.\; Right(a)\land Right(b)\land
+  \hsame(h,\Eone(a))\land \hsame(k,\Eone(b))\land RightEq(a,b)\bigr).
+  \end{array}
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First obtain the target carrier. Apply
+\autoref{thm:sum-history-classifier-carrier-transport-from-namecert} to the
+given source carrier witness, the classifier witness, and the two certificates.
+
+The branch-exactness theorem requires closure of $Left$ and $Right$ under
+$\hsame$. For $Left$, suppose $Left(x)$ and $\hsame(x,y)$. The checked identity
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ turns the history-sameness witness
+into kernel equality, and transport along that equality gives $Left(y)$. The
+right closure is identical with $Right$.
+
+Apply \autoref{thm:sum-history-carrier-single-valued-visible-readback} once to
+the given carrier witness for $h$ and once to the target carrier witness for
+$k$. These are exactly the two displayed endpoint readback assertions.
+
+Finally apply the forward direction of
+\autoref{thm:sum-history-classifier-carrier-aware-branch-exactness} with the two
+closure hypotheses to the triple consisting of the source carrier, the target
+carrier, and the displayed classifier witness. The forward projection gives the
+displayed branch assertion, and the four components are conjoined in the listed
+order.
+\end{proof}
+
 \begin{theorem}[Sum history classifier source-certified symmetry]
 \label{thm:sum-history-classifier-symm-from-namecert}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
@@ -460,6 +549,7 @@ $\mathsf{equiv\_symm}$ to the stored $LeftEq$ witness. In the right branch,
 swap the two visible $e1$ endpoint witnesses and apply the right source
 certificate field $\mathsf{equiv\_symm}$ to the stored $RightEq$ witness.
 \end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_symm\_from\_nameCert}
 
 \begin{theorem}[Sum history classifier tag separation]
 \label{thm:sum-history-classifier-tag-separation}
@@ -500,6 +590,7 @@ $\Ezero/\Eone$ no-confusion. In the right branch, the classifier forces $k$ to
 be $\Eone$-tagged, contradicting the displayed $\Ezero$ endpoint witness by
 $\Ezero/\Eone$ no-confusion.
 \end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_reverse\_tag\_separation}
 
 \begin{theorem}[Sum history classifier transitivity]
 \label{thm:sum-history-classifier-transitivity}

@@ -2,6 +2,8 @@ import BEDC.FKernel.Sig
 import BEDC.FKernel.Sig.Determinacy
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Step
+import BEDC.FKernel.Bundle.Length
+import BEDC.FKernel.ExternalBinary
 
 namespace BEDC.FKernel.Sig
 
@@ -103,6 +105,28 @@ theorem sig_cons_result_ne_empty [AskSetup] {pi : ProbeName} {tail : ProbeBundle
           cases rest with
           | intro delta data =>
               exact ext_result_ne_empty data.right.right sameEmpty
+
+theorem sigRel_result_length_eq_bundleLength [AskSetup]
+    {bundle : ProbeBundle ProbeName} {h r : BHist} :
+    SigRel bundle h r → BEDC.FKernel.ExternalBinary.bwordLength r = bundleLength bundle := by
+  intro hsig
+  induction hsig with
+  | empty h =>
+      rfl
+  | cons pi tail h s r m delta hask htail hext ih =>
+      cases hext with
+      | e0 =>
+          exact congrArg Nat.succ ih
+      | e1 =>
+          exact congrArg Nat.succ ih
+
+theorem sigRel_empty_result_bundle_nil [AskSetup]
+    {bundle : ProbeBundle ProbeName} {h : BHist} :
+    SigRel bundle h BHist.Empty → bundle = (ProbeBundle.Bnil : ProbeBundle ProbeName) := by
+  intro hsig
+  have hlen : BEDC.FKernel.ExternalBinary.bwordLength BHist.Empty = bundleLength bundle :=
+    sigRel_result_length_eq_bundleLength hsig
+  exact bundleLength_eq_zero_iff_nil.mp hlen.symm
 
 theorem sigRel_bundleAppend [AskSetup] {left right : ProbeBundle ProbeName}
     {h s t : BHist} :

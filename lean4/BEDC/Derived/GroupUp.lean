@@ -165,6 +165,30 @@ theorem group_inverse_cancel_from_laws {mul : BHist -> BHist -> BHist} {e : BHis
     (hsame_trans sameDouble
       (group_left_inverse_involutive assocC leftId rightId mulCongr leftInv y))
 
+theorem group_mul_right_inverse_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall x, hsame (mul x (inv x)) e) :
+    forall a b : BHist, hsame (mul (mul a b) (inv b)) a := by
+  intro a b
+  exact hsame_trans (assocC a b (inv b))
+    (hsame_trans (mulCongr (hsame_refl a) (rightInv b)) (rightId a))
+
+theorem group_mul_left_inverse_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x, hsame (mul e x) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x, hsame (mul (inv x) x) e) :
+    forall a b : BHist, hsame (mul (inv a) (mul a b)) b := by
+  intro a b
+  exact hsame_trans (hsame_symm (assocC (inv a) a b))
+    (hsame_trans (mulCongr (leftInv a) (hsame_refl b)) (leftId b))
+
 theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -181,6 +205,33 @@ theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
           (hsame_trans (hsame_symm (assocC (inv a) a c))
             (hsame_trans (mulCongr (leftInv a) (hsame_refl c)) (leftId c))))))
 
+theorem group_left_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x, hsame (mul e x) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x, hsame (mul (inv x) x) e) {a x b : BHist} :
+    hsame (mul a x) b -> hsame x (mul (inv a) b) := by
+  intro sameProduct
+  exact hsame_trans (hsame_symm (leftId x))
+    (hsame_trans (mulCongr (hsame_symm (leftInv a)) (hsame_refl x))
+      (hsame_trans (assocC (inv a) a x)
+        (mulCongr (hsame_refl (inv a)) sameProduct)))
+
+theorem group_left_absorb_right_factor_unit {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x, hsame (mul e x) x)
+    (rightId : forall x, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x, hsame (mul (inv x) x) e) {a b : BHist} :
+    hsame (mul a b) a -> hsame b e := by
+  intro absorb
+  exact group_left_cancel assocC leftId mulCongr leftInv
+    (hsame_trans absorb (hsame_symm (rightId a)))
+
 theorem group_right_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -196,6 +247,19 @@ theorem group_right_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
         (hsame_trans (mulCongr sameProducts (hsame_refl (inv a)))
           (hsame_trans (assocC c a (inv a))
             (hsame_trans (mulCongr (hsame_refl c) (rightInv a)) (rightId c))))))
+
+theorem group_right_absorb_left_factor_unit {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x, hsame (mul e x) x)
+    (rightId : forall x, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall x, hsame (mul x (inv x)) e) {a b : BHist} :
+    hsame (mul b a) a -> hsame b e := by
+  intro absorb
+  exact group_right_cancel assocC rightId mulCongr rightInv
+    (hsame_trans absorb (hsame_symm (leftId a)))
 
 theorem group_two_sided_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
