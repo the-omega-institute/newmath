@@ -355,11 +355,11 @@ Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
 $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
 classifiers, and assume the two carriers transport along $\hsame$:
 $$
-\forall x,y.\;\hsame(x,y)\land Left(x)\Rightarrow Left(y)
+\forall x\,y.\; Left(x)\to \hsame(x,y)\to Left(y)
 $$
 and
 $$
-\forall x,y.\;\hsame(x,y)\land Right(x)\Rightarrow Right(y).
+\forall x\,y.\; Right(x)\to \hsame(x,y)\to Right(y).
 $$
 Then the visible same-tag carrier and classifier evidence is exact for the
 matching source payloads:
@@ -399,11 +399,11 @@ $\hsame(l',c')$. Apply
 Theorem~\ref{thm:sum-history-classifier-generic-same-tag-exactness} to the
 classifier premise to obtain payloads $a,a'$ with $\hsame(l,a)$,
 $\hsame(l',a')$, and $LeftEq(a,a')$. Symmetry and transitivity of $\hsame$
-align $c$ with $a$ and $c'$ with $a'$. The explicit left carrier-transport
-hypothesis therefore carries $Left(c)$ to $Left(a)$ and $Left(c')$ to
-$Left(a')$. This gives the displayed left payload witnesses. The forward
+align $c$ with $a$ and $c'$ with $a'$. Apply the explicit left
+carrier-transport field to $Left(c)$ and $\hsame(c,a)$, and to $Left(c')$ and
+$\hsame(c',a')$. This gives the displayed left payload witnesses. The forward
 right-tag direction is the same argument with $\Eone$, $Right$, $RightEq$, and
-the explicit right carrier-transport hypothesis. For the
+the explicit right carrier-transport field applied in the same order. For the
 reverse directions, the displayed payload witnesses rebuild the two tagged
 carrier premises and the matching classifier branch by the generic same-tag
 exactness theorem, using the visible tag constructors to supply the endpoint
