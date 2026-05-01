@@ -76,6 +76,26 @@ $h$, choose $h$ as the common upper and use the empty tail on the $h$-side.
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryPrefix\_directed\_common\_upper}
 
+\begin{definition}[Strict unary prefix]
+\label{def:nat-unary-strict-prefix}
+A strict unary prefix from $h$ to $k$ is a unary tail $t$ such that $t$ is not
+$\emp$ and $\mathsf{Cont}(h,t,k)$.
+\end{definition}
+\leandef{BEDC.Derived.NatUp.NatUnaryStrictPrefix}
+
+\begin{theorem}[Strict unary prefix asymmetry]
+\label{thm:nat-unary-strict-prefix-asymm}
+No pair of histories can strictly prefix each other through nonempty unary
+tails.
+\end{theorem}
+\begin{proof}
+Unpack the two strict witnesses. Mutual continuation makes the endpoints
+history-same. The right-unit continuation at the source then transports to the
+forward target, so left cancellation identifies the forward tail with $\emp$,
+contradicting its strictness.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_asymm}
+
 \section{The certificate}
 
 \begin{definition}[Unary source specification]

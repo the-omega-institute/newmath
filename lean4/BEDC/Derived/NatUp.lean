@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.NatUp
@@ -5,6 +6,32 @@ namespace BEDC.Derived.NatUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+
+def NatUnaryStrictPrefix (h k : BHist) : Prop :=
+  ∃ tail : BHist, UnaryHistory tail ∧ (tail = BHist.Empty → False) ∧ Cont h tail k
+
+theorem NatUnaryStrictPrefix_asymm {h k : BHist} :
+    NatUnaryStrictPrefix h k -> NatUnaryStrictPrefix k h -> False := by
+  intro forward backward
+  cases forward with
+  | intro forwardTail forwardData =>
+      cases forwardData with
+      | intro _forwardUnary forwardStrictData =>
+          cases forwardStrictData with
+          | intro forwardNonempty forwardCont =>
+              cases backward with
+              | intro backwardTail backwardData =>
+                  cases backwardData with
+                  | intro _backwardUnary backwardStrictData =>
+                      cases backwardStrictData with
+                      | intro _backwardNonempty backwardCont =>
+                          have same : hsame h k :=
+                            cont_mutual_extension_hsame forwardCont backwardCont
+                          have unitAtTarget : Cont h BHist.Empty k :=
+                            cont_result_hsame_transport (cont_right_unit h) same
+                          have forwardEmpty : forwardTail = BHist.Empty :=
+                            cont_left_cancel forwardCont unitAtTarget
+                          exact forwardNonempty forwardEmpty
 
 theorem NatUnaryPrefix_total {h k : BHist} :
     UnaryHistory h -> UnaryHistory k ->

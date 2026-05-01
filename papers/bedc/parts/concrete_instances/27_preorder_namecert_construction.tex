@@ -132,6 +132,20 @@ If \(h\le k\) is witnessed by a unary continuation tail, and \(k\) continues by 
 Unpack the first prefix witness as a unary tail from \(h\) to \(k\). Compose this continuation with the continuation from \(k\) to \(r\); associativity of continuation supplies the resulting path from \(h\), and unary closure under append supplies the combined unary tail.
 \end{proof}
 
+\begin{theorem}[Prefix preserves strict right extension]
+\label{thm:preorder-prefix-le-strict-right-extension}
+If $h\le k$ is witnessed by a unary continuation tail and $k$ is a strict
+unary prefix of $r$, then $h$ is a strict unary prefix of $r$.
+\end{theorem}
+\begin{proof}
+Unpack the weak prefix tail from $h$ to $k$ and the nonempty strict tail from
+$k$ to $r$. Appending the two tails gives a unary tail from $h$ to $r$ by
+unary append closure and continuation associativity. If the appended tail were
+$\emp$, append-empty inversion would force the strict right tail to be
+$\emp$, contradicting strictness.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_strict\_right\_extension}
+
 \begin{theorem}[Prefix transitivity]
 \label{thm:preorder-prefix-transitivity}
 If \(h\le k\) and \(k\le r\) are witnessed by unary continuation tails, then
@@ -143,6 +157,19 @@ Unpack the two prefix witnesses. Append the two unary tails, use unary closure
 under append for the combined tail, and use continuation associativity to
 identify the direct continuation from \(h\) to \(r\).
 \end{proof}
+
+\begin{theorem}[Strict unary prefix preserves right extension]
+\label{thm:nat-unary-strict-prefix-right-extension}
+If $h$ is a strict unary prefix of $k$ and $k\le r$ is witnessed by a unary
+continuation tail, then $h$ is a strict unary prefix of $r$.
+\end{theorem}
+\begin{proof}
+Unpack the nonempty strict tail from $h$ to $k$ and the weak prefix tail from
+$k$ to $r$. Their append is unary and composes the two continuations from
+$h$ to $r$. If the appended tail were $\emp$, append-empty inversion would
+force the original strict tail to be $\emp$, contradicting strictness.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.NatUnaryStrictPrefix\_right\_extension}
 
 \begin{theorem}[Prefix antisymmetry collapses to history sameness]
 \label{thm:preorder-prefix-le-antisymm-hsame}
