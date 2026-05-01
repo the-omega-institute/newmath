@@ -567,6 +567,51 @@ Theorem~\ref{thm:prod-component-history-classifier-descends-to-envelope}
 applied to the two $\hsame$-soundness assumptions.
 \end{proof}
 
+\begin{theorem}[Bounded classifier product certificate refines the checked envelope]
+\label{thm:prod-classifier-bounded-componentwise-certificate-refines-envelope}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$. Assume also that the source classifiers
+are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+Suppose there are histories $l_0,r_0:\mathsf{BHist}$ such that
+$$
+\forall l.\;L(l)\to l\sim_L l_0
+$$
+and
+$$
+\forall r.\;R(r)\to r\sim_R r_0.
+$$
+With $D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, both of the
+following hold:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R})
+$$
+and, for all histories $h,k$,
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+\to
+\mathsf{ProdHistoryClassifier}(L,R,h,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-pair-rep-classifier-bounded-coherence} to the two
+source certificates and the two center-history bounds. This yields
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then apply
+Theorem~\ref{thm:prod-componentwise-certificate-refines-checked-envelope} with
+the two source certificates, this coherence witness, and the two
+$\hsame$-soundness hypotheses.
+\end{proof}
+
 \begin{theorem}[Product componentwise certificate descends to the checked envelope]
 \label{thm:prod-public-object-scope-componentwise-envelope}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
