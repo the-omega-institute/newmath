@@ -47,9 +47,12 @@ import BEDC.BaseReflection
 import BEDC.Derived.IntUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
+import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.OptionUp
+import BEDC.Derived.OptionUp.BranchExactness
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
+import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
