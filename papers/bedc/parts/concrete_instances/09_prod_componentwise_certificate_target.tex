@@ -122,3 +122,40 @@ forward direction of Theorem~\ref{thm:prod-pair-rep-coverage}: every product
 history carrier witness exposes component histories $l,r$ and hence a displayed
 pair ledger witness $D(h)$.
 \end{proof}
+
+\begin{theorem}[Product componentwise certificate refines the checked envelope]
+\label{thm:prod-componentwise-certificate-refines-checked-envelope}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Assume also that the source
+classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+With $D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, both of the
+following hold:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R})
+$$
+and, for all histories $h,k$,
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+\to
+\mathsf{ProdHistoryClassifier}(L,R,h,k).
+$$
+\end{theorem}
+\begin{proof}
+The first conclusion is Theorem~\ref{thm:prod-component-history-semantic-certificate-target}
+applied to the two source certificates and the pair-representation coherence
+witness. The second conclusion is
+Theorem~\ref{thm:prod-component-history-classifier-descends-to-envelope}
+applied to the two $\hsame$-soundness assumptions.
+\end{proof}
