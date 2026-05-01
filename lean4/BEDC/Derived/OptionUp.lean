@@ -131,6 +131,17 @@ theorem OptionHistoryClassifier_trans {source : BEDC.FKernel.Hist.BHist -> Prop}
               | intro carrierR histKR =>
                   exact And.intro carrierH (And.intro carrierR (hsame_trans histHK histKR))
 
+theorem OptionHistoryLedgerPolicy_classifier_extension {source : BHist -> Prop}
+    (source_transport : forall {h k : BHist}, hsame h k -> source h -> source k)
+    {raw visible target : BHist} :
+    OptionHistoryLedgerPolicy source raw visible ->
+      OptionHistoryClassifier source visible target ->
+        OptionHistoryClassifier source raw target := by
+  intro ledger visibleTarget
+  exact OptionHistoryClassifier_trans
+    (OptionHistoryLedgerPolicy_raw_visible_classifier source_transport ledger)
+    visibleTarget
+
 theorem OptionHistoryClassifier_empty_left_iff {source : BHist -> Prop} {k : BHist} :
     OptionHistoryClassifier source BHist.Empty k ↔ hsame k BHist.Empty := by
   constructor

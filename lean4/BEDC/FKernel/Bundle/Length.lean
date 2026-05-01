@@ -19,6 +19,25 @@ theorem bundleLength_zero_iff_nil {PName : Type} {bundle : ProbeBundle PName} :
     bundleLength bundle = 0 ↔ bundle = ProbeBundle.Bnil :=
   bundleLength_eq_zero_iff_nil
 
+theorem bundleLength_eq_one_iff_singleton {PName : Type} {bundle : ProbeBundle PName} :
+    bundleLength bundle = Nat.succ 0 ↔
+      ∃ p : PName, bundle = ProbeBundle.Bcons p ProbeBundle.Bnil := by
+  constructor
+  · intro h
+    cases bundle with
+    | Bnil =>
+        cases h
+    | Bcons p tail =>
+        have htail : bundleLength tail = 0 := Nat.succ.inj h
+        have tailNil : tail = ProbeBundle.Bnil := bundleLength_eq_zero_iff_nil.mp htail
+        cases tailNil
+        exact Exists.intro p rfl
+  · intro witness
+    cases witness with
+    | intro p hp =>
+        cases hp
+        rfl
+
 theorem bundleAppend_nonempty_prefix_length_separation {PName : Type} (p : PName)
     (pref suff : ProbeBundle PName) :
     bundleLength (bundleAppend (ProbeBundle.Bcons p pref) suff) ≠ bundleLength suff ∧

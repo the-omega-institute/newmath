@@ -246,6 +246,16 @@ theorem ProdHistoryClassifier_trans {Left Right : BHist -> Prop} {h k r : BHist}
                   exact And.intro carrierH
                     (And.intro carrierR (hsame_trans sameHK sameKR))
 
+theorem ProdHistoryLedgerPolicy_classifier_extension {Left Right : BHist -> Prop}
+    {raw visible target : BHist} :
+    ProdHistoryLedgerPolicy Left Right raw visible ->
+      ProdHistoryClassifier Left Right visible target ->
+        ProdHistoryClassifier Left Right raw target := by
+  intro ledger visibleTarget
+  exact ProdHistoryClassifier_trans
+    (ProdHistoryLedgerPolicy_raw_visible_classifier ledger)
+    visibleTarget
+
 theorem prod_history_semantic_name_certificate (Left Right : BHist -> Prop)
     (left_witness : exists l : BHist, Left l) (right_witness : exists r : BHist, Right r) :
     SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)

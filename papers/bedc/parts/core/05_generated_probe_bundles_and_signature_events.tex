@@ -104,6 +104,20 @@ reverse implication follows by substituting $\Bnil$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleLength\_zero\_iff\_nil}
 
+\begin{theorem}[Probe bundle length one singleton equivalence]
+\label{thm:probe-bundle-length-one-iff-singleton}
+A generated probe bundle has length one exactly when it is a singleton
+$\Bcons(\pi,\Bnil)$ for some probe $\pi$.
+\end{theorem}
+\begin{proof}
+Eliminate the generated bundle. The empty case has length zero, so it cannot
+have length one. In the cons case, injectivity of successor forces the tail
+length to be zero; Theorem~\ref{thm:probe-bundle-length-zero-iff-nil} identifies
+the tail with $\Bnil$. Conversely, substituting a singleton bundle reduces the
+length equation by computation.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.bundleLength\_eq\_one\_iff\_singleton}
+
 \begin{theorem}[Probe bundle append length]
 \label{thm:probe-bundle-append-length}
 For all probe bundles $\Pi,\Theta$,
