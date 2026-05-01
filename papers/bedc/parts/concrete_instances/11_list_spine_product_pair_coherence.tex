@@ -1,0 +1,7 @@
+\begin{theorem}[List spine coherence from product-pair coherence]
+\label{thm:list-spine-coherence-from-product-pair-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let $\sim_A$ be a source classifier. Assume the cons boundary of $\mathsf{ListSpineRep}_A$ carries the product pair-representation coherence datum of Definition~\ref{def:prod-pair-rep-coherent}: whenever two cons presentations display the same list history, their head source histories are related by $\sim_A$ and their tail finite spines are related by $\mathsf{ListClassifierSpec}(\sim_A,-,-)$. Then $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds.
+\end{theorem}
+\begin{proof}
+Compare two finite-spine presentations of the same history by cases on the displayed spines. The nil-nil case is the nil constructor of $\mathsf{ListClassifierSpec}$. The mixed nil-cons cases contradict Theorem~\ref{thm:list-spine-rep-nil-cons-no-confusion}. In the cons-cons case, the assumed product pair-representation coherence condition compares the displayed cons-boundary pair presentations. Its head component supplies the required source-classifier witness, and its tail component supplies the recursive finite-spine classifier witness. These two components are exactly the cons constructor data for $\mathsf{ListClassifierSpec}(\sim_A,-,-)$, so the two whole spines are classified.
+\end{proof}
