@@ -108,6 +108,31 @@ Run the full board loop (sequential, picks unfinished targets until none left):
 python3 tools/bedc-deep/oracle_client.py --loop --preflight-agent-wait 60
 ```
 
+Run the loop in parallel across N ChatGPT tabs (cap to active tabs; server
+allows up to `MAX_AGENTS = 3`). Open `?bedc=1`, `?bedc=2`, `?bedc=3` first:
+
+```bash
+python3 tools/bedc-deep/oracle_client.py --loop --parallel 3 --preflight-agent-wait 60
+```
+
+Scan the paper for theory gaps (conjecture / question blocks, TODO comments,
+"remains open" / "to be proved" / 未证 prose, orphan definitions) and
+optionally append qualifying ones to BOARD.md as auto-spawned candidates:
+
+```bash
+python3 tools/bedc-deep/paper_gap_scanner.py            # list only
+python3 tools/bedc-deep/paper_gap_scanner.py --append   # append to BOARD.md
+python3 tools/bedc-deep/paper_gap_scanner.py --json     # machine-readable
+```
+
+Tune Stage 1.5 spawn aggressiveness (lower thresholds → more candidates,
+lower quality):
+
+```bash
+python3 tools/bedc-deep/oracle_client.py --loop --parallel 3 \
+  --candidate-fit-threshold 6 --candidate-novelty-threshold 5
+```
+
 Server status / control:
 
 ```bash

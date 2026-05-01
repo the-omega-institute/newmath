@@ -154,13 +154,15 @@ def _append_to_tex(target: Path, content: str) -> tuple[bool, str]:
 def _make_paper() -> tuple[bool, str]:
     if not (PAPER_DIR / "Makefile").exists():
         return (True, "(no Makefile; skipping compile)")
-    proc = subprocess.run(
-        ["make"],
-        cwd=str(PAPER_DIR),
-        capture_output=True,
-        text=True,
-        timeout=COMPILE_TIMEOUT,
-    )
+    from locks import file_lock
+    with file_lock("paper_make"):
+        proc = subprocess.run(
+            ["make"],
+            cwd=str(PAPER_DIR),
+            capture_output=True,
+            text=True,
+            timeout=COMPILE_TIMEOUT,
+        )
     out = (proc.stdout or "") + "\n" + (proc.stderr or "")
     return (proc.returncode == 0, out)
 
@@ -205,18 +207,19 @@ def writeback(
     if not content.strip():
         return WritebackResult(False, "reject", tex_rel, False, False, ["empty content"])
 
-    appended, original = _append_to_tex(target, content)
-    if not appended:
-        return WritebackResult(False, "reject", tex_rel, False, False, [f"append would exceed {MAX_FILE_LINES} lines"])
+    from locks import file_lock
+    with file_lock("paper_writes"):
+        appended, original = _append_to_tex(target, content)
+        if not appended:
+            return WritebackResult(False, "reject", tex_rel, False, False, [f"append would exceed {MAX_FILE_LINES} lines"])
 
-    compile_ok, compile_log = _make_paper()
-    if not compile_ok:
-        # Roll back, log compile failure for downstream retry caller.
-        target.write_text(original, encoding="utf-8")
-        log_path = LOG_DIR / f"compile_fail_{target_id}_{_now_tag()}.log"
-        log_path.parent.mkdir(parents=True, exist_ok=True)
-        log_path.write_text(compile_log, encoding="utf-8")
-        return WritebackResult(True, "compile_failed", str(target.relative_to(REPO_ROOT)), False, False, [])
+        compile_ok, compile_log = _make_paper()
+        if not compile_ok:
+            target.write_text(original, encoding="utf-8")
+            log_path = LOG_DIR / f"compile_fail_{target_id}_{_now_tag()}.log"
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+            log_path.write_text(compile_log, encoding="utf-8")
+            return WritebackResult(True, "compile_failed", str(target.relative_to(REPO_ROOT)), False, False, [])
 
     return WritebackResult(True, "accept", str(target.relative_to(REPO_ROOT)), True, True, [])
 

@@ -30,9 +30,13 @@ import urllib.error
 from datetime import datetime, timezone
 from pathlib import Path
 
+from concurrent.futures import ThreadPoolExecutor, FIRST_COMPLETED, wait
+import os
+
 from dispatch_bedc_target import SCRIPT_DIR, BedcTarget, build_initial_prompt, parse_board, BOARD_PATH
 import codex_orchestrator
 import killo_golden_writeback
+from locks import file_lock
 
 
 ORACLE_SERVER = "http://localhost:8767"
@@ -230,8 +234,8 @@ def save_cursor(target: BedcTarget, cursor: dict) -> None:
 # ---------------------------------------------------------------------------
 
 
-CANDIDATE_FIT_THRESHOLD = 7
-CANDIDATE_NOVELTY_THRESHOLD = 6
+DEFAULT_CANDIDATE_FIT_THRESHOLD = 7
+DEFAULT_CANDIDATE_NOVELTY_THRESHOLD = 6
 
 
 def existing_target_ids() -> list[str]:
@@ -272,34 +276,40 @@ def render_candidate_entry(target_id: str, candidate: dict) -> str:
     )
 
 
-def append_candidates_to_board(candidates: list[dict]) -> list[str]:
+def append_candidates_to_board(
+    candidates: list[dict],
+    *,
+    fit_threshold: int = DEFAULT_CANDIDATE_FIT_THRESHOLD,
+    novelty_threshold: int = DEFAULT_CANDIDATE_NOVELTY_THRESHOLD,
+) -> list[str]:
     accepted: list[str] = []
     if not candidates:
         return accepted
-    existing_titles = set()
-    for line in BOARD_PATH.read_text(encoding="utf-8").splitlines():
-        m = re.match(r"^### B-\d+\s+-\s+(.+)$", line)
-        if m:
-            existing_titles.add(m.group(1).strip().lower())
-    appended_blocks: list[str] = []
-    for cand in candidates:
-        try:
-            fit = int(cand.get("fit_score", 0))
-            nov = int(cand.get("novelty", 0))
-        except (TypeError, ValueError):
-            continue
-        if fit < CANDIDATE_FIT_THRESHOLD or nov < CANDIDATE_NOVELTY_THRESHOLD:
-            continue
-        title = cand.get("title", "").strip()
-        if not title or title.lower() in existing_titles:
-            continue
-        new_id = next_target_id_with_local(existing_titles, accepted)
-        appended_blocks.append(render_candidate_entry(new_id, cand))
-        existing_titles.add(title.lower())
-        accepted.append(new_id)
-    if appended_blocks:
-        original = BOARD_PATH.read_text(encoding="utf-8").rstrip()
-        BOARD_PATH.write_text(original + "\n" + "\n".join(appended_blocks) + "\n", encoding="utf-8")
+    with file_lock("board"):
+        existing_titles = set()
+        for line in BOARD_PATH.read_text(encoding="utf-8").splitlines():
+            m = re.match(r"^### B-\d+\s+-\s+(.+)$", line)
+            if m:
+                existing_titles.add(m.group(1).strip().lower())
+        appended_blocks: list[str] = []
+        for cand in candidates:
+            try:
+                fit = int(cand.get("fit_score", 0))
+                nov = int(cand.get("novelty", 0))
+            except (TypeError, ValueError):
+                continue
+            if fit < fit_threshold or nov < novelty_threshold:
+                continue
+            title = cand.get("title", "").strip()
+            if not title or title.lower() in existing_titles:
+                continue
+            new_id = next_target_id_with_local(existing_titles, accepted)
+            appended_blocks.append(render_candidate_entry(new_id, cand))
+            existing_titles.add(title.lower())
+            accepted.append(new_id)
+        if appended_blocks:
+            original = BOARD_PATH.read_text(encoding="utf-8").rstrip()
+            BOARD_PATH.write_text(original + "\n" + "\n".join(appended_blocks) + "\n", encoding="utf-8")
     return accepted
 
 
@@ -523,7 +533,11 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
         if td.ok and td.parsed:
             candidates = td.parsed.get("candidates") or []
             write_text(out_dir / "candidates.json", json.dumps(td.parsed, ensure_ascii=False, indent=2))
-            spawned_ids = append_candidates_to_board(candidates)
+            spawned_ids = append_candidates_to_board(
+                candidates,
+                fit_threshold=args.candidate_fit_threshold,
+                novelty_threshold=args.candidate_novelty_threshold,
+            )
             print(f"[stage1.5] candidates surfaced={len(candidates)} accepted={len(spawned_ids)}", flush=True)
         else:
             print(f"[stage1.5] discovery skipped: {td.error or 'no parsed JSON'}", flush=True)
@@ -591,49 +605,123 @@ def _fallback_next_prompt(turn_idx: int) -> str:
 # ---------------------------------------------------------------------------
 
 
+def in_progress_marker(target: BedcTarget) -> Path:
+    return STATE_DIR / target.slug / ".in_progress"
+
+
+def claim_next_unfinished() -> BedcTarget | None:
+    """Pick one unfinished+unclaimed target under target-picker lock."""
+    with file_lock("target_picker"):
+        targets = parse_board()
+        for t in targets.values():
+            done = (STATE_DIR / f"{t.slug}.json").exists()
+            marker = in_progress_marker(t)
+            if done or marker.exists():
+                continue
+            marker.parent.mkdir(parents=True, exist_ok=True)
+            marker.write_text(f"pid={os.getpid()} ts={_now_iso()}\n", encoding="utf-8")
+            return t
+    return None
+
+
+def release_claim(target: BedcTarget) -> None:
+    marker = in_progress_marker(target)
+    if marker.exists():
+        try:
+            marker.unlink()
+        except OSError:
+            pass
+
+
+def _run_target_safe(args: argparse.Namespace, target: BedcTarget) -> dict:
+    """Run a single target; always release its in-progress claim on exit."""
+    try:
+        return run_target(args, target)
+    except KeyboardInterrupt:
+        raise
+    except Exception as exc:
+        print(f"[loop] target {target.target_id} crashed: {exc}", flush=True)
+        write_text(STATE_DIR / f"{target.slug}.json", json.dumps({
+            "target_id": target.target_id,
+            "title": target.title,
+            "stage1_verdict": "crashed",
+            "error": str(exc),
+            "completed_at": _now_iso(),
+        }, ensure_ascii=False, indent=2))
+        return {"target_id": target.target_id, "stage1_verdict": "crashed"}
+    finally:
+        release_claim(target)
+
+
 def run_loop(args: argparse.Namespace) -> int:
     targets = parse_board()
     if not args.target_id and not args.loop:
         print("error: either pass a target_id or --loop", flush=True)
         return 2
+
     if args.target_id:
         target = targets.get(args.target_id)
         if target is None:
             known = ", ".join(targets)
             raise SystemExit(f"unknown target {args.target_id}; known targets: {known}")
-        run_target(args, target)
-        return 0
-
-    # --loop: process unfinished targets sequentially until BOARD has none left
-    while True:
-        targets = parse_board()
-        unfinished = [t for t in targets.values() if not (STATE_DIR / f"{t.slug}.json").exists()]
-        if not unfinished:
-            print("[loop] no unfinished targets remain; exiting", flush=True)
-            return 0
-        target = unfinished[0]
-        print(f"[loop] picking {target.target_id} ({target.title})", flush=True)
+        marker = in_progress_marker(target)
+        marker.parent.mkdir(parents=True, exist_ok=True)
+        marker.write_text(f"pid={os.getpid()} ts={_now_iso()}\n", encoding="utf-8")
         try:
             run_target(args, target)
+        finally:
+            release_claim(target)
+        return 0
+
+    parallel = max(1, args.parallel)
+    print(f"[loop] starting --loop with parallel={parallel}", flush=True)
+
+    if parallel == 1:
+        while True:
+            target = claim_next_unfinished()
+            if target is None:
+                print("[loop] no unfinished targets remain; exiting", flush=True)
+                return 0
+            print(f"[loop] picking {target.target_id} ({target.title})", flush=True)
+            try:
+                _run_target_safe(args, target)
+            except KeyboardInterrupt:
+                print("[loop] interrupted by user", flush=True)
+                release_claim(target)
+                return 130
+
+    with ThreadPoolExecutor(max_workers=parallel) as pool:
+        futures = []
+        for _ in range(parallel):
+            t = claim_next_unfinished()
+            if t is None:
+                break
+            print(f"[loop] dispatch {t.target_id} ({t.title})", flush=True)
+            futures.append(pool.submit(_run_target_safe, args, t))
+        try:
+            while futures:
+                done, pending = wait(futures, return_when=FIRST_COMPLETED)
+                futures = list(pending)
+                for _ in done:
+                    nt = claim_next_unfinished()
+                    if nt is None:
+                        continue
+                    print(f"[loop] dispatch {nt.target_id} ({nt.title})", flush=True)
+                    futures.append(pool.submit(_run_target_safe, args, nt))
         except KeyboardInterrupt:
-            print("[loop] interrupted by user", flush=True)
+            print("[loop] interrupted by user; in-flight workers will continue until safe stop", flush=True)
             return 130
-        except Exception as exc:
-            print(f"[loop] target {target.target_id} crashed: {exc}", flush=True)
-            # mark as failed so loop doesn't re-pick
-            write_text(STATE_DIR / f"{target.slug}.json", json.dumps({
-                "target_id": target.target_id,
-                "title": target.title,
-                "stage1_verdict": "crashed",
-                "error": str(exc),
-                "completed_at": _now_iso(),
-            }, ensure_ascii=False, indent=2))
+    print("[loop] all dispatched; pool drained; BOARD has no further unfinished targets", flush=True)
+    return 0
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run a BEDC target through the codex-orchestrated oracle bridge")
     parser.add_argument("target_id", nargs="?", help="Target id such as B-01")
-    parser.add_argument("--loop", action="store_true", help="Process unfinished BOARD targets sequentially until BOARD is empty")
+    parser.add_argument("--loop", action="store_true", help="Process unfinished BOARD targets until BOARD is empty")
+    parser.add_argument("--parallel", type=int, default=1, help="Number of concurrent target workers in --loop mode (default 1; cap to active ChatGPT tabs)")
+    parser.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD, help="Minimum fit_score for Stage 1.5 to accept a spawned candidate")
+    parser.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD, help="Minimum novelty for Stage 1.5 to accept a spawned candidate")
     parser.add_argument("--server", default=ORACLE_SERVER, help="Oracle server URL")
     parser.add_argument("--model", default="chatgpt-5.5-pro", help="Model name passed to the oracle server")
     parser.add_argument("--timeout", type=int, default=14400, help="Per-turn timeout in seconds")
