@@ -116,6 +116,50 @@ field $\rho_{\delta}$ applied to the exposed source payload.
 \end{definition}
 \leandef{BEDC.Derived.OptionUp.TaggedOptionMapRel}
 
+\begin{theorem}[Tagged option map relation visible branch equivalence]
+\label{thm:tagged-option-maprel-visible-branch-equivalence}
+This theorem fits the per-object template as follows: the traditional target is
+constructor-tagged option payload descent readback; the BEDC source is
+$\mathsf{BHist}$ with a
+$\mathsf{DescentCertificate}$; the carrier is tagged option histories; the
+classifier is the transported tagged option classifier; the stability obligation
+is visible branch preservation; the ledger is the absent/present tag with the
+transported payload; the core theorem is this branch equivalence; exactness is
+branch inversion; the standard bridge is none/some map readback; and the status
+is $\mathsf{ProofTarget}$. Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC
+history source carriers, let $\sim_S,\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and let
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+For all histories $h,k$, every witness
+$\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)$ implies both
+$$
+\hsame(h,\emp)\Longleftrightarrow\hsame(k,\emp)
+$$
+and
+$$
+(\exists a:\mathsf{BHist}.\;S(a)\land\hsame(h,\Eone(a)))
+\Longleftrightarrow
+(\exists b:\mathsf{BHist}.\;T(b)\land\hsame(k,\Eone(b))).
+$$
+\end{theorem}
+\begin{proof}
+Split the map-relation witness into its visible branches.
+
+In the absent branch, both endpoint presentations are $\emp$. Thus absentness is
+preserved in either direction, and any present payload witness would identify an
+empty presentation with a one-constructor presentation, contradicting
+constructor no-confusion.
+
+In the present branch, the exposed source payload $a$ supplies the left present
+witness, while $\delta.\mathsf{map}(a)$ together with $\rho_{\delta}$ supplies
+the right present witness. Either endpoint being absent would again identify
+$\emp$ with a stored one-constructor presentation, so absentness agrees in both
+directions.
+\end{proof}
+
 \begin{theorem}[Tagged option identity payload descent exactness]
 \label{thm:tagged-option-payload-descent-identity-exactness}
 This theorem fits the per-object template as follows: the traditional target is
