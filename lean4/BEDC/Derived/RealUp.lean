@@ -142,6 +142,19 @@ theorem RealStreamPrefixClassifier_trans {x y z : Nat -> BHist} :
         (ih classifiedXY.left classifiedYZ.left)
         (RatHistoryClassifier_trans classifiedXY.right classifiedYZ.right)
 
+theorem RealStreamPrefixClassifier_refl {x : Nat -> BHist}
+    (carrier : forall n : Nat, RatHistoryCarrier (x n)) :
+    forall n : Nat, RealStreamPrefixClassifier x x n := by
+  intro n
+  induction n with
+  | zero =>
+      exact And.intro (carrier Nat.zero)
+        (And.intro (carrier Nat.zero) (hsame_refl (x Nat.zero)))
+  | succ n ih =>
+      exact And.intro ih
+        (And.intro (carrier (Nat.succ n))
+          (And.intro (carrier (Nat.succ n)) (hsame_refl (x (Nat.succ n)))))
+
 theorem RealStreamPrefixClassifier_e1_pair_readback {x y : Nat -> BHist} :
     forall {n : Nat} {leftTail rightTail : BHist},
       RealStreamPrefixClassifier x y n ->
