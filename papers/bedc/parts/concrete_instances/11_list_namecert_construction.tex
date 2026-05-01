@@ -15,7 +15,7 @@ The list interface $\ListUp$ is licensed over a source carrier endowed with a $\
   \item \textbf{Core theorem list}: history carrier case analysis, history classifier constructor exactness, list spine representation coverage, classifier transitivity, classifier symmetry from the source $\NameCert$, cons inversion, singleton equivalence, map stability, append cancellation, reverse stability, checked $\hsame$ length preservation, and the paper-side source-parametric length lemma of Theorem~\ref{thm:list-classifier-length-eq}.
   \item \textbf{Exactness predicate}: classification holds exactly when there exist finite spines $xs,ys$ such that $\mathsf{ListSpineRep}_A(h,xs)$, $\mathsf{ListSpineRep}_A(k,ys)$, and $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ hold; $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ makes alternate presentations of the same endpoint compatible for certificate use.
   \item \textbf{Standard bridge}: the generated carrier reads back through $\mathsf{ListSpineRep}_A$ under $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$; ordinary finite list syntax is the finite-spine presentation witness, not exported carrier equality or a quotient.
-  \item \textbf{Status}: $\mathsf{ProofTarget}$ for the full generated-history semantic certificate conditional on $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$; the finite-spine classifier already has checked structural fields including source-certificate transitivity, $\hsame$ symmetry and transitivity, constructor-map facts, checked $\hsame$ length preservation, plus the paper-side source-parametric length lemma of Theorem~\ref{thm:list-classifier-length-eq}, append cancellation, and reverse stability.
+  \item \textbf{Status}: $\mathsf{ProofTarget}$ for a conditional public-object certificate target, not a closed $\ListUp$ license; Phase Finite Data remains open for $\ListUp$ until a concrete $\mathsf{ListSpineRepCoherent}_{S,\sim_S}$ witness or boundary ledger is supplied. The finite-spine classifier already has the checked structural fields and paper-side lemmas listed in Theorem~\ref{thm:list-classifier-length-eq}.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -750,7 +750,7 @@ recovered tail carrier witness, the continuation witness, and the displayed
 $\hsame(h,\Eone(p))$ endpoint.
 \end{proof}
 
-\begin{theorem}[Conditional $\ListUp$ semantic certificate from the spine bridge]
+\begin{theorem}[Conditional $\ListUp$ public-object target from the spine bridge]
 \label{thm:concrete-list-namecert}
 Given a BEDC history source carrier $A : \mathsf{BHist} \to \mathsf{Prop}$,
 source classifier $\sim_A$, source certificate
@@ -792,7 +792,7 @@ $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$; Definition~\ref{def:list-spine-rep-
 makes alternate presentations of the same endpoint compatible for certificate use.
 \end{proof}
 
-\begin{corollary}[$\ListUp$ conditional license]
+\begin{corollary}[$\ListUp$ conditional public-object target]
 \label{cor:list-conditional-license}
-By Theorem~\ref{thm:concrete-list-namecert}, $\ListUp(A)$ is licensed relative to the supplied source $\NameCert$ and a witness of $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$.
+By Theorem~\ref{thm:concrete-list-namecert}, $\ListUp(A)$ has a conditional public-object certificate target relative to the supplied source $\NameCert$ and a witness of $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Phase Finite Data remains open for $\ListUp$ until that witness is concrete or the boundary ledger displays the missing spine choice.
 \end{corollary}
