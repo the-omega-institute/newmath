@@ -532,6 +532,20 @@ theorem BoolHistoryCarrier_classifier_endpoint_exactness
         | intro _ classifier =>
             exact classifier.left
 
+theorem BoolHistoryClassifier_readback_total_unique {h : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryCarrier h →
+      ∃ v : BEDC.FKernel.Mark.BMark, BoolSourceSpec v ∧
+        BoolHistoryClassifier h (BoolEndpoint v) ∧
+          ∀ w : BEDC.FKernel.Mark.BMark, BoolHistoryClassifier h (BoolEndpoint w) →
+            BEDC.FKernel.Mark.msame v w := by
+  intro carrier
+  cases (BoolHistoryCarrier_classifier_endpoint_exactness (h := h)).mp carrier with
+  | intro v payload =>
+      exact ⟨v, payload.left, payload.right, by
+        intro w classifierW
+        exact BoolEndpoint_readback_determinism (h := h) payload.right.right.right
+          classifierW.right.right⟩
+
 theorem bool_history_name_certificate :
     BEDC.FKernel.NameCert.NameCert BoolHistoryCarrier BoolHistoryClassifier := by
   exact {

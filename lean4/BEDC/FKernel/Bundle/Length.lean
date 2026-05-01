@@ -38,6 +38,25 @@ theorem bundleLength_eq_one_iff_singleton {PName : Type} {bundle : ProbeBundle P
         cases hp
         rfl
 
+theorem bundleLength_eq_succ_iff_cons {PName : Type} {bundle : ProbeBundle PName} {n : Nat} :
+    bundleLength bundle = Nat.succ n ↔
+      ∃ p : PName, ∃ tail : ProbeBundle PName,
+        bundle = ProbeBundle.Bcons p tail ∧ bundleLength tail = n := by
+  constructor
+  · intro h
+    cases bundle with
+    | Bnil =>
+        cases h
+    | Bcons p tail =>
+        exact ⟨p, tail, rfl, Nat.succ.inj h⟩
+  · intro witness
+    cases witness with
+    | intro p rest =>
+        cases rest with
+        | intro tail payload =>
+            cases payload.left
+            exact congrArg Nat.succ payload.right
+
 theorem bundleAppend_nonempty_prefix_length_separation {PName : Type} (p : PName)
     (pref suff : ProbeBundle PName) :
     bundleLength (bundleAppend (ProbeBundle.Bcons p pref) suff) ≠ bundleLength suff ∧
