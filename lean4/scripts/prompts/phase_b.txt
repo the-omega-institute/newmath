@@ -180,7 +180,7 @@ The script ranks every horizon `<X>Up` chapter by `transitive_downstream / (1 + 
 
 ### Mechanical blocker definition (no soft fallback)
 
-The previous prompt allowed "if technically blocked, use `top[3..]`" — which was wide enough that codex took it on every round and the v3.4 hit rate was 0/7. From v3.5 a top-3 node counts as "blocked" only when **ALL THREE** of the following are true:
+The previous prompt allowed "if technically blocked, use `top[3..]`" — which was wide enough that codex took it on every round and produced a 0/7 hit rate. A top-3 node counts as "blocked" only when **ALL THREE** of the following are true:
 
 1. The chapter file `top[i].file_paper` contains fewer than 3 `\begin{definition}` blocks (the paper has not yet specified the carrier sufficiently to formalize). Verify with:
    ```bash
@@ -189,7 +189,7 @@ The previous prompt allowed "if technically blocked, use `top[3..]`" — which w
 2. The implementation would require a Lean inductive type or `import` that does not currently exist anywhere under `lean4/BEDC/`. Verify with `grep -rE '(inductive|import) <name>' lean4/BEDC/`.
 3. The `critical_path.py` JSON shows `depsReady = false` for this node. By construction the script already excludes deps-not-ready nodes from `top`, so this condition is always false for any node IN `top`.
 
-If condition 3 fails alone (or any single condition fails), the node is NOT blocked. Pick a different top-3 node where all three conditions are absent. The 0/7 v3.4 misses were all rationalised through the soft "blocked" escape; from v3.5 a single-condition rationalisation is invalid.
+If condition 3 fails alone (or any single condition fails), the node is NOT blocked. Pick a different top-3 node where all three conditions are absent. The previous 0/7 round-misses were all rationalised through the soft "blocked" escape; a single-condition rationalisation is invalid.
 
 **If ALL of `top[0..2]` claim blocked** under the three-condition test above, output `{"targets": []}` and let the gate skip this round. Do NOT silently fall back to depth-refinement of saturated domains. Empty rounds are preferred over silent fallback.
 
