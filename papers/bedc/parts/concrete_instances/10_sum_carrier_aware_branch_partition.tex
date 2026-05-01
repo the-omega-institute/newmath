@@ -2,11 +2,11 @@
 \label{thm:sum-history-classifier-branch-partition}
 For branch carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, branch
 classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
-and histories $h,k$, the history-level sum classifier is exactly the visible
+and histories $h,k$, the history-level sum classifier exposes the visible
 left-or-right constructor analysis:
 $$
 \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)
-\Longleftrightarrow
+\to
 \bigl(\exists l,l'.\;
 \hsame(h,\Ezero(l))\land
 \hsame(k,\Ezero(l'))\land
@@ -23,20 +23,43 @@ $\mathsf{SumHistoryClassifier}$, the ledger records the visible tag plus
 payload, and the status is $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-For the forward direction, case-analyze the classifier witness. The left
-constructor supplies the two $\Ezero$ endpoint links and the stored $LeftEq$
-payload relation, yielding the left disjunct. The right constructor supplies
-the two $\Eone$ endpoint links and the stored $RightEq$ payload relation,
-yielding the right disjunct.
-
-For the reverse direction, split the displayed disjunction. In the left branch,
-unpack $l,l'$ together with the two visible left endpoint witnesses and the
-stored $LeftEq(l,l')$ witness, then rebuild the left classifier constructor.
-In the right branch, unpack $r,r'$ together with the two visible right endpoint
-witnesses and the stored $RightEq(r,r')$ witness, then rebuild the right
-classifier constructor.
+Case-analyze the classifier witness. The left constructor supplies the two
+$\Ezero$ endpoint links and the stored $LeftEq$ payload relation, yielding the
+left disjunct. The right constructor supplies the two $\Eone$ endpoint links
+and the stored $RightEq$ payload relation, yielding the right disjunct.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_branch\_partition}
+
+\begin{theorem}[Sum history classifier branch introduction]
+\label{thm:sum-history-classifier-branch-introduction}
+For branch carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, branch
+classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+and histories $h,k$, visible left-or-right branch data constructs the
+history-level sum classifier:
+$$
+\bigl(\exists l,l'.\;
+\hsame(h,\Ezero(l))\land
+\hsame(k,\Ezero(l'))\land
+LeftEq(l,l')\bigr)
+\lor
+\bigl(\exists r,r'.\;
+\hsame(h,\Eone(r))\land
+\hsame(k,\Eone(r'))\land
+RightEq(r,r')\bigr)
+\to
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k).
+$$
+In the ten-field fit, the constructor introduction target records that visible
+same-branch endpoints and their stored branch relation rebuild the corresponding
+sum classifier witness.
+\end{theorem}
+\begin{proof}
+Split the displayed disjunction. In the left branch, unpack $l,l'$ together
+with the two visible left endpoint witnesses and the stored $LeftEq(l,l')$
+witness, then rebuild the left classifier constructor. In the right branch,
+unpack $r,r'$ together with the two visible right endpoint witnesses and the
+stored $RightEq(r,r')$ witness, then rebuild the right classifier constructor.
+\end{proof}
 
 \begin{theorem}[Sum history carrier visible branch cases]
 \label{thm:sum-history-carrier-visible-branch-cases}
