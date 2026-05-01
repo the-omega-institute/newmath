@@ -593,6 +593,23 @@ Convert the raw-visible ledger into the raw-visible classifier, then compose it
 with the visible-target classifier by transitivity.
 \end{proof}
 
+\begin{theorem}[Rat history ledger classifier endpoint equivalence]
+\label{thm:rat-history-ledger-classifier-endpoint-equivalence}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, then every target history
+$w$ is classified from $\rho$ exactly when it is classified from $v$:
+$$
+\mathsf{RatHistoryClassifier}(\rho,w)\leftrightarrow
+\mathsf{RatHistoryClassifier}(v,w).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_classifier\_endpoint\_equivalence}
+\begin{proof}
+The ledger supplies the raw-visible rational classifier. For the raw-to-visible
+direction, reverse that classifier by symmetry and compose it with the
+raw-target classifier by transitivity. The visible-to-raw direction is the
+ledger classifier extension theorem.
+\end{proof}
+
 \begin{definition}[\(\RatUp\) certificate obligations]
 \label{def:rat-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RatUp\).

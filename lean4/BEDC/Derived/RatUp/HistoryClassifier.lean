@@ -89,4 +89,16 @@ theorem RatHistoryClassifier_unary_denominator_context_closed
     RatHistoryClassifier_append_unary_denominator_closed classifier tailDUnary tailSame
   exact RatHistoryClassifier_prepend_unary_denominator_closed tailClosed prefDUnary prefSame
 
+theorem RatHistoryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist} :
+    RatHistoryLedgerPolicy rho v ->
+      (RatHistoryClassifier rho w <-> RatHistoryClassifier v w) := by
+  intro ledger
+  constructor
+  · intro classified
+    exact RatHistoryClassifier_trans
+      (RatHistoryClassifier_symm (RatHistoryLedgerPolicy_raw_visible_classifier ledger))
+      classified
+  · intro classified
+    exact RatHistoryLedgerPolicy_classifier_extension ledger classified
+
 end BEDC.Derived.RatUp

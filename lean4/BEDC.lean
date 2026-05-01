@@ -53,6 +53,7 @@ import BEDC.Derived.OptionUp.BranchExactness
 import BEDC.Derived.OptionUp.SourceWeakening
 import BEDC.Derived.OptionUp.TaggedPayload
 import BEDC.Derived.OptionUp.StabilityFields
+import BEDC.Derived.OptionUp.VisibleBranchInversion
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint

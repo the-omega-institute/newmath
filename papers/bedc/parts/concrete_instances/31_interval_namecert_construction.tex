@@ -82,6 +82,25 @@ link. The visible carrier theorem supplies the visible endpoint carrier, and
 the two carrier witnesses with the stored link rebuild the interval classifier.
 \end{proof}
 
+\begin{theorem}[Interval empty-boundary ledger classifier endpoint equivalence]
+\label{thm:interval-empty-boundary-ledger-classifier-endpoint-equivalence}
+If $\mathsf{IntervalEmptyBoundaryLedgerPolicy}(\rho,v)$ holds, then every
+target history $w$ is classified from $\rho$ exactly when it is classified from
+$v$ by the empty-boundary interval classifier:
+$$
+\mathsf{IntervalClassifierSpec}_{\emp}(\rho,w)\leftrightarrow
+\mathsf{IntervalClassifierSpec}_{\emp}(v,w).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalEmptyBoundaryLedgerPolicy\_classifier\_endpoint\_equivalence}
+\begin{proof}
+The ledger supplies the raw-visible empty-boundary interval classifier. For the
+raw-to-visible direction, reverse that classifier by symmetry and compose it
+with the raw-target classifier by transitivity. For the visible-to-raw
+direction, compose the raw-visible classifier with the visible-target
+classifier.
+\end{proof}
+
 \begin{theorem}[Interval empty boundary carrier uniqueness]
 \label{thm:interval-empty-boundary-carrier-uniqueness}
 For the interval carrier whose lower boundary is \(\hsame(\emp,-)\) and whose

@@ -186,6 +186,23 @@ theorem IntervalClassifierSpec_symm {lower upper : BEDC.FKernel.Hist.BHist -> Pr
       | intro carrierK sameHK =>
           exact ⟨carrierK, carrierH, BEDC.FKernel.Hist.hsame_symm sameHK⟩
 
+theorem IntervalEmptyBoundaryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist} :
+    IntervalEmptyBoundaryLedgerPolicy rho v ->
+      (IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) rho w <->
+        IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
+          (fun x : BHist => hsame x BHist.Empty) v w) := by
+  intro ledger
+  have rawVisible :
+      IntervalClassifierSpec (fun x : BHist => hsame BHist.Empty x)
+        (fun x : BHist => hsame x BHist.Empty) rho v :=
+    IntervalEmptyBoundaryLedgerPolicy_raw_visible_classifier ledger
+  constructor
+  · intro classified
+    exact IntervalClassifierSpec_trans (IntervalClassifierSpec_symm rawVisible) classified
+  · intro classified
+    exact IntervalClassifierSpec_trans rawVisible classified
+
 theorem interval_name_certificate (lower upper : BHist → Prop)
     (lower_empty : lower BHist.Empty) (upper_empty : upper BHist.Empty)
     (lower_transport : ∀ {h k : BHist}, hsame h k → lower h → lower k)
