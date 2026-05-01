@@ -1,0 +1,151 @@
+\begin{definition}[Sum ledger policy]
+\label{def:sum-ledger-policy}
+Record a raw sum history carrying the selected injection tag and source ledger
+together with an \(\hsame\) link to the visible history exposed by the ledger.
+\end{definition}
+\leandef{BEDC.Derived.SumUp.SumHistoryLedgerPolicy}
+
+\begin{theorem}[Sum ledger visible carrier]
+\label{thm:sum-ledger-visible-carrier}
+If a visible history is linked by \(\hsame\) to a raw sum-ledger history, then
+the visible history is itself a sum carrier.
+\end{theorem}
+\begin{proof}
+Unpack the raw sum carrier and transport it across the stored \(\hsame\) link
+by sum-carrier transport.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_visible\_carrier}
+
+\begin{theorem}[Sum ledger raw-visible classifier]
+\label{thm:sum-ledger-raw-visible-classifier}
+If $\mathsf{SumHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then
+$\mathsf{SumHistoryClassifier}(L,R,\hsame,\hsame,\rho,v)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into its raw sum carrier and the stored $\hsame(\rho,v)$
+link. The raw carrier determines whether $\rho$ is left-tagged or right-tagged;
+transport the tag witness across the stored link and use reflexivity of
+$\hsame$ on the selected component to build the matching classifier branch.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_raw\_visible\_classifier}
+
+\begin{theorem}[Sum ledger history-same transport]
+\label{thm:sum-ledger-history-same-transport}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$raw,raw',visible,visible':\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,raw,visible)$,
+$\hsame(raw,raw')$, and $\hsame(visible,visible')$ hold, then
+$$
+  \mathsf{SumHistoryLedgerPolicy}(Left,Right,raw',visible')
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into the raw $\mathsf{SumHistoryCarrier}$ witness and the
+stored link $\hsame(raw,visible)$. Transport the raw carrier along
+$\hsame(raw,raw')$ by
+Theorem~\ref{thm:sum-history-carrier-hsame-transport}. For the raw-visible
+link of the transported ledger, compose symmetry of $\hsame(raw,raw')$, the
+stored $\hsame(raw,visible)$ link, and $\hsame(visible,visible')$ to obtain
+$\hsame(raw',visible')$.
+\end{proof}
+
+\begin{theorem}[Sum ledger classifier composition]
+\label{thm:sum-ledger-classifier-extension}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ holds and
+$\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,v,w)$ holds, then
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,w)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+First apply the raw-visible classifier theorem to the ledger policy, obtaining
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,v).
+$$
+Then compose this classifier witness with the given visible-target classifier
+witness using sum-history classifier transitivity. The branch classifiers are
+both $\hsame$, so their required transitivity inputs are the left and right
+instances of BEDC history equality transitivity.
+\end{proof}
+
+\begin{theorem}[Sum ledger preserves visible tag separation]
+\label{thm:sum-ledger-visible-tag-separation}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,l,r:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ holds, then both visible
+mixed-tag endpoint pairs are impossible:
+$$
+(\hsame(\rho,\Ezero(l))\land \hsame(v,\Eone(r)))\to\bot
+$$
+and
+$$
+(\hsame(\rho,\Eone(r))\land \hsame(v,\Ezero(l)))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-raw-visible-classifier} to the ledger policy
+to obtain
+$\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,v)$. The
+left-to-right mixed endpoint pair is then discharged by
+$\mathsf{SumHistoryClassifier\_mixed\_tags\_absurd}$ with the displayed
+$\hsame(\rho,\Ezero(l))$ and $\hsame(v,\Eone(r))$ witnesses. For the symmetric
+right-to-left pair, use classifier symmetry from
+Theorem~\ref{thm:sum-history-classifier-hsame-symmetry} and apply the same mixed-tag
+separation theorem to the exchanged endpoints.
+\end{proof}
+
+\begin{theorem}[Sum ledger same-tag payload exactness]
+\label{thm:sum-ledger-same-tag-payload-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,l,l',r,r':\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ holds, then the visible
+same-tag endpoint pairs determine their payloads:
+$$
+(\hsame(\rho,\Ezero(l))\land\hsame(v,\Ezero(l')))\to\hsame(l,l')
+$$
+and
+$$
+(\hsame(\rho,\Eone(r))\land\hsame(v,\Eone(r')))\to\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-raw-visible-classifier} to obtain the
+raw-visible $\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,v)$
+witness. For the left-tagged endpoint pair, transport this witness along the
+displayed $\hsame(\rho,\Ezero(l))$ and $\hsame(v,\Ezero(l'))$ links by
+Theorem~\ref{thm:sum-history-classifier-hsame-transport}, then apply the
+left inversion Theorem~\ref{thm:sum-history-classifier-left-hsame-inversion}
+to extract $\hsame(l,l')$. The right-tagged case is identical with
+Theorem~\ref{thm:sum-history-classifier-right-hsame-inversion}.
+\end{proof}
+
+\begin{theorem}[Sum ledger visible payload readback]
+\label{thm:sum-ledger-visible-payload-readback}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,l,r:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ holds, then visible tagged
+endpoints read back source payload evidence:
+$$
+(\hsame(v,\Ezero(l))\to\exists a:\mathsf{BHist}.\;Left(a)\land\hsame(l,a))
+$$
+and
+$$
+(\hsame(v,\Eone(r))\to\exists b:\mathsf{BHist}.\;Right(b)\land\hsame(r,b)).
+$$
+\end{theorem}
+\begin{proof}
+The traditional target is disjoint-sum ledger readback; the BEDC source is
+$\mathsf{BHist}$; the carrier is $\mathsf{SumHistoryCarrier}$; no classifier is
+needed for this carrier-readback obligation; the ledger is
+$\mathsf{SumHistoryLedgerPolicy}$; the exactness principle is visible-tag
+carrier readback; the status is $\mathsf{ProofTarget}$. Apply
+Theorem~\ref{thm:sum-ledger-visible-carrier} to the ledger, transport the visible
+carrier witness along the displayed $\hsame(v,\Ezero(l))$ or
+$\hsame(v,\Eone(r))$ endpoint equality, and then apply
+Theorem~\ref{thm:sum-history-carrier-visible-tag-exactness} to extract the left
+or right source payload witness.
+\end{proof}
