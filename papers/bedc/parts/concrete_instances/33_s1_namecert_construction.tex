@@ -124,6 +124,27 @@ gives $\hsame(e,\mathsf{SOneUnitHistory})$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_unit\_equation\_deterministic}
 
+\begin{theorem}[SOne equation unit readback]
+\label{thm:sone-history-carrier-equation-unit}
+For histories $x,y,e,p$, the concrete $\SOneUp$ history carrier determines that
+its equation witness is the BEDC unit history:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\hsame(e,\mathsf{SOneUnitHistory}).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the circle carrier to its equation-classifier field
+$\mathsf{RealConstantHistoryClassifier}(e,\mathsf{SOneUnitHistory})$. That field
+displays $e$ and $\mathsf{SOneUnitHistory}$ as $\Eone$-sealed rational histories,
+with a rational classifier between the displayed tails. The rational classifier
+contains an $\hsame$ witness between those tails; one-constructor congruence
+lifts it to the sealed endpoints, and transitivity with the two endpoint
+displays identifies $e$ with $\mathsf{SOneUnitHistory}$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_equation\_unit}
+
 \begin{theorem}[SOne component classifier ledger determinacy]
 \label{thm:s1-component-classifier-ledger-determinacy}
 For histories $x,y,e,p,x',y',e',p'$, componentwise BEDC history

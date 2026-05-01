@@ -108,16 +108,21 @@ theorem SOneHistoryCarrier_unit_equation_deterministic {x y equation point : BHi
           cases rest with
           | intro equationCarrier _pointCont =>
               cases equationCarrier with
-              | intro d rest =>
-                  cases rest with
-                  | intro q data =>
+              | intro d data =>
+                  cases data with
+                  | intro e data =>
                       cases data with
-                      | intro sameEquation rest =>
-                          cases rest with
+                      | intro sameEquation data =>
+                          cases data with
                           | intro sameUnit ratClassifier =>
                               exact hsame_trans sameEquation
-                                (hsame_trans (hsame_e1_congr ratClassifier.right.right)
+                                (hsame_trans
+                                  (hsame_e1_congr ratClassifier.right.right)
                                   (hsame_symm sameUnit))
+
+theorem SOneHistoryCarrier_equation_unit {x y equation point : BHist} :
+    SOneHistoryCarrier x y equation point → hsame equation SOneUnitHistory := by
+  exact SOneHistoryCarrier_unit_equation_deterministic
 
 theorem SOneHistoryCarrier_equation_witness_transport
     {x y equation equation' point : BHist} :

@@ -62,6 +62,22 @@ theorem RealConstantHistoryClassifier_endpoint_transport {h h' k k' : BHist} :
                   exact ⟨d, e, hsame_trans (hsame_symm sameH) sameHD,
                     hsame_trans (hsame_symm sameK) sameKE, ratClassifier⟩
 
+theorem RealConstantHistoryClassifier_endpoint_carriers {h k : BHist} :
+    RealConstantHistoryClassifier h k → RealConstantHistoryCarrier h ∧
+      RealConstantHistoryCarrier k := by
+  intro classifier
+  cases classifier with
+  | intro d rest =>
+      cases rest with
+      | intro e data =>
+          cases data with
+          | intro sameH rest =>
+              cases rest with
+              | intro sameK ratClassifier =>
+                  constructor
+                  · exact ⟨d, sameH, ratClassifier.left⟩
+                  · exact ⟨e, sameK, ratClassifier.right.left⟩
+
 def RealStreamClassifier (x y : Nat -> BHist) : Prop :=
   forall n : Nat, BEDC.Derived.RatUp.RatHistoryClassifier (x n) (y n)
 

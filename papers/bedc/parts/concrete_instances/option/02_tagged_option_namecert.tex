@@ -349,6 +349,7 @@ identical with the visible endpoints exchanged: the absent-absent branch forces
 $\hsame(\Eone(h),\emp)$, and the present-present branch forces an endpoint
 witness from $\emp$ to a present endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_mixed\_tag\_separation}
 
 \begin{theorem}[Tagged option history carrier-level mixed-tag separation]
 \label{thm:tagged-option-history-carrier-mixed-tag-separation}
@@ -487,4 +488,6 @@ Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier. If a source $\NameCe
 First apply Theorem~\ref{thm:tagged-option-history-semantic-certificate} with source classifier $\hsame$ to obtain the carrier-only semantic certificate.
 
 The core $\NameCert$ field is reused unchanged. For the pattern and ledger soundness fields, apply Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence}: every carrier witness converts to the visible pattern witness and to the visible ledger witness. Repack these three fields as the displayed $\mathsf{SemanticNameCert}$.
+
+Apply Theorem~\ref{thm:tagged-option-history-semantic-certificate} with source classifier $\hsame$. The required compatibility input is exactly Theorem~\ref{thm:tagged-option-source-hsame-compatibility-hsame}.
 \end{proof}

@@ -62,6 +62,46 @@ theorem TaggedOptionHistoryClassifier_right_absent_exactness {S : BHist → Prop
   · intro sameEmpty
     exact Or.inl (And.intro sameEmpty (hsame_refl BHist.Empty))
 
+theorem TaggedOptionHistoryClassifier_mixed_tag_separation {S : BHist → Prop}
+    {Rel : BHist → BHist → Prop} {h k : BHist} :
+    (TaggedOptionHistoryClassifier S Rel BHist.Empty (BHist.e1 k) → False) ∧
+      (TaggedOptionHistoryClassifier S Rel (BHist.e1 h) BHist.Empty → False) := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | inl absent =>
+        exact not_hsame_e1_empty absent.right
+    | inr present =>
+        cases present with
+        | intro a restA =>
+            cases restA with
+            | intro _b data =>
+                cases data with
+                | intro _sourceA rest =>
+                    cases rest with
+                    | intro _sourceB rest =>
+                        cases rest with
+                        | intro sameEmptyPresent _rest =>
+                            exact not_hsame_emp_e1 sameEmptyPresent
+  · intro classifier
+    cases classifier with
+    | inl absent =>
+        exact not_hsame_e1_empty absent.left
+    | inr present =>
+        cases present with
+        | intro _a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro _sourceA rest =>
+                    cases rest with
+                    | intro _sourceB rest =>
+                        cases rest with
+                        | intro _samePresent rest =>
+                            cases rest with
+                            | intro sameEmptyPresent _rel =>
+                                exact not_hsame_emp_e1 sameEmptyPresent
+
 theorem TaggedOptionHistoryClassifier_carrier_mixed_tag_separation {S : BHist → Prop}
     {Rel : BHist → BHist → Prop} {h k a : BHist} :
     (hsame h BHist.Empty -> S a -> hsame k (BHist.e1 a) ->
