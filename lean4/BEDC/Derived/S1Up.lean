@@ -146,4 +146,51 @@ theorem SOneHistoryCarrier_coordinate_transport
               exact And.intro xCarrier'
                 (And.intro yCarrier' (And.intro equationCarrier' pointCont'))
 
+theorem SOneHistoryCarrier_component_classifier_ledger_determinacy
+    {x y e p x' y' e' p' : BHist} :
+    SOneHistoryCarrier x y e p -> SOneHistoryCarrier x' y' e' p' ->
+      hsame x x' -> hsame y y' -> hsame e e' ∧ hsame p p' := by
+  intro left right sameX sameY
+  cases left with
+  | intro _leftX leftRest =>
+      cases leftRest with
+      | intro _leftY leftRest =>
+          cases leftRest with
+          | intro leftEquation leftPoint =>
+              cases right with
+              | intro _rightX rightRest =>
+                  cases rightRest with
+                  | intro _rightY rightRest =>
+                      cases rightRest with
+                      | intro rightEquation rightPoint =>
+                          have leftEquationUnit : hsame e SOneUnitHistory := by
+                            cases leftEquation with
+                            | intro d leftData =>
+                                cases leftData with
+                                | intro q leftData =>
+                                    cases leftData with
+                                    | intro sameE leftData =>
+                                        cases leftData with
+                                        | intro sameUnit ratClassifier =>
+                                            exact hsame_trans sameE
+                                              (hsame_trans
+                                                (hsame_e1_congr ratClassifier.right.right)
+                                                (hsame_symm sameUnit))
+                          have rightEquationUnit : hsame e' SOneUnitHistory := by
+                            cases rightEquation with
+                            | intro d rightData =>
+                                cases rightData with
+                                | intro q rightData =>
+                                    cases rightData with
+                                    | intro sameE rightData =>
+                                        cases rightData with
+                                        | intro sameUnit ratClassifier =>
+                                            exact hsame_trans sameE
+                                              (hsame_trans
+                                                (hsame_e1_congr ratClassifier.right.right)
+                                                (hsame_symm sameUnit))
+                          exact And.intro
+                            (hsame_trans leftEquationUnit (hsame_symm rightEquationUnit))
+                            (cont_respects_hsame sameX sameY leftPoint rightPoint)
+
 end BEDC.Derived.S1Up
