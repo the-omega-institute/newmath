@@ -109,6 +109,20 @@ original classifier link, and keep the magnitude sameness unchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_msame\_sign\_transport}
 
+\begin{theorem}[Integer classifier sign and magnitude transport]
+\label{thm:int-classifier-sign-magnitude-transport}
+If $\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))$, the signs transport to
+$s_x'$ and $s_y'$ by $\msame$, and the magnitudes transport to $h_x'$ and
+$h_y'$ by $\hsame$, then
+$\mathsf{IntClassifierSpec}((s_x',h_x'),(s_y',h_y'))$.
+\end{theorem}
+\begin{proof}
+First transport the classifier along the two magnitude links, preserving the
+sign component. Then transport the resulting classifier along the two sign
+links, preserving the transported magnitude component.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_sign\_magnitude\_transport}
+
 \begin{theorem}[Integer classifier reflexivity]
 \label{thm:int-classifier-refl}
 If $\mathsf{IntCarrier}(s,h)$, then

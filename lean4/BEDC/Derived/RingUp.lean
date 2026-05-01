@@ -45,6 +45,13 @@ theorem ring_add_duplicate_eq_zero {add : BHist -> BHist -> BHist}
     exact hsame_trans (hsame_symm (negLeft a)) negToA
   exact hsame_symm zeroToA
 
+theorem ring_add_right_zero {add : BHist -> BHist -> BHist} {zero : BHist}
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add zero x) x) :
+    forall x : BHist, hsame (add x zero) x := by
+  intro x
+  exact hsame_trans (addComm x zero) (zeroLeft x)
+
 theorem ring_mul_zero_absorption {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist} {zero : BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))

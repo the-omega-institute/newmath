@@ -122,6 +122,29 @@ theorem group_inverse_congruence_from_laws {mul : BHist → BHist → BHist} {e 
       (leftInv x))
     (rightInv y)
 
+theorem group_inverse_mul_reverse {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul e x) x)
+    (rightId : forall x : BHist, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) e)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) e) :
+    forall x y : BHist, hsame (inv (mul x y)) (mul (inv y) (inv x)) := by
+  intro x y
+  have reverseRight : hsame (mul (mul x y) (mul (inv y) (inv x))) e := by
+    have inner :
+        hsame (mul y (mul (inv y) (inv x))) (inv x) := by
+      exact hsame_trans (hsame_symm (assocC y (inv y) (inv x)))
+        (hsame_trans (mulCongr (rightInv y) (hsame_refl (inv x)))
+          (leftId (inv x)))
+    exact hsame_trans (assocC x y (mul (inv y) (inv x)))
+      (hsame_trans (mulCongr (hsame_refl x) inner) (rightInv x))
+  exact group_left_right_inverse_uniqueness assocC leftId rightId mulCongr
+    (leftInv (mul x y))
+    reverseRight
+
 theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))

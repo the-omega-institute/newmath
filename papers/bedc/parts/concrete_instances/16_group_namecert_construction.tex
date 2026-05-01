@@ -119,6 +119,25 @@ multiplication congruence. Combine it with the right inverse witness for
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_inverse\_congruence\_from\_laws}
 
+\begin{theorem}[Group inverse reverses multiplication]
+\label{thm:group-inverse-mul-reverse}
+For a history-level group operation with associativity, left and right identity,
+multiplication congruence, and left and right inverses, the inverse of a product
+is internally the same as the reversed product of inverses:
+$$
+\hsame((xy)^{-1},y^{-1}x^{-1}).
+$$
+\end{theorem}
+\begin{proof}
+The product $y^{-1}x^{-1}$ is a right inverse of $xy$: reassociate
+$(xy)(y^{-1}x^{-1})$ to $x(y(y^{-1}x^{-1}))$, reassociate the inner product to
+$(yy^{-1})x^{-1}$, collapse $yy^{-1}$ to the identity, and finish with the
+left identity followed by the right inverse law for $x$. The left inverse law
+for $xy$ and uniqueness of left and right inverse witnesses identify
+$(xy)^{-1}$ with $y^{-1}x^{-1}$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_mul\_reverse}
+
 \begin{theorem}[Group left cancellation]
 \label{thm:group-left-cancellation}
 For a history-level group operation with associativity, left identity,
