@@ -8,6 +8,9 @@ open BEDC.FKernel.NameCert
 def OptionHistoryCarrier (source : BHist -> Prop) (h : BHist) : Prop :=
   hsame h BHist.Empty ∨ source h
 
+def OptionSourceExcludesEmpty (source : BHist -> Prop) : Prop :=
+  forall h : BHist, source h -> hsame h BHist.Empty -> False
+
 theorem OptionHistoryCarrier_hsame_transport {source : BHist -> Prop} {h k : BHist} :
     hsame h k -> OptionHistoryCarrier source h -> OptionHistoryCarrier source k := by
   intro same carrier
@@ -118,6 +121,24 @@ theorem OptionHistoryClassifier_empty_left_iff {source : BHist -> Prop} {k : BHi
     · constructor
       · exact Or.inl same
       · exact hsame_symm same
+
+theorem OptionHistoryCarrier_exclusive_readback {source : BHist -> Prop}
+    (sourceExcludesEmpty : OptionSourceExcludesEmpty source) {h : BHist} :
+    OptionHistoryCarrier source h ->
+      (hsame h BHist.Empty /\ (source h -> False)) \/
+        (source h /\ (hsame h BHist.Empty -> False)) := by
+  intro carrier
+  cases carrier with
+  | inl emptyCase =>
+      exact Or.inl
+        ⟨emptyCase, by
+          intro sourceCase
+          exact sourceExcludesEmpty h sourceCase emptyCase⟩
+  | inr sourceCase =>
+      exact Or.inr
+        ⟨sourceCase, by
+          intro emptyCase
+          exact sourceExcludesEmpty h sourceCase emptyCase⟩
 
 theorem option_history_semantic_name_certificate (source : BHist -> Prop) :
     SemanticNameCert (OptionHistoryCarrier source) (OptionHistoryCarrier source)

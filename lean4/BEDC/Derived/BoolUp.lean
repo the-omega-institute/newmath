@@ -164,6 +164,17 @@ theorem BoolHistoryCarrier_endpoint_coverage {h : BEDC.FKernel.Hist.BHist} :
         | b1 =>
             exact Or.inr same
 
+theorem BoolEndpoint_readback_determinism {v w : BEDC.FKernel.Mark.BMark}
+    {h : BEDC.FKernel.Hist.BHist} :
+    BEDC.FKernel.Hist.hsame h (BoolEndpoint v) ->
+      BEDC.FKernel.Hist.hsame h (BoolEndpoint w) ->
+        BEDC.FKernel.Mark.msame v w := by
+  intro readV readW
+  exact (BoolEndpoint_bridge_exactness (v := v) (w := w)).mpr
+    (BEDC.FKernel.Hist.hsame_trans
+      (BEDC.FKernel.Hist.hsame_symm readV)
+      readW)
+
 theorem BoolHistoryCarrier_e0_absurd {h : BEDC.FKernel.Hist.BHist} :
     BoolHistoryCarrier (BEDC.FKernel.Hist.BHist.e0 h) -> False := by
   intro carrier
@@ -405,6 +416,52 @@ theorem BoolHistoryClassifier_cases {h k : BEDC.FKernel.Hist.BHist} :
                 ⟨oneH,
                   BEDC.FKernel.Hist.hsame_trans
                     (BEDC.FKernel.Hist.hsame_symm sameHK) oneH⟩
+
+theorem BoolHistoryClassifier_mark_readback_exactness {h k : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryClassifier h k <->
+      exists v : BEDC.FKernel.Mark.BMark, exists w : BEDC.FKernel.Mark.BMark,
+        BEDC.FKernel.Hist.hsame h (BoolEndpoint v) /\
+          BEDC.FKernel.Hist.hsame k (BoolEndpoint w) /\
+            BEDC.FKernel.Mark.msame v w := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro carrierH rest =>
+        cases rest with
+        | intro carrierK sameHK =>
+            cases (BoolHistoryCarrier_endpoint_coverage (h := h)).mp carrierH with
+            | intro v readH =>
+                cases (BoolHistoryCarrier_endpoint_coverage (h := k)).mp carrierK with
+                | intro w readK =>
+                    have endpointSame :
+                        BEDC.FKernel.Hist.hsame (BoolEndpoint v) (BoolEndpoint w) :=
+                      BEDC.FKernel.Hist.hsame_trans
+                        (BEDC.FKernel.Hist.hsame_symm readH)
+                        (BEDC.FKernel.Hist.hsame_trans sameHK readK)
+                    exact Exists.intro v
+                      (Exists.intro w
+                        ⟨readH, readK,
+                          (BoolEndpoint_bridge_exactness (v := v) (w := w)).mpr
+                            endpointSame⟩)
+  · intro witness
+    cases witness with
+    | intro v rest =>
+        cases rest with
+        | intro w payload =>
+            cases payload with
+            | intro readH restPayload =>
+                cases restPayload with
+                | intro readK sameVW =>
+                    constructor
+                    · exact (BoolHistoryCarrier_endpoint_coverage (h := h)).mpr
+                        (Exists.intro v readH)
+                    · constructor
+                      · exact (BoolHistoryCarrier_endpoint_coverage (h := k)).mpr
+                          (Exists.intro w readK)
+                      · exact BEDC.FKernel.Hist.hsame_trans readH
+                          (BEDC.FKernel.Hist.hsame_trans
+                            ((BoolEndpoint_bridge_exactness (v := v) (w := w)).mp sameVW)
+                            (BEDC.FKernel.Hist.hsame_symm readK))
 
 theorem bool_history_name_certificate :
     BEDC.FKernel.NameCert.NameCert BoolHistoryCarrier BoolHistoryClassifier := by
