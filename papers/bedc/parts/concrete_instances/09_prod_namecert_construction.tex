@@ -389,6 +389,28 @@ $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
 \end{proof}
 This statement fixes both component histories; comparison of two different pair presentations of one endpoint is exactly the separate coherence datum in Definition~\ref{def:prod-pair-rep-coherent}.
 
+\begin{theorem}[Product fixed-pair endpoint exactness]
+\label{thm:prod-pair-rep-fixed-endpoint-exactness}
+For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and histories
+$h,k,l,r$, if $\mathsf{ProdPairRep}_{L,R}(h,l,r)$ holds, then
+$$
+  \mathsf{ProdPairRep}_{L,R}(k,l,r)\Longleftrightarrow\hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The per-object fit is: traditional target ordered-pair endpoint readback; BEDC
+source $\mathsf{BHist}$ with $\Cont$; carrier $\mathsf{ProdPairRep}$;
+classifier endpoint $\hsame$; stability by endpoint transport and continuation
+determinism; ledger fixed displayed pair; core theorem fixed-pair endpoint
+exactness; exactness predicate the displayed iff; standard bridge fixed
+ordered-pair endpoint; status $\mathsf{ProofTarget}$. For the forward
+direction, apply Theorem~\ref{thm:prod-pair-rep-determinism} to the displayed
+base representation and the target representation, then project the
+$\hsame(h,k)$ conjunct. For the reverse direction, apply
+Theorem~\ref{thm:prod-pair-rep-hsame-transport} to the base representation and
+the displayed endpoint sameness.
+\end{proof}
+
 \begin{definition}[Product pair-representation coherence]
 \label{def:prod-pair-rep-coherent}
 For source classifiers $\sim_L$ and $\sim_R$, define
