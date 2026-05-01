@@ -14,6 +14,15 @@ theorem PositiveUnaryDenominator_append_unary_context {pref den tail : BHist} :
   exact PositiveUnaryDenominator_append_unary_prefix prefUnary
     (PositiveUnaryDenominator_append_unary_tail positive tailUnary)
 
+theorem RatCarrier_unary_denominator_context_closed {sign : BMark}
+    {numerator denominator pref tail : BHist} :
+    UnaryHistory pref -> RatCarrier sign numerator denominator -> UnaryHistory tail ->
+      RatCarrier sign numerator
+        (BEDC.FKernel.Cont.append pref (BEDC.FKernel.Cont.append denominator tail)) := by
+  intro prefUnary carrier tailUnary
+  exact RatCarrier_prepend_unary_denominator_closed prefUnary
+    (RatCarrier_append_unary_denominator_closed carrier tailUnary)
+
 theorem RatClassifierSpec_append_unary_denominator_context_closed {s1 s2 : BMark}
     {n1 n2 d1 d2 pref1 pref2 tail1 tail2 : BHist} :
     RatClassifierSpec s1 n1 d1 s2 n2 d2 -> UnaryHistory pref1 -> hsame pref1 pref2 ->

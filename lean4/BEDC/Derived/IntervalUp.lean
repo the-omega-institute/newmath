@@ -135,6 +135,13 @@ theorem IntervalClassifierSpec_empty_boundary_iff_endpoints {h k : BHist} :
   · intro endpoints
     exact IntervalClassifierSpec_empty_boundary_of_hsame endpoints.left endpoints.right
 
+theorem IntervalClassifierSpec_empty_boundary_no_e0_left {tail k : BHist} :
+    IntervalClassifierSpec
+      (fun x : BHist => hsame BHist.Empty x)
+      (fun x : BHist => hsame x BHist.Empty) (BHist.e0 tail) k -> False := by
+  intro classifier
+  exact not_hsame_e0_empty classifier.left.right.right
+
 theorem IntervalClassifierSpec_trans {lower upper : BEDC.FKernel.Hist.BHist -> Prop}
     {h k r : BEDC.FKernel.Hist.BHist} :
     IntervalClassifierSpec lower upper h k ->

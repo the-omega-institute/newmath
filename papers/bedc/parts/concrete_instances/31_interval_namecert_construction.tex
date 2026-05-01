@@ -113,6 +113,19 @@ In one direction, eliminate the restricted classifier witness and project the up
 \end{proof}
 \leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_empty\_boundary\_iff\_endpoints}
 
+\begin{theorem}[Interval empty boundary excludes left zero-extension]
+\label{thm:interval-empty-boundary-e0-left-absurd}
+For the interval classifier whose lower boundary is \(\hsame(\emp,-)\) and
+whose upper boundary is \(\hsame(-,\emp)\), no classifier witness can have
+left endpoint \(\Ezero(t)\).
+\end{theorem}
+\begin{proof}
+Eliminate the classifier witness and read the upper-boundary field of the left
+carrier. It gives \(\hsame(\Ezero(t),\emp)\), contradicting BEDC history
+no-confusion for zero-extension versus the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.IntervalUp.IntervalClassifierSpec\_empty\_boundary\_no\_e0\_left}
+
 \section{The certificate}
 
 \begin{definition}[Interval source specification]
