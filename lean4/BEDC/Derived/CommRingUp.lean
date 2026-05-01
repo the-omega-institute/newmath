@@ -75,4 +75,15 @@ theorem commring_mul_add_add_expand {add mul : BHist -> BHist -> BHist}
     exact addCongr (leftDistrib a c d) (leftDistrib b c d)
   exact hsame_trans outer inner
 
+theorem commring_left_distrib_commuted_terms {add mul : BHist -> BHist -> BHist}
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z))) :
+    forall x y z : BHist, hsame (mul x (add y z)) (add (mul y x) (mul z x)) := by
+  intro x y z
+  exact hsame_trans (leftDistrib x y z)
+    (addCongr (mulComm x y) (mulComm x z))
+
 end BEDC.Derived.CommRingUp

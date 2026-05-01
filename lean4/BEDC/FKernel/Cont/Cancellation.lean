@@ -46,6 +46,18 @@ theorem cont_mutual_extension_hsame {h k leftTail rightTail : BHist} :
   cases leftEmpty
   exact left.symm
 
+theorem cont_mutual_extension_tails_empty {h k leftTail rightTail : BHist} :
+    Cont h leftTail k -> Cont k rightTail h ->
+      hsame leftTail BHist.Empty ∧ hsame rightTail BHist.Empty := by
+  intro left right
+  have cycle : Cont h (append leftTail rightTail) h := by
+    exact right.trans
+      ((congrArg (fun x => append x rightTail) left).trans
+        (append_assoc h leftTail rightTail))
+  have tailEmpty : hsame (append leftTail rightTail) BHist.Empty :=
+    cont_right_unit_unique cycle
+  exact append_eq_empty_iff.mp tailEmpty
+
 theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
     Cont a b r -> Cont a' d r' -> hsame a a' -> hsame r r' -> hsame b d := by
   intro left right sameContext sameResult
