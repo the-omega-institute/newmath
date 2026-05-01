@@ -246,6 +246,57 @@ $\mathsf{SumHistoryClassifier}$, so no source-carrier inclusion is needed for
 the classifier paragraph.
 \end{proof}
 
+\begin{theorem}[Sum history source equivalence]
+\label{thm:sum-history-source-equivalence}
+Let $Left,Right,Left',Right':\mathsf{BHist}\to\mathsf{Prop}$ be source
+carriers, and let
+$LeftEq,RightEq,LeftEq',RightEq':\mathsf{BHist}\to\mathsf{BHist}\to
+\mathsf{Prop}$ be source classifiers. Assume source-carrier equivalence
+$$
+\forall h.\; Left(h)\leftrightarrow Left'(h)
+$$
+and
+$$
+\forall h.\; Right(h)\leftrightarrow Right'(h),
+$$
+and assume component-relation equivalence
+$$
+\forall a\,b.\; LeftEq(a,b)\leftrightarrow LeftEq'(a,b)
+$$
+and
+$$
+\forall a\,b.\; RightEq(a,b)\leftrightarrow RightEq'(a,b).
+$$
+Then the sum carrier and classifier are invariant under the equivalent source
+presentation:
+$$
+(\forall h.\; \mathsf{SumHistoryCarrier}(Left,Right,h)\leftrightarrow
+\mathsf{SumHistoryCarrier}(Left',Right',h))
+\land
+(\forall h\,k.\; \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)
+\leftrightarrow
+\mathsf{SumHistoryClassifier}(Left',Right',LeftEq',RightEq',h,k)).
+$$
+In the ten-field fit, the traditional target is disjoint-sum
+source-presentation invariance, the BEDC source is the two $\mathsf{BHist}$
+carriers, the carrier is $\mathsf{SumHistoryCarrier}$, the classifier is
+$\mathsf{SumHistoryClassifier}$, the stability datum is source and relation
+equivalence, the ledger keeps the visible tag unchanged, and the core theorem is
+carrier and classifier equivalence. Exactness uses the unchanged branch
+witnesses, the standard bridge is $\mathsf{inl}$ and $\mathsf{inr}$ readback,
+and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sum-history-source-weakening} from left to right using the
+forward halves of the two source-carrier equivalences for the carrier clause
+and the forward halves of the two component-relation equivalences for the
+classifier clause. This gives the implications from $(Left,Right,LeftEq,RightEq)$
+to $(Left',Right',LeftEq',RightEq')$, with the same visible tag and the same
+branch witnesses. Apply the same weakening theorem from right to left using the
+reverse halves of the four equivalence hypotheses. Pair the two carrier
+implications and pair the two classifier implications.
+\end{proof}
+
 \begin{theorem}[Sum history classifier relation weakening]
 \label{thm:sum-history-classifier-relation-weakening}
 Let $Left,Right,LeftAlt,RightAlt:\mathsf{BHist}\to\mathsf{Prop}$ be arbitrary
