@@ -1003,30 +1003,35 @@ def parse_review_output(raw: str) -> ReviewResult:
     return result
 
 
-def review_gate_check(review: ReviewResult) -> tuple[bool, str]:
-    """Quick sanity check on review JSON. Returns (proceed_to_revise, reason).
-
-    Empty list → do not revise this round (gate FALSE) but it is not a script
-    failure — caller logs and moves on.
-    """
+def review_gate_check(review: ReviewResult) -> tuple[bool, str, bool]:
+    """Quick sanity check on review JSON. Returns (proceed_to_revise, reason, benign_skip)."""
     if not review.targets:
-        return False, "Reviewer reported no high-value targets (empty round)"
+        return False, "Reviewer reported no high-value targets (empty round)", True
 
+    kept: list[dict] = []
     issues: list[str] = []
     for i, t in enumerate(review.targets):
+        target_issues: list[str] = []
         if not t.get("paper_files"):
-            issues.append(f"target {i+1}: missing paper_files")
+            target_issues.append("missing paper_files")
         if not t.get("proposed_change"):
-            issues.append(f"target {i+1}: missing proposed_change")
+            target_issues.append("missing proposed_change")
         if not t.get("summary"):
-            issues.append(f"target {i+1}: missing summary")
-        # File existence sanity
+            target_issues.append("missing summary")
         for rel in t.get("paper_files") or []:
             if not (REPO_ROOT / rel).exists():
-                issues.append(f"target {i+1}: paper_file does not exist: {rel}")
+                target_issues.append(f"paper_file does not exist: {rel}")
+        if target_issues:
+            issues.append(f"target {i+1}: {', '.join(target_issues)}")
+        else:
+            kept.append(t)
+    review.targets = kept
+    if not kept:
+        detail = "; ".join(issues[:6])
+        return False, f"No valid targets after review gate ({detail})", True
     if issues:
-        return False, "; ".join(issues[:6])
-    return True, f"{len(review.targets)} target(s) cleared review gate"
+        return True, f"{len(kept)} target(s) cleared review gate; dropped {len(issues)} invalid target(s): {'; '.join(issues[:3])}", False
+    return True, f"{len(review.targets)} target(s) cleared review gate", False
 
 
 # ---------------------------------------------------------------------------
@@ -1413,12 +1418,11 @@ def run_round_in_worktree(
         review.targets = kept
 
         # Review gate
-        proceed, reason = review_gate_check(review)
+        proceed, reason, benign_skip = review_gate_check(review)
         if not proceed:
             logger.warning(f"[{tag}] Review gate: {reason} — skipping revise phase")
             _save_round_log(round_num, review, ReviseResult(), [], True)
-            # Empty round is a benign skip, not a failure.
-            return False, round_num, []
+            return benign_skip, round_num, []
         logger.info(f"[{tag}] Review gate: {reason}")
 
         # ── Phase REVISE ─────────────────────────────────────────
