@@ -45,6 +45,7 @@ import BEDC.FKernel.Unary
 import BEDC.BaseReflection
 
 /- Derived interfaces (licensed objects). -/
+import BEDC.Derived.NatUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint

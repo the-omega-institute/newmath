@@ -1,0 +1,53 @@
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.NatUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+
+theorem NatUnaryPrefix_total {h k : BHist} :
+    UnaryHistory h -> UnaryHistory k ->
+      (exists tail : BHist, UnaryHistory tail /\ Cont h tail k) \/
+        (exists tail : BHist, UnaryHistory tail /\ Cont k tail h) := by
+  intro uh uk
+  induction h generalizing k with
+  | Empty =>
+      exact Or.inl ⟨k, uk, cont_left_unit k⟩
+  | e0 h ih =>
+      cases uh
+  | e1 h ih =>
+      cases k with
+      | Empty =>
+          exact Or.inr ⟨BHist.e1 h, uh, cont_left_unit (BHist.e1 h)⟩
+      | e0 k =>
+          cases uk
+      | e1 k =>
+          have recResult := ih (k := k) uh uk
+          cases recResult with
+          | inl left =>
+              cases left with
+              | intro tail data =>
+                  cases data with
+                  | intro tailUnary tailCont =>
+                      have base : Cont (BHist.e1 h) tail (BHist.e1 (append h tail)) := by
+                        exact cont_intro
+                          (unary_append_e1_left (h := tail) (k := h) tailUnary).symm
+                      have same : hsame (BHist.e1 (append h tail)) (BHist.e1 k) := by
+                        exact hsame_e1_congr tailCont.symm
+                      exact Or.inl
+                        ⟨tail, tailUnary, cont_result_hsame_transport base same⟩
+          | inr right =>
+              cases right with
+              | intro tail data =>
+                  cases data with
+                  | intro tailUnary tailCont =>
+                      have base : Cont (BHist.e1 k) tail (BHist.e1 (append k tail)) := by
+                        exact cont_intro
+                          (unary_append_e1_left (h := tail) (k := k) tailUnary).symm
+                      have same : hsame (BHist.e1 (append k tail)) (BHist.e1 h) := by
+                        exact hsame_e1_congr tailCont.symm
+                      exact Or.inr
+                        ⟨tail, tailUnary, cont_result_hsame_transport base same⟩
+
+end BEDC.Derived.NatUp

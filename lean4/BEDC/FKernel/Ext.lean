@@ -197,4 +197,36 @@ theorem ext_same_source_cross_mark_results_not_hsame {h r0 r1 : BHist} :
   cases right
   exact not_hsame_e0_e1 same
 
+theorem ext_result_source_not_hsame {h r : BHist} {m : BMark} :
+    Ext h m r -> hsame r h -> False := by
+  intro hr same
+  cases hr
+  · exact hsame_extension_self_absurd.left h same
+  · exact hsame_extension_self_absurd.right h same
+
+private def extCycleLength : BHist -> Nat
+  | BHist.Empty => 0
+  | BHist.e0 h => Nat.succ (extCycleLength h)
+  | BHist.e1 h => Nat.succ (extCycleLength h)
+
+theorem ext_two_step_cycle_absurd {h r : BHist} {m n : BMark} :
+    Ext h m r -> Ext r n h -> False := by
+  intro first second
+  have lenFirst : extCycleLength r = Nat.succ (extCycleLength h) := by
+    cases first <;> rfl
+  have lenSecond : extCycleLength h = Nat.succ (extCycleLength r) := by
+    cases second <;> rfl
+  have noCycle : forall q : Nat, q = Nat.succ (Nat.succ q) -> False := by
+    intro q
+    induction q with
+    | zero =>
+        intro cycle
+        cases cycle
+    | succ q ih =>
+        intro cycle
+        exact ih (Nat.succ.inj cycle)
+  have cycle : extCycleLength h = Nat.succ (Nat.succ (extCycleLength h)) := by
+    exact lenSecond.trans (congrArg Nat.succ lenFirst)
+  exact noCycle (extCycleLength h) cycle
+
 end BEDC.FKernel.Ext
