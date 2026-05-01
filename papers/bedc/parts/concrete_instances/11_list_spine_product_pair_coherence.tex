@@ -58,6 +58,27 @@ implication is precisely
 Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence}.
 \end{proof}
 
+\begin{theorem}[Deterministic list spine length readback]
+\label{thm:list-spine-cons-boundary-length-deterministic}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. For every history $m$ and finite spines $xs$
+and $ys$, if $\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$,
+$\mathsf{ListSpineRep}_A(m,xs)$, and $\mathsf{ListSpineRep}_A(m,ys)$ hold, then
+$xs$ and $ys$ have the same finite length. The roadmap ten-field fit is:
+traditional target finite-list readback; BEDC source $\mathsf{BHist}$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier $\mathsf{ListClassifierSpec}$;
+ledger finite spine; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence} turns the
+cons-boundary coherence witness into
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Apply this coherence datum to the
+two displayed $\mathsf{ListSpineRep}_A$ presentations of the endpoint $m$ to
+obtain $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. Then
+Theorem~\ref{thm:list-classifier-length-eq} gives equality of the two finite
+spine lengths.
+\end{proof}
+
 \begin{definition}[List source hsame compatibility]
 \label{def:list-source-hsame-compatible}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
@@ -239,7 +260,7 @@ traditional target finite-list classifier stability; BEDC source $A$ over
 $\mathsf{BHist}$ with $\NameCert(A,\sim_A)$; carrier
 $\mathsf{ListHistoryCarrier}_A$; classifier
 $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}$; stability obligations
-reflexivity, symmetry, transitivity, and carrier transport; ledger finite spine
+reflexivity, symmetry, transitivity, and endpoint closure; ledger finite spine
 representation; core theorem this block; exactness via
 $\mathsf{ListSpineRep}$; standard bridge finite-spine readback; status
 $\mathsf{ProofTarget}$. Then the bridge classifier satisfies all four clauses:
@@ -259,12 +280,14 @@ $$
 \mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,u)\to
 \mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u);
 $$
-and classifier-induced carrier transport, meaning
+and classifier-induced endpoint closure, meaning
 $$
-\mathsf{ListHistoryCarrier}_A(h)\to
 \mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)\to
 \mathsf{ListHistoryCarrier}_A(k).
 $$
+The $\NameCert$-shaped carrier-transport field follows immediately by weakening
+this endpoint-closure implication with an unused
+$\mathsf{ListHistoryCarrier}_A(h)$ premise.
 \end{theorem}
 \begin{proof}
 Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence} turns the
@@ -276,7 +299,8 @@ both sides of the bridge. Symmetry and endpoint exposure are exactly the two
 clauses of Theorem~\ref{thm:list-spine-bridge-endpoint-exposure-symmetry}.
 Transitivity is Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence}
 with the derived spine coherence and the source certificate. Carrier transport
-is the second endpoint-exposure component applied to the bridge witness.
+is obtained by weakening the second endpoint-exposure component applied to the
+bridge witness.
 \end{proof}
 
 \begin{lemma}[List spine representation endpoint transport]
