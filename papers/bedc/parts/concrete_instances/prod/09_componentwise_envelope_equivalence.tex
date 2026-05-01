@@ -217,20 +217,25 @@ three clauses hold:
   $$
   \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
   \to
+  D(h)\land D(k)\land
   \mathsf{ProdHistoryClassifier}(L,R,h,k).
   $$
 \end{enumerate}
-This theorem records componentwise-to-envelope compatibility for the
-ordered-product public scope; classifier equivalence is supplied only by the
-$\hsame$-specialized Theorem~\ref{thm:prod-hsame-componentwise-certificate-envelope-equivalent}.
+This theorem records componentwise-to-envelope compatibility and displayed
+ledger endpoint exposure for the ordered-product public scope; classifier
+equivalence is supplied by the $\hsame$-specialized
+Theorem~\ref{thm:prod-hsame-componentwise-certificate-envelope-equivalent}.
 \end{theorem}
 \begin{proof}
 Theorem~\ref{thm:prod-componentwise-certificate-refines-checked-envelope}
 supplies the componentwise public certificate and the descent implication from
-the componentwise classifier to the checked envelope classifier. The checked
-envelope certificate is Theorem~\ref{thm:concrete-prod-namecert}: the inhabited
-carrier fields of $\mathsf{cert}_L$ and $\mathsf{cert}_R$ provide the left and
-right carrier witnesses required by that theorem.
+the componentwise classifier to the checked envelope classifier.
+Theorem~\ref{thm:prod-component-history-classifier-displayed-ledger-endpoints}
+supplies $D(h)$ and $D(k)$ from the same componentwise classifier witness.
+Conjoin those two displayed ledger endpoints with the descent implication. The
+checked envelope certificate is Theorem~\ref{thm:concrete-prod-namecert}: the
+inhabited carrier fields of $\mathsf{cert}_L$ and $\mathsf{cert}_R$ provide the
+left and right carrier witnesses required by that theorem.
 \end{proof}
 
 \begin{theorem}[Product envelope displayed-pair component exactness]
