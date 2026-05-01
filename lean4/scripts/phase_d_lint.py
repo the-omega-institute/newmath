@@ -50,8 +50,8 @@ PARAMETER_ECHO_BIND_RE = re.compile(
     r"\(\s*(\w+)\s*:\s*(?:∀|forall)\b[^)]*hsame\b", re.DOTALL
 )
 BHIST_CONSTRUCTOR_RE = re.compile(
-    r"\b(BHist\.|Empty\b|e0\b|e1\b|cons\b|append\b|BMark\.|sameSig\b|"
-    r"ProbeBundle\b|SigRel\b|InGap\b|NameCert\b|Pkg\b|hsame\b|msame\b)"
+    r"\b(BHist|BMark|Empty|e0|e1|cons|append|sameSig|"
+    r"ProbeBundle|SigRel|InGap|NameCert|Pkg|hsame|msame)\b"
 )
 DERIVED_PATH_PREFIX = "lean4/BEDC/Derived"
 SIGNATURE_BLOCK_LIMIT = 40
