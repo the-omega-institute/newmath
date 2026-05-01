@@ -255,6 +255,69 @@ theorem sameSig_bundleAppend_left_cancellation [AskSetup] {left right : ProbeBun
                                                                         (And.intro recoveredRightKSig
                                                                           recoveredRightSame)))
 
+theorem sameSig_bundleAppend_right_cancellation [AskSetup] {left right : ProbeBundle ProbeName}
+    {D : BHist -> Prop} (policy : BundleAskPolicy right D) {h k : BHist} :
+    D h -> D k -> SameSig (bundleAppend left right) h k -> SameSig right h k ->
+      SameSig left h k := by
+  intro dh dk appendedSame rightSame
+  cases appendedSame with
+  | intro appendedH appendedRest =>
+      cases appendedRest with
+      | intro appendedK appendedData =>
+          cases appendedData with
+          | intro appendedHSig appendedTail =>
+              cases appendedTail with
+              | intro appendedKSig appendedResultsSame =>
+                  cases sigRel_bundleAppend_inversion appendedHSig with
+                  | intro recoveredLeftH recoveredHRest =>
+                      cases recoveredHRest with
+                      | intro recoveredRightH recoveredHData =>
+                          cases recoveredHData with
+                          | intro recoveredLeftHSig recoveredHTail =>
+                              cases recoveredHTail with
+                              | intro recoveredRightHSig recoveredHCont =>
+                                  cases sigRel_bundleAppend_inversion appendedKSig with
+                                  | intro recoveredLeftK recoveredKRest =>
+                                      cases recoveredKRest with
+                                      | intro recoveredRightK recoveredKData =>
+                                          cases recoveredKData with
+                                          | intro recoveredLeftKSig recoveredKTail =>
+                                              cases recoveredKTail with
+                                              | intro recoveredRightKSig recoveredKCont =>
+                                                  cases rightSame with
+                                                  | intro suppliedRightH suppliedRest =>
+                                                      cases suppliedRest with
+                                                      | intro suppliedRightK suppliedData =>
+                                                          cases suppliedData with
+                                                          | intro suppliedRightHSig suppliedTail =>
+                                                              cases suppliedTail with
+                                                              | intro suppliedRightKSig suppliedResultsSame =>
+                                                                  have alignH :
+                                                                      hsame recoveredRightH suppliedRightH :=
+                                                                    sig_deterministic_from_bundle_policy
+                                                                      policy dh recoveredRightHSig
+                                                                      suppliedRightHSig
+                                                                  have alignK :
+                                                                      hsame suppliedRightK recoveredRightK :=
+                                                                    sig_deterministic_from_bundle_policy
+                                                                      policy dk suppliedRightKSig
+                                                                      recoveredRightKSig
+                                                                  have recoveredRightSame :
+                                                                      hsame recoveredRightH recoveredRightK :=
+                                                                    hsame_trans alignH
+                                                                      (hsame_trans suppliedResultsSame alignK)
+                                                                  cases recoveredRightSame
+                                                                  cases appendedResultsSame
+                                                                  have recoveredLeftSame :
+                                                                      hsame recoveredLeftH recoveredLeftK :=
+                                                                    cont_left_cancel recoveredHCont
+                                                                      recoveredKCont
+                                                                  exact Exists.intro recoveredLeftH
+                                                                    (Exists.intro recoveredLeftK
+                                                                      (And.intro recoveredLeftHSig
+                                                                        (And.intro recoveredLeftKSig
+                                                                          recoveredLeftSame)))
+
 theorem signature_generation_bundle_append [AskSetup] {left right : ProbeBundle ProbeName}
     {h s t : BHist} :
     SigRel left h s → SigRel right h t →

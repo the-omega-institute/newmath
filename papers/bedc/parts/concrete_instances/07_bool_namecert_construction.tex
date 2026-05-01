@@ -54,6 +54,7 @@ $$
 $$
 The carrier endpoint choice is therefore $\mathsf{BoolHistoryCarrier}$, and the classifier transport target is $\hsame$ on the two displayed history endpoints.
 \end{definition}
+\leandef{BEDC.Derived.BoolUp.BoolEndpoint}
 
 \begin{theorem}[Bool endpoint bridge exactness]
 \label{thm:bool-endpoint-bridge-exactness}
@@ -67,6 +68,7 @@ $$
 \begin{proof}
 Proceed by cases on $v$ and $w$. The matching $\bzero/\bzero$ and $\bone/\bone$ cases reduce both directions to reflexivity. In the mixed cases, the mark-to-history direction has no $\msame$ witness by mark no-confusion, and the history-to-mark direction has no $\hsame$ witness by the no-confusion between $\emp$ and $\Eone(\emp)$.
 \end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolEndpoint\_bridge\_exactness}
 
 \begin{theorem}[Bool history carrier endpoint coverage]
 \label{thm:bool-history-carrier-endpoint-coverage}
@@ -82,6 +84,7 @@ In the forward direction, split the carrier witness into its empty and one-endpo
 
 In the reverse direction, case-analyze the displayed mark $v$. The $\bzero$ case rewrites the endpoint witness to an $\hsame$ witness against $\emp$ and gives the empty carrier branch. The $\bone$ case rewrites it to an $\hsame$ witness against $\Eone(\emp)$ and gives the one-endpoint carrier branch.
 \end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_endpoint\_coverage}
 
 \begin{theorem}[Bool endpoint readback determinism]
 \label{thm:bool-endpoint-readback-determinism}

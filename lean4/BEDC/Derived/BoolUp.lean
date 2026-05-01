@@ -105,6 +105,65 @@ def BoolHistoryCarrier (h : BEDC.FKernel.Hist.BHist) : Prop :=
     BEDC.FKernel.Hist.hsame h
       (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty)
 
+def BoolEndpoint : BEDC.FKernel.Mark.BMark → BEDC.FKernel.Hist.BHist
+  | BEDC.FKernel.Mark.BMark.b0 => BEDC.FKernel.Hist.BHist.Empty
+  | BEDC.FKernel.Mark.BMark.b1 =>
+      BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty
+
+theorem BoolEndpoint_bridge_exactness {v w : BEDC.FKernel.Mark.BMark} :
+    BEDC.FKernel.Mark.msame v w ↔
+      BEDC.FKernel.Hist.hsame (BoolEndpoint v) (BoolEndpoint w) := by
+  cases v with
+  | b0 =>
+      cases w with
+      | b0 =>
+          constructor
+          · intro _
+            exact BEDC.FKernel.Hist.hsame_refl BEDC.FKernel.Hist.BHist.Empty
+          · intro _
+            exact BEDC.FKernel.Mark.msame_refl BEDC.FKernel.Mark.BMark.b0
+      | b1 =>
+          constructor
+          · intro same
+            exact False.elim (BEDC.FKernel.Mark.not_msame_b0_b1 same)
+          · intro same
+            exact False.elim (BEDC.FKernel.Hist.not_hsame_emp_e1 same)
+  | b1 =>
+      cases w with
+      | b0 =>
+          constructor
+          · intro same
+            exact False.elim (BEDC.FKernel.Mark.not_msame_b1_b0 same)
+          · intro same
+            exact False.elim (BEDC.FKernel.Hist.not_hsame_e1_empty same)
+      | b1 =>
+          constructor
+          · intro _
+            exact BEDC.FKernel.Hist.hsame_refl
+              (BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty)
+          · intro _
+            exact BEDC.FKernel.Mark.msame_refl BEDC.FKernel.Mark.BMark.b1
+
+theorem BoolHistoryCarrier_endpoint_coverage {h : BEDC.FKernel.Hist.BHist} :
+    BoolHistoryCarrier h ↔
+      ∃ v : BEDC.FKernel.Mark.BMark,
+        BEDC.FKernel.Hist.hsame h (BoolEndpoint v) := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | inl emptyCase =>
+        exact Exists.intro BEDC.FKernel.Mark.BMark.b0 emptyCase
+    | inr oneCase =>
+        exact Exists.intro BEDC.FKernel.Mark.BMark.b1 oneCase
+  · intro witness
+    cases witness with
+    | intro v same =>
+        cases v with
+        | b0 =>
+            exact Or.inl same
+        | b1 =>
+            exact Or.inr same
+
 theorem BoolHistoryCarrier_e0_absurd {h : BEDC.FKernel.Hist.BHist} :
     BoolHistoryCarrier (BEDC.FKernel.Hist.BHist.e0 h) -> False := by
   intro carrier
