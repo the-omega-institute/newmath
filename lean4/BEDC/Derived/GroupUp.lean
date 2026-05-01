@@ -165,6 +165,30 @@ theorem group_inverse_cancel_from_laws {mul : BHist -> BHist -> BHist} {e : BHis
     (hsame_trans sameDouble
       (group_left_inverse_involutive assocC leftId rightId mulCongr leftInv y))
 
+theorem group_mul_right_inverse_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall x, hsame (mul x (inv x)) e) :
+    forall a b : BHist, hsame (mul (mul a b) (inv b)) a := by
+  intro a b
+  exact hsame_trans (assocC a b (inv b))
+    (hsame_trans (mulCongr (hsame_refl a) (rightInv b)) (rightId a))
+
+theorem group_mul_left_inverse_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x, hsame (mul e x) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x, hsame (mul (inv x) x) e) :
+    forall a b : BHist, hsame (mul (inv a) (mul a b)) b := by
+  intro a b
+  exact hsame_trans (hsame_symm (assocC (inv a) a b))
+    (hsame_trans (mulCongr (leftInv a) (hsame_refl b)) (leftId b))
+
 theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))

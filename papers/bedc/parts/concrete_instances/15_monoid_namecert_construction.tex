@@ -104,6 +104,26 @@ histories. Congruence follows by transporting both append arguments across
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_semantic\_name\_certificate}
 
+\begin{theorem}[Unary append monoid classifier cancels common context]
+\label{thm:unary-append-monoid-classifier-cancel-context}
+For unary histories $l,r,a,b$, if the monoid classifier identifies
+$$
+l(a r)
+$$
+with
+$$
+l(b r),
+$$
+then it identifies $a$ with $b$.
+\end{theorem}
+\begin{proof}
+The classifier supplies the endpoint unary witnesses and a BEDC history equality
+between the two contextual appends. Left append cancellation removes the common
+left context $l$, and right append cancellation removes the common suffix $r$.
+The given unary witnesses for $a$ and $b$ supply the classifier endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_classifier\_cancel\_context}
+
 \begin{definition}[Monoid ledger policy]
 \label{def:monoid-ledger-policy}
 Record the carrier witnesses and operation tree behind each monoid expression.
