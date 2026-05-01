@@ -75,4 +75,18 @@ theorem RatHistoryClassifier_prepend_unary_denominator_closed {d e prefD prefE :
             exact hsame_refl (BEDC.FKernel.Cont.append prefD d)
           exact ⟨carrierDPre, carrierEPre, prependedSame⟩
 
+theorem RatHistoryClassifier_unary_denominator_context_closed
+    {d e prefD prefE tailD tailE : BHist} :
+    RatHistoryClassifier d e -> UnaryHistory prefD -> hsame prefD prefE ->
+      UnaryHistory tailD -> hsame tailD tailE ->
+        RatHistoryClassifier
+          (BEDC.FKernel.Cont.append prefD (BEDC.FKernel.Cont.append d tailD))
+          (BEDC.FKernel.Cont.append prefE (BEDC.FKernel.Cont.append e tailE)) := by
+  intro classifier prefDUnary prefSame tailDUnary tailSame
+  have tailClosed :
+      RatHistoryClassifier (BEDC.FKernel.Cont.append d tailD)
+        (BEDC.FKernel.Cont.append e tailE) :=
+    RatHistoryClassifier_append_unary_denominator_closed classifier tailDUnary tailSame
+  exact RatHistoryClassifier_prepend_unary_denominator_closed tailClosed prefDUnary prefSame
+
 end BEDC.Derived.RatUp

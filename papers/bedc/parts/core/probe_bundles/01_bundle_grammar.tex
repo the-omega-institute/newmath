@@ -250,6 +250,22 @@ same exclusion premise.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.inBundle\_bundleAppend\_left\_of\_not\_right}
 
+\begin{theorem}[Bundle append membership right residual]
+\label{thm:bundle-append-membership-right-of-not-left}
+For every probe \(p\) and bundles \(\Pi,\Theta\), if
+$$
+p\in\mathsf{BAppend}(\Pi,\Theta)
+$$
+and \(p\notin\Pi\), then \(p\in\Theta\).
+\end{theorem}
+\begin{proof}
+Induct on \(\Pi\). In the empty case, appended membership is exactly membership
+in \(\Theta\). In the cons case, head membership contradicts the exclusion
+premise for \(\Pi\), while tail membership reduces to the induction hypothesis
+after restricting the exclusion premise to the tail.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.inBundle\_bundleAppend\_right\_of\_not\_left}
+
 \begin{theorem}[Bundle-local policy append restriction]
 \label{thm:bundle-local-policy-append-restriction}
 If $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ holds, then both $\mathsf{BundleAskPolicy}(\Pi,D)$ and $\mathsf{BundleAskPolicy}(\Theta,D)$ hold.

@@ -497,6 +497,24 @@ constructor cases on the continuation append operation.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_prepend\_unary\_denominator\_closed}
 
+\begin{theorem}[Rat history classifier unary denominator context closure]
+\label{thm:rat-history-classifier-unary-denominator-context-closed}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, unary prefixes \(p_d,p_e\) satisfy \(\hsame(p_d,p_e)\), and unary
+tails \(t_d,t_e\) satisfy \(\hsame(t_d,t_e)\), then placing the matching prefix
+and tail around the corresponding denominators preserves the rational history
+classifier.
+\end{theorem}
+\begin{proof}
+First apply unary denominator append closure to the classified denominator
+histories and the matching tails. Then apply unary denominator prepend closure
+to the resulting classified denominator histories and the matching prefixes.
+The endpoint carrier witnesses are closed by the two concrete unary closure
+steps, and the denominator relation is the composed \(\hsame\)-respecting
+append context.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_unary\_denominator\_context\_closed}
+
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}
 The stability certificate consists of:

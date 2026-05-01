@@ -89,6 +89,25 @@ payload histories, source witnesses, and endpoint links, so both classified
 endpoints are tagged option carrier endpoints.
 \end{proof}
 
+\begin{theorem}[Tagged option history classifier transitivity]
+\label{thm:tagged-option-history-classifier-transitivity}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source
+classifier $\sim_S$, if $\sim_S$ is transitive, then
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}$ is transitive.
+\end{theorem}
+\begin{proof}
+Case-analyze the two tagged classifier witnesses. The absent/absent branch
+rebuilds the absent classifier branch. The mixed absent/present branches present
+the shared middle history both as \(\emp\) and as \(\Eone(a)\), so BEDC
+generated-history no-confusion eliminates them. In the present/present branch,
+the two endpoint witnesses for the shared middle history give
+\(\hsame(\Eone(b),\Eone(c))\), and one-constructor inversion gives
+\(\hsame(b,c)\). Transport along this equality identifies the middle payloads,
+and source-classifier transitivity composes the two payload classifier
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_trans}
+
 \begin{theorem}[Tagged option history present-present exactness]
 \label{thm:tagged-option-history-present-present-exactness}
 For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and histories $h,k$, the tagged option history classifier is exact on two visible present endpoints:
