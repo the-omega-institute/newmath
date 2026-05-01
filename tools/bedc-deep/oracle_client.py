@@ -1,10 +1,22 @@
 #!/usr/bin/env python3
-"""BEDC client for the local ChatGPT oracle server.
+"""BEDC oracle client — codex-orchestrated deep reasoning + LaTeX writeback.
 
-The expected server is tools/bedc-deep/bedc_oracle_server.py on
-http://localhost:8767.
-This client only sends prompts and stores local runtime artifacts. It never
-runs Lean, never edits Lean files, and never writes paper markers.
+Flow per target:
+  Stage 1   Oracle deep-reasoning loop (no static max_turns):
+              - codex orchestrator decides progress_delta + next_prompt per turn
+              - verdict comes from oracle response regex (BREAKTHROUGH / Q.E.D. / STUCK)
+                or safety nets (3 consecutive low progress_delta, wall-clock 12h)
+              - per-turn checkpoint to state/<target>/cursor.json so a crash
+                resumes from the next turn instead of restarting at 0
+              - terminal turn issues WRITE_PAPER_LATEX prompt → raw LaTeX output
+  Stage 1.5 Topic discovery: codex extracts adjacent claim candidates from the
+              full transcript, dedup against BOARD.md, append accepted entries
+              as new B-XX rows for the next loop pass.
+  Stage 2   Killo-golden writeback: independent claude -p reads transcript and
+              raw LaTeX, applies hygiene checklist, appends accepted block to
+              papers/bedc/parts/<theme>/<concept>.tex, runs `make` to verify.
+
+Hard rule: this lane never edits lean4/. Stage 2 only edits papers/bedc/parts/.
 """
 
 from __future__ import annotations
@@ -18,22 +30,18 @@ import urllib.error
 from datetime import datetime, timezone
 from pathlib import Path
 
-from dispatch_bedc_target import SCRIPT_DIR, BedcTarget, build_initial_prompt, parse_board
+from dispatch_bedc_target import SCRIPT_DIR, BedcTarget, build_initial_prompt, parse_board, BOARD_PATH
+import codex_orchestrator
+import killo_golden_writeback
 
 
 ORACLE_SERVER = "http://localhost:8767"
 STATE_DIR = SCRIPT_DIR / "state"
 TARGETS_DIR = SCRIPT_DIR / "targets"
-CLAIM_PACKET_PROMPT = SCRIPT_DIR / "prompts" / "claim_packet.txt"
-
-FOLLOW_UPS = [
-    "Take the weakest link in your previous answer and test it. Is the claim derived, or does it need a setup field?",
-    "Construct the smallest finite countermodel that would break the current claim. If no countermodel is visible, explain the exact obstruction.",
-    "State the narrowest local lemma in ordinary mathematical prose, with all assumptions explicit. Do not write Lean code.",
-    "Separate the definitional part from the policy-assumption part. Which sentence is doing the real work?",
-    "Identify the smallest object or relation that must exist before this claim can be checked.",
-    "If the target is too strong, give the strongest weaker statement that still preserves the BEDC intent.",
-]
+WRITE_LATEX_PROMPT_PATH = SCRIPT_DIR / "prompts" / "write_paper_latex.txt"
+DEFAULT_SAFETY_NET_TURNS = 3
+DEFAULT_WALL_CLOCK_HOURS = 12
+DEFAULT_LOW_PROGRESS_THRESHOLD = 1
 
 
 def http_post(url: str, data: dict, timeout: int = 30) -> dict:
@@ -55,22 +63,13 @@ def server_status(server_url: str) -> dict:
     return http_get(f"{server_url}/status", timeout=5)
 
 
-def server_alive(server_url: str) -> bool:
-    try:
-        return "queue_length" in server_status(server_url)
-    except Exception:
-        return False
-
-
 def status_line(status: dict) -> str:
     recent = status.get("active_recent_agents") or []
-    active_poll = status.get("active_poll_agents") or []
     return (
         f"diagnosis={status.get('diagnosis', 'unknown')} "
         f"queue={status.get('queue_length', '?')} "
         f"busy={status.get('agents_busy', '?')}/{status.get('max_agents', '?')} "
-        f"recent_agents={len(recent)} poll_agents={len(active_poll)} "
-        f"completed={status.get('completed', '?')}"
+        f"recent_agents={len(recent)} completed={status.get('completed', '?')}"
     )
 
 
@@ -182,40 +181,168 @@ def write_text(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
-def detect_verdict(text: str) -> str:
-    if re.match(r"^\s*ERROR\b", text, re.IGNORECASE):
-        return "AGENT_ERROR"
-    if any(marker in text for marker in (
-        "Round 1: Discovery",
-        "Candidate open problems",
-        "Omega Project capability digest",
-        "TOP-3 picks for deep reasoning",
-        "EXPECTED-PUBLICATION:",
-    )):
-        return "CONTAMINATED"
-    if re.search(r"\b(False|TooStrong)\b", text):
-        return "OBSTRUCTION"
-    if re.search(r"\bDerived\b", text):
-        return "DERIVED_CANDIDATE"
-    if re.search(r"\b(NeedsDefinition|NeedsSetupField|NarrativeOnly)\b", text):
-        return "NEEDS_BOUNDARY"
-    if re.search(r"\bSTUCK\b", text, re.IGNORECASE):
-        return "STUCK"
-    return "OPEN"
+# ---------------------------------------------------------------------------
+# Verdict detection (response-side regex)
+# ---------------------------------------------------------------------------
+
+DONE_RE = re.compile(r"\b(BREAKTHROUGH|PROVED|Q\.E\.D\.?|QED)\b", re.IGNORECASE)
+STUCK_RE = re.compile(r"\bSTUCK\b", re.IGNORECASE)
+ERROR_RE = re.compile(r"^\s*ERROR\b", re.IGNORECASE)
 
 
-def save_state(target: BedcTarget, state: dict) -> Path:
-    path = STATE_DIR / f"{target.slug}.json"
-    write_text(path, json.dumps(state, ensure_ascii=False, indent=2) + "\n")
-    return path
+def detect_response_verdict(text: str) -> str:
+    if ERROR_RE.match(text or ""):
+        return "agent_error"
+    if STUCK_RE.search(text or ""):
+        return "stuck"
+    if DONE_RE.search(text or ""):
+        return "done"
+    return "open"
 
 
-def run_loop(args: argparse.Namespace) -> int:
-    targets = parse_board()
-    target = targets.get(args.target_id)
-    if target is None:
-        known = ", ".join(targets)
-        raise SystemExit(f"unknown target {args.target_id}; known targets: {known}")
+# ---------------------------------------------------------------------------
+# Per-turn checkpoint (resumability)
+# ---------------------------------------------------------------------------
+
+
+def cursor_path(target: BedcTarget) -> Path:
+    return STATE_DIR / target.slug / "cursor.json"
+
+
+def load_cursor(target: BedcTarget) -> dict:
+    path = cursor_path(target)
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def save_cursor(target: BedcTarget, cursor: dict) -> None:
+    path = cursor_path(target)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(cursor, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+# ---------------------------------------------------------------------------
+# BOARD.md append (Stage 1.5 fan-out)
+# ---------------------------------------------------------------------------
+
+
+CANDIDATE_FIT_THRESHOLD = 7
+CANDIDATE_NOVELTY_THRESHOLD = 6
+
+
+def existing_target_ids() -> list[str]:
+    text = BOARD_PATH.read_text(encoding="utf-8")
+    return re.findall(r"^### (B-\d+)\b", text, flags=re.MULTILINE)
+
+
+def next_target_id() -> str:
+    ids = existing_target_ids()
+    nums = [int(i.split("-")[1]) for i in ids if i.startswith("B-")]
+    next_num = (max(nums) + 1) if nums else 1
+    return f"B-{next_num:02d}"
+
+
+def render_candidate_entry(target_id: str, candidate: dict) -> str:
+    title = candidate.get("title", "(untitled)")
+    claim = candidate.get("concrete_claim", "")
+    inputs = candidate.get("local_inputs") or []
+    rationale = candidate.get("rationale", "")
+    fit = candidate.get("fit_score", "?")
+    novelty = candidate.get("novelty", "?")
+    inputs_block = "\n".join(f"- `{p}`" for p in inputs) if inputs else "- (none provided)"
+    return (
+        f"\n### {target_id} - {title}\n\n"
+        f"| field | value |\n"
+        f"|---|---|\n"
+        f"| Status | Candidate (auto-spawned) |\n"
+        f"| Source | bedc-deep topic discovery |\n"
+        f"| Object | {title} |\n"
+        f"| Layer | adjacent |\n"
+        f"| Route | proof |\n"
+        f"| Risk | unknown |\n"
+        f"| Fit | {fit}/10 |\n"
+        f"| Novelty | {novelty}/10 |\n\n"
+        f"Problem:\n{claim}\n\n"
+        f"Local inputs:\n{inputs_block}\n\n"
+        f"Rationale:\n{rationale}\n\n---\n"
+    )
+
+
+def append_candidates_to_board(candidates: list[dict]) -> list[str]:
+    accepted: list[str] = []
+    if not candidates:
+        return accepted
+    existing_titles = set()
+    for line in BOARD_PATH.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^### B-\d+\s+-\s+(.+)$", line)
+        if m:
+            existing_titles.add(m.group(1).strip().lower())
+    appended_blocks: list[str] = []
+    for cand in candidates:
+        try:
+            fit = int(cand.get("fit_score", 0))
+            nov = int(cand.get("novelty", 0))
+        except (TypeError, ValueError):
+            continue
+        if fit < CANDIDATE_FIT_THRESHOLD or nov < CANDIDATE_NOVELTY_THRESHOLD:
+            continue
+        title = cand.get("title", "").strip()
+        if not title or title.lower() in existing_titles:
+            continue
+        new_id = next_target_id_with_local(existing_titles, accepted)
+        appended_blocks.append(render_candidate_entry(new_id, cand))
+        existing_titles.add(title.lower())
+        accepted.append(new_id)
+    if appended_blocks:
+        original = BOARD_PATH.read_text(encoding="utf-8").rstrip()
+        BOARD_PATH.write_text(original + "\n" + "\n".join(appended_blocks) + "\n", encoding="utf-8")
+    return accepted
+
+
+def next_target_id_with_local(existing_titles: set, already_accepted: list[str]) -> str:
+    """Compute next B-XX id including in-flight accepted ids from this batch."""
+    text = BOARD_PATH.read_text(encoding="utf-8")
+    ids = re.findall(r"^### (B-\d+)\b", text, flags=re.MULTILINE)
+    ids.extend(already_accepted)
+    nums = [int(i.split("-")[1]) for i in ids if i.startswith("B-")]
+    next_num = (max(nums) + 1) if nums else 1
+    return f"B-{next_num:02d}"
+
+
+# ---------------------------------------------------------------------------
+# Main loop
+# ---------------------------------------------------------------------------
+
+
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _build_full_transcript(out_dir: Path, turns: list[dict]) -> str:
+    parts: list[str] = []
+    for t in turns:
+        n = t.get("turn", "?")
+        prompt_file = out_dir / f"turn_{n:02d}_prompt.md" if isinstance(n, int) else None
+        response_file = out_dir / f"turn_{n:02d}_response.md" if isinstance(n, int) else None
+        prompt_text = prompt_file.read_text(encoding="utf-8") if prompt_file and prompt_file.exists() else "(missing)"
+        response_text = response_file.read_text(encoding="utf-8") if response_file and response_file.exists() else "(missing)"
+        parts.append(f"=== Turn {n} ===\nPROMPT:\n{prompt_text}\n\nRESPONSE:\n{response_text}\n")
+    return "\n".join(parts)
+
+
+def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
+    """Run Stage 1 → 1.5 → 2 for one target. Returns final state dict."""
+    out_dir = artifact_dir(target)
+    cursor = load_cursor(target)
+    turns: list[dict] = cursor.get("turns") or []
+    conversation_id = cursor.get("conversation_id") or ""
+    started_at = cursor.get("started_at") or _now_iso()
+    progress_history: list[int] = [t.get("progress_delta", 0) for t in turns]
+    wall_clock_start = time.time()
 
     print_status_hint(args.server)
     if args.preflight_agent_wait > 0 and not wait_for_recent_agent(
@@ -226,24 +353,29 @@ def run_loop(args: argparse.Namespace) -> int:
             "open https://chatgpt.com/?bedc=1 and click Start"
         )
 
-    out_dir = artifact_dir(target)
-    turns: list[dict] = []
-    conversation_id = ""
-    started_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    prompt = build_initial_prompt(target)
-    packet_allowed = False
+    # ----- Stage 1: deep reasoning loop -----
+    if not turns:
+        prompt = build_initial_prompt(target)
+    else:
+        prompt = cursor.get("pending_prompt") or build_initial_prompt(target)
 
-    for turn in range(args.max_turns):
-        if turn > 0:
-            prompt = FOLLOW_UPS[(turn - 1) % len(FOLLOW_UPS)]
-        task_id = f"bedc_{target.target_id.lower()}_{int(time.time() * 1000)}"
-        write_text(out_dir / f"turn_{turn:02d}_prompt.md", prompt)
+    verdict = "open"
+    while True:
+        turn_idx = len(turns)
+        wall_hours = (time.time() - wall_clock_start) / 3600.0
+        if wall_hours >= args.wall_clock_hours:
+            print(f"[stage1] wall-clock ceiling {args.wall_clock_hours}h reached; stopping", flush=True)
+            verdict = "stuck"
+            break
+
+        task_id = f"bedc_{target.target_id.lower()}_t{turn_idx}_{int(time.time() * 1000)}"
+        write_text(out_dir / f"turn_{turn_idx:02d}_prompt.md", prompt)
         submit = submit_turn(args.server, task_id, prompt, conversation_id, model=args.model)
         if "error" in submit:
             raise SystemExit(f"oracle submit failed: {submit['error']}")
         conversation_id = submit.get("conversation_id") or conversation_id
         print(
-            f"[submit] task={task_id} conv={conversation_id[:12]} "
+            f"[stage1] task={task_id} conv={conversation_id[:12]} turn={turn_idx} "
             f"queue_position={submit.get('queue_position', '?')}",
             flush=True,
         )
@@ -255,76 +387,253 @@ def run_loop(args: argparse.Namespace) -> int:
             args.status_interval,
         )
         if not response:
-            turns.append({"turn": turn, "task_id": task_id, "response": "", "verdict": "TIMEOUT"})
+            turns.append({"turn": turn_idx, "task_id": task_id, "verdict": "timeout"})
+            verdict = "stuck"
+            save_cursor(target, {
+                "turns": turns,
+                "conversation_id": conversation_id,
+                "started_at": started_at,
+            })
             break
-        write_text(out_dir / f"turn_{turn:02d}_response.md", response)
-        verdict = detect_verdict(response)
-        turns.append({"turn": turn, "task_id": task_id, "response_file": f"turn_{turn:02d}_response.md", "verdict": verdict})
-        if verdict in {"AGENT_ERROR", "CONTAMINATED"}:
-            break
-        packet_allowed = True
-        if verdict in {"DERIVED_CANDIDATE", "OBSTRUCTION", "STUCK"} and turn + 1 >= args.min_turns:
+        write_text(out_dir / f"turn_{turn_idx:02d}_response.md", response)
+
+        response_verdict = detect_response_verdict(response)
+        if response_verdict == "agent_error":
+            turns.append({"turn": turn_idx, "task_id": task_id, "verdict": "agent_error"})
+            verdict = "stuck"
+            save_cursor(target, {
+                "turns": turns,
+                "conversation_id": conversation_id,
+                "started_at": started_at,
+            })
             break
 
-    packet_file = ""
-    if args.write_packet and conversation_id and packet_allowed:
-        packet_prompt = CLAIM_PACKET_PROMPT.read_text(encoding="utf-8")
-        task_id = f"bedc_{target.target_id.lower()}_packet_{int(time.time() * 1000)}"
-        write_text(out_dir / "claim_packet_prompt.md", packet_prompt)
-        submit = submit_turn(args.server, task_id, packet_prompt, conversation_id, model=args.model)
-        if "error" in submit:
-            raise SystemExit(f"claim packet submit failed: {submit['error']}")
-        print(
-            f"[submit] task={task_id} conv={conversation_id[:12]} "
-            f"queue_position={submit.get('queue_position', '?')}",
-            flush=True,
+        # codex orchestrator: progress + next prompt
+        target_context = (out_dir / f"turn_00_prompt.md").read_text(encoding="utf-8") if (out_dir / "turn_00_prompt.md").exists() else ""
+        codex_result = codex_orchestrator.orchestrate_turn(
+            target_id=target.target_id,
+            target_title=target.title,
+            target_context=target_context[:8000],
+            history_turns=turns,
+            last_response=response,
+            target_tex_file=None,
         )
-        packet = poll_result(
-            args.server,
-            task_id,
-            args.timeout,
-            args.poll_interval,
-            args.status_interval,
-        )
-        if packet:
-            packet_file = "claim_packet.md"
-            write_text(out_dir / packet_file, packet)
-    elif args.write_packet and not packet_allowed:
-        print("[packet] skipped: no successful reasoning turn completed", flush=True)
+        if codex_result.ok and codex_result.parsed:
+            progress_delta = int(codex_result.parsed.get("progress_delta", 0) or 0)
+            contribution = str(codex_result.parsed.get("contribution_one_liner", ""))
+            next_prompt = str(codex_result.parsed.get("next_prompt", "")) or _fallback_next_prompt(turn_idx)
+        else:
+            print(f"[stage1] codex orchestrator failed: {codex_result.error or 'no parsed JSON'}; using fallback prompt", flush=True)
+            progress_delta = 0
+            contribution = "(codex orchestrator unavailable)"
+            next_prompt = _fallback_next_prompt(turn_idx)
 
-    state = {
+        turns.append({
+            "turn": turn_idx,
+            "task_id": task_id,
+            "progress_delta": progress_delta,
+            "contribution_one_liner": contribution,
+            "response_verdict": response_verdict,
+        })
+        progress_history.append(progress_delta)
+        save_cursor(target, {
+            "turns": turns,
+            "conversation_id": conversation_id,
+            "started_at": started_at,
+            "pending_prompt": next_prompt,
+        })
+
+        if response_verdict == "done":
+            verdict = "done"
+            break
+        if response_verdict == "stuck":
+            verdict = "stuck"
+            break
+        # safety net: N consecutive low-progress turns → stuck
+        recent = progress_history[-args.safety_net_turns:]
+        if (
+            len(recent) >= args.safety_net_turns
+            and all(p <= args.low_progress_threshold for p in recent)
+        ):
+            print(
+                f"[stage1] safety-net: {args.safety_net_turns} consecutive turns "
+                f"with progress_delta ≤ {args.low_progress_threshold}; stopping",
+                flush=True,
+            )
+            verdict = "stuck"
+            break
+
+        prompt = next_prompt
+
+    # ----- Stage 1 terminal: WRITE_PAPER_LATEX (only if done) -----
+    raw_latex_path = out_dir / "raw_oracle_latex.md"
+    if verdict == "done":
+        latex_prompt = WRITE_LATEX_PROMPT_PATH.read_text(encoding="utf-8").format(
+            target_id=target.target_id,
+            target_title=target.title,
+        )
+        task_id = f"bedc_{target.target_id.lower()}_writelatex_{int(time.time() * 1000)}"
+        write_text(out_dir / "turn_writelatex_prompt.md", latex_prompt)
+        submit = submit_turn(args.server, task_id, latex_prompt, conversation_id, model=args.model)
+        if "error" not in submit:
+            print(f"[stage1] terminal WRITE_PAPER_LATEX submitted: {task_id}", flush=True)
+            latex_response = poll_result(
+                args.server,
+                task_id,
+                args.timeout,
+                args.poll_interval,
+                args.status_interval,
+            )
+            if latex_response:
+                write_text(raw_latex_path, latex_response)
+            else:
+                print("[stage1] WRITE_PAPER_LATEX returned empty; demoting to stuck", flush=True)
+                verdict = "stuck"
+        else:
+            print(f"[stage1] terminal submit failed: {submit['error']}", flush=True)
+            verdict = "stuck"
+
+    # ----- Stage 1.5: topic discovery (only if done) -----
+    spawned_ids: list[str] = []
+    if verdict == "done":
+        full_transcript = _build_full_transcript(out_dir, turns)
+        write_text(out_dir / "full_transcript.md", full_transcript)
+        board_content = BOARD_PATH.read_text(encoding="utf-8")
+        td = codex_orchestrator.discover_topics(
+            target_id=target.target_id,
+            target_title=target.title,
+            full_transcript=full_transcript[:60000],
+            board_content=board_content[:30000],
+        )
+        if td.ok and td.parsed:
+            candidates = td.parsed.get("candidates") or []
+            write_text(out_dir / "candidates.json", json.dumps(td.parsed, ensure_ascii=False, indent=2))
+            spawned_ids = append_candidates_to_board(candidates)
+            print(f"[stage1.5] candidates surfaced={len(candidates)} accepted={len(spawned_ids)}", flush=True)
+        else:
+            print(f"[stage1.5] discovery skipped: {td.error or 'no parsed JSON'}", flush=True)
+
+    # ----- Stage 2: killo-golden writeback (only if done + raw latex present) -----
+    stage2_summary: dict = {}
+    if verdict == "done" and raw_latex_path.exists():
+        suggested = _extract_insertion_target(raw_latex_path.read_text(encoding="utf-8"))
+        result = killo_golden_writeback.writeback(
+            target_id=target.target_id,
+            target_title=target.title,
+            transcript_dir=out_dir,
+            raw_latex_path=raw_latex_path,
+            suggested_target_tex=suggested,
+        )
+        stage2_summary = {
+            "ok": result.ok,
+            "verdict": result.verdict,
+            "tex_file": result.tex_file,
+            "appended": result.appended,
+            "compile_ok": result.compile_ok,
+            "rejection_reasons": result.rejection_reasons,
+            "error": result.error,
+        }
+        write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))
+        if result.appended and result.compile_ok:
+            print(f"[stage2] appended to {result.tex_file} and `make` succeeded", flush=True)
+        else:
+            print(f"[stage2] verdict={result.verdict} appended={result.appended} compile_ok={result.compile_ok}", flush=True)
+
+    final_state = {
         "target_id": target.target_id,
         "title": target.title,
-        "conversation_id": conversation_id,
         "started_at": started_at,
-        "completed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "completed_at": _now_iso(),
+        "conversation_id": conversation_id,
         "turns": turns,
-        "claim_packet_file": packet_file,
+        "stage1_verdict": verdict,
+        "stage15_spawned": spawned_ids,
+        "stage2": stage2_summary,
     }
-    state_path = save_state(target, state)
-    print(f"state: {state_path}", flush=True)
-    if packet_file:
-        print(f"claim_packet: {out_dir / packet_file}", flush=True)
-    return 0
+    write_text(STATE_DIR / f"{target.slug}.json", json.dumps(final_state, ensure_ascii=False, indent=2))
+    return final_state
+
+
+def _extract_insertion_target(latex_response: str) -> str:
+    m = re.search(r"Insertion target:\s*(papers/bedc/parts/[^\s`]+\.tex)", latex_response or "")
+    if m:
+        return m.group(1)
+    return ""
+
+
+def _fallback_next_prompt(turn_idx: int) -> str:
+    fallbacks = [
+        "Take the most concrete sub-claim you've made and formalize it as a precise lemma with explicit hypotheses. Then attempt a complete proof.",
+        "Find the weakest link in your last argument. Either close it with a proof or construct a small finite countermodel that breaks it.",
+        "Separate the definitional part from the policy-assumption part of your last claim. Which sentence is doing the real work?",
+        "If you reach a complete proof, conclude with Q.E.D. on a single canonical statement and list the minimal lemma sequence used.",
+    ]
+    return fallbacks[turn_idx % len(fallbacks)]
+
+
+# ---------------------------------------------------------------------------
+# Entry
+# ---------------------------------------------------------------------------
+
+
+def run_loop(args: argparse.Namespace) -> int:
+    targets = parse_board()
+    if not args.target_id and not args.loop:
+        print("error: either pass a target_id or --loop", flush=True)
+        return 2
+    if args.target_id:
+        target = targets.get(args.target_id)
+        if target is None:
+            known = ", ".join(targets)
+            raise SystemExit(f"unknown target {args.target_id}; known targets: {known}")
+        run_target(args, target)
+        return 0
+
+    # --loop: process unfinished targets sequentially until BOARD has none left
+    while True:
+        targets = parse_board()
+        unfinished = [t for t in targets.values() if not (STATE_DIR / f"{t.slug}.json").exists()]
+        if not unfinished:
+            print("[loop] no unfinished targets remain; exiting", flush=True)
+            return 0
+        target = unfinished[0]
+        print(f"[loop] picking {target.target_id} ({target.title})", flush=True)
+        try:
+            run_target(args, target)
+        except KeyboardInterrupt:
+            print("[loop] interrupted by user", flush=True)
+            return 130
+        except Exception as exc:
+            print(f"[loop] target {target.target_id} crashed: {exc}", flush=True)
+            # mark as failed so loop doesn't re-pick
+            write_text(STATE_DIR / f"{target.slug}.json", json.dumps({
+                "target_id": target.target_id,
+                "title": target.title,
+                "stage1_verdict": "crashed",
+                "error": str(exc),
+                "completed_at": _now_iso(),
+            }, ensure_ascii=False, indent=2))
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run a BEDC target through the ChatGPT oracle bridge")
+    parser = argparse.ArgumentParser(description="Run a BEDC target through the codex-orchestrated oracle bridge")
     parser.add_argument("target_id", nargs="?", help="Target id such as B-01")
+    parser.add_argument("--loop", action="store_true", help="Process unfinished BOARD targets sequentially until BOARD is empty")
     parser.add_argument("--server", default=ORACLE_SERVER, help="Oracle server URL")
     parser.add_argument("--model", default="chatgpt-5.5-pro", help="Model name passed to the oracle server")
-    parser.add_argument("--max-turns", type=int, default=6, help="Maximum reasoning turns")
-    parser.add_argument("--min-turns", type=int, default=2, help="Minimum turns before early stop")
-    parser.add_argument("--timeout", type=int, default=7200, help="Per-turn timeout in seconds")
+    parser.add_argument("--timeout", type=int, default=14400, help="Per-turn timeout in seconds")
     parser.add_argument("--poll-interval", type=int, default=30, help="Polling interval in seconds")
     parser.add_argument("--status-interval", type=int, default=30, help="Status print interval while waiting")
     parser.add_argument("--preflight-agent-wait", type=int, default=0, help="Wait this many seconds for an active browser agent before submitting")
+    parser.add_argument("--safety-net-turns", type=int, default=DEFAULT_SAFETY_NET_TURNS, help="Stop if this many consecutive turns have low progress")
+    parser.add_argument("--low-progress-threshold", type=int, default=DEFAULT_LOW_PROGRESS_THRESHOLD, help="Threshold for the safety net")
+    parser.add_argument("--wall-clock-hours", type=float, default=DEFAULT_WALL_CLOCK_HOURS, help="Hard ceiling on Stage 1 wall-clock per target")
     parser.add_argument("--status", action="store_true", help="Print server status and exit")
     parser.add_argument("--watch-status", type=int, default=0, metavar="SECONDS", help="Continuously print server status every N seconds")
     parser.add_argument("--cancel-task", default="", help="Cancel one queued or pending task id")
     parser.add_argument("--cancel-all", action="store_true", help="Cancel all queued and pending tasks")
-    parser.add_argument("--write-packet", action="store_true", help="Ask for a terminal claim packet")
     args = parser.parse_args()
+
     if args.cancel_all or args.cancel_task:
         print(json.dumps(
             cancel_tasks(args.server, task_id=args.cancel_task, all_tasks=args.cancel_all),
@@ -341,8 +650,6 @@ def main() -> int:
     if args.status:
         print(json.dumps(print_status_hint(args.server), ensure_ascii=False, indent=2))
         return 0
-    if not args.target_id:
-        parser.error("target_id is required unless --status is used")
     return run_loop(args)
 
 

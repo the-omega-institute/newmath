@@ -231,32 +231,32 @@ def build_initial_prompt(target: BedcTarget) -> str:
         "fields": target.fields,
         "body": target.body,
     }
-    return f"""You are ChatGPT acting as a BEDC deep-reasoning oracle.
+    try:
+        from prior_art import lookup as prior_art_lookup, render_block as prior_art_render
+        prior_art_block = prior_art_render(prior_art_lookup(
+            target.fields.get("Object", ""), target.title
+        ))
+    except Exception:
+        prior_art_block = ""
 
-Your role is to analyze one BEDC proof-obligation target before any Lean work.
+    return f"""You are ChatGPT acting as a BEDC deep-reasoning oracle. You are
+the paper author for this target. The output of this conversation will be
+appended into papers/bedc/parts/ as canonical current-state LaTeX.
 
-Hard boundary:
-- Do not write Lean code.
-- Do not propose editing `lean4/`.
-- Do not propose editing `papers/bedc/`.
-- Do not assume Mathlib.
-- Do not introduce axioms.
-- Do not treat naming or physical intuition as proof.
-- Classify every substantive claim as one of:
-  Derived, NeedsDefinition, NeedsSetupField, NarrativeOnly, TooStrong, False.
+Project principles:
+- BEDC claims must be traceable to existing inductive objects, definitions,
+  structure or class fields, or already accepted propositions.
+- Mathlib-free, zero-axiom, zero-sorry: any inline Lean must respect this.
+- Current-state writing only. Do not use iteration vocabulary
+  ("we extend / 修订 / 增量 / patch / legacy / 新增 / 本次 / 本轮 / vNNN-").
+- References point inward to BEDC chapters. External references only when a
+  specific external fact is genuinely needed.
 
-Project principle:
-BEDC claims must be traceable to existing inductive objects, definitions,
-structure or class fields, or already accepted propositions. If a claim needs a
-policy assumption, say so directly.
-
-Lane boundary:
-This is not the automath outreach lane. The target is internal BEDC deepening:
-strengthen the current BEDC paper state, clarify chapter placement, and produce
-claim-packet material for later review. Do not aim at an external forum post,
-GitHub issue, standalone short paper, journal targeting, or first-mover
-publication. References should point inward to BEDC chapters and only outward
-when a specific external fact is genuinely needed.
+Loop contract:
+- An orchestrator drives multi-turn follow-ups based on your responses.
+- The terminal turn will explicitly request a self-contained LaTeX block.
+- Until then, focus on concrete mathematics: proof steps, lemma statements,
+  finite countermodels. Avoid surveys, recaps, or meta-commentary.
 
 Target payload:
 ```json
@@ -266,11 +266,12 @@ Target payload:
 Selected local BEDC excerpts:
 {build_context_block(target)}
 
+{prior_art_block}
 Task:
-Work on this target only. Identify the smallest precise claim that should be
-tested next, the assumptions it needs, and the most likely obstruction. If the
-claim is derivable, give a proof outline in ordinary mathematical prose. If it
-is not derivable, classify the missing piece.
+Work on this target only. State the smallest precise claim that should be
+tested first, the assumptions it needs, and either a proof outline in ordinary
+mathematical prose or a precise obstruction. If a step requires a setup-field
+assumption, say so directly and cite the existing BEDC class or structure.
 
 End with a line:
 NEXT: <one precise follow-up question>

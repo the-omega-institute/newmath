@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.7
+// @version      1.8
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.7";
+  const SCRIPT_VERSION = "bedc-1.8";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -910,9 +910,14 @@
     // prompt and started generating), DO NOT re-enter the prompt. Just resume
     // waitForResponse. ChatGPT 5.5 triggers a full page reload when the URL
     // first changes from chatgpt.com/ to chatgpt.com/c/<uuid>, which loses
-    // our in-memory state but the in-flight task survives.
+    // our in-memory state but the in-flight task survives. The guard applies
+    // to follow-up tasks too: long Pro reasoning turns (>30 min) inside an
+    // existing /c/<uuid> page can trigger DOM remount / focus reset, which
+    // re-enters processTask. Without including follow-ups, the same prompt
+    // gets submitted twice and the polite restatement overwrites the real
+    // long response captured by the extractor.
     const onConvPage = /\/c\/[a-f0-9-]{6,}/.test(window.location.href);
-    if (getInFlightTaskId() === task_id && onConvPage && !is_followup) {
+    if (getInFlightTaskId() === task_id && onConvPage) {
       log(`=== Task: ${task_id} [RESUMING on existing chat ${currentChatUrl().slice(-40)}] ===`);
       try { await serverPost("/ack", { task_id, agent_id: agentId() }); } catch {}
       setTaskPhase("processing");

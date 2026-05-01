@@ -1,16 +1,20 @@
 # BEDC Deep Reasoning Board
 
-Purpose: route BEDC proof-obligation questions into a ChatGPT multi-turn
-reasoning loop without touching Lean source files or paper markers.
+Purpose: drive a self-iterating BEDC paper-extension loop. Each entry below is
+a target the oracle deep-reasoning loop runs to a complete result, then
+appends as canonical current-state LaTeX into `papers/bedc/parts/`. The
+downstream `lean4/scripts/codex_formalize.py` lane (on dev) picks up new
+theorem sites by scanning the paper.
 
-Contract:
-- The loop may read project text and produce a claim packet.
-- The loop must not run Lean, lake, elan, or edit `lean4/`.
-- The loop must not edit `papers/bedc/`.
-- Any result is advisory until a separate formalization path accepts it.
-- Each answer must classify the claim as one of:
-  `Derived`, `NeedsDefinition`, `NeedsSetupField`, `NarrativeOnly`,
-  `TooStrong`, or `False`.
+Lane edge:
+- This lane never edits `lean4/`. The handshake to formalization is the
+  appended LaTeX in `papers/bedc/parts/<theme>/<concept>.tex` (no marker
+  macros — those are added by `codex_formalize.py` after the Lean target lands).
+- New targets are auto-spawned by Stage 1.5 topic discovery and appended to
+  this board with `Status: Candidate (auto-spawned)`.
+
+Each target card carries enough context (Object, Local inputs) for the loop
+to build its initial prompt without external lookups.
 
 ---
 

@@ -1,0 +1,54 @@
+You have reached a substantive result. Now write the BEDC paper extension as
+LaTeX, ready to append into an existing chapter file.
+
+Target id:    {target_id}
+Target title: {target_title}
+
+Output requirements:
+
+1. Output a single fenced block:
+   ```latex
+   ...
+   ```
+   followed by a one-paragraph plain-text summary suitable for a workspace log.
+
+2. The LaTeX content must contain at least one of:
+   theorem, lemma, proposition, definition, corollary
+   each with a `\label{{thm:<concept>}}` (or `def:`, `prop:`, `cor:`, `lem:`).
+   Labels are semantic, no version prefix (no `vNNN-`, no `v1.5.X-`).
+
+3. Proofs must be complete. No "we omit", no "by similar argument", no
+   "the proof is straightforward". State each step with explicit objects
+   and inversions. If you reach a true obstruction, state it as a separate
+   numbered remark (`\begin{{remark}}...`), not as a hand-wave.
+
+4. Math uses only `$...$` and `$$...$$`. `$$` must be on its own line.
+
+5. Do not exceed 400 lines of LaTeX in the fenced block.
+
+CRITICAL constraints (will cause auto-rejection downstream if violated):
+
+- Do NOT include any of these macros, even as placeholders:
+  `\leanchecked`, `\leanvariant`, `\leansorryd`, `\leanstmt`, `\leandef`.
+  These are added later by a separate pipeline once the corresponding Lean
+  target lands; including them here will fail the project's Lean drift audit.
+
+- Do NOT use iteration vocabulary in prose:
+  "we extend", "we now revise", "patch", "increment", "new section",
+  "新增", "修订", "本次", "本轮", "vNNN-", "legacy", "supersede", "previously".
+  The output represents the canonical current-state form, not a draft revision.
+
+- Do NOT open `\part`, `\chapter`, `\section`, `\subsection`, `\subsubsection`,
+  `\paragraph`, `\subparagraph`. The block is appended into an existing chapter.
+
+- Do NOT use Chinese in the LaTeX content. BEDC paper body is English-only.
+
+- Do NOT include `axiom`, `sorry`, or `import Mathlib` in any inline Lean
+  snippets. (Inline Lean is allowed for documentation but must respect the
+  mathlib-free, zero-axiom invariant.)
+
+After the fenced LaTeX block, write a separate paragraph:
+"Insertion target: papers/bedc/parts/<theme>/<file>.tex"
+naming the concrete body file you believe this content fits. Do not invent
+new files; only suggest existing concrete body files (not main.tex, not
+chapter wrappers that only `\input` other files).
