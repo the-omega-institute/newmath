@@ -84,6 +84,31 @@ two rational histories and uses reflexivity at both seals.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_iff\_rat}
 
+\begin{definition}[Real stream classifiers]
+\label{def:real-stream-classifiers}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, the stream classifier is pointwise rational-history classification. The finite prefix classifier records the same data recursively through a selected observation index.
+\end{definition}
+\leandef{BEDC.Derived.RealUp.RealStreamClassifier}
+\leandef{BEDC.Derived.RealUp.RealStreamPrefixClassifier}
+
+\begin{theorem}[Real stream classifier prefix closure]
+\label{thm:real-stream-classifier-prefix}
+If rational-observation streams are pointwise related by the rational history classifier, then every finite observation prefix is related by the recursively accumulated prefix classifier.
+\end{theorem}
+\begin{proof}
+Induct on the selected prefix length. The base case is the pointwise classifier at zero. The successor case pairs the induction hypothesis for the shorter prefix with the pointwise classifier at the successor observation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_prefix}
+
+\begin{theorem}[Real stream prefix one-tail pair readback]
+\label{thm:real-stream-prefix-e1-pair-readback}
+If a classified finite rational-observation prefix displays its selected left and right endpoints as one-extension histories, then the displayed tails are unary and internally the same.
+\end{theorem}
+\begin{proof}
+Split on the selected observation index. At zero, use the base rational-history classifier; at a successor, use the right endpoint of the prefix classifier. Transport the selected classifier to the displayed one-extension endpoints, then apply rational one-tail classifier exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_e1\_pair\_readback}
+
 \begin{definition}[Real stability certificate]
 \label{def:real-stability-certificate}
 The stability certificate consists of:

@@ -162,6 +162,24 @@ theorem RatHistoryClassifier_unary_denominator_context_closed
     RatHistoryClassifier_append_unary_denominator_closed classifier tailDUnary tailSame
   exact RatHistoryClassifier_prepend_unary_denominator_closed tailClosed prefDUnary prefSame
 
+theorem RatHistoryClassifier_unary_context_e1_pair_readback
+    {d e prefD prefE tailD tailE leftTail rightTail : BHist} :
+    RatHistoryClassifier d e -> UnaryHistory prefD -> hsame prefD prefE ->
+      UnaryHistory tailD -> hsame tailD tailE ->
+        hsame (BEDC.FKernel.Cont.append prefD (BEDC.FKernel.Cont.append d tailD))
+          (BHist.e1 leftTail) ->
+            hsame (BEDC.FKernel.Cont.append prefE (BEDC.FKernel.Cont.append e tailE))
+              (BHist.e1 rightTail) ->
+                And (UnaryHistory leftTail)
+                  (And (UnaryHistory rightTail) (hsame leftTail rightTail)) := by
+  intro classifier prefUnary prefSame tailUnary tailSame sameLeft sameRight
+  have contextClassifier :=
+    RatHistoryClassifier_unary_denominator_context_closed
+      classifier prefUnary prefSame tailUnary tailSame
+  have displayed :=
+    RatHistoryClassifier_hsame_transport sameLeft sameRight contextClassifier
+  exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+
 theorem RatHistoryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist} :
     RatHistoryLedgerPolicy rho v ->
       (RatHistoryClassifier rho w <-> RatHistoryClassifier v w) := by
