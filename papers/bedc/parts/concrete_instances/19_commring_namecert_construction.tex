@@ -254,6 +254,33 @@ through the outer two additions. Transitivity of $\hsame$ composes the
 expansion step with this transport, giving the stated four-term normal form.
 \end{proof}
 
+\begin{theorem}[CommRing signed column expansion of binary sums]
+\label{thm:commring-signed-column-binary-product-normal-form}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ satisfies
+$$
+(a+(-b))\cdot(c+(-d))\hsame
+(a\cdot c+(-(b\cdot c)))+((-(a\cdot d))+(b\cdot d)).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-signed-binary-product-normal-form} to obtain
+the row-major signed expansion
+$$
+(a\cdot c+(-(a\cdot d)))+((-(b\cdot c))+(b\cdot d)).
+$$
+
+On the additive operation, apply
+Theorem~\ref{thm:abgroup-middle-four-interchange} with the four summands
+$a\cdot c$, $-(a\cdot d)$, $-(b\cdot c)$, and $b\cdot d$. Additive congruence
+transports the middle-four interchange through the displayed signed row form.
+
+Transitivity of $\hsame$ composes the row-major normalization with this
+column reordering, yielding the stated column-major signed normal form.
+\end{proof}
+
 \begin{definition}[CommRing ledger policy]
 \label{def:commring-ledger-policy}
 Record ring expression provenance and the multiplicative commutativity law when used.
