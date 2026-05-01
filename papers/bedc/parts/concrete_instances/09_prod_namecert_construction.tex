@@ -172,25 +172,30 @@ Those transported witnesses rebuild $\mathsf{ProdTypedCarrier}_{L,R}(y)$.
 
 \begin{theorem}[Product history classifier endpoint carrier exposure]
 \label{thm:prod-history-classifier-component-inversion}
-For source predicates $L,R:\Hist\to\mathsf{Prop}$, the product history
-classifier exposes one product-carrier decomposition for each endpoint together
-with the endpoint witness $\hsame(h,k)$. It holds for $h$ and $k$ exactly when
-there exist histories $l,r,l',r'$ with $L(l)$, $R(r)$, $\Cont(l,r,h)$,
-$L(l')$, $R(r')$, $\Cont(l',r',k)$, and $\hsame(h,k)$. Conversely, those data
-rebuild $\mathsf{ProdHistoryClassifier}(L,R,h,k)$. Componentwise equality and
-componentwise classification belong to $\mathsf{ProdClassifierSpec}$, not to
-the history-envelope classifier.
+For all source predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and histories
+$h,k:\mathsf{BHist}$, the following equivalence holds:
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+\exists l,r,l',r':\mathsf{BHist},\;
+L(l)\land R(r)\land \Cont(l,r,h)\land
+L(l')\land R(r')\land \Cont(l',r',k)\land \hsame(h,k).
+$$
+Componentwise equality and componentwise classification belong to
+$\mathsf{ProdClassifierSpec}$, not to the history-envelope classifier.
 \end{theorem}
 \begin{proof}
-Unfold $\mathsf{ProdHistoryClassifier}$. Its two endpoint premises are
+For the forward direction of the displayed equivalence, unfold
+$\mathsf{ProdHistoryClassifier}$. Its two endpoint premises are
 $\mathsf{ProdHistoryCarrier}(L,R,h)$ and
 $\mathsf{ProdHistoryCarrier}(L,R,k)$, and each carrier premise unfolds into
 one left witness, one right witness, the two source-membership proofs, and the
 continuation proof producing the visible endpoint. Pair those two carrier
 inversions with the stored $\hsame(h,k)$ witness for the forward direction.
 Conversely, the displayed data rebuild the two product-history carrier
-premises and then the classifier witness. The result is endpoint exposure
-rather than coordinate projection.
+premises and then the classifier witness for the reverse direction of the
+equivalence. The result is endpoint exposure rather than coordinate
+projection.
 \end{proof}
 
 \begin{theorem}[Product history source monotonicity]
