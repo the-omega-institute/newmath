@@ -384,31 +384,80 @@ r_h\sim_R r_k.
 $$
 \end{definition}
 
+\begin{theorem}[Product componentwise history classifier endpoint transport]
+\label{thm:prod-component-history-classifier-hsame-transport}
+For source-history carriers $L,R:\mathsf{BHist}\to\mathsf{Prop}$, source
+classifiers $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+and histories $h,k,h',k'$, if
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$,
+$\hsame(h,h')$, and $\hsame(k,k')$ hold, then
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h',k')$ holds.
+\end{theorem}
+\begin{proof}
+The per-object fit is: traditional target ordered-pair classifier endpoint
+stability; BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$ through $\mathsf{ProdPairRep}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$; stability obligation endpoint
+transport; ledger displayed pair representations; core theorem this transport
+law; exactness classifier preservation under endpoint $\hsame$; standard bridge
+stable ordered-pair endpoints; status $\mathsf{ProofTarget}$. Unpack the
+componentwise classifier witness into pair representations for $h$ and $k$ and
+component classifier witnesses $l_h\sim_L l_k$ and $r_h\sim_R r_k$. Apply
+Theorem~\ref{thm:prod-pair-rep-hsame-transport} to move the displayed
+representation of $h$ along $\hsame(h,h')$, and apply the same theorem to move
+the displayed representation of $k$ along $\hsame(k,k')$. The component
+classifier witnesses are unchanged, so the transported pair representations
+and the original component witnesses rebuild
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h',k')$.
+\end{proof}
+
 \begin{theorem}[Product componentwise history classifier certificate target]
 \label{thm:prod-component-history-classifier-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
 $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
 classifiers, and assume $\NameCert(L,\sim_L)$, $\NameCert(R,\sim_R)$, and
-$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the classifier from
-Definition~\ref{def:prod-component-history-classifier} has carrier-relative
-reflexivity, symmetry, transitivity, and classifier-induced carrier transport
-for $\mathsf{ProdHistoryCarrier}(L,R)$. Taking
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Write
+$C(h,k)$ for
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$. Then the
+following four certificate fields hold for $\mathsf{ProdHistoryCarrier}(L,R)$:
+\begin{enumerate}
+  \item carrier-relative reflexivity:
+  $$
+  \forall h.\;\mathsf{ProdHistoryCarrier}(L,R,h)\to C(h,h);
+  $$
+  \item source-certified symmetry:
+  $$
+  \forall h\,k.\;C(h,k)\to C(k,h);
+  $$
+  \item source-certified transitivity:
+  $$
+  \forall h\,k\,u.\;C(h,k)\to C(k,u)\to C(h,u);
+  $$
+  \item classifier-induced carrier transport:
+  $$
+  \forall h\,k.\;\mathsf{ProdHistoryCarrier}(L,R,h)\to C(h,k)\to
+  \mathsf{ProdHistoryCarrier}(L,R,k).
+  $$
+\end{enumerate}
+Taking
 $\mathsf{ProdHistoryCarrier}(L,R)$ as both pattern carrier and ledger carrier
 therefore gives the paper-side componentwise product certificate target.
 \end{theorem}
 \begin{proof}
-For reflexivity, unpack a $\mathsf{ProdHistoryCarrier}(L,R,h)$ witness into
-left and right histories and reuse that pair representation on both sides;
-the two source $\NameCert$ witnesses give component reflexivity. Symmetry is
-obtained by applying source symmetry to the two component classifier witnesses.
-For transitivity, compose the first left component witness with the first
-middle representation, use pair-representation coherence to relate the two
-middle representations of the same history, and then compose with the second
-left component witness; the right component is identical. Carrier transport is
-immediate from the target classifier witness for the right endpoint, since its
-pair representation rebuilds $\mathsf{ProdHistoryCarrier}(L,R,k)$ by
-continuation introduction. Pattern and ledger soundness are identities because
-both are chosen to be the same product-history carrier.
+For the first displayed field, unpack a
+$\mathsf{ProdHistoryCarrier}(L,R,h)$ witness into left and right histories and
+reuse that pair representation on both sides; the two source $\NameCert$
+witnesses give component reflexivity. For the second field, invert the
+componentwise classifier witness and apply source symmetry to the two component
+classifier witnesses, keeping the two pair representations with endpoints
+exchanged. For the third field, compose the first left component witness with
+the first middle representation, use pair-representation coherence to relate
+the two middle representations of the same history, and then compose with the
+second left component witness; the right component is identical. For the fourth
+field, the classifier witness for the right endpoint contains a displayed pair
+representation of $k$, and pair-representation coverage rebuilds
+$\mathsf{ProdHistoryCarrier}(L,R,k)$. Pattern and ledger soundness are
+identities because both are chosen to be the same product-history carrier.
 \end{proof}
 
 \begin{theorem}[Product componentwise history classifier inversion]
