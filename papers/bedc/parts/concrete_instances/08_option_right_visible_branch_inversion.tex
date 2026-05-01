@@ -727,3 +727,57 @@ applied to the displayed source classifier witness, the two map-relation
 witnesses, the source certificate $\mathsf{cert}$, and the source hsame
 compatibility hypothesis.
 \end{proof}
+
+\begin{theorem}[Tagged option payload descent total semantic transport]
+\label{thm:tagged-option-payload-descent-total-semantic-transport}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload-carrier preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. Then the descent data
+determine target witnesses in the following two senses:
+\begin{enumerate}
+  \item for every history $h$, if
+  $\mathsf{TaggedOptionHistoryCarrier}_S(h)$, then there exists
+  $k:\mathsf{BHist}$ such that
+  $\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)$ and
+  $$
+  \mathsf{TaggedOptionHistoryCarrier}_T(k)\land
+  \mathsf{TaggedOptionHistoryPattern}_T(k)\land
+  \mathsf{TaggedOptionHistoryLedger}_T(k);
+  $$
+  \item for every pair of histories $h,h'$, if
+  $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h')$, then there exist
+  $k,k':\mathsf{BHist}$ such that
+  $$
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)\land
+  \mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k')\land
+  \mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the unary clause, split the source carrier witness. In the absent case,
+choose $k=\emp$ and build the absent branch of
+Definition~\ref{def:tagged-option-payload-descent-relation}. In the present
+case, the source witness exposes a payload $a$ with $S(a)$ and
+$\hsame(h,\Eone(a))$; choose $k=\Eone(\delta.\mathsf{map}(a))$ and build the
+present branch using $\rho_{\delta}(a)$. Applying
+Theorem~\ref{thm:tagged-option-payload-descent-semantic-fields} to the obtained
+map-relation witness twice supplies the target carrier, pattern, and ledger
+fields.
+
+For the binary clause, split the source classifier witness. The absent branch
+chooses $k=\emp$ and $k'=\emp$, and the present branch chooses
+$k=\Eone(\delta.\mathsf{map}(a))$ and
+$k'=\Eone(\delta.\mathsf{map}(b))$ for the two exposed source payloads. The
+corresponding map-relation witnesses are built by the same absent and present
+clauses as above. The target classifier is then
+Theorem~\ref{thm:tagged-option-payload-descent-preserves-classification}
+applied to the source classifier witness, these two map-relation witnesses,
+$\mathsf{cert}$, and the source hsame compatibility hypothesis.
+\end{proof}
