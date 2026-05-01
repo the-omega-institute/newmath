@@ -238,6 +238,57 @@ the concrete distance witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_left\_iff}
 
+\begin{theorem}[Metric distance witness empty-right exactness]
+\label{thm:metric-distance-witness-empty-right-iff}
+For histories $x,d$, a concrete distance witness whose right endpoint is empty
+is exactly unary evidence for the left endpoint together with the boundary
+classification of the distance as that endpoint:
+$$
+\mathsf{MetricDistanceWitness}(x,\emp,d)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(x)\ \wedge\ \hsame(d,x).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the distance witness. The witness contains unary evidence for $x$, and
+the continuation ledger has empty right endpoint. Right-unit exactness for
+continuations gives the boundary classifier $\hsame(d,x)$.
+
+Conversely, assume unary evidence for $x$ and $\hsame(d,x)$. Transport unary
+evidence from $x$ to $d$ along this classifier, then use the right-unit
+continuation equivalence to build the continuation ledger with right endpoint
+$\emp$. Repacking the unary data and this ledger gives
+$\mathsf{MetricDistanceWitness}(x,\emp,d)$.
+\end{proof}
+
+\begin{theorem}[Metric distance witness right-boundary visible-context exactness]
+\label{thm:metric-distance-witness-right-boundary-visible-context-iff}
+For histories $p,q,x,d$, a visible-context distance witness whose central right
+endpoint is empty is exactly unary evidence for the visible ledgers and the
+central left endpoint, together with the right-boundary classifier:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,\emp\cdot q,(p\cdot d)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\mathsf{UnaryHistory}(x)\ \wedge\ \hsame(d,x).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, apply
+\autoref{thm:metric-distance-witness-visible-context-iff} with central right
+endpoint $\emp$. This recovers unary evidence for $p$ and $q$ together with
+$\mathsf{MetricDistanceWitness}(x,\emp,d)$. Apply
+\autoref{thm:metric-distance-witness-empty-right-iff} to that central witness to
+obtain $\mathsf{UnaryHistory}(x)$ and $\hsame(d,x)$.
+
+Conversely, assume unary evidence for $p$, $q$, and $x$, together with
+$\hsame(d,x)$. By
+\autoref{thm:metric-distance-witness-empty-right-iff} from right to left, these
+central data build $\mathsf{MetricDistanceWitness}(x,\emp,d)$. Applying
+\autoref{thm:metric-distance-witness-visible-context-iff} from right to left
+with prefix $p$ and suffix $q$ gives the displayed visible-context witness.
+\end{proof}
+
 \begin{theorem}[Metric distance witness visible-context symmetric classifier]
 \label{thm:metric-distance-witness-visible-context-symmetric-classifier}
 For histories $p,q,x,y,d_{xy},d_{yx}$, symmetric distance witnesses remain
