@@ -1,0 +1,147 @@
+\begin{definition}[List cons-boundary coherence]
+\label{def:list-cons-boundary-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. Define
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ as the predicate
+$$
+\forall m\,a\,a'\,t\,t'\,p\,p'\,xs\,xs'.\;
+A(a)\to A(a')\to
+\mathsf{ListSpineRep}_A(t,xs)\to
+\mathsf{ListSpineRep}_A(t',xs')\to
+\ContR(a,t,p)\to \ContR(a',t',p')\to
+\hsame(m,\Eone(p))\to \hsame(m,\Eone(p'))\to
+((a\sim_A a')\land \mathsf{ListClassifierSpec}(\sim_A,xs,xs')).
+$$
+\end{definition}
+
+\begin{theorem}[List spine coherence from cons-boundary coherence]
+\label{thm:list-spine-coherence-from-cons-boundary-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. If
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ holds, then
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds.
+\end{theorem}
+\begin{proof}
+Compare two finite-spine presentations of the same history by cases on the
+displayed spines. The nil-nil case is the nil constructor of
+$\mathsf{ListClassifierSpec}$. The mixed nil-cons cases contradict
+Theorem~\ref{thm:list-spine-rep-nil-cons-no-confusion}. In the cons-cons case,
+both presentations expose the same list endpoint together with displayed head
+histories, tail spines, tail representations, continuation witnesses, and
+endpoint witnesses. Definition~\ref{def:list-cons-boundary-coherence} supplies
+the conjunction
+$(a\sim_A a')\land \mathsf{ListClassifierSpec}(\sim_A,xs,xs')$; its left
+conjunct is the head classifier witness, and its right conjunct is the tail
+finite-spine classifier witness. These are the two constructor arguments for
+$\mathsf{ListClassifierSpec}(\sim_A,-,-)$ on the whole cons spines.
+\end{proof}
+
+\begin{theorem}[List spine coherence iff cons-boundary coherence]
+\label{thm:list-spine-coherence-iff-cons-boundary-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. Then
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds if and only if
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ holds.
+\end{theorem}
+\begin{proof}
+For the forward implication, assume
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Given two displayed cons
+presentations of the same endpoint, view them as two
+$\mathsf{ListSpineRep}_A$ presentations with cons spines. Spine coherence
+returns a $\mathsf{ListClassifierSpec}(\sim_A,-,-)$ witness relating those two
+cons spines. The cons-cons branch of
+Theorem~\ref{thm:list-classifier-case-exactness} inverts that witness and
+exposes exactly the required head classifier $a\sim_A a'$ together with the
+tail classifier $\mathsf{ListClassifierSpec}(\sim_A,xs,xs')$. These are the two
+fields of Definition~\ref{def:list-cons-boundary-coherence}. The reverse
+implication is precisely
+Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence}.
+\end{proof}
+
+\begin{theorem}[Deterministic list spine length readback]
+\label{thm:list-spine-cons-boundary-length-deterministic}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. For every history $m$ and finite spines $xs$
+and $ys$, if $\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$,
+$\mathsf{ListSpineRep}_A(m,xs)$, and $\mathsf{ListSpineRep}_A(m,ys)$ hold, then
+$$
+\ell(xs)=\ell(ys).
+$$
+The roadmap ten-field fit is: traditional target finite-list readback; BEDC source $\mathsf{BHist}$; carrier $\mathsf{ListHistoryCarrier}_A$; classifier $\mathsf{ListClassifierSpec}$; ledger finite spine; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence} turns the
+cons-boundary coherence witness into
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Apply this coherence datum to the
+two displayed $\mathsf{ListSpineRep}_A$ presentations of the endpoint $m$ to
+obtain $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. Then
+Theorem~\ref{thm:list-classifier-length-eq} gives equality of the two finite
+spine lengths.
+\end{proof}
+
+\begin{definition}[List source hsame compatibility]
+\label{def:list-source-hsame-compatible}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. Define
+$\mathsf{ListSourceHsameCompatible}(A,\sim_A)$ as source-carrier completeness for
+$\hsame$:
+$$
+\forall a\,b.\;
+A(a)\to A(b)\to \hsame(a,b)\to a\sim_A b.
+$$
+\end{definition}
+
+\begin{theorem}[List source hsame compatibility for hsame]
+\label{thm:list-source-hsame-compatible-hsame}
+For every BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$,
+$$
+\mathsf{ListSourceHsameCompatible}(A,\hsame).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{ListSourceHsameCompatible}$. For histories $a$ and $b$, the
+two source-carrier witnesses $A(a)$ and $A(b)$ are part of the interface, and
+the final displayed input is already the required $\hsame(a,b)$ classifier
+witness. Return that witness.
+\end{proof}
+
+\begin{theorem}[List source-classifier weakening]
+\label{thm:list-source-classifier-weakening}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim_A$ and $\sim_B$ be source classifiers. The ten-field fit is:
+traditional target finite-list source refinement; BEDC source $\mathsf{BHist}$
+with $\ContR$; source relation carried by $\sim_A$ and $\sim_B$; carrier
+generated list/spine bridge; classifier recursive and spine bridge; stability
+under source/classifier refinement; ledger unchanged finite spine; core theorem
+the four displayed implications below; exactness preservation under
+source/classifier refinement; status $\mathsf{ProofTarget}$. If source
+membership and source classification weaken from $A$ to $B$,
+$$
+(\forall a:\mathsf{BHist}.\; A(a)\to B(a))
+\land
+(\forall a\,b:\mathsf{BHist}.\; a\sim_A b\to a\sim_B b),
+$$
+then for all histories $h,k$ and finite spines $xs$,
+$$
+\begin{array}{rcl}
+\mathsf{ListHistoryCarrier}_A(h) &\to&
+\mathsf{ListHistoryCarrier}_B(h),\\
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,k) &\to&
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{B,\sim_B}(h,k),\\
+\mathsf{ListSpineRep}_A(h,xs) &\to& \mathsf{ListSpineRep}_B(h,xs),\\
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k) &\to&
+\mathsf{ListSpineBridgeClassifier}_{B,\sim_B}(h,k).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Induct separately on the displayed carrier, recursive classifier, spine
+representation, and bridge witness. The nil clauses are rebuilt directly. In
+each cons clause, apply the source-carrier inclusion to the head datum, apply the
+classifier inclusion to the head classifier datum when present, and reuse the
+same $\ContR$ and endpoint $\hsame$ witnesses. For a bridge witness, keep the
+same finite spines, transport the two spine representations by the representation
+induction, transport the finite-spine classifier entry by entry using the
+classifier inclusion, and rebuild the bridge witness with those transported
+components.
+\end{proof}

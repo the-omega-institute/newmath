@@ -1,0 +1,173 @@
+\begin{theorem}[List spine bridge endpoint exposure and symmetry]
+\label{thm:list-spine-bridge-endpoint-exposure-symmetry}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. The compact per-object fit is: traditional
+target finite-list classifier stability; BEDC source $A$ over $\mathsf{BHist}$
+with $\NameCert(A,\sim_A)$; carrier $\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}$; stability obligations endpoint
+exposure and symmetry; ledger finite spine representation; core theorem the two
+displayed clauses below; exactness via $\mathsf{ListSpineRep}$; standard bridge
+finite-spine readback; status $\mathsf{ProofTarget}$. For all histories $h$ and
+$k$, the bridge classifier satisfies endpoint exposure:
+$$
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)
+\to
+\mathsf{ListHistoryCarrier}_A(h)\land \mathsf{ListHistoryCarrier}_A(k).
+$$
+Moreover, for any $\mathsf{cert}:\NameCert(A,\sim_A)$, the bridge classifier is
+symmetric:
+$$
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)
+\to
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,h).
+$$
+\end{theorem}
+\begin{proof}
+Unpack a bridge witness into finite spines $xs$ and $ys$, displayed
+representations $\mathsf{ListSpineRep}_A(h,xs)$ and
+$\mathsf{ListSpineRep}_A(k,ys)$, and the finite-spine classifier witness
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. Endpoint exposure applies the
+soundness direction of Theorem~\ref{thm:list-spine-representation-exactness} to
+the two displayed representations. For symmetry, keep the two representations,
+apply Theorem~\ref{thm:list-classifier-symm-from-namecert} to the source
+certificate $\mathsf{cert}$ and the finite-spine classifier witness, then rebuild
+the bridge witness with the represented spines swapped.
+\end{proof}
+
+\begin{theorem}[List spine bridge stability from spine coherence]
+\label{thm:list-spine-bridge-stability-from-spine-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. The ten-field fit is:
+traditional target finite-list classifier stability; BEDC source $A$ over
+$\mathsf{BHist}$ with $\NameCert(A,\sim_A)$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}$; stability obligations
+reflexivity, symmetry, transitivity, and endpoint closure; ledger finite spine
+representation; core theorem this block; exactness via $\mathsf{ListSpineRep}$;
+standard bridge finite-spine readback; status $\mathsf{ProofTarget}$. Then the
+bridge classifier satisfies all four clauses: carrier-relative reflexivity,
+meaning
+$$
+\mathsf{ListHistoryCarrier}_A(h)\to
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,h);
+$$
+symmetry, meaning
+$$
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)\to
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,h);
+$$
+transitivity, meaning
+$$
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)\to
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,u)\to
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u);
+$$
+and classifier-induced endpoint closure, meaning
+$$
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)\to
+\mathsf{ListHistoryCarrier}_A(k).
+$$
+The $\NameCert$-shaped carrier-transport field follows immediately by weakening
+this endpoint-closure implication with an unused
+$\mathsf{ListHistoryCarrier}_A(h)$ premise.
+\end{theorem}
+\begin{proof}
+For reflexivity, use representation coverage to choose a finite-spine
+representation of $h$, apply finite-spine reflexivity under the source
+certificate, and rebuild the bridge witness with the same representation on both
+endpoints. Symmetry is the second clause of
+Theorem~\ref{thm:list-spine-bridge-endpoint-exposure-symmetry}. Transitivity is
+Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence} applied to
+the displayed spine coherence and the source certificate. Endpoint closure is
+the second endpoint component exposed by
+Theorem~\ref{thm:list-spine-bridge-endpoint-exposure-symmetry}; carrier
+transport is obtained by weakening that implication with the unused left-carrier
+premise.
+\end{proof}
+
+\begin{theorem}[List recursive history classifier transitivity from spine coherence]
+\label{thm:list-recursive-history-classifier-trans-from-spine-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. The ten-field fit is:
+traditional target finite-list generated classifier stability; BEDC source $A$
+over $\mathsf{BHist}$ with $\NameCert(A,\sim_A)$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}$; stability
+obligation transitivity; ledger finite spine representation; core theorem this
+block; exactness via $\mathsf{ListSpineRep}$ and
+$\mathsf{ListSpineBridgeClassifier}$; standard bridge finite-spine readback;
+status $\mathsf{ProofTarget}$. Then for all histories $h,k,u$, if
+$$
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,k)
+$$
+and
+$$
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(k,u)
+$$
+hold, then
+$$
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,u)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Use the classifier equivalence clause of
+Theorem~\ref{thm:list-spine-representation-exactness} to convert the two
+recursive classifier witnesses into
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$ and
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,u)$ witnesses. Apply
+Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence} with the
+displayed spine coherence hypothesis and the source certificate to obtain
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u)$. The reverse direction of
+the same exactness equivalence converts this bridge witness back into the
+recursive classifier witness
+$\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,u)$.
+\end{proof}
+
+\begin{theorem}[List spine bridge stability from cons-boundary coherence]
+\label{thm:list-spine-bridge-stability-from-cons-boundary-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. The ten-field fit is:
+traditional target finite-list classifier stability; BEDC source $A$ over
+$\mathsf{BHist}$ with $\NameCert(A,\sim_A)$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}$; stability obligations
+reflexivity, symmetry, transitivity, and endpoint closure; ledger finite spine
+representation; core theorem this block; exactness via
+$\mathsf{ListSpineRep}$; standard bridge finite-spine readback; status
+$\mathsf{ProofTarget}$. Then the bridge classifier satisfies all four clauses:
+carrier-relative reflexivity, meaning
+$$
+\mathsf{ListHistoryCarrier}_A(h)\to
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,h);
+$$
+symmetry, meaning
+$$
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)\to
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,h);
+$$
+transitivity, meaning
+$$
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)\to
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,u)\to
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u);
+$$
+and classifier-induced endpoint closure, meaning
+$$
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)\to
+\mathsf{ListHistoryCarrier}_A(k).
+$$
+The $\NameCert$-shaped carrier-transport field follows immediately by weakening
+this endpoint-closure implication with an unused
+$\mathsf{ListHistoryCarrier}_A(h)$ premise.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence} turns the
+cons-boundary coherence witness into
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Apply
+Theorem~\ref{thm:list-spine-bridge-stability-from-spine-coherence} with that
+spine-coherence witness and the source certificate.
+\end{proof}

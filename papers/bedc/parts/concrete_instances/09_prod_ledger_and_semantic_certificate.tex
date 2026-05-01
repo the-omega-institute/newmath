@@ -1,0 +1,153 @@
+\begin{definition}[Prod ledger policy]
+\label{def:prod-ledger-policy}
+Record a raw product history carrying both component ledgers together with an
+$\hsame$ link to the visible history exposed by the ledger.
+\end{definition}
+\leandef{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy}
+
+\begin{theorem}[Prod ledger visible carrier]
+\label{thm:prod-ledger-visible-carrier}
+If a visible history is linked by $\hsame$ to a raw product-ledger history,
+then the visible history is itself a product carrier.
+\end{theorem}
+\begin{proof}
+Unpack the raw product carrier and transport it across the stored $\hsame$
+link by product-carrier transport.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_visible\_carrier}
+
+\begin{theorem}[Prod ledger raw-visible classifier]
+\label{thm:prod-ledger-raw-visible-classifier}
+If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into the raw product carrier for $\rho$ and the stored
+$\hsame(\rho,v)$ link. The visible-carrier theorem supplies the product
+carrier for $v$. These three witnesses are exactly the product classifier
+fields for the raw ledger history and the visible history.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_raw\_visible\_classifier}
+
+\begin{theorem}[Prod ledger history-same transport]
+\label{thm:prod-ledger-hsame-transport}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,\rho',v,v':\mathsf{BHist}$ be histories. If $\hsame(\rho,\rho')$,
+$\hsame(v,v')$, and $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ hold, then
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho',v')$ holds. The object fit is:
+traditional target ordered-product ledger stability; BEDC source
+$\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier $\mathsf{ProdHistoryClassifier}$;
+ledger $\mathsf{ProdHistoryLedgerPolicy}$; exactness raw-visible transport;
+standard bridge displayed ordered-pair ledger; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into a raw product carrier for $\rho$ and the stored
+raw-visible link $\hsame(\rho,v)$. Transport the raw carrier across
+$\hsame(\rho,\rho')$ by Theorem~\ref{thm:prod-history-carrier-hsame-transport}.
+For the visible link, compose symmetry of $\hsame(\rho,\rho')$, the stored
+raw-visible link, and $\hsame(v,v')$ to obtain $\hsame(\rho',v')$. The
+transported raw carrier and this composed link rebuild
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho',v')$.
+\end{proof}
+
+\begin{theorem}[Prod ledger classifier composition]
+\label{thm:prod-ledger-classifier-extension}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds and
+$\mathsf{ProdHistoryClassifier}(L,R,v,w)$ holds, then
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$ holds. The object fit is:
+traditional target ordered-product ledger propagation; BEDC source
+$\mathsf{BHist}$ with $\Cont$; carrier $\mathsf{ProdHistoryCarrier}$;
+classifier $\mathsf{ProdHistoryClassifier}$; ledger evidence the raw-visible
+pair; exactness raw-to-visible-to-target composition; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-ledger-raw-visible-classifier} to the ledger
+policy to obtain $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$. Compose that
+raw-visible classifier with the visible-target classifier by product history
+classifier transitivity, yielding
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$.
+\end{proof}
+
+\begin{theorem}[Prod ledger backward classifier composition]
+\label{thm:prod-ledger-classifier-backward-composition}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds and
+$\mathsf{ProdHistoryClassifier}(L,R,w,v)$ holds, then
+$\mathsf{ProdHistoryClassifier}(L,R,w,\rho)$ holds. The object fit is:
+traditional target ordered-product ledger back-propagation; BEDC source
+$\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier $\mathsf{ProdHistoryClassifier}$;
+ledger raw-visible pair evidence; core theorem backward classifier
+composition; exactness raw-visible symmetry; standard bridge displayed
+ordered-pair ledger; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-ledger-raw-visible-classifier} to the ledger
+policy to obtain $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$. Reverse this
+classifier by Theorem~\ref{thm:prod-history-classifier-symmetry}, giving
+$\mathsf{ProdHistoryClassifier}(L,R,v,\rho)$. Compose the assumed classifier
+from $w$ to $v$ with this reversed classifier by
+Theorem~\ref{thm:prod-history-classifier-transitivity}, yielding
+$\mathsf{ProdHistoryClassifier}(L,R,w,\rho)$.
+\end{proof}
+
+\begin{theorem}[Prod ledger two-step classifier composition]
+\label{thm:prod-ledger-two-step-classifier-composition}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ and
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,v,w)$ hold, then
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$ holds. The object fit is:
+ordered-product ledger chain; BEDC source $\mathsf{BHist}$ with $\Cont$;
+carrier $\mathsf{ProdHistoryCarrier}$; classifier
+$\mathsf{ProdHistoryClassifier}$; ledger evidence raw-visible-visible;
+exactness by classifier composition.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-ledger-raw-visible-classifier} to both ledger
+policies to obtain classifiers from $\rho$ to $v$ and from $v$ to $w$. Compose
+them by Theorem~\ref{thm:prod-history-classifier-transitivity}.
+\end{proof}
+
+\begin{theorem}[Prod ledger component exposure]
+\label{thm:prod-ledger-component-exposure}
+If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then there exist histories $l$ and $r$ such that $L(l)$, $R(r)$, $\Cont(l,r,\rho)$, $\hsame(\rho,v)$, $\mathsf{ProdHistoryCarrier}(L,R,v)$, and $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ all hold.
+\end{theorem}
+\begin{proof}
+Unfold the ledger into the raw product carrier for $\rho$ and the stored raw-visible witness $\hsame(\rho,v)$. Unfold the raw carrier to expose component histories $l$ and $r$ with $L(l)$, $R(r)$, and $\Cont(l,r,\rho)$. Theorem~\ref{thm:prod-ledger-visible-carrier} supplies $\mathsf{ProdHistoryCarrier}(L,R,v)$, and Theorem~\ref{thm:prod-ledger-raw-visible-classifier} supplies $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$. These witnesses give the stated component exposure.
+\end{proof}
+
+\begin{theorem}[Concrete product history-envelope semantic certificate]
+\label{thm:concrete-prod-namecert}
+For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$, assume
+$\exists l:\mathsf{BHist}.\;L(l)$ and $\exists r:\mathsf{BHist}.\;R(r)$. Then
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),\mathsf{ProdHistoryCarrier}(L,R),\mathsf{ProdHistoryCarrier}(L,R),\mathsf{ProdHistoryClassifier}(L,R))
+$$
+holds. This is the checked ordered-product history-envelope certificate; source
+certificates supply the two inhabited-carrier hypotheses through their fields.
+\end{theorem}
+\begin{proof}
+Choose the left and right carrier witnesses first. BEDC continuation joins them
+into a product history. The history-envelope classifier stores the two endpoint
+carrier witnesses and an $\hsame$ witness between product histories, so the
+certificate fields follow by $\hsame$ reflexivity, symmetry, transitivity, and
+carrier transport. When source certificates are present, their carrier-inhabited
+fields provide the same witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.prod\_history\_semantic\_name\_certificate}
+
+\begin{corollary}[Product history envelope is licensed, not primitive]
+\label{cor:prod-history-envelope-licensed-not-primitive}
+The checked theorem licenses only $\mathsf{ProdHistoryCarrier}$ with
+$\mathsf{ProdHistoryClassifier}$ under explicit left and right carrier
+witnesses. The public ordered-product certificate uses the history-level
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ induced by
+$\mathsf{ProdPairRep}$ and source classifiers, together with displayed
+component exposure, $\hsame$-sound descent, and ledger fields from this chapter.
+\end{corollary}

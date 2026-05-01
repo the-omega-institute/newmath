@@ -116,6 +116,8 @@ with the local classification $\iff$ as a derived corollary. Every downstream mo
 
 For each of $\BoolUp$, $\OptionUp$, $\SumUp$, $\ProdUp$, $\ListUp$, the obligations are: a carrier predicate over $\Hist$; a classifier whose $\StabilityCert$ supplies reflexivity, symmetry, transitivity, and carrier transport; constructor and case-analysis stability; and ledger entries for whatever is hidden by the carrier predicate (tag bits, length unary, etc).
 
+The finite-data public-object certificate scope is the boolean history $\mathsf{SemanticNameCert}$, the constructor-tagged optional-history certificate, the explicit ordered-product bridge together with its envelope certificate, the tagged sum $\mathsf{SemanticNameCert}$, and the list spine-bridge $\mathsf{SemanticNameCert}$. These scopes are the phase objects for $\BoolUp$ through $\ListUp$ when a chapter separates an envelope certificate from the public constructor interface.
+
 \section{L7 arithmetic}
 \label{sec:roadmap-l7-arithmetic}
 
@@ -267,8 +269,8 @@ The near-term path is a small number of phase bundles. Each phase has a specific
 
 \begin{description}
   \item[\textbf{Phase Kernel-Checked Baseline}] L0--L5 fully machine-checked, including $\msame$, $\hsame$, $\Ext$, $\Cont$, $\Sig$, $\Gap$, $\NameCert$, $\ExactGlobalizeBase$. Exit criterion: every kernel theorem holds a \texttt{\textbackslash leanchecked}.
-  \item[\textbf{Phase Finite Data}] L6 machine-checked, $\BoolUp$ through $\ListUp$, with the ten-field template completed for each. Exit criterion: $\bedcciaudit$ green over all five objects.
-  \item[\textbf{Phase Full Nat Arithmetic}] L7 machine-checked, $\NatUp$ through $\RatUp$, with full induction, recursion, ordered-ring and ordered-field structure. Exit criterion: $\RatUp$ NameCert holds at the SemanticNameCert strength, not the legacy strength.
+  \item[\textbf{Phase Finite Data}] L6 machine-checked, $\BoolUp$ through $\ListUp$, with the ten-field template completed for each. Exit criterion: $\bedcciaudit$ green over all five objects and $\mathsf{CheckedCert}$ status at the public-object certificate scopes listed in \autoref{sec:roadmap-l6-finite-data}. An envelope-only checked core does not close an object whose chapter still records a stronger public-object $\mathsf{ProofTarget}$.
+  \item[\textbf{Phase Full Nat Arithmetic}] L7 machine-checked, $\NatUp$ through $\RatUp$, with full induction, recursion, ordered-ring and ordered-field structure. Exit criterion: $\RatUp$ NameCert holds at the $\mathsf{SemanticNameCert}$ machine-checked certificate strength, not merely as a weaker paper-side certificate or theorem target.
   \item[\textbf{Phase Algebra Hierarchy}] L8 up to $\FieldUp$. Exit criterion: $\FieldUp(\RatUp)$ as a fully derived instance.
   \item[\textbf{Phase Real and Completion}] L10 items 1--4 of section~\ref{sec:roadmap-l10-construction-order}: $\DyadicRatCore$, $\StreamNameUp$, $\RegSeqRat$, $\RealUp$. Exit criterion: $\RealUp$ NameCert holds at the machine-checked strength, with the dyadic embedding theorem live.
   \item[\textbf{Phase Real Algebra and Geometry}] L10 items 5--7: $\RealAlgOrder$, $\MetricSpaceUp$, $\SOneUp$. Exit criterion: $\SOneUp$ shipped with the unit-circle equation transport.

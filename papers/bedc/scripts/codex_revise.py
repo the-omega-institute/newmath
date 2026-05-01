@@ -64,7 +64,10 @@ BASE_BRANCH = BASE_BRANCH_DEFAULT
 # both pipelines (paper / Lean) see each other's progress; the merge is
 # normally clean because the two pipelines write to disjoint subtrees
 # (papers/bedc/* vs lean4/BEDC/*).
-PEER_BRANCH_DEFAULT = "lean4-codex-auto-dev"
+# Empty default: peer-sync is opt-in. Pass `--peer-branch lean4-codex-auto-dev`
+# (or any other branch name) to enable bidirectional sync. Background ticker
+# and final-sync hook key off PEER_BRANCH being non-empty.
+PEER_BRANCH_DEFAULT = ""
 PEER_BRANCH = PEER_BRANCH_DEFAULT
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 
@@ -187,6 +190,7 @@ class RoundState:
 class ReviewResult:
     raw_output: str = ""
     targets: list[dict] = field(default_factory=list)
+    candidate_pool: list[dict] = field(default_factory=list)
     notes: str = ""
     success: bool = False
 
@@ -841,15 +845,50 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                 if not _codex_resolve_conflicts(wt.path, model=model):
                     run_cmd(["git", "rebase", "--abort"], cwd=wt.path)
                     return False
+            rebased_new = run_cmd(
+                ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
+                cwd=wt.path, timeout=30,
+            )
+            rebased_lines = [
+                l.strip() for l in rebased_new.stdout.splitlines() if l.strip()
+            ]
+            own_prefix = f"P{wt.round_number}:"
+            if not any(own_prefix in l for l in rebased_lines):
+                logger.error(
+                    f"[P{wt.round_number}] Rebase left no own-round commit "
+                    f"unique to {BASE_BRANCH}; refusing to report merge success"
+                )
+                return False
             wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
             ok, msg = _ff_local_branch_to(wt_tip)
             if not ok:
                 logger.error(f"ff update of {BASE_BRANCH} failed: {msg.strip()}")
                 return False
+            local_contains = run_cmd(
+                ["git", "merge-base", "--is-ancestor", wt_tip, BASE_BRANCH],
+                cwd=REPO_ROOT, timeout=10,
+            ).returncode == 0
+            if not local_contains:
+                logger.error(
+                    f"{BASE_BRANCH} does not contain {wt.branch} tip {wt_tip[:8]} "
+                    "after ff update"
+                )
+                return False
             push = run_cmd(["git", "push", "origin", BASE_BRANCH],
                            cwd=REPO_ROOT, timeout=300)
             if push.returncode == 0:
-                return True
+                run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+                origin_contains = run_cmd(
+                    ["git", "merge-base", "--is-ancestor", wt_tip, f"origin/{BASE_BRANCH}"],
+                    cwd=REPO_ROOT, timeout=10,
+                ).returncode == 0
+                if origin_contains:
+                    return True
+                logger.error(
+                    f"origin/{BASE_BRANCH} does not contain {wt.branch} tip "
+                    f"{wt_tip[:8]} after push"
+                )
+                return False
             if attempt == 1:
                 logger.warning("Push rejected, retrying")
                 return False
@@ -978,6 +1017,7 @@ def parse_review_output(raw: str) -> ReviewResult:
         try:
             data = json.loads(json_match.group(1))
             result.targets = data.get("targets", []) or []
+            result.candidate_pool = data.get("candidate_pool", []) or []
             result.notes = data.get("notes", "") or ""
         except json.JSONDecodeError:
             pass
@@ -986,6 +1026,7 @@ def parse_review_output(raw: str) -> ReviewResult:
             try:
                 data = json.loads(m.group(0))
                 result.targets = data.get("targets", []) or []
+                result.candidate_pool = data.get("candidate_pool", []) or []
                 if result.targets:
                     break
             except json.JSONDecodeError:
@@ -1000,30 +1041,48 @@ def parse_review_output(raw: str) -> ReviewResult:
     return result
 
 
-def review_gate_check(review: ReviewResult) -> tuple[bool, str]:
-    """Quick sanity check on review JSON. Returns (proceed_to_revise, reason).
-
-    Empty list → do not revise this round (gate FALSE) but it is not a script
-    failure — caller logs and moves on.
-    """
+def review_gate_check(review: ReviewResult) -> tuple[bool, str, bool]:
+    """Quick sanity check on review JSON. Returns (proceed_to_revise, reason, benign_skip)."""
     if not review.targets:
-        return False, "Reviewer reported no high-value targets (empty round)"
+        return False, "Reviewer reported no high-value targets (empty round)", True
 
+    pool = review.candidate_pool or []
+    if not pool:
+        return False, "missing candidate_pool", False
+    ranked = [c for c in pool if c.get("feasible") is True and c.get("selection_rank") == 1]
+    if len(ranked) != 1:
+        return False, "candidate_pool must contain exactly one feasible selection_rank=1", False
+    selected_id = ranked[0].get("candidate_id")
+    target_id = review.targets[0].get("candidate_id") if review.targets else None
+    if selected_id and target_id and selected_id != target_id:
+        return False, f"selected target {target_id} does not match candidate_pool rank 1 {selected_id}", False
+    if not target_id:
+        return False, "selected target missing candidate_id", False
+
+    kept: list[dict] = []
     issues: list[str] = []
     for i, t in enumerate(review.targets):
+        target_issues: list[str] = []
         if not t.get("paper_files"):
-            issues.append(f"target {i+1}: missing paper_files")
+            target_issues.append("missing paper_files")
         if not t.get("proposed_change"):
-            issues.append(f"target {i+1}: missing proposed_change")
+            target_issues.append("missing proposed_change")
         if not t.get("summary"):
-            issues.append(f"target {i+1}: missing summary")
-        # File existence sanity
+            target_issues.append("missing summary")
         for rel in t.get("paper_files") or []:
             if not (REPO_ROOT / rel).exists():
-                issues.append(f"target {i+1}: paper_file does not exist: {rel}")
+                target_issues.append(f"paper_file does not exist: {rel}")
+        if target_issues:
+            issues.append(f"target {i+1}: {', '.join(target_issues)}")
+        else:
+            kept.append(t)
+    review.targets = kept
+    if not kept:
+        detail = "; ".join(issues[:6])
+        return False, f"No valid targets after review gate ({detail})", True
     if issues:
-        return False, "; ".join(issues[:6])
-    return True, f"{len(review.targets)} target(s) cleared review gate"
+        return True, f"{len(kept)} target(s) cleared review gate; dropped {len(issues)} invalid target(s): {'; '.join(issues[:3])}", False
+    return True, f"{len(review.targets)} target(s) cleared review gate", False
 
 
 # ---------------------------------------------------------------------------
@@ -1254,20 +1313,25 @@ def verify_worktree_commits(
     wt: WorktreeInfo, pre_commits: list[str]
 ) -> tuple[bool, list[str]]:
     """Run all pipeline-side gates. Returns (success, new_commit_oneline_list)."""
-    if wt.base_sha:
-        result = run_cmd(
-            ["git", "log", "--oneline", f"{wt.base_sha}..HEAD"], cwd=wt.path,
-        )
-        new = [l.strip() for l in result.stdout.splitlines() if l.strip()]
-    else:
-        post = git_log_oneline(40, cwd=wt.path)
-        new = [c for c in post if c not in pre_commits]
+    result = run_cmd(
+        ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"], cwd=wt.path,
+    )
+    new = [l.strip() for l in result.stdout.splitlines() if l.strip()]
 
     if not new:
-        logger.warning(f"[P{wt.round_number}] Verify: no new commits")
+        logger.warning(f"[P{wt.round_number}] Verify: no commits unique to this round")
         return False, []
 
-    logger.info(f"[P{wt.round_number}] Verify: {len(new)} new commit(s)")
+    own_prefix = f"P{wt.round_number}:"
+    own = [c for c in new if own_prefix in c]
+    if not own:
+        logger.error(
+            f"[P{wt.round_number}] Verify: no own-round commit found; "
+            f"unique commits were: {new[:5]}"
+        )
+        return False, new
+
+    logger.info(f"[P{wt.round_number}] Verify: {len(new)} unique commit(s)")
     for c in new:
         logger.info(f"  {c}")
 
@@ -1410,12 +1474,11 @@ def run_round_in_worktree(
         review.targets = kept
 
         # Review gate
-        proceed, reason = review_gate_check(review)
+        proceed, reason, benign_skip = review_gate_check(review)
         if not proceed:
             logger.warning(f"[{tag}] Review gate: {reason} — skipping revise phase")
             _save_round_log(round_num, review, ReviseResult(), [], True)
-            # Empty round is a benign skip, not a failure.
-            return False, round_num, []
+            return benign_skip, round_num, []
         logger.info(f"[{tag}] Review gate: {reason}")
 
         # ── Phase REVISE ─────────────────────────────────────────
@@ -1524,6 +1587,7 @@ def _save_round_log(
             "round": round_num,
             "timestamp": ts,
             "success": success,
+            "candidate_pool": review.candidate_pool,
             "review_targets": review.targets,
             "review_notes": review.notes,
             "review_success": review.success,
@@ -1634,9 +1698,10 @@ def main() -> int:
                         help=f"Remove {STOP_FILE.name}")
     parser.add_argument("--base-branch", type=str, default=BASE_BRANCH_DEFAULT)
     parser.add_argument("--peer-branch", type=str, default=PEER_BRANCH_DEFAULT,
-                        help=f"Peer branch to bidirectionally sync with at "
-                             f"session start (default: {PEER_BRANCH_DEFAULT}). "
-                             f"Pass empty string to disable.")
+                        help="Peer branch to bidirectionally sync with at "
+                             "session start. Default is empty (peer-sync "
+                             "disabled). To enable, pass e.g. "
+                             "`--peer-branch lean4-codex-auto-dev`.")
     parser.add_argument("--no-peer-sync", action="store_true",
                         help="Skip the pre-flight peer-branch sync.")
     parser.add_argument("--peer-sync-only", action="store_true",

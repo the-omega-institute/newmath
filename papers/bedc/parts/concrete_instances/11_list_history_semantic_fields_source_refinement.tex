@@ -1,0 +1,314 @@
+\begin{theorem}[List history semantic fields source refinement]
+\label{thm:list-history-semantic-fields-source-refinement}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers. The
+ten-field fit is: traditional target finite-list source refinement; BEDC source
+$\mathsf{BHist}$; carrier $\mathsf{ListHistoryCarrier}$, pattern
+$\mathsf{ListHistoryPattern}$, and ledger $\mathsf{ListHistoryLedger}$ as the
+three list semantic fields; classifier unused; stability source inclusion;
+ledger finite spine; core theorem the three displayed implications below;
+exactness endpoint preservation; standard bridge finite spines; status
+$\mathsf{ProofTarget}$. If the source carrier of $A$ is included in the source
+carrier of $B$,
+$$
+\forall h:\mathsf{BHist}.\; A(h)\to B(h),
+$$
+then for every history $h$,
+$$
+\mathsf{ListHistoryCarrier}_A(h)\to\mathsf{ListHistoryCarrier}_B(h),
+$$
+$$
+\mathsf{ListHistoryPattern}_A(h)\to\mathsf{ListHistoryPattern}_B(h),
+$$
+and
+$$
+\mathsf{ListHistoryLedger}_A(h)\to\mathsf{ListHistoryLedger}_B(h).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the displayed generation of the carrier and ledger witnesses. The nil
+case reuses the empty endpoint witness. The cons case applies the source
+inclusion to the head witness, applies the induction hypothesis to the tail,
+and rebuilds the same continuation endpoint. For the pattern field, use the
+displayed nil and cons cases: the nil pattern is unchanged, and the cons pattern
+uses the source inclusion on the head together with the carrier-refinement
+clause for the tail.
+\end{proof}
+
+\begin{theorem}[List spine coherence source restriction]
+\label{thm:list-spine-coherence-source-restriction}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim$ be a source classifier. The ten-field fit is: traditional target
+finite-list source restriction; BEDC source $\mathsf{BHist}$; carrier
+$\mathsf{ListSpineRep}$; classifier $\mathsf{ListClassifierSpec}(\sim)$;
+stability source inclusion; ledger finite spine; core theorem coherence
+restriction; exactness inherited from ambient spine coherence; standard bridge
+finite-spine readback; status $\mathsf{ProofTarget}$. If the restricted source
+is included in the ambient source,
+$$
+\forall h:\mathsf{BHist}.\; A(h)\to B(h),
+$$
+and the ambient source has coherent spine presentations,
+$$
+\mathsf{ListSpineRepCoherent}_{B,\sim},
+$$
+then the restricted source has coherent spine presentations:
+$$
+\mathsf{ListSpineRepCoherent}_{A,\sim}.
+$$
+\end{theorem}
+\begin{proof}
+Take two $A$-spine presentations $\mathsf{ListSpineRep}_A(m,xs)$ and
+$\mathsf{ListSpineRep}_A(m,ys)$ of the same history. Apply
+Theorem~\ref{thm:list-source-classifier-weakening} with the displayed source
+inclusion and identity classifier weakening
+$\forall x\,y:\mathsf{BHist}.\;x\sim y\to x\sim y$. Its spine-representation
+clause transports both presentations to $\mathsf{ListSpineRep}_B(m,xs)$ and
+$\mathsf{ListSpineRep}_B(m,ys)$. The ambient coherence hypothesis
+$\mathsf{ListSpineRepCoherent}_{B,\sim}$ applied to those two transported
+presentations yields $\mathsf{ListClassifierSpec}(\sim,xs,ys)$, which is exactly
+the coherence datum required for $\mathsf{ListSpineRepCoherent}_{A,\sim}$.
+\end{proof}
+
+\begin{theorem}[List spine coherence source equivalence]
+\label{thm:list-spine-coherence-source-equivalence}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim_A$ and $\sim_B$ be source classifiers. The ten-field fit is:
+traditional target finite-list source presentation invariance; BEDC source
+$\mathsf{BHist}$; carrier $\mathsf{ListSpineRep}$; classifier
+$\mathsf{ListClassifierSpec}$; stability source equivalence; ledger finite
+spine; core theorem coherence equivalence; exactness transported through the
+two presentations; standard bridge finite-spine readback; status
+$\mathsf{ProofTarget}$. If the source carriers are extensionally equivalent,
+$$
+\forall h:\mathsf{BHist}.\; A(h)\Longleftrightarrow B(h),
+$$
+and the source classifiers are extensionally equivalent,
+$$
+\forall x\,y:\mathsf{BHist}.\; x\sim_A y\Longleftrightarrow x\sim_B y,
+$$
+then spine coherence is invariant under the source presentation:
+$$
+\mathsf{ListSpineRepCoherent}_{A,\sim_A}
+\Longleftrightarrow
+\mathsf{ListSpineRepCoherent}_{B,\sim_B}.
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, take two
+$\mathsf{ListSpineRep}_B(m,xs)$ and $\mathsf{ListSpineRep}_B(m,ys)$ witnesses.
+Use the carrier equivalence in the $B\Rightarrow A$ direction to transport each
+source entry occurring in the displayed finite spines, obtaining
+$\mathsf{ListSpineRep}_A(m,xs)$ and $\mathsf{ListSpineRep}_A(m,ys)$. Apply
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ to these transported
+representations. The resulting $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ is
+converted entrywise to $\mathsf{ListClassifierSpec}(\sim_B,xs,ys)$ using the
+classifier equivalence in the $A\Rightarrow B$ direction. The reverse
+implication is the same construction with $A$ and $B$ interchanged, using the
+opposite directions of the displayed equivalences.
+\end{proof}
+
+\begin{theorem}[List public-object certificate source equivalence]
+\label{thm:list-public-object-source-equivalence}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim_A$ and $\sim_B$ be source classifiers. Let
+$\mathsf{cert}_B:\NameCert(B,\sim_B)$. The ten-field fit is: traditional target
+finite-list public certificate invariance; BEDC source $\mathsf{BHist}$ with a
+source $\NameCert$; carrier $\mathsf{ListHistoryCarrier}$; classifier
+$\mathsf{ListSpineHistoryClassifier}$; stability transferred through source
+presentation equivalence and spine coherence; ledger finite generated history
+spine; core theorem this public-object certificate source equivalence;
+exactness via $\mathsf{ListSpineRep}$; standard bridge finite-spine readback;
+status $\mathsf{ProofTarget}$. Assume the source carriers are extensionally
+equivalent,
+$$
+\forall h:\mathsf{BHist}.\; A(h)\Longleftrightarrow B(h),
+$$
+and the source classifiers are extensionally equivalent,
+$$
+\forall x\,y:\mathsf{BHist}.\; x\sim_A y\Longleftrightarrow x\sim_B y.
+$$
+If the $A$-presentation has coherent list-spine representatives,
+$$
+\mathsf{ListSpineRepCoherent}_{A,\sim_A},
+$$
+then the $B$-presentation carries the public finite-list semantic certificate:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_B,
+\mathsf{ListHistoryPattern}_B,
+\mathsf{ListHistoryLedger}_B,
+\mathsf{ListSpineHistoryClassifier}_{B,\sim_B}).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-spine-coherence-source-equivalence} to the carrier
+and classifier equivalences. Its forward direction transports
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ to
+$\mathsf{ListSpineRepCoherent}_{B,\sim_B}$. Then apply
+Theorem~\ref{thm:concrete-list-namecert} with $\mathsf{cert}_B$ and the
+transported coherence witness, yielding the displayed
+$\mathsf{SemanticNameCert}$ for the $B$-presentation.
+\end{proof}
+
+\begin{theorem}[Source-parametric list classifier reverse equivalence]
+\label{thm:list-classifier-reverse-source-equivalence}
+For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
+spines $xs,ys:\mathsf{ListCarrier}(A)$, the ten-field fit is: traditional
+target finite-list reverse comparison; BEDC source carried by the source entries
+of the finite spine; carrier $\mathsf{ListCarrier}(A)$; classifier
+$\mathsf{ListClassifierSpec}(sameA)$; stability reverse of finite spines;
+ledger finite spine; core theorem source-parametric reverse equivalence;
+exactness inherited from structural nil/cons classification; standard bridge
+finite-spine readback; status $\mathsf{ProofTarget}$. Structural classification
+is equivalent before and after reversing both spines:
+$$
+\mathsf{ListClassifierSpec}(sameA,xs,ys)
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(sameA,\mathsf{reverse}(xs),\mathsf{reverse}(ys)).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is Theorem~\ref{thm:list-classifier-reverse-source-relation}
+with source type $A$ and relation $sameA$. For the reverse implication, apply
+the same theorem to the classified reversed spines, obtaining a classifier on
+$\mathsf{reverse}(\mathsf{reverse}(xs))$ and
+$\mathsf{reverse}(\mathsf{reverse}(ys))$. Prove finite-spine reverse
+involutivity by induction on each spine, using the nil and cons clauses of
+reverse and append, then transport the resulting classifier back to
+$\mathsf{ListClassifierSpec}(sameA,xs,ys)$.
+\end{proof}
+
+\begin{theorem}[Source-parametric classified list prefix cancellation]
+\label{thm:list-classifier-source-append-left-cancel-classified}
+For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
+spines $p,p',x,y:\mathsf{ListCarrier}(A)$, the ten-field fit is: traditional
+target finite-list prefix cancellation; BEDC source carried by the source
+entries of the finite spine; carrier $\mathsf{ListCarrier}(A)$; classifier
+$\mathsf{ListClassifierSpec}(sameA)$; stability append under classified
+prefixes; ledger finite spine; core theorem classified left prefix
+cancellation; exactness inherited from structural nil/cons classification;
+standard bridge finite-spine readback; status $\mathsf{ProofTarget}$. If
+$$
+\mathsf{ListClassifierSpec}(sameA,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(sameA,p{++}x,p'{++}y)
+$$
+hold, then
+$$
+\mathsf{ListClassifierSpec}(sameA,x,y)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Induct on the prefix classifier witness
+$\mathsf{ListClassifierSpec}(sameA,p,p')$. In the nil case, both prefixes are
+empty and the appended classifier is already the required classifier on $x$ and
+$y$. In the cons case, invert the appended classifier at the exposed cons heads;
+its tail is a classifier for the two appended tails. Apply the induction
+hypothesis to the tail prefix classifier and that tail-appended classifier.
+\end{proof}
+
+\begin{theorem}[Source-parametric classified list suffix cancellation]
+\label{thm:list-classifier-source-append-right-cancel-classified}
+For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
+spines $x,y,s,s':\mathsf{ListCarrier}(A)$, the ten-field fit is: traditional
+target finite-list suffix cancellation; BEDC source carried by the source
+entries of the finite spine; carrier $\mathsf{ListCarrier}(A)$; classifier
+$\mathsf{ListClassifierSpec}(sameA)$; stability append under classified
+suffixes; ledger finite spine; core theorem classified right suffix
+cancellation; exactness inherited from structural nil/cons classification and
+reverse readback; standard bridge finite-spine readback; status
+$\mathsf{ProofTarget}$. If
+$$
+\mathsf{ListClassifierSpec}(sameA,s,s')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(sameA,x{++}s,y{++}s')
+$$
+hold, then
+$$
+\mathsf{ListClassifierSpec}(sameA,x,y)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Reverse both classified appended spines. Source-parametric reverse equivalence
+turns the second witness into a classifier on
+$\mathsf{reverse}(s){++}\mathsf{reverse}(x)$ and
+$\mathsf{reverse}(s'){++}\mathsf{reverse}(y)$, while the suffix classifier
+becomes a classifier between $\mathsf{reverse}(s)$ and
+$\mathsf{reverse}(s')$. Apply Theorem~\ref{thm:list-classifier-source-append-left-cancel-classified}
+to cancel these reversed prefixes, obtaining a classifier between
+$\mathsf{reverse}(x)$ and $\mathsf{reverse}(y)$. Reverse equivalence again,
+together with finite-spine reverse involutivity, transports the result back to
+$\mathsf{ListClassifierSpec}(sameA,x,y)$.
+\end{proof}
+
+\begin{theorem}[Source-parametric classified append context equivalence]
+\label{thm:list-classifier-source-append-context-equiv}
+For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
+spines $p,p',x,y,s,s':\mathsf{ListCarrier}(A)$, the ten-field fit is:
+traditional target finite-list two-sided context equivalence; BEDC source
+carried by the source entries of the finite spine; carrier
+$\mathsf{ListCarrier}(A)$; classifier $\mathsf{ListClassifierSpec}(sameA)$;
+stability append under classified prefixes and suffixes; ledger finite spine;
+core theorem classified append-context equivalence; exactness inherited from
+structural nil/cons classification; standard bridge finite-spine readback;
+status $\mathsf{ProofTarget}$. If
+$$
+\mathsf{ListClassifierSpec}(sameA,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(sameA,s,s')
+$$
+hold, then
+$$
+\mathsf{ListClassifierSpec}(sameA,x,y)
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(sameA,p{++}x{++}s,p'{++}y{++}s')
+$$
+holds.
+\end{theorem}
+\begin{proof}
+For the forward implication, append stability first adds the classified
+prefixes $p$ and $p'$ to the witness for $x$ and $y$, and then adds the
+classified suffixes $s$ and $s'$. For the reverse implication, use
+Theorem~\ref{thm:list-classifier-source-append-right-cancel-classified} to
+cancel the classified suffixes from the two contextual spines. The remaining
+classifier relates $p{++}x$ to $p'{++}y$, so
+Theorem~\ref{thm:list-classifier-source-append-left-cancel-classified} cancels
+the classified prefixes and yields $\mathsf{ListClassifierSpec}(sameA,x,y)$.
+\end{proof}
+
+\begin{theorem}[List represented-spine classifier alignment]
+\label{thm:list-represented-spine-classifier-alignment}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. The roadmap ten-field fit is:
+traditional target finite-list readback along represented histories; BEDC
+source $A$ with $\NameCert(A,\sim_A)$; carrier $\mathsf{ListHistoryCarrier}_A$;
+classifier $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability supplied
+by source-certificate transitivity and representation coherence; ledger finite
+spines $xs_0$ and $ys_0$; core theorem represented-spine classifier alignment;
+exactness by bridge-classifier unpacking; standard bridge finite-spine
+readback; status $\mathsf{ProofTarget}$. If
+$\mathsf{ListSpineRep}_A(h,xs_0)$, $\mathsf{ListSpineRep}_A(k,ys_0)$, and
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then
+$$
+\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unpack the bridge classifier to finite spines $xs,ys$ with
+$\mathsf{ListSpineRep}_A(h,xs)$, $\mathsf{ListSpineRep}_A(k,ys)$, and
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. Coherence at $h$ gives
+$\mathsf{ListClassifierSpec}(\sim_A,xs_0,xs)$, and coherence at $k$ gives
+$\mathsf{ListClassifierSpec}(\sim_A,ys,ys_0)$. Apply the source-certificate
+transitivity theorem $\mathsf{ListClassifierSpec\_trans\_from\_nameCert}$ with
+$\mathsf{cert}$ to compose the three finite-spine classifier links, yielding
+$\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$.
+\end{proof}

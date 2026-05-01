@@ -1,0 +1,249 @@
+\begin{theorem}[Product componentwise history classifier source equivalence]
+\label{thm:prod-component-history-classifier-source-equivalence}
+The ten-field roadmap fit is: traditional ordered-product classifier
+invariance under equivalent source presentations; BEDC source $\mathsf{BHist}$
+with $\Cont$; carrier $\mathsf{ProdPairRep}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$; stability under equivalent carrier
+and classifier presentations; ledger displayed pair representations; exactness
+as a two-way classifier equivalence; standard bridge ordered-pair readback;
+status $\mathsf{ProofTarget}$.
+
+For carriers $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$ and classifiers
+$\sim_L,\sim_R,\sim'_L,\sim'_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+suppose
+$$
+\forall u.\;L(u)\leftrightarrow L'(u),
+$$
+$$
+\forall u.\;R(u)\leftrightarrow R'(u),
+$$
+$$
+\forall x\,y.\;x\sim_L y\leftrightarrow x\sim'_L y,
+$$
+and
+$$
+\forall x\,y.\;x\sim_R y\leftrightarrow x\sim'_R y.
+$$
+Then for all histories $h,k:\mathsf{BHist}$,
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+\leftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L',R',\sim'_L,\sim'_R}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-component-history-classifier-source-refinement}
+from left to right using the forward halves of the four equivalence hypotheses:
+the left and right carrier equivalences provide the two carrier inclusions, and
+the two classifier equivalences provide the classifier inclusions. This yields
+the implication from
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ to
+$\mathsf{ProdComponentHistoryClassifier}_{L',R',\sim'_L,\sim'_R}(h,k)$.
+Apply the same source-refinement theorem in the reverse presentation, using the
+reverse halves of the four equivalence hypotheses, to obtain the converse
+implication. Pairing these two implications gives the displayed classifier
+equivalence for arbitrary histories $h$ and $k$.
+\end{proof}
+
+\begin{theorem}[Product pair-representation coherence under source restriction and classifier weakening]
+\label{thm:prod-pair-rep-coherence-under-classifier-weakening}
+The ten-field roadmap fit is: target displayed ordered-product coherence
+transport; BEDC source $\mathsf{BHist}$ with $\Cont$; carriers $L$ and $R$;
+restricted carriers $L'$ and $R'$; source classifiers $\sim_L,\sim_R$; target
+classifiers $\approx_L,\approx_R$; ledger displayed pair representation;
+stability datum $\mathsf{ProdPairRepCoherent}$; exactness unchanged at the
+product endpoint; standard bridge component classifier weakening; status
+$\mathsf{ProofTarget}$.
+
+Let $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and
+let
+$\sim_L,\sim_R,\approx_L,\approx_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$
+be component classifiers. Suppose
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ holds, and suppose
+$$
+\forall x.\;L'(x)\to L(x)
+$$
+and
+$$
+\forall x.\;R'(x)\to R(x).
+$$
+Suppose also
+$$
+\forall x\,y.\;x\sim_L y\to x\approx_L y
+$$
+and
+$$
+\forall x\,y.\;x\sim_R y\to x\approx_R y.
+$$
+Then $\mathsf{ProdPairRepCoherent}_{L',R',\approx_L,\approx_R}$ holds.
+\end{theorem}
+\begin{proof}
+Take two displayed pair representations
+$\mathsf{ProdPairRep}_{L',R'}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L',R'}(h,l_1,r_1)$ of the same product history $h$.
+Apply the carrier inclusions to the stored source witnesses in each displayed
+representation. This views the same four component histories and the same
+product endpoint evidence as two representations
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(h,l_1,r_1)$. Applying the given
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ datum to these lifted
+representations yields the component witnesses $l\sim_L l_1$ and
+$r\sim_R r_1$. Transport the first witness through the left classifier
+implication to obtain $l\approx_L l_1$, and transport the second witness
+through the right classifier implication to obtain $r\approx_R r_1$. These two
+transported witnesses are exactly the component conclusions required by
+$\mathsf{ProdPairRepCoherent}_{L',R',\approx_L,\approx_R}$.
+\end{proof}
+
+\begin{theorem}[Product pair-representation coherence under source equivalence]
+\label{thm:prod-pair-rep-coherence-source-equivalence}
+The ten-field fit is: traditional target ordered-product coherence under
+equivalent source presentations; BEDC source $\mathsf{BHist}$ with $\Cont$;
+source carriers $L,R,L',R'$; source classifiers
+$\sim_L,\sim_R,\approx_L,\approx_R$; stability datum
+$\mathsf{ProdPairRepCoherent}$; ledger displayed pair representation; exactness
+as two-way preservation of component coherence; standard bridge source
+equivalence for ordered-product certificates; public product scope
+$\mathsf{ProofTarget}$.
+
+Let $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and
+let
+$\sim_L,\sim_R,\approx_L,\approx_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$
+be component classifiers. Suppose
+$$
+\forall x.\;L(x)\leftrightarrow L'(x),
+$$
+$$
+\forall x.\;R(x)\leftrightarrow R'(x),
+$$
+$$
+\forall x\,y.\;x\sim_L y\leftrightarrow x\approx_L y,
+$$
+and
+$$
+\forall x\,y.\;x\sim_R y\leftrightarrow x\approx_R y.
+$$
+Then
+$$
+\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}
+\leftrightarrow
+\mathsf{ProdPairRepCoherent}_{L',R',\approx_L,\approx_R}.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-pair-rep-coherence-under-classifier-weakening} from
+the unprimed presentation to the primed presentation. The carrier hypotheses
+are used in the directions $L'(x)\to L(x)$ and $R'(x)\to R(x)$, while the
+classifier hypotheses are used in the forward directions
+$x\sim_L y\to x\approx_L y$ and $x\sim_R y\to x\approx_R y$. This gives
+$$
+\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}\to
+\mathsf{ProdPairRepCoherent}_{L',R',\approx_L,\approx_R}.
+$$
+Apply the same theorem in the reverse presentation, now using
+$L(x)\to L'(x)$ and $R(x)\to R'(x)$ together with
+$x\approx_L y\to x\sim_L y$ and $x\approx_R y\to x\sim_R y$. This gives the
+converse implication, and pairing the two implications yields the displayed
+equivalence.
+\end{proof}
+
+\begin{theorem}[Product pair-representation coherence obstruction from separated presentations]
+\label{thm:prod-pair-rep-coherence-obstruction-separated-presentations}
+The ten-field fit is: traditional target ordered-pair presentation comparison;
+BEDC source $\mathsf{BHist}$ with $\Cont$; carrier $\mathsf{ProdPairRep}$;
+classifier pair $\sim_L,\sim_R$; stability obligation coherence; ledger
+displayed pair boundary; core theorem separated-presentation obstruction;
+exactness as failure of component comparison; standard bridge ordered-pair
+readback; status $\mathsf{ProofTarget}$.
+
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and let $h,l,r,l',r':\mathsf{BHist}$. Suppose
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(h,l',r')$ hold. If either
+$\neg(l\sim_L l')$ or $\neg(r\sim_R r')$ holds, then
+$$
+\neg\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Assume a coherence witness. Apply it to the two displayed representations of
+the same product history $h$. The coherence witness returns both component
+comparisons, namely $l\sim_L l'$ and $r\sim_R r'$. The separated component
+clause supplies either the negation of the left comparison or the negation of
+the right comparison, contradicting the corresponding returned component
+witness.
+\end{proof}
+
+\begin{theorem}[Product componentwise history classifier core fields]
+\label{thm:prod-component-history-classifier-certificate-target}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Write
+$C(h,k)$ for
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$. Then its
+componentwise endpoint exposure is:
+$$
+\forall h\,k.\;C(h,k)\to\mathsf{ProdHistoryCarrier}(L,R,h)\land
+\mathsf{ProdHistoryCarrier}(L,R,k).
+$$
+Its five core $\NameCert$ fields for $\mathsf{ProdHistoryCarrier}(L,R)$
+decompose as follows:
+\begin{enumerate}
+  \item carrier inhabitation:
+  $$
+  \exists h.\;\mathsf{ProdHistoryCarrier}(L,R,h);
+  $$
+  \item carrier-relative reflexivity:
+  $$
+  \forall h.\;\mathsf{ProdHistoryCarrier}(L,R,h)\to C(h,h);
+  $$
+  \item source-certified symmetry:
+  $$
+  \forall h\,k.\;C(h,k)\to C(k,h);
+  $$
+  \item source-certified transitivity:
+  $$
+  \forall h\,k\,u.\;C(h,k)\to C(k,u)\to C(h,u);
+  $$
+  \item projection-derived NameCert-shaped classifier-induced carrier
+  transport:
+  $$
+  \forall h\,k.\;C(h,k)\to\mathsf{ProdHistoryCarrier}(L,R,h)\to
+  \mathsf{ProdHistoryCarrier}(L,R,k).
+  $$
+\end{enumerate}
+These five fields are the core $\NameCert$ data used by
+Theorem~\ref{thm:prod-component-history-semantic-certificate-target}.
+\end{theorem}
+\begin{proof}
+For carrier inhabitation, $\mathsf{cert}_L.\mathsf{carrier\_inhabited}$ and
+$\mathsf{cert}_R.\mathsf{carrier\_inhabited}$ supply histories $l$ and $r$
+with $L(l)$ and $R(r)$. Applying
+Theorem~\ref{thm:prod-history-carrier-append-intro} to those two source
+carrier witnesses gives
+$\mathsf{ProdHistoryCarrier}(L,R,\mathsf{append}(l,r))$, so the product
+carrier is inhabited. For carrier-relative reflexivity, unpack a
+$\mathsf{ProdHistoryCarrier}(L,R,h)$ witness into left and right histories and
+reuse that pair representation on both sides; the two source $\NameCert$
+witnesses give component reflexivity. For symmetry, invert the
+componentwise classifier witness and apply source symmetry to the two component
+classifier witnesses, keeping the two pair representations with endpoints
+exchanged. For transitivity, unpack $\mathsf{C}(h,k)$ and
+$\mathsf{C}(k,u)$ into pair representations $(l_h,r_h)$, $(l_k,r_k)$,
+$(l'_k,r'_k)$, and $(l_u,r_u)$. Pair-representation coherence at the middle
+history $k$ gives both $l_k\sim_L l'_k$ and $r_k\sim_R r'_k$. The two source
+$\NameCert.\mathsf{equiv\_trans}$ fields then compose the left chain
+$l_h\sim_L l_k\sim_L l'_k\sim_L l_u$ and the right chain
+$r_h\sim_R r_k\sim_R r'_k\sim_R r_u$ separately. For endpoint exposure, apply
+Theorem~\ref{thm:prod-component-history-classifier-endpoint-carriers} directly
+to the classifier witness $C(h,k)$. For carrier transport, apply that endpoint
+exposure to $C(h,k)$, take the right projection
+$\mathsf{ProdHistoryCarrier}(L,R,k)$, and ignore the already supplied left
+carrier premise except as the required $\NameCert$ field input. Thus the
+displayed endpoint clause and five-field tuple are exactly the componentwise
+product core classifier data.
+\end{proof}

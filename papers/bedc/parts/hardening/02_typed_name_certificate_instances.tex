@@ -49,6 +49,27 @@ ledger soundness fields then apply at the transported history.
 \end{proof}
 \leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_pattern\_ledger\_transport}
 
+\begin{theorem}[Carrier self semantic lifting]
+\label{thm:namecert-carrier-self-semantic-lifting}
+Let $C : \mathsf{BHist}\to\mathsf{Prop}$ and
+$R : \mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$. Any core certificate
+$\mathsf{core}:\NameCert(C,R)$ induces a semantic certificate whose core field is
+$\mathsf{core}$ and whose pattern and ledger soundness fields are identity
+implications over the same carrier. This is the carrier-as-pattern and
+carrier-as-ledger paper certificate target, distinct from
+\texttt{BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields}. The target is
+$$
+\mathsf{SemanticNameCert}(C,C,C,R).
+$$
+\end{theorem}
+\begin{proof}
+Choose carrier $C$, classifier $R$, pattern $C$, and ledger $C$. Keep the
+supplied certificate as the $\mathsf{core}$ field. Stability under classifier
+transport is exactly the carrier stability field already contained in that core
+certificate, and both semantic soundness fields are filled by the identity
+implication from a carrier witness of $C(h)$ to the same proposition $C(h)$.
+\end{proof}
+
 \section{Unary repetition as \texorpdfstring{\(\NatUp\)}{Nat-up} seed}
 
 \begin{definition}[Unary-source specification]

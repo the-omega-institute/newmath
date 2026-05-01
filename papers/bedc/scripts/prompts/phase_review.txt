@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v1.0 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v1.5 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -33,7 +33,7 @@ Use the roadmap's per-object template (Section "Per-object research template") t
 When a candidate target appears outside the open phase's chapter scope, briefly explain in `evidence` why it must still be addressed now (e.g. it is blocking the open phase, or it is a hard discipline violation per Section "Claims explicitly off the table"). Otherwise SKIP it and pick a target inside the open phase.
 
 ## What counts as a valid review target
-Pick targets that are HIGH-VALUE — each should be something a careful reader would flag during peer review. Acceptable categories:
+Pick targets that are HIGH-VALUE — each should be something a careful reader would flag during peer review. Acceptable categories are substantive theory/paper-quality categories; splitting may appear only as an attached implementation detail when required to land such a target:
 
 1. **Logical gap or unjustified step.** A theorem statement that is used downstream but whose proof skips a non-trivial case, or a definition that is invoked before being properly fixed.
 2. **Notational or definitional inconsistency.** Same symbol used with two meanings; a definition restated differently in two chapters; an undefined macro or label dangling.
@@ -42,7 +42,8 @@ Pick targets that are HIGH-VALUE — each should be something a careful reader w
 5. **Unclear or imprecise statement.** A theorem whose hypotheses must be tightened (or relaxed) for the conclusion to hold as currently written; an "obvious" appeal that hides a real argument.
 6. **Stronger statement available.** The paper proves a weaker form when the same proof yields more (e.g. uniform bound proved pointwise; restriction to finite case when general case is identical).
 7. **Cross-reference / structural improvement.** A theorem block that is mis-located (would be easier to follow earlier or later); a result that should be promoted from remark to numbered statement, or vice versa.
-8. **Theory extension awaiting formalization.** Propose a NEW theorem statement (not yet in the paper, not yet in Lean) that follows from the existing kernel and is worth formalizing. Acceptable shapes:
+8. **Content-bearing split support.** If a substantive theorem/definition/proof/certificate target would push a chapter file near the line cap, include a split plan as an implementation detail: extract the relevant content into a child file under a same-theme subdirectory, and make the parent file a pure index containing only ordered `\input` lines. Do not emit split-only targets; file movement by itself is maintenance, not theory growth.
+9. **Theory extension awaiting formalization.** Propose a NEW theorem statement (not yet in the paper, not yet in Lean) that follows from the existing kernel and is worth formalizing. Acceptable shapes:
    - **Composite consequence.** A non-trivial conclusion combining 2+ existing `\leanchecked` theorems, where the combined statement is not already in the paper.
    - **Constructor inversion / determinism / no-confusion lemma** for an existing `inductive` (BMark / BHist / ProbeBundle / SigRel / psame / external binary words / derived-carrier inductives) that does not yet have one.
    - **Generalization of an existing checked theorem** with a strictly broader hypothesis or a strictly stronger conclusion, provable by the same proof skeleton.
@@ -66,6 +67,34 @@ Reject these as low-value (do NOT propose):
 - Adding "TODO", "future work", or version annotations.
 - Edits that only relabel without changing logical content.
 - Renaming for cosmetic uniformity unless name collision causes ambiguity.
+- Pure prose smoothing whose expected diff does not change theorem hypotheses, theorem conclusions, proof dependency, marker alignment, definition scope, cross-reference correctness, or structural placement under the roadmap.
+- Scope-clarification targets that only rename a theorem, soften a claim, or add a caution sentence, unless the existing statement is mathematically false or causes a concrete downstream contradiction.
+- A second target that is merely explanatory cleanup bundled with a stronger theorem target. Mixed-strength bundles dilute the round; emit only the strongest target.
+
+A `theory_extension` target must include a precise theorem/lemma/definition shape in `proposed_change`, the existing definitions/theorems it depends on, a constructive proof skeleton, why it is not a trivial variant of one existing checked theorem, and the Lean namespace where it should naturally be formalized later. It must also state one downstream use: a later theorem, certificate, bridge, roadmap exit criterion, or Lean formalization target that would consume the result.
+
+Every candidate target must pass this 0–12 quality score before it may be selected:
+- `novelty`: 0–2. Is this more than a restatement or wording polish?
+- `theory_value`: 0–2. Does it improve a theorem, definition, proof obligation, certificate, or roadmap object?
+- `verifiability`: 0–2. Can the anchor and issue be confirmed by file inspection / grep?
+- `locality`: 0–2. Can the revise phase implement it without global rewrite or broad conflict risk?
+- `line_cap_safety`: 0–2. Does it stay below the 800-line cap, or include a concrete split plan?
+- `downstream_use`: 0–2. Is there a concrete later theorem, bridge, certificate, roadmap exit criterion, or Lean formalization site that will consume this target?
+
+Reject any candidate with total score < 9, with `verifiability = 0`, with `line_cap_safety = 0`, with `downstream_use = 0`, or whose only effect is explanatory wording. Empty rounds are preferred over speculative targets.
+
+## Candidate pool and selection rule
+
+Before choosing the emitted target, build a private candidate pool of 3–5 distinct valid candidates, or every valid candidate if fewer than 3 exist. Score each candidate with the 0–12 rubric above and assign a realistic `difficulty`:
+- `high`: substantive theorem/definition/proof/certificate target that combines multiple existing results, has a non-trivial proof skeleton, and still fits in 1–2 paper files without broad rewrite.
+- `medium`: meaningful theorem/definition/proof/certificate target with a real dependency chain but mostly local implementation.
+- `low`: localized companion theorem or clarification that is useful but close to an existing statement.
+
+Select the hardest feasible candidate, not the easiest implementable one. Prefer `high` over `medium` over `low` when scores are tied or close. A `low` target may be emitted only if no `medium` or `high` candidate passes the validity, locality, and downstream-use gates. Do not inflate difficulty: an unbounded rewrite, speculative theorem, or target likely to fail compile is not feasible and must be rejected rather than labeled `high`.
+
+You MUST output the candidate pool in the top-level JSON field `candidate_pool`. This is an audit artifact, not work for the revise phase. Each candidate-pool entry must include: `candidate_id`, `kind`, `paper_files`, `anchor`, `summary`, `difficulty`, `quality_score`, `feasible`, `rejected_reason` (empty for feasible candidates), and `selection_rank` (1 is best). The emitted `targets[0]` MUST correspond exactly to the feasible candidate with `selection_rank = 1`. Do not hide harder feasible candidates; if a harder candidate is not selected, mark it infeasible or lower-ranked and state the concrete reason. Do not include invalid or speculative candidates in `targets`.
+
+In the JSON `notes`, briefly record the selected target's rank, the number of valid candidates considered, and why no harder feasible candidate was selected.
 
 ## HARD constraints — every target MUST respect these
 The next phase will be REJECTED if its diff violates any of these, so do not propose a target that requires violating them.
@@ -85,10 +114,18 @@ Before suggesting that a missing marker / missing companion result is REALLY mis
 - For a "missing definition" complaint, run `grep -rE "\\\\(begin\{definition\}|leandef\{)" papers/bedc/parts/` for a similar concept.
 - For a "redundant section" complaint, confirm by `grep` that the alleged duplicate is actually content-identical.
 
-Do NOT propose targets that fail this sanity check. A target whose only effect is to register a marker pointing to a Lean theorem that does not exist is INVALID.
+Before producing JSON, build an inventory of real paper files:
+- Run `find papers/bedc/parts -name "*.tex" | sort`.
+- Every existing path in `paper_files` MUST be copied from this inventory exactly.
+- Do NOT invent companion file names. If the natural target file does not exist, attach the target to an existing nearby parent chapter and include a line-cap split plan only when needed to place the substantive content in child files.
+- A target with a nonexistent existing file in `paper_files` is invalid even if the concept is good.
+
+Do NOT propose targets that fail this sanity check. A split-only target is INVALID even if the file is long; attach splitting only to a substantive theorem/definition/proof/certificate change that needs it. A target whose only effect is to register a marker pointing to a Lean theorem that does not exist is INVALID.
 
 ## Task
-Pick **1 to 3 review targets** for P<ROUND_NUM>. Diversity is preferred (do not propose three small fixes in the same chapter when the paper has 12+ chapters). At least one target MUST advance the OPEN phase from the roadmap (record its `roadmap_phase` field in the JSON). The 3 targets should span across categories — at least one from {1, 5, 6} (theory tightening) AND at least one of category 8 (theory_extension — propose a new theorem awaiting formalization) UNLESS the paper is pristine on those axes, in which case explain why in `notes`.
+Pick **exactly 1 primary review target** for P<ROUND_NUM>: the hardest feasible candidate from the candidate pool, not the first easy target found. Emit more than one target only when the selected content-bearing target requires a split to stay under the line cap; in that case, the split is an implementation detail of the same substantive target, not a separate target. Empty rounds are better than low-confidence rounds.
+
+At least one emitted target MUST advance the OPEN phase from the roadmap (record its `roadmap_phase` field in the JSON) unless the only valid high-quality target is a discipline/structural safety fix. If you emit multiple targets, prefer one from {1, 5, 6} (theory tightening) and one of category 9 (`theory_extension`) only when the extension meets the quality score gate. Do not force a `theory_extension` when the precise statement or proof skeleton is weak.
 
 For each target, you MUST be able to point to:
 - The exact paper file(s) involved.
@@ -103,10 +140,33 @@ Output a single fenced JSON block:
 
 ```json
 {
-  "targets": [
+  "candidate_pool": [
     {
+      "candidate_id": "C1",
       "kind": "logical_gap | notation_inconsistency | dead_material | missing_companion | unclear_statement | stronger_available | structural | theory_extension",
       "paper_files": ["papers/bedc/parts/core/05_xxx.tex"],
+      "anchor": "thm:concrete-name | def:concrete-name | the line near `\\begin{theorem}[Title]`",
+      "summary": "One-sentence summary of the candidate.",
+      "difficulty": "low | medium | high",
+      "quality_score": {
+        "novelty": 0,
+        "theory_value": 0,
+        "verifiability": 0,
+        "locality": 0,
+        "line_cap_safety": 0,
+        "downstream_use": 0
+      },
+      "feasible": true,
+      "rejected_reason": "",
+      "selection_rank": 1
+    }
+  ],
+  "targets": [
+    {
+      "candidate_id": "C1",
+      "kind": "logical_gap | notation_inconsistency | dead_material | missing_companion | unclear_statement | stronger_available | structural | theory_extension",
+      "paper_files": ["papers/bedc/parts/core/05_xxx.tex"],
+      "new_files": ["(optional; only when the substantive target requires a line-cap split) papers/bedc/parts/<theme>/<subdir>/<child>.tex"],
       "section_label": "sec:core-some-concept",
       "anchor": "thm:concrete-name | def:concrete-name | the line near `\\begin{theorem}[Title]`",
       "summary": "One-sentence summary of the problem.",
@@ -117,16 +177,29 @@ Output a single fenced JSON block:
       "difficulty": "low | medium | high",
       "chapter": "core | proof_obligations | concrete_instances | concrete_hardening | hardening | formalization | proof_sprint | proof_standing | project_governance | appendices",
       "roadmap_phase": "(name of the roadmap phase this target advances, or 'discipline' if it enforces a Section-roadmap-off-the-table claim, or 'maintenance' if it is a pure discipline hygiene fix outside any phase)",
+      "quality_score": {
+        "novelty": 0,
+        "theory_value": 0,
+        "verifiability": 0,
+        "locality": 0,
+        "line_cap_safety": 0,
+        "downstream_use": 0
+      },
       "discovery_confirmed": true
     }
   ],
-  "notes": "(optional) Anything the revise phase should know that does not fit a per-target field."
+  "notes": "State that targets[0].candidate_id is candidate_pool selection_rank=1, how many candidates were considered, and why no harder feasible candidate was selected."
 }
 ```
 
 Field requirements:
-- `paper_files` lists EXACTLY the .tex file(s) the revise phase must edit. Do not list main.tex unless main.tex itself is what changes.
-- `proposed_change` must be precise enough that the next phase can act without re-reading the entire chapter. Include line context, surrounding sentences, label names.
+- `candidate_pool` is mandatory and must contain at least 3 candidates unless fewer than 3 valid candidates exist; in that case explain the shortage in `notes`.
+- `targets[0].candidate_id` must match the `candidate_pool` entry with `selection_rank = 1` and `feasible = true`.
+- Every feasible `medium` or `high` candidate ranked below a selected `low` candidate must have a concrete `rejected_reason`; otherwise the output is invalid.
+- `paper_files` lists EXACTLY the existing .tex file(s) the revise phase must edit. Do not list main.tex unless main.tex itself is what changes.
+- `new_files` is present only when the substantive target requires a line-cap split; these paths must live under an existing `papers/bedc/parts/<theme>/` directory, and the parent file must become a pure index containing only ordered `\input` lines.
+- `proposed_change` must be precise enough that the next phase can act without re-reading the entire chapter. Include line context, surrounding sentences, label names, and, when a line-cap split is needed, the exact block boundary to move plus the pure parent-index `\input` lines to leave behind.
+- `quality_score` must total at least 9, with nonzero `verifiability`, `line_cap_safety`, and `downstream_use`.
 - `discovery_confirmed` must be `true`, meaning you ran the grep / file inspection and the issue is real (not hallucinated from memory of an old draft).
 - Do NOT propose targets that contradict the HARD constraints above.
 - Do NOT propose targets that consist only of adding `\leanvariant` markers; variants are preserved as-is and not added by automated rounds.

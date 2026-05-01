@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\SumUp\)}
 \label{ch:concrete-instances-sum-namecert}
 
-The disjoint sum interface \(\SumUp\) is licensed over two source carriers each endowed with a \(\NameCert\). The carrier is the inductive sum with left and right constructors wrapping a witness of either source; the classifier is the constructor-discriminating relation that within each constructor falls back to the corresponding source classifier. It is not a primitive coproduct; it is licensed only as a derived constructor over the two sources.
+The disjoint sum interface \(\SumUp\) is licensed over two source carriers each endowed with a \(\NameCert\). The carrier is the inductive sum with left and right constructors wrapping source-carrier evidence. The classifier is the constructor-discriminating payload relation: it stores visible tag endpoints together with the matching source classifier witness, while actual source membership remains in $\mathsf{SumHistoryCarrier}$ and is the evidence used by the semantic certificate. It is not a primitive coproduct; it is licensed only as a derived constructor over the two sources.
 
 \section{Roadmap template status}
 
@@ -9,13 +9,13 @@ The disjoint sum interface \(\SumUp\) is licensed over two source carriers each 
   \item \textbf{Traditional target}: disjoint sum data with left and right tagged injections.
   \item \textbf{BEDC source}: two licensed source carriers $A$ and $B$, each with its own name certificate.
   \item \textbf{Carrier choice}: tagged left carriers use $e0$ histories and tagged right carriers use $e1$ histories.
-  \item \textbf{Classifier choice}: the sum classifier relates left tags through the $A$ classifier, right tags through the $B$ classifier, and excludes mixed tags.
-  \item \textbf{Stability obligations}: tagged carrier transport, left/right inversion, mixed-tag exclusion, classifier symmetry, classifier transitivity, and endpoint transport.
+  \item \textbf{Classifier choice}: the sum classifier stores tag endpoints plus the matching $A$ or $B$ classifier witness, and excludes mixed tags; source-carrier evidence is supplied by $\mathsf{SumHistoryCarrier}$.
+  \item \textbf{Stability obligations}: tagged carrier transport, source-certified classifier-induced carrier transport, left/right inversion, mixed-tag exclusion, classifier symmetry, classifier transitivity, and endpoint transport.
   \item \textbf{Ledger}: the tag is visible data; payload evidence is retained from the corresponding source certificate.
-  \item \textbf{Core theorem list}: tagged injections, carrier transport, left and right inversions, classifier inversion, mixed-tag exclusion, and the semantic name certificate.
-  \item \textbf{Exactness predicate}: classification holds exactly for same-tag payloads classified by the matching source classifier.
+  \item \textbf{Core theorem list}: tagged injections, $\hsame$ carrier transport, source-certified classifier-induced carrier transport, left and right inversions, classifier inversion, source-parameter irrelevance of the classifier, generic same-tag exactness, carrier-aware same-tag exactness, mixed-tag exclusion, and the semantic name certificate.
+  \item \textbf{Exactness predicate}: the left-tag and right-tag iff clauses identify classifier-only payload witnesses and the matching source classifier, while carrier-aware exactness combines $\mathsf{SumHistoryCarrier}$ with explicit carrier transport along $\hsame$.
   \item \textbf{Standard bridge}: tagged histories read back as ordinary $\mathsf{inl}(a)$ and $\mathsf{inr}(b)$ values.
-  \item \textbf{Status}: $\mathsf{CheckedCert}$, with the sum history semantic certificate checked in Lean.
+  \item \textbf{Status}: the $\mathsf{SemanticNameCert}$ at Theorem~\ref{thm:concrete-sum-namecert} is $\mathsf{CheckedCert}$; Theorem~\ref{thm:sum-history-classifier-source-same-tag-exactness} is the paper-side matching-source formulation, and Theorem~\ref{thm:sum-history-classifier-generic-same-tag-exactness} records the witness-level same-tag formulation.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -35,6 +35,21 @@ If $h$ and $k$ are internally the same BEDC histories, then membership of $h$ in
 Invert the sum carrier witness. In the left-tag case, compose symmetry of the given $\hsame(h,k)$ witness with the stored $\hsame(h,e0(l))$ tag witness, and keep the same left source-carrier proof. The right-tag case is identical with $e1(r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_hsame\_transport}
+
+\begin{theorem}[Sum history carrier branch exclusivity]
+\label{thm:sum-history-carrier-branch-exclusivity}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, no BEDC history $h$ has both a left carrier presentation and a right carrier presentation:
+$$
+\neg\Bigl(
+(\exists l:\mathsf{BHist}.\; \hsame(h,\Ezero(l))\land Left(l))
+\land
+(\exists r:\mathsf{BHist}.\; \hsame(h,\Eone(r))\land Right(r))
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume both presentations. The left witness gives $\hsame(h,\Ezero(l))$, and the right witness gives $\hsame(h,\Eone(r))$. Compose the symmetry of the left endpoint witness with the right endpoint witness to obtain $\hsame(\Ezero(l),\Eone(r))$, then close by BEDC $e0/e1$ no-confusion.
+\end{proof}
 
 \begin{theorem}[Sum history left-tag inversion]
 \label{thm:sum-history-carrier-left-tag-inversion}
@@ -62,6 +77,32 @@ stored right carrier proof.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryCarrier\_e1\_inversion}
 
+\begin{theorem}[Sum history carrier visible-tag exactness]
+\label{thm:sum-history-carrier-visible-tag-exactness}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, the visible
+tags of the tagged sum-history carrier are exactly the corresponding source
+carrier payloads:
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(l))
+\Longleftrightarrow
+\exists a:\mathsf{BHist}.\; Left(a)\land \hsame(l,a),
+$$
+and
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,\Eone(r))
+\Longleftrightarrow
+\exists b:\mathsf{BHist}.\; Right(b)\land \hsame(r,b).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implications, apply the checked left-tag and right-tag inversion
+theorems to the carrier witness. For the reverse implications, start from the
+payload witness, use the checked tagged-injection constructor for the matching
+branch, convert the payload endpoint by constructor congruence for $\hsame$,
+and transport carrier membership along the resulting history sameness by
+$\mathsf{SumHistoryCarrier\_hsame\_transport}$.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Sum source specification]
@@ -77,11 +118,52 @@ The pattern is left-or-right injection from the corresponding source witness.
 
 \begin{definition}[Sum classifier specification]
 \label{def:sum-classifier-specification}
-The classifier relates left values through the \(A\)-classifier, right values through the \(B\)-classifier, and never relates opposite constructors.
+The classifier records left-tag endpoint payloads through the \(A\)-classifier and right-tag endpoint payloads through the \(B\)-classifier, and never relates opposite constructors. Source membership is carried by $\mathsf{SumHistoryCarrier}$ rather than by this classifier relation.
 \end{definition}
 \leandef{BEDC.Derived.SumUp.SumHistoryClassifier}
 \leandef{BEDC.Derived.SumUp.SumClassifierSpec}
 \leanchecked{BEDC.Derived.SumUp.sum\_classifier\_inversion}
+
+\begin{theorem}[Sum classifier does not carry source membership]
+\label{thm:sum-classifier-no-source-membership}
+Let $\mathsf{FalseCarrier}(h)$ mean $\mathsf{False}$ for every BEDC history $h$. Then
+$$
+\mathsf{SumHistoryClassifier}(\mathsf{FalseCarrier},\mathsf{FalseCarrier},\hsame,\hsame,\Ezero(\emp),\Ezero(\emp))
+$$
+holds, while
+$$
+\neg \mathsf{SumHistoryCarrier}(\mathsf{FalseCarrier},\mathsf{FalseCarrier},\Ezero(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Build the classifier by the left-tag branch, using $\emp$ as both stored left payloads, reflexivity of $\hsame$ for the two visible $\Ezero(\emp)$ endpoints, and reflexivity of $\hsame$ for the payload relation. A carrier witness for $\Ezero(\emp)$ would be either a left branch with some payload satisfying $\mathsf{FalseCarrier}$ or a right branch with some payload satisfying $\mathsf{FalseCarrier}$. Both cases unfold to $\mathsf{False}$, so no carrier witness exists.
+\end{proof}
+
+\begin{theorem}[Sum history classifier source-parameter irrelevance]
+\label{thm:sum-history-classifier-source-parameter-irrelevance}
+For source carriers $Left,Right,LeftAlt,RightAlt:\mathsf{BHist}\to\mathsf{Prop}$,
+component classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+and histories $h,k:\mathsf{BHist}$,
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)
+\Longleftrightarrow
+\mathsf{SumHistoryClassifier}(LeftAlt,RightAlt,LeftEq,RightEq,h,k).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, case-analyze the classifier witness. In the
+left-tag branch, keep the same stored left payloads, endpoint tag witnesses,
+and $LeftEq$ witness, and build the left branch for the alternate source
+carriers. In the right-tag branch, keep the same stored right payloads,
+endpoint tag witnesses, and $RightEq$ witness, and build the right branch for
+the alternate source carriers. For the reverse direction, exchange the two
+source-carrier pairs and repeat the same branch analysis. No source-carrier
+proof occurs inside the classifier witness; those proofs belong to
+$\mathsf{SumHistoryCarrier}$ and to certificate transport.
+\end{proof}
+
+Mixed-tag classifier exclusion is recorded by
+Theorem~\ref{thm:sum-history-classifier-tag-separation}.
 
 \begin{theorem}[Sum history classifier left-tag inversion]
 \label{thm:sum-history-classifier-left-hsame-inversion}
@@ -111,6 +193,199 @@ witnesses and a stored component \(\hsame\) witness; constructor inversion for
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_right\_hsame\_inversion}
 
+The same-tag iff clauses below are classifier-only statements; carrier and ledger evidence are supplied separately by $\mathsf{SumHistoryCarrier}$ and the ledger policy.
+
+\begin{theorem}[Sum history classifier same-tag exactness]
+\label{thm:sum-history-classifier-same-tag-exactness}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, the history-level sum
+classifier with $\hsame$ on both components is exact on each visible tag:
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\Ezero(l),\Ezero(l'))
+\quad\Longleftrightarrow\quad
+\hsame(l,l')
+$$
+and
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\Eone(r),\Eone(r'))
+\quad\Longleftrightarrow\quad
+\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+For the forward directions, apply the left-tag and right-tag inversion
+theorems above. For the reverse directions, rebuild the matching classifier
+branch using the given payload $\hsame$ witness, the reflexive visible-tag
+witnesses for $\Ezero(l)$ and $\Ezero(l')$ or for $\Eone(r)$ and
+$\Eone(r')$, and the corresponding left or right classifier constructor.
+\end{proof}
+
+\begin{theorem}[Sum history classifier same-tag source exactness]
+\label{thm:sum-history-classifier-source-same-tag-exactness}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ and source classifiers
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$, suppose the source classifiers
+transport along endpoint history sameness:
+$$
+\forall l,l_0,l',l_0'.\;
+\hsame(l,l_0)\to\hsame(l',l_0')\to LeftEq(l_0,l_0')\to LeftEq(l,l')
+$$
+and
+$$
+\forall r,r_0,r',r_0'.\;
+\hsame(r,r_0)\to\hsame(r',r_0')\to RightEq(r_0,r_0')\to RightEq(r,r').
+$$
+Then the history-level sum classifier is exact for same-tag endpoints through
+the matching source classifier. This theorem is a classifier-only same-tag
+exactness statement; it returns the matching source classifier witness and does
+not assert $Left(l)$, $Left(l')$, $Right(r)$, or $Right(r')$:
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,\Ezero(l),\Ezero(l'))
+\quad\Longleftrightarrow\quad
+LeftEq(l,l')
+$$
+and
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,\Eone(r),\Eone(r'))
+\quad\Longleftrightarrow\quad
+RightEq(r,r').
+$$
+\end{theorem}
+\begin{proof}
+Invert the same-tag classifier witness. In the left-tag forward direction, the
+right branch is impossible by $e0/e1$ no-confusion. The left branch stores
+endpoint payloads $l_0,l_0'$ together with $LeftEq(l_0,l_0')$; constructor
+inversion for $e0$ yields $\hsame(l,l_0)$ and $\hsame(l',l_0')$, and the left
+transport hypothesis gives $LeftEq(l,l')$. The right-tag forward direction is
+identical using $e1$-constructor inversion and the right transport hypothesis.
+For the reverse directions, use the visible endpoints as the stored payloads,
+the reflexive tag witnesses for $\Ezero$ or $\Eone$, and the supplied matching
+source-classifier witness to rebuild the corresponding classifier branch.
+\end{proof}
+
+\begin{theorem}[Sum history classifier hsame same-tag carrier exactness]
+\label{thm:sum-history-classifier-hsame-same-tag-carrier-exactness}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, the $\hsame$-specialized
+history-level sum classifier is exact for same-tag endpoints together with the
+matching source-carrier evidence:
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(l))
+\land
+\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(l'))
+\land
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\Ezero(l),\Ezero(l'))
+\quad\Longleftrightarrow\quad
+\exists a,a'.\; Left(a)\land Left(a')\land \hsame(l,a)\land \hsame(l',a')\land \hsame(a,a')
+$$
+and
+$$
+\mathsf{SumHistoryCarrier}(Left,Right,\Eone(r))
+\land
+\mathsf{SumHistoryCarrier}(Left,Right,\Eone(r'))
+\land
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\Eone(r),\Eone(r'))
+\quad\Longleftrightarrow\quad
+\exists b,b'.\; Right(b)\land Right(b')\land \hsame(r,b)\land \hsame(r',b')\land \hsame(b,b').
+$$
+Its roadmap-template role is: traditional target disjoint-sum same-tag payload
+exactness; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{SumHistoryCarrier}$; classifier the $\hsame$ specialization of
+$\mathsf{SumHistoryClassifier}$; ledger visible tag plus payload carrier
+witnesses; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward left-tag direction, apply the two $\Ezero$ carrier inversions to
+obtain payload witnesses $a,a'$ with $Left(a)$, $Left(a')$, $\hsame(l,a)$, and
+$\hsame(l',a')$. Apply the left $\hsame$ classifier inversion to the same-tag
+classifier witness to obtain $\hsame(l,l')$. Symmetry and transitivity of
+$\hsame$ compose the displayed endpoint links with $\hsame(l,l')$ to derive
+$\hsame(a,a')$. The right-tag direction is identical using the two $\Eone$
+carrier inversions and the right $\hsame$ classifier inversion. For the reverse
+left-tag direction, the displayed witnesses rebuild the two left carrier
+branches and the left classifier branch. The reverse right-tag direction
+rebuilds the two right carrier branches and the right classifier branch.
+\end{proof}
+
+\begin{theorem}[Sum history classifier generic same-tag exactness]
+\label{thm:sum-history-classifier-generic-same-tag-exactness}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ and source classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$, the history-level sum classifier is exact on each visible tag:
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,\Ezero(l),\Ezero(l'))
+\quad\Longleftrightarrow\quad
+\exists a,a'.\;\hsame(l,a)\wedge\hsame(l',a')\wedge LeftEq(a,a')
+$$
+and
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,\Eone(r),\Eone(r'))
+\quad\Longleftrightarrow\quad
+\exists b,b'.\;\hsame(r,b)\wedge\hsame(r',b')\wedge RightEq(b,b').
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{SumHistoryClassifier}$. In the left-tag forward direction, the left branch already stores payload witnesses for the two endpoints together with a $LeftEq$ witness; the opposite right branch is impossible by $e0/e1$ no-confusion, and $e0$-constructor inversion identifies the visible endpoints with the stored payload tags. The right-tag forward direction is identical with $e1$-constructor inversion and $RightEq$. For the reverse directions, the displayed payload witnesses rebuild the matching left or right classifier branch by constructor congruence for $e0$ or $e1$, together with the stored source-classifier witness. The surviving branch is constructor-stable, and the impossible branch is discharged by the same tag no-confusion principle.
+\end{proof}
+
+\begin{theorem}[Sum history classifier carrier-aware same-tag exactness]
+\label{thm:sum-history-classifier-carrier-aware-same-tag-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume the two carriers transport along $\hsame$:
+$$
+\forall x\,y.\; Left(x)\to \hsame(x,y)\to Left(y)
+$$
+and
+$$
+\forall x\,y.\; Right(x)\to \hsame(x,y)\to Right(y).
+$$
+Then the visible same-tag carrier and classifier evidence is exact for the
+matching source payloads:
+$$
+\begin{array}{l}
+\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(l))
+\land
+\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(l'))
+\land
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,\Ezero(l),\Ezero(l'))
+\end{array}
+\quad\Longleftrightarrow\quad
+\exists a,a'.\; Left(a)\land Left(a')\land \hsame(l,a)\land \hsame(l',a')\land LeftEq(a,a')
+$$
+and
+$$
+\begin{array}{l}
+\mathsf{SumHistoryCarrier}(Left,Right,\Eone(r))
+\land
+\mathsf{SumHistoryCarrier}(Left,Right,\Eone(r'))
+\land
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,\Eone(r),\Eone(r'))
+\end{array}
+\quad\Longleftrightarrow\quad
+\exists b,b'.\; Right(b)\land Right(b')\land \hsame(r,b)\land \hsame(r',b')\land RightEq(b,b').
+$$
+Its roadmap-template role is: traditional target disjoint-sum same-tag payload
+exactness; BEDC source $\mathsf{BHist}$ with $\mathsf{SumHistoryCarrier}$ and
+carrier transport along $\hsame$; carrier the tagged sum carrier; classifier
+$\mathsf{SumHistoryClassifier}$; ledger visible tag plus payload evidence;
+exactness the displayed iff clauses; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward left-tag direction, invert the two displayed carrier witnesses
+to obtain payloads $c,c'$ with $Left(c)$ and $Left(c')$ plus $\hsame(l,c)$ and
+$\hsame(l',c')$. Apply
+Theorem~\ref{thm:sum-history-classifier-generic-same-tag-exactness} to the
+classifier premise to obtain payloads $a,a'$ with $\hsame(l,a)$,
+$\hsame(l',a')$, and $LeftEq(a,a')$. Symmetry and transitivity of $\hsame$
+align $c$ with $a$ and $c'$ with $a'$. Apply the explicit left
+carrier-transport field to $Left(c)$ and $\hsame(c,a)$, and to $Left(c')$ and
+$\hsame(c',a')$. This gives the displayed left payload witnesses. The forward
+right-tag direction is the same argument with $\Eone$, $Right$, $RightEq$, and
+the explicit right carrier-transport field applied in the same order. For the
+reverse directions, the displayed payload witnesses rebuild the two tagged
+carrier premises and the matching classifier branch by the generic same-tag
+exactness theorem, using the visible tag constructors to supply the endpoint
+evidence.
+\end{proof}
+
+\input{parts/concrete_instances/10_sum_carrier_aware_branch_partition.tex}
+
 \begin{theorem}[Sum history classifier symmetry under history sameness]
 \label{thm:sum-history-classifier-hsame-symmetry}
 When both component classifiers are \(\hsame\), the history-level sum classifier is symmetric.
@@ -134,85 +409,214 @@ witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_hsame\_transport}
 
-\begin{theorem}[Sum history classifier tag separation]
-\label{thm:sum-history-classifier-tag-separation}
-If \(h\) is \(e0\)-tagged and \(k\) is \(e1\)-tagged, then the
-history-level \(\SumUp\) classifier cannot relate \(h\) to \(k\).
+\begin{theorem}[Sum history classifier source-certified carrier transport]
+\label{thm:sum-history-classifier-carrier-transport-from-namecert}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume source certificates $\NameCert(Left,LeftEq)$ and
+$\NameCert(Right,RightEq)$. If
+$\mathsf{SumHistoryCarrier}(Left,Right,h)$ and
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)$ hold, then
+$\mathsf{SumHistoryCarrier}(Left,Right,k)$ holds.
 \end{theorem}
 \begin{proof}
-Invert the classifier witness. In the left branch \(k\) is also
-\(e0\)-tagged, contradicting its \(e1\)-tag witness. In the right branch
-\(h\) is \(e1\)-tagged, contradicting its \(e0\)-tag witness.
+Case-analyze the displayed carrier witness and the tagged classifier witness.
+Mixed source tags are impossible by BEDC $e0/e1$ no-confusion. In the left-left
+case, let $c$ be the payload supplied by the carrier witness, and let $a,a'$ be
+the source payloads supplied by the classifier witness. The carrier branch stores
+$\hsame(h,\Ezero(c))$ and $Left(c)$, while the classifier branch stores
+$\hsame(h,\Ezero(a))$, $\hsame(k,\Ezero(a'))$, and $LeftEq(a,a')$.
+Composing the symmetric carrier endpoint witness with the classifier endpoint
+witness gives $\hsame(\Ezero(c),\Ezero(a))$; $e0$ constructor inversion gives
+$\hsame(c,a)$. The only source-carrier rewrite in this proof is the checked
+finite-kernel history-sameness identity target
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ recorded at
+Definition~\ref{def:history-sameness}; it turns the payload witness into kernel
+equality and transports $Left(c)$ to $Left(a)$. After that kernel transport,
+$\mathsf{NameCert.carrier\_respects\_equiv}$ applies from the left source
+certificate along the displayed source classifier $LeftEq(a,a')$ to obtain
+$Left(a')$, before rebuilding the target left tagged carrier using the stored
+endpoint witness $\hsame(k,\Ezero(a'))$. The right-right case is identical with
+payloads aligned through $e1$ constructor inversion and the right source
+certificate applied along the displayed source classifier $RightEq$.
+\end{proof}
+
+\begin{theorem}[Sum history classifier source-certified symmetry]
+\label{thm:sum-history-classifier-symm-from-namecert}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume source certificates $\NameCert(Left,LeftEq)$ and
+$\NameCert(Right,RightEq)$. If
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)$ holds, then
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,k,h)$ holds.
+\end{theorem}
+\begin{proof}
+Invert the tagged classifier witness. In the left branch, swap the two visible
+$e0$ endpoint witnesses and apply the left source certificate field
+$\mathsf{equiv\_symm}$ to the stored $LeftEq$ witness. In the right branch,
+swap the two visible $e1$ endpoint witnesses and apply the right source
+certificate field $\mathsf{equiv\_symm}$ to the stored $RightEq$ witness.
+\end{proof}
+
+\begin{theorem}[Sum history classifier tag separation]
+\label{thm:sum-history-classifier-tag-separation}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and let $h,k,l,r:\mathsf{BHist}$. Then
+$$
+\hsame(h,\Ezero(l))\to
+\hsame(k,\Eone(r))\to
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Invert the classifier witness. In the left branch $k$ is also
+$\Ezero$-tagged, contradicting the displayed $\Eone$ endpoint witness. In the
+right branch $h$ is $\Eone$-tagged, contradicting the displayed $\Ezero$
+endpoint witness.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_mixed\_tags\_absurd}
 
-\begin{theorem}[Sum history classifier transitivity]
-\label{thm:sum-history-classifier-transitivity}
-If the left and right source classifiers are transitive, then the
-history-level \(\SumUp\) classifier is transitive.
+\begin{theorem}[Sum history classifier reverse tag separation]
+\label{thm:sum-history-classifier-reverse-tag-separation}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and let $h,k,l,r:\mathsf{BHist}$. Then
+$$
+\hsame(h,\Eone(r))\to
+\hsame(k,\Ezero(l))\to
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to
+\bot.
+$$
 \end{theorem}
 \begin{proof}
-Invert both classifier witnesses. Matching left--left and right--right branches
-identify the shared tagged middle history by BEDC constructor inversion and
-compose the corresponding source-classifier witnesses. Mixed branches
-contradict the \(e0/e1\) no-confusion rule.
+Invert the classifier witness. In the left branch, the classifier forces $h$
+to be $\Ezero$-tagged, contradicting the displayed $\Eone$ endpoint witness by
+$\Ezero/\Eone$ no-confusion. In the right branch, the classifier forces $k$ to
+be $\Eone$-tagged, contradicting the displayed $\Ezero$ endpoint witness by
+$\Ezero/\Eone$ no-confusion.
+\end{proof}
+
+\begin{theorem}[Sum history classifier transitivity]
+\label{thm:sum-history-classifier-transitivity}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and let $h,k,u:\mathsf{BHist}$. Assume
+$$
+\forall a\,b\,c:\mathsf{BHist}.\; LeftEq(a,b)\to LeftEq(b,c)\to LeftEq(a,c)
+$$
+and
+$$
+\forall a\,b\,c:\mathsf{BHist}.\; RightEq(a,b)\to RightEq(b,c)\to RightEq(a,c).
+$$
+Then
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,k,u)\to
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,u).
+$$
+\end{theorem}
+\begin{proof}
+Invert both classifier witnesses. Matching left--left and right--right branches identify the shared tagged middle history by BEDC constructor inversion and compose the corresponding source-classifier witnesses. Mixed branches contradict the $e0/e1$ no-confusion rule.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_trans}
 
+\begin{theorem}[Sum history classifier source-certified stability fields]
+\label{thm:sum-history-classifier-source-certified-stability-fields}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume source certificates $\NameCert(Left,LeftEq)$ and
+$\NameCert(Right,RightEq)$. For the carrier
+$\mathsf{SumHistoryCarrier}(Left,Right)$ and classifier
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq)$, the following
+stability fields hold:
+\begin{enumerate}
+  \item carrier-relative reflexivity:
+  $$
+  \begin{array}{l}
+  \forall h.\;\mathsf{SumHistoryCarrier}(Left,Right,h)\to\\
+  \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,h);
+  \end{array}
+  $$
+  \item source-certified symmetry:
+  $$
+  \begin{array}{l}
+  \forall h\,k.\;\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to\\
+  \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,k,h);
+  \end{array}
+  $$
+  \item source-certified transitivity:
+  $$
+  \begin{array}{l}
+  \forall h\,k\,u.\;\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to\\
+  \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,k,u)\to\\
+  \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,u);
+  \end{array}
+  $$
+  \item classifier-induced carrier transport:
+  $$
+  \begin{array}{l}
+  \forall h\,k.\;\mathsf{SumHistoryCarrier}(Left,Right,h)\to\\
+  \mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to\\
+  \mathsf{SumHistoryCarrier}(Left,Right,k).
+  \end{array}
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For reflexivity, invert the displayed sum carrier witness. In the left branch,
+use the left source certificate reflexivity field on the source payload and
+rebuild the $e0$-tagged classifier witness with the same endpoint evidence; the
+right branch is the same with the right source certificate and $e1$ tag. The
+symmetry field is Theorem~\ref{thm:sum-history-classifier-symm-from-namecert}.
+The transitivity field is Theorem~\ref{thm:sum-history-classifier-transitivity}
+applied with the transitivity fields of the two source certificates. The
+carrier transport field is
+Theorem~\ref{thm:sum-history-classifier-carrier-transport-from-namecert}.
+\end{proof}
+
 \begin{definition}[Sum stability certificate]
 \label{def:sum-stability-certificate}
-The stability certificate consists of:
+The displayed checked theorem records the typed structural stability
+subcertificate:
 \begin{enumerate}
-  \item lifted reflexivity on left and right constructors
-  \item lifted transitivity within each constructor
-  \item constructor separation between left and right
-  \item closure under both injections
+  \item $\mathsf{inl}$ and $\mathsf{inr}$ reflexivity
+  \item typed classifier transitivity
+  \item mixed $\mathsf{inl}/\mathsf{inr}$ separation in both directions
 \end{enumerate}
+Carrier transport, endpoint transport, and history-level transitivity are
+supplied by Theorems~\ref{thm:sum-history-carrier-hsame-transport},
+\ref{thm:sum-history-classifier-hsame-transport}, and
+\ref{thm:sum-history-classifier-transitivity}. Theorem~\ref{thm:sum-history-classifier-hsame-symmetry}
+is the $\hsame$ specialization of classifier symmetry. For the arbitrary source
+classifiers used by the concrete semantic certificate,
+Theorem~\ref{thm:sum-history-classifier-source-certified-stability-fields}
+packages carrier-relative reflexivity, symmetry, transitivity, and
+classifier-induced carrier transport from the two source certificates.
+For the arbitrary source classifiers used by Theorem~\ref{thm:concrete-sum-namecert},
+Theorem~\ref{thm:sum-history-carrier-hsame-transport} transports only a
+displayed carrier witness along $\hsame$.
 \end{definition}
 \leanchecked{BEDC.Derived.SumUp.sum\_stability\_certificate\_fields}
+
+\begin{theorem}[Sum classifier transitivity at the typed level]
+\label{thm:sum-classifier-transitivity}
+Let $R_A : A \to A \to \mathsf{Prop}$ and
+$R_B : B \to B \to \mathsf{Prop}$ be source classifier relations.  If both
+$R_A$ and $R_B$ are transitive, then for sum carriers $x$, $y$, and $z$,
+$$
+  \mathsf{SumClassifierSpec}(R_A,R_B,x,y)
+  \quad\text{and}\quad
+  \mathsf{SumClassifierSpec}(R_A,R_B,y,z)
+$$
+imply $\mathsf{SumClassifierSpec}(R_A,R_B,x,z)$.
+\end{theorem}
 \leanchecked{BEDC.Derived.SumUp.SumClassifierSpec\_trans}
-
-\begin{definition}[Sum ledger policy]
-\label{def:sum-ledger-policy}
-Record a raw sum history carrying the selected injection tag and source ledger
-together with an \(\hsame\) link to the visible history exposed by the ledger.
-\end{definition}
-\leandef{BEDC.Derived.SumUp.SumHistoryLedgerPolicy}
-
-\begin{theorem}[Sum ledger visible carrier]
-\label{thm:sum-ledger-visible-carrier}
-If a visible history is linked by \(\hsame\) to a raw sum-ledger history, then
-the visible history is itself a sum carrier.
-\end{theorem}
 \begin{proof}
-Unpack the raw sum carrier and transport it across the stored \(\hsame\) link
-by sum-carrier transport.
+Invert the sum classifier witnesses by their constructors. Matching left and
+right branches compose through the corresponding source transitivity assumption,
+while mixed tags are impossible by the classifier clauses.
 \end{proof}
-\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_visible\_carrier}
 
-\begin{theorem}[Sum ledger raw-visible classifier]
-\label{thm:sum-ledger-raw-visible-classifier}
-If $\mathsf{SumHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then
-$\mathsf{SumHistoryClassifier}(L,R,\hsame,\hsame,\rho,v)$ holds.
-\end{theorem}
-\begin{proof}
-Unpack the ledger into its raw sum carrier and the stored $\hsame(\rho,v)$
-link. The raw carrier determines whether $\rho$ is left-tagged or right-tagged;
-transport the tag witness across the stored link and use reflexivity of
-$\hsame$ on the selected component to build the matching classifier branch.
-\end{proof}
-\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_raw\_visible\_classifier}
-
-\begin{theorem}[Concrete \(\SumUp\) licensing data]
-\label{thm:concrete-sum-namecert}
-The displayed carrier, classifier, stability certificate, and ledger policy are the \(\SumUp(A,B)\) licensing data. The checked Lean coverage in this chapter is the carrier, classifier, and stability layer recorded above.
-\end{theorem}
-\begin{proof}
-The carrier is represented by \(e0\)-tagged left histories and \(e1\)-tagged right histories. The classifier delegates within matching tags to the corresponding source certificate. Reflexivity, symmetry, transitivity, and carrier transport follow from the source \(\NameCert\) fields, while the mixed-tag cases are excluded by BEDC history constructor separation.
-\end{proof}
-\leanchecked{BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate}
-
-\begin{corollary}[\(\SumUp\) is licensed, not primitive]
-\label{cor:sum-licensed-not-primitive}
-\(\SumUp\) is licensed as a derived disjoint sum, not as a primitive coproduct.
-\end{corollary}
+\input{parts/concrete_instances/sum/ledger_and_semantic_certificate.tex}
