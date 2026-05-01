@@ -68,3 +68,63 @@ $\mathsf{ListSpineRepCoherent}_{B,\sim}$ applied to those two transported
 presentations yields $\mathsf{ListClassifierSpec}(\sim,xs,ys)$, which is exactly
 the coherence datum required for $\mathsf{ListSpineRepCoherent}_{A,\sim}$.
 \end{proof}
+
+\begin{theorem}[Source-parametric list classifier reverse equivalence]
+\label{thm:list-classifier-reverse-source-equivalence}
+For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
+spines $xs,ys:\mathsf{ListCarrier}(A)$, the ten-field fit is: traditional
+target finite-list reverse comparison; BEDC source carried by the source entries
+of the finite spine; carrier $\mathsf{ListCarrier}(A)$; classifier
+$\mathsf{ListClassifierSpec}(sameA)$; stability reverse of finite spines;
+ledger finite spine; core theorem source-parametric reverse equivalence;
+exactness inherited from structural nil/cons classification; standard bridge
+finite-spine readback; status $\mathsf{ProofTarget}$. Structural classification
+is equivalent before and after reversing both spines:
+$$
+\mathsf{ListClassifierSpec}(sameA,xs,ys)
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(sameA,\mathsf{reverse}(xs),\mathsf{reverse}(ys)).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is Theorem~\ref{thm:list-classifier-reverse-source-relation}
+with source type $A$ and relation $sameA$. For the reverse implication, apply
+the same theorem to the classified reversed spines, obtaining a classifier on
+$\mathsf{reverse}(\mathsf{reverse}(xs))$ and
+$\mathsf{reverse}(\mathsf{reverse}(ys))$. Prove finite-spine reverse
+involutivity by induction on each spine, using the nil and cons clauses of
+reverse and append, then transport the resulting classifier back to
+$\mathsf{ListClassifierSpec}(sameA,xs,ys)$.
+\end{proof}
+
+\begin{theorem}[Source-parametric classified list prefix cancellation]
+\label{thm:list-classifier-source-append-left-cancel-classified}
+For any source type $A$, relation $sameA:A\to A\to\mathsf{Prop}$, and finite
+spines $p,p',x,y:\mathsf{ListCarrier}(A)$, the ten-field fit is: traditional
+target finite-list prefix cancellation; BEDC source carried by the source
+entries of the finite spine; carrier $\mathsf{ListCarrier}(A)$; classifier
+$\mathsf{ListClassifierSpec}(sameA)$; stability append under classified
+prefixes; ledger finite spine; core theorem classified left prefix
+cancellation; exactness inherited from structural nil/cons classification;
+standard bridge finite-spine readback; status $\mathsf{ProofTarget}$. If
+$$
+\mathsf{ListClassifierSpec}(sameA,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(sameA,p{++}x,p'{++}y)
+$$
+hold, then
+$$
+\mathsf{ListClassifierSpec}(sameA,x,y)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Induct on the prefix classifier witness
+$\mathsf{ListClassifierSpec}(sameA,p,p')$. In the nil case, both prefixes are
+empty and the appended classifier is already the required classifier on $x$ and
+$y$. In the cons case, invert the appended classifier at the exposed cons heads;
+its tail is a classifier for the two appended tails. Apply the induction
+hypothesis to the tail prefix classifier and that tail-appended classifier.
+\end{proof}
