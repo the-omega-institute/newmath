@@ -125,4 +125,14 @@ theorem RatHistoryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist}
   · intro classified
     exact RatHistoryLedgerPolicy_classifier_extension ledger classified
 
+theorem RatHistoryLedgerPolicy_visible_positive_denominator_readback
+    {raw visible tail : BHist} :
+    RatHistoryLedgerPolicy raw visible → hsame visible (BHist.e1 tail) → UnaryHistory tail := by
+  intro ledger sameVisible
+  have visibleCarrier : RatHistoryCarrier visible :=
+    RatHistoryLedgerPolicy_visible_carrier ledger
+  have displayedCarrier : RatHistoryCarrier (BHist.e1 tail) :=
+    RatHistoryCarrier_hsame_transport sameVisible visibleCarrier
+  exact RatHistoryCarrier_e1_tail_unary_iff.mp displayedCarrier
+
 end BEDC.Derived.RatUp

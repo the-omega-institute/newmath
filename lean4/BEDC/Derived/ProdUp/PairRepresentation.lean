@@ -8,6 +8,13 @@ open BEDC.FKernel.Cont
 def ProdPairRep (Left Right : BHist → Prop) (h l r : BHist) : Prop :=
   Left l ∧ Right r ∧ Cont l r h
 
+def ProdPairRepCoherent (Left Right : BHist → Prop)
+    (LeftEq RightEq : BHist → BHist → Prop) : Prop :=
+  ∀ {h l r l' r' : BHist},
+    ProdPairRep Left Right h l r →
+      ProdPairRep Left Right h l' r' →
+        LeftEq l l' ∧ RightEq r r'
+
 theorem ProdHistoryClassifier_fixed_pair_determinism
     {Left Right : BHist → Prop} {h k l r : BHist} :
     Left l → Right r → Cont l r h → Cont l r k →
@@ -50,5 +57,16 @@ theorem ProdPairRep_fixed_endpoint_exactness {Left Right : BHist → Prop} {h k 
                         leftCarrier rightCarrier contH contK).left
   · intro sameHK
     exact ProdPairRep_hsame_transport repH sameHK
+
+theorem ProdPairRep_hsame_coherence {Left Right : BHist → Prop}
+    {LeftEq RightEq : BHist → BHist → Prop} {h k l r l' r' : BHist} :
+    ProdPairRepCoherent Left Right LeftEq RightEq →
+      ProdPairRep Left Right h l r →
+        ProdPairRep Left Right k l' r' →
+          hsame h k → LeftEq l l' ∧ RightEq r r' := by
+  intro coherent repH repK sameHK
+  have repKAtH : ProdPairRep Left Right h l' r' :=
+    ProdPairRep_hsame_transport repK (hsame_symm sameHK)
+  exact coherent repH repKAtH
 
 end BEDC.Derived.ProdUp

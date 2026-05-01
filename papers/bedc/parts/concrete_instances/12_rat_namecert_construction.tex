@@ -598,6 +598,18 @@ If a raw rational history satisfies the ledger policy for a visible history, the
 Unpack the ledger policy into a raw rational-history carrier and an $\hsame$ link from the raw history to the visible history. Transport the raw carrier across that link.
 \end{proof}
 
+\begin{theorem}[Rat ledger visible positive denominator readback]
+\label{thm:rat-ledger-visible-positive-denominator-readback}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds and
+$\hsame(v,\mathsf{e1}(t))$ holds, then $\mathsf{UnaryHistory}(t)$ holds.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_visible\_positive\_denominator\_readback}
+\begin{proof}
+The ledger visible-carrier theorem transports the raw rational-history carrier
+to $v$. Transport that carrier once more across $\hsame(v,\mathsf{e1}(t))$ and
+apply the one-extension rational-history carrier characterization.
+\end{proof}
+
 \begin{theorem}[Rat ledger history-sameness transport]
 \label{thm:rat-ledger-hsame-transport}
 If a rational ledger relates raw and visible histories, then transporting the
