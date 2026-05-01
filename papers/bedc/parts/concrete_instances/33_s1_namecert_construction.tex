@@ -104,6 +104,26 @@ unit-equation classifier and the BEDC continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_rational\_unit\_components}
 
+\begin{theorem}[SOne unit equation determinacy]
+\label{thm:s1-unit-equation-deterministic}
+For histories $x,y,e,p$, every concrete $\SOneUp$ history-carrier witness
+determines that its stored equation endpoint is the unit history:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\hsame(e,\mathsf{SOneUnitHistory}).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the $\mathsf{SOneHistoryCarrier}$ witness and keep the
+$\mathsf{RealConstantHistoryClassifier}(e,\mathsf{SOneUnitHistory})$ field.
+This classifier exposes rational tails for both endpoints. Its rational payload
+classifier identifies the tails, and constructor congruence lifts that equality
+through $\Eone$. Composing this equality with the stored endpoint presentations
+gives $\hsame(e,\mathsf{SOneUnitHistory})$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_unit\_equation\_deterministic}
+
 \begin{theorem}[SOne component classifier ledger determinacy]
 \label{thm:s1-component-classifier-ledger-determinacy}
 For histories $x,y,e,p,x',y',e',p'$, componentwise BEDC history

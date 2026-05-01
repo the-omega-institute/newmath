@@ -337,6 +337,37 @@ factorization of the chain into its two certified one-step modulus witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_factorizes}
 
+\begin{theorem}[Continuous modulus chain middle deterministic factorization]
+\label{thm:continuous-modulus-chain-middle-deterministic-factorization}
+For histories $s,\delta_1,\delta_2,t$, a continuous modulus chain determines a
+middle history $m$ such that the two one-step modulus witnesses factor the
+chain, and every other first-leg middle endpoint is the same BEDC history:
+$$
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t)
+\Longrightarrow
+\exists m.\;
+\mathsf{ContinuousModulusWitness}(s,\delta_1,m)\land
+\mathsf{ContinuousModulusWitness}(m,\delta_2,t)
+$$
+$$
+\land\;
+\forall m'.\;
+\ContR(s,\delta_1,m')\Longrightarrow
+\ContR(m',\delta_2,t)\Longrightarrow
+\hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the chain into unary data and a displayed middle history $m$ with
+continuation ledgers $s\cdot\delta_1=m$ and $m\cdot\delta_2=t$. As in
+Theorem~\ref{thm:continuous-modulus-chain-factorizes}, the first ledger gives
+the first witness and unary continuation closure supplies unary data for $m$,
+so the second ledger gives the second witness. If another $m'$ satisfies the
+same first continuation ledger, $\mathsf{Cont}$ determinacy for
+$s\cdot\delta_1$ yields $\hsame(m,m')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_middle\_deterministic\_factorization}
+
 \begin{theorem}[Continuous modulus chain composite closure]
 \label{thm:continuous-modulus-chain-composite-closed}
 For unary histories $s,\delta_1,\delta_2,t$, a two-link modulus chain from

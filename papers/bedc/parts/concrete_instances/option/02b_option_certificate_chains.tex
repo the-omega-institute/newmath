@@ -111,6 +111,31 @@ $\hsame(h,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_exclusive\_readback}
 
+\begin{theorem}[Nullable option classifier exclusive readback]
+\label{thm:option-history-classifier-exclusive-readback}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,k$, if $\mathsf{OptionSourceExcludesEmpty}(S)$ and
+$\mathsf{OptionHistoryClassifier}_S(h,k)$ hold, then either both endpoints are
+the empty option branch and neither endpoint lies in $S$,
+$$
+\hsame(h,\emp)\land\hsame(k,\emp)\land\neg S(h)\land\neg S(k),
+$$
+or both endpoints lie in the source branch, neither is empty, and the classifier
+keeps the endpoint equality:
+$$
+S(h)\land S(k)\land\neg\hsame(h,\emp)\land\neg\hsame(k,\emp)\land\hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the two endpoint carrier witnesses and the displayed
+$\hsame(h,k)$ equality. Apply Theorem~\ref{thm:option-history-carrier-exclusive-readback}
+to both endpoint carriers. The empty--empty and source--source cases give the
+two displayed alternatives. The mixed cases contradict
+$\mathsf{OptionSourceExcludesEmpty}(S)$ after transporting the empty readback
+across $\hsame(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_exclusive\_readback}
+
 \begin{theorem}[Nullable option classifier absent-source separation]
 \label{thm:option-history-classifier-absent-source-separation}
 For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if

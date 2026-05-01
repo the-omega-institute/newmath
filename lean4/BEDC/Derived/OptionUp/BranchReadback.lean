@@ -71,4 +71,39 @@ theorem TaggedOptionHistoryClassifier_exclusive_branch_readback {S : BHist → P
                                                       (hsame_symm sameKPresent)
                                                       sameKEmpty))))))))))
 
+theorem OptionHistoryClassifier_exclusive_readback {source : BHist -> Prop}
+    (sourceExcludesEmpty : OptionSourceExcludesEmpty source) {h k : BHist} :
+    OptionHistoryClassifier source h k ->
+      (hsame h BHist.Empty ∧ hsame k BHist.Empty ∧
+          (source h -> False) ∧ (source k -> False)) ∨
+        (source h ∧ source k ∧ (hsame h BHist.Empty -> False) ∧
+          (hsame k BHist.Empty -> False) ∧ hsame h k) := by
+  intro classifier
+  cases classifier with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          have readH := OptionHistoryCarrier_exclusive_readback sourceExcludesEmpty carrierH
+          have readK := OptionHistoryCarrier_exclusive_readback sourceExcludesEmpty carrierK
+          cases readH with
+          | inl absentH =>
+              cases readK with
+              | inl absentK =>
+                  exact Or.inl
+                    (And.intro absentH.left
+                      (And.intro absentK.left (And.intro absentH.right absentK.right)))
+              | inr presentK =>
+                  exact False.elim
+                    (presentK.right (hsame_trans (hsame_symm sameHK) absentH.left))
+          | inr presentH =>
+              cases readK with
+              | inl absentK =>
+                  exact False.elim (presentH.right (hsame_trans sameHK absentK.left))
+              | inr presentK =>
+                  exact Or.inr
+                    (And.intro presentH.left
+                      (And.intro presentK.left
+                        (And.intro presentH.right
+                          (And.intro presentK.right sameHK))))
+
 end BEDC.Derived.OptionUp
