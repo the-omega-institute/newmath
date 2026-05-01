@@ -120,3 +120,33 @@ transitivity field $\mathsf{cert.equiv\_trans}$, the compatibility hypothesis,
 and the source witnesses $S(a)$ and $S(b)$. The resulting visible present
 exactness is precisely $a\sim_S b$.
 \end{proof}
+
+\begin{theorem}[Tagged option history classifier branch partition]
+\label{thm:tagged-option-history-classifier-branch-partition}
+This theorem fits the per-object template as follows: the traditional target is
+tagged option classifier branch partition; the BEDC source is $\mathsf{BHist}$
+with $\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the
+classifier is $\mathsf{TaggedOptionHistoryClassifier}$; the ledger is the
+visible absent/present tag with present payload evidence; exactness is complete
+two-branch endpoint exposure; and the status is $\mathsf{ProofTarget}$. For
+every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source
+classifier $\sim_S$, histories $h,k$, and classifier witness
+$\gamma:\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$, the endpoints
+fall into one of the two tagged branches:
+$$
+\bigl(\hsame(h,\emp)\land\hsame(k,\emp)\bigr)
+\lor
+\bigl(\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land
+\hsame(h,\Eone(a))\land \hsame(k,\Eone(b))\land a\sim_S b\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the classifier witness $\gamma$. The absent-absent constructor
+directly provides $\hsame(h,\emp)$ and $\hsame(k,\emp)$, giving the left branch.
+The present-present constructor provides payload histories $a,b$, source
+witnesses $S(a)$ and $S(b)$, endpoint witnesses $\hsame(h,\Eone(a))$ and
+$\hsame(k,\Eone(b))$, and the source classifier witness $a\sim_S b$, giving the
+right branch. These are the only constructors of the tagged classifier witness,
+so the displayed disjunction exhausts the endpoints.
+\end{proof}
