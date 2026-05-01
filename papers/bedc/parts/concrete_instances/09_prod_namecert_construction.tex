@@ -279,22 +279,22 @@ Unfold $\mathsf{ProdHistoryCarrier}$ and $\mathsf{ProdPairRep}$. In the forward 
 \end{proof}
 
 \begin{theorem}[Product pair representation endpoint transport]
-\label{thm:prod-pair-rep-endpoint-transport}
+\label{thm:prod-pair-rep-hsame-transport}
 For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and histories
-$h,k,l,r$, if $\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and $\hsame(h,k)$, then both
-$\mathsf{ProdHistoryCarrier}(L,R,k)$ and
-$\mathsf{ProdHistoryClassifier}(L,R,h,k)$ hold.
+$h,k,l,r$, if $\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and $\hsame(h,k)$, then
+$\mathsf{ProdPairRep}_{L,R}(k,l,r)$ holds.
 \end{theorem}
 \begin{proof}
 The per-object fit is: traditional target ordered-pair endpoint stability; BEDC
-source $\mathsf{BHist}$ with $\Cont$; carrier $\mathsf{ProdHistoryCarrier}$ via
-$\mathsf{ProdPairRep}$; classifier $\mathsf{ProdHistoryClassifier}$; ledger the
-displayed pair representation; status $\mathsf{ProofTarget}$. Unfold the pair
-representation to obtain $L(l)$, $R(r)$, and $\Cont(l,r,h)$. These data rebuild
-$\mathsf{ProdHistoryCarrier}(L,R,h)$. Transport that carrier along
-$\hsame(h,k)$ using product history carrier transport, obtaining
-$\mathsf{ProdHistoryCarrier}(L,R,k)$. Assemble the classifier from the carrier
-at $h$, the transported carrier at $k$, and the same $\hsame(h,k)$ witness.
+source $\mathsf{BHist}$ with $\Cont$; carrier $\mathsf{ProdPairRep}$;
+classifier endpoint $\hsame$; stability obligation endpoint transport; ledger
+displayed pair representation; core theorem this transport law; exactness pair
+presentation preserved by endpoint sameness; standard bridge stable ordered-pair
+endpoint; status $\mathsf{ProofTarget}$. Unfold $\mathsf{ProdPairRep}$ to keep
+$L(l)$ and $R(r)$, and transport the $\Cont(l,r,h)$ result across $\hsame(h,k)$
+using continuation result transport. The transported continuation witness
+together with the unchanged source witnesses rebuilds
+$\mathsf{ProdPairRep}_{L,R}(k,l,r)$.
 \end{proof}
 
 \begin{theorem}[Product fixed-pair endpoint coherence]
