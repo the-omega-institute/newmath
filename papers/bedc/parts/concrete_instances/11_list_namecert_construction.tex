@@ -176,7 +176,11 @@ directions are discharged directly by case analysis on the impossible witness.
 
 \begin{theorem}[List classifier is transitive]
 \label{thm:list-classifier-transitivity}
-For any transitive source classifier on $A$, the structural list classifier lifted from it is transitive on finite spines over $A$.
+For any source type $A$, relation $R:A\to A\to\mathsf{Prop}$, and finite spines $xs,ys,zs:\mathsf{ListCarrier}(A)$, if
+$\forall a\,b\,c.\;R(a,b)\to R(b,c)\to R(a,c)$,
+$\mathsf{ListClassifierSpec}(R,xs,ys)$, and
+$\mathsf{ListClassifierSpec}(R,ys,zs)$ hold, then
+$\mathsf{ListClassifierSpec}(R,xs,zs)$ holds.
 \end{theorem}
 \begin{proof}
 Induct on the first finite spine. Shape mismatches are impossible by the classifier clauses. In the cons-cons-cons case, the head witnesses compose by source transitivity and the tail witnesses compose by the induction hypothesis.
