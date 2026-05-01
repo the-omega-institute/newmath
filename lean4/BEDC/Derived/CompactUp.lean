@@ -41,6 +41,26 @@ theorem CompactWitnessCarrier_finite_extension_closed
                                 (And.intro newFiniteCarrier
                                   (And.intro locatedLedger extendedLedger)))
 
+inductive CompactFiniteRefinementChain : BHist -> BHist -> BHist -> BHist -> Prop where
+  | base {finite compact : BHist} :
+      CompactFiniteRefinementChain finite compact finite compact
+  | step {finite compact currentFinite currentCompact extra nextFinite nextCompact : BHist} :
+      CompactFiniteRefinementChain finite compact currentFinite currentCompact ->
+        UnaryHistory extra -> Cont currentFinite extra nextFinite ->
+          Cont currentCompact extra nextCompact ->
+            CompactFiniteRefinementChain finite compact nextFinite nextCompact
+
+theorem CompactWitnessCarrier_finite_refinement_chain_closed
+    {subset located finite intermediate compact finalFinite finalCompact : BHist} :
+    CompactWitnessCarrier subset located finite intermediate compact ->
+      CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
+        CompactWitnessCarrier subset located finalFinite intermediate finalCompact := by
+  intro carrier chain
+  induction chain with
+  | base => exact carrier
+  | step prior extraCarrier finiteRel compactRel ih =>
+      exact CompactWitnessCarrier_finite_extension_closed ih extraCarrier finiteRel compactRel
+
 def CompactNetWitness (center precision net : BHist) : Prop :=
   UnaryHistory center ∧ UnaryHistory precision ∧ UnaryHistory net ∧ Cont center precision net
 

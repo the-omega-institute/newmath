@@ -14,6 +14,35 @@ def ContinuousModulusChain (source first second target : BHist) : Prop :=
   UnaryHistory source ∧ UnaryHistory first ∧ UnaryHistory second ∧ UnaryHistory target ∧
     ∃ middle : BHist, Cont source first middle ∧ Cont middle second target
 
+theorem ContinuousModulusChain_factorizes {source first second target : BHist} :
+    ContinuousModulusChain source first second target ->
+      exists middle : BHist,
+        ContinuousModulusWitness source first middle ∧
+          ContinuousModulusWitness middle second target := by
+  intro chain
+  cases chain with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro firstCarrier rest =>
+          cases rest with
+          | intro secondCarrier rest =>
+              cases rest with
+              | intro targetCarrier chainWitness =>
+                  cases chainWitness with
+                  | intro middle middleData =>
+                      cases middleData with
+                      | intro firstRel secondRel =>
+                          have middleCarrier : UnaryHistory middle :=
+                            unary_cont_closed sourceCarrier firstCarrier firstRel
+                          exact Exists.intro middle
+                            (And.intro
+                              (And.intro sourceCarrier
+                                (And.intro firstCarrier
+                                  (And.intro middleCarrier firstRel)))
+                              (And.intro middleCarrier
+                                (And.intro secondCarrier
+                                  (And.intro targetCarrier secondRel))))
+
 theorem ContinuousModulusChain_composite_closed {source first second target composite : BHist} :
     ContinuousModulusChain source first second target -> Cont first second composite ->
       ContinuousModulusWitness source composite target := by
