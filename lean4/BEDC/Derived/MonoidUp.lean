@@ -121,6 +121,12 @@ theorem monoid_stability_certificate_fields {C : Type} {sameC : C → C → Prop
           · intro a a' b b' haa' hbb'
             exact mulCongr haa' hbb'
 
+theorem monoid_identity_unique {mul : BHist -> BHist -> BHist} {e e' : BHist}
+    (leftId : forall x : BHist, hsame (mul e x) x)
+    (rightId' : forall x : BHist, hsame (mul x e') x) :
+    hsame e e' := by
+  exact hsame_trans (hsame_symm (rightId' e)) (leftId e')
+
 theorem history_continuation_monoid_laws :
     (∀ h : BEDC.FKernel.Hist.BHist,
       BEDC.FKernel.Cont.Cont BEDC.FKernel.Hist.BHist.Empty h h) ∧
