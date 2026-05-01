@@ -24,8 +24,11 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import subprocess
+
 import codex_orchestrator
 import killo_golden_writeback
+from locks import file_lock
 from oracle_client import (
     BOARD_PATH,
     DEFAULT_CANDIDATE_FIT_THRESHOLD,
@@ -49,6 +52,40 @@ BOARD_INCLUDE_LIMIT = 30000
 
 def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _git(args: list[str]) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["git", *args],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+    )
+
+
+def sync_dev_if_clean() -> bool:
+    """Best-effort fetch + merge of origin/dev. Skips silently on uncommitted
+    changes or merge conflicts. Acquires paper_writes lock to avoid clashing
+    with a Stage 2 .tex append. Returns True iff dev's commits were merged.
+    """
+    status = _git(["status", "--porcelain"])
+    if status.stdout.strip():
+        print("[discovery] sync_dev skipped: uncommitted changes", flush=True)
+        return False
+    _git(["fetch", "origin", "dev"])
+    behind = _git(["rev-list", "--count", "HEAD..origin/dev"])
+    n = behind.stdout.strip() or "0"
+    if n == "0":
+        return False
+    print(f"[discovery] sync_dev pulling {n} commits from origin/dev", flush=True)
+    with file_lock("paper_writes"):
+        merge = _git(["merge", "--no-edit", "origin/dev"])
+    if merge.returncode != 0:
+        print("[discovery] sync_dev merge failed; aborting", flush=True)
+        _git(["merge", "--abort"])
+        return False
+    print(f"[discovery] sync_dev merged origin/dev cleanly ({n} commits)", flush=True)
+    return True
 
 
 def _now_tag() -> str:
@@ -153,6 +190,11 @@ def _persist(mode: str, payload: dict) -> Path:
 
 
 def cmd_probe(args: argparse.Namespace) -> int:
+    if not args.no_dev_sync:
+        try:
+            sync_dev_if_clean()
+        except Exception as exc:
+            print(f"[probe] sync_dev error (continuing): {exc}", flush=True)
     print("[probe] codex theory-probe pass starting...", flush=True)
     ok, codex_candidates, err = _run_codex_pass(
         PROMPTS_DIR / "theory_probe.txt",
@@ -200,6 +242,11 @@ def cmd_probe(args: argparse.Namespace) -> int:
 
 
 def cmd_curator(args: argparse.Namespace) -> int:
+    if not args.no_dev_sync:
+        try:
+            sync_dev_if_clean()
+        except Exception as exc:
+            print(f"[curator] sync_dev error (continuing): {exc}", flush=True)
     print("[curator] codex meta-review pass starting...", flush=True)
     ok, codex_candidates, err = _run_codex_pass(
         PROMPTS_DIR / "curator.txt",
@@ -255,12 +302,14 @@ def main() -> int:
     p_probe.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_probe.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_probe.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
+    p_probe.add_argument("--no-dev-sync", action="store_true", help="Skip merging origin/dev before scan")
     p_probe.set_defaults(func=cmd_probe)
 
     p_cur = sub.add_parser("curator", help="Codex meta-review of completed targets + BOARD progress")
     p_cur.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_cur.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_cur.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
+    p_cur.add_argument("--no-dev-sync", action="store_true", help="Skip merging origin/dev before scan")
     p_cur.set_defaults(func=cmd_curator)
 
     args = parser.parse_args()
