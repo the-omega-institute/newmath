@@ -70,6 +70,7 @@ import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
+import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse

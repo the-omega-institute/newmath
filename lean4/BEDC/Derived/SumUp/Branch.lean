@@ -211,13 +211,50 @@ theorem SumHistoryCarrier_single_valued_visible_readback {Left Right : BHist -> 
               | intro rightCarrier sameRight =>
                   exact Or.inr
                     (Exists.intro r
-                      (And.intro rightCarrier
-                        (And.intro sameRight
-                          (And.intro
-                            (fun r' _rightCarrier' sameRight' =>
-                              hsame_e1_iff.mp
-                                (hsame_trans (hsame_symm sameRight) sameRight'))
-                            noLeft))))
+                        (And.intro rightCarrier
+                          (And.intro sameRight
+                            (And.intro
+                              (fun r' _rightCarrier' sameRight' =>
+                                hsame_e1_iff.mp
+                                  (hsame_trans (hsame_symm sameRight) sameRight'))
+                              noLeft))))
+
+theorem SumHistoryCarrier_visible_tag_exactness {Left Right : BHist -> Prop} :
+    (forall {l : BHist}, SumHistoryCarrier Left Right (BHist.e0 l) <->
+      exists a : BHist, Left a /\ hsame l a) /\
+      (forall {r : BHist}, SumHistoryCarrier Left Right (BHist.e1 r) <->
+        exists b : BHist, Right b /\ hsame r b) := by
+  constructor
+  · intro l
+    constructor
+    · intro carrier
+      have inverted : exists a : BHist, hsame l a /\ Left a :=
+        SumHistoryCarrier_e0_inversion carrier
+      cases inverted with
+      | intro a data =>
+          exact Exists.intro a (And.intro data.right data.left)
+    · intro payload
+      cases payload with
+      | intro a data =>
+          have tagged : SumHistoryCarrier Left Right (BHist.e0 a) :=
+            SumHistoryCarrier_tagged_injections.left data.left
+          exact SumHistoryCarrier_hsame_transport
+            (hsame_e0_congr (hsame_symm data.right)) tagged
+  · intro r
+    constructor
+    · intro carrier
+      have inverted : exists b : BHist, hsame r b /\ Right b :=
+        SumHistoryCarrier_e1_inversion carrier
+      cases inverted with
+      | intro b data =>
+          exact Exists.intro b (And.intro data.right data.left)
+    · intro payload
+      cases payload with
+      | intro b data =>
+          have tagged : SumHistoryCarrier Left Right (BHist.e1 b) :=
+            SumHistoryCarrier_tagged_injections.right data.left
+          exact SumHistoryCarrier_hsame_transport
+            (hsame_e1_congr (hsame_symm data.right)) tagged
 
 theorem SumHistoryClassifier_carrier_aware_branch_partition {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop} {h k : BHist} :

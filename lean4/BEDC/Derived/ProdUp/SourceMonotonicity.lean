@@ -40,4 +40,37 @@ theorem ProdHistorySource_monotonicity {Left Right Left' Right' : BHist -> Prop}
               carrierWeakening carrierK
             exact And.intro carrierH' (And.intro carrierK' sameHK)
 
+theorem ProdHistorySource_equivalence {Left Right Left' Right' : BHist -> Prop}
+    (leftEquiv : forall h : BHist, Left h <-> Left' h)
+    (rightEquiv : forall h : BHist, Right h <-> Right' h) :
+    (forall {h : BHist}, ProdHistoryCarrier Left Right h <->
+      ProdHistoryCarrier Left' Right' h) /\
+      (forall {h k : BHist}, ProdHistoryClassifier Left Right h k <->
+        ProdHistoryClassifier Left' Right' h k) := by
+  have forward :
+      (forall {h : BHist}, ProdHistoryCarrier Left Right h ->
+        ProdHistoryCarrier Left' Right' h) /\
+        (forall {h k : BHist}, ProdHistoryClassifier Left Right h k ->
+          ProdHistoryClassifier Left' Right' h k) :=
+    ProdHistorySource_monotonicity
+      (fun h leftCarrier => (leftEquiv h).mp leftCarrier)
+      (fun h rightCarrier => (rightEquiv h).mp rightCarrier)
+  have backward :
+      (forall {h : BHist}, ProdHistoryCarrier Left' Right' h ->
+        ProdHistoryCarrier Left Right h) /\
+        (forall {h k : BHist}, ProdHistoryClassifier Left' Right' h k ->
+          ProdHistoryClassifier Left Right h k) :=
+    ProdHistorySource_monotonicity
+      (fun h leftCarrier => (leftEquiv h).mpr leftCarrier)
+      (fun h rightCarrier => (rightEquiv h).mpr rightCarrier)
+  constructor
+  · intro h
+    constructor
+    · exact forward.left
+    · exact backward.left
+  · intro h k
+    constructor
+    · exact forward.right
+    · exact backward.right
+
 end BEDC.Derived.ProdUp
