@@ -599,12 +599,12 @@ Apply the exclusion predicate to the source witness $S(h)$ and the displayed
 empty endpoint witness $\hsame(h,\emp)$.
 \end{proof}
 
-Per-object fit: traditional target absent-vs-present option separation; BEDC
-source $\mathsf{BHist}$ with $\hsame$; carrier
-$\mathsf{OptionHistoryCarrier}_S$; classifier unused; exactness supplied by
-empty-excluding source; ledger unchanged; status $\mathsf{ProofTarget}$.
+Per-object fit: traditional target nullable empty-or-source separation under an
+empty-excluding source, not constructor-tagged $\mathsf{none}/\mathsf{some}$
+readback; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{OptionHistoryCarrier}_S$; classifier unused; status $\mathsf{ProofTarget}$.
 
-\begin{theorem}[Nullable option carrier exclusive readback]
+\begin{theorem}[Nullable option carrier empty-or-source partition]
 \label{thm:option-history-carrier-exclusive-readback}
 For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
 history $h$, if $\mathsf{OptionSourceExcludesEmpty}(S)$ and
