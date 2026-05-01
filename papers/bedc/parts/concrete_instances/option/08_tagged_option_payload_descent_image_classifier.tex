@@ -144,3 +144,86 @@ $\mathsf{cert}$, and the source hsame compatibility hypothesis. Its conclusion
 is $\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')$, and these three
 outputs give the displayed conjunction.
 \end{proof}
+
+\begin{theorem}[Tagged option payload descent image classifier stability fields]
+\label{thm:tagged-option-payload-descent-image-classifier-stability-fields}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. The image classifier of
+Definition~\ref{def:tagged-option-payload-descent-image-classifier} satisfies
+the following carrier-relative stability fields.
+\begin{enumerate}
+  \item For every target endpoint $k$, if
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+  (S,T,\rho_{\delta};k),
+  $$
+  then
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,k).
+  $$
+  \item For target endpoints $k,k'$, if
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,k'),
+  $$
+  then
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k',k).
+  $$
+  \item For target endpoints $k,k'$, if
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,k'),
+  $$
+  then
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+  (S,T,\rho_{\delta};k)
+  \land
+  \mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+  (S,T,\rho_{\delta};k').
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For carrier-relative reflexivity, unpack the displayed image-carrier witness.
+This gives a source endpoint $h$, a source carrier witness
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$, and a map witness from $h$ to $k$.
+The reflexivity clause of
+Theorem~\ref{thm:tagged-option-history-stability-fields} turns the source
+carrier witness into
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)$.
+
+Repack Definition~\ref{def:tagged-option-payload-descent-image-classifier} with
+the same source endpoint on both sides. The source classifier witness just built
+and the same map witness used twice give
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k)$.
+
+For symmetry, unpack the image-classifier witness. This exposes source endpoints
+$h,h'$, a source classifier witness
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h')$, and map witnesses
+from $h$ to $k$ and from $h'$ to $k'$. The symmetry clause of
+Theorem~\ref{thm:tagged-option-history-stability-fields} gives the reversed
+source classifier witness
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h',h)$.
+
+Repack the image-classifier existential with the two source endpoints exchanged
+and the two map witnesses exchanged. This gives the displayed relation from
+$k'$ to $k$.
+
+For endpoint exposure, apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-certificate} to
+the image-classifier witness with the same $\mathsf{cert}$ and source hsame
+compatibility hypothesis. Projecting the first two components of its conclusion
+gives exactly the two displayed image-carrier witnesses.
+\end{proof}
