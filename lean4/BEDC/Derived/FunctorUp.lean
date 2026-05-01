@@ -56,4 +56,11 @@ theorem FunctorPrefixHomCarrier_comp_assoc_preserves
                 (FunctorPrefixHomCarrier_preserves prefixCarrier rightCarrier)
                 same)
 
+theorem FunctorPrefixHomCarrier_empty_identity_preserves {p a : BHist} :
+    UnaryHistory p -> UnaryHistory a ->
+      CategoryHomCarrier (append p a) (append p a) BHist.Empty := by
+  intro prefixCarrier objectCarrier
+  exact FunctorPrefixHomCarrier_preserves prefixCarrier
+    (CategoryHomCarrier_empty_identity objectCarrier)
+
 end BEDC.Derived.FunctorUp

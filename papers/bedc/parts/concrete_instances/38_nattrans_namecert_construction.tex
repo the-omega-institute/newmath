@@ -9,6 +9,24 @@ The natural transformation interface \(\NatTransUp\) has certificate obligations
 \label{def:nattrans-carrier}
 Use an object-indexed family of codomain morphisms \(\eta_X:F(X)\to G(X)\) plus naturality witnesses for every source morphism.
 \end{definition}
+\leandef{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier}
+
+\begin{theorem}[NatTrans prefix component vertical composition closure]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-closed}
+For prefix components over unary histories, if \(\eta\) is a component from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(q,a)\), \(\theta\) is a component
+from \(\mathsf{append}(q,a)\) to \(\mathsf{append}(r,a)\), and
+\(\ContR(\eta,\theta,\theta\eta)\), then the composite component is a component
+from \(\mathsf{append}(p,a)\) to \(\mathsf{append}(r,a)\).
+\end{theorem}
+\begin{proof}
+Unpack the two prefix-component carrier witnesses. The outer prefix and object
+unary witnesses come from the first component and the target prefix witness
+comes from the second component. Category hom-carrier composition closure
+composes the two component morphisms across the shared middle object
+\(\mathsf{append}(q,a)\).
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_closed}
 
 \begin{theorem}[Prefix identity naturality square]
 \label{thm:nattrans-prefix-identity-naturality-square}

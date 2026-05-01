@@ -10,6 +10,11 @@ open BEDC.FKernel.Unary
 def CategoryHomCarrier (a b f : BHist) : Prop :=
   UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧ Cont a f b
 
+theorem CategoryHomCarrier_empty_identity {h : BHist} :
+    UnaryHistory h -> CategoryHomCarrier h h BHist.Empty := by
+  intro carrier
+  exact And.intro carrier (And.intro carrier (And.intro unary_empty (cont_right_unit h)))
+
 theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier a c fg := by
