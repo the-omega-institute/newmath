@@ -2253,7 +2253,7 @@ def run_round_in_worktree(
     *,
     dry_run: bool = False,
     model: Optional[str] = None,
-    phase_b_timeout: int = 1800,
+    phase_b_timeout: int = 2700,
     phase_c_timeout: int = 3600,
 ) -> tuple[bool, int, list[str]]:
     """
@@ -2488,7 +2488,7 @@ def run_parallel_batch(
     parallel: int,
     dry_run: bool = False,
     model: Optional[str] = None,
-    phase_b_timeout: int = 1800,
+    phase_b_timeout: int = 2700,
     phase_c_timeout: int = 3600,
 ) -> tuple[int, int]:
     """
@@ -2563,7 +2563,7 @@ def run_round_serial(
     *,
     dry_run: bool = False,
     model: Optional[str] = None,
-    phase_b_timeout: int = 1800,
+    phase_b_timeout: int = 2700,
     phase_c_timeout: int = 3600,
 ) -> bool:
     """Single-round execution using worktree (parallel=1)."""
@@ -2948,7 +2948,7 @@ def main() -> int:
         "--model", "-m", type=str, default=None,
         help="Model override for codex exec",
     )
-    parser.add_argument("--phase-b-timeout", type=int, default=1800)
+    parser.add_argument("--phase-b-timeout", type=int, default=2700)
     parser.add_argument("--phase-c-timeout", type=int, default=3600)
     parser.add_argument(
         "--max-consecutive-failures", type=int, default=3,
