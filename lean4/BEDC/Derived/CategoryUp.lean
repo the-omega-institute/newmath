@@ -1,4 +1,5 @@
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Cont
 
 namespace BEDC.Derived.CategoryUp
 
@@ -34,5 +35,25 @@ theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
                                 (And.intro
                                   (unary_cont_closed fCarrier gCarrier (cont_intro rfl))
                                   (cont_intro (append_assoc a f g))))
+
+structure ContinuationMorphism (src tgt : BHist) where
+  tail : BHist
+  rel : Cont src tail tgt
+
+theorem ContinuationMorphism_identity_comp_closure :
+    (forall h : BHist, Nonempty (ContinuationMorphism h h)) ∧
+      (forall {a b c : BHist}, ContinuationMorphism a b ->
+        ContinuationMorphism b c -> Nonempty (ContinuationMorphism a c)) := by
+  constructor
+  · intro h
+    exact Nonempty.intro { tail := BHist.Empty, rel := cont_right_unit h }
+  · intro a b c left right
+    cases left with
+    | mk leftTail leftRel =>
+        cases right with
+        | mk rightTail rightRel =>
+            refine Nonempty.intro { tail := append leftTail rightTail, rel := ?_ }
+            cases leftRel
+            exact rightRel.trans (append_assoc a leftTail rightTail)
 
 end BEDC.Derived.CategoryUp

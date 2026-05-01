@@ -65,4 +65,12 @@ theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
   cases sameResult
   exact cont_left_cancel left right
 
+theorem cont_composite_tail_unique {h k r f g tail : BHist} :
+    Cont h f k -> Cont k g r -> Cont h tail r -> hsame tail (append f g) := by
+  intro left right direct
+  have composite : Cont h (append f g) r := by
+    cases left
+    exact right.trans (append_assoc h f g)
+  exact cont_left_cancel direct composite
+
 end BEDC.FKernel.Cont
