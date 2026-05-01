@@ -56,6 +56,7 @@ MAX_AGENTS = 3
 TASK_TIMEOUT = 14400  # 4 hours; ChatGPT Pro thinking can be 60+ min/turn
 AGENT_RECENT_SECONDS = 120
 SESSION_IDLE_RETENTION = 14 * 24 * 3600  # keep sessions on disk for 14 days
+MIN_SCRIPT_VERSION = "bedc-1.11"
 
 # In-memory state (durable copy on disk)
 task_queue: deque[dict] = deque()
@@ -169,6 +170,17 @@ def _agent_summary(now: float) -> dict[str, dict]:
     return summary
 
 
+def _script_version_tuple(version: str) -> tuple[int, ...]:
+    m = re.search(r"(\d+(?:\.\d+)*)", version or "")
+    if not m:
+        return ()
+    return tuple(int(p) for p in m.group(1).split("."))
+
+
+def _script_version_ok(version: str) -> bool:
+    return _script_version_tuple(version) >= _script_version_tuple(MIN_SCRIPT_VERSION)
+
+
 def _queued_summary(now: float) -> list[dict]:
     items: list[dict] = []
     for task in list(task_queue)[:10]:
@@ -269,10 +281,18 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 "page_url": (qs.get("page_url", [""])[0] or ""),
                 "chatgpt_url": (qs.get("chatgpt_url", [""])[0] or ""),
             }
+            compatible_script = _script_version_ok(poll_metrics["script_version"])
             with _lock:
                 _record_agent_seen(agent_id, event="poll", metrics=poll_metrics)
                 if agent_id in pending_tasks:
                     self._send_json(pending_tasks[agent_id])
+                    return
+                if not compatible_script:
+                    self._send_json({
+                        "status": "idle",
+                        "required_script_version": MIN_SCRIPT_VERSION,
+                        "agent_script_version": poll_metrics["script_version"],
+                    })
                     return
                 if task_queue and len(pending_tasks) < MAX_AGENTS:
                     task = task_queue.popleft()
@@ -304,11 +324,17 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     aid for aid, rec in recent.items()
                     if rec["recent"] and rec.get("event") == "poll"
                 ]
+                compatible_active_poll = [
+                    aid for aid in active_poll
+                    if _script_version_ok(
+                        ((recent.get(aid, {}).get("metrics") or {}).get("script_version") or "")
+                    )
+                ]
                 stale_busy = [
                     aid for aid in pending_tasks
                     if not recent.get(aid, {}).get("recent", False)
                 ]
-                if task_queue and not pending_tasks and not active_poll:
+                if task_queue and not pending_tasks and not compatible_active_poll:
                     diagnosis = "queue_waiting_for_browser_agent"
                 elif pending_tasks:
                     diagnosis = "agent_busy_with_stale" if stale_busy else "agent_busy"
@@ -325,12 +351,14 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     "recent_agents": recent,
                     "active_recent_agents": active_recent,
                     "active_poll_agents": active_poll,
+                    "compatible_active_poll_agents": compatible_active_poll,
                     "stale_busy_agents": stale_busy,
                     "agent_recent_seconds": AGENT_RECENT_SECONDS,
                     "completed": len(results),
                     "active_sessions": len(sessions),
                     "port": PORT,
                     "kind": "bedc-oracle",
+                    "required_script_version": MIN_SCRIPT_VERSION,
                     "diagnosis": diagnosis,
                 })
             return
