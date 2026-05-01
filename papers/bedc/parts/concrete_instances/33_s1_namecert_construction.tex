@@ -144,6 +144,59 @@ the exactness claim that the same $\SOneUp$ carrier is preserved; the standard
 bridge deferred outside this theorem; and the status $\mathsf{ProofTarget}$.
 \end{proof}
 
+\begin{theorem}[SOne carrier hsame transport]
+\label{thm:s1-carrier-hsame-transport}
+For histories $x,y,e,p,x',y',e',p'$, the concrete $\SOneUp$ history carrier is
+stable under componentwise $\hsame$ transport on all exposed carrier
+coordinates:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\hsame(x,x')
+\Longrightarrow
+\hsame(y,y')
+\Longrightarrow
+\hsame(e,e')
+\Longrightarrow
+\hsame(p,p')
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x',y',e',p').
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{SOneHistoryCarrier}(x,y,e,p)$ into the two
+$\mathsf{RealConstantHistoryCarrier}$ component fields, the
+$\mathsf{RealConstantHistoryClassifier}(e,\mathsf{SOneUnitHistory})$ field, and
+the continuation witness $\mathsf{Cont}(x,y,p)$.
+
+Transport the first and second real-constant carrier fields along
+$\hsame(x,x')$ and $\hsame(y,y')$. Each step composes the exposed endpoint
+equality of the real-constant carrier with the supplied history equality, so the
+same real-constant carrier predicate is obtained at $x'$ and at $y'$.
+
+Transport the equation classifier by applying
+$\mathsf{RealConstantHistoryClassifier\_endpoint\_transport}$ to $\hsame(e,e')$
+and the reflexive witness
+$\hsame(\mathsf{SOneUnitHistory},\mathsf{SOneUnitHistory})$. This gives
+$\mathsf{RealConstantHistoryClassifier}(e',\mathsf{SOneUnitHistory})$.
+
+Transport the continuation ledger by the kernel continuation $\hsame$ transport
+theorem, using the component witnesses for $x$, $y$, and $p$. The result is
+$\mathsf{Cont}(x',y',p')$.
+
+Repack the two transported real-constant carriers, the transported equation
+classifier, and the transported continuation ledger into
+$\mathsf{SOneHistoryCarrier}(x',y',e',p')$. The certificate fit is the
+traditional target unit-circle carrier transport; the BEDC source
+$\mathsf{BHist}$ with real-constant carrier, real-constant classifier, and
+$\mathsf{Cont}$; the carrier $\mathsf{SOneHistoryCarrier}$; the classifier
+$\hsame$ on the exposed coordinates; the stability obligation carrier
+transport; the ledger transported endpoints and equation proof; the core
+theorem this carrier-transport statement; the exactness claim that the same
+carrier predicate is preserved; the standard bridge deferred outside this
+theorem; and the status $\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{definition}[SOne ledger policy]
 \label{def:s1-ledger-policy}
 Record both real witnesses, the componentwise real-classifier witnesses used in classifier derivations, and the transported unit equation proof.
