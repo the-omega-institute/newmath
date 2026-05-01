@@ -57,6 +57,7 @@ import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.Reverse
+import BEDC.Derived.ListUp.SourceEquivalence
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorContext

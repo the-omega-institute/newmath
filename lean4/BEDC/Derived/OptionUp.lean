@@ -251,6 +251,64 @@ theorem TaggedOptionHistoryCarrier_exclusive_branch_partition {S : BHist → Pro
                         exact not_hsame_e1_empty
                           (hsame_trans (hsame_symm samePresent) emptyCase)))))
 
+theorem TaggedOptionHistoryCarrier_constructor_separation {S : BHist → Prop}
+    {h a : BHist} :
+    hsame h BHist.Empty → S a → hsame h (BHist.e1 a) → False := by
+  intro sameEmpty _ samePresent
+  exact not_hsame_emp_e1 (hsame_trans (hsame_symm sameEmpty) samePresent)
+
+theorem TaggedOptionHistoryClassifier_present_branch_equivalence {S : BHist → Prop}
+    {Rel : BHist → BHist → Prop} {h k : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k →
+      ((∃ a : BHist, S a ∧ hsame h (BHist.e1 a)) ↔
+        (∃ b : BHist, S b ∧ hsame k (BHist.e1 b))) := by
+  intro classifier
+  constructor
+  · intro presentH
+    cases classifier with
+    | inl absentPair =>
+        cases presentH with
+        | intro a data =>
+            cases data with
+            | intro _ sameHPresent =>
+                exact False.elim
+                  (not_hsame_emp_e1 (hsame_trans (hsame_symm absentPair.left) sameHPresent))
+    | inr presentPair =>
+        cases presentPair with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro _ rest =>
+                    cases rest with
+                    | intro sourceB rest =>
+                        cases rest with
+                        | intro _ rest =>
+                            cases rest with
+                            | intro sameKPresent _ =>
+                                exact Exists.intro b (And.intro sourceB sameKPresent)
+  · intro presentK
+    cases classifier with
+    | inl absentPair =>
+        cases presentK with
+        | intro b data =>
+            cases data with
+            | intro _ sameKPresent =>
+                exact False.elim
+                  (not_hsame_emp_e1 (hsame_trans (hsame_symm absentPair.right) sameKPresent))
+    | inr presentPair =>
+        cases presentPair with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro sourceA rest =>
+                    cases rest with
+                    | intro _ rest =>
+                        cases rest with
+                        | intro sameHPresent _ =>
+                            exact Exists.intro a (And.intro sourceA sameHPresent)
+
 theorem OptionHistoryCarrier_hsame_transport {source : BHist -> Prop} {h k : BHist} :
     hsame h k -> OptionHistoryCarrier source h -> OptionHistoryCarrier source k := by
   intro same carrier
