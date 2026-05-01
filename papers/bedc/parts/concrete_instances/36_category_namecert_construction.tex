@@ -50,6 +50,24 @@ Finally apply continuation associativity, Theorem~\ref{thm:continuation-associat
 
 Per-object certificate: traditional target categorical associativity; BEDC source $\mathsf{CategoryHomCarrier}$ plus $\Cont$; carrier $\mathsf{BHist}$ hom witnesses; classifier $\hsame$; stability obligation associativity under morphism classifier; ledger the two composition trees; core theorem list entry this associativity witness; exactness predicate equality of the two composite trees; standard bridge deferred; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Category hom carrier fourfold associativity witness]
+\label{thm:category-hom-carrier-fourfold-assoc-witness}
+For the unary-continuation category, let $f$ be a hom-carrier from $a$ to $b$, let $g$ be a hom-carrier from $b$ to $c$, let $h$ be a hom-carrier from $c$ to $d$, and let $i$ be a hom-carrier from $d$ to $e$. If $fg$, $fgh$, $hi$, $ghi$, $left$, and $right$ satisfy
+$$
+\ContR(f,g,fg),\quad \ContR(fg,h,fgh),\quad \ContR(h,i,hi),\quad \ContR(g,hi,ghi),\quad \ContR(fgh,i,left),\quad \ContR(f,ghi,right),
+$$
+then $left$ and $right$ are both hom-carriers from $a$ to $e$, and $\HSame(left,right)$.
+\end{theorem}
+\begin{proof}
+First build the left fourfold carrier. Apply Theorem~\ref{thm:category-hom-carrier-comp-closed} to $f:a\to b$ and $g:b\to c$ with $\ContR(f,g,fg)$, obtaining $fg:a\to c$. Apply the same theorem to $fg:a\to c$ and $h:c\to d$ with $\ContR(fg,h,fgh)$, obtaining $fgh:a\to d$. Apply it once more to $fgh:a\to d$ and $i:d\to e$ with $\ContR(fgh,i,left)$, obtaining $left:a\to e$.
+
+Next build the right fourfold carrier. Apply Theorem~\ref{thm:category-hom-carrier-comp-closed} to $h:c\to d$ and $i:d\to e$ with $\ContR(h,i,hi)$, obtaining $hi:c\to e$. Apply the same theorem to $g:b\to c$ and $hi:c\to e$ with $\ContR(g,hi,ghi)$, obtaining $ghi:b\to e$. Apply it once more to $f:a\to b$ and $ghi:b\to e$ with $\ContR(f,ghi,right)$, obtaining $right:a\to e$.
+
+Finally apply the kernel fourfold continuation associativity witness, $cont\_assoc\_four$, to the six displayed continuation relations. The two fourfold composition ledgers therefore generate the same composite history classifier, namely $\HSame(left,right)$.
+\end{proof}
+
+Per-object certificate: traditional target fourfold categorical associativity coherence; BEDC source $\mathsf{CategoryHomCarrier}$ plus $\Cont$; carrier $\mathsf{BHist}$ hom witnesses; classifier $\hsame$; stability obligation rebracketing under morphism classifier; ledger the two fourfold composition trees; core theorem list entry fourfold coherence; exactness predicate equality of generated composite histories; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Category hom carrier associative composition closure]
 \label{thm:category-hom-carrier-comp-assoc-closed}
 For the unary-continuation category, composable hom-carriers \(f:a\to b\),
