@@ -293,3 +293,99 @@ the image-classifier witness with the same $\mathsf{cert}$ and source hsame
 compatibility hypothesis. Projecting the first two components of its conclusion
 gives exactly the two displayed image-carrier witnesses.
 \end{proof}
+
+\begin{definition}[Tagged option payload descent reflects source from visible target equality]
+\label{def:tagged-option-payload-descent-reflects-source}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_S$ and $\sim_T$ be classifiers, and let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$.
+Define source reflection from visible target equality by
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S)
+:\!\!\Longleftrightarrow
+\forall a,b:\mathsf{BHist}.\;
+S(a)\to S(b)\to
+\hsame(\delta.\mathsf{map}(a),\delta.\mathsf{map}(b))\to
+a\sim_S b.
+$$
+\end{definition}
+
+\begin{theorem}[Tagged option payload descent image classifier reflective transitivity]
+\label{thm:tagged-option-payload-descent-image-classifier-reflective-transitivity}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$, assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, and assume
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S).
+$$
+For target endpoints $k,\ell,m:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,\ell)
+$$
+and
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};\ell,m),
+$$
+then
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,m).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-branch-exactness}
+to the two image-classifier witnesses. This rewrites each witness into the
+absent target pair or the present transported-payload pair, with the middle
+endpoint $\ell$ appearing in both branch analyses.
+
+\begin{enumerate}
+  \item In the absent/absent case, the first branch gives $\hsame(k,\emp)$ and
+  $\hsame(\ell,\emp)$, while the second gives $\hsame(\ell,\emp)$ and
+  $\hsame(m,\emp)$. The absent side of the reverse branch-exactness equivalence
+  rebuilds
+  $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,m)$.
+
+  \item In the absent/present case, the first branch presents $\ell$ as $\emp$.
+  The second branch presents the same endpoint as
+  $\Eone(\delta.\mathsf{map}(c))$ for some source payload $c$. Empty-versus-
+  $\Eone$ no-confusion makes this case impossible.
+
+  \item In the present/absent case, the first branch presents $\ell$ as
+  $\Eone(\delta.\mathsf{map}(b))$ for some source payload $b$, while the second
+  branch presents $\ell$ as $\emp$. Empty-versus-$\Eone$ no-confusion again
+  rules out the mixed case.
+
+  \item In the present/present case, the first branch exposes source payloads
+  $a,b$ with $S(a)$, $S(b)$, $a\sim_S b$, and endpoint presentations
+  $\hsame(k,\Eone(\delta.\mathsf{map}(a)))$ and
+  $\hsame(\ell,\Eone(\delta.\mathsf{map}(b)))$. The second branch exposes
+  source payloads $c,d$ with $S(c)$, $S(d)$, $c\sim_S d$, and endpoint
+  presentations $\hsame(\ell,\Eone(\delta.\mathsf{map}(c)))$ and
+  $\hsame(m,\Eone(\delta.\mathsf{map}(d)))$.
+
+  Compose the two presentations of $\ell$ and invert the $\Eone$ constructor to
+  obtain
+  $$
+  \hsame(\delta.\mathsf{map}(b),\delta.\mathsf{map}(c)).
+  $$
+  The reflection hypothesis turns this visible target equality, together with
+  $S(b)$ and $S(c)$, into $b\sim_S c$.
+
+  Transitivity from $\mathsf{cert}$ composes $a\sim_S b$, $b\sim_S c$, and
+  $c\sim_S d$ into $a\sim_S d$. The present side of the reverse
+  branch-exactness equivalence, using the already exposed target carrier
+  witnesses and the endpoint presentations for $k$ and $m$, rebuilds
+  $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,m)$.
+\end{enumerate}
+\end{proof}
