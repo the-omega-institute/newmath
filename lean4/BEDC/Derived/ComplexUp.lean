@@ -60,6 +60,19 @@ theorem ComplexHistoryClassifier_symm {h k : BHist} :
       | intro carrierK sameHK =>
           exact And.intro carrierK (And.intro carrierH (hsame_symm sameHK))
 
+theorem ComplexHistoryLedgerPolicy_classifier_extension {raw visible t : BHist} :
+    ComplexHistoryLedgerPolicy raw visible -> ComplexHistoryClassifier visible t ->
+      ComplexHistoryClassifier raw t := by
+  intro ledger classified
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      cases classified with
+      | intro _visibleCarrier rest =>
+          cases rest with
+          | intro targetCarrier sameVisibleTarget =>
+              exact And.intro rawCarrier
+                (And.intro targetCarrier (hsame_trans sameRawVisible sameVisibleTarget))
+
 theorem complex_history_semantic_name_certificate :
     SemanticNameCert ComplexHistoryCarrier ComplexHistoryCarrier ComplexHistoryCarrier
       ComplexHistoryClassifier := by

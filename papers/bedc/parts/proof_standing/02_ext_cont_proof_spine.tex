@@ -40,6 +40,17 @@ Suppose \(\MSame(m,n)\), \(\HSame(h,k)\), \(\ExtR(m,h,r)\), and \(\ExtR(n,k,s)\)
 By induction on the generated proof of \(\MSame(m,n)\). There are only two cases. In the \(\bzero\) case, the extension results are generated with outer constructor \(\Ezero\), and the conclusion follows by applying the \(\Ezero\) history-sameness constructor to \(\HSame(h,k)\). The \(\bone\) case is identical with \(\Eone\).
 \end{proof}
 
+\begin{theorem}[Extension result is nonempty]
+\label{thm:ext-result-ne-empty}
+If $\ExtR(m,h,r)$, then $r$ is not history-same to $\emp$.
+\end{theorem}
+\begin{proof}
+Case-split the generated extension proof. The $\bzero$ case has result
+$\Ezero(h)$, which cannot be history-same to $\emp$ by history constructor
+no-confusion. The $\bone$ case is identical with $\Eone(h)$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Ext.ext\_result\_ne\_empty}
+
 \section{Relational continuation}
 
 \begin{definition}[Continuation relation]

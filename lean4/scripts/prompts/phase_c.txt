@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.9 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v3.0 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -187,6 +187,41 @@ python3 tools/check-axioms.py
 Do not fetch, pull, merge, rebase against, checkout, or push any remote branch before committing. The outer pipeline serializes remote synchronization after Phase C returns.
 
 If verification fails because the worktree appears stale or conflicts with upstream work, do not resolve that by syncing with `origin/lean4-codex-auto-dev`. Either adjust the local proof against the current worktree or leave the round uncommitted so the outer pipeline can discard/retry it.
+
+## Step 5.3: Paper-side discovery anti-parameter-echo (HARD GATE)
+
+When this round inserts a `\\begin{{theorem}}` / `\\begin{{definition}}` / `\\begin{{lemma}}` block into `papers/bedc/parts/` (a `discovery` target, or a paper insertion produced during conflict resolution), the inserted block MUST NOT be a parameter-echo theorem. Forbidden shapes:
+
+1. **Source-equivalence echo.** A theorem of the form: assume $A \\Leftrightarrow B$ as carriers and $\\sim_A \\Leftrightarrow \\sim_B$ as classifiers, conclude that every previously proved $A$-side property holds on the $B$-side. Look for paired carrier/pattern/ledger $\\Leftrightarrow$ chains, fields-by-fields equivalence lists, or "Restate certificate $\\mathsf{{cert}}_A$ for $\\mathsf{{cert}}_B$" structures.
+
+2. **Indexed restatement of an existing theorem.** Inserting `[<X> source equivalence]`, `[<X> under source equivalence]`, `[<X> source-equivalence with fields]`, `[<X> classifier source equivalence]`, or any sibling whose only difference from a label already present in the same chapter directory is the `_with_fields` / `_under` / `_alt` / `_v2` / `_again` suffix.
+
+3. **Pure $A$-vs-$B$ parametric statement** with no concrete BEDC kernel construction (BMark, BHist, ProbeBundle, SigRel, specific Pkg / NameCert instance, specific cons-boundary witness) on the conclusion side.
+
+If the existing chapter has 2 or more theorems whose label or title contains `source-equivalence` or `under-source-equivalence`, do NOT insert another. Either pick a different paper site (different chapter, different concrete kernel object), or drop the discovery target entirely from this round and let the round commit Lean code only — register-only is forbidden, but Lean-only is fine when the Lean code is meaningful.
+
+The Lean side of this round must still proceed: write the formal theorem in `lean4/BEDC/`, but skip the paper insertion if the only available paper site would be a parameter-echo block.
+
+## Step 5.4: Paper-side label collision pre-check (HARD GATE)
+
+When this round adds new paper-side blocks (from a `discovery` target — a `\\begin{{theorem}}…\\end{{theorem}}` block inserted into `papers/bedc/parts/`), the parallel paper pipeline may be inserting blocks at the same time. Before commit, run a fast collision scan:
+
+```bash
+git diff --cached -- papers/bedc/ \
+  | grep -nE "^\+\\\\label\{" \
+  | sed -E 's/.*label\{([^}]+)\}.*/\1/' \
+  | while read L; do
+      cnt=$(grep -rE "\\\\label\{${L}\}" papers/bedc/ | wc -l | tr -d ' ');
+      if [ "$cnt" -gt 1 ]; then echo "DUPLICATE: $L"; fi;
+    done
+```
+
+Any DUPLICATE line means this round is about to introduce a `\\label{}` that is already present in `papers/bedc/parts/` on the current worktree. Even if the rebased base branch does not yet have this label, a sibling paper round could land it before this round merges, and the combined audit would fail. Fix one of:
+
+1. Drop the offending paper insertion entirely from this round and let the paper pipeline own that block; the round still keeps its Lean additions.
+2. Rename the `\\label{}` to something that genuinely encodes new content (not a `_v2`, `_alt`, `_under`, `_again` suffix — those are version-narrative and disallowed). Update any internal `\\autoref{}` consumers in the same patch.
+
+Do NOT commit until the duplicate scan returns no DUPLICATE lines.
 
 ## Step 5.5: HARD GATE — round must contain real formalization
 

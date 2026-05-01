@@ -225,4 +225,19 @@ theorem IntClassifierSpec_msame_sign_transport
                       sameSy
                   · exact sameMagnitude
 
+theorem IntClassifierSpec_sign_magnitude_transport
+    {sx sy sx' sy' : BEDC.FKernel.Mark.BMark}
+    {hx hy hx' hy' : BEDC.FKernel.Hist.BHist} :
+    IntClassifierSpec (sx, hx) (sy, hy) ->
+      BEDC.FKernel.Mark.msame sx sx' ->
+        BEDC.FKernel.Mark.msame sy sy' ->
+          BEDC.FKernel.Hist.hsame hx hx' ->
+            BEDC.FKernel.Hist.hsame hy hy' ->
+              IntClassifierSpec (sx', hx') (sy', hy') := by
+  intro classifier sameSx sameSy sameHx sameHy
+  exact IntClassifierSpec_msame_sign_transport
+    (IntClassifierSpec_hsame_magnitude_transport classifier sameHx sameHy)
+    sameSx
+    sameSy
+
 end BEDC.Derived.IntUp

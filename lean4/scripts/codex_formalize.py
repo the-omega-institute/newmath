@@ -56,7 +56,8 @@ PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = LEAN_ROOT / "scripts" / "logs"
 WORKTREE_DIR = REPO_ROOT / ".worktrees"
 
-BASE_BRANCH = "lean4-codex-auto-dev"
+BASE_BRANCH_DEFAULT = "lean4-codex-auto-dev"
+BASE_BRANCH = BASE_BRANCH_DEFAULT
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 # Lake-gate config exported to every codex child so they all coordinate on
 # the same lock dir / slot count. Defaults below are conservative for a
@@ -754,21 +755,96 @@ def merge_lake_cache_back(wt: WorktreeInfo, new_commits: list[str]) -> None:
         )
 
 
-def run_pre_merge_hard_gates(wt: WorktreeInfo) -> bool:
+def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Optional[str]]:
+    """Run the pre-merge gate sequence.
+
+    Returns (ok, failed_gate_name, output_tail).
+    failed_gate_name is one of {'lake_build', 'check_axioms', 'audit',
+    'axiom_purity'} on failure; None on success.
+    output_tail is the last ~4000 chars of combined stdout+stderr for the
+    failing gate, suitable for passing to a codex recovery prompt.
+    """
     gates = [
-        (["lake", "build"], wt.path / "lean4", 7200),
-        (["python3", "tools/check-axioms.py"], wt.path, 600),
-        (["python3", "lean4/scripts/bedc_ci.py", "audit"], wt.path, 600),
-        (["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], wt.path, 1800),
+        ("lake_build", ["lake", "build"], wt.path / "lean4", 7200),
+        ("check_axioms", ["python3", "tools/check-axioms.py"], wt.path, 600),
+        ("audit", ["python3", "lean4/scripts/bedc_ci.py", "audit"], wt.path, 600),
+        ("axiom_purity", ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], wt.path, 1800),
     ]
-    for cmd, cwd, timeout in gates:
+    for name, cmd, cwd, timeout in gates:
         result = run_cmd(cmd, cwd=cwd, timeout=timeout)
         if result.returncode != 0:
+            tail = ((result.stdout or "")[-2000:] + (result.stderr or "")[-2000:])
             logger.error(
-                f"[R{wt.round_number}] Pre-merge hard gate failed: {' '.join(cmd)}\n"
-                f"{(result.stdout or '')[-2000:]}{(result.stderr or '')[-2000:]}"
+                f"[R{wt.round_number}] Pre-merge hard gate failed: {' '.join(cmd)}\n{tail}"
             )
-            return False
+            return False, name, tail
+    return True, None, None
+
+
+def _codex_resolve_post_rebase_audit(
+    wt_path: Path,
+    round_number: int,
+    audit_tail: str,
+    *,
+    model: Optional[str] = None,
+    timeout: int = 1200,
+) -> bool:
+    """After a clean rebase, `bedc_ci.py audit` may still fail because a
+    sibling R-round (or a P-round) merged a colliding paper label /
+    unresolved marker into BASE_BRANCH while this worktree was working.
+    Ask codex to drop this round's offending additions only.
+    """
+    prompt = textwrap.dedent(f"""\
+        You are recovering a BEDC Lean formalization worktree after rebase.
+
+        The rebase succeeded (no merge conflicts), and `lake build` plus
+        `tools/check-axioms.py` passed, but
+        `python3 lean4/scripts/bedc_ci.py audit` is now reporting failures
+        on the rebased tree. The cause is usually a sibling round (paper
+        or Lean) that merged onto BASE_BRANCH while this worktree was
+        working — your additions and theirs collided.
+
+        Typical causes:
+          - duplicate `\\label{{thm:...}}` in `papers/bedc/parts/...`;
+          - duplicate `\\leanchecked{{X}}` for a Lean target that a
+            sibling already registered at a different paper site;
+          - `\\leanchecked` / `\\leanstmt` / `\\leandef` pointing at a
+            Lean name that, after rebase, no longer exists in
+            `lean4/BEDC/` (the sibling round renamed or deleted it).
+
+        ## Audit output (tail)
+        {audit_tail}
+
+        ## Your task
+        Remove ONLY this round's (R{round_number}) offending additions:
+
+        1. Run `python3 lean4/scripts/bedc_ci.py audit` to see the live
+           list of duplicate labels / unresolved markers / forbidden
+           constructs.
+        2. Use `git diff HEAD@{{1}}` (or `git show HEAD`) to identify the
+           lines this round added in `papers/bedc/parts/`.
+        3. For each duplicate label this round added: delete the line
+           and, if the surrounding `\\begin{{theorem}}…\\end{{theorem}}`
+           block exists only because of this round, delete the block too.
+           Do NOT delete the sibling block already on the base branch.
+        4. For each unresolved marker this round added: delete that
+           single `\\leanchecked` / `\\leanstmt` / `\\leandef` line.
+        5. Do NOT touch `lean4/BEDC/`. Do NOT introduce iteration
+           narrative vocabulary.
+        6. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
+           until both exit 0. If the round's paper-side contribution
+           becomes empty after the cleanup, that is acceptable — keep
+           the Lean-side commits and let the pipeline merge what
+           remains.
+        7. Once everything passes, `git add papers/bedc` and `git commit
+           --amend --no-edit` so the round's commit retains the same
+           identity, just with the colliding additions stripped out.
+           Do NOT git push.
+
+        If the only valid recovery is to drop the round entirely, run
+        `git reset HEAD~1` and exit cleanly.
+    """)
+    codex_exec(prompt, work_dir=wt_path, timeout_seconds=timeout, model=model)
     return True
 
 
@@ -856,7 +932,22 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                 )
                 return False
 
-            if not run_pre_merge_hard_gates(wt):
+            gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
+            if not gates_ok and failed_gate == "audit":
+                logger.warning(
+                    f"[R{wt.round_number}] Pre-merge audit failed — "
+                    "asking codex to drop colliding paper additions"
+                )
+                _codex_resolve_post_rebase_audit(
+                    wt.path, wt.round_number, gate_tail or "", model=model
+                )
+                gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
+                if gates_ok:
+                    logger.info(
+                        f"[R{wt.round_number}] Audit recovered after "
+                        "codex resolution; continuing merge"
+                    )
+            if not gates_ok:
                 return False
 
             wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
@@ -2723,6 +2814,7 @@ def main() -> int:
               python3 lean4/scripts/codex_formalize.py                          # 1 round
               python3 lean4/scripts/codex_formalize.py --parallel 3             # 3 parallel
               python3 lean4/scripts/codex_formalize.py --parallel 3 --continuous  # continuous
+              python3 lean4/scripts/codex_formalize.py --base-branch lean4-codex-auto-dev --parallel 5 --continuous
               python3 lean4/scripts/codex_formalize.py --dry-run --parallel 2   # preview
               python3 lean4/scripts/codex_formalize.py --status                 # state
               python3 lean4/scripts/codex_formalize.py --cleanup                # remove worktrees
@@ -2766,8 +2858,8 @@ def main() -> int:
         help="Deprecated in PID mode; start the pipeline normally to create a fresh token",
     )
     parser.add_argument(
-        "--base-branch", type=str, default=BASE_BRANCH,
-        help=f"Base branch name (default: {BASE_BRANCH})",
+        "--base-branch", type=str, default=BASE_BRANCH_DEFAULT,
+        help=f"Base branch name (default: {BASE_BRANCH_DEFAULT})",
     )
     parser.add_argument(
         "--mem-guard", dest="mem_guard", action="store_true", default=None,

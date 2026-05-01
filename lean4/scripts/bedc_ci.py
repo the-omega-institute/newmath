@@ -468,6 +468,20 @@ def cmd_audit(args: argparse.Namespace) -> int:
             print(f"[bedc-ci] unresolved Lean markers: {payload['missing_marker_targets_count']}")
             for item in payload["missing_marker_targets"][:50]:
                 print(f"  {item['file']}:{item['line']} {item['macro']} -> {item['target']}")
+        if payload["duplicate_part_labels"]:
+            dup = payload["duplicate_part_labels"]
+            print(f"[bedc-ci] duplicate paper labels: {len(dup)}")
+            label_to_files: dict[str, list[str]] = {}
+            for item in collect_part_labels():
+                lbl = str(item.get("label", ""))
+                if lbl in dup:
+                    f = item.get("file", "?")
+                    ln = item.get("line", "?")
+                    label_to_files.setdefault(lbl, []).append(f"{f}:{ln}")
+            for label, count in list(dup.items())[:50]:
+                locs = label_to_files.get(label, [])
+                loc_str = ", ".join(locs) if locs else f"appears {count} times"
+                print(f"  {label}  @ {loc_str}")
 
     failures = (
         payload["forbidden_construct_count"]

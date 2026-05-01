@@ -25,6 +25,38 @@ $D(v)$. The classifier clause is exactly
 Theorem~\ref{thm:prod-ledger-raw-visible-classifier}.
 \end{proof}
 
+\begin{theorem}[Product checked envelope admits displayed pair ledger]
+\label{thm:prod-checked-envelope-displayed-pair-ledger}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and assume
+$\exists l:\mathsf{BHist}.\;L(l)$ and $\exists r:\mathsf{BHist}.\;R(r)$.
+Define the displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$. Then
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+D,
+\mathsf{ProdHistoryClassifier}(L,R))
+$$
+holds.
+\end{theorem}
+\begin{proof}
+The per-object fit is: traditional target ordered-product visible ledger; BEDC
+source $\mathsf{BHist}$ with $\Cont$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier $\mathsf{ProdHistoryClassifier}$;
+ledger displayed pair representation; core theorem
+Theorem~\ref{thm:concrete-prod-namecert}; exactness via pair-representation
+coverage; standard bridge ordinary ordered pairs; public certificate scope
+$\mathsf{SemanticNameCert}$; status $\mathsf{ProofTarget}$. Instantiate
+Theorem~\ref{thm:concrete-prod-namecert} with the two source-history witnesses.
+Its checked envelope certificate supplies the $\NameCert$ core fields and
+pattern soundness for source and pattern both equal to
+$\mathsf{ProdHistoryCarrier}(L,R)$. It remains only to replace the ledger field:
+given a source witness $\mathsf{ProdHistoryCarrier}(L,R,h)$, apply the forward
+direction of Theorem~\ref{thm:prod-pair-rep-coverage} to obtain histories $l$
+and $r$ with $\mathsf{ProdPairRep}_{L,R}(h,l,r)$, which is exactly $D(h)$.
+\end{proof}
+
 \begin{theorem}[Singleton history source certificate]
 \label{thm:singleton-history-source-namecert}
 Fix a BEDC history $a_0:\mathsf{BHist}$, and define

@@ -15,6 +15,18 @@ theorem RatHistoryCarrier_e0_absurd {tail : BEDC.FKernel.Hist.BHist} :
           exact PositiveUnaryDenominator_e0_absurd
             (RatCarrier_positive_denominator ratCarrier)
 
+theorem RatHistoryCarrier_e1_tail_unary_iff {tail : BHist} :
+    RatHistoryCarrier (BHist.e1 tail) ↔ UnaryHistory tail := by
+  constructor
+  · intro carrier
+    have positive : PositiveUnaryDenominator (BHist.e1 tail) :=
+      RatHistoryCarrier_iff_positive_denominator.mp carrier
+    exact PositiveUnaryDenominator_e1_iff_unary.mp positive
+  · intro tailUnary
+    have positive : PositiveUnaryDenominator (BHist.e1 tail) :=
+      PositiveUnaryDenominator_e1_iff_unary.mpr tailUnary
+    exact RatHistoryCarrier_iff_positive_denominator.mpr positive
+
 theorem RatHistoryClassifier_append_unary_denominator_closed {d e tailD tailE : BHist} :
     RatHistoryClassifier d e -> UnaryHistory tailD -> hsame tailD tailE ->
       RatHistoryClassifier (BEDC.FKernel.Cont.append d tailD)
@@ -62,5 +74,19 @@ theorem RatHistoryClassifier_prepend_unary_denominator_closed {d e prefD prefE :
             cases denSame
             exact hsame_refl (BEDC.FKernel.Cont.append prefD d)
           exact ⟨carrierDPre, carrierEPre, prependedSame⟩
+
+theorem RatHistoryClassifier_unary_denominator_context_closed
+    {d e prefD prefE tailD tailE : BHist} :
+    RatHistoryClassifier d e -> UnaryHistory prefD -> hsame prefD prefE ->
+      UnaryHistory tailD -> hsame tailD tailE ->
+        RatHistoryClassifier
+          (BEDC.FKernel.Cont.append prefD (BEDC.FKernel.Cont.append d tailD))
+          (BEDC.FKernel.Cont.append prefE (BEDC.FKernel.Cont.append e tailE)) := by
+  intro classifier prefDUnary prefSame tailDUnary tailSame
+  have tailClosed :
+      RatHistoryClassifier (BEDC.FKernel.Cont.append d tailD)
+        (BEDC.FKernel.Cont.append e tailE) :=
+    RatHistoryClassifier_append_unary_denominator_closed classifier tailDUnary tailSame
+  exact RatHistoryClassifier_prepend_unary_denominator_closed tailClosed prefDUnary prefSame
 
 end BEDC.Derived.RatUp

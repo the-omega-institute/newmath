@@ -8,6 +8,307 @@ open BEDC.FKernel.NameCert
 def OptionHistoryCarrier (source : BHist -> Prop) (h : BHist) : Prop :=
   hsame h BHist.Empty ∨ source h
 
+def OptionSourceExcludesEmpty (source : BHist -> Prop) : Prop :=
+  forall h : BHist, source h -> hsame h BHist.Empty -> False
+
+def TaggedOptionHistoryCarrier (S : BHist → Prop) (h : BHist) : Prop :=
+  hsame h BHist.Empty ∨ ∃ a : BHist, S a ∧ hsame h (BHist.e1 a)
+
+def TaggedOptionHistoryClassifier (S : BHist -> Prop) (Rel : BHist -> BHist -> Prop)
+    (h k : BHist) : Prop :=
+  (hsame h BHist.Empty ∧ hsame k BHist.Empty) ∨
+    ∃ a : BHist, ∃ b : BHist,
+      S a ∧ S b ∧ hsame h (BHist.e1 a) ∧ hsame k (BHist.e1 b) ∧ Rel a b
+
+theorem TaggedOptionHistoryClassifier_absent_branch_equivalence {S : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} {h k : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k ->
+      (hsame h BHist.Empty <-> hsame k BHist.Empty) := by
+  intro classifier
+  constructor
+  · intro sameHEmpty
+    cases classifier with
+    | inl absentPair =>
+        exact absentPair.right
+    | inr presentPair =>
+        cases presentPair with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro _ rest =>
+                    cases rest with
+                    | intro _ rest =>
+                        cases rest with
+                        | intro sameHPresent _ =>
+                            exact False.elim
+                              (not_hsame_emp_e1
+                                (hsame_trans (hsame_symm sameHEmpty) sameHPresent))
+  · intro sameKEmpty
+    cases classifier with
+    | inl absentPair =>
+        exact absentPair.left
+    | inr presentPair =>
+        cases presentPair with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro _ rest =>
+                    cases rest with
+                    | intro _ rest =>
+                        cases rest with
+                        | intro _ rest =>
+                            cases rest with
+                            | intro sameKPresent _ =>
+                                exact False.elim
+                                  (not_hsame_emp_e1
+                                    (hsame_trans (hsame_symm sameKEmpty) sameKPresent))
+
+theorem TaggedOptionHistoryClassifier_right_visible_branch_inversion {S : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} {h k : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k ->
+      (hsame k BHist.Empty -> hsame h BHist.Empty) /\
+        (forall {a : BHist}, S a -> hsame k (BHist.e1 a) ->
+          exists b : BHist, exists a' : BHist,
+            S b /\ S a' /\ hsame a a' /\ Rel b a' /\ hsame h (BHist.e1 b)) := by
+  intro classifier
+  constructor
+  · intro sameKEmpty
+    cases classifier with
+    | inl absentPair =>
+        exact absentPair.left
+    | inr presentPair =>
+        cases presentPair with
+        | intro b restB =>
+            cases restB with
+            | intro a' data =>
+                cases data with
+                | intro _ rest =>
+                    cases rest with
+                    | intro _ rest =>
+                        cases rest with
+                        | intro _ rest =>
+                            cases rest with
+                            | intro sameKPresent _ =>
+                                exact False.elim
+                                  (not_hsame_emp_e1
+                                    (hsame_trans (hsame_symm sameKEmpty) sameKPresent))
+  · intro a sourceA sameKPresentA
+    cases classifier with
+    | inl absentPair =>
+        exact False.elim
+          (not_hsame_emp_e1
+            (hsame_trans (hsame_symm absentPair.right) sameKPresentA))
+    | inr presentPair =>
+        cases presentPair with
+        | intro b restB =>
+            cases restB with
+            | intro a' data =>
+                cases data with
+                | intro sourceB rest =>
+                    cases rest with
+                    | intro sourceA' rest =>
+                        cases rest with
+                        | intro sameHPresent rest =>
+                            cases rest with
+                            | intro sameKPresentA' relBA' =>
+                                have samePayload : hsame a a' :=
+                                  hsame_e1_iff.mp
+                                    (hsame_trans (hsame_symm sameKPresentA) sameKPresentA')
+                                exact Exists.intro b
+                                  (Exists.intro a'
+                                    (And.intro sourceB
+                                      (And.intro sourceA'
+                                        (And.intro samePayload
+                                          (And.intro relBA' sameHPresent)))))
+
+theorem TaggedOptionHistoryClassifier_trans {S : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop}
+    (rel_trans : forall {a b c : BHist}, Rel a b -> Rel b c -> Rel a c)
+    {h k r : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k ->
+      TaggedOptionHistoryClassifier S Rel k r ->
+        TaggedOptionHistoryClassifier S Rel h r := by
+  intro classifierHK classifierKR
+  cases classifierHK with
+  | inl absentHK =>
+      cases classifierKR with
+      | inl absentKR =>
+          exact Or.inl (And.intro absentHK.left absentKR.right)
+      | inr presentKR =>
+          cases presentKR with
+          | intro c restC =>
+              cases restC with
+              | intro d data =>
+                  cases data with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro _ rest =>
+                          cases rest with
+                          | intro sameKPresent _ =>
+                              exact False.elim
+                                (not_hsame_emp_e1
+                                  (hsame_trans (hsame_symm absentHK.right) sameKPresent))
+  | inr presentHK =>
+      cases presentHK with
+      | intro a restA =>
+          cases restA with
+          | intro b dataHK =>
+              cases dataHK with
+              | intro sourceA restHK =>
+                  cases restHK with
+                  | intro _ restHK =>
+                      cases restHK with
+                      | intro sameHPresent restHK =>
+                          cases restHK with
+                          | intro sameKLeft relAB =>
+                              cases classifierKR with
+                              | inl absentKR =>
+                                  exact False.elim
+                                    (not_hsame_e1_empty
+                                      (hsame_trans (hsame_symm sameKLeft) absentKR.left))
+                              | inr presentKR =>
+                                  cases presentKR with
+                                  | intro c restC =>
+                                      cases restC with
+                                      | intro d dataKR =>
+                                          cases dataKR with
+                                          | intro _ restKR =>
+                                              cases restKR with
+                                              | intro sourceD restKR =>
+                                                  cases restKR with
+                                                  | intro sameKRight restKR =>
+                                                      cases restKR with
+                                                      | intro sameRPresent relCD =>
+                                                          have sameBC : hsame b c :=
+                                                            hsame_e1_iff.mp
+                                                              (hsame_trans
+                                                                (hsame_symm sameKLeft)
+                                                                sameKRight)
+                                                          cases sameBC
+                                                          exact Or.inr
+                                                            (Exists.intro a
+                                                              (Exists.intro d
+                                                                (And.intro sourceA
+                                                                  (And.intro sourceD
+                                                                    (And.intro sameHPresent
+                                                                      (And.intro sameRPresent
+                                                                        (rel_trans relAB
+                                                                          relCD)))))))
+
+theorem TaggedOptionHistoryCarrier_present_exactness {S : BHist → Prop} {h : BHist} :
+    TaggedOptionHistoryCarrier S (BHist.e1 h) ↔ ∃ a : BHist, S a ∧ hsame h a := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | inl emptyCase =>
+        exact False.elim (not_hsame_e1_empty emptyCase)
+    | inr presentCase =>
+        cases presentCase with
+        | intro a data =>
+            cases data with
+            | intro sourceCase sameEndpoint =>
+                exact Exists.intro a
+                  (And.intro sourceCase (hsame_e1_iff.mp sameEndpoint))
+  · intro presentCase
+    cases presentCase with
+    | intro a data =>
+        cases data with
+        | intro sourceCase samePayload =>
+            exact Or.inr
+              (Exists.intro a (And.intro sourceCase (hsame_e1_congr samePayload)))
+
+theorem TaggedOptionHistoryCarrier_exclusive_branch_partition {S : BHist → Prop}
+    {h : BHist} :
+    TaggedOptionHistoryCarrier S h →
+      (hsame h BHist.Empty ∧ ((∃ a : BHist, S a ∧ hsame h (BHist.e1 a)) → False)) ∨
+        (∃ a : BHist, S a ∧ hsame h (BHist.e1 a) ∧
+          (hsame h BHist.Empty → False)) := by
+  intro carrier
+  cases carrier with
+  | inl emptyCase =>
+      exact Or.inl
+        (And.intro emptyCase
+          (by
+            intro presentCase
+            cases presentCase with
+            | intro a data =>
+                cases data with
+                | intro _ samePresent =>
+                    exact not_hsame_emp_e1 (hsame_trans (hsame_symm emptyCase) samePresent)))
+  | inr presentCase =>
+      cases presentCase with
+      | intro a data =>
+          cases data with
+          | intro sourceCase samePresent =>
+              exact Or.inr
+                (Exists.intro a
+                  (And.intro sourceCase
+                    (And.intro samePresent
+                      (by
+                        intro emptyCase
+                        exact not_hsame_e1_empty
+                          (hsame_trans (hsame_symm samePresent) emptyCase)))))
+
+theorem TaggedOptionHistoryCarrier_constructor_separation {S : BHist → Prop}
+    {h a : BHist} :
+    hsame h BHist.Empty → S a → hsame h (BHist.e1 a) → False := by
+  intro sameEmpty _ samePresent
+  exact not_hsame_emp_e1 (hsame_trans (hsame_symm sameEmpty) samePresent)
+
+theorem TaggedOptionHistoryClassifier_present_branch_equivalence {S : BHist → Prop}
+    {Rel : BHist → BHist → Prop} {h k : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k →
+      ((∃ a : BHist, S a ∧ hsame h (BHist.e1 a)) ↔
+        (∃ b : BHist, S b ∧ hsame k (BHist.e1 b))) := by
+  intro classifier
+  constructor
+  · intro presentH
+    cases classifier with
+    | inl absentPair =>
+        cases presentH with
+        | intro a data =>
+            cases data with
+            | intro _ sameHPresent =>
+                exact False.elim
+                  (not_hsame_emp_e1 (hsame_trans (hsame_symm absentPair.left) sameHPresent))
+    | inr presentPair =>
+        cases presentPair with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro _ rest =>
+                    cases rest with
+                    | intro sourceB rest =>
+                        cases rest with
+                        | intro _ rest =>
+                            cases rest with
+                            | intro sameKPresent _ =>
+                                exact Exists.intro b (And.intro sourceB sameKPresent)
+  · intro presentK
+    cases classifier with
+    | inl absentPair =>
+        cases presentK with
+        | intro b data =>
+            cases data with
+            | intro _ sameKPresent =>
+                exact False.elim
+                  (not_hsame_emp_e1 (hsame_trans (hsame_symm absentPair.right) sameKPresent))
+    | inr presentPair =>
+        cases presentPair with
+        | intro a restA =>
+            cases restA with
+            | intro b data =>
+                cases data with
+                | intro sourceA rest =>
+                    cases rest with
+                    | intro _ rest =>
+                        cases rest with
+                        | intro sameHPresent _ =>
+                            exact Exists.intro a (And.intro sourceA sameHPresent)
+
 theorem OptionHistoryCarrier_hsame_transport {source : BHist -> Prop} {h k : BHist} :
     hsame h k -> OptionHistoryCarrier source h -> OptionHistoryCarrier source k := by
   intro same carrier
@@ -103,6 +404,17 @@ theorem OptionHistoryClassifier_trans {source : BEDC.FKernel.Hist.BHist -> Prop}
               | intro carrierR histKR =>
                   exact And.intro carrierH (And.intro carrierR (hsame_trans histHK histKR))
 
+theorem OptionHistoryLedgerPolicy_classifier_extension {source : BHist -> Prop}
+    (source_transport : forall {h k : BHist}, hsame h k -> source h -> source k)
+    {raw visible target : BHist} :
+    OptionHistoryLedgerPolicy source raw visible ->
+      OptionHistoryClassifier source visible target ->
+        OptionHistoryClassifier source raw target := by
+  intro ledger visibleTarget
+  exact OptionHistoryClassifier_trans
+    (OptionHistoryLedgerPolicy_raw_visible_classifier source_transport ledger)
+    visibleTarget
+
 theorem OptionHistoryClassifier_empty_left_iff {source : BHist -> Prop} {k : BHist} :
     OptionHistoryClassifier source BHist.Empty k ↔ hsame k BHist.Empty := by
   constructor
@@ -118,6 +430,39 @@ theorem OptionHistoryClassifier_empty_left_iff {source : BHist -> Prop} {k : BHi
     · constructor
       · exact Or.inl same
       · exact hsame_symm same
+
+theorem OptionHistoryClassifier_absent_source_separation {source : BHist → Prop}
+    (sourceExcludesEmpty : OptionSourceExcludesEmpty source) {h : BHist} :
+    source h →
+      (OptionHistoryClassifier source h BHist.Empty → False) ∧
+        (OptionHistoryClassifier source BHist.Empty h → False) := by
+  intro sourceH
+  constructor
+  · intro classifier
+    exact sourceExcludesEmpty h sourceH
+      ((OptionHistoryClassifier_empty_left_iff (source := source) (k := h)).mp
+        (OptionHistoryClassifier_symm classifier))
+  · intro classifier
+    exact sourceExcludesEmpty h sourceH
+      ((OptionHistoryClassifier_empty_left_iff (source := source) (k := h)).mp classifier)
+
+theorem OptionHistoryCarrier_exclusive_readback {source : BHist -> Prop}
+    (sourceExcludesEmpty : OptionSourceExcludesEmpty source) {h : BHist} :
+    OptionHistoryCarrier source h ->
+      (hsame h BHist.Empty /\ (source h -> False)) \/
+        (source h /\ (hsame h BHist.Empty -> False)) := by
+  intro carrier
+  cases carrier with
+  | inl emptyCase =>
+      exact Or.inl
+        ⟨emptyCase, by
+          intro sourceCase
+          exact sourceExcludesEmpty h sourceCase emptyCase⟩
+  | inr sourceCase =>
+      exact Or.inr
+        ⟨sourceCase, by
+          intro emptyCase
+          exact sourceExcludesEmpty h sourceCase emptyCase⟩
 
 theorem option_history_semantic_name_certificate (source : BHist -> Prop) :
     SemanticNameCert (OptionHistoryCarrier source) (OptionHistoryCarrier source)

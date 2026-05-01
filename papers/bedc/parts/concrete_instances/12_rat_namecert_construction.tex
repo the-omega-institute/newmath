@@ -157,6 +157,34 @@ positive unary denominators are separated from \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_not\_empty}
 
+\begin{theorem}[Rat history carrier positive denominator equivalence]
+\label{thm:rat-history-carrier-positive-denominator-equivalence}
+A denominator history lies in the rational history carrier exactly when it has
+a positive unary denominator witness.
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the rational history carrier into a sign,
+numerator, and rational carrier, then apply rational-carrier positivity of the
+denominator. In the reverse direction, use the concrete integer numerator
+carrier with sign $\bzero$ and empty magnitude, then rebuild the rational
+carrier from the positive denominator witness.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_iff\_positive\_denominator}
+
+\begin{theorem}[Rat history eone tail unary equivalence]
+\label{thm:rat-history-carrier-e1-tail-unary-iff}
+A one-extension denominator \(\Eone(t)\) lies in the rational history carrier
+exactly when its tail \(t\) is unary.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the rational history carrier to obtain the
+positive denominator witness, then invert the displayed one-extension
+denominator to transport unary membership to \(t\). For the reverse direction,
+use the canonical integer numerator with sign \(\bzero\) and empty magnitude,
+and use \(t\) itself as the positive unary denominator tail.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryCarrier\_e1\_tail\_unary\_iff}
+
 \begin{theorem}[Rat history carrier excludes zero-extension]
 \label{thm:rat-history-carrier-e0-absurd}
 No zero-extension history \(\Ezero(t)\) lies in the rational history carrier.
@@ -190,6 +218,18 @@ displayed $\Eone$ witness with append compatibility gives the required
 positive witness for $\mathsf{append}(u,d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_prefix}
+
+\begin{theorem}[Positive denominator append unary context]
+\label{thm:rat-positive-denominator-append-unary-context}
+If $p$ and $t$ are unary histories and $d$ has a positive unary denominator
+witness, then $\mathsf{append}(p,\mathsf{append}(d,t))$ has a positive unary
+denominator witness.
+\end{theorem}
+\begin{proof}
+First close the positive denominator under the unary tail $t$. Then close the
+resulting positive denominator under the unary prefix $p$.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_context}
 
 \begin{theorem}[Rat carrier prepend unary denominator closure]
 \label{thm:rat-carrier-prepend-unary-denominator-closed}
@@ -333,6 +373,21 @@ witnesses and applying reflexivity to the resulting append history.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_prepend\_unary\_denominators\_closed}
 
+\begin{theorem}[Rat classifier unary denominator context closure]
+\label{thm:rat-classifier-append-unary-denominator-context-closed}
+If two rational representatives are classified the same, then surrounding their
+denominators by $\hsame$-matching unary prefixes and unary tails preserves the
+rational classifier relation.
+\end{theorem}
+\begin{proof}
+First apply denominator append closure to the classified representatives and
+the matching unary tails. Then apply denominator prepend closure to the
+resulting classified representatives and the matching unary prefixes. The sign
+and numerator witnesses are unchanged, while the denominator endpoint relation
+is obtained by the two concrete unary-context closure steps.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_append\_unary\_denominator\_context\_closed}
+
 \begin{theorem}[Rat classifier transitivity]
 \label{thm:rat-classifier-transitivity}
 If one rational representative is classified the same as a second representative, and the second representative is classified the same as a third representative, then the first and third representatives are classified the same.
@@ -442,6 +497,24 @@ constructor cases on the continuation append operation.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_prepend\_unary\_denominator\_closed}
 
+\begin{theorem}[Rat history classifier unary denominator context closure]
+\label{thm:rat-history-classifier-unary-denominator-context-closed}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, unary prefixes \(p_d,p_e\) satisfy \(\hsame(p_d,p_e)\), and unary
+tails \(t_d,t_e\) satisfy \(\hsame(t_d,t_e)\), then placing the matching prefix
+and tail around the corresponding denominators preserves the rational history
+classifier.
+\end{theorem}
+\begin{proof}
+First apply unary denominator append closure to the classified denominator
+histories and the matching tails. Then apply unary denominator prepend closure
+to the resulting classified denominator histories and the matching prefixes.
+The endpoint carrier witnesses are closed by the two concrete unary closure
+steps, and the denominator relation is the composed \(\hsame\)-respecting
+append context.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_unary\_denominator\_context\_closed}
+
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}
 The stability certificate consists of:
@@ -494,6 +567,18 @@ Unpack the ledger into the raw rational-history carrier for $\rho$ and the
 stored $\hsame(\rho,v)$ link. The visible-carrier theorem supplies the
 rational-history carrier for $v$, and these witnesses form the raw-visible
 rational history classifier.
+\end{proof}
+
+\begin{theorem}[Rat ledger classifier extension]
+\label{thm:rat-ledger-classifier-extension}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds and
+$\mathsf{RatHistoryClassifier}(v,t)$ holds, then
+$\mathsf{RatHistoryClassifier}(\rho,t)$ holds.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_classifier\_extension}
+\begin{proof}
+Convert the raw-visible ledger into the raw-visible classifier, then compose it
+with the visible-target classifier by transitivity.
 \end{proof}
 
 \begin{definition}[\(\RatUp\) certificate obligations]

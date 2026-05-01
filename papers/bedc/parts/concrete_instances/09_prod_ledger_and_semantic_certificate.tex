@@ -50,6 +50,7 @@ raw-visible link, and $\hsame(v,v')$ to obtain $\hsame(\rho',v')$. The
 transported raw carrier and this composed link rebuild
 $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho',v')$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_hsame\_transport}
 
 \begin{theorem}[Prod ledger classifier composition]
 \label{thm:prod-ledger-classifier-extension}
@@ -71,6 +72,7 @@ raw-visible classifier with the visible-target classifier by product history
 classifier transitivity, yielding
 $\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_classifier\_extension}
 
 \begin{theorem}[Prod ledger backward classifier composition]
 \label{thm:prod-ledger-classifier-backward-composition}
@@ -94,6 +96,34 @@ $\mathsf{ProdHistoryClassifier}(L,R,v,\rho)$. Compose the assumed classifier
 from $w$ to $v$ with this reversed classifier by
 Theorem~\ref{thm:prod-history-classifier-transitivity}, yielding
 $\mathsf{ProdHistoryClassifier}(L,R,w,\rho)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_classifier\_backward\_composition}
+
+\begin{theorem}[Prod ledger classifier endpoint equivalence]
+\label{thm:prod-ledger-classifier-endpoint-equivalence}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,w) \Longleftrightarrow
+\mathsf{ProdHistoryClassifier}(L,R,v,w)$. The object fit is:
+traditional target ordered-product ledger endpoint replacement; BEDC source
+$\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier $\mathsf{ProdHistoryClassifier}$;
+stability by raw-visible classifier propagation in both directions; ledger
+$\mathsf{ProdHistoryLedgerPolicy}$; core theorem this endpoint equivalence;
+exactness classifier-invariant raw and visible endpoints; standard bridge
+displayed ordered-pair ledger.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-ledger-raw-visible-classifier} to the ledger
+policy to obtain $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$. For the forward
+direction, reverse this raw-visible classifier by
+Theorem~\ref{thm:prod-history-classifier-symmetry} and compose it with the
+assumed $\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$ by
+Theorem~\ref{thm:prod-history-classifier-transitivity}. For the reverse
+direction, apply
+Theorem~\ref{thm:prod-ledger-classifier-extension} to the same ledger policy
+and the assumed classifier from $v$ to $w$.
 \end{proof}
 
 \begin{theorem}[Prod ledger two-step classifier composition]
@@ -121,6 +151,7 @@ If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then there exist histor
 \begin{proof}
 Unfold the ledger into the raw product carrier for $\rho$ and the stored raw-visible witness $\hsame(\rho,v)$. Unfold the raw carrier to expose component histories $l$ and $r$ with $L(l)$, $R(r)$, and $\Cont(l,r,\rho)$. Theorem~\ref{thm:prod-ledger-visible-carrier} supplies $\mathsf{ProdHistoryCarrier}(L,R,v)$, and Theorem~\ref{thm:prod-ledger-raw-visible-classifier} supplies $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$. These witnesses give the stated component exposure.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_component\_exposure}
 
 \begin{theorem}[Concrete product history-envelope semantic certificate]
 \label{thm:concrete-prod-namecert}

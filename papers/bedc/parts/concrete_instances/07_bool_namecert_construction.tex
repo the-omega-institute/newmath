@@ -54,6 +54,7 @@ $$
 $$
 The carrier endpoint choice is therefore $\mathsf{BoolHistoryCarrier}$, and the classifier transport target is $\hsame$ on the two displayed history endpoints.
 \end{definition}
+\leandef{BEDC.Derived.BoolUp.BoolEndpoint}
 
 \begin{theorem}[Bool endpoint bridge exactness]
 \label{thm:bool-endpoint-bridge-exactness}
@@ -67,6 +68,7 @@ $$
 \begin{proof}
 Proceed by cases on $v$ and $w$. The matching $\bzero/\bzero$ and $\bone/\bone$ cases reduce both directions to reflexivity. In the mixed cases, the mark-to-history direction has no $\msame$ witness by mark no-confusion, and the history-to-mark direction has no $\hsame$ witness by the no-confusion between $\emp$ and $\Eone(\emp)$.
 \end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolEndpoint\_bridge\_exactness}
 
 \begin{theorem}[Bool history carrier endpoint coverage]
 \label{thm:bool-history-carrier-endpoint-coverage}
@@ -82,6 +84,7 @@ In the forward direction, split the carrier witness into its empty and one-endpo
 
 In the reverse direction, case-analyze the displayed mark $v$. The $\bzero$ case rewrites the endpoint witness to an $\hsame$ witness against $\emp$ and gives the empty carrier branch. The $\bone$ case rewrites it to an $\hsame$ witness against $\Eone(\emp)$ and gives the one-endpoint carrier branch.
 \end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_endpoint\_coverage}
 
 \begin{theorem}[Bool endpoint readback determinism]
 \label{thm:bool-endpoint-readback-determinism}
@@ -96,6 +99,8 @@ $\hsame(\mathsf{BoolEndpoint}(v),\mathsf{BoolEndpoint}(w))$. The reverse
 direction of Theorem~\ref{thm:bool-endpoint-bridge-exactness} converts this
 displayed endpoint sameness into $\msame(v,w)$.
 \end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolEndpoint\_readback\_determinism}
+\leanchecked{BEDC.Derived.BoolUp.BoolEndpoint\_readback\_deterministic}
 
 \begin{theorem}[Bool endpoint readback total uniqueness]
 \label{thm:bool-endpoint-readback-total-unique}
@@ -118,6 +123,7 @@ $\mathsf{BoolSourceSpec}(v)$ for both boolean marks. For any other displayed
 readback $w$, Theorem~\ref{thm:bool-endpoint-readback-determinism} applied to
 the two endpoint witnesses gives $\msame(v,w)$.
 \end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolEndpoint\_readback\_total\_unique}
 
 \begin{theorem}[Bool classifier readback total uniqueness]
 \label{thm:bool-classifier-readback-total-unique}
@@ -151,6 +157,7 @@ $\hsame(h,\mathsf{BoolEndpoint}(v))$ and
 $\hsame(h,\mathsf{BoolEndpoint}(w))$. Theorem~\ref{thm:bool-endpoint-readback-determinism}
 then gives $\msame(v,w)$.
 \end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_readback\_total\_unique}
 
 \begin{theorem}[Bool endpoint bridge classifier completeness]
 \label{thm:bool-endpoint-bridge-classifier-completeness}
@@ -186,6 +193,7 @@ direction, unpack the displayed classifier witness. Its left endpoint carrier
 field is exactly $\mathsf{BoolHistoryCarrier}(h)$, so the carrier statement
 follows directly.
 \end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryCarrier\_classifier\_endpoint\_exactness}
 
 \begin{theorem}[Bool history classifier endpoint readback]
 \label{thm:bool-history-classifier-endpoint-readback}
@@ -238,6 +246,7 @@ endpoints satisfy $\mathsf{BoolHistoryClassifier}$. Finally apply endpoint
 transport for $\mathsf{BoolHistoryClassifier}$ along the two given $\hsame$
 readbacks to obtain $\mathsf{BoolHistoryClassifier}(h,k)$.
 \end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_mark\_readback\_exactness}
 
 \begin{theorem}[Bool source-qualified classifier readback exactness]
 \label{thm:bool-source-qualified-classifier-readback-exactness}
@@ -481,6 +490,7 @@ the left endpoint link with the symmetric right endpoint link to obtain the
 classifier $\hsame(h,k)$ witness. The one-one branch similarly rebuilds the two
 one-endpoint carrier witnesses and composes through $\Eone(\emp)$.
 \end{proof}
+\leanchecked{BEDC.Derived.BoolUp.BoolHistoryClassifier\_endpoint\_exactness}
 
 \begin{theorem}[Bool history classifier constructor separation]
 \label{thm:bool-history-classifier-constructor-separation}

@@ -49,6 +49,7 @@ link of the transported ledger, compose symmetry of $\hsame(raw,raw')$, the
 stored $\hsame(raw,visible)$ link, and $\hsame(visible,visible')$ to obtain
 $\hsame(raw',visible')$.
 \end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_hsame\_transport}
 
 \begin{theorem}[Sum ledger classifier composition]
 \label{thm:sum-ledger-classifier-extension}
@@ -70,6 +71,118 @@ Then compose this classifier witness with the given visible-target classifier
 witness using sum-history classifier transitivity. The branch classifiers are
 both $\hsame$, so their required transitivity inputs are the left and right
 instances of BEDC history equality transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_classifier\_composition}
+
+\begin{theorem}[Sum ledger two-step classifier composition]
+\label{thm:sum-ledger-two-step-classifier-composition}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ and
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,v,w)$ hold, then
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,w)
+$$
+holds. The roadmap fit is: traditional target disjoint-sum ledger-chain
+closure; BEDC source $\mathsf{BHist}$ with tagged sum carrier; carrier
+$\mathsf{SumHistoryCarrier}$; classifier
+$\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame)$; stability by two
+raw-visible ledger exposures and classifier transitivity; ledger two
+composable $\mathsf{SumHistoryLedgerPolicy}$ witnesses; core theorem this
+closure; exactness raw-to-middle-to-visible; standard bridge tagged sum ledger
+chain; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-raw-visible-classifier} to the two ledger
+witnesses, obtaining classifiers from $\rho$ to $v$ and from $v$ to $w$.
+Compose them by Theorem~\ref{thm:sum-history-classifier-transitivity}; the
+branch classifiers are both $\hsame$, so the required transitivity inputs are
+the left and right instances of BEDC history equality transitivity.
+\end{proof}
+
+\begin{theorem}[Sum ledger two-step branch exactness]
+\label{thm:sum-ledger-two-step-branch-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ and
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,v,w)$ hold, then the whole
+two-step chain has a visible same-branch payload readback:
+$$
+\bigl(\exists l\,l':\mathsf{BHist}.\; Left(l)\land Left(l')\land\hsame(\rho,\Ezero(l))\land\hsame(w,\Ezero(l'))\land\hsame(l,l')\bigr)
+\lor
+\bigl(\exists r\,r':\mathsf{BHist}.\; Right(r)\land Right(r')\land\hsame(\rho,\Eone(r))\land\hsame(w,\Eone(r'))\land\hsame(r,r')\bigr).
+$$
+The ten-field fit is: traditional target disjoint-sum ledger-chain readback;
+BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{SumHistoryCarrier}$; classifier unused in the final exactness statement
+but supplied by Theorem~\ref{thm:sum-ledger-two-step-classifier-composition};
+ledger two composable $\mathsf{SumHistoryLedgerPolicy}$ witnesses; core theorem
+this branch exactness statement; exactness raw-to-visible same-branch payload
+readback; standard bridge tagged sum ledger chains; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-raw-visible-branch-exactness} to each ledger
+witness. The first application exposes either a left payload visible at
+$\rho$ and $v$, or a right payload visible at $\rho$ and $v$; the second exposes
+the corresponding alternatives at $v$ and $w$. Split the four branch cases. In
+the left-left case, use Theorem~\ref{thm:sum-visible-branch-payload-determinism}
+at the shared middle endpoint $v$ to identify the two left payloads and assemble
+the left disjunct. The right-right case is identical with the right branch.
+The mixed left-right and right-left cases contradict generated-history
+no-confusion between $\Ezero$ and $\Eone$ at the shared middle endpoint $v$.
+\end{proof}
+
+\begin{theorem}[Sum ledger two-step endpoint exactness]
+\label{thm:sum-ledger-two-step-endpoint-exactness}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w,l,l',r,r':\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,v)$ and
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,v,w)$ hold, then the two-ledger
+chain has endpoint exactness from $\rho$ to $w$. First, both mixed endpoint
+pairs are impossible:
+$$
+(\hsame(\rho,\Ezero(l))\land \hsame(w,\Eone(r')))\to\bot
+$$
+and
+$$
+(\hsame(\rho,\Eone(r))\land \hsame(w,\Ezero(l')))\to\bot.
+$$
+Second, same-tag endpoint pairs determine their payloads:
+$$
+(\hsame(\rho,\Ezero(l))\land\hsame(w,\Ezero(l')))\to\hsame(l,l')
+$$
+and
+$$
+(\hsame(\rho,\Eone(r))\land\hsame(w,\Eone(r')))\to\hsame(r,r').
+$$
+Third, final visible endpoints of $w$ read back source payload evidence:
+$$
+(\hsame(w,\Ezero(l'))\to\exists a:\mathsf{BHist}.\;Left(a)\land\hsame(l',a))
+$$
+and
+$$
+(\hsame(w,\Eone(r'))\to\exists b:\mathsf{BHist}.\;Right(b)\land\hsame(r',b)).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:sum-ledger-two-step-classifier-composition} to the two
+ledger witnesses and obtain
+$\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,\rho,w)$. The two mixed
+endpoint conclusions follow from
+Theorem~\ref{thm:sum-history-classifier-tag-separation}; for the reversed
+displayed order, use classifier symmetry from
+Theorem~\ref{thm:sum-history-classifier-hsame-symmetry} before applying the same
+tag-separation theorem. The left same-tag conclusion is exactly the left
+endpoint inversion supplied by
+Theorem~\ref{thm:sum-history-classifier-left-hsame-inversion}, and the right
+same-tag conclusion is the corresponding right inversion from
+Theorem~\ref{thm:sum-history-classifier-right-hsame-inversion}. For the final
+visible readback, apply Theorem~\ref{thm:sum-ledger-visible-carrier} to the
+second ledger witness, obtaining a visible carrier for $w$; then apply
+Theorem~\ref{thm:sum-history-carrier-visible-tag-exactness} to the displayed
+$\Ezero$ or $\Eone$ endpoint of $w$ to extract the matching source payload
+evidence.
 \end{proof}
 
 \begin{theorem}[Sum ledger preserves visible tag separation]
@@ -97,6 +210,7 @@ right-to-left pair, use classifier symmetry from
 Theorem~\ref{thm:sum-history-classifier-hsame-symmetry} and apply the same mixed-tag
 separation theorem to the exchanged endpoints.
 \end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryLedgerPolicy\_visible\_tag\_separation}
 
 \begin{theorem}[Sum ledger same-tag payload exactness]
 \label{thm:sum-ledger-same-tag-payload-exactness}
@@ -169,7 +283,30 @@ $$
 \begin{proof}
 The carrier is represented by $e0$-tagged left histories and $e1$-tagged right histories. Theorem~\ref{thm:sum-classifier-no-source-membership} marks the split: the classifier delegates within matching tags to the corresponding source certificate, while source-carrier evidence is taken from $\mathsf{SumHistoryCarrier}$ when certificate fields require it. Reflexivity is built by tagging the source certificate reflexivity field on the selected component. Symmetry and transitivity invert the tagged classifier witnesses, use the matching source certificate fields inside a left--left or right--right branch, and discharge mixed tags by constructor no-confusion.
 
-For carrier transport in the left branch, the carrier witness stores $\hsame(h,\Ezero(l))$ and $Left(l)$, while the classifier endpoint stores $\hsame(h,\Ezero(a))$, $\hsame(k,\Ezero(b))$, and $LeftEq(a,b)$. Symmetry of the carrier endpoint, composed with the classifier endpoint by transitivity, gives $\hsame(\Ezero(l),\Ezero(a))$. Corollary~\ref{cor:ezero-constructor-inversion} gives $\hsame(l,a)$, so the source $\NameCert(Left,LeftEq)$ transports the stored source-carrier witness from $Left(l)$ to $Left(a)$ and then applies the source equivalence witness $LeftEq(a,b)$ to obtain $Left(b)$. The target tagged carrier is rebuilt using the stored endpoint witness $\hsame(k,\Ezero(b))$. In the right branch, the same argument gives $\hsame(\Eone(r),\Eone(a))$ from the carrier and classifier endpoints; Corollary~\ref{cor:eone-constructor-inversion} gives $\hsame(r,a)$, after which $\NameCert(Right,RightEq)$ transports $Right(r)$ to $Right(a)$ and applies $RightEq(a,b)$ to obtain $Right(b)$. The target tagged carrier is rebuilt with $\hsame(k,\Eone(b))$. The carrier-as-pattern and carrier-as-ledger components use the same tagged carrier evidence, so the displayed tuple satisfies the semantic certificate fields.
+The core certificate fields are assembled from
+Theorem~\ref{thm:sum-history-classifier-source-certified-stability-fields}.
+That theorem supplies carrier-relative reflexivity, source-certified symmetry,
+source-certified transitivity, and classifier-induced carrier transport for the
+tagged carrier and tagged classifier. The inhabited field is separate: take the
+inhabited witness $l$ from the left source certificate, choose the visible
+endpoint $\Ezero(l)$, and rebuild
+$\mathsf{SumHistoryCarrier}(Left,Right,\Ezero(l))$ by the left tagged
+constructor with the reflexive endpoint witness and the stored $Left(l)$
+evidence.
+
+Inside the carrier-transport field supplied by the cited theorem, source-carrier
+membership is not transported along an arbitrary source $\NameCert$ merely from
+$\hsame(l,a)$. In the left branch, constructor inversion first aligns the tagged
+payloads and obtains $\hsame(l,a)$; the checked finite-kernel identity
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ converts that history-sameness
+witness to kernel equality before the stored $Left(l)$ evidence is rewritten as
+$Left(a)$. Only after this equality rewrite does
+$\NameCert.carrier\_respects\_equiv$ from the left source certificate apply
+along the displayed source classifier witness $LeftEq(a,b)$, yielding
+$Left(b)$ and hence the target left tagged carrier. The right branch is the same
+with $RightEq(a,b)$ and the right source certificate. Pattern soundness and
+ledger soundness are identity implications, since both semantic fields are the
+same predicate $\mathsf{SumHistoryCarrier}(Left,Right)$.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate}
 

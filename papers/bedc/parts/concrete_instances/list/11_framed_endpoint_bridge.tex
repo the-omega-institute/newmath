@@ -12,6 +12,7 @@ $$
 The outer $\Eone$ marks a nonempty first component, while the inner
 $\Ezero/\Eone$ tag records the constructor of that first component.
 \end{definition}
+\leandef{BEDC.Derived.ListUp.PairFrame}
 
 \begin{lemma}[Pair frame injectivity]
 \label{lem:list-pair-frame-injectivity}
@@ -34,6 +35,7 @@ recursive pair-frame equality. Combining the exposed recursive head equality
 with the constructor equality gives $\hsame(u,u')$, and the induction
 hypothesis also gives $\hsame(t,t')$.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.PairFrame\_hsame\_injective}
 
 \begin{definition}[Framed list endpoint]
 \label{def:framed-list-endpoint}
@@ -47,6 +49,7 @@ $$
 \end{array}
 $$
 \end{definition}
+\leandef{BEDC.Derived.ListUp.FramedListEndpoint}
 
 \begin{theorem}[Framed list endpoint no-confusion and cons inversion]
 \label{thm:framed-list-endpoint-no-confusion-cons-inversion}
@@ -85,6 +88,78 @@ inversion exposing the first and second frame arguments. The two projections of
 that lemma give $\hsame(a,b)$ and
 $\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))$.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListEndpoint\_no\_confusion\_cons\_inversion}
+
+\begin{lemma}[Pair frame congruence]
+\label{lem:list-pair-frame-congruence}
+For histories $u,u',t,t':\mathsf{BHist}$, if $\hsame(u,u')$ and
+$\hsame(t,t')$, then
+$$
+\hsame(\mathsf{PairFrame}(u,t),\mathsf{PairFrame}(u',t')).
+$$
+\end{lemma}
+\begin{proof}
+Proceed by induction on the displayed witness $\hsame(u,u')$. In the empty
+case, the goal is the congruence of $\Ezero$ applied to $\hsame(t,t')$. In the
+$\Ezero$ case, apply the induction hypothesis to the inner pair frame and then
+apply congruence for the two visible constructors $\Ezero$ and $\Eone$. The
+$\Eone$ case is identical except that the inner tag is $\Eone$. Thus the frame
+recursion is stable in the first argument, and the terminal empty branch carries
+the second-argument $\hsame$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.PairFrame\_congruence}
+
+\begin{theorem}[Framed list endpoint classifier exactness]
+\label{thm:framed-list-endpoint-classifier-exactness}
+For finite BEDC-history spines $xs,ys$,
+$$
+\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(\hsame,xs,ys).
+$$
+\end{theorem}
+\begin{proof}
+For the left-to-right direction, argue by induction on the first spine and
+case analysis on the second. The nil-nil case gives the nil constructor of
+$\mathsf{ListClassifierSpec}$. The mixed nil-cons and cons-nil cases contradict
+Theorem~\ref{thm:framed-list-endpoint-no-confusion-cons-inversion}. In the
+cons-cons case, the same theorem exposes $\hsame$ between the heads and
+$\hsame$ between the framed tail endpoints; apply the induction hypothesis to
+the tail equality and then use the cons constructor of
+$\mathsf{ListClassifierSpec}(\hsame,-,-)$.
+
+For the right-to-left direction, induct on the displayed
+$\mathsf{ListClassifierSpec}(\hsame,xs,ys)$ witness. The nil branch is
+reflexivity of the framed nil endpoint. In the cons branch, the head witness and
+the induction hypothesis give congruent arguments for
+$\mathsf{PairFrame}$ by Lemma~\ref{lem:list-pair-frame-congruence}; one final
+$\Eone$ congruence yields equality of the framed cons endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListEndpoint\_classifier\_exactness}
+
+\begin{theorem}[Framed list endpoint length preservation]
+\label{thm:framed-list-endpoint-length-preservation}
+The ten-field fit is: traditional target finite-list framed endpoint readback;
+BEDC source $\mathsf{BHist}$; carrier finite spines; classifier endpoint
+$\hsame$; stability endpoint exactness; ledger visible framed endpoint; core
+theorem length preservation; exactness via $\mathsf{ListClassifierSpec}$;
+standard bridge finite spines; status $\mathsf{ProofTarget}$. For finite
+BEDC-history spines $xs,ys$, if
+$$
+\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))
+$$
+holds, then
+$$
+\ell(xs)=\ell(ys).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:framed-list-endpoint-classifier-exactness} from left to
+right to convert the displayed endpoint equality into
+$\mathsf{ListClassifierSpec}(\hsame,xs,ys)$. Then apply
+Theorem~\ref{thm:list-classifier-length-eq} to obtain equality of the finite
+spine lengths.
+\end{proof}
 
 \begin{definition}[Framed list-spine representation]
 \label{def:framed-list-spine-representation}
@@ -95,6 +170,21 @@ $$
 \hsame(h,\mathsf{FramedListEndpoint}(xs)).
 $$
 \end{definition}
+\leandef{BEDC.Derived.ListUp.FramedListSpineRep}
+
+\begin{theorem}[Framed list-spine representation hsame transport]
+\label{thm:framed-list-spine-rep-hsame-transport}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. If
+$\mathsf{FramedListSpineRep}_A(h,xs)$ holds and $\hsame(h,h')$ holds, then
+$\mathsf{FramedListSpineRep}_A(h',xs)$ holds.
+\end{theorem}
+\begin{proof}
+The entrywise source predicate over $xs$ is unchanged. The endpoint witness for
+$h'$ is obtained by composing $\hsame(h',h)$, the symmetry of the displayed
+$\hsame(h,h')$, with the stored witness
+$\hsame(h,\mathsf{FramedListEndpoint}(xs))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_hsame\_transport}
 
 \begin{theorem}[Framed list-spine coherence]
 \label{thm:framed-list-spine-coherence}
@@ -166,6 +256,43 @@ $xs$, and at $k$ to classify $ys$ with $ys_0$. Apply
 Theorem~\ref{thm:list-classifier-length-eq} to the three finite-spine classifier
 witnesses $xs_0\sim_A xs$, $xs\sim_A ys$, and $ys\sim_A ys_0$, then chain the
 three finite-length equalities.
+\end{proof}
+
+\begin{theorem}[Framed list bridge classifier displayed-spine exactness]
+\label{thm:framed-list-bridge-classifier-displayed-spine-exactness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSourceHsameCompatible}(A,\sim_A)$. For histories
+$h,k:\mathsf{BHist}$ and finite spines $xs,ys$, if
+$\mathsf{FramedListSpineRep}_A(h,xs)$ and
+$\mathsf{FramedListSpineRep}_A(k,ys)$ hold, then
+$$
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)
+\quad\Longleftrightarrow\quad
+\mathsf{ListClassifierSpec}(\sim_A,xs,ys).
+$$
+The displayed spine representatives therefore give the exact finite-spine
+readback of the framed bridge classifier at the two endpoints.
+\end{theorem}
+\begin{proof}
+For the right-to-left implication, use the displayed spines $xs$ and $ys$ as the
+existential bridge witnesses. The two representation hypotheses supply the
+endpoint clauses, and the displayed
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ supplies the finite-spine classifier
+clause.
+
+For the left-to-right implication, unpack the bridge classifier into finite
+spines $xs_0,ys_0$ with $\mathsf{FramedListSpineRep}_A(h,xs_0)$,
+$\mathsf{FramedListSpineRep}_A(k,ys_0)$, and
+$\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$. Apply
+Theorem~\ref{thm:framed-list-spine-coherence} at $h$ to obtain
+$\mathsf{ListClassifierSpec}(\sim_A,xs,xs_0)$. Apply the same theorem at $k$ to
+obtain $\mathsf{ListClassifierSpec}(\sim_A,ys,ys_0)$, then use
+Theorem~\ref{thm:list-classifier-symm-from-namecert} and the certificate
+$\mathsf{cert}$ to reverse this comparison. Two applications of
+Theorem~\ref{thm:list-classifier-trans-from-namecert} compose
+$xs\sim_A xs_0$, $xs_0\sim_A ys_0$, and $ys_0\sim_A ys$, yielding
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
 \end{proof}
 
 \begin{corollary}[Framed finite-spine paper certificate]

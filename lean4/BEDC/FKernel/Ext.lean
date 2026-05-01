@@ -183,6 +183,13 @@ theorem ext_b1_result_hsame {h r : BHist} :
   cases hr
   rfl
 
+theorem ext_result_ne_empty {h r : BHist} {m : BMark} :
+    Ext h m r -> hsame r BHist.Empty -> False := by
+  intro hr sameEmpty
+  cases hr
+  · exact not_hsame_e0_empty sameEmpty
+  · exact not_hsame_e1_empty sameEmpty
+
 theorem ext_same_source_cross_mark_results_not_hsame {h r0 r1 : BHist} :
     Ext h BMark.b0 r0 -> Ext h BMark.b1 r1 -> hsame r0 r1 -> False := by
   intro left right same

@@ -1,0 +1,752 @@
+\begin{definition}[Tagged option history carrier]
+\label{def:tagged-option-history-carrier}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, define $\mathsf{TaggedOptionHistoryCarrier}_S(h)$ by the two constructor-shaped cases:
+\begin{enumerate}
+  \item absent: $\hsame(h,\emp)$;
+  \item present: there is a payload history $a$ such that $S(a)$ and $\hsame(h,\Eone(a))$.
+\end{enumerate}
+\end{definition}
+\leandef{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier}
+
+\begin{theorem}[Tagged option history present exactness]
+\label{thm:tagged-option-history-present-exactness}
+For any BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, a present endpoint in the tagged carrier is exactly a source
+payload at the visible present tag:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(\Eone(h))
+\quad\Longleftrightarrow\quad
+\exists a:\mathsf{BHist}.\; S(a)\land \hsame(h,a).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, case-analyze the tagged carrier witness for
+$\Eone(h)$. The absent branch gives $\hsame(\Eone(h),\emp)$ and is eliminated
+by generated-history no-confusion between a present endpoint and the empty
+endpoint. The present branch gives a payload history $a$, a source witness
+$S(a)$, and $\hsame(\Eone(h),\Eone(a))$; applying the one-constructor inversion
+theorem for $\hsame$ strips the visible present tags and yields $\hsame(h,a)$,
+so $a$ is the required payload. Conversely, given a payload $a$ with $S(a)$ and
+$\hsame(h,a)$, use the present branch of
+$\mathsf{TaggedOptionHistoryCarrier}_S$. The endpoint witness is
+$\hsame(\Eone(h),\Eone(a))$, obtained by applying $e1$ congruence to
+$\hsame(h,a)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_present\_exactness}
+
+For the finite-data certificate template, the traditional target is
+absent-vs-present option tags; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; no classifier
+participates in this obligation. The stability obligation is constructor
+no-confusion, the ledger exposes the visible tag, the core theorem is this
+disjointness lemma, exactness is absent/present separation, the standard bridge
+is $\mathsf{none}$/$\mathsf{some}$, and the site status is
+$\mathsf{ProofTarget}$.
+
+\begin{lemma}[Tagged option history carrier constructor separation]
+\label{lem:tagged-option-history-carrier-constructor-separation}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, history $h$, and payload history $a$, an absent endpoint and a present endpoint cannot be witnessed by the same carrier endpoint:
+$$
+\hsame(h,\emp)\land S(a)\land \hsame(h,\Eone(a))
+\quad\Longrightarrow\quad
+\bot.
+$$
+\end{lemma}
+\begin{proof}
+Compose symmetry of $\hsame(h,\emp)$ with $\hsame(h,\Eone(a))$ to obtain $\hsame(\emp,\Eone(a))$. BEDC generated-history no-confusion between the empty constructor and the one-step constructor eliminates this endpoint equality. The source witness $S(a)$ records that the present payload is a valid source history but is not needed for the constructor contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_constructor\_separation}
+
+\begin{definition}[Tagged option history classifier]
+\label{def:tagged-option-history-classifier}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, define $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ by the two constructor-matching cases:
+\begin{enumerate}
+  \item absent-absent: $\hsame(h,\emp)$ and $\hsame(k,\emp)$;
+  \item present-present: there are payload histories $a,b$ such that $S(a)$, $S(b)$, $a\sim_S b$, $\hsame(h,\Eone(a))$, and $\hsame(k,\Eone(b))$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Tagged option source hsame compatibility]
+\label{def:tagged-option-source-hsame-compatibility}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, define $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ to be the property that for all payload histories $a,b$, if $S(a)$, $S(b)$, and $\hsame(a,b)$, then $a\sim_S b$.
+\end{definition}
+
+\begin{theorem}[Tagged option history classifier endpoint carriers]
+\label{thm:tagged-option-history-classifier-endpoint-carriers}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k$, if
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ holds, then both
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$ and
+$\mathsf{TaggedOptionHistoryCarrier}_S(k)$ hold.
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. The absent-absent branch stores
+$\hsame(h,\emp)$ and $\hsame(k,\emp)$, so the absent carrier clause rebuilds
+both endpoint carriers. The present-present branch stores payload histories
+$a,b$, source witnesses $S(a)$ and $S(b)$, the payload classifier witness
+$a\sim_S b$, and visible endpoint links $\hsame(h,\Eone(a))$ and
+$\hsame(k,\Eone(b))$. The two present carrier clauses reuse the corresponding
+payload histories, source witnesses, and endpoint links, so both classified
+endpoints are tagged option carrier endpoints.
+\end{proof}
+
+\begin{theorem}[Tagged option history classifier transitivity]
+\label{thm:tagged-option-history-classifier-transitivity}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source
+classifier $\sim_S$, if $\sim_S$ is transitive, then
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}$ is transitive.
+\end{theorem}
+\begin{proof}
+Case-analyze the two tagged classifier witnesses. The absent/absent branch
+rebuilds the absent classifier branch. The mixed absent/present branches present
+the shared middle history both as \(\emp\) and as \(\Eone(a)\), so BEDC
+generated-history no-confusion eliminates them. In the present/present branch,
+the two endpoint witnesses for the shared middle history give
+\(\hsame(\Eone(b),\Eone(c))\), and one-constructor inversion gives
+\(\hsame(b,c)\). Transport along this equality identifies the middle payloads,
+and source-classifier transitivity composes the two payload classifier
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_trans}
+
+\begin{theorem}[Tagged option history present-present exactness]
+\label{thm:tagged-option-history-present-present-exactness}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and histories $h,k$, the tagged option history classifier is exact on two visible present endpoints:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\Eone(k))
+\quad\Longleftrightarrow\quad
+\exists a,b:\mathsf{BHist}.\; S(a)\land S(b)\land \hsame(h,a)\land \hsame(k,b)\land a\sim_S b.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, case-analyze the tagged classifier witness. The absent-absent branch would contain $\hsame(\Eone(h),\emp)$ and is eliminated by one-versus-empty no-confusion. The present-present branch gives payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, a source classifier witness $a\sim_S b$, and endpoint witnesses $\hsame(\Eone(h),\Eone(a))$ and $\hsame(\Eone(k),\Eone(b))$; one-constructor inversion strips the visible $e1$ tags and yields $\hsame(h,a)$ and $\hsame(k,b)$. For the reverse direction, the displayed payload data rebuilds the present-present classifier branch after applying one-constructor congruence for $\hsame$ to the two payload endpoint witnesses.
+\end{proof}
+
+\begin{theorem}[Tagged option history visible present exactness]
+\label{thm:tagged-option-history-visible-present-exactness}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, a transitivity hypothesis
+$$
+\forall x\,y\,z.\;x\sim_S y\to y\sim_S z\to x\sim_S z,
+$$
+and $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, if $S(h)$ and $S(k)$, then the tagged option history classifier is exact on the two source-visible present endpoints:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\Eone(k))
+\quad\Longleftrightarrow\quad
+h\sim_S k.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply Theorem~\ref{thm:tagged-option-history-present-present-exactness} to the tagged classifier witness. It provides payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, endpoint witnesses $\hsame(h,a)$ and $\hsame(k,b)$, and a payload classifier witness $a\sim_S b$. The compatibility hypothesis gives $h\sim_S a$ from $S(h)$, $S(a)$, and $\hsame(h,a)$; symmetry of $\hsame$ turns $\hsame(k,b)$ into $\hsame(b,k)$, and compatibility gives $b\sim_S k$ from $S(b)$, $S(k)$, and that symmetric endpoint witness. Two applications of the displayed transitivity hypothesis compose $h\sim_S a$, $a\sim_S b$, and $b\sim_S k$ into $h\sim_S k$.
+
+For the reverse direction, use Theorem~\ref{thm:tagged-option-history-present-present-exactness} with payloads $h$ and $k$. The source witnesses are the assumptions $S(h)$ and $S(k)$, the endpoint witnesses are reflexivity of $\hsame$ at $h$ and $k$, and the payload classifier witness is the assumed $h\sim_S k$.
+\end{proof}
+
+\begin{theorem}[Tagged option hsame source compatibility]
+\label{thm:tagged-option-source-hsame-compatibility-hsame}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+$$
+\mathsf{TaggedOptionSourceHsameCompatible}(S,\hsame)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:tagged-option-source-hsame-compatibility}. Given payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, and the displayed witness $\hsame(a,b)$, return that same history-sameness witness as the source classifier witness.
+\end{proof}
+
+\begin{theorem}[Tagged option hsame present exactness]
+\label{thm:tagged-option-history-hsame-present-exactness}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and assume $\mathsf{source\_transport}:\forall x\,y:\mathsf{BHist}.\; \hsame(x,y)\to S(x)\to S(y)$. For histories $h,k$,
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}(\Eone(h),\Eone(k))
+\quad\Longleftrightarrow\quad
+S(h)\land S(k)\land \hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-present-present-exactness} with source classifier $\hsame$. In the forward direction, the exactness witness gives payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, endpoint links $\hsame(h,a)$ and $\hsame(k,b)$, and a payload link $\hsame(a,b)$. Symmetry turns $\hsame(h,a)$ into $\hsame(a,h)$, so the first application of $\mathsf{source\_transport}$ sends $S(a)$ to $S(h)$; symmetry turns $\hsame(k,b)$ into $\hsame(b,k)$, so the second application sends $S(b)$ to $S(k)$. Compose $\hsame(h,a)$, $\hsame(a,b)$, and the symmetric form of $\hsame(k,b)$ to obtain $\hsame(h,k)$. In the reverse direction, choose payloads $h$ and $k$; the two source witnesses are displayed, the endpoint links are reflexivity of $\hsame$, and the payload classifier witness is the displayed $\hsame(h,k)$.
+\end{proof}
+
+\begin{definition}[Tagged option history pattern]
+\label{def:tagged-option-history-pattern}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, the visible tag pattern $\mathsf{TaggedOptionHistoryPattern}_S(h)$ holds exactly when $h$ is either an absent endpoint with $\hsame(h,\emp)$ or a present endpoint with payload history $a$ satisfying $S(a)$ and $\hsame(h,\Eone(a))$.
+\end{definition}
+
+\begin{definition}[Tagged option history ledger]
+\label{def:tagged-option-history-ledger}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, the visible tag ledger $\mathsf{TaggedOptionHistoryLedger}_S(h)$ records the same two endpoint forms as certificate data: the absent record stores $\hsame(h,\emp)$, and the present record stores a payload history $a$ together with $S(a)$ and $\hsame(h,\Eone(a))$.
+\end{definition}
+
+\begin{theorem}[Tagged option history carrier, pattern, and ledger equivalence]
+\label{thm:tagged-option-history-carrier-pattern-ledger-equivalence}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and history $h$, the tagged option history carrier is equivalent to both visible certificate presentations:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)
+\quad\Longleftrightarrow\quad
+\mathsf{TaggedOptionHistoryPattern}_S(h)
+$$
+and
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)
+\quad\Longleftrightarrow\quad
+\mathsf{TaggedOptionHistoryLedger}_S(h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the three tagged option predicates. In the absent case, each presentation stores exactly the witness $\hsame(h,\emp)$, so the witness is reused unchanged in both directions. In the present case, each presentation stores the same payload history $a$ together with $S(a)$ and $\hsame(h,\Eone(a))$, so the same triple rebuilds the carrier, pattern, and ledger witnesses. The two cases exhaust the tagged option history carrier and the two visible certificate presentations.
+\end{proof}
+
+\begin{theorem}[Tagged option ledger present payload readback]
+\label{thm:tagged-option-ledger-present-payload-readback}
+Template role: traditional target present optional payload recovery; BEDC source
+$\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{TaggedOptionHistoryCarrier}$; classifier unused for this readback;
+stability obligation carrier transport along $\hsame$ plus $e1$ inversion;
+ledger $\mathsf{TaggedOptionHistoryLedger}$; core theorem visible present
+payload readback; exactness visible present endpoint gives a source payload
+witness; standard bridge $\mathsf{some}(a)$; status $\mathsf{ProofTarget}$.
+
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,p$, if $\mathsf{TaggedOptionHistoryLedger}_S(h)$ and
+$\hsame(h,\Eone(p))$, then the visible present endpoint reads back a source
+payload:
+$$
+\exists a:\mathsf{BHist}.\; S(a)\land\hsame(p,a).
+$$
+\end{theorem}
+\begin{proof}
+Convert the ledger witness to a tagged carrier witness using
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence}.
+Transport that carrier witness across $\hsame(h,\Eone(p))$ by
+Theorem~\ref{thm:tagged-option-history-carrier-hsame-transport}. The resulting
+carrier witness at $\Eone(p)$ is then inverted by
+Theorem~\ref{thm:tagged-option-history-present-exactness}, which exposes a
+payload history $a$ with $S(a)$ and $\hsame(p,a)$.
+\end{proof}
+
+\begin{theorem}[Tagged option history carrier transport]
+\label{thm:tagged-option-history-carrier-hsame-transport}
+For any BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, if $\mathsf{TaggedOptionHistoryCarrier}_S(h)$ and $\hsame(h,k)$, then $\mathsf{TaggedOptionHistoryCarrier}_S(k)$.
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged carrier witness for $h$. In the absent case, compose the symmetry of $\hsame(h,k)$ with the stored endpoint witness $\hsame(h,\emp)$ to obtain $\hsame(k,\emp)$, then rebuild the absent clause. In the present case, keep the same payload $a$ and source witness $S(a)$. Compose the symmetry of $\hsame(h,k)$ with the stored endpoint witness $\hsame(h,\Eone(a))$ to obtain $\hsame(k,\Eone(a))$, then rebuild the present clause.
+\end{proof}
+
+\begin{theorem}[Tagged option history classifier endpoint transport]
+\label{thm:tagged-option-history-classifier-hsame-transport}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k,h',k'$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\land
+\hsame(h,h')\land
+\hsame(k,k')
+$$
+holds, then
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h',k')
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness for $h$ and $k$. In the absent-absent
+branch, compose the symmetry of $\hsame(h,h')$ with the stored endpoint witness
+$\hsame(h,\emp)$ to obtain $\hsame(h',\emp)$, and compose the symmetry of
+$\hsame(k,k')$ with the stored endpoint witness $\hsame(k,\emp)$ to obtain
+$\hsame(k',\emp)$; these two witnesses rebuild the absent-absent classifier
+branch. In the present-present branch, keep the same payload histories $a,b$,
+source witnesses $S(a)$ and $S(b)$, and payload classifier witness
+$a\sim_S b$. Compose the symmetry of $\hsame(h,h')$ with the stored endpoint
+witness $\hsame(h,\Eone(a))$ to obtain $\hsame(h',\Eone(a))$, and compose the
+symmetry of $\hsame(k,k')$ with the stored endpoint witness
+$\hsame(k,\Eone(b))$ to obtain $\hsame(k',\Eone(b))$; these data rebuild the
+present-present classifier branch.
+\end{proof}
+
+\begin{theorem}[Tagged option history classifier stability fields]
+\label{thm:tagged-option-history-stability-fields}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, source certificate $\mathsf{cert}:\NameCert(S,\sim_S)$, and $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, the following five clauses are exactly the non-inhabitation stability fields for the tagged option history carrier and classifier. Carrier inhabitation is the absent endpoint at $\emp$ and is supplied separately in Theorem~\ref{thm:tagged-option-history-semantic-certificate}:
+\begin{enumerate}
+  \item carrier-relative reflexivity: if $\mathsf{TaggedOptionHistoryCarrier}_S(h)$ holds, then $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)$ holds;
+  \item classifier symmetry: if $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ holds, then $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(k,h)$ holds;
+  \item classifier transitivity: if $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ and $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(k,u)$ hold, then $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,u)$ holds;
+  \item classifier-induced carrier transport: if $\mathsf{TaggedOptionHistoryCarrier}_S(h)$ and $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ hold, then $\mathsf{TaggedOptionHistoryCarrier}_S(k)$ holds;
+  \item classifier endpoint transport: if $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$, $\hsame(h,h')$, and $\hsame(k,k')$ hold, then $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h',k')$ holds.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For reflexivity, case-analyze the carrier witness. The absent case rebuilds the absent classifier branch from the stored empty endpoint witness and reflexivity, symmetry, and transitivity of $\hsame$; the present case keeps the same payload and applies the reflexivity field of $\mathsf{cert}$ to the source carrier witness. For symmetry, case-analyze the tagged classifier witness. The absent branch reverses the stored endpoint links by symmetry of $\hsame$, and the present branch reverses the payload classifier with $\mathsf{cert.equiv\_symm}$ while swapping the two endpoint witnesses.
+
+For transitivity, split the two classifier witnesses by their visible branches. In the absent/absent case, both witnesses expose the shared middle history as an empty endpoint, so transitivity of $\hsame$ composes the empty endpoint presentations and rebuilds the absent classifier branch from $h$ to $u$. In the absent/present case, the first witness presents the middle history as $\emp$, while the second presents the same middle history as $\Eone(b)$ for some source payload $b$; symmetry and transitivity of $\hsame$ give $\hsame(\emp,\Eone(b))$, contradicting empty-versus-one no-confusion. In the present/absent case, the first witness presents the middle history as $\Eone(b)$ and the second presents it as $\emp$, so the same no-confusion argument applies with the endpoints exchanged. In the present/present case, invert the two classifier witnesses around the shared middle history to obtain endpoint witnesses for $\Eone(b)$ and $\Eone(b')$. Symmetry and transitivity of $\hsame$ yield $\hsame(\Eone(b),\Eone(b'))$, $e1$-constructor inversion yields $\hsame(b,b')$, and source hsame compatibility gives $b\sim_S b'$. The field $\mathsf{cert.equiv\_trans}$ then composes $a\sim_S b$, $b\sim_S b'$, and $b'\sim_S c$ into $a\sim_S c$.
+
+For carrier transport, case-analyze the classifier witness; the absent branch gives the empty endpoint carrier, and the present branch stores the target payload carrier directly. The classifier endpoint transport field is exactly Theorem~\ref{thm:tagged-option-history-classifier-hsame-transport}. Same-tag exactness, right-absent exactness, and mixed constructor separation are isolated in Theorems~\ref{thm:tagged-option-history-same-tag-exactness}, \ref{thm:tagged-option-history-right-absent-exactness}, and \ref{thm:tagged-option-history-mixed-tag-separation}.
+\end{proof}
+
+\begin{theorem}[Tagged option history same-tag exactness]
+\label{thm:tagged-option-history-same-tag-exactness}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, the classifier $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}$ from Definition~\ref{def:tagged-option-history-classifier} is exact on equal visible tags:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\emp,k)
+\quad\Longleftrightarrow\quad
+\hsame(k,\emp)
+$$
+and
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\Eone(k))
+\quad\Longleftrightarrow\quad
+\exists a,b.\; S(a)\land S(b)\land \hsame(h,a)\land \hsame(k,b)\land a\sim_S b.
+$$
+\end{theorem}
+\begin{proof}
+For the absent endpoint, case-analyze the tagged classifier. The absent-absent branch stores $\hsame(k,\emp)$, while the present-present branch would contain $\hsame(\emp,\Eone(a))$ and is eliminated by empty-versus-one no-confusion. Conversely, $\hsame(k,\emp)$ combines with reflexivity of $\hsame(\emp,\emp)$ to build the absent-absent classifier branch.
+
+For the present endpoint, the absent-absent branch would contain $\hsame(\Eone(h),\emp)$ and is eliminated by one-versus-empty no-confusion. The present-present branch gives payload histories $a,b$, source witnesses $S(a)$ and $S(b)$, a source classifier witness $a\sim_S b$, and endpoint witnesses $\hsame(\Eone(h),\Eone(a))$ and $\hsame(\Eone(k),\Eone(b))$; one-constructor inversion turns these endpoint witnesses into $\hsame(h,a)$ and $\hsame(k,b)$. Conversely, such payload data rebuilds the present-present classifier branch after applying the one-constructor congruence for $\hsame$ to the two payload endpoint witnesses.
+\end{proof}
+
+\begin{theorem}[Tagged option history right absent exactness]
+\label{thm:tagged-option-history-right-absent-exactness}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and history $h$, the tagged option history classifier has the exact right absent endpoint:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,\emp)
+\quad\Longleftrightarrow\quad
+\hsame(h,\emp).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, case-analyze the tagged classifier witness. The absent-absent branch directly provides the endpoint witness $\hsame(h,\emp)$. The present-present branch would force $\hsame(\emp,\Eone(b))$ for some source payload $b$, contradicting BEDC history no-confusion between the empty endpoint and a one-extension endpoint. For the reverse direction, combine the assumed $\hsame(h,\emp)$ with reflexivity of $\hsame$ at $\emp$ and rebuild the absent-absent classifier branch.
+\end{proof}
+
+\begin{theorem}[Tagged option history mixed-tag separation]
+\label{thm:tagged-option-history-mixed-tag-separation}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k$, both mixed constructor cases
+are impossible:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\emp,\Eone(k))\to\bot
+$$
+and
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. For
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\emp,\Eone(k))$, the
+absent-absent branch forces $\hsame(\Eone(k),\emp)$, while the present-present
+branch forces an endpoint witness from $\emp$ to some $\Eone(a)$. Both
+contradict BEDC history no-confusion between empty and one-extension
+constructors. The case
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\Eone(h),\emp)$ is
+identical with the visible endpoints exchanged: the absent-absent branch forces
+$\hsame(\Eone(h),\emp)$, and the present-present branch forces an endpoint
+witness from $\emp$ to a present endpoint.
+\end{proof}
+
+\begin{theorem}[Tagged option history carrier-level mixed-tag separation]
+\label{thm:tagged-option-history-carrier-mixed-tag-separation}
+This theorem fits the per-object template as follows: the traditional target is
+absent/present option tag separation; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is mixed-tag
+no-confusion under carrier presentations; the ledger is the visible tag; the
+core theorem is this separation; exactness is absent-vs-present impossibility;
+the standard bridge is none/some; and the status is $\mathsf{ProofTarget}$.
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\mathsf{sameS}:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+histories $h,k$, and payload history $a$, the classifier cannot relate endpoints
+that are merely presented as opposite tags:
+$$
+\hsame(h,\emp)\to S(a)\to \hsame(k,\Eone(a))\to
+\mathsf{TaggedOptionHistoryClassifier}_{S,\mathsf{sameS}}(h,k)\to\bot
+$$
+and
+$$
+S(a)\to \hsame(h,\Eone(a))\to \hsame(k,\emp)\to
+\mathsf{TaggedOptionHistoryClassifier}_{S,\mathsf{sameS}}(h,k)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. In the first direction, the
+absent-absent branch stores an endpoint witness from $k$ to $\emp$; composing it
+with the displayed witness from $k$ to $\Eone(a)$ gives empty-versus-one
+no-confusion. The present-present branch stores an endpoint witness from $h$ to
+some $\Eone(b)$; composing it with the displayed witness from $h$ to $\emp$ again
+gives empty-versus-one no-confusion. The second direction is symmetric: the
+absent-absent branch contradicts the displayed present presentation of $h$, and
+the present-present branch contradicts the displayed absent presentation of $k$.
+\end{proof}
+
+\begin{theorem}[Tagged option history classifier visible-branch inversion]
+\label{thm:tagged-option-history-classifier-visible-branch-inversion}
+This theorem fits the per-object template as follows: the traditional target is
+tagged option branch inversion; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is branch
+determinism under visible endpoint presentations; the ledger is the visible
+absent/present tag plus payload; the core theorem is this inversion; exactness
+is no mixed branch and payload exposure; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$; and the status is $\mathsf{ProofTarget}$.
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k$, the classifier determines the
+visible branch presented by the left endpoint:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+\hsame(h,\emp)\to
+\hsame(k,\emp)
+$$
+and, for every payload history $a$,
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+S(a)\to
+\hsame(h,\Eone(a))\to
+\exists a',b:\mathsf{BHist}.\;
+S(a')\land S(b)\land \hsame(a,a')\land a'\sim_S b\land
+\hsame(k,\Eone(b)).
+$$
+\end{theorem}
+\begin{proof}
+For the absent clause, case-analyze the tagged classifier witness. The
+absent-absent branch already stores $\hsame(k,\emp)$. The present-present branch
+stores $\hsame(h,\Eone(a))$ for some source payload; composing it with the
+displayed witness $\hsame(h,\emp)$ gives empty-versus-one no-confusion.
+
+For the present clause, case-analyze the classifier witness again. The
+absent-absent branch stores $\hsame(h,\emp)$ and contradicts the displayed
+present endpoint $\hsame(h,\Eone(a))$. In the present-present branch, obtain
+payloads $a'$ and $b$ with $S(a')$, $S(b)$, $a'\sim_S b$,
+$\hsame(h,\Eone(a'))$, and $\hsame(k,\Eone(b))$. Compose the two presentations
+of $h$ and invert the one-constructor equality to get $\hsame(a,a')$; the
+remaining fields are exactly the displayed witnesses.
+\end{proof}
+
+\input{parts/concrete_instances/08_option_right_visible_branch_inversion.tex}
+
+\begin{theorem}[Tagged option history semantic certificate target]
+\label{thm:tagged-option-history-semantic-certificate}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a source classifier on source histories, and assume a source $\NameCert(S,\sim_S)$ together with $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. Then $\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,\mathsf{TaggedOptionHistoryPattern}_S,\mathsf{TaggedOptionHistoryLedger}_S,\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S})$ is the tagged option history semantic certificate.
+\end{theorem}
+\begin{proof}
+Inhabitation is supplied by the absent carrier witness at $\emp$. The five non-inhabitation stability fields of the semantic certificate, namely carrier-relative reflexivity, classifier symmetry, classifier transitivity, classifier-induced carrier transport, and classifier endpoint transport, are exactly Theorem~\ref{thm:tagged-option-history-stability-fields} under the given source $\NameCert$ and source hsame compatibility hypotheses. The visible tag pattern and visible tag ledger fields are supplied by Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence}, which identifies both certificate presentations with the tagged option history carrier.
+\end{proof}
+
+\begin{corollary}[Tagged option history certificate over hsame]
+\label{cor:tagged-option-history-semantic-certificate-hsame}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier. If a source $\NameCert(S,\hsame)$ is supplied, then $\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,\mathsf{TaggedOptionHistoryPattern}_S,\mathsf{TaggedOptionHistoryLedger}_S,\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame})$ is the tagged option history semantic certificate with no separate compatibility hypothesis.
+\end{corollary}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-semantic-certificate} with source classifier $\hsame$. The required compatibility input is exactly Theorem~\ref{thm:tagged-option-source-hsame-compatibility-hsame}.
+\end{proof}
+
+\begin{theorem}[Option history classifier endpoint transport]
+\label{thm:option-history-classifier-hsame-transport}
+If the optional history classifier relates \(h\) to \(k\), and
+\(\hsame(h,h')\) and \(\hsame(k,k')\), then it relates \(h'\) to \(k'\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier into its endpoint carrier witnesses and the stored
+\(\hsame(h,k)\) link. Transport both carriers along the endpoint sameness
+links, then compose symmetry of \(\hsame(h,h')\), the stored link, and
+\(\hsame(k,k')\).
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_hsame\_transport}
+
+\begin{theorem}[Option history classifier symmetry]
+\label{thm:option-history-classifier-symmetry}
+For any source predicate on BEDC histories, the optional history classifier is
+symmetric.
+\end{theorem}
+\begin{proof}
+Unpack the classifier into endpoint carrier witnesses and the stored
+\(\hsame(h,k)\) link. Swap the endpoint witnesses and reverse the stored link
+by symmetry of \(\hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_symm}
+
+\begin{theorem}[Option history classifier transitivity]
+\label{thm:option-history-classifier-transitivity}
+For every $S:\mathsf{BHist}\to\mathsf{Prop}$ and $h,k,r:\mathsf{BHist}$, $\mathsf{OptionHistoryClassifier}_S(h,k)$ and $\mathsf{OptionHistoryClassifier}_S(k,r)$ imply
+$\mathsf{OptionHistoryClassifier}_S(h,r)$.
+\end{theorem}
+\begin{proof}
+Unpack the two classifier witnesses. The source and target carrier witnesses
+are preserved, and the underlying \(\hsame\) links compose across the shared
+middle history.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_trans}
+
+\begin{theorem}[Option history classifier empty left iff]
+\label{thm:option-history-classifier-empty-left-iff}
+For any source predicate on BEDC histories, the optional history classifier
+relates the empty history on the left to \(k\) exactly when \(k\) is
+history-same as the empty history.
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the classifier and reverse its stored
+\(\hsame(\emp,k)\) link. In the reverse direction, both endpoint carrier
+witnesses are supplied by the absent-history branch, and the classifier link is
+the symmetric form of the assumed \(\hsame(k,\emp)\).
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_empty\_left\_iff}
+
+\begin{corollary}[Option history classifier empty right iff]
+\label{thm:option-history-classifier-empty-right-iff}
+For any source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and any history $h$, this is the right-endpoint symmetry corollary of
+Theorem~\ref{thm:option-history-classifier-empty-left-iff} and Theorem~\ref{thm:option-history-classifier-symmetry}, not a separate finite-data certificate target:
+$$
+\mathsf{OptionHistoryClassifier}_S(h,\emp)\quad\Longleftrightarrow\quad\hsame(h,\emp).
+$$
+\end{corollary}
+\begin{proof}
+In the forward direction, apply classifier symmetry to reduce to $\mathsf{OptionHistoryClassifier}_S(\emp,h)$, then use
+Theorem~\ref{thm:option-history-classifier-empty-left-iff}. In the reverse direction, use the reverse implication of
+Theorem~\ref{thm:option-history-classifier-empty-left-iff} to obtain
+$\mathsf{OptionHistoryClassifier}_S(\emp,h)$, then apply classifier symmetry.
+\end{proof}
+
+\begin{definition}[Option source excludes empty]
+\label{def:option-source-excludes-empty}
+For a BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$,
+$\mathsf{OptionSourceExcludesEmpty}(S)$ means that every source history
+satisfying $S$ is not history-same to the empty history:
+$$
+\mathsf{OptionSourceExcludesEmpty}(S)
+\quad:\Longleftrightarrow\quad
+\forall h.\; S(h)\to\hsame(h,\emp)\to\bot.
+$$
+\end{definition}
+\leandef{BEDC.Derived.OptionUp.OptionSourceExcludesEmpty}
+
+\begin{theorem}[Nullable option absent-source separation]
+\label{thm:option-history-carrier-absent-source-separation}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if
+$\mathsf{OptionSourceExcludesEmpty}(S)$, $\hsame(h,\emp)$, and $S(h)$ hold, then
+$\bot$.
+\end{theorem}
+\begin{proof}
+Apply the exclusion predicate to the source witness $S(h)$ and the displayed
+empty endpoint witness $\hsame(h,\emp)$.
+\end{proof}
+
+Per-object fit: traditional target nullable empty-or-source separation under an
+empty-excluding source, not constructor-tagged $\mathsf{none}/\mathsf{some}$
+readback; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{OptionHistoryCarrier}_S$; classifier unused; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Nullable option carrier empty-or-source partition]
+\label{thm:option-history-carrier-exclusive-readback}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, if $\mathsf{OptionSourceExcludesEmpty}(S)$ and
+$\mathsf{OptionHistoryCarrier}_S(h)$ hold, then
+$$
+(\hsame(h,\emp)\land\neg S(h))\lor(S(h)\land\neg\hsame(h,\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the carrier witness. In the empty branch, keep
+$\hsame(h,\emp)$ and use
+Theorem~\ref{thm:option-history-carrier-absent-source-separation} to rule out
+$S(h)$. In the source branch, keep $S(h)$ and use the same theorem to rule out
+$\hsame(h,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_exclusive\_readback}
+
+\begin{theorem}[Nullable option classifier absent-source separation]
+\label{thm:option-history-classifier-absent-source-separation}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if
+$\mathsf{OptionSourceExcludesEmpty}(S)$ and $S(h)$ hold, then both
+$$
+\neg\mathsf{OptionHistoryClassifier}_S(h,\emp)
+$$
+and
+$$
+\neg\mathsf{OptionHistoryClassifier}_S(\emp,h)
+$$
+hold.
+\end{theorem}
+\begin{proof}
+For the right-empty classifier, use
+Corollary~\ref{thm:option-history-classifier-empty-right-iff} to turn a classifier
+witness into $\hsame(h,\emp)$, then apply
+$\mathsf{OptionSourceExcludesEmpty}(S)$ to $S(h)$. For the left-empty
+classifier, use Theorem~\ref{thm:option-history-classifier-empty-left-iff} to
+obtain the same $\hsame(h,\emp)$ witness and apply the same exclusion predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_absent\_source\_separation}
+
+\begin{theorem}[Option classifier \(\hsame\) symmetry]
+\label{thm:option-classifier-hsame-symm}
+For typed option carrier values $x,y:\mathsf{OptionCarrier}(\mathsf{BHist})$, if $\mathsf{OptionClassifierSpec}(\hsame,x,y)$ holds, then $\mathsf{OptionClassifierSpec}(\hsame,y,x)$ holds.
+\end{theorem}
+\begin{proof}
+The proof case-analyzes typed $\mathsf{none}$ and $\mathsf{some}$ carrier values: the none--none branch returns the existing classifier witness, the mixed branches contradict the typed classifier clauses, and the some--some branch reverses the BEDC history witness by $\hsame$ symmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_symm}
+
+\begin{theorem}[Option classifier symmetry from source symmetry]
+\label{thm:option-classifier-symm-from-source-symmetry}
+Let $A$ be an entry type, let $R:A\to A\to\mathsf{Prop}$ be a source relation, and let $x,y:\mathsf{OptionCarrier}(A)$. If
+$\forall a\,b.\; R(a,b)\to R(b,a)$ and
+$\mathsf{OptionClassifierSpec}(R,x,y)$ hold, then
+$\mathsf{OptionClassifierSpec}(R,y,x)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze $x$ and $y$. The none--none case is immediate from the none classifier clause. The mixed none--some and some--none cases are impossible by the typed option classifier clauses. In the some--some case, apply the displayed source-symmetry hypothesis to the payload witness.
+\end{proof}
+
+\begin{definition}[Option stability certificate]
+\label{def:option-stability-certificate}
+The stability certificate separates the typed optional classifier fields from
+the nullable history-envelope fields.
+
+For the typed $\mathsf{OptionClassifierSpec}$ classifier, the fields are:
+\begin{enumerate}
+  \item reflexivity for $\mathsf{none}$ and for $\mathsf{some}(a)$ from source reflexivity;
+  \item symmetry from a source-symmetry hypothesis, as in Theorem~\ref{thm:option-classifier-symm-from-source-symmetry};
+  \item transitivity from a source-transitivity hypothesis;
+  \item no-confusion between $\mathsf{none}$ and $\mathsf{some}(a)$ in either order;
+  \item present inversion, exposing the source classifier witness from a $\mathsf{some}$--$\mathsf{some}$ classification.
+\end{enumerate}
+The checked $\hsame$ specialization is the Lean-marked instance of this
+symmetry field.
+
+For the nullable $\mathsf{OptionHistoryCarrier}$ envelope and its
+$\mathsf{OptionHistoryClassifier}$, the certificate fields are:
+\begin{enumerate}
+  \item carrier transport across $\hsame$;
+  \item endpoint transport for the classifier across $\hsame$ on both endpoints;
+  \item classifier symmetry;
+  \item classifier transitivity;
+  \item ledger transport across raw and visible endpoint $\hsame$ links.
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.OptionUp.option\_stability\_certificate\_fields}
+
+\begin{theorem}[Option classifier transitivity]
+\label{thm:option-classifier-transitivity}
+Let $A$ be an entry type, let $R:A\to A\to\mathsf{Prop}$ be a source
+classifier relation, and let $x,y,z:\mathsf{OptionCarrier}(A)$. If $R$ is
+transitive and both $\mathsf{OptionClassifierSpec}(R,x,y)$ and
+$\mathsf{OptionClassifierSpec}(R,y,z)$ hold, then
+$\mathsf{OptionClassifierSpec}(R,x,z)$ holds.
+\end{theorem}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_trans}
+\begin{proof}
+Proceed by constructor case analysis on $x$, $y$, and $z$.  The none--none--none
+case is immediate, mixed none--some cases contradict the classifier clauses, and
+the some--some--some case is exactly the supplied transitivity of $R$.
+\end{proof}
+
+\begin{definition}[Option ledger policy]
+\label{def:option-ledger-policy}
+The ledger keeps a raw optional-history carrier witness and an $\hsame$ link from the raw history to the visible history.
+\end{definition}
+\leandef{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy}
+
+\begin{theorem}[Option visible ledger carrier]
+\label{thm:option-ledger-policy-visible-carrier}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $\rho,v:\mathsf{BHist}$. If
+$source\_transport : \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k)$ holds, then
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ implies
+$\mathsf{OptionHistoryCarrier}_S(v)$.
+\end{theorem}
+\begin{proof}
+Unpack the raw carrier and raw-to-visible $\hsame$ link. The absent case composes the symmetric link with the raw empty-history witness; the present case transports the raw source witness along the stored link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_carrier}
+
+\begin{theorem}[Option raw-visible ledger classifier]
+\label{thm:option-ledger-raw-visible-classifier}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $\rho,v:\mathsf{BHist}$. If
+$source\_transport : \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k)$ holds, then
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ implies
+$\mathsf{OptionHistoryClassifier}_S(\rho,v)$.
+\end{theorem}
+\begin{proof}
+Unpack the raw carrier witness and raw-to-visible $\hsame$ link. The visible carrier is given by Theorem~\ref{thm:option-ledger-policy-visible-carrier}, and the stored link supplies the classifier equality field.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_raw\_visible\_classifier}
+
+\begin{theorem}[Option ledger classifier composition]
+\label{thm:option-ledger-classifier-extension}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source predicate and let
+$\rho,v,w:\mathsf{BHist}$. Assume
+$$
+  \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k).
+$$
+If $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ and
+$\mathsf{OptionHistoryClassifier}_S(v,w)$ hold, then
+$\mathsf{OptionHistoryClassifier}_S(\rho,w)$ holds.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:option-ledger-raw-visible-classifier} to the ledger
+policy using the displayed source-transport hypothesis to obtain
+$\mathsf{OptionHistoryClassifier}_S(\rho,v)$. Compose that raw-visible classifier
+with the visible-target classifier by Theorem~\ref{thm:option-history-classifier-transitivity},
+yielding $\mathsf{OptionHistoryClassifier}_S(\rho,w)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_classifier\_extension}
+
+\begin{theorem}[Option ledger classifier endpoint equivalence]
+\label{thm:option-ledger-classifier-endpoint-equivalence}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source predicate and let
+$\rho,v,w:\mathsf{BHist}$. Assume
+$$
+  \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k).
+$$
+If $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ holds, then
+$\mathsf{OptionHistoryClassifier}_S(\rho,w) \Longleftrightarrow
+\mathsf{OptionHistoryClassifier}_S(v,w)$. The ten-field fit is the
+traditional target of nullable optional ledger endpoint replacement, BEDC
+source $\mathsf{BHist}$ with $\hsame$, carrier $\mathsf{OptionHistoryCarrier}$,
+classifier $\mathsf{OptionHistoryClassifier}$, stability given by raw-visible
+ledger classifier together with classifier symmetry and transitivity, ledger
+$\mathsf{OptionHistoryLedgerPolicy}$, core theorem this endpoint equivalence,
+exactness as classifier-invariant raw and visible endpoints, standard bridge
+the nullable option envelope readback, and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:option-ledger-raw-visible-classifier} to the ledger
+witness to obtain $\mathsf{OptionHistoryClassifier}_S(\rho,v)$. For the forward
+direction, use Theorem~\ref{thm:option-history-classifier-symmetry} to reverse
+this raw-visible classifier and then compose it with the assumed
+$\mathsf{OptionHistoryClassifier}_S(\rho,w)$ by
+Theorem~\ref{thm:option-history-classifier-transitivity}. For the reverse
+direction, apply Theorem~\ref{thm:option-ledger-classifier-extension} directly
+to the ledger witness and the assumed visible-endpoint classifier.
+\end{proof}
+
+\begin{theorem}[Option ledger history-same transport]
+\label{thm:option-ledger-hsame-transport}
+If both raw histories and both visible histories are related by $\hsame$, then
+an option ledger policy transports from the first raw-visible pair to the
+second.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into its raw carrier witness and raw-to-visible history link.
+The raw carrier transports along the raw $\hsame$ witness. The transported
+raw-to-visible link is the composite of the symmetric raw link, the stored
+ledger link, and the visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_hsame\_transport}
+
+\begin{theorem}[Concrete optional-history semantic certificate]
+\label{thm:concrete-option-namecert}
+For every source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, the checked nullable certificate is $\mathsf{SemanticNameCert}(\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryClassifier}_S)$. This semantic certificate does not assert constructor-discriminating history tags; that stronger tagged interface is the preceding paper-side target.
+\end{theorem}
+\begin{proof}
+For each $S$, the history carrier contains the empty history and any source history. The classifier records both endpoint envelope-carrier witnesses and the BEDC history equality witness. Reflexivity, symmetry, transitivity, and carrier transport are the corresponding $\hsame$ fields, while pattern and ledger soundness are carrier projections for the envelope.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate}
+
+\begin{corollary}[OptionUp certificate scope]
+\label{cor:option-certificate-scope}
+Citations to Theorem~\ref{thm:concrete-option-namecert} assert only the
+nullable empty-or-source history envelope. The constructor-tagged history
+certificate is Theorem~\ref{thm:tagged-option-history-semantic-certificate},
+under a source $\NameCert$ and
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, or
+Corollary~\ref{cor:tagged-option-history-semantic-certificate-hsame} in the
+$\hsame$ specialization. The typed $\mathsf{OptionClassifierSpec}$ is a
+separate host-option classifier; it is not a field that licenses the tagged
+history semantic certificate, and neither certificate implies the other carrier
+presentation without the bridge data of
+Definition~\ref{def:tagged-option-to-nullable-bridge-hypotheses}.
+\end{corollary}
