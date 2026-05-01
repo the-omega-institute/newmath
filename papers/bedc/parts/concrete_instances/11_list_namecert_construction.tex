@@ -449,9 +449,12 @@ For BEDC history lists, if the reversed lists are structurally classified by
 \(\HSame\), then the original lists are structurally classified by \(\HSame\).
 \end{theorem}
 \begin{proof}
-Apply reverse stability to the classified reversed lists. The double reverse of
-each list is definitionally identified with the original list by list
-reverse-reverse induction, giving the desired structural classifier.
+Apply reverse stability to the classified reversed lists, obtaining a
+classifier on $\mathsf{reverse}(\mathsf{reverse}(xs))$ and
+$\mathsf{reverse}(\mathsf{reverse}(ys))$. For each finite spine, prove the
+reverse-reverse identity by induction, using append associativity and
+append-nil at the cons step. Rewrite both endpoints along those two identities
+to recover $\mathsf{ListClassifierSpec}(\hsame,xs,ys)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame\_inversion}
 

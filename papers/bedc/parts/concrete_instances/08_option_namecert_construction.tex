@@ -57,6 +57,23 @@ $k$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_transport}
 
+\begin{definition}[Option pattern specification]
+\label{def:option-pattern-specification}
+The pattern is absent-or-present generation: one null constructor and one wrapper constructor over source witnesses.
+\end{definition}
+
+\begin{definition}[Option classifier specification]
+\label{def:option-classifier-specification}
+The typed classifier relates \(\mathsf{none}\) only to \(\mathsf{none}\), and relates \(\mathsf{some}(a)\) to \(\mathsf{some}(a')\) exactly when the source classifier relates \(a\) and \(a'\). The checked history-level classifier for $\mathsf{OptionHistoryCarrier}$ is the nullable classifier: both endpoints lie in the empty-or-source envelope, and the endpoints are related by $\hsame$.
+\end{definition}
+\leandef{BEDC.Derived.OptionUp.OptionClassifierSpec}
+\leanchecked{BEDC.Derived.OptionUp.optionClassifierSpec\_cases}
+\leandef{BEDC.Derived.OptionUp.OptionClassifier}
+\leandef{BEDC.Derived.OptionUp.OptionHistoryClassifier}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_none\_some\_absurd}
+\leanchecked{BEDC.Derived.OptionUp.optionClassifier\_some\_iff}
+\leanchecked{BEDC.Derived.OptionUp.option\_classifier\_inversion}
+
 \begin{theorem}[Option history carrier source monotonicity]
 \label{thm:option-history-carrier-source-monotonicity}
 Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be source predicates. If
@@ -77,23 +94,6 @@ come with carrier witnesses and the classifier stores the same endpoint
 $\hsame(h,k)$ witness. Apply the carrier clause to the two endpoint carrier
 witnesses, and keep the stored $\hsame(h,k)$ witness unchanged.
 \end{proof}
-
-\begin{definition}[Option pattern specification]
-\label{def:option-pattern-specification}
-The pattern is absent-or-present generation: one null constructor and one wrapper constructor over source witnesses.
-\end{definition}
-
-\begin{definition}[Option classifier specification]
-\label{def:option-classifier-specification}
-The typed classifier relates \(\mathsf{none}\) only to \(\mathsf{none}\), and relates \(\mathsf{some}(a)\) to \(\mathsf{some}(a')\) exactly when the source classifier relates \(a\) and \(a'\). The checked history-level classifier for $\mathsf{OptionHistoryCarrier}$ is the nullable classifier: both endpoints lie in the empty-or-source envelope, and the endpoints are related by $\hsame$.
-\end{definition}
-\leandef{BEDC.Derived.OptionUp.OptionClassifierSpec}
-\leanchecked{BEDC.Derived.OptionUp.optionClassifierSpec\_cases}
-\leandef{BEDC.Derived.OptionUp.OptionClassifier}
-\leandef{BEDC.Derived.OptionUp.OptionHistoryClassifier}
-\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_none\_some\_absurd}
-\leanchecked{BEDC.Derived.OptionUp.optionClassifier\_some\_iff}
-\leanchecked{BEDC.Derived.OptionUp.option\_classifier\_inversion}
 
 \begin{definition}[Tagged option history carrier]
 \label{def:tagged-option-history-carrier}
