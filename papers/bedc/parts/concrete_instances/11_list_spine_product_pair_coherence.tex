@@ -106,6 +106,28 @@ The outer $\Eone$ marks a nonempty first component, while the inner
 $\Ezero/\Eone$ tag records the constructor of that first component.
 \end{definition}
 
+\begin{lemma}[Pair frame injectivity]
+\label{lem:list-pair-frame-injectivity}
+For histories $u,u',t,t':\mathsf{BHist}$, if
+$$
+\hsame(\mathsf{PairFrame}(u,t),\mathsf{PairFrame}(u',t')),
+$$
+then $\hsame(u,u')\land\hsame(t,t')$.
+\end{lemma}
+\begin{proof}
+Proceed by structural induction and case analysis on $u$ and $u'$. The mixed
+$\emp/\Ezero$ and $\emp/\Eone$ cases contradict BEDC constructor no-confusion
+because $\mathsf{PairFrame}(\emp,t)$ begins with $\Ezero$, while the nonempty
+cases begin with $\Eone$. The mixed $\Ezero/\Eone$ cases contradict
+no-confusion after inverting the outer $\Eone$ and comparing the inner tags. In
+the matching $\emp/\emp$ case, constructor inversion gives $\hsame(t,t')$. In
+the matching $\Ezero/\Ezero$ and $\Eone/\Eone$ cases, invert the outer
+$\Eone$, then the matching inner tag, and apply the induction hypothesis to the
+recursive pair-frame equality. Combining the exposed recursive head equality
+with the constructor equality gives $\hsame(u,u')$, and the induction
+hypothesis also gives $\hsame(t,t')$.
+\end{proof}
+
 \begin{definition}[Framed list endpoint]
 \label{def:framed-list-endpoint}
 For finite BEDC-history spines, define the framed endpoint by recursion on the
@@ -143,9 +165,8 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-First prove injectivity of $\mathsf{PairFrame}$ by induction on the first
-history argument, using BEDC constructor no-confusion for the $\emp$,
-$\Ezero$, and $\Eone$ cases. The framed list endpoint separates nil and cons by
+Lemma~\ref{lem:list-pair-frame-injectivity} supplies the required injectivity
+of $\mathsf{PairFrame}$. The framed list endpoint separates nil and cons by
 the outer $\Ezero/\Eone$ tag, so mixed nil/cons presentations contradict BEDC
 history no-confusion. In the nil-nil case the finite-spine classifier is the nil
 constructor. In the cons-cons case, injectivity of the outer $\Eone$ endpoint
@@ -157,7 +178,7 @@ presentations, and combine the head classifier with the tail classifier by the
 cons constructor of $\mathsf{ListClassifierSpec}$.
 \end{proof}
 
-\begin{corollary}[Framed ListUp public-object paper certificate]
+\begin{corollary}[Framed finite-spine paper certificate]
 \label{cor:framed-list-public-object-paper-certificate}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
 $\sim_A$ be a source classifier, and let
@@ -186,6 +207,9 @@ $$
 \mathsf{FramedListHistoryCarrier}_A,
 \mathsf{FramedListBridgeClassifier}_{A,\sim_A}).
 $$
+This certificate is for the framed carrier and framed bridge classifier above.
+It does not identify $\mathsf{FramedListHistoryCarrier}_A$ with the unframed
+$\mathsf{ListHistoryCarrier}_A$ used by the public $\ListUp$ target.
 \end{corollary}
 \begin{proof}
 The source certificate supplies the entrywise reflexivity, symmetry,
@@ -211,9 +235,9 @@ $\mathsf{ListHistoryLedger}_A$; core theorem list
 Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence},
 Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence}, and
 Theorem~\ref{thm:concrete-list-namecert}; exactness via the spine bridge;
-standard bridge finite spines; status paper certificate target under either
-cons-boundary coherence or the framed route of
-Corollary~\ref{cor:framed-list-public-object-paper-certificate}.
+standard bridge finite spines; status paper certificate target under
+cons-boundary coherence, with the separate framed carrier certificate recorded
+by Corollary~\ref{cor:framed-list-public-object-paper-certificate}.
 
 \begin{theorem}[List spine bridge endpoint exposure and symmetry]
 \label{thm:list-spine-bridge-endpoint-exposure-symmetry}
