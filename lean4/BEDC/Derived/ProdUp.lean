@@ -256,6 +256,14 @@ theorem ProdHistoryLedgerPolicy_classifier_extension {Left Right : BHist -> Prop
     (ProdHistoryLedgerPolicy_raw_visible_classifier ledger)
     visibleTarget
 
+theorem ProdHistoryLedgerPolicy_classifier_backward_composition
+    {Left Right : BHist → Prop} {rho v w : BHist} :
+    ProdHistoryLedgerPolicy Left Right rho v →
+      ProdHistoryClassifier Left Right w v → ProdHistoryClassifier Left Right w rho := by
+  intro ledger classifier
+  exact ProdHistoryClassifier_trans classifier
+    (ProdHistoryClassifier_symm (ProdHistoryLedgerPolicy_raw_visible_classifier ledger))
+
 theorem prod_history_semantic_name_certificate (Left Right : BHist -> Prop)
     (left_witness : exists l : BHist, Left l) (right_witness : exists r : BHist, Right r) :
     SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)

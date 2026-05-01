@@ -36,6 +36,38 @@ theorem TaggedOptionHistoryCarrier_present_exactness {S : BHist → Prop} {h : B
             exact Or.inr
               (Exists.intro a (And.intro sourceCase (hsame_e1_congr samePayload)))
 
+theorem TaggedOptionHistoryCarrier_exclusive_branch_partition {S : BHist → Prop}
+    {h : BHist} :
+    TaggedOptionHistoryCarrier S h →
+      (hsame h BHist.Empty ∧ ((∃ a : BHist, S a ∧ hsame h (BHist.e1 a)) → False)) ∨
+        (∃ a : BHist, S a ∧ hsame h (BHist.e1 a) ∧
+          (hsame h BHist.Empty → False)) := by
+  intro carrier
+  cases carrier with
+  | inl emptyCase =>
+      exact Or.inl
+        (And.intro emptyCase
+          (by
+            intro presentCase
+            cases presentCase with
+            | intro a data =>
+                cases data with
+                | intro _ samePresent =>
+                    exact not_hsame_emp_e1 (hsame_trans (hsame_symm emptyCase) samePresent)))
+  | inr presentCase =>
+      cases presentCase with
+      | intro a data =>
+          cases data with
+          | intro sourceCase samePresent =>
+              exact Or.inr
+                (Exists.intro a
+                  (And.intro sourceCase
+                    (And.intro samePresent
+                      (by
+                        intro emptyCase
+                        exact not_hsame_e1_empty
+                          (hsame_trans (hsame_symm samePresent) emptyCase)))))
+
 theorem OptionHistoryCarrier_hsame_transport {source : BHist -> Prop} {h k : BHist} :
     hsame h k -> OptionHistoryCarrier source h -> OptionHistoryCarrier source k := by
   intro same carrier

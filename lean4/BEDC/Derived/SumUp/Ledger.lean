@@ -56,6 +56,17 @@ theorem SumHistoryLedgerPolicy_hsame_transport {Left Right : BHist -> Prop}
       exact And.intro (SumHistoryCarrier_hsame_transport sameRaw rawCarrier)
         (hsame_trans (hsame_symm sameRaw) (hsame_trans sameRawVisible sameVisible))
 
+theorem SumHistoryLedgerPolicy_classifier_composition {Left Right : BHist → Prop}
+    {rho v w : BHist} :
+    SumHistoryLedgerPolicy Left Right rho v →
+      SumHistoryClassifier Left Right hsame hsame v w →
+        SumHistoryClassifier Left Right hsame hsame rho w := by
+  intro ledger classifier
+  exact SumHistoryClassifier_trans (Left := Left) (Right := Right)
+    (LeftEq := hsame) (RightEq := hsame) (@hsame_trans) (@hsame_trans)
+    (SumHistoryLedgerPolicy_raw_visible_classifier ledger)
+    classifier
+
 theorem SumHistoryLedgerPolicy_visible_tag_separation {Left Right : BHist → Prop}
     {raw visible l r : BHist} :
     SumHistoryLedgerPolicy Left Right raw visible →
