@@ -277,6 +277,23 @@ append membership witnesses from the displayed three-way disjunction.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.inBundle\_bundleAppend\_three\_iff}
 
+\begin{theorem}[Bundle append four-way membership split]
+\label{thm:bundle-append-four-membership-split}
+For every probe $p$ and bundles $\Pi,\Theta,\Omega,\Lambda$,
+$$
+p\in\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\mathsf{BAppend}(\Omega,\Lambda)))
+\quad\Longleftrightarrow\quad
+p\in\Pi \ \text{or}\ p\in\Theta \ \text{or}\ p\in\Omega \ \text{or}\ p\in\Lambda .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:bundle-append-membership} to the outer append. In the
+right branch, apply the same membership split to the second append, and then to
+the third append. The reverse direction rebuilds the nested append membership
+witnesses in the same order.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.inBundle\_bundleAppend\_four\_iff}
+
 \begin{theorem}[Bundle append membership left residual]
 \label{thm:bundle-append-membership-left-of-not-right}
 For every probe \(p\) and bundles \(\Pi,\Theta\), if

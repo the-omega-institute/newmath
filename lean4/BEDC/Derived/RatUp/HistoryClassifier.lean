@@ -37,6 +37,20 @@ theorem RatHistoryClassifier_positive_denominators {d e : BEDC.FKernel.Hist.BHis
           exact ⟨RatHistoryCarrier_iff_positive_denominator.mp carrierD,
             RatHistoryCarrier_iff_positive_denominator.mp carrierE⟩
 
+theorem RatHistoryClassifier_endpoints_not_empty {d e : BHist} :
+    RatHistoryClassifier d e →
+      (hsame d BHist.Empty → False) ∧ (hsame e BHist.Empty → False) := by
+  intro classifier
+  cases classifier with
+  | intro carrierD rest =>
+      cases rest with
+      | intro carrierE _sameDE =>
+          constructor
+          · intro sameEmpty
+            exact RatHistoryCarrier_not_empty carrierD sameEmpty
+          · intro sameEmpty
+            exact RatHistoryCarrier_not_empty carrierE sameEmpty
+
 theorem RatHistoryClassifier_append_unary_denominator_closed {d e tailD tailE : BHist} :
     RatHistoryClassifier d e -> UnaryHistory tailD -> hsame tailD tailE ->
       RatHistoryClassifier (BEDC.FKernel.Cont.append d tailD)

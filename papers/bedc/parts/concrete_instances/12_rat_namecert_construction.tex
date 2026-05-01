@@ -449,6 +449,22 @@ carrier positive-denominator equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_positive\_denominators}
 
+\begin{theorem}[Rat history classifier endpoints are nonempty]
+\label{thm:rat-history-classifier-endpoints-not-empty}
+If denominator histories $d$ and $e$ are related by the rational history
+classifier, then neither endpoint is internally the same as the empty history:
+$$
+(\hsame(d,\emp)\to\mathsf{False})\land
+(\hsame(e,\emp)\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into its two endpoint rational-history
+carrier witnesses. Apply rational-history carrier nonemptiness to each endpoint
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_endpoints\_not\_empty}
+
 \begin{theorem}[Rat history classifier transitivity]
 \label{thm:rat-history-classifier-trans}
 If denominator histories $d$ and $e$ are related by the rational history

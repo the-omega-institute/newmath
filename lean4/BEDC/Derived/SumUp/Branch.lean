@@ -4,6 +4,41 @@ namespace BEDC.Derived.SumUp
 
 open BEDC.FKernel.Hist
 
+theorem SumHistoryCarrier_visible_branch_exactness {Left Right : BHist → Prop}
+    {h : BHist} :
+    SumHistoryCarrier Left Right h ↔
+      (∃ l : BHist, Left l ∧ hsame h (BHist.e0 l)) ∨
+        (∃ r : BHist, Right r ∧ hsame h (BHist.e1 r)) := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | inl leftBranch =>
+        cases leftBranch with
+        | intro l leftData =>
+            cases leftData with
+            | intro sameLeft leftCarrier =>
+                exact Or.inl (Exists.intro l (And.intro leftCarrier sameLeft))
+    | inr rightBranch =>
+        cases rightBranch with
+        | intro r rightData =>
+            cases rightData with
+            | intro sameRight rightCarrier =>
+                exact Or.inr (Exists.intro r (And.intro rightCarrier sameRight))
+  · intro branch
+    cases branch with
+    | inl leftBranch =>
+        cases leftBranch with
+        | intro l leftData =>
+            cases leftData with
+            | intro leftCarrier sameLeft =>
+                exact Or.inl (Exists.intro l (And.intro sameLeft leftCarrier))
+    | inr rightBranch =>
+        cases rightBranch with
+        | intro r rightData =>
+            cases rightData with
+            | intro rightCarrier sameRight =>
+                exact Or.inr (Exists.intro r (And.intro sameRight rightCarrier))
+
 theorem SumHistoryCarrier_visible_payload_determinism {Left Right : BHist → Prop}
     {h l l' r r' : BHist} :
     (hsame h (BHist.e0 l) → Left l → hsame h (BHist.e0 l') → Left l' → hsame l l') ∧
