@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.3 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v3.4 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -165,6 +165,22 @@ This rule applies especially to:
 - `_endpoint_pair` / `_branch_partition` shapes that decompose into one constructor case + reflexivity.
 
 The library has roughly 1500 declarations; further mass-production of one-line lemmas degrades the average information density. Phase B's job is to find theorems that are NOT one-step-from-existing.
+
+## Critical-path discovery (HARD GATE)
+
+Run before target selection:
+
+```bash
+python3 lean4/scripts/critical_path.py
+```
+
+The script ranks every horizon `<X>Up` chapter by `transitive_downstream / (1 + thms)` after excluding nodes that are saturated (`thms >= 20`) or whose declared dependencies are not yet ready (`deps_thms < 5`). The output's `top` array is the next set of fronts the library should attack.
+
+**At least 1 of your 3 selected targets MUST belong to `top[0..2]`** of that JSON output. The target's `target_file` should be the listed `file_lean` (creating it if it does not exist), and the paper site should be a missing-marker location in the listed `file_paper`.
+
+If a top-3 node is technically blocked (carrier definition cannot be constructed without infrastructure not yet in BEDC, e.g. real numbers needing Cauchy streams that the kernel does not yet expose), record the blocker in `strategy` and use `top[3..]` instead. Do NOT silently fall back to depth-refinement of already-saturated domains.
+
+This rule is what stops codex from re-saturating Bool / Option / Sum / Prod / List / Rat. Once those nodes are over the saturation threshold, they exit the `top` list automatically and depth refinement on them is no longer required.
 
 ## HARD GATE — Derived shape saturation
 
