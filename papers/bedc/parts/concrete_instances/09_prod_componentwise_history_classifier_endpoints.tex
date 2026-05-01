@@ -25,6 +25,38 @@ and the original component witnesses rebuild
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h',k')$.
 \end{proof}
 
+\begin{theorem}[Product pair representation hsame coherence]
+\label{thm:prod-pair-rep-hsame-coherence}
+For source-history carriers $L,R:\mathsf{BHist}\to\mathsf{Prop}$, source
+classifiers $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+and histories $h,k,l,r,l',r'$, if
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$,
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$,
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$, and $\hsame(h,k)$ hold, then
+$(l\sim_L l')\wedge(r\sim_R r')$ holds.
+
+The per-object fit is: traditional target ordered-pair component comparison;
+BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdPairRep}$; classifier pair $\sim_L,\sim_R$; stability obligation
+endpoint-transported coherence; ledger displayed pair representations at
+internally same product endpoints; core theorem this hsame-coherence bridge;
+exactness component witnesses compared after endpoint transport; standard bridge
+ordered-pair readback over stable product endpoints; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Transport the second displayed pair representation from $k$ to $h$. Concretely,
+symmetry of $\hsame(h,k)$ gives $\hsame(k,h)$, and
+Theorem~\ref{thm:prod-pair-rep-hsame-transport} sends
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$ to
+$\mathsf{ProdPairRep}_{L,R}(h,l',r')$ without changing the displayed components.
+Now apply $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ at the single
+endpoint $h$ to the two displayed representations
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(h,l',r')$. The coherence datum returns exactly
+$(l\sim_L l')\wedge(r\sim_R r')$.
+\end{proof}
+
 \begin{theorem}[Product componentwise history classifier endpoint carriers]
 \label{thm:prod-component-history-classifier-endpoint-carriers}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
