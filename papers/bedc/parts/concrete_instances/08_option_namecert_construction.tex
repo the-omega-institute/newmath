@@ -777,10 +777,10 @@ ledger link, and the visible link.
 
 \begin{theorem}[Concrete optional-history semantic certificate]
 \label{thm:concrete-option-namecert}
-For any source predicate on BEDC histories, $\mathsf{OptionHistoryCarrier}$ and $\mathsf{OptionHistoryClassifier}$ form the checked $\mathsf{SemanticNameCert}$ for the nullable empty-or-source history envelope. This semantic certificate does not assert constructor-discriminating history tags; that stronger tagged interface is the preceding paper-side target.
+For every source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, the checked nullable certificate is $\mathsf{SemanticNameCert}(\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryClassifier}_S)$. This semantic certificate does not assert constructor-discriminating history tags; that stronger tagged interface is the preceding paper-side target.
 \end{theorem}
 \begin{proof}
-The history carrier contains the empty history and any source history. The classifier records both endpoint envelope-carrier witnesses and the BEDC history equality witness. Reflexivity, symmetry, transitivity, and carrier transport are the corresponding \(\hsame\) fields, while pattern and ledger soundness are carrier projections for the envelope.
+For each $S$, the history carrier contains the empty history and any source history. The classifier records both endpoint envelope-carrier witnesses and the BEDC history equality witness. Reflexivity, symmetry, transitivity, and carrier transport are the corresponding $\hsame$ fields, while pattern and ledger soundness are carrier projections for the envelope.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate}
 
