@@ -189,6 +189,19 @@ context forces \(\hsame(t,\emp)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail\_backforces\_empty}
 
+\begin{theorem}[Prefix append tail backforces empty equivalence]
+\label{thm:preorder-prefix-append-tail-backforces-empty-iff}
+If \(t\) is unary, then \(\mathsf{append}(h,t)\le h\) holds exactly when
+\(t\hsame\emp\).
+\end{theorem}
+\begin{proof}
+The forward direction is the backforces-empty implication for unary tails. For
+the reverse direction, \(t\hsame\emp\) identifies
+\(\mathsf{append}(h,t)\) with the right-unit endpoint \(h\); the prefix
+relation is then obtained from endpoint sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.PreorderUp.PreorderPrefixLE\_append\_tail\_backforces\_empty\_iff}
+
 \begin{theorem}[Prefix left context monotonicity]
 \label{thm:preorder-prefix-left-context-monotonicity}
 If \(h\le k\) is witnessed by a unary continuation tail, then appending the

@@ -32,4 +32,23 @@ theorem ProdPairRep_hsame_transport {Left Right : BHist → Prop} {h k l r : BHi
           exact And.intro leftCarrier
             (And.intro rightCarrier (cont_result_hsame_transport contH sameHK))
 
+theorem ProdPairRep_fixed_endpoint_exactness {Left Right : BHist → Prop} {h k l r : BHist} :
+    ProdPairRep Left Right h l r → (ProdPairRep Left Right k l r ↔ hsame h k) := by
+  intro repH
+  constructor
+  · intro repK
+    cases repH with
+    | intro leftCarrier restH =>
+        cases restH with
+        | intro rightCarrier contH =>
+            cases repK with
+            | intro _leftCarrierK restK =>
+                cases restK with
+                | intro _rightCarrierK contK =>
+                    exact
+                      (ProdHistoryClassifier_fixed_pair_determinism
+                        leftCarrier rightCarrier contH contK).left
+  · intro sameHK
+    exact ProdPairRep_hsame_transport repH sameHK
+
 end BEDC.Derived.ProdUp

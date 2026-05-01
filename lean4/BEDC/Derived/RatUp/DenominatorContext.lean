@@ -23,6 +23,18 @@ theorem RatCarrier_unary_denominator_context_closed {sign : BMark}
   exact RatCarrier_prepend_unary_denominator_closed prefUnary
     (RatCarrier_append_unary_denominator_closed carrier tailUnary)
 
+theorem RatHistoryCarrier_unary_denominator_context_closed {d pref tail : BHist} :
+    UnaryHistory pref → RatHistoryCarrier d → UnaryHistory tail →
+      RatHistoryCarrier (BEDC.FKernel.Cont.append pref (BEDC.FKernel.Cont.append d tail)) := by
+  intro prefUnary carrier tailUnary
+  cases carrier with
+  | intro sign signData =>
+      cases signData with
+      | intro numerator ratCarrier =>
+          exact
+            ⟨sign, numerator,
+              RatCarrier_unary_denominator_context_closed prefUnary ratCarrier tailUnary⟩
+
 theorem RatClassifierSpec_append_unary_denominator_context_closed {s1 s2 : BMark}
     {n1 n2 d1 d2 pref1 pref2 tail1 tail2 : BHist} :
     RatClassifierSpec s1 n1 d1 s2 n2 d2 -> UnaryHistory pref1 -> hsame pref1 pref2 ->
