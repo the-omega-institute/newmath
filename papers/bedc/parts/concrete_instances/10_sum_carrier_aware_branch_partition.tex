@@ -184,6 +184,41 @@ witness; the carrier-side endpoint data is transported by the corresponding
 source inclusion in the same branch.
 \end{proof}
 
+\begin{theorem}[Sum history classifier relation weakening]
+\label{thm:sum-history-classifier-relation-weakening}
+Let $Left,Right,LeftAlt,RightAlt:\mathsf{BHist}\to\mathsf{Prop}$ be arbitrary
+source carriers, and let
+$LeftEq,RightEq,LeftEq',RightEq':\mathsf{BHist}\to\mathsf{BHist}\to
+\mathsf{Prop}$ be component classifiers. Assume component-relation weakening
+$$
+\forall a\,b.\; LeftEq(a,b)\to LeftEq'(a,b)
+$$
+and
+$$
+\forall a\,b.\; RightEq(a,b)\to RightEq'(a,b).
+$$
+Then the sum history classifier relation weakens independently of source-carrier
+inclusion:
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to
+\mathsf{SumHistoryClassifier}(LeftAlt,RightAlt,LeftEq',RightEq',h,k).
+$$
+In the ten-field fit, the traditional target is disjoint-sum classifier
+monotonicity, the BEDC source is $\mathsf{BHist}$, the classifier is
+$\mathsf{SumHistoryClassifier}$, the stability datum is component-relation
+weakening, the ledger keeps the visible tag unchanged, exactness is branch
+partition preservation, and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Split the displayed $\mathsf{SumHistoryClassifier}$ witness into its visible
+left or right constructor branch. In each branch, reuse the same visible endpoint
+witnesses for $h$ and $k$. The left branch applies the left component-relation
+weakening hypothesis to the stored $LeftEq$ witness and rebuilds the left tagged
+classifier witness; the right branch applies the right component-relation
+weakening hypothesis to the stored $RightEq$ witness and rebuilds the right
+tagged classifier witness.
+\end{proof}
+
 \begin{theorem}[Sum ledger raw-visible branch partition]
 \label{thm:sum-ledger-raw-visible-branch-partition}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
