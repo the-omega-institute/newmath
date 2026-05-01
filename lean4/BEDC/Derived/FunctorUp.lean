@@ -44,6 +44,19 @@ theorem FunctorPrefixHomCarrier_reflects {p a b f : BHist} :
                     (And.intro morphismCarrier
                       (cont_prefix_cancel homCont)))
 
+theorem FunctorPrefixHomCarrier_identity_closed {p a id : BHist} :
+    UnaryHistory p -> UnaryHistory a -> Cont BHist.Empty BHist.Empty id ->
+      CategoryHomCarrier (append p a) (append p a) id := by
+  intro prefixCarrier sourceCarrier idRel
+  have idSame : hsame id BHist.Empty := cont_deterministic idRel (cont_right_unit BHist.Empty)
+  cases idSame
+  exact
+    And.intro
+        (unary_append_closed prefixCarrier sourceCarrier)
+        (And.intro
+          (unary_append_closed prefixCarrier sourceCarrier)
+          (And.intro unary_empty (cont_right_unit (append p a))))
+
 theorem FunctorPrefixHomCarrier_comp_preserves {p a b c f g fg : BHist} :
     UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier (append p a) (append p c) fg := by

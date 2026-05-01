@@ -33,6 +33,20 @@ cancellation.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_reflects}
 
+\begin{theorem}[Prefix functor preserves identity hom carrier]
+\label{thm:functor-prefix-hom-carrier-identity-closed}
+For the unary-continuation category, if \(p\) and \(a\) are unary and
+\(\ContR(\emp,\emp,id)\), then \(id\) is a hom-carrier from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,a)\).
+\end{theorem}
+\begin{proof}
+Determinism of \(\ContR\), compared against the empty right unit, identifies
+\(id\) with \(\emp\). Unary append closure gives the prefixed source and
+target carriers. The empty morphism is unary, and the right unit continuation
+at \(\mathsf{append}(p,a)\) supplies the hom-continuation witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_identity\_closed}
+
 \begin{theorem}[Prefix functor preserves hom composition]
 \label{thm:functor-prefix-hom-carrier-comp-preserves}
 For the unary-continuation category, if \(p\) is unary, \(f\) is a hom-carrier from \(a\) to \(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and \(\ContR(f,g,fg)\), then \(fg\) is a hom-carrier from \(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,c)\).

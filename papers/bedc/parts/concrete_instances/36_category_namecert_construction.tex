@@ -32,6 +32,23 @@ Unpack the two hom-carrier witnesses. The source, middle, target, and morphism h
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_closed}
 
+\begin{theorem}[Category hom carrier identity square closure]
+\label{thm:category-hom-carrier-identity-square-closed}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\)
+to \(b\), \(left\) is obtained by composing the empty continuation before
+\(f\), and \(right\) is obtained by composing the empty continuation after
+\(f\), then \(left\) and \(right\) are both hom-carriers from \(a\) to \(b\),
+and \(\HSame(left,right)\).
+\end{theorem}
+\begin{proof}
+The left unit continuation identifies \(left\) with \(f\). Determinism of
+\(\ContR\), compared against the right unit continuation for \(f\), identifies
+\(right\) with \(f\). Transporting the hom-carrier witness for \(f\) across
+these two history equalities gives the two carrier witnesses, and transitivity
+of \(\HSame\) identifies \(left\) and \(right\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_identity\_square\_closed}
+
 \begin{theorem}[Category hom carrier associativity witness]
 \label{thm:category-hom-carrier-assoc-witness}
 For the unary-continuation category, let $f$ be a hom-carrier from $a$ to $b$, let $g$ be a hom-carrier from $b$ to $c$, and let $h$ be a hom-carrier from $c$ to $d$. If $fg$, $gh$, $left$, and $right$ satisfy

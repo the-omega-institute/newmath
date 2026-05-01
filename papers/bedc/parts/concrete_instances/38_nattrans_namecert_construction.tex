@@ -45,6 +45,24 @@ transitivity of history sameness identifies the composites.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixIdentity\_naturality\_square}
 
+\begin{theorem}[Prefix identity component square closure]
+\label{thm:nattrans-prefix-identity-component-square-closed}
+For the unary-continuation category, if \(p\) and \(a\) are unary,
+\(\ContR(\emp,\emp,id)\), \(\ContR(id,\emp,left)\), and
+\(\ContR(\emp,id,right)\), then \(left\) and \(right\) are hom-carriers from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,a)\), and
+\(\HSame(left,right)\).
+\end{theorem}
+\begin{proof}
+The prefix identity hom-carrier theorem gives the carrier witness for \(id\)
+at the prefixed object. The right unit continuation identifies \(left\) with
+\(id\), and the left unit continuation identifies \(right\) with \(id\).
+Transporting the identity carrier witness across these equalities gives both
+legs of the component square, and transitivity of \(\HSame\) closes the
+square.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixIdentity\_identity\_component\_square\_closed}
+
 \section{The certificate}
 
 \begin{definition}[NatTrans source specification]

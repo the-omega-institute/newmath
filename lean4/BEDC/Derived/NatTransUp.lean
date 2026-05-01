@@ -57,4 +57,22 @@ theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta compo
                                 (And.intro objectCarrier
                                   (CategoryHomCarrier_comp_closed leftComponent rightComponent comp)))
 
+theorem NatTransPrefixIdentity_identity_component_square_closed {p a id left right : BHist} :
+    UnaryHistory p -> UnaryHistory a -> Cont BHist.Empty BHist.Empty id ->
+      Cont id BHist.Empty left -> Cont BHist.Empty id right ->
+        CategoryHomCarrier (append p a) (append p a) left ∧
+          CategoryHomCarrier (append p a) (append p a) right ∧ hsame left right := by
+  intro prefixCarrier sourceCarrier idRel leftRel rightRel
+  have idCarrier : CategoryHomCarrier (append p a) (append p a) id :=
+    FunctorPrefixHomCarrier_identity_closed prefixCarrier sourceCarrier idRel
+  have leftSame : hsame left id := cont_deterministic leftRel (cont_right_unit id)
+  have rightSame : hsame right id := cont_left_unit_result rightRel
+  have leftCarrier : CategoryHomCarrier (append p a) (append p a) left := by
+    cases leftSame
+    exact idCarrier
+  have rightCarrier : CategoryHomCarrier (append p a) (append p a) right := by
+    cases rightSame
+    exact idCarrier
+  exact And.intro leftCarrier (And.intro rightCarrier (leftSame.trans rightSame.symm))
+
 end BEDC.Derived.NatTransUp

@@ -41,6 +41,20 @@ theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
                                   (unary_cont_closed fCarrier gCarrier (cont_intro rfl))
                                   (cont_intro (append_assoc a f g))))
 
+theorem CategoryHomCarrier_identity_square_closed {a b f left right : BHist} :
+    CategoryHomCarrier a b f -> Cont BHist.Empty f left -> Cont f BHist.Empty right ->
+      CategoryHomCarrier a b left ∧ CategoryHomCarrier a b right ∧ hsame left right := by
+  intro homCarrier leftRel rightRel
+  have leftSame : hsame left f := cont_left_unit_result leftRel
+  have rightSame : hsame right f := cont_deterministic rightRel (cont_right_unit f)
+  have leftCarrier : CategoryHomCarrier a b left := by
+    cases leftSame
+    exact homCarrier
+  have rightCarrier : CategoryHomCarrier a b right := by
+    cases rightSame
+    exact homCarrier
+  exact And.intro leftCarrier (And.intro rightCarrier (leftSame.trans rightSame.symm))
+
 theorem CategoryHomCarrier_comp_assoc_closed {a b c d f g h fg gh left right : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c d h ->
       Cont f g fg -> Cont g h gh -> Cont fg h left -> Cont f gh right ->
