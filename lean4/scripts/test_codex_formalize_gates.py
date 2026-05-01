@@ -638,7 +638,10 @@ class PreMergeHardGateTests(unittest.TestCase):
 
                 cf.run_cmd = fake_run_cmd
 
-                self.assertTrue(cf.run_pre_merge_hard_gates(wt))
+                ok, failed_gate, tail = cf.run_pre_merge_hard_gates(wt)
+                self.assertTrue(ok)
+                self.assertIsNone(failed_gate)
+                self.assertIsNone(tail)
             finally:
                 cf.run_cmd = original_run_cmd
 
@@ -664,7 +667,10 @@ class PreMergeHardGateTests(unittest.TestCase):
 
                 cf.run_cmd = fake_run_cmd
 
-                self.assertFalse(cf.run_pre_merge_hard_gates(wt))
+                ok, failed_gate, tail = cf.run_pre_merge_hard_gates(wt)
+                self.assertFalse(ok)
+                self.assertEqual(failed_gate, "check_axioms")
+                self.assertIn("boom", tail or "")
             finally:
                 cf.run_cmd = original_run_cmd
 
