@@ -184,6 +184,33 @@ history carrier witness exposes component histories $l,r$ and hence a displayed
 pair ledger witness $D(h)$.
 \end{proof}
 
+\begin{theorem}[Product ledger visible pair-representation readback]
+\label{thm:prod-ledger-visible-pair-representation-readback}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history predicates and let
+$\rho,v:\mathsf{BHist}$. Define the displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$.
+If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then both
+$D(v)$ and $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ hold.
+\end{theorem}
+\begin{proof}
+The per-object fit is: traditional target ordered-product visible ledger
+readback; BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$ through $\mathsf{ProdPairRep}$; classifier
+$\mathsf{ProdHistoryClassifier}$; stability endpoint transport; ledger
+$\mathsf{ProdHistoryLedgerPolicy}$ plus displayed pair ledger $D$; core theorem
+checked ledger descent; exactness visible endpoint pair representation; standard
+bridge ordered-pair visible readback; status $\mathsf{ProofTarget}$. Unpack the
+ledger policy to obtain the raw product carrier and the raw-visible $\hsame$
+endpoint link. Apply
+Theorem~\ref{thm:prod-pair-rep-coverage} to the raw carrier, giving histories
+$l,r$ with $\mathsf{ProdPairRep}_{L,R}(\rho,l,r)$. Transport this displayed pair
+representation along the raw-visible endpoint link by
+Theorem~\ref{thm:prod-pair-rep-hsame-transport}; the result is the witness for
+$D(v)$. The classifier clause is exactly
+Theorem~\ref{thm:prod-ledger-raw-visible-classifier}.
+\end{proof}
+
 \begin{theorem}[Singleton history source certificate]
 \label{thm:singleton-history-source-namecert}
 Fix a BEDC history $a_0:\mathsf{BHist}$, and define
