@@ -262,6 +262,47 @@ obtain $\hsame(r,r')$. These are exactly the two component classifier
 conclusions required by $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$.
 \end{proof}
 
+\begin{theorem}[Product pair-representation coherence from classifier-bounded sources]
+\label{thm:prod-pair-rep-classifier-bounded-coherence}
+The ten-field fit is: traditional target ordered-product component readback
+through bounded source classifiers; BEDC source $\mathsf{BHist}$ with $\Cont$;
+carriers $L$ and $R$; classifiers $\sim_L$ and $\sim_R$; stability obligation
+pair-representation coherence; ledger displayed pair representation; core
+theorem classifier-bounded coherence; exactness component comparison through
+the source classifiers; standard bridge source certificates plus center
+histories; status $\mathsf{ProofTarget}$.
+
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume
+$\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$. Suppose there are histories
+$l_0,r_0:\mathsf{BHist}$ such that
+$$
+\forall l.\;L(l)\to l\sim_L l_0
+$$
+and
+$$
+\forall r.\;R(r)\to r\sim_R r_0.
+$$
+Then the product pair-representation coherence condition holds:
+$$
+\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}.
+$$
+\end{theorem}
+\begin{proof}
+Take two displayed pair representations of the same product history $h$, with
+components $(l,r)$ and $(l',r')$. The displayed witnesses contain the source
+facts $L(l)$, $L(l')$, $R(r)$, and $R(r')$. The boundedness assumptions give
+$l\sim_L l_0$, $l'\sim_L l_0$, $r\sim_R r_0$, and $r'\sim_R r_0$. Apply the
+symmetry fields of $\mathsf{cert}_L$ and $\mathsf{cert}_R$ to turn the second
+left and right bounds into $l_0\sim_L l'$ and $r_0\sim_R r'$. Apply the
+transitivity fields of the two certificates to compose through the center
+histories, obtaining $l\sim_L l'$ and $r\sim_R r'$. These two component
+classifier witnesses are exactly the conclusion required by
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$.
+\end{proof}
+
 \begin{theorem}[Singleton product pair-representation coherence]
 \label{thm:prod-pair-rep-singleton-coherence}
 Fix histories $l_0,r_0:\mathsf{BHist}$. Let
