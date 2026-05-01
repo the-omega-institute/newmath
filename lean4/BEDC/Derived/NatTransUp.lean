@@ -75,4 +75,12 @@ theorem NatTransPrefixIdentity_identity_component_square_closed {p a id left rig
     exact idCarrier
   exact And.intro leftCarrier (And.intro rightCarrier (leftSame.trans rightSame.symm))
 
+theorem NatTransPrefixComponentCarrier_target_prefix_deterministic {p q r a eta : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier p r a eta -> hsame q r := by
+  intro left right
+  have sameTarget : hsame (append q a) (append r a) :=
+    CategoryHomCarrier_target_deterministic left.right.right.right right.right.right.right
+  exact append_right_cancel (k := a) sameTarget
+
 end BEDC.Derived.NatTransUp

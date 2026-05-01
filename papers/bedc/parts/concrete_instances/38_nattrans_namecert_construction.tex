@@ -28,6 +28,21 @@ composes the two component morphisms across the shared middle object
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_closed}
 
+\begin{theorem}[NatTrans prefix component target-prefix determinacy]
+\label{thm:nattrans-prefix-component-carrier-target-prefix-deterministic}
+For prefix components over unary histories, if a fixed component history
+$\eta$ is a component from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(q,a)$ and also from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(r,a)$, then $\HSame(q,r)$.
+\end{theorem}
+\begin{proof}
+Unpack both prefix-component carrier witnesses to their underlying category
+hom-carrier witnesses. Category target determinacy identifies
+$\mathsf{append}(q,a)$ and $\mathsf{append}(r,a)$, and cancellation of the
+shared suffix $a$ identifies the prefixes $q$ and $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_target\_prefix\_deterministic}
+
 \begin{theorem}[Prefix identity naturality square]
 \label{thm:nattrans-prefix-identity-naturality-square}
 For the unary-continuation category, let \(p\) be unary and let \(f\) be a

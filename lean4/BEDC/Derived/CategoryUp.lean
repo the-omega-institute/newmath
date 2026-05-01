@@ -113,6 +113,16 @@ theorem CategoryHomCarrier_morphism_deterministic {a b f g : BHist} :
                       | intro _gCarrier rightCont =>
                           exact cont_left_cancel leftCont rightCont
 
+theorem CategoryHomCarrier_target_deterministic {a b c f : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier a c f -> hsame b c := by
+  intro left right
+  exact cont_deterministic left.right.right.right right.right.right.right
+
+theorem CategoryHomCarrier_source_deterministic {a b c f : BHist} :
+    CategoryHomCarrier a c f -> CategoryHomCarrier b c f -> hsame a b := by
+  intro left right
+  exact cont_right_cancel left.right.right.right right.right.right.right
+
 structure ContinuationMorphism (src tgt : BHist) where
   tail : BHist
   rel : Cont src tail tgt

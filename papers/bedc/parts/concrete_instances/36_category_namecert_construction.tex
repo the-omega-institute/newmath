@@ -137,6 +137,32 @@ identifies the two morphism histories.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_morphism\_deterministic}
 
+\begin{theorem}[Category hom carrier target determinacy]
+\label{thm:category-hom-carrier-target-deterministic}
+For the unary-continuation category, if a fixed morphism history $f$ is a
+hom-carrier from $a$ to $b$ and also from $a$ to $c$, then
+$\HSame(b,c)$.
+\end{theorem}
+\begin{proof}
+Unpack both hom-carrier witnesses. Their continuation fields have the same
+source $a$ and morphism tail $f$, so continuation result determinacy
+identifies the two target histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_target\_deterministic}
+
+\begin{theorem}[Category hom carrier source determinacy]
+\label{thm:category-hom-carrier-source-deterministic}
+For the unary-continuation category, if a fixed morphism history $f$ is a
+hom-carrier from $a$ to $c$ and also from $b$ to $c$, then
+$\HSame(a,b)$.
+\end{theorem}
+\begin{proof}
+Unpack both hom-carrier witnesses. Their continuation fields have the same
+morphism tail $f$ and result $c$, so continuation right-context cancellation
+identifies the two source histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_source\_deterministic}
+
 \section{The certificate}
 
 \begin{definition}[Category source specification]
