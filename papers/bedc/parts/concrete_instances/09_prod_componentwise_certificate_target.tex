@@ -7,7 +7,7 @@ $\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
 $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Write
 $C(h,k)$ for
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$. Then the
-carrier-inhabited field and the four stability fields hold for
+five core $\NameCert$ fields hold for
 $\mathsf{ProdHistoryCarrier}(L,R)$:
 \begin{enumerate}
   \item carrier inhabitation:
@@ -44,24 +44,25 @@ therefore gives the paper-side componentwise product certificate target.
 \end{theorem}
 \begin{proof}
 For carrier inhabitation, $\mathsf{cert}_L.\mathsf{carrier\_inhabited}$ and
-$\mathsf{cert}_R.\mathsf{carrier\_inhabited}$ supply left and right histories.
-The product carrier witness is built by the append introduction for
-$\mathsf{ProdHistoryCarrier}$, equivalently by
-$\mathsf{ProdHistoryCarrier\_cont\_intro}$ in the constructor presentation. For
-carrier-relative reflexivity, unpack a
+$\mathsf{cert}_R.\mathsf{carrier\_inhabited}$ supply histories $l$ and $r$
+with $L(l)$ and $R(r)$. Applying
+Theorem~\ref{thm:prod-history-carrier-append-intro} to those two source
+carrier witnesses gives
+$\mathsf{ProdHistoryCarrier}(L,R,\mathsf{append}(l,r))$, so the product
+carrier is inhabited. For carrier-relative reflexivity, unpack a
 $\mathsf{ProdHistoryCarrier}(L,R,h)$ witness into left and right histories and
 reuse that pair representation on both sides; the two source $\NameCert$
-witnesses give component reflexivity. For the second field, invert the
+witnesses give component reflexivity. For symmetry, invert the
 componentwise classifier witness and apply source symmetry to the two component
 classifier witnesses, keeping the two pair representations with endpoints
-exchanged. For the third field, unpack $\mathsf{C}(h,k)$ and
+exchanged. For transitivity, unpack $\mathsf{C}(h,k)$ and
 $\mathsf{C}(k,u)$ into pair representations $(l_h,r_h)$, $(l_k,r_k)$,
 $(l'_k,r'_k)$, and $(l_u,r_u)$. Pair-representation coherence at the middle
 history $k$ gives both $l_k\sim_L l'_k$ and $r_k\sim_R r'_k$. The two source
 $\NameCert.\mathsf{equiv\_trans}$ fields then compose the left chain
 $l_h\sim_L l_k\sim_L l'_k\sim_L l_u$ and the right chain
-$r_h\sim_R r_k\sim_R r'_k\sim_R r_u$ separately. For the fourth
-field, the classifier witness for the right endpoint contains a displayed pair
+$r_h\sim_R r_k\sim_R r'_k\sim_R r_u$ separately. For carrier transport, the
+classifier witness for the right endpoint contains a displayed pair
 representation of $k$, and pair-representation coverage rebuilds
 $\mathsf{ProdHistoryCarrier}(L,R,k)$. Pattern and ledger soundness are
 identities because both are chosen to be the same product-history carrier.
