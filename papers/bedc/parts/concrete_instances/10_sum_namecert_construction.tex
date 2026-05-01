@@ -454,26 +454,42 @@ certificate field $\mathsf{equiv\_symm}$ to the stored $RightEq$ witness.
 
 \begin{theorem}[Sum history classifier tag separation]
 \label{thm:sum-history-classifier-tag-separation}
-If \(h\) is \(e0\)-tagged and \(k\) is \(e1\)-tagged, then the
-history-level \(\SumUp\) classifier cannot relate \(h\) to \(k\).
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and let $h,k,l,r:\mathsf{BHist}$. Then
+$$
+\hsame(h,\Ezero(l))\to
+\hsame(k,\Eone(r))\to
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to
+\bot.
+$$
 \end{theorem}
 \begin{proof}
-Invert the classifier witness. In the left branch \(k\) is also
-\(e0\)-tagged, contradicting its \(e1\)-tag witness. In the right branch
-\(h\) is \(e1\)-tagged, contradicting its \(e0\)-tag witness.
+Invert the classifier witness. In the left branch $k$ is also
+$\Ezero$-tagged, contradicting the displayed $\Eone$ endpoint witness. In the
+right branch $h$ is $\Eone$-tagged, contradicting the displayed $\Ezero$
+endpoint witness.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_mixed\_tags\_absurd}
 
 \begin{theorem}[Sum history classifier reverse tag separation]
 \label{thm:sum-history-classifier-reverse-tag-separation}
-Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers with classifiers $LeftEq$ and $RightEq$. If $h$ is $e1$-tagged and $k$ is $e0$-tagged, then
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and let $h,k,l,r:\mathsf{BHist}$. Then
 $$
-\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)
+\hsame(h,\Eone(r))\to
+\hsame(k,\Ezero(l))\to
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)\to
+\bot.
 $$
-is impossible.
 \end{theorem}
 \begin{proof}
-Invert the classifier witness. In the left branch, the classifier forces $h$ to be $e0$-tagged, contradicting the displayed $e1$-tag witness by $e1/e0$ no-confusion. In the right branch, the classifier forces $k$ to be $e1$-tagged, contradicting the displayed $e0$-tag witness by $e0/e1$ no-confusion.
+Invert the classifier witness. In the left branch, the classifier forces $h$
+to be $\Ezero$-tagged, contradicting the displayed $\Eone$ endpoint witness by
+$\Ezero/\Eone$ no-confusion. In the right branch, the classifier forces $k$ to
+be $\Eone$-tagged, contradicting the displayed $\Ezero$ endpoint witness by
+$\Ezero/\Eone$ no-confusion.
 \end{proof}
 
 \begin{theorem}[Sum history classifier transitivity]

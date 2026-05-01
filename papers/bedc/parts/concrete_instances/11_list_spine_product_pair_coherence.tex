@@ -91,6 +91,20 @@ A(a)\to A(b)\to \hsame(a,b)\to a\sim_A b.
 $$
 \end{definition}
 
+\begin{theorem}[List source hsame compatibility for hsame]
+\label{thm:list-source-hsame-compatible-hsame}
+For every BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$,
+$$
+\mathsf{ListSourceHsameCompatible}(A,\hsame).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{ListSourceHsameCompatible}$. For histories $a$ and $b$, the
+two source-carrier witnesses $A(a)$ and $A(b)$ are part of the interface, and
+the final displayed input is already the required $\hsame(a,b)$ classifier
+witness. Return that witness.
+\end{proof}
+
 \begin{definition}[Pair frame]
 \label{def:list-pair-frame}
 For histories $u,t:\mathsf{BHist}$, define $\mathsf{PairFrame}(u,t)$ by
@@ -280,6 +294,53 @@ $\mathsf{ListHistoryCarrier}_A$ and
 $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$ scope is the separate target of
 Theorem~\ref{thm:list-public-object-certificate-from-cons-boundary-coherence}
 and Theorem~\ref{thm:concrete-list-namecert}.
+
+\begin{corollary}[Framed finite-spine paper certificate for hsame]
+\label{cor:framed-list-public-object-paper-certificate-hsame}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\mathsf{cert}:\NameCert(A,\hsame)$. Define the framed carrier by
+$$
+\mathsf{FramedListHistoryCarrier}_A(h)
+\quad\Longleftrightarrow\quad
+\exists xs:\mathsf{HistSpine}.\;\mathsf{FramedListSpineRep}_A(h,xs),
+$$
+and define the hsame framed bridge classifier by
+$$
+\mathsf{FramedListBridgeClassifier}_{A,\hsame}(h,k)
+\quad\Longleftrightarrow\quad
+\exists xs\,ys.\;
+\mathsf{FramedListSpineRep}_A(h,xs)\land
+\mathsf{FramedListSpineRep}_A(k,ys)\land
+\mathsf{ListClassifierSpec}(\hsame,xs,ys).
+$$
+With pattern and ledger predicates both given by
+$\mathsf{FramedListHistoryCarrier}_A$, these fields form the paper certificate
+target
+$$
+\mathsf{SemanticNameCert}(\mathsf{FramedListHistoryCarrier}_A,
+\mathsf{FramedListHistoryCarrier}_A,
+\mathsf{FramedListHistoryCarrier}_A,
+\mathsf{FramedListBridgeClassifier}_{A,\hsame}).
+$$
+\end{corollary}
+\begin{proof}
+Apply Corollary~\ref{cor:framed-list-public-object-paper-certificate} with
+source classifier $\hsame$. The compatibility premise is exactly
+Theorem~\ref{thm:list-source-hsame-compatible-hsame}, and the remaining source
+certificate input is the displayed $\mathsf{cert}:\NameCert(A,\hsame)$.
+\end{proof}
+
+The per-object fit is: traditional target finite lists; BEDC source $A$ with
+$\NameCert(A,\sim_A)$; carrier $\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability supplied by the
+source certificate and cons-boundary coherence; ledger
+$\mathsf{ListHistoryLedger}_A$; core theorem list
+Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence},
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence}, and
+Theorem~\ref{thm:concrete-list-namecert}; exactness via the spine bridge;
+standard bridge finite spines; status paper certificate target under
+cons-boundary coherence, with the separate framed carrier certificate recorded
+by Corollary~\ref{cor:framed-list-public-object-paper-certificate}.
 
 \begin{theorem}[List spine bridge endpoint exposure and symmetry]
 \label{thm:list-spine-bridge-endpoint-exposure-symmetry}
