@@ -265,6 +265,37 @@ inversion principle for the visible present constructor $\Eone$ then exposes
 the unique underlying payload, yielding $\hsame(a,b)$.
 \end{proof}
 
+\begin{theorem}[Tagged option history carrier exclusive branch partition]
+\label{thm:tagged-option-history-carrier-exclusive-branch-partition}
+This theorem fits the per-object template as follows: the traditional target is
+tagged optional carrier readback; the BEDC source is $\mathsf{BHist}$ with
+$\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; the classifier
+is unused; the stability obligation is constructor no-confusion; the ledger is
+the visible absent/present tag with payload; the core theorem is exclusive
+carrier partition; exactness is absent-or-present coverage with disjointness;
+the standard bridge is $\mathsf{none}$/$\mathsf{some}$; and the status is
+$\mathsf{ProofTarget}$. For every source carrier
+$S:\mathsf{BHist}\to\mathsf{Prop}$ and history $h$, if
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$ holds, then
+$$
+\bigl(\hsame(h,\emp)\land
+\neg\exists a:\mathsf{BHist}.\; S(a)\land\hsame(h,\Eone(a))\bigr)
+\lor
+\bigl(\exists a:\mathsf{BHist}.\;
+S(a)\land\hsame(h,\Eone(a))\land\neg\hsame(h,\emp)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged carrier witness. In the absent branch, the carrier
+witness gives $\hsame(h,\emp)$; any present payload witness
+$S(a)\land\hsame(h,\Eone(a))$ contradicts
+Lemma~\ref{lem:tagged-option-history-carrier-constructor-separation}. In the
+present branch, the carrier witness gives a payload $a$ with $S(a)$ and
+$\hsame(h,\Eone(a))$; the same constructor-separation lemma rules out
+$\hsame(h,\emp)$. These two carrier constructors give the displayed coverage
+and disjointness.
+\end{proof}
+
 \begin{theorem}[Tagged option history classifier branch partition]
 \label{thm:tagged-option-history-classifier-branch-partition}
 This theorem fits the per-object template as follows: the traditional target is
