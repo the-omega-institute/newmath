@@ -67,6 +67,35 @@ $\mathsf{ProdHistoryCarrier}(L,R,k)$. Thus the displayed five-field tuple is
 exactly the componentwise product core classifier data.
 \end{proof}
 
+\begin{theorem}[Bounded $\hsame$ product pair-representation coherence]
+\label{thm:prod-pair-rep-bounded-hsame-coherence}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. Suppose
+there are histories $l_0,r_0:\mathsf{BHist}$ such that
+$$
+\forall l.\;L(l)\to\hsame(l,l_0)
+$$
+and
+$$
+\forall r.\;R(r)\to\hsame(r,r_0).
+$$
+With both source classifiers specialized to $\hsame$, the product
+pair-representation coherence condition holds:
+$$
+\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}.
+$$
+\end{theorem}
+\begin{proof}
+Take two displayed pair representations of the same product history $h$, with
+components $(l,r)$ and $(l',r')$. The pair-representation witnesses include
+$L(l)$, $L(l')$, $R(r)$, and $R(r')$. The boundedness hypotheses give
+$\hsame(l,l_0)$, $\hsame(l',l_0)$, $\hsame(r,r_0)$, and $\hsame(r',r_0)$.
+By symmetry of $\hsame$, turn $\hsame(l',l_0)$ into $\hsame(l_0,l')$ and
+$\hsame(r',r_0)$ into $\hsame(r_0,r')$. By transitivity of $\hsame$, compose
+$l$ through $l_0$ to obtain $\hsame(l,l')$, and compose $r$ through $r_0$ to
+obtain $\hsame(r,r')$. These are exactly the two component classifier
+conclusions required by $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$.
+\end{proof}
+
 \begin{theorem}[Singleton product pair-representation coherence]
 \label{thm:prod-pair-rep-singleton-coherence}
 Fix histories $l_0,r_0:\mathsf{BHist}$. Let
@@ -79,15 +108,10 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-Take two displayed pair representations of the same product history $h$, with
-components $(l,r)$ and $(l',r')$. The left carrier witnesses give
-$\hsame(l,l_0)$ and $\hsame(l',l_0)$, and the right carrier witnesses give
-$\hsame(r,r_0)$ and $\hsame(r',r_0)$. By symmetry of $\hsame$, turn
-$\hsame(l',l_0)$ into $\hsame(l_0,l')$ and
-$\hsame(r',r_0)$ into $\hsame(r_0,r')$. By transitivity of $\hsame$, compose
-$l$ through $l_0$ to obtain $\hsame(l,l')$, and compose $r$ through $r_0$ to
-obtain $\hsame(r,r')$. These are exactly the two component classifier
-conclusions required by $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$.
+Apply Theorem~\ref{thm:prod-pair-rep-bounded-hsame-coherence}. The required
+left bound sends a witness $L(l)$ to the displayed clause $\hsame(l,l_0)$, and
+the required right bound sends a witness $R(r)$ to the displayed clause
+$\hsame(r,r_0)$.
 \end{proof}
 
 \begin{theorem}[Product componentwise history semantic certificate target]

@@ -133,3 +133,62 @@ Theorem~\ref{thm:concrete-list-namecert} with the source certificate
 $\mathsf{cert}$ and this spine-coherence witness. The resulting certificate is
 exactly the displayed semantic target for the list public object.
 \end{proof}
+
+\begin{definition}[Singleton history source for lists]
+\label{def:list-singleton-history-source}
+For a fixed BEDC history $a_0:\mathsf{BHist}$, define the singleton history
+source carrier $A_{a_0}:\mathsf{BHist}\to\mathsf{Prop}$ by
+$$
+A_{a_0}(x)\Longleftrightarrow\hsame(x,a_0).
+$$
+\end{definition}
+
+\begin{theorem}[List singleton source public-object certificate]
+\label{thm:list-singleton-source-public-object-certificate}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. The
+ten-field per-object fit is: traditional target finite lists over one BEDC
+history class; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{ListHistoryCarrier}_{A_{a_0}}$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}$; stability from the
+singleton $\NameCert(A_{a_0},\hsame)$ and direct spine coherence; ledger
+$\mathsf{ListHistoryLedger}_{A_{a_0}}$; core theorem list singleton source
+$\NameCert$, singleton-source $\mathsf{ListSpineRepCoherent}$, and
+Theorem~\ref{thm:concrete-list-namecert}; exactness through the spine bridge;
+standard bridge finite spines; status $\mathsf{ProofTarget}$. Then both the
+singleton-source spine coherence condition
+$$
+\mathsf{ListSpineRepCoherent}_{A_{a_0},\hsame}
+$$
+and the displayed semantic certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_{A_{a_0}},
+\mathsf{ListHistoryPattern}_{A_{a_0}},
+\mathsf{ListHistoryLedger}_{A_{a_0}},
+\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame})
+$$
+hold.
+\end{theorem}
+\begin{proof}
+The source certificate $\NameCert(A_{a_0},\hsame)$ is the singleton certificate:
+inhabitation is witnessed by $a_0$, reflexivity uses $\hsame$ reflexivity,
+symmetry and transitivity are the corresponding $\hsame$ fields, and carrier
+transport composes the stored witness $\hsame(x,a_0)$ with a classifier witness
+$\hsame(x,y)$ to obtain $\hsame(y,a_0)$.
+
+For spine coherence, compare two displayed
+$\mathsf{ListSpineRep}_{A_{a_0}}$ presentations of the same endpoint by
+induction on the two finite spines. The nil-nil case is the nil clause of
+$\mathsf{ListClassifierSpec}$. Mixed nil-cons cases are eliminated by
+Theorem~\ref{thm:list-spine-rep-nil-cons-no-confusion}. In the cons-cons case,
+the two head witnesses lie in $A_{a_0}$, so each head is $\hsame$-related to
+$a_0$; symmetry and transitivity of $\hsame$ classify the heads. The induction
+hypothesis classifies the represented tails, and the cons constructor of
+$\mathsf{ListClassifierSpec}$ combines the head and tail classifiers. This gives
+$\mathsf{ListSpineRepCoherent}_{A_{a_0},\hsame}$.
+
+Apply Theorem~\ref{thm:concrete-list-namecert} with the singleton source
+certificate and the singleton-source spine-coherence witness. The result is
+exactly the displayed $\mathsf{SemanticNameCert}$ for the singleton-source list
+public object.
+\end{proof}
