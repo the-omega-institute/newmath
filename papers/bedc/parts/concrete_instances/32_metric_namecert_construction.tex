@@ -205,6 +205,34 @@ classified by \autoref{thm:metric-distance-witness-symmetric-classifier}.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_symmetric\_classifier}
 
+\begin{theorem}[Metric distance witness visible-context determinacy]
+\label{thm:metric-distance-witness-visible-context-determinacy}
+For histories $p,q,x,y,d,e$, two contextual distance ledgers for the same
+visible endpoints determine the same central distance:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot e)\cdot q)
+\Longrightarrow
+\hsame(d,e).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to the first
+contextual witness to recover the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$. Apply the same theorem to the second
+contextual witness to recover
+$\mathsf{MetricDistanceWitness}(x,y,e)$.
+
+Unpack the two central distance witnesses. They provide continuation ledgers
+$\ContR(x,y,d)$ and $\ContR(x,y,e)$ over the same source and target histories;
+continuation determinacy, Theorem~\ref{thm:continuation-determinacy}, yields
+$\hsame(d,e)$.
+\end{proof}
+
 \begin{theorem}[Metric distance witness semantic name certificate]
 \label{thm:metric-distance-witness-semantic-namecert}
 For unary endpoint histories $x,y$, the concrete distance-witness predicate
