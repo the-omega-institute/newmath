@@ -47,6 +47,21 @@ theorem RealConstantHistoryClassifier_e1_iff_rat {d e : BHist} :
   · intro ratClassifier
     exact ⟨d, e, hsame_refl (BHist.e1 d), hsame_refl (BHist.e1 e), ratClassifier⟩
 
+theorem RealConstantHistoryClassifier_endpoint_transport {h h' k k' : BHist} :
+    hsame h h' -> hsame k k' -> RealConstantHistoryClassifier h k ->
+      RealConstantHistoryClassifier h' k' := by
+  intro sameH sameK classified
+  cases classified with
+  | intro d rest =>
+      cases rest with
+      | intro e data =>
+          cases data with
+          | intro sameHD rest =>
+              cases rest with
+              | intro sameKE ratClassifier =>
+                  exact ⟨d, e, hsame_trans (hsame_symm sameH) sameHD,
+                    hsame_trans (hsame_symm sameK) sameKE, ratClassifier⟩
+
 def RealStreamClassifier (x y : Nat -> BHist) : Prop :=
   forall n : Nat, BEDC.Derived.RatUp.RatHistoryClassifier (x n) (y n)
 
@@ -64,6 +79,23 @@ theorem RealStreamClassifier_prefix {x y : Nat -> BHist} :
       exact classified Nat.zero
   | succ n ih =>
       exact And.intro ih (classified (Nat.succ n))
+
+theorem RealStreamPrefixClassifier_hsame_transport {x x' y y' : Nat -> BHist}
+    (sameX : forall n : Nat, hsame (x n) (x' n))
+    (sameY : forall n : Nat, hsame (y n) (y' n)) :
+    forall n : Nat, RealStreamPrefixClassifier x y n ->
+      RealStreamPrefixClassifier x' y' n := by
+  intro n
+  induction n with
+  | zero =>
+      intro classified
+      exact BEDC.Derived.RatUp.RatHistoryClassifier_hsame_transport
+        (sameX Nat.zero) (sameY Nat.zero) classified
+  | succ n ih =>
+      intro classified
+      exact And.intro (ih classified.left)
+        (BEDC.Derived.RatUp.RatHistoryClassifier_hsame_transport
+          (sameX (Nat.succ n)) (sameY (Nat.succ n)) classified.right)
 
 theorem RealStreamPrefixClassifier_e1_pair_readback {x y : Nat -> BHist} :
     forall {n : Nat} {leftTail rightTail : BHist},

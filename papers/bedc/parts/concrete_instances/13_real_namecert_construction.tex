@@ -84,6 +84,18 @@ two rational histories and uses reflexivity at both seals.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_iff\_rat}
 
+\begin{theorem}[Constant real classifier endpoint transport]
+\label{thm:real-constant-history-classifier-endpoint-transport}
+If constant real histories $h,k$ classify together, and $h\hsame h'$ and
+$k\hsame k'$, then $h'$ and $k'$ classify together.
+\end{theorem}
+\begin{proof}
+Unpack the two sealed rational witnesses. Symmetry and transitivity of
+$\hsame$ move the displayed endpoint equalities from $h,k$ to $h',k'$, while
+the rational classifier witness remains attached to the same sealed tails.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_endpoint\_transport}
+
 \begin{definition}[Real stream classifiers]
 \label{def:real-stream-classifiers}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, the stream classifier is pointwise rational-history classification. The finite prefix classifier records the same data recursively through a selected observation index.
@@ -99,6 +111,20 @@ If rational-observation streams are pointwise related by the rational history cl
 Induct on the selected prefix length. The base case is the pointwise classifier at zero. The successor case pairs the induction hypothesis for the shorter prefix with the pointwise classifier at the successor observation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_prefix}
+
+\begin{theorem}[Real stream prefix classifier hsame transport]
+\label{thm:real-stream-prefix-classifier-hsame-transport}
+If two rational-observation streams are related pointwise by $\hsame$ on both
+sides, then every classified finite prefix transports to the pointwise-related
+streams.
+\end{theorem}
+\begin{proof}
+Induct on the prefix length. The base observation is rational classifier
+transport at index $0$. At a successor index, the induction hypothesis
+transports the shorter prefix and rational classifier transport handles the
+successor observation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_hsame\_transport}
 
 \begin{theorem}[Real stream prefix one-tail pair readback]
 \label{thm:real-stream-prefix-e1-pair-readback}

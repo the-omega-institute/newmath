@@ -219,4 +219,22 @@ theorem unary_append_monoid_classifier_cancel_context {left right a b : BHist} :
             exact append_right_cancel (k := right) sameMiddle
           exact And.intro unaryA (And.intro unaryB sameAB)
 
+theorem unary_append_monoid_classifier_append_context {left right a b : BHist} :
+    UnaryHistory left -> UnaryHistory right ->
+      MonoidHistoryClassifier UnaryHistory a b ->
+        MonoidHistoryClassifier UnaryHistory (append left (append a right))
+          (append left (append b right)) := by
+  intro unaryLeft unaryRight classified
+  cases classified with
+  | intro unaryA rest =>
+      cases rest with
+      | intro unaryB sameAB =>
+          exact And.intro
+            (unary_append_closed unaryLeft (unary_append_closed unaryA unaryRight))
+            (And.intro
+              (unary_append_closed unaryLeft (unary_append_closed unaryB unaryRight))
+              (by
+                cases sameAB
+                exact hsame_refl (append left (append a right))))
+
 end BEDC.Derived.MonoidUp
