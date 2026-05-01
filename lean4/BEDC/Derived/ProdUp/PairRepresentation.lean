@@ -15,6 +15,26 @@ def ProdPairRepCoherent (Left Right : BHist → Prop)
       ProdPairRep Left Right h l' r' →
         LeftEq l l' ∧ RightEq r r'
 
+theorem ProdHistoryCarrier_empty_result_components {Left Right : BHist -> Prop} :
+    ProdHistoryCarrier Left Right BHist.Empty ->
+      exists l : BHist, exists r : BHist,
+        Left l /\ Right r /\ hsame l BHist.Empty /\ hsame r BHist.Empty := by
+  intro carrier
+  cases carrier with
+  | intro l rest =>
+      cases rest with
+      | intro r data =>
+          cases data with
+          | intro leftCarrier rightData =>
+              cases rightData with
+              | intro rightCarrier contEmpty =>
+                  have emptyComponents := cont_empty_result_inversion contEmpty
+                  exact Exists.intro l
+                    (Exists.intro r
+                      (And.intro leftCarrier
+                        (And.intro rightCarrier
+                          (And.intro emptyComponents.left emptyComponents.right))))
+
 theorem ProdHistoryClassifier_fixed_pair_determinism
     {Left Right : BHist → Prop} {h k l r : BHist} :
     Left l → Right r → Cont l r h → Cont l r k →

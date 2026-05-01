@@ -66,6 +66,20 @@ proof is exactly the result witness required by the product history carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_cont\_intro}
 
+\begin{theorem}[Product empty-result component exposure]
+\label{thm:prod-history-carrier-empty-result-components}
+If $\mathsf{ProdHistoryCarrier}(L,R,\mathsf{Empty})$ holds, then there are
+component histories $l$ and $r$ with $L(l)$ and $R(r)$ such that
+$l\hsame\mathsf{Empty}$ and $r\hsame\mathsf{Empty}$.
+\end{theorem}
+\begin{proof}
+Unpack the product carrier into component histories $l$ and $r$, their source
+witnesses, and the continuation proof $\Cont(l,r,\mathsf{Empty})$. BEDC
+empty-result inversion for continuations forces both component histories to be
+the empty history, giving the two displayed $\hsame$ facts.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_empty\_result\_components}
+
 \begin{theorem}[Product unary history closure]
 \label{thm:prod-history-carrier-unary}
 If a product history is generated from unary left and right histories, then the

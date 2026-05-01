@@ -210,6 +210,19 @@ theorem group_right_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
           (hsame_trans (assocC c a (inv a))
             (hsame_trans (mulCongr (hsame_refl c) (rightInv a)) (rightId c))))))
 
+theorem group_right_absorb_left_factor_unit {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x, hsame (mul e x) x)
+    (rightId : forall x, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall x, hsame (mul x (inv x)) e) {a b : BHist} :
+    hsame (mul b a) a -> hsame b e := by
+  intro absorb
+  exact group_right_cancel assocC rightId mulCongr rightInv
+    (hsame_trans absorb (hsame_symm (leftId a)))
+
 theorem group_two_sided_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))

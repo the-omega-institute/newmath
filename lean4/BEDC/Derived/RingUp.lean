@@ -89,6 +89,32 @@ theorem ring_mul_zero_absorption {add mul : BHist -> BHist -> BHist}
       exact hsame_trans (hsame_symm sameLeft) distrib
     exact ring_add_duplicate_eq_zero addAssoc zeroLeft negLeft addCongr (mul zero x) duplicate
 
+theorem ring_mul_neg_left_inverse_sum_zero {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist} {zero : BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add zero x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) zero)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z))) :
+    forall x y : BHist, hsame (add (mul (neg x) y) (mul x y)) zero := by
+  have zeroAbsorption :=
+    ring_mul_zero_absorption addAssoc zeroLeft negLeft addCongr mulCongr
+      leftDistrib rightDistrib
+  intro x y
+  have distrib :
+      hsame (mul (add (neg x) x) y) (add (mul (neg x) y) (mul x y)) := by
+    exact rightDistrib (neg x) x y
+  have inverseProduct : hsame (mul (add (neg x) x) y) (mul zero y) := by
+    exact mulCongr (negLeft x) (hsame_refl y)
+  exact hsame_trans (hsame_symm distrib)
+    (hsame_trans inverseProduct (zeroAbsorption.right y))
+
 theorem ring_stability_certificate_fields {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist} {zero one : BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
