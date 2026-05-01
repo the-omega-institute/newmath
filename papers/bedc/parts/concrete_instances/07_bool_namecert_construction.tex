@@ -20,7 +20,7 @@ The boolean interface \(\BoolUp\) is licensed by raw mark sameness on the two-el
   \mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryCarrier},
   \mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier})
   $$
-  for $\BoolUp$, with status $\mathsf{ProofTarget}$. Theorem~\ref{thm:concrete-bool-namecert} is only the checked core history $\NameCert$, via the $BEDC.Derived.BoolUp$ Lean target $\mathsf{bool\_history\_name\_certificate}$. The generic carrier-self semantic certificate is the paper theorem in Theorem~\ref{thm:namecert-carrier-self-semantic-lifting}; the Lean theorem $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$ only records the five core $\NameCert$ fields. The intended Bool-specific theorem name for the public-object scope is the local name $\mathsf{bool\_history\_semantic\_name\_certificate}$ under $BEDC.Derived.BoolUp$.
+  for $\BoolUp$, with status $\mathsf{ProofTarget}$. At this site the public-object scope is the displayed paper-side $\mathsf{SemanticNameCert}$ theorem, while the checked Lean target is only the core history $\NameCert$, Theorem~\ref{thm:concrete-bool-namecert}, via the $BEDC.Derived.BoolUp$ Lean target $\mathsf{bool\_history\_name\_certificate}$. The generic carrier-self semantic certificate is the paper theorem in Theorem~\ref{thm:namecert-carrier-self-semantic-lifting}; the Lean theorem $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$ only records the five core $\NameCert$ fields.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -628,16 +628,15 @@ $$
 \Rightarrow
 \mathsf{BoolHistoryCarrier}(h).
 $$
-The Bool-specific Lean local name
-$\mathsf{bool\_history\_semantic\_name\_certificate}$ under
-$BEDC.Derived.BoolUp$ is named here as prose only. The proposition is the
-instance of the generic carrier-self semantic construction in
+The displayed proposition is the paper-side public-object certificate scope for
+$\BoolUp$ and has status $\mathsf{ProofTarget}$. It is the instance of the
+generic carrier-self semantic construction in
 Theorem~\ref{thm:namecert-carrier-self-semantic-lifting} and carries no checked
-Lean marker. The checked Lean theorem
+Lean marker. The checked Lean target at this site is only the core
+$\NameCert$, Theorem~\ref{thm:concrete-bool-namecert}, via
+$BEDC.Derived.BoolUp.bool\_history\_name\_certificate$. The checked Lean theorem
 $BEDC.FKernel.NameCert.NameCert\_iff\_semantic\_fields$ only records the five
-core $\NameCert$ fields. This site is the Phase Finite Data public-object
-$\mathsf{ProofTarget}$; the checked core is
-Theorem~\ref{thm:concrete-bool-namecert}.
+core $\NameCert$ fields.
 \end{theorem}
 \begin{proof}
 The checked theorem
