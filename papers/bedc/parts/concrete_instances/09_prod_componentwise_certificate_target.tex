@@ -48,6 +48,43 @@ transported witnesses are exactly the component conclusions required by
 $\mathsf{ProdPairRepCoherent}_{L',R',\approx_L,\approx_R}$.
 \end{proof}
 
+\begin{theorem}[Product pair-representation coherence under carrier restriction]
+\label{thm:prod-pair-rep-coherence-under-carrier-restriction}
+The ten-field fit is: traditional target ordered-product coherence under source
+restriction; BEDC source $\mathsf{BHist}$ with $\Cont$; carrier
+$\mathsf{ProdPairRep}$; classifier unchanged; stability datum carrier
+restriction; ledger displayed pair representation; exactness unchanged at the
+product endpoint; standard bridge restricted-source ordered-product coherence;
+status $\mathsf{ProofTarget}$.
+
+Let $L,R,L',R':\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, and
+let $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers. Suppose
+$$
+\forall x.\;L'(x)\to L(x)
+$$
+and
+$$
+\forall y.\;R'(y)\to R(y)
+$$
+and suppose $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ holds. Then
+$$
+\mathsf{ProdPairRepCoherent}_{L',R',\sim_L,\sim_R}
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Take two displayed pair representations
+$\mathsf{ProdPairRep}_{L',R'}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L',R'}(h,l',r')$ of the same product history $h$. The
+left and right carrier inclusions convert their stored $L'$ and $R'$ witnesses
+into $L$ and $R$ witnesses while leaving the displayed product endpoint and
+component histories unchanged. Thus both witnesses become
+$\mathsf{ProdPairRep}_{L,R}$ witnesses for the same history $h$. Apply the
+given $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ datum and return the
+same component classifier witnesses $l\sim_L l'$ and $r\sim_R r'$.
+\end{proof}
+
 \begin{theorem}[Product componentwise history classifier core fields]
 \label{thm:prod-component-history-classifier-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
