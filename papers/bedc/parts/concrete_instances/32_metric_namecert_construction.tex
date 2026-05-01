@@ -312,6 +312,42 @@ central data build $\mathsf{MetricDistanceWitness}(x,\emp,d)$. Applying
 with prefix $p$ and suffix $q$ gives the displayed visible-context witness.
 \end{proof}
 
+\begin{theorem}[Metric distance witness left-boundary visible-context exactness]
+\label{thm:metric-distance-witness-left-boundary-visible-context-iff}
+For histories $p,q,y,d$, a visible-context distance witness whose central left
+endpoint is empty is exactly unary evidence for the visible ledgers and the
+central right endpoint, together with the left-boundary classifier:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,y\cdot q,(p\cdot d)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\mathsf{UnaryHistory}(y)\ \wedge\ \hsame(d,y).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, apply
+\autoref{thm:metric-distance-witness-visible-context-iff} with central left
+endpoint $\emp$. This recovers unary evidence for $p$ and $q$ together with
+$\mathsf{MetricDistanceWitness}(\emp,y,d)$. Apply
+\autoref{thm:metric-distance-witness-empty-left-iff} to that central witness to
+obtain $\mathsf{UnaryHistory}(y)$ and $\hsame(d,y)$.
+
+Conversely, assume unary evidence for $p$, $q$, and $y$, together with
+$\hsame(d,y)$. By \autoref{thm:metric-distance-witness-empty-left-iff} from
+right to left, these central data build
+$\mathsf{MetricDistanceWitness}(\emp,y,d)$. Applying
+\autoref{thm:metric-distance-witness-visible-context-iff} from right to left
+with prefix $p$ and suffix $q$ gives the displayed visible-context witness.
+
+The per-object template is as follows. The traditional target is visible metric
+left-boundary readback. The BEDC source is $\mathsf{BHist}$ with $\ContR$ and
+$\mathsf{UnaryHistory}$. The carrier is $\mathsf{MetricDistanceWitness}$ and the
+classifier is $\hsame$. The ledger is the visible prefix and suffix context. The
+core theorem is left-boundary exactness, exactness is the displayed equivalence,
+the standard bridge is metric boundary readback, and the status is
+$\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{theorem}[Metric distance witness visible-context symmetric classifier]
 \label{thm:metric-distance-witness-visible-context-symmetric-classifier}
 For histories $p,q,x,y,d_{xy},d_{yx}$, symmetric distance witnesses remain
