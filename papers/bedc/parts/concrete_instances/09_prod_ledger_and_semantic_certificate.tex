@@ -145,6 +145,38 @@ them by Theorem~\ref{thm:prod-history-classifier-transitivity}.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_two\_step\_classifier\_composition}
 
+\begin{theorem}[Prod ledger two-step classifier endpoint equivalence]
+\label{thm:prod-ledger-two-step-classifier-endpoint-equivalence}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w,z:\mathsf{BHist}$ be histories. If
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ and
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,v,w)$ hold, then
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,z) \Longleftrightarrow
+\mathsf{ProdHistoryClassifier}(L,R,w,z)$. The object fit is: traditional
+target ordered-product ledger-chain endpoint replacement; BEDC source
+$\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier $\mathsf{ProdHistoryClassifier}$;
+stability by two raw-visible classifier exposures plus symmetry and
+transitivity; ledger two composable
+$\mathsf{ProdHistoryLedgerPolicy}$ witnesses; core theorem this endpoint
+equivalence; exactness classifier-invariant endpoints of the ledger chain;
+standard bridge displayed ordered-pair ledger chain; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-ledger-two-step-classifier-composition} to the two
+ledger witnesses to obtain
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$. For the forward implication,
+reverse this chain classifier by
+Theorem~\ref{thm:prod-history-classifier-symmetry}, then compose it with the
+assumed classifier from $\rho$ to $z$ using
+Theorem~\ref{thm:prod-history-classifier-transitivity}, yielding
+$\mathsf{ProdHistoryClassifier}(L,R,w,z)$. For the reverse implication,
+compose the chain classifier from $\rho$ to $w$ with the assumed classifier
+from $w$ to $z$ by
+Theorem~\ref{thm:prod-history-classifier-transitivity}.
+\end{proof}
+
 \begin{theorem}[Prod ledger component exposure]
 \label{thm:prod-ledger-component-exposure}
 If $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then there exist histories $l$ and $r$ such that $L(l)$, $R(r)$, $\Cont(l,r,\rho)$, $\hsame(\rho,v)$, $\mathsf{ProdHistoryCarrier}(L,R,v)$, and $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ all hold.
