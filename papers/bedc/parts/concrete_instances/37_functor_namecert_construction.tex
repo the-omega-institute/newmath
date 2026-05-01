@@ -89,6 +89,28 @@ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_assoc\_preserves}
 
+\begin{theorem}[Prefix functor reflects associative hom composition]
+\label{thm:functor-prefix-hom-carrier-comp-assoc-reflects}
+For histories $p,a,b,c,d,f,g,h,fg,gh,left,right$, suppose $f$ is a
+hom-carrier from $\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $g$ is a
+hom-carrier from $\mathsf{append}(p,b)$ to $\mathsf{append}(p,c)$, and $h$ is
+a hom-carrier from $\mathsf{append}(p,c)$ to $\mathsf{append}(p,d)$. If
+$\ContR(f,g,fg)$, $\ContR(g,h,gh)$, $\ContR(fg,h,left)$, and
+$\ContR(f,gh,right)$, then $left$ and $right$ are hom-carriers from $a$ to
+$d$, and $\HSame(left,right)$.
+\end{theorem}
+\begin{proof}
+Reflect the three prefixed hom-carrier witnesses through
+Theorem~\ref{thm:functor-prefix-hom-carrier-reflects}. This gives unprefixed
+hom-carriers for $f$ from $a$ to $b$, $g$ from $b$ to $c$, and $h$ from $c$ to
+$d$.
+
+Apply Theorem~\ref{thm:category-hom-carrier-comp-assoc-closed} to these
+reflected witnesses and to the four displayed continuation relations. The category
+closure theorem returns both composite carriers from $a$ to $d$ together with
+the classifier witness $\HSame(left,right)$.
+\end{proof}
+
 \begin{theorem}[Prefix functor preserves empty identity hom carriers]
 \label{thm:functor-prefix-hom-carrier-empty-identity-preserves}
 For the unary-continuation category, if \(p\) and \(a\) are unary, then the
