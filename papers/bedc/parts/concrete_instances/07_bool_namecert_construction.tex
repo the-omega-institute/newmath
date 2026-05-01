@@ -15,7 +15,7 @@ The boolean interface \(\BoolUp\) is licensed by raw mark sameness on the two-el
   \item \textbf{Core theorem list}: source transport, history-carrier transport, history classifier equivalence, constructor exclusions, Theorem~\ref{thm:bool-endpoint-bridge-exactness}, Theorem~\ref{thm:bool-history-carrier-endpoint-coverage}, endpoint readback determinism, Theorem~\ref{thm:bool-endpoint-bridge-classifier-completeness}, Theorem~\ref{thm:bool-history-classifier-endpoint-readback}, and the history core $\NameCert$.
   \item \textbf{Exactness predicate}: the mark source has exactly the $\bzero$ and $\bone$ branches licensed by $\msame$, while the checked history certificate has exactly the $\emp$ and $\Eone(\emp)$ endpoints licensed by $\hsame$.
   \item \textbf{Standard bridge}: false and true are read through the two displayed marks $\bzero,\bone$ together with their displayed history endpoints $\emp,\Eone(\emp)$; endpoint coverage and classifier completeness are functional up to $\msame$.
-  \item \textbf{Status}: the core history $\NameCert$ is $\mathsf{CheckedCert}$ in Lean, while Theorem~\ref{thm:bool-semantic-namecert-target} records the paper-side public-object $\mathsf{SemanticNameCert}$ target obtained from that checked core and the carrier-as-pattern fields.
+  \item \textbf{Status}: $\mathsf{bool\_history\_name\_certificate}$ is $\mathsf{CheckedCert}$ for the core history $\NameCert$, while Theorem~\ref{thm:bool-semantic-namecert-target} is $\mathsf{ProofTarget}$ for the public-object $\mathsf{SemanticNameCert}$ obtained from that checked core and the carrier-as-pattern fields.
 \end{enumerate}
 
 \section{Carrier definition}
@@ -479,6 +479,9 @@ $$
 \mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryCarrier},
 \mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}).
 $$
+This displayed tuple is the paper certificate target for the public-object
+scope and carries no checked Lean marker until the corresponding Lean
+$\mathsf{SemanticNameCert}$ theorem exists.
 The source, pattern, and ledger slots are all read through the
 carrier-as-pattern predicate $\mathsf{BoolHistoryCarrier}$.
 \end{theorem}
