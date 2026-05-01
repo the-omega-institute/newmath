@@ -354,3 +354,56 @@ but no theorem treats concrete `\TokIntro` directly. Grep
 "token.*concrete|concrete.*reflect" = 0 new labeled theorems.
 
 ---
+
+### B-17 - SemanticNameCert presentation weakening
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | SemanticNameCert presentation weakening |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+If `SemanticNameCert S P L C` holds and the presentation predicates weaken pointwise by `P(h) -> P'(h)` and `L(h) -> L'(h)`, then `SemanticNameCert S P' L' C` holds with unchanged source and classifier specifications.
+
+Local inputs:
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `lean4/BEDC/FKernel/NameCert.lean`
+
+Rationale:
+Surfaced in Turn 1 as the weakest record-level bridge: source and classifier are reused while only pattern and ledger soundness are post-composed with implications. It deserves its own loop because it is a general core naming-certificate theorem, not specific to additive naming, and it would clarify which certificate fields are invariant under presentation changes.
+
+---
+
+
+### B-18 - Core additive stability does not imply swapped commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Core additive stability does not imply swapped commutativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+There exists a finite carrier with equality classifier and deterministic associative unital continuation such that `NameCert`, closure, unit, associativity, same-source determinacy, and pattern/ledger soundness hold, but the swapped-source additive commutativity field fails.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `lean4/BEDC/FKernel/NameCert.lean`
+
+Rationale:
+Surfaced in Turn 3 as the finite three-element monoid obstruction separating same-source determinacy from swapped-source commutativity. It deserves its own loop because it is a concrete independence theorem supporting the naming boundary: the unary-continuation name can be licensed from the accepted stability fields, while the additive name requires an additional commutativity theorem.
+
+---
+
