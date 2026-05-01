@@ -356,6 +356,81 @@ these witnesses with the envelope classifier gives the required public-object
 ledger guarantee.
 \end{proof}
 
+\begin{theorem}[Product public certificate with endpoint-stable ledger-chain readback]
+\label{thm:prod-public-certificate-ledger-chain-endpoint-invariance}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Assume also that both source
+classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+$$
+and
+$$
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+For all histories $\rho,z,l,r:\mathsf{BHist}$, if
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$ and
+$\mathsf{ProdPairRep}_{L,R}(\rho,l,r)$ hold, then the following three clauses hold:
+\begin{enumerate}
+  \item the componentwise public certificate
+  $$
+  \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdDisplayedPairLedger}_{L,R},
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R});
+  $$
+  \item $\mathsf{ProdHistoryClassifier}(L,R,\rho,z)$ holds, and there exist
+  $l',r':\mathsf{BHist}$ such that
+  $$
+  \mathsf{ProdPairRep}_{L,R}(z,l',r')
+  \quad\hbox{and}\quad
+  l\sim_L l'
+  \quad\hbox{and}\quad
+  r\sim_R r';
+  $$
+  \item for every $w:\mathsf{BHist}$, both endpoint-replacement clauses hold:
+  $$
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(\rho,w)
+  \Longleftrightarrow
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(z,w)
+  $$
+  and
+  $$
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,\rho)
+  \Longleftrightarrow
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,z).
+  $$
+\end{enumerate}
+The object fit is: traditional target ordered-product public certificate with
+finite endpoint-stable ledger-chain readback; BEDC source $\mathsf{BHist}$ with
+$\Cont$ and $\hsame$; carrier $\mathsf{ProdHistoryCarrier}$ plus displayed
+$\mathsf{ProdPairRep}$; classifier componentwise source classifiers; stability
+by ledger-chain endpoint equivalence; ledger $\mathsf{ProdHistoryLedgerChain}$;
+core theorem this combined public certificate, displayed component readback, and
+endpoint-stable component classifier; exactness final displayed component
+witnesses and endpoint-invariant public classification; standard bridge
+ordered-pair provenance; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:prod-public-certificate-ledger-chain-component-readback} with
+$\mathsf{cert}_L$, $\mathsf{cert}_R$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Its certificate clause gives
+the displayed-pair semantic certificate, and its ledger-chain readback clause
+applied to the chosen $\rho,z,l,r$ gives the product history classifier together
+with the final displayed witnesses $l',r'$.
+
+It remains to make the public componentwise classifier stable at the two
+ledger-chain endpoints. Apply
+Theorem~\ref{thm:prod-ledger-chain-componentwise-classifier-endpoint-equivalence}
+to $\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$. This supplies, for every
+test history $w$, both endpoint-replacement equivalences. Conjoin these with the
+certificate and displayed readback conclusions from the first step.
+\end{proof}
+
 \begin{theorem}[Concrete product history-envelope semantic certificate]
 \label{thm:concrete-prod-namecert}
 For source-history predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$, assume
