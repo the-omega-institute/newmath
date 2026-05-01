@@ -48,6 +48,71 @@ finite-spine classifier. The certificate classifier clause follows by unfolding
 that it is the bridge classifier and rebuilding the same endpoints.
 \end{proof}
 
+\begin{theorem}[List public semantic fields source equivalence]
+\label{thm:list-public-semantic-fields-source-equivalence}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, and
+let $\sim_A$ and $\sim_B$ be source classifiers. The ten-field fit is:
+traditional target finite-list public semantic-field source-presentation
+invariance; BEDC source $\mathsf{BHist}$ with presentations $A$ and $B$; public
+semantic fields $\mathsf{ListHistoryCarrier}$, $\mathsf{ListHistoryPattern}$,
+and $\mathsf{ListHistoryLedger}$; public bridge classifier
+$\mathsf{ListSpineBridgeClassifier}$ and certificate classifier
+$\mathsf{ListSpineHistoryClassifier}$; stability obligation source-carrier and
+source-classifier equivalence; ledger finite spine; core theorem the five
+displayed equivalences below; exactness inherited from the list semantic-field
+and spine-bridge transport theorems; standard bridge finite-spine readback;
+status $\mathsf{ProofTarget}$ for the finite-list public certificate interface.
+Assume the source carriers are extensionally equivalent,
+$$
+\forall h:\mathsf{BHist}.\; A(h)\Longleftrightarrow B(h),
+$$
+and the source classifiers are extensionally equivalent,
+$$
+\forall x\,y:\mathsf{BHist}.\; x\sim_A y\Longleftrightarrow x\sim_B y.
+$$
+Then, for every history $h$,
+$$
+\mathsf{ListHistoryCarrier}_A(h)
+\Longleftrightarrow
+\mathsf{ListHistoryCarrier}_B(h),
+$$
+$$
+\mathsf{ListHistoryPattern}_A(h)
+\Longleftrightarrow
+\mathsf{ListHistoryPattern}_B(h),
+$$
+and
+$$
+\mathsf{ListHistoryLedger}_A(h)
+\Longleftrightarrow
+\mathsf{ListHistoryLedger}_B(h).
+$$
+For every pair of histories $h,k$,
+$$
+\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)
+\Longleftrightarrow
+\mathsf{ListSpineBridgeClassifier}_{B,\sim_B}(h,k),
+$$
+and
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)
+\Longleftrightarrow
+\mathsf{ListSpineHistoryClassifier}_{B,\sim_B}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-history-semantic-fields-source-refinement} in the
+$A\Rightarrow B$ direction using the forward half of the carrier equivalence,
+and in the $B\Rightarrow A$ direction using the reverse half. Pairing these two
+applications gives the carrier, pattern, and ledger equivalences. For the
+bridge classifier, apply Theorem~\ref{thm:list-spine-bridge-source-refinement}
+from $A$ to $B$ using the forward halves of the carrier and classifier
+equivalences, then apply it from $B$ to $A$ using the reverse halves. The
+certificate classifier clause is the same two-direction application because
+$\mathsf{ListSpineHistoryClassifier}$ is the public certificate presentation of
+the same bridge classifier endpoints.
+\end{proof}
+
 \begin{lemma}[List spine representation endpoint transport]
 \label{lem:list-spine-representation-endpoint-transport}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For all
