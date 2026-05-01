@@ -417,6 +417,34 @@ of $h$ and invert the one-constructor equality to get $\hsame(a,a')$; the
 remaining fields are exactly the displayed witnesses.
 \end{proof}
 
+\begin{theorem}[Tagged option classifier branch occupancy equivalence]
+\label{thm:tagged-option-history-classifier-branch-occupancy-equivalence}
+This theorem fits the per-object template with traditional target tagged optional
+history branch occupancy, BEDC source $\mathsf{BHist}$ with $\hsame$, carrier
+$\mathsf{TaggedOptionHistoryCarrier}$, classifier
+$\mathsf{TaggedOptionHistoryClassifier}$, stability obligation branch preservation,
+ledger visible absent/present occupancy, core theorem this equivalence, exactness
+constructor no-confusion, standard bridge $\mathsf{none}$/$\mathsf{some}$, and
+status $\mathsf{ProofTarget}$.
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source
+classifier $\sim_S$, histories $h,k$, and witness
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$, the visible branch
+occupancy is preserved:
+$$
+(\hsame(h,\emp) \Longleftrightarrow \hsame(k,\emp))
+\land
+((\exists a.\; S(a)\land\hsame(h,\Eone(a))) \Longleftrightarrow
+(\exists b.\; S(b)\land\hsame(k,\Eone(b)))).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. The absent-absent branch gives both
+empty endpoint witnesses and rules out either present endpoint by
+empty-versus-one no-confusion. The present-present branch projects the two source
+payload witnesses and their visible endpoint witnesses, and rules out either
+empty endpoint by the same no-confusion argument.
+\end{proof}
+
 \input{parts/concrete_instances/08_option_right_visible_branch_inversion.tex}
 
 \begin{theorem}[Tagged option history semantic certificate target]
