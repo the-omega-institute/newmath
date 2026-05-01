@@ -463,6 +463,76 @@ certificate applied along the displayed source classifier $RightEq$.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_carrier\_transport\_from\_nameCert}
 
+\begin{theorem}[Sum classifier endpoint readback under source certificates]
+\label{thm:sum-history-classifier-source-certified-endpoint-readback}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
+$LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, let $h,k:\mathsf{BHist}$, and assume source certificates
+$cert_L:\NameCert(Left,LeftEq)$ and $cert_R:\NameCert(Right,RightEq)$. If
+$\mathsf{SumHistoryCarrier}(Left,Right,h)$ and
+$\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)$ hold, then all
+of the following assertions hold:
+\begin{enumerate}
+  \item $\mathsf{SumHistoryCarrier}(Left,Right,k)$.
+  \item The source endpoint $h$ satisfies the visible readback assertion
+  $$
+  \begin{array}{l}
+  \bigl(\exists l.\; Left(l)\land \hsame(h,\Ezero(l))\land
+  (\forall l'.\; Left(l')\to \hsame(h,\Ezero(l'))\to \hsame(l,l'))\land
+  \neg(\exists r.\; Right(r)\land \hsame(h,\Eone(r)))\bigr)\\
+  \lor\\
+  \bigl(\exists r.\; Right(r)\land \hsame(h,\Eone(r))\land
+  (\forall r'.\; Right(r')\to \hsame(h,\Eone(r'))\to \hsame(r,r'))\land
+  \neg(\exists l.\; Left(l)\land \hsame(h,\Ezero(l)))\bigr).
+  \end{array}
+  $$
+  \item The target endpoint $k$ satisfies the visible readback assertion
+  $$
+  \begin{array}{l}
+  \bigl(\exists l.\; Left(l)\land \hsame(k,\Ezero(l))\land
+  (\forall l'.\; Left(l')\to \hsame(k,\Ezero(l'))\to \hsame(l,l'))\land
+  \neg(\exists r.\; Right(r)\land \hsame(k,\Eone(r)))\bigr)\\
+  \lor\\
+  \bigl(\exists r.\; Right(r)\land \hsame(k,\Eone(r))\land
+  (\forall r'.\; Right(r')\to \hsame(k,\Eone(r'))\to \hsame(r,r'))\land
+  \neg(\exists l.\; Left(l)\land \hsame(k,\Ezero(l)))\bigr).
+  \end{array}
+  $$
+  \item The classifier pair satisfies the visible branch assertion
+  $$
+  \begin{array}{l}
+  \bigl(\exists a,b.\; Left(a)\land Left(b)\land
+  \hsame(h,\Ezero(a))\land \hsame(k,\Ezero(b))\land LeftEq(a,b)\bigr)\\
+  \lor\\
+  \bigl(\exists a,b.\; Right(a)\land Right(b)\land
+  \hsame(h,\Eone(a))\land \hsame(k,\Eone(b))\land RightEq(a,b)\bigr).
+  \end{array}
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First obtain the target carrier. Apply
+\autoref{thm:sum-history-classifier-carrier-transport-from-namecert} to the
+given source carrier witness, the classifier witness, and the two certificates.
+
+The branch-exactness theorem requires closure of $Left$ and $Right$ under
+$\hsame$. For $Left$, suppose $Left(x)$ and $\hsame(x,y)$. The checked identity
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ turns the history-sameness witness
+into kernel equality, and transport along that equality gives $Left(y)$. The
+right closure is identical with $Right$.
+
+Apply \autoref{thm:sum-history-carrier-single-valued-visible-readback} once to
+the given carrier witness for $h$ and once to the target carrier witness for
+$k$. These are exactly the two displayed endpoint readback assertions.
+
+Finally apply the forward direction of
+\autoref{thm:sum-history-classifier-carrier-aware-branch-exactness} with the two
+closure hypotheses to the triple consisting of the source carrier, the target
+carrier, and the displayed classifier witness. The forward projection gives the
+displayed branch assertion, and the four components are conjoined in the listed
+order.
+\end{proof}
+
 \begin{theorem}[Sum history classifier source-certified symmetry]
 \label{thm:sum-history-classifier-symm-from-namecert}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
