@@ -91,4 +91,12 @@ theorem NatTransPrefixComponentCarrier_target_prefix_deterministic {p q r a eta 
     CategoryHomCarrier_target_deterministic left.right.right.right right.right.right.right
   exact append_right_cancel (k := a) sameTarget
 
+theorem NatTransPrefixComponentCarrier_source_prefix_deterministic {p q r a eta : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier r q a eta -> hsame p r := by
+  intro left right
+  have sameSource : hsame (append p a) (append r a) :=
+    CategoryHomCarrier_source_deterministic left.right.right.right right.right.right.right
+  exact append_right_cancel (k := a) sameSource
+
 end BEDC.Derived.NatTransUp

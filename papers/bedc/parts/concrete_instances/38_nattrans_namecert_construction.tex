@@ -43,6 +43,21 @@ shared suffix $a$ identifies the prefixes $q$ and $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_target\_prefix\_deterministic}
 
+\begin{theorem}[NatTrans prefix component source-prefix determinacy]
+\label{thm:nattrans-prefix-component-carrier-source-prefix-deterministic}
+For prefix components over unary histories, if a fixed component history
+$\eta$ is a component from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(q,a)$ and also from $\mathsf{append}(r,a)$ to
+$\mathsf{append}(q,a)$, then $\HSame(p,r)$.
+\end{theorem}
+\begin{proof}
+Unpack both prefix-component carrier witnesses to their underlying category
+hom-carrier witnesses. Category source determinacy identifies
+$\mathsf{append}(p,a)$ and $\mathsf{append}(r,a)$, and cancellation of the
+shared suffix $a$ identifies the prefixes $p$ and $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_source\_prefix\_deterministic}
+
 \begin{theorem}[NatTrans prefix component tail commutativity]
 \label{thm:nattrans-prefix-component-carrier-tail-comm-hsame}
 For prefix components over unary histories, if \(\eta\) is a component from
