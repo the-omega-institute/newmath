@@ -86,6 +86,51 @@ that lemma give $\hsame(a,b)$ and
 $\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))$.
 \end{proof}
 
+\begin{lemma}[Pair frame congruence]
+\label{lem:list-pair-frame-congruence}
+For histories $u,u',t,t':\mathsf{BHist}$, if $\hsame(u,u')$ and
+$\hsame(t,t')$, then
+$$
+\hsame(\mathsf{PairFrame}(u,t),\mathsf{PairFrame}(u',t')).
+$$
+\end{lemma}
+\begin{proof}
+Proceed by induction on the displayed witness $\hsame(u,u')$. In the empty
+case, the goal is the congruence of $\Ezero$ applied to $\hsame(t,t')$. In the
+$\Ezero$ case, apply the induction hypothesis to the inner pair frame and then
+apply congruence for the two visible constructors $\Ezero$ and $\Eone$. The
+$\Eone$ case is identical except that the inner tag is $\Eone$. Thus the frame
+recursion is stable in the first argument, and the terminal empty branch carries
+the second-argument $\hsame$ witness.
+\end{proof}
+
+\begin{theorem}[Framed list endpoint classifier exactness]
+\label{thm:framed-list-endpoint-classifier-exactness}
+For finite BEDC-history spines $xs,ys$,
+$$
+\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(\hsame,xs,ys).
+$$
+\end{theorem}
+\begin{proof}
+For the left-to-right direction, argue by induction on the first spine and
+case analysis on the second. The nil-nil case gives the nil constructor of
+$\mathsf{ListClassifierSpec}$. The mixed nil-cons and cons-nil cases contradict
+Theorem~\ref{thm:framed-list-endpoint-no-confusion-cons-inversion}. In the
+cons-cons case, the same theorem exposes $\hsame$ between the heads and
+$\hsame$ between the framed tail endpoints; apply the induction hypothesis to
+the tail equality and then use the cons constructor of
+$\mathsf{ListClassifierSpec}(\hsame,-,-)$.
+
+For the right-to-left direction, induct on the displayed
+$\mathsf{ListClassifierSpec}(\hsame,xs,ys)$ witness. The nil branch is
+reflexivity of the framed nil endpoint. In the cons branch, the head witness and
+the induction hypothesis give congruent arguments for
+$\mathsf{PairFrame}$ by Lemma~\ref{lem:list-pair-frame-congruence}; one final
+$\Eone$ congruence yields equality of the framed cons endpoints.
+\end{proof}
+
 \begin{definition}[Framed list-spine representation]
 \label{def:framed-list-spine-representation}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. Define
