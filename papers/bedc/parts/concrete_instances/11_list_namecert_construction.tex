@@ -777,7 +777,7 @@ transitivity, and carrier transport fields. The generated nil/cons carrier
 supplies the BEDC histories, and
 Theorem~\ref{thm:list-spine-representation-exactness} supplies the exact
 finite-spine presentation through which the checked structural classifier is
-applied. Classifier reflexivity chooses a witness $\mathsf{ListSpineRep}_A(h,xs)$ and inducts on that displayed representation: the nil branch is immediate, and the cons branch uses the carried source proof $A(a)$ with $\mathsf{cert.equiv\_refl}$ before recursing on the tail witness. Symmetry unpacks the bridge witness and applies
+applied. For classifier reflexivity, start with the carrier witness for $h$ and apply the forward direction of Theorem~\ref{thm:list-spine-representation-coverage} to obtain a finite spine $xs$ and a representation witness $\mathsf{ListSpineRep}_A(h,xs)$. Finite-spine reflexivity for $\mathsf{ListClassifierSpec}$, using the source reflexivity field of $\mathsf{cert}$ entry by entry, builds the bridge witness $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,h)$. Symmetry unpacks the bridge witness and applies
 Theorem~\ref{thm:list-classifier-symm-from-namecert} to the displayed finite-spine classifier.
 Transitivity is Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence}:
 the two existential witnesses may expose different finite spines for the middle
@@ -785,8 +785,7 @@ history, and Definition~\ref{def:list-spine-rep-coherence} supplies the
 finite-spine classifier witness that lets
 Theorem~\ref{thm:list-classifier-trans-from-namecert} compose the two endpoint
 classifiers. Carrier transport for the certificate core unpacks
-$\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ as a $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}$, uses the displayed target representation $\mathsf{ListSpineRep}_A(k,ys)$, and applies the soundness direction of
-Theorem~\ref{thm:list-spine-representation-exactness}. Source-certificate transport is used only for entrywise source evidence and ledger data along the finite-spine classifier. Nil/cons case analysis uses
+$\mathsf{ListHistoryClassifier}_{A,\sim_A}(h,k)$ as a $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$, extracts the displayed target representation $\mathsf{ListSpineRep}_A(k,ys)$, and applies the reverse direction of Theorem~\ref{thm:list-spine-representation-coverage}, equivalently the soundness direction of Theorem~\ref{thm:list-spine-representation-exactness}, to recover $\mathsf{ListHistoryCarrier}_A(k)$. Source-certificate transport is used only for entrywise source evidence and ledger data along the finite-spine classifier. Nil/cons case analysis uses
 Theorem~\ref{thm:list-history-carrier-generated-cases} for the generated history
 carrier and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} inside the
 finite-spine bridge, and exactness is the matching-shape statement of
