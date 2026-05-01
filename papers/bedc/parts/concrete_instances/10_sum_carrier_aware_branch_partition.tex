@@ -1,3 +1,29 @@
+\begin{theorem}[Sum history carrier visible branch cases]
+\label{thm:sum-history-carrier-visible-branch-cases}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers. If
+$\mathsf{SumHistoryCarrier}(Left,Right,h)$ holds, then the visible history has
+one of the two displayed branch witnesses:
+$$
+\bigl(\exists l.\; Left(l)\land \hsame(h,\Ezero(l))\bigr)
+\lor
+\bigl(\exists r.\; Right(r)\land \hsame(h,\Eone(r))\bigr).
+$$
+In the ten-field fit, the traditional target is disjoint-sum carrier readback,
+the BEDC source is $\mathsf{BHist}$, the carrier is
+$\mathsf{SumHistoryCarrier}$, no classifier is needed, the stability obligation
+is constructor inversion, the ledger records the visible tag plus payload, the
+core theorem is branch cases, exactness coverage is supplied by the visible
+branch witnesses, the standard bridge is $\mathsf{inl}$ and $\mathsf{inr}$, and
+the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Case-analyze the generated $\mathsf{SumHistoryCarrier}$ witness. The left
+constructor returns a payload $l$, the source-carrier witness $Left(l)$, and
+the displayed endpoint link $\hsame(h,\Ezero(l))$. The right constructor
+returns the corresponding payload $r$, the source-carrier witness $Right(r)$,
+and the displayed endpoint link $\hsame(h,\Eone(r))$.
+\end{proof}
+
 \begin{theorem}[Sum history classifier carrier-aware branch partition]
 \label{thm:sum-history-classifier-carrier-aware-branch-partition}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
