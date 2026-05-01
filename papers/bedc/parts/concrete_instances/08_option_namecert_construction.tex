@@ -718,22 +718,25 @@ The ledger keeps a raw optional-history carrier witness and an $\hsame$ link fro
 
 \begin{theorem}[Option visible ledger carrier]
 \label{thm:option-ledger-policy-visible-carrier}
-If source-history membership transports across $\hsame$, then every option ledger policy exposes a visible optional-history carrier witness.
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $\rho,v:\mathsf{BHist}$. If
+$source\_transport : \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k)$ holds, then
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ implies
+$\mathsf{OptionHistoryCarrier}_S(v)$.
 \end{theorem}
 \begin{proof}
-Unpack the raw carrier and the raw-to-visible history link. In the absent case, compose the symmetric visible-to-raw link with the raw empty-history witness. In the present case, transport the raw source witness along the raw-to-visible link.
+Unpack the raw carrier and raw-to-visible $\hsame$ link. The absent case composes the symmetric link with the raw empty-history witness; the present case transports the raw source witness along the stored link.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_carrier}
 
 \begin{theorem}[Option raw-visible ledger classifier]
 \label{thm:option-ledger-raw-visible-classifier}
-If source-history membership transports across $\hsame$, then every option
-ledger policy classifies its raw history with its visible history.
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $\rho,v:\mathsf{BHist}$. If
+$source\_transport : \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k)$ holds, then
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ implies
+$\mathsf{OptionHistoryClassifier}_S(\rho,v)$.
 \end{theorem}
 \begin{proof}
-Unpack the ledger into the raw carrier witness and the raw-to-visible
-history-sameness link. The visible carrier is obtained from the visible-carrier
-theorem, and the stored link supplies the classifier equality field.
+Unpack the raw carrier witness and raw-to-visible $\hsame$ link. The visible carrier is given by Theorem~\ref{thm:option-ledger-policy-visible-carrier}, and the stored link supplies the classifier equality field.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_raw\_visible\_classifier}
 
