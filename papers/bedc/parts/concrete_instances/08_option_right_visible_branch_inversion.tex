@@ -90,3 +90,33 @@ Theorem~\ref{thm:tagged-option-history-classifier-right-visible-branch-inversion
 to $\gamma$; the exposed left payload supplies $S(a)$ and
 $\hsame(h,\Eone(a))$, giving the required present witness for $h$.
 \end{proof}
+
+\begin{theorem}[Tagged option history classifier presented payload exactness]
+\label{thm:tagged-option-history-classifier-presented-payload-exactness}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, source certificate
+$\mathsf{cert}:\NameCert(S,\sim_S)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, if histories $h,k,a,b$
+satisfy
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k),
+\qquad
+S(a),\qquad
+S(b),\qquad
+\hsame(h,\Eone(a)),\qquad
+\hsame(k,\Eone(b)),
+$$
+then the displayed payloads have the same source classifier:
+$$
+a\sim_S b.
+$$
+\end{theorem}
+\begin{proof}
+Use Theorem~\ref{thm:tagged-option-history-classifier-hsame-transport} to
+transport the classifier witness from $(h,k)$ to the displayed endpoints
+$(\Eone(a),\Eone(b))$. Then apply
+Theorem~\ref{thm:tagged-option-history-visible-present-exactness} with the
+transitivity field $\mathsf{cert.equiv\_trans}$, the compatibility hypothesis,
+and the source witnesses $S(a)$ and $S(b)$. The resulting visible present
+exactness is precisely $a\sim_S b$.
+\end{proof}
