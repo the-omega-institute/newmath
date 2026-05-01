@@ -384,10 +384,11 @@ represented-spine constructor behavior:
   \item if $\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$,
   $\mathsf{ListSpineRep}_A(k,\mathsf{nil})$, and
   $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then $\bot$;
-  \item if $\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$,
-  $\mathsf{ListSpineRep}_A(k,\mathsf{cons}(b,ys))$, and
-  $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then
+  \item if $\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$ and
+  $\mathsf{ListSpineRep}_A(k,\mathsf{cons}(b,ys))$ hold, then
   $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)
+  \Longleftrightarrow
   (a\sim_A b)\land \mathsf{ListClassifierSpec}(\sim_A,xs,ys).
   $$
 \end{enumerate}
@@ -412,5 +413,15 @@ $$
 $$
 The cons-cons branch of Theorem~\ref{thm:list-classifier-case-exactness} then
 projects the source-head classifier $a\sim_A b$ and the recursive tail
-classifier $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
+classifier $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. Conversely, suppose the
+source-head classifier $a\sim_A b$ and the recursive tail classifier
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ are given. The cons-cons branch of
+Theorem~\ref{thm:list-classifier-case-exactness} rebuilds
+$$
+\mathsf{ListClassifierSpec}(\sim_A,\mathsf{cons}(a,xs),\mathsf{cons}(b,ys)).
+$$
+With the two displayed representation witnesses, the reverse direction of
+Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} repacks
+this finite-spine classifier as
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$.
 \end{proof}
