@@ -137,4 +137,36 @@ theorem CompactNetWitness_prefix_iff {p center precision net : BHist} :
     | intro prefixCarrier witness =>
         exact CompactNetWitness_prefix_closed prefixCarrier witness
 
+theorem CompactNetWitness_prefixed_composite_closed
+    {p center precision extra composite net refined : BHist} :
+    UnaryHistory p -> CompactNetWitness center precision net ->
+      CompactNetWitness net extra refined -> Cont precision extra composite ->
+        CompactNetWitness (append p center) composite (append p refined) := by
+  intro prefixCarrier first second compositeRel
+  cases first with
+  | intro centerCarrier firstRest =>
+      cases firstRest with
+      | intro precisionCarrier firstRest =>
+          cases firstRest with
+          | intro _netCarrier firstRel =>
+              cases second with
+              | intro _netCarrier' secondRest =>
+                  cases secondRest with
+                  | intro extraCarrier secondRest =>
+                      cases secondRest with
+                      | intro refinedCarrier secondRel =>
+                          have compositeCarrier : UnaryHistory composite :=
+                            unary_cont_closed precisionCarrier extraCarrier compositeRel
+                          cases firstRel
+                          cases secondRel
+                          cases compositeRel
+                          exact
+                            And.intro (unary_append_closed prefixCarrier centerCarrier)
+                              (And.intro compositeCarrier
+                                (And.intro (unary_append_closed prefixCarrier refinedCarrier)
+                                  (cont_intro
+                                    ((congrArg (append p)
+                                      (append_assoc center precision extra)).trans
+                                      (append_assoc p center (append precision extra)).symm))))
+
 end BEDC.Derived.CompactUp

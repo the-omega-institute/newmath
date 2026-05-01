@@ -146,4 +146,14 @@ theorem ContinuousModulusChain_prefix_closed {p source first second target : BHi
                                           ((congrArg (append p) secondRel).trans
                                             (append_assoc p middle second).symm)))))))
 
+theorem ContinuousModulusWitness_prefixed_composite_closed
+    {p source first second target composite : BHist} :
+    UnaryHistory p -> ContinuousModulusChain source first second target ->
+      Cont first second composite ->
+        ContinuousModulusWitness (append p source) composite (append p target) := by
+  intro prefixCarrier chain compositeRel
+  exact
+    ContinuousModulusChain_composite_closed
+      (ContinuousModulusChain_prefix_closed prefixCarrier chain) compositeRel
+
 end BEDC.Derived.ContinuousUp

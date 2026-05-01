@@ -62,6 +62,26 @@ $\hsame(d_{xy},d_{yx})$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_symmetric\_classifier}
 
+\begin{theorem}[Metric distance witness prefix closure]
+\label{thm:metric-distance-witness-prefix-closed}
+For unary histories $p,x,y,d$, a unary visible prefix on the first endpoint
+and the distance ledger preserves the concrete metric distance witness:
+$$
+\mathsf{UnaryHistory}(p)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x,y,p\cdot d).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness into unary endpoint and distance histories together with the
+continuation ledger $d=x\cdot y$. Unary append closure gives unary histories
+for $p\cdot x$ and $p\cdot d$. The prefixed continuation ledger is exactly the
+associativity equality $(p\cdot x)\cdot y=p\cdot(x\cdot y)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_closed}
+
 \begin{definition}[MetricSpace ledger policy]
 \label{def:metric-ledger-policy}
 Record carrier witnesses and the real ledger of each distance value.
