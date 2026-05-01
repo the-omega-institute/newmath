@@ -72,6 +72,30 @@ classifier transitivity, yielding
 $\mathsf{ProdHistoryClassifier}(L,R,\rho,w)$.
 \end{proof}
 
+\begin{theorem}[Prod ledger backward classifier composition]
+\label{thm:prod-ledger-classifier-backward-composition}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,v,w:\mathsf{BHist}$ be histories. If
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds and
+$\mathsf{ProdHistoryClassifier}(L,R,w,v)$ holds, then
+$\mathsf{ProdHistoryClassifier}(L,R,w,\rho)$ holds. The object fit is:
+traditional target ordered-product ledger back-propagation; BEDC source
+$\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier $\mathsf{ProdHistoryClassifier}$;
+ledger raw-visible pair evidence; core theorem backward classifier
+composition; exactness raw-visible symmetry; standard bridge displayed
+ordered-pair ledger; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:prod-ledger-raw-visible-classifier} to the ledger
+policy to obtain $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$. Reverse this
+classifier by Theorem~\ref{thm:prod-history-classifier-symmetry}, giving
+$\mathsf{ProdHistoryClassifier}(L,R,v,\rho)$. Compose the assumed classifier
+from $w$ to $v$ with this reversed classifier by
+Theorem~\ref{thm:prod-history-classifier-transitivity}, yielding
+$\mathsf{ProdHistoryClassifier}(L,R,w,\rho)$.
+\end{proof}
+
 \begin{theorem}[Prod ledger two-step classifier composition]
 \label{thm:prod-ledger-two-step-classifier-composition}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
