@@ -178,6 +178,54 @@ theorem MetricDistanceWitness_empty_left_iff {y d : BHist} :
               (And.intro (unary_transport yCarrier (hsame_symm sameDY))
                 (cont_left_unit_iff.mpr sameDY)))
 
+theorem MetricDistanceWitness_empty_right_iff {x d : BHist} :
+    MetricDistanceWitness x BHist.Empty d ↔ UnaryHistory x ∧ hsame d x := by
+  constructor
+  · intro witness
+    cases witness with
+    | intro xCarrier rest =>
+        cases rest with
+        | intro _emptyCarrier rest =>
+            cases rest with
+            | intro _distCarrier cont =>
+                exact And.intro xCarrier (cont_right_unit_iff.mp cont)
+  · intro data
+    cases data with
+    | intro xCarrier sameDX =>
+        exact
+          And.intro xCarrier
+            (And.intro unary_empty
+              (And.intro (unary_transport xCarrier (hsame_symm sameDX))
+                (cont_right_unit_iff.mpr sameDX)))
+
+theorem MetricDistanceWitness_right_boundary_visible_context_iff
+    {p q x d : BHist} :
+    MetricDistanceWitness (append p x) (append BHist.Empty q) (append (append p d) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory x ∧ hsame d x := by
+  constructor
+  · intro visible
+    have visibleData :=
+      (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x)
+        (y := BHist.Empty) (d := d)).mp visible
+    cases visibleData with
+    | intro pCarrier rest =>
+        cases rest with
+        | intro qCarrier central =>
+            have boundary :=
+              (MetricDistanceWitness_empty_right_iff (x := x) (d := d)).mp central
+            exact And.intro pCarrier (And.intro qCarrier boundary)
+  · intro data
+    cases data with
+    | intro pCarrier rest =>
+        cases rest with
+        | intro qCarrier boundary =>
+            have central : MetricDistanceWitness x BHist.Empty d :=
+              (MetricDistanceWitness_empty_right_iff (x := x) (d := d)).mpr boundary
+            exact
+              (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x)
+                (y := BHist.Empty) (d := d)).mpr
+                (And.intro pCarrier (And.intro qCarrier central))
+
 theorem MetricDistanceWitness_symmetric_classifier {x y dxy dyx : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y x dyx -> hsame dxy dyx := by
   intro forward reverse

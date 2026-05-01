@@ -69,4 +69,23 @@ theorem SOneHistoryCarrier_point_deterministic
   intro left right
   exact cont_deterministic left.right.right.right right.right.right.right
 
+theorem SOneHistoryCarrier_equation_witness_transport
+    {x y equation equation' point : BHist} :
+    SOneHistoryCarrier x y equation point -> hsame equation equation' ->
+      SOneHistoryCarrier x y equation' point := by
+  intro carrier sameEquation
+  cases carrier with
+  | intro xCarrier rest =>
+      cases rest with
+      | intro yCarrier rest =>
+          cases rest with
+          | intro equationCarrier pointCont =>
+              exact
+                And.intro xCarrier
+                  (And.intro yCarrier
+                    (And.intro
+                      (RealConstantHistoryClassifier_endpoint_transport sameEquation
+                        (hsame_refl SOneUnitHistory) equationCarrier)
+                      pointCont))
+
 end BEDC.Derived.S1Up
