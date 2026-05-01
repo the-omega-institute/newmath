@@ -597,6 +597,28 @@ Apply the exclusion predicate to the source witness $S(h)$ and the displayed
 empty endpoint witness $\hsame(h,\emp)$.
 \end{proof}
 
+Per-object fit: traditional target absent-vs-present option separation; BEDC
+source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{OptionHistoryCarrier}_S$; classifier unused; exactness supplied by
+empty-excluding source; ledger unchanged; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Nullable option carrier exclusive readback]
+\label{thm:option-history-carrier-exclusive-readback}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, if $\mathsf{OptionSourceExcludesEmpty}(S)$ and
+$\mathsf{OptionHistoryCarrier}_S(h)$ hold, then
+$$
+(\hsame(h,\emp)\land\neg S(h))\lor(S(h)\land\neg\hsame(h,\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the carrier witness. In the empty branch, keep
+$\hsame(h,\emp)$ and use
+Theorem~\ref{thm:option-history-carrier-absent-source-separation} to rule out
+$S(h)$. In the source branch, keep $S(h)$ and use the same theorem to rule out
+$\hsame(h,\emp)$.
+\end{proof}
+
 \begin{theorem}[Nullable option classifier absent-source separation]
 \label{thm:option-history-classifier-absent-source-separation}
 For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if
@@ -618,12 +640,6 @@ $\mathsf{OptionSourceExcludesEmpty}(S)$ to $S(h)$. For the left-empty
 classifier, use Theorem~\ref{thm:option-history-classifier-empty-left-iff} to
 obtain the same $\hsame(h,\emp)$ witness and apply the same exclusion predicate.
 \end{proof}
-
-Per-object fit: traditional target absent-vs-present option separation; BEDC
-source $\mathsf{BHist}$ with $\hsame$; carrier
-$\mathsf{OptionHistoryCarrier}_S$; classifier
-$\mathsf{OptionHistoryClassifier}_S$; ledger impact none; status paper theorem
-awaiting Lean formalization.
 
 \begin{theorem}[Option classifier \(\hsame\) symmetry]
 \label{thm:option-classifier-hsame-symm}
