@@ -1,4 +1,4 @@
-import BEDC.Derived.ProdUp
+import BEDC.Derived.ProdUp.PairRepresentation
 
 namespace BEDC.Derived.ProdUp
 
@@ -52,6 +52,59 @@ theorem ProdComponentHistoryClassifier_source_refinement
                                                                     (left_rel sameLeft)
                                                                     (right_rel
                                                                       sameRight)))))))))))
+
+theorem ProdComponentHistoryClassifier_inversion
+    {Left Right : BHist → Prop} {LeftEq RightEq : BHist → BHist → Prop}
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq)
+    (left_trans : ∀ {a b c : BHist}, LeftEq a b → LeftEq b c → LeftEq a c)
+    (right_trans : ∀ {a b c : BHist}, RightEq a b → RightEq b c → RightEq a c)
+    {h k l r l' r' : BHist} :
+    ProdPairRep Left Right h l r →
+      ProdPairRep Left Right k l' r' →
+        ProdComponentHistoryClassifier Left Right LeftEq RightEq h k →
+          LeftEq l l' ∧ RightEq r r' := by
+  intro repH repK classifier
+  cases classifier with
+  | intro lh restLH =>
+      cases restLH with
+      | intro rh restRH =>
+          cases restRH with
+          | intro lk restLK =>
+              cases restLK with
+              | intro rk data =>
+                  cases data with
+                  | intro leftH rest =>
+                      cases rest with
+                      | intro rightH rest =>
+                          cases rest with
+                          | intro contH rest =>
+                              cases rest with
+                              | intro leftK rest =>
+                                  cases rest with
+                                  | intro rightK rest =>
+                                      cases rest with
+                                      | intro contK componentRel =>
+                                          cases componentRel with
+                                          | intro sameLeft sameRight =>
+                                              have witnessH :
+                                                  ProdPairRep Left Right h lh rh :=
+                                                And.intro leftH (And.intro rightH contH)
+                                              have witnessK :
+                                                  ProdPairRep Left Right k lk rk :=
+                                                And.intro leftK (And.intro rightK contK)
+                                              have leftAtH : LeftEq l lh :=
+                                                (coherent repH witnessH).left
+                                              have rightAtH : RightEq r rh :=
+                                                (coherent repH witnessH).right
+                                              have leftAtK : LeftEq lk l' :=
+                                                (coherent witnessK repK).left
+                                              have rightAtK : RightEq rk r' :=
+                                                (coherent witnessK repK).right
+                                              constructor
+                                              · exact left_trans leftAtH
+                                                  (left_trans sameLeft leftAtK)
+                                              · exact right_trans rightAtH
+                                                  (right_trans sameRight rightAtK)
 
 theorem ProdComponentHistoryClassifier_descends_to_envelope
     {Left Right : BHist → Prop} {LeftEq RightEq : BHist → BHist → Prop}
