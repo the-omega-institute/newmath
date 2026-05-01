@@ -80,6 +80,25 @@ theorem RealStreamClassifier_prefix {x y : Nat -> BHist} :
   | succ n ih =>
       exact And.intro ih (classified (Nat.succ n))
 
+theorem RealStreamPrefixClassifier_endpoint {x y : Nat -> BHist} :
+    forall n : Nat, RealStreamPrefixClassifier x y n -> RatHistoryClassifier (x n) (y n) := by
+  intro n
+  cases n with
+  | zero =>
+      intro classified
+      exact classified
+  | succ n =>
+      intro classified
+      exact classified.right
+
+theorem RealStreamClassifier_finite_prefix_exactness {x y : Nat -> BHist} :
+    RealStreamClassifier x y <-> forall n : Nat, RealStreamPrefixClassifier x y n := by
+  constructor
+  · intro classified n
+    exact RealStreamClassifier_prefix classified n
+  · intro prefixes n
+    exact RealStreamPrefixClassifier_endpoint n (prefixes n)
+
 theorem RealStreamPrefixClassifier_hsame_transport {x x' y y' : Nat -> BHist}
     (sameX : forall n : Nat, hsame (x n) (x' n))
     (sameY : forall n : Nat, hsame (y n) (y' n)) :
