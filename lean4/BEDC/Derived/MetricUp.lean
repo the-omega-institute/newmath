@@ -9,6 +9,22 @@ open BEDC.FKernel.Unary
 def MetricDistanceWitness (x y dist : BHist) : Prop :=
   UnaryHistory x ∧ UnaryHistory y ∧ UnaryHistory dist ∧ Cont x y dist
 
+theorem MetricDistanceWitness_empty_distance_iff {x y : BHist} :
+    MetricDistanceWitness x y BHist.Empty ↔
+      hsame x BHist.Empty ∧ hsame y BHist.Empty := by
+  constructor
+  · intro witness
+    have endpoints := cont_empty_result_inversion witness.2.2.2
+    exact And.intro endpoints.1 endpoints.2
+  · intro endpoints
+    cases endpoints with
+    | intro xEmpty yEmpty =>
+        cases xEmpty
+        cases yEmpty
+        exact
+          And.intro unary_empty
+            (And.intro unary_empty (And.intro unary_empty (cont_intro rfl)))
+
 theorem MetricDistanceWitness_prefix_iff {p x y d : BHist} :
     MetricDistanceWitness (append p x) y (append p d) ↔
       UnaryHistory p ∧ MetricDistanceWitness x y d := by

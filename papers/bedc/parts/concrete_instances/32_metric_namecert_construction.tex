@@ -40,6 +40,27 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Metric empty distance witness exactness]
+\label{thm:metric-distance-witness-empty-distance-iff}
+For histories $x,y$, a concrete distance witness with empty distance ledger is
+equivalent to both endpoint histories being empty up to the history classifier:
+$$
+\mathsf{MetricDistanceWitness}(x,y,\emp)
+\Longleftrightarrow
+\hsame(x,\emp)\wedge\hsame(y,\emp).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the concrete distance witness. Its
+continuation field is $\mathsf{Cont}(x,y,\emp)$, and empty-result inversion for
+continuation forces both endpoint histories to be empty.
+
+Conversely, case analysis on the two endpoint sameness witnesses reduces the
+claim to the empty history. The empty endpoint, empty target, and empty distance
+are unary, and the continuation ledger is the reflexive empty concatenation.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_distance\_iff}
+
 \begin{theorem}[Metric distance witness symmetric classifier]
 \label{thm:metric-distance-witness-symmetric-classifier}
 For unary endpoint histories $x,y$, if $d_{xy}$ is witnessed by the

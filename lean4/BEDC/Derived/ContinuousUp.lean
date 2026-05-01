@@ -20,13 +20,13 @@ theorem ContinuousModulusWitness_prefix_iff {p source modulus target : BHist} :
         cases rest with
         | intro modulusCarrier rest =>
             cases rest with
-            | intro prefixedTarget sourceModulus =>
+            | intro prefixedTarget rel =>
                 exact
                   And.intro (unary_append_left_factor prefixedSource)
                     (And.intro (unary_append_right_factor prefixedSource)
                       (And.intro modulusCarrier
                         (And.intro (unary_append_right_factor prefixedTarget)
-                          (cont_prefix_cancel sourceModulus))))
+                          (cont_prefix_cancel rel))))
   · intro base
     cases base with
     | intro prefixCarrier witness =>
@@ -35,13 +35,13 @@ theorem ContinuousModulusWitness_prefix_iff {p source modulus target : BHist} :
             cases rest with
             | intro modulusCarrier rest =>
                 cases rest with
-                | intro targetCarrier sourceModulus =>
+                | intro targetCarrier rel =>
                     exact
                       And.intro (unary_append_closed prefixCarrier sourceCarrier)
                         (And.intro modulusCarrier
                           (And.intro (unary_append_closed prefixCarrier targetCarrier)
                             (cont_intro
-                              ((congrArg (append p) sourceModulus).trans
+                              ((congrArg (append p) rel).trans
                                 (append_assoc p source modulus).symm))))
 
 def ContinuousModulusChain (source first second target : BHist) : Prop :=
@@ -113,33 +113,33 @@ theorem ContinuousFunctionCarrier_target_cert_deterministic
     ContinuousFunctionCarrier source map target modulus cert ->
       ContinuousFunctionCarrier source map target' modulus cert' ->
         hsame target target' ∧ hsame cert cert' := by
-  intro first second
-  cases first with
-  | intro _sourceCarrier firstRest =>
-      cases firstRest with
-      | intro _targetCarrier firstRest =>
-          cases firstRest with
-          | intro _mapCarrier firstRest =>
-              cases firstRest with
-              | intro _modulusCarrier firstRest =>
-                  cases firstRest with
+  intro left right
+  cases left with
+  | intro _sourceCarrier leftRest =>
+      cases leftRest with
+      | intro _targetCarrier leftRest =>
+          cases leftRest with
+          | intro _mapCarrier leftRest =>
+              cases leftRest with
+              | intro _modulusCarrier leftRest =>
+                  cases leftRest with
                   | intro sourceMap targetCert =>
-                      cases second with
-                      | intro _sourceCarrier' secondRest =>
-                          cases secondRest with
-                          | intro _targetCarrier' secondRest =>
-                              cases secondRest with
-                              | intro _mapCarrier' secondRest =>
-                                  cases secondRest with
-                                  | intro _modulusCarrier' secondRest =>
-                                      cases secondRest with
+                      cases right with
+                      | intro _sourceCarrier' rightRest =>
+                          cases rightRest with
+                          | intro _targetCarrier' rightRest =>
+                              cases rightRest with
+                              | intro _mapCarrier' rightRest =>
+                                  cases rightRest with
+                                  | intro _modulusCarrier' rightRest =>
+                                      cases rightRest with
                                       | intro sourceMap' targetCert' =>
                                           have sameTarget : hsame target target' :=
                                             cont_deterministic sourceMap sourceMap'
-                                          exact
-                                            And.intro sameTarget
-                                              (cont_respects_hsame sameTarget
-                                                (hsame_refl modulus) targetCert targetCert')
+                                          have sameCert : hsame cert cert' :=
+                                            cont_respects_hsame sameTarget
+                                              (hsame_refl modulus) targetCert targetCert'
+                                          exact And.intro sameTarget sameCert
 
 theorem ContinuousFunctionCarrier_comp_closed
     {source middle target f g fg modF modG modFG certF certG cert : BHist} :
