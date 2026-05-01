@@ -309,6 +309,37 @@ The finite-spine classifier witness is independent of the represented endpoints,
 so the bridge witness is rebuilt over $h'$ and $k'$ with the same spines.
 \end{proof}
 
+\begin{theorem}[List recursive history classifier endpoint transport]
+\label{thm:list-recursive-history-classifier-endpoint-transport}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. The ten-field fit is: traditional target
+finite-list generated-classifier endpoint stability; BEDC source
+$\mathsf{BHist}$; carrier $\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}$; stability obligation
+endpoint transport; ledger finite spine; core theorem this transport law;
+exactness through Theorem~\ref{thm:list-spine-representation-exactness};
+standard bridge finite-spine readback; status $\mathsf{ProofTarget}$. For all
+histories $h$, $k$, $h'$, and $k'$,
+$$
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,k)
+\to
+\hsame(h,h')
+\to
+\hsame(k,k')
+\to
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h',k').
+$$
+\end{theorem}
+\begin{proof}
+Convert the displayed recursive classifier witness to
+$\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$ using the classifier
+equivalence in Theorem~\ref{thm:list-spine-representation-exactness}. Apply
+Theorem~\ref{thm:list-spine-bridge-endpoint-transport} to move the two
+endpoints along $\hsame(h,h')$ and $\hsame(k,k')$. Convert the resulting bridge
+witness back through the reverse direction of the same exactness theorem to
+obtain $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h',k')$.
+\end{proof}
+
 \begin{theorem}[List spine bridge nil-cons separation under coherence]
 \label{thm:list-spine-bridge-nil-cons-separation-under-coherence}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
