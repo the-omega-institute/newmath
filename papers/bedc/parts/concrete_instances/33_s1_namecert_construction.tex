@@ -9,16 +9,18 @@ The circle interface $\SOneUp$ is a certificate-obligation schema over the produ
 \label{def:s1-carrier}
 Use pairs $(x,y)$ of Bishop real witnesses with a certified unit equation witness $x^2 + y^2 \approx 1$ under $\RealClassifier$.
 \end{definition}
+\leandef{BEDC.Derived.S1Up.SOneUnitHistory}
+\leandef{BEDC.Derived.S1Up.SOneProductHistoryCarrier}
 \leandef{BEDC.Derived.S1Up.SOneHistoryCarrier}
 
 \begin{theorem}[SOne history carrier rational components]
 \label{thm:s1-history-carrier-rational-components}
-For every history $h$, the concrete $\SOneUp$ history carrier exposes product
-components $x,y$ and rational denominator tails $d_x,d_y$ such that both
-components are displayed as real constants and the BEDC continuation ledger
-composes the two components into $h$:
+For every history $h$, the concrete $\SOneUp$ product-history carrier exposes
+product components $x,y$ and rational denominator tails $d_x,d_y$ such that
+both components are displayed as real constants and the BEDC continuation
+ledger composes the two components into $h$:
 $$
-\mathsf{SOneHistoryCarrier}(h)
+\mathsf{SOneProductHistoryCarrier}(h)
 \Longrightarrow
 \exists x,y,d_x,d_y.\;
 \hsame(x,\Eone(d_x))\land
@@ -36,6 +38,25 @@ rational denominator tail together with the displayed $\Eone$ presentation of
 that component.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_rational\_components}
+
+\begin{theorem}[SOne history carrier real-pair carrier]
+\label{thm:s1-history-carrier-real-pair}
+For histories $x,y,e,p$, the concrete $\SOneUp$ history carrier determines the
+underlying product-real pair carrier:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{ProdHistoryCarrier}(\mathsf{RealConstantHistoryCarrier},
+\mathsf{RealConstantHistoryCarrier},p).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the circle carrier. Its first two fields are real-constant carrier
+witnesses for $x$ and $y$, and its continuation field records
+$\mathsf{Cont}(x,y,p)$. These three data are precisely the product-history
+carrier introduction rule for the two real-constant component predicates.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_real\_pair}
 
 \section{The certificate}
 

@@ -10,6 +10,40 @@ open BEDC.FKernel.Unary
 def ContinuousModulusWitness (source modulus target : BHist) : Prop :=
   UnaryHistory source ∧ UnaryHistory modulus ∧ UnaryHistory target ∧ Cont source modulus target
 
+theorem ContinuousModulusWitness_prefix_iff {p source modulus target : BHist} :
+    ContinuousModulusWitness (append p source) modulus (append p target) ↔
+      UnaryHistory p ∧ ContinuousModulusWitness source modulus target := by
+  constructor
+  · intro prefixed
+    cases prefixed with
+    | intro prefixedSource rest =>
+        cases rest with
+        | intro modulusCarrier rest =>
+            cases rest with
+            | intro prefixedTarget sourceModulus =>
+                exact
+                  And.intro (unary_append_left_factor prefixedSource)
+                    (And.intro (unary_append_right_factor prefixedSource)
+                      (And.intro modulusCarrier
+                        (And.intro (unary_append_right_factor prefixedTarget)
+                          (cont_prefix_cancel sourceModulus))))
+  · intro base
+    cases base with
+    | intro prefixCarrier witness =>
+        cases witness with
+        | intro sourceCarrier rest =>
+            cases rest with
+            | intro modulusCarrier rest =>
+                cases rest with
+                | intro targetCarrier sourceModulus =>
+                    exact
+                      And.intro (unary_append_closed prefixCarrier sourceCarrier)
+                        (And.intro modulusCarrier
+                          (And.intro (unary_append_closed prefixCarrier targetCarrier)
+                            (cont_intro
+                              ((congrArg (append p) sourceModulus).trans
+                                (append_assoc p source modulus).symm))))
+
 def ContinuousModulusChain (source first second target : BHist) : Prop :=
   UnaryHistory source ∧ UnaryHistory first ∧ UnaryHistory second ∧ UnaryHistory target ∧
     ∃ middle : BHist, Cont source first middle ∧ Cont middle second target
@@ -73,6 +107,39 @@ theorem ContinuousModulusChain_composite_closed {source first second target comp
 def ContinuousFunctionCarrier (source map target modulus cert : BHist) : Prop :=
   UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory map ∧ UnaryHistory modulus ∧
     Cont source map target ∧ Cont target modulus cert
+
+theorem ContinuousFunctionCarrier_target_cert_deterministic
+    {source map target target' modulus cert cert' : BHist} :
+    ContinuousFunctionCarrier source map target modulus cert ->
+      ContinuousFunctionCarrier source map target' modulus cert' ->
+        hsame target target' ∧ hsame cert cert' := by
+  intro first second
+  cases first with
+  | intro _sourceCarrier firstRest =>
+      cases firstRest with
+      | intro _targetCarrier firstRest =>
+          cases firstRest with
+          | intro _mapCarrier firstRest =>
+              cases firstRest with
+              | intro _modulusCarrier firstRest =>
+                  cases firstRest with
+                  | intro sourceMap targetCert =>
+                      cases second with
+                      | intro _sourceCarrier' secondRest =>
+                          cases secondRest with
+                          | intro _targetCarrier' secondRest =>
+                              cases secondRest with
+                              | intro _mapCarrier' secondRest =>
+                                  cases secondRest with
+                                  | intro _modulusCarrier' secondRest =>
+                                      cases secondRest with
+                                      | intro sourceMap' targetCert' =>
+                                          have sameTarget : hsame target target' :=
+                                            cont_deterministic sourceMap sourceMap'
+                                          exact
+                                            And.intro sameTarget
+                                              (cont_respects_hsame sameTarget
+                                                (hsame_refl modulus) targetCert targetCert')
 
 theorem ContinuousFunctionCarrier_comp_closed
     {source middle target f g fg modF modG modFG certF certG cert : BHist} :

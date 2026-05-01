@@ -1,4 +1,5 @@
 import BEDC.Derived.ProdUp
+import BEDC.Derived.RatUp
 import BEDC.Derived.RealUp
 
 namespace BEDC.Derived.S1Up
@@ -6,14 +7,20 @@ namespace BEDC.Derived.S1Up
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.Derived.ProdUp
-open BEDC.Derived.RealUp
 open BEDC.Derived.RatUp
+open BEDC.Derived.RealUp
 
-def SOneHistoryCarrier (h : BHist) : Prop :=
+def SOneUnitHistory : BHist := BHist.e1 (BHist.e1 BHist.Empty)
+
+def SOneProductHistoryCarrier (h : BHist) : Prop :=
   ProdHistoryCarrier RealConstantHistoryCarrier RealConstantHistoryCarrier h
 
+def SOneHistoryCarrier (x y equation point : BHist) : Prop :=
+  RealConstantHistoryCarrier x ∧ RealConstantHistoryCarrier y ∧
+    RealConstantHistoryClassifier equation SOneUnitHistory ∧ Cont x y point
+
 theorem SOneHistoryCarrier_rational_components {h : BHist} :
-    SOneHistoryCarrier h →
+    SOneProductHistoryCarrier h →
       ∃ x y dx dy : BHist,
         hsame x (BHist.e1 dx) ∧ RatHistoryCarrier dx ∧
           hsame y (BHist.e1 dy) ∧ RatHistoryCarrier dy ∧ Cont x y h := by
@@ -42,5 +49,17 @@ theorem SOneHistoryCarrier_rational_components {h : BHist} :
                                             (And.intro dxCarrier
                                               (And.intro sameY
                                                 (And.intro dyCarrier cont)))))))
+
+theorem SOneHistoryCarrier_real_pair {x y equation point : BHist} :
+    SOneHistoryCarrier x y equation point ->
+      ProdHistoryCarrier RealConstantHistoryCarrier RealConstantHistoryCarrier point := by
+  intro carrier
+  cases carrier with
+  | intro xCarrier rest =>
+      cases rest with
+      | intro yCarrier rest =>
+          cases rest with
+          | intro _equationCarrier pointCont =>
+              exact ProdHistoryCarrier_cont_intro xCarrier yCarrier pointCont
 
 end BEDC.Derived.S1Up
