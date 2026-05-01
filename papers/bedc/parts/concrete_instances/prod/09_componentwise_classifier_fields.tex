@@ -88,6 +88,47 @@ comparisons. Swap the endpoint pair representations and rebuild the
 componentwise classifier from the reversed left and right witnesses.
 \end{proof}
 
+\begin{theorem}[Product componentwise classifier is independent of displayed pair representatives]
+\label{thm:prod-component-history-classifier-representative-independence}
+The ten-field fit is: traditional target ordered-product componentwise readback
+well-definedness; BEDC source $\mathsf{BHist}$ with $\Cont$ and displayed
+$\mathsf{ProdPairRep}$ witnesses; carrier $\mathsf{ProdHistoryCarrier}$;
+classifier $\mathsf{ProdComponentHistoryClassifier}$; stability obligation
+representative independence under $\mathsf{ProdPairRepCoherent}$ and source
+$\NameCert$ symmetry and transitivity; ledger displayed pair representations at
+both endpoints; core theorem this law; exactness independence from chosen
+coherent representatives; standard bridge ordered-pair readback; status
+$\mathsf{ProofTarget}$.
+
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. For all
+$h,k,l,r,l',r',u,v,u',v':\mathsf{BHist}$, if
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$,
+$\mathsf{ProdPairRep}_{L,R}(h,l',r')$,
+$\mathsf{ProdPairRep}_{L,R}(k,u,v)$, and
+$\mathsf{ProdPairRep}_{L,R}(k,u',v')$ hold, then
+$$
+(l\sim_L u)\wedge(r\sim_R v)\to
+(l'\sim_L u')\wedge(r'\sim_R v').
+$$
+\end{theorem}
+\begin{proof}
+Apply $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ at the source endpoint
+$h$ to compare the displayed pairs $(l,r)$ and $(l',r')$. This gives
+$l\sim_L l'$ and $r\sim_R r'$, and the source certificate symmetry fields orient
+them as $l'\sim_L l$ and $r'\sim_R r$. Apply the same coherence law at the
+target endpoint $k$ to compare $(u,v)$ with $(u',v')$, giving $u\sim_L u'$ and
+$v\sim_R v'$. The supplied component comparison gives $l\sim_L u$ and
+$r\sim_R v$. Two uses of $\mathsf{cert}_L.\mathsf{equiv\_trans}$ compose
+$l'\sim_L l\sim_L u\sim_L u'$, and two uses of
+$\mathsf{cert}_R.\mathsf{equiv\_trans}$ compose
+$r'\sim_R r\sim_R v\sim_R v'$. The resulting left and right witnesses form the
+displayed pair of component comparisons.
+\end{proof}
+
 \begin{theorem}[Product componentwise history classifier core fields]
 \label{thm:prod-component-history-classifier-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
