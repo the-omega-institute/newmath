@@ -31,12 +31,35 @@ witness, and these are the two constructor arguments needed for
 $\mathsf{ListClassifierSpec}(\sim_A,-,-)$ on the whole cons spines.
 \end{proof}
 
+\begin{theorem}[List spine coherence iff cons-boundary coherence]
+\label{thm:list-spine-coherence-iff-cons-boundary-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. Then
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds if and only if
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ holds.
+\end{theorem}
+\begin{proof}
+For the forward implication, assume
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Given two displayed cons
+presentations of the same endpoint, view them as two
+$\mathsf{ListSpineRep}_A$ presentations with cons spines. Spine coherence
+returns a $\mathsf{ListClassifierSpec}(\sim_A,-,-)$ witness relating those two
+cons spines. The cons-cons branch of
+Theorem~\ref{thm:list-classifier-case-exactness} inverts that witness and
+exposes exactly the required head classifier $a\sim_A a'$ together with the
+tail classifier $\mathsf{ListClassifierSpec}(\sim_A,xs,xs')$. These are the two
+fields of Definition~\ref{def:list-cons-boundary-coherence}. The reverse
+implication is precisely
+Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence}.
+\end{proof}
+
 The per-object fit is: traditional target finite lists; BEDC source $A$ with
 $\NameCert(A,\sim_A)$; carrier $\mathsf{ListHistoryCarrier}_A$; classifier
 $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability supplied by the
 source certificate and cons-boundary coherence; ledger
 $\mathsf{ListHistoryLedger}_A$; core theorem list
-Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence} and
+Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence},
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence}, and
 Theorem~\ref{thm:concrete-list-namecert}; exactness via the spine bridge;
 standard bridge finite spines; status $\mathsf{ProofTarget}$.
 

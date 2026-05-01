@@ -40,6 +40,48 @@ of $k$ and invert the one-constructor equality to get $\hsame(a,a')$; the
 remaining fields are exactly the displayed witnesses.
 \end{proof}
 
+\begin{definition}[Tagged option-to-nullable bridge hypotheses]
+\label{def:tagged-option-to-nullable-bridge-hypotheses}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source
+classifier $\sim_S$, define
+$\mathsf{TaggedOptionToNullableBridge}(S,\sim_S)$ to be the pair of conditions:
+\begin{enumerate}
+  \item present endpoint closure: for all histories $a,h$, if $S(a)$ and $\hsame(h,\Eone(a))$, then $S(h)$;
+  \item classifier hsame soundness: for all histories $a,b$, if $S(a)$, $S(b)$, and $a\sim_S b$, then $\hsame(a,b)$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Tagged option-to-nullable classifier bridge]
+\label{thm:tagged-option-to-nullable-classifier-bridge}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier and let $\sim_S$ be a
+source classifier. If $\mathsf{TaggedOptionToNullableBridge}(S,\sim_S)$ holds,
+then for every history $h$,
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$ implies
+$\mathsf{OptionHistoryCarrier}_S(h)$, and for every pair of histories $h,k$,
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ implies
+$\mathsf{OptionHistoryClassifier}_S(h,k)$.
+\end{theorem}
+\begin{proof}
+Unpack the bridge into present endpoint closure and classifier hsame soundness.
+For the carrier implication, case-analyze
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$. The absent branch is already the
+empty side of $\mathsf{OptionHistoryCarrier}_S(h)$. In the present branch, a
+payload $a$ with $S(a)$ and $\hsame(h,\Eone(a))$ descends to $S(h)$ by present
+endpoint closure, giving the source side of the nullable envelope.
+
+For the classifier implication, use
+Theorem~\ref{thm:tagged-option-history-classifier-branch-partition}. In the
+absent-absent branch, the two empty endpoint witnesses give the nullable
+carriers and compose through $\emp$ to obtain $\hsame(h,k)$. In the
+present-present branch, the carrier part descends for both endpoints by present
+endpoint closure. Classifier hsame soundness converts $a\sim_S b$ into
+$\hsame(a,b)$; applying $e1$ congruence gives
+$\hsame(\Eone(a),\Eone(b))$, which composes with the endpoint witnesses
+$\hsame(h,\Eone(a))$ and $\hsame(k,\Eone(b))$ to yield $\hsame(h,k)$. These are
+exactly the carrier and endpoint-equality fields of
+$\mathsf{OptionHistoryClassifier}_S(h,k)$.
+\end{proof}
+
 \begin{theorem}[Tagged option history classifier absent-branch equivalence]
 \label{thm:tagged-option-history-classifier-absent-branch-equivalence}
 This theorem fits the per-object template as follows: the traditional target is
