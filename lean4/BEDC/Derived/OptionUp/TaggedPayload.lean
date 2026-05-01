@@ -4,6 +4,10 @@ namespace BEDC.Derived.OptionUp
 
 open BEDC.FKernel.Hist
 
+def TaggedOptionSourceHsameCompatible (S : BHist → Prop) (Rel : BHist → BHist → Prop) :
+    Prop :=
+  ∀ {a b : BHist}, S a → S b → hsame a b → Rel a b
+
 theorem TaggedOptionHistoryClassifier_presented_payload_exactness {S : BHist -> Prop}
     {Rel : BHist -> BHist -> Prop}
     (rel_trans : forall {x y z : BHist}, Rel x y -> Rel y z -> Rel x z)
@@ -44,5 +48,26 @@ theorem TaggedOptionHistoryClassifier_presented_payload_exactness {S : BHist -> 
                               have relB0B : Rel b0 b :=
                                 source_hsame sourceB0 sourceB sameB0B
                               exact rel_trans (rel_trans relAA0 relA0B0) relB0B
+
+theorem TaggedOptionHistoryClassifier_visible_present_exactness {S : BHist → Prop}
+    {Rel : BHist → BHist → Prop}
+    (rel_trans : ∀ {x y z : BHist}, Rel x y → Rel y z → Rel x z)
+    (source_hsame : TaggedOptionSourceHsameCompatible S Rel) {h k : BHist} :
+    S h → S k →
+      (TaggedOptionHistoryClassifier S Rel (BHist.e1 h) (BHist.e1 k) ↔ Rel h k) := by
+  intro sourceH sourceK
+  constructor
+  · intro classifier
+    exact TaggedOptionHistoryClassifier_presented_payload_exactness (S := S) (Rel := Rel)
+      rel_trans source_hsame classifier sourceH sourceK (hsame_refl (BHist.e1 h))
+      (hsame_refl (BHist.e1 k))
+  · intro relHK
+    exact Or.inr
+      (Exists.intro h
+        (Exists.intro k
+          (And.intro sourceH
+            (And.intro sourceK
+              (And.intro (hsame_refl (BHist.e1 h))
+                (And.intro (hsame_refl (BHist.e1 k)) relHK))))))
 
 end BEDC.Derived.OptionUp

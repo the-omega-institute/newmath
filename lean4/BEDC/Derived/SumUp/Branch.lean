@@ -247,4 +247,40 @@ theorem SumHistorySource_weakening {Left Right Left' Right' : BHist -> Prop}
                                         (And.intro sameK
                                           (rightRelation a b sameRight)))))
 
+theorem SumHistoryClassifier_relation_weakening
+    {Left Right LeftAlt RightAlt : BHist → Prop}
+    {LeftEq RightEq LeftEq' RightEq' : BHist → BHist → Prop}
+    (left_rel : ∀ {a b : BHist}, LeftEq a b → LeftEq' a b)
+    (right_rel : ∀ {a b : BHist}, RightEq a b → RightEq' a b) {h k : BHist} :
+    SumHistoryClassifier Left Right LeftEq RightEq h k →
+      SumHistoryClassifier LeftAlt RightAlt LeftEq' RightEq' h k := by
+  intro classifier
+  cases classifier with
+  | inl leftBranch =>
+      cases leftBranch with
+      | intro l restL =>
+          cases restL with
+          | intro l' data =>
+              cases data with
+              | intro sameH rest =>
+                  cases rest with
+                  | intro sameK sameLeft =>
+                      exact Or.inl
+                        (Exists.intro l
+                          (Exists.intro l'
+                            (And.intro sameH (And.intro sameK (left_rel sameLeft)))))
+  | inr rightBranch =>
+      cases rightBranch with
+      | intro r restR =>
+          cases restR with
+          | intro r' data =>
+              cases data with
+              | intro sameH rest =>
+                  cases rest with
+                  | intro sameK sameRight =>
+                      exact Or.inr
+                        (Exists.intro r
+                          (Exists.intro r'
+                            (And.intro sameH (And.intro sameK (right_rel sameRight)))))
+
 end BEDC.Derived.SumUp

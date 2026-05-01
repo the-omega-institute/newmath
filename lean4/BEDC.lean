@@ -57,6 +57,7 @@ import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.SourceMonotonicity
+import BEDC.Derived.ProdUp.ComponentwiseRefinement
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
