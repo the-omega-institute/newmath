@@ -64,4 +64,35 @@ theorem CompactNetWitness_prefix_closed {p center precision net : BHist} :
                         (unary_cont_closed centerCarrier precisionCarrier (cont_intro rfl)))
                       (cont_intro (append_assoc p center precision).symm)))
 
+theorem CompactWitnessCarrier_located_extension_closed
+    {subset located finite extra intermediate compact newLocated newIntermediate extended : BHist} :
+    CompactWitnessCarrier subset located finite intermediate compact -> UnaryHistory extra ->
+      Cont located extra newLocated -> Cont intermediate extra newIntermediate ->
+        Cont newIntermediate finite extended ->
+          CompactWitnessCarrier subset newLocated finite newIntermediate extended := by
+  intro carrier extraCarrier locatedExtra intermediateExtra extendedLedger
+  cases carrier with
+  | intro subsetCarrier rest =>
+      cases rest with
+      | intro locatedCarrier rest =>
+          cases rest with
+          | intro finiteCarrier rest =>
+              cases rest with
+              | intro locatedLedger _compactLedger =>
+                  have newLocatedCarrier : UnaryHistory newLocated :=
+                    unary_cont_closed locatedCarrier extraCarrier locatedExtra
+                  have associated := cont_assoc_left_exists locatedLedger intermediateExtra
+                  cases associated with
+                  | intro shifted shiftedData =>
+                      cases shiftedData with
+                      | intro shiftedLocated subsetShifted =>
+                          have sameShifted : hsame newLocated shifted :=
+                            cont_deterministic locatedExtra shiftedLocated
+                          cases sameShifted
+                          exact
+                            And.intro subsetCarrier
+                              (And.intro newLocatedCarrier
+                                (And.intro finiteCarrier
+                                  (And.intro subsetShifted extendedLedger)))
+
 end BEDC.Derived.CompactUp

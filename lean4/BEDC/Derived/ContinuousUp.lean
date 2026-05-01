@@ -1,4 +1,5 @@
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Cont
 
 namespace BEDC.Derived.ContinuousUp
 
@@ -38,5 +39,52 @@ theorem ContinuousModulusChain_composite_closed {source first second target comp
                                 (unary_cont_closed firstCarrier secondCarrier (cont_intro rfl))
                                 (And.intro targetCarrier
                                   (cont_intro (append_assoc source first second))))
+
+def ContinuousFunctionCarrier (source map target modulus cert : BHist) : Prop :=
+  UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory map ∧ UnaryHistory modulus ∧
+    Cont source map target ∧ Cont target modulus cert
+
+theorem ContinuousFunctionCarrier_comp_closed
+    {source middle target f g fg modF modG modFG certF certG cert : BHist} :
+    ContinuousFunctionCarrier source f middle modF certF ->
+      ContinuousFunctionCarrier middle g target modG certG ->
+        Cont f g fg -> Cont modF modG modFG -> Cont target modFG cert ->
+          ContinuousFunctionCarrier source fg target modFG cert := by
+  intro first second fgRel modRel certRel
+  cases first with
+  | intro sourceCarrier firstRest =>
+      cases firstRest with
+      | intro _middleCarrier firstRest =>
+          cases firstRest with
+          | intro fCarrier firstRest =>
+              cases firstRest with
+              | intro modFCarrier firstRest =>
+                  cases firstRest with
+                  | intro sourceMap _certFRel =>
+                      cases second with
+                      | intro _middleCarrier' secondRest =>
+                          cases secondRest with
+                          | intro targetCarrier secondRest =>
+                              cases secondRest with
+                              | intro gCarrier secondRest =>
+                                  cases secondRest with
+                                  | intro modGCarrier secondRest =>
+                                      cases secondRest with
+                                      | intro middleMap _certGRel =>
+                                          have fgCarrier : UnaryHistory fg :=
+                                            unary_cont_closed fCarrier gCarrier fgRel
+                                          have modFGCarrier : UnaryHistory modFG :=
+                                            unary_cont_closed modFCarrier modGCarrier modRel
+                                          have sourceTarget : Cont source fg target := by
+                                            cases sourceMap
+                                            cases middleMap
+                                            cases fgRel
+                                            exact cont_intro (append_assoc source f g)
+                                          exact
+                                            And.intro sourceCarrier
+                                              (And.intro targetCarrier
+                                                (And.intro fgCarrier
+                                                  (And.intro modFGCarrier
+                                                    (And.intro sourceTarget certRel))))
 
 end BEDC.Derived.ContinuousUp

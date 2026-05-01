@@ -9,6 +9,25 @@ The continuous-map interface $\ContinuousMapUp$ has certificate obligations betw
 \label{def:continuous-carrier}
 Use a graph relation between source point histories and target point histories, equipped with source and target metric ledgers, a totally bounded source witness, a unary precision ledger, and a modulus ledger relating requested source precision to target precision. The carrier includes totality for every source history accepted by the source classifier and single-valuedness up to the target classifier for any two target histories related to the same classifier-admitted source history.
 \end{definition}
+\leandef{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier}
+
+\begin{theorem}[Continuous function carrier composition closure]
+\label{thm:continuous-function-carrier-comp-closed}
+If $f$ carries a source history to a middle history with modulus $modF$, and
+$g$ carries the middle history to a target history with modulus $modG$, then a
+continuation composite $fg$ with modulus composite $modFG$ carries the source
+history to the target history.
+\end{theorem}
+\begin{proof}
+The two carrier witnesses give unary histories for the source, target, maps,
+and moduli, plus continuation ledgers for the source-to-middle and
+middle-to-target maps. Unary continuation closure gives unary histories for
+the composite map and composite modulus. Case analysis on the continuation
+constructors reduces the source-to-target continuation to associativity of
+history append, while the supplied target-to-certificate ledger records the
+composite modulus certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_comp\_closed}
 
 \section{The certificate}
 

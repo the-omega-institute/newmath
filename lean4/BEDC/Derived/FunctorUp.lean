@@ -111,6 +111,21 @@ theorem FunctorPrefixHomCarrier_comp_assoc_preserves
                 (FunctorPrefixHomCarrier_preserves prefixCarrier rightCarrier)
                 same)
 
+theorem FunctorPrefixHomCarrier_comp_assoc_reflects
+    {p a b c d f g h fg gh left right : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g ->
+        CategoryHomCarrier (append p c) (append p d) h -> Cont f g fg -> Cont g h gh ->
+          Cont fg h left -> Cont f gh right ->
+            CategoryHomCarrier a d left ∧ CategoryHomCarrier a d right ∧ hsame left right := by
+  intro first second third fgRel ghRel leftRel rightRel
+  exact
+    CategoryHomCarrier_comp_assoc_closed
+      (FunctorPrefixHomCarrier_reflects first)
+      (FunctorPrefixHomCarrier_reflects second)
+      (FunctorPrefixHomCarrier_reflects third)
+      fgRel ghRel leftRel rightRel
+
 theorem FunctorPrefixHomCarrier_empty_identity_preserves {p a : BHist} :
     UnaryHistory p -> UnaryHistory a ->
       CategoryHomCarrier (append p a) (append p a) BHist.Empty := by

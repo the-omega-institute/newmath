@@ -94,6 +94,5 @@ import BEDC.Derived.MetricUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CategoryUp
-import BEDC.Derived.CompactUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
