@@ -48,6 +48,7 @@ import BEDC.Derived.IntUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.OptionUp
+import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.SumUp

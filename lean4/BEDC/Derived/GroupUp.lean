@@ -145,6 +145,26 @@ theorem group_inverse_mul_reverse {mul : BHist -> BHist -> BHist} {e : BHist}
     (leftInv (mul x y))
     reverseRight
 
+theorem group_inverse_cancel_from_laws {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul e x) x)
+    (rightId : forall x : BHist, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) e)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) e) :
+    forall {x y : BHist}, hsame (inv x) (inv y) -> hsame x y := by
+  intro x y sameInv
+  have sameDouble :
+      hsame (inv (inv x)) (inv (inv y)) :=
+    group_inverse_congruence_from_laws assocC leftId rightId mulCongr leftInv rightInv
+      sameInv
+  exact hsame_trans
+    (hsame_symm (group_left_inverse_involutive assocC leftId rightId mulCongr leftInv x))
+    (hsame_trans sameDouble
+      (group_left_inverse_involutive assocC leftId rightId mulCongr leftInv y))
+
 theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))

@@ -170,6 +170,21 @@ $$
 \hsame(h,\mathsf{FramedListEndpoint}(xs)).
 $$
 \end{definition}
+\leandef{BEDC.Derived.ListUp.FramedListSpineRep}
+
+\begin{theorem}[Framed list-spine representation hsame transport]
+\label{thm:framed-list-spine-rep-hsame-transport}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. If
+$\mathsf{FramedListSpineRep}_A(h,xs)$ holds and $\hsame(h,h')$ holds, then
+$\mathsf{FramedListSpineRep}_A(h',xs)$ holds.
+\end{theorem}
+\begin{proof}
+The entrywise source predicate over $xs$ is unchanged. The endpoint witness for
+$h'$ is obtained by composing $\hsame(h',h)$, the symmetry of the displayed
+$\hsame(h,h')$, with the stored witness
+$\hsame(h,\mathsf{FramedListEndpoint}(xs))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_hsame\_transport}
 
 \begin{theorem}[Framed list-spine coherence]
 \label{thm:framed-list-spine-coherence}

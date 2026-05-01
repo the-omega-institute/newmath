@@ -13,6 +13,20 @@ def FramedListEndpoint : ListCarrier BHist → BHist
   | [] => BHist.e0 BHist.Empty
   | head :: tail => BHist.e1 (PairFrame head (FramedListEndpoint tail))
 
+def FramedListSpineRep (A : BHist -> Prop) (h : BHist) (xs : ListCarrier BHist) :
+    Prop :=
+  (forall x : BHist, x ∈ xs -> A x) /\ hsame h (FramedListEndpoint xs)
+
+theorem FramedListSpineRep_hsame_transport {A : BHist -> Prop} {h h' : BHist}
+    {xs : ListCarrier BHist} :
+    FramedListSpineRep A h xs -> hsame h h' -> FramedListSpineRep A h' xs := by
+  intro rep same
+  cases rep with
+  | intro entries endpoint =>
+      constructor
+      · exact entries
+      · exact hsame_trans (hsame_symm same) endpoint
+
 theorem PairFrame_congruence {u u' t t' : BHist} :
     hsame u u' -> hsame t t' -> hsame (PairFrame u t) (PairFrame u' t') := by
   intro sameU sameT

@@ -119,6 +119,23 @@ multiplication congruence. Combine it with the right inverse witness for
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_inverse\_congruence\_from\_laws}
 
+\begin{theorem}[Group inverse cancellation from laws]
+\label{thm:group-inverse-cancel-from-laws}
+For a history-level group operation with associativity, left and right
+identity, multiplication congruence, and left and right inverses, equality of
+inverses under $\hsame$ implies equality of the original histories:
+$$
+\hsame(x^{-1},y^{-1})\to\hsame(x,y).
+$$
+\end{theorem}
+\begin{proof}
+Apply the derived inverse congruence theorem to the displayed equality of
+inverses, yielding $\hsame((x^{-1})^{-1},(y^{-1})^{-1})$. Chain the left
+inverse involutivity law backward at $x$, across this double-inverse equality,
+and forward at $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_cancel\_from\_laws}
+
 \begin{theorem}[Group inverse reverses multiplication]
 \label{thm:group-inverse-mul-reverse}
 For a history-level group operation with associativity, left and right identity,
