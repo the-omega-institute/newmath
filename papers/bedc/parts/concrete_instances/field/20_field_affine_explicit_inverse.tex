@@ -45,6 +45,60 @@ For equality of two affine expressions, apply
 assumed classifier equality. Its conclusion is exactly $x\hsame y$.
 \end{proof}
 
+\begin{theorem}[Field two-sided affine map is a certified automorphism]
+\label{thm:field-affine-two-sided-certified-automorphism}
+For a BEDC history-level $\FieldUp$ candidate with the same operations,
+additive laws, multiplication laws, congruence data, and indexed inverse laws
+as in
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness}, let
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ be the two
+nonzero witnesses for the left and right affine factors. Define
+$$
+T(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
+$$
+and, for each $c:\mathsf{BHist}$, define
+$$
+s(c)=
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b))).
+$$
+Then every $x,y,c:\mathsf{BHist}$ satisfies
+$$
+T(s(c))\hsame c,
+\qquad
+s(T(x))\hsame x,
+\qquad
+T(x)\hsame T(y)\Longleftrightarrow x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+For the left inverse clause, instantiate
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness} at
+$x=s(c)$. The reflexive classifier equality $s(c)\hsame s(c)$ enters the
+reverse implication and yields $T(s(c))\hsame c$.
+
+For the right inverse clause, instantiate the same exactness theorem with the
+target classifier value $T(x)$. The reflexive equality $T(x)\hsame T(x)$ enters
+the forward implication and yields $x\hsame s(T(x))$. Symmetry of $\hsame$
+gives the displayed orientation $s(T(x))\hsame x$.
+
+Finally apply
+\autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness} with
+the same witnesses $p_a,p_b$ and offset $d$. Its two directions are precisely
+the classifier-preservation and classifier-reflection clauses
+$T(x)\hsame T(y)\Longleftrightarrow x\hsame y$.
+\end{proof}
+
+Per-object certificate: traditional target affine automorphism over a field.
+BEDC source: $\FieldUp$ over $\mathsf{BHist}$. Carrier:
+$\mathsf{BHist}$. Classifier: $\hsame$. Stability obligations:
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness} and
+\autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness}.
+Ledger: the two nonzero factor witnesses $p_a,p_b$ and the offset $d$. Core
+theorem: \autoref{thm:field-affine-two-sided-certified-automorphism}. Exactness
+predicate: inverse-pair plus classifier iff. Standard bridge: deferred. Status:
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field equal-squares signed factors cannot both be nonzero]
 \label{thm:field-equal-squares-signed-factors-not-both-nonzero}
 For a BEDC history-level $\FieldUp$ candidate with the hypotheses of
