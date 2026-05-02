@@ -72,4 +72,31 @@ theorem ContinuationMorphism_comp_tail_cont {a b c : BHist}
             exact cont_intro rfl
   · exact (ContinuationMorphism_comp_closed left right).rel
 
+theorem ContinuationMorphism_comp_tail_hsame_congruence {a b c a' b' c' : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
+    (left' : ContinuationMorphism a' b') (right' : ContinuationMorphism b' c')
+    (sameLeftTail : hsame left.tail left'.tail)
+    (sameRightTail : hsame right.tail right'.tail) :
+    Cont left.tail right.tail (ContinuationMorphism_comp_closed left right).tail ∧
+      Cont left'.tail right'.tail (ContinuationMorphism_comp_closed left' right').tail ∧
+        hsame (ContinuationMorphism_comp_closed left right).tail
+          (ContinuationMorphism_comp_closed left' right').tail := by
+  have leftComp := ContinuationMorphism_comp_tail_cont left right
+  have rightComp := ContinuationMorphism_comp_tail_cont left' right'
+  constructor
+  · exact leftComp.left
+  · constructor
+    · exact rightComp.left
+    · cases left with
+      | mk leftTail leftRel =>
+          cases right with
+          | mk rightTail rightRel =>
+              cases left' with
+              | mk leftTail' leftRel' =>
+                  cases right' with
+                  | mk rightTail' rightRel' =>
+                      cases sameLeftTail
+                      cases sameRightTail
+                      rfl
+
 end BEDC.Derived.CategoryUp

@@ -167,6 +167,7 @@ import BEDC.Derived.FieldUp.RatDenomUnit
 import BEDC.Derived.FieldUp.RatContinuation
 import BEDC.Derived.FieldUp.DenominatorUnitEnvelope
 import BEDC.Derived.FieldUp.ProductRightEquation
+import BEDC.Derived.FieldUp.InverseAutomorphism
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp

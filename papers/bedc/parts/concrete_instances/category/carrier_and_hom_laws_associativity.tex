@@ -437,6 +437,26 @@ second continuation from $a$ through that composite tail to $c$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_cont}
 
+\begin{theorem}[Continuation morphism composite tail congruence]
+\label{thm:category-continuation-morphism-comp-tail-hsame-congruence}
+For continuation morphisms
+$left:\mathsf{ContinuationMorphism}(a,b)$,
+$right:\mathsf{ContinuationMorphism}(b,c)$,
+$left':\mathsf{ContinuationMorphism}(a',b')$, and
+$right':\mathsf{ContinuationMorphism}(b',c')$, if the two displayed left
+tails are $\hsame$ and the two displayed right tails are $\hsame$, then both
+canonical composite tails are recorded by their displayed continuation
+ledgers and the two composite tails are $\hsame$.
+\end{theorem}
+\begin{proof}
+Use the composite-tail continuation theorem for the two pairs of morphisms to
+obtain both displayed continuation ledgers. Then unpack the four morphism
+records. The closed composite tail is the append of the two displayed tails,
+so the two given tail-sameness witnesses reduce the final equality to
+reflexivity of the common append expression.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_hsame\_congruence}
+
 \begin{theorem}[Continuation morphism composition right factor]
 \label{thm:continuation-morphism-composition-right-factor}
 For histories $a,b,c$ and a displayed tail $r$, let $left:a\to b$ and
