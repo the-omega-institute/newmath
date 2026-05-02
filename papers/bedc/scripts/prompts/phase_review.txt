@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v2.0 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.1 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -138,6 +138,62 @@ e.g. "08_option" → option,  "11_list" → list,  "10_sum" → sum
 ```
 
 Run `git log --oneline -20 -- papers/bedc/parts/` and count how many of the last 20 paper-side commits touched a chapter sharing this theme. If `theme_count >= 6`, the candidate is INVALID **unless** the theme corresponds to a `top[0..2]` node from the critical-path JSON. The library has already received six rounds of attention on that theme; the marginal value of a seventh is below the marginal value of opening a top-3 chapter.
+
+## Schema-only unlock priority (HARD GATE)
+
+The Lean side is currently blocked on 16 algebra/order chapters whose paper schemas write laws as parametric operators (`mul / add / neg : BHist -> BHist -> BHist` left abstract). These chapters are listed in `lean4/scripts/critical_path.py::SCHEMA_ONLY_HORIZONS`:
+
+```
+abgroup, group, monoid, ring, commring, field,
+module, vecspace, linearmap, matrix, polynomial, fps,
+lattice, totalorder, preorder, poset
+```
+
+A Lean round picking such a horizon can ONLY produce parameter-echo schema (`(name : forall x y z, hsame …)`), which the phase D mechanical lint rejects. They stay frozen until the paper side adds a *concrete carrier instance*: a definition that pins the abstract carrier to a specific BHist predicate and the abstract operation to a specific BHist function whose laws are downstream of FKernel theorems.
+
+**When `critical_path.py` `top` returns < 3 candidates, OR when the rolling window otherwise has weak depth targets**, you MUST propose at least one `theory_extension` target with `kind = "theory_extension"` and `notes.flavor = "concrete_instance"` of one banned chapter. The proposed paper change must:
+
+1. Pick a chapter from `SCHEMA_ONLY_HORIZONS`. Prefer the simplest still-banned chapter you have not yet unlocked (start with `monoid`, then `group`, then `abgroup`, …).
+2. Add a paper definition along the lines of:
+   ```latex
+   \begin{definition}[Concrete history monoid instance]
+     Take Carrier := UnaryHistory, mul := Cont, e := \mathsf{BHist.Empty}.
+     The pair (UnaryHistory, Cont, Empty) is a concrete monoid instance
+     whose associativity follows from cont_assoc and whose unit laws
+     follow from cont_left_unit, cont_right_unit.
+   \end{definition}
+   ```
+   The concrete `Carrier` MUST be a `BHist -> Prop` predicate that already exists somewhere under `papers/bedc/parts/` (e.g. `UnaryHistory`, `BoolHistoryCarrier`, `RatHistoryCarrier`, …). The concrete operations MUST be specific BHist-valued functions (`Cont`, `append`, `cons` …), not abstract parametric symbols.
+3. State at least one law verification *theorem* about this concrete instance, citing FKernel theorems that underwrite each law (e.g. `cont_assoc → mul_assoc`, `cont_left_unit → mul_one_left`).
+4. Add a note in the chapter that the schema is now instantiated, so future Lean rounds can produce BHist-anchored proofs about this concrete instance instead of parameter-echo schema.
+
+Once such a paper block lands, the chapter exits `SCHEMA_ONLY_HORIZONS` (we update `critical_path.py` separately), and Lean rounds can attack it without producing parameter echo. **One unlock per round is enough.** The 16 banned chapters are 16 high-leverage extensions; do not stack two unlocks in a single review round.
+
+## Capstone extension (HARD GATE — high priority)
+
+When the candidate pool is otherwise weak (no top-3 critical-path target with a clear theorem, no schema-unlock backlog), prefer a CAPSTONE: a theorem that **combines `\leanchecked` results from ≥ 3 different chapters** into a single conclusion stated about concrete BEDC kernel objects. Capstones are the only path from BEDC's current "broad coverage of local closures" to "depth: external named results provable inside BEDC."
+
+A capstone target MUST satisfy ALL of:
+
+- `kind = "theory_extension"` AND `notes.flavor = "capstone"`.
+- `cited_sources` field listing ≥ 3 fully-qualified Lean names from ≥ 3 different `BEDC.Derived.*` chapters.
+- `proposed_change` stating a concrete theorem whose proof composes the cited sources into a known external result (Cauchy completeness for RealUp; uniform continuity on compact metric spaces; Yoneda lemma in BEDC encoding; group isomorphism theorems; S¹ connectedness; supremum existence on bounded subsets of Real; …).
+- `downstream_use` naming the named external result (e.g. "constructive Cauchy completeness", "Yoneda lemma", "first isomorphism theorem").
+
+Capstones score higher than ordinary `missing_companion` candidates: they consume coverage rather than produce more of it. When you emit a capstone target, set its `quality_score = 10` and `selection_rank = 1`. If you cannot identify a capstone supported by ≥ 3 cross-chapter `\leanchecked`, do not invent one — ordinary `theory_extension` is fine, but record `capstone_attempted = true` in `notes` so the rolling window knows you tried.
+
+**Capstone candidates to keep an eye on (illustrative, not exhaustive — pick one whose support is actually present):**
+
+| Capstone | Required cross-chapter support |
+|---|---|
+| Real Cauchy completeness | RealUp + RatUp + ContinuousUp |
+| Compact-metric uniform continuity | CompactUp + MetricUp + ContinuousUp |
+| Group isomorphism / first iso theorem | GroupUp + AbGroupUp + NameCert (after monoid/group are unlocked) |
+| Constructive Yoneda | CategoryUp + FunctorUp + NatTransUp |
+| S¹ is connected and compact | S1Up + CompactUp + ContinuousUp |
+| Supremum on bounded Real subsets | RealUp + TotalOrderUp + LatticeUp (after order chapters are unlocked) |
+
+When a capstone lands, record it explicitly in `papers/bedc/parts/<theme>/<file>.tex` with a `\paragraph{Capstone}` annotation so future review rounds can grep for capstones and avoid duplicating them.
 
 ## Theory-extension quota (HARD GATE)
 
