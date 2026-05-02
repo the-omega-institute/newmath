@@ -14,7 +14,7 @@ dependency map). Only the presentation needs fixing.
 Apply these mappings between the issue text and the fix:
 
 - "duplicate label" / "label X already exists" / "build invariant: label" →
-  Pick a new `\label{...}` that does not appear anywhere under
+  Pick a new `\label{{...}}` that does not appear anywhere under
   `papers/bedc/parts/`. If your canonical statement is genuinely the same
   as the existing one in the paper, respond with the DUPLICATE_OF block
   described at the bottom of this prompt.
@@ -24,7 +24,7 @@ Apply these mappings between the issue text and the fix:
   ones include `\BEDC`, `\bzero`, `\bone`, `\Mark`, `\msame`, `\Hist`,
   `\Ezero`, `\Eone`, `\Ext`, `\Cont`, `\psame`, `\TokIntro`, `\TokUnique`,
   `\hsame`, `\PBaseData`. For anything else, expand inline with
-  `\mathsf{...}`, `\mathrm{...}`, or `\operatorname{...}`. Never write
+  `\mathsf{{...}}`, `\mathrm{{...}}`, or `\operatorname{{...}}`. Never write
   `\PsameBase` or any backslash-name not in preamble.
 
 - "math style" / "use \( \[" / "$ should not be used" →
@@ -66,6 +66,6 @@ LaTeX block. Instead respond with exactly this and nothing else:
 
 DUPLICATE_OF: <existing label name from the paper>
 
-Where `<existing label name>` is the `\label{...}` value cited in the
+Where `<existing label name>` is the `\label{{...}}` value cited in the
 rejection reason. The supervisor will mark the target already_in_paper
 and move on without further oracle work.

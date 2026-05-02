@@ -784,11 +784,18 @@ def _stage2_corrective_retry(
     def _safe(s: str) -> str:
         return (s or "").replace("{", "{{").replace("}", "}}")
     reasons_block = "\n".join(f"- {r}" for r in rejection_reasons)
-    prompt = template_path.read_text(encoding="utf-8").format(
-        target_id=_safe(target.target_id),
-        target_title=_safe(target.title),
-        rejection_reasons=_safe(reasons_block),
-    )
+    try:
+        prompt = template_path.read_text(encoding="utf-8").format(
+            target_id=_safe(target.target_id),
+            target_title=_safe(target.title),
+            rejection_reasons=_safe(reasons_block),
+        )
+    except (IndexError, KeyError) as exc:
+        # Template has a stray unescaped brace — log and skip the corrective
+        # retry rather than crashing the whole target. Better to land Stage 2
+        # reject in final state than lose the worker entirely.
+        print(f"[stage2 corrective] template format failure: {exc!r}; skipping retry", flush=True)
+        return None
     write_text(out_dir / f"corrective_prompt_attempt_{attempt + 1}.md", prompt)
     task_id = f"bedc_{target.target_id.lower()}_corrective{attempt}_{int(time.time() * 1000)}"
     submit = submit_turn(args.server, task_id, prompt, conversation_id, model=args.model)
