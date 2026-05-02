@@ -193,6 +193,67 @@ factor witnesses, the two product witnesses, and the two offsets; core theorem
 predicate reverse-composed explicit inverse equals the collected-coefficient
 explicit inverse; standard bridge deferred; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field affine inverse is a certified affine map]
+\label{thm:field-affine-inverse-is-certified-affine}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate under the hypotheses
+of \autoref{thm:field-affine-two-sided-automorphism-composition}, let
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ be the two
+nonzero witnesses for
+$$
+T(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d).
+$$
+For each $c:\mathsf{BHist}$ put
+$$
+s(c)=
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b))).
+$$
+Let
+$A:=\mathsf{inv}(a,p_a)$ and $B:=\mathsf{inv}(b,p_b)$, and suppose
+$p_A:\mathsf{NonZero}_F(A)$ and $p_B:\mathsf{NonZero}_F(B)$ are explicit
+nonzero witnesses for the inverse coefficients. Define
+$$
+D:=\mathsf{mul}(\mathsf{mul}(A,\mathsf{neg}(d)),B)
+$$
+and
+$$
+S(c):=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(A,c),B),D).
+$$
+Then every $c:\mathsf{BHist}$ satisfies $s(c)\hsame S(c)$, and with witnesses
+$p_A,p_B$ the map $S$ is a certified two-sided affine automorphism by
+\autoref{thm:field-affine-two-sided-certified-automorphism}.
+\end{theorem}
+\begin{proof}
+Expand $s(c)$ and apply the distributivity field from $\CommRingUp$ to the
+inner sum $c+\mathsf{neg}(d)$ after left multiplication by $A$. This separates
+the term containing $c$ from the translated term containing $\mathsf{neg}(d)$.
+
+Next reassociate the right multiplication by $B$. Multiplication associativity
+identifies the $c$-term with $\mathsf{mul}(\mathsf{mul}(A,c),B)$ and identifies
+the translated term with
+$$
+\mathsf{mul}(\mathsf{mul}(A,\mathsf{neg}(d)),B).
+$$
+The definition of $D$ then gives $s(c)\hsame S(c)$ for every
+$c:\mathsf{BHist}$.
+
+It remains to certify the displayed normal form. Apply
+\autoref{thm:field-affine-two-sided-certified-automorphism} with left factor
+$A$, right factor $B$, offset $D$, and the explicit inverse-coefficient
+witnesses $p_A,p_B$. The resulting inverse-pair and classifier-iff clauses are
+exactly the certified affine automorphism structure for $S$.
+\end{proof}
+
+Per-object certificate: traditional target inverse closure for affine
+automorphisms; BEDC source $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$;
+carrier $\mathsf{BHist}$; classifier $\hsame$; stability obligations affine
+equation exactness, distributivity, associativity, inverse laws, and nonzero
+witnesses for inverse coefficients; ledger the original and inverse coefficient
+witnesses plus offset; core theorem
+\autoref{thm:field-affine-inverse-is-certified-affine}; exactness predicate
+inverse affine normal form; standard bridge ordinary affine automorphism group;
+status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field affine composite has reverse explicit inverse]
 \label{thm:field-affine-composite-reverse-explicit-inverse}
 Under the hypotheses and notation of
