@@ -160,6 +160,23 @@ same commutation to rebuild the suffixed continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_suffix\_iff}
 
+\begin{theorem}[Category hom carrier unary context exactness]
+\label{thm:category-hom-carrier-unary-context-exactness}
+For unary histories $p$ and $q$, a displayed hom-carrier between
+$\mathsf{append}(\mathsf{append}(p,a),q)$ and
+$\mathsf{append}(\mathsf{append}(p,b),q)$ is equivalent to unary evidence for
+both boundary histories together with the central carrier
+$\mathsf{CategoryHomCarrier}(a,b,f)$.
+\end{theorem}
+\begin{proof}
+First peel the common unary suffix by the suffix equivalence. The remaining
+prefixed carrier exposes unary evidence for $p$, and prefix cancellation on
+the continuation ledger recovers the central carrier. Conversely, prefix
+closure rebuilds the central carrier under $p$, and suffix closure appends the
+visible suffix $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_iff}
+
 \begin{theorem}[Category hom carrier unary suffix composite public readback]
 \label{thm:category-hom-carrier-unary-suffix-comp-public-readback}
 For composable category hom-carriers $f,g$ and unary suffix $q$, the composite

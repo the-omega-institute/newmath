@@ -1,4 +1,5 @@
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.Prefix
 
 namespace BEDC.Derived.FunctorUp
 
@@ -130,6 +131,42 @@ theorem FunctorPrefixHomCarrier_comp_assoc_preserves
               (And.intro
                 (FunctorPrefixHomCarrier_preserves prefixCarrier rightCarrier)
                 same)
+
+theorem FunctorPrefixHomCarrier_unary_suffix_comp_public_readback {p q a b c f g fg : BHist} :
+    UnaryHistory p -> UnaryHistory q -> CategoryHomCarrier a b f ->
+      CategoryHomCarrier b c g -> Cont f g fg ->
+        CategoryHomCarrier (append (append p a) q) (append (append p c) q) fg ∧
+          (∀ {fg' : BHist},
+            CategoryHomCarrier (append (append p a) q) (append (append p c) q) fg' ->
+              hsame fg fg') := by
+  intro prefixCarrier suffixCarrier left right comp
+  have readback := CategoryHomCarrier_comp_public_readback left right comp
+  constructor
+  · exact
+      CategoryHomCarrier_unary_context_iff.mpr
+        (And.intro prefixCarrier (And.intro suffixCarrier readback.left))
+  · intro fg' displayed
+    exact readback.right (CategoryHomCarrier_unary_context_iff.mp displayed).right.right
+
+theorem FunctorPrefixHomCarrier_unary_suffix_comp_assoc_preserves
+    {p q a b c d f g h fg gh left right : BHist} :
+    UnaryHistory p -> UnaryHistory q -> CategoryHomCarrier a b f ->
+      CategoryHomCarrier b c g -> CategoryHomCarrier c d h -> Cont f g fg ->
+        Cont g h gh -> Cont fg h left -> Cont f gh right ->
+          CategoryHomCarrier (append (append p a) q) (append (append p d) q) left ∧
+            CategoryHomCarrier (append (append p a) q) (append (append p d) q) right ∧
+              hsame left right := by
+  intro prefixCarrier suffixCarrier first second third fgRel ghRel leftRel rightRel
+  have closed :=
+    CategoryHomCarrier_comp_assoc_closed first second third fgRel ghRel leftRel rightRel
+  exact
+    And.intro
+      (CategoryHomCarrier_unary_context_iff.mpr
+        (And.intro prefixCarrier (And.intro suffixCarrier closed.left)))
+      (And.intro
+        (CategoryHomCarrier_unary_context_iff.mpr
+          (And.intro prefixCarrier (And.intro suffixCarrier closed.right.left)))
+        closed.right.right)
 
 theorem FunctorPrefixHomCarrier_comp_assoc_reflects
     {p a b c d f g h fg gh left right : BHist} :

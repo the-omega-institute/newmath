@@ -152,6 +152,23 @@ determinacy in the base category.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_prefix\_comp\_public\_readback}
 
+\begin{theorem}[Prefix functor unary suffix composition public readback]
+\label{thm:functor-prefix-hom-carrier-unary-suffix-comp-public-readback}
+For the unary-continuation category, if $p$ and $q$ are unary, $f$ is a
+hom-carrier from $a$ to $b$, $g$ is a hom-carrier from $b$ to $c$, and
+$\ContR(f,g,fg)$, then $fg$ is displayed from
+$\mathsf{append}(\mathsf{append}(p,a),q)$ to
+$\mathsf{append}(\mathsf{append}(p,c),q)$. Any competing display over the same
+prefix and suffix has morphism history $\HSame$ to $fg$.
+\end{theorem}
+\begin{proof}
+Base composition public readback gives the central carrier and its morphism
+determinacy. The unary context exactness theorem transports the carrier through
+the prefix and suffix, and reflects any competing contextual display back to
+the central carrier before applying the same determinacy.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_unary\_suffix\_comp\_public\_readback}
+
 \begin{theorem}[Prefix functor preserves hom composition with tail commutativity]
 \label{thm:functor-prefix-hom-carrier-tail-comm-closed}
 For the unary-continuation category, if \(p\) is unary, \(f\) is a
@@ -184,6 +201,22 @@ preservation transports each composite hom-carrier across the unary prefix
 witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_assoc\_preserves}
+
+\begin{theorem}[Prefix functor unary suffix preserves associative hom composition]
+\label{thm:functor-prefix-hom-carrier-unary-suffix-assoc-preserves}
+For the unary-continuation category, if $p$ and $q$ are unary and $f,g,h$ are
+composable hom-carriers with composites $fg$, $gh$, $left$, and $right$, then
+$left$ and $right$ are displayed from
+$\mathsf{append}(\mathsf{append}(p,a),q)$ to
+$\mathsf{append}(\mathsf{append}(p,d),q)$, and $\HSame(left,right)$.
+\end{theorem}
+\begin{proof}
+Category-level associative composition closure supplies the two central
+carriers and the associativity witness between their morphism histories. Unary
+context exactness transports both carriers through the shared prefix and
+suffix, while the associativity witness is unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_unary\_suffix\_comp\_assoc\_preserves}
 
 \begin{theorem}[Prefix functor reflects associative hom composition]
 \label{thm:functor-prefix-hom-carrier-comp-assoc-reflects}
