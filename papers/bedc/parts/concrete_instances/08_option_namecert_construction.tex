@@ -114,6 +114,92 @@ payload $a$ carries $S(a)$, $T(\delta.\mathsf{map}(a))$, and the two readback
 witnesses required by the last clause.
 \end{proof}
 
+\section{Tagged option map relation shared-source target normal form}
+\label{sec:option-maprel-shared-source-target-normal-form}
+
+\begin{theorem}[Tagged option map relation shared-source target normal form]
+\label{thm:tagged-option-maprel-shared-source-target-normal-form}
+This theorem fits the per-object template as follows: the traditional target is
+tagged option map determinacy at public target endpoints; the BEDC source is
+$\mathsf{BHist}$ with one $\mathsf{DescentCertificate}$ map; the carrier is the
+visible tagged option endpoint shape; the classifier uses the source and target
+history classifiers carried by the descent certificate; the stability
+obligation is shared-source branch preservation together with payload
+transport; the ledger records absent and present public endpoints; the core
+theorem is the displayed two-witness normal form; exactness is
+absent-or-synchronized-present exhaustion; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$ map readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source and target
+carriers, let $\sim_S$ and $\sim_T$ be their classifiers, let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T),
+$$
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Assume also $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For
+histories $h,k,k'$, if
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k')
+$$
+then either
+$$
+\hsame(h,\emp)\land\hsame(k,\emp)\land\hsame(k',\emp),
+$$
+or there exist $a,b:\mathsf{BHist}$ such that
+$$
+S(a)\land S(b)\land a\sim_S b
+\land T(\delta.\mathsf{map}(a))
+\land T(\delta.\mathsf{map}(b))
+\land \hsame(h,\Eone(a))
+\land \hsame(h,\Eone(b))
+\land \hsame(k,\Eone(\delta.\mathsf{map}(a)))
+\land \hsame(k',\Eone(\delta.\mathsf{map}(b)))
+\land \mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+Split the first map-relation witness.
+
+In the absent branch, the first witness presents the shared source endpoint as
+$\hsame(h,\emp)$ and the target endpoint as $\hsame(k,\emp)$. Split the second
+map-relation witness. Its absent branch contributes $\hsame(k',\emp)$, so the
+absent alternative follows. Its present branch would present the same source
+endpoint as $\hsame(h,\Eone(b))$ for some payload $b$. Composing the two source
+presentations contradicts generated-history empty-versus-one no-confusion, so
+that branch is impossible.
+
+In the present branch of the first witness, expose a payload $a$ with $S(a)$,
+$T(\delta.\mathsf{map}(a))$, source presentation $\hsame(h,\Eone(a))$, and
+target presentation $\hsame(k,\Eone(\delta.\mathsf{map}(a)))$. Split the
+second map-relation witness. Its absent branch presents the shared source as
+$\hsame(h,\emp)$, which again contradicts empty-versus-one no-confusion after
+composition with $\hsame(h,\Eone(a))$.
+
+It remains to handle the present/present branch. The second witness exposes a
+payload $b$ with $S(b)$, $T(\delta.\mathsf{map}(b))$, source presentation
+$\hsame(h,\Eone(b))$, and target presentation
+$\hsame(k',\Eone(\delta.\mathsf{map}(b)))$.
+
+Invert the two one-tag presentations of the shared source endpoint to obtain
+$\hsame(a,b)$. Source hsame compatibility converts $S(a)$, $S(b)$, and
+$\hsame(a,b)$ into $a\sim_S b$. Applying $\delta.\mathsf{respects}$ gives
+$\delta.\mathsf{map}(a)\sim_T\delta.\mathsf{map}(b)$.
+
+The two target carrier witnesses, the two target endpoint presentations, and
+this transported payload relation assemble the present-present branch of
+$\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')$. Package $a$ and $b$
+with the retained source facts, target facts, endpoint presentations, source
+classification, and target classifier.
+\end{proof}
+
 \section{Tagged option public endpoint visibility}
 \label{sec:option-public-endpoint-visibility}
 
