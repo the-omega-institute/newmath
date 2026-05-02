@@ -154,6 +154,7 @@ import BEDC.Derived.ModuleUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.MetricUp
+import BEDC.Derived.MetricUp.DepthZero
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
 import BEDC.Derived.ContinuousUp.GraphChainFactorization
@@ -174,6 +175,7 @@ import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.CompDeterminism
+import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.FactorTail
 import BEDC.Derived.CategoryUp.TargetCases
 import BEDC.Derived.FunctorUp

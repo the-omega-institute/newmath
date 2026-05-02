@@ -1,0 +1,17 @@
+\begin{theorem}[Metric depth-zero distance has empty endpoints]
+\label{thm:metric-distance-witness-depth-zero-empty-endpoints}
+For histories $x,y,d$, a concrete distance witness whose distance ledger has
+structural depth zero has empty endpoints:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+\mathsf{MetricDistanceDepth}(d)=0\to
+\hsame(x,\emp)\land\hsame(y,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Classify the displayed distance history. The empty distance case is exactly the
+empty-distance witness exactness theorem. A zero-headed or one-headed distance
+has successor depth, contradicting the displayed zero-depth equation by
+constructor no-confusion for natural numbers.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_depth\_zero\_empty\_endpoints}

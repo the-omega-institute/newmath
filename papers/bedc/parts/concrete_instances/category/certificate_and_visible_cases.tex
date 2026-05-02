@@ -119,6 +119,27 @@ visible morphism.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_morphism\_iff}
 
+\begin{theorem}[Category empty morphism between one-headed endpoints]
+\label{thm:category-hom-carrier-e1-source-e1-target-empty-morphism-iff}
+For histories $a,r$, the empty morphism is a hom-carrier from $\Eone(a)$ to
+$\Eone(r)$ exactly when the exposed source tail is unary and the two exposed
+tails are classified together:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),\emp)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(a)\land\HSame(a,r).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the one-headed result case split to the displayed
+empty morphism. The visible morphism branch contradicts constructor
+no-confusion, and the empty branch exposes unary membership of $a$ and
+$\HSame(a,r)$. Conversely, unary one-step closure supplies the two endpoint
+carriers, the tail classifier lifts through $\Eone$, and empty-identity
+exactness rebuilds the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_empty\_morphism\_iff}
+
 \begin{theorem}[Category hom-carrier one-headed morphism target exactness]
 \label{thm:category-hom-carrier-e1-morphism-target-iff}
 For histories $a,k,r$,

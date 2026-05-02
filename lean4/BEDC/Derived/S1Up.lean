@@ -192,6 +192,14 @@ theorem SOneHistoryCarrier_point_tail_readback {x y e t : BHist} :
                                         (And.intro sameY
                                           (And.intro dyCarrier tailSame)))))
 
+theorem SOneHistoryCarrier_y_e1_point_tail_hsame {x y equation t dy : BHist} :
+    SOneHistoryCarrier x y equation (BHist.e1 t) -> hsame y (BHist.e1 dy) ->
+      hsame t (append x dy) := by
+  intro carrier sameY
+  have pointCont : Cont x y (BHist.e1 t) := carrier.right.right.right
+  cases sameY
+  exact hsame_e1_iff.mp pointCont
+
 theorem SOneHistoryCarrier_unit_equation_deterministic {x y equation point : BHist} :
     SOneHistoryCarrier x y equation point -> hsame equation SOneUnitHistory := by
   intro carrier
