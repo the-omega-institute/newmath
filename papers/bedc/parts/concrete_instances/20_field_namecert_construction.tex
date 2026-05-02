@@ -179,6 +179,63 @@ $\FieldUp(\mathsf{RatUp})$ denominator envelope can read an empty external
 unit context by the normalized classifier on the core endpoints.
 \end{proof}
 
+\begin{theorem}[Rat denominator external-unit envelope commutative monoid laws]
+\label{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws}
+For the tuple $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope}, all laws of
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws} hold, and the
+envelope multiplication is commutative up to its endpoint classifier: whenever
+$C_D^\ast(h)$ and $C_D^\ast(k)$,
+$$
+R_D^\ast(\mu_D^\ast(h,k),\mu_D^\ast(k,h)).
+$$
+\end{theorem}
+\begin{proof}
+The carrier inhabitance, closure, associativity, left and right unit laws,
+binary classifier congruence, carried restriction, and carried one-sided unit
+obstruction are exactly the fields supplied by
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}.
+
+It remains to prove the displayed commutativity classifier. Split the two
+carrier witnesses $C_D^\ast(h)$ and $C_D^\ast(k)$ into their carried Rat
+denominator alternatives and their external-empty alternatives.
+
+In the carried/carried case, $\mu_D^\ast(h,k)$ and $\mu_D^\ast(k,h)$ are the
+canonical append continuations of the two carried denominators in opposite
+orders. Apply
+\autoref{thm:field-rat-denominator-continuation-commutative-classifier} to these
+two continuations. The carried classifier exactness theorem
+\autoref{thm:field-rat-denominator-unit-envelope-carried-classifier-exactness}
+then repacks the resulting $\mathsf{RatHistoryClassifier}$ as the required
+$R_D^\ast$ comparison.
+
+In the carried/empty case, the append right-unit and left-unit laws identify
+$\mu_D^\ast(h,k)$ and $\mu_D^\ast(k,h)$ with the same carried endpoint $h$,
+up to $\hsame$. The envelope classifier normal form,
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-normal-form},
+turns those two endpoint comparisons and the transported carried witness into
+$R_D^\ast(\mu_D^\ast(h,k),\mu_D^\ast(k,h))$.
+
+The empty/carried case is symmetric. The same append unit laws identify the two
+products with the carried endpoint $k$, and the same normal form converts the
+two transported carrier witnesses and the resulting $\hsame$ comparison into
+the envelope classifier.
+
+In the empty/empty case, both products are $\hsame$ to $\emp$ by the append unit
+laws and transitivity of $\hsame$. Since $e_D^\ast=\emp$, the empty branch of
+$R_D^\ast$ classifies the two products directly.
+\end{proof}
+
+Per-object template: traditional target commutative denominator monoid boundary
+for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, $\Cont$, $\mathsf{append}$, and $\emp$;
+carrier $C_D^\ast$; classifier $R_D^\ast$; stability obligation monoid laws
+plus commutativity; ledger external-unit bit plus continuation witness; core
+theorem
+\autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws};
+exactness predicate envelope commutativity over the strict carried restriction;
+standard bridge deferred; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field affine automorphism inverse is involutive]
 \label{thm:field-affine-automorphism-inverse-involutive}
 For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
