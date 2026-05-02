@@ -95,6 +95,42 @@ again gives the carrier witness for $\mathsf{append}(h,p)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_unary\_suffix\_closed}
 
+\begin{theorem}[Option history classifier unary prefix closure]
+\label{thm:option-history-classifier-unary-prefix-closed}
+Let $p,h,k:\mathsf{BHist}$. If $p$ is unary and
+$\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)$ holds, then
+the nullable option classifier is preserved by placing $p$ on the left:
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (\mathsf{append}(p,h),\mathsf{append}(p,k)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the nullable classifier into the two endpoint carrier witnesses and the
+stored $\hsame(h,k)$ link. Apply the unary-prefix carrier closure to both
+endpoints. The remaining classifier field is the prefixed endpoint sameness,
+obtained by eliminating the $\hsame(h,k)$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_unary\_prefix\_closed}
+
+\begin{theorem}[Option history classifier unary suffix closure]
+\label{thm:option-history-classifier-unary-suffix-closed}
+Let $p,h,k:\mathsf{BHist}$. If $p$ is unary and
+$\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)$ holds, then
+the nullable option classifier is preserved by placing $p$ on the right:
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (\mathsf{append}(h,p),\mathsf{append}(k,p)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the nullable classifier into the two endpoint carrier witnesses and the
+stored $\hsame(h,k)$ link. Apply the unary-suffix carrier closure to both
+endpoints. The remaining classifier field is the suffixed endpoint sameness,
+obtained by eliminating the $\hsame(h,k)$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_unary\_suffix\_closed}
+
 \begin{definition}[Option pattern specification]
 \label{def:option-pattern-specification}
 The pattern is absent-or-present generation: one null constructor and one wrapper constructor over source witnesses.
