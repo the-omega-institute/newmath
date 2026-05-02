@@ -63,4 +63,19 @@ theorem field_rat_carrier_singleton_coverage_obstruction :
     · intro coverage
       exact notSingleton (coverage (BHist.e1 BHist.Empty) carrierD1)
 
+theorem RatHistoryLedgerPolicy_fieldSingletonEmptyCarrier_endpoints_absurd {raw visible : BHist} :
+    RatHistoryLedgerPolicy raw visible ->
+      (hsame raw BHist.Empty -> False) ∧
+        (hsame visible BHist.Empty -> False) ∧
+          (fieldSingletonEmptyCarrier raw -> False) ∧
+            (fieldSingletonEmptyCarrier visible -> False) := by
+  intro ledger
+  have rawAbsurd : hsame raw BHist.Empty -> False := by
+    intro rawEmpty
+    exact RatHistoryCarrier_not_empty ledger.left rawEmpty
+  have visibleAbsurd : hsame visible BHist.Empty -> False := by
+    intro visibleEmpty
+    exact RatHistoryCarrier_not_empty (RatHistoryLedgerPolicy_visible_carrier ledger) visibleEmpty
+  exact And.intro rawAbsurd (And.intro visibleAbsurd (And.intro rawAbsurd visibleAbsurd))
+
 end BEDC.Derived.FieldUp

@@ -16,6 +16,17 @@ theorem CategoryHomCarrier_cycle_tails_empty {a b f g : BHist} :
     cont_mutual_extension_tails_empty left.right.right.right right.right.right.right
   exact And.intro sameEndpoint tailsEmpty
 
+theorem ContinuationMorphism_cycle_tails_empty {a b : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b a) :
+    hsame a b ∧ hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty := by
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          exact And.intro
+            (cont_mutual_extension_hsame leftRel rightRel)
+            (cont_mutual_extension_tails_empty leftRel rightRel)
+
 theorem CategoryHomCarrier_e1_morphism_cycle_absurd {a b k g : BHist} :
     CategoryHomCarrier a b (BHist.e1 k) -> CategoryHomCarrier b a g -> False := by
   intro left right

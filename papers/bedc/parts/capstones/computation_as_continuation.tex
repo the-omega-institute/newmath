@@ -50,6 +50,30 @@ of these two composites is the unit and associativity content of
 tails taken through $\hsame$.
 \end{proof}
 
+\begin{theorem}[Cyclic continuation morphisms have empty tails]
+\label{thm:continuation-morphism-cycle-tails-empty}
+If the opposite continuation morphism records
+$$
+left:\mathsf{ContinuationMorphism}(a,b)
+\quad\text{and}\quad
+right:\mathsf{ContinuationMorphism}(b,a)
+$$
+both hold, then the endpoints are internally the same and both displayed tails
+are empty:
+$$
+\hsame(a,b)\land
+\hsame(\mathsf{tail}(left),\emp)\land
+\hsame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_cycle\_tails\_empty}
+\begin{proof}
+Unpack the two continuation morphism records. The two exposed continuation
+ledgers form mutual extensions, one from $a$ to $b$ and one from $b$ back to
+$a$. Kernel mutual-extension cancellation identifies the endpoints and forces
+both displayed tails to be the empty history.
+\end{proof}
+
 \begin{theorem}[Cyclic hom-carriers have empty tails]
 \label{thm:category-hom-carrier-cycle-tails-empty}
 If the opposite hom-carrier ledgers

@@ -209,4 +209,21 @@ theorem LatticeSingletonMeetJoin_absorption_order_classifier {h k : BHist} :
     ⟨leMeetJoinToH, leHToJoinMeet, classifierMeetJoinH, classifierJoinMeetH,
       emptyCarrier, emptyCarrier⟩
 
+theorem LatticeSingletonMeet_empty_output_greatest_lower_bound_iff {h k z : BHist} :
+    LatticeSingletonCarrier h -> LatticeSingletonCarrier k -> LatticeSingletonCarrier z ->
+      hsame (LatticeSingletonMeet h k) BHist.Empty ∧
+        (LatticeSingletonLE z (LatticeSingletonMeet h k) ↔
+          LatticeSingletonLE z h ∧ LatticeSingletonLE z k) := by
+  intro carrierH carrierK carrierZ
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro _zMeet
+      exact And.intro
+        (LatticeSingletonLE_empty_endpoints_iff.mpr (And.intro carrierZ carrierH))
+        (LatticeSingletonLE_empty_endpoints_iff.mpr (And.intro carrierZ carrierK))
+    · intro _bounds
+      exact LatticeSingletonLE_empty_endpoints_iff.mpr
+        (And.intro carrierZ (hsame_refl BHist.Empty))
+
 end BEDC.Derived.LatticeUp

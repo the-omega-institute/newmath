@@ -220,6 +220,32 @@ $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_order\_classifier}
 
+\begin{theorem}[Singleton meet greatest lower bound]
+\label{thm:lattice-singleton-meet-greatest-lower-bound}
+For carried histories $h,k,z$ in the singleton lattice, the concrete meet output
+is the empty history, and the lower-bound condition against that meet is exactly
+the pair of lower-bound conditions against the two operands:
+$$
+\hsame(\mathsf{LatticeSingletonMeet}(h,k),\emp)
+\land
+\left(
+z\le_{\emp}\mathsf{LatticeSingletonMeet}(h,k)
+\Longleftrightarrow
+z\le_{\emp} h\land z\le_{\emp} k
+\right).
+$$
+\end{theorem}
+\begin{proof}
+The meet operation is definitionally the empty history. Since $h,k,z$ are all
+carried by the singleton carrier, the order endpoint theorem
+\autoref{thm:lattice-singleton-le-empty-endpoints} reduces every displayed
+comparison to the two empty-endpoint witnesses. The forward direction rebuilds
+the two operand bounds from the endpoint witnesses for $z,h,k$; the reverse
+direction rebuilds the meet bound from the endpoint witness for $z$ and
+reflexivity at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeet\_empty\_output\_greatest\_lower\_bound\_iff}
+
 The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
 and operations, so Lean can target $\mathsf{BEDC.Derived.LatticeUp}$ as a
 $\mathsf{BHist}$-anchored certificate rather than an abstract operator schema.
