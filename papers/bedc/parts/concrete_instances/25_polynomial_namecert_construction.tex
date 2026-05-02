@@ -10,6 +10,94 @@ The polynomial interface \(\PolynomialUp\) has certificate obligations over a sc
 Use finite coefficient lists over a scalar ring, normalized by removing trailing zero coefficients.
 \end{definition}
 
+\section{Concrete singleton polynomial instance}
+\label{sec:polynomial-concrete-singleton-instance}
+
+\begin{definition}[Singleton empty-history polynomial instance]
+\label{def:singleton-empty-history-polynomial-instance}
+Let the polynomial-code carrier be
+$$
+P_{\emp}(p)\Longleftrightarrow\hsame(p,\emp).
+$$
+Define the polynomial classifier by
+$$
+\pi_{\emp}(p,q):=P_{\emp}(p)\land P_{\emp}(q)\land\hsame(p,q).
+$$
+Take the scalar ring from
+Definition~\ref{def:singleton-empty-history-ring-instance}. Define
+normalization, zero, addition, and multiplication by
+$$
+\mathsf{norm}_{\emp}(p):=\emp,\qquad
+0_P:=\emp,\qquad
+\mathsf{polyAdd}_{\emp}(p,q):=\emp,\qquad
+\mathsf{polyMul}_{\emp}(p,q):=\emp.
+$$
+The ten certificate fields are:
+\begin{enumerate}
+  \item traditional target: the one-element polynomial algebra;
+  \item BEDC source: $\mathsf{BHist}$;
+  \item carrier: $P_{\emp}$;
+  \item classifier: $\pi_{\emp}$;
+  \item stability obligations: normalization idempotence, addition closure,
+  multiplication closure, addition congruence, and multiplication congruence;
+  \item ledger: singleton polynomial-code provenance;
+  \item core theorem: Theorem~\ref{thm:singleton-empty-history-polynomial-laws};
+  \item exactness: singleton endpoint classification;
+  \item standard bridge: terminal polynomial algebra;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Singleton empty-history polynomial laws]
+\label{thm:singleton-empty-history-polynomial-laws}
+The tuple
+$$
+(P_{\emp},\pi_{\emp},\mathsf{norm}_{\emp},
+0_P,\mathsf{polyAdd}_{\emp},\mathsf{polyMul}_{\emp})
+$$
+satisfies carrier inhabitance, classifier reflexivity, classifier symmetry,
+classifier transitivity, normalization closure and idempotence, zero
+representation, addition closure and congruence, multiplication closure and
+congruence, and compatibility with the singleton scalar ring.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is the reflexive endpoint witness $\hsame(\emp,\emp)$,
+which gives $P_{\emp}(\emp)$. Definition~\ref{def:list-singleton-history-source}
+at $a_0=\emp$ supplies the same singleton endpoint fact used by the scalar
+ring carrier.
+
+Classifier reflexivity uses the displayed carrier witness for the input and
+the reflexive $\hsame$ relation. Classifier symmetry and transitivity are
+assembled from the corresponding symmetry and transitivity rules for $\hsame$,
+together with the two endpoint carrier witnesses recorded in $\pi_{\emp}$.
+
+Normalization closure holds because $\mathsf{norm}_{\emp}(p)$ is definitionally
+$\emp$. Normalization idempotence compares
+$\mathsf{norm}_{\emp}(\mathsf{norm}_{\emp}(p))$ with
+$\mathsf{norm}_{\emp}(p)$, and both sides reduce to $\emp$.
+
+The zero representation is $0_P=\emp$, so it is carried by
+$P_{\emp}(\emp)$. Addition closure and multiplication closure are the same
+endpoint argument because $\mathsf{polyAdd}_{\emp}(p,q)$ and
+$\mathsf{polyMul}_{\emp}(p,q)$ both reduce to $\emp$.
+
+For addition congruence and multiplication congruence, the compared operation
+results are empty-history endpoints on both sides. The result carriers are
+$P_{\emp}(\emp)$, and the classifier relation component is
+$\hsame(\emp,\emp)$.
+
+Compatibility with the scalar side is inherited from
+Theorem~\ref{thm:singleton-empty-history-ring-laws} applied to
+Definition~\ref{def:singleton-empty-history-ring-instance}. The scalar zero,
+unit, addition, and multiplication codes all live at the same singleton
+empty-history endpoint, so scalar action through polynomial coefficients
+agrees with the displayed polynomial operations under $\pi_{\emp}$.
+\end{proof}
+
+The $\PolynomialUp$ schema is instantiated by this concrete $\mathsf{BHist}$
+carrier, normalization map, and operation tuple, so Lean formalization can
+target these displayed operations rather than abstract operator fields.
+
 \section{The certificate}
 
 \begin{definition}[Polynomial source specification]
