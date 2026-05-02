@@ -193,6 +193,29 @@ $a\hsame b$ exactly when the indexed inverse images are $\hsame$-equal,
 which is the stated certified automorphism behavior on the nonzero domain.
 \end{proof}
 
+\begin{theorem}[Field apart-zero inverse involution]
+\label{thm:field-apartzero-inverse-involutive}
+For a BEDC history-level $\FieldUp$ candidate whose inverse is indexed by
+explicit apartness from zero, suppose multiplication is associative, has left
+and right unit laws, respects $\hsame$, and has a left inverse law for every
+apart-zero witness. If the inverse operation sends apart-zero inputs to
+apart-zero outputs, then for every $a:\mathsf{BHist}$ and
+$p_a:a\hsame0\to\bot$,
+$$
+\mathsf{inv}(\mathsf{inv}(a,p_a),p_{\mathsf{inv}})\hsame a,
+$$
+where $p_{\mathsf{inv}}$ is the supplied apart-zero witness for
+$\mathsf{inv}(a,p_a)$.
+\end{theorem}
+\begin{proof}
+Apply group left/right inverse uniqueness with middle element
+$\mathsf{inv}(a,p_a)$. The indexed left inverse law at the outer inverse gives
+the left inverse equality against the middle element, and the indexed left
+inverse law at $a$ gives the right inverse equality for the same middle
+element. The uniqueness chain identifies the two outer endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_apartzero\_inverse\_involutive}
+
 \begin{theorem}[Field inverse product reversal from apartness-indexed inverses]
 \label{thm:field-inverse-product-reverse-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,

@@ -36,6 +36,23 @@ $p:\mathsf{FieldSingletonNonZero}(h)$. Theorem~\ref{thm:field-singleton-nonzero-
 shows that this witness domain is empty on the singleton carrier.
 \end{definition}
 
+\begin{theorem}[Field singleton carrier visible exclusion]
+\label{thm:field-singleton-carrier-visible-absurd}
+For every history $p:\mathsf{BHist}$, neither visible-headed endpoint lies in
+the singleton carrier:
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{e0}(p))\to\bot,
+\qquad
+\mathsf{FieldSingletonCarrier}(\mathsf{e1}(p))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier as equality with $\emp$. The closed inductive
+constructors of $\mathsf{BHist}$ separate both $\mathsf{e0}(p)$ and
+$\mathsf{e1}(p)$ from $\emp$, so either carrier witness is impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_visible\_absurd}
+
 \begin{theorem}[Field singleton classifier empty endpoints]
 \label{thm:field-singleton-classifier-empty-endpoints}
 For histories $h,k:\mathsf{BHist}$, the singleton field classifier satisfies

@@ -62,6 +62,15 @@ def FieldSingletonNonZero (a : BHist) : Prop :=
 def FieldSingletonInv (a : BHist) (_p : FieldSingletonNonZero a) : BHist :=
   BHist.Empty
 
+theorem FieldSingletonCarrier_visible_absurd {p : BHist} :
+    (FieldSingletonCarrier (BHist.e0 p) -> False) ∧
+      (FieldSingletonCarrier (BHist.e1 p) -> False) := by
+  constructor
+  · intro carrier
+    exact not_hsame_e0_empty carrier
+  · intro carrier
+    exact not_hsame_e1_empty carrier
+
 theorem singleton_empty_history_field_schema_laws :
     SemanticNameCert FieldSingletonCarrier FieldSingletonCarrier FieldSingletonCarrier
       FieldSingletonClassifier ∧

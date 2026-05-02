@@ -38,6 +38,35 @@ theorem field_product_nonzero_empty_factors_absurd
       exact hsame_trans (mulCongr (hsame_refl a) bEmpty) (zeroAbsorption.left a)
     exact nonzeroEmptyAbsurd (nonzeroTransport productEmpty productNonzero)
 
+theorem field_product_nonzero_of_nonzero_factors
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    (nonzeroTransport : forall {a b : BHist}, hsame a b -> NonZero a -> NonZero b)
+    (nonzeroEmptyAbsurd : NonZero BHist.Empty -> False)
+    (apartToNonzero : forall {h : BHist}, (hsame h BHist.Empty -> False) -> NonZero h)
+    {a b : BHist} (pa : NonZero a) (pb : NonZero b) :
+    NonZero (mul a b) := by
+  exact apartToNonzero
+    (field_nonzero_factors_exclude_empty_product addAssoc zeroLeft negLeft assocC
+      leftId rightId addCongr mulCongr leftDistrib rightDistrib leftInv rightInv
+      nonzeroTransport nonzeroEmptyAbsurd pa pb)
+
 theorem field_equal_squares_signed_factors_not_both_nonzero
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
     {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}

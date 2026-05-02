@@ -43,6 +43,28 @@ contradictions against zero.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_product\_nonzero\_empty\_factors\_absurd}
 
+\begin{theorem}[Field product nonzero of nonzero factors]
+\label{thm:field-product-nonzero-of-nonzero-factors}
+For a BEDC history-level $\FieldUp$ candidate with the hypotheses of
+\autoref{thm:field-nonzero-factors-exclude-zero-product}, assume also a
+constructive bridge
+$$
+\alpha:\bigl(h\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(h)
+$$
+from apartness from zero into the nonzero classifier. Then witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ determine
+$$
+\mathsf{NonZero}_F(\mathsf{mul}(a,b)).
+$$
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:field-nonzero-factors-exclude-zero-product} turns
+$p_a$ and $p_b$ into a constructive refutation of
+$\mathsf{mul}(a,b)\hsame0$. Applying the bridge $\alpha$ to this product
+apartness gives the displayed product nonzero witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_product\_nonzero\_of\_nonzero\_factors}
+
 Per-object certificate: Traditional target: certified nonzero product
 prevents zero factors. BEDC source: $\FieldUp$ plus $\RingUp$ zero
 absorption. Carrier choice: $\mathsf{BHist}$. Classifier choice:

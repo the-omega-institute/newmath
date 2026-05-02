@@ -19,6 +19,24 @@ theorem FieldApartZero_append_factor_closed {p q : BHist} :
   | inr rightApart =>
       exact rightApart splitEmpty.right
 
+theorem field_apartzero_inverse_involutive {mul : BHist -> BHist -> BHist} {one : BHist}
+    {inv : (a : BHist) -> (hsame a BHist.Empty -> False) -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : hsame a BHist.Empty -> False),
+      hsame (mul (inv a p) a) one)
+    (inverseApart : forall (a : BHist) (p : hsame a BHist.Empty -> False),
+      hsame (inv a p) BHist.Empty -> False)
+    {a : BHist} (pa : hsame a BHist.Empty -> False) :
+    hsame (inv (inv a pa) (inverseApart a pa)) a := by
+  exact BEDC.Derived.GroupUp.group_left_right_inverse_uniqueness
+    assocC leftId rightId mulCongr
+    (leftInv (inv a pa) (inverseApart a pa))
+    (leftInv a pa)
+
 theorem field_product_apartness_inverse_product_reverse
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
     {inv : (a : BHist) -> FieldApartZero a -> BHist}
