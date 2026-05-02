@@ -1185,3 +1185,108 @@ Surfaced in Turn 0 as the precise obstruction: symbolic inequalities alone do no
 
 ---
 
+### B-49 - Polynomial normalization literal add equality obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial normalization literal add equality obstruction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under the canonical integer commutative-ring polynomial setup, if p=[1] and q=[-1], then p and q are normalized but trim(radd(p,q)) is not literally equal to radd(trim(p),trim(q)) as coefficient lists, while the two sides are polynomial-classifier equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 as the explicit p=[1], q=[-1] counterexample showing that the literal list equation is too strong even for normalized inputs. It deserves its own loop because the existing board has positive classifier-level compatibility targets, but no finite obstruction separating literal list equality from polynomial classifier equality.
+
+---
+
+### B-50 - Unary-continuation activation from additive stability
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Unary-continuation activation from additive stability |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under `NameCert(UnaryCarrier, hsame)` and the `AddStabilityCert` fields for closure, unit, associativity, and same-source determinacy, `License(UnaryContMonoidUp)` holds without any additive commutativity premise.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `papers/bedc/parts/proof_obligations/unary_shift_and_commutativity.tex`
+- `lean4/BEDC/FKernel/NameCert.lean`
+
+Rationale:
+Surfaced in Turns 0 and 3 when the oracle separated the monoid-like unary-continuation name from the additive name: the core certificate plus closure, unit, associativity, and same-source determinacy license `UnaryContMonoidUp`, while `AddUp` requires an extra swapped-source commutativity field. This deserves its own loop because B-06 handles the conditional additive activation boundary, but the positive activation theorem for the weaker unary-continuation interface is a distinct certificate projection.
+
+---
+
+
+### B-51 - Same-source additive determinacy bridge
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Same-source additive determinacy bridge |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under `AddStabilityCert`, if `AddSource(h,k,r)` and `AddSource(h,k,r')` have the same ordered source pair, then `AddClassifier(r,r')` holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Surfaced in Turns 2 and 3 as the exact contrast with swapped-source commutativity: determinacy compares two outputs of `ContR(h,k,-)` for the same ordered pair, and the oracle repeatedly used this type to explain why it cannot prove commutativity. A standalone bridge from `AddSourceSpec` plus the determinacy field to `AddClassifier` would clarify the accepted stability content without duplicating the separate B-18 obstruction.
+
+---
+
+
+### B-52 - Two-element unital continuations are swapped-commutative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Two-element unital continuations are swapped-commutative |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 9/10 |
+
+Problem:
+For any equality-classified deterministic total continuation on a carrier with at most two elements and a two-sided unit, swapped-source additive commutativity holds, so a finite equality countermodel to `AddCommField` requires at least three carrier elements.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/proof_obligations/unary_shift_and_commutativity.tex`
+
+Rationale:
+Surfaced explicitly in Turn 3, where the oracle noted that the three-element monoid obstruction is smallest because a two-element monoid with unit cannot witness the failure. This is adjacent to B-18 but not a duplicate: B-18 asks for an existence countermodel, while this target proves the finite minimality boundary for that obstruction.
+
+---
+
