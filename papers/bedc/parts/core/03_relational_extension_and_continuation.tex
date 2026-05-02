@@ -460,6 +460,31 @@ Continuation admits cancellation on both sides:
 For the first clause, use right-suffix cancellation after transporting the result by $\hsame$. The second clause is left-context cancellation: compare the two derivations with the same left history, peel the shared left context, and conclude that the right histories are equal up to $\hsame$. For the third clause, associate the two continuations so both sides expose the same outer context $c$ over the inner continuations from $a$; the common outer context cancels against the result-sameness, and the remaining left-context cancellation yields $\hsame(b,d)$.
 \end{proof}
 
+\begin{theorem}[Self-extension by a visible tail is impossible]
+\label{thm:cont-self-extension-tail-absurd}
+For any histories $h$ and $t$, neither $\ContR(h,\Ezero(t),h)$ nor
+$\ContR(h,\Eone(t),h)$ can hold.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_self\_extension\_tail\_absurd}
+\begin{proof}
+Any such continuation would make a visible right tail behave as the empty
+right unit at $h$. Right-unit uniqueness identifies the tail with $\emp$,
+contradicting constructor no-confusion for $\Ezero(t)$ and $\Eone(t)$.
+\end{proof}
+
+\begin{theorem}[Mutual continuations cannot start with a visible left tail]
+\label{thm:cont-mutual-extension-left-tail-absurd}
+For histories $h,k,t,u$, a continuation $\ContR(h,\Ezero(t),k)$ together
+with a return continuation $\ContR(k,u,h)$ is impossible; the same holds with
+$\Eone(t)$ in place of $\Ezero(t)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_mutual\_extension\_left\_tail\_absurd}
+\begin{proof}
+Mutual continuations force both displayed tails to be empty by the concrete
+tail-empty cancellation theorem. A left tail with outer constructor
+$\Ezero$ or $\Eone$ cannot be internally same as $\emp$.
+\end{proof}
+
 \begin{theorem}[Continuation associativity]
 \label{thm:continuation-associativity}
 \label{thm:continuation-associativity-up-to-hsame}

@@ -49,3 +49,25 @@ of these two composites is the unit and associativity content of
 \autoref{thm:history-continuation-monoid-laws}, with comparison of resulting
 tails taken through $\hsame$.
 \end{proof}
+
+\begin{theorem}[Cyclic hom-carriers have empty tails]
+\label{thm:category-hom-carrier-cycle-tails-empty}
+If the opposite hom-carrier ledgers
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(b,a,g)
+$$
+both hold, then the endpoints are internally the same and both morphism tails
+are empty:
+$$
+\hsame(a,b)\land \hsame(f,\emp)\land \hsame(g,\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_cycle\_tails\_empty}
+\begin{proof}
+Each hom-carrier exposes a concrete continuation ledger, one from $a$ to $b$
+through $f$ and one from $b$ back to $a$ through $g$. Mutual continuation
+cancellation identifies the endpoints and forces both tails to be the empty
+history.
+\end{proof}

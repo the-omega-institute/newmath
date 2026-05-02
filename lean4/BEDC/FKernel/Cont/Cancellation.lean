@@ -58,6 +58,24 @@ theorem cont_mutual_extension_tails_empty {h k leftTail rightTail : BHist} :
     cont_right_unit_unique cycle
   exact append_eq_empty_iff.mp tailEmpty
 
+theorem cont_self_extension_tail_absurd {h tail : BHist} :
+    (Cont h (BHist.e0 tail) h -> False) ∧
+      (Cont h (BHist.e1 tail) h -> False) := by
+  constructor
+  · intro hcont
+    exact not_hsame_e0_empty (cont_right_unit_unique hcont)
+  · intro hcont
+    exact not_hsame_e1_empty (cont_right_unit_unique hcont)
+
+theorem cont_mutual_extension_left_tail_absurd {h k leftTail rightTail : BHist} :
+    (Cont h (BHist.e0 leftTail) k -> Cont k rightTail h -> False) ∧
+      (Cont h (BHist.e1 leftTail) k -> Cont k rightTail h -> False) := by
+  constructor
+  · intro left right
+    exact not_hsame_e0_empty (cont_mutual_extension_tails_empty left right).left
+  · intro left right
+    exact not_hsame_e1_empty (cont_mutual_extension_tails_empty left right).left
+
 theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
     Cont a b r -> Cont a' d r' -> hsame a a' -> hsame r r' -> hsame b d := by
   intro left right sameContext sameResult
