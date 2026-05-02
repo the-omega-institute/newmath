@@ -100,4 +100,45 @@ theorem singleton_empty_history_module_laws :
             · intro m carrierM
               exact And.intro emptyCarrier (And.intro carrierM (hsame_symm carrierM))
 
+theorem singleton_empty_history_module_action_fields :
+    let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
+    let rho : BHist -> BHist -> Prop :=
+      fun h k => Carrier h ∧ Carrier k ∧ hsame h k
+    let add : BHist -> BHist -> BHist := fun _ _ => BHist.Empty
+    let mul : BHist -> BHist -> BHist := fun _ _ => BHist.Empty
+    let smul : BHist -> BHist -> BHist := fun _ _ => BHist.Empty
+    (∀ {r m : BHist}, Carrier r -> Carrier m -> Carrier (smul r m)) ∧
+      (∀ {r r' m m' : BHist}, rho r r' -> rho m m' ->
+        rho (smul r m) (smul r' m')) ∧
+      (∀ {r s m : BHist}, Carrier r -> Carrier s -> Carrier m ->
+        rho (smul (mul r s) m) (smul r (smul s m))) ∧
+      (∀ {r m n : BHist}, Carrier r -> Carrier m -> Carrier n ->
+        rho (smul r (add m n)) (add (smul r m) (smul r n))) ∧
+      (∀ {r s m : BHist}, Carrier r -> Carrier s -> Carrier m ->
+        rho (smul (add r s) m) (add (smul r m) (smul s m))) ∧
+      (∀ {m : BHist}, Carrier m -> rho (smul BHist.Empty m) m) := by
+  dsimp
+  constructor
+  · intro r m carrierR carrierM
+    exact hsame_refl BHist.Empty
+  · constructor
+    · intro r r' m m' sameR sameM
+      exact And.intro (hsame_refl BHist.Empty)
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+    · constructor
+      · intro r s m carrierR carrierS carrierM
+        exact And.intro (hsame_refl BHist.Empty)
+          (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+      · constructor
+        · intro r m n carrierR carrierM carrierN
+          exact And.intro (hsame_refl BHist.Empty)
+            (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+        · constructor
+          · intro r s m carrierR carrierS carrierM
+            exact And.intro (hsame_refl BHist.Empty)
+              (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+          · intro m carrierM
+            exact And.intro (hsame_refl BHist.Empty)
+              (And.intro carrierM (hsame_symm carrierM))
+
 end BEDC.Derived.ModuleUp
