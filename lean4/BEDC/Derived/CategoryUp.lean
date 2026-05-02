@@ -260,6 +260,14 @@ theorem CategoryHomCarrier_hsame_transport {a a' b b' f f' : BHist} :
   cases sameTarget
   cases sameMorphism
   exact homCarrier
+theorem CategoryHomCarrier_endpoint_transport_cont_classified {a a' b b' f f' g : BHist} :
+    hsame a a' -> hsame b b' -> hsame f f' -> CategoryHomCarrier a b f ->
+      CategoryHomCarrier a' b' g -> Cont a' f' b' ∧ CategoryHomCarrier a' b' f' ∧
+        hsame f' g := by
+  intro sameSource sameTarget sameMorphism left right
+  have moved := CategoryHomCarrier_hsame_transport sameSource sameTarget sameMorphism left
+  exact And.intro moved.right.right.right
+    (And.intro moved (CategoryHomCarrier_morphism_deterministic moved right))
 
 theorem CategoryHomCarrier_e0_source_absurd {a target f : BHist} :
     CategoryHomCarrier (BHist.e0 a) target f → False := by

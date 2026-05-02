@@ -16,6 +16,12 @@ theorem cont_hsame_transport {h h' k k' r r' : BHist} :
   cases sameH
   cases sameK
   exact BEDC.FKernel.Cont.cont_result_hsame_transport hcont sameR
+theorem cont_transport_result_classified {h h' k k' r r' s : BHist} :
+    hsame h h' -> hsame k k' -> hsame r r' -> Cont h k r -> Cont h' k' s ->
+      Cont h' k' r' ∧ hsame r' s := by
+  intro sameH sameK sameR left right
+  have transported := cont_hsame_transport sameH sameK sameR left
+  exact And.intro transported (cont_deterministic transported right)
 
 theorem cont_cancel_common_context {a b c d ab ad left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont a d ad -> Cont ad c right ->

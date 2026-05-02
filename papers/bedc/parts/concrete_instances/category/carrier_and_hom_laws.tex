@@ -330,6 +330,22 @@ $\mathsf{CategoryHomCarrier}$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_hsame\_transport}
 
+\begin{theorem}[Category hom carrier endpoint transport with classified morphism]
+\label{thm:category-hom-carrier-endpoint-transport-cont-classified}
+For the unary-continuation category, if source endpoint, target endpoint, and
+morphism histories are transported by $\hsame$, then the transported morphism
+has the transported continuation field and hom-carrier witness. Moreover, any
+displayed hom-carrier over the transported endpoints has morphism history
+classified with the transported morphism.
+\end{theorem}
+\begin{proof}
+Apply hom-carrier history-same transport to the displayed carrier. Its
+continuation field gives the transported $\ContR$ witness. The transported
+carrier and the competing displayed carrier share source and target endpoints,
+so morphism determinacy identifies their morphism histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_endpoint\_transport\_cont\_classified}
+
 \begin{theorem}[Category hom carrier identity square closure]
 \label{thm:category-hom-carrier-identity-square-closed}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\)
@@ -499,6 +515,23 @@ continuation law identifies the result with the tail, and symmetry of
 $\hsame$ gives the displayed orientation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_source\_tail\_target\_hsame}
+
+\begin{theorem}[Continuation morphism endpoint transport tail classification]
+\label{thm:continuation-morphism-endpoint-transport-tail-classified}
+For histories $a,a',b,b'$, if $a$ is history-same as $a'$ and $b$ is
+history-same as $b'$, then the tail of any continuation morphism from $a$ to
+$b$ transports to a continuation tail from $a'$ to $b'$. Any displayed
+continuation morphism from $a'$ to $b'$ has a tail classified with this
+transported tail.
+\end{theorem}
+\begin{proof}
+Transport the continuation relation carried by the left morphism across the
+source and target endpoint sameness witnesses, using reflexivity for the tail
+itself. The transported relation and the relation carried by the right morphism
+share source and target endpoints, so continuation left cancellation identifies
+the two tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_endpoint\_transport\_tail\_classified}
 
 \begin{theorem}[Continuation morphism source determinacy]
 \label{thm:continuation-morphism-source-deterministic}

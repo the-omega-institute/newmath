@@ -428,6 +428,20 @@ Theorem~\ref{thm:cont-result-hsame-transport}.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_hsame\_transport}
 
+\begin{theorem}[Continuation transport result classification]
+\label{thm:cont-transport-result-classified}
+If $\hsame(h,h')$, $\hsame(k,k')$, $\hsame(r,r')$,
+$\ContR(h,k,r)$, and $\ContR(h',k',s)$, then
+$\ContR(h',k',r')$ and $\hsame(r',s)$.
+\end{theorem}
+\begin{proof}
+First transport the original continuation witness across the two input
+endpoints and the result endpoint. The transported witness and the displayed
+target-side witness now share the same source and tail histories, so
+continuation determinacy classifies their results.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_transport\_result\_classified}
+
 \begin{theorem}[Continuation left-context cancellation up to history-sameness]
 \label{thm:cont-cancel-hsame-left-context}
 If $\ContR(a,b,r)$, $\ContR(a',d,r')$, $\hsame(a,a')$, and $\hsame(r,r')$,

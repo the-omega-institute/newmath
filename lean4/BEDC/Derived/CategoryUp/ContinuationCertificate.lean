@@ -27,4 +27,11 @@ theorem ContinuationMorphism_tail_semanticNameCert {a b : BHist}
   · intro h source
     exact source
 
+theorem ContinuationMorphism_endpoint_transport_tail_classified {a a' b b' : BHist}
+    (sameSource : hsame a a') (sameTarget : hsame b b')
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism a' b') :
+    Cont a' left.tail b' ∧ hsame left.tail right.tail := by
+  have transported := cont_hsame_transport sameSource (hsame_refl left.tail) sameTarget left.rel
+  exact And.intro transported (cont_left_cancel transported right.rel)
+
 end BEDC.Derived.CategoryUp
