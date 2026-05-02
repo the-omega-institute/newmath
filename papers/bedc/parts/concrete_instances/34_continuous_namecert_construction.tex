@@ -681,6 +681,35 @@ continuous modulus witness predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_prefixed\_composite\_closed}
 
+\begin{theorem}[Continuous modulus witness prefixed composite factorization]
+\label{thm:continuous-modulus-witness-prefixed-composite-factorizes}
+For histories $p,s,\delta_1,\delta_2,\delta,t$, if $\delta_1$ and $\delta_2$
+are unary histories, $\mathsf{Cont}(\delta_1,\delta_2,\delta)$ holds, and
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta,p\cdot t)
+$$
+holds, then there is a middle history $m$ such that
+$$
+\mathsf{ContinuousModulusWitness}(s,\delta_1,m)
+\quad\land\quad
+\mathsf{ContinuousModulusWitness}(m,\delta_2,t).
+$$
+\end{theorem}
+\begin{proof}
+First remove the common prefix from the displayed continuous modulus witness
+using Theorem~\ref{thm:continuous-modulus-witness-prefix-iff}. This leaves a
+witness from $s$ through the composite modulus $\delta$ to $t$.
+
+Choose $m=s\cdot\delta_1$. The first witness is immediate from
+$\mathsf{Cont}(s,\delta_1,s\cdot\delta_1)$ and unary append closure. For the
+second witness, case-analyze the two continuation ledgers
+$\mathsf{Cont}(s,\delta,t)$ and $\mathsf{Cont}(\delta_1,\delta_2,\delta)$.
+Associativity identifies $(s\cdot\delta_1)\cdot\delta_2$ with
+$s\cdot(\delta_1\cdot\delta_2)$, hence with $t$. This supplies the required
+continuation ledger from $m$ through $\delta_2$ to $t$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_prefixed\_composite\_factorizes}
+
 \begin{theorem}[Continuous modulus chain prefix closure]
 \label{thm:continuous-modulus-chain-prefix-closed}
 For histories $p,s,\delta_1,\delta_2,t$, a unary prefix on the source and

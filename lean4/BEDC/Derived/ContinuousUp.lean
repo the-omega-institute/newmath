@@ -548,6 +548,36 @@ theorem ContinuousModulusWitness_prefixed_composite_closed
     ContinuousModulusChain_composite_closed
       (ContinuousModulusChain_prefix_closed prefixCarrier chain) compositeRel
 
+theorem ContinuousModulusWitness_prefixed_composite_factorizes
+    {p source first second composite target : BHist} :
+    UnaryHistory first -> UnaryHistory second -> Cont first second composite ->
+      ContinuousModulusWitness (append p source) composite (append p target) ->
+        ∃ middle : BHist,
+          ContinuousModulusWitness source first middle ∧
+            ContinuousModulusWitness middle second target := by
+  intro firstCarrier secondCarrier compositeRel prefixedWitness
+  have unprefixed := (ContinuousModulusWitness_prefix_iff.mp prefixedWitness).right
+  cases unprefixed with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro _compositeCarrier rest =>
+          cases rest with
+          | intro targetCarrier targetRel =>
+              let middle := append source first
+              have middleCarrier : UnaryHistory middle :=
+                unary_append_closed sourceCarrier firstCarrier
+              have firstWitness : ContinuousModulusWitness source first middle :=
+                And.intro sourceCarrier
+                  (And.intro firstCarrier (And.intro middleCarrier (cont_intro rfl)))
+              have secondRel : Cont middle second target := by
+                cases targetRel
+                cases compositeRel
+                exact cont_intro (append_assoc source first second).symm
+              have secondWitness : ContinuousModulusWitness middle second target :=
+                And.intro middleCarrier
+                  (And.intro secondCarrier (And.intro targetCarrier secondRel))
+              exact Exists.intro middle (And.intro firstWitness secondWitness)
+
 theorem ContinuousFunctionCarrier_prefixed_graph_chain_closed
     {p source map target delta1 delta2 delta cert : BHist} :
     UnaryHistory p -> UnaryHistory source -> UnaryHistory target -> UnaryHistory map ->
