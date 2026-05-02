@@ -484,6 +484,54 @@ theorem TaggedOptionMapRel_preserves_classification {S T : BHist → Prop}
                                                                                     (delta.respects
                                                                                       relA0B0)))))))
 
+theorem TaggedOptionMapRel_shared_source_target_normal_form {S T : BHist -> Prop}
+    {RelS RelT : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {h k k' : BHist} :
+    TaggedOptionMapRel S T delta h k ->
+      TaggedOptionMapRel S T delta h k' ->
+        (hsame h BHist.Empty ∧ hsame k BHist.Empty ∧ hsame k' BHist.Empty) ∨
+          (∃ a b : BHist,
+            S a ∧ S b ∧ RelS a b ∧ T (delta.map a) ∧ T (delta.map b) ∧
+              hsame h (BHist.e1 a) ∧ hsame h (BHist.e1 b) ∧
+                hsame k (BHist.e1 (delta.map a)) ∧
+                  hsame k' (BHist.e1 (delta.map b)) ∧
+                    TaggedOptionHistoryClassifier T RelT k k') := by
+  intro mapK mapK'
+  cases mapK with
+  | inl absentK =>
+      cases mapK' with
+      | inl absentK' =>
+          exact Or.inl ⟨absentK.left, absentK.right, absentK'.right⟩
+      | inr presentK' =>
+          cases presentK' with
+          | intro b dataK' =>
+              exact False.elim
+                (not_hsame_emp_e1 (hsame_trans (hsame_symm absentK.left) dataK'.right.right.left))
+  | inr presentK =>
+      cases presentK with
+      | intro a dataK =>
+          cases mapK' with
+          | inl absentK' =>
+              exact False.elim
+                (not_hsame_emp_e1 (hsame_trans (hsame_symm absentK'.left) dataK.right.right.left))
+          | inr presentK' =>
+              cases presentK' with
+              | intro b dataK' =>
+                  have relAB : RelS a b :=
+                    source_hsame dataK.left dataK'.left
+                      (hsame_e1_iff.mp
+                        (hsame_trans (hsame_symm dataK.right.right.left)
+                          dataK'.right.right.left))
+                  exact Or.inr
+                    ⟨a, b, dataK.left, dataK'.left, relAB, dataK.right.left,
+                      dataK'.right.left, dataK.right.right.left, dataK'.right.right.left,
+                      dataK.right.right.right, dataK'.right.right.right,
+                      Or.inr
+                        ⟨delta.map a, delta.map b, dataK.right.left, dataK'.right.left,
+                          dataK.right.right.right, dataK'.right.right.right,
+                          delta.respects relAB⟩⟩
+
 theorem TaggedOptionMapRel_common_source_target_classification {S T : BHist -> Prop}
     {RelS RelT : BHist -> BHist -> Prop}
     (delta : DescentCertificate BHist BHist RelS RelT)

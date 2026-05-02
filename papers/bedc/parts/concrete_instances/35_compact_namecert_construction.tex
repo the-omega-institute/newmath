@@ -410,6 +410,31 @@ continuation witness then give the final compactness unary-history witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_final\_endpoints\_unary}
 
+\begin{theorem}[Compact located refinement chain initial endpoints unary]
+\label{thm:compact-located-refinement-chain-initial-endpoints-unary}
+If
+$$
+\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,finalLocated,finalIntermediate,finalCompact),
+$$
+and the final locatedness and intermediate ledgers are unary histories, then
+the initial locatedness and intermediate ledgers are unary histories:
+$$
+\mathsf{UnaryHistory}(finalLocated)\land
+\mathsf{UnaryHistory}(finalIntermediate)
+\Longrightarrow
+\mathsf{UnaryHistory}(located)\land
+\mathsf{UnaryHistory}(intermediate).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the compact located refinement chain. The base case is immediate,
+because the final locatedness and intermediate ledgers are the starting
+ledgers. In the step case, factor the final unary-history witnesses through
+the locatedness and intermediate continuation witnesses by unary left-factor
+closure, then apply the induction hypothesis to the prior chain.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_initial\_endpoints\_unary}
+
 \begin{theorem}[Compact located refinement chain endpoint hsame]
 \label{thm:compact-located-refinement-chain-endpoint-hsame}
 If

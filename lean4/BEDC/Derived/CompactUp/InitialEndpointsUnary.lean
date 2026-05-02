@@ -19,4 +19,19 @@ theorem CompactFiniteRefinementChain_initial_endpoints_unary
         (unary_cont_left_factor finiteRel finalFiniteCarrier)
         (unary_cont_left_factor compactRel finalCompactCarrier)
 
+theorem CompactLocatedRefinementChain_initial_endpoints_unary
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :
+    CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
+        finalCompact →
+      UnaryHistory finalLocated → UnaryHistory finalIntermediate →
+        UnaryHistory located ∧ UnaryHistory intermediate := by
+  intro chain finalLocatedCarrier finalIntermediateCarrier
+  induction chain with
+  | base =>
+      exact And.intro finalLocatedCarrier finalIntermediateCarrier
+  | step prior extraCarrier locatedRel intermediateRel compactRel ih =>
+      exact ih
+        (unary_cont_left_factor locatedRel finalLocatedCarrier)
+        (unary_cont_left_factor intermediateRel finalIntermediateCarrier)
+
 end BEDC.Derived.CompactUp
