@@ -158,6 +158,15 @@ theorem MetricDistanceWitness_visible_context_iff {p q x y d : BHist} :
                 (d := append p d)).mpr
                 (And.intro qCarrier prefixed)
 
+theorem MetricDistanceWitness_visible_context_depth_add {p q x y d : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p d) q) ->
+      MetricDistanceDepth d = MetricDistanceDepth x + MetricDistanceDepth y := by
+  intro visible
+  have visibleData :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := d)).mp visible
+  exact MetricDistanceWitness_depth_add visibleData.2.2
+
 theorem MetricDistanceWitness_empty_left_iff {y d : BHist} :
     MetricDistanceWitness BHist.Empty y d ↔ UnaryHistory y ∧ hsame d y := by
   constructor

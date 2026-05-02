@@ -208,6 +208,25 @@ theorem ContinuationMorphism_comp_assoc_closed {a b c d : BHist}
                   (append_assoc a firstTail (append secondTail thirdTail))
               · exact append_assoc firstTail secondTail thirdTail
 
+theorem ContinuationMorphism_comp_assoc_tail_hsame {a b c d : BHist}
+    (first : ContinuationMorphism a b) (second : ContinuationMorphism b c)
+    (third : ContinuationMorphism c d) :
+    hsame (ContinuationMorphism_comp_closed (ContinuationMorphism_comp_closed first second)
+        third).tail
+      (ContinuationMorphism_comp_closed first
+        (ContinuationMorphism_comp_closed second third)).tail := by
+  cases first with
+  | mk firstTail firstRel =>
+      cases second with
+      | mk secondTail secondRel =>
+          cases third with
+          | mk thirdTail thirdRel =>
+              have tailSame :
+                  hsame (append (append firstTail secondTail) thirdTail)
+                    (append firstTail (append secondTail thirdTail)) :=
+                append_assoc firstTail secondTail thirdTail
+              exact tailSame
+
 theorem category_cont_left_e0_result_cases {h k r : BHist} :
     Cont (BHist.e0 h) k (BHist.e0 r) ->
       (k = BHist.Empty ∧ hsame h r) ∨

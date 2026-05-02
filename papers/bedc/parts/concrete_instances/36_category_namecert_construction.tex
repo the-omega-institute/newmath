@@ -210,6 +210,28 @@ same associativity equality.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_assoc\_closed}
 
+\begin{theorem}[Continuation morphism associative composite tail]
+\label{thm:continuation-morphism-comp-assoc-tail-hsame}
+For histories $a,b,c,d$, any continuation morphisms $a\to b$, $b\to c$, and
+$c\to d$ have left-associated and right-associated canonical composite tails
+that are history-same:
+$$
+\hsame
+\left(
+\mathsf{tail}\bigl((first\circ second)\circ third\bigr),
+\mathsf{tail}\bigl(first\circ(second\circ third)\bigr)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the three continuation morphisms into their displayed tails. The two
+canonical composite tails reduce to
+$\mathsf{append}(\mathsf{append}(f,g),h)$ and
+$\mathsf{append}(f,\mathsf{append}(g,h))$, which are identified by BEDC history
+append associativity.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_assoc\_tail\_hsame}
+
 \begin{theorem}[Category hom carrier morphism determinacy]
 \label{thm:category-hom-carrier-morphism-deterministic}
 For the unary-continuation category, if \(f\) and \(g\) are both hom-carriers

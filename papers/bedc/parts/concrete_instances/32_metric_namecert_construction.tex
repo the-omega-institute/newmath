@@ -202,6 +202,25 @@ $\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_iff}
 
+\begin{theorem}[Metric distance witness visible-context depth additivity]
+\label{thm:metric-distance-witness-visible-context-depth-add}
+For histories $p,q,x,y,d$, a visible-context distance witness determines the
+same central depth equation as the central witness:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d)
+=
+\mathsf{MetricDistanceDepth}(x)+\mathsf{MetricDistanceDepth}(y).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to recover the
+central witness $\mathsf{MetricDistanceWitness}(x,y,d)$, then apply
+\autoref{thm:metric-distance-witness-depth-add}.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_depth\_add}
+
 \begin{theorem}[Metric distance witness visible-context result determinacy]
 \label{thm:metric-distance-witness-visible-context-result-deterministic}
 For histories $p,q,x,y,d,d'$, if the same visible endpoint histories carry two

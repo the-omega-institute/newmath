@@ -131,6 +131,24 @@ $\hsame(h,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_exclusive\_readback}
 
+\begin{theorem}[Nullable option absent iff not source]
+\label{thm:option-history-carrier-absent-not-source-iff}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, if $\mathsf{OptionSourceExcludesEmpty}(S)$ and
+$\mathsf{OptionHistoryCarrier}_S(h)$ hold, then the absent branch is exactly
+the negation of the source branch:
+$$
+\hsame(h,\emp)\Longleftrightarrow\neg S(h).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, apply the empty-exclusion predicate to the source
+witness and the displayed empty endpoint. For the reverse implication,
+case-analyze the carrier witness: the empty branch gives $\hsame(h,\emp)$
+directly, while the source branch contradicts the assumed negation of $S(h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_absent\_not\_source\_iff}
+
 \begin{theorem}[Nullable option carrier branch alignment]
 \label{thm:option-history-carrier-hsame-branch-alignment}
 For histories $h,k$, if $\mathsf{OptionSourceExcludesEmpty}(S)$,
