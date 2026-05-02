@@ -433,3 +433,58 @@ This replaces the middle term by
 $N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$. Reassociate the constructive
 disjunction to obtain the displayed five-term support readback.
 \end{proof}
+
+\begin{theorem}[Rat denominator envelope bilateral context cancellation]
+\label{thm:field-rat-denominator-envelope-bilateral-context-cancellation}
+For the concrete tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$ of
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance},
+let $h,k,l,r,p,q,p',q':\mathsf{BHist}$. If $C_D^\ast(h)$,
+$C_D^\ast(k)$, $C_D^\ast(l)$, $C_D^\ast(r)$, $N_D^\ast(l)$,
+$N_D^\ast(r)$, $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and
+$q'\hsame\emp$, then
+$$
+R_D^\ast(\mathsf{append}(p,\mathsf{append}(\mu_D^\ast(l,\mu_D^\ast(h,r)),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^\ast(l,\mu_D^\ast(k,r)),q')))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+\end{theorem}
+\begin{proof}
+First build the two bilateral products inside the concrete carrier. The
+multiplicative certificate boundary of
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
+uses $C_D^\ast(l)$, $C_D^\ast(h)$, $C_D^\ast(k)$, $C_D^\ast(r)$,
+$N_D^\ast(l)$, and $N_D^\ast(r)$ to place
+$\mu_D^\ast(l,\mu_D^\ast(h,r))$ and
+$\mu_D^\ast(l,\mu_D^\ast(k,r))$ in $C_D^\ast$.
+
+Next strip the external endpoint contexts. Apply
+\autoref{thm:field-rat-denominator-fieldup-envelope-empty-context-exactness} to
+these two carried products together with $p\hsame\emp$, $q\hsame\emp$,
+$p'\hsame\emp$, and $q'\hsame\emp$. The classifier component gives
+$$
+R_D^\ast(\mathsf{append}(p,\mathsf{append}(\mu_D^\ast(l,\mu_D^\ast(h,r)),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^\ast(l,\mu_D^\ast(k,r)),q')))
+\Longleftrightarrow
+R_D^\ast(\mu_D^\ast(l,\mu_D^\ast(h,r)),
+\mu_D^\ast(l,\mu_D^\ast(k,r))).
+$$
+
+Finally apply
+\autoref{thm:field-rat-denominator-bilateral-strict-factor-cancellation} with
+strict factors $l$ and $r$. It identifies the remaining uncontextualized
+bilateral comparison with $R_D^\ast(h,k)$, and composing the two equivalences
+proves the displayed statement.
+\end{proof}
+
+Per-object template: traditional target envelope bilateral context cancellation
+for the Rat denominator side of $\FieldUp(\mathsf{RatUp})$; BEDC source
+$\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{append}$, and $\emp$; carrier $C_D^\ast$; classifier $R_D^\ast$;
+multiplication $\mu_D^\ast$; unit $e_D^\ast$; strict support $N_D^\ast$;
+ledger empty external endpoint contexts plus strict carried left and right
+denominator factors; core theorem
+\autoref{thm:field-rat-denominator-envelope-bilateral-context-cancellation};
+exactness predicate empty-envelope classifier transport followed by bilateral
+strict-factor cancellation; status $\mathsf{ProofTarget}$.
