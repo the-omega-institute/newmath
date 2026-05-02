@@ -4,6 +4,73 @@
 \input{parts/concrete_instances/field/20_field_product_right_equation_exactness}
 \input{parts/concrete_instances/field/20_field_affine_explicit_inverse}
 \leanchecked{BEDC.Derived.FieldUp.field\_affine\_two\_sided\_explicit\_inverse}
+
+\begin{theorem}[Field two-sided affine automorphisms compose]
+\label{thm:field-affine-two-sided-certified-automorphism-composition}
+For a BEDC history-level $\FieldUp$ candidate with the operations and laws used
+by \autoref{thm:field-affine-two-sided-certified-automorphism}, and with the
+distributivity laws and zero-apartness maps used by
+\autoref{thm:field-product-apartness-inverse-product-reverse}, define
+$$
+T_1(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
+$$
+and
+$$
+T_2(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',x),b'),d').
+$$
+Given apartness witnesses for $a,b,a',b'$, the product-apartness theorem supplies
+nonzero indices for $\mathsf{mul}(a',a)$ and $\mathsf{mul}(b,b')$. For every
+$x:\mathsf{BHist}$ the composite is classified by
+$$
+T_2(T_1(x))\hsame
+\mathsf{add}(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a',a),x),\mathsf{mul}(b,b')),
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',d),b'),d')).
+$$
+Therefore $T_2\circ T_1$ is the two-sided affine map with left factor
+$\mathsf{mul}(a',a)$, right factor $\mathsf{mul}(b,b')$, and offset
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',d),b'),d')$, and this composite map
+is a certified automorphism by
+\autoref{thm:field-affine-two-sided-certified-automorphism}.
+\end{theorem}
+\begin{proof}
+Expand $T_2(T_1(x))$ by the two displayed definitions. The outer affine map
+applies $a'$ on the left and $b'$ on the right to the sum
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)$, then adds $d'$.
+
+Use the distributivity laws to separate the variable contribution from the
+offset contribution. This gives one term containing
+$\mathsf{mul}(\mathsf{mul}(a,x),b)$ and one term containing $d$, both still
+transported through the outer factors $a'$ and $b'$.
+
+Apply multiplication associativity and multiplication congruence to collect the
+variable term as
+$$
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a',a),x),\mathsf{mul}(b,b')).
+$$
+The remaining transported offset term is
+$\mathsf{mul}(\mathsf{mul}(a',d),b')$, and the final outer offset is $d'$.
+
+Apply
+\autoref{thm:field-product-apartness-inverse-product-reverse} to the apartness
+witnesses for $a',a$ and again to the apartness witnesses for $b,b'$. These two
+applications provide the nonzero indices required for the collected left and
+right composite factors.
+
+With these two indices and the displayed composite offset, invoke
+\autoref{thm:field-affine-two-sided-certified-automorphism}. The classifier
+identity above identifies $T_2(T_1(x))$ with that certified two-sided affine map,
+so the composite is a certified affine automorphism.
+\end{proof}
+
+Per-object certificate: traditional target affine automorphism composition; BEDC
+source $\FieldUp$ over $\mathsf{BHist}$ with RingUp distributivity; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations affine exactness,
+map classifier exactness, product apartness, associativity, and distributivity;
+ledger the four factor witnesses and the two offsets; core theorem
+\autoref{thm:field-affine-two-sided-certified-automorphism-composition};
+exactness predicate composite affine classifier iff; standard bridge deferred;
+status $\mathsf{ProofTarget}$.
 \input{parts/concrete_instances/field/20_field_signed_square_consequences}
 \leanchecked{BEDC.Derived.FieldUp.field\_equal\_squares\_signed\_branch\_determinacy}
 \input{parts/concrete_instances/field/20_field_product_apartness_consequences}
