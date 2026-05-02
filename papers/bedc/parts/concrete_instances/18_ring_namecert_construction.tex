@@ -15,67 +15,68 @@ This chapter records the shared additive, multiplicative, congruence, and distri
 Use a setup with carrier \(C\), classifier, addition, zero, additive inverse, multiplication, one, and ring law fields.
 \end{definition}
 
-\section{Concrete singleton empty-history ring instance}
-\label{sec:ring-concrete-singleton-instance}
+\section{Concrete singleton history ring instance}
+\label{sec:ring-concrete-singleton-history-instance}
 
-\begin{definition}[Singleton empty-history ring instance]
-\label{def:singleton-empty-history-ring-instance}
-Let $A_{\emp}$ be the singleton history source of
-Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define the
-classifier
+\begin{definition}[Concrete singleton history ring instance]
+\label{def:concrete-singleton-history-ring-instance}
+Let $A_{\emp}$ and $R_{\emp}$ be the singleton carrier and classifier from
+Definition~\ref{def:concrete-singleton-history-group-instance}. Define the
+operations by
 $$
-\rho_{\emp}(h,k)\Longleftrightarrow
-A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
-$$
-Define the concrete ring operations by
-$$
-\mathsf{add}(h,k):=\emp,\qquad
+\mathsf{add}(h,k):=\mathsf{append}(h,k),\qquad
 \mathsf{neg}(h):=\emp,\qquad
-0:=\emp,\qquad
-\mathsf{mul}(h,k):=\emp,\qquad
+0:=\emp,
+$$
+and
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
 1:=\emp.
 $$
-This is the one-element BEDC history ring over the concrete carrier
-$A_{\emp}:\mathsf{BHist}\to\mathsf{Prop}$ and classifier $\rho_{\emp}$.
+The resulting tuple
+$(A_{\emp},R_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ is the
+concrete singleton history ring instance.
 \end{definition}
 
-\begin{theorem}[Singleton empty-history ring laws]
-\label{thm:singleton-empty-history-ring-laws}
+\begin{theorem}[Concrete singleton history ring laws]
+\label{thm:concrete-singleton-history-ring-laws}
 The tuple
-$(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
-carrier inhabitance, additive abelian-group laws, multiplicative monoid laws,
-addition and multiplication congruence, left and right distributivity, and zero
-multiplication laws under $\rho_{\emp}$.
+$(A_{\emp},R_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
+the additive abelian-group laws, multiplicative monoid laws, addition and
+multiplication congruence, left distributivity, and right distributivity under
+$R_{\emp}$.
 \end{theorem}
 \begin{proof}
-Carrier inhabitance is the reflexive endpoint witness $\hsame(\emp,\emp)$.
-By Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$, this is
-exactly the witness that $\emp$ lies in $A_{\emp}$.
+The additive component is the singleton history abelian group of
+Theorem~\ref{thm:concrete-singleton-history-abgroup-laws}, read with its
+binary operation as $\mathsf{add}$. Thus additive closure, zero, inverse,
+associativity, commutativity, and additive congruence are already supplied over
+$A_{\emp}$ and $R_{\emp}$.
 
-Every operation result in the displayed tuple is definitionally $\emp$. Hence
-addition closure, additive inverse closure, multiplication closure, and the
-closedness of $0$ and $1$ all use the same singleton carrier witness
-$\hsame(\emp,\emp)$.
+The multiplicative component is the monoid part contained in
+Theorem~\ref{thm:concrete-singleton-history-group-laws}, read with
+$\mathsf{mul}(h,k):=\mathsf{append}(h,k)$ and $1:=\emp$. This gives
+multiplication closure, left and right unit laws, associativity, and
+multiplication congruence under the same classifier.
 
-The additive unit, inverse, associativity, and commutativity laws reduce both
-sides to $\emp$. The required endpoint facts for $\rho_{\emp}$ are the
-singleton carrier witnesses; the relation component is reflexivity of
-$\hsame$, with symmetry and transitivity used only to package classifier
-endpoints already identified with $\emp$.
+For left distributivity, assume $A_{\emp}(h)$, $A_{\emp}(k)$, and
+$A_{\emp}(l)$. Closure for $\mathsf{add}$ and $\mathsf{mul}$ puts both
+$\mathsf{mul}(h,\mathsf{add}(k,l))$ and
+$\mathsf{add}(\mathsf{mul}(h,k),\mathsf{mul}(h,l))$ back in $A_{\emp}$.
+The singleton witnesses identify each side with $\emp$, and transitivity of
+$\hsame$ composes the two endpoint witnesses into the required
+$R_{\emp}$ relation.
 
-The multiplicative left and right unit laws, associativity, and operation
-congruence are handled in the same way. Both source and target products are
-definitionally $\emp$, so the classifier relation is $\hsame(\emp,\emp)$.
-
-For left and right distributivity, both the product over a sum and the sum of
-products reduce to $\emp$. The zero multiplication laws also reduce both sides
-to $\emp$, so each law is supplied by reflexivity of $\hsame$ together with the
-two singleton endpoint witnesses.
+For right distributivity, the same argument applies to
+$\mathsf{mul}(\mathsf{add}(h,k),l)$ and
+$\mathsf{add}(\mathsf{mul}(h,l),\mathsf{mul}(k,l))$. Closure gives the two
+carrier witnesses, and the singleton endpoint $\emp$ supplies the composed
+$\hsame$ witness required by $R_{\emp}$.
 \end{proof}
 
-The RingUp schema is instantiated by this concrete $BHist$ carrier and
-operations, so Lean formalization can target BHist-anchored ring laws rather
-than only abstract operator fields.
+The RingUp schema is instantiated by this concrete $\mathsf{BHist}$ carrier and
+operations, so later formalization can target BHist-anchored ring laws rather
+than abstract operator fields.
 
 \section{The certificate}
 
