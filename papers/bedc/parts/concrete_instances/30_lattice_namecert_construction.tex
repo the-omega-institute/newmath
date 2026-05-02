@@ -52,3 +52,152 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \paragraph{Primitive boundary.}
 \(\LatticeUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{lemma}[Meet idempotence from bound characterization]
+\label{lem:lattice-meet-idempotence-from-bounds}
+Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\).
+For every \(x\in A\),
+\[
+  x\wedge x \sim_C x .
+\]
+\end{lemma}
+\begin{proof}
+The meet lower-left field gives
+\[
+  x\wedge x \le x .
+\]
+The inherited preorder reflexivity field gives \(x\le x\). Applying meet greatestness with \(z=x\), \(a=x\), and \(b=x\), using the two reflexivity witnesses \(x\le x\) and \(x\le x\), gives
+\[
+  x\le x\wedge x .
+\]
+The inherited poset antisymmetry field applied to
+\[
+  x\wedge x\le x  \qquad\text{and}\qquad  x\le x\wedge x
+\]
+yields
+\[
+  x\wedge x\sim_C x .
+\]
+\end{proof}
+
+\begin{lemma}[Join idempotence from bound characterization]
+\label{lem:lattice-join-idempotence-from-bounds}
+Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\).
+For every \(x\in A\),
+\[
+  x\vee x \sim_C x .
+\]
+\end{lemma}
+\begin{proof}
+The join upper-left field gives
+\[
+  x\le x\vee x .
+\]
+The inherited preorder reflexivity field gives \(x\le x\). Applying join leastness with \(z=x\), \(a=x\), and \(b=x\), using the two reflexivity witnesses \(x\le x\) and \(x\le x\), gives
+\[
+  x\vee x\le x .
+\]
+The inherited poset antisymmetry field applied to
+\[
+  x\vee x\le x  \qquad\text{and}\qquad  x\le x\vee x
+\]
+yields
+\[
+  x\vee x\sim_C x .
+\]
+\end{proof}
+
+\begin{lemma}[Meet absorption from bound characterization]
+\label{lem:lattice-meet-absorption-from-bounds}
+Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\).
+For all \(x,y\in A\),
+\[
+  x\wedge(x\vee y)\sim_C x .
+\]
+\end{lemma}
+\begin{proof}
+The meet lower-left field gives
+\[
+  x\wedge(x\vee y)\le x .
+\]
+For the reverse comparison, the inherited preorder reflexivity field gives
+\[
+  x\le x .
+\]
+The join upper-left field gives
+\[
+  x\le x\vee y .
+\]
+Applying meet greatestness with \(z=x\), \(a=x\), and \(b=x\vee y\), using the two comparisons above, gives
+\[
+  x\le x\wedge(x\vee y).
+\]
+The inherited poset antisymmetry field applied to
+\[
+  x\wedge(x\vee y)\le x  \qquad\text{and}\qquad  x\le x\wedge(x\vee y)
+\]
+yields
+\[
+  x\wedge(x\vee y)\sim_C x .
+\]
+\end{proof}
+
+\begin{lemma}[Join absorption from bound characterization]
+\label{lem:lattice-join-absorption-from-bounds}
+Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\).
+For all \(x,y\in A\),
+\[
+  x\vee(x\wedge y)\sim_C x .
+\]
+\end{lemma}
+\begin{proof}
+The join upper-left field gives
+\[
+  x\le x\vee(x\wedge y).
+\]
+For the reverse comparison, the inherited preorder reflexivity field gives
+\[
+  x\le x .
+\]
+The meet lower-left field gives
+\[
+  x\wedge y\le x .
+\]
+Applying join leastness with \(z=x\), \(a=x\), and \(b=x\wedge y\), using the two comparisons above, gives
+\[
+  x\vee(x\wedge y)\le x .
+\]
+The inherited poset antisymmetry field applied to
+\[
+  x\vee(x\wedge y)\le x  \qquad\text{and}\qquad  x\le x\vee(x\wedge y)
+\]
+yields
+\[
+  x\vee(x\wedge y)\sim_C x .
+\]
+\end{proof}
+
+\begin{theorem}[Lattice idempotence and absorption from bound characterization]
+\label{thm:lattice-idempotence-absorption-from-bound-characterization}
+Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\). Assume the inherited \(\POSetUp\) reflexivity and antisymmetry fields, and assume the directional meet and join bound-characterization fields:
+\[
+\begin{gathered}
+  \forall a\,b,\ a\wedge b\le a,\qquad
+  \forall a\,b,\ a\wedge b\le b,\\
+  \forall z\,a\,b,\ z\le a\to z\le b\to z\le a\wedge b,\\
+  \forall a\,b,\ a\le a\vee b,\qquad
+  \forall a\,b,\ b\le a\vee b,\\
+  \forall z\,a\,b,\ a\le z\to b\le z\to a\vee b\le z.
+\end{gathered}
+\]
+Then for all \(x,y\in A\),
+\[
+  x\wedge x\sim_C x,\qquad
+  x\vee x\sim_C x,\qquad
+  x\wedge(x\vee y)\sim_C x,\qquad
+  x\vee(x\wedge y)\sim_C x .
+\]
+\end{theorem}
+\begin{proof}
+The first assertion is Lemma~\ref{lem:lattice-meet-idempotence-from-bounds}. The second assertion is Lemma~\ref{lem:lattice-join-idempotence-from-bounds}. The third assertion is Lemma~\ref{lem:lattice-meet-absorption-from-bounds}. The fourth assertion is Lemma~\ref{lem:lattice-join-absorption-from-bounds}.
+\end{proof}
