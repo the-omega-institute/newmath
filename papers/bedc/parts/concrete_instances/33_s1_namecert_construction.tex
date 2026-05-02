@@ -136,6 +136,25 @@ contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_empty\_point\_absurd}
 
+\begin{theorem}[SOne history carrier e-one point shape]
+\label{thm:sone-history-carrier-point-e1-shape}
+For histories $x,y,e,p$, every concrete $\SOneUp$ history-carrier witness
+exposes the point ledger as an $\Eone$-headed history:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\exists t:\mathsf{BHist}.\; p=\Eone(t).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the carrier to the second real-constant component and the continuation
+ledger. The second component displays $y$ as $\Eone(d)$ for a rational history
+$d$. Substituting that display into the continuation equation makes the point
+ledger $p$ the append result with an $\Eone$-headed right component, hence
+$p=\Eone(\mathsf{append}(x,d))$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_point\_e1\_shape}
+
 \begin{theorem}[SOne history carrier rational unit components]
 \label{thm:s1-history-carrier-rational-unit-components}
 For histories $x,y,e,p$, the concrete $\SOneUp$ history carrier exposes

@@ -578,6 +578,28 @@ direction transports a visible source witness along the symmetric link.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_source\_visible\_iff}
 
+\begin{theorem}[Option ledger visible source exactness]
+\label{thm:option-history-ledger-policy-visible-source-exactness}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ exclude the empty history, and let
+$\rho,v:\mathsf{BHist}$. If $S(v)$ holds, then the option ledger over
+$\rho$ and $v$ is exactly raw source membership together with the stored
+raw-visible equality:
+$$
+\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)
+\Longleftrightarrow
+S(\rho)\land\hsame(\rho,v).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the ledger into the raw option carrier and the raw-visible $\hsame$
+link. If the raw carrier is absent, the link transports the empty witness to
+$v$, contradicting empty-source exclusion and $S(v)$. Hence the raw carrier is
+the source branch, and the link is the displayed equality. Conversely, the raw
+source witness rebuilds the source branch of the carrier and pairs it with the
+given raw-visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_source\_exactness}
+
 \begin{theorem}[Option ledger exclusive readback]
 \label{thm:option-ledger-policy-exclusive-readback}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ exclude the empty history, and let
