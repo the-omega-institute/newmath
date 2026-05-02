@@ -16,3 +16,76 @@
 \input{parts/concrete_instances/field/20_field_zero_apartness_checked_markers}
 \input{parts/concrete_instances/field/20_field_square_apartness_consequences}
 \input{parts/concrete_instances/field/20_field_square_apartness_and_affine_exactness}
+
+\section{Rat denominator unit endpoint exactness}
+\label{sec:field-rat-denominator-unit-endpoint-exactness}
+
+\begin{theorem}[Rat denominator continuation unit endpoint iff empty]
+\label{thm:field-rat-denominator-continuation-unit-endpoint-iff-empty}
+For every history $u:\mathsf{BHist}$, Rat denominator continuation has the
+following exact endpoint characterizations:
+\begin{enumerate}
+  \item the right-unit classifier law is equivalent to external emptiness,
+
+  $$
+  \left(
+  \forall d,r:\mathsf{BHist}.\;
+  \mathsf{RatHistoryCarrier}(d)\to
+  \Cont(d,u,r)\to
+  \mathsf{RatHistoryClassifier}(r,d)
+  \right)
+  \Longleftrightarrow
+  u\hsame\emp;
+  $$
+
+  \item the left-unit classifier law is equivalent to external emptiness,
+
+  $$
+  \left(
+  \forall d,r:\mathsf{BHist}.\;
+  \mathsf{RatHistoryCarrier}(d)\to
+  \Cont(u,d,r)\to
+  \mathsf{RatHistoryClassifier}(r,d)
+  \right)
+  \Longleftrightarrow
+  u\hsame\emp.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the forward direction of the right-unit clause, apply
+Theorem~\ref{thm:field-rat-denominator-continuation-unit-endpoint-empty} to
+the displayed right-unit classifier law. Its first endpoint-forcing clause
+returns $u\hsame\emp$.
+
+Conversely, assume $u\hsame\emp$, a carrier witness
+$\mathsf{RatHistoryCarrier}(d)$, and a displayed continuation
+$\Cont(d,u,r)$. Transport the second continuation endpoint along
+$u\hsame\emp$ to obtain a continuation presentation $\Cont(d,\emp,r)$ with
+the same displayed result. The right external-boundary law in
+Theorem~\ref{thm:field-rat-denominator-continuation-external-boundary-laws}
+then yields $\mathsf{RatHistoryClassifier}(r,d)$.
+
+For the forward direction of the left-unit clause, apply
+Theorem~\ref{thm:field-rat-denominator-continuation-unit-endpoint-empty} to
+the displayed left-unit classifier law. Its second endpoint-forcing clause
+returns $u\hsame\emp$.
+
+Conversely, assume $u\hsame\emp$, a carrier witness
+$\mathsf{RatHistoryCarrier}(d)$, and a displayed continuation
+$\Cont(u,d,r)$. Transport the first continuation endpoint along
+$u\hsame\emp$ to obtain $\Cont(\emp,d,r)$. The left external-boundary law in
+Theorem~\ref{thm:field-rat-denominator-continuation-external-boundary-laws}
+classifies the displayed result as
+$\mathsf{RatHistoryClassifier}(r,d)$.
+\end{proof}
+
+\textbf{Traditional target}: denominator-side continuation unit endpoint
+classification for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and $\Cont$;
+\textbf{carrier choice}: Rat denominators; \textbf{classifier choice}: Rat
+history classifier; \textbf{stability obligation}: endpoint-unit exactness;
+\textbf{ledger}: the displayed continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-continuation-unit-endpoint-iff-empty};
+\textbf{exactness predicate}: unit endpoint iff external empty;
+\textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
