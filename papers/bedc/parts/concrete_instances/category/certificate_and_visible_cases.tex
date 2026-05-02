@@ -140,6 +140,38 @@ $\ContR(source,k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_morphism\_cases}
 
+\begin{theorem}[Category hom-carrier one-headed target source and morphism cases]
+\label{thm:category-hom-carrier-e1-target-source-morphism-cases}
+For histories $source,r,morph$, a hom-carrier whose target is $\Eone(r)$
+separates the empty source branch from the one-headed source branch:
+$$
+\mathsf{CategoryHomCarrier}(source,\Eone(r),morph)
+\Longrightarrow
+\left(
+source=\emp\land morph=\Eone(r)\land \mathsf{UnaryHistory}(r)
+\right)
+$$
+or there exists a history $a$ such that
+$$
+source=\Eone(a)\land\mathsf{UnaryHistory}(a)\land
+\left(
+(morph=\emp\land\HSame(a,r))\lor
+\exists k,\ morph=\Eone(k)\land\mathsf{UnaryHistory}(k)\land
+\ContR(\Eone(a),k,r)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Classify the source endpoint. If it is empty, the continuation ledger and the
+one-headed target force the morphism to be $\Eone(r)$, and target unary
+inversion gives $\mathsf{UnaryHistory}(r)$. If it is zero-headed, the source
+unary field contradicts zero-extension separation. If it is one-headed, apply
+the left-one-headed result case split: the empty morphism branch gives
+$\HSame(a,r)$, and the visible morphism branch exposes a tail $k$ with
+$\ContR(\Eone(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_source\_morphism\_cases}
+
 \begin{theorem}[Category hom-carrier one-headed morphism target cases]
 \label{thm:category-hom-carrier-one-headed-morphism-target-cases}
 For histories $a,target,k$, a hom-carrier whose morphism endpoint is

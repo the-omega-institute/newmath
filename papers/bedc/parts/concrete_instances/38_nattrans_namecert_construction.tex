@@ -63,6 +63,29 @@ opposite direction and packages the empty prefix carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_source\_prefix\_iff}
 
+\begin{theorem}[NatTrans prefix component empty-target prefix exactness]
+\label{thm:nattrans-prefix-component-empty-target-prefix-iff}
+For histories $p,a,\eta$, a prefix component from $p$ to the empty prefix over
+$a$ is exactly a unary source prefix, a unary object, and a category hom-carrier
+from $\mathsf{append}(p,a)$ to $a$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,\emp,a,\eta)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(a)\wedge
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),a,\eta).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier. The target endpoint is
+$\mathsf{append}(\emp,a)$, which is history-same as $a$ by the left unit law
+for append. Category hom-carrier transport across this target endpoint
+equality gives the unprefixed target form. The converse uses the same endpoint
+equality in the opposite direction and packages the empty target prefix
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_target\_prefix\_iff}
+
 \begin{theorem}[NatTrans prefix component vertical composition closure]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-closed}
 For prefix components over unary histories, if \(\eta\) is a component from

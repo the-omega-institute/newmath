@@ -112,6 +112,36 @@ theorem NatTransPrefixComponentCarrier_empty_source_prefix_iff {q a eta : BHist}
                       (hsame_symm (append_empty_left a)) (hsame_refl (append q a))
                       (hsame_refl eta) homCarrier)))
 
+theorem NatTransPrefixComponentCarrier_empty_target_prefix_iff {p a eta : BHist} :
+    NatTransPrefixComponentCarrier p BHist.Empty a eta ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ CategoryHomCarrier (append p a) a eta := by
+  constructor
+  · intro component
+    cases component with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro _emptyCarrier rest =>
+            cases rest with
+            | intro objectCarrier homCarrier =>
+                exact
+                  And.intro prefixCarrier
+                    (And.intro objectCarrier
+                      (CategoryHomCarrier_hsame_transport
+                        (hsame_refl (append p a)) (append_empty_left a) (hsame_refl eta)
+                        homCarrier))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro objectCarrier homCarrier =>
+            exact
+              And.intro prefixCarrier
+                (And.intro unary_empty
+                  (And.intro objectCarrier
+                    (CategoryHomCarrier_hsame_transport
+                      (hsame_refl (append p a)) (hsame_symm (append_empty_left a))
+                      (hsame_refl eta) homCarrier)))
+
 theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta composite : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
       NatTransPrefixComponentCarrier q r a theta ->
