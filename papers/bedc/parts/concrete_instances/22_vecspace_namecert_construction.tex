@@ -152,6 +152,25 @@ and classified inverse conclusion follows over the empty witness domain.
 
 \leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonEmptyHistory\_laws}
 
+\begin{theorem}[VecSpace singleton scalar action inverse law]
+\label{thm:vecspace-singleton-scalar-action-inverse-law}
+For the concrete singleton $\VecSpaceUp$ instance, let
+$p:\mathsf{FieldSingletonNonZero}(r)$ be an explicit scalar inverse witness and
+let $m:\mathsf{BHist}$ satisfy $A_{\emp}(m)$. Then
+$\mathsf{smul}(r,m)$ is classified with $\emp$, and applying the proof-indexed
+inverse scalar to that result is classified with the original vector endpoint
+$m$.
+\end{theorem}
+\begin{proof}
+The scalar action is the constant empty-history action, so
+$\mathsf{smul}(r,m)\hsame\emp$ by reflexivity. Applying the inverse scalar
+again has the same empty-history endpoint. The first classifier package uses
+$A_{\emp}(\emp)$ on both sides. The second uses $A_{\emp}(\emp)$ on the action
+side and the assumed singleton-carrier witness for $m$ on the readback side;
+symmetry of that witness gives $\emp\hsame m$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingleton\_scalar\_action\_inverse\_law}
+
 The $\VecSpaceUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and scalar action, so Lean formalization can target BHist-anchored
 vector-space laws in $\mathsf{BEDC.Derived.VecSpaceUp}$.

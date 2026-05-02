@@ -90,4 +90,46 @@ open BEDC.FKernel.Hist
     exact addCongr (mulCongr (mulCongr (hsame_refl a) sameMiddle) (hsame_refl b))
       (hsame_refl d)
 
+theorem field_affine_two_sided_explicit_inverse
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addRightId : forall x : BHist, hsame (add x BHist.Empty) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (negRight : forall x : BHist, hsame (add x (neg x)) BHist.Empty)
+    (mulAssoc : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (mulLeftId : forall x : BHist, hsame (mul one x) x)
+    (mulRightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (mulLeftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (mulRightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a b d c x y : BHist} (pa : NonZero a) (pb : NonZero b) :
+    let sol := mul (inv a pa) (mul (add c (neg d)) (inv b pb))
+    hsame (add (mul (mul a sol) b) d) c ∧
+      (hsame (add (mul (mul a x) b) d) c -> hsame x sol) ∧
+        (hsame (add (mul (mul a x) b) d) (add (mul (mul a y) b) d) ->
+          hsame x y) := by
+  constructor
+  · exact
+      (field_affine_two_sided_equation_exact_from_apartness addAssoc addRightId
+        addCongr negLeft negRight mulAssoc mulLeftId mulRightId mulCongr
+        mulLeftInv mulRightInv pa pb).mpr
+        (hsame_refl (mul (inv a pa) (mul (add c (neg d)) (inv b pb))))
+  · constructor
+    · intro sameAffine
+      exact
+        (field_affine_two_sided_equation_exact_from_apartness addAssoc addRightId
+          addCongr negLeft negRight mulAssoc mulLeftId mulRightId mulCongr
+          mulLeftInv mulRightInv pa pb).mp
+          sameAffine
+    · intro sameAffine
+      exact
+        (field_affine_two_sided_map_classifier_exact_from_apartness addAssoc
+          addRightId addCongr negRight mulAssoc mulLeftId mulRightId mulCongr
+          mulLeftInv mulRightInv pa pb).mp
+          sameAffine
+
 end BEDC.Derived.FieldUp

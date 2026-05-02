@@ -1,5 +1,6 @@
 import BEDC.Derived.FieldUp
 import BEDC.Derived.CommRingUp
+import BEDC.Derived.FieldUp.Nonzero
 
 namespace BEDC.Derived.FieldUp
 
@@ -115,5 +116,57 @@ theorem field_equal_squares_signed_factor_endpoint_collapse
       addAssoc zeroLeft addRightId addCongr
       (endpoints.right nonzeroMinus)
       (negRight b)
+
+theorem field_equal_squares_signed_branch_determinacy
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (addRightId : forall x : BHist, hsame (add x BHist.Empty) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (negRight : forall x : BHist, hsame (add x (neg x)) BHist.Empty)
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    (nonzeroTransport : forall {a b : BHist}, hsame a b -> NonZero a -> NonZero b)
+    (nonzeroEmptyAbsurd : NonZero BHist.Empty -> False)
+    {a b : BHist} :
+    hsame (mul a a) (mul b b) ->
+      (NonZero (add a b) -> hsame a b ∧ (NonZero (add a (neg b)) -> False)) ∧
+        (NonZero (add a (neg b)) -> hsame a (neg b) ∧
+          (NonZero (add a b) -> False)) := by
+  intro sameSquares
+  have endpointCollapse :=
+    field_equal_squares_signed_factor_endpoint_collapse addAssoc addComm zeroLeft
+      addRightId negLeft negRight assocC leftId rightId addCongr mulCongr
+      leftDistrib rightDistrib mulComm leftInv rightInv sameSquares
+  have notBoth :=
+    BEDC.Derived.FieldUp.field_equal_squares_signed_factors_not_both_nonzero
+      addAssoc addComm zeroLeft negLeft assocC leftId rightId addCongr mulCongr
+      leftDistrib rightDistrib mulComm leftInv rightInv nonzeroTransport
+      nonzeroEmptyAbsurd sameSquares
+  constructor
+  · intro nonzeroPlus
+    constructor
+    · exact endpointCollapse.left nonzeroPlus
+    · intro nonzeroMinus
+      exact notBoth nonzeroPlus nonzeroMinus
+  · intro nonzeroMinus
+    constructor
+    · exact endpointCollapse.right nonzeroMinus
+    · intro nonzeroPlus
+      exact notBoth nonzeroPlus nonzeroMinus
 
 end BEDC.Derived.FieldUp

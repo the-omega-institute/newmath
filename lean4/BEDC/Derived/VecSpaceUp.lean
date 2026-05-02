@@ -146,4 +146,28 @@ theorem VecSpaceSingletonEmptyHistory_laws :
                             · intro a p
                               exact emptyClassified
 
+def VecSpaceSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def VecSpaceSingletonClassifier (h k : BHist) : Prop :=
+  VecSpaceSingletonCarrier h ∧ VecSpaceSingletonCarrier k ∧ hsame h k
+
+def VecSpaceSingletonSmul (_r _m : BHist) : BHist :=
+  BHist.Empty
+
+theorem VecSpaceSingleton_scalar_action_inverse_law {r m : BHist}
+    (p : BEDC.Derived.FieldUp.FieldSingletonNonZero r) :
+    VecSpaceSingletonCarrier m ->
+      VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) BHist.Empty ∧
+        VecSpaceSingletonClassifier
+          (VecSpaceSingletonSmul (BEDC.Derived.FieldUp.FieldSingletonInv r p)
+            (VecSpaceSingletonSmul r m))
+          m := by
+  intro carrierM
+  constructor
+  · exact And.intro (hsame_refl BHist.Empty)
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  · exact And.intro (hsame_refl BHist.Empty)
+      (And.intro carrierM (hsame_symm carrierM))
+
 end BEDC.Derived.VecSpaceUp
