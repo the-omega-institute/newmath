@@ -162,7 +162,6 @@ theorem CategoryHomCarrier_unary_suffix_iff {q a b f : BHist} :
                 ((congrArg (append a)
                     (unary_append_comm qCarrier baseCarrier.right.right.left).symm).trans
                   (append_assoc a q f).symm))))))
-
 theorem CategoryHomCarrier_unary_suffix_comp_public_readback {q a b c f g fg : BHist} :
     UnaryHistory q -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier (append a q) (append c q) fg ∧
@@ -268,11 +267,12 @@ theorem CategoryHomCarrier_endpoint_transport_cont_classified {a a' b b' f f' g 
   have moved := CategoryHomCarrier_hsame_transport sameSource sameTarget sameMorphism left
   exact And.intro moved.right.right.right
     (And.intro moved (CategoryHomCarrier_morphism_deterministic moved right))
-
 theorem CategoryHomCarrier_e0_source_absurd {a target f : BHist} :
-    CategoryHomCarrier (BHist.e0 a) target f → False := by
-  intro homCarrier
-  exact unary_no_zero_extension homCarrier.left
+    CategoryHomCarrier (BHist.e0 a) target f → False :=
+  fun homCarrier => unary_no_zero_extension homCarrier.left
+theorem CategoryHomCarrier_e0_target_absurd {source a morph : BHist} :
+    CategoryHomCarrier source (BHist.e0 a) morph -> False :=
+  fun homCarrier => unary_no_zero_extension homCarrier.right.left
 structure ContinuationMorphism (src tgt : BHist) where
   tail : BHist
   rel : Cont src tail tgt
