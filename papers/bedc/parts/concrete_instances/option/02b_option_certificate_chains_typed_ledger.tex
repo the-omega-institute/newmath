@@ -90,6 +90,27 @@ second.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_some\_right\_confluence}
 
+\begin{theorem}[Option classifier $\hsame$ common-right confluence]
+\label{thm:option-classifier-spec-hsame-common-right-confluence}
+For typed option carrier values
+$x,y:\mathsf{OptionCarrier}(\mathsf{BHist})$ and a history $a:\mathsf{BHist}$,
+if both $x$ and $y$ classify to the same present endpoint,
+$$
+\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(a))
+\quad\hbox{and}\quad
+\mathsf{OptionClassifierSpec}(\hsame,y,\mathsf{some}(a)),
+$$
+then $\mathsf{OptionClassifierSpec}(\hsame,x,y)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze $x$ and $y$. Any $\mathsf{none}$ branch contradicts one of the
+displayed none--some classifier clauses. In the some--some branch, the two
+classifier witnesses are $\hsame$ links from the payloads of $x$ and $y$ to
+the common payload $a$; compose the first link with the symmetric of the
+second.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_common\_right\_confluence}
+
 \begin{theorem}[Option classifier $\hsame$ some-right inversion]
 \label{thm:option-classifier-spec-hsame-some-right-inversion}
 For a typed option carrier value $x:\mathsf{OptionCarrier}(\mathsf{BHist})$ and

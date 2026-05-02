@@ -236,6 +236,25 @@ theorem FunctorPrefixHomCarrier_source_prefix_deterministic {p q a target f : BH
     CategoryHomCarrier_source_deterministic left right
   exact append_right_cancel (k := a) sameSource
 
+theorem FunctorPrefixHomCarrier_comp_source_prefix_deterministic {p q a b c f g fg : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g ->
+        Cont f g fg -> CategoryHomCarrier (append q a) (append p c) fg -> hsame p q := by
+  intro left right comp displayed
+  have composite : CategoryHomCarrier (append p a) (append p c) fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  have sameSource : hsame (append p a) (append q a) :=
+    CategoryHomCarrier_source_deterministic composite displayed
+  exact append_right_cancel (k := a) sameSource
+
+theorem FunctorPrefixHomCarrier_source_object_deterministic {p a b target f : BHist} :
+    CategoryHomCarrier (append p a) target f →
+      CategoryHomCarrier (append p b) target f → hsame a b := by
+  intro left right
+  have sameSource : hsame (append p a) (append p b) :=
+    CategoryHomCarrier_source_deterministic left right
+  exact append_left_cancel (h := p) sameSource
+
 theorem FunctorPrefixHomCarrier_target_prefix_deterministic {p q a source f : BHist} :
     CategoryHomCarrier source (append p a) f →
       CategoryHomCarrier source (append q a) f → hsame p q := by
@@ -243,5 +262,15 @@ theorem FunctorPrefixHomCarrier_target_prefix_deterministic {p q a source f : BH
   have sameTarget : hsame (append p a) (append q a) :=
     CategoryHomCarrier_target_deterministic left right
   exact append_right_cancel (k := a) sameTarget
+
+theorem FunctorPrefixHomCarrier_comp_middle_object_deterministic
+    {p a b b' c f g fg : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f →
+      CategoryHomCarrier (append p b') (append p c) g → Cont f g fg →
+        CategoryHomCarrier (append p a) (append p c) fg → hsame b b' := by
+  intro left right comp displayed
+  have sameMiddle : hsame (append p b) (append p b') :=
+    CategoryHomCarrier_comp_middle_object_deterministic left right comp displayed
+  exact append_left_cancel (h := p) sameMiddle
 
 end BEDC.Derived.FunctorUp

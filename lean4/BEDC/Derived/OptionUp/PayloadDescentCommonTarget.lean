@@ -102,4 +102,25 @@ theorem TaggedOptionMapRel_common_source_visible_target_completion {S T : BHist 
                 exact Exists.intro a
                   (And.intro data.left (And.intro data.right.right.left relAY))
 
+theorem TaggedOptionMapRel_common_source_visible_target_payload_classification
+    {S T : BHist -> Prop} {RelS RelT : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT) (certT : NameCert T RelT)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (target_hsame : TaggedOptionSourceHsameCompatible T RelT) {h k k' x y : BHist} :
+    TaggedOptionMapRel S T delta h k -> TaggedOptionMapRel S T delta h k' ->
+      T x -> T y -> hsame k (BHist.e1 x) -> hsame k' (BHist.e1 y) -> RelT x y := by
+  intro mapK mapK' targetX targetY sameKX sameK'Y
+  have completion :=
+    TaggedOptionMapRel_common_source_visible_target_completion
+      delta certT source_hsame target_hsame mapK mapK'
+  have visibleY := completion.left targetX sameKX
+  cases visibleY with
+  | intro z data =>
+      have sameZY : hsame z y :=
+        hsame_e1_iff.mp
+          (hsame_trans (hsame_symm data.right.left) sameK'Y)
+      have relZY : RelT z y :=
+        target_hsame data.left targetY sameZY
+      exact NameCert.equiv_trans certT data.right.right relZY
+
 end BEDC.Derived.OptionUp

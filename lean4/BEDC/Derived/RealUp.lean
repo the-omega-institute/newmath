@@ -121,6 +121,18 @@ theorem RealStreamPrefixClassifier_endpoint {x y : Nat -> BHist} :
       intro classified
       exact classified.right
 
+theorem RealStreamPrefixClassifier_base_of_successor {x y : Nat -> BHist} :
+    forall n : Nat, RealStreamPrefixClassifier x y (Nat.succ n) ->
+      RealStreamPrefixClassifier x y Nat.zero := by
+  intro n
+  induction n with
+  | zero =>
+      intro classified
+      exact classified.left
+  | succ _ ih =>
+      intro classified
+      exact ih classified.left
+
 theorem RealStreamClassifier_finite_prefix_exactness {x y : Nat -> BHist} :
     RealStreamClassifier x y <-> forall n : Nat, RealStreamPrefixClassifier x y n := by
   constructor

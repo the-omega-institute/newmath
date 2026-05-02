@@ -202,6 +202,27 @@ $\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_iff}
 
+\begin{theorem}[Metric distance witness visible-context empty distance exactness]
+\label{thm:metric-distance-witness-visible-context-empty-distance-iff}
+For histories $p,q,x,y$, a visible-context distance witness whose central
+distance ledger is empty is exactly unary evidence for the visible prefix and
+suffix together with empty classification of both central endpoints:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\hsame(x,\emp)\ \wedge\ \hsame(y,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to peel off the prefix and suffix. The central
+witness is then $\mathsf{MetricDistanceWitness}(x,y,\emp)$, which empty-distance
+exactness identifies with $\hsame(x,\emp)$ and $\hsame(y,\emp)$. Conversely,
+the two empty endpoint classifiers build the central empty-distance witness,
+and visible-context exactness reattaches the same prefix and suffix.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_iff}
+
 \begin{theorem}[Metric distance witness visible-context depth additivity]
 \label{thm:metric-distance-witness-visible-context-depth-add}
 For histories $p,q,x,y,d$, a visible-context distance witness determines the
@@ -501,6 +522,27 @@ right-side constructor from the continuation ledger, and the four fields repack
 as $\mathsf{MetricDistanceWitness}(x,y,d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_exactness}
+
+\begin{theorem}[Metric distance witness right e1 visible source exactness]
+\label{thm:metric-distance-witness-right-e1-visible-source-exactness}
+For histories $x,y,d,x_1$, a distance witness whose right endpoint and result
+are visibly tagged descends to the tail while respecting a visible presentation
+of the source endpoint:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))
+\Longrightarrow
+\hsame(x,\Eone(x_1))
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(\Eone(x_1),y,d).
+$$
+\end{theorem}
+\begin{proof}
+First apply right one-headed result exactness to remove the matching visible
+constructors from the right endpoint and result. The displayed $\hsame$ source
+presentation then rewrites the descended source to $\Eone(x_1)$, preserving the
+concrete distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_visible\_source\_exactness}
 
 \begin{theorem}[Metric distance witness right one-headed source cases]
 \label{thm:metric-distance-witness-right-one-headed-source-cases}

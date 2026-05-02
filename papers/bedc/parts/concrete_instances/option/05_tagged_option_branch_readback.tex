@@ -268,6 +268,31 @@ the displayed payloads $R(a,b)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_visible\_payload\_relation\_transport}
 
+\begin{theorem}[Tagged option hsame visible payload exactness]
+\label{thm:tagged-option-history-classifier-hsame-visible-payload-exactness}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,k,a,b$, if the tagged option classifier uses $\hsame$ as its
+payload classifier and both endpoints are displayed as visible payloads,
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}(h,k),
+\qquad
+\hsame(h,\Eone(a)),
+\qquad
+\hsame(k,\Eone(b)),
+$$
+then the displayed payloads are themselves $\hsame$:
+$$
+\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. The absent branch contradicts the
+visible display of the left endpoint. In the present branch, invert the two
+displayed $\Eone$ endpoint readings and compose the exposed $\hsame$ payload
+leg with those two constructor inversions.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_hsame\_visible\_payload\_exactness}
+
 \begin{theorem}[Tagged option history classifier presented payload exactness]
 \label{thm:tagged-option-history-classifier-presented-payload-exactness}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
