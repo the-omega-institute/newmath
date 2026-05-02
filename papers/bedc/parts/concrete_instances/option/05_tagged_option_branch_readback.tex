@@ -77,6 +77,31 @@ $k$ and $r$ gives the two conjuncts.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_left\_present\_endpoint\_fanout}
 
+\begin{theorem}[Tagged option right present endpoint fanout]
+\label{thm:tagged-option-history-classifier-right-present-endpoint-fanout}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k,r,a$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k),\qquad
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(r,k),\qquad
+\hsame(k,\Eone(a)),
+$$
+then both left endpoints are present:
+$$
+\bigl(\exists b:\mathsf{BHist}.\;S(b)\land\hsame(h,\Eone(b))\bigr)
+\land
+\bigl(\exists c:\mathsf{BHist}.\;S(c)\land\hsame(r,\Eone(c))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the two tagged classifier witnesses. In either witness, an absent
+right branch contradicts the displayed present endpoint for $k$. The remaining
+present branch exposes its left payload together with the source witness and
+the left endpoint equation. Applying this argument to the witnesses starting at
+$h$ and $r$ gives the two conjuncts.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_right\_present\_endpoint\_fanout}
+
 \begin{theorem}[Tagged option present-chain payload witness]
 \label{thm:tagged-option-present-chain-payload-witness}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,

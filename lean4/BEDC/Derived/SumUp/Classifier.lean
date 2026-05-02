@@ -372,6 +372,98 @@ theorem SumHistoryClassifier_source_parameter_irrelevance
                             (Exists.intro r'
                               (And.intro sameH (And.intro sameK sameRight))))
 
+theorem SumHistoryClassifier_left_endpoint_fanout {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop} {h k r a : BHist} :
+    SumHistoryClassifier Left Right LeftEq RightEq h k ->
+      SumHistoryClassifier Left Right LeftEq RightEq h r ->
+        hsame h (BHist.e0 a) ->
+          (exists a' b : BHist, hsame a a' /\ hsame k (BHist.e0 b) /\ LeftEq a' b) /\
+            (exists a'' c : BHist, hsame a a'' /\ hsame r (BHist.e0 c) /\ LeftEq a'' c) := by
+  intro left right sameHLeft
+  constructor
+  · cases left with
+    | inl leftData =>
+        cases leftData with
+        | intro sourceH rest =>
+            cases rest with
+            | intro sourceK data =>
+                exact Exists.intro sourceH
+                  (Exists.intro sourceK
+                    (And.intro
+                      (hsame_e0_iff.mp (hsame_trans (hsame_symm sameHLeft) data.left))
+                      (And.intro data.right.left data.right.right)))
+    | inr rightData =>
+        cases rightData with
+        | intro sourceH rest =>
+            cases rest with
+            | intro _sourceK data =>
+                exact False.elim
+                  (not_hsame_e0_e1 (hsame_trans (hsame_symm sameHLeft) data.left))
+  · cases right with
+    | inl leftData =>
+        cases leftData with
+        | intro sourceH rest =>
+            cases rest with
+            | intro sourceR data =>
+                exact Exists.intro sourceH
+                  (Exists.intro sourceR
+                    (And.intro
+                      (hsame_e0_iff.mp (hsame_trans (hsame_symm sameHLeft) data.left))
+                      (And.intro data.right.left data.right.right)))
+    | inr rightData =>
+        cases rightData with
+        | intro sourceH rest =>
+            cases rest with
+            | intro _sourceR data =>
+                exact False.elim
+                  (not_hsame_e0_e1 (hsame_trans (hsame_symm sameHLeft) data.left))
+
+theorem SumHistoryClassifier_right_endpoint_fanout {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop} {h k r a : BHist} :
+    SumHistoryClassifier Left Right LeftEq RightEq h k ->
+      SumHistoryClassifier Left Right LeftEq RightEq h r ->
+        hsame h (BHist.e1 a) ->
+          (exists a' b : BHist, hsame a a' /\ hsame k (BHist.e1 b) /\ RightEq a' b) /\
+            (exists a'' c : BHist, hsame a a'' /\ hsame r (BHist.e1 c) /\ RightEq a'' c) := by
+  intro left right sameHRight
+  constructor
+  · cases left with
+    | inl leftData =>
+        cases leftData with
+        | intro sourceH rest =>
+            cases rest with
+            | intro _sourceK data =>
+                exact False.elim
+                  (not_hsame_e1_e0 (hsame_trans (hsame_symm sameHRight) data.left))
+    | inr rightData =>
+        cases rightData with
+        | intro sourceH rest =>
+            cases rest with
+            | intro sourceK data =>
+                exact Exists.intro sourceH
+                  (Exists.intro sourceK
+                    (And.intro
+                      (hsame_e1_iff.mp (hsame_trans (hsame_symm sameHRight) data.left))
+                      (And.intro data.right.left data.right.right)))
+  · cases right with
+    | inl leftData =>
+        cases leftData with
+        | intro sourceH rest =>
+            cases rest with
+            | intro _sourceR data =>
+                exact False.elim
+                  (not_hsame_e1_e0 (hsame_trans (hsame_symm sameHRight) data.left))
+    | inr rightData =>
+        cases rightData with
+        | intro sourceH rest =>
+            cases rest with
+            | intro sourceR data =>
+                exact Exists.intro sourceH
+                  (Exists.intro sourceR
+                    (And.intro
+                      (hsame_e1_iff.mp (hsame_trans (hsame_symm sameHRight) data.left))
+                      (And.intro data.right.left data.right.right)))
+
 theorem SumHistoryClassifier_reverse_tag_separation {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop} {h k l r : BHist} :
     hsame h (BHist.e1 r) →
