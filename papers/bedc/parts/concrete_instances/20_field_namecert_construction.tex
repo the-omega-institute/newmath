@@ -268,6 +268,46 @@ premises. The conclusion is exactly
 $\mathsf{RatHistoryLedgerPolicy}(left,right)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator hsame-matched context ledger exactness]
+\label{thm:field-rat-denominator-hsame-matched-context-ledger-exactness}
+For all histories
+$p,p',q,q',d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(p')$,
+$\mathsf{UnaryHistory}(q)$, $\mathsf{UnaryHistory}(q')$, $p\hsame p'$,
+$q\hsame q'$, $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, $\Cont(p,d,pd)$, $\Cont(p',e,pe)$,
+$\Cont(pd,q,left)$, and $\Cont(pe,q',right)$, then
+$$
+\mathsf{RatHistoryLedgerPolicy}(d,e)
+\Longleftrightarrow
+\mathsf{RatHistoryLedgerPolicy}(left,right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume
+$\mathsf{RatHistoryLedgerPolicy}(d,e)$. Apply
+\autoref{thm:field-rat-denominator-continuation-common-context-ledger-closure}
+to this ledger, the two unary prefixes, the two unary suffixes, the two
+$\hsame$ context comparisons, and the four displayed continuation witnesses.
+The result is exactly $\mathsf{RatHistoryLedgerPolicy}(left,right)$.
+
+For the reverse direction, assume
+$\mathsf{RatHistoryLedgerPolicy}(left,right)$. Convert this endpoint ledger to
+the raw-visible classifier by
+\autoref{thm:rat-ledger-raw-visible-classifier}.
+
+Apply
+\autoref{thm:field-rat-denominator-hsame-matched-context-classifier-exactness}
+in the reverse direction with the same unary histories, context comparisons,
+carrier witnesses, and continuation witnesses. This recovers
+$\mathsf{RatHistoryClassifier}(d,e)$, hence the endpoint comparison
+$d\hsame e$.
+
+Pair the recovered comparison with the given carrier
+$\mathsf{RatHistoryCarrier}(d)$. These are precisely the data of
+$\mathsf{RatHistoryLedgerPolicy}(d,e)$.
+\end{proof}
+
 \textbf{Traditional target}: denominator exactness for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
