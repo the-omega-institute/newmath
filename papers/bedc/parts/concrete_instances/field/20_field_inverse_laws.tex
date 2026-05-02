@@ -56,6 +56,33 @@ with $a$, and symmetry gives $a\hsame b$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_inverse\_cancel\_from\_apartness}
 
+\begin{theorem}[Field inverse classifier exactness from apartness]
+\label{thm:field-inverse-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate supplying multiplication on
+$\mathsf{BHist}$, a unit $1$, a unary nonzero certificate
+$\mathsf{NonZero}_F$, an inverse operation $\mathsf{inv}(a,p)$ indexed by
+$p:\mathsf{NonZero}_F(a)$, multiplicative associativity, left and right unit
+laws, multiplication congruence under $\hsame$, and left and right inverse
+laws indexed by nonzero witnesses, any elements $a,b:\mathsf{BHist}$ with
+explicit witnesses $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$ satisfy
+$$
+a\hsame b \Longleftrightarrow
+\mathsf{inv}(a,p_a)\hsame\mathsf{inv}(b,p_b).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:field-inverse-congruence-from-apartness} to $a\hsame b$, using
+the displayed witnesses $p_a$ and $p_b$ as the two proof indices. This gives
+the classifier equality of the two indexed inverses.
+
+For the reverse direction, apply
+\autoref{thm:field-inverse-cancel-from-apartness} to the supplied equality
+between indexed inverses. Its cancellation conclusion is exactly $a\hsame b$,
+so the two implications combine into the stated classifier exactness.
+\end{proof}
+
 \begin{theorem}[Field inverse of an indexed inverse]
 \label{thm:field-inverse-involutive-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with multiplication on
