@@ -75,6 +75,7 @@ import BEDC.Derived.OptionUp.VisibleBranchInversion
 import BEDC.Derived.OptionUp.CompositeReadback
 import BEDC.Derived.OptionUp.SelfExactness
 import BEDC.Derived.OptionUp.TransportVisiblePayloadReadback
+import BEDC.Derived.OptionUp.ExclusiveBranch
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
@@ -112,6 +113,7 @@ import BEDC.Derived.MetricUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.GraphChainFactorization
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
+import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.FunctorUp

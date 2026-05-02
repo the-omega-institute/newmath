@@ -262,6 +262,19 @@ theorem MetricDistanceWitness_left_boundary_visible_context_iff {p q y d : BHist
                 (x := BHist.Empty) (y := y) (d := d)).mpr
                 (And.intro pCarrier (And.intro qCarrier central))
 
+theorem MetricDistanceWitness_empty_boundary_visible_context_depth_zero {p q d : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) ->
+      MetricDistanceDepth d = 0 := by
+  intro visible
+  have visibleData :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := BHist.Empty)
+      (y := BHist.Empty) (d := d)).mp visible
+  have central : MetricDistanceWitness BHist.Empty BHist.Empty d := visibleData.2.2
+  have boundary := (MetricDistanceWitness_empty_left_iff (y := BHist.Empty) (d := d)).mp central
+  cases boundary.right
+  rfl
+
 theorem MetricDistanceWitness_symmetric_classifier {x y dxy dyx : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y x dyx -> hsame dxy dyx := by
   intro forward reverse

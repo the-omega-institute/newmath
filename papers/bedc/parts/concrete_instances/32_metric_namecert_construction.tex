@@ -416,6 +416,26 @@ $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_boundary\_visible\_context\_iff}
 
+\begin{theorem}[Metric distance witness empty-boundary visible-context depth zero]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-depth-zero}
+For histories $p,q,d$, a visible-context distance witness whose central left and
+right endpoints are both empty forces the central distance depth to be zero:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d)=0.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to remove the
+visible prefix and suffix. The central witness is then
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d)$. Applying
+\autoref{thm:metric-distance-witness-empty-left-iff} gives $\hsame(d,\emp)$.
+Case analysis on this history classifier reduces the displayed depth equation
+to reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_depth\_zero}
+
 \begin{theorem}[Metric distance witness visible-context symmetric classifier]
 \label{thm:metric-distance-witness-visible-context-symmetric-classifier}
 For histories $p,q,x,y,d_{xy},d_{yx}$, symmetric distance witnesses remain

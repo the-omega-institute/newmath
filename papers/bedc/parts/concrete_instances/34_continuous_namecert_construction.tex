@@ -77,6 +77,34 @@ the standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_map\_identity}
 
+\begin{theorem}[Continuous function carrier empty-map exactness]
+\label{thm:continuous-function-carrier-empty-map-iff}
+For histories $source$, $target$, $modulus$, and $cert$, the empty graph map
+inside $\mathsf{ContinuousFunctionCarrier}$ is exact:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,\emp,target,modulus,cert)
+\Longleftrightarrow
+\hsame(target,source)\land
+\mathsf{ContinuousModulusWitness}(target,modulus,cert).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the carrier. The graph ledger is
+$\mathsf{Cont}(source,\emp,target)$, so the continuation right-unit theorem gives
+$\hsame(target,source)$. The target-modulus certificate ledger supplies
+$\mathsf{Cont}(target,modulus,cert)$, and unary continuation closure supplies
+the unary certificate history. Together with the target and modulus unary
+fields, these assemble the displayed modulus witness.
+
+Conversely, assume the target-source classifier and the modulus witness over
+$target$. Transport the target unary ledger across $\hsame(target,source)$ to
+obtain the source unary ledger. The empty map is unary, the graph ledger is the
+right-unit continuation read from $\hsame(target,source)$, and the supplied
+modulus witness gives the target, modulus, certificate, and certificate-ledger
+fields of the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_map\_iff}
+
 \begin{theorem}[Continuous function carrier target-certificate determinacy]
 \label{thm:continuous-function-carrier-target-cert-deterministic}
 For histories $source,map,target,target',modulus,cert,cert'$, if

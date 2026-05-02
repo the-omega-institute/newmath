@@ -106,6 +106,32 @@ present-present branch.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_exclusive\_branch\_readback}
 
+\begin{theorem}[Option history classifier exclusive branch iff]
+\label{thm:option-history-classifier-exclusive-branch-iff}
+Let $source:\mathsf{BHist}\to\mathsf{Prop}$ exclude the empty history:
+if $source(h)$ and $\hsame(h,\emp)$ hold, then contradiction follows. For all
+histories $h,k$, the untagged option classifier is exactly the disjoint
+empty-empty branch or the source-source branch:
+$$
+\mathsf{OptionHistoryClassifier}_{source}(h,k)
+\Longleftrightarrow
+\bigl(\hsame(h,\emp)\land\hsame(k,\emp)\bigr)
+\lor
+\bigl(source(h)\land source(k)\land\hsame(h,k)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the two endpoint carriers and the endpoint
+classifier $\hsame(h,k)$. Each carrier is either the empty branch or the source
+branch. The empty-empty and source-source cases give the two displayed
+alternatives directly. In the mixed cases, transport the empty endpoint equality
+across $\hsame(h,k)$ and apply the hypothesis that $source$ excludes empty.
+Conversely, the empty-empty branch gives both endpoint carriers and reconstructs
+$\hsame(h,k)$ by transitivity through $\emp$; the source-source branch gives the
+two source carriers and the supplied endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_exclusive\_branch\_iff}
+
 \begin{theorem}[Tagged option history classifier visible-pair payload exactness]
 \label{thm:tagged-option-history-classifier-visible-pair-payload-exactness}
 This theorem fits the per-object template as follows: the traditional target is
