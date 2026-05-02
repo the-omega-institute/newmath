@@ -116,6 +116,38 @@ For every generated history $h$, $\ContR(h,\emp,h)$. Moreover, for every generat
 The right unit is the base constructor. The left unit is proved by induction on $k$. The empty case is immediate. If $k=\Ezero(k')$, use the induction hypothesis for $k'$ and rebuild with the $\Ezero$ constructor. The $\Eone$ case is analogous. The uniqueness form follows by continuation determinacy against the base constructor.
 \end{proof}
 
+\begin{theorem}[Continuation right-unit law endpoint emptiness]
+\label{thm:cont-right-unit-law-endpoint-empty-iff}
+For every generated history $u$, the universal right-unit result law
+$$
+\forall d,r:\mathsf{BHist}.\; \ContR(d,u,r)\to \HSame(r,d)
+$$
+holds if and only if $u\hsame\emp$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_right\_unit\_law\_endpoint\_empty\_iff}
+\begin{proof}
+If the universal law holds, apply it to the left-unit continuation
+$\ContR(\emp,u,u)$ to obtain $u\hsame\emp$. Conversely, after the endpoint is
+identified with $\emp$, any continuation $\ContR(d,\emp,r)$ is a right-unit
+continuation, so right-unit result uniqueness gives $\HSame(r,d)$.
+\end{proof}
+
+\begin{theorem}[Continuation left-unit law endpoint emptiness]
+\label{thm:cont-left-unit-law-endpoint-empty-iff}
+For every generated history $u$, the universal left-unit result law
+$$
+\forall d,r:\mathsf{BHist}.\; \ContR(u,d,r)\to \HSame(r,d)
+$$
+holds if and only if $u\hsame\emp$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_unit\_law\_endpoint\_empty\_iff}
+\begin{proof}
+If the universal law holds, apply it to the right-unit continuation
+$\ContR(u,\emp,u)$ to obtain $u\hsame\emp$. Conversely, after the endpoint is
+identified with $\emp$, any continuation $\ContR(\emp,d,r)$ is a left-unit
+continuation, so the left-unit result theorem gives $\HSame(r,d)$.
+\end{proof}
+
 \begin{theorem}[Mutual continuation collapses to history-sameness]
 \label{thm:cont-mutual-extension-hsame}
 If \(\ContR(h,l,k)\) and \(\ContR(k,r,h)\), then \(\HSame(h,k)\).

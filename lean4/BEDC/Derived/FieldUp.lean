@@ -1,13 +1,19 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.Derived.GroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.FieldUp.SingletonEmpty
+import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 
 namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
+open BEDC.Derived.RatUp
 
 def FieldSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
@@ -555,4 +561,28 @@ theorem FieldSingletonNonZero_absurd {h : BHist} : FieldSingletonNonZero h -> Fa
       assocC leftId rightId addCongr mulCongr leftDistrib rightDistrib leftInv rightInv a b).left
       pa productEmpty
   exact nonzeroEmptyAbsurd (nonzeroTransport bEmpty pb)
+
+theorem field_rat_denominator_continuation_left_unit_law_endpoint_empty_iff {u : BHist} :
+    ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d) ↔
+      hsame u BHist.Empty) := by
+  constructor
+  · intro leftUnit
+    have carrierD1 : RatHistoryCarrier (BHist.e1 BHist.Empty) :=
+      RatHistoryCarrier_e1_tail_unary_iff.mpr unary_empty
+    have canonicalContinuation :
+        Cont u (BHist.e1 BHist.Empty) (append u (BHist.e1 BHist.Empty)) :=
+      cont_intro rfl
+    have classifiedResult :
+        RatHistoryClassifier (append u (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) :=
+      leftUnit carrierD1 canonicalContinuation
+    have collapsedContinuation : Cont u (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+      cont_result_hsame_transport canonicalContinuation classifiedResult.right.right
+    exact cont_left_unit_unique collapsedContinuation
+  · intro uEmpty
+    intro d r carrierD contUDR
+    have sameRD : hsame r d := by
+      cases uEmpty
+      exact cont_left_unit_result contUDR
+    exact ⟨RatHistoryCarrier_hsame_transport (hsame_symm sameRD) carrierD,
+      carrierD, sameRD⟩
 end BEDC.Derived.FieldUp

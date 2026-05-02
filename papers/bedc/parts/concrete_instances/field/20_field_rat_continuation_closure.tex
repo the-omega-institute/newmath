@@ -304,6 +304,32 @@ $d$, and the symmetric endpoint equality as the classifier
 $\mathsf{RatHistoryClassifier}(r,d)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation left-unit endpoint iff]
+\label{thm:field-rat-denominator-continuation-left-unit-law-endpoint-empty-iff}
+For every history $u:\mathsf{BHist}$, the Rat denominator continuation
+left-unit classifier law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+holds if and only if $u\hsame\emp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_left\_unit\_law\_endpoint\_empty\_iff}
+\begin{proof}
+The forward direction applies the displayed law to the carried denominator
+$d_1:=\Eone(\emp)$ and the canonical continuation
+$\Cont(u,d_1,\mathsf{append}(u,d_1))$. The classifier comparison transports
+this continuation to $\Cont(u,d_1,d_1)$, and continuation left-unit uniqueness
+forces $u\hsame\emp$.
+
+Conversely, when $u\hsame\emp$, any continuation $\Cont(u,d,r)$ reduces to a
+left-unit continuation from $\emp$ by $d$. The kernel left-unit result gives
+$r\hsame d$, and Rat carrier transport along this comparison supplies the
+left endpoint carrier needed for $\mathsf{RatHistoryClassifier}(r,d)$.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation unit endpoint uniqueness]
 \label{thm:field-rat-denominator-continuation-unit-endpoint-unique}
 For all histories $u,v:\mathsf{BHist}$, Rat denominator continuation determines
