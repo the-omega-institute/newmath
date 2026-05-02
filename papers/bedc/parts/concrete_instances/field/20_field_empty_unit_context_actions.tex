@@ -266,3 +266,55 @@ empty external contexts; core theorem
 exactness predicate preservation and reflection of classifier plus strict
 support; standard bridge cancellative denominator monoids with adjoined unit;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator empty-unit bilateral multiplication support exactness]
+\label{thm:field-rat-denominator-empty-unit-bilateral-multiplication-support-exactness}
+For histories $h,l,r:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(l)$, and
+$C_D^u(r)$, the bilateral context map of
+\autoref{def:field-rat-denominator-empty-unit-bilateral-multiplication-context}
+satisfies
+$$
+N_D^u(B_{l,r}(h)) \Longleftrightarrow
+N_D^u(l)\lor N_D^u(h)\lor N_D^u(r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $B_{l,r}$ as $\mu_D^u(\mu_D^u(l,h),r)$. Carrier closure for the
+empty-unit denominator product gives $C_D^u(\mu_D^u(l,h))$ from the carried
+hypotheses on $l$ and $h$, so the outer product lies in the scope of strict
+product support exactness.
+
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-strict-product-support-exactness}
+to $\mu_D^u(\mu_D^u(l,h),r)$. This identifies
+$N_D^u(B_{l,r}(h))$ with
+$N_D^u(\mu_D^u(l,h))\lor N_D^u(r)$.
+
+Apply the same strict-product support exactness theorem to the inner product
+$\mu_D^u(l,h)$. This identifies the inner support term with
+$N_D^u(l)\lor N_D^u(h)$.
+
+For the forward direction, combine the two displayed equivalences. If the outer
+support witness lands in the right component, obtain $N_D^u(r)$. If it lands in
+the left component, use the inner equivalence and distinguish the $l$ and $h$
+cases. Reassociate the resulting constructive disjunction as
+$N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$.
+
+For the reverse direction, start from
+$N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$. The $r$ case supplies the right component
+of the outer strict-product equivalence. The $l$ and $h$ cases first supply
+$N_D^u(\mu_D^u(l,h))$ by the reverse direction of the inner equivalence, and
+then supply $N_D^u(B_{l,r}(h))$ by the reverse direction of the outer
+equivalence.
+\end{proof}
+
+Per-object template: traditional target bilateral denominator-context support
+exactness; BEDC source $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatHistoryCarrier}$, $\Cont$, $\mathsf{append}$, and $\emp$; carrier
+$C_D^u$; classifier $R_D^u$; stability obligation strict-support exactness under
+two-sided carried contexts; ledger the two continuation witnesses; core theorem
+\autoref{thm:field-rat-denominator-empty-unit-bilateral-multiplication-support-exactness};
+exactness predicate
+$N_D^u(B_{l,r}(h)) \Longleftrightarrow
+N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$; standard bridge cancellative denominator
+monoids with adjoined unit; status $\mathsf{ProofTarget}$.
