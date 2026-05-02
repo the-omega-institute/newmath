@@ -112,8 +112,8 @@ $$
 \mathsf{normalize}_P(h):=\emp,\qquad
 0_P:=\emp,\qquad
 1_P:=\emp,\qquad
-\mathsf{add}_P(f,g):=\emp,\qquad
-\mathsf{mul}_P(f,g):=\emp.
+\mathsf{add}_P(f,g):=\mathsf{append}(f,g),\qquad
+\mathsf{mul}_P(f,g):=\mathsf{append}(f,g).
 $$
 The ledger is the empty normalized coefficient list over the singleton
 empty-history ring of Definition~\ref{def:singleton-empty-history-ring-instance}.
@@ -144,28 +144,50 @@ $\mathsf{normalize}_P(\mathsf{normalize}_P(h))$ with
 $\mathsf{normalize}_P(h)$, and both sides are the same carried endpoint.
 
 The constants $0_P$ and $1_P$ are both $\emp$, so zero closure and one closure
-are exactly $A_{\emp}(\emp)$. Addition closure and multiplication closure are
-the same calculation, since $\mathsf{add}_P(f,g)$ and
-$\mathsf{mul}_P(f,g)$ are both defined as $\emp$.
+are exactly $A_{\emp}(\emp)$. Addition closure and multiplication closure use
+empty-result inversion for BEDC append: if both inputs are singleton-carried,
+then both inputs are $\emp$, and the appended result is again singleton-carried.
 
 The additive zero laws, multiplicative zero laws, and multiplicative one laws
-all reduce to a comparison of $\emp$ with $\emp$. Each classifier goal is
-therefore assembled from the two endpoint witnesses $A_{\emp}(\emp)$ and the
-reflexive history-sameness fact $\hsame(\emp,\emp)$.
+all reduce to a comparison of an appended empty endpoint with the carried
+endpoint. Each classifier goal is assembled from the two endpoint witnesses and
+the corresponding history-sameness witness.
 
 Associativity and distributivity have no remaining endpoint computation after
-the displayed operations are unfolded. The left-associated, right-associated,
-left-distributive, and right-distributive terms all reduce to $\emp$, so
-$\rho_{\emp}$ packages the same singleton carrier witnesses with
-$\hsame(\emp,\emp)$.
+the displayed operations are unfolded under singleton-carrier hypotheses. The
+left-associated, right-associated, left-distributive, and right-distributive
+terms are all singleton-carried, so $\rho_{\emp}$ packages the same singleton
+carrier witnesses with the BEDC append associativity witness.
 
 For congruence under $\rho_{\emp}$, assume the inputs are pairwise related by
-$\rho_{\emp}$. The operation outputs are again $\emp$ on both sides for
+$\rho_{\emp}$. The operation outputs are singleton-carried on both sides for
 normalization, addition, and multiplication. The output relation is the
-singleton classifier witness built from $A_{\emp}(\emp)$ and
-$\hsame(\emp,\emp)$.
+singleton classifier witness built from the carrier witnesses and
+history-sameness.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.singleton\_empty\_history\_polynomial\_laws}
+
+\begin{theorem}[Polynomial singleton classifier empty addition split]
+\label{thm:polynomial-singleton-classifier-add-split-empty}
+For singleton-history polynomial codes $P,Q,h$, the classifier relation
+between $\mathsf{add}_P(P,Q)$ and $h$ holds exactly when $P$ and $Q$
+are each history-same to $\emp$ and $h$ is singleton-carried:
+$$
+\rho_{\emp}(\mathsf{add}_P(P,Q),h)
+\quad\Longleftrightarrow\quad
+\hsame(P,\emp)\wedge\hsame(Q,\emp)\wedge A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton classifier. The left carrier field says that
+$\mathsf{append}(P,Q)$ is history-same to $\emp$. Empty-result inversion
+for BEDC append splits this into $\hsame(P,\emp)$ and $\hsame(Q,\emp)$,
+while the right carrier field is exactly $A_{\emp}(h)$. Conversely, after
+the two endpoint sameness witnesses identify $P$ and $Q$ with $\emp$,
+the classifier is rebuilt from the singleton carrier of $\emp$, the given
+carrier of $h$, and symmetry of the carrier witness for $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_add\_split\_empty\_iff}
 
 The $\PolynomialUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and the displayed $\mathsf{BHist}$-valued operations, so later

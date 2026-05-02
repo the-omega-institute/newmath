@@ -29,6 +29,19 @@ def PolynomialSingletonAdd (P Q : BHist) : BHist :=
 def PolynomialSingletonMul (P Q : BHist) : BHist :=
   append P Q
 
+theorem PolynomialSingletonClassifier_add_split_empty_iff {P Q h : BHist} :
+    PolynomialSingletonClassifier (PolynomialSingletonAdd P Q) h ↔
+      hsame P BHist.Empty ∧ hsame Q BHist.Empty ∧ PolynomialSingletonCarrier h := by
+  constructor
+  · intro classified
+    have split := append_eq_empty_iff.mp classified.left
+    exact And.intro split.left (And.intro split.right classified.right.left)
+  · intro split
+    cases split.left
+    cases split.right.left
+    exact And.intro (hsame_refl BHist.Empty)
+      (And.intro split.right.right (hsame_symm split.right.right))
+
 theorem singleton_empty_history_polynomial_laws :
     SemanticNameCert PolynomialSingletonCarrier PolynomialSingletonCarrier
       PolynomialSingletonCarrier PolynomialSingletonClassifier ∧
