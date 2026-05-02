@@ -1,5 +1,6 @@
 import BEDC.Derived.FieldUp
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 
 namespace BEDC.Derived.FieldUp
 
@@ -26,5 +27,23 @@ theorem field_rat_history_carrier_non_singleton_boundary_witness :
       (by
         intro coverage
         exact singletonAbsurd (coverage (BHist.e1 BHist.Empty) ratCarrier)))
+
+theorem field_rat_carrier_non_singleton_boundary_witness :
+    BEDC.Derived.RatUp.RatHistoryCarrier (BHist.e1 BHist.Empty) ∧
+      (FieldSingletonCarrier (BHist.e1 BHist.Empty) -> False) ∧
+        ((forall h : BHist, BEDC.Derived.RatUp.RatHistoryCarrier h ->
+          FieldSingletonCarrier h) -> False) := by
+  have ratBoundary : BEDC.Derived.RatUp.RatHistoryCarrier (BHist.e1 BHist.Empty) :=
+    BEDC.Derived.RatUp.RatHistoryCarrier_e1_tail_unary_iff.mpr
+      BEDC.FKernel.Unary.unary_empty
+  have singletonAbsurd : FieldSingletonCarrier (BHist.e1 BHist.Empty) -> False := by
+    intro singleton
+    exact BEDC.Derived.RatUp.RatHistoryCarrier_not_empty ratBoundary singleton
+  constructor
+  · exact ratBoundary
+  · constructor
+    · exact singletonAbsurd
+    · intro carrierCoverage
+      exact singletonAbsurd (carrierCoverage (BHist.e1 BHist.Empty) ratBoundary)
 
 end BEDC.Derived.FieldUp
