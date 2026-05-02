@@ -273,6 +273,55 @@ apply Theorem~\ref{thm:rat-history-carrier-not-empty} to the carrier witness
 and the resulting equality $u\hsame\emp$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation unit endpoint uniqueness]
+\label{thm:field-rat-denominator-continuation-unit-endpoint-unique}
+For all histories $u,v:\mathsf{BHist}$, Rat denominator continuation determines
+every one-sided classifier-unit endpoint:
+\begin{enumerate}
+  \item if both $u$ and $v$ satisfy the right-unit classifier law
+
+  $$
+  \forall d,r:\mathsf{BHist}.\;
+  \mathsf{RatHistoryCarrier}(d)\to
+  \Cont(d,w,r)\to
+  \mathsf{RatHistoryClassifier}(r,d),
+  $$
+
+  for $w=u$ and for $w=v$, then $u\hsame v$;
+  \item if both $u$ and $v$ satisfy the left-unit classifier law
+
+  $$
+  \forall d,r:\mathsf{BHist}.\;
+  \mathsf{RatHistoryCarrier}(d)\to
+  \Cont(w,d,r)\to
+  \mathsf{RatHistoryClassifier}(r,d),
+  $$
+
+  for $w=u$ and for $w=v$, then $u\hsame v$;
+  \item if $u$ satisfies the right-unit classifier law and $v$ satisfies the
+  left-unit classifier law, then $u\hsame v$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+In the right/right case, apply
+Theorem~\ref{thm:field-rat-denominator-continuation-unit-endpoint-empty} to the
+right-unit classifier law for $u$, obtaining $u\hsame\emp$. Apply the same
+theorem to the right-unit classifier law for $v$, obtaining $v\hsame\emp$.
+Symmetry of $\hsame$ turns the second equality into $\emp\hsame v$, and
+transitivity gives $u\hsame v$.
+
+In the left/left case, apply the left-unit clause of
+Theorem~\ref{thm:field-rat-denominator-continuation-unit-endpoint-empty} to the
+two endpoint laws. This gives $u\hsame\emp$ and $v\hsame\emp$, and the same
+symmetry-transitivity composition yields $u\hsame v$.
+
+In the mixed case, use the right-unit clause for $u$ and the left-unit clause
+for $v$ in
+Theorem~\ref{thm:field-rat-denominator-continuation-unit-endpoint-empty}. The
+resulting comparisons $u\hsame\emp$ and $v\hsame\emp$ compose, after symmetry
+of the second comparison, to $u\hsame v$.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation classifier associativity congruence]
 \label{thm:field-rat-denominator-continuation-associative-classifier-congruence}
 For all histories
