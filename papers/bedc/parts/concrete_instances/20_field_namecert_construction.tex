@@ -304,22 +304,71 @@ core theorem
 exactness predicate the displayed support iff; standard bridge deferred; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp certificate rows are source-anchored]
+\label{thm:ratup-fieldup-certificate-rows-source-anchored}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple}, every row consumed by
+\autoref{def:concrete-ratup-fieldup-certificate-instance} is read over that
+same concrete $\mathsf{BHist}$ source: field carrier
+$C_F=\mathsf{RatHistoryCarrier}$, field classifier
+$R_F=\mathsf{RatHistoryClassifier}$, denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, contextual action
+$\Gamma$, context-pair monoid of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, and affine
+coordinate $\mathsf{AffAut}_F$. The $\CommRingUp$ base coordinate is therefore
+consumed only through the concrete boundary
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary}.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:ratup-fieldup-concrete-source-tuple}. Its field source
+coordinates are the rational history carrier
+$\mathsf{RatHistoryCarrier}$ and rational history classifier
+$\mathsf{RatHistoryClassifier}$, and its denominator source is the displayed
+tuple with multiplication $\mathsf{append}$, endpoint $\emp$, and strict support
+$\mathsf{RatHistoryCarrier}$.
+
+Now apply \autoref{thm:ratup-fieldup-assembled-certificate-boundary}. It gives
+the full row list for the same source tuple
+$\mathsf{RatUpFieldSource}_F$, including the field carrier, field classifier,
+denominator tuple, contextual source, context-pair source, affine source, and
+the base coordinate consumed by the concrete boundary.
+
+The denominator-action rows are the component isolated by
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component}.
+They use the same denominator tuple and the same action $\Gamma$, so their row
+location agrees with the assembled boundary rather than with any separate
+source tuple.
+
+For the context-pair rows, use
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate} and
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes}.
+The first theorem supplies the context-pair action certificate, while the second
+supplies strict-support commutation for the context-pair product named in the
+statement.
+
+Finally, \autoref{thm:field-affine-automorphism-group-certificate} supplies the
+affine row for $\mathsf{AffAut}_F$. Combining these component rows with the
+assembled boundary pins every entry consumed by
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} to the single
+source tuple $\mathsf{RatUpFieldSource}_F$.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp semantic certificate assembly]
 \label{thm:ratup-fieldup-semantic-certificate-assembly}
 For the concrete $\mathsf{BHist}$ data
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
 $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
 $\mathsf{append}$, $\Cont$, $\emp$, and strict support
-$\mathsf{RatHistoryCarrier}$, assume the $\RatUp$ source already carries the
-$\CommRingUp$ base rows certified by
-\autoref{thm:singleton-empty-history-commring-laws} and
-\autoref{thm:singleton-empty-history-commring-schema-certificate}. With those
-base rows in place, the FieldUp-specific inverse and apart-zero rows, the
-two-sided zero-product and nonzero-product rows, the denominator
+$\mathsf{RatHistoryCarrier}$, the row-location invariant of
+\autoref{thm:ratup-fieldup-certificate-rows-source-anchored} reads the
+$\CommRingUp$ base coordinate, the FieldUp-specific inverse and apart-zero rows,
+the two-sided zero-product and nonzero-product rows, the denominator
 multiplicative rows, the denominator-action envelope rows, contextual
 denominator rows, the denominator support-neutrality rows, the denominator
 context-pair action rows, the context-pair strict-support commutation row, and
-the packaged affine $\GroupUp$ consequence supply the carrier, source, pattern,
+the packaged affine $\GroupUp$ consequence over the same concrete
+$\mathsf{BHist}$ source. These rows supply the carrier, source, pattern,
 classifier, stability, ledger, and exactness rows of
 \autoref{def:field-certificate-obligations} for the concrete target
 $\FieldUp(\mathsf{RatUp})$. More explicitly,
@@ -336,16 +385,12 @@ $(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
 $\Gamma$ and affine coordinate $\mathsf{AffAut}_F$ as fixed in
 Definition~\ref{def:concrete-ratup-fieldup-certificate-instance}.
 
-The $\CommRingUp$ base rows are the first dependency. Theorem~\ref{thm:singleton-empty-history-commring-laws}
-supplies the additive and multiplicative ring laws, distributivity, operation
-congruence, multiplicative commutativity, and commutativity compatibility needed
-by the field record.
-
-Theorem~\ref{thm:singleton-empty-history-commring-schema-certificate} packages
-those laws with the carrier, source, classifier, pattern, and ring ledger fields
-over the concrete singleton source, so the base part of
-\autoref{def:field-certificate-obligations} is already licensed before any
-inverse or denominator row is attached.
+The source anchor is
+\autoref{thm:ratup-fieldup-certificate-rows-source-anchored}. It reads the
+$\CommRingUp$ base coordinate through
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary} and pins the field
+carrier, field classifier, denominator tuple, contextual action, context-pair
+monoid, and affine coordinate to the same concrete source tuple.
 
 The inverse rows are the apart-zero rows. Theorem~\ref{thm:field-apart-zero-inverse-classifier-exact-from-apartness}
 supplies classifier exactness for proof-indexed inverses over the concrete
