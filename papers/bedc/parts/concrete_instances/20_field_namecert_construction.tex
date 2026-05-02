@@ -496,6 +496,95 @@ denominator contexts; core theorem
 exactness predicate the displayed support iff; standard bridge denominator
 context-pair monoid support; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp denominator context-pair threefold action coherence]
+\label{thm:ratup-fieldup-denominator-context-pair-threefold-action-coherence}
+For the concrete denominator context-pair structure of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, assume that
+$(l_0,r_0)$, $(l_1,r_1)$, and $(l_2,r_2)$ are carried pairs and that
+$C_D^u(h)$. Let
+$$
+H_3:=
+\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h))).
+$$
+Then the threefold context-pair action is carried:
+$$
+C_D^u(H_3).
+$$
+It is classified by the single action of the left-associated double product
+$( (l_0,r_0)\star(l_1,r_1))\star(l_2,r_2)$:
+$$
+R_D^u\bigl(H_3,
+\Gamma_{\emp,\emp,\mu_D^u(l_2,\mu_D^u(l_1,l_0)),
+\mu_D^u(\mu_D^u(r_0,r_1),r_2)}(h)\bigr).
+$$
+It is also classified by the single action of the alternate bracketing
+$(l_0,r_0)\star((l_1,r_1)\star(l_2,r_2))$:
+$$
+R_D^u\bigl(H_3,
+\Gamma_{\emp,\emp,\mu_D^u(\mu_D^u(l_2,l_1),l_0),
+\mu_D^u(r_0,\mu_D^u(r_1,r_2))}(h)\bigr).
+$$
+The strict-support readback is the seven-term denominator row
+$$
+N_D^u(H_3)
+\Longleftrightarrow
+N_D^u(l_2)\lor N_D^u(l_1)\lor N_D^u(l_0)\lor N_D^u(h)
+\lor N_D^u(r_0)\lor N_D^u(r_1)\lor N_D^u(r_2).
+$$
+Equivalently, after reassociating the finite disjunction, the same readback is
+$$
+N_D^u(H_3)
+\Longleftrightarrow
+\mathsf{PairSupp}_D^u(l_2,r_2)\lor
+\mathsf{PairSupp}_D^u(l_1,r_1)\lor
+\mathsf{PairSupp}_D^u(l_0,r_0)\lor N_D^u(h).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-contextual-action-threefold-normalization}
+with the three carried denominator context pairs and the carried denominator
+history $h$. This gives the carrier row for $H_3$, the classifier comparison with
+the single action whose contexts are
+$\mu_D^u(l_2,\mu_D^u(l_1,l_0))$ and
+$\mu_D^u(\mu_D^u(r_0,r_1),r_2)$, and the seven-term strict-support readback.
+
+Unfold
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}. The product
+$(l_0,r_0)\star(l_1,r_1)$ is
+$(\mu_D^u(l_1,l_0),\mu_D^u(r_0,r_1))$, so the next product with
+$(l_2,r_2)$ has exactly the two normalized contexts displayed in the first
+classifier row.
+
+For the alternate bracketing, use the associativity clause of
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-laws}. It identifies
+the two double products componentwise up to $R_D^u$, with left component
+$\mu_D^u(l_2,\mu_D^u(l_1,l_0))$ classified with
+$\mu_D^u(\mu_D^u(l_2,l_1),l_0)$ and right component
+$\mu_D^u(\mu_D^u(r_0,r_1),r_2)$ classified with
+$\mu_D^u(r_0,\mu_D^u(r_1,r_2))$.
+
+Transport the first single-action classifier across this componentwise
+associativity comparison using the concrete denominator classifier laws recorded
+in the same action-law theorem. Finally unfold $\mathsf{PairSupp}_D^u$ and
+reassociate the finite disjunction to obtain the pair-support formulation of the
+same strict-support readback.
+\end{proof}
+
+Per-object template: traditional target threefold context-pair action coherence
+for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{append}$, $\Cont$, $\emp$, and $\Gamma$;
+carrier carried context pairs; classifier componentwise $R_D^u$; stability
+obligations closure, classifier normalization, support readback, and pair-product
+associativity; ledger three carried pairs plus acted denominator history; core
+theorem
+\autoref{thm:ratup-fieldup-denominator-context-pair-threefold-action-coherence};
+exactness predicate threefold normalized action classifier and support readback;
+standard bridge FieldUp denominator context-pair action; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp denominator context-pair action certificate]
 \label{thm:ratup-fieldup-denominator-context-pair-action-certificate}
 For the concrete tuple
