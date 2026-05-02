@@ -6,6 +6,40 @@
 \section{Option history classifier unary two-sided context}
 \label{sec:option-history-classifier-unary-two-sided-context}
 
+\begin{theorem}[Option history carrier unary two-sided context]
+\label{thm:option-history-carrier-unary-two-sided-context}
+Let $p,q,h:\mathsf{BHist}$. If $\mathsf{UnaryHistory}(p)$ and
+$\mathsf{UnaryHistory}(q)$ hold, then
+$$
+\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(h)
+\Longleftrightarrow
+\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}
+  (\mathsf{append}(p,\mathsf{append}(h,q))).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, first apply
+Theorem~\ref{thm:option-history-carrier-unary-suffix-closed} with suffix $q$.
+Then apply Theorem~\ref{thm:option-history-carrier-unary-prefix-closed} with
+prefix $p$.
+
+For the reverse direction, split the contextual nullable carrier witness.
+
+In the absent branch, use $\mathsf{hsame}\_\mathsf{iff}\_\mathsf{eq}$ to turn
+the empty contextual endpoint witness into equality. Apply
+$\mathsf{append}\_\mathsf{eq}\_\mathsf{empty}\_\mathsf{iff}$ to the outer
+append, and then again to the inner append, recovering $\hsame(h,\emp)$.
+
+In the source branch, use
+$\mathsf{unary}\_\mathsf{append}\_\mathsf{right}\_\mathsf{factor}$ on the
+outer append to recover $\mathsf{UnaryHistory}(\mathsf{append}(h,q))$. Then
+use $\mathsf{unary}\_\mathsf{append}\_\mathsf{left}\_\mathsf{factor}$ on the
+inner append to recover $\mathsf{UnaryHistory}(h)$.
+
+These two recovered branches are exactly the nullable carrier alternatives for
+$h$.
+\end{proof}
+
 \begin{theorem}[Option history classifier unary two-sided context]
 \label{thm:option-history-classifier-unary-two-sided-context}
 This theorem fits the ten-field template as follows: the traditional target is
