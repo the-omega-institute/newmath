@@ -56,6 +56,21 @@ $h\hsame k$, completing the classifier package.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_empty\_endpoints\_iff}
 
+\begin{theorem}[Field singleton classifier visible-left exclusion]
+\label{thm:field-singleton-classifier-append-visible-left-absurd}
+For histories $p,q,h:\mathsf{BHist}$, neither
+$\rho_{\emp}(\mathsf{append}(p,\mathsf{e0}(q)),h)$ nor
+$\rho_{\emp}(\mathsf{append}(p,\mathsf{e1}(q)),h)$ can hold.
+\end{theorem}
+\begin{proof}
+Unfold the singleton field classifier. In either case, the left carrier field
+identifies the displayed append endpoint with $\emp$. Empty-result inversion
+for append then forces the visible right component, either $\mathsf{e0}(q)$ or
+$\mathsf{e1}(q)$, to be $\emp$. The constructors of $\mathsf{BHist}$ separate
+visible endpoints from the empty endpoint, so each case is impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_visible\_left\_absurd}
+
 \begin{definition}[Singleton empty-classifier nonzero domain]
 \label{def:singleton-empty-classifier-nonzero-domain}
 Reuse $A_{\emp}$ and $\rho_{\emp}$ from

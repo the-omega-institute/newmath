@@ -116,6 +116,22 @@ commutativity field after transport.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_singleton\_empty\_laws}
 
+\begin{theorem}[CommRing singleton classifier visible-right exclusion]
+\label{thm:commring-singleton-classifier-append-visible-right-absurd}
+For histories $h,p,q:\mathsf{BHist}$, neither
+$\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e0}(q)))$ nor
+$\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e1}(q)))$ can hold.
+\end{theorem}
+\begin{proof}
+Unfold the singleton commutative-ring classifier. In either branch, the right
+carrier field says that the displayed append endpoint is $\emp$. The
+empty-result inversion theorem for append splits this into an empty prefix and
+an empty visible tail. The latter would identify $\mathsf{e0}(q)$ or
+$\mathsf{e1}(q)$ with $\emp$, contradicting the constructor separation of
+$\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_visible\_right\_absurd}
+
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}
 Definition~\ref{def:singleton-empty-history-commring-instance}, together with

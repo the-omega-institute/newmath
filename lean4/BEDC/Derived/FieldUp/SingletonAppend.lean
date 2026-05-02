@@ -19,4 +19,15 @@ theorem fieldSingletonEmptyClassifier_append_split_empty_iff {p q h : BHist} :
     exact And.intro appendEmpty
       (And.intro split.right.right (hsame_trans appendEmpty (hsame_symm split.right.right)))
 
+theorem FieldSingletonClassifier_append_visible_left_absurd {p q h : BHist} :
+    (FieldSingletonClassifier (append p (BHist.e0 q)) h -> False) ∧
+      (FieldSingletonClassifier (append p (BHist.e1 q)) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+
 end BEDC.Derived.FieldUp
