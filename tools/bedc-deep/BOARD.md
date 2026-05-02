@@ -1108,3 +1108,80 @@ Surfaced in Turn 3 as the derivable positive part separate from the missing hom-
 
 ---
 
+### B-46 - Interval carrier boundary weakening
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Interval carrier boundary weakening |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the interval setup, pointwise lower-bound weakening and upper-bound weakening maps imply that every history in the inner interval carrier \(\mathsf{IntervalCarrier}_{l_2,u_2}(h)\) also lies in the outer carrier \(\mathsf{IntervalCarrier}_{l_1,u_1}(h)\).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/31_interval_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+Surfaced in Turn 0 as the smallest testable claim before the classifier-level theorem: the oracle isolated carrier weakening from explicit boundary maps \(\lambda_h\) and \(\upsilon_h\). It deserves its own loop because it is a reusable carrier-level theorem underlying B-10 but not identical to the composed-classifier refinement target.
+
+---
+
+
+### B-47 - Interval classifier boundary weakening
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Interval classifier boundary weakening |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the interval setup, pointwise carrier boundary weakening maps imply that \(\mathsf{IntervalClassifierSpec}_{l_2,u_2}(h,k)\) entails \(\mathsf{IntervalClassifierSpec}_{l_1,u_1}(h,k)\) with the stored \(\hsame(h,k)\) witness unchanged.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/31_interval_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+Surfaced in Turn 0 as the direct classifier-level consequence of carrier weakening: apply the carrier lemma to both endpoints and reuse the history-sameness link. It is adjacent to B-10 because B-10 uses it inside a transitive composition proof, while this target records the standalone refinement of a single interval classifier.
+
+---
+
+
+### B-48 - Interval nesting requires boundary eliminators
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Interval nesting requires boundary eliminators |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+There exists a finite one-history interval-classifier model in which the inner classifier holds and the outer classifier fails when symbolic nesting assumptions are present without lower- and upper-bound weakening eliminators.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/31_interval_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Surfaced in Turn 0 as the precise obstruction: symbolic inequalities alone do not force carrier inclusion unless they eliminate to boundary-weakening maps or order-transitivity data. This deserves a separate loop as an independence/boundary proposition clarifying the exact setup-field obligation for interval nested-bound reasoning.
+
+---
+
