@@ -93,6 +93,29 @@ theorem LinearMapSingleton_public_empty_code_exactness {f g x : BHist} :
       · exact emptyClassifier
       · exact And.intro emptyCarrier (And.intro carrierX (hsame_symm carrierX))
 
+theorem LinearMapSingletonClassifier_append_left_cancel_iff {P Q R : BHist} :
+    LinearMapSingletonCarrier P ->
+      (LinearMapSingletonClassifier (append P Q) (append P R) ↔
+        LinearMapSingletonClassifier Q R) := by
+  intro carrierP
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.right
+      (And.intro rightSplit.right
+        (hsame_trans leftSplit.right (hsame_symm rightSplit.right)))
+  · intro classified
+    cases carrierP
+    have leftCarrier : LinearMapSingletonCarrier (append BHist.Empty Q) :=
+      hsame_trans (append_empty_left Q) classified.left
+    have rightCarrier : LinearMapSingletonCarrier (append BHist.Empty R) :=
+      hsame_trans (append_empty_left R) classified.right.left
+    have sameAppend : hsame (append BHist.Empty Q) (append BHist.Empty R) :=
+      hsame_trans (append_empty_left Q)
+        (hsame_trans classified.right.right (hsame_symm (append_empty_left R)))
+    exact And.intro leftCarrier (And.intro rightCarrier sameAppend)
+
 theorem LinearMapSingleton_laws :
     SemanticNameCert LinearMapSingletonCarrier LinearMapSingletonCarrier LinearMapSingletonCarrier LinearMapSingletonClassifier ∧
       LinearMapSingletonCarrier BHist.Empty ∧

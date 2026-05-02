@@ -90,6 +90,34 @@ open BEDC.FKernel.Hist
     exact addCongr (mulCongr (mulCongr (hsame_refl a) sameMiddle) (hsame_refl b))
       (hsame_refl d)
 
+theorem field_affine_certified_fiber_singleton
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addRightId : forall x : BHist, hsame (add x BHist.Empty) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (negRight : forall x : BHist, hsame (add x (neg x)) BHist.Empty)
+    (mulAssoc : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (mulLeftId : forall x : BHist, hsame (mul one x) x)
+    (mulRightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (mulLeftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (mulRightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a b x y d c : BHist} (pa : NonZero a) (pb : NonZero b) :
+    hsame (add (mul (mul a x) b) d) c ->
+      hsame (add (mul (mul a y) b) d) c -> hsame x y := by
+  intro imageX imageY
+  have sameImages :
+      hsame (add (mul (mul a x) b) d) (add (mul (mul a y) b) d) :=
+    hsame_trans imageX (hsame_symm imageY)
+  exact
+    (field_affine_two_sided_map_classifier_exact_from_apartness addAssoc
+      addRightId addCongr negRight mulAssoc mulLeftId mulRightId mulCongr
+      mulLeftInv mulRightInv pa pb).mp
+      sameImages
+
 theorem field_affine_two_sided_explicit_inverse
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
     {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}

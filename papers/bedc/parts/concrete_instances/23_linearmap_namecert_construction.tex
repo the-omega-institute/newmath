@@ -210,6 +210,30 @@ empty history.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingleton\_comp\_assoc\_empty\_classifier}
 
+\begin{theorem}[Singleton linear-map classifier append left cancellation]
+\label{thm:singleton-linearmap-classifier-append-left-cancel}
+For all $P,Q,R:\mathsf{BHist}$, if $L_{\emp}(P)$, then
+$$
+\lambda_{\emp}(\mathsf{append}(P,Q),\mathsf{append}(P,R))
+\Longleftrightarrow
+\lambda_{\emp}(Q,R).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold the singleton classifier. The carrier
+clauses say that both appended histories are classified with $\emp$.
+Applying the empty-append inversion to each carrier clause gives
+$Q\hsame\emp$ and $R\hsame\emp$. These two endpoint witnesses compose, with
+symmetry on the right one, to give $Q\hsame R$.
+
+For the reverse direction, the hypothesis $L_{\emp}(P)$ identifies the left
+prefix with $\emp$. The two appended histories therefore reduce through the
+left-empty continuation law to $Q$ and $R$. The carrier clauses and classifier
+comparison supplied by $\lambda_{\emp}(Q,R)$ transport along those reductions
+to rebuild the prefixed singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_left\_cancel\_iff}
+
 The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and singleton action, so later Lean work can target BHist-anchored
 linear-map laws instead of only abstract function fields.
