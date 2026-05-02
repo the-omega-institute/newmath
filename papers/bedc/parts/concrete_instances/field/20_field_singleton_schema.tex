@@ -71,6 +71,21 @@ visible endpoints from the empty endpoint, so each case is impossible.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_visible\_left\_absurd}
 
+\begin{theorem}[Field singleton classifier visible-prefix exclusion]
+\label{thm:field-singleton-classifier-append-visible-prefix-absurd}
+For histories $p,q,h:\mathsf{BHist}$, neither
+$\rho_{\emp}(\mathsf{append}(\mathsf{e0}(p),q),h)$ nor
+$\rho_{\emp}(\mathsf{append}(\mathsf{e1}(p),q),h)$ can hold.
+\end{theorem}
+\begin{proof}
+Unfold the singleton field classifier. In either case, the left carrier field
+identifies the displayed append endpoint with $\emp$. Empty-result inversion
+for append then forces the visible prefix, either $\mathsf{e0}(p)$ or
+$\mathsf{e1}(p)$, to be $\emp$. Constructor separation for
+$\mathsf{BHist}$ rules out both alternatives.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_visible\_prefix\_absurd}
+
 \begin{definition}[Singleton empty-classifier nonzero domain]
 \label{def:singleton-empty-classifier-nonzero-domain}
 Reuse $A_{\emp}$ and $\rho_{\emp}$ from

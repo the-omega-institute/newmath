@@ -188,6 +188,28 @@ comparison between $\mathsf{append}(p,q)$ and $h$.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_split\_empty\_iff}
 
+\begin{theorem}[Singleton linear map composition associativity empty classifier]
+\label{thm:linearmap-singleton-comp-assoc-empty-classifier}
+For singleton linear map codes $f,g,h$, if each code lies in
+$L_{\emp}$, then both associations of the composite code classify with
+$\emp$, and the two associated composite codes classify with each other:
+$$
+\lambda_{\emp}(\mathsf{comp}_{\emp}(h,\mathsf{comp}_{\emp}(g,f)),\emp)
+\land
+\lambda_{\emp}(\mathsf{comp}_{\emp}(\mathsf{comp}_{\emp}(h,g),f),\emp)
+\land
+\lambda_{\emp}(\mathsf{comp}_{\emp}(h,\mathsf{comp}_{\emp}(g,f)),
+  \mathsf{comp}_{\emp}(\mathsf{comp}_{\emp}(h,g),f)).
+$$
+\end{theorem}
+\begin{proof}
+The singleton composition code is definitionally $\emp$ for every pair of
+inputs. Therefore both associated composites reduce to $\emp$, and each
+displayed classifier is the reflexive singleton map-code classifier at the
+empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingleton\_comp\_assoc\_empty\_classifier}
+
 The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and singleton action, so later Lean work can target BHist-anchored
 linear-map laws instead of only abstract function fields.

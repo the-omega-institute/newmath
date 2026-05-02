@@ -163,4 +163,18 @@ theorem LinearMapSingletonClassifier_append_split_empty_iff {p q h : BHist} :
       ⟨appendCarrier, splitData.right.right,
         hsame_trans appendCarrier (hsame_symm splitData.right.right)⟩
 
+theorem LinearMapSingleton_comp_assoc_empty_classifier {f g h : BHist} :
+    LinearMapSingletonCarrier f -> LinearMapSingletonCarrier g -> LinearMapSingletonCarrier h ->
+      LinearMapSingletonClassifier (LinearMapSingletonComp h (LinearMapSingletonComp g f))
+        BHist.Empty ∧
+        LinearMapSingletonClassifier (LinearMapSingletonComp (LinearMapSingletonComp h g) f)
+          BHist.Empty ∧
+          LinearMapSingletonClassifier (LinearMapSingletonComp h (LinearMapSingletonComp g f))
+            (LinearMapSingletonComp (LinearMapSingletonComp h g) f) := by
+  intro _carrierF _carrierG _carrierH
+  have emptyCarrier : LinearMapSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassifier : LinearMapSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  exact And.intro emptyClassifier (And.intro emptyClassifier emptyClassifier)
+
 end BEDC.Derived.LinearMapUp

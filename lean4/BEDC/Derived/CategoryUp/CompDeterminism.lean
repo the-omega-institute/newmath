@@ -42,4 +42,15 @@ theorem CategoryHomCarrier_comp_left_factor_endpoint_deterministic {a b b' c f f
     CategoryHomCarrier_target_deterministic transportedLeft left'
   exact And.intro sameTarget sameF
 
+theorem CategoryHomCarrier_comp_result_hsame_congruence {a b c f g f' g' fg fg' : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      CategoryHomCarrier a b f' -> CategoryHomCarrier b c g' -> Cont f' g' fg' ->
+        hsame fg fg' := by
+  intro left right comp left' right' comp'
+  have composite : CategoryHomCarrier a c fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  have composite' : CategoryHomCarrier a c fg' :=
+    CategoryHomCarrier_comp_closed left' right' comp'
+  exact CategoryHomCarrier_morphism_deterministic composite composite'
+
 end BEDC.Derived.CategoryUp
