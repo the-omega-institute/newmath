@@ -208,6 +208,66 @@ of $T$-images back to equality of inputs. Applying that reflection direction to
 the displayed classification yields $s(c)\hsame s(c')$.
 \end{proof}
 
+\begin{theorem}[Field affine pointwise classifier is stable under package operations]
+\label{thm:field-affine-pointwise-classifier-operation-congruence}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate under the hypotheses
+of \autoref{thm:field-affine-two-sided-certified-automorphism},
+\autoref{thm:field-affine-two-sided-automorphism-composition}, and
+\autoref{thm:field-affine-inverse-is-certified-affine}, let $T,T',U,U'$ be
+certified displayed affine maps over $\mathsf{BHist}$. Let $s_T$ and
+$s_{T'}$ be the displayed inverse maps supplied for $T$ and $T'$ by
+\autoref{thm:field-affine-inverse-is-certified-affine}. Suppose
+$T\equiv_{\mathrm{aff}}T'$ and $U\equiv_{\mathrm{aff}}U'$, where
+$\equiv_{\mathrm{aff}}$ is the pointwise classifier of
+\autoref{def:field-affine-automorphism-package}. Then the following clauses
+hold.
+\begin{enumerate}
+\item On certified displayed affine maps, $\equiv_{\mathrm{aff}}$ is
+reflexive, symmetric, and transitive.
+\item The composed displayed affine maps satisfy
+$$
+U\circ T\equiv_{\mathrm{aff}}U'\circ T'.
+$$
+\item The displayed inverse maps satisfy
+$$
+s_T\equiv_{\mathrm{aff}}s_{T'}.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first clause is pointwise. Reflexivity, symmetry, and transitivity of
+$\hsame$ apply at each input $x:\mathsf{BHist}$, and the definition of
+$\equiv_{\mathrm{aff}}$ repacks those pointwise classifications as relations
+between displayed affine maps.
+
+For composition, fix $x:\mathsf{BHist}$. The assumption
+$T\equiv_{\mathrm{aff}}T'$ gives $T(x)\hsame T'(x)$. The classifier-preservation
+direction of the certified affine automorphism structure for $U$ transports
+this to
+$$
+U(T(x))\hsame U(T'(x)).
+$$
+
+The assumption $U\equiv_{\mathrm{aff}}U'$ at the point $T'(x)$ gives
+$$
+U(T'(x))\hsame U'(T'(x)).
+$$
+Transitivity of $\hsame$ gives $U(T(x))\hsame U'(T'(x))$ for every $x$, which
+is exactly $U\circ T\equiv_{\mathrm{aff}}U'\circ T'$.
+
+For inverse congruence, fix $q:\mathsf{BHist}$. The left inverse clauses give
+$T(s_T(q))\hsame q$ and $T'(s_{T'}(q))\hsame q$. The pointwise comparison
+between $T$ and $T'$ at $s_T(q)$ gives
+$T(s_T(q))\hsame T'(s_T(q))$, so transitivity and symmetry yield
+$$
+T'(s_T(q))\hsame T'(s_{T'}(q)).
+$$
+
+Apply the classifier-reflection direction of the certified affine automorphism
+structure for $T'$ to obtain $s_T(q)\hsame s_{T'}(q)$. Since $q$ was arbitrary,
+the displayed inverse maps are related by $\equiv_{\mathrm{aff}}$.
+\end{proof}
+
 Per-object certificate: traditional target affine inverse stability; BEDC source
 $\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
 $\hsame$; stability obligations certified affine automorphism, left inverse,
