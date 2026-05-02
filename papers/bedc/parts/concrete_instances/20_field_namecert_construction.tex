@@ -100,14 +100,17 @@ For the concrete $\mathsf{BHist}$ data
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
 $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
 $\mathsf{append}$, $\Cont$, $\emp$, and strict support
-$\mathsf{RatHistoryCarrier}$, the carrier, source, pattern, classifier,
+$\mathsf{RatHistoryCarrier}$, assume the $\RatUp$ source already carries the
+$\CommRingUp$ base rows certified by
+\autoref{thm:singleton-empty-history-commring-laws} and
+\autoref{thm:singleton-empty-history-commring-schema-certificate}. With those
+base rows in place, the FieldUp-specific inverse and apart-zero rows, the
+two-sided zero-product and nonzero-product rows, the denominator multiplicative
+and contextual rows, the denominator context-pair action rows, and the packaged
+affine $\GroupUp$ consequence supply the carrier, source, pattern, classifier,
 stability, ledger, and exactness rows of
-\autoref{def:field-certificate-obligations} are supplied for
-$\FieldUp(\mathsf{RatUp})$. More explicitly, the inverse and apart-zero rows,
-the two-sided zero-product and nonzero-product rows, the denominator
-multiplicative and contextual rows, the denominator context-pair action rows,
-and the packaged affine $\GroupUp$ consequence form one semantic certificate
-for the concrete target $\FieldUp(\mathsf{RatUp})$.
+\autoref{def:field-certificate-obligations} for the concrete target
+$\FieldUp(\mathsf{RatUp})$.
 \end{theorem}
 \begin{proof}
 Bind the rational carrier and classifier first. The object carrier is
@@ -116,6 +119,17 @@ $\mathsf{RatHistoryClassifier}$, and the source pattern is the BEDC
 continuation pattern $\Cont$ over $\mathsf{BHist}$. The denominator tuple is
 $(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
 \mathsf{append},\emp,\mathsf{RatHistoryCarrier})$.
+
+The $\CommRingUp$ base rows are the first dependency. Theorem~\ref{thm:singleton-empty-history-commring-laws}
+supplies the additive and multiplicative ring laws, distributivity, operation
+congruence, multiplicative commutativity, and commutativity compatibility needed
+by the field record.
+
+Theorem~\ref{thm:singleton-empty-history-commring-schema-certificate} packages
+those laws with the carrier, source, classifier, pattern, and ring ledger fields
+over the concrete singleton source, so the base part of
+\autoref{def:field-certificate-obligations} is already licensed before any
+inverse or denominator row is attached.
 
 The inverse rows are the apart-zero rows. Theorem~\ref{thm:field-apart-zero-inverse-classifier-exact-from-apartness}
 supplies classifier exactness for proof-indexed inverses over the concrete
@@ -144,10 +158,13 @@ entries.
 
 Finally, \autoref{thm:field-affine-automorphism-group-certificate} supplies
 the packaged affine $\GroupUp$ consequence consumed by the field certificate.
-Together these cited rows exhaust the ten-entry per-object template listed
-after \autoref{def:field-certificate-obligations}: target, source, carrier,
-classifier, stability obligations, ledger, core theorem list, exactness
-predicate, standard bridge, and status.
+
+Together the $\CommRingUp$ base rows, the inverse rows, the zero-product rows,
+the denominator multiplicative rows, the contextual denominator rows, the
+context-pair action rows, and the affine $\GroupUp$ row exhaust the ten-entry
+per-object template listed after \autoref{def:field-certificate-obligations}:
+target, source, carrier, classifier, stability obligations, ledger, core
+theorem list, exactness predicate, standard bridge, and status.
 \end{proof}
 
 Per-object template: traditional target constructive field on $\RatUp$; BEDC
