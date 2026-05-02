@@ -259,6 +259,26 @@ $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_result\_deterministic}
 
+\begin{theorem}[Metric distance witness endpoint-hsame result determinacy]
+\label{thm:metric-distance-witness-hsame-result-deterministic}
+For histories $x,x',y,y',d,d'$, if $x$ classifies with $x'$ and $y$
+classifies with $y'$, then two metric distance witnesses over those classified
+endpoints have classified results:
+$$
+\hsame(x,x')\Longrightarrow
+\hsame(y,y')\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d)\Longrightarrow
+\mathsf{MetricDistanceWitness}(x',y',d')\Longrightarrow
+\hsame(d,d').
+$$
+\end{theorem}
+\begin{proof}
+Case-reduce the two endpoint $\hsame$ witnesses. The two distance witnesses then
+display continuation ledgers with the same source and target endpoints. Apply
+continuation result determinacy to the two continuation fields.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_hsame\_result\_deterministic}
+
 \begin{theorem}[Metric distance witness visible-context source determinacy]
 \label{thm:metric-distance-witness-visible-context-source-deterministic}
 For histories $p,q,x,x',y,d$, if two visible distance ledgers share the same

@@ -19,6 +19,19 @@ theorem OptionHistoryLedgerPolicy_classifier_endpoint_equivalence {source : BHis
   · intro visibleTarget
     exact OptionHistoryLedgerPolicy_classifier_extension source_transport ledger visibleTarget
 
+theorem OptionHistoryLedgerPolicy_shared_visible_raw_classifier {source : BHist -> Prop}
+    (source_transport : forall {h k : BHist}, hsame h k -> source h -> source k)
+    {raw raw' visible : BHist} :
+    OptionHistoryLedgerPolicy source raw visible ->
+      OptionHistoryLedgerPolicy source raw' visible ->
+        OptionHistoryClassifier source raw raw' := by
+  intro leftLedger rightLedger
+  have leftRawVisible : OptionHistoryClassifier source raw visible :=
+    OptionHistoryLedgerPolicy_raw_visible_classifier source_transport leftLedger
+  have rightRawVisible : OptionHistoryClassifier source raw' visible :=
+    OptionHistoryLedgerPolicy_raw_visible_classifier source_transport rightLedger
+  exact OptionHistoryClassifier_trans leftRawVisible (OptionHistoryClassifier_symm rightRawVisible)
+
 theorem OptionHistoryLedgerPolicy_trans {source : BHist -> Prop} {raw mid visible : BHist} :
     OptionHistoryLedgerPolicy source raw mid ->
       OptionHistoryLedgerPolicy source mid visible ->

@@ -149,6 +149,14 @@ theorem CategoryHomCarrier_morphism_deterministic {a b f g : BHist} :
                       | intro _gCarrier rightCont =>
                           exact cont_left_cancel leftCont rightCont
 
+theorem CategoryHomCarrier_endpoint_hsame_morphism_deterministic {a a' b b' f g : BHist} :
+    hsame a a' -> hsame b b' -> CategoryHomCarrier a b f ->
+      CategoryHomCarrier a' b' g -> hsame f g := by
+  intro sameSource sameTarget left right
+  cases sameSource
+  cases sameTarget
+  exact CategoryHomCarrier_morphism_deterministic left right
+
 theorem CategoryHomCarrier_comp_public_readback {a b c f g fg : BHist} :
     CategoryHomCarrier a b f → CategoryHomCarrier b c g → Cont f g fg →
       CategoryHomCarrier a c fg ∧
