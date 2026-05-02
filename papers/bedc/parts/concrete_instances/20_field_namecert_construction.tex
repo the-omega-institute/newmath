@@ -626,6 +626,57 @@ continuation instance, with the adjoined endpoint as the unique envelope unit
 up to $R_D^\ast$; \textbf{standard bridge}: deferred; \textbf{status}:
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Rat denominator external-unit envelope is strict]
+\label{thm:field-rat-denominator-unit-envelope-strict}
+For the concrete carried data $C_D$, $R_D$, and $\mu_D$ of
+\autoref{def:field-rat-denominator-concrete-continuation-instance} and the
+envelope data $C_D^\ast$, $R_D^\ast$, $\mu_D^\ast$, and $e_D^\ast$ of
+\autoref{def:field-rat-denominator-unit-envelope}, the adjoined endpoint is
+strictly external and the carried fragment is recovered exactly.
+\begin{enumerate}
+  \item $C_D^\ast(e_D^\ast)$ and $\neg C_D(e_D^\ast)$.
+  \item For every $h:\mathsf{BHist}$, if $C_D(h)$, then
+  $\neg R_D^\ast(h,e_D^\ast)$ and $\neg R_D^\ast(e_D^\ast,h)$.
+  \item For every $h,k:\mathsf{BHist}$, if $C_D(h)$ and $C_D(k)$, then
+  $$
+  R_D^\ast(h,k)\Longleftrightarrow R_D(h,k).
+  $$
+  On the same carried inputs, the displayed product is the original append
+  product:
+  $$
+  \mu_D^\ast(h,k)=\mu_D(h,k)=\mathsf{append}(h,k).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is the first clause of
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}. For the
+exclusion from the carried fragment, unfold
+\autoref{def:field-rat-denominator-concrete-continuation-instance} and
+\autoref{def:field-rat-denominator-unit-envelope}: $e_D^\ast$ is $\emp$ and
+$C_D$ is $\mathsf{RatHistoryCarrier}$. Then
+\autoref{thm:rat-history-carrier-not-empty} rules out a carried witness at the
+empty history.
+
+For the mixed right endpoint, assume $C_D(h)$ and
+$R_D^\ast(h,e_D^\ast)$. Unfolding $R_D^\ast$ gives either the guarded carried
+branch or the empty-empty branch. The guarded carried branch includes
+$C_D(e_D^\ast)$, contradicting the endpoint exclusion already proved. The
+empty-empty branch gives $h\hsame\emp$, contradicting
+\autoref{thm:rat-history-carrier-not-empty} applied to the carried witness
+$C_D(h)$. The mixed left endpoint is identical after swapping the two inputs.
+
+It remains to recover the carried classifier. Suppose $C_D(h)$ and $C_D(k)$.
+If $R_D^\ast(h,k)$ holds, unfold $R_D^\ast$. The empty-empty branch would give
+$h\hsame\emp$, contradicting the same non-emptiness theorem, so the guarded
+carried branch remains and yields $R_D(h,k)$.
+
+Conversely, from $C_D(h)$, $C_D(k)$, and $R_D(h,k)$, the guarded carried branch
+of $R_D^\ast(h,k)$ applies directly. Finally, unfolding the two displayed
+operations shows that $\mu_D^\ast$ and $\mu_D$ both return the append history
+on carried inputs.
+\end{proof}
+
 \section{Classifier-complement singleton FieldUp concrete instance}
 \label{sec:field-singleton-empty-concrete-instance}
 
