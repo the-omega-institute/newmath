@@ -202,6 +202,57 @@ theorem field_rat_denominator_continuation_common_context_ledger_closure
     exact (append_assoc p' v q').symm
   exact RatHistoryLedgerPolicy_hsame_transport canonicalLedger sameLeft sameRight
 
+theorem field_rat_denominator_continuation_common_context_exactness_package
+    {p q d e pd pe left right : BHist} :
+    UnaryHistory p -> UnaryHistory q -> RatHistoryCarrier d -> RatHistoryCarrier e ->
+      Cont p d pd -> Cont p e pe -> Cont pd q left -> Cont pe q right ->
+        (RatHistoryClassifier left right <-> RatHistoryClassifier d e) /\
+          (RatHistoryLedgerPolicy left right <-> RatHistoryLedgerPolicy d e) := by
+  intro prefixUnary suffixUnary carrierD carrierE leftPrefix rightPrefix leftSuffix rightSuffix
+  have classifierExact :
+      RatHistoryClassifier d e <-> RatHistoryClassifier left right :=
+    field_rat_denominator_continuation_common_context_classifier_exactness prefixUnary
+      suffixUnary carrierD carrierE leftPrefix rightPrefix leftSuffix rightSuffix
+  have sameLeft : hsame (append p (append d q)) left :=
+    (append_assoc p d q).symm.trans
+      ((congrArg (fun x => append x q) leftPrefix.symm).trans leftSuffix.symm)
+  have sameRight : hsame (append p (append e q)) right :=
+    (append_assoc p e q).symm.trans
+      ((congrArg (fun x => append x q) rightPrefix.symm).trans rightSuffix.symm)
+  constructor
+  · constructor
+    · intro classified
+      exact classifierExact.mpr classified
+    · intro classified
+      exact classifierExact.mp classified
+  · constructor
+    · intro ledger
+      have classified :
+          RatHistoryClassifier d e :=
+        field_rat_denominator_continuation_common_context_cancel prefixUnary suffixUnary
+          carrierD carrierE leftPrefix rightPrefix leftSuffix rightSuffix
+          (RatHistoryLedgerPolicy_raw_visible_classifier ledger)
+      exact ⟨carrierD, classified.right.right⟩
+    · intro ledger
+      have contextLedger :
+          RatHistoryLedgerPolicy (append p (append d q)) (append p (append e q)) :=
+        RatHistoryLedgerPolicy_unary_denominator_context_closed ledger prefixUnary
+          (hsame_refl p) suffixUnary (hsame_refl q)
+      exact RatHistoryLedgerPolicy_hsame_transport contextLedger sameLeft sameRight
+
+theorem field_rat_denominator_hsame_matched_context_classifier_exactness
+    {p p' q q' d e pd pe left right : BHist} :
+    UnaryHistory p -> UnaryHistory p' -> UnaryHistory q -> UnaryHistory q' -> hsame p p' ->
+      hsame q q' -> RatHistoryCarrier d -> RatHistoryCarrier e -> Cont p d pd ->
+        Cont p' e pe -> Cont pd q left -> Cont pe q' right ->
+          (RatHistoryClassifier d e <-> RatHistoryClassifier left right) := by
+  intro prefixUnary _prefixUnary' suffixUnary _suffixUnary' samePrefix sameSuffix carrierD
+    carrierE leftPrefix rightPrefix leftSuffix rightSuffix
+  cases samePrefix
+  cases sameSuffix
+  exact field_rat_denominator_continuation_common_context_classifier_exactness prefixUnary
+    suffixUnary carrierD carrierE leftPrefix rightPrefix leftSuffix rightSuffix
+
 theorem field_rat_denominator_continuation_classifier_assoc_congruence
     {d d' e e' f f' de de' ef ef' left left' right right' : BHist} :
     RatHistoryClassifier d d' -> RatHistoryClassifier e e' -> RatHistoryClassifier f f' ->

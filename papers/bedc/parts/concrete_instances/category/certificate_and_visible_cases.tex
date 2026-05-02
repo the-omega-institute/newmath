@@ -259,6 +259,26 @@ $\ContR(\Eone(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e0\_target\_tail\_cases}
 
+\begin{theorem}[Continuation morphism zero-headed source to one-headed target tail cases]
+\label{thm:category-continuation-morphism-e0-source-e1-target-tail-cases}
+For histories $a,r:\mathsf{BHist}$, every continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Eone(r))$ has a one-headed tail
+whose exposed tail still continues from $\Ezero(a)$ to $r$:
+$$
+\exists k:\mathsf{BHist}.\;
+\HSame(\mathsf{tail}(m),\Eone(k))\land \ContR(\Ezero(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the displayed tail of $m$. The empty-tail case would force
+$\Ezero(a)\hsame\Eone(r)$, contradicting constructor disjointness. The
+zero-headed tail case would force a one-headed result to be zero-headed, again
+contradicting constructor disjointness. Therefore the tail is one-headed, and
+continuation step-result inversion exposes the residual continuation
+$\ContR(\Ezero(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e1\_target\_tail\_cases}
+
 \begin{theorem}[Category empty morphism between one-headed endpoints]
 \label{thm:category-hom-carrier-e1-source-e1-target-empty-morphism-iff}
 For histories $a,r$, the empty morphism is a hom-carrier from $\Eone(a)$ to
