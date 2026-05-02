@@ -263,4 +263,39 @@ theorem ContinuousModulusWitness_prefixed_composite_second_deterministic
                   exact ContinuousModulusWitness_modulus_hsame_deterministic
                     sameMiddle (hsame_refl target) leftSecond rightSecond
 
+theorem ContinuousFunctionCarrier_prefixed_graph_chain_second_deterministic
+    {p source map target delta1 delta2 delta2' delta delta' cert : BHist} :
+    UnaryHistory delta1 → UnaryHistory delta2 → UnaryHistory delta2' →
+      Cont delta1 delta2 delta → Cont delta1 delta2' delta' →
+        ContinuousFunctionCarrier (append p source) map (append p target) delta
+            (append p cert) →
+          ContinuousFunctionCarrier (append p source) map (append p target) delta'
+              (append p cert) →
+            hsame delta2 delta2' := by
+  intro _delta1Carrier _delta2Carrier _delta2'Carrier leftComposite rightComposite left right
+  cases left with
+  | intro _leftSource leftRest =>
+      cases leftRest with
+      | intro _leftTarget leftRest =>
+          cases leftRest with
+          | intro _leftMap leftRest =>
+              cases leftRest with
+              | intro _leftDelta leftRest =>
+                  cases leftRest with
+                  | intro _leftGraph leftCert =>
+                      cases right with
+                      | intro _rightSource rightRest =>
+                          cases rightRest with
+                          | intro _rightTarget rightRest =>
+                              cases rightRest with
+                              | intro _rightMap rightRest =>
+                                  cases rightRest with
+                                  | intro _rightDelta rightRest =>
+                                      cases rightRest with
+                                      | intro _rightGraph rightCert =>
+                                          have sameDelta : hsame delta delta' :=
+                                            cont_left_cancel leftCert rightCert
+                                          cases sameDelta
+                                          exact cont_left_cancel leftComposite rightComposite
+
 end BEDC.Derived.ContinuousUp

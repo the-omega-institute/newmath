@@ -526,4 +526,29 @@ theorem CompactNetWitness_prefixed_composite_center_deterministic
             CompactNetWitness_composite_center_deterministic leftData.left leftData.right
               rightData.left rightData.right
 
+theorem CompactNetWitness_prefixed_composite_refinement_deterministic
+    {p center precision extra extra' composite composite' refined : BHist} :
+    UnaryHistory precision → UnaryHistory extra → UnaryHistory extra' →
+      Cont precision extra composite → Cont precision extra' composite' →
+        CompactNetWitness (append p center) composite (append p refined) →
+          CompactNetWitness (append p center) composite' (append p refined) →
+            hsame extra extra' := by
+  intro _precisionCarrier _extraCarrier _extra'Carrier leftComposite rightComposite left right
+  cases left with
+  | intro _leftCenter leftRest =>
+      cases leftRest with
+      | intro _leftCompositeCarrier leftRest =>
+          cases leftRest with
+          | intro _leftRefined leftRefined =>
+              cases right with
+              | intro _rightCenter rightRest =>
+                  cases rightRest with
+                  | intro _rightCompositeCarrier rightRest =>
+                      cases rightRest with
+                      | intro _rightRefined rightRefined =>
+                          have sameComposite : hsame composite composite' :=
+                            cont_left_cancel leftRefined rightRefined
+                          cases sameComposite
+                          exact cont_left_cancel leftComposite rightComposite
+
 end BEDC.Derived.CompactUp

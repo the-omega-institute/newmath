@@ -240,6 +240,29 @@ contradict BEDC history constructor separation.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_endpoint\_transport\_e0\_absurd}
 
+\begin{theorem}[Tagged option history classifier zero-endpoint exclusion]
+\label{thm:tagged-option-history-classifier-zero-endpoint-exclusion}
+For every source carrier $S$, payload classifier $Rel$, histories $h,k$, and
+tail history $t$, a tagged optional classifier witness excludes zero-tagged
+histories at both endpoints up to $\hsame$:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,Rel}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\Ezero(t))\Longrightarrow\bot\bigr)
+\wedge
+\bigl(\hsame(k,\Ezero(t))\Longrightarrow\bot\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the classifier witness. In the absent branch, either endpoint is
+$\hsame$ to $\emp$, so any additional identification with $\Ezero(t)$
+contradicts no-confusion between $\Ezero$ and $\emp$. In the present branch,
+the endpoint is $\hsame$ to some $\Eone$ payload, and the additional
+identification with $\Ezero(t)$ contradicts no-confusion between the two
+visible tags.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_zero\_endpoint\_exclusion}
+
 \begin{theorem}[Tagged option history carrier exclusive branch partition]
 \label{thm:tagged-option-history-carrier-exclusive-branch-partition}
 This theorem fits the per-object template as follows: the traditional target is
