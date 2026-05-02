@@ -204,6 +204,7 @@ import BEDC.Derived.CategoryUp.Cycle
 import BEDC.Derived.CategoryUp.SourceEmpty
 import BEDC.Derived.CategoryUp.Prefix
 import BEDC.Derived.CategoryUp.ContinuationCertificate
+import BEDC.Derived.CategoryUp.TailCommClosed
 import BEDC.Derived.CategoryUp.CompDeterminism
 import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.EmptyComposite

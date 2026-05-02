@@ -185,6 +185,22 @@ theorem FpsSingletonEmptyHistoryClassifier_cont_split_empty {p q h : BHist} :
       (p := p) (q := q) (h := BHist.Empty) |>.mp classifier
   exact And.intro split.left split.right.left
 
+theorem FpsSingletonEmptyHistoryClassifier_cont_component_classifiers {p q h : BHist} :
+    Cont p q h -> FpsSingletonEmptyHistoryClassifier h BHist.Empty ->
+      FpsSingletonEmptyHistoryClassifier p BHist.Empty ∧
+        FpsSingletonEmptyHistoryClassifier q BHist.Empty := by
+  intro contRel classifier
+  cases contRel
+  have split :=
+    FpsSingletonEmptyHistoryClassifier_append_split_empty_iff
+      (p := p) (q := q) (h := BHist.Empty) |>.mp classifier
+  cases split with
+  | intro pEmpty rest =>
+      cases rest with
+      | intro qEmpty _emptyCarrier =>
+          exact And.intro ⟨pEmpty, hsame_refl BHist.Empty, pEmpty⟩
+            ⟨qEmpty, hsame_refl BHist.Empty, qEmpty⟩
+
 theorem FpsSingletonEmptyHistoryClassifier_append_component_classifiers {p q h : BHist} :
     FpsSingletonEmptyHistoryClassifier (append p q) h ->
       FpsSingletonEmptyHistoryClassifier p BHist.Empty ∧

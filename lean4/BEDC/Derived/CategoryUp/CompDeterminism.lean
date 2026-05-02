@@ -1,4 +1,4 @@
-import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.TailCommClosed
 
 namespace BEDC.Derived.CategoryUp
 
@@ -65,6 +65,14 @@ theorem CategoryHomCarrier_comp_result_hsame_congruence {a b c f g f' g' fg fg' 
   have composite' : CategoryHomCarrier a c fg' :=
     CategoryHomCarrier_comp_closed left' right' comp'
   exact CategoryHomCarrier_morphism_deterministic composite composite'
+
+theorem CategoryHomCarrier_tail_comm_target_deterministic {a b c d f g fg gf : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg -> Cont g f gf ->
+      CategoryHomCarrier a d gf -> hsame c d := by
+  intro left right fgRel gfRel displayed
+  have closed :=
+    CategoryHomCarrier_tail_comm_closed left right fgRel gfRel
+  exact CategoryHomCarrier_target_deterministic closed.right.left displayed
 
 theorem CategoryHomCarrier_comp_left_factor_source_deterministic {a a' b c f f' g fg : BHist} :
     CategoryHomCarrier b c g -> Cont f g fg -> CategoryHomCarrier a c fg ->

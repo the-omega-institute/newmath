@@ -200,6 +200,23 @@ forward direction gives the two empty-history carrier facts for $p$ and $q$.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_cont\_split\_empty}
 
+\begin{theorem}[Singleton FPS classifier continuation component classifiers]
+\label{thm:fps-singleton-empty-history-classifier-cont-component-classifiers}
+For $p,q,h:\mathsf{BHist}$, if $\ContR(p,q,h)$ and
+$\rho_{\emp}(h,\emp)$, then both continuation components are classified with
+the empty endpoint:
+$$
+\rho_{\emp}(p,\emp)\land \rho_{\emp}(q,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Invert the continuation ledger to put the classifier on
+$\mathsf{append}(p,q)$. The append split exposes $p\hsame\emp$ and
+$q\hsame\emp$, and each exposed carrier combines with reflexivity of $\emp$ to
+rebuild the two component classifiers.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_cont\_component\_classifiers}
+
 \begin{theorem}[Singleton FPS classifier append component classifiers]
 \label{thm:fps-singleton-classifier-append-component-classifiers}
 For $p,q,h:\mathsf{BHist}$, if the appended endpoint is classified with $h$,
