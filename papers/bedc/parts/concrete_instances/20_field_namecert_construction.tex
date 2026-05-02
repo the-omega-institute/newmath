@@ -61,6 +61,33 @@ prefix and suffix context from $\mathsf{RatHistoryClassifier}(left,right)$ and
 returns $\mathsf{RatHistoryClassifier}(d,e)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation common-context ledger closure]
+\label{thm:field-rat-denominator-continuation-common-context-ledger-closure}
+For all histories $p,p',q,q',\rho,v,pr,pv,left,right:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $\mathsf{UnaryHistory}(p)$,
+$\mathsf{UnaryHistory}(p')$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{UnaryHistory}(q')$, $p\hsame p'$, $q\hsame q'$,
+$\Cont(p,\rho,pr)$, $\Cont(p',v,pv)$, $\Cont(pr,q,left)$, and
+$\Cont(pv,q',right)$, then $\mathsf{RatHistoryLedgerPolicy}(left,right)$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:rat-ledger-unary-denominator-context-closed} to the
+ledger $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, the matching unary prefixes
+$p,p'$, and the matching unary suffixes $q,q'$. This gives the canonical ledger
+between $\mathsf{append}(p,\mathsf{append}(\rho,q))$ and
+$\mathsf{append}(p',\mathsf{append}(v,q'))$.
+
+Next compare the canonical endpoints with the displayed two-step continuation
+endpoints. Continuation determinacy identifies the intermediate histories
+$pr$ and $pv$ with the corresponding prefix appends, and
+\texttt{BEDC.FKernel.Cont.cont\_assoc\_hsame} identifies the two displayed
+suffix continuations with the canonical common-context bracketings.
+
+Finally transport the canonical ledger across those endpoint $\hsame$ links by
+\autoref{thm:rat-ledger-hsame-transport}. The resulting ledger is exactly
+$\mathsf{RatHistoryLedgerPolicy}(left,right)$.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation common-context exactness]
 \label{thm:field-rat-denominator-continuation-common-context-exactness}
 For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
