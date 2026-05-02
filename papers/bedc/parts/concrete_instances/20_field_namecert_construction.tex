@@ -275,3 +275,99 @@ witness; \textbf{core theorem}:
 multiplication exactness, strict-support transport and product exactness,
 strict-factor cancellation, unique external unit, and absence of a carried
 denominator unit; \textbf{status}: $\mathsf{ProofTarget}$.
+
+\begin{definition}[RatUp FieldUp denominator contextual action instance]
+\label{def:ratup-fieldup-denominator-contextual-action-instance}
+The concrete denominator contextual action instance for
+$\FieldUp(\mathsf{RatUp})$ is the tuple
+$$
+\mathcal{A}_D^u:=(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u,\Gamma)
+$$
+where
+$$
+C_D^u:=\mathsf{RatDenomUnitCarrier},\qquad
+R_D^u:=\mathsf{RatDenomUnitClassifier},
+$$
+$$
+\mu_D^u(h,k):=\mathsf{append}(h,k),\qquad
+e_D^u:=\emp,\qquad
+N_D^u(h):=\mathsf{RatHistoryCarrier}(h).
+$$
+For carried contexts $l,r:\mathsf{BHist}$ and external endpoint contexts
+$p,q:\mathsf{BHist}$, its bilateral carried action with external endpoints is
+$$
+\Gamma_{p,q,l,r}(h):=\mathsf{append}(p,\mathsf{append}(B_{l,r}(h),q)),
+$$
+where $B_{l,r}$ is the bilateral denominator multiplication context of
+\autoref{def:field-rat-denominator-empty-unit-bilateral-multiplication-context}.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp denominator contextual action certificate]
+\label{thm:ratup-fieldup-denominator-contextual-action-certificate}
+For histories $h,k,l,r,p,q,p',q':\mathsf{BHist}$, assume
+$C_D^u(h)$, $C_D^u(k)$, $C_D^u(l)$, $C_D^u(r)$, and
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$. Then the
+contextual action instance of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance} satisfies
+the following classifier and strict-support laws:
+$$
+R_D^u(\Gamma_{p,q,l,r}(h),\Gamma_{p',q',l,r}(k))
+\Longleftrightarrow
+R_D^u(h,k),
+$$
+$$
+N_D^u(\Gamma_{p,q,l,r}(h))
+\Longleftrightarrow
+N_D^u(l)\lor N_D^u(h)\lor N_D^u(r),
+$$
+and
+$$
+N_D^u(\Gamma_{p',q',l,r}(k))
+\Longleftrightarrow
+N_D^u(l)\lor N_D^u(k)\lor N_D^u(r).
+$$
+\end{theorem}
+\begin{proof}
+First use closure for the carried bilateral product. From $C_D^u(l)$,
+$C_D^u(h)$, and $C_D^u(r)$, the denominator continuation monoid laws put
+$B_{l,r}(h)$ inside $C_D^u$; the same argument using $k$ gives
+$C_D^u(B_{l,r}(k))$.
+
+For classifier exactness, strip the empty external endpoint contexts with
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}.
+The endpoint equalities $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and
+$q'\hsame\emp$ reduce the displayed classifier comparison to
+$R_D^u(B_{l,r}(h),B_{l,r}(k))$.
+
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-bilateral-multiplication-classifier-exactness}
+to the carried histories $h$, $k$, $l$, and $r$. This gives exactly
+$R_D^u(h,k)$, and the reverse direction follows by the same two equivalences in
+the opposite order.
+
+For strict support at $h$, use
+\autoref{thm:rat-denom-unit-carrier-empty-context-iff} to identify the support
+of $\Gamma_{p,q,l,r}(h)$ with the support of $B_{l,r}(h)$ under the empty
+external endpoint contexts. Then apply
+\autoref{thm:field-rat-denominator-empty-unit-bilateral-multiplication-support-exactness}
+to obtain $N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$.
+
+The strict-support statement for $k$ is identical with $k$ in place of $h$ and
+$p',q'$ in place of $p,q$. The same empty-context carrier equivalence strips
+the endpoints, and the same bilateral support exactness theorem supplies
+$N_D^u(l)\lor N_D^u(k)\lor N_D^u(r)$.
+\end{proof}
+
+\textbf{Traditional target}: denominator bilateral carried-context action for
+$\FieldUp(\mathsf{RatUp})$ with empty external endpoints; \textbf{BEDC source}:
+$\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$, $\Cont$,
+$\mathsf{append}$, and $\emp$; \textbf{carrier}: $C_D^u$;
+\textbf{classifier}: $R_D^u$; \textbf{action}:
+$\Gamma_{p,q,l,r}$; \textbf{strict support}: $N_D^u$; \textbf{ledger}: carried
+left and right denominator contexts plus empty external endpoint contexts;
+\textbf{core theorem}:
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate};
+\textbf{exactness predicate}: bilateral classifier exactness and bilateral
+strict-support exactness after empty endpoint transport; \textbf{status}:
+$\mathsf{ProofTarget}$.
