@@ -282,6 +282,18 @@ theorem FunctorPrefixHomCarrier_comp_source_prefix_deterministic {p q a b c f g 
     CategoryHomCarrier_source_deterministic composite displayed
   exact append_right_cancel (k := a) sameSource
 
+theorem FunctorPrefixHomCarrier_comp_source_object_deterministic
+    {p a d b c f g fg : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g -> Cont f g fg ->
+        CategoryHomCarrier (append p d) (append p c) fg -> hsame a d := by
+  intro left right comp displayed
+  have composite : CategoryHomCarrier (append p a) (append p c) fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  have sameSource : hsame (append p a) (append p d) :=
+    CategoryHomCarrier_source_deterministic composite displayed
+  exact append_left_cancel (h := p) sameSource
+
 theorem FunctorPrefixHomCarrier_source_object_deterministic {p a b target f : BHist} :
     CategoryHomCarrier (append p a) target f →
       CategoryHomCarrier (append p b) target f → hsame a b := by
@@ -357,5 +369,17 @@ theorem FunctorPrefixHomCarrier_zero_headed_component_absurd {p a b f : BHist} :
               | intro z morphEq =>
                   cases morphEq
                   exact unary_no_zero_extension homCarrier.right.right.left
+
+theorem FunctorPrefixHomCarrier_comp_target_object_deterministic
+    {p a b c d f g fg : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g -> Cont f g fg ->
+        CategoryHomCarrier (append p a) (append p d) fg -> hsame c d := by
+  intro left right comp displayed
+  have composite : CategoryHomCarrier (append p a) (append p c) fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  have sameTarget : hsame (append p c) (append p d) :=
+    CategoryHomCarrier_target_deterministic composite displayed
+  exact append_left_cancel (h := p) sameTarget
 
 end BEDC.Derived.FunctorUp

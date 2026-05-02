@@ -394,6 +394,35 @@ theorem fieldSingletonEmptyNonZero_empty_endpoint_absurd {h : BHist} :
   exact And.intro sameEmpty
     (And.intro (hsame_refl BHist.Empty) sameEmpty)
 
+theorem fieldSingletonEmptyCarrier_semanticNameCert :
+    SemanticNameCert fieldSingletonEmptyCarrier fieldSingletonEmptyCarrier
+      fieldSingletonEmptyCarrier fieldSingletonEmptyClassifier := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty (hsame_refl BHist.Empty)
+      equiv_refl := by
+        intro h carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl h))
+      equiv_symm := by
+        intro h k same
+        exact And.intro same.right.left
+          (And.intro same.left (hsame_symm same.right.right))
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact And.intro sameHK.left
+          (And.intro sameKR.right.left (hsame_trans sameHK.right.right sameKR.right.right))
+      carrier_respects_equiv := by
+        intro h k same _carrier
+        exact same.right.left
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
+
 theorem field_singleton_empty_schema_laws :
     (fieldSingletonEmptyCarrier BHist.Empty) ∧
       (fieldSingletonEmptyNonZero BHist.Empty -> False) ∧
