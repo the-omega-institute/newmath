@@ -536,9 +536,11 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
             flush=True,
         )
     elif verdict == "done":
+        def _safe_fmt(s: str) -> str:
+            return (s or "").replace("{", "{{").replace("}", "}}")
         latex_prompt = WRITE_LATEX_PROMPT_PATH.read_text(encoding="utf-8").format(
-            target_id=target.target_id,
-            target_title=target.title,
+            target_id=_safe_fmt(target.target_id),
+            target_title=_safe_fmt(target.title),
         )
         task_id = f"bedc_{target.target_id.lower()}_writelatex_{int(time.time() * 1000)}"
         write_text(out_dir / "turn_writelatex_prompt.md", latex_prompt)
@@ -690,11 +692,13 @@ def _stage2_corrective_retry(
     template_path = SCRIPT_DIR / "prompts" / "write_paper_latex_corrective.txt"
     if not template_path.exists():
         return None
+    def _safe(s: str) -> str:
+        return (s or "").replace("{", "{{").replace("}", "}}")
     reasons_block = "\n".join(f"- {r}" for r in rejection_reasons)
     prompt = template_path.read_text(encoding="utf-8").format(
-        target_id=target.target_id,
-        target_title=target.title,
-        rejection_reasons=reasons_block,
+        target_id=_safe(target.target_id),
+        target_title=_safe(target.title),
+        rejection_reasons=_safe(reasons_block),
     )
     write_text(out_dir / f"corrective_prompt_attempt_{attempt + 1}.md", prompt)
     task_id = f"bedc_{target.target_id.lower()}_corrective{attempt}_{int(time.time() * 1000)}"
