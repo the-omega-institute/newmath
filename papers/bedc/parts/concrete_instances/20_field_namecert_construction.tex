@@ -367,6 +367,63 @@ Composing the two equivalences gives the bilateral strict-factor cancellation
 claim.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp denominator obligation map]
+\label{thm:ratup-fieldup-denominator-obligation-map}
+For histories $h,k:\mathsf{BHist}$, take the concrete denominator data
+$$
+C_D^\ast(h):=(\mathsf{RatHistoryCarrier}(h)\lor h\hsame\emp),
+\qquad
+R_D^\ast(h,k):=
+\left(
+\mathsf{RatHistoryCarrier}(h)\land
+\mathsf{RatHistoryCarrier}(k)\land
+\mathsf{RatHistoryClassifier}(h,k)
+\right)
+\lor
+\left(h\hsame\emp\land k\hsame\emp\right),
+$$
+$$
+\mu_D^\ast(h,k):=\mathsf{append}(h,k),\qquad
+e_D^\ast:=\emp,\qquad
+N_D^\ast(h):=\mathsf{RatHistoryCarrier}(h).
+$$
+These data discharge the denominator rows of
+\autoref{def:field-certificate-obligations} for $\FieldUp(\mathsf{RatUp})$:
+\begin{enumerate}
+  \item envelope classifier exactness;
+  \item carried-fragment restriction;
+  \item commutative monoid laws for $\mu_D^\ast$ with unit $e_D^\ast$;
+  \item strict-support transport along $R_D^\ast$;
+  \item strict-support product exactness for $\mu_D^\ast$;
+  \item strict common-factor left and right cancellation;
+  \item fixed multiplication classifier exactness in empty external contexts;
+  \item external-unit uniqueness;
+  \item exclusion of $e_D^\ast$ from strict carried support.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first row group is supplied by
+\autoref{thm:field-rat-denominator-unit-envelope-exact-field-boundary}. It is
+stated for the same envelope carrier, classifier, append multiplication, empty
+external unit, and strict carried-support predicate displayed above, so its
+exactness, carried-fragment, commutative monoid, support, cancellation, and
+external-unit clauses read directly as rows for this map.
+
+The contextual row is supplied by
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+Its empty-context fixed-multiplication clauses use the same append operation and
+the same empty endpoint, and
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}
+enumerates the ordinary multiplicative rows on the identical denominator tuple.
+
+Finally,
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly} identifies these
+rows as the denominator subcertificate consumed by
+$\FieldUp(\mathsf{RatUp})$. Thus the displayed row map is not a detached list of
+facts: it is the named denominator interface through which the concrete
+external-unit envelope enters the FieldUp certificate obligations.
+\end{proof}
+
 \textbf{Traditional target}: assembled denominator subcertificate for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
