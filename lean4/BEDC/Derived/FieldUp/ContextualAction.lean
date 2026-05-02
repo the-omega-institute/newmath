@@ -1,3 +1,4 @@
+import BEDC.Derived.FieldUp.RatDenomContextPair
 import BEDC.Derived.FieldUp.RatDenomUnit
 
 namespace BEDC.Derived.FieldUp
@@ -230,5 +231,280 @@ theorem field_rat_denominator_contextual_action_composition_support_laws
                         exact Or.inr (Or.inr ratR')
       exact Iff.mpr nestedRatCore (Iff.mpr outerSupport outer)
   exact ⟨carrierNested, ⟨carrierNested, carrierTarget, nestedTargetSame⟩, supportLaw⟩
+
+theorem RatDenomUnitContextualAction_pair_support_transport_iff
+    {p q p' q' h l r s t l' r' s' t' : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitClassifier l s ->
+        RatDenomUnitClassifier r t -> RatDenomUnitClassifier l' s' ->
+          RatDenomUnitClassifier r' t' ->
+            (RatHistoryCarrier
+                (RatDenomUnitContextualAction p' q' l' r'
+                  (RatDenomUnitContextualAction p q l r h)) <->
+              RatHistoryCarrier
+                (RatDenomUnitContextualAction p' q' s' t'
+                  (RatDenomUnitContextualAction p q s t h))) := by
+  intro sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+  have leftLaws :=
+    field_rat_denominator_contextual_action_composition_support_laws sameP sameQ sameP'
+      sameQ' carrierH classifiedL.left classifiedR.left classifiedL'.left classifiedR'.left
+  have rightLaws :=
+    field_rat_denominator_contextual_action_composition_support_laws sameP sameQ sameP'
+      sameQ' carrierH classifiedL.right.left classifiedR.right.left classifiedL'.right.left
+      classifiedR'.right.left
+  have leftContextSupport :
+      RatHistoryCarrier (append (append l' l) (append r r')) <->
+        RatHistoryCarrier l' ∨ RatHistoryCarrier l ∨ RatHistoryCarrier r ∨
+          RatHistoryCarrier r' :=
+    RatDenomContextPair_product_strict_support_iff classifiedL.left classifiedR.left
+      classifiedL'.left classifiedR'.left
+  have rightContextSupport :
+      RatHistoryCarrier (append (append s' s) (append t t')) <->
+        RatHistoryCarrier s' ∨ RatHistoryCarrier s ∨ RatHistoryCarrier t ∨
+          RatHistoryCarrier t' :=
+    RatDenomContextPair_product_strict_support_iff classifiedL.right.left
+      classifiedR.right.left classifiedL'.right.left classifiedR'.right.left
+  have contextTransport :
+      RatHistoryCarrier (append (append l' l) (append r r')) <->
+        RatHistoryCarrier (append (append s' s) (append t t')) :=
+    RatDenomContextPair_product_strict_support_transport classifiedL classifiedR
+      classifiedL' classifiedR'
+  have supportTransport :
+      (RatHistoryCarrier l' ∨ RatHistoryCarrier l ∨ RatHistoryCarrier h ∨
+          RatHistoryCarrier r ∨ RatHistoryCarrier r') <->
+        (RatHistoryCarrier s' ∨ RatHistoryCarrier s ∨ RatHistoryCarrier h ∨
+          RatHistoryCarrier t ∨ RatHistoryCarrier t') := by
+    constructor
+    · intro support
+      cases support with
+      | inl ratL' =>
+          have rightProduct :
+              RatHistoryCarrier (append (append s' s) (append t t')) :=
+            Iff.mp contextTransport (Iff.mpr leftContextSupport (Or.inl ratL'))
+          have rightSupport := Iff.mp rightContextSupport rightProduct
+          cases rightSupport with
+          | inl ratS' =>
+              exact Or.inl ratS'
+          | inr rightTail =>
+              cases rightTail with
+              | inl ratS =>
+                  exact Or.inr (Or.inl ratS)
+              | inr rightTail =>
+                  cases rightTail with
+                  | inl ratT =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inl ratT)))
+                  | inr ratT' =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inr ratT')))
+      | inr supportTail =>
+          cases supportTail with
+          | inl ratL =>
+              have rightProduct :
+                  RatHistoryCarrier (append (append s' s) (append t t')) :=
+                Iff.mp contextTransport (Iff.mpr leftContextSupport (Or.inr (Or.inl ratL)))
+              have rightSupport := Iff.mp rightContextSupport rightProduct
+              cases rightSupport with
+              | inl ratS' =>
+                  exact Or.inl ratS'
+              | inr rightTail =>
+                  cases rightTail with
+                  | inl ratS =>
+                      exact Or.inr (Or.inl ratS)
+                  | inr rightTail =>
+                      cases rightTail with
+                      | inl ratT =>
+                          exact Or.inr (Or.inr (Or.inr (Or.inl ratT)))
+                      | inr ratT' =>
+                          exact Or.inr (Or.inr (Or.inr (Or.inr ratT')))
+          | inr supportTail =>
+              cases supportTail with
+              | inl ratH =>
+                  exact Or.inr (Or.inr (Or.inl ratH))
+              | inr supportTail =>
+                  cases supportTail with
+                  | inl ratR =>
+                      have rightProduct :
+                          RatHistoryCarrier (append (append s' s) (append t t')) :=
+                        Iff.mp contextTransport
+                          (Iff.mpr leftContextSupport (Or.inr (Or.inr (Or.inl ratR))))
+                      have rightSupport := Iff.mp rightContextSupport rightProduct
+                      cases rightSupport with
+                      | inl ratS' =>
+                          exact Or.inl ratS'
+                      | inr rightTail =>
+                          cases rightTail with
+                          | inl ratS =>
+                              exact Or.inr (Or.inl ratS)
+                          | inr rightTail =>
+                              cases rightTail with
+                              | inl ratT =>
+                                  exact Or.inr (Or.inr (Or.inr (Or.inl ratT)))
+                              | inr ratT' =>
+                                  exact Or.inr (Or.inr (Or.inr (Or.inr ratT')))
+                  | inr ratR' =>
+                      have rightProduct :
+                          RatHistoryCarrier (append (append s' s) (append t t')) :=
+                        Iff.mp contextTransport
+                          (Iff.mpr leftContextSupport (Or.inr (Or.inr (Or.inr ratR'))))
+                      have rightSupport := Iff.mp rightContextSupport rightProduct
+                      cases rightSupport with
+                      | inl ratS' =>
+                          exact Or.inl ratS'
+                      | inr rightTail =>
+                          cases rightTail with
+                          | inl ratS =>
+                              exact Or.inr (Or.inl ratS)
+                          | inr rightTail =>
+                              cases rightTail with
+                              | inl ratT =>
+                                  exact Or.inr (Or.inr (Or.inr (Or.inl ratT)))
+                              | inr ratT' =>
+                                  exact Or.inr (Or.inr (Or.inr (Or.inr ratT')))
+    · intro support
+      cases support with
+      | inl ratS' =>
+          have leftProduct :
+              RatHistoryCarrier (append (append l' l) (append r r')) :=
+            Iff.mpr contextTransport (Iff.mpr rightContextSupport (Or.inl ratS'))
+          have leftSupport := Iff.mp leftContextSupport leftProduct
+          cases leftSupport with
+          | inl ratL' =>
+              exact Or.inl ratL'
+          | inr leftTail =>
+              cases leftTail with
+              | inl ratL =>
+                  exact Or.inr (Or.inl ratL)
+              | inr leftTail =>
+                  cases leftTail with
+                  | inl ratR =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inl ratR)))
+                  | inr ratR' =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inr ratR')))
+      | inr supportTail =>
+          cases supportTail with
+          | inl ratS =>
+              have leftProduct :
+                  RatHistoryCarrier (append (append l' l) (append r r')) :=
+                Iff.mpr contextTransport (Iff.mpr rightContextSupport (Or.inr (Or.inl ratS)))
+              have leftSupport := Iff.mp leftContextSupport leftProduct
+              cases leftSupport with
+              | inl ratL' =>
+                  exact Or.inl ratL'
+              | inr leftTail =>
+                  cases leftTail with
+                  | inl ratL =>
+                      exact Or.inr (Or.inl ratL)
+                  | inr leftTail =>
+                      cases leftTail with
+                      | inl ratR =>
+                          exact Or.inr (Or.inr (Or.inr (Or.inl ratR)))
+                      | inr ratR' =>
+                          exact Or.inr (Or.inr (Or.inr (Or.inr ratR')))
+          | inr supportTail =>
+              cases supportTail with
+              | inl ratH =>
+                  exact Or.inr (Or.inr (Or.inl ratH))
+              | inr supportTail =>
+                  cases supportTail with
+                  | inl ratT =>
+                      have leftProduct :
+                          RatHistoryCarrier (append (append l' l) (append r r')) :=
+                        Iff.mpr contextTransport
+                          (Iff.mpr rightContextSupport (Or.inr (Or.inr (Or.inl ratT))))
+                      have leftSupport := Iff.mp leftContextSupport leftProduct
+                      cases leftSupport with
+                      | inl ratL' =>
+                          exact Or.inl ratL'
+                      | inr leftTail =>
+                          cases leftTail with
+                          | inl ratL =>
+                              exact Or.inr (Or.inl ratL)
+                          | inr leftTail =>
+                              cases leftTail with
+                              | inl ratR =>
+                                  exact Or.inr (Or.inr (Or.inr (Or.inl ratR)))
+                              | inr ratR' =>
+                                  exact Or.inr (Or.inr (Or.inr (Or.inr ratR')))
+                  | inr ratT' =>
+                      have leftProduct :
+                          RatHistoryCarrier (append (append l' l) (append r r')) :=
+                        Iff.mpr contextTransport
+                          (Iff.mpr rightContextSupport (Or.inr (Or.inr (Or.inr ratT'))))
+                      have leftSupport := Iff.mp leftContextSupport leftProduct
+                      cases leftSupport with
+                      | inl ratL' =>
+                          exact Or.inl ratL'
+                      | inr leftTail =>
+                          cases leftTail with
+                          | inl ratL =>
+                              exact Or.inr (Or.inl ratL)
+                          | inr leftTail =>
+                              cases leftTail with
+                              | inl ratR =>
+                                  exact Or.inr (Or.inr (Or.inr (Or.inl ratR)))
+                              | inr ratR' =>
+                                  exact Or.inr (Or.inr (Or.inr (Or.inr ratR')))
+  constructor
+  · intro leftCarrier
+    exact Iff.mpr rightLaws.right.right
+      (Iff.mp supportTransport (Iff.mp leftLaws.right.right leftCarrier))
+  · intro rightCarrier
+    exact Iff.mpr leftLaws.right.right
+      (Iff.mpr supportTransport (Iff.mp rightLaws.right.right rightCarrier))
+
+theorem RatDenomUnitContextualAction_pair_classifier_transport
+    {p q p' q' h l r s t l' r' s' t' : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitClassifier l s ->
+        RatDenomUnitClassifier r t -> RatDenomUnitClassifier l' s' ->
+          RatDenomUnitClassifier r' t' ->
+            RatDenomUnitClassifier
+              (RatDenomUnitContextualAction p' q' l' r'
+                (RatDenomUnitContextualAction p q l r h))
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) := by
+  intro sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+  have leftLaws :=
+    field_rat_denominator_contextual_action_composition_support_laws sameP sameQ sameP'
+      sameQ' carrierH classifiedL.left classifiedR.left classifiedL'.left classifiedR'.left
+  have rightLaws :=
+    field_rat_denominator_contextual_action_composition_support_laws sameP sameQ sameP'
+      sameQ' carrierH classifiedL.right.left classifiedR.right.left classifiedL'.right.left
+      classifiedR'.right.left
+  have classifiedLeftProduct :
+      RatDenomUnitClassifier (append l' l) (append s' s) :=
+    RatDenomUnitClassifier_continuation_closed classifiedL' classifiedL
+      (cont_intro rfl) (cont_intro rfl)
+  have classifiedRightProduct :
+      RatDenomUnitClassifier (append r r') (append t t') :=
+    RatDenomUnitClassifier_continuation_closed classifiedR classifiedR'
+      (cont_intro rfl) (cont_intro rfl)
+  have classifiedH : RatDenomUnitClassifier h h :=
+    ⟨carrierH, carrierH, hsame_refl h⟩
+  have classifiedLeftCore :
+      RatDenomUnitClassifier (append (append l' l) h) (append (append s' s) h) :=
+    RatDenomUnitClassifier_continuation_closed classifiedLeftProduct classifiedH
+      (cont_intro rfl) (cont_intro rfl)
+  have classifiedCollectedCore :
+      RatDenomUnitClassifier
+        (append (append (append l' l) h) (append r r'))
+        (append (append (append s' s) h) (append t t')) :=
+    RatDenomUnitClassifier_continuation_closed classifiedLeftCore classifiedRightProduct
+      (cont_intro rfl) (cont_intro rfl)
+  have classifiedCollected :
+      RatDenomUnitClassifier
+        (RatDenomUnitContextualAction p' q' (append l' l) (append r r') h)
+        (RatDenomUnitContextualAction p' q' (append s' s) (append t t') h) := by
+    exact Iff.mpr
+      (RatDenomUnitClassifier_empty_context_iff sameP' sameQ' sameP' sameQ')
+      classifiedCollectedCore
+  have sameNested :
+      hsame
+        (RatDenomUnitContextualAction p' q' l' r'
+          (RatDenomUnitContextualAction p q l r h))
+        (RatDenomUnitContextualAction p' q' s' t'
+          (RatDenomUnitContextualAction p q s t h)) :=
+    hsame_trans leftLaws.right.left.right.right
+      (hsame_trans classifiedCollected.right.right (hsame_symm rightLaws.right.left.right.right))
+  exact ⟨leftLaws.left, rightLaws.left, sameNested⟩
 
 end BEDC.Derived.FieldUp
