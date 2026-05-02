@@ -429,3 +429,76 @@ branch, retain the classifier supplied by the reflected normal form.
 Combining the classifier obtained over $u$ with the classifier obtained over
 $u'$ yields the displayed conjunction.
 \end{proof}
+
+\begin{theorem}[Tagged option composite image classifier normalized intermediate factor uniqueness]
+\label{thm:tagged-option-composite-image-classifier-normalized-intermediate-factor-uniqueness}
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history carriers, let
+$\sim_S,\sim_T,\sim_U$ be their classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U)
+$$
+be composable descents with payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall a.\;T(a)\to U(\epsilon.\mathsf{map}(a)).
+$$
+Assume reflected source readback from visible public equality,
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\epsilon}(T,\sim_T).
+$$
+For histories $k,k',l,l',u,u'$, suppose two normalized factor outputs over the
+same public endpoints $(u,u')$ supply intermediate pairs $(k,k')$ and $(l,l')$
+such that
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')
+$$
+and
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};l,l')
+$$
+hold, together with the four public factor links
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u),
+$$
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l,u),
+$$
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u'),
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l',u').
+$$
+Then
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,l)
+\land
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k',l').
+$$
+\end{theorem}
+\begin{proof}
+The normalized intermediate classifier coverage theorem identifies exactly the
+admissible shapes of a public factor output over $(u,u')$: an absent
+intermediate package or a selected visible present intermediate package. Hence
+both displayed pairs $(k,k')$ and $(l,l')$ are legitimate intermediate endpoints
+for the same normalized public pair.
+
+The uniqueness claim now depends only on the public $\epsilon$-legs. Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-intermediate-factor-coherence}
+to the four map-relation witnesses over the shared endpoints $u$ and $u'$, using
+the reflected source readback hypothesis for $\epsilon$.
+
+The factor-coherence theorem returns the classifier between the first
+intermediate endpoints and the classifier between the second intermediate
+endpoints, which is precisely the displayed conjunction.
+\end{proof}
