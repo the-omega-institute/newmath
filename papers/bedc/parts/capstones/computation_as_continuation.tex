@@ -11,3 +11,41 @@ The continuation primitive $\Cont$ of \autoref{ch:core-relational-extension-and-
 For every closed inductive program syntax $S$ equipped with a Plotkin-style small-step relation $\to_{S}$, there exists a naming certificate over $S$ whose continuation is naturally isomorphic to $\to_{S}$. Termination of $\to_{S}$ corresponds to the well-foundedness of the certificate's continuation chain; big-step semantics arises as the classifier closure of the continuation; behavioural equivalence is $\hsame$ on the underlying history carrier.
 \leanstmt{BEDC.Reflection.computation\_as\_continuation\_correspondence}
 \end{theorem}
+
+\paragraph{Capstone.}
+The same continuation ledger has three concrete readings: as categorical
+hom-carrier data, as a unary prefix preorder witness, and as monoid append of
+continuation tails.
+
+\begin{theorem}[Unary prefix category correspondence]
+\label{thm:unary-prefix-preorder-category-correspondence}
+For unary histories $a,b,f$, the displayed ledger
+$\mathsf{CategoryHomCarrier}(a,b,f)$ is exactly the datum that $f$ is the
+unary continuation tail witnessing the concrete prefix comparison from $a$ to
+$b$: $\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(f)$, and
+$\ContR(a,f,b)$. Under this correspondence, $\emp$ is the identity tail,
+categorical composition is BEDC monoid append of tails, and
+$\mathsf{PreorderPrefixLE}$ transitivity is composition closure up to
+$\hsame$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{CategoryHomCarrier}$. A hom-carrier ledger already contains
+the unary source and morphism witnesses together with the continuation
+$\ContR(a,f,b)$, so the prefix witness is obtained by reading $f$ as the
+displayed tail from $a$ to $b$.
+
+Conversely, the prefix tail data supplies the source and morphism witnesses
+directly, and unary continuation closure supplies the target witness. The
+continuation field is the displayed $\ContR(a,f,b)$, so the hom-carrier ledger
+is rebuilt. The concrete preorder form is the same tail display, with
+\autoref{thm:preorder-prefix-append-unary-tail} giving the canonical append
+presentation.
+
+The identity case is \autoref{thm:category-hom-carrier-empty-identity}: the
+empty tail witnesses the identity continuation at every unary object.
+Composition uses \autoref{thm:category-hom-carrier-comp-closed}, while the
+preorder side uses \autoref{thm:preorder-prefix-transitivity}. The agreement
+of these two composites is the unit and associativity content of
+\autoref{thm:history-continuation-monoid-laws}, with comparison of resulting
+tails taken through $\hsame$.
+\end{proof}
