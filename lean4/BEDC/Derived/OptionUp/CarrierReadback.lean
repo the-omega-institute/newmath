@@ -32,4 +32,13 @@ theorem TaggedOptionHistoryCarrier_present_source_transport {S : BHist → Prop}
       | intro sourceA samePayload =>
           exact source_transport (hsame_symm samePayload) sourceA
 
+theorem TaggedOptionHistoryCarrier_e1_source_iff {S : BHist → Prop}
+    (source_transport : ∀ {x y : BHist}, hsame x y → S x → S y) {h : BHist} :
+    TaggedOptionHistoryCarrier S (BHist.e1 h) ↔ S h := by
+  constructor
+  · intro carrier
+    exact TaggedOptionHistoryCarrier_present_source_transport source_transport carrier
+  · intro sourceH
+    exact Or.inr (Exists.intro h (And.intro sourceH (hsame_refl (BHist.e1 h))))
+
 end BEDC.Derived.OptionUp

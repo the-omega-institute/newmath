@@ -78,6 +78,27 @@ transport sends $S(a)$ to $S(h)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_present\_source\_transport}
 
+\begin{theorem}[Tagged option history carrier e1 source exactness]
+\label{thm:tagged-option-history-carrier-e1-source-iff}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+assume $S$ is stable along history sameness:
+$$
+\forall x\,y:\mathsf{BHist}.\;\hsame(x,y)\to S(x)\to S(y).
+$$
+Then the visible present endpoint $\Eone(h)$ inhabits the tagged option carrier
+exactly when its displayed payload inhabits the source carrier:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(\Eone(h))\Longleftrightarrow S(h).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the present-source readback above. For the reverse
+direction, use the present branch of the tagged option carrier with payload
+$h$, source witness $S(h)$, and reflexivity
+$\hsame(\Eone(h),\Eone(h))$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_e1\_source\_iff}
+
 For the finite-data certificate template, the traditional target is
 absent-vs-present option tags; the BEDC source is $\mathsf{BHist}$ with
 $\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; no classifier

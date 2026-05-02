@@ -391,6 +391,47 @@ continuation ledger to the suffixed continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_suffix\_iff}
 
+\begin{theorem}[Continuous modulus witness visible context exactness]
+\label{thm:continuous-modulus-witness-visible-context-iff}
+For histories $p,q,s,\delta,t$, simultaneous visible context on the source,
+modulus, and target ledgers is exactly the pair of unary context witnesses
+together with the base one-step modulus witness:
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta\cdot q,(p\cdot t)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{ContinuousModulusWitness}(s,\delta,t).
+$$
+\end{theorem}
+\begin{proof}
+Peel the right suffix from the modulus and target ledgers by suffix exactness.
+The remaining witness has the common left prefix on source and target, so prefix
+exactness recovers the unary prefix and the central witness. Conversely,
+rebuild the prefixed central witness first, then reattach the right suffix.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_visible\_context\_iff}
+
+\begin{theorem}[Continuous modulus witness visible context source determinacy]
+\label{thm:continuous-modulus-witness-visible-context-source-deterministic}
+For histories $p,q,s,s',\delta,t$, two visible-context one-step modulus
+witnesses with the same visible modulus and visible target contexts determine
+the same central source history:
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta\cdot q,(p\cdot t)\cdot q)
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(p\cdot s',\delta\cdot q,(p\cdot t)\cdot q)
+\Longrightarrow
+\hsame(s,s').
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to both witnesses. The recovered central
+witnesses share the modulus $\delta$ and target $t$, so one-step source
+determinacy gives $\hsame(s,s')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_visible\_context\_source\_deterministic}
+
 \begin{theorem}[Continuous modulus witness left e1 result cases]
 \label{thm:continuous-modulus-witness-left-e1-result-cases}
 For histories $source,modulus,target$, a one-step modulus witness from a
