@@ -70,6 +70,38 @@ First use category hom-carrier composition closure to place \(fg\) from \(a\) to
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_preserves}
 
+\begin{theorem}[Prefix functor composition right factor reflection]
+\label{thm:functor-prefix-hom-carrier-comp-right-factor}
+For the unary-continuation category, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $\ContR(f,g,fg)$ holds, and
+$fg$ is displayed as a hom-carrier from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,c)$, then $g$ is a hom-carrier from $b$ to $c$.
+\end{theorem}
+\begin{proof}
+First apply category-level right factor recovery to the prefixed source,
+middle, and target hom-carriers. This gives a prefixed hom-carrier from
+$\mathsf{append}(p,b)$ to $\mathsf{append}(p,c)$ with morphism $g$. Prefix
+reflection cancels the shared prefix and yields the unprefixed carrier from
+$b$ to $c$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_right\_factor}
+
+\begin{theorem}[Prefix functor composition left factor reflection]
+\label{thm:functor-prefix-hom-carrier-comp-left-factor}
+For the unary-continuation category, if $g$ is a hom-carrier from
+$\mathsf{append}(p,b)$ to $\mathsf{append}(p,c)$, $\ContR(f,g,fg)$ holds, and
+$fg$ is displayed as a hom-carrier from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,c)$, then $f$ is a hom-carrier from $a$ to $b$.
+\end{theorem}
+\begin{proof}
+Apply category-level left factor recovery to the displayed composite and the
+right factor. The result is a prefixed hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$ with morphism $f$. Prefix
+reflection cancels the common prefix and returns the unprefixed carrier from
+$a$ to $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_left\_factor}
+
 \begin{theorem}[Prefix functor preserves hom composition with tail commutativity]
 \label{thm:functor-prefix-hom-carrier-tail-comm-closed}
 For the unary-continuation category, if \(p\) is unary, \(f\) is a
