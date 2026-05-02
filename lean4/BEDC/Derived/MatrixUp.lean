@@ -1,0 +1,116 @@
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+
+namespace BEDC.Derived.MatrixUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+
+def MatrixSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def MatrixSingletonClassifier (h k : BHist) : Prop :=
+  MatrixSingletonCarrier h ∧ MatrixSingletonCarrier k ∧ hsame h k
+
+def MatrixSingletonZero : BHist :=
+  BHist.Empty
+
+def MatrixSingletonOne : BHist :=
+  BHist.Empty
+
+def MatrixSingletonAdd (M N : BHist) : BHist :=
+  append M N
+
+def MatrixSingletonMul (M N : BHist) : BHist :=
+  append M N
+
+theorem MatrixSingletonEmptyHistory_laws :
+    SemanticNameCert MatrixSingletonCarrier MatrixSingletonCarrier MatrixSingletonCarrier
+        MatrixSingletonClassifier ∧
+      MatrixSingletonCarrier MatrixSingletonZero ∧
+      MatrixSingletonCarrier MatrixSingletonOne ∧
+      (forall {M N : BHist}, MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
+        MatrixSingletonCarrier (MatrixSingletonAdd M N) ∧
+          MatrixSingletonCarrier (MatrixSingletonMul M N)) ∧
+      (forall {M : BHist}, MatrixSingletonCarrier M ->
+        MatrixSingletonClassifier (MatrixSingletonAdd MatrixSingletonZero M) M ∧
+          MatrixSingletonClassifier (MatrixSingletonAdd M MatrixSingletonZero) M) ∧
+      (forall {M : BHist}, MatrixSingletonCarrier M ->
+        MatrixSingletonClassifier (MatrixSingletonMul MatrixSingletonOne M) M ∧
+          MatrixSingletonClassifier (MatrixSingletonMul M MatrixSingletonOne) M) ∧
+      (forall {M N P : BHist}, MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
+        MatrixSingletonCarrier P ->
+          MatrixSingletonClassifier (MatrixSingletonAdd (MatrixSingletonAdd M N) P)
+            (MatrixSingletonAdd M (MatrixSingletonAdd N P)) ∧
+          MatrixSingletonClassifier (MatrixSingletonMul (MatrixSingletonMul M N) P)
+            (MatrixSingletonMul M (MatrixSingletonMul N P))) ∧
+      (forall {M M' N N' : BHist}, MatrixSingletonClassifier M M' ->
+        MatrixSingletonClassifier N N' ->
+          MatrixSingletonClassifier (MatrixSingletonAdd M N) (MatrixSingletonAdd M' N') ∧
+          MatrixSingletonClassifier (MatrixSingletonMul M N) (MatrixSingletonMul M' N')) := by
+  have emptyCarrier : MatrixSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : MatrixSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  have appendCarrier :
+      forall {M N : BHist}, MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
+        MatrixSingletonCarrier (append M N) := by
+    intro M N carrierM carrierN
+    cases carrierM
+    cases carrierN
+    exact hsame_refl BHist.Empty
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+        equiv_refl := by
+          intro h carrier
+          exact And.intro carrier (And.intro carrier (hsame_refl h))
+        equiv_symm := by
+          intro h k same
+          exact And.intro same.right.left
+            (And.intro same.left (hsame_symm same.right.right))
+        equiv_trans := by
+          intro h k r sameHK sameKR
+          exact And.intro sameHK.left
+            (And.intro sameKR.right.left (hsame_trans sameHK.right.right sameKR.right.right))
+        carrier_respects_equiv := by
+          intro h k same _carrier
+          exact same.right.left
+      }
+      pattern_sound := by
+        intro _h carrier
+        exact carrier
+      ledger_sound := by
+        intro _h carrier
+        exact carrier
+    }
+  · constructor
+    · exact emptyCarrier
+    · constructor
+      · exact emptyCarrier
+      · constructor
+        · intro M N carrierM carrierN
+          exact And.intro (appendCarrier carrierM carrierN) (appendCarrier carrierM carrierN)
+        · constructor
+          · intro M carrierM
+            cases carrierM
+            exact And.intro emptyClassified emptyClassified
+          · constructor
+            · intro M carrierM
+              cases carrierM
+              exact And.intro emptyClassified emptyClassified
+            · constructor
+              · intro M N P carrierM carrierN carrierP
+                cases carrierM
+                cases carrierN
+                cases carrierP
+                exact And.intro emptyClassified emptyClassified
+              · intro M M' N N' sameMM' sameNN'
+                cases sameMM'.left
+                cases sameMM'.right.left
+                cases sameNN'.left
+                cases sameNN'.right.left
+                exact And.intro emptyClassified emptyClassified
+
+end BEDC.Derived.MatrixUp

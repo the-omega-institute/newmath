@@ -159,8 +159,10 @@ import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
+import BEDC.Derived.MatrixUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PreorderUp
+import BEDC.Derived.LatticeUp
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.DepthZero
