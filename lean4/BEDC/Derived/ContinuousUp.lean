@@ -155,6 +155,76 @@ theorem ContinuousModulusChain_result_deterministic {source first second target 
         hsame target target' := by
   exact ContinuousModulusChain_target_deterministic
 
+theorem ContinuousModulusChain_source_deterministic
+    {source source' first second target : BHist} :
+    ContinuousModulusChain source first second target ->
+      ContinuousModulusChain source' first second target -> hsame source source' := by
+  intro left right
+  cases left with
+  | intro _sourceCarrier leftRest =>
+      cases leftRest with
+      | intro _firstCarrier leftRest =>
+          cases leftRest with
+          | intro _secondCarrier leftRest =>
+              cases leftRest with
+              | intro _targetCarrier leftWitness =>
+                  cases leftWitness with
+                  | intro middle middleData =>
+                      cases middleData with
+                      | intro firstRel secondRel =>
+                          cases right with
+                          | intro _sourceCarrier' rightRest =>
+                              cases rightRest with
+                              | intro _firstCarrier' rightRest =>
+                                  cases rightRest with
+                                  | intro _secondCarrier' rightRest =>
+                                      cases rightRest with
+                                      | intro _targetCarrier' rightWitness =>
+                                          cases rightWitness with
+                                          | intro middle' middleData' =>
+                                              cases middleData' with
+                                              | intro firstRel' secondRel' =>
+                                                  have sameMiddle : hsame middle middle' :=
+                                                    cont_right_cancel secondRel secondRel'
+                                                  exact cont_common_suffix_cancellation firstRel
+                                                    firstRel' sameMiddle
+
+theorem ContinuousModulusChain_first_deterministic
+    {source first first' second target : BHist} :
+    ContinuousModulusChain source first second target ->
+      ContinuousModulusChain source first' second target -> hsame first first' := by
+  intro left right
+  cases left with
+  | intro _sourceCarrier leftRest =>
+      cases leftRest with
+      | intro _firstCarrier leftRest =>
+          cases leftRest with
+          | intro _secondCarrier leftRest =>
+              cases leftRest with
+              | intro _targetCarrier leftWitness =>
+                  cases leftWitness with
+                  | intro middle middleData =>
+                      cases middleData with
+                      | intro firstRel secondRel =>
+                          cases right with
+                          | intro _sourceCarrier' rightRest =>
+                              cases rightRest with
+                              | intro _firstCarrier' rightRest =>
+                                  cases rightRest with
+                                  | intro _secondCarrier' rightRest =>
+                                      cases rightRest with
+                                      | intro _targetCarrier' rightWitness =>
+                                          cases rightWitness with
+                                          | intro middle' middleData' =>
+                                              cases middleData' with
+                                              | intro firstRel' secondRel' =>
+                                                  have sameMiddle : hsame middle middle' :=
+                                                    cont_right_cancel secondRel secondRel'
+                                                  have firstRelToMiddle : Cont source first' middle :=
+                                                    cont_result_hsame_transport firstRel'
+                                                      (hsame_symm sameMiddle)
+                                                  exact cont_left_cancel firstRel firstRelToMiddle
+
 theorem ContinuousModulusChain_composite_closed {source first second target composite : BHist} :
     ContinuousModulusChain source first second target -> Cont first second composite ->
       ContinuousModulusWitness source composite target := by

@@ -434,6 +434,50 @@ to obtain $\hsame(t,t')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_result\_deterministic}
 
+\begin{theorem}[Continuous modulus chain source determinacy]
+\label{thm:continuous-modulus-chain-source-deterministic}
+For histories $source,source',first,second,target$, two modulus-chain witnesses
+with the same two modulus histories and the same target determine the same
+source up to $\hsame$:
+$$
+\mathsf{ContinuousModulusChain}(source,first,second,target)
+\Longrightarrow
+\mathsf{ContinuousModulusChain}(source',first,second,target)
+\Longrightarrow
+\hsame(source,source').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both chains into middle histories and continuation ledgers. The second
+continuation ledgers have common suffix $second$ and common target, so right
+cancellation identifies the two middle histories. The first continuation
+ledgers then have common suffix $first$ and endpoints identified by that middle
+sameness; common-suffix cancellation gives $\hsame(source,source')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_source\_deterministic}
+
+\begin{theorem}[Continuous modulus chain first determinacy]
+\label{thm:continuous-modulus-chain-first-deterministic}
+For histories $source,first,first',second,target$, two modulus-chain witnesses
+with the same source, second modulus, and target determine the same first
+modulus up to $\hsame$:
+$$
+\mathsf{ContinuousModulusChain}(source,first,second,target)
+\Longrightarrow
+\mathsf{ContinuousModulusChain}(source,first',second,target)
+\Longrightarrow
+\hsame(first,first').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both chains. Right cancellation on the two second-leg continuation
+ledgers identifies the middle histories. Transport the second first-leg ledger
+along this middle sameness so that both first-leg ledgers have the same source
+and the same middle endpoint. Left cancellation of continuation then gives
+$\hsame(first,first')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_first\_deterministic}
+
 \begin{theorem}[Continuous modulus chain composite closure]
 \label{thm:continuous-modulus-chain-composite-closed}
 For unary histories $s,\delta_1,\delta_2,t$, a two-link modulus chain from

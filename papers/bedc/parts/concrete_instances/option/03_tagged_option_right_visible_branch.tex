@@ -40,3 +40,34 @@ of $k$ and invert the one-constructor equality to get $\hsame(a,a')$; the
 remaining fields are exactly the displayed witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_right\_visible\_branch\_inversion}
+
+\begin{theorem}[Tagged option history classifier composite right visible readback]
+\label{thm:tagged-option-history-classifier-composite-right-visible-readback}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier and let
+$\sim_S$ be a transitive source relation. For histories $h,k,r$, two tagged
+option classifier steps
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)
+\quad\text{and}\quad
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(k,r)
+$$
+determine the branch of $h$ from the visible branch of the composite right
+endpoint $r$:
+$$
+\hsame(r,\emp)\Longrightarrow \hsame(h,\emp),
+$$
+and, for every payload history $a$,
+$$
+S(a)\Longrightarrow \hsame(r,\Eone(a))\Longrightarrow
+\exists b,a':\mathsf{BHist}.\;
+S(b)\land S(a')\land \hsame(a,a')\land b\sim_S a'\land
+\hsame(h,\Eone(b)).
+$$
+\end{theorem}
+\begin{proof}
+Compose the two tagged classifier steps using transitivity of $\sim_S$. The
+result is a single classifier step from $h$ to $r$. Applying the right
+visible-branch inversion theorem to that composite step gives the absent
+readback clause and the present payload witness clause exactly as displayed.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_composite\_right\_visible\_readback}
