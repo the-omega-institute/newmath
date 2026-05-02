@@ -201,3 +201,64 @@ Then for all \(x,y\in A\),
 \begin{proof}
 The first assertion is Lemma~\ref{lem:lattice-meet-idempotence-from-bounds}. The second assertion is Lemma~\ref{lem:lattice-join-idempotence-from-bounds}. The third assertion is Lemma~\ref{lem:lattice-meet-absorption-from-bounds}. The fourth assertion is Lemma~\ref{lem:lattice-join-absorption-from-bounds}.
 \end{proof}
+
+\begin{theorem}[Lattice commutativity from directional bounds]
+\label{thm:lattice-commutativity-from-directional-bounds}
+Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\). Assume the inherited \(\POSetUp\) antisymmetry field and the directional meet and join bound-characterization fields from \autoref{def:lattice-stability-certificate}. Then for all \(x,y\in A\),
+\[
+  x\wedge y\sim_C y\wedge x,
+  \qquad
+  x\vee y\sim_C y\vee x .
+\]
+\end{theorem}
+\begin{proof}
+For the meet comparison, the meet lower-bound laws in \autoref{def:lattice-stability-certificate} give
+\[
+  x\wedge y\le x
+  \qquad\text{and}\qquad
+  x\wedge y\le y .
+\]
+Applying meet greatestness with \(z=x\wedge y\), \(a=y\), and \(b=x\) gives
+\[
+  x\wedge y\le y\wedge x .
+\]
+The same lower-bound laws applied to \(y\wedge x\) give
+\[
+  y\wedge x\le y
+  \qquad\text{and}\qquad
+  y\wedge x\le x .
+\]
+Applying meet greatestness with \(z=y\wedge x\), \(a=x\), and \(b=y\) gives
+\[
+  y\wedge x\le x\wedge y .
+\]
+Since \(\LatticeUp\) extends the \(\POSetUp\) layer, the antisymmetry field recorded in \autoref{def:poset-stability-certificate} applies to these two comparisons and yields
+\[
+  x\wedge y\sim_C y\wedge x .
+\]
+
+For the join comparison, the join upper-bound laws in \autoref{def:lattice-stability-certificate} give
+\[
+  y\le x\vee y
+  \qquad\text{and}\qquad
+  x\le x\vee y .
+\]
+Applying join leastness with \(z=x\vee y\), \(a=y\), and \(b=x\) gives
+\[
+  y\vee x\le x\vee y .
+\]
+The same upper-bound laws applied to \(y\vee x\) give
+\[
+  x\le y\vee x
+  \qquad\text{and}\qquad
+  y\le y\vee x .
+\]
+Applying join leastness with \(z=y\vee x\), \(a=x\), and \(b=y\) gives
+\[
+  x\vee y\le y\vee x .
+\]
+The inherited antisymmetry field from \autoref{def:poset-stability-certificate} applied to these two comparisons yields
+\[
+  x\vee y\sim_C y\vee x .
+\]
+\end{proof}
