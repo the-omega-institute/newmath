@@ -206,6 +206,43 @@ contradicting history constructor no-confusion.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_left\_visible\_tail\_absurd}
 
+\begin{theorem}[Triangular continuation cycle forbids a visible middle tail]
+\label{thm:cont-triangle-cycle-middle-visible-tail-absurd}
+If
+$$
+\ContR(a,f,b),\qquad
+\ContR(b,\Eone(k),c),\qquad
+\ContR(c,h,a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(f,\Eone(k)),c)$. This composite and the return
+continuation form a mutual continuation cycle, so the composite tail is empty.
+Empty-append inversion identifies the middle visible tail $\Eone(k)$ with
+$\emp$, contradicting history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_middle\_visible\_tail\_absurd}
+
+\begin{theorem}[Triangular continuation cycle forbids a visible right tail]
+\label{thm:cont-triangle-cycle-right-visible-tail-absurd}
+If
+$$
+\ContR(a,f,b),\qquad
+\ContR(b,g,c),\qquad
+\ContR(c,\Eone(k),a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(f,g),c)$. The composite continuation and the visible
+return tail give a mutual continuation with a one-headed right tail, which is
+forbidden by right-tail mutual-extension cancellation.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_right\_visible\_tail\_absurd}
+
 \begin{theorem}[Associativity up to history-sameness]
 \label{thm:continuation-associativity-up-to-hsame-proof-standing}
 Suppose
