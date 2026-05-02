@@ -30,4 +30,18 @@ theorem OptionHistoryLedgerPolicy_trans {source : BHist -> Prop} {raw mid visibl
       | intro _midCarrier midVisible =>
           exact And.intro rawCarrier (hsame_trans rawMid midVisible)
 
+theorem OptionHistoryLedgerPolicy_source_monotonicity {S T : BHist -> Prop}
+    (source_mono : forall {h : BHist}, S h -> T h) {raw visible : BHist} :
+    OptionHistoryLedgerPolicy S raw visible -> OptionHistoryLedgerPolicy T raw visible := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier rawVisible =>
+      constructor
+      · cases rawCarrier with
+        | inl rawEmpty =>
+            exact Or.inl rawEmpty
+        | inr rawSource =>
+            exact Or.inr (source_mono rawSource)
+      · exact rawVisible
+
 end BEDC.Derived.OptionUp

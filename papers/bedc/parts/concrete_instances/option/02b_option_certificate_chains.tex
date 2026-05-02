@@ -465,6 +465,21 @@ ledger link, and the visible link.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_hsame\_transport}
 
+\begin{theorem}[Option ledger policy source monotonicity]
+\label{thm:option-history-ledger-policy-source-monotonicity}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be source predicates and let
+$\rho,v:\mathsf{BHist}$. If every $S$-source history is also a $T$-source
+history, then $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ implies
+$\mathsf{OptionHistoryLedgerPolicy}(T,\rho,v)$.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into its raw optional-history carrier and raw-to-visible
+$\hsame$ link. The absent raw branch is kept unchanged. In the source raw
+branch, apply the source-monotonicity hypothesis to move the raw witness from
+$S$ to $T$, and keep the same raw-to-visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_source\_monotonicity}
+
 \begin{theorem}[Option ledger policy transitivity]
 \label{thm:option-ledger-policy-trans}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let

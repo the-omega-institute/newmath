@@ -160,6 +160,15 @@ theorem CategoryHomCarrier_tail_comm_hsame {a b c f g fg gf : BHist} :
   intro left right fgRel gfRel
   exact unary_continuation_commutativity left.2.2.1 right.2.2.1 fgRel gfRel
 
+theorem CategoryHomCarrier_hsame_transport {a a' b b' f f' : BHist} :
+    hsame a a' -> hsame b b' -> hsame f f' ->
+      CategoryHomCarrier a b f -> CategoryHomCarrier a' b' f' := by
+  intro sameSource sameTarget sameMorphism homCarrier
+  cases sameSource
+  cases sameTarget
+  cases sameMorphism
+  exact homCarrier
+
 structure ContinuationMorphism (src tgt : BHist) where
   tail : BHist
   rel : Cont src tail tgt
