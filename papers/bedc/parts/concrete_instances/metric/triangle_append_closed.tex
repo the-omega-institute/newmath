@@ -1,0 +1,22 @@
+\begin{theorem}[Metric distance witness triangle append closure]
+\label{thm:metric-distance-witness-triangle-append-closed}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, a distance witness from $x$ to
+$y$, a distance witness from $y$ to $z$, and a distance witness from $d_{xy}$ to
+$z$ close the appended triangle ledger:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\hsame(d_{xyz},x\cdot d_{yz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the three distance witnesses to their continuation fields. The three
+continuations identify $d_{xy}$ with $x\cdot y$, $d_{yz}$ with $y\cdot z$, and
+$d_{xyz}$ with $(x\cdot y)\cdot z$. Associativity of history append classifies
+this last ledger with $x\cdot (y\cdot z)$, hence with $x\cdot d_{yz}$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_closed}
