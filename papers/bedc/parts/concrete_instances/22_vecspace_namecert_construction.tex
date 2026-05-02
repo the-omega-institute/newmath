@@ -152,6 +152,24 @@ and classified inverse conclusion follows over the empty witness domain.
 
 \leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonEmptyHistory\_laws}
 
+\begin{theorem}[VecSpace singleton scalar action carrier readback]
+\label{thm:vecspace-singleton-smul-carrier-readback}
+For the concrete singleton $\VecSpaceUp$ instance, if
+$m:\mathsf{BHist}$ satisfies $A_{\emp}(m)$, then
+$\mathsf{smul}(r,m)$ is classified with $m$, and
+$\mathsf{smul}(r,m)\hsame\emp$.
+\end{theorem}
+\begin{proof}
+The scalar action in
+Definition~\ref{def:singleton-empty-history-vecspace-instance} is the constant
+empty-history action, so its endpoint has the singleton carrier by
+$\hsame(\emp,\emp)$. The assumed carrier witness for $m$ is the second endpoint
+component. Symmetry of that same witness gives
+$\emp\hsame m$, which is the classifier comparison from the scalar-action
+endpoint back to $m$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_carrier\_readback}
+
 \begin{theorem}[VecSpace singleton scalar action inverse law]
 \label{thm:vecspace-singleton-scalar-action-inverse-law}
 For the concrete singleton $\VecSpaceUp$ instance, let

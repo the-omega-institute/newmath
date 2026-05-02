@@ -200,4 +200,17 @@ theorem VecSpaceSingleton_scalar_action_inverse_law {r m : BHist}
   · exact And.intro (hsame_refl BHist.Empty)
       (And.intro carrierM (hsame_symm carrierM))
 
+theorem VecSpaceSingletonSmul_carrier_readback {r m : BHist} :
+    VecSpaceSingletonCarrier m ->
+      VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) m ∧
+        hsame (VecSpaceSingletonSmul r m) BHist.Empty := by
+  intro carrierM
+  have actionCarrier : VecSpaceSingletonCarrier (VecSpaceSingletonSmul r m) :=
+    hsame_refl BHist.Empty
+  have actionSameM : hsame (VecSpaceSingletonSmul r m) m :=
+    hsame_symm carrierM
+  constructor
+  · exact And.intro actionCarrier (And.intro carrierM actionSameM)
+  · exact actionCarrier
+
 end BEDC.Derived.VecSpaceUp

@@ -80,6 +80,42 @@ theorem field_rat_carrier_singleton_coverage_obstruction :
     · intro coverage
       exact notSingleton (coverage (BHist.e1 BHist.Empty) carrierD1)
 
+theorem field_rat_singleton_classifier_ledger_coverage_obstruction :
+    RatHistoryClassifier (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) ∧
+      RatHistoryLedgerPolicy (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) ∧
+        (FieldSingletonClassifier (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) -> False) ∧
+          ((∀ h k : BHist, RatHistoryClassifier h k -> FieldSingletonClassifier h k) ->
+            False) ∧
+            ((∀ raw visible : BHist, RatHistoryLedgerPolicy raw visible ->
+              FieldSingletonCarrier raw ∧ FieldSingletonCarrier visible) -> False) := by
+  have boundary := field_rat_carrier_non_singleton_boundary_witness
+  have carrierD1 : RatHistoryCarrier (BHist.e1 BHist.Empty) := boundary.left
+  have notSingleton : FieldSingletonCarrier (BHist.e1 BHist.Empty) -> False :=
+    boundary.right.left
+  have classifierD1 :
+      RatHistoryClassifier (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+    ⟨carrierD1, carrierD1, hsame_refl (BHist.e1 BHist.Empty)⟩
+  have ledgerD1 :
+      RatHistoryLedgerPolicy (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+    ⟨carrierD1, hsame_refl (BHist.e1 BHist.Empty)⟩
+  have classifierAbsurd :
+      FieldSingletonClassifier (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) -> False := by
+    intro singletonClassifier
+    exact notSingleton singletonClassifier.left
+  constructor
+  · exact classifierD1
+  · constructor
+    · exact ledgerD1
+    · constructor
+      · exact classifierAbsurd
+      · constructor
+        · intro classifierCoverage
+          exact classifierAbsurd
+            (classifierCoverage (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) classifierD1)
+        · intro ledgerCoverage
+          exact notSingleton (ledgerCoverage (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)
+            ledgerD1).left
+
 theorem RatHistoryLedgerPolicy_fieldSingletonEmptyCarrier_endpoints_absurd {raw visible : BHist} :
     RatHistoryLedgerPolicy raw visible ->
       (hsame raw BHist.Empty -> False) ∧

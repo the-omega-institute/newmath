@@ -37,4 +37,22 @@ theorem RatHistoryClassifier_continuation_right_closed {d d' e r r' : BHist} :
       leftContinuation rightContinuation
   exact ⟨carrierR, carrierR', sameResult⟩
 
+theorem field_rat_denominator_continuation_semigroup_laws {d e f de ef left right : BHist} :
+    RatHistoryCarrier d -> RatHistoryCarrier e -> RatHistoryCarrier f -> Cont d e de ->
+      Cont e f ef -> Cont de f left -> Cont d ef right ->
+        RatHistoryCarrier de ∧ RatHistoryCarrier ef ∧ RatHistoryCarrier left ∧
+          RatHistoryCarrier right ∧ hsame left right := by
+  intro carrierD carrierE carrierF contDE contEF contLeft contRight
+  have carrierDE : RatHistoryCarrier de :=
+    RatHistoryCarrier_continuation_closed carrierD carrierE contDE
+  have carrierEF : RatHistoryCarrier ef :=
+    RatHistoryCarrier_continuation_closed carrierE carrierF contEF
+  have carrierLeft : RatHistoryCarrier left :=
+    RatHistoryCarrier_continuation_closed carrierDE carrierF contLeft
+  have carrierRight : RatHistoryCarrier right :=
+    RatHistoryCarrier_continuation_closed carrierD carrierEF contRight
+  have sameResults : hsame left right :=
+    cont_assoc_hsame contDE contLeft contEF contRight
+  exact ⟨carrierDE, carrierEF, carrierLeft, carrierRight, sameResults⟩
+
 end BEDC.Derived.FieldUp
