@@ -249,10 +249,10 @@ $\CommRingUp$ base rows certified by
 base rows in place, the FieldUp-specific inverse and apart-zero rows, the
 two-sided zero-product and nonzero-product rows, the denominator
 multiplicative rows, the denominator-action envelope rows, contextual
-denominator rows, the denominator context-pair action rows, the context-pair
-strict-support commutation row, and the packaged affine $\GroupUp$ consequence
-supply the carrier, source, pattern, classifier, stability, ledger, and
-exactness rows of
+denominator rows, the denominator support-neutrality rows, the denominator
+context-pair action rows, the context-pair strict-support commutation row, and
+the packaged affine $\GroupUp$ consequence supply the carrier, source, pattern,
+classifier, stability, ledger, and exactness rows of
 \autoref{def:field-certificate-obligations} for the concrete target
 $\FieldUp(\mathsf{RatUp})$. More explicitly,
 Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} supplies the
@@ -303,11 +303,12 @@ coverage, and context-pair product and action rows over the concrete tuple
 fixed above.
 
 The contextual denominator action is supplied by
-\autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate}. It
-packages the pair classifier, pair product, unit-pair action, product-pair
-composition law, and strict-support readback over the same BHist denominator
-tuple, so the contextual exactness rows align with the denominator ledger
-entries.
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate} and
+\autoref{thm:ratup-fieldup-denominator-total-normalization-support-collapse-row}.
+They package the pair classifier, pair product, unit-pair action, product-pair
+composition law, collected-action exactness, and strict-support readback over
+the same BHist denominator tuple, so the contextual exactness and
+support-neutrality rows align with the denominator ledger entries.
 
 Separately,
 \autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes}
@@ -321,10 +322,84 @@ the packaged affine $\GroupUp$ consequence consumed by the field certificate.
 
 Together the $\CommRingUp$ base rows, the inverse rows, the zero-product rows,
 the denominator multiplicative rows, the denominator-action envelope component,
-the contextual denominator rows, the context-pair action rows, the
-strict-support commutation row, and the affine $\GroupUp$ row exhaust the
-ten-entry per-object template of
+the contextual denominator rows, the support-neutrality row, the context-pair
+action rows, the strict-support commutation row, and the affine $\GroupUp$ row
+exhaust the ten-entry per-object template of
 Definition~\ref{def:concrete-ratup-fieldup-certificate-instance}: target,
 source, carrier, classifier, stability obligations, ledger, core theorem list,
 exactness predicate, standard bridge, and status.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp assembled support-neutrality certificate]
+\label{thm:ratup-fieldup-assembled-support-neutrality-certificate}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, and the
+named source tuple $\mathsf{RatUpFieldSource}_F$, the assembled
+$\FieldUp(\mathsf{RatUp})$ certificate includes the support-neutrality row
+below. Under the hypotheses of
+\autoref{thm:ratup-fieldup-denominator-total-normalization-support-collapse-row},
+the nested action is carried:
+$$
+C_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))).
+$$
+It is classified by the collected action:
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',\mu_D^u(l',l),\mu_D^u(r,r')}(h)).
+$$
+It satisfies strict-support neutrality:
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(h).
+$$
+For any second endpoint $k$ under the same collected carried contexts, and for
+$s,t,s',t'$ satisfying $s\hsame\emp$, $t\hsame\emp$, $s'\hsame\emp$, and
+$t'\hsame\emp$, the collected action remains classifier-exact against that
+endpoint:
+$$
+R_D^u(\Gamma_{s,t,\mu_D^u(l',l),\mu_D^u(r,r')}(h),
+\Gamma_{s',t',\mu_D^u(l',l),\mu_D^u(r,r')}(k))
+\Longleftrightarrow R_D^u(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The assembled boundary is fixed by
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary}. It places
+$\mathsf{RatUpFieldSource}_F$, the displayed denominator tuple, and the action
+$\Gamma$ inside the concrete $\FieldUp(\mathsf{RatUp})$ certificate governed by
+\autoref{def:field-certificate-obligations}.
+
+Within that boundary, use
+\autoref{thm:ratup-fieldup-denominator-total-normalization-support-collapse-row}.
+Its hypotheses are exactly the carried-denominator, empty external-context, and
+strict-support hypotheses named in the statement. The theorem supplies the
+carried nested action and its classifier comparison with the collected action.
+
+The same row supplies the strict-support equivalence
+$N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))\Longleftrightarrow N_D^u(h)$.
+It also supplies classifier exactness for the collected action against the
+second endpoint $k$. These four conclusions are therefore available as one
+support-neutrality row of the assembled FieldUp certificate.
+\end{proof}
+
+Per-object template: traditional target constructive field on $\RatUp$; BEDC
+source $\RatUp$ plus $\CommRingUp$ and concrete denominator $\mathsf{BHist}$
+rows; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ together with
+$\mathsf{RatDenomUnitClassifier}$ on denominator rows; stability obligations
+inverse apartness, zero-product exactness, denominator package closure,
+denominator-action envelope, support-neutrality, context-pair action,
+context-pair strict-support commutation, and affine automorphism packaging;
+ledger rational history rows, denominator unit histories, continuation
+witnesses, contextual pairs, and apart-zero inverse witnesses; core theorem
+\autoref{thm:ratup-fieldup-semantic-certificate-assembly},
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
+and
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes};
+exactness predicate row coverage for $\FieldUp(\mathsf{RatUp})$, including the
+assembled support-neutrality classifier and strict-support clauses, the
+denominator-action envelope rows, and the context-pair strict-support
+commutation row; standard bridge deferred; status $\mathsf{ProofTarget}$.
