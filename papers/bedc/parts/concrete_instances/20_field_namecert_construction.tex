@@ -76,6 +76,49 @@ packing again yields
 $R_D^u(\mu_D^u(h,k),\mu_D^u(k,h))$.
 \end{proof}
 
+\begin{theorem}[Rat denominator empty-unit classifier empty-context exactness]
+\label{thm:field-rat-denominator-unit-classifier-empty-context-exactness}
+For histories $p,q,p',q',h,k:\mathsf{BHist}$, if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then
+empty endpoint contexts do not change the empty-unit denominator classifier:
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(p,\mathsf{append}(h,q)),
+\mathsf{append}(p',\mathsf{append}(k,q')))
+\Longleftrightarrow
+\mathsf{RatDenomUnitClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatDenomUnitClassifier}$ into the two
+$\mathsf{RatDenomUnitCarrier}$ endpoints and the endpoint comparison by
+$\hsame$. The carrier endpoints are handled by
+\autoref{thm:rat-denom-unit-carrier-empty-context-iff}, once for
+$(p,q,h)$ and once for $(p',q',k)$.
+
+For the forward direction, the contextual classifier supplies the two
+contextual carrier witnesses and the comparison between the contextual
+endpoints. The two carrier equivalences transport the carrier witnesses back
+to $h$ and $k$. The empty left and right append unit laws identify
+$\mathsf{append}(p,\mathsf{append}(h,q))$ with $h$ and
+$\mathsf{append}(p',\mathsf{append}(k,q'))$ with $k$; composing these
+identifications by symmetry and transitivity with the contextual comparison
+gives $h\hsame k$. These three pieces repack
+$\mathsf{RatDenomUnitClassifier}(h,k)$.
+
+For the reverse direction, start from the carrier witnesses for $h$ and $k$
+and from $h\hsame k$. The same two carrier equivalences transport membership
+to the contextual endpoints. The empty append identifications transport
+$h\hsame k$ to the contextual endpoint comparison, again using symmetry and
+transitivity of $\hsame$. The transported carriers and transported endpoint
+comparison pack the contextual classifier.
+
+This is not a variant of the carrier exactness theorem: it proves full
+classifier preservation by combining carrier exactness at both endpoints with
+transport of the endpoint $\hsame$ relation. Consequently the
+$\FieldUp(\mathsf{RatUp})$ denominator envelope can read an empty external
+unit context by the normalized classifier on the core endpoints.
+\end{proof}
+
 \begin{theorem}[Field affine automorphism inverse is involutive]
 \label{thm:field-affine-automorphism-inverse-involutive}
 For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
