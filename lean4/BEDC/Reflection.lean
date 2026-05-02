@@ -9,6 +9,12 @@ matching theorem proof, at which point the paper marker switches from
 
 namespace BEDC.Reflection
 
+/-- Irreducibility of the form of distinction (statement scaffold). -/
+def form_of_distinction_irreducible : Prop := True
+-- TODO: refine to the assertion that every classifier on every BEDC
+-- carrier presupposes the inductive constructor declaration of `Mark`;
+-- equivalently, no `def`-level primitive supplies the form of distinction.
+
 /-- Definition-classifier correspondence (statement scaffold). -/
 def definition_classifier_correspondence : Prop := True
 -- TODO: refine to the full statement once a Lean encoding of "definition over
@@ -33,5 +39,11 @@ def bedc_self_description : Prop := True
 -- TODO: refine to the universal translation from formal CIC claims about
 -- inductive types to internal claims expressible inside BEDC over the
 -- structure asserted by `internal_cic_interpretation`.
+
+/-- Closed ground loop and open meta loop (statement scaffold). -/
+def two_loops_theorem : Prop := True
+-- TODO: refine to the conjunction asserting (a) the form of distinction
+-- closes at one layer, and (b) the reflection map onto the host kernel
+-- remains open by Tarski undefinability and the runtime/object boundary.
 
 end BEDC.Reflection
