@@ -607,6 +607,26 @@ identity law leaves $a$.
 \leanchecked{BEDC.Derived.FieldUp.field\_right\_mul\_equation\_solution\_from\_apartness\_iff}
 \leanchecked{BEDC.Derived.FieldUp.field\_right\_mul\_equation\_exact\_from\_apartness}
 
+\begin{theorem}[Field right-multiplication empty equation solutions are unique from apartness]
+\label{thm:field-right-mul-empty-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_b:\mathsf{NonZero}_F(b)$ and both $x$ and $y$ solve the empty endpoint
+right-multiplication equation
+$$
+x b\hsame \emp
+\qquad\text{and}\qquad
+y b\hsame \emp,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the right-multiplication solution theorem to both displayed equations at
+the concrete endpoint $\emp$. Both solutions are classified with the same
+normal form $\emp\,\mathsf{inv}(b,p_b)$. Symmetry on the second classification
+and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_right\_mul\_empty\_equation\_solution\_unique\_from\_apartness}
+
 \begin{theorem}[Field multiplication by an indexed left inverse cancels]
 \label{thm:field-mul-inverse-left-cancel-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
@@ -716,3 +736,23 @@ right identity laws then leave $c$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_exact\_from\_apartness}
 \leanvariant{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_solution\_from\_apartness\_iff}
+
+\begin{theorem}[Field middle multiplication empty equation solutions are unique from apartness]
+\label{thm:field-middle-mul-empty-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ and both $x$ and
+$y$ solve the empty endpoint middle multiplication equation
+$$
+(a x)b\hsame \emp
+\qquad\text{and}\qquad
+(a y)b\hsame \emp,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the middle multiplication solution theorem to both displayed equations at
+the concrete endpoint $\emp$. Both solutions are classified with
+$\mathsf{inv}(a,p_a)(\emp\,\mathsf{inv}(b,p_b))$. Symmetry on the second
+classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_middle\_mul\_empty\_equation\_solution\_unique\_from\_apartness}

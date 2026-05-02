@@ -176,6 +176,7 @@ import BEDC.Derived.FieldUp.DenominatorUnitEnvelope
 import BEDC.Derived.FieldUp.ProductRightEquation
 import BEDC.Derived.FieldUp.ProductInverseClassifier
 import BEDC.Derived.FieldUp.ProductWitnessIndependence
+import BEDC.Derived.FieldUp.EquationUniqueness
 import BEDC.Derived.FieldUp.RatContinuationExternalBoundary
 import BEDC.Derived.FieldUp.RatCanonicalEndpoint
 import BEDC.Derived.FieldUp.PositiveDenominatorAppendSplit
