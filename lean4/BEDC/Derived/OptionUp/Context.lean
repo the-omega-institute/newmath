@@ -76,7 +76,9 @@ theorem OptionHistoryClassifier_unary_context_composition_iff {p q r s h k : BHi
   have rCarrier' : UnaryHistory R := unary_append_closed sCarrier qCarrier
   have sourceSame : hsame (append p (append (append r (append h s)) q))
       (append L (append h R)) := by
-    simp [hsame, L, R, append_assoc]
+    show append p (append (append r (append h s)) q) = append L (append h R)
+    rw [append_assoc r (append h s) q, append_assoc h s q,
+        ← append_assoc p r (append h (append s q))]
   have targetSame : hsame (append (append p r) (append k (append s q)))
       (append L (append k R)) := by
     rfl
