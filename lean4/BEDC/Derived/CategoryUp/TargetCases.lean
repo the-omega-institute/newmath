@@ -6,6 +6,36 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
+theorem CategoryHomCarrier_empty_source_e1_target_iff {r morph : BHist} :
+    CategoryHomCarrier BHist.Empty (BHist.e1 r) morph <->
+      morph = BHist.e1 r /\ UnaryHistory r := by
+  constructor
+  · intro homCarrier
+    have data :=
+      (CategoryHomCarrier_empty_source_iff (b := BHist.e1 r) (f := morph)).mp homCarrier
+    exact And.intro data.right (unary_e1_inversion data.left)
+  · intro data
+    exact
+      (CategoryHomCarrier_empty_source_iff (b := BHist.e1 r) (f := morph)).mpr
+        (And.intro (unary_e1_closed data.right) data.left)
+
+theorem CategoryHomCarrier_empty_source_e1_morphism_iff {k target : BHist} :
+    CategoryHomCarrier BHist.Empty target (BHist.e1 k) <->
+      target = BHist.e1 k /\ UnaryHistory k := by
+  constructor
+  · intro homCarrier
+    have data :=
+      (CategoryHomCarrier_empty_source_iff (b := target) (f := BHist.e1 k)).mp homCarrier
+    cases data.right
+    exact And.intro rfl (unary_e1_inversion data.left)
+  · intro data
+    have targetCarrier : UnaryHistory target := by
+      cases data.left
+      exact unary_e1_closed data.right
+    exact
+      (CategoryHomCarrier_empty_source_iff (b := target) (f := BHist.e1 k)).mpr
+        (And.intro targetCarrier data.left.symm)
+
 theorem CategoryHomCarrier_e1_target_morphism_cases {source r morph : BHist} :
     CategoryHomCarrier source (BHist.e1 r) morph ->
       (morph = BHist.Empty ∧ source = BHist.e1 r ∧ UnaryHistory r) ∨

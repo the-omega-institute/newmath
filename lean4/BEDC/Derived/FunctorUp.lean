@@ -239,6 +239,23 @@ theorem FunctorPrefixHomCarrier_empty_source_components_iff {p b f : BHist} :
               (CategoryHomCarrier_empty_source_iff (b := append p b) (f := f)).mpr
                 (And.intro (unary_append_closed prefixCarrier targetCarrier) sameMorphism)
 
+theorem FunctorPrefixHomCarrier_e1_morphism_target_components_iff {p a k r : BHist} :
+    CategoryHomCarrier (append p a) (BHist.e1 r) (BHist.e1 k) <->
+      UnaryHistory p /\ UnaryHistory a /\ UnaryHistory k /\ Cont (append p a) k r := by
+  constructor
+  · intro homCarrier
+    have data :=
+      (CategoryHomCarrier_e1_morphism_target_iff (a := append p a) (k := k) (r := r)).mp
+        homCarrier
+    exact And.intro (unary_append_left_factor data.left)
+      (And.intro (unary_append_right_factor data.left)
+        (And.intro data.right.left data.right.right))
+  · intro data
+    exact
+      (CategoryHomCarrier_e1_morphism_target_iff (a := append p a) (k := k) (r := r)).mpr
+        (And.intro (unary_append_closed data.left data.right.left)
+          (And.intro data.right.right.left data.right.right.right))
+
 theorem FunctorPrefixHomCarrier_source_prefix_deterministic {p q a target f : BHist} :
     CategoryHomCarrier (append p a) target f →
       CategoryHomCarrier (append q a) target f → hsame p q := by

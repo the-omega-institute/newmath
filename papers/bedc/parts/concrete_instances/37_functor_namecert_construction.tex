@@ -268,6 +268,29 @@ exactness reconstructs the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_source\_components\_iff}
 
+\begin{theorem}[Prefix functor one-headed morphism-target component exactness]
+\label{thm:functor-prefix-hom-carrier-e1-morphism-target-components-iff}
+For histories $p,a,k,r$, a hom-carrier from the prefixed source
+$\mathsf{append}(p,a)$ to the one-headed target $\Eone(r)$ with one-headed
+morphism $\Eone(k)$ is exactly unary component data for $p,a,k$ together with
+the tail continuation:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\Eone(r),\Eone(k))
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\land\mathsf{UnaryHistory}(a)\land
+\mathsf{UnaryHistory}(k)\land\ContR(\mathsf{append}(p,a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply category one-headed morphism-target exactness to obtain unary membership
+of the appended source, unary membership of $k$, and the tail continuation.
+Unary append factorization splits the source carrier into the two component
+witnesses for $p$ and $a$. Conversely, unary append closure rebuilds the source
+carrier, and the category exactness theorem lifts the tail continuation through
+the visible one constructor on both target and morphism.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_morphism\_target\_components\_iff}
+
 \begin{theorem}[Functor prefix hom-carrier source prefix determinism]
 \label{thm:functor-prefix-hom-carrier-source-prefix-deterministic}
 For histories $p,q,a,target,f$, if the same morphism $f$ is a category

@@ -139,6 +139,46 @@ $\ContR(a,\Eone(k),\Eone(r))$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_target\_iff}
 
+\begin{theorem}[Category empty-source one-headed target exactness]
+\label{thm:category-hom-carrier-empty-source-e1-target-iff}
+For histories $r,morph$, an empty-source hom-carrier into the one-headed
+target $\Eone(r)$ is exactly equality of the morphism with that target
+together with unary payload membership:
+$$
+\mathsf{CategoryHomCarrier}(\emp,\Eone(r),morph)
+\quad\Longleftrightarrow\quad
+morph=\Eone(r)\land\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+Category empty-source exactness gives unary membership of the one-headed target
+and equality of the morphism with that target. Unary inversion removes the
+visible constructor from the target carrier. Conversely, unary one-step closure
+rebuilds the target carrier and the displayed equality supplies the
+empty-source continuation classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_e1\_target\_iff}
+
+\begin{theorem}[Category empty-source one-headed morphism exactness]
+\label{thm:category-hom-carrier-empty-source-e1-morphism-iff}
+For histories $k,target$, an empty-source hom-carrier whose morphism is
+$\Eone(k)$ is exactly equality of the target with that morphism together with
+unary payload membership:
+$$
+\mathsf{CategoryHomCarrier}(\emp,target,\Eone(k))
+\quad\Longleftrightarrow\quad
+target=\Eone(k)\land\mathsf{UnaryHistory}(k).
+$$
+\end{theorem}
+\begin{proof}
+Category empty-source exactness identifies the one-headed morphism with the
+target. Eliminating that equality turns the target carrier into a one-headed
+unary witness, whose payload is unary by inversion. Conversely, one-step unary
+closure rebuilds the target carrier, and symmetry of the displayed equality
+provides the required empty-source classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_e1\_morphism\_iff}
+
 \begin{theorem}[Category hom-carrier one-headed target morphism cases]
 \label{thm:category-hom-carrier-e1-target-morphism-cases}
 For histories $source,r,morph$, a hom-carrier whose target is one-headed has
