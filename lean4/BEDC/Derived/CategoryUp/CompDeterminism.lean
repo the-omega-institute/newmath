@@ -33,6 +33,23 @@ theorem CategoryHomCarrier_comp_same_left_tail_factorization_deterministic
     CategoryHomCarrier_target_deterministic transportedRight right'
   exact And.intro sameMiddle (And.intro sameTail sameTarget)
 
+theorem CategoryHomCarrier_comp_same_right_tail_factorization_deterministic
+    {a a' b b' c f f' g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      CategoryHomCarrier a' b' f' -> CategoryHomCarrier b' c g -> Cont f' g fg ->
+        hsame b b' /\ hsame f f' /\ hsame a a' := by
+  intro left right comp left' right' comp'
+  have sameMiddle : hsame b b' :=
+    CategoryHomCarrier_source_deterministic right right'
+  have sameTail : hsame f f' :=
+    cont_right_cancel comp comp'
+  have transportedLeft : CategoryHomCarrier a' b f :=
+    CategoryHomCarrier_hsame_transport
+      (hsame_refl a') (hsame_symm sameMiddle) (hsame_symm sameTail) left'
+  have sameSource : hsame a a' :=
+    CategoryHomCarrier_source_deterministic left transportedLeft
+  exact And.intro sameMiddle (And.intro sameTail sameSource)
+
 theorem CategoryHomCarrier_comp_right_factor_endpoint_deterministic {a b b' c f g g' fg : BHist} :
     CategoryHomCarrier a b f -> Cont f g fg -> CategoryHomCarrier a c fg ->
       Cont f g' fg -> CategoryHomCarrier b' c g' -> hsame b b' ∧ hsame g g' := by

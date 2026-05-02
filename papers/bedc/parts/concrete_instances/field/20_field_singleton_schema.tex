@@ -107,6 +107,18 @@ determinacy identifies $R$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_closed}
 
+\begin{theorem}[Field singleton classifier continuation endpoint split]
+\label{thm:field-singleton-classifier-continuation-endpoint-split}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$,
+$\mathsf{FieldSingletonClassifier}(P,Q)$ is equivalent to
+$\mathsf{FieldSingletonCarrier}(P)\land\mathsf{FieldSingletonCarrier}(Q)\land\mathsf{FieldSingletonCarrier}(R)$.
+\end{theorem}
+\begin{proof}
+The classifier gives the two input carrier fields, and singleton carrier
+continuation closure gives the result carrier. Conversely, the two input
+carrier fields identify both endpoints with $\emp$, so transitivity through $\emp$ gives their classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_endpoint\_split\_iff}
 \begin{theorem}[Field singleton classifier continuation result classifier]
 \label{thm:field-singleton-classifier-continuation-result-classifier}
 For histories $P,Q,R:\mathsf{BHist}$, if the singleton field classifier
@@ -544,6 +556,21 @@ endpoints, and transitivity through $\emp$ supplies their classifier
 comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_context\_cancel\_iff}
+
+\begin{theorem}[Field singleton classifier append endpoint split]
+\label{thm:field-singleton-classifier-append-endpoint-split}
+For histories $L,Q,R,S:\mathsf{BHist}$,
+$\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,Q),\mathsf{append}(R,S))$ is equivalent to the four carrier witnesses
+$\mathsf{FieldSingletonCarrier}(L)$, $\mathsf{FieldSingletonCarrier}(Q)$, $\mathsf{FieldSingletonCarrier}(R)$, and $\mathsf{FieldSingletonCarrier}(S)$.
+\end{theorem}
+\begin{proof}
+The two classifier carrier fields identify both append endpoints with
+$\emp$, and empty-result inversion for append splits these witnesses into the
+four component carriers. Conversely, the four component carrier witnesses
+rebuild the two appended carrier witnesses, and transitivity through $\emp$
+supplies their classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_endpoint\_split\_iff}
 
 \begin{theorem}[Field singleton carrier empty append context]
 \label{thm:field-singleton-carrier-append-context-empty}

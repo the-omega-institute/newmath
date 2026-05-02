@@ -43,4 +43,19 @@ theorem FieldSingletonClassifier_continuation_closed {P P' Q Q' left right : BHi
   exact And.intro leftEmpty
     (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
+theorem FieldSingletonClassifier_continuation_endpoint_split_iff {P Q R : BHist} :
+    Cont P Q R ->
+      (FieldSingletonClassifier P Q <->
+        FieldSingletonCarrier P /\ FieldSingletonCarrier Q /\ FieldSingletonCarrier R) := by
+  intro continuation
+  constructor
+  · intro classified
+    have resultCarrier : FieldSingletonCarrier R :=
+      FieldSingletonCarrier_continuation_closed classified.left classified.right.left continuation
+    exact And.intro classified.left (And.intro classified.right.left resultCarrier)
+  · intro endpoints
+    exact And.intro endpoints.left
+      (And.intro endpoints.right.left
+        (hsame_trans endpoints.left (hsame_symm endpoints.right.left)))
+
 end BEDC.Derived.FieldUp
