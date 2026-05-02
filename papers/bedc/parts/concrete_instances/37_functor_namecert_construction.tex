@@ -102,6 +102,22 @@ $a$ to $b$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_left\_factor}
 
+\begin{theorem}[Prefix functor composition public readback]
+\label{thm:functor-prefix-hom-carrier-comp-public-readback}
+For the unary-continuation category, if $p$ is unary, $f$ is a hom-carrier
+from $a$ to $b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$,
+then $fg$ is a hom-carrier from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,c)$. Moreover, any displayed hom-carrier between the same
+prefixed endpoints has morphism history $\HSame$ to $fg$.
+\end{theorem}
+\begin{proof}
+Composition closure gives the unprefixed composite carrier. Prefix preservation
+displays it between the prefixed endpoints. For readback, reflect any displayed
+prefixed carrier to the unprefixed endpoints and apply hom-morphism
+determinacy in the base category.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_public\_readback}
+
 \begin{theorem}[Prefix functor preserves hom composition with tail commutativity]
 \label{thm:functor-prefix-hom-carrier-tail-comm-closed}
 For the unary-continuation category, if \(p\) is unary, \(f\) is a

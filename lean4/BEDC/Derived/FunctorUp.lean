@@ -95,6 +95,21 @@ theorem FunctorPrefixHomCarrier_comp_left_factor {p a b c f g fg : BHist} :
   exact FunctorPrefixHomCarrier_reflects
     (CategoryHomCarrier_comp_left_factor right comp displayed)
 
+theorem FunctorPrefixHomCarrier_comp_public_readback {p a b c f g fg : BHist} :
+    UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      CategoryHomCarrier (append p a) (append p c) fg ∧
+        (forall {fg' : BHist}, CategoryHomCarrier (append p a) (append p c) fg' ->
+          hsame fg fg') := by
+  intro prefixCarrier left right comp
+  have baseComposite : CategoryHomCarrier a c fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  constructor
+  · exact FunctorPrefixHomCarrier_preserves prefixCarrier baseComposite
+  · intro fg' displayed
+    exact
+      CategoryHomCarrier_morphism_deterministic baseComposite
+        (FunctorPrefixHomCarrier_reflects displayed)
+
 theorem FunctorPrefixHomCarrier_tail_comm_closed {p a b c f g fg gf : BHist} :
     UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       Cont g f gf -> CategoryHomCarrier (append p a) (append p c) fg ∧ hsame fg gf := by
