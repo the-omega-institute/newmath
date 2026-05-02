@@ -122,6 +122,43 @@ these two witnesses gives $\mathsf{False}$, so no admitted singleton endpoint is
 a RatUp history-carrier endpoint.
 \end{proof}
 
+\begin{theorem}[RatUp one-denominator witness blocks singleton coverage]
+\label{thm:field-rat-carrier-has-non-singleton-boundary-witness}
+Let $d_1:=\Eone(\emp)$. Then $\mathsf{RatHistoryCarrier}(d_1)$ holds and
+$A_{\emp}(d_1)\to\mathsf{False}$. Consequently any proposed coverage map
+$$
+\forall h:\mathsf{BHist},\mathsf{RatHistoryCarrier}(h)\to A_{\emp}(h)
+$$
+is contradictory.
+\end{theorem}
+\begin{proof}
+The empty history is unary by the kernel theorem $\mathsf{unary\_empty}$.
+Apply Theorem~\ref{thm:rat-history-carrier-e1-tail-unary-iff} with tail
+$\emp$. The reverse direction turns $\mathsf{UnaryHistory}(\emp)$ into the
+carrier witness $\mathsf{RatHistoryCarrier}(\Eone(\emp))$, namely
+$\mathsf{RatHistoryCarrier}(d_1)$.
+
+Now assume $A_{\emp}(d_1)$. Applying
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+this singleton endpoint and the carrier witness above gives $\mathsf{False}$.
+Thus the concrete RatUp endpoint $d_1$ cannot be covered by the singleton
+carrier.
+
+For the displayed coverage map, evaluate the map at $d_1$ and the RatUp carrier
+witness. This produces $A_{\emp}(d_1)$, and the previous paragraph turns that
+endpoint into contradiction.
+\end{proof}
+
+Traditional target $\FieldUp(\mathsf{RatUp})$ carrier separation; BEDC source
+$\mathsf{RatHistoryCarrier}$ plus singleton $\mathsf{BHist}$ $\FieldUp$ schema;
+carrier choices $\mathsf{RatHistoryCarrier}$ and $A_{\emp}$; classifier choices
+Rat history classifier and $\rho_{\emp}$; stability obligation
+positive-denominator nonemptiness; ledger positive one-denominator witness versus
+empty singleton endpoint; core theorem
+Theorem~\ref{thm:field-rat-carrier-has-non-singleton-boundary-witness};
+exactness predicate failure of Rat-to-singleton carrier coverage; standard
+bridge terminal singleton is not rational field; status $\mathsf{ProofTarget}$.
+
 \input{parts/concrete_instances/field/20_field_laws_and_certificate}
 
 \section{Field affine explicit inverse}
