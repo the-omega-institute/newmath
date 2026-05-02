@@ -534,12 +534,33 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
                 duplicate_of = prev_idx
                 break
         if duplicate_of is not None:
+            # Userscript races (e.g. waitForResponse capturing the prior assistant
+            # message before ChatGPT renders the new one) have made this a
+            # frequent transport-side failure rather than a real signal. Mark the
+            # turn with a specific verdict, save cursor, and stop the loop —
+            # don't crash, and don't auto-retry: lifecycle treats
+            # `oracle_duplicate_response` as retry_budget=0 / next_action=skip
+            # so the target parks until the userscript bug is addressed.
             duplicate_path = out_dir / f"turn_{turn_idx:02d}_response.duplicate.md"
             write_text(duplicate_path, response)
-            raise RuntimeError(
-                f"oracle returned exact duplicate response for turn {turn_idx} "
-                f"(matches turn {duplicate_of}); wrote {duplicate_path}"
+            print(
+                f"[stage1] duplicate response detected for turn {turn_idx} "
+                f"(matches turn {duplicate_of}); marking target stuck without retry",
+                flush=True,
             )
+            turns.append({
+                "turn": turn_idx,
+                "task_id": task_id,
+                "verdict": "duplicate_response",
+                "duplicate_of": duplicate_of,
+            })
+            verdict = "stuck"
+            save_cursor(target, {
+                "turns": turns,
+                "conversation_id": conversation_id,
+                "started_at": started_at,
+            })
+            break
 
         write_text(out_dir / f"turn_{turn_idx:02d}_response.md", response)
 

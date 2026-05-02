@@ -72,6 +72,10 @@ FAILURE_KINDS: dict[str, dict[str, Any]] = {
         "next_action": "skip",
         "mathematically_blocked": True,
     },
+    "oracle_duplicate_response": {
+        "retry_budget": 0,
+        "next_action": "skip",
+    },
     "stage2_hygiene_reject": {
         "retry_budget": 0,
         "next_action": "alert_user",
@@ -105,6 +109,8 @@ def _stage1_kind_from_stuck(state: dict) -> str:
         return "oracle_transport_failure"
     last = turns[-1]
     last_verdict = (last.get("verdict") or last.get("response_verdict") or "").lower()
+    if last_verdict == "duplicate_response":
+        return "oracle_duplicate_response"
     if last_verdict == "agent_error":
         return "agent_error"
     if last_verdict == "timeout":
