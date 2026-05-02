@@ -99,77 +99,87 @@ theorem: \autoref{thm:field-affine-two-sided-certified-automorphism}. Exactness
 predicate: inverse-pair plus classifier iff. Standard bridge: deferred. Status:
 $\mathsf{ProofTarget}$.
 
-\begin{theorem}[Field certified affine automorphisms compose]
-\label{thm:field-affine-certified-automorphism-composition}
-For a BEDC history-level $\FieldUp$ candidate with the same operations,
-additive laws, multiplication laws, congruence data, and indexed inverse laws
-as in
-\autoref{thm:field-affine-two-sided-equation-exact-from-apartness}, let
+\begin{theorem}[Field two-sided affine automorphisms compose]
+\label{thm:field-affine-two-sided-automorphism-composition}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with the
+additive group laws, multiplication associativity, left and right
+multiplicative unit laws, multiplication and addition congruence,
+distributivity fields inherited from $\CommRingUp$, indexed inverse laws,
+classifier transport of $\mathsf{NonZero}_F$, and contradiction of
+$\mathsf{NonZero}_F(0)$, let
 $p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
-$p_c:\mathsf{NonZero}_F(c)$, and $p_e:\mathsf{NonZero}_F(e)$ certify the
-nonzero left and right factors of the two maps
+$p_c:\mathsf{NonZero}_F(c)$, and $p_e:\mathsf{NonZero}_F(e)$ be explicit
+nonzero witnesses. Define
 $$
-T(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
-$$
-and
-$$
-U(z)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,z),e),f).
-$$
-For each $r:\mathsf{BHist}$ define
-$$
-s_T(r)=
-\mathsf{mul}(\mathsf{inv}(a,p_a),
-\mathsf{mul}(\mathsf{add}(r,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)))
+T_1(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
 $$
 and
 $$
-s_U(r)=
-\mathsf{mul}(\mathsf{inv}(c,p_c),
-\mathsf{mul}(\mathsf{add}(r,\mathsf{neg}(f)),\mathsf{inv}(e,p_e))).
+T_2(y)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,y),e),f).
 $$
-Then every $x,y,q:\mathsf{BHist}$ satisfies
+Let $\mathsf{ApartZero}_F(h)$ abbreviate $h\hsame0\to\bot$, and assume
+conversion maps
 $$
-U(T(x))\hsame U(T(y))\Longleftrightarrow x\hsame y,
+\alpha_{ca}:\mathsf{ApartZero}_F(\mathsf{mul}(c,a))\to
+\mathsf{NonZero}_F(\mathsf{mul}(c,a)),
 \qquad
-U(T(s_T(s_U(q))))\hsame q.
+\alpha_{be}:\mathsf{ApartZero}_F(\mathsf{mul}(b,e))\to
+\mathsf{NonZero}_F(\mathsf{mul}(b,e)).
 $$
+Let $q_{ca}$ and $q_{be}$ be the product apartness witnesses obtained from
+\autoref{thm:field-nonzero-factors-exclude-zero-product} for the pairs
+$(p_c,p_a)$ and $(p_b,p_e)$, and set
+$p_{ca}:=\alpha_{ca}(q_{ca})$ and $p_{be}:=\alpha_{be}(q_{be})$. Define
+$$
+C(x)=
+\mathsf{add}(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(c,a),x),\mathsf{mul}(b,e)),
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f)).
+$$
+Then every $x:\mathsf{BHist}$ satisfies
+$$
+T_2(T_1(x))\hsame C(x).
+$$
+Moreover, with the product witnesses $p_{ca}$ and $p_{be}$, the displayed
+composite $C$ is a certified two-sided affine automorphism by
+\autoref{thm:field-affine-two-sided-certified-automorphism}.
 \end{theorem}
 \begin{proof}
-Instantiate
-\autoref{thm:field-affine-two-sided-certified-automorphism} with the witnesses
-$p_a,p_b$ and offset $d$ to obtain the displayed inverse $s_T$ and the
-classifier equivalence for $T$. Instantiate the same theorem with the
-witnesses $p_c,p_e$ and offset $f$ to obtain $s_U$ and the classifier
-equivalence for $U$.
+Expand $T_2(T_1(x))$ and use distributivity to separate the translated part
+coming from $d$ from the term containing $x$. Addition congruence transports
+the two pieces through the outer sum, while multiplication congruence transports
+the inner affine equality through the left factor $c$ and the right factor
+$e$.
 
-For classifier reflection of the composite, assume
-$U(T(x))\hsame U(T(y))$. The classifier-reflection direction of the $U$
-certificate yields $T(x)\hsame T(y)$, and the classifier-reflection direction
-of the $T$ certificate yields $x\hsame y$.
+Multiplication associativity then collects the $x$-term into
+$\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(c,a),x),\mathsf{mul}(b,e))$. The same
+associativity and distributivity data identify the translated remainder as
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f)$. This gives the displayed
+normal form $T_2(T_1(x))\hsame C(x)$.
 
-For classifier preservation, assume $x\hsame y$. The classifier-preservation
-direction of the $T$ certificate gives $T(x)\hsame T(y)$, and the
-classifier-preservation direction of the $U$ certificate gives
-$U(T(x))\hsame U(T(y))$.
+It remains to provide the two nonzero indices required by
+\autoref{thm:field-affine-two-sided-certified-automorphism}. Apply
+\autoref{thm:field-nonzero-factors-exclude-zero-product} to $p_c,p_a$ to obtain
+$q_{ca}:\mathsf{ApartZero}_F(\mathsf{mul}(c,a))$, and to $p_b,p_e$ to obtain
+$q_{be}:\mathsf{ApartZero}_F(\mathsf{mul}(b,e))$. The conversion maps
+$\alpha_{ca}$ and $\alpha_{be}$ turn these apartness witnesses into
+$p_{ca}$ and $p_{be}$.
 
-For the displayed preimage, the left inverse clause of the $T$ certificate
-gives
-$$
-T(s_T(s_U(q)))\hsame s_U(q).
-$$
-Transport this equality through $U$ using the classifier-preservation direction
-of the $U$ equivalence. The left inverse clause of the $U$ certificate gives
-$U(s_U(q))\hsame q$, so transitivity of $\hsame$ gives
-$U(T(s_T(s_U(q))))\hsame q$.
+Now instantiate
+\autoref{thm:field-affine-two-sided-certified-automorphism} with left factor
+$\mathsf{mul}(c,a)$, right factor $\mathsf{mul}(b,e)$, offset
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f)$, and witnesses
+$p_{ca},p_{be}$. The theorem supplies the inverse-pair clauses and classifier
+iff for $C$, so the normalized composite is again certified.
 \end{proof}
 
 Per-object certificate: traditional target affine automorphism composition.
-BEDC source: $\FieldUp$ over $\mathsf{BHist}$. Carrier: $\mathsf{BHist}$.
-Classifier: $\hsame$. Stability obligations: the two certified affine
-automorphism instances for $T$ and $U$. Ledger: the four nonzero witnesses
-$p_a,p_b,p_c,p_e$ and the two offsets $d,f$. Core theorem:
-\autoref{thm:field-affine-certified-automorphism-composition}. Exactness
-predicate: composite classifier iff plus displayed preimage. Standard bridge:
+BEDC source: $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$. Carrier:
+$\mathsf{BHist}$. Classifier: $\hsame$. Stability obligations: composition
+normal form plus product apartness conversion. Ledger: the four factor
+witnesses $p_a,p_b,p_c,p_e$ and the two product witnesses $p_{ca},p_{be}$.
+Core theorem: \autoref{thm:field-affine-two-sided-automorphism-composition}.
+Exactness predicate: composite certified automorphism. Standard bridge:
 deferred. Status: $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Field equal-squares signed factors cannot both be nonzero]
