@@ -261,6 +261,65 @@ $e_D^\ast=\emp$ together with the carried-endpoint separation already included
 in the exact envelope boundary.
 \end{proof}
 
+\begin{definition}[Concrete RatUp FieldUp denominator certificate row]
+\label{def:ratup-fieldup-denominator-certificate-row}
+The concrete denominator certificate row for $\FieldUp(\mathsf{RatUp})$ is
+$$
+(C_D^\dagger,R_D^\dagger,\mu_D^\dagger,e_D^\dagger,N_D^\dagger),
+$$
+where
+$$
+C_D^\dagger:=\mathsf{RatDenomUnitCarrier},\qquad
+R_D^\dagger:=\mathsf{RatDenomUnitClassifier},
+$$
+$$
+\mu_D^\dagger(h,k):=\mathsf{append}(h,k),\qquad
+e_D^\dagger:=\emp,\qquad
+N_D^\dagger(h):=\mathsf{RatHistoryCarrier}(h).
+$$
+Its ledger is the external empty-unit endpoint plus denominator continuation
+provenance.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp denominator certificate row laws]
+\label{thm:ratup-fieldup-denominator-certificate-row-laws}
+The row
+\autoref{def:ratup-fieldup-denominator-certificate-row} covers the
+$\FieldUp(\mathsf{RatUp})$ denominator obligations: envelope classifier
+exactness, carrier closure and unit inhabitation, associativity, commutativity,
+binary classifier congruence, strict-support transport and product exactness,
+left and right strict-factor cancellation, contextual fixed-factor classifier
+exactness, unique external unit, and absence of a carried denominator unit at
+$e_D^\dagger$.
+\end{theorem}
+\begin{proof}
+The row uses the same concrete denominator carrier and classifier as the unit
+envelope. The envelope classifier exactness is
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-exactness}, while
+\autoref{thm:field-rat-denominator-unit-envelope-exact-field-boundary} packages
+carrier closure, the empty endpoint, endpoint separation, strict-support
+transport, product exactness, and the external unit uniqueness law.
+
+The multiplication field is the native $\mathsf{BHist}$ append operation.
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
+supplies the associative and commutative certificate clauses, binary classifier
+congruence, and the strict-factor cancellation laws for this operation on the
+same denominator envelope.
+
+The contextual fixed-factor classifier exactness is
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+The full denominator obligation list is then collected by
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage},
+and
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly} identifies that
+collected package with the denominator subcertificate consumed by
+$\FieldUp(\mathsf{RatUp})$.
+
+The FieldUp denominator schema is instantiated by this concrete BHist row, so
+BHist-anchored proofs can target this row rather than abstract carrier and
+classifier parameters.
+\end{proof}
+
 \textbf{Traditional target}: assembled denominator subcertificate for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
