@@ -115,6 +115,16 @@ theorem RealStreamClassifier_finite_prefix_exactness {x y : Nat -> BHist} :
   · intro prefixes n
     exact RealStreamPrefixClassifier_endpoint n (prefixes n)
 
+theorem RealStreamClassifier_symm {x y : Nat -> BHist} :
+    RealStreamClassifier x y -> RealStreamClassifier y x := by
+  intro classified n
+  exact RatHistoryClassifier_symm (classified n)
+
+theorem RealStreamClassifier_trans {x y z : Nat -> BHist} :
+    RealStreamClassifier x y -> RealStreamClassifier y z -> RealStreamClassifier x z := by
+  intro classifiedXY classifiedYZ n
+  exact RatHistoryClassifier_trans (classifiedXY n) (classifiedYZ n)
+
 theorem RealStreamPrefixClassifier_hsame_transport {x x' y y' : Nat -> BHist}
     (sameX : forall n : Nat, hsame (x n) (x' n))
     (sameY : forall n : Nat, hsame (y n) (y' n)) :

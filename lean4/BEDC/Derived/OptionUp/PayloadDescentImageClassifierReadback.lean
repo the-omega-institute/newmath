@@ -207,4 +207,47 @@ theorem TaggedOptionPayloadDescentImageClassifier_reflective_transitive_transpor
               (hsame_symm data.right.right.right.right.right.right)
           exact NameCert.equiv_trans certT (NameCert.equiv_trans certT relLeft relImage) relRight
 
+theorem TaggedOptionPayloadDescentImageClassifier_reflective_transitive_normalized_visible_payload_single_valued
+    {S T : BHist -> Prop} {RelS RelT : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (certS : NameCert S RelS)
+    (certT : NameCert T RelT)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (target_hsame : TaggedOptionSourceHsameCompatible T RelT)
+    (reflects : TaggedOptionPayloadDescentReflectsSource S delta)
+    {k l m p q u v u' v' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S T delta k l ->
+      TaggedOptionPayloadDescentImageClassifier S T delta l m ->
+        hsame k p ->
+          hsame m q ->
+            T u ->
+              T v ->
+                hsame p (BHist.e1 u) ->
+                  hsame q (BHist.e1 v) ->
+                    T u' ->
+                      T v' ->
+                        hsame p (BHist.e1 u') ->
+                          hsame q (BHist.e1 v') ->
+                            RelT u v /\ hsame u u' /\ hsame v v' /\
+                              (hsame p BHist.Empty -> False) /\
+                                (hsame q BHist.Empty -> False) := by
+  intro imageKL imageLM sameKP sameMQ targetU targetV samePU sameQV targetU' targetV'
+    samePU' sameQV'
+  have relUV : RelT u v :=
+    TaggedOptionPayloadDescentImageClassifier_reflective_transitive_transport_visible_target_payload_classification
+      delta certS certT source_hsame target_hsame reflects imageKL imageLM sameKP sameMQ
+      targetU targetV samePU sameQV
+  have sameUU' : hsame u u' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm samePU) samePU')
+  have sameVV' : hsame v v' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameQV) sameQV')
+  have notPEmpty : hsame p BHist.Empty -> False := by
+    intro samePEmpty
+    exact not_hsame_e1_empty (hsame_trans (hsame_symm samePU) samePEmpty)
+  have notQEmpty : hsame q BHist.Empty -> False := by
+    intro sameQEmpty
+    exact not_hsame_e1_empty (hsame_trans (hsame_symm sameQV) sameQEmpty)
+  exact And.intro relUV
+    (And.intro sameUU' (And.intro sameVV' (And.intro notPEmpty notQEmpty)))
+
 end BEDC.Derived.OptionUp

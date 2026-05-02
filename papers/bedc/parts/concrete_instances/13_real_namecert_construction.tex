@@ -216,6 +216,32 @@ endpoint classifiers are precisely $\mathsf{RealStreamClassifier}(x,y)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_finite\_prefix\_exactness}
 
+\begin{theorem}[Real stream classifier symmetry]
+\label{thm:real-stream-classifier-symmetry}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamClassifier}(x,y)$, then
+$\mathsf{RealStreamClassifier}(y,x)$.
+\end{theorem}
+\begin{proof}
+Fix an observation index. The stream classifier supplies the rational-history
+classifier at that index, and rational-history classifier symmetry reverses it.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_symm}
+
+\begin{theorem}[Real stream classifier transitivity]
+\label{thm:real-stream-classifier-transitivity}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamClassifier}(x,y)$ and
+$\mathsf{RealStreamClassifier}(y,z)$, then
+$\mathsf{RealStreamClassifier}(x,z)$.
+\end{theorem}
+\begin{proof}
+Fix an observation index. The two stream classifiers give the two
+rational-history classifier witnesses at that index, and rational-history
+classifier transitivity composes them.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_trans}
+
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}
 For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
