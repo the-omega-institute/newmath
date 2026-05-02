@@ -118,6 +118,7 @@ The unary factorial \(\mathsf{NatFact}(n, n!)\) is the closed inductive predicat
   \item if \(\mathsf{NatFact}(n, m)\) and \(\mathsf{NatMul}(\Eone(n), m, m')\), then \(\mathsf{NatFact}(\Eone(n), m')\).
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.PrimeUp.NatFact}
 
 \begin{lemma}[Factorial is total and functional on unary histories]
 \label{lem:fact-total}
@@ -126,6 +127,7 @@ For every unary \(n\), there is exactly one unary \(m\) with \(\mathsf{NatFact}(
 \begin{proof}
 By unary induction on \(n\), using the totality and functionality of \(\mathsf{NatMul}\) (\autoref{lem:nat-mul-total}, \autoref{lem:nat-mul-functional}) at each step.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_total\_functional}
 
 \begin{lemma}[Successor of factorial is coprime to all bounded predecessors]
 \label{lem:fact-plus-one-coprime}

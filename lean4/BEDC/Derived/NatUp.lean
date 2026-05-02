@@ -10,6 +10,12 @@ open BEDC.FKernel.Unary
 def NatUnaryStrictPrefix (h k : BHist) : Prop :=
   ∃ tail : BHist, UnaryHistory tail ∧ (tail = BHist.Empty → False) ∧ Cont h tail k
 
+theorem NatUnaryStrictPrefix_one_step {h : BHist} :
+    UnaryHistory h -> NatUnaryStrictPrefix h (BHist.e1 h) := by
+  intro _uh
+  exact ⟨BHist.e1 BHist.Empty, unary_e1_closed unary_empty,
+    (fun empty => by cases empty), cont_intro rfl⟩
+
 theorem NatUnaryStrictPrefix_asymm {h k : BHist} :
     NatUnaryStrictPrefix h k -> NatUnaryStrictPrefix k h -> False := by
   intro forward backward

@@ -83,6 +83,16 @@ $\emp$ and $\mathsf{Cont}(h,t,k)$.
 \end{definition}
 \leandef{BEDC.Derived.NatUp.NatUnaryStrictPrefix}
 
+\begin{lemma}[Strict unary prefix one-step]
+\label{lem:nat-unary-strict-prefix-one-step}
+If \(h\) is unary, then \(h\) is a strict unary prefix of \(\Eone(h)\).
+\end{lemma}
+\begin{proof}
+Use the tail \(\Eone(\emp)\). It is unary, it is not \(\emp\), and
+\(\Cont(h,\Eone(\emp),\Eone(h))\) holds by the continuation constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_one\_step}
+
 \begin{theorem}[Strict unary prefix asymmetry]
 \label{thm:nat-unary-strict-prefix-asymm}
 No pair of histories can strictly prefix each other through nonempty unary
