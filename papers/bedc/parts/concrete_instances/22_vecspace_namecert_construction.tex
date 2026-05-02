@@ -170,6 +170,26 @@ endpoint back to $m$.
 \end{proof}
 \leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_carrier\_readback}
 
+\begin{theorem}[VecSpace singleton scalar action classifier empty equivalence]
+\label{thm:vecspace-singleton-smul-classifier-empty-iff}
+For all histories $r,m,t:\mathsf{BHist}$, the singleton scalar action
+classifier satisfies
+$$
+\mathsf{VecSpaceSingletonClassifier}
+  (\mathsf{VecSpaceSingletonSmul}(r,m),t)
+\Longleftrightarrow
+t\hsame\emp .
+$$
+\end{theorem}
+\begin{proof}
+The scalar action endpoint is definitionally $\emp$. In the forward direction,
+unfolding the classifier exposes the carried target endpoint, which is exactly
+$t\hsame\emp$. Conversely, from $t\hsame\emp$, use reflexivity for the source
+empty endpoint, the displayed target carrier, and symmetry to obtain the
+classifier comparison $\emp\hsame t$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_classifier\_empty\_iff}
+
 \begin{theorem}[VecSpace singleton scalar action inverse law]
 \label{thm:vecspace-singleton-scalar-action-inverse-law}
 For the concrete singleton $\VecSpaceUp$ instance, let

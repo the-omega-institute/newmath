@@ -23,6 +23,26 @@ theorem RatHistoryCarrier_continuation_closed {d e r : BHist} :
   cases continuation
   exact appendCarrier
 
+theorem RatHistoryCarrier_continuation_semigroup_laws {d e f de ef left right : BHist} :
+    RatHistoryCarrier d -> RatHistoryCarrier e -> RatHistoryCarrier f -> Cont d e de ->
+      Cont e f ef -> Cont de f left -> Cont d ef right ->
+        RatHistoryCarrier de ∧ RatHistoryCarrier ef ∧ RatHistoryCarrier left ∧
+          RatHistoryCarrier right ∧ hsame left right := by
+  intro carrierD carrierE carrierF deContinuation efContinuation leftContinuation rightContinuation
+  have carrierDE : RatHistoryCarrier de :=
+    RatHistoryCarrier_continuation_closed carrierD carrierE deContinuation
+  have carrierEF : RatHistoryCarrier ef :=
+    RatHistoryCarrier_continuation_closed carrierE carrierF efContinuation
+  have carrierLeft : RatHistoryCarrier left :=
+    RatHistoryCarrier_continuation_closed carrierDE carrierF leftContinuation
+  have carrierRight : RatHistoryCarrier right :=
+    RatHistoryCarrier_continuation_closed carrierD carrierEF rightContinuation
+  have sameResults : hsame left right :=
+    cont_assoc_hsame deContinuation leftContinuation efContinuation rightContinuation
+  exact And.intro carrierDE
+    (And.intro carrierEF
+      (And.intro carrierLeft (And.intro carrierRight sameResults)))
+
 theorem RatHistoryClassifier_continuation_right_closed {d d' e r r' : BHist} :
     BEDC.Derived.RatUp.RatHistoryClassifier d d' ->
       BEDC.Derived.RatUp.RatHistoryCarrier e ->

@@ -155,6 +155,15 @@ def VecSpaceSingletonClassifier (h k : BHist) : Prop :=
 def VecSpaceSingletonSmul (_r _m : BHist) : BHist :=
   BHist.Empty
 
+theorem VecSpaceSingletonSmul_classifier_empty_iff {r m t : BHist} :
+    VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) t ↔ hsame t BHist.Empty := by
+  constructor
+  · intro classified
+    exact classified.right.left
+  · intro targetEmpty
+    exact And.intro (hsame_refl BHist.Empty)
+      (And.intro targetEmpty (hsame_symm targetEmpty))
+
 theorem VecSpaceSingleton_semanticNameCert :
     SemanticNameCert VecSpaceSingletonCarrier VecSpaceSingletonCarrier
       VecSpaceSingletonCarrier VecSpaceSingletonClassifier := by
