@@ -61,17 +61,42 @@ def _extract_json_object(text: str) -> Optional[dict]:
         return None
     fence = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, flags=re.DOTALL)
     if fence:
-        candidate = fence.group(1)
-    else:
-        first = text.find("{")
-        last = text.rfind("}")
-        if first == -1 or last == -1 or last <= first:
-            return None
-        candidate = text[first : last + 1]
-    try:
-        return json.loads(candidate)
-    except json.JSONDecodeError:
-        return None
+        try:
+            return json.loads(fence.group(1))
+        except json.JSONDecodeError:
+            pass
+    # Fallback: scan forward from each '{' looking for a balanced JSON object
+    # that parses. Robust against prose-embedded braces (e.g. math subscripts
+    # like _{l,u}) that would defeat a naive first-{-to-last-} substring.
+    for start in range(len(text)):
+        if text[start] != "{":
+            continue
+        depth = 0
+        in_str = False
+        esc = False
+        for i in range(start, len(text)):
+            ch = text[i]
+            if in_str:
+                if esc:
+                    esc = False
+                elif ch == "\\":
+                    esc = True
+                elif ch == '"':
+                    in_str = False
+                continue
+            if ch == '"':
+                in_str = True
+            elif ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    candidate = text[start : i + 1]
+                    try:
+                        return json.loads(candidate)
+                    except json.JSONDecodeError:
+                        break
+    return None
 
 
 def claude_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = "") -> tuple[bool, str, int]:
