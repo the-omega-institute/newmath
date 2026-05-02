@@ -162,6 +162,30 @@ $\emp$, and the singleton classifier follows by reflexivity of $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_right\_cancel\_iff}
 
+\begin{theorem}[Matrix singleton classifier append common context]
+\label{thm:matrix-singleton-classifier-append-common-context}
+For histories $L,P,Q,R:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(L,\mathsf{append}(P,R)),
+  \mathsf{append}(L,\mathsf{append}(Q,R)))
+\Longleftrightarrow
+A_{\emp}(L)\land \rho_{\emp}(P,Q)\land A_{\emp}(R).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two classifier carrier fields say that both
+common-context append endpoints are empty. Empty-result inversion first splits
+off the shared left context $L$, then splits the middle append endpoints. This
+yields $A_{\emp}(L)$, $A_{\emp}(P)$, $A_{\emp}(Q)$, and $A_{\emp}(R)$; the
+middle comparison $\rho_{\emp}(P,Q)$ follows by transitivity through $\emp$.
+
+Conversely, $A_{\emp}(L)$, $\rho_{\emp}(P,Q)$, and $A_{\emp}(R)$ reconstruct
+both common-context append endpoints as empty. Transitivity through $\emp$
+then supplies the singleton classifier relation between the displayed
+endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_common\_context\_iff}
+
 \begin{theorem}[Singleton empty-history matrix laws]
 \label{thm:singleton-empty-history-matrix-laws}
 For the singleton instance of

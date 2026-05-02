@@ -1,5 +1,6 @@
 import BEDC.Derived.FieldUp
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.FKernel.Cont.Cancellation
 
@@ -123,6 +124,20 @@ theorem RatHistoryClassifier_matching_continuation_closed {d e u v r s : BHist} 
     exact rightContinuation.symm
   exact RatHistoryClassifier_hsame_transport sameLeft sameRight appendedClassified
 
+theorem field_rat_denominator_continuation_binary_classifier_congruence
+    {d d' e e' r r' : BHist} :
+    RatHistoryClassifier d d' -> RatHistoryClassifier e e' -> Cont d e r ->
+      Cont d' e' r' -> RatHistoryClassifier r r' := by
+  intro classifiedD classifiedE leftContinuation rightContinuation
+  have unaryE : UnaryHistory e :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp classifiedE.left)).left
+  have unaryE' : UnaryHistory e' :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp classifiedE.right.left)).left
+  exact RatHistoryClassifier_matching_continuation_closed classifiedD unaryE unaryE'
+    classifiedE.right.right leftContinuation rightContinuation
+
 theorem field_rat_denominator_continuation_common_context_cancel
     {p q d e pd pe left right : BHist} :
     UnaryHistory p -> UnaryHistory q -> RatHistoryCarrier d -> RatHistoryCarrier e ->
@@ -156,6 +171,27 @@ theorem field_rat_denominator_continuation_common_context_classifier_exactness
   · intro classified
     exact field_rat_denominator_continuation_common_context_cancel prefixUnary suffixUnary
       carrierD carrierE leftPrefix rightPrefix leftSuffix rightSuffix classified
+
+theorem field_rat_denominator_continuation_common_context_ledger_closure
+    {p p' q q' rho v pr pv left right : BHist} :
+    RatHistoryLedgerPolicy rho v -> UnaryHistory p -> UnaryHistory p' -> UnaryHistory q ->
+      UnaryHistory q' -> hsame p p' -> hsame q q' -> Cont p rho pr ->
+        Cont p' v pv -> Cont pr q left -> Cont pv q' right ->
+          RatHistoryLedgerPolicy left right := by
+  intro ledger pUnary _p'Unary qUnary _q'Unary sameP sameQ leftPrefix rightPrefix
+    leftSuffix rightSuffix
+  have canonicalLedger :
+      RatHistoryLedgerPolicy (append p (append rho q)) (append p' (append v q')) :=
+    RatHistoryLedgerPolicy_unary_denominator_context_closed ledger pUnary sameP qUnary sameQ
+  have sameLeft : hsame (append p (append rho q)) left := by
+    cases leftPrefix
+    cases leftSuffix
+    exact (append_assoc p rho q).symm
+  have sameRight : hsame (append p' (append v q')) right := by
+    cases rightPrefix
+    cases rightSuffix
+    exact (append_assoc p' v q').symm
+  exact RatHistoryLedgerPolicy_hsame_transport canonicalLedger sameLeft sameRight
 
 theorem field_rat_denominator_continuation_classifier_assoc_congruence
     {d d' e e' f f' de de' ef ef' left left' right right' : BHist} :

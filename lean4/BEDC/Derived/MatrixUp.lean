@@ -88,6 +88,32 @@ theorem MatrixSingletonClassifier_append_right_cancel_iff {P Q R : BHist} :
     exact And.intro (hsame_refl BHist.Empty)
       (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
 
+theorem MatrixSingletonClassifier_append_common_context_iff {L P Q R : BHist} :
+    MatrixSingletonClassifier (append L (append P R)) (append L (append Q R)) <->
+      MatrixSingletonCarrier L ∧ MatrixSingletonClassifier P Q ∧ MatrixSingletonCarrier R := by
+  constructor
+  · intro classified
+    have leftParts := append_eq_empty_iff.mp classified.left
+    have leftMiddleParts := append_eq_empty_iff.mp leftParts.right
+    have rightParts := append_eq_empty_iff.mp classified.right.left
+    have rightMiddleParts := append_eq_empty_iff.mp rightParts.right
+    have middleClassified : MatrixSingletonClassifier P Q :=
+      And.intro leftMiddleParts.left
+        (And.intro rightMiddleParts.left
+          (hsame_trans leftMiddleParts.left (hsame_symm rightMiddleParts.left)))
+    exact And.intro leftParts.left (And.intro middleClassified leftMiddleParts.right)
+  · intro data
+    have leftEmpty : hsame (append L (append P R)) BHist.Empty :=
+      append_eq_empty_iff.mpr
+        (And.intro data.left
+          (append_eq_empty_iff.mpr (And.intro data.right.left.left data.right.right)))
+    have rightEmpty : hsame (append L (append Q R)) BHist.Empty :=
+      append_eq_empty_iff.mpr
+        (And.intro data.left
+          (append_eq_empty_iff.mpr (And.intro data.right.left.right.left data.right.right)))
+    exact And.intro leftEmpty
+      (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+
 theorem MatrixSingletonEmptyHistory_laws :
     SemanticNameCert MatrixSingletonCarrier MatrixSingletonCarrier MatrixSingletonCarrier
         MatrixSingletonClassifier ∧
