@@ -31,3 +31,40 @@ exactness predicate no shared endpoint; standard bridge terminal schema is not
 the rational field; status ProofTarget.
 
 \input{parts/concrete_instances/field/20_field_laws_and_certificate}
+
+\begin{theorem}[Field equal-squares signed factors cannot both be nonzero]
+\label{thm:field-equal-squares-signed-factors-not-both-nonzero}
+For a BEDC history-level $\FieldUp$ candidate with the hypotheses of
+\autoref{thm:field-equal-squares-signed-factor-exclusion} and
+\autoref{thm:field-nonzero-factors-exclude-zero-product}, every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+a\cdot a\hsame b\cdot b
+\quad\Longrightarrow\quad
+\mathsf{NonZero}_F(a+b)\to
+\mathsf{NonZero}_F(a+(-b))\to\mathsf{False}.
+$$
+The traditional target is constructive signed-factor square reasoning; the
+BEDC source is $\FieldUp$ together with $\CommRingUp$; the carrier is
+$\mathsf{BHist}$; the classifier is $\hsame$; the ledger consists of the two
+explicit signed-factor nonzero witnesses; the core theorem is this block; the
+exactness predicate is impossibility of simultaneous nonzero signed factors
+under equal squares; the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume $a\cdot a\hsame b\cdot b$ and witnesses
+$p_+:\mathsf{NonZero}_F(a+b)$ and
+$p_-:\mathsf{NonZero}_F(a+(-b))$.
+
+First apply \autoref{thm:commring-difference-of-squares-zero-exact} to the
+square equality. The signed-factor product is classified as zero:
+$$
+(a+b)\cdot(a+(-b))\hsame0.
+$$
+
+Now apply \autoref{thm:field-nonzero-factors-exclude-zero-product} to the two
+nonzero witnesses $p_+$ and $p_-$ together with this displayed zero product.
+That theorem says that such a zero product is impossible when both factors are
+explicitly nonzero, so the assumed pair of signed-factor witnesses yields
+$\mathsf{False}$.
+\end{proof}
