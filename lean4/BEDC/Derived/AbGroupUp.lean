@@ -6,6 +6,7 @@ namespace BEDC.Derived.AbGroupUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 theorem concrete_singleton_history_abgroup_laws :
     let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
@@ -29,6 +30,46 @@ theorem concrete_singleton_history_abgroup_laws :
       cases carrierK
       exact And.intro (hsame_refl BHist.Empty)
         (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+
+theorem singleton_empty_history_abgroup_laws :
+    SemanticNameCert BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonClassifier ∧
+      (∀ {x y : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier x ->
+        BEDC.Derived.GroupUp.GroupSingletonCarrier y ->
+          BEDC.Derived.GroupUp.GroupSingletonCarrier BHist.Empty) ∧
+      (∀ {x : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier x ->
+        BEDC.Derived.GroupUp.GroupSingletonCarrier BHist.Empty) ∧
+      (∀ {x : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier x ->
+        BEDC.Derived.GroupUp.GroupSingletonClassifier BHist.Empty x) ∧
+      (∀ {x y : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier x ->
+        BEDC.Derived.GroupUp.GroupSingletonCarrier y ->
+          BEDC.Derived.GroupUp.GroupSingletonClassifier BHist.Empty BHist.Empty) := by
+  have laws := BEDC.Derived.GroupUp.GroupSingletonHistory_laws
+  have semantic :
+      SemanticNameCert BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonClassifier := laws.left
+  have emptyCarrier : BEDC.Derived.GroupUp.GroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have emptyClassified :
+      BEDC.Derived.GroupUp.GroupSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  constructor
+  · exact semantic
+  · constructor
+    · intro _x _y _carrierX _carrierY
+      exact emptyCarrier
+    · constructor
+      · intro _x _carrierX
+        exact emptyCarrier
+      · constructor
+        · intro x carrierX
+          exact And.intro emptyCarrier (And.intro carrierX (hsame_symm carrierX))
+        · intro _x _y _carrierX _carrierY
+          exact emptyClassified
 
 theorem abgroup_mul_left_right_swap {mul : BHist -> BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

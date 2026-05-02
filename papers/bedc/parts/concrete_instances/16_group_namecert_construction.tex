@@ -86,6 +86,34 @@ $h$, and the carrier fact $A_{\emp}(h)$ identifies $h$ with $e=\emp$.
 \leanchecked{BEDC.Derived.GroupUp.concrete\_singleton\_history\_group\_laws}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}
 
+\begin{theorem}[Group singleton classifier append context cancellation]
+\label{thm:group-singleton-classifier-append-context-cancel}
+For histories $L,R,Q,S:\mathsf{BHist}$, if the displayed left contexts are in
+the singleton group carrier $A_{\emp}$, then appending those contexts to the
+two classifier endpoints preserves and reflects the singleton classifier:
+$$
+A_{\emp}(L)\Rightarrow A_{\emp}(R)\Rightarrow
+\bigl(
+R_{\emp}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+R_{\emp}(Q,S)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two appended endpoints are classified as
+singleton endpoints. Empty-result inversion for append splits each endpoint
+witness, giving $Q\hsame\emp$ and $S\hsame\emp$. These two carrier witnesses,
+together with transitivity through $\emp$, assemble $R_{\emp}(Q,S)$.
+
+Conversely, combine the supplied singleton witnesses for $L$ and $R$ with the
+endpoint carrier fields in $R_{\emp}(Q,S)$. Empty-result construction for
+append gives singleton witnesses for $\mathsf{append}(L,Q)$ and
+$\mathsf{append}(R,S)$, and transitivity through $\emp$ gives the classifier
+comparison between the two appended endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_context\_cancel\_iff}
+
 The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
 operations, so subsequent formalization can prove $BHist$-anchored group laws
 instead of relying only on an abstract operator schema.
