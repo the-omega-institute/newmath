@@ -38,4 +38,20 @@ theorem CategoryHomCarrier_left_identity_carrier_result {a b id f left : BHist} 
     exact homCarrier
   exact And.intro leftCarrier leftSame
 
+theorem CategoryHomCarrier_right_identity_carrier_result {a b id f right : BHist} :
+    CategoryHomCarrier b b id -> CategoryHomCarrier a b f -> Cont f id right ->
+      CategoryHomCarrier a b right ∧ hsame right f := by
+  intro identityCarrier homCarrier rightRel
+  have emptyIdentity : CategoryHomCarrier b b BHist.Empty :=
+    CategoryHomCarrier_empty_identity identityCarrier.left
+  have idEmpty : hsame id BHist.Empty :=
+    CategoryHomCarrier_morphism_deterministic identityCarrier emptyIdentity
+  cases idEmpty
+  have rightSame : hsame right f :=
+    cont_deterministic rightRel (cont_right_unit f)
+  have rightCarrier : CategoryHomCarrier a b right := by
+    cases rightSame
+    exact homCarrier
+  exact And.intro rightCarrier rightSame
+
 end BEDC.Derived.CategoryUp

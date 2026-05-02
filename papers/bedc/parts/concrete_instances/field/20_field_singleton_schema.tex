@@ -378,6 +378,59 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_right\_cancel\_iff}
 
+\begin{theorem}[Singleton empty nonzero append right cancellation]
+\label{thm:field-singleton-empty-nonzero-append-right-cancel}
+For histories $P,Q:\mathsf{BHist}$, if $P$ lies in the singleton empty
+carrier, then appending $P$ on the right does not change the
+classifier-complement singleton nonzero predicate:
+$$
+\mathsf{fieldSingletonEmptyCarrier}(P)\Rightarrow
+\bigl(
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(Q,P))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, suppose $Q$ were classified against $\emp$. Combining
+that endpoint witness with the displayed carrier witness for $P$ rebuilds a
+singleton empty classifier witness for $\mathsf{append}(Q,P)$, contradicting
+the appended complement predicate.
+
+Conversely, any classifier witness for $\mathsf{append}(Q,P)$ supplies
+$\mathsf{append}(Q,P)\hsame\emp$. Empty-result inversion for append extracts
+$Q\hsame\emp$, and this reconstructs the forbidden classifier witness for
+$Q$ against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_right\_cancel\_iff}
+
+\begin{theorem}[Singleton empty nonzero append left cancellation]
+\label{thm:field-singleton-empty-nonzero-append-left-cancel}
+For histories $P,Q:\mathsf{BHist}$, if $P$ lies in the singleton empty
+carrier, then appending $P$ on the left does not change the
+classifier-complement singleton nonzero predicate:
+$$
+\mathsf{fieldSingletonEmptyCarrier}(P)\Rightarrow
+\bigl(
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(P,Q))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication turns a forbidden classifier witness for $Q$ into one
+for $\mathsf{append}(P,Q)$ by pairing the carrier witness for $P$ with the
+empty endpoint witness for $Q$.
+
+For the reverse implication, a classifier witness for
+$\mathsf{append}(P,Q)$ identifies the append result with $\emp$. Empty-result
+inversion splits this into carrier witnesses for both factors, and the right
+factor witness rebuilds the forbidden singleton empty classifier for $Q$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_left\_cancel\_iff}
+
 \begin{theorem}[Classifier-complement singleton field schema laws]
 \label{thm:field-singleton-empty-schema-laws}
 For the tuple

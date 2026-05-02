@@ -585,4 +585,35 @@ theorem field_rat_denominator_continuation_left_unit_law_endpoint_empty_iff {u :
       exact cont_left_unit_result contUDR
     exact ⟨RatHistoryCarrier_hsame_transport (hsame_symm sameRD) carrierD,
       carrierD, sameRD⟩
+
+theorem fieldSingletonEmptyNonZero_append_right_cancel_iff {P Q : BHist} :
+    fieldSingletonEmptyCarrier P ->
+      (fieldSingletonEmptyNonZero (append Q P) ↔ fieldSingletonEmptyNonZero Q) := by
+  intro carrierP
+  constructor
+  · intro nonzeroAppend classifiedQ
+    apply nonzeroAppend
+    have leftCarrier : fieldSingletonEmptyCarrier (append Q P) :=
+      append_eq_empty_iff.mpr (And.intro classifiedQ.left carrierP)
+    exact And.intro leftCarrier (And.intro (hsame_refl BHist.Empty) leftCarrier)
+  · intro nonzeroQ classifiedAppend
+    apply nonzeroQ
+    have split := append_eq_empty_iff.mp classifiedAppend.left
+    exact And.intro split.left (And.intro (hsame_refl BHist.Empty) split.left)
+
+theorem fieldSingletonEmptyNonZero_append_left_cancel_iff {P Q : BHist} :
+    fieldSingletonEmptyCarrier P ->
+      (fieldSingletonEmptyNonZero (append P Q) ↔ fieldSingletonEmptyNonZero Q) := by
+  intro carrierP
+  constructor
+  · intro nonzeroAppend classifiedQ
+    apply nonzeroAppend
+    have leftCarrier : fieldSingletonEmptyCarrier (append P Q) :=
+      append_eq_empty_iff.mpr (And.intro carrierP classifiedQ.left)
+    exact And.intro leftCarrier (And.intro (hsame_refl BHist.Empty) leftCarrier)
+  · intro nonzeroQ classifiedAppend
+    apply nonzeroQ
+    have split := append_eq_empty_iff.mp classifiedAppend.left
+    exact And.intro split.right (And.intro (hsame_refl BHist.Empty) split.right)
+
 end BEDC.Derived.FieldUp

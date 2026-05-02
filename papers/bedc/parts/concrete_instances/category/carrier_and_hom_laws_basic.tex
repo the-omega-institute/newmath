@@ -666,6 +666,26 @@ this morphism equality to obtain $\mathsf{CategoryHomCarrier}(a,b,left)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_left\_identity\_carrier\_result}
 
+\begin{theorem}[Category hom carrier right identity carrier result]
+\label{thm:category-hom-carrier-right-identity-carrier-result}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(b,b,id)$,
+$\mathsf{CategoryHomCarrier}(a,b,f)$, and $\ContR(f,id,right)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,b,right)\wedge\HSame(right,f).
+$$
+\end{theorem}
+\begin{proof}
+Compare the displayed identity carrier $id$ with the canonical empty identity
+carrier at $b$. Morphism determinacy gives $\HSame(id,\emp)$. Rewriting the
+displayed continuation by this equality turns $\ContR(f,id,right)$ into an
+empty-right continuation. Determinism against the kernel right-unit
+continuation identifies $right$ with $f$, and transporting the original
+hom-carrier witness across that equality gives
+$\mathsf{CategoryHomCarrier}(a,b,right)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_right\_identity\_carrier\_result}
+
 \begin{theorem}[Category hom carrier identity semantic name certificate]
 \label{thm:category-hom-carrier-identity-semantic-namecert}
 For a unary object history $a$, the identity hom-carrier predicate
