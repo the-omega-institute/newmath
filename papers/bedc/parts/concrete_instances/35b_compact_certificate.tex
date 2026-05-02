@@ -155,6 +155,46 @@ continuation result determinacy identifies the two central nets.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_result\_deterministic}
 
+\begin{theorem}[Compact net witness visible-context precision determinacy]
+\label{thm:compact-net-witness-visible-context-precision-deterministic}
+For histories $p,q,c,\epsilon,\epsilon',n$, two visible-context compact-net
+witnesses with the same visible center context and the same visible net context
+determine the same central precision history:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon\cdot q,(p\cdot n)\cdot q)
+\Longrightarrow
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon'\cdot q,(p\cdot n)\cdot q)
+\Longrightarrow
+\hsame(\epsilon,\epsilon').
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to both witnesses. The recovered central
+compact-net witnesses have the same center $c$ and net $n$, so left
+continuation cancellation identifies the two central precision histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_precision\_deterministic}
+
+\begin{theorem}[Compact net witness visible-context center determinacy]
+\label{thm:compact-net-witness-visible-context-center-deterministic}
+For histories $p,q,c,c',\epsilon,n$, two visible-context compact-net witnesses
+with the same visible precision context and the same visible net context
+determine the same central center history:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon\cdot q,(p\cdot n)\cdot q)
+\Longrightarrow
+\mathsf{CompactNetWitness}(p\cdot c',\epsilon\cdot q,(p\cdot n)\cdot q)
+\Longrightarrow
+\hsame(c,c').
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to both witnesses. The recovered central
+compact-net witnesses have the same precision $\epsilon$ and net $n$, so right
+continuation cancellation identifies the two central center histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_center\_deterministic}
+
 \begin{theorem}[Compact net witness empty-precision visible-context exactness]
 \label{thm:compact-net-witness-empty-precision-visible-context-iff}
 For histories $p,q,c,n$, a visible-context compact-net witness with empty

@@ -114,4 +114,36 @@ theorem CompactNetWitness_visible_context_result_deterministic
   have rightWitness : CompactNetWitness center precision net' := rightData.right.right
   exact cont_deterministic leftWitness.right.right.right rightWitness.right.right.right
 
+theorem CompactNetWitness_visible_context_precision_deterministic
+    {p q center precision precision' net : BHist} :
+    CompactNetWitness (append p center) (append precision q) (append (append p net) q) ->
+      CompactNetWitness (append p center) (append precision' q) (append (append p net) q) ->
+        hsame precision precision' := by
+  intro left right
+  have leftData :=
+    (CompactNetWitness_visible_context_iff (p := p) (q := q) (center := center)
+      (precision := precision) (net := net)).mp left
+  have rightData :=
+    (CompactNetWitness_visible_context_iff (p := p) (q := q) (center := center)
+      (precision := precision') (net := net)).mp right
+  have leftWitness : CompactNetWitness center precision net := leftData.right.right
+  have rightWitness : CompactNetWitness center precision' net := rightData.right.right
+  exact cont_left_cancel leftWitness.right.right.right rightWitness.right.right.right
+
+theorem CompactNetWitness_visible_context_center_deterministic
+    {p q center center' precision net : BHist} :
+    CompactNetWitness (append p center) (append precision q) (append (append p net) q) ->
+      CompactNetWitness (append p center') (append precision q) (append (append p net) q) ->
+        hsame center center' := by
+  intro left right
+  have leftData :=
+    (CompactNetWitness_visible_context_iff (p := p) (q := q) (center := center)
+      (precision := precision) (net := net)).mp left
+  have rightData :=
+    (CompactNetWitness_visible_context_iff (p := p) (q := q) (center := center')
+      (precision := precision) (net := net)).mp right
+  have leftWitness : CompactNetWitness center precision net := leftData.right.right
+  have rightWitness : CompactNetWitness center' precision net := rightData.right.right
+  exact cont_right_cancel leftWitness.right.right.right rightWitness.right.right.right
+
 end BEDC.Derived.CompactUp
