@@ -178,6 +178,74 @@ $\mathsf{ProofTarget}$.
 
 \input{parts/concrete_instances/field/20_field_rat_denominator_unit_envelope_cancellation_exactness}
 
+\begin{theorem}[Rat denominator external-unit envelope exact FieldUp boundary]
+\label{thm:field-rat-denominator-unit-envelope-exact-field-boundary}
+For the concrete tuple $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope} and the strict support
+predicate $N_D^\ast$ of
+\autoref{def:field-rat-denominator-unit-envelope-strict-support}, the
+external-unit envelope supplies the exact $\FieldUp(\mathsf{RatUp})$
+denominator boundary. Namely, the tuple carries the commutative monoid laws,
+restricts to the carried Rat denominator continuation fragment, separates mixed
+carried and external endpoints, has $e_D^\ast$ as the unique external unit,
+transports strict support along $R_D^\ast$, computes product strict support
+exactly by $N_D^\ast(\mu_D^\ast(h,k))\Longleftrightarrow
+N_D^\ast(h)\lor N_D^\ast(k)$ for carried envelope inputs, and satisfies exact
+left and right cancellation by every strict common factor $t$:
+$$
+N_D^\ast(t)\to
+\bigl(R_D^\ast(\mu_D^\ast(h,t),\mu_D^\ast(k,t))
+\Longleftrightarrow R_D^\ast(h,k)\bigr),
+$$
+and
+$$
+N_D^\ast(t)\to
+\bigl(R_D^\ast(\mu_D^\ast(t,h),\mu_D^\ast(t,k))
+\Longleftrightarrow R_D^\ast(h,k)\bigr),
+$$
+for all $h,k,t:\mathsf{BHist}$ carried by $C_D^\ast$.
+\end{theorem}
+\begin{proof}
+The algebraic denominator envelope is supplied by
+\autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws}. Its
+underlying certificate data are exactly the carrier restriction to the concrete
+Rat denominator fragment, the carried classifier and multiplication
+restriction, and the mixed-endpoint separation recorded by
+\autoref{thm:field-rat-denominator-unit-envelope-certificate}.
+
+The external endpoint is pinned down by
+\autoref{thm:field-rat-denominator-unit-envelope-unit-unique}: any carried
+envelope endpoint satisfying either one-sided unit law is classified with
+$e_D^\ast$. This supplies the unique external unit field of the boundary.
+
+The strict-support fields come from
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws}. Its first
+clause transports $N_D^\ast$ across $R_D^\ast$-classified endpoints, and its
+second clause gives the exact product support equivalence for
+$\mu_D^\ast$.
+
+Finally,
+\autoref{thm:field-rat-denominator-unit-envelope-cancellation-exactness}
+supplies the two displayed cancellation equivalences whenever the common factor
+has strict support. Combining these four packages gives the stated concrete
+$\FieldUp(\mathsf{RatUp})$ denominator boundary without any further structure.
+\end{proof}
+
+\textbf{Traditional target}: exact denominator boundary for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$, $\Cont$,
+$\mathsf{append}$, and $\emp$; \textbf{carrier}: $C_D^\ast$;
+\textbf{classifier}: $R_D^\ast$; \textbf{multiplication}: $\mu_D^\ast$;
+\textbf{unit}: $e_D^\ast$; \textbf{ledger}: external-unit bit plus denominator
+continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-unit-envelope-exact-field-boundary};
+\textbf{exactness predicate}: carried-fragment restriction, mixed-endpoint
+separation, unique external unit, strict-support transport, product support
+exactness, and strict-factor cancellation; \textbf{standard bridge}: concrete
+$\FieldUp(\mathsf{RatUp})$ denominator boundary; \textbf{status}:
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rat denominator empty-unit cancellative commutative monoid package]
 \label{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package}
 For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
@@ -456,7 +524,7 @@ L_t(h):=\mu_D^u(t,h).
 $$
 The carrier, classifier, and multiplication are the same concrete
 $\mathsf{BHist}$ data used in
-\autoref{def:field-rat-denominator-empty-unit-right-multiplication-context}.
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance}.
 \end{definition}
 
 \begin{theorem}[Rat denominator empty-unit left multiplication classifier exactness]
@@ -493,9 +561,9 @@ exactness predicate preservation and reflection of the classifier under $L_t$;
 standard bridge cancellative commutative denominator monoids; status
 $\mathsf{ProofTarget}$.
 
-This is the left-context companion to
-\autoref{thm:field-rat-denominator-empty-unit-right-multiplication-classifier-exactness}
-inside the concrete empty-unit denominator boundary.
+This is the left-context companion to the right-cancellation law
+\autoref{thm:field-rat-denominator-empty-unit-right-cancellation} inside the
+concrete empty-unit denominator boundary.
 
 \begin{theorem}[Field affine automorphism inverse is involutive]
 \label{thm:field-affine-automorphism-inverse-involutive}
