@@ -294,6 +294,26 @@ $a$ gives $\hsame(p,q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_source\_prefix\_deterministic}
 
+\begin{theorem}[Functor prefix hom-carrier source-object determinacy]
+\label{thm:functor-prefix-hom-carrier-source-object-deterministic}
+For histories $p,a,b,target,f$, if the same morphism $f$ is a category
+hom-carrier from $\mathsf{append}(p,a)$ to $target$ and from
+$\mathsf{append}(p,b)$ to $target$, then the two source objects agree:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),target,f)
+\land
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),target,f)
+\Longrightarrow
+\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Category hom-carrier source determinism gives
+$\hsame(\mathsf{append}(p,a),\mathsf{append}(p,b))$. Cancelling the common
+left append prefix $p$ yields $\hsame(a,b)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_source\_object\_deterministic}
+
 \begin{theorem}[Functor prefix hom-carrier target-prefix determinacy]
 \label{thm:functor-prefix-hom-carrier-target-prefix-deterministic}
 For histories $p,q,a,source,f$, if the same morphism $f$ is a category
@@ -313,6 +333,22 @@ $\hsame(\mathsf{append}(p,a),\mathsf{append}(q,a))$. Cancelling the common
 right append suffix $a$ yields $\hsame(p,q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_target\_prefix\_deterministic}
+
+\begin{theorem}[Functor prefix hom-carrier composite middle-object determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-middle-object-deterministic}
+For histories $p,a,b,b',c,f,g,fg$, suppose $f$ is a category hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $g$ is a category
+hom-carrier from $\mathsf{append}(p,b')$ to $\mathsf{append}(p,c)$, and
+$\ContR(f,g,fg)$ holds. If $fg$ is displayed as a category hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,c)$, then $\hsame(b,b')$.
+\end{theorem}
+\begin{proof}
+Apply category hom-carrier composite middle-object determinacy to the prefixed
+hom-carriers and the displayed composite. This identifies
+$\mathsf{append}(p,b)$ and $\mathsf{append}(p,b')$. Cancelling the common left
+append prefix $p$ gives $\hsame(b,b')$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_middle\_object\_deterministic}
 
 \section{The certificate}
 
