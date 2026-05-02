@@ -101,6 +101,45 @@ append unit and associativity reductions. This gives the required
 $\rho_{\emp}$ comparison for both $\oplus$ and $\odot$.
 \end{proof}
 
+\begin{theorem}[Singleton empty-history matrix endpoint collapse]
+\label{thm:singleton-empty-history-matrix-endpoint-collapse}
+With the notation of
+Definition~\ref{def:singleton-empty-history-matrix-instance}, if
+$A_{\emp}(M)$ and $A_{\emp}(N)$, then
+\begin{enumerate}
+  \item $\rho_{\emp}(M\oplus N,\emp)$.
+  \item $\rho_{\emp}(M\odot N,\emp)$.
+  \item $\rho_{\emp}(M\oplus N,M\odot N)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:singleton-empty-history-matrix-laws} to the carried
+inputs $M$ and $N$. Its closure clause puts both $M\oplus N$ and $M\odot N$
+back in $A_{\emp}$, while the singleton carrier witnesses identify $M$ and
+$N$ with the endpoint $\emp$.
+
+By the displayed definitions, both operations are
+$\mathsf{append}(M,N)$. Replace the carried inputs by their singleton endpoint
+witnesses, then use the left and right continuation unit laws cited in
+Theorem~\ref{thm:concrete-history-monoid-laws} to reduce the resulting append
+history to $\emp$.
+
+For $\rho_{\emp}(M\oplus N,\emp)$ and
+$\rho_{\emp}(M\odot N,\emp)$, combine the closure witnesses with the
+corresponding $\hsame$ endpoint calculation. Symmetry is used when the unit
+witness is oriented from $\emp$ to the displayed operation rather than from
+the displayed operation to $\emp$.
+
+For $\rho_{\emp}(M\oplus N,M\odot N)$, compose the first endpoint comparison
+with the symmetry of the second by transitivity of $\hsame$. The two carrier
+witnesses are the closure witnesses already supplied by the law package, so
+the classifier definition gives the required comparison.
+\end{proof}
+
+The $\MatrixUp$ schema is instantiated by this concrete $\mathsf{BHist}$
+carrier and operations, so formalization can target the endpoint-collapse and
+law package rather than an abstract operator schema.
+
 \begin{theorem}[Singleton empty-history matrix endpoint exactness]
 \label{thm:singleton-empty-history-matrix-endpoint-exactness}
 For the singleton instance of
