@@ -291,6 +291,157 @@ theorem field_affine_explicit_inverse_certified_automorphism
             mulLeftInv mulRightInv pa pb).mp
             sameImages
 
+theorem field_affine_explicit_inverse_classifier_congruence
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addRightId : forall x : BHist, hsame (add x BHist.Empty) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (negRight : forall x : BHist, hsame (add x (neg x)) BHist.Empty)
+    (mulAssoc : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (mulLeftId : forall x : BHist, hsame (mul one x) x)
+    (mulRightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (mulLeftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (mulRightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a b d c c' : BHist} (pa : NonZero a) (pb : NonZero b) :
+    hsame c c' ->
+      hsame (mul (inv a pa) (mul (add c (neg d)) (inv b pb)))
+        (mul (inv a pa) (mul (add c' (neg d)) (inv b pb))) := by
+  intro sameTargets
+  have inversePackage :=
+    field_affine_explicit_inverse_certified_automorphism addAssoc addRightId
+      addCongr negLeft negRight mulAssoc mulLeftId mulRightId mulCongr
+      mulLeftInv mulRightInv (a := a) (b := b) (d := d) (c := c) (e := c')
+      (x := c) pa pb
+  exact inversePackage.right.right.mpr sameTargets
+
+theorem field_affine_composite_two_sided_inverse
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addRightId : forall x : BHist, hsame (add x BHist.Empty) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (negRight : forall x : BHist, hsame (add x (neg x)) BHist.Empty)
+    (mulAssoc : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (mulLeftId : forall x : BHist, hsame (mul one x) x)
+    (mulRightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (mulLeftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (mulRightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a b c e d f x y q : BHist} (pa : NonZero a) (pb : NonZero b)
+    (pc : NonZero c) (pe : NonZero e) :
+    let T1 := fun z => add (mul (mul a z) b) d
+    let T2 := fun z => add (mul (mul c z) e) f
+    let s1 := fun z => mul (inv a pa) (mul (add z (neg d)) (inv b pb))
+    let s2 := fun z => mul (inv c pc) (mul (add z (neg f)) (inv e pe))
+    (hsame (T2 (T1 x)) (T2 (T1 y)) <-> hsame x y) ∧
+      hsame (T2 (T1 (s1 (s2 q)))) q ∧ hsame (s1 (s2 (T2 (T1 x)))) x := by
+  constructor
+  · constructor
+    · intro sameComposite
+      have sameInner :
+          hsame (add (mul (mul a x) b) d) (add (mul (mul a y) b) d) := by
+        exact
+          (field_affine_two_sided_map_classifier_exact_from_apartness addAssoc
+            addRightId addCongr negRight mulAssoc mulLeftId mulRightId mulCongr
+            mulLeftInv mulRightInv pc pe).mp
+            sameComposite
+      exact
+        (field_affine_two_sided_map_classifier_exact_from_apartness addAssoc
+          addRightId addCongr negRight mulAssoc mulLeftId mulRightId mulCongr
+          mulLeftInv mulRightInv pa pb).mp
+          sameInner
+    · intro sameXY
+      have sameInner :
+          hsame (add (mul (mul a x) b) d) (add (mul (mul a y) b) d) := by
+        exact
+          (field_affine_two_sided_map_classifier_exact_from_apartness addAssoc
+            addRightId addCongr negRight mulAssoc mulLeftId mulRightId mulCongr
+            mulLeftInv mulRightInv pa pb).mpr
+            sameXY
+      exact
+        (field_affine_two_sided_map_classifier_exact_from_apartness addAssoc
+          addRightId addCongr negRight mulAssoc mulLeftId mulRightId mulCongr
+          mulLeftInv mulRightInv pc pe).mpr
+          sameInner
+  · constructor
+    · have inverseT1AtS2 :=
+        field_affine_explicit_inverse_certified_automorphism addAssoc addRightId
+          addCongr negLeft negRight mulAssoc mulLeftId mulRightId mulCongr
+          mulLeftInv mulRightInv (a := a) (b := b) (d := d)
+          (c := mul (inv c pc) (mul (add q (neg f)) (inv e pe)))
+          (e := mul (inv c pc) (mul (add q (neg f)) (inv e pe)))
+          (x := mul (inv c pc) (mul (add q (neg f)) (inv e pe))) pa pb
+      have transported :
+          hsame
+            (add
+              (mul
+                (mul c
+                  (add
+                    (mul
+                      (mul a
+                        (mul (inv a pa)
+                          (mul
+                            (add (mul (inv c pc) (mul (add q (neg f)) (inv e pe)))
+                              (neg d))
+                            (inv b pb))))
+                      b)
+                    d))
+                e)
+              f)
+            (add
+              (mul (mul c (mul (inv c pc) (mul (add q (neg f)) (inv e pe)))) e)
+              f) := by
+        exact addCongr
+          (mulCongr (mulCongr (hsame_refl c) inverseT1AtS2.right.left)
+            (hsame_refl e))
+          (hsame_refl f)
+      have inverseT2AtQ :=
+        field_affine_explicit_inverse_certified_automorphism addAssoc addRightId
+          addCongr negLeft negRight mulAssoc mulLeftId mulRightId mulCongr
+          mulLeftInv mulRightInv (a := c) (b := e) (d := f) (c := q) (e := q)
+          (x := q) pc pe
+      exact hsame_trans transported inverseT2AtQ.right.left
+    · have inverseT2AtT1 :=
+        field_affine_explicit_inverse_certified_automorphism addAssoc addRightId
+          addCongr negLeft negRight mulAssoc mulLeftId mulRightId mulCongr
+          mulLeftInv mulRightInv (a := c) (b := e) (d := f)
+          (c := add (mul (mul a x) b) d) (e := add (mul (mul a x) b) d)
+          (x := add (mul (mul a x) b) d) pc pe
+      have inverseT1Congr :
+          hsame
+            (mul (inv a pa)
+              (mul
+                (add
+                  (mul (inv c pc)
+                    (mul
+                      (add
+                        (add (mul (mul c (add (mul (mul a x) b) d)) e) f)
+                        (neg f))
+                      (inv e pe)))
+                  (neg d))
+                (inv b pb)))
+            (mul (inv a pa)
+              (mul (add (add (mul (mul a x) b) d) (neg d)) (inv b pb))) := by
+        exact field_affine_explicit_inverse_classifier_congruence addAssoc
+          addRightId addCongr negLeft negRight mulAssoc mulLeftId mulRightId
+          mulCongr mulLeftInv mulRightInv (a := a) (b := b) (d := d)
+          pa pb inverseT2AtT1.left
+      have inverseT1AtImage :=
+        field_affine_explicit_inverse_certified_automorphism addAssoc addRightId
+          addCongr negLeft negRight mulAssoc mulLeftId mulRightId mulCongr
+          mulLeftInv mulRightInv (a := a) (b := b) (d := d)
+          (c := add (mul (mul a x) b) d) (e := add (mul (mul a x) b) d)
+          (x := x) pa pb
+      exact hsame_trans inverseT1Congr inverseT1AtImage.left
+
 theorem field_affine_identity_endpoint {add mul : BHist -> BHist -> BHist} {one x : BHist}
     (addRightId : ∀ z : BHist, hsame (add z BHist.Empty) z)
     (mulLeftId : ∀ z : BHist, hsame (mul one z) z)
