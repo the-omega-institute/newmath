@@ -1,0 +1,139 @@
+\begin{theorem}[Field affine automorphism inverse is involutive]
+\label{thm:field-affine-automorphism-inverse-involutive}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
+$\mathsf{BHist}$ satisfying the hypotheses of
+\autoref{thm:field-affine-automorphism-group-certificate}, let
+$T=(a,b,d,p_a,p_b)$ be a certified affine automorphism and let
+$T^{-1}_{\mathrm{aff}}$ be the explicit inverse certificate supplied by
+\autoref{thm:field-affine-inverse-is-certified-affine}. Then applying the same
+inverse construction again returns the original affine certificate under the
+affine pointwise classifier:
+$$
+(T^{-1}_{\mathrm{aff}})^{-1}_{\mathrm{aff}}\equiv_{\mathrm{aff}}T.
+$$
+\end{theorem}
+\begin{proof}
+The inverse certificate $T^{-1}_{\mathrm{aff}}$ is closed among certified
+affine automorphisms by
+\autoref{thm:field-affine-inverse-is-certified-affine}. The identity and
+inverse operations of the affine package are the ones recorded in
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package}, so both
+$T$ and $T^{-1}_{\mathrm{aff}}$ inhabit the same $\GroupUp$ carrier of
+certified affine automorphism histories.
+
+The two inverse equations for $T$ are interpreted through the affine pointwise
+classifier. Operation congruence from
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}
+transports those equations across classifier-equivalent representatives, so the
+candidate obtained by inverting $T^{-1}_{\mathrm{aff}}$ is a left inverse of
+$T^{-1}_{\mathrm{aff}}$ in the same group package.
+
+Now apply the $\GroupUp$ inverse involutivity law from
+\autoref{thm:group-left-inverse-involutive}; equivalently, use the
+left-right inverse uniqueness principle of
+\autoref{thm:group-left-right-inverse-uniqueness} to identify the second
+inverse with the original certificate. Re-reading that identity through the
+affine classifier gives the displayed conclusion.
+\end{proof}
+
+Per-object template: traditional target affine automorphism group inverse
+involutivity; BEDC source $\FieldUp+\CommRingUp$, affine package, and
+$\GroupUp$ inverse laws; carrier certified affine automorphism histories;
+classifier $\equiv_{\mathrm{aff}}$; stability obligation inverse closure and
+inverse uniqueness; ledger nonzero coefficient witnesses and
+inverse-certificate provenance; core theorem
+\autoref{thm:field-affine-automorphism-inverse-involutive}; exactness predicate
+double-inverse pointwise classifier; standard bridge ordinary affine
+automorphism group; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field affine automorphism cancellation]
+\label{thm:field-affine-automorphism-cancellation}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
+$\mathsf{BHist}$ satisfying
+\autoref{thm:field-affine-automorphism-group-certificate}, let $S,T,U$ be
+certified affine automorphism histories in $\mathsf{AffAut}_F$, and let
+$\circ_{\mathrm{aff}}$ be the coefficient-collected composition operation from
+the affine package. Then the affine classifier is cancellative on both sides:
+if
+$$
+(S\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}(U\circ_{\mathrm{aff}}T),
+$$
+then $S\equiv_{\mathrm{aff}}U$; and if
+$$
+(T\circ_{\mathrm{aff}}S)\equiv_{\mathrm{aff}}(T\circ_{\mathrm{aff}}U),
+$$
+then $S\equiv_{\mathrm{aff}}U$.
+\end{theorem}
+\begin{proof}
+Instantiate the affine automorphism group law package supplied by
+\autoref{thm:field-affine-automorphism-group-certificate}. Its carrier is the
+class of certified affine automorphism histories, its operation is
+$\circ_{\mathrm{aff}}$, and its classifier is the affine pointwise relation
+$\equiv_{\mathrm{aff}}$.
+
+For the common right factor, read
+$(S\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}(U\circ_{\mathrm{aff}}T)$ as the
+group classifier equality of the two products with the same right component.
+Apply \autoref{thm:group-right-cancellation} in this instantiated
+$\GroupUp$ package. The conclusion is the group classifier relation between
+$S$ and $U$, which is exactly $S\equiv_{\mathrm{aff}}U$ under the pointwise
+classifier interpretation.
+
+For the common left factor, read
+$(T\circ_{\mathrm{aff}}S)\equiv_{\mathrm{aff}}(T\circ_{\mathrm{aff}}U)$ as the
+group classifier equality of the two products with the same left component.
+Apply \autoref{thm:group-left-cancellation} in the same instantiated package.
+Translating the resulting group classifier back through the affine pointwise
+classifier gives $S\equiv_{\mathrm{aff}}U$.
+\end{proof}
+
+Per-object template: traditional target affine automorphism cancellativity;
+BEDC source $\FieldUp+\CommRingUp$, the affine package, and $\GroupUp$
+cancellation; carrier certified affine automorphism histories; classifier
+$\equiv_{\mathrm{aff}}$; stability associativity, identity, inverse, and
+operation congruence; ledger nonzero coefficient witnesses and composition
+provenance; core theorem
+\autoref{thm:field-affine-automorphism-cancellation}; exactness predicate left
+and right cancellation under the affine classifier; standard bridge ordinary
+affine automorphism group; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field affine automorphism cancellation exactness]
+\label{thm:field-affine-automorphism-cancellation-exactness}
+Under the same hypotheses and notation as
+\autoref{thm:field-affine-automorphism-cancellation}, for certified affine
+automorphism histories $S,T,U$ in $\mathsf{AffAut}_F$, cancellation by the
+common affine factor is exact on both sides:
+$$
+(S\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}(U\circ_{\mathrm{aff}}T)
+\Longleftrightarrow S\equiv_{\mathrm{aff}}U,
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}S)\equiv_{\mathrm{aff}}(T\circ_{\mathrm{aff}}U)
+\Longleftrightarrow S\equiv_{\mathrm{aff}}U.
+$$
+\end{theorem}
+\begin{proof}
+For the forward directions, apply
+\autoref{thm:field-affine-automorphism-cancellation}. Its first clause cancels
+the common right factor $T$, and its second clause cancels the common left
+factor $T$. In both cases the resulting classifier is precisely
+$S\equiv_{\mathrm{aff}}U$.
+
+For the reverse directions, assume $S\equiv_{\mathrm{aff}}U$. The common
+factor $T$ is reflexively related to itself by the affine pointwise classifier.
+Apply
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence} to the
+classifier between $S$ and $U$ together with reflexivity of $T$. With the common
+factor placed on the right this gives
+$(S\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}(U\circ_{\mathrm{aff}}T)$; with
+the common factor placed on the left it gives
+$(T\circ_{\mathrm{aff}}S)\equiv_{\mathrm{aff}}(T\circ_{\mathrm{aff}}U)$.
+\end{proof}
+
+Per-object template: traditional target affine automorphism cancellative action
+exactness; BEDC source $\FieldUp+\CommRingUp$, the affine package, and
+$\GroupUp$ cancellation; carrier certified affine automorphism histories;
+classifier affine pointwise equivalence; core theorem
+\autoref{thm:field-affine-automorphism-cancellation-exactness}; status
+$\mathsf{ProofTarget}$.

@@ -33,3 +33,59 @@
 \input{parts/concrete_instances/field/20_field_rat_denominator_empty_unit_field_boundary}
 \input{parts/concrete_instances/field/20_field_rat_denominator_empty_unit_contextual_multiplication_classifier_exactness}
 \input{parts/concrete_instances/field/20_field_rat_denominator_fieldup_multiplicative_certificate_boundary}
+
+\begin{definition}[Concrete Rat denominator FieldUp multiplicative exactness instance]
+\label{def:field-rat-denominator-fieldup-multiplicative-exactness-instance}
+The concrete $\mathsf{BHist}$ denominator-side multiplicative exactness instance
+for $\FieldUp(\mathsf{RatUp})$ is the tuple
+$$
+\mathcal{M}_D^\ast:=(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)
+$$
+where $C_D^\ast$ and $R_D^\ast$ are the carrier and classifier of
+\autoref{def:field-rat-denominator-unit-envelope},
+$$
+\mu_D^\ast(h,k):=\mathsf{append}(h,k),\qquad
+e_D^\ast:=\emp,\qquad
+N_D^\ast(h):=\mathsf{RatHistoryCarrier}(h).
+$$
+\end{definition}
+
+\begin{theorem}[Rat denominator FieldUp multiplicative exactness boundary]
+\label{thm:field-rat-denominator-fieldup-multiplicative-exactness-boundary}
+The concrete instance
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance}
+satisfies the Rat denominator FieldUp multiplicative certificate boundary. In
+addition, for all $h,k,t:\mathsf{BHist}$, if $C_D^\ast(h)$, $C_D^\ast(k)$,
+$C_D^\ast(t)$, and $N_D^\ast(t)$, then
+$$
+R_D^\ast(\mu_D^\ast(h,t),\mu_D^\ast(k,t))
+\Longleftrightarrow R_D^\ast(h,k),
+$$
+and
+$$
+R_D^\ast(\mu_D^\ast(t,h),\mu_D^\ast(t,k))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The displayed tuple is the same concrete carrier, classifier, multiplication,
+unit, and strict support used by
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}.
+That theorem supplies the packaged carrier, classifier, monoid, commutativity,
+empty-unit uniqueness, and carried-endpoint clauses for the denominator-side
+FieldUp boundary.
+
+The strict-support component is the predicate
+$N_D^\ast(h):=\mathsf{RatHistoryCarrier}(h)$. The transport and product-support
+parts of the boundary are therefore the corresponding clauses of
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws}.
+
+It remains to identify strict common-factor cancellation at the same concrete
+classifier. Under $C_D^\ast(h)$, $C_D^\ast(k)$, $C_D^\ast(t)$, and
+$N_D^\ast(t)$, the right and left cancellation equivalences are exactly the two
+displayed clauses of
+\autoref{thm:field-rat-denominator-unit-envelope-cancellation-exactness}. Hence
+the concrete tuple carries both the certificate boundary and the strict
+factor-cancellation exactness required for the denominator side of
+$\FieldUp(\mathsf{RatUp})$.
+\end{proof}
