@@ -116,6 +116,15 @@ tail to be \(\emp\), contradicting the nonempty-tail condition.
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_empty\_right\_absurd}
 
+\begin{theorem}[Strict unary prefix one-boundary inversion]
+\label{thm:nat-unary-strict-prefix-e1-inversion}
+If \(\Eone(h)\) is a strict unary prefix of \(\Eone(k)\), then \(h\) is a strict unary prefix of \(k\).
+\end{theorem}
+\begin{proof}
+Unpack the strict witness tail. The empty tail contradicts strictness, and an \(\Ezero\)-headed tail contradicts unary generation. For an \(\Eone(t)\) tail, invert the result boundary of the continuation and commute the visible \(\Eone\) across the unary tail \(t\), yielding the strict witness \(\Eone(t)\) from \(h\) to \(k\).
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_e1\_inversion}
+
 \section{The certificate}
 
 \begin{definition}[Unary source specification]

@@ -88,10 +88,11 @@ For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d,
 For every unary \(n\), \(\mathsf{NatDivides}(\Eone(\emp), n)\) and \(\mathsf{NatDivides}(n, n)\).
 \end{lemma}
 \begin{proof}
-The unit case takes \(q = n\) in \(\mathsf{NatMul}(\Eone(\emp), n, n)\) by induction. The self-divisibility case takes \(q = \Eone(\emp)\) and uses the multiplicative right unit.
+The unit case takes \(q = n\) in \(\mathsf{NatMul}(\Eone(\emp), n, n)\) by induction. The self-divisibility case takes \(q = \Eone(\emp)\) and uses the continuation unit at the empty quotient.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_reflexive}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_unit\_self\_reflexive}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_reflexive\_pair}
 
 \begin{lemma}[Divisibility is transitive]
 \label{lem:divides-transitive}
@@ -161,6 +162,15 @@ Induct on the trial-division witness. The base witness starts at
 \(\Cont\) with the unit continuation and rebuilds the trial-division step.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_step\_unary\_closed}
+
+\begin{theorem}[Trial-division bounds are unary]
+\label{thm:trial-div-bound-unary}
+If \(\mathsf{TrialDiv}(b,n)\), then \(b\) is a unary history.
+\end{theorem}
+\begin{proof}
+Induct on the trial-division witness. The unit constructor gives \(\mathsf{Unary}(\Eone(\emp))\). The step constructor extends the previous unary bound by the unary unit through \(\Cont\), so unary closure under continuation gives the next bound.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unary}
 
 \begin{theorem}[Decidability of primality]
 \label{thm:prime-decidable}

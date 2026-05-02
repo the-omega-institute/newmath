@@ -98,6 +98,27 @@ theorem NatMul_e0_multiplier_absurd {d q n : BHist} :
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
 
+theorem NatDivides_reflexive_pair {n : BHist} :
+    UnaryHistory n ->
+      NatDivides (BHist.e1 BHist.Empty) n ∧ NatDivides n n := by
+  intro hn
+  constructor
+  · induction n with
+    | Empty =>
+        exact ⟨BHist.Empty, unary_empty, NatMul.zero (unary_e1_closed unary_empty)⟩
+    | e0 n ih =>
+        cases hn
+    | e1 n ih =>
+        have unitDividesTail := ih hn
+        cases unitDividesTail with
+        | intro q qData =>
+            cases qData with
+            | intro qUnary qMul =>
+                exact ⟨BHist.e1 q, unary_e1_closed qUnary,
+                  NatMul.succ qMul (cont_intro rfl)⟩
+  · exact ⟨BHist.e1 BHist.Empty, unary_e1_closed unary_empty,
+      NatMul.succ (NatMul.zero hn) (cont_left_unit n)⟩
+
 theorem NatDivides_transitive {d e n : BHist} :
     NatDivides d e -> NatDivides e n -> NatDivides d n := by
   intro left right
@@ -226,5 +247,13 @@ theorem TrialDiv_step_unary_closed {b n b' : BHist} :
       have prevClosed := ih prevAdvance prevStep
       exact ⟨unary_cont_closed prevClosed.left (unary_e1_closed unary_empty) stepCont,
         TrialDiv.step (TrialDiv.step prevTrial prevAdvance prevStep) advance stepCont⟩
+
+theorem TrialDiv_bound_unary {b n : BHist} : TrialDiv b n -> UnaryHistory b := by
+  intro trial
+  induction trial with
+  | unit _hn =>
+      exact unary_e1_closed unary_empty
+  | step _trial _screen stepCont ih =>
+      exact unary_cont_closed ih (unary_e1_closed unary_empty) stepCont
 
 end BEDC.Derived.PrimeUp

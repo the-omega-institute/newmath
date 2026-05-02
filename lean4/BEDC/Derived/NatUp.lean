@@ -47,6 +47,29 @@ theorem NatUnaryStrictPrefix_empty_right_absurd {h : BHist} :
       have parts := cont_empty_result_inversion data.right.right
       exact data.right.left parts.right
 
+theorem NatUnaryStrictPrefix_e1_inversion {h k : BHist} :
+    NatUnaryStrictPrefix (BHist.e1 h) (BHist.e1 k) -> NatUnaryStrictPrefix h k := by
+  intro strict
+  cases strict with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary strictData =>
+          cases strictData with
+          | intro tailNonempty tailCont =>
+              cases tail with
+              | Empty =>
+                  exact False.elim (tailNonempty rfl)
+              | e0 tail =>
+                  exact False.elim (unary_no_zero_extension tailUnary)
+              | e1 tail =>
+                  have tailInnerUnary : UnaryHistory tail := unary_e1_inversion tailUnary
+                  have tailStep :
+                      append (BHist.e1 h) tail = BHist.e1 (append h tail) :=
+                    unary_append_e1_left (h := tail) (k := h) tailInnerUnary
+                  have loweredCont : Cont h (BHist.e1 tail) k := by
+                    exact cont_intro ((BHist.e1.inj tailCont).trans tailStep)
+                  exact ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), loweredCont⟩
+
 theorem NatUnaryPrefix_total {h k : BHist} :
     UnaryHistory h -> UnaryHistory k ->
       (exists tail : BHist, UnaryHistory tail /\ Cont h tail k) \/
