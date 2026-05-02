@@ -118,6 +118,28 @@ standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_target\_cert\_deterministic}
 
+\begin{theorem}[Continuous function carrier modulus determinacy]
+\label{thm:continuous-function-carrier-modulus-deterministic}
+For histories $source,map,target,modulus,modulus',cert$, if two
+continuous-function carrier witnesses share the same graph target and terminal
+certificate, then their modulus histories are determined up to $\hsame$:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus',cert)
+\Longrightarrow
+\hsame(modulus,modulus').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both carrier witnesses. Their certificate ledgers are
+$\mathsf{Cont}(target,modulus,cert)$ and
+$\mathsf{Cont}(target,modulus',cert)$. Continuation left cancellation with the
+common target history and common certificate history yields
+$\hsame(modulus,modulus')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_modulus\_deterministic}
+
 \begin{theorem}[Continuous function carrier prefix closure]
 \label{thm:continuous-function-carrier-prefix-closed}
 For histories $p$, $source$, $map$, $targetHist$, $modulus$, and $certHist$, a
@@ -367,6 +389,28 @@ same first continuation ledger, $\mathsf{Cont}$ determinacy for
 $s\cdot\delta_1$ yields $\hsame(m,m')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_middle\_deterministic\_factorization}
+
+\begin{theorem}[Continuous modulus chain target determinacy]
+\label{thm:continuous-modulus-chain-target-deterministic}
+For histories $source,first,second,target,target'$, two modulus-chain witnesses
+with the same source and the same two modulus histories determine the same
+target up to $\hsame$:
+$$
+\mathsf{ContinuousModulusChain}(source,first,second,target)
+\Longrightarrow
+\mathsf{ContinuousModulusChain}(source,first,second,target')
+\Longrightarrow
+\hsame(target,target').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both chains. The first continuation ledgers share $source$ and $first$,
+so continuation determinacy identifies the two middle histories up to
+$\hsame$. Transport the second continuation comparison along this middle
+sameness, keeping the common $second$ history fixed; continuation respect for
+$\hsame$ then gives $\hsame(target,target')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_target\_deterministic}
 
 \begin{theorem}[Continuous modulus chain composite closure]
 \label{thm:continuous-modulus-chain-composite-closed}

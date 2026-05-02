@@ -115,6 +115,40 @@ theorem ContinuousModulusChain_middle_deterministic_factorization
                                     intro middle' firstRel' _secondRel'
                                     exact cont_deterministic firstRel firstRel')))
 
+theorem ContinuousModulusChain_target_deterministic
+    {source first second target target' : BHist} :
+    ContinuousModulusChain source first second target ->
+      ContinuousModulusChain source first second target' -> hsame target target' := by
+  intro left right
+  cases left with
+  | intro _sourceCarrier leftRest =>
+      cases leftRest with
+      | intro _firstCarrier leftRest =>
+          cases leftRest with
+          | intro _secondCarrier leftRest =>
+              cases leftRest with
+              | intro _targetCarrier leftWitness =>
+                  cases leftWitness with
+                  | intro middle middleData =>
+                      cases middleData with
+                      | intro firstRel secondRel =>
+                          cases right with
+                          | intro _sourceCarrier' rightRest =>
+                              cases rightRest with
+                              | intro _firstCarrier' rightRest =>
+                                  cases rightRest with
+                                  | intro _secondCarrier' rightRest =>
+                                      cases rightRest with
+                                      | intro _targetCarrier' rightWitness =>
+                                          cases rightWitness with
+                                          | intro middle' middleData' =>
+                                              cases middleData' with
+                                              | intro firstRel' secondRel' =>
+                                                  have sameMiddle : hsame middle middle' :=
+                                                    cont_deterministic firstRel firstRel'
+                                                  exact cont_respects_hsame sameMiddle
+                                                    (hsame_refl second) secondRel secondRel'
+
 theorem ContinuousModulusChain_composite_closed {source first second target composite : BHist} :
     ContinuousModulusChain source first second target -> Cont first second composite ->
       ContinuousModulusWitness source composite target := by
@@ -194,6 +228,33 @@ theorem ContinuousFunctionCarrier_target_cert_deterministic
                                             cont_respects_hsame sameTarget
                                               (hsame_refl modulus) targetCert targetCert'
                                           exact And.intro sameTarget sameCert
+
+theorem ContinuousFunctionCarrier_modulus_deterministic
+    {source map target modulus modulus' cert : BHist} :
+    ContinuousFunctionCarrier source map target modulus cert ->
+      ContinuousFunctionCarrier source map target modulus' cert -> hsame modulus modulus' := by
+  intro left right
+  cases left with
+  | intro _sourceCarrier leftRest =>
+      cases leftRest with
+      | intro _targetCarrier leftRest =>
+          cases leftRest with
+          | intro _mapCarrier leftRest =>
+              cases leftRest with
+              | intro _modulusCarrier leftRest =>
+                  cases leftRest with
+                  | intro _sourceMap targetCert =>
+                      cases right with
+                      | intro _sourceCarrier' rightRest =>
+                          cases rightRest with
+                          | intro _targetCarrier' rightRest =>
+                              cases rightRest with
+                              | intro _mapCarrier' rightRest =>
+                                  cases rightRest with
+                                  | intro _modulusCarrier' rightRest =>
+                                      cases rightRest with
+                                      | intro _sourceMap' targetCert' =>
+                                          exact cont_left_cancel targetCert targetCert'
 
 theorem ContinuousFunctionCarrier_comp_closed
     {source middle target f g fg modF modG modFG certF certG cert : BHist} :

@@ -106,4 +106,26 @@ theorem OptionHistoryClassifier_exclusive_readback {source : BHist -> Prop}
                         (And.intro presentH.right
                           (And.intro presentK.right sameHK))))
 
+theorem OptionHistoryClassifier_source_left_exactness {source : BHist -> Prop}
+    (sourceExcludesEmpty : OptionSourceExcludesEmpty source) {h k : BHist} :
+    source h -> (OptionHistoryClassifier source h k ↔ source k ∧ hsame h k) := by
+  intro sourceH
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro _carrierH rest =>
+        cases rest with
+        | intro carrierK sameHK =>
+            constructor
+            · cases carrierK with
+              | inl sameKEmpty =>
+                  exact False.elim (sourceExcludesEmpty h sourceH (hsame_trans sameHK sameKEmpty))
+              | inr sourceK =>
+                  exact sourceK
+            · exact sameHK
+  · intro sourceAndSame
+    cases sourceAndSame with
+    | intro sourceK sameHK =>
+        exact And.intro (Or.inr sourceH) (And.intro (Or.inr sourceK) sameHK)
+
 end BEDC.Derived.OptionUp
