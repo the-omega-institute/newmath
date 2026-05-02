@@ -10,73 +10,69 @@ The formal power series interface \(\FormalPowerSeriesUp\) has certificate oblig
 Use coefficient functions \(\NatUp\to R\) over a certified scalar ring \(R\).
 \end{definition}
 
-\section{Concrete singleton empty-history formal power series instance}
+\section{Concrete singleton zero formal power series instance}
+\label{sec:fps-concrete-singleton-zero-series-instance}
 \label{sec:fps-concrete-singleton-instance}
 
-\begin{definition}[Singleton empty-history formal power series instance]
+\begin{definition}[Singleton zero formal power series instance]
+\label{def:singleton-zero-fps-instance}
 \label{def:singleton-empty-history-fps-instance}
-Let the series-code carrier be the singleton history source $A_{\emp}$ of
-Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Let the
-scalar source be the singleton empty-history ring of
-Definition~\ref{def:singleton-empty-history-ring-instance}. Use the classifier
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Use the
+singleton empty-history scalar ring of
+Definition~\ref{def:singleton-empty-history-ring-instance}. Define the series
+classifier
 $$
-\rho_{\emp}(h,k)\Longleftrightarrow
+\rho_{\emp}(h,k):=
 A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
 $$
-Define coefficient observation, zero series, series addition, and Cauchy
-product as the concrete $\mathsf{BHist}$-valued constant operations
+Set the formal-power-series code carrier to $A_{\emp}$ on
+$\mathsf{BHist}$ endpoints. Represent the zero formal power series by
+$Z_{\emp}:=\emp$, and set the unit formal power series to
+$U_{\emp}:=\emp$. Define the coefficient readout and displayed operations by
 $$
-\mathsf{coef}(S,n):=\emp,\qquad
-0_F:=\emp,\qquad
-S\oplus T:=\emp,\qquad
-S\star T:=\emp.
+\mathsf{coeff}_{\emp}(F,n):=\emp,\qquad
+F\oplus_{\mathrm{fps}}G:=\emp,\qquad
+F\odot_{\mathrm{fps}}G:=\emp.
 $$
-The certificate fit has ten fields:
-\begin{enumerate}
-  \item Traditional target: the terminal formal power series algebra.
-  \item BEDC source: $\mathsf{BHist}$ with the singleton scalar ring.
-  \item Carrier choice: $A_{\emp}$ on series codes.
-  \item Classifier choice: $\rho_{\emp}$.
-  \item Stability obligations: pointwise reflexivity, addition closure,
-  Cauchy-product closure, and congruence.
-  \item Ledger: singleton coefficient provenance.
-  \item Core theorem:
-  Theorem~\ref{thm:singleton-empty-history-fps-laws}.
-  \item Exactness predicate: singleton endpoint classification.
-  \item Standard bridge: the terminal formal series object.
-  \item Status: paper certificate.
-\end{enumerate}
+Thus every coefficient, zero endpoint, unit endpoint, addition endpoint, and
+Cauchy-product endpoint is the singleton scalar endpoint $\emp$.
 \end{definition}
 
-\begin{theorem}[Singleton empty-history formal power series laws]
+\begin{theorem}[Singleton zero formal power series laws]
+\label{thm:singleton-zero-fps-laws}
 \label{thm:singleton-empty-history-fps-laws}
-For the singleton instance of
-Definition~\ref{def:singleton-empty-history-fps-instance}, the displayed
-$\FormalPowerSeriesUp$ carrier, classifier, zero series, addition operation,
-and Cauchy-product operation satisfy the concrete law package:
+The tuple of Definition~\ref{def:singleton-zero-fps-instance} satisfies the
+$\FormalPowerSeriesUp$ law package over the concrete $\mathsf{BHist}$ carrier:
 \begin{enumerate}
-  \item $0_F$ is carried by $A_{\emp}$.
-  \item Every coefficient query $\mathsf{coef}(S,n)$ is carried by the
-  singleton scalar ring.
-  \item If $A_{\emp}(S)$ and $A_{\emp}(T)$, then
-  $A_{\emp}(S\oplus T)$ and $A_{\emp}(S\star T)$.
+  \item $Z_{\emp}$ and $U_{\emp}$ are carried by $A_{\emp}$.
+  \item Every coefficient query $\mathsf{coeff}_{\emp}(F,n)$ is carried by the
+  singleton empty-history scalar ring.
+  \item If $A_{\emp}(F)$ and $A_{\emp}(G)$, then
+  $A_{\emp}(F\oplus_{\mathrm{fps}}G)$ and
+  $A_{\emp}(F\odot_{\mathrm{fps}}G)$.
   \item $\rho_{\emp}$ is reflexive, symmetric, and transitive on carried series
   codes.
-  \item $\oplus$ and $\star$ respect $\rho_{\emp}$ on carried inputs.
+  \item Addition is congruent under $\rho_{\emp}$ and has $Z_{\emp}$ as left
+  and right zero under $\rho_{\emp}$.
+  \item Cauchy product is congruent under $\rho_{\emp}$ and has $U_{\emp}$ as
+  left and right unit under $\rho_{\emp}$.
+  \item The coefficient ledger of every displayed endpoint is the constant
+  singleton scalar endpoint $\emp$, and the scalar clauses are those of
+  Theorem~\ref{thm:singleton-empty-history-ring-laws}.
 \end{enumerate}
 No convergence field is required.
 \end{theorem}
 \begin{proof}
-The carrier endpoint is supplied by the singleton source certificate from
-Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. The zero
-series is definitionally $\emp$, so its carrier witness is the same singleton
-endpoint witness.
+The carrier endpoint is supplied by Definition~\ref{def:list-singleton-history-source}
+at $a_0=\emp$. In particular, $Z_{\emp}$, $U_{\emp}$, and every displayed
+operation endpoint reduce to the same carried endpoint $\emp$.
 
-For coefficient queries, every value of $\mathsf{coef}(S,n)$ is
+For coefficient queries, every value of $\mathsf{coeff}_{\emp}(F,n)$ is
 definitionally $\emp$. The scalar side is the singleton empty-history ring of
-Definition~\ref{def:singleton-empty-history-ring-instance}, whose laws are
-given by Theorem~\ref{thm:singleton-empty-history-ring-laws}. Hence each
-coefficient observation lands in the certified scalar carrier.
+Definition~\ref{def:singleton-empty-history-ring-instance}, and
+Theorem~\ref{thm:singleton-empty-history-ring-laws} supplies its scalar zero,
+scalar one, addition, and multiplication clauses.
 
 For addition and Cauchy-product closure, the displayed operations return
 $\emp$ for every pair of inputs. The singleton carrier witness therefore
@@ -86,18 +82,21 @@ index used in a coefficient view.
 Classifier reflexivity, symmetry, and transitivity are inherited from the
 $\hsame$ reflexivity, symmetry, and transitivity laws in the FKernel, together
 with the two singleton endpoint witnesses required by $\rho_{\emp}$. Operation
-congruence reduces both operation results to $\emp$, so the relation component
-is again $\hsame(\emp,\emp)$.
+congruence reduces both addition results and both Cauchy-product results to
+$\emp$, so the relation component is again $\hsame(\emp,\emp)$.
 
-The Cauchy-product certificate has no analytic convergence clause. Its
-coefficient-side finite-sum reading is terminal here because every scalar
-operation and every coefficient query is the singleton endpoint, already
-covered by Theorem~\ref{thm:singleton-empty-history-ring-laws}.
+The zero laws and unit laws reduce to comparisons of $\emp$ with $\emp$.
+The same $\rho_{\emp}$ package gives the left and right zero laws for addition
+and the left and right unit laws for Cauchy product.
+
+Finally, every coefficient query returns $\emp$. Hence the coefficient ledger
+for the zero series, unit series, sum, and Cauchy product is constant, with no
+convergence claim involved.
 \end{proof}
 
 The $\FormalPowerSeriesUp$ schema is instantiated by this concrete
-$\mathsf{BHist}$ carrier and these concrete operations, so Lean formalization
-can target BHist-anchored laws rather than abstract operator fields.
+$\mathsf{BHist}$ carrier and constant coefficient operations, so future Lean
+targets can be anchored directly in $\mathsf{BHist}$.
 
 \section{The certificate}
 
