@@ -571,3 +571,68 @@ Combining the classifier obtained over $u$ with the classifier obtained over
 $u'$ yields the displayed conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_composite\_normalized\_intermediate\_factor\_coherence}
+
+\section{Option composite image classifier normalized selected intermediate factor uniqueness}
+\label{sec:option-composite-image-classifier-normalized-selected-intermediate-factor-uniqueness}
+
+\begin{theorem}[Tagged option composite image classifier normalized selected intermediate factor uniqueness]
+\label{thm:tagged-option-composite-image-classifier-normalized-selected-intermediate-factor-uniqueness}
+Let the carriers $S,T,U$, classifiers $\sim_S,\sim_T,\sim_U$, descents
+$\delta,\epsilon$, preservation fields $\rho_{\delta},\rho_{\epsilon}$,
+endpoint-stability field $\eta_{\epsilon}$, certificates
+$\mathsf{cert}_S,\mathsf{cert}_T,\mathsf{cert}_U$, compatibility fields,
+endpoints $m,m',u,u'$, and selected visible payloads $x,y$ satisfy exactly the
+hypotheses of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}.
+Assume also reflected source readback from visible public equality,
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\epsilon}(T,\sim_T).
+$$
+Then there exist $k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item the ten selected visible public factorization clauses of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+hold for $k,k',p,q,a,b$;
+\item the selected intermediate factors are unique against every competing
+intermediate factor over the same normalized public endpoints:
+$$
+\forall l,l':\mathsf{BHist}.\;
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l,u)\to
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l',u')\to
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,l)\land
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k',l').
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+to the displayed carrier, classifier, descent, preservation, stability,
+certificate, compatibility, endpoint, and selected visible payload data. This
+supplies $k,k',p,q,a,b$ together with the ten selected visible public
+factorization clauses.
+
+The second selected factorization clause supplies the two selected
+$\epsilon$ map-relation legs
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u').
+$$
+
+Fix competing intermediate endpoints $l,l':\mathsf{BHist}$ with map-relation
+witnesses from $l$ to $u$ and from $l'$ to $u'$. Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-intermediate-factor-coherence}
+to the selected left leg, the competing left leg, the selected right leg, and
+the competing right leg, using the reflected source readback hypothesis. This
+gives
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,l)\land
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k',l').
+$$
+
+Package the selected factorization clauses with this universal comparison
+against arbitrary competing intermediate factors over $u$ and $u'$.
+\end{proof}
