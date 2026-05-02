@@ -240,6 +240,28 @@ $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_result\_deterministic}
 
+\begin{theorem}[Metric distance witness visible-context source determinacy]
+\label{thm:metric-distance-witness-visible-context-source-deterministic}
+For histories $p,q,x,x',y,d$, if two visible distance ledgers share the same
+visible target endpoint and the same contextual distance result, then their
+central source endpoints classify together:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x',y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\hsame(x,x').
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to both visible
+ledgers. The first application recovers the central continuation
+$\ContR(x,y,d)$, and the second recovers $\ContR(x',y,d)$.
+Continuation right cancellation over the common right endpoint $y$ and common
+result $d$ gives $\hsame(x,x')$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_source\_deterministic}
+
 \begin{theorem}[Metric distance witness empty-left exactness]
 \label{thm:metric-distance-witness-empty-left-iff}
 For histories $y,d$, a concrete distance witness whose left endpoint is empty

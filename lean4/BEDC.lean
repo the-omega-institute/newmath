@@ -52,6 +52,7 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.OptionUp
+import BEDC.Derived.OptionUp.EmptyRight
 import BEDC.Derived.OptionUp.VisibleReadback
 import BEDC.Derived.OptionUp.ChainPayload
 import BEDC.Derived.OptionUp.LedgerEndpoint

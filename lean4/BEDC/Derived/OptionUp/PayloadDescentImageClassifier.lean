@@ -182,6 +182,59 @@ theorem TaggedOptionPayloadDescentImageClassifier_right_visible_branch_inversion
                               (And.intro payloadSame
                                 data.right.right.right.right.right.left)))))))
 
+theorem TaggedOptionPayloadDescentImageClassifier_left_visible_branch_inversion
+    {S T : BHist → Prop} {RelS RelT : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (cert : NameCert S RelS)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {k k' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S T delta k k' →
+      (hsame k BHist.Empty → hsame k' BHist.Empty) ∧
+        (∀ {a : BHist}, T a → hsame k (BHist.e1 a) →
+          ∃ b c : BHist,
+            S b ∧ S c ∧ RelS b c ∧ T (delta.map b) ∧ T (delta.map c) ∧
+              hsame a (delta.map b) ∧ hsame k' (BHist.e1 (delta.map c))) := by
+  intro image
+  have branch :=
+    (TaggedOptionPayloadDescentImageClassifier_branch_exactness delta cert source_hsame).mp
+      image
+  constructor
+  · intro sameLeftEmpty
+    cases branch with
+    | inl absent =>
+        exact absent.right
+    | inr present =>
+        cases present with
+        | intro b present =>
+            cases present with
+            | intro c data =>
+                exact False.elim
+                  (not_hsame_emp_e1
+                    (hsame_trans (hsame_symm sameLeftEmpty)
+                      data.right.right.right.right.right.left))
+  · intro a _targetA visibleLeft
+    cases branch with
+    | inl absent =>
+        exact False.elim
+          (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.left) visibleLeft))
+    | inr present =>
+        cases present with
+        | intro b present =>
+            cases present with
+            | intro c data =>
+                have payloadSame : hsame a (delta.map b) :=
+                  hsame_e1_iff.mp
+                    (hsame_trans (hsame_symm visibleLeft)
+                      data.right.right.right.right.right.left)
+                exact Exists.intro b
+                  (Exists.intro c
+                    (And.intro data.left
+                      (And.intro data.right.left
+                        (And.intro data.right.right.left
+                          (And.intro data.right.right.right.left
+                            (And.intro data.right.right.right.right.left
+                              (And.intro payloadSame
+                                data.right.right.right.right.right.right)))))))
+
 theorem TaggedOptionPayloadDescentImageClassifier_visible_payload_readback
     {S T : BHist → Prop} {RelS RelT : BHist → BHist → Prop}
     (delta : DescentCertificate BHist BHist RelS RelT)

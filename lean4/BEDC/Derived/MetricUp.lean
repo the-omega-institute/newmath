@@ -259,6 +259,21 @@ theorem MetricDistanceWitness_visible_context_result_deterministic {p q x y d d'
   have rightWitness : MetricDistanceWitness x y d' := rightCentral.2.2
   exact cont_deterministic leftWitness.2.2.2 rightWitness.2.2.2
 
+theorem MetricDistanceWitness_visible_context_source_deterministic {p q x x' y d : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p d) q) →
+      MetricDistanceWitness (append p x') (append y q) (append (append p d) q) →
+        hsame x x' := by
+  intro left right
+  have leftCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := d)).mp left
+  have rightCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x') (y := y)
+      (d := d)).mp right
+  have leftWitness : MetricDistanceWitness x y d := leftCentral.2.2
+  have rightWitness : MetricDistanceWitness x' y d := rightCentral.2.2
+  exact cont_right_cancel leftWitness.2.2.2 rightWitness.2.2.2
+
 theorem MetricDistanceWitness_prefix_closed {p x y dist : BHist} :
     UnaryHistory p -> MetricDistanceWitness x y dist ->
       MetricDistanceWitness (append p x) y (append p dist) := by
