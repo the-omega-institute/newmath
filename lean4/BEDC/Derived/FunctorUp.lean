@@ -179,4 +179,12 @@ theorem FunctorPrefixHomCarrier_empty_target_components_iff {p a f : BHist} :
             exact And.intro unary_empty
               (And.intro unary_empty (And.intro unary_empty (cont_right_unit BHist.Empty)))
 
+theorem FunctorPrefixHomCarrier_source_prefix_deterministic {p q a target f : BHist} :
+    CategoryHomCarrier (append p a) target f →
+      CategoryHomCarrier (append q a) target f → hsame p q := by
+  intro left right
+  have sameSource : hsame (append p a) (append q a) :=
+    CategoryHomCarrier_source_deterministic left right
+  exact append_right_cancel (k := a) sameSource
+
 end BEDC.Derived.FunctorUp

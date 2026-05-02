@@ -114,6 +114,24 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.OptionUp.OptionSourceExcludesEmpty}
 
+\begin{theorem}[Nullable option source transport exclusion]
+\label{thm:option-source-excludes-empty-hsame-transport-absurd}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if
+$S$ is closed under $\hsame$ transport and
+$\mathsf{OptionSourceExcludesEmpty}(S)$ holds, then a source history cannot
+transport along $\hsame(h,k)$ to a history $k$ that is history-same to the empty
+history:
+$$
+S(h)\to\hsame(h,k)\to\hsame(k,\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Transport the source witness $S(h)$ across $\hsame(h,k)$ to obtain $S(k)$.
+The empty-exclusion predicate applied at $k$ contradicts the displayed
+$\hsame(k,\emp)$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionSourceExcludesEmpty\_hsame\_transport\_absurd}
+
 \begin{theorem}[Nullable option absent-source separation]
 \label{thm:option-history-carrier-absent-source-separation}
 For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if

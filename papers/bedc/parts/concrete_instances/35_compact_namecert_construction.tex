@@ -116,6 +116,28 @@ for both final ledgers.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_final\_endpoints\_unary}
 
+\begin{theorem}[Compact finite refinement chain initial endpoints unary]
+\label{thm:compact-finite-refinement-chain-initial-endpoints-unary}
+If
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact),
+$$
+and the final finite-net and compactness ledgers are unary histories, then the
+initial finite-net and compactness ledgers are unary histories:
+$$
+\mathsf{UnaryHistory}(finalFinite)\land\mathsf{UnaryHistory}(finalCompact)
+\Longrightarrow
+\mathsf{UnaryHistory}(finite)\land\mathsf{UnaryHistory}(compact).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the compact finite refinement chain. The base case is immediate. In
+the step case, factor the final unary-history witnesses through the two
+continuation witnesses by unary left-factor closure, then apply the induction
+hypothesis to the prior chain.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_initial\_endpoints\_unary}
+
 \begin{theorem}[Compact finite refinement chain endpoint hsame]
 \label{thm:compact-finite-refinement-chain-endpoint-hsame}
 If

@@ -95,6 +95,7 @@ import BEDC.Derived.OptionUp.VisibleExclusion
 import BEDC.Derived.OptionUp.TaggedConfluence
 import BEDC.Derived.OptionUp.PrefixClosure
 import BEDC.Derived.OptionUp.PresentChainEndpointClassification
+import BEDC.Derived.OptionUp.SourceTransportAbsurd
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
@@ -140,6 +141,7 @@ import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
 import BEDC.Derived.CompactUp.EndpointIff
+import BEDC.Derived.CompactUp.InitialEndpointsUnary
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp

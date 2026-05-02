@@ -181,6 +181,26 @@ case.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_target\_components\_iff}
 
+\begin{theorem}[Functor prefix hom-carrier source prefix determinism]
+\label{thm:functor-prefix-hom-carrier-source-prefix-deterministic}
+For histories $p,q,a,target,f$, if the same morphism $f$ is a category
+hom-carrier from $\mathsf{append}(p,a)$ to $target$ and from
+$\mathsf{append}(q,a)$ to $target$, then the two source prefixes agree:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),target,f)
+\land
+\mathsf{CategoryHomCarrier}(\mathsf{append}(q,a),target,f)
+\Longrightarrow
+\hsame(p,q).
+$$
+\end{theorem}
+\begin{proof}
+Category hom-carrier source determinism gives
+$\hsame(\mathsf{append}(p,a),\mathsf{append}(q,a))$. Cancelling the common
+right append suffix $a$ yields $\hsame(p,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_source\_prefix\_deterministic}
+
 \section{The certificate}
 
 \begin{definition}[Functor source specification]
