@@ -823,3 +823,44 @@ provenance; core theorem
 \autoref{thm:field-affine-automorphism-cancellation}; exactness predicate left
 and right cancellation under the affine classifier; standard bridge ordinary
 affine automorphism group; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field affine automorphism cancellation exactness]
+\label{thm:field-affine-automorphism-cancellation-exactness}
+Under the same hypotheses and notation as
+\autoref{thm:field-affine-automorphism-cancellation}, for certified affine
+automorphism histories $S,T,U$ in $\mathsf{AffAut}_F$, cancellation by the
+common affine factor is exact on both sides:
+$$
+(S\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}(U\circ_{\mathrm{aff}}T)
+\Longleftrightarrow S\equiv_{\mathrm{aff}}U,
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}S)\equiv_{\mathrm{aff}}(T\circ_{\mathrm{aff}}U)
+\Longleftrightarrow S\equiv_{\mathrm{aff}}U.
+$$
+\end{theorem}
+\begin{proof}
+For the forward directions, apply
+\autoref{thm:field-affine-automorphism-cancellation}. Its first clause cancels
+the common right factor $T$, and its second clause cancels the common left
+factor $T$. In both cases the resulting classifier is precisely
+$S\equiv_{\mathrm{aff}}U$.
+
+For the reverse directions, assume $S\equiv_{\mathrm{aff}}U$. The common
+factor $T$ is reflexively related to itself by the affine pointwise classifier.
+Apply
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence} to the
+classifier between $S$ and $U$ together with reflexivity of $T$. With the common
+factor placed on the right this gives
+$(S\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}(U\circ_{\mathrm{aff}}T)$; with
+the common factor placed on the left it gives
+$(T\circ_{\mathrm{aff}}S)\equiv_{\mathrm{aff}}(T\circ_{\mathrm{aff}}U)$.
+\end{proof}
+
+Per-object template: traditional target affine automorphism cancellative action
+exactness; BEDC source $\FieldUp+\CommRingUp$, the affine package, and
+$\GroupUp$ cancellation; carrier certified affine automorphism histories;
+classifier affine pointwise equivalence; core theorem
+\autoref{thm:field-affine-automorphism-cancellation-exactness}; status
+$\mathsf{ProofTarget}$.
