@@ -390,6 +390,125 @@ transported right readback, the retained $p\sim_T q$, the selected
 classification $x\sim_U y$, the canonical non-absence facts, and the two
 selected uniqueness clauses from the canonicality theorem.
 \end{proof}
+
+\begin{theorem}[Tagged option composite image classifier normalized visible public factorization is representative-independent]
+\label{thm:tagged-option-composite-image-classifier-normalized-visible-public-factorization-representative-independent}
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$, normalized endpoints $u,u':\mathsf{BHist}$, selected
+visible target payloads $x,y:\mathsf{BHist}$, and alternative visible target
+payloads $x',y':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u')
+$$
+and
+$$
+U(x)\land U(y)\land
+\hsame(u,\Eone(x))\land \hsame(u',\Eone(y))
+$$
+and
+$$
+U(x')\land U(y')\land
+\hsame(u,\Eone(x'))\land \hsame(u',\Eone(y')),
+$$
+then there exist $k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $T(p)$, $T(q)$, $U(\epsilon.\mathsf{map}(p))$, and
+$U(\epsilon.\mathsf{map}(q))$;
+\item $\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$,
+$\hsame(x,\epsilon.\mathsf{map}(p))$, and
+$\hsame(y,\epsilon.\mathsf{map}(q))$;
+\item $\hsame(x',\epsilon.\mathsf{map}(p))$ and
+$\hsame(y',\epsilon.\mathsf{map}(q))$;
+\item $S(a)$, $S(b)$, $a\sim_S b$, $T(\delta.\mathsf{map}(a))$, and
+$T(\delta.\mathsf{map}(b))$;
+\item $\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$;
+\item $p\sim_T q$, $x\sim_U y$, $x'\sim_U y'$, $x\sim_U y'$, and $x'\sim_U y$;
+\item $\neg\hsame(u,\emp)$ and $\neg\hsame(u',\emp)$;
+\item for every $x_L:\mathsf{BHist}$, if $U(x_L)$ and
+$\hsame(u,\Eone(x_L))$, then $\hsame(x,x_L)$ and $x_L\sim_U y$;
+\item for every $y_R:\mathsf{BHist}$, if $U(y_R)$ and
+$\hsame(u',\Eone(y_R))$, then $\hsame(y,y_R)$ and $x\sim_U y_R$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+to the composite image-classifier witness, the endpoint normalization witnesses,
+and the selected visible presentation $(x,y)$. This gives witnesses
+$k,k',p,q,a,b$ with the selected factorization clauses, the selected readbacks
+through $\epsilon.\mathsf{map}(p)$ and $\epsilon.\mathsf{map}(q)$, the
+classification $x\sim_U y$, the non-absence facts, and the two universal
+same-endpoint uniqueness clauses.
+
+Apply the left uniqueness clause to $x'$ and the right uniqueness clause to
+$y'$. The visible-presentation hypotheses for $x'$ and $y'$ give
+$\hsame(x,x')$, $x'\sim_U y$, $\hsame(y,y')$, and $x\sim_U y'$.
+
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-pair-canonicality}
+to the same composite witness and endpoint normalizations, but use the
+alternative visible presentation $(x',y')$. This gives the alternative
+classification $x'\sim_U y'$.
+
+It remains to transport the selected public readbacks to the alternative
+representatives. Compose the symmetry of $\hsame(x,x')$ with
+$\hsame(x,\epsilon.\mathsf{map}(p))$ to obtain
+$\hsame(x',\epsilon.\mathsf{map}(p))$, and compose the symmetry of
+$\hsame(y,y')$ with $\hsame(y,\epsilon.\mathsf{map}(q))$ to obtain
+$\hsame(y',\epsilon.\mathsf{map}(q))$.
+
+Package the same witnesses $k,k',p,q,a,b$ with the original selected
+factorization clauses, the two transported readbacks, the selected and
+alternative target classifications, the two cross-classifications, and the
+retained universal uniqueness clauses.
+\end{proof}
 \section{Composite image classifier normalized public readback completion}
 \label{sec:option-composite-image-classifier-normalized-public-completion}
 
