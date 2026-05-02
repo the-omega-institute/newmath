@@ -276,42 +276,13 @@ the same signed factor product. The right-factor clause gives $a+b\hsame0$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_equal\_squares\_signed\_factor\_exclusion}
 
-\begin{theorem}[Field equal-squares signed apartness exclusivity]
-\label{thm:field-equal-squares-signed-apartness-exclusive}
-For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
-ring zero absorption, multiplication associativity, left and right
-multiplicative identity laws, multiplication congruence, indexed inverse laws,
-classifier transport of $\mathsf{NonZero}_F$, contradiction of
-$\mathsf{NonZero}_F(0)$, and the $\CommRingUp$ hypotheses required by
-Theorem~\ref{thm:commring-difference-of-squares-zero-exact}, every
-$a,b:\mathsf{BHist}$ with $a\cdot a\hsame b\cdot b$ admits no simultaneous
-signed apartness witnesses:
-$$
-p_+:\mathsf{NonZero}_F(a+b),\quad p_-:\mathsf{NonZero}_F(a+(-b))
-\quad\Longrightarrow\quad \bot.
-$$
-\end{theorem}
-\begin{proof}
-Assume witnesses $p_+:\mathsf{NonZero}_F(a+b)$ and
-$p_-:\mathsf{NonZero}_F(a+(-b))$.
-
-Apply Theorem~\ref{thm:field-equal-squares-signed-factor-exclusion} to the
-square equality and the witness $p_+$. The first signed-factor clause gives
-$a+(-b)\hsame0$.
-
-Transport $p_-$ along this classifier equality. The nonzero-transport
-stability clause supplies $\mathsf{NonZero}_F(0)$, contradicting the field
-stability obligation that forbids $\mathsf{NonZero}_F(0)$.
-
-The symmetric route starts from $p_-$, derives $a+b\hsame0$, transports
-$p_+$ to $\mathsf{NonZero}_F(0)$, and closes by the same contradiction.
-\end{proof}
-
-Per-object certificate: these are Core theorem list items for constructive
-field square-factor reasoning. Source: $\FieldUp$ plus $\CommRingUp$. Carrier:
-$\mathsf{BHist}$. Classifier: $\hsame$. Ledger: the chosen nonzero signed
-factor witness $p_+$ or $p_-$, or the incompatible pair of signed apartness
-witnesses. Status: ProofTarget.
+Per-object certificate: this is the Core theorem list item for constructive
+field square-factor one-sided cancellation. Source: $\FieldUp$ plus
+$\CommRingUp$. Carrier: $\mathsf{BHist}$. Classifier: $\hsame$. Ledger: the
+chosen nonzero signed factor witness $p_+$ or $p_-$. The incompatible-pair
+result is recorded at
+\autoref{thm:field-equal-squares-signed-factors-not-both-nonzero}. Status:
+CheckedCert.
 
 \paragraph{Zero-product exactness certificate.}
 Traditional target: constructive field zero-product exactness. BEDC source:
