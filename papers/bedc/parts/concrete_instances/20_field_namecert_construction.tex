@@ -352,9 +352,64 @@ The pair support predicate is
 $$
 \mathsf{PairSupp}_D^u(l,r)\Longleftrightarrow N_D^u(l)\lor N_D^u(r).
 $$
-Two carried pairs $(l,r)$ and $(l',r')$ are componentwise
-$R_D^u$-classified when $R_D^u(l,l')$ and $R_D^u(r,r')$.
+The componentwise pair classifier is
+$$
+\mathsf{PairClass}_D^u((l,r),(l',r'))\Longleftrightarrow
+R_D^u(l,l')\land R_D^u(r,r').
+$$
 \end{definition}
+
+\begin{theorem}[RatUp FieldUp denominator context-pair operation stability]
+\label{thm:ratup-fieldup-denominator-context-pair-operation-stability}
+For the concrete denominator context-pair structure of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, let $(l,r)$,
+$(m,s)$, $(l',r')$, and $(m',s')$ be carried pairs. If
+$\mathsf{PairClass}_D^u((l,r),(m,s))$ and
+$\mathsf{PairClass}_D^u((l',r'),(m',s'))$, then the two products
+$(l,r)\star(l',r')$ and $(m,s)\star(m',s')$ are carried pairs and satisfy
+$$
+\mathsf{PairClass}_D^u((l,r)\star(l',r'),(m,s)\star(m',s')).
+$$
+Moreover the support of the first product is exactly the support of its two
+input pairs:
+$$
+\mathsf{PairSupp}_D^u((l,r)\star(l',r'))
+\Longleftrightarrow
+\mathsf{PairSupp}_D^u(l,r)\lor\mathsf{PairSupp}_D^u(l',r').
+$$
+\end{theorem}
+\begin{proof}
+Unfold the product. The first product is
+$(\mu_D^u(l',l),\mu_D^u(r,r'))$, and the second is
+$(\mu_D^u(m',m),\mu_D^u(s,s'))$. Since all four input pairs are carried,
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}
+gives carrier closure for each of the four displayed product components.
+Thus both pair products are carried.
+
+Unfold $\mathsf{PairClass}_D^u$. The hypotheses give
+$R_D^u(l,m)$, $R_D^u(r,s)$, $R_D^u(l',m')$, and $R_D^u(r',s')$.
+Apply
+\autoref{thm:field-rat-denominator-continuation-binary-classifier-congruence}
+to the left contexts $l'$, $l$, $m'$, and $m$ to obtain
+$R_D^u(\mu_D^u(l',l),\mu_D^u(m',m))$.
+
+Apply the same binary classifier congruence theorem to the right contexts $r$,
+$r'$, $s$, and $s'$ to obtain
+$R_D^u(\mu_D^u(r,r'),\mu_D^u(s,s'))$. These two component classifiers are
+exactly the displayed product-pair classifier.
+
+It remains to read support for the first product. Unfold
+$\mathsf{PairSupp}_D^u$ and use
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff} on the
+left component $\mu_D^u(l',l)$ and on the right component
+$\mu_D^u(r,r')$. This rewrites the product support as
+$N_D^u(l')\lor N_D^u(l)\lor N_D^u(r)\lor N_D^u(r')$.
+
+Rebracket and commute the disjunctions to
+$(N_D^u(l)\lor N_D^u(r))\lor(N_D^u(l')\lor N_D^u(r'))$. By the definition of
+$\mathsf{PairSupp}_D^u$, this is precisely
+$\mathsf{PairSupp}_D^u(l,r)\lor\mathsf{PairSupp}_D^u(l',r')$.
+\end{proof}
 
 \begin{theorem}[RatUp FieldUp denominator context-pair action laws]
 \label{thm:ratup-fieldup-denominator-context-pair-action-laws}
@@ -597,22 +652,21 @@ $$
 \mu_D^u=\mathsf{append},\qquad e_D^u=\emp,\qquad
 N_D^u=\mathsf{RatHistoryCarrier},
 $$
-and for the contextual action $\Gamma$ of
-\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, define the
-componentwise pair classifier on carried denominator context pairs by
-$$
-\mathsf{PairRel}_D^u((l,r),(l',r'))
-\Longleftrightarrow R_D^u(l,l')\land R_D^u(r,r').
-$$
-Then the denominator context-pair action certificate for
+and for the context-pair structure of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid} and the contextual
+action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, the
+denominator context-pair action certificate for
 $\FieldUp(\mathsf{RatUp})$ consists of the following concrete rows:
 \begin{enumerate}
-\item $\mathsf{PairRel}_D^u$ is reflexive, symmetric, and transitive on
+\item $\mathsf{PairClass}_D^u$ is reflexive, symmetric, and transitive on
 carried pairs, and it transports the carried pair predicate
 $C_D^u(l)\land C_D^u(r)$.
 \item The product $\star$ of
 \autoref{def:ratup-fieldup-denominator-context-pair-monoid} is closed on
-carried pairs and congruent for $\mathsf{PairRel}_D^u$.
+carried pairs and congruent for $\mathsf{PairClass}_D^u$, with exact
+$\mathsf{PairSupp}_D^u$ readback as in
+\autoref{thm:ratup-fieldup-denominator-context-pair-operation-stability}.
 \item The unit-pair action, product-pair composition law, and product
 strict-support readback are exactly the laws of
 \autoref{thm:ratup-fieldup-denominator-context-pair-action-laws}.
@@ -632,19 +686,29 @@ and the seven-term strict-support readback of
 form the concrete denominator context-pair action certificate for
 $\FieldUp(\mathsf{RatUp})$.
 \end{enumerate}
+Equivalently, the certificate records exactly the pair-action interface of
+\autoref{thm:ratup-fieldup-denominator-context-pair-operation-stability},
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-laws}, and the
+contextual row assembly of
+\autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package} over the
+same BHist carrier-classifier-operation tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$.
 \end{theorem}
 \begin{proof}
 First build the classifier rows. The concrete denominator classifier
 $R_D^u$ is an equivalence on carried histories and transports the carried
 history predicate by the denominator row package. Applying those rows to the
 left and right coordinates gives reflexivity, symmetry, transitivity, and
-carrier transport for $\mathsf{PairRel}_D^u$ on carried pairs.
+carrier transport for $\mathsf{PairClass}_D^u$ on carried pairs.
 
 Next establish product stability. Closure of $\star$ is componentwise closure
 of $\mu_D^u$. Congruence follows by applying the denominator append congruence
 rows to the left components and to the right components, preserving the product
 orders $\mu_D^u(l',l)$ and $\mu_D^u(r,r')$ from
-\autoref{def:ratup-fieldup-denominator-context-pair-monoid}.
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}. The exact
+$\mathsf{PairSupp}_D^u$ readback is
+\autoref{thm:ratup-fieldup-denominator-context-pair-operation-stability}.
 
 Now apply
 \autoref{thm:ratup-fieldup-denominator-context-pair-action-laws}. It supplies
@@ -656,7 +720,7 @@ Apply
 \autoref{thm:ratup-fieldup-denominator-contextual-action-classifier-congruence}
 to the same carried left context, acted history, and carried right context
 whenever the pair classifier transports an acting pair. This gives contextual
-action stability under $\mathsf{PairRel}_D^u$ and keeps the external endpoint
+action stability under $\mathsf{PairClass}_D^u$ and keeps the external endpoint
 contexts empty.
 
 For the iterated action row, apply
@@ -679,7 +743,7 @@ certificate for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
 $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
 $\mathsf{RatHistoryCarrier}$, $\mathsf{append}$, $\Cont$, $\emp$, and
 $\Gamma$; carrier carried denominator context pairs; classifier
-$\mathsf{PairRel}_D^u$; stability obligations pair classifier equivalence,
+$\mathsf{PairClass}_D^u$; stability obligations pair classifier equivalence,
 carrier transport, $\star$ congruence, unit action, product composition, and
 threefold normalization; ledger left and right carried denominator contexts
 plus empty external endpoints; core theorem
