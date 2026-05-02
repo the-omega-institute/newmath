@@ -769,6 +769,28 @@ obtain $\mathsf{CategoryHomCarrier}(a,b,right)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_right\_identity\_carrier\_result}
 
+\begin{theorem}[Category hom carrier composite left-right identity result]
+\label{thm:category-hom-carrier-comp-left-right-identity-result}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,a,id_A)$,
+$\mathsf{CategoryHomCarrier}(b,b,id_B)$,
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\ContR(id_A,f,left)$, and $\ContR(left,id_B,both)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,b,both)\wedge\HSame(both,f).
+$$
+\end{theorem}
+\begin{proof}
+Apply the left identity carrier result to the first displayed continuation.
+This gives $\mathsf{CategoryHomCarrier}(a,b,left)$ and
+$\HSame(left,f)$. Then apply the right identity carrier result to
+$\ContR(left,id_B,both)$, using the just-obtained carrier witness for
+$left$. This gives $\mathsf{CategoryHomCarrier}(a,b,both)$ and
+$\HSame(both,left)$. Transitivity with $\HSame(left,f)$ yields the displayed
+result equality.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_right\_identity\_result}
+
 \begin{theorem}[Category hom carrier identity semantic name certificate]
 \label{thm:category-hom-carrier-identity-semantic-namecert}
 For a unary object history $a$, the identity hom-carrier predicate

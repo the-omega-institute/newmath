@@ -54,4 +54,16 @@ theorem CategoryHomCarrier_right_identity_carrier_result {a b id f right : BHist
     exact homCarrier
   exact And.intro rightCarrier rightSame
 
+theorem CategoryHomCarrier_comp_left_right_identity_result {a b idA idB f left both : BHist} :
+    CategoryHomCarrier a a idA -> CategoryHomCarrier b b idB -> CategoryHomCarrier a b f ->
+      Cont idA f left -> Cont left idB both -> CategoryHomCarrier a b both ∧ hsame both f := by
+  intro leftIdentity rightIdentity homCarrier leftRel rightRel
+  have leftResult :
+      CategoryHomCarrier a b left ∧ hsame left f :=
+    CategoryHomCarrier_left_identity_carrier_result leftIdentity homCarrier leftRel
+  have bothResult :
+      CategoryHomCarrier a b both ∧ hsame both left :=
+    CategoryHomCarrier_right_identity_carrier_result rightIdentity leftResult.left rightRel
+  exact And.intro bothResult.left (hsame_trans bothResult.right leftResult.right)
+
 end BEDC.Derived.CategoryUp
