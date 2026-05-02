@@ -38,6 +38,34 @@ matched unary prefix and suffix contexts; \textbf{core theorem}:
 continuation contexts; \textbf{standard bridge}: deferred; \textbf{status}:
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Rat denominator continuation is semigroup-only on the positive carrier]
+\label{thm:field-rat-denominator-continuation-semigroup-only}
+For the carrier $\mathsf{RatHistoryCarrier}$ and continuation relation $\Cont$,
+Theorems~\ref{thm:field-rat-denominator-continuation-carrier-closure} and
+\ref{thm:field-rat-denominator-continuation-semigroup-laws} provide carrier
+closure and classifier associativity on positive Rat denominators. The empty
+history is not an internal carrier endpoint: $\mathsf{RatHistoryCarrier}(\emp)$
+implies $\mathsf{False}$. Consequently the endpoint laws in
+Theorem~\ref{thm:field-rat-denominator-continuation-empty-identity-and-assoc}
+are external empty-history endpoint laws. They do not provide an internal
+$\MonoidUp$ unit or an internal $\FieldUp$ unit on the Rat denominator carrier.
+\end{theorem}
+\begin{proof}
+The semigroup clauses are exactly the content of the displayed closure and
+semigroup-law theorems. Carrier closure keeps every realized continuation result
+inside $\mathsf{RatHistoryCarrier}$ when both inputs are positive Rat
+denominators, and the semigroup law identifies the two continuation bracketings
+by the Rat history classifier.
+
+For the unit boundary, suppose $\mathsf{RatHistoryCarrier}(\emp)$. Reflexivity
+of $\hsame$ at $\emp$ gives $\emp\hsame\emp$. Applying
+Theorem~\ref{thm:rat-history-carrier-not-empty} to the assumed carrier witness
+and this reflexive endpoint equality yields $\mathsf{False}$. Thus the
+empty-history clauses in
+Theorem~\ref{thm:field-rat-denominator-continuation-empty-identity-and-assoc}
+can be used only as external endpoint laws, not as an internal carrier unit.
+\end{proof}
+
 \input{parts/concrete_instances/field/20_field_laws_and_certificate}
 \input{parts/concrete_instances/field/20_field_product_right_equation_exactness}
 \input{parts/concrete_instances/field/20_field_affine_explicit_inverse}
