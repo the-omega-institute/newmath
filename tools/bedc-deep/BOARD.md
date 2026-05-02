@@ -1522,3 +1522,54 @@ Surfaced in Turn 3 where the oracle states that a two-element monoid with unit c
 
 ---
 
+### B-62 - Raw functor hom-carrier landing obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Raw functor hom-carrier landing obstruction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under the explicit finite C,D,F setup from Turn 1, satisfaction of the object map, raw morphism map, identity preservation, and composition preservation fields implies HomCarrier_C(0,1,a) and not HomCarrier_D(F0(0),F0(1),F1(a)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Turn 1 gives a finite two-object countermodel where identity and composition preservation hold strictly while the raw image of a displayed source hom lands in the wrong codomain hom carrier; Turn 2 asks for the same obstruction as a citable theorem with category-law verification. This deserves a standalone loop because it isolates the exact missing endpoint-indexed mapHom field, distinct from the B-11 composition theorem itself.
+
+---
+
+
+### B-63 - Functor composition identity requires sameness-respect
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Functor composition identity requires sameness-respect |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under the finite C,D,E,F,G setup from Turn 0, raw identity and composition preservation for F and G without morphism-sameness respect for G implies failure of identity preservation for the composite G o F.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Turn 0 surfaces a separate obstruction: F preserves identity only through universal D-sameness, while G maps D-same morphisms to E-distinct morphisms, so the composite sends the source identity to a non-identity in E. This is adjacent to hom-carrier landing but tests a different boundary field, namely mapSame or classifier-respect for morphism maps.
+
+---
+
