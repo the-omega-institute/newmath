@@ -322,6 +322,48 @@ $\HSame(f,f')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_factor\_public\_readback}
 
+\begin{theorem}[Category hom carrier composition right-factor endpoint determinacy]
+\label{thm:category-comp-right-factor-endpoint-deterministic}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $fg$ is displayed both as $\ContR(f,g,fg)$ and $\ContR(f,g',fg)$, the
+composite $fg$ is a hom-carrier from $a$ to $c$, and $g'$ is a hom-carrier
+from $b'$ to $c$. Then the recovered and displayed right-factor endpoints and
+right-factor histories agree:
+$$
+\HSame(b,b')\wedge\HSame(g,g').
+$$
+\end{theorem}
+\begin{proof}
+Right-factor recovery turns the displayed composite and $\ContR(f,g,fg)$ into
+a concrete hom-carrier from $b$ to $c$ for $g$. Left cancellation of
+$\ContR(f,g,fg)$ against $\ContR(f,g',fg)$ gives $\HSame(g,g')$. Transporting
+the recovered hom-carrier across this morphism sameness gives a hom-carrier
+from $b$ to $c$ for $g'$, and source determinacy against the displayed
+$b'\to c$ carrier gives $\HSame(b,b')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor\_endpoint\_deterministic}
+
+\begin{theorem}[Category hom carrier composition left-factor endpoint determinacy]
+\label{thm:category-comp-left-factor-endpoint-deterministic}
+For the unary-continuation category, suppose $g$ is a hom-carrier from $b$ to
+$c$, $fg$ is displayed both as $\ContR(f,g,fg)$ and $\ContR(f',g,fg)$, the
+composite $fg$ is a hom-carrier from $a$ to $c$, and $f'$ is a hom-carrier
+from $a$ to $b'$. Then the recovered and displayed left-factor endpoints and
+left-factor histories agree:
+$$
+\HSame(b,b')\wedge\HSame(f,f').
+$$
+\end{theorem}
+\begin{proof}
+Left-factor recovery turns the displayed composite and $\ContR(f,g,fg)$ into
+a concrete hom-carrier from $a$ to $b$ for $f$. Right cancellation of
+$\ContR(f,g,fg)$ against $\ContR(f',g,fg)$ gives $\HSame(f,f')$. Transporting
+the recovered hom-carrier across this morphism sameness gives a hom-carrier
+from $a$ to $b$ for $f'$, and target determinacy against the displayed
+$a\to b'$ carrier gives $\HSame(b,b')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_factor\_endpoint\_deterministic}
+
 \begin{theorem}[Category hom carrier composite target determinacy]
 \label{thm:category-hom-carrier-comp-target-deterministic}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
