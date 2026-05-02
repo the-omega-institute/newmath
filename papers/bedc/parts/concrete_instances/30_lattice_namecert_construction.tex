@@ -10,6 +10,84 @@ The lattice interface \(\LatticeUp\) extends \autoref{ch:concrete-instances-pose
 Use a poset setup extended with meet and join operations carrying bound-characterization proofs.
 \end{definition}
 
+\section{Concrete singleton empty-history lattice instance}
+\label{sec:lattice-concrete-singleton-instance}
+
+\begin{definition}[Singleton empty-history lattice instance]
+\label{def:singleton-empty-history-lattice-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define the
+classifier
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Define the order by $h\le_{\emp} k$ exactly when $\rho_{\emp}(h,k)$ holds.
+Define the concrete lattice operations by
+$$
+\mathsf{meet}_{\emp}(h,k):=\emp,\qquad
+\mathsf{join}_{\emp}(h,k):=\emp.
+$$
+This is a one-element $\mathsf{BHist}$ lattice carried by the empty-history
+endpoint class.
+\end{definition}
+
+\begin{theorem}[Singleton empty-history lattice laws]
+\label{thm:singleton-empty-history-lattice-laws}
+The tuple
+$(A_{\emp},\rho_{\emp},\le_{\emp},\mathsf{meet}_{\emp},\mathsf{join}_{\emp})$
+satisfies carrier inhabitance, classifier stability, preorder reflexivity and
+transitivity, antisymmetry, meet lower-bound laws, meet greatestness, join
+upper-bound laws, join leastness, and meet and join congruence.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is the reflexive endpoint witness $\hsame(\emp,\emp)$.
+By Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$, this is
+exactly the witness that $\emp$ lies in $A_{\emp}$.
+
+Classifier stability follows from the definition of $\rho_{\emp}$. Each related
+pair already carries the two endpoint witnesses and the displayed $\hsame$
+component, so reflexivity, symmetry where needed for repackaging, and
+transitivity compose only singleton empty-history endpoints.
+
+Reflexivity of $\le_{\emp}$ is the classifier witness
+$\rho_{\emp}(h,h)$ obtained from the carrier witness $A_{\emp}(h)$ and
+$\hsame(h,h)$. Transitivity of $\le_{\emp}$ is transitivity of $\hsame$ together
+with the retained carrier witnesses from the two order premises.
+
+Antisymmetry is immediate under the classifier: the two order premises already
+are $\rho_{\emp}(h,k)$ and $\rho_{\emp}(k,h)$. Either one supplies the required
+classified equality between the endpoints.
+
+For meet, $\mathsf{meet}_{\emp}(h,k)$ is definitionally $\emp$. The two
+lower-bound clauses are therefore the singleton carrier witness for $\emp$,
+the input carrier witnesses for $h$ and $k$, and the endpoint identifications
+provided by the singleton source.
+
+For meet greatestness, let $l$ be any carried lower witness below both $h$ and
+$k$. Since $A_{\emp}(l)$ identifies $l$ with $\emp$, and the meet endpoint is
+definitionally $\emp$, the required order $l\le_{\emp}\mathsf{meet}_{\emp}(h,k)$
+is exactly a singleton classifier package.
+
+The join upper-bound clauses are dual in the singleton carrier. The join
+endpoint is definitionally $\emp$, and the input carrier facts identify $h$ and
+$k$ with that same endpoint, so both upper-bound relations are supplied by
+$\rho_{\emp}$.
+
+For join leastness, any carried upper witness $u$ is already classified with
+$\emp$ by $A_{\emp}(u)$. Since $\mathsf{join}_{\emp}(h,k)$ is $\emp$, the
+relation $\mathsf{join}_{\emp}(h,k)\le_{\emp}u$ reduces to the same singleton
+classifier package.
+
+Meet and join congruence are constant-operation congruences. Both outputs are
+$\emp$, so the source and target endpoints have carrier witness
+$A_{\emp}(\emp)$ and relation witness $\hsame(\emp,\emp)$.
+\end{proof}
+
+The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
+and concrete $\mathsf{BHist}$-valued operations, giving
+$\mathsf{BEDC.Derived.LatticeUp}$ a $\mathsf{BHist}$-anchored formal target.
+
 \section{The certificate}
 
 \begin{definition}[Lattice source specification]
