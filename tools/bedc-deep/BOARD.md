@@ -955,3 +955,29 @@ Surfaced explicitly in Turn 0 as the obstruction to the too-strong equation trim
 
 ---
 
+### B-40 - Polynomial literal add-normalization equality obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial literal add-normalization equality obstruction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Over the canonical integer scalar ring, normalized coefficient lists p=[1] and q=[-1] imply trim(radd(p,q)) is not literally equal as a coefficient list to radd(trim(p),trim(q)), even though the two sides are polynomial-classified the same.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 when the oracle identified the literal list equation as too strong and gave the concrete p=[1], q=[-1] obstruction. It deserves its own loop because it records the exact boundary between classifier-level normalization compatibility and false raw-list equality, and it is not duplicated by the existing positive trim-compatibility or zero-tail invariance targets.
+
+---
+
