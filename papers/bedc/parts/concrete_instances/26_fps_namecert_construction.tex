@@ -200,6 +200,27 @@ forward direction gives the two empty-history carrier facts for $p$ and $q$.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_cont\_split\_empty}
 
+\begin{theorem}[Singleton FPS classifier append component classifiers]
+\label{thm:fps-singleton-classifier-append-component-classifiers}
+For $p,q,h:\mathsf{BHist}$, if the appended endpoint is classified with $h$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),h),
+$$
+then both append components are classified with the empty endpoint and the
+right endpoint is carried:
+$$
+\rho_{\emp}(p,\emp)\land \rho_{\emp}(q,\emp)\land A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+Apply the append split classifier equivalence of
+\autoref{thm:fps-singleton-classifier-append-split-empty}. This exposes
+$p\hsame\emp$, $q\hsame\emp$, and $A_{\emp}(h)$. Each component classifier is
+then rebuilt from its exposed empty-history carrier, the reflexive carrier of
+$\emp$, and the same exposed history-sameness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_component\_classifiers}
+
 \section{The certificate}
 
 \begin{definition}[FormalPowerSeries source specification]

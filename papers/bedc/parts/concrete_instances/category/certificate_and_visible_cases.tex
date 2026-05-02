@@ -165,6 +165,36 @@ morphism into a one-headed shape, and constructor inversion gives $\HSame$
 between the exposed morphism tails.
 \end{proof}
 
+\begin{theorem}[Continuation morphism zero-headed source tail cases]
+\label{thm:continuation-morphism-e0-source-tail-cases}
+For histories $a,target$, every continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),target)$ has one of exactly three
+displayed tail shapes:
+$$
+\mathsf{tail}(m)=\emp\land target=\Ezero(a),
+$$
+or
+$$
+\exists k,r:\mathsf{BHist}.\;
+\mathsf{tail}(m)=\Ezero(k)\land target=\Ezero(r)\land
+\ContR(\Ezero(a),k,r),
+$$
+or
+$$
+\exists k,r:\mathsf{BHist}.\;
+\mathsf{tail}(m)=\Eone(k)\land target=\Eone(r)\land
+\ContR(\Ezero(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism into its displayed tail and continuation
+ledger. The empty-tail case is the right-unit continuation, so the target is
+$\Ezero(a)$. In the zero-headed and one-headed tail cases, continuation
+step-result inversion exposes the matching target constructor and leaves the
+residual continuation from $\Ezero(a)$ through the exposed tail.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_tail\_cases}
+
 \begin{theorem}[Continuation morphism one-headed source tail cases]
 \label{thm:continuation-morphism-e1-source-tail-cases}
 For histories $a,target$, every continuation morphism
