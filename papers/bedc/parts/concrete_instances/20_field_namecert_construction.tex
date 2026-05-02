@@ -738,6 +738,72 @@ normalization therefore assemble as the stated FieldUp denominator
 context-pair action certificate over $\mathsf{BHist}$.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp denominator action envelope closure]
+\label{thm:ratup-fieldup-denominator-action-envelope-closure}
+For $\FieldUp(\mathsf{RatUp})$, the concrete RatUp denominator data
+$$
+C_D^*=\mathsf{RatDenomUnitCarrier},\qquad
+R_D^*=\mathsf{RatDenomUnitClassifier},
+$$
+$$
+\mu_D^*=\mathsf{append},\qquad e_D^*=\emp,\qquad
+N_D^*=\mathsf{RatHistoryCarrier},
+$$
+together with the empty-unit tuple
+$$
+(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)=
+(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})
+$$
+supply one denominator action envelope. The envelope consists of
+multiplicative obligation coverage, the contextual multiplicative boundary,
+the unit-composition row package, and the context-pair action certificate over
+the same BHist histories, append operation, empty endpoint, and denominator
+carrier-classifier pair.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}
+and
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+They supply the multiplicative obligation coverage and the contextual
+multiplicative boundary for the concrete RatUp denominator data
+$(C_D^*,R_D^*,\mu_D^*,e_D^*,N_D^*)$.
+
+Next use
+\autoref{thm:ratup-fieldup-denominator-contextual-row-package-with-unit-composition}.
+It records the same denominator carrier, classifier, append operation, empty
+unit, strict-support predicate, and contextual action $\Gamma$, and it adds the
+empty-action unit row, unchanged support row, context-multiplication composition
+row, and five-term support row.
+
+Finally use
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate}. It
+packages the carried context-pair predicate, pair unit, product $\star$,
+componentwise classifier, support readbacks, and star unit and associativity
+laws for the identical empty-unit tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$.
+
+The four cited certificates are all stated over concrete $\mathsf{BHist}$
+carriers and the concrete operation $\mathsf{append}$. Hence the envelope is a
+single assembly of denominator action data for $\FieldUp(\mathsf{RatUp})$,
+not a carrier or classifier transport from another instance.
+\end{proof}
+
+Per-object template: traditional target FieldUp(RatUp) denominator action
+envelope; BEDC source $\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{append}$, $\emp$, and $\Gamma$; carrier
+$\mathsf{RatDenomUnitCarrier}$; classifier
+$\mathsf{RatDenomUnitClassifier}$; stability obligations multiplicative
+coverage, contextual multiplicative boundary, unit-composition rows, and
+context-pair action laws; ledger denominator histories, empty endpoint,
+carried context pairs, and strict-support rows; core theorem
+\autoref{thm:ratup-fieldup-denominator-action-envelope-closure}; exactness
+predicate denominator classifier readback and strict-support readback; standard
+bridge $\FieldUp(\mathsf{RatUp})$ denominator action envelope; status
+$\mathsf{ProofTarget}$.
+
 Per-object template: traditional target denominator context-pair action
 certificate for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
 $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
