@@ -49,6 +49,30 @@ $\mathsf{BHist}$ kernel, so no such equality exists.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_singleton\_nonzero\_absurd}
 
+\begin{theorem}[Singleton empty-history field nonzero domain is empty]
+\label{thm:singleton-empty-history-field-nonzero-domain-empty}
+For every $h:\mathsf{BHist}$,
+$\mathsf{FieldSingletonNonZero}(h)\Longrightarrow\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+Unfold
+Definition~\ref{def:singleton-empty-history-field-schema-instance}. A witness of
+$\mathsf{FieldSingletonNonZero}(h)$ supplies $A_{\emp}(h)$ and
+$\hsame(h,\mathsf{e0}(\emp))$.
+
+The singleton source component $A_{\emp}(h)$ gives $\hsame(h,\emp)$. Apply
+Theorem~\ref{thm:field-singleton-nonzero-absurd} to the two displayed
+endpoints, and the contradiction follows.
+\end{proof}
+
+This block supplies the per-object certificate: traditional target empty
+inverse domain of the terminal proof-indexed field; BEDC source the concrete
+$\mathsf{BHist}$ singleton field schema; carrier $A_{\emp}$; classifier
+$\rho_{\emp}$; stability obligation nonzero contradiction; ledger no nonzero
+witness; core theorem Theorem~\ref{thm:singleton-empty-history-field-nonzero-domain-empty};
+exactness predicate witness-domain emptiness; standard bridge terminal field;
+status ProofTarget.
+
 \begin{theorem}[Singleton empty-history field schema laws]
 \label{thm:singleton-empty-history-field-schema-laws}
 The tuple
@@ -65,16 +89,13 @@ Theorem~\ref{thm:singleton-empty-history-commring-laws} for the displayed
 carrier, classifier, and constant empty-history operations.
 
 The nonzero exclusion at $0$ follows from
-Theorem~\ref{thm:field-singleton-nonzero-absurd}. A witness of
-$\mathsf{FieldSingletonNonZero}(0)$ supplies both the singleton-carrier
-endpoint $0\hsame\emp$ and the zero-head endpoint
-$0\hsame\mathsf{e0}(\emp)$, so the obstruction closes the clause.
+Theorem~\ref{thm:singleton-empty-history-field-nonzero-domain-empty} by taking
+$h=0$.
 
 Nonzero transport along $\rho_{\emp}$ is vacuous. Given
-$\rho_{\emp}(h,k)$ and $p:\mathsf{FieldSingletonNonZero}(h)$, the carrier
-component of $p$ and the zero-head component of $p$ invoke
-Theorem~\ref{thm:field-singleton-nonzero-absurd}; from the resulting
-contradiction one obtains the required witness at $k$.
+$\rho_{\emp}(h,k)$ and $p:\mathsf{FieldSingletonNonZero}(h)$,
+Theorem~\ref{thm:singleton-empty-history-field-nonzero-domain-empty} gives
+contradiction; from contradiction one obtains the required witness at $k$.
 
 Inverse closure is direct because $\mathsf{inv}(h,p)$ is definitionally
 $\emp$, whose carrier endpoint is supplied by the singleton source. Inverse
@@ -129,10 +150,9 @@ Theorem~\ref{thm:singleton-empty-history-field-schema-laws}. Nonzero transport,
 inverse closure, inverse congruence, and the left and right inverse laws all
 begin with a witness $p:\mathsf{FieldSingletonNonZero}(h)$.
 
-The obstruction in Theorem~\ref{thm:field-singleton-nonzero-absurd} shows that
-no such witness exists on the singleton carrier, while the inverse operation
-itself still has the total proof-indexed form $\mathsf{inv}(h,p):=\emp$. The
-ledger therefore records only the singleton endpoint and the empty witness
-domain, giving the required concrete $\mathsf{BHist}$ FieldUp naming
-certificate template.
+Theorem~\ref{thm:singleton-empty-history-field-nonzero-domain-empty} shows that
+no such witness exists, while the inverse operation itself still has the total
+proof-indexed form $\mathsf{inv}(h,p):=\emp$. The ledger therefore records only
+the singleton endpoint and the empty witness domain, giving the required
+concrete $\mathsf{BHist}$ FieldUp naming certificate template.
 \end{proof}
