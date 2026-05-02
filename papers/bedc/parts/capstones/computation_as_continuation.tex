@@ -121,6 +121,69 @@ identity carrier at $a$, and the reverse carrier becomes the empty-tail
 identity carrier at $b$.
 \end{proof}
 
+\begin{theorem}[Unary prefix category isomorphism collapse]
+\label{thm:unary-prefix-category-isomorphism-collapse}
+If the opposite unary hom-carrier ledgers
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(b,a,g)
+$$
+both hold, then they expose bidirectional prefix comparison,
+$$
+\mathsf{PreorderPrefixLE}(a,b)
+\quad\text{and}\quad
+\mathsf{PreorderPrefixLE}(b,a),
+$$
+endpoint sameness
+$$
+\hsame(a,b),
+$$
+and monoid-unit morphism tails
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(f,\emp)
+\quad\text{and}\quad
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(g,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Read the two prefix witnesses from the hom-carrier ledgers using
+\autoref{thm:unary-prefix-preorder-category-correspondence}. The forward ledger
+is the displayed unary continuation tail from $a$ to $b$, and the reverse ledger
+is the displayed unary continuation tail from $b$ to $a$.
+
+Apply \autoref{thm:preorder-prefix-le-antisymm-hsame} to the two exposed prefix
+comparisons. This gives the endpoint identification $\hsame(a,b)$ required by
+the categorical core.
+
+Apply \autoref{thm:category-hom-carrier-cycle-tails-empty} to the opposite
+hom-carrier pair. It gives $f\hsame\emp$ and $g\hsame\emp$. The hom-carrier
+fields provide $\mathsf{UnaryHistory}(f)$ and $\mathsf{UnaryHistory}(g)$, while
+\autoref{thm:unary-append-monoid-semantic-name-certificate} provides the
+empty-history carrier and the classifier package. Repacking these data gives the
+two classifier conclusions.
+
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(f,\emp)
+$$
+
+and
+
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(g,\emp).
+$$
+
+\end{proof}
+
+The roadmap ten-field fit is: traditional target skeletal core of the prefix
+category; BEDC source $\mathsf{CategoryHomCarrier}$,
+$\mathsf{PreorderPrefixLE}$, and
+$\mathsf{MonoidHistoryClassifier}$; carrier unary $\mathsf{BHist}$; classifier
+$\hsame$; stability cyclic isomorphism collapse; ledger opposite hom tails; core
+theorem \autoref{thm:unary-prefix-category-isomorphism-collapse}; exactness
+bidirectional prefix comparison collapses to identity; standard bridge
+preorder-enriched thin category; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Visible one-step morphisms have no opposite cycle]
 \label{thm:category-e1-morphism-cycle-absurd}
 If the forward hom-carrier has a visible one-headed morphism tail
