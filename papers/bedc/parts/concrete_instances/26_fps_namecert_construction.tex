@@ -38,6 +38,8 @@ $$
 Thus every coefficient, zero endpoint, unit endpoint, addition endpoint, and
 Cauchy-product endpoint is the singleton scalar endpoint $\emp$.
 \end{definition}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryCarrier}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier}
 
 \begin{theorem}[Singleton zero formal power series laws]
 \label{thm:singleton-zero-fps-laws}
@@ -98,6 +100,26 @@ convergence claim involved.
 The $\FormalPowerSeriesUp$ schema is instantiated by this concrete
 $\mathsf{BHist}$ carrier and constant coefficient operations, so future Lean
 targets can be anchored directly in $\mathsf{BHist}$.
+
+\begin{theorem}[Singleton empty-history FPS semantic name certificate]
+\label{thm:fps-singleton-empty-history-semantic-namecert}
+The singleton empty-history formal-power-series carrier
+$A_{\emp}(h):=h\hsame\emp$ with classifier
+$$
+\rho_{\emp}(h,k):=A_{\emp}(h)\land A_{\emp}(k)\land h\hsame k
+$$
+forms a
+$\mathsf{SemanticNameCert}(A_{\emp},A_{\emp},A_{\emp},\rho_{\emp})$.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by $\emp$ with $\hsame$ reflexivity. Reflexivity,
+symmetry, and transitivity of the classifier use the corresponding $\hsame$
+laws, while the two carrier components are part of the classifier witness.
+Carrier transport across the classifier reads out the right carrier component.
+Pattern and ledger soundness are identity maps because the source, pattern, and
+ledger predicates are the same singleton carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistory\_semanticNameCert}
 
 \section{The certificate}
 

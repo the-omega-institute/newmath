@@ -153,6 +153,7 @@ import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.Nonzero
 import BEDC.Derived.FieldUp.ProductApartness
 import BEDC.Derived.FieldUp.SignedFactor
+import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FpsUp
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.PolynomialUp
