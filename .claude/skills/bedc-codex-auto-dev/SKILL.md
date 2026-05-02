@@ -48,8 +48,10 @@ python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py --base-branc
 Lean command:
 
 ```bash
-python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py --base-branch codex-auto-dev --parallel 5 --continuous --lake-parallel 1 2>&1 | grep -E --line-buffered 'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Rebase conflict|Merging|Merged|builder|PASS|FAIL|R[0-9]+'
+python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py --base-branch codex-auto-dev --parallel 5 --continuous --lake-parallel 1 --phase-b-timeout 3600 --phase-c-timeout 4500 2>&1 | grep -E --line-buffered 'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Rebase conflict|Merging|Merged|builder|PASS|FAIL|R[0-9]+'
 ```
+
+Tune `--parallel` upward (3 → 5 → 7) only when phase B is consistently completing well under the timeout (otherwise rebase conflicts and codex-API contention eat the gain). `--phase-b-timeout` and `--phase-c-timeout` defaults (2700 / 3600) are too tight under parallel ≥ 5: bump to 3600 / 4500. The lake gate stays at `--lake-parallel 1` regardless — multiple concurrent `lake build` exhaust memory.
 
 Use `persistent: true` for both monitors. Describe them as:
 
@@ -141,10 +143,32 @@ Run `python3 lean4/scripts/critical_path.py | jq '.top[:3]'` any time to see wha
 `lean4/scripts/phase_d_lint.py` runs after lake / check-axioms / audit / axiom-purity, before merge. Three checks against declarations introduced in the round (`<base-branch>..HEAD` under `lean4/BEDC/`):
 
 1. **Mechanical-arity suffix.** New name matching `_(two|three|four|five|six)(?:_step)?(?:_witness_chain)?\b` is rejected. NAMING.md §3.
-2. **Parameter-echo schema.** Signature contains `(name : ∀ … hsame …)` binding — i.e. a hypothesis quantifying over hsame as input. Used to be a Phase B/C HARD GATE that codex routinely ignored; moving the check to pipeline subprocess closes the loophole.
-3. **BHist-anchor for Derived theorems.** Every new declaration under `BEDC.Derived.*` must mention at least one concrete BEDC kernel symbol (BHist / BMark / hsame / ProbeBundle / SigRel / NameCert / Pkg / e0 / e1 / cons / append / msame / Empty). Catches per-domain copies of the saturated shape family that don't anchor on `X`Up's concrete inductive.
+2. **Parameter-echo schema.** Signature contains `(name : ∀ … hsame …)` binding AND the conclusion is also `forall … hsame …` AND the conclusion has no other BHist anchor (post `hsame` + bare `BHist` strip). All three together — the hypothesis bind alone is a legitimate hsame-stability assumption, and an embedded `forall x', hsame …` inside a single-valuedness uniqueness clause is also legitimate when the conclusion mentions a derived classifier/carrier (Empty / e0 / e1 / Cont / NameCert / DescentCertificate / …). False positives cost a real Lean round, so keep the conclusion-aware check tight.
+3. **BHist-anchor for Derived theorems.** Every new declaration under `BEDC.Derived.*` must mention at least one concrete BEDC kernel symbol. Current accepted set: `BHist | BMark | Empty | e0 | e1 | cons | append | sameSig | ProbeBundle | SigRel | InGap | NameCert | SemanticNameCert | Pkg | hsame | msame | Cont | Ext | InBundle | SameSig | UnaryHistory | StageInterface | SealEvent | SealInterface | AskEvent | AskPolicy | BundleAskPolicy | DescentCertificate | StableTransformation | ThreadFamily | bundleAppend | bundleLength | bwordLength`. When a new kernel structure is added under `lean4/BEDC/FKernel/`, append it to `BHIST_CONSTRUCTOR_RE` — otherwise legitimate `<X>NameCert`-style theorems hit a `\bNameCert\b` non-match because of the prefix and get rejected.
+
+Stale-marker check (separate, in `codex_formalize.py::detect_markers_not_backed_by_new_decls`): a `\leanchecked|leanstmt|leandef{X}` added to paper this round must reference some declaration X that exists *anywhere* under `lean4/BEDC/` — not only declarations introduced in this round. The new helper `_collect_all_lean_declarations` enumerates every fully-qualified name. The earlier "must be in this round's diff" rule rejected legitimate paper-catchup rounds where a Lean declaration finalized earlier finally gets its marker registered.
 
 Phase D failure routes through the same `(ok, gate_name, tail)` channel as audit failures and is not auto-recovered — the round is marked FAILED and the worktree is removed. To tighten any of the three regexes, edit `phase_d_lint.py` and the next round picks up the change.
+
+Predict-before-merge: run `python3 lean4/scripts/phase_d_lint.py --worktree /tmp/<commit-test> --base-branch <commit>^` against a candidate commit checkout to see exactly which lint catches it.
+
+### Schema-only horizons (algebra parametric ban)
+
+`lean4/scripts/critical_path.py` excludes a fixed set from `top` because their paper schemas write laws as parametric operators (`mul / add / neg : BHist -> BHist -> BHist` left abstract). A Lean round picking such a horizon can ONLY produce `(name : forall x y z, hsame …)` parameter-echo schema, which Phase D mechanically rejects:
+
+```python
+SCHEMA_ONLY_HORIZONS = {
+    "abgroup", "group", "monoid",
+    "ring", "commring", "field",
+    "module", "vecspace", "linearmap", "matrix",
+    "polynomial", "fps",
+    "lattice", "totalorder", "preorder", "poset",
+}
+```
+
+`phase_b.txt` v3.6+ also enumerates the same set under "Schema-only horizons HARD BAN" so codex sees the constraint at target-selection time, not just as a passive filter on `top`. When you observe a Lean round selecting a target whose `paper_target_chapter` matches `papers/bedc/parts/concrete_instances/*_<banned>_*.tex`, it's a prompt-comprehension regression — re-state the rule in `phase_b.txt`, bump the version, and the next round picks it up.
+
+Removing a chapter from the ban requires the paper side to first add a *concrete* `mul := λ h k => …` definition (BHist-valued, not abstract) so the resulting Lean target has BHist-anchored content rather than a forall-hsame echo.
 
 ### Honest taste audit (what to actually look at)
 
@@ -172,6 +196,28 @@ grep -rE '\(\s*\w+\s*:\s*(∀|forall)[^)]*hsame' lean4/BEDC/Derived/ | wc -l
 The honest question is not "did declarations grow" but "did declarations referencing concrete BEDC kernel constructs grow, did the critical-path top-3 actually move, did NAMING residue stay flat or shrink, did parameter-echo-under-Derived not regrow."
 
 Lean-side declaration count divided by paper-side label count is a useful ratio: ~1.5x is normal because one paper theorem often corresponds to 2-3 Lean lemmas plus helpers. Above ~3x usually means the lean side is producing scaffolding-only or parameter-echo growth that the paper side has not asked for.
+
+### Oversize tex split discipline
+
+CLAUDE.md caps every `.tex` file at 800 lines. Paper rounds that revise a near-cap file routinely overshoot, hitting `OVERSIZED .TEX` and round FAILED. When that fires, *immediately* split the file (do not wait for cooldown) — every paper round that touches the same file will keep failing until the file is back under cap.
+
+Split protocol:
+
+1. `grep -nE '^\\(input|section|begin\{theorem\}|begin\{definition\})' <file>` to see the structure.
+2. Pick the natural section boundary (e.g. `\section{The certificate}` after carrier-level theorems).
+3. `sed -n '<start>,<end>p' <file> > <new_file>` then `sed -i '' '<start>,$d' <file>` to truncate.
+4. If the file is included via top-level `main.tex`, append `\input{...}` for the new file. If it's included via a chapter shell file (e.g. `08_option_namecert_construction.tex` inputs `option/01..02..`), update that shell.
+5. `pdflatex -interaction=nonstopmode main.tex` to confirm the build still works (label resolution).
+6. `git add` + commit + push immediately so in-flight rounds rebase off the split version.
+
+The split itself is mechanical and safe — no theorem renames, no marker churn. Examples from the field (each one unblocked the pipeline within minutes):
+
+- `option/02_tagged_option_namecert.tex` (804 lines) → `02_*` (487) + `02b_option_certificate_chains.tex` (317)
+- `34_continuous_namecert_construction.tex` (843) → `34_*` (329, carrier defs + theorems) + `34b_continuous_certificate.tex` (514, certificate section)
+- `35_compact_namecert_construction.tex` (802) → `35_*` (465) + `35b_compact_certificate.tex` (337)
+- `08_option_namecert_construction.tex` (807, mixed inputs + theorems) → `08_*` (215, inputs + first section) + `option/09_composite_image_classifier_public_readback.tex` (592)
+
+After the split, the pipeline auto-cooldown (3 consecutive failures → 180s sleep) gives you a window where new rounds restart based on the fixed tree. Don't restart the pipeline for a tex split — it's hot work and worker-aware.
 
 ### Fast triage commands
 
