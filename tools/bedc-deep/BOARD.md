@@ -1419,3 +1419,54 @@ Surfaced explicitly in Turn 3, where the oracle noted that a two-element monoid 
 
 ---
 
+### B-58 - Uniformly continuous image of totally bounded subsets
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Uniformly continuous image of totally bounded subsets |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under the ContinuousFunction and MetricSpace certificate setups, if S is a certified totally bounded subset of X and g:X->Y has a certified uniform-continuity modulus on S, then the image subset g[S] is certified totally bounded in Y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 as the setup-field proposition needed before the second modulus can be read on g[S]: TotBdd_X(S) together with UCMod_S(g,delta_g) implies TotBdd_Y(g[S]). It deserves its own loop because B-12 handles modulus chaining, while this proposition licenses the image subset on which the second continuous-function certificate may supply a modulus.
+
+---
+
+
+### B-59 - Uniform-continuity modulus restricts along subset inclusion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Uniform-continuity modulus restricts along subset inclusion |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the ContinuousFunction certificate setup, if delta is a uniform-continuity modulus for f:Y->Z on a certified subset T and U is a subset of T, then the same delta is a uniform-continuity modulus for f on U.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 when the oracle replaced the global-looking delta_2(Y,Z) by a modulus for f on g[S] or on a certified totally bounded T subset Y containing g[S]. The containment case requires a standalone restriction principle, distinct from B-12's composition theorem and useful for any later continuous-function certificate transport across smaller requested subsets.
+
+---
+
