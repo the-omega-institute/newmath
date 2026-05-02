@@ -42,6 +42,52 @@
 \input{parts/concrete_instances/field/20_field_assembled_certificate_boundary}
 \input{parts/concrete_instances/field/20_field_ratup_assembled_certificate_and_context_pair_support}
 
+\begin{definition}[Concrete RatUp FieldUp certificate instance]
+\label{def:concrete-ratup-fieldup-certificate-instance}
+The concrete certificate instance for $\FieldUp(\mathsf{RatUp})$ is the BEDC
+tuple with field carrier $\mathsf{RatHistoryCarrier}$, field classifier
+$\mathsf{RatHistoryClassifier}$, denominator carrier
+$\mathsf{RatDenomUnitCarrier}$, denominator classifier
+$\mathsf{RatDenomUnitClassifier}$, denominator multiplication
+$\mathsf{append}$, continuation predicate $\Cont$, empty denominator endpoint
+$\emp$, apart-zero predicate $\mathsf{FieldApartZero}$, the contextual
+denominator action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, and the
+affine automorphism package $\mathsf{AffAut}_F$ of
+\autoref{def:field-affine-automorphism-package}.
+
+Its per-object fields are:
+\begin{enumerate}
+  \item traditional target: the constructive field target
+  $\FieldUp(\mathsf{RatUp})$;
+  \item BEDC source: $\RatUp$ together with $\CommRingUp$ and the concrete
+  denominator BHist rows;
+  \item carrier: $\mathsf{RatHistoryCarrier}$;
+  \item classifier: $\mathsf{RatHistoryClassifier}$ together with
+  $\mathsf{RatDenomUnitClassifier}$ for denominator rows;
+  \item stability obligations: inverse apartness, two-sided zero-product
+  exactness, denominator package closure, denominator contextual action,
+  context-pair action, context-pair strict-support commutation, and affine
+  automorphism closure;
+  \item ledger: rational history rows, denominator unit histories,
+  continuation witnesses, apart-zero inverse witnesses, context-pair action
+  witnesses, and affine coefficient witnesses;
+  \item core theorem list:
+  \autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
+  \autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate},
+  \autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes},
+  \autoref{thm:field-affine-automorphism-group-certificate}, and
+  \autoref{thm:ratup-fieldup-assembled-certificate-boundary};
+  \item exactness predicate: row coverage for $\FieldUp(\mathsf{RatUp})$
+  including inverse, zero-product, denominator multiplication,
+  denominator-action envelope, contextual action, context-pair action,
+  context-pair strict-support commutation, and affine automorphism rows;
+  \item standard bridge: deferred conservative bridge to the ordinary
+  constructive rational field presentation;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
 \begin{theorem}[Concrete $\FieldUp(\RatUp)$ semantic naming certificate]
 \label{thm:ratup-fieldup-semantic-namecert}
 The concrete source tuple $\mathsf{RatUpFieldSource}_F$ of
@@ -72,12 +118,19 @@ It records the envelope closure, normalized row coverage, and context-pair
 action certificate for the same concrete denominator tuple and the same action
 $\Gamma$.
 
+The context-pair product support row is
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes}.
+It is registered in
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} as the
+strict-support commutation entry for the same denominator tuple.
+
 Finally use \autoref{thm:field-affine-automorphism-group-certificate} for the
 affine source $\mathsf{AffAut}_F$. Combining the RatUp name certificate, the
-assembled boundary, the denominator-action component, and the affine group row
-fills exactly the carrier, source, classifier, stability, ledger, and exactness
-slots specified by \autoref{def:field-certificate-obligations}. This repacks the
-assembled source as the semantic naming certificate for $\FieldUp(\RatUp)$.
+assembled boundary, the denominator-action component, the strict-support
+commutation row, and the affine group row fills exactly the carrier, source,
+classifier, stability, ledger, and exactness slots specified by
+\autoref{def:field-certificate-obligations}. This repacks the assembled source
+as the semantic naming certificate for $\FieldUp(\RatUp)$.
 \end{proof}
 
 Per-object certificate: traditional target constructive field over rational
@@ -85,14 +138,19 @@ histories; BEDC source $\mathsf{BHist}$, $\RatUp$, $\CommRingUp$, denominator
 envelope, contextual action, and affine rows; carrier
 $\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
 stability obligations commutative-ring rows, nonzero and inverse rows,
-denominator rows, contextual action rows, context-pair rows, and affine closure;
-ledger ring expressions, nonzero witnesses, denominator histories, contextual
-pairs, and affine coefficient witnesses; core theorem list headed by
-\autoref{thm:ratup-fieldup-semantic-namecert} and
-\autoref{thm:ratup-fieldup-assembled-certificate-boundary}; exactness predicate
-the conjunction of inverse, product, denominator, contextual-action,
-context-pair, and affine exactness rows; standard bridge deferred; status
-$\mathsf{ProofTarget}$.
+denominator rows, contextual action rows, context-pair rows,
+context-pair strict-support commutation, and affine closure; ledger ring
+expressions, nonzero witnesses, denominator histories, contextual pairs, and
+affine coefficient witnesses; core theorem list headed by
+\autoref{thm:ratup-fieldup-semantic-namecert},
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary},
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
+and
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes};
+exactness predicate the conjunction of inverse, product, denominator,
+denominator-action envelope, contextual-action, context-pair,
+strict-support commutation, and affine exactness rows; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp semantic certificate assembly]
 \label{thm:ratup-fieldup-semantic-certificate-assembly}
@@ -105,12 +163,16 @@ $\CommRingUp$ base rows certified by
 \autoref{thm:singleton-empty-history-commring-laws} and
 \autoref{thm:singleton-empty-history-commring-schema-certificate}. With those
 base rows in place, the FieldUp-specific inverse and apart-zero rows, the
-two-sided zero-product and nonzero-product rows, the denominator multiplicative
-and contextual rows, the denominator context-pair action rows, and the packaged
-affine $\GroupUp$ consequence supply the carrier, source, pattern, classifier,
-stability, ledger, and exactness rows of
+two-sided zero-product and nonzero-product rows, the denominator
+multiplicative rows, the denominator-action envelope rows, contextual
+denominator rows, the denominator context-pair action rows, the context-pair
+strict-support commutation row, and the packaged affine $\GroupUp$ consequence
+supply the carrier, source, pattern, classifier, stability, ledger, and
+exactness rows of
 \autoref{def:field-certificate-obligations} for the concrete target
-$\FieldUp(\mathsf{RatUp})$.
+$\FieldUp(\mathsf{RatUp})$. More explicitly,
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} supplies the
+concrete $\FieldUp(\mathsf{RatUp})$ certificate rows.
 \end{theorem}
 \begin{proof}
 Bind the rational carrier and classifier first. The object carrier is
@@ -118,7 +180,9 @@ $\mathsf{RatHistoryCarrier}$, the object classifier is
 $\mathsf{RatHistoryClassifier}$, and the source pattern is the BEDC
 continuation pattern $\Cont$ over $\mathsf{BHist}$. The denominator tuple is
 $(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
-\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$.
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, with contextual action
+$\Gamma$ and affine coordinate $\mathsf{AffAut}_F$ as fixed in
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance}.
 
 The $\CommRingUp$ base rows are the first dependency. Theorem~\ref{thm:singleton-empty-history-commring-laws}
 supplies the additive and multiplicative ring laws, distributivity, operation
@@ -146,8 +210,13 @@ For the denominator part, use
 \autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}
 for the multiplicative denominator rows and
 \autoref{thm:ratup-fieldup-denominator-package-closure} for the closed
-denominator-side package. The exact carrier, classifier, multiplication, unit,
-and strict-support entries are the concrete tuple fixed above.
+denominator-side package.
+
+The denominator-action envelope component is supplied by
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component}.
+It records the multiplicative coverage, contextual boundary, normalized row
+coverage, and context-pair product and action rows over the concrete tuple
+fixed above.
 
 The contextual denominator action is supplied by
 \autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate}. It
@@ -156,26 +225,22 @@ composition law, and strict-support readback over the same BHist denominator
 tuple, so the contextual exactness rows align with the denominator ledger
 entries.
 
+Separately,
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes}
+supplies the strict-support commutation row for the context-pair product. This
+is the support-transport row consumed by
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} between the
+context-pair action certificate and the final FieldUp record.
+
 Finally, \autoref{thm:field-affine-automorphism-group-certificate} supplies
 the packaged affine $\GroupUp$ consequence consumed by the field certificate.
 
 Together the $\CommRingUp$ base rows, the inverse rows, the zero-product rows,
-the denominator multiplicative rows, the contextual denominator rows, the
-context-pair action rows, and the affine $\GroupUp$ row exhaust the ten-entry
-per-object template listed after \autoref{def:field-certificate-obligations}:
-target, source, carrier, classifier, stability obligations, ledger, core
-theorem list, exactness predicate, standard bridge, and status.
+the denominator multiplicative rows, the denominator-action envelope component,
+the contextual denominator rows, the context-pair action rows, the
+strict-support commutation row, and the affine $\GroupUp$ row exhaust the
+ten-entry per-object template of
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance}: target,
+source, carrier, classifier, stability obligations, ledger, core theorem list,
+exactness predicate, standard bridge, and status.
 \end{proof}
-
-Per-object template: traditional target constructive field on $\RatUp$; BEDC
-source $\RatUp$ plus $\CommRingUp$ and concrete denominator $\mathsf{BHist}$
-rows; carrier $\mathsf{RatHistoryCarrier}$; classifier
-$\mathsf{RatHistoryClassifier}$ together with
-$\mathsf{RatDenomUnitClassifier}$ on denominator rows; stability obligations
-inverse apartness, zero-product exactness, denominator package closure,
-context-pair action, and affine automorphism packaging; ledger rational
-history rows, denominator unit histories, continuation witnesses, and
-apart-zero inverse witnesses; core theorem
-\autoref{thm:ratup-fieldup-semantic-certificate-assembly}; exactness predicate
-row coverage for $\FieldUp(\mathsf{RatUp})$; standard bridge deferred; status
-$\mathsf{ProofTarget}$.
