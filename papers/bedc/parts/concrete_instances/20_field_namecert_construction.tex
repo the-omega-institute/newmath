@@ -308,38 +308,30 @@ of $T$-images back to equality of inputs. Applying that reflection direction to
 the displayed classification yields $s(c)\hsame s(c')$.
 \end{proof}
 
-\begin{theorem}[Field affine pointwise classifier is stable under package operations]
+\begin{theorem}[Field affine pointwise classifier gives operation congruence]
 \label{thm:field-affine-pointwise-classifier-operation-congruence}
 For a BEDC history-level $\FieldUp+\CommRingUp$ candidate under the hypotheses
 of \autoref{thm:field-affine-two-sided-certified-automorphism},
 \autoref{thm:field-affine-two-sided-automorphism-composition}, and
 \autoref{thm:field-affine-inverse-is-certified-affine}, let $T,T',U,U'$ be
-certified displayed affine maps over $\mathsf{BHist}$. Let $s_T$ and
-$s_{T'}$ be the displayed inverse maps supplied for $T$ and $T'$ by
-\autoref{thm:field-affine-inverse-is-certified-affine}. Suppose
-$T\equiv_{\mathrm{aff}}T'$ and $U\equiv_{\mathrm{aff}}U'$, where
-$\equiv_{\mathrm{aff}}$ is the pointwise classifier of
-\autoref{def:field-affine-automorphism-package}. Then the following clauses
-hold.
+certified displayed affine maps over $\mathsf{BHist}$. Write
+$T^{-1}_{\mathrm{exp}}$ for the displayed explicit inverse formula supplied by
+\autoref{thm:field-affine-two-sided-certified-automorphism}, and similarly for
+the other certified maps. Suppose $\equiv_{\mathrm{aff}}$ is the pointwise
+classifier of \autoref{def:field-affine-automorphism-package}. Then the
+following clauses hold.
 \begin{enumerate}
-\item On certified displayed affine maps, $\equiv_{\mathrm{aff}}$ is
-reflexive, symmetric, and transitive.
-\item The composed displayed affine maps satisfy
+\item If $T\equiv_{\mathrm{aff}}T'$ and $U\equiv_{\mathrm{aff}}U'$, then
 $$
 U\circ T\equiv_{\mathrm{aff}}U'\circ T'.
 $$
-\item The displayed inverse maps satisfy
+\item If $T\equiv_{\mathrm{aff}}U$, then
 $$
-s_T\equiv_{\mathrm{aff}}s_{T'}.
+T^{-1}_{\mathrm{exp}}\equiv_{\mathrm{aff}}U^{-1}_{\mathrm{exp}}.
 $$
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-The first clause is pointwise. Reflexivity, symmetry, and transitivity of
-$\hsame$ apply at each input $x:\mathsf{BHist}$, and the definition of
-$\equiv_{\mathrm{aff}}$ repacks those pointwise classifications as relations
-between displayed affine maps.
-
 For composition, fix $x:\mathsf{BHist}$. The assumption
 $T\equiv_{\mathrm{aff}}T'$ gives $T(x)\hsame T'(x)$. The classifier-preservation
 direction of the certified affine automorphism structure for $U$ transports
@@ -355,17 +347,20 @@ $$
 Transitivity of $\hsame$ gives $U(T(x))\hsame U'(T'(x))$ for every $x$, which
 is exactly $U\circ T\equiv_{\mathrm{aff}}U'\circ T'$.
 
-For inverse congruence, fix $q:\mathsf{BHist}$. The left inverse clauses give
-$T(s_T(q))\hsame q$ and $T'(s_{T'}(q))\hsame q$. The pointwise comparison
-between $T$ and $T'$ at $s_T(q)$ gives
-$T(s_T(q))\hsame T'(s_T(q))$, so transitivity and symmetry yield
+For inverse congruence, fix $q:\mathsf{BHist}$. The explicit inverse clauses
+give $T(T^{-1}_{\mathrm{exp}}(q))\hsame q$ and
+$U(U^{-1}_{\mathrm{exp}}(q))\hsame q$. The pointwise comparison
+$T\equiv_{\mathrm{aff}}U$ at $U^{-1}_{\mathrm{exp}}(q)$ gives
 $$
-T'(s_T(q))\hsame T'(s_{T'}(q)).
+T(U^{-1}_{\mathrm{exp}}(q))\hsame U(U^{-1}_{\mathrm{exp}}(q)).
 $$
 
-Apply the classifier-reflection direction of the certified affine automorphism
-structure for $T'$ to obtain $s_T(q)\hsame s_{T'}(q)$. Since $q$ was arbitrary,
-the displayed inverse maps are related by $\equiv_{\mathrm{aff}}$.
+Thus $T(U^{-1}_{\mathrm{exp}}(q))\hsame q$. The certified fiber singleton
+theorem \autoref{thm:field-affine-certified-fiber-singleton}, applied to the
+two displayed preimages of $q$ under $T$, gives
+$T^{-1}_{\mathrm{exp}}(q)\hsame U^{-1}_{\mathrm{exp}}(q)$. Since $q$ was
+arbitrary, the explicit inverse formulas are related by
+$\equiv_{\mathrm{aff}}$.
 \end{proof}
 
 Per-object certificate: traditional target affine inverse stability; BEDC source
@@ -623,9 +618,10 @@ $$
 T_{a,b,d}(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d).
 $$
 The affine classifier relates two members when their displayed maps are
-pointwise $\hsame$ and their explicit reverse inverse formulas are pointwise
-$\hsame$. The identity member has coefficients $(1,1,0)$ with the unit nonzero
-witnesses. The product of $U=(c,e,f,p_c,p_e)$ after
+pointwise $\hsame$, exactly as in
+\autoref{def:field-affine-automorphism-package}. The identity member has
+coefficients $(1,1,0)$ with the unit nonzero witnesses. The product of
+$U=(c,e,f,p_c,p_e)$ after
 $T=(a,b,d,p_a,p_b)$ has collected coefficients
 $$
 A=\mathsf{mul}(c,a),
@@ -634,9 +630,9 @@ B=\mathsf{mul}(b,e),
 \qquad
 D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f).
 $$
-The inverse operation is represented by the reverse explicit inverse formula
-from \autoref{thm:field-affine-composite-reverse-explicit-inverse}. With these
-data, $\mathsf{AffAut}_F$ satisfies the $\GroupUp$ source fields: carrier
+The inverse operation is represented by the explicit inverse formula certified
+in \autoref{thm:field-affine-inverse-is-certified-affine}. With these data,
+$\mathsf{AffAut}_F$ satisfies the $\GroupUp$ source fields: carrier
 inhabitance, closure under composition and inverse, associativity under the
 affine classifier, left and right identity laws, left and right inverse laws,
 and classifier congruence for both composition and inverse.
@@ -658,25 +654,28 @@ two-sided behavior of each displayed map is read through
 Associativity is exactly the pointwise comparison from
 \autoref{thm:field-affine-automorphism-composition-associative}. For three
 certified affine members, the two parenthesized compositions collect to
-classifier-equal displayed maps, and the same theorem compares the reverse
-explicit inverse formulas, so the affine classifier identifies the two products.
+classifier-equal displayed maps, so the pointwise affine classifier identifies
+the two products.
 
 The inverse operation uses
 \autoref{thm:field-affine-automorphism-identity-and-inverse-package} for the
 single-map identity and inverse clauses, together with
-\autoref{thm:field-affine-composite-reverse-explicit-inverse} for the reverse
-formula on composites. These clauses give left and right inverse laws under the
-affine classifier, and the classifier iff clauses transported through the same
-certified maps give congruence for composition and inverse.
+\autoref{thm:field-affine-inverse-is-certified-affine} for inverse closure.
+These clauses give left and right inverse laws under the affine classifier.
+
+Classifier congruence for composition and inverse is exactly
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}. Hence the
+pointwise classifier supplies the operation fields required by the
+$\GroupUp$ package.
 \end{proof}
 
 Per-object certificate: traditional target affine automorphism $\GroupUp$
 interface; BEDC source $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$; carrier
-$\mathsf{AffAut}_F$; classifier pointwise $\hsame$ on displayed affine maps and
-reverse explicit inverse formulas; stability obligations inhabitance,
-composition, inverse, associativity, identity, inverse laws, and classifier
-congruence; ledger identity witnesses, side-factor witnesses, product witnesses,
-reverse inverse formulas, and offsets; core theorem
+$\mathsf{AffAut}_F$; classifier pointwise $\hsame$ on displayed affine maps;
+stability obligations inhabitance, composition, inverse, associativity,
+identity, inverse laws, and classifier congruence; ledger identity witnesses,
+side-factor witnesses, product witnesses, reverse inverse formulas, and
+offsets; core theorem
 \autoref{thm:field-affine-automorphism-group-laws}; exactness predicate
 $\GroupUp$ source-field satisfaction for certified affine automorphisms;
 standard bridge ordinary affine automorphism group law; status
@@ -769,9 +768,9 @@ inverse operation with its left and right inverse clauses.
 Composition uses the collected coefficients from the same package, with the
 two-sided certification read through
 \autoref{thm:field-affine-two-sided-certified-automorphism}. The classifier is
-pointwise $\hsame$, so classifier congruence is obtained by applying those
-certified iff clauses to each carried history and transporting through the
-collected-coefficient representative.
+pointwise $\hsame$, so classifier congruence for composition and inverse is
+obtained from
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}.
 
 Associativity is the normal-form statement of
 \autoref{thm:field-affine-automorphism-composition-associative}. It identifies
