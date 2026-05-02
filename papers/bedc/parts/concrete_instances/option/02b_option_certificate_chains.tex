@@ -451,6 +451,21 @@ second.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_some\_right\_confluence}
 
+\begin{theorem}[Option classifier $\hsame$ some-right inversion]
+\label{thm:option-classifier-spec-hsame-some-right-inversion}
+For a typed option carrier value $x:\mathsf{OptionCarrier}(\mathsf{BHist})$ and
+a history $b:\mathsf{BHist}$, if
+$\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(b))$ holds, then there is
+a history $a:\mathsf{BHist}$ such that $x=\mathsf{some}(a)$ and
+$\hsame(a,b)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze $x$. The none branch contradicts the typed none--some classifier
+clause. In the some branch, the exposed payload is the required witness and the
+classifier clause is exactly the displayed $\hsame$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_some\_right\_inversion}
+
 \begin{theorem}[Option classifier $\hsame$ right payload determinacy]
 \label{thm:option-classifier-spec-hsame-right-payload-deterministic}
 For a typed option carrier value $x:\mathsf{OptionCarrier}(\mathsf{BHist})$ and
