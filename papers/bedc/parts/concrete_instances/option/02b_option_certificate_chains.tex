@@ -412,6 +412,23 @@ with the first witness by $\hsame$ transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_left\_deterministic}
 
+\begin{theorem}[Option classifier $\hsame$ some-right confluence]
+\label{thm:option-classifier-spec-hsame-some-right-confluence}
+For a typed option carrier value $x:\mathsf{OptionCarrier}(\mathsf{BHist})$ and
+histories $h,k:\mathsf{BHist}$, if
+$\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(h))$ and
+$\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(k))$ hold, then
+$\hsame(h,k)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze the shared endpoint $x$. If $x$ is $\mathsf{none}$, the first
+classifier witness is impossible because it relates $\mathsf{none}$ to a
+present endpoint. If $x=\mathsf{some}(a)$, the two witnesses are
+$\hsame(a,h)$ and $\hsame(a,k)$; reverse the first and compose it with the
+second.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_some\_right\_confluence}
+
 \begin{theorem}[Option classifier symmetry from source symmetry]
 \label{thm:option-classifier-symm-from-source-symmetry}
 Let $A$ be an entry type, let $R:A\to A\to\mathsf{Prop}$ be a source relation, and let $x,y:\mathsf{OptionCarrier}(A)$. If

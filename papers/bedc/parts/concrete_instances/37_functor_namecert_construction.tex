@@ -201,6 +201,26 @@ right append suffix $a$ yields $\hsame(p,q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_source\_prefix\_deterministic}
 
+\begin{theorem}[Functor prefix hom-carrier target-prefix determinacy]
+\label{thm:functor-prefix-hom-carrier-target-prefix-deterministic}
+For histories $p,q,a,source,f$, if the same morphism $f$ is a category
+hom-carrier from $source$ to $\mathsf{append}(p,a)$ and from $source$ to
+$\mathsf{append}(q,a)$, then the two target prefixes agree:
+$$
+\mathsf{CategoryHomCarrier}(source,\mathsf{append}(p,a),f)
+\land
+\mathsf{CategoryHomCarrier}(source,\mathsf{append}(q,a),f)
+\Longrightarrow
+\hsame(p,q).
+$$
+\end{theorem}
+\begin{proof}
+Category hom-carrier target determinism gives
+$\hsame(\mathsf{append}(p,a),\mathsf{append}(q,a))$. Cancelling the common
+right append suffix $a$ yields $\hsame(p,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_target\_prefix\_deterministic}
+
 \section{The certificate}
 
 \begin{definition}[Functor source specification]

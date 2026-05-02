@@ -187,4 +187,12 @@ theorem FunctorPrefixHomCarrier_source_prefix_deterministic {p q a target f : BH
     CategoryHomCarrier_source_deterministic left right
   exact append_right_cancel (k := a) sameSource
 
+theorem FunctorPrefixHomCarrier_target_prefix_deterministic {p q a source f : BHist} :
+    CategoryHomCarrier source (append p a) f →
+      CategoryHomCarrier source (append q a) f → hsame p q := by
+  intro left right
+  have sameTarget : hsame (append p a) (append q a) :=
+    CategoryHomCarrier_target_deterministic left right
+  exact append_right_cancel (k := a) sameTarget
+
 end BEDC.Derived.FunctorUp
