@@ -455,6 +455,50 @@ $\ContR(\Ezero(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_cases}
 
+\begin{theorem}[Continuation morphism zero-headed endpoints nonempty tail extraction]
+\label{thm:continuation-morphism-e0-source-e0-target-nonempty-tail-cases}
+For histories $a,r:\mathsf{BHist}$ and a continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$, if the displayed tail
+is not classified with $\emp$, then it has a zero-headed payload continuing
+from $\Ezero(a)$ to $r$:
+$$
+\bigl(\HSame(\mathsf{tail}(m),\emp)\to\mathsf{False}\bigr)
+\to
+\exists k:\mathsf{BHist}.\;
+\HSame(\mathsf{tail}(m),\Ezero(k))\land \ContR(\Ezero(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply the zero-headed endpoint tail split above. The empty-tail branch
+contradicts the displayed nonempty-tail hypothesis. The remaining branch
+already exposes a zero-headed tail and the continuation payload
+$\ContR(\Ezero(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_nonempty\_tail\_cases}
+
+\begin{theorem}[Continuation morphism zero-headed endpoints tail core determinacy]
+\label{thm:continuation-morphism-e0-source-e0-target-tail-core-deterministic}
+For histories $a,r,k,l:\mathsf{BHist}$ and continuation morphisms
+$m,n:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$, if their displayed
+tails are classified with $\Ezero(k)$ and $\Ezero(l)$, then the exposed tail
+cores are classified:
+$$
+\HSame(\mathsf{tail}(m),\Ezero(k))
+\to
+\HSame(\mathsf{tail}(n),\Ezero(l))
+\to
+\HSame(k,l).
+$$
+\end{theorem}
+\begin{proof}
+Tail determinacy for continuation morphisms with the same endpoints gives
+$\HSame(\mathsf{tail}(m),\mathsf{tail}(n))$. Chaining with the two displayed
+zero-headed tail classifications gives
+$\HSame(\Ezero(k),\Ezero(l))$, and zero-constructor inversion removes the
+outer tag.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_core\_deterministic}
+
 \begin{proposition}[Continuation morphism zero-headed endpoints reject one-headed tail]
 \label{prop:category-continuation-e0-e0-tail-e1-absurd}
 For histories $a,r,k:\mathsf{BHist}$ and
