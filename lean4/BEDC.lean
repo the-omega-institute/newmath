@@ -77,6 +77,7 @@ import BEDC.Derived.OptionUp.TaggedCarrier
 import BEDC.Derived.OptionUp.CarrierReadback
 import BEDC.Derived.OptionUp.Readback
 import BEDC.Derived.OptionUp.PayloadDescent
+import BEDC.Derived.OptionUp.PayloadDescentExactness
 import BEDC.Derived.OptionUp.PayloadDescentNormalForm
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 import BEDC.Derived.OptionUp.PayloadDescentSharedReflection
