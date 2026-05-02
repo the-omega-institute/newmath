@@ -1,15 +1,11 @@
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Cont
-
 namespace BEDC.Derived.ContinuousUp
-
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
-
 def ContinuousModulusWitness (source modulus target : BHist) : Prop :=
   UnaryHistory source ∧ UnaryHistory modulus ∧ UnaryHistory target ∧ Cont source modulus target
-
 theorem ContinuousModulusWitness_prefix_iff {p source modulus target : BHist} :
     ContinuousModulusWitness (append p source) modulus (append p target) ↔
       UnaryHistory p ∧ ContinuousModulusWitness source modulus target := by
@@ -40,14 +36,11 @@ theorem ContinuousModulusWitness_prefix_iff {p source modulus target : BHist} :
                       And.intro (unary_append_closed prefixCarrier sourceCarrier)
                         (And.intro modulusCarrier
                           (And.intro (unary_append_closed prefixCarrier targetCarrier)
-                            (cont_intro
-                              ((congrArg (append p) rel).trans
-                                (append_assoc p source modulus).symm))))
-
+                            (cont_intro ((congrArg (append p) rel).trans
+                              (append_assoc p source modulus).symm))))
 def ContinuousModulusChain (source first second target : BHist) : Prop :=
   UnaryHistory source ∧ UnaryHistory first ∧ UnaryHistory second ∧ UnaryHistory target ∧
     ∃ middle : BHist, Cont source first middle ∧ Cont middle second target
-
 theorem ContinuousModulusChain_factorizes {source first second target : BHist} :
     ContinuousModulusChain source first second target ->
       ∃ middle : BHist,
@@ -74,10 +67,8 @@ theorem ContinuousModulusChain_factorizes {source first second target : BHist} :
                                 (And.intro sourceCarrier
                                   (And.intro firstCarrier
                                     (And.intro middleCarrier firstRel)))
-                                (And.intro middleCarrier
-                                  (And.intro secondCarrier
-                                    (And.intro targetCarrier secondRel))))
-
+                                (And.intro middleCarrier (And.intro secondCarrier
+                                  (And.intro targetCarrier secondRel))))
 theorem ContinuousModulusChain_middle_deterministic_factorization
     {source first second target : BHist} :
     ContinuousModulusChain source first second target ->
@@ -111,10 +102,8 @@ theorem ContinuousModulusChain_middle_deterministic_factorization
                                   (And.intro middleCarrier
                                     (And.intro secondCarrier
                                       (And.intro targetCarrier secondRel)))
-                                  (by
-                                    intro middle' firstRel' _secondRel'
-                                    exact cont_deterministic firstRel firstRel')))
-
+                                    (by intro middle' firstRel' _secondRel'
+                                        exact cont_deterministic firstRel firstRel')))
 theorem ContinuousModulusChain_target_deterministic
     {source first second target target' : BHist} :
     ContinuousModulusChain source first second target ->
@@ -148,13 +137,17 @@ theorem ContinuousModulusChain_target_deterministic
                                                     cont_deterministic firstRel firstRel'
                                                   exact cont_respects_hsame sameMiddle
                                                     (hsame_refl second) secondRel secondRel'
-
+theorem ContinuousModulusChain_append_suffix_target_deterministic
+    {q source first second target target' : BHist} :
+    ContinuousModulusChain source first second (append target q) ->
+      ContinuousModulusChain source first second (append target' q) -> hsame target target' := by
+  intro left right
+  exact append_right_cancel (ContinuousModulusChain_target_deterministic left right)
 theorem ContinuousModulusChain_result_deterministic {source first second target target' : BHist} :
     ContinuousModulusChain source first second target ->
       ContinuousModulusChain source first second target' ->
         hsame target target' := by
   exact ContinuousModulusChain_target_deterministic
-
 theorem ContinuousModulusChain_source_deterministic
     {source source' first second target : BHist} :
     ContinuousModulusChain source first second target ->
@@ -188,7 +181,12 @@ theorem ContinuousModulusChain_source_deterministic
                                                     cont_right_cancel secondRel secondRel'
                                                   exact cont_common_suffix_cancellation firstRel
                                                     firstRel' sameMiddle
-
+theorem ContinuousModulusChain_append_suffix_source_deterministic
+    {q source source' first second target : BHist} :
+    ContinuousModulusChain (append source q) first second target ->
+      ContinuousModulusChain (append source' q) first second target -> hsame source source' := by
+  intro left right
+  exact append_right_cancel (ContinuousModulusChain_source_deterministic left right)
 theorem ContinuousModulusChain_first_deterministic
     {source first first' second target : BHist} :
     ContinuousModulusChain source first second target ->
@@ -224,7 +222,6 @@ theorem ContinuousModulusChain_first_deterministic
                                                     cont_result_hsame_transport firstRel'
                                                       (hsame_symm sameMiddle)
                                                   exact cont_left_cancel firstRel firstRelToMiddle
-
 theorem ContinuousModulusChain_composite_closed {source first second target composite : BHist} :
     ContinuousModulusChain source first second target -> Cont first second composite ->
       ContinuousModulusWitness source composite target := by
@@ -250,11 +247,9 @@ theorem ContinuousModulusChain_composite_closed {source first second target comp
                                 (unary_cont_closed firstCarrier secondCarrier (cont_intro rfl))
                                 (And.intro targetCarrier
                                   (cont_intro (append_assoc source first second))))
-
 def ContinuousFunctionCarrier (source map target modulus cert : BHist) : Prop :=
   UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory map ∧ UnaryHistory modulus ∧
     Cont source map target ∧ Cont target modulus cert
-
 theorem ContinuousFunctionCarrier_empty_map_identity {source modulus cert : BHist} :
     ContinuousModulusWitness source modulus cert ->
       ContinuousFunctionCarrier source BHist.Empty source modulus cert := by
@@ -271,7 +266,6 @@ theorem ContinuousFunctionCarrier_empty_map_identity {source modulus cert : BHis
                     (And.intro unary_empty
                       (And.intro modulusCarrier
                         (And.intro (cont_right_unit source) certRel))))
-
 theorem ContinuousFunctionCarrier_target_cert_deterministic
     {source map target target' modulus cert cert' : BHist} :
     ContinuousFunctionCarrier source map target modulus cert ->
@@ -304,7 +298,6 @@ theorem ContinuousFunctionCarrier_target_cert_deterministic
                                             cont_respects_hsame sameTarget
                                               (hsame_refl modulus) targetCert targetCert'
                                           exact And.intro sameTarget sameCert
-
 theorem ContinuousFunctionCarrier_modulus_deterministic
     {source map target modulus modulus' cert : BHist} :
     ContinuousFunctionCarrier source map target modulus cert ->
@@ -331,7 +324,6 @@ theorem ContinuousFunctionCarrier_modulus_deterministic
                                       cases rightRest with
                                       | intro _sourceMap' targetCert' =>
                                           exact cont_left_cancel targetCert targetCert'
-
 theorem ContinuousFunctionCarrier_comp_closed
     {source middle target f g fg modF modG modFG certF certG cert : BHist} :
     ContinuousFunctionCarrier source f middle modF certF ->
@@ -374,7 +366,6 @@ theorem ContinuousFunctionCarrier_comp_closed
                                                 (And.intro fgCarrier
                                                   (And.intro modFGCarrier
                                                     (And.intro sourceTarget certRel))))
-
 theorem ContinuousFunctionCarrier_modulus_chain_replacement
     {source map target oldMod oldCert delta1 delta2 delta cert : BHist} :
     ContinuousFunctionCarrier source map target oldMod oldCert ->
@@ -434,7 +425,6 @@ theorem ContinuousFunctionCarrier_prefix_closed
                                   (cont_intro
                                     ((congrArg (append p) targetCert).trans
                                       (append_assoc p targetHist modulus).symm))))))
-
 theorem ContinuousFunctionCarrier_prefix_iff {p source map target modulus cert : BHist} :
     ContinuousFunctionCarrier (append p source) map (append p target) modulus
         (append p cert) ↔
@@ -493,7 +483,6 @@ theorem ContinuousModulusChain_prefix_closed {p source first second target : BHi
                                         (cont_intro
                                           ((congrArg (append p) secondRel).trans
                                             (append_assoc p middle second).symm)))))))
-
 theorem ContinuousModulusChain_prefix_iff {p source first second target : BHist} :
     ContinuousModulusChain (append p source) first second (append p target) ↔
       UnaryHistory p ∧ ContinuousModulusChain source first second target := by
@@ -537,7 +526,6 @@ theorem ContinuousModulusChain_prefix_iff {p source first second target : BHist}
     cases base with
     | intro prefixCarrier chain =>
         exact ContinuousModulusChain_prefix_closed prefixCarrier chain
-
 theorem ContinuousModulusWitness_prefixed_composite_closed
     {p source first second target composite : BHist} :
     UnaryHistory p -> ContinuousModulusChain source first second target ->
@@ -547,7 +535,6 @@ theorem ContinuousModulusWitness_prefixed_composite_closed
   exact
     ContinuousModulusChain_composite_closed
       (ContinuousModulusChain_prefix_closed prefixCarrier chain) compositeRel
-
 theorem ContinuousModulusWitness_prefixed_composite_factorizes
     {p source first second composite target : BHist} :
     UnaryHistory first -> UnaryHistory second -> Cont first second composite ->
@@ -577,7 +564,6 @@ theorem ContinuousModulusWitness_prefixed_composite_factorizes
                 And.intro middleCarrier
                   (And.intro secondCarrier (And.intro targetCarrier secondRel))
               exact Exists.intro middle (And.intro firstWitness secondWitness)
-
 theorem ContinuousFunctionCarrier_prefixed_graph_chain_closed
     {p source map target delta1 delta2 delta cert : BHist} :
     UnaryHistory p -> UnaryHistory source -> UnaryHistory target -> UnaryHistory map ->
@@ -605,5 +591,4 @@ theorem ContinuousFunctionCarrier_prefixed_graph_chain_closed
                             ((congrArg (append p) graphRel).trans
                               (append_assoc p source map).symm))
                           targetDelta))))
-
 end BEDC.Derived.ContinuousUp

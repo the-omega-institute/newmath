@@ -50,6 +50,25 @@ of these two composites is the unit and associativity content of
 tails taken through $\hsame$.
 \end{proof}
 
+\begin{theorem}[Suffixed composite middle object determinacy]
+\label{thm:category-hom-carrier-append-suffix-comp-middle-object-deterministic}
+If two composable unary hom-carrier ledgers display the middle object through
+the same right suffix $q$,
+$$
+\mathsf{CategoryHomCarrier}(a\cdot q,b\cdot q,f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(b'\cdot q,c\cdot q,g),
+$$
+and the displayed composite ledger has target $c\cdot q$, then the unsuffixed
+middle objects satisfy $\hsame(b,b')$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_append\_suffix\_comp\_middle\_object\_deterministic}
+\begin{proof}
+Apply middle-object determinacy to the suffixed composite ledgers. The result
+identifies $b\cdot q$ with $b'\cdot q$, and right cancellation of the common
+suffix gives $\hsame(b,b')$.
+\end{proof}
+
 \begin{theorem}[Cyclic continuation morphisms have empty tails]
 \label{thm:continuation-morphism-cycle-tails-empty}
 If the opposite continuation morphism records

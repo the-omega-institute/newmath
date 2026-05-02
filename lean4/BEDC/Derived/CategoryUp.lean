@@ -21,20 +21,17 @@ theorem CategoryHomCarrier_empty_identity_iff {a b : BHist} :
         | intro targetCarrier rest =>
             cases rest with
             | intro _emptyCarrier homCont =>
-                exact
-                  And.intro sourceCarrier
-                    (And.intro targetCarrier
-                      (hsame_symm (cont_deterministic homCont (cont_right_unit a))))
+                exact And.intro sourceCarrier
+                  (And.intro targetCarrier
+                    (hsame_symm (cont_deterministic homCont (cont_right_unit a))))
   · intro data
     cases data with
     | intro sourceCarrier rest =>
         cases rest with
         | intro targetCarrier same =>
-            exact
-              And.intro sourceCarrier
-                (And.intro targetCarrier
-                  (And.intro unary_empty
-                    (cont_result_hsame_transport (cont_right_unit a) same)))
+            exact And.intro sourceCarrier
+              (And.intro targetCarrier
+                (And.intro unary_empty (cont_result_hsame_transport (cont_right_unit a) same)))
 theorem CategoryHomCarrier_empty_source_iff {b f : BHist} :
     CategoryHomCarrier BHist.Empty b f ↔ UnaryHistory b ∧ hsame f b := by
   constructor
@@ -49,12 +46,10 @@ theorem CategoryHomCarrier_empty_source_iff {b f : BHist} :
   · intro data
     cases data with
     | intro targetCarrier sameMorphism =>
-        exact
-          And.intro unary_empty
-            (And.intro targetCarrier
-              (And.intro
-                (unary_transport targetCarrier (hsame_symm sameMorphism))
-                (Iff.mpr cont_left_unit_iff (hsame_symm sameMorphism))))
+        exact And.intro unary_empty
+          (And.intro targetCarrier
+            (And.intro (unary_transport targetCarrier (hsame_symm sameMorphism))
+              (Iff.mpr cont_left_unit_iff (hsame_symm sameMorphism))))
 theorem CategoryHomCarrier_empty_target_iff {a f : BHist} :
     CategoryHomCarrier a BHist.Empty f <-> hsame a BHist.Empty /\ hsame f BHist.Empty := by
   constructor
@@ -79,10 +74,9 @@ theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
   cases left.right.right.right
   cases right.right.right.right
   cases comp
-  exact And.intro sourceCarrier
-    (And.intro targetCarrier
-      (And.intro (unary_cont_closed fCarrier gCarrier (cont_intro rfl))
-        (cont_intro (append_assoc a f g))))
+  exact And.intro sourceCarrier (And.intro targetCarrier
+    (And.intro (unary_cont_closed fCarrier gCarrier (cont_intro rfl))
+      (cont_intro (append_assoc a f g))))
 theorem CategoryHomCarrier_identity_square_closed {a b f left right : BHist} :
     CategoryHomCarrier a b f -> Cont BHist.Empty f left -> Cont f BHist.Empty right ->
       CategoryHomCarrier a b left ∧ CategoryHomCarrier a b right ∧ hsame left right := by
@@ -105,12 +99,9 @@ theorem CategoryHomCarrier_comp_assoc_closed {a b c d f g h fg gh left right : B
     CategoryHomCarrier_comp_closed first second fgRel
   have ghCarrier : CategoryHomCarrier b d gh :=
     CategoryHomCarrier_comp_closed second third ghRel
-  exact
-    And.intro
-      (CategoryHomCarrier_comp_closed fgCarrier third leftRel)
-      (And.intro
-        (CategoryHomCarrier_comp_closed first ghCarrier rightRel)
-        (cont_assoc_hsame fgRel leftRel ghRel rightRel))
+  exact And.intro (CategoryHomCarrier_comp_closed fgCarrier third leftRel)
+    (And.intro (CategoryHomCarrier_comp_closed first ghCarrier rightRel)
+      (cont_assoc_hsame fgRel leftRel ghRel rightRel))
 theorem CategoryHomCarrier_morphism_deterministic {a b f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier a b g -> hsame f g := by
   intro left right
@@ -194,6 +185,14 @@ theorem CategoryHomCarrier_comp_middle_object_deterministic {a b b' c f g fg : B
     cases displayed.right.right.right
     exact cont_intro (append_assoc a f g).symm
   exact cont_right_cancel derivedRight right.right.right.right
+theorem CategoryHomCarrier_append_suffix_comp_middle_object_deterministic
+    {q a b b' c f g fg : BHist} :
+    CategoryHomCarrier (append a q) (append b q) f ->
+      CategoryHomCarrier (append b' q) (append c q) g -> Cont f g fg ->
+        CategoryHomCarrier (append a q) (append c q) fg -> hsame b b' := by
+  intro left right comp displayed
+  exact append_right_cancel
+    (CategoryHomCarrier_comp_middle_object_deterministic left right comp displayed)
 theorem CategoryHomCarrier_comp_right_factor {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> Cont f g fg -> CategoryHomCarrier a c fg ->
       CategoryHomCarrier b c g := by
