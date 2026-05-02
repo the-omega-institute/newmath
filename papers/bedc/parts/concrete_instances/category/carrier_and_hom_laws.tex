@@ -310,6 +310,37 @@ of \(\HSame\) identifies \(left\) and \(right\).
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_identity\_square\_closed}
 
+\begin{theorem}[Category hom carrier two-sided identity law]
+\label{thm:category-hom-carrier-two-sided-identity-law}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,b,f)$, $\ContR(\emp,f,left)$, and
+$\ContR(f,\emp,right)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,b,left)\wedge
+\mathsf{CategoryHomCarrier}(a,b,right)\wedge
+\HSame(left,f)\wedge\HSame(right,f)\wedge\HSame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+The left composite is classified against the original morphism by the
+left-unit result theorem: $\ContR(\emp,f,left)$ and
+\texttt{cont\_left\_unit\_result} give $\HSame(left,f)$.
+
+For the right composite, compare $\ContR(f,\emp,right)$ with the canonical
+right-unit continuation $\ContR(f,\emp,f)$ supplied by
+\texttt{cont\_right\_unit}. Continuation determinism gives
+$\HSame(right,f)$.
+
+Transport the displayed $\mathsf{CategoryHomCarrier}(a,b,f)$ witness across
+the two history-sameness witnesses. This gives
+$\mathsf{CategoryHomCarrier}(a,b,left)$ and
+$\mathsf{CategoryHomCarrier}(a,b,right)$.
+
+Finally compose $\HSame(left,f)$ with the symmetry of $\HSame(right,f)$.
+Transitivity yields $\HSame(left,right)$, completing the two-sided identity
+classification.
+\end{proof}
+
 \begin{theorem}[Category hom carrier identity semantic name certificate]
 \label{thm:category-hom-carrier-identity-semantic-namecert}
 For a unary object history $a$, the identity hom-carrier predicate
