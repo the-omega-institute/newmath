@@ -1,0 +1,384 @@
+\begin{theorem}[Category hom carrier associativity witness]
+\label{thm:category-hom-carrier-assoc-witness}
+For the unary-continuation category, let $f$ be a hom-carrier from $a$ to $b$, let $g$ be a hom-carrier from $b$ to $c$, and let $h$ be a hom-carrier from $c$ to $d$. If $fg$, $gh$, $left$, and $right$ satisfy
+$$
+\ContR(f,g,fg),\quad \ContR(g,h,gh),\quad \ContR(fg,h,left),\quad \ContR(f,gh,right),
+$$
+then $left$ and $right$ are both hom-carriers from $a$ to $d$, and $\HSame(left,right)$.
+\end{theorem}
+\begin{proof}
+First build the left-associated carrier. Apply Theorem~\ref{thm:category-hom-carrier-comp-closed} to the carriers $f:a\to b$ and $g:b\to c$ with $\ContR(f,g,fg)$, obtaining $fg:a\to c$. Apply the same theorem to $fg:a\to c$ and $h:c\to d$ with $\ContR(fg,h,left)$, obtaining $left:a\to d$.
+
+Next build the right-associated carrier. Apply Theorem~\ref{thm:category-hom-carrier-comp-closed} to the carriers $g:b\to c$ and $h:c\to d$ with $\ContR(g,h,gh)$, obtaining $gh:b\to d$. Apply the same theorem to $f:a\to b$ and $gh:b\to d$ with $\ContR(f,gh,right)$, obtaining $right:a\to d$.
+
+Finally apply continuation associativity, Theorem~\ref{thm:continuation-associativity}, to the displayed continuation square. The two composition trees therefore have the same morphism classifier, namely $\HSame(left,right)$.
+\end{proof}
+
+Per-object certificate: traditional target categorical associativity; BEDC source $\mathsf{CategoryHomCarrier}$ plus $\Cont$; carrier $\mathsf{BHist}$ hom witnesses; classifier $\hsame$; stability obligation associativity under morphism classifier; ledger the two composition trees; core theorem list entry this associativity witness; exactness predicate equality of the two composite trees; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Category hom carrier fourfold associativity witness]
+\label{thm:category-hom-carrier-fourfold-assoc-witness}
+For the unary-continuation category, let $f$ be a hom-carrier from $a$ to $b$, let $g$ be a hom-carrier from $b$ to $c$, let $h$ be a hom-carrier from $c$ to $d$, and let $i$ be a hom-carrier from $d$ to $e$. If $fg$, $fgh$, $hi$, $ghi$, $left$, and $right$ satisfy
+$$
+\ContR(f,g,fg),\quad \ContR(fg,h,fgh),\quad \ContR(h,i,hi),\quad \ContR(g,hi,ghi),\quad \ContR(fgh,i,left),\quad \ContR(f,ghi,right),
+$$
+then $left$ and $right$ are both hom-carriers from $a$ to $e$, and $\HSame(left,right)$.
+\end{theorem}
+\begin{proof}
+First build the left fourfold carrier. Apply Theorem~\ref{thm:category-hom-carrier-comp-closed} to $f:a\to b$ and $g:b\to c$ with $\ContR(f,g,fg)$, obtaining $fg:a\to c$. Apply the same theorem to $fg:a\to c$ and $h:c\to d$ with $\ContR(fg,h,fgh)$, obtaining $fgh:a\to d$. Apply it once more to $fgh:a\to d$ and $i:d\to e$ with $\ContR(fgh,i,left)$, obtaining $left:a\to e$.
+
+Next build the right fourfold carrier. Apply Theorem~\ref{thm:category-hom-carrier-comp-closed} to $h:c\to d$ and $i:d\to e$ with $\ContR(h,i,hi)$, obtaining $hi:c\to e$. Apply the same theorem to $g:b\to c$ and $hi:c\to e$ with $\ContR(g,hi,ghi)$, obtaining $ghi:b\to e$. Apply it once more to $f:a\to b$ and $ghi:b\to e$ with $\ContR(f,ghi,right)$, obtaining $right:a\to e$.
+
+Finally apply the kernel fourfold continuation associativity witness, $cont\_assoc\_four$, to the six displayed continuation relations. The two fourfold composition ledgers therefore generate the same composite history classifier, namely $\HSame(left,right)$.
+\end{proof}
+
+Per-object certificate: traditional target fourfold categorical associativity coherence; BEDC source $\mathsf{CategoryHomCarrier}$ plus $\Cont$; carrier $\mathsf{BHist}$ hom witnesses; classifier $\hsame$; stability obligation rebracketing under morphism classifier; ledger the two fourfold composition trees; core theorem list entry fourfold coherence; exactness predicate equality of generated composite histories; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Category hom carrier associative composition closure]
+\label{thm:category-hom-carrier-comp-assoc-closed}
+For the unary-continuation category, composable hom-carriers \(f:a\to b\),
+\(g:b\to c\), and \(h:c\to d\) remain hom-carriers after either
+association of composition. If \(\ContR(f,g,fg)\), \(\ContR(g,h,gh)\),
+\(\ContR(fg,h,left)\), and \(\ContR(f,gh,right)\), then both \(left\) and
+\(right\) are hom-carriers from \(a\) to \(d\), and
+\(\HSame(left,right)\).
+\end{theorem}
+\begin{proof}
+Apply hom-carrier composition closure first to \(f,g\) and then to \(fg,h\)
+for the left association. Apply the same closure first to \(g,h\) and then
+to \(f,gh\) for the right association. The continuation associativity law
+identifies the two composite histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_assoc\_closed}
+\leanstmt{BEDC.Derived.CategoryUp.ContinuationMorphism}
+
+\begin{theorem}[Continuation morphism tail semantic name certificate]
+\label{thm:category-continuation-morphism-tail-semantic-namecert}
+For histories $a,b$ and a continuation morphism $m:a\to b$, the predicate
+$t\mapsto\ContR(a,t,b)$ carries a semantic naming certificate with source,
+pattern, and ledger all given by this same continuation-tail predicate and
+classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+The carrier witness is the displayed tail of $m$ together with its continuation
+relation. The classifier laws are reflexivity, symmetry, and transitivity of
+$\hsame$. Carrier transport follows by substituting the history-sameness proof
+into the concrete continuation-tail predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_semanticNameCert}
+
+\begin{theorem}[Continuation morphism tail determinacy]
+\label{thm:continuation-morphism-tail-deterministic}
+For histories $a,b$, any two continuation morphisms from $a$ to $b$ have
+history-same tails:
+$$
+left,right:\mathsf{ContinuationMorphism}(a,b)
+\Longrightarrow
+\hsame(\mathsf{tail}(left),\mathsf{tail}(right)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack both continuation morphism records. Their continuation witnesses have
+the same source $a$ and target $b$, so continuation left-context cancellation
+identifies the two displayed tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_deterministic}
+
+\begin{theorem}[Continuation morphism empty-source tail target exactness]
+\label{thm:continuation-morphism-empty-source-tail-target-hsame}
+For every history $target$, a continuation morphism from the empty source to
+$target$ has displayed tail history-same to $target$:
+$$
+m:\mathsf{ContinuationMorphism}(\emp,target)
+\Longrightarrow
+\hsame(\mathsf{tail}(m),target).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism record. Its continuation witness has source
+$\emp$, displayed tail $\mathsf{tail}(m)$, and result $target$. The left-unit
+continuation law identifies the result with the tail, and symmetry of
+$\hsame$ gives the displayed orientation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_source\_tail\_target\_hsame}
+
+\begin{theorem}[Continuation morphism endpoint transport tail classification]
+\label{thm:continuation-morphism-endpoint-transport-tail-classified}
+For histories $a,a',b,b'$, if $a$ is history-same as $a'$ and $b$ is
+history-same as $b'$, then the tail of any continuation morphism from $a$ to
+$b$ transports to a continuation tail from $a'$ to $b'$. Any displayed
+continuation morphism from $a'$ to $b'$ has a tail classified with this
+transported tail.
+\end{theorem}
+\begin{proof}
+Transport the continuation relation carried by the left morphism across the
+source and target endpoint sameness witnesses, using reflexivity for the tail
+itself. The transported relation and the relation carried by the right morphism
+share source and target endpoints, so continuation left cancellation identifies
+the two tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_endpoint\_transport\_tail\_classified}
+
+\begin{theorem}[Continuation morphism source determinacy]
+\label{thm:continuation-morphism-source-deterministic}
+For histories $a,b,c$, if a continuation morphism from $a$ to $c$ and a
+continuation morphism from $b$ to $c$ display history-same tails, then their
+sources are history-same:
+$$
+left:\mathsf{ContinuationMorphism}(a,c),\quad
+right:\mathsf{ContinuationMorphism}(b,c),\quad
+\hsame(\mathsf{tail}(left),\mathsf{tail}(right))
+\Longrightarrow
+\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Unpack both continuation morphism records. The displayed tail equality makes
+the two continuation witnesses share the same tail and the same result $c$.
+Continuation right-context cancellation then identifies the two source
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_source\_deterministic}
+
+\begin{theorem}[Continuation morphism target determinacy]
+\label{thm:continuation-morphism-target-deterministic}
+For histories $a,b,c$, if a continuation morphism from $a$ to $b$ and a
+continuation morphism from $a$ to $c$ display history-same tails, then their
+targets are history-same:
+$$
+left:\mathsf{ContinuationMorphism}(a,b),\quad
+right:\mathsf{ContinuationMorphism}(a,c),\quad
+\hsame(\mathsf{tail}(left),\mathsf{tail}(right))
+\Longrightarrow
+\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Unpack both continuation morphism records. The displayed tail equality makes
+the two continuation witnesses share the same source $a$ and the same tail.
+Continuation result determinacy then identifies the two target histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_target\_deterministic}
+
+\begin{theorem}[Continuation morphism empty target inversion]
+\label{thm:continuation-morphism-empty-target-inversion}
+For a continuation morphism from $source$ to $\emp$, both the source and the
+displayed tail are history-same to $\emp$:
+$$
+m:\mathsf{ContinuationMorphism}(source,\emp)
+\Longrightarrow
+\hsame(source,\emp)\land\hsame(\mathsf{tail}(m),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism record. Its continuation ledger has empty
+target, so the kernel empty-result inversion theorem identifies both the
+source and the displayed tail with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_target\_inversion}
+
+\begin{definition}[Continuation morphism composition closure]
+\label{def:continuation-morphism-comp-closed}
+Given continuation morphisms from \(a\) to \(b\) and from \(b\) to \(c\), their
+closed composite is the continuation morphism from \(a\) to \(c\) whose tail is
+the append of the two displayed tails. The continuation witness is obtained by
+unpacking the first relation and reassociating the append spine.
+\end{definition}
+\leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_closed}
+
+\begin{theorem}[Continuation morphism composite empty-tail inversion]
+\label{thm:category-continuation-morphism-composite-empty-tail-inversion}
+For histories $a,b,c$, let $left:a\to b$ and $right:b\to c$ be continuation
+morphisms. If the canonical composite continuation morphism has displayed tail
+history-same to $\emp$, then both component tails are history-same to $\emp$,
+and both endpoints are identified:
+$$
+\hsame(\mathsf{tail}(left\circ right),\emp)
+\Longrightarrow
+\hsame(\mathsf{tail}(left),\emp)\wedge
+\hsame(\mathsf{tail}(right),\emp)\wedge
+\hsame(a,b)\wedge\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The composite displayed tail is
+the BEDC append of the two component tails; empty append inversion forces both
+component tails to be $\emp$. The original continuation witnesses then compare
+against the right-unit continuations at $a$ and $b$, so determinacy identifies
+the corresponding endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_empty\_tail\_inversion}
+
+\begin{theorem}[Continuation morphism composition right factor]
+\label{thm:continuation-morphism-composition-right-factor}
+For histories $a,b,c$ and a displayed tail $r$, let $left:a\to b$ and
+$composite:a\to c$ be continuation morphisms. If the tail of $composite$ is
+displayed as the continuation composite of the tail of $left$ with $r$, then
+$r$ is the tail of a continuation morphism from $b$ to $c$.
+\end{theorem}
+\begin{proof}
+Unpack the left and composite continuation morphisms into their displayed
+tails and continuation witnesses. The three continuation ledgers reduce the
+claim to the associativity law for BEDC history append, giving the displayed
+continuation from $b$ through $r$ to $c$.
+\end{proof}
+\leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_factor}
+
+\begin{theorem}[Continuation morphism right factor tail uniqueness]
+\label{thm:continuation-morphism-comp-right-factor-tail-hsame}
+For histories $a,b,c$ and a displayed tail $r$, let $left:a\to b$ and
+$composite:a\to c$ be continuation morphisms. If the tail of $composite$ is
+displayed as the continuation composite of the tail of $left$ with $r$, and
+$right:b\to c$ is another continuation morphism, then $r$ is history-same as
+the displayed tail of $right$.
+\end{theorem}
+\begin{proof}
+Unpack the three continuation morphism records. The left witness, the tail
+factorization, and the composite witness reassociate to a continuation witness
+from $b$ through $r$ to $c$. This witness and the witness of $right$ have the
+same source and result, so continuation left cancellation identifies their
+tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_factor\_tail\_hsame}
+
+\begin{definition}[Continuation morphism composite left factor]
+\label{def:continuation-morphism-composite-left-factor}
+For histories $a,b,c$ and a displayed tail $l$, let $right:b\to c$ and
+$composite:a\to c$ be continuation morphisms. If the tail of $composite$ is
+displayed as the continuation composite of $l$ with the tail of $right$, then
+$l$ is the tail of a continuation morphism from $a$ to $b$.
+\end{definition}
+\begin{proof}
+Unpack the right and composite continuation morphism records. The displayed
+tail composite and the composite morphism witness reduce the target to the
+kernel composite-left-factor theorem for $\ContR$, which transports the
+reflexive left-tail continuation across the recovered middle endpoint.
+\end{proof}
+\leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_factor}
+
+\begin{theorem}[Continuation morphism left factor tail uniqueness]
+\label{thm:continuation-morphism-comp-left-factor-tail-hsame}
+For histories $a,b,c$ and a displayed tail $l$, let $right:b\to c$ and
+$composite:a\to c$ be continuation morphisms. If the tail of $composite$ is
+displayed as the continuation composite of $l$ with the tail of $right$, and
+$left:a\to b$ is another continuation morphism, then $l$ is history-same as
+the displayed tail of $left$.
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism records. The right witness, the displayed
+tail factorization, and the composite witness recover a continuation witness
+from $a$ through $l$ to $b$. This witness and the witness of $left$ share the
+same source and result, so continuation left cancellation identifies their
+tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_factor\_tail\_hsame}
+
+\begin{theorem}[Continuation morphism identity tail]
+\label{thm:continuation-morphism-identity-tail-hsame}
+For histories $a,b$ and a continuation morphism $m:a\to b$, composing $m$ with
+the empty identity tail on either side leaves its displayed tail history-same
+to the tail of $m$:
+$$
+\hsame\bigl(\mathsf{tail}(\mathsf{id}_a\circ m),\mathsf{tail}(m)\bigr)
+\land
+\hsame\bigl(\mathsf{tail}(m\circ \mathsf{id}_b),\mathsf{tail}(m)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism into its tail and continuation witness. The
+left identity composite has tail $\mathsf{append}(\mathsf{Empty},\mathsf{tail})$,
+and the right identity composite has tail
+$\mathsf{append}(\mathsf{tail},\mathsf{Empty})$. The two BEDC append unit laws
+identify both with the original tail.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_identity\_tail\_hsame}
+
+\begin{theorem}[Continuation morphism associative composition closure]
+\label{thm:continuation-morphism-comp-assoc-closed}
+For histories \(a,b,c,d\), any continuation morphisms
+\(a\to b\), \(b\to c\), and \(c\to d\) admit both associated composite
+morphisms \(a\to d\), and the two composite tails are internally the same.
+\end{theorem}
+\begin{proof}
+Unpack the three morphism records into their tails and continuation witnesses.
+The left-associated composite tail is \(\mathsf{append}(\mathsf{append}(f,g),h)\);
+the right-associated composite tail is
+\(\mathsf{append}(f,\mathsf{append}(g,h))\). The continuation witnesses reduce
+to associativity of BEDC history append, and the tail comparison is exactly the
+same associativity equality.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_assoc\_closed}
+
+\begin{theorem}[Continuation morphism associative composite tail]
+\label{thm:continuation-morphism-comp-assoc-tail-hsame}
+For histories $a,b,c,d$, any continuation morphisms $a\to b$, $b\to c$, and
+$c\to d$ have left-associated and right-associated canonical composite tails
+that are history-same:
+$$
+\hsame
+\left(
+\mathsf{tail}\bigl((first\circ second)\circ third\bigr),
+\mathsf{tail}\bigl(first\circ(second\circ third)\bigr)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the three continuation morphisms into their displayed tails. The two
+canonical composite tails reduce to
+$\mathsf{append}(\mathsf{append}(f,g),h)$ and
+$\mathsf{append}(f,\mathsf{append}(g,h))$, which are identified by BEDC history
+append associativity.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_assoc\_tail\_hsame}
+
+\begin{theorem}[Category hom carrier morphism determinacy]
+\label{thm:category-hom-carrier-morphism-deterministic}
+For the unary-continuation category, if \(f\) and \(g\) are both hom-carriers
+from \(a\) to \(b\), then \(\hsame(f,g)\).
+\end{theorem}
+\begin{proof}
+Unpack both hom-carrier witnesses. Their continuation fields have the same
+source \(a\) and result \(b\), so continuation left-context cancellation
+identifies the two morphism histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_morphism\_deterministic}
+
+\begin{theorem}[Category hom carrier endpoint-hsame morphism determinacy]
+\label{thm:category-hom-carrier-endpoint-hsame-morphism-deterministic}
+For the unary-continuation category, if the source endpoints classify together
+and the target endpoints classify together, then any two displayed hom-carrier
+morphisms over those classified endpoints also classify together.
+\end{theorem}
+\begin{proof}
+Case-reduce the source and target $\hsame$ witnesses. The two hom-carrier
+witnesses then share exactly the same endpoints, so
+\autoref{thm:category-hom-carrier-morphism-deterministic} identifies their
+morphism histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_endpoint\_hsame\_morphism\_deterministic}
+
+\begin{theorem}[Category hom carrier target determinacy]
+\label{thm:category-hom-carrier-target-deterministic}
+For the unary-continuation category, if a fixed morphism history $f$ is a
+hom-carrier from $a$ to $b$ and also from $a$ to $c$, then
+$\HSame(b,c)$.
+\end{theorem}
+\begin{proof}
+Unpack both hom-carrier witnesses. Their continuation fields have the same
+source $a$ and morphism tail $f$, so continuation result determinacy
+identifies the two target histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_target\_deterministic}
+
+\begin{theorem}[Category hom carrier source determinacy]
+\label{thm:category-hom-carrier-source-deterministic}
+For the unary-continuation category, if a fixed morphism history $f$ is a
+hom-carrier from $a$ to $c$ and also from $b$ to $c$, then
+$\HSame(a,b)$.
+\end{theorem}
+\begin{proof}
+Unpack both hom-carrier witnesses. Their continuation fields have the same
+morphism tail $f$ and result $c$, so continuation right-context cancellation
+identifies the two source histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_source\_deterministic}

@@ -1,0 +1,61 @@
+\section{Field square apartness inverse descent}
+
+\begin{theorem}[Field square-certified two-sided affine exactness]
+\label{thm:field-square-certified-two-sided-affine-exact}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-square-nonzero-one-sided-mul-exact},
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness}, and
+\autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness},
+assume the field interpretation identifies $\mathsf{NonZero}_F(h)$ with
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
+$$
+For $a,b:\mathsf{BHist}$ with square witnesses
+$$
+p_{a^2}:\mathsf{NonZero}_F(\mathsf{mul}(a,a)),
+\quad
+p_{b^2}:\mathsf{NonZero}_F(\mathsf{mul}(b,b)),
+$$
+let $p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ be the
+witnesses induced by zero-factor exclusion and the displayed identification.
+Then for every $c,d,x,y:\mathsf{BHist}$ both clauses hold:
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)))
+$$
+and
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
+$p_{a^2}$ with both product entries instantiated by $a$. As in
+\autoref{thm:field-square-nonzero-one-sided-mul-exact}, the first factor
+clause gives $a\hsame0\to\bot$, and the identification with
+$\mathsf{NonZero}_F(a)$ supplies the witness $p_a$.
+
+Apply the same zero-factor exclusion theorem to $p_{b^2}$ with both product
+entries instantiated by $b$. The first factor clause gives
+$b\hsame0\to\bot$, and the displayed identification supplies the witness
+$p_b:\mathsf{NonZero}_F(b)$.
+
+With these two induced witnesses, invoke
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness}. Its
+equivalence is exactly the stated solution formula for
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$.
+
+For the classifier exactness clause, invoke
+\autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness} with
+the same witnesses $p_a$ and $p_b$ and the same offset $d$. This removes the
+common certified affine map and yields precisely
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)$ if and only if
+$x\hsame y$.
+\end{proof}
