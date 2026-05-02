@@ -89,6 +89,17 @@ theorem CompactFiniteRefinementChain_endpoint_hsame
   | step prior extraCarrier finiteRel compactRel ih =>
       exact cont_respects_hsame ih (hsame_refl _) finiteRel compactRel
 
+theorem CompactFiniteRefinementChain_endpoint_hsame_reflects
+    {finite compact finalFinite finalCompact : BHist} :
+    CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
+      hsame finalFinite finalCompact -> hsame finite compact := by
+  intro chain sameEndpoint
+  induction chain with
+  | base =>
+      exact sameEndpoint
+  | step prior extraCarrier finiteRel compactRel ih =>
+      exact ih (cont_common_suffix_cancellation finiteRel compactRel sameEndpoint)
+
 theorem CompactWitnessCarrier_finite_refinement_chain_closed
     {subset located finite intermediate compact finalFinite finalCompact : BHist} :
     CompactWitnessCarrier subset located finite intermediate compact ->
@@ -314,6 +325,18 @@ theorem CompactLocatedRefinementChain_endpoint_hsame
       exact sameEndpoint
   | step prior extraCarrier locatedRel intermediateRel compactRel ih =>
       exact cont_respects_hsame ih (hsame_refl _) locatedRel intermediateRel
+
+theorem CompactLocatedRefinementChain_endpoint_hsame_reflects
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :
+    CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
+        finalCompact ->
+      hsame finalLocated finalIntermediate -> hsame located intermediate := by
+  intro chain sameEndpoint
+  induction chain with
+  | base =>
+      exact sameEndpoint
+  | step prior extraCarrier locatedRel intermediateRel compactRel ih =>
+      exact ih (cont_common_suffix_cancellation locatedRel intermediateRel sameEndpoint)
 
 theorem CompactWitnessCarrier_located_refinement_chain_closed
     {subset finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :

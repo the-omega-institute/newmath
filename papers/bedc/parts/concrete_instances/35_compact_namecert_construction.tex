@@ -133,6 +133,23 @@ the next endpoints by continuation respect for $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_endpoint\_hsame}
 
+\begin{theorem}[Compact finite refinement chain endpoint hsame reflects]
+\label{thm:compact-finite-refinement-chain-endpoint-hsame-reflects}
+If
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact)
+$$
+and $\hsame(finalFinite,finalCompact)$, then $\hsame(finite,compact)$.
+\end{theorem}
+\begin{proof}
+Induct on the compact finite refinement chain. The base case is the supplied
+final endpoint equality. In the step case, both endpoints were extended by the
+same refinement tail. Common-suffix cancellation for the two continuation
+witnesses reflects $\hsame$ from the final endpoints to the preceding endpoints,
+and the induction hypothesis reflects it to the starting endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_endpoint\_hsame\_reflects}
+
 \begin{theorem}[Compact witness carrier finite refinement chain closure]
 \label{thm:compact-witness-carrier-finite-refinement-chain-closed}
 If
@@ -345,6 +362,24 @@ intermediate endpoints; the shared refinement tail and the two displayed
 continuations transport it to the next located and intermediate endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_endpoint\_hsame}
+
+\begin{theorem}[Compact located refinement chain endpoint hsame reflects]
+\label{thm:compact-located-refinement-chain-endpoint-hsame-reflects}
+If
+$$
+\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,finalLocated,finalIntermediate,finalCompact)
+$$
+and $\hsame(finalLocated,finalIntermediate)$, then
+$\hsame(located,intermediate)$.
+\end{theorem}
+\begin{proof}
+Induct on the compact located refinement chain. The base case is the supplied
+final equality. In the step case, located and intermediate endpoints are
+extended by the same refinement tail, so common-suffix cancellation reflects
+the final $\hsame$ witness to the preceding located and intermediate endpoints.
+The induction hypothesis then reflects that witness to the starting pair.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_endpoint\_hsame\_reflects}
 
 \begin{theorem}[Compact witness carrier located refinement chain closure]
 \label{thm:compact-witness-carrier-located-refinement-chain-closed}

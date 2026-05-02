@@ -84,6 +84,7 @@ import BEDC.Derived.OptionUp.ExclusiveBranch
 import BEDC.Derived.OptionUp.EndpointFanout
 import BEDC.Derived.OptionUp.VisibleExclusion
 import BEDC.Derived.OptionUp.TaggedConfluence
+import BEDC.Derived.OptionUp.PrefixClosure
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
