@@ -21,12 +21,36 @@ carrier witness and the equality $h\hsame\emp$ gives the required
 contradiction.
 \end{proof}
 
+\begin{theorem}[Singleton field schema is disjoint from RatUp classifier endpoints]
+\label{thm:field-singleton-schema-disjoint-from-rat-history-classifier}
+For every $h,k:\mathsf{BHist}$, if $A_{\emp}(h)$ holds for the singleton
+source from Definition~\ref{def:singleton-empty-history-field-schema-instance}
+and $\mathsf{RatHistoryClassifier}(h,k)$ holds, then $\mathsf{False}$.
+Likewise, if $A_{\emp}(k)$ and $\mathsf{RatHistoryClassifier}(h,k)$ hold, then
+$\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+Unfold the Rat history classifier. Its witness contains
+$\mathsf{RatHistoryCarrier}(h)$, $\mathsf{RatHistoryCarrier}(k)$, and the
+displayed relation $h\hsame k$.
+
+For the left endpoint, assume $A_{\emp}(h)$. Apply
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+$A_{\emp}(h)$ and the carrier witness $\mathsf{RatHistoryCarrier}(h)$.
+
+For the right endpoint, assume $A_{\emp}(k)$. Apply
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+$A_{\emp}(k)$ and the carrier witness $\mathsf{RatHistoryCarrier}(k)$.
+\end{proof}
+
 Traditional target terminal singleton field boundary; BEDC source singleton
 $\mathsf{BHist}$ $\FieldUp$ schema plus RatUp history carrier; carrier choices
 $A_{\emp}$ and $\mathsf{RatHistoryCarrier}$; classifier choices $\rho_{\emp}$
 and Rat history classifier; stability obligation nonempty denominator
 separation; ledger empty endpoint versus positive-denominator evidence; core
-theorem Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier};
+theorems
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} and
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-classifier};
 exactness predicate no shared endpoint; standard bridge terminal schema is not
 the rational field; status ProofTarget.
 
