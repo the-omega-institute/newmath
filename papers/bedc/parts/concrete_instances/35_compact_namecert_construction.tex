@@ -394,6 +394,40 @@ carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_finite\_refinement\_chain\_closed}
 
+\begin{theorem}[Compact witness carrier located finite refinement chain final endpoints unary]
+\label{thm:compact-witness-carrier-located-finite-refinement-chain-final-endpoints-unary}
+Assume
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact),
+$$
+a located refinement chain from $(located,intermediate,compact)$ to
+$(finalLocated,finalIntermediate,finalCompact)$ over the same finite witness,
+and a finite refinement chain from $(finite,finalCompact)$ to
+$(finalFinite,finalCompact')$. Then
+$$
+\mathsf{UnaryHistory}(finalLocated)\land
+\mathsf{UnaryHistory}(finalIntermediate)\land
+\mathsf{UnaryHistory}(finalFinite)\land
+\mathsf{UnaryHistory}(finalCompact').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the compact witness carrier. The carrier provides unary witnesses for
+$subset$, $located$, and $finite$ together with the continuation ledgers
+$\Cont(subset,located,intermediate)$ and
+$\Cont(intermediate,finite,compact)$. Closure of unary histories under
+$\Cont$ gives unary witnesses for $intermediate$ and $compact$.
+
+Apply the located-chain endpoint theorem to the located chain and these four
+initial endpoint witnesses. This gives unary witnesses for $finalLocated$,
+$finalIntermediate$, and $finalCompact$. Apply the finite-chain endpoint theorem
+to the finite chain, the original unary witness for $finite$, and the obtained
+unary witness for $finalCompact$. The result supplies unary witnesses for
+$finalFinite$ and $finalCompact'$, which together form the displayed
+conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_finite\_refinement\_chain\_final\_endpoints\_unary}
+
 \section{The certificate}
 
 \begin{definition}[Compact source specification]

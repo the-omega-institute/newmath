@@ -139,6 +139,28 @@ common source history and common target history yields $\hsame(map,map')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_map\_deterministic}
 
+\begin{theorem}[Continuous function carrier source determinacy]
+\label{thm:continuous-function-carrier-source-deterministic}
+For histories $source,source',map,target,modulus,cert$, if two
+continuous-function carrier witnesses share the same graph map, target,
+modulus, and certificate, then their source histories are determined up to
+$\hsame$:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source',map,target,modulus,cert)
+\Longrightarrow
+\hsame(source,source').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both carrier witnesses. Their graph ledgers are
+$\mathsf{Cont}(source,map,target)$ and
+$\mathsf{Cont}(source',map,target)$. Continuation right cancellation with the
+common map history and common target history yields $\hsame(source,source')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_source\_deterministic}
+
 \begin{theorem}[Continuous function carrier modulus determinacy]
 \label{thm:continuous-function-carrier-modulus-deterministic}
 For histories $source,map,target,modulus,modulus',cert$, if two

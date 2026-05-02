@@ -320,6 +320,44 @@ theorem CompactWitnessCarrier_located_finite_refinement_chain_closed
     CompactWitnessCarrier_located_refinement_chain_closed carrier locatedChain
   exact CompactWitnessCarrier_finite_refinement_chain_closed locatedCarrier finiteChain
 
+theorem CompactWitnessCarrier_located_finite_refinement_chain_final_endpoints_unary
+    {subset located finite intermediate compact finalLocated finalIntermediate finalCompact
+      finalFinite finalCompact' : BHist} :
+    CompactWitnessCarrier subset located finite intermediate compact →
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
+        finalCompact →
+        CompactFiniteRefinementChain finite finalCompact finalFinite finalCompact' →
+          UnaryHistory finalLocated ∧ UnaryHistory finalIntermediate ∧ UnaryHistory finalFinite ∧
+            UnaryHistory finalCompact' := by
+  intro carrier locatedChain finiteChain
+  cases carrier with
+  | intro subsetCarrier rest =>
+      cases rest with
+      | intro locatedCarrier rest =>
+          cases rest with
+          | intro finiteCarrier rest =>
+              cases rest with
+              | intro locatedRel finiteRel =>
+                  have intermediateCarrier : UnaryHistory intermediate :=
+                    unary_cont_closed subsetCarrier locatedCarrier locatedRel
+                  have compactCarrier : UnaryHistory compact :=
+                    unary_cont_closed intermediateCarrier finiteCarrier finiteRel
+                  have locatedEndpoints :=
+                    CompactLocatedRefinementChain_final_endpoints_unary locatedChain finiteCarrier
+                      locatedCarrier intermediateCarrier compactCarrier
+                  cases locatedEndpoints with
+                  | intro finalLocatedCarrier locatedRest =>
+                      cases locatedRest with
+                      | intro finalIntermediateCarrier finalCompactCarrier =>
+                          have finiteEndpoints :=
+                            CompactFiniteRefinementChain_final_endpoints_unary finiteChain
+                              finiteCarrier finalCompactCarrier
+                          cases finiteEndpoints with
+                          | intro finalFiniteCarrier finalCompactCarrier' =>
+                              exact And.intro finalLocatedCarrier
+                                (And.intro finalIntermediateCarrier
+                                  (And.intro finalFiniteCarrier finalCompactCarrier'))
+
 theorem CompactNetWitness_prefix_iff {p center precision net : BHist} :
     CompactNetWitness (append p center) precision (append p net) ↔
       UnaryHistory p ∧ CompactNetWitness center precision net := by

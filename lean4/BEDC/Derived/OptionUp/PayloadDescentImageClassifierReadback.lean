@@ -115,26 +115,26 @@ theorem TaggedOptionPayloadDescentImageClassifier_reflective_transitive_visible_
                                 data.right.right.right.right.right.right))))))))))
 
 theorem TaggedOptionPayloadDescentImageClassifier_transported_visible_payload_pair_coherence
-    {S T : BHist → Prop} {RelS RelT : BHist → BHist → Prop}
+    {S T : BHist -> Prop} {RelS RelT : BHist -> BHist -> Prop}
     (delta : DescentCertificate BHist BHist RelS RelT)
     (cert : NameCert S RelS)
     (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
     {k k' u u' x y x' y' : BHist} :
-    TaggedOptionPayloadDescentImageClassifier S T delta k k' →
-      hsame k u →
-        hsame k' u' →
-          T x →
-            T y →
-              hsame u (BHist.e1 x) →
-                hsame u' (BHist.e1 y) →
-                  T x' →
-                    T y' →
-                      hsame u (BHist.e1 x') →
-                        hsame u' (BHist.e1 y') →
-                          ∃ a b : BHist,
-                            S a ∧ S b ∧ RelS a b ∧ T (delta.map a) ∧
-                              T (delta.map b) ∧ hsame x (delta.map a) ∧
-                                hsame y (delta.map b) ∧ hsame x' (delta.map a) ∧
+    TaggedOptionPayloadDescentImageClassifier S T delta k k' ->
+      hsame k u ->
+        hsame k' u' ->
+          T x ->
+            T y ->
+              hsame u (BHist.e1 x) ->
+                hsame u' (BHist.e1 y) ->
+                  T x' ->
+                    T y' ->
+                      hsame u (BHist.e1 x') ->
+                        hsame u' (BHist.e1 y') ->
+                          exists a b : BHist,
+                            S a /\ S b /\ RelS a b /\ T (delta.map a) /\
+                              T (delta.map b) /\ hsame x (delta.map a) /\
+                                hsame y (delta.map b) /\ hsame x' (delta.map a) /\
                                   hsame y' (delta.map b) := by
   intro image sameLeft sameRight targetX targetY sameUX sameU'Y targetX' targetY'
     sameUX' sameU'Y'
@@ -166,5 +166,45 @@ theorem TaggedOptionPayloadDescentImageClassifier_transported_visible_payload_pa
                                 data.right.right.right.right.right.left)
                               (hsame_trans sameY'Y
                                 data.right.right.right.right.right.right))))))))))
+
+theorem TaggedOptionPayloadDescentImageClassifier_reflective_transitive_transport_visible_target_payload_classification
+    {S T : BHist -> Prop} {RelS RelT : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (certS : NameCert S RelS)
+    (certT : NameCert T RelT)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (target_hsame : TaggedOptionSourceHsameCompatible T RelT)
+    (reflects : TaggedOptionPayloadDescentReflectsSource S delta) {k l m p q u v : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S T delta k l ->
+      TaggedOptionPayloadDescentImageClassifier S T delta l m ->
+        hsame k p ->
+          hsame m q ->
+            T u ->
+              T v ->
+                hsame p (BHist.e1 u) ->
+                  hsame q (BHist.e1 v) ->
+                    RelT u v := by
+  intro imageKL imageLM sameKP sameMQ targetU targetV samePU sameQV
+  have imageKM :=
+    TaggedOptionPayloadDescentImageClassifier_reflective_transitivity
+      delta certS source_hsame reflects imageKL imageLM
+  have sameKU : hsame k (BHist.e1 u) := hsame_trans sameKP samePU
+  have sameMV : hsame m (BHist.e1 v) := hsame_trans sameMQ sameQV
+  have readback :=
+    TaggedOptionPayloadDescentImageClassifier_visible_payload_readback
+      delta certS source_hsame imageKM targetU targetV sameKU sameMV
+  cases readback with
+  | intro a readback =>
+      cases readback with
+      | intro b data =>
+          have relImage : RelT (delta.map a) (delta.map b) :=
+            delta.respects data.right.right.left
+          have relLeft : RelT u (delta.map a) :=
+            target_hsame targetU data.right.right.right.left
+              data.right.right.right.right.right.left
+          have relRight : RelT (delta.map b) v :=
+            target_hsame data.right.right.right.right.left targetV
+              (hsame_symm data.right.right.right.right.right.right)
+          exact NameCert.equiv_trans certT (NameCert.equiv_trans certT relLeft relImage) relRight
 
 end BEDC.Derived.OptionUp

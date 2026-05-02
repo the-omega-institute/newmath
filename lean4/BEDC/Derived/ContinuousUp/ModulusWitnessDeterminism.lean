@@ -130,4 +130,31 @@ theorem ContinuousFunctionCarrier_map_deterministic
                                       | intro sourceMap' _targetCert' =>
                                           exact cont_left_cancel sourceMap sourceMap'
 
+theorem ContinuousFunctionCarrier_source_deterministic
+    {source source' map target modulus cert : BHist} :
+    ContinuousFunctionCarrier source map target modulus cert →
+      ContinuousFunctionCarrier source' map target modulus cert → hsame source source' := by
+  intro left right
+  cases left with
+  | intro _sourceCarrier leftRest =>
+      cases leftRest with
+      | intro _targetCarrier leftRest =>
+          cases leftRest with
+          | intro _mapCarrier leftRest =>
+              cases leftRest with
+              | intro _modulusCarrier leftRest =>
+                  cases leftRest with
+                  | intro sourceMap _targetCert =>
+                      cases right with
+                      | intro _sourceCarrier' rightRest =>
+                          cases rightRest with
+                          | intro _targetCarrier' rightRest =>
+                              cases rightRest with
+                              | intro _mapCarrier' rightRest =>
+                                  cases rightRest with
+                                  | intro _modulusCarrier' rightRest =>
+                                      cases rightRest with
+                                      | intro sourceMap' _targetCert' =>
+                                          exact cont_right_cancel sourceMap sourceMap'
+
 end BEDC.Derived.ContinuousUp
