@@ -429,6 +429,50 @@ the normal-form step, the two signed-column collapses, and the final zero
 collapse.
 \end{proof}
 
+\begin{theorem}[CommRing signed product zero exactness]
+\label{thm:commring-signed-product-zero-exact}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ satisfies
+$$
+(a+(-b))\cdot(c+(-d))\hsame0
+\Longleftrightarrow
+a\cdot c+b\cdot d\hsame a\cdot d+b\cdot c .
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:commring-signed-binary-product-normal-form} to rewrite the
+signed product as
+$$
+(a\cdot c+(-(a\cdot d)))+((-(b\cdot c))+(b\cdot d)).
+$$
+
+Apply Theorem~\ref{thm:abgroup-middle-four-interchange} to regroup the
+four-term additive ledger as
+$(a\cdot c+b\cdot d)+((-(a\cdot d))+(-(b\cdot c)))$. The negative-product
+laws and additive inverse congruence identify the second summand with the
+additive inverse of $(a\cdot d+b\cdot c)$. The signed product hypothesis
+therefore presents a balanced difference between the two cross sums.
+
+Add $a\cdot d+b\cdot c$ to both sides by additive congruence. Additive
+associativity moves the inverse pair next to its positive partner, and
+Theorem~\ref{thm:ring-add-right-inverse} collapses the pair to $0$. The zero
+laws remove the neutral summand and leave
+$a\cdot c+b\cdot d\hsame a\cdot d+b\cdot c$.
+
+For the reverse direction, start from the assumed cross-sum equality and
+transport it through additive congruence while keeping the inverse of the
+right cross sum fixed. The right endpoint becomes the sum of
+$a\cdot d+b\cdot c$ and its additive inverse.
+
+Theorem~\ref{thm:ring-add-right-inverse} collapses that endpoint to $0$.
+Symmetry and transitivity compose this collapse with the signed binary
+normal form, yielding
+$ (a+(-b))\cdot(c+(-d))\hsame0 $.
+\end{proof}
+
 \begin{definition}[CommRing ledger policy]
 \label{def:commring-ledger-policy}
 Record ring expression provenance and the multiplicative commutativity law when used.
