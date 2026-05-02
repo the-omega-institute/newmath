@@ -343,3 +343,56 @@ and bilateral cancellation fields over the same concrete denominator tuple and
 the same action $\Gamma$, so the displayed action-normalization clauses form one
 certificate-level FieldUp denominator package.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp denominator total normalization with support collapse]
+\label{thm:ratup-fieldup-denominator-total-normalization-support-collapse-row}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose
+$C_D^u(h)$, $C_D^u(k)$, $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and
+$C_D^u(r')$. Suppose also that $p\hsame\emp$, $q\hsame\emp$,
+$p'\hsame\emp$, $q'\hsame\emp$, and that
+$\neg N_D^u(l)$, $\neg N_D^u(r)$, $\neg N_D^u(l')$, and
+$\neg N_D^u(r')$. Then the nested action is carried:
+$$
+C_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))).
+$$
+It is classified by the collected denominator-context action:
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',\mu_D^u(l',l),\mu_D^u(r,r')}(h)).
+$$
+Its strict support is exactly the strict support of the acted-on history:
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(h).
+$$
+Moreover, for any second endpoint $k$ under the same collected carried contexts,
+and for $s,t,s',t'$ satisfying $s\hsame\emp$, $t\hsame\emp$,
+$s'\hsame\emp$, and $t'\hsame\emp$, the collected action remains
+classifier-exact:
+$$
+R_D^u(\Gamma_{s,t,\mu_D^u(l',l),\mu_D^u(r,r')}(h),
+\Gamma_{s',t',\mu_D^u(l',l),\mu_D^u(r,r')}(k))
+\Longleftrightarrow R_D^u(h,k).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-total-normalization-package}.
+Its two-layer row supplies the carried nested action and the classifier
+comparison with the collected denominator-context action.
+
+The same package cites the normalized contextual action row over the collected
+left context $\mu_D^u(l',l)$ and collected right context $\mu_D^u(r,r')$.
+Thus the collected action remains classifier-exact against the second endpoint
+$k$ with empty external endpoints.
+
+Finally apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-support-collapse} to
+the four carried contexts and the four no-extra-support hypotheses. This gives
+the displayed equivalence between the strict support of the nested action and
+the strict support of $h$, so the certificate row records support neutrality in
+the empty-support contextual case.
+\end{proof}
