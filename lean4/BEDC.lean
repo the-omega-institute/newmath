@@ -173,6 +173,7 @@ import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatDenomUnit
 import BEDC.Derived.FieldUp.RatDenomUnitEmptyContext
 import BEDC.Derived.FieldUp.RatContinuation
+import BEDC.Derived.FieldUp.RatContextInvariantObstruction
 import BEDC.Derived.FieldUp.RatContinuationAppendComm
 import BEDC.Derived.FieldUp.RatContinuationCommutative
 import BEDC.Derived.FieldUp.RatDenominatorUnitEnvelopeContinuation

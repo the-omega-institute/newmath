@@ -592,4 +592,9 @@ theorem CompactNetWitness_prefixed_composite_precision_deterministic
     cont_left_cancel left.right.right.right right.right.right.right
   exact cont_common_suffix_cancellation leftComposite rightComposite sameComposite
 
+theorem CompactWitnessCarrier_iterated_finite_refinement_closed {subset located finite extra0 extra1 intermediate compact finite0 compact0 finite1 compact1 : BHist} :
+    CompactWitnessCarrier subset located finite intermediate compact -> UnaryHistory extra0 -> UnaryHistory extra1 -> Cont finite extra0 finite0 -> Cont compact extra0 compact0 -> Cont finite0 extra1 finite1 -> Cont compact0 extra1 compact1 -> CompactWitnessCarrier subset located finite1 intermediate compact1 := by
+  intro carrier extra0Carrier extra1Carrier finite0Rel compact0Rel finite1Rel compact1Rel
+  exact CompactWitnessCarrier_finite_extension_closed (CompactWitnessCarrier_finite_extension_closed carrier extra0Carrier finite0Rel compact0Rel) extra1Carrier finite1Rel compact1Rel
+
 end BEDC.Derived.CompactUp

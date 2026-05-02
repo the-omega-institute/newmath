@@ -44,8 +44,48 @@ theorem NatMul_functional {d q n m : BHist} :
           have samePrev : hsame _ _ := ih rightPrev
           exact cont_respects_hsame samePrev (hsame_refl d) leftCont rightCont
 
+theorem NatMul_left_unary {d q n : BHist} : NatMul d q n -> UnaryHistory d := by
+  intro mul
+  induction mul with
+  | zero hd => exact hd
+  | succ _ _ ih => exact ih
+
+theorem NatMul_append_cont {d q e w n r : BHist} :
+    NatMul d w n -> NatMul d q e -> Cont n e r -> NatMul d (append w q) r := by
+  intro left right continuation
+  induction right generalizing w n r with
+  | zero _hd =>
+      cases continuation
+      exact left
+  | succ prev step ih =>
+      cases step
+      cases continuation
+      exact NatMul.succ (ih left (cont_intro rfl)) (cont_intro (append_assoc n _ d).symm)
+
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
+
+theorem NatDivides_transitive {d e n : BHist} :
+    NatDivides d e -> NatDivides e n -> NatDivides d n := by
+  intro left right
+  cases left with
+  | intro q qData =>
+      cases qData with
+      | intro qUnary qMul =>
+          cases right with
+          | intro r rData =>
+              cases rData with
+              | intro rUnary rMul =>
+                  induction rMul with
+                  | zero _eUnary =>
+                      exact ⟨BHist.Empty, unary_empty, NatMul.zero (NatMul_left_unary qMul)⟩
+                  | succ prev step ih =>
+                      cases ih rUnary with
+                      | intro w wData =>
+                          cases wData with
+                          | intro wUnary wMul =>
+                              exact ⟨append w q, unary_append_closed wUnary qUnary,
+                                NatMul_append_cont wMul qMul step⟩
 
 def NatPrime (p : BHist) : Prop :=
   UnaryHistory p ∧ NatUnaryStrictPrefix (BHist.e1 BHist.Empty) p ∧
