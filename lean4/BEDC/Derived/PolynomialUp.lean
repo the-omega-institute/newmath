@@ -65,6 +65,24 @@ theorem PolynomialSingletonClassifier_append_left_cancel_iff {P Q R : BHist} :
         (hsame_trans classified.right.right (hsame_symm (append_empty_left R)))
     exact And.intro leftCarrier (And.intro rightCarrier sameAppend)
 
+theorem PolynomialSingletonClassifier_append_pair_carrier_iff {P Q R S : BHist} :
+    PolynomialSingletonClassifier (append P Q) (append R S) ↔
+      PolynomialSingletonCarrier P ∧ PolynomialSingletonCarrier Q ∧
+        PolynomialSingletonCarrier R ∧ PolynomialSingletonCarrier S := by
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.left
+      (And.intro leftSplit.right (And.intro rightSplit.left rightSplit.right))
+  · intro parts
+    cases parts.left
+    cases parts.right.left
+    cases parts.right.right.left
+    cases parts.right.right.right
+    exact And.intro (hsame_refl BHist.Empty)
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+
 theorem singleton_empty_history_polynomial_laws :
     SemanticNameCert PolynomialSingletonCarrier PolynomialSingletonCarrier
       PolynomialSingletonCarrier PolynomialSingletonClassifier ∧

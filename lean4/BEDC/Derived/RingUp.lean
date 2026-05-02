@@ -110,6 +110,17 @@ theorem RingSingletonClassifier_append_visible_right_absurd {h p q : BHist} :
     have emptyParts := BEDC.FKernel.Cont.append_eq_empty_iff.mp classified.right.left
     cases emptyParts.right
 
+theorem RingSingletonClassifier_append_visible_left_absurd {p q h : BHist} :
+    (RingSingletonClassifier (append p (BHist.e0 q)) h -> False) ∧
+      (RingSingletonClassifier (append p (BHist.e1 q)) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+
 theorem concrete_singleton_history_ring_laws :
     let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
     let Classifier : BHist -> BHist -> Prop :=

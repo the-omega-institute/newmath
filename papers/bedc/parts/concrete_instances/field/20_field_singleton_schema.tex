@@ -229,6 +229,26 @@ disjointness of $\mathsf{e1}$ from $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_visible\_headed}
 
+\begin{theorem}[Singleton empty nonzero visible append-right exclusion]
+\label{thm:field-singleton-empty-nonzero-append-visible-right}
+For histories $p,q:\mathsf{BHist}$, appending a visible right component gives
+histories in the classifier-complement singleton nonzero predicate:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(p,\mathsf{e0}(q)))
+\land
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(p,\mathsf{e1}(q))).
+$$
+\end{theorem}
+\begin{proof}
+For either visible right component, a forbidden classifier witness would
+include a carrier proof identifying the displayed append endpoint with
+$\emp$. Empty-result inversion for append then identifies the visible suffix
+with $\emp$, contradicting constructor separation for $\mathsf{BHist}$. Thus
+each displayed appended endpoint lies in the complement of the singleton empty
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_visible\_right}
+
 \begin{theorem}[Singleton empty-classifier append split]
 \label{thm:field-singleton-empty-classifier-append-split-empty}
 For histories $p,q,h:\mathsf{BHist}$, the singleton empty classifier

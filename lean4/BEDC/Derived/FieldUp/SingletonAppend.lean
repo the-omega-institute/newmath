@@ -30,6 +30,17 @@ theorem FieldSingletonClassifier_append_visible_left_absurd {p q h : BHist} :
     have emptyParts := append_eq_empty_iff.mp classified.left
     cases emptyParts.right
 
+theorem fieldSingletonEmptyNonZero_append_visible_right {p q : BHist} :
+    fieldSingletonEmptyNonZero (append p (BHist.e0 q)) ∧
+      fieldSingletonEmptyNonZero (append p (BHist.e1 q)) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+
 theorem FieldSingletonClassifier_append_visible_prefix_absurd {p q h : BHist} :
     (FieldSingletonClassifier (append (BHist.e0 p) q) h -> False) ∧
       (FieldSingletonClassifier (append (BHist.e1 p) q) h -> False) := by

@@ -213,6 +213,28 @@ classified endpoints $Q$ and $R$.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_left\_cancel\_iff}
 
+\begin{theorem}[Polynomial singleton classifier append-pair carrier exactness]
+\label{thm:polynomial-singleton-classifier-append-pair-carrier}
+For histories $P,Q,R,S:\mathsf{BHist}$, the singleton polynomial classifier
+relates the two appended endpoints exactly when all four factors are carried
+by the singleton carrier:
+$$
+\rho_{\emp}(\mathsf{append}(P,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(R)\land A_{\emp}(S).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton classifier. In the forward direction, the two carrier
+fields identify $\mathsf{append}(P,Q)$ and $\mathsf{append}(R,S)$ with
+$\emp$, and empty-result inversion for append splits these into the four
+singleton carrier witnesses. Conversely, if all four factors are
+singleton-carried, each factor is identified with $\emp$, so both appended
+endpoints reduce to $\emp$ and the classifier is rebuilt from reflexivity of
+$\hsame(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_pair\_carrier\_iff}
+
 \begin{theorem}[Polynomial singleton append distributivity is classified]
 \label{thm:polynomial-singleton-append-distrib-classified}
 For singleton-carried polynomial endpoints $P,Q,R$, the displayed append

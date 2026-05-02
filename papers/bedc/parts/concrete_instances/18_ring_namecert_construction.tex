@@ -153,6 +153,21 @@ disjoint, so both classifier assumptions are contradictory.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_visible\_right\_absurd}
 
+\begin{theorem}[Ring singleton classifier visible-left exclusion]
+\label{thm:ring-singleton-classifier-append-visible-left-absurd}
+For histories $p,q,h:\mathsf{BHist}$, neither
+$\rho_{\emp}(\mathsf{append}(p,\mathsf{e0}(q)),h)$ nor
+$\rho_{\emp}(\mathsf{append}(p,\mathsf{e1}(q)),h)$ can hold.
+\end{theorem}
+\begin{proof}
+Unfold the singleton ring classifier. In either case, the left carrier field
+identifies the displayed append endpoint with $\emp$. Empty-result inversion
+for append then forces the visible right component, either $\mathsf{e0}(q)$ or
+$\mathsf{e1}(q)$, to be $\emp$. Constructor separation for
+$\mathsf{BHist}$ rules out both alternatives.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_visible\_left\_absurd}
+
 The RingUp schema is also instantiated by this concrete empty-history carrier
 and constant operation tuple.
 
