@@ -718,6 +718,19 @@ rational-history carrier for $v$, and these witnesses form the raw-visible
 rational history classifier.
 \end{proof}
 
+\begin{theorem}[Rat ledger shared-raw visible classifier]
+\label{thm:rat-history-ledger-policy-shared-raw-visible-classifier}
+If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v')$ hold, then
+$\mathsf{RatHistoryClassifier}(v,v')$ holds.
+\end{theorem}
+\begin{proof}
+Convert both rational ledger witnesses to raw-visible classifiers. Reverse the
+first classifier by rational classifier symmetry, then compose it with the
+second raw-visible classifier by rational classifier transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_shared\_raw\_visible\_classifier}
+
 \begin{theorem}[Rat ledger classifier extension]
 \label{thm:rat-ledger-classifier-extension}
 If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds and

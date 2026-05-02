@@ -192,6 +192,15 @@ theorem RatHistoryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist}
   · intro classified
     exact RatHistoryLedgerPolicy_classifier_extension ledger classified
 
+theorem RatHistoryLedgerPolicy_shared_raw_visible_classifier {raw visible visible' : BHist} :
+    RatHistoryLedgerPolicy raw visible ->
+      RatHistoryLedgerPolicy raw visible' ->
+        RatHistoryClassifier visible visible' := by
+  intro leftLedger rightLedger
+  exact RatHistoryClassifier_trans
+    (RatHistoryClassifier_symm (RatHistoryLedgerPolicy_raw_visible_classifier leftLedger))
+    (RatHistoryLedgerPolicy_raw_visible_classifier rightLedger)
+
 theorem RatHistoryLedgerPolicy_visible_positive_denominator_readback
     {raw visible tail : BHist} :
     RatHistoryLedgerPolicy raw visible → hsame visible (BHist.e1 tail) → UnaryHistory tail := by
