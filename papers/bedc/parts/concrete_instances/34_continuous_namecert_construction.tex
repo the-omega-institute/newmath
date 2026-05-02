@@ -343,6 +343,32 @@ continuation ledger to the suffixed continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_suffix\_iff}
 
+\begin{theorem}[Continuous modulus witness left e1 result cases]
+\label{thm:continuous-modulus-witness-left-e1-result-cases}
+For histories $source,modulus,target$, a one-step modulus witness from a
+visible source endpoint to a visible target endpoint has only the empty modulus
+case or a visible modulus tail:
+$$
+\mathsf{ContinuousModulusWitness}(\Eone(source),modulus,\Eone(target))
+\Longrightarrow
+\bigl(modulus=\emp\land\mathsf{UnaryHistory}(source)\land
+\hsame(source,target)\bigr)
+\lor
+\bigl(\exists modulusTail:\mathsf{BHist}.\;
+modulus=\Eone(modulusTail)\land
+\mathsf{ContinuousModulusWitness}(\Eone(source),modulusTail,target)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the modulus witness and invert the continuation ledger with visible
+result $\Eone(target)$. The empty modulus case strips the outer visible
+constructor from the source-target equality and keeps the unary source
+evidence. The zero-tagged modulus case is ruled out by constructor
+no-confusion. In the visible modulus case, remove one $\Eone$ constructor from
+the continuation ledger and repack the remaining fields as the tail witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_left\_e1\_result\_cases}
+
 \begin{theorem}[Continuous modulus witness modulus determinacy]
 \label{thm:continuous-modulus-witness-modulus-hsame-deterministic}
 If two one-step modulus witnesses have $\hsame$ source histories and $\hsame$ target histories, then their modulus histories are $\hsame$:

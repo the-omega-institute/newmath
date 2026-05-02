@@ -198,6 +198,28 @@ some $\Eone$ payload, contradicting no-confusion between the two visible tags.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_e0\_endpoint\_absurd}
 
+\begin{theorem}[Tagged option history classifier empty-visible exclusion]
+\label{thm:tagged-option-history-classifier-empty-visible-exclusion}
+For every source carrier $S$, payload classifier $Rel$, histories $h,k$, and
+payload histories $a,b$, a tagged optional classifier witness excludes an empty
+endpoint opposite a visible present endpoint:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,Rel}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\emp)\Longrightarrow\hsame(k,\Eone(b))\Longrightarrow\bot\bigr)
+\land
+\bigl(\hsame(k,\emp)\Longrightarrow\hsame(h,\Eone(a))\Longrightarrow\bot\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the classifier witness. In the absent branch both endpoints are
+$\hsame$ to $\emp$, so either visible endpoint contradicts constructor
+no-confusion between $\emp$ and $\Eone$. In the present branch the stored
+visible endpoint on the opposite side gives the same empty-versus-present
+contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_empty\_visible\_exclusion}
+
 \begin{theorem}[Tagged option history carrier exclusive branch partition]
 \label{thm:tagged-option-history-carrier-exclusive-branch-partition}
 This theorem fits the per-object template as follows: the traditional target is

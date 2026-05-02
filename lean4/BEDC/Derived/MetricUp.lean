@@ -355,6 +355,41 @@ theorem MetricDistanceWitness_prefix_closed {p x y dist : BHist} :
                     (And.intro (unary_append_closed prefixCarrier distCarrier)
                       (cont_intro (append_assoc p x y).symm)))
 
+theorem MetricDistanceWitness_left_e1_result_cases {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) →
+      (y = BHist.Empty ∧ UnaryHistory x ∧ hsame x d) ∨
+        (∃ y1 : BHist,
+          y = BHist.e1 y1 ∧ MetricDistanceWitness (BHist.e1 x) y1 d) := by
+  intro witness
+  cases witness with
+  | intro xCarrier rest =>
+      cases rest with
+      | intro yCarrier rest =>
+          cases rest with
+          | intro dCarrier distRel =>
+              have resultCases := cont_e1_result_inversion distRel
+              cases resultCases with
+              | inl emptyCase =>
+                  cases emptyCase with
+                  | intro yEmpty sameDist =>
+                      cases yEmpty
+                      exact
+                        Or.inl
+                          (And.intro rfl
+                            (And.intro xCarrier (hsame_e1_iff.mp sameDist)))
+              | inr tailCase =>
+                  cases tailCase with
+                  | intro y1 tailData =>
+                      cases tailData with
+                      | intro yEq tailRel =>
+                          cases yEq
+                          exact
+                            Or.inr
+                              (Exists.intro y1
+                                (And.intro rfl
+                                  (And.intro xCarrier
+                                    (And.intro yCarrier (And.intro dCarrier tailRel)))))
+
 theorem MetricDistanceWitness_semanticNameCert {x y : BHist} :
     UnaryHistory x -> UnaryHistory y ->
       BEDC.FKernel.NameCert.SemanticNameCert (MetricDistanceWitness x y)

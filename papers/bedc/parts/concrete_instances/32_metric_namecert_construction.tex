@@ -350,6 +350,30 @@ $\mathsf{MetricDistanceWitness}(x,\emp,d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_right\_iff}
 
+\begin{theorem}[Metric distance witness left e1 result cases]
+\label{thm:metric-distance-witness-left-e1-result-cases}
+For histories $x,y,d$, a distance witness from a visible left endpoint to a
+visible result has only the empty middle case or a visible middle tail:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longrightarrow
+\bigl(y=\emp\land\mathsf{UnaryHistory}(x)\land\hsame(x,d)\bigr)
+\lor
+\bigl(\exists y_1:\mathsf{BHist}.\;
+y=\Eone(y_1)\land
+\mathsf{MetricDistanceWitness}(\Eone(x),y_1,d)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the distance witness and invert the continuation ledger with visible
+result $\Eone(d)$. If the middle endpoint is empty, the continuation reduces
+the visible equality to $\hsame(x,d)$ and the witness supplies unary evidence
+for $x$. The zero-tagged middle case contradicts constructor no-confusion. In
+the visible middle case, strip one $\Eone$ constructor from the continuation
+ledger and repack the remaining unary evidence as the tail distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_cases}
+
 \begin{theorem}[Metric distance witness right-boundary visible-context exactness]
 \label{thm:metric-distance-witness-right-boundary-visible-context-iff}
 For histories $p,q,x,d$, a visible-context distance witness whose central right
