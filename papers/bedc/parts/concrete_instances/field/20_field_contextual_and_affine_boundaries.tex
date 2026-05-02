@@ -640,6 +640,89 @@ exactness predicate
 $R_D^u(B_{l,r}(h),B_{l,r}(k)) \Longleftrightarrow R_D^u(h,k)$; standard bridge
 cancellative commutative denominator monoids; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Rat denominator empty-unit context action support exactness]
+\label{thm:field-rat-denominator-empty-unit-context-action-support-exactness}
+For histories $h,k,t,p,q,p',q':\mathsf{BHist}$, assume
+$C_D^u(h)$, $C_D^u(k)$, $C_D^u(t)$, and
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and
+$q'\hsame\emp$. The concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ satisfies the following context-action
+boundary laws.
+\begin{enumerate}
+\item Right multiplication by the fixed factor $t$ is classifier exact:
+$$
+R_D^u(\mu_D^u(h,t),\mu_D^u(k,t)) \Longleftrightarrow R_D^u(h,k).
+$$
+\item Left multiplication by the fixed factor $t$ is classifier exact:
+$$
+R_D^u(\mu_D^u(t,h),\mu_D^u(t,k)) \Longleftrightarrow R_D^u(h,k).
+$$
+\item Empty external endpoint contexts are classifier exact:
+$$
+R_D^u(\mathsf{append}(p,\mathsf{append}(h,q)),
+\mathsf{append}(p',\mathsf{append}(k,q')))
+\Longleftrightarrow
+R_D^u(h,k).
+$$
+\item Empty external endpoint contexts preserve and reflect strict support:
+$$
+N_D^u(\mathsf{append}(p,\mathsf{append}(h,q))) \Longleftrightarrow N_D^u(h)
+$$
+and
+$$
+N_D^u(\mathsf{append}(p',\mathsf{append}(k,q'))) \Longleftrightarrow N_D^u(k).
+$$
+\item Strict support is exact under the two fixed-factor multiplication
+actions:
+$$
+N_D^u(\mu_D^u(h,t)) \Longleftrightarrow N_D^u(h)\lor N_D^u(t)
+$$
+and
+$$
+N_D^u(\mu_D^u(t,h)) \Longleftrightarrow N_D^u(t)\lor N_D^u(h).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first classifier equivalence is exactly
+\autoref{thm:field-rat-denominator-empty-unit-right-multiplication-classifier-exactness}
+applied to the carried histories $h$, $k$, and $t$.
+
+The second classifier equivalence is exactly
+\autoref{thm:field-rat-denominator-empty-unit-left-multiplication-classifier-exactness}
+with the same three carried endpoints.
+
+For the empty external contexts, unfold $R_D^u$ as
+$\mathsf{RatDenomUnitClassifier}$ and apply
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}
+to the four endpoint equalities $p\hsame\emp$, $q\hsame\emp$,
+$p'\hsame\emp$, and $q'\hsame\emp$.
+
+For strict support under empty contexts, unfold $N_D^u$ as
+$\mathsf{RatHistoryCarrier}$. The endpoint equalities identify
+$\mathsf{append}(p,\mathsf{append}(h,q))$ with $h$ and
+$\mathsf{append}(p',\mathsf{append}(k,q'))$ with $k$ by the same empty-context
+endpoint equivalence used in
+\autoref{thm:rat-denom-unit-carrier-empty-context-iff}. Transport
+$\mathsf{RatHistoryCarrier}$ along those $\hsame$ comparisons in both
+directions.
+
+The two fixed-factor support equivalences are the two orientations of
+\autoref{thm:field-rat-denominator-empty-unit-strict-product-support-exactness},
+first for $(h,t)$ and then for $(t,h)$.
+\end{proof}
+
+Per-object template: traditional target denominator context action for
+$\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\mathsf{RatHistoryCarrier}$, $\Cont$,
+$\mathsf{append}$, and $\emp$; carrier $C_D^u$; classifier $R_D^u$; stability
+obligations classifier exactness and support exactness; ledger fixed factor and
+empty external contexts; core theorem
+\autoref{thm:field-rat-denominator-empty-unit-context-action-support-exactness};
+exactness predicate preservation and reflection of classifier plus strict
+support; standard bridge cancellative denominator monoids with adjoined unit;
+status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field affine automorphism inverse is involutive]
 \label{thm:field-affine-automorphism-inverse-involutive}
 For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
