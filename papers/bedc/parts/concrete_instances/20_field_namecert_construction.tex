@@ -33,6 +33,38 @@ carrier is exactly $\mathsf{RatHistoryCarrier}(r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_carrier\_closure}
 
+\begin{theorem}[Rat denominator continuation semigroup laws]
+\label{thm:field-rat-denominator-continuation-semigroup-laws}
+For all histories $d,e,f,de,ef,\ell,r:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+$\mathsf{RatHistoryCarrier}(f)$, $\Cont(d,e,de)$, $\Cont(e,f,ef)$,
+$\Cont(de,f,\ell)$, and $\Cont(d,ef,r)$, then
+$$
+\mathsf{RatHistoryCarrier}(de)\land
+\mathsf{RatHistoryCarrier}(ef)\land
+\mathsf{RatHistoryCarrier}(\ell)\land
+\mathsf{RatHistoryCarrier}(r)\land
+\ell\hsame r.
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:field-rat-denominator-continuation-carrier-closure} to the
+continuations $\Cont(d,e,de)$ and $\Cont(e,f,ef)$. The three displayed input
+carriers therefore give $\mathsf{RatHistoryCarrier}(de)$ and
+$\mathsf{RatHistoryCarrier}(ef)$.
+
+Next apply the same closure theorem to $\Cont(de,f,\ell)$ using the carrier
+just obtained for $de$ and the original carrier for $f$. Apply it again to
+$\Cont(d,ef,r)$ using the original carrier for $d$ and the carrier just
+obtained for $ef$. This yields the two outer result carriers.
+
+Finally apply the FKernel continuation associativity theorem, in the form
+\texttt{BEDC.FKernel.Cont.cont\_assoc\_hsame}, to the four continuation
+witnesses. It identifies the two displayed bracketings of denominator
+continuation by $\ell\hsame r$, giving the full conjunction.
+\end{proof}
+
 \begin{theorem}[Rat denominator classifiers are closed under matching continuations]
 \label{thm:field-rat-denominator-continuation-classifier-closure}
 For all histories $d,e,u,v,r,s:\mathsf{BHist}$, if
@@ -68,10 +100,11 @@ $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
 denominators; \textbf{classifier choice}: Rat history classifier;
 \textbf{stability obligation}: continuation-result carrier and classifier
-transport;
+transport plus associative continuation-result coherence;
 \textbf{ledger}: the right denominator's positive-unary witness and the
 matching continuation witnesses; \textbf{core theorems}:
-\autoref{thm:field-rat-denominator-continuation-carrier-closure} and
+\autoref{thm:field-rat-denominator-continuation-carrier-closure},
+\autoref{thm:field-rat-denominator-continuation-semigroup-laws}, and
 \autoref{thm:field-rat-denominator-continuation-classifier-closure};
 \textbf{exactness predicate}: carrier closure for the concrete denominator
 operation; \textbf{standard bridge}: deferred; \textbf{status}:
