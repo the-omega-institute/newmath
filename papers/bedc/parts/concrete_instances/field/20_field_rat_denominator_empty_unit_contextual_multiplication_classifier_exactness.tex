@@ -1,0 +1,64 @@
+\begin{theorem}[Rat denominator empty-unit contextual multiplication classifier exactness]
+\label{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness}
+For histories $p,q,p',q',h,k,t:\mathsf{BHist}$, if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, $q'\hsame\emp$,
+$C_D^u(h)$, $C_D^u(k)$, and $C_D^u(t)$, then fixed denominator
+multiplication is classifier-exact inside empty external contexts on both
+sides:
+$$
+R_D^u(\mathsf{append}(p,\mathsf{append}(\mu_D^u(h,t),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^u(k,t),q')))
+\Longleftrightarrow R_D^u(h,k),
+$$
+and
+$$
+R_D^u(\mathsf{append}(p,\mathsf{append}(\mu_D^u(t,h),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^u(t,k),q')))
+\Longleftrightarrow R_D^u(h,k).
+$$
+\end{theorem}
+\begin{proof}
+For the right multiplication law, apply
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness} to
+the four hypotheses $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and
+$q'\hsame\emp$. This strips the empty external contexts from the displayed
+classifier and leaves the comparison
+$R_D^u(\mu_D^u(h,t),\mu_D^u(k,t))$.
+
+The carried hypotheses $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(t)$ now match the
+input of
+\autoref{thm:field-rat-denominator-empty-unit-right-multiplication-classifier-exactness}.
+That theorem identifies the stripped comparison with $R_D^u(h,k)$, giving the
+first equivalence.
+
+For the left multiplication law, the same empty-context exactness theorem
+again removes the external histories and leaves
+$R_D^u(\mu_D^u(t,h),\mu_D^u(t,k))$.
+
+The same carrier hypotheses then match
+\autoref{thm:field-rat-denominator-empty-unit-left-multiplication-classifier-exactness},
+which identifies this stripped comparison with $R_D^u(h,k)$. This gives the
+second equivalence.
+\end{proof}
+
+\begin{enumerate}
+  \item Traditional target: contextual multiplication classifier exactness for
+  the denominator side of $\FieldUp(\mathsf{RatUp})$.
+  \item BEDC source: $\mathsf{BHist}$,
+  $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+  $\Cont$, and $\mathsf{append}$.
+  \item Carrier: $C_D^u$.
+  \item Classifier: $R_D^u$.
+  \item Stability obligations: empty external contexts preserve and reflect the
+  classifier, and fixed denominator multiplication preserves and reflects the
+  classifier on both sides.
+  \item Ledger: four empty external context witnesses and one carried fixed
+  denominator factor.
+  \item Core theorem:
+  \autoref{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness}.
+  \item Exactness predicate: classifier equivalence before and after fixed
+  denominator multiplication inside empty external contexts.
+  \item Standard bridge: ordinary denominator multiplication with an adjoined
+  empty unit and empty endpoint contexts.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
