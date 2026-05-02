@@ -202,6 +202,27 @@ $\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_iff}
 
+\begin{theorem}[Metric distance witness visible-context empty distance exactness]
+\label{thm:metric-distance-witness-visible-context-empty-distance-iff}
+For histories $p,q,x,y$, a visible-context distance witness whose central
+distance ledger is empty is exactly unary evidence for the visible prefix and
+suffix together with empty classification of both central endpoints:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\hsame(x,\emp)\ \wedge\ \hsame(y,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to peel off the prefix and suffix. The central
+witness is then $\mathsf{MetricDistanceWitness}(x,y,\emp)$, which empty-distance
+exactness identifies with $\hsame(x,\emp)$ and $\hsame(y,\emp)$. Conversely,
+the two empty endpoint classifiers build the central empty-distance witness,
+and visible-context exactness reattaches the same prefix and suffix.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_iff}
+
 \begin{theorem}[Metric distance witness visible-context depth additivity]
 \label{thm:metric-distance-witness-visible-context-depth-add}
 For histories $p,q,x,y,d$, a visible-context distance witness determines the

@@ -272,6 +272,24 @@ component is the rational-history classifier at the selected endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_endpoint}
 
+\begin{theorem}[Real stream prefix classifier base of successor]
+\label{thm:real-stream-prefix-classifier-base-of-successor}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, every nonempty
+classified finite prefix contains the base observation classifier:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n+1)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,0).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, the successor prefix is the pair of the base classifier
+and the first successor endpoint classifier, so project its left component. At
+a further successor, recursively descend through the left prefix component until
+the base observation classifier is exposed.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_base\_of\_successor}
+
 \begin{theorem}[Real stream finite-prefix exactness]
 \label{thm:real-stream-finite-prefix-exactness}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$,
