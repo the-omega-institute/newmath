@@ -94,6 +94,90 @@ factor-cancellation exactness required for the denominator side of
 $\FieldUp(\mathsf{RatUp})$.
 \end{proof}
 
+\begin{definition}[Concrete Rat denominator FieldUp contextual certificate instance]
+\label{def:field-rat-denominator-fieldup-contextual-certificate-instance}
+The concrete contextual denominator certificate instance for
+$\FieldUp(\mathsf{RatUp})$ is the $\mathsf{BHist}$ tuple
+$$
+\mathcal{C}_D^u:=(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)
+=
+(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier}).
+$$
+Equivalently, $C_D^u=\mathsf{RatDenomUnitCarrier}$,
+$R_D^u=\mathsf{RatDenomUnitClassifier}$,
+$\mu_D^u(h,k)=\mathsf{append}(h,k)$, $e_D^u=\emp$, and
+$N_D^u(h)=\mathsf{RatHistoryCarrier}(h)$. The displayed certificate interface
+also contains empty external context witnesses $p,q,p',q':\mathsf{BHist}$ with
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, so the
+contextual denominator rows are read as fields of this concrete tuple rather
+than as detached endpoint facts.
+\end{definition}
+
+\begin{theorem}[Rat denominator FieldUp contextual certificate obligation coverage]
+\label{thm:field-rat-denominator-fieldup-contextual-obligation-coverage}
+For the concrete tuple $\mathcal{C}_D^u$ of
+\autoref{def:field-rat-denominator-fieldup-contextual-certificate-instance},
+the contextual denominator rows for $\FieldUp(\mathsf{RatUp})$ are covered by
+the displayed $\mathsf{BHist}$ certificate data:
+\begin{enumerate}
+  \item empty external contexts preserve and reflect $R_D^u$;
+  \item right multiplication by a fixed carried denominator factor is
+  classifier-exact;
+  \item left multiplication by a fixed carried denominator factor is
+  classifier-exact;
+  \item two-sided contextual multiplication is classifier-exact inside empty
+  external contexts;
+  \item strict support of the contextual product endpoint is exact.
+\end{enumerate}
+Thus $\mathcal{C}_D^u$ is a concrete contextual denominator certificate target
+for the FieldUp parent chapter.
+\end{theorem}
+\begin{proof}
+The tuple in
+\autoref{def:field-rat-denominator-fieldup-contextual-certificate-instance} is
+the same concrete carrier, classifier, append operation, empty endpoint, and
+strict-support predicate used by
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+That theorem supplies the empty-context classifier preservation and reflection
+rows together with the left and right fixed-factor multiplication exactness
+rows.
+
+The two-sided contextual multiplication row is precisely
+\autoref{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness}.
+It reads the four empty external context witnesses as part of the same
+$\mathsf{BHist}$ denominator interface and identifies the contextual fixed
+multiplication comparison with the uncontextualized classifier comparison.
+
+The support row is
+\autoref{thm:field-rat-denominator-empty-unit-contextual-strict-product-support-exactness}.
+It computes strict denominator support after empty external histories surround
+the product endpoint, using the disjunction of the two input strict-support
+facts.
+
+Finally,
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}
+packages the ordinary multiplicative denominator obligations for the same
+append-based endpoint system. Combining that package with the contextual
+boundary and strict contextual product-support theorem gives a single
+contextual certificate target for the FieldUp denominator rows.
+\end{proof}
+
+Per-object template: traditional target contextual denominator certificate for
+$\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{RatHistoryCarrier}$, $\Cont$, and $\mathsf{append}$; carrier $C_D^u$;
+classifier $R_D^u$; stability obligations empty-context classifier exactness,
+left and right fixed-factor multiplication exactness, two-sided contextual
+multiplication classifier exactness, and contextual strict product support
+exactness; ledger four empty external context witnesses and one carried
+denominator factor; core theorem
+\autoref{thm:field-rat-denominator-fieldup-contextual-obligation-coverage};
+exactness predicate classifier equivalence and strict support through empty
+external denominator contexts; standard bridge ordinary denominator
+multiplication with adjoined empty unit and contextual endpoint witnesses;
+status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp denominator certificate assembly]
 \label{thm:ratup-fieldup-denominator-certificate-assembly}
 Let the denominator-side data for $\FieldUp(\mathsf{RatUp})$ be the concrete
