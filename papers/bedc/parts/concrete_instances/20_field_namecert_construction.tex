@@ -27,15 +27,46 @@ three pieces are exactly the fields of
 $\mathsf{RatHistoryClassifier}(d,e)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation common-context classifier exactness]
+\label{thm:field-rat-denominator-continuation-common-context-classifier-exactness}
+For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+$\Cont(p,d,pd)$, $\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and
+$\Cont(pe,q,right)$, then
+$$
+\mathsf{RatHistoryClassifier}(d,e)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(left,right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the Rat unary denominator context closure
+theorem to $\mathsf{RatHistoryClassifier}(d,e)$ with the common unary prefix
+$p$ and common unary suffix $q$. This gives the classifier for the canonical
+history endpoints obtained by placing $p$ and $q$ around $d$ and $e$.
+
+Continuation determinacy compares those canonical endpoints with the displayed
+endpoints $left$ and $right$, using the premises $\Cont(p,d,pd)$,
+$\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and $\Cont(pe,q,right)$. Transporting the
+classifier across these endpoint comparisons gives
+$\mathsf{RatHistoryClassifier}(left,right)$.
+
+For the reverse direction, apply
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation}
+to the same unary-context and continuation premises. It cancels the common
+prefix and suffix context from $\mathsf{RatHistoryClassifier}(left,right)$ and
+returns $\mathsf{RatHistoryClassifier}(d,e)$.
+\end{proof}
+
 \textbf{Traditional target}: denominator exactness for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
 denominators; \textbf{classifier choice}: Rat history classifier;
-\textbf{stability obligation}: common-context cancellation; \textbf{ledger}:
+\textbf{stability obligation}: common-context classifier exactness; \textbf{ledger}:
 matched unary prefix and suffix contexts; \textbf{core theorem}:
-\autoref{thm:field-rat-denominator-continuation-common-context-cancellation};
-\textbf{exactness predicate}: converse classifier recovery under matched
-continuation contexts; \textbf{standard bridge}: deferred; \textbf{status}:
+\autoref{thm:field-rat-denominator-continuation-common-context-classifier-exactness};
+\textbf{exactness predicate}: classifier equivalence under matched continuation
+contexts; \textbf{standard bridge}: deferred; \textbf{status}:
 $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Rat denominator continuation is semigroup-only on the positive carrier]
