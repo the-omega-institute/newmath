@@ -515,6 +515,18 @@ $\mathsf{ProofTarget}$.
 This is a concrete $\mathsf{BHist}$ tuple law for future Lean rounds, not an
 abstract operator schema.
 
+\begin{definition}[Rat denominator empty-unit right multiplication context]
+\label{def:field-rat-denominator-empty-unit-right-multiplication-context}
+For a carried context $t:\mathsf{BHist}$ with $C_D^u(t)$, define the concrete
+right multiplication map on the empty-unit denominator carrier by
+$$
+R_t(h):=\mu_D^u(h,t).
+$$
+The carrier, classifier, and multiplication are the same concrete
+$\mathsf{BHist}$ data used in
+\autoref{def:field-rat-denominator-empty-unit-cancellation-exact-instance}.
+\end{definition}
+
 \begin{definition}[Rat denominator empty-unit left multiplication context]
 \label{def:field-rat-denominator-empty-unit-left-multiplication-context}
 For a carried context $t:\mathsf{BHist}$ with $C_D^u(t)$, define the concrete
@@ -564,6 +576,69 @@ $\mathsf{ProofTarget}$.
 This is the left-context companion to the right-cancellation law
 \autoref{thm:field-rat-denominator-empty-unit-right-cancellation} inside the
 concrete empty-unit denominator boundary.
+
+\begin{definition}[Rat denominator empty-unit bilateral multiplication context]
+\label{def:field-rat-denominator-empty-unit-bilateral-multiplication-context}
+For carried contexts $l,r:\mathsf{BHist}$ with $C_D^u(l)$ and $C_D^u(r)$, define
+the concrete two-sided carried-context map over the empty-unit denominator
+carrier by
+$$
+B_{l,r}(h):=\mu_D^u(\mu_D^u(l,h),r).
+$$
+Here the carrier is $C_D^u$, the classifier is $R_D^u$, and multiplication is the
+concrete operation $\mu_D^u(h,k):=\mathsf{append}(h,k)$ from
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance}.
+\end{definition}
+
+\begin{theorem}[Rat denominator empty-unit bilateral multiplication classifier exactness]
+\label{thm:field-rat-denominator-empty-unit-bilateral-multiplication-classifier-exactness}
+For histories $h,k,l,r:\mathsf{BHist}$, if $C_D^u(h)$, $C_D^u(k)$, $C_D^u(l)$,
+and $C_D^u(r)$, then the two-sided carried-context map of
+\autoref{def:field-rat-denominator-empty-unit-bilateral-multiplication-context}
+preserves and reflects the empty-unit denominator classifier:
+$$
+R_D^u(B_{l,r}(h),B_{l,r}(k)) \Longleftrightarrow R_D^u(h,k).
+$$
+\end{theorem}
+\begin{proof}
+First use carrier closure from
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}. The
+carried hypotheses for $l$, $h$, and $k$ give carried witnesses for
+$\mu_D^u(l,h)$ and $\mu_D^u(l,k)$; together with $C_D^u(r)$, they put both
+right-multiplied endpoints inside the scope of the denominator cancellation
+exactness theorem.
+
+For the forward direction, unfold $B_{l,r}$ to read the assumed comparison as
+the right multiplication comparison of $\mu_D^u(l,h)$ and $\mu_D^u(l,k)$ by the
+common carried context $r$. Apply
+\autoref{thm:field-rat-denominator-empty-unit-right-multiplication-classifier-exactness};
+its reflection direction gives
+$R_D^u(\mu_D^u(l,h),\mu_D^u(l,k))$.
+
+Now apply
+\autoref{thm:field-rat-denominator-empty-unit-left-multiplication-classifier-exactness}
+with the carried left context $l$. Its reflection direction converts the last
+classifier witness into $R_D^u(h,k)$.
+
+For the reverse direction, begin with $R_D^u(h,k)$. The preservation direction of
+\autoref{thm:field-rat-denominator-empty-unit-left-multiplication-classifier-exactness}
+gives $R_D^u(\mu_D^u(l,h),\mu_D^u(l,k))$.
+
+Apply the right-hand preservation direction of
+\autoref{thm:field-rat-denominator-empty-unit-right-multiplication-classifier-exactness}
+with the common carried context $r$. After folding the definition of $B_{l,r}$,
+the result is exactly $R_D^u(B_{l,r}(h),B_{l,r}(k))$.
+\end{proof}
+
+Per-object template: traditional target bilateral denominator-context exactness;
+BEDC source $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\Cont$, and $\mathsf{append}$; carrier $C_D^u$; classifier $R_D^u$; stability
+obligation two-sided carried-context classifier exactness; ledger the two carried
+context continuation witnesses; core theorem
+\autoref{thm:field-rat-denominator-empty-unit-bilateral-multiplication-classifier-exactness};
+exactness predicate
+$R_D^u(B_{l,r}(h),B_{l,r}(k)) \Longleftrightarrow R_D^u(h,k)$; standard bridge
+cancellative commutative denominator monoids; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Field affine automorphism inverse is involutive]
 \label{thm:field-affine-automorphism-inverse-involutive}
