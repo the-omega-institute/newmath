@@ -85,6 +85,28 @@ $\HSame(f,f')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_factor\_public\_readback}
 
+\begin{theorem}[Category hom carrier same-left-tail factorization determinacy]
+\label{thm:category-comp-same-left-tail-factorization-deterministic}
+For the unary-continuation category, suppose $f$ is displayed as a hom-carrier
+from $a$ to $b$ and also from $a$ to $b'$. If $g$ and $g'$ are right factors
+from those middle endpoints to $c$ and $c'$ respectively, and both
+$\ContR(f,g,fg)$ and $\ContR(f,g',fg)$ display the same composite history
+$fg$, then the middle endpoints, right-factor histories, and target endpoints
+are determined:
+$$
+\HSame(b,b')\wedge\HSame(g,g')\wedge\HSame(c,c').
+$$
+\end{theorem}
+\begin{proof}
+Target determinacy for the two fixed-left-tail hom-carriers identifies the
+middle endpoints. The two continuation ledgers share the same left tail $f$
+and displayed result $fg$, so left cancellation identifies $g$ and $g'$.
+Transport the right hom-carrier across these two comparisons; target
+determinacy against the displayed $b'\to c'$ carrier then identifies $c$ and
+$c'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_same\_left\_tail\_factorization\_deterministic}
+
 \begin{theorem}[Category hom carrier composition right-factor endpoint determinacy]
 \label{thm:category-comp-right-factor-endpoint-deterministic}
 For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to

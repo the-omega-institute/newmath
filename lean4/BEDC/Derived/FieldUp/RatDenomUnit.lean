@@ -343,6 +343,34 @@ theorem field_rat_denominator_empty_unit_bilateral_multiplication_support_exactn
       Iff.mpr outerSupport leftProductCarrier
     exact RatDenomUnitCarrier_nonempty_rat carrierLHR productNonempty
 
+theorem field_rat_denominator_empty_unit_contextual_strict_product_support_exactness
+    {p q h k : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> RatDenomUnitCarrier h ->
+      RatDenomUnitCarrier k ->
+        (RatHistoryCarrier (append p (append (append h k) q)) <->
+          RatHistoryCarrier h ∨ RatHistoryCarrier k) := by
+  intro sameP sameQ carrierH carrierK
+  have contextSame : hsame (append p (append (append h k) q)) (append h k) := by
+    cases sameP
+    cases sameQ
+    exact hsame_trans (append_empty_left (append (append h k) BHist.Empty))
+      (append_empty_right (append h k))
+  have productCarrier : RatDenomUnitCarrier (append h k) :=
+    RatDenomUnitCarrier_continuation_closed carrierH carrierK (cont_intro rfl)
+  have productSupport :=
+    field_rat_denominator_empty_unit_product_nonempty_iff carrierH carrierK
+  constructor
+  · intro contextualCarrier
+    have productRat : RatHistoryCarrier (append h k) :=
+      RatHistoryCarrier_hsame_transport contextSame contextualCarrier
+    exact Iff.mp productSupport (RatHistoryCarrier_not_empty productRat)
+  · intro strictSupport
+    have productNonempty : hsame (append h k) BHist.Empty -> False :=
+      Iff.mpr productSupport strictSupport
+    have productRat : RatHistoryCarrier (append h k) :=
+      RatDenomUnitCarrier_nonempty_rat productCarrier productNonempty
+    exact RatHistoryCarrier_hsame_transport (hsame_symm contextSame) productRat
+
 theorem RatDenomUnitClassifier_empty_context_iff {p q p' q' h k : BHist} :
     hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
       hsame q' BHist.Empty ->

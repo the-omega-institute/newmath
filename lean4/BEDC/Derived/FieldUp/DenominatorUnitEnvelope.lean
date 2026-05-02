@@ -225,4 +225,28 @@ theorem field_rat_denominator_unit_envelope_strict_support_laws {h k : BHist} :
               cases emptyH
               exact RatHistoryCarrier_hsame_transport (hsame_symm (append_empty_left k)) ratK
 
+theorem field_rat_denominator_unit_envelope_empty_product_reflection {h k : BHist} :
+    FieldRatDenominatorUnitEnvelopeCarrier h -> FieldRatDenominatorUnitEnvelopeCarrier k ->
+      (FieldRatDenominatorUnitEnvelopeClassifier (append h k) BHist.Empty <->
+        FieldRatDenominatorUnitEnvelopeClassifier h BHist.Empty ∧
+          FieldRatDenominatorUnitEnvelopeClassifier k BHist.Empty) := by
+  intro _carrierH _carrierK
+  constructor
+  · intro classifiedProduct
+    have productEmpty : hsame (append h k) BHist.Empty :=
+      Iff.mp FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff classifiedProduct
+    have splitEmpty : h = BHist.Empty ∧ k = BHist.Empty :=
+      append_eq_empty_iff.mp productEmpty
+    exact And.intro
+      (Iff.mpr FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff splitEmpty.left)
+      (Iff.mpr FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff splitEmpty.right)
+  · intro classifiedFactors
+    have emptyH : hsame h BHist.Empty :=
+      Iff.mp FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff classifiedFactors.left
+    have emptyK : hsame k BHist.Empty :=
+      Iff.mp FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff classifiedFactors.right
+    have productEmpty : hsame (append h k) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro emptyH emptyK)
+    exact Iff.mpr FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff productEmpty
+
 end BEDC.Derived.FieldUp
