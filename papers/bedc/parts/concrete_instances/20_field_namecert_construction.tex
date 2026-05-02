@@ -304,6 +304,57 @@ right-unit law as one of its clauses.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_no\_internal\_unit}
 
+\begin{theorem}[Rat denominator continuation has no one-sided internal carrier unit]
+\label{thm:field-rat-denominator-continuation-no-one-sided-internal-unit}
+For every history $u:\mathsf{BHist}$, suppose
+$\mathsf{RatHistoryCarrier}(u)$. Then each of the following two laws separately
+implies $\mathsf{False}$:
+\begin{enumerate}
+\item the internal right-unit classifier law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d),
+$$
+\item the internal left-unit classifier law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d).
+$$
+\end{enumerate}
+Thus no carried $u$ can realize either one-sided internal continuation unit law
+on $\mathsf{RatHistoryCarrier}$ under $\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+For the right-unit law, apply
+Theorem~\ref{thm:field-rat-denominator-continuation-no-internal-unit} to the
+same carried candidate $u$. The assumed carrier witness and the displayed
+right-unit law are exactly the hypotheses of that theorem, so the conclusion is
+$\mathsf{False}$.
+
+For the left-unit law, let $d_1:=\Eone(\emp)$. The positive-denominator
+construction gives $\mathsf{RatHistoryCarrier}(d_1)$.
+
+Use the canonical continuation witness
+$\Cont(u,d_1,\mathsf{append}(u,d_1))$. Applying the assumed left-unit law at
+$d_1$ and $r:=\mathsf{append}(u,d_1)$ gives
+$\mathsf{RatHistoryClassifier}(\mathsf{append}(u,d_1),d_1)$, whose comparison
+component is $\mathsf{append}(u,d_1)\hsame d_1$.
+
+Transport the continuation result along this comparison to obtain
+$\Cont(u,d_1,d_1)$. The kernel theorem
+\texttt{BEDC.FKernel.Cont.cont\_left\_unit\_unique} then forces
+$u\hsame\emp$.
+
+Finally apply Theorem~\ref{thm:rat-history-carrier-not-empty} to the assumed
+carrier witness $\mathsf{RatHistoryCarrier}(u)$ and the equality
+$u\hsame\emp$. This contradiction proves that no carried endpoint can realize
+the required left-unit law.
+\end{proof}
+
 \begin{definition}[Concrete Rat denominator continuation semigroup instance]
 \label{def:field-rat-denominator-continuation-semigroup-instance}
 The concrete denominator-side semigroup instance for
@@ -486,10 +537,10 @@ $\Cont(d,u,r)$, the result must classify as the original denominator $d$ under
 $\mathsf{RatHistoryClassifier}$.
 
 Apply
-Theorem~\ref{thm:field-rat-denominator-continuation-no-internal-unit} to the
-same history $u$, using the carried-unit witness
-$\mathsf{RatHistoryCarrier}(u)$ and this unpacked right-unit field. Its
-conclusion is $\mathsf{False}$.
+Theorem~\ref{thm:field-rat-denominator-continuation-no-one-sided-internal-unit}
+to the same history $u$, using the carried-unit witness
+$\mathsf{RatHistoryCarrier}(u)$ and the right-unit clause with this unpacked
+field. Its conclusion is $\mathsf{False}$.
 
 Theorem~\ref{thm:field-rat-denominator-continuation-semigroup-only} records the
 positive part left intact by this contradiction: continuation on Rat
@@ -596,6 +647,7 @@ carried one-sided unit and no continuation-as-field-multiplication certificate;
 \textbf{ledger}: the attempted unit endpoint; \textbf{core theorems}:
 \autoref{thm:field-rat-denominator-continuation-no-internal-unit},
 \autoref{thm:field-rat-denominator-continuation-no-internal-left-unit},
+\autoref{thm:field-rat-denominator-continuation-no-one-sided-internal-unit},
 \autoref{thm:field-rat-denominator-continuation-no-internal-one-sided-unit},
 \autoref{thm:field-rat-denominator-continuation-not-field-multiplication}, and
 \autoref{thm:field-rat-denominator-continuation-commutative-semigroup-obstruction-package};
