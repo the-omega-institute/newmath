@@ -168,6 +168,7 @@ import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatDenomUnit
 import BEDC.Derived.FieldUp.RatContinuation
 import BEDC.Derived.FieldUp.RatContinuationAppendComm
+import BEDC.Derived.FieldUp.RatContinuationCommutative
 import BEDC.Derived.FieldUp.RatDenominatorUnitEnvelopeContinuation
 import BEDC.Derived.FieldUp.DenominatorUnitEnvelope
 import BEDC.Derived.FieldUp.ProductRightEquation

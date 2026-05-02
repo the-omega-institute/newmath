@@ -51,6 +51,23 @@ The $\MonoidUp$ schema is instantiated by this concrete $BHist$ carrier and
 operation, so subsequent certificates can refer to this instance rather than
 only to abstract operator fields.
 
+\begin{theorem}[Unary append monoid commutative classifier]
+\label{thm:unary-append-monoid-commutative-classifier}
+For unary histories $a$ and $b$, the concrete monoid classifier identifies the
+two append products:
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(a,b),\mathsf{append}(b,a)).
+$$
+\end{theorem}
+\begin{proof}
+Unary append commutativity gives
+$\mathsf{append}(a,b)\hsame\mathsf{append}(b,a)$, and unary append closure
+supplies the two endpoint carrier witnesses required by
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_commutative\_classifier}
+
 \section{The certificate}
 
 \begin{definition}[Monoid source specification]

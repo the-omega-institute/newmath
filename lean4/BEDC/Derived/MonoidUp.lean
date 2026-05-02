@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.Commutativity
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.MonoidUp
@@ -286,5 +287,12 @@ theorem unary_append_monoid_classifier_context_iff {left right a b : BHist} :
       classified
   · intro classified
     exact unary_append_monoid_classifier_append_context unaryLeft unaryRight classified
+
+theorem unary_append_monoid_commutative_classifier {a b : BHist} :
+    UnaryHistory a -> UnaryHistory b ->
+      MonoidHistoryClassifier UnaryHistory (append a b) (append b a) := by
+  intro unaryA unaryB
+  have commData := unary_append_comm_with_closed_results unaryA unaryB
+  exact And.intro commData.right.left (And.intro commData.right.right commData.left)
 
 end BEDC.Derived.MonoidUp
