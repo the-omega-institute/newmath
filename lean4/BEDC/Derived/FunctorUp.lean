@@ -66,6 +66,20 @@ theorem FunctorPrefixHomCarrier_comp_preserves {p a b c f g fg : BHist} :
     FunctorPrefixHomCarrier_preserves prefixCarrier
       (CategoryHomCarrier_comp_closed left right comp)
 
+theorem FunctorPrefixHomCarrier_comp_hsame_transport {p a b c f g fg p' a' c' fg' : BHist} :
+    hsame p p' -> hsame a a' -> hsame c c' -> hsame fg fg' ->
+      CategoryHomCarrier (append p a) (append p b) f ->
+        CategoryHomCarrier (append p b) (append p c) g -> Cont f g fg ->
+          CategoryHomCarrier (append p' a') (append p' c') fg' := by
+  intro samePrefix sameSource sameTarget sameComposite left right comp
+  have composite : CategoryHomCarrier (append p a) (append p c) fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  cases samePrefix
+  cases sameSource
+  cases sameTarget
+  cases sameComposite
+  exact composite
+
 theorem FunctorPrefixHomCarrier_comp_right_factor {p a b c f g fg : BHist} :
     CategoryHomCarrier (append p a) (append p b) f -> Cont f g fg ->
       CategoryHomCarrier (append p a) (append p c) fg -> CategoryHomCarrier b c g := by

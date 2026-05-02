@@ -121,6 +121,46 @@ theorem field_rat_denominator_continuation_semigroup_laws {d e f de ef left righ
     cont_assoc_hsame contDE contLeft contEF contRight
   exact ⟨carrierDE, carrierEF, carrierLeft, carrierRight, sameResults⟩
 
+theorem field_rat_denominator_append_concrete_instance_laws {d d' e e' f rho v : BHist} :
+    RatHistoryCarrier d -> RatHistoryCarrier e -> RatHistoryCarrier f ->
+      RatHistoryClassifier d d' -> RatHistoryClassifier e e' -> RatHistoryLedgerPolicy rho v ->
+        RatHistoryCarrier (append d e) ∧
+          RatHistoryClassifier (append d e) (append e d) ∧
+            RatHistoryClassifier (append (append d e) f) (append d (append e f)) ∧
+              RatHistoryClassifier (append d e) (append d' e') ∧
+                RatHistoryLedgerPolicy (append rho e) (append v e') := by
+  intro carrierD carrierE carrierF classifiedD classifiedE ledger
+  have unaryD : UnaryHistory d :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrierD)).left
+  have unaryE : UnaryHistory e :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrierE)).left
+  have unaryF : UnaryHistory f :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrierF)).left
+  have carrierDE : RatHistoryCarrier (append d e) :=
+    RatHistoryCarrier_append_unary_denominator_closed carrierD unaryE
+  have carrierED : RatHistoryCarrier (append e d) :=
+    RatHistoryCarrier_append_unary_denominator_closed carrierE unaryD
+  have commClassifier : RatHistoryClassifier (append d e) (append e d) :=
+    ⟨carrierDE, carrierED, unary_append_comm unaryD unaryE⟩
+  have carrierLeft : RatHistoryCarrier (append (append d e) f) :=
+    RatHistoryCarrier_append_unary_denominator_closed carrierDE unaryF
+  have carrierEF : RatHistoryCarrier (append e f) :=
+    RatHistoryCarrier_append_unary_denominator_closed carrierE unaryF
+  have carrierRight : RatHistoryCarrier (append d (append e f)) :=
+    RatHistoryCarrier_append_unary_denominator_closed carrierD
+      (unary_append_closed unaryE unaryF)
+  have assocClassifier :
+      RatHistoryClassifier (append (append d e) f) (append d (append e f)) :=
+    ⟨carrierLeft, carrierRight, append_assoc d e f⟩
+  have congrClassifier : RatHistoryClassifier (append d e) (append d' e') :=
+    RatHistoryClassifier_append_unary_denominator_closed classifiedD unaryE classifiedE.right.right
+  have ledgerClosed : RatHistoryLedgerPolicy (append rho e) (append v e') :=
+    RatHistoryLedgerPolicy_append_unary_denominator_closed ledger unaryE classifiedE.right.right
+  exact ⟨carrierDE, commClassifier, assocClassifier, congrClassifier, ledgerClosed⟩
+
 theorem RatHistoryLedgerPolicy_continuation_closed {raw visible tailRaw tailVisible r s : BHist} :
     RatHistoryLedgerPolicy raw visible -> UnaryHistory tailRaw -> hsame tailRaw tailVisible ->
       Cont raw tailRaw r -> Cont visible tailVisible s -> RatHistoryLedgerPolicy r s := by

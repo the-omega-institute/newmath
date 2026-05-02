@@ -217,6 +217,21 @@ theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta compo
                                 (And.intro objectCarrier
                                   (CategoryHomCarrier_comp_closed leftComponent rightComponent comp)))
 
+theorem NatTransPrefixComponentCarrier_vert_comp_hsame_transport
+    {p q r a eta theta composite p' r' a' composite' : BHist} :
+    hsame p p' -> hsame r r' -> hsame a a' -> hsame composite composite' ->
+      NatTransPrefixComponentCarrier p q a eta ->
+        NatTransPrefixComponentCarrier q r a theta -> Cont eta theta composite ->
+          NatTransPrefixComponentCarrier p' r' a' composite' := by
+  intro sameSource sameTarget sameObject sameComposite left right comp
+  have compositeCarrier : NatTransPrefixComponentCarrier p r a composite :=
+    NatTransPrefixComponentCarrier_vert_comp_closed left right comp
+  cases sameSource
+  cases sameTarget
+  cases sameObject
+  cases sameComposite
+  exact compositeCarrier
+
 theorem NatTransPrefixComponentCarrier_vert_comp_public_readback
     {p q r a eta theta composite : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
