@@ -106,3 +106,16 @@ The source, pattern, classifier, stability, and ledger fields are supplied by th
 The additive interface \(\AddUp\) is licensed by unary continuation. It is not a primitive operation of the finite kernel.
 \end{corollary}
 \leanchecked{BEDC.FKernel.Unary.add\_up\_licensed\_not\_primitive}
+
+\begin{theorem}[Unary continuation monoid activation]
+\label{thm:unary-continuation-monoid-activation}
+Let the typed naming-certificate template of \autoref{def:typed-naming-certificate} be instantiated on the unary carrier with classifier \(\hsame\). Assume the core carrier certificate \(\NameCert(\Unary,\hsame)\) from \autoref{def:lean-carrier-naming-certificate}; take the source, pattern, classifier, and ledger policies to be the continuation policies of \autoref{def:additive-source-specification}, \autoref{def:additive-pattern-specification}, \autoref{def:additive-classifier-specification}, and \autoref{def:additive-stability-and-ledger-policy}; assume pattern soundness and ledger soundness for those policies; and assume that \(\mathsf{AddStabilityCert}\) supplies unary closure, empty-history unit, associativity up to \(\hsame\), and same-source determinacy up to \(\hsame\). Then
+\[
+  \mathsf{License}(\UnaryContMonoidUp).
+\]
+\end{theorem}
+\begin{proof}
+By \autoref{def:typed-naming-certificate}, a derived interface is licensed by a certificate once its source, pattern, classifier, stability, and ledger fields are supplied. The assumed \(\NameCert(\Unary,\hsame)\) provides the carrier-and-classifier core described in \autoref{def:lean-carrier-naming-certificate}. The source is the ordered unary source with a continuation witness from \autoref{def:additive-source-specification}; the pattern is unary continuation from \autoref{def:additive-pattern-specification}; the classifier is \(\hsame\) on continuation results from \autoref{def:additive-classifier-specification}; and the ledger is the recorded pair of unary inputs together with the continuation witness from \autoref{def:additive-stability-and-ledger-policy}. Pattern soundness sends each source witness to the displayed unary continuation pattern, and ledger soundness records the same source witness in the ledger policy.
+
+The remaining certificate component is stability. Unary closure is the closure field in \(\mathsf{AddStabilityCert}\). The empty-history unit is \autoref{lem:unary-continuation-unit}. Associativity up to \(\hsame\) is \autoref{lem:unary-continuation-associativity}. Same-source determinacy is the determinacy field of \(\mathsf{AddStabilityCert}\), so two continuation results generated from the same ordered unary source pair are classified together by \(\hsame\). These fields give a closed carrier, a unit, associative continuation, and deterministic result classification for fixed sources. That is exactly the certificate data for the unary continuation monoid-like interface. Since no order-swap commutativity field is used, the activated upward name is \(\UnaryContMonoidUp\).
+\end{proof}
