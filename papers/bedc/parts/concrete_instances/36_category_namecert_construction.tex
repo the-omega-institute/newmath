@@ -106,6 +106,35 @@ other displayed carrier over the same source and target.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_public\_readback}
 
+\begin{theorem}[Category hom carrier unary suffix equivalence]
+\label{thm:category-hom-carrier-unary-suffix-iff}
+For a unary suffix $q$, a displayed hom-carrier
+$\mathsf{CategoryHomCarrier}(\mathsf{append}(a,q),\mathsf{append}(b,q),f)$
+is equivalent to the pair consisting of unary evidence for $q$ and the
+unsuffixed carrier $\mathsf{CategoryHomCarrier}(a,b,f)$.
+\end{theorem}
+\begin{proof}
+The forward direction reads unary evidence from the suffixed endpoints, swaps
+the unary suffix past the unary morphism, and cancels the common suffix in the
+continuation ledger. The reverse direction uses unary append closure and the
+same commutation to rebuild the suffixed continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_suffix\_iff}
+
+\begin{theorem}[Category hom carrier unary suffix composite public readback]
+\label{thm:category-hom-carrier-unary-suffix-comp-public-readback}
+For composable category hom-carriers $f,g$ and unary suffix $q$, the composite
+carrier over $\mathsf{append}(a,q)$ and $\mathsf{append}(c,q)$ exists, and any
+competing displayed composite over those suffixed endpoints is $\hsame$-equal
+to the same composite morphism.
+\end{theorem}
+\begin{proof}
+Apply unsuffixed composite public readback, transport its carrier through the
+unary suffix equivalence, and reflect any competing suffixed display back
+through the same equivalence before applying morphism determinacy.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_suffix\_comp\_public\_readback}
+
 \begin{theorem}[Category hom carrier composition right factor]
 \label{thm:category-hom-carrier-comp-right-factor}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
