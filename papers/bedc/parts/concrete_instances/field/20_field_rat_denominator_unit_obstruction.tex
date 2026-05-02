@@ -441,6 +441,75 @@ two conclusions rule out the left-unit and right-unit classifier laws for any
 carried candidate $u$, completing the certificate-shaped package.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation obstruction is context-invariant]
+\label{thm:field-rat-denominator-context-invariant-obstruction-package}
+For all histories
+$p,p',q,q',d,e,pd,pe,left,right:\mathsf{BHist}$, suppose
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(p')$,
+$\mathsf{UnaryHistory}(q)$, $\mathsf{UnaryHistory}(q')$, $p\hsame p'$,
+$q\hsame q'$, $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, and the four displayed continuation
+witnesses
+
+$$
+\Cont(p,d,pd),\quad
+\Cont(p',e,pe),\quad
+\Cont(pd,q,left),\quad
+\Cont(pe,q',right).
+$$
+
+Then the matched unary context wrapping preserves the full obstruction data:
+\begin{enumerate}
+\item
+$\mathsf{RatHistoryClassifier}(d,e)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(left,right)$.
+\item
+$\mathsf{RatHistoryLedgerPolicy}(d,e)\to
+\mathsf{RatHistoryLedgerPolicy}(left,right)$.
+\item
+For every history $u:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(u)$, then the internal left-unit classifier law
+
+$$
+\forall x,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(x)\to
+\Cont(u,x,r)\to
+\mathsf{RatHistoryClassifier}(r,x)
+$$
+
+and the internal right-unit classifier law
+
+$$
+\forall x,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(x)\to
+\Cont(x,u,r)\to
+\mathsf{RatHistoryClassifier}(r,x)
+$$
+
+each imply $\mathsf{False}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The classifier claim is exactly
+\autoref{thm:field-rat-denominator-hsame-matched-context-classifier-exactness}
+with the displayed unary prefix contexts, unary suffix contexts, context
+comparisons, carrier witnesses, and continuation witnesses.
+
+For the ledger claim, apply
+\autoref{thm:field-rat-denominator-continuation-common-context-ledger-closure}
+to the same matched unary context data and the displayed continuation
+witnesses. Its conclusion transports the Rat ledger policy from $(d,e)$ to
+$(left,right)$.
+
+It remains to record that the matched context does not create an internal
+carried unit. The left-unit obstruction is
+\autoref{thm:field-rat-denominator-continuation-no-internal-left-unit}, applied
+to the carried candidate $u$ and the displayed left-unit classifier law. The
+right-unit obstruction is
+\autoref{thm:field-rat-denominator-continuation-no-internal-unit}, applied to
+the same carried candidate $u$ and the displayed right-unit classifier law.
+\end{proof}
+
 \textbf{Traditional target}: internal unit obstruction for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$
 plus $\Cont$; \textbf{carrier choice}: Rat denominators; \textbf{classifier
@@ -449,7 +518,9 @@ carried one-sided unit and no continuation-as-field-multiplication certificate;
 \textbf{ledger}: the attempted unit endpoint; \textbf{core theorems}:
 \autoref{thm:field-rat-denominator-continuation-no-internal-unit},
 \autoref{thm:field-rat-denominator-continuation-no-one-sided-internal-unit},
-\autoref{thm:field-rat-denominator-continuation-not-field-multiplication}, and
-\autoref{thm:field-rat-denominator-continuation-commutative-semigroup-obstruction-package};
+\autoref{thm:field-rat-denominator-continuation-not-field-multiplication},
+\autoref{thm:field-rat-denominator-continuation-commutative-semigroup-obstruction-package},
+and
+\autoref{thm:field-rat-denominator-context-invariant-obstruction-package};
 \textbf{exactness predicate}: failure of internal one-sided unit coverage;
 \textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
