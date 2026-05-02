@@ -225,6 +225,24 @@ $A_{\emp}(m)$, and symmetry of that witness gives $\emp\hsame m$.
 \end{proof}
 \leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_empty\_readback\_classifier}
 
+\begin{theorem}[VecSpace singleton scalar action empty-result readback]
+\label{thm:vecspace-singleton-smul-empty-result-readback}
+For the concrete singleton $\VecSpaceUp$ instance, let
+$r,m,n:\mathsf{BHist}$. If $m$ is carried by $A_{\emp}$ and
+$\mathsf{smul}(r,m)$ is classified with $n$, then
+$\mathsf{smul}(r,m)\hsame\emp$ and $m$ is classified with $n$.
+\end{theorem}
+\begin{proof}
+Unfolding the singleton scalar action gives
+$\mathsf{smul}(r,m)=\emp$, so the first classifier endpoint supplies
+$\mathsf{smul}(r,m)\hsame\emp$. The classifier hypothesis also contains the
+carrier witness for $n$ and the endpoint equality
+$\mathsf{smul}(r,m)\hsame n$. Compose the assumed carrier equality
+$m\hsame\emp$ with this action equality to obtain $m\hsame n$, and pair it
+with the two carrier witnesses to recover the classifier $\rho_{\emp}(m,n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_empty\_result\_readback}
+
 The $\VecSpaceUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and scalar action, so Lean formalization can target BHist-anchored
 vector-space laws in $\mathsf{BEDC.Derived.VecSpaceUp}$.

@@ -93,4 +93,17 @@ theorem RatHistoryLedgerPolicy_continuation_closed {raw visible tailRaw tailVisi
       visibleContinuation
   exact RatHistoryLedgerPolicy_hsame_transport canonicalLedger rawSame visibleSame
 
+theorem RatHistoryClassifier_matching_continuation_closed {d e u v r s : BHist} :
+    RatHistoryClassifier d e -> UnaryHistory u -> UnaryHistory v -> hsame u v ->
+      Cont d u r -> Cont e v s -> RatHistoryClassifier r s := by
+  intro classified unaryU _unaryV sameUV leftContinuation rightContinuation
+  have appendedClassified :
+      RatHistoryClassifier (append d u) (append e v) :=
+    RatHistoryClassifier_append_unary_denominator_closed classified unaryU sameUV
+  have sameLeft : hsame (append d u) r := by
+    exact leftContinuation.symm
+  have sameRight : hsame (append e v) s := by
+    exact rightContinuation.symm
+  exact RatHistoryClassifier_hsame_transport sameLeft sameRight appendedClassified
+
 end BEDC.Derived.FieldUp

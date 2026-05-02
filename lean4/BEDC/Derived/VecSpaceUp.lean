@@ -164,6 +164,18 @@ theorem VecSpaceSingletonSmul_classifier_empty_iff {r m t : BHist} :
     exact And.intro (hsame_refl BHist.Empty)
       (And.intro targetEmpty (hsame_symm targetEmpty))
 
+theorem VecSpaceSingletonSmul_empty_result_readback {r m n : BHist} :
+    VecSpaceSingletonCarrier m ->
+      VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) n ->
+        hsame (VecSpaceSingletonSmul r m) BHist.Empty ∧ VecSpaceSingletonClassifier m n := by
+  intro carrierM classified
+  cases classified with
+  | intro actionCarrier rest =>
+      cases rest with
+      | intro carrierN actionSameN =>
+          exact And.intro actionCarrier
+            (And.intro carrierM (And.intro carrierN (hsame_trans carrierM actionSameN)))
+
 theorem VecSpaceSingleton_semanticNameCert :
     SemanticNameCert VecSpaceSingletonCarrier VecSpaceSingletonCarrier
       VecSpaceSingletonCarrier VecSpaceSingletonClassifier := by
