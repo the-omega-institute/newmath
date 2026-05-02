@@ -40,6 +40,27 @@ theorem CategoryHomCarrier_empty_identity_iff {a b : BHist} :
                   (And.intro unary_empty
                     (cont_result_hsame_transport (cont_right_unit a) same)))
 
+theorem CategoryHomCarrier_empty_source_iff {b f : BHist} :
+    CategoryHomCarrier BHist.Empty b f ↔ UnaryHistory b ∧ hsame f b := by
+  constructor
+  · intro homCarrier
+    cases homCarrier with
+    | intro _sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier rest =>
+            cases rest with
+            | intro _morphismCarrier homCont =>
+                exact And.intro targetCarrier (hsame_symm (cont_left_unit_result homCont))
+  · intro data
+    cases data with
+    | intro targetCarrier sameMorphism =>
+        exact
+          And.intro unary_empty
+            (And.intro targetCarrier
+              (And.intro
+                (unary_transport targetCarrier (hsame_symm sameMorphism))
+                (Iff.mpr cont_left_unit_iff (hsame_symm sameMorphism))))
+
 theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier a c fg := by

@@ -59,6 +59,7 @@ import BEDC.Derived.OptionUp.EmptyRight
 import BEDC.Derived.OptionUp.VisibleReadback
 import BEDC.Derived.OptionUp.EndpointPairReadback
 import BEDC.Derived.OptionUp.VisiblePayloadWitnesses
+import BEDC.Derived.OptionUp.E0Source
 import BEDC.Derived.OptionUp.ChainPayload
 import BEDC.Derived.OptionUp.LedgerEndpoint
 import BEDC.Derived.OptionUp.LedgerReadback

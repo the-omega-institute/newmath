@@ -43,6 +43,26 @@ empty morphism carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_identity\_iff}
 
+\begin{theorem}[Category empty-source hom carrier exactness]
+\label{thm:category-hom-carrier-empty-source-iff}
+For histories \(b,f\), a hom-carrier out of the empty source is exactly unary
+membership of the target together with sameness of the morphism and target:
+$$
+\mathsf{CategoryHomCarrier}(\emp,b,f)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(b)\wedge\hsame(f,b).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. Its continuation field is
+\(\ContR(\emp,f,b)\), and the left-unit continuation exactness identifies
+\(b\) with \(f\); symmetry gives \(\hsame(f,b)\), while the target unary
+witness is already present. Conversely, transport the target unary witness
+across \(\hsame(f,b)\) to obtain the morphism carrier, and use the left-unit
+continuation equivalence to rebuild \(\ContR(\emp,f,b)\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_iff}
+
 \begin{theorem}[Category hom carrier composition closure]
 \label{thm:category-hom-carrier-comp-closed}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to \(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and \(\ContR(f,g,fg)\), then \(fg\) is a hom-carrier from \(a\) to \(c\).

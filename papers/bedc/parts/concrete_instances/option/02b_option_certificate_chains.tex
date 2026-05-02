@@ -186,6 +186,25 @@ carrier disjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_e1\_source\_iff}
 
+\begin{theorem}[Nullable option zero-headed source exactness]
+\label{thm:option-history-carrier-e0-source-iff}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, the nullable option carrier at a zero-headed endpoint is exactly
+the source predicate at that endpoint:
+$$
+\mathsf{OptionHistoryCarrier}_S(\Ezero(h))
+\Longleftrightarrow
+S(\Ezero(h)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the nullable carrier into its empty-or-source disjunction. The empty
+branch would give $\hsame(\Ezero(h),\emp)$, contradicting constructor
+separation for $\Ezero$ and $\emp$. The source branch is the displayed
+predicate, and the reverse direction rebuilds the source side of the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_e0\_source\_iff}
+
 \begin{theorem}[Nullable option carrier branch alignment]
 \label{thm:option-history-carrier-hsame-branch-alignment}
 For histories $h,k$, if $\mathsf{OptionSourceExcludesEmpty}(S)$,
@@ -250,6 +269,29 @@ $S(h)$ and $S(k)$ give the two source carrier branches, and the displayed
 $\hsame(h,k)$ link reassembles the classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_source\_left\_exactness}
+
+\begin{theorem}[Option history classifier zero-headed left source exactness]
+\label{thm:option-history-classifier-e0-left-source-iff}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,k$, the nullable option classifier from the zero-headed endpoint
+$\Ezero(h)$ to $k$ is exactly source membership of the left endpoint together
+with the right carrier and endpoint sameness:
+$$
+\mathsf{OptionHistoryClassifier}_S(\Ezero(h),k)
+\Longleftrightarrow
+S(\Ezero(h))\land\mathsf{OptionHistoryCarrier}_S(k)\land
+\hsame(\Ezero(h),k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the two endpoint carrier witnesses and the stored
+$\hsame$ link. Apply
+Theorem~\ref{thm:option-history-carrier-e0-source-iff} to the left carrier
+witness to read it as $S(\Ezero(h))$; the right carrier and endpoint link are
+already classifier fields. Conversely, the displayed three fields rebuild the
+classifier using the source side of the left carrier disjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_e0\_left\_source\_iff}
 
 \begin{theorem}[Option history classifier source-right exactness]
 \label{thm:option-history-classifier-source-right-exactness}
