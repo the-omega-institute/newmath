@@ -509,3 +509,66 @@ denominator factors; core theorem
 \autoref{thm:field-rat-denominator-envelope-bilateral-context-cancellation};
 exactness predicate empty-envelope classifier transport followed by bilateral
 strict-factor cancellation; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp denominator contextual action composition]
+\label{thm:field-rat-denominator-contextual-action-composition}
+For histories $h,k,l,r,l',r',p,q,p',q',s,t,s',t':\mathsf{BHist}$, assume
+$C_D^u(h)$, $C_D^u(k)$, $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$,
+$C_D^u(r')$, and
+$$
+p\hsame\emp,\quad q\hsame\emp,\quad p'\hsame\emp,\quad q'\hsame\emp,
+\quad s\hsame\emp,\quad t\hsame\emp,\quad s'\hsame\emp,\quad t'\hsame\emp.
+$$
+Then the concrete action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance} is exact
+under two carried contextual applications:
+$$
+R_D^u(\Gamma_{p,q,l,r}(\Gamma_{s,t,l',r'}(h)),
+\Gamma_{p',q',l,r}(\Gamma_{s',t',l',r'}(k)))
+\Longleftrightarrow R_D^u(h,k).
+$$
+Its strict-support readbacks are
+$$
+N_D^u(\Gamma_{p,q,l,r}(\Gamma_{s,t,l',r'}(h)))
+\Longleftrightarrow
+N_D^u(l)\lor N_D^u(l')\lor N_D^u(h)\lor N_D^u(r')\lor N_D^u(r)
+$$
+and
+$$
+N_D^u(\Gamma_{p',q',l,r}(\Gamma_{s',t',l',r'}(k)))
+\Longleftrightarrow
+N_D^u(l)\lor N_D^u(l')\lor N_D^u(k)\lor N_D^u(r')\lor N_D^u(r).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate} to the
+inner actions with carried contexts $l',r'$ and external contexts
+$s,t,s',t'$. This gives the classifier equivalence between the inner endpoints
+and $h,k$, and it reads the inner supports as
+$N_D^u(l')\lor N_D^u(h)\lor N_D^u(r')$ and
+$N_D^u(l')\lor N_D^u(k)\lor N_D^u(r')$.
+
+The carrier part used in the same action proof puts both inner endpoints back
+inside $C_D^u$: carried bilateral product closure handles $B_{l',r'}(h)$ and
+$B_{l',r'}(k)$, and empty external endpoint transport preserves the displayed
+carrier. These two carrier witnesses are the inputs needed for the outer action.
+
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate} again to
+the outer action with carried contexts $l,r$ and external contexts
+$p,q,p',q'$. Its classifier row identifies the displayed nested classifier with
+the classifier of the two inner endpoints. Composing this equivalence with the
+inner classifier equivalence gives the stated comparison with $R_D^u(h,k)$.
+
+For strict support, the outer action reads
+$\Gamma_{p,q,l,r}(\Gamma_{s,t,l',r'}(h))$ as
+$N_D^u(l)\lor N_D^u(\Gamma_{s,t,l',r'}(h))\lor N_D^u(r)$. Substitute the inner
+support readback and reassociate the finite disjunction to obtain
+$N_D^u(l)\lor N_D^u(l')\lor N_D^u(h)\lor N_D^u(r')\lor N_D^u(r)$.
+
+The second support statement is identical with $k$ in place of $h$ and
+$s',t'$ in place of $s,t$. The same outer readback, inner readback, and
+reassociation give
+$N_D^u(l)\lor N_D^u(l')\lor N_D^u(k)\lor N_D^u(r')\lor N_D^u(r)$.
+\end{proof}
