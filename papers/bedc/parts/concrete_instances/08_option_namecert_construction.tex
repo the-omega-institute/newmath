@@ -93,6 +93,42 @@ two recovered endpoint carriers together with the recovered $\hsame(h,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_unary\_two\_sided\_context\_iff}
 
+\begin{theorem}[Option unary context composition law]
+\label{thm:option-unary-context-composition}
+Let $p,q,r,s,h,k:\mathsf{BHist}$. For histories $u,v,x$, write
+$C_{u,v}(x):=\mathsf{append}(u,\mathsf{append}(x,v))$. If
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{UnaryHistory}(r)$, and $\mathsf{UnaryHistory}(s)$ hold, and if
+$\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)$, then
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (C_{p,q}(C_{r,s}(h)),
+   C_{\mathsf{append}(p,r),\mathsf{append}(s,q)}(k)).
+$$
+\end{theorem}
+\begin{proof}
+Set $L:=\mathsf{append}(p,r)$ and $R:=\mathsf{append}(s,q)$. Unary append
+closure applied to $p,r$ and to $s,q$ gives $\mathsf{UnaryHistory}(L)$ and
+$\mathsf{UnaryHistory}(R)$.
+
+Apply Theorem~\ref{thm:option-history-classifier-unary-two-sided-context} to
+the assumed classifier between $h$ and $k$ with the unary contexts $L$ and $R$.
+This gives
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (C_{L,R}(h),C_{L,R}(k)).
+$$
+
+The associativity laws for BEDC append identify the nested source context
+$C_{p,q}(C_{r,s}(h))$ with $C_{L,R}(h)$, since the right hidden ledger becomes
+$\mathsf{append}(s,q)$ after reassociation.
+
+Transport the classifier along that $\hsame$ equality on the source endpoint,
+leaving the target endpoint $C_{L,R}(k)$ unchanged. The result is exactly the
+displayed classifier, and the final repacking is an instance of nullable option
+classifier transitivity together with $\hsame$ reflexivity on the target side.
+\end{proof}
+
 \section{Tagged option map relation R-corner classifier coherence}
 \label{sec:option-maprel-r-corner-classifier-coherence}
 
