@@ -123,6 +123,44 @@ $\rho_{\emp}$ close the composition law and the comparison of the two
 evaluation orders.
 \end{proof}
 
+\begin{theorem}[Singleton empty-history linear map public-code exactness]
+\label{thm:singleton-empty-history-linearmap-public-code-exactness}
+For the concrete instance of
+Definition~\ref{def:singleton-empty-history-linearmap-instance}, for all
+public map codes $f,g$ and vector code $x$, if $L_{\emp}(f)$,
+$L_{\emp}(g)$, and $A_{\emp}(x)$, then
+$$
+\lambda_{\emp}(f,\mathsf{id}_{\emp})\land
+\lambda_{\emp}(\mathsf{zeroMap}_{\emp},\mathsf{id}_{\emp})\land
+\lambda_{\emp}(\mathsf{comp}_{\emp}(g,f),\mathsf{id}_{\emp})\land
+\rho_{\emp}(\mathsf{ev}_{\emp}(f,x),x).
+$$
+Its per-object fit is: traditional target terminal one-map hom exactness;
+BEDC source $\mathsf{BHist}$ over the singleton vector-space instance;
+carrier $A_{\emp}$ for vectors and map codes; classifier $\rho_{\emp}$ and
+$\lambda_{\emp}$; stability obligations public-code exactness, evaluation
+exactness, and composition collapse; ledger singleton map-code provenance;
+core theorem this block; exactness predicate the displayed classifier
+collapse; standard bridge terminal linear hom; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The three public map-code endpoints
+$\mathsf{id}_{\emp}$, $\mathsf{zeroMap}_{\emp}$, and
+$\mathsf{comp}_{\emp}(g,f)$ reduce to $\emp$. The hypotheses
+$L_{\emp}(f)$ and $L_{\emp}(g)$ give the nontrivial singleton witnesses for
+the two displayed input map codes.
+
+The classifier component of each map-code comparison is
+$\hsame(\emp,\emp)$. Since both advertised comparison partners reduce to the
+empty history, the reflexive singleton classifier closes the identity,
+zero-map, and composite-code clauses.
+
+For evaluation, $\mathsf{ev}_{\emp}(f,x)$ is $F_{\emp}(x)$ and therefore
+reduces to $\emp$. The carrier hypothesis $A_{\emp}(x)$ supplies the endpoint
+witness for the input vector, and $\rho_{\emp}$ supplies the reflexive
+comparison between the realized endpoint and $x$ in the singleton carrier.
+\end{proof}
+
 The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and singleton action, so later Lean work can target BHist-anchored
 linear-map laws instead of only abstract function fields.
