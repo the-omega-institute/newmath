@@ -116,6 +116,37 @@ $h\hsame k$, and the endpoint clauses are the original carrier witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonCarrier\_order\_collapse}
 
+\begin{theorem}[Singleton lattice antisymmetry classifier]
+\label{thm:lattice-singleton-le-antisymm-classifier}
+If $h\le_{\emp} k$ and $k\le_{\emp} h$ in the restricted singleton prefix
+order, then $\rho_{\emp}(h,k)$, $h\hsame\emp$, and $k\hsame\emp$.
+\end{theorem}
+\begin{proof}
+The two restricted comparisons carry their endpoint fields, so the first
+comparison already identifies both $h$ and $k$ with $\emp$. The prefix
+components of the two comparisons are opposing $\mathsf{PreorderPrefixLE}$
+witnesses, and concrete prefix antisymmetry gives $\hsame(h,k)$. These three
+pieces are exactly the classifier data $\rho_{\emp}(h,k)$, together with the
+two displayed empty endpoint witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_antisymm\_classifier}
+
+\begin{theorem}[Singleton lattice meet-join absorption classifier]
+\label{thm:lattice-singleton-meet-join-absorption-classifier}
+If $h$ and $k$ are carried by $A_{\emp}$, then both absorption composites
+$\mathsf{meet}(h,\mathsf{join}(h,k))$ and
+$\mathsf{join}(h,\mathsf{meet}(h,k))$ are classified with $h$ by
+$\rho_{\emp}$, and both output histories are $\hsame$ to $\emp$.
+\end{theorem}
+\begin{proof}
+Both concrete lattice operations are definitionally $\emp$. Hence each
+absorption composite is the empty history, whose singleton carrier witness is
+reflexive. The carrier witness for $h$ gives $h\hsame\emp$, so symmetry gives
+the classifier component from each absorption output back to $h$. Reassemble
+the two $\rho_{\emp}$ classifiers and record the two empty output endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_classifier}
+
 The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
 and operations, so Lean can target $\mathsf{BEDC.Derived.LatticeUp}$ as a
 $\mathsf{BHist}$-anchored certificate rather than an abstract operator schema.

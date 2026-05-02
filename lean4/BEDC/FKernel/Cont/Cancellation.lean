@@ -82,6 +82,15 @@ theorem cont_mutual_extension_left_tail_absurd {h k leftTail rightTail : BHist} 
   · intro left right
     exact not_hsame_e1_empty (cont_mutual_extension_tails_empty left right).left
 
+theorem cont_mutual_extension_right_tail_absurd {h k leftTail rightTail : BHist} :
+    (Cont h leftTail k -> Cont k (BHist.e0 rightTail) h -> False) ∧
+      (Cont h leftTail k -> Cont k (BHist.e1 rightTail) h -> False) := by
+  constructor
+  · intro left right
+    exact not_hsame_e0_empty (cont_mutual_extension_tails_empty left right).right
+  · intro left right
+    exact not_hsame_e1_empty (cont_mutual_extension_tails_empty left right).right
+
 theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
     Cont a b r -> Cont a' d r' -> hsame a a' -> hsame r r' -> hsame b d := by
   intro left right sameContext sameResult

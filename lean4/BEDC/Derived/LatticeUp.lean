@@ -123,4 +123,35 @@ theorem LatticeSingletonCarrier_order_collapse {h k : BHist} :
       · exact And.intro hCarrier (And.intro kCarrier sameHK)
       · exact And.intro hCarrier kCarrier
 
+theorem LatticeSingletonLE_antisymm_classifier {h k : BHist} :
+    LatticeSingletonLE h k -> LatticeSingletonLE k h ->
+      LatticeSingletonClassifier h k ∧ hsame h BHist.Empty ∧ hsame k BHist.Empty := by
+  intro forward backward
+  have endpoints : hsame h BHist.Empty ∧ hsame k BHist.Empty :=
+    LatticeSingletonLE_empty_endpoints_iff.mp forward
+  have sameHK : hsame h k :=
+    PreorderPrefixLE_antisymm_hsame forward.right.right backward.right.right
+  exact ⟨⟨endpoints.left, endpoints.right, sameHK⟩, endpoints.left, endpoints.right⟩
+
+theorem LatticeSingletonMeetJoin_absorption_classifier {h k : BHist} :
+    LatticeSingletonCarrier h -> LatticeSingletonCarrier k ->
+      LatticeSingletonClassifier (LatticeSingletonMeet h (LatticeSingletonJoin h k)) h ∧
+        LatticeSingletonClassifier (LatticeSingletonJoin h (LatticeSingletonMeet h k)) h ∧
+          hsame (LatticeSingletonMeet h (LatticeSingletonJoin h k)) BHist.Empty ∧
+            hsame (LatticeSingletonJoin h (LatticeSingletonMeet h k)) BHist.Empty := by
+  intro hCarrier _kCarrier
+  have meetCarrier :
+      LatticeSingletonCarrier (LatticeSingletonMeet h (LatticeSingletonJoin h k)) :=
+    hsame_refl BHist.Empty
+  have joinCarrier :
+      LatticeSingletonCarrier (LatticeSingletonJoin h (LatticeSingletonMeet h k)) :=
+    hsame_refl BHist.Empty
+  have meetSameH : hsame (LatticeSingletonMeet h (LatticeSingletonJoin h k)) h :=
+    hsame_symm hCarrier
+  have joinSameH : hsame (LatticeSingletonJoin h (LatticeSingletonMeet h k)) h :=
+    hsame_symm hCarrier
+  exact
+    ⟨⟨meetCarrier, hCarrier, meetSameH⟩,
+      ⟨⟨joinCarrier, hCarrier, joinSameH⟩, meetCarrier, joinCarrier⟩⟩
+
 end BEDC.Derived.LatticeUp
