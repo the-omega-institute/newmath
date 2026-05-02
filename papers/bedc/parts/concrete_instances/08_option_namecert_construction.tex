@@ -330,3 +330,108 @@ contradicts zero-versus-one generated-history no-confusion.
 Since the branch analysis covers every transported normalized classifier
 witness, both normalized endpoints reject every malformed zero-tag tail.
 \end{proof}
+
+\begin{theorem}[Tagged option composite image classifier normalized absent one-sided intermediate exclusion]
+\label{thm:tagged-option-composite-image-classifier-normalized-absent-one-sided-intermediate-exclusion}
+This theorem fits the per-object template as follows: the traditional target is
+endpoint-normalized functorial $\mathsf{OptionUp}$ absent public factorization
+with one-sided intermediate readback exclusion; the BEDC source is
+$\mathsf{BHist}$ with two composable descent maps; the carrier and image
+classifier are $\mathsf{TaggedOptionPayloadDescentImageCarrier}$ and
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
+are endpoint $\hsame$ transport, map-relation composition factorization,
+empty-branch preservation, and empty-versus-present no-confusion; the ledger is
+the normalized absent public pair together with individually absent
+intermediate endpoints; the core theorem is one-sided absent intermediate
+exclusion; exactness says each intermediate endpoint rejects every visible
+present presentation; the standard bridge is $\mathsf{none}$ normalized public
+readback; and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$ and normalized endpoints $u,u':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u')
+$$
+and
+$$
+\hsame(u,\emp)\land \hsame(u',\emp),
+$$
+then there exist $k,k':\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $\hsame(k,\emp)\land \hsame(k',\emp)$;
+\item for every $p:\mathsf{BHist}$, $T(p)\to\hsame(k,\Eone(p))\to\bot$;
+\item for every $q:\mathsf{BHist}$, $T(q)\to\hsame(k',\Eone(q))\to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-absent-public-factorization}
+to the composite image-classifier witness, the endpoint normalizations, the
+displayed descent, preservation, stability, certificate, compatibility data,
+and the two absent normalized presentations. This supplies intermediate
+endpoints $k,k'$, the $\delta$ image-classifier factor, the two $\epsilon$
+map-relation witnesses, the intermediate absent presentations
+$\hsame(k,\emp)$ and $\hsame(k',\emp)$, and the excluded simultaneous visible
+intermediate pair.
+
+For the left endpoint, suppose $p:\mathsf{BHist}$ satisfies $T(p)$ and
+$\hsame(k,\Eone(p))$. Compose this visible presentation with the empty
+presentation $\hsame(k,\emp)$. The resulting identification of $\emp$ with
+$\Eone(p)$ contradicts empty-versus-one generated-history no-confusion, so no
+left visible intermediate payload can be presented.
+
+For the right endpoint, suppose $q:\mathsf{BHist}$ satisfies $T(q)$ and
+$\hsame(k',\Eone(q))$. Compose this visible presentation with the empty
+presentation $\hsame(k',\emp)$. The resulting identification of $\emp$ with
+$\Eone(q)$ contradicts empty-versus-one generated-history no-confusion, so no
+right visible intermediate payload can be presented.
+
+Package the same $k,k'$ with the retained factorization data, the retained
+intermediate empty presentations, and the two one-sided exclusion functions.
+\end{proof}
