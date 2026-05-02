@@ -655,8 +655,19 @@ Equip the affine classifier with pointwise $\hsame$ on all carried histories.
 Then the identity affine map, the collected-coefficient composition law, and
 the explicit inverse operation satisfy the $\GroupUp$ stability fields: left
 and right identity, associativity of composition, inverse closure, left and
-right inverse laws, and classifier congruence. Equivalently, the displayed
-affine automorphism package determines the concrete $\GroupUp$ certificate for
+right inverse laws, and classifier congruence. Moreover, for certified members
+$T=(a,b,d,p_a,p_b)$ and $U=(c,e,f,p_c,p_e)$ with fixed collected coefficients
+$$
+A=\mathsf{mul}(c,a),
+\qquad
+B=\mathsf{mul}(b,e),
+\qquad
+D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f),
+$$
+any two product-witness choices $p_{ca},p_{be}$ and $p'_{ca},p'_{be}$ produce
+composite affine members related by the affine pointwise classifier, including
+their reverse explicit inverse formulas. Equivalently, the displayed affine
+automorphism package determines the concrete $\GroupUp$ certificate for
 $\mathsf{AffAut}_F$ over $\mathsf{BHist}$.
 \end{theorem}
 \begin{proof}
@@ -668,9 +679,18 @@ inverse operation with its left and right inverse clauses.
 
 Composition uses the collected coefficients from the same package, with the
 two-sided certification read through
-\autoref{thm:field-affine-two-sided-certified-automorphism}. The classifier is
-pointwise $\hsame$, so classifier congruence for composition and inverse is
-obtained from
+\autoref{thm:field-affine-two-sided-certified-automorphism}.
+
+For proof-relevant product witnesses, fix collected coefficients $A$, $B$, and
+$D$ and compare the two composites built from witness pairs
+$(p_{ca},p_{be})$ and $(p'_{ca},p'_{be})$. Apply
+\autoref{thm:field-affine-product-witness-independence}: it gives pointwise
+$\hsame$ for the displayed composite maps and for their reverse explicit
+inverse formulas, which discharges the witness-choice descent field of the
+certificate.
+
+The classifier is pointwise $\hsame$, so classifier congruence for composition
+and inverse is obtained from
 \autoref{thm:field-affine-pointwise-classifier-operation-congruence}.
 
 Associativity is the normal-form statement of
