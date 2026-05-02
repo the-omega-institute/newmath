@@ -254,6 +254,61 @@ witnesses plus offset; core theorem
 inverse affine normal form; standard bridge ordinary affine automorphism group;
 status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field affine explicit inverse is a certified automorphism]
+\label{thm:field-affine-explicit-inverse-certified-automorphism}
+Under the hypotheses and notation of
+\autoref{thm:field-affine-two-sided-certified-automorphism}, define
+$$
+T(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
+$$
+and, for each $r:\mathsf{BHist}$, define
+$$
+s(r)=
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(r,\mathsf{neg}(d)),\mathsf{inv}(b,p_b))).
+$$
+Then every $c,e,x:\mathsf{BHist}$ satisfies
+$$
+s(T(x))\hsame x,
+\qquad
+T(s(c))\hsame c,
+\qquad
+s(c)\hsame s(e)\Longleftrightarrow c\hsame e.
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-affine-two-sided-certified-automorphism} with witnesses
+$p_a,p_b$ and offset $d$. Its inverse-pair clauses give
+$s(T(x))\hsame x$ and $T(s(c))\hsame c$ directly.
+
+For the forward direction of the inverse-map classifier iff, assume
+$c\hsame e$. Compose $T(s(c))\hsame c$, the assumed equality, and the symmetry
+of $T(s(e))\hsame e$ to obtain
+$$
+T(s(c))\hsame T(s(e)).
+$$
+Reflect this equality through the certified classifier iff for $T$ to conclude
+$s(c)\hsame s(e)$.
+
+For the reverse direction, assume $s(c)\hsame s(e)$. The
+classifier-preservation direction for $T$ gives
+$$
+T(s(c))\hsame T(s(e)).
+$$
+Compose the symmetry of $T(s(c))\hsame c$, the displayed equality, and
+$T(s(e))\hsame e$ to obtain $c\hsame e$.
+\end{proof}
+
+Per-object certificate: traditional target inverse affine automorphism; BEDC
+source $\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations certified affine automorphism,
+inverse-pair clauses, and classifier iff; ledger the two nonzero witnesses and
+offset; core theorem
+\autoref{thm:field-affine-explicit-inverse-certified-automorphism}; exactness
+predicate inverse-map classifier iff; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field affine composite has reverse explicit inverse]
 \label{thm:field-affine-composite-reverse-explicit-inverse}
 Under the hypotheses and notation of
@@ -296,12 +351,15 @@ $$
 s_U(U(T(x)))\hsame T(x).
 $$
 
-Use the solution-uniqueness clause of
-\autoref{thm:field-affine-two-sided-explicit-inverse} for $T$ at the target
-$T(x)$, with the reflexive classification of $T(x)$ as its input. This gives
-$x\hsame s_T(T(x))$, hence $s_T(T(x))\hsame x$ by symmetry. Transport the
-displayed equality through the explicit formula for $s_T$, and finish by
-transitivity of $\hsame$ to obtain $s_T(s_U(U(T(x))))\hsame x$.
+Use
+\autoref{thm:field-affine-explicit-inverse-certified-automorphism} for $T$.
+The classifier-preservation direction for the inverse map $s_T$ transports the
+displayed equality to
+$$
+s_T(s_U(U(T(x))))\hsame s_T(T(x)).
+$$
+Compose this with the right-inverse clause $s_T(T(x))\hsame x$ to obtain
+$s_T(s_U(U(T(x))))\hsame x$.
 \end{proof}
 
 Per-object certificate: traditional target affine automorphism group law; BEDC
