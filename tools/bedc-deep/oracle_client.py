@@ -37,6 +37,7 @@ from dispatch_bedc_target import SCRIPT_DIR, BedcTarget, build_initial_prompt, p
 import codex_orchestrator
 import killo_golden_writeback
 import lifecycle
+import stage0_quickpath
 from locks import file_lock
 
 
@@ -388,14 +389,85 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
     progress_history: list[int] = [t.get("progress_delta", 0) for t in turns]
     wall_clock_start = time.time()
 
-    print_status_hint(args.server)
-    if args.preflight_agent_wait > 0 and not wait_for_recent_agent(
-        args.server, args.preflight_agent_wait, args.poll_interval
-    ):
-        raise SystemExit(
-            "no active BEDC ChatGPT tab appeared before preflight timeout; "
-            "open https://chatgpt.com/?bedc=1 and click Start"
+    # ----- Stage 0 (Stage Q): codex+claude multi-round quick path -----
+    # Only runs on a clean target — if cursor already has oracle turns or
+    # raw_oracle_latex.md is present, that means we've already escalated to
+    # Stage 1 (or completed it) on a prior attempt; don't redo Stage 0.
+    stage0_summary: dict = cursor.get("stage0") or {}
+    raw_latex_path = out_dir / "raw_oracle_latex.md"
+    stage0_enabled = not getattr(args, "no_stage0", False)
+    stage0_already_ran = bool(stage0_summary) or bool(turns) or raw_latex_path.exists()
+    if stage0_enabled and not stage0_already_ran:
+        max_rounds = int(getattr(args, "stage0_max_rounds", stage0_quickpath.DEFAULT_MAX_ROUNDS))
+        print(
+            f"[stage0] {target.target_id} starting quick path (max_rounds={max_rounds})",
+            flush=True,
         )
+        s0 = stage0_quickpath.run_stage0(target, max_rounds=max_rounds)
+        stage0_summary = {
+            "verdict": s0.verdict,
+            "tex_file": s0.tex_file,
+            "rounds": [
+                {
+                    "round": r.get("round"),
+                    "outcome": r.get("outcome"),
+                    "codex_verdict": (r.get("codex") or {}).get("verdict"),
+                    "review_verdict": (r.get("review") or {}).get("verdict"),
+                    "review_score": (r.get("review") or {}).get("score"),
+                }
+                for r in s0.rounds
+            ],
+            "rounds_total": len(s0.rounds),
+            "reason": s0.reason,
+            "error": s0.error,
+        }
+        write_text(out_dir / "stage0_result.json", json.dumps(stage0_summary, ensure_ascii=False, indent=2))
+        cursor["stage0"] = stage0_summary
+        save_cursor(target, {
+            "turns": turns,
+            "started_at": started_at,
+            "conversation_id": conversation_id,
+            "stage0": stage0_summary,
+            "attempts": cursor.get("attempts", 1),
+            "crashed_retries": cursor.get("crashed_retries", 0),
+        })
+        if s0.verdict == "accept" and s0.content.strip():
+            # Embed the suggested tex_file as an Insertion target hint so
+            # _extract_insertion_target picks it up the same way as the oracle's
+            # WRITE_PAPER_LATEX terminal turn would.
+            insertion_hint = f"Insertion target: {s0.tex_file}\n\n" if s0.tex_file else ""
+            write_text(raw_latex_path, insertion_hint + s0.content.rstrip() + "\n")
+            print(
+                f"[stage0] {target.target_id} accepted — wrote {raw_latex_path.name} "
+                f"({len(s0.content)} chars); skipping Stage 1, going to Stage 2",
+                flush=True,
+            )
+            # Mark a synthetic Stage 1 verdict=done so the rest of run_target
+            # (Stage 2 dispatch + final state annotation) flows unchanged.
+            verdict_after_stage0 = "done_via_stage0"
+        else:
+            print(
+                f"[stage0] {target.target_id} escalating to Stage 1 oracle: {s0.reason[:200]}",
+                flush=True,
+            )
+            verdict_after_stage0 = ""
+    else:
+        if stage0_already_ran:
+            reason = "cursor has prior turns" if turns else (
+                "raw_oracle_latex.md already present" if raw_latex_path.exists() else "stage0 already recorded"
+            )
+            print(f"[stage0] {target.target_id} skipped ({reason})", flush=True)
+        verdict_after_stage0 = ""
+
+    if verdict_after_stage0 != "done_via_stage0":
+        print_status_hint(args.server)
+        if args.preflight_agent_wait > 0 and not wait_for_recent_agent(
+            args.server, args.preflight_agent_wait, args.poll_interval
+        ):
+            raise SystemExit(
+                "no active BEDC ChatGPT tab appeared before preflight timeout; "
+                "open https://chatgpt.com/?bedc=1 and click Start"
+            )
 
     # ----- Stage 1: deep reasoning loop -----
     if not turns:
@@ -404,7 +476,14 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
         prompt = cursor.get("pending_prompt") or build_initial_prompt(target)
 
     verdict = "open"
-    if turns and (turns[-1].get("response_verdict") or "").lower() == "done":
+    if verdict_after_stage0 == "done_via_stage0":
+        print(
+            f"[stage1] skipped: Stage 0 quick-path produced raw_oracle_latex.md; "
+            f"jumping directly to Stage 2",
+            flush=True,
+        )
+        verdict = "done"
+    elif turns and (turns[-1].get("response_verdict") or "").lower() == "done":
         print(
             f"[stage1] cursor shows turn {turns[-1].get('turn')} already done "
             f"(progress_delta={turns[-1].get('progress_delta')}); "
@@ -568,9 +647,12 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
             print(f"[stage1] terminal submit failed: {submit['error']}", flush=True)
             verdict = "stuck"
 
-    # ----- Stage 1.5: topic discovery (only if done) -----
+    # ----- Stage 1.5: topic discovery (only if done AND we have oracle turns) -----
+    # Stage 0 path produces no oracle transcript — there's nothing for codex
+    # to mine, so skip discovery on that path. Adjacent topics will surface
+    # through subsequent oracle-routed targets instead.
     spawned_ids: list[str] = []
-    if verdict == "done":
+    if verdict == "done" and turns:
         full_transcript = _build_full_transcript(out_dir, turns)
         write_text(out_dir / "full_transcript.md", full_transcript)
         board_content = BOARD_PATH.read_text(encoding="utf-8")
@@ -670,6 +752,8 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
         "completed_at": _now_iso(),
         "conversation_id": conversation_id,
         "turns": turns,
+        "stage0": stage0_summary,
+        "stage0_via": (verdict_after_stage0 == "done_via_stage0"),
         "stage1_verdict": verdict,
         "stage15_spawned": spawned_ids,
         "stage2": stage2_summary,
@@ -980,6 +1064,8 @@ def main() -> int:
     parser.add_argument("--parallel", type=int, default=1, help="Number of concurrent target workers in --loop mode (default 1; cap to active ChatGPT tabs)")
     parser.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD, help="Minimum fit_score for Stage 1.5 to accept a spawned candidate")
     parser.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD, help="Minimum novelty for Stage 1.5 to accept a spawned candidate")
+    parser.add_argument("--no-stage0", action="store_true", help="Disable Stage 0 (codex+claude quick path); always go straight to oracle Stage 1")
+    parser.add_argument("--stage0-max-rounds", type=int, default=stage0_quickpath.DEFAULT_MAX_ROUNDS, help="Max codex+claude review rounds in Stage 0 before escalating to Stage 1")
     parser.add_argument("--force", action="store_true", help="Bypass already-in-paper pre-flight check")
     parser.add_argument("--server", default=ORACLE_SERVER, help="Oracle server URL")
     parser.add_argument("--model", default="chatgpt-5.5-pro", help="Model name passed to the oracle server")
