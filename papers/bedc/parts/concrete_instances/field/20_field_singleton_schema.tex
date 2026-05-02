@@ -102,27 +102,38 @@ $\mathsf{fieldSingletonEmptyInv}(h,p):=\emp$.
 \end{definition}
 \leandef{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero}
 
-\begin{theorem}[Singleton empty-classifier carrier obstruction]
-\label{thm:singleton-empty-classifier-carrier-absurd}
-For every $h:\mathsf{BHist}$,
-$A_{\emp}(h)\to\mathsf{fieldSingletonEmptyNonZero}(h)\to\mathsf{False}$.
+\begin{theorem}[Singleton empty nonzero carrier complement]
+\label{thm:field-singleton-empty-nonzero-carrier-complement}
+For every $h:\mathsf{BHist}$, the proof-indexed singleton empty nonzero
+predicate is exactly the complement of the singleton carrier:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(h)
+\Longleftrightarrow
+(\mathsf{FieldSingletonCarrier}(h)\to\mathsf{False}).
+$$
 \end{theorem}
 \begin{proof}
-Assume $A_{\emp}(h)$. The singleton source is generated at $\emp$, so this
-carrier witness supplies the endpoint comparison $h\hsame\emp$.
+For the forward direction, assume
+$p:\mathsf{fieldSingletonEmptyNonZero}(h)$ and a carrier witness for $h$. The
+singleton source is generated at $\emp$, so this carrier witness supplies the
+left endpoint comparison $h\hsame\emp$.
 
-The same singleton source gives the reflexive carrier witness at $\emp$.
-Together with the endpoint comparison above, these data assemble the classifier
-package $\rho_{\emp}(h,\emp)$.
+The reflexive endpoint $\emp\hsame\emp$ gives the target carrier at $\emp$.
+Together with the comparison from $h$ to $\emp$, these data assemble the
+classifier package $\rho_{\emp}(h,\emp)$, and $p$ sends that package to
+$\mathsf{False}$.
 
-Now assume $p:\mathsf{fieldSingletonEmptyNonZero}(h)$. By
-Definition~\ref{def:field-singleton-empty-nonzero}, $p$ maps the
-classifier package $\rho_{\emp}(h,\emp)$ to $\mathsf{False}$, which closes the
-claim.
+For the reverse direction, assume
+$q:\mathsf{FieldSingletonCarrier}(h)\to\mathsf{False}$ and a classifier witness
+$c:\rho_{\emp}(h,\emp)$. Unpack $c$ and extract its left carrier field for $h$.
+Applying $q$ to that carrier field gives the required contradiction, so
+$q$ is a witness of $\mathsf{fieldSingletonEmptyNonZero}(h)$ by
+Definition~\ref{def:field-singleton-empty-nonzero}.
 \end{proof}
 
-This gives the concrete $\mathsf{BHist}$ $\FieldUp$ schema a direct
-nonzero-domain law target for the singleton empty-classifier instance.
+This identifies the concrete $\mathsf{BHist}$ $\FieldUp$ schema's
+proof-indexed nonzero domain with the carrier complement of the singleton
+empty-classifier instance.
 
 \begin{theorem}[Singleton nonzero endpoint obstruction]
 \label{thm:field-singleton-nonzero-absurd}
