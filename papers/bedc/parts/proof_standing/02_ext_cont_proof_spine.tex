@@ -156,6 +156,23 @@ therefore $\hsame$ to $\mathsf{append}(a,f)$, and the reflexive continuation
 from $a$ by $f$ transports to $b$.
 \end{proof}
 
+\begin{theorem}[Composite continuation right factor]
+\label{thm:cont-composite-right-factor}
+If
+$$
+\ContR(a,f,b),\quad \ContR(f,g,fg),\quad \ContR(a,fg,c),
+$$
+then $\ContR(b,g,c)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_right\_factor}
+\begin{proof}
+Invert the three continuation witnesses. The result endpoint $c$ is
+$\mathsf{append}(a,\mathsf{append}(f,g))$, while the desired right factor
+endpoint is $\mathsf{append}(\mathsf{append}(a,f),g)$. BEDC append
+associativity identifies these two histories and supplies the displayed
+continuation from $b$ by $g$ to $c$.
+\end{proof}
+
 \begin{corollary}[Addition-like behavior requires no primitive addition]
 \label{cor:addition-like-behavior-requires-no-primitive-addition}
 The continuation relation supplies a finite-kernel seed for addition-like derived interfaces. The additive interface is not primitive; it may be licensed only by a naming certificate whose stability component cites continuation unit and associativity.

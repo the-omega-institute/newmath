@@ -386,6 +386,17 @@ def ContinuationMorphism_comp_right_factor {a b c rightTail : BHist}
           cases compositeRel
           exact cont_intro (append_assoc a leftTail rightTail).symm
 
+def ContinuationMorphism_comp_left_factor {a b c leftTail : BHist}
+    (right : ContinuationMorphism b c) (composite : ContinuationMorphism a c) :
+    Cont leftTail right.tail composite.tail -> ContinuationMorphism a b := by
+  intro tailRel
+  cases right with
+  | mk rightTail rightRel =>
+      cases composite with
+      | mk compositeTail compositeRel =>
+          refine { tail := leftTail, rel := ?_ }
+          exact cont_composite_left_factor rightRel tailRel compositeRel
+
 theorem category_cont_left_e0_result_cases {h k r : BHist} :
     Cont (BHist.e0 h) k (BHist.e0 r) ->
       (k = BHist.Empty ∧ hsame h r) ∨
