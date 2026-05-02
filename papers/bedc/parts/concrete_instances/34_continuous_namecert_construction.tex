@@ -456,6 +456,26 @@ determinacy gives $\hsame(s,s')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_visible\_context\_source\_deterministic}
 
+\begin{theorem}[Continuous modulus witness visible context modulus determinacy]
+\label{thm:continuous-modulus-witness-visible-context-modulus-deterministic}
+For histories $p,q,s,\delta,\delta',t$, two visible-context one-step modulus
+witnesses with the same visible source and target contexts determine the same
+central modulus history:
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta\cdot q,(p\cdot t)\cdot q)
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta'\cdot q,(p\cdot t)\cdot q)
+\Longrightarrow
+\hsame(\delta,\delta').
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to both witnesses. The recovered central
+witnesses have the same source $s$ and target $t$, so one-step modulus
+determinacy identifies $\delta$ and $\delta'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_visible\_context\_modulus\_deterministic}
+
 \begin{theorem}[Continuous modulus witness left e1 result cases]
 \label{thm:continuous-modulus-witness-left-e1-result-cases}
 For histories $source,modulus,target$, a one-step modulus witness from a

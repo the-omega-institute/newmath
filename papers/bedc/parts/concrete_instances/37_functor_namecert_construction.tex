@@ -271,6 +271,29 @@ right append suffix $a$ yields $\hsame(p,q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_source\_prefix\_deterministic}
 
+\begin{theorem}[Functor prefix hom-carrier composite source-prefix determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-source-prefix-deterministic}
+For histories $p,q,a,b,c,f,g,fg$, suppose $f$ and $g$ are composable
+hom-carriers over the common prefix $p$:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+\land
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g)
+\land
+\mathsf{Cont}(f,g,fg).
+$$
+If the displayed composite also has source $\mathsf{append}(q,a)$ and target
+$\mathsf{append}(p,c)$, then $\hsame(p,q)$.
+\end{theorem}
+\begin{proof}
+Close the two displayed $p$-prefixed hom-carriers under composition to obtain a
+canonical carrier from $\mathsf{append}(p,a)$ to $\mathsf{append}(p,c)$ with
+morphism $fg$. Source determinacy compares this carrier with the displayed
+carrier whose source is $\mathsf{append}(q,a)$. Cancelling the common suffix
+$a$ gives $\hsame(p,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_source\_prefix\_deterministic}
+
 \begin{theorem}[Functor prefix hom-carrier target-prefix determinacy]
 \label{thm:functor-prefix-hom-carrier-target-prefix-deterministic}
 For histories $p,q,a,source,f$, if the same morphism $f$ is a category
