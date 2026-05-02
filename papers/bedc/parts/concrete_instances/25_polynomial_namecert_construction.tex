@@ -189,6 +189,46 @@ carrier of $h$, and symmetry of the carrier witness for $h$.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_add\_split\_empty\_iff}
 
+\begin{theorem}[Polynomial singleton add visible-left exclusion]
+\label{thm:polynomial-singleton-add-visible-left-absurd}
+For histories $P,Q,h:\mathsf{BHist}$, no singleton polynomial classifier
+witness can classify an addition endpoint whose left source begins with a
+visible constructor:
+$$
+\rho_{\emp}(\mathsf{add}_P(\mathsf{e0}(P),Q),h)\Rightarrow\bot,
+\qquad
+\rho_{\emp}(\mathsf{add}_P(\mathsf{e1}(P),Q),h)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{add}_P$ to BEDC append and unfold the singleton classifier.
+The source carrier field says the appended endpoint is history-same to
+$\emp$. Empty-result inversion for append then forces the visible left source
+itself to be $\emp$, contradicting constructor separation for
+$\mathsf{e0}$ or $\mathsf{e1}$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_add\_visible\_left\_absurd}
+
+\begin{theorem}[Polynomial singleton add visible-right exclusion]
+\label{thm:polynomial-singleton-add-visible-right-absurd}
+For histories $P,Q,h:\mathsf{BHist}$, no singleton polynomial classifier
+witness can classify an addition endpoint whose right source begins with a
+visible constructor:
+$$
+\rho_{\emp}(\mathsf{add}_P(P,\mathsf{e0}(Q)),h)\Rightarrow\bot,
+\qquad
+\rho_{\emp}(\mathsf{add}_P(P,\mathsf{e1}(Q)),h)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Again the classifier source carrier identifies the BEDC append endpoint with
+$\emp$. Empty-result inversion for append separates the left and right source
+endpoints, so the visible right endpoint would have to be $\emp$. This is
+excluded by the disjointness of visible $\mathsf{BHist}$ constructors from the
+empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_add\_visible\_right\_absurd}
+
 \begin{theorem}[Polynomial singleton classifier append-left cancellation]
 \label{thm:polynomial-singleton-classifier-append-left-cancel}
 For singleton-carried $P$, adding the same BEDC append context on the left of

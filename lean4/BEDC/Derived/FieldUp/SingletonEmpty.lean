@@ -18,6 +18,15 @@ def fieldSingletonEmptyNonZero (h : BHist) : Prop :=
 def fieldSingletonEmptyMul (_x _y : BHist) : BHist :=
   BHist.Empty
 
+theorem fieldSingletonEmptyClassifier_mul_empty_endpoint_iff {h k out : BHist} :
+    fieldSingletonEmptyClassifier (fieldSingletonEmptyMul h k) out ↔ hsame out BHist.Empty := by
+  constructor
+  · intro classified
+    exact classified.right.left
+  · intro outEmpty
+    exact And.intro (hsame_refl BHist.Empty)
+      (And.intro outEmpty (hsame_symm outEmpty))
+
 def fieldSingletonEmptyOne : BHist :=
   BHist.Empty
 

@@ -42,6 +42,28 @@ theorem PolynomialSingletonClassifier_add_split_empty_iff {P Q h : BHist} :
     exact And.intro (hsame_refl BHist.Empty)
       (And.intro split.right.right (hsame_symm split.right.right))
 
+theorem PolynomialSingletonClassifier_add_visible_left_absurd {P Q h : BHist} :
+    (PolynomialSingletonClassifier (PolynomialSingletonAdd (BHist.e0 P) Q) h -> False) ∧
+      (PolynomialSingletonClassifier (PolynomialSingletonAdd (BHist.e1 P) Q) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact not_hsame_e0_empty emptyParts.left
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact not_hsame_e1_empty emptyParts.left
+
+theorem PolynomialSingletonClassifier_add_visible_right_absurd {P Q h : BHist} :
+    (PolynomialSingletonClassifier (PolynomialSingletonAdd P (BHist.e0 Q)) h -> False) ∧
+      (PolynomialSingletonClassifier (PolynomialSingletonAdd P (BHist.e1 Q)) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact not_hsame_e0_empty emptyParts.right
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact not_hsame_e1_empty emptyParts.right
+
 theorem PolynomialSingletonClassifier_append_left_cancel_iff {P Q R : BHist} :
     PolynomialSingletonCarrier P ->
       (PolynomialSingletonClassifier (append P Q) (append P R) ↔
