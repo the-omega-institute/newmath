@@ -100,6 +100,59 @@ theorem: \autoref{thm:field-affine-two-sided-certified-automorphism}. Exactness
 predicate: inverse-pair plus classifier iff. Standard bridge: deferred. Status:
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field affine certified fibers are singleton classified]
+\label{thm:field-affine-certified-fiber-singleton}
+Under the hypotheses and notation of
+\autoref{thm:field-affine-two-sided-certified-automorphism}, define
+$$
+T(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
+$$
+and
+$$
+s(q)=
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(q,\mathsf{neg}(d)),\mathsf{inv}(b,p_b))).
+$$
+Then every $q,x,y:\mathsf{BHist}$ satisfies the following three clauses.
+\begin{enumerate}
+\item $T(s(q))\hsame q$.
+\item If $T(x)\hsame q$ and $T(y)\hsame q$, then $x\hsame y$.
+\item $T(x)\hsame q\Longleftrightarrow x\hsame s(q)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The displayed preimage clause is the left inverse clause of
+\autoref{thm:field-affine-two-sided-certified-automorphism} at the target
+history $q$.
+
+For two solutions of the same fiber equation, assume $T(x)\hsame q$ and
+$T(y)\hsame q$. Apply
+\autoref{thm:field-affine-two-sided-equation-solution-unique-from-apartness}
+with the same certified factors $p_a,p_b$ and offset $d$. The two assumed
+equations are exactly its inputs, so its conclusion gives $x\hsame y$.
+
+It remains to identify membership in the fiber with classification by the
+displayed solution. In the forward direction, assume $T(x)\hsame q$. The first
+clause gives $T(s(q))\hsame q$; by symmetry and transitivity, $T(x)$ is
+classified with $T(s(q))$. Reflect this comparison through the classifier
+clause of \autoref{thm:field-affine-two-sided-certified-automorphism}, giving
+$x\hsame s(q)$.
+
+For the reverse direction, assume $x\hsame s(q)$. Preserve this classifier
+comparison through the same certified affine map to obtain
+$T(x)\hsame T(s(q))$, and compose with the displayed preimage clause
+$T(s(q))\hsame q$. The result is $T(x)\hsame q$.
+\end{proof}
+
+Per-object certificate: traditional target affine bijection fiber exactness;
+BEDC source $\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability obligations certified affine automorphism and
+affine equation uniqueness; ledger the two nonzero witnesses, offset, target
+point, and displayed solution equations; core theorem
+\autoref{thm:field-affine-certified-fiber-singleton}; exactness predicate
+singleton classified fiber; standard bridge ordinary affine bijections over a
+field; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field two-sided affine automorphism composition with explicit product witnesses]
 \label{thm:field-affine-two-sided-automorphism-composition}
 For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with the
