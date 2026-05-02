@@ -478,10 +478,42 @@ apply Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} to
 the same signed factor product. The right-factor clause gives $a+b\hsame0$.
 \end{proof}
 
-Per-object certificate: this is a Core theorem list item for constructive
+\begin{theorem}[Field equal-squares signed apartness exclusivity]
+\label{thm:field-equal-squares-signed-apartness-exclusive}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+ring zero absorption, multiplication associativity, left and right
+multiplicative identity laws, multiplication congruence, indexed inverse laws,
+classifier transport of $\mathsf{NonZero}_F$, contradiction of
+$\mathsf{NonZero}_F(0)$, and the $\CommRingUp$ hypotheses required by
+Theorem~\ref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b:\mathsf{BHist}$ with $a\cdot a\hsame b\cdot b$ admits no simultaneous
+signed apartness witnesses:
+$$
+p_+:\mathsf{NonZero}_F(a+b),\quad p_-:\mathsf{NonZero}_F(a+(-b))
+\quad\Longrightarrow\quad \bot.
+$$
+\end{theorem}
+\begin{proof}
+Assume witnesses $p_+:\mathsf{NonZero}_F(a+b)$ and
+$p_-:\mathsf{NonZero}_F(a+(-b))$.
+
+Apply Theorem~\ref{thm:field-equal-squares-signed-factor-exclusion} to the
+square equality and the witness $p_+$. The first signed-factor clause gives
+$a+(-b)\hsame0$.
+
+Transport $p_-$ along this classifier equality. The nonzero-transport
+stability clause supplies $\mathsf{NonZero}_F(0)$, contradicting the field
+stability obligation that forbids $\mathsf{NonZero}_F(0)$.
+
+The symmetric route starts from $p_-$, derives $a+b\hsame0$, transports
+$p_+$ to $\mathsf{NonZero}_F(0)$, and closes by the same contradiction.
+\end{proof}
+
+Per-object certificate: these are Core theorem list items for constructive
 field square-factor reasoning. Source: $\FieldUp$ plus $\CommRingUp$. Carrier:
 $\mathsf{BHist}$. Classifier: $\hsame$. Ledger: the chosen nonzero signed
-factor witness $p_+$ or $p_-$. Status: ProofTarget.
+factor witness $p_+$ or $p_-$, or the incompatible pair of signed apartness
+witnesses. Status: ProofTarget.
 
 \paragraph{Zero-product exactness certificate.}
 Traditional target: constructive field zero-product exactness. BEDC source:
@@ -702,7 +734,7 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
   \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
   \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
   \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
-  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product exactness, zero-product exclusion from two nonzero witnesses, affine left equation exactness, affine right equation exactness, affine two-sided equation exactness, and distributivity inherited from $\CommRingUp$.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product exactness, zero-product exclusion from two nonzero witnesses, signed-factor apartness exclusivity, affine left equation exactness, affine right equation exactness, affine two-sided equation exactness, and distributivity inherited from $\CommRingUp$.
   \item Exactness predicate: coverage, soundness, completeness, exact zero classification, and nonzero-product contradiction inside certified two-sided multiplication for admitted field packages.
   \item Standard bridge: deferred conservative bridge.
   \item Status: ProofTarget.
