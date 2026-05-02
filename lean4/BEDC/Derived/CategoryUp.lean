@@ -149,6 +149,20 @@ theorem CategoryHomCarrier_comp_middle_object_deterministic {a b b' c f g fg : B
     exact cont_intro (append_assoc a f g).symm
   exact cont_right_cancel derivedRight right.right.right.right
 
+theorem CategoryHomCarrier_comp_right_factor {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> Cont f g fg -> CategoryHomCarrier a c fg ->
+      CategoryHomCarrier b c g := by
+  intro left comp displayed
+  have gCarrier : UnaryHistory g :=
+    unary_cont_right_factor comp displayed.right.right.left
+  have rightCont : Cont b g c := by
+    cases left.right.right.right
+    cases comp
+    cases displayed.right.right.right
+    exact cont_intro (append_assoc a f g).symm
+  exact And.intro left.right.left
+    (And.intro displayed.right.left (And.intro gCarrier rightCont))
+
 theorem CategoryHomCarrier_source_deterministic {a b c f : BHist} :
     CategoryHomCarrier a c f -> CategoryHomCarrier b c f -> hsame a b := by
   intro left right

@@ -187,6 +187,31 @@ similarly identify $a$ with $a_0$ and $c_0$ with $c$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_present\_chain\_payload\_witness}
 
+\begin{theorem}[Tagged option history classifier visible payload witnesses]
+\label{thm:tagged-option-history-classifier-visible-payload-witnesses}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, histories $h,k,a,b$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k),
+\qquad
+\hsame(h,\Eone(a)),
+\qquad
+\hsame(k,\Eone(b)),
+$$
+then there are payload witnesses $a',b':\mathsf{BHist}$ such that
+$$
+S(a')\land S(b')\land \hsame(a,a')\land\hsame(b,b')\land a'\sim_S b'.
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. The absent branch contradicts the
+left visible endpoint. In the present branch, the classifier already exposes
+source payload witnesses $a'$ and $b'$ together with the two endpoint equations
+and $a'\sim_S b'$. Constructor inversion for the two displayed $\Eone$ readings
+identifies $a$ with $a'$ and $b$ with $b'$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_visible\_payload\_witnesses}
+
 \begin{theorem}[Tagged option history classifier presented payload exactness]
 \label{thm:tagged-option-history-classifier-presented-payload-exactness}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,

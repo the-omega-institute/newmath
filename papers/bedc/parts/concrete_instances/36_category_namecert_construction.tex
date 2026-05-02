@@ -67,6 +67,24 @@ other displayed carrier over the same source and target.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_public\_readback}
 
+\begin{theorem}[Category hom carrier composition right factor]
+\label{thm:category-hom-carrier-comp-right-factor}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
+\(b\), \(fg\) is the continuation composite of \(f\) and \(g\), and \(fg\) is
+displayed as a hom-carrier from \(a\) to \(c\), then \(g\) is a hom-carrier
+from \(b\) to \(c\).
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witnesses. The displayed composite gives unary
+membership for \(fg\), so right-factor recovery for unary continuations applied
+to \(\ContR(f,g,fg)\) gives unary membership for \(g\). The left hom-carrier
+gives \(\ContR(a,f,b)\), the composite ledger gives \(\ContR(f,g,fg)\), and
+the displayed carrier gives \(\ContR(a,fg,c)\). Associativity of append turns
+these three ledgers into \(\ContR(b,g,c)\), which is the right-factor
+hom-carrier ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor}
+
 \begin{theorem}[Category hom carrier composite target determinacy]
 \label{thm:category-hom-carrier-comp-target-deterministic}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to

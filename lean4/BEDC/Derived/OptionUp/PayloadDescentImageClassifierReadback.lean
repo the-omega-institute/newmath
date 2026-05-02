@@ -381,8 +381,251 @@ theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_visible_p
   have relX'Y : RelU x' y := NameCert.equiv_trans certU relX'X relXY
   exact And.intro relXY
     (And.intro relXY'
-      (And.intro relX'Y
-        (And.intro relX'Y'
-          (And.intro sameXX' (And.intro sameYY' (And.intro notUEmpty notU'Empty))))))
+          (And.intro relX'Y
+            (And.intro relX'Y'
+              (And.intro sameXX' (And.intro sameYY' (And.intro notUEmpty notU'Empty))))))
+
+theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_one_sided_visible_public_factorization
+    {S T U : BHist -> Prop} {RelS RelT RelU : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (rhoD : forall a : BHist, S a -> T (delta.map a))
+    (certS : NameCert S RelS)
+    (certT : NameCert T RelT)
+    (certU : NameCert U RelU)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (middle_hsame : TaggedOptionSourceHsameCompatible T RelT)
+    (target_hsame : TaggedOptionSourceHsameCompatible U RelU) {m m' u u' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon) m m' ->
+      hsame m u ->
+        hsame m' u' ->
+          let LeftClause : Prop :=
+            forall x : BHist, U x -> hsame u (BHist.e1 x) ->
+            exists y k k' p q a b : BHist,
+              U y /\ hsame u' (BHist.e1 y) /\ RelU x y /\
+                TaggedOptionPayloadDescentImageClassifier S T delta k k' /\
+                  TaggedOptionMapRel T U epsilon k u /\
+                    TaggedOptionMapRel T U epsilon k' u' /\
+                      T p /\ T q /\ U (epsilon.map p) /\ U (epsilon.map q) /\
+                        hsame k (BHist.e1 p) /\ hsame k' (BHist.e1 q) /\
+                          hsame x (epsilon.map p) /\ hsame y (epsilon.map q) /\
+                            S a /\ S b /\ RelS a b /\ T (delta.map a) /\
+                              T (delta.map b) /\ hsame p (delta.map a) /\
+                                hsame q (delta.map b) /\ RelT p q /\
+                                  (hsame u BHist.Empty -> False) /\
+                                    (hsame u' BHist.Empty -> False) /\
+                                      (forall y' : BHist, U y' ->
+                                        hsame u' (BHist.e1 y') ->
+                                          hsame y y' /\ RelU x y')
+          let RightClause : Prop :=
+            forall y : BHist, U y -> hsame u' (BHist.e1 y) ->
+              exists x k k' p q a b : BHist,
+                U x /\ hsame u (BHist.e1 x) /\ RelU x y /\
+                  TaggedOptionPayloadDescentImageClassifier S T delta k k' /\
+                    TaggedOptionMapRel T U epsilon k u /\
+                      TaggedOptionMapRel T U epsilon k' u' /\
+                        T p /\ T q /\ U (epsilon.map p) /\ U (epsilon.map q) /\
+                          hsame k (BHist.e1 p) /\ hsame k' (BHist.e1 q) /\
+                            hsame x (epsilon.map p) /\ hsame y (epsilon.map q) /\
+                              S a /\ S b /\ RelS a b /\ T (delta.map a) /\
+                                T (delta.map b) /\ hsame p (delta.map a) /\
+                                  hsame q (delta.map b) /\ RelT p q /\
+                                    (hsame u BHist.Empty -> False) /\
+                                      (hsame u' BHist.Empty -> False) /\
+                                        (forall x' : BHist, U x' ->
+                                          hsame u (BHist.e1 x') ->
+                                            hsame x x' /\ RelU x' y)
+          LeftClause /\ RightClause := by
+  intro image sameMU sameM'U'
+  have transported :
+      TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon) u u' :=
+    TaggedOptionPayloadDescentImageClassifier_hsame_transport
+      (TaggedOptionDescentComp delta epsilon) certS source_hsame image sameMU sameM'U'
+  have branch :=
+    (TaggedOptionPayloadDescentImageClassifier_branch_exactness
+      (TaggedOptionDescentComp delta epsilon) certS source_hsame).mp transported
+  constructor
+  · intro x targetX sameUX
+    cases branch with
+    | inl absent =>
+        exact False.elim (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.left) sameUX))
+    | inr present =>
+        cases present with
+        | intro a present =>
+            cases present with
+            | intro b data =>
+                have relXY : RelU x (epsilon.map (delta.map b)) :=
+                  TaggedOptionPayloadDescentImageClassifier_composite_normalized_visible_target_payload_classification
+                    delta epsilon certS certU source_hsame target_hsame transported
+                    (hsame_refl u) (hsame_refl u') targetX
+                    data.right.right.right.right.left sameUX
+                    data.right.right.right.right.right.right
+                have notUEmpty : hsame u BHist.Empty -> False := by
+                  intro sameUEmpty
+                  exact not_hsame_e1_empty (hsame_trans (hsame_symm sameUX) sameUEmpty)
+                have notU'Empty : hsame u' BHist.Empty -> False := by
+                  intro sameU'Empty
+                  exact not_hsame_e1_empty
+                    (hsame_trans (hsame_symm data.right.right.right.right.right.right)
+                      sameU'Empty)
+                have imageDelta :
+                    TaggedOptionPayloadDescentImageClassifier S T delta
+                      (BHist.e1 (delta.map a)) (BHist.e1 (delta.map b)) := by
+                  apply
+                    (TaggedOptionPayloadDescentImageClassifier_branch_exactness
+                      delta certS source_hsame).mpr
+                  exact Or.inr
+                    (Exists.intro a
+                      (Exists.intro b
+                        (And.intro data.left
+                          (And.intro data.right.left
+                            (And.intro data.right.right.left
+                              (And.intro (rhoD a data.left)
+                                (And.intro (rhoD b data.right.left)
+                                  (And.intro (hsame_refl (BHist.e1 (delta.map a)))
+                                    (hsame_refl (BHist.e1 (delta.map b)))))))))))
+                have mapLeft :
+                    TaggedOptionMapRel T U epsilon (BHist.e1 (delta.map a)) u :=
+                  Or.inr
+                    (Exists.intro (delta.map a)
+                      (And.intro (rhoD a data.left)
+                        (And.intro data.right.right.right.left
+                          (And.intro (hsame_refl (BHist.e1 (delta.map a)))
+                            data.right.right.right.right.right.left))))
+                have mapRight :
+                    TaggedOptionMapRel T U epsilon (BHist.e1 (delta.map b)) u' :=
+                  Or.inr
+                    (Exists.intro (delta.map b)
+                      (And.intro (rhoD b data.right.left)
+                        (And.intro data.right.right.right.right.left
+                          (And.intro (hsame_refl (BHist.e1 (delta.map b)))
+                            data.right.right.right.right.right.right))))
+                have relPQ : RelT (delta.map a) (delta.map b) :=
+                  NameCert.equiv_trans certT
+                    (middle_hsame (rhoD a data.left) (rhoD a data.left)
+                      (hsame_refl (delta.map a)))
+                    (NameCert.equiv_trans certT (delta.respects data.right.right.left)
+                      (middle_hsame (rhoD b data.right.left) (rhoD b data.right.left)
+                        (hsame_refl (delta.map b))))
+                have uniqueRight :
+                    forall y' : BHist, U y' -> hsame u' (BHist.e1 y') ->
+                      hsame (epsilon.map (delta.map b)) y' /\ RelU x y' := by
+                  intro y' targetY' sameU'Y'
+                  have sameYY' : hsame (epsilon.map (delta.map b)) y' :=
+                    hsame_e1_iff.mp
+                      (hsame_trans
+                        (hsame_symm data.right.right.right.right.right.right)
+                        sameU'Y')
+                  have relXY' : RelU x y' :=
+                    TaggedOptionPayloadDescentImageClassifier_composite_normalized_visible_target_payload_classification
+                      delta epsilon certS certU source_hsame target_hsame transported
+                      (hsame_refl u) (hsame_refl u') targetX targetY' sameUX sameU'Y'
+                  exact And.intro sameYY' relXY'
+                exact
+                  ⟨epsilon.map (delta.map b), BHist.e1 (delta.map a),
+                    BHist.e1 (delta.map b), delta.map a, delta.map b, a, b,
+                    data.right.right.right.right.left,
+                    data.right.right.right.right.right.right, relXY, imageDelta, mapLeft,
+                    mapRight, rhoD a data.left, rhoD b data.right.left,
+                    data.right.right.right.left, data.right.right.right.right.left,
+                    hsame_refl (BHist.e1 (delta.map a)),
+                    hsame_refl (BHist.e1 (delta.map b)),
+                    hsame_e1_iff.mp
+                      (hsame_trans (hsame_symm sameUX)
+                        data.right.right.right.right.right.left),
+                    hsame_refl (epsilon.map (delta.map b)), data.left, data.right.left,
+                    data.right.right.left, rhoD a data.left, rhoD b data.right.left,
+                    hsame_refl (delta.map a), hsame_refl (delta.map b), relPQ, notUEmpty, notU'Empty,
+                    uniqueRight⟩
+  · intro y targetY sameU'Y
+    cases branch with
+    | inl absent =>
+        exact False.elim (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.right) sameU'Y))
+    | inr present =>
+        cases present with
+        | intro a present =>
+            cases present with
+            | intro b data =>
+                have relXY : RelU (epsilon.map (delta.map a)) y :=
+                  TaggedOptionPayloadDescentImageClassifier_composite_normalized_visible_target_payload_classification
+                    delta epsilon certS certU source_hsame target_hsame transported
+                    (hsame_refl u) (hsame_refl u') data.right.right.right.left targetY
+                    data.right.right.right.right.right.left sameU'Y
+                have notUEmpty : hsame u BHist.Empty -> False := by
+                  intro sameUEmpty
+                  exact not_hsame_e1_empty
+                    (hsame_trans (hsame_symm data.right.right.right.right.right.left)
+                      sameUEmpty)
+                have notU'Empty : hsame u' BHist.Empty -> False := by
+                  intro sameU'Empty
+                  exact not_hsame_e1_empty (hsame_trans (hsame_symm sameU'Y) sameU'Empty)
+                have imageDelta :
+                    TaggedOptionPayloadDescentImageClassifier S T delta
+                      (BHist.e1 (delta.map a)) (BHist.e1 (delta.map b)) := by
+                  apply
+                    (TaggedOptionPayloadDescentImageClassifier_branch_exactness
+                      delta certS source_hsame).mpr
+                  exact Or.inr
+                    (Exists.intro a
+                      (Exists.intro b
+                        (And.intro data.left
+                          (And.intro data.right.left
+                            (And.intro data.right.right.left
+                              (And.intro (rhoD a data.left)
+                                (And.intro (rhoD b data.right.left)
+                                  (And.intro (hsame_refl (BHist.e1 (delta.map a)))
+                                    (hsame_refl (BHist.e1 (delta.map b)))))))))))
+                have mapLeft :
+                    TaggedOptionMapRel T U epsilon (BHist.e1 (delta.map a)) u :=
+                  Or.inr
+                    (Exists.intro (delta.map a)
+                      (And.intro (rhoD a data.left)
+                        (And.intro data.right.right.right.left
+                          (And.intro (hsame_refl (BHist.e1 (delta.map a)))
+                            data.right.right.right.right.right.left))))
+                have mapRight :
+                    TaggedOptionMapRel T U epsilon (BHist.e1 (delta.map b)) u' :=
+                  Or.inr
+                    (Exists.intro (delta.map b)
+                      (And.intro (rhoD b data.right.left)
+                        (And.intro data.right.right.right.right.left
+                          (And.intro (hsame_refl (BHist.e1 (delta.map b)))
+                            data.right.right.right.right.right.right))))
+                have relPQ : RelT (delta.map a) (delta.map b) :=
+                  NameCert.equiv_trans certT
+                    (middle_hsame (rhoD a data.left) (rhoD a data.left)
+                      (hsame_refl (delta.map a)))
+                    (NameCert.equiv_trans certT (delta.respects data.right.right.left)
+                      (middle_hsame (rhoD b data.right.left) (rhoD b data.right.left)
+                        (hsame_refl (delta.map b))))
+                have uniqueLeft :
+                    forall x' : BHist, U x' -> hsame u (BHist.e1 x') ->
+                      hsame (epsilon.map (delta.map a)) x' /\ RelU x' y := by
+                  intro x' targetX' sameUX'
+                  have sameXX' : hsame (epsilon.map (delta.map a)) x' :=
+                    hsame_e1_iff.mp
+                      (hsame_trans (hsame_symm data.right.right.right.right.right.left)
+                        sameUX')
+                  have relX'Y : RelU x' y :=
+                    TaggedOptionPayloadDescentImageClassifier_composite_normalized_visible_target_payload_classification
+                      delta epsilon certS certU source_hsame target_hsame transported
+                      (hsame_refl u) (hsame_refl u') targetX' targetY sameUX' sameU'Y
+                  exact And.intro sameXX' relX'Y
+                exact
+                  ⟨epsilon.map (delta.map a), BHist.e1 (delta.map a),
+                    BHist.e1 (delta.map b), delta.map a, delta.map b, a, b,
+                    data.right.right.right.left, data.right.right.right.right.right.left,
+                    relXY, imageDelta, mapLeft, mapRight, rhoD a data.left,
+                    rhoD b data.right.left, data.right.right.right.left,
+                    data.right.right.right.right.left,
+                    hsame_refl (BHist.e1 (delta.map a)),
+                    hsame_refl (BHist.e1 (delta.map b)),
+                    hsame_refl (epsilon.map (delta.map a)),
+                    hsame_e1_iff.mp
+                      (hsame_trans (hsame_symm sameU'Y)
+                        data.right.right.right.right.right.right),
+                    data.left, data.right.left, data.right.right.left, rhoD a data.left,
+                    rhoD b data.right.left, hsame_refl (delta.map a), hsame_refl (delta.map b),
+                    relPQ, notUEmpty, notU'Empty, uniqueLeft⟩
 
 end BEDC.Derived.OptionUp
