@@ -310,6 +310,20 @@ theorem field_rat_denominator_empty_unit_product_nonempty_iff {h k : BHist} :
               field_rat_denominator_continuation_carrier_closure ratH ratK (cont_intro rfl)
             exact RatHistoryCarrier_not_empty productCarrier productEmpty
 
+theorem field_rat_denominator_empty_unit_strict_product_factor_cases {h k : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatHistoryCarrier (append h k) ->
+      (RatHistoryCarrier h ∧ RatDenomUnitCarrier k) ∨
+        (RatDenomUnitCarrier h ∧ RatHistoryCarrier k) := by
+  intro carrierH carrierK productCarrier
+  have productNonempty : hsame (append h k) BHist.Empty -> False :=
+    RatHistoryCarrier_not_empty productCarrier
+  have strictSupport : RatHistoryCarrier h ∨ RatHistoryCarrier k :=
+    Iff.mp (field_rat_denominator_empty_unit_product_nonempty_iff carrierH carrierK)
+      productNonempty
+  cases strictSupport with
+  | inl ratH => exact Or.inl (And.intro ratH carrierK)
+  | inr ratK => exact Or.inr (And.intro carrierH ratK)
+
 theorem field_rat_denominator_empty_unit_bilateral_multiplication_support_exactness
     {h l r : BHist} :
     RatDenomUnitCarrier h -> RatDenomUnitCarrier l -> RatDenomUnitCarrier r ->

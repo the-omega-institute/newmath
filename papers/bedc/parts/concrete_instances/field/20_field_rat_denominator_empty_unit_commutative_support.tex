@@ -146,6 +146,25 @@ nonemptiness theorem applies to the canonical continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_product\_nonempty\_iff}
 
+\begin{theorem}[Rat denominator empty-unit strict product factor cases]
+\label{thm:field-rat-denominator-empty-unit-strict-product-factor-cases}
+For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, if the
+empty-unit product has strict Rat denominator support, then one input has
+strict support while the other remains carried:
+$$
+N_D^u(\mu_D^u(h,k))
+\Longrightarrow
+(N_D^u(h)\wedge C_D^u(k))\lor(C_D^u(h)\wedge N_D^u(k)).
+$$
+\end{theorem}
+\begin{proof}
+Strict support of the product rules out $\hsame(\mathsf{append}(h,k),\emp)$ by
+$\mathsf{RatHistoryCarrier\_not\_empty}$. Apply the product nonempty
+characterization above to obtain $N_D^u(h)\lor N_D^u(k)$, then reattach the
+original carrier hypotheses on the other factor in each case.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_strict\_product\_factor\_cases}
+
 \begin{theorem}[Rat denominator empty-unit strict product support exactness]
 \label{thm:field-rat-denominator-empty-unit-strict-product-support-exactness}
 For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, strict

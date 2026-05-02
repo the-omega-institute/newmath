@@ -280,31 +280,23 @@ structure ContinuationMorphism (src tgt : BHist) where
   rel : Cont src tail tgt
 theorem ContinuationMorphism_tail_deterministic {a b : BHist}
     (left right : ContinuationMorphism a b) : hsame left.tail right.tail := by
-  cases left with
-  | mk leftTail leftRel =>
-      cases right with
-      | mk rightTail rightRel =>
-          exact cont_left_cancel leftRel rightRel
+  exact cont_left_cancel left.rel right.rel
 theorem ContinuationMorphism_source_deterministic {a b c : BHist}
     (left : ContinuationMorphism a c) (right : ContinuationMorphism b c) :
     hsame left.tail right.tail -> hsame a b := by
   intro sameTail
-  cases left with
-  | mk leftTail leftRel =>
-      cases right with
-      | mk rightTail rightRel =>
-          cases sameTail
-          exact cont_right_cancel leftRel rightRel
+  cases left with | mk leftTail leftRel =>
+    cases right with | mk rightTail rightRel =>
+      cases sameTail
+      exact cont_right_cancel leftRel rightRel
 theorem ContinuationMorphism_target_deterministic {a b c : BHist}
     (left : ContinuationMorphism a b) (right : ContinuationMorphism a c) :
     hsame left.tail right.tail -> hsame b c := by
   intro sameTail
-  cases left with
-  | mk leftTail leftRel =>
-      cases right with
-      | mk rightTail rightRel =>
-          cases sameTail
-          exact cont_deterministic leftRel rightRel
+  cases left with | mk leftTail leftRel =>
+    cases right with | mk rightTail rightRel =>
+      cases sameTail
+      exact cont_deterministic leftRel rightRel
 def ContinuationMorphism_comp_closed {a b c : BHist} (left : ContinuationMorphism a b)
     (right : ContinuationMorphism b c) : ContinuationMorphism a c := by
   cases left with
@@ -316,6 +308,12 @@ def ContinuationMorphism_comp_closed {a b c : BHist} (left : ContinuationMorphis
               rel := by
                 cases leftRel
                 exact rightRel.trans (append_assoc a leftTail rightTail) }
+theorem ContinuationMorphism_comp_tail_append_deterministic {a b c : BHist}
+    (left left' : ContinuationMorphism a b) (right right' : ContinuationMorphism b c) :
+    hsame (append left.tail right.tail) (append left'.tail right'.tail) := by
+  exact (congrArg (fun tail => append tail right.tail)
+    (ContinuationMorphism_tail_deterministic left left')).trans
+      (congrArg (append left'.tail) (ContinuationMorphism_tail_deterministic right right'))
 theorem ContinuationMorphism_comp_empty_target_inversion {a b : BHist} (left : ContinuationMorphism a b) (right : ContinuationMorphism b BHist.Empty) : hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty := by
   cases left with | mk leftTail leftRel => cases right with | mk rightTail rightRel =>
   exact let rp := cont_empty_result_inversion rightRel; let lp := cont_empty_result_inversion (show Cont a leftTail BHist.Empty from by cases rp.left; exact leftRel); ⟨lp.left, rp.left, lp.right, rp.right⟩

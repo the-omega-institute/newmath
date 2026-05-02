@@ -70,6 +70,23 @@ cancellation identifies their tails.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_hsame\_tail\_transport}
 
+\begin{theorem}[Continuation morphism composite tail append determinacy]
+\label{thm:continuation-morphism-comp-tail-append-deterministic}
+For continuation morphisms $left,left':a\to b$ and $right,right':b\to c$, the
+appended composite tail is determined by the endpoints:
+$$
+\hsame(\mathsf{append}(\mathsf{tail}(left),\mathsf{tail}(right)),
+\mathsf{append}(\mathsf{tail}(left'),\mathsf{tail}(right'))).
+$$
+\end{theorem}
+\begin{proof}
+Continuation left cancellation identifies the two displayed tails from $a$ to
+$b$, and again identifies the two displayed tails from $b$ to $c$. Congruence
+of BEDC append combines these two tail comparisons into the composite-tail
+comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_append\_deterministic}
+
 Per-object certificate: traditional target hom-as-continuation morphism bridge;
 BEDC source $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$,
 $\mathsf{UnaryHistory}$, and $\mathsf{Cont}$; carrier $\mathsf{BHist}$ tails;

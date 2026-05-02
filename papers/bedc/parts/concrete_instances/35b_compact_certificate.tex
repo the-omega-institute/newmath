@@ -296,6 +296,23 @@ histories.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_precision\_hsame\_deterministic}
 
+\begin{theorem}[Compact net witness composite precision continuation determinacy]
+\label{thm:compact-net-witness-composite-precision-cont-deterministic}
+For histories $c,\epsilon,\epsilon',\eta,n,n',m$, if
+$\mathsf{CompactNetWitness}(c,\epsilon,n)$ and
+$\mathsf{CompactNetWitness}(c,\epsilon',n')$ hold and both $n$ and $n'$ refine
+through the same extra precision $\eta$ to the same history $m$, then
+$$
+\hsame(\epsilon,\epsilon').
+$$
+\end{theorem}
+\begin{proof}
+Continuation right cancellation on the two refinement ledgers identifies
+$n$ and $n'$. With the center already common, compact-net precision
+determinacy under endpoint sameness identifies $\epsilon$ and $\epsilon'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_precision\_cont\_deterministic}
+
 \begin{theorem}[Prefixed composite compact net witness closure]
 \label{thm:compact-net-witness-prefixed-composite-closed}
 For unary histories $p,c,\epsilon,\eta,\theta,n,m$, assume
