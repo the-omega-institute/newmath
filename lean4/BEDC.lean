@@ -80,6 +80,7 @@ import BEDC.Derived.OptionUp.PayloadDescent
 import BEDC.Derived.OptionUp.PayloadDescentNormalForm
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 import BEDC.Derived.OptionUp.PayloadDescentSharedReflection
+import BEDC.Derived.OptionUp.PayloadDescentCommonTarget
 import BEDC.Derived.OptionUp.PayloadDescentImageOccupancy
 import BEDC.Derived.OptionUp.PayloadDescentImageVisible
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
@@ -148,6 +149,7 @@ import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
 import BEDC.Derived.CompactUp.EndpointIff
 import BEDC.Derived.CompactUp.InitialEndpointsUnary
+import BEDC.Derived.CompactUp.PrefixedCompositeMiddle
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp

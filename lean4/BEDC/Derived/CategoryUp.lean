@@ -372,6 +372,20 @@ theorem ContinuationMorphism_comp_assoc_tail_hsame {a b c d : BHist}
                 append_assoc firstTail secondTail thirdTail
               exact tailSame
 
+def ContinuationMorphism_comp_right_factor {a b c rightTail : BHist}
+    (left : ContinuationMorphism a b) (composite : ContinuationMorphism a c) :
+    Cont left.tail rightTail composite.tail -> ContinuationMorphism b c := by
+  intro tailRel
+  cases left with
+  | mk leftTail leftRel =>
+      cases composite with
+      | mk compositeTail compositeRel =>
+          refine { tail := rightTail, rel := ?_ }
+          cases leftRel
+          cases tailRel
+          cases compositeRel
+          exact cont_intro (append_assoc a leftTail rightTail).symm
+
 theorem category_cont_left_e0_result_cases {h k r : BHist} :
     Cont (BHist.e0 h) k (BHist.e0 r) ->
       (k = BHist.Empty ∧ hsame h r) ∨

@@ -256,6 +256,35 @@ $n$, $\eta$, and $m$, this is $\mathsf{CompactNetWitness}(n,\eta,m)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_factorizes}
 
+\begin{theorem}[Prefixed composite compact net middle deterministic factorization]
+\label{thm:compact-net-witness-prefixed-composite-middle-deterministic-factorization}
+For histories $p,c,\epsilon,\eta,\theta,m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$,
+$\mathsf{UnaryHistory}(\eta)$, and
+$\mathsf{Cont}(\epsilon,\eta,\theta)$. If
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m),
+$$
+then there exists a history $n$ such that
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+$$
+and
+$$
+\mathsf{CompactNetWitness}(n,\eta,m).
+$$
+Moreover any other history $n'$ supporting these two compact-net witnesses is
+history-same to $n$.
+\end{theorem}
+\begin{proof}
+Apply the prefixed composite factorization theorem to obtain an intermediate
+history $n$ and the two compact-net witnesses through $\epsilon$ and $\eta$.
+For any other displayed intermediate $n'$, the first compact-net witnesses for
+$n$ and $n'$ share the same center $c$ and precision $\epsilon$; continuation
+determinacy therefore gives $\hsame(n,n')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_middle\_deterministic\_factorization}
+
 \begin{definition}[Two-step compact net factor]
 \label{def:compact-net-two-step-factor}
 For histories $c,\epsilon,\eta,m$, the predicate

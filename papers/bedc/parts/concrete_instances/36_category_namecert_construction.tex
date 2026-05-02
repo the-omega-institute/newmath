@@ -368,6 +368,21 @@ unpacking the first relation and reassociating the append spine.
 \end{definition}
 \leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_closed}
 
+\begin{theorem}[Continuation morphism composition right factor]
+\label{thm:continuation-morphism-composition-right-factor}
+For histories $a,b,c$ and a displayed tail $r$, let $left:a\to b$ and
+$composite:a\to c$ be continuation morphisms. If the tail of $composite$ is
+displayed as the continuation composite of the tail of $left$ with $r$, then
+$r$ is the tail of a continuation morphism from $b$ to $c$.
+\end{theorem}
+\begin{proof}
+Unpack the left and composite continuation morphisms into their displayed
+tails and continuation witnesses. The three continuation ledgers reduce the
+claim to the associativity law for BEDC history append, giving the displayed
+continuation from $b$ through $r$ to $c$.
+\end{proof}
+\leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_factor}
+
 \begin{theorem}[Continuation morphism identity tail]
 \label{thm:continuation-morphism-identity-tail-hsame}
 For histories $a,b$ and a continuation morphism $m:a\to b$, composing $m$ with
