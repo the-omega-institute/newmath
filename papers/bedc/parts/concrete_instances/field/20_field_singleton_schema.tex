@@ -389,6 +389,35 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_right\_cancel\_iff}
 
+\begin{theorem}[Field singleton classifier append context cancellation]
+\label{thm:field-singleton-classifier-append-context-cancel}
+For histories $L,R,Q,S:\mathsf{BHist}$, if both displayed contexts lie in the
+singleton carrier $A_{\emp}$, then appending $L$ to the first endpoint and
+$R$ to the second endpoint does not change the singleton classifier:
+$$
+\mathsf{FieldSingletonCarrier}(L)\Rightarrow
+\mathsf{FieldSingletonCarrier}(R)\Rightarrow
+\bigl(
+\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(Q,S)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the appended endpoint carriers split by
+empty-result inversion for append. The right pieces give
+$Q\hsame\emp$ and $S\hsame\emp$, and transitivity through $\emp$ rebuilds the
+base classifier.
+
+Conversely, combine the two context carrier witnesses with the endpoint
+carrier fields in $\mathsf{FieldSingletonClassifier}(Q,S)$. Empty-result
+inversion for append rebuilds singleton carrier witnesses for the two appended
+endpoints, and transitivity through $\emp$ supplies their classifier
+comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_context\_cancel\_iff}
+
 \begin{theorem}[Singleton empty nonzero append right cancellation]
 \label{thm:field-singleton-empty-nonzero-append-right-cancel}
 For histories $P,Q:\mathsf{BHist}$, if $P$ lies in the singleton empty

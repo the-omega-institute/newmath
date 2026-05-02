@@ -668,7 +668,7 @@ this morphism equality to obtain $\mathsf{CategoryHomCarrier}(a,b,left)$.
 
 \begin{theorem}[Category hom carrier right identity carrier result]
 \label{thm:category-hom-carrier-right-identity-carrier-result}
-For the unary-continuation category, if
+For the unary-continuation category, for histories $a,b,id,f,right$, if
 $\mathsf{CategoryHomCarrier}(b,b,id)$,
 $\mathsf{CategoryHomCarrier}(a,b,f)$, and $\ContR(f,id,right)$, then
 $$
@@ -677,12 +677,13 @@ $$
 \end{theorem}
 \begin{proof}
 Compare the displayed identity carrier $id$ with the canonical empty identity
-carrier at $b$. Morphism determinacy gives $\HSame(id,\emp)$. Rewriting the
-displayed continuation by this equality turns $\ContR(f,id,right)$ into an
-empty-right continuation. Determinism against the kernel right-unit
-continuation identifies $right$ with $f$, and transporting the original
-hom-carrier witness across that equality gives
-$\mathsf{CategoryHomCarrier}(a,b,right)$.
+carrier at $b$ by hom-morphism determinacy, giving $\HSame(id,\emp)$.
+Rewriting the displayed continuation by this equality turns
+$\ContR(f,id,right)$ into $\ContR(f,\emp,right)$. This empty-right
+continuation is determined by the BEDC right-unit continuation on $f$, giving
+$\HSame(right,f)$. Transport the displayed
+$\mathsf{CategoryHomCarrier}(a,b,f)$ witness across this morphism equality to
+obtain $\mathsf{CategoryHomCarrier}(a,b,right)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_right\_identity\_carrier\_result}
 

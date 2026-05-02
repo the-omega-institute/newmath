@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont
 import BEDC.Derived.GroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.FieldUp.SingletonEmpty
@@ -20,6 +21,25 @@ def FieldSingletonCarrier (h : BHist) : Prop :=
 
 def FieldSingletonClassifier (h k : BHist) : Prop :=
   FieldSingletonCarrier h ∧ FieldSingletonCarrier k ∧ hsame h k
+
+theorem FieldSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R ->
+      (FieldSingletonClassifier (append L Q) (append R S) <->
+        FieldSingletonClassifier Q S) := by
+  intro carrierL carrierR
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.right
+      (And.intro rightSplit.right (hsame_trans leftSplit.right (hsame_symm rightSplit.right)))
+  · intro classified
+    have leftCarrier : FieldSingletonCarrier (append L Q) :=
+      append_eq_empty_iff.mpr (And.intro carrierL classified.left)
+    have rightCarrier : FieldSingletonCarrier (append R S) :=
+      append_eq_empty_iff.mpr (And.intro carrierR classified.right.left)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
 def FieldSingletonAdd (_x _y : BHist) : BHist :=
   BHist.Empty
