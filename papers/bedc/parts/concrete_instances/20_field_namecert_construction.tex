@@ -534,3 +534,71 @@ left and right denominator contexts plus empty external endpoint contexts;
 \textbf{exactness predicate}: bilateral classifier exactness and bilateral
 strict-support exactness after empty endpoint transport; \textbf{status}:
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp denominator contextual action total certificate]
+\label{thm:field-rat-denominator-contextual-action-total-certificate}
+The concrete denominator interface for $\FieldUp(\mathsf{RatUp})$ is covered by
+the following fixed $\mathsf{BHist}$ data:
+$$
+C_D^u:=\mathsf{RatDenomUnitCarrier},\qquad
+R_D^u:=\mathsf{RatDenomUnitClassifier},
+$$
+$$
+\mu_D^u(h,k):=\mathsf{append}(h,k),\qquad
+e_D^u:=\emp,\qquad
+N_D^u(h):=\mathsf{RatHistoryCarrier}(h),
+$$
+together with the action $\Gamma_{p,q,l,r}$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}. This
+concrete interface supplies the total denominator action certificate through
+the following rows:
+\begin{enumerate}
+  \item the external-unit denominator subcertificate rows of
+  \autoref{thm:ratup-fieldup-denominator-certificate-assembly};
+  \item the multiplicative record rows of
+  \autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-record};
+  \item the contextual classifier exactness and strict-support rows of
+  \autoref{thm:ratup-fieldup-denominator-contextual-action-certificate}.
+\end{enumerate}
+Thus the denominator side of $\FieldUp(\mathsf{RatUp})$ is represented by one
+concrete append-based action certificate on the displayed carrier, classifier,
+unit, strict-support predicate, and contextual action.
+\end{theorem}
+\begin{proof}
+First, the external-unit denominator subcertificate is exactly
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly}. Its carrier,
+classifier, multiplication, unit, and support fields are the displayed
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{append}$, $\emp$, and $\mathsf{RatHistoryCarrier}$ data.
+
+Next, the multiplicative rows are supplied by
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-record}.
+That theorem records the same append operation and empty unit for the
+denominator-side FieldUp multiplication, so its monoid, congruence,
+strict-support, empty-unit, and cancellation rows attach to the same concrete
+interface.
+
+Finally, the contextual action rows are those of
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate}. By
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, the action
+is $\Gamma_{p,q,l,r}$ on the displayed carrier and classifier, and its
+strict-support readback is computed by the same predicate $N_D^u$.
+
+The three cited results are all stated over the concrete
+$\mathsf{BHist}$ carrier, classifier, append operation, empty endpoint, support
+predicate, and action data displayed in the theorem. Therefore the certificate
+contains no remaining abstract operator or parameter-transport schema.
+\end{proof}
+
+Per-object template: traditional target total denominator action certificate
+for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\Cont$, $\mathsf{append}$, and $\emp$;
+carrier $C_D^u$; classifier $R_D^u$; stability obligations multiplicative
+certificate rows plus contextual classifier and strict-support rows; ledger
+external endpoint bit plus carried left and right denominator contexts; core
+theorem
+\autoref{thm:field-rat-denominator-contextual-action-total-certificate};
+exactness predicate denominator classifier exactness and strict-support
+readback; standard bridge ordinary denominator multiplication with adjoined
+empty endpoint; status $\mathsf{ProofTarget}$.
