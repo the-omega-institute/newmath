@@ -166,6 +166,21 @@ the result equality $fg\hsame c$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_comp\_result\_hsame}
 
+\begin{theorem}[Category empty-middle composite inversion]
+\label{thm:category-hom-carrier-comp-empty-middle-inversion}
+If $f$ is a hom-carrier from $a$ to $\emp$, $g$ is a hom-carrier from $\emp$
+to $c$, and $\ContR(f,g,fg)$, then $a\hsame\emp$, $f\hsame\emp$, $g\hsame c$,
+$fg$ is a hom-carrier from $\emp$ to $c$, and $fg\hsame c$.
+\end{theorem}
+\begin{proof}
+Empty-target exactness on the left hom-carrier identifies both its source and
+morphism with $\emp$. The empty-source exactness on the right hom-carrier reads
+back $g\hsame c$. Composition closure gives a hom-carrier from $a$ to $c$ for
+$fg$; transporting its source along $a\hsame\emp$ gives a hom-carrier from
+$\emp$ to $c$, and empty-source exactness reads back $fg\hsame c$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_empty\_middle\_inversion}
+
 \begin{theorem}[Category empty-target composite boundary inversion]
 \label{thm:category-hom-carrier-empty-target-composite-boundary-inversion}
 If $f$ is a hom-carrier from $a$ to $b$, $g$ is a hom-carrier from $b$ to

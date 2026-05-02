@@ -1,4 +1,4 @@
-import BEDC.Derived.FieldUp.RatContinuation
+import BEDC.Derived.FieldUp.RatDenominatorUnitEnvelopeContinuation
 
 namespace BEDC.Derived.FieldUp
 
@@ -100,5 +100,78 @@ theorem field_rat_denominator_unit_envelope_classifier_exactness {h k : BHist} :
         exact RatHistoryCarrier_not_empty carrierK emptyData.right
   · intro emptyH emptyK
     exact Or.inr ⟨emptyH, emptyK⟩
+
+theorem field_rat_denominator_unit_envelope_unit_unique {u : BHist} :
+    FieldRatDenominatorUnitEnvelopeCarrier u ->
+      ((∀ {h : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeClassifier (append h u) h) ->
+          FieldRatDenominatorUnitEnvelopeClassifier u BHist.Empty) ∧
+      ((∀ {h : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeClassifier (append u h) h) ->
+          FieldRatDenominatorUnitEnvelopeClassifier u BHist.Empty) := by
+  intro carrierU
+  constructor
+  · intro rightUnitLaw
+    cases carrierU with
+    | inl ratU =>
+        have ratRightUnit :
+            ∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d := by
+          intro d r carrierD continuation
+          have envelopeResult :
+              FieldRatDenominatorUnitEnvelopeClassifier (append d u) d :=
+            rightUnitLaw (Or.inl carrierD)
+          have carrierDU : RatHistoryCarrier (append d u) :=
+            RatHistoryCarrier_continuation_closed carrierD ratU (cont_intro rfl)
+          have ratResult : RatHistoryClassifier (append d u) d :=
+            Iff.mp (field_rat_denominator_unit_envelope_classifier_exactness.left carrierDU
+              carrierD) envelopeResult
+          cases continuation
+          exact ratResult
+        exact Iff.mpr FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff
+          (field_rat_denominator_continuation_unit_endpoint_empty.left ratRightUnit)
+    | inr emptyU =>
+        exact Iff.mpr FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff emptyU
+  · intro leftUnitLaw
+    cases carrierU with
+    | inl ratU =>
+        have ratLeftUnit :
+            ∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d := by
+          intro d r carrierD continuation
+          have envelopeResult :
+              FieldRatDenominatorUnitEnvelopeClassifier (append u d) d :=
+            leftUnitLaw (Or.inl carrierD)
+          have carrierUD : RatHistoryCarrier (append u d) :=
+            RatHistoryCarrier_continuation_closed ratU carrierD (cont_intro rfl)
+          have ratResult : RatHistoryClassifier (append u d) d :=
+            Iff.mp (field_rat_denominator_unit_envelope_classifier_exactness.left carrierUD
+              carrierD) envelopeResult
+          cases continuation
+          exact ratResult
+        exact Iff.mpr FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff
+          (field_rat_denominator_continuation_unit_endpoint_empty.right.left ratLeftUnit)
+    | inr emptyU =>
+        exact Iff.mpr FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff emptyU
+
+theorem field_rat_denominator_unit_envelope_unit_iff {u : BHist} :
+    FieldRatDenominatorUnitEnvelopeCarrier u ->
+      (FieldRatDenominatorUnitEnvelopeClassifier u BHist.Empty ↔
+        ((∀ {h : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+          FieldRatDenominatorUnitEnvelopeClassifier (append h u) h) ∧
+         (∀ {h : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+          FieldRatDenominatorUnitEnvelopeClassifier (append u h) h))) := by
+  intro carrierU
+  constructor
+  · intro classifiedU
+    have emptyU : hsame u BHist.Empty :=
+      Iff.mp FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff classifiedU
+    constructor
+    · intro h carrierH
+      cases emptyU
+      exact field_rat_denominator_unit_envelope_monoid_laws.right.right.right.left carrierH |>.right
+    · intro h carrierH
+      cases emptyU
+      exact field_rat_denominator_unit_envelope_monoid_laws.right.right.right.left carrierH |>.left
+  · intro unitLaws
+    exact (field_rat_denominator_unit_envelope_unit_unique carrierU).left unitLaws.left
 
 end BEDC.Derived.FieldUp
