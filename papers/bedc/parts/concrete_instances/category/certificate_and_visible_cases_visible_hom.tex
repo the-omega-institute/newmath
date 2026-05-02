@@ -162,6 +162,35 @@ carrier and tail continuation as $\mathsf{CategoryHomCarrier}(a,r,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_target\_cases}
 
+\begin{theorem}[Category hom-carrier one-headed morphism source and target cases]
+\label{thm:category-hom-carrier-e1-morphism-source-target-cases}
+For histories $source,target,k$, a hom-carrier whose morphism endpoint is
+one-headed separates the empty source branch from the one-headed source branch:
+$$
+\mathsf{CategoryHomCarrier}(source,target,\Eone(k))
+\Longrightarrow
+\left(
+source=\emp\land target=\Eone(k)\land \mathsf{UnaryHistory}(k)
+\right)
+$$
+or there exist histories $a,r$ such that
+$$
+source=\Eone(a)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Classify the source endpoint. If it is empty, empty-source one-headed morphism
+exactness identifies the target with $\Eone(k)$ and exposes
+$\mathsf{UnaryHistory}(k)$. If it is zero-headed, the source unary field
+contradicts zero-extension separation. If it is one-headed, one-headed-source
+one-headed-morphism target exactness exposes the target tail $r$, the unary
+source and morphism tails, the unary target tail, and the continuation ledger
+$\ContR(\Eone(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_source\_target\_cases}
+
 \begin{theorem}[Category composite one-headed morphism target factor]
 \label{thm:category-comp-e1-morphism-target-factor}
 For composable category hom-carriers $f:a\to b$ and $g:b\to c$, if their

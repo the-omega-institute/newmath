@@ -456,4 +456,157 @@ theorem field_rat_denominator_empty_unit_bilateral_multiplication_classifier_exa
       RatDenomUnitCarrier_continuation_closed carrierLK carrierR (cont_intro rfl)
     exact ⟨carrierLHR, carrierLKR, congrArg (fun x => append x r) leftClassified.right.right⟩
 
+theorem field_rat_denominator_empty_unit_contextual_multiplication_classifier_exactness
+    {p q p' q' h k t : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitCarrier k ->
+        RatDenomUnitCarrier t ->
+          ((RatDenomUnitClassifier (append p (append (append h t) q))
+              (append p' (append (append k t) q')) <->
+            RatDenomUnitClassifier h k) /\
+          (RatDenomUnitClassifier (append p (append (append t h) q))
+              (append p' (append (append t k) q')) <->
+            RatDenomUnitClassifier h k)) := by
+  intro sameP sameQ sameP' sameQ' carrierH carrierK carrierT
+  have rightContextIff :
+      RatDenomUnitClassifier (append p (append (append h t) q))
+          (append p' (append (append k t) q')) <->
+        RatDenomUnitClassifier (append h t) (append k t) :=
+    RatDenomUnitClassifier_empty_context_iff (p := p) (q := q) (p' := p') (q' := q')
+      (h := append h t) (k := append k t) sameP sameQ sameP' sameQ'
+  have rightActionIff :
+      RatDenomUnitClassifier (append h t) (append k t) <->
+        RatDenomUnitClassifier h k := by
+    constructor
+    · intro classified
+      exact field_rat_denominator_empty_unit_right_cancel carrierH carrierK carrierT classified
+    · intro classified
+      have carrierHT : RatDenomUnitCarrier (append h t) :=
+        RatDenomUnitCarrier_continuation_closed carrierH carrierT (cont_intro rfl)
+      have carrierKT : RatDenomUnitCarrier (append k t) :=
+        RatDenomUnitCarrier_continuation_closed carrierK carrierT (cont_intro rfl)
+      exact ⟨carrierHT, carrierKT, congrArg (fun x => append x t) classified.right.right⟩
+  have leftContextIff :
+      RatDenomUnitClassifier (append p (append (append t h) q))
+          (append p' (append (append t k) q')) <->
+        RatDenomUnitClassifier (append t h) (append t k) :=
+    RatDenomUnitClassifier_empty_context_iff (p := p) (q := q) (p' := p') (q' := q')
+      (h := append t h) (k := append t k) sameP sameQ sameP' sameQ'
+  have leftActionIff :
+      RatDenomUnitClassifier (append t h) (append t k) <->
+        RatDenomUnitClassifier h k :=
+    field_rat_denominator_empty_unit_left_multiplication_classifier_exactness carrierH carrierK
+      carrierT
+  constructor
+  · constructor
+    · intro classified
+      exact Iff.mp rightActionIff (Iff.mp rightContextIff classified)
+    · intro classified
+      exact Iff.mpr rightContextIff (Iff.mpr rightActionIff classified)
+  · constructor
+    · intro classified
+      exact Iff.mp leftActionIff (Iff.mp leftContextIff classified)
+    · intro classified
+      exact Iff.mpr leftContextIff (Iff.mpr leftActionIff classified)
+
+theorem field_rat_denominator_empty_unit_context_action_support_exactness
+    {p q p' q' h k t : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitCarrier k ->
+        RatDenomUnitCarrier t ->
+          (RatDenomUnitClassifier (append h t) (append k t) <->
+            RatDenomUnitClassifier h k) /\
+          (RatDenomUnitClassifier (append t h) (append t k) <->
+            RatDenomUnitClassifier h k) /\
+          (RatDenomUnitClassifier (append p (append h q)) (append p' (append k q')) <->
+            RatDenomUnitClassifier h k) /\
+          (RatHistoryCarrier (append p (append h q)) <-> RatHistoryCarrier h) /\
+          (RatHistoryCarrier (append p' (append k q')) <-> RatHistoryCarrier k) /\
+          (RatHistoryCarrier (append h t) <-> RatHistoryCarrier h \/ RatHistoryCarrier t) /\
+          (RatHistoryCarrier (append t h) <-> RatHistoryCarrier t \/ RatHistoryCarrier h) := by
+  intro sameP sameQ sameP' sameQ' carrierH carrierK carrierT
+  have rightActionIff :
+      RatDenomUnitClassifier (append h t) (append k t) <->
+        RatDenomUnitClassifier h k := by
+    constructor
+    · intro classified
+      exact field_rat_denominator_empty_unit_right_cancel carrierH carrierK carrierT classified
+    · intro classified
+      have carrierHT : RatDenomUnitCarrier (append h t) :=
+        RatDenomUnitCarrier_continuation_closed carrierH carrierT (cont_intro rfl)
+      have carrierKT : RatDenomUnitCarrier (append k t) :=
+        RatDenomUnitCarrier_continuation_closed carrierK carrierT (cont_intro rfl)
+      exact ⟨carrierHT, carrierKT, congrArg (fun x => append x t) classified.right.right⟩
+  have leftActionIff :
+      RatDenomUnitClassifier (append t h) (append t k) <->
+        RatDenomUnitClassifier h k :=
+    field_rat_denominator_empty_unit_left_multiplication_classifier_exactness carrierH carrierK
+      carrierT
+  have contextIff :
+      RatDenomUnitClassifier (append p (append h q)) (append p' (append k q')) <->
+        RatDenomUnitClassifier h k :=
+    RatDenomUnitClassifier_empty_context_iff (p := p) (q := q) (p' := p') (q' := q')
+      (h := h) (k := k) sameP sameQ sameP' sameQ'
+  have contextSameH : hsame (append p (append h q)) h := by
+    cases sameP
+    cases sameQ
+    exact hsame_trans (append_empty_left (append h BHist.Empty)) (append_empty_right h)
+  have contextSameK : hsame (append p' (append k q')) k := by
+    cases sameP'
+    cases sameQ'
+    exact hsame_trans (append_empty_left (append k BHist.Empty)) (append_empty_right k)
+  have contextRatH : RatHistoryCarrier (append p (append h q)) <-> RatHistoryCarrier h := by
+    constructor
+    · intro ratContext
+      exact RatHistoryCarrier_hsame_transport contextSameH ratContext
+    · intro ratH
+      exact RatHistoryCarrier_hsame_transport (hsame_symm contextSameH) ratH
+  have contextRatK : RatHistoryCarrier (append p' (append k q')) <-> RatHistoryCarrier k := by
+    constructor
+    · intro ratContext
+      exact RatHistoryCarrier_hsame_transport contextSameK ratContext
+    · intro ratK
+      exact RatHistoryCarrier_hsame_transport (hsame_symm contextSameK) ratK
+  have carrierHT : RatDenomUnitCarrier (append h t) :=
+    RatDenomUnitCarrier_continuation_closed carrierH carrierT (cont_intro rfl)
+  have carrierTH : RatDenomUnitCarrier (append t h) :=
+    RatDenomUnitCarrier_continuation_closed carrierT carrierH (cont_intro rfl)
+  have productRightSupport :
+      RatHistoryCarrier (append h t) <-> RatHistoryCarrier h \/ RatHistoryCarrier t := by
+    have nonemptyIff :=
+      field_rat_denominator_empty_unit_product_nonempty_iff carrierH carrierT
+    constructor
+    · intro ratProduct
+      exact Iff.mp nonemptyIff (fun emptyProduct =>
+        RatHistoryCarrier_not_empty ratProduct emptyProduct)
+    · intro factorSupport
+      have nonemptyProduct : hsame (append h t) BHist.Empty -> False :=
+        Iff.mpr nonemptyIff factorSupport
+      exact RatDenomUnitCarrier_nonempty_rat carrierHT nonemptyProduct
+  have productLeftSupport :
+      RatHistoryCarrier (append t h) <-> RatHistoryCarrier t \/ RatHistoryCarrier h := by
+    have nonemptyIff :=
+      field_rat_denominator_empty_unit_product_nonempty_iff carrierT carrierH
+    constructor
+    · intro ratProduct
+      exact Iff.mp nonemptyIff (fun emptyProduct =>
+        RatHistoryCarrier_not_empty ratProduct emptyProduct)
+    · intro factorSupport
+      have nonemptyProduct : hsame (append t h) BHist.Empty -> False :=
+        Iff.mpr nonemptyIff factorSupport
+      exact RatDenomUnitCarrier_nonempty_rat carrierTH nonemptyProduct
+  constructor
+  · exact rightActionIff
+  · constructor
+    · exact leftActionIff
+    · constructor
+      · exact contextIff
+      · constructor
+        · exact contextRatH
+        · constructor
+          · exact contextRatK
+          · constructor
+            · exact productRightSupport
+            · exact productLeftSupport
+
 end BEDC.Derived.FieldUp
