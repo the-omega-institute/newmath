@@ -23,6 +23,49 @@
 \input{parts/concrete_instances/option/17_composite_image_classifier_normalized_one_sided_public_completion}
 \input{parts/concrete_instances/option/18_composite_image_classifier_normalized_absent_public_factorization}
 
+\section{Tagged option public endpoint visibility}
+\label{sec:option-public-endpoint-visibility}
+
+\begin{theorem}[Tagged option classifier endpoints expose visible certificate fields]
+\label{thm:tagged-option-classifier-endpoint-visible-fields}
+This theorem fits the ten-field template as follows: the traditional target is
+public endpoint visibility for constructor-tagged $\OptionUp$; the BEDC source
+is $\mathsf{BHist}$; the carrier is
+$\mathsf{TaggedOptionHistoryCarrier}$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is endpoint
+carrier exposure plus visible-field projection; the ledger is visible
+absent/present tag; the core theorem is the displayed endpoint field package;
+exactness says classified endpoints expose public pattern and ledger witnesses;
+the standard bridge is $\mathsf{none}$/$\mathsf{some}$ endpoint visibility; and
+the status is $\mathsf{ProofTarget}$.
+
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k$, if
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ holds, then
+$$
+\mathsf{TaggedOptionHistoryPattern}_S(h)
+\land
+\mathsf{TaggedOptionHistoryLedger}_S(h)
+\land
+\mathsf{TaggedOptionHistoryPattern}_S(k)
+\land
+\mathsf{TaggedOptionHistoryLedger}_S(k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-classifier-endpoint-carriers} to
+the classifier witness. This gives the endpoint carrier witnesses
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$ and
+$\mathsf{TaggedOptionHistoryCarrier}_S(k)$.
+
+Apply
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence} to
+the carrier witness for $h$ and project the pattern and ledger components.
+Apply the same theorem to the carrier witness for $k$ and project the same two
+visible certificate fields. The four projected witnesses assemble into the
+displayed conjunction.
+\end{proof}
+
 \section{Composite image classifier normalized factored public completion}
 \label{sec:option-composite-image-classifier-normalized-factored-public-completion}
 
