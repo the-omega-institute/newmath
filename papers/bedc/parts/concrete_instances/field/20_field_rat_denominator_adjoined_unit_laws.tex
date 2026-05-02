@@ -98,6 +98,30 @@ continuation carrier closure to the canonical append continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_right\_rat\_closed}
 
+\begin{theorem}[Rat denominator unit append carrier branch cases]
+\label{thm:rat-denom-unit-carrier-append-branch-cases}
+For histories $h,k:\mathsf{BHist}$, if the append endpoint is carried by the
+adjoined empty-unit denominator carrier, then either both factors are empty
+endpoints or one factor is a genuine Rat denominator endpoint:
+$$
+\mathsf{RatDenomUnitCarrier}(\mathsf{append}(h,k))
+\to
+\bigl(h\hsame\emp\land k\hsame\emp\bigr)
+\lor
+\mathsf{RatHistoryCarrier}(h)
+\lor
+\mathsf{RatHistoryCarrier}(k).
+$$
+\end{theorem}
+\begin{proof}
+Split the concrete carrier disjunction for
+$\mathsf{RatDenomUnitCarrier}(\mathsf{append}(h,k))$. In the empty branch,
+the append-empty inversion theorem gives $h\hsame\emp$ and $k\hsame\emp$.
+In the Rat branch, apply Rat denominator append splitting to the carried
+append endpoint, obtaining a Rat carrier witness on the left or right factor.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_branch\_cases}
+
 The per-object certificate has ten fields: traditional target carrier stability
 for the denominator unit fragment; BEDC source $\mathsf{BHist}$,
 $\mathsf{RatHistoryCarrier}$, and $\Cont$; carrier

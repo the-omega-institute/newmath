@@ -264,6 +264,25 @@ theorem ContinuationMorphism_e0_source_e0_target_tail_e1_absurd {a r k : BHist}
           | intro r1 data =>
               exact not_hsame_e0_e1 data.left
 
+theorem ContinuationMorphism_e0_source_e0_target_tail_e0_iff {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e0 a) (BHist.e0 r)) :
+    hsame m.tail (BHist.e0 k) ↔ Cont (BHist.e0 a) k r := by
+  constructor
+  · intro tailZero
+    cases ContinuationMorphism_e0_source_e0_target_tail_cases m with
+    | inl emptyCase =>
+        exact False.elim
+          (not_hsame_emp_e0 (hsame_trans (hsame_symm emptyCase.left) tailZero))
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro t exposed =>
+            have samePayload : hsame t k :=
+              hsame_e0_iff.mp (hsame_trans (hsame_symm exposed.left) tailZero)
+            exact cont_hsame_transport (hsame_refl (BHist.e0 a)) samePayload
+              (hsame_refl r) exposed.right
+  · intro continuation
+    exact cont_left_cancel m.rel (cont_step_zero continuation)
+
 theorem ContinuationMorphism_e1_source_e1_target_tail_cases {a r : BHist}
     (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
     (hsame m.tail BHist.Empty ∧ hsame a r) ∨
@@ -331,5 +350,24 @@ theorem ContinuationMorphism_e1_source_e1_target_tail_e0_absurd {a r k : BHist}
       cases visibleCase with
       | intro t exposed =>
           exact not_hsame_e1_e0 (hsame_trans (hsame_symm exposed.left) tailZero)
+
+theorem ContinuationMorphism_e1_source_e1_target_tail_e1_iff {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
+    hsame m.tail (BHist.e1 k) ↔ Cont (BHist.e1 a) k r := by
+  constructor
+  · intro tailOne
+    cases ContinuationMorphism_e1_source_e1_target_tail_cases m with
+    | inl emptyCase =>
+        exact False.elim
+          (not_hsame_emp_e1 (hsame_trans (hsame_symm emptyCase.left) tailOne))
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro t exposed =>
+            have samePayload : hsame t k :=
+              hsame_e1_iff.mp (hsame_trans (hsame_symm exposed.left) tailOne)
+            exact cont_hsame_transport (hsame_refl (BHist.e1 a)) samePayload
+              (hsame_refl r) exposed.right
+  · intro continuation
+    exact cont_left_cancel m.rel (cont_step_one continuation)
 
 end BEDC.Derived.CategoryUp

@@ -515,6 +515,29 @@ zero-headed result to be one-headed in the continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_e1\_absurd}
 
+\begin{theorem}[Continuation morphism zero-headed endpoints zero-tail exactness]
+\label{thm:continuation-morphism-e0-source-e0-target-tail-e0-iff}
+For histories $a,r,k:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$, the displayed tail is
+zero-headed with payload $k$ exactly when the payload continues from the
+zero-headed source to the target payload:
+$$
+\HSame(\mathsf{tail}(m),\Ezero(k))
+\Longleftrightarrow
+\ContR(\Ezero(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the zero-headed endpoint tail cases. The
+empty-tail branch contradicts the assumed zero-headed tail comparison. In the
+visible branch, the exposed zero-headed tail payload and the assumed tail
+comparison identify the two payloads, so continuation transport gives
+$\ContR(\Ezero(a),k,r)$. Conversely, step the displayed payload continuation
+through the zero constructor and compare it with the record continuation by
+left cancellation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_e0\_iff}
+
 \begin{theorem}[Continuation morphism one-headed source to one-headed target tail cases]
 \label{thm:continuation-morphism-e1-source-e1-target-tail-cases}
 For histories $a,r:\mathsf{BHist}$, every continuation morphism
@@ -553,3 +576,26 @@ $\emp\hsame\Ezero(k)$, and the visible branch gives
 $\Eone(t)\hsame\Ezero(k)$ for some $t$; both contradict constructor separation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_tail\_e0\_absurd}
+
+\begin{theorem}[Continuation morphism one-headed endpoints one-tail exactness]
+\label{thm:continuation-morphism-e1-source-e1-target-tail-e1-iff}
+For histories $a,r,k:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Eone(a),\Eone(r))$, the displayed tail is
+one-headed with payload $k$ exactly when the payload continues from the
+one-headed source to the target payload:
+$$
+\HSame(\mathsf{tail}(m),\Eone(k))
+\Longleftrightarrow
+\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the one-headed endpoint tail cases. The
+empty-tail branch contradicts the assumed one-headed tail comparison. In the
+visible branch, the exposed one-headed tail payload and the assumed tail
+comparison identify the two payloads, so continuation transport gives
+$\ContR(\Eone(a),k,r)$. Conversely, step the displayed payload continuation
+through the one constructor and compare it with the record continuation by
+left cancellation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_tail\_e1\_iff}
