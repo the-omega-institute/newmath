@@ -383,6 +383,22 @@ $\ContR(\Ezero(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_cases}
 
+\begin{proposition}[Continuation morphism zero-headed endpoints reject one-headed tail]
+\label{prop:category-continuation-e0-e0-tail-e1-absurd}
+For histories $a,r,k:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$,
+$$
+\HSame(\mathsf{tail}(m),\Eone(k))\to\mathsf{False}.
+$$
+\end{proposition}
+\begin{proof}
+Unpack the displayed continuation tail. The empty-tail case contradicts
+$\emp\hsame\Eone(k)$, the zero-headed tail case contradicts
+$\Ezero(t)\hsame\Eone(k)$, and the one-headed tail case would force the
+zero-headed result to be one-headed in the continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_e1\_absurd}
+
 \begin{theorem}[Continuation morphism one-headed source to one-headed target tail cases]
 \label{thm:continuation-morphism-e1-source-e1-target-tail-cases}
 For histories $a,r:\mathsf{BHist}$, every continuation morphism

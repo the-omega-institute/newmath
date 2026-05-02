@@ -194,6 +194,23 @@ theorem ContinuationMorphism_e0_source_e0_target_tail_cases {a r : BHist}
       | e1 k =>
           exact False.elim (not_hsame_e0_e1 rel)
 
+theorem ContinuationMorphism_e0_source_e0_target_tail_e1_absurd {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e0 a) (BHist.e0 r)) :
+    hsame m.tail (BHist.e1 k) -> False := by
+  cases m with
+  | mk tail rel =>
+      intro tailOne
+      cases tail with
+      | Empty =>
+          exact not_hsame_emp_e1 tailOne
+      | e0 t =>
+          exact not_hsame_e0_e1 tailOne
+      | e1 t =>
+          have resultCases := cont_step_result_inversions.right rel
+          cases resultCases with
+          | intro r1 data =>
+              exact not_hsame_e0_e1 data.left
+
 theorem ContinuationMorphism_e1_source_e1_target_tail_cases {a r : BHist}
     (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
     (hsame m.tail BHist.Empty ∧ hsame a r) ∨
