@@ -71,6 +71,95 @@ ledger the four factor witnesses and the two offsets; core theorem
 \autoref{thm:field-affine-two-sided-certified-automorphism-composition};
 exactness predicate composite affine classifier iff; standard bridge deferred;
 status $\mathsf{ProofTarget}$.
+\begin{theorem}[Field affine composite has explicit two-sided inverse]
+\label{thm:field-affine-composite-two-sided-inverse}
+For a BEDC history-level $\FieldUp$ candidate under the hypotheses of
+\autoref{thm:field-affine-two-sided-certified-automorphism-composition}, let
+$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+$p_{a'}:\mathsf{NonZero}_F(a')$, and $p_{b'}:\mathsf{NonZero}_F(b')$ be the
+four nonzero witnesses for the two affine certificates. Define
+$$
+T_1(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
+$$
+and
+$$
+T_2(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',x),b'),d').
+$$
+For each $r:\mathsf{BHist}$ define
+$$
+s_1(r)=
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(r,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)))
+$$
+and
+$$
+s_2(r)=
+\mathsf{mul}(\mathsf{inv}(a',p_{a'}),
+\mathsf{mul}(\mathsf{add}(r,\mathsf{neg}(d')),\mathsf{inv}(b',p_{b'}))).
+$$
+Then every $x,y,q:\mathsf{BHist}$ satisfies the following three clauses.
+\begin{enumerate}
+\item
+
+$$
+T_2(T_1(x))\hsame T_2(T_1(y)) \Longleftrightarrow x\hsame y.
+$$
+\item
+
+$$
+T_2(T_1(s_1(s_2(q))))\hsame q.
+$$
+\item
+
+$$
+s_1(s_2(T_2(T_1(x))))\hsame x.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Instantiate
+\autoref{thm:field-affine-two-sided-certified-automorphism-composition} with
+the two affine certificates. Its collected-factor normal form, together with
+\autoref{thm:field-affine-two-sided-certified-automorphism}, supplies the
+classifier exactness for the composite, giving the displayed iff clause.
+
+For the left inverse clause, first use the left inverse of the $T_2$
+certificate at $q$, which gives $T_2(s_2(q))\hsame q$. Then use the left
+inverse of the $T_1$ certificate at $s_2(q)$, giving
+$$
+T_1(s_1(s_2(q)))\hsame s_2(q).
+$$
+Congruence of $T_2$ transports this equality through the outer map, and
+transitivity yields
+$$
+T_2(T_1(s_1(s_2(q))))\hsame q.
+$$
+
+For the right inverse clause, the right inverse of the $T_2$ certificate gives
+$$
+s_2(T_2(T_1(x)))\hsame T_1(x).
+$$
+Apply the left inverse clause of the $T_1$ certificate to
+$s_2(T_2(T_1(x)))$, obtaining
+$$
+T_1(s_1(s_2(T_2(T_1(x)))))\hsame s_2(T_2(T_1(x))).
+$$
+Compose these two equalities to classify
+$$
+T_1(s_1(s_2(T_2(T_1(x)))))
+$$
+with $T_1(x)$, and reflect the result through the $T_1$ classifier exactness to
+conclude $s_1(s_2(T_2(T_1(x))))\hsame x$.
+\end{proof}
+
+Per-object certificate: traditional target affine automorphism inverse for
+composition; BEDC source $\FieldUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations the two affine
+certificates plus composition classifier exactness; ledger four nonzero
+witnesses and two offsets; core theorem
+\autoref{thm:field-affine-composite-two-sided-inverse}; exactness predicate
+two-sided inverse plus classifier iff; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
 
 \begin{theorem}[Field affine composite inverse agrees with reverse-composed inverses]
 \label{thm:field-affine-composite-inverse-reverse-coherence}
