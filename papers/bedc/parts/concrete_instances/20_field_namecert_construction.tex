@@ -301,6 +301,111 @@ the required right-unit law, and a two-sided internal unit would contain that
 right-unit law as one of its clauses.
 \end{proof}
 
+\begin{definition}[Concrete Rat denominator continuation semigroup instance]
+\label{def:field-rat-denominator-continuation-semigroup-instance}
+The concrete denominator-side semigroup instance for
+$\FieldUp(\mathsf{RatUp})$ has carrier
+$\mathsf{RatHistoryCarrier}$, classifier
+$\mathsf{RatHistoryClassifier}$, operation represented by the concrete
+continuation relation $\Cont(d,e,r)$, and ledger policy
+$\mathsf{RatHistoryLedgerPolicy}$. Its data intentionally contains no identity
+field: the operation is packaged only as the carried continuation fragment whose
+results are compared by $\mathsf{RatHistoryClassifier}$.
+\end{definition}
+
+\textbf{Traditional target}: denominator-side multiplicative semigroup fragment
+for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}:
+$\mathsf{RatHistoryCarrier}$; \textbf{classifier choice}:
+$\mathsf{RatHistoryClassifier}$; \textbf{stability obligations}: closure,
+associativity, commutativity, classifier congruence, ledger closure, and no
+internal carrier unit; \textbf{ledger}: matching continuation witnesses;
+\textbf{core theorems}:
+\autoref{thm:field-rat-denominator-continuation-carrier-closure},
+\autoref{thm:field-rat-denominator-continuation-semigroup-laws},
+\autoref{thm:field-rat-denominator-continuation-commutative-classifier},
+\autoref{thm:field-rat-denominator-continuation-classifier-closure},
+\autoref{thm:field-rat-classifier-continuation-right-closed},
+\autoref{thm:field-rat-denominator-continuation-ledger-closure},
+\autoref{thm:field-rat-denominator-continuation-associative-classifier-congruence},
+and \autoref{thm:field-rat-denominator-continuation-no-internal-unit};
+\textbf{exactness predicate}: carrier, classifier, and ledger preservation under
+continuation; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator continuation semigroup package]
+\label{thm:field-rat-denominator-continuation-semigroup-package}
+The concrete instance of
+Definition~\ref{def:field-rat-denominator-continuation-semigroup-instance}
+satisfies
+the following package clauses:
+\begin{enumerate}
+  \item for all histories $d,e,f,de,ef,left,right:\mathsf{BHist}$, if
+  $\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+  $\mathsf{RatHistoryCarrier}(f)$, $\Cont(d,e,de)$, $\Cont(e,f,ef)$,
+  $\Cont(de,f,left)$, and $\Cont(d,ef,right)$, then
+  $\mathsf{RatHistoryCarrier}(de)$, $\mathsf{RatHistoryCarrier}(ef)$,
+  $\mathsf{RatHistoryCarrier}(left)$, $\mathsf{RatHistoryCarrier}(right)$, and
+  $\mathsf{RatHistoryClassifier}(left,right)$;
+  \item for all histories $d,d',u,u',r,s:\mathsf{BHist}$, if
+  $\mathsf{RatHistoryClassifier}(d,d')$, $\mathsf{UnaryHistory}(u)$,
+  $\mathsf{UnaryHistory}(u')$, $u\hsame u'$, $\Cont(d,u,r)$, and
+  $\Cont(d',u',s)$, then $\mathsf{RatHistoryClassifier}(r,s)$;
+  \item for all histories $d,d',e,r,r':\mathsf{BHist}$, if
+  $\mathsf{RatHistoryClassifier}(d,d')$, $\mathsf{RatHistoryCarrier}(e)$,
+  $\Cont(d,e,r)$, and $\Cont(d',e,r')$, then
+  $\mathsf{RatHistoryClassifier}(r,r')$;
+  \item for all histories $\rho,v,u,u',r,s:\mathsf{BHist}$, if
+  $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $\mathsf{UnaryHistory}(u)$,
+  $\mathsf{UnaryHistory}(u')$, $u\hsame u'$, $\Cont(\rho,u,r)$, and
+  $\Cont(v,u',s)$, then $\mathsf{RatHistoryLedgerPolicy}(r,s)$;
+  \item for every history $u:\mathsf{BHist}$,
+  $\mathsf{RatHistoryCarrier}(u)$ together with the right-unit classifier law
+  $$
+  \forall d,r:\mathsf{BHist}.\;
+  \mathsf{RatHistoryCarrier}(d)\to
+  \Cont(d,u,r)\to
+  \mathsf{RatHistoryClassifier}(r,d)
+  $$
+  implies $\mathsf{False}$. Hence no carried endpoint can serve as a right or
+  two-sided internal unit for this continuation instance.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the first clause, apply
+\autoref{thm:field-rat-denominator-continuation-semigroup-laws}. It gives the
+two intermediate carriers, the two outer carriers, and $left\hsame right$.
+Combining the two outer carriers with this comparison yields
+$\mathsf{RatHistoryClassifier}(left,right)$.
+
+The same clause records the carrier closure supplied by
+\autoref{thm:field-rat-denominator-continuation-carrier-closure}. The
+classifier statement for the two bracketings is the semigroup associativity
+component, while
+\autoref{thm:field-rat-denominator-continuation-commutative-classifier} records
+the corresponding commutative classifier coherence for swapped carried
+continuations.
+
+For classifier preservation under matching continuation tails, use
+\autoref{thm:field-rat-denominator-continuation-classifier-closure}. For the
+shared carried right endpoint form, use
+\autoref{thm:field-rat-classifier-continuation-right-closed}. The compatible
+associative version with classified triples is exactly
+\autoref{thm:field-rat-denominator-continuation-associative-classifier-congruence}.
+
+For the ledger clause, apply
+\autoref{thm:field-rat-denominator-continuation-ledger-closure} to the displayed
+ledger-related endpoints, matching unary tails, matching tail comparison, and
+continuation witnesses. The conclusion is the stated preservation of
+$\mathsf{RatHistoryLedgerPolicy}$.
+
+For the final obstruction clause, apply
+\autoref{thm:field-rat-denominator-continuation-no-internal-unit}. Its statement
+is precisely the contradiction obtained from a carried endpoint satisfying the
+right-unit classifier law, and any two-sided internal unit contains that
+right-unit clause.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation is not a FieldUp multiplication]
 \label{thm:field-rat-denominator-continuation-not-field-multiplication}
 For every proposed carried unit $u:\mathsf{BHist}$, suppose
