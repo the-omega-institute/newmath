@@ -206,6 +206,17 @@ theorem NatTransPrefixComponentCarrier_vert_comp_source_prefix_deterministic
   exact NatTransPrefixComponentCarrier_source_prefix_deterministic
     (NatTransPrefixComponentCarrier_vert_comp_closed left right comp) displayed
 
+theorem NatTransPrefixComponentCarrier_vert_comp_right_identity_closed
+    {p q a eta right : BHist} :
+    NatTransPrefixComponentCarrier p q a eta -> Cont eta BHist.Empty right ->
+      NatTransPrefixComponentCarrier p q a right /\ hsame right eta := by
+  intro component rightRel
+  have rightSame : hsame right eta := cont_deterministic rightRel (cont_right_unit eta)
+  have rightCarrier : NatTransPrefixComponentCarrier p q a right := by
+    cases rightSame
+    exact component
+  exact And.intro rightCarrier rightSame
+
 theorem NatTransPrefixComponentCarrier_identity_semanticNameCert {p a : BHist} :
     UnaryHistory p -> UnaryHistory a ->
       BEDC.FKernel.NameCert.SemanticNameCert (NatTransPrefixComponentCarrier p p a)

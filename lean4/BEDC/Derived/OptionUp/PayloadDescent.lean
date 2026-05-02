@@ -89,6 +89,52 @@ theorem TaggedOptionMapRel_composition_closed {S T U : BHist → Prop}
                                                       (hsame_symm
                                                         (hsame_e1_congr sameEpsilon)))))))
 
+theorem TaggedOptionMapRel_composition_visible_payload_readback {S T U : BHist -> Prop}
+    {RelS RelT RelU : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU) {h k m a c : BHist} :
+    TaggedOptionMapRel S T delta h k -> TaggedOptionMapRel T U epsilon k m ->
+      S a -> hsame h (BHist.e1 a) -> U c -> hsame m (BHist.e1 c) ->
+        hsame c (epsilon.map (delta.map a)) := by
+  intro deltaRel epsilonRel _sourceA sameHA _targetC sameMC
+  cases deltaRel with
+  | inl deltaAbsent =>
+      exact False.elim
+        (not_hsame_emp_e1 (hsame_trans (hsame_symm deltaAbsent.left) sameHA))
+  | inr deltaPresent =>
+      cases deltaPresent with
+      | intro a0 data =>
+          cases data with
+          | intro _sourceA0 rest =>
+              cases rest with
+              | intro _targetDeltaA0 rest =>
+                  cases rest with
+                  | intro sameHPresent sameKDelta =>
+                      have sameA0A : hsame a0 a :=
+                        hsame_e1_iff.mp (hsame_trans (hsame_symm sameHPresent) sameHA)
+                      cases sameA0A
+                      cases epsilonRel with
+                      | inl epsilonAbsent =>
+                          exact False.elim
+                            (not_hsame_e1_empty
+                              (hsame_trans (hsame_symm sameKDelta) epsilonAbsent.left))
+                      | inr epsilonPresent =>
+                          cases epsilonPresent with
+                          | intro b dataB =>
+                              cases dataB with
+                              | intro _targetB restB =>
+                                  cases restB with
+                                  | intro _targetEpsilonB restB =>
+                                      cases restB with
+                                      | intro sameKB sameMPresent =>
+                                          have sameDeltaB : hsame (delta.map a) b :=
+                                            hsame_e1_iff.mp
+                                              (hsame_trans (hsame_symm sameKDelta) sameKB)
+                                          cases sameDeltaB
+                                          exact
+                                            hsame_e1_iff.mp
+                                              (hsame_trans (hsame_symm sameMC) sameMPresent)
+
 theorem TaggedOptionMapRel_composition_factorization_iff {S T U : BHist → Prop}
     {RelS RelT RelU : BHist → BHist → Prop}
     (delta : DescentCertificate BHist BHist RelS RelT)

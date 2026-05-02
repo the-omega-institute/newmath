@@ -90,6 +90,53 @@ $\mathsf{TaggedOptionMapRel}_{\epsilon\circ\delta}
 \leandef{BEDC.Derived.OptionUp.TaggedOptionDescentComp}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionMapRel\_composition\_closed}
 
+\begin{theorem}[Tagged option map relation composite visible payload readback]
+\label{thm:tagged-option-maprel-composition-visible-payload-readback}
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history carriers, let
+$\sim_S,\sim_T,\sim_U$ be source classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+For histories $h,k,m,a,c$, assume
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T;h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U;k,m).
+$$
+If $S(a)$, $\HSame(h,\Eone(a))$, $U(c)$, and
+$\HSame(m,\Eone(c))$, then the final visible payload reads back to the
+composite payload:
+$$
+\HSame(c,\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))).
+$$
+\end{theorem}
+\begin{proof}
+Split the first map-relation witness. Its absent branch would present $h$ as
+$\emp$, contradicting the visible presentation $\HSame(h,\Eone(a))$.
+
+In the present branch, the first witness exposes a source payload $a_0$ with
+$\HSame(h,\Eone(a_0))$ and
+$\HSame(k,\Eone(\delta.\mathsf{map}(a_0)))$. One-constructor inversion against
+$\HSame(h,\Eone(a))$ identifies $a_0$ with $a$.
+
+Split the second map-relation witness. Its absent branch would present $k$ as
+$\emp$, contradicting the visible presentation
+$\HSame(k,\Eone(\delta.\mathsf{map}(a)))$. In the present branch, the second
+witness exposes a payload $b$ with
+$\HSame(k,\Eone(b))$ and
+$\HSame(m,\Eone(\epsilon.\mathsf{map}(b)))$. One-constructor inversion at
+$k$ identifies $b$ with $\delta.\mathsf{map}(a)$, and one-constructor
+inversion at $m$ reads $c$ back as
+$\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionMapRel\_composition\_visible\_payload\_readback}
+
 \begin{theorem}[Tagged option payload descent composition exactness]
 \label{thm:tagged-option-payload-descent-composition-exactness}
 Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers,

@@ -386,6 +386,28 @@ identify a zero-headed history with a one-headed history, which is impossible
 by generated-history no-confusion.
 \end{proof}
 
+\begin{theorem}[Category hom-carrier left one-headed result cases]
+\label{thm:category-hom-carrier-left-e1-result-cases}
+If
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),k)
+$$
+then either $k=\emp$, $a$ is unary, and $\HSame(a,r)$, or there is a history
+$k_0$ such that $k=\Eone(k_0)$, $k_0$ is unary, and
+$$
+\ContR(\Eone(a),k_0,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier into unary source, unary morphism-tail, and continuation
+fields. Classify the tail $k$. The empty branch cancels the visible one
+constructor in the result and inverts the source unary witness. The zero-headed
+tail branch is impossible by constructor no-confusion. The one-headed tail
+branch removes the outer constructor from the continuation result and inverts
+the morphism-tail unary witness to obtain the unary carrier for $k_0$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_left\_e1\_result\_cases}
+
 \paragraph{Primitive boundary.}
 \(\CategoryUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
