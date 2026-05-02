@@ -24,6 +24,32 @@ the existential package.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_composable\_morphisms\_target\_cases}
 
+\begin{theorem}[Category hom-carrier composite visible morphisms result cases]
+\label{thm:category-hom-carrier-comp-visible-morphisms-result-cases}
+For histories $a,b,c,l,m,fg$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),fg),
+$$
+then there exists a history $k$ such that
+$$
+fg=\Eone(k)\land
+\ContR(\Eone(l),m,k)\land
+\mathsf{CategoryHomCarrier}(a,c,\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+The continuation ledger unfolds the composite result as
+$\mathsf{append}(\Eone(l),\Eone(m))$, which is definitionally
+$\Eone(\mathsf{append}(\Eone(l),m))$. Choose
+$k=\mathsf{append}(\Eone(l),m)$. The exposed tail continuation is the canonical
+append continuation, and the hom-carrier result is obtained by applying
+hom-carrier composition closure to the two visible morphisms and the same
+canonical continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_cases}
+
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}
 For histories $a,k,r$, a hom-carrier whose target and morphism histories are

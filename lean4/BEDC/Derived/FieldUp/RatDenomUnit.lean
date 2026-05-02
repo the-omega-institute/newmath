@@ -289,6 +289,60 @@ theorem field_rat_denominator_empty_unit_product_nonempty_iff {h k : BHist} :
               field_rat_denominator_continuation_carrier_closure ratH ratK (cont_intro rfl)
             exact RatHistoryCarrier_not_empty productCarrier productEmpty
 
+theorem field_rat_denominator_empty_unit_bilateral_multiplication_support_exactness
+    {h l r : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier l -> RatDenomUnitCarrier r ->
+      (RatHistoryCarrier (append (append l h) r) <->
+        RatHistoryCarrier l ∨ RatHistoryCarrier h ∨ RatHistoryCarrier r) := by
+  intro carrierH carrierL carrierR
+  have carrierLH : RatDenomUnitCarrier (append l h) :=
+    RatDenomUnitCarrier_continuation_closed carrierL carrierH (cont_intro rfl)
+  have carrierLHR : RatDenomUnitCarrier (append (append l h) r) :=
+    RatDenomUnitCarrier_continuation_closed carrierLH carrierR (cont_intro rfl)
+  have innerSupport :=
+    field_rat_denominator_empty_unit_product_nonempty_iff carrierL carrierH
+  have outerSupport :=
+    field_rat_denominator_empty_unit_product_nonempty_iff carrierLH carrierR
+  constructor
+  · intro productCarrier
+    have productNonempty : hsame (append (append l h) r) BHist.Empty -> False :=
+      RatHistoryCarrier_not_empty productCarrier
+    have outerStrict : RatHistoryCarrier (append l h) ∨ RatHistoryCarrier r :=
+      Iff.mp outerSupport productNonempty
+    cases outerStrict with
+    | inl leftProductCarrier =>
+        have leftProductNonempty : hsame (append l h) BHist.Empty -> False :=
+          RatHistoryCarrier_not_empty leftProductCarrier
+        have innerStrict : RatHistoryCarrier l ∨ RatHistoryCarrier h :=
+          Iff.mp innerSupport leftProductNonempty
+        cases innerStrict with
+        | inl ratL =>
+            exact Or.inl ratL
+        | inr ratH =>
+            exact Or.inr (Or.inl ratH)
+    | inr ratR =>
+        exact Or.inr (Or.inr ratR)
+  · intro strictSupport
+    have leftProductCarrier : RatHistoryCarrier (append l h) ∨ RatHistoryCarrier r := by
+      cases strictSupport with
+      | inl ratL =>
+          have leftProductNonempty : hsame (append l h) BHist.Empty -> False :=
+            Iff.mpr innerSupport (Or.inl ratL)
+          exact Or.inl
+            (RatDenomUnitCarrier_nonempty_rat carrierLH leftProductNonempty)
+      | inr tailSupport =>
+          cases tailSupport with
+          | inl ratH =>
+              have leftProductNonempty : hsame (append l h) BHist.Empty -> False :=
+                Iff.mpr innerSupport (Or.inr ratH)
+              exact Or.inl
+                (RatDenomUnitCarrier_nonempty_rat carrierLH leftProductNonempty)
+          | inr ratR =>
+              exact Or.inr ratR
+    have productNonempty : hsame (append (append l h) r) BHist.Empty -> False :=
+      Iff.mpr outerSupport leftProductCarrier
+    exact RatDenomUnitCarrier_nonempty_rat carrierLHR productNonempty
+
 theorem RatDenomUnitClassifier_empty_context_iff {p q p' q' h k : BHist} :
     hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
       hsame q' BHist.Empty ->
