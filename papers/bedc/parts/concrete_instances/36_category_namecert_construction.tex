@@ -535,6 +535,20 @@ identify a zero-headed history with a one-headed history, which is impossible
 by generated-history no-confusion.
 \end{proof}
 
+\begin{theorem}[Category hom-carrier zero-headed source impossibility]
+\label{thm:category-hom-carrier-e0-source-absurd}
+For histories $a,target,f$, no hom-carrier can have source $\Ezero(a)$:
+$$
+\mathsf{CategoryHomCarrier}(\Ezero(a),target,f)\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. Its source-carrier field says that
+$\Ezero(a)$ is unary, contradicting the BEDC unary-history separation theorem
+for zero-headed extensions.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e0\_source\_absurd}
+
 \begin{theorem}[Category hom-carrier left one-headed result cases]
 \label{thm:category-hom-carrier-left-e1-result-cases}
 If

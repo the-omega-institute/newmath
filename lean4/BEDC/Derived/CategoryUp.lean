@@ -246,6 +246,11 @@ theorem CategoryHomCarrier_hsame_transport {a a' b b' f f' : BHist} :
   cases sameMorphism
   exact homCarrier
 
+theorem CategoryHomCarrier_e0_source_absurd {a target f : BHist} :
+    CategoryHomCarrier (BHist.e0 a) target f → False := by
+  intro homCarrier
+  exact unary_no_zero_extension homCarrier.left
+
 structure ContinuationMorphism (src tgt : BHist) where
   tail : BHist
   rel : Cont src tail tgt
