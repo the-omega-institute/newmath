@@ -93,6 +93,34 @@ $L\hsame R$, completing the singleton classifier package.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_comm\_closed}
 
+\begin{theorem}[Field singleton carrier continuation closure]
+\label{thm:field-singleton-carrier-continuation-closed}
+For histories $P,Q,R:\mathsf{BHist}$, if $P$ and $Q$ are singleton field
+carrier endpoints and $\ContR(P,Q,R)$, then $R$ is a singleton field carrier
+endpoint.
+\end{theorem}
+\begin{proof}
+The carrier witnesses identify $P$ and $Q$ with $\emp$. Transport the
+displayed continuation along these endpoint comparisons and compare it with
+the canonical right-unit continuation $\ContR(\emp,\emp,\emp)$. The resulting
+determinacy identifies $R$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_closed}
+
+\begin{theorem}[Field singleton classifier continuation result classifier]
+\label{thm:field-singleton-classifier-continuation-result-classifier}
+For histories $P,Q,R:\mathsf{BHist}$, if the singleton field classifier
+relates $P$ and $Q$ and $\ContR(P,Q,R)$, then the result $R$ is classified
+with $\emp$.
+\end{theorem}
+\begin{proof}
+Apply singleton carrier continuation closure to the two carrier fields of the
+classifier witness and the displayed continuation. The result carrier, the
+reflexive carrier of $\emp$, and the same result carrier as the comparison
+through $\emp$ assemble the singleton classifier package.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_result\_classifier}
+
 \begin{theorem}[Field singleton classifier continuation closure]
 \label{thm:field-singleton-classifier-continuation-closed}
 For histories $P,P',Q,Q',L,R:\mathsf{BHist}$, if the singleton field
