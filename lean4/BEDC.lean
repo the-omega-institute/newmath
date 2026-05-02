@@ -150,11 +150,13 @@ import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldUp.AffineEquation
 import BEDC.Derived.FieldUp.Nonzero
 import BEDC.Derived.FieldUp.ProductApartness
 import BEDC.Derived.FieldUp.SignedFactor
 import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FpsUp
+import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PreorderUp
