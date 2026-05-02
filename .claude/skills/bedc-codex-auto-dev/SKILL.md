@@ -58,30 +58,43 @@ Use `persistent: true` for both monitors. Describe them as:
 - `BEDC paper pipeline on codex-auto-dev`
 - `BEDC Lean pipeline on codex-auto-dev`
 
-## 3-hour self-check loop
+## 3-hour open-ended self-check loop
 
-While the pipelines run, register a 3-hour recurring self-check via `/loop 3h` so each interval returns to the same SKILL with a fixed checklist. Suggested invocation (the user types this once after pipelines start):
+While the pipelines run, register a 3-hour recurring self-check that asks open-ended questions about the project rather than a fixed metric checklist. Suggested invocation (the user types this once after pipelines start):
 
 ```
-/loop 3h Self-check the BEDC pipelines via skill bedc-codex-auto-dev:
-1. Status of both pipelines (ps + Monitor task IDs).
-2. Theorem delta and capstone count since last check.
-3. Sample 5 most recent merged commits per side; flag any
-   parameter-echo / shallow-growth / schema-only / register-only
-   pattern that survived the gates.
-4. python3 lean4/scripts/critical_path.py | jq '.top[:5]' —
-   are top thms moving? Any chapter ready to leave SCHEMA_ONLY_HORIZONS?
-5. python3 lean4/scripts/bedc_ci.py audit --shape-saturation —
-   flat or growing?
-6. Make any harness/prompt adjustments authorized under
-   "Autonomous adjustment authority" without asking.
-7. Report: theorems delta, capstone count, any prompt/script
-   commits made (with SHA).
+/loop 3h Open-ended self-check on BEDC pipelines (skill bedc-codex-auto-dev):
+1. 项目运行的顺利吗？(both pipelines healthy, failure / conflict /
+   cooldown rates, any stuck worker)
+2. 有什么需要改进的？(recurring pattern in last ~50 commits, missing
+   or over-tight gates, wasted effort like dedup / empty rounds /
+   cooldown)
+3. 数学品味如何？(sample 10 most recent merged commits per side;
+   substantive vs shape-saturated bookkeeping; mechanical-arity /
+   parameter-echo residue trend)
+4. 有什么有意思的新发现？(skim last ~24h commits + capstones/; cite
+   specific commits / chapters; concrete sentences not platitudes)
+5. 如何进一步提升？(critical_path top-3 movement; banned chapter
+   ready to leave SCHEMA_ONLY_HORIZONS; capstone count and quality;
+   highest-leverage single change for math taste / throughput)
+6. harness 还有什么提升空间？(Makefile precheck, subprocess lints,
+   prompt HARD GATEs, orchestrator timeouts/parallel — where would
+   a new gate prevent a recurring pattern, where would relaxing a
+   gate save real rounds)
+
+Make any harness/prompt adjustments authorized under the skill's
+"Autonomous adjustment authority" without asking; for each, include
+the trigger, file edited, version bump, commit SHA.
+
+Report concisely (≤ 12 sentences): what's running, what changed since
+last tick, what mattered, what you adjusted.
 ```
 
-This is a documentation hint — the user runs `/loop` once and the cadence is then automatic. You do not need to start the loop yourself; suggest it after the pipelines are healthy and observed for ~30 min.
+The 6 open-ended questions force a real read of recent work rather than a metric checklist that can pass while the project drifts. Concrete-sentence rule prevents platitude reports.
 
-If the user prefers a single autonomous tick rather than recurring, they can also use `/loop` without an interval (dynamic pacing), in which case you self-pace via `ScheduleWakeup` between ticks. Recurring 3h is appropriate for a steady-state monitoring cadence; tighter cadence for a fresh pipeline that may need rapid prompt iteration.
+The user runs `/loop` once and the cadence is then automatic. Suggest it after the pipelines are healthy and observed for ~30 min. Cron auto-expires after 7 days; re-register if the run continues longer.
+
+If the user prefers a single autonomous tick rather than recurring, they can also use `/loop` without an interval (dynamic pacing), in which case you self-pace via `ScheduleWakeup` between ticks. 3h is the right steady-state cadence; tighter only when a recent prompt change needs rapid iteration validation.
 
 ## Stop commands
 
