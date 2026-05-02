@@ -57,6 +57,7 @@ import BEDC.Derived.OptionUp.BranchAlignment
 import BEDC.Derived.OptionUp.PresentSource
 import BEDC.Derived.OptionUp.EmptyRight
 import BEDC.Derived.OptionUp.VisibleReadback
+import BEDC.Derived.OptionUp.EndpointPairReadback
 import BEDC.Derived.OptionUp.ChainPayload
 import BEDC.Derived.OptionUp.LedgerEndpoint
 import BEDC.Derived.OptionUp.LedgerReadback

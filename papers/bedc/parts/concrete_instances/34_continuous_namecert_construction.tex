@@ -389,6 +389,25 @@ the continuation ledger and repack the remaining fields as the tail witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_left\_e1\_result\_cases}
 
+\begin{theorem}[Continuous modulus witness right e1 result exactness]
+\label{thm:continuous-modulus-witness-right-e1-result-exactness}
+For histories $source,modulus,target$, a modulus witness whose modulus and
+target histories are both visibly tagged has an exact untagged tail:
+$$
+\mathsf{ContinuousModulusWitness}(source,\Eone(modulus),\Eone(target))
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(source,modulus,target).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the source, modulus, target unary witnesses and the continuation
+ledger. Unary inversion removes the visible constructor from the modulus and
+target carriers. The right $\Eone$ continuation inversion removes the same
+constructor from the continuation ledger, yielding the exact untagged modulus
+witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_right\_e1\_result\_exactness}
+
 \begin{theorem}[Continuous modulus witness modulus determinacy]
 \label{thm:continuous-modulus-witness-modulus-hsame-deterministic}
 If two one-step modulus witnesses have $\hsame$ source histories and $\hsame$ target histories, then their modulus histories are $\hsame$:

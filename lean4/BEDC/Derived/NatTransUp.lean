@@ -217,6 +217,17 @@ theorem NatTransPrefixComponentCarrier_vert_comp_right_identity_closed
     exact component
   exact And.intro rightCarrier rightSame
 
+theorem NatTransPrefixComponentCarrier_vert_comp_left_identity_closed
+    {p q a eta left : BHist} :
+    NatTransPrefixComponentCarrier p q a eta -> Cont BHist.Empty eta left ->
+      NatTransPrefixComponentCarrier p q a left /\ hsame left eta := by
+  intro component leftRel
+  have leftSame : hsame left eta := cont_left_unit_result leftRel
+  have leftCarrier : NatTransPrefixComponentCarrier p q a left := by
+    cases leftSame
+    exact component
+  exact And.intro leftCarrier leftSame
+
 theorem NatTransPrefixComponentCarrier_identity_semanticNameCert {p a : BHist} :
     UnaryHistory p -> UnaryHistory a ->
       BEDC.FKernel.NameCert.SemanticNameCert (NatTransPrefixComponentCarrier p p a)

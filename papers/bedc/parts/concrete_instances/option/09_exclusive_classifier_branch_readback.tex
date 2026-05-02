@@ -216,6 +216,33 @@ visible-pair exactness statement.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_visible\_pair\_payload\_exactness}
 
+\begin{theorem}[Tagged option history classifier visible endpoint pair readback]
+\label{thm:tagged-option-history-classifier-visible-endpoint-pair-readback}
+For a BEDC history source carrier $S$, source classifier $\sim_S$, and
+histories $h,k,a,b$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k),
+\qquad
+\hsame(h,\Eone(a)),
+\qquad
+\hsame(k,\Eone(b)),
+$$
+then there are source payloads $a_0,b_0:\mathsf{BHist}$ such that
+$$
+S(a_0)\land S(b_0)\land \hsame(a,a_0)\land \hsame(b,b_0)\land a_0\sim_S b_0.
+$$
+\end{theorem}
+\begin{proof}
+Split the tagged classifier. In the absent branch, the left endpoint is
+simultaneously empty and visibly present, contradicting constructor
+no-confusion. In the present branch, the classifier already supplies source
+payloads $a_0,b_0$, their source witnesses, their visible endpoint equations,
+and the source relation. Strip the common $\Eone$ constructor from the two
+visible endpoint equalities to obtain $\hsame(a,a_0)$ and $\hsame(b,b_0)$, then
+package the displayed witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_visible\_endpoint\_pair\_readback}
+
 \begin{theorem}[Tagged option history classifier transported visible payload readback]
 \label{thm:tagged-option-history-classifier-transport-visible-payload-readback}
 For a BEDC history source carrier \(S\), source classifier \(\sim_S\), and

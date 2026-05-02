@@ -43,4 +43,20 @@ theorem ContinuousModulusWitness_left_e1_result_cases {source modulus target : B
                                     (And.intro modulusCarrier
                                       (And.intro targetCarrier tailRel)))))
 
+theorem ContinuousModulusWitness_right_e1_result_exactness {source modulus target : BHist} :
+    ContinuousModulusWitness source (BHist.e1 modulus) (BHist.e1 target) ->
+      ContinuousModulusWitness source modulus target := by
+  intro witness
+  cases witness with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro modulusCarrier rest =>
+          cases rest with
+          | intro targetCarrier modulusRel =>
+              exact
+                And.intro sourceCarrier
+                  (And.intro (unary_e1_inversion modulusCarrier)
+                    (And.intro (unary_e1_inversion targetCarrier)
+                      (cont_step_rules_inversion_pair.right modulusRel)))
+
 end BEDC.Derived.ContinuousUp
