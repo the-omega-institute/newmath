@@ -65,4 +65,73 @@ theorem TaggedOptionPayloadDescentImageClassifier_visible_payload_exactness
                                 (And.intro targetU
                                   (And.intro targetV (And.intro sameK sameK')))
 
+theorem TaggedOptionPayloadDescentImageClassifier_visible_target_payload_classification
+    {S T : BHist → Prop} {RelS RelT : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (certS : NameCert S RelS)
+    (certT : NameCert T RelT)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (target_hsame : TaggedOptionSourceHsameCompatible T RelT) {k k' u v : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S T delta k k' →
+      T u →
+        T v →
+          hsame k (BHist.e1 u) →
+            hsame k' (BHist.e1 v) →
+              RelT u v := by
+  intro image targetU targetV sameK sameK'
+  have readback :=
+    TaggedOptionPayloadDescentImageClassifier_visible_payload_readback
+      delta certS source_hsame image targetU targetV sameK sameK'
+  cases readback with
+  | intro a readback =>
+      cases readback with
+      | intro b data =>
+          have relImage : RelT (delta.map a) (delta.map b) :=
+            delta.respects data.right.right.left
+          have relLeft : RelT u (delta.map a) :=
+            target_hsame targetU data.right.right.right.left
+              data.right.right.right.right.right.left
+          have relRight : RelT (delta.map b) v :=
+            target_hsame data.right.right.right.right.left targetV
+              (hsame_symm data.right.right.right.right.right.right)
+          exact NameCert.equiv_trans certT (NameCert.equiv_trans certT relLeft relImage) relRight
+
+theorem TaggedOptionPayloadDescentImageClassifier_mixed_visible_tag_separation
+    {S T : BHist → Prop} {RelS RelT : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (cert : NameCert S RelS)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {k k' u v : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S T delta k k' →
+      (hsame k BHist.Empty → T v → hsame k' (BHist.e1 v) → False) ∧
+        (T u → hsame k (BHist.e1 u) → hsame k' BHist.Empty → False) := by
+  intro image
+  have branch :=
+    (TaggedOptionPayloadDescentImageClassifier_branch_exactness delta cert source_hsame).mp
+      image
+  constructor
+  · intro sameKEmpty _targetV sameK'Present
+    cases branch with
+    | inl absent =>
+        exact not_hsame_emp_e1 (hsame_trans (hsame_symm absent.right) sameK'Present)
+    | inr present =>
+        cases present with
+        | intro a present =>
+            cases present with
+            | intro _b data =>
+                exact not_hsame_emp_e1
+                  (hsame_trans (hsame_symm sameKEmpty)
+                    data.right.right.right.right.right.left)
+  · intro _targetU sameKPresent sameK'Empty
+    cases branch with
+    | inl absent =>
+        exact not_hsame_emp_e1 (hsame_trans (hsame_symm absent.left) sameKPresent)
+    | inr present =>
+        cases present with
+        | intro _a present =>
+            cases present with
+            | intro b data =>
+                exact not_hsame_emp_e1
+                  (hsame_trans (hsame_symm sameK'Empty)
+                    data.right.right.right.right.right.right)
+
 end BEDC.Derived.OptionUp
