@@ -95,6 +95,32 @@ $\mathsf{RatDenomUnitCarrier}$ predicate along that history-sameness
 comparison in both directions.
 \end{proof}
 
+\begin{theorem}[Rat denominator unit classifier empty context strict support iff]
+\label{thm:rat-denom-unit-classifier-empty-context-rat-carrier-iff}
+For histories $p,q,p',q',h,k:\mathsf{BHist}$, assume
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$. If the
+empty-unit denominator classifier relates the two context-enlarged endpoints,
+$$
+\mathsf{RatDenomUnitClassifier}
+  (\mathsf{append}(p,\mathsf{append}(h,q)),
+   \mathsf{append}(p',\mathsf{append}(k,q'))),
+$$
+then strict rational support is the same on the exposed endpoints:
+$$
+\mathsf{RatHistoryCarrier}(h)\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(k).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_empty\_context\_rat\_carrier\_iff}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}
+to the four empty-context witnesses and the displayed classifier. This yields
+the core classifier $\mathsf{RatDenomUnitClassifier}(h,k)$. Its final field is
+$h\hsame k$, so $\mathsf{RatHistoryCarrier}$ transports from $h$ to $k$; using
+the symmetric $\hsame$ comparison gives the reverse implication.
+\end{proof}
+
 \section{Rat denominator unit endpoint exactness}
 \label{sec:field-rat-denominator-unit-endpoint-exactness}
 
