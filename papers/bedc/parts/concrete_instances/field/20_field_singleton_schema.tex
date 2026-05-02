@@ -36,6 +36,42 @@ $p:\mathsf{FieldSingletonNonZero}(h)$. Theorem~\ref{thm:field-singleton-nonzero-
 shows that this witness domain is empty on the singleton carrier.
 \end{definition}
 
+\begin{definition}[Singleton empty-classifier nonzero domain]
+\label{def:singleton-empty-classifier-nonzero-domain}
+Reuse $A_{\emp}$ and $\rho_{\emp}$ from
+Definition~\ref{def:singleton-empty-history-field-schema-instance}. Define
+the classifier-level nonzero witness domain by
+$$
+\mathsf{FieldSingletonEmptyNonZero}(h)\Longleftrightarrow
+\rho_{\emp}(h,\emp)\to\mathsf{False}.
+$$
+The proof-indexed inverse on this domain is the constant empty-history
+operation $\mathsf{inv}_{\emp}(h,p):=\emp$ for
+$p:\mathsf{FieldSingletonEmptyNonZero}(h)$.
+\end{definition}
+
+\begin{theorem}[Singleton empty-classifier carrier obstruction]
+\label{thm:singleton-empty-classifier-carrier-absurd}
+For every $h:\mathsf{BHist}$,
+$A_{\emp}(h)\to\mathsf{FieldSingletonEmptyNonZero}(h)\to\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(h)$. The singleton source is generated at $\emp$, so this
+carrier witness supplies the endpoint comparison $h\hsame\emp$.
+
+The same singleton source gives the reflexive carrier witness at $\emp$.
+Together with the endpoint comparison above, these data assemble the classifier
+package $\rho_{\emp}(h,\emp)$.
+
+Now assume $p:\mathsf{FieldSingletonEmptyNonZero}(h)$. By
+Definition~\ref{def:singleton-empty-classifier-nonzero-domain}, $p$ maps the
+classifier package $\rho_{\emp}(h,\emp)$ to $\mathsf{False}$, which closes the
+claim.
+\end{proof}
+
+This gives the concrete $\mathsf{BHist}$ $\FieldUp$ schema a direct
+nonzero-domain law target for the singleton empty-classifier instance.
+
 \begin{theorem}[Singleton nonzero endpoint obstruction]
 \label{thm:field-singleton-nonzero-absurd}
 For every $a:\mathsf{BHist}$, if $a\hsame\emp$ and
