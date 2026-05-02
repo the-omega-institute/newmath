@@ -1,11 +1,23 @@
 import BEDC.Derived.FieldUp
+import BEDC.FKernel.Cont
 
 namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 
 def FieldApartZero (a : BHist) : Prop :=
   hsame a BHist.Empty -> False
+
+theorem FieldApartZero_append_factor_closed {p q : BHist} :
+    FieldApartZero p ∨ FieldApartZero q -> FieldApartZero (append p q) := by
+  intro factorApart appendEmpty
+  have splitEmpty := append_eq_empty_iff.mp appendEmpty
+  cases factorApart with
+  | inl leftApart =>
+      exact leftApart splitEmpty.left
+  | inr rightApart =>
+      exact rightApart splitEmpty.right
 
 theorem field_product_apartness_inverse_product_reverse
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}

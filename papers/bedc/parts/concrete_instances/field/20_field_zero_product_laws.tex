@@ -184,6 +184,25 @@ uses the explicit map from this apartness predicate into the nonzero index
 predicate.
 \end{definition}
 
+\begin{theorem}[Field apart-zero append factor closure]
+\label{thm:field-apartzero-append-factor-closed}
+For histories $p,q:\mathsf{BHist}$, if either $p$ or $q$ is apart from zero,
+then the appended history $\mathsf{append}(p,q)$ is apart from zero:
+$$
+\mathsf{ApartZero}_F(p)\lor\mathsf{ApartZero}_F(q)
+\Longrightarrow
+\mathsf{ApartZero}_F(\mathsf{append}(p,q)).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{append}(p,q)\hsame0$. Empty-append inversion gives both
+$p\hsame0$ and $q\hsame0$. If the apart-zero witness is on the left factor,
+it rejects the first equality; if it is on the right factor, it rejects the
+second equality. Thus either factor witness prevents the appended history
+from classifying as zero.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_factor\_closed}
+
 \begin{theorem}[Field product apartness gives inverse product witness]
 \label{thm:field-product-apartness-inverse-product-reverse}
 For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of

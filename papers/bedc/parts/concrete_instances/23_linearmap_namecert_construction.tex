@@ -225,35 +225,32 @@ no-confusion.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_visible\_prefix\_absurd}
 
-\begin{theorem}[Singleton linear-map classifier append right cancellation]
-\label{thm:linearmap-singleton-classifier-append-right-cancel}
-For histories $P,Q,R:\mathsf{BHist}$, if $P$ lies in the singleton linear-map
-carrier $L_{\emp}$, then appending $P$ as a common right suffix preserves and
-reflects the singleton linear-map classifier:
+\begin{theorem}[Singleton linear-map classifier append-pair carrier exactness]
+\label{thm:linearmap-singleton-classifier-append-pair-carrier}
+For all histories $p,q,r,s:\mathsf{BHist}$,
 $$
-L_{\emp}(P)\Rightarrow
-\bigl(
-\lambda_{\emp}(\mathsf{append}(Q,P),\mathsf{append}(R,P))
-\Longleftrightarrow
-\lambda_{\emp}(Q,R)
-\bigr).
+\lambda_{\emp}(\mathsf{append}(p,q),\mathsf{append}(r,s))
+$$
+holds exactly when all four endpoint histories lie in the singleton carrier:
+$$
+L_{\emp}(p)\land L_{\emp}(q)\land L_{\emp}(r)\land L_{\emp}(s).
 $$
 \end{theorem}
 \begin{proof}
-In the forward direction, unfold the classifier and read the two appended
-carrier fields as empty-result append equations. Empty-result inversion splits
-them into $Q\hsame\emp$, $P\hsame\emp$, and $R\hsame\emp$. The endpoint
-witnesses for $Q$ and $R$ give the carrier fields for
-$\lambda_{\emp}(Q,R)$, while transitivity through $\emp$ gives the classifier
-comparison.
+The forward direction reads the two carrier fields of the displayed
+classifier. Empty-append inversion splits
+$\mathsf{append}(p,q)\hsame\emp$ into the two endpoint carrier witnesses
+for $p$ and $q$, and it splits
+$\mathsf{append}(r,s)\hsame\emp$ into the two endpoint carrier witnesses
+for $r$ and $s$.
 
-In the reverse direction, the hypothesis $L_{\emp}(P)$ identifies the common
-right suffix with $\emp$. The append right-unit law transports the carrier
-witnesses for $Q$ and $R$ to the appended endpoints, and the same right-unit
-identifications transport the displayed classifier comparison to the appended
-classifier.
+Conversely, the four singleton carrier witnesses reconstruct empty witnesses
+for both appended histories. These are the two carrier fields of
+$\lambda_{\emp}$, and transitivity with symmetry of the right appended
+empty witness supplies the classifier comparison between the two appended
+histories.
 \end{proof}
-\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_right\_cancel\_iff}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_pair\_carrier\_iff}
 
 \begin{theorem}[Singleton linear map composition associativity empty classifier]
 \label{thm:linearmap-singleton-comp-assoc-empty-classifier}
