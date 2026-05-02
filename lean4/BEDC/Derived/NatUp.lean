@@ -33,6 +33,14 @@ theorem NatUnaryStrictPrefix_asymm {h k : BHist} :
                             cont_left_cancel forwardCont unitAtTarget
                           exact forwardNonempty forwardEmpty
 
+theorem NatUnaryStrictPrefix_empty_right_absurd {h : BHist} :
+    NatUnaryStrictPrefix h BHist.Empty -> False := by
+  intro strict
+  cases strict with
+  | intro tail data =>
+      have parts := cont_empty_result_inversion data.right.right
+      exact data.right.left parts.right
+
 theorem NatUnaryPrefix_total {h k : BHist} :
     UnaryHistory h -> UnaryHistory k ->
       (exists tail : BHist, UnaryHistory tail /\ Cont h tail k) \/

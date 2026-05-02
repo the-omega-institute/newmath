@@ -1,11 +1,13 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Unary
+import BEDC.Derived.NatUp
 
 namespace BEDC.Derived.PrimeUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.Derived.NatUp
 
 inductive NatMul (d : BHist) : BHist -> BHist -> Prop where
   | zero (hd : UnaryHistory d) : NatMul d BHist.Empty BHist.Empty
@@ -45,5 +47,10 @@ theorem NatMul_total {d q : BHist} :
 
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
+
+def NatPrime (p : BHist) : Prop :=
+  UnaryHistory p ∧ NatUnaryStrictPrefix (BHist.e1 BHist.Empty) p ∧
+    ∀ d : BHist, UnaryHistory d -> NatDivides d p ->
+      hsame d (BHist.e1 BHist.Empty) ∨ hsame d p
 
 end BEDC.Derived.PrimeUp
