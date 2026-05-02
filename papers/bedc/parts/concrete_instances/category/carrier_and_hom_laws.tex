@@ -231,6 +231,28 @@ objects.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_object\_deterministic}
 
+\begin{theorem}[Category hom carrier composite same-middle factor determinacy]
+\label{thm:category-hom-carrier-comp-same-middle-factors-deterministic}
+For the unary-continuation category, suppose $f$ and $f'$ are both
+hom-carriers from $a$ to $b$, $g$ and $g'$ are both hom-carriers from $b$ to
+$c$, and both continuation composites are displayed as the same history $fg$:
+$$
+\ContR(f,g,fg)
+$$
+and
+$$
+\ContR(f',g',fg).
+$$
+Then $\HSame(f,f')$ and $\HSame(g,g')$.
+\end{theorem}
+\begin{proof}
+Morphism determinacy for the common endpoints $a,b$ identifies $f$ with $f'$.
+After transporting along this equality, the two composite ledgers have the
+same left continuation history and the same result history. Left cancellation
+for $\ContR$ identifies $g$ with $g'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_same\_middle\_factors\_deterministic}
+
 \begin{theorem}[Category hom carrier tail commutativity]
 \label{thm:category-hom-carrier-tail-comm-hsame}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
