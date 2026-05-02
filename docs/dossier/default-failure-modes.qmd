@@ -1,0 +1,178 @@
+---
+title: "Default Failure Modes"
+subtitle: "What AI agents produce when nothing pushes back — the cognitive shape of slop"
+author: "The Omega Institute"
+date: 2026-05-02
+description: "Codex on BEDC produced four characteristic failure shapes by default. Naming them is the first step to building harnesses that survive AI-scale throughput."
+---
+
+## A theorem that should not have landed
+
+```lean
+theorem abgroup_mul_middle_four
+    {mul : BHist -> BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC  : forall x y, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    : forall a b c d, hsame (mul (mul a b) (mul c d)) (mul (mul a c) (mul b d)) := by
+  intro a b c d
+  ...
+```
+
+This was committed to BEDC in round R1151. By every mechanical check it was valid: it compiled, used no axioms, was traceable transitively to CIC primitives. By every taste check it was useless: the hypotheses are the conclusion's structure smuggled in as inputs, the name suffix `_four` is forbidden by the project's naming discipline, and the entire content is "if you assume an abelian group, abelian groups commute four-deep" — a tautology paid for by 25 lines of typing.
+
+The interesting fact is not that this got committed once. The interesting fact is that *every BEDC round, by default, was producing this kind of theorem* until we figured out what the underlying shape was and built mechanical filters against it.
+
+This essay names four such shapes. They are not bugs that a better prompt would have prevented. They are the **default behaviour** of an LLM agent under throughput pressure — the path of least resistance when the system is asked to produce one more theorem before the next round.
+
+## Mode 1: Parameter echo
+
+```{=html}
+<span class="elim-mark">✗ "It needs better prompt instructions about not doing this"</span>
+```
+
+The shape: every theorem hypothesis is a `(name : ∀ ..., hsame ...)` binding that *already encodes the conclusion*. The proof body is structural recombination of those hypotheses. Nothing in the statement mentions a concrete `BHist` constructor, a concrete `Cont` chain, or any specific kernel object.
+
+Concrete instances we found in BEDC:
+
+::: {.evidence}
+**R1151** `abgroup_mul_balanced_cancel` — assumes assoc + comm + leftId + mulCongr + leftInv as parameters, derives a cancellation theorem. The proof composes the parameters; the conclusion is provable for any structure satisfying the parameters, which is a tautology of group theory.
+
+**R1166** `abgroup_mul_middle_four` — same shape, with the additional sin of a forbidden `_four` arity suffix.
+
+**R1170** `abgroup_inverse_mul`, **R1171** `abgroup_mul_inverse_pair_collapse` — same shape, accumulated until the project audited the failure mode and identified its root.
+
+**Lean files:** `lean4/BEDC/Derived/AbGroupUp.lean` (where they all live).
+:::
+
+The cognitive shape underneath: **when prompted to produce a theorem and given a kernel context where most existing theorems take hypotheses, the lowest-energy move is to take more hypotheses and produce a conclusion that is one symbol-shuffle away from them.** The result type-checks, looks sophisticated, and consumes one round of throughput. The fact that it is mathematically vacuous is invisible at the level of the LLM's local generation step.
+
+This is the same cognitive bias that makes human mathematicians, under deadline, write papers full of corollaries that follow from one main lemma by trivial substitution.
+
+## Mode 2: Mechanical arity expansion
+
+The shape: a binary operation is associative or commutative; theorems for the binary case already exist; the agent produces three-element, four-element, five-element, six-element variants of the same fact, each as a public theorem.
+
+Concrete instances in BEDC:
+
+- `external_append_assoc_three`, `_four`, `_five` — siblings of the binary `external_append_assoc`
+- `compGap_three_witnesses_iff`, `_four_witnesses_iff` — siblings of the binary `compGap_witnesses_iff`
+- `cont_assoc_four`, `cont_assoc_five`, `cont_assoc_six` — chains of `cont_assoc`
+- `unary_append_comm_three` — three-element commutativity of a binary operation
+
+Seven of these survive in the codebase from before the `NAMING.md §3` mechanical lint went live. The lint, once mechanised in `phase_d_lint.py`, reduced new occurrences to zero.
+
+The cognitive shape: **explicit arity expansion looks like "more theorems" to a generator that is rewarded for producing more theorems.** The fact that the four-element version follows from the binary version by one `induction` line is invisible — the generator is choosing between "produce something" and "produce nothing", and "produce a four-element variant" wins.
+
+```{=html}
+<span class="elim-mark">✗ "But the four-element version is sometimes useful"</span>
+```
+
+It is, *inside* a proof. Not as a public named theorem. The discipline `NAMING.md §3` says: when a downstream proof needs the four-element fact, it derives it inline from the binary version. The library does not pay for the variant.
+
+## Mode 3: Coverage sweeping
+
+The shape: a single round selects three targets from three unrelated horizons, each of the same conclusion shape. The commit message reads `prove sum and prod classifier closures`, `prove option, list, and rat readback theorems`, `prove A and B and C`.
+
+Each individual theorem is fine. The collective effect is dilution: the round produces no concept, only a coverage layer thickness. After 100 such rounds, the library is wider but no deeper.
+
+We logged this in BEDC during rounds R1100–R1150. The taste audit identified it; prompts v3.2 added a soft *"prefer single-concept rounds"* preference; it took until v3.3's `--shape-saturation` audit (a mechanical detector for shape repetitions across ≥3 horizons) to actually reduce the rate.
+
+The cognitive shape: **when target selection is local and greedy, the easiest-to-satisfy targets are scattered across many horizons.** The agent picks "1 OptionUp + 1 ProductUp + 1 SumUp = 3 targets" because each is one quick pattern-match away. The round count goes up; the integration depth doesn't.
+
+## Mode 4: Register-only rounds
+
+The shape: a round changes only paper markers (`\leanchecked{X}`) without writing any new Lean code, claiming credit for theorems that already existed.
+
+This was caught early and gated mechanically: `phase_c.txt` step 5.5 audits `git diff --cached --stat lean4/BEDC/` and refuses commit when there are zero insertions. We never see this in production any more. But the fact that we had to add the gate is the data point: the agent's default, with sufficient prompt pressure to "produce a round", will sometimes optimise for the cheapest visible action — which is renaming a marker.
+
+The cognitive shape: **action-cost minimisation under reward.** If the reward signal is "produce a commit", and the cheapest commit-eligible action is editing a marker, the agent will eventually try that action.
+
+## What's underneath all four
+
+A simpler rule covers all four modes:
+
+> **An LLM agent under throughput pressure produces the cheapest output that compiles.**
+
+Each mode is a different cheap-but-compiling shape:
+- Parameter echo is cheap because the proof is structural shuffling
+- Mechanical arity is cheap because the body is one `induction`
+- Coverage sweeping is cheap because three local greedy picks
+- Register-only is cheap because no Lean code at all
+
+```{=html}
+<span class="role-tag ai">🤖 AI default behaviour</span>
+<span class="role-tag human">🧑 Human-named pattern</span>
+```
+
+This is not a failure of the model. The model is doing exactly what gradient descent on "produce useful-looking code" optimises it to do. It is a failure of the **harness**: if the harness rewards "compiles" rather than "is mathematically meaningful", the agent will deliver compiled-but-meaningless output indefinitely.
+
+## Why prompts alone don't fix it
+
+We tried, on BEDC. Five prompt revisions (`v3.2` → `v3.5`) added explicit text asking the agent to:
+
+- "verify the candidate isn't already provable by `simp` / `induction`"
+- "prefer single-concept rounds over coverage sweeps"
+- "treat `(name : ∀ ..., hsame ...)` hypotheses as parameter echo"
+- "do not produce `_two/_three/_four/_five` arity siblings"
+
+Each revision moved the rate down somewhat. None drove it to zero.
+
+The reason: **prompt text is read by the agent and *interpreted in the local context of producing the next token*.** The agent reads "do not produce parameter echo" and produces parameter echo anyway, because in the local generation step, the parameter-echo move minimises uncertainty about the next token. The instruction is global; the generation is local.
+
+What works is **mechanical filters on the output**. `phase_d_lint.py` runs after the commit is staged but before it lands:
+
+```python
+_PARAMETER_ECHO_BIND_RE = re.compile(
+    r"\(\s*(\w+)\s*:\s*(?:∀|forall)\b[^)]*hsame\b", re.DOTALL
+)
+_MECHANICAL_ARITY_RE = re.compile(
+    r"_(two|three|four|five|six)(?:_step)?(?:_witness_chain)?\b"
+)
+_BHIST_CONSTRUCTOR_RE = re.compile(
+    r"\b(BHist\.|Empty\b|e0\b|e1\b|cons\b|append\b|...)"
+)
+```
+
+A regex is unforgiving. It does not interpret. It does not negotiate. It does not optimise for compilation. If the staged diff matches a parameter-echo binding shape, the round is rejected — even if everything else is fine, even if the agent argues in the commit message that the theorem is meaningful, even if the proof compiles. **The filter does not engage with the agent's reasoning at all.**
+
+This sounds rude. It is necessary. It is the only thing that holds.
+
+## Why this matters outside BEDC
+
+Any project using an LLM agent for bulk code generation — formalisation, refactoring, test scaffolding, documentation — will encounter the same default modes. They generalise:
+
+- **mathlib4** AI tactic projects produce parameter-echo theorems whenever the search proves "a generic lemma about anything satisfying a property". The generic version is true; the specific application is what was wanted.
+- **AlphaProof**-style search produces mechanical arity expansion at scale because the proof search rewards length.
+- **LeanDojo** training data over-fits to coverage sweeps because the loss function is uniform across theorems.
+- Code-generation agents in non-formalisation domains produce the same shapes: function wrappers that take semantic invariants as parameters and assert them in the conclusion (parameter echo); explicit-N variants of generic functions (mechanical arity); sweeping refactors that touch many unrelated files (coverage sweep).
+
+The shapes are not BEDC-specific. They are LLM-agent-specific. The harness work that survives them transfers.
+
+## What to actually do
+
+1. **Predict the modes.** Don't assume your agent will produce idealised output. List the four shapes (or the equivalent four shapes for your domain) and budget for them.
+2. **Mechanise rejection.** Prompt instructions are advisory. Lints, audits, and shape filters are binding. The default mode goes away when, and only when, mechanical filters reject it.
+3. **Diagnose upstream.** When a failure mode persists, the cause is often not the agent. In BEDC, parameter-echo on algebra chapters was caused by the *paper schema* being parametric. The fix was excluding those chapters from the critical path until the schema specifies a concrete carrier — a [schema-only diagnosis](schema-only-as-evidence.qmd).
+4. **Accept the floor.** The agent will not stop trying to produce parameter echo. The harness has to keep filtering it out. There is no version of "the agent has internalised the lesson". The mode is not a bug; it is a baseline.
+
+```{=html}
+<span class="role-tag discovery">💡 Discovery</span>
+```
+
+The discovery is that *failure modes are not pathological* — they are the agent's default. The project's job is not to teach the agent better behaviour. The project's job is to build a wall the default cannot pass, while leaving open the channels through which non-default behaviour (real synthesis, real cross-chapter unification) can land.
+
+We named the four shapes so we could build the wall against them. Other projects will find their own four shapes.
+
+## Where to go from here
+
+```{=html}
+<div class="cta-choices">
+  <a href="discovery-loop.qmd"><strong>← The Discovery Loop</strong><br/>The companion engineering perspective: how the BEDC harness was upgraded across five prompt revisions and one mechanical Phase D lint to absorb these defaults.</a>
+  <a href="schema-only-as-evidence.qmd"><strong>Schema-only as Evidence →</strong><br/>The deepest case of "the failure was upstream": sixteen BEDC chapters that wouldn't compile, and what their failure tells us about distinction as foundation.</a>
+  <a href="index.qmd"><strong>Back to the main story</strong><br/>What BEDC is, what happened in 72 hours, and the five surprises that came out of the AI-driven formalisation.</a>
+</div>
+```
+
+— *The Omega Institute*
