@@ -1,5 +1,6 @@
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.Prefix
+import BEDC.Derived.CategoryUp.ContinuationBoundary
 import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.CategoryUp
@@ -57,6 +58,12 @@ theorem ContinuationMorphism_triangle_cycle_tails_empty {a b c : BHist}
                       (And.intro
                         (cont_deterministic (cont_right_unit a) leftRel)
                         (cont_deterministic (cont_right_unit b) rightRel))))
+
+theorem ContinuationMorphism_e0_e1_cycle_absurd {a r : BHist}
+    (left : ContinuationMorphism (BHist.e0 a) (BHist.e1 r))
+    (right : ContinuationMorphism (BHist.e1 r) (BHist.e0 a)) : False := by
+  have cycle := ContinuationMorphism_cycle_tails_empty left right
+  exact ContinuationMorphism_e0_source_e1_target_tail_not_empty left cycle.right.left
 
 theorem CategoryHomCarrier_e1_morphism_cycle_absurd {a b k g : BHist} :
     CategoryHomCarrier a b (BHist.e1 k) -> CategoryHomCarrier b a g -> False := by

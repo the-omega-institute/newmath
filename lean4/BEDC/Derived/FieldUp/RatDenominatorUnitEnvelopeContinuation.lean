@@ -18,6 +18,20 @@ theorem FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff {h : BHist} :
   · intro sameEmpty
     exact Or.inr ⟨sameEmpty, hsame_refl BHist.Empty⟩
 
+theorem FieldRatDenominatorUnitEnvelopeClassifier_empty_left_endpoint_iff {h k : BHist} :
+    hsame h BHist.Empty ->
+      (FieldRatDenominatorUnitEnvelopeClassifier h k ↔ hsame k BHist.Empty) := by
+  intro hEmpty
+  constructor
+  · intro classified
+    cases classified with
+    | inl ratData =>
+        exact False.elim (RatHistoryCarrier_not_empty ratData.left hEmpty)
+    | inr emptyData =>
+        exact emptyData.right
+  · intro kEmpty
+    exact Or.inr ⟨hEmpty, kEmpty⟩
+
 theorem FieldRatDenominatorUnitEnvelopeClassifier_continuation_closed
     {h h' k k' r r' : BHist} :
     FieldRatDenominatorUnitEnvelopeClassifier h h' ->

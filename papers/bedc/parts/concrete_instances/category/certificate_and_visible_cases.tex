@@ -296,6 +296,23 @@ $\ContR(\Ezero(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e1\_target\_tail\_cases}
 
+\begin{theorem}[Continuation morphism zero-headed source to one-headed target tail is nonempty]
+\label{thm:continuation-morphism-e0-source-e1-target-tail-not-empty}
+For histories $a,r:\mathsf{BHist}$, every continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Eone(r))$ has a tail that cannot be
+classified with the empty history:
+$$
+\HSame(\mathsf{tail}(m),\emp)\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply the one-headed tail exposure theorem above. It supplies a history $k$
+with $\mathsf{tail}(m)\hsame\Eone(k)$. If the displayed tail were also
+classified with $\emp$, transitivity would give $\Eone(k)\hsame\emp$,
+contradicting constructor disjointness.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e1\_target\_tail\_not\_empty}
+
 \begin{theorem}[Continuation morphism zero-headed source to zero-headed target tail cases]
 \label{thm:continuation-morphism-e0-source-e0-target-tail-cases}
 For histories $a,r:\mathsf{BHist}$, every continuation morphism

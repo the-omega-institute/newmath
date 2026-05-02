@@ -93,6 +93,26 @@ $a$. Kernel mutual-extension cancellation identifies the endpoints and forces
 both displayed tails to be the empty history.
 \end{proof}
 
+\begin{theorem}[Zero-headed to one-headed continuation morphisms have no opposite cycle]
+\label{thm:continuation-morphism-e0-e1-cycle-absurd}
+For histories $a,r:\mathsf{BHist}$, no opposite pair can run from
+$\Ezero(a)$ to $\Eone(r)$ and back:
+$$
+\mathsf{ContinuationMorphism}(\Ezero(a),\Eone(r))
+\to
+\mathsf{ContinuationMorphism}(\Eone(r),\Ezero(a))
+\to
+\bot.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_e1\_cycle\_absurd}
+\begin{proof}
+Cyclic continuation cancellation forces the forward displayed tail to be
+classified with $\emp$. The visible boundary theorem for a zero-headed source
+and one-headed target forces that same tail to be one-headed, hence not empty.
+The two conclusions contradict the generated-history separation theorem.
+\end{proof}
+
 \begin{theorem}[Triangular cyclic continuation morphisms have empty tails]
 \label{thm:category-continuation-morphism-triangle-cycle-tails-empty}
 If composable continuation morphisms record

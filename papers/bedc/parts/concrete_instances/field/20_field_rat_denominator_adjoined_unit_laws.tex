@@ -135,6 +135,28 @@ branch with reflexivity at $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeClassifier\_empty\_right\_iff}
 
+\begin{theorem}[Rat denominator unit-envelope classifier empty-left exactness]
+\label{thm:field-rat-denominator-unit-envelope-classifier-empty-left-endpoint-iff}
+For histories $h,k:\mathsf{BHist}$, if the left endpoint is empty, then the
+unit-envelope classifier is exactly empty endpoint sameness on the right:
+$$
+h\hsame\emp
+\Longrightarrow
+\left(
+\mathsf{FieldRatDenominatorUnitEnvelopeClassifier}(h,k)
+\Longleftrightarrow k\hsame\emp
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Split the concrete unit-envelope classifier. In the carried branch, the left
+endpoint would be both $\mathsf{RatHistoryCarrier}$ and $\emp$, contradicting
+$\mathsf{RatHistoryCarrier\_not\_empty}$. In the empty branch, the right
+endpoint comparison is already present. Conversely, $k\hsame\emp$ together
+with the displayed left endpoint comparison selects the empty-empty branch.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeClassifier\_empty\_left\_endpoint\_iff}
+
 \begin{theorem}[Rat denominator unit-envelope classifier is continuation-closed]
 \label{thm:field-rat-denominator-unit-envelope-classifier-continuation-closed}
 For histories $h,h',k,k',r,r':\mathsf{BHist}$, if
