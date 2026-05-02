@@ -18,6 +18,15 @@ theorem cont_result_tag_separation {h k r0 r1 : BHist} :
     cont_determinacy_up_to_hsame_spine zeroResult oneResult
   exact not_hsame_e0_e1 resultSame
 
+theorem cont_result_hsame_tag_separation {h k r0 r1 z o : BHist} :
+    Cont h k r0 -> Cont h k r1 -> hsame r0 (BHist.e0 z) ->
+      hsame r1 (BHist.e1 o) -> False := by
+  intro left right zeroTag oneTag
+  have sameResult : hsame r0 r1 := cont_deterministic left right
+  have mixed : hsame (BHist.e0 z) (BHist.e1 o) :=
+    zeroTag.symm.trans (sameResult.trans oneTag)
+  exact not_hsame_e0_e1 mixed
+
 theorem cont_e0_result_witness {h k r : BHist} :
     Cont h (BHist.e0 k) r -> exists r0 : BHist, r = BHist.e0 r0 /\ Cont h k r0 := by
   intro hcont
@@ -188,6 +197,37 @@ theorem cont_step_result_no_confusion_pair :
                 cases zeroWitness with
                 | intro zeroResult _ =>
                     cases zeroResult
+
+theorem cont_step_result_hsame_no_confusion_pair :
+    (forall {h k0 k1 r0 r1 : BHist},
+      Cont h (BHist.e0 k0) r0 -> Cont h (BHist.e1 k1) r1 -> hsame r0 r1 -> False) /\
+      (forall {h k0 k1 r0 r1 : BHist},
+        Cont h (BHist.e1 k0) r0 -> Cont h (BHist.e0 k1) r1 -> hsame r0 r1 -> False) := by
+  constructor
+  · intro h k0 k1 r0 r1 zeroStep oneStep same
+    cases cont_e0_result_witness zeroStep with
+    | intro rz zeroWitness =>
+        cases zeroWitness with
+        | intro zeroResult _ =>
+            cases zeroResult
+            cases cont_e1_result_witness oneStep with
+            | intro ro oneWitness =>
+                cases oneWitness with
+                | intro oneResult _ =>
+                    cases oneResult
+                    exact not_hsame_e0_e1 same
+  · intro h k0 k1 r0 r1 oneStep zeroStep same
+    cases cont_e1_result_witness oneStep with
+    | intro ro oneWitness =>
+        cases oneWitness with
+        | intro oneResult _ =>
+            cases oneResult
+            cases cont_e0_result_witness zeroStep with
+            | intro rz zeroWitness =>
+                cases zeroWitness with
+                | intro zeroResult _ =>
+                    cases zeroResult
+                    exact not_hsame_e1_e0 same
 
 theorem cont_step_result_not_empty_pair {h k : BHist} :
     (Cont h (BHist.e0 k) BHist.Empty → False) ∧

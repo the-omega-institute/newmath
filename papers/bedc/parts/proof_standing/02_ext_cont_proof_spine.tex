@@ -72,6 +72,40 @@ If \(\ContR(h,k,r)\) and \(\ContR(h,k,r')\), then \(\HSame(r,r')\).
 By induction on the generated right-history structure in the first continuation proof. In the empty case, the second proof must also be the empty case, hence both results are $h$. In the $\Ezero$ case, the second proof must also have right input and result with outer $\Ezero$ by closed generation; apply the induction hypothesis to the sub-results and then apply the $\Ezero$ constructor for $\HSame$. The $\Eone$ case is analogous.
 \end{proof}
 
+\begin{theorem}[Continuation result history-sameness tag separation]
+\label{thm:cont-result-hsame-tag-separation}
+If $\ContR(h,k,r_0)$ and $\ContR(h,k,r_1)$, and if
+$\HSame(r_0,\Ezero(z))$ while $\HSame(r_1,\Eone(o))$, then contradiction.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_tag\_separation}
+\begin{proof}
+Continuation determinacy gives $\HSame(r_0,r_1)$.  Composing this equality with
+the two displayed tag classifications yields
+$\HSame(\Ezero(z),\Eone(o))$, contradicting generated-history no-confusion
+between the zero and one constructors.
+\end{proof}
+
+\begin{theorem}[Continuation step result history-sameness no-confusion pair]
+\label{thm:cont-step-result-hsame-no-confusion-pair}
+The two one-step continuation result shapes are disjoint up to history-sameness:
+$$
+\ContR(h,\Ezero(k_0),r_0),\quad
+\ContR(h,\Eone(k_1),r_1),\quad
+\HSame(r_0,r_1)
+$$
+is impossible, and the same holds with the displayed zero and one steps
+exchanged.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_step\_result\_hsame\_no\_confusion\_pair}
+\begin{proof}
+Invert the zero-step continuation witness to expose
+$r_0=\Ezero(a)$ and invert the one-step witness to expose $r_1=\Eone(b)$.
+The displayed $\HSame(r_0,r_1)$ then becomes
+$\HSame(\Ezero(a),\Eone(b))$, which is ruled out by generated-history
+no-confusion.  The exchanged direction is identical with the zero and one
+constructors swapped.
+\end{proof}
+
 \begin{theorem}[Continuation unit laws]
 \label{thm:continuation-unit-laws-spine}
 For every generated history $h$, $\ContR(h,\emp,h)$. Moreover, for every generated history $k$, $\ContR(\emp,k,k)$, and if $\ContR(h,\emp,r)$, then $\HSame(r,h)$.
