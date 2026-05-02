@@ -49,6 +49,23 @@ MECHANICAL_ARITY_RE = re.compile(
 PARAMETER_ECHO_BIND_RE = re.compile(
     r"\(\s*(\w+)\s*:\s*(?:∀|forall)\b[^)]*hsame\b", re.DOTALL
 )
+PARAMETER_ECHO_CONCL_RE = re.compile(
+    r"(?:∀|forall)\b[^,]*,[^.]*hsame\b", re.DOTALL
+)
+
+
+def _extract_conclusion(sig: str) -> str:
+    """Return the part of `sig` after the last top-level `:` (the goal type)."""
+    depth = 0
+    last_colon = -1
+    for i, ch in enumerate(sig):
+        if ch in "({[":
+            depth += 1
+        elif ch in ")}]":
+            depth -= 1
+        elif ch == ":" and depth == 0:
+            last_colon = i
+    return sig[last_colon + 1:] if last_colon >= 0 else sig
 BHIST_CONSTRUCTOR_RE = re.compile(
     r"\b("
     r"BHist|BMark|Empty|e0|e1|cons|append|sameSig|"
@@ -130,7 +147,9 @@ def main() -> int:
         sig = body.split(":=")[0]
         is_derived = declaration_in_derived(args.worktree, name)
         if PARAMETER_ECHO_BIND_RE.search(sig):
-            echo_hits.append(name)
+            conclusion = _extract_conclusion(sig)
+            if PARAMETER_ECHO_CONCL_RE.search(conclusion):
+                echo_hits.append(name)
         if is_derived and not BHIST_CONSTRUCTOR_RE.search(sig):
             anchor_hits.append(name)
 
