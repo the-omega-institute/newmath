@@ -10,6 +10,112 @@ The linear map interface \(\LinearMapUp\) has certificate obligations between tw
 Use a structure containing a function \(f:V\to W\) plus explicit proofs of additivity and scalar compatibility.
 \end{definition}
 
+\section{Concrete singleton linear-map instance}
+\label{sec:linearmap-concrete-singleton-instance}
+
+\begin{definition}[Singleton empty-history linear-map instance]
+\label{def:singleton-empty-history-linearmap-instance}
+Use the singleton empty-history vector space of
+Definition~\ref{def:singleton-empty-history-vecspace-instance} as both domain
+and codomain, over its displayed singleton field. Let the public map names be
+$\mathsf{BHist}$ codes and define the unique linear-map carrier by
+$$
+L_{\emp}(f):=\hsame(f,\emp).
+$$
+The map classifier is
+$$
+\lambda_{\emp}(f,g):=
+L_{\emp}(f)\land L_{\emp}(g)\land\hsame(f,g).
+$$
+The host-level function component is the constant map from the singleton
+domain endpoint to the singleton codomain endpoint. Equivalently, use the
+constant singleton graph
+$$
+\mathsf{Eval}_{\emp}(f,v,w):=
+L_{\emp}(f)\land A_{\emp}(v)\land A_{\emp}(w)\land\hsame(w,\emp),
+$$
+with chosen endpoint evaluation
+$$
+\mathsf{ev}_{\emp}(f,v):=\emp.
+$$
+Set the identity map code and composite map code to
+$$
+\mathsf{id}_{\emp}:=\emp,\qquad
+\mathsf{comp}_{\emp}(g,f):=\emp.
+$$
+\end{definition}
+
+\begin{theorem}[Singleton empty-history linear-map laws]
+\label{thm:singleton-empty-history-linearmap-laws}
+For the singleton vector spaces of
+Definition~\ref{def:singleton-empty-history-vecspace-instance}, the data
+$$
+(A_{\emp},\rho_{\emp},L_{\emp},\lambda_{\emp},
+\mathsf{ev}_{\emp},\mathsf{id}_{\emp},\mathsf{comp}_{\emp})
+$$
+satisfy the concrete $\LinearMapUp$ law package:
+\begin{enumerate}
+  \item $L_{\emp}(\emp)$, so the linear-map carrier is inhabited.
+  \item For all map codes $f,g$,
+  $$
+  \lambda_{\emp}(f,g)\Longleftrightarrow
+  L_{\emp}(f)\land L_{\emp}(g)\land\hsame(f,g).
+  $$
+  \item Evaluation respects map and vector classification:
+  $\lambda_{\emp}(f,g)$ and $\rho_{\emp}(v,w)$ imply
+  $\rho_{\emp}(\mathsf{ev}_{\emp}(f,v),\mathsf{ev}_{\emp}(g,w))$.
+  \item Each carried map preserves vector addition and scalar multiplication.
+  \item $\mathsf{id}_{\emp}$ is carried, and
+  $\mathsf{comp}_{\emp}(g,f)$ is carried whenever $f$ and $g$ are carried.
+  \item Left identity, right identity, and associativity of composition hold
+  under $\lambda_{\emp}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The domain and codomain vector-space fields are exactly the singleton
+empty-history fields of
+Theorem~\ref{thm:singleton-empty-history-vecspace-laws}. Thus every scalar
+code, vector code, vector operation endpoint, and scalar-action endpoint is
+classified at the singleton endpoint $\emp$.
+
+Carrier inhabitance follows from reflexivity of $\hsame(\emp,\emp)$. The
+classifier statement is the displayed definition of $\lambda_{\emp}$, with
+symmetry and transitivity of $\hsame$ available for the usual classifier
+symmetry and transitivity clauses.
+
+For evaluation respect, both chosen endpoints
+$\mathsf{ev}_{\emp}(f,v)$ and $\mathsf{ev}_{\emp}(g,w)$ reduce to $\emp$.
+The singleton carrier witnesses for $\emp$ and reflexivity of $\hsame$ assemble
+the required $\rho_{\emp}$ witness, independent of the particular carried map
+and vector names.
+
+For additivity, the source side
+$\mathsf{ev}_{\emp}(f,\mathsf{add}(v,w))$ and the target side
+$\mathsf{add}(\mathsf{ev}_{\emp}(f,v),\mathsf{ev}_{\emp}(f,w))$ both reduce to
+the singleton endpoint. The vector-space theorem supplies closure of the
+displayed addition endpoint, and $\hsame$ reflexivity supplies the classifier
+component.
+
+For scalar compatibility,
+$\mathsf{ev}_{\emp}(f,\mathsf{smul}(r,v))$ and
+$\mathsf{smul}(r,\mathsf{ev}_{\emp}(f,v))$ again reduce to $\emp$. Closure and
+classification are the singleton vector-space closure witness and
+$\hsame(\emp,\emp)$.
+
+The identity code and every composite code are definitionally $\emp$, so
+$L_{\emp}(\mathsf{id}_{\emp})$ and
+$L_{\emp}(\mathsf{comp}_{\emp}(g,f))$ follow from reflexivity. The left and
+right identity comparisons reduce to comparing carried map codes with
+$\emp$; the carrier witnesses $L_{\emp}(f)$ or $L_{\emp}(g)$ provide the
+needed endpoint links, using symmetry when the displayed direction is reversed.
+
+For associativity, both composite codes
+$\mathsf{comp}_{\emp}(h,\mathsf{comp}_{\emp}(g,f))$ and
+$\mathsf{comp}_{\emp}(\mathsf{comp}_{\emp}(h,g),f)$ are $\emp$. The two carrier
+witnesses and reflexivity of $\hsame$ give the final
+$\lambda_{\emp}$ comparison.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[LinearMap source specification]
@@ -57,4 +163,3 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:linearmap-zero-axiom-note}
 Avoids funext by using pointwise classifier sameness instead of equality of functions.
 \end{remark}
-
