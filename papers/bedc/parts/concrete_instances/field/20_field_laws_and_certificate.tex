@@ -29,17 +29,23 @@ The stability certificate consists of:
 
 \begin{theorem}[Field inverse congruence from apartness transport]
 \label{thm:field-inverse-congruence-from-apartness}
-For a BEDC history-level $\FieldUp$ candidate with BHist elements, commutative-ring classifier $\sim_F$, unary nonzero certificate $\mathsf{NonZero}_F$, inverse operation $\mathsf{inv}(a,p)$ indexed by $p:\mathsf{NonZero}_F(a)$, classifier transport of nonzero evidence, and left and right inverse laws indexed by nonzero witnesses, if $a\sim_F b$ and $p:\mathsf{NonZero}_F(a)$ while $q:\mathsf{NonZero}_F(b)$ is the transported witness along $a\sim_F b$, then $\mathsf{inv}(a,p)\sim_F\mathsf{inv}(b,q)$.
+For a BEDC history-level $\FieldUp$ candidate supplying multiplication on $\mathsf{BHist}$, a unit $1$, a unary nonzero certificate $\mathsf{NonZero}_F$, an inverse operation $\mathsf{inv}(a,p)$ indexed by $p:\mathsf{NonZero}_F(a)$, multiplicative associativity, left and right unit laws, multiplication congruence under $\hsame$, and left and right inverse laws indexed by nonzero witnesses, if $a\hsame b$, $p:\mathsf{NonZero}_F(a)$, and $q:\mathsf{NonZero}_F(b)$ is any available witness, then $\mathsf{inv}(a,p)\hsame\mathsf{inv}(b,q)$. When $q$ is obtained from $p$ along $a\hsame b$, the certificate transport clause supplies that witness.
 \end{theorem}
 \begin{proof}
-Transport the left inverse law for $\mathsf{inv}(a,p)$ across $a\sim_F b$ to obtain a left inverse witness over $b$. Combine this transported witness with the right inverse law for $\mathsf{inv}(b,q)$ at $b$. The group left/right inverse uniqueness argument, applied inside the multiplicative group of nonzero field elements, identifies the transported inverse with the chosen inverse at $b$.
+Transport the left inverse law for $\mathsf{inv}(a,p)$ across $a\hsame b$ to obtain a left inverse witness over $b$. Combine this transported witness with the right inverse law for $\mathsf{inv}(b,q)$ at $b$. The group left/right inverse uniqueness argument, applied inside the multiplicative group of nonzero field elements, identifies the transported inverse with the chosen inverse at $b$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_inverse\_congruence\_from\_apartness}
 
 \begin{theorem}[Field inverse cancel from apartness-indexed inverses]
 \label{thm:field-inverse-cancel-from-apartness}
-For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
-if $\mathsf{inv}(a,p)\hsame\mathsf{inv}(b,q)$, then $a\hsame b$.
+For a BEDC history-level $\FieldUp$ candidate supplying multiplication on
+$\mathsf{BHist}$, a unit $1$, a unary nonzero certificate
+$\mathsf{NonZero}_F$, an inverse operation $\mathsf{inv}(a,p)$ indexed by
+$p:\mathsf{NonZero}_F(a)$, multiplicative associativity, left and right unit
+laws, multiplication congruence under $\hsame$, and left and right inverse
+laws indexed by nonzero witnesses, if $p:\mathsf{NonZero}_F(a)$,
+$q:\mathsf{NonZero}_F(b)$, and
+$\mathsf{inv}(a,p)\hsame\mathsf{inv}(b,q)$, then $a\hsame b$.
 \end{theorem}
 \begin{proof}
 Transport the left inverse law for $a$ across the equality of
