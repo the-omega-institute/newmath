@@ -118,6 +118,29 @@ theorem field_rat_denominator_continuation_common_context_cancel
     cont_cancel_common_context leftPrefix leftSuffix rightPrefix rightSuffix classified.right.right
   exact ⟨carrierD, carrierE, sameDE⟩
 
+theorem field_rat_denominator_continuation_common_context_classifier_exactness
+    {p q d e pd pe left right : BHist} :
+    UnaryHistory p -> UnaryHistory q -> RatHistoryCarrier d -> RatHistoryCarrier e ->
+      Cont p d pd -> Cont p e pe -> Cont pd q left -> Cont pe q right ->
+        (RatHistoryClassifier d e <-> RatHistoryClassifier left right) := by
+  intro prefixUnary suffixUnary carrierD carrierE leftPrefix rightPrefix leftSuffix rightSuffix
+  constructor
+  · intro classified
+    have contextClassified :
+        RatHistoryClassifier (append p (append d q)) (append p (append e q)) :=
+      RatHistoryClassifier_unary_denominator_context_closed classified prefixUnary
+        (hsame_refl p) suffixUnary (hsame_refl q)
+    have sameLeft : hsame (append p (append d q)) left :=
+      (append_assoc p d q).symm.trans
+        ((congrArg (fun x => append x q) leftPrefix.symm).trans leftSuffix.symm)
+    have sameRight : hsame (append p (append e q)) right :=
+      (append_assoc p e q).symm.trans
+        ((congrArg (fun x => append x q) rightPrefix.symm).trans rightSuffix.symm)
+    exact RatHistoryClassifier_hsame_transport sameLeft sameRight contextClassified
+  · intro classified
+    exact field_rat_denominator_continuation_common_context_cancel prefixUnary suffixUnary
+      carrierD carrierE leftPrefix rightPrefix leftSuffix rightSuffix classified
+
 theorem field_rat_denominator_continuation_classifier_assoc_congruence
     {d d' e e' f f' de de' ef ef' left left' right right' : BHist} :
     RatHistoryClassifier d d' -> RatHistoryClassifier e e' -> RatHistoryClassifier f f' ->

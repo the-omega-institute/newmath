@@ -78,4 +78,25 @@ theorem ContinuationMorphism_e1_source_tail_cases {a target : BHist}
               exact Exists.intro k
                 (Exists.intro r (And.intro rfl (And.intro data.left data.right)))
 
+theorem ContinuationMorphism_e1_source_e0_target_tail_cases {a r : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e0 r)) :
+    Exists (fun k : BHist => hsame m.tail (BHist.e0 k) ∧ Cont (BHist.e1 a) k r) := by
+  cases m with
+  | mk tail rel =>
+      cases tail with
+      | Empty =>
+          exact False.elim (not_hsame_e1_e0 rel.symm)
+      | e0 k =>
+          have resultCases := cont_step_result_inversions.left rel
+          cases resultCases with
+          | intro r0 data =>
+              have sameR : r = r0 := BHist.e0.inj data.left
+              cases sameR
+              exact Exists.intro k (And.intro (hsame_refl (BHist.e0 k)) data.right)
+      | e1 k =>
+          have resultCases := cont_step_result_inversions.right rel
+          cases resultCases with
+          | intro r1 data =>
+              exact False.elim (not_hsame_e0_e1 data.left)
+
 end BEDC.Derived.CategoryUp
