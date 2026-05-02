@@ -886,12 +886,15 @@ def _run_target_safe(args: argparse.Namespace, target: BedcTarget) -> dict:
     except KeyboardInterrupt:
         raise
     except Exception as exc:
-        print(f"[loop] target {target.target_id} crashed: {exc}", flush=True)
+        import traceback
+        tb = traceback.format_exc()
+        print(f"[loop] target {target.target_id} crashed: {exc}\n{tb}", flush=True)
         crash_state = {
             "target_id": target.target_id,
             "title": target.title,
             "stage1_verdict": "crashed",
             "error": str(exc),
+            "traceback": tb[-4000:],
             "completed_at": _now_iso(),
         }
         cursor_attempts = int((load_cursor(target).get("attempts") or 1))
