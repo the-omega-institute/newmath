@@ -49,6 +49,32 @@ $\ContR(\emp,modulus,target)$ from the same classifier equality.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_source\_iff}
 
+\begin{theorem}[Continuous modulus witness empty-modulus exactness]
+\label{thm:continuous-modulus-witness-empty-modulus-iff}
+For histories $source$ and $target$, a one-step modulus witness whose modulus
+is empty is exactly unary source evidence, unary target evidence, and classifier
+equality between the source and the target:
+$$
+\mathsf{ContinuousModulusWitness}(source,\emp,target)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(source)\land
+\mathsf{UnaryHistory}(target)\land
+\hsame(source,target).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness. Its continuation ledger is
+$\ContR(source,\emp,target)$, so the right-unit continuation theorem identifies
+$target$ with $source$. Symmetry gives the displayed endpoint classifier, and
+the source and target unary fields are already present in the witness.
+
+Conversely, use the empty-history unary constructor for the modulus. The
+supplied endpoint classifier, after symmetry, is exactly the right-unit
+continuation equivalence needed to rebuild $\ContR(source,\emp,target)$.
+Together with the two unary endpoint fields, this reassembles the witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_modulus\_iff}
+
 \begin{theorem}[Continuous function carrier composition closure]
 \label{thm:continuous-function-carrier-comp-closed}
 If $f$ carries a source history to a middle history with modulus $modF$, and

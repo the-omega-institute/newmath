@@ -189,6 +189,7 @@ import BEDC.Derived.FieldUp.PositiveDenominatorAppendSplit
 import BEDC.Derived.FieldUp.EmptyOffsetComposition
 import BEDC.Derived.FieldUp.ContextualAction
 import BEDC.Derived.FieldUp.RatDenomContextPair
+import BEDC.Derived.FieldUp.EmptyUnitCancellation
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
@@ -212,6 +213,7 @@ import BEDC.Derived.ContinuousUp.ModulusWitnessPublicReadback
 import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ResultCases
 import BEDC.Derived.ContinuousUp.EmptySource
+import BEDC.Derived.ContinuousUp.EmptyModulus
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
