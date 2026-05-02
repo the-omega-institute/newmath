@@ -152,6 +152,56 @@ denominator-action envelope, contextual-action, context-pair,
 strict-support commutation, and affine exactness rows; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp contextual action support transports across context-pair classifiers]
+\label{thm:field-rat-denominator-contextual-action-pair-transport-support}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose
+$C_D^u(h)$ and suppose that $(l,r)$, $(s,t)$, $(l',r')$, and $(s',t')$ are
+carried denominator context pairs. If
+$\mathsf{PairClass}_D^u((l,r),(s,t))$ and
+$\mathsf{PairClass}_D^u((l',r'),(s',t'))$, and if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then strict
+support is invariant under the transported two-layer contextual action:
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-composition-closure}
+to the left pair of carried contexts and the empty endpoint hypotheses. Its
+support row reads the left nested action as the disjunction of the common core
+$N_D^u(h)$ with the four strict-support terms from $(l,r)$ and $(l',r')$.
+
+Apply the same composition-closure theorem to $(s,t)$ and $(s',t')$. This reads
+the right nested action as the same core term $N_D^u(h)$ together with the four
+strict-support terms from the transported context pairs.
+
+Next use
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support} on both
+context-pair products. The four support terms on the left are exactly strict
+support of $\mu_D^u(\mu_D^u(l',l),\mu_D^u(r,r'))$, while the four support terms
+on the right are strict support of
+$\mu_D^u(\mu_D^u(s',s),\mu_D^u(t,t'))$.
+
+The componentwise pair classifiers are the hypotheses required by
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-transport}.
+They transport the product strict-support term between the two context-pair
+products.
+
+For the forward direction, use the left composition readback. A core-support
+witness $N_D^u(h)$ is inserted directly into the right composition readback. A
+context-product support witness is transported across the product pair and then
+inserted into the corresponding four context disjuncts on the right.
+
+The reverse direction is symmetric. Use the right composition readback, transport
+the product-pair support term back across the same classifier equivalence, keep
+the common core support fixed, and close with the left composition readback.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp semantic certificate assembly]
 \label{thm:ratup-fieldup-semantic-certificate-assembly}
 For the concrete $\mathsf{BHist}$ data
