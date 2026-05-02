@@ -56,6 +56,53 @@ the rational field; status ProofTarget.
 
 \input{parts/concrete_instances/field/20_field_laws_and_certificate}
 
+\section{Field affine explicit inverse}
+\label{sec:field-affine-explicit-inverse}
+
+\begin{theorem}[Field two-sided affine expression has explicit inverse]
+\label{thm:field-affine-two-sided-explicit-inverse}
+For a BEDC history-level $\FieldUp$ candidate with the same operations,
+additive laws, multiplication laws, congruence data, and indexed inverse laws
+as in
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness}, let
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ be the two
+nonzero witnesses for the left and right affine factors. For each
+$c:\mathsf{BHist}$ define
+$$
+s(c)=
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b))).
+$$
+Then every $c,x,y:\mathsf{BHist}$ satisfies the following three clauses.
+\begin{enumerate}
+\item $\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,s(c)),b),d)\hsame c$.
+\item If
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$, then
+$x\hsame s(c)$.
+\item If
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d),
+$$
+then $x\hsame y$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the displayed preimage, instantiate
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness} at
+$x=s(c)$. The reverse implication only needs the reflexive classifier
+equality $s(c)\hsame s(c)$, so it produces
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,s(c)),b),d)\hsame c$.
+
+For uniqueness of any solution, use the forward implication of the same
+exactness theorem. An assumed classification of the affine expression at
+$x$ with $c$ is transported directly to $x\hsame s(c)$.
+
+For equality of two affine expressions, apply
+\autoref{thm:field-affine-two-sided-injective-from-apartness} to the assumed
+classifier equality. Its conclusion is exactly $x\hsame y$.
+\end{proof}
+
 \begin{theorem}[Field equal-squares signed factors cannot both be nonzero]
 \label{thm:field-equal-squares-signed-factors-not-both-nonzero}
 For a BEDC history-level $\FieldUp$ candidate with the hypotheses of
