@@ -241,6 +241,28 @@ tails.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_factor\_tail\_hsame}
 
+\begin{theorem}[Continuation morphism composite middle-tail readback]
+\label{thm:continuation-morphism-comp-middle-tail-readback}
+For histories $a,b,b',c$, let $left:a\to b$, $right:b'\to c$, and
+$composite:a\to c$ be continuation morphisms. If the tail of $composite$ is
+displayed as the continuation composite of the tails of $left$ and $right$,
+then
+$$
+\hsame(b,b')\land
+\hsame\bigl(\mathsf{append}(\mathsf{tail}(left),\mathsf{tail}(right)),
+\mathsf{tail}(composite)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the left and composite continuation morphism records. The left witness,
+the displayed tail factorization, and the composite witness reassociate to a
+continuation witness from $b$ through the tail of $right$ to $c$. Comparing
+this recovered witness with $right$ by continuation right cancellation gives
+$\hsame(b,b')$. The displayed tail factorization itself gives the readback of
+the appended tail against the composite tail.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_middle\_tail\_readback}
+
 \begin{definition}[Continuation morphism composite left factor]
 \label{def:continuation-morphism-composite-left-factor}
 For histories $a,b,c$ and a displayed tail $l$, let $right:b\to c$ and

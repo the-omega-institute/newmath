@@ -175,4 +175,14 @@ theorem FpsSingletonEmptyHistoryClassifier_append_pair_split_empty_iff {p q r s 
                   ⟨leftCarrier, rightCarrier,
                     hsame_trans leftCarrier (hsame_symm rightCarrier)⟩
 
+theorem FpsSingletonEmptyHistoryClassifier_cont_split_empty {p q h : BHist} :
+    Cont p q h -> FpsSingletonEmptyHistoryClassifier h BHist.Empty ->
+      FpsSingletonEmptyHistoryCarrier p ∧ FpsSingletonEmptyHistoryCarrier q := by
+  intro contRel classifier
+  cases contRel
+  have split :=
+    FpsSingletonEmptyHistoryClassifier_append_split_empty_iff
+      (p := p) (q := q) (h := BHist.Empty) |>.mp classifier
+  exact And.intro split.left split.right.left
+
 end BEDC.Derived.FpsUp

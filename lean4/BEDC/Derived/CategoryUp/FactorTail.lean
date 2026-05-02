@@ -35,4 +35,21 @@ theorem ContinuationMorphism_comp_left_factor_tail_hsame {a b c l : BHist}
                 cont_composite_left_factor rightRel tailRel compositeRel
               exact cont_left_cancel recovered leftRel
 
+theorem ContinuationMorphism_comp_middle_tail_readback {a b b' c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b' c)
+    (composite : ContinuationMorphism a c)
+    (tailRel : Cont left.tail right.tail composite.tail) :
+    hsame b b' ∧ hsame (append left.tail right.tail) composite.tail := by
+  cases left with
+  | mk leftTail leftRel =>
+      cases composite with
+      | mk compositeTail compositeRel =>
+          have recoveredRel : Cont b right.tail c := by
+            cases leftRel
+            cases tailRel
+            exact cont_intro (compositeRel.trans (append_assoc a leftTail right.tail).symm)
+          have sameMiddle : hsame b b' :=
+            cont_right_cancel recoveredRel right.rel
+          exact And.intro sameMiddle tailRel.symm
+
 end BEDC.Derived.CategoryUp

@@ -184,6 +184,22 @@ supplies the classifier comparison between the two appended histories.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_pair\_split\_empty\_iff}
 
+\begin{theorem}[Singleton FPS classifier continuation split empty]
+\label{thm:fps-singleton-empty-history-classifier-cont-split-empty}
+For $p,q,h:\mathsf{BHist}$, if $\ContR(p,q,h)$ and
+$\rho_{\emp}(h,\emp)$, then
+$$
+A_{\emp}(p)\land A_{\emp}(q).
+$$
+\end{theorem}
+\begin{proof}
+Invert the continuation ledger to identify $h$ with
+$\mathsf{append}(p,q)$. The classifier premise then has the shape handled by
+Theorem~\ref{thm:fps-singleton-classifier-append-split-empty}; projecting its
+forward direction gives the two empty-history carrier facts for $p$ and $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_cont\_split\_empty}
+
 \section{The certificate}
 
 \begin{definition}[FormalPowerSeries source specification]
