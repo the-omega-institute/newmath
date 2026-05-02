@@ -439,6 +439,53 @@ multiplication exactness, strict-support transport and product exactness,
 strict-factor cancellation, unique external unit, and absence of a carried
 denominator unit; \textbf{status}: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp denominator row exhaustion]
+\label{thm:ratup-fieldup-denominator-row-exhaustion}
+Let
+$$
+\mathcal{M}_D^\ast=(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)
+$$
+be the concrete multiplicative tuple of
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance},
+and let
+$$
+\mathcal{C}_D^u=(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)
+$$
+be the concrete contextual tuple of
+\autoref{def:field-rat-denominator-fieldup-contextual-certificate-instance}.
+Every denominator-side $\FieldUp(\mathsf{RatUp})$ row used in this parent
+chapter is supplied by either the multiplicative certificate record for
+$\mathcal{M}_D^\ast$ or the contextual certificate coverage for
+$\mathcal{C}_D^u$, with their shared tuple alignment governed by
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly}. Thus the full
+denominator certificate is a concrete $\mathsf{BHist}$ target: the carrier and
+classifier are the predicates $\mathsf{RatDenomUnitCarrier}$ and
+$\mathsf{RatDenomUnitClassifier}$, multiplication is $\mathsf{append}$, strict
+support is $\mathsf{RatHistoryCarrier}$, empty external contexts are the only
+context witnesses, and no carried denominator unit is introduced.
+\end{theorem}
+\begin{proof}
+The multiplicative source is
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-record}.
+It supplies the carrier, unit, associativity, commutativity, congruence,
+strict-support, cancellation, and empty-product rows for
+$\mathcal{M}_D^\ast$.
+
+The contextual source is
+\autoref{thm:field-rat-denominator-fieldup-contextual-obligation-coverage}. It
+supplies the empty-context rows and fixed-factor contextual rows for
+$\mathcal{C}_D^u$, with contextual support read through the same carried
+denominator endpoint predicate.
+
+Finally,
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly} identifies the
+common $\mathsf{BHist}$ carrier, classifier, append multiplication, empty
+endpoint, and strict-support predicate that the two sources share. The same
+assembly also records that the empty endpoint is external to the carried
+denominator branch, so the combined denominator-side certificate has no carried
+denominator unit.
+\end{proof}
+
 \begin{definition}[RatUp FieldUp denominator contextual action instance]
 \label{def:ratup-fieldup-denominator-contextual-action-instance}
 The concrete denominator contextual action instance for
