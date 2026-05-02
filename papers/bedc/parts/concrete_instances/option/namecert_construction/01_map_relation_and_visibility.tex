@@ -1,0 +1,377 @@
+\input{parts/concrete_instances/option/01_nullable_option_namecert}
+\input{parts/concrete_instances/option/02_tagged_option_namecert}
+\input{parts/concrete_instances/option/02b_option_certificate_chains}
+\input{parts/concrete_instances/option/03_tagged_option_right_visible_branch}
+\input{parts/concrete_instances/option/04_tagged_option_nullable_bridge}
+\input{parts/concrete_instances/option/05_tagged_option_branch_readback}
+\input{parts/concrete_instances/option/06_tagged_option_payload_descent}
+\input{parts/concrete_instances/option/07_tagged_option_payload_descent_image}
+\input{parts/concrete_instances/option/08_tagged_option_payload_descent_image_classifier}
+\input{parts/concrete_instances/option/08_option_namecert_construction_core}
+\input{parts/concrete_instances/option/08_option_namecert_construction_readback}
+\input{parts/concrete_instances/option/08_option_normalized_public_endpoint_readback}
+\input{parts/concrete_instances/option/08_option_composite_image_classifier_public_branch}
+\input{parts/concrete_instances/option/09_exclusive_classifier_branch_readback}
+\input{parts/concrete_instances/option/10_payload_descent_image_classifier_public_package}
+\input{parts/concrete_instances/option/10_payload_descent_image_classifier_readback_and_stability}
+\input{parts/concrete_instances/option/11_payload_descent_image_classifier_visible_pair_coherence}
+\input{parts/concrete_instances/option/12_composite_image_public_constructor_and_readback}
+\input{parts/concrete_instances/option/13_composite_image_normalized_readback}
+\input{parts/concrete_instances/option/14_composite_image_classifier_normalized_readback}
+\input{parts/concrete_instances/option/15_composite_image_classifier_normalized_visible_classification}
+\input{parts/concrete_instances/option/16_composite_image_classifier_normalized_selected_public_factorization}
+\input{parts/concrete_instances/option/17_composite_image_classifier_normalized_one_sided_public_completion}
+\input{parts/concrete_instances/option/18_composite_image_classifier_normalized_absent_public_factorization}
+
+\section{Tagged option map relation constructor normal form}
+\label{sec:option-maprel-constructor-normal-form}
+
+\begin{theorem}[Tagged option map relation constructor normal form]
+\label{thm:tagged-option-maprel-constructor-normal-form}
+This theorem fits the per-object template as follows: the traditional target is
+constructor-facing readback for the tagged option map relation; the BEDC source
+is $\mathsf{BHist}$ with one $\mathsf{DescentCertificate}$ map; the carrier is
+the visible tagged option endpoint shape; the classifier is the source and
+target history classifiers carried by the descent certificate; the stability
+obligation is branch preservation, payload readback, and zero-tag exclusion; the
+ledger records the absent branch, the present branch, and the absence of
+zero-tag endpoints; the core theorem is the displayed constructor normal form;
+exactness says a map-relation witness has exactly the empty branch or a
+transported one-payload branch; the standard bridge is $\mathsf{none}$/$\mathsf{some}$
+map readback; and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source and target
+carriers, let $\sim_S$ and $\sim_T$ be their classifiers, let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T),
+$$
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+For histories $h,k:\mathsf{BHist}$, every witness
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+implies the following clauses simultaneously.
+\begin{enumerate}
+  \item Every zero-tag presentation is impossible at either endpoint:
+  $$
+  \forall t:\mathsf{BHist}.\;
+  (\hsame(h,\Ezero(t))\to\bot)\land
+  (\hsame(k,\Ezero(t))\to\bot).
+  $$
+
+  \item The absent branch is visible on both sides:
+  $$
+  \hsame(h,\emp)\Longleftrightarrow\hsame(k,\emp).
+  $$
+
+  \item The present branch is visible on both sides:
+  $$
+  (\exists a:\mathsf{BHist}.\;S(a)\land\hsame(h,\Eone(a)))
+  \Longleftrightarrow
+  (\exists b:\mathsf{BHist}.\;T(b)\land\hsame(k,\Eone(b))).
+  $$
+
+  \item Visible source and target payloads read back to one transported
+  payload:
+  $$
+  \forall u\,v:\mathsf{BHist}.\;
+  S(u)\land\hsame(h,\Eone(u))\land
+  T(v)\land\hsame(k,\Eone(v))
+  \to
+  \exists a:\mathsf{BHist}.\;
+  S(a)\land T(\delta.\mathsf{map}(a))\land
+  \hsame(u,a)\land\hsame(v,\delta.\mathsf{map}(a)).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Split the map-relation witness into its absent and present branches. In the
+absent branch, the stored endpoint presentations are $\hsame(h,\emp)$ and
+$\hsame(k,\emp)$; in the present branch, the stored presentations are
+$\hsame(h,\Eone(a))$ and
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$ for the exposed payload $a$.
+
+First prove zero-tag exclusion. Fix $t:\mathsf{BHist}$. In the absent branch,
+any presentation $\hsame(h,\Ezero(t))$ or $\hsame(k,\Ezero(t))$ composes with
+the corresponding empty presentation and contradicts generated-history
+no-confusion between $\emp$ and $\Ezero(t)$. In the present branch, any such
+presentation composes with the corresponding one-tag presentation and
+contradicts generated-history no-confusion between $\Eone$ and $\Ezero$.
+
+Next obtain the visible branch clauses by applying
+Theorem~\ref{thm:tagged-option-maprel-visible-branch-equivalence} to the same
+map-relation witness. Its two projections are exactly the absent-branch
+equivalence and the present-branch equivalence in the statement.
+
+Finally let $u,v:\mathsf{BHist}$ be visible source and target payloads with the
+displayed endpoint presentations. Apply
+Theorem~\ref{thm:tagged-option-maprel-visible-payload-readback} to the
+map-relation witness and to these four visible payload facts. The produced
+payload $a$ carries $S(a)$, $T(\delta.\mathsf{map}(a))$, and the two readback
+witnesses required by the last clause.
+\end{proof}
+
+\section{Tagged option map relation shared-source target normal form}
+\label{sec:option-maprel-shared-source-target-normal-form}
+
+\begin{theorem}[Tagged option map relation shared-source target normal form]
+\label{thm:tagged-option-maprel-shared-source-target-normal-form}
+This theorem fits the per-object template as follows: the traditional target is
+tagged option map determinacy at public target endpoints; the BEDC source is
+$\mathsf{BHist}$ with one $\mathsf{DescentCertificate}$ map; the carrier is the
+visible tagged option endpoint shape; the classifier uses the source and target
+history classifiers carried by the descent certificate; the stability
+obligation is shared-source branch preservation together with payload
+transport; the ledger records absent and present public endpoints; the core
+theorem is the displayed two-witness normal form; exactness is
+absent-or-synchronized-present exhaustion; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$ map readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source and target
+carriers, let $\sim_S$ and $\sim_T$ be their classifiers, let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T),
+$$
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Assume also $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For
+histories $h,k,k'$, if
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k')
+$$
+then either
+$$
+\hsame(h,\emp)\land\hsame(k,\emp)\land\hsame(k',\emp),
+$$
+or there exist $a,b:\mathsf{BHist}$ such that
+$$
+S(a)\land S(b)\land a\sim_S b
+\land T(\delta.\mathsf{map}(a))
+\land T(\delta.\mathsf{map}(b))
+\land \hsame(h,\Eone(a))
+\land \hsame(h,\Eone(b))
+\land \hsame(k,\Eone(\delta.\mathsf{map}(a)))
+\land \hsame(k',\Eone(\delta.\mathsf{map}(b)))
+\land \mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+Split the first map-relation witness.
+
+In the absent branch, the first witness presents the shared source endpoint as
+$\hsame(h,\emp)$ and the target endpoint as $\hsame(k,\emp)$. Split the second
+map-relation witness. Its absent branch contributes $\hsame(k',\emp)$, so the
+absent alternative follows. Its present branch would present the same source
+endpoint as $\hsame(h,\Eone(b))$ for some payload $b$. Composing the two source
+presentations contradicts generated-history empty-versus-one no-confusion, so
+that branch is impossible.
+
+In the present branch of the first witness, expose a payload $a$ with $S(a)$,
+$T(\delta.\mathsf{map}(a))$, source presentation $\hsame(h,\Eone(a))$, and
+target presentation $\hsame(k,\Eone(\delta.\mathsf{map}(a)))$. Split the
+second map-relation witness. Its absent branch presents the shared source as
+$\hsame(h,\emp)$, which again contradicts empty-versus-one no-confusion after
+composition with $\hsame(h,\Eone(a))$.
+
+It remains to handle the present/present branch. The second witness exposes a
+payload $b$ with $S(b)$, $T(\delta.\mathsf{map}(b))$, source presentation
+$\hsame(h,\Eone(b))$, and target presentation
+$\hsame(k',\Eone(\delta.\mathsf{map}(b)))$.
+
+Invert the two one-tag presentations of the shared source endpoint to obtain
+$\hsame(a,b)$. Source hsame compatibility converts $S(a)$, $S(b)$, and
+$\hsame(a,b)$ into $a\sim_S b$. Applying $\delta.\mathsf{respects}$ gives
+$\delta.\mathsf{map}(a)\sim_T\delta.\mathsf{map}(b)$.
+
+The two target carrier witnesses, the two target endpoint presentations, and
+this transported payload relation assemble the present-present branch of
+$\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')$. Package $a$ and $b$
+with the retained source facts, target facts, endpoint presentations, source
+classification, and target classifier.
+\end{proof}
+
+\begin{theorem}[Tagged option map relation exclusive visible readback is single-valued]
+\label{thm:tagged-option-maprel-exclusive-visible-readback-single-valued}
+This theorem fits the per-object template as follows: the traditional target is
+constructor-facing option map readback; the BEDC source is $\mathsf{BHist}$ with
+one $\mathsf{DescentCertificate}$; the carrier is the visible tagged option
+endpoint shape; the classifiers are the source and target classifiers
+transported by the descent certificate; the stability obligations are branch
+preservation, no-confusion, and one-constructor inversion; the ledger separates
+the absent branch from the transported present branch; the core theorem is
+exclusive visible readback with uniqueness; exactness is a disjoint
+absent-or-present map-relation package; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$ map readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source and target
+carriers, let $\sim_S$ and $\sim_T$ be their classifiers, let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T),
+$$
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+For histories $h,k:\mathsf{BHist}$, every witness
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+implies exactly one of the following visible readback branches.
+\begin{enumerate}
+  \item The absent branch holds on both endpoints:
+  $$
+  \hsame(h,\emp)\land
+  \hsame(k,\emp)\land
+  (\forall a':\mathsf{BHist}.\;S(a')\to\hsame(h,\Eone(a'))\to\bot)\land
+  (\forall b:\mathsf{BHist}.\;T(b)\to\hsame(k,\Eone(b))\to\bot).
+  $$
+
+  \item The present branch has one visible source payload and its transported
+  target payload:
+  $$
+  \exists a:\mathsf{BHist}.\;
+  S(a)\land
+  T(\delta.\mathsf{map}(a))\land
+  \hsame(h,\Eone(a))\land
+  \hsame(k,\Eone(\delta.\mathsf{map}(a)))\land
+  (\hsame(h,\emp)\to\bot)\land
+  (\hsame(k,\emp)\to\bot)\land
+  (\forall a':\mathsf{BHist}.\;S(a')\to\hsame(h,\Eone(a'))\to\hsame(a,a'))\land
+  (\forall b:\mathsf{BHist}.\;T(b)\to
+    \hsame(k,\Eone(b))\to\hsame(b,\delta.\mathsf{map}(a))).
+  $$
+\end{enumerate}
+The two displayed alternatives are disjoint, so the map-relation witness packages
+the absent case and the single-valued visible present readback without any
+additional endpoint choice.
+\end{theorem}
+\begin{proof}
+Case-analyze the
+$\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)$ witness.
+
+In the absent branch, the constructor supplies $\hsame(h,\emp)$ and
+$\hsame(k,\emp)$. If a source presentation $\hsame(h,\Eone(a'))$ were also
+visible, generated-history no-confusion between $\emp$ and $\Eone(a')$ gives
+$\bot$; the same argument at the target endpoint rules out every visible
+$\Eone(b)$ presentation. These four facts assemble the absent alternative.
+
+In the present branch, retain the constructor payload $a$. Payload preservation
+gives $T(\delta.\mathsf{map}(a))$, and the constructor gives the endpoint
+presentations $\hsame(h,\Eone(a))$ and
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$.
+
+It remains to show non-absence and uniqueness. A competing
+$\hsame(h,\emp)$ contradicts $\hsame(h,\Eone(a))$ by one-versus-empty
+no-confusion, and the target endpoint is identical with
+$\delta.\mathsf{map}(a)$ in place of $a$.
+
+For any competing source presentation $\hsame(h,\Eone(a'))$, one-constructor
+inversion for $\Eone$ yields $\hsame(a,a')$. For any competing target
+presentation $\hsame(k,\Eone(b))$, the same inversion applied to the stored
+presentation $\hsame(k,\Eone(\delta.\mathsf{map}(a)))$ yields
+$\hsame(b,\delta.\mathsf{map}(a))$. These clauses assemble the present
+alternative, and empty-versus-one no-confusion also proves that the two displayed
+alternatives cannot overlap.
+\end{proof}
+
+\section{Tagged option public endpoint visibility}
+\label{sec:option-public-endpoint-visibility}
+
+\begin{theorem}[Tagged option classifier endpoints expose visible certificate fields]
+\label{thm:tagged-option-classifier-endpoint-visible-fields}
+This theorem fits the ten-field template as follows: the traditional target is
+public endpoint visibility for constructor-tagged $\OptionUp$; the BEDC source
+is $\mathsf{BHist}$; the carrier is
+$\mathsf{TaggedOptionHistoryCarrier}$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is endpoint
+carrier exposure plus visible-field projection; the ledger is visible
+absent/present tag; the core theorem is the displayed endpoint field package;
+exactness says classified endpoints expose public pattern and ledger witnesses;
+the standard bridge is $\mathsf{none}$/$\mathsf{some}$ endpoint visibility; and
+the status is $\mathsf{ProofTarget}$.
+
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k$, if
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ holds, then
+$$
+\mathsf{TaggedOptionHistoryPattern}_S(h)
+\land
+\mathsf{TaggedOptionHistoryLedger}_S(h)
+\land
+\mathsf{TaggedOptionHistoryPattern}_S(k)
+\land
+\mathsf{TaggedOptionHistoryLedger}_S(k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-classifier-endpoint-carriers} to
+the classifier witness. This gives the endpoint carrier witnesses
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$ and
+$\mathsf{TaggedOptionHistoryCarrier}_S(k)$.
+
+Apply
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence} to
+the carrier witness for $h$ and project the pattern and ledger components.
+Apply the same theorem to the carrier witness for $k$ and project the same two
+visible certificate fields. The four projected witnesses assemble into the
+displayed conjunction.
+\end{proof}
+
+\section{Tagged option present-chain endpoint classification}
+\label{sec:option-present-chain-endpoint-classification}
+
+\begin{theorem}[Tagged option present-chain endpoint classification]
+\label{thm:tagged-option-present-chain-endpoint-classification}
+This theorem fits the ten-field template as follows: the traditional target is
+present-chain optional payload classification; the BEDC source is
+$\mathsf{BHist}$ with a source $\NameCert$; the carrier is
+$\mathsf{TaggedOptionHistoryCarrier}$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is transitive
+payload descent through a shared present endpoint; the ledger is visible present
+tags; the core theorem is endpoint payload classification; exactness is the
+visible endpoint readback; the standard bridge is $\mathsf{some}$-chain
+classification; and the status is $\mathsf{ProofTarget}$.
+
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, source certificate
+$\mathsf{cert}:\NameCert(S,\sim_S)$, histories $h,k,r$, and visible payloads
+$a,c$, assume $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. If
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k),\qquad
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(k,r),\qquad
+\hsame(h,\Eone(a)),\qquad
+\hsame(r,\Eone(c)),
+$$
+then there are endpoint payloads $a_0,c_0:\mathsf{BHist}$ such that
+$$
+S(a_0)\land S(c_0)\land
+\hsame(a,a_0)\land \hsame(c_0,c)\land a_0\sim_S c_0.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-present-chain-payload-witness} to the two
+tagged classifier witnesses and the displayed endpoint presentations. This gives
+payload histories $a_0,b,b',c_0$ with the four source witnesses, the visible
+readbacks $\hsame(a,a_0)$, $\hsame(b,b')$, and $\hsame(c_0,c)$, and the two
+payload classifications $a_0\sim_S b$ and $b'\sim_S c_0$.
+
+Use $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ on $S(b)$, $S(b')$,
+and $\hsame(b,b')$ to obtain the middle payload classification $b\sim_S b'$.
+
+Apply the transitivity field $\mathsf{cert.equiv\_trans}$ first to
+$a_0\sim_S b$ and $b\sim_S b'$, and then to the result and $b'\sim_S c_0$.
+This derives $a_0\sim_S c_0$. Package $a_0$ and $c_0$ with their source
+witnesses and endpoint readbacks.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_present\_chain\_endpoint\_classification}
