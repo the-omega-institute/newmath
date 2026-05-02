@@ -266,3 +266,88 @@ the same argument applied to $\Eone(v)$ and $\Eone(v')$ gives
 $\hsame(v',\delta.\mathsf{map}(b))$. Repack the original source pair together
 with these four payload identifications.
 \end{proof}
+
+\begin{theorem}[Tagged option payload descent image classifier reflective transitive pair readback is single-valued]
+\label{thm:tagged-option-payload-descent-image-classifier-reflective-transitive-pair-readback-single-valued}
+This theorem fits the per-object template as follows: the traditional target is
+reflective two-step image option readback for constructor-tagged
+$\mathsf{OptionUp}$ under payload descent; the BEDC source is $\mathsf{BHist}$
+with a $\mathsf{DescentCertificate}$; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation
+is reflective transitivity plus paired branch exactness; the ledger is the outer
+absent tag or transported outer present pair; the core theorem is the complete
+absent/present split below; exactness says the outer endpoints inherit direct
+pair readback; the standard bridge is $\mathsf{none}$/$\mathsf{some}$ payload
+readback; and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$, assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, and assume
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S).
+$$
+For target endpoints $k,\ell,m:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,\ell)
+$$
+and
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};\ell,m)
+$$
+hold, then either
+$$
+\hsame(k,\emp)\land
+\hsame(m,\emp)\land
+\neg\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+T(\delta.\mathsf{map}(a))\land T(\delta.\mathsf{map}(b))\land
+\hsame(k,\Eone(\delta.\mathsf{map}(a)))\land
+\hsame(m,\Eone(\delta.\mathsf{map}(b)))
+$$
+or
+$$
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+T(\delta.\mathsf{map}(a))\land T(\delta.\mathsf{map}(b))\land
+\hsame(k,\Eone(\delta.\mathsf{map}(a)))\land
+\hsame(m,\Eone(\delta.\mathsf{map}(b)))\land
+\neg\hsame(k,\emp)\land
+\neg\hsame(m,\emp)\land
+\bigl(\forall a',b':\mathsf{BHist}.\;
+S(a')\to S(b')\to a'\sim_S b'\to
+T(\delta.\mathsf{map}(a'))\to T(\delta.\mathsf{map}(b'))\to
+\hsame(k,\Eone(\delta.\mathsf{map}(a')))\to
+\hsame(m,\Eone(\delta.\mathsf{map}(b')))\to
+\hsame(\delta.\mathsf{map}(a),\delta.\mathsf{map}(a'))\land
+\hsame(\delta.\mathsf{map}(b),\delta.\mathsf{map}(b'))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+First combine the two image-classifier witnesses. Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-reflective-transitivity}
+to the witnesses at $(k,\ell)$ and $(\ell,m)$, using the source hsame
+compatibility and source-reflection hypotheses. This gives the direct
+image-classifier witness from $k$ to $m$.
+
+Now apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-pair-readback-single-valued}
+to the direct witness at the outer endpoint pair $(k,m)$. Its absent branch is
+already the displayed $\hsame(k,\emp)$, $\hsame(m,\emp)$, and exclusion of every
+transported present pair at $(k,m)$.
+
+In the present branch, keep the source pair $a,b$, its source carrier witnesses,
+the source classifier witness, the transported target carrier facts, the two
+outer visible presentations, and the two non-absence clauses. The paired
+single-valuedness clause is exactly the one returned by the direct pair
+readback theorem for every competing transported pair at $(k,m)$, so the branch
+repackages unchanged.
+\end{proof}
