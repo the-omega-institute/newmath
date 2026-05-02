@@ -1,2 +1,39 @@
 \input{parts/concrete_instances/category/carrier_and_hom_laws}
 \input{parts/concrete_instances/category/certificate_and_visible_cases}
+
+\begin{theorem}[Unary-continuation category stability law package]
+\label{thm:category-unary-continuation-stability-law-package}
+For the concrete unary-continuation category on $\mathsf{BHist}$, with object
+carrier the unary histories, hom-carrier
+$\mathsf{CategoryHomCarrier}(a,b,f)$, object classifier $\hsame$, and morphism
+classifier $\hsame$ on displayed hom histories, the $\CategoryUp$ stability
+laws are satisfied. At every unary object the empty history is an identity
+hom-carrier, composition of displayed hom-carriers is closed, any two
+associations of a threefold displayed composite classify together, the left and
+right empty-composition laws hold under the morphism classifier, and morphism
+classification is preserved after endpoint $\hsame$ transport.
+\end{theorem}
+\begin{proof}
+The identity and binary composition fields are the concrete hom-carrier laws.
+The empty history is an identity hom-carrier at each unary object by
+\autoref{thm:category-hom-carrier-empty-identity}, and displayed composition
+closure is exactly \autoref{thm:category-hom-carrier-comp-closed}.
+
+For associativity, use the two-step closure supplied by
+\autoref{thm:category-hom-carrier-comp-assoc-closed}. It builds both
+associated composites as hom-carriers over the same endpoints and identifies
+their morphism histories by the classifier $\hsame$.
+
+The unit laws are supplied by the identity square. Applying
+\autoref{thm:category-hom-carrier-identity-square-closed} to a displayed
+hom-carrier and the two empty-composition ledgers gives the left and right
+unit composites and the required morphism-classifier equality.
+
+It remains to record stability under endpoint transport. Transporting the
+source endpoint, target endpoint, and morphism history along $\hsame$ keeps the
+displayed hom-carrier witness by
+\autoref{thm:category-hom-carrier-hsame-transport}; once the endpoints have
+been transported, any two displayed morphism witnesses over classified
+endpoints are identified by
+\autoref{thm:category-hom-carrier-endpoint-hsame-morphism-deterministic}.
+\end{proof}
