@@ -41,6 +41,29 @@ Transitivity of history sameness identifies \(p\) and \(r\).
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_identity\_prefix\_trans}
 
+\begin{theorem}[NatTrans prefix component endomorphism component empty exactness]
+\label{thm:nattrans-prefix-component-endomorphism-component-empty}
+For prefix components whose source and target prefixes agree, a component
+history \(\eta\) is carried exactly when the prefix, object, and component
+histories are unary and the component is internally empty:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,\eta)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge
+\mathsf{UnaryHistory}(\eta)\wedge\eta\hsame\emp.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_endomorphism\_component\_empty\_iff}
+\begin{proof}
+Unfold the prefix component into its category hom-carrier
+\(\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,a),\eta)\).
+The continuation field has matching source and target, hence right-unit
+uniqueness forces \(\eta\hsame\emp\), while the component fields provide unary
+membership of \(p\), \(a\), and \(\eta\). Conversely, an empty component is
+rebuilt by the prefix empty-identity exactness theorem with reflexivity of
+\(\hsame(p,p)\).
+\end{proof}
+
 \begin{theorem}[NatTrans one-headed source empty component exactness]
 \label{thm:nattrans-prefix-component-e1-source-empty-component-exactness}
 For histories $p,q,a$, an empty prefix component from $\Eone(p)$ to $q$ over

@@ -43,6 +43,26 @@ empty morphism carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_identity\_iff}
 
+\begin{theorem}[Category endomorphism tail empty exactness]
+\label{thm:category-hom-carrier-endomorphism-tail-empty}
+For a unary-continuation endomorphism carrier, the morphism tail is externally
+empty exactly when the source object and morphism tail are unary and the tail is
+internally the empty history:
+$$
+\mathsf{CategoryHomCarrier}(a,a,f)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(a)\wedge\mathsf{UnaryHistory}(f)\wedge f\hsame\emp.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_endomorphism\_tail\_empty\_iff}
+\begin{proof}
+Unpack the endomorphism carrier. Its continuation field is
+\(\ContR(a,f,a)\), so right-unit uniqueness for continuation forces
+\(f\hsame\emp\), while the carrier fields give unary membership of \(a\) and
+\(f\). Conversely, if \(f\hsame\emp\), substituting the empty tail rebuilds
+the canonical empty identity hom-carrier at \(a\).
+\end{proof}
+
 \begin{theorem}[Category one-headed source empty morphism exactness]
 \label{thm:category-hom-carrier-e1-source-empty-morphism-iff}
 For histories \(a\) and \(target\), the empty morphism is a hom-carrier from
