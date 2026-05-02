@@ -685,20 +685,26 @@ For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
 canonical product-apartness witness construction of
 \autoref{thm:field-product-apartness-inverse-product-reverse}, together with
 the proof-index comparison supplied by
-\autoref{thm:field-inverse-congruence-from-apartness}, assume the field
-interpretation identifies $\mathsf{NonZero}_F(h)$ with
-$\mathsf{ApartZero}_F(h)$, where
-$\mathsf{ApartZero}_F(h)$ means $h\hsame0\to\bot$. For every
-$a:\mathsf{BHist}$, any witness
+\autoref{thm:field-inverse-congruence-from-apartness}, let
+$\mathsf{ApartZero}_F(h)$ mean $h\hsame0\to\bot$. For every
+$a:\mathsf{BHist}$, assume explicit conversion maps
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),
+\quad
+\alpha_{aa}:\mathsf{ApartZero}_F(\mathsf{mul}(a,a))\to
+\mathsf{NonZero}_F(\mathsf{mul}(a,a)).
+$$
+Any witness
 $$
 p_{a^2}:\mathsf{ApartZero}_F(\mathsf{mul}(a,a))
 $$
-canonically induces a witness $p_a:\mathsf{ApartZero}_F(a)$, and with that
-induced witness the proof-indexed inverse satisfies
+canonically induces a witness $p_a:\mathsf{ApartZero}_F(a)$. With this
+induced apartness witness and the displayed conversions, the proof-indexed
+inverse satisfies
 $$
-\mathsf{inv}(\mathsf{mul}(a,a),p_{a^2})
+\mathsf{inv}(\mathsf{mul}(a,a),\alpha_{aa}(p_{a^2}))
 \hsame
-\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{inv}(a,p_a)).
+\mathsf{mul}(\mathsf{inv}(a,\alpha_a(p_a)),\mathsf{inv}(a,\alpha_a(p_a))).
 $$
 \end{theorem}
 \begin{proof}
@@ -714,16 +720,17 @@ is the induced witness $p_a:\mathsf{ApartZero}_F(a)$.
 
 Next apply
 \autoref{thm:field-product-apartness-inverse-product-reverse} to the two
-factor witnesses $p_a$ and $p_a$. This supplies the canonical product
+factor witnesses $p_a$ and $p_a$, using $\alpha_a$ for both factor indices
+and $\alpha_{aa}$ for the product index. This supplies the canonical product
 apartness witness
 $$
 p'_{a^2}:\mathsf{ApartZero}_F(\mathsf{mul}(a,a))
 $$
 and the indexed inverse equality
 $$
-\mathsf{inv}(\mathsf{mul}(a,a),p'_{a^2})
+\mathsf{inv}(\mathsf{mul}(a,a),\alpha_{aa}(p'_{a^2}))
 \hsame
-\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{inv}(a,p_a)).
+\mathsf{mul}(\mathsf{inv}(a,\alpha_a(p_a)),\mathsf{inv}(a,\alpha_a(p_a))).
 $$
 
 It remains to compare the supplied square witness with the canonical product
@@ -732,9 +739,9 @@ witness. Use
 $\mathsf{mul}(a,a)$, the witness $p_{a^2}$ on the source side, and
 $p'_{a^2}$ on the target side. This identifies
 $$
-\mathsf{inv}(\mathsf{mul}(a,a),p_{a^2})
+\mathsf{inv}(\mathsf{mul}(a,a),\alpha_{aa}(p_{a^2}))
 \hsame
-\mathsf{inv}(\mathsf{mul}(a,a),p'_{a^2}).
+\mathsf{inv}(\mathsf{mul}(a,a),\alpha_{aa}(p'_{a^2})).
 $$
 
 Transitivity with the canonical product equality gives the displayed inverse
