@@ -376,40 +376,37 @@ theorem field_rat_denominator_continuation_unit_endpoint_empty {u : BHist} :
   have carrierD1 : RatHistoryCarrier (BHist.e1 BHist.Empty) :=
     RatHistoryCarrier_e1_tail_unary_iff.mpr unary_empty
   have rightEndpointEmpty :
-      ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d) ->
-        hsame u BHist.Empty) := by
-    intro rightUnitLaw
+      (∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d) ->
+        hsame u BHist.Empty := by
+    intro rightEndpoint
     have canonicalContinuation :
         Cont (BHist.e1 BHist.Empty) u (append (BHist.e1 BHist.Empty) u) :=
       cont_intro rfl
     have classifiedResult :
         RatHistoryClassifier (append (BHist.e1 BHist.Empty) u) (BHist.e1 BHist.Empty) :=
-      rightUnitLaw carrierD1 canonicalContinuation
+      rightEndpoint carrierD1 canonicalContinuation
     have collapsedContinuation : Cont (BHist.e1 BHist.Empty) u (BHist.e1 BHist.Empty) :=
       cont_result_hsame_transport canonicalContinuation classifiedResult.right.right
     exact cont_right_unit_unique collapsedContinuation
   have leftEndpointEmpty :
-      ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d) ->
-        hsame u BHist.Empty) := by
-    intro leftUnitLaw
-    have displayed :
+      (∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d) ->
+        hsame u BHist.Empty := by
+    intro leftEndpoint
+    have canonicalContinuation :
         Cont u (BHist.e1 BHist.Empty) (append u (BHist.e1 BHist.Empty)) :=
       cont_intro rfl
-    have classified :
+    have classifiedResult :
         RatHistoryClassifier (append u (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) :=
-      leftUnitLaw carrierD1 displayed
-    have internalLeftUnit : Cont u (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
-      cont_result_hsame_transport displayed classified.right.right
-    exact cont_left_unit_unique internalLeftUnit
-  constructor
-  · exact rightEndpointEmpty
-  · constructor
-    · exact leftEndpointEmpty
-    · intro carrierU unitLaw
-      cases unitLaw with
-      | inl rightUnitLaw =>
-          exact RatHistoryCarrier_not_empty carrierU (rightEndpointEmpty rightUnitLaw)
-      | inr leftUnitLaw =>
-          exact RatHistoryCarrier_not_empty carrierU (leftEndpointEmpty leftUnitLaw)
+      leftEndpoint carrierD1 canonicalContinuation
+    have collapsedContinuation : Cont u (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+      cont_result_hsame_transport canonicalContinuation classifiedResult.right.right
+    exact cont_left_unit_unique collapsedContinuation
+  exact ⟨rightEndpointEmpty, leftEndpointEmpty, by
+    intro carrierU endpointLaw
+    cases endpointLaw with
+    | inl rightEndpoint =>
+        exact RatHistoryCarrier_not_empty carrierU (rightEndpointEmpty rightEndpoint)
+    | inr leftEndpoint =>
+        exact RatHistoryCarrier_not_empty carrierU (leftEndpointEmpty leftEndpoint)⟩
 
 end BEDC.Derived.FieldUp

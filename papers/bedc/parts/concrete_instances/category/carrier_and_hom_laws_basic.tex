@@ -618,6 +618,25 @@ classification.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_two\_sided\_identity\_law}
 
+\begin{theorem}[Category hom carrier left identity carrier result]
+\label{thm:category-hom-carrier-left-identity-carrier-result}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,a,id)$,
+$\mathsf{CategoryHomCarrier}(a,b,f)$, and $\ContR(id,f,left)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,b,left)\wedge\HSame(left,f).
+$$
+\end{theorem}
+\begin{proof}
+Compare the displayed identity carrier $id$ with the canonical empty identity
+carrier at $a$. Morphism determinacy gives $\HSame(id,\emp)$. Rewriting the
+displayed continuation by this equality turns $\ContR(id,f,left)$ into an
+empty-left continuation, so the kernel left-unit result gives
+$\HSame(left,f)$. Transport the original hom-carrier witness for $f$ across
+this morphism equality to obtain $\mathsf{CategoryHomCarrier}(a,b,left)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_left\_identity\_carrier\_result}
+
 \begin{theorem}[Category hom carrier identity semantic name certificate]
 \label{thm:category-hom-carrier-identity-semantic-namecert}
 For a unary object history $a$, the identity hom-carrier predicate

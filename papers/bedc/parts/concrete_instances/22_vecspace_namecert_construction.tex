@@ -152,6 +152,30 @@ and classified inverse conclusion follows over the empty witness domain.
 
 \leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonEmptyHistory\_laws}
 
+\begin{theorem}[VecSpace singleton classifier endpoint transitivity]
+\label{thm:vecspace-singleton-classifier-endpoint-trans}
+For singleton vector endpoints $a,b,c:\mathsf{BHist}$, if
+$$
+\mathsf{VecSpaceSingletonClassifier}(a,b)
+\quad\text{and}\quad
+\mathsf{VecSpaceSingletonClassifier}(b,c),
+$$
+then
+$$
+a\hsame\emp\wedge c\hsame\emp\wedge
+\mathsf{VecSpaceSingletonClassifier}(a,c).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the concrete singleton classifier. The first classifier supplies the
+empty endpoint witness for $a$ and the comparison $a\hsame b$. The second
+classifier supplies the empty endpoint witness for $c$ and the comparison
+$b\hsame c$. Compose the two comparisons by transitivity to obtain
+$a\hsame c$, and package it with the carried endpoint witnesses for $a$ and
+$c$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonClassifier\_endpoint\_trans}
+
 \begin{theorem}[VecSpace singleton scalar action carrier readback]
 \label{thm:vecspace-singleton-smul-carrier-readback}
 For the concrete singleton $\VecSpaceUp$ instance, if

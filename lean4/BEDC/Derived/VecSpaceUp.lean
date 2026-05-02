@@ -152,6 +152,15 @@ def VecSpaceSingletonCarrier (h : BHist) : Prop :=
 def VecSpaceSingletonClassifier (h k : BHist) : Prop :=
   VecSpaceSingletonCarrier h ∧ VecSpaceSingletonCarrier k ∧ hsame h k
 
+theorem VecSpaceSingletonClassifier_endpoint_trans {a b c : BHist} :
+    VecSpaceSingletonClassifier a b -> VecSpaceSingletonClassifier b c ->
+      hsame a BHist.Empty ∧ hsame c BHist.Empty ∧ VecSpaceSingletonClassifier a c := by
+  intro left right
+  have sameAC : hsame a c :=
+    hsame_trans left.right.right right.right.right
+  exact And.intro left.left (And.intro right.right.left
+    (And.intro left.left (And.intro right.right.left sameAC)))
+
 def VecSpaceSingletonSmul (_r _m : BHist) : BHist :=
   BHist.Empty
 
