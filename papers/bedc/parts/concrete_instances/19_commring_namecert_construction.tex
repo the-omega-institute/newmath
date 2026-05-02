@@ -163,6 +163,38 @@ use additive congruence with multiplicative commutativity on both summands.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_left\_distrib\_from\_right}
 
+\begin{theorem}[CommRing one-sided distributivity equivalence]
+\label{thm:commring-one-sided-distributivity-equivalence}
+For BEDC history operations $add$ and $mul$, multiplicative commutativity and
+additive congruence imply that left distributivity is equivalent to right
+distributivity:
+$$
+\left(\forall x\,y\,z : \mathsf{BHist},\ x\cdot(y+z)\hsame x\cdot y+x\cdot z\right)
+\leftrightarrow
+\left(\forall x\,y\,z : \mathsf{BHist},\ (x+y)\cdot z\hsame x\cdot z+y\cdot z\right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the displayed left distributivity law. Applying
+Theorem~\ref{thm:commring-right-distrib-from-left} with the shared
+multiplicative commutativity and additive congruence fields gives the displayed
+right distributivity law for all $x,y,z : \mathsf{BHist}$.
+
+For the reverse direction, assume the displayed right distributivity law.
+Applying Theorem~\ref{thm:commring-left-distrib-from-right} with the same
+commutativity and congruence fields gives the displayed left distributivity law
+for all $x,y,z : \mathsf{BHist}$.
+\end{proof}
+
+Per object, the traditional target is one-sided distributivity collapse in
+commutative rings; the BEDC source is $\CommRingUp$ over $\mathsf{BHist}$; the
+carrier is $\mathsf{BHist}$; the classifier is $\hsame$; the stability
+obligations are multiplicative commutativity, additive congruence, and one
+chosen distributivity law; the ledger records which side is primitive and which
+side is derived; the core theorem list records this equivalence; the exactness
+predicate is the displayed iff; the standard bridge is ordinary
+commutative-ring distributivity; and the status is $\mathsf{ProofTarget}$.
+
 \begin{theorem}[CommRing square of a sum expansion]
 \label{thm:commring-square-add-expand}
 For BEDC history addition and multiplication, multiplicative commutativity,
