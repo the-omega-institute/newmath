@@ -5,6 +5,14 @@ namespace BEDC.Derived.OptionUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 
+theorem OptionHistoryClassifier_self_exactness {source : BHist -> Prop} {h : BHist} :
+    OptionHistoryClassifier source h h ↔ OptionHistoryCarrier source h := by
+  constructor
+  · intro classifier
+    exact classifier.left
+  · intro carrier
+    exact And.intro carrier (And.intro carrier (hsame_refl h))
+
 theorem TaggedOptionHistoryClassifier_self_exactness {S : BHist -> Prop}
     {Rel : BHist -> BHist -> Prop} (cert : NameCert S Rel) {h : BHist} :
     TaggedOptionHistoryClassifier S Rel h h <-> TaggedOptionHistoryCarrier S h := by

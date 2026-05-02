@@ -35,6 +35,25 @@ middle history.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_trans}
 
+\begin{theorem}[Option history classifier self exactness]
+\label{thm:option-history-classifier-self-exactness}
+For every BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$
+and every history $h$, the nullable option classifier at equal endpoints is
+exactly the nullable option carrier:
+$$
+\mathsf{OptionHistoryClassifier}_S(h,h)
+\Longleftrightarrow
+\mathsf{OptionHistoryCarrier}_S(h).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the left endpoint carrier from the classifier
+witness. For the reverse direction, use the displayed carrier witness for both
+endpoints and close the classifier equality field by reflexivity of $\hsame$ at
+$h$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_self\_exactness}
+
 \begin{theorem}[Option history classifier empty left iff]
 \label{thm:option-history-classifier-empty-left-iff}
 For any source predicate on BEDC histories, the optional history classifier

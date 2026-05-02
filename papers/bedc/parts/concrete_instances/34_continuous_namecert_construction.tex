@@ -356,3 +356,35 @@ prefix exactness, the exactness predicate is the displayed iff, the standard
 bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefix\_iff}
+
+\begin{theorem}[Continuous function carrier prefixed graph-chain factorization]
+\label{thm:continuous-function-carrier-prefixed-graph-chain-factorizes}
+For histories $p,source,map,target,\delta_1,\delta_2,\delta,cert$, if
+$\delta_1$ and $\delta_2$ are unary, $\mathsf{Cont}(\delta_1,\delta_2,\delta)$
+holds, and
+$$
+\mathsf{ContinuousFunctionCarrier}
+(p\cdot source,map,p\cdot target,\delta,p\cdot cert)
+$$
+holds, then there is a middle history $middle$ such that
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,\delta,cert)
+\land
+\mathsf{ContinuousModulusWitness}(target,\delta_1,middle)
+\land
+\mathsf{ContinuousModulusWitness}(middle,\delta_2,cert).
+$$
+\end{theorem}
+\begin{proof}
+Apply prefix exactness for continuous-function carriers to remove the common
+visible prefix from the source, target, and certificate ledgers. This recovers
+the unprefixed carrier and in particular the target-to-certificate continuation
+$\mathsf{Cont}(target,\delta,cert)$.
+
+Choose $middle=target\cdot\delta_1$. The first modulus witness is the canonical
+continuation from $target$ through $\delta_1$ to this middle history. For the
+second witness, combine $\mathsf{Cont}(\delta_1,\delta_2,\delta)$ with the
+recovered target-to-certificate continuation and reassociate the BEDC append
+spine, obtaining $\mathsf{Cont}(middle,\delta_2,cert)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_factorizes}
