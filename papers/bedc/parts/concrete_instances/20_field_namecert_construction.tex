@@ -359,6 +359,82 @@ theorem
 exactness predicate envelope commutativity over the strict carried restriction;
 standard bridge deferred; status $\mathsf{ProofTarget}$.
 
+\begin{definition}[Rat denominator external-unit envelope strict support]
+\label{def:field-rat-denominator-unit-envelope-strict-support}
+For the tuple $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope}, the strict support
+predicate is the genuine Rat denominator endpoint predicate
+$$
+N_D^\ast(h)\Longleftrightarrow\mathsf{RatHistoryCarrier}(h).
+$$
+Thus the external endpoint is carried by $C_D^\ast$ but does not enter the
+strict denominator support.
+\end{definition}
+
+\begin{theorem}[Rat denominator external-unit envelope strict support laws]
+\label{thm:field-rat-denominator-unit-envelope-strict-support-laws}
+For histories $h,k:\mathsf{BHist}$ with $C_D^\ast(h)$ and $C_D^\ast(k)$, the
+strict support predicate of
+\autoref{def:field-rat-denominator-unit-envelope-strict-support} satisfies:
+\begin{enumerate}
+  \item $R_D^\ast(h,k)\to
+  (N_D^\ast(h)\Longleftrightarrow N_D^\ast(k))$.
+  \item $N_D^\ast(\mu_D^\ast(h,k))\Longleftrightarrow
+  N_D^\ast(h)\lor N_D^\ast(k)$.
+  \item Together with
+  \autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws},
+  these clauses give a concrete $\mathsf{BHist}$ multiplicative-support
+  boundary for $\FieldUp(\mathsf{RatUp})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $C_D^\ast$, $R_D^\ast$, $\mu_D^\ast$, and $N_D^\ast$. The carrier
+assumptions split each input into a genuine Rat denominator endpoint or an
+external empty endpoint.
+
+For support transport along the classifier, split the defining alternatives of
+$R_D^\ast(h,k)$. In the guarded carried branch, both strict-support predicates
+are exactly the displayed $\mathsf{RatHistoryCarrier}$ witnesses, so the two
+directions are projections. In the empty-empty branch, any strict-support
+witness for either endpoint contradicts $\mathsf{RatHistoryCarrier\_not\_empty}$
+after composing its endpoint comparison with the branch comparison to $\emp$.
+
+For product support, first consider the carried/carried branch. The canonical
+continuation witness for $\mathsf{append}(h,k)$ and carried denominator closure
+give $\mathsf{RatHistoryCarrier}(\mu_D^\ast(h,k))$, while the right side holds
+by either input support.
+
+In the carried/empty branch, the append right-unit law identifies
+$\mu_D^\ast(h,k)$ with $h$. Transport
+$\mathsf{RatHistoryCarrier}(h)$ across this $\hsame$ comparison by
+$\mathsf{RatHistoryCarrier\_hsame\_transport}$, and the left disjunct supplies
+the reverse implication. The empty/carried branch is symmetric, using the
+append left-unit law and the right strict-support disjunct.
+
+In the empty/empty branch, the append unit laws identify
+$\mu_D^\ast(h,k)$ with $\emp$. Therefore product strict support is impossible
+by $\mathsf{RatHistoryCarrier\_not\_empty}$, and both input strict-support
+predicates are impossible by the same theorem. This proves the displayed
+product equivalence.
+
+The final clause only packages these two support laws with the already stated
+commutative monoid laws: the monoid theorem supplies the algebraic envelope,
+and the present theorem supplies the exact descent of genuine denominator
+support through classifier transport and multiplication.
+\end{proof}
+
+Per-object template: downstream target $\FieldUp(\mathsf{RatUp})$ denominator
+support boundary; BEDC source $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, $\Cont$, $\mathsf{append}$, and $\emp$;
+carrier $C_D^\ast$; classifier $R_D^\ast$; stability obligation strict support
+transport and product support exactness; ledger external-unit bit plus
+continuation witness; core theorem
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws};
+exactness predicate genuine Rat denominator support descends through
+$R_D^\ast$ and $\mu_D^\ast$; standard bridge
+$\FieldUp(\mathsf{RatUp})$ denominator support boundary; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rat denominator empty-unit cancellative commutative monoid package]
 \label{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package}
 For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
