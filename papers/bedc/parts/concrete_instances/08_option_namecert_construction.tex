@@ -225,6 +225,80 @@ presentation with the empty presentation to obtain $\hsame(\Eone(v),\emp)$,
 contradicting BEDC history no-confusion via $not\_hsame\_e1\_empty$.
 \end{proof}
 
+\begin{theorem}[Tagged option payload descent image classifier reflective transitive normalized nonempty present-pair inversion]
+\label{thm:tagged-option-payload-descent-image-classifier-reflective-transitive-normalized-nonempty-present-pair-inversion}
+This theorem fits the per-object template as follows: the traditional target is
+endpoint-normalized two-step present-pair recovery for constructor-tagged
+$\mathsf{OptionUp}$; the BEDC source is $\mathsf{BHist}$ with a
+$\mathsf{DescentCertificate}$; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the obligations are
+reflective transitivity, endpoint transport, and direct nonempty present-pair
+inversion; the ledger is the synchronized transported payload pair; and the
+status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source and target
+carriers, let $\sim_S$ and $\sim_T$ be source and target classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$, assume source compatibility
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, and assume
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S).
+$$
+For target endpoints $k,\ell,m,p,q:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,\ell)
+$$
+and
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};\ell,m)
+$$
+and
+$$
+\hsame(k,p)\land \hsame(m,q),
+$$
+then
+$$
+\bigl(\neg\hsame(p,\emp)\to
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+T(\delta.\mathsf{map}(a))\land T(\delta.\mathsf{map}(b))\land
+\hsame(p,\Eone(\delta.\mathsf{map}(a)))\land
+\hsame(q,\Eone(\delta.\mathsf{map}(b)))\bigr)
+\land
+\bigl(\neg\hsame(q,\emp)\to
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+T(\delta.\mathsf{map}(a))\land T(\delta.\mathsf{map}(b))\land
+\hsame(p,\Eone(\delta.\mathsf{map}(a)))\land
+\hsame(q,\Eone(\delta.\mathsf{map}(b)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-reflective-transitive-normalized-image-closure}
+to the two image-classifier witnesses and the endpoint equalities. This gives
+the direct normalized classifier at $(p,q)$.
+
+For the left non-absence clause, apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-nonempty-present-pair-inversion}
+to the normalized classifier and the premise $\neg\hsame(p,\emp)$. The direct
+inversion returns source witnesses $a,b$ with $S(a)$, $S(b)$, $a\sim_S b$, the
+transported target-carrier witnesses, and the displayed present presentations at
+$p$ and $q$.
+
+For the right non-absence clause, apply the same direct inversion theorem to the
+normalized classifier and the premise $\neg\hsame(q,\emp)$. Its right endpoint
+clause returns the same synchronized transported present-pair data, which is the
+second displayed conclusion.
+\end{proof}
+
 \begin{theorem}[Tagged option payload descent image classifier reflective transitive normalized visible payload exactness]
 \label{thm:tagged-option-payload-descent-image-classifier-reflective-transitive-normalized-visible-payload-exactness}
 This theorem fits the per-object template as follows: the traditional target is
