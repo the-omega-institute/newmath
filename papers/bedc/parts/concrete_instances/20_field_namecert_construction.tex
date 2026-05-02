@@ -182,6 +182,65 @@ factor witnesses, the two product witnesses, and the two offsets; core theorem
 \autoref{thm:field-affine-composite-inverse-reverse-coherence}; exactness
 predicate reverse-composed explicit inverse equals the collected-coefficient
 explicit inverse; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field affine composite has reverse explicit inverse]
+\label{thm:field-affine-composite-reverse-explicit-inverse}
+Under the hypotheses and notation of
+\autoref{thm:field-affine-two-sided-certified-automorphism} and
+\autoref{thm:field-affine-two-sided-automorphism-composition}, define
+$$
+T(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
+$$
+and
+$$
+U(z)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,z),e),f).
+$$
+Let $s_T$ and $s_U$ be the displayed explicit inverse maps associated to $T$
+and $U$. Then every $x,y,q:\mathsf{BHist}$ satisfies
+$$
+U(T(s_T(s_U(q))))\hsame q,
+\qquad
+s_T(s_U(U(T(x))))\hsame x,
+\qquad
+U(T(x))\hsame U(T(y))\Longleftrightarrow x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+First instantiate
+\autoref{thm:field-affine-two-sided-automorphism-composition} with
+the factors and offsets defining $T$ and $U$. The composition theorem identifies
+$U\circ T$ as the certified affine composite, and
+\autoref{thm:field-affine-two-sided-certified-automorphism} supplies the
+classifier-iff clause for that certified composite.
+
+For the displayed left preimage, apply the left-inverse clause for $T$ at
+$s_U(q)$, then apply the left-inverse clause for $U$ at $q$. Congruence of $U$
+and transitivity of $\hsame$ identify the transported composite with
+$U(T(s_T(s_U(q))))\hsame q$.
+
+For the right inverse, apply the right-inverse clause of
+\autoref{thm:field-affine-two-sided-certified-automorphism} to $U$ at the point
+$T(x)$. This gives
+$$
+s_U(U(T(x)))\hsame T(x).
+$$
+
+Use the solution-uniqueness clause of
+\autoref{thm:field-affine-two-sided-explicit-inverse} for $T$ at the target
+$T(x)$, with the reflexive classification of $T(x)$ as its input. This gives
+$x\hsame s_T(T(x))$, hence $s_T(T(x))\hsame x$ by symmetry. Transport the
+displayed equality through the explicit formula for $s_T$, and finish by
+transitivity of $\hsame$ to obtain $s_T(s_U(U(T(x))))\hsame x$.
+\end{proof}
+
+Per-object certificate: traditional target affine automorphism group law; BEDC
+source $\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations two certified affine automorphisms, explicit
+inverse, and classifier iff; ledger four nonzero factor witnesses and two
+offsets; core theorem
+\autoref{thm:field-affine-composite-reverse-explicit-inverse}; exactness
+predicate two-sided inverse plus composite classifier iff; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
 \input{parts/concrete_instances/field/20_field_signed_square_consequences}
 \leanchecked{BEDC.Derived.FieldUp.field\_equal\_squares\_signed\_branch\_determinacy}
 \input{parts/concrete_instances/field/20_field_product_apartness_consequences}
