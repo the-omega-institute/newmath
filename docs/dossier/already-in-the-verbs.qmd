@@ -1,0 +1,251 @@
+---
+title: "Already in the Verbs"
+subtitle: "How BEDC's existing primitives — Cont, Ext, NameCert — turn out to contain Plotkin SOS, Curry-Howard, compiler correctness, and the halting obstruction. Without adding anything."
+author: "The Omega Institute"
+date: 2026-05-02
+description: "BEDC was built to formalise mathematics. It turns out the same three primitives already encode programming-language semantics, type theory, compiler correctness, and the halting limit. Five additional 'limits' join the family Gödel and Tarski opened."
+---
+
+```{=html}
+<div class="lang-switch"><a href="already-in-the-verbs.zh-CN.qmd">中文</a></div>
+```
+
+## A reasonable expectation
+
+After 1837 theorems and 38 chapters of mathematics — Bishop-style real analysis, baby category theory, constructive metric topology — you would reasonably expect that adding *programming-language semantics* to BEDC means another ten chapters: a definition of programs, a notion of execution, a typing judgement, a compiler model, a halting predicate. Each piece imported from the standard programming-language theory and adapted to the BEDC foundation.
+
+This is the scaffolding plan we did *not* execute. Four new bridge chapters in `parts/capstones/` say something different:
+
+- *Computation is the continuation relation we already had.*
+- *Type checking is the extension predicate we already had.*
+- *A compiler is a naming-certificate morphism we already had.*
+- *The halting obstruction is the form of distinction read at the meta level.*
+
+If this reading holds, BEDC does not need to add programming-language theory. The three kernel verbs — `Cont`, `Ext`, and `NameCert` — already encode it. This essay walks through the four identifications and what they imply.
+
+## Cont is small-step transition
+
+Plotkin's *Structural Operational Semantics* (1981) defines program execution as a relation `⟨c, σ⟩ → ⟨c', σ'⟩` between configurations: pair of code and state. A single transition is one execution step. A program *runs* by chaining transitions until it reaches a final configuration.
+
+BEDC has a relation that does exactly this:
+
+```lean
+inductive Cont : BHist → BMark → BHist → Prop
+  -- Cont h m h'  reads as:  history h emits mark m, becoming h'
+```
+
+Read `BHist` as *the entire history of execution so far* (state + trace), `BMark` as *the next emission* (the action of taking one step), and `Cont h m h'` as *one transition*. This is Plotkin SOS, with the configuration encoded as a history and the transition as `Cont`.
+
+::: {.evidence}
+**Termination** is `¬∃ m h', Cont h m h'` — a history that admits no continuation. This is the BEDC reading of *normal form*.
+
+**Big-step semantics** is the transitive closure `Cont*` — the relation "starting from `h`, after some sequence of emissions, reach `h'`". Already in the kernel as the chain operator.
+
+**Behavioural equivalence** is `hsame` restricted to terminating histories — two programs are equivalent if their normal forms are `hsame`. Already in the kernel.
+
+**Lean:** [`BEDC.FKernel.Cont`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/FKernel/Cont.lean) — 576 lines, already proves `cont_assoc`, `cont_left_unit`, `cont_right_unit`, which are exactly the laws Plotkin SOS requires for soundness.
+:::
+
+```{=html}
+<span class="elim-mark">✗ "But programming languages have stores, environments, control state — Cont is too simple"</span>
+```
+
+`BHist` is unbounded. A history is anything finite the system has emitted. State, environment, stack, heap — all encodable as the history's payload, viewed through different classifiers. The simplicity of `Cont` is not a limitation. It is the level at which Plotkin's transition relation lives, before any of the auxiliary structures are added.
+
+## Ext is type membership; Curry-Howard is built in
+
+The extension predicate `Ext` of BEDC's relational extension chapter has the signature:
+
+```lean
+inductive Ext : BHist → BHist → Prop
+  -- Ext h k  reads as:  k is a valid extension (or refinement) of h
+```
+
+Read `Ext h k` as *k is in the type cut out by the closure rules around h*. This is type membership: a term has a type when it satisfies the closure laws of that type's classifier.
+
+Now ask: what is *type checking*? It is deciding `Ext h k` for given `h`, `k`. In BEDC, this is decidable iff the underlying classifier admits a decision procedure. For inductively-presented types this is straightforward; for richer types (refinement, dependent) it follows the same pattern with more elaborate classifiers.
+
+What about Curry-Howard?
+
+::: {.evidence}
+Classical Curry-Howard says:
+
+> propositions ↔ types
+> proofs ↔ programs
+
+In BEDC, every classifier closure law is **exactly** a proof of its closure. The closure law `∀ x y, P(x) ∧ P(y) → P(combine(x, y))` is, simultaneously:
+
+- the **typing rule** for the constructor `combine`
+- the **inference rule** for the proposition "`combine(x,y)` is in `P`"
+- the **constructive proof** that `combine` preserves the type
+
+There is no work to translate one reading into another. They are the same law.
+
+**Lean:** [`BEDC.FKernel.Ext`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/FKernel/Ext.lean) and the [naming-certificate framework](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/FKernel/NameCert.lean) — closure laws are stated once and used in both directions automatically.
+:::
+
+```{=html}
+<span class="elim-mark">✗ "Curry-Howard requires identification of judgements and propositions, which is a separate axiomatic move"</span>
+```
+
+In type theories built on top of an existing logical layer, yes — you have to do the identification deliberately. In BEDC, the framework starts at classifiers, which are simultaneously membership predicates (types) and inference rules (logical content). The Curry-Howard identification is not added later; the framework never had separate notions to begin with.
+
+## A compiler is a naming-certificate morphism
+
+A compiler from source language `S` to target language `T` is, classically, a function:
+
+```
+compile : Program(S) → Program(T)
+```
+
+with the correctness criterion: for every `s : Program(S)`, the behavioural equivalence class of `s` under `S`-semantics matches the behavioural equivalence class of `compile(s)` under `T`-semantics.
+
+In BEDC, both `S` and `T` are described by naming certificates: `NameCert_S` and `NameCert_T`. A compiler is then:
+
+```
+compile : NameCert_S → NameCert_T
+
+— a morphism between the two certificates that preserves the classifier:
+
+∀ h₁ h₂ : BHist,  hsame_S h₁ h₂  →  hsame_T (compile h₁) (compile h₂)
+```
+
+This is precisely **CompCert-style compiler correctness**: the compiler preserves observational equivalence. Leroy's CompCert proof of compiler correctness for a C-to-x86 compiler, scaled down to the BEDC framework, becomes a routine application of "morphism preserves classifier".
+
+::: {.evidence}
+**Compositional compilation**: a multi-pass compiler is a composition of NameCert morphisms. The composition lemma — `(g ∘ f) preserves hsame iff f and g each do` — is a one-line proof in BEDC, not a separate engineering achievement.
+
+**Optimisation correctness**: an optimisation pass is a `NameCert_S → NameCert_S` morphism (source to source). It is correct iff it preserves `hsame_S`. Same framework, same proof obligation.
+
+**Decompilation**: when the morphism admits a structural inverse. BEDC gives the existence criterion (the morphism is a bijection on equivalence classes) without further work.
+:::
+
+```{=html}
+<span class="elim-mark">✗ "But CompCert took ten person-years"</span>
+```
+
+It did, and the ten person-years went into the actual *content* — the source semantics for C, the target semantics for x86, the per-pass correctness arguments. The BEDC framework does not replace that content. It supplies the *organising structure*: every compiler-correctness argument in CompCert can be re-expressed as "this NameCert morphism preserves `hsame`", but the work of proving each preservation remains.
+
+What BEDC contributes is the recognition that all such proofs are instances of one schema. CompCert built one instance painstakingly. BEDC says: build N instances, and they all live in the same framework, with composition for free.
+
+## Halting is the meta-level dual of distinction
+
+This is the deepest of the four, and the one most worth stating carefully.
+
+The halting problem asks: is there a decision procedure that, given an arbitrary program `P` and input `I`, decides whether `P(I)` terminates? Turing's 1936 argument shows no such procedure exists in any sufficiently expressive computational model. The classical proof is by diagonalisation: assuming `H` decides halting, construct `P_diag` that contradicts `H`'s decision on itself.
+
+In BEDC, the equivalent question is:
+
+> **Is there a BEDC classifier that decides, for an arbitrary `NameCert_P` and history `h`, whether the continuation chain from `h` in `NameCert_P` terminates?**
+
+The answer is no. The proof is structurally identical to Turing's: assume such a classifier exists, construct a self-referential `NameCert_diag` whose termination depends on the classifier's decision on itself, derive contradiction. The fixed-point obstruction lives at the meta level — it is about classifiers over classifiers, exactly the place [Tarski undefinability](one-closed-loop.qmd) and Gödel's incompleteness already live.
+
+But here is the deeper observation, written into the capstone:
+
+```{=html}
+<span class="role-tag discovery">💡 Unifying observation</span>
+```
+
+> The halting obstruction is **structurally the same** as the form of distinction's irreducibility, read at the meta level.
+
+The form of distinction is irreducible at the ground: every classifier on every BEDC carrier presupposes the form of distinction in its very statement, because deciding "are these two elements in the same class?" is itself an act of distinction. ([See: One Closed Loop](one-closed-loop.qmd).)
+
+The halting obstruction is the same fact, projected through the meta loop: any classifier that decides the *halting* of arbitrary classifiers presupposes a meta-level capacity that the framework does not supply. The presupposition cannot be eliminated; the obstruction is necessary.
+
+These are not two limits. They are one limit, sitting at the two ends of the [closed-ground / open-meta duality](one-closed-loop.qmd#the-two-loops-dual-to-each-other). The ground form *must* close (to start at all). The meta form *must not* close (to remain consistent). Halting undecidability is the explicit statement that the meta form does not close.
+
+## The limit family, completed
+
+The previous essay listed four classical "limits" that turn out to be the same constraint in BEDC's distinction-foundationalist reading: Gödel, Tarski, Münchhausen, Hofstadter. Today's capstones add a fifth.
+
+| Tradition | Limit theorem | What it says about the meta loop |
+|---|---|---|
+| Formal logic | Gödel incompleteness | system cannot prove all true sentences about itself |
+| Semantics | Tarski undefinability | system cannot define its own truth predicate |
+| Foundations | Münchhausen impossibility | system cannot include the runtime that interprets it |
+| Cognition / philosophy | Hofstadter strange loop (formal) | layer-identifying self-reference is inconsistent |
+| **Recursion theory** | **Halting undecidability** | **system cannot decide its own termination problem** |
+
+Five separate traditions. Five named theorems. One underlying source: a sufficiently expressive formal system has a closed self-referential loop at the ground (form of distinction) and *cannot* close a corresponding loop at the meta level. Each named theorem is a different angle on what the meta-level non-closure forbids in a specific domain.
+
+Written this way, the limits stop looking like five wall-of-shame inscriptions and start looking like one architectural fact: **every formal system that starts at all pays the same price, in the same shape, expressed differently in different domains**.
+
+## What `Cont` does, in a single sentence
+
+The previous dossier essays accumulated specific instances where `Cont` shows up:
+
+| Domain | What `Cont` is |
+|---|---|
+| Mathematics — category theory | morphism composition (Hom = Cont restricted to UnaryHistory) |
+| Mathematics — analysis | continuous function modulus chain |
+| Mathematics — topology | compactness witness chain |
+| Mathematics — algebra | NatTrans component |
+| **Computation — operational semantics** | **small-step transition (Plotkin SOS)** |
+| **Computation — type theory** | **typed reduction** |
+| **Computation — compilation** | **inter-language step (compiler morphism source)** |
+| **Computation — recursion theory** | **the relation whose termination is undecidable** |
+
+`Cont` is BEDC's main verb. It appears on the mathematics side as composition / homotopy / metric / continuity. It appears on the computation side as step / reduce / compile / halt. The unification is not retrofitted; the relation was always doing this work, and we are recognising it after the fact.
+
+The single sentence: ***`Cont` is the algebra of "what happens next", and "what happens next" is the same relation across mathematics and computation***.
+
+## What this is *not*
+
+```{=html}
+<span class="elim-mark">✗ "BEDC has solved programming-language theory"</span>
+```
+
+It hasn't. It has supplied an *organising framework*. The substantive content of programming-language theory — the specific small-step rules for ML, the specific type system of Coq, the specific compiler for C — still has to be written. BEDC says these will all sit inside the same framework, with composition and verification for free; it does not say they pre-exist.
+
+```{=html}
+<span class="elim-mark">✗ "BEDC has solved the halting problem"</span>
+```
+
+Decisively not. BEDC's reading of halting *confirms* its undecidability and explains *why* — it is the meta-level dual of the ground primitive. Confirming a theorem is not solving away the constraint. The constraint becomes more visible, more located, and more inevitable.
+
+```{=html}
+<span class="elim-mark">✗ "Plotkin / Howard / Turing did unnecessary work"</span>
+```
+
+They did the only work that matters: the substantive content that fits inside the BEDC organising frame. Plotkin's SOS is the small-step rules for actual languages. Howard's correspondence is the substantive identification of judgements with types in real type theories. Turing's halting argument is the diagonalisation that BEDC's reading inherits. The frame they fit into came later; that does not diminish the work.
+
+## What this is
+
+A reading. The BEDC kernel was built for mathematics; we are reading it as also already containing computation. The reading is supported by:
+
+- The structural fit of `Cont` to small-step transition (formally identical relations)
+- The structural fit of `Ext` to type membership (identical predicates, in the right substantive sense)
+- The structural fit of `NameCert` morphism to compiler correctness (identical preservation criterion)
+- The structural fit of halting to ground-loop meta dual (identical fixed-point obstruction)
+
+Four structural fits, none retrofitted, none requiring additional kernel primitives. The reading either is sustained — and BEDC is wider than it appeared — or it isn't, and one of the four fits will turn out to be only superficial.
+
+The capstones declare the four fits. The Lean formalisation is the test. We expect the test to pass; if it doesn't, the failure will be itself informative — it will say something specific about what computation is *not* simply distinction-and-continuation.
+
+## Where this leaves the project
+
+```{=html}
+<span class="role-tag human">🧑 Human reading</span>
+<span class="role-tag ai">🤖 AI formalisation in progress</span>
+<span class="role-tag discovery">💡 Cross-tradition unification</span>
+```
+
+Three months ago BEDC was a constructive analysis project on a finite kernel. Two days ago it was that, plus baby category theory, plus a foundationalist position on distinction. Today it is also, structurally, a programming-language theory and a recursion theory — one foundational kernel, two large mathematical traditions, one unified `Cont`-as-main-verb reading.
+
+What hasn't changed: the kernel is still `inductive BHist | Empty | e0 | e1`. The constraint is still `axiom-purity --strict`. The throughput is still ~500 commits per day from a single human + Codex agent loop. The four bridges are not new content; they are the recognition that the existing content was always doing more than we asked it to.
+
+Spencer-Brown wanted the form of distinction to be the algebraic primitive of formal systems. He never got to a working test. BEDC, now sixty years later, has a working test — and the test is widening, not narrowing, the more we look at it. Mathematics, computation, the limit family of self-referential constraints — all in one frame, all from one closed ground loop, all formally specifiable inside the host calculus.
+
+We will see how far it goes.
+
+## Where to go from here
+
+```{=html}
+<div class="cta-choices">
+  <a href="one-closed-loop.qmd"><strong>← One Closed Loop</strong><br/>The companion essay listing the first four limits (Gödel, Tarski, Münchhausen, Hofstadter) and naming the closed-ground / open-meta duality. Halting joins that family here.</a>
+  <a href="distinction-as-foundation.qmd"><strong>Distinction as Foundation</strong><br/>The philosophical case that distinction is the irreducible primitive — and that everything in this essay falls out of it.</a>
+  <a href="synthesis-not-creation.qmd"><strong>Synthesis, Not Creation →</strong><br/>The honest accounting: the four bridges in this essay are syntheses across kernel + traditions, formalised by AI, with framing supplied by the human partner. Both contributions matter.</a>
+</div>
+```
+
+— *The Omega Institute*

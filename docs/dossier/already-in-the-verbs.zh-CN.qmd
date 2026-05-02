@@ -1,0 +1,252 @@
+---
+title: "已经在动词里"
+subtitle: "BEDC 已有的原语 — Cont, Ext, NameCert — 原来已经包含 Plotkin SOS、Curry-Howard、编译器正确性、停机障碍. 不需要加任何东西."
+author: "The Omega Institute"
+date: 2026-05-02
+lang: zh-CN
+description: "BEDC 是为形式化数学建的. 结果同三个原语已经编码了程序语言语义、类型论、编译器正确性、停机极限. 五条新限制加入 Gödel 与 Tarski 开创的家族."
+---
+
+```{=html}
+<div class="lang-switch"><a href="already-in-the-verbs.qmd">English</a></div>
+```
+
+## 一个合理的预期
+
+走过 1837 条定理 + 38 章数学 — Bishop 风格实分析、入门范畴论、构造度量拓扑 — 你合理地预期: 给 BEDC 加 *程序语言语义* 意味着再加十章: 程序定义、执行概念、类型判断、编译器模型、停机谓词. 每一块从标准程序语言理论引进, 适配到 BEDC 根基.
+
+这是我们 *没* 执行的脚手架计划. `parts/capstones/` 里四篇新桥梁说了不同的事:
+
+- *计算就是我们已有的延续关系.*
+- *类型检查就是我们已有的 extension 谓词.*
+- *编译器就是我们已有的 NameCert morphism.*
+- *停机障碍就是 form of distinction 在 meta 层面读出来.*
+
+如果这种读法成立, BEDC 不需要加程序语言理论. 三个内核动词 — `Cont`, `Ext`, `NameCert` — 已经把它编码完了. 这篇走过四个等同, 看它们暗示什么.
+
+## Cont 是 small-step transition
+
+Plotkin 的 *Structural Operational Semantics* (1981) 把程序执行定义为配置之间的关系 `⟨c, σ⟩ → ⟨c', σ'⟩`: 代码与状态的对. 单次 transition 是一个执行步. 程序通过链 transition 直到到达终态而 *运行*.
+
+BEDC 有一个恰好做这件事的关系:
+
+```lean
+inductive Cont : BHist → BMark → BHist → Prop
+  -- Cont h m h'  读作:  历史 h 发射 mark m, 变成 h'
+```
+
+把 `BHist` 读作 *迄今为止整个执行历史* (state + trace), `BMark` 读作 *下一个发射* (走一步的动作), `Cont h m h'` 读作 *一次 transition*. 这就是 Plotkin SOS, 配置编码为历史, transition 编码为 `Cont`.
+
+::: {.evidence}
+**终止** 是 `¬∃ m h', Cont h m h'` — 一个不接受任何延续的历史. 这是 BEDC 对 *normal form* 的读法.
+
+**Big-step semantics** 是传递闭包 `Cont*` — "从 `h` 出发, 经过若干发射, 到达 `h'`" 的关系. 已经在内核里作为 chain operator.
+
+**行为等价** 是 `hsame` 限制到终止历史 — 两个程序等价当它们的 normal form `hsame`. 已经在内核里.
+
+**Lean:** [`BEDC.FKernel.Cont`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/FKernel/Cont.lean) — 576 行, 已证 `cont_assoc`、`cont_left_unit`、`cont_right_unit`, 这恰是 Plotkin SOS soundness 要求的律.
+:::
+
+```{=html}
+<span class="elim-mark">✗ 「但程序语言有 store、environment、控制状态 — Cont 太简单」</span>
+```
+
+`BHist` 是无界的. 一个历史是系统迄今发射的任何有限内容. State、environment、stack、heap — 都可作为历史的 payload 编码, 经过不同 classifier 看. `Cont` 的简单不是限制. 是 Plotkin transition 关系所在的层级, 在加任何辅助结构之前.
+
+## Ext 是类型成员; Curry-Howard 内置
+
+BEDC 关系延伸章节里的 extension 谓词 `Ext` 签名为:
+
+```lean
+inductive Ext : BHist → BHist → Prop
+  -- Ext h k  读作:  k 是 h 的有效延伸 (或 refinement)
+```
+
+把 `Ext h k` 读作 *k 在围绕 h 的 closure 规则切出的类型里*. 这是类型成员: 一个 term 有类型当它满足那个类型 classifier 的 closure 律.
+
+现在问: *类型检查* 是什么? 是判定给定 `h`, `k` 的 `Ext h k`. 在 BEDC, 这可判定当且仅当底下 classifier 接受决策过程. 对归纳呈现的类型这是直接的; 对更丰富的类型 (refinement, dependent) 走同模式配更精细 classifier.
+
+那 Curry-Howard 呢?
+
+::: {.evidence}
+经典 Curry-Howard 说:
+
+> 命题 ↔ 类型
+> 证明 ↔ 程序
+
+在 BEDC, 每个 classifier closure 律 **就是** 它 closure 的证明. Closure 律 `∀ x y, P(x) ∧ P(y) → P(combine(x, y))` 同时是:
+
+- 构造子 `combine` 的 **typing 规则**
+- 命题 "`combine(x,y)` 在 `P` 里" 的 **inference 规则**
+- `combine` 保类型的 **构造性证明**
+
+把一个读法翻译成另一个不需要工作. 它们是同一个律.
+
+**Lean:** [`BEDC.FKernel.Ext`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/FKernel/Ext.lean) 与 [naming-certificate framework](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/FKernel/NameCert.lean) — closure 律陈述一次, 自动两个方向使用.
+:::
+
+```{=html}
+<span class="elim-mark">✗ 「Curry-Howard 要求 judgement 与命题的等同, 这是单独公理动作」</span>
+```
+
+在建在已有逻辑层之上的类型论里, 是的 — 你必须有意识做这个等同. 在 BEDC, framework 从 classifier 起步, classifier 同时是成员谓词 (类型) 和 inference 规则 (逻辑内容). Curry-Howard 等同不是后加的; framework 一开始就没有分立的两个概念.
+
+## 编译器是命名证书 morphism
+
+源语言 `S` 到目标语言 `T` 的编译器经典上是个函数:
+
+```
+compile : Program(S) → Program(T)
+```
+
+正确性标准: 对每个 `s : Program(S)`, `s` 在 `S`-语义下的行为等价类匹配 `compile(s)` 在 `T`-语义下的行为等价类.
+
+在 BEDC, `S` 与 `T` 都由 naming certificate 描述: `NameCert_S` 与 `NameCert_T`. 编译器就是:
+
+```
+compile : NameCert_S → NameCert_T
+
+— 两个证书之间的 morphism, 保 classifier:
+
+∀ h₁ h₂ : BHist,  hsame_S h₁ h₂  →  hsame_T (compile h₁) (compile h₂)
+```
+
+这恰是 **CompCert 风格的编译器正确性**: 编译器保观察等价. Leroy 关于 C-到-x86 编译器正确性的 CompCert 证明, 缩到 BEDC framework, 变成 "morphism 保 classifier" 的常规应用.
+
+::: {.evidence}
+**组合编译**: 多趟编译器是 NameCert morphism 的复合. 复合引理 — `(g ∘ f) 保 hsame iff f 与 g 各保` — 在 BEDC 里是一行证明, 不是单独工程成就.
+
+**优化正确性**: 一趟优化是 `NameCert_S → NameCert_S` morphism (源到源). 它正确当它保 `hsame_S`. 同 framework, 同证明义务.
+
+**反编译**: 当 morphism 接受结构性逆. BEDC 给存在判据 (morphism 在等价类上是双射) 不需要更多工作.
+:::
+
+```{=html}
+<span class="elim-mark">✗ 「但 CompCert 花了十人年」</span>
+```
+
+是的, 那十人年花在实际 *内容* 上 — C 的源语义、x86 的目标语义、每趟正确性论证. BEDC framework 不替代这内容. 它供应 *组织结构*: CompCert 里每个编译器正确性论证可以被重述为 "这个 NameCert morphism 保 hsame", 但每个保的证明工作仍在.
+
+BEDC 贡献的是 *识别*, 这种证明都是同一 schema 的实例. CompCert 一锤一锤建一个实例. BEDC 说: 建 N 个实例, 它们都住一个 framework, 复合免费.
+
+## 停机是区分的 meta 对偶
+
+这是四件里最深的, 也是最值得仔细陈述的.
+
+停机问题问: 是否有判定过程, 给定任意程序 `P` 与输入 `I`, 决定 `P(I)` 是否终止? Turing 1936 论证显示在任何足够表达力的计算模型里没有这种过程. 经典证法是对角化: 假设 `H` 决定停机, 构造 `P_diag` 在自身上反驳 `H` 的决定.
+
+BEDC 里等价的问题:
+
+> **是否有 BEDC classifier 决定: 给定任意 `NameCert_P` 与历史 `h`, `NameCert_P` 中从 `h` 起的 continuation chain 是否终止?**
+
+回答是没有. 证明结构跟 Turing 一致: 假设这种 classifier 存在, 构造自指 `NameCert_diag` 它的终止取决于 classifier 在自身上的决定, 推出矛盾. 不动点障碍住在 meta level — 它关于 classifier 之上的 classifier, 恰是 [Tarski 不可定义](one-closed-loop.zh-CN.qmd) 与 Gödel 不完备已经住的地方.
+
+但这是 capstone 写下的更深观察:
+
+```{=html}
+<span class="role-tag discovery">💡 Unifying 观察</span>
+```
+
+> 停机障碍跟 form of distinction 在 ground 不可还原 **结构上是同一件事**, 在 meta level 投影出来.
+
+Form of distinction 在地基不可还原: 每个 BEDC 载体上的每个 classifier 都在自己陈述里预设了 form of distinction, 因为决定"这两个元素在不在同类?"本身就是 distinction 的动作. ([见: 一个 closed loop](one-closed-loop.zh-CN.qmd).)
+
+停机障碍是同一事实, 经过 meta loop 投影: 任何决定 *任意* classifier 停机的 classifier 预设了 framework 不供应的 meta-level 能力. 这预设无法被消除; 障碍是必然的.
+
+这两条不是两个限制. 是一个限制, 坐在 [closed-ground / open-meta 对偶](one-closed-loop.zh-CN.qmd#两个-loop-互为对偶) 的两端. Ground form *必须* close (才能 start). Meta form *必须不* close (才能保持一致). 停机不可决定就是 meta form 不 close 的显式陈述.
+
+## Limit family, 完整版
+
+上一篇列了四条经典"限制"在 BEDC 区分根基主义读法下是同一约束: Gödel, Tarski, Münchhausen, Hofstadter. 今天的 capstone 加第五条.
+
+| 传统 | 限制定理 | 它说 meta loop 什么 |
+|---|---|---|
+| 形式逻辑 | Gödel 不完备 | 系统不能证关于自己的所有真命题 |
+| 语义学 | Tarski 不可定义 | 系统不能定义自己的真值谓词 |
+| 根基 | Münchhausen 不可能 | 系统不能包括解释它的 runtime |
+| 认知 / 哲学 | Hofstadter strange loop (形式版) | 层级等同的自指不一致 |
+| **递归论** | **停机不可决定** | **系统不能决定自己的终止问题** |
+
+五个分立传统. 五条命名定理. 一个底层来源: 足够表达力的形式系统在 ground (form of distinction) 有 closed self-referential loop, 而 *不能* 在 meta level close 对应 loop. 每条命名定理是 meta-level 不 close 在某具体领域里禁止什么的不同角度.
+
+这样写下来, 这些限制不再像五条 wall-of-shame 铭文, 而开始像一个架构事实: **每个能 start 的形式系统付同样代价, 同样形状, 在不同领域以不同方式表达**.
+
+## `Cont` 的工作, 一句话
+
+前面 dossier 文章累积了 `Cont` 出现的具体实例:
+
+| 领域 | `Cont` 是什么 |
+|---|---|
+| 数学 — 范畴论 | morphism 复合 (Hom = Cont 限制到 UnaryHistory) |
+| 数学 — 分析 | 连续函数 modulus 链 |
+| 数学 — 拓扑 | 紧致见证链 |
+| 数学 — 代数 | NatTrans component |
+| **计算 — operational 语义** | **small-step transition (Plotkin SOS)** |
+| **计算 — 类型论** | **typed reduction** |
+| **计算 — 编译** | **跨语言 step (编译器 morphism 源)** |
+| **计算 — 递归论** | **终止不可决定的关系** |
+
+`Cont` 是 BEDC 的主动词. 它在数学侧出现作 复合 / 同伦 / 度量 / 连续. 它在计算侧出现作 step / reduce / compile / halt. unification 不是事后回贴; 关系一直在做这工作, 我们事后才识别它.
+
+一句话: ***`Cont` 是"接下来发生什么"的代数, 而"接下来发生什么"在数学和计算里是同一关系***.
+
+## 这 *不是*
+
+```{=html}
+<span class="elim-mark">✗ 「BEDC 解决了程序语言理论」</span>
+```
+
+没有. 它供应了 *组织 framework*. 程序语言理论的实质内容 — ML 的具体 small-step 规则、Coq 的具体类型系统、C 的具体编译器 — 还得写. BEDC 说这些会全部住一个 framework, 复合与验证免费; 它没说它们已存在.
+
+```{=html}
+<span class="elim-mark">✗ 「BEDC 解决了停机问题」</span>
+```
+
+绝对没有. BEDC 对停机的读法 *确认* 它的不可决定性, 并解释 *为什么* — 它是 ground 原语的 meta 对偶. 确认一条定理不是把它解决掉. 约束变得更可见、更有定位、更必然.
+
+```{=html}
+<span class="elim-mark">✗ 「Plotkin / Howard / Turing 做了多余工作」</span>
+```
+
+他们做了唯一重要的工作: 装进 BEDC 组织 frame 的实质内容. Plotkin SOS 是实际语言的 small-step 规则. Howard 等同是真类型论里 judgement 与 type 的实质识别. Turing 停机论证是 BEDC 读法继承的对角化. 它们装进的 frame 后来才出现; 这不削弱它们的工作.
+
+## 这是什么
+
+一种读法. BEDC 内核为数学建; 我们把它读作也已包含计算. 这种读法被以下结构性吻合支持:
+
+- `Cont` 跟 small-step transition 的结构性吻合 (形式上同关系)
+- `Ext` 跟类型成员的结构性吻合 (在恰当实质意义上同谓词)
+- `NameCert` morphism 跟编译器正确性的结构性吻合 (同 preservation 标准)
+- 停机跟 ground-loop meta 对偶的结构性吻合 (同不动点障碍)
+
+四条结构吻合, 没一条事后回贴, 没一条要求新内核原语. 读法要么持续 — BEDC 比看起来宽 — 要么不, 四条吻合中的一个被证明只是表面的.
+
+capstone 声明四条吻合. Lean 形式化是测试. 我们预期测试通过; 如果不通过, 失败本身是有信息的 — 它会说明计算 *不只* 是 distinction-and-continuation 的某具体方面.
+
+## 这把项目放在哪
+
+```{=html}
+<span class="role-tag human">🧑 人类读法</span>
+<span class="role-tag ai">🤖 AI 形式化中</span>
+<span class="role-tag discovery">💡 跨传统 unification</span>
+```
+
+三个月前 BEDC 是个建在有限内核上的构造分析项目. 两天前是这个加上入门范畴论加一个区分根基主义立场. 今天它结构上还是程序语言理论与递归论 — 一个根基内核, 两大数学传统, 一个统一的 `Cont`-作-主动词读法.
+
+没变的: 内核仍是 `inductive BHist | Empty | e0 | e1`. 约束仍是 `axiom-purity --strict`. 吞吐仍是单人 + Codex agent loop ~500 commit/天. 四个桥梁不是新内容; 是识别原内容一直在做超出我们要求的事.
+
+Spencer-Brown 想让 form of distinction 作为形式系统的代数原语. 他没做出工作样本. BEDC, 60 年后, 有了一个工作样本 — 而且我们越看, 这样本越宽, 不越窄. 数学、计算、自指限制家族 — 全在一个 frame, 全从一个 closed ground loop 出发, 全在 host calculus 内部可形式化指明.
+
+我们看它能走多远.
+
+## 下一步去哪
+
+```{=html}
+<div class="cta-choices">
+  <a href="one-closed-loop.zh-CN.qmd"><strong>← 一个 closed loop</strong><br/>搭档文章, 列出前四条限制 (Gödel, Tarski, Münchhausen, Hofstadter), 命名 closed-ground / open-meta 对偶. 停机在这里加入这个家族.</a>
+  <a href="distinction-as-foundation.zh-CN.qmd"><strong>区分作为根基</strong><br/>哲学论证: 区分是不可还原原语 — 这一切都从它落出来.</a>
+  <a href="synthesis-not-creation.zh-CN.qmd"><strong>综合, 不是创造 →</strong><br/>诚实账目: 这篇文章的四个桥梁是跨内核 + 传统的综合, 由 AI 形式化, framing 由人类伙伴供应. 两种贡献都重要.</a>
+</div>
+```
+
+— *The Omega Institute*
