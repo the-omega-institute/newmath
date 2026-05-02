@@ -737,6 +737,86 @@ commutativity fields gives precisely a commutative semigroup-level continuation
 operation, not a carried field multiplication with an internal one-sided unit.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation full obstruction package]
+\label{thm:field-rat-denominator-continuation-full-obstruction-package}
+For the concrete BEDC carrier $\mathsf{RatHistoryCarrier}$, classifier
+$\mathsf{RatHistoryClassifier}$, operation relation $\Cont$, and ledger
+$\mathsf{RatHistoryLedgerPolicy}$, Rat denominator continuation satisfies the
+following six-clause certificate-shaped obstruction package.
+\begin{enumerate}
+\item Carrier closure: if $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, and $\Cont(d,e,r)$, then
+$\mathsf{RatHistoryCarrier}(r)$.
+\item Classifier associativity: if $d,e,f,de,ef,\ell,r:\mathsf{BHist}$ are
+related by $\Cont(d,e,de)$, $\Cont(e,f,ef)$, $\Cont(de,f,\ell)$, and
+$\Cont(d,ef,r)$, with $d,e,f$ carried by $\mathsf{RatHistoryCarrier}$, then the
+two bracketed results are carried and satisfy
+$\mathsf{RatHistoryClassifier}(\ell,r)$.
+\item Classifier commutativity: if $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, $\Cont(d,e,r)$, and $\Cont(e,d,s)$, then
+$\mathsf{RatHistoryClassifier}(r,s)$.
+\item Binary classifier congruence: if
+$\mathsf{RatHistoryClassifier}(d,d')$,
+$\mathsf{RatHistoryClassifier}(e,e')$, $\Cont(d,e,r)$, and
+$\Cont(d',e',s)$, then $\mathsf{RatHistoryClassifier}(r,s)$.
+\item Ledger closure for classified unary continuation tails: if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $\mathsf{UnaryHistory}(u)$,
+$\mathsf{UnaryHistory}(u')$, $u\hsame u'$, $\Cont(\rho,u,r)$, and
+$\Cont(v,u',s)$, then $\mathsf{RatHistoryLedgerPolicy}(r,s)$.
+\item Internal carried-unit obstruction: for every history $u:\mathsf{BHist}$,
+if $\mathsf{RatHistoryCarrier}(u)$, then the left-unit classifier law
+
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+
+and the right-unit classifier law
+
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+
+each imply $\mathsf{False}$.
+\end{enumerate}
+Consequently Rat-denominator continuation is a classifier-and-ledger
+commutative semigroup fragment, but it cannot be promoted to the multiplicative
+carrier of $\MonoidUp$ or $\FieldUp$ because no carried one-sided unit exists.
+\end{theorem}
+\begin{proof}
+The carrier-closure clause is exactly
+\autoref{thm:field-rat-denominator-continuation-carrier-closure}. The
+associativity clause is
+\autoref{thm:field-rat-denominator-continuation-semigroup-laws}; its conclusion
+supplies the two intermediate carriers, the two outer result carriers, and
+$\ell\hsame r$, which repacks as
+$\mathsf{RatHistoryClassifier}(\ell,r)$.
+
+The commutativity clause is
+\autoref{thm:field-rat-denominator-continuation-commutative-classifier}. For
+binary classifier congruence, unpack the classifier
+$\mathsf{RatHistoryClassifier}(e,e')$ to obtain unary denominator witnesses for
+the two right inputs and the comparison $e\hsame e'$, then apply
+\autoref{thm:field-rat-denominator-continuation-binary-classifier-congruence}
+to the classified left inputs and the two continuation witnesses.
+
+The ledger clause is
+\autoref{thm:field-rat-denominator-continuation-ledger-closure}. It applies to
+the displayed ledger endpoints, matched unary continuation tails, tail
+comparison, and continuation witnesses, yielding
+$\mathsf{RatHistoryLedgerPolicy}(r,s)$.
+
+The carried-unit obstruction is
+\autoref{thm:field-rat-denominator-continuation-no-internal-one-sided-unit}. Its
+two conclusions rule out the left-unit and right-unit classifier laws for any
+carried candidate $u$, completing the certificate-shaped package.
+\end{proof}
+
 \textbf{Traditional target}: internal unit obstruction for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$
 plus $\Cont$; \textbf{carrier choice}: Rat denominators; \textbf{classifier
