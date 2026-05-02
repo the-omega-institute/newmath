@@ -354,6 +354,29 @@ exactness.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_prefix\_empty\_identity\_iff}
 
+\begin{theorem}[Prefix functor one-headed endpoint empty composite exactness]
+\label{thm:functor-prefix-hom-carrier-e1-endpoint-empty-composite-iff}
+For histories $p,a,b,c,f,g$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,\Eone(a))$ to $b$ and $g$ is a hom-carrier from $b$ to
+$\mathsf{append}(p,\Eone(c))$, then their empty composite is equivalent to
+both morphism histories being empty and the one-headed endpoint payloads
+agreeing:
+$$
+\ContR(f,g,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(f,\emp)\wedge\HSame(g,\emp)\wedge\HSame(a,c).
+$$
+\end{theorem}
+\begin{proof}
+Category empty-composite exactness gives the two empty morphism histories and
+the adjacent endpoint equalities through $b$. Transitivity identifies the two
+prefixed one-headed endpoints. Left cancellation removes the shared prefix
+$p$, and one-headed constructor inversion gives $\HSame(a,c)$. Conversely, the
+empty morphism histories reduce the displayed continuation ledger to
+$\ContR(\emp,\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_endpoint\_empty\_composite\_iff}
+
 \begin{theorem}[Prefix functor empty-target component exactness]
 \label{thm:functor-prefix-hom-carrier-empty-target-components-iff}
 For histories $p,a,f$, a hom-carrier from the prefixed source

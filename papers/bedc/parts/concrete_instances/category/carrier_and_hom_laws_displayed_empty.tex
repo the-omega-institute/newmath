@@ -18,3 +18,26 @@ ledger by empty-composite exactness. Continuation determinacy compares that
 ledger with the displayed ledger and yields $\HSame(fg,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_empty\_iff}
+
+\begin{theorem}[One-headed endpoint empty composite exactness]
+\label{thm:category-hom-carrier-e1-endpoint-empty-composite-iff}
+For unary-continuation hom carriers
+$\mathsf{CategoryHomCarrier}(\Eone(a),b,f)$ and
+$\mathsf{CategoryHomCarrier}(b,\Eone(c),g)$, the displayed empty composite is
+equivalent to both displayed morphisms being empty and the one-headed endpoint
+payloads agreeing:
+$$
+\ContR(f,g,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(f,\emp)\wedge\HSame(g,\emp)\wedge\HSame(a,c).
+$$
+\end{theorem}
+\begin{proof}
+Apply category empty-composite exactness to obtain empty morphism histories and
+the adjacent endpoint equalities
+$\HSame(\Eone(a),b)$ and $\HSame(b,\Eone(c))$. Transitivity identifies
+$\Eone(a)$ with $\Eone(c)$, and one-headed constructor inversion reads back
+$\HSame(a,c)$. Conversely, empty displayed morphisms reduce the continuation
+ledger to the empty continuation at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_endpoint\_empty\_composite\_iff}

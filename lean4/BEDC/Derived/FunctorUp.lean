@@ -1,4 +1,5 @@
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.EmptyComposite
 import BEDC.Derived.CategoryUp.Prefix
 
 namespace BEDC.Derived.FunctorUp
@@ -483,5 +484,25 @@ theorem FunctorPrefixHomCarrier_comp_target_object_deterministic
   have sameTarget : hsame (append p c) (append p d) :=
     CategoryHomCarrier_target_deterministic composite displayed
   exact append_left_cancel (h := p) sameTarget
+
+theorem FunctorPrefixHomCarrier_e1_endpoint_empty_composite_iff {p a b c f g : BHist} :
+    CategoryHomCarrier (append p (BHist.e1 a)) b f ->
+      CategoryHomCarrier b (append p (BHist.e1 c)) g ->
+        (Cont f g BHist.Empty <->
+          hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame a c) := by
+  intro left right
+  constructor
+  · intro comp
+    have emptyData := (CategoryHomCarrier_empty_composite_iff left right).mp comp
+    have samePrefixedEndpoints : hsame (append p (BHist.e1 a)) (append p (BHist.e1 c)) :=
+      hsame_trans emptyData.right.right.left emptyData.right.right.right
+    have sameE1Endpoints : hsame (BHist.e1 a) (BHist.e1 c) :=
+      append_left_cancel (h := p) samePrefixedEndpoints
+    exact And.intro emptyData.left
+      (And.intro emptyData.right.left (hsame_e1_iff.mp sameE1Endpoints))
+  · intro emptyData
+    cases emptyData.left
+    cases emptyData.right.left
+    rfl
 
 end BEDC.Derived.FunctorUp
