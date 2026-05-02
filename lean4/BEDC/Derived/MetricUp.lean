@@ -414,6 +414,27 @@ theorem MetricDistanceWitness_left_e1_empty_target_exactness {x d : BHist} :
                 (unary_e1_inversion xCarrier)
                 (hsame_e1_iff.mp sameResult)
 
+theorem MetricDistanceWitness_left_e1_visible_target_exactness {x y d y1 : BHist} :
+    MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) ->
+      hsame y (BHist.e1 y1) -> MetricDistanceWitness (BHist.e1 x) y1 d := by
+  intro witness sameY
+  have resultCases := MetricDistanceWitness_left_e1_result_cases witness
+  cases resultCases with
+  | inl emptyCase =>
+      cases emptyCase with
+      | intro yEmpty _data =>
+          cases yEmpty
+          exact False.elim (not_hsame_emp_e1 sameY)
+  | inr visibleCase =>
+      cases visibleCase with
+      | intro y0 data =>
+          cases data with
+          | intro yEq tailWitness =>
+              cases yEq
+              have sameY0Y1 : hsame y0 y1 := hsame_e1_iff.mp sameY
+              cases sameY0Y1
+              exact tailWitness
+
 theorem MetricDistanceWitness_right_e1_result_exactness {x y d : BHist} :
     MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) ->
       MetricDistanceWitness x y d := by

@@ -117,6 +117,25 @@ endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_point\_empty\_absurd}
 
+\begin{theorem}[SOne history carrier empty point exclusion]
+\label{thm:sone-history-carrier-empty-point-absurd}
+For histories $x,y,e$, a concrete $\SOneUp$ history-carrier witness cannot have
+an empty point ledger:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,\emp)
+\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the circle carrier to the first real-constant component and the
+continuation ledger. The empty-result continuation inversion forces the first
+component to be empty, while the real-constant carrier displays it as an
+$\Eone$-headed rational history. Constructor no-confusion gives the
+contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_empty\_point\_absurd}
+
 \begin{theorem}[SOne history carrier rational unit components]
 \label{thm:s1-history-carrier-rational-unit-components}
 For histories $x,y,e,p$, the concrete $\SOneUp$ history carrier exposes

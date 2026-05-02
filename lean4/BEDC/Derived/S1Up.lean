@@ -101,6 +101,21 @@ theorem SOneHistoryCarrier_point_empty_absurd {x y equation : BHist} :
                       cases sameY
                       cases pointCont
 
+theorem SOneHistoryCarrier_empty_point_absurd {x y equation : BHist} :
+    SOneHistoryCarrier x y equation BHist.Empty -> False := by
+  intro carrier
+  cases carrier with
+  | intro xCarrier rest =>
+      cases rest with
+      | intro _yCarrier rest =>
+          cases rest with
+          | intro _equationCarrier pointCont =>
+              have emptyEndpoints := cont_empty_result_inversion pointCont
+              cases xCarrier with
+              | intro dx xData =>
+                  exact not_hsame_emp_e1
+                    (hsame_trans (hsame_symm emptyEndpoints.left) xData.left)
+
 theorem SOneHistoryCarrier_rational_unit_components {x y equation point : BHist} :
     SOneHistoryCarrier x y equation point →
       ∃ dx dy : BHist,

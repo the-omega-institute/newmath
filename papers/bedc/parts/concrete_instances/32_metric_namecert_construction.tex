@@ -413,6 +413,26 @@ one-constructor cancellation yields $\hsame(d,x)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_empty\_target\_exactness}
 
+\begin{theorem}[Metric distance witness left e1 visible target exactness]
+\label{thm:metric-distance-witness-left-e1-visible-target-exactness}
+For histories $x,y,d,y_1$, a distance witness whose left endpoint and result are
+visible descends across a visible presentation of the target endpoint:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longrightarrow
+\hsame(y,\Eone(y_1))
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(\Eone(x),y_1,d).
+$$
+\end{theorem}
+\begin{proof}
+Apply the left visible-result case split. The empty-middle branch contradicts
+the displayed visible presentation of $y$. In the visible-middle branch, strip
+the $\Eone$ constructor from that presentation and transport the recovered tail
+witness along the resulting $\hsame$ equality.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_visible\_target\_exactness}
+
 \begin{theorem}[Metric distance witness right e1 result exactness]
 \label{thm:metric-distance-witness-right-e1-result-exactness}
 For histories $x,y,d$, a distance witness with right endpoint and result both
