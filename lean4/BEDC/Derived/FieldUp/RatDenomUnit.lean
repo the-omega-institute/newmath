@@ -412,6 +412,21 @@ theorem field_rat_denominator_empty_unit_right_cancel {h k t : BHist} :
   intro carrierH carrierK _carrierT classified
   exact ⟨carrierH, carrierK, append_right_cancel classified.right.right⟩
 
+theorem field_rat_denominator_empty_unit_right_multiplication_classifier_exactness
+    {h k t : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier t ->
+      (RatDenomUnitClassifier (append h t) (append k t) ↔ RatDenomUnitClassifier h k) := by
+  intro carrierH carrierK carrierT
+  constructor
+  · intro classified
+    exact field_rat_denominator_empty_unit_right_cancel carrierH carrierK carrierT classified
+  · intro classified
+    have carrierHT : RatDenomUnitCarrier (append h t) :=
+      RatDenomUnitCarrier_continuation_closed carrierH carrierT (cont_intro rfl)
+    have carrierKT : RatDenomUnitCarrier (append k t) :=
+      RatDenomUnitCarrier_continuation_closed carrierK carrierT (cont_intro rfl)
+    exact ⟨carrierHT, carrierKT, congrArg (fun x => append x t) classified.right.right⟩
+
 theorem field_rat_denominator_empty_unit_left_multiplication_classifier_exactness
     {h k t : BHist} :
     RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier t ->

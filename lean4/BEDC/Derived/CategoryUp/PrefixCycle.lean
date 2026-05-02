@@ -48,4 +48,14 @@ theorem ContinuationMorphism_prefix_triangle_cycle_tails_empty {p a b c : BHist}
                         (cont_deterministic (cont_right_unit a) baseLeftRel)
                         (cont_deterministic (cont_right_unit b) middleRel))))
 
+theorem CategoryHomCarrier_unary_prefix_triangle_cycle_identity_carriers {p a b c f g h : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f -> CategoryHomCarrier b c g ->
+      CategoryHomCarrier c a h ->
+        CategoryHomCarrier a a BHist.Empty ∧ CategoryHomCarrier b b BHist.Empty ∧
+          CategoryHomCarrier c c BHist.Empty ∧ hsame a b ∧ hsame b c := by
+  intro left middle back
+  have baseLeft : CategoryHomCarrier a b f :=
+    (CategoryHomCarrier_unary_prefix_iff.mp left).right
+  exact CategoryHomCarrier_triangle_cycle_identity_carriers baseLeft middle back
+
 end BEDC.Derived.CategoryUp

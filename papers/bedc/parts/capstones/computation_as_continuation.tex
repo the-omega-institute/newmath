@@ -388,6 +388,34 @@ composite endpoint equality $a\hsame c$ and $h\hsame\emp$ to become the empty
 identity carrier at $c$.
 \end{proof}
 
+\begin{theorem}[Unary-prefix triangle cyclic hom-carriers expose identity carriers]
+\label{thm:category-hom-carrier-unary-prefix-triangle-cycle-identity-carriers}
+If the first hom-carrier has a shared unary prefix,
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f),
+$$
+and the remaining two hom-carriers close the triangle,
+$$
+\mathsf{CategoryHomCarrier}(b,c,g)\qquad\text{and}\qquad
+\mathsf{CategoryHomCarrier}(c,a,h),
+$$
+then the base endpoints carry empty-tail identities and adjacent endpoints are
+internally the same:
+$$
+\mathsf{CategoryHomCarrier}(a,a,\emp)\land
+\mathsf{CategoryHomCarrier}(b,b,\emp)\land
+\mathsf{CategoryHomCarrier}(c,c,\emp)\land
+\hsame(a,b)\land\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Prefix exactness strips the shared unary prefix from the first hom-carrier,
+leaving a base carrier from $a$ to $b$. The ordinary triangular cyclic
+identity-carrier theorem applies to this base carrier and the two remaining
+hom-carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_prefix\_triangle\_cycle\_identity\_carriers}
+
 \begin{theorem}[Unary prefix category isomorphism collapse]
 \label{thm:unary-prefix-category-isomorphism-collapse}
 If the opposite unary hom-carrier ledgers
