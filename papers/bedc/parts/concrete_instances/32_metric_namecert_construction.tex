@@ -259,6 +259,29 @@ $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_result\_deterministic}
 
+\begin{theorem}[Metric distance witness visible-context prefix-independent result determinacy]
+\label{thm:metric-distance-witness-visible-context-prefix-independent-result-deterministic}
+For histories $p,q,p',q',x,y,d,e$, if two visible distance ledgers have the
+same central endpoints $x$ and $y$ but possibly different visible prefix and
+suffix contexts, then their central distance histories classify together:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(p'\cdot x,y\cdot q',(p'\cdot e)\cdot q')
+\Longrightarrow
+\hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to each visible
+ledger. The first application recovers the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$, while the second recovers
+$\mathsf{MetricDistanceWitness}(x,y,e)$, independently of the visible prefix
+and suffix histories. Their continuation fields share the same source and
+target endpoints, so continuation determinacy gives $\hsame(d,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_prefix\_independent\_result\_deterministic}
+
 \begin{theorem}[Metric distance witness endpoint-hsame result determinacy]
 \label{thm:metric-distance-witness-hsame-result-deterministic}
 For histories $x,x',y,y',d,d'$, if $x$ classifies with $x'$ and $y$

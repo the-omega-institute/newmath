@@ -74,4 +74,68 @@ theorem TaggedOptionHistoryClassifier_right_confluence {S : BHist -> Prop}
                                             (And.intro sameR (rel_symm relAB)))))))
   exact TaggedOptionHistoryClassifier_trans (S := S) (Rel := Rel) rel_trans left flipped
 
+theorem TaggedOptionHistoryClassifier_common_right_visible_payload_classification
+    {S : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (rel_symm : forall {x y : BHist}, Rel x y -> Rel y x)
+    (rel_trans : forall {x y z : BHist}, Rel x y -> Rel y z -> Rel x z)
+    (source_hsame : forall {x y : BHist}, S x -> S y -> hsame x y -> Rel x y)
+    {h r k a c b : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k ->
+      TaggedOptionHistoryClassifier S Rel r k ->
+        S a -> S c -> S b -> hsame h (BHist.e1 a) -> hsame r (BHist.e1 c) ->
+          hsame k (BHist.e1 b) -> Rel a c := by
+  intro left right sourceA sourceC sourceB sameHA sameRC sameKB
+  have leftVisible := TaggedOptionHistoryClassifier_right_visible_branch_inversion left
+  have rightVisible := TaggedOptionHistoryClassifier_right_visible_branch_inversion right
+  have leftData := leftVisible.right sourceB sameKB
+  have rightData := rightVisible.right sourceB sameKB
+  cases leftData with
+  | intro leftPayload leftRest =>
+      cases leftRest with
+      | intro leftTarget leftFields =>
+          cases leftFields with
+          | intro sourceLeftPayload leftFields =>
+              cases leftFields with
+              | intro sourceLeftTarget leftFields =>
+                  cases leftFields with
+                  | intro sameBLeftTarget leftFields =>
+                      cases leftFields with
+                      | intro relLeft leftEndpoint =>
+                          have sameALeftPayload : hsame a leftPayload :=
+                            hsame_e1_iff.mp (hsame_trans (hsame_symm sameHA) leftEndpoint)
+                          have relALeftPayload : Rel a leftPayload :=
+                            source_hsame sourceA sourceLeftPayload sameALeftPayload
+                          have relLeftTargetB : Rel leftTarget b :=
+                            source_hsame sourceLeftTarget sourceB (hsame_symm sameBLeftTarget)
+                          have relAB : Rel a b :=
+                            rel_trans (rel_trans relALeftPayload relLeft) relLeftTargetB
+                          cases rightData with
+                          | intro rightPayload rightRest =>
+                              cases rightRest with
+                              | intro rightTarget rightFields =>
+                                  cases rightFields with
+                                  | intro sourceRightPayload rightFields =>
+                                      cases rightFields with
+                                      | intro sourceRightTarget rightFields =>
+                                          cases rightFields with
+                                          | intro sameBRightTarget rightFields =>
+                                              cases rightFields with
+                                              | intro relRight rightEndpoint =>
+                                                  have sameCRightPayload :
+                                                      hsame c rightPayload :=
+                                                    hsame_e1_iff.mp
+                                                      (hsame_trans (hsame_symm sameRC)
+                                                        rightEndpoint)
+                                                  have relCRightPayload : Rel c rightPayload :=
+                                                    source_hsame sourceC sourceRightPayload
+                                                      sameCRightPayload
+                                                  have relRightTargetB : Rel rightTarget b :=
+                                                    source_hsame sourceRightTarget sourceB
+                                                      (hsame_symm sameBRightTarget)
+                                                  have relCB : Rel c b :=
+                                                    rel_trans
+                                                      (rel_trans relCRightPayload relRight)
+                                                      relRightTargetB
+                                                  exact rel_trans relAB (rel_symm relCB)
+
 end BEDC.Derived.OptionUp

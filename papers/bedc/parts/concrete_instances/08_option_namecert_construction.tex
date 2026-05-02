@@ -86,6 +86,40 @@ the target classifier obtained from the shared-source comparison yields the
 displayed conjunction.
 \end{proof}
 
+\begin{theorem}[Tagged option common-right visible payload classification]
+\label{thm:tagged-option-history-classifier-common-right-visible-payload-classification}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history carrier and let
+$R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a symmetric and
+transitive payload classifier. Assume that visible $\hsame$ between source
+payloads is reflected into $R$. For histories $h,r,k,a,c,b$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,R}(h,k)
+\quad\hbox{and}\quad
+\mathsf{TaggedOptionHistoryClassifier}_{S,R}(r,k),
+$$
+and $a,c,b$ are displayed source payloads with
+$$
+\hsame(h,\Eone(a)),\qquad
+\hsame(r,\Eone(c)),\qquad
+\hsame(k,\Eone(b)),
+$$
+then $R(a,c)$.
+\end{theorem}
+\begin{proof}
+Use right-visible branch inversion on both classifiers at the common right
+presentation $\hsame(k,\Eone(b))$. The first classifier exposes a left payload
+classified with a right payload history-same to $b$, while the second exposes a
+right payload chain with the same visible $b$.
+
+Invert the two visible $\Eone$ presentations at $h$ and $r$ to compare the
+displayed payloads $a$ and $c$ with the exposed classifier payloads. The
+source-$\hsame$ reflection converts these payload comparisons into $R$-legs.
+Transitivity composes $a$ to the common visible payload $b$ through the first
+classifier. The second classifier composes $c$ to the same $b$; symmetry turns
+that leg around, and one final transitivity step yields $R(a,c)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_common\_right\_visible\_payload\_classification}
+
 \section{Tagged option payload descent image target classifier closure}
 \label{sec:option-payload-descent-image-target-classifier-closure}
 

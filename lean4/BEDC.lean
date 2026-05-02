@@ -154,6 +154,7 @@ import BEDC.Derived.CompactUp.EndpointIff
 import BEDC.Derived.CompactUp.InitialEndpointsUnary
 import BEDC.Derived.CompactUp.PrefixedCompositeMiddle
 import BEDC.Derived.CompactUp.RefinementPrefix
+import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
