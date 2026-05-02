@@ -250,6 +250,78 @@ witnesses plus the pair-product conversion maps for $\mathsf{mul}(a,x)$ and
 $\mathsf{mul}(b,c)$. Exactness predicate: fourfold zero-apartness
 equivalence. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field four-factor product inverse reversal from apartness]
+\label{thm:field-four-factor-product-inverse-reversal-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$
+satisfying the hypotheses of
+\autoref{thm:field-binary-product-apartzero-exact},
+\autoref{thm:field-four-factor-product-apartzero-exact},
+\autoref{thm:field-inverse-product-reverse-from-apartness}, and
+\autoref{thm:field-inverse-congruence-from-apartness}, including
+multiplication congruence, associativity, and transitivity for $\hsame$, let
+$\mathsf{ApartZero}_F(h):=(h\hsame0\to\bot)$. For any
+$a,x,b,c:\mathsf{BHist}$ equipped with conversion maps
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),\quad
+\alpha_x:\mathsf{ApartZero}_F(x)\to\mathsf{NonZero}_F(x),
+$$
+$$
+\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b),\quad
+\alpha_c:\mathsf{ApartZero}_F(c)\to\mathsf{NonZero}_F(c),
+$$
+$$
+\alpha_{ax}:\mathsf{ApartZero}_F(\mathsf{mul}(a,x))\to
+\mathsf{NonZero}_F(\mathsf{mul}(a,x)),\quad
+\alpha_{bc}:\mathsf{ApartZero}_F(\mathsf{mul}(b,c))\to
+\mathsf{NonZero}_F(\mathsf{mul}(b,c)),
+$$
+$$
+\alpha_{axbc}:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),
+\mathsf{mul}(b,c)))\to
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{mul}(b,c))),
+$$
+any witness
+$$
+q:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{mul}(b,c)))
+$$
+determines induced witnesses $p_a$, $p_x$, $p_b$, $p_c$, $p_{ax}$,
+$p_{bc}$, and $p_{axbc}$ such that
+$$
+\mathsf{inv}(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{mul}(b,c)),p_{axbc})
+\hsame
+\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(c,p_c),\mathsf{inv}(b,p_b)),
+\mathsf{mul}(\mathsf{inv}(x,p_x),\mathsf{inv}(a,p_a))).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-four-factor-product-apartzero-exact} to $q$. The
+forward implication yields apartness witnesses
+$q_a:\mathsf{ApartZero}_F(a)$, $q_x:\mathsf{ApartZero}_F(x)$,
+$q_b:\mathsf{ApartZero}_F(b)$, and $q_c:\mathsf{ApartZero}_F(c)$.
+Set $p_a:=\alpha_a(q_a)$, $p_x:=\alpha_x(q_x)$,
+$p_b:=\alpha_b(q_b)$, and $p_c:=\alpha_c(q_c)$.
+
+Use the reverse implication of
+\autoref{thm:field-binary-product-apartzero-exact} on $(a,x)$ to build
+$q_{ax}:\mathsf{ApartZero}_F(\mathsf{mul}(a,x))$ from $q_a$ and $q_x$.
+Use it again on $(b,c)$ to build
+$q_{bc}:\mathsf{ApartZero}_F(\mathsf{mul}(b,c))$ from $q_b$ and $q_c$.
+Set $p_{ax}:=\alpha_{ax}(q_{ax})$, $p_{bc}:=\alpha_{bc}(q_{bc})$, and
+$p_{axbc}:=\alpha_{axbc}(q)$.
+
+Apply \autoref{thm:field-inverse-product-reverse-from-apartness} to the
+outer product with witnesses $p_{axbc}$, $p_{ax}$, and $p_{bc}$. Apply the
+same theorem to $(a,x)$ with $p_{ax}$, $p_a$, and $p_x$, and to $(b,c)$
+with $p_{bc}$, $p_b$, and $p_c$.
+
+Multiplication congruence transports the two pair-product inverse equalities
+into the right-hand side of the outer equality. The comparison of inverse
+proof indices is supplied by
+\autoref{thm:field-inverse-congruence-from-apartness}, and associativity
+together with transitivity of $\hsame$ gives the displayed
+$(c,b)(x,a)$ reversed product.
+\end{proof}
+
 \section{Field square apartness inverse descent}
 \label{sec:field-square-apartness-inverse-descent}
 
