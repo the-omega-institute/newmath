@@ -160,6 +160,73 @@ classifies the displayed result as
 $\mathsf{RatHistoryClassifier}(r,d)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator external unit separation package]
+\label{thm:field-rat-denominator-external-unit-separation-package}
+For the concrete denominator carrier, classifier, and continuation operation
+given by
+$$
+C_D(h)\Longleftrightarrow\mathsf{RatHistoryCarrier}(h),
+$$
+$$
+R_D(h,k)\Longleftrightarrow\mathsf{RatHistoryClassifier}(h,k),
+$$
+with operation represented by $\Cont$, every history $u:\mathsf{BHist}$
+satisfies the following three clauses.
+\begin{enumerate}
+\item The right classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+C_D(d)\to
+\Cont(d,u,r)\to
+R_D(r,d)
+$$
+is equivalent to $u\hsame\emp$.
+\item The left classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+C_D(d)\to
+\Cont(u,d,r)\to
+R_D(r,d)
+$$
+is equivalent to $u\hsame\emp$.
+\item If $C_D(u)$ holds, then either one-sided classifier-unit law displayed
+above implies $\mathsf{False}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The displayed definitions of $C_D$ and $R_D$ identify the right classifier-unit
+law with the concrete law in
+\autoref{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}.
+That theorem gives the first equivalence exactly.
+
+The same unpacking identifies the left classifier-unit law with the concrete
+law in
+\autoref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}.
+That theorem gives the second equivalence.
+
+For the carried exclusion, assume $C_D(u)$. This is precisely
+$\mathsf{RatHistoryCarrier}(u)$. The right one-sided law contradicts
+\autoref{thm:field-rat-denominator-continuation-no-internal-unit}, while the
+left one-sided law contradicts
+\autoref{thm:field-rat-denominator-continuation-no-internal-left-unit}.
+
+Equivalently, either endpoint equivalence first yields $u\hsame\emp$, and then
+\autoref{thm:rat-history-carrier-not-empty} excludes the simultaneous carried
+witness. Thus the empty endpoint is external to the positive Rat denominator
+carrier even though it is exact for the classifier-unit boundary laws.
+\end{proof}
+
+\textbf{Traditional target}: external unit boundary for the Rat denominator
+continuation fragment; \textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, and $\Cont$; \textbf{carrier}:
+$C_D$; \textbf{classifier}: $R_D$; \textbf{stability obligation}: endpoint
+exactness plus carried-unit exclusion; \textbf{ledger}: continuation witness;
+\textbf{core theorem}:
+\autoref{thm:field-rat-denominator-external-unit-separation-package};
+\textbf{exactness predicate}: external-unit iff empty plus no internal carried
+unit; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.
+
 \textbf{Traditional target}: denominator-side continuation unit endpoint
 classification for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and $\Cont$;
