@@ -1,4 +1,5 @@
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldUp.RatDenomUnit
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
@@ -68,6 +69,20 @@ theorem RatHistoryClassifier_continuation_right_closed {d d' e r r' : BHist} :
     cont_respects_hsame classified.right.right (hsame_refl e)
       leftContinuation rightContinuation
   exact ⟨carrierR, carrierR', sameResult⟩
+
+theorem RatDenomUnitClassifier_continuation_closed {h h' k k' r r' : BHist} :
+    RatDenomUnitClassifier h h' -> RatDenomUnitClassifier k k' -> Cont h k r ->
+      Cont h' k' r' -> RatDenomUnitClassifier r r' := by
+  intro classifiedH classifiedK leftContinuation rightContinuation
+  have carrierR : RatDenomUnitCarrier r :=
+    RatDenomUnitCarrier_continuation_closed classifiedH.left classifiedK.left leftContinuation
+  have carrierR' : RatDenomUnitCarrier r' :=
+    RatDenomUnitCarrier_continuation_closed classifiedH.right.left classifiedK.right.left
+      rightContinuation
+  have sameRR' : hsame r r' :=
+    cont_respects_hsame classifiedH.right.right classifiedK.right.right leftContinuation
+      rightContinuation
+  exact ⟨carrierR, carrierR', sameRR'⟩
 
 theorem field_rat_denominator_continuation_commutative_classifier {d e r s : BHist} :
     RatHistoryCarrier d -> RatHistoryCarrier e -> Cont d e r -> Cont e d s ->

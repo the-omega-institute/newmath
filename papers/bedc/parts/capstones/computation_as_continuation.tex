@@ -365,6 +365,32 @@ cycle is an ordinary cyclic hom-carrier pair, so cyclic identity-carrier
 exposure transports the two tails to empty identity carriers at $a$ and $b$.
 \end{proof}
 
+\begin{theorem}[Unary-context cyclic hom-carriers expose identity carriers]
+\label{thm:category-hom-carrier-unary-context-cycle-identity-carriers}
+If the forward hom-carrier has a shared unary prefix and the opposite
+hom-carrier has a shared unary suffix,
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(\mathsf{append}(b,q),\mathsf{append}(a,q),g),
+$$
+then the base endpoints carry empty-tail identities and are internally the
+same:
+$$
+\mathsf{CategoryHomCarrier}(a,a,\emp)\land
+\mathsf{CategoryHomCarrier}(b,b,\emp)\land
+\hsame(a,b).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_cycle\_identity\_carriers}
+\begin{proof}
+Prefix exactness strips the shared unary prefix from the forward hom-carrier,
+leaving a base carrier from $a$ to $b$. Suffix exactness strips the shared
+unary suffix from the opposite hom-carrier, leaving a base carrier from $b$ to
+$a$. The ordinary cyclic identity-carrier theorem then exposes the two
+empty-tail identity carriers and the comparison $a\hsame b$.
+\end{proof}
+
 \begin{theorem}[Visible one-step morphisms have no opposite cycle]
 \label{thm:category-e1-morphism-cycle-absurd}
 If the forward hom-carrier has a visible one-headed morphism tail

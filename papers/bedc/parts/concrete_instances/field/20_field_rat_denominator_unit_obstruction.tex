@@ -672,6 +672,8 @@ $$
 \mathsf{RatDenomUnitCarrier}(k)\land h\hsame k.
 $$
 \end{definition}
+\leandef{BEDC.Derived.FieldUp.RatDenomUnitCarrier}
+\leandef{BEDC.Derived.FieldUp.RatDenomUnitClassifier}
 
 \begin{theorem}[Rat denominator continuation adjoined-unit laws]
 \label{thm:field-rat-denominator-continuation-adjoined-unit-laws}
@@ -696,6 +698,7 @@ $\Cont(h,k\ell,right)$, then
 $\mathsf{RatDenomUnitClassifier}(left,right)$.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_adjoined\_unit\_laws}
 \begin{proof}
 The empty endpoint is carried by the left disjunct of
 Definition~\ref{def:field-rat-denominator-unit-carrier}, using reflexivity of
@@ -734,6 +737,32 @@ Finally use \texttt{BEDC.FKernel.Cont.cont\_assoc\_hsame} on the four displayed
 continuation witnesses. Its comparison $left\hsame right$, together with the
 two carrier witnesses just constructed, is exactly
 $\mathsf{RatDenomUnitClassifier}(left,right)$.
+\end{proof}
+
+\begin{theorem}[Rat denominator unit classifier is closed under continuation]
+\label{thm:rat-denom-unit-classifier-continuation-closed}
+If two pairs of endpoints are classified by
+$\mathsf{RatDenomUnitClassifier}$ and the two displayed continuations match
+the left endpoints and the right endpoints,
+$$
+\mathsf{RatDenomUnitClassifier}(h,h')\land
+\mathsf{RatDenomUnitClassifier}(k,k')\land
+\Cont(h,k,r)\land\Cont(h',k',r'),
+$$
+then the two continuation results are again classified:
+$$
+\mathsf{RatDenomUnitClassifier}(r,r').
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_continuation\_closed}
+\begin{proof}
+Use the continuation closure part of
+\autoref{thm:field-rat-denominator-continuation-adjoined-unit-laws} on the two
+left endpoints to carry $r$, and on the two right endpoints to carry $r'$.
+The classifier comparisons $h\hsame h'$ and $k\hsame k'$ transport the two
+continuations to a common result comparison by continuation congruence. These
+two carrier witnesses and the resulting $r\hsame r'$ comparison are exactly
+$\mathsf{RatDenomUnitClassifier}(r,r')$.
 \end{proof}
 
 \textbf{Traditional target}: denominator-side continuation with empty endpoint
