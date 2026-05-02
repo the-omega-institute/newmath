@@ -97,4 +97,15 @@ theorem LatticeSingletonPrefix_laws :
           · intro h h' k k' _sameHH' _sameKK'
             exact And.intro emptyClassified emptyClassified
 
+theorem LatticeSingletonLE_empty_endpoints_iff {h k : BHist} :
+    LatticeSingletonLE h k ↔ hsame h BHist.Empty ∧ hsame k BHist.Empty := by
+  constructor
+  · intro leData
+    exact ⟨leData.left, leData.right.left⟩
+  · intro endpoints
+    cases endpoints with
+    | intro hEmpty kEmpty =>
+        exact
+          ⟨hEmpty, kEmpty, PreorderPrefixLE_of_hsame (hsame_trans hEmpty (hsame_symm kEmpty))⟩
+
 end BEDC.Derived.LatticeUp

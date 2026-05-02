@@ -73,6 +73,27 @@ reflexive witness $\hsame(\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonPrefix\_laws}
 
+\begin{theorem}[Singleton lattice order has empty endpoints]
+\label{thm:lattice-singleton-le-empty-endpoints}
+For $h,k:\mathsf{BHist}$, the restricted singleton prefix order satisfies
+$$
+h\le_{\emp} k
+\quad\Longleftrightarrow\quad
+h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the two singleton carrier fields from the
+definition of $h\le_{\emp} k$. These fields are exactly $h\hsame\emp$ and
+$k\hsame\emp$.
+
+For the reverse direction, the two endpoint witnesses supply the singleton
+carrier fields. Their transitive composite through $\emp$ gives $h\hsame k$,
+and the prefix comparison follows from the concrete
+$\mathsf{PreorderPrefixLE\_of\_hsame}$ constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_empty\_endpoints\_iff}
+
 The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
 and operations, so Lean can target $\mathsf{BEDC.Derived.LatticeUp}$ as a
 $\mathsf{BHist}$-anchored certificate rather than an abstract operator schema.

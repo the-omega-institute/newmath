@@ -162,6 +162,28 @@ through $\emp$ supplies the classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_split\_empty\_iff}
 
+\begin{theorem}[Singleton FPS classifier pair append split empty]
+\label{thm:fps-singleton-classifier-append-pair-split-empty}
+For $p,q,r,s:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),\mathsf{append}(r,s))
+\quad\Longleftrightarrow\quad
+p\hsame\emp\land q\hsame\emp\land r\hsame\emp\land s\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the one-sided append split theorem to the left
+endpoint. This gives $p\hsame\emp$, $q\hsame\emp$, and the right carrier fact
+$A_{\emp}(\mathsf{append}(r,s))$. The append-empty inversion theorem then
+splits the right carrier fact into $r\hsame\emp$ and $s\hsame\emp$.
+
+Conversely, append-empty introduction turns the two left endpoint witnesses
+into $A_{\emp}(\mathsf{append}(p,q))$ and the two right endpoint witnesses into
+$A_{\emp}(\mathsf{append}(r,s))$. Transitivity of $\hsame$ through $\emp$
+supplies the classifier comparison between the two appended histories.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_pair\_split\_empty\_iff}
+
 \section{The certificate}
 
 \begin{definition}[FormalPowerSeries source specification]

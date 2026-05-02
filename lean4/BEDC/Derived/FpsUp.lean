@@ -150,4 +150,29 @@ theorem FpsSingletonEmptyHistoryClassifier_append_split_empty_iff {p q h : BHist
               append_eq_empty_iff.mpr ⟨pEmpty, qEmpty⟩
             exact ⟨appendEmpty, hCarrier, hsame_trans appendEmpty (hsame_symm hCarrier)⟩
 
+theorem FpsSingletonEmptyHistoryClassifier_append_pair_split_empty_iff {p q r s : BHist} :
+    FpsSingletonEmptyHistoryClassifier (append p q) (append r s) ↔
+      hsame p BHist.Empty ∧ hsame q BHist.Empty ∧
+        hsame r BHist.Empty ∧ hsame s BHist.Empty := by
+  constructor
+  · intro classifier
+    have leftSplit :=
+      FpsSingletonEmptyHistoryClassifier_append_split_empty_iff.mp classifier
+    have rightSplit := append_eq_empty_iff.mp leftSplit.right.right
+    exact ⟨leftSplit.left, leftSplit.right.left, rightSplit.left, rightSplit.right⟩
+  · intro splitData
+    cases splitData with
+    | intro pEmpty rest =>
+        cases rest with
+        | intro qEmpty rightData =>
+            cases rightData with
+            | intro rEmpty sEmpty =>
+                have leftCarrier : hsame (append p q) BHist.Empty :=
+                  append_eq_empty_iff.mpr ⟨pEmpty, qEmpty⟩
+                have rightCarrier : hsame (append r s) BHist.Empty :=
+                  append_eq_empty_iff.mpr ⟨rEmpty, sEmpty⟩
+                exact
+                  ⟨leftCarrier, rightCarrier,
+                    hsame_trans leftCarrier (hsame_symm rightCarrier)⟩
+
 end BEDC.Derived.FpsUp
