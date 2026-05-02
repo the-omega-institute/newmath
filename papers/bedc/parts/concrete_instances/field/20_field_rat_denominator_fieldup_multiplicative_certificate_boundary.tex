@@ -46,3 +46,67 @@ Combining these clauses gives a single concrete denominator-side
 multiplicative boundary for $\FieldUp(\mathsf{RatUp})$, with no abstract carrier
 or classifier left to choose.
 \end{proof}
+
+\begin{theorem}[Rat denominator FieldUp contextual multiplicative boundary]
+\label{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}
+Let the denominator-side empty-unit tuple for $\FieldUp(\mathsf{RatUp})$ be
+the concrete $\mathsf{BHist}$ data
+$$
+(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)
+=
+(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier}).
+$$
+Equivalently, $\mu_D^u(h,k)=\mathsf{append}(h,k)$,
+$e_D^u=\emp$, and $N_D^u(h)=\mathsf{RatHistoryCarrier}(h)$. The
+FieldUp denominator-side contextual multiplicative boundary holds for this
+tuple:
+\begin{enumerate}
+  \item empty external contexts preserve and reflect $R_D^u$;
+  \item right multiplication by any carried denominator factor is
+  classifier-exact;
+  \item left multiplication by any carried denominator factor is
+  classifier-exact;
+  \item the combined two-sided contextual statement is exactly
+  \autoref{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The displayed tuple is the concrete cancellation-exact denominator instance of
+\autoref{def:field-rat-denominator-empty-unit-cancellation-exact-instance}.
+Thus the carrier, classifier, append multiplication, empty endpoint, and strict
+support are already fixed by the $\mathsf{BHist}$ denominator package.
+
+For empty external contexts, apply
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}.
+It strips and restores empty histories on both sides of the denominator
+classifier, so context insertion by $\emp$ preserves and reflects $R_D^u$.
+
+For fixed-factor multiplication, apply
+\autoref{thm:field-rat-denominator-empty-unit-right-multiplication-classifier-exactness}
+and
+\autoref{thm:field-rat-denominator-empty-unit-left-multiplication-classifier-exactness}.
+These give classifier exactness after right and left multiplication by any
+carried denominator factor.
+
+Finally, combine the empty-context exactness with the two fixed-factor
+exactness laws through
+\autoref{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness}.
+That theorem is precisely the packaged two-sided contextual multiplication
+boundary for the displayed FieldUp denominator tuple.
+\end{proof}
+
+\textbf{Traditional target}: contextual multiplicative denominator boundary for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$, $\Cont$, and
+$\mathsf{append}$; \textbf{carrier}: $C_D^u$; \textbf{classifier}: $R_D^u$;
+\textbf{stability obligations}: empty-context classifier exactness plus
+right- and left-factor multiplication exactness; \textbf{ledger}: empty
+external context witnesses and one carried denominator factor; \textbf{core
+theorem}:
+\autoref{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness};
+\textbf{exactness predicate}: classifier preservation and reflection after
+fixed denominator multiplication inside empty external contexts;
+\textbf{standard bridge}: ordinary denominator multiplication with an adjoined
+empty unit and empty endpoint contexts; \textbf{status}:
+$\mathsf{ProofTarget}$.
