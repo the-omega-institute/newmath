@@ -1,0 +1,406 @@
+\begin{theorem}[Category empty morphism between one-headed endpoints]
+\label{thm:category-hom-carrier-e1-source-e1-target-empty-morphism-iff}
+For histories $a,r$, the empty morphism is a hom-carrier from $\Eone(a)$ to
+$\Eone(r)$ exactly when the exposed source tail is unary and the two exposed
+tails are classified together:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),\emp)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(a)\land\HSame(a,r).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the one-headed result case split to the displayed
+empty morphism. The visible morphism branch contradicts constructor
+no-confusion, and the empty branch exposes unary membership of $a$ and
+$\HSame(a,r)$. Conversely, unary one-step closure supplies the two endpoint
+carriers, the tail classifier lifts through $\Eone$, and empty-identity
+exactness rebuilds the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_empty\_morphism\_iff}
+
+\begin{theorem}[Category hom-carrier one-headed morphism target exactness]
+\label{thm:category-hom-carrier-e1-morphism-target-iff}
+For histories $a,k,r$,
+$$
+\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(k)\land \ContR(a,k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. The forward direction keeps the unary source
+witness, inverts the one-headed morphism unary witness to obtain unary
+membership for $k$, and removes the outer one constructor from the
+continuation result. Conversely, unary continuation closure gives unary
+membership for $r$, one-step closure gives the one-headed target and morphism
+carriers, and the continuation one-step rule lifts $\ContR(a,k,r)$ to
+$\ContR(a,\Eone(k),\Eone(r))$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_target\_iff}
+
+\begin{theorem}[Category empty-source one-headed target exactness]
+\label{thm:category-hom-carrier-empty-source-e1-target-iff}
+For histories $r,morph$, an empty-source hom-carrier into the one-headed
+target $\Eone(r)$ is exactly equality of the morphism with that target
+together with unary payload membership:
+$$
+\mathsf{CategoryHomCarrier}(\emp,\Eone(r),morph)
+\quad\Longleftrightarrow\quad
+morph=\Eone(r)\land\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+Category empty-source exactness gives unary membership of the one-headed target
+and equality of the morphism with that target. Unary inversion removes the
+visible constructor from the target carrier. Conversely, unary one-step closure
+rebuilds the target carrier and the displayed equality supplies the
+empty-source continuation classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_e1\_target\_iff}
+
+\begin{theorem}[Category empty-source one-headed morphism exactness]
+\label{thm:category-hom-carrier-empty-source-e1-morphism-iff}
+For histories $k,target$, an empty-source hom-carrier whose morphism is
+$\Eone(k)$ is exactly equality of the target with that morphism together with
+unary payload membership:
+$$
+\mathsf{CategoryHomCarrier}(\emp,target,\Eone(k))
+\quad\Longleftrightarrow\quad
+target=\Eone(k)\land\mathsf{UnaryHistory}(k).
+$$
+\end{theorem}
+\begin{proof}
+Category empty-source exactness identifies the one-headed morphism with the
+target. Eliminating that equality turns the target carrier into a one-headed
+unary witness, whose payload is unary by inversion. Conversely, one-step unary
+closure rebuilds the target carrier, and symmetry of the displayed equality
+provides the required empty-source classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_e1\_morphism\_iff}
+
+\begin{theorem}[Category hom-carrier one-headed target morphism cases]
+\label{thm:category-hom-carrier-e1-target-morphism-cases}
+For histories $source,r,morph$, a hom-carrier whose target is one-headed has
+only the empty morphism case or a one-headed morphism tail:
+$$
+\mathsf{CategoryHomCarrier}(source,\Eone(r),morph)
+\Longrightarrow
+\left(
+morph=\emp\land source=\Eone(r)\land \mathsf{UnaryHistory}(r)
+\right)
+$$
+or there exists a history $k$ such that
+$$
+morph=\Eone(k)\land\mathsf{UnaryHistory}(source)\land
+\mathsf{UnaryHistory}(k)\land\ContR(source,k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness into unary source, target, and morphism fields
+and the continuation ledger. Classify the morphism history. In the empty
+morphism branch, the continuation right-unit shape identifies the source with
+$\Eone(r)$, and unary inversion on the target gives the unary history for $r$.
+The zero-headed morphism branch contradicts unary-history separation for zero
+extensions. In the one-headed branch, unary inversion gives the tail carrier
+for $k$, and constructor inversion on the continuation ledger yields
+$\ContR(source,k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_morphism\_cases}
+
+\begin{theorem}[Category hom-carrier one-headed target source and morphism cases]
+\label{thm:category-hom-carrier-e1-target-source-morphism-cases}
+For histories $source,r,morph$, a hom-carrier whose target is $\Eone(r)$
+separates the empty source branch from the one-headed source branch:
+$$
+\mathsf{CategoryHomCarrier}(source,\Eone(r),morph)
+\Longrightarrow
+\left(
+source=\emp\land morph=\Eone(r)\land \mathsf{UnaryHistory}(r)
+\right)
+$$
+or there exists a history $a$ such that
+$$
+source=\Eone(a)\land\mathsf{UnaryHistory}(a)\land
+\left(
+(morph=\emp\land\HSame(a,r))\lor
+\exists k,\ morph=\Eone(k)\land\mathsf{UnaryHistory}(k)\land
+\ContR(\Eone(a),k,r)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Classify the source endpoint. If it is empty, the continuation ledger and the
+one-headed target force the morphism to be $\Eone(r)$, and target unary
+inversion gives $\mathsf{UnaryHistory}(r)$. If it is zero-headed, the source
+unary field contradicts zero-extension separation. If it is one-headed, apply
+the left-one-headed result case split: the empty morphism branch gives
+$\HSame(a,r)$, and the visible morphism branch exposes a tail $k$ with
+$\ContR(\Eone(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_source\_morphism\_cases}
+
+\begin{theorem}[Category hom-carrier one-headed morphism target cases]
+\label{thm:category-hom-carrier-one-headed-morphism-target-cases}
+For histories $a,target,k$, a hom-carrier whose morphism endpoint is
+one-headed forces the target endpoint to be one-headed and descends the
+hom-carrier to the exposed target and morphism tails:
+$$
+\mathsf{CategoryHomCarrier}(a,target,\Eone(k))
+\Longrightarrow
+\exists r:\mathsf{BHist}.\;
+target=\Eone(r)\land\mathsf{CategoryHomCarrier}(a,r,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier into its unary source, target, and morphism fields and
+its continuation ledger. The continuation step-result inversion for a
+one-headed right input exposes a target tail $r$ with $target=\Eone(r)$ and a
+tail continuation $\ContR(a,k,r)$. Unary inversion on the displayed target and
+morphism fields gives the two tail carriers, which repack with the source
+carrier and tail continuation as $\mathsf{CategoryHomCarrier}(a,r,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_target\_cases}
+
+\begin{theorem}[Category composite one-headed morphism target factor]
+\label{thm:category-comp-e1-morphism-target-factor}
+For composable category hom-carriers $f:a\to b$ and $g:b\to c$, if their
+continuation composite is the one-headed morphism $\Eone(k)$, then the target
+object is one-headed and the right factor is already a hom-carrier into that
+displayed target:
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(a,b,f)\land
+\mathsf{CategoryHomCarrier}(b,c,g)\land
+\ContR(f,g,\Eone(k))\\
+&\quad\Longrightarrow
+\exists r:\mathsf{BHist}.\;
+c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(a,r,k)\land
+\mathsf{CategoryHomCarrier}(b,\Eone(r),g).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+First close composition to obtain a hom-carrier from $a$ to $c$ with morphism
+$\Eone(k)$. The one-headed morphism target case theorem exposes a history $r$
+with $c=\Eone(r)$ and a descended hom-carrier from $a$ to $r$ with morphism
+$k$. Substituting the displayed target equality transports the original right
+factor from target $c$ to target $\Eone(r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_e1\_morphism\_target\_factor}
+
+\begin{theorem}[Category composite one-headed morphism right factor cases]
+\label{thm:category-comp-e1-morphism-right-factor-cases}
+For composable category hom-carriers $f:a\to b$ and $g:b\to c$, if their
+continuation composite is the one-headed morphism $\Eone(k)$, then the right
+factor is either the empty identity case at the recovered target or a visible
+one-headed morphism into that target:
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(a,b,f)\land
+\mathsf{CategoryHomCarrier}(b,c,g)\land
+\ContR(f,g,\Eone(k))\\
+&\quad\Longrightarrow
+\bigl(g=\emp\land c=b\land
+\mathsf{CategoryHomCarrier}(a,b,\Eone(k))\bigr)\\
+&\qquad\lor
+\exists l,r:\mathsf{BHist}.\;
+g=\Eone(l)\land c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(a,r,k)\land
+\mathsf{CategoryHomCarrier}(b,\Eone(r),\Eone(l)).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Apply the one-headed composite target-factor theorem to recover $r$ with
+$c=\Eone(r)$, a descended left hom-carrier
+$\mathsf{CategoryHomCarrier}(a,r,k)$, and the original right hom-carrier
+$\mathsf{CategoryHomCarrier}(b,\Eone(r),g)$. Split this right hom-carrier by
+the one-headed target morphism cases. In the empty branch, the source equality
+$b=\Eone(r)$ identifies $c$ with $b$, and the one-headed morphism target
+equivalence rebuilds $\mathsf{CategoryHomCarrier}(a,b,\Eone(k))$ from the
+descended left carrier. In the visible branch, substitute $g=\Eone(l)$ and keep
+the original right hom-carrier at the recovered target.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_e1\_morphism\_right\_factor\_cases}
+
+\begin{theorem}[Category composite one-headed morphism left factor cases]
+\label{thm:category-hom-carrier-comp-e1-morphism-left-factor-cases}
+For composable category hom-carriers $f:a\to b$ and $g:b\to c$, if their
+continuation composite is the one-headed morphism $\Eone(k)$, then the left
+factor is either the empty identity case at the source boundary or a visible
+one-headed morphism whose target is one-headed:
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(a,b,f)\land
+\mathsf{CategoryHomCarrier}(b,c,g)\land
+\ContR(f,g,\Eone(k))\\
+&\quad\Longrightarrow
+\bigl(f=\emp\land a=b\land
+\mathsf{CategoryHomCarrier}(b,c,\Eone(k))\bigr)\\
+&\qquad\lor
+\exists l,r:\mathsf{BHist}.\;
+f=\Eone(l)\land b=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),c,g)\land
+\ContR(\Eone(l),g,\Eone(k)).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Classify the left morphism history. If it is empty, the left hom-carrier
+identity ledger identifies $a$ and $b$, while the composite continuation with
+empty left factor transports the right hom-carrier to morphism $\Eone(k)$. If
+the left morphism is zero-headed, its unary morphism field contradicts
+zero-extension separation. If it is one-headed, the one-headed morphism target
+case theorem exposes $b=\Eone(r)$ and the descended left hom-carrier
+$\mathsf{CategoryHomCarrier}(a,r,l)$; substituting this target equality keeps
+the original right hom-carrier at source $\Eone(r)$, and the original composite
+ledger is the visible-tail continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_e1\_morphism\_left\_factor\_cases}
+
+\begin{theorem}[Category visible composable morphism target cases]
+\label{thm:category-visible-composable-morphisms-target-cases}
+For histories $a,b,c,l,m,k$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),\Eone(k)),
+$$
+then there exist histories $r,s$ such that
+$$
+b=\Eone(r)\land c=\Eone(s)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\ContR(\Eone(l),\Eone(m),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the one-headed morphism target-case theorem to the left visible
+hom-carrier and to the right visible hom-carrier. The two applications expose
+tails $r$ and $s$ with $b=\Eone(r)$ and $c=\Eone(s)$. Substitute the first
+target equality into the right descended hom-carrier, retain the left
+descended hom-carrier, and carry the original visible continuation ledger into
+the existential package.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_composable\_morphisms\_target\_cases}
+
+\begin{theorem}[Category hom-carrier one-headed target and morphism descent]
+\label{thm:category-hom-carrier-e1-target-morphism-exactness}
+For histories $a,k,r$, a hom-carrier whose target and morphism histories are
+both one-headed descends to the corresponding tail hom-carrier:
+$$
+\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))
+\Longrightarrow
+\mathsf{CategoryHomCarrier}(a,r,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier fields. The source unary witness is unchanged. Unary
+inversion removes the visible constructor from both the target carrier and the
+morphism carrier, and the right step-rule inversion for $\ContR$ removes the
+same visible constructor from the continuation ledger. Repacking these fields
+gives $\mathsf{CategoryHomCarrier}(a,r,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_morphism\_exactness}
+
+\begin{theorem}[Category hom-carrier one-headed source and morphism target exactness]
+\label{thm:category-hom-e1-source-e1-morphism-target-iff}
+For histories $a,k,t$,
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(\Eone(a),t,\Eone(k)) \\
+&\quad\Longleftrightarrow\quad
+\exists r,\ t=\Eone(r)\land \mathsf{UnaryHistory}(a)\land
+\mathsf{UnaryHistory}(k)\land \mathsf{UnaryHistory}(r)\land
+\ContR(\Eone(a),k,r).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. The continuation field forces the target to
+have a visible one constructor; removing that constructor gives
+\(\ContR(\Eone(a),k,r)\). The source, morphism, and target unary witnesses
+invert through the same visible constructors. Conversely, the displayed target
+equation, the three unary witnesses, and the one-step continuation rule rebuild
+the hom-carrier fields.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_morphism\_target\_iff}
+
+\begin{theorem}[Category hom-carrier one-headed source empty target impossibility]
+\label{thm:category-hom-e1-source-empty-target-absurd}
+For histories $a,f$, no hom-carrier can have source $\Eone(a)$ and target
+$\emp$:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\emp,f)\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness and classify the morphism history \(f\). In
+each constructor branch, the continuation field would identify the empty
+target with an append whose source already has a visible one constructor,
+which is impossible by generated-history no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_empty\_target\_absurd}
+
+\begin{theorem}[Category visible source empty-target composite impossibility]
+\label{thm:category-visible-source-empty-target-composite-absurd}
+For histories $a,b,f,g$, the pair of hom-carriers
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),b,f)
+\land
+\mathsf{CategoryHomCarrier}(b,\emp,g)
+$$
+is impossible.
+\end{theorem}
+\begin{proof}
+Compose the first displayed hom-carrier with the second one using the concrete
+continuation witness $\ContR(f,g,\mathsf{append}(f,g))$. Composition closure
+produces
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\emp,\mathsf{append}(f,g)).
+$$
+This contradicts the one-headed source empty-target impossibility theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_source\_empty\_target\_comp\_absurd}
+
+\begin{theorem}[Category hom-carrier one-headed source morphism cases]
+\label{thm:category-hom-carrier-e1-source-morphism-cases}
+For histories $a,target,morph$, a hom-carrier with source $\Eone(a)$ has one
+of the following forms:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),target,morph)
+\Longrightarrow
+\left(
+morph=\emp\land target=\Eone(a)\land \mathsf{UnaryHistory}(a)
+\right)
+$$
+or there exist histories $k,r$ such that
+$$
+morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness into unary source, target, and morphism fields
+and the continuation ledger. Classify the morphism history. The empty branch
+forces the target to be exactly $\Eone(a)$ by the right-unit continuation
+shape, and unary inversion gives unary history for $a$. The zero-headed
+morphism branch contradicts unary-history separation for zero extensions. In
+the one-headed branch, classify the target history. Empty and zero-headed
+targets contradict the continuation ledger; a one-headed target exposes
+histories $k$ and $r$, unary inversion gives the three unary witnesses, and
+constructor inversion on the continuation ledger yields $\ContR(\Eone(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_morphism\_cases}
+
+\paragraph{Primitive boundary.}
+\(\CategoryUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:category-zero-axiom-note}
+Avoids a global universe of all objects by using explicit licensed carriers.
+\end{remark}

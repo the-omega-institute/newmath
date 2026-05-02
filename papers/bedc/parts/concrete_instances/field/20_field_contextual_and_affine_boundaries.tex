@@ -386,50 +386,60 @@ exactly through the empty-unit boundary; \textbf{standard bridge}: ordinary
 positive-denominator multiplication with an adjoined empty unit; \textbf{status}:
 $\mathsf{ProofTarget}$.
 
-\begin{definition}[Rat denominator empty-unit right multiplication context]
-\label{def:field-rat-denominator-empty-unit-right-multiplication-context}
-For a carried context $t:\mathsf{BHist}$ with $C_D^u(t)$, define the concrete
-right multiplication map on the empty-unit denominator carrier by
-$$
-M_t(h):=\mu_D^u(h,t).
-$$
-Here $C_D^u$ is the existing $\mathsf{RatDenomUnitCarrier}$,
-$R_D^u$ is the existing $\mathsf{RatDenomUnitClassifier}$, and
-$\mu_D^u$ is the concrete append operation supplied by
-\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance}.
+\section{Rat denominator empty-unit cancellation exactness}
+\label{sec:field-rat-denominator-empty-unit-cancellation-exactness}
+
+\begin{definition}[Rat denominator empty-unit cancellation-exact instance]
+\label{def:field-rat-denominator-empty-unit-cancellation-exact-instance}
+The cancellation-exact denominator instance for $\FieldUp(\mathsf{RatUp})$ is
+the concrete $\mathsf{BHist}$ tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, where
+$C_D^u=\mathsf{RatDenomUnitCarrier}$,
+$R_D^u=\mathsf{RatDenomUnitClassifier}$,
+$\mu_D^u(h,k)=\mathsf{append}(h,k)$ with its canonical continuation witness,
+$e_D^u=\emp$, and $N_D^u(h)$ is $\mathsf{RatHistoryCarrier}(h)$.
 \end{definition}
 
-\begin{theorem}[Rat denominator empty-unit right multiplication classifier exactness]
-\label{thm:field-rat-denominator-empty-unit-right-multiplication-classifier-exactness}
-For histories $h,k,t:\mathsf{BHist}$, if $C_D^u(h)$, $C_D^u(k)$, and
-$C_D^u(t)$, then right multiplication by $t$ preserves and reflects the
-empty-unit denominator classifier:
+\begin{theorem}[Rat denominator empty-unit cancellation exactness]
+\label{thm:field-rat-denominator-empty-unit-cancellation-exactness}
+For carried histories $h,k,t:\mathsf{BHist}$ in the instance of
+\autoref{def:field-rat-denominator-empty-unit-cancellation-exact-instance},
+classifier cancellation by the common carried factor is exact on both sides:
 $$
-R_D^u(\mu_D^u(h,t),\mu_D^u(k,t)) \Longleftrightarrow R_D^u(h,k).
+R_D^u(\mu_D^u(h,t),\mu_D^u(k,t)) \Longleftrightarrow R_D^u(h,k),
+$$
+and
+$$
+R_D^u(\mu_D^u(t,h),\mu_D^u(t,k)) \Longleftrightarrow R_D^u(h,k).
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, apply
-\autoref{thm:field-rat-denominator-empty-unit-right-cancellation} with the three
-carrier hypotheses. It reads the displayed comparison after common right
-multiplication by $t$ back as the endpoint classifier $R_D^u(h,k)$.
+For the two forward directions, use the carried hypotheses for $h$, $k$, and
+$t$ and apply
+\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package}.
+Its right-cancellation field gives the first implication, and its
+left-cancellation field gives the second implication.
 
-For the reverse direction, use $C_D^u(t)$ to obtain reflexivity
-$R_D^u(t,t)$. The binary classifier congruence field in
-\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}, equivalently
-the corresponding field of
-\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package},
-then combines $R_D^u(h,k)$ with $R_D^u(t,t)$ and yields
+For the reverse direction on the right, start from $R_D^u(h,k)$. Reflexivity
+for the carried factor gives $R_D^u(t,t)$, and the binary classifier congruence
+field in
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws} combines
+the two classifier witnesses to obtain
 $R_D^u(\mu_D^u(h,t),\mu_D^u(k,t))$.
+
+For the reverse direction on the left, use the same reflexivity witness
+$R_D^u(t,t)$ as the first classifier input and the assumed $R_D^u(h,k)$ as the
+second classifier input. The same binary congruence field then gives
+$R_D^u(\mu_D^u(t,h),\mu_D^u(t,k))$.
 \end{proof}
 
-Per-object template: traditional target right multiplication by a fixed
-denominator-unit factor; BEDC source $\mathsf{RatDenomUnitCarrier}$,
+Per-object template: traditional target cancellation exactness in the
+denominator monoid boundary; BEDC source $\mathsf{RatDenomUnitCarrier}$,
 $\mathsf{RatDenomUnitClassifier}$, $\Cont$, and $\mathsf{append}$; carrier
-$C_D^u$; classifier $R_D^u$; stability obligation right-context classifier
-exactness; ledger fixed right-context continuation witness; core theorem
-\autoref{thm:field-rat-denominator-empty-unit-right-multiplication-classifier-exactness};
-exactness predicate preservation and reflection of the classifier under $M_t$;
+$C_D^u$; classifier $R_D^u$; stability obligation two-sided classifier
+preservation and reflection; ledger the common carried denominator factor; core
+theorem \autoref{thm:field-rat-denominator-empty-unit-cancellation-exactness};
+exactness predicate classifier iff after common denominator multiplication;
 standard bridge cancellative commutative denominator monoids; status
 $\mathsf{ProofTarget}$.
 
