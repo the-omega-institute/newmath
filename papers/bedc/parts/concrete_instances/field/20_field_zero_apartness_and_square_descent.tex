@@ -1,0 +1,287 @@
+\section{Zero-apartness transport through certified products}
+\label{sec:field-zero-apartness-product-exactness}
+
+\begin{theorem}[Field two-sided multiplication preserves and reflects zero apartness]
+\label{thm:field-two-sided-product-apartzero-exact}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-two-sided-zero-product-cancel-from-apartness}, let
+
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
+$$
+
+For any $a,b:\mathsf{BHist}$ with outer witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
+$x:\mathsf{BHist}$ satisfies
+
+$$
+\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(x).
+$$
+\end{theorem}
+\begin{proof}
+For the product-to-middle direction, assume
+$q:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))$ and then assume
+$x\hsame0$. The reverse direction of
+\autoref{thm:field-two-sided-zero-product-cancel-from-apartness}, using the
+outer witnesses $p_a$ and $p_b$, gives
+
+$$
+\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame0.
+$$
+
+Applying $q$ to this classifier equality gives $\bot$, so
+$\mathsf{ApartZero}_F(x)$ follows.
+
+For the middle-to-product direction, assume
+$r:\mathsf{ApartZero}_F(x)$ and then assume
+$\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame0$. The forward direction of
+\autoref{thm:field-two-sided-zero-product-cancel-from-apartness}, with the
+same outer witnesses, gives $x\hsame0$. Applying $r$ to this classifier
+equality gives $\bot$, so the certified two-sided product is apart from zero.
+\end{proof}
+
+Per-object certificate: Traditional target: constructive nonzero preservation
+under certified two-sided field multiplication. BEDC source: $\FieldUp$ over
+$\mathsf{BHist}$. Carrier choice: $\mathsf{BHist}$. Classifier choice:
+$\hsame$. Stability obligation: two-sided zero-product exactness. Ledger: the
+outer nonzero witnesses. Core theorem list:
+Theorem~\ref{thm:field-two-sided-product-apartzero-exact}. Exactness
+predicate: zero-apartness equivalence. Standard bridge: deferred. Status:
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field binary product zero-apartness exactness]
+\label{thm:field-binary-product-apartzero-exact}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$
+satisfying the hypotheses of
+\autoref{thm:field-one-sided-zero-product-cancel-from-apartness}, including
+the ring zero-absorption and multiplication-congruence hypotheses used
+there, define
+
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
+$$
+
+For any $a,b:\mathsf{BHist}$ equipped with explicit maps
+$\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a)$ and
+$\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b)$, one has
+
+$$
+\mathsf{ApartZero}_F(\mathsf{mul}(a,b))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(a)\land\mathsf{ApartZero}_F(b).
+$$
+\end{theorem}
+\begin{proof}
+For the product-to-left direction, assume
+$q:\mathsf{ApartZero}_F(\mathsf{mul}(a,b))$ and then assume $a\hsame0$.
+Multiplication congruence transports this classifier equality through right
+multiplication by $b$, giving
+$\mathsf{mul}(a,b)\hsame\mathsf{mul}(0,b)$. Theorem~\ref{thm:ring-mul-zero-absorption}
+classifies $\mathsf{mul}(0,b)$ as $0$, so transitivity gives
+$\mathsf{mul}(a,b)\hsame0$. Applying $q$ gives $\bot$.
+
+For the product-to-right direction, assume again
+$q:\mathsf{ApartZero}_F(\mathsf{mul}(a,b))$ and then assume $b\hsame0$.
+Multiplication congruence transports this classifier equality through left
+multiplication by $a$, giving
+$\mathsf{mul}(a,b)\hsame\mathsf{mul}(a,0)$. Theorem~\ref{thm:ring-mul-zero-absorption}
+classifies $\mathsf{mul}(a,0)$ as $0$, so transitivity gives
+$\mathsf{mul}(a,b)\hsame0$. Applying $q$ gives $\bot$.
+
+For the factor-to-product direction, assume
+$r_a:\mathsf{ApartZero}_F(a)$ and $r_b:\mathsf{ApartZero}_F(b)$. Convert them
+to nonzero witnesses $p_a:=\alpha_a(r_a)$ and $p_b:=\alpha_b(r_b)$, and
+assume $\mathsf{mul}(a,b)\hsame0$.
+
+Apply \autoref{thm:field-one-sided-zero-product-cancel-from-apartness} to the
+zero product. With $p_a$ it returns $b\hsame0$, which $r_b$ sends to
+contradiction. Symmetrically, the witness $p_b$ would return $a\hsame0$ and
+close by $r_a$; the paired factor ledger is therefore stable on both sides.
+This proves $\mathsf{ApartZero}_F(\mathsf{mul}(a,b))$.
+\end{proof}
+
+Per-object certificate: Traditional target: product nonzero exactness. BEDC
+source: $\FieldUp+\RingUp$. Carrier choice: $\mathsf{BHist}$. Classifier
+choice: $\hsame$. Ledger: the two factor apartness witnesses. Core theorem
+this block: Theorem~\ref{thm:field-binary-product-apartzero-exact}.
+Exactness predicate: binary product zero-apartness. Standard bridge:
+deferred. Status: $\mathsf{ProofTarget}$.
+
+\section{Field square apartness inverse descent}
+\label{sec:field-square-apartness-inverse-descent}
+
+\begin{theorem}[Field square apartness inverse descent]
+\label{thm:field-square-apartness-inverse-descent}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-product-nonzero-excludes-zero-factors} and
+\autoref{thm:field-inverse-product-reverse-from-apartness}, plus the
+canonical product-apartness witness construction of
+\autoref{thm:field-product-apartness-inverse-product-reverse}, together with
+the proof-index comparison supplied by
+\autoref{thm:field-inverse-congruence-from-apartness}, let
+$\mathsf{ApartZero}_F(h)$ mean $h\hsame0\to\bot$. For every
+$a:\mathsf{BHist}$, assume explicit conversion maps
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),
+\quad
+\alpha_{aa}:\mathsf{ApartZero}_F(\mathsf{mul}(a,a))\to
+\mathsf{NonZero}_F(\mathsf{mul}(a,a)).
+$$
+Any witness
+$$
+p_{a^2}:\mathsf{ApartZero}_F(\mathsf{mul}(a,a))
+$$
+canonically induces a witness $p_a:\mathsf{ApartZero}_F(a)$. With this
+induced apartness witness and the displayed conversions, the proof-indexed
+inverse satisfies
+$$
+\mathsf{inv}(\mathsf{mul}(a,a),\alpha_{aa}(p_{a^2}))
+\hsame
+\mathsf{mul}(\mathsf{inv}(a,\alpha_a(p_a)),\mathsf{inv}(a,\alpha_a(p_a))).
+$$
+\end{theorem}
+\begin{proof}
+Construct $p_a$ as a function from an assumed classifier
+$a\hsame0$ to contradiction. Multiplication congruence sends
+$\mathsf{mul}(a,a)$ to $\mathsf{mul}(0,a)$, and ring zero absorption
+classifies $\mathsf{mul}(0,a)$ as $0$. Transitivity gives
+$\mathsf{mul}(a,a)\hsame0$.
+
+Apply the square apartness witness $p_{a^2}$ to this classifier equality.
+This closes the assumed zero classifier for $a$, so the function just built
+is the induced witness $p_a:\mathsf{ApartZero}_F(a)$.
+
+Next apply
+\autoref{thm:field-product-apartness-inverse-product-reverse} to the two
+factor witnesses $p_a$ and $p_a$, using $\alpha_a$ for both factor indices
+and $\alpha_{aa}$ for the product index. This supplies the canonical product
+apartness witness
+$$
+p'_{a^2}:\mathsf{ApartZero}_F(\mathsf{mul}(a,a))
+$$
+and the indexed inverse equality
+$$
+\mathsf{inv}(\mathsf{mul}(a,a),\alpha_{aa}(p'_{a^2}))
+\hsame
+\mathsf{mul}(\mathsf{inv}(a,\alpha_a(p_a)),\mathsf{inv}(a,\alpha_a(p_a))).
+$$
+
+It remains to compare the supplied square witness with the canonical product
+witness. Use
+\autoref{thm:field-inverse-congruence-from-apartness} with reflexivity on
+$\mathsf{mul}(a,a)$, the witness $p_{a^2}$ on the source side, and
+$p'_{a^2}$ on the target side. This identifies
+$$
+\mathsf{inv}(\mathsf{mul}(a,a),\alpha_{aa}(p_{a^2}))
+\hsame
+\mathsf{inv}(\mathsf{mul}(a,a),\alpha_{aa}(p'_{a^2})).
+$$
+
+Transitivity with the canonical product equality gives the displayed inverse
+descent identity.
+\end{proof}
+
+\begin{theorem}[Field square nonzero gives one-sided multiplication exactness]
+\label{thm:field-square-nonzero-one-sided-mul-exact}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-product-nonzero-excludes-zero-factors},
+\autoref{thm:field-left-mul-equation-exact-from-apartness}, and
+\autoref{thm:field-right-mul-equation-exact-from-apartness}, assume the
+field interpretation identifies $\mathsf{NonZero}_F(h)$ with
+$\mathsf{ApartZero}_F(h)$, where
+$\mathsf{ApartZero}_F(h)$ means $h\hsame0\to\bot$. For every
+$a:\mathsf{BHist}$ and witness
+$$
+p_{a^2}:\mathsf{NonZero}_F(\mathsf{mul}(a,a)),
+$$
+let $p_a:\mathsf{NonZero}_F(a)$ be the witness induced by zero-factor
+exclusion and this identification. Then every $c,x:\mathsf{BHist}$
+satisfies both one-sided multiplication exactness clauses:
+$$
+\mathsf{mul}(a,x)\hsame c
+\Longleftrightarrow
+x\hsame \mathsf{mul}(\mathsf{inv}(a,p_a),c)
+$$
+and
+$$
+\mathsf{mul}(x,a)\hsame c
+\Longleftrightarrow
+x\hsame \mathsf{mul}(c,\mathsf{inv}(a,p_a)).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
+$p_{a^2}$ with both product entries instantiated by $a$. The first factor
+clause gives $a\hsame0\to\bot$.
+
+Use the identification between $\mathsf{ApartZero}_F(a)$ and
+$\mathsf{NonZero}_F(a)$ to regard that apartness witness as
+$p_a:\mathsf{NonZero}_F(a)$. This is the proof index available to the
+inverse and cancellation laws for the factor $a$.
+
+For the left multiplication clause, invoke
+\autoref{thm:field-left-mul-equation-exact-from-apartness} with this
+induced witness $p_a$. Its displayed equivalence is exactly
+$\mathsf{mul}(a,x)\hsame c$ if and only if
+$x\hsame \mathsf{mul}(\mathsf{inv}(a,p_a),c)$.
+
+For the right multiplication clause, invoke
+\autoref{thm:field-right-mul-equation-exact-from-apartness} with the same
+induced witness $p_a$. Its displayed equivalence is exactly
+$\mathsf{mul}(x,a)\hsame c$ if and only if
+$x\hsame \mathsf{mul}(c,\mathsf{inv}(a,p_a))$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_square\_apartness\_inverse\_descent}
+
+\begin{theorem}[Field square nonzero gives two-sided same-factor multiplication exactness]
+\label{thm:field-square-nonzero-two-sided-mul-exact}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-product-nonzero-excludes-zero-factors} and
+\autoref{thm:field-middle-mul-equation-exact-from-apartness}, assume the
+field interpretation identifies $\mathsf{NonZero}_F(h)$ with
+$\mathsf{ApartZero}_F(h)$, where
+$\mathsf{ApartZero}_F(h)$ means $h\hsame0\to\bot$. For every
+$a,c,x:\mathsf{BHist}$ and witness
+$$
+p_{a^2}:\mathsf{NonZero}_F(\mathsf{mul}(a,a)),
+$$
+let $p_a:\mathsf{NonZero}_F(a)$ be the witness induced by zero-factor
+exclusion and this identification. Then the square-scaled equation with the
+same certified factor on both sides satisfies
+$$
+\mathsf{mul}(\mathsf{mul}(a,x),a)\hsame c
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{mul}(c,\mathsf{inv}(a,p_a))).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
+$p_{a^2}$ with both product entries instantiated by $a$. Its first
+zero-factor obstruction gives $a\hsame0\to\bot$.
+
+Use the identification between $\mathsf{ApartZero}_F(a)$ and
+$\mathsf{NonZero}_F(a)$ to regard this obstruction as the factor witness
+$p_a:\mathsf{NonZero}_F(a)$. This single proof index is shared by the left
+and right occurrences of the same multiplier $a$.
+
+Instantiate
+\autoref{thm:field-middle-mul-equation-exact-from-apartness} with both outer
+factors equal to $a$ and with both outer nonzero witnesses equal to $p_a$.
+The resulting middle multiplication exactness equivalence is exactly the
+displayed square-scaled equation solver.
+\end{proof}
+
+Per-object certificate: Traditional target: square inverse descent. BEDC
+source: $\FieldUp$ plus $\RingUp$. Carrier choice: $\mathsf{BHist}$.
+Classifier choice: $\hsame$. Stability obligations: zero absorption,
+multiplication congruence, apartness transport, and proof-indexed inverse
+laws. Ledger: the square apartness witness and induced factor witness. Core
+theorem list entry:
+Theorem~\ref{thm:field-square-apartness-inverse-descent} and
+Theorem~\ref{thm:field-square-nonzero-two-sided-mul-exact}. Exactness
+predicate: square apartness descends to the factor inverse and square
+nonzero supplies the same-factor two-sided equation solver. Standard bridge:
+deferred conservative bridge. Status: $\mathsf{ProofTarget}$.

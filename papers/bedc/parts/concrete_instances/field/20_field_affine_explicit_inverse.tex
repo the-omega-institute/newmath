@@ -1,0 +1,127 @@
+\section{Field affine explicit inverse}
+\label{sec:field-affine-explicit-inverse}
+
+\begin{theorem}[Field two-sided affine expression has explicit inverse]
+\label{thm:field-affine-two-sided-explicit-inverse}
+For a BEDC history-level $\FieldUp$ candidate with the same operations,
+additive laws, multiplication laws, congruence data, and indexed inverse laws
+as in
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness}, let
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ be the two
+nonzero witnesses for the left and right affine factors. For each
+$c:\mathsf{BHist}$ define
+$$
+s(c)=
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b))).
+$$
+Then every $c,x,y:\mathsf{BHist}$ satisfies the following three clauses.
+\begin{enumerate}
+\item $\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,s(c)),b),d)\hsame c$.
+\item If
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$, then
+$x\hsame s(c)$.
+\item If
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d),
+$$
+then $x\hsame y$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the displayed preimage, instantiate
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness} at
+$x=s(c)$. The reverse implication only needs the reflexive classifier
+equality $s(c)\hsame s(c)$, so it produces
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,s(c)),b),d)\hsame c$.
+
+For uniqueness of any solution, use the forward implication of the same
+exactness theorem. An assumed classification of the affine expression at
+$x$ with $c$ is transported directly to $x\hsame s(c)$.
+
+For equality of two affine expressions, apply
+\autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness} to the
+assumed classifier equality. Its conclusion is exactly $x\hsame y$.
+\end{proof}
+
+\begin{theorem}[Field equal-squares signed factors cannot both be nonzero]
+\label{thm:field-equal-squares-signed-factors-not-both-nonzero}
+For a BEDC history-level $\FieldUp$ candidate with the hypotheses of
+\autoref{thm:field-equal-squares-signed-factor-exclusion} and
+\autoref{thm:field-nonzero-factors-exclude-zero-product}, every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+a\cdot a\hsame b\cdot b
+\quad\Longrightarrow\quad
+\mathsf{NonZero}_F(a+b)\to
+\mathsf{NonZero}_F(a+(-b))\to\mathsf{False}.
+$$
+The traditional target is constructive signed-factor square reasoning; the
+BEDC source is $\FieldUp$ together with $\CommRingUp$; the carrier is
+$\mathsf{BHist}$; the classifier is $\hsame$; the ledger consists of the two
+explicit signed-factor nonzero witnesses; the core theorem is this block; the
+exactness predicate is impossibility of simultaneous nonzero signed factors
+under equal squares; the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume $a\cdot a\hsame b\cdot b$ and witnesses
+$p_+:\mathsf{NonZero}_F(a+b)$ and
+$p_-:\mathsf{NonZero}_F(a+(-b))$.
+
+First apply \autoref{thm:commring-difference-of-squares-zero-exact} to the
+square equality. The signed-factor product is classified as zero:
+$$
+(a+b)\cdot(a+(-b))\hsame0.
+$$
+
+Now apply \autoref{thm:field-nonzero-factors-exclude-zero-product} to the two
+nonzero witnesses $p_+$ and $p_-$ together with this displayed zero product.
+That theorem says that such a zero product is impossible when both factors are
+explicitly nonzero, so the assumed pair of signed-factor witnesses yields
+$\mathsf{False}$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_equal\_squares\_signed\_factors\_not\_both\_nonzero}
+
+\begin{theorem}[Field affine two-sided equation solutions are unique from apartness]
+\label{thm:field-affine-two-sided-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and indexed inverse laws for witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
+$x,y,d,c:\mathsf{BHist}$ satisfies
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c
+\quad\Longrightarrow\quad
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)\hsame c
+\quad\Longrightarrow\quad
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Assume the two displayed affine equations. Use symmetry of the second equation
+and transitivity of $\hsame$ to compose the first equation with it. This gives
+the classifier equality between the two affine outputs:
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d).
+$$
+
+Apply \autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness}
+with the same certified nonzero factors $p_a,p_b$ and offset $d$. The affine
+classifier exactness theorem removes the shared affine map and yields
+$x\hsame y$.
+\end{proof}
+
+Per-object certificate: Traditional target: affine equation uniqueness. BEDC
+source: $\FieldUp$ over $\mathsf{BHist}$ plus additive group laws. Carrier
+choice: $\mathsf{BHist}$. Classifier choice: $\hsame$. Stability obligations:
+the operations and laws required by affine two-sided injectivity. Ledger: the
+two certified factors and offset. Core theorem list entry:
+Theorem~\ref{thm:field-affine-two-sided-equation-solution-unique-from-apartness}.
+Exactness predicate: two certified solutions of the same affine equation are
+classified equal. Standard bridge and downstream use: canonical solution
+extraction for FieldUp equation solving. Status: $\mathsf{ProofTarget}$.
