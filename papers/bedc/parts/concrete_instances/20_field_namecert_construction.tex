@@ -28,8 +28,8 @@ $\mathsf{RatHistoryClassifier}(d,e)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_common\_context\_cancel}
 
-\begin{theorem}[Rat denominator continuation common-context classifier exactness]
-\label{thm:field-rat-denominator-continuation-common-context-classifier-exactness}
+\begin{theorem}[Rat denominator matched-context classifier exactness]
+\label{thm:field-rat-denominator-matched-context-classifier-exactness}
 For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
 $\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
 $\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
@@ -41,15 +41,17 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, apply the Rat unary denominator context closure
-theorem to $\mathsf{RatHistoryClassifier}(d,e)$ with the common unary prefix
-$p$ and common unary suffix $q$. This gives the classifier for the canonical
-history endpoints obtained by placing $p$ and $q$ around $d$ and $e$.
+For the forward direction, apply
+\autoref{thm:rat-history-classifier-unary-denominator-context-closed} to
+$\mathsf{RatHistoryClassifier}(d,e)$ with the common unary prefix $p$ and
+common unary tail $q$. This gives the classifier for the append representatives
+obtained by placing the same matched context around $d$ and $e$.
 
-Continuation determinacy compares those canonical endpoints with the displayed
-endpoints $left$ and $right$, using the premises $\Cont(p,d,pd)$,
-$\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and $\Cont(pe,q,right)$. Transporting the
-classifier across these endpoint comparisons gives
+Continuation determinacy and associativity compare those representatives with
+the displayed endpoints $left$ and $right$, using the premises
+$\Cont(p,d,pd)$, $\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and
+$\Cont(pe,q,right)$. Transporting the classifier across these endpoint
+comparisons gives
 $\mathsf{RatHistoryClassifier}(left,right)$.
 
 For the reverse direction, apply
@@ -98,9 +100,9 @@ Its conclusion is exactly $\mathsf{RatHistoryClassifier}(d,e)$.
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
 denominators; \textbf{classifier choice}: Rat history classifier;
-\textbf{stability obligation}: common-context classifier exactness; \textbf{ledger}:
+\textbf{stability obligation}: matched-context classifier exactness; \textbf{ledger}:
 matched unary prefix and suffix contexts; \textbf{core theorem}:
-\autoref{thm:field-rat-denominator-continuation-common-context-classifier-exactness};
+\autoref{thm:field-rat-denominator-matched-context-classifier-exactness};
 \textbf{exactness predicate}: classifier equivalence under matched continuation
 contexts; \textbf{standard bridge}: deferred; \textbf{status}:
 $\mathsf{ProofTarget}$.
