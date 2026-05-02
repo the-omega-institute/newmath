@@ -413,6 +413,29 @@ theorem group_right_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : B
       (hsame_trans (hsame_symm (assocC x a (inv a)))
         (mulCongr sameProduct (hsame_refl (inv a)))))
 
+ theorem group_right_mul_equation_exact_from_empty_unit {mul : BHist -> BHist -> BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {x a b : BHist} :
+    hsame (mul x a) b <-> hsame x (mul b (inv a)) := by
+  constructor
+  · intro sameProduct
+    exact group_right_mul_equation_solution assocC rightId mulCongr rightInv sameProduct
+  · intro sameSolution
+    have replaceX : hsame (mul x a) (mul (mul b (inv a)) a) := by
+      exact mulCongr sameSolution (hsame_refl a)
+    have reassoc :
+        hsame (mul (mul b (inv a)) a) (mul b (mul (inv a) a)) := by
+      exact assocC b (inv a) a
+    have cancelTail : hsame (mul b (mul (inv a) a)) (mul b BHist.Empty) := by
+      exact mulCongr (hsame_refl b) (leftInv a)
+    exact hsame_trans replaceX (hsame_trans reassoc (hsame_trans cancelTail (rightId b)))
+
 theorem group_left_absorb_right_factor_unit {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))

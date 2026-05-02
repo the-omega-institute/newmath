@@ -148,6 +148,7 @@ import BEDC.Derived.GroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
+import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.AffineEquation
@@ -155,6 +156,7 @@ import BEDC.Derived.FieldUp.Affine
 import BEDC.Derived.FieldUp.RatBoundary
 import BEDC.Derived.FieldUp.Nonzero
 import BEDC.Derived.FieldUp.ProductApartness
+import BEDC.Derived.FieldUp.SquareApartness
 import BEDC.Derived.FieldUp.SignedFactor
 import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FpsUp
