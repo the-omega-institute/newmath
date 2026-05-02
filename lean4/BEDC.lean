@@ -110,6 +110,7 @@ import BEDC.Derived.OptionUp.PresentChainEndpointClassification
 import BEDC.Derived.OptionUp.SourceTransportAbsurd
 import BEDC.Derived.OptionUp.CrossAbsentSourceExclusion
 import BEDC.Derived.OptionUp.CommonLeftVisiblePayload
+import BEDC.Derived.OptionUp.EndpointSemanticFields
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint

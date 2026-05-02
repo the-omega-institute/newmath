@@ -181,6 +181,28 @@ case.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_target\_components\_iff}
 
+\begin{theorem}[Prefix functor empty-source component exactness]
+\label{thm:functor-prefix-hom-carrier-empty-source-components}
+For histories $p,b,f$, a hom-carrier from the empty source into the prefixed
+target $\mathsf{append}(p,b)$ is exactly unary component data for $p$ and $b$
+together with morphism equality to that prefixed target:
+$$
+\mathsf{CategoryHomCarrier}(\emp,\mathsf{append}(p,b),f)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(b)\wedge
+\hsame(f,\mathsf{append}(p,b)).
+$$
+\end{theorem}
+\begin{proof}
+Category empty-source exactness turns the hom-carrier into unary closure of the
+prefixed target and equality of $f$ with that target. Unary append factorization
+separates the target carrier into the prefix and tail carriers. Conversely,
+unary append closure rebuilds the target carrier, and category empty-source
+exactness reconstructs the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_source\_components\_iff}
+
 \begin{theorem}[Functor prefix hom-carrier source prefix determinism]
 \label{thm:functor-prefix-hom-carrier-source-prefix-deterministic}
 For histories $p,q,a,target,f$, if the same morphism $f$ is a category
