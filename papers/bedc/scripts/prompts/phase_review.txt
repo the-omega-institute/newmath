@@ -221,6 +221,46 @@ Before choosing the emitted target, build a private candidate pool of 3–5 dist
 
 Select the hardest feasible candidate, not the easiest implementable one. Prefer `high` over `medium` over `low` when scores are tied or close. A `low` target may be emitted only if no `medium` or `high` candidate passes the validity, locality, and downstream-use gates. Do not inflate difficulty: an unbounded rewrite, speculative theorem, or target likely to fail compile is not feasible and must be rejected rather than labeled `high`.
 
+## Capstone bridge dimension (HARD GATE)
+
+The 0–12 quality score above is supplemented by a 7th dimension specifically tracking cross-chapter unification:
+
+- `cross_chapter_unification`: 0–2.
+
+  How many distinct chapters does this theorem statement reference via cited `\leanchecked` names or via concrete object references (e.g. `CategoryHomCarrier`, `RealStreamClassifier`, `CompactWitnessCarrier`, `MetricDistanceWitness`, `Cont`, `UnaryHistory`)?
+
+  - 0: single-chapter theorem (e.g. another OptionUp closure, another RatUp endpoint readback). The vast majority of existing rounds score 0 here.
+  - 1: spans 2 chapters. Common but not unifying.
+  - 2: spans ≥ 3 chapters AND the conclusion is an *equivalence / iff / bridge / correspondence* statement that ties the cited constructions together (not "uses lemma A to prove fact B in chapter C").
+
+Selection priority override: a `theory_extension` candidate with `cross_chapter_unification = 2` has **ABSOLUTE PRIORITY** over any candidate with `cross_chapter_unification ≤ 1`, even if its total `quality_score` is up to 2 points lower.
+
+Concrete examples of `cross_chapter_unification = 2` candidates:
+
+- bridge between `CategoryHomCarrier` (ch.36 Category) and `Cont` (FKernel kernel) via `UnaryHistory`: theorem stating that the category-level Hom carrier is precisely the unary-restricted continuation predicate.
+- bridge between `RealStreamClassifier` (ch.13 Real) and `MetricDistanceWitness` (ch.32 Metric) via shared dyadic prefix structure: theorem stating that real-stream equivalence and dyadic-tolerance metric equivalence coincide on regular sequences.
+- bridge between `CompactWitnessCarrier` (ch.35 Compact) and a located/totally-bounded primitive: theorem extracting Bishop-style located + ε-net data from the BEDC five-element compact carrier.
+
+Add `cross_chapter_unification: 0|1|2` as a field inside every `quality_score` JSON object, both in `candidate_pool` entries and in emitted `targets`. Without this field the round is malformed.
+
+## Capstone placement (HARD GATE for cross_chapter_unification = 2)
+
+When the selected target has `cross_chapter_unification = 2`, its `paper_files[0]` MUST be either:
+
+(a) `papers/bedc/parts/capstones/<theme>.tex` (creating the file if it does not exist; `<theme>` is short snake_case naming the unification, e.g. `cont_as_morphism`, `real_metric_correspondence`, `bishop_uniform_continuity`).
+
+(b) the `.tex` file of the DEEPEST-DEPENDENT chapter among the cited sources, IF the bridge is naturally a refinement within that chapter rather than a standalone result.
+
+Heuristic:
+- Bridge whose conclusion is an iff / equivalence / correspondence between constructions from DIFFERENT chapters → choose (a).
+- Bridge whose conclusion strengthens ONE chapter's existing theorem by importing a premise from another chapter → choose (b) on that chapter.
+
+Default to (a) unless the bridge clearly belongs to one chapter's internal structure.
+
+When using (a) for a NEW theme (capstone file does not yet exist), the candidate's `new_files` MUST list `papers/bedc/parts/capstones/<theme>.tex`, and its `proposed_change` must include the explicit instruction to phase_revise: *"Append `\input{parts/capstones/<theme>}` to `papers/bedc/parts/capstones/_index_files.tex` (alphabetical order)."*
+
+For `cross_chapter_unification < 2`, capstones/ MUST NOT be selected as `paper_files[0]`. The capstones chapter is reserved for genuine 3+-chapter bridges; using it for ordinary cross-chapter references pollutes its purpose.
+
 You MUST output the candidate pool in the top-level JSON field `candidate_pool`. This is an audit artifact, not work for the revise phase. Each candidate-pool entry must include: `candidate_id`, `kind`, `paper_files`, `anchor`, `summary`, `difficulty`, `quality_score`, `feasible`, `rejected_reason` (empty for feasible candidates), and `selection_rank` (1 is best). The emitted `targets[0]` MUST correspond exactly to the feasible candidate with `selection_rank = 1`. Do not hide harder feasible candidates; if a harder candidate is not selected, mark it infeasible or lower-ranked and state the concrete reason. Do not include invalid or speculative candidates in `targets`.
 
 In the JSON `notes`, briefly record the selected target's rank, the number of valid candidates considered, and why no harder feasible candidate was selected.
