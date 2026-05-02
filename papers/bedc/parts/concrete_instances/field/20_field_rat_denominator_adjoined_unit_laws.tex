@@ -73,6 +73,50 @@ empty endpoint equalities and applying reflexivity at $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_unit\_envelope\_classifier\_append\_closed}
 
+\begin{theorem}[Rat denominator unit-envelope classifier empty-right exactness]
+\label{thm:field-rat-denominator-unit-envelope-classifier-empty-right-exactness}
+For every history $h:\mathsf{BHist}$, the unit-envelope classifier with empty
+right endpoint is exactly empty endpoint sameness:
+$$
+\mathsf{FieldRatDenominatorUnitEnvelopeClassifier}(h,\emp)
+\Longleftrightarrow h\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Split the concrete unit-envelope classifier. In the carried branch, the right
+endpoint would be both $\mathsf{RatHistoryCarrier}$ and $\emp$, which contradicts
+$\mathsf{RatHistoryCarrier\_not\_empty}$. In the empty branch, the left endpoint
+comparison is already present. Conversely, $h\hsame\emp$ selects the empty-empty
+branch with reflexivity at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeClassifier\_empty\_right\_iff}
+
+\begin{theorem}[Rat denominator unit-envelope classifier is continuation-closed]
+\label{thm:field-rat-denominator-unit-envelope-classifier-continuation-closed}
+For histories $h,h',k,k',r,r':\mathsf{BHist}$, if
+$$
+\mathsf{FieldRatDenominatorUnitEnvelopeClassifier}(h,h'),\quad
+\mathsf{FieldRatDenominatorUnitEnvelopeClassifier}(k,k'),\quad
+\Cont(h,k,r),\quad
+\Cont(h',k',r'),
+$$
+then
+$$
+\mathsf{FieldRatDenominatorUnitEnvelopeClassifier}(r,r').
+$$
+\end{theorem}
+\begin{proof}
+Split the two classifier witnesses. In the carried-carried branch, Rat
+denominator continuation classifier closure supplies a carried classifier for
+the two results. In each mixed branch, continuation congruence against the empty
+endpoint unit identifies the result with the carried endpoint on that side; Rat
+carrier transport then supplies carried result witnesses, and continuation
+congruence supplies the result comparison. In the empty-empty branch, both
+continuations transport to the empty-left unit continuation at $\emp$, so both
+results are history-same to $\emp$ and the empty branch applies.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeClassifier\_continuation\_closed}
+
 \begin{theorem}[Rat denominator continuation adjoined-unit laws]
 \label{thm:field-rat-denominator-continuation-adjoined-unit-laws}
 The concrete carrier $\mathsf{RatDenomUnitCarrier}$ and classifier

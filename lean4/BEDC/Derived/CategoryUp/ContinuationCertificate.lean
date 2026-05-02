@@ -43,6 +43,15 @@ theorem ContinuationMorphism_endpoint_transport_exists {a a' b b' : BHist}
   exact Exists.intro { tail := left.tail, rel := transported }
     (And.intro transported (hsame_refl left.tail))
 
+theorem ContinuationMorphism_endpoint_transport_witness {a a' b b' : BHist}
+    (sameSource : hsame a a') (sameTarget : hsame b b')
+    (m : ContinuationMorphism a b) :
+    ∃ n : ContinuationMorphism a' b', hsame n.tail m.tail ∧ Cont a' n.tail b' := by
+  have transported : Cont a' m.tail b' :=
+    cont_hsame_transport sameSource (hsame_refl m.tail) sameTarget m.rel
+  exact Exists.intro { tail := m.tail, rel := transported }
+    (And.intro (hsame_refl m.tail) transported)
+
 theorem ContinuationMorphism_tail_cont_witness_iff {a b t : BHist} :
     (exists m : ContinuationMorphism a b, hsame m.tail t) ↔ Cont a t b := by
   constructor

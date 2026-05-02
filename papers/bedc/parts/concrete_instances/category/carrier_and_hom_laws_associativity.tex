@@ -197,6 +197,26 @@ reflexivity.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_endpoint\_transport\_exists}
 
+\begin{theorem}[Continuation morphism endpoint transport witness]
+\label{thm:category-continuation-morphism-endpoint-transport-witness}
+For histories $a,a',b,b'$, if $a\hsame a'$ and $b\hsame b'$, then every
+continuation morphism $m:\mathsf{ContinuationMorphism}(a,b)$ transports to a
+continuation morphism $n:\mathsf{ContinuationMorphism}(a',b')$ whose tail is
+history-same to the original tail:
+$$
+\exists n:\mathsf{ContinuationMorphism}(a',b').\;
+\hsame(\mathsf{tail}(n),\mathsf{tail}(m))\land
+\Cont(a',\mathsf{tail}(n),b').
+$$
+\end{theorem}
+\begin{proof}
+Unpack $m$ as a tail with a continuation relation from $a$ to $b$. Transport
+that relation across the source and target endpoint comparisons, keeping the
+same tail by reflexivity. The transported relation is the relation field of the
+displayed morphism $n$, and tail reflexivity gives the announced comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_endpoint\_transport\_witness}
+
 \begin{theorem}[Continuation morphism source determinacy]
 \label{thm:continuation-morphism-source-deterministic}
 For histories $a,b,c$, if a continuation morphism from $a$ to $c$ and a
