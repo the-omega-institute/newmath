@@ -275,4 +275,16 @@ theorem unary_append_monoid_classifier_append_context {left right a b : BHist} :
                 cases sameAB
                 exact hsame_refl (append left (append a right))))
 
+theorem unary_append_monoid_classifier_context_iff {left right a b : BHist} :
+    UnaryHistory left -> UnaryHistory right -> UnaryHistory a -> UnaryHistory b ->
+      (MonoidHistoryClassifier UnaryHistory (append left (append a right))
+        (append left (append b right)) <-> MonoidHistoryClassifier UnaryHistory a b) := by
+  intro unaryLeft unaryRight unaryA unaryB
+  constructor
+  · intro classified
+    exact unary_append_monoid_classifier_cancel_context unaryLeft unaryRight unaryA unaryB
+      classified
+  · intro classified
+    exact unary_append_monoid_classifier_append_context unaryLeft unaryRight classified
+
 end BEDC.Derived.MonoidUp

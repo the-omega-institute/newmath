@@ -235,6 +235,25 @@ The given unary witnesses for $a$ and $b$ supply the classifier endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_classifier\_cancel\_context}
 
+\begin{theorem}[Unary append monoid classifier context equivalence]
+\label{thm:unary-append-monoid-classifier-context-iff}
+For unary histories $l,r,a,b$, the monoid classifier identifies
+$$
+l(a r)
+$$
+with
+$$
+l(b r)
+$$
+exactly when it identifies $a$ with $b$.
+\end{theorem}
+\begin{proof}
+The forward direction is common-context cancellation: left append cancellation
+removes $l$, and right append cancellation removes $r$. The reverse direction
+is common-context congruence using unary append closure on both endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_classifier\_context\_iff}
+
 \begin{definition}[Monoid ledger policy]
 \label{def:monoid-ledger-policy}
 Record the carrier witnesses and operation tree behind each monoid expression.

@@ -204,6 +204,7 @@ import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.ContinuationTailIdentitySquare
 import BEDC.Derived.CategoryUp.SemanticCertificate
 import BEDC.Derived.CategoryUp.IdentityLaw
 import BEDC.Derived.CategoryUp.Cycle

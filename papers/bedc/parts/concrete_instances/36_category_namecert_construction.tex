@@ -37,6 +37,22 @@ unary morphism, and transported continuation fields.
 \leanvariant{BEDC.Derived.CategoryUp.CategoryHomCarrier\_continuationMorphism\_tail\_iff}
 \leanvariant{BEDC.Derived.CategoryUp.CategoryHomCarrier\_continuation\_morphism\_tail\_correspondence}
 
+\begin{theorem}[Continuation morphism tail identity square closure]
+\label{thm:continuation-morphism-tail-identity-square-closed}
+For a continuation morphism $m:\mathsf{ContinuationMorphism}(a,b)$, if $left$
+is obtained by composing $\emp$ before $\mathsf{tail}(m)$ and $right$ is
+obtained by composing $\emp$ after $\mathsf{tail}(m)$, then
+$\HSame(left,right)$ and both displayed tails carry continuations from $a$ to
+$b$.
+\end{theorem}
+\begin{proof}
+The left-unit continuation identifies $left$ with $\mathsf{tail}(m)$.
+Determinism against the right-unit continuation identifies $right$ with
+$\mathsf{tail}(m)$. Transport the relation field of $m$ across these two
+history equalities and compose the equalities by transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_identity\_square\_closed}
+
 Per-object certificate: traditional target hom-as-continuation morphism bridge;
 BEDC source $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$,
 $\mathsf{UnaryHistory}$, and $\mathsf{Cont}$; carrier $\mathsf{BHist}$ tails;
