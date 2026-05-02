@@ -68,3 +68,45 @@ That theorem says that such a zero product is impossible when both factors are
 explicitly nonzero, so the assumed pair of signed-factor witnesses yields
 $\mathsf{False}$.
 \end{proof}
+
+\begin{theorem}[Field product nonzero excludes zero factors]
+\label{thm:field-product-nonzero-excludes-zero-factors}
+For a BEDC history-level $\FieldUp$ candidate with ring zero absorption,
+multiplication congruence, classifier transport of $\mathsf{NonZero}_F$,
+and contradiction of $\mathsf{NonZero}_F(0)$, every $a,b:\mathsf{BHist}$
+with
+$$
+p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))
+$$
+satisfies both $a\hsame0\to\bot$ and $b\hsame0\to\bot$.
+\end{theorem}
+\begin{proof}
+Assume $a\hsame0$. Multiplication congruence sends
+$\mathsf{mul}(a,b)$ to $\mathsf{mul}(0,b)$, and
+Theorem~\ref{thm:ring-mul-zero-absorption} identifies
+$\mathsf{mul}(0,b)$ with $0$. Transitivity gives
+$\mathsf{mul}(a,b)\hsame0$.
+
+Transport $p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$ along this
+classifier equality. The transport clause supplies
+$\mathsf{NonZero}_F(0)$, and the field zero-contradiction clause closes
+the left-factor obstruction.
+
+The right-factor obstruction is symmetric. From $b\hsame0$, multiplication
+congruence sends $\mathsf{mul}(a,b)$ to $\mathsf{mul}(a,0)$, and
+Theorem~\ref{thm:ring-mul-zero-absorption} identifies that product with
+$0$. Transporting the same witness $p_{ab}$ to $\mathsf{NonZero}_F(0)$
+again contradicts the field zero clause.
+\end{proof}
+
+Per-object certificate: Traditional target: certified nonzero product
+prevents zero factors. BEDC source: $\FieldUp$ plus $\RingUp$ zero
+absorption. Carrier choice: $\mathsf{BHist}$. Classifier choice:
+$\hsame$. Stability obligations: zero absorption, multiplication
+congruence, $\mathsf{NonZero}_F$ transport, and contradiction of
+$\mathsf{NonZero}_F(0)$. Ledger: product witness
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$ and the tested zero-factor
+classifier. Core theorem list: left and right zero-factor exclusion from a
+certified nonzero product. Exactness predicate: nonzero-product obstruction
+to zero-factor classifiers. Standard bridge: deferred conservative bridge.
+Status: ProofTarget.
