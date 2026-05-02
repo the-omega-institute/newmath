@@ -110,3 +110,103 @@ FieldUp denominator boundary over $\RatUp$ histories; status
 $\mathsf{ProofTarget}$.
 
 \input{parts/concrete_instances/field/20_field_rat_denominator_contextual_action_unit_composition_laws}
+
+\section{Rat denominator context-pair action laws}
+\label{sec:field-rat-denominator-context-pair-action-laws}
+
+\begin{definition}[RatUp FieldUp denominator context-pair monoid]
+\label{def:ratup-fieldup-denominator-context-pair-monoid}
+The concrete denominator context-pair carrier for the RatUp FieldUp action is
+the class of pairs $(l,r):\mathsf{BHist}\times\mathsf{BHist}$ such that
+$C_D^u(l)$ and $C_D^u(r)$. Its unit is
+$(e_D^u,e_D^u)$, and its pair product is
+$$
+(l,r)\star(l',r'):=(\mu_D^u(l',l),\mu_D^u(r,r')).
+$$
+The pair support predicate is
+$$
+\mathsf{PairSupp}_D^u(l,r)\Longleftrightarrow N_D^u(l)\lor N_D^u(r).
+$$
+Two carried pairs $(l,r)$ and $(l',r')$ are componentwise
+$R_D^u$-classified when $R_D^u(l,l')$ and $R_D^u(r,r')$.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp denominator context-pair action laws]
+\label{thm:ratup-fieldup-denominator-context-pair-action-laws}
+For the concrete denominator context-pair structure of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, the contextual
+action $\Gamma$ is a unital action up to the denominator classifier and composes
+by the product $\star$.
+
+If $C_D^u(h)$, then the unit pair acts as the classifier identity:
+$$
+C_D^u(\Gamma_{\emp,\emp,e_D^u,e_D^u}(h)),
+$$
+$$
+R_D^u(\Gamma_{\emp,\emp,e_D^u,e_D^u}(h),h),
+$$
+and its strict support is the support of $h$ together with the unit-pair
+support:
+$$
+N_D^u(\Gamma_{\emp,\emp,e_D^u,e_D^u}(h))
+\Longleftrightarrow
+\mathsf{PairSupp}_D^u(e_D^u,e_D^u)\lor N_D^u(h).
+$$
+
+If $C_D^u(h)$, $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and $C_D^u(r')$, and if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then nested
+actions are classified by the single action of the product pair:
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',\mu_D^u(l',l),\mu_D^u(r,r')}(h)).
+$$
+The strict support of the nested action is exactly the support of the acted
+history together with the supports of the two acting pairs:
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+\mathsf{PairSupp}_D^u(l,r)\lor N_D^u(h)\lor\mathsf{PairSupp}_D^u(l',r').
+$$
+Equivalently, by the denominator row support laws for $\mu_D^u$, this is the
+support of $h$ together with the support of the product pair $(l,r)\star(l',r')$.
+
+The product $\star$ has $(e_D^u,e_D^u)$ as a two-sided unit and is associative
+up to componentwise $R_D^u$. For every carried pair $(l,r)$, both
+$(e_D^u,e_D^u)\star(l,r)$ and $(l,r)\star(e_D^u,e_D^u)$ are componentwise
+$R_D^u$-classified with $(l,r)$. For carried pairs $(l,r)$, $(l',r')$, and
+$(l'',r'')$, the pairs $((l,r)\star(l',r'))\star(l'',r'')$ and
+$(l,r)\star((l',r')\star(l'',r''))$ are componentwise $R_D^u$-classified.
+\end{theorem}
+\begin{proof}
+The carrier and product clauses are componentwise applications of the empty-unit
+denominator continuation monoid laws of
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}. The
+unit pair is carried because $C_D^u(e_D^u)$ holds, and product closure follows
+from closure of $\mu_D^u$ on each component.
+
+For the unit action, specialize
+\autoref{thm:ratup-fieldup-denominator-contextual-action-unit-composition-laws}
+to the empty contextual action. Since $e_D^u=\emp$ in the concrete denominator
+instance, its carrier, classifier-identity, and support clauses give exactly the
+three displayed unit-action conclusions. The pair-support definition rewrites
+the two empty context supports as $\mathsf{PairSupp}_D^u(e_D^u,e_D^u)$.
+
+For composition, use the same unit-composition theorem with the carried context
+pairs $(l,r)$ and $(l',r')$ and the four empty external endpoint hypotheses. Its
+classifier clause is precisely the comparison with the action whose contexts are
+$\mu_D^u(l',l)$ and $\mu_D^u(r,r')$, which is the pair product
+$(l,r)\star(l',r')$.
+
+The strict-support clause of that theorem gives the five-term readback
+$N_D^u(l')\lor N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)\lor N_D^u(r')$. Rebracketing
+disjunction and unfolding $\mathsf{PairSupp}_D^u$ gives the displayed
+pair-support form. The denominator row support laws for $\mu_D^u$ identify the
+left two and right two support terms with the two components of the product pair.
+
+Finally, unitality and associativity of $\star$ are the componentwise unit and
+associativity clauses of
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}. The
+left component uses the left-context order in the definition of $\star$, and the
+right component uses the right-context order; both comparisons are exactly
+componentwise $R_D^u$.
+\end{proof}
