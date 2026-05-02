@@ -50,6 +50,15 @@ theorem NatMul_left_unary {d q n : BHist} : NatMul d q n -> UnaryHistory d := by
   | zero hd => exact hd
   | succ _ _ ih => exact ih
 
+theorem NatMul_result_unary {d q n : BHist} :
+    UnaryHistory d -> NatMul d q n -> UnaryHistory n := by
+  intro hd mul
+  induction mul with
+  | zero _hd =>
+      exact unary_empty
+  | succ _prev step ih =>
+      exact unary_cont_closed ih hd step
+
 theorem NatMul_append_cont {d q e w n r : BHist} :
     NatMul d w n -> NatMul d q e -> Cont n e r -> NatMul d (append w q) r := by
   intro left right continuation

@@ -33,6 +33,18 @@ By unary induction on \(q\). The base case yields \(n = \emp\); the step appends
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_total}
 
+\begin{lemma}[Unary multiplication results are unary]
+\label{lem:nat-mul-result-unary}
+For every unary multiplicand $d$, every derivation
+$\mathsf{NatMul}(d,q,n)$ has a unary result $n$.
+\end{lemma}
+\begin{proof}
+Induct on the $\mathsf{NatMul}$ derivation. The zero constructor returns
+$\emp$, and the successor constructor appends the unary multiplicand to the
+unary inductive result, so unary closure under $\Cont$ applies.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_result\_unary}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.

@@ -397,4 +397,29 @@ theorem field_rat_denominator_bilateral_strict_factor_cancellation {h k l r : BH
               ⟨carrierLeftContext, carrierRightContext, carrierLeftContext, carrierRightContext,
                 hsame_refl (append l (append BHist.Empty r))⟩
 
+theorem FieldRatDenominatorUnitEnvelope_external_strict :
+    FieldRatDenominatorUnitEnvelopeCarrier BHist.Empty ∧
+      (RatHistoryCarrier BHist.Empty -> False) ∧
+      (∀ {h : BHist}, RatHistoryCarrier h ->
+        FieldRatDenominatorUnitEnvelopeClassifier h BHist.Empty -> False) ∧
+      (∀ {h : BHist}, RatHistoryCarrier h ->
+        FieldRatDenominatorUnitEnvelopeClassifier BHist.Empty h -> False) ∧
+      (∀ {h k : BHist}, RatHistoryCarrier h -> RatHistoryCarrier k ->
+        (FieldRatDenominatorUnitEnvelopeClassifier h k <-> RatHistoryClassifier h k)) := by
+  constructor
+  · exact field_rat_denominator_unit_envelope_monoid_laws.left
+  constructor
+  · intro emptyCarrier
+    exact RatHistoryCarrier_not_empty emptyCarrier (hsame_refl BHist.Empty)
+  constructor
+  · intro h ratH classified
+    exact (field_rat_denominator_unit_envelope_classifier_exactness.right.left ratH
+      (hsame_refl BHist.Empty)) classified
+  constructor
+  · intro h ratH classified
+    exact (field_rat_denominator_unit_envelope_classifier_exactness.right.right.left
+      (hsame_refl BHist.Empty) ratH) classified
+  · intro h k ratH ratK
+    exact field_rat_denominator_unit_envelope_classifier_exactness.left ratH ratK
+
 end BEDC.Derived.FieldUp
