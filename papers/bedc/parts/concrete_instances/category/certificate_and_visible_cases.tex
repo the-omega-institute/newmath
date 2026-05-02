@@ -279,6 +279,30 @@ $\ContR(\Ezero(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e1\_target\_tail\_cases}
 
+\begin{theorem}[Continuation morphism one-headed source to one-headed target tail cases]
+\label{thm:continuation-morphism-e1-source-e1-target-tail-cases}
+For histories $a,r:\mathsf{BHist}$, every continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Eone(a),\Eone(r))$ has either the empty-tail
+case with the exposed endpoints classified together,
+$$
+\mathsf{tail}(m)=\emp\land\HSame(a,r),
+$$
+or a one-headed tail whose payload still continues from $\Eone(a)$ to $r$:
+$$
+\exists k:\mathsf{BHist}.\;
+\mathsf{tail}(m)=\Eone(k)\land \ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the displayed continuation tail. The empty-tail branch is the right-unit
+continuation, so constructor injectivity exposes $\HSame(a,r)$. A zero-headed
+tail would force a one-headed result to be zero-headed, contradicting
+constructor disjointness. In the one-headed branch, constructor injectivity on
+the continuation result removes the outer one constructor and leaves
+$\ContR(\Eone(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_tail\_cases}
+
 \begin{theorem}[Category empty morphism between one-headed endpoints]
 \label{thm:category-hom-carrier-e1-source-e1-target-empty-morphism-iff}
 For histories $a,r$, the empty morphism is a hom-carrier from $\Eone(a)$ to
@@ -505,6 +529,42 @@ descended left carrier. In the visible branch, substitute $g=\Eone(l)$ and keep
 the original right hom-carrier at the recovered target.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_e1\_morphism\_right\_factor\_cases}
+
+\begin{theorem}[Category composite one-headed morphism left factor cases]
+\label{thm:category-hom-carrier-comp-e1-morphism-left-factor-cases}
+For composable category hom-carriers $f:a\to b$ and $g:b\to c$, if their
+continuation composite is the one-headed morphism $\Eone(k)$, then the left
+factor is either the empty identity case at the source boundary or a visible
+one-headed morphism whose target is one-headed:
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(a,b,f)\land
+\mathsf{CategoryHomCarrier}(b,c,g)\land
+\ContR(f,g,\Eone(k))\\
+&\quad\Longrightarrow
+\bigl(f=\emp\land a=b\land
+\mathsf{CategoryHomCarrier}(b,c,\Eone(k))\bigr)\\
+&\qquad\lor
+\exists l,r:\mathsf{BHist}.\;
+f=\Eone(l)\land b=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),c,g)\land
+\ContR(\Eone(l),g,\Eone(k)).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Classify the left morphism history. If it is empty, the left hom-carrier
+identity ledger identifies $a$ and $b$, while the composite continuation with
+empty left factor transports the right hom-carrier to morphism $\Eone(k)$. If
+the left morphism is zero-headed, its unary morphism field contradicts
+zero-extension separation. If it is one-headed, the one-headed morphism target
+case theorem exposes $b=\Eone(r)$ and the descended left hom-carrier
+$\mathsf{CategoryHomCarrier}(a,r,l)$; substituting this target equality keeps
+the original right hom-carrier at source $\Eone(r)$, and the original composite
+ledger is the visible-tail continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_e1\_morphism\_left\_factor\_cases}
 
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}

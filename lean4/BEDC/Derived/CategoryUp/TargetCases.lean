@@ -284,4 +284,39 @@ theorem CategoryHomCarrier_comp_e1_morphism_right_factor_cases {a b c f g k : BH
                                       cases morphEq
                                       exact rightFactor)))))
 
+theorem CategoryHomCarrier_comp_e1_morphism_left_factor_cases {a b c f g k : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e1 k) ->
+      (f = BHist.Empty ∧ a = b ∧ CategoryHomCarrier b c (BHist.e1 k)) ∨
+        (∃ l r : BHist, f = BHist.e1 l ∧ b = BHist.e1 r ∧
+          CategoryHomCarrier a r l ∧ CategoryHomCarrier (BHist.e1 r) c g ∧
+            Cont (BHist.e1 l) g (BHist.e1 k)) := by
+  intro left right comp
+  cases f with
+  | Empty =>
+      left
+      have sameMorphism : hsame g (BHist.e1 k) := hsame_symm (cont_left_unit_result comp)
+      exact And.intro rfl
+        (And.intro left.right.right.right.symm
+          (CategoryHomCarrier_hsame_transport (hsame_refl b) (hsame_refl c) sameMorphism
+            right))
+  | e0 l =>
+      exact False.elim (unary_no_zero_extension left.right.right.left)
+  | e1 l =>
+      right
+      have targetCases := CategoryHomCarrier_e1_morphism_target_cases left
+      cases targetCases with
+      | intro r targetData =>
+          cases targetData with
+          | intro targetEq tailCarrier =>
+              exact Exists.intro l
+                (Exists.intro r
+                  (And.intro rfl
+                    (And.intro targetEq
+                      (And.intro tailCarrier
+                        (And.intro
+                          (by
+                            cases targetEq
+                            exact right)
+                          comp)))))
+
 end BEDC.Derived.CategoryUp

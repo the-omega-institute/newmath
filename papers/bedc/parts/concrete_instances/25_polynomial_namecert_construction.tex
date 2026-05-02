@@ -235,6 +235,24 @@ $\hsame(\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_pair\_carrier\_iff}
 
+\begin{theorem}[Polynomial singleton normalized append classifier carrier]
+\label{thm:polynomial-singleton-normalize-append-classifier-carrier-iff}
+For histories $P,Q,h$, classifying $h$ against the normalized singleton append
+endpoint is exactly the singleton carrier predicate on $h$:
+$$
+\rho_{\emp}(\mathsf{normalize}_P(\mathsf{append}(P,Q)),h)
+\quad\Longleftrightarrow\quad
+A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+The singleton normalization endpoint is $\emp$. In the forward direction, the
+right carrier field of $\rho_{\emp}$ is precisely $A_{\emp}(h)$. Conversely, a
+carrier witness for $h$ combines with reflexivity of $\emp$ and symmetry of the
+same carrier witness to rebuild the singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonNormalize\_append\_classifier\_carrier\_iff}
+
 \begin{theorem}[Polynomial singleton append distributivity is classified]
 \label{thm:polynomial-singleton-append-distrib-classified}
 For singleton-carried polynomial endpoints $P,Q,R$, the displayed append
