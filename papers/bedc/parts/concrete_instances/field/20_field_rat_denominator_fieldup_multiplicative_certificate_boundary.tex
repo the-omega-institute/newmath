@@ -110,3 +110,72 @@ fixed denominator multiplication inside empty external contexts;
 \textbf{standard bridge}: ordinary denominator multiplication with an adjoined
 empty unit and empty endpoint contexts; \textbf{status}:
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator FieldUp multiplicative certificate obligation coverage]
+\label{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}
+For the concrete tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$ of
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary},
+the multiplicative $\FieldUp(\mathsf{RatUp})$ certificate rows are covered by
+the displayed $\mathsf{BHist}$ denominator data:
+\begin{enumerate}
+  \item carrier closure and unit inhabitation for $C_D^\ast$ and
+  $e_D^\ast$;
+  \item associativity, commutativity, and binary classifier congruence for
+  $\mu_D^\ast$ under $R_D^\ast$;
+  \item strict-support classifier transport and product-support exactness for
+  $N_D^\ast$;
+  \item empty-unit uniqueness for the external endpoint $e_D^\ast$;
+  \item two-sided cancellation over the empty-unit cancellative commutative
+  monoid package;
+  \item empty-product reflection through
+  \autoref{thm:field-rat-denominator-unit-envelope-empty-product-reflection}.
+\end{enumerate}
+Thus the boundary theorem is a concrete $\mathsf{BHist}$ tuple law for later
+Lean formalization rather than abstract carrier/classifier transport.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}.
+It fixes the five objects $C_D^\ast$, $R_D^\ast$, $\mu_D^\ast$, $e_D^\ast$,
+and $N_D^\ast$ and identifies them with the external-unit denominator envelope
+used at the $\FieldUp(\mathsf{RatUp})$ boundary.
+
+The carrier rows, the unit row, associativity, binary classifier congruence,
+restriction to the carried denominator fragment, mixed-endpoint separation,
+and empty-unit uniqueness are supplied by
+\autoref{thm:field-rat-denominator-unit-envelope-certificate}. The
+commutative row is the commutative part already packaged into the boundary
+theorem from the same envelope data.
+
+The strict-support rows are exactly
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws}: its
+first clause transports $N_D^\ast$ across $R_D^\ast$-classified endpoints, and
+its second clause computes strict support of $\mu_D^\ast(h,k)$ from the two
+input supports.
+
+The cancellation row is the denominator endpoint cancellation field of
+\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package},
+read through the same empty-unit carrier, classifier, append operation, and
+endpoint. The empty-product row is precisely
+\autoref{thm:field-rat-denominator-unit-envelope-empty-product-reflection}.
+
+These cited rows exhaust the multiplicative denominator obligations listed for
+the concrete $\FieldUp(\mathsf{RatUp})$ certificate, so the certificate is
+NameCert-ready as a single concrete tuple over $\mathsf{BHist}$.
+\end{proof}
+
+Per-object template: traditional target
+$\FieldUp(\mathsf{RatUp})$ multiplicative denominator certificate; BEDC source
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{RatHistoryCarrier}$, $\Cont$, and $\mathsf{append}$; carrier
+$C_D^\ast$; classifier $R_D^\ast$; stability obligations carrier closure, unit
+inhabitation, associativity, commutativity, binary classifier congruence,
+strict-support classifier transport, product-support exactness, empty-unit
+uniqueness, two-sided cancellation, and empty-product reflection; ledger
+external empty-unit endpoint plus denominator continuation provenance; core
+theorem
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage};
+exactness predicate strict support and empty-product reflection; standard
+bridge ordinary positive-denominator multiplication with adjoined unit; status
+$\mathsf{ProofTarget}$.
