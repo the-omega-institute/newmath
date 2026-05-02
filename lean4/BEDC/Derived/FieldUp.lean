@@ -322,4 +322,71 @@ theorem field_inverse_cancel_from_apartness {mul : BHist -> BHist -> BHist}
   exact field_middle_mul_equation_exact_from_apartness
     assocC leftId rightId mulCongr leftInv rightInv pa pb
 
+def fieldSingletonEmptyCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def fieldSingletonEmptyClassifier (h k : BHist) : Prop :=
+  fieldSingletonEmptyCarrier h ∧ fieldSingletonEmptyCarrier k ∧ hsame h k
+
+def fieldSingletonEmptyNonZero (h : BHist) : Prop :=
+  fieldSingletonEmptyClassifier h BHist.Empty -> False
+
+def fieldSingletonEmptyMul (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+def fieldSingletonEmptyOne : BHist :=
+  BHist.Empty
+
+def fieldSingletonEmptyInv (_h : BHist) (_p : fieldSingletonEmptyNonZero _h) : BHist :=
+  BHist.Empty
+
+theorem field_singleton_empty_schema_laws :
+    (fieldSingletonEmptyCarrier BHist.Empty) ∧
+      (fieldSingletonEmptyNonZero BHist.Empty -> False) ∧
+      (∀ {h k : BHist}, fieldSingletonEmptyClassifier h k ->
+        fieldSingletonEmptyNonZero h -> fieldSingletonEmptyNonZero k) ∧
+      (∀ (h : BHist) (p : fieldSingletonEmptyNonZero h), fieldSingletonEmptyCarrier h ->
+        fieldSingletonEmptyCarrier (fieldSingletonEmptyInv h p)) ∧
+      (∀ (h : BHist) (p : fieldSingletonEmptyNonZero h),
+        fieldSingletonEmptyClassifier (fieldSingletonEmptyMul (fieldSingletonEmptyInv h p) h)
+          fieldSingletonEmptyOne) ∧
+      (∀ (h : BHist) (p : fieldSingletonEmptyNonZero h),
+        fieldSingletonEmptyClassifier (fieldSingletonEmptyMul h (fieldSingletonEmptyInv h p))
+          fieldSingletonEmptyOne) := by
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro nonzeroEmpty
+      apply nonzeroEmpty
+      constructor
+      · exact hsame_refl BHist.Empty
+      · constructor
+        · exact hsame_refl BHist.Empty
+        · exact hsame_refl BHist.Empty
+    · constructor
+      · intro h k sameHK nonzeroH
+        intro sameKEmpty
+        apply nonzeroH
+        constructor
+        · exact sameHK.left
+        · constructor
+          · exact hsame_refl BHist.Empty
+          · exact hsame_trans sameHK.right.right sameKEmpty.right.right
+      · constructor
+        · intro h p carrierH
+          exact hsame_refl BHist.Empty
+        · constructor
+          · intro h p
+            constructor
+            · exact hsame_refl BHist.Empty
+            · constructor
+              · exact hsame_refl BHist.Empty
+              · exact hsame_refl BHist.Empty
+          · intro h p
+            constructor
+            · exact hsame_refl BHist.Empty
+            · constructor
+              · exact hsame_refl BHist.Empty
+              · exact hsame_refl BHist.Empty
+
 end BEDC.Derived.FieldUp

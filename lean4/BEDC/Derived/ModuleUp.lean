@@ -141,4 +141,81 @@ theorem singleton_empty_history_module_action_fields :
             exact And.intro (hsame_refl BHist.Empty)
               (And.intro carrierM (hsame_symm carrierM))
 
+def moduleSingletonEmptyCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def moduleSingletonEmptyClassifier (h k : BHist) : Prop :=
+  moduleSingletonEmptyCarrier h ∧ moduleSingletonEmptyCarrier k ∧ hsame h k
+
+def moduleSingletonEmptyAdd (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+def moduleSingletonEmptyMul (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+def moduleSingletonEmptySmul (_r _m : BHist) : BHist :=
+  BHist.Empty
+
+theorem module_singleton_empty_laws :
+    (moduleSingletonEmptyCarrier BHist.Empty) ∧
+      (∀ r m : BHist, moduleSingletonEmptyCarrier r -> moduleSingletonEmptyCarrier m ->
+        moduleSingletonEmptyCarrier (moduleSingletonEmptySmul r m)) ∧
+      (∀ {r r' m m' : BHist}, moduleSingletonEmptyClassifier r r' ->
+        moduleSingletonEmptyClassifier m m' ->
+          moduleSingletonEmptyClassifier (moduleSingletonEmptySmul r m)
+            (moduleSingletonEmptySmul r' m')) ∧
+      (∀ r s m : BHist,
+        moduleSingletonEmptyClassifier
+          (moduleSingletonEmptySmul (moduleSingletonEmptyMul r s) m)
+          (moduleSingletonEmptySmul r (moduleSingletonEmptySmul s m))) ∧
+      (∀ r m n : BHist,
+        moduleSingletonEmptyClassifier (moduleSingletonEmptySmul r (moduleSingletonEmptyAdd m n))
+          (moduleSingletonEmptyAdd (moduleSingletonEmptySmul r m)
+            (moduleSingletonEmptySmul r n))) ∧
+      (∀ r s m : BHist,
+        moduleSingletonEmptyClassifier (moduleSingletonEmptySmul (moduleSingletonEmptyAdd r s) m)
+          (moduleSingletonEmptyAdd (moduleSingletonEmptySmul r m)
+            (moduleSingletonEmptySmul s m))) ∧
+      (∀ m : BHist, moduleSingletonEmptyCarrier m ->
+        moduleSingletonEmptyClassifier (moduleSingletonEmptySmul BHist.Empty m) m) := by
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro r m hr hm
+      exact hsame_refl BHist.Empty
+    · constructor
+      · intro r r' m m' sameRR' sameMM'
+        constructor
+        · exact hsame_refl BHist.Empty
+        · constructor
+          · exact hsame_refl BHist.Empty
+          · exact hsame_refl BHist.Empty
+      · constructor
+        · intro r s m
+          constructor
+          · exact hsame_refl BHist.Empty
+          · constructor
+            · exact hsame_refl BHist.Empty
+            · exact hsame_refl BHist.Empty
+        · constructor
+          · intro r m n
+            constructor
+            · exact hsame_refl BHist.Empty
+            · constructor
+              · exact hsame_refl BHist.Empty
+              · exact hsame_refl BHist.Empty
+          · constructor
+            · intro r s m
+              constructor
+              · exact hsame_refl BHist.Empty
+              · constructor
+                · exact hsame_refl BHist.Empty
+                · exact hsame_refl BHist.Empty
+            · intro m carrierM
+              constructor
+              · exact hsame_refl BHist.Empty
+              · constructor
+                · exact carrierM
+                · exact hsame_symm carrierM
+
 end BEDC.Derived.ModuleUp

@@ -234,4 +234,61 @@ theorem commring_difference_of_squares {add mul : BHist -> BHist -> BHist}
         (hsame_trans reassocMiddle (hsame_trans cancelMiddle (zeroLeft (neg (mul b b))))))
   exact hsame_trans expanded (hsame_trans normalizedProducts collapseMiddle)
 
+def commringSingletonEmptyCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def commringSingletonEmptyClassifier (h k : BHist) : Prop :=
+  commringSingletonEmptyCarrier h ∧ commringSingletonEmptyCarrier k ∧ hsame h k
+
+def commringSingletonEmptyAdd (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+def commringSingletonEmptyNeg (_x : BHist) : BHist :=
+  BHist.Empty
+
+def commringSingletonEmptyMul (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+theorem commring_singleton_empty_laws :
+    (commringSingletonEmptyCarrier BHist.Empty) ∧
+      (∀ x y : BHist, commringSingletonEmptyCarrier x ->
+        commringSingletonEmptyCarrier y ->
+          commringSingletonEmptyCarrier (commringSingletonEmptyAdd x y)) ∧
+      (∀ x : BHist, commringSingletonEmptyCarrier x ->
+        commringSingletonEmptyCarrier (commringSingletonEmptyNeg x)) ∧
+      (∀ x y : BHist, commringSingletonEmptyCarrier x ->
+        commringSingletonEmptyCarrier y ->
+          commringSingletonEmptyCarrier (commringSingletonEmptyMul x y)) ∧
+      (∀ x y : BHist,
+        commringSingletonEmptyClassifier (commringSingletonEmptyMul x y)
+          (commringSingletonEmptyMul y x)) ∧
+      (∀ {x x' y y' : BHist}, commringSingletonEmptyClassifier x x' ->
+        commringSingletonEmptyClassifier y y' ->
+          commringSingletonEmptyClassifier (commringSingletonEmptyMul x y)
+            (commringSingletonEmptyMul x' y')) := by
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro x y hx hy
+      exact hsame_refl BHist.Empty
+    · constructor
+      · intro x hx
+        exact hsame_refl BHist.Empty
+      · constructor
+        · intro x y hx hy
+          exact hsame_refl BHist.Empty
+        · constructor
+          · intro x y
+            constructor
+            · exact hsame_refl BHist.Empty
+            · constructor
+              · exact hsame_refl BHist.Empty
+              · exact hsame_refl BHist.Empty
+          · intro x x' y y' hx hy
+            constructor
+            · exact hsame_refl BHist.Empty
+            · constructor
+              · exact hsame_refl BHist.Empty
+              · exact hsame_refl BHist.Empty
+
 end BEDC.Derived.CommRingUp
