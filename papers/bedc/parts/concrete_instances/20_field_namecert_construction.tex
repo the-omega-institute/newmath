@@ -436,6 +436,66 @@ right component uses the right-context order; both comparisons are exactly
 componentwise $R_D^u$.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp denominator context-pair commutative support]
+\label{thm:ratup-fieldup-denominator-context-pair-commutative-support}
+For the concrete denominator context-pair structure of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, let $(l,r)$ and
+$(l',r')$ be carried pairs, so $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and
+$C_D^u(r')$. Then the two pair products
+$(l,r)\star(l',r')$ and $(l',r')\star(l,r)$ are componentwise
+$R_D^u$-classified:
+$$
+R_D^u(\mu_D^u(l',l),\mu_D^u(l,l'))\quad\text{and}\quad
+R_D^u(\mu_D^u(r,r'),\mu_D^u(r',r)).
+$$
+Moreover, the support of the product pair is exactly the support of either
+input pair:
+$$
+\mathsf{PairSupp}_D^u(\mu_D^u(l',l),\mu_D^u(r,r'))
+\Longleftrightarrow
+\mathsf{PairSupp}_D^u(l,r)\lor\mathsf{PairSupp}_D^u(l',r').
+$$
+\end{theorem}
+\begin{proof}
+Unfold the definition of $\star$. The left component of
+$(l,r)\star(l',r')$ is $\mu_D^u(l',l)$, while the left component of
+$(l',r')\star(l,r)$ is $\mu_D^u(l,l')$. Apply
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws} to the
+carried endpoints $l'$ and $l$ to obtain the displayed left-component
+classifier.
+
+The right component is identical in form, with $r$ and $r'$ in place of the two
+left contexts. Applying the same commutative monoid law gives
+$R_D^u(\mu_D^u(r,r'),\mu_D^u(r',r))$. Together the two component classifiers are
+exactly componentwise $R_D^u$-classification of the two pair products.
+
+It remains to read support. Unfold
+$\mathsf{PairSupp}_D^u(\mu_D^u(l',l),\mu_D^u(r,r'))$ as the disjunction of the
+left and right product supports. For each product component, use
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff} with the
+corresponding carried factors, together with the strict-support interpretation
+of $N_D^u$, to replace product support by the disjunction of the two input
+supports.
+
+The result is
+$N_D^u(l')\lor N_D^u(l)\lor N_D^u(r)\lor N_D^u(r')$. Rebracket and commute the
+outer disjunctions to obtain
+$(N_D^u(l)\lor N_D^u(r))\lor(N_D^u(l')\lor N_D^u(r'))$, which is exactly
+$\mathsf{PairSupp}_D^u(l,r)\lor\mathsf{PairSupp}_D^u(l',r')$ by the
+pair-support definition.
+\end{proof}
+
+Per-object template: traditional target context-pair commutative action support;
+BEDC source $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{append}$, $\mathsf{RatHistoryCarrier}$, and action $\Gamma$; carrier
+the carried context pairs; classifier componentwise $R_D^u$; stability
+obligations component commutativity and support exactness; ledger left and right
+denominator contexts; core theorem
+\autoref{thm:ratup-fieldup-denominator-context-pair-commutative-support};
+exactness predicate the displayed support iff; standard bridge denominator
+context-pair monoid support; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp denominator context-pair action certificate]
 \label{thm:ratup-fieldup-denominator-context-pair-action-certificate}
 For the concrete tuple
