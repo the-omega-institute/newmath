@@ -76,6 +76,52 @@ packing again yields
 $R_D^u(\mu_D^u(h,k),\mu_D^u(k,h))$.
 \end{proof}
 
+\begin{theorem}[Rat denominator empty-unit identity uniqueness]
+\label{thm:field-rat-denominator-empty-unit-identity-unique}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance},
+let $u:\mathsf{BHist}$ be a carried endpoint with $C_D^u(u)$. If $u$
+satisfies the two one-sided unit laws
+$$
+\forall h:\mathsf{BHist}.\; C_D^u(h)\to R_D^u(\mu_D^u(u,h),h)
+$$
+and
+$$
+\forall h:\mathsf{BHist}.\; C_D^u(h)\to R_D^u(\mu_D^u(h,u),h),
+$$
+then
+$$
+R_D^u(u,e_D^u).
+$$
+\end{theorem}
+\begin{proof}
+Unpack
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}. Its
+carried-unit clause gives $C_D^u(e_D^u)$, and its right-unit law with right
+factor $e_D^u$ gives $R_D^u(\mu_D^u(u,e_D^u),u)$ from the assumed carrier
+witness $C_D^u(u)$.
+
+Now apply the assumed left-unit law for $u$ at the carried endpoint $e_D^u$.
+This gives $R_D^u(\mu_D^u(u,e_D^u),e_D^u)$.
+
+Project the two $R_D^u$ classifier witnesses to their $\hsame$ components. The
+first comparison identifies $\mu_D^u(u,e_D^u)$ with $u$, and the second
+comparison identifies the same product with $e_D^u$. Symmetry and transitivity
+of $\hsame$ therefore give $u\hsame e_D^u$.
+
+Finally, repack the carrier witnesses $C_D^u(u)$ and $C_D^u(e_D^u)$ together
+with this endpoint comparison. The result is exactly $R_D^u(u,e_D^u)$.
+\end{proof}
+
+Per-object template: traditional target identity uniqueness in the Rat
+denominator empty-unit monoid; BEDC source $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\mathsf{append}$, and $\emp$; carrier
+$C_D^u$; classifier $R_D^u$; stability obligation concrete one-sided unit
+collapse; ledger external-unit endpoint provenance; core theorem
+\autoref{thm:field-rat-denominator-empty-unit-identity-unique}; exactness
+predicate unit endpoints classify with $e_D^u$; standard bridge deferred;
+status $\mathsf{ProofTarget}$.
+
 \begin{definition}[Rat denominator empty-unit strict product support]
 \label{def:field-rat-denominator-empty-unit-strict-product-support}
 For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
