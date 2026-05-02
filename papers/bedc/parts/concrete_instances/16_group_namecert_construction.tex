@@ -16,6 +16,78 @@ algebraic fields and derived laws that are formalized for the certificate.
 Use a monoid setup extended with inverse operation \(a^{-1}\).
 \end{definition}
 
+\section{Concrete singleton history group instance}
+\label{sec:group-concrete-singleton-history-instance}
+
+\begin{definition}[Concrete singleton history group instance]
+\label{def:concrete-singleton-history-group-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define
+the concrete history operations and classifier by
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
+\mathsf{inv}(h):=\emp,\qquad
+e:=\emp,
+$$
+and
+$$
+R_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land \hsame(h,k).
+$$
+\end{definition}
+
+\begin{theorem}[Concrete singleton history group laws]
+\label{thm:concrete-singleton-history-group-laws}
+The tuple $(A_{\emp},R_{\emp},\mathsf{mul},e,\mathsf{inv})$ satisfies carrier
+inhabitance, multiplication closure, inverse closure, left and right unit
+laws, associativity up to $\hsame$, multiplication congruence, inverse
+congruence, and left and right inverse laws.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is the reflexive endpoint witness
+$\hsame(\emp,\emp)$, which is exactly the singleton carrier condition from
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$.
+
+For multiplication closure, suppose $A_{\emp}(h)$ and $A_{\emp}(k)$. The two
+carrier facts identify $h$ and $k$ with $\emp$. The BEDC continuation unit
+laws used in Theorem~\ref{thm:concrete-history-monoid-laws} reduce
+$\mathsf{append}(h,k)$ to the same endpoint class as $\emp$, using symmetry
+and transitivity of $\hsame$ to compose the displayed witnesses.
+
+Inverse closure is immediate because $\mathsf{inv}(h)$ is definitionally
+$\emp$. The singleton carrier witness is again $\hsame(\emp,\emp)$.
+
+The left unit law reduces $\mathsf{append}(\emp,h)$ to $h$ by the continuation
+left-unit law, and the right unit law reduces $\mathsf{append}(h,\emp)$ to
+$h$ by the continuation right-unit law. The endpoint witnesses required by
+$R_{\emp}$ are supplied by the carrier facts for $\emp$ and $h$.
+
+Associativity is the continuation associativity theorem cited in
+Theorem~\ref{thm:concrete-history-monoid-laws}: the histories
+$\mathsf{append}(\mathsf{append}(h,k),l)$ and
+$\mathsf{append}(h,\mathsf{append}(k,l))$ are $\hsame$-equivalent. Closure of
+the two products follows from the multiplication-closure clause.
+
+Multiplication congruence follows by transporting the two input $\hsame$
+witnesses across $\mathsf{append}$ and then composing with the same
+continuation associativity and unit laws. Since all carrier elements are in
+the singleton class of $\emp$, the source and target products both lie in
+$A_{\emp}$ and are related by $\hsame$.
+
+Inverse congruence is constant: both inverses are $\emp$, so the classifier
+witness is the pair of singleton carrier witnesses together with
+$\hsame(\emp,\emp)$.
+
+For the inverse laws, $\mathsf{append}(\mathsf{inv}(h),h)$ is
+$\mathsf{append}(\emp,h)$ and $\mathsf{append}(h,\mathsf{inv}(h))$ is
+$\mathsf{append}(h,\emp)$. The continuation unit laws reduce these products to
+$h$, and the carrier fact $A_{\emp}(h)$ identifies $h$ with $e=\emp$.
+\end{proof}
+
+The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
+operations, so subsequent formalization can prove $BHist$-anchored group laws
+instead of relying only on an abstract operator schema.
+
 \section{The certificate}
 
 \begin{definition}[Group source specification]
@@ -45,70 +117,6 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 \leanchecked{BEDC.Derived.GroupUp.group\_stability\_certificate\_fields}
-
-\section{Concrete singleton history group instance}
-\label{sec:group-concrete-singleton-instance}
-
-\begin{definition}[Concrete singleton empty-history group instance]
-\label{def:singleton-empty-history-group-instance}
-Define the named history carrier $A_{\emp}:\mathsf{BHist}\to\mathsf{Prop}$,
-classifier, multiplication, identity, and inverse by
-$$
-A_{\emp}(x)\Longleftrightarrow\hsame(x,\emp),\qquad
-\rho_{\emp}(x,y):=\hsame(x,y),\qquad
-\mu_{\emp}(x,y):=\emp,\qquad
-e_{\emp}:=\emp,\qquad
-\iota_{\emp}(x):=\emp.
-$$
-Its certificate is the ten-field fit with traditional target the one-element
-group; BEDC source $\mathsf{BHist}$; carrier $A_{\emp}$; classifier
-$\rho_{\emp}$; stability fields given by closure, associativity, unit,
-inverse, and congruence laws; ledger constant-operation provenance; core
-theorem Theorem~\ref{thm:singleton-empty-history-group-laws}; exactness the
-singleton endpoint classification $A_{\emp}(x)$; standard bridge the
-one-object group; and status $\mathsf{ProofTarget}$.
-\end{definition}
-
-\begin{theorem}[Singleton empty-history group laws]
-\label{thm:singleton-empty-history-group-laws}
-The tuple $(A_{\emp},\rho_{\emp},\mu_{\emp},e_{\emp},\iota_{\emp})$ satisfies
-carrier inhabitation, multiplication closure, inverse closure, associativity,
-left and right unit laws, left and right inverse laws, multiplication
-congruence, and inverse congruence for the carrier $A_{\emp}$ and classifier
-$\rho_{\emp}$.
-\end{theorem}
-\begin{proof}
-Carrier inhabitation is the reflexivity witness $\hsame(\emp,\emp)$. If
-$A_{\emp}(x)$ and $A_{\emp}(y)$ hold, then multiplication closure is again
-$\hsame(\emp,\emp)$ because $\mu_{\emp}(x,y)$ is definitionally $\emp$.
-Inverse closure is the same reflexive endpoint witness because
-$\iota_{\emp}(x)$ is definitionally $\emp$.
-
-Associativity compares
-$$
-\mu_{\emp}(\mu_{\emp}(x,y),z)
-$$
-with
-$$
-\mu_{\emp}(x,\mu_{\emp}(y,z)).
-$$
-Both sides are definitionally $\emp$, so reflexivity supplies the classifier
-witness.
-
-For the unit laws, an element of the carrier supplies
-$\hsame(x,\emp)$. The left unit law requires
-$\rho_{\emp}(\mu_{\emp}(e_{\emp},x),x)$, hence $\hsame(\emp,x)$, obtained by
-symmetry. The right unit law is identical, since $\mu_{\emp}(x,e_{\emp})$ is
-also $\emp$.
-
-The left and right inverse laws compare constant products with $e_{\emp}$.
-Each product is definitionally $\emp$, and $e_{\emp}$ is definitionally
-$\emp$, so both inverse laws reduce to $\hsame(\emp,\emp)$.
-
-Multiplication congruence is constant in both inputs: the source and target
-products are both $\emp$, independent of the supplied classifier witnesses.
-Inverse congruence is the same constant argument for $\iota_{\emp}$.
-\end{proof}
 
 \begin{theorem}[Group inverse of identity]
 \label{thm:group-inverse-identity}
