@@ -94,6 +94,28 @@ $\mathsf{PreorderPrefixLE\_of\_hsame}$ constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_empty\_endpoints\_iff}
 
+\begin{theorem}[Singleton lattice carrier order collapse]
+\label{thm:lattice-singleton-carrier-order-collapse}
+If $h$ and $k$ are carried by $A_{\emp}$, then both restricted order
+comparisons hold, the singleton classifier relates $h$ and $k$, and both
+endpoints are internally the same as $\emp$:
+$$
+h\le_{\emp} k\land k\le_{\emp} h\land \rho_{\emp}(h,k)
+\land h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The two carrier witnesses are the endpoint comparisons
+$h\hsame\emp$ and $k\hsame\emp$. Their composite through $\emp$ gives
+$h\hsame k$, and symmetry gives $k\hsame h$.
+
+The two restricted order comparisons are obtained from these two sameness
+witnesses by $\mathsf{PreorderPrefixLE\_of\_hsame}$, together with the same
+carrier fields. The classifier package uses the carrier fields and
+$h\hsame k$, and the endpoint clauses are the original carrier witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonCarrier\_order\_collapse}
+
 The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
 and operations, so Lean can target $\mathsf{BEDC.Derived.LatticeUp}$ as a
 $\mathsf{BHist}$-anchored certificate rather than an abstract operator schema.

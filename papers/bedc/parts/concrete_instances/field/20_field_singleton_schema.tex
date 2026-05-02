@@ -36,6 +36,26 @@ $p:\mathsf{FieldSingletonNonZero}(h)$. Theorem~\ref{thm:field-singleton-nonzero-
 shows that this witness domain is empty on the singleton carrier.
 \end{definition}
 
+\begin{theorem}[Field singleton classifier empty endpoints]
+\label{thm:field-singleton-classifier-empty-endpoints}
+For histories $h,k:\mathsf{BHist}$, the singleton field classifier satisfies
+$$
+\rho_{\emp}(h,k)
+\quad\Longleftrightarrow\quad
+h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction unpacks the two carrier fields of
+$\rho_{\emp}(h,k)$; these are precisely the endpoint comparisons
+$h\hsame\emp$ and $k\hsame\emp$.
+
+Conversely, the two endpoint comparisons supply the singleton carrier fields.
+Composing $h\hsame\emp$ with the symmetry of $k\hsame\emp$ gives
+$h\hsame k$, completing the classifier package.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_empty\_endpoints\_iff}
+
 \begin{definition}[Singleton empty-classifier nonzero domain]
 \label{def:singleton-empty-classifier-nonzero-domain}
 Reuse $A_{\emp}$ and $\rho_{\emp}$ from

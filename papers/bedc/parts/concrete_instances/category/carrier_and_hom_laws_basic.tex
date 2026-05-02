@@ -63,6 +63,28 @@ under \(\Eone\) and the empty identity carrier rebuild the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_empty\_morphism\_iff}
 
+\begin{theorem}[Category one-headed target empty morphism exactness]
+\label{thm:category-hom-carrier-e1-target-empty-morphism}
+For histories $source,r:\mathsf{BHist}$, the empty morphism is a hom-carrier
+from $source$ to $\Eone(r)$ exactly when the source is $\Eone(r)$ and the tail
+$r$ is unary:
+$$
+\mathsf{CategoryHomCarrier}(source,\Eone(r),\emp)
+\quad\Longleftrightarrow\quad
+source=\Eone(r)\wedge\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty identity hom-carrier exactness to the target $\Eone(r)$. The
+resulting history-sameness witness identifies the source with $\Eone(r)$, and
+unary inversion gives unary membership of $r$.
+
+Conversely, after eliminating the displayed source equation, unary closure
+under $\Eone$ gives the object carrier at $\Eone(r)$, and the empty identity
+hom carrier rebuilds the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_empty\_morphism\_iff}
+
 \begin{theorem}[Category empty-source hom carrier exactness]
 \label{thm:category-hom-carrier-empty-source-iff}
 For histories \(b,f\), a hom-carrier out of the empty source is exactly unary

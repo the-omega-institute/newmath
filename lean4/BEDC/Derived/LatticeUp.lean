@@ -108,4 +108,19 @@ theorem LatticeSingletonLE_empty_endpoints_iff {h k : BHist} :
         exact
           ⟨hEmpty, kEmpty, PreorderPrefixLE_of_hsame (hsame_trans hEmpty (hsame_symm kEmpty))⟩
 
+theorem LatticeSingletonCarrier_order_collapse {h k : BHist} :
+    LatticeSingletonCarrier h -> LatticeSingletonCarrier k ->
+      LatticeSingletonLE h k ∧ LatticeSingletonLE k h ∧ LatticeSingletonClassifier h k ∧
+        hsame h BHist.Empty ∧ hsame k BHist.Empty := by
+  intro hCarrier kCarrier
+  have sameHK : hsame h k := hsame_trans hCarrier (hsame_symm kCarrier)
+  have sameKH : hsame k h := hsame_symm sameHK
+  constructor
+  · exact And.intro hCarrier (And.intro kCarrier (PreorderPrefixLE_of_hsame sameHK))
+  · constructor
+    · exact And.intro kCarrier (And.intro hCarrier (PreorderPrefixLE_of_hsame sameKH))
+    · constructor
+      · exact And.intro hCarrier (And.intro kCarrier sameHK)
+      · exact And.intro hCarrier kCarrier
+
 end BEDC.Derived.LatticeUp
