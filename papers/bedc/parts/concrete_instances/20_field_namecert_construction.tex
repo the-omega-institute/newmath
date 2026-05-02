@@ -406,6 +406,57 @@ right-unit classifier law, and any two-sided internal unit contains that
 right-unit clause.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation has no internal one-sided carrier unit]
+\label{thm:field-rat-denominator-continuation-no-internal-one-sided-unit}
+For every history $u:\mathsf{BHist}$, if $\mathsf{RatHistoryCarrier}(u)$, then
+each internal one-sided carrier-unit classifier law is impossible. The left-unit
+classifier law
+
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+
+implies $\mathsf{False}$, and the right-unit classifier law
+
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+
+implies $\mathsf{False}$. Hence Rat denominator continuation supplies no
+carried one-sided unit under $\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+Assume a carried candidate $u$ and the displayed left-unit classifier law. Let
+$d_1:=\Eone(\emp)$. The positive-denominator construction gives
+$\mathsf{RatHistoryCarrier}(d_1)$.
+
+Use the canonical continuation witness
+$\Cont(u,d_1,\mathsf{append}(u,d_1))$. Applying the assumed left-unit law at
+$d_1$ and $r:=\mathsf{append}(u,d_1)$ gives
+$\mathsf{RatHistoryClassifier}(\mathsf{append}(u,d_1),d_1)$, whose comparison
+component is $\mathsf{append}(u,d_1)\hsame d_1$.
+
+Transport the continuation result along this comparison to obtain
+$\Cont(u,d_1,d_1)$. The kernel theorem
+\texttt{BEDC.FKernel.Cont.cont\_left\_unit\_unique} then forces
+$u\hsame\emp$.
+
+Finally apply Theorem~\ref{thm:rat-history-carrier-not-empty} to the assumed
+carrier witness $\mathsf{RatHistoryCarrier}(u)$ and the equality $u\hsame\emp$.
+This proves that the left-unit classifier law implies $\mathsf{False}$.
+
+For the right-unit classifier law, apply
+Theorem~\ref{thm:field-rat-denominator-continuation-no-internal-unit} to the
+same carried history $u$ and the same carrier witness. Its conclusion is
+$\mathsf{False}$.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation is not a FieldUp multiplication]
 \label{thm:field-rat-denominator-continuation-not-field-multiplication}
 For every proposed carried unit $u:\mathsf{BHist}$, suppose
@@ -540,9 +591,10 @@ plus $\Cont$; \textbf{carrier choice}: Rat denominators; \textbf{classifier
 choice}: $\mathsf{RatHistoryClassifier}$; \textbf{stability obstruction}: no
 carried one-sided unit and no continuation-as-field-multiplication certificate;
 \textbf{ledger}: the attempted unit endpoint; \textbf{core theorems}:
-\autoref{thm:field-rat-denominator-continuation-no-internal-unit} and
-\autoref{thm:field-rat-denominator-continuation-no-internal-left-unit} and
-\autoref{thm:field-rat-denominator-continuation-not-field-multiplication} and
+\autoref{thm:field-rat-denominator-continuation-no-internal-unit},
+\autoref{thm:field-rat-denominator-continuation-no-internal-left-unit},
+\autoref{thm:field-rat-denominator-continuation-no-internal-one-sided-unit},
+\autoref{thm:field-rat-denominator-continuation-not-field-multiplication}, and
 \autoref{thm:field-rat-denominator-continuation-commutative-semigroup-obstruction-package};
 \textbf{exactness predicate}: failure of internal one-sided unit coverage;
 \textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
