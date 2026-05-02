@@ -387,6 +387,13 @@ def fieldSingletonEmptyOne : BHist :=
 def fieldSingletonEmptyInv (_h : BHist) (_p : fieldSingletonEmptyNonZero _h) : BHist :=
   BHist.Empty
 
+theorem fieldSingletonEmptyNonZero_empty_endpoint_absurd {h : BHist} :
+    hsame h BHist.Empty -> fieldSingletonEmptyNonZero h -> False := by
+  intro sameEmpty nonzero
+  apply nonzero
+  exact And.intro sameEmpty
+    (And.intro (hsame_refl BHist.Empty) sameEmpty)
+
 theorem field_singleton_empty_schema_laws :
     (fieldSingletonEmptyCarrier BHist.Empty) ∧
       (fieldSingletonEmptyNonZero BHist.Empty -> False) ∧

@@ -44,22 +44,6 @@ theorem FunctorPrefixHomCarrier_reflects {p a b f : BHist} :
                     (And.intro morphismCarrier
                       (cont_prefix_cancel homCont)))
 
-theorem FunctorPrefixHomCarrier_iff {p a b f : BHist} :
-    CategoryHomCarrier (append p a) (append p b) f ↔
-      UnaryHistory p ∧ CategoryHomCarrier a b f := by
-  constructor
-  · intro homCarrier
-    cases homCarrier with
-    | intro sourceCarrier homRest =>
-        exact
-          And.intro
-            (unary_append_left_factor sourceCarrier)
-            (FunctorPrefixHomCarrier_reflects (And.intro sourceCarrier homRest))
-  · intro prefixed
-    cases prefixed with
-    | intro prefixCarrier homCarrier =>
-        exact FunctorPrefixHomCarrier_preserves prefixCarrier homCarrier
-
 theorem FunctorPrefixHomCarrier_identity_closed {p a id : BHist} :
     UnaryHistory p -> UnaryHistory a -> Cont BHist.Empty BHist.Empty id ->
       CategoryHomCarrier (append p a) (append p a) id := by
@@ -105,21 +89,6 @@ theorem FunctorPrefixHomCarrier_comp_left_factor_public_readback {p a b c f g fg
   · exact FunctorPrefixHomCarrier_comp_left_factor right comp displayed
   · intro f' comp' _left
     exact cont_right_cancel comp comp'
-
-theorem FunctorPrefixHomCarrier_comp_public_readback {p a b c f g fg : BHist} :
-    UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
-      CategoryHomCarrier (append p a) (append p c) fg ∧
-        (forall {fg' : BHist}, CategoryHomCarrier (append p a) (append p c) fg' ->
-          hsame fg fg') := by
-  intro prefixCarrier left right comp
-  have baseComposite : CategoryHomCarrier a c fg :=
-    CategoryHomCarrier_comp_closed left right comp
-  constructor
-  · exact FunctorPrefixHomCarrier_preserves prefixCarrier baseComposite
-  · intro fg' displayed
-    exact
-      CategoryHomCarrier_morphism_deterministic baseComposite
-        (FunctorPrefixHomCarrier_reflects displayed)
 
 theorem FunctorPrefixHomCarrier_tail_comm_closed {p a b c f g fg gf : BHist} :
     UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
