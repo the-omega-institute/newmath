@@ -1,0 +1,429 @@
+\begin{theorem}[Option classifier $\hsame$ symmetry]
+\label{thm:option-classifier-hsame-symm}
+For typed option carrier values $x,y:\mathsf{OptionCarrier}(\mathsf{BHist})$, if $\mathsf{OptionClassifierSpec}(\hsame,x,y)$ holds, then $\mathsf{OptionClassifierSpec}(\hsame,y,x)$ holds.
+\end{theorem}
+\begin{proof}
+The proof case-analyzes typed $\mathsf{none}$ and $\mathsf{some}$ carrier values: the none--none branch returns the existing classifier witness, the mixed branches contradict the typed classifier clauses, and the some--some branch reverses the BEDC history witness by $\hsame$ symmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_symm}
+
+\begin{theorem}[Option classifier $\hsame$ transport]
+\label{thm:option-classifier-spec-hsame-transport}
+For typed option carrier values
+$x,x',y,y':\mathsf{OptionCarrier}(\mathsf{BHist})$, if
+$\mathsf{OptionClassifierSpec}(\hsame,x,y)$,
+$\mathsf{OptionClassifierSpec}(\hsame,x,x')$, and
+$\mathsf{OptionClassifierSpec}(\hsame,y,y')$ hold, then
+$\mathsf{OptionClassifierSpec}(\hsame,x',y')$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze the four option endpoints. Mixed $\mathsf{none}$--$\mathsf{some}$
+branches contradict one of the displayed classifier witnesses. The
+$\mathsf{none}$--$\mathsf{none}$ branch reuses the existing typed classifier
+witness. In the $\mathsf{some}$--$\mathsf{some}$ branch, compose
+$\hsame(x,x')$ symmetrically with $\hsame(x,y)$ and then with $\hsame(y,y')$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_transport}
+
+\begin{theorem}[Option classifier $\hsame$ right determinacy]
+\label{thm:option-classifier-spec-hsame-right-deterministic}
+For histories $h,k,l:\mathsf{BHist}$, if
+$\mathsf{OptionClassifierSpec}(\hsame,\mathsf{some}(h),\mathsf{some}(k))$ and
+$\mathsf{OptionClassifierSpec}(\hsame,\mathsf{some}(h),\mathsf{some}(l))$ hold,
+then $\hsame(k,l)$ holds.
+\end{theorem}
+\begin{proof}
+The two typed some--some classifier witnesses unfold to $\hsame(h,k)$ and
+$\hsame(h,l)$. Reverse the first witness by $\hsame$ symmetry and compose it
+with the second witness by $\hsame$ transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_right\_deterministic}
+
+\begin{theorem}[Option classifier $\hsame$ left determinacy]
+\label{thm:option-classifier-spec-hsame-left-deterministic}
+For histories $h,k,l:\mathsf{BHist}$, if
+$\mathsf{OptionClassifierSpec}(\hsame,\mathsf{some}(h),\mathsf{some}(k))$ and
+$\mathsf{OptionClassifierSpec}(\hsame,\mathsf{some}(l),\mathsf{some}(k))$ hold,
+then $\hsame(h,l)$ holds.
+\end{theorem}
+\begin{proof}
+The two typed some--some classifier witnesses unfold to $\hsame(h,k)$ and
+$\hsame(l,k)$. Reverse the second witness by $\hsame$ symmetry and compose it
+with the first witness by $\hsame$ transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_left\_deterministic}
+
+\begin{theorem}[Option classifier $\hsame$ some-right confluence]
+\label{thm:option-classifier-spec-hsame-some-right-confluence}
+For a typed option carrier value $x:\mathsf{OptionCarrier}(\mathsf{BHist})$ and
+histories $h,k:\mathsf{BHist}$, if
+$\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(h))$ and
+$\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(k))$ hold, then
+$\hsame(h,k)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze the shared endpoint $x$. If $x$ is $\mathsf{none}$, the first
+classifier witness is impossible because it relates $\mathsf{none}$ to a
+present endpoint. If $x=\mathsf{some}(a)$, the two witnesses are
+$\hsame(a,h)$ and $\hsame(a,k)$; reverse the first and compose it with the
+second.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_some\_right\_confluence}
+
+\begin{theorem}[Option classifier $\hsame$ some-right inversion]
+\label{thm:option-classifier-spec-hsame-some-right-inversion}
+For a typed option carrier value $x:\mathsf{OptionCarrier}(\mathsf{BHist})$ and
+a history $b:\mathsf{BHist}$, if
+$\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(b))$ holds, then there is
+a history $a:\mathsf{BHist}$ such that $x=\mathsf{some}(a)$ and
+$\hsame(a,b)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze $x$. The none branch contradicts the typed none--some classifier
+clause. In the some branch, the exposed payload is the required witness and the
+classifier clause is exactly the displayed $\hsame$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_some\_right\_inversion}
+
+\begin{theorem}[Option classifier $\hsame$ right payload determinacy]
+\label{thm:option-classifier-spec-hsame-right-payload-deterministic}
+For a typed option carrier value $x:\mathsf{OptionCarrier}(\mathsf{BHist})$ and
+histories $h,k:\mathsf{BHist}$, if
+$\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(h))$ and
+$\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(k))$ hold, then
+$\hsame(h,k)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze the shared left option value $x$. The none branch contradicts the
+typed option classifier clause for a none--some pair. In the some branch, the
+two classifier witnesses unfold to payload equalities from the same left
+payload to $h$ and to $k$; reverse the first equality and compose it with the
+second by $\hsame$ transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_right\_payload\_deterministic}
+
+\begin{theorem}[Option classifier symmetry from source symmetry]
+\label{thm:option-classifier-symm-from-source-symmetry}
+Let $A$ be an entry type, let $R:A\to A\to\mathsf{Prop}$ be a source relation, and let $x,y:\mathsf{OptionCarrier}(A)$. If
+$\forall a\,b.\; R(a,b)\to R(b,a)$ and
+$\mathsf{OptionClassifierSpec}(R,x,y)$ hold, then
+$\mathsf{OptionClassifierSpec}(R,y,x)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze $x$ and $y$. The none--none case is immediate from the none classifier clause. The mixed none--some and some--none cases are impossible by the typed option classifier clauses. In the some--some case, apply the displayed source-symmetry hypothesis to the payload witness.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_symm\_from\_source\_symmetry}
+
+\begin{definition}[Option stability certificate]
+\label{def:option-stability-certificate}
+The stability certificate separates the typed optional classifier fields from
+the nullable history-envelope fields.
+
+For the typed $\mathsf{OptionClassifierSpec}$ classifier, the fields are:
+\begin{enumerate}
+  \item reflexivity for $\mathsf{none}$ and for $\mathsf{some}(a)$ from source reflexivity;
+  \item symmetry from a source-symmetry hypothesis, as in Theorem~\ref{thm:option-classifier-symm-from-source-symmetry};
+  \item transitivity from a source-transitivity hypothesis;
+  \item no-confusion between $\mathsf{none}$ and $\mathsf{some}(a)$ in either order;
+  \item present inversion, exposing the source classifier witness from a $\mathsf{some}$--$\mathsf{some}$ classification.
+\end{enumerate}
+The checked $\hsame$ specialization is the Lean-marked instance of this
+symmetry field.
+
+For the nullable $\mathsf{OptionHistoryCarrier}$ envelope and its
+$\mathsf{OptionHistoryClassifier}$, the certificate fields are:
+\begin{enumerate}
+  \item carrier transport across $\hsame$;
+  \item endpoint transport for the classifier across $\hsame$ on both endpoints;
+  \item classifier symmetry;
+  \item classifier transitivity;
+  \item ledger transport across raw and visible endpoint $\hsame$ links.
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.OptionUp.option\_stability\_certificate\_fields}
+
+\begin{theorem}[Option classifier transitivity]
+\label{thm:option-classifier-transitivity}
+Let $A$ be an entry type, let $R:A\to A\to\mathsf{Prop}$ be a source
+classifier relation, and let $x,y,z:\mathsf{OptionCarrier}(A)$. If $R$ is
+transitive and both $\mathsf{OptionClassifierSpec}(R,x,y)$ and
+$\mathsf{OptionClassifierSpec}(R,y,z)$ hold, then
+$\mathsf{OptionClassifierSpec}(R,x,z)$ holds.
+\end{theorem}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_trans}
+\begin{proof}
+Proceed by constructor case analysis on $x$, $y$, and $z$.  The none--none--none
+case is immediate, mixed none--some cases contradict the classifier clauses, and
+the some--some--some case is exactly the supplied transitivity of $R$.
+\end{proof}
+
+\begin{definition}[Option ledger policy]
+\label{def:option-ledger-policy}
+The ledger keeps a raw optional-history carrier witness and an $\hsame$ link from the raw history to the visible history.
+\end{definition}
+\leandef{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy}
+
+\begin{theorem}[Option history ledger policy empty raw iff]
+\label{thm:option-history-ledger-policy-empty-raw-iff}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $v:\mathsf{BHist}$. Then
+$$
+\mathsf{OptionHistoryLedgerPolicy}(S,\mathsf{Empty},v)
+\Longleftrightarrow
+\hsame(v,\mathsf{Empty}).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the ledger at raw history $\mathsf{Empty}$. A ledger witness stores an
+$\hsame(\mathsf{Empty},v)$ link, whose symmetry gives
+$\hsame(v,\mathsf{Empty})$. Conversely, an $\hsame(v,\mathsf{Empty})$ witness
+provides the empty carrier branch for the raw endpoint and, by symmetry, the
+ledger link from $\mathsf{Empty}$ to $v$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_empty\_raw\_iff}
+
+\begin{theorem}[Option visible ledger carrier]
+\label{thm:option-ledger-policy-visible-carrier}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $\rho,v:\mathsf{BHist}$. If
+$source\_transport : \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k)$ holds, then
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ implies
+$\mathsf{OptionHistoryCarrier}_S(v)$.
+\end{theorem}
+\begin{proof}
+Unpack the raw carrier and raw-to-visible $\hsame$ link. The absent case composes the symmetric link with the raw empty-history witness; the present case transports the raw source witness along the stored link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_carrier}
+
+\begin{theorem}[Option ledger policy source visible iff]
+\label{thm:option-history-ledger-policy-source-visible-iff}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let
+$\rho,v:\mathsf{BHist}$. Assume
+$$
+  \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k).
+$$
+If $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ holds, then
+$$
+S(\rho)\Longleftrightarrow S(v).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the ledger to obtain the raw-visible link $\hsame(\rho,v)$. The forward
+direction transports a raw source witness along this link. The reverse
+direction transports a visible source witness along the symmetric link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_source\_visible\_iff}
+
+\begin{theorem}[Option ledger visible source exactness]
+\label{thm:option-history-ledger-policy-visible-source-exactness}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ exclude the empty history, and let
+$\rho,v:\mathsf{BHist}$. If $S(v)$ holds, then the option ledger over
+$\rho$ and $v$ is exactly raw source membership together with the stored
+raw-visible equality:
+$$
+\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)
+\Longleftrightarrow
+S(\rho)\land\hsame(\rho,v).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the ledger into the raw option carrier and the raw-visible $\hsame$
+link. If the raw carrier is absent, the link transports the empty witness to
+$v$, contradicting empty-source exclusion and $S(v)$. Hence the raw carrier is
+the source branch, and the link is the displayed equality. Conversely, the raw
+source witness rebuilds the source branch of the carrier and pairs it with the
+given raw-visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_source\_exactness}
+
+\begin{theorem}[Option ledger exclusive readback]
+\label{thm:option-ledger-policy-exclusive-readback}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ exclude the empty history, and let
+$\rho,v:\mathsf{BHist}$. If
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ holds, then exactly one branch is
+read back from the ledger:
+$$
+(\hsame(\rho,\mathsf{Empty})\land \hsame(v,\mathsf{Empty})
+\land \neg S(\rho)\land \neg S(v))
+\lor
+(S(\rho)\land S(v)\land \neg\hsame(\rho,\mathsf{Empty})
+\land \neg\hsame(v,\mathsf{Empty})\land \hsame(\rho,v)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the ledger into the raw optional-history carrier and the raw-to-visible
+$\hsame$ link. The raw carrier readback gives either the absent branch or the
+source branch. In the absent branch, the stored link transfers the empty witness
+to the visible endpoint, and source exclusion rules out visible source
+membership. In the source branch, the stored $\hsame$ link identifies raw and
+visible endpoints, so the source witness transports by case analysis on that
+link; empty witnesses on either endpoint contradict source exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_exclusive\_readback}
+
+\begin{theorem}[Option raw-visible ledger classifier]
+\label{thm:option-ledger-raw-visible-classifier}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $\rho,v:\mathsf{BHist}$. If
+$source\_transport : \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k)$ holds, then
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ implies
+$\mathsf{OptionHistoryClassifier}_S(\rho,v)$.
+\end{theorem}
+\begin{proof}
+Unpack the raw carrier witness and raw-to-visible $\hsame$ link. The visible carrier is given by Theorem~\ref{thm:option-ledger-policy-visible-carrier}, and the stored link supplies the classifier equality field.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_raw\_visible\_classifier}
+
+\begin{theorem}[Option ledger shared-visible raw classifier]
+\label{thm:option-ledger-shared-visible-raw-classifier}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $\rho,\rho',v:\mathsf{BHist}$.
+Assume
+$$
+  \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k).
+$$
+If both $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ and
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho',v)$ hold, then
+$\mathsf{OptionHistoryClassifier}_S(\rho,\rho')$ holds.
+\end{theorem}
+\begin{proof}
+Convert both ledger witnesses to raw-visible classifiers by
+\autoref{thm:option-ledger-raw-visible-classifier}. Reverse the second
+classifier by option classifier symmetry, and compose the two classifiers by
+option classifier transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_shared\_visible\_raw\_classifier}
+
+\begin{theorem}[Option ledger shared-raw visible classifier]
+\label{thm:option-history-ledger-policy-shared-raw-visible-classifier}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $\rho,v,v':\mathsf{BHist}$.
+Assume
+$$
+  \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k).
+$$
+If both $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ and
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v')$ hold, then
+$\mathsf{OptionHistoryClassifier}_S(v,v')$ holds.
+\end{theorem}
+\begin{proof}
+Convert both ledger witnesses to raw-visible classifiers by
+\autoref{thm:option-ledger-raw-visible-classifier}. Reverse the first
+classifier by option classifier symmetry, and compose it with the second
+raw-visible classifier by option classifier transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_shared\_raw\_visible\_classifier}
+
+\begin{theorem}[Option ledger classifier composition]
+\label{thm:option-ledger-classifier-extension}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source predicate and let
+$\rho,v,w:\mathsf{BHist}$. Assume
+$$
+  \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k).
+$$
+If $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ and
+$\mathsf{OptionHistoryClassifier}_S(v,w)$ hold, then
+$\mathsf{OptionHistoryClassifier}_S(\rho,w)$ holds.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:option-ledger-raw-visible-classifier} to the ledger
+policy using the displayed source-transport hypothesis to obtain
+$\mathsf{OptionHistoryClassifier}_S(\rho,v)$. Compose that raw-visible classifier
+with the visible-target classifier by Theorem~\ref{thm:option-history-classifier-transitivity},
+yielding $\mathsf{OptionHistoryClassifier}_S(\rho,w)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_classifier\_extension}
+
+\begin{theorem}[Option ledger classifier endpoint equivalence]
+\label{thm:option-ledger-classifier-endpoint-equivalence}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source predicate and let
+$\rho,v,w:\mathsf{BHist}$. Assume
+$$
+  \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k).
+$$
+If $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ holds, then
+$\mathsf{OptionHistoryClassifier}_S(\rho,w) \Longleftrightarrow
+\mathsf{OptionHistoryClassifier}_S(v,w)$. The ten-field fit is the
+traditional target of nullable optional ledger endpoint replacement, BEDC
+source $\mathsf{BHist}$ with $\hsame$, carrier $\mathsf{OptionHistoryCarrier}$,
+classifier $\mathsf{OptionHistoryClassifier}$, stability given by raw-visible
+ledger classifier together with classifier symmetry and transitivity, ledger
+$\mathsf{OptionHistoryLedgerPolicy}$, core theorem this endpoint equivalence,
+exactness as classifier-invariant raw and visible endpoints, standard bridge
+the nullable option envelope readback, and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:option-ledger-raw-visible-classifier} to the ledger
+witness to obtain $\mathsf{OptionHistoryClassifier}_S(\rho,v)$. For the forward
+direction, use Theorem~\ref{thm:option-history-classifier-symmetry} to reverse
+this raw-visible classifier and then compose it with the assumed
+$\mathsf{OptionHistoryClassifier}_S(\rho,w)$ by
+Theorem~\ref{thm:option-history-classifier-transitivity}. For the reverse
+direction, apply Theorem~\ref{thm:option-ledger-classifier-extension} directly
+to the ledger witness and the assumed visible-endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_classifier\_endpoint\_equivalence}
+
+\begin{theorem}[Option ledger history-same transport]
+\label{thm:option-ledger-hsame-transport}
+If both raw histories and both visible histories are related by $\hsame$, then
+an option ledger policy transports from the first raw-visible pair to the
+second.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into its raw carrier witness and raw-to-visible history link.
+The raw carrier transports along the raw $\hsame$ witness. The transported
+raw-to-visible link is the composite of the symmetric raw link, the stored
+ledger link, and the visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_hsame\_transport}
+
+\begin{theorem}[Option ledger policy source monotonicity]
+\label{thm:option-history-ledger-policy-source-monotonicity}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be source predicates and let
+$\rho,v:\mathsf{BHist}$. If every $S$-source history is also a $T$-source
+history, then $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ implies
+$\mathsf{OptionHistoryLedgerPolicy}(T,\rho,v)$.
+\end{theorem}
+\begin{proof}
+Unpack the ledger into its raw optional-history carrier and raw-to-visible
+$\hsame$ link. The absent raw branch is kept unchanged. In the source raw
+branch, apply the source-monotonicity hypothesis to move the raw witness from
+$S$ to $T$, and keep the same raw-to-visible link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_source\_monotonicity}
+
+\begin{theorem}[Option ledger policy transitivity]
+\label{thm:option-ledger-policy-trans}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let
+$\rho,m,v:\mathsf{BHist}$. If
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,m)$ and
+$\mathsf{OptionHistoryLedgerPolicy}(S,m,v)$ hold, then
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack both ledger witnesses. The first witness supplies the raw optional
+carrier for $\rho$ and the link $\hsame(\rho,m)$; the second supplies the link
+$\hsame(m,v)$. Compose the two $\hsame$ links and keep the raw carrier witness
+from the first ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_trans}
+
+\begin{theorem}[Concrete optional-history semantic certificate]
+\label{thm:concrete-option-namecert}
+For every source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, the checked nullable certificate is $\mathsf{SemanticNameCert}(\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryClassifier}_S)$. This semantic certificate does not assert constructor-discriminating history tags; that stronger tagged interface is the preceding paper-side target.
+\end{theorem}
+\begin{proof}
+For each $S$, the history carrier contains the empty history and any source history. The classifier records both endpoint envelope-carrier witnesses and the BEDC history equality witness. Reflexivity, symmetry, transitivity, and carrier transport are the corresponding $\hsame$ fields, while pattern and ledger soundness are carrier projections for the envelope.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate}
+
+\begin{corollary}[OptionUp certificate scope]
+\label{cor:option-certificate-scope}
+Citations to Theorem~\ref{thm:concrete-option-namecert} assert only the
+nullable empty-or-source history envelope. The constructor-tagged history
+certificate is Theorem~\ref{thm:tagged-option-history-semantic-certificate},
+under a source $\NameCert$ and
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, or
+Corollary~\ref{cor:tagged-option-history-semantic-certificate-hsame} in the
+$\hsame$ specialization. The typed $\mathsf{OptionClassifierSpec}$ is a
+separate host-option classifier; it is not a field that licenses the tagged
+history semantic certificate, and neither certificate implies the other carrier
+presentation without the bridge data of
+Definition~\ref{def:tagged-option-to-nullable-bridge-hypotheses}.
+\end{corollary}
