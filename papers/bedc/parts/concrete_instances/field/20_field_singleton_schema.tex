@@ -606,6 +606,35 @@ factor witness rebuilds the forbidden singleton empty classifier for $Q$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_left\_cancel\_iff}
 
+\begin{theorem}[Singleton empty nonzero append context cancellation]
+\label{thm:field-singleton-empty-nonzero-append-context-cancel-iff}
+For histories $L,R,Q:\mathsf{BHist}$, if $L$ and $R$ lie in the singleton
+empty carrier, then enclosing $Q$ between them does not change the
+classifier-complement singleton nonzero predicate:
+$$
+\mathsf{fieldSingletonEmptyCarrier}(L)\Rightarrow
+\mathsf{fieldSingletonEmptyCarrier}(R)\Rightarrow
+\bigl(
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(L,\mathsf{append}(Q,R)))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+If the enclosed history is nonzero and $Q$ were classified against $\emp$,
+then the empty-carrier witnesses for $L$ and $R$ rebuild a classifier witness
+for $\mathsf{append}(L,\mathsf{append}(Q,R))$ against $\emp$, contradicting
+the enclosed nonzero predicate.
+
+Conversely, a classifier witness for
+$\mathsf{append}(L,\mathsf{append}(Q,R))$ against $\emp$ splits by
+empty-result inversion for append. The inner split yields
+$\mathsf{fieldSingletonEmptyCarrier}(Q)$, which rebuilds the forbidden
+classifier witness for $Q$ against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_context\_cancel\_iff}
+
 \begin{theorem}[Classifier-complement singleton field schema laws]
 \label{thm:field-singleton-empty-schema-laws}
 For the tuple

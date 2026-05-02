@@ -61,6 +61,29 @@ theorem fieldSingletonEmptyNonZero_append_visible_right {p q : BHist} :
     have emptyParts := append_eq_empty_iff.mp classified.left
     cases emptyParts.right
 
+theorem fieldSingletonEmptyNonZero_append_context_cancel_iff {L R Q : BHist} :
+    fieldSingletonEmptyCarrier L -> fieldSingletonEmptyCarrier R ->
+      (fieldSingletonEmptyNonZero (append L (append Q R)) <->
+        fieldSingletonEmptyNonZero Q) := by
+  intro carrierL carrierR
+  constructor
+  · intro contextNonzero
+    intro qClassified
+    have innerCarrier : fieldSingletonEmptyCarrier (append Q R) :=
+      append_eq_empty_iff.mpr (And.intro qClassified.left carrierR)
+    have contextCarrier : fieldSingletonEmptyCarrier (append L (append Q R)) :=
+      append_eq_empty_iff.mpr (And.intro carrierL innerCarrier)
+    exact contextNonzero
+      (And.intro contextCarrier
+        (And.intro (hsame_refl BHist.Empty) contextCarrier))
+  · intro qNonzero
+    intro contextClassified
+    have outerSplit := append_eq_empty_iff.mp contextClassified.left
+    have innerSplit := append_eq_empty_iff.mp outerSplit.right
+    exact qNonzero
+      (And.intro innerSplit.left
+        (And.intro (hsame_refl BHist.Empty) innerSplit.left))
+
 theorem FieldSingletonCarrier_append_visible_head_absurd {h k : BHist} :
     (FieldSingletonCarrier (append (BHist.e0 h) k) -> False) ∧
       (FieldSingletonCarrier (append (BHist.e1 h) k) -> False) := by

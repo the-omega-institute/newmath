@@ -359,6 +359,26 @@ $$
 The forward direction is exactly Theorem~\ref{thm:bundle-local-policy-append-restriction}. The reverse direction is exactly Theorem~\ref{thm:bundle-local-policy-append-gluing}.
 \end{proof}
 
+\begin{theorem}[Bundle-local policy append commutation]
+\label{thm:bundle-ask-policy-append-comm}
+For all probe bundles $\Pi,\Theta$ and domain $D$, if
+$$
+\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)
+$$
+holds, then
+$$
+\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Theta,\Pi),D)
+$$
+holds.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ask.bundleAskPolicy\_append\_comm}
+\begin{proof}
+Restrict the appended policy to obtain the two component policies on $\Pi$
+and $\Theta$. Reapply bundle-append gluing in the opposite order, using the
+same totality, mark determinacy, and history-respect fields on their
+respective probe memberships.
+\end{proof}
+
 \begin{theorem}[Probe bundle prefix cancellation]
 \label{thm:probe-bundle-prefix-cancellation}
 For any fixed probe bundle $\Pi$ and any probe bundles $\Theta,\Omega$, if
