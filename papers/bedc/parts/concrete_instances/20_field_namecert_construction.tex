@@ -26,3 +26,50 @@
 \input{parts/concrete_instances/field/20_field_singleton_empty_concrete_instance}
 \input{parts/concrete_instances/field/20_field_rat_denominator_external_unit_envelope}
 \input{parts/concrete_instances/field/20_field_rat_denominator_external_unit_boundary}
+
+\begin{theorem}[Rat denominator empty-unit commutative monoid laws]
+\label{thm:field-rat-denominator-empty-unit-commutative-monoid-laws}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance},
+the five laws of
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws} hold,
+and the multiplication is commutative up to the endpoint classifier: if
+$C_D^u(h)$ and $C_D^u(k)$, then
+$$
+R_D^u(\mu_D^u(h,k),\mu_D^u(k,h)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the concrete data of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance}.
+The first five clauses are precisely
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}.
+
+It remains to prove the displayed commutativity classifier. Split the two
+$\mathsf{RatDenomUnitCarrier}$ witnesses into their empty endpoint and genuine
+Rat denominator endpoint alternatives.
+
+In the genuine/genuine case, the two products are the canonical append
+continuations $\Cont(h,k,\mathsf{append}(h,k))$ and
+$\Cont(k,h,\mathsf{append}(k,h))$. Apply
+\autoref{thm:field-rat-denominator-continuation-commutative-classifier} to
+these two continuations and the two Rat denominator carriers. The resulting
+$\mathsf{RatHistoryClassifier}$ supplies the carried endpoints and the
+$\hsame$ comparison required to pack
+$\mathsf{RatDenomUnitClassifier}(\mathsf{append}(h,k),\mathsf{append}(k,h))$.
+
+In a mixed case, one endpoint is $\hsame\emp$ and the other is a genuine Rat
+denominator endpoint. The append unit law on the empty side identifies both
+products with the genuine endpoint, one directly and one after symmetry of
+$\hsame$. Transitivity of $\hsame$ gives
+$\mathsf{append}(h,k)\hsame\mathsf{append}(k,h)$, and append closure gives the
+two empty-unit carrier witnesses. These data pack the required
+$\mathsf{RatDenomUnitClassifier}$.
+
+In the empty/empty case, both inputs are $\hsame\emp$. The left and right
+append unit laws identify each product with $\emp$; symmetry and transitivity
+of $\hsame$ then identify the two products with each other. The empty branch
+of $\mathsf{RatDenomUnitCarrier}$ carries both products, so the classifier
+packing again yields
+$R_D^u(\mu_D^u(h,k),\mu_D^u(k,h))$.
+\end{proof}
