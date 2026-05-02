@@ -348,6 +348,52 @@ The result is the required compact witness carrier at $(l',i',c')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_refinement\_chain\_closed}
 
+\begin{theorem}[Compact witness carrier located finite refinement chain closure]
+\label{thm:compact-witness-carrier-located-finite-refinement-chain-closed}
+If
+
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact),
+$$
+
+and
+
+$$
+\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,
+finalLocated,finalIntermediate,finalCompact),
+$$
+
+and
+
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,finalCompact,finalFinite,finalCompact'),
+$$
+
+then
+
+$$
+\mathsf{CompactWitnessCarrier}(subset,finalLocated,finalFinite,finalIntermediate,
+finalCompact').
+$$
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:compact-witness-carrier-located-refinement-chain-closed} to the
+initial carrier and the located refinement chain. This gives
+
+$$
+\mathsf{CompactWitnessCarrier}(subset,finalLocated,finite,finalIntermediate,
+finalCompact).
+$$
+
+Then apply
+Theorem~\ref{thm:compact-witness-carrier-finite-refinement-chain-closed} to that
+carrier and the finite refinement chain from $(finite,finalCompact)$ to
+$(finalFinite,finalCompact')$. The result is the displayed compact witness
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_finite\_refinement\_chain\_closed}
+
 \section{The certificate}
 
 \begin{definition}[Compact source specification]

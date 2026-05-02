@@ -530,4 +530,43 @@ theorem TaggedOptionPayloadDescentImageClassifier_reflective_transitivity
                                           (And.intro dataLeft.right.right.right.right.right.left
                                             dataRight.right.right.right.right.right.right))))))))
 
+theorem TaggedOptionPayloadDescentImageClassifier_hsame_transport {S T : BHist → Prop}
+    {RelS RelT : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (cert : NameCert S RelS)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {k k' u u' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S T delta k k' →
+      hsame k u →
+        hsame k' u' →
+          TaggedOptionPayloadDescentImageClassifier S T delta u u' := by
+  intro image sameLeft sameRight
+  have branch :=
+    (TaggedOptionPayloadDescentImageClassifier_branch_exactness delta cert source_hsame).mp
+      image
+  apply
+    (TaggedOptionPayloadDescentImageClassifier_branch_exactness delta cert source_hsame).mpr
+  cases branch with
+  | inl absent =>
+      exact Or.inl
+        (And.intro (hsame_trans (hsame_symm sameLeft) absent.left)
+          (hsame_trans (hsame_symm sameRight) absent.right))
+  | inr present =>
+      cases present with
+      | intro a present =>
+          cases present with
+          | intro b data =>
+              exact Or.inr
+                (Exists.intro a
+                  (Exists.intro b
+                    (And.intro data.left
+                      (And.intro data.right.left
+                        (And.intro data.right.right.left
+                          (And.intro data.right.right.right.left
+                            (And.intro data.right.right.right.right.left
+                              (And.intro
+                                (hsame_trans (hsame_symm sameLeft)
+                                  data.right.right.right.right.right.left)
+                                (hsame_trans (hsame_symm sameRight)
+                                  data.right.right.right.right.right.right)))))))))
+
 end BEDC.Derived.OptionUp

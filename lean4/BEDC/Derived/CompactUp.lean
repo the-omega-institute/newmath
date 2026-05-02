@@ -248,6 +248,20 @@ theorem CompactWitnessCarrier_located_refinement_chain_closed
         CompactWitnessCarrier_located_extension_closed ih extraCarrier locatedRel intermediateRel
           compactRel
 
+theorem CompactWitnessCarrier_located_finite_refinement_chain_closed
+    {subset located finite intermediate compact finalLocated finalIntermediate finalCompact
+      finalFinite finalCompact' : BHist} :
+    CompactWitnessCarrier subset located finite intermediate compact →
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
+        finalCompact →
+        CompactFiniteRefinementChain finite finalCompact finalFinite finalCompact' →
+          CompactWitnessCarrier subset finalLocated finalFinite finalIntermediate finalCompact' := by
+  intro carrier locatedChain finiteChain
+  have locatedCarrier :
+      CompactWitnessCarrier subset finalLocated finite finalIntermediate finalCompact :=
+    CompactWitnessCarrier_located_refinement_chain_closed carrier locatedChain
+  exact CompactWitnessCarrier_finite_refinement_chain_closed locatedCarrier finiteChain
+
 theorem CompactNetWitness_prefix_iff {p center precision net : BHist} :
     CompactNetWitness (append p center) precision (append p net) ↔
       UnaryHistory p ∧ CompactNetWitness center precision net := by
