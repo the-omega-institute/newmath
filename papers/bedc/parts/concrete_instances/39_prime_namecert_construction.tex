@@ -15,6 +15,18 @@ For unary histories \(d, q, n\) with \(\mathsf{Unary}(d)\), \(\mathsf{Unary}(q)\
 \end{definition}
 \leandef{BEDC.Derived.PrimeUp.NatMul}
 
+\begin{lemma}[Unary multiplication successor inversion]
+\label{lem:nat-mul-succ-inversion}
+If $\mathsf{NatMul}(d,\Eone(q),n')$, then there is a predecessor product
+$n$ such that $\mathsf{NatMul}(d,q,n)$ and $\Cont(n,d,n')$.
+\end{lemma}
+\begin{proof}
+Invert the closed successor clause in the inductive definition of
+$\mathsf{NatMul}$. The displayed predecessor product and continuation
+witness are exactly the constructor payloads.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_inversion}
+
 \begin{lemma}[Unary multiplication is functional]
 \label{lem:nat-mul-functional}
 For each pair of unary histories \((d, q)\), there is at most one unary \(n\) with \(\mathsf{NatMul}(d, q, n)\), up to \(\hsame\).
@@ -58,6 +70,7 @@ For every unary \(n\), \(\mathsf{NatDivides}(\Eone(\emp), n)\) and \(\mathsf{Nat
 \begin{proof}
 The unit case takes \(q = n\) in \(\mathsf{NatMul}(\Eone(\emp), n, n)\) by induction. The self-divisibility case takes \(q = \Eone(\emp)\) and uses the multiplicative right unit.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_reflexive}
 
 \begin{lemma}[Divisibility is transitive]
 \label{lem:divides-transitive}

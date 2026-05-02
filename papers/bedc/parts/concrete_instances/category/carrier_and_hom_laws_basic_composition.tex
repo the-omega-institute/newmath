@@ -466,6 +466,26 @@ the right tail empty, and compare with the right-unit continuation on $f$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.category\_cont\_left\_right\_identity\_tail\_result}
 
+\begin{theorem}[Continuation morphism left-right identity tail result]
+\label{thm:continuation-morphism-left-right-identity-tail-result}
+For continuation morphisms $leftId:a\to a$, $m:a\to b$, and
+$rightId:b\to b$, both identity tails are empty, and composing $m$ with them
+on the left and right leaves its tail unchanged up to $\hsame$:
+$$
+\HSame(leftId.tail,\emp)\wedge
+\HSame(rightId.tail,\emp)\wedge
+\HSame((leftId\circ m)\circ rightId,\;m.tail).
+$$
+\end{theorem}
+\begin{proof}
+Compare each identity morphism with the canonical empty continuation at its
+endpoint to obtain the two empty-tail equalities. After destructing the three
+continuation-morphism records, the composite tail is the displayed append of
+the three tails. The append left-unit and right-unit laws reduce it to
+$m.tail$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_right\_identity\_tail\_result}
+
 \begin{theorem}[Category hom carrier composite middle identity result]
 \label{thm:category-hom-carrier-comp-middle-identity-result}
 For the unary-continuation category, if

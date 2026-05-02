@@ -71,6 +71,13 @@ theorem NatMul_append_cont {d q e w n r : BHist} :
       cases continuation
       exact NatMul.succ (ih left (cont_intro rfl)) (cont_intro (append_assoc n _ d).symm)
 
+theorem NatMul_succ_inversion {d q n' : BHist} :
+    NatMul d (BHist.e1 q) n' -> exists n : BHist, NatMul d q n ∧ Cont n d n' := by
+  intro mul
+  cases mul with
+  | succ prev step =>
+      exact ⟨_, prev, step⟩
+
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
 
@@ -95,6 +102,23 @@ theorem NatDivides_transitive {d e n : BHist} :
                           | intro wUnary wMul =>
                               exact ⟨append w q, unary_append_closed wUnary qUnary,
                                 NatMul_append_cont wMul qMul step⟩
+
+theorem NatDivides_reflexive {n : BHist} :
+    UnaryHistory n -> NatDivides (BHist.e1 BHist.Empty) n ∧ NatDivides n n := by
+  intro hn
+  constructor
+  · have unitMul : NatMul (BHist.e1 BHist.Empty) n n := by
+      induction n with
+      | Empty =>
+          exact NatMul.zero (unary_e1_closed unary_empty)
+      | e0 n ih =>
+          cases hn
+      | e1 n ih =>
+          have hnTail : UnaryHistory n := unary_e1_inversion hn
+          exact NatMul.succ (ih hnTail) (cont_intro rfl)
+    exact ⟨n, hn, unitMul⟩
+  · exact ⟨BHist.e1 BHist.Empty, unary_e1_closed unary_empty,
+      NatMul.succ (NatMul.zero hn) (cont_left_unit n)⟩
 
 def NatPrime (p : BHist) : Prop :=
   UnaryHistory p ∧ NatUnaryStrictPrefix (BHist.e1 BHist.Empty) p ∧

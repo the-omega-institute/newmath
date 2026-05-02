@@ -133,4 +133,36 @@ theorem ContinuationMorphism_comp_middle_identity_tail_result {a b c : BHist}
                     (append_empty_right leftTail)
                 exact congrArg (fun tail => append tail rightTail) collapsedMiddle
 
+theorem ContinuationMorphism_comp_left_right_identity_tail_result {a b : BHist}
+    (leftId : ContinuationMorphism a a) (m : ContinuationMorphism a b)
+    (rightId : ContinuationMorphism b b) :
+    hsame leftId.tail BHist.Empty ∧ hsame rightId.tail BHist.Empty ∧
+      hsame
+        (ContinuationMorphism_comp_closed
+          (ContinuationMorphism_comp_closed leftId m) rightId).tail
+        m.tail := by
+  constructor
+  · cases leftId with
+    | mk leftTail leftRel =>
+        exact cont_left_cancel leftRel (cont_right_unit a)
+  · constructor
+    · cases rightId with
+      | mk rightTail rightRel =>
+          exact cont_left_cancel rightRel (cont_right_unit b)
+    · cases leftId with
+      | mk leftTail leftRel =>
+          cases m with
+          | mk morphTail morphRel =>
+              cases rightId with
+              | mk rightTail rightRel =>
+                  have leftTailEmpty : hsame leftTail BHist.Empty :=
+                    cont_left_cancel leftRel (cont_right_unit a)
+                  have rightTailEmpty : hsame rightTail BHist.Empty :=
+                    cont_left_cancel rightRel (cont_right_unit b)
+                  cases leftTailEmpty
+                  cases rightTailEmpty
+                  exact hsame_trans
+                    (congrArg (fun tail => append tail BHist.Empty) (append_empty_left morphTail))
+                    (append_empty_right morphTail)
+
 end BEDC.Derived.CategoryUp
