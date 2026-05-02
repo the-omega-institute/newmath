@@ -30,6 +30,14 @@ $$
 $$
 This is a one-element $\mathsf{BHist}$ lattice carried by the empty-history
 endpoint class.
+The certificate is the ten-field fit with traditional target the one-point
+lattice; BEDC source $\mathsf{BHist}$; carrier $A_{\emp}$; classifier
+$\rho_{\emp}$; stability obligations for lower and upper bounds,
+greatestness, leastness, meet and join congruence, and absorption; ledger
+singleton operand provenance; core theorem
+Theorem~\ref{thm:singleton-empty-history-lattice-laws}; exactness the
+singleton endpoint classification; standard bridge the terminal one-point
+lattice; and status $\mathsf{ProofTarget}$.
 \end{definition}
 
 \begin{theorem}[Singleton empty-history lattice laws]
@@ -38,7 +46,8 @@ The tuple
 $(A_{\emp},\rho_{\emp},\le_{\emp},\mathsf{meet}_{\emp},\mathsf{join}_{\emp})$
 satisfies carrier inhabitance, classifier stability, preorder reflexivity and
 transitivity, antisymmetry, meet lower-bound laws, meet greatestness, join
-upper-bound laws, join leastness, and meet and join congruence.
+upper-bound laws, join leastness, idempotence, commutativity, associativity,
+absorption, and meet and join congruence.
 \end{theorem}
 \begin{proof}
 Carrier inhabitance is the reflexive endpoint witness $\hsame(\emp,\emp)$.
@@ -79,13 +88,18 @@ $\emp$ by $A_{\emp}(u)$. Since $\mathsf{join}_{\emp}(h,k)$ is $\emp$, the
 relation $\mathsf{join}_{\emp}(h,k)\le_{\emp}u$ reduces to the same singleton
 classifier package.
 
+Idempotence, commutativity, associativity, and absorption all compare constant
+endpoints. After unfolding the operations, both sides are $\emp$, so the
+classifier is assembled from two copies of $A_{\emp}(\emp)$ and
+$\hsame(\emp,\emp)$.
+
 Meet and join congruence are constant-operation congruences. Both outputs are
 $\emp$, so the source and target endpoints have carrier witness
 $A_{\emp}(\emp)$ and relation witness $\hsame(\emp,\emp)$.
 \end{proof}
 
 The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
-and concrete $\mathsf{BHist}$-valued operations, giving
+and concrete $\mathsf{BHist}$-valued order, meet, and join operations, giving
 $\mathsf{BEDC.Derived.LatticeUp}$ a $\mathsf{BHist}$-anchored formal target.
 
 \section{The certificate}
