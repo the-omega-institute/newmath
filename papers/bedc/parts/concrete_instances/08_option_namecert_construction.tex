@@ -194,3 +194,92 @@ uniqueness clauses. Package those witnesses together with the retained
 completion uniqueness clause.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_composite\_normalized\_one\_sided\_visible\_public\_factorization}
+
+\begin{theorem}[Tagged option composite image classifier normalized zero-endpoint exclusion]
+\label{thm:tagged-option-composite-image-classifier-normalized-zero-endpoint-exclusion}
+This theorem fits the per-object template as follows: the traditional target is
+malformed endpoint rejection for functorial $\mathsf{OptionUp}$ public readback;
+the BEDC source is $\mathsf{BHist}$ with two composable descent maps; the
+carrier and image classifier are
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$ over the displayed public
+endpoints; the stability obligations are $\hsame$ transport plus branch
+exactness; the ledger exposes the visible absent/present tag together with
+zero-tag rejection; the core theorem is zero-endpoint exclusion; exactness says
+the normalized public endpoints are only absent or present; the standard bridge
+is $\mathsf{none}$/$\mathsf{some}$; and the status is $\mathsf{ProofTarget}$.
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$ and normalized endpoints $u,u':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u'),
+$$
+then for every $t:\mathsf{BHist}$,
+$$
+(\hsame(u,\Ezero(t))\to\bot)\land
+(\hsame(u',\Ezero(t))\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+First transport the composite classifier from $(m,m')$ to $(u,u')$. Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-hsame-transport}
+to the composite witness and the two normalization witnesses.
+
+Next apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-branch-exactness}
+to the transported classifier witness. This leaves the two possible public
+branches at the normalized endpoints.
+
+In the absent branch, the exactness data gives $\hsame(u,\emp)$ and
+$\hsame(u',\emp)$. Any presentation $\hsame(u,\Ezero(t))$ or
+$\hsame(u',\Ezero(t))$ composes with the corresponding empty presentation and
+contradicts $\Ezero$-versus-empty generated-history no-confusion.
+
+In the present branch, exactness exposes payloads $x,y:\mathsf{BHist}$ with
+$\hsame(u,\Eone(x))$ and $\hsame(u',\Eone(y))$. Any zero-tag presentation at
+either endpoint composes with the corresponding one-tag presentation and
+contradicts zero-versus-one generated-history no-confusion.
+
+Since the branch analysis covers every transported normalized classifier
+witness, both normalized endpoints reject every malformed zero-tag tail.
+\end{proof}
