@@ -68,6 +68,64 @@ carrier and relation. The corresponding formal target can therefore address
 the concrete prefix preorder directly, rather than only the relation fields of
 an arbitrary carrier.
 
+\section{Concrete singleton empty preorder instance}
+\label{sec:preorder-concrete-singleton-empty-instance}
+
+\begin{definition}[Concrete singleton empty preorder instance]
+\label{def:concrete-singleton-empty-preorder-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define the
+restricted classifier by
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+For carried histories, define the restricted order by
+$$
+h\le_{\emp}k:=\mathsf{PreorderPrefixLE}(h,k).
+$$
+The concrete preorder package is the fixed $\mathsf{BHist}$ tuple
+$(A_{\emp},\rho_{\emp},\le_{\emp})$.
+\end{definition}
+
+\begin{theorem}[Singleton empty preorder laws]
+\label{thm:singleton-empty-preorder-laws}
+For the concrete package of
+\autoref{def:concrete-singleton-empty-preorder-instance}, the carrier is
+inhabited by $\emp$, carrier membership transports along $\hsame$,
+$\le_{\emp}$ is reflexive on carried histories and transitive, and
+$\le_{\emp}$ is congruent under $\rho_{\emp}$ in both endpoints. Moreover, for
+carried histories $h,k:\mathsf{BHist}$, opposing comparisons
+$h\le_{\emp}k$ and $k\le_{\emp}h$ collapse to $\rho_{\emp}(h,k)$.
+\end{theorem}
+\begin{proof}
+The singleton source supplies the inhabitance witness $A_{\emp}(\emp)$.
+Unfolding the source shows that any carried endpoint is identified with
+$\emp$ by $\hsame$, and transport along $\hsame$ is exactly the transport law
+recorded for the singleton history source.
+
+Reflexivity follows by applying
+$\mathsf{PreorderPrefixLE\_of\_hsame}$ to the reflexive witness
+$\hsame(h,h)$ for each carried history $h$. Transitivity is
+$\mathsf{PreorderPrefixLE\_trans}$ applied to the two displayed prefix
+comparisons.
+
+For congruence, unfold $\rho_{\emp}$ at the source and target endpoints. The
+classifier fields provide the carrier witnesses and the $\hsame$ witnesses
+needed to move each endpoint. The prefix stability certificate for
+$\mathsf{PreorderPrefixLE}$ then transports the comparison in the left endpoint
+and in the right endpoint.
+
+For the collapse clause, opposing comparisons give
+$\hsame(h,k)$ by $\mathsf{PreorderPrefixLE\_antisymm\_hsame}$. Pair this
+witness with the two singleton carrier witnesses for $h$ and $k$ to obtain
+$\rho_{\emp}(h,k)$.
+\end{proof}
+
+This singleton package gives a concrete $\mathsf{BHist}$ source for the
+$\PreorderUp$ relation fields, so order formalization can target this carrier
+rather than arbitrary relation parameters.
+
 \section{The certificate}
 
 \begin{definition}[Preorder source specification]
