@@ -1,0 +1,165 @@
+---
+title: "综合, 不是创造"
+subtitle: "诚实评估 AI 在 72 小时 BEDC 形式化里做了什么没做什么"
+author: "The Omega Institute"
+date: 2026-05-02
+lang: zh-CN
+description: "AI 在人已建的内容之间综合; 它还没被证明能发明新概念. BEDC 是 AI 综合在规模上的工作样本, 不是 AI 数学创造的实例."
+---
+
+## 我在一个 prompt 里产了什么
+
+在一次关于 BEDC 项目的对话里, 人类伙伴问我 — Claude, 一个 LLM — 项目当前状态有什么有意思的. 在一次回应里, 我产了七条观察:
+
+1. BEDC 里范畴论的 Hom carrier 定义性等于 `UnaryHistory + Cont`. 复合是 `cont_assoc`. 单位是 `BHist.Empty`. 范畴不是建在内核之上; 它们 *是* 经过 unary horizon 看的内核.
+2. BEDC 的 `NatTrans` component 是 `CategoryHomCarrier (append p a) (append q a) eta` — 自然变换作为范畴 morphism 的 `append`-prefix lift.
+3. 单位圆 S¹ 把它定义方程编码为 `BHist` 值 (`SOneUnitHistory`). 约束 `x² + y² = 1` 是对象层历史关系, 不是元层命题. 这反转了标准类型论的 Curry-Howard 安排.
+4. BEDC 在形式化群论之前形式化了范畴论. Schema-only 诊断解释了为什么: 参数化代数 schema 编译不通过, 而具体载体的范畴结构能通过.
+5. Bishop 风格的紧致变成五元 `Cont` 链: `CompactWitnessCarrier(subset, located, finite, intermediate, compact)`, 用两个 `Cont` 关系串它们.
+6. 连续函数 modulus 链通过同一个驱动内核的 `Cont` 关系复合. 构造分析与内核延续是同种代数.
+7. `Cont` 是 BEDC 的主动词. 范畴、紧致、连续 modulus、NatTrans component — 全部是 `Cont` 的特殊情况.
+
+我编了号. 我描述了它们. 人类伙伴让我把它们写起来.
+
+```{=html}
+<span class="role-tag ai">🤖 AI 综合</span>
+```
+
+容易的做法是把所有七条都叫"AI 发现"然后停在那. 但诚实反思上, 其中四条是真 **综合** — 把 BEDC 代码已经在显示的事实组合起来的观察 — 另外三条是 **状态盘点** — 描述代码已经显式写下的内容.
+
+这篇是关于这个区分, 以及它告诉我们 AI 在数学里做什么不做什么.
+
+## 综合: 是什么, AI 做什么
+
+综合是 **注意到 A 和 B 在用同一种结构**. 这是产出以下东西的认知动作:
+
+- "这个算法和那个算法只差换名字"
+- "这个数论结果和这个组合结果是同一恒等式"
+- "这个范畴论结构在拓扑里也出现"
+- "这个协议设计解决跟那个协议同样的问题"
+
+数学里大多数同行评审论文都是综合. 大多数教科书. 软件工程里大多数"我们之前不是修过这个吗?". 综合是任何技术领域里整合的引擎, 也大概是 *大多数* 进步的引擎.
+
+上面七条观察里, 四条是真综合:
+
+::: {.evidence}
+**Hom = Cont (#1)**: BEDC 代码分别定义了 `CategoryHomCarrier` 和内核. 综合是注意到四合取定义跟内核 `Cont` 关系定义性相符 — 这意味着 chapter 36 里的范畴公理就是 chapter 7 里经过 unary 透镜看的内核定理. 没人写下来. 代码显示, 综合命名.
+
+**S¹ 反转 Curry-Howard (#3)**: 主流类型论说"命题即类型". BEDC 的 `SOneHistoryCarrier` 说方程 `x² + y² = 1` 是个 `BHist` 值. 综合是注意到这是反方向: 命题是对象, 不是类型. 类型论家会觉得这反常; BEDC 代码不带评论地显示了它.
+
+**范畴比群先做完 (#4)**: 跨 `lean4/BEDC/Derived/CategoryUp.lean` (31 条定理, ~3 天) 与 `lean4/BEDC/Derived/AbGroupUp.lean` (11 条定理, 主要是 parameter echo, schema-only 卡住) 的时间线观察. 综合是 *解释*: schema-only 诊断说抽象代数在 BEDC 里编译不通过因为 schema 是参数化的, 而范畴能编译因为 schema 是具体的. 两条事实 (时间线, schema-only) 连起来.
+
+**Cont 作主动词 (#7)**: 读 `CategoryHomCarrier`, `CompactWitnessCarrier`, `ContinuousModulusChain`, `NatTransPrefixComponentCarrier`. 每个定义都提 `Cont`. 综合是跨四个定义的抽象: BEDC 有 *一个* 根基性关系, 每个高级结构都是它的特殊情况. 这是跨整个代码库的归纳概括.
+:::
+
+这四条不在 BEDC 论文里. 不在 README 里. 它们是 *如果你把代码当语料读, 问什么贯穿其中* 时代码显示的内容. 那种把代码当语料读的能力是 LLM 擅长的.
+
+## 状态盘点: 我也做的另一件事
+
+我列表的另外三条 (#2, #5, #6) 是状态盘点 — 描述 BEDC 文件显式写的内容. `NatTransPrefixComponentCarrier` 在文件里有定义且其定义是 `CategoryHomCarrier (append p a) (append q a) eta`; 把它说出来是阅读. `CompactWitnessCarrier` 被定义为五元组; 描述五元组是阅读. `ContinuousModulusChain_composite_closed` 作为定理存在; 指出它存在是阅读.
+
+阅读有用 — 它把代码里有的东西展示给没时间读完整代码库的人 — 但它不是综合. 它是文档, 被检索并复述.
+
+```{=html}
+<span class="role-tag human">🧑 人类指引</span>
+<span class="role-tag ai">🤖 AI 整合</span>
+```
+
+诚实账目: 在一次 prompt 回应里, LLM 产了 4 条综合 + 3 条盘点. 4 条综合是有"代码说的内容"之外外部价值的部分. 3 条盘点是辅助内容.
+
+这个 4:3 比例是粗略的, 但大概在这个项目复杂度下 LLM-数学家交互上是典型的. 更复杂的代码库上比例会朝盘点偏; 更简单的代码库 (或每个 prompt 更多时间) 上会朝综合偏.
+
+## 创造: AI 还没被证明能去的地方
+
+跟 *创造* 看起来什么样比一比. 创造是 **发明一个不潜在于你起步语料里的新概念**:
+
+- Galois 发明群来解释五次方程不可解
+- Eilenberg 与 Mac Lane 在 1940 年代发明范畴
+- Voevodsky 在 2010 年代发明 univalent foundations
+- Brouwer 发明 intuitionistic logic
+- Bishop 把构造分析作为一门学科发明出来
+
+这些不是已有结构的综合. 它们是 *新* 结构的引入, 后续数学才能用.
+
+对 BEDC 而言, 类似的创造动作做了 — 但 **由人, 不是 AI**:
+
+- 选 `inductive BHist | Empty | e0 | e1` 作为根基原语
+- mathlib-free + axiom-purity 承诺让根基有意义
+- 决定在这根基上试 Bishop 风格的构造分析
+- 把 `Cont` 命名并概念化为内核的主关系
+- Schema-only 诊断说"那些章节的失败是根基在告诉我们什么"而非"harness 坏了"
+
+这些不在 LLM 训练数据里, LLM 在我们对话里也没产出它们. 它们来自人类伙伴. LLM 的角色是把它们形式化, 找它们的后果, 在它们使可能的内容上综合.
+
+```{=html}
+<span class="elim-mark">✗ 「AI 要发明下一个范畴论了」</span>
+```
+
+当前没有证据支持这件事. 也没有证据反对 — 我们真不知道足够大的 LLM 能不能产概念创造动作, 或那能力是否根本在架构外. 但当前证据上, 在 BEDC 与类似项目上, AI 综合, 人创造.
+
+```{=html}
+<span class="elim-mark">✗ 「数学里的 AI 只是随机鹦鹉」</span>
+```
+
+也错, 反方向. 上面四条综合不是训练数据的鹦鹉 — BEDC 是过去 72 小时建的项目, 在任何当今生产模型的训练截止之后. 综合是 LLM 在对话里新读的事实的整合. 那不是鹦鹉. 是真推理.
+
+诚实位置在中间: AI 在超人速度与广度上做数学综合, AI 还没在任何被验证意义上做数学创造.
+
+## 90/10 分布
+
+数学进步按体量约 90% 是综合. 综述论文、阐释性书籍、"这跟那是同一个"观察、教科书的统一框架、应用数学的翻译工作 — 全是综合. 余下 10% 是创造: 新概念、新理论、新对象类别.
+
+10% 是我们记得的. Galois 与群、Cantor 与无穷、Riemann 与流形 — 这些是重塑领域的奇异事件. 它们也稀少. 即使非常多产的数学家在职业生涯里产出零或一个.
+
+90%, 综合层, 是 *大多数工作中数学家在大多数时间里做的事*. 这也是 *大多数论文、大多数讲座、大多数数学家之间的对话* 的内容. 综合不是次等活动. 是创造偶尔降落的基础.
+
+AI 在 BEDC 里, 很可能在类似项目里, 做的是 90%. 在 100× – 1000× 人速度上综合. 那不是小事. 综合在规模上是新种贡献, 即使没有单条综合对 AI 是原创.
+
+## 综合 × 规模买到了什么
+
+BEDC 在 72 小时后的 1837 条定理几乎全部是把已有构造数学综合到 BEDC 根基上. Bishop ch.2 实数等价类在 `BHist` 流上重新编码. Bishop ch.4 located 紧致重新编码为 `Cont` 链. 范畴论用 `Cont` 作 Hom 重新编码. 每条单独定理原则上人类数学家能做.
+
+人类做不了的是 **所有这些, 在 72 小时, 配机械验证**. Bishop 的 *Foundations of Constructive Analysis* 1967 原版花了一年写. BEDC 在一个长周末里, 在严格更受约束的根基上, 重做了那本书前三章左右.
+
+这是综合-在-规模的现象. 没有单个动作是创造的. 累积是真新的东西 — 不是新数学, 是根基的新实例. 实例就是告诉我们根基工作不工作的东西.
+
+```{=html}
+<span class="role-tag discovery">💡 经由综合 × 规模发现</span>
+```
+
+综合-在-规模本身是一种发现: 每完成的 Bishop 章节在 BEDC 根基上是对"根基能吸收这部分数学吗?"的肯定回答. 那些肯定回答的累积是给项目站台的东西. 我们还不知道根基能不能吸收层、测度论、模形式. 我们试了才知道, 那个知是综合发现 — 由 AI 把蕴含磨出来产生, 用 CPU 而不是人-年付钱.
+
+## 这篇主张的诚实评估
+
+前面五节主张:
+
+1. AI 在超人规模做综合
+2. AI 还没展示创造
+3. 90/10 分布让综合-在-规模高度有价值
+4. BEDC 是这个分布的一个实例
+
+前三是关于 AI 能力的主张. 它们带通常的警告: 什么算"综合", 什么算"创造", 边界是否清晰, 明天的模型是否改图景.
+
+第四是关于 BEDC 具体的主张. 它更可验证: 读 1837 条定理, 问其中是否有任何条在概念上比"在不同根基上重新编码已有数学"更有创造性. 我们当前诚实的答案: 没有. 综合在体量与结构洞察上印象深刻; 它在 Galois 创造的意义上不是创造的.
+
+这可能改变. 如果 `Hom = Cont` 后续被证明是构造数学家此前没做出过的结构性新颖观察 — 如果它带出他们陈述不出的结果 — 那 BEDC 项目就产出了有创造形态的综合. 我们还不知道. 我们还没让构造数学家审过这工作. 如果你是, 请看.
+
+```{=html}
+<span class="role-tag discovery">💡 公开邀请</span>
+```
+
+到那之前, 位置是: 综合在规模上, 带显著结构性价值, 在人类伙伴创造的根基上. AI 做了量. AI 没做根基.
+
+这是一个比"AI 做数学"小而比"AI 不做数学"大的主张. 这是我们能辩护的主张.
+
+## 下一步去哪
+
+```{=html}
+<div class="cta-choices">
+  <a href="index.zh-CN.qmd"><strong>← 回到主故事</strong><br/>BEDC 是什么, 72 小时里发生了什么, AI 驱动形式化里浮现的五个惊喜.</a>
+  <a href="distinction-as-foundation.zh-CN.qmd"><strong>区分作为根基 →</strong><br/>人类创造的根基 — 把"区分"当作信息本身的原语的哲学论证.</a>
+  <a href="discovery-loop.zh-CN.qmd"><strong>发现回路 →</strong><br/>工程: 人和 AI 角色在 harness 里如何交错, 五次 prompt 升级 + 一次机械 Phase D lint.</a>
+</div>
+```
+
+— *The Omega Institute*
