@@ -213,6 +213,36 @@ Field examples from the manual era (kept for reference; the gate now does this a
 - `35_compact_namecert_construction.tex` (802) → `35_*` (465) + `35b_compact_certificate.tex` (337)
 - `08_option_namecert_construction.tex` (807) → `08_*` (215) + `option/09_composite_image_classifier_public_readback.tex` (592)
 
+### Autonomous adjustment authority
+
+While monitoring, you have standing authority to make harness/prompt adjustments without asking, when ALL of the following hold:
+
+1. The change is **purely additive or a tightening of an existing rule** (new HARD GATE, narrower regex, removing a chapter from a ban list because the unblock condition is met). Not changing the merge flow, not relaxing safety gates.
+2. The trigger is **a recurring pattern, not a one-off**: ≥ 2 commits / rounds exhibiting the same problem, or a paper-side state change (e.g. a banned chapter just got its concrete instance) whose downstream effect is mechanical.
+3. The change is **scoped to a hot-reloadable file** (prompt under `lean4/scripts/prompts/` or `papers/bedc/scripts/prompts/`, or a subprocess script under `lean4/scripts/` or `papers/bedc/scripts/`, or `papers/bedc/scripts/check_tex_size.sh` and friends, or `lean4/scripts/critical_path.py` constants). Anything that would force a pipeline restart needs explicit confirmation.
+4. The change is **traceable**: bump the relevant `## Prompts version` so commit bodies record `prompts: vN.M`; commit and push to `codex-auto-dev` immediately so in-flight rounds can ff-update.
+
+When making an autonomous change:
+
+- Briefly state the trigger (one or two sentences) before the edit so the user can object before commit.
+- Make the edit, run any verification (smoke test, `bash papers/bedc/scripts/check_tex_size.sh`, `python3 lean4/scripts/critical_path.py | jq '.top'`), commit + push.
+- Note the change in your reply with the commit SHA so the user can roll back if needed.
+
+Do NOT autonomously:
+
+- Restart pipelines (stop + restart belongs to the user; you may suggest it).
+- Edit `codex_revise.py` / `codex_formalize.py` orchestrator bodies (those need restart and the user should confirm the merge-flow change).
+- Loosen any HARD GATE without a concrete false-positive trace.
+- Change `--parallel` / `--lake-parallel` defaults.
+
+Frequency discipline: even with authority, do not edit prompts faster than the pipeline can produce signal. Wait at least 30 commits or 1 hour after a prompt bump before another edit on the same file, unless the new prompt is producing immediate misbehaviour. Edit churn confuses codex.
+
+Concrete autonomous-action examples this skill has handled:
+
+- Removing chapters from `SCHEMA_ONLY_HORIZONS` once paper-side concrete instances landed (paper P699-P712 unlocked monoid/group/abgroup/ring/commring/field; updated `critical_path.py` constant + mirror in `phase_b.txt` BAN section without asking).
+- Tightening `phase_d_lint.py` parameter-echo to be conclusion-aware after R1261/R1262 false positives.
+- Splitting an oversized `.tex` file (now superseded by Makefile precheck — codex self-heals).
+
 ### Harness design principles
 
 When the workflow keeps surfacing the same issue, the gate lives at the wrong level. Move it down. Levels of correctness enforcement, in preferred order:
