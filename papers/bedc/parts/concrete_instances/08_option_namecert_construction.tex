@@ -554,21 +554,21 @@ either endpoint contradicts zero-versus-one generated-history no-confusion.
 Pair the zero-tag exclusion with the public readback completion field.
 \end{proof}
 
-\begin{theorem}[Tagged option composite image classifier normalized absent one-sided intermediate exclusion]
-\label{thm:tagged-option-composite-image-classifier-normalized-absent-one-sided-intermediate-exclusion}
+\begin{theorem}[Tagged option composite image classifier normalized absent intermediate constructor exclusion]
+\label{thm:tagged-option-composite-image-classifier-normalized-absent-intermediate-constructor-exclusion}
 This theorem fits the per-object template as follows: the traditional target is
 endpoint-normalized functorial $\mathsf{OptionUp}$ absent public factorization
-with one-sided intermediate readback exclusion; the BEDC source is
+with intermediate constructor exclusion; the BEDC source is
 $\mathsf{BHist}$ with two composable descent maps; the carrier and image
 classifier are $\mathsf{TaggedOptionPayloadDescentImageCarrier}$ and
 $\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
 are endpoint $\hsame$ transport, map-relation composition factorization,
-empty-branch preservation, and empty-versus-present no-confusion; the ledger is
-the normalized absent public pair together with individually absent
-intermediate endpoints; the core theorem is one-sided absent intermediate
-exclusion; exactness says each intermediate endpoint rejects every visible
-present presentation; the standard bridge is $\mathsf{none}$ normalized public
-readback; and the status is $\mathsf{ProofTarget}$.
+empty-branch preservation, and empty-versus-nonempty constructor no-confusion;
+the ledger is the normalized absent public pair together with constructor-normal
+intermediate endpoints; the core theorem is absent intermediate constructor
+exclusion; exactness says each intermediate endpoint rejects every nonempty
+generated-history presentation; the standard bridge is $\mathsf{none}$
+normalized public readback; and the status is $\mathsf{ProofTarget}$.
 
 Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
 intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
@@ -628,12 +628,14 @@ then there exist $k,k':\mathsf{BHist}$ such that
 \item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
 $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
 \item $\hsame(k,\emp)\land \hsame(k',\emp)$;
-\item for every $p:\mathsf{BHist}$, $T(p)\to\hsame(k,\Eone(p))\to\bot$;
-\item for every $q:\mathsf{BHist}$, $T(q)\to\hsame(k',\Eone(q))\to\bot$.
+\item for every $t:\mathsf{BHist}$,
+$(\hsame(k,\Ezero(t))\to\bot)\land(\hsame(k,\Eone(t))\to\bot)$;
+\item for every $t:\mathsf{BHist}$,
+$(\hsame(k',\Ezero(t))\to\bot)\land(\hsame(k',\Eone(t))\to\bot)$.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-Apply
+First apply
 Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-absent-public-factorization}
 to the composite image-classifier witness, the endpoint normalizations, the
 displayed descent, preservation, stability, certificate, compatibility data,
@@ -643,18 +645,20 @@ map-relation witnesses, the intermediate absent presentations
 $\hsame(k,\emp)$ and $\hsame(k',\emp)$, and the excluded simultaneous visible
 intermediate pair.
 
-For the left endpoint, suppose $p:\mathsf{BHist}$ satisfies $T(p)$ and
-$\hsame(k,\Eone(p))$. Compose this visible presentation with the empty
-presentation $\hsame(k,\emp)$. The resulting identification of $\emp$ with
-$\Eone(p)$ contradicts empty-versus-one generated-history no-confusion, so no
-left visible intermediate payload can be presented.
+For the left endpoint, fix $t:\mathsf{BHist}$. A presentation
+$\hsame(k,\Ezero(t))$ composes with $\hsame(k,\emp)$ to identify $\emp$ with
+$\Ezero(t)$, contradicting empty-versus-zero generated-history no-confusion. A
+presentation $\hsame(k,\Eone(t))$ composes with the same empty presentation to
+identify $\emp$ with $\Eone(t)$, contradicting empty-versus-one generated-history
+no-confusion.
 
-For the right endpoint, suppose $q:\mathsf{BHist}$ satisfies $T(q)$ and
-$\hsame(k',\Eone(q))$. Compose this visible presentation with the empty
-presentation $\hsame(k',\emp)$. The resulting identification of $\emp$ with
-$\Eone(q)$ contradicts empty-versus-one generated-history no-confusion, so no
-right visible intermediate payload can be presented.
+For the right endpoint, fix $t:\mathsf{BHist}$. A presentation
+$\hsame(k',\Ezero(t))$ composes with $\hsame(k',\emp)$ to identify $\emp$ with
+$\Ezero(t)$, contradicting empty-versus-zero generated-history no-confusion. A
+presentation $\hsame(k',\Eone(t))$ composes with the same empty presentation to
+identify $\emp$ with $\Eone(t)$, contradicting empty-versus-one generated-history
+no-confusion.
 
 Package the same $k,k'$ with the retained factorization data, the retained
-intermediate empty presentations, and the two one-sided exclusion functions.
+intermediate empty presentations, and the two constructor-exclusion functions.
 \end{proof}
