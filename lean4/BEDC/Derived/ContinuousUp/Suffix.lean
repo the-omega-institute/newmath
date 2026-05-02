@@ -133,4 +133,83 @@ theorem ContinuousModulusChain_suffix_iff {p source first second target : BHist}
                                                         (And.intro firstRel
                                                           suffixedSecondRel)))))
 
+theorem ContinuousFunctionCarrier_modulus_suffix_iff {p source map target modulus cert : BHist} :
+    ContinuousFunctionCarrier source map target (append modulus p) (append cert p) <->
+      UnaryHistory p ∧ ContinuousFunctionCarrier source map target modulus cert := by
+  constructor
+  · intro suffixed
+    cases suffixed with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier rest =>
+            cases rest with
+            | intro mapCarrier rest =>
+                cases rest with
+                | intro suffixedModulusCarrier rest =>
+                    cases rest with
+                    | intro sourceMap targetCert =>
+                        have suffixedCertCarrier : UnaryHistory (append cert p) :=
+                          unary_cont_closed targetCarrier suffixedModulusCarrier targetCert
+                        have witness :
+                            ContinuousModulusWitness target (append modulus p)
+                              (append cert p) :=
+                          And.intro targetCarrier
+                            (And.intro suffixedModulusCarrier
+                              (And.intro suffixedCertCarrier targetCert))
+                        have baseWitness :=
+                          (ContinuousModulusWitness_suffix_iff (p := p) (source := target)
+                            (modulus := modulus) (target := cert)).mp witness
+                        cases baseWitness with
+                        | intro pCarrier modulusWitness =>
+                            cases modulusWitness with
+                            | intro _targetCarrier witnessRest =>
+                                cases witnessRest with
+                                | intro modulusCarrier witnessRest =>
+                                    cases witnessRest with
+                                    | intro _certCarrier baseTargetCert =>
+                                        exact
+                                          And.intro pCarrier
+                                            (And.intro sourceCarrier
+                                              (And.intro targetCarrier
+                                                (And.intro mapCarrier
+                                                  (And.intro modulusCarrier
+                                                    (And.intro sourceMap
+                                                      baseTargetCert)))))
+  · intro base
+    cases base with
+    | intro pCarrier carrier =>
+        cases carrier with
+        | intro sourceCarrier rest =>
+            cases rest with
+            | intro targetCarrier rest =>
+                cases rest with
+                | intro mapCarrier rest =>
+                    cases rest with
+                    | intro modulusCarrier rest =>
+                        cases rest with
+                        | intro sourceMap targetCert =>
+                            have modulusWitness :
+                                ContinuousModulusWitness target modulus cert :=
+                              And.intro targetCarrier
+                                (And.intro modulusCarrier
+                                  (And.intro (unary_cont_closed targetCarrier modulusCarrier
+                                    targetCert) targetCert))
+                            have suffixedWitness :=
+                              (ContinuousModulusWitness_suffix_iff (p := p) (source := target)
+                                (modulus := modulus) (target := cert)).mpr
+                                (And.intro pCarrier modulusWitness)
+                            cases suffixedWitness with
+                            | intro _targetCarrier suffixedRest =>
+                                cases suffixedRest with
+                                | intro suffixedModulusCarrier suffixedRest =>
+                                    cases suffixedRest with
+                                    | intro _suffixedCertCarrier suffixedTargetCert =>
+                                        exact
+                                          And.intro sourceCarrier
+                                            (And.intro targetCarrier
+                                              (And.intro mapCarrier
+                                                (And.intro suffixedModulusCarrier
+                                                  (And.intro sourceMap
+                                                    suffixedTargetCert))))
+
 end BEDC.Derived.ContinuousUp

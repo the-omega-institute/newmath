@@ -318,6 +318,34 @@ and yields $\hsame(c,c')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_center\_deterministic}
 
+\begin{theorem}[Prefixed composite compact net precision determinacy]
+\label{thm:compact-net-witness-prefixed-composite-precision-deterministic}
+For histories $p,c,\epsilon,\epsilon',\eta,\theta,\theta',m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$, $\mathsf{UnaryHistory}(\epsilon')$,
+$\mathsf{UnaryHistory}(\eta)$,
+$\mathsf{Cont}(\epsilon,\eta,\theta)$, and
+$\mathsf{Cont}(\epsilon',\eta,\theta')$. If two prefixed composed net witnesses
+have the same prefixed center and the same prefixed refined net,
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m)
+\quad\hbox{and}\quad
+\mathsf{CompactNetWitness}(p \cdot c,\theta',p \cdot m),
+$$
+then their first precision histories are history-same:
+$$
+\hsame(\epsilon,\epsilon').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two prefixed compact-net witnesses. Since they share the same
+prefixed center and prefixed refined net, left cancellation on their
+continuation ledgers identifies the composite precision histories
+$\theta$ and $\theta'$. The two composite ledgers then have the same right
+suffix $\eta$, so continuation suffix cancellation identifies the first
+precision histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_precision\_deterministic}
+
 \begin{definition}[Compact ledger policy]
 \label{def:compact-ledger-policy}
 Record the subset predicate, locatedness decisions, and finite net ledgers.

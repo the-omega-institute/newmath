@@ -177,6 +177,28 @@ the classifier from $h$ to $r$ by tagged option classifier transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_left\_confluence}
 
+\begin{theorem}[Tagged option history classifier right confluence]
+\label{thm:tagged-option-history-classifier-right-confluence}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source
+classifier $\sim_S$, if $\sim_S$ is symmetric and transitive, then any two
+tagged option classifier witnesses with the same right endpoint compose to a
+classifier witness between their left endpoints:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\land
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(r,k)
+\Longrightarrow
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,r).
+$$
+\end{theorem}
+\begin{proof}
+Reverse the second classifier witness using symmetry of the source classifier.
+The absent branch swaps the empty endpoint witnesses, and the present branch
+swaps the tagged visible endpoints while reversing the payload classifier
+witness. The classifier from $h$ to $k$ then composes with the reversed
+classifier from $k$ to $r$ by tagged option classifier transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_right\_confluence}
+
 \begin{theorem}[Tagged option history present-present exactness]
 \label{thm:tagged-option-history-present-present-exactness}
 For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, and histories $h,k$, the tagged option history classifier is exact on two visible present endpoints:

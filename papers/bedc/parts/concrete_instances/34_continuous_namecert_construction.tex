@@ -478,6 +478,36 @@ bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefix\_iff}
 
+\begin{theorem}[Continuous function carrier modulus suffix exactness]
+\label{thm:continuous-function-carrier-modulus-suffix-iff}
+For histories $p,source,map,target,modulus,cert$, suffixing the modulus and
+certificate ledgers by the same unary history is conservative for the
+continuous-function carrier:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus\cdot p,cert\cdot p)
+\Longleftrightarrow
+\\
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the suffixed carrier. The target-modulus
+certificate leg is a continuous modulus witness from $target$ through
+$modulus\cdot p$ to $cert\cdot p$, with the certificate unary witness obtained
+from unary continuation closure. Apply the continuous modulus witness suffix
+exactness theorem to remove the common right suffix, then repack the graph
+carrier fields.
+
+For the reverse direction, turn the unsuffixed target-modulus certificate leg
+into a continuous modulus witness, apply suffix exactness to append $p$ to the
+modulus and certificate histories, and repack the original graph fields with
+the suffixed certificate leg.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_modulus\_suffix\_iff}
+
 \begin{theorem}[Continuous function carrier prefixed graph-chain factorization]
 \label{thm:continuous-function-carrier-prefixed-graph-chain-factorizes}
 For histories $p,source,map,target,\delta_1,\delta_2,\delta,cert$, if

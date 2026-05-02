@@ -574,4 +574,16 @@ theorem CompactNetWitness_prefixed_composite_refinement_deterministic
                           cases sameComposite
                           exact cont_left_cancel leftComposite rightComposite
 
+theorem CompactNetWitness_prefixed_composite_precision_deterministic
+    {p center precision precision' extra composite composite' refined : BHist} :
+    UnaryHistory precision -> UnaryHistory precision' -> UnaryHistory extra ->
+      Cont precision extra composite -> Cont precision' extra composite' ->
+        CompactNetWitness (append p center) composite (append p refined) ->
+          CompactNetWitness (append p center) composite' (append p refined) -> hsame precision
+            precision' := by
+  intro _precisionCarrier _precision'Carrier _extraCarrier leftComposite rightComposite left right
+  have sameComposite : hsame composite composite' :=
+    cont_left_cancel left.right.right.right right.right.right.right
+  exact cont_common_suffix_cancellation leftComposite rightComposite sameComposite
+
 end BEDC.Derived.CompactUp
