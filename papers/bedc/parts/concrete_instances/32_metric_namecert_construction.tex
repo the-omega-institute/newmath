@@ -475,6 +475,32 @@ as $\mathsf{MetricDistanceWitness}(x,y,d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_exactness}
 
+\begin{theorem}[Metric distance witness right one-headed source cases]
+\label{thm:metric-distance-witness-right-one-headed-source-cases}
+For histories $x,y,d$, a distance witness with right endpoint and result both
+under one visible constructor either starts at the empty source boundary or
+starts from a one-headed source whose tail still carries the descended
+distance witness:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))
+\Longrightarrow
+\bigl(x=\emp\land\mathsf{UnaryHistory}(y)\land\hsame(d,y)\bigr)
+$$
+or there exists $x_1:\mathsf{BHist}$ such that
+$$
+x=\Eone(x_1)\land\mathsf{MetricDistanceWitness}(\Eone(x_1),y,d).
+$$
+\end{theorem}
+\begin{proof}
+First descend the right endpoint and result with the right one-headed result
+exactness theorem. Classify the unary source endpoint. The empty-source case is
+the empty-left exactness theorem for the descended witness, giving the target
+carrier and the distance-target sameness. A zero-headed source contradicts the
+unary source carrier. A one-headed source keeps the descended witness itself
+with the displayed source equation.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_source\_cases}
+
 \begin{theorem}[Metric distance witness right-boundary visible-context exactness]
 \label{thm:metric-distance-witness-right-boundary-visible-context-iff}
 For histories $p,q,x,d$, a visible-context distance witness whose central right
