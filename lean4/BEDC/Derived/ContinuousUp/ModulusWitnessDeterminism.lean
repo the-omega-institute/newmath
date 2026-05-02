@@ -212,4 +212,26 @@ theorem ContinuousModulusWitness_prefixed_composite_first_deterministic
                   exact ContinuousModulusWitness_modulus_hsame_deterministic
                     (hsame_refl source) sameMiddle leftFirst rightFirst
 
+theorem ContinuousModulusWitness_prefixed_composite_source_deterministic
+    {p source source' first second composite target : BHist} :
+    UnaryHistory first -> UnaryHistory second -> Cont first second composite ->
+      ContinuousModulusWitness (append p source) composite (append p target) ->
+        ContinuousModulusWitness (append p source') composite (append p target) ->
+          hsame source source' := by
+  intro firstCarrier secondCarrier compositeRel left right
+  have leftFactor :=
+    ContinuousModulusWitness_prefixed_composite_factorizes firstCarrier secondCarrier compositeRel left
+  have rightFactor :=
+    ContinuousModulusWitness_prefixed_composite_factorizes firstCarrier secondCarrier compositeRel right
+  cases leftFactor with
+  | intro middle leftData =>
+      cases rightFactor with
+      | intro middle' rightData =>
+          have sameMiddle : hsame middle middle' :=
+            ContinuousModulusWitness_source_hsame_deterministic (hsame_refl target)
+              leftData.right rightData.right
+          exact
+            ContinuousModulusWitness_source_hsame_deterministic sameMiddle leftData.left
+              rightData.left
+
 end BEDC.Derived.ContinuousUp

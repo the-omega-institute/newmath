@@ -43,4 +43,31 @@ theorem OptionHistoryClassifier_exclusive_branch_iff {source : BHist -> Prop}
           And.intro (Or.inr sourcePair.left)
             (And.intro (Or.inr sourcePair.right.left) sourcePair.right.right)
 
+theorem OptionHistoryClassifier_source_branch_iff {source : BHist -> Prop}
+    (sourceExcludesEmpty : OptionSourceExcludesEmpty source) {h k : BHist} :
+    OptionHistoryClassifier source h k -> (source h <-> source k) := by
+  intro classifier
+  constructor
+  · intro sourceH
+    cases classifier with
+    | intro _carrierH rest =>
+        cases rest with
+        | intro carrierK sameHK =>
+            cases carrierK with
+            | inl sameKEmpty =>
+                exact False.elim (sourceExcludesEmpty h sourceH (hsame_trans sameHK sameKEmpty))
+            | inr sourceK =>
+                exact sourceK
+  · intro sourceK
+    cases classifier with
+    | intro carrierH rest =>
+        cases rest with
+        | intro _carrierK sameHK =>
+            cases carrierH with
+            | inl sameHEmpty =>
+                exact False.elim
+                  (sourceExcludesEmpty k sourceK (hsame_trans (hsame_symm sameHK) sameHEmpty))
+            | inr sourceH =>
+                exact sourceH
+
 end BEDC.Derived.OptionUp

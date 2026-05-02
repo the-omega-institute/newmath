@@ -483,6 +483,31 @@ $\delta_1$ and $\delta'_1$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_prefixed\_composite\_first\_deterministic}
 
+\begin{theorem}[Continuous modulus witness prefixed composite source determinacy]
+\label{thm:continuous-modulus-witness-prefixed-composite-source-deterministic}
+For histories $p,s,s',\delta_1,\delta_2,\delta,t$, assume $\delta_1$ and
+$\delta_2$ are unary histories and $\mathsf{Cont}(\delta_1,\delta_2,\delta)$.
+If two prefixed composite modulus witnesses share the same composite modulus and
+the same prefixed target,
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta,p\cdot t)
+\quad\hbox{and}\quad
+\mathsf{ContinuousModulusWitness}(p\cdot s',\delta,p\cdot t),
+$$
+then their unprefixed sources are history-same:
+$$
+\hsame(s,s').
+$$
+\end{theorem}
+\begin{proof}
+Factor both prefixed composite witnesses into two one-step modulus witnesses.
+The second legs share the modulus $\delta_2$ and target $t$, so one-step source
+determinacy identifies the two recovered middle histories. The first legs then
+share the modulus $\delta_1$ and have history-same middle targets, so one-step
+source determinacy gives $\hsame(s,s')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_prefixed\_composite\_source\_deterministic}
+
 \begin{theorem}[Continuous modulus chain prefix closure]
 \label{thm:continuous-modulus-chain-prefix-closed}
 For histories $p,s,\delta_1,\delta_2,t$, a unary prefix on the source and

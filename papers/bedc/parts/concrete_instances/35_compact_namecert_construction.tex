@@ -758,6 +758,31 @@ witnesses compares those two unprefixed chains and yields $\hsame(m,m')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_result\_deterministic}
 
+\begin{theorem}[Prefixed composite compact net center determinacy]
+\label{thm:compact-net-witness-prefixed-composite-center-deterministic}
+For histories $p,c,c',\epsilon,\eta,\theta,m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$, $\mathsf{UnaryHistory}(\eta)$, and
+$\mathsf{Cont}(\epsilon,\eta,\theta)$. If two prefixed composed net witnesses
+have the same composed precision and the same prefixed refined net,
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m)
+\quad\hbox{and}\quad
+\mathsf{CompactNetWitness}(p \cdot c',\theta,p \cdot m),
+$$
+then their unprefixed centers are history-same:
+$$
+\hsame(c,c').
+$$
+\end{theorem}
+\begin{proof}
+Apply prefixed composite factorization to both prefixed witnesses. This
+recovers two unprefixed two-step compact-net chains ending at the same refined
+net and using the same precision histories $\epsilon$ and $\eta$. The
+unprefixed composite center determinacy theorem compares the recovered chains
+and yields $\hsame(c,c')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_center\_deterministic}
+
 \begin{definition}[Compact ledger policy]
 \label{def:compact-ledger-policy}
 Record the subset predicate, locatedness decisions, and finite net ledgers.

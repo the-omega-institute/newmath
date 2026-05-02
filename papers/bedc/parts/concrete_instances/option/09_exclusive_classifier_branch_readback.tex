@@ -132,6 +132,27 @@ two source carriers and the supplied endpoint classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_exclusive\_branch\_iff}
 
+\begin{theorem}[Option history classifier source branch iff]
+\label{thm:option-history-classifier-source-branch-iff}
+Let $source:\mathsf{BHist}\to\mathsf{Prop}$ exclude the empty history. For all
+histories $h,k$, any nullable option classifier witness between $h$ and $k$
+forces the two endpoints to agree on source membership:
+$$
+\mathsf{OptionHistoryClassifier}_{source}(h,k)
+\Longrightarrow
+\bigl(source(h)\Longleftrightarrow source(k)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the endpoint carriers and the stored
+$\hsame(h,k)$ link. If $source(h)$ holds and the right endpoint carrier is the
+empty branch, transport that empty equality back across $\hsame(h,k)$ and
+contradict the empty-exclusion hypothesis; hence the right endpoint is in the
+source branch. The converse direction is symmetric, transporting an empty left
+endpoint across the same classifier link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_source\_branch\_iff}
+
 \begin{theorem}[Tagged option history classifier visible-pair payload exactness]
 \label{thm:tagged-option-history-classifier-visible-pair-payload-exactness}
 This theorem fits the per-object template as follows: the traditional target is
