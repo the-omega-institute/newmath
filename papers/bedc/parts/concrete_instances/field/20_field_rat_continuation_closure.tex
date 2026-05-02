@@ -215,6 +215,63 @@ the two outer carriers, is exactly
 $\mathsf{RatHistoryClassifier}(left,right)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation unit endpoint is externally empty]
+\label{thm:field-rat-denominator-continuation-unit-endpoint-empty}
+For every history $u:\mathsf{BHist}$, Rat denominator continuation forces any
+classifier unit endpoint to be externally empty:
+\begin{enumerate}
+  \item if
+
+  $$
+  \forall d,r:\mathsf{BHist}.\;
+  \mathsf{RatHistoryCarrier}(d)\to
+  \Cont(d,u,r)\to
+  \mathsf{RatHistoryClassifier}(r,d),
+  $$
+
+  then $u\hsame\emp$;
+  \item if
+
+  $$
+  \forall d,r:\mathsf{BHist}.\;
+  \mathsf{RatHistoryCarrier}(d)\to
+  \Cont(u,d,r)\to
+  \mathsf{RatHistoryClassifier}(r,d),
+  $$
+
+  then $u\hsame\emp$;
+  \item if $\mathsf{RatHistoryCarrier}(u)$ and either displayed classifier
+  unit law holds for $u$, then $\mathsf{False}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the right-unit endpoint, let $d_1:=\Eone(\emp)$. The positive-denominator
+construction supplies $\mathsf{RatHistoryCarrier}(d_1)$, and the finite kernel
+supplies the canonical continuation
+$\Cont(d_1,u,\mathsf{append}(d_1,u))$.
+
+Apply the assumed right-unit classifier law to this carried input and canonical
+continuation. The classifier comparison gives
+$\mathsf{append}(d_1,u)\hsame d_1$, which is the same as
+$\mathsf{append}(d_1,u)\hsame\mathsf{append}(d_1,\emp)$. Left append
+cancellation in the finite kernel removes the common prefix $d_1$ and yields
+$u\hsame\emp$.
+
+For the left-unit endpoint, use the same carried witness $d_1$ and the
+canonical continuation $\Cont(u,d_1,\mathsf{append}(u,d_1))$. The assumed
+left-unit classifier law gives
+$\mathsf{append}(u,d_1)\hsame d_1$, equivalently
+$\mathsf{append}(u,d_1)\hsame\mathsf{append}(\emp,d_1)$.
+
+Right append cancellation removes the common suffix $d_1$ and yields
+$u\hsame\emp$.
+
+For the carried-endpoint consequence, combine the relevant endpoint-forcing
+clause with the assumed carrier witness $\mathsf{RatHistoryCarrier}(u)$. Then
+apply Theorem~\ref{thm:rat-history-carrier-not-empty} to the carrier witness
+and the resulting equality $u\hsame\emp$.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation classifier associativity congruence]
 \label{thm:field-rat-denominator-continuation-associative-classifier-congruence}
 For all histories
@@ -284,6 +341,7 @@ matching continuation witnesses; \textbf{core theorems}:
 \autoref{thm:field-rat-denominator-continuation-classifier-closure},
 \autoref{thm:field-rat-denominator-continuation-ledger-closure},
 \autoref{thm:field-rat-denominator-continuation-external-boundary-laws},
+\autoref{thm:field-rat-denominator-continuation-unit-endpoint-empty},
 \autoref{thm:field-rat-denominator-continuation-associative-classifier-congruence}, and
 \autoref{thm:field-rat-denominator-continuation-semigroup-only};
 \textbf{exactness predicate}: carrier closure for the concrete denominator
