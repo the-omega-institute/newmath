@@ -132,6 +132,33 @@ $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_visible\_right\_absurd}
 
+\begin{theorem}[CommRing singleton carrier visible exclusion]
+\label{thm:commring-singleton-carrier-visible-absurd}
+For every history $p:\mathsf{BHist}$, neither $\mathsf{e0}(p)$ nor
+$\mathsf{e1}(p)$ lies in the singleton commutative-ring carrier.
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier as equality with $\emp$. The two generated
+history constructors are separated from the empty history, so both endpoint
+carrier witnesses are impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_visible\_absurd}
+
+\begin{theorem}[CommRing singleton carrier visible-head append exclusion]
+\label{thm:commring-singleton-carrier-append-visible-head-absurd}
+For histories $h,k:\mathsf{BHist}$, neither
+$\mathsf{append}(\mathsf{e0}(h),k)$ nor
+$\mathsf{append}(\mathsf{e1}(h),k)$ lies in the singleton commutative-ring
+carrier.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed append
+history with $\emp$. Empty-result inversion for append then identifies the
+visible head $\mathsf{e0}(h)$ or $\mathsf{e1}(h)$ with $\emp$, contradicting
+constructor separation for $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_visible\_head\_absurd}
+
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}
 Definition~\ref{def:singleton-empty-history-commring-instance}, together with

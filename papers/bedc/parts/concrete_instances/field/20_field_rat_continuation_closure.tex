@@ -1,6 +1,22 @@
 \section{RatUp continuation closure for the FieldUp boundary}
 \label{sec:field-rat-continuation-closure}
 
+\begin{theorem}[Field positive denominator append split]
+\label{thm:field-positive-denominator-append-split}
+If the appended denominator $\mathsf{append}(h,k)$ has a positive unary
+denominator witness, then either $h$ already has a positive unary denominator
+witness or $k$ has one.
+\end{theorem}
+\begin{proof}
+Split on the right factor $k$. If $k=\emp$, the appended denominator is $h$,
+so the witness is on the left. If $k=\Ezero(t)$, the appended denominator has
+zero-extension shape, contradicting zero-constructor separation for positive
+denominators. If $k=\Eone(t)$, the positive-denominator equivalence exposes
+that $\mathsf{append}(h,t)$ is unary. Unary append factorization gives unary
+membership of $t$, and hence a positive denominator witness for $\Eone(t)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_positive\_denominator\_append\_split}
+
 \begin{theorem}[Rat denominators are closed under continuation]
 \label{thm:field-rat-denominator-continuation-carrier-closure}
 For all histories $d,e,r:\mathsf{BHist}$, if

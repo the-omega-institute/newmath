@@ -5,6 +5,15 @@ namespace BEDC.Derived.CommRingUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 
+theorem CommRingSingletonCarrier_visible_absurd {p : BHist} :
+    (CommRingSingletonCarrier (BHist.e0 p) -> False) ∧
+      (CommRingSingletonCarrier (BHist.e1 p) -> False) := by
+  constructor
+  · intro carrier
+    exact not_hsame_e0_empty carrier
+  · intro carrier
+    exact not_hsame_e1_empty carrier
+
 theorem concrete_singleton_history_commring_laws :
     let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
     let Classifier : BHist -> BHist -> Prop :=
@@ -52,5 +61,16 @@ theorem concrete_singleton_history_commring_laws :
               cases carrierY
               exact And.intro (hsame_refl BHist.Empty)
                 (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+
+theorem CommRingSingletonCarrier_append_visible_head_absurd {h k : BHist} :
+    (CommRingSingletonCarrier (append (BHist.e0 h) k) -> False) ∧
+      (CommRingSingletonCarrier (append (BHist.e1 h) k) -> False) := by
+  constructor
+  · intro carrier
+    have emptyParts := append_eq_empty_iff.mp carrier
+    exact not_hsame_e0_empty emptyParts.left
+  · intro carrier
+    have emptyParts := append_eq_empty_iff.mp carrier
+    exact not_hsame_e1_empty emptyParts.left
 
 end BEDC.Derived.CommRingUp
