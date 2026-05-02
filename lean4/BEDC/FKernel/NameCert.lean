@@ -27,6 +27,20 @@ structure SemanticNameCert
   pattern_sound : forall {h : BHist}, SourceSpec h -> PatternSpec h
   ledger_sound : forall {h : BHist}, SourceSpec h -> LedgerPolicy h
 
+theorem NameCert_carrier_self_semantic_lifting {C : BHist -> Prop}
+    {R : BHist -> BHist -> Prop} :
+    NameCert C R -> SemanticNameCert C C C R := by
+  intro core
+  exact {
+    core := core
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
+
 theorem semanticNameCert_ledger_policy_witness
     {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
     {ClassifierSpec : BHist -> BHist -> Prop}
