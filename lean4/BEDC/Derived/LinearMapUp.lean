@@ -296,6 +296,19 @@ theorem LinearMapSingletonClassifier_append_pair_empty_iff {p q r s : BHist} :
       ⟨leftCarrier, rightCarrier,
         hsame_trans leftCarrier (hsame_symm rightCarrier)⟩
 
+theorem LinearMapSingletonClassifier_continuation_closed {P P' Q Q' left right : BHist} :
+    LinearMapSingletonClassifier P P' -> LinearMapSingletonClassifier Q Q' -> Cont P Q left ->
+      Cont P' Q' right -> LinearMapSingletonClassifier left right := by
+  intro classifiedP classifiedQ leftContinuation rightContinuation
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame classifiedP.left classifiedQ.left leftContinuation
+      (cont_right_unit BHist.Empty)
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame classifiedP.right.left classifiedQ.right.left rightContinuation
+      (cont_right_unit BHist.Empty)
+  exact And.intro leftEmpty
+    (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+
 theorem LinearMapSingleton_comp_assoc_empty_classifier {f g h : BHist} :
     LinearMapSingletonCarrier f -> LinearMapSingletonCarrier g -> LinearMapSingletonCarrier h ->
       LinearMapSingletonClassifier (LinearMapSingletonComp h (LinearMapSingletonComp g f))

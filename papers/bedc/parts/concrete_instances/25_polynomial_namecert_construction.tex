@@ -365,6 +365,29 @@ singleton classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_continuation\_comm\_closed}
 
+\begin{theorem}[Polynomial singleton classifier continuation closure]
+\label{thm:polynomial-singleton-classifier-continuation-closed}
+Let $P,P',Q,Q',L,R:\mathsf{BHist}$. If the singleton polynomial classifier
+relates $P$ with $P'$ and $Q$ with $Q'$, and if
+$$
+\ContR(P,Q,L)
+\qquad\text{and}\qquad
+\ContR(P',Q',R),
+$$
+then the singleton polynomial classifier relates the continuation results:
+$$
+\rho_{\emp}(L,R).
+$$
+\end{theorem}
+\begin{proof}
+Each classifier witness supplies singleton carrier evidence for its two
+endpoints. Thus all four continuation inputs are internally the empty history.
+Transporting the two continuation witnesses to the canonical empty-empty
+continuation shows $L\hsame\emp$ and $R\hsame\emp$. These carrier witnesses,
+together with transitivity through $\emp$, rebuild $\rho_{\emp}(L,R)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_continuation\_closed}
+
 \begin{theorem}[Polynomial singleton continuation result against empty is classified]
 \label{thm:polynomial-singleton-cont-result-empty-classified}
 Let $P,Q,r:\mathsf{BHist}$ be singleton-carried polynomial endpoints. If

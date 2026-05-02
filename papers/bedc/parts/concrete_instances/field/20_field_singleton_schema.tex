@@ -93,6 +93,26 @@ $L\hsame R$, completing the singleton classifier package.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_comm\_closed}
 
+\begin{theorem}[Field singleton classifier continuation closure]
+\label{thm:field-singleton-classifier-continuation-closed}
+For histories $P,P',Q,Q',L,R:\mathsf{BHist}$, if the singleton field
+classifier relates $P$ with $P'$ and $Q$ with $Q'$, and if
+$$
+\ContR(P,Q,L)
+\qquad\text{and}\qquad
+\ContR(P',Q',R),
+$$
+then the singleton field classifier relates $L$ and $R$.
+\end{theorem}
+\begin{proof}
+The two classifier witnesses identify all four inputs with $\emp$. Transport
+each continuation witness along the corresponding pair of endpoint
+comparisons and compare the result with the canonical continuation
+$\ContR(\emp,\emp,\emp)$. Both $L$ and $R$ are therefore singleton-carried
+endpoints, and transitivity through $\emp$ supplies $L\hsame R$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_closed}
+
 \begin{theorem}[Field singleton classifier visible-left exclusion]
 \label{thm:field-singleton-classifier-append-visible-left-absurd}
 For histories $p,q,h:\mathsf{BHist}$, neither
