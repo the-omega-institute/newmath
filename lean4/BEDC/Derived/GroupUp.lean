@@ -484,4 +484,54 @@ theorem group_left_right_inverse_unique {mul : BHist → BHist → BHist} {e : B
       (hsame_trans (hsame_symm (assocC y x z))
         (hsame_trans (mulCongr leftInv (hsame_refl z)) (leftId z))))
 
+ theorem group_conjugation_equation_exact_from_empty_unit_iff {mul : BHist -> BHist -> BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x b : BHist} :
+    hsame (mul (mul a x) (inv a)) b <-> hsame x (mul (mul (inv a) b) a) := by
+  constructor
+  · intro sameConj
+    have collapseConjRight :
+        hsame (mul (mul (mul a x) (inv a)) a) (mul a x) := by
+      exact hsame_trans (assocC (mul a x) (inv a) a)
+        (hsame_trans (mulCongr (hsame_refl (mul a x)) (leftInv a)) (rightId (mul a x)))
+    have sameLeftProduct : hsame (mul a x) (mul b a) := by
+      exact hsame_trans (hsame_symm collapseConjRight)
+        (mulCongr sameConj (hsame_refl a))
+    exact hsame_trans (hsame_symm (leftId x))
+      (hsame_trans (mulCongr (hsame_symm (leftInv a)) (hsame_refl x))
+        (hsame_trans (assocC (inv a) a x)
+          (hsame_trans (mulCongr (hsame_refl (inv a)) sameLeftProduct)
+            (hsame_symm (assocC (inv a) b a)))))
+  · intro sameMiddle
+    have sameLeftProduct : hsame (mul a x) (mul b a) := by
+      have replaceMiddle :
+          hsame (mul a x) (mul a (mul (mul (inv a) b) a)) := by
+        exact mulCongr (hsame_refl a) sameMiddle
+      have reassocOuter :
+          hsame (mul a (mul (mul (inv a) b) a))
+            (mul (mul a (mul (inv a) b)) a) := by
+        exact hsame_symm (assocC a (mul (inv a) b) a)
+      have reassocInner :
+          hsame (mul (mul a (mul (inv a) b)) a)
+            (mul (mul (mul a (inv a)) b) a) := by
+        exact mulCongr (hsame_symm (assocC a (inv a) b)) (hsame_refl a)
+      have collapseHead :
+          hsame (mul (mul (mul a (inv a)) b) a) (mul (mul BHist.Empty b) a) := by
+        exact mulCongr (mulCongr (rightInv a) (hsame_refl b)) (hsame_refl a)
+      have collapseUnit : hsame (mul (mul BHist.Empty b) a) (mul b a) := by
+        exact mulCongr (leftId b) (hsame_refl a)
+      exact hsame_trans replaceMiddle
+        (hsame_trans reassocOuter
+          (hsame_trans reassocInner (hsame_trans collapseHead collapseUnit)))
+    exact hsame_trans (mulCongr sameLeftProduct (hsame_refl (inv a)))
+      (hsame_trans (assocC b a (inv a))
+        (hsame_trans (mulCongr (hsame_refl b) (rightInv a)) (rightId b)))
+
 end BEDC.Derived.GroupUp
