@@ -245,6 +245,29 @@ identifies $a$ with $a'$ and $b$ with $b'$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_visible\_payload\_witnesses}
 
+\begin{theorem}[Tagged option history classifier visible payload relation transport]
+\label{thm:tagged-option-history-classifier-visible-payload-relation-transport}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source relation $R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$, and
+$\hsame$-transport field for $R$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,R}(h,k),
+\qquad
+\hsame(h,\Eone(a)),
+\qquad
+\hsame(k,\Eone(b)),
+$$
+then the displayed payloads satisfy $R(a,b)$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-classifier-visible-payload-witnesses}
+to obtain payload witnesses $a',b'$ with
+$\hsame(a,a')$, $\hsame(b,b')$, and $R(a',b')$. The transport field for $R$,
+used against the symmetric payload identifications, moves $R(a',b')$ back to
+the displayed payloads $R(a,b)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_visible\_payload\_relation\_transport}
+
 \begin{theorem}[Tagged option history classifier presented payload exactness]
 \label{thm:tagged-option-history-classifier-presented-payload-exactness}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,

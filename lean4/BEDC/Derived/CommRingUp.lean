@@ -335,6 +335,43 @@ theorem commring_difference_of_squares {add mul : BHist -> BHist -> BHist}
         (hsame_trans reassocMiddle (hsame_trans cancelMiddle (zeroLeft (neg (mul b b))))))
   exact hsame_trans expanded (hsame_trans normalizedProducts collapseMiddle)
 
+theorem commring_difference_of_squares_zero_exact {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist} {zero : BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add zero x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) zero)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x)) :
+    forall a b : BHist,
+      hsame (mul (add a b) (add a (neg b))) zero <-> hsame (mul a a) (mul b b) := by
+  intro a b
+  have addRightZero : forall x : BHist, hsame (add x zero) x := by
+    exact BEDC.Derived.RingUp.ring_add_right_zero addComm zeroLeft
+  have addRightInverse : forall x : BHist, hsame (add x (neg x)) zero := by
+    exact BEDC.Derived.RingUp.ring_add_right_inverse addComm negLeft
+  have difference :
+      hsame (mul (add a b) (add a (neg b))) (add (mul a a) (neg (mul b b))) := by
+    exact commring_difference_of_squares addAssoc addComm zeroLeft negLeft addCongr
+      mulCongr leftDistrib mulComm a b
+  constructor
+  · intro productZero
+    have differenceZero : hsame (add (mul a a) (neg (mul b b))) zero := by
+      exact hsame_trans (hsame_symm difference) productZero
+    exact BEDC.Derived.GroupUp.group_left_right_inverse_uniqueness
+      addAssoc zeroLeft addRightZero addCongr differenceZero (negLeft (mul b b))
+  · intro sameSquares
+    have differenceZero : hsame (add (mul a a) (neg (mul b b))) zero := by
+      exact hsame_trans
+        (addCongr sameSquares (hsame_refl (neg (mul b b))))
+        (addRightInverse (mul b b))
+    exact hsame_trans difference differenceZero
+
 def commringSingletonEmptyCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
 

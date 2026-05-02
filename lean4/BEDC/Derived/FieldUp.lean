@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.Derived.GroupUp
+import BEDC.Derived.RingUp
 
 namespace BEDC.Derived.FieldUp
 
@@ -483,5 +484,53 @@ theorem field_singleton_nonzero_absurd {a : BHist} :
     hsame a BHist.Empty -> hsame a (BHist.e0 BHist.Empty) -> False := by
   intro sameEmpty sameSingleton
   exact not_hsame_emp_e0 (hsame_trans (hsame_symm sameEmpty) sameSingleton)
+
+ theorem field_one_sided_zero_product_cancel_from_apartness
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {zero one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add zero x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) zero)
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one) :
+    forall a b : BHist,
+      (NonZero a -> hsame (mul a b) zero -> hsame b zero) ∧
+        (NonZero b -> hsame (mul a b) zero -> hsame a zero) := by
+  have zeroAbsorption :=
+    BEDC.Derived.RingUp.ring_mul_zero_absorption addAssoc zeroLeft negLeft
+      addCongr mulCongr leftDistrib rightDistrib
+  intro a b
+  constructor
+  · intro nonzeroA productZero
+    have transportProduct :
+        hsame (mul (inv a nonzeroA) (mul a b)) (mul (inv a nonzeroA) zero) := by
+      exact mulCongr (hsame_refl (inv a nonzeroA)) productZero
+    have cancelLeft :
+        hsame (mul (inv a nonzeroA) (mul a b)) b := by
+      exact field_mul_inverse_left_cancel_from_apartness
+        assocC leftId mulCongr leftInv a b nonzeroA
+    exact hsame_trans (hsame_symm cancelLeft)
+      (hsame_trans transportProduct (zeroAbsorption.left (inv a nonzeroA)))
+  · intro nonzeroB productZero
+    have transportProduct :
+        hsame (mul (mul a b) (inv b nonzeroB)) (mul zero (inv b nonzeroB)) := by
+      exact mulCongr productZero (hsame_refl (inv b nonzeroB))
+    have cancelRight :
+        hsame (mul (mul a b) (inv b nonzeroB)) a := by
+      exact field_mul_inverse_right_cancel_from_apartness
+        assocC rightId mulCongr rightInv a b nonzeroB
+    exact hsame_trans (hsame_symm cancelRight)
+      (hsame_trans transportProduct (zeroAbsorption.right (inv b nonzeroB)))
 
 end BEDC.Derived.FieldUp
