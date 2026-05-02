@@ -236,6 +236,74 @@ the product-pair support term back across the same classifier equivalence, keep
 the common core support fixed, and close with the left composition readback.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp contextual action pair transport carrier and support]
+\label{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose
+$C_D^u(h)$ and suppose that $(l,r)$, $(s,t)$, $(l',r')$, and $(s',t')$ are
+carried denominator context pairs. If
+$\mathsf{PairClass}_D^u((l,r),(s,t))$ and
+$\mathsf{PairClass}_D^u((l',r'),(s',t'))$, and if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then both
+transported nested contextual actions are carried:
+$$
+C_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\land
+C_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+$$
+Their strict support is transported by the same context-pair classifiers:
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-composition-closure}
+to the carried contexts $(l,r)$ and $(l',r')$ with the empty endpoint
+hypotheses. This gives the left carrier conclusion and reads the left nested
+action as the five-term strict-support expression with core $N_D^u(h)$.
+
+Apply the same composition-closure theorem to $(s,t)$ and $(s',t')$. This gives
+the right carrier conclusion and reads the right nested action as the
+corresponding five-term strict-support expression with the same core term.
+Together these two applications establish the displayed carrier conjunction.
+
+The context tails are compressed by
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support}. On the
+left, the four context support terms are strict support of
+$\mu_D^u(\mu_D^u(l',l),\mu_D^u(r,r'))$; on the right, they are strict support of
+$\mu_D^u(\mu_D^u(s',s),\mu_D^u(t,t'))$.
+
+Use
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-transport}
+under the two $\mathsf{PairClass}_D^u$ hypotheses. It transports the compressed
+product strict-support term between the two context-pair products.
+
+For the forward direction of the strict-support equivalence, read the left
+nested action through the left composition theorem. A core witness
+$N_D^u(h)$ is kept fixed, while a context-product witness is transported to the
+right product and expanded through the right product-support readback. The right
+composition readback then yields support of the right nested action.
+
+The reverse direction is the same argument with left and right interchanged.
+The right composition readback supplies either the common core witness or a
+right product-support witness; the latter is transported back across the
+product classifier equivalence and expanded on the left before closing with the
+left composition readback.
+\end{proof}
+
+Per-object template: traditional target transported contextual-action
+stability; BEDC source $\mathsf{BHist}$, $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\mathsf{append}$, empty endpoint, and
+$\Gamma$; stability obligations carrier closure plus strict-support transport;
+core theorem
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support};
+exactness predicate the displayed support iff; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp semantic certificate assembly]
 \label{thm:ratup-fieldup-semantic-certificate-assembly}
 For the concrete $\mathsf{BHist}$ data
