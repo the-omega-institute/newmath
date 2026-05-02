@@ -80,6 +80,22 @@ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_append\_ratHistoryCarrier\_absurd}
 
+\begin{theorem}[Singleton append endpoint excludes a RatUp left factor]
+\label{thm:field-singleton-empty-append-left-rat-carrier-absurd}
+For all histories $p,h:\mathsf{BHist}$, if
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(h,p))$ holds and
+$\mathsf{RatHistoryCarrier}(h)$ holds, then $\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+The singleton carrier on $\mathsf{append}(h,p)$ unfolds to the equality
+$\mathsf{append}(h,p)=\emp$. The kernel append-empty inversion theorem splits
+this equality into $h=\emp$ and $p=\emp$. The left component gives
+$h\hsame\emp$, contradicting
+Theorem~\ref{thm:rat-history-carrier-not-empty} for the displayed RatUp carrier
+witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_append\_left\_ratHistoryCarrier\_absurd}
+
 Traditional target terminal singleton field boundary; BEDC source singleton
 $\mathsf{BHist}$ $\FieldUp$ schema plus RatUp history carrier; carrier choices
 $A_{\emp}$ and $\mathsf{RatHistoryCarrier}$; classifier choices $\rho_{\emp}$

@@ -224,6 +224,50 @@ $\Ezero(r)$, and the one branch would identify $\emp$ with $\Eone(r)$. Both cont
 generated history constructors.
 \end{proof}
 
+\begin{theorem}[Zero-headed continuation result characterization]
+\label{thm:cont-result-e0-cases-iff}
+For histories $h,k,r:\mathsf{BHist}$,
+$$
+\ContR(h,k,\Ezero(r))
+\Longleftrightarrow
+(k=\emp\land \hsame(h,\Ezero(r)))
+\lor
+(\exists k_0:\mathsf{BHist}.\; k=\Ezero(k_0)\land \ContR(h,k_0,r)).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_e0\_cases\_iff}
+\begin{proof}
+Classify the right continuation history $k$. The empty branch is exactly the
+right-unit endpoint equality between $h$ and $\Ezero(r)$. A zero-headed tail
+exposes its predecessor and removes the matching outer constructor from the
+continuation equation. A one-headed tail would identify zero-headed and
+one-headed generated histories. Conversely, the empty branch is the right-unit
+continuation after the displayed history sameness is eliminated, and the
+zero-headed branch is rebuilt by the zero step rule.
+\end{proof}
+
+\begin{theorem}[One-headed continuation result characterization]
+\label{thm:cont-result-e1-cases-iff}
+For histories $h,k,r:\mathsf{BHist}$,
+$$
+\ContR(h,k,\Eone(r))
+\Longleftrightarrow
+(k=\emp\land \hsame(h,\Eone(r)))
+\lor
+(\exists k_0:\mathsf{BHist}.\; k=\Eone(k_0)\land \ContR(h,k_0,r)).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_e1\_cases\_iff}
+\begin{proof}
+Classify the right continuation history $k$. The empty branch is exactly the
+right-unit endpoint equality between $h$ and $\Eone(r)$. A zero-headed tail
+would identify one-headed and zero-headed generated histories. A one-headed tail
+exposes its predecessor and removes the matching outer constructor from the
+continuation equation. Conversely, the empty branch is the right-unit
+continuation after the displayed history sameness is eliminated, and the
+one-headed branch is rebuilt by the one step rule.
+\end{proof}
+
 \begin{theorem}[Left zero-headed continuation result characterization]
 \label{thm:cont-left-e0-result-iff}
 For histories $h,k,r:\mathsf{BHist}$,

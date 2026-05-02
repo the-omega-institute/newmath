@@ -153,4 +153,10 @@ theorem fieldSingletonEmptyCarrier_append_ratHistoryCarrier_absurd {p h : BHist}
   have splitEmpty := append_eq_empty_iff.mp appendEmpty
   exact RatHistoryCarrier_not_empty ratH splitEmpty.right
 
+theorem fieldSingletonEmptyCarrier_append_left_ratHistoryCarrier_absurd {p h : BHist} :
+    fieldSingletonEmptyCarrier (append h p) -> RatHistoryCarrier h -> False := by
+  intro appendEmpty ratH
+  have splitEmpty := append_eq_empty_iff.mp appendEmpty
+  exact RatHistoryCarrier_not_empty ratH splitEmpty.left
+
 end BEDC.Derived.FieldUp
