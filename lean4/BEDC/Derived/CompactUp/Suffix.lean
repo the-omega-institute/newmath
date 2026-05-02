@@ -98,4 +98,20 @@ theorem CompactNetWitness_empty_precision_visible_context_iff {p q center net : 
                     (center := center) (precision := BHist.Empty) (net := net)).mpr
                     (And.intro prefixCarrier (And.intro suffixCarrier central))
 
+theorem CompactNetWitness_visible_context_result_deterministic
+    {p q center precision net net' : BHist} :
+    CompactNetWitness (append p center) (append precision q) (append (append p net) q) ->
+      CompactNetWitness (append p center) (append precision q) (append (append p net') q) ->
+        hsame net net' := by
+  intro left right
+  have leftData :=
+    (CompactNetWitness_visible_context_iff (p := p) (q := q) (center := center)
+      (precision := precision) (net := net)).mp left
+  have rightData :=
+    (CompactNetWitness_visible_context_iff (p := p) (q := q) (center := center)
+      (precision := precision) (net := net')).mp right
+  have leftWitness : CompactNetWitness center precision net := leftData.right.right
+  have rightWitness : CompactNetWitness center precision net' := rightData.right.right
+  exact cont_deterministic leftWitness.right.right.right rightWitness.right.right.right
+
 end BEDC.Derived.CompactUp

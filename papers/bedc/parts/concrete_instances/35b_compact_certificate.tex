@@ -135,6 +135,26 @@ suffix by suffix exactness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_iff}
 
+\begin{theorem}[Compact net witness visible-context result determinacy]
+\label{thm:compact-net-witness-visible-context-result-deterministic}
+For histories $p,q,c,\epsilon,n,n'$, two visible-context compact-net witnesses
+with the same visible center and precision contexts determine the same central
+net history:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon\cdot q,(p\cdot n)\cdot q)
+\Longrightarrow
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon\cdot q,(p\cdot n')\cdot q)
+\Longrightarrow
+\hsame(n,n').
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to both witnesses. The recovered central
+compact-net witnesses have the same center $c$ and precision $\epsilon$, so
+continuation result determinacy identifies the two central nets.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_result\_deterministic}
+
 \begin{theorem}[Compact net witness empty-precision visible-context exactness]
 \label{thm:compact-net-witness-empty-precision-visible-context-iff}
 For histories $p,q,c,n$, a visible-context compact-net witness with empty

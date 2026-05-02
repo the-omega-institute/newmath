@@ -106,4 +106,58 @@ theorem CategoryHomCarrier_e1_morphism_target_cases {a target k : BHist} :
                             (And.intro (unary_e1_inversion targetCarrier)
                               (And.intro (unary_e1_inversion morphCarrier) tailCont))))
 
+theorem CategoryHomCarrier_e1_source_e1_target_morphism_iff {a r morph : BHist} :
+    CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) morph ↔
+      (morph = BHist.Empty ∧ UnaryHistory a ∧ hsame a r) ∨
+        (∃ k : BHist, morph = BHist.e1 k ∧ UnaryHistory a ∧ UnaryHistory k ∧
+          Cont (BHist.e1 a) k r) := by
+  constructor
+  · intro homCarrier
+    have sourceCarrier : UnaryHistory a := unary_e1_inversion homCarrier.left
+    have splitCases := CategoryHomCarrier_left_e1_result_cases homCarrier
+    cases splitCases with
+    | inl emptyCase =>
+        left
+        exact emptyCase
+    | inr visibleCase =>
+        right
+        cases visibleCase with
+        | intro k data =>
+            cases data with
+            | intro morphEq rest =>
+                cases rest with
+                | intro morphCarrier homCont =>
+                    exact Exists.intro k
+                      (And.intro morphEq
+                        (And.intro sourceCarrier (And.intro morphCarrier homCont)))
+  · intro splitCases
+    cases splitCases with
+    | inl emptyCase =>
+        cases emptyCase with
+        | intro morphEq rest =>
+            cases rest with
+            | intro sourceCarrier sameTarget =>
+                cases morphEq
+                cases sameTarget
+                exact And.intro (unary_e1_closed sourceCarrier)
+                  (And.intro (unary_e1_closed sourceCarrier)
+                    (And.intro unary_empty (cont_right_unit (BHist.e1 a))))
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro k data =>
+            cases data with
+            | intro morphEq rest =>
+                cases rest with
+                | intro sourceCarrier rest =>
+                    cases rest with
+                    | intro morphCarrier homCont =>
+                        cases morphEq
+                        exact And.intro (unary_e1_closed sourceCarrier)
+                          (And.intro
+                            (unary_e1_closed
+                              (unary_cont_closed (unary_e1_closed sourceCarrier)
+                                morphCarrier homCont))
+                            (And.intro (unary_e1_closed morphCarrier)
+                              (cont_step_one homCont)))
+
 end BEDC.Derived.CategoryUp
