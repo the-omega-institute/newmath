@@ -10,6 +10,45 @@ The commutative ring interface \(\CommRingUp\) extends \autoref{ch:concrete-inst
 Use a ring setup extended with commutativity of multiplication.
 \end{definition}
 
+\section{Concrete singleton history commutative ring instance}
+\label{sec:commring-concrete-singleton-history-instance}
+
+\begin{theorem}[Concrete singleton history commutative ring laws]
+\label{thm:concrete-singleton-history-commring-laws}
+Let $A_{\emp}(h)$ abbreviate $\hsame(h,\emp)$ and let
+$R_{\emp}(h,k)$ abbreviate
+$A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k)$. With
+$$
+\mathsf{add}(h,k):=\mathsf{append}(h,k),\qquad
+\mathsf{neg}(h):=\emp,\qquad
+0:=\emp,
+$$
+and
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
+1:=\emp,
+$$
+the carrier contains $0$, is closed under addition, negation, and
+multiplication, has left and right additive zero laws under $R_{\emp}$, and
+satisfies multiplicative commutativity under $R_{\emp}$.
+\end{theorem}
+\begin{proof}
+The carrier witness $A_{\emp}(0)$ is reflexive $\hsame(\emp,\emp)$. For
+addition and multiplication closure, if $A_{\emp}(x)$ and $A_{\emp}(y)$ hold,
+then both inputs are the empty history, so
+$\mathsf{append}(x,y)$ reduces to $\emp$. The negation operation is constantly
+$\emp$, so its closure is immediate from the same reflexive endpoint witness.
+
+For the two additive zero laws, the singleton input witness identifies $x$
+with $\emp$; after that identification, both
+$\mathsf{append}(\emp,x)$ and $\mathsf{append}(x,\emp)$ are the empty history,
+and the classifier packages the two carrier endpoints with reflexive
+$\hsame$. Multiplicative commutativity is identical: two singleton carrier
+witnesses identify $x$ and $y$ with $\emp$, so the two append products are
+both $\emp$ and are related by $R_{\emp}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.concrete\_singleton\_history\_commring\_laws}
+
 \section{Concrete singleton empty-history commutative ring instance}
 \label{sec:commring-concrete-singleton-instance}
 
@@ -75,8 +114,50 @@ product endpoint: every source and target product is still $\emp$. Hence the
 same endpoint witnesses and reflexive $\hsame(\emp,\emp)$ package the
 commutativity field after transport.
 \end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_singleton\_empty\_laws}
+
+\begin{theorem}[CommRing singleton classifier visible-right exclusion]
+\label{thm:commring-singleton-classifier-append-visible-right-absurd}
+For histories $h,p,q:\mathsf{BHist}$, neither
+$\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e0}(q)))$ nor
+$\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e1}(q)))$ can hold.
+\end{theorem}
+\begin{proof}
+Unfold the singleton commutative-ring classifier. In either branch, the right
+carrier field says that the displayed append endpoint is $\emp$. The
+empty-result inversion theorem for append splits this into an empty prefix and
+an empty visible tail. The latter would identify $\mathsf{e0}(q)$ or
+$\mathsf{e1}(q)$ with $\emp$, contradicting the constructor separation of
+$\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_visible\_right\_absurd}
+
+\begin{theorem}[CommRing singleton carrier visible exclusion]
+\label{thm:commring-singleton-carrier-visible-absurd}
+For every history $p:\mathsf{BHist}$, neither $\mathsf{e0}(p)$ nor
+$\mathsf{e1}(p)$ lies in the singleton commutative-ring carrier.
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier as equality with $\emp$. The two generated
+history constructors are separated from the empty history, so both endpoint
+carrier witnesses are impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_visible\_absurd}
+
+\begin{theorem}[CommRing singleton carrier visible-head append exclusion]
+\label{thm:commring-singleton-carrier-append-visible-head-absurd}
+For histories $h,k:\mathsf{BHist}$, neither
+$\mathsf{append}(\mathsf{e0}(h),k)$ nor
+$\mathsf{append}(\mathsf{e1}(h),k)$ lies in the singleton commutative-ring
+carrier.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed append
+history with $\emp$. Empty-result inversion for append then identifies the
+visible head $\mathsf{e0}(h)$ or $\mathsf{e1}(h)$ with $\emp$, contradicting
+constructor separation for $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_visible\_head\_absurd}
 
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}
@@ -104,6 +185,7 @@ the constant-operation provenance tuple for $0$, $1$, addition, negation, and
 multiplication, so every operation endpoint recorded by the certificate remains
 the singleton history $\emp$.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}
 
 The $\CommRingUp$ schema is therefore represented by this concrete
 $\mathsf{BHist}$ certificate rather than by abstract operator fields.
@@ -435,6 +517,7 @@ pair, and the additive left-inverse law collapses the left-inverse mixed
 pair. The ring zero laws remove the two neutral summands, leaving
 $(a\cdot c)+(b\cdot d)$ under $\hsame$.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_product\_balance}
 
 The ten-field fit is: traditional target bilinear subtraction balance; BEDC
 source $\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$; carrier
@@ -603,6 +686,7 @@ Symmetry and transitivity compose this collapse with the signed binary
 normal form, yielding
 $ (a+(-b))\cdot(c+(-d))\hsame0 $.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_product\_empty\_zero\_exact}
 
 \begin{definition}[CommRing ledger policy]
 \label{def:commring-ledger-policy}

@@ -6,6 +6,41 @@
 \section{Option history classifier unary two-sided context}
 \label{sec:option-history-classifier-unary-two-sided-context}
 
+\begin{theorem}[Option history carrier unary two-sided context]
+\label{thm:option-history-carrier-unary-two-sided-context}
+Let $p,q,h:\mathsf{BHist}$. If $\mathsf{UnaryHistory}(p)$ and
+$\mathsf{UnaryHistory}(q)$ hold, then
+$$
+\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(h)
+\Longleftrightarrow
+\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}
+  (\mathsf{append}(p,\mathsf{append}(h,q))).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, first apply
+Theorem~\ref{thm:option-history-carrier-unary-suffix-closed} with suffix $q$.
+Then apply Theorem~\ref{thm:option-history-carrier-unary-prefix-closed} with
+prefix $p$.
+
+For the reverse direction, split the contextual nullable carrier witness.
+
+In the absent branch, use $\mathsf{hsame}\_\mathsf{iff}\_\mathsf{eq}$ to turn
+the empty contextual endpoint witness into equality. Apply
+$\mathsf{append}\_\mathsf{eq}\_\mathsf{empty}\_\mathsf{iff}$ to the outer
+append, and then again to the inner append, recovering $\hsame(h,\emp)$.
+
+In the source branch, use
+$\mathsf{unary}\_\mathsf{append}\_\mathsf{right}\_\mathsf{factor}$ on the
+outer append to recover $\mathsf{UnaryHistory}(\mathsf{append}(h,q))$. Then
+use $\mathsf{unary}\_\mathsf{append}\_\mathsf{left}\_\mathsf{factor}$ on the
+inner append to recover $\mathsf{UnaryHistory}(h)$.
+
+These two recovered branches are exactly the nullable carrier alternatives for
+$h$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_unary\_two\_sided\_context\_iff}
+
 \begin{theorem}[Option history classifier unary two-sided context]
 \label{thm:option-history-classifier-unary-two-sided-context}
 This theorem fits the ten-field template as follows: the traditional target is
@@ -58,6 +93,56 @@ right suffix by $\mathsf{append}\_\mathsf{right}\_\mathsf{cancel}$. Repack the
 two recovered endpoint carriers together with the recovered $\hsame(h,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_unary\_two\_sided\_context\_iff}
+
+\begin{theorem}[Option unary context composition law]
+\label{thm:option-unary-context-composition}
+Let $p,q,r,s,h,k:\mathsf{BHist}$. For histories $u,v,x$, write
+$C_{u,v}(x):=\mathsf{append}(u,\mathsf{append}(x,v))$. If
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{UnaryHistory}(r)$, and $\mathsf{UnaryHistory}(s)$ hold, then
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)
+\Longleftrightarrow
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (C_{p,q}(C_{r,s}(h)),
+   C_{\mathsf{append}(p,r),\mathsf{append}(s,q)}(k)).
+$$
+\end{theorem}
+\begin{proof}
+Set $L:=\mathsf{append}(p,r)$ and $R:=\mathsf{append}(s,q)$. Unary append
+closure applied to $p,r$ and to $s,q$ gives $\mathsf{UnaryHistory}(L)$ and
+$\mathsf{UnaryHistory}(R)$. The associativity laws for BEDC append identify
+$C_{p,q}(C_{r,s}(x))$ with $C_{L,R}(x)$ for every history $x$; in particular,
+they provide the $\hsame$ witnesses needed to move classifiers between the
+nested source endpoint and the normalized endpoint.
+
+For the forward direction, apply
+Theorem~\ref{thm:option-history-classifier-unary-two-sided-context} to the
+classifier between $h$ and $k$ with unary contexts $L$ and $R$. This gives
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (C_{L,R}(h),C_{L,R}(k)).
+$$
+
+Transport the source endpoint along the associativity $\hsame$ witness from
+$C_{L,R}(h)$ to $C_{p,q}(C_{r,s}(h))$. The target endpoint is already
+$C_{L,R}(k)=C_{\mathsf{append}(p,r),\mathsf{append}(s,q)}(k)$ by the
+definitions of $L$ and $R$.
+
+For the reverse direction, start with the displayed classifier and transport
+its source endpoint back across the same associativity witness. This produces
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (C_{L,R}(h),C_{L,R}(k)).
+$$
+
+Apply the reverse implication of
+Theorem~\ref{thm:option-history-classifier-unary-two-sided-context} with
+contexts $L$ and $R$. Append cancellation inside that theorem removes the
+common normalized ledger and recovers
+$\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_unary\_context\_composition\_iff}
 
 \section{Tagged option map relation R-corner classifier coherence}
 \label{sec:option-maprel-r-corner-classifier-coherence}
@@ -161,6 +246,33 @@ classifier. The second classifier composes $c$ to the same $b$; symmetry turns
 that leg around, and one final transitivity step yields $R(a,c)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_common\_right\_visible\_payload\_classification}
+
+\begin{theorem}[Tagged option present-chain visible endpoint classification]
+\label{thm:tagged-option-present-chain-visible-endpoint-classification}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history carrier and let
+$R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a transitive payload
+classifier. Assume that visible $\hsame$ between source payloads is reflected
+into $R$. For histories $h,k,r,a,c$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,R}(h,k)
+\quad\hbox{and}\quad
+\mathsf{TaggedOptionHistoryClassifier}_{S,R}(k,r),
+$$
+if $S(a)$ and $S(c)$ hold, and if the endpoints are visibly present as
+$$
+\hsame(h,\Eone(a)),\qquad \hsame(r,\Eone(c)),
+$$
+then $R(a,c)$.
+\end{theorem}
+\begin{proof}
+Compose the two tagged classifiers by transitivity of $R$ to classify $h$ and
+$r$. The absent branch would present $h$ as both $\emp$ and $\Eone(a)$, which is
+impossible by BEDC constructor no-confusion. In the present branch, invert the
+two visible $\Eone$ presentations to compare $a$ and $c$ with the exposed
+payload witnesses. The source-$\hsame$ reflection supplies the two outer
+$R$-legs, and transitivity composes them with the exposed payload classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_present\_chain\_visible\_endpoint\_classification}
 
 \section{Tagged option payload descent image target classifier closure}
 \label{sec:option-payload-descent-image-target-classifier-closure}
@@ -473,75 +585,185 @@ $u'$ yields the displayed conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_composite\_normalized\_intermediate\_factor\_coherence}
 
-\begin{theorem}[Tagged option composite image classifier normalized intermediate factor uniqueness]
-\label{thm:tagged-option-composite-image-classifier-normalized-intermediate-factor-uniqueness}
-Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history carriers, let
-$\sim_S,\sim_T,\sim_U$ be their classifiers, and let
-$$
-\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
-$$
-and
-$$
-\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U)
-$$
-be composable descents with payload preservation fields
-$$
-\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
-$$
-and
-$$
-\rho_{\epsilon}:\forall a.\;T(a)\to U(\epsilon.\mathsf{map}(a)).
-$$
-Assume reflected source readback from visible public equality,
+\section{Option composite image classifier normalized selected intermediate factor uniqueness}
+\label{sec:option-composite-image-classifier-normalized-selected-intermediate-factor-uniqueness}
+
+\begin{theorem}[Tagged option composite image classifier normalized selected intermediate factor uniqueness]
+\label{thm:tagged-option-composite-image-classifier-normalized-selected-intermediate-factor-uniqueness}
+Let the carriers $S,T,U$, classifiers $\sim_S,\sim_T,\sim_U$, descents
+$\delta,\epsilon$, preservation fields $\rho_{\delta},\rho_{\epsilon}$,
+endpoint-stability field $\eta_{\epsilon}$, certificates
+$\mathsf{cert}_S,\mathsf{cert}_T,\mathsf{cert}_U$, compatibility fields,
+endpoints $m,m',u,u'$, and selected visible payloads $x,y$ satisfy exactly the
+hypotheses of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}.
+Assume also reflected source readback from visible public equality,
 $$
 \mathsf{TaggedOptionPayloadDescentReflectsSource}_{\epsilon}(T,\sim_T).
 $$
-For histories $k,k',l,l',u,u'$, suppose two normalized factor outputs over the
-same public endpoints $(u,u')$ supply intermediate pairs $(k,k')$ and $(l,l')$
-such that
+Then there exist $k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item the ten selected visible public factorization clauses of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+hold for $k,k',p,q,a,b$;
+\item the selected intermediate factors are unique against every competing
+intermediate factor over the same normalized public endpoints:
 $$
-\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
-(S,T,\rho_{\delta};k,k')
-$$
-and
-$$
-\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
-(S,T,\rho_{\delta};l,l')
-$$
-hold, together with the four public factor links
-$$
-\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u),
-$$
-$$
-\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l,u),
-$$
-$$
-\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u'),
-$$
-and
-$$
-\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l',u').
-$$
-Then
-$$
-\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,l)
-\land
+\forall l,l':\mathsf{BHist}.\;
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l,u)\to
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l',u')\to
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,l)\land
 \mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k',l').
 $$
+\end{enumerate}
 \end{theorem}
 \begin{proof}
-The normalized intermediate classifier coverage theorem identifies exactly the
-admissible shapes of a public factor output over $(u,u')$: an absent
-intermediate package or a selected visible present intermediate package. Hence
-both displayed pairs $(k,k')$ and $(l,l')$ are legitimate intermediate endpoints
-for the same normalized public pair.
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+to the displayed carrier, classifier, descent, preservation, stability,
+certificate, compatibility, endpoint, and selected visible payload data. This
+supplies $k,k',p,q,a,b$ together with the ten selected visible public
+factorization clauses.
 
-The uniqueness claim now depends only on the public $\epsilon$-legs. Apply
+The second selected factorization clause supplies the two selected
+$\epsilon$ map-relation legs
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u').
+$$
+
+Fix competing intermediate endpoints $l,l':\mathsf{BHist}$ with map-relation
+witnesses from $l$ to $u$ and from $l'$ to $u'$. Apply
 Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-intermediate-factor-coherence}
-to the four map-relation witnesses over the shared endpoints $u$ and $u'$, using
-the reflected source readback hypothesis for $\epsilon$.
+to the selected left leg, the competing left leg, the selected right leg, and
+the competing right leg, using the reflected source readback hypothesis. This
+gives
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,l)\land
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k',l').
+$$
 
-The factor-coherence theorem returns the classifier between the first
-intermediate endpoints and the classifier between the second intermediate
-endpoints, which is precisely the displayed conjunction.
+Package the selected factorization clauses with this universal comparison
+against arbitrary competing intermediate factors over $u$ and $u'$.
 \end{proof}
+
+\begin{theorem}[Tagged option composite image classifier normalized unique intermediate factor coverage]
+\label{thm:tagged-option-composite-image-classifier-normalized-unique-intermediate-factor-coverage}
+This theorem fits the per-object template as follows: the traditional target is
+branch-complete functorial $\mathsf{OptionUp}$ factor uniqueness; the BEDC
+source is $\mathsf{BHist}$ with two composable descent certificate maps; the
+carrier is the selected intermediate endpoint pair; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}$; the stability obligations
+are normalized readback completion, selected visible factorization, reflected
+source readback, and factor coherence; the ledger records absent or selected
+present intermediate provenance; the core theorem is displayed uniqueness
+coverage; exactness says every admitted intermediate factor over the same
+normalized public endpoints lies in the same classifier class; the standard
+bridge is none/some functorial composition; and the status is
+$\mathsf{ProofTarget}$.
+
+Let the carriers $S,T,U$, classifiers $\sim_S,\sim_T,\sim_U$, descents
+$\delta,\epsilon$, preservation fields $\rho_{\delta},\rho_{\epsilon}$,
+endpoint-stability field $\eta_{\epsilon}$, certificates
+$\mathsf{cert}_S,\mathsf{cert}_T,\mathsf{cert}_U$, compatibility fields, and
+endpoints $m,m',u,u'$ satisfy exactly the hypotheses of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-factored-public-readback-completion}.
+Assume also reflected source readback from visible public equality,
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\epsilon}(T,\sim_T).
+$$
+Then either
+\begin{enumerate}
+\item the normalized public endpoints are absent:
+$$
+\hsame(u,\emp)\land \hsame(u',\emp);
+$$
+\item there is no visible present public pair:
+$$
+\neg\exists x,y:\mathsf{BHist}.\;
+U(x)\land U(y)\land
+\hsame(u,\Eone(x))\land
+\hsame(u',\Eone(y));
+$$
+\item there exist $k,k':\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $\hsame(k,\emp)\land \hsame(k',\emp)$;
+\item $\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')$;
+\item no visible present intermediate pair occurs:
+$$
+\neg\exists p,q:\mathsf{BHist}.\;
+T(p)\land T(q)\land
+\hsame(k,\Eone(p))\land
+\hsame(k',\Eone(q)).
+$$
+\item every admitted intermediate factor over the same normalized public
+endpoints lies in the selected absent classifier class:
+$$
+\forall l,l':\mathsf{BHist}.\;
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l,u)\to
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l',u')\to
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,l)\land
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k',l').
+$$
+\end{enumerate}
+\end{enumerate}
+or there exist $x,y,k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item the ten selected visible public factorization clauses of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+hold for $x,y,k,k',p,q,a,b$;
+\item the selected intermediate endpoints are classified:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k');
+$$
+\item every admitted intermediate factor over the same normalized public
+endpoints lies in the selected present classifier class:
+$$
+\forall l,l':\mathsf{BHist}.\;
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l,u)\to
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};l',u')\to
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,l)\land
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k',l').
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-intermediate-classifier-coverage}
+to the displayed carrier, classifier, descent, preservation, stability,
+certificate, compatibility, and endpoint data. This gives the normalized branch
+split with classified intermediate witnesses.
+
+In the absent branch, retain the absent public endpoint presentations, the
+visible public exclusion, and the witnesses $k,k'$ with their $\delta$
+image-classifier factor, $\epsilon$ map-relation links, absent intermediate
+presentations, selected classifier, and visible intermediate exclusion.
+
+Fix arbitrary intermediate endpoints $l,l':\mathsf{BHist}$ mapping to the same
+normalized public endpoints $u,u'$. Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-intermediate-factor-coherence}
+to the selected absent map-relation legs and the competing map-relation legs,
+using reflected source readback. This yields the required classifier comparison
+between $k,l$ and between $k',l'$.
+
+In the present branch, retain the selected visible factorization data and the
+selected intermediate classifier supplied by the coverage theorem. Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-intermediate-factor-uniqueness}
+to the same displayed carrier, classifier, descent, preservation, stability,
+certificate, compatibility, endpoint, selected visible payload, and reflected
+source readback data.
+
+The selected uniqueness theorem supplies the universal comparison against
+arbitrary admitted intermediate factors over $u$ and $u'$. Package that
+comparison with the selected visible factorization clauses and the retained
+intermediate classifier.
+\end{proof}
+
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_composite\_normalized\_selected\_intermediate\_factor\_uniqueness}

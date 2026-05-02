@@ -10,6 +10,268 @@ The formal power series interface \(\FormalPowerSeriesUp\) has certificate oblig
 Use coefficient functions \(\NatUp\to R\) over a certified scalar ring \(R\).
 \end{definition}
 
+\section{Concrete singleton zero formal power series instance}
+\label{sec:fps-concrete-singleton-zero-series-instance}
+\label{sec:fps-concrete-singleton-instance}
+
+\begin{definition}[Singleton zero formal power series instance]
+\label{def:singleton-zero-fps-instance}
+\label{def:singleton-empty-history-fps-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Use the
+singleton empty-history scalar ring of
+Definition~\ref{def:singleton-empty-history-ring-instance}. Define the series
+classifier
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Set the formal-power-series code carrier to $A_{\emp}$ on
+$\mathsf{BHist}$ endpoints. Represent the zero formal power series by
+$Z_{\emp}:=\emp$, and set the unit formal power series to
+$U_{\emp}:=\emp$. Define the coefficient readout and displayed operations by
+$$
+\mathsf{coeff}_{\emp}(F,n):=\emp,\qquad
+F\oplus_{\mathrm{fps}}G:=\emp,\qquad
+F\odot_{\mathrm{fps}}G:=\emp.
+$$
+Thus every coefficient, zero endpoint, unit endpoint, addition endpoint, and
+Cauchy-product endpoint is the singleton scalar endpoint $\emp$.
+\end{definition}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryCarrier}
+\leandef{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier}
+
+\begin{theorem}[Singleton zero formal power series laws]
+\label{thm:singleton-zero-fps-laws}
+\label{thm:singleton-empty-history-fps-laws}
+The tuple of Definition~\ref{def:singleton-zero-fps-instance} satisfies the
+$\FormalPowerSeriesUp$ law package over the concrete $\mathsf{BHist}$ carrier:
+\begin{enumerate}
+  \item $Z_{\emp}$ and $U_{\emp}$ are carried by $A_{\emp}$.
+  \item Every coefficient query $\mathsf{coeff}_{\emp}(F,n)$ is carried by the
+  singleton empty-history scalar ring.
+  \item If $A_{\emp}(F)$ and $A_{\emp}(G)$, then
+  $A_{\emp}(F\oplus_{\mathrm{fps}}G)$ and
+  $A_{\emp}(F\odot_{\mathrm{fps}}G)$.
+  \item $\rho_{\emp}$ is reflexive, symmetric, and transitive on carried series
+  codes.
+  \item Addition is congruent under $\rho_{\emp}$ and has $Z_{\emp}$ as left
+  and right zero under $\rho_{\emp}$.
+  \item Cauchy product is congruent under $\rho_{\emp}$ and has $U_{\emp}$ as
+  left and right unit under $\rho_{\emp}$.
+  \item The coefficient ledger of every displayed endpoint is the constant
+  singleton scalar endpoint $\emp$, and the scalar clauses are those of
+  Theorem~\ref{thm:singleton-empty-history-ring-laws}.
+\end{enumerate}
+No convergence field is required.
+\end{theorem}
+\begin{proof}
+The carrier endpoint is supplied by Definition~\ref{def:list-singleton-history-source}
+at $a_0=\emp$. In particular, $Z_{\emp}$, $U_{\emp}$, and every displayed
+operation endpoint reduce to the same carried endpoint $\emp$.
+
+For coefficient queries, every value of $\mathsf{coeff}_{\emp}(F,n)$ is
+definitionally $\emp$. The scalar side is the singleton empty-history ring of
+Definition~\ref{def:singleton-empty-history-ring-instance}, and
+Theorem~\ref{thm:singleton-empty-history-ring-laws} supplies its scalar zero,
+scalar one, addition, and multiplication clauses.
+
+For addition and Cauchy-product closure, the displayed operations return
+$\emp$ for every pair of inputs. The singleton carrier witness therefore
+discharges both closure obligations without inspecting the input series or the
+index used in a coefficient view.
+
+Classifier reflexivity, symmetry, and transitivity are inherited from the
+$\hsame$ reflexivity, symmetry, and transitivity laws in the FKernel, together
+with the two singleton endpoint witnesses required by $\rho_{\emp}$. Operation
+congruence reduces both addition results and both Cauchy-product results to
+$\emp$, so the relation component is again $\hsame(\emp,\emp)$.
+
+The zero laws and unit laws reduce to comparisons of $\emp$ with $\emp$.
+The same $\rho_{\emp}$ package gives the left and right zero laws for addition
+and the left and right unit laws for Cauchy product.
+
+Finally, every coefficient query returns $\emp$. Hence the coefficient ledger
+for the zero series, unit series, sum, and Cauchy product is constant, with no
+convergence claim involved.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.fps\_singleton\_empty\_schema\_laws}
+
+\begin{theorem}[Singleton coefficient endpoint has empty ledger]
+\label{thm:fps-singleton-coeff-empty-ledger}
+For every displayed singleton formal power series endpoint $F$ and coefficient
+index $n$, if $F$ is carried by the singleton source, then
+$$
+\HSame(\mathsf{coeff}_{\emp}(F,n),\emp)
+$$
+and the coefficient endpoint is classified with the empty scalar endpoint by
+$\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+The coefficient operation of the singleton formal-power-series instance is
+definitionally constant at $\emp$. The history-sameness part is therefore
+$\HSame(\emp,\emp)$, and the classifier clause is the triple consisting of the
+two singleton carrier witnesses for $\emp$ and the same reflexive
+history-sameness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonCoeff\_empty\_ledger}
+
+The $\FormalPowerSeriesUp$ schema is instantiated by this concrete
+$\mathsf{BHist}$ carrier and constant coefficient operations, so future Lean
+targets can be anchored directly in $\mathsf{BHist}$.
+
+\begin{theorem}[Singleton empty-history FPS semantic name certificate]
+\label{thm:fps-singleton-empty-history-semantic-namecert}
+The singleton empty-history formal-power-series carrier
+$A_{\emp}(h):=h\hsame\emp$ with classifier
+$$
+\rho_{\emp}(h,k):=A_{\emp}(h)\land A_{\emp}(k)\land h\hsame k
+$$
+forms a
+$\mathsf{SemanticNameCert}(A_{\emp},A_{\emp},A_{\emp},\rho_{\emp})$.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by $\emp$ with $\hsame$ reflexivity. Reflexivity,
+symmetry, and transitivity of the classifier use the corresponding $\hsame$
+laws, while the two carrier components are part of the classifier witness.
+Carrier transport across the classifier reads out the right carrier component.
+Pattern and ledger soundness are identity maps because the source, pattern, and
+ledger predicates are the same singleton carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistory\_semanticNameCert}
+
+\begin{theorem}[Singleton FPS classifier append split empty]
+\label{thm:fps-singleton-classifier-append-split-empty}
+For $p,q,h:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),h)
+\quad\Longleftrightarrow\quad
+p\hsame\emp\land q\hsame\emp\land A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the left carrier component of
+$\rho_{\emp}(\mathsf{append}(p,q),h)$ says
+$\mathsf{append}(p,q)\hsame\emp$. The append-empty inversion theorem splits
+this into $p\hsame\emp$ and $q\hsame\emp$, while the right carrier component
+already gives $A_{\emp}(h)$.
+
+Conversely, append-empty introduction turns $p\hsame\emp$ and $q\hsame\emp$
+into $A_{\emp}(\mathsf{append}(p,q))$. Together with $A_{\emp}(h)$, transitivity
+through $\emp$ supplies the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_split\_empty\_iff}
+
+\begin{theorem}[Singleton FPS classifier pair append split empty]
+\label{thm:fps-singleton-classifier-append-pair-split-empty}
+For $p,q,r,s:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),\mathsf{append}(r,s))
+\quad\Longleftrightarrow\quad
+p\hsame\emp\land q\hsame\emp\land r\hsame\emp\land s\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the one-sided append split theorem to the left
+endpoint. This gives $p\hsame\emp$, $q\hsame\emp$, and the right carrier fact
+$A_{\emp}(\mathsf{append}(r,s))$. The append-empty inversion theorem then
+splits the right carrier fact into $r\hsame\emp$ and $s\hsame\emp$.
+
+Conversely, append-empty introduction turns the two left endpoint witnesses
+into $A_{\emp}(\mathsf{append}(p,q))$ and the two right endpoint witnesses into
+$A_{\emp}(\mathsf{append}(r,s))$. Transitivity of $\hsame$ through $\emp$
+supplies the classifier comparison between the two appended histories.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_pair\_split\_empty\_iff}
+
+\begin{theorem}[Singleton FPS classifier continuation split empty]
+\label{thm:fps-singleton-empty-history-classifier-cont-split-empty}
+For $p,q,h:\mathsf{BHist}$, if $\ContR(p,q,h)$ and
+$\rho_{\emp}(h,\emp)$, then
+$$
+A_{\emp}(p)\land A_{\emp}(q).
+$$
+\end{theorem}
+\begin{proof}
+Invert the continuation ledger to identify $h$ with
+$\mathsf{append}(p,q)$. The classifier premise then has the shape handled by
+Theorem~\ref{thm:fps-singleton-classifier-append-split-empty}; projecting its
+forward direction gives the two empty-history carrier facts for $p$ and $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_cont\_split\_empty}
+
+\begin{theorem}[Singleton FPS classifier continuation component classifiers]
+\label{thm:fps-singleton-empty-history-classifier-cont-component-classifiers}
+For $p,q,h:\mathsf{BHist}$, if $\ContR(p,q,h)$ and
+$\rho_{\emp}(h,\emp)$, then both continuation components are classified with
+the empty endpoint:
+$$
+\rho_{\emp}(p,\emp)\land \rho_{\emp}(q,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Invert the continuation ledger to put the classifier on
+$\mathsf{append}(p,q)$. The append split exposes $p\hsame\emp$ and
+$q\hsame\emp$, and each exposed carrier combines with reflexivity of $\emp$ to
+rebuild the two component classifiers.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_cont\_component\_classifiers}
+
+\begin{theorem}[Singleton FPS classifier append component classifiers]
+\label{thm:fps-singleton-classifier-append-component-classifiers}
+For $p,q,h:\mathsf{BHist}$, if the appended endpoint is classified with $h$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),h),
+$$
+then both append components are classified with the empty endpoint and the
+right endpoint is carried:
+$$
+\rho_{\emp}(p,\emp)\land \rho_{\emp}(q,\emp)\land A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+Apply the append split classifier equivalence of
+\autoref{thm:fps-singleton-classifier-append-split-empty}. This exposes
+$p\hsame\emp$, $q\hsame\emp$, and $A_{\emp}(h)$. Each component classifier is
+then rebuilt from its exposed empty-history carrier, the reflexive carrier of
+$\emp$, and the same exposed history-sameness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_component\_classifiers}
+
+\begin{theorem}[Singleton FPS classifier rejects headed endpoints]
+\label{thm:fps-singleton-classifier-headed-endpoint-absurd}
+For $h,k:\mathsf{BHist}$, if
+$\rho_{\emp}(h,k)$ holds for the singleton empty-history FPS classifier, then
+none of $h$ or $k$ is a displayed zero-headed or one-headed endpoint.
+\end{theorem}
+\begin{proof}
+The classifier exposes singleton carrier witnesses
+$h\hsame\emp$ and $k\hsame\emp$. A displayed headed endpoint for either
+argument rewrites one of these witnesses into
+$\mathsf{e}_0(z)\hsame\emp$ or $\mathsf{e}_1(z)\hsame\emp$, contradicting
+the constructor separation lemmas for headed histories and the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_headed\_endpoint\_absurd}
+
+\begin{theorem}[Singleton FPS classifier continuation commutativity closure]
+\label{thm:fps-singleton-empty-history-classifier-continuation-comm-closed}
+Let $F,G:\mathsf{BHist}$ be carried by the singleton empty-history FPS carrier
+$A_{\emp}$. If $\ContR(F,G,L)$ and $\ContR(G,F,R)$, then both continuation
+results are carried by $A_{\emp}$, and the singleton FPS classifier relates
+the two results:
+$$
+A_{\emp}(L)\land A_{\emp}(R)\land \rho_{\emp}(L,R).
+$$
+\end{theorem}
+\begin{proof}
+The carried endpoints $F$ and $G$ are both identified with $\emp$. Inverting
+the two continuation witnesses after those identifications reduces the two
+results to $\mathsf{append}(\emp,\emp)$, hence to $\emp$. The result carriers
+are the singleton empty-history witnesses, and the classifier follows by
+pairing those witnesses with reflexivity of $\hsame$ at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_continuation\_comm\_closed}
+
 \section{The certificate}
 
 \begin{definition}[FormalPowerSeries source specification]

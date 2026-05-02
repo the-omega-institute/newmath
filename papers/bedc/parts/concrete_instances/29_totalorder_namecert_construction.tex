@@ -10,6 +10,67 @@ The total order interface \(\TotalOrderUp\) extends \autoref{ch:concrete-instanc
 Use a poset setup extended with constructive comparison data returning less, same, or greater.
 \end{definition}
 
+\section{Concrete singleton history total order instance}
+\label{sec:totalorder-concrete-singleton-history-instance}
+
+\begin{definition}[Concrete singleton history total order instance]
+\label{def:concrete-singleton-history-totalorder-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k),
+$$
+and let the order relation on carried endpoints be
+$$
+h\le_{\emp}k:=\mathsf{PreorderPrefixLE}(h,k).
+$$
+The constructive comparison package has three branches:
+$$
+\mathsf{lt}_{\emp}(h,k):=\bot,\qquad
+\mathsf{same}_{\emp}(h,k):=\rho_{\emp}(h,k),\qquad
+\mathsf{gt}_{\emp}(h,k):=\bot.
+$$
+Thus the less and greater branches are empty, while the same branch stores the
+singleton classifier witness.
+\end{definition}
+
+\begin{theorem}[Singleton history total order laws]
+\label{thm:singleton-history-totalorder-laws}
+For carried histories $h,k:\mathsf{BHist}$ with $A_{\emp}(h)$ and
+$A_{\emp}(k)$, the comparison package of
+\autoref{def:concrete-singleton-history-totalorder-instance} always returns
+the same branch carrying $\rho_{\emp}(h,k)$. The resulting tuple satisfies the
+$\TotalOrderUp$ carrier field, the $\POSetUp$ fields, classifier stability,
+strict-to-apartness, trichotomy, and comparison stability.
+\end{theorem}
+\begin{proof}
+The carrier data are inherited from the singleton history source. The
+hypotheses $A_{\emp}(h)$ and $A_{\emp}(k)$ unfold to $\hsame(h,\emp)$ and
+$\hsame(k,\emp)$; symmetry and transitivity of $\hsame$ compose these endpoint
+witnesses into $\hsame(h,k)$. Together with the two carrier facts, this is
+exactly $\rho_{\emp}(h,k)$.
+
+The preorder comparisons in both directions are supplied by
+$\mathsf{PreorderPrefixLE\_of\_hsame}$ from the displayed
+$\hsame(h,k)$ witness and its symmetric form. These witnesses give the
+$\POSetUp$ order relation on the restricted singleton carrier.
+
+Antisymmetry is the concrete prefix collapse:
+$\mathsf{PreorderPrefixLE\_antisymm\_hsame}$ sends opposing prefix comparisons
+to $\hsame(h,k)$, which repackages with the carrier facts as the classifier
+$\rho_{\emp}(h,k)$. Classifier stability and comparison stability use the same
+endpoint transport through $\emp$.
+
+The strict branches are false by definition, so strict-to-apartness is vacuous.
+Trichotomy is the same branch just constructed; no classical comparison
+principle is used.
+\end{proof}
+
+The $\TotalOrderUp$ schema is represented by this concrete $\mathsf{BHist}$
+carrier and explicit comparison data, giving later Lean formalization a
+$\mathsf{BHist}$-anchored target rather than an abstract parameter schema.
+
 \section{The certificate}
 
 \begin{definition}[TotalOrder source specification]
@@ -56,4 +117,3 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:totalorder-zero-axiom-note}
 Replaces LEM-style totality with decidable comparison data and apartness.
 \end{remark}
-

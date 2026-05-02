@@ -1,0 +1,244 @@
+\section{RatUp boundary for the singleton field schema}
+\label{sec:field-singleton-rat-boundary}
+
+\begin{theorem}[Singleton field schema is disjoint from the RatUp history carrier]
+\label{thm:field-singleton-schema-disjoint-from-rat-history-carrier}
+For every $h:\mathsf{BHist}$, if $A_{\emp}(h)$ is the singleton source from
+Definition~\ref{def:singleton-empty-history-field-schema-instance}, then
+$\mathsf{RatHistoryCarrier}(h)$ implies $\mathsf{False}$. Equivalently, no
+RatUp history-carrier endpoint is an endpoint of the singleton empty-history
+$\FieldUp$ schema.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(h)$ and $\mathsf{RatHistoryCarrier}(h)$. Unfolding the
+singleton carrier component gives the endpoint equality $h\hsame\emp$.
+
+The RatUp carrier witness is separated from the empty denominator endpoint by
+Theorem~\ref{thm:rat-history-carrier-not-empty}. Applying that theorem to the
+carrier witness and the equality $h\hsame\emp$ gives the required
+contradiction.
+\end{proof}
+
+\begin{theorem}[Singleton field schema is disjoint from RatUp classifier endpoints]
+\label{thm:field-singleton-schema-disjoint-from-rat-history-classifier}
+For every $h,k:\mathsf{BHist}$, if $A_{\emp}(h)$ holds for the singleton
+source from Definition~\ref{def:singleton-empty-history-field-schema-instance}
+and $\mathsf{RatHistoryClassifier}(h,k)$ holds, then $\mathsf{False}$.
+Likewise, if $A_{\emp}(k)$ and $\mathsf{RatHistoryClassifier}(h,k)$ hold, then
+$\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+Unfold the Rat history classifier. Its witness contains
+$\mathsf{RatHistoryCarrier}(h)$, $\mathsf{RatHistoryCarrier}(k)$, and the
+displayed relation $h\hsame k$.
+
+For the left endpoint, assume $A_{\emp}(h)$. Apply
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+$A_{\emp}(h)$ and the carrier witness $\mathsf{RatHistoryCarrier}(h)$.
+
+For the right endpoint, assume $A_{\emp}(k)$. Apply
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+$A_{\emp}(k)$ and the carrier witness $\mathsf{RatHistoryCarrier}(k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_fieldSingleton\_empty\_endpoints\_absurd}
+
+\begin{theorem}[Rat ledger endpoints are disjoint from the singleton FieldUp schema]
+\label{thm:field-singleton-schema-disjoint-from-rat-ledger}
+For every raw and visible histories $\rho,v:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, then both
+$A_{\emp}(\rho)\to\mathsf{False}$ and
+$A_{\emp}(v)\to\mathsf{False}$ hold, where $A_{\emp}$ is the singleton source
+from Definition~\ref{def:singleton-empty-history-field-schema-instance}.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$. Its raw component gives
+$\mathsf{RatHistoryCarrier}(\rho)$, so any assumption $A_{\emp}(\rho)$ is
+contradictory by
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier}.
+
+For the visible endpoint, apply
+Theorem~\ref{thm:rat-ledger-visible-carrier} to the same ledger policy. This
+produces $\mathsf{RatHistoryCarrier}(v)$, and
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier}
+again rules out $A_{\emp}(v)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryLedgerPolicy\_fieldSingletonEmptyCarrier\_endpoints\_absurd}
+
+Traditional target terminal singleton field boundary; BEDC source singleton
+$\mathsf{BHist}$ $\FieldUp$ schema plus RatUp history carrier; carrier choices
+$A_{\emp}$ and $\mathsf{RatHistoryCarrier}$; classifier choices $\rho_{\emp}$
+and Rat history classifier; ledger choices
+$\mathsf{RatHistoryLedgerPolicy}$; stability obligation nonempty denominator
+separation; raw and visible ledger endpoint exclusion; core theorems
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} and
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-classifier}
+and Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-ledger};
+exactness predicate no shared carrier, classifier, or ledger endpoint; standard
+bridge terminal schema is not the rational field; status ProofTarget.
+
+\begin{theorem}[Classifier-complement singleton FieldUp instance is RatUp-disjoint]
+\label{thm:field-singleton-empty-concrete-instance-rat-disjoint}
+For the concrete source $A_{\emp}$, classifier $\rho_{\emp}$, proof domain
+$\mathsf{fieldSingletonEmptyNonZero}$, and constant operations
+$\mathsf{fieldSingletonEmptyMul}$, $\mathsf{fieldSingletonEmptyOne}$, and
+$\mathsf{fieldSingletonEmptyInv}$ from
+Definition~\ref{def:field-singleton-empty-nonzero}, the $\FieldUp$ schema laws
+hold over the concrete $\mathsf{BHist}$ singleton carrier, and every endpoint
+admitted by $A_{\emp}$ is disjoint from $\mathsf{RatHistoryCarrier}$.
+
+Its ten-field template is:
+\begin{enumerate}
+  \item Traditional target: one-element proof-indexed $\FieldUp$ schema.
+  \item BEDC source: $\mathsf{BHist}$ singleton source plus RatUp boundary.
+  \item Carrier: $A_{\emp}$.
+  \item Classifier: $\rho_{\emp}$.
+  \item Stability obligations:
+  Theorem~\ref{thm:field-singleton-empty-schema-laws}.
+  \item Ledger: the singleton endpoint and empty nonzero witness domain.
+  \item Core theorem list:
+  Theorem~\ref{thm:field-singleton-empty-schema-laws} and
+  Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier}.
+  \item Exactness predicate: singleton endpoint classification plus
+  RatUp-disjointness.
+  \item Standard bridge: terminal proof-indexed schema only.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:field-singleton-empty-schema-laws} to the displayed
+tuple
+$$
+(A_{\emp},\rho_{\emp},\mathsf{fieldSingletonEmptyNonZero},
+\mathsf{fieldSingletonEmptyMul},\mathsf{fieldSingletonEmptyOne},
+\mathsf{fieldSingletonEmptyInv}).
+$$
+This supplies the concrete law package over the singleton $\mathsf{BHist}$
+carrier.
+
+For the RatUp boundary, take any displayed endpoint witness $A_{\emp}(h)$ and
+any witness $\mathsf{RatHistoryCarrier}(h)$. Applying
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+these two witnesses gives $\mathsf{False}$, so no admitted singleton endpoint is
+a RatUp history-carrier endpoint.
+\end{proof}
+
+\begin{theorem}[RatUp one-denominator witness blocks singleton coverage]
+\label{thm:field-rat-carrier-has-non-singleton-boundary-witness}
+Let $d_1:=\Eone(\emp)$. Then $\mathsf{RatHistoryCarrier}(d_1)$ holds and
+$A_{\emp}(d_1)\to\mathsf{False}$. Consequently any proposed coverage map
+$$
+\forall h:\mathsf{BHist},\mathsf{RatHistoryCarrier}(h)\to A_{\emp}(h)
+$$
+is contradictory.
+\end{theorem}
+\begin{proof}
+The empty history is unary by the kernel theorem $\mathsf{unary\_empty}$.
+Apply Theorem~\ref{thm:rat-history-carrier-e1-tail-unary-iff} with tail
+$\emp$. The reverse direction turns $\mathsf{UnaryHistory}(\emp)$ into the
+carrier witness $\mathsf{RatHistoryCarrier}(\Eone(\emp))$, namely
+$\mathsf{RatHistoryCarrier}(d_1)$.
+
+Now assume $A_{\emp}(d_1)$. Applying
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+this singleton endpoint and the carrier witness above gives $\mathsf{False}$.
+Thus the concrete RatUp endpoint $d_1$ cannot be covered by the singleton
+carrier.
+
+For the displayed coverage map, evaluate the map at $d_1$ and the RatUp carrier
+witness. This produces $A_{\emp}(d_1)$, and the previous paragraph turns that
+endpoint into contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_carrier\_non\_singleton\_boundary\_witness}
+
+\begin{theorem}[Classifier-complement RatUp one-denominator witness blocks singleton coverage]
+\label{thm:field-rat-history-carrier-has-non-singleton-boundary-witness}
+Let $d_1:=\Eone(\emp)$. Then $\mathsf{RatHistoryCarrier}(d_1)$ holds and
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\mathsf{False}$.
+Consequently any proposed coverage map
+$$
+\forall h:\mathsf{BHist},\mathsf{RatHistoryCarrier}(h)\to
+\mathsf{fieldSingletonEmptyCarrier}(h)
+$$
+is contradictory.
+\end{theorem}
+\begin{proof}
+The empty history is unary by the kernel theorem $\mathsf{unary\_empty}$.
+Apply Theorem~\ref{thm:rat-history-carrier-e1-tail-unary-iff} with tail
+$\emp$. The reverse direction turns $\mathsf{UnaryHistory}(\emp)$ into
+$\mathsf{RatHistoryCarrier}(\Eone(\emp))$, so it supplies
+$\mathsf{RatHistoryCarrier}(d_1)$.
+
+Now assume $\mathsf{fieldSingletonEmptyCarrier}(d_1)$. The theorem
+$\mathsf{RatHistoryCarrier\_not\_empty}$ rejects a RatUp carrier endpoint that is
+the empty singleton endpoint. Applying it to the RatUp carrier witness above and
+the singleton-carrier witness gives $\mathsf{False}$.
+
+For the displayed coverage map, evaluate the map at $d_1$ and the RatUp carrier
+witness. This produces $\mathsf{fieldSingletonEmptyCarrier}(d_1)$, and the
+previous paragraph turns that endpoint into contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_history\_carrier\_non\_singleton\_boundary\_witness}
+
+\begin{theorem}[RatUp classifier and ledger coverage are blocked by the singleton FieldUp boundary]
+\label{thm:field-rat-classifier-ledger-singleton-empty-coverage-obstruction}
+Let $d_1:=\Eone(\emp)$. Then
+$\mathsf{RatHistoryClassifier}(d_1,d_1)$ and
+$\mathsf{RatHistoryLedgerPolicy}(d_1,d_1)$ hold, while
+$\mathsf{FieldSingletonClassifier}(d_1,d_1)\to\mathsf{False}$.
+Consequently both a classifier coverage map
+$$
+\forall h k:\mathsf{BHist},\mathsf{RatHistoryClassifier}(h,k)\to
+\mathsf{FieldSingletonClassifier}(h,k)
+$$
+and a ledger endpoint coverage map into the singleton carrier
+$$
+\forall \rho v:\mathsf{BHist},\mathsf{RatHistoryLedgerPolicy}(\rho,v)\to
+\mathsf{FieldSingletonCarrier}(\rho)\land
+\mathsf{FieldSingletonCarrier}(v)
+$$
+are contradictory.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:field-rat-carrier-has-non-singleton-boundary-witness}
+gives the RatUp carrier witness $\mathsf{RatHistoryCarrier}(d_1)$ and the
+obstruction $\mathsf{FieldSingletonCarrier}(d_1)\to\mathsf{False}$.
+
+Using $\hsame$ reflexivity at $d_1$, the carrier witness forms the diagonal
+classifier package
+$\mathsf{RatHistoryClassifier}(d_1,d_1)$. The same carrier witness together
+with the same reflexivity link forms the diagonal ledger package
+$\mathsf{RatHistoryLedgerPolicy}(d_1,d_1)$.
+
+Unfold $\mathsf{FieldSingletonClassifier}(d_1,d_1)$. Any such classifier
+witness contains $\mathsf{FieldSingletonCarrier}(d_1)$ as its left endpoint
+component, and the carrier obstruction from the first paragraph turns that
+endpoint into $\mathsf{False}$.
+
+Now evaluate any displayed classifier coverage map at the diagonal RatUp
+classifier package. The result is
+$\mathsf{FieldSingletonClassifier}(d_1,d_1)$, which the previous paragraph
+rules out.
+
+For a displayed ledger endpoint coverage map, evaluate it at the diagonal ledger
+package. The resulting conjunction contains
+$\mathsf{FieldSingletonCarrier}(d_1)$, so the same carrier obstruction
+again gives contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_singleton\_classifier\_ledger\_coverage\_obstruction}
+
+Traditional target exclusion of the terminal singleton schema as a RatUp
+$\FieldUp$ classifier and ledger certificate; BEDC source
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+$\mathsf{RatHistoryLedgerPolicy}$, and the singleton $\FieldUp$ schema;
+exactness predicate failure of carrier, classifier, and ledger coverage; status
+$\mathsf{ProofTarget}$.
+
+Traditional target $\FieldUp(\mathsf{RatUp})$ carrier separation; BEDC source
+$\mathsf{RatHistoryCarrier}$ plus singleton $\mathsf{BHist}$ $\FieldUp$ schema;
+carrier choices $\mathsf{RatHistoryCarrier}$ and $A_{\emp}$; classifier choices
+Rat history classifier and $\rho_{\emp}$; stability obligation
+positive-denominator nonemptiness; ledger positive one-denominator witness versus
+empty singleton endpoint; core theorem
+Theorem~\ref{thm:field-rat-carrier-has-non-singleton-boundary-witness};
+exactness predicate failure of Rat-to-singleton carrier coverage; standard
+bridge terminal singleton is not rational field; status $\mathsf{ProofTarget}$.

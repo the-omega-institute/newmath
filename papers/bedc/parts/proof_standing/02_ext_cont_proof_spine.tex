@@ -72,6 +72,40 @@ If \(\ContR(h,k,r)\) and \(\ContR(h,k,r')\), then \(\HSame(r,r')\).
 By induction on the generated right-history structure in the first continuation proof. In the empty case, the second proof must also be the empty case, hence both results are $h$. In the $\Ezero$ case, the second proof must also have right input and result with outer $\Ezero$ by closed generation; apply the induction hypothesis to the sub-results and then apply the $\Ezero$ constructor for $\HSame$. The $\Eone$ case is analogous.
 \end{proof}
 
+\begin{theorem}[Continuation result history-sameness tag separation]
+\label{thm:cont-result-hsame-tag-separation}
+If $\ContR(h,k,r_0)$ and $\ContR(h,k,r_1)$, and if
+$\HSame(r_0,\Ezero(z))$ while $\HSame(r_1,\Eone(o))$, then contradiction.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_tag\_separation}
+\begin{proof}
+Continuation determinacy gives $\HSame(r_0,r_1)$.  Composing this equality with
+the two displayed tag classifications yields
+$\HSame(\Ezero(z),\Eone(o))$, contradicting generated-history no-confusion
+between the zero and one constructors.
+\end{proof}
+
+\begin{theorem}[Continuation step result history-sameness no-confusion pair]
+\label{thm:cont-step-result-hsame-no-confusion-pair}
+The two one-step continuation result shapes are disjoint up to history-sameness:
+$$
+\ContR(h,\Ezero(k_0),r_0),\quad
+\ContR(h,\Eone(k_1),r_1),\quad
+\HSame(r_0,r_1)
+$$
+is impossible, and the same holds with the displayed zero and one steps
+exchanged.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_step\_result\_hsame\_no\_confusion\_pair}
+\begin{proof}
+Invert the zero-step continuation witness to expose
+$r_0=\Ezero(a)$ and invert the one-step witness to expose $r_1=\Eone(b)$.
+The displayed $\HSame(r_0,r_1)$ then becomes
+$\HSame(\Ezero(a),\Eone(b))$, which is ruled out by generated-history
+no-confusion.  The exchanged direction is identical with the zero and one
+constructors swapped.
+\end{proof}
+
 \begin{theorem}[Continuation unit laws]
 \label{thm:continuation-unit-laws-spine}
 For every generated history $h$, $\ContR(h,\emp,h)$. Moreover, for every generated history $k$, $\ContR(\emp,k,k)$, and if $\ContR(h,\emp,r)$, then $\HSame(r,h)$.
@@ -80,6 +114,38 @@ For every generated history $h$, $\ContR(h,\emp,h)$. Moreover, for every generat
 \leanvariant{BEDC.FKernel.Cont.cont\_unit\_laws\_spine}
 \begin{proof}
 The right unit is the base constructor. The left unit is proved by induction on $k$. The empty case is immediate. If $k=\Ezero(k')$, use the induction hypothesis for $k'$ and rebuild with the $\Ezero$ constructor. The $\Eone$ case is analogous. The uniqueness form follows by continuation determinacy against the base constructor.
+\end{proof}
+
+\begin{theorem}[Continuation right-unit law endpoint emptiness]
+\label{thm:cont-right-unit-law-endpoint-empty-iff}
+For every generated history $u$, the universal right-unit result law
+$$
+\forall d,r:\mathsf{BHist}.\; \ContR(d,u,r)\to \HSame(r,d)
+$$
+holds if and only if $u\hsame\emp$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_right\_unit\_law\_endpoint\_empty\_iff}
+\begin{proof}
+If the universal law holds, apply it to the left-unit continuation
+$\ContR(\emp,u,u)$ to obtain $u\hsame\emp$. Conversely, after the endpoint is
+identified with $\emp$, any continuation $\ContR(d,\emp,r)$ is a right-unit
+continuation, so right-unit result uniqueness gives $\HSame(r,d)$.
+\end{proof}
+
+\begin{theorem}[Continuation left-unit law endpoint emptiness]
+\label{thm:cont-left-unit-law-endpoint-empty-iff}
+For every generated history $u$, the universal left-unit result law
+$$
+\forall d,r:\mathsf{BHist}.\; \ContR(u,d,r)\to \HSame(r,d)
+$$
+holds if and only if $u\hsame\emp$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_unit\_law\_endpoint\_empty\_iff}
+\begin{proof}
+If the universal law holds, apply it to the right-unit continuation
+$\ContR(u,\emp,u)$ to obtain $u\hsame\emp$. Conversely, after the endpoint is
+identified with $\emp$, any continuation $\ContR(\emp,d,r)$ is a left-unit
+continuation, so the left-unit result theorem gives $\HSame(r,d)$.
 \end{proof}
 
 \begin{theorem}[Mutual continuation collapses to history-sameness]
@@ -107,6 +173,75 @@ empty, and empty-append inversion identifies both component tails with
 $\emp$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_mutual\_extension\_tails\_empty}
+
+\begin{theorem}[Mutual continuation forbids visible right tails]
+\label{thm:cont-mutual-extension-right-tail-absurd}
+If $\ContR(h,l,k)$ holds, then neither $\ContR(k,\Ezero(r),h)$ nor
+$\ContR(k,\Eone(r),h)$ can hold.
+\end{theorem}
+\begin{proof}
+Apply the empty-tail theorem to the two mutual continuations. In the
+$\Ezero(r)$ branch it would identify $\Ezero(r)$ with $\emp$, contradicting
+history constructor no-confusion. The $\Eone(r)$ branch is identical with the
+one-constructor no-confusion theorem.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_mutual\_extension\_right\_tail\_absurd}
+
+\begin{theorem}[Triangular continuation cycle forbids a visible left tail]
+\label{thm:cont-triangle-cycle-left-visible-tail-absurd}
+If
+$$
+\ContR(a,\Eone(k),b),\qquad
+\ContR(b,g,c),\qquad
+\ContR(c,h,a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(\Eone(k),g),c)$. This composite and the return
+continuation $\ContR(c,h,a)$ form a mutual continuation cycle, so the composite
+tail is empty. Empty-append inversion identifies $\Eone(k)$ with $\emp$,
+contradicting history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_left\_visible\_tail\_absurd}
+
+\begin{theorem}[Triangular continuation cycle forbids a visible middle tail]
+\label{thm:cont-triangle-cycle-middle-visible-tail-absurd}
+If
+$$
+\ContR(a,f,b),\qquad
+\ContR(b,\Eone(k),c),\qquad
+\ContR(c,h,a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(f,\Eone(k)),c)$. This composite and the return
+continuation form a mutual continuation cycle, so the composite tail is empty.
+Empty-append inversion identifies the middle visible tail $\Eone(k)$ with
+$\emp$, contradicting history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_middle\_visible\_tail\_absurd}
+
+\begin{theorem}[Triangular continuation cycle forbids a visible right tail]
+\label{thm:cont-triangle-cycle-right-visible-tail-absurd}
+If
+$$
+\ContR(a,f,b),\qquad
+\ContR(b,g,c),\qquad
+\ContR(c,\Eone(k),a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(f,g),c)$. The composite continuation and the visible
+return tail give a mutual continuation with a one-headed right tail, which is
+forbidden by right-tail mutual-extension cancellation.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_right\_visible\_tail\_absurd}
 
 \begin{theorem}[Associativity up to history-sameness]
 \label{thm:continuation-associativity-up-to-hsame-proof-standing}

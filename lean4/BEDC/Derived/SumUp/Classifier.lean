@@ -491,4 +491,21 @@ theorem SumHistoryClassifier_reverse_tag_separation {Left Right : BHist → Prop
                       exact not_hsame_e1_e0
                         (hsame_trans (hsame_symm sameKRight) sameKLeft)
 
+theorem SumHistoryClassifier_left_chain_visible_payload_classification
+    {Left Right : BHist -> Prop} {h k r a c : BHist} :
+    SumHistoryClassifier Left Right hsame hsame h k ->
+      SumHistoryClassifier Left Right hsame hsame k r ->
+        hsame h (BHist.e0 a) -> hsame r (BHist.e0 c) -> hsame a c := by
+  intro classifiedHK classifiedKR sameH sameR
+  have classifiedHR : SumHistoryClassifier Left Right hsame hsame h r :=
+    SumHistoryClassifier_trans
+      (Left := Left) (Right := Right) (LeftEq := hsame) (RightEq := hsame)
+      (fun {a b c} sameAB sameBC => hsame_trans sameAB sameBC)
+      (fun {a b c} sameAB sameBC => hsame_trans sameAB sameBC)
+      classifiedHK classifiedKR
+  have visibleHR :
+      SumHistoryClassifier Left Right hsame hsame (BHist.e0 a) (BHist.e0 c) :=
+    SumHistoryClassifier_hsame_transport sameH sameR classifiedHR
+  exact SumHistoryClassifier_left_hsame_inversion visibleHR
+
 end BEDC.Derived.SumUp

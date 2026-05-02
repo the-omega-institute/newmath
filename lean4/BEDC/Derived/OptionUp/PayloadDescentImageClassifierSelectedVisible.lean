@@ -1,4 +1,4 @@
-import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
+import BEDC.Derived.OptionUp.PayloadDescentImageClassifierIntermediate
 
 namespace BEDC.Derived.OptionUp
 
@@ -210,6 +210,146 @@ theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_selected_
                                                                                                                           notU'Empty,
                                                                                                                           leftCanonical,
                                                                                                                           rightCanonical⟩
+
+theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_selected_intermediate_factor_uniqueness
+    {S T U : BHist -> Prop} {RelS RelT RelU : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (rhoD : forall a : BHist, S a -> T (delta.map a))
+    (certS : NameCert S RelS)
+    (certT : NameCert T RelT)
+    (certU : NameCert U RelU)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (middle_hsame : TaggedOptionSourceHsameCompatible T RelT)
+    (target_hsame : TaggedOptionSourceHsameCompatible U RelU)
+    (reflects : TaggedOptionPayloadDescentReflectsSource T epsilon) {m m' u u' x y : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon) m m' ->
+      hsame m u ->
+        hsame m' u' ->
+          U x ->
+            U y ->
+              hsame u (BHist.e1 x) ->
+                hsame u' (BHist.e1 y) ->
+                  exists k k' p q a b : BHist,
+                    TaggedOptionPayloadDescentImageClassifier S T delta k k' /\
+                      TaggedOptionMapRel T U epsilon k u /\
+                      TaggedOptionMapRel T U epsilon k' u' /\
+                      T p /\ T q /\ U (epsilon.map p) /\ U (epsilon.map q) /\
+                      hsame k (BHist.e1 p) /\ hsame k' (BHist.e1 q) /\
+                      hsame x (epsilon.map p) /\ hsame y (epsilon.map q) /\
+                      S a /\ S b /\ RelS a b /\ T (delta.map a) /\
+                      T (delta.map b) /\ hsame p (delta.map a) /\
+                      hsame q (delta.map b) /\ RelT p q /\ RelU x y /\
+                      (hsame u BHist.Empty -> False) /\
+                      (hsame u' BHist.Empty -> False) /\
+                      (forall x' : BHist, U x' -> hsame u (BHist.e1 x') ->
+                        hsame x x' /\ RelU x' y) /\
+                      (forall y' : BHist, U y' -> hsame u' (BHist.e1 y') ->
+                        hsame y y' /\ RelU x y') /\
+                      (forall l l' : BHist, TaggedOptionMapRel T U epsilon l u ->
+                        TaggedOptionMapRel T U epsilon l' u' ->
+                          TaggedOptionHistoryClassifier T RelT k l /\
+                            TaggedOptionHistoryClassifier T RelT k' l') := by
+  intro image sameMU sameM'U' targetX targetY sameUX sameU'Y
+  have factorized :=
+    TaggedOptionPayloadDescentImageClassifier_composite_normalized_selected_visible_public_factorization
+      delta epsilon rhoD certS certT certU source_hsame middle_hsame target_hsame
+      image sameMU sameM'U' targetX targetY sameUX sameU'Y
+  cases factorized with
+  | intro k factorized =>
+      cases factorized with
+      | intro k' factorized =>
+          cases factorized with
+          | intro p factorized =>
+              cases factorized with
+              | intro q factorized =>
+                  cases factorized with
+                  | intro a factorized =>
+                      cases factorized with
+                      | intro b data =>
+                          cases data with
+                          | intro imageDelta data =>
+                              cases data with
+                              | intro mapLeft data =>
+                                  cases data with
+                                  | intro mapRight data =>
+                                      cases data with
+                                      | intro targetP data =>
+                                          cases data with
+                                          | intro targetQ data =>
+                                              cases data with
+                                              | intro imageP data =>
+                                                  cases data with
+                                                  | intro imageQ data =>
+                                                      cases data with
+                                                      | intro sameKP data =>
+                                                          cases data with
+                                                          | intro sameK'Q data =>
+                                                              cases data with
+                                                              | intro sameXP data =>
+                                                                  cases data with
+                                                                  | intro sameYQ data =>
+                                                                      cases data with
+                                                                      | intro sourceA data =>
+                                                                          cases data with
+                                                                          | intro sourceB data =>
+                                                                              cases data with
+                                                                              | intro relAB data =>
+                                                                                  cases data with
+                                                                                  | intro targetDeltaA data =>
+                                                                                      cases data with
+                                                                                      | intro targetDeltaB data =>
+                                                                                          cases data with
+                                                                                          | intro samePDeltaA data =>
+                                                                                              cases data with
+                                                                                              | intro sameQDeltaB data =>
+                                                                                                  cases data with
+                                                                                                  | intro relPQ data =>
+                                                                                                      cases data with
+                                                                                                      | intro relXY data =>
+                                                                                                          cases data with
+                                                                                                          | intro notUEmpty data =>
+                                                                                                              cases data with
+                                                                                                              | intro notU'Empty data =>
+                                                                                                                  cases data with
+                                                                                                                  | intro leftCanonical rightCanonical =>
+                                                                                                                      have competing :
+                                                                                                                          forall l l' : BHist,
+                                                                                                                            TaggedOptionMapRel T U epsilon l u ->
+                                                                                                                              TaggedOptionMapRel T U epsilon l' u' ->
+                                                                                                                                TaggedOptionHistoryClassifier T RelT k l /\
+                                                                                                                                  TaggedOptionHistoryClassifier T RelT k' l' := by
+                                                                                                                        intro l l' mapLU mapL'U'
+                                                                                                                        exact
+                                                                                                                          TaggedOptionPayloadDescentImageClassifier_composite_normalized_intermediate_factor_coherence
+                                                                                                                            epsilon reflects mapLeft mapLU mapRight mapL'U'
+                                                                                                                      exact
+                                                                                                                        ⟨k, k', p, q, a, b,
+                                                                                                                          imageDelta,
+                                                                                                                          mapLeft,
+                                                                                                                          mapRight,
+                                                                                                                          targetP,
+                                                                                                                          targetQ,
+                                                                                                                          imageP,
+                                                                                                                          imageQ,
+                                                                                                                          sameKP,
+                                                                                                                          sameK'Q,
+                                                                                                                          sameXP,
+                                                                                                                          sameYQ,
+                                                                                                                          sourceA,
+                                                                                                                          sourceB,
+                                                                                                                          relAB,
+                                                                                                                          targetDeltaA,
+                                                                                                                          targetDeltaB,
+                                                                                                                          samePDeltaA,
+                                                                                                                          sameQDeltaB,
+                                                                                                                          relPQ,
+                                                                                                                          relXY,
+                                                                                                                          notUEmpty,
+                                                                                                                          notU'Empty,
+                                                                                                                          leftCanonical,
+                                                                                                                          rightCanonical,
+                                                                                                                          competing⟩
 
 theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_present_intermediate_constructor_exclusion
     {S T U : BHist -> Prop} {RelS RelT RelU : BHist -> BHist -> Prop}

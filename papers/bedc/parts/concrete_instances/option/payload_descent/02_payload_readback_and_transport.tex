@@ -254,6 +254,62 @@ this rebuilds the present-present source classifier for $h$ and $h'$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionMapRel\_common\_target\_source\_classification}
 
+\begin{theorem}[Tagged option map relation common-target visible source completion]
+\label{thm:tagged-option-maprel-common-target-visible-source-completion}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source and target
+carriers, let $\sim_S$ and $\sim_T$ be their classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload-carrier preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$. Assume reflected source readback
+from visible target equality,
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S),
+$$
+and assume $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For histories
+$h,h',k$, if
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k)
+$$
+then the two source endpoints complete visible payload readback in both
+directions:
+\begin{enumerate}
+  \item for every visible payload $x:\mathsf{BHist}$, if $S(x)$ and
+  $\hsame(h,\Eone(x))$, then there exists $y:\mathsf{BHist}$ such that
+  $$
+  S(y)\land\hsame(h',\Eone(y))\land x\sim_S y;
+  $$
+  \item for every visible payload $y:\mathsf{BHist}$, if $S(y)$ and
+  $\hsame(h',\Eone(y))$, then there exists $x:\mathsf{BHist}$ such that
+  $$
+  S(x)\land\hsame(h,\Eone(x))\land x\sim_S y.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-maprel-common-target-source-classification}
+to the two common-target map-relation witnesses and the reflected source
+readback hypothesis. This gives
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h')$.
+
+For a visible payload $x$ at the left source endpoint, the absent classifier
+branch contradicts $\hsame(h,\Eone(x))$. In the present branch, compare the
+display of $h$ with the branch payload display to obtain $\hsame(x,a)$. Source
+hsame compatibility gives $x\sim_S a$, and the classifier branch gives
+$a\sim_S b$. Transitivity in $\mathsf{cert}_S$ produces $x\sim_S b$, while the
+branch already displays $b$ at $h'$. The right-to-left direction is symmetric:
+compare the display of $h'$ with the branch payload display, use source hsame
+compatibility, and compose with the branch classifier through
+$\mathsf{cert}_S$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionMapRel\_common\_target\_visible\_source\_completion}
+
 \begin{theorem}[Tagged option map relation common-source target classification]
 \label{thm:tagged-option-maprel-common-source-target-classification}
 Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let

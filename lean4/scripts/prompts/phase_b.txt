@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.9 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v4.2 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -183,12 +183,10 @@ The script ranks every horizon `<X>Up` chapter by `transitive_downstream / (1 + 
 The following horizons remain **BANNED as target chapters** because their paper schemas still write laws as parametric operators (`mul / add / neg : BHist -> BHist -> BHist` left abstract), which forces the only available Lean encoding into `(name : forall x y z, hsame …)` parameter-echo schema. The phase D mechanical lint rejects exactly that shape — picking such a target is a guaranteed FAILED round.
 
 ```
-vecspace, linearmap, matrix
-polynomial, fps
-lattice, totalorder, preorder, poset
+totalorder, preorder, poset
 ```
 
-(The original ban list also covered `abgroup / group / monoid / ring / commring / field / module`. Paper rounds P699-P722 added concrete singleton-history instances pinning the abstract symbols to specific BHist functions — those seven chapters are now safe to attack and can produce BHist-anchored proofs about the concrete instance. For module, the singleton instance defines `smul := emp` on the `A_emp` carrier with the singleton ring as scalar; target proofs about that instance, not abstract scalar actions.)
+(The original ban list also covered `abgroup / group / monoid / ring / commring / field / module / vecspace / linearmap / matrix / polynomial / fps / lattice`. Paper rounds P699-P811 added concrete singleton-history instances pinning the abstract symbols to specific BHist functions — those thirteen chapters are now safe to attack and can produce BHist-anchored proofs about the concrete instance. For module, vecspace, linearmap the singleton instance defines `smul := emp` on the `A_emp` carrier with the singleton ring as scalar; for matrix, polynomial, fps the operations are unary-history-anchored similarly; for lattice, meet/join are pinned via the singleton prefix order. Target proofs about those instances, not abstract operators.)
 
 If your `paper_target_chapter` path matches `papers/bedc/parts/concrete_instances/*_<still-banned>_*.tex`, **DROP that target** and pick from a non-banned chapter (concrete_instances/category, concrete_instances/functor, concrete_instances/nattrans, concrete_instances/metric, concrete_instances/compact, concrete_instances/continuous, concrete_instances/option, concrete_instances/s1, plus the now-unlocked algebra chapters above, etc.). Adding a single hsame-quantified `forall` hypothesis from a banned chapter does NOT count as a top-3 hit even if the paper file is referenced.
 
@@ -202,6 +200,55 @@ theorem abgroup_middle_four_double_cancel
     ...
 ```
 This is a parameter-echo schema — phase D will reject it. Replace with a hom-carrier / continuation-anchored target from a non-banned horizon.
+
+### Pre-emit parameter-echo gate (HARD GATE — mirrors phase_d_lint)
+
+Run this same regex against your proposed `lean_signature` BEFORE emitting JSON. The phase D lint rejects on the conjunction:
+
+1. The signature has a hypothesis binder `(<name> : forall ... hsame ...)` (matches Python regex `\(\s*(\w+)\s*:\s*(?:∀|forall)\b[^)]*hsame\b`).
+2. The conclusion (text after the last top-level `:`) also has `forall ... hsame ...` (matches Python regex `(?:∀|forall)\b[^,]*,[^.]*hsame\b` after stripping `BHist`/`hsame` tokens for the residual-anchor check).
+
+If both fire, the target is INVALID — do not emit it. Two recent rounds (R1363, R1365) burned ~600s each formalising `field_nonzero_factors_exclude_zero_product` with this exact shape; the lint catches it after Phase C and the round FAILS. Verify locally before commit:
+
+```bash
+python3 -c '
+import re
+sig = """<your lean_signature here, including hypothesis binders and conclusion>"""
+bind = re.search(r"\(\s*(\w+)\s*:\s*(?:∀|forall)\b[^)]*hsame\b", sig, re.DOTALL)
+concl_part = sig.rsplit(":", 1)[-1] if ":" in sig else sig
+concl = re.search(r"(?:∀|forall)\b[^,]*,[^.]*hsame\b", concl_part, re.DOTALL)
+print("PARAMETER-ECHO REJECT" if (bind and concl) else "OK")
+'
+```
+
+If this prints `PARAMETER-ECHO REJECT`, replace the target. Acceptable replacements anchor on a concrete BEDC kernel object: a constructor of `BHist` (`Empty`, `cons`), `Cont`, `UnaryHistory`, the `:= emp` value of a singleton instance, or a specific `\leandef`-marked function from the paper's concrete-singleton instance section.
+
+### Pre-emit BHist-anchor gate (HARD GATE — mirrors phase_d_lint anchor check)
+
+Phase D also rejects targets under `lean4/BEDC/Derived/` whose signature, after stripping `hsame` and the bare `BHist` type token, contains no constructor or BEDC kernel object name from this set:
+
+```
+BHist BMark Empty e0 e1 cons append sameSig
+ProbeBundle SigRel InGap NameCert SemanticNameCert Pkg hsame msame
+Cont Ext InBundle SameSig UnaryHistory StageInterface
+SealEvent SealInterface AskEvent AskPolicy BundleAskPolicy
+DescentCertificate StableTransformation ThreadFamily
+bundleAppend bundleLength bwordLength
+```
+
+Importantly, names like `ListClassifierSpec`, `OptionClassifierSpec`, `RatHistoryClassifier` are NOT anchors on their own — they are derived wrappers. R1373 burned ~600s on `ListClassifierSpec_append` whose signature mentioned only `ListClassifierSpec` and `hsame`; after stripping `hsame`, no anchor name remained, and the lint rejected. To pass: the conclusion or some hypothesis MUST also mention one of the kernel names above (typically `Cont`, `Empty`, `cons`, or `append`). Verify locally:
+
+```bash
+python3 -c '
+import re
+sig = """<your full lean_signature, hypothesis binders + conclusion>"""
+ANCHORS = re.compile(r"\b(BHist|BMark|Empty|e0|e1|cons|append|sameSig|ProbeBundle|SigRel|InGap|NameCert|SemanticNameCert|Pkg|hsame|msame|Cont|Ext|InBundle|SameSig|UnaryHistory|StageInterface|SealEvent|SealInterface|AskEvent|AskPolicy|BundleAskPolicy|DescentCertificate|StableTransformation|ThreadFamily|bundleAppend|bundleLength|bwordLength)\b")
+stripped = re.sub(r"\bhsame\b","",re.sub(r"\bBHist\b","",sig))
+print("OK" if ANCHORS.search(stripped) else "BHIST-ANCHOR REJECT")
+'
+```
+
+If `BHIST-ANCHOR REJECT`, rewrite the target to mention `Cont` / `Empty` / `cons` / `append` directly (typically by stating the theorem about a concrete `BHist` value rather than abstract `ClassifierSpec` manipulations).
 
 ### Mechanical blocker definition (no soft fallback)
 

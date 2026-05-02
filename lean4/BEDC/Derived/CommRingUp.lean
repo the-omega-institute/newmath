@@ -101,6 +101,17 @@ theorem singleton_empty_history_commring_laws :
               · intro x carrierX
                 exact And.intro emptyCarrier (And.intro carrierX (hsame_symm carrierX))
 
+theorem CommRingSingletonClassifier_append_visible_right_absurd {h p q : BHist} :
+    (CommRingSingletonClassifier h (BEDC.FKernel.Cont.append p (BHist.e0 q)) -> False) ∧
+      (CommRingSingletonClassifier h (BEDC.FKernel.Cont.append p (BHist.e1 q)) -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := BEDC.FKernel.Cont.append_eq_empty_iff.mp classified.right.left
+    cases emptyParts.right
+  · intro classified
+    have emptyParts := BEDC.FKernel.Cont.append_eq_empty_iff.mp classified.right.left
+    cases emptyParts.right
+
 theorem commring_right_distrib_from_left {add mul : BHist -> BHist -> BHist}
     (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
     (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->

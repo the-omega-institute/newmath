@@ -1,0 +1,37 @@
+\begin{theorem}[Rat denominator unit carrier transport-closure package]
+\label{thm:rat-denom-unit-carrier-transport-closure-package}
+For concrete histories $h,k,r:\mathsf{BHist}$, the empty-unit denominator
+carrier has the following two concrete closure properties:
+\begin{enumerate}
+\item if $\mathsf{RatDenomUnitCarrier}(h)$ and $h\hsame k$, then
+$\mathsf{RatDenomUnitCarrier}(k)$;
+\item if $\mathsf{RatDenomUnitCarrier}(h)$,
+$\mathsf{RatDenomUnitCarrier}(k)$, and $\Cont(h,k,r)$, then
+$\mathsf{RatDenomUnitCarrier}(r)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:field-rat-denominator-unit-carrier}. For the
+transport clause, split the carrier witness for $h$. In the Rat branch,
+\texttt{BEDC.Derived.RatUp.RatHistoryCarrier\_hsame\_transport} carries the
+Rat endpoint witness across $h\hsame k$. In the empty branch, transport the
+empty-endpoint comparison across $h\hsame k$; the result belongs to the left
+disjunct for $k$.
+
+For continuation closure, split the two input carrier witnesses. In the
+empty/empty branch, transport the displayed continuation to the empty-left and
+empty-right unit continuation at $\emp$, so the result is $\hsame$ to $\emp$.
+This is the left disjunct of the unit carrier.
+
+In the empty/Rat branch, transport the continuation to an empty-left
+continuation and use the left unit result law to compare $r$ with the Rat
+endpoint. Rat carrier transport then gives the Rat branch for $r$.
+
+The Rat/empty branch is symmetric: transport to an empty-right continuation,
+use the right unit result law, and carry the Rat witness across the resulting
+$\hsame$ comparison.
+
+In the Rat/Rat branch, apply the concrete Rat denominator continuation carrier
+closure theorem. The result is a Rat endpoint, hence it lies in the right
+disjunct of $\mathsf{RatDenomUnitCarrier}(r)$.
+\end{proof}

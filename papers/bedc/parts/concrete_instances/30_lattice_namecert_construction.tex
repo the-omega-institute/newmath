@@ -10,6 +10,291 @@ The lattice interface \(\LatticeUp\) extends \autoref{ch:concrete-instances-pose
 Use a poset setup extended with meet and join operations carrying bound-characterization proofs.
 \end{definition}
 
+\section{Concrete singleton prefix lattice instance}
+\label{sec:lattice-concrete-singleton-prefix-instance}
+
+\begin{definition}[Concrete singleton prefix lattice instance]
+\label{def:concrete-singleton-prefix-lattice-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define
+$\rho_{\emp}$ by
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Let $h\le_{\emp} k$ mean that $A_{\emp}(h)$ and $A_{\emp}(k)$ hold and that
+$\mathsf{PreorderPrefixLE}(h,k)$ witnesses the prefix comparison between the
+carried endpoints. Define the concrete lattice operations by
+$$
+\mathsf{meet}(h,k):=\emp,\qquad
+\mathsf{join}(h,k):=\emp.
+$$
+The certificate has ten fields: traditional target the one-point lattice; BEDC
+source $\mathsf{BHist}$ plus the singleton source and concrete prefix order;
+carrier $A_{\emp}$; classifier $\rho_{\emp}$; stability obligations for poset
+laws, meet lower bounds, meet greatestness, join upper bounds, join leastness,
+and meet and join congruence; ledger singleton endpoint plus prefix witnesses;
+core theorem Theorem~\ref{thm:concrete-singleton-prefix-lattice-laws};
+exactness singleton endpoint classification; standard bridge terminal
+one-point lattice; and status $\mathsf{ProofTarget}$.
+\end{definition}
+
+\begin{theorem}[Concrete singleton prefix lattice laws]
+\label{thm:concrete-singleton-prefix-lattice-laws}
+For all carried histories $h,k,z$ in $A_{\emp}$, the endpoints
+$\mathsf{meet}(h,k)$ and $\mathsf{join}(h,k)$ are carried by $A_{\emp}$ and
+satisfy the meet lower-bound laws, meet greatest-lower-bound law, join
+upper-bound laws, join least-upper-bound law, and meet and join congruence laws
+for the restricted prefix order $\le_{\emp}$ under the classifier
+$\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+The singleton carrier witnesses identify each carried endpoint with $\emp$.
+Thus $A_{\emp}(h)$, $A_{\emp}(k)$, and $A_{\emp}(z)$ reduce every endpoint
+comparison needed by the order, meet, and join clauses to the empty-history
+endpoint.
+
+The restricted prefix comparisons are supplied by
+$\mathsf{PreorderPrefixLE\_of\_hsame}$ after the singleton witnesses produce
+the relevant $\hsame$ facts. The inherited order boundary is the concrete unary
+prefix poset law package of Theorem~\ref{thm:concrete-unary-prefix-poset-laws},
+with antisymmetry supplied by Theorem~\ref{thm:poset-prefix-antisymmetry}.
+
+The meet and join outputs are both definitionally $\emp$. The lower-bound and
+upper-bound clauses therefore use the singleton endpoint witness for $\emp$
+and the prefix witnesses from the previous paragraph; the greatest-lower-bound
+and least-upper-bound clauses use the same reduction for the third carried
+history $z$.
+
+Congruence is immediate because both operations ignore their operands and
+return $\emp$. After unfolding, every source and target output is classified by
+$\rho_{\emp}(\emp,\emp)$, assembled from two copies of $A_{\emp}(\emp)$ and the
+reflexive witness $\hsame(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonPrefix\_laws}
+
+\begin{theorem}[Singleton lattice order has empty endpoints]
+\label{thm:lattice-singleton-le-empty-endpoints}
+For $h,k:\mathsf{BHist}$, the restricted singleton prefix order satisfies
+$$
+h\le_{\emp} k
+\quad\Longleftrightarrow\quad
+h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the two singleton carrier fields from the
+definition of $h\le_{\emp} k$. These fields are exactly $h\hsame\emp$ and
+$k\hsame\emp$.
+
+For the reverse direction, the two endpoint witnesses supply the singleton
+carrier fields. Their transitive composite through $\emp$ gives $h\hsame k$,
+and the prefix comparison follows from the concrete
+$\mathsf{PreorderPrefixLE\_of\_hsame}$ constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_empty\_endpoints\_iff}
+
+\begin{theorem}[Singleton lattice carrier order collapse]
+\label{thm:lattice-singleton-carrier-order-collapse}
+If $h$ and $k$ are carried by $A_{\emp}$, then both restricted order
+comparisons hold, the singleton classifier relates $h$ and $k$, and both
+endpoints are internally the same as $\emp$:
+$$
+h\le_{\emp} k\land k\le_{\emp} h\land \rho_{\emp}(h,k)
+\land h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The two carrier witnesses are the endpoint comparisons
+$h\hsame\emp$ and $k\hsame\emp$. Their composite through $\emp$ gives
+$h\hsame k$, and symmetry gives $k\hsame h$.
+
+The two restricted order comparisons are obtained from these two sameness
+witnesses by $\mathsf{PreorderPrefixLE\_of\_hsame}$, together with the same
+carrier fields. The classifier package uses the carrier fields and
+$h\hsame k$, and the endpoint clauses are the original carrier witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonCarrier\_order\_collapse}
+
+\begin{theorem}[Singleton lattice antisymmetry classifier]
+\label{thm:lattice-singleton-le-antisymm-classifier}
+If $h\le_{\emp} k$ and $k\le_{\emp} h$ in the restricted singleton prefix
+order, then $\rho_{\emp}(h,k)$, $h\hsame\emp$, and $k\hsame\emp$.
+\end{theorem}
+\begin{proof}
+The two restricted comparisons carry their endpoint fields, so the first
+comparison already identifies both $h$ and $k$ with $\emp$. The prefix
+components of the two comparisons are opposing $\mathsf{PreorderPrefixLE}$
+witnesses, and concrete prefix antisymmetry gives $\hsame(h,k)$. These three
+pieces are exactly the classifier data $\rho_{\emp}(h,k)$, together with the
+two displayed empty endpoint witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_antisymm\_classifier}
+
+\begin{theorem}[Singleton lattice meet-join absorption classifier]
+\label{thm:lattice-singleton-meet-join-absorption-classifier}
+If $h$ and $k$ are carried by $A_{\emp}$, then both absorption composites
+$\mathsf{meet}(h,\mathsf{join}(h,k))$ and
+$\mathsf{join}(h,\mathsf{meet}(h,k))$ are classified with $h$ by
+$\rho_{\emp}$, and both output histories are $\hsame$ to $\emp$.
+\end{theorem}
+\begin{proof}
+Both concrete lattice operations are definitionally $\emp$. Hence each
+absorption composite is the empty history, whose singleton carrier witness is
+reflexive. The carrier witness for $h$ gives $h\hsame\emp$, so symmetry gives
+the classifier component from each absorption output back to $h$. Reassemble
+the two $\rho_{\emp}$ classifiers and record the two empty output endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_classifier}
+
+\begin{theorem}[Singleton lattice meet-join absorption is empty-classified]
+\label{thm:lattice-singleton-meet-join-absorption-empty-classified}
+For carried singleton endpoints $h,k$, both absorption composites reduce to
+the empty endpoint and classify back to $h$:
+$$
+\begin{aligned}
+&\mathsf{meet}(h,\mathsf{join}(h,k))\hsame\emp,\qquad
+\mathsf{join}(h,\mathsf{meet}(h,k))\hsame\emp,\\
+&\rho_{\emp}(\mathsf{meet}(h,\mathsf{join}(h,k)),h),\qquad
+\rho_{\emp}(\mathsf{join}(h,\mathsf{meet}(h,k)),h).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Both concrete operations are definitionally the endpoint $\emp$. The two
+endpoint equalities are therefore reflexive empty-history sameness. Since $h$
+is carried by the singleton carrier, symmetry of its carrier witness classifies
+$\emp$ with $h$, and the classifier packages the two carrier witnesses with
+that history-sameness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_empty\_classified}
+
+\begin{theorem}[Singleton lattice classifier has empty endpoints]
+\label{thm:lattice-singleton-classifier-empty-endpoints}
+For $h,k:\mathsf{BHist}$, the singleton lattice classifier satisfies
+$$
+\rho_{\emp}(h,k)
+\quad\Longleftrightarrow\quad
+h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the two carrier fields from the classifier
+tuple. Since the singleton carrier is the predicate $x\hsame\emp$, these fields
+are exactly the two endpoint witnesses.
+
+Conversely, the two endpoint witnesses make $h$ and $k$ singleton-carried.
+Their composite through $\emp$, using symmetry on the second witness, supplies
+$h\hsame k$ and hence the classifier tuple.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_empty\_endpoints\_iff}
+
+\begin{theorem}[Singleton meet--join absorption gives order and classifier data]
+\label{thm:lattice-singleton-meet-join-absorption-order-classifier}
+If $h,k:\mathsf{BHist}$ are singleton-carried, then the two singleton lattice
+absorption endpoints
+$$
+h\wedge(h\vee k)
+\qquad\text{and}\qquad
+h\vee(h\wedge k)
+$$
+are both definitionally the empty history. They satisfy the restricted prefix
+order comparisons
+$$
+h\wedge(h\vee k)\le_{\emp} h
+\qquad\text{and}\qquad
+h\le_{\emp} h\vee(h\wedge k),
+$$
+are both classified with $h$, and both read back to $\emp$.
+\end{theorem}
+\begin{proof}
+In the singleton lattice, meet and join ignore their inputs and return $\emp$.
+The carrier witness for $h$ gives $h\hsame\emp$, while reflexivity gives
+$\emp\hsame\emp$.
+
+The first order comparison uses symmetry of $h\hsame\emp$ to obtain
+$\emp\hsame h$ and then applies the prefix comparison constructor. The second
+uses $h\hsame\emp$ directly. The same two $\hsame$ witnesses assemble the
+classifier tuples with $h$, and the endpoint readbacks are both reflexivity at
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_order\_classifier}
+
+\begin{theorem}[Singleton meet greatest lower bound]
+\label{thm:lattice-singleton-meet-greatest-lower-bound}
+For carried histories $h,k,z$ in the singleton lattice, the concrete meet output
+is the empty history, and the lower-bound condition against that meet is exactly
+the pair of lower-bound conditions against the two operands:
+$$
+\hsame(\mathsf{LatticeSingletonMeet}(h,k),\emp)
+\land
+\left(
+z\le_{\emp}\mathsf{LatticeSingletonMeet}(h,k)
+\Longleftrightarrow
+z\le_{\emp} h\land z\le_{\emp} k
+\right).
+$$
+\end{theorem}
+\begin{proof}
+The meet operation is definitionally the empty history. Since $h,k,z$ are all
+carried by the singleton carrier, the order endpoint theorem
+\autoref{thm:lattice-singleton-le-empty-endpoints} reduces every displayed
+comparison to the two empty-endpoint witnesses. The forward direction rebuilds
+the two operand bounds from the endpoint witnesses for $z,h,k$; the reverse
+direction rebuilds the meet bound from the endpoint witness for $z$ and
+reflexivity at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeet\_empty\_output\_greatest\_lower\_bound\_iff}
+
+\begin{theorem}[Singleton lattice append tail emptiness]
+\label{thm:lattice-singleton-le-append-tail-empty}
+For $h,t:\mathsf{BHist}$, if $A_{\emp}(h)$ and
+$\mathsf{UnaryHistory}(t)$, then the restricted singleton prefix order
+satisfies
+$$
+\mathsf{append}(h,t)\le_{\emp} h
+\quad\Longleftrightarrow\quad
+t\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the underlying prefix comparison from the
+restricted order and applies the concrete append-tail backforcing law from
+\(\PreorderUp\). A unary tail that returns from $\mathsf{append}(h,t)$ back
+to $h$ must be the empty history.
+
+For the reverse direction, the witness $t\hsame\emp$ reduces
+$\mathsf{append}(h,t)$ to $h$ by the right continuation unit law. The carried
+witness $A_{\emp}(h)$ therefore also carries $\mathsf{append}(h,t)$, and the
+prefix comparison is the empty-tail side of the same append-tail equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_append\_tail\_empty\_iff}
+
+\begin{theorem}[Singleton lattice meet greatest lower bound empty exactness]
+\label{thm:lattice-singleton-meet-glb-empty-exactness}
+For carried singleton endpoints $h,k,z$, the statement that $z$ is below the
+concrete meet of $h$ and $k$ is equivalent to the two endpoint lower-bound
+clauses together with the fact that the concrete meet is empty:
+$$
+z\le_{\emp}\mathsf{meet}(h,k)
+\quad\Longleftrightarrow\quad
+z\le_{\emp}h\wedge z\le_{\emp}k\wedge \mathsf{meet}(h,k)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier identifies $h,k,z$ with $\emp$, and the concrete meet
+operation is definitionally $\emp$. Thus the forward direction builds both
+lower-bound comparisons from the endpoint sameness witnesses using the
+singleton prefix comparison. Conversely, the displayed empty-meet endpoint
+and the carrier witness for $z$ build the singleton comparison
+$z\le_{\emp}\mathsf{meet}(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeet\_greatest\_lower\_bound\_empty\_iff}
+
+The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
+and operations, so Lean can target $\mathsf{BEDC.Derived.LatticeUp}$ as a
+$\mathsf{BHist}$-anchored certificate rather than an abstract operator schema.
+
 \section{The certificate}
 
 \begin{definition}[Lattice source specification]

@@ -95,6 +95,28 @@ again gives the carrier witness for $\mathsf{append}(h,p)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_unary\_suffix\_closed}
 
+\begin{theorem}[Option history carrier unary append context equivalence]
+\label{thm:option-history-carrier-unary-append-context-iff}
+Let $p,q,h:\mathsf{BHist}$. If $p$ and $q$ are unary histories, then nullable
+unary option carrier membership is invariant under placing $p$ on the left and
+$q$ on the right:
+$$
+\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}
+  (\mathsf{append}(p,\mathsf{append}(h,q)))
+\Longleftrightarrow
+\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(h).
+$$
+\end{theorem}
+\begin{proof}
+Split the nullable carrier. In the absent branch, two applications of
+$\mathsf{append}\_\mathsf{eq}\_\mathsf{empty}\_\mathsf{iff}$ recover the
+uncloaked empty endpoint. In the source branch, apply the unary append context
+middle equivalence. The reverse direction either rebuilds the contextual unary
+carrier from an empty middle endpoint or closes the source unary witness under
+the same two append contexts.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_unary\_append\_context\_iff}
+
 \begin{theorem}[Option history classifier unary prefix closure]
 \label{thm:option-history-classifier-unary-prefix-closed}
 Let $p,h,k:\mathsf{BHist}$. If $p$ is unary and

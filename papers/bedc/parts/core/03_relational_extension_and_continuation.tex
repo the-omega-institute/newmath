@@ -309,6 +309,62 @@ outer-constructor equalities. The opposite-tag branch exposes the predecessor
 of $k$ and peels the matching outer constructor from the result equation.
 \end{proof}
 
+\begin{theorem}[Left cross-tag continuation result characterization]
+\label{thm:cont-left-tag-cross-result-iff-pair}
+For histories \(h,k,r\), the two cross-tag result shapes are characterized by
+the opposite tag in the continuation tail:
+$$
+\ContR(\Ezero(h),k,\Eone(r))
+\Longleftrightarrow
+\exists k_0:\mathsf{BHist}.\;k=\Eone(k_0)\land\ContR(\Ezero(h),k_0,r),
+$$
+and
+$$
+\ContR(\Eone(h),k,\Ezero(r))
+\Longleftrightarrow
+\exists k_0:\mathsf{BHist}.\;k=\Ezero(k_0)\land\ContR(\Eone(h),k_0,r).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_tag\_cross\_result\_iff\_pair}
+\begin{proof}
+The forward directions are the cross-tag result case split. For the converse
+directions, eliminate the displayed equation for \(k\) and rebuild the outer
+result constructor using the corresponding continuation step rule.
+\end{proof}
+
+\begin{theorem}[Left same-tag continuation tail alignment]
+\label{thm:cont-left-same-tag-tail-alignment}
+If two continuations have the same visible left endpoint and the same
+same-tag visible result, then their right tails align in the same shape. For
+zero-headed endpoints, both tails are empty or both are zero-headed with
+$\HSame$ exposed tails; for one-headed endpoints, both tails are empty or both
+are one-headed with $\HSame$ exposed tails.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_same\_tag\_tail\_alignment}
+\begin{proof}
+Apply continuation left cancellation to the two displayed continuations to
+obtain $\HSame(k,l)$ between their right tails. Split the first continuation by
+the same-tag result case theorem. In the empty branch, the tail sameness forces
+the second tail to be empty. In the visible branch, tail sameness transports
+the second tail into the matching visible constructor and yields the exposed
+$\HSame$ relation between payload tails.
+\end{proof}
+
+\begin{theorem}[Left cross-tag continuation tail alignment]
+\label{thm:cont-left-tag-cross-tail-alignment}
+If two continuations have the same visible left endpoint and the same
+cross-tag visible result, then both right tails carry the opposite visible tag,
+and the exposed tails are $\HSame$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_tag\_cross\_tail\_alignment}
+\begin{proof}
+Continuation left cancellation compares the two right tails. The cross-tag
+result case theorem applied to the first continuation forces that tail to have
+the opposite visible constructor. Transporting the second tail through the
+tail sameness forces the same constructor there as well, and constructor
+inversion gives the exposed $\HSame$ relation.
+\end{proof}
+
 \begin{lemma}[Continuation right unit]
 For every history \(h\), \(\ContR(h,\emp,h)\).
 \end{lemma}
@@ -371,6 +427,20 @@ continuation inputs. The remaining result endpoint is transported by
 Theorem~\ref{thm:cont-result-hsame-transport}.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_hsame\_transport}
+
+\begin{theorem}[Continuation transport result classification]
+\label{thm:cont-transport-result-classified}
+If $\hsame(h,h')$, $\hsame(k,k')$, $\hsame(r,r')$,
+$\ContR(h,k,r)$, and $\ContR(h',k',s)$, then
+$\ContR(h',k',r')$ and $\hsame(r',s)$.
+\end{theorem}
+\begin{proof}
+First transport the original continuation witness across the two input
+endpoints and the result endpoint. The transported witness and the displayed
+target-side witness now share the same source and tail histories, so
+continuation determinacy classifies their results.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_transport\_result\_classified}
 
 \begin{theorem}[Continuation left-context cancellation up to history-sameness]
 \label{thm:cont-cancel-hsame-left-context}
@@ -435,6 +505,31 @@ Continuation admits cancellation on both sides:
 \leanvariant{BEDC.FKernel.Cont.append\_left\_cancel}
 \begin{proof}
 For the first clause, use right-suffix cancellation after transporting the result by $\hsame$. The second clause is left-context cancellation: compare the two derivations with the same left history, peel the shared left context, and conclude that the right histories are equal up to $\hsame$. For the third clause, associate the two continuations so both sides expose the same outer context $c$ over the inner continuations from $a$; the common outer context cancels against the result-sameness, and the remaining left-context cancellation yields $\hsame(b,d)$.
+\end{proof}
+
+\begin{theorem}[Self-extension by a visible tail is impossible]
+\label{thm:cont-self-extension-tail-absurd}
+For any histories $h$ and $t$, neither $\ContR(h,\Ezero(t),h)$ nor
+$\ContR(h,\Eone(t),h)$ can hold.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_self\_extension\_tail\_absurd}
+\begin{proof}
+Any such continuation would make a visible right tail behave as the empty
+right unit at $h$. Right-unit uniqueness identifies the tail with $\emp$,
+contradicting constructor no-confusion for $\Ezero(t)$ and $\Eone(t)$.
+\end{proof}
+
+\begin{theorem}[Mutual continuations cannot start with a visible left tail]
+\label{thm:cont-mutual-extension-left-tail-absurd}
+For histories $h,k,t,u$, a continuation $\ContR(h,\Ezero(t),k)$ together
+with a return continuation $\ContR(k,u,h)$ is impossible; the same holds with
+$\Eone(t)$ in place of $\Ezero(t)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_mutual\_extension\_left\_tail\_absurd}
+\begin{proof}
+Mutual continuations force both displayed tails to be empty by the concrete
+tail-empty cancellation theorem. A left tail with outer constructor
+$\Ezero$ or $\Eone$ cannot be internally same as $\emp$.
 \end{proof}
 
 \begin{theorem}[Continuation associativity]

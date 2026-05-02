@@ -102,6 +102,60 @@ theorem TaggedOptionMapRel_common_source_visible_target_completion {S T : BHist 
                 exact Exists.intro a
                   (And.intro data.left (And.intro data.right.right.left relAY))
 
+theorem TaggedOptionMapRel_common_target_visible_source_completion {S T : BHist -> Prop}
+    {RelS RelT : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (certS : NameCert S RelS)
+    (reflects : TaggedOptionPayloadDescentReflectsSource S delta)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {h h' k : BHist} :
+    TaggedOptionMapRel S T delta h k ->
+      TaggedOptionMapRel S T delta h' k ->
+        (forall {x : BHist}, S x -> hsame h (BHist.e1 x) ->
+          exists y : BHist, S y ∧ hsame h' (BHist.e1 y) ∧ RelS x y) ∧
+        (forall {y : BHist}, S y -> hsame h' (BHist.e1 y) ->
+          exists x : BHist, S x ∧ hsame h (BHist.e1 x) ∧ RelS x y) := by
+  intro mapH mapH'
+  have sourceClass : TaggedOptionHistoryClassifier S RelS h h' :=
+    TaggedOptionMapRel_common_target_source_classification delta reflects mapH mapH'
+  constructor
+  · intro x sourceX sameHX
+    cases sourceClass with
+    | inl absent =>
+        exact False.elim (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.left) sameHX))
+    | inr present =>
+        cases present with
+        | intro a present =>
+            cases present with
+            | intro b data =>
+                have sameXA : hsame x a :=
+                  hsame_e1_iff.mp
+                    (hsame_trans (hsame_symm sameHX) data.right.right.left)
+                have relXA : RelS x a :=
+                  source_hsame sourceX data.left sameXA
+                have relXB : RelS x b :=
+                  NameCert.equiv_trans certS relXA data.right.right.right.right
+                exact Exists.intro b
+                  (And.intro data.right.left
+                    (And.intro data.right.right.right.left relXB))
+  · intro y sourceY sameH'Y
+    cases sourceClass with
+    | inl absent =>
+        exact False.elim (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.right) sameH'Y))
+    | inr present =>
+        cases present with
+        | intro a present =>
+            cases present with
+            | intro b data =>
+                have sameBY : hsame b y :=
+                  hsame_e1_iff.mp
+                    (hsame_trans (hsame_symm data.right.right.right.left) sameH'Y)
+                have relBY : RelS b y :=
+                  source_hsame data.right.left sourceY sameBY
+                have relAY : RelS a y :=
+                  NameCert.equiv_trans certS data.right.right.right.right relBY
+                exact Exists.intro a
+                  (And.intro data.left (And.intro data.right.right.left relAY))
+
 theorem TaggedOptionMapRel_common_source_visible_target_payload_classification
     {S T : BHist -> Prop} {RelS RelT : BHist -> BHist -> Prop}
     (delta : DescentCertificate BHist BHist RelS RelT) (certT : NameCert T RelT)

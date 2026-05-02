@@ -1,0 +1,269 @@
+\section{Rat denominator empty-unit continuation monoid instance}
+\label{sec:field-rat-denominator-empty-unit-continuation-monoid-instance}
+
+\begin{definition}[Rat denominator empty-unit continuation monoid instance]
+\label{def:field-rat-denominator-empty-unit-continuation-monoid-instance}
+The empty-unit denominator continuation monoid data for
+$\FieldUp(\mathsf{RatUp})$ are the concrete tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u)$ defined by
+$$
+C_D^u(h)\Longleftrightarrow\mathsf{RatDenomUnitCarrier}(h),
+$$
+$$
+R_D^u(h,k)\Longleftrightarrow\mathsf{RatDenomUnitClassifier}(h,k),
+$$
+$$
+\mu_D^u(h,k):=\mathsf{append}(h,k),
+$$
+and $e_D^u:=\emp$. For every pair of histories $h,k:\mathsf{BHist}$, the
+multiplication is equipped with the canonical continuation witness
+$$
+\Cont(h,k,\mathsf{append}(h,k)).
+$$
+\end{definition}
+
+\begin{theorem}[Rat denominator empty-unit continuation monoid laws]
+\label{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}
+The concrete tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance}
+satisfies the denominator empty-unit continuation monoid laws:
+\begin{enumerate}
+  \item The unit is carried: $C_D^u(e_D^u)$.
+  \item The multiplication is closed: if $C_D^u(h)$ and $C_D^u(k)$, then
+  $C_D^u(\mu_D^u(h,k))$.
+  \item The left and right unit products are classified with their endpoint:
+  for every $h$ with $C_D^u(h)$,
+  $R_D^u(\mu_D^u(e_D^u,h),h)$ and
+  $R_D^u(\mu_D^u(h,e_D^u),h)$.
+  \item The multiplication is associative under $R_D^u$: if
+  $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$, then
+  $R_D^u(\mu_D^u(\mu_D^u(h,k),\ell),
+  \mu_D^u(h,\mu_D^u(k,\ell)))$.
+  \item The multiplication respects classified endpoints: if $R_D^u(h,h')$
+  and $R_D^u(k,k')$, then
+  $R_D^u(\mu_D^u(h,k),\mu_D^u(h',k'))$.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_continuation\_monoid\_laws}
+\begin{proof}
+Unfold $C_D^u$, $R_D^u$, $\mu_D^u$, and $e_D^u$. The displayed multiplication
+is the external append operation, so each product carries the canonical
+continuation witness $\Cont(h,k,\mathsf{append}(h,k))$.
+
+The carried empty unit, append closure, and the two one-sided unit
+classifications are exactly the first four clauses of
+\autoref{thm:field-rat-denominator-continuation-adjoined-unit-laws} applied to
+those canonical continuation witnesses.
+
+For associativity, use the same adjoined-unit theorem with the four canonical
+continuation witnesses for the two inner and two outer products. Its fifth
+clause gives the classifier comparison between the two bracketed append
+results.
+
+It remains to show multiplication congruence. From $R_D^u(h,h')$ and
+$R_D^u(k,k')$, unfold the classifier to obtain the four carried endpoint
+witnesses together with $h\hsame h'$ and $k\hsame k'$. Apply
+\autoref{thm:external-append-hsame-congruence} to the two $\hsame$ comparisons;
+append closure for $C_D^u$ supplies the two carried product witnesses. These
+three pieces are exactly
+$R_D^u(\mu_D^u(h,k),\mu_D^u(h',k'))$.
+
+Thus the denominator continuation fields are concrete BEDC data: carrier
+$\mathsf{RatDenomUnitCarrier}$, classifier
+$\mathsf{RatDenomUnitClassifier}$, multiplication $\mathsf{append}$, and unit
+$\emp$, with no abstract operator field being used.
+\end{proof}
+
+\begin{theorem}[Rat denominator unit carrier empty context exactness]
+\label{thm:rat-denom-unit-carrier-empty-context-iff}
+For histories $p,q,h:\mathsf{BHist}$, if $p\hsame\emp$ and $q\hsame\emp$,
+then adding those empty endpoint contexts does not change membership in the
+empty-unit denominator carrier:
+$$
+\mathsf{RatDenomUnitCarrier}(\mathsf{append}(p,\mathsf{append}(h,q)))
+\Longleftrightarrow
+\mathsf{RatDenomUnitCarrier}(h).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_empty\_context\_iff}
+\begin{proof}
+Eliminate the two empty-context sameness witnesses. The right append with
+$\emp$ reduces to $h$, and the left append by $\emp$ is identified with $h$
+by the append left-unit law. Transport the concrete
+$\mathsf{RatDenomUnitCarrier}$ predicate along that history-sameness
+comparison in both directions.
+\end{proof}
+
+\section{Rat denominator unit endpoint exactness}
+\label{sec:field-rat-denominator-unit-endpoint-exactness}
+
+\begin{theorem}[Rat denominator continuation right-unit endpoint iff empty]
+\label{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}
+For every history $u:\mathsf{BHist}$, the right-unit classifier law is
+equivalent to external emptiness:
+$$
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\Longleftrightarrow
+u\hsame\emp.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_right\_unit\_law\_endpoint\_empty\_iff}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:field-rat-denominator-continuation-unit-endpoint-empty} to
+the displayed right-unit classifier law. Its first endpoint-forcing clause
+returns $u\hsame\emp$.
+
+Conversely, assume $u\hsame\emp$, a carrier witness
+$\mathsf{RatHistoryCarrier}(d)$, and a displayed continuation
+$\Cont(d,u,r)$. Transport the second continuation endpoint along
+$u\hsame\emp$ to obtain a continuation presentation $\Cont(d,\emp,r)$ with
+the same displayed result. The right external-boundary law in
+Theorem~\ref{thm:field-rat-denominator-continuation-external-boundary-laws}
+then yields $\mathsf{RatHistoryClassifier}(r,d)$.
+\end{proof}
+
+\begin{theorem}[Rat denominator continuation left-unit endpoint iff empty]
+\label{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}
+For every history $u:\mathsf{BHist}$, the left-unit classifier law is equivalent
+to external emptiness:
+$$
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\Longleftrightarrow
+u\hsame\emp.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_left\_unit\_law\_endpoint\_empty\_iff}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:field-rat-denominator-continuation-unit-endpoint-empty} to
+the displayed left-unit classifier law. Its second endpoint-forcing clause
+returns $u\hsame\emp$.
+
+Conversely, assume $u\hsame\emp$, a carrier witness
+$\mathsf{RatHistoryCarrier}(d)$, and a displayed continuation
+$\Cont(u,d,r)$. Transport the first continuation endpoint along
+$u\hsame\emp$ to obtain $\Cont(\emp,d,r)$. The left external-boundary law in
+Theorem~\ref{thm:field-rat-denominator-continuation-external-boundary-laws}
+classifies the displayed result as
+$\mathsf{RatHistoryClassifier}(r,d)$.
+\end{proof}
+
+\begin{theorem}[Rat denominator external unit separation package]
+\label{thm:field-rat-denominator-external-unit-separation-package}
+For the concrete denominator carrier, classifier, and continuation operation
+given by
+$$
+C_D(h)\Longleftrightarrow\mathsf{RatHistoryCarrier}(h),
+$$
+$$
+R_D(h,k)\Longleftrightarrow\mathsf{RatHistoryClassifier}(h,k),
+$$
+with operation represented by $\Cont$, every history $u:\mathsf{BHist}$
+satisfies the following three clauses.
+\begin{enumerate}
+\item The right classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+C_D(d)\to
+\Cont(d,u,r)\to
+R_D(r,d)
+$$
+is equivalent to $u\hsame\emp$.
+\item The left classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+C_D(d)\to
+\Cont(u,d,r)\to
+R_D(r,d)
+$$
+is equivalent to $u\hsame\emp$.
+\item If $C_D(u)$ holds, then either one-sided classifier-unit law displayed
+above implies $\mathsf{False}$.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_external\_unit\_separation\_package}
+\begin{proof}
+The displayed definitions of $C_D$ and $R_D$ identify the right classifier-unit
+law with the concrete law in
+\autoref{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}.
+That theorem gives the first equivalence exactly.
+
+The same unpacking identifies the left classifier-unit law with the concrete
+law in
+\autoref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}.
+That theorem gives the second equivalence.
+
+For the carried exclusion, assume $C_D(u)$. This is precisely
+$\mathsf{RatHistoryCarrier}(u)$. The right one-sided law contradicts
+\autoref{thm:field-rat-denominator-continuation-no-internal-unit}, while the
+left one-sided law contradicts
+\autoref{thm:field-rat-denominator-continuation-no-internal-left-unit}.
+
+Equivalently, either endpoint equivalence first yields $u\hsame\emp$, and then
+\autoref{thm:rat-history-carrier-not-empty} excludes the simultaneous carried
+witness. Thus the empty endpoint is external to the positive Rat denominator
+carrier even though it is exact for the classifier-unit boundary laws.
+\end{proof}
+
+\begin{theorem}[Rat denominator external unit endpoint disjunction uniqueness]
+\label{thm:field-rat-denominator-external-unit-endpoint-disjunction-unique}
+For histories $u,v:\mathsf{BHist}$, suppose each endpoint satisfies at least
+one of the two one-sided denominator classifier-unit laws:
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+or
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d),
+$$
+and similarly with $v$ in place of $u$. Then $u\hsame v$.
+\end{theorem}
+\begin{proof}
+Case-split the two endpoint alternatives. The right/right, left/left, and
+right/left branches are the three clauses of the endpoint uniqueness theorem.
+The left/right branch is the symmetric form of the right/left branch applied
+with the two endpoints exchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_external\_unit\_endpoint\_disjunction\_unique}
+
+\textbf{Traditional target}: external unit boundary for the Rat denominator
+continuation fragment; \textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, and $\Cont$; \textbf{carrier}:
+$C_D$; \textbf{classifier}: $R_D$; \textbf{stability obligation}: endpoint
+exactness plus carried-unit exclusion; \textbf{ledger}: continuation witness;
+\textbf{core theorem}:
+\autoref{thm:field-rat-denominator-external-unit-separation-package};
+\textbf{exactness predicate}: external-unit iff empty plus no internal carried
+unit; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.
+
+\textbf{Traditional target}: denominator-side continuation unit endpoint
+classification for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and $\Cont$;
+\textbf{carrier choice}: Rat denominators; \textbf{classifier choice}: Rat
+history classifier; \textbf{stability obligation}: endpoint-unit exactness;
+\textbf{ledger}: the displayed continuation witness; \textbf{core theorems}:
+\autoref{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}
+and
+\autoref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty};
+\textbf{exactness predicate}: right and left unit endpoint laws are each
+equivalent to external emptiness;
+\textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
