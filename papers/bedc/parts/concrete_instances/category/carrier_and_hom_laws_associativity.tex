@@ -102,6 +102,29 @@ $\hsame$ gives the displayed orientation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_source\_tail\_target\_hsame}
 
+\begin{theorem}[Continuation morphism empty tail endpoint equivalence]
+\label{thm:continuation-morphism-tail-empty-endpoint-hsame-iff}
+For histories $a,b$ and a continuation morphism $m:a\to b$, the displayed tail
+of $m$ is history-same to $\emp$ if and only if the source and target endpoints
+are history-same:
+$$
+\hsame(\mathsf{tail}(m),\emp)
+\Longleftrightarrow
+\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Unpack $m$ as a continuation witness $\ContR(a,\mathsf{tail}(m),b)$. If the
+tail is $\emp$, compare this witness with the right-unit continuation at $a$;
+continuation result determinacy gives the endpoint comparison.
+
+Conversely, if $a\hsame b$, then the continuation witness identifies
+$\mathsf{append}(a,\mathsf{tail}(m))$ with $b$, and the endpoint comparison
+identifies $b$ with $\mathsf{append}(a,\emp)$. Left cancellation of the common
+source $a$ gives $\hsame(\mathsf{tail}(m),\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_empty\_endpoint\_hsame\_iff}
+
 \begin{theorem}[Continuation morphism endpoint transport tail classification]
 \label{thm:continuation-morphism-endpoint-transport-tail-classified}
 For histories $a,a',b,b'$, if $a$ is history-same as $a'$ and $b$ is

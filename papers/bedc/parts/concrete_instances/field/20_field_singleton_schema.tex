@@ -210,6 +210,25 @@ the proof-indexed domain.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.singleton\_empty\_history\_field\_schema\_laws}
 
+\begin{theorem}[Singleton empty nonzero visible headed exclusion]
+\label{thm:singleton-empty-nonzero-visible-headed}
+For every history $h:\mathsf{BHist}$, both visible-headed histories are in the
+classifier-complement singleton nonzero predicate:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{e0}(h))
+\land
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{e1}(h)).
+$$
+\end{theorem}
+\begin{proof}
+For an $\mathsf{e0}$-headed history, any forbidden classifier witness would
+include the carrier endpoint
+$\mathsf{e0}(h)\hsame\emp$, contradicting constructor disjointness for
+$\mathsf{BHist}$. The $\mathsf{e1}$-headed case is identical, using the
+disjointness of $\mathsf{e1}$ from $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_visible\_headed}
+
 \begin{theorem}[Singleton empty-classifier append split]
 \label{thm:field-singleton-empty-classifier-append-split-empty}
 For histories $p,q,h:\mathsf{BHist}$, the singleton empty classifier

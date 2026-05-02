@@ -38,6 +38,17 @@ theorem MatrixSingletonClassifier_append_split_empty_iff {M N h : BHist} :
     exact And.intro appendEmpty
       (And.intro split.right.right (hsame_trans appendEmpty (hsame_symm split.right.right)))
 
+theorem MatrixSingletonClassifier_append_visible_right_absurd {h p q : BHist} :
+    (MatrixSingletonClassifier h (append p (BHist.e0 q)) -> False) ∧
+      (MatrixSingletonClassifier h (append p (BHist.e1 q)) -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.right.left
+    cases emptyParts.right
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.right.left
+    cases emptyParts.right
+
 theorem MatrixSingletonEmptyHistory_laws :
     SemanticNameCert MatrixSingletonCarrier MatrixSingletonCarrier MatrixSingletonCarrier
         MatrixSingletonClassifier ∧

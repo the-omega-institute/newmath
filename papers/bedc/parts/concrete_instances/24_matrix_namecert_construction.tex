@@ -102,6 +102,26 @@ the displayed operation results.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_classifier\_iff}
 
+\begin{theorem}[Matrix singleton classifier visible right append exclusion]
+\label{thm:matrix-singleton-classifier-append-visible-right-absurd}
+For histories $h,p,q:\mathsf{BHist}$, a singleton matrix classifier witness
+cannot target an append whose right factor has a visible head:
+$$
+\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e0}(q)))\to\bot
+\qquad\text{and}\qquad
+\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e1}(q)))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton matrix classifier. A classifier witness supplies the
+target carrier endpoint
+$\mathsf{append}(p,\mathsf{e0}(q))\hsame\emp$ in the first case, or
+$\mathsf{append}(p,\mathsf{e1}(q))\hsame\emp$ in the second case. Empty-result
+inversion for append forces the visible right factor itself to be $\emp$,
+contradicting the disjointness of each visible constructor from $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_visible\_right\_absurd}
+
 \begin{theorem}[Singleton empty-history matrix laws]
 \label{thm:singleton-empty-history-matrix-laws}
 For the singleton instance of
