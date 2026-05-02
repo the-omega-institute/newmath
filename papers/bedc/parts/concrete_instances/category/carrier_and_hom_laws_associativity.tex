@@ -209,6 +209,26 @@ the corresponding endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_empty\_tail\_inversion}
 
+\begin{theorem}[Continuation morphism composite tail empty iff]
+\label{thm:category-continuation-morphism-comp-tail-empty-iff}
+For histories $a,b,c$, let $left:a\to b$ and $right:b\to c$ be continuation
+morphisms. The canonical composite has displayed tail history-same to $\emp$
+if and only if both component tails are history-same to $\emp$:
+$$
+\hsame(\mathsf{tail}(left\circ right),\emp)
+\Longleftrightarrow
+\hsame(\mathsf{tail}(left),\emp)\wedge
+\hsame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the tail part of composite empty-tail inversion. For
+the reverse direction, unpack the two continuation morphism records. Once both
+component tails are identified with $\emp$, the composite displayed tail is
+$\mathsf{append}(\emp,\emp)$, hence it is history-same to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_empty\_iff}
+
 \begin{theorem}[Continuation morphism composition right factor]
 \label{thm:continuation-morphism-composition-right-factor}
 For histories $a,b,c$ and a displayed tail $r$, let $left:a\to b$ and

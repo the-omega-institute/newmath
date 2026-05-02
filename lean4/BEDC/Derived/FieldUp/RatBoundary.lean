@@ -6,7 +6,24 @@ namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
+open BEDC.FKernel.Cont
 open BEDC.Derived.RatUp
+
+theorem field_rat_denominator_continuation_carrier_closure {d e r : BHist} :
+    BEDC.Derived.RatUp.RatHistoryCarrier d ->
+      BEDC.Derived.RatUp.RatHistoryCarrier e ->
+        BEDC.FKernel.Cont.Cont d e r ->
+          BEDC.Derived.RatUp.RatHistoryCarrier r := by
+  intro carrierD carrierE contDER
+  have positiveE : PositiveUnaryDenominator e :=
+    RatHistoryCarrier_iff_positive_denominator.mp carrierE
+  have unaryE : UnaryHistory e :=
+    (PositiveUnaryDenominator_unary_and_nonempty positiveE).left
+  have appendCarrier : RatHistoryCarrier (append d e) :=
+    RatHistoryCarrier_append_unary_denominator_closed carrierD unaryE
+  have sameResult : hsame (append d e) r :=
+    cont_deterministic (cont_intro (h := d) (k := e) (r := append d e) rfl) contDER
+  exact RatHistoryCarrier_hsame_transport sameResult appendCarrier
 
 theorem field_rat_history_carrier_non_singleton_boundary_witness :
     BEDC.Derived.RatUp.RatHistoryCarrier (BHist.e1 BHist.Empty) /\

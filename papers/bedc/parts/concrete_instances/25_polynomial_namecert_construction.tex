@@ -189,6 +189,30 @@ carrier of $h$, and symmetry of the carrier witness for $h$.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_add\_split\_empty\_iff}
 
+\begin{theorem}[Polynomial singleton classifier append-left cancellation]
+\label{thm:polynomial-singleton-classifier-append-left-cancel}
+For singleton-carried $P$, adding the same BEDC append context on the left of
+two singleton polynomial endpoints preserves and reflects the singleton
+classifier:
+$$
+A_{\emp}(P)\Longrightarrow
+\left(
+\rho_{\emp}(\mathsf{append}(P,Q),\mathsf{append}(P,R))
+\Longleftrightarrow
+\rho_{\emp}(Q,R)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the classifier says that both appended endpoints are
+singleton-carried. Empty append inversion splits the two endpoint carriers,
+giving $Q\hsame\emp$ and $R\hsame\emp$, and these witnesses rebuild
+$\rho_{\emp}(Q,R)$. Conversely, the singleton carrier of $P$ identifies the
+left context with $\emp$, so both appended endpoints reduce to the original
+classified endpoints $Q$ and $R$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_left\_cancel\_iff}
+
 \begin{theorem}[Polynomial singleton append distributivity is classified]
 \label{thm:polynomial-singleton-append-distrib-classified}
 For singleton-carried polynomial endpoints $P,Q,R$, the displayed append
