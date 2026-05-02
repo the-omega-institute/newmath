@@ -41,3 +41,72 @@
 \input{parts/concrete_instances/field/20_field_rat_denominator_contextual_row_packages}
 \input{parts/concrete_instances/field/20_field_rat_denominator_context_pair_action_package}
 \input{parts/concrete_instances/field/20_field_assembled_certificate_boundary}
+
+\begin{theorem}[RatUp FieldUp semantic certificate assembly]
+\label{thm:ratup-fieldup-semantic-certificate-assembly}
+For the concrete $\mathsf{BHist}$ data
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{append}$, $\Cont$, $\emp$, and strict support
+$\mathsf{RatHistoryCarrier}$, the carrier, source, pattern, classifier,
+stability, ledger, and exactness rows of
+\autoref{def:field-certificate-obligations} are supplied for
+$\FieldUp(\mathsf{RatUp})$. More explicitly, the inverse and apart-zero rows,
+the two-sided zero-product and nonzero-product rows, the denominator
+multiplicative and contextual rows, the denominator context-pair action rows,
+and the packaged affine $\GroupUp$ consequence form one semantic certificate
+for the concrete target $\FieldUp(\mathsf{RatUp})$.
+\end{theorem}
+\begin{proof}
+Bind the rational carrier and classifier first. The object carrier is
+$\mathsf{RatHistoryCarrier}$, the object classifier is
+$\mathsf{RatHistoryClassifier}$, and the source pattern is the BEDC
+continuation pattern $\Cont$ over $\mathsf{BHist}$. The denominator tuple is
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$.
+
+The inverse rows are the apart-zero rows. Theorem~\ref{thm:field-apart-zero-inverse-classifier-exact-from-apartness}
+supplies classifier exactness for proof-indexed inverses over the concrete
+apart-zero predicate, so the inverse classifier, inverse stability, and
+nonzero transport entries are read from the displayed apartness witnesses.
+
+The zero-product rows come from
+\autoref{thm:field-two-sided-zero-product-cancel-from-apartness}. Its
+two-sided multiplication equivalence gives exact zero classification after
+certified nonzero left and right factors, and the same witness data supply the
+nonzero-product contradiction row in the per-object certificate record.
+
+For the denominator part, use
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}
+for the multiplicative denominator rows and
+\autoref{thm:ratup-fieldup-denominator-package-closure} for the closed
+denominator-side package. The exact carrier, classifier, multiplication, unit,
+and strict-support entries are the concrete tuple fixed above.
+
+The contextual denominator action is supplied by
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate}. It
+packages the pair classifier, pair product, unit-pair action, product-pair
+composition law, and strict-support readback over the same BHist denominator
+tuple, so the contextual exactness rows align with the denominator ledger
+entries.
+
+Finally, \autoref{thm:field-affine-automorphism-group-certificate} supplies
+the packaged affine $\GroupUp$ consequence consumed by the field certificate.
+Together these cited rows exhaust the ten-entry per-object template listed
+after \autoref{def:field-certificate-obligations}: target, source, carrier,
+classifier, stability obligations, ledger, core theorem list, exactness
+predicate, standard bridge, and status.
+\end{proof}
+
+Per-object template: traditional target constructive field on $\RatUp$; BEDC
+source $\RatUp$ plus $\CommRingUp$ and concrete denominator $\mathsf{BHist}$
+rows; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ together with
+$\mathsf{RatDenomUnitClassifier}$ on denominator rows; stability obligations
+inverse apartness, zero-product exactness, denominator package closure,
+context-pair action, and affine automorphism packaging; ledger rational
+history rows, denominator unit histories, continuation witnesses, and
+apart-zero inverse witnesses; core theorem
+\autoref{thm:ratup-fieldup-semantic-certificate-assembly}; exactness predicate
+row coverage for $\FieldUp(\mathsf{RatUp})$; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
