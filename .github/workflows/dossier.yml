@@ -1,0 +1,89 @@
+name: Deploy BEDC Dossier
+
+on:
+  push:
+    branches: [feature/dossier, dev, main]
+    paths:
+      - 'docs/dossier/**'
+      - 'papers/bedc/**'
+      - '.github/workflows/dossier.yml'
+      - '.github/workflows/reusable-pdf.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build_pdf:
+    name: Build main.pdf
+    uses: ./.github/workflows/reusable-pdf.yml
+    with:
+      upload_artifact: true
+      artifact_name: dossier-pdf
+      artifact_retention_days: 7
+    secrets: inherit
+
+  build_dossier:
+    name: Render dossier
+    needs: build_pdf
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.9.37"
+
+      - name: Download PDF artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: dossier-pdf
+          path: pdf-artifact
+
+      - name: Stage PDF as bedc.pdf
+        run: |
+          pdf_file=$(find pdf-artifact -maxdepth 1 -type f -name '*.pdf' -print -quit)
+          if [ -z "$pdf_file" ]; then
+            echo "No PDF found in artifact" >&2
+            ls -la pdf-artifact || true
+            exit 1
+          fi
+          cp "$pdf_file" docs/dossier/bedc.pdf
+          ls -lh docs/dossier/bedc.pdf
+
+      - name: Render dossier
+        run: quarto render docs/dossier/
+
+      - name: Verify PDF reached _site
+        run: |
+          if [ ! -f docs/dossier/_site/bedc.pdf ]; then
+            echo "PDF missing from _site after render; copying as fallback"
+            cp docs/dossier/bedc.pdf docs/dossier/_site/bedc.pdf
+          fi
+          ls -lh docs/dossier/_site/bedc.pdf
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/dossier/_site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build_dossier
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
