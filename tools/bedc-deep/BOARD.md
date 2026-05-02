@@ -1315,3 +1315,107 @@ Surfaced in Turn 0 and Turn 1 when the oracle states that the abelian commutativ
 
 ---
 
+### B-54 - Raw addition literal list equality obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Raw addition literal list equality obstruction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the canonical integer-ring polynomial setup, if p=[1] and q=[-1], then p and q are normalized while trim(radd(p,q))=[] and radd(trim(p),trim(q))=[0], so literal list equality between these representatives fails although the polynomial classifier identifies them.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Turn 0 gives this explicit p=[1], q=[-1] obstruction to the too-strong list equation. It deserves its own loop because it records the exact boundary between classifier-level polynomial equality and literal representative equality, without duplicating the existing positive trim-compatibility targets.
+
+---
+
+
+### B-55 - Finite additive fold respects scalar classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Finite additive fold respects scalar classifier |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a scalar RingUp setup and the finite list setup, if two coefficient lists xs and ys have the same length and xs_i hsame_R ys_i for every valid index i, then fold_add(xs) hsame_R fold_add(ys).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Turn 0 identifies finite-sum stability as a required assumption for the multiplication analogue. This is a reusable ring/list proposition needed for raw Cauchy convolution arguments, distinct from the existing polynomial multiplication zero-tail target because it isolates the finite additive-fold transport step.
+
+---
+
+### B-56 - Unary continuation monoid activation from stability
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Unary continuation monoid activation from stability |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If `C : NameCert(UnaryCarrier, hsame)` holds and `S : AddStabilityCert` supplies unary closure, unit, associativity, and same-source determinacy, then `License(UnaryContMonoidUp)` holds without any `AddCommField` or `UnaryComm` premise.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `lean4/BEDC/FKernel/NameCert.lean`
+
+Rationale:
+Surfaced in Turns 0, 2, and 3 as the positive boundary complementary to the additive obstruction: the accepted core certificate and additive stability fields license the unary-continuation monoid-like name, while the additive name requires an extra swapped-source commutativity field. It deserves its own loop because B-06 focuses on conditional `AddUp` activation, whereas this isolates the weaker activation theorem that should remain valid when commutativity is unavailable.
+
+---
+
+
+### B-57 - Two-element monoid cannot witness additive noncommutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Two-element monoid cannot witness additive noncommutativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+If `M` is a two-element monoid with equality classifier, total unary carrier, and `ContR(x,y,z)` defined by `x * y = z`, then the swapped-source additive commutativity field holds for all `x,y,z,z'`.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Surfaced explicitly in Turn 3, where the oracle noted that a two-element monoid with unit cannot witness the failure exhibited by the three-element obstruction. It is distinct from the existing three-element independence target because it proves the minimality side of that counter-situation: the separation cannot occur at carrier size two under the same equality-classified monoid interpretation.
+
+---
+
