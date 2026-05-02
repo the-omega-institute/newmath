@@ -633,6 +633,47 @@ $\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(d)),d)$ back to $c$. This yields
 $\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$.
 \end{proof}
 
+\begin{theorem}[Field two-sided affine map injectivity from apartness]
+\label{thm:field-affine-two-sided-map-injective-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive abelian-group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and indexed inverse laws for witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
+$x,y,d:\mathsf{BHist}$ satisfies
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)
+\Longrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Set $c$ to the left affine endpoint
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)$. Reflexivity gives
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$, so the forward
+direction of
+Theorem~\ref{thm:field-affine-two-sided-equation-exact-from-apartness} gives
+$x\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)))$.
+
+The displayed hypothesis identifies the same $c$ with the right affine
+endpoint. By symmetry it gives
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)\hsame c$. Applying the same
+forward direction of
+Theorem~\ref{thm:field-affine-two-sided-equation-exact-from-apartness} to $y$
+gives $y\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)))$.
+
+Finally use symmetry on the equality obtained for $y$ and transitivity with
+the equality obtained for $x$. The common displayed solution cancels, yielding
+$x\hsame y$.
+\end{proof}
+
 \paragraph{Affine two-sided multiplication certificate.}
 Traditional target: affine field equation solving. BEDC source: $\FieldUp$ plus
 additive group laws. Carrier choice: $\mathsf{BHist}$. Classifier choice:
