@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.12
+// @version      1.13
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.12";
+  const SCRIPT_VERSION = "bedc-1.13";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -1161,12 +1161,19 @@
   // very first call gives every tab a stable identity for its full session.
   function agentId() {
     try {
+      // URL flag is authoritative when present: overwrite any stale stored
+      // value (e.g. left over from a prior userscript version that randomized
+      // here). After ChatGPT redirects /?bedc=N → /c/<uuid> the URL flag is
+      // gone, but the sessionStorage value we just wrote keeps the tab pinned.
+      const m = window.location.search.match(/[?&]bedc=([^&]+)/);
+      if (m) {
+        const id = `bedc_${m[1]}`;
+        sessionStorage.setItem("bedc_agent_id", id);
+        return id;
+      }
       let stored = sessionStorage.getItem("bedc_agent_id");
       if (stored) return stored;
-      const m = window.location.search.match(/[?&]bedc=([^&]+)/);
-      stored = m
-        ? `bedc_${m[1]}`
-        : `bedc_${Math.floor(Math.random() * 9000) + 1000}_${Date.now().toString(36).slice(-4)}`;
+      stored = `bedc_${Math.floor(Math.random() * 9000) + 1000}_${Date.now().toString(36).slice(-4)}`;
       sessionStorage.setItem("bedc_agent_id", stored);
       return stored;
     } catch {
