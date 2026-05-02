@@ -528,4 +528,47 @@ theorem field_rat_denominator_continuation_unit_endpoint_unique {u v : BHist} :
         (field_rat_denominator_continuation_unit_endpoint_empty.left rightU)
         (hsame_symm (field_rat_denominator_continuation_unit_endpoint_empty.right.left leftV))
 
+theorem field_rat_denominator_continuation_concrete_instance_laws :
+    (∀ {d e : BHist}, RatHistoryCarrier d -> RatHistoryCarrier e ->
+      RatHistoryCarrier (append d e)) ∧
+    (∀ {d e : BHist}, RatHistoryCarrier d -> RatHistoryCarrier e ->
+      RatHistoryClassifier (append d e) (append e d)) ∧
+    (∀ {d e f : BHist}, RatHistoryCarrier d -> RatHistoryCarrier e ->
+      RatHistoryCarrier f ->
+        RatHistoryClassifier (append (append d e) f) (append d (append e f))) ∧
+    (∀ {d d' e e' : BHist}, RatHistoryClassifier d d' -> RatHistoryClassifier e e' ->
+      RatHistoryClassifier (append d e) (append d' e')) ∧
+    (∀ {rho v e e' : BHist}, RatHistoryLedgerPolicy rho v -> RatHistoryCarrier e ->
+      RatHistoryClassifier e e' -> RatHistoryLedgerPolicy (append rho e) (append v e')) ∧
+    (∀ {u : BHist}, RatHistoryCarrier u ->
+      ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d) ∨
+        (∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d)) ->
+        False) := by
+  constructor
+  · intro d e carrierD carrierE
+    exact RatHistoryCarrier_continuation_closed carrierD carrierE (cont_intro rfl)
+  · constructor
+    · intro d e carrierD carrierE
+      exact field_rat_denominator_continuation_commutative_classifier carrierD carrierE
+        (cont_intro rfl) (cont_intro rfl)
+    · constructor
+      · intro d e f carrierD carrierE carrierF
+        have laws := field_rat_denominator_continuation_semigroup_laws carrierD carrierE carrierF
+          (cont_intro rfl) (cont_intro rfl) (cont_intro rfl) (cont_intro rfl)
+        exact ⟨laws.right.right.left, laws.right.right.right.left, laws.right.right.right.right⟩
+      · constructor
+        · intro d d' e e' classifiedD classifiedE
+          exact field_rat_denominator_continuation_binary_classifier_congruence classifiedD
+            classifiedE (cont_intro rfl) (cont_intro rfl)
+        · constructor
+          · intro rho v e e' ledger carrierE classifiedE
+            have unaryE : UnaryHistory e :=
+              (PositiveUnaryDenominator_unary_and_nonempty
+                (RatHistoryCarrier_iff_positive_denominator.mp carrierE)).left
+            exact RatHistoryLedgerPolicy_append_unary_denominator_closed ledger unaryE
+              classifiedE.right.right
+          · intro u carrierU endpointLaw
+            exact field_rat_denominator_continuation_unit_endpoint_empty.right.right carrierU
+              endpointLaw
+
 end BEDC.Derived.FieldUp

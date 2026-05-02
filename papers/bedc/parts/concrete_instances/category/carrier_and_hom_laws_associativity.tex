@@ -362,6 +362,24 @@ to empty component tails and then rebuilds the empty composite tail.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_empty\_endpoint\_iff}
 
+\begin{theorem}[Continuation morphism composite endpoint cycle has empty tail]
+\label{thm:category-continuation-morphism-composite-endpoint-cycle-tail-empty}
+For histories $a,b,c$, let $left:a\to b$ and $right:b\to c$ be continuation
+morphisms. If the composite endpoints satisfy $\hsame(a,c)$, then the
+canonical composite displayed tail is empty:
+$$
+\hsame(\mathsf{tail}(left\circ right),\emp).
+$$
+\end{theorem}
+\begin{proof}
+The composite continuation morphism stores a concrete continuation from $a$
+through its displayed tail to $c$. Transport the result endpoint along
+$\hsame(a,c)$ to obtain a continuation from $a$ through the same displayed tail
+back to $a$. The kernel right-unit uniqueness theorem then forces that
+displayed tail to be $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_cycle\_tail\_empty}
+
 \begin{theorem}[Continuation morphism composite tail continuation]
 \label{thm:continuation-morphism-composite-tail-continuation}
 For histories $a,b,c$, let $left:a\to b$ and $right:b\to c$ be continuation

@@ -77,6 +77,13 @@ theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
   exact And.intro sourceCarrier (And.intro targetCarrier
     (And.intro (unary_cont_closed fCarrier gCarrier (cont_intro rfl))
       (cont_intro (append_assoc a f g))))
+theorem CategoryHomCarrier_comp_endpoint_cycle_morphism_empty {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      hsame a c -> hsame fg BHist.Empty := by
+  intro left right comp sameEndpoint
+  have composite : CategoryHomCarrier a c fg := CategoryHomCarrier_comp_closed left right comp
+  exact cont_right_unit_unique
+    (cont_result_hsame_transport composite.right.right.right (hsame_symm sameEndpoint))
 theorem CategoryHomCarrier_identity_square_closed {a b f left right : BHist} :
     CategoryHomCarrier a b f -> Cont BHist.Empty f left -> Cont f BHist.Empty right ->
       CategoryHomCarrier a b left ∧ CategoryHomCarrier a b right ∧ hsame left right := by
@@ -118,12 +125,9 @@ theorem CategoryHomCarrier_comp_public_readback {a b c f g fg : BHist} :
       CategoryHomCarrier a c fg ∧
         (∀ {fg' : BHist}, CategoryHomCarrier a c fg' → hsame fg fg') := by
   intro left right comp
-  have compositeCarrier : CategoryHomCarrier a c fg :=
-    CategoryHomCarrier_comp_closed left right comp
-  constructor
-  · exact compositeCarrier
-  · intro fg' displayed
-    exact CategoryHomCarrier_morphism_deterministic compositeCarrier displayed
+  have compositeCarrier : CategoryHomCarrier a c fg := CategoryHomCarrier_comp_closed left right comp
+  exact ⟨compositeCarrier, fun displayed =>
+    CategoryHomCarrier_morphism_deterministic compositeCarrier displayed⟩
 theorem CategoryHomCarrier_unary_suffix_iff {q a b f : BHist} :
     CategoryHomCarrier (append a q) (append b q) f <->
       UnaryHistory q /\ CategoryHomCarrier a b f := by
@@ -313,6 +317,13 @@ def ContinuationMorphism_comp_closed {a b c : BHist} (left : ContinuationMorphis
               rel := by
                 cases leftRel
                 exact rightRel.trans (append_assoc a leftTail rightTail) }
+theorem ContinuationMorphism_comp_endpoint_cycle_tail_empty {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    hsame a c -> hsame (ContinuationMorphism_comp_closed left right).tail BHist.Empty := by
+  intro sameEndpoint
+  exact cont_right_unit_unique
+    (cont_result_hsame_transport
+      (ContinuationMorphism_comp_closed left right).rel (hsame_symm sameEndpoint))
 theorem ContinuationMorphism_identity_tail_hsame {a b : BHist}
     (m : ContinuationMorphism a b) :
     hsame (ContinuationMorphism_comp_closed { tail := BHist.Empty, rel := cont_right_unit a } m).tail
@@ -332,13 +343,7 @@ theorem ContinuationMorphism_identity_comp_closure :
   · intro h
     exact Nonempty.intro { tail := BHist.Empty, rel := cont_right_unit h }
   · intro a b c left right
-    cases left with
-    | mk leftTail leftRel =>
-        cases right with
-        | mk rightTail rightRel =>
-            refine Nonempty.intro { tail := append leftTail rightTail, rel := ?_ }
-            cases leftRel
-            exact rightRel.trans (append_assoc a leftTail rightTail)
+    exact Nonempty.intro (ContinuationMorphism_comp_closed left right)
 theorem ContinuationMorphism_comp_assoc_closed {a b c d : BHist}
     (first : ContinuationMorphism a b) (second : ContinuationMorphism b c)
     (third : ContinuationMorphism c d) :
@@ -373,17 +378,10 @@ theorem ContinuationMorphism_comp_assoc_tail_hsame {a b c d : BHist}
         third).tail
       (ContinuationMorphism_comp_closed first
         (ContinuationMorphism_comp_closed second third)).tail := by
-  cases first with
-  | mk firstTail firstRel =>
-      cases second with
-      | mk secondTail secondRel =>
-          cases third with
-          | mk thirdTail thirdRel =>
-              have tailSame :
-                  hsame (append (append firstTail secondTail) thirdTail)
-                    (append firstTail (append secondTail thirdTail)) :=
-                append_assoc firstTail secondTail thirdTail
-              exact tailSame
+  cases first
+  cases second
+  cases third
+  exact append_assoc _ _ _
 def ContinuationMorphism_comp_right_factor {a b c rightTail : BHist}
     (left : ContinuationMorphism a b) (composite : ContinuationMorphism a c) :
     Cont left.tail rightTail composite.tail -> ContinuationMorphism b c := by
