@@ -66,6 +66,27 @@ $\hsame(h,k)$ component of the classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonClassifier\_empty\_endpoints\_iff}
 
+\begin{theorem}[Module singleton scalar readback]
+\label{thm:module-singleton-smul-classifier-readback-iff}
+For histories $r,m,n:\mathsf{BHist}$, if $m$ lies in the singleton carrier
+$A_{\emp}$, then the scalar action endpoint is history-same to $\emp$, and
+classification after scalar action reads back to the original module endpoint:
+$$
+A_{\emp}(m)\Longrightarrow
+\hsame(\mathsf{smul}(r,m),\emp)\land
+\bigl(\rho_{\emp}(\mathsf{smul}(r,m),n)
+\Longleftrightarrow
+\rho_{\emp}(m,n)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The scalar action is definitionally the empty history. The given carrier
+witness identifies $m$ with $\emp$; composing this witness with the classifier
+relation supplies the forward readback, and composing its symmetry supplies the
+reverse direction.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_classifier\_readback\_iff}
+
 \begin{theorem}[Singleton empty-history module laws]
 \label{thm:module-singleton-scalar-action-laws}
 The tuple

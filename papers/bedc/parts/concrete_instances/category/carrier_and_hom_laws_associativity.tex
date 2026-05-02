@@ -228,6 +228,54 @@ remaining fields of $\mathsf{CategoryHomCarrier}$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_CategoryHomCarrier}
 
+\begin{theorem}[Continuation morphism composite tail hom-carrier iff]
+\label{thm:category-continuation-morphism-comp-tail-hom-carrier-iff}
+For histories $a,b,c$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. The canonical composite tail is a
+hom carrier from $a$ to $c$ if and only if the source, target, and both
+component tails are unary:
+$$
+\mathsf{CategoryHomCarrier}
+  (a,c,\mathsf{tail}(\mathsf{ContinuationMorphism\_comp\_closed}(left,right)))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(c)\land
+\mathsf{UnaryHistory}(\mathsf{tail}(left))\land
+\mathsf{UnaryHistory}(\mathsf{tail}(right)).
+$$
+\end{theorem}
+\begin{proof}
+Forward, unfold the displayed hom carrier and split the unary append carried by
+the composite tail into its two component tail factors. Reverse, use unary
+append closure on the component tails together with the composite continuation
+relation stored by $\mathsf{ContinuationMorphism\_comp\_closed}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_CategoryHomCarrier\_iff}
+
+\begin{theorem}[Continuation morphism composite tail hom-carrier factors iff]
+\label{thm:category-continuation-morphism-comp-tail-hom-carrier-factors-iff}
+For histories $a,b,c$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. The canonical composite tail is a
+hom carrier from $a$ to $c$ if and only if the endpoints $a,c$ are unary and
+the two component tails are themselves the hom carriers $a\to b$ and $b\to c$:
+$$
+\mathsf{CategoryHomCarrier}
+  (a,c,\mathsf{tail}(\mathsf{ContinuationMorphism\_comp\_closed}(left,right)))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(c)\land
+\mathsf{CategoryHomCarrier}(a,b,\mathsf{tail}(left))\land
+\mathsf{CategoryHomCarrier}(b,c,\mathsf{tail}(right)).
+$$
+\end{theorem}
+\begin{proof}
+Forward, the composite hom carrier gives unary source and target data and a
+unary composite tail. Splitting that tail yields unary witnesses for the two
+component tails, while the left continuation relation closes the middle object
+$b$ as unary. The stored continuation relations then assemble the two component
+hom carriers. Reverse, the two component hom carriers provide the source,
+target, and tail unary data needed by the composite-tail hom-carrier closure.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_CategoryHomCarrier\_factors\_iff}
+
 \begin{theorem}[Continuation morphism composite empty-tail inversion]
 \label{thm:category-continuation-morphism-composite-empty-tail-inversion}
 For histories $a,b,c$, let $left:a\to b$ and $right:b\to c$ be continuation

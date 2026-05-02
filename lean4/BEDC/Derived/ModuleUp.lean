@@ -39,6 +39,24 @@ theorem ModuleSingletonClassifier_empty_endpoints_iff {h k : BHist} :
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
 
+theorem ModuleSingletonSmul_classifier_readback_iff {r m n : BHist} :
+    ModuleSingletonCarrier m ->
+      hsame (ModuleSingletonSmul r m) BHist.Empty /\
+        (ModuleSingletonClassifier (ModuleSingletonSmul r m) n <->
+          ModuleSingletonClassifier m n) := by
+  intro carrierM
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro classified
+      exact And.intro carrierM
+        (And.intro classified.right.left
+          (hsame_trans carrierM classified.right.right))
+    · intro classified
+      exact And.intro (hsame_refl BHist.Empty)
+        (And.intro classified.right.left
+          (hsame_trans (hsame_symm carrierM) classified.right.right))
+
 theorem singleton_empty_history_module_laws :
     SemanticNameCert ModuleSingletonCarrier ModuleSingletonCarrier ModuleSingletonCarrier
       ModuleSingletonClassifier ∧
