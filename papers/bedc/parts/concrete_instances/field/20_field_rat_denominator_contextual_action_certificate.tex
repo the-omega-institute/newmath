@@ -25,6 +25,21 @@ where $B_{l,r}$ is the bilateral denominator multiplication context of
 \end{definition}
 \leandef{BEDC.Derived.FieldUp.RatDenomUnitContextualAction}
 
+\begin{theorem}[Rat denominator contextual action empty endpoint composition]
+\label{thm:rat-denom-unit-contextual-action-empty-endpoint-composition}
+For histories \(h,l,r,l',r',p,q,p',q'\), if all four external endpoints
+\(p,q,p',q'\) are \(\hsame\)-equal to \(\emp\), then the iterated concrete
+action
+\(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))\) is \(\hsame\)-equal to the
+single action with carried contexts \(\mathsf{append}(l',l)\) and
+\(\mathsf{append}(r,r')\).
+\end{theorem}
+\begin{proof}
+Case analysis on the four endpoint equalities reduces the statement to the
+associativity and empty-endpoint laws for \(\mathsf{append}\).
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_empty\_endpoint\_composition}
+
 \begin{theorem}[RatUp FieldUp denominator contextual action certificate]
 \label{thm:ratup-fieldup-denominator-contextual-action-certificate}
 For histories $h,k,l,r,p,q,p',q':\mathsf{BHist}$, assume

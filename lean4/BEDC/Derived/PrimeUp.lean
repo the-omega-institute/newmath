@@ -90,6 +90,11 @@ theorem NatMul_unit_left_hsame {q n : BHist} :
       cases prevSame
       exact cont_deterministic step (cont_intro rfl)
 
+theorem NatMul_e0_multiplier_absurd {d q n : BHist} :
+    NatMul d (BHist.e0 q) n -> False := by
+  intro mul
+  cases mul
+
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
 
@@ -204,5 +209,22 @@ inductive TrialDiv : BHist -> BHist -> Prop where
         ((NatDivides b n -> False) \/ hsame b (BHist.e1 BHist.Empty) \/ hsame b n) ->
           Cont b (BHist.e1 BHist.Empty) b' ->
             TrialDiv b' n
+
+theorem TrialDiv_step_unary_closed {b n b' : BHist} :
+    TrialDiv b n ->
+      ((NatDivides b n -> False) \/ hsame b (BHist.e1 BHist.Empty) \/ hsame b n) ->
+        Cont b (BHist.e1 BHist.Empty) b' -> UnaryHistory b' /\ TrialDiv b' n := by
+  intro trial
+  induction trial generalizing b' with
+  | unit hn =>
+      intro advance stepCont
+      exact ⟨unary_cont_closed (unary_e1_closed unary_empty)
+          (unary_e1_closed unary_empty) stepCont,
+        TrialDiv.step (TrialDiv.unit hn) advance stepCont⟩
+  | step prevTrial prevAdvance prevStep ih =>
+      intro advance stepCont
+      have prevClosed := ih prevAdvance prevStep
+      exact ⟨unary_cont_closed prevClosed.left (unary_e1_closed unary_empty) stepCont,
+        TrialDiv.step (TrialDiv.step prevTrial prevAdvance prevStep) advance stepCont⟩
 
 end BEDC.Derived.PrimeUp

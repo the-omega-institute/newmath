@@ -9,6 +9,22 @@ open BEDC.Derived.RatUp
 def RatDenomUnitContextualAction (p q l r h : BHist) : BHist :=
   append p (append (append (append l h) r) q)
 
+theorem RatDenomUnitContextualAction_empty_endpoint_composition
+    {h l r l' r' p q p' q' : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty ->
+        hsame
+          (RatDenomUnitContextualAction p' q' l' r'
+            (RatDenomUnitContextualAction p q l r h))
+          (RatDenomUnitContextualAction p' q' (append l' l) (append r r') h) := by
+  intro sameP sameQ sameP' sameQ'
+  cases sameP
+  cases sameQ
+  cases sameP'
+  cases sameQ'
+  simpa [RatDenomUnitContextualAction, append_empty_left, append_empty_right, append_assoc]
+    using hsame_refl (append l' (append l (append h (append r r'))))
+
 theorem field_rat_denominator_contextual_action_unit_support_iff {h l r p q : BHist} :
     hsame p BHist.Empty -> hsame q BHist.Empty -> RatDenomUnitCarrier h ->
       RatDenomUnitCarrier l -> RatDenomUnitCarrier r ->

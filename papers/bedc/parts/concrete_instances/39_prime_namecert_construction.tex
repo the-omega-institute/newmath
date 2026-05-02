@@ -66,6 +66,17 @@ Induct on the concrete multiplication derivation for $q$. The zero case is immed
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_left\_hsame}
 
+\begin{lemma}[\(\Ezero\)-multiplier exclusion]
+\label{thm:natmul-e0-multiplier-absurd}
+No unary multiplication witness has an \(\Ezero\)-headed multiplier:
+for all histories \(d,q,n\), \(\mathsf{NatMul}(d,\Ezero(q),n)\) is impossible.
+\end{lemma}
+\begin{proof}
+By constructor inversion on the closed relation \(\mathsf{NatMul}\): its
+multiplier argument is generated only by \(\emp\) and \(\Eone\)-successor cases.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_e0\_multiplier\_absurd}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
@@ -136,6 +147,20 @@ For unary histories \(b, n\), the trial-division witness \(\mathsf{TrialDiv}(b, 
 \end{enumerate}
 \end{definition}
 \leandef{BEDC.Derived.PrimeUp.TrialDiv}
+
+\begin{theorem}[Trial-division step preserves unary closure]
+\label{thm:trialdiv-step-unary-closed}
+If \(\mathsf{TrialDiv}(b,n)\) has been reached and the admissible step
+condition for \(b\) holds, then every continuation
+\(\Cont(b,\Eone(\emp),b')\) produces a unary \(b'\) and the next witness
+\(\mathsf{TrialDiv}(b',n)\).
+\end{theorem}
+\begin{proof}
+Induct on the trial-division witness. The base witness starts at
+\(\Eone(\emp)\), which is unary; the step case uses unary closure of
+\(\Cont\) with the unit continuation and rebuilds the trial-division step.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_step\_unary\_closed}
 
 \begin{theorem}[Decidability of primality]
 \label{thm:prime-decidable}
