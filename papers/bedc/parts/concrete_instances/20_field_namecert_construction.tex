@@ -254,13 +254,52 @@ the required right-unit law, and a two-sided internal unit would contain that
 right-unit law as one of its clauses.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation is not a FieldUp multiplication]
+\label{thm:field-rat-denominator-continuation-not-field-multiplication}
+For every proposed carried unit $u:\mathsf{BHist}$, suppose
+$\mathsf{RatHistoryCarrier}(u)$ and suppose the proposed carried
+multiplication on the Rat denominator carrier is the continuation relation
+$\Cont$. If the corresponding $\FieldUp(\mathsf{RatUp})$ right-unit law under
+$\mathsf{RatHistoryClassifier}$ is
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d),
+$$
+then the assumptions imply $\mathsf{False}$. Consequently a
+$\FieldUp(\mathsf{RatUp})$ certificate cannot take Rat-denominator
+continuation itself as its carried multiplication together with a carried
+unit.
+\end{theorem}
+\begin{proof}
+Unpack the attempted $\FieldUp$ multiplication data for the carried operation
+$\Cont$. The right-unit field supplies exactly the displayed classifier law:
+for every Rat denominator $d$ and every continuation result $r$ from
+$\Cont(d,u,r)$, the result must classify as the original denominator $d$ under
+$\mathsf{RatHistoryClassifier}$.
+
+Apply
+Theorem~\ref{thm:field-rat-denominator-continuation-no-internal-unit} to the
+same history $u$, using the carried-unit witness
+$\mathsf{RatHistoryCarrier}(u)$ and this unpacked right-unit field. Its
+conclusion is $\mathsf{False}$.
+
+Theorem~\ref{thm:field-rat-denominator-continuation-semigroup-only} records the
+positive part left intact by this contradiction: continuation on Rat
+denominators still has carrier closure and semigroup-level associativity, but
+those clauses do not supply an internal $\MonoidUp$ unit or the unit required by
+$\FieldUp$ multiplication.
+\end{proof}
+
 \textbf{Traditional target}: internal unit obstruction for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$
 plus $\Cont$; \textbf{carrier choice}: Rat denominators; \textbf{classifier
 choice}: $\mathsf{RatHistoryClassifier}$; \textbf{stability obstruction}: no
-carried unit; \textbf{ledger}: the attempted unit endpoint; \textbf{core
-theorem}:
-\autoref{thm:field-rat-denominator-continuation-no-internal-unit};
+carried unit and no continuation-as-field-multiplication certificate;
+\textbf{ledger}: the attempted unit endpoint; \textbf{core theorems}:
+\autoref{thm:field-rat-denominator-continuation-no-internal-unit} and
+\autoref{thm:field-rat-denominator-continuation-not-field-multiplication};
 \textbf{exactness predicate}: failure of internal unit coverage;
 \textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
 
