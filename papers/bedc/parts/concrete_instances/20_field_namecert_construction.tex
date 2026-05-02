@@ -42,6 +42,40 @@
 \input{parts/concrete_instances/field/20_field_assembled_certificate_boundary}
 \input{parts/concrete_instances/field/20_field_ratup_assembled_certificate_and_context_pair_support}
 
+\begin{theorem}[RatUp FieldUp source has a non-singleton endpoint]
+\label{thm:ratup-fieldup-source-non-singleton-witness}
+Let $d_1:=\Eone(\emp)$. For the concrete source tuple
+$\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple}, the field carrier accepts
+$d_1$, while the singleton empty-history carrier rejects it:
+$$
+\mathsf{RatHistoryCarrier}(d_1)
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot.
+$$
+Consequently no carrier-coverage map from the $\FieldUp(\mathsf{RatUp})$
+source carrier to the singleton empty-history carrier can exist.
+\end{theorem}
+\begin{proof}
+Unfold the carrier coordinate of $\mathsf{RatUpFieldSource}_F$ in
+\autoref{def:ratup-fieldup-concrete-source-tuple}. It is exactly
+$\mathsf{RatHistoryCarrier}$, so the source endpoint question is the concrete
+RatUp carrier question.
+
+Apply
+\autoref{thm:field-rat-history-carrier-has-non-singleton-boundary-witness} at
+$d_1=\Eone(\emp)$. It supplies the displayed
+$\mathsf{RatHistoryCarrier}(d_1)$ witness and the rejection map
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$.
+
+Now suppose a carrier-coverage map from the $\FieldUp(\mathsf{RatUp})$ source
+carrier to $\mathsf{fieldSingletonEmptyCarrier}$ were given. Evaluating it at
+$d_1$ and the displayed RatUp carrier witness gives
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)$, contradicting the rejection map.
+\end{proof}
+
 \begin{definition}[Concrete RatUp FieldUp certificate instance]
 \label{def:concrete-ratup-fieldup-certificate-instance}
 The concrete certificate instance for $\FieldUp(\mathsf{RatUp})$ is the BEDC
