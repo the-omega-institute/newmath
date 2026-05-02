@@ -467,21 +467,22 @@ Collect the selected target classification, the two universal one-sided
 canonicality clauses, and the two non-absence conclusions.
 \end{proof}
 
-\begin{theorem}[Tagged option composite image classifier normalized one-sided visible public readback]
-\label{thm:tagged-option-composite-image-classifier-normalized-one-sided-visible-public-readback}
+\begin{theorem}[Tagged option composite image classifier normalized one-sided visible public factorization]
+\label{thm:tagged-option-composite-image-classifier-normalized-one-sided-visible-public-factorization}
 This theorem fits the per-object template as follows: the traditional target is
 endpoint-normalized functorial $\mathsf{OptionUp}$ one-sided visible public
-readback; the BEDC source is $\mathsf{BHist}$ with two composable
+factorization; the BEDC source is $\mathsf{BHist}$ with two composable
 $\mathsf{DescentCertificate}$ maps; the carrier is
 $\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
 $\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
-are endpoint transport, empty-versus-present no-confusion, normalized nonempty
-public readback, and visible-payload determinacy; the ledger is one specified
-normalized visible endpoint together with the matched classified payload on the
-other endpoint; the core theorem is one-sided visible readback with uniqueness
-against all competing visible payloads on the other side; exactness says the
-public endpoint already read by a consumer determines the matching public
-payload; the standard bridge is $\mathsf{none}$/$\mathsf{some}$ normalized
+are endpoint transport, branch synchronization, visible-payload factorization,
+and intermediate classifier transport; the ledger is one specified normalized
+visible endpoint together with the opposite public payload, intermediate tagged
+endpoints, and source payload witnesses; the core theorem is one-sided visible
+readback with factorization and uniqueness against all competing visible payloads
+on the other side; exactness says the public endpoint already read by a consumer
+exposes the concrete source and intermediate payloads behind the synchronized
+public branch; the standard bridge is $\mathsf{none}$/$\mathsf{some}$ normalized
 public readback; and the status is $\mathsf{ProofTarget}$.
 
 Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
@@ -531,66 +532,96 @@ and
 $$
 \hsame(m,u)\land \hsame(m',u'),
 $$
-then the following two one-sided readback clauses hold:
+then the following two one-sided visible public factorization clauses hold:
 \begin{enumerate}
-\item for every $x:\mathsf{BHist}$, if $U(x)$ and $\hsame(u,\Eone(x))$, then
-there exists $y:\mathsf{BHist}$ such that
-$$
-U(y)\land \hsame(u',\Eone(y))\land x\sim_U y
-$$
-and
-$$
-\forall y':\mathsf{BHist}.\;
-U(y')\to
-\hsame(u',\Eone(y'))\to
-\hsame(y,y')\land x\sim_U y';
-$$
-\item for every $y:\mathsf{BHist}$, if $U(y)$ and $\hsame(u',\Eone(y))$, then
-there exists $x:\mathsf{BHist}$ such that
-$$
-U(x)\land \hsame(u,\Eone(x))\land x\sim_U y
-$$
-and
-$$
-\forall x':\mathsf{BHist}.\;
-U(x')\to
-\hsame(u,\Eone(x'))\to
-\hsame(x,x')\land x'\sim_U y.
-$$
+\item For every $x:\mathsf{BHist}$, if $U(x)$ and $\hsame(u,\Eone(x))$, then
+there exist $y,k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $U(y)$, $\hsame(u',\Eone(y))$, and $x\sim_U y$;
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $T(p)$, $T(q)$, $U(\epsilon.\mathsf{map}(p))$, and
+$U(\epsilon.\mathsf{map}(q))$;
+\item $\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$,
+$\hsame(x,\epsilon.\mathsf{map}(p))$, and
+$\hsame(y,\epsilon.\mathsf{map}(q))$;
+\item $S(a)$, $S(b)$, $a\sim_S b$, $T(\delta.\mathsf{map}(a))$, and
+$T(\delta.\mathsf{map}(b))$;
+\item $\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$;
+\item $p\sim_T q$;
+\item $\neg\hsame(u,\emp)$ and $\neg\hsame(u',\emp)$;
+\item for every $y':\mathsf{BHist}$, if $U(y')$ and
+$\hsame(u',\Eone(y'))$, then $\hsame(y,y')$ and $x\sim_U y'$.
+\end{enumerate}
+\item For every $y:\mathsf{BHist}$, if $U(y)$ and $\hsame(u',\Eone(y))$, then
+there exist $x,k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $U(x)$, $\hsame(u,\Eone(x))$, and $x\sim_U y$;
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $T(p)$, $T(q)$, $U(\epsilon.\mathsf{map}(p))$, and
+$U(\epsilon.\mathsf{map}(q))$;
+\item $\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$,
+$\hsame(x,\epsilon.\mathsf{map}(p))$, and
+$\hsame(y,\epsilon.\mathsf{map}(q))$;
+\item $S(a)$, $S(b)$, $a\sim_S b$, $T(\delta.\mathsf{map}(a))$, and
+$T(\delta.\mathsf{map}(b))$;
+\item $\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$;
+\item $p\sim_T q$;
+\item $\neg\hsame(u,\emp)$ and $\neg\hsame(u',\emp)$;
+\item for every $x':\mathsf{BHist}$, if $U(x')$ and
+$\hsame(u,\Eone(x'))$, then $\hsame(x,x')$ and $x'\sim_U y$.
+\end{enumerate}
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-Fix a left visible payload $x$ with $U(x)$ and $\hsame(u,\Eone(x))$. First rule
-out absence of the left normalized endpoint: if $\hsame(u,\emp)$ held, composing
-its symmetry with $\hsame(u,\Eone(x))$ would give $\hsame(\emp,\Eone(x))$,
-contradicting $not\_hsame\_emp\_e1$.
-
-Apply
-Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-nonempty-public-readback-equivalence}
+Fix a left visible payload $x$ with $U(x)$ and $\hsame(u,\Eone(x))$. Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-one-sided-visible-branch-synchronization}
 to the composite image-classifier witness, the endpoint normalization witnesses,
 and the displayed descent, preservation, stability, certificate, and
-compatibility data. Its nonempty classified-pair clause gives visible payloads
-$x_0,y$ with $U(x_0)$, $U(y)$, endpoint presentations
-$\hsame(u,\Eone(x_0))$ and $\hsame(u',\Eone(y))$, $x_0\sim_U y$, and the
-universal competing-readback clause.
+compatibility data. The left-to-right branch supplies a right payload $y$ with
+$U(y)$, $\hsame(u',\Eone(y))$, $x\sim_U y$, the two non-absence facts, and the
+universal competing-right-payload uniqueness clause.
 
-Specialize that universal clause to the specified left payload $x$ and the
-selected right payload $y$. This gives $\hsame(x_0,x)$ and $x\sim_U y$, so the
-same $y$ is a classified right-side readback for the specified $x$.
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-visible-payload-factorization}
+to the same composite classifier, the same endpoint normalization witnesses, and
+the specified visible pair $(x,y)$. This supplies intermediate endpoints
+$k,k'$, intermediate payloads $p,q$, and source payloads $a,b$ with the
+factorization clauses through $\delta$ and $\epsilon$.
 
-For any competing right payload $y'$ with $U(y')$ and
-$\hsame(u',\Eone(y'))$, specialize the universal clause to $x$ and $y'$. The
-returned conclusions are $\hsame(y,y')$ and $x\sim_U y'$, exactly the required
-uniqueness and classification against the competitor.
+It remains to identify the intermediate payloads as classified. Apply
+$\delta.\mathsf{respects}$ to $a\sim_S b$. Compatibility for $T$ turns
+$\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$ into classifier links, and symmetry and
+transitivity from $\mathsf{cert}_T$ compose these links into $p\sim_T q$.
 
-The right-visible clause is symmetric. Fix $y$ with $U(y)$ and
-$\hsame(u',\Eone(y))$, rule out $\hsame(u',\emp)$ by the same
-empty-versus-present no-confusion argument, and apply the normalized nonempty
-public readback equivalence to obtain a selected classified pair $x,y_0$ and
-the universal competing-readback clause.
+Package $y,k,k',p,q,a,b$ with the visible target facts, the factorization data,
+$p\sim_T q$, the retained non-absence facts, and the competing-right-payload
+uniqueness clause. This proves the left one-sided factorization clause.
 
-Specializing the universal clause to $x$ and the specified $y$ gives
-$x\sim_U y$. Specializing it again to any competing left payload $x'$ and the
-same specified $y$ gives $\hsame(x,x')$ and $x'\sim_U y$, which completes the
-right-sided readback clause.
+For the right visible payload $y$ with $U(y)$ and $\hsame(u',\Eone(y))$, apply
+the same branch-synchronization theorem and use its right-to-left branch. It
+supplies a left payload $x$ with $U(x)$, $\hsame(u,\Eone(x))$, $x\sim_U y$, the
+two non-absence facts, and the universal competing-left-payload uniqueness
+clause.
+
+Apply the normalized visible payload factorization theorem to the visible pair
+$(x,y)$. The same factorization data $k,k',p,q,a,b$ is obtained, because the
+specified right payload has now been paired with the synchronized left payload.
+
+As in the left clause, $\delta.\mathsf{respects}$, compatibility for $T$, and
+symmetry and transitivity from $\mathsf{cert}_T$ compose the source classifier
+fact and the two readback links into $p\sim_T q$.
+
+Package $x,k,k',p,q,a,b$ with the visible target facts, the factorization data,
+$p\sim_T q$, the retained non-absence facts, and the competing-left-payload
+uniqueness clause. This proves the symmetric right one-sided factorization
+clause.
 \end{proof}
