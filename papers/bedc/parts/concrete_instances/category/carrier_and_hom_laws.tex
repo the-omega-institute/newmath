@@ -432,6 +432,21 @@ identifies the two composite histories.
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_assoc\_closed}
 \leanstmt{BEDC.Derived.CategoryUp.ContinuationMorphism}
 
+\begin{theorem}[Continuation morphism tail semantic name certificate]
+\label{thm:category-continuation-morphism-tail-semantic-namecert}
+For histories $a,b$ and a continuation morphism $m:a\to b$, the predicate
+$t\mapsto\ContR(a,t,b)$ carries a semantic naming certificate with source,
+pattern, and ledger all given by this same continuation-tail predicate and
+classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+The carrier witness is the displayed tail of $m$ together with its continuation
+relation. The classifier laws are reflexivity, symmetry, and transitivity of
+$\hsame$. Carrier transport follows by substituting the history-sameness proof
+into the concrete continuation-tail predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_semanticNameCert}
+
 \begin{theorem}[Continuation morphism tail determinacy]
 \label{thm:continuation-morphism-tail-deterministic}
 For histories $a,b$, any two continuation morphisms from $a$ to $b$ have
