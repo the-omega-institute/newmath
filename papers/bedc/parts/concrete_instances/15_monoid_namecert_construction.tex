@@ -10,6 +10,47 @@ The monoid interface \(\MonoidUp\) is licensed by an abstract carrier endowed wi
 Use an abstract setup structure with carrier \(C\), classifier \(\sim_C\), operation \(\cdot\), identity \(e\), and law fields.
 \end{definition}
 
+\section{Concrete history instance}
+\label{sec:monoid-concrete-history-instance}
+
+\begin{definition}[Concrete history monoid instance]
+\label{def:concrete-history-monoid-instance}
+The BEDC unary-history monoid instance takes $Carrier := \mathsf{UnaryHistory}$,
+$\mathsf{mul}(h,k) := \mathsf{append}(h,k)$, equivalently witnessed by
+$\Cont(h,k,\mathsf{append}(h,k))$, $e := \emp$, and
+$classifier := \mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$.
+\end{definition}
+
+\begin{theorem}[Concrete history monoid laws]
+\label{thm:concrete-history-monoid-laws}
+The concrete instance of \autoref{def:concrete-history-monoid-instance} has:
+\begin{enumerate}
+  \item left unit of $\emp$ for unary histories;
+  \item right unit of $\emp$ for unary histories;
+  \item associativity of $\mathsf{append}$ up to $\hsame$;
+  \item multiplication congruence under
+  $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The left-unit and right-unit clauses are the BEDC continuation unit laws
+\texttt{BEDC.FKernel.Cont.cont\_left\_unit} and
+\texttt{BEDC.FKernel.Cont.cont\_right\_unit}, restricted to unary histories.
+
+Associativity is the continuation associativity theorem
+\texttt{BEDC.FKernel.Cont.cont\_assoc\_hsame}; equivalently, the two
+parenthesizations compute to the same BEDC history append tree up to $\hsame$.
+
+For congruence, the classifier supplies unary endpoint witnesses together with
+the relevant $\hsame$ transport. Unary append closure keeps both products in the
+carrier, and transport of $\hsame$ across the append arguments gives the
+required multiplication congruence.
+\end{proof}
+
+The $\MonoidUp$ schema is instantiated by this concrete $BHist$ carrier and
+operation, so subsequent certificates can refer to this instance rather than
+only to abstract operator fields.
+
 \section{The certificate}
 
 \begin{definition}[Monoid source specification]
