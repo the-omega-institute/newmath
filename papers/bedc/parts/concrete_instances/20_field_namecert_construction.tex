@@ -19,6 +19,82 @@
 \input{parts/concrete_instances/field/20_field_square_apartness_and_affine_exactness}
 \input{parts/concrete_instances/field/20_field_certificate_record}
 
+\section{Rat denominator empty-unit continuation monoid instance}
+\label{sec:field-rat-denominator-empty-unit-continuation-monoid-instance}
+
+\begin{definition}[Rat denominator empty-unit continuation monoid instance]
+\label{def:field-rat-denominator-empty-unit-continuation-monoid-instance}
+The empty-unit denominator continuation monoid data for
+$\FieldUp(\mathsf{RatUp})$ are the concrete tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u)$ defined by
+$$
+C_D^u(h)\Longleftrightarrow\mathsf{RatDenomUnitCarrier}(h),
+$$
+$$
+R_D^u(h,k)\Longleftrightarrow\mathsf{RatDenomUnitClassifier}(h,k),
+$$
+$$
+\mu_D^u(h,k):=\mathsf{append}(h,k),
+$$
+and $e_D^u:=\emp$. For every pair of histories $h,k:\mathsf{BHist}$, the
+multiplication is equipped with the canonical continuation witness
+$$
+\Cont(h,k,\mathsf{append}(h,k)).
+$$
+\end{definition}
+
+\begin{theorem}[Rat denominator empty-unit continuation monoid laws]
+\label{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}
+The concrete tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance}
+satisfies the denominator empty-unit continuation monoid laws:
+\begin{enumerate}
+  \item The unit is carried: $C_D^u(e_D^u)$.
+  \item The multiplication is closed: if $C_D^u(h)$ and $C_D^u(k)$, then
+  $C_D^u(\mu_D^u(h,k))$.
+  \item The left and right unit products are classified with their endpoint:
+  for every $h$ with $C_D^u(h)$,
+  $R_D^u(\mu_D^u(e_D^u,h),h)$ and
+  $R_D^u(\mu_D^u(h,e_D^u),h)$.
+  \item The multiplication is associative under $R_D^u$: if
+  $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$, then
+  $R_D^u(\mu_D^u(\mu_D^u(h,k),\ell),
+  \mu_D^u(h,\mu_D^u(k,\ell)))$.
+  \item The multiplication respects classified endpoints: if $R_D^u(h,h')$
+  and $R_D^u(k,k')$, then
+  $R_D^u(\mu_D^u(h,k),\mu_D^u(h',k'))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $C_D^u$, $R_D^u$, $\mu_D^u$, and $e_D^u$. The displayed multiplication
+is the external append operation, so each product carries the canonical
+continuation witness $\Cont(h,k,\mathsf{append}(h,k))$.
+
+The carried empty unit, append closure, and the two one-sided unit
+classifications are exactly the first four clauses of
+\autoref{thm:field-rat-denominator-continuation-adjoined-unit-laws} applied to
+those canonical continuation witnesses.
+
+For associativity, use the same adjoined-unit theorem with the four canonical
+continuation witnesses for the two inner and two outer products. Its fifth
+clause gives the classifier comparison between the two bracketed append
+results.
+
+It remains to show multiplication congruence. From $R_D^u(h,h')$ and
+$R_D^u(k,k')$, unfold the classifier to obtain the four carried endpoint
+witnesses together with $h\hsame h'$ and $k\hsame k'$. Apply
+\autoref{thm:external-append-hsame-congruence} to the two $\hsame$ comparisons;
+append closure for $C_D^u$ supplies the two carried product witnesses. These
+three pieces are exactly
+$R_D^u(\mu_D^u(h,k),\mu_D^u(h',k'))$.
+
+Thus the denominator continuation fields are concrete BEDC data: carrier
+$\mathsf{RatDenomUnitCarrier}$, classifier
+$\mathsf{RatDenomUnitClassifier}$, multiplication $\mathsf{append}$, and unit
+$\emp$, with no abstract operator field being used.
+\end{proof}
+
 \section{Rat denominator unit endpoint exactness}
 \label{sec:field-rat-denominator-unit-endpoint-exactness}
 
