@@ -226,6 +226,33 @@ theorem MetricDistanceWitness_right_boundary_visible_context_iff
                 (y := BHist.Empty) (d := d)).mpr
                 (And.intro pCarrier (And.intro qCarrier central))
 
+theorem MetricDistanceWitness_left_boundary_visible_context_iff {p q y d : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append y q) (append (append p d) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory y ∧ hsame d y := by
+  constructor
+  · intro visible
+    have visibleData :=
+      (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := BHist.Empty)
+        (y := y) (d := d)).mp visible
+    cases visibleData with
+    | intro pCarrier rest =>
+        cases rest with
+        | intro qCarrier central =>
+            have boundary :=
+              (MetricDistanceWitness_empty_left_iff (y := y) (d := d)).mp central
+            exact And.intro pCarrier (And.intro qCarrier boundary)
+  · intro data
+    cases data with
+    | intro pCarrier rest =>
+        cases rest with
+        | intro qCarrier boundary =>
+            have central : MetricDistanceWitness BHist.Empty y d :=
+              (MetricDistanceWitness_empty_left_iff (y := y) (d := d)).mpr boundary
+            exact
+              (MetricDistanceWitness_visible_context_iff (p := p) (q := q)
+                (x := BHist.Empty) (y := y) (d := d)).mpr
+                (And.intro pCarrier (And.intro qCarrier central))
+
 theorem MetricDistanceWitness_symmetric_classifier {x y dxy dyx : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y x dyx -> hsame dxy dyx := by
   intro forward reverse
