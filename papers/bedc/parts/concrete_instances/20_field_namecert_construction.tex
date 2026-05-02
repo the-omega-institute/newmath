@@ -413,3 +413,54 @@ inverse-certificate provenance; core theorem
 \autoref{thm:field-affine-automorphism-inverse-involutive}; exactness predicate
 double-inverse pointwise classifier; standard bridge ordinary affine
 automorphism group; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field affine automorphism cancellation]
+\label{thm:field-affine-automorphism-cancellation}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
+$\mathsf{BHist}$ satisfying
+\autoref{thm:field-affine-automorphism-group-certificate}, let $S,T,U$ be
+certified affine automorphism histories in $\mathsf{AffAut}_F$, and let
+$\circ_{\mathrm{aff}}$ be the coefficient-collected composition operation from
+the affine package. Then the affine classifier is cancellative on both sides:
+if
+$$
+(S\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}(U\circ_{\mathrm{aff}}T),
+$$
+then $S\equiv_{\mathrm{aff}}U$; and if
+$$
+(T\circ_{\mathrm{aff}}S)\equiv_{\mathrm{aff}}(T\circ_{\mathrm{aff}}U),
+$$
+then $S\equiv_{\mathrm{aff}}U$.
+\end{theorem}
+\begin{proof}
+Instantiate the affine automorphism group law package supplied by
+\autoref{thm:field-affine-automorphism-group-certificate}. Its carrier is the
+class of certified affine automorphism histories, its operation is
+$\circ_{\mathrm{aff}}$, and its classifier is the affine pointwise relation
+$\equiv_{\mathrm{aff}}$.
+
+For the common right factor, read
+$(S\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}(U\circ_{\mathrm{aff}}T)$ as the
+group classifier equality of the two products with the same right component.
+Apply \autoref{thm:group-right-cancellation} in this instantiated
+$\GroupUp$ package. The conclusion is the group classifier relation between
+$S$ and $U$, which is exactly $S\equiv_{\mathrm{aff}}U$ under the pointwise
+classifier interpretation.
+
+For the common left factor, read
+$(T\circ_{\mathrm{aff}}S)\equiv_{\mathrm{aff}}(T\circ_{\mathrm{aff}}U)$ as the
+group classifier equality of the two products with the same left component.
+Apply \autoref{thm:group-left-cancellation} in the same instantiated package.
+Translating the resulting group classifier back through the affine pointwise
+classifier gives $S\equiv_{\mathrm{aff}}U$.
+\end{proof}
+
+Per-object template: traditional target affine automorphism cancellativity;
+BEDC source $\FieldUp+\CommRingUp$, the affine package, and $\GroupUp$
+cancellation; carrier certified affine automorphism histories; classifier
+$\equiv_{\mathrm{aff}}$; stability associativity, identity, inverse, and
+operation congruence; ledger nonzero coefficient witnesses and composition
+provenance; core theorem
+\autoref{thm:field-affine-automorphism-cancellation}; exactness predicate left
+and right cancellation under the affine classifier; standard bridge ordinary
+affine automorphism group; status $\mathsf{ProofTarget}$.
