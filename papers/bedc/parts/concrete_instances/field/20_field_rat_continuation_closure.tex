@@ -180,19 +180,74 @@ the two outer carriers, is exactly
 $\mathsf{RatHistoryClassifier}(left,right)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation classifier associativity congruence]
+\label{thm:field-rat-denominator-continuation-associative-classifier-congruence}
+For all histories
+$d,d',e,e',f,f',de,de',ef,ef',left,left',right,right':\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(d,d')$,
+$\mathsf{RatHistoryClassifier}(e,e')$,
+$\mathsf{RatHistoryClassifier}(f,f')$,
+$\Cont(d,e,de)$, $\Cont(d',e',de')$, $\Cont(e,f,ef)$,
+$\Cont(e',f',ef')$, $\Cont(de,f,left)$, $\Cont(de',f',left')$,
+$\Cont(d,ef,right)$, and $\Cont(d',ef',right')$, then
+$$
+\mathsf{RatHistoryClassifier}(left,left')\land
+\mathsf{RatHistoryClassifier}(right,right')\land
+left\hsame right\land left'\hsame right'.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the three displayed Rat history classifiers. Their carrier components,
+together with
+\autoref{thm:rat-history-carrier-positive-denominator-equivalence} and
+\autoref{thm:positive-unary-denominator-unary-and-nonempty}, give unary
+denominator witnesses for $e,e',f,$ and $f'$. Their comparison components give
+$e\hsame e'$ and $f\hsame f'$.
+
+Apply
+\autoref{thm:field-rat-denominator-continuation-classifier-closure} to
+$\Cont(d,e,de)$ and $\Cont(d',e',de')$. This yields
+$\mathsf{RatHistoryClassifier}(de,de')$. Apply the same closure theorem to
+$\Cont(e,f,ef)$ and $\Cont(e',f',ef')$ to obtain
+$\mathsf{RatHistoryClassifier}(ef,ef')$.
+
+The outer left bracketing now uses the classifier for $de,de'$ and the unary
+witnesses for $f,f'$. Another application of
+\autoref{thm:field-rat-denominator-continuation-classifier-closure} gives
+$\mathsf{RatHistoryClassifier}(left,left')$.
+
+For the outer right bracketing, first read the carrier components of
+$\mathsf{RatHistoryClassifier}(ef,ef')$ through the same positive-denominator
+and unary/nonempty theorems, producing unary witnesses for $ef$ and $ef'$. The
+comparison component of the classifier supplies $ef\hsame ef'$, so
+\autoref{thm:field-rat-denominator-continuation-classifier-closure} applied to
+$\Cont(d,ef,right)$ and $\Cont(d',ef',right')$ gives
+$\mathsf{RatHistoryClassifier}(right,right')$.
+
+Finally apply
+\autoref{thm:field-rat-denominator-continuation-semigroup-laws} to the
+unprimed continuation family $d,e,f,de,ef,left,right$. Apply it again to the
+primed family $d',e',f',de',ef',left',right'$. The two semigroup outputs give
+$left\hsame right$ and $left'\hsame right'$, completing the displayed
+conjunction.
+\end{proof}
+
 \textbf{Traditional target}: denominator-side multiplication closure for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
 denominators; \textbf{classifier choice}: Rat history classifier;
 \textbf{stability obligation}: continuation-result carrier, classifier, and
-ledger transport plus empty-history identity and associativity coherence;
+ledger transport, empty-history identity, associativity coherence, and
+classifier-compatible associative continuation-result
+coherence;
 \textbf{ledger}: the right denominator's positive-unary witness and the
 matching continuation witnesses; \textbf{core theorems}:
 \autoref{thm:field-rat-denominator-continuation-carrier-closure},
 \autoref{thm:field-rat-denominator-continuation-semigroup-laws},
 \autoref{thm:field-rat-denominator-continuation-classifier-closure},
-\autoref{thm:field-rat-denominator-continuation-ledger-closure}, and
-\autoref{thm:field-rat-denominator-continuation-empty-identity-and-assoc};
+\autoref{thm:field-rat-denominator-continuation-ledger-closure},
+\autoref{thm:field-rat-denominator-continuation-empty-identity-and-assoc}, and
+\autoref{thm:field-rat-denominator-continuation-associative-classifier-congruence};
 \textbf{exactness predicate}: carrier closure for the concrete denominator
 operation; \textbf{standard bridge}: deferred; \textbf{status}:
 $\mathsf{ProofTarget}$.
