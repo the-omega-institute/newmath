@@ -93,6 +93,33 @@ $a$. Kernel mutual-extension cancellation identifies the endpoints and forces
 both displayed tails to be the empty history.
 \end{proof}
 
+\begin{theorem}[Prefixed cyclic continuation morphisms have empty tails]
+\label{thm:continuation-morphism-prefix-cycle-tails-empty}
+If a prefixed continuation morphism and an opposite base continuation morphism
+record
+$$
+left:\mathsf{ContinuationMorphism}(\mathsf{append}(p,a),\mathsf{append}(p,b))
+$$
+and
+$$
+right:\mathsf{ContinuationMorphism}(b,a),
+$$
+then the base endpoints are internally the same and both displayed tails are
+empty:
+$$
+\hsame(a,b)\land
+\hsame(\mathsf{tail}(left),\emp)\land
+\hsame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_prefix\_cycle\_tails\_empty}
+\begin{proof}
+Unpack the prefixed morphism and cancel the common left continuation prefix in
+its exposed ledger. The resulting base continuation from $a$ to $b$ and the
+opposite continuation from $b$ to $a$ form mutual extensions, so kernel
+cancellation identifies the base endpoints and empties both tails.
+\end{proof}
+
 \begin{theorem}[Zero-headed to one-headed continuation morphisms have no opposite cycle]
 \label{thm:continuation-morphism-e0-e1-cycle-absurd}
 For histories $a,r:\mathsf{BHist}$, no opposite pair can run from
@@ -142,6 +169,38 @@ tail to be empty. Empty append inversion splits the composite tail into empty
 left and right component tails. Comparing the component continuation ledgers
 with the right-unit continuations at $a$ and $b$ identifies the adjacent
 endpoints.
+\end{proof}
+
+\begin{theorem}[Prefixed triangular cyclic continuation morphisms have empty tails]
+\label{thm:continuation-morphism-prefix-triangle-cycle-tails-empty}
+If continuation morphisms record
+$$
+left:\mathsf{ContinuationMorphism}(\mathsf{append}(p,a),\mathsf{append}(p,b)),
+$$
+$$
+middle:\mathsf{ContinuationMorphism}(b,c),
+$$
+and
+$$
+back:\mathsf{ContinuationMorphism}(c,a),
+$$
+then all three displayed tails are empty and the adjacent base endpoints
+collapse:
+$$
+\hsame(\mathsf{tail}(left),\emp)\land
+\hsame(\mathsf{tail}(middle),\emp)\land
+\hsame(\mathsf{tail}(back),\emp)\land
+\hsame(a,b)\land\hsame(b,c).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_prefix\_triangle\_cycle\_tails\_empty}
+\begin{proof}
+Cancel the common prefix in the first continuation ledger, then compose the
+base left ledger with the middle ledger. The composite and the back ledger form
+a mutual-extension cycle, so the composite tail and the back tail are empty.
+Empty append inversion splits the composite tail into the left and middle
+tails, and deterministic comparison with right-unit ledgers identifies the
+adjacent endpoints.
 \end{proof}
 
 \begin{theorem}[Visible e1 continuation morphism tail cases]
