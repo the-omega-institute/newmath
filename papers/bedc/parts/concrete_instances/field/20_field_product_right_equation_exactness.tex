@@ -149,6 +149,60 @@ $\mathsf{mul}(-,\emp)$ in both directions.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_product\_left\_mul\_empty\_equation\_exact\_from\_apartness}
 
+\begin{theorem}[Field product-factor map classifier exactness from apartness]
+\label{thm:field-product-factor-map-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+multiplication associativity, left and right unit laws, multiplication
+congruence under $\hsame$, and left and right inverse laws indexed by nonzero
+witnesses, explicit witnesses
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$ make every
+$x,y:\mathsf{BHist}$ satisfy both classifier clauses
+$$
+\mathsf{mul}(x,\mathsf{mul}(a,b))\hsame
+\mathsf{mul}(y,\mathsf{mul}(a,b))
+\Longleftrightarrow
+x\hsame y
+$$
+and
+$$
+\mathsf{mul}(\mathsf{mul}(a,b),x)\hsame
+\mathsf{mul}(\mathsf{mul}(a,b),y)
+\Longleftrightarrow
+x\hsame y.
+$$
+Traditional target product-factor multiplication classifier exactness; BEDC
+source $\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations product right and left equation exactness,
+multiplication congruence, symmetry, and transitivity; ledger the three
+nonzero witnesses; exactness predicate the two displayed equivalences.
+\end{theorem}
+\begin{proof}
+For the right-product forward direction, apply
+\autoref{thm:field-product-right-mul-equation-exact-from-apartness} to the
+equation with target $\mathsf{mul}(y,\mathsf{mul}(a,b))$. This turns the
+given classifier equality into the solution endpoint determined by that
+target. Apply the same theorem to the reflexive equation for $y$ at the same
+target, and compose the two solution endpoints by symmetry and transitivity
+to obtain $x\hsame y$.
+
+For the reverse direction of the right-product clause, multiplication
+congruence transports $x\hsame y$ through the map
+$z\mapsto\mathsf{mul}(z,\mathsf{mul}(a,b))$, giving the displayed classifier
+equality.
+
+The left-product forward direction is symmetric. Apply
+\autoref{thm:field-product-left-mul-equation-exact-from-apartness} to the
+equation with target $\mathsf{mul}(\mathsf{mul}(a,b),y)$, compare it with the
+reflexive equation for $y$, and compose the resulting solution endpoints by
+symmetry and transitivity.
+
+For the reverse direction of the left-product clause, multiplication
+congruence transports $x\hsame y$ through
+$z\mapsto\mathsf{mul}(\mathsf{mul}(a,b),z)$, which is exactly the left
+classifier equality.
+\end{proof}
+
 \begin{theorem}[Field three-factor product equation exactness from apartness]
 \label{thm:field-three-factor-product-equation-exact-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
