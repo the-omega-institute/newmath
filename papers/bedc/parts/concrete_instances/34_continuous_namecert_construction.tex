@@ -25,6 +25,30 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.ContinuousUp.ContinuousModulusWitness}
 
+\begin{theorem}[Continuous modulus witness empty-source exactness]
+\label{thm:continuous-modulus-witness-empty-source-iff}
+For histories $modulus$ and $target$, a one-step modulus witness whose source
+is empty is exactly a unary target together with classifier equality between
+the modulus and the target:
+$$
+\mathsf{ContinuousModulusWitness}(\emp,modulus,target)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(target)\land\hsame(modulus,target).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness. The continuation ledger is
+$\ContR(\emp,modulus,target)$, so the left-unit continuation theorem identifies
+the target with the modulus. This gives the forward classifier equality after
+symmetry, while the target unary field is one of the witness fields.
+
+Conversely, transport the target unary field across the classifier equality to
+obtain a unary modulus. The source is unary by the empty-history constructor,
+and the left-unit continuation equivalence rebuilds
+$\ContR(\emp,modulus,target)$ from the same classifier equality.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_source\_iff}
+
 \begin{theorem}[Continuous function carrier composition closure]
 \label{thm:continuous-function-carrier-comp-closed}
 If $f$ carries a source history to a middle history with modulus $modF$, and

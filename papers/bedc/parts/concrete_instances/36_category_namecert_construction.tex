@@ -621,6 +621,35 @@ $\ContR(a,\Eone(k),\Eone(r))$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_target\_iff}
 
+\begin{theorem}[Category hom-carrier one-headed target morphism cases]
+\label{thm:category-hom-carrier-e1-target-morphism-cases}
+For histories $source,r,morph$, a hom-carrier whose target is one-headed has
+only the empty morphism case or a one-headed morphism tail:
+$$
+\mathsf{CategoryHomCarrier}(source,\Eone(r),morph)
+\Longrightarrow
+\left(
+morph=\emp\land source=\Eone(r)\land \mathsf{UnaryHistory}(r)
+\right)
+$$
+or there exists a history $k$ such that
+$$
+morph=\Eone(k)\land\mathsf{UnaryHistory}(source)\land
+\mathsf{UnaryHistory}(k)\land\ContR(source,k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness into unary source, target, and morphism fields
+and the continuation ledger. Classify the morphism history. In the empty
+morphism branch, the continuation right-unit shape identifies the source with
+$\Eone(r)$, and unary inversion on the target gives the unary history for $r$.
+The zero-headed morphism branch contradicts unary-history separation for zero
+extensions. In the one-headed branch, unary inversion gives the tail carrier
+for $k$, and constructor inversion on the continuation ledger yields
+$\ContR(source,k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_morphism\_cases}
+
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}
 For histories $a,k,r$, a hom-carrier whose target and morphism histories are

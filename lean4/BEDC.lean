@@ -150,6 +150,7 @@ import BEDC.Derived.ContinuousUp.GraphChainFactorization
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
 import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ResultCases
+import BEDC.Derived.ContinuousUp.EmptySource
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
@@ -161,5 +162,6 @@ import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.TargetCases
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
