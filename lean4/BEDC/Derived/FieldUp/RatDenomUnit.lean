@@ -358,4 +358,48 @@ theorem field_rat_denominator_empty_unit_right_cancel {h k t : BHist} :
   intro carrierH carrierK _carrierT classified
   exact ⟨carrierH, carrierK, append_right_cancel classified.right.right⟩
 
+theorem field_rat_denominator_empty_unit_left_multiplication_classifier_exactness
+    {h k t : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier t ->
+      (RatDenomUnitClassifier (append t h) (append t k) <->
+        RatDenomUnitClassifier h k) := by
+  intro carrierH carrierK carrierT
+  constructor
+  · intro classified
+    exact ⟨carrierH, carrierK, append_left_cancel classified.right.right⟩
+  · intro classified
+    have carrierTH : RatDenomUnitCarrier (append t h) :=
+      RatDenomUnitCarrier_continuation_closed carrierT carrierH (cont_intro rfl)
+    have carrierTK : RatDenomUnitCarrier (append t k) :=
+      RatDenomUnitCarrier_continuation_closed carrierT carrierK (cont_intro rfl)
+    exact ⟨carrierTH, carrierTK, congrArg (append t) classified.right.right⟩
+
+theorem field_rat_denominator_empty_unit_bilateral_multiplication_classifier_exactness
+    {h k l r : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier l ->
+      RatDenomUnitCarrier r ->
+        (RatDenomUnitClassifier (append (append l h) r) (append (append l k) r) <->
+          RatDenomUnitClassifier h k) := by
+  intro carrierH carrierK carrierL carrierR
+  have carrierLH : RatDenomUnitCarrier (append l h) :=
+    RatDenomUnitCarrier_continuation_closed carrierL carrierH (cont_intro rfl)
+  have carrierLK : RatDenomUnitCarrier (append l k) :=
+    RatDenomUnitCarrier_continuation_closed carrierL carrierK (cont_intro rfl)
+  constructor
+  · intro classified
+    have leftClassified : RatDenomUnitClassifier (append l h) (append l k) :=
+      field_rat_denominator_empty_unit_right_cancel carrierLH carrierLK carrierR classified
+    exact
+      (field_rat_denominator_empty_unit_left_multiplication_classifier_exactness
+        carrierH carrierK carrierL).mp leftClassified
+  · intro classified
+    have leftClassified : RatDenomUnitClassifier (append l h) (append l k) :=
+      (field_rat_denominator_empty_unit_left_multiplication_classifier_exactness
+        carrierH carrierK carrierL).mpr classified
+    have carrierLHR : RatDenomUnitCarrier (append (append l h) r) :=
+      RatDenomUnitCarrier_continuation_closed carrierLH carrierR (cont_intro rfl)
+    have carrierLKR : RatDenomUnitCarrier (append (append l k) r) :=
+      RatDenomUnitCarrier_continuation_closed carrierLK carrierR (cont_intro rfl)
+    exact ⟨carrierLHR, carrierLKR, congrArg (fun x => append x r) leftClassified.right.right⟩
+
 end BEDC.Derived.FieldUp
