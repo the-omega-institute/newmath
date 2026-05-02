@@ -351,20 +351,34 @@ $$
 U(z)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,z),e),f)
 $$
 with witnesses $p_c:\mathsf{NonZero}_F(c)$ and
-$p_e:\mathsf{NonZero}_F(e)$, the composite $U(T(x))$ is certified by the
-collected coefficients
+$p_e:\mathsf{NonZero}_F(e)$, let $\mathsf{ApartZero}_F(h)$ abbreviate
+$h\hsame0\to\bot$. Assume conversion maps
+$$
+\alpha_{ca}:\mathsf{ApartZero}_F(\mathsf{mul}(c,a))\to
+\mathsf{NonZero}_F(\mathsf{mul}(c,a)),
+\qquad
+\alpha_{be}:\mathsf{ApartZero}_F(\mathsf{mul}(b,e))\to
+\mathsf{NonZero}_F(\mathsf{mul}(b,e)).
+$$
+Let $q_{ca}$ and $q_{be}$ be the product-apartness witnesses supplied by
+\autoref{thm:field-nonzero-factors-exclude-zero-product} for the pairs
+$(p_c,p_a)$ and $(p_b,p_e)$, and set
+$p_{ca}:=\alpha_{ca}(q_{ca})$ and $p_{be}:=\alpha_{be}(q_{be})$. Then the
+composite $U(T(x))$ is certified by the collected coefficients
 $$
 A=\mathsf{mul}(c,a),
 \qquad
 B=\mathsf{mul}(b,e),
 \qquad
-D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f).
+D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f)
 $$
+together with the product witnesses $p_{ca}$ and $p_{be}$.
 Moreover, if $s_T$ and $s_U$ are the displayed inverse maps for $T$ and $U$,
 then $s_T(s_U(q))$ is a two-sided inverse of $U(T(x))$ and agrees with the
-collected-coefficient inverse of the composite. Hence the identity affine map,
-composition, inverse closure, and classifier iff clauses form the affine
-automorphism package over $\mathsf{BHist}$.
+collected-coefficient inverse of the composite indexed by $p_{ca}$ and
+$p_{be}$. Hence the identity affine map, composition, inverse closure, and
+classifier iff clauses form the affine automorphism package over
+$\mathsf{BHist}$.
 \end{theorem}
 \begin{proof}
 The identity clauses use the same $\FieldUp$ operations as the certified affine
@@ -376,9 +390,13 @@ $I(x)\hsame x$ through $T$, giving $T(I(x))\hsame T(x)$.
 
 For composition, apply
 \autoref{thm:field-affine-two-sided-automorphism-composition} to the two
-certified affine maps. The theorem supplies the collected coefficients $A,B,D$,
-the product witnesses for $A$ and $B$, and the classifier iff for $U\circ T$.
-The certified-automorphism clauses are then read through
+certified affine maps using the displayed $\alpha_{ca}$ and $\alpha_{be}$ data.
+The product-apartness witnesses $q_{ca}$ and $q_{be}$ supplied by
+\autoref{thm:field-nonzero-factors-exclude-zero-product} are converted into
+$p_{ca}$ and $p_{be}$, so the composition theorem supplies the collected
+coefficients $A,B,D$, the certified composite indexed by those product
+witnesses, and the classifier iff for $U\circ T$. The certified-automorphism
+clauses are then read through
 \autoref{thm:field-affine-two-sided-certified-automorphism}.
 
 For inverse closure, use
