@@ -10,6 +10,55 @@ The commutative ring interface \(\CommRingUp\) extends \autoref{ch:concrete-inst
 Use a ring setup extended with commutativity of multiplication.
 \end{definition}
 
+\section{Concrete singleton empty-history commutative ring instance}
+\label{sec:commring-concrete-singleton-instance}
+
+\begin{definition}[Singleton empty-history commutative ring instance]
+\label{def:singleton-empty-history-commring-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define the
+classifier
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Define the concrete commutative ring operations by
+$$
+\mathsf{add}(h,k):=\emp,\qquad
+\mathsf{neg}(h):=\emp,\qquad
+0:=\emp,\qquad
+\mathsf{mul}(h,k):=\emp,\qquad
+1:=\emp.
+$$
+This is the one-element BEDC history commutative ring over the concrete carrier
+$A_{\emp}:\mathsf{BHist}\to\mathsf{Prop}$ and classifier $\rho_{\emp}$.
+\end{definition}
+
+\begin{theorem}[Singleton empty-history commutative ring laws]
+\label{thm:singleton-empty-history-commring-laws}
+The tuple
+$(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
+the singleton ring laws of Theorem~\ref{thm:singleton-empty-history-ring-laws}
+and multiplicative commutativity under $\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:singleton-empty-history-ring-laws} to obtain carrier
+inhabitance, the additive abelian-group laws, the multiplicative monoid laws,
+operation congruence, distributivity, and the zero multiplication laws for the
+displayed singleton tuple.
+
+It remains to supply multiplicative commutativity. For any $h,k$ in the
+singleton carrier, both products $\mathsf{mul}(h,k)$ and $\mathsf{mul}(k,h)$
+reduce definitionally to $\emp$.
+
+The two endpoint witnesses are the singleton carrier witness for $\emp$ in
+$A_{\emp}$. The relation component is reflexivity of $\hsame$ at $\emp$, so
+$\rho_{\emp}(\mathsf{mul}(h,k),\mathsf{mul}(k,h))$ holds.
+\end{proof}
+
+This supplies a concrete $\mathsf{BHist}$ carrier and operation package for the
+$\CommRingUp$ schema.
+
 \section{The certificate}
 
 \begin{definition}[CommRing source specification]
