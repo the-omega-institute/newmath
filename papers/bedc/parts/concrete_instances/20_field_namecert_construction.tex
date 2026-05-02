@@ -508,62 +508,92 @@ $$
 \mu_D^u=\mathsf{append},\qquad e_D^u=\emp,\qquad
 N_D^u=\mathsf{RatHistoryCarrier},
 $$
-and for the context-pair structure of
-\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, the denominator
-action certificate for $\FieldUp(\mathsf{RatUp})$ is the concrete certificate
-whose fields are the following data:
+and for the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, define the
+componentwise pair classifier on carried denominator context pairs by
+$$
+\mathsf{PairRel}_D^u((l,r),(l',r'))
+\Longleftrightarrow R_D^u(l,l')\land R_D^u(r,r').
+$$
+Then the denominator context-pair action certificate for
+$\FieldUp(\mathsf{RatUp})$ consists of the following concrete rows:
 \begin{enumerate}
-\item carried pair closure for the predicate $C_D^u(l)\land C_D^u(r)$;
-\item unit pair action classified with identity;
-\item pair-action composition by the product $\star$;
-\item strict-support exactness for the unit action and for composed actions;
-\item two-sided unit and associativity laws for $\star$ up to componentwise
-$R_D^u$;
-\item compatibility with the row-closure package of
-\autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package}.
+\item $\mathsf{PairRel}_D^u$ is reflexive, symmetric, and transitive on
+carried pairs, and it transports the carried pair predicate
+$C_D^u(l)\land C_D^u(r)$.
+\item The product $\star$ of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid} is closed on
+carried pairs and congruent for $\mathsf{PairRel}_D^u$.
+\item The unit-pair action, product-pair composition law, and product
+strict-support readback are exactly the laws of
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-laws}.
+\item The three-layer empty-endpoint contextual action has the normalized
+single-action form
+$$
+\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h)))
+\sim_{R_D^u}
+\Gamma_{\emp,\emp,\mu_D^u(l_2,\mu_D^u(l_1,l_0)),
+\mu_D^u(\mu_D^u(r_0,r_1),r_2)}(h)
+$$
+and the seven-term strict-support readback of
+\autoref{thm:field-rat-denominator-contextual-action-threefold-normalization}.
+\item These rows, together with
+\autoref{thm:ratup-fieldup-denominator-contextual-row-package-with-unit-composition},
+form the concrete denominator context-pair action certificate for
+$\FieldUp(\mathsf{RatUp})$.
 \end{enumerate}
-Equivalently, the certificate records exactly the pair-action interface of
-\autoref{thm:ratup-fieldup-denominator-context-pair-action-laws} and the
-contextual row assembly of
-\autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package} over the
-same BHist carrier-classifier-operation tuple
-$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
-\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$.
 \end{theorem}
 \begin{proof}
-First apply
+First build the classifier rows. The concrete denominator classifier
+$R_D^u$ is an equivalence on carried histories and transports the carried
+history predicate by the denominator row package. Applying those rows to the
+left and right coordinates gives reflexivity, symmetry, transitivity, and
+carrier transport for $\mathsf{PairRel}_D^u$ on carried pairs.
+
+Next establish product stability. Closure of $\star$ is componentwise closure
+of $\mu_D^u$. Congruence follows by applying the denominator append congruence
+rows to the left components and to the right components, preserving the product
+orders $\mu_D^u(l',l)$ and $\mu_D^u(r,r')$ from
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}.
+
+Now apply
 \autoref{thm:ratup-fieldup-denominator-context-pair-action-laws}. It supplies
-the concrete carried-pair predicate, the unit pair, the product $\star$, and the
-componentwise classifier. Its clauses give carried pair closure, the unit action
-classified with identity, composition by $\star$, support readback for the unit
-and composed actions, and the two-sided unit and associativity laws for
-$\star$ up to componentwise $R_D^u$.
+the unit-pair action, the product-pair composition law, the product
+strict-support readback, and the two-sided unit and associativity clauses for
+the same product $\star$ and componentwise classifier.
 
-Next apply
-\autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package}. This
-supplies the denominator row package over the same BHist carrier, classifier,
-operation, empty unit, strict-support predicate, and contextual action
-$\Gamma$. In particular it records row closure, contextual action,
-two-layer composition, exact readback, and cancellation over
-$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
-$\mathsf{append}$, $\emp$, and $\mathsf{RatHistoryCarrier}$.
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-classifier-congruence}
+to the same carried left context, acted history, and carried right context
+whenever the pair classifier transports an acting pair. This gives contextual
+action stability under $\mathsf{PairRel}_D^u$ and keeps the external endpoint
+contexts empty.
 
-It remains only to identify the common interface. Both cited theorems use the
-same denominator tuple and the same action $\Gamma$, so the certificate fields
-are not transported across a new carrier. They are repacked as the concrete
-FieldUp denominator action certificate whose pair layer is
-\autoref{def:ratup-fieldup-denominator-context-pair-monoid} and whose row layer
-is \autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package}.
+For the iterated action row, apply
+\autoref{thm:field-rat-denominator-contextual-action-threefold-normalization}.
+It gives the carried three-layer action, its normalized single-action classifier
+comparison, and the seven-term strict-support readback for the same
+$\Gamma$, $\mu_D^u$, $e_D^u$, and $N_D^u$.
+
+Finally apply
+\autoref{thm:ratup-fieldup-denominator-contextual-row-package-with-unit-composition}.
+Its row closure, exactness, unit-composition, and support clauses occupy the
+one-layer and two-layer rows of the same concrete denominator interface. The
+pair classifier rows, product congruence, pair-action laws, and threefold
+normalization therefore assemble as the stated FieldUp denominator
+context-pair action certificate over $\mathsf{BHist}$.
 \end{proof}
 
-Per-object template: traditional target FieldUp(RatUp) denominator context-pair
-action certificate; BEDC source $\mathsf{BHist}$,
-$\mathsf{RatHistoryCarrier}$, $\mathsf{RatDenomUnitCarrier}$,
-$\mathsf{RatDenomUnitClassifier}$, $\mathsf{append}$, $\emp$, and $\Gamma$;
-carrier pair predicate $C_D^u(l)\land C_D^u(r)$; classifier componentwise
-$R_D^u$; stability obligations pair closure, unit action, composition action,
-support readback, star unit, and associativity; ledger carried left and right
-contexts and empty external endpoints; core theorem
+Per-object template: traditional target denominator context-pair action
+certificate for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{append}$, $\Cont$, $\emp$, and
+$\Gamma$; carrier carried denominator context pairs; classifier
+$\mathsf{PairRel}_D^u$; stability obligations pair classifier equivalence,
+carrier transport, $\star$ congruence, unit action, product composition, and
+threefold normalization; ledger left and right carried denominator contexts
+plus empty external endpoints; core theorem
 \autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate};
 exactness predicate support readback and row closure; standard bridge FieldUp
 denominator action; status $\mathsf{ProofTarget}$.
