@@ -110,6 +110,7 @@ import BEDC.Derived.OptionUp.AbsentNoPresent
 import BEDC.Derived.OptionUp.PayloadDescentSharedTarget
 import BEDC.Derived.OptionUp.PrefixClosure
 import BEDC.Derived.OptionUp.SuffixClosure
+import BEDC.Derived.OptionUp.AppendContext
 import BEDC.Derived.OptionUp.PresentChainEndpointClassification
 import BEDC.Derived.OptionUp.SourceTransportAbsurd
 import BEDC.Derived.OptionUp.CrossAbsentSourceExclusion
