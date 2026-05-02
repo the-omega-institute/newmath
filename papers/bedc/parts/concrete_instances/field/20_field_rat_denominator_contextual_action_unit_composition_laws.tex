@@ -1,0 +1,73 @@
+\begin{theorem}[RatUp FieldUp denominator contextual action unit-composition laws]
+\label{thm:ratup-fieldup-denominator-contextual-action-unit-composition-laws}
+For the concrete data of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, the empty
+contextual action is a classifier unit and contextual actions compose by
+context multiplication.
+
+If $C_D^u(h)$, then the empty action is carried and classifier-equal to the
+original history:
+$$
+C_D^u(\Gamma_{\emp,\emp,\emp,\emp}(h)),
+$$
+$$
+R_D^u(\Gamma_{\emp,\emp,\emp,\emp}(h),h),
+$$
+and its strict support is unchanged:
+$$
+N_D^u(\Gamma_{\emp,\emp,\emp,\emp}(h))
+\Longleftrightarrow
+N_D^u(h).
+$$
+
+If $C_D^u(h)$, $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and $C_D^u(r')$, and if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then the
+nested contextual action is carried:
+$$
+C_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))).
+$$
+It is classified by the single action whose carried contexts are multiplied
+inside the denominator context monoid:
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',\mu_D^u(l',l),\mu_D^u(r,r')}(h)).
+$$
+Its strict-support readback is the five-term support law
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(l')\lor N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)\lor N_D^u(r').
+$$
+\end{theorem}
+\begin{proof}
+For the unit action, unfold
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}. The four
+contexts are empty, so the action is the bilateral multiplication context
+$B_{\emp,\emp}(h)$ with empty external endpoints. The empty-unit denominator
+laws of
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws} put the
+result in $C_D^u$.
+
+The classifier clause is the empty-context instance of
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate}, using
+empty-context classifier exactness for the endpoint transport. With both
+carried contexts equal to $\emp$, the same denominator unit laws reduce the
+comparison to $R_D^u(h,h)$, which is the reflexive classifier comparison for
+the carried history $h$.
+
+For strict support of the unit action, apply the strict-support part of
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate}. The two
+outer support terms are $N_D^u(\emp)$ and $N_D^u(\emp)$, and the empty-unit
+denominator laws make them absent. The remaining term is exactly $N_D^u(h)$.
+
+For composition, use
+\autoref{thm:ratup-fieldup-denominator-contextual-action-composition-closure}.
+Its hypotheses are precisely the carried-context hypotheses and the four empty
+external endpoint hypotheses displayed above.
+
+That theorem supplies the carried nested action, the classifier comparison
+with
+$\Gamma_{p',q',\mu_D^u(l',l),\mu_D^u(r,r')}(h)$, and the five-term
+strict-support readback. These are exactly the action-law package consumed by
+the concrete FieldUp denominator interface.
+\end{proof}
