@@ -135,6 +135,27 @@ Unpack the two hom-carrier witnesses. The source, middle, target, and morphism h
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_closed}
 
+\begin{theorem}[Category hom carrier composite factorization iff]
+\label{thm:category-hom-carrier-comp-factorization-iff}
+For histories $a,c,f,g,fg:\mathsf{BHist}$ with $\ContR(f,g,fg)$, a displayed
+composite hom-carrier from $a$ to $c$ is equivalent to the existence of an
+intermediate history $b$ carrying $f$ from $a$ to $b$ and $g$ from $b$ to $c$:
+$$
+\mathsf{CategoryHomCarrier}(a,c,fg)
+\Longleftrightarrow
+\exists b:\mathsf{BHist},
+\mathsf{CategoryHomCarrier}(a,b,f)\wedge
+\mathsf{CategoryHomCarrier}(b,c,g).
+$$
+\end{theorem}
+\begin{proof}
+From a displayed composite, the canonical-middle decomposition supplies the
+witness $b=\mathsf{append}(a,f)$ and the two hom-carrier factors. Conversely,
+any displayed intermediate factorization composes by hom-carrier composition
+closure along the same continuation witness $\ContR(f,g,fg)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_factorization\_iff}
+
 \begin{theorem}[Category hom-carrier composite endpoint cycle has empty morphism]
 \label{thm:category-hom-carrier-composite-endpoint-cycle-morphism-empty}
 For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to

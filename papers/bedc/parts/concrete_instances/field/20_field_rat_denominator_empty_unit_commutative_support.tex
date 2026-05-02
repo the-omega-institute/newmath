@@ -106,6 +106,27 @@ $$
 Thus the empty endpoint is carried by $C_D^u$ but is not in the strict support.
 \end{definition}
 
+\begin{theorem}[Rat denominator unit carrier append factor carriers]
+\label{thm:rat-denom-unit-carrier-append-factor-carriers}
+For histories $h,k:\mathsf{BHist}$, if their append product is carried by the
+Rat denominator empty-unit carrier, then each factor is carried:
+$$
+C_D^u(\mathsf{append}(h,k))
+\Longrightarrow
+C_D^u(h)\wedge C_D^u(k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $C_D^u$. In the empty branch,
+$\mathsf{append}(h,k)\hsame\emp$, and append-empty inversion identifies both
+factors with $\emp$. In the Rat-history branch, positivity of the denominator
+product gives a unary, nonempty append history. Unary append factorization
+recovers unary witnesses for $h$ and $k$; each unary factor is either $\emp$
+or an $\Eone$-headed positive denominator, hence a
+$\mathsf{RatDenomUnitCarrier}$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_factor\_carriers}
+
 \begin{theorem}[Rat denominator empty-unit product nonempty iff]
 \label{thm:field-rat-denominator-empty-unit-product-nonempty-iff}
 For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, the

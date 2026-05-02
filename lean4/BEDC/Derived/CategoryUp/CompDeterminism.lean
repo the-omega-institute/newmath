@@ -112,6 +112,23 @@ theorem CategoryHomCarrier_comp_same_endpoints_result_deterministic
     CategoryHomCarrier_comp_closed left' right' comp'
   exact CategoryHomCarrier_morphism_deterministic composite composite'
 
+theorem CategoryHomCarrier_comp_factorization_iff {a c f g fg : BHist} :
+    Cont f g fg ->
+      (CategoryHomCarrier a c fg <->
+        Exists (fun b : BHist => CategoryHomCarrier a b f ∧ CategoryHomCarrier b c g)) := by
+  intro comp
+  constructor
+  · intro displayed
+    have factors :
+        CategoryHomCarrier a (append a f) f ∧ CategoryHomCarrier (append a f) c g :=
+      (CategoryHomCarrier_comp_canonical_middle_iff
+        (a := a) (c := c) (f := f) (g := g) (fg := fg) comp).mp displayed
+    exact Exists.intro (append a f) factors
+  · intro factorization
+    cases factorization with
+    | intro b factors =>
+        exact CategoryHomCarrier_comp_closed factors.left factors.right comp
+
 theorem CategoryHomCarrier_tail_comm_target_deterministic {a b c d f g fg gf : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg -> Cont g f gf ->
       CategoryHomCarrier a d gf -> hsame c d := by
