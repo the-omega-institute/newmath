@@ -213,4 +213,15 @@ theorem VecSpaceSingletonSmul_carrier_readback {r m : BHist} :
   · exact And.intro actionCarrier (And.intro carrierM actionSameM)
   · exact actionCarrier
 
+theorem VecSpaceSingletonSmul_empty_readback_classifier {r m : BHist} :
+    VecSpaceSingletonCarrier m ->
+      VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) BHist.Empty ∧
+        VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) m := by
+  intro carrierM
+  constructor
+  · exact And.intro (hsame_refl BHist.Empty)
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  · exact And.intro (hsame_refl BHist.Empty)
+      (And.intro carrierM (hsame_symm carrierM))
+
 end BEDC.Derived.VecSpaceUp

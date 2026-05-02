@@ -189,6 +189,22 @@ symmetry of that witness gives $\emp\hsame m$.
 \end{proof}
 \leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingleton\_scalar\_action\_inverse\_law}
 
+\begin{theorem}[VecSpace singleton scalar action empty readback classifier]
+\label{thm:vecspace-singleton-smul-empty-readback-classifier}
+For the concrete singleton $\VecSpaceUp$ instance, if
+$m:\mathsf{BHist}$ satisfies $A_{\emp}(m)$, then
+$\mathsf{smul}(r,m)$ is classified with $\emp$ and is also classified with
+the original vector endpoint $m$.
+\end{theorem}
+\begin{proof}
+The scalar action is definitionally the constant empty-history action. The
+empty endpoint classifier is therefore the reflexive classifier on $\emp$.
+For the readback classifier, the left endpoint again supplies
+$A_{\emp}(\emp)$, the right endpoint is the assumed carrier witness
+$A_{\emp}(m)$, and symmetry of that witness gives $\emp\hsame m$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_empty\_readback\_classifier}
+
 The $\VecSpaceUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and scalar action, so Lean formalization can target BHist-anchored
 vector-space laws in $\mathsf{BEDC.Derived.VecSpaceUp}$.

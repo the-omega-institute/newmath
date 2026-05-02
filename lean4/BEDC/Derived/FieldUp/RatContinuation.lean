@@ -1,5 +1,6 @@
 import BEDC.Derived.FieldUp
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 
 namespace BEDC.Derived.FieldUp
 
@@ -54,5 +55,22 @@ theorem field_rat_denominator_continuation_semigroup_laws {d e f de ef left righ
   have sameResults : hsame left right :=
     cont_assoc_hsame contDE contLeft contEF contRight
   exact ⟨carrierDE, carrierEF, carrierLeft, carrierRight, sameResults⟩
+
+theorem RatHistoryLedgerPolicy_continuation_closed {raw visible tailRaw tailVisible r s : BHist} :
+    RatHistoryLedgerPolicy raw visible -> UnaryHistory tailRaw -> hsame tailRaw tailVisible ->
+      Cont raw tailRaw r -> Cont visible tailVisible s -> RatHistoryLedgerPolicy r s := by
+  intro ledger tailRawUnary tailSame rawContinuation visibleContinuation
+  have canonicalLedger :
+      RatHistoryLedgerPolicy (append raw tailRaw) (append visible tailVisible) :=
+    RatHistoryLedgerPolicy_append_unary_denominator_closed ledger tailRawUnary tailSame
+  have rawSame : hsame (append raw tailRaw) r :=
+    cont_deterministic
+      (cont_intro (h := raw) (k := tailRaw) (r := append raw tailRaw) rfl)
+      rawContinuation
+  have visibleSame : hsame (append visible tailVisible) s :=
+    cont_deterministic
+      (cont_intro (h := visible) (k := tailVisible) (r := append visible tailVisible) rfl)
+      visibleContinuation
+  exact RatHistoryLedgerPolicy_hsame_transport canonicalLedger rawSame visibleSame
 
 end BEDC.Derived.FieldUp
