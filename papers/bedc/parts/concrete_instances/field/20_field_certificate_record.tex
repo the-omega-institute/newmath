@@ -5,7 +5,37 @@ Record the ring ledger and the $\mathsf{NonZero}_F$ witness used for each invers
 
 \begin{definition}[$\FieldUp$ certificate obligations]
 \label{def:field-certificate-obligations}
-The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name $\FieldUp$.
+For the concrete target $\FieldUp(\RatUp)$, a certificate must provide the
+following rows as a single obligation record.
+\begin{enumerate}
+  \item Source and carrier: the rational-history source on
+  $\mathsf{BHist}$ with carrier $\mathsf{RatHistoryCarrier}$.
+  \item Classifier and pattern: $\mathsf{RatHistoryClassifier}$ and the
+  continuation pattern $\Cont$ over $\mathsf{BHist}$.
+  \item Ring base: the $\CommRingUp$ additive, multiplicative,
+  commutativity, distributivity, operation-congruence, and ring-ledger rows.
+  \item Apartness and inverse data: $\mathsf{NonZero}_F$ apartness from zero,
+  transport of nonzero evidence, inverse closure, inverse classifier
+  exactness, and left and right inverse laws indexed by nonzero witnesses.
+  \item Product data: the two-sided zero-product rows and the certified
+  nonzero-product contradiction rows.
+  \item Denominator tuple:
+  $(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+  \mathsf{append},\emp,\mathsf{RatHistoryCarrier})$ with its multiplicative,
+  unit, closure, classifier, and ledger rows.
+  \item Contextual denominator data: the action $\Gamma$, its envelope and
+  normalized-support rows, and the context-pair monoid rows for pair product,
+  unit-pair action, composition, and strict-support readback.
+  \item Affine source: $\mathsf{AffAut}_F$ with the packaged affine
+  $\GroupUp$ rows used by the field certificate.
+  \item Ledger and exactness data: ring expression ledger rows, inverse
+  witness ledger rows, denominator ledger rows, contextual-pair ledger rows,
+  affine coefficient ledger rows, coverage, soundness, completeness, exact
+  zero classification, denominator exactness, contextual-action exactness,
+  context-pair exactness, and affine classifier exactness.
+  \item Status: the record status field, instantiated here as
+  $\mathsf{ProofTarget}$.
+\end{enumerate}
 \end{definition}
 
 \paragraph{Per-object certificate record.}
