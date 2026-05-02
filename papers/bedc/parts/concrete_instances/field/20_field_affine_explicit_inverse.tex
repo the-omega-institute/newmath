@@ -431,6 +431,78 @@ offsets; core theorem
 predicate two-sided inverse plus composite classifier iff; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
 
+\begin{definition}[Field affine automorphism package]
+\label{def:field-affine-automorphism-package}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$, a field
+affine certificate is data
+$(a,b,d,p_a,p_b)$ with $a,b,d:\mathsf{BHist}$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$. Its displayed
+map is
+$$
+T_{a,b,d}(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d).
+$$
+For two displayed affine maps $T$ and $U$, the affine pointwise classifier is
+defined by
+$$
+T\equiv_{\mathrm{aff}} U
+\quad\Longleftrightarrow\quad
+\text{every }x:\mathsf{BHist}\text{ satisfies }T(x)\hsame U(x).
+$$
+\end{definition}
+
+\begin{theorem}[Field affine automorphism package laws]
+\label{thm:field-affine-automorphism-group-package}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
+$\mathsf{BHist}$, assume the explicit nonzero witness
+$p_1:\mathsf{NonZero}_F(\mathsf{one})$ and the inverse-coefficient nonzero
+witnesses required by
+\autoref{thm:field-affine-inverse-is-certified-affine}. Then the affine
+certificates of \autoref{def:field-affine-automorphism-package} satisfy the
+$\GroupUp$-style law package under $\equiv_{\mathrm{aff}}$: the identity
+certificate is
+$(\mathsf{one},\mathsf{one},\mathsf{zero},p_1,p_1)$, the coefficient-collected
+composition is the composite supplied by
+\autoref{thm:field-affine-two-sided-automorphism-composition}, and the inverse
+of $(a,b,d,p_a,p_b)$ is the normal form supplied by
+\autoref{thm:field-affine-inverse-is-certified-affine}. These operations are
+closed on certified affine automorphisms, composition is associative under the
+pointwise classifier, and every certificate satisfies the left and right
+identity laws and the left and right inverse laws under
+$\equiv_{\mathrm{aff}}$.
+\end{theorem}
+\begin{proof}
+The identity certificate uses the unit and zero laws already carried by the
+$\FieldUp+\CommRingUp$ setup. For every $x:\mathsf{BHist}$, the displayed map
+with coefficients $(\mathsf{one},\mathsf{one},\mathsf{zero})$ reduces by the
+left and right multiplicative unit laws and the additive zero law to $x$, so it
+is the identity under $\equiv_{\mathrm{aff}}$.
+
+Composition closure is exactly
+\autoref{thm:field-affine-two-sided-automorphism-composition}. Given two
+certified affine automorphisms, that theorem collects the factors and offset
+into the displayed affine normal form and returns the product nonzero witnesses
+needed to certify the composite. The resulting certified map is also covered by
+\autoref{thm:field-affine-two-sided-certified-automorphism}.
+
+Associativity is checked pointwise. For three certificates, compare the two
+parenthesized triple composites by expanding both through the same displayed
+coefficient collection classifier from
+\autoref{thm:field-affine-two-sided-automorphism-composition}; associativity of
+the $\CommRingUp$ multiplication and addition data identifies the collected
+left factor, right factor, and offset. Hence the two triple composites are
+related by $\equiv_{\mathrm{aff}}$.
+
+Inverse closure is
+\autoref{thm:field-affine-inverse-is-certified-affine}: the explicit inverse
+map is classifier-equal to a certified affine normal form whose coefficients
+use the supplied inverse-coefficient witnesses. The two-sided inverse laws then
+follow from \autoref{thm:field-affine-two-sided-certified-automorphism} for a
+single certificate and from
+\autoref{thm:field-affine-composite-reverse-explicit-inverse} for a composite,
+which identifies the reverse explicit inverse with the collected composite
+inverse. Together these clauses give the stated $\GroupUp$-style law package.
+\end{proof}
+
 \begin{theorem}[Field threefold certified affine automorphisms compose]
 \label{thm:field-affine-threefold-certified-automorphism-composition}
 For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with the
