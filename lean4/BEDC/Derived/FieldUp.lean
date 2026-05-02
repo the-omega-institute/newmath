@@ -402,4 +402,48 @@ theorem field_singleton_empty_schema_laws :
               · exact hsame_refl BHist.Empty
               · exact hsame_refl BHist.Empty
 
+ theorem field_two_sided_mul_exact_from_apartness {mul : BHist -> BHist -> BHist}
+    {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a b x y : BHist} (pa : NonZero a) (pb : NonZero b) :
+    (hsame (mul (mul a x) b) (mul (mul a y) b) <-> hsame x y) := by
+  constructor
+  · intro sameProducts
+    have rightTransport :
+        hsame (mul (mul (mul a x) b) (inv b pb))
+          (mul (mul (mul a y) b) (inv b pb)) := by
+      exact mulCongr sameProducts (hsame_refl (inv b pb))
+    have cancelRightLeft :
+        hsame (mul (mul (mul a x) b) (inv b pb)) (mul a x) := by
+      exact field_mul_inverse_right_cancel_from_apartness
+        assocC rightId mulCongr rightInv (mul a x) b pb
+    have cancelRightRight :
+        hsame (mul (mul (mul a y) b) (inv b pb)) (mul a y) := by
+      exact field_mul_inverse_right_cancel_from_apartness
+        assocC rightId mulCongr rightInv (mul a y) b pb
+    have cancelRight : hsame (mul a x) (mul a y) := by
+      exact hsame_trans (hsame_symm cancelRightLeft)
+        (hsame_trans rightTransport cancelRightRight)
+    have leftTransport :
+        hsame (mul (inv a pa) (mul a x)) (mul (inv a pa) (mul a y)) := by
+      exact mulCongr (hsame_refl (inv a pa)) cancelRight
+    have cancelLeftLeft :
+        hsame (mul (inv a pa) (mul a x)) x := by
+      exact field_mul_inverse_left_cancel_from_apartness
+        assocC leftId mulCongr leftInv a x pa
+    have cancelLeftRight :
+        hsame (mul (inv a pa) (mul a y)) y := by
+      exact field_mul_inverse_left_cancel_from_apartness
+        assocC leftId mulCongr leftInv a y pa
+    exact hsame_trans (hsame_symm cancelLeftLeft)
+      (hsame_trans leftTransport cancelLeftRight)
+  · intro sameMiddle
+    exact mulCongr (mulCongr (hsame_refl a) sameMiddle) (hsame_refl b)
+
 end BEDC.Derived.FieldUp

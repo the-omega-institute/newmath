@@ -1,7 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
-import BEDC.Derived.RingUp
 import BEDC.Derived.AbGroupUp
+import BEDC.Derived.RingUp
 
 namespace BEDC.Derived.CommRingUp
 
@@ -194,6 +194,83 @@ theorem commring_mul_add_add_column_expand {add mul : BHist -> BHist -> BHist}
     exact BEDC.Derived.AbGroupUp.abgroup_mul_middle_four addAssoc addComm addCongr
       (mul a c) (mul a d) (mul b c) (mul b d)
   exact hsame_trans row column
+
+theorem commring_signed_binary_product_normal_form {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist} {zero : BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add zero x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) zero)
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z))) :
+    forall a b c d : BHist,
+      hsame (mul (add a (neg b)) (add c (neg d)))
+        (add (add (mul a c) (neg (mul a d))) (add (neg (mul b c)) (mul b d))) := by
+  intro a b c d
+  have expanded :
+      hsame (mul (add a (neg b)) (add c (neg d)))
+        (add (add (mul a c) (mul a (neg d)))
+          (add (mul (neg b) c) (mul (neg b) (neg d)))) := by
+    exact commring_mul_add_add_expand mulComm addCongr leftDistrib a (neg b) c (neg d)
+  have normalizeRight :
+      hsame (mul a (neg d)) (neg (mul a d)) := by
+    exact BEDC.Derived.RingUp.ring_mul_neg_right_eq_neg_mul
+      addAssoc addComm zeroLeft negLeft addCongr mulCongr leftDistrib rightDistrib a d
+  have normalizeLeft :
+      hsame (mul (neg b) c) (neg (mul b c)) := by
+    exact BEDC.Derived.RingUp.ring_mul_neg_left_eq_neg_mul
+      addAssoc addComm zeroLeft negLeft addCongr mulCongr leftDistrib rightDistrib b c
+  have normalizeBoth :
+      hsame (mul (neg b) (neg d)) (mul b d) := by
+    exact BEDC.Derived.RingUp.ring_mul_neg_neg_eq_mul
+      addAssoc addComm zeroLeft negLeft addCongr mulCongr leftDistrib rightDistrib b d
+  have normalized :
+      hsame
+        (add (add (mul a c) (mul a (neg d)))
+          (add (mul (neg b) c) (mul (neg b) (neg d))))
+        (add (add (mul a c) (neg (mul a d))) (add (neg (mul b c)) (mul b d))) := by
+    exact addCongr (addCongr (hsame_refl (mul a c)) normalizeRight)
+      (addCongr normalizeLeft normalizeBoth)
+  exact hsame_trans expanded normalized
+
+theorem commring_signed_column_binary_product_normal_form
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {zero : BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add zero x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) zero)
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z))) :
+    forall a b c d : BHist,
+      hsame (mul (add a (neg b)) (add c (neg d)))
+        (add (add (mul a c) (neg (mul b c))) (add (neg (mul a d)) (mul b d))) := by
+  intro a b c d
+  have rowForm :
+      hsame (mul (add a (neg b)) (add c (neg d)))
+        (add (add (mul a c) (neg (mul a d))) (add (neg (mul b c)) (mul b d))) := by
+    exact commring_signed_binary_product_normal_form
+      addAssoc addComm zeroLeft negLeft mulComm addCongr mulCongr leftDistrib rightDistrib a b c d
+  have columnInterchange :
+      hsame
+        (add (add (mul a c) (neg (mul a d))) (add (neg (mul b c)) (mul b d)))
+        (add (add (mul a c) (neg (mul b c))) (add (neg (mul a d)) (mul b d))) := by
+    exact BEDC.Derived.AbGroupUp.abgroup_mul_middle_four addAssoc addComm addCongr
+      (mul a c) (neg (mul a d)) (neg (mul b c)) (mul b d)
+  exact hsame_trans rowForm columnInterchange
 
 theorem commring_left_distrib_commuted_terms {add mul : BHist -> BHist -> BHist}
     (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
