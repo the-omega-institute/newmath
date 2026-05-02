@@ -95,4 +95,12 @@ theorem NatFact_total_functional {n : BHist} :
                     cases sameFactor
                     exact NatMul_functional (unary_e1_closed hnTail) leftMul rightMul
 
+inductive TrialDiv : BHist -> BHist -> Prop where
+  | unit {n : BHist} (hn : UnaryHistory n) : TrialDiv (BHist.e1 BHist.Empty) n
+  | step {b n b' : BHist} :
+      TrialDiv b n ->
+        ((NatDivides b n -> False) \/ hsame b (BHist.e1 BHist.Empty) \/ hsame b n) ->
+          Cont b (BHist.e1 BHist.Empty) b' ->
+            TrialDiv b' n
+
 end BEDC.Derived.PrimeUp

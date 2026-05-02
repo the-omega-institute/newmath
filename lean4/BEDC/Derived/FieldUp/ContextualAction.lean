@@ -6,6 +6,9 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.Derived.RatUp
 
+def RatDenomUnitContextualAction (p q l r h : BHist) : BHist :=
+  append p (append (append (append l h) r) q)
+
 theorem field_rat_denominator_contextual_action_unit_support_iff {h l r p q : BHist} :
     hsame p BHist.Empty -> hsame q BHist.Empty -> RatDenomUnitCarrier h ->
       RatDenomUnitCarrier l -> RatDenomUnitCarrier r ->
