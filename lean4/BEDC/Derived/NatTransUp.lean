@@ -328,6 +328,25 @@ theorem NatTransPrefixComponentCarrier_vert_comp_assoc_closed
             (And.intro first.right.right.left assocClosed.right.left)))
         assocClosed.right.right)
 
+theorem NatTransPrefixComponentCarrier_vert_comp_assoc_displayed_deterministic
+    {p q r s a eta theta iota etatheta thetaiota left right displayed : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta ->
+        NatTransPrefixComponentCarrier r s a iota ->
+          Cont eta theta etatheta -> Cont theta iota thetaiota ->
+            Cont etatheta iota left -> Cont eta thetaiota right ->
+              NatTransPrefixComponentCarrier p s a displayed ->
+                hsame left displayed ∧ hsame right displayed := by
+  intro first second third etathetaRel thetaiotaRel leftRel rightRel displayedCarrier
+  have closed :=
+    NatTransPrefixComponentCarrier_vert_comp_assoc_closed
+      first second third etathetaRel thetaiotaRel leftRel rightRel
+  exact And.intro
+    (CategoryHomCarrier_morphism_deterministic
+      closed.left.right.right.right displayedCarrier.right.right.right)
+    (CategoryHomCarrier_morphism_deterministic
+      closed.right.left.right.right.right displayedCarrier.right.right.right)
+
 theorem NatTransPrefixComponentCarrier_tail_comm_hsame
     {p q r a eta theta etatheta thetaeta : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->

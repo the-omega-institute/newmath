@@ -90,36 +90,37 @@ theorem CategoryHomCarrier_identity_square_closed {a b f left right : BHist} :
   intro homCarrier leftRel rightRel
   have leftSame : hsame left f := cont_left_unit_result leftRel
   have rightSame : hsame right f := cont_deterministic rightRel (cont_right_unit f)
-  have leftCarrier : CategoryHomCarrier a b left := by
-    cases leftSame
-    exact homCarrier
-  have rightCarrier : CategoryHomCarrier a b right := by
-    cases rightSame
-    exact homCarrier
+  have leftCarrier : CategoryHomCarrier a b left := by cases leftSame; exact homCarrier
+  have rightCarrier : CategoryHomCarrier a b right := by cases rightSame; exact homCarrier
   exact And.intro leftCarrier (And.intro rightCarrier (leftSame.trans rightSame.symm))
 theorem CategoryHomCarrier_comp_assoc_closed {a b c d f g h fg gh left right : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c d h ->
       Cont f g fg -> Cont g h gh -> Cont fg h left -> Cont f gh right ->
         CategoryHomCarrier a d left ∧ CategoryHomCarrier a d right ∧ hsame left right := by
   intro first second third fgRel ghRel leftRel rightRel
-  have fgCarrier : CategoryHomCarrier a c fg :=
-    CategoryHomCarrier_comp_closed first second fgRel
-  have ghCarrier : CategoryHomCarrier b d gh :=
-    CategoryHomCarrier_comp_closed second third ghRel
+  have fgCarrier : CategoryHomCarrier a c fg := CategoryHomCarrier_comp_closed first second fgRel
+  have ghCarrier : CategoryHomCarrier b d gh := CategoryHomCarrier_comp_closed second third ghRel
   exact And.intro (CategoryHomCarrier_comp_closed fgCarrier third leftRel)
     (And.intro (CategoryHomCarrier_comp_closed first ghCarrier rightRel)
       (cont_assoc_hsame fgRel leftRel ghRel rightRel))
+theorem CategoryHomCarrier_comp_assoc_displayed_deterministic
+    {a b c d f g h fg gh left right displayed : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c d h ->
+      Cont f g fg -> Cont g h gh -> Cont fg h left -> Cont f gh right ->
+        CategoryHomCarrier a d displayed -> hsame left displayed ∧ hsame right displayed := by
+  intro first second third fgRel ghRel leftRel rightRel displayedCarrier
+  exact
+    let closed := CategoryHomCarrier_comp_assoc_closed first second third fgRel ghRel leftRel rightRel
+    And.intro (cont_left_cancel closed.left.right.right.right displayedCarrier.right.right.right)
+      (cont_left_cancel closed.right.left.right.right.right displayedCarrier.right.right.right)
 theorem CategoryHomCarrier_morphism_deterministic {a b f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier a b g -> hsame f g := by
-  intro left right
-  exact cont_left_cancel left.right.right.right right.right.right.right
+  intro left right; exact cont_left_cancel left.right.right.right right.right.right.right
 theorem CategoryHomCarrier_endpoint_hsame_morphism_deterministic {a a' b b' f g : BHist} :
     hsame a a' -> hsame b b' -> CategoryHomCarrier a b f ->
       CategoryHomCarrier a' b' g -> hsame f g := by
   intro sameSource sameTarget left right
-  cases sameSource
-  cases sameTarget
-  exact CategoryHomCarrier_morphism_deterministic left right
+  cases sameSource; cases sameTarget; exact CategoryHomCarrier_morphism_deterministic left right
 theorem CategoryHomCarrier_comp_public_readback {a b c f g fg : BHist} :
     CategoryHomCarrier a b f → CategoryHomCarrier b c g → Cont f g fg →
       CategoryHomCarrier a c fg ∧

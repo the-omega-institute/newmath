@@ -146,6 +146,19 @@ theorem FunctorPrefixHomCarrier_comp_assoc_preserves
                 (FunctorPrefixHomCarrier_preserves prefixCarrier rightCarrier)
                 same)
 
+theorem FunctorPrefixHomCarrier_comp_assoc_displayed_deterministic
+    {p a b c d f g h fg gh left right displayed : BHist} :
+    UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
+      CategoryHomCarrier c d h -> Cont f g fg -> Cont g h gh -> Cont fg h left ->
+        Cont f gh right -> CategoryHomCarrier (append p a) (append p d) displayed ->
+          hsame left displayed ∧ hsame right displayed := by
+  intro prefixCarrier first second third fgRel ghRel leftRel rightRel displayedCarrier
+  have closed :=
+    FunctorPrefixHomCarrier_comp_assoc_preserves
+      prefixCarrier first second third fgRel ghRel leftRel rightRel
+  exact And.intro (CategoryHomCarrier_morphism_deterministic closed.left displayedCarrier)
+    (CategoryHomCarrier_morphism_deterministic closed.right.left displayedCarrier)
+
 theorem FunctorPrefixHomCarrier_unary_suffix_comp_public_readback {p q a b c f g fg : BHist} :
     UnaryHistory p -> UnaryHistory q -> CategoryHomCarrier a b f ->
       CategoryHomCarrier b c g -> Cont f g fg ->
