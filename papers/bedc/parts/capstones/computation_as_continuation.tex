@@ -124,6 +124,24 @@ with the right-unit continuations at $a$ and $b$ identifies the adjacent
 endpoints.
 \end{proof}
 
+\begin{theorem}[Visible e1 continuation morphism tail cases]
+\label{thm:category-continuation-morphism-e1-source-e1-target-tail-cases}
+If a continuation morphism runs from $\Eone(a)$ to $\Eone(r)$, then its tail is
+either empty and the payload endpoints satisfy $a\hsame r$, or the tail itself
+has visible one-headed form $\Eone(k)$ and exposes a continuation
+$\Cont(\Eone(a),k,r)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_tail\_cases}
+\begin{proof}
+Apply the one-headed source tail split for continuation morphisms. The
+empty-tail branch identifies $\Eone(r)$ with $\Eone(a)$, and constructor
+injectivity gives $a\hsame r$. The zero-headed tail branch would identify an
+$\Eone$ target with an $\Ezero$ target, contradicting kernel no-confusion. In
+the one-headed branch, constructor injectivity reindexes the displayed target
+payload, leaving the tail equality and the continuation witness
+$\Cont(\Eone(a),k,r)$.
+\end{proof}
+
 \begin{theorem}[Cyclic hom-carriers have empty tails]
 \label{thm:category-hom-carrier-cycle-tails-empty}
 If the opposite hom-carrier ledgers

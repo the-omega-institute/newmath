@@ -409,4 +409,20 @@ theorem field_rat_denominator_continuation_unit_endpoint_empty {u : BHist} :
     | inr leftEndpoint =>
         exact RatHistoryCarrier_not_empty carrierU (leftEndpointEmpty leftEndpoint)⟩
 
+theorem field_rat_denominator_continuation_right_unit_law_endpoint_empty_iff {u : BHist} :
+    ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d) <->
+      hsame u BHist.Empty) := by
+  constructor
+  · intro rightUnitLaw
+    exact field_rat_denominator_continuation_unit_endpoint_empty.left rightUnitLaw
+  · intro endpointEmpty
+    intro d r carrierD continuation
+    have transportedRightUnit : Cont d u d :=
+      cont_hsame_transport (hsame_refl d) (hsame_symm endpointEmpty) (hsame_refl d)
+        (cont_right_unit d)
+    have sameDR : hsame d r := cont_deterministic transportedRightUnit continuation
+    have carrierR : RatHistoryCarrier r :=
+      RatHistoryCarrier_hsame_transport sameDR carrierD
+    exact And.intro carrierR (And.intro carrierD (hsame_symm sameDR))
+
 end BEDC.Derived.FieldUp

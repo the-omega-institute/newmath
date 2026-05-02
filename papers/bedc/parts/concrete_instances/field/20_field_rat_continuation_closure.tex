@@ -275,6 +275,35 @@ and the resulting equality $u\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_unit\_endpoint\_empty}
 
+\begin{theorem}[Rat denominator right unit law endpoint empty iff]
+\label{thm:field-rat-denominator-continuation-right-unit-law-endpoint-empty-iff}
+For every history $u:\mathsf{BHist}$, the right classifier-unit law for Rat
+denominator continuation holds exactly when $u$ is the empty endpoint:
+$$
+\left(
+  \forall d,r:\mathsf{BHist}.\;
+  \mathsf{RatHistoryCarrier}(d)\to
+  \Cont(d,u,r)\to
+  \mathsf{RatHistoryClassifier}(r,d)
+\right)
+\Longleftrightarrow
+u\hsame\emp .
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_right\_unit\_law\_endpoint\_empty\_iff}
+\begin{proof}
+The forward direction is the right-endpoint component of
+Theorem~\ref{thm:field-rat-denominator-continuation-unit-endpoint-empty}.
+
+Conversely, assume $u\hsame\emp$. For any carried denominator $d$ and any
+continuation $\Cont(d,u,r)$, transport the kernel right-unit continuation
+$\Cont(d,\emp,d)$ along $u\hsame\emp$ to obtain $\Cont(d,u,d)$. Determinacy of
+continuation identifies $d\hsame r$. Transport the Rat denominator carrier from
+$d$ to $r$, and package this transported carrier, the original carrier for
+$d$, and the symmetric endpoint equality as the classifier
+$\mathsf{RatHistoryClassifier}(r,d)$.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation unit endpoint uniqueness]
 \label{thm:field-rat-denominator-continuation-unit-endpoint-unique}
 For all histories $u,v:\mathsf{BHist}$, Rat denominator continuation determines

@@ -295,4 +295,27 @@ theorem VecSpaceSingletonSmul_target_deterministic {r s m n x y : BHist} :
   have yEmpty : hsame y BHist.Empty := rightClassified.right.left
   exact ⟨xEmpty, yEmpty, hsame_trans xEmpty (hsame_symm yEmpty)⟩
 
+theorem VecSpaceSingletonSmul_inverse_readback_classifier_iff {r m n : BHist}
+    (p : FieldSingletonNonZero r) :
+    VecSpaceSingletonCarrier m ->
+      hsame (VecSpaceSingletonSmul (FieldSingletonInv r p) (VecSpaceSingletonSmul r m))
+        BHist.Empty ∧
+        (VecSpaceSingletonClassifier
+          (VecSpaceSingletonSmul (FieldSingletonInv r p) (VecSpaceSingletonSmul r m)) n <->
+            VecSpaceSingletonClassifier m n) := by
+  intro carrierM
+  have actionCarrier :
+      VecSpaceSingletonCarrier
+        (VecSpaceSingletonSmul (FieldSingletonInv r p) (VecSpaceSingletonSmul r m)) :=
+    hsame_refl BHist.Empty
+  constructor
+  · exact actionCarrier
+  · constructor
+    · intro classified
+      exact And.intro carrierM
+        (And.intro classified.right.left (hsame_trans carrierM classified.right.right))
+    · intro classified
+      exact And.intro actionCarrier
+        (And.intro classified.right.left (hsame_symm classified.right.left))
+
 end BEDC.Derived.VecSpaceUp
