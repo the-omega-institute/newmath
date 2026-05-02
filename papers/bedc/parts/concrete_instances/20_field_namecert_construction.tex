@@ -584,6 +584,43 @@ those clauses do not supply an internal $\MonoidUp$ unit or the unit required by
 $\FieldUp$ multiplication.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation has no internal left carrier unit]
+\label{thm:field-rat-denominator-continuation-no-internal-left-unit}
+For every history $u:\mathsf{BHist}$, the conjunction of
+$\mathsf{RatHistoryCarrier}(u)$ with the internal left-unit classifier law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+implies $\mathsf{False}$. Thus no carried $u$ can realize the left endpoint
+half of an internal continuation unit on $\mathsf{RatHistoryCarrier}$ under
+$\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+Assume a carried candidate $u$ and the displayed left-unit classifier law. Let
+$d_1:=\Eone(\emp)$. The positive-denominator construction gives
+$\mathsf{RatHistoryCarrier}(d_1)$.
+
+Use the canonical continuation witness
+$\Cont(u,d_1,\mathsf{append}(u,d_1))$. Applying the assumed left-unit law at
+$d_1$ and $r:=\mathsf{append}(u,d_1)$ gives
+$\mathsf{RatHistoryClassifier}(\mathsf{append}(u,d_1),d_1)$, whose comparison
+component is $\mathsf{append}(u,d_1)\hsame d_1$.
+
+Transport the continuation result along this comparison to obtain
+$\Cont(u,d_1,d_1)$. The kernel theorem
+\texttt{BEDC.FKernel.Cont.cont\_left\_unit\_unique} then forces
+$u\hsame\emp$.
+
+Finally apply Theorem~\ref{thm:rat-history-carrier-not-empty} to the assumed
+carrier witness $\mathsf{RatHistoryCarrier}(u)$ and the equality
+$u\hsame\emp$. This contradiction proves that no carried endpoint can realize
+the required left-unit law.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_no\_internal\_left\_unit}
+
 \begin{theorem}[Rat denominator continuation commutative-semigroup obstruction package]
 \label{thm:field-rat-denominator-continuation-commutative-semigroup-obstruction-package}
 For the concrete BEDC carrier $\mathsf{RatHistoryCarrier}$, continuation
