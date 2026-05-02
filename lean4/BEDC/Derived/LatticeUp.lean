@@ -171,4 +171,42 @@ theorem LatticeSingletonMeetJoin_absorption_empty_classified {h k : BHist} :
       · exact And.intro emptyCarrier (And.intro carrierH emptyToH)
       · exact And.intro emptyCarrier (And.intro carrierH emptyToH)
 
+theorem LatticeSingletonClassifier_empty_endpoints_iff {h k : BHist} :
+    LatticeSingletonClassifier h k ↔ hsame h BHist.Empty ∧ hsame k BHist.Empty := by
+  constructor
+  · intro classified
+    exact ⟨classified.left, classified.right.left⟩
+  · intro endpoints
+    cases endpoints with
+    | intro hEmpty kEmpty =>
+        exact ⟨hEmpty, kEmpty, hsame_trans hEmpty (hsame_symm kEmpty)⟩
+
+theorem LatticeSingletonMeetJoin_absorption_order_classifier {h k : BHist} :
+    LatticeSingletonCarrier h ->
+      LatticeSingletonCarrier k ->
+        LatticeSingletonLE (LatticeSingletonMeet h (LatticeSingletonJoin h k)) h ∧
+          LatticeSingletonLE h (LatticeSingletonJoin h (LatticeSingletonMeet h k)) ∧
+            LatticeSingletonClassifier (LatticeSingletonMeet h (LatticeSingletonJoin h k)) h ∧
+              LatticeSingletonClassifier (LatticeSingletonJoin h (LatticeSingletonMeet h k)) h ∧
+                hsame (LatticeSingletonMeet h (LatticeSingletonJoin h k)) BHist.Empty ∧
+                  hsame (LatticeSingletonJoin h (LatticeSingletonMeet h k)) BHist.Empty := by
+  intro carrierH _carrierK
+  have emptyCarrier : LatticeSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyToH : hsame BHist.Empty h := hsame_symm carrierH
+  have leMeetJoinToH :
+      LatticeSingletonLE (LatticeSingletonMeet h (LatticeSingletonJoin h k)) h :=
+    ⟨emptyCarrier, carrierH, PreorderPrefixLE_of_hsame emptyToH⟩
+  have leHToJoinMeet :
+      LatticeSingletonLE h (LatticeSingletonJoin h (LatticeSingletonMeet h k)) :=
+    ⟨carrierH, emptyCarrier, PreorderPrefixLE_of_hsame carrierH⟩
+  have classifierMeetJoinH :
+      LatticeSingletonClassifier (LatticeSingletonMeet h (LatticeSingletonJoin h k)) h :=
+    ⟨emptyCarrier, carrierH, emptyToH⟩
+  have classifierJoinMeetH :
+      LatticeSingletonClassifier (LatticeSingletonJoin h (LatticeSingletonMeet h k)) h :=
+    ⟨emptyCarrier, carrierH, emptyToH⟩
+  exact
+    ⟨leMeetJoinToH, leHToJoinMeet, classifierMeetJoinH, classifierJoinMeetH,
+      emptyCarrier, emptyCarrier⟩
+
 end BEDC.Derived.LatticeUp

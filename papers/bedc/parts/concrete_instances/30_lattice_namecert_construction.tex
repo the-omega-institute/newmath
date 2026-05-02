@@ -169,6 +169,57 @@ that history-sameness witness.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_empty\_classified}
 
+\begin{theorem}[Singleton lattice classifier has empty endpoints]
+\label{thm:lattice-singleton-classifier-empty-endpoints}
+For $h,k:\mathsf{BHist}$, the singleton lattice classifier satisfies
+$$
+\rho_{\emp}(h,k)
+\quad\Longleftrightarrow\quad
+h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the two carrier fields from the classifier
+tuple. Since the singleton carrier is the predicate $x\hsame\emp$, these fields
+are exactly the two endpoint witnesses.
+
+Conversely, the two endpoint witnesses make $h$ and $k$ singleton-carried.
+Their composite through $\emp$, using symmetry on the second witness, supplies
+$h\hsame k$ and hence the classifier tuple.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_empty\_endpoints\_iff}
+
+\begin{theorem}[Singleton meet--join absorption gives order and classifier data]
+\label{thm:lattice-singleton-meet-join-absorption-order-classifier}
+If $h,k:\mathsf{BHist}$ are singleton-carried, then the two singleton lattice
+absorption endpoints
+$$
+h\wedge(h\vee k)
+\qquad\text{and}\qquad
+h\vee(h\wedge k)
+$$
+are both definitionally the empty history. They satisfy the restricted prefix
+order comparisons
+$$
+h\wedge(h\vee k)\le_{\emp} h
+\qquad\text{and}\qquad
+h\le_{\emp} h\vee(h\wedge k),
+$$
+are both classified with $h$, and both read back to $\emp$.
+\end{theorem}
+\begin{proof}
+In the singleton lattice, meet and join ignore their inputs and return $\emp$.
+The carrier witness for $h$ gives $h\hsame\emp$, while reflexivity gives
+$\emp\hsame\emp$.
+
+The first order comparison uses symmetry of $h\hsame\emp$ to obtain
+$\emp\hsame h$ and then applies the prefix comparison constructor. The second
+uses $h\hsame\emp$ directly. The same two $\hsame$ witnesses assemble the
+classifier tuples with $h$, and the endpoint readbacks are both reflexivity at
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_order\_classifier}
+
 The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
 and operations, so Lean can target $\mathsf{BEDC.Derived.LatticeUp}$ as a
 $\mathsf{BHist}$-anchored certificate rather than an abstract operator schema.
