@@ -54,6 +54,14 @@ PARAMETER_ECHO_CONCL_RE = re.compile(
 )
 
 
+def _strip_hsame_tokens(text: str) -> str:
+    """Drop `hsame` and the bare `BHist` type token so the residual anchor
+    scan only fires on substantive constructors (Empty/e0/e1/Cont/NameCert/…)."""
+    text = re.sub(r"\bhsame\b", "", text)
+    text = re.sub(r"\bBHist\b", "", text)
+    return text
+
+
 def _extract_conclusion(sig: str) -> str:
     """Return the part of `sig` after the last top-level `:` (the goal type)."""
     depth = 0
@@ -149,7 +157,9 @@ def main() -> int:
         if PARAMETER_ECHO_BIND_RE.search(sig):
             conclusion = _extract_conclusion(sig)
             if PARAMETER_ECHO_CONCL_RE.search(conclusion):
-                echo_hits.append(name)
+                concl_no_hsame = _strip_hsame_tokens(conclusion)
+                if not BHIST_CONSTRUCTOR_RE.search(concl_no_hsame):
+                    echo_hits.append(name)
         if is_derived and not BHIST_CONSTRUCTOR_RE.search(sig):
             anchor_hits.append(name)
 
