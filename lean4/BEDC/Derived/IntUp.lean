@@ -1,5 +1,6 @@
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Unary.History
+import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.IntUp
 
@@ -263,5 +264,27 @@ theorem IntClassifierSpec_endpoint_sign_cases
                   exact And.intro
                     (Or.inr (And.intro oneCase.left (sameSign.symm.trans oneCase.left)))
                     (And.intro oneCase.right carrierY.right)
+
+theorem IntClassifierSpec_append_comm_same_sign {sign : BEDC.FKernel.Mark.BMark}
+    {h k : BEDC.FKernel.Hist.BHist} :
+    IntCarrier sign h -> IntCarrier sign k ->
+      IntClassifierSpec (sign, BEDC.FKernel.Cont.append h k)
+        (sign, BEDC.FKernel.Cont.append k h) := by
+  intro carrierH carrierK
+  cases carrierH with
+  | intro signCases hUnary =>
+      cases carrierK with
+      | intro _ kUnary =>
+          constructor
+          · constructor
+            · exact signCases
+            · exact BEDC.FKernel.Unary.unary_append_closed hUnary kUnary
+          · constructor
+            · constructor
+              · exact signCases
+              · exact BEDC.FKernel.Unary.unary_append_closed kUnary hUnary
+            · constructor
+              · exact BEDC.FKernel.Mark.msame_refl sign
+              · exact BEDC.FKernel.Unary.unary_append_comm hUnary kUnary
 
 end BEDC.Derived.IntUp
