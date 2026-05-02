@@ -94,4 +94,18 @@ theorem CategoryHomCarrier_unary_context_iff {p q a b f : BHist} :
                 (q := q) (a := append p a) (b := append p b) (f := f)).mpr
                 (And.intro suffixCarrier prefixed)
 
+theorem CategoryHomCarrier_unary_context_comp_public_readback {p q a b c f g fg : BHist} :
+    UnaryHistory p -> UnaryHistory q -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
+      Cont f g fg -> CategoryHomCarrier (append (append p a) q) (append (append p c) q) fg ∧
+        (∀ {fg' : BHist},
+          CategoryHomCarrier (append (append p a) q) (append (append p c) q) fg' ->
+            hsame fg fg') := by
+  intro prefixCarrier suffixCarrier left right comp
+  have readback := CategoryHomCarrier_comp_public_readback left right comp
+  constructor
+  · exact CategoryHomCarrier_unary_context_iff.mpr
+      (And.intro prefixCarrier (And.intro suffixCarrier readback.left))
+  · intro fg' displayed
+    exact readback.right (CategoryHomCarrier_unary_context_iff.mp displayed).right.right
+
 end BEDC.Derived.CategoryUp

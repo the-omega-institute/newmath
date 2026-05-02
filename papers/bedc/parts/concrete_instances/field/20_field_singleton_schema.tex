@@ -203,6 +203,27 @@ $\mathsf{fieldSingletonEmptyInv}(h,p):=\emp$.
 \end{definition}
 \leandef{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero}
 
+\begin{theorem}[Singleton empty-classifier append split]
+\label{thm:field-singleton-empty-classifier-append-split-empty}
+For histories $p,q,h:\mathsf{BHist}$, the singleton empty classifier
+$\rho_{\emp}(\mathsf{append}(p,q),h)$ holds exactly when
+$p\hsame\emp$, $q\hsame\emp$, and $h$ lies in the singleton carrier
+$A_{\emp}$.
+\end{theorem}
+\begin{proof}
+Unfold the classifier. In the forward direction,
+$\rho_{\emp}(\mathsf{append}(p,q),h)$ supplies
+$\mathsf{append}(p,q)\hsame\emp$ and the carrier witness for $h$.
+Empty-result inversion for append splits the first endpoint into
+$p\hsame\emp$ and $q\hsame\emp$.
+
+Conversely, from $p\hsame\emp$ and $q\hsame\emp$, append empty-result
+inversion reconstructs $\mathsf{append}(p,q)\hsame\emp$. Together with the
+given carrier witness for $h$, transitivity through $\emp$ supplies the
+classifier equality from $\mathsf{append}(p,q)$ to $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyClassifier\_append\_split\_empty\_iff}
+
 \begin{theorem}[Classifier-complement singleton field schema laws]
 \label{thm:field-singleton-empty-schema-laws}
 For the tuple

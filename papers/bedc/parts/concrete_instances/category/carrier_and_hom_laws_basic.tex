@@ -201,6 +201,24 @@ visible suffix $q$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_iff}
 
+\begin{theorem}[Category hom carrier unary context composition public readback]
+\label{thm:category-hom-carrier-unary-context-comp-public-readback}
+For composable category hom-carriers $f,g$, unary histories $p,q$, and a
+continuation composite $\ContR(f,g,fg)$, the morphism $fg$ is a hom-carrier
+from $\mathsf{append}(\mathsf{append}(p,a),q)$ to
+$\mathsf{append}(\mathsf{append}(p,c),q)$. Any other displayed hom-carrier
+between those same contextual endpoints is $\hsame$-equal to $fg$.
+\end{theorem}
+\begin{proof}
+Apply category hom-carrier composite public readback to the central
+composable pair. The unary context exactness theorem lifts the resulting
+central carrier through the left prefix $p$ and right suffix $q$. For a
+competing displayed carrier, the same context exactness theorem reflects it
+back to the central endpoints, where public readback uniqueness gives
+$\hsame$ with the chosen composite.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_comp\_public\_readback}
+
 \begin{theorem}[Category hom carrier unary suffix composite public readback]
 \label{thm:category-hom-carrier-unary-suffix-comp-public-readback}
 For composable category hom-carriers $f,g$ and unary suffix $q$, the composite
