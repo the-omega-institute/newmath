@@ -80,6 +80,73 @@ the endpoints, and the same bilateral support exactness theorem supplies
 $N_D^u(l)\lor N_D^u(k)\lor N_D^u(r)$.
 \end{proof}
 
+\begin{definition}[RatUp FieldUp denominator classified-context action]
+\label{def:ratup-fieldup-denominator-classified-context-action}
+The classified-context denominator action for $\FieldUp(\mathsf{RatUp})$ uses
+the fixed concrete data
+$$
+C_D^u:=\mathsf{RatDenomUnitCarrier},\qquad
+R_D^u:=\mathsf{RatDenomUnitClassifier},
+$$
+$$
+\mu_D^u(h,k):=\mathsf{append}(h,k),\qquad
+e_D^u:=\emp,\qquad
+N_D^u(h):=\mathsf{RatHistoryCarrier}(h).
+$$
+For histories $h,k,l,l',r,r',p,q,p',q':\mathsf{BHist}$ with classified input
+rows $R_D^u(h,k)$, $R_D^u(l,l')$, and $R_D^u(r,r')$, and with empty external
+endpoint contexts $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and
+$q'\hsame\emp$, its output pair is
+$$
+(\Gamma_{p,q,l,r}(h),\Gamma_{p',q',l',r'}(k)).
+$$
+Thus the left context, core endpoint, and right context are classified before
+the concrete bilateral denominator action is applied.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp denominator contextual action classifier congruence]
+\label{thm:ratup-fieldup-denominator-contextual-action-classifier-congruence}
+For histories $h,k,l,l',r,r',p,q,p',q':\mathsf{BHist}$, assume
+$C_D^u(h)$, $C_D^u(k)$, $C_D^u(l)$, $C_D^u(l')$, $C_D^u(r)$, and $C_D^u(r')$.
+If $R_D^u(h,k)$, $R_D^u(l,l')$, $R_D^u(r,r')$, and
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then the
+classified-context action of
+\autoref{def:ratup-fieldup-denominator-classified-context-action} satisfies
+$$
+R_D^u(\Gamma_{p,q,l,r}(h),\Gamma_{p',q',l',r'}(k)).
+$$
+\end{theorem}
+\begin{proof}
+First remove the empty external endpoints. By
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}, it
+is enough to classify $B_{l,r}(h)$ against $B_{l',r'}(k)$, because the four
+endpoint hypotheses identify the wrapped action outputs with the bilateral
+carried products.
+
+Unfold $B_{l,r}$ and $B_{l',r'}$. The binary classifier congruence field in the
+concrete denominator certificate first combines $R_D^u(l,l')$ with
+$R_D^u(h,k)$, giving
+$$
+R_D^u(\mathsf{append}(l,h),\mathsf{append}(l',k)).
+$$
+The carrier closure rows of the same certificate place both intermediate
+products in $C_D^u$.
+
+Apply binary classifier congruence a second time, now with the right-context
+input $R_D^u(r,r')$. This gives
+$$
+R_D^u(\mathsf{append}(\mathsf{append}(l,h),r),
+\mathsf{append}(\mathsf{append}(l',k),r')).
+$$
+Folding the bilateral-context notation turns this into
+$R_D^u(B_{l,r}(h),B_{l',r'}(k))$.
+
+Finally use the reverse direction of
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness} with
+the four empty endpoint hypotheses. It wraps the bilateral comparison back into
+the two displayed $\Gamma$ outputs, which is the required classifier row.
+\end{proof}
+
 \textbf{Traditional target}: denominator bilateral carried-context action for
 $\FieldUp(\mathsf{RatUp})$ with empty external endpoints; \textbf{BEDC source}:
 $\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$,
@@ -89,9 +156,11 @@ $\mathsf{append}$, and $\emp$; \textbf{carrier}: $C_D^u$;
 $\Gamma_{p,q,l,r}$; \textbf{strict support}: $N_D^u$; \textbf{ledger}: carried
 left and right denominator contexts plus empty external endpoint contexts;
 \textbf{core theorem}:
-\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate};
-\textbf{exactness predicate}: bilateral classifier exactness and bilateral
-strict-support exactness after empty endpoint transport; \textbf{status}:
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate} and
+\autoref{thm:ratup-fieldup-denominator-contextual-action-classifier-congruence};
+\textbf{exactness predicate}: bilateral classifier exactness, classified
+left-core-right action congruence, and bilateral strict-support exactness after
+empty endpoint transport; \textbf{status}:
 $\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp denominator contextual action unit-support exactness]
@@ -163,7 +232,9 @@ the following rows:
   \item the multiplicative record rows of
   \autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-record};
   \item the contextual classifier exactness and strict-support rows of
-  \autoref{thm:ratup-fieldup-denominator-contextual-action-certificate}.
+  \autoref{thm:ratup-fieldup-denominator-contextual-action-certificate};
+  \item the classified left-core-right contextual action congruence row of
+  \autoref{thm:ratup-fieldup-denominator-contextual-action-classifier-congruence}.
 \end{enumerate}
 Thus the denominator side of $\FieldUp(\mathsf{RatUp})$ is represented by one
 concrete append-based action certificate on the displayed carrier, classifier,
@@ -183,13 +254,18 @@ denominator-side FieldUp multiplication, so its monoid, congruence,
 strict-support, empty-unit, and cancellation rows attach to the same concrete
 interface.
 
-Finally, the contextual action rows are those of
+Finally, the same-context contextual action rows are those of
 \autoref{thm:ratup-fieldup-denominator-contextual-action-certificate}. By
 \autoref{def:ratup-fieldup-denominator-contextual-action-instance}, the action
 is $\Gamma_{p,q,l,r}$ on the displayed carrier and classifier, and its
 strict-support readback is computed by the same predicate $N_D^u$.
 
-The three cited results are all stated over the concrete
+The classified-context congruence row is
+\autoref{thm:ratup-fieldup-denominator-contextual-action-classifier-congruence}.
+It uses the same $\Gamma$ action but allows the left context, core endpoint, and
+right context to vary along $R_D^u$ before the output classifier is formed.
+
+The four cited results are all stated over the concrete
 $\mathsf{BHist}$ carrier, classifier, append operation, empty endpoint, support
 predicate, and action data displayed in the theorem. Therefore the certificate
 contains no remaining abstract operator or parameter-transport schema.
@@ -303,14 +379,14 @@ for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatDenomUnitCarrier}$,
 $\mathsf{RatDenomUnitClassifier}$, $\Cont$, $\mathsf{append}$, and $\emp$;
 carrier $C_D^u$; classifier $R_D^u$; stability obligations multiplicative
-certificate rows plus contextual classifier and strict-support rows; ledger
-external endpoint bit plus carried left and right denominator contexts; core
-theorem
+certificate rows plus contextual classifier, classified left-core-right
+congruence, and strict-support rows; ledger external endpoint bit plus carried
+left and right denominator contexts; core theorem
 \autoref{thm:field-rat-denominator-contextual-action-total-certificate};
-exactness predicate denominator classifier exactness and strict-support
-readback; standard bridge ordinary denominator multiplication with adjoined
-empty endpoint; status $\mathsf{ProofTarget}$.
-
+exactness predicate denominator classifier exactness, classified contextual
+action congruence, and strict-support readback; standard bridge ordinary
+denominator multiplication with adjoined empty endpoint; status
+$\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp denominator contextual action composition closure]
 \label{thm:ratup-fieldup-denominator-contextual-action-composition-closure}
