@@ -1,0 +1,152 @@
+\section{RatUp continuation closure for the FieldUp boundary}
+\label{sec:field-rat-continuation-closure}
+
+\begin{theorem}[Rat denominators are closed under continuation]
+\label{thm:field-rat-denominator-continuation-carrier-closure}
+For all histories $d,e,r:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$, and
+$\Cont(d,e,r)$, then $\mathsf{RatHistoryCarrier}(r)$.
+\end{theorem}
+\begin{proof}
+Start with the right denominator carrier $\mathsf{RatHistoryCarrier}(e)$.
+Theorem~\ref{thm:rat-history-carrier-positive-denominator-equivalence}
+extracts a positive unary denominator witness for $e$, and
+Theorem~\ref{thm:positive-unary-denominator-unary-and-nonempty} turns that
+witness into $\mathsf{UnaryHistory}(e)$.
+
+Apply Theorem~\ref{thm:rat-history-carrier-append-unary-denominator-closed} to
+the left carrier $\mathsf{RatHistoryCarrier}(d)$ and the unary witness for
+$e$. This gives $\mathsf{RatHistoryCarrier}(\mathsf{append}(d,e))$ for the
+canonical BEDC continuation result.
+
+Unfolding the displayed continuation witness identifies $r$ with
+$\mathsf{append}(d,e)$. The appended carrier is therefore exactly the required
+carrier for $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_carrier\_closure}
+
+\begin{theorem}[Rat denominator continuation semigroup laws]
+\label{thm:field-rat-denominator-continuation-semigroup-laws}
+For all histories $d,e,f,de,ef,\ell,r:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+$\mathsf{RatHistoryCarrier}(f)$, $\Cont(d,e,de)$, $\Cont(e,f,ef)$,
+$\Cont(de,f,\ell)$, and $\Cont(d,ef,r)$, then
+$$
+\mathsf{RatHistoryCarrier}(de)\land
+\mathsf{RatHistoryCarrier}(ef)\land
+\mathsf{RatHistoryCarrier}(\ell)\land
+\mathsf{RatHistoryCarrier}(r)\land
+\ell\hsame r.
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:field-rat-denominator-continuation-carrier-closure} to the
+continuations $\Cont(d,e,de)$ and $\Cont(e,f,ef)$. The three displayed input
+carriers therefore give $\mathsf{RatHistoryCarrier}(de)$ and
+$\mathsf{RatHistoryCarrier}(ef)$.
+
+Next apply the same closure theorem to $\Cont(de,f,\ell)$ using the carrier
+just obtained for $de$ and the original carrier for $f$. Apply it again to
+$\Cont(d,ef,r)$ using the original carrier for $d$ and the carrier just
+obtained for $ef$. This yields the two outer result carriers.
+
+Finally apply the FKernel continuation associativity theorem, in the form
+\texttt{BEDC.FKernel.Cont.cont\_assoc\_hsame}, to the four continuation
+witnesses. It identifies the two displayed bracketings of denominator
+continuation by $\ell\hsame r$, giving the full conjunction.
+\end{proof}
+
+\begin{theorem}[Rat denominator classifiers are closed under matching continuations]
+\label{thm:field-rat-denominator-continuation-classifier-closure}
+For all histories $d,e,u,v,r,s:\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(d,e)$, $\mathsf{UnaryHistory}(u)$,
+$\mathsf{UnaryHistory}(v)$, $u\hsame v$, $\Cont(d,u,r)$, and
+$\Cont(e,v,s)$, then $\mathsf{RatHistoryClassifier}(r,s)$.
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:rat-history-classifier-append-unary-denominator-closed} to
+the displayed classifier $\mathsf{RatHistoryClassifier}(d,e)$, the unary tails
+$u,v$, and the matching tail witness $u\hsame v$. This gives the rational
+history classifier for the canonical append results
+$\mathsf{append}(d,u)$ and $\mathsf{append}(e,v)$.
+
+Next compare the displayed continuation results with those canonical append
+results. The constructor witnesses for
+$\Cont(d,u,\mathsf{append}(d,u))$ and
+$\Cont(e,v,\mathsf{append}(e,v))$, together with the premises
+$\Cont(d,u,r)$ and $\Cont(e,v,s)$, feed into
+Theorem~\ref{thm:continuation-determinacy}. Thus the result histories are
+linked by $\hsame(\mathsf{append}(d,u),r)$ and
+$\hsame(\mathsf{append}(e,v),s)$.
+
+Finally transport the canonical append classifier across the two result
+$\hsame$ links by
+Theorem~\ref{thm:rat-history-classifier-hsame-transport}. The transported
+classifier is exactly $\mathsf{RatHistoryClassifier}(r,s)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryCarrier\_continuation\_closed}
+
+\begin{theorem}[Rat history classifiers are right-closed under continuation]
+\label{thm:field-rat-classifier-continuation-right-closed}
+For all histories $d,d',e,r,r':\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(d,d')$, $\mathsf{RatHistoryCarrier}(e)$,
+$\Cont(d,e,r)$, and $\Cont(d',e,r')$, then
+$\mathsf{RatHistoryClassifier}(r,r')$.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into carrier witnesses for $d$ and
+$d'$, together with the denominator comparison $d\hsame d'$. The carrier
+closure theorem above applies to the two displayed continuations with the
+shared right carrier $e$, producing $\mathsf{RatHistoryCarrier}(r)$ and
+$\mathsf{RatHistoryCarrier}(r')$.
+
+The comparison component follows from continuation respect for internal
+sameness: use $d\hsame d'$ on the left inputs and reflexivity $e\hsame e$ on
+the shared right input. This yields $r\hsame r'$, and the two carrier fields
+with this comparison assemble the target classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_continuation\_right\_closed}
+
+\begin{theorem}[Rat denominator ledgers are closed under matching continuations]
+\label{thm:field-rat-denominator-continuation-ledger-closure}
+For all histories $\rho,v,u,u',r,s:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $\mathsf{UnaryHistory}(u)$,
+$\mathsf{UnaryHistory}(u')$, $u\hsame u'$, $\Cont(\rho,u,r)$, and
+$\Cont(v,u',s)$, then $\mathsf{RatHistoryLedgerPolicy}(r,s)$.
+\end{theorem}
+\begin{proof}
+First apply the Rat ledger append-unary denominator closure theorem to
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, the unary tail
+$\mathsf{UnaryHistory}(u)$, and the matching witness $u\hsame u'$. This gives
+the ledger policy for the canonical append endpoints
+$\mathsf{append}(\rho,u)$ and $\mathsf{append}(v,u')$.
+
+Next compare the displayed continuation results with those canonical endpoints.
+The constructor witnesses for $\Cont(\rho,u,\mathsf{append}(\rho,u))$ and
+$\Cont(v,u',\mathsf{append}(v,u'))$, together with $\Cont(\rho,u,r)$ and
+$\Cont(v,u',s)$, feed into Theorem~\ref{thm:continuation-determinacy}. Thus
+$\mathsf{append}(\rho,u)\hsame r$ and
+$\mathsf{append}(v,u')\hsame s$.
+
+Finally transport the canonical append ledger across the two result links by
+the Rat ledger history-sameness transport theorem. The transported ledger is
+exactly $\mathsf{RatHistoryLedgerPolicy}(r,s)$.
+\end{proof}
+
+\textbf{Traditional target}: denominator-side multiplication closure for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
+denominators; \textbf{classifier choice}: Rat history classifier;
+\textbf{stability obligation}: continuation-result carrier, classifier, and
+ledger transport plus associative continuation-result coherence;
+\textbf{ledger}: the right denominator's positive-unary witness and the
+matching continuation witnesses; \textbf{core theorems}:
+\autoref{thm:field-rat-denominator-continuation-carrier-closure},
+\autoref{thm:field-rat-denominator-continuation-semigroup-laws},
+\autoref{thm:field-rat-denominator-continuation-classifier-closure}, and
+\autoref{thm:field-rat-denominator-continuation-ledger-closure};
+\textbf{exactness predicate}: carrier closure for the concrete denominator
+operation; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.
