@@ -83,6 +83,40 @@ between indexed inverses. Its cancellation conclusion is exactly $a\hsame b$,
 so the two implications combine into the stated classifier exactness.
 \end{proof}
 
+\begin{theorem}[Field inverse is nonzero under one-apartness]
+\label{thm:field-inverse-nonzero-from-one-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+multiplication $\mathsf{mul}$, zero $0$, unit $1$, proof-indexed inverse
+$\mathsf{inv}(a,p)$, multiplication congruence under $\hsame$, zero-left
+multiplication $\mathsf{mul}(0,x)\hsame 0$, left inverse law
+$\mathsf{mul}(\mathsf{inv}(a,p),a)\hsame 1$, one-apartness
+$\omega:(1\hsame 0)\to\bot$, and conversion maps
+$\alpha_x:((x\hsame 0)\to\bot)\to\mathsf{NonZero}_F(x)$, every witness
+$p_a:\mathsf{NonZero}_F(a)$ canonically determines
+$$
+\mathsf{NonZero}_F(\mathsf{inv}(a,p_a)).
+$$
+\end{theorem}
+\begin{proof}
+Fix $p_a:\mathsf{NonZero}_F(a)$. It is enough to build a contradiction
+from a hypothetical equality $\mathsf{inv}(a,p_a)\hsame 0$, because
+$\alpha_{\mathsf{inv}(a,p_a)}$ converts that negated zero equality into
+the required $\mathsf{NonZero}_F$ witness.
+
+Assume $h:\mathsf{inv}(a,p_a)\hsame 0$. Multiplication congruence transports
+$h$ after right multiplication by $a$, giving
+$\mathsf{mul}(\mathsf{inv}(a,p_a),a)\hsame\mathsf{mul}(0,a)$. The zero-left
+law gives $\mathsf{mul}(0,a)\hsame 0$, so transitivity yields
+$\mathsf{mul}(\mathsf{inv}(a,p_a),a)\hsame 0$.
+
+The left inverse law gives
+$\mathsf{mul}(\mathsf{inv}(a,p_a),a)\hsame 1$. Composing this equality with
+the equality just obtained gives $1\hsame 0$, contradicting $\omega$. Thus
+the assumed zero equality has a constructive refutation, and applying
+$\alpha_{\mathsf{inv}(a,p_a)}$ produces
+$\mathsf{NonZero}_F(\mathsf{inv}(a,p_a))$.
+\end{proof}
+
 \begin{theorem}[Field inverse of an indexed inverse]
 \label{thm:field-inverse-involutive-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with multiplication on
