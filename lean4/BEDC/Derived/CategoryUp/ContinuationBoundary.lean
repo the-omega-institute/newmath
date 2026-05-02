@@ -110,6 +110,14 @@ theorem ContinuationMorphism_e1_source_e0_target_tail_cases {a r : BHist}
           | intro r1 data =>
               exact False.elim (not_hsame_e0_e1 data.left)
 
+theorem ContinuationMorphism_e1_source_e0_target_tail_not_empty {a r : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e0 r)) :
+    hsame m.tail BHist.Empty -> False := by
+  intro tailEmpty
+  cases ContinuationMorphism_e1_source_e0_target_tail_cases m with
+  | intro k exposed =>
+      exact not_hsame_e0_empty (hsame_trans (hsame_symm exposed.left) tailEmpty)
+
 theorem ContinuationMorphism_e0_source_e1_target_tail_cases {a r : BHist}
     (m : ContinuationMorphism (BHist.e0 a) (BHist.e1 r)) :
     Exists (fun k : BHist => hsame m.tail (BHist.e1 k) ∧ Cont (BHist.e0 a) k r) := by

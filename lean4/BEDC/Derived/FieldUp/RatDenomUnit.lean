@@ -3,6 +3,7 @@ import BEDC.Derived.FieldUp.RatBoundary
 namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Unary
 open BEDC.FKernel.Cont
 open BEDC.Derived.RatUp
 
@@ -89,5 +90,60 @@ theorem field_rat_denominator_continuation_adjoined_unit_laws :
           have carrierRight : RatDenomUnitCarrier right :=
             RatDenomUnitCarrier_continuation_closed carrierH carrierKL contRight
           exact ⟨carrierLeft, carrierRight, cont_assoc_hsame contHK contLeft contKL contRight⟩
+
+theorem field_rat_denominator_empty_unit_continuation_monoid_laws :
+    RatDenomUnitCarrier BHist.Empty ∧
+      (∀ {h k : BHist}, RatDenomUnitCarrier h -> RatDenomUnitCarrier k ->
+        RatDenomUnitCarrier (append h k)) ∧
+      (∀ {h : BHist}, RatDenomUnitCarrier h ->
+        RatDenomUnitClassifier (append BHist.Empty h) h ∧
+          RatDenomUnitClassifier (append h BHist.Empty) h) ∧
+      (∀ {h k l : BHist}, RatDenomUnitCarrier h -> RatDenomUnitCarrier k ->
+        RatDenomUnitCarrier l ->
+          RatDenomUnitClassifier (append (append h k) l) (append h (append k l))) ∧
+      (∀ {h h' k k' : BHist}, RatDenomUnitClassifier h h' ->
+        RatDenomUnitClassifier k k' ->
+          RatDenomUnitClassifier (append h k) (append h' k')) := by
+  constructor
+  · exact field_rat_denominator_continuation_adjoined_unit_laws.left
+  · constructor
+    · intro h k carrierH carrierK
+      exact RatDenomUnitCarrier_continuation_closed carrierH carrierK (cont_intro rfl)
+    · constructor
+      · intro h carrierH
+        constructor
+        · exact field_rat_denominator_continuation_adjoined_unit_laws.right.right.left
+            carrierH (cont_intro rfl)
+        · exact field_rat_denominator_continuation_adjoined_unit_laws.right.right.right.left
+            carrierH (cont_intro rfl)
+      · constructor
+        · intro h k l carrierH carrierK carrierL
+          exact field_rat_denominator_continuation_adjoined_unit_laws.right.right.right.right
+            carrierH carrierK carrierL (cont_intro rfl) (cont_intro rfl) (cont_intro rfl)
+            (cont_intro rfl)
+        · intro h h' k k' classifiedH classifiedK
+          have carrierHK : RatDenomUnitCarrier (append h k) :=
+            RatDenomUnitCarrier_continuation_closed classifiedH.left classifiedK.left
+              (cont_intro rfl)
+          have carrierH'K' : RatDenomUnitCarrier (append h' k') :=
+            RatDenomUnitCarrier_continuation_closed classifiedH.right.left classifiedK.right.left
+              (cont_intro rfl)
+          have sameAppend : hsame (append h k) (append h' k') :=
+            cont_respects_hsame classifiedH.right.right classifiedK.right.right (cont_intro rfl)
+              (cont_intro rfl)
+          exact ⟨carrierHK, carrierH'K', sameAppend⟩
+
+theorem RatDenomUnitCarrier_e1_tail_unary_iff {tail : BHist} :
+    RatDenomUnitCarrier (BHist.e1 tail) ↔ UnaryHistory tail := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | inl emptyBranch =>
+        exact False.elim (not_hsame_e1_empty emptyBranch)
+    | inr ratBranch =>
+        exact RatHistoryCarrier_e1_tail_unary_iff.mp ratBranch
+  · intro tailUnary
+    right
+    exact RatHistoryCarrier_e1_tail_unary_iff.mpr tailUnary
 
 end BEDC.Derived.FieldUp
