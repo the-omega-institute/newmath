@@ -150,6 +150,7 @@ import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldUp.Nonzero
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.IntervalUp
@@ -183,6 +184,7 @@ import BEDC.Derived.CategoryUp.CompDeterminism
 import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.ContinuationBoundary
 import BEDC.Derived.CategoryUp.FactorTail
+import BEDC.Derived.CategoryUp.LawPackage
 import BEDC.Derived.CategoryUp.TargetCases
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.FunctorUp
