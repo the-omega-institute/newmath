@@ -183,6 +183,12 @@ theorem SOneHistoryCarrier_unit_equation_deterministic {x y equation point : BHi
                                   (hsame_e1_congr ratClassifier.right.right)
                                   (hsame_symm sameUnit))
 
+theorem SOneHistoryCarrier_equation_pair_deterministic {x y e p x' y' e' p' : BHist} :
+    SOneHistoryCarrier x y e p → SOneHistoryCarrier x' y' e' p' → hsame e e' := by
+  intro left right
+  exact hsame_trans (SOneHistoryCarrier_unit_equation_deterministic left)
+    (hsame_symm (SOneHistoryCarrier_unit_equation_deterministic right))
+
 theorem SOneHistoryCarrier_equation_unit {x y equation point : BHist} :
     SOneHistoryCarrier x y equation point → hsame equation SOneUnitHistory := by
   exact SOneHistoryCarrier_unit_equation_deterministic

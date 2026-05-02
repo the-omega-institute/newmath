@@ -435,6 +435,29 @@ and disjointness.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_exclusive\_branch\_partition}
 
+\begin{theorem}[Tagged option history carrier exclusive branch iff]
+\label{thm:tagged-option-history-carrier-exclusive-branch-iff}
+For every source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and history $h$,
+tagged option carrier membership is equivalent to the disjoint absent-or-present
+branch description:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)
+\Longleftrightarrow
+\bigl(\hsame(h,\emp)\land
+\neg\exists a:\mathsf{BHist}.\; S(a)\land\hsame(h,\Eone(a))\bigr)
+\lor
+\bigl(\exists a:\mathsf{BHist}.\;
+S(a)\land\hsame(h,\Eone(a))\land\neg\hsame(h,\emp)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is Theorem~\ref{thm:tagged-option-history-carrier-exclusive-branch-partition}.
+For the converse, the absent branch directly supplies the empty tagged carrier
+constructor. In the present branch, the displayed source payload and visible
+endpoint equality directly supply the present tagged carrier constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_exclusive\_branch\_iff}
+
 \begin{theorem}[Tagged option absent endpoint exactly excludes present payloads]
 \label{thm:tagged-option-history-carrier-absent-no-present-iff}
 For every source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and history $h$,

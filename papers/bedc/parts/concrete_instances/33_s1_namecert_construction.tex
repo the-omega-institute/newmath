@@ -200,6 +200,26 @@ gives $\hsame(e,\mathsf{SOneUnitHistory})$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_unit\_equation\_deterministic}
 
+\begin{theorem}[SOne history carrier equation-pair determinacy]
+\label{thm:sone-history-carrier-equation-pair-deterministic}
+For histories $x,y,e,p,x',y',e',p'$, any two concrete $\SOneUp$ history-carrier
+witnesses determine history-same equation ledgers:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x',y',e',p')
+\Longrightarrow
+\hsame(e,e').
+$$
+\end{theorem}
+\begin{proof}
+Apply the unit-equation determinacy theorem to each carrier witness. The first
+witness identifies $e$ with $\mathsf{SOneUnitHistory}$, and the second
+identifies $e'$ with the same endpoint. Transitivity through that endpoint gives
+$\hsame(e,e')$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_equation\_pair\_deterministic}
+
 \begin{theorem}[SOne equation unit readback]
 \label{thm:sone-history-carrier-equation-unit}
 For histories $x,y,e,p$, the concrete $\SOneUp$ history carrier determines that
