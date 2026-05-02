@@ -16,4 +16,10 @@ theorem CategoryHomCarrier_cycle_tails_empty {a b f g : BHist} :
     cont_mutual_extension_tails_empty left.right.right.right right.right.right.right
   exact And.intro sameEndpoint tailsEmpty
 
+theorem CategoryHomCarrier_e1_morphism_cycle_absurd {a b k g : BHist} :
+    CategoryHomCarrier a b (BHist.e1 k) -> CategoryHomCarrier b a g -> False := by
+  intro left right
+  have cycle := CategoryHomCarrier_cycle_tails_empty left right
+  exact not_hsame_e1_empty cycle.right.left
+
 end BEDC.Derived.CategoryUp

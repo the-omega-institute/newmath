@@ -36,6 +36,39 @@ theorem field_two_sided_product_nonzero_excludes_middle_zero
       xEmpty
   exact nonzeroEmptyAbsurd (nonzeroTransport productEmpty productNonzero)
 
+ theorem field_two_sided_product_apartzero_exact_from_apartness
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a b x : BHist} (pa : NonZero a) (pb : NonZero b) :
+    ((hsame (mul (mul a x) b) BHist.Empty -> False) <->
+      (hsame x BHist.Empty -> False)) := by
+  have emptyExact :
+      hsame (mul (mul a x) b) BHist.Empty <-> hsame x BHist.Empty :=
+    field_two_sided_empty_product_exact_from_apartness addAssoc zeroLeft negLeft
+      assocC leftId rightId addCongr mulCongr leftDistrib rightDistrib leftInv rightInv
+      pa pb
+  constructor
+  · intro productApart xEmpty
+    exact productApart (Iff.mpr emptyExact xEmpty)
+  · intro xApart productEmpty
+    exact xApart (Iff.mp emptyExact productEmpty)
+
  theorem field_affine_two_sided_empty_zero_map_classifier_exact_from_apartness
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
     {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}

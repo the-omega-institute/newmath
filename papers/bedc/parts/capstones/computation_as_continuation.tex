@@ -71,3 +71,24 @@ through $f$ and one from $b$ back to $a$ through $g$. Mutual continuation
 cancellation identifies the endpoints and forces both tails to be the empty
 history.
 \end{proof}
+
+\begin{theorem}[Visible one-step morphisms have no opposite cycle]
+\label{thm:category-e1-morphism-cycle-absurd}
+If the forward hom-carrier has a visible one-headed morphism tail
+$\mathsf{e}_1(k)$ and an opposite hom-carrier returns from $b$ to $a$, then
+the two ledgers are contradictory:
+$$
+\mathsf{CategoryHomCarrier}(a,b,\mathsf{e}_1(k))
+\to
+\mathsf{CategoryHomCarrier}(b,a,g)
+\to
+\bot.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_cycle\_absurd}
+\begin{proof}
+The cyclic hom-carrier theorem forces every tail in an opposite pair to be
+empty. Applying it to the visible tail $\mathsf{e}_1(k)$ gives
+$\hsame(\mathsf{e}_1(k),\emp)$, contradicting the kernel separation theorem
+for one-headed histories and the empty history.
+\end{proof}
