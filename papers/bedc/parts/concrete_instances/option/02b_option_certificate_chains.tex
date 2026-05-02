@@ -362,6 +362,33 @@ Unpack the raw carrier and raw-to-visible $\hsame$ link. The absent case compose
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_carrier}
 
+\begin{theorem}[Option ledger exclusive readback]
+\label{thm:option-ledger-policy-exclusive-readback}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ exclude the empty history, and let
+$\rho,v:\mathsf{BHist}$. If
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ holds, then exactly one branch is
+read back from the ledger:
+$$
+\begin{aligned}
+&\hsame(\rho,\mathsf{Empty})\land \hsame(v,\mathsf{Empty})
+  \land \neg S(\rho)\land \neg S(v)\\
+&\quad\lor\\
+&S(\rho)\land S(v)\land \neg\hsame(\rho,\mathsf{Empty})
+  \land \neg\hsame(v,\mathsf{Empty})\land \hsame(\rho,v).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the ledger into the raw optional-history carrier and the raw-to-visible
+$\hsame$ link. The raw carrier readback gives either the absent branch or the
+source branch. In the absent branch, the stored link transfers the empty witness
+to the visible endpoint, and source exclusion rules out visible source
+membership. In the source branch, the stored $\hsame$ link identifies raw and
+visible endpoints, so the source witness transports by case analysis on that
+link; empty witnesses on either endpoint contradict source exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_exclusive\_readback}
+
 \begin{theorem}[Option raw-visible ledger classifier]
 \label{thm:option-ledger-raw-visible-classifier}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $\rho,v:\mathsf{BHist}$. If

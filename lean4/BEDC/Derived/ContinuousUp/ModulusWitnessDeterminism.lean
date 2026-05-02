@@ -4,6 +4,7 @@ namespace BEDC.Derived.ContinuousUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 
 theorem ContinuousModulusWitness_modulus_hsame_deterministic
     {source source' modulus modulus' target target' : BHist} :
@@ -156,5 +157,59 @@ theorem ContinuousFunctionCarrier_source_deterministic
                                       cases rightRest with
                                       | intro sourceMap' _targetCert' =>
                                           exact cont_right_cancel sourceMap sourceMap'
+
+theorem ContinuousModulusWitness_prefixed_composite_middle_deterministic_factorization
+    {p source first second composite target : BHist} :
+    UnaryHistory first -> UnaryHistory second -> Cont first second composite ->
+      ContinuousModulusWitness (append p source) composite (append p target) ->
+        ∃ middle : BHist,
+          ContinuousModulusWitness source first middle ∧
+            ContinuousModulusWitness middle second target ∧
+              (∀ {middle' : BHist}, ContinuousModulusWitness source first middle' ->
+                ContinuousModulusWitness middle' second target -> hsame middle middle') := by
+  intro firstCarrier secondCarrier compositeRel prefixedWitness
+  have factorized :=
+    ContinuousModulusWitness_prefixed_composite_factorizes
+      firstCarrier secondCarrier compositeRel prefixedWitness
+  cases factorized with
+  | intro middle data =>
+      cases data with
+      | intro firstWitness secondWitness =>
+          exact Exists.intro middle
+            (And.intro firstWitness
+              (And.intro secondWitness
+                (by
+                  intro middle' firstWitness' _secondWitness'
+                  exact ContinuousModulusWitness_target_hsame_deterministic
+                    (hsame_refl source) firstWitness firstWitness')))
+
+theorem ContinuousModulusWitness_prefixed_composite_first_deterministic
+    {p source first first' second composite composite' target : BHist} :
+    UnaryHistory first -> UnaryHistory first' -> UnaryHistory second ->
+      Cont first second composite -> Cont first' second composite' ->
+        ContinuousModulusWitness (append p source) composite (append p target) ->
+          ContinuousModulusWitness (append p source) composite' (append p target) ->
+            hsame first first' := by
+  intro firstCarrier first'Carrier secondCarrier compositeRel composite'Rel leftPrefixed
+    rightPrefixed
+  have leftFactorized :=
+    ContinuousModulusWitness_prefixed_composite_factorizes
+      firstCarrier secondCarrier compositeRel leftPrefixed
+  have rightFactorized :=
+    ContinuousModulusWitness_prefixed_composite_factorizes
+      first'Carrier secondCarrier composite'Rel rightPrefixed
+  cases leftFactorized with
+  | intro middle leftData =>
+      cases leftData with
+      | intro leftFirst leftSecond =>
+          cases rightFactorized with
+          | intro middle' rightData =>
+              cases rightData with
+              | intro rightFirst rightSecond =>
+                  have sameMiddle : hsame middle middle' :=
+                    ContinuousModulusWitness_source_hsame_deterministic
+                      (hsame_refl target) leftSecond rightSecond
+                  exact ContinuousModulusWitness_modulus_hsame_deterministic
+                    (hsame_refl source) sameMiddle leftFirst rightFirst
 
 end BEDC.Derived.ContinuousUp

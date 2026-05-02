@@ -436,6 +436,53 @@ continuation ledger from $m$ through $\delta_2$ to $t$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_prefixed\_composite\_factorizes}
 
+\begin{theorem}[Continuous prefixed composite middle deterministic factorization]
+\label{thm:continuous-modulus-witness-prefixed-composite-middle-deterministic-factorization}
+For histories $p,s,\delta_1,\delta_2,\delta,t$, if $\delta_1$ and $\delta_2$
+are unary histories, $\mathsf{Cont}(\delta_1,\delta_2,\delta)$ holds, and
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta,p\cdot t)
+$$
+holds, then there is a middle history $m$ such that
+$$
+\mathsf{ContinuousModulusWitness}(s,\delta_1,m)
+\quad\land\quad
+\mathsf{ContinuousModulusWitness}(m,\delta_2,t),
+$$
+and every other middle history carrying the same two witness legs is $\hsame$
+to $m$.
+\end{theorem}
+\begin{proof}
+First apply the prefixed composite factorization theorem to expose a middle
+history and the two one-step continuous modulus witnesses. If another middle
+history carries a witness from $s$ through $\delta_1$, both first legs have the
+same source and modulus; one-step target determinacy therefore identifies the
+two middle histories by $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_prefixed\_composite\_middle\_deterministic\_factorization}
+
+\begin{theorem}[Continuous prefixed composite first deterministic]
+\label{thm:continuous-modulus-witness-prefixed-composite-first-deterministic}
+For histories $p,s,\delta_1,\delta'_1,\delta_2,\delta,\delta',t$, assume
+$\delta_1$, $\delta'_1$, and $\delta_2$ are unary,
+$\mathsf{Cont}(\delta_1,\delta_2,\delta)$ and
+$\mathsf{Cont}(\delta'_1,\delta_2,\delta')$ hold, and both
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta,p\cdot t)
+\quad\text{and}\quad
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta',p\cdot t)
+$$
+hold. Then $\hsame(\delta_1,\delta'_1)$.
+\end{theorem}
+\begin{proof}
+Factor both prefixed composite witnesses. The second legs share the same target
+$t$ and the same second modulus $\delta_2$, so one-step source determinacy
+identifies their middle histories. The first legs then share the same source
+$s$ and $\hsame$ target histories, so one-step modulus determinacy identifies
+$\delta_1$ and $\delta'_1$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_prefixed\_composite\_first\_deterministic}
+
 \begin{theorem}[Continuous modulus chain prefix closure]
 \label{thm:continuous-modulus-chain-prefix-closed}
 For histories $p,s,\delta_1,\delta_2,t$, a unary prefix on the source and
