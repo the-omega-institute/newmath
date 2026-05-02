@@ -447,6 +447,44 @@ $p_a$ after deriving $a\hsame0$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_nonzero\_factors\_exclude\_empty\_product}
 
+\begin{definition}[Field zero apartness]
+\label{def:field-zero-apartness}
+For the field concrete singleton instance, the zero-apartness specialization
+of the nonzero classifier is
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
+$$
+When $\mathsf{NonZero}_F$ is supplied by apartness from $0$, an element of
+$\mathsf{ApartZero}_F(h)$ is the proof index accepted by inverse formation.
+\end{definition}
+
+\begin{theorem}[Field product apartness gives inverse product witness]
+\label{thm:field-product-apartness-inverse-product-reverse}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} and
+Theorem~\ref{thm:field-inverse-product-reverse-from-apartness}, assume the
+concrete field interpretation identifies $\mathsf{NonZero}_F(h)$ with
+$\mathsf{ApartZero}_F(h)$. If $p_a:\mathsf{ApartZero}_F(a)$ and
+$p_b:\mathsf{ApartZero}_F(b)$, then there is a canonical witness
+$p_{ab}:\mathsf{ApartZero}_F(ab)$ and the indexed inverse satisfies
+$$
+\mathsf{inv}(ab,p_{ab})\hsame \mathsf{inv}(b,p_b)\mathsf{inv}(a,p_a).
+$$
+\end{theorem}
+\begin{proof}
+Build $p_{ab}$ as a function from an assumed zero product to contradiction.
+Given $z:ab\hsame0$, apply
+Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} with the
+left-factor witness $p_a$. The left-factor clause sends $z$ to $b\hsame0$,
+and $p_b$ sends that equality to $\bot$.
+
+Thus $p_{ab}$ is available as the exact proof index required by the inverse
+operation on $ab$ in the apartness interpretation of $\mathsf{NonZero}_F$.
+Apply Theorem~\ref{thm:field-inverse-product-reverse-from-apartness} with
+the three witnesses $p_{ab}$, $p_a$, and $p_b$ to obtain the displayed
+inverse product equality.
+\end{proof}
+
 \begin{theorem}[Field equal-squares signed factor exclusion]
 \label{thm:field-equal-squares-signed-factor-exclusion}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
