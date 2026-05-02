@@ -196,9 +196,10 @@ denominator tuple
 $(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
 \mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, contextual action
 $\Gamma$, context-pair monoid, and affine source $\mathsf{AffAut}_F$,
-supplies the semantic naming certificate for $\FieldUp(\RatUp)$. Consequently
-$\FieldUp(\RatUp)$ is the open phase exit object carried by the assembled
-BHist-level field source.
+supplies the semantic naming certificate for $\FieldUp(\RatUp)$. The assembled
+BHist-level source is the paper-side certificate target for
+$\FieldUp(\RatUp)$ over $\mathsf{RatHistoryCarrier}$ and
+$\mathsf{RatHistoryClassifier}$.
 \end{theorem}
 \begin{proof}
 The base name is fixed by \autoref{thm:concrete-rat-namecert}: the rational
@@ -587,6 +588,68 @@ exhaust the ten-entry per-object template of
 Definition~\ref{def:concrete-ratup-fieldup-certificate-instance}: target,
 source, carrier, classifier, stability obligations, ledger, core theorem list,
 exactness predicate, standard bridge, and status.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp semantic certificate is non-singleton]
+\label{thm:ratup-fieldup-semantic-certificate-non-singleton}
+Let $d_1:=\Eone(\emp)$. The concrete certificate rows of
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} and
+\autoref{thm:ratup-fieldup-semantic-certificate-assembly} are carried by the
+single source tuple $\mathsf{RatUpFieldSource}_F$. This same source has the
+diagonal witnesses
+$$
+\mathsf{RatHistoryCarrier}(d_1),
+$$
+$$
+\mathsf{RatHistoryClassifier}(d_1,d_1),
+$$
+and
+$$
+\mathsf{RatHistoryLedgerPolicy}(d_1,d_1).
+$$
+Each of the following singleton-boundary coverage maps is contradictory:
+\begin{enumerate}
+  \item carrier coverage
+  $$
+  \forall h:\mathsf{BHist},\mathsf{RatHistoryCarrier}(h)\to
+  \mathsf{fieldSingletonEmptyCarrier}(h);
+  $$
+  \item classifier coverage
+  $$
+  \forall h k:\mathsf{BHist},\mathsf{RatHistoryClassifier}(h,k)\to
+  \mathsf{FieldSingletonClassifier}(h,k);
+  $$
+  \item ledger endpoint coverage
+  $$
+  \forall \rho v:\mathsf{BHist},\mathsf{RatHistoryLedgerPolicy}(\rho,v)\to
+  \mathsf{FieldSingletonCarrier}(\rho)\land
+  \mathsf{FieldSingletonCarrier}(v).
+  $$
+\end{enumerate}
+Consequently the semantic certificate rows for $\FieldUp(\RatUp)$ are sourced
+by the concrete $\mathsf{BHist}$ tuple and cannot collapse to the singleton
+$\FieldUp$ boundary in carrier, classifier, or ledger coordinates.
+\end{theorem}
+\begin{proof}
+The one-source assertion is
+\autoref{thm:ratup-fieldup-certificate-rows-source-anchored}. It identifies the
+field carrier, field classifier, denominator tuple, contextual action,
+context-pair monoid, and affine coordinate as rows read over the single source
+tuple $\mathsf{RatUpFieldSource}_F$.
+
+Next use \autoref{thm:ratup-fieldup-semantic-certificate-assembly}. It says
+that those rows are exactly the concrete certificate rows consumed by
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} for the
+target $\FieldUp(\RatUp)$.
+
+Finally apply
+\autoref{thm:ratup-fieldup-source-coordinate-coverage-obstruction} at
+$d_1=\Eone(\emp)$. That theorem supplies the three diagonal witnesses and
+separately rules out carrier, classifier, and ledger endpoint coverage maps to
+the singleton $\FieldUp$ boundary.
+
+Combining the source-anchored certificate rows with these three coordinate
+obstructions gives the claimed non-singleton semantic certificate boundary.
 \end{proof}
 
 \begin{theorem}[RatUp FieldUp assembled support-neutrality certificate]
