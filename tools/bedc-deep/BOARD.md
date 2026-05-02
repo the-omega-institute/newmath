@@ -981,3 +981,54 @@ Surfaced in Turn 0 when the oracle identified the literal list equation as too s
 
 ---
 
+### B-41 - Uniform continuity preserves total bounded images
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Uniform continuity preserves total bounded images |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 10/10 |
+
+Problem:
+Under certified metric spaces X and Y, if S is totally bounded in X and g:X->Y has a certified uniform-continuity modulus on S, then the image subset g[S] is totally bounded in Y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 as the setup-field proposition needed before the second modulus in the composition proof can be requested on g[S]. It deserves its own loop because B-12 handles modulus chaining, while this proposition supplies the separate certificate-side total-boundedness transport needed to license the image-subset modulus for the outer map.
+
+---
+
+
+### B-42 - Uniform modulus restriction along subset containment
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Uniform modulus restriction along subset containment |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a certified metric-function setup, if a modulus delta witnesses uniform continuity of f:T->Z on a subset T of Y and U is a subset of T, then the same delta witnesses uniform continuity of f on U.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 through the alternative use of a certified totally bounded T subset Y containing g[S], where the outer modulus may be supplied on T rather than exactly on g[S]. It is adjacent to B-12 but distinct: it is a subset-transport lemma for modulus validity, not a composition theorem.
+
+---
+
