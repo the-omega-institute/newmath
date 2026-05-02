@@ -345,6 +345,30 @@ Unfold $\mathsf{SumHistoryClassifier}$. In the left-tag forward direction, the l
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_generic\_same\_tag\_exactness}
 
+\begin{theorem}[Sum history classifier left-chain visible payload classification]
+\label{thm:sum-history-classifier-left-chain-visible-payload-classification}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ and histories
+$h,k,r,a,c$, if
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,h,k),
+\qquad
+\mathsf{SumHistoryClassifier}(Left,Right,\hsame,\hsame,k,r),
+$$
+and if the outer endpoints are visibly left-tagged as
+$$
+\hsame(h,\Ezero(a)),\qquad \hsame(r,\Ezero(c)),
+$$
+then $\hsame(a,c)$.
+\end{theorem}
+\begin{proof}
+Compose the two sum classifiers using transitivity of $\hsame$ on both
+branches. Transport the resulting classifier along the two displayed outer
+endpoint presentations, obtaining a classifier between $\Ezero(a)$ and
+$\Ezero(c)$. Left-tag classifier inversion then identifies the two visible
+payloads by $\hsame(a,c)$.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_left\_chain\_visible\_payload\_classification}
+
 \begin{theorem}[Sum history classifier left endpoint fanout]
 \label{thm:sum-history-classifier-left-endpoint-fanout}
 For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, source
@@ -755,23 +779,6 @@ displayed carrier witness along $\hsame$.
 \end{definition}
 \leanchecked{BEDC.Derived.SumUp.sum\_stability\_certificate\_fields}
 
-\begin{theorem}[Sum classifier transitivity at the typed level]
-\label{thm:sum-classifier-transitivity}
-Let $R_A : A \to A \to \mathsf{Prop}$ and
-$R_B : B \to B \to \mathsf{Prop}$ be source classifier relations.  If both
-$R_A$ and $R_B$ are transitive, then for sum carriers $x$, $y$, and $z$,
-$$
-  \mathsf{SumClassifierSpec}(R_A,R_B,x,y)
-  \quad\text{and}\quad
-  \mathsf{SumClassifierSpec}(R_A,R_B,y,z)
-$$
-imply $\mathsf{SumClassifierSpec}(R_A,R_B,x,z)$.
-\end{theorem}
-\leanchecked{BEDC.Derived.SumUp.SumClassifierSpec\_trans}
-\begin{proof}
-Invert the sum classifier witnesses by their constructors. Matching left and
-right branches compose through the corresponding source transitivity assumption,
-while mixed tags are impossible by the classifier clauses.
-\end{proof}
+\input{parts/concrete_instances/sum/typed_classifier_transitivity.tex}
 
 \input{parts/concrete_instances/sum/ledger_and_semantic_certificate.tex}

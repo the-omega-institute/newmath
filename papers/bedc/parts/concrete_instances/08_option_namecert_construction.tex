@@ -232,6 +232,33 @@ that leg around, and one final transitivity step yields $R(a,c)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_common\_right\_visible\_payload\_classification}
 
+\begin{theorem}[Tagged option present-chain visible endpoint classification]
+\label{thm:tagged-option-present-chain-visible-endpoint-classification}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history carrier and let
+$R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a transitive payload
+classifier. Assume that visible $\hsame$ between source payloads is reflected
+into $R$. For histories $h,k,r,a,c$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,R}(h,k)
+\quad\hbox{and}\quad
+\mathsf{TaggedOptionHistoryClassifier}_{S,R}(k,r),
+$$
+if $S(a)$ and $S(c)$ hold, and if the endpoints are visibly present as
+$$
+\hsame(h,\Eone(a)),\qquad \hsame(r,\Eone(c)),
+$$
+then $R(a,c)$.
+\end{theorem}
+\begin{proof}
+Compose the two tagged classifiers by transitivity of $R$ to classify $h$ and
+$r$. The absent branch would present $h$ as both $\emp$ and $\Eone(a)$, which is
+impossible by BEDC constructor no-confusion. In the present branch, invert the
+two visible $\Eone$ presentations to compare $a$ and $c$ with the exposed
+payload witnesses. The source-$\hsame$ reflection supplies the two outer
+$R$-legs, and transitivity composes them with the exposed payload classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_present\_chain\_visible\_endpoint\_classification}
+
 \section{Tagged option payload descent image target classifier closure}
 \label{sec:option-payload-descent-image-target-classifier-closure}
 

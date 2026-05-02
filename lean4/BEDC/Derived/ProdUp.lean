@@ -87,10 +87,16 @@ theorem ProdHistoryClassifier_component_inversion {Left Right : BHist → Prop} 
                                                     (And.intro rightCarrier contH))))
                                               (And.intro
                                                 (Exists.intro l'
-                                                  (Exists.intro r'
-                                                    (And.intro leftCarrier'
-                                                      (And.intro rightCarrier' contK))))
+                                                (Exists.intro r'
+                                                  (And.intro leftCarrier'
+                                                    (And.intro rightCarrier' contK))))
                                                 sameHK)
+
+theorem ProdHistoryClassifier_common_right_component_left_hsame
+    {Left Right : BHist -> Prop} {h k l l' r : BHist} :
+    ProdHistoryClassifier Left Right h k -> Cont l r h -> Cont l' r k -> hsame l l' := by
+  intro classifier contLeft contRight
+  exact cont_common_suffix_cancellation contLeft contRight classifier.right.right
 
 theorem ProdHistoryCarrier_append_intro {Left Right : BHist -> Prop} {l r : BHist} :
     Left l -> Right r -> ProdHistoryCarrier Left Right (append l r) := by
