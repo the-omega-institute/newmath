@@ -1017,3 +1017,43 @@ classifier exactness for inverse, product, denominator, contextual action, and
 affine automorphism rows; standard bridge ordinary constructive field over
 rational histories with certified affine automorphisms; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator context-pair product strict support]
+\label{thm:field-rat-denominator-context-pair-product-strict-support}
+For carried denominator context pairs $(l,r)$ and $(l',r')$, strict support of
+their product is exactly the disjunction of the four component supports:
+$$
+N_D^u(\mu_D^u(\mu_D^u(l',l),\mu_D^u(r,r')))
+\Longleftrightarrow
+N_D^u(l')\lor N_D^u(l)\lor N_D^u(r)\lor N_D^u(r').
+$$
+\end{theorem}
+\begin{proof}
+Apply bilateral strict-support exactness to the left product
+$\mu_D^u(l',l)$ and the carried right product $\mu_D^u(r,r')$. The remaining
+right-product support term is then opened by denominator product support
+exactness for $r$ and $r'$. Reassociating the resulting disjunction yields the
+four displayed component supports, and the reverse implication closes the same
+two product-support equivalences in the opposite order.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomContextPair\_product\_strict\_support\_iff}
+
+\begin{theorem}[Rat denominator context-pair product strict support transport]
+\label{thm:field-rat-denominator-context-pair-product-strict-support-transport}
+If $(l,r)$ and $(s,t)$ are componentwise $R_D^u$-classified, and
+$(l',r')$ and $(s',t')$ are componentwise $R_D^u$-classified, then strict
+support is invariant across the two product endpoints:
+$$
+N_D^u(\mu_D^u(\mu_D^u(l',l),\mu_D^u(r,r')))
+\Longleftrightarrow
+N_D^u(\mu_D^u(\mu_D^u(s',s),\mu_D^u(t,t'))).
+$$
+\end{theorem}
+\begin{proof}
+The component classifiers expose $\HSame(l,s)$, $\HSame(r,t)$,
+$\HSame(l',s')$, and $\HSame(r',t')$. Continuation congruence composes these
+through the two product layers, giving an $\HSame$ witness between the two
+displayed product endpoints. Rat denominator support transports across that
+endpoint witness in both directions.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomContextPair\_product\_strict\_support\_transport}

@@ -187,6 +187,7 @@ import BEDC.Derived.FieldUp.RatCanonicalEndpoint
 import BEDC.Derived.FieldUp.PositiveDenominatorAppendSplit
 import BEDC.Derived.FieldUp.EmptyOffsetComposition
 import BEDC.Derived.FieldUp.ContextualAction
+import BEDC.Derived.FieldUp.RatDenomContextPair
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
@@ -232,6 +233,7 @@ import BEDC.Derived.CategoryUp.Prefix
 import BEDC.Derived.CategoryUp.ContinuationCertificate
 import BEDC.Derived.CategoryUp.TailCommClosed
 import BEDC.Derived.CategoryUp.CompDeterminism
+import BEDC.Derived.CategoryUp.EndpointMiddleDeterminism
 import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.EmptyComposite
 import BEDC.Derived.CategoryUp.EmptySourceComposite
