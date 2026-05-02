@@ -59,6 +59,41 @@ prefix and suffix context from $\mathsf{RatHistoryClassifier}(left,right)$ and
 returns $\mathsf{RatHistoryClassifier}(d,e)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation common-context exactness]
+\label{thm:field-rat-denominator-continuation-common-context-exactness}
+For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+$\Cont(p,d,pd)$, $\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and
+$\Cont(pe,q,right)$, then
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(left,right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume $\mathsf{RatHistoryClassifier}(d,e)$.
+Apply
+\autoref{thm:rat-history-classifier-unary-denominator-context-closed} with
+the common prefix $p$, the common tail $q$, and reflexive matching witnesses
+$p\hsame p$ and $q\hsame q$. This gives the classifier for the canonical
+append histories obtained by placing $p$ and $q$ around $d$ and $e$.
+
+The displayed endpoints $left$ and $right$ are the same bracketed contexts.
+Continuation determinacy identifies $pd$ and $pe$ with the corresponding
+canonical prefix appends, and continuation associativity relates the two-step
+continuations through $q$ to the canonical prefix-tail contexts. Transport the
+canonical classifier across these endpoint $\hsame$ links to obtain
+$\mathsf{RatHistoryClassifier}(left,right)$.
+
+For the reverse direction, assume
+$\mathsf{RatHistoryClassifier}(left,right)$. Apply
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation}
+to the same unary prefix, unary suffix, carrier, and continuation witnesses.
+Its conclusion is exactly $\mathsf{RatHistoryClassifier}(d,e)$.
+\end{proof}
+
 \textbf{Traditional target}: denominator exactness for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
