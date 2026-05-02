@@ -44,7 +44,13 @@ PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "state" / "stage0_logs"
 
 CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
-DEFAULT_CODEX_TIMEOUT = 600
+# 6-minute budget for codex per round. Stage 0's purpose is the fast path —
+# if codex needs longer, the target is genuinely deep and should escalate
+# to oracle Stage 1. Empirically B-13/B-14/B-16/B-17 all closed in <4 min;
+# B-18/B-19 wandered for 38 min before producing usable output, which is
+# the exact cost we want to cut. The codex_orchestrator hard-kill watchdog
+# enforces this by SIGKILL on the process group at timeout + 60s.
+DEFAULT_CODEX_TIMEOUT = 360
 DEFAULT_CLAUDE_TIMEOUT = 900
 DEFAULT_MAX_ROUNDS = 4
 

@@ -21,6 +21,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 from dataclasses import dataclass
 from datetime import datetime
@@ -148,6 +149,21 @@ def codex_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = ""
     stdout = ""
     stderr = ""
     rc: int = -1
+    # Hard-kill watchdog: subprocess.communicate's own timeout has been
+    # observed to not fire on long codex runs (B-18/B-19 took 38 min with
+    # timeout=600). A separate threading.Timer schedules an explicit
+    # SIGKILL on the process group at timeout + 60s so even if communicate
+    # misbehaves, the worker is bounded.
+    hard_killed = {"flag": False}
+    def _hard_kill() -> None:
+        hard_killed["flag"] = True
+        try:
+            os.killpg(proc.pid, 9)
+        except (ProcessLookupError, PermissionError):
+            pass
+    watchdog = threading.Timer(timeout + 60, _hard_kill)
+    watchdog.daemon = True
+    watchdog.start()
     try:
         stdout, stderr = proc.communicate(input=prompt, timeout=timeout + 30)
         rc = proc.returncode
@@ -161,6 +177,12 @@ def codex_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = ""
         except subprocess.TimeoutExpired:
             stdout = stdout or ""
             stderr = stderr or ""
+        rc = -9
+    finally:
+        watchdog.cancel()
+    if hard_killed["flag"] and rc == 0:
+        # communicate returned 0 because the watchdog kill caused EOF on
+        # the pipes, but the run exceeded its budget — demote to timeout.
         rc = -9
     stdout_file.write_text(stdout or "", encoding="utf-8")
     stderr_file.write_text(stderr or "", encoding="utf-8")

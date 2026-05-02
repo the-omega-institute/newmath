@@ -167,6 +167,16 @@
   // /c/<uuid> redirect, dropping in-memory busy state). With in_flight set,
   // a re-entry of processTask while on the original /c/<uuid> page resumes
   // waitForResponse() instead of re-navigating + re-entering the prompt.
+  // BUG (cross-tab contamination): GM_setValue keys are shared across all
+  // ChatGPT tabs running this userscript. With multiple concurrent tabs
+  // (recent_agents > 1), tab A's saveTaskState() will be overwritten by
+  // tab B before tab A finishes injecting the prompt, so tab A may inject
+  // tab B's prompt into tab A's conversation. Observed on B-10 (got B-11
+  // content) and B-11 (got B-10 content).
+  //
+  // Proper fix: namespace by conversation_id (or window.name/sessionStorage
+  // tab id):  GM_setValue(`bedc_current_task_${tabId}`, ...).
+  // Until then, run with a single active ChatGPT tab to avoid the swap.
   function saveTaskState(task) {
     GM_setValue("bedc_current_task", JSON.stringify(task));
     GM_setValue("bedc_task_phase", "pending");
