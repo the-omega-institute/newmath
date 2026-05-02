@@ -66,6 +66,23 @@ theorem CategoryHomCarrier_comp_left_right_identity_result {a b idA idB f left b
     CategoryHomCarrier_right_identity_carrier_result rightIdentity leftResult.left rightRel
   exact And.intro bothResult.left (hsame_trans bothResult.right leftResult.right)
 
+theorem category_cont_left_right_identity_tail_result {a b idA f idB left both : BHist} :
+    Cont a idA a -> Cont a f b -> Cont b idB b -> Cont idA f left ->
+      Cont left idB both -> hsame both f := by
+  intro leftIdentity morph rightIdentity leftRel rightRel
+  have idAEmpty : hsame idA BHist.Empty :=
+    cont_left_cancel leftIdentity (cont_right_unit a)
+  have idBEmpty : hsame idB BHist.Empty :=
+    cont_left_cancel rightIdentity (cont_right_unit b)
+  have leftSame : hsame left f := by
+    cases idAEmpty
+    exact cont_left_unit_result leftRel
+  have bothLeft : Cont f idB both := by
+    cases leftSame
+    exact rightRel
+  cases idBEmpty
+  exact cont_deterministic bothLeft (cont_right_unit f)
+
 theorem CategoryHomCarrier_comp_middle_identity_result {a b c f id g fid result fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b b id -> CategoryHomCarrier b c g ->
       Cont f id fid -> Cont fid g result -> Cont f g fg ->
@@ -81,6 +98,17 @@ theorem CategoryHomCarrier_comp_middle_identity_result {a b c f id g fid result 
   have sameResult : hsame result fg :=
     cont_respects_hsame fidResult.right (hsame_refl g) resultRel fgRel
   exact And.intro resultCarrier (And.intro fgCarrier sameResult)
+
+theorem category_cont_middle_identity_tail_result {a b c f id g fid result fg : BHist} :
+    Cont a f b -> Cont b id b -> Cont b g c -> Cont f id fid -> Cont fid g result ->
+      Cont f g fg -> hsame result fg := by
+  intro left identity right fidRel resultRel fgRel
+  have idEmpty : hsame id BHist.Empty :=
+    cont_left_cancel identity (cont_right_unit b)
+  have fidSame : hsame fid f := by
+    cases idEmpty
+    exact cont_deterministic fidRel (cont_right_unit f)
+  exact cont_respects_hsame fidSame (hsame_refl g) resultRel fgRel
 
 theorem ContinuationMorphism_comp_middle_identity_tail_result {a b c : BHist}
     (left : ContinuationMorphism a b) (identity : ContinuationMorphism b b)

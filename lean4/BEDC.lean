@@ -179,6 +179,7 @@ import BEDC.Derived.FieldUp.ProductWitnessIndependence
 import BEDC.Derived.FieldUp.RatContinuationExternalBoundary
 import BEDC.Derived.FieldUp.RatCanonicalEndpoint
 import BEDC.Derived.FieldUp.PositiveDenominatorAppendSplit
+import BEDC.Derived.FieldUp.EmptyOffsetComposition
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
