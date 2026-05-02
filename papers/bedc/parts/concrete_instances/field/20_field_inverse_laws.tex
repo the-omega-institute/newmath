@@ -190,6 +190,86 @@ Theorem~\ref{thm:field-inverse-three-factor-product-reversal-from-apartness}.
 Exactness predicate: reversed inverse equality. Standard bridge: deferred.
 Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field inverse four-factor product reversal from apartness-indexed inverses]
+\label{thm:field-inverse-four-factor-product-reversal-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+multiplication associativity, multiplication congruence, left and right
+identity laws, proof-indexed inverse laws, product nonzero exclusion, and
+conversion maps
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),\quad
+\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b),
+$$
+$$
+\alpha_c:\mathsf{ApartZero}_F(c)\to\mathsf{NonZero}_F(c),\quad
+\alpha_d:\mathsf{ApartZero}_F(d)\to\mathsf{NonZero}_F(d),
+$$
+$$
+\alpha_{ab}:\mathsf{ApartZero}_F(\mathsf{mul}(a,b))\to
+\mathsf{NonZero}_F(\mathsf{mul}(a,b)),
+$$
+$$
+\alpha_{abc}:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c))\to
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c)),
+$$
+$$
+\alpha_{abcd}:
+\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))\to
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d)),
+$$
+where $\mathsf{ApartZero}_F(h):=(h\hsame0\to\bot)$, any witness
+$$
+p_{abcd}:
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))
+$$
+induces witnesses $p_a$, $p_b$, $p_c$, and $p_d$ such that
+$$
+\mathsf{inv}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),p_{abcd})
+\hsame
+\mathsf{mul}(\mathsf{inv}(d,p_d),
+\mathsf{mul}(\mathsf{inv}(c,p_c),
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a)))).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
+$p_{abcd}$ for the binary product
+$(\mathsf{mul}(\mathsf{mul}(a,b),c),d)$. This gives
+$q_{abc}:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c))$ and
+$q_d:\mathsf{ApartZero}_F(d)$; set $p_{abc}:=\alpha_{abc}(q_{abc})$ and
+$p_d:=\alpha_d(q_d)$.
+
+Now apply
+\autoref{thm:field-inverse-product-reverse-from-apartness} to the same outer
+binary product with witnesses $p_{abcd}$, $p_{abc}$, and $p_d$. It identifies
+the inverse of the fourfold product with
+$\mathsf{mul}(\mathsf{inv}(d,p_d),
+\mathsf{inv}(\mathsf{mul}(\mathsf{mul}(a,b),c),p_{abc}))$.
+
+Apply \autoref{thm:field-inverse-three-factor-product-reversal-from-apartness}
+to the left triple, using $p_{abc}$ and the conversion maps
+$\alpha_{ab}$, $\alpha_a$, $\alpha_b$, and $\alpha_c$. This produces the
+factor witnesses $p_a$, $p_b$, and $p_c$ and the reversed triple inverse.
+
+Multiplication congruence transports the triple equality into the right factor
+of the outer equality. Associativity and transitivity of $\hsame$ then rebracket
+the product into the displayed
+$d,c,b,a$ reversed inverse spine. Equivalently, the factor apartness witnesses
+may be read from \autoref{thm:field-four-factor-product-apartzero-exact} before
+the same conversion and inverse-reversal steps are applied.
+\end{proof}
+
+Per-object certificate: Traditional target: inverse of a finite fourfold
+product. BEDC source: $\FieldUp$ plus four-factor zero-apartness exactness.
+Carrier choice: $\mathsf{BHist}$. Classifier choice: $\hsame$. Stability
+obligations: four-factor apartness extraction, product nonzero exclusion,
+inverse product reversal, three-factor inverse reversal, associativity, and
+multiplication congruence. Ledger: $p_{abcd}$ plus induced factor witnesses.
+Core theorem list:
+Theorem~\ref{thm:field-inverse-four-factor-product-reversal-from-apartness}.
+Exactness predicate: reversed inverse equality. Standard bridge: deferred.
+Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field multiplication by an indexed right inverse cancels]
 \label{thm:field-mul-inverse-right-cancel-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
