@@ -96,16 +96,71 @@ to the same unary prefix, unary suffix, carrier, and continuation witnesses.
 Its conclusion is exactly $\mathsf{RatHistoryClassifier}(d,e)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation common-context exactness package]
+\label{thm:field-rat-denominator-continuation-common-context-exactness-package}
+For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+$\Cont(p,d,pd)$, $\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and
+$\Cont(pe,q,right)$, then both equivalences hold:
+$$
+\mathsf{RatHistoryClassifier}(left,right)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+$$
+\mathsf{RatHistoryLedgerPolicy}(left,right)\Longleftrightarrow
+\mathsf{RatHistoryLedgerPolicy}(d,e).
+$$
+\end{theorem}
+\begin{proof}
+For the classifier implication from $left,right$ back to $d,e$, apply
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation}
+to the same unary-context and continuation premises. It cancels the common
+prefix and suffix context from $\mathsf{RatHistoryClassifier}(left,right)$ and
+returns $\mathsf{RatHistoryClassifier}(d,e)$.
+
+For the classifier implication from $d,e$ to $left,right$, apply
+\autoref{thm:rat-history-classifier-unary-denominator-context-closed} to
+$\mathsf{RatHistoryClassifier}(d,e)$ with the common unary prefix $p$ and common
+unary suffix $q$. This gives the classifier for the canonical endpoints obtained
+by placing $p$ and $q$ around $d$ and $e$.
+
+Continuation determinacy compares those canonical endpoints with the displayed
+endpoints $left$ and $right$, using the premises $\Cont(p,d,pd)$,
+$\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and $\Cont(pe,q,right)$. Transporting the
+classifier across these endpoint comparisons by
+\autoref{thm:rat-history-classifier-hsame-transport} gives
+$\mathsf{RatHistoryClassifier}(left,right)$.
+
+For the ledger implication from $left,right$ back to $d,e$, first convert
+$\mathsf{RatHistoryLedgerPolicy}(left,right)$ to the raw-visible classifier by
+\autoref{thm:rat-ledger-raw-visible-classifier}. The cancellation theorem then
+returns $\mathsf{RatHistoryClassifier}(d,e)$, whose comparison component is
+$d\hsame e$. Together with the input carrier $\mathsf{RatHistoryCarrier}(d)$,
+this is precisely $\mathsf{RatHistoryLedgerPolicy}(d,e)$.
+
+For the ledger implication from $d,e$ to $left,right$, apply
+\autoref{thm:rat-ledger-unary-denominator-context-closed} to
+$\mathsf{RatHistoryLedgerPolicy}(d,e)$ with the common unary prefix $p$ and
+common unary suffix $q$. Continuation determinacy compares the canonical ledger
+endpoints with $left$ and $right$, and
+\autoref{thm:rat-ledger-hsame-transport} transports the closed ledger across
+those endpoint comparisons.
+\end{proof}
+
 \textbf{Traditional target}: denominator exactness for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
 denominators; \textbf{classifier choice}: Rat history classifier;
-\textbf{stability obligation}: matched-context classifier exactness; \textbf{ledger}:
-matched unary prefix and suffix contexts; \textbf{core theorem}:
-\autoref{thm:field-rat-denominator-matched-context-classifier-exactness};
-\textbf{exactness predicate}: classifier equivalence under matched continuation
-contexts; \textbf{standard bridge}: deferred; \textbf{status}:
-$\mathsf{ProofTarget}$.
+\textbf{stability obligation}: common-context classifier and ledger exactness;
+\textbf{ledger}: matched unary prefix and suffix contexts; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation},
+\autoref{thm:field-rat-denominator-matched-context-classifier-exactness},
+\autoref{thm:field-rat-denominator-continuation-common-context-exactness}, and
+\autoref{thm:field-rat-denominator-continuation-common-context-exactness-package};
+\textbf{exactness predicate}: common unary contexts preserve and reflect both
+the Rat classifier and the Rat ledger; \textbf{standard bridge}: deferred;
+\textbf{status}: $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Rat denominator continuation is semigroup-only on the positive carrier]
 \label{thm:field-rat-denominator-continuation-semigroup-only}
