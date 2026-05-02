@@ -1,0 +1,67 @@
+\begin{theorem}[Category hom-carrier one-headed source empty target impossibility]
+\label{thm:category-hom-e1-source-empty-target-absurd}
+For histories $a,f$, no hom-carrier can have source $\Eone(a)$ and target
+$\emp$:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\emp,f)\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness and classify the morphism history \(f\). In
+each constructor branch, the continuation field would identify the empty
+target with an append whose source already has a visible one constructor,
+which is impossible by generated-history no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_empty\_target\_absurd}
+
+\begin{theorem}[Category visible source empty-target composite impossibility]
+\label{thm:category-visible-source-empty-target-composite-absurd}
+For histories $a,b,f,g$, the pair of hom-carriers
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),b,f)
+\land
+\mathsf{CategoryHomCarrier}(b,\emp,g)
+$$
+is impossible.
+\end{theorem}
+\begin{proof}
+Compose the first displayed hom-carrier with the second one using the concrete
+continuation witness $\ContR(f,g,\mathsf{append}(f,g))$. Composition closure
+produces
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\emp,\mathsf{append}(f,g)).
+$$
+This contradicts the one-headed source empty-target impossibility theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_source\_empty\_target\_comp\_absurd}
+
+\begin{theorem}[Category hom-carrier one-headed source morphism cases]
+\label{thm:category-hom-carrier-e1-source-morphism-cases}
+For histories $a,target,morph$, a hom-carrier with source $\Eone(a)$ has one
+of the following forms:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),target,morph)
+\Longrightarrow
+\left(
+morph=\emp\land target=\Eone(a)\land \mathsf{UnaryHistory}(a)
+\right)
+$$
+or there exist histories $k,r$ such that
+$$
+morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness into unary source, target, and morphism fields
+and the continuation ledger. Classify the morphism history. The empty branch
+forces the target to be exactly $\Eone(a)$ by the right-unit continuation
+shape, and unary inversion gives unary history for $a$. The zero-headed
+morphism branch contradicts unary-history separation for zero extensions. In
+the one-headed branch, classify the target history. Empty and zero-headed
+targets contradict the continuation ledger; a one-headed target exposes
+histories $k$ and $r$, unary inversion gives the three unary witnesses, and
+constructor inversion on the continuation ledger yields $\ContR(\Eone(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_morphism\_cases}
