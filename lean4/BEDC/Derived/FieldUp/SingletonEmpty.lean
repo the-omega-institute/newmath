@@ -40,6 +40,14 @@ theorem fieldSingletonEmptyNonZero_empty_endpoint_absurd {h : BHist} :
   exact And.intro sameEmpty
     (And.intro (hsame_refl BHist.Empty) sameEmpty)
 
+theorem fieldSingletonEmptyNonZero_empty_endpoint_complement_iff {h : BHist} :
+    fieldSingletonEmptyNonZero h ↔ (hsame h BHist.Empty -> False) := by
+  constructor
+  · intro nonzero sameEmpty
+    exact fieldSingletonEmptyNonZero_empty_endpoint_absurd sameEmpty nonzero
+  · intro notEmpty classified
+    exact notEmpty classified.left
+
 theorem fieldSingletonEmptyCarrier_semanticNameCert :
     SemanticNameCert fieldSingletonEmptyCarrier fieldSingletonEmptyCarrier
       fieldSingletonEmptyCarrier fieldSingletonEmptyClassifier := by

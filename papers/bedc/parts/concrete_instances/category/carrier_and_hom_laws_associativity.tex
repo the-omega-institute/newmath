@@ -284,6 +284,46 @@ unpacking the first relation and reassociating the append spine.
 \end{definition}
 \leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_closed}
 
+\begin{theorem}[Continuation morphism composite empty target inversion]
+\label{thm:continuation-morphism-comp-empty-target-inversion}
+For histories $a,b$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,\emp)$. Then both endpoints and both
+displayed tails are history-same to $\emp$:
+$$
+\hsame(a,\emp)\land\hsame(b,\emp)\land
+\hsame(\mathsf{tail}(left),\emp)\land
+\hsame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. Empty-result inversion on the
+right witness identifies $b$ and the displayed tail of $right$ with $\emp$.
+After transporting the left witness across this endpoint identification, a
+second empty-result inversion identifies $a$ and the displayed tail of $left$
+with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_empty\_target\_inversion}
+
+\begin{theorem}[Continuation morphism composite empty middle inversion]
+\label{thm:continuation-morphism-comp-empty-middle-inversion}
+For histories $a,c$, let $left:\mathsf{ContinuationMorphism}(a,\emp)$ and
+$right:\mathsf{ContinuationMorphism}(\emp,c)$. Then
+$$
+\hsame(a,\emp)\land
+\hsame(\mathsf{tail}(left),\emp)\land
+\hsame(\mathsf{tail}(right),c)\land
+\hsame(\mathsf{tail}(left\circ right),c).
+$$
+\end{theorem}
+\begin{proof}
+Empty-result inversion on the left witness identifies $a$ and the displayed
+tail of $left$ with $\emp$. The right witness is a left-unit continuation, so
+its displayed tail is history-same to $c$. The composite displayed tail is the
+append of the two displayed tails; replacing the left one by $\emp$ and using
+left-unit append gives the same endpoint comparison with $c$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_empty\_middle\_inversion}
+
 \begin{theorem}[Continuation morphism composite tail hom carrier]
 \label{thm:continuation-morphism-comp-tail-category-hom-carrier}
 For histories $a,b,c$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and

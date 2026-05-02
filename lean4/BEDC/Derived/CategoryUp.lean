@@ -2,9 +2,7 @@ import BEDC.FKernel.Unary
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
 namespace BEDC.Derived.CategoryUp
-open BEDC.FKernel.Hist
-open BEDC.FKernel.Cont
-open BEDC.FKernel.Unary
+open BEDC.FKernel.Hist BEDC.FKernel.Cont BEDC.FKernel.Unary
 def CategoryHomCarrier (a b f : BHist) : Prop :=
   UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧ Cont a f b
 theorem CategoryHomCarrier_empty_identity {h : BHist} :
@@ -318,6 +316,9 @@ def ContinuationMorphism_comp_closed {a b c : BHist} (left : ContinuationMorphis
               rel := by
                 cases leftRel
                 exact rightRel.trans (append_assoc a leftTail rightTail) }
+theorem ContinuationMorphism_comp_empty_target_inversion {a b : BHist} (left : ContinuationMorphism a b) (right : ContinuationMorphism b BHist.Empty) : hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty := by
+  cases left with | mk leftTail leftRel => cases right with | mk rightTail rightRel =>
+  exact let rp := cont_empty_result_inversion rightRel; let lp := cont_empty_result_inversion (show Cont a leftTail BHist.Empty from by cases rp.left; exact leftRel); ⟨lp.left, rp.left, lp.right, rp.right⟩
 theorem ContinuationMorphism_comp_endpoint_cycle_tail_empty {a b c : BHist}
     (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
     hsame a c -> hsame (ContinuationMorphism_comp_closed left right).tail BHist.Empty := by

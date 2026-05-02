@@ -23,6 +23,26 @@ theorem ContinuationMorphism_visible_source_empty_target_absurd {a : BHist} :
     have sourceEmpty := (ContinuationMorphism_empty_target_inversion morphism).left
     cases sourceEmpty
 
+theorem ContinuationMorphism_comp_empty_middle_inversion {a c : BHist}
+    (left : ContinuationMorphism a BHist.Empty) (right : ContinuationMorphism BHist.Empty c) :
+    hsame a BHist.Empty ∧ hsame left.tail BHist.Empty ∧ hsame right.tail c ∧
+      hsame (ContinuationMorphism_comp_closed left right).tail c := by
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          have leftParts := cont_empty_result_inversion leftRel
+          have rightTailTarget : hsame rightTail c := hsame_symm (cont_left_unit_result rightRel)
+          constructor
+          · exact leftParts.left
+          · constructor
+            · exact leftParts.right
+            · constructor
+              · exact rightTailTarget
+              · change hsame (append leftTail rightTail) c
+                exact hsame_trans (by cases leftParts.right; exact append_empty_left rightTail)
+                  rightTailTarget
+
 theorem ContinuationMorphism_e0_source_tail_cases {a target : BHist}
     (m : ContinuationMorphism (BHist.e0 a) target) :
     (m.tail = BHist.Empty /\ target = BHist.e0 a) \/
