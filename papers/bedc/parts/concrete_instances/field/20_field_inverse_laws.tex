@@ -306,6 +306,35 @@ $\mathsf{inv}(\mathsf{mul}(a,b),p_{ab})\hsame
 $\mathsf{mul}(a,b)\hsame\mathsf{mul}(c,d)$.
 \end{proof}
 
+\begin{theorem}[Field apart-product inverse classifier exactness from apartness]
+\label{thm:field-apart-product-inverse-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ satisfying
+multiplication associativity, left and right unit laws, multiplication
+congruence under $\hsame$, and proof-indexed left and right inverse laws,
+assume a bridge
+$$
+\alpha:\bigl(h\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(h).
+$$
+If $\mathsf{mul}(a,b)$ and $\mathsf{mul}(c,d)$ are explicitly apart from
+$\emp$ and $p_a,p_b,p_c,p_d$ are nonzero witnesses for the four factors, then
+$$
+\mathsf{mul}(a,b)\hsame\mathsf{mul}(c,d) \Longleftrightarrow
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))\hsame
+\mathsf{mul}(\mathsf{inv}(d,p_d),\mathsf{inv}(c,p_c)).
+$$
+\end{theorem}
+\begin{proof}
+Apply $\alpha$ to the two explicit product-apartness hypotheses to obtain
+the indexed nonzero witnesses for $\mathsf{mul}(a,b)$ and
+$\mathsf{mul}(c,d)$. The inverse classifier exactness theorem converts
+product equality into equality of the two certified product inverses, and
+product inverse reversal identifies those certified inverses with the two
+displayed reversed inverse products. The reverse implication uses the same
+two reversal equalities in the opposite transport orientation before applying
+inverse cancellation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_apart\_product\_inverse\_classifier\_exact\_from\_apartness}
+
 Per-object certificate: Traditional target: product inverse classifier
 exactness. BEDC source: $\FieldUp$ over $\mathsf{BHist}$ plus product nonzero.
 Carrier choice: $\mathsf{BHist}$. Classifier choice: $\hsame$. Stability

@@ -325,6 +325,17 @@ theorem RatDenomUnitClassifier_empty_context_iff {p q p' q' h k : BHist} :
         (hsame_trans classified.right.right (hsame_symm rightSame))
     exact ⟨carrierLeft, carrierRight, sameContext⟩
 
+theorem field_rat_denominator_empty_unit_contextual_commutativity {p q p' q' h k : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitCarrier k ->
+        RatDenomUnitClassifier (append p (append (append h k) q))
+          (append p' (append (append k h) q')) := by
+  intro sameP sameQ sameP' sameQ' carrierH carrierK
+  have core : RatDenomUnitClassifier (append h k) (append k h) :=
+    field_rat_denominator_empty_unit_commutative_monoid_laws.right.right.right.right.right
+      carrierH carrierK
+  exact (RatDenomUnitClassifier_empty_context_iff sameP sameQ sameP' sameQ').mpr core
+
 theorem field_rat_denominator_empty_unit_identity_unique {u : BHist} :
     RatDenomUnitCarrier u ->
       (forall {h : BHist}, RatDenomUnitCarrier h ->

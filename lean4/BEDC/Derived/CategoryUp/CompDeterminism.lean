@@ -4,6 +4,7 @@ namespace BEDC.Derived.CategoryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 
 theorem CategoryHomCarrier_comp_same_middle_factors_deterministic {a b c f g f' g' fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
@@ -98,5 +99,34 @@ theorem CategoryHomCarrier_comp_left_factor_source_deterministic {a a' b c f f' 
   have sameSource : hsame a a' :=
     CategoryHomCarrier_source_deterministic transportedLeft left'
   exact And.intro sameSource sameF
+
+theorem CategoryHomCarrier_unary_context_comp_middle_object_deterministic
+    {p q a b b' c f g fg : BHist} :
+    CategoryHomCarrier (append (append p a) q) (append (append p b) q) f ->
+      CategoryHomCarrier (append (append p b') q) (append (append p c) q) g ->
+        Cont f g fg ->
+          CategoryHomCarrier (append (append p a) q) (append (append p c) q) fg ->
+            hsame b b' := by
+  intro left right comp displayed
+  have leftSuff : CategoryHomCarrier (append p a) (append p b) f :=
+    (CategoryHomCarrier_unary_suffix_iff.mp left).right
+  have rightSuff : CategoryHomCarrier (append p b') (append p c) g :=
+    (CategoryHomCarrier_unary_suffix_iff.mp right).right
+  have displayedSuff : CategoryHomCarrier (append p a) (append p c) fg :=
+    (CategoryHomCarrier_unary_suffix_iff.mp displayed).right
+  have baseLeft : CategoryHomCarrier a b f :=
+    And.intro (unary_append_right_factor leftSuff.left)
+      (And.intro (unary_append_right_factor leftSuff.right.left)
+        (And.intro leftSuff.right.right.left (cont_prefix_cancel leftSuff.right.right.right)))
+  have baseRight : CategoryHomCarrier b' c g :=
+    And.intro (unary_append_right_factor rightSuff.left)
+      (And.intro (unary_append_right_factor rightSuff.right.left)
+        (And.intro rightSuff.right.right.left (cont_prefix_cancel rightSuff.right.right.right)))
+  have baseDisplayed : CategoryHomCarrier a c fg :=
+    And.intro (unary_append_right_factor displayedSuff.left)
+      (And.intro (unary_append_right_factor displayedSuff.right.left)
+        (And.intro displayedSuff.right.right.left
+          (cont_prefix_cancel displayedSuff.right.right.right)))
+  exact CategoryHomCarrier_comp_middle_object_deterministic baseLeft baseRight comp baseDisplayed
 
 end BEDC.Derived.CategoryUp

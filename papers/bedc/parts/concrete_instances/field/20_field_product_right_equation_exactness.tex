@@ -204,6 +204,43 @@ $z\mapsto\mathsf{mul}(\mathsf{mul}(a,b),z)$, which is exactly the left
 classifier equality.
 \end{proof}
 
+\begin{theorem}[Field product-factor map empty-context classifier exactness from apartness]
+\label{thm:field-product-factor-map-empty-context-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+multiplication associativity, left and right unit laws, multiplication
+congruence under $\hsame$, and left and right inverse laws indexed by nonzero
+witnesses, explicit witnesses
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$ make every
+$x,y:\mathsf{BHist}$ satisfy both empty-context classifier clauses
+$$
+\mathsf{mul}(x,\mathsf{mul}(a,b))\hsame
+\mathsf{append}(\emp,\mathsf{mul}(y,\mathsf{mul}(a,b)))
+\Longleftrightarrow
+x\hsame y
+$$
+and
+$$
+\mathsf{mul}(\mathsf{mul}(a,b),x)\hsame
+\mathsf{append}(\emp,\mathsf{mul}(\mathsf{mul}(a,b),y))
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Apply the product right-multiplication equation exactness theorem with target
+$\mathsf{mul}(y,\mathsf{mul}(a,b))$ under the explicit empty continuation
+context. Applying the same exactness theorem to the reflexive endpoint for
+$y$ gives the solver endpoint for $y$; transitivity and symmetry compare the
+two solver endpoints and yield $x\hsame y$. The reverse direction is
+multiplication congruence transported through the empty-context endpoint.
+
+The left-product clause is identical, using the left-multiplication equation
+exactness theorem with target $\mathsf{mul}(\mathsf{mul}(a,b),y)$ under the
+same empty context.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_product\_factor\_map\_empty\_context\_classifier\_exact\_from\_apartness}
+
 \begin{theorem}[Field three-factor product equation exactness from apartness]
 \label{thm:field-three-factor-product-equation-exact-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,

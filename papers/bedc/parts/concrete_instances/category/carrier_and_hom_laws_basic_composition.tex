@@ -229,6 +229,33 @@ objects.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_object\_deterministic}
 
+\begin{theorem}[Category hom carrier unary-context middle-object determinacy]
+\label{thm:category-hom-carrier-unary-context-comp-middle-object-deterministic}
+For the unary-continuation category, suppose the two displayed hom-carrier
+ledgers have a shared left prefix $p$ and a shared right suffix $q$:
+$$
+\mathsf{CategoryHomCarrier}((p\cdot a)\cdot q,(p\cdot b)\cdot q,f)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}((p\cdot b')\cdot q,(p\cdot c)\cdot q,g).
+$$
+If $\ContR(f,g,fg)$ and $fg$ is displayed as a hom-carrier from
+$(p\cdot a)\cdot q$ to $(p\cdot c)\cdot q$, then $\HSame(b,b')$.
+\end{theorem}
+\begin{proof}
+Apply the unary suffix equivalence of
+\autoref{thm:category-hom-carrier-unary-suffix-iff} to remove the shared
+right suffix from the two input ledgers and the displayed composite ledger.
+Each remaining ledger has the same left prefix $p$ on its source and target
+endpoints; unary append factorization gives the base endpoint carriers, and
+prefix cancellation removes $p$ from the continuation evidence. The base
+hom-carriers now satisfy the hypotheses of
+\autoref{thm:category-hom-carrier-comp-middle-object-deterministic}, which
+identifies the middle objects by $\HSame(b,b')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_comp\_middle\_object\_deterministic}
+
 \begin{theorem}[Category hom carrier tail commutativity]
 \label{thm:category-hom-carrier-tail-comm-hsame}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to

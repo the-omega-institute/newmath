@@ -145,6 +145,7 @@ import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.RealUp
 import BEDC.Derived.S1Up
 import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.Commutator
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
@@ -172,6 +173,7 @@ import BEDC.Derived.FieldUp.RatContinuationCommutative
 import BEDC.Derived.FieldUp.RatDenominatorUnitEnvelopeContinuation
 import BEDC.Derived.FieldUp.DenominatorUnitEnvelope
 import BEDC.Derived.FieldUp.ProductRightEquation
+import BEDC.Derived.FieldUp.ProductInverseClassifier
 import BEDC.Derived.FieldUp.ProductWitnessIndependence
 import BEDC.Derived.FieldUp.RatContinuationExternalBoundary
 import BEDC.Derived.FieldUp.PositiveDenominatorAppendSplit

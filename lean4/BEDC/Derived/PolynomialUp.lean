@@ -276,6 +276,19 @@ theorem PolynomialSingletonClassifier_continuation_comm_closed {P Q left right :
     (And.intro emptyCarrier
       (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))))
 
+theorem PolynomialSingletonClassifier_continuation_closed {P P' Q Q' left right : BHist} :
+    PolynomialSingletonClassifier P P' -> PolynomialSingletonClassifier Q Q' -> Cont P Q left ->
+      Cont P' Q' right -> PolynomialSingletonClassifier left right := by
+  intro classifiedP classifiedQ leftContinuation rightContinuation
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame classifiedP.left classifiedQ.left leftContinuation
+      (cont_right_unit BHist.Empty)
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame classifiedP.right.left classifiedQ.right.left rightContinuation
+      (cont_right_unit BHist.Empty)
+  exact And.intro leftEmpty
+    (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+
 theorem PolynomialSingletonClassifier_cont_result_empty_classified {P Q r : BHist} :
     PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q -> Cont P Q r ->
       PolynomialSingletonClassifier r BHist.Empty := by
