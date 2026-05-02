@@ -273,4 +273,13 @@ theorem FunctorPrefixHomCarrier_comp_middle_object_deterministic
     CategoryHomCarrier_comp_middle_object_deterministic left right comp displayed
   exact append_left_cancel (h := p) sameMiddle
 
+theorem FunctorPrefixHomCarrier_comp_target_prefix_deterministic {p q a b c f g fg : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g -> Cont f g fg ->
+        CategoryHomCarrier (append p a) (append q c) fg -> hsame p q := by
+  intro left right comp displayed
+  have sameTarget : hsame (append p c) (append q c) :=
+    CategoryHomCarrier_comp_target_deterministic left right comp displayed
+  exact append_right_cancel (k := c) sameTarget
+
 end BEDC.Derived.FunctorUp
