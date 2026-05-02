@@ -79,4 +79,23 @@ theorem CategoryHomCarrier_empty_composite_identity_carriers {a b c f g : BHist}
         (And.intro rightEndpoint.right.left
           (And.intro rightEndpoint.right.left (hsame_refl c)))))
 
+theorem CategoryHomCarrier_empty_target_comp_boundary_inversion {a b f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b BHist.Empty g -> Cont f g fg ->
+      hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame f BHist.Empty ∧
+        hsame g BHist.Empty ∧ hsame fg BHist.Empty := by
+  intro left right comp
+  have rightParts := CategoryHomCarrier_empty_target_iff.mp right
+  have leftAsEmptyTarget : CategoryHomCarrier a BHist.Empty f := by
+    cases rightParts.left
+    exact left
+  have leftParts := CategoryHomCarrier_empty_target_iff.mp leftAsEmptyTarget
+  have compositeEmpty : hsame fg BHist.Empty := by
+    cases leftParts.right
+    cases rightParts.right
+    cases comp
+    rfl
+  exact And.intro leftParts.left
+    (And.intro rightParts.left
+      (And.intro leftParts.right (And.intro rightParts.right compositeEmpty)))
+
 end BEDC.Derived.CategoryUp

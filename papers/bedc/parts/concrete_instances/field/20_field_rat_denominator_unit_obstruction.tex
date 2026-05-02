@@ -675,6 +675,25 @@ $$
 \leandef{BEDC.Derived.FieldUp.RatDenomUnitCarrier}
 \leandef{BEDC.Derived.FieldUp.RatDenomUnitClassifier}
 
+\begin{theorem}[Rat denominator unit-envelope classifier is append-closed]
+\label{thm:field-rat-denominator-unit-envelope-classifier-append-closed}
+For histories $h,h',k,k':\mathsf{BHist}$, suppose each displayed pair lies in
+the denominator unit envelope: either both endpoints are
+$\mathsf{RatHistoryCarrier}$ and related by $\mathsf{RatHistoryClassifier}$,
+or both endpoints are $\hsame$ to $\emp$. Then
+$\mathsf{append}(h,k)$ and $\mathsf{append}(h',k')$ lie in the same envelope.
+\end{theorem}
+\begin{proof}
+Split the two envelope hypotheses. In the carried/carried branch, the right
+classifier exposes a unary denominator tail and a tail $\hsame$ comparison, so
+Rat denominator classifier append closure applies to the left classifier. In
+the mixed branches, the empty side reduces by the left or right unit law for
+append, and classifier transport carries the nonempty classifier across those
+$\hsame$ comparisons. The empty/empty branch follows by eliminating the four
+empty endpoint equalities and applying reflexivity at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_unit\_envelope\_classifier\_append\_closed}
+
 \begin{theorem}[Rat denominator continuation adjoined-unit laws]
 \label{thm:field-rat-denominator-continuation-adjoined-unit-laws}
 The concrete carrier $\mathsf{RatDenomUnitCarrier}$ and classifier

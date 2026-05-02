@@ -165,6 +165,7 @@ import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatDenomUnit
 import BEDC.Derived.FieldUp.RatContinuation
+import BEDC.Derived.FieldUp.DenominatorUnitEnvelope
 import BEDC.Derived.FieldUp.ProductRightEquation
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
@@ -209,6 +210,7 @@ import BEDC.Derived.CategoryUp.TailCommClosed
 import BEDC.Derived.CategoryUp.CompDeterminism
 import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.EmptyComposite
+import BEDC.Derived.CategoryUp.EmptySourceComposite
 import BEDC.Derived.CategoryUp.ContinuationBoundary
 import BEDC.Derived.CategoryUp.FactorTail
 import BEDC.Derived.CategoryUp.CompositeEmptyTail
