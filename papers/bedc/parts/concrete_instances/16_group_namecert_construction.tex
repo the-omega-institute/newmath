@@ -46,6 +46,70 @@ The stability certificate consists of:
 \end{definition}
 \leanchecked{BEDC.Derived.GroupUp.group\_stability\_certificate\_fields}
 
+\section{Concrete singleton history group instance}
+\label{sec:group-concrete-singleton-instance}
+
+\begin{definition}[Concrete singleton empty-history group instance]
+\label{def:singleton-empty-history-group-instance}
+Define the named history carrier $A_{\emp}:\mathsf{BHist}\to\mathsf{Prop}$,
+classifier, multiplication, identity, and inverse by
+$$
+A_{\emp}(x)\Longleftrightarrow\hsame(x,\emp),\qquad
+\rho_{\emp}(x,y):=\hsame(x,y),\qquad
+\mu_{\emp}(x,y):=\emp,\qquad
+e_{\emp}:=\emp,\qquad
+\iota_{\emp}(x):=\emp.
+$$
+Its certificate is the ten-field fit with traditional target the one-element
+group; BEDC source $\mathsf{BHist}$; carrier $A_{\emp}$; classifier
+$\rho_{\emp}$; stability fields given by closure, associativity, unit,
+inverse, and congruence laws; ledger constant-operation provenance; core
+theorem Theorem~\ref{thm:singleton-empty-history-group-laws}; exactness the
+singleton endpoint classification $A_{\emp}(x)$; standard bridge the
+one-object group; and status $\mathsf{ProofTarget}$.
+\end{definition}
+
+\begin{theorem}[Singleton empty-history group laws]
+\label{thm:singleton-empty-history-group-laws}
+The tuple $(A_{\emp},\rho_{\emp},\mu_{\emp},e_{\emp},\iota_{\emp})$ satisfies
+carrier inhabitation, multiplication closure, inverse closure, associativity,
+left and right unit laws, left and right inverse laws, multiplication
+congruence, and inverse congruence for the carrier $A_{\emp}$ and classifier
+$\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+Carrier inhabitation is the reflexivity witness $\hsame(\emp,\emp)$. If
+$A_{\emp}(x)$ and $A_{\emp}(y)$ hold, then multiplication closure is again
+$\hsame(\emp,\emp)$ because $\mu_{\emp}(x,y)$ is definitionally $\emp$.
+Inverse closure is the same reflexive endpoint witness because
+$\iota_{\emp}(x)$ is definitionally $\emp$.
+
+Associativity compares
+$$
+\mu_{\emp}(\mu_{\emp}(x,y),z)
+$$
+with
+$$
+\mu_{\emp}(x,\mu_{\emp}(y,z)).
+$$
+Both sides are definitionally $\emp$, so reflexivity supplies the classifier
+witness.
+
+For the unit laws, an element of the carrier supplies
+$\hsame(x,\emp)$. The left unit law requires
+$\rho_{\emp}(\mu_{\emp}(e_{\emp},x),x)$, hence $\hsame(\emp,x)$, obtained by
+symmetry. The right unit law is identical, since $\mu_{\emp}(x,e_{\emp})$ is
+also $\emp$.
+
+The left and right inverse laws compare constant products with $e_{\emp}$.
+Each product is definitionally $\emp$, and $e_{\emp}$ is definitionally
+$\emp$, so both inverse laws reduce to $\hsame(\emp,\emp)$.
+
+Multiplication congruence is constant in both inputs: the source and target
+products are both $\emp$, independent of the supplied classifier witnesses.
+Inverse congruence is the same constant argument for $\iota_{\emp}$.
+\end{proof}
+
 \begin{theorem}[Group inverse of identity]
 \label{thm:group-inverse-identity}
 For a history-level group operation with right identity and left inverses, the
