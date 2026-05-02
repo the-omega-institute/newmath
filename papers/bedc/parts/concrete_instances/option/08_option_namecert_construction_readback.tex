@@ -406,3 +406,105 @@ present branch gives the displayed source pair, transported target carrier
 witnesses, non-absence of $p$ and $q$, and uniqueness against every competing
 transported present pair at $(p,q)$.
 \end{proof}
+
+\begin{theorem}[Tagged option payload descent image classifier reflective transitive transported visible-branch inversion]
+\label{thm:tagged-option-payload-descent-image-classifier-reflective-transitive-transported-visible-branch-inversion}
+This theorem fits the per-object template as follows: the traditional target is
+endpoint-normalized two-step option image branch readback; the BEDC source is
+$\mathsf{BHist}$ with a $\mathsf{DescentCertificate}$; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
+are reflective transitivity, endpoint transport, and left/right visible-branch
+inversion; the ledger is normalized absent tags or transported visible payloads;
+the core theorem is the four displayed one-sided clauses; exactness is direct
+branch inversion after normalization; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$ readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$, assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, and assume
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S).
+$$
+For target endpoints $k,\ell,m,p,q:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,\ell),
+\qquad
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};\ell,m),
+\qquad
+\hsame(k,p)\land \hsame(m,q),
+$$
+then the following four clauses hold at $(p,q)$.
+\begin{enumerate}
+\item The normalized left absent endpoint forces the normalized right absent
+endpoint:
+$$
+\hsame(p,\emp)\to\hsame(q,\emp).
+$$
+
+\item Every normalized left visible payload reads back to a transported right
+visible endpoint:
+$$
+\forall u:\mathsf{BHist}.\;
+T(u)\to
+\hsame(p,\Eone(u))\to
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+T(\delta.\mathsf{map}(a))\land T(\delta.\mathsf{map}(b))\land
+\hsame(u,\delta.\mathsf{map}(a))\land
+\hsame(q,\Eone(\delta.\mathsf{map}(b))).
+$$
+
+\item The normalized right absent endpoint forces the normalized left absent
+endpoint:
+$$
+\hsame(q,\emp)\to\hsame(p,\emp).
+$$
+
+\item Every normalized right visible payload reads back to a transported left
+visible endpoint:
+$$
+\forall u:\mathsf{BHist}.\;
+T(u)\to
+\hsame(q,\Eone(u))\to
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+T(\delta.\mathsf{map}(a))\land T(\delta.\mathsf{map}(b))\land
+\hsame(u,\delta.\mathsf{map}(b))\land
+\hsame(p,\Eone(\delta.\mathsf{map}(a))).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First compose the two image-classifier witnesses. Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-reflective-transitivity}
+to the witnesses at $(k,\ell)$ and $(\ell,m)$, using the source hsame
+compatibility and source-reflection hypotheses. This gives the direct
+classifier from $k$ to $m$.
+
+Next normalize the endpoints. Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-hsame-transport}
+with $\hsame(k,p)$ and $\hsame(m,q)$ to obtain the transported classifier at
+$(p,q)$.
+
+Finally project the one-sided branches from the normalized classifier. The left
+visible-branch inversion theorem gives the first two displayed clauses, because
+its absent clause sends $\hsame(p,\emp)$ to $\hsame(q,\emp)$ and its present
+clause reads a visible payload at $p$ into source witnesses $a,b$ and a
+transported visible endpoint at $q$.
+
+The right visible-branch inversion theorem gives the remaining two displayed
+clauses in the same normalized classifier. Its absent clause sends
+$\hsame(q,\emp)$ to $\hsame(p,\emp)$, and its present clause reads a visible
+payload at $q$ into source witnesses $a,b$ and a transported visible endpoint at
+$p$.
+\end{proof}
