@@ -249,6 +249,19 @@ theorem NatTransPrefixComponentCarrier_vert_comp_left_factor
           (CategoryHomCarrier_comp_left_factor right.right.right.right comp
             displayed.right.right.right)))
 
+theorem NatTransPrefixComponentCarrier_vert_comp_left_factor_public_readback
+    {p q r a eta theta composite : BHist} :
+    NatTransPrefixComponentCarrier q r a theta -> Cont eta theta composite ->
+      NatTransPrefixComponentCarrier p r a composite ->
+        NatTransPrefixComponentCarrier p q a eta /\
+          (forall {eta' : BHist}, Cont eta' theta composite ->
+            NatTransPrefixComponentCarrier p q a eta' -> hsame eta eta') := by
+  intro right comp displayed
+  constructor
+  · exact NatTransPrefixComponentCarrier_vert_comp_left_factor right comp displayed
+  · intro eta' comp' _left
+    exact cont_right_cancel comp comp'
+
 theorem NatTransPrefixComponentCarrier_vert_comp_assoc_closed
     {p q r s a eta theta iota etatheta thetaiota left right : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
