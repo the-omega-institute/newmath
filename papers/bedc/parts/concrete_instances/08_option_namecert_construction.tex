@@ -200,6 +200,91 @@ with the retained source facts, target facts, endpoint presentations, source
 classification, and target classifier.
 \end{proof}
 
+\begin{theorem}[Tagged option map relation exclusive visible readback is single-valued]
+\label{thm:tagged-option-maprel-exclusive-visible-readback-single-valued}
+This theorem fits the per-object template as follows: the traditional target is
+constructor-facing option map readback; the BEDC source is $\mathsf{BHist}$ with
+one $\mathsf{DescentCertificate}$; the carrier is the visible tagged option
+endpoint shape; the classifiers are the source and target classifiers
+transported by the descent certificate; the stability obligations are branch
+preservation, no-confusion, and one-constructor inversion; the ledger separates
+the absent branch from the transported present branch; the core theorem is
+exclusive visible readback with uniqueness; exactness is a disjoint
+absent-or-present map-relation package; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$ map readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source and target
+carriers, let $\sim_S$ and $\sim_T$ be their classifiers, let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T),
+$$
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+For histories $h,k:\mathsf{BHist}$, every witness
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+implies exactly one of the following visible readback branches.
+\begin{enumerate}
+  \item The absent branch holds on both endpoints:
+  $$
+  \hsame(h,\emp)\land
+  \hsame(k,\emp)\land
+  (\forall a':\mathsf{BHist}.\;S(a')\to\hsame(h,\Eone(a'))\to\bot)\land
+  (\forall b:\mathsf{BHist}.\;T(b)\to\hsame(k,\Eone(b))\to\bot).
+  $$
+
+  \item The present branch has one visible source payload and its transported
+  target payload:
+  $$
+  \exists a:\mathsf{BHist}.\;
+  S(a)\land
+  T(\delta.\mathsf{map}(a))\land
+  \hsame(h,\Eone(a))\land
+  \hsame(k,\Eone(\delta.\mathsf{map}(a)))\land
+  (\hsame(h,\emp)\to\bot)\land
+  (\hsame(k,\emp)\to\bot)\land
+  (\forall a':\mathsf{BHist}.\;S(a')\to\hsame(h,\Eone(a'))\to\hsame(a,a'))\land
+  (\forall b:\mathsf{BHist}.\;T(b)\to
+    \hsame(k,\Eone(b))\to\hsame(b,\delta.\mathsf{map}(a))).
+  $$
+\end{enumerate}
+The two displayed alternatives are disjoint, so the map-relation witness packages
+the absent case and the single-valued visible present readback without any
+additional endpoint choice.
+\end{theorem}
+\begin{proof}
+Case-analyze the
+$\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)$ witness.
+
+In the absent branch, the constructor supplies $\hsame(h,\emp)$ and
+$\hsame(k,\emp)$. If a source presentation $\hsame(h,\Eone(a'))$ were also
+visible, generated-history no-confusion between $\emp$ and $\Eone(a')$ gives
+$\bot$; the same argument at the target endpoint rules out every visible
+$\Eone(b)$ presentation. These four facts assemble the absent alternative.
+
+In the present branch, retain the constructor payload $a$. Payload preservation
+gives $T(\delta.\mathsf{map}(a))$, and the constructor gives the endpoint
+presentations $\hsame(h,\Eone(a))$ and
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$.
+
+It remains to show non-absence and uniqueness. A competing
+$\hsame(h,\emp)$ contradicts $\hsame(h,\Eone(a))$ by one-versus-empty
+no-confusion, and the target endpoint is identical with
+$\delta.\mathsf{map}(a)$ in place of $a$.
+
+For any competing source presentation $\hsame(h,\Eone(a'))$, one-constructor
+inversion for $\Eone$ yields $\hsame(a,a')$. For any competing target
+presentation $\hsame(k,\Eone(b))$, the same inversion applied to the stored
+presentation $\hsame(k,\Eone(\delta.\mathsf{map}(a)))$ yields
+$\hsame(b,\delta.\mathsf{map}(a))$. These clauses assemble the present
+alternative, and empty-versus-one no-confusion also proves that the two displayed
+alternatives cannot overlap.
+\end{proof}
+
 \section{Tagged option public endpoint visibility}
 \label{sec:option-public-endpoint-visibility}
 
