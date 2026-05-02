@@ -10,6 +10,75 @@ The vector space interface \(\VecSpaceUp\) is the specialization of \autoref{ch:
 Use a module setup whose scalar source is a certified field.
 \end{definition}
 
+\section{Concrete singleton vector-space instance}
+\label{sec:vecspace-concrete-singleton-instance}
+
+\begin{definition}[Singleton empty-history vector-space instance]
+\label{def:singleton-empty-history-vecspace-instance}
+Let the scalar carrier and vector carrier both be the singleton history source
+$A_{\emp}$ of Definition~\ref{def:list-singleton-history-source} at
+$a_0=\emp$. Define the classifier
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Use the singleton empty-history field operations and proof-indexed inverse
+from Theorem~\ref{thm:singleton-empty-history-field-schema-laws}. Use the
+singleton empty-history additive, vector, and module action operations from
+Theorem~\ref{thm:module-singleton-scalar-action-laws}, with
+$$
+\mathsf{smul}(r,m):=\emp.
+$$
+The certificate fit has ten fields:
+\begin{enumerate}
+  \item Traditional target: the one-element vector space over the one-element
+  field.
+  \item BEDC source: $\mathsf{BHist}$.
+  \item Carrier choice: $A_{\emp}$ for both scalars and vectors.
+  \item Classifier choice: $\rho_{\emp}$.
+  \item Stability obligations: the singleton field laws together with the
+  singleton module scalar-action laws.
+  \item Ledger: singleton scalar provenance and singleton vector provenance.
+  \item Core theorem list: Theorem~\ref{thm:singleton-empty-history-vecspace-laws}.
+  \item Exactness predicate: singleton endpoint classification.
+  \item Standard bridge: the one-object vector space.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Singleton empty-history vector-space laws]
+\label{thm:singleton-empty-history-vecspace-laws}
+The tuple from
+Definition~\ref{def:singleton-empty-history-vecspace-instance} satisfies the
+$\VecSpaceUp$ schema over the concrete $\mathsf{BHist}$ singleton carrier.
+The scalar source is the checked singleton $\FieldUp$ schema, and the vector
+addition, vector negation, vector zero, and scalar-action fields are exactly
+the checked singleton $\ModuleUp$ laws.
+\end{theorem}
+\begin{proof}
+The scalar field fields are supplied by
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws}. They fix the
+same carrier $A_{\emp}$, classifier $\rho_{\emp}$, constant scalar operations,
+constructive nonzero predicate, and proof-indexed inverse used by the
+displayed instance.
+
+The vector and scalar-action fields are supplied by
+Theorem~\ref{thm:module-singleton-scalar-action-laws}. Its additive carrier,
+classifier, and action are the same singleton source, the same
+$\rho_{\emp}$, and the same constant action
+$\mathsf{smul}(r,m):=\emp$.
+
+It remains only to align the inverse-enabled scalar clauses with the vector
+space interface. In the singleton field package the nonzero predicate is
+vacuous, so any clause requiring $p:\mathsf{NonZero}_{\bot}(h)$ is closed by
+eliminating $p$. Thus inverse closure, inverse congruence, nonzero transport,
+and both inverse laws are inherited without adding a classical nonzero test.
+
+Combining the scalar $\FieldUp$ package with the vector $\ModuleUp$ package
+therefore supplies every $\VecSpaceUp$ obligation over the concrete
+$\mathsf{BHist}$ singleton carrier.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[VecSpace source specification]
@@ -54,4 +123,3 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:vecspace-zero-axiom-note}
 Inverses use field apartness witnesses rather than LEM-based nonzero tests.
 \end{remark}
-
