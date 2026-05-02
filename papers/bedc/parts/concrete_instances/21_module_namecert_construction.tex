@@ -35,13 +35,19 @@ one-element ring; BEDC source $\mathsf{BHist}$; scalar and module carrier
 $A_{\emp}$; classifier $\rho_{\emp}$; stability obligations given by the
 singleton ring laws, singleton abelian-group laws, and scalar-action laws;
 ledger constant-action provenance; core theorem
-Theorem~\ref{thm:singleton-empty-history-module-laws}; exactness the singleton
+Theorem~\ref{thm:module-singleton-scalar-action-laws}; exactness the singleton
 endpoint classification $A_{\emp}(h)$; standard bridge the one-object module;
 and status $\mathsf{ProofTarget}$.
 \end{definition}
+\leandef{BEDC.Derived.ModuleUp.ModuleSingletonCarrier}
+\leandef{BEDC.Derived.ModuleUp.ModuleSingletonClassifier}
+\leandef{BEDC.Derived.ModuleUp.ModuleSingletonAdd}
+\leandef{BEDC.Derived.ModuleUp.ModuleSingletonMul}
+\leandef{BEDC.Derived.ModuleUp.ModuleSingletonOne}
+\leandef{BEDC.Derived.ModuleUp.ModuleSingletonSmul}
 
 \begin{theorem}[Singleton empty-history module laws]
-\label{thm:singleton-empty-history-module-laws}
+\label{thm:module-singleton-scalar-action-laws}
 The tuple
 $$
 (A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},
@@ -95,6 +101,10 @@ $A_{\emp}(\emp)$ supplies the other endpoint. Hence
 $\rho_{\emp}(\mathsf{smul}(1,m),m)$ follows from the carrier witnesses and the
 corresponding $\hsame$ endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.singleton\_empty\_history\_module\_laws}
+\leanchecked{BEDC.Derived.ModuleUp.singleton\_empty\_history\_module\_action\_fields}
+\leanchecked{BEDC.Derived.ModuleUp.module\_singleton\_empty\_laws}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingleton\_scalar\_action\_laws}
 
 The $\ModuleUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and scalar action, giving Lean formalization in

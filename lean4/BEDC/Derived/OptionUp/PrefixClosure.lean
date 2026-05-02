@@ -18,4 +18,19 @@ theorem OptionHistoryCarrier_unary_prefix_closed {p h : BHist} :
   | inr sourceCarrier =>
       exact Or.inr (unary_append_closed prefixCarrier sourceCarrier)
 
+theorem OptionHistoryClassifier_unary_prefix_closed {p h k : BHist} :
+    UnaryHistory p -> OptionHistoryClassifier UnaryHistory h k ->
+      OptionHistoryClassifier UnaryHistory (append p h) (append p k) := by
+  intro prefixCarrier classifier
+  cases classifier with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          constructor
+          · exact OptionHistoryCarrier_unary_prefix_closed prefixCarrier carrierH
+          · constructor
+            · exact OptionHistoryCarrier_unary_prefix_closed prefixCarrier carrierK
+            · cases sameHK
+              rfl
+
 end BEDC.Derived.OptionUp

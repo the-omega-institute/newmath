@@ -650,6 +650,28 @@ $\ContR(source,k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_morphism\_cases}
 
+\begin{theorem}[Category hom-carrier one-headed morphism target cases]
+\label{thm:category-hom-carrier-one-headed-morphism-target-cases}
+For histories $a,target,k$, a hom-carrier whose morphism endpoint is
+one-headed forces the target endpoint to be one-headed and descends the
+hom-carrier to the exposed target and morphism tails:
+$$
+\mathsf{CategoryHomCarrier}(a,target,\Eone(k))
+\Longrightarrow
+\exists r:\mathsf{BHist}.\;
+target=\Eone(r)\land\mathsf{CategoryHomCarrier}(a,r,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier into its unary source, target, and morphism fields and
+its continuation ledger. The continuation step-result inversion for a
+one-headed right input exposes a target tail $r$ with $target=\Eone(r)$ and a
+tail continuation $\ContR(a,k,r)$. Unary inversion on the displayed target and
+morphism fields gives the two tail carriers, which repack with the source
+carrier and tail continuation as $\mathsf{CategoryHomCarrier}(a,r,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_target\_cases}
+
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}
 For histories $a,k,r$, a hom-carrier whose target and morphism histories are

@@ -99,4 +99,16 @@ theorem cont_prefix_iff {p a b f : BHist} :
   · intro base
     exact cont_intro ((congrArg (append p) base).trans (append_assoc p a f).symm)
 
+theorem cont_suffix_iff {a b f p : BHist} :
+    Cont a (append f p) (append b p) ↔ Cont a f b := by
+  constructor
+  · intro suffixed
+    apply cont_intro
+    apply append_right_cancel (k := p)
+    exact suffixed.trans (append_assoc a f p).symm
+  · intro base
+    apply cont_intro
+    cases base
+    exact append_assoc a f p
+
 end BEDC.FKernel.Cont

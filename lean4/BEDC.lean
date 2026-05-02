@@ -52,6 +52,7 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.OptionUp
+import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
 import BEDC.Derived.OptionUp.Determinism
 import BEDC.Derived.OptionUp.AbsentSource
@@ -113,6 +114,7 @@ import BEDC.Derived.OptionUp.SourceTransportAbsurd
 import BEDC.Derived.OptionUp.CrossAbsentSourceExclusion
 import BEDC.Derived.OptionUp.CommonLeftVisiblePayload
 import BEDC.Derived.OptionUp.EndpointSemanticFields
+import BEDC.Derived.OptionUp.Pattern
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
@@ -144,6 +146,7 @@ import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.FieldUp
+import BEDC.Derived.ModuleUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.MetricUp
@@ -169,3 +172,4 @@ import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.TargetCases
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
+import BEDC.Reflection

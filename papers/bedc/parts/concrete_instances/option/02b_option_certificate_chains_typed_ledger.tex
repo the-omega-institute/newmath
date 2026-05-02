@@ -7,6 +7,26 @@ The proof case-analyzes typed $\mathsf{none}$ and $\mathsf{some}$ carrier values
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_symm}
 
+\begin{theorem}[Option classifier $\hsame$ $e1$ map equivalence]
+\label{thm:option-classifier-spec-hsame-e1-map-iff}
+For typed option carrier values $x,y:\mathsf{OptionCarrier}(\mathsf{BHist})$,
+mapping both visible payloads through the BEDC history constructor $\Eone$
+preserves and reflects the specialized option classifier:
+$$
+\mathsf{OptionClassifierSpec}(\hsame,\mathsf{map}(\Eone,x),\mathsf{map}(\Eone,y))
+\Longleftrightarrow
+\mathsf{OptionClassifierSpec}(\hsame,x,y).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the two option endpoints. The none--none branch is unchanged, and
+the mixed branches contradict the typed classifier clauses. In the
+some--some branch, the forward direction uses injectivity of $\Eone$ up to
+$\hsame$, and the reverse direction applies constructor congruence for
+$\Eone$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_e1\_map\_iff}
+
 \begin{theorem}[Option classifier $\hsame$ transport]
 \label{thm:option-classifier-spec-hsame-transport}
 For typed option carrier values
@@ -84,6 +104,21 @@ clause. In the some branch, the exposed payload is the required witness and the
 classifier clause is exactly the displayed $\hsame$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_some\_right\_inversion}
+
+\begin{theorem}[Option classifier $\hsame$ some-left inversion]
+\label{thm:option-classifier-spec-hsame-some-left-inversion}
+For a typed option carrier value $y:\mathsf{OptionCarrier}(\mathsf{BHist})$ and
+a history $a:\mathsf{BHist}$, if
+$\mathsf{OptionClassifierSpec}(\hsame,\mathsf{some}(a),y)$ holds, then there is
+a history $b:\mathsf{BHist}$ such that $y=\mathsf{some}(b)$ and
+$\hsame(a,b)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze $y$. The none branch contradicts the typed some--none classifier
+clause. In the some branch, the exposed payload is the required witness and the
+classifier clause is exactly the displayed $\hsame$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_some\_left\_inversion}
 
 \begin{theorem}[Option classifier $\hsame$ right payload determinacy]
 \label{thm:option-classifier-spec-hsame-right-payload-deterministic}

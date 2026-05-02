@@ -34,4 +34,25 @@ theorem TaggedOptionHistoryClassifier_visible_payload_witnesses {S : BHist -> Pr
                       (And.intro sameAA'
                         (And.intro sameBB' data.right.right.right.right)))))
 
+theorem TaggedOptionHistoryClassifier_visible_payload_relation_transport {S : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop}
+    (rel_transport : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      Rel a b -> Rel a' b')
+    {h k a b : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k ->
+      hsame h (BHist.e1 a) ->
+        hsame k (BHist.e1 b) ->
+          Rel a b := by
+  intro classifier sameLeft sameRight
+  have witnesses :=
+    TaggedOptionHistoryClassifier_visible_payload_witnesses classifier sameLeft sameRight
+  cases witnesses with
+  | intro a' restA =>
+      cases restA with
+      | intro b' data =>
+          exact rel_transport
+            (hsame_symm data.right.right.left)
+            (hsame_symm data.right.right.right.left)
+            data.right.right.right.right
+
 end BEDC.Derived.OptionUp
