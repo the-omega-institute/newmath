@@ -189,6 +189,72 @@ identity carrier at $a$, and the reverse carrier becomes the empty-tail
 identity carrier at $b$.
 \end{proof}
 
+\begin{theorem}[Triangular cyclic hom-carriers have empty tails]
+\label{thm:category-hom-carrier-triangle-cycle-tails-empty}
+If the hom-carrier ledgers
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),
+$$
+$$
+\mathsf{CategoryHomCarrier}(b,c,g),
+$$
+$$
+\mathsf{CategoryHomCarrier}(c,a,h)
+$$
+all hold, then all three morphism tails are empty and the adjacent endpoints
+collapse:
+$$
+\hsame(f,\emp)\land
+\hsame(g,\emp)\land
+\hsame(h,\emp)\land
+\hsame(a,b)\land
+\hsame(b,c).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_triangle\_cycle\_tails\_empty}
+\begin{proof}
+The first two hom-carriers expose continuation ledgers
+$\Cont(a,f,b)$ and $\Cont(b,g,c)$. Compose them into a single continuation
+$\Cont(a,\mathsf{append}(f,g),c)$. This composite continuation and the return
+ledger $\Cont(c,h,a)$ form a mutual extension cycle, so kernel cancellation
+forces $\mathsf{append}(f,g)\hsame\emp$ and $h\hsame\emp$. Empty append
+inversion splits the composite tail into $f\hsame\emp$ and $g\hsame\emp$.
+Comparing the original component ledgers with the right-unit continuations at
+$a$ and $b$ gives $a\hsame b$ and $b\hsame c$.
+\end{proof}
+
+\begin{theorem}[Triangular cyclic hom-carriers expose identity carriers]
+\label{thm:category-hom-carrier-triangle-cycle-identity-carriers}
+If the hom-carrier ledgers
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),
+$$
+$$
+\mathsf{CategoryHomCarrier}(b,c,g),
+$$
+$$
+\mathsf{CategoryHomCarrier}(c,a,h)
+$$
+all hold, then the three objects carry empty-tail identities and the adjacent
+endpoints collapse:
+$$
+\mathsf{CategoryHomCarrier}(a,a,\emp)\land
+\mathsf{CategoryHomCarrier}(b,b,\emp)\land
+\mathsf{CategoryHomCarrier}(c,c,\emp)\land
+\hsame(a,b)\land
+\hsame(b,c).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_triangle\_cycle\_identity\_carriers}
+\begin{proof}
+Apply the triangular cyclic tail theorem. The first carrier is transported
+along $b\hsame a$ and $f\hsame\emp$ to become the empty identity carrier at
+$a$. The second is transported along $c\hsame b$ and $g\hsame\emp$ to become
+the empty identity carrier at $b$. The return carrier is transported along the
+composite endpoint equality $a\hsame c$ and $h\hsame\emp$ to become the empty
+identity carrier at $c$.
+\end{proof}
+
 \begin{theorem}[Unary prefix category isomorphism collapse]
 \label{thm:unary-prefix-category-isomorphism-collapse}
 If the opposite unary hom-carrier ledgers

@@ -425,4 +425,29 @@ theorem field_rat_denominator_continuation_right_unit_law_endpoint_empty_iff {u 
       RatHistoryCarrier_hsame_transport sameDR carrierD
     exact And.intro carrierR (And.intro carrierD (hsame_symm sameDR))
 
+theorem field_rat_denominator_continuation_unit_endpoint_unique {u v : BHist} :
+    ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d) ->
+        (∀ {d r : BHist}, RatHistoryCarrier d -> Cont d v r -> RatHistoryClassifier r d) ->
+          hsame u v) ∧
+      ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d) ->
+        (∀ {d r : BHist}, RatHistoryCarrier d -> Cont v d r -> RatHistoryClassifier r d) ->
+          hsame u v) ∧
+      ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d) ->
+        (∀ {d r : BHist}, RatHistoryCarrier d -> Cont v d r -> RatHistoryClassifier r d) ->
+          hsame u v) := by
+  constructor
+  · intro rightU rightV
+    exact hsame_trans
+      (field_rat_denominator_continuation_unit_endpoint_empty.left rightU)
+      (hsame_symm (field_rat_denominator_continuation_unit_endpoint_empty.left rightV))
+  · constructor
+    · intro leftU leftV
+      exact hsame_trans
+        (field_rat_denominator_continuation_unit_endpoint_empty.right.left leftU)
+        (hsame_symm (field_rat_denominator_continuation_unit_endpoint_empty.right.left leftV))
+    · intro rightU leftV
+      exact hsame_trans
+        (field_rat_denominator_continuation_unit_endpoint_empty.left rightU)
+        (hsame_symm (field_rat_denominator_continuation_unit_endpoint_empty.right.left leftV))
+
 end BEDC.Derived.FieldUp
