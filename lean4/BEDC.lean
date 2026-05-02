@@ -160,6 +160,7 @@ import BEDC.Derived.IntervalUp
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.DepthZero
 import BEDC.Derived.MetricUp.BoundaryExactness
+import BEDC.Derived.MetricUp.DepthClassifier
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
 import BEDC.Derived.ContinuousUp.GraphChainFactorization
@@ -189,6 +190,8 @@ import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.ContinuationBoundary
 import BEDC.Derived.CategoryUp.FactorTail
 import BEDC.Derived.CategoryUp.LawPackage
+import BEDC.Derived.CategoryUp.EmptySourceTail
+import BEDC.Derived.CategoryUp.StabilityLawPackage
 import BEDC.Derived.CategoryUp.TargetCases
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.FunctorUp

@@ -482,6 +482,24 @@ identifies the two displayed tails.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_deterministic}
 
+\begin{theorem}[Continuation morphism empty-source tail target exactness]
+\label{thm:continuation-morphism-empty-source-tail-target-hsame}
+For every history $target$, a continuation morphism from the empty source to
+$target$ has displayed tail history-same to $target$:
+$$
+m:\mathsf{ContinuationMorphism}(\emp,target)
+\Longrightarrow
+\hsame(\mathsf{tail}(m),target).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism record. Its continuation witness has source
+$\emp$, displayed tail $\mathsf{tail}(m)$, and result $target$. The left-unit
+continuation law identifies the result with the tail, and symmetry of
+$\hsame$ gives the displayed orientation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_source\_tail\_target\_hsame}
+
 \begin{theorem}[Continuation morphism source determinacy]
 \label{thm:continuation-morphism-source-deterministic}
 For histories $a,b,c$, if a continuation morphism from $a$ to $c$ and a
