@@ -241,4 +241,23 @@ theorem field_rat_denominator_continuation_classifier_assoc_congruence
   exact ⟨classifiedLeft, classifiedRight, unprimed.right.right.right.right,
     primed.right.right.right.right⟩
 
+theorem field_rat_denominator_continuation_no_internal_unit {u : BHist} :
+    RatHistoryCarrier u ->
+      (∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d) ->
+        False := by
+  intro carrierU rightUnitLaw
+  have carrierD1 : RatHistoryCarrier (BHist.e1 BHist.Empty) :=
+    RatHistoryCarrier_e1_tail_unary_iff.mpr unary_empty
+  have canonicalContinuation :
+      Cont (BHist.e1 BHist.Empty) u (append (BHist.e1 BHist.Empty) u) :=
+    cont_intro rfl
+  have classifiedResult :
+      RatHistoryClassifier (append (BHist.e1 BHist.Empty) u) (BHist.e1 BHist.Empty) :=
+    rightUnitLaw carrierD1 canonicalContinuation
+  have collapsedContinuation : Cont (BHist.e1 BHist.Empty) u (BHist.e1 BHist.Empty) :=
+    cont_result_hsame_transport canonicalContinuation classifiedResult.right.right
+  have unitEmpty : hsame u BHist.Empty :=
+    cont_right_unit_unique collapsedContinuation
+  exact RatHistoryCarrier_not_empty carrierU unitEmpty
+
 end BEDC.Derived.FieldUp

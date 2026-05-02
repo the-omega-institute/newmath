@@ -140,6 +140,30 @@ classifier comparison between them.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_pair\_carrier\_iff}
 
+\begin{theorem}[Matrix singleton classifier append-left cancellation]
+\label{thm:matrix-singleton-classifier-append-left-cancellation}
+For histories $P,Q,R:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(R,P),\mathsf{append}(R,Q))
+\Longleftrightarrow
+A_{\emp}(R)\land \rho_{\emp}(P,Q).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two carrier fields say that
+$\mathsf{append}(R,P)$ and $\mathsf{append}(R,Q)$ are empty. Empty-result
+inversion for append splits these witnesses into $R\hsame\emp$,
+$P\hsame\emp$, and $Q\hsame\emp$. The shared left endpoint gives
+$A_{\emp}(R)$, and the two remaining endpoint witnesses rebuild
+$\rho_{\emp}(P,Q)$.
+
+Conversely, unpack $A_{\emp}(R)$ and $\rho_{\emp}(P,Q)$. The shared left
+endpoint and each singleton classified endpoint rebuild both empty append
+endpoints. Transitivity of $\hsame$ through $\emp$ then supplies the classifier
+comparison between the two appended histories.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_left\_cancel\_iff}
+
 \begin{theorem}[Matrix singleton classifier append-right cancellation]
 \label{thm:matrix-singleton-classifier-append-right-cancellation}
 For histories $P,Q,R:\mathsf{BHist}$,
