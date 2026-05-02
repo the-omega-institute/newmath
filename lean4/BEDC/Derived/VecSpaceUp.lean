@@ -1,3 +1,5 @@
+import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.Derived.FieldUp
 import BEDC.Derived.ModuleUp
 
@@ -42,5 +44,106 @@ theorem singleton_empty_history_vecspace_laws :
           · intro m carrierM
             exact And.intro emptyModuleCarrier
               (And.intro carrierM (hsame_symm carrierM))
+
+theorem VecSpaceSingletonEmptyHistory_laws :
+    let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
+    let Classifier : BHist -> BHist -> Prop := fun h k => Carrier h ∧ Carrier k ∧ hsame h k
+    let add : BHist -> BHist -> BHist := fun _ _ => BHist.Empty
+    let neg : BHist -> BHist := fun _ => BHist.Empty
+    let zero : BHist := BHist.Empty
+    let mul : BHist -> BHist -> BHist := fun _ _ => BHist.Empty
+    let one : BHist := BHist.Empty
+    let smul : BHist -> BHist -> BHist := fun _ _ => BHist.Empty
+    let NonZero : BHist -> Prop := fun h => hsame h BHist.Empty ∧ hsame h (BHist.e0 BHist.Empty)
+    let inv : (h : BHist) -> NonZero h -> BHist := fun _ _ => BHist.Empty
+    SemanticNameCert Carrier Carrier Carrier Classifier ∧
+      Carrier zero ∧
+      (∀ {m : BHist}, Carrier m -> Carrier (neg m)) ∧
+      (∀ {r m : BHist}, Carrier r -> Carrier m -> Classifier (smul r m) zero) ∧
+      (∀ {r r' m m' : BHist}, Classifier r r' -> Classifier m m' -> Classifier (smul r m) (smul r' m')) ∧
+      (∀ {r s m : BHist}, Carrier r -> Carrier s -> Carrier m -> Classifier (smul (mul r s) m) (smul r (smul s m))) ∧
+      (∀ {r m n : BHist}, Carrier r -> Carrier m -> Carrier n -> Classifier (smul r (add m n)) (add (smul r m) (smul r n))) ∧
+      (∀ {r s m : BHist}, Carrier r -> Carrier s -> Carrier m -> Classifier (smul (add r s) m) (add (smul r m) (smul s m))) ∧
+      (∀ {m : BHist}, Carrier m -> Classifier (smul one m) m) ∧
+      (∀ {a : BHist}, Carrier a -> NonZero a -> False) ∧
+      (∀ {a b : BHist}, Classifier a b -> NonZero a -> NonZero b) ∧
+      (∀ {a : BHist} (p : NonZero a), Carrier (inv a p)) ∧
+      (∀ {a b : BHist} (p : NonZero a) (q : NonZero b), Classifier a b -> Classifier (inv a p) (inv b q)) ∧
+      (∀ {a : BHist} (p : NonZero a), Classifier (mul (inv a p) a) one) ∧
+      (∀ {a : BHist} (p : NonZero a), Classifier (mul a (inv a p)) one) := by
+  simp only
+  have emptyCarrier : hsame BHist.Empty BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : hsame BHist.Empty BHist.Empty ∧
+      hsame BHist.Empty BHist.Empty ∧ hsame BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier emptyCarrier)
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+        equiv_refl := by
+          intro h carrier
+          exact And.intro carrier (And.intro carrier (hsame_refl h))
+        equiv_symm := by
+          intro h k same
+          exact And.intro same.right.left
+            (And.intro same.left (hsame_symm same.right.right))
+        equiv_trans := by
+          intro h k r sameHK sameKR
+          exact And.intro sameHK.left
+            (And.intro sameKR.right.left
+              (hsame_trans sameHK.right.right sameKR.right.right))
+        carrier_respects_equiv := by
+          intro h k same _carrier
+          exact same.right.left
+      }
+      pattern_sound := by
+        intro _h carrier
+        exact carrier
+      ledger_sound := by
+        intro _h carrier
+        exact carrier
+    }
+  · constructor
+    · exact emptyCarrier
+    · constructor
+      · intro m _carrierM
+        exact emptyCarrier
+      · constructor
+        · intro r m _carrierR _carrierM
+          exact emptyClassified
+        · constructor
+          · intro r r' m m' _sameR _sameM
+            exact emptyClassified
+          · constructor
+            · intro r s m _carrierR _carrierS _carrierM
+              exact emptyClassified
+            · constructor
+              · intro r m n _carrierR _carrierM _carrierN
+                exact emptyClassified
+              · constructor
+                · intro r s m _carrierR _carrierS _carrierM
+                  exact emptyClassified
+                · constructor
+                  · intro m carrierM
+                    exact And.intro emptyCarrier (And.intro carrierM (hsame_symm carrierM))
+                  · constructor
+                    · intro a carrierA nonzeroA
+                      exact not_hsame_emp_e0
+                        (hsame_trans (hsame_symm carrierA) nonzeroA.right)
+                    · constructor
+                      · intro a b sameAB nonzeroA
+                        exact And.intro sameAB.right.left
+                          (hsame_trans (hsame_symm sameAB.right.right) nonzeroA.right)
+                      · constructor
+                        · intro a p
+                          exact emptyCarrier
+                        · constructor
+                          · intro a b p q _sameAB
+                            exact emptyClassified
+                          · constructor
+                            · intro a p
+                              exact emptyClassified
+                            · intro a p
+                              exact emptyClassified
 
 end BEDC.Derived.VecSpaceUp

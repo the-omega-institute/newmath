@@ -113,4 +113,29 @@ theorem MatrixSingletonEmptyHistory_laws :
                 cases sameNN'.right.left
                 exact And.intro emptyClassified emptyClassified
 
+theorem MatrixSingletonEmptyHistory_endpoint_exactness {M N : BHist} :
+    MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
+      MatrixSingletonClassifier M BHist.Empty ∧
+        MatrixSingletonClassifier MatrixSingletonZero BHist.Empty ∧
+          MatrixSingletonClassifier MatrixSingletonOne BHist.Empty ∧
+            MatrixSingletonClassifier (MatrixSingletonAdd M N) BHist.Empty ∧
+              MatrixSingletonClassifier (MatrixSingletonMul M N) BHist.Empty := by
+  intro carrierM carrierN
+  have emptyCarrier : MatrixSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : MatrixSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  have appendCarrier : MatrixSingletonCarrier (append M N) := by
+    cases carrierM
+    cases carrierN
+    exact hsame_refl BHist.Empty
+  have appendClassified : MatrixSingletonClassifier (append M N) BHist.Empty :=
+    And.intro appendCarrier (And.intro emptyCarrier appendCarrier)
+  constructor
+  · exact And.intro carrierM (And.intro emptyCarrier carrierM)
+  · constructor
+    · exact emptyClassified
+    · constructor
+      · exact emptyClassified
+      · exact And.intro appendClassified appendClassified
+
 end BEDC.Derived.MatrixUp
