@@ -112,17 +112,44 @@ with this comparison assemble the target classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_continuation\_right\_closed}
 
+\begin{theorem}[Rat denominator ledgers are closed under matching continuations]
+\label{thm:field-rat-denominator-continuation-ledger-closure}
+For all histories $\rho,v,u,u',r,s:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $\mathsf{UnaryHistory}(u)$,
+$\mathsf{UnaryHistory}(u')$, $u\hsame u'$, $\Cont(\rho,u,r)$, and
+$\Cont(v,u',s)$, then $\mathsf{RatHistoryLedgerPolicy}(r,s)$.
+\end{theorem}
+\begin{proof}
+First apply the Rat ledger append-unary denominator closure theorem to
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, the unary tail
+$\mathsf{UnaryHistory}(u)$, and the matching witness $u\hsame u'$. This gives
+the ledger policy for the canonical append endpoints
+$\mathsf{append}(\rho,u)$ and $\mathsf{append}(v,u')$.
+
+Next compare the displayed continuation results with those canonical endpoints.
+The constructor witnesses for $\Cont(\rho,u,\mathsf{append}(\rho,u))$ and
+$\Cont(v,u',\mathsf{append}(v,u'))$, together with $\Cont(\rho,u,r)$ and
+$\Cont(v,u',s)$, feed into Theorem~\ref{thm:continuation-determinacy}. Thus
+$\mathsf{append}(\rho,u)\hsame r$ and
+$\mathsf{append}(v,u')\hsame s$.
+
+Finally transport the canonical append ledger across the two result links by
+the Rat ledger history-sameness transport theorem. The transported ledger is
+exactly $\mathsf{RatHistoryLedgerPolicy}(r,s)$.
+\end{proof}
+
 \textbf{Traditional target}: denominator-side multiplication closure for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
 denominators; \textbf{classifier choice}: Rat history classifier;
-\textbf{stability obligation}: continuation-result carrier and classifier
-transport plus associative continuation-result coherence;
+\textbf{stability obligation}: continuation-result carrier, classifier, and
+ledger transport plus associative continuation-result coherence;
 \textbf{ledger}: the right denominator's positive-unary witness and the
 matching continuation witnesses; \textbf{core theorems}:
 \autoref{thm:field-rat-denominator-continuation-carrier-closure},
-\autoref{thm:field-rat-denominator-continuation-semigroup-laws}, and
-\autoref{thm:field-rat-denominator-continuation-classifier-closure};
+\autoref{thm:field-rat-denominator-continuation-semigroup-laws},
+\autoref{thm:field-rat-denominator-continuation-classifier-closure}, and
+\autoref{thm:field-rat-denominator-continuation-ledger-closure};
 \textbf{exactness predicate}: carrier closure for the concrete denominator
 operation; \textbf{standard bridge}: deferred; \textbf{status}:
 $\mathsf{ProofTarget}$.
