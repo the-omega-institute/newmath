@@ -1290,3 +1290,28 @@ Surfaced explicitly in Turn 3, where the oracle noted that the three-element mon
 
 ---
 
+### B-53 - AbGroup forgets to Group certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AbGroup forgets to Group certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under an \(\AbGroupUp(M)\) setup, dropping the commutativity field yields the underlying \(\GroupUp(M)\) source package with the same carrier operation, identity, inverse, and classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 and Turn 1 when the oracle states that the abelian commutativity field is unused by module scalar action compatibility, except that \(\ModuleUp\) takes an additive abelian-group carrier as input. This is adjacent to B-08 because it isolates the forgetful certificate projection on the module-carrier side, and it is not the same as the already-boarded CommRing-to-Ring projection.
+
+---
+
