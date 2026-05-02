@@ -105,6 +105,34 @@ fields of the carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_map\_iff}
 
+\begin{theorem}[Continuous function carrier hsame transport]
+\label{thm:continuous-function-carrier-hsame-transport}
+For histories $source,map,target,modulus,cert$ and displayed histories
+$source',map',target',modulus',cert'$, if each displayed history is
+$\hsame$-equivalent to the corresponding carrier field, then the carrier
+transports across those five endpoint identifications:
+$$
+\begin{array}{l}
+\hsame(source,source')\land\hsame(map,map')\land
+\hsame(target,target')\land\hsame(modulus,modulus')\land
+\hsame(cert,cert')
+\\
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source',map',target',modulus',cert').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the concrete carrier witness into its four unary ledgers and two
+continuation ledgers. Case analysis on the five $\hsame$ witnesses identifies
+the displayed source, map, target, modulus, and certificate histories with the
+original fields. The same unary and continuation ledgers then reassemble the
+displayed $\mathsf{ContinuousFunctionCarrier}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_hsame\_transport}
+
 \begin{theorem}[Continuous function carrier target-certificate determinacy]
 \label{thm:continuous-function-carrier-target-cert-deterministic}
 For histories $source,map,target,target',modulus,cert,cert'$, if
