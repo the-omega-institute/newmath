@@ -36,6 +36,27 @@ continuation; \textbf{standard bridge}: deferred; \textbf{status}:
 $\mathsf{ProofTarget}$.
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_binary\_classifier\_congruence}
 
+\begin{theorem}[Rat history classifier continuation results are nonempty]
+\label{thm:field-rat-history-classifier-continuation-result-not-empty}
+For all histories $d,d',e,e',r,r':\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(d,d')$,
+$\mathsf{RatHistoryClassifier}(e,e')$, $\Cont(d,e,r)$, and
+$\Cont(d',e',r')$, then neither continuation result is internally empty:
+$$
+(r\hsame\emp\to\mathsf{False})\land
+(r'\hsame\emp\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-continuation-binary-classifier-congruence}
+to the two input classifiers and the two displayed continuation witnesses.
+This gives $\mathsf{RatHistoryClassifier}(r,r')$. Its two carrier projections
+are Rat carrier witnesses for $r$ and $r'$, and the Rat carrier nonempty
+theorem rules out both empty-history comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_continuation\_result\_not\_empty}
+
 \begin{theorem}[Rat denominator continuation common-context cancellation]
 \label{thm:field-rat-denominator-continuation-common-context-cancellation}
 For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if

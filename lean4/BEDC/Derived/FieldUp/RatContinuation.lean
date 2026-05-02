@@ -26,6 +26,14 @@ theorem RatHistoryCarrier_continuation_closed {d e r : BHist} :
   cases continuation
   exact appendCarrier
 
+theorem RatHistoryCarrier_continuation_result_not_empty {d e r : BHist} :
+    RatHistoryCarrier d -> RatHistoryCarrier e -> Cont d e r ->
+      hsame r BHist.Empty -> False := by
+  intro carrierD carrierE continuation resultEmpty
+  have carrierR : RatHistoryCarrier r :=
+    RatHistoryCarrier_continuation_closed carrierD carrierE continuation
+  exact RatHistoryCarrier_not_empty carrierR resultEmpty
+
 theorem RatHistoryCarrier_continuation_semigroup_laws {d e f de ef left right : BHist} :
     RatHistoryCarrier d -> RatHistoryCarrier e -> RatHistoryCarrier f -> Cont d e de ->
       Cont e f ef -> Cont de f left -> Cont d ef right ->
@@ -130,6 +138,22 @@ theorem RatHistoryLedgerPolicy_continuation_closed {raw visible tailRaw tailVisi
       visibleContinuation
   exact RatHistoryLedgerPolicy_hsame_transport canonicalLedger rawSame visibleSame
 
+theorem RatHistoryLedgerPolicy_continuation_results_not_empty
+    {raw visible tailRaw tailVisible r s : BHist} :
+    RatHistoryLedgerPolicy raw visible -> UnaryHistory tailRaw -> hsame tailRaw tailVisible ->
+      Cont raw tailRaw r -> Cont visible tailVisible s ->
+        (hsame r BHist.Empty -> False) ∧ (hsame s BHist.Empty -> False) := by
+  intro ledger tailRawUnary tailSame rawContinuation visibleContinuation
+  have resultLedger : RatHistoryLedgerPolicy r s :=
+    RatHistoryLedgerPolicy_continuation_closed ledger tailRawUnary tailSame rawContinuation
+      visibleContinuation
+  constructor
+  · intro rawEmpty
+    exact RatHistoryCarrier_not_empty resultLedger.left rawEmpty
+  · intro visibleEmpty
+    exact RatHistoryCarrier_not_empty (RatHistoryLedgerPolicy_visible_carrier resultLedger)
+      visibleEmpty
+
 theorem RatHistoryClassifier_matching_continuation_closed {d e u v r s : BHist} :
     RatHistoryClassifier d e -> UnaryHistory u -> UnaryHistory v -> hsame u v ->
       Cont d u r -> Cont e v s -> RatHistoryClassifier r s := by
@@ -156,6 +180,20 @@ theorem field_rat_denominator_continuation_binary_classifier_congruence
       (RatHistoryCarrier_iff_positive_denominator.mp classifiedE.right.left)).left
   exact RatHistoryClassifier_matching_continuation_closed classifiedD unaryE unaryE'
     classifiedE.right.right leftContinuation rightContinuation
+
+theorem RatHistoryClassifier_continuation_result_not_empty {d d' e e' r r' : BHist} :
+    RatHistoryClassifier d d' -> RatHistoryClassifier e e' -> Cont d e r ->
+      Cont d' e' r' ->
+        (hsame r BHist.Empty -> False) ∧ (hsame r' BHist.Empty -> False) := by
+  intro classifiedD classifiedE leftContinuation rightContinuation
+  have resultClassified : RatHistoryClassifier r r' :=
+    field_rat_denominator_continuation_binary_classifier_congruence classifiedD classifiedE
+      leftContinuation rightContinuation
+  constructor
+  · intro leftEmpty
+    exact RatHistoryCarrier_not_empty resultClassified.left leftEmpty
+  · intro rightEmpty
+    exact RatHistoryCarrier_not_empty resultClassified.right.left rightEmpty
 
 theorem field_rat_denominator_continuation_common_context_cancel
     {p q d e pd pe left right : BHist} :

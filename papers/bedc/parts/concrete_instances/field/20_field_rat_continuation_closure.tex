@@ -25,6 +25,24 @@ carrier for $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_carrier\_closure}
 
+\begin{theorem}[Rat history carrier continuation result is nonempty]
+\label{thm:field-rat-history-carrier-continuation-result-not-empty}
+For all histories $d,e,r:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$, and
+$\Cont(d,e,r)$, then $r$ is not internally the empty history:
+$$
+r\hsame\emp \to \mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-continuation-carrier-closure} to the two
+input carriers and the displayed continuation. This gives
+$\mathsf{RatHistoryCarrier}(r)$. The Rat carrier nonempty theorem then rejects
+any comparison $r\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryCarrier\_continuation\_result\_not\_empty}
+
 \begin{theorem}[Rat denominator continuation semigroup laws]
 \label{thm:field-rat-denominator-continuation-semigroup-laws}
 For all histories $d,e,f,de,ef,\ell,r:\mathsf{BHist}$, if
@@ -166,6 +184,28 @@ the Rat ledger history-sameness transport theorem. The transported ledger is
 exactly $\mathsf{RatHistoryLedgerPolicy}(r,s)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatHistoryLedgerPolicy\_continuation\_closed}
+
+\begin{theorem}[Rat history ledger continuation results are nonempty]
+\label{thm:field-rat-history-ledger-continuation-results-not-empty}
+For all histories
+$raw,visible,tailRaw,tailVisible,r,s:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(raw,visible)$,
+$\mathsf{UnaryHistory}(tailRaw)$, $tailRaw\hsame tailVisible$,
+$\Cont(raw,tailRaw,r)$, and $\Cont(visible,tailVisible,s)$, then neither
+continuation result is internally empty:
+$$
+(r\hsame\emp\to\mathsf{False})\land
+(s\hsame\emp\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+The ledger continuation closure theorem gives
+$\mathsf{RatHistoryLedgerPolicy}(r,s)$. Its raw component is a Rat carrier for
+$r$, and its visible-carrier projection is a Rat carrier for $s$. Applying the
+Rat carrier nonempty theorem to these two carrier witnesses rules out
+$r\hsame\emp$ and $s\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryLedgerPolicy\_continuation\_results\_not\_empty}
 
 \begin{theorem}[Rat denominator continuation external boundary and associativity laws]
 \label{thm:field-rat-denominator-continuation-external-boundary-laws}
