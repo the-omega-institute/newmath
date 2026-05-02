@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.8 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v3.9 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -299,6 +299,21 @@ Steps:
    - At least 1 must be medium difficulty (for example induction, constructor inversion, or a multi-step structure elimination proof)
    - Prefer targets that fit the existing BEDC namespaces and setup classes
    - Each target's `lean_signature` must describe code you will WRITE, not code you will only register a marker for.
+
+3.5. **In-flight dedup avoidance (HARD GATE).** Before emitting, list every other active round worktree and check what `lean_name` they are already attacking — the merge pipeline rejects any target already present in another worktree's staged diff (`Dedup: dropping N target(s) already in flight`), and a round whose 3 targets are all duplicated is aborted with no commit. To pre-empt this:
+
+   ```
+   git worktree list | grep -F .worktrees/round_R | awk '{print $1}'
+   ```
+
+   For each path returned (excluding this round's own worktree), run:
+   ```
+   git -C <path> diff codex-auto-dev -- lean4/BEDC/ | grep -E '^\+(theorem|lemma|def) [A-Za-z_]+ ' | sed -E 's/^\+(theorem|lemma|def) ([A-Za-z_]+).*/\2/' | sort -u
+   ```
+
+   Collect the union of these names — they are *in-flight*. Any candidate whose `lean_name` (after the namespace prefix is stripped) appears in this set is INVALID. Replace it with a different candidate before emitting. If after this filter you cannot fill 3 slots from `critical_path top[0..2]`, prefer 2 valid `top` targets over 3 candidates that include in-flight collisions — the round will reach Phase C with 2 targets and a soft warning, which is strictly better than aborting on `All targets duplicated by other rounds`.
+
+   Newly-unlocked horizons (post schema-only unlock: e.g. CommRingUp, FieldUp, ModuleUp) are common in-flight targets across 7 parallel workers; this check is mandatory there.
 
 4. Discovery fallback (only when Step 3 cannot fill 3 slots after the HARD GATE filter): you MAY supplement the round with up to 3 total discovery targets — NEW theorem or definition statements that do not yet appear in any paper block but capture genuinely new content over BEDC primitives. Allowed shapes:
    - Constructor inversion / no-confusion / determinacy / functionality lemma for an existing `inductive` or relation that lacks one.
