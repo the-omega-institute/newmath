@@ -85,4 +85,59 @@ theorem RatDenomContextPair_product_strict_support_transport
   · intro productCarrier
     exact RatHistoryCarrier_hsame_transport (hsame_symm sameProduct) productCarrier
 
+theorem RatDenomContextPair_operation_stability {l r m s l' r' m' s' : BHist} :
+    RatDenomUnitClassifier l m -> RatDenomUnitClassifier r s ->
+      RatDenomUnitClassifier l' m' -> RatDenomUnitClassifier r' s' ->
+        RatDenomUnitCarrier (append l' l) ∧ RatDenomUnitCarrier (append r r') ∧
+          RatDenomUnitCarrier (append m' m) ∧ RatDenomUnitCarrier (append s s') ∧
+          RatDenomUnitClassifier (append l' l) (append m' m) ∧
+          RatDenomUnitClassifier (append r r') (append s s') ∧
+          (RatHistoryCarrier (append (append l' l) (append r r')) <->
+            (RatHistoryCarrier l ∨ RatHistoryCarrier r) ∨
+              (RatHistoryCarrier l' ∨ RatHistoryCarrier r')) := by
+  intro classifiedL classifiedR classifiedL' classifiedR'
+  have carrierL'L : RatDenomUnitCarrier (append l' l) :=
+    RatDenomUnitCarrier_continuation_closed classifiedL'.left classifiedL.left (cont_intro rfl)
+  have carrierRR' : RatDenomUnitCarrier (append r r') :=
+    RatDenomUnitCarrier_continuation_closed classifiedR.left classifiedR'.left (cont_intro rfl)
+  have carrierM'M : RatDenomUnitCarrier (append m' m) :=
+    RatDenomUnitCarrier_continuation_closed classifiedL'.right.left classifiedL.right.left
+      (cont_intro rfl)
+  have carrierSS' : RatDenomUnitCarrier (append s s') :=
+    RatDenomUnitCarrier_continuation_closed classifiedR.right.left classifiedR'.right.left
+      (cont_intro rfl)
+  have sameLeft : hsame (append l' l) (append m' m) :=
+    cont_respects_hsame classifiedL'.right.right classifiedL.right.right
+      (cont_intro rfl) (cont_intro rfl)
+  have sameRight : hsame (append r r') (append s s') :=
+    cont_respects_hsame classifiedR.right.right classifiedR'.right.right
+      (cont_intro rfl) (cont_intro rfl)
+  have support :=
+    RatDenomContextPair_product_strict_support_iff classifiedL.left classifiedR.left
+      classifiedL'.left classifiedR'.left
+  refine ⟨carrierL'L, carrierRR', carrierM'M, carrierSS',
+    ⟨carrierL'L, carrierM'M, sameLeft⟩, ⟨carrierRR', carrierSS', sameRight⟩, ?_⟩
+  constructor
+  · intro productCarrier
+    cases Iff.mp support productCarrier with
+    | inl ratL' => exact Or.inr (Or.inl ratL')
+    | inr tail =>
+        cases tail with
+        | inl ratL => exact Or.inl (Or.inl ratL)
+        | inr rightTail =>
+            cases rightTail with
+            | inl ratR => exact Or.inl (Or.inr ratR)
+            | inr ratR' => exact Or.inr (Or.inr ratR')
+  · intro support'
+    apply Iff.mpr support
+    cases support' with
+    | inl leftSupport =>
+        cases leftSupport with
+        | inl ratL => exact Or.inr (Or.inl ratL)
+        | inr ratR => exact Or.inr (Or.inr (Or.inl ratR))
+    | inr rightSupport =>
+        cases rightSupport with
+        | inl ratL' => exact Or.inl ratL'
+        | inr ratR' => exact Or.inr (Or.inr (Or.inr ratR'))
+
 end BEDC.Derived.FieldUp

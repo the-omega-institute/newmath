@@ -36,6 +36,29 @@ hom-carrier ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor}
 
+\begin{theorem}[Category hom carrier canonical middle factorization]
+\label{thm:category-hom-carrier-comp-canonical-middle-iff}
+For the unary-continuation category, if $\ContR(f,g,fg)$, then a displayed
+composite hom-carrier from $a$ to $c$ over $fg$ is equivalent to the pair of
+hom-carriers obtained by using the canonical middle object $\mathsf{append}(a,f)$:
+$$
+\mathsf{CategoryHomCarrier}(a,c,fg)
+\Longleftrightarrow
+\mathsf{CategoryHomCarrier}(a,\mathsf{append}(a,f),f)\wedge
+\mathsf{CategoryHomCarrier}(\mathsf{append}(a,f),c,g).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the unary left factor $f$ from
+$\ContR(f,g,fg)$ and the displayed unary composite history. This constructs
+the canonical left hom-carrier $a\to\mathsf{append}(a,f)$ by the defining
+continuation $\ContR(a,f,\mathsf{append}(a,f))$. The existing right-factor
+recovery theorem then extracts the hom-carrier from $\mathsf{append}(a,f)$ to
+$c$ over $g$. Conversely, composition closure for hom-carriers recombines the
+two canonical factors along $\ContR(f,g,fg)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_canonical\_middle\_iff}
+
 \begin{theorem}[Category hom carrier composition right factor public readback]
 \label{thm:category-hom-carrier-comp-right-factor-public-readback}
 For the unary-continuation category, if $f$ is a hom-carrier from $a$ to $b$,
