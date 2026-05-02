@@ -525,6 +525,69 @@ four visible payload readbacks. These are precisely the fields of the displayed
 existential conclusion.
 \end{proof}
 
+\begin{theorem}[Tagged option payload descent image classifier reflective transitive visible target-payload classification]
+\label{thm:tagged-option-payload-descent-image-classifier-reflective-transitive-visible-target-payload-classification}
+This theorem fits the per-object template as follows: the traditional target is
+target two-step image option target-payload classification; the BEDC source is
+$\mathsf{BHist}$ with a $\mathsf{DescentCertificate}$; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation
+is reflective transitivity plus target classifier descent; the ledger is the
+two visible outer target payloads; the core theorem is the displayed
+$u\sim_T v$; exactness is direct classifier recovery after composing the path;
+the standard bridge is $\mathsf{none}$/$\mathsf{some}$ payload classification;
+and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history carriers, let
+$\sim_S$ and $\sim_T$ be source and target classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$ and
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$. Assume source compatibility
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ and target compatibility
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$. Assume also
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S).
+$$
+For $k,\ell,m,u,v:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,\ell)
+$$
+and
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};\ell,m)
+$$
+and
+$$
+T(u),
+\qquad
+T(v),
+\qquad
+\hsame(k,\Eone(u)),
+\qquad
+\hsame(m,\Eone(v)),
+$$
+then $u\sim_T v$.
+\end{theorem}
+\begin{proof}
+First compose the visible image path. Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-reflective-transitivity}
+to the two image-classifier witnesses, using source hsame compatibility and
+source reflection. This gives a direct image-classifier witness from $k$ to
+$m$.
+
+Now apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-visible-target-payload-classification}
+to the direct witness, the two target carrier witnesses $T(u)$ and $T(v)$, and
+the visible endpoint presentations $\hsame(k,\Eone(u))$ and
+$\hsame(m,\Eone(v))$. The conclusion is exactly $u\sim_T v$.
+\end{proof}
+
 \begin{theorem}[Tagged option payload descent image classifier reflective transitive pair readback is single-valued]
 \label{thm:tagged-option-payload-descent-image-classifier-reflective-transitive-pair-readback-single-valued}
 This theorem fits the per-object template as follows: the traditional target is
