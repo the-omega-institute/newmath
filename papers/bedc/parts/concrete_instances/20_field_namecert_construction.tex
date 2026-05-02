@@ -1,6 +1,43 @@
 \input{parts/concrete_instances/field/20_field_singleton_schema}
 \input{parts/concrete_instances/field/20_field_rat_boundary}
 \input{parts/concrete_instances/field/20_field_rat_continuation_closure}
+
+\begin{theorem}[Rat denominator continuation common-context cancellation]
+\label{thm:field-rat-denominator-continuation-common-context-cancellation}
+For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+$\Cont(p,d,pd)$, $\Cont(p,e,pe)$, $\Cont(pd,q,left)$,
+$\Cont(pe,q,right)$, and $\mathsf{RatHistoryClassifier}(left,right)$, then
+$\mathsf{RatHistoryClassifier}(d,e)$.
+\end{theorem}
+\begin{proof}
+Unpack the final Rat classifier. Its comparison component gives
+$left\hsame right$.
+
+Apply the continuation common-context cancellation theorem
+\texttt{BEDC.FKernel.Cont.cont\_cancel\_common\_context} to the two matched
+prefix witnesses, the two matched suffix witnesses, and the comparison
+$left\hsame right$. The shared prefix $p$ and shared suffix $q$ cancel, leaving
+the endpoint comparison $d\hsame e$.
+
+Combine this endpoint comparison with the original denominator carriers
+$\mathsf{RatHistoryCarrier}(d)$ and $\mathsf{RatHistoryCarrier}(e)$. These
+three pieces are exactly the fields of
+$\mathsf{RatHistoryClassifier}(d,e)$.
+\end{proof}
+
+\textbf{Traditional target}: denominator exactness for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
+denominators; \textbf{classifier choice}: Rat history classifier;
+\textbf{stability obligation}: common-context cancellation; \textbf{ledger}:
+matched unary prefix and suffix contexts; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation};
+\textbf{exactness predicate}: converse classifier recovery under matched
+continuation contexts; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.
+
 \input{parts/concrete_instances/field/20_field_laws_and_certificate}
 \input{parts/concrete_instances/field/20_field_product_right_equation_exactness}
 \input{parts/concrete_instances/field/20_field_affine_explicit_inverse}
