@@ -197,27 +197,80 @@ The honest question is not "did declarations grow" but "did declarations referen
 
 Lean-side declaration count divided by paper-side label count is a useful ratio: ~1.5x is normal because one paper theorem often corresponds to 2-3 Lean lemmas plus helpers. Above ~3x usually means the lean side is producing scaffolding-only or parameter-echo growth that the paper side has not asked for.
 
-### Oversize tex split discipline
+### Oversize tex split (now self-healing)
 
-CLAUDE.md caps every `.tex` file at 800 lines. Paper rounds that revise a near-cap file routinely overshoot, hitting `OVERSIZED .TEX` and round FAILED. When that fires, *immediately* split the file (do not wait for cooldown) — every paper round that touches the same file will keep failing until the file is back under cap.
+`papers/bedc/Makefile` calls `bash scripts/check_tex_size.sh` as a `precheck` prerequisite before the two `pdflatex` runs. The script exits non-zero with a clear `OVERSIZED .TEX` message naming each .tex over 800 lines. Codex sees that during its own Step 2 build and self-heals (split at section boundary, sibling/child file, parent appends `\input{...}`, rerun make) before commit. The pipeline's `run_pdf_build` wraps the same `make`, so it's also second-line protection.
 
-Split protocol:
+You should not be hand-splitting .tex files anymore. If you observe an `OVERSIZED .TEX` failure that codex did not self-heal, that's either:
 
-1. `grep -nE '^\\(input|section|begin\{theorem\}|begin\{definition\})' <file>` to see the structure.
-2. Pick the natural section boundary (e.g. `\section{The certificate}` after carrier-level theorems).
-3. `sed -n '<start>,<end>p' <file> > <new_file>` then `sed -i '' '<start>,$d' <file>` to truncate.
-4. If the file is included via top-level `main.tex`, append `\input{...}` for the new file. If it's included via a chapter shell file (e.g. `08_option_namecert_construction.tex` inputs `option/01..02..`), update that shell.
-5. `pdflatex -interaction=nonstopmode main.tex` to confirm the build still works (label resolution).
-6. `git add` + commit + push immediately so in-flight rounds rebase off the split version.
+- the wrapper script is broken (run `bash papers/bedc/scripts/check_tex_size.sh` to verify), or
+- codex is on its first-ever encounter with the gate and isn't reading stderr — add a one-line nudge in `phase_revise.txt` Step 2.
 
-The split itself is mechanical and safe — no theorem renames, no marker churn. Examples from the field (each one unblocked the pipeline within minutes):
+Field examples from the manual era (kept for reference; the gate now does this automatically):
 
 - `option/02_tagged_option_namecert.tex` (804 lines) → `02_*` (487) + `02b_option_certificate_chains.tex` (317)
-- `34_continuous_namecert_construction.tex` (843) → `34_*` (329, carrier defs + theorems) + `34b_continuous_certificate.tex` (514, certificate section)
+- `34_continuous_namecert_construction.tex` (843) → `34_*` (329) + `34b_continuous_certificate.tex` (514)
 - `35_compact_namecert_construction.tex` (802) → `35_*` (465) + `35b_compact_certificate.tex` (337)
-- `08_option_namecert_construction.tex` (807, mixed inputs + theorems) → `08_*` (215, inputs + first section) + `option/09_composite_image_classifier_public_readback.tex` (592)
+- `08_option_namecert_construction.tex` (807) → `08_*` (215) + `option/09_composite_image_classifier_public_readback.tex` (592)
 
-After the split, the pipeline auto-cooldown (3 consecutive failures → 180s sleep) gives you a window where new rounds restart based on the fixed tree. Don't restart the pipeline for a tex split — it's hot work and worker-aware.
+### Harness design principles
+
+When the workflow keeps surfacing the same issue, the gate lives at the wrong level. Move it down. Levels of correctness enforcement, in preferred order:
+
+1. **Build gate (Makefile precheck)** — the script that produces the artifact (PDF, lake build) refuses to run when an invariant breaks. Codex sees the failure in normal Step 2 and self-heals before commit. Generic, no theme-specific logic. Example: `papers/bedc/scripts/check_tex_size.sh` invoked by `Makefile`.
+2. **Subprocess lint (hot-reloadable)** — `phase_d_lint.py`, `critical_path.py`, `bedc_ci.py audit --shape-saturation`. The orchestrator calls these via subprocess on each round, so edits take effect without restart. Use for mechanical pattern checks (regex on signatures, constraint-set membership, label uniqueness).
+3. **Prompt HARD GATE (hot-reloaded)** — Phase B/C/Review/Revise prompts. Bumping `## Prompts version` mirrors into commit bodies for traceability. Use for guidance that needs codex's judgment but is articulable as a rule. Lower confidence than levels 1-2 because codex occasionally violates prompts.
+4. **Long-running script body (restart-required)** — `codex_revise.py`, `codex_formalize.py` orchestrator body. Use for the merge flow itself, retry policy, gate ordering, default timeouts. Restart cost is the in-flight rounds drained.
+
+When a gate fires unexpectedly (false positive), run it offline against the failed commit before tightening or relaxing it:
+
+```bash
+git -C /Users/chronoai/newmath worktree add /tmp/test <commit>
+python3 lean4/scripts/phase_d_lint.py --worktree /tmp/test --base-branch <commit>^
+git -C /Users/chronoai/newmath worktree remove /tmp/test
+```
+
+False-positive cost is real: rejecting a legitimate Lean round wastes ~10 min of codex work + lake build, and the same pattern may recur. Prefer narrower (more context-aware) checks over looser thresholds. Concrete narrowing patterns: conclusion-aware regex (parameter-echo only fires when conclusion *also* has forall-hsame), strip-and-rescan (after dropping `hsame` and bare `BHist`, look for any other anchor), exists-anywhere lookup (stale-marker check searches all of `lean4/BEDC/`, not just this round's diff).
+
+### Mathematical taste checklist
+
+Net theorems added does NOT measure theory growth. After every ~30 rounds, sample the actual statements:
+
+| Signal | Detect | Verdict |
+|---|---|---|
+| Parameter-echo schema | Hyp `(name : forall … hsame …)` AND concl `forall … hsame …` AND no other BHist anchor in concl | Bookkeeping, not theory |
+| Mechanical-arity suffix | `_(two\|three\|four\|five\|six)` | Naming repeating shape, not new concept |
+| Shallow growth | New carrier `def` with no theorem invoking it | Carrier-only growth |
+| Duplicate theorem conclusion | New `_single_valuedness` AND `_nonempty_equivalence` with same hypotheses | Mutually-implying twin |
+| Schema-only horizon | Target chapter's paper schema is parametric (no concrete BHist-valued operator) | Physically can't anchor; ban from `critical_path` |
+| Register-only round | Paper diff is whitespace + new markers; lean diff is empty | Maintenance, not work |
+| Same-file saturation | ≥3 consecutive commits in same file with `_alt`/`_with_fields`/`_source_equivalence` siblings | Lazy depth refinement |
+
+Counts that don't lie:
+
+- `python3 lean4/scripts/critical_path.py | jq '.top[:3]'` — top-3 `thms` field should move up over a 30-round window.
+- `python3 lean4/scripts/bedc_ci.py audit --shape-saturation` — flat or shrinking, never growing.
+- `grep -rE 'theorem\s+\w+_(two|three|four|five|six)\b' lean4/BEDC/ | wc -l` — flat or shrinking.
+- `grep -rE '\(\s*\w+\s*:\s*(∀|forall)[^)]*hsame' lean4/BEDC/Derived/ | wc -l` — flat or shrinking.
+
+Lean-decl / paper-label ratio: ~1.5x normal (one paper theorem ≈ 2-3 Lean lemmas + helpers). Above ~3x means lean side is producing scaffolding-only growth the paper hasn't asked for.
+
+### Gate evolution path (how a problem becomes a rule)
+
+1. Observe the problem in 1-2 commits. Note the precise pattern.
+2. Try the cheapest fix first: prompt rule. Hot-reload, bump `## Prompts version`.
+3. If the prompt rule keeps being violated (≥ 2 more occurrences), promote to subprocess lint regex. Test against failing commits to confirm catch + against known-good commits to confirm no false positive.
+4. If the lint produces false positives, narrow with context (conclusion-aware, anchor strip, exists-anywhere lookup) — do not loosen the threshold.
+5. If the problem is structural (e.g. paper schema is parametric, can't ever produce anchored Lean), exclude at the source: `critical_path.py` constants, plus an explicit ban in the relevant prompt mirror.
+6. If the problem is environmental (e.g. .tex line cap), push the gate into the build itself (Makefile precheck), so the artifact-producing step refuses.
+
+Concrete evolution traces from this codebase:
+
+- **Parameter-echo**: prompt v3.4 → `phase_d_lint.py` regex → conclusion-aware regex → BHist+hsame strip before scan.
+- **Schema-only horizons**: lint catching the symptom → `SCHEMA_ONLY_HORIZONS` filter in `critical_path.py` → `phase_b.txt` v3.6 explicit BAN section.
+- **Oversize tex**: hand-splits on Claude side → `phase_review.txt` 760-line threshold → `phase_revise.txt` Step 0.5 abort → `Makefile` precheck (root cause, codex self-heals).
+- **Stale marker**: strict "must be in this round's diff" → relaxed "must exist anywhere in `lean4/BEDC/`" via `_collect_all_lean_declarations` (false-positive fix).
+- **Phase B prompt obsession with abgroup/group**: prompt soft fallback → critical_path filter → prompt explicit BAN with example rejected shape.
 
 ### Fast triage commands
 
