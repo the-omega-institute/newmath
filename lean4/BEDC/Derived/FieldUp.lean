@@ -335,6 +335,39 @@ theorem field_inverse_cancel_from_apartness {mul : BHist -> BHist -> BHist}
   exact field_middle_mul_equation_exact_from_apartness
     assocC leftId rightId mulCongr leftInv rightInv pa pb
 
+ theorem field_left_mul_equation_exact_from_apartness {mul : BHist -> BHist -> BHist}
+    {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a x c : BHist} (pa : NonZero a) :
+    hsame (mul a x) c ↔ hsame x (mul (inv a pa) c) := by
+  constructor
+  · intro sameProduct
+    have cancelLeft :
+        hsame (mul (inv a pa) (mul a x)) x := by
+      exact field_mul_inverse_left_cancel_from_apartness
+        assocC leftId mulCongr leftInv a x pa
+    have transported :
+        hsame (mul (inv a pa) (mul a x)) (mul (inv a pa) c) := by
+      exact mulCongr (hsame_refl (inv a pa)) sameProduct
+    exact hsame_trans (hsame_symm cancelLeft) transported
+  · intro sameSolution
+    have transported :
+        hsame (mul a x) (mul a (mul (inv a pa) c)) := by
+      exact mulCongr (hsame_refl a) sameSolution
+    have reassoc :
+        hsame (mul a (mul (inv a pa) c)) (mul (mul a (inv a pa)) c) := by
+      exact hsame_symm (assocC a (inv a pa) c)
+    have cancelHead :
+        hsame (mul (mul a (inv a pa)) c) (mul one c) := by
+      exact mulCongr (rightInv a pa) (hsame_refl c)
+    exact hsame_trans transported
+      (hsame_trans reassoc (hsame_trans cancelHead (leftId c)))
+
 def fieldSingletonEmptyCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
 

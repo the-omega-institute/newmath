@@ -52,6 +52,7 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.OptionUp
+import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
 import BEDC.Derived.OptionUp.Determinism
 import BEDC.Derived.OptionUp.AbsentSource
