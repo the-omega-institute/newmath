@@ -16,4 +16,15 @@ theorem CategoryHomCarrier_comp_cycle_result_empty {a b f g fg : BHist} :
     cont_hsame_transport tailsEmpty.left tailsEmpty.right (hsame_refl fg) comp
   exact cont_left_unit_result emptyComp
 
+theorem CategoryHomCarrier_comp_endpoint_cycle_tails_empty {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg -> hsame a c ->
+      hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame fg BHist.Empty := by
+  intro left right comp sameEndpoint
+  have compositeEmpty : hsame fg BHist.Empty :=
+    CategoryHomCarrier_comp_endpoint_cycle_morphism_empty left right comp sameEndpoint
+  have emptyComp : Cont f g BHist.Empty :=
+    cont_result_hsame_transport comp compositeEmpty
+  have tailsEmpty := cont_empty_result_inversion emptyComp
+  exact And.intro tailsEmpty.left (And.intro tailsEmpty.right compositeEmpty)
+
 end BEDC.Derived.CategoryUp

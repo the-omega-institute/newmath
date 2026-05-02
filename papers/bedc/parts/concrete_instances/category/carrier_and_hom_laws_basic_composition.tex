@@ -1,3 +1,23 @@
+\begin{theorem}[Category hom-carrier composite endpoint cycle has empty tails]
+\label{thm:category-hom-carrier-comp-endpoint-cycle-tails-empty}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$. If the
+composite endpoints satisfy $\hsame(a,c)$, then both factor morphism histories
+and the displayed composite morphism history are empty:
+$$
+\hsame(f,\emp)\wedge\hsame(g,\emp)\wedge\hsame(fg,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The endpoint-cycle morphism theorem first forces the displayed composite
+$fg$ to be empty. Transport the concrete continuation $\ContR(f,g,fg)$ along
+this endpoint comparison to obtain $\ContR(f,g,\emp)$. Empty-result inversion
+for continuation then splits the factor histories, giving $f\hsame\emp$ and
+$g\hsame\emp$, while the transported composite comparison supplies
+$fg\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_tails\_empty}
+
 \begin{theorem}[Category hom carrier composition right factor]
 \label{thm:category-hom-carrier-comp-right-factor}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
