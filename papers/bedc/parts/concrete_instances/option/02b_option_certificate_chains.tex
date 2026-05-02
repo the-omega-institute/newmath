@@ -112,6 +112,23 @@ $\hsame(h,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_exclusive\_readback}
 
+\begin{theorem}[Nullable option carrier branch alignment]
+\label{thm:option-history-carrier-hsame-branch-alignment}
+For histories $h,k$, if $\mathsf{OptionSourceExcludesEmpty}(S)$,
+$\mathsf{OptionHistoryCarrier}_S(h)$, $\mathsf{OptionHistoryCarrier}_S(k)$, and
+$\hsame(h,k)$ hold, then either both endpoints are empty or both lie in the
+source branch:
+$$
+(\hsame(h,\emp)\land\hsame(k,\emp))\lor(S(h)\land S(k)).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the two carrier witnesses. The empty--empty and source--source
+branches are immediate. In each mixed branch, transport the empty endpoint
+across $\hsame(h,k)$ and apply $\mathsf{OptionSourceExcludesEmpty}(S)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_branch\_alignment}
+
 \begin{theorem}[Nullable option classifier exclusive readback]
 \label{thm:option-history-classifier-exclusive-readback}
 For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and

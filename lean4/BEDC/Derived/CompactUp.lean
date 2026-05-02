@@ -187,6 +187,27 @@ theorem CompactNetWitness_composite_center_deterministic
                                                   exact cont_common_suffix_cancellation firstRel
                                                     firstRel' sameNet
 
+theorem CompactNetWitness_precision_hsame_deterministic
+    {center center' precision precision' net net' : BHist} :
+    hsame center center' → hsame net net' → CompactNetWitness center precision net →
+      CompactNetWitness center' precision' net' → hsame precision precision' := by
+  intro sameCenter sameNet left right
+  cases sameCenter
+  cases sameNet
+  cases left with
+  | intro _centerCarrier leftRest =>
+      cases leftRest with
+      | intro _precisionCarrier leftRest =>
+          cases leftRest with
+          | intro _netCarrier leftRel =>
+              cases right with
+              | intro _centerCarrier' rightRest =>
+                  cases rightRest with
+                  | intro _precisionCarrier' rightRest =>
+                      cases rightRest with
+                      | intro _netCarrier' rightRel =>
+                          exact cont_left_cancel leftRel rightRel
+
 theorem CompactWitnessCarrier_located_extension_closed
     {subset located finite extra intermediate compact newLocated newIntermediate extended : BHist} :
     CompactWitnessCarrier subset located finite intermediate compact -> UnaryHistory extra ->

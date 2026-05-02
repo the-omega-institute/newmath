@@ -518,6 +518,23 @@ $\hsame(c,c')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_center\_deterministic}
 
+\begin{theorem}[Compact net witness precision determinacy under endpoint sameness]
+\label{thm:compact-net-witness-precision-hsame-deterministic}
+For histories $c,c',\epsilon,\epsilon',n,n'$, if $\hsame(c,c')$,
+$\hsame(n,n')$, $\mathsf{CompactNetWitness}(c,\epsilon,n)$, and
+$\mathsf{CompactNetWitness}(c',\epsilon',n')$ hold, then
+$$
+\hsame(\epsilon,\epsilon').
+$$
+\end{theorem}
+\begin{proof}
+Transport the two continuation ledgers to common center and net histories using
+the endpoint $\hsame$ hypotheses. The two witnesses then have the same left
+context and result, so continuation left cancellation identifies the precision
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_precision\_hsame\_deterministic}
+
 \begin{theorem}[Prefixed composite compact net witness closure]
 \label{thm:compact-net-witness-prefixed-composite-closed}
 For unary histories $p,c,\epsilon,\eta,\theta,n,m$, assume
