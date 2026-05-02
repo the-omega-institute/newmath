@@ -1057,3 +1057,54 @@ Surfaced in Turn 0 when the oracle allowed replacing g[S] by a certified totally
 
 ---
 
+### B-44 - FunctorHomCarrier codomain evaluation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FunctorHomCarrier codomain evaluation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under the category and functor certificate setup, if a certified functor H:C->E is equipped with the functor-layer abbreviation FunctorHomCarrier(H,x,y) := HomCarrier_E(H0(x),H0(y)), then the functor-indexed hom-carrier classifier at x,y is the codomain category hom-carrier classifier on H0(x),H0(y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turns 0 and 3 as the exact missing abbreviation needed to make the B-11 equality wording well typed and forced. It deserves its own loop because B-11 ended with an obstruction: the composite theorem cannot be stated canonically until the functor layer records this codomain-evaluation hom-carrier display.
+
+---
+
+
+### B-45 - Functor composite preservation witnesses
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Functor composite preservation witnesses |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under certified categories C,D,E and certified functors F:C->D and G:D->E, the composite object and morphism maps imply that G∘F preserves identities and composition under the morphism classifier of E.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 3 as the derivable positive part separate from the missing hom-carrier display: identity preservation follows by the identity fields of F and G, and composition preservation follows by their composition fields. It is adjacent rather than identical to B-11 because it isolates the preservation-witness assembly that remains valid even when the displayed HomCarrier(G∘F) equality is not forced.
+
+---
+
