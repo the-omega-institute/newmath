@@ -21,4 +21,15 @@ theorem TaggedOptionHistoryCarrier_present_hsame_readback {S : BHist → Prop} {
                 (And.intro sourceA
                   (hsame_e1_iff.mp (hsame_trans (hsame_symm samePresent) sameEndpoint)))
 
+theorem TaggedOptionHistoryCarrier_present_source_transport {S : BHist → Prop}
+    (source_transport : ∀ {x y : BHist}, hsame x y -> S x -> S y) {h : BHist} :
+    TaggedOptionHistoryCarrier S (BHist.e1 h) -> S h := by
+  intro carrier
+  have present := TaggedOptionHistoryCarrier_present_exactness.mp carrier
+  cases present with
+  | intro a data =>
+      cases data with
+      | intro sourceA samePayload =>
+          exact source_transport (hsame_symm samePayload) sourceA
+
 end BEDC.Derived.OptionUp

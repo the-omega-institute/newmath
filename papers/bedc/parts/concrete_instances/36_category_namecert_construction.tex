@@ -244,6 +244,47 @@ identifies the two displayed tails.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_deterministic}
 
+\begin{theorem}[Continuation morphism source determinacy]
+\label{thm:continuation-morphism-source-deterministic}
+For histories $a,b,c$, if a continuation morphism from $a$ to $c$ and a
+continuation morphism from $b$ to $c$ display history-same tails, then their
+sources are history-same:
+$$
+left:\mathsf{ContinuationMorphism}(a,c),\quad
+right:\mathsf{ContinuationMorphism}(b,c),\quad
+\hsame(\mathsf{tail}(left),\mathsf{tail}(right))
+\Longrightarrow
+\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Unpack both continuation morphism records. The displayed tail equality makes
+the two continuation witnesses share the same tail and the same result $c$.
+Continuation right-context cancellation then identifies the two source
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_source\_deterministic}
+
+\begin{theorem}[Continuation morphism target determinacy]
+\label{thm:continuation-morphism-target-deterministic}
+For histories $a,b,c$, if a continuation morphism from $a$ to $b$ and a
+continuation morphism from $a$ to $c$ display history-same tails, then their
+targets are history-same:
+$$
+left:\mathsf{ContinuationMorphism}(a,b),\quad
+right:\mathsf{ContinuationMorphism}(a,c),\quad
+\hsame(\mathsf{tail}(left),\mathsf{tail}(right))
+\Longrightarrow
+\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Unpack both continuation morphism records. The displayed tail equality makes
+the two continuation witnesses share the same source $a$ and the same tail.
+Continuation result determinacy then identifies the two target histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_target\_deterministic}
+
 \begin{definition}[Continuation morphism composition closure]
 \label{def:continuation-morphism-comp-closed}
 Given continuation morphisms from \(a\) to \(b\) and from \(b\) to \(c\), their

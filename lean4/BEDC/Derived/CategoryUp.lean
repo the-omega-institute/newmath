@@ -189,6 +189,28 @@ theorem ContinuationMorphism_tail_deterministic {a b : BHist}
       | mk rightTail rightRel =>
           exact cont_left_cancel leftRel rightRel
 
+theorem ContinuationMorphism_source_deterministic {a b c : BHist}
+    (left : ContinuationMorphism a c) (right : ContinuationMorphism b c) :
+    hsame left.tail right.tail -> hsame a b := by
+  intro sameTail
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          cases sameTail
+          exact cont_right_cancel leftRel rightRel
+
+theorem ContinuationMorphism_target_deterministic {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism a c) :
+    hsame left.tail right.tail -> hsame b c := by
+  intro sameTail
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          cases sameTail
+          exact cont_deterministic leftRel rightRel
+
 def ContinuationMorphism_comp_closed {a b c : BHist} (left : ContinuationMorphism a b)
     (right : ContinuationMorphism b c) : ContinuationMorphism a c := by
   cases left with

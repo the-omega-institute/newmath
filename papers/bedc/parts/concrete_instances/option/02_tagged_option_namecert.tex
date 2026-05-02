@@ -57,6 +57,27 @@ inversion gives $\hsame(p,a)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_present\_hsame\_readback}
 
+\begin{theorem}[Tagged option history carrier present source transport]
+\label{thm:tagged-option-history-carrier-present-source-transport}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+assume $S$ is stable along history sameness:
+$$
+\forall x\,y:\mathsf{BHist}.\;\hsame(x,y)\to S(x)\to S(y).
+$$
+Then a tagged carrier witness at the visible present endpoint $\Eone(h)$ reads
+back to the source predicate at its displayed payload:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(\Eone(h))\Longrightarrow S(h).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-present-exactness} to the carrier
+witness at $\Eone(h)$. It gives a payload $a$ with $S(a)$ and
+$\hsame(h,a)$. Symmetry turns this into $\hsame(a,h)$, and the displayed source
+transport sends $S(a)$ to $S(h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_present\_source\_transport}
+
 For the finite-data certificate template, the traditional target is
 absent-vs-present option tags; the BEDC source is $\mathsf{BHist}$ with
 $\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; no classifier
