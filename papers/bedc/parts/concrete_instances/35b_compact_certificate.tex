@@ -111,6 +111,34 @@ suffix by suffix exactness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_iff}
 
+\begin{theorem}[Compact net witness empty-precision visible-context exactness]
+\label{thm:compact-net-witness-empty-precision-visible-context-iff}
+For histories $p,q,c,n$, a visible-context compact-net witness with empty
+central precision is equivalent to unary evidence for the visible ledgers and
+center, together with the center classifier for the net:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\emp\cdot q,(p\cdot n)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{UnaryHistory}(c)\wedge
+\hsame(n,c).
+$$
+\end{theorem}
+\begin{proof}
+Peel the visible prefix and suffix by
+Theorem~\ref{thm:compact-net-witness-visible-context-iff}. The central witness
+is $\mathsf{CompactNetWitness}(c,\emp,n)$, whose continuation field is exactly
+the right-unit continuation classifier $\hsame(n,c)$; its carrier field gives
+$\mathsf{UnaryHistory}(c)$.
+
+Conversely, the unary center carrier and $\hsame(n,c)$ transport the center
+carrier to the net and produce the right-unit continuation witness. This builds
+$\mathsf{CompactNetWitness}(c,\emp,n)$, and visible-context exactness reattaches
+the prefix $p$ and suffix $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_precision\_visible\_context\_iff}
+
 \begin{theorem}[Compact net witness composite result determinacy]
 \label{thm:compact-net-witness-composite-result-deterministic}
 For histories $c,\epsilon,\eta,n,n',m,m'$, if $n$ and $n'$ are compact net

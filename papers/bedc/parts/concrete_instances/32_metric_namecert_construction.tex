@@ -541,6 +541,35 @@ $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_boundary\_visible\_context\_iff}
 
+\begin{theorem}[Metric distance witness empty-boundary visible-context exactness]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-iff}
+For histories $p,q,d$, a visible-context distance witness whose central left
+and right endpoints are both empty is exactly unary evidence for the visible
+ledgers together with the empty-distance classifier:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\hsame(d,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to remove the
+visible prefix and suffix. The central witness is
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d)$. Applying
+\autoref{thm:metric-distance-witness-empty-left-iff} identifies it with the
+empty-boundary classifier $\hsame(d,\emp)$, while the visible-context theorem
+records exactly the unary histories for $p$ and $q$.
+
+Conversely, unary histories for $p$ and $q$ and the classifier
+$\hsame(d,\emp)$ build the central witness by
+\autoref{thm:metric-distance-witness-empty-left-iff}. Reattaching the same
+visible prefix and suffix by
+\autoref{thm:metric-distance-witness-visible-context-iff} gives the displayed
+visible-context witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_iff}
+
 \begin{theorem}[Metric distance witness empty-boundary visible-context depth zero]
 \label{thm:metric-distance-witness-empty-boundary-visible-context-depth-zero}
 For histories $p,q,d$, a visible-context distance witness whose central left and
