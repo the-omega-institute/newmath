@@ -27,8 +27,21 @@ Theorem~\ref{thm:ring-mul-zero-absorption} identifies that product with
 $0$. Transporting the same witness $p_{ab}$ to $\mathsf{NonZero}_F(0)$
 again contradicts the field zero clause.
 \end{proof}
-\leanchecked{BEDC.Derived.FieldUp.field\_product\_nonzero\_empty\_factors\_absurd}
 \leanchecked{BEDC.Derived.FieldUp.field\_product\_nonzero\_excludes\_zero\_factors}
+
+\begin{corollary}[Field product nonzero empty-factor contradiction]
+\label{thm:field-product-nonzero-empty-factors-absurd}
+Under the same $\FieldUp$ and $\RingUp$ hypotheses as
+\autoref{thm:field-product-nonzero-excludes-zero-factors}, a proof
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$ determines the pair
+$\bigl(a\hsame0\to\bot\bigr)\land\bigl(b\hsame0\to\bot\bigr)$.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
+$p_{ab}$. Its two components are exactly the left-factor and right-factor
+contradictions against zero.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_product\_nonzero\_empty\_factors\_absurd}
 
 Per-object certificate: Traditional target: certified nonzero product
 prevents zero factors. BEDC source: $\FieldUp$ plus $\RingUp$ zero
