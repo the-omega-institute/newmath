@@ -100,9 +100,10 @@ two recovered endpoint carriers together with the recovered $\hsame(h,k)$.
 Let $p,q,r,s,h,k:\mathsf{BHist}$. For histories $u,v,x$, write
 $C_{u,v}(x):=\mathsf{append}(u,\mathsf{append}(x,v))$. If
 $\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
-$\mathsf{UnaryHistory}(r)$, and $\mathsf{UnaryHistory}(s)$ hold, and if
-$\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)$, then
+$\mathsf{UnaryHistory}(r)$, and $\mathsf{UnaryHistory}(s)$ hold, then
 $$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)
+\Longleftrightarrow
 \mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
   (C_{p,q}(C_{r,s}(h)),
    C_{\mathsf{append}(p,r),\mathsf{append}(s,q)}(k)).
@@ -111,24 +112,36 @@ $$
 \begin{proof}
 Set $L:=\mathsf{append}(p,r)$ and $R:=\mathsf{append}(s,q)$. Unary append
 closure applied to $p,r$ and to $s,q$ gives $\mathsf{UnaryHistory}(L)$ and
-$\mathsf{UnaryHistory}(R)$.
+$\mathsf{UnaryHistory}(R)$. The associativity laws for BEDC append identify
+$C_{p,q}(C_{r,s}(x))$ with $C_{L,R}(x)$ for every history $x$; in particular,
+they provide the $\hsame$ witnesses needed to move classifiers between the
+nested source endpoint and the normalized endpoint.
 
-Apply Theorem~\ref{thm:option-history-classifier-unary-two-sided-context} to
-the assumed classifier between $h$ and $k$ with the unary contexts $L$ and $R$.
-This gives
+For the forward direction, apply
+Theorem~\ref{thm:option-history-classifier-unary-two-sided-context} to the
+classifier between $h$ and $k$ with unary contexts $L$ and $R$. This gives
 $$
 \mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
   (C_{L,R}(h),C_{L,R}(k)).
 $$
 
-The associativity laws for BEDC append identify the nested source context
-$C_{p,q}(C_{r,s}(h))$ with $C_{L,R}(h)$, since the right hidden ledger becomes
-$\mathsf{append}(s,q)$ after reassociation.
+Transport the source endpoint along the associativity $\hsame$ witness from
+$C_{L,R}(h)$ to $C_{p,q}(C_{r,s}(h))$. The target endpoint is already
+$C_{L,R}(k)=C_{\mathsf{append}(p,r),\mathsf{append}(s,q)}(k)$ by the
+definitions of $L$ and $R$.
 
-Transport the classifier along that $\hsame$ equality on the source endpoint,
-leaving the target endpoint $C_{L,R}(k)$ unchanged. The result is exactly the
-displayed classifier, and the final repacking is an instance of nullable option
-classifier transitivity together with $\hsame$ reflexivity on the target side.
+For the reverse direction, start with the displayed classifier and transport
+its source endpoint back across the same associativity witness. This produces
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (C_{L,R}(h),C_{L,R}(k)).
+$$
+
+Apply the reverse implication of
+Theorem~\ref{thm:option-history-classifier-unary-two-sided-context} with
+contexts $L$ and $R$. Append cancellation inside that theorem removes the
+common normalized ledger and recovers
+$\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)$.
 \end{proof}
 
 \section{Tagged option map relation R-corner classifier coherence}
