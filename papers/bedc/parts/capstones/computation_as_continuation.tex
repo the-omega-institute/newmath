@@ -498,6 +498,30 @@ cycle is an ordinary cyclic hom-carrier pair, so cyclic identity-carrier
 exposure transports the two tails to empty identity carriers at $a$ and $b$.
 \end{proof}
 
+\begin{theorem}[Unary-context cyclic hom-carriers have empty tails]
+\label{thm:category-hom-carrier-unary-context-cycle-tails-empty}
+If the forward hom-carrier has a shared unary prefix and the opposite
+hom-carrier has a shared unary suffix,
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(\mathsf{append}(b,q),\mathsf{append}(a,q),g),
+$$
+then the base endpoints are internally the same and both morphism tails are
+empty:
+$$
+\hsame(a,b)\land \hsame(f,\emp)\land \hsame(g,\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_cycle\_tails\_empty}
+\begin{proof}
+Prefix exactness strips the shared unary prefix from the forward hom-carrier,
+leaving a base carrier from $a$ to $b$. Suffix exactness strips the shared
+unary suffix from the opposite hom-carrier, leaving a base carrier from $b$ to
+$a$. The ordinary cyclic tail theorem then identifies the endpoints and forces
+the two morphism tails to be empty.
+\end{proof}
+
 \begin{theorem}[Unary-context cyclic hom-carriers expose identity carriers]
 \label{thm:category-hom-carrier-unary-context-cycle-identity-carriers}
 If the forward hom-carrier has a shared unary prefix and the opposite
