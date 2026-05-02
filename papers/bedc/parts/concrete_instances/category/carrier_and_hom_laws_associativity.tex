@@ -67,6 +67,29 @@ into the concrete continuation-tail predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_semanticNameCert}
 
+\begin{theorem}[Continuation morphism tail-continuation witness iff]
+\label{thm:continuation-morphism-tail-cont-witness-iff}
+For histories $a,b,t:\mathsf{BHist}$, a continuation morphism from $a$ to $b$
+whose displayed tail is history-same to $t$ exists exactly when $t$ is a
+continuation tail from $a$ to $b$:
+$$
+\exists m:\mathsf{ContinuationMorphism}(a,b),\,
+\hsame(\mathsf{tail}(m),t)
+\quad\Longleftrightarrow\quad
+\ContR(a,t,b).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the displayed continuation morphism. Its
+record field gives $\ContR(a,\mathsf{tail}(m),b)$, and continuation transport
+along the tail classifier $\hsame(\mathsf{tail}(m),t)$ gives
+$\ContR(a,t,b)$.
+
+Conversely, a witness $\ContR(a,t,b)$ itself forms a continuation morphism
+from $a$ to $b$ with displayed tail $t$, and tail classification is reflexive.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_cont\_witness\_iff}
+
 \begin{theorem}[Continuation morphism tail determinacy]
 \label{thm:continuation-morphism-tail-deterministic}
 For histories $a,b$, any two continuation morphisms from $a$ to $b$ have

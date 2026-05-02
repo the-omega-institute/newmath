@@ -243,6 +243,26 @@ theorem PolynomialSingletonClassifier_cont_result_empty_classified {P Q r : BHis
   exact And.intro (hsame_refl BHist.Empty)
     (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
 
+theorem PolynomialSingletonClassifier_cont_result_empty_witness_iff {r : BHist} :
+    (exists P Q : BHist, PolynomialSingletonCarrier P ∧ PolynomialSingletonCarrier Q ∧
+      Cont P Q r) ↔ PolynomialSingletonClassifier r BHist.Empty := by
+  constructor
+  · intro witness
+    cases witness with
+    | intro P rest =>
+        cases rest with
+        | intro Q data =>
+            cases data.left
+            cases data.right.left
+            cases data.right.right
+            exact And.intro (hsame_refl BHist.Empty)
+              (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  · intro classified
+    exact Exists.intro BHist.Empty
+      (Exists.intro r
+        (And.intro (hsame_refl BHist.Empty)
+          (And.intro classified.left (cont_left_unit r))))
+
 theorem PolynomialSingletonNormalize_append_classifier_carrier_iff {P Q h : BHist} :
     PolynomialSingletonClassifier (PolynomialSingletonNormalize (append P Q)) h ↔
       PolynomialSingletonCarrier h := by

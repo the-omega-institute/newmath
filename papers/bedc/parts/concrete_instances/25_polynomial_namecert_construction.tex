@@ -316,6 +316,32 @@ $\HSame(\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_cont\_result\_empty\_classified}
 
+\begin{theorem}[Polynomial singleton classifier continuation result empty witness iff]
+\label{thm:polynomial-singleton-classifier-cont-result-empty-witness-iff}
+For a history $r:\mathsf{BHist}$, $r$ is classified with the singleton empty
+polynomial endpoint exactly when it is the continuation result of two
+singleton-carried polynomial endpoints:
+$$
+\exists P,Q:\mathsf{BHist},\,
+A_{\emp}(P)\wedge A_{\emp}(Q)\wedge \ContR(P,Q,r)
+\quad\Longleftrightarrow\quad
+\rho_{\emp}(r,\emp).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two carrier witnesses identify $P$ and $Q$ with
+$\emp$. The continuation witness then identifies $r$ with
+$\mathsf{append}(\emp,\emp)$, hence with $\emp$, and the singleton classifier
+is assembled from the two empty endpoint carrier witnesses and reflexive
+$\hsame$.
+
+Conversely, if $\rho_{\emp}(r,\emp)$ holds, take $P=\emp$ and $Q=r$. The
+left endpoint is carried by reflexivity, the right endpoint is carried by the
+left carrier field of the classifier, and the empty-source continuation
+witness gives $\ContR(\emp,r,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_cont\_result\_empty\_witness\_iff}
+
 The $\PolynomialUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and the displayed $\mathsf{BHist}$-valued operations, so later
 formalization can target BHist-anchored polynomial laws rather than abstract

@@ -35,6 +35,16 @@ theorem ContinuationMorphism_endpoint_transport_tail_classified {a a' b b' : BHi
   have transported := cont_hsame_transport sameSource (hsame_refl left.tail) sameTarget left.rel
   exact And.intro transported (cont_left_cancel transported right.rel)
 
+theorem ContinuationMorphism_tail_cont_witness_iff {a b t : BHist} :
+    (exists m : ContinuationMorphism a b, hsame m.tail t) ↔ Cont a t b := by
+  constructor
+  · intro witness
+    cases witness with
+    | intro m sameTail =>
+        exact cont_hsame_transport (hsame_refl a) sameTail (hsame_refl b) m.rel
+  · intro rel
+    exact Exists.intro { tail := t, rel := rel } (hsame_refl t)
+
 theorem CategoryHomCarrier_continuation_morphism_tail_iff {a b f : BHist} :
     CategoryHomCarrier a b f <->
       UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧
