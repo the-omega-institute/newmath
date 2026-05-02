@@ -153,6 +153,24 @@ $\ContR(a,fg,a)$, and right-unit uniqueness forces $fg$ to be $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_morphism\_empty}
 
+\begin{theorem}[Category hom-carrier endpoint cycle empty morphism equivalence]
+\label{thm:category-hom-carrier-composite-endpoint-cycle-morphism-empty-iff}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$. Then the
+composite endpoints close exactly when the composite morphism is empty:
+$$
+\hsame(a,c)\Longleftrightarrow\hsame(fg,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the endpoint-cycle empty-morphism theorem above.
+Conversely, composition closure gives a hom-carrier from $a$ to $c$ with
+morphism $fg$. If $fg\hsame\emp$, eliminate that comparison and apply the
+empty-identity exactness theorem to the composite hom-carrier; its endpoint
+projection is $\hsame(a,c)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_morphism\_empty\_iff}
+
 \begin{theorem}[Category empty-source composite result]
 \label{thm:category-hom-carrier-empty-source-composite-result}
 If $f$ is a hom-carrier from $\emp$ to $b$, $g$ is a hom-carrier from $b$ to

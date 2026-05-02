@@ -341,4 +341,10 @@ theorem field_rat_denominator_empty_unit_identity_unique {u : BHist} :
     hsame_trans (hsame_symm (append_empty_right u)) leftAtEmpty.right.right
   exact ⟨carrierU, carrierEmpty, sameUEmpty⟩
 
+theorem field_rat_denominator_empty_unit_right_cancel {h k t : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier t ->
+      RatDenomUnitClassifier (append h t) (append k t) -> RatDenomUnitClassifier h k := by
+  intro carrierH carrierK _carrierT classified
+  exact ⟨carrierH, carrierK, append_right_cancel classified.right.right⟩
+
 end BEDC.Derived.FieldUp
