@@ -875,3 +875,83 @@ Surfaced in Turn 0 as the setup-field proposition needed before the second modul
 
 ---
 
+### B-37 - Trim exposes a zero suffix
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Trim exposes a zero suffix |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the polynomial normalization setup, if a coefficient list p is decomposed at the normalization cut as p = trim(p) ++ s, then ZeroTail_R(s) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 when the oracle says the two-sided addition statement follows by applying the one-sided theorem to the zero tail removed from p and q, and in Turn 1 when the trim proof identifies the kept prefix through the last nonzero-classified coefficient. It deserves its own loop because two-sided trim compatibility needs an explicit bridge from an arbitrary list to its normalized prefix plus a zero-classified deleted suffix.
+
+---
+
+
+### B-38 - Zero convolution summands fold to zero
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Zero convolution summands fold to zero |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the scalar ring finite-sum setup used for raw Cauchy convolution, if every summand in a finite convolution index set is scalar-classifier equal to 0_R, then the additive fold over that index set is scalar-classifier equal to 0_R.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 where the oracle separates the multiplication case from addition and states that raw Cauchy convolution tail-invariance needs multiplicative zero laws plus additive congruence for finite sums. This is narrower than the full polynomial multiplication zero-tail theorem and isolates the finite-sum lemma that the multiplication proof must consume.
+
+---
+
+
+### B-39 - Literal polynomial add-trim equality fails
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Literal polynomial add-trim equality fails |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the canonical integer coefficient ring, if p = [1] and q = [-1], then trim(radd(p,q)) = [] while radd(trim(p),trim(q)) = [0], so literal list equality fails although the two outputs are polynomial-classified the same.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Surfaced explicitly in Turn 0 as the obstruction to the too-strong equation trim(radd(p,q)) = radd(trim(p),trim(q)). It deserves its own loop as a compact finite countermodel fixing the theorem boundary at classifier-level equality rather than raw list equality.
+
+---
+
