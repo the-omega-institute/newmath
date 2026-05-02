@@ -221,6 +221,21 @@ $\emp$, and the same exposed history-sameness witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_component\_classifiers}
 
+\begin{theorem}[Singleton FPS classifier rejects headed endpoints]
+\label{thm:fps-singleton-classifier-headed-endpoint-absurd}
+For $h,k:\mathsf{BHist}$, if
+$\rho_{\emp}(h,k)$ holds for the singleton empty-history FPS classifier, then
+none of $h$ or $k$ is a displayed zero-headed or one-headed endpoint.
+\end{theorem}
+\begin{proof}
+The classifier exposes singleton carrier witnesses
+$h\hsame\emp$ and $k\hsame\emp$. A displayed headed endpoint for either
+argument rewrites one of these witnesses into
+$\mathsf{e}_0(z)\hsame\emp$ or $\mathsf{e}_1(z)\hsame\emp$, contradicting
+the constructor separation lemmas for headed histories and the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_headed\_endpoint\_absurd}
+
 \section{The certificate}
 
 \begin{definition}[FormalPowerSeries source specification]

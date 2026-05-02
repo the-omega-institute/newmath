@@ -203,4 +203,37 @@ theorem FpsSingletonEmptyHistoryClassifier_append_component_classifiers {p q h :
             · exact ⟨qEmpty, hsame_refl BHist.Empty, qEmpty⟩
             · exact hCarrier
 
+theorem FpsSingletonEmptyHistoryClassifier_headed_endpoint_absurd {h k : BHist} :
+    FpsSingletonEmptyHistoryClassifier h k ->
+      ((∃ z : BHist, h = BHist.e0 z) ∨ (∃ z : BHist, h = BHist.e1 z) ∨
+        (∃ z : BHist, k = BHist.e0 z) ∨ (∃ z : BHist, k = BHist.e1 z)) -> False := by
+  intro classifier headed
+  have hEmpty : hsame h BHist.Empty := classifier.left
+  have kEmpty : hsame k BHist.Empty := classifier.right.left
+  cases headed with
+  | inl leftHead =>
+      cases leftHead with
+      | intro z hz =>
+          cases hz
+          exact not_hsame_e0_empty hEmpty
+  | inr rest =>
+      cases rest with
+      | inl leftHead =>
+          cases leftHead with
+          | intro z hz =>
+              cases hz
+              exact not_hsame_e1_empty hEmpty
+      | inr rest =>
+          cases rest with
+          | inl rightHead =>
+              cases rightHead with
+              | intro z hz =>
+                  cases hz
+                  exact not_hsame_e0_empty kEmpty
+          | inr rightHead =>
+              cases rightHead with
+              | intro z hz =>
+                  cases hz
+                  exact not_hsame_e1_empty kEmpty
+
 end BEDC.Derived.FpsUp

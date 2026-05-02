@@ -72,6 +72,31 @@ cancellation identifies the endpoints and forces both tails to be the empty
 history.
 \end{proof}
 
+\begin{theorem}[Cyclic hom-carriers expose identity carriers]
+\label{thm:category-hom-carrier-cycle-identity-carriers}
+If the opposite hom-carrier ledgers
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(b,a,g)
+$$
+both hold, then the two endpoints carry empty-tail identities and the endpoints
+are internally the same:
+$$
+\mathsf{CategoryHomCarrier}(a,a,\emp)\land
+\mathsf{CategoryHomCarrier}(b,b,\emp)\land
+\hsame(a,b).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_cycle\_identity\_carriers}
+\begin{proof}
+Apply the cyclic tail theorem to obtain $\hsame(a,b)$ together with
+$f\hsame\emp$ and $g\hsame\emp$. Transport the two displayed hom-carriers along
+these endpoint and tail equalities. The forward carrier becomes the empty-tail
+identity carrier at $a$, and the reverse carrier becomes the empty-tail
+identity carrier at $b$.
+\end{proof}
+
 \begin{theorem}[Visible one-step morphisms have no opposite cycle]
 \label{thm:category-e1-morphism-cycle-absurd}
 If the forward hom-carrier has a visible one-headed morphism tail
