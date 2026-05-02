@@ -15,149 +15,97 @@ Use a structure containing a function \(f:V\to W\) plus explicit proofs of addit
 
 \begin{definition}[Concrete singleton empty-history linear map instance]
 \label{def:singleton-empty-history-linearmap-instance}
-Let the scalar carrier, source vector carrier, and target vector carrier all be
-the singleton history source $A_{\emp}$ of
-Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Use the
-shared endpoint classifier $\rho_{\emp}$ from
-Definition~\ref{def:singleton-empty-history-vecspace-instance}. Let the public
-map names be $\mathsf{BHist}$ codes and define the map-token carrier by
+Use the singleton empty-history vector space of
+Definition~\ref{def:singleton-empty-history-vecspace-instance} as both source
+and target. Its scalar, source-vector, and target-vector carriers are the
+singleton history source $A_{\emp}$ of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. The map-code
+carrier is the same existing singleton predicate
 $$
-L_{\emp}(f)\Longleftrightarrow A_{\emp}(f).
+A_{\emp}:\mathsf{BHist}\to\mathsf{Prop},
 $$
-The map classifier is
+and the map-code classifier is the existing singleton classifier
+$\rho_{\emp}$. The realized action is the constant endpoint action
 $$
-\lambda_{\emp}(f,g):=
-L_{\emp}(f)\land L_{\emp}(g)\land\hsame(f,g).
+\Lambda_{\emp}(f,x):=\emp
 $$
-The pointwise evaluation is
-$$
-\mathsf{eval}_{\emp}(f,x):=\emp.
-$$
-Equivalently, use the
-constant singleton graph
-$$
-\mathsf{Eval}_{\emp}(f,v,w):=
-L_{\emp}(f)\land A_{\emp}(v)\land A_{\emp}(w)\land\hsame(w,\emp),
-$$
-with the same chosen endpoint evaluation. Set the identity map code, zero-map
-code, and composite map code to
+for every admitted map code $f$ and singleton vector input $x$. The identity
+code, zero-map code, and composition code are
 $$
 \mathsf{id}_{\emp}:=\emp,\qquad
-0_L:=\emp,\qquad
+\mathsf{zeroMap}_{\emp}:=\emp,\qquad
 \mathsf{comp}_{\emp}(g,f):=\emp.
 $$
 The certificate fit has ten fields:
 \begin{enumerate}
-  \item Traditional target: the unique linear map between singleton vector
-  spaces.
+  \item Traditional target: the terminal one-map linear map space between the
+  singleton vector space and itself.
   \item BEDC source: $\mathsf{BHist}$.
-  \item Carrier choice: the map-token carrier $L_{\emp}$.
-  \item Classifier choice: pointwise $\rho_{\emp}$ through
-  $\mathsf{eval}_{\emp}$.
-  \item Stability obligations: zero preservation, additivity, scalar
-  compatibility, identity, and composition.
-  \item Ledger: the map token together with the singleton evaluation endpoint.
-  \item Core theorem list:
-  Theorem~\ref{thm:singleton-empty-history-linearmap-laws}.
+  \item Carrier choice: $A_{\emp}$ for map codes.
+  \item Classifier choice: $\rho_{\emp}$ for map-code equality.
+  \item Stability obligations: output closure, pointwise classifier
+  congruence, additivity, scalar compatibility, zero preservation, identity
+  closure, and composition closure.
+  \item Ledger: singleton map-code provenance.
+  \item Core theorem list: Theorem~\ref{thm:singleton-empty-history-linearmap-laws}.
   \item Exactness predicate: singleton endpoint classification.
-  \item Standard bridge: the one-map hom-set between singleton vector spaces.
+  \item Standard bridge: the terminal one-map linear hom space.
   \item Status: $\mathsf{ProofTarget}$.
 \end{enumerate}
 \end{definition}
 
 \begin{theorem}[Singleton empty-history linear map laws]
 \label{thm:singleton-empty-history-linearmap-laws}
-For the singleton vector spaces of
-Definition~\ref{def:singleton-empty-history-vecspace-instance}, the data
+The tuple
 $$
-(A_{\emp},\rho_{\emp},L_{\emp},\lambda_{\emp},
-\mathsf{eval}_{\emp},\mathsf{id}_{\emp},0_L,\mathsf{comp}_{\emp})
+(A_{\emp},\rho_{\emp},\Lambda_{\emp},\emp,\mathsf{comp}_{\emp})
 $$
-satisfy the concrete $\LinearMapUp$ law package:
-\begin{enumerate}
-  \item $L_{\emp}(\emp)$, so the linear-map carrier is inhabited, and $0_L$ is
-  carried.
-  \item For all map codes $f,g$,
-  $$
-  \lambda_{\emp}(f,g)\Longleftrightarrow
-  L_{\emp}(f)\land L_{\emp}(g)\land\hsame(f,g).
-  $$
-  \item Evaluation respects map and vector classification:
-  $\lambda_{\emp}(f,g)$ and $\rho_{\emp}(v,w)$ imply
-  $\rho_{\emp}(\mathsf{eval}_{\emp}(f,v),\mathsf{eval}_{\emp}(g,w))$.
-  \item Each carried map preserves zero, vector addition, and scalar
-  multiplication under $\rho_{\emp}$.
-  \item $\mathsf{id}_{\emp}$ is carried, and
-  $\mathsf{comp}_{\emp}(g,f)$ is carried whenever $f$ and $g$ are carried.
-  \item Left identity, right identity, and associativity of composition hold
-  under $\lambda_{\emp}$.
-  \item The pointwise classifier induced by $\rho_{\emp}$ is reflexive and
-  transitive on admitted map tokens.
-\end{enumerate}
+satisfies the $\LinearMapUp$ schema over the singleton vector space, where the
+displayed empty-history code supplies the identity and zero-map slots.
 \end{theorem}
 \begin{proof}
-The domain and codomain vector-space fields are exactly the singleton
-empty-history fields of
-Theorem~\ref{thm:singleton-empty-history-vecspace-laws}. Thus every scalar
-code, vector code, vector operation endpoint, and scalar-action endpoint is
-classified at the singleton endpoint $\emp$.
+The source and target vector-space laws are those of
+Theorem~\ref{thm:singleton-empty-history-vecspace-laws}. They supply the
+singleton scalar laws, vector closure, additive laws, scalar-action closure,
+and scalar-action congruence for the same $A_{\emp}$ carrier and
+$\rho_{\emp}$ classifier.
 
-Carrier inhabitance follows from the singleton carrier witness
-$A_{\emp}(\emp)$. The same witness carries $0_L$, $\mathsf{id}_{\emp}$, and
-every composite endpoint, since all three codes are definitionally $\emp$.
-The classifier statement is the displayed definition of $\lambda_{\emp}$, with
-symmetry and transitivity of $\hsame$ available for the usual classifier
-symmetry and transitivity clauses.
+Output closure is $A_{\emp}(\emp)$, since
+$\Lambda_{\emp}(f,x)$ is definitionally $\emp$. Pointwise classifier
+congruence is immediate because
+$\Lambda_{\emp}(f,x)$ and $\Lambda_{\emp}(g,y)$ are both $\emp$, so the
+required endpoint comparison is the singleton $\rho_{\emp}$ witness.
 
-For evaluation respect, both chosen endpoints
-$\mathsf{eval}_{\emp}(f,v)$ and $\mathsf{eval}_{\emp}(g,w)$ reduce to $\emp$.
-The singleton carrier witnesses for $\emp$ and reflexivity of $\hsame$ assemble
-the required $\rho_{\emp}$ witness, independent of the particular carried map
-and vector names.
-
-For zero preservation, both the source zero endpoint evaluated by the map and
-the target zero endpoint reduce to $\emp$. The vector-space theorem supplies
-the singleton zero endpoint on the displayed carrier, and $\hsame(\emp,\emp)$
-supplies the comparison.
-
-For additivity, the source side
-$\mathsf{eval}_{\emp}(f,\mathsf{add}(v,w))$ and the target side
-$\mathsf{add}(\mathsf{eval}_{\emp}(f,v),\mathsf{eval}_{\emp}(f,w))$ both
-reduce to the singleton endpoint. The vector-space theorem supplies closure of the
-displayed addition endpoint, and $\hsame$ reflexivity supplies the classifier
-component.
+For additivity,
+$\Lambda_{\emp}(f,\mathsf{add}(x,y))$ and
+$\mathsf{add}(\Lambda_{\emp}(f,x),\Lambda_{\emp}(f,y))$ are both classified
+with $\emp$. The vector-space theorem supplies closure for the displayed
+addition endpoint, and the singleton classifier supplies the endpoint
+comparison.
 
 For scalar compatibility,
-$\mathsf{eval}_{\emp}(f,\mathsf{smul}(r,v))$ and
-$\mathsf{smul}(r,\mathsf{eval}_{\emp}(f,v))$ again reduce to $\emp$. Closure and
-classification are the singleton vector-space closure witness and
-$\hsame(\emp,\emp)$.
+$\Lambda_{\emp}(f,\mathsf{smul}(r,x))$ and
+$\mathsf{smul}(r,\Lambda_{\emp}(f,x))$ are again classified with $\emp$.
+Scalar-action closure and congruence come from the singleton vector-space
+laws, so no additional map-specific datum is needed.
 
-The identity code and every composite code are definitionally $\emp$, so
-$L_{\emp}(\mathsf{id}_{\emp})$ and
-$L_{\emp}(\mathsf{comp}_{\emp}(g,f))$ follow from the singleton carrier
-witness $A_{\emp}(\emp)$. The left and right identity comparisons reduce to
-comparing carried map codes with $\emp$; the carrier witnesses $L_{\emp}(f)$ or
-$L_{\emp}(g)$ provide the needed endpoint links, using symmetry when the
-displayed direction is reversed.
+Zero preservation compares $\Lambda_{\emp}(f,0)$ with the singleton vector
+zero. Both sides are $\emp$, and the required classification is the same
+$\rho_{\emp}$ endpoint witness.
 
-For associativity, both composite codes
-$\mathsf{comp}_{\emp}(h,\mathsf{comp}_{\emp}(g,f))$ and
-$\mathsf{comp}_{\emp}(\mathsf{comp}_{\emp}(h,g),f)$ are $\emp$. The two carrier
-witnesses and reflexivity of $\hsame$ give the final
-$\lambda_{\emp}$ comparison.
+The identity and zero-map codes are $\emp$, and their action on any carried
+input $x$ reduces to $\emp$. The input carrier witness $A_{\emp}(x)$ together
+with $\rho_{\emp}$ gives the required singleton endpoint classification.
 
-The pointwise classifier laws are endpoint laws. Reflexivity compares
-$\mathsf{eval}_{\emp}(f,x)$ with itself, and transitivity composes two
-comparisons between endpoints that are all $\emp$. The required
-$\rho_{\emp}$ witnesses are therefore the singleton endpoint classification
-witnesses already used by the vector-space package.
+For composition closure, every composite map code and every realized output
+reduce to $\emp$. The carrier witness for $\emp$ and reflexivity inside
+$\rho_{\emp}$ close the composition law and the comparison of the two
+evaluation orders.
 \end{proof}
 
 The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
-carrier and map-token evaluation, so the Lean formalization can target
-$\mathsf{BEDC.Derived.LinearMapUp}$ rather than an abstract function-space
-echo.
+carrier and singleton action, so later Lean work can target BHist-anchored
+linear-map laws instead of only abstract function fields.
 
 \section{The certificate}
 
