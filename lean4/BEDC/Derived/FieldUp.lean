@@ -446,4 +446,9 @@ theorem field_singleton_empty_schema_laws :
   · intro sameMiddle
     exact mulCongr (mulCongr (hsame_refl a) sameMiddle) (hsame_refl b)
 
+theorem field_singleton_nonzero_absurd {a : BHist} :
+    hsame a BHist.Empty -> hsame a (BHist.e0 BHist.Empty) -> False := by
+  intro sameEmpty sameSingleton
+  exact not_hsame_emp_e0 (hsame_trans (hsame_symm sameEmpty) sameSingleton)
+
 end BEDC.Derived.FieldUp
