@@ -50,6 +50,53 @@ N_D^\ast(h):=\mathsf{RatHistoryCarrier}(h).
 $$
 \end{definition}
 
+\begin{theorem}[Rat denominator FieldUp envelope empty-context exactness]
+\label{thm:field-rat-denominator-fieldup-envelope-empty-context-exactness}
+For the concrete denominator-side tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$ of
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance},
+let $p,q,p',q',h,k:\mathsf{BHist}$. If $p\hsame\emp$, $q\hsame\emp$,
+$p'\hsame\emp$, $q'\hsame\emp$, $C_D^\ast(h)$, and $C_D^\ast(k)$, then the
+external-unit envelope classifier and strict support are exact under empty
+external endpoint contexts:
+$$
+R_D^\ast(\mathsf{append}(p,\mathsf{append}(h,q)),
+\mathsf{append}(p',\mathsf{append}(k,q')))
+\Longleftrightarrow R_D^\ast(h,k),
+$$
+$$
+N_D^\ast(\mathsf{append}(p,\mathsf{append}(h,q)))
+\Longleftrightarrow N_D^\ast(h),
+$$
+and
+$$
+N_D^\ast(\mathsf{append}(p',\mathsf{append}(k,q')))
+\Longleftrightarrow N_D^\ast(k).
+$$
+\end{theorem}
+\begin{proof}
+The append left and right unit laws first identify
+$\mathsf{append}(p,\mathsf{append}(h,q))$ with $h$ and
+$\mathsf{append}(p',\mathsf{append}(k,q'))$ with $k$, using the four hypotheses
+that the external contexts are history-same to $\emp$.
+
+By
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-normal-form}, those
+endpoint comparisons, together with the carrier hypotheses $C_D^\ast(h)$ and
+$C_D^\ast(k)$, classify each contextualized endpoint with its original endpoint
+inside $R_D^\ast$. The binary classifier congruence field in
+\autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws} then
+transports the classifier comparison in both directions, giving the displayed
+classifier exactness.
+
+For strict support, apply the first clause of
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws} to the two
+endpoint classifications just obtained. Since $N_D^\ast$ is
+$\mathsf{RatHistoryCarrier}$ in the displayed tuple, this transports strict
+denominator support from each contextualized endpoint back to the original
+endpoint and conversely.
+\end{proof}
+
 \begin{theorem}[Rat denominator FieldUp multiplicative exactness boundary]
 \label{thm:field-rat-denominator-fieldup-multiplicative-exactness-boundary}
 The concrete instance
