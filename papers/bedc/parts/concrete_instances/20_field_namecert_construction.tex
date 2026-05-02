@@ -525,8 +525,12 @@ $\mathsf{ProofTarget}$.
 \label{thm:field-square-apartness-inverse-descent}
 For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
 \autoref{thm:field-product-nonzero-excludes-zero-factors} and
-\autoref{thm:field-inverse-product-reverse-from-apartness}, assume the
-field interpretation identifies $\mathsf{NonZero}_F(h)$ with
+\autoref{thm:field-inverse-product-reverse-from-apartness}, plus the
+canonical product-apartness witness construction of
+\autoref{thm:field-product-apartness-inverse-product-reverse}, together with
+the proof-index comparison supplied by
+\autoref{thm:field-inverse-congruence-from-apartness}, assume the field
+interpretation identifies $\mathsf{NonZero}_F(h)$ with
 $\mathsf{ApartZero}_F(h)$, where
 $\mathsf{ApartZero}_F(h)$ means $h\hsame0\to\bot$. For every
 $a:\mathsf{BHist}$, any witness
@@ -552,12 +556,33 @@ Apply the square apartness witness $p_{a^2}$ to this classifier equality.
 This closes the assumed zero classifier for $a$, so the function just built
 is the induced witness $p_a:\mathsf{ApartZero}_F(a)$.
 
-Finally apply
-\autoref{thm:field-inverse-product-reverse-from-apartness} to the product
-$\mathsf{mul}(a,a)$, using $p_{a^2}$ as the product witness and using the
-same induced factor witness $p_a$ on both sides. The reversal theorem returns
-the displayed inverse equality, and the two factors coincide because the
-left and right product entries are both $a$.
+Next apply
+\autoref{thm:field-product-apartness-inverse-product-reverse} to the two
+factor witnesses $p_a$ and $p_a$. This supplies the canonical product
+apartness witness
+$$
+p'_{a^2}:\mathsf{ApartZero}_F(\mathsf{mul}(a,a))
+$$
+and the indexed inverse equality
+$$
+\mathsf{inv}(\mathsf{mul}(a,a),p'_{a^2})
+\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{inv}(a,p_a)).
+$$
+
+It remains to compare the supplied square witness with the canonical product
+witness. Use
+\autoref{thm:field-inverse-congruence-from-apartness} with reflexivity on
+$\mathsf{mul}(a,a)$, the witness $p_{a^2}$ on the source side, and
+$p'_{a^2}$ on the target side. This identifies
+$$
+\mathsf{inv}(\mathsf{mul}(a,a),p_{a^2})
+\hsame
+\mathsf{inv}(\mathsf{mul}(a,a),p'_{a^2}).
+$$
+
+Transitivity with the canonical product equality gives the displayed inverse
+descent identity.
 \end{proof}
 
 Per-object certificate: Traditional target: square inverse descent. BEDC
