@@ -66,6 +66,53 @@ visible certificate fields. The four projected witnesses assemble into the
 displayed conjunction.
 \end{proof}
 
+\section{Tagged option present-chain endpoint classification}
+\label{sec:option-present-chain-endpoint-classification}
+
+\begin{theorem}[Tagged option present-chain endpoint classification]
+\label{thm:tagged-option-present-chain-endpoint-classification}
+This theorem fits the ten-field template as follows: the traditional target is
+present-chain optional payload classification; the BEDC source is
+$\mathsf{BHist}$ with a source $\NameCert$; the carrier is
+$\mathsf{TaggedOptionHistoryCarrier}$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}$; the stability obligation is transitive
+payload descent through a shared present endpoint; the ledger is visible present
+tags; the core theorem is endpoint payload classification; exactness is the
+visible endpoint readback; the standard bridge is $\mathsf{some}$-chain
+classification; and the status is $\mathsf{ProofTarget}$.
+
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, source certificate
+$\mathsf{cert}:\NameCert(S,\sim_S)$, histories $h,k,r$, and visible payloads
+$a,c$, assume $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. If
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k),\qquad
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(k,r),\qquad
+\hsame(h,\Eone(a)),\qquad
+\hsame(r,\Eone(c)),
+$$
+then there are endpoint payloads $a_0,c_0:\mathsf{BHist}$ such that
+$$
+S(a_0)\land S(c_0)\land
+\hsame(a,a_0)\land \hsame(c_0,c)\land a_0\sim_S c_0.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-present-chain-payload-witness} to the two
+tagged classifier witnesses and the displayed endpoint presentations. This gives
+payload histories $a_0,b,b',c_0$ with the four source witnesses, the visible
+readbacks $\hsame(a,a_0)$, $\hsame(b,b')$, and $\hsame(c_0,c)$, and the two
+payload classifications $a_0\sim_S b$ and $b'\sim_S c_0$.
+
+Use $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ on $S(b)$, $S(b')$,
+and $\hsame(b,b')$ to obtain the middle payload classification $b\sim_S b'$.
+
+Apply the transitivity field $\mathsf{cert.equiv\_trans}$ first to
+$a_0\sim_S b$ and $b\sim_S b'$, and then to the result and $b'\sim_S c_0$.
+This derives $a_0\sim_S c_0$. Package $a_0$ and $c_0$ with their source
+witnesses and endpoint readbacks.
+\end{proof}
+
 \section{Composite image classifier normalized factored public completion}
 \label{sec:option-composite-image-classifier-normalized-factored-public-completion}
 
