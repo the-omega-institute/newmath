@@ -199,6 +199,44 @@ theorem FunctorPrefixHomCarrier_empty_identity_iff {p a b : BHist} :
               Iff.mpr CategoryHomCarrier_empty_identity_iff
                 (And.intro sourceCarrier (And.intro targetCarrier samePrefixed))
 
+theorem FunctorPrefixHomCarrier_e1_prefix_empty_identity_iff {p a b : BHist} :
+    CategoryHomCarrier (append (BHist.e1 p) a) (append (BHist.e1 p) b) BHist.Empty ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  constructor
+  · intro homCarrier
+    have identityData :=
+      (FunctorPrefixHomCarrier_empty_identity_iff
+        (p := BHist.e1 p) (a := a) (b := b)).mp homCarrier
+    cases identityData with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier sameTail =>
+            have sourceFactors :=
+              (unary_append_factors_iff_result (h := BHist.e1 p) (k := a)).mpr
+                sourceCarrier
+            have targetFactors :=
+              (unary_append_factors_iff_result (h := BHist.e1 p) (k := b)).mpr
+                targetCarrier
+            exact
+              And.intro (unary_e1_inversion sourceFactors.left)
+                (And.intro sourceFactors.right
+                  (And.intro targetFactors.right sameTail))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro sourceCarrier rest =>
+            cases rest with
+            | intro targetCarrier sameTail =>
+                exact
+                  (FunctorPrefixHomCarrier_empty_identity_iff
+                    (p := BHist.e1 p) (a := a) (b := b)).mpr
+                    (And.intro
+                      (unary_append_closed (unary_e1_closed prefixCarrier) sourceCarrier)
+                      (And.intro
+                        (unary_append_closed (unary_e1_closed prefixCarrier) targetCarrier)
+                        sameTail))
+
 theorem FunctorPrefixHomCarrier_empty_target_components_iff {p a f : BHist} :
     CategoryHomCarrier (append p a) BHist.Empty f <->
       hsame p BHist.Empty /\ hsame a BHist.Empty /\ hsame f BHist.Empty := by

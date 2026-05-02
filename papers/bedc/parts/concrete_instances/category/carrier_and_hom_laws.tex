@@ -43,6 +43,26 @@ empty morphism carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_identity\_iff}
 
+\begin{theorem}[Category one-headed source empty morphism exactness]
+\label{thm:category-hom-carrier-e1-source-empty-morphism-iff}
+For histories \(a\) and \(target\), the empty morphism is a hom-carrier from
+\(\Eone(a)\) to \(target\) exactly when the target is \(\Eone(a)\) and the
+tail \(a\) is unary:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),target,\emp)
+\quad\Longleftrightarrow\quad
+target=\Eone(a)\wedge\mathsf{UnaryHistory}(a).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty identity hom-carrier exactness to the source \(\Eone(a)\). The
+resulting history-sameness witness identifies \(target\) with \(\Eone(a)\),
+and unary inversion on the one-headed source gives unary membership of \(a\).
+Conversely, after the displayed target equation is eliminated, unary closure
+under \(\Eone\) and the empty identity carrier rebuild the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_empty\_morphism\_iff}
+
 \begin{theorem}[Category empty-source hom carrier exactness]
 \label{thm:category-hom-carrier-empty-source-iff}
 For histories \(b,f\), a hom-carrier out of the empty source is exactly unary

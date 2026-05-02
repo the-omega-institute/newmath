@@ -309,6 +309,29 @@ outer-constructor equalities. The opposite-tag branch exposes the predecessor
 of $k$ and peels the matching outer constructor from the result equation.
 \end{proof}
 
+\begin{theorem}[Left cross-tag continuation result characterization]
+\label{thm:cont-left-tag-cross-result-iff-pair}
+For histories \(h,k,r\), the two cross-tag result shapes are characterized by
+the opposite tag in the continuation tail:
+$$
+\ContR(\Ezero(h),k,\Eone(r))
+\Longleftrightarrow
+\exists k_0:\mathsf{BHist}.\;k=\Eone(k_0)\land\ContR(\Ezero(h),k_0,r),
+$$
+and
+$$
+\ContR(\Eone(h),k,\Ezero(r))
+\Longleftrightarrow
+\exists k_0:\mathsf{BHist}.\;k=\Ezero(k_0)\land\ContR(\Eone(h),k_0,r).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_tag\_cross\_result\_iff\_pair}
+\begin{proof}
+The forward directions are the cross-tag result case split. For the converse
+directions, eliminate the displayed equation for \(k\) and rebuild the outer
+result constructor using the corresponding continuation step rule.
+\end{proof}
+
 \begin{lemma}[Continuation right unit]
 For every history \(h\), \(\ContR(h,\emp,h)\).
 \end{lemma}

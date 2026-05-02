@@ -296,4 +296,35 @@ theorem cont_left_tag_cross_result_cases :
     | e1 k0 =>
         cases hcont
 
+theorem cont_left_tag_cross_result_iff_pair :
+    (∀ {h k r : BHist},
+        Cont (BHist.e0 h) k (BHist.e1 r) ↔
+          ∃ k0 : BHist, k = BHist.e1 k0 ∧ Cont (BHist.e0 h) k0 r) ∧
+      (∀ {h k r : BHist},
+        Cont (BHist.e1 h) k (BHist.e0 r) ↔
+          ∃ k0 : BHist, k = BHist.e0 k0 ∧ Cont (BHist.e1 h) k0 r) := by
+  constructor
+  · intro h k r
+    constructor
+    · intro hcont
+      exact cont_left_tag_cross_result_cases.left hcont
+    · intro witness
+      cases witness with
+      | intro k0 packed =>
+          cases packed with
+          | intro kEq tail =>
+              cases kEq
+              exact cont_step_one tail
+  · intro h k r
+    constructor
+    · intro hcont
+      exact cont_left_tag_cross_result_cases.right hcont
+    · intro witness
+      cases witness with
+      | intro k0 packed =>
+          cases packed with
+          | intro kEq tail =>
+              cases kEq
+              exact cont_step_zero tail
+
 end BEDC.FKernel.Cont

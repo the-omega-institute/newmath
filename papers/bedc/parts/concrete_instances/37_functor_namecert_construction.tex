@@ -225,6 +225,30 @@ identity exactness reconstructs the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_identity\_iff}
 
+\begin{theorem}[One-headed prefix empty identity hom carrier exactness]
+\label{thm:functor-prefix-hom-carrier-e1-prefix-empty-identity-iff}
+For histories \(p,a,b\), the empty history is a hom-carrier from
+\(\mathsf{append}(\Eone(p),a)\) to \(\mathsf{append}(\Eone(p),b)\) exactly
+when \(p\), \(a\), and \(b\) are unary and the two tails are internally the
+same:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(\Eone(p),a),
+\mathsf{append}(\Eone(p),b),\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge
+\mathsf{UnaryHistory}(b)\wedge\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies prefix empty identity exactness with prefix
+\(\Eone(p)\), then splits the unary append witnesses for the source and
+target. One-headed unary inversion extracts unary membership of \(p\). The
+reverse direction closes \(\Eone(p)\) under unary generation, rebuilds the two
+prefixed unary endpoints by append closure, and invokes prefix empty identity
+exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_prefix\_empty\_identity\_iff}
+
 \begin{theorem}[Prefix functor empty-target component exactness]
 \label{thm:functor-prefix-hom-carrier-empty-target-components-iff}
 For histories $p,a,f$, a hom-carrier from the prefixed source
