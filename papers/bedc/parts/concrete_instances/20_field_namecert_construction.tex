@@ -307,6 +307,65 @@ $\mathsf{append}$; \textbf{carrier}: $C_D^u$; \textbf{classifier}: $R_D^u$;
 \textbf{standard bridge}: ordinary positive-denominator multiplication with
 adjoined unit; \textbf{status}: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Rat denominator empty-unit right cancellation]
+\label{thm:field-rat-denominator-empty-unit-right-cancellation}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance},
+right multiplication by a carried empty-unit denominator endpoint is exact for
+the classifier. For all histories $h,k,t:\mathsf{BHist}$, if $C_D^u(h)$,
+$C_D^u(k)$, $C_D^u(t)$, and
+$$
+R_D^u(\mu_D^u(h,t),\mu_D^u(k,t)),
+$$
+then
+$$
+R_D^u(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the data of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance}.
+Thus $\mu_D^u$ is $\mathsf{append}$, $C_D^u$ is
+$\mathsf{RatDenomUnitCarrier}$, and $R_D^u$ is
+$\mathsf{RatDenomUnitClassifier}$.
+
+First consider the branch where $t$ is the empty endpoint. The right-unit
+clause in
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}
+classifies $\mathsf{append}(h,t)$ with $h$ and $\mathsf{append}(k,t)$ with
+$k$. Transport the displayed classifier across these two right-unit
+classifications, using symmetry and transitivity of $\hsame$ inside
+$\mathsf{RatDenomUnitClassifier}$, to obtain
+$\mathsf{RatDenomUnitClassifier}(h,k)$.
+
+Now consider the branch where $t$ is a genuine Rat denominator endpoint. If one
+of $h$ and $k$ is empty and the other is genuine, the displayed product
+classifier is a mixed carried-empty endpoint after cancelling the visible
+append presentation; this contradicts
+\autoref{thm:field-rat-denominator-unit-envelope-mixed-endpoint-separation}.
+The empty/empty subcase packs the classifier directly from the two empty
+endpoint witnesses.
+
+It remains to handle the genuine/genuine subcase. The products
+$\mu_D^u(h,t)$ and $\mu_D^u(k,t)$ are the canonical append continuation
+endpoints with common suffix $t$. Apply
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation}
+with the empty prefix, the common suffix $t$, and the two canonical
+continuation witnesses for $\Cont(h,t,\mathsf{append}(h,t))$ and
+$\Cont(k,t,\mathsf{append}(k,t))$. The result is
+$\mathsf{RatHistoryClassifier}(h,k)$, and the original carrier hypotheses
+repack it as $\mathsf{RatDenomUnitClassifier}(h,k)$.
+\end{proof}
+
+Per-object template: traditional target cancellation in the denominator monoid
+boundary; BEDC source $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\Cont$, and $\mathsf{append}$; carrier
+$C_D^u$; classifier $R_D^u$; stability obligation right cancellation; ledger
+the common suffix continuation witness; core theorem
+\autoref{thm:field-rat-denominator-empty-unit-right-cancellation}; exactness
+predicate cancellation of a shared denominator factor; standard bridge
+ordinary cancellative commutative monoids; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field affine automorphism inverse is involutive]
 \label{thm:field-affine-automorphism-inverse-involutive}
 For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
