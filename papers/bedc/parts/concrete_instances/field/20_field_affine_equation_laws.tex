@@ -42,6 +42,7 @@ $b$, and the additive identity law collapse
 $\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(b)),b)$ back to $c$. This gives
 $\mathsf{add}(\mathsf{mul}(a,x),b)\hsame c$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_left\_equation\_exact\_from\_apartness}
 
 \begin{theorem}[Field affine right multiplication equation exactness from apartness]
 \label{thm:field-affine-right-equation-exact-from-apartness}
@@ -85,6 +86,7 @@ $d$, and the additive identity law collapse
 $\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(d)),d)$ back to $c$. This gives
 $\mathsf{add}(\mathsf{mul}(x,b),d)\hsame c$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_right\_equation\_exact\_from\_apartness}
 
 \begin{theorem}[Field one-sided affine map classifier exactness from apartness]
 \label{thm:field-affine-one-sided-map-classifier-exact-from-apartness}
@@ -144,14 +146,16 @@ inverse laws. Ledger: the single nonzero witness for the active factor and the
 additive offset. Core theorem list entry: one-sided affine map classifier
 exactness from apartness. Exactness predicate: reflection and preservation of the
 affine classifier. Standard bridge: deferred conservative bridge. Status:
-ProofTarget.
+left and right equation exactness clauses CheckedCert; combined classifier
+clause ProofTarget.
 
-Per-object certificate: this is a traditional target for affine right field
-equation solving. BEDC source: $\FieldUp$ plus additive group laws. Carrier:
-$\mathsf{BHist}$. Classifier: $\hsame$. Ledger: the nonzero witness
-$p_b:\mathsf{NonZero}_F(b)$ and additive offset. Stability obligations:
-additive cancellation, multiplication associativity, multiplicative unit laws,
-multiplication congruence, and indexed inverse laws. Status: ProofTarget.
+Per-object certificate: this is a traditional target for affine left and right
+field equation solving. BEDC source: $\FieldUp$ plus additive group laws.
+Carrier: $\mathsf{BHist}$. Classifier: $\hsame$. Ledger: the nonzero witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ with their additive
+offsets. Stability obligations: additive cancellation, multiplication
+associativity, multiplicative unit laws, multiplication congruence, and indexed
+inverse laws. Status: CheckedCert.
 
 \begin{theorem}[Field affine two-sided multiplication equation exactness from apartness]
 \label{thm:field-affine-two-sided-equation-exact-from-apartness}
