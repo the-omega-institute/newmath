@@ -62,6 +62,20 @@ theorem CategoryHomCarrier_empty_source_iff {b f : BHist} :
                 (unary_transport targetCarrier (hsame_symm sameMorphism))
                 (Iff.mpr cont_left_unit_iff (hsame_symm sameMorphism))))
 
+theorem CategoryHomCarrier_empty_target_iff {a f : BHist} :
+    CategoryHomCarrier a BHist.Empty f <-> hsame a BHist.Empty /\ hsame f BHist.Empty := by
+  constructor
+  · intro homCarrier
+    have emptyParts := cont_empty_result_inversion homCarrier.right.right.right
+    exact And.intro emptyParts.left emptyParts.right
+  · intro parts
+    cases parts with
+    | intro sameA sameF =>
+        cases sameA
+        cases sameF
+        exact And.intro unary_empty
+          (And.intro unary_empty (And.intro unary_empty (cont_right_unit BHist.Empty)))
+
 theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier a c fg := by

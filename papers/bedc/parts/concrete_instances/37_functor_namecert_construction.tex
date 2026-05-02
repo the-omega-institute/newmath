@@ -160,6 +160,27 @@ identity exactness reconstructs the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_identity\_iff}
 
+\begin{theorem}[Prefix functor empty-target component exactness]
+\label{thm:functor-prefix-hom-carrier-empty-target-components-iff}
+For histories $p,a,f$, a hom-carrier from the prefixed source
+$\mathsf{append}(p,a)$ into the empty target is exactly componentwise emptiness
+of the prefix, the tail, and the morphism:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\emp,f)
+\quad\Longleftrightarrow\quad
+\hsame(p,\emp)\wedge\hsame(a,\emp)\wedge\hsame(f,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply category empty-target exactness to obtain
+$\hsame(\mathsf{append}(p,a),\emp)$ and $\hsame(f,\emp)$. Empty splitting for
+the recursive append representative separates the first witness into
+$p=\emp$ and $a=\emp$. Conversely, eliminating the three sameness witnesses
+reduces the hom-carrier to the empty source, empty target, empty morphism
+case.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_target\_components\_iff}
+
 \section{The certificate}
 
 \begin{definition}[Functor source specification]

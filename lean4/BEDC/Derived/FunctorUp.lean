@@ -159,4 +159,24 @@ theorem FunctorPrefixHomCarrier_empty_identity_iff {p a b : BHist} :
               Iff.mpr CategoryHomCarrier_empty_identity_iff
                 (And.intro sourceCarrier (And.intro targetCarrier samePrefixed))
 
+theorem FunctorPrefixHomCarrier_empty_target_components_iff {p a f : BHist} :
+    CategoryHomCarrier (append p a) BHist.Empty f <->
+      hsame p BHist.Empty /\ hsame a BHist.Empty /\ hsame f BHist.Empty := by
+  constructor
+  · intro homCarrier
+    have targetParts :=
+      (CategoryHomCarrier_empty_target_iff (a := append p a) (f := f)).mp homCarrier
+    have prefixParts := append_eq_empty_iff.mp targetParts.left
+    exact And.intro prefixParts.left (And.intro prefixParts.right targetParts.right)
+  · intro parts
+    cases parts with
+    | intro sameP rest =>
+        cases rest with
+        | intro sameA sameF =>
+            cases sameP
+            cases sameA
+            cases sameF
+            exact And.intro unary_empty
+              (And.intro unary_empty (And.intro unary_empty (cont_right_unit BHist.Empty)))
+
 end BEDC.Derived.FunctorUp

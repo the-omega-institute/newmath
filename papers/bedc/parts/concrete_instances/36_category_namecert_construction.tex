@@ -63,6 +63,25 @@ continuation equivalence to rebuild \(\ContR(\emp,f,b)\).
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_iff}
 
+\begin{theorem}[Category empty-target hom carrier exactness]
+\label{thm:category-hom-carrier-empty-target-iff}
+For histories $a,f$, a hom-carrier into the empty target is exactly sameness of
+the source and morphism with the empty history:
+$$
+\mathsf{CategoryHomCarrier}(a,\emp,f)
+\quad\Longleftrightarrow\quad
+\hsame(a,\emp)\wedge\hsame(f,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. Its continuation field is
+$\ContR(a,f,\emp)$, and empty-result inversion for continuation splits the
+source and morphism into empty histories. Conversely, after those two sameness
+witnesses are eliminated, the empty source, empty target, and empty morphism
+are unary, and the right-unit continuation at $\emp$ rebuilds the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_target\_iff}
+
 \begin{theorem}[Category hom carrier composition closure]
 \label{thm:category-hom-carrier-comp-closed}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to \(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and \(\ContR(f,g,fg)\), then \(fg\) is a hom-carrier from \(a\) to \(c\).
