@@ -179,34 +179,46 @@ of the nonzero classifier is
 $$
 \mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
 $$
-When $\mathsf{NonZero}_F$ is supplied by apartness from $0$, an element of
-$\mathsf{ApartZero}_F(h)$ is the proof index accepted by inverse formation.
+When $\mathsf{NonZero}_F$ is supplied by apartness from $0$, inverse formation
+uses the explicit map from this apartness predicate into the nonzero index
+predicate.
 \end{definition}
 
 \begin{theorem}[Field product apartness gives inverse product witness]
 \label{thm:field-product-apartness-inverse-product-reverse}
 For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
 Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} and
-Theorem~\ref{thm:field-inverse-product-reverse-from-apartness}, assume the
-concrete field interpretation identifies $\mathsf{NonZero}_F(h)$ with
-$\mathsf{ApartZero}_F(h)$. If $p_a:\mathsf{ApartZero}_F(a)$ and
-$p_b:\mathsf{ApartZero}_F(b)$, then there is a canonical witness
-$p_{ab}:\mathsf{ApartZero}_F(ab)$ and the indexed inverse satisfies
+Theorem~\ref{thm:field-inverse-product-reverse-from-apartness}, assume explicit
+maps
 $$
-\mathsf{inv}(ab,p_{ab})\hsame \mathsf{inv}(b,p_b)\mathsf{inv}(a,p_a).
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),
+\quad
+\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b),
+\quad
+\alpha_{ab}:\mathsf{ApartZero}_F(ab)\to\mathsf{NonZero}_F(ab).
+$$
+If $p_a:\mathsf{ApartZero}_F(a)$ and $p_b:\mathsf{ApartZero}_F(b)$, then there
+is a canonical witness $p_{ab}^{A}:\mathsf{ApartZero}_F(ab)$. With
+$p_a^N:=\alpha_a(p_a)$, $p_b^N:=\alpha_b(p_b)$, and
+$p_{ab}^N:=\alpha_{ab}(p_{ab}^{A})$, the indexed inverse satisfies
+$$
+\mathsf{inv}(ab,p_{ab}^N)\hsame
+\mathsf{inv}(b,p_b^N)\mathsf{inv}(a,p_a^N).
 $$
 \end{theorem}
 \begin{proof}
-Build $p_{ab}$ as a function from an assumed zero product to contradiction.
-Given $z:ab\hsame0$, apply
+First form the nonzero indices $p_a^N:=\alpha_a(p_a)$ and
+$p_b^N:=\alpha_b(p_b)$. Build $p_{ab}^{A}$ as a function from an assumed zero
+product to contradiction. Given $z:ab\hsame0$, apply
 Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} with the
-left-factor witness $p_a$. The left-factor clause sends $z$ to $b\hsame0$,
+left-factor witness $p_a^N$. The left-factor clause sends $z$ to $b\hsame0$,
 and $p_b$ sends that equality to $\bot$.
 
-Thus $p_{ab}$ is available as the exact proof index required by the inverse
-operation on $ab$ in the apartness interpretation of $\mathsf{NonZero}_F$.
-Apply Theorem~\ref{thm:field-inverse-product-reverse-from-apartness} with
-the three witnesses $p_{ab}$, $p_a$, and $p_b$ to obtain the displayed
+Now transport the product apartness witness through the displayed map by
+setting $p_{ab}^N:=\alpha_{ab}(p_{ab}^{A})$.
+
+Apply Theorem~\ref{thm:field-inverse-product-reverse-from-apartness} with the
+three nonzero indices $p_{ab}^N$, $p_a^N$, and $p_b^N$ to obtain the displayed
 inverse product equality.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_product\_apartness\_inverse\_product\_reverse}
