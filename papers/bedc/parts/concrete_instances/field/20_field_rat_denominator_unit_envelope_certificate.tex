@@ -67,6 +67,7 @@ $\mathsf{RatHistoryCarrier\_not\_empty}$.
 If both endpoints are $\hsame$ to $\emp$, choose the second branch in the
 definition of $R_D^\ast$. This is precisely the external endpoint clause.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_unit\_envelope\_classifier\_exactness}
 
 \begin{theorem}[Rat denominator external-unit envelope monoid laws]
 \label{thm:field-rat-denominator-unit-envelope-monoid-laws}
@@ -328,6 +329,17 @@ this gives $e\hsame\emp$. The carried endpoint
 $\mathsf{RatHistoryCarrier}(e)$ is then contradicted by
 \autoref{thm:rat-history-carrier-not-empty}.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_mixed\_endpoint\_absurd}
+
+\textbf{Traditional target}: mixed-endpoint separation for the unit envelope;
+\textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, $\Cont$, and $\emp$; \textbf{carrier choice}:
+$C_D^u$; \textbf{classifier choice}: $R_D^u$; \textbf{stability
+obligation}: mixed-branch separation; \textbf{ledger}: the external-unit bit;
+\textbf{core theorem}:
+\autoref{thm:field-rat-denominator-unit-envelope-mixed-endpoint-separation};
+\textbf{exactness predicate}: absence of mixed carried-empty classification;
+\textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Rat denominator external-unit envelope certificate]
 \label{thm:field-rat-denominator-unit-envelope-certificate}
@@ -391,3 +403,39 @@ separation; \textbf{ledger}: the external-unit bit plus continuation witness;
 continuation instance, strict externality of $e_D^\ast$, unit uniqueness, and
 mixed-endpoint separation;
 \textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator external-unit envelope MonoidUp certificate]
+\label{thm:field-rat-denominator-unit-envelope-monoid-namecert}
+The concrete tuple $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope}, with carrier
+$C_D^\ast$, classifier $R_D^\ast$, operation $\mathsf{append}$, and unit
+$\emp$, supplies the concrete $\mathsf{BHist}$-level $\MonoidUp$ naming
+certificate for the unit-enveloped Rat denominator continuation fragment.
+Its certificate ledger is the external-unit bit together with the continuation
+witness used by the guarded carried branch of $R_D^\ast$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}. Its
+carrier inhabitance clause supplies the exported unit witness for $e_D^\ast$,
+and its closure clause supplies the carrier witness for every exported
+$\mathsf{append}$ product in the envelope.
+
+The same theorem supplies the left and right unit laws, associativity under
+$R_D^\ast$, and binary classifier congruence. These are exactly the stability
+fields required by \autoref{def:monoid-certificate-obligations} for a
+$\MonoidUp$ interface over a BEDC carrier and classifier.
+
+It remains to identify the certificate packaging. The carrier is the concrete
+predicate $C_D^\ast$ on $\mathsf{BHist}$; the classifier is the concrete
+relation $R_D^\ast$; the source operation is the native BEDC
+$\mathsf{append}$ operation through $\mu_D^\ast$; and the named unit is
+$\emp$. Thus \autoref{thm:concrete-monoid-namecert} packages these fields as a
+$\mathsf{NameCert}$ for $\MonoidUp(C_D^\ast)$.
+
+The ledger is concrete rather than schematic. The right carrier disjunct records
+whether the endpoint is the adjoined external unit, while the guarded carried
+classifier branch records the continuation witness that relates the native
+Rat denominator fragment to the envelope product. This is the required
+$\mathsf{BHist}$-anchored certificate consumed at the $\FieldUp(\mathsf{RatUp})$
+boundary.
+\end{proof}

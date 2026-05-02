@@ -64,4 +64,41 @@ theorem field_rat_denominator_unit_envelope_classifier_append_closed {h h' k k' 
           cases rightEmpty.right
           exact And.intro rfl rfl
 
+theorem field_rat_denominator_unit_envelope_classifier_exactness {h k : BHist} :
+    (RatHistoryCarrier h -> RatHistoryCarrier k ->
+      (FieldRatDenominatorUnitEnvelopeClassifier h k <-> RatHistoryClassifier h k)) ∧
+    (RatHistoryCarrier h -> hsame k BHist.Empty ->
+      FieldRatDenominatorUnitEnvelopeClassifier h k -> False) ∧
+    (hsame h BHist.Empty -> RatHistoryCarrier k ->
+      FieldRatDenominatorUnitEnvelopeClassifier h k -> False) ∧
+    (hsame h BHist.Empty -> hsame k BHist.Empty ->
+      FieldRatDenominatorUnitEnvelopeClassifier h k) := by
+  constructor
+  · intro carrierH carrierK
+    constructor
+    · intro classified
+      cases classified with
+      | inl ratData =>
+          exact ratData.right.right
+      | inr emptyData =>
+          exact False.elim (RatHistoryCarrier_not_empty carrierH emptyData.left)
+    · intro ratClassified
+      exact Or.inl ⟨carrierH, carrierK, ratClassified⟩
+  constructor
+  · intro carrierH emptyK classified
+    cases classified with
+    | inl ratData =>
+        exact RatHistoryCarrier_not_empty ratData.right.left emptyK
+    | inr emptyData =>
+        exact RatHistoryCarrier_not_empty carrierH emptyData.left
+  constructor
+  · intro emptyH carrierK classified
+    cases classified with
+    | inl ratData =>
+        exact RatHistoryCarrier_not_empty ratData.left emptyH
+    | inr emptyData =>
+        exact RatHistoryCarrier_not_empty carrierK emptyData.right
+  · intro emptyH emptyK
+    exact Or.inr ⟨emptyH, emptyK⟩
+
 end BEDC.Derived.FieldUp

@@ -146,4 +146,18 @@ theorem RatDenomUnitCarrier_e1_tail_unary_iff {tail : BHist} :
     right
     exact RatHistoryCarrier_e1_tail_unary_iff.mpr tailUnary
 
+theorem RatDenomUnitClassifier_mixed_endpoint_absurd {d e : BHist} :
+    ((RatHistoryCarrier d ∧ hsame e BHist.Empty) ->
+      (RatDenomUnitClassifier d e -> False)) ∧
+    ((hsame d BHist.Empty ∧ RatHistoryCarrier e) ->
+      (RatDenomUnitClassifier d e -> False)) := by
+  constructor
+  · intro endpointData classified
+    have sameDE : hsame d e := classified.right.right
+    exact RatHistoryCarrier_not_empty endpointData.left (hsame_trans sameDE endpointData.right)
+  · intro endpointData classified
+    have sameDE : hsame d e := classified.right.right
+    exact RatHistoryCarrier_not_empty endpointData.right
+      (hsame_trans (hsame_symm sameDE) endpointData.left)
+
 end BEDC.Derived.FieldUp
