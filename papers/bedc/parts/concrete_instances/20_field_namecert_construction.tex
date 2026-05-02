@@ -608,6 +608,36 @@ The resulting comparison $u\hsame\emp$ again repacks through the empty-empty
 branch as $R_D^\ast(u,e_D^\ast)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator external-unit envelope carried classifier exactness]
+\label{thm:field-rat-denominator-unit-envelope-carried-classifier-exactness}
+For all histories $h,k:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(h)$ and $\mathsf{RatHistoryCarrier}(k)$, then
+$$
+R_D^\ast(h,k)\Longleftrightarrow\mathsf{RatHistoryClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $R_D^\ast$ from
+\autoref{def:field-rat-denominator-unit-envelope}. The reverse direction uses
+the guarded carried branch: the two displayed carrier witnesses for $h$ and
+$k$, together with $\mathsf{RatHistoryClassifier}(h,k)$, assemble the first
+disjunct of the envelope classifier.
+
+For the forward direction, split the envelope classifier witness. In the
+guarded carried branch, the third component is already
+$\mathsf{RatHistoryClassifier}(h,k)$, so projection gives the desired Rat
+classifier.
+
+It remains to reject the empty-empty branch on carried inputs. That branch
+contains $h\hsame\emp$; applying
+\autoref{thm:rat-history-carrier-not-empty} to the carried witness for $h$ and
+this endpoint comparison yields $\mathsf{False}$, from which the Rat classifier
+conclusion follows constructively.
+\end{proof}
+
+This is the exactness predicate promised for restriction back to the carried
+Rat denominator continuation instance.
+
 \textbf{Traditional target}: unit-enveloped denominator monoid fragment for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, $\Cont$, and
