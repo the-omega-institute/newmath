@@ -67,6 +67,32 @@ theorem semanticNameCert_pattern_ledger_transport
     BEDC.FKernel.NameCert.NameCert.carrier_respects_equiv cert.core classified sourceH
   exact And.intro (cert.pattern_sound sourceK) (cert.ledger_sound sourceK)
 
+theorem semanticNameCert_classifier_chain_transport
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (cert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec)
+    {h k r : BHist} :
+    ClassifierSpec h k -> ClassifierSpec k r ->
+      SourceSpec h -> PatternSpec r ∧ LedgerPolicy r := by
+  intro classifiedHK classifiedKR sourceH
+  have classifiedHR : ClassifierSpec h r :=
+    BEDC.FKernel.NameCert.NameCert.equiv_trans cert.core classifiedHK classifiedKR
+  exact semanticNameCert_pattern_ledger_transport cert classifiedHR sourceH
+
+theorem semanticNameCert_classifier_left_confluence_transport
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (cert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec)
+    {h k r : BHist} :
+    ClassifierSpec h k -> ClassifierSpec h r ->
+      SourceSpec k -> PatternSpec r ∧ LedgerPolicy r := by
+  intro classifiedHK classifiedHR sourceK
+  have classifiedKH : ClassifierSpec k h :=
+    BEDC.FKernel.NameCert.NameCert.equiv_symm cert.core classifiedHK
+  have classifiedKR : ClassifierSpec k r :=
+    BEDC.FKernel.NameCert.NameCert.equiv_trans cert.core classifiedKH classifiedHR
+  exact semanticNameCert_pattern_ledger_transport cert classifiedKR sourceK
+
 theorem NameCert_iff_semantic_fields
     {Carrier : BHist -> Prop}
     {Equiv : BHist -> BHist -> Prop} :

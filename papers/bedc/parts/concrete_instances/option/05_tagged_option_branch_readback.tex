@@ -29,6 +29,30 @@ $\Longleftrightarrow$.
 \leandef{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_absent\_branch\_equivalence}
 
+\begin{theorem}[Tagged option history classifier nonempty-branch equivalence]
+\label{thm:tagged-option-history-classifier-nonempty-branch-equivalence}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k$, classified endpoints agree on
+nonempty branch occupancy:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)\to
+\bigl(
+(\hsame(h,\emp)\to\bot)
+\Longleftrightarrow
+(\hsame(k,\emp)\to\bot)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The absent-branch equivalence gives
+$\hsame(h,\emp)\Longleftrightarrow\hsame(k,\emp)$. Compose each implication
+with the corresponding negated endpoint hypothesis: a proof of
+$\hsame(k,\emp)$ transports back to $\hsame(h,\emp)$, and a proof of
+$\hsame(h,\emp)$ transports forward to $\hsame(k,\emp)$. These two
+contrapositive maps assemble the displayed equivalence of nonempty branches.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_nonempty\_branch\_equivalence}
+
 \begin{theorem}[Tagged option history classifier present-branch equivalence]
 \label{thm:tagged-option-history-classifier-present-branch-equivalence}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, histories $h,k$, and classifier witness $\gamma:\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$, classified endpoints agree on presentness:

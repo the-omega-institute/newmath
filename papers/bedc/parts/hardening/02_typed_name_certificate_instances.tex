@@ -49,6 +49,34 @@ ledger soundness fields then apply at the transported history.
 \end{proof}
 \leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_pattern\_ledger\_transport}
 
+\begin{theorem}[Semantic NameCert classifier chain transport]
+\label{thm:semantic-namecert-classifier-chain-transport}
+If a semantic naming certificate classifies $h$ with $k$ and $k$ with $r$, then
+a source witness at $h$ transports the pattern condition and ledger policy to
+$r$.
+\end{theorem}
+\begin{proof}
+Use transitivity from the core naming certificate to compose the classifier
+judgments into a classifier judgment from $h$ to $r$. The pattern-ledger
+transport theorem then applies to this composite classifier judgment and the
+source witness at $h$.
+\end{proof}
+\leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_classifier\_chain\_transport}
+
+\begin{theorem}[Semantic NameCert classifier left-confluence transport]
+\label{thm:semantic-namecert-classifier-left-confluence-transport}
+If a semantic naming certificate classifies a shared left endpoint $h$ with
+$k$ and with $r$, then a source witness at $k$ transports the pattern condition
+and ledger policy to $r$.
+\end{theorem}
+\begin{proof}
+Use symmetry from the core naming certificate to reverse the classifier
+judgment from $h$ to $k$, then use transitivity with the classifier judgment
+from $h$ to $r$. This gives a classifier judgment from $k$ to $r$, so
+pattern-ledger transport applies to the source witness at $k$.
+\end{proof}
+\leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_classifier\_left\_confluence\_transport}
+
 \begin{theorem}[Carrier self semantic lifting]
 \label{thm:namecert-carrier-self-semantic-lifting}
 Let $C : \mathsf{BHist}\to\mathsf{Prop}$ and
