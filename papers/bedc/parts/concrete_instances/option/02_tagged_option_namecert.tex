@@ -34,6 +34,29 @@ $\hsame(h,a)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_present\_exactness}
 
+\begin{theorem}[Tagged option history carrier present hsame readback]
+\label{thm:tagged-option-history-carrier-present-hsame-readback}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,p$, if $h$ inhabits the tagged option carrier and is history-same
+to the visible present endpoint $\Eone(p)$, then the visible payload reads back
+to a source payload:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(h)\land\hsame(h,\Eone(p))
+\Longrightarrow
+\exists a:\mathsf{BHist}.\; S(a)\land\hsame(p,a).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged option carrier witness for $h$. The absent branch gives
+$\hsame(h,\emp)$; composing its symmetry with $\hsame(h,\Eone(p))$ would make
+$\emp$ history-same to a present endpoint, contradicting generated-history
+no-confusion. The present branch gives a payload $a$ with $S(a)$ and
+$\hsame(h,\Eone(a))$. Composing symmetry of $\hsame(h,\Eone(p))$ with this
+endpoint witness yields $\hsame(\Eone(p),\Eone(a))$, and one-constructor
+inversion gives $\hsame(p,a)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_present\_hsame\_readback}
+
 For the finite-data certificate template, the traditional target is
 absent-vs-present option tags; the BEDC source is $\mathsf{BHist}$ with
 $\hsame$; the carrier is $\mathsf{TaggedOptionHistoryCarrier}$; no classifier

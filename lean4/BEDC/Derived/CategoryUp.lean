@@ -152,6 +152,14 @@ structure ContinuationMorphism (src tgt : BHist) where
   tail : BHist
   rel : Cont src tail tgt
 
+theorem ContinuationMorphism_tail_deterministic {a b : BHist}
+    (left right : ContinuationMorphism a b) : hsame left.tail right.tail := by
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          exact cont_left_cancel leftRel rightRel
+
 def ContinuationMorphism_comp_closed {a b c : BHist} (left : ContinuationMorphism a b)
     (right : ContinuationMorphism b c) : ContinuationMorphism a c := by
   cases left with

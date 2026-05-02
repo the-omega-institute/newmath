@@ -185,6 +185,23 @@ identifies the two composite histories.
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_assoc\_closed}
 \leanstmt{BEDC.Derived.CategoryUp.ContinuationMorphism}
 
+\begin{theorem}[Continuation morphism tail determinacy]
+\label{thm:continuation-morphism-tail-deterministic}
+For histories $a,b$, any two continuation morphisms from $a$ to $b$ have
+history-same tails:
+$$
+left,right:\mathsf{ContinuationMorphism}(a,b)
+\Longrightarrow
+\hsame(\mathsf{tail}(left),\mathsf{tail}(right)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack both continuation morphism records. Their continuation witnesses have
+the same source $a$ and target $b$, so continuation left-context cancellation
+identifies the two displayed tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_deterministic}
+
 \begin{definition}[Continuation morphism composition closure]
 \label{def:continuation-morphism-comp-closed}
 Given continuation morphisms from \(a\) to \(b\) and from \(b\) to \(c\), their
