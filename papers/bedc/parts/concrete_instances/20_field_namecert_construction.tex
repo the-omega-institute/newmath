@@ -343,6 +343,55 @@ A second instance of additive right cancellation removes the common right
 summand $b$, leaving $a\hsame -b$.
 \end{proof}
 
+\begin{theorem}[Field equal-squares signed branch determinacy]
+\label{thm:field-equal-squares-signed-branch-determinacy}
+For a BEDC history-level $\FieldUp$ candidate with the joint hypotheses needed
+to instantiate
+\autoref{thm:field-equal-squares-signed-factor-endpoint-collapse} and
+\autoref{thm:field-equal-squares-signed-factors-not-both-nonzero}, every
+$a,b:\mathsf{BHist}$ with
+$$
+a\cdot a\hsame b\cdot b
+$$
+satisfies the two deterministic signed-branch clauses:
+\begin{enumerate}
+\item if $p_+:\mathsf{NonZero}_F(a+b)$, then $a\hsame b$ and
+$\mathsf{NonZero}_F(a+(-b))\to\mathsf{False}$;
+\item if $p_-:\mathsf{NonZero}_F(a+(-b))$, then $a\hsame -b$ and
+$\mathsf{NonZero}_F(a+b)\to\mathsf{False}$.
+\end{enumerate}
+Traditional target signed square-root branch choice; BEDC source $\FieldUp$
+with the signed-factor and additive-cancellation hypotheses; carrier
+$\mathsf{BHist}$; classifier $\hsame$; ledger the chosen signed-factor witness;
+core theorem this block; exactness predicate endpoint identification together
+with exclusion of the opposite signed witness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume $a\cdot a\hsame b\cdot b$.
+
+For the $p_+:\mathsf{NonZero}_F(a+b)$ branch, apply
+\autoref{thm:field-equal-squares-signed-factor-endpoint-collapse} to the square
+equality and the witness $p_+$. Its positive signed-factor endpoint clause
+gives $a\hsame b$.
+
+To exclude the opposite witness, assume
+$q_-:\mathsf{NonZero}_F(a+(-b))$. Apply
+\autoref{thm:field-equal-squares-signed-factors-not-both-nonzero} to the same
+square equality, the chosen witness $p_+$, and the hypothetical witness $q_-$.
+The result is $\mathsf{False}$, so the positive branch carries both the endpoint
+and the opposite-witness contradiction.
+
+For the $p_-:\mathsf{NonZero}_F(a+(-b))$ branch, apply
+\autoref{thm:field-equal-squares-signed-factor-endpoint-collapse} to the square
+equality and the witness $p_-$. Its negative signed-factor endpoint clause
+gives $a\hsame -b$.
+
+To exclude the opposite witness, assume $q_+:\mathsf{NonZero}_F(a+b)$. Apply
+\autoref{thm:field-equal-squares-signed-factors-not-both-nonzero} to the same
+square equality, the witness $q_+$, and the chosen witness $p_-$. This produces
+$\mathsf{False}$ and completes the negative branch package.
+\end{proof}
+
 \begin{theorem}[Field product nonzero excludes zero factors]
 \label{thm:field-product-nonzero-excludes-zero-factors}
 For a BEDC history-level $\FieldUp$ candidate with ring zero absorption,
