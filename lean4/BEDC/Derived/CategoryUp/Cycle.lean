@@ -27,6 +27,36 @@ theorem ContinuationMorphism_cycle_tails_empty {a b : BHist}
             (cont_mutual_extension_hsame leftRel rightRel)
             (cont_mutual_extension_tails_empty leftRel rightRel)
 
+theorem ContinuationMorphism_triangle_cycle_tails_empty {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
+    (back : ContinuationMorphism c a) :
+    hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty ∧
+      hsame back.tail BHist.Empty ∧ hsame a b ∧ hsame b c := by
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          cases back with
+          | mk backTail backRel =>
+              have compositeRel : Cont a (append leftTail rightTail) c := by
+                cases leftRel
+                exact rightRel.trans (append_assoc a leftTail rightTail)
+              have cycleTails :
+                  hsame (append leftTail rightTail) BHist.Empty ∧
+                    hsame backTail BHist.Empty :=
+                cont_mutual_extension_tails_empty compositeRel backRel
+              have emptyParts : leftTail = BHist.Empty ∧ rightTail = BHist.Empty :=
+                append_eq_empty_iff.mp cycleTails.left
+              cases emptyParts.left
+              cases emptyParts.right
+              exact
+                And.intro (hsame_refl BHist.Empty)
+                  (And.intro (hsame_refl BHist.Empty)
+                    (And.intro cycleTails.right
+                      (And.intro
+                        (cont_deterministic (cont_right_unit a) leftRel)
+                        (cont_deterministic (cont_right_unit b) rightRel))))
+
 theorem CategoryHomCarrier_e1_morphism_cycle_absurd {a b k g : BHist} :
     CategoryHomCarrier a b (BHist.e1 k) -> CategoryHomCarrier b a g -> False := by
   intro left right

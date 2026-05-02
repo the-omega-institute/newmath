@@ -59,6 +59,22 @@ theorem RatHistoryClassifier_continuation_right_closed {d d' e r r' : BHist} :
       leftContinuation rightContinuation
   exact ⟨carrierR, carrierR', sameResult⟩
 
+theorem field_rat_denominator_continuation_no_internal_left_unit {u : BHist} :
+    RatHistoryCarrier u ->
+      (∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d) ->
+        False := by
+  intro carrierU classifyLeftUnit
+  have carrierD : RatHistoryCarrier (BHist.e1 BHist.Empty) :=
+    RatHistoryCarrier_e1_tail_unary_iff.mpr unary_empty
+  have displayed : Cont u (BHist.e1 BHist.Empty) (append u (BHist.e1 BHist.Empty)) :=
+    cont_intro rfl
+  have classified :
+      RatHistoryClassifier (append u (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) :=
+    classifyLeftUnit carrierD displayed
+  have internalLeftUnit : Cont u (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+    cont_result_hsame_transport displayed classified.right.right
+  exact RatHistoryCarrier_not_empty carrierU (cont_left_unit_unique internalLeftUnit)
+
 theorem field_rat_denominator_continuation_semigroup_laws {d e f de ef left right : BHist} :
     RatHistoryCarrier d -> RatHistoryCarrier e -> RatHistoryCarrier f -> Cont d e de ->
       Cont e f ef -> Cont de f left -> Cont d ef right ->

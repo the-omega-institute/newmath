@@ -74,6 +74,37 @@ $a$. Kernel mutual-extension cancellation identifies the endpoints and forces
 both displayed tails to be the empty history.
 \end{proof}
 
+\begin{theorem}[Triangular cyclic continuation morphisms have empty tails]
+\label{thm:category-continuation-morphism-triangle-cycle-tails-empty}
+If composable continuation morphisms record
+$$
+left:\mathsf{ContinuationMorphism}(a,b),
+$$
+$$
+right:\mathsf{ContinuationMorphism}(b,c),
+$$
+$$
+back:\mathsf{ContinuationMorphism}(c,a),
+$$
+then all three displayed tails are empty and the adjacent endpoints collapse:
+$$
+\hsame(\mathsf{tail}(left),\emp)\land
+\hsame(\mathsf{tail}(right),\emp)\land
+\hsame(\mathsf{tail}(back),\emp)\land
+\hsame(a,b)\land\hsame(b,c).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_triangle\_cycle\_tails\_empty}
+\begin{proof}
+Compose the first two continuation morphisms. The composite morphism from $a$
+to $c$ and the displayed return morphism from $c$ to $a$ form a mutual
+extension cycle. Kernel cancellation forces the composite tail and the return
+tail to be empty. Empty append inversion splits the composite tail into empty
+left and right component tails. Comparing the component continuation ledgers
+with the right-unit continuations at $a$ and $b$ identifies the adjacent
+endpoints.
+\end{proof}
+
 \begin{theorem}[Cyclic hom-carriers have empty tails]
 \label{thm:category-hom-carrier-cycle-tails-empty}
 If the opposite hom-carrier ledgers
