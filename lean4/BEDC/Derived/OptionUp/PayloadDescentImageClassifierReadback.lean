@@ -250,4 +250,92 @@ theorem TaggedOptionPayloadDescentImageClassifier_reflective_transitive_normaliz
   exact And.intro relUV
     (And.intro sameUU' (And.intro sameVV' (And.intro notPEmpty notQEmpty)))
 
+theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_visible_target_payload_classification
+    {S U : BHist → Prop} {RelS RelT RelU : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (certS : NameCert S RelS)
+    (certU : NameCert U RelU)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (target_hsame : TaggedOptionSourceHsameCompatible U RelU)
+    {m m' u u' x y : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon) m m' →
+      hsame m u →
+        hsame m' u' →
+          U x →
+            U y →
+              hsame u (BHist.e1 x) →
+                hsame u' (BHist.e1 y) →
+                  RelU x y := by
+  intro image sameMU sameM'U' targetX targetY sameUX sameU'Y
+  have transported :
+      TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon) u u' :=
+    TaggedOptionPayloadDescentImageClassifier_hsame_transport
+      (TaggedOptionDescentComp delta epsilon) certS source_hsame image sameMU sameM'U'
+  have readback :=
+    TaggedOptionPayloadDescentImageClassifier_visible_payload_readback
+      (TaggedOptionDescentComp delta epsilon) certS source_hsame transported targetX targetY
+      sameUX sameU'Y
+  cases readback with
+  | intro a readback =>
+      cases readback with
+      | intro b data =>
+          have relImage : RelU ((TaggedOptionDescentComp delta epsilon).map a)
+              ((TaggedOptionDescentComp delta epsilon).map b) :=
+            (TaggedOptionDescentComp delta epsilon).respects data.right.right.left
+          have relLeft : RelU x ((TaggedOptionDescentComp delta epsilon).map a) :=
+            target_hsame targetX data.right.right.right.left
+              data.right.right.right.right.right.left
+          have relRight : RelU ((TaggedOptionDescentComp delta epsilon).map b) y :=
+            target_hsame data.right.right.right.right.left targetY
+              (hsame_symm data.right.right.right.right.right.right)
+          exact NameCert.equiv_trans certU (NameCert.equiv_trans certU relLeft relImage) relRight
+
+theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_visible_payload_determinacy
+    {S U : BHist → Prop} {RelS RelT RelU : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (certS : NameCert S RelS)
+    (certU : NameCert U RelU)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (target_hsame : TaggedOptionSourceHsameCompatible U RelU)
+    {m m' u u' x y x' y' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon) m m' →
+      hsame m u →
+        hsame m' u' →
+          U x →
+            U y →
+              hsame u (BHist.e1 x) →
+                hsame u' (BHist.e1 y) →
+                  U x' →
+                    U y' →
+                      hsame u (BHist.e1 x') →
+                        hsame u' (BHist.e1 y') →
+                          RelU x y ∧ RelU x' y' ∧ hsame x x' ∧ hsame y y' ∧
+                            (hsame u BHist.Empty → False) ∧
+                              (hsame u' BHist.Empty → False) := by
+  intro image sameMU sameM'U' targetX targetY sameUX sameU'Y targetX' targetY'
+    sameUX' sameU'Y'
+  have relXY : RelU x y :=
+    TaggedOptionPayloadDescentImageClassifier_composite_normalized_visible_target_payload_classification
+      delta epsilon certS certU source_hsame target_hsame image sameMU sameM'U' targetX
+      targetY sameUX sameU'Y
+  have relX'Y' : RelU x' y' :=
+    TaggedOptionPayloadDescentImageClassifier_composite_normalized_visible_target_payload_classification
+      delta epsilon certS certU source_hsame target_hsame image sameMU sameM'U' targetX'
+      targetY' sameUX' sameU'Y'
+  have sameXX' : hsame x x' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameUX) sameUX')
+  have sameYY' : hsame y y' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameU'Y) sameU'Y')
+  have notUEmpty : hsame u BHist.Empty → False := by
+    intro sameUEmpty
+    exact not_hsame_e1_empty (hsame_trans (hsame_symm sameUX) sameUEmpty)
+  have notU'Empty : hsame u' BHist.Empty → False := by
+    intro sameU'Empty
+    exact not_hsame_e1_empty (hsame_trans (hsame_symm sameU'Y) sameU'Empty)
+  exact And.intro relXY
+    (And.intro relX'Y'
+      (And.intro sameXX' (And.intro sameYY' (And.intro notUEmpty notU'Empty))))
+
 end BEDC.Derived.OptionUp

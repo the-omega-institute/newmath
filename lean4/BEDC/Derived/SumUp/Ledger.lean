@@ -507,4 +507,90 @@ theorem SumHistoryLedgerChain_endpoint_exactness {Left Right : BHist → Prop}
             | intro b data =>
                 exact Exists.intro b (And.intro data.right data.left)
 
+theorem SumHistoryLedgerChain_raw_branch_final_readback {Left Right : BHist → Prop}
+    {rho z l r : BHist} :
+    SumHistoryLedgerChain Left Right rho z →
+      (Left l →
+        hsame rho (BHist.e0 l) →
+          ∃ l' : BHist,
+            Left l' ∧ hsame z (BHist.e0 l') ∧ hsame l l' ∧
+              ((∃ r' : BHist, Right r' ∧ hsame z (BHist.e1 r')) → False)) ∧
+        (Right r →
+          hsame rho (BHist.e1 r) →
+            ∃ r' : BHist,
+              Right r' ∧ hsame z (BHist.e1 r') ∧ hsame r r' ∧
+                ((∃ l' : BHist, Left l' ∧ hsame z (BHist.e0 l')) → False)) := by
+  intro chain
+  constructor
+  · intro _leftL sameRhoLeft
+    have branches := SumHistoryLedgerChain_branch_exactness chain
+    cases branches with
+    | inl leftBranch =>
+        cases leftBranch with
+        | intro l0 leftBranch =>
+            cases leftBranch with
+            | intro l' data =>
+                have sameLL0 : hsame l l0 :=
+                  hsame_e0_iff.mp (hsame_trans (hsame_symm sameRhoLeft)
+                    data.right.right.left)
+                have noRight :
+                    (∃ r' : BHist, Right r' ∧ hsame z (BHist.e1 r')) → False := by
+                  intro rightVisible
+                  cases rightVisible with
+                  | intro r' rightData =>
+                      exact (SumHistoryLedgerChain_endpoint_exactness
+                        (Left := Left) (Right := Right) (rho := rho) (z := z)
+                        (l := l) (l' := l) (r := r') (r' := r') chain).left
+                        (And.intro sameRhoLeft rightData.right)
+                exact Exists.intro l'
+                  (And.intro data.right.left
+                    (And.intro data.right.right.right.left
+                      (And.intro (hsame_trans sameLL0 data.right.right.right.right)
+                        noRight)))
+    | inr rightBranch =>
+        cases rightBranch with
+        | intro _r0 rightBranch =>
+            cases rightBranch with
+            | intro r' data =>
+                exact False.elim
+                  ((SumHistoryLedgerChain_endpoint_exactness
+                    (Left := Left) (Right := Right) (rho := rho) (z := z)
+                    (l := l) (l' := l) (r := r') (r' := r') chain).left
+                    (And.intro sameRhoLeft data.right.right.right.left))
+  · intro _rightR sameRhoRight
+    have branches := SumHistoryLedgerChain_branch_exactness chain
+    cases branches with
+    | inl leftBranch =>
+        cases leftBranch with
+        | intro _l0 leftBranch =>
+            cases leftBranch with
+            | intro l' data =>
+                exact False.elim
+                  ((SumHistoryLedgerChain_endpoint_exactness
+                    (Left := Left) (Right := Right) (rho := rho) (z := z)
+                    (l := l') (l' := l') (r := r) (r' := r) chain).right.left
+                    (And.intro sameRhoRight data.right.right.right.left))
+    | inr rightBranch =>
+        cases rightBranch with
+        | intro r0 rightBranch =>
+            cases rightBranch with
+            | intro r' data =>
+                have sameRR0 : hsame r r0 :=
+                  hsame_e1_iff.mp (hsame_trans (hsame_symm sameRhoRight)
+                    data.right.right.left)
+                have noLeft :
+                    (∃ l' : BHist, Left l' ∧ hsame z (BHist.e0 l')) → False := by
+                  intro leftVisible
+                  cases leftVisible with
+                  | intro l' leftData =>
+                      exact (SumHistoryLedgerChain_endpoint_exactness
+                        (Left := Left) (Right := Right) (rho := rho) (z := z)
+                        (l := l') (l' := l') (r := r) (r' := r) chain).right.left
+                        (And.intro sameRhoRight leftData.right)
+                exact Exists.intro r'
+                  (And.intro data.right.left
+                    (And.intro data.right.right.right.left
+                      (And.intro (hsame_trans sameRR0 data.right.right.right.right)
+                        noLeft)))
+
 end BEDC.Derived.SumUp
