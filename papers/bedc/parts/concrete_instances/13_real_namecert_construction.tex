@@ -132,6 +132,52 @@ the rational classifier witness remains attached to the same sealed tails.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_endpoint\_transport}
 
+\begin{theorem}[Constant real classifier equivalence fields]
+\label{thm:real-constant-history-classifier-equivalence-fields}
+The constant real history classifier supplies the equivalence fields carried by
+the constant-real certificate package:
+\begin{enumerate}
+  \item if $\mathsf{RealConstantHistoryCarrier}(h)$, then
+  $\mathsf{RealConstantHistoryClassifier}(h,h)$;
+  \item if $\mathsf{RealConstantHistoryClassifier}(h,k)$, then
+  $\mathsf{RealConstantHistoryClassifier}(k,h)$;
+  \item if $\mathsf{RealConstantHistoryClassifier}(h,k)$ and
+  $\mathsf{RealConstantHistoryClassifier}(k,\ell)$, then
+  $\mathsf{RealConstantHistoryClassifier}(h,\ell)$.
+\end{enumerate}
+In the ten-field fit, the traditional target is constant rational embedding
+into $\RealUp$; the BEDC source is $BHist$ rational histories; the carrier is
+$\mathsf{RealConstantHistoryCarrier}$; the classifier is
+$\mathsf{RealConstantHistoryClassifier}$; the stability obligation is the
+equivalence fields above; the ledger is the sealed rational tail; the core
+theorem is this displayed package; exactness is inherited from the rational
+classifier; the standard bridge is constant rational real names; and the status
+is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For reflexivity, unpack $\mathsf{RealConstantHistoryCarrier}(h)$ as a sealed
+rational tail $d$ with $\hsame(h,\Eone(d))$ and
+$\mathsf{RatHistoryCarrier}(d)$. The rational carrier supplies the reflexive
+rational classifier on $d$, using $\hsame$ reflexivity on the exposed tail.
+Packing the same sealed tail twice and using the displayed endpoint witness on
+both sides gives $\mathsf{RealConstantHistoryClassifier}(h,h)$.
+
+For symmetry, unpack
+$\mathsf{RealConstantHistoryClassifier}(h,k)$ into sealed rational tails $d,e$,
+endpoint displays for $h$ and $k$, and
+$\mathsf{RatHistoryClassifier}(d,e)$. Keep the same endpoint displays in the
+opposite order and apply $\mathsf{RatHistoryClassifier\_symm}$ to the rational
+classifier.
+
+For transitivity, unpack the two classifiers into tails $d,e$ and $e',f$. The
+two middle displays for $k$ compare $\Eone(e)$ and $\Eone(e')$ by $\hsame$
+symmetry and transitivity; one-constructor inversion turns that comparison into
+$\hsame(e,e')$. Transport the right rational classifier from $e'$ to $e$, then
+compose it with the left rational classifier by
+$\mathsf{RatHistoryClassifier\_trans}$. Repacking the outer endpoint displays
+for $h$ and $\ell$ gives the required classifier.
+\end{proof}
+
 \begin{definition}[Real stream classifiers]
 \label{def:real-stream-classifiers}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, the stream classifier is pointwise rational-history classification. The finite prefix classifier records the same data recursively through a selected observation index.
