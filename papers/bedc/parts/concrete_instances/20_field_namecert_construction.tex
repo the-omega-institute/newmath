@@ -398,6 +398,78 @@ witnesses, inverse witnesses, and offsets; core theorem
 \autoref{thm:field-affine-automorphism-identity-and-inverse-package};
 exactness predicate identity plus inverse-closed composition; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field affine automorphisms form a GroupUp-compatible package]
+\label{thm:field-affine-automorphism-group-laws}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
+$\mathsf{BHist}$ under the hypotheses used by
+\autoref{thm:field-affine-two-sided-certified-automorphism} and
+\autoref{thm:field-affine-two-sided-automorphism-composition}, let
+$\mathsf{AffAut}_F$ be the carrier of certified two-sided affine maps. A member
+is a tuple $(a,b,d,p_a,p_b)$ with $a,b,d:\mathsf{BHist}$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$, displaying
+$$
+T_{a,b,d}(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d).
+$$
+The affine classifier relates two members when their displayed maps are
+pointwise $\hsame$ and their explicit reverse inverse formulas are pointwise
+$\hsame$. The identity member has coefficients $(1,1,0)$ with the unit nonzero
+witnesses. The product of $U=(c,e,f,p_c,p_e)$ after
+$T=(a,b,d,p_a,p_b)$ has collected coefficients
+$$
+A=\mathsf{mul}(c,a),
+\qquad
+B=\mathsf{mul}(b,e),
+\qquad
+D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f).
+$$
+The inverse operation is represented by the reverse explicit inverse formula
+from \autoref{thm:field-affine-composite-reverse-explicit-inverse}. With these
+data, $\mathsf{AffAut}_F$ satisfies the $\GroupUp$ source fields: carrier
+inhabitance, closure under composition and inverse, associativity under the
+affine classifier, left and right identity laws, left and right inverse laws,
+and classifier congruence for both composition and inverse.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is supplied by the identity coefficients. The unit nonzero
+witnesses and the identity clauses of
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package} show that
+this member acts as the identity map on every $x:\mathsf{BHist}$, and hence is
+the distinguished $\mathsf{AffAut}_F$ element.
+
+Composition closure is the collected-coefficient construction of
+\autoref{thm:field-affine-two-sided-automorphism-composition}. It supplies the
+product nonzero witnesses for $A$ and $B$, the displayed affine normal form for
+$U(T(x))$, and the classifier iff clauses for the composite. The certified
+two-sided behavior of each displayed map is read through
+\autoref{thm:field-affine-two-sided-certified-automorphism}.
+
+Associativity is exactly the pointwise comparison from
+\autoref{thm:field-affine-automorphism-composition-associative}. For three
+certified affine members, the two parenthesized compositions collect to
+classifier-equal displayed maps, and the same theorem compares the reverse
+explicit inverse formulas, so the affine classifier identifies the two products.
+
+The inverse operation uses
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package} for the
+single-map identity and inverse clauses, together with
+\autoref{thm:field-affine-composite-reverse-explicit-inverse} for the reverse
+formula on composites. These clauses give left and right inverse laws under the
+affine classifier, and the classifier iff clauses transported through the same
+certified maps give congruence for composition and inverse.
+\end{proof}
+
+Per-object certificate: traditional target affine automorphism $\GroupUp$
+interface; BEDC source $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{AffAut}_F$; classifier pointwise $\hsame$ on displayed affine maps and
+reverse explicit inverse formulas; stability obligations inhabitance,
+composition, inverse, associativity, identity, inverse laws, and classifier
+congruence; ledger identity witnesses, side-factor witnesses, product witnesses,
+reverse inverse formulas, and offsets; core theorem
+\autoref{thm:field-affine-automorphism-group-laws}; exactness predicate
+$\GroupUp$ source-field satisfaction for certified affine automorphisms;
+standard bridge ordinary affine automorphism group law; status
+$\mathsf{ProofTarget}$.
 \input{parts/concrete_instances/field/20_field_signed_square_consequences}
 \leanchecked{BEDC.Derived.FieldUp.field\_equal\_squares\_signed\_branch\_determinacy}
 \input{parts/concrete_instances/field/20_field_product_apartness_consequences}
