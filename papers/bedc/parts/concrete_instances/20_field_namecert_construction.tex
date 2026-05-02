@@ -655,6 +655,63 @@ $\GroupUp$ source-field satisfaction for certified affine automorphisms;
 standard bridge ordinary affine automorphism group law; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field affine product is independent of product witnesses]
+\label{thm:field-affine-product-witness-independence}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
+$\mathsf{BHist}$ under the hypotheses of
+\autoref{thm:field-affine-two-sided-automorphism-composition}, let
+$T=(a,b,d,p_a,p_b)$ and $U=(c,e,f,p_c,p_e)$ be certified affine members of
+$\mathsf{AffAut}_F$. Set
+$$
+A=\mathsf{mul}(c,a),
+\qquad
+B=\mathsf{mul}(b,e),
+\qquad
+D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f).
+$$
+Let two choices of apartness-to-nonzero conversion data produce witnesses
+$$
+p_{ca},p'_{ca}:\mathsf{NonZero}_F(A),
+\qquad
+p_{be},p'_{be}:\mathsf{NonZero}_F(B).
+$$
+Form the two composite affine members with the same collected coefficients
+$(A,B,D)$ and with witness pairs $(p_{ca},p_{be})$ and
+$(p'_{ca},p'_{be})$. Then the affine classifier on $\mathsf{AffAut}_F$
+relates these two composites: their displayed maps are pointwise $\hsame$,
+and their reverse explicit inverse formulas are pointwise $\hsame$.
+\end{theorem}
+\begin{proof}
+The displayed composite maps have identical coefficients $A$ and $B$ and the
+same offset $D$. For each $x:\mathsf{BHist}$, both displays reduce to
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(A,x),B),D)$, so pointwise
+classification is reflexive.
+
+It remains to compare the proof-indexed inverse factors occurring in the
+reverse explicit inverse formulas. Apply
+\autoref{thm:field-inverse-congruence-from-apartness} to the reflexive
+coefficient comparison $A\hsame A$ with witnesses $p_{ca}$ and $p'_{ca}$,
+giving $\mathsf{inv}(A,p_{ca})\hsame\mathsf{inv}(A,p'_{ca})$. Apply the same
+theorem to $B\hsame B$ with witnesses $p_{be}$ and $p'_{be}$, giving
+$\mathsf{inv}(B,p_{be})\hsame\mathsf{inv}(B,p'_{be})$.
+
+Multiplication congruence transports the first inverse comparison through the
+left affine factor, multiplication congruence transports the second comparison
+through the right affine factor, and addition congruence transports the shared
+offset term. Therefore the two reverse explicit inverse formulas are
+pointwise $\hsame$, which is exactly the second field of the affine
+classifier.
+\end{proof}
+
+Per-object certificate: traditional target affine composition
+well-definedness; BEDC source $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$;
+carrier $\mathsf{AffAut}_F$; classifier the affine classifier; stability
+obligation proof-index independence for product witnesses; ledger the two
+witness pairs $(p_{ca},p_{be})$ and $(p'_{ca},p'_{be})$; core theorem
+\autoref{thm:field-affine-product-witness-independence}; exactness predicate
+product operation descends to the affine classifier; standard bridge ordinary
+affine automorphism composition; status $\mathsf{ProofTarget}$.
+
 \paragraph{Capstone.}
 
 \begin{theorem}[Field affine automorphism group certificate]
