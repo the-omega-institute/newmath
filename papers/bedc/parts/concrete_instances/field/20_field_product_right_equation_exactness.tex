@@ -96,3 +96,79 @@ $x\hsame\mathsf{mul}(\mathsf{inv}(\mathsf{mul}(a,b),p_{ab}),c)$. The reverse
 half of the one-factor exactness theorem then recovers
 $\mathsf{mul}(\mathsf{mul}(a,b),x)\hsame c$.
 \end{proof}
+
+\begin{theorem}[Field three-factor product equation exactness from apartness]
+\label{thm:field-three-factor-product-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+multiplication associativity, left and right unit laws, multiplication
+congruence under $\hsame$, left and right inverse laws indexed by nonzero
+witnesses, product nonzero exclusion, and the apartness-to-nonzero conversion
+maps used in
+\autoref{thm:field-inverse-three-factor-product-reversal-from-apartness}, any
+witness
+$$
+p_{abc}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c))
+$$
+induces witnesses $p_a:\mathsf{NonZero}_F(a)$,
+$p_b:\mathsf{NonZero}_F(b)$, and $p_c:\mathsf{NonZero}_F(c)$ such that every
+$x,q:\mathsf{BHist}$ satisfies
+$$
+\mathsf{mul}(x,\mathsf{mul}(\mathsf{mul}(a,b),c))\hsame q
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(q,\mathsf{mul}(\mathsf{inv}(c,p_c),
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a)))).
+$$
+It also satisfies
+$$
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),x)\hsame q
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(c,p_c),
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))),q).
+$$
+Traditional target three-factor product equation solving; BEDC source
+$\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations one-factor right and left equation exactness,
+three-factor inverse reversal, multiplication congruence, symmetry, and
+transitivity; ledger $p_{abc}$ and the induced factor witnesses
+$p_a,p_b,p_c$; core theorem this block; exactness predicate the two displayed
+equivalences; standard bridge deferred; downstream use finite product equation
+solving for $\FieldUp$.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:field-right-mul-equation-exact-from-apartness} to the active
+right factor $\mathsf{mul}(\mathsf{mul}(a,b),c)$ with witness $p_{abc}$. This
+gives the right-multiplication equation equivalence with the one-factor
+solution
+$x\hsame\mathsf{mul}(q,
+\mathsf{inv}(\mathsf{mul}(\mathsf{mul}(a,b),c),p_{abc}))$.
+
+Apply
+\autoref{thm:field-inverse-three-factor-product-reversal-from-apartness} to
+$p_{abc}$. It produces the factor witnesses $p_a$, $p_b$, and $p_c$ and
+identifies the indexed inverse of
+$\mathsf{mul}(\mathsf{mul}(a,b),c)$ with the reversed product
+$\mathsf{mul}(\mathsf{inv}(c,p_c),
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a)))$.
+
+For the forward direction of the right equation, use multiplication
+congruence on the right factor of $\mathsf{mul}(q,-)$ to transport the
+one-factor solution along that inverse equality.
+
+For the reverse direction of the right equation, use symmetry of the same
+inverse equality, the same congruence, and
+transitivity to return to the indexed-inverse solution before applying the
+reverse half of the one-factor exactness theorem.
+
+The left equation is identical with the active factor on the left. Apply
+\autoref{thm:field-left-mul-equation-exact-from-apartness} to
+$\mathsf{mul}(\mathsf{mul}(a,b),c)$ with witness $p_{abc}$, then transport
+the indexed inverse through the first factor of $\mathsf{mul}(-,q)$ by
+multiplication congruence.
+
+Symmetry and transitivity give the reverse transport, and the reverse half of
+the one-factor left exactness theorem recovers
+$\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),x)\hsame q$.
+\end{proof}
