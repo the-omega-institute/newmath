@@ -495,6 +495,31 @@ $p\cdot t$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_prefix\_iff}
 
+\begin{theorem}[Continuous modulus chain suffix exactness]
+\label{thm:continuous-modulus-chain-suffix-iff}
+For histories $p,s,\delta_1,\delta_2,t$, suffixing the second modulus and the
+target of a two-link continuous modulus chain is exact:
+$$
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2\cdot p,t\cdot p)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the suffixed chain and derive the unary
+middle history from the first continuation. The second continuation is a
+continuous modulus witness from the middle history through
+$\delta_2\cdot p$ to $t\cdot p$. Apply
+Theorem~\ref{thm:continuous-modulus-witness-suffix-iff} to remove the common
+right suffix from that second leg, then rebuild the original two-link chain.
+
+For the reverse direction, apply
+Theorem~\ref{thm:continuous-modulus-witness-suffix-iff} to the second leg of
+the chain and reuse the same middle history and first continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_suffix\_iff}
+
 \begin{definition}[ContinuousMap ledger policy]
 \label{def:continuous-ledger-policy}
 Record the graph relation, source and target metric ledgers, the totally bounded subset witness, the unary precision ledger, and the modulus ledger.

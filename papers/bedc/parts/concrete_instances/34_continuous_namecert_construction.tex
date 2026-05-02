@@ -318,6 +318,31 @@ deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_prefix\_iff}
 
+\begin{theorem}[Continuous modulus witness suffix exactness]
+\label{thm:continuous-modulus-witness-suffix-iff}
+For histories $p,s,\delta,t$, a common visible unary suffix on the modulus and
+target ledgers is exactly the same as unary evidence for the suffix together
+with the unsuffixed one-step modulus witness:
+$$
+\mathsf{ContinuousModulusWitness}(s,\delta\cdot p,t\cdot p)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousModulusWitness}(s,\delta,t).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the suffixed witness. Unary append
+factorization on $\delta\cdot p$ gives unary $\delta$ and unary $p$, while
+factorization on $t\cdot p$ gives unary $t$. The continuation ledger has the
+common right suffix $p$ after associativity, so right cancellation recovers
+$t=s\cdot\delta$. These fields reassemble the unsuffixed witness.
+
+For the reverse direction, unary closure appends the unary suffix to both the
+modulus and target histories. Associativity transports the unsuffixed
+continuation ledger to the suffixed continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_suffix\_iff}
+
 \begin{theorem}[Continuous modulus witness modulus determinacy]
 \label{thm:continuous-modulus-witness-modulus-hsame-deterministic}
 If two one-step modulus witnesses have $\hsame$ source histories and $\hsame$ target histories, then their modulus histories are $\hsame$:

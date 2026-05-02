@@ -54,6 +54,7 @@ import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.AbsentSource
 import BEDC.Derived.OptionUp.BranchAlignment
+import BEDC.Derived.OptionUp.PresentSource
 import BEDC.Derived.OptionUp.EmptyRight
 import BEDC.Derived.OptionUp.VisibleReadback
 import BEDC.Derived.OptionUp.ChainPayload
@@ -111,6 +112,7 @@ import BEDC.Derived.PreorderUp
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.MetricUp
 import BEDC.Derived.ContinuousUp
+import BEDC.Derived.ContinuousUp.Suffix
 import BEDC.Derived.ContinuousUp.GraphChainFactorization
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
 import BEDC.Derived.ContinuousUp.EmptyMap

@@ -149,6 +149,26 @@ directly, while the source branch contradicts the assumed negation of $S(h)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_absent\_not\_source\_iff}
 
+\begin{theorem}[Nullable option visible source exactness]
+\label{thm:option-history-carrier-e1-source-iff}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, the nullable option carrier at a visible $\Eone$ endpoint is
+exactly the source predicate at that same endpoint:
+$$
+\mathsf{OptionHistoryCarrier}_S(\Eone(h))
+\Longleftrightarrow
+S(\Eone(h)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the nullable carrier into its empty-or-source disjunction. The empty
+branch would give $\hsame(\Eone(h),\emp)$, contradicting constructor
+separation for $\Eone$ and $\emp$. The remaining branch is exactly
+$S(\Eone(h))$, and the reverse direction rebuilds the source side of the
+carrier disjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_e1\_source\_iff}
+
 \begin{theorem}[Nullable option carrier branch alignment]
 \label{thm:option-history-carrier-hsame-branch-alignment}
 For histories $h,k$, if $\mathsf{OptionSourceExcludesEmpty}(S)$,
