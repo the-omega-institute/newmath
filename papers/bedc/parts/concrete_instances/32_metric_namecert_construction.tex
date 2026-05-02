@@ -523,6 +523,27 @@ as $\mathsf{MetricDistanceWitness}(x,y,d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_exactness}
 
+\begin{theorem}[Metric distance witness right e1 visible source exactness]
+\label{thm:metric-distance-witness-right-e1-visible-source-exactness}
+For histories $x,y,d,x_1$, a distance witness whose right endpoint and result
+are visibly tagged descends to the tail while respecting a visible presentation
+of the source endpoint:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))
+\Longrightarrow
+\hsame(x,\Eone(x_1))
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(\Eone(x_1),y,d).
+$$
+\end{theorem}
+\begin{proof}
+First apply right one-headed result exactness to remove the matching visible
+constructors from the right endpoint and result. The displayed $\hsame$ source
+presentation then rewrites the descended source to $\Eone(x_1)$, preserving the
+concrete distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_visible\_source\_exactness}
+
 \begin{theorem}[Metric distance witness right one-headed source cases]
 \label{thm:metric-distance-witness-right-one-headed-source-cases}
 For histories $x,y,d$, a distance witness with right endpoint and result both

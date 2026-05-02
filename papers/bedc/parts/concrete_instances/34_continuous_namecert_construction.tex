@@ -521,6 +521,27 @@ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_right\_e1\_result\_exactness}
 
+\begin{theorem}[Continuous modulus witness right e1 visible source exactness]
+\label{thm:continuous-modulus-witness-right-e1-visible-source-exactness}
+For histories $source,modulus,target,sourceTail$, a modulus witness whose
+modulus and target histories are both visibly tagged descends to the tail while
+respecting a visible presentation of the source endpoint:
+$$
+\mathsf{ContinuousModulusWitness}(source,\Eone(modulus),\Eone(target))
+\Longrightarrow
+\hsame(source,\Eone(sourceTail))
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(\Eone(sourceTail),modulus,target).
+$$
+\end{theorem}
+\begin{proof}
+Apply right one-headed result exactness to strip the visible constructor from
+the modulus and target components of the witness. The displayed $\hsame$
+presentation of the source endpoint then transports the descended witness to
+the concrete visible source $\Eone(sourceTail)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_right\_e1\_visible\_source\_exactness}
+
 \begin{theorem}[Continuous modulus witness modulus determinacy]
 \label{thm:continuous-modulus-witness-modulus-hsame-deterministic}
 If two one-step modulus witnesses have $\hsame$ source histories and $\hsame$ target histories, then their modulus histories are $\hsame$:

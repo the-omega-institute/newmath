@@ -552,6 +552,15 @@ theorem MetricDistanceWitness_right_e1_source_cases {x y d : BHist} :
   | e1 x1 =>
       exact Or.inr (Exists.intro x1 (And.intro rfl tailWitness))
 
+theorem MetricDistanceWitness_right_e1_visible_source_exactness {x y d x1 : BHist} :
+    MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) ->
+      hsame x (BHist.e1 x1) -> MetricDistanceWitness (BHist.e1 x1) y d := by
+  intro witness sameSource
+  have tailWitness : MetricDistanceWitness x y d :=
+    MetricDistanceWitness_right_e1_result_exactness witness
+  cases sameSource
+  exact tailWitness
+
 theorem MetricDistanceWitness_semanticNameCert {x y : BHist} :
     UnaryHistory x -> UnaryHistory y ->
       BEDC.FKernel.NameCert.SemanticNameCert (MetricDistanceWitness x y)

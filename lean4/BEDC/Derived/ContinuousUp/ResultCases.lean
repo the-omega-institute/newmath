@@ -59,4 +59,15 @@ theorem ContinuousModulusWitness_right_e1_result_exactness {source modulus targe
                     (And.intro (unary_e1_inversion targetCarrier)
                       (cont_step_rules_inversion_pair.right modulusRel)))
 
+theorem ContinuousModulusWitness_right_e1_visible_source_exactness
+    {source modulus target sourceTail : BHist} :
+    ContinuousModulusWitness source (BHist.e1 modulus) (BHist.e1 target) ->
+      hsame source (BHist.e1 sourceTail) ->
+        ContinuousModulusWitness (BHist.e1 sourceTail) modulus target := by
+  intro witness sameSource
+  have tailWitness : ContinuousModulusWitness source modulus target :=
+    ContinuousModulusWitness_right_e1_result_exactness witness
+  cases sameSource
+  exact tailWitness
+
 end BEDC.Derived.ContinuousUp
