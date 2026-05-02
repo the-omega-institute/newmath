@@ -198,6 +198,39 @@ theorem cont_step_result_not_empty_pair {h k : BHist} :
   · intro hcont
     cases hcont
 
+theorem cont_left_e0_result_iff {h k r : BHist} :
+    Cont (BHist.e0 h) k (BHist.e0 r) ↔
+      (k = BHist.Empty ∧ hsame h r) ∨
+        (∃ k0 : BHist, k = BHist.e0 k0 ∧ Cont (BHist.e0 h) k0 r) := by
+  constructor
+  · intro hcont
+    cases k with
+    | Empty =>
+        left
+        constructor
+        · rfl
+        · exact (BHist.e0.inj hcont).symm
+    | e0 k0 =>
+        right
+        exact Exists.intro k0 (And.intro rfl (BHist.e0.inj hcont))
+    | e1 _ =>
+        cases hcont
+  · intro split
+    cases split with
+    | inl emptyCase =>
+        cases emptyCase with
+        | intro kEmpty same =>
+            cases kEmpty
+            cases same
+            exact cont_right_unit (BHist.e0 h)
+    | inr stepCase =>
+        cases stepCase with
+        | intro k0 packed =>
+            cases packed with
+            | intro kStep tail =>
+                cases kStep
+                exact cont_step_zero tail
+
 theorem cont_left_e1_result_cases {h k r : BHist} :
     Cont (BHist.e1 h) k (BHist.e1 r) ->
       (k = BHist.Empty ∧ hsame h r) ∨
@@ -214,6 +247,29 @@ theorem cont_left_e1_result_cases {h k r : BHist} :
   | e1 k0 =>
       right
       exact Exists.intro k0 (And.intro rfl (BHist.e1.inj hcont))
+
+theorem cont_left_e1_result_iff {h k r : BHist} :
+    Cont (BHist.e1 h) k (BHist.e1 r) ↔
+      (k = BHist.Empty ∧ hsame h r) ∨
+        (∃ k0 : BHist, k = BHist.e1 k0 ∧ Cont (BHist.e1 h) k0 r) := by
+  constructor
+  · intro hcont
+    exact cont_left_e1_result_cases hcont
+  · intro split
+    cases split with
+    | inl emptyCase =>
+        cases emptyCase with
+        | intro kEmpty same =>
+            cases kEmpty
+            cases same
+            exact cont_right_unit (BHist.e1 h)
+    | inr stepCase =>
+        cases stepCase with
+        | intro k0 packed =>
+            cases packed with
+            | intro kStep tail =>
+                cases kStep
+                exact cont_step_one tail
 
 theorem cont_left_tag_cross_result_cases :
     (forall {h k r : BHist},

@@ -224,6 +224,29 @@ $\Ezero(r)$, and the one branch would identify $\emp$ with $\Eone(r)$. Both cont
 generated history constructors.
 \end{proof}
 
+\begin{theorem}[Left zero-headed continuation result characterization]
+\label{thm:cont-left-e0-result-iff}
+For histories $h,k,r:\mathsf{BHist}$,
+$$
+\ContR(\Ezero(h),k,\Ezero(r))
+\Longleftrightarrow
+(k=\emp\land \hsame(h,r))
+\lor
+(\exists k_0:\mathsf{BHist}.\; k=\Ezero(k_0)\land
+\ContR(\Ezero(h),k_0,r)).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_e0\_result\_iff}
+\begin{proof}
+Classify the right continuation history $k$. The empty branch reduces the
+outer zero result equality to equality of payload histories. A zero-headed $k$
+exposes its predecessor and removes the matching outer constructor from the
+continuation equation. A one-headed $k$ would identify zero-headed and
+one-headed generated histories. Conversely, the empty branch is the right-unit
+continuation after the displayed history sameness is eliminated, and the
+zero-headed branch is rebuilt by the zero step rule.
+\end{proof}
+
 \begin{theorem}[Continuation result tag separation]
 \label{thm:continuation-result-tag-separation}
 There are no histories $h,k,r_0,r_1$ such that both
@@ -250,6 +273,26 @@ equation to equality of the inner histories. A zero-headed $k$ would force a
 one-headed history to equal a zero-headed history, contradicting constructor
 no-confusion. A one-headed $k$ exposes its predecessor $k_0$ and removes the
 matching outer constructor from the continuation equation.
+\end{proof}
+
+\begin{theorem}[Left one-headed continuation result characterization]
+\label{thm:cont-left-e1-result-iff}
+For histories $h,k,r:\mathsf{BHist}$,
+$$
+\ContR(\Eone(h),k,\Eone(r))
+\Longleftrightarrow
+(k=\emp\land \hsame(h,r))
+\lor
+(\exists k_0:\mathsf{BHist}.\; k=\Eone(k_0)\land
+\ContR(\Eone(h),k_0,r)).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_e1\_result\_iff}
+\begin{proof}
+The forward direction is the one-headed result case split. For the converse,
+the empty branch is the right-unit continuation after the displayed history
+sameness is eliminated, and the one-headed branch is rebuilt by the one step
+rule.
 \end{proof}
 
 \begin{theorem}[Left cross-tag continuation result cases]
