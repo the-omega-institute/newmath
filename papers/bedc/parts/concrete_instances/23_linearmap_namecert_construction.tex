@@ -165,6 +165,29 @@ comparison between the realized endpoint and $x$ in the singleton carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingleton\_public\_empty\_code\_exactness}
 
+\begin{theorem}[Singleton linear-map classifier append split empty]
+\label{thm:linearmap-singleton-classifier-append-split-empty}
+For all histories $p,q,h:\mathsf{BHist}$,
+$$
+\lambda_{\emp}(\mathsf{append}(p,q),h)
+$$
+holds exactly when $L_{\emp}(p)$, $L_{\emp}(q)$, and $L_{\emp}(h)$ all hold.
+\end{theorem}
+\begin{proof}
+The forward direction reads the first carrier field of
+$\lambda_{\emp}(\mathsf{append}(p,q),h)$ as
+$\hsame(\mathsf{append}(p,q),\emp)$. Empty-result inversion for BEDC append
+splits this into $p\hsame\emp$ and $q\hsame\emp$, while the second classifier
+field gives $h\hsame\emp$.
+
+Conversely, the three singleton carrier witnesses show that
+$\mathsf{append}(p,q)$ is empty and that $h$ is empty. These are the two
+carrier fields of $\lambda_{\emp}$, and composing the empty endpoint
+comparison with the symmetry of the $h$-carrier gives the classifier
+comparison between $\mathsf{append}(p,q)$ and $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_split\_empty\_iff}
+
 The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and singleton action, so later Lean work can target BHist-anchored
 linear-map laws instead of only abstract function fields.

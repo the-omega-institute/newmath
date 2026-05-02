@@ -22,14 +22,9 @@ the left carrier $\mathsf{RatHistoryCarrier}(d)$ and the unary witness for
 $e$. This gives $\mathsf{RatHistoryCarrier}(\mathsf{append}(d,e))$ for the
 canonical BEDC continuation result.
 
-The displayed continuation witness $\Cont(d,e,r)$ is compared with the
-canonical continuation witness for $\mathsf{append}(d,e)$ by continuation
-determinacy. The result is an $\hsame$ link between $\mathsf{append}(d,e)$ and
-$r$.
-
-Finally, transport the rational history carrier across this result link, using
-the carrier transport supplied by the Rat history certificate. The transported
-carrier is exactly $\mathsf{RatHistoryCarrier}(r)$.
+Unfolding the displayed continuation witness identifies $r$ with
+$\mathsf{append}(d,e)$. The appended carrier is therefore exactly the required
+carrier for $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_carrier\_closure}
 
@@ -94,6 +89,28 @@ $\hsame$ links by
 Theorem~\ref{thm:rat-history-classifier-hsame-transport}. The transported
 classifier is exactly $\mathsf{RatHistoryClassifier}(r,s)$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryCarrier\_continuation\_closed}
+
+\begin{theorem}[Rat history classifiers are right-closed under continuation]
+\label{thm:field-rat-classifier-continuation-right-closed}
+For all histories $d,d',e,r,r':\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(d,d')$, $\mathsf{RatHistoryCarrier}(e)$,
+$\Cont(d,e,r)$, and $\Cont(d',e,r')$, then
+$\mathsf{RatHistoryClassifier}(r,r')$.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into carrier witnesses for $d$ and
+$d'$, together with the denominator comparison $d\hsame d'$. The carrier
+closure theorem above applies to the two displayed continuations with the
+shared right carrier $e$, producing $\mathsf{RatHistoryCarrier}(r)$ and
+$\mathsf{RatHistoryCarrier}(r')$.
+
+The comparison component follows from continuation respect for internal
+sameness: use $d\hsame d'$ on the left inputs and reflexivity $e\hsame e$ on
+the shared right input. This yields $r\hsame r'$, and the two carrier fields
+with this comparison assemble the target classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_continuation\_right\_closed}
 
 \textbf{Traditional target}: denominator-side multiplication closure for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:

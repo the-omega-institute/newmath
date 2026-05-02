@@ -148,4 +148,19 @@ theorem LinearMapSingleton_laws :
             · intro f g x _carrierF _carrierG _carrierX
               exact emptyClassified
 
+theorem LinearMapSingletonClassifier_append_split_empty_iff {p q h : BHist} :
+    LinearMapSingletonClassifier (append p q) h ↔
+      LinearMapSingletonCarrier p ∧ LinearMapSingletonCarrier q ∧
+        LinearMapSingletonCarrier h := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact ⟨emptyParts.left, emptyParts.right, classified.right.left⟩
+  · intro splitData
+    have appendCarrier : LinearMapSingletonCarrier (append p q) :=
+      append_eq_empty_iff.mpr ⟨splitData.left, splitData.right.left⟩
+    exact
+      ⟨appendCarrier, splitData.right.right,
+        hsame_trans appendCarrier (hsame_symm splitData.right.right)⟩
+
 end BEDC.Derived.LinearMapUp
