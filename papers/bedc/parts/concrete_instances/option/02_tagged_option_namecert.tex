@@ -289,20 +289,38 @@ In the present/present case, the two middle present endpoint witnesses give $\hs
 For carrier transport, case-analyze the classifier witness; the absent branch gives the empty endpoint carrier, and the present branch stores the target payload carrier directly. The classifier endpoint transport field is exactly Theorem~\ref{thm:tagged-option-history-classifier-hsame-transport}. Same-tag exactness, right-absent exactness, and mixed constructor separation are isolated in Theorems~\ref{thm:tagged-option-history-same-tag-exactness}, \ref{thm:tagged-option-history-right-absent-exactness}, and \ref{thm:tagged-option-history-mixed-tag-separation}.
 \end{proof}
 
-\begin{theorem}[Tagged option history classifier self-exactness]
+\begin{theorem}[Tagged option history classifier self exactness]
 \label{thm:tagged-option-history-classifier-self-exactness}
 This theorem fits the ten-field template with traditional target self-classification for constructor-tagged $\OptionUp$, BEDC source $\mathsf{BHist}$ carrying a source $\NameCert$, carrier $\mathsf{TaggedOptionHistoryCarrier}$, classifier $\mathsf{TaggedOptionHistoryClassifier}$, stability obligation carrier-relative reflexivity together with endpoint carrier exposure, ledger visible absent/present tag, core theorem self-exactness, exactness predicate the displayed iff, standard bridge $\mathsf{none}$/$\mathsf{some}$ self-classification, and status $\mathsf{ProofTarget}$.
-For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, source certificate $\mathsf{cert}:\NameCert(S,\sim_S)$, and history $h$, the tagged option self-classification predicate is exactly carrier membership:
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source
+classifier $\sim_S$, source certificate $\mathsf{cert}:\NameCert(S,\sim_S)$,
+and history $h$, the tagged option classifier at equal endpoints is exactly
+the tagged option carrier:
 $$
 \mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)
-\quad\Longleftrightarrow\quad
+\Longleftrightarrow
 \mathsf{TaggedOptionHistoryCarrier}_S(h).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_self\_exactness}
 \begin{proof}
-For the forward direction, apply Theorem~\ref{thm:tagged-option-history-classifier-endpoint-carriers} to the self-classifier witness $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)$. The endpoint-carrier pair has identical endpoints, so projecting the left carrier gives $\mathsf{TaggedOptionHistoryCarrier}_S(h)$.
+For the forward direction, apply
+Theorem~\ref{thm:tagged-option-history-classifier-endpoint-carriers} to the
+self-classifier witness
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)$. The endpoint-carrier
+pair has identical endpoints, so projecting the left carrier gives
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$. Equivalently, splitting the
+self-classifier by visible branch gives either the absent carrier witness
+$\hsame(h,\emp)$ or a present payload $a$ with $S(a)$ and
+$\hsame(h,\Eone(a))$.
 
-For the reverse direction, use item 1 of Theorem~\ref{thm:tagged-option-history-stability-fields} under the source certificate $\mathsf{cert}$. Its carrier-relative reflexivity field turns the carrier witness $\mathsf{TaggedOptionHistoryCarrier}_S(h)$ into the required self-classifier witness $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)$.
+For the reverse direction, split the carrier witness. An absent carrier witness
+builds the absent-absent classifier branch. A present carrier witness gives
+$a$, $S(a)$, and $\hsame(h,\Eone(a))$; use the reflexivity field of
+$\mathsf{cert}$ on $S(a)$ to build the present-present self-classifier branch.
+This is item 1 of
+Theorem~\ref{thm:tagged-option-history-stability-fields} under the source
+certificate $\mathsf{cert}$.
 \end{proof}
 
 \begin{theorem}[Tagged option history same-tag exactness]

@@ -67,6 +67,7 @@ import BEDC.Derived.OptionUp.StabilityFields
 import BEDC.Derived.OptionUp.SemanticCertificate
 import BEDC.Derived.OptionUp.VisibleBranchInversion
 import BEDC.Derived.OptionUp.CompositeReadback
+import BEDC.Derived.OptionUp.SelfExactness
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
