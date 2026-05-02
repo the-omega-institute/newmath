@@ -20,6 +20,40 @@ $$
 \leandef{BEDC.Derived.FieldUp.RatDenomUnitCarrier}
 \leandef{BEDC.Derived.FieldUp.RatDenomUnitClassifier}
 
+\begin{theorem}[Rat denominator unit carrier nonempty endpoint exactness]
+\label{thm:rat-denom-unit-carrier-nonempty-rat}
+For every history $h$, if $\mathsf{RatDenomUnitCarrier}(h)$ holds and
+$h\hsame\emp$ is impossible, then $h$ is a genuine Rat denominator endpoint:
+$$
+\mathsf{RatHistoryCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the carrier disjunction. The empty-unit branch is exactly
+$h\hsame\emp$, contradicting the supplied nonempty endpoint condition. The
+other branch is the required $\mathsf{RatHistoryCarrier}(h)$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_nonempty\_rat}
+
+\begin{theorem}[Rat denominator unit continuation exposes a nonempty Rat endpoint]
+\label{thm:rat-denom-unit-continuation-nonempty-rat-endpoint}
+For histories $h,k,r$, if $h$ and $k$ lie in
+$\mathsf{RatDenomUnitCarrier}$ and $\Cont(h,k,r)$ has a result not
+$\hsame$ to $\emp$, then at least one input endpoint is a genuine Rat
+denominator endpoint:
+$$
+\mathsf{RatHistoryCarrier}(h)\lor\mathsf{RatHistoryCarrier}(k).
+$$
+\end{theorem}
+\begin{proof}
+Split both carrier witnesses into their empty-unit and Rat endpoint branches.
+If both inputs are empty-unit endpoints, continuation transport along those
+$\hsame$ witnesses identifies the result with $\emp$, contradicting the
+nonempty result condition. In either mixed branch, the Rat side is already the
+required disjunct.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_continuation\_nonempty\_rat\_endpoint}
+
 \begin{theorem}[Rat denominator unit-envelope classifier is append-closed]
 \label{thm:field-rat-denominator-unit-envelope-classifier-append-closed}
 For histories $h,h',k,k':\mathsf{BHist}$, suppose each displayed pair lies in

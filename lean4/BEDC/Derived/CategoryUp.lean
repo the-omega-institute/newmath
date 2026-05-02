@@ -539,6 +539,8 @@ theorem CategoryHomCarrier_e1_source_empty_target_absurd {a f : BHist} :
                   cases homCont
               | e1 f1 =>
                   cases homCont
+theorem CategoryHomCarrier_visible_source_empty_target_comp_absurd {a b f g : BHist} : CategoryHomCarrier (BHist.e1 a) b f -> CategoryHomCarrier b BHist.Empty g -> False := by
+  intro left right; exact CategoryHomCarrier_e1_source_empty_target_absurd (CategoryHomCarrier_comp_closed left right (cont_intro rfl))
 theorem CategoryHomCarrier_e1_source_morphism_cases {a target morph : BHist} :
     CategoryHomCarrier (BHist.e1 a) target morph ->
       (morph = BHist.Empty /\ target = BHist.e1 a /\ UnaryHistory a) \/

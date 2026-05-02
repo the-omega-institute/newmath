@@ -13,6 +13,15 @@ def RatDenomUnitCarrier (h : BHist) : Prop :=
 def RatDenomUnitClassifier (h k : BHist) : Prop :=
   RatDenomUnitCarrier h ∧ RatDenomUnitCarrier k ∧ hsame h k
 
+theorem RatDenomUnitCarrier_nonempty_rat {h : BHist} :
+    RatDenomUnitCarrier h -> (hsame h BHist.Empty -> False) -> RatHistoryCarrier h := by
+  intro carrier nonempty
+  cases carrier with
+  | inl emptyH =>
+      exact False.elim (nonempty emptyH)
+  | inr ratH =>
+      exact ratH
+
 theorem RatDenomUnitCarrier_hsame_transport {h k : BHist} :
     hsame h k -> RatDenomUnitCarrier h -> RatDenomUnitCarrier k := by
   intro sameHK carrierH
@@ -49,6 +58,22 @@ theorem RatDenomUnitCarrier_continuation_closed {h k r : BHist} :
       | inr ratK =>
           right
           exact field_rat_denominator_continuation_carrier_closure ratH ratK continuation
+
+theorem RatDenomUnitCarrier_continuation_nonempty_rat_endpoint {h k r : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> Cont h k r ->
+      (hsame r BHist.Empty -> False) -> RatHistoryCarrier h ∨ RatHistoryCarrier k := by
+  intro carrierH carrierK hcont nonemptyR
+  cases carrierH with
+  | inl emptyH =>
+      cases carrierK with
+      | inl emptyK =>
+          have resultEmpty : hsame r BHist.Empty :=
+            cont_respects_hsame emptyH emptyK hcont (cont_left_unit BHist.Empty)
+          exact False.elim (nonemptyR resultEmpty)
+      | inr ratK =>
+          exact Or.inr ratK
+  | inr ratH =>
+      exact Or.inl ratH
 
 theorem field_rat_denominator_continuation_adjoined_unit_laws :
     RatDenomUnitCarrier BHist.Empty ∧

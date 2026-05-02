@@ -691,6 +691,27 @@ which is impossible by generated-history no-confusion.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_empty\_target\_absurd}
 
+\begin{theorem}[Category visible source empty-target composite impossibility]
+\label{thm:category-visible-source-empty-target-composite-absurd}
+For histories $a,b,f,g$, the pair of hom-carriers
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),b,f)
+\land
+\mathsf{CategoryHomCarrier}(b,\emp,g)
+$$
+is impossible.
+\end{theorem}
+\begin{proof}
+Compose the first displayed hom-carrier with the second one using the concrete
+continuation witness $\ContR(f,g,\mathsf{append}(f,g))$. Composition closure
+produces
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\emp,\mathsf{append}(f,g)).
+$$
+This contradicts the one-headed source empty-target impossibility theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_source\_empty\_target\_comp\_absurd}
+
 \begin{theorem}[Category hom-carrier one-headed source morphism cases]
 \label{thm:category-hom-carrier-e1-source-morphism-cases}
 For histories $a,target,morph$, a hom-carrier with source $\Eone(a)$ has one
