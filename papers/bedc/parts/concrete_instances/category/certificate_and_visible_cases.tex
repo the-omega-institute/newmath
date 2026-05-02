@@ -165,6 +165,36 @@ morphism into a one-headed shape, and constructor inversion gives $\HSame$
 between the exposed morphism tails.
 \end{proof}
 
+\begin{theorem}[Continuation morphism one-headed source tail cases]
+\label{thm:continuation-morphism-e1-source-tail-cases}
+For histories $a,target$, every continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Eone(a),target)$ has one of exactly three
+displayed tail shapes:
+$$
+\mathsf{tail}(m)=\emp\land target=\Eone(a),
+$$
+or
+$$
+\exists k,r:\mathsf{BHist}.\;
+\mathsf{tail}(m)=\Ezero(k)\land target=\Ezero(r)\land
+\ContR(\Eone(a),k,r),
+$$
+or
+$$
+\exists k,r:\mathsf{BHist}.\;
+\mathsf{tail}(m)=\Eone(k)\land target=\Eone(r)\land
+\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism into its displayed tail and continuation
+ledger. The empty-tail case is the right-unit continuation, so the target is
+$\Eone(a)$. In the zero-headed and one-headed tail cases, continuation
+step-result inversion exposes the corresponding target constructor and leaves
+the residual continuation from $\Eone(a)$ through the exposed tail.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_tail\_cases}
+
 \begin{theorem}[Category empty morphism between one-headed endpoints]
 \label{thm:category-hom-carrier-e1-source-e1-target-empty-morphism-iff}
 For histories $a,r$, the empty morphism is a hom-carrier from $\Eone(a)$ to
