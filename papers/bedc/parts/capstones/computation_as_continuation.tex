@@ -221,6 +221,34 @@ payload, leaving the tail equality and the continuation witness
 $\Cont(\Eone(a),k,r)$.
 \end{proof}
 
+\begin{theorem}[Visible e1 continuation morphism nonempty tail extraction]
+\label{thm:category-continuation-morphism-e1-source-e1-target-nonempty-tail-cases}
+If a continuation morphism runs from $\Eone(a)$ to $\Eone(r)$ and its displayed
+tail is not $\emp$, then the tail has one-headed form $\Eone(k)$ and exposes a
+continuation witness $\Cont(\Eone(a),k,r)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_nonempty\_tail\_cases}
+\begin{proof}
+Inspect the concrete tail of the continuation morphism. The empty branch is
+excluded by the nonempty hypothesis. A zero-headed tail would force the
+one-headed target to coincide with a zero-headed result of the step inversion,
+contradicting kernel no-confusion. The remaining one-headed tail branch gives
+the displayed core continuation after constructor injectivity on the target.
+\end{proof}
+
+\begin{theorem}[Visible e1 continuation morphism tail core deterministic]
+\label{thm:category-continuation-morphism-e1-source-e1-target-tail-core-deterministic}
+For two continuation morphisms from $\Eone(a)$ to $\Eone(r)$, if their displayed
+tails are respectively $\Eone(k)$ and $\Eone(l)$ up to $\hsame$, then the tail
+cores satisfy $k\hsame l$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_tail\_core\_deterministic}
+\begin{proof}
+Continuation morphism tail determinacy compares the two displayed tails. Compose
+that comparison with the two one-headed tail identifications, then use
+constructor injectivity for $\Eone$ to obtain the core comparison.
+\end{proof}
+
 \begin{theorem}[Cyclic hom-carriers have empty tails]
 \label{thm:category-hom-carrier-cycle-tails-empty}
 If the opposite hom-carrier ledgers

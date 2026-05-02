@@ -171,6 +171,7 @@ import BEDC.Derived.FieldUp.SquareApartnessAndAffine
 import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatDenomUnit
+import BEDC.Derived.FieldUp.RatDenomUnitEndpointAbsurd
 import BEDC.Derived.FieldUp.RatDenomUnitEmptyContext
 import BEDC.Derived.FieldUp.RatContinuation
 import BEDC.Derived.FieldUp.RatContextInvariantObstruction
