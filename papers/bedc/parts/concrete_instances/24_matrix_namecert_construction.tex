@@ -101,6 +101,38 @@ append unit and associativity reductions. This gives the required
 $\rho_{\emp}$ comparison for both $\oplus$ and $\odot$.
 \end{proof}
 
+\begin{theorem}[Singleton empty-history matrix endpoint exactness]
+\label{thm:singleton-empty-history-matrix-endpoint-exactness}
+For the singleton instance of
+Definition~\ref{def:singleton-empty-history-matrix-instance}, if
+$A_{\emp}(M)$ and $A_{\emp}(N)$, then all displayed matrix endpoints are
+classified by the singleton empty history:
+\begin{enumerate}
+  \item $\rho_{\emp}(M,\emp)$.
+  \item $\rho_{\emp}(0_M,\emp)$.
+  \item $\rho_{\emp}(I_M,\emp)$.
+  \item $\rho_{\emp}(M\oplus N,\emp)$.
+  \item $\rho_{\emp}(M\odot N,\emp)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier $A_{\emp}$ and the classifier
+$\rho_{\emp}$. The hypotheses say that $M$ and $N$ are carried by the
+singleton endpoint, so the first classification is obtained by pairing the
+two carrier witnesses with the corresponding singleton endpoint witness in
+$\hsame$.
+
+Apply Theorem~\ref{thm:singleton-empty-history-matrix-laws} to obtain closure
+of $0_M$, $I_M$, $M\oplus N$, and $M\odot N$ in $A_{\emp}$. These closure
+witnesses supply the carrier components required by the classifier for the
+four remaining endpoints.
+
+For the $\hsame$ components, compose the singleton endpoint witnesses with
+symmetry and transitivity of $\hsame$. Thus each displayed endpoint is
+identified with $\emp$, and repacking the carrier witnesses with the
+$\hsame$ witness gives the five asserted instances of $\rho_{\emp}$.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Matrix source specification]
