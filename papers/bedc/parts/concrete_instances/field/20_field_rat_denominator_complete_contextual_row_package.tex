@@ -53,3 +53,63 @@ classifier, multiplication, unit, and strict-support entries are the displayed
 BHist data above, the row laws and contextual action laws assemble into the
 announced concrete denominator package.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp denominator package closure]
+\label{thm:ratup-fieldup-denominator-package-closure}
+For the concrete denominator row
+$(C_D^\dagger,R_D^\dagger,\mu_D^\dagger,e_D^\dagger,N_D^\dagger)$ of
+\autoref{def:ratup-fieldup-denominator-certificate-row} and the contextual
+action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, every
+denominator-side row required by \autoref{def:field-certificate-obligations} at
+the $\FieldUp(\mathsf{RatUp})$ boundary is covered by the row laws of
+\autoref{thm:ratup-fieldup-denominator-certificate-row-laws}, the contextual
+action certificate of
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate}, the
+obligation map of \autoref{thm:ratup-fieldup-denominator-obligation-map}, and
+the row exhaustion theorem
+\autoref{thm:ratup-fieldup-denominator-row-exhaustion}. The concrete carrier,
+classifier, multiplication, unit, and strict-support data are exactly the data
+assembled in \autoref{thm:ratup-fieldup-denominator-certificate-assembly}.
+\end{theorem}
+\begin{proof}
+Unfold the concrete denominator row and the contextual action instance. The
+definitions identify the row fields as
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{append}$, $\emp$, and $\mathsf{RatHistoryCarrier}$, and they identify
+the action as the bilateral context action $\Gamma$.
+
+Apply
+\autoref{thm:ratup-fieldup-denominator-complete-contextual-row-package}. This
+packages the row component and the contextual component over the same concrete
+BHist data, with the row laws coming from
+\autoref{thm:ratup-fieldup-denominator-certificate-row-laws} and the action laws
+coming from
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate}.
+
+Next apply \autoref{thm:ratup-fieldup-denominator-obligation-map}. It aligns
+those concrete row and contextual fields with the denominator rows named by
+\autoref{def:field-certificate-obligations}, so the package is read as the
+denominator-side interface of the FieldUp certificate rather than as a detached
+list of laws.
+
+Finally apply \autoref{thm:ratup-fieldup-denominator-row-exhaustion}. It states
+that no denominator-side row used by the assembled
+$\FieldUp(\mathsf{RatUp})$ certificate lies outside the multiplicative and
+contextual sources already named above. Together with
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly}, this proves that
+the concrete denominator-side FieldUp package is closed under exactly the listed
+components.
+\end{proof}
+
+Per-object template: traditional target
+$\FieldUp(\mathsf{RatUp})$ denominator-side package closure; BEDC source
+$\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$, native
+append, and $\Gamma$; carrier $C_D^\dagger$; classifier $R_D^\dagger$;
+stability obligations denominator row laws, contextual action certificate,
+obligation alignment, and row exhaustion; ledger empty endpoint, carried
+denominator histories, and contextual denominator actions; core theorem
+\autoref{thm:ratup-fieldup-denominator-package-closure}; exactness predicate
+denominator classifier reflection and strict-support readback; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
