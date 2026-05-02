@@ -126,6 +126,7 @@ import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
 import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ResultCases
 import BEDC.Derived.CompactUp
+import BEDC.Derived.CompactUp.ContinuationWitness
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp

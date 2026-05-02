@@ -150,6 +150,31 @@ and the induction hypothesis reflects it to the starting endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_endpoint\_hsame\_reflects}
 
+\begin{theorem}[Compact finite refinement chain continuation witness]
+\label{thm:compact-finite-refinement-chain-continuation-witness}
+If
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact)
+$$
+holds, then there is a unary refinement history $extra$ that realizes both final
+endpoints as continuations from their corresponding starts:
+$$
+\mathsf{UnaryHistory}(extra)\land
+\Cont(finite,extra,finalFinite)\land
+\Cont(compact,extra,finalCompact).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the finite refinement chain. The base case uses the empty history as
+the common continuation tail and the right-unit continuation law on both
+endpoints. In the step case, the induction hypothesis supplies a common
+accumulated tail. Associate that tail with the step refinement on the finite
+side and on the compact side. Continuation determinism identifies the two
+associated tails, unary continuation closure proves the accumulated tail unary,
+and the associated continuations give the two displayed endpoint ledgers.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_continuation\_witness}
+
 \begin{theorem}[Compact witness carrier finite refinement chain closure]
 \label{thm:compact-witness-carrier-finite-refinement-chain-closed}
 If
@@ -380,6 +405,33 @@ the final $\hsame$ witness to the preceding located and intermediate endpoints.
 The induction hypothesis then reflects that witness to the starting pair.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_endpoint\_hsame\_reflects}
+
+\begin{theorem}[Compact located refinement chain continuation witness]
+\label{thm:compact-located-refinement-chain-continuation-witness}
+If
+$$
+\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,
+finalLocated,finalIntermediate,finalCompact)
+$$
+holds and $\Cont(intermediate,finite,compact)$ is the starting compactness
+ledger, then there is a unary refinement history $extra$ such that
+$$
+\mathsf{UnaryHistory}(extra)\land
+\Cont(located,extra,finalLocated)\land
+\Cont(intermediate,extra,finalIntermediate)\land
+\Cont(finalIntermediate,finite,finalCompact).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the located refinement chain. The base case uses the empty history as
+the common locatedness and intermediate tail, together with the supplied
+starting compactness ledger. In the step case, the induction hypothesis supplies
+an accumulated tail for locatedness and the intermediate ledger. Associate that
+tail with the step refinement on both ledgers. Determinism identifies the two
+associated tails, unary continuation closure proves the accumulated tail unary,
+and the step compactness continuation gives the final compact endpoint ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_continuation\_witness}
 
 \begin{theorem}[Compact witness carrier located refinement chain closure]
 \label{thm:compact-witness-carrier-located-refinement-chain-closed}

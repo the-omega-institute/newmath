@@ -84,6 +84,23 @@ $\mathsf{OptionHistoryClassifier}_S(\emp,h)$, then apply classifier symmetry.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_empty\_right\_iff}
 
+\begin{theorem}[Option history classifier empty endpoint equivalence]
+\label{thm:option-history-classifier-empty-endpoint-equivalence}
+For any source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and histories $h,k$,
+if $\mathsf{OptionHistoryClassifier}_S(h,k)$ holds, then the two endpoints agree
+on absentness:
+$$
+\hsame(h,\emp)\Longleftrightarrow\hsame(k,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the nullable option classifier into the two endpoint carrier witnesses
+and the stored endpoint equality $\hsame(h,k)$. The forward implication composes
+the symmetric stored equality with $\hsame(h,\emp)$. The reverse implication
+composes the stored equality with $\hsame(k,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_empty\_endpoint\_equivalence}
+
 \begin{definition}[Option source excludes empty]
 \label{def:option-source-excludes-empty}
 For a BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$,
