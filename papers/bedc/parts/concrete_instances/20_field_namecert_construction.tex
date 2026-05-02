@@ -178,6 +178,51 @@ endpoints with $left$ and $right$, and
 those endpoint comparisons.
 \end{proof}
 
+\begin{theorem}[Rat denominator hsame-matched context classifier exactness]
+\label{thm:field-rat-denominator-hsame-matched-context-classifier-exactness}
+For all histories
+$p,p',q,q',d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(p')$,
+$\mathsf{UnaryHistory}(q)$, $\mathsf{UnaryHistory}(q')$, $p\hsame p'$,
+$q\hsame q'$, $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, $\Cont(p,d,pd)$, $\Cont(p',e,pe)$,
+$\Cont(pd,q,left)$, and $\Cont(pe,q',right)$, then
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(left,right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume $\mathsf{RatHistoryClassifier}(d,e)$.
+Apply \autoref{thm:rat-history-classifier-unary-denominator-context-closed}
+to the unary prefixes $p,p'$, the unary suffixes $q,q'$, and the witnesses
+$p\hsame p'$ and $q\hsame q'$. This yields the classifier for the append
+histories obtained by placing the two history-same contexts around $d$ and
+$e$.
+
+The displayed endpoints are obtained from those append histories by the
+two-step continuation presentations. Continuation determinacy identifies
+$pd$ and $pe$ with the corresponding prefix appends, while continuation
+associativity identifies the final suffix continuations with the append
+bracketings. Transport the classifier across these endpoint $\hsame$ links by
+\autoref{thm:rat-history-classifier-hsame-transport} to obtain
+$\mathsf{RatHistoryClassifier}(left,right)$.
+
+For the reverse direction, assume
+$\mathsf{RatHistoryClassifier}(left,right)$. Transport the continuation
+presentation along $p\hsame p'$ and $q\hsame q'$ using
+\texttt{BEDC.FKernel.Cont.cont\_hsame\_transport}; this gives a common-context
+presentation with the same displayed endpoints up to $\hsame$.
+
+Transport the endpoint classifier across those endpoint comparisons by
+\autoref{thm:rat-history-classifier-hsame-transport}. Then apply
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation}
+to cancel the common unary prefix and suffix. Repacking the two Rat carriers
+with the recovered endpoint comparison gives
+$\mathsf{RatHistoryClassifier}(d,e)$.
+\end{proof}
+
 \textbf{Traditional target}: denominator exactness for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
