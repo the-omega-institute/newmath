@@ -30,34 +30,55 @@ $$
 \mathsf{mul}(h,k):=\emp,\qquad
 1:=\emp.
 $$
-This is the one-element BEDC history commutative ring over the concrete carrier
-$A_{\emp}:\mathsf{BHist}\to\mathsf{Prop}$ and classifier $\rho_{\emp}$.
+Equip this singleton ring tuple with the multiplicative commutativity field
+$$
+\rho_{\emp}(\mathsf{mul}(x,y),\mathsf{mul}(y,x)).
+$$
+The concrete commutative-ring certificate has the following ten fields:
+\begin{enumerate}
+  \item traditional target: the one-element commutative ring;
+  \item BEDC source: $\mathsf{BHist}$ with the singleton empty-history ring instance;
+  \item carrier: $A_{\emp}$;
+  \item classifier: $\rho_{\emp}$;
+  \item stability obligations: the singleton ring laws, multiplicative commutativity, and multiplication-commutativity compatibility;
+  \item ledger: constant-operation provenance for $0$, $1$, addition, negation, and multiplication;
+  \item core theorem: Theorem~\ref{thm:singleton-empty-history-commring-laws};
+  \item exactness: endpoint classification by membership in the singleton carrier and $\hsame$;
+  \item standard bridge: the ordinary one-element commutative ring;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
 \end{definition}
 
 \begin{theorem}[Singleton empty-history commutative ring laws]
 \label{thm:singleton-empty-history-commring-laws}
 The tuple
 $(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
-the singleton ring laws of Theorem~\ref{thm:singleton-empty-history-ring-laws}
-and multiplicative commutativity under $\rho_{\emp}$.
+all singleton empty-history ring laws from
+Theorem~\ref{thm:singleton-empty-history-ring-laws}, together with
+multiplicative commutativity and the compatibility fields for multiplication
+commutativity under $\rho_{\emp}$.
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:singleton-empty-history-ring-laws} to obtain carrier
-inhabitance, the additive abelian-group laws, the multiplicative monoid laws,
-operation congruence, distributivity, and the zero multiplication laws for the
-displayed singleton tuple.
+The ring-law part is exactly Theorem~\ref{thm:singleton-empty-history-ring-laws}
+applied to the displayed singleton empty-history operation tuple. This supplies
+carrier inhabitance, additive abelian-group laws, multiplicative monoid laws,
+operation congruence, both distributive laws, and zero multiplication laws.
 
-It remains to supply multiplicative commutativity. For any $h,k$ in the
-singleton carrier, both products $\mathsf{mul}(h,k)$ and $\mathsf{mul}(k,h)$
-reduce definitionally to $\emp$.
+For multiplicative commutativity, both $\mathsf{mul}(x,y)$ and
+$\mathsf{mul}(y,x)$ are definitionally $\emp$. The two endpoint witnesses for
+$\rho_{\emp}$ are the singleton carrier witnesses for $\emp$, and the relation
+component is $\hsame(\emp,\emp)$.
 
-The two endpoint witnesses are the singleton carrier witness for $\emp$ in
-$A_{\emp}$. The relation component is reflexivity of $\hsame$ at $\emp$, so
-$\rho_{\emp}(\mathsf{mul}(h,k),\mathsf{mul}(k,h))$ holds.
+For compatibility, the multiplication operation is constant on the singleton
+carrier. Replacing inputs by $\rho_{\emp}$-related inputs does not change either
+product endpoint: every source and target product is still $\emp$. Hence the
+same endpoint witnesses and reflexive $\hsame(\emp,\emp)$ package the
+commutativity field after transport.
 \end{proof}
 
-This supplies a concrete $\mathsf{BHist}$ carrier and operation package for the
-$\CommRingUp$ schema.
+The $\CommRingUp$ schema is instantiated by this concrete $\mathsf{BHist}$
+carrier and operations, enabling later $\mathsf{BHist}$-anchored Lean proofs
+instead of abstract operator fields.
 
 \section{The certificate}
 
