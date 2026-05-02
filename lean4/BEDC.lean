@@ -99,6 +99,8 @@ import BEDC.Derived.OptionUp.PayloadFanout
 import BEDC.Derived.OptionUp.RightPresentPayloadFanout
 import BEDC.Derived.OptionUp.VisibleExclusion
 import BEDC.Derived.OptionUp.TaggedConfluence
+import BEDC.Derived.OptionUp.AbsentNoPresent
+import BEDC.Derived.OptionUp.PayloadDescentSharedTarget
 import BEDC.Derived.OptionUp.PrefixClosure
 import BEDC.Derived.OptionUp.SuffixClosure
 import BEDC.Derived.OptionUp.PresentChainEndpointClassification

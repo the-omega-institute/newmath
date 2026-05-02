@@ -85,6 +85,22 @@ theorem SOneHistoryCarrier_point_e0_absurd {x y equation tail : BHist} :
                       cases sameY
                       cases pointCont
 
+theorem SOneHistoryCarrier_point_empty_absurd {x y equation : BHist} :
+    SOneHistoryCarrier x y equation BHist.Empty → False := by
+  intro carrier
+  cases carrier with
+  | intro _xCarrier rest =>
+      cases rest with
+      | intro yCarrier rest =>
+          cases rest with
+          | intro _equationCarrier pointCont =>
+              cases yCarrier with
+              | intro yTail yData =>
+                  cases yData with
+                  | intro sameY _tailCarrier =>
+                      cases sameY
+                      cases pointCont
+
 theorem SOneHistoryCarrier_rational_unit_components {x y equation point : BHist} :
     SOneHistoryCarrier x y equation point →
       ∃ dx dy : BHist,
