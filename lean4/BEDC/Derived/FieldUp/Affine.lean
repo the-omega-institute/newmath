@@ -235,4 +235,24 @@ theorem field_affine_explicit_inverse_certified_automorphism
             mulLeftInv mulRightInv pa pb).mp
             sameImages
 
+theorem field_affine_identity_endpoint {add mul : BHist -> BHist -> BHist} {one x : BHist}
+    (addRightId : ∀ z : BHist, hsame (add z BHist.Empty) z)
+    (mulLeftId : ∀ z : BHist, hsame (mul one z) z)
+    (mulRightId : ∀ z : BHist, hsame (mul z one) z) :
+    hsame (add (mul (mul one x) one) BHist.Empty) x := by
+  exact hsame_trans (addRightId (mul (mul one x) one))
+    (hsame_trans (mulRightId (mul one x)) (mulLeftId x))
+
+theorem field_affine_identity_classifier {add mul : BHist -> BHist -> BHist} {one x y : BHist}
+    (addRightId : ∀ z : BHist, hsame (add z BHist.Empty) z)
+    (mulLeftId : ∀ z : BHist, hsame (mul one z) z)
+    (mulRightId : ∀ z : BHist, hsame (mul z one) z) :
+    hsame x y -> hsame (add (mul (mul one x) one) BHist.Empty)
+      (add (mul (mul one y) one) BHist.Empty) := by
+  intro sameXY
+  exact hsame_trans
+    (field_affine_identity_endpoint addRightId mulLeftId mulRightId)
+    (hsame_trans sameXY
+      (hsame_symm (field_affine_identity_endpoint addRightId mulLeftId mulRightId)))
+
 end BEDC.Derived.FieldUp

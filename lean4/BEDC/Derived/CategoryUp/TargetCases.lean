@@ -237,4 +237,51 @@ theorem CategoryHomCarrier_comp_e1_morphism_target_factor {a b c f g k : BHist} 
           cases targetEq
           exact Exists.intro r (And.intro rfl (And.intro tailCarrier right))
 
+theorem CategoryHomCarrier_comp_e1_morphism_right_factor_cases {a b c f g k : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e1 k) ->
+      (g = BHist.Empty ∧ c = b ∧ CategoryHomCarrier a b (BHist.e1 k)) ∨
+        (∃ l r : BHist, g = BHist.e1 l ∧ c = BHist.e1 r ∧
+          CategoryHomCarrier a r k ∧ CategoryHomCarrier b (BHist.e1 r) (BHist.e1 l)) := by
+  intro left right comp
+  have targetFactor :=
+    CategoryHomCarrier_comp_e1_morphism_target_factor left right comp
+  cases targetFactor with
+  | intro r factorData =>
+      cases factorData with
+      | intro targetEq rest =>
+          cases rest with
+          | intro tailCarrier rightFactor =>
+              cases targetEq
+              have rightCases := CategoryHomCarrier_e1_target_morphism_cases rightFactor
+              cases rightCases with
+              | inl emptyCase =>
+                  cases emptyCase with
+                  | intro morphEq rest =>
+                      cases rest with
+                      | intro sourceEq _targetCarrier =>
+                          left
+                          exact And.intro morphEq
+                            (And.intro sourceEq.symm
+                              (by
+                                cases sourceEq
+                                exact
+                                  (CategoryHomCarrier_e1_morphism_target_iff).mpr
+                                    (And.intro tailCarrier.left
+                                      (And.intro tailCarrier.right.right.left
+                                        tailCarrier.right.right.right))))
+              | inr visibleCase =>
+                  cases visibleCase with
+                  | intro l data =>
+                      cases data with
+                      | intro morphEq _rest =>
+                          right
+                          exact Exists.intro l
+                            (Exists.intro r
+                              (And.intro morphEq
+                                (And.intro rfl
+                                  (And.intro tailCarrier
+                                    (by
+                                      cases morphEq
+                                      exact rightFactor)))))
+
 end BEDC.Derived.CategoryUp

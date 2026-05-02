@@ -247,6 +247,44 @@ $d$ then yields the displayed affine equality.
 \leanchecked{BEDC.Derived.FieldUp.field\_affine\_two\_sided\_map\_classifier\_exact\_from\_apartness}
 \leanvariant{BEDC.Derived.FieldUp.field\_affine\_two\_sided\_empty\_zero\_map\_classifier\_exact\_from\_apartness}
 
+\begin{theorem}[Field affine identity endpoint]
+\label{thm:field-affine-identity-endpoint}
+For a BEDC history-level field candidate with additive right identity at
+$\emp$ and multiplicative left and right identity at $\mathsf{one}$, every
+$x:\mathsf{BHist}$ satisfies
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{one},x),\mathsf{one}),\emp)
+\hsame x.
+$$
+\end{theorem}
+\begin{proof}
+First use additive right identity to remove the displayed $\emp$ offset. Then
+use multiplicative right identity to remove the final factor
+$\mathsf{one}$, and multiplicative left identity to remove the leading factor.
+The three $\hsame$ steps compose by transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_identity\_endpoint}
+
+\begin{theorem}[Field affine identity classifier]
+\label{thm:field-affine-identity-classifier}
+Under the same identity laws, the identity affine endpoint preserves the
+history classifier:
+$$
+x\hsame y
+\Longrightarrow
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{one},x),\mathsf{one}),\emp)
+\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{one},y),\mathsf{one}),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the endpoint identity theorem to the left endpoint and to the right
+endpoint. Transitivity bridges the left affine endpoint to $x$, then uses the
+assumed classifier $x\hsame y$, and finally uses symmetry of the right endpoint
+identity to reach the displayed affine endpoint over $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_identity\_classifier}
+
 \paragraph{Affine two-sided multiplication certificate.}
 Traditional target: affine field equation solving. BEDC source: $\FieldUp$ plus
 additive group laws. Carrier choice: $\mathsf{BHist}$. Classifier choice:
