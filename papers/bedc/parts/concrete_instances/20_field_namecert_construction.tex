@@ -151,6 +151,144 @@ theorem
 predicate inverse-map classifier congruence; standard bridge ordinary affine
 inverse congruence; status $\mathsf{ProofTarget}$.
 
+Per-object certificate: traditional target affine automorphism group law; BEDC
+source $\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations two certified affine automorphisms, explicit
+inverse, and classifier iff; ledger four nonzero factor witnesses and two
+offsets; core theorem
+\autoref{thm:field-affine-composite-reverse-explicit-inverse}; exactness
+predicate two-sided inverse plus composite classifier iff; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field affine automorphism composition is associative]
+\label{thm:field-affine-automorphism-composition-associative}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate under the hypotheses of
+\autoref{thm:field-affine-two-sided-automorphism-composition}, let
+$p_a,p_b,p_c,p_e,p_g,p_i$ be nonzero witnesses for the six displayed factors in
+the certified affine maps
+$$
+T_1(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d),
+$$
+$$
+T_2(y)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,y),e),f),
+$$
+and
+$$
+T_3(z)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(g,z),i),j).
+$$
+Let $\mathsf{ApartZero}_F(h)$ abbreviate $h\hsame0\to\bot$. Assume the
+product-apartness conversion maps required to certify the two binary composites
+and the two outer composites:
+$$
+\alpha_{21}^L:\mathsf{ApartZero}_F(\mathsf{mul}(c,a))\to
+\mathsf{NonZero}_F(\mathsf{mul}(c,a)),
+\qquad
+\alpha_{21}^R:\mathsf{ApartZero}_F(\mathsf{mul}(b,e))\to
+\mathsf{NonZero}_F(\mathsf{mul}(b,e)),
+$$
+$$
+\alpha_{32}^L:\mathsf{ApartZero}_F(\mathsf{mul}(g,c))\to
+\mathsf{NonZero}_F(\mathsf{mul}(g,c)),
+\qquad
+\alpha_{32}^R:\mathsf{ApartZero}_F(\mathsf{mul}(e,i))\to
+\mathsf{NonZero}_F(\mathsf{mul}(e,i)),
+$$
+$$
+\alpha_{3(21)}^L:\mathsf{ApartZero}_F(\mathsf{mul}(g,\mathsf{mul}(c,a)))\to
+\mathsf{NonZero}_F(\mathsf{mul}(g,\mathsf{mul}(c,a))),
+\qquad
+\alpha_{3(21)}^R:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(b,e),i))\to
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(b,e),i)),
+$$
+and
+$$
+\alpha_{(32)1}^L:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(g,c),a))\to
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(g,c),a)),
+\qquad
+\alpha_{(32)1}^R:\mathsf{ApartZero}_F(\mathsf{mul}(b,\mathsf{mul}(e,i)))\to
+\mathsf{NonZero}_F(\mathsf{mul}(b,\mathsf{mul}(e,i))).
+$$
+Put
+$$
+A_{21}=\mathsf{mul}(c,a),\quad
+B_{21}=\mathsf{mul}(b,e),\quad
+D_{21}=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f),
+$$
+$$
+A_{32}=\mathsf{mul}(g,c),\quad
+B_{32}=\mathsf{mul}(e,i),\quad
+D_{32}=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(g,f),i),j).
+$$
+The bracketing $T_3\circ(T_2\circ T_1)$ supplies
+$$
+C_L(x)=
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(g,A_{21}),x),
+\mathsf{mul}(B_{21},i)),
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(g,D_{21}),i),j)),
+$$
+and the bracketing $(T_3\circ T_2)\circ T_1$ supplies
+$$
+C_R(x)=
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(A_{32},a),x),
+\mathsf{mul}(b,B_{32})),
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(A_{32},d),B_{32}),D_{32})).
+$$
+Then every $x,q:\mathsf{BHist}$ satisfies
+$$
+C_L(x)\hsame C_R(x).
+$$
+Moreover, if $s_1,s_2,s_3$ are the reverse explicit inverse formulas attached
+to $T_1,T_2,T_3$, if $s_{21}$ is the reverse explicit inverse for the certified
+composite $T_2\circ T_1$, and if $s_{32}$ is the reverse explicit inverse for
+$T_3\circ T_2$, then the two bracketed reverse inverse formulas classify
+together:
+$$
+s_{21}(s_3(q))\hsame s_1(s_{32}(q)).
+$$
+\end{theorem}
+\begin{proof}
+First certify the inner composites. Apply
+\autoref{thm:field-affine-two-sided-automorphism-composition} to $T_2\circ T_1$
+using $\alpha_{21}^L,\alpha_{21}^R$, and apply the same theorem to
+$T_3\circ T_2$ using $\alpha_{32}^L,\alpha_{32}^R$. The collected data are
+respectively $A_{21},B_{21},D_{21}$ and $A_{32},B_{32},D_{32}$.
+
+Next certify the two outer composites. Apply
+\autoref{thm:field-affine-two-sided-automorphism-composition} to
+$T_3\circ(T_2\circ T_1)$ using $\alpha_{3(21)}^L,\alpha_{3(21)}^R$, and apply it
+to $(T_3\circ T_2)\circ T_1$ using $\alpha_{(32)1}^L,\alpha_{(32)1}^R$.
+Both certified maps classify the same term $T_3(T_2(T_1(x)))$.
+
+The collected left factors are
+$\mathsf{mul}(g,\mathsf{mul}(c,a))$ and
+$\mathsf{mul}(\mathsf{mul}(g,c),a)$, the collected right factors are
+$\mathsf{mul}(\mathsf{mul}(b,e),i)$ and
+$\mathsf{mul}(b,\mathsf{mul}(e,i))$. Multiplication associativity identifies
+each pair.
+
+It remains to compare the offsets. Expand $D_{21}$ and $D_{32}$. Distributivity
+moves the middle offset $f$ through the final affine map, and multiplication
+associativity collects the factors multiplying $d$. The two displayed offsets
+therefore classify together, so the normal forms $C_L(x)$ and $C_R(x)$ classify
+together for every $x$.
+
+For the inverse formulas, apply
+\autoref{thm:field-affine-composite-inverse-reverse-coherence} to
+$T_2\circ T_1$ and then compose the resulting equality with $s_3(q)$. Apply the
+same coherence theorem to $T_3\circ T_2$ at $q$, then transport through $s_1$.
+Transitivity gives
+$s_{21}(s_3(q))\hsame s_1(s_2(s_3(q)))\hsame s_1(s_{32}(q))$, which is the
+displayed equality.
+\end{proof}
+
+Per-object certificate: traditional target affine automorphism associativity;
+BEDC source $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations binary affine
+composition, product apartness, distributivity, inverse coherence; ledger the
+six factor witnesses, product witnesses, and three offsets; core theorem
+\autoref{thm:field-affine-automorphism-composition-associative}; exactness
+predicate associativity of certified affine composition; standard bridge
+ordinary affine group law; status $\mathsf{ProofTarget}$.
 \input{parts/concrete_instances/field/20_field_signed_square_consequences}
 \leanchecked{BEDC.Derived.FieldUp.field\_equal\_squares\_signed\_branch\_determinacy}
 \input{parts/concrete_instances/field/20_field_product_apartness_consequences}
