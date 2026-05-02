@@ -10,6 +10,61 @@ The field interface $\FieldUp$ extends \autoref{ch:concrete-instances-commring-n
 Use a commutative ring setup extended with a constructive apartness predicate and define $\mathsf{NonZero}_F(a)$ as the unary certificate obtained from apartness of $a$ from $0$. The inverse datum has type $\mathsf{inv}(a,p)$ for $p:\mathsf{NonZero}_F(a)$, so no inverse is formed without the nonzero witness.
 \end{definition}
 
+\section{Concrete singleton empty-history field schema instance}
+\label{sec:field-concrete-singleton-instance}
+
+\begin{definition}[Singleton empty-history field schema instance]
+\label{def:singleton-empty-history-field-schema-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define the
+classifier
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Take $\mathsf{add}$, $\mathsf{neg}$, $0$, $\mathsf{mul}$, and $1$ to be the
+constant empty-history operations of
+Theorem~\ref{thm:singleton-empty-history-commring-laws}. Define
+$\mathsf{NonZero}_{\bot}(h):=\bot$. The proof-indexed inverse operation is the
+empty function on witnesses $p:\mathsf{NonZero}_{\bot}(h)$: from such a
+witness, elimination of $\bot$ supplies the required history endpoint.
+\end{definition}
+
+\begin{theorem}[Singleton empty-history field schema laws]
+\label{thm:singleton-empty-history-field-schema-laws}
+The tuple
+$$
+(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1,
+\mathsf{NonZero}_{\bot},\mathsf{inv})
+$$
+satisfies the $\FieldUp$ schema laws over the concrete $\mathsf{BHist}$
+singleton carrier.
+\end{theorem}
+\begin{proof}
+The commutative-ring fields are exactly the fields supplied by
+Theorem~\ref{thm:singleton-empty-history-commring-laws} for the displayed
+carrier, classifier, and constant empty-history operations.
+
+The nonzero exclusion at $0$ is immediate: a witness of
+$\mathsf{NonZero}_{\bot}(0)$ is a witness of $\bot$.
+
+Nonzero transport along $\rho_{\emp}$ is vacuous. Given
+$\rho_{\emp}(h,k)$ and $p:\mathsf{NonZero}_{\bot}(h)$, eliminate $p$ to obtain
+the required witness at $k$.
+
+Inverse closure and inverse congruence are also vacuous. Both clauses start
+from an explicit witness $p:\mathsf{NonZero}_{\bot}(h)$, so elimination of
+$p$ supplies the requested carrier endpoint or classifier witness.
+
+The left and right inverse laws have the same proof shape. Each law is indexed
+by a witness $p:\mathsf{NonZero}_{\bot}(h)$; eliminating $p$ closes the law
+without forming a classical inverse outside its licensed domain.
+\end{proof}
+
+The $\FieldUp$ schema therefore has a concrete $\mathsf{BHist}$ carrier,
+classifier, operation package, and proof-indexed inverse domain suitable for
+formalization in $\mathsf{BEDC.Derived.FieldUp}$.
+
 \section{The certificate}
 
 \begin{definition}[Field source specification]
