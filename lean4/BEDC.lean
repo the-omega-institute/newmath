@@ -254,6 +254,7 @@ import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CategoryUp.HomContinuationTail
 import BEDC.Derived.CategoryUp.ContinuationBridge
 import BEDC.Derived.CategoryUp.EndomorphismTail
+import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation

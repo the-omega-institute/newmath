@@ -1,4 +1,5 @@
 import BEDC.Derived.FieldUp.RatDenomUnit
+import BEDC.Derived.FieldUp.RatContinuationAppendComm
 
 namespace BEDC.Derived.FieldUp
 
@@ -139,5 +140,138 @@ theorem RatDenomContextPair_operation_stability {l r m s l' r' m' s' : BHist} :
         cases rightSupport with
         | inl ratL' => exact Or.inl ratL'
         | inr ratR' => exact Or.inr (Or.inr (Or.inr ratR'))
+
+theorem RatDenomContextPair_product_operation_stable {l r l' r' m s m' s' : BHist} :
+    RatDenomUnitCarrier l -> RatDenomUnitCarrier r -> RatDenomUnitCarrier l' ->
+      RatDenomUnitCarrier r' -> RatDenomUnitClassifier l m -> RatDenomUnitClassifier r s ->
+        RatDenomUnitClassifier l' m' -> RatDenomUnitClassifier r' s' ->
+          RatDenomUnitCarrier (append l' l) ∧ RatDenomUnitCarrier (append r r') ∧
+            RatDenomUnitCarrier (append m' m) ∧ RatDenomUnitCarrier (append s s') ∧
+              RatDenomUnitClassifier (append l' l) (append m' m) ∧
+                RatDenomUnitClassifier (append r r') (append s s') ∧
+                  (RatHistoryCarrier (append (append l' l) (append r r')) ↔
+                    (RatHistoryCarrier l ∨ RatHistoryCarrier r) ∨
+                      (RatHistoryCarrier l' ∨ RatHistoryCarrier r')) := by
+  intro carrierL carrierR carrierL' carrierR' classifiedL classifiedR classifiedL' classifiedR'
+  have carrierL'L : RatDenomUnitCarrier (append l' l) :=
+    RatDenomUnitCarrier_continuation_closed carrierL' carrierL (cont_intro rfl)
+  have carrierRR' : RatDenomUnitCarrier (append r r') :=
+    RatDenomUnitCarrier_continuation_closed carrierR carrierR' (cont_intro rfl)
+  have carrierM'M : RatDenomUnitCarrier (append m' m) :=
+    RatDenomUnitCarrier_continuation_closed classifiedL'.right.left classifiedL.right.left
+      (cont_intro rfl)
+  have carrierSS' : RatDenomUnitCarrier (append s s') :=
+    RatDenomUnitCarrier_continuation_closed classifiedR.right.left classifiedR'.right.left
+      (cont_intro rfl)
+  have classifiedLeft :
+      RatDenomUnitClassifier (append l' l) (append m' m) :=
+    RatDenomUnitClassifier_continuation_closed classifiedL' classifiedL
+      (cont_intro rfl) (cont_intro rfl)
+  have classifiedRight :
+      RatDenomUnitClassifier (append r r') (append s s') :=
+    RatDenomUnitClassifier_continuation_closed classifiedR classifiedR'
+      (cont_intro rfl) (cont_intro rfl)
+  have strictSupport :=
+    RatDenomContextPair_product_strict_support_iff carrierL carrierR carrierL' carrierR'
+  constructor
+  · exact carrierL'L
+  constructor
+  · exact carrierRR'
+  constructor
+  · exact carrierM'M
+  constructor
+  · exact carrierSS'
+  constructor
+  · exact classifiedLeft
+  constructor
+  · exact classifiedRight
+  constructor
+  · intro productCarrier
+    have support := Iff.mp strictSupport productCarrier
+    cases support with
+    | inl ratL' =>
+        exact Or.inr (Or.inl ratL')
+    | inr tailSupport =>
+        cases tailSupport with
+        | inl ratL =>
+            exact Or.inl (Or.inl ratL)
+        | inr rightSupport =>
+            cases rightSupport with
+            | inl ratR =>
+                exact Or.inl (Or.inr ratR)
+            | inr ratR' =>
+                exact Or.inr (Or.inr ratR')
+  · intro pairSupport
+    have strict :
+        RatHistoryCarrier l' ∨ RatHistoryCarrier l ∨ RatHistoryCarrier r ∨
+          RatHistoryCarrier r' := by
+      cases pairSupport with
+      | inl leftPair =>
+          cases leftPair with
+          | inl ratL =>
+              exact Or.inr (Or.inl ratL)
+          | inr ratR =>
+              exact Or.inr (Or.inr (Or.inl ratR))
+      | inr rightPair =>
+          cases rightPair with
+          | inl ratL' =>
+              exact Or.inl ratL'
+          | inr ratR' =>
+              exact Or.inr (Or.inr (Or.inr ratR'))
+    exact Iff.mpr strictSupport strict
+
+theorem RatDenomContextPair_product_commutative_support {l r l' r' : BHist} :
+    RatDenomUnitCarrier l -> RatDenomUnitCarrier r -> RatDenomUnitCarrier l' ->
+      RatDenomUnitCarrier r' ->
+        RatDenomUnitClassifier (append l' l) (append l l') ∧
+          RatDenomUnitClassifier (append r r') (append r' r) ∧
+            (RatHistoryCarrier (append (append l' l) (append r r')) ↔
+              (RatHistoryCarrier l ∨ RatHistoryCarrier r) ∨
+                (RatHistoryCarrier l' ∨ RatHistoryCarrier r')) := by
+  intro carrierL carrierR carrierL' carrierR'
+  have leftClass : RatDenomUnitClassifier (append l' l) (append l l') :=
+    RatDenomUnitClassifier_append_comm carrierL' carrierL
+  have rightClass : RatDenomUnitClassifier (append r r') (append r' r) :=
+    RatDenomUnitClassifier_append_comm carrierR carrierR'
+  have strictSupport :=
+    RatDenomContextPair_product_strict_support_iff carrierL carrierR carrierL' carrierR'
+  constructor
+  · exact leftClass
+  constructor
+  · exact rightClass
+  constructor
+  · intro productCarrier
+    have support := Iff.mp strictSupport productCarrier
+    cases support with
+    | inl ratL' =>
+        exact Or.inr (Or.inl ratL')
+    | inr tailSupport =>
+        cases tailSupport with
+        | inl ratL =>
+            exact Or.inl (Or.inl ratL)
+        | inr rightSupport =>
+            cases rightSupport with
+            | inl ratR =>
+                exact Or.inl (Or.inr ratR)
+            | inr ratR' =>
+                exact Or.inr (Or.inr ratR')
+  · intro pairSupport
+    have strict :
+        RatHistoryCarrier l' ∨ RatHistoryCarrier l ∨ RatHistoryCarrier r ∨
+          RatHistoryCarrier r' := by
+      cases pairSupport with
+      | inl leftPair =>
+          cases leftPair with
+          | inl ratL =>
+              exact Or.inr (Or.inl ratL)
+          | inr ratR =>
+              exact Or.inr (Or.inr (Or.inl ratR))
+      | inr rightPair =>
+          cases rightPair with
+          | inl ratL' =>
+              exact Or.inl ratL'
+          | inr ratR' =>
+              exact Or.inr (Or.inr (Or.inr ratR'))
+    exact Iff.mpr strictSupport strict
 
 end BEDC.Derived.FieldUp

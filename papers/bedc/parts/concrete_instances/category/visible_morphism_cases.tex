@@ -50,6 +50,27 @@ canonical continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_cases}
 
+\begin{theorem}[Continuation morphism composite visible tails result cases]
+\label{thm:continuation-morphism-comp-visible-tails-result-cases}
+For histories $a,b,c,l,m$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the two displayed tails are
+$\hsame(\mathsf{tail}(left),\Eone(l))$ and
+$\hsame(\mathsf{tail}(right),\Eone(m))$, then there exists a history $k$ such
+that
+$$
+\hsame(\mathsf{tail}(left\circ right),\Eone(k))\land
+\ContR(\Eone(l),m,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The closed composite stores the
+append of the two visible tails as its displayed tail, which is definitionally
+one-headed. Choose the exposed payload append as $k$; the remaining continuation
+ledger is the canonical append continuation from $\Eone(l)$ through $m$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_visible\_tails\_result\_cases}
+
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}
 For histories $a,k,r$, a hom-carrier whose target and morphism histories are
