@@ -289,6 +289,8 @@ calculation at $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_composite\_iff}
 
+\input{parts/concrete_instances/category/carrier_and_hom_laws_displayed_empty}
+
 \begin{theorem}[Category empty composite identity factors]
 \label{thm:category-hom-carrier-empty-composite-identity-factors}
 For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, the composite
@@ -327,6 +329,24 @@ empty identity exactness theorem then packages the unary endpoint carriers as
 the three displayed empty identity carriers.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_composite\_identity\_carriers}
+
+\begin{theorem}[Category displayed empty composite exposes identity carriers]
+\label{thm:category-hom-carrier-comp-result-empty-identity-carriers}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, if
+$\ContR(f,g,fg)$ and $\HSame(fg,\emp)$, then the empty morphism is a displayed
+identity carrier at each endpoint:
+$$
+\mathsf{CategoryHomCarrier}(a,a,\emp)\wedge
+\mathsf{CategoryHomCarrier}(b,b,\emp)\wedge
+\mathsf{CategoryHomCarrier}(c,c,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed composite ledger along $\HSame(fg,\emp)$ to obtain an
+empty-result composite ledger. The empty-composite identity-carrier theorem
+then supplies the three displayed identity carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_empty\_identity\_carriers}
 
 \begin{theorem}[Category hom carrier unary suffix equivalence]
 \label{thm:category-hom-carrier-unary-suffix-iff}

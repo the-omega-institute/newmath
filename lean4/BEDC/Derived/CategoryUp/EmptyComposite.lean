@@ -79,6 +79,31 @@ theorem CategoryHomCarrier_empty_composite_identity_carriers {a b c f g : BHist}
         (And.intro rightEndpoint.right.left
           (And.intro rightEndpoint.right.left (hsame_refl c)))))
 
+theorem CategoryHomCarrier_comp_result_empty_iff {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      (hsame fg BHist.Empty <->
+        hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame a b ∧ hsame b c) := by
+  intro left right comp
+  constructor
+  · intro resultEmpty
+    have emptyComp : Cont f g BHist.Empty :=
+      cont_result_hsame_transport comp resultEmpty
+    exact CategoryHomCarrier_empty_composite_factors left right emptyComp
+  · intro emptyData
+    have emptyComp : Cont f g BHist.Empty :=
+      Iff.mpr (CategoryHomCarrier_empty_composite_iff left right) emptyData
+    exact cont_deterministic comp emptyComp
+
+theorem CategoryHomCarrier_comp_result_empty_identity_carriers {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      hsame fg BHist.Empty ->
+        CategoryHomCarrier a a BHist.Empty ∧ CategoryHomCarrier b b BHist.Empty ∧
+          CategoryHomCarrier c c BHist.Empty := by
+  intro left right comp resultEmpty
+  have emptyComp : Cont f g BHist.Empty :=
+    cont_result_hsame_transport comp resultEmpty
+  exact CategoryHomCarrier_empty_composite_identity_carriers left right emptyComp
+
 theorem CategoryHomCarrier_empty_target_comp_boundary_inversion {a b f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b BHist.Empty g -> Cont f g fg ->
       hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame f BHist.Empty ∧
