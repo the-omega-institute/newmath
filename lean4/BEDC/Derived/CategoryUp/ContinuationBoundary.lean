@@ -12,6 +12,17 @@ theorem ContinuationMorphism_empty_target_inversion {source : BHist}
   | mk tail rel =>
       exact cont_empty_result_inversion rel
 
+theorem ContinuationMorphism_visible_source_empty_target_absurd {a : BHist} :
+    (ContinuationMorphism (BHist.e0 a) BHist.Empty -> False) ∧
+      (ContinuationMorphism (BHist.e1 a) BHist.Empty -> False) := by
+  constructor
+  · intro morphism
+    have sourceEmpty := (ContinuationMorphism_empty_target_inversion morphism).left
+    cases sourceEmpty
+  · intro morphism
+    have sourceEmpty := (ContinuationMorphism_empty_target_inversion morphism).left
+    cases sourceEmpty
+
 theorem ContinuationMorphism_e0_source_tail_cases {a target : BHist}
     (m : ContinuationMorphism (BHist.e0 a) target) :
     (m.tail = BHist.Empty /\ target = BHist.e0 a) \/

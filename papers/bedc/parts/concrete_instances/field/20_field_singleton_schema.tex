@@ -103,6 +103,27 @@ $\mathsf{BHist}$ rules out both alternatives.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_visible\_prefix\_absurd}
 
+\begin{theorem}[Field singleton carrier visible-head append exclusion]
+\label{thm:field-singleton-carrier-append-visible-head-absurd}
+For histories $h,k:\mathsf{BHist}$, neither singleton carrier endpoint
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(\mathsf{e0}(h),k))
+$$
+nor
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(\mathsf{e1}(h),k))
+$$
+can hold.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed append
+history with $\emp$. Empty-result inversion for append then identifies the
+visible head $\mathsf{e0}(h)$ or $\mathsf{e1}(h)$ with $\emp$. The generated
+history constructors separate both visible heads from the empty history, so
+both alternatives are impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_visible\_head\_absurd}
+
 \begin{definition}[Classifier-complement singleton nonzero domain]
 \label{def:field-singleton-empty-nonzero}
 For the same singleton carrier and classifier, define

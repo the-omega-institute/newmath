@@ -239,6 +239,26 @@ source and the displayed tail with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_target\_inversion}
 
+\begin{theorem}[Continuation morphism visible source empty target impossibility]
+\label{thm:continuation-morphism-visible-source-empty-target-absurd}
+For every history $a:\mathsf{BHist}$, neither visible-headed source admits a
+continuation morphism into $\emp$:
+$$
+\mathsf{ContinuationMorphism}(\mathsf{e0}(a),\emp)\to\mathsf{False}
+$$
+and
+$$
+\mathsf{ContinuationMorphism}(\mathsf{e1}(a),\emp)\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-target inversion to the displayed continuation morphism. The
+inversion identifies the source endpoint with $\emp$. For source
+$\mathsf{e0}(a)$ or $\mathsf{e1}(a)$ this contradicts generated-history
+constructor separation from the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_visible\_source\_empty\_target\_absurd}
+
 \begin{definition}[Continuation morphism composition closure]
 \label{def:continuation-morphism-comp-closed}
 Given continuation morphisms from \(a\) to \(b\) and from \(b\) to \(c\), their
