@@ -247,6 +247,113 @@ conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_composite\_normalized\_visible\_payload\_determinacy}
 
+\begin{theorem}[Tagged option composite image classifier normalized visible payload clique]
+\label{thm:tagged-option-composite-image-classifier-normalized-visible-payload-clique}
+This theorem fits the per-object template as follows: the traditional target is
+endpoint-normalized functorial $\mathsf{OptionUp}$ visible payload classifier
+clique; the BEDC source is $\mathsf{BHist}$ with two composable
+$\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
+are normalized visible determinacy, target $\hsame$ compatibility, and
+$\mathsf{NameCert}$ transitivity; the ledger is all competing visible endpoint
+readings; the core theorem is four target-classifier links plus endpoint
+determinacy and non-absence; exactness says every visible readback at these
+endpoints belongs to the same target classifier component; the standard bridge
+is $\mathsf{none}$/$\mathsf{some}$ normalized public readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$, normalized endpoints $u,u':\mathsf{BHist}$, and visible
+target payloads $x,y,x',y':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u')
+$$
+and
+$$
+U(x)\land U(y)\land
+\hsame(u,\Eone(x))\land \hsame(u',\Eone(y))
+$$
+and
+$$
+U(x')\land U(y')\land
+\hsame(u,\Eone(x'))\land \hsame(u',\Eone(y')),
+$$
+then
+$$
+x\sim_U y\land
+x\sim_U y'\land
+x'\sim_U y\land
+x'\sim_U y'\land
+\hsame(x,x')\land
+\hsame(y,y')\land
+\neg\hsame(u,\emp)\land
+\neg\hsame(u',\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-visible-payload-determinacy}
+to the two visible presentations. This yields $x\sim_U y$, $x'\sim_U y'$,
+$\hsame(x,x')$, $\hsame(y,y')$, and the two normalized non-absence clauses.
+
+The endpoint comparison at $u'$ converts to target classification by the
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$ assumption, giving
+$y\sim_U y'$. Transitivity from $\mathsf{cert}_U$ composes $x\sim_U y$ with
+$y\sim_U y'$, yielding $x\sim_U y'$.
+
+For the opposite source reading, symmetry for $\hsame$ turns $\hsame(x,x')$
+into $\hsame(x',x)$. Target $\hsame$ compatibility for $U$ gives
+$x'\sim_U x$, and transitivity from $\mathsf{cert}_U$ composes this with
+$x\sim_U y$, yielding $x'\sim_U y$.
+
+Collect the retained determinate link $x\sim_U y$, the two cross-links, the
+retained determinate link $x'\sim_U y'$, the two endpoint payload equalities,
+and the two normalized non-absence clauses in the displayed conjunction.
+\end{proof}
+
 \begin{theorem}[Tagged option composite image classifier normalized visible source-pair coherence]
 \label{thm:tagged-option-composite-image-classifier-normalized-visible-source-pair-coherence}
 Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
