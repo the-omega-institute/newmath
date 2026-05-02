@@ -244,3 +244,120 @@ Collect the two target-classification conclusions, the two payload-determinacy
 conclusions, and the two normalized non-absence conclusions in the displayed
 conjunction.
 \end{proof}
+
+\section{Composite image classifier normalized branch occupancy}
+\label{sec:option-composite-image-classifier-normalized-branch-occupancy}
+
+\begin{theorem}[Tagged option composite image classifier normalized branch occupancy equivalence]
+\label{thm:tagged-option-composite-image-classifier-normalized-branch-occupancy-equivalence}
+This theorem fits the per-object template as follows: the traditional target is
+endpoint-normalized absent/present branch occupancy for the composite
+$\mathsf{OptionUp}$ image classifier; the BEDC source is $\mathsf{BHist}$ with
+two composable $\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
+are composite descent, endpoint $\hsame$ transport, visible-payload exactness,
+descent respect, and target certificate transitivity; the ledger records
+normalized empty occupancy, normalized visible occupancy, and their mutual
+exclusion at both endpoints; the core theorem is synchronized branch occupancy;
+exactness supplies the source pair behind the present branch; the standard
+bridge is $\mathsf{none}$/$\mathsf{some}$ visible readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$ and normalized endpoints $u,u':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u'),
+$$
+then
+$$
+\bigl(\hsame(u,\emp)\Longleftrightarrow\hsame(u',\emp)\bigr)
+\land
+\bigl((\exists x:\mathsf{BHist}.\;U(x)\land\hsame(u,\Eone(x)))
+\Longleftrightarrow
+(\exists y:\mathsf{BHist}.\;U(y)\land\hsame(u',\Eone(y)))\bigr)
+\land
+\bigl(\hsame(u,\emp)\to
+\neg\exists x:\mathsf{BHist}.\;U(x)\land\hsame(u,\Eone(x))\bigr)
+\land
+\bigl(\hsame(u',\emp)\to
+\neg\exists y:\mathsf{BHist}.\;U(y)\land\hsame(u',\Eone(y))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-constructor-normal-form}
+to the composite image-classifier witness, the endpoint normalization witnesses,
+and the displayed descent, preservation, stability, certificate, and
+compatibility data. This gives normalized public endpoints, zero-tag exclusion,
+and the absent-or-present constructor normal form at $(u,u')$.
+
+In the absent branch, project the two empty endpoint witnesses
+$\hsame(u,\emp)$ and $\hsame(u',\emp)$. These give both directions of the empty
+occupancy equivalence by direct projection.
+
+The same absent branch rules out a simultaneous visible pair at $(u,u')$. If a
+left visible witness $x$ existed, pairing it with the displayed empty witness at
+$u$ would compose to $\hsame(\emp,\Eone(x))$, contradicting BEDC history
+no-confusion via $not\_hsame\_emp\_e1$. The right endpoint is identical, using
+$not\_hsame\_emp\_e1$ with the displayed empty witness at $u'$.
+
+In the present branch, project the displayed visible payload pair $x,y$ with
+$U(x)$, $U(y)$, $\hsame(u,\Eone(x))$, and $\hsame(u',\Eone(y))$. Choosing $y$
+from the pair gives the forward visible-occupancy implication, and choosing $x$
+gives the reverse implication.
+
+The present branch also contains $\neg\hsame(u,\emp)$ and
+$\neg\hsame(u',\emp)$. These non-absence clauses give the empty occupancy
+equivalence in this branch by contradiction: either empty endpoint assumption is
+impossible, so each direction follows.
+
+It remains to package the endpoint exclusions. At $u$, combine an assumed
+$\hsame(u,\emp)$ with any visible witness $\hsame(u,\Eone(x))$ and compose by
+symmetry and transitivity to obtain $\hsame(\emp,\Eone(x))$, contradicting
+$not\_hsame\_emp\_e1$. At $u'$, the same composition with
+$\hsame(u',\emp)$ and $\hsame(u',\Eone(y))$ contradicts
+$not\_hsame\_emp\_e1$.
+\end{proof}
