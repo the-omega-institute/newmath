@@ -1,6 +1,7 @@
 import BEDC.Derived.FieldUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.FieldUp
 
@@ -105,5 +106,64 @@ theorem RatHistoryClassifier_matching_continuation_closed {d e u v r s : BHist} 
   have sameRight : hsame (append e v) s := by
     exact rightContinuation.symm
   exact RatHistoryClassifier_hsame_transport sameLeft sameRight appendedClassified
+
+theorem field_rat_denominator_continuation_common_context_cancel
+    {p q d e pd pe left right : BHist} :
+    UnaryHistory p -> UnaryHistory q -> RatHistoryCarrier d -> RatHistoryCarrier e ->
+      Cont p d pd -> Cont p e pe -> Cont pd q left -> Cont pe q right ->
+        RatHistoryClassifier left right -> RatHistoryClassifier d e := by
+  intro _prefixUnary _suffixUnary carrierD carrierE leftPrefix rightPrefix leftSuffix rightSuffix
+    classified
+  have sameDE : hsame d e :=
+    cont_cancel_common_context leftPrefix leftSuffix rightPrefix rightSuffix classified.right.right
+  exact ⟨carrierD, carrierE, sameDE⟩
+
+theorem field_rat_denominator_continuation_classifier_assoc_congruence
+    {d d' e e' f f' de de' ef ef' left left' right right' : BHist} :
+    RatHistoryClassifier d d' -> RatHistoryClassifier e e' -> RatHistoryClassifier f f' ->
+      Cont d e de -> Cont d' e' de' -> Cont e f ef -> Cont e' f' ef' ->
+        Cont de f left -> Cont de' f' left' -> Cont d ef right -> Cont d' ef' right' ->
+          RatHistoryClassifier left left' ∧ RatHistoryClassifier right right' ∧
+            hsame left right ∧ hsame left' right' := by
+  intro classifiedD classifiedE classifiedF contDE contD'E' contEF contE'F' contLeft
+    contLeft' contRight contRight'
+  have unaryE : UnaryHistory e :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp classifiedE.left)).left
+  have unaryE' : UnaryHistory e' :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp classifiedE.right.left)).left
+  have unaryF : UnaryHistory f :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp classifiedF.left)).left
+  have unaryF' : UnaryHistory f' :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp classifiedF.right.left)).left
+  have classifiedDE : RatHistoryClassifier de de' :=
+    RatHistoryClassifier_matching_continuation_closed classifiedD unaryE unaryE'
+      classifiedE.right.right contDE contD'E'
+  have classifiedEF : RatHistoryClassifier ef ef' :=
+    RatHistoryClassifier_matching_continuation_closed classifiedE unaryF unaryF'
+      classifiedF.right.right contEF contE'F'
+  have classifiedLeft : RatHistoryClassifier left left' :=
+    RatHistoryClassifier_matching_continuation_closed classifiedDE unaryF unaryF'
+      classifiedF.right.right contLeft contLeft'
+  have unaryEF : UnaryHistory ef :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp classifiedEF.left)).left
+  have unaryEF' : UnaryHistory ef' :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp classifiedEF.right.left)).left
+  have classifiedRight : RatHistoryClassifier right right' :=
+    RatHistoryClassifier_matching_continuation_closed classifiedD unaryEF unaryEF'
+      classifiedEF.right.right contRight contRight'
+  have unprimed :=
+    field_rat_denominator_continuation_semigroup_laws classifiedD.left classifiedE.left
+      classifiedF.left contDE contEF contLeft contRight
+  have primed :=
+    field_rat_denominator_continuation_semigroup_laws classifiedD.right.left classifiedE.right.left
+      classifiedF.right.left contD'E' contE'F' contLeft' contRight'
+  exact ⟨classifiedLeft, classifiedRight, unprimed.right.right.right.right,
+    primed.right.right.right.right⟩
 
 end BEDC.Derived.FieldUp
