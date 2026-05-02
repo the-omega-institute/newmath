@@ -27,6 +27,65 @@ branch is the single external endpoint clause, so mixed carried-empty pairs are
 not classified merely by adjoining $e_D^\ast$.
 \end{definition}
 
+\begin{theorem}[Rat denominator external-unit envelope classifier normal form]
+\label{thm:field-rat-denominator-unit-envelope-classifier-normal-form}
+For the explicit envelope of
+\autoref{def:field-rat-denominator-unit-envelope} and the adjoined empty-unit
+classifier of \autoref{def:field-rat-denominator-unit-carrier}, the following
+normal forms coincide:
+\begin{enumerate}
+  \item For every history $h:\mathsf{BHist}$,
+  $$
+  C_D^\ast(h)\Longleftrightarrow\mathsf{RatDenomUnitCarrier}(h).
+  $$
+  \item For every pair of histories $h,k:\mathsf{BHist}$,
+  $$
+  R_D^\ast(h,k)\Longleftrightarrow
+  C_D^\ast(h)\land C_D^\ast(k)\land h\hsame k.
+  $$
+  \item For every pair of histories $h,k:\mathsf{BHist}$,
+  $$
+  R_D^\ast(h,k)\Longleftrightarrow
+  \mathsf{RatDenomUnitClassifier}(h,k).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $C_D^\ast$ and $\mathsf{RatDenomUnitCarrier}$. The two carriers have the
+same two alternatives, namely a carried Rat denominator endpoint and the
+external empty endpoint; the displayed iff only exchanges the order of these
+alternatives.
+
+For the classifier-to-normal-form direction, split the defining alternatives of
+$R_D^\ast(h,k)$. In the guarded carried branch,
+$\mathsf{RatHistoryClassifier}(h,k)$ is precisely carried-left, carried-right,
+and $h\hsame k$, so the two endpoints lie in $C_D^\ast$ by the carried
+alternative and the final comparison is the classifier comparison.
+
+In the empty-empty branch, both endpoints lie in $C_D^\ast$ by the empty
+alternative, and transitivity with symmetry gives $h\hsame k$ from
+$h\hsame\emp$ and $k\hsame\emp$.
+
+For the normal-form-to-classifier direction, split the two $C_D^\ast$ endpoint
+witnesses. The carried-carried case uses
+$\mathsf{RatHistoryCarrier\_hsame\_transport}$ to view the right endpoint as a
+Rat carrier when needed, then packs carried-left, carried-right, and $h\hsame k$
+as $\mathsf{RatHistoryClassifier}(h,k)$ and chooses the guarded branch of
+$R_D^\ast$.
+
+The empty-empty case chooses the second branch of $R_D^\ast$ after transporting
+the displayed $h\hsame k$ comparison to the common endpoint $\emp$.
+
+The two mixed cases are impossible: a carried endpoint that is $\hsame$ to an
+empty endpoint is excluded by $\mathsf{RatHistoryCarrier\_not\_empty}$, using
+transitivity and symmetry to orient the contradiction.
+
+Finally unfold $\mathsf{RatDenomUnitClassifier}$. By the first clause,
+$\mathsf{RatDenomUnitCarrier}$ is the same carrier as $C_D^\ast$; by the second
+clause, $R_D^\ast(h,k)$ is exactly the conjunction of the two carrier witnesses
+and $h\hsame k$. This is precisely the denominator unit classifier.
+\end{proof}
+
 \begin{theorem}[Rat denominator external-unit envelope classifier exactness]
 \label{thm:field-rat-denominator-unit-envelope-classifier-exactness}
 For all histories $h,k:\mathsf{BHist}$, the classifier $R_D^\ast$ of
