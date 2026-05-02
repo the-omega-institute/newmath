@@ -77,6 +77,64 @@ $\mathsf{fieldSingletonEmptyCarrier}(d_1)$, contradicting the rejection map.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_carrier\_singleton\_coverage\_obstruction}
 
+\begin{theorem}[RatUp FieldUp source coordinate coverage obstruction]
+\label{thm:ratup-fieldup-source-coordinate-coverage-obstruction}
+Let $d_1:=\Eone(\emp)$. For the concrete source tuple
+$\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple}, the diagonal endpoint
+supplies all three source-coordinate witnesses
+$$
+\mathsf{RatHistoryCarrier}(d_1),
+$$
+$$
+\mathsf{RatHistoryClassifier}(d_1,d_1),
+$$
+and
+$$
+\mathsf{RatHistoryLedgerPolicy}(d_1,d_1).
+$$
+Each of the following coverage maps is contradictory:
+\begin{enumerate}
+  \item carrier coverage
+  $$
+  \forall h:\mathsf{BHist},\mathsf{RatHistoryCarrier}(h)\to
+  \mathsf{fieldSingletonEmptyCarrier}(h);
+  $$
+  \item classifier coverage
+  $$
+  \forall h k:\mathsf{BHist},\mathsf{RatHistoryClassifier}(h,k)\to
+  \mathsf{FieldSingletonClassifier}(h,k);
+  $$
+  \item ledger endpoint coverage
+  $$
+  \forall \rho v:\mathsf{BHist},\mathsf{RatHistoryLedgerPolicy}(\rho,v)\to
+  \mathsf{FieldSingletonCarrier}(\rho)\land
+  \mathsf{FieldSingletonCarrier}(v).
+  $$
+\end{enumerate}
+Thus the concrete source tuple cannot be collapsed to the singleton
+$\FieldUp$ boundary in any of its carrier, classifier, or ledger coordinates.
+\end{theorem}
+\begin{proof}
+The carrier coordinate is the one isolated in
+\autoref{thm:ratup-fieldup-source-non-singleton-witness}. It gives the endpoint
+witness $\mathsf{RatHistoryCarrier}(d_1)$ and rules out any carrier-coverage
+map from $\mathsf{RatHistoryCarrier}$ to
+$\mathsf{fieldSingletonEmptyCarrier}$.
+
+The classifier and ledger coordinates are supplied by
+\autoref{thm:field-rat-classifier-ledger-singleton-empty-coverage-obstruction}.
+That theorem gives the diagonal classifier witness
+$\mathsf{RatHistoryClassifier}(d_1,d_1)$ and the diagonal ledger witness
+$\mathsf{RatHistoryLedgerPolicy}(d_1,d_1)$.
+
+The same theorem also rejects the displayed classifier coverage map and the
+displayed ledger endpoint coverage map. Combining these two rejections with the
+carrier rejection from the first paragraph leaves no coverage coordinate by
+which $\mathsf{RatUpFieldSource}_F$ can be read as the singleton $\FieldUp$
+boundary.
+\end{proof}
+
 \begin{definition}[Concrete RatUp FieldUp certificate instance]
 \label{def:concrete-ratup-fieldup-certificate-instance}
 The concrete certificate instance for $\FieldUp(\mathsf{RatUp})$ is the BEDC
