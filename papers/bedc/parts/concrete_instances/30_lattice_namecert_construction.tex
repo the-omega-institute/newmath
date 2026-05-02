@@ -270,6 +270,27 @@ prefix comparison is the empty-tail side of the same append-tail equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_append\_tail\_empty\_iff}
 
+\begin{theorem}[Singleton lattice meet greatest lower bound empty exactness]
+\label{thm:lattice-singleton-meet-glb-empty-exactness}
+For carried singleton endpoints $h,k,z$, the statement that $z$ is below the
+concrete meet of $h$ and $k$ is equivalent to the two endpoint lower-bound
+clauses together with the fact that the concrete meet is empty:
+$$
+z\le_{\emp}\mathsf{meet}(h,k)
+\quad\Longleftrightarrow\quad
+z\le_{\emp}h\wedge z\le_{\emp}k\wedge \mathsf{meet}(h,k)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier identifies $h,k,z$ with $\emp$, and the concrete meet
+operation is definitionally $\emp$. Thus the forward direction builds both
+lower-bound comparisons from the endpoint sameness witnesses using the
+singleton prefix comparison. Conversely, the displayed empty-meet endpoint
+and the carrier witness for $z$ build the singleton comparison
+$z\le_{\emp}\mathsf{meet}(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeet\_greatest\_lower\_bound\_empty\_iff}
+
 The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
 and operations, so Lean can target $\mathsf{BEDC.Derived.LatticeUp}$ as a
 $\mathsf{BHist}$-anchored certificate rather than an abstract operator schema.

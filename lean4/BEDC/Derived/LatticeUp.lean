@@ -242,4 +242,24 @@ theorem LatticeSingletonLE_append_tail_empty_iff {h tail : BHist} :
     exact And.intro appendCarrier (And.intro carrierH
       ((PreorderPrefixLE_append_tail_backforces_empty_iff tailUnary).mpr tailEmpty))
 
+theorem LatticeSingletonMeet_greatest_lower_bound_empty_iff {h k z : BHist} :
+    LatticeSingletonCarrier h -> LatticeSingletonCarrier k -> LatticeSingletonCarrier z ->
+      (LatticeSingletonLE z (LatticeSingletonMeet h k) ↔
+        LatticeSingletonLE z h ∧ LatticeSingletonLE z k ∧
+          hsame (LatticeSingletonMeet h k) BHist.Empty) := by
+  intro hCarrier kCarrier zCarrier
+  constructor
+  · intro _meetBound
+    have sameZH : hsame z h := hsame_trans zCarrier (hsame_symm hCarrier)
+    have sameZK : hsame z k := hsame_trans zCarrier (hsame_symm kCarrier)
+    constructor
+    · exact And.intro zCarrier (And.intro hCarrier (PreorderPrefixLE_of_hsame sameZH))
+    · constructor
+      · exact And.intro zCarrier (And.intro kCarrier (PreorderPrefixLE_of_hsame sameZK))
+      · exact hsame_refl BHist.Empty
+  · intro bounds
+    exact And.intro zCarrier
+      (And.intro bounds.right.right
+        (PreorderPrefixLE_of_hsame (hsame_trans zCarrier (hsame_symm bounds.right.right))))
+
 end BEDC.Derived.LatticeUp

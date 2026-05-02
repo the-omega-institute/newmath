@@ -224,6 +224,22 @@ continuation from $b$ through $r$ to $c$.
 \end{proof}
 \leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_factor}
 
+\begin{theorem}[Continuation morphism right factor reconstruction]
+\label{thm:category-continuation-right-factor-reconstruction}
+For histories $a,b,c$ and a displayed tail $r$, let $left:a\to b$ and
+$composite:a\to c$ be continuation morphisms. If the tail of $composite$ is
+displayed as the continuation composite of the tail of $left$ with $r$, then
+composing $left$ with the recovered right factor reconstructs the displayed
+tail of $composite$ up to $\hsame$.
+\end{theorem}
+\begin{proof}
+The recovered right factor has tail $r$ by construction. The closed
+composition therefore has tail
+$\mathsf{append}(\mathsf{tail}(left),r)$, and the supplied tail
+factorization identifies this append with $\mathsf{tail}(composite)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_factor\_reconstructs}
+
 \begin{theorem}[Continuation morphism right factor tail uniqueness]
 \label{thm:continuation-morphism-comp-right-factor-tail-hsame}
 For histories $a,b,c$ and a displayed tail $r$, let $left:a\to b$ and

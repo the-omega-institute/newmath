@@ -52,4 +52,11 @@ theorem ContinuationMorphism_comp_middle_tail_readback {a b b' c : BHist}
             cont_right_cancel recoveredRel right.rel
           exact And.intro sameMiddle tailRel.symm
 
+theorem ContinuationMorphism_comp_right_factor_reconstructs {a b c r : BHist}
+    (left : ContinuationMorphism a b) (composite : ContinuationMorphism a c)
+    (tailRel : Cont left.tail r composite.tail) :
+    hsame (ContinuationMorphism_comp_closed left
+      (ContinuationMorphism_comp_right_factor left composite tailRel)).tail composite.tail := by
+  exact tailRel.symm
+
 end BEDC.Derived.CategoryUp
