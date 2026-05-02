@@ -60,6 +60,44 @@ the Rat branch of $\mathsf{RatDenomUnitCarrier}(r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_continuation\_closed}
 
+\begin{theorem}[Rat denominator unit carrier append with Rat left factor]
+\label{thm:rat-denom-unit-carrier-append-left-rat-closed}
+For histories $h,k:\mathsf{BHist}$, if $h$ is a Rat denominator endpoint and
+$k$ is carried by the adjoined empty-unit denominator carrier, then the append
+product is again a Rat denominator endpoint:
+$$
+\mathsf{RatHistoryCarrier}(h)\to
+\mathsf{RatDenomUnitCarrier}(k)\to
+\mathsf{RatHistoryCarrier}(\mathsf{append}(h,k)).
+$$
+\end{theorem}
+\begin{proof}
+Split the adjoined-unit carrier witness for $k$. If $k\hsame\emp$, the append
+product is history-same to $h$, so the Rat carrier for $h$ transports to the
+product. If $k$ is a Rat denominator endpoint, apply Rat denominator
+continuation carrier closure to the canonical append continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_left\_rat\_closed}
+
+\begin{theorem}[Rat denominator unit carrier append with Rat right factor]
+\label{thm:rat-denom-unit-carrier-append-right-rat-closed}
+For histories $h,k:\mathsf{BHist}$, if $h$ is carried by the adjoined
+empty-unit denominator carrier and $k$ is a Rat denominator endpoint, then the
+append product is again a Rat denominator endpoint:
+$$
+\mathsf{RatDenomUnitCarrier}(h)\to
+\mathsf{RatHistoryCarrier}(k)\to
+\mathsf{RatHistoryCarrier}(\mathsf{append}(h,k)).
+$$
+\end{theorem}
+\begin{proof}
+Split the adjoined-unit carrier witness for $h$. If $h\hsame\emp$, the append
+product is history-same to $k$, so the Rat carrier for $k$ transports to the
+product. If $h$ is a Rat denominator endpoint, apply Rat denominator
+continuation carrier closure to the canonical append continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_right\_rat\_closed}
+
 The per-object certificate has ten fields: traditional target carrier stability
 for the denominator unit fragment; BEDC source $\mathsf{BHist}$,
 $\mathsf{RatHistoryCarrier}$, and $\Cont$; carrier

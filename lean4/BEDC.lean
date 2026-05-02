@@ -172,6 +172,7 @@ import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatDenomUnit
 import BEDC.Derived.FieldUp.RatDenomUnitEndpointAbsurd
+import BEDC.Derived.FieldUp.RatDenomUnitAppendRat
 import BEDC.Derived.FieldUp.RatDenomUnitEmptyContext
 import BEDC.Derived.FieldUp.RatContinuation
 import BEDC.Derived.FieldUp.RatContextInvariantObstruction
@@ -255,6 +256,7 @@ import BEDC.Derived.CategoryUp.HomContinuationTail
 import BEDC.Derived.CategoryUp.ContinuationBridge
 import BEDC.Derived.CategoryUp.EndomorphismTail
 import BEDC.Derived.CategoryUp.VisibleTailResult
+import BEDC.Derived.CategoryUp.RightTailFactorization
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
