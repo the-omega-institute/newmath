@@ -289,6 +289,22 @@ In the present/present case, the two middle present endpoint witnesses give $\hs
 For carrier transport, case-analyze the classifier witness; the absent branch gives the empty endpoint carrier, and the present branch stores the target payload carrier directly. The classifier endpoint transport field is exactly Theorem~\ref{thm:tagged-option-history-classifier-hsame-transport}. Same-tag exactness, right-absent exactness, and mixed constructor separation are isolated in Theorems~\ref{thm:tagged-option-history-same-tag-exactness}, \ref{thm:tagged-option-history-right-absent-exactness}, and \ref{thm:tagged-option-history-mixed-tag-separation}.
 \end{proof}
 
+\begin{theorem}[Tagged option history classifier self-exactness]
+\label{thm:tagged-option-history-classifier-self-exactness}
+This theorem fits the ten-field template with traditional target self-classification for constructor-tagged $\OptionUp$, BEDC source $\mathsf{BHist}$ carrying a source $\NameCert$, carrier $\mathsf{TaggedOptionHistoryCarrier}$, classifier $\mathsf{TaggedOptionHistoryClassifier}$, stability obligation carrier-relative reflexivity together with endpoint carrier exposure, ledger visible absent/present tag, core theorem self-exactness, exactness predicate the displayed iff, standard bridge $\mathsf{none}$/$\mathsf{some}$ self-classification, and status $\mathsf{ProofTarget}$.
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$, source classifier $\sim_S$, source certificate $\mathsf{cert}:\NameCert(S,\sim_S)$, and history $h$, the tagged option self-classification predicate is exactly carrier membership:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)
+\quad\Longleftrightarrow\quad
+\mathsf{TaggedOptionHistoryCarrier}_S(h).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply Theorem~\ref{thm:tagged-option-history-classifier-endpoint-carriers} to the self-classifier witness $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)$. The endpoint-carrier pair has identical endpoints, so projecting the left carrier gives $\mathsf{TaggedOptionHistoryCarrier}_S(h)$.
+
+For the reverse direction, use item 1 of Theorem~\ref{thm:tagged-option-history-stability-fields} under the source certificate $\mathsf{cert}$. Its carrier-relative reflexivity field turns the carrier witness $\mathsf{TaggedOptionHistoryCarrier}_S(h)$ into the required self-classifier witness $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)$.
+\end{proof}
+
 \begin{theorem}[Tagged option history same-tag exactness]
 \label{thm:tagged-option-history-same-tag-exactness}
 For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source classifier $\sim_S$, the classifier $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}$ from Definition~\ref{def:tagged-option-history-classifier} is exact on equal visible tags:
