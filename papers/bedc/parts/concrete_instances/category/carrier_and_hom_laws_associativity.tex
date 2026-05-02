@@ -271,6 +271,26 @@ $\mathsf{append}(\emp,\emp)$, hence it is history-same to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_empty\_iff}
 
+\begin{theorem}[Continuation morphism composite tail empty endpoint iff]
+\label{thm:continuation-morphism-composite-tail-empty-endpoint-iff}
+For histories $a,b,c$, let $left:a\to b$ and $right:b\to c$ be continuation
+morphisms. The canonical composite has displayed tail history-same to $\emp$
+if and only if the two adjacent endpoint comparisons hold:
+$$
+\hsame(\mathsf{tail}(left\circ right),\emp)
+\Longleftrightarrow
+\hsame(a,b)\wedge\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Combine the composite tail-empty equivalence with the single-morphism
+tail-empty endpoint equivalence for the left and right factors. The forward
+direction projects the two empty component tails and converts them to endpoint
+comparisons. The reverse direction converts the two endpoint comparisons back
+to empty component tails and then rebuilds the empty composite tail.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_empty\_endpoint\_iff}
+
 \begin{theorem}[Continuation morphism composite tail continuation]
 \label{thm:continuation-morphism-composite-tail-continuation}
 For histories $a,b,c$, let $left:a\to b$ and $right:b\to c$ be continuation

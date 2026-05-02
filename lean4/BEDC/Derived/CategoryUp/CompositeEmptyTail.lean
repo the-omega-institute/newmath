@@ -1,4 +1,4 @@
-import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.EmptySourceTail
 
 namespace BEDC.Derived.CategoryUp
 
@@ -41,6 +41,24 @@ theorem ContinuationMorphism_comp_tail_empty_iff {a b c : BHist}
             cases parts.left
             cases parts.right
             exact hsame_refl BHist.Empty
+
+theorem ContinuationMorphism_comp_tail_empty_endpoint_iff {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    hsame (ContinuationMorphism_comp_closed left right).tail BHist.Empty ↔
+      hsame a b ∧ hsame b c := by
+  constructor
+  · intro compositeEmpty
+    have tailParts := (ContinuationMorphism_comp_tail_empty_iff left right).mp compositeEmpty
+    exact
+      And.intro
+        ((ContinuationMorphism_tail_empty_endpoint_hsame_iff left).mp tailParts.left)
+        ((ContinuationMorphism_tail_empty_endpoint_hsame_iff right).mp tailParts.right)
+  · intro endpoints
+    apply (ContinuationMorphism_comp_tail_empty_iff left right).mpr
+    exact
+      And.intro
+        ((ContinuationMorphism_tail_empty_endpoint_hsame_iff left).mpr endpoints.left)
+        ((ContinuationMorphism_tail_empty_endpoint_hsame_iff right).mpr endpoints.right)
 
 theorem ContinuationMorphism_comp_tail_cont {a b c : BHist}
     (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
