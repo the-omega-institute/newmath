@@ -155,6 +155,42 @@ theorem TaggedOptionHistoryClassifier_hsame_transport {S : BHist → Prop}
                                             (hsame_trans (hsame_symm sameK) sameKPresent)
                                             relAB))))))
 
+theorem OptionClassifierSpec_hsame_transport {x x' y y' : OptionCarrier BHist} :
+    OptionClassifierSpec hsame x y →
+      OptionClassifierSpec hsame x x' →
+        OptionClassifierSpec hsame y y' →
+          OptionClassifierSpec hsame x' y' := by
+  intro sameXY sameXX' sameYY'
+  cases x with
+  | none =>
+      cases x' with
+      | none =>
+          cases y with
+          | none =>
+              cases y' with
+              | none =>
+                  exact sameXY
+              | some _ =>
+                  cases sameYY'
+          | some _ =>
+              cases sameXY
+      | some _ =>
+          cases sameXX'
+  | some _ =>
+      cases x' with
+      | none =>
+          cases sameXX'
+      | some _ =>
+          cases y with
+          | none =>
+              cases sameXY
+          | some _ =>
+              cases y' with
+              | none =>
+                  cases sameYY'
+              | some _ =>
+                  exact hsame_trans (hsame_trans (hsame_symm sameXX') sameXY) sameYY'
+
 end BEDC.Derived.OptionUp
 
 theorem BEDC.Derived.OptionUp.OptionClassifierSpec_symm_from_source_symmetry

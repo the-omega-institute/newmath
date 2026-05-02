@@ -342,6 +342,29 @@ theorem CategoryHomCarrier_left_e1_result_cases {a k r : BHist} :
                         (And.intro (unary_e1_inversion morphCarrier)
                           (BHist.e1.inj homCont))))
 
+theorem CategoryHomCarrier_e1_morphism_target_iff {a k r : BHist} :
+    CategoryHomCarrier a (BHist.e1 r) (BHist.e1 k) <->
+      UnaryHistory a ∧ UnaryHistory k ∧ Cont a k r := by
+  constructor
+  · intro homCarrier
+    cases homCarrier with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro _targetCarrier rest =>
+            cases rest with
+            | intro morphCarrier homCont =>
+                exact And.intro sourceCarrier
+                  (And.intro (unary_e1_inversion morphCarrier) (BHist.e1.inj homCont))
+  · intro data
+    cases data with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro morphCarrier homCont =>
+            exact And.intro sourceCarrier
+              (And.intro
+                (unary_e1_closed (unary_cont_closed sourceCarrier morphCarrier homCont))
+                (And.intro (unary_e1_closed morphCarrier) (cont_step_one homCont)))
+
 theorem CategoryHomCarrier_identity_semanticNameCert {a : BHist} :
     UnaryHistory a ->
       BEDC.FKernel.NameCert.SemanticNameCert (CategoryHomCarrier a a)

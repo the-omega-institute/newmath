@@ -306,6 +306,24 @@ The proof case-analyzes typed $\mathsf{none}$ and $\mathsf{some}$ carrier values
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_symm}
 
+\begin{theorem}[Option classifier \(\hsame\) transport]
+\label{thm:option-classifier-spec-hsame-transport}
+For typed option carrier values
+$x,x',y,y':\mathsf{OptionCarrier}(\mathsf{BHist})$, if
+$\mathsf{OptionClassifierSpec}(\hsame,x,y)$,
+$\mathsf{OptionClassifierSpec}(\hsame,x,x')$, and
+$\mathsf{OptionClassifierSpec}(\hsame,y,y')$ hold, then
+$\mathsf{OptionClassifierSpec}(\hsame,x',y')$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze the four option endpoints. Mixed $\mathsf{none}$--$\mathsf{some}$
+branches contradict one of the displayed classifier witnesses. The
+$\mathsf{none}$--$\mathsf{none}$ branch reuses the existing typed classifier
+witness. In the $\mathsf{some}$--$\mathsf{some}$ branch, compose
+$\hsame(x,x')$ symmetrically with $\hsame(x,y)$ and then with $\hsame(y,y')$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_transport}
+
 \begin{theorem}[Option classifier symmetry from source symmetry]
 \label{thm:option-classifier-symm-from-source-symmetry}
 Let $A$ be an entry type, let $R:A\to A\to\mathsf{Prop}$ be a source relation, and let $x,y:\mathsf{OptionCarrier}(A)$. If

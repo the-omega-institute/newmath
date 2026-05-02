@@ -469,6 +469,26 @@ the morphism-tail unary witness to obtain the unary carrier for $k_0$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_left\_e1\_result\_cases}
 
+\begin{theorem}[Category hom-carrier one-headed morphism target exactness]
+\label{thm:category-hom-carrier-e1-morphism-target-iff}
+For histories $a,k,r$,
+$$
+\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(k)\land \ContR(a,k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. The forward direction keeps the unary source
+witness, inverts the one-headed morphism unary witness to obtain unary
+membership for $k$, and removes the outer one constructor from the
+continuation result. Conversely, unary continuation closure gives unary
+membership for $r$, one-step closure gives the one-headed target and morphism
+carriers, and the continuation one-step rule lifts $\ContR(a,k,r)$ to
+$\ContR(a,\Eone(k),\Eone(r))$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_target\_iff}
+
 \paragraph{Primitive boundary.}
 \(\CategoryUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
