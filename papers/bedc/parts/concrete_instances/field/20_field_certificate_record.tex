@@ -1,0 +1,32 @@
+\begin{definition}[Field ledger policy]
+\label{def:field-ledger-policy}
+Record the ring ledger and the $\mathsf{NonZero}_F$ witness used for each inverse.
+\end{definition}
+
+\begin{definition}[$\FieldUp$ certificate obligations]
+\label{def:field-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name $\FieldUp$.
+\end{definition}
+
+\paragraph{Per-object certificate record.}
+\begin{enumerate}
+  \item Traditional target: constructive field.
+  \item BEDC source: $\RatUp$ plus $\CommRingUp$ data.
+  \item Carrier choice: the $\RatUp$ carrier with $\mathsf{NonZero}_F(a)$ derived from apartness from $0$.
+  \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
+  \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
+  \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product exactness, zero-product exclusion from two nonzero witnesses, signed-factor apartness exclusivity, affine left equation exactness, affine right equation exactness, two-sided affine equation exactness, one-sided affine map classifier exactness, two-sided affine map classifier exactness, and distributivity inherited from $\CommRingUp$.
+  \item Exactness predicate: coverage, soundness, completeness, exact zero classification, and nonzero-product contradiction inside certified two-sided multiplication for admitted field packages.
+  \item Standard bridge: deferred conservative bridge.
+  \item Status: ProofTarget.
+\end{enumerate}
+
+\paragraph{Primitive boundary.}
+$\FieldUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:field-zero-axiom-note}
+Explicit apartness witnesses support inverse formation without LEM-based
+$a\ne0$ reasoning.
+\end{remark}
