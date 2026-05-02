@@ -76,6 +76,66 @@ packing again yields
 $R_D^u(\mu_D^u(h,k),\mu_D^u(k,h))$.
 \end{proof}
 
+\begin{definition}[Rat denominator empty-unit strict product support]
+\label{def:field-rat-denominator-empty-unit-strict-product-support}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance},
+the strict product support predicate is the genuine Rat denominator endpoint
+predicate
+$$
+N_D^u(h)\Longleftrightarrow\mathsf{RatHistoryCarrier}(h).
+$$
+Thus the empty endpoint is carried by $C_D^u$ but is not in the strict support.
+\end{definition}
+
+\begin{theorem}[Rat denominator empty-unit product nonempty iff]
+\label{thm:field-rat-denominator-empty-unit-product-nonempty-iff}
+For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, the
+empty-unit product is nonempty exactly when at least one input has strict Rat
+denominator support:
+$$
+(\mu_D^u(h,k)\hsame\emp\to\mathsf{False})
+\Longleftrightarrow
+N_D^u(h)\lor N_D^u(k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $C_D^u$, $\mu_D^u$, and $N_D^u$. The product
+$\mu_D^u(h,k)$ is $\mathsf{append}(h,k)$, with canonical continuation witness
+$\Cont(h,k,\mathsf{append}(h,k))$.
+
+For the forward direction, apply
+\autoref{thm:rat-denom-unit-continuation-nonempty-rat-endpoint} to the two
+$\mathsf{RatDenomUnitCarrier}$ witnesses and the canonical continuation. The
+assumption that $\mathsf{append}(h,k)$ is not $\hsame$ to $\emp$ is exactly the
+nonempty result condition, so the theorem returns
+$\mathsf{RatHistoryCarrier}(h)\lor\mathsf{RatHistoryCarrier}(k)$.
+
+For the reverse direction, split the strict-support disjunction. In the left
+case, split the carried endpoint $k$ into its empty and genuine alternatives.
+If $k\hsame\emp$, the right append unit law identifies
+$\mathsf{append}(h,k)$ with $h$, so any empty product would make $h\hsame\emp$,
+contradicting $\mathsf{RatHistoryCarrier\_not\_empty}$. If
+$\mathsf{RatHistoryCarrier}(k)$, apply Rat denominator continuation result
+nonemptiness to the canonical continuation.
+
+In the right strict-support case, split the carried endpoint $h$ in the same
+way. If $h\hsame\emp$, the left append unit law identifies
+$\mathsf{append}(h,k)$ with $k$, and
+$\mathsf{RatHistoryCarrier\_not\_empty}$ rejects an empty product. If
+$\mathsf{RatHistoryCarrier}(h)$, the same Rat denominator continuation result
+nonemptiness theorem applies to the canonical continuation.
+\end{proof}
+
+Per-object template: traditional target strict support for the empty-unit
+denominator multiplication; BEDC source $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatDenomUnitCarrier}$, and $\Cont$; carrier $C_D^u$; classifier
+$R_D^u$; stability obligation product support exactness; ledger continuation
+witness; core theorem
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff}; exactness
+predicate nonempty product iff genuine denominator input; standard bridge
+ordinary denominator monoid support; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rat denominator empty-unit classifier empty-context exactness]
 \label{thm:field-rat-denominator-unit-classifier-empty-context-exactness}
 For histories $p,q,p',q',h,k:\mathsf{BHist}$, if
