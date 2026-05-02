@@ -427,6 +427,24 @@ The ledger keeps a raw optional-history carrier witness and an $\hsame$ link fro
 \end{definition}
 \leandef{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy}
 
+\begin{theorem}[Option history ledger policy empty raw iff]
+\label{thm:option-history-ledger-policy-empty-raw-iff}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $v:\mathsf{BHist}$. Then
+$$
+\mathsf{OptionHistoryLedgerPolicy}(S,\mathsf{Empty},v)
+\Longleftrightarrow
+\hsame(v,\mathsf{Empty}).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the ledger at raw history $\mathsf{Empty}$. A ledger witness stores an
+$\hsame(\mathsf{Empty},v)$ link, whose symmetry gives
+$\hsame(v,\mathsf{Empty})$. Conversely, an $\hsame(v,\mathsf{Empty})$ witness
+provides the empty carrier branch for the raw endpoint and, by symmetry, the
+ledger link from $\mathsf{Empty}$ to $v$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_empty\_raw\_iff}
+
 \begin{theorem}[Option visible ledger carrier]
 \label{thm:option-ledger-policy-visible-carrier}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let $\rho,v:\mathsf{BHist}$. If

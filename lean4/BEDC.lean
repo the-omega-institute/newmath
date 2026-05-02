@@ -61,6 +61,7 @@ import BEDC.Derived.OptionUp.EndpointPairReadback
 import BEDC.Derived.OptionUp.VisiblePayloadWitnesses
 import BEDC.Derived.OptionUp.E0Source
 import BEDC.Derived.OptionUp.ChainPayload
+import BEDC.Derived.OptionUp.EmptyRawIff
 import BEDC.Derived.OptionUp.LedgerEndpoint
 import BEDC.Derived.OptionUp.LedgerReadback
 import BEDC.Derived.OptionUp.EndpointAbsurd
@@ -133,6 +134,7 @@ import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ResultCases
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.ContinuationWitness
+import BEDC.Derived.CompactUp.EndpointIff
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
