@@ -404,3 +404,73 @@ By Definition~\ref{def:prod-displayed-pair-ledger}, the first representation is
 the named ledger witness for $h$, and the second representation is the named
 ledger witness for $k$. These two witnesses give the required conjunction.
 \end{proof}
+
+\begin{theorem}[Product componentwise public certificate package]
+\label{thm:prod-componentwise-public-certificate-package}
+The ten-field fit is: traditional target ordered-product public certificate
+package; BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$ through $\mathsf{ProdPairRep}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$; stability inputs
+$\mathsf{ProdPairRepCoherent}$ and source $\hsame$-soundness; ledger
+$\mathsf{ProdDisplayedPairLedger}$; core theorem the semantic certificate,
+displayed pair ledger endpoints, and envelope descent together; exactness
+componentwise endpoint ledgers plus descent to
+$\mathsf{ProdHistoryClassifier}$; standard bridge ordered-pair public readback;
+status $\mathsf{ProofTarget}$. This theorem is not a variant of any one
+preceding theorem, because it composes certificate existence, ledger endpoints,
+and envelope descent in the single public-scope package required by the roadmap.
+
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Assume also that both source
+classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+Then the following three facts hold:
+\begin{enumerate}
+\item
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdDisplayedPairLedger}_{L,R},
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
+$$
+\item For all histories $h,k:\mathsf{BHist}$,
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+\to
+\mathsf{ProdDisplayedPairLedger}_{L,R}(h)
+\land
+\mathsf{ProdDisplayedPairLedger}_{L,R}(k).
+$$
+\item For all histories $h,k:\mathsf{BHist}$,
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+\to
+\mathsf{ProdHistoryClassifier}(L,R,h,k).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the semantic certificate clause, apply
+Theorem~\ref{thm:prod-component-history-semantic-certificate-target} to
+$\mathsf{cert}_L$, $\mathsf{cert}_R$, and the
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ witness.
+
+For the displayed ledger clause, fix histories $h$ and $k$ and a witness of
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$. Apply
+Theorem~\ref{thm:prod-component-history-classifier-displayed-ledger-endpoints}
+to that witness; its conclusion is exactly the required pair of displayed
+ledger endpoints.
+
+For the envelope descent clause, fix histories $h$ and $k$ and a witness of
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$. Apply
+Theorem~\ref{thm:prod-component-history-classifier-descends-to-envelope} with
+the two $\hsame$-soundness hypotheses, giving
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+\end{proof}
