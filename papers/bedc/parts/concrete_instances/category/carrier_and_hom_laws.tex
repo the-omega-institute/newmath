@@ -600,6 +600,29 @@ unpacking the first relation and reassociating the append spine.
 \end{definition}
 \leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_closed}
 
+\begin{theorem}[Continuation morphism composite empty-tail inversion]
+\label{thm:category-continuation-morphism-composite-empty-tail-inversion}
+For histories $a,b,c$, let $left:a\to b$ and $right:b\to c$ be continuation
+morphisms. If the canonical composite continuation morphism has displayed tail
+history-same to $\emp$, then both component tails are history-same to $\emp$,
+and both endpoints are identified:
+$$
+\hsame(\mathsf{tail}(left\circ right),\emp)
+\Longrightarrow
+\hsame(\mathsf{tail}(left),\emp)\wedge
+\hsame(\mathsf{tail}(right),\emp)\wedge
+\hsame(a,b)\wedge\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The composite displayed tail is
+the BEDC append of the two component tails; empty append inversion forces both
+component tails to be $\emp$. The original continuation witnesses then compare
+against the right-unit continuations at $a$ and $b$, so determinacy identifies
+the corresponding endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_empty\_tail\_inversion}
+
 \begin{theorem}[Continuation morphism composition right factor]
 \label{thm:continuation-morphism-composition-right-factor}
 For histories $a,b,c$ and a displayed tail $r$, let $left:a\to b$ and

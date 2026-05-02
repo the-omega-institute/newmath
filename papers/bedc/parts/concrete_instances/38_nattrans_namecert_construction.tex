@@ -41,6 +41,26 @@ Transitivity of history sameness identifies \(p\) and \(r\).
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_identity\_prefix\_trans}
 
+\begin{theorem}[NatTrans one-headed source empty component exactness]
+\label{thm:nattrans-prefix-component-e1-source-empty-component-exactness}
+For histories $p,q,a$, an empty prefix component from $\Eone(p)$ to $q$ over
+$a$ exists exactly when $p$ and $a$ are unary and the target prefix is literally
+$\Eone(p)$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(\Eone(p),q,a,\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge q=\Eone(p).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-identity component exactness. Unary inversion on the one-headed
+source prefix extracts unary membership of $p$, and the prefix sameness
+specializes to the equality $q=\Eone(p)$. Conversely, substituting this equality
+rebuilds the one-headed target prefix, and empty-identity exactness packages
+the empty component.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_e1\_source\_empty\_component\_iff}
+
 \begin{theorem}[NatTrans prefix component empty-source prefix exactness]
 \label{thm:nattrans-prefix-component-carrier-empty-source-prefix}
 For histories $q,a,\eta$, a prefix component from the empty prefix to $q$ over

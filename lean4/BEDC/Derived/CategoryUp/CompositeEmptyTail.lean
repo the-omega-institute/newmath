@@ -1,0 +1,28 @@
+import BEDC.Derived.CategoryUp
+
+namespace BEDC.Derived.CategoryUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+
+theorem ContinuationMorphism_comp_empty_tail_inversion {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    hsame (ContinuationMorphism_comp_closed left right).tail BHist.Empty ->
+      hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty ∧ hsame a b ∧ hsame b c := by
+  intro compositeEmpty
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          have emptyParts : leftTail = BHist.Empty ∧ rightTail = BHist.Empty :=
+            append_eq_empty_iff.mp compositeEmpty
+          cases emptyParts.left
+          cases emptyParts.right
+          exact
+            And.intro (hsame_refl BHist.Empty)
+              (And.intro (hsame_refl BHist.Empty)
+                (And.intro
+                  (cont_deterministic (cont_right_unit a) leftRel)
+                  (cont_deterministic (cont_right_unit b) rightRel)))
+
+end BEDC.Derived.CategoryUp

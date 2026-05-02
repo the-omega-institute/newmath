@@ -216,6 +216,33 @@ theorem FunctorPrefixHomCarrier_empty_identity_iff {p a b : BHist} :
               Iff.mpr CategoryHomCarrier_empty_identity_iff
                 (And.intro sourceCarrier (And.intro targetCarrier samePrefixed))
 
+theorem FunctorPrefixHomCarrier_empty_morphism_target_iff {p a target : BHist} :
+    CategoryHomCarrier (append p a) target BHist.Empty ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ hsame target (append p a) := by
+  constructor
+  · intro homCarrier
+    have identityData :=
+      (CategoryHomCarrier_empty_identity_iff (a := append p a) (b := target)).mp homCarrier
+    exact
+      And.intro (unary_append_left_factor identityData.left)
+        (And.intro
+          (unary_append_right_factor identityData.left)
+          (hsame_symm identityData.right.right))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro objectCarrier sameTarget =>
+            have sourceCarrier : UnaryHistory (append p a) :=
+              unary_append_closed prefixCarrier objectCarrier
+            exact
+              (CategoryHomCarrier_empty_identity_iff
+                (a := append p a) (b := target)).mpr
+                (And.intro sourceCarrier
+                  (And.intro
+                    (unary_transport sourceCarrier (hsame_symm sameTarget))
+                    (hsame_symm sameTarget)))
+
 theorem FunctorPrefixHomCarrier_e1_prefix_empty_identity_iff {p a b : BHist} :
     CategoryHomCarrier (append (BHist.e1 p) a) (append (BHist.e1 p) b) BHist.Empty ↔
       UnaryHistory p ∧ UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by

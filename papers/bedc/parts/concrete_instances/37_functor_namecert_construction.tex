@@ -275,6 +275,28 @@ identity exactness reconstructs the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_identity\_iff}
 
+\begin{theorem}[Prefix functor empty morphism target exactness]
+\label{thm:functor-prefix-hom-carrier-empty-morphism-target-exactness}
+For histories $p,a,target$, the empty history is a hom-carrier from the
+prefixed source $\mathsf{append}(p,a)$ to $target$ exactly when $p$ and $a$ are
+unary and $target$ is history-same to that prefixed source:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),target,\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge
+\hsame(target,\mathsf{append}(p,a)).
+$$
+\end{theorem}
+\begin{proof}
+Apply category empty-identity exactness to the hom-carrier with source
+$\mathsf{append}(p,a)$. The source unary witness splits into unary witnesses
+for $p$ and $a$, and endpoint sameness is read in the target-to-source
+direction. Conversely, append closure rebuilds the unary source; transport
+along endpoint sameness gives the unary target, and category empty-identity
+exactness reconstructs the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_morphism\_target\_iff}
+
 \begin{theorem}[One-headed prefix empty identity hom carrier exactness]
 \label{thm:functor-prefix-hom-carrier-e1-prefix-empty-identity-iff}
 For histories \(p,a,b\), the empty history is a hom-carrier from

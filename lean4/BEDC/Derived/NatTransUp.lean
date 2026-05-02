@@ -82,6 +82,31 @@ theorem NatTransPrefixComponentCarrier_empty_identity_prefix_trans {p q r a : BH
   have rightData := Iff.mp NatTransPrefixComponentCarrier_empty_identity_iff right
   exact hsame_trans leftData.right.right.right rightData.right.right.right
 
+theorem NatTransPrefixComponentCarrier_e1_source_empty_component_iff {p q a : BHist} :
+    NatTransPrefixComponentCarrier (BHist.e1 p) q a BHist.Empty ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ q = BHist.e1 p := by
+  constructor
+  · intro component
+    have identityData :=
+      (NatTransPrefixComponentCarrier_empty_identity_iff
+        (p := BHist.e1 p) (q := q) (a := a)).mp component
+    exact
+      And.intro (unary_e1_inversion identityData.left)
+        (And.intro identityData.right.right.left
+          (hsame_symm identityData.right.right.right))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro objectCarrier targetEq =>
+            cases targetEq
+            exact
+              (NatTransPrefixComponentCarrier_empty_identity_iff
+                (p := BHist.e1 p) (q := BHist.e1 p) (a := a)).mpr
+                (And.intro (unary_e1_closed prefixCarrier)
+                  (And.intro (unary_e1_closed prefixCarrier)
+                    (And.intro objectCarrier (hsame_refl (BHist.e1 p)))))
+
 theorem NatTransPrefixComponentCarrier_empty_source_prefix_iff {q a eta : BHist} :
     NatTransPrefixComponentCarrier BHist.Empty q a eta ↔
       UnaryHistory q ∧ UnaryHistory a ∧ CategoryHomCarrier a (append q a) eta := by

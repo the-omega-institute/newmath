@@ -194,6 +194,7 @@ import BEDC.Derived.CategoryUp.CompDeterminism
 import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.ContinuationBoundary
 import BEDC.Derived.CategoryUp.FactorTail
+import BEDC.Derived.CategoryUp.CompositeEmptyTail
 import BEDC.Derived.CategoryUp.LawPackage
 import BEDC.Derived.CategoryUp.EmptySourceTail
 import BEDC.Derived.CategoryUp.StabilityLawPackage
