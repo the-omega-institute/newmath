@@ -1,21 +1,16 @@
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
-
 namespace BEDC.Derived.CategoryUp
-
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
-
 def CategoryHomCarrier (a b f : BHist) : Prop :=
   UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧ Cont a f b
-
 theorem CategoryHomCarrier_empty_identity {h : BHist} :
     UnaryHistory h -> CategoryHomCarrier h h BHist.Empty := by
   intro carrier
   exact And.intro carrier (And.intro carrier (And.intro unary_empty (cont_right_unit h)))
-
 theorem CategoryHomCarrier_empty_identity_iff {a b : BHist} :
     CategoryHomCarrier a b BHist.Empty ↔ UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
   constructor
@@ -40,7 +35,6 @@ theorem CategoryHomCarrier_empty_identity_iff {a b : BHist} :
                 (And.intro targetCarrier
                   (And.intro unary_empty
                     (cont_result_hsame_transport (cont_right_unit a) same)))
-
 theorem CategoryHomCarrier_empty_source_iff {b f : BHist} :
     CategoryHomCarrier BHist.Empty b f ↔ UnaryHistory b ∧ hsame f b := by
   constructor
@@ -61,7 +55,6 @@ theorem CategoryHomCarrier_empty_source_iff {b f : BHist} :
               (And.intro
                 (unary_transport targetCarrier (hsame_symm sameMorphism))
                 (Iff.mpr cont_left_unit_iff (hsame_symm sameMorphism))))
-
 theorem CategoryHomCarrier_empty_target_iff {a f : BHist} :
     CategoryHomCarrier a BHist.Empty f <-> hsame a BHist.Empty /\ hsame f BHist.Empty := by
   constructor
@@ -75,33 +68,21 @@ theorem CategoryHomCarrier_empty_target_iff {a f : BHist} :
         cases sameF
         exact And.intro unary_empty
           (And.intro unary_empty (And.intro unary_empty (cont_right_unit BHist.Empty)))
-
 theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier a c fg := by
   intro left right comp
-  cases left with
-  | intro sourceCarrier leftRest =>
-      cases leftRest with
-      | intro _middleCarrier leftHomRest =>
-          cases leftHomRest with
-          | intro fCarrier leftCont =>
-              cases right with
-              | intro middleCarrier rightRest =>
-                  cases rightRest with
-                  | intro targetCarrier rightHomRest =>
-                      cases rightHomRest with
-                      | intro gCarrier rightCont =>
-                          cases leftCont
-                          cases rightCont
-                          cases comp
-                          exact
-                            And.intro sourceCarrier
-                              (And.intro targetCarrier
-                                (And.intro
-                                  (unary_cont_closed fCarrier gCarrier (cont_intro rfl))
-                                  (cont_intro (append_assoc a f g))))
-
+  have sourceCarrier : UnaryHistory a := left.left
+  have targetCarrier : UnaryHistory c := right.right.left
+  have fCarrier : UnaryHistory f := left.right.right.left
+  have gCarrier : UnaryHistory g := right.right.right.left
+  cases left.right.right.right
+  cases right.right.right.right
+  cases comp
+  exact And.intro sourceCarrier
+    (And.intro targetCarrier
+      (And.intro (unary_cont_closed fCarrier gCarrier (cont_intro rfl))
+        (cont_intro (append_assoc a f g))))
 theorem CategoryHomCarrier_identity_square_closed {a b f left right : BHist} :
     CategoryHomCarrier a b f -> Cont BHist.Empty f left -> Cont f BHist.Empty right ->
       CategoryHomCarrier a b left ∧ CategoryHomCarrier a b right ∧ hsame left right := by
@@ -115,7 +96,6 @@ theorem CategoryHomCarrier_identity_square_closed {a b f left right : BHist} :
     cases rightSame
     exact homCarrier
   exact And.intro leftCarrier (And.intro rightCarrier (leftSame.trans rightSame.symm))
-
 theorem CategoryHomCarrier_comp_assoc_closed {a b c d f g h fg gh left right : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c d h ->
       Cont f g fg -> Cont g h gh -> Cont fg h left -> Cont f gh right ->
@@ -131,24 +111,10 @@ theorem CategoryHomCarrier_comp_assoc_closed {a b c d f g h fg gh left right : B
       (And.intro
         (CategoryHomCarrier_comp_closed first ghCarrier rightRel)
         (cont_assoc_hsame fgRel leftRel ghRel rightRel))
-
 theorem CategoryHomCarrier_morphism_deterministic {a b f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier a b g -> hsame f g := by
   intro left right
-  cases left with
-  | intro _sourceCarrier leftRest =>
-      cases leftRest with
-      | intro _targetCarrier leftHomRest =>
-          cases leftHomRest with
-          | intro _fCarrier leftCont =>
-              cases right with
-              | intro _sourceCarrier' rightRest =>
-                  cases rightRest with
-                  | intro _targetCarrier' rightHomRest =>
-                      cases rightHomRest with
-                      | intro _gCarrier rightCont =>
-                          exact cont_left_cancel leftCont rightCont
-
+  exact cont_left_cancel left.right.right.right right.right.right.right
 theorem CategoryHomCarrier_endpoint_hsame_morphism_deterministic {a a' b b' f g : BHist} :
     hsame a a' -> hsame b b' -> CategoryHomCarrier a b f ->
       CategoryHomCarrier a' b' g -> hsame f g := by
@@ -167,11 +133,53 @@ theorem CategoryHomCarrier_comp_public_readback {a b c f g fg : BHist} :
   · exact compositeCarrier
   · intro fg' displayed
     exact CategoryHomCarrier_morphism_deterministic compositeCarrier displayed
+
+theorem CategoryHomCarrier_unary_suffix_iff {q a b f : BHist} :
+    CategoryHomCarrier (append a q) (append b q) f <->
+      UnaryHistory q /\ CategoryHomCarrier a b f := by
+  constructor
+  · intro homCarrier
+    have qCarrier : UnaryHistory q := unary_append_right_factor homCarrier.left
+    have aCarrier : UnaryHistory a := unary_append_left_factor homCarrier.left
+    have bCarrier : UnaryHistory b := unary_append_left_factor homCarrier.right.left
+    have fCarrier : UnaryHistory f := homCarrier.right.right.left
+    have baseCont : Cont a f b := by
+      apply (cont_suffix_iff (a := a) (b := b) (f := f) (p := q)).mp
+      exact cont_intro
+        (homCarrier.right.right.right.trans
+          ((append_assoc a q f).trans
+            (congrArg (append a) (unary_append_comm qCarrier fCarrier))))
+    exact And.intro qCarrier
+      (And.intro aCarrier (And.intro bCarrier (And.intro fCarrier baseCont)))
+  · intro suffixed
+    have qCarrier : UnaryHistory q := suffixed.left
+    have baseCarrier : CategoryHomCarrier a b f := suffixed.right
+    exact And.intro (unary_append_closed baseCarrier.left qCarrier)
+      (And.intro (unary_append_closed baseCarrier.right.left qCarrier)
+        (And.intro baseCarrier.right.right.left
+          (cont_intro
+            ((congrArg (fun x => append x q) baseCarrier.right.right.right).trans
+              ((append_assoc a f q).trans
+                ((congrArg (append a)
+                    (unary_append_comm qCarrier baseCarrier.right.right.left).symm).trans
+                  (append_assoc a q f).symm))))))
+
+theorem CategoryHomCarrier_unary_suffix_comp_public_readback {q a b c f g fg : BHist} :
+    UnaryHistory q -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      CategoryHomCarrier (append a q) (append c q) fg ∧
+        (forall {fg' : BHist}, CategoryHomCarrier (append a q) (append c q) fg' ->
+          hsame fg fg') := by
+  intro qCarrier left right comp
+  have readback := CategoryHomCarrier_comp_public_readback left right comp
+  constructor
+  · exact CategoryHomCarrier_unary_suffix_iff.mpr (And.intro qCarrier readback.left)
+  · intro fg' displayed
+    exact readback.right (CategoryHomCarrier_unary_suffix_iff.mp displayed).right
+
 theorem CategoryHomCarrier_target_deterministic {a b c f : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier a c f -> hsame b c := by
   intro left right
   exact cont_deterministic left.right.right.right right.right.right.right
-
 theorem CategoryHomCarrier_comp_target_deterministic {a b c d f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier a d fg -> hsame c d := by

@@ -348,6 +348,26 @@ theorem ProdComponentHistoryClassifier_trans_from_pair_coherence
         ⟨lh, rh, lu, ru, leftH, rightH, contH, leftU, rightU, contU,
           sameLeftHU, sameRightHU⟩
 
+theorem ProdComponentHistoryClassifier_representative_independence
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq)
+    {h k l r l' r' u v u' v' : BHist} :
+    ProdPairRep Left Right h l r ->
+      ProdPairRep Left Right h l' r' ->
+        ProdPairRep Left Right k u v ->
+          ProdPairRep Left Right k u' v' ->
+            And (LeftEq l u) (RightEq r v) ->
+              And (LeftEq l' u') (RightEq r' v') := by
+  intro repH repH' repK repK' components
+  have sourceAtH : LeftEq l' l ∧ RightEq r' r := coherent repH' repH
+  have sourceAtK : LeftEq u u' ∧ RightEq v v' := coherent repK repK'
+  constructor
+  · exact leftCert.equiv_trans sourceAtH.left
+      (leftCert.equiv_trans components.left sourceAtK.left)
+  · exact rightCert.equiv_trans sourceAtH.right
+      (rightCert.equiv_trans components.right sourceAtK.right)
+
 theorem ProdComponentHistoryClassifier_name_certificate
     {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
     (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)

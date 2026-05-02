@@ -513,6 +513,44 @@ theorem SumHistorySource_weakening {Left Right Left' Right' : BHist -> Prop}
                                         (And.intro sameK
                                           (rightRelation a b sameRight)))))
 
+theorem SumHistorySource_equivalence {Left Right Left' Right' : BHist -> Prop}
+    {LeftEq RightEq LeftEq' RightEq' : BHist -> BHist -> Prop}
+    (left_source : forall h : BHist, Left h <-> Left' h)
+    (right_source : forall h : BHist, Right h <-> Right' h)
+    (left_rel : forall a b : BHist, LeftEq a b <-> LeftEq' a b)
+    (right_rel : forall a b : BHist, RightEq a b <-> RightEq' a b) :
+    And (forall {h : BHist}, SumHistoryCarrier Left Right h <->
+      SumHistoryCarrier Left' Right' h)
+      (forall {h k : BHist}, SumHistoryClassifier Left Right LeftEq RightEq h k <->
+        SumHistoryClassifier Left' Right' LeftEq' RightEq' h k) := by
+  have forward := SumHistorySource_weakening
+    (And.intro
+      (fun h leftH => (left_source h).mp leftH)
+      (fun h rightH => (right_source h).mp rightH))
+    (And.intro
+      (fun a b relAB => (left_rel a b).mp relAB)
+      (fun a b relAB => (right_rel a b).mp relAB))
+  have backward := SumHistorySource_weakening
+    (And.intro
+      (fun h leftH => (left_source h).mpr leftH)
+      (fun h rightH => (right_source h).mpr rightH))
+    (And.intro
+      (fun a b relAB => (left_rel a b).mpr relAB)
+      (fun a b relAB => (right_rel a b).mpr relAB))
+  constructor
+  · intro h
+    constructor
+    · intro carrier
+      exact forward.left carrier
+    · intro carrier
+      exact backward.left carrier
+  · intro h k
+    constructor
+    · intro classifier
+      exact forward.right classifier
+    · intro classifier
+      exact backward.right classifier
+
 theorem SumHistoryClassifier_relation_weakening
     {Left Right LeftAlt RightAlt : BHist → Prop}
     {LeftEq RightEq LeftEq' RightEq' : BHist → BHist → Prop}

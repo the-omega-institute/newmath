@@ -3,12 +3,173 @@
 
 The polynomial interface \(\PolynomialUp\) has certificate obligations over a scalar ring from \autoref{ch:concrete-instances-ring-namecert} as finite coefficient sequences from \autoref{ch:concrete-instances-list-namecert}, normalized to remove trailing zeros so that the highest-index entry is nonzero (or the sequence is empty for the zero polynomial). The classifier is structural sameness on the normalized representative. Polynomial addition and multiplication are derived operations governed by the ring's certificate fields.
 
+\section{Concrete singleton zero-polynomial instance}
+\label{sec:polynomial-concrete-singleton-zero-instance}
+
+\begin{definition}[Singleton zero-polynomial instance]
+\label{def:singleton-zero-polynomial-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Use the
+singleton empty-history scalar ring of
+Definition~\ref{def:singleton-empty-history-ring-instance}. Define the
+polynomial classifier
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+The normalized coefficient-list representative is $\emp$, and the singleton
+normalization map on admitted endpoints is $\mathsf{norm}_{\emp}(h):=\emp$.
+The polynomial carrier is $A_{\emp}$ on $\mathsf{BHist}$ endpoints. Define the
+displayed polynomial operations by
+$$
+0_P:=\emp,\qquad 1_P:=\emp,\qquad
+P\oplus_P Q:=\mathsf{append}(P,Q),\qquad
+P\odot_P Q:=\mathsf{append}(P,Q).
+$$
+This tuple is the concrete zero-polynomial instance of the
+$\PolynomialUp$ certificate schema over the singleton BEDC history carrier.
+\end{definition}
+
+\begin{theorem}[Singleton zero-polynomial laws]
+\label{thm:singleton-zero-polynomial-laws}
+For the singleton instance of
+Definition~\ref{def:singleton-zero-polynomial-instance}, the displayed
+polynomial carrier and operations satisfy the concrete $\PolynomialUp$ law
+package:
+\begin{enumerate}
+  \item $0_P$ and $1_P$ are carried by $A_{\emp}$.
+  \item If $A_{\emp}(P)$ and $A_{\emp}(Q)$, then
+  $A_{\emp}(P\oplus_P Q)$ and $A_{\emp}(P\odot_P Q)$.
+  \item $0_P$ is a left and right unit for $\oplus_P$ under $\rho_{\emp}$.
+  \item $1_P$ is a left and right identity for $\odot_P$ under $\rho_{\emp}$.
+  \item $\oplus_P$ and $\odot_P$ are associative under $\rho_{\emp}$.
+  \item Left and right distributivity of $\odot_P$ over $\oplus_P$ hold under
+  $\rho_{\emp}$.
+  \item $\mathsf{norm}_{\emp}(\mathsf{norm}_{\emp}(P))$ is classified with
+  $\mathsf{norm}_{\emp}(P)$ by $\rho_{\emp}$.
+\end{enumerate}
+The $\PolynomialUp$ schema is represented by this concrete $\mathsf{BHist}$
+carrier and its displayed operations, so Lean formalization can target
+$\mathsf{BEDC.Derived.PolynomialUp}$ through a carrier certificate instead of
+abstract operator-only statements.
+\end{theorem}
+\begin{proof}
+The carrier endpoint is the singleton source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Thus
+$0_P$, $1_P$, and the normalized representative $\emp$ are all carried by the
+same reflexive endpoint witness.
+
+For closure under $\oplus_P$ and $\odot_P$, carried inputs reduce to the
+singleton endpoint under $\rho_{\emp}$. The displayed operations are BEDC
+append endpoints. The continuation unit and associativity laws used in
+Theorem~\ref{thm:concrete-history-monoid-laws}, together with
+Theorem~\ref{thm:singleton-empty-history-ring-laws}, identify those append
+endpoints with the singleton class of $\emp$.
+
+The additive unit laws and multiplicative identity laws are the same endpoint
+calculation. On the left and on the right, the comparison is between
+$\mathsf{append}(\emp,P)$ or $\mathsf{append}(P,\emp)$ and $P$. The append unit
+laws provide the $\hsame$ component, while the carrier witnesses come from
+$A_{\emp}(P)$ and $A_{\emp}(\emp)$.
+
+Associativity for both operations follows from BEDC append associativity.
+The two parenthesized endpoints are related by the same continuation spine, and
+the singleton classifier packages that relation with the already established
+carrier closure.
+
+For distributivity, every term appearing on either side is a carried singleton
+endpoint after the closure step. Both sides are therefore classified with
+$\emp$, and transitivity of $\hsame$ supplies the displayed
+$\rho_{\emp}$ relation.
+
+Finally, normalization idempotence is immediate because
+$\mathsf{norm}_{\emp}$ is the constant endpoint $\emp$ on admitted inputs. Both
+iterated and one-step normalization have the same carried endpoint, so
+reflexivity of $\hsame$ gives the classifier witness.
+\end{proof}
+
 \section{Carrier definition}
 
 \begin{definition}[Polynomial carrier]
 \label{def:polynomial-carrier}
 Use finite coefficient lists over a scalar ring, normalized by removing trailing zero coefficients.
 \end{definition}
+
+\section{Concrete singleton history polynomial instance}
+\label{sec:polynomial-concrete-singleton-history-instance}
+
+\begin{definition}[Concrete singleton history polynomial instance]
+\label{def:concrete-singleton-history-polynomial-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Set the polynomial code carrier to $A_{\emp}$ on $\mathsf{BHist}$. Define the
+displayed polynomial operations by
+$$
+\mathsf{normalize}_P(h):=\emp,\qquad
+0_P:=\emp,\qquad
+1_P:=\emp,\qquad
+\mathsf{add}_P(f,g):=\emp,\qquad
+\mathsf{mul}_P(f,g):=\emp.
+$$
+The ledger is the empty normalized coefficient list over the singleton
+empty-history ring of Definition~\ref{def:singleton-empty-history-ring-instance}.
+\end{definition}
+
+\begin{theorem}[Singleton history polynomial laws]
+\label{thm:singleton-empty-history-polynomial-laws}
+The tuple
+$$
+(A_{\emp},\rho_{\emp},\mathsf{normalize}_P,
+0_P,1_P,\mathsf{add}_P,\mathsf{mul}_P)
+$$
+satisfies the $\PolynomialUp$ law package over $\mathsf{BHist}$: normalization
+closure, normalization idempotence, zero and one closure, addition and
+multiplication closure, additive zero laws, multiplicative zero laws,
+multiplicative one laws, associativity, distributivity, and congruence under
+$\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$ supplies the
+singleton source witness $A_{\emp}(\emp)$. The same endpoint is the scalar
+zero and scalar unit carrier supplied by
+Theorem~\ref{thm:singleton-empty-history-ring-laws}.
+
+Normalization closure holds because $\mathsf{normalize}_P(h)$ is the endpoint
+$\emp$. Normalization idempotence compares
+$\mathsf{normalize}_P(\mathsf{normalize}_P(h))$ with
+$\mathsf{normalize}_P(h)$, and both sides are the same carried endpoint.
+
+The constants $0_P$ and $1_P$ are both $\emp$, so zero closure and one closure
+are exactly $A_{\emp}(\emp)$. Addition closure and multiplication closure are
+the same calculation, since $\mathsf{add}_P(f,g)$ and
+$\mathsf{mul}_P(f,g)$ are both defined as $\emp$.
+
+The additive zero laws, multiplicative zero laws, and multiplicative one laws
+all reduce to a comparison of $\emp$ with $\emp$. Each classifier goal is
+therefore assembled from the two endpoint witnesses $A_{\emp}(\emp)$ and the
+reflexive history-sameness fact $\hsame(\emp,\emp)$.
+
+Associativity and distributivity have no remaining endpoint computation after
+the displayed operations are unfolded. The left-associated, right-associated,
+left-distributive, and right-distributive terms all reduce to $\emp$, so
+$\rho_{\emp}$ packages the same singleton carrier witnesses with
+$\hsame(\emp,\emp)$.
+
+For congruence under $\rho_{\emp}$, assume the inputs are pairwise related by
+$\rho_{\emp}$. The operation outputs are again $\emp$ on both sides for
+normalization, addition, and multiplication. The output relation is the
+singleton classifier witness built from $A_{\emp}(\emp)$ and
+$\hsame(\emp,\emp)$.
+\end{proof}
+
+The $\PolynomialUp$ schema is instantiated by this concrete $\mathsf{BHist}$
+carrier and the displayed $\mathsf{BHist}$-valued operations, so later
+formalization can target BHist-anchored polynomial laws rather than abstract
+coefficient operators.
 
 \section{The certificate}
 

@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.9 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v4.0 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -202,6 +202,28 @@ theorem abgroup_middle_four_double_cancel
     ...
 ```
 This is a parameter-echo schema — phase D will reject it. Replace with a hom-carrier / continuation-anchored target from a non-banned horizon.
+
+### Pre-emit parameter-echo gate (HARD GATE — mirrors phase_d_lint)
+
+Run this same regex against your proposed `lean_signature` BEFORE emitting JSON. The phase D lint rejects on the conjunction:
+
+1. The signature has a hypothesis binder `(<name> : forall ... hsame ...)` (matches Python regex `\(\s*(\w+)\s*:\s*(?:∀|forall)\b[^)]*hsame\b`).
+2. The conclusion (text after the last top-level `:`) also has `forall ... hsame ...` (matches Python regex `(?:∀|forall)\b[^,]*,[^.]*hsame\b` after stripping `BHist`/`hsame` tokens for the residual-anchor check).
+
+If both fire, the target is INVALID — do not emit it. Two recent rounds (R1363, R1365) burned ~600s each formalising `field_nonzero_factors_exclude_zero_product` with this exact shape; the lint catches it after Phase C and the round FAILS. Verify locally before commit:
+
+```bash
+python3 -c '
+import re
+sig = """<your lean_signature here, including hypothesis binders and conclusion>"""
+bind = re.search(r"\(\s*(\w+)\s*:\s*(?:∀|forall)\b[^)]*hsame\b", sig, re.DOTALL)
+concl_part = sig.rsplit(":", 1)[-1] if ":" in sig else sig
+concl = re.search(r"(?:∀|forall)\b[^,]*,[^.]*hsame\b", concl_part, re.DOTALL)
+print("PARAMETER-ECHO REJECT" if (bind and concl) else "OK")
+'
+```
+
+If this prints `PARAMETER-ECHO REJECT`, replace the target. Acceptable replacements anchor on a concrete BEDC kernel object: a constructor of `BHist` (`Empty`, `cons`), `Cont`, `UnaryHistory`, the `:= emp` value of a singleton instance, or a specific `\leandef`-marked function from the paper's concrete-singleton instance section.
 
 ### Mechanical blocker definition (no soft fallback)
 
