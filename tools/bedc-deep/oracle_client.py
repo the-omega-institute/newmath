@@ -182,8 +182,14 @@ def artifact_dir(target: BedcTarget) -> Path:
 
 
 def write_text(path: Path, text: str) -> None:
+    """Atomic write: write to a sibling .tmp then os.replace, so concurrent
+    readers / writers never see a half-written file. Eliminates the
+    duplicate-content corruption observed on B-09 when supervisor's reset
+    sweep raced with run_target's final state write."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text, encoding="utf-8")
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    tmp.replace(path)
 
 
 # ---------------------------------------------------------------------------
@@ -226,8 +232,7 @@ def load_cursor(target: BedcTarget) -> dict:
 
 def save_cursor(target: BedcTarget, cursor: dict) -> None:
     path = cursor_path(target)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(cursor, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_text(path, json.dumps(cursor, ensure_ascii=False, indent=2) + "\n")
 
 
 # ---------------------------------------------------------------------------
@@ -310,7 +315,7 @@ def append_candidates_to_board(
             accepted.append(new_id)
         if appended_blocks:
             original = BOARD_PATH.read_text(encoding="utf-8").rstrip()
-            BOARD_PATH.write_text(original + "\n" + "\n".join(appended_blocks) + "\n", encoding="utf-8")
+            write_text(BOARD_PATH, original + "\n" + "\n".join(appended_blocks) + "\n")
     return accepted
 
 

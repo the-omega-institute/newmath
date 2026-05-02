@@ -137,7 +137,10 @@ def _resolve_target_tex(suggested: str) -> Optional[Path]:
 
 
 def _append_to_tex(target: Path, content: str) -> tuple[bool, str]:
-    """Append content before \\endinput if present, else at file end. Returns (ok, backup_text)."""
+    """Append content before \\endinput if present, else at file end. Returns (ok, backup_text).
+
+    Atomic write via temp + replace so a crash mid-write never leaves the
+    paper file truncated."""
     original = target.read_text(encoding="utf-8")
     block = "\n\n" + content.rstrip() + "\n"
     if "\\endinput" in original:
@@ -147,7 +150,9 @@ def _append_to_tex(target: Path, content: str) -> tuple[bool, str]:
     new_lines = new_text.count("\n") + 1
     if new_lines > MAX_FILE_LINES:
         return (False, original)
-    target.write_text(new_text, encoding="utf-8")
+    tmp = target.with_suffix(target.suffix + ".tmp")
+    tmp.write_text(new_text, encoding="utf-8")
+    tmp.replace(target)
     return (True, original)
 
 
@@ -217,7 +222,9 @@ def writeback(
 
         compile_ok, compile_log = _make_paper()
         if not compile_ok:
-            target.write_text(original, encoding="utf-8")
+            tmp = target.with_suffix(target.suffix + ".rollback.tmp")
+            tmp.write_text(original, encoding="utf-8")
+            tmp.replace(target)
             log_path = LOG_DIR / f"compile_fail_{target_id}_{_now_tag()}.log"
             log_path.parent.mkdir(parents=True, exist_ok=True)
             log_path.write_text(compile_log, encoding="utf-8")

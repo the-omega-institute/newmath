@@ -43,6 +43,21 @@ Hygiene checklist (all must pass):
    paper has converged on these; reject `$...$` / `$$...$$` usage.
    Display `\[...\]` blocks must be on their own lines.
 
+11. No manual QED markers inside `\begin{{proof}}` / `\end{{proof}}`.
+    The proof environment auto-emits the closing symbol. Reject if the
+    proof body contains "Q.E.D.", "QED", `\qed`, `\square`, "as required",
+    or "as desired" before the closing tag.
+
+12. Type-name macros must be bare (e.g. `\(\ModuleUp\)`), not wrapped in
+    `\mathsf{{...}}` (e.g. `\(\mathsf{{ModuleUp}}\)`). Reject `\mathsf{{X}}`
+    usage when `\X` is a defined preamble macro. Bare-macro form is the
+    paper's converged convention.
+
+13. No ad-hoc subscript decorations on preamble macros that the paper
+    does not introduce. Reject `\hsame_M`, `\cdot_R`, `\msame_X`, etc.,
+    when the surrounding chapter does not establish that subscript
+    notation.
+
 9. Inline Lean snippets (if any) contain no `axiom`, no `sorry`, no
    `import Mathlib`.
 

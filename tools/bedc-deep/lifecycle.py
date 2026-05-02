@@ -226,10 +226,12 @@ def reset_retriable(max_total_attempts: int = 6) -> int:
         cursor_blob["last_failure_kind"] = data.get("failure_kind", "unknown")
         try:
             cursor_path.parent.mkdir(parents=True, exist_ok=True)
-            cursor_path.write_text(
+            tmp = cursor_path.with_suffix(cursor_path.suffix + ".tmp")
+            tmp.write_text(
                 json.dumps(cursor_blob, ensure_ascii=False, indent=2) + "\n",
                 encoding="utf-8",
             )
+            tmp.replace(cursor_path)
             state_file.unlink()
             reset += 1
             print(

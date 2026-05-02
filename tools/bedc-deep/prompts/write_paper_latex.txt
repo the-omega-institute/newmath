@@ -22,6 +22,12 @@ Output requirements:
    and inversions. If you reach a true obstruction, state it as a separate
    numbered remark (`\begin{{remark}}...`), not as a hand-wave.
 
+   **No manual marker text inside proofs.** The `\begin{{proof}}` /
+   `\end{{proof}}` pair auto-emits the closing QED symbol. Do NOT write
+   `Q.E.D.`, `QED`, `\qed`, `\square`, "as required", "as desired", or
+   any other marker phrase before `\end{{proof}}`. Pure mathematical
+   prose only — the environment owns its boundary.
+
 4. **Math style: match the paper's concrete_instances/proof_obligations
    convention.** Use `\(...\)` for inline math and `\[...\]` for display
    math. Do NOT use `$...$` or `$$...$$` — the BEDC paper body has
@@ -40,10 +46,24 @@ Output requirements:
    `\TotalOrderUp`, `\LatticeUp`, `\SOneUp`, `\FoldUp`, etc. Plus
    foundational kernel macros: `\BEDC`, `\bzero`, `\bone`, `\Mark`,
    `\msame`, `\Hist`, `\Ezero`, `\Eone`, `\Ext`, `\Cont`, `\psame`,
-   `\TokIntro`, `\TokUnique`, `\hsame`. **Read the target chapter file
-   first — its existing definitions and macro usage tell you which names
-   are available and active.** If you need a name not in preamble, expand
-   it inline using `\mathsf{{...}}` / `\mathrm{{...}}` / `\operatorname{{...}}`.
+   `\TokIntro`, `\TokUnique`, `\hsame`. **Always prefer the bare macro
+   over `\mathsf{{}}` re-rendering** — write `\(\ModuleUp\)`, NOT
+   `\(\mathsf{{ModuleUp}}\)`; write `\(\hsame(s,t)\)`, NOT
+   `\(\mathsf{{hsame}}(s,t)\)`. The bare-macro form is what every
+   existing chapter uses; the re-rendered form is a flag that you do
+   not realise the macro is already in preamble.
+
+   **Do NOT decorate preamble macros with ad-hoc subscripts the paper
+   has not introduced.** `\(\hsame_M\)`, `\(\cdot_R\)`, `\(\msame_X\)`,
+   etc., look like real notation but the paper does not use them. If
+   you need a typed comparison relation for module elements, name it
+   explicitly via the existing definition (`module carrier classifier`)
+   rather than minting `\hsame_M` from thin air.
+
+   **Read the target chapter file first** — its existing definitions
+   and macro usage tell you which names are available and active.
+   If you need a name not in preamble, expand it inline using
+   `\mathsf{{...}}` / `\mathrm{{...}}` / `\operatorname{{...}}`.
    Never invent a backslash command not already defined — pdflatex will
    reject the entire paper build.
 
