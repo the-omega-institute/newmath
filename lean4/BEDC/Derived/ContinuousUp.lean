@@ -149,6 +149,12 @@ theorem ContinuousModulusChain_target_deterministic
                                                   exact cont_respects_hsame sameMiddle
                                                     (hsame_refl second) secondRel secondRel'
 
+theorem ContinuousModulusChain_result_deterministic {source first second target target' : BHist} :
+    ContinuousModulusChain source first second target ->
+      ContinuousModulusChain source first second target' ->
+        hsame target target' := by
+  exact ContinuousModulusChain_target_deterministic
+
 theorem ContinuousModulusChain_composite_closed {source first second target composite : BHist} :
     ContinuousModulusChain source first second target -> Cont first second composite ->
       ContinuousModulusWitness source composite target := by

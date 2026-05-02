@@ -112,6 +112,44 @@ theorem CompactNetWitness_prefix_closed {p center precision net : BHist} :
                         (unary_cont_closed centerCarrier precisionCarrier (cont_intro rfl)))
                       (cont_intro (append_assoc p center precision).symm)))
 
+theorem CompactNetWitness_composite_result_deterministic
+    {center precision extra net net' refined refined' : BHist} :
+    CompactNetWitness center precision net →
+      CompactNetWitness net extra refined →
+        CompactNetWitness center precision net' →
+          CompactNetWitness net' extra refined' →
+            hsame refined refined' := by
+  intro first second first' second'
+  cases first with
+  | intro _centerCarrier firstRest =>
+      cases firstRest with
+      | intro _precisionCarrier firstRest =>
+          cases firstRest with
+          | intro _netCarrier firstRel =>
+              cases second with
+              | intro _netCarrierSecond secondRest =>
+                  cases secondRest with
+                  | intro _extraCarrier secondRest =>
+                      cases secondRest with
+                      | intro _refinedCarrier secondRel =>
+                          cases first' with
+                          | intro _centerCarrier' firstRest' =>
+                              cases firstRest' with
+                              | intro _precisionCarrier' firstRest' =>
+                                  cases firstRest' with
+                                  | intro _netCarrier' firstRel' =>
+                                      cases second' with
+                                      | intro _netCarrierSecond' secondRest' =>
+                                          cases secondRest' with
+                                          | intro _extraCarrier' secondRest' =>
+                                              cases secondRest' with
+                                              | intro _refinedCarrier' secondRel' =>
+                                                  have sameNet : hsame net net' :=
+                                                    cont_deterministic firstRel firstRel'
+                                                  exact
+                                                    cont_respects_hsame sameNet
+                                                      (hsame_refl extra) secondRel secondRel'
+
 theorem CompactWitnessCarrier_located_extension_closed
     {subset located finite extra intermediate compact newLocated newIntermediate extended : BHist} :
     CompactWitnessCarrier subset located finite intermediate compact -> UnaryHistory extra ->

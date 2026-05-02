@@ -412,6 +412,28 @@ $\hsame$ then gives $\hsame(target,target')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_target\_deterministic}
 
+\begin{theorem}[Continuous modulus chain result determinacy]
+\label{thm:continuous-modulus-chain-result-deterministic}
+For histories $s,\delta_1,\delta_2,t,t'$, two continuous modulus chains with the
+same source and modulus ledgers determine the same target history:
+$$
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t)
+\Longrightarrow
+\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t')
+\Longrightarrow
+\hsame(t,t').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two chains into middle histories $m$ and $m'$ with first ledgers
+$s\cdot\delta_1=m$ and $s\cdot\delta_1=m'$, and second ledgers
+$m\cdot\delta_2=t$ and $m'\cdot\delta_2=t'$. Determinacy of the first
+continuation gives $\hsame(m,m')$. Continuation compatibility with this middle
+history equality and reflexivity of $\delta_2$ transports the two second ledgers
+to obtain $\hsame(t,t')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_result\_deterministic}
+
 \begin{theorem}[Continuous modulus chain composite closure]
 \label{thm:continuous-modulus-chain-composite-closed}
 For unary histories $s,\delta_1,\delta_2,t$, a two-link modulus chain from

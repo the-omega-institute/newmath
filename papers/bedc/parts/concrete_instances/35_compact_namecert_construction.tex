@@ -416,6 +416,34 @@ to the unary prefix and the original compact-net witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_iff}
 
+\begin{theorem}[Compact net witness composite result determinacy]
+\label{thm:compact-net-witness-composite-result-deterministic}
+For histories $c,\epsilon,\eta,n,n',m,m'$, if $n$ and $n'$ are compact net
+witnesses from the same center $c$ and precision $\epsilon$, and $m$ and $m'$
+continue them with the same refinement precision $\eta$, then the refined nets
+are the same BEDC history:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+\Longrightarrow
+\mathsf{CompactNetWitness}(n,\eta,m)
+\Longrightarrow
+\mathsf{CompactNetWitness}(c,\epsilon,n')
+\Longrightarrow
+\mathsf{CompactNetWitness}(n',\eta,m')
+\Longrightarrow
+\hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the first and third witnesses into continuation ledgers
+$c\cdot\epsilon=n$ and $c\cdot\epsilon=n'$. Continuation determinacy gives
+$\hsame(n,n')$. The second and fourth witnesses give ledgers
+$n\cdot\eta=m$ and $n'\cdot\eta=m'$. Continuation compatibility with
+$\hsame(n,n')$ and reflexivity of $\eta$ compares these second-step ledgers and
+yields $\hsame(m,m')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_result\_deterministic}
+
 \begin{theorem}[Prefixed composite compact net witness closure]
 \label{thm:compact-net-witness-prefixed-composite-closed}
 For unary histories $p,c,\epsilon,\eta,\theta,n,m$, assume
