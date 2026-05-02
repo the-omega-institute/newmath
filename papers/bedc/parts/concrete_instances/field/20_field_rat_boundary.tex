@@ -178,27 +178,29 @@ previous paragraph turns that endpoint into contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_history\_carrier\_non\_singleton\_boundary\_witness}
 
-\begin{theorem}[RatUp classifier and ledger coverage are blocked by the singleton FieldUp boundary]
-\label{thm:field-rat-singleton-classifier-ledger-coverage-obstruction}
+\begin{theorem}[RatUp classifier and ledger coverage are blocked by classifier-complement singleton FieldUp boundary]
+\label{thm:field-rat-classifier-ledger-singleton-empty-coverage-obstruction}
 Let $d_1:=\Eone(\emp)$. Then
 $\mathsf{RatHistoryClassifier}(d_1,d_1)$ and
 $\mathsf{RatHistoryLedgerPolicy}(d_1,d_1)$ hold, while
-$\rho_{\emp}(d_1,d_1)\to\mathsf{False}$. Consequently both a classifier
-coverage map
+$\mathsf{fieldSingletonEmptyClassifier}(d_1,d_1)\to\mathsf{False}$.
+Consequently both a classifier coverage map
 $$
-\forall h k:\mathsf{BHist},\mathsf{RatHistoryClassifier}(h,k)\to\rho_{\emp}(h,k)
+\forall h k:\mathsf{BHist},\mathsf{RatHistoryClassifier}(h,k)\to
+\mathsf{fieldSingletonEmptyClassifier}(h,k)
 $$
-and a ledger endpoint coverage map
+and a ledger endpoint coverage map into the singleton carrier
 $$
 \forall \rho v:\mathsf{BHist},\mathsf{RatHistoryLedgerPolicy}(\rho,v)\to
-A_{\emp}(\rho)\land A_{\emp}(v)
+\mathsf{fieldSingletonEmptyCarrier}(\rho)\land
+\mathsf{fieldSingletonEmptyCarrier}(v)
 $$
 are contradictory.
 \end{theorem}
 \begin{proof}
-Theorem~\ref{thm:field-rat-carrier-has-non-singleton-boundary-witness} gives
-the RatUp carrier witness $\mathsf{RatHistoryCarrier}(d_1)$ and the obstruction
-$A_{\emp}(d_1)\to\mathsf{False}$.
+Theorem~\ref{thm:field-rat-history-carrier-has-non-singleton-boundary-witness}
+gives the RatUp carrier witness $\mathsf{RatHistoryCarrier}(d_1)$ and the
+obstruction $\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\mathsf{False}$.
 
 Using $\hsame$ reflexivity at $d_1$, the carrier witness forms the diagonal
 classifier package
@@ -206,19 +208,21 @@ $\mathsf{RatHistoryClassifier}(d_1,d_1)$. The same carrier witness together
 with the same reflexivity link forms the diagonal ledger package
 $\mathsf{RatHistoryLedgerPolicy}(d_1,d_1)$.
 
-Unfold $\rho_{\emp}(d_1,d_1)$. Any such classifier witness contains
-$A_{\emp}(d_1)$ as its left endpoint component, and the carrier obstruction from
-the first paragraph turns that endpoint into $\mathsf{False}$.
+Unfold $\mathsf{fieldSingletonEmptyClassifier}(d_1,d_1)$. Any such classifier
+witness contains $\mathsf{fieldSingletonEmptyCarrier}(d_1)$ as its left endpoint
+component, and the carrier obstruction from the first paragraph turns that
+endpoint into $\mathsf{False}$.
 
 Now evaluate any displayed classifier coverage map at the diagonal RatUp
-classifier package. The result is $\rho_{\emp}(d_1,d_1)$, which the previous
-paragraph rules out.
+classifier package. The result is
+$\mathsf{fieldSingletonEmptyClassifier}(d_1,d_1)$, which the previous paragraph
+rules out.
 
 For a displayed ledger endpoint coverage map, evaluate it at the diagonal ledger
-package. The resulting conjunction contains $A_{\emp}(d_1)$, so the same carrier
-obstruction again gives contradiction.
+package. The resulting conjunction contains
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)$, so the same carrier obstruction
+again gives contradiction.
 \end{proof}
-\leanchecked{BEDC.Derived.FieldUp.field\_rat\_carrier\_singleton\_coverage\_obstruction}
 
 Traditional target exclusion of the terminal singleton schema as a RatUp
 $\FieldUp$ classifier and ledger certificate; BEDC source
