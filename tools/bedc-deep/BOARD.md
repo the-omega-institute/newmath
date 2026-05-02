@@ -1470,3 +1470,55 @@ Surfaced in Turn 0 when the oracle replaced the global-looking delta_2(Y,Z) by a
 
 ---
 
+### B-60 - Unary continuation activation without commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Unary continuation activation without commutativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the additive semantic naming setup, if `NameCert(\UnaryCarrier,\hsame)` and `AddStabilityCert` supply carrier inhabitedness, equivalence laws, transport, closure, unit, associativity, same-source determinacy, and pattern/ledger soundness, then `\License(\UnaryContMonoidUp)` holds without assuming the swapped-source additive commutativity field.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `lean4/BEDC/FKernel/NameCert.lean`
+
+Rationale:
+Surfaced in Turn 0 when the oracle states that the `NameCert` fields and `AddStabilityCert` license the monoid-like continuation name but not the additive name, and again in Turn 3 in the final dependency map separating accepted fields for `\UnaryContMonoidUp` from the additional theorem needed for `\AddUp`. It deserves its own loop because it is the positive half of the naming boundary and is distinct from B-06, which focuses on conditional activation of `\AddUp`, and from B-18, which focuses on the finite obstruction.
+
+---
+
+
+### B-61 - Two-element unital continuation commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Two-element unital continuation commutativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a finite equality-classified carrier has exactly two unary elements and `ContR` is the graph of a total deterministic binary operation with a two-sided unit, then for any `ContR(h,k,r)` and `ContR(k,h,r')` one has `\hsame(r,r')`.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Surfaced in Turn 3 where the oracle states that a two-element monoid with unit cannot witness the swapped-commutativity failure, because all products involving the unit commute and the remaining product is the same on both sides. It deserves its own loop if the paper wants the three-element obstruction to be minimal, and it does not duplicate B-18 because B-18 proves existence of a three-element counter-situation rather than the two-element lower bound.
+
+---
+
