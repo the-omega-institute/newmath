@@ -1,0 +1,50 @@
+\section{Product right equation exactness}
+\label{sec:field-product-right-equation-exactness}
+
+\begin{theorem}[Field product right-multiplication equation exactness from apartness]
+\label{thm:field-product-right-mul-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+multiplication associativity, left and right unit laws, multiplication
+congruence under $\hsame$, and left and right inverse laws indexed by nonzero
+witnesses, explicit witnesses
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$ make every
+$x,c:\mathsf{BHist}$ satisfy
+$$
+\mathsf{mul}(x,\mathsf{mul}(a,b))\hsame c
+\Longleftrightarrow
+x\hsame \mathsf{mul}(c,\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))).
+$$
+Traditional target product-factor right equation solving; BEDC source
+$\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations right equation exactness, inverse product
+reversal, multiplication congruence, associativity and unit laws; ledger the
+three nonzero witnesses and the reversed inverse product; core theorem this
+block; exactness predicate the displayed equivalence; standard bridge deferred;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:field-right-mul-equation-exact-from-apartness} to the active
+right factor $\mathsf{mul}(a,b)$ with witness $p_{ab}$. This gives the
+equivalence between the displayed equation and
+$x\hsame\mathsf{mul}(c,\mathsf{inv}(\mathsf{mul}(a,b),p_{ab}))$.
+
+Next apply
+\autoref{thm:field-inverse-product-reverse-from-apartness} with the three
+witnesses $p_{ab}$, $p_a$, and $p_b$. It identifies the certified inverse of
+the product with the reversed product
+$\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))$.
+
+For the forward direction, use multiplication congruence on the right factor
+of $\mathsf{mul}(c,-)$ to transport the one-factor solution along the inverse
+product reversal. The transported right side is exactly the displayed reversed
+product solution.
+
+For the reverse direction, use symmetry of the inverse product reversal and
+the same multiplication congruence to transport the displayed reversed product
+solution back to
+$x\hsame\mathsf{mul}(c,\mathsf{inv}(\mathsf{mul}(a,b),p_{ab}))$. The reverse
+half of the one-factor exactness theorem then recovers
+$\mathsf{mul}(x,\mathsf{mul}(a,b))\hsame c$.
+\end{proof}
