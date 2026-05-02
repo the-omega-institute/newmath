@@ -66,6 +66,18 @@ theorem CategoryHomCarrier_comp_result_hsame_congruence {a b c f g f' g' fg fg' 
     CategoryHomCarrier_comp_closed left' right' comp'
   exact CategoryHomCarrier_morphism_deterministic composite composite'
 
+theorem CategoryHomCarrier_comp_same_endpoints_result_deterministic
+    {a b b' c f f' g g' fg fg' : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      CategoryHomCarrier a b' f' -> CategoryHomCarrier b' c g' -> Cont f' g' fg' ->
+        hsame fg fg' := by
+  intro left right comp left' right' comp'
+  have composite : CategoryHomCarrier a c fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  have composite' : CategoryHomCarrier a c fg' :=
+    CategoryHomCarrier_comp_closed left' right' comp'
+  exact CategoryHomCarrier_morphism_deterministic composite composite'
+
 theorem CategoryHomCarrier_tail_comm_target_deterministic {a b c d f g fg gf : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg -> Cont g f gf ->
       CategoryHomCarrier a d gf -> hsame c d := by
