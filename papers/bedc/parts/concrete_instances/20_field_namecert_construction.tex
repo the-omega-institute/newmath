@@ -225,17 +225,60 @@ with the recovered endpoint comparison gives
 $\mathsf{RatHistoryClassifier}(d,e)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator hsame-matched context exactness package]
+\label{thm:field-rat-denominator-hsame-matched-context-exactness-package}
+For all histories
+$p,p',q,q',d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(p')$,
+$\mathsf{UnaryHistory}(q)$, $\mathsf{UnaryHistory}(q')$, $p\hsame p'$,
+$q\hsame q'$, $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, $\Cont(p,d,pd)$, $\Cont(p',e,pe)$,
+$\Cont(pd,q,left)$, and $\Cont(pe,q',right)$, then both equivalences hold:
+$$
+\mathsf{RatHistoryClassifier}(left,right)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+$$
+\mathsf{RatHistoryLedgerPolicy}(left,right)\Longleftrightarrow
+\mathsf{RatHistoryLedgerPolicy}(d,e).
+$$
+\end{theorem}
+\begin{proof}
+For the classifier equivalence, use
+\autoref{thm:field-rat-denominator-hsame-matched-context-classifier-exactness}
+with the displayed unary histories, the prefix and suffix comparisons
+$p\hsame p'$ and $q\hsame q'$, the two Rat carriers, and the four continuation
+premises. Its two implications give the stated equivalence after exchanging
+the displayed sides.
+
+For the ledger implication from $left,right$ back to $d,e$, first convert
+$\mathsf{RatHistoryLedgerPolicy}(left,right)$ to the raw-visible classifier by
+\autoref{thm:rat-ledger-raw-visible-classifier}. The classifier equivalence
+just obtained reflects this to $\mathsf{RatHistoryClassifier}(d,e)$. Its
+comparison component is $d\hsame e$, and together with the displayed carrier
+$\mathsf{RatHistoryCarrier}(d)$ this is precisely
+$\mathsf{RatHistoryLedgerPolicy}(d,e)$.
+
+For the ledger implication from $d,e$ to $left,right$, apply
+\autoref{thm:field-rat-denominator-continuation-common-context-ledger-closure}
+to $\mathsf{RatHistoryLedgerPolicy}(d,e)$, the hsame-matched unary prefixes
+$p,p'$, the hsame-matched unary suffixes $q,q'$, and the four continuation
+premises. The conclusion is exactly
+$\mathsf{RatHistoryLedgerPolicy}(left,right)$.
+\end{proof}
+
 \textbf{Traditional target}: denominator exactness for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
 denominators; \textbf{classifier choice}: Rat history classifier;
-\textbf{stability obligation}: common-context classifier and ledger exactness;
+\textbf{stability obligation}: hsame-matched classifier and ledger exactness;
 \textbf{ledger}: matched unary prefix and suffix contexts; \textbf{core theorem}:
-\autoref{thm:field-rat-denominator-continuation-common-context-cancellation},
-\autoref{thm:field-rat-denominator-matched-context-classifier-exactness}, and
-\autoref{thm:field-rat-denominator-continuation-common-context-exactness-package};
-\textbf{exactness predicate}: common unary contexts preserve and reflect both
-the Rat classifier and the Rat ledger; \textbf{standard bridge}: deferred;
+\autoref{thm:field-rat-denominator-hsame-matched-context-classifier-exactness},
+\autoref{thm:field-rat-denominator-continuation-common-context-ledger-closure},
+and
+\autoref{thm:field-rat-denominator-hsame-matched-context-exactness-package};
+\textbf{exactness predicate}: hsame-matched unary contexts preserve and reflect
+both the Rat classifier and the Rat ledger; \textbf{standard bridge}: deferred;
 \textbf{status}: $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Rat denominator continuation is semigroup-only on the positive carrier]
