@@ -138,4 +138,21 @@ theorem MatrixSingletonEmptyHistory_endpoint_exactness {M N : BHist} :
       · exact emptyClassified
       · exact And.intro appendClassified appendClassified
 
+theorem MatrixSingletonEmptyHistory_endpoint_collapse {M N : BHist} :
+    MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
+      MatrixSingletonClassifier (MatrixSingletonAdd M N) BHist.Empty ∧
+        MatrixSingletonClassifier (MatrixSingletonMul M N) BHist.Empty ∧
+          MatrixSingletonClassifier (MatrixSingletonAdd M N) (MatrixSingletonMul M N) := by
+  intro carrierM carrierN
+  have endpointExact := MatrixSingletonEmptyHistory_endpoint_exactness carrierM carrierN
+  have addClassified : MatrixSingletonClassifier (MatrixSingletonAdd M N) BHist.Empty :=
+    endpointExact.right.right.right.left
+  have mulClassified : MatrixSingletonClassifier (MatrixSingletonMul M N) BHist.Empty :=
+    endpointExact.right.right.right.right
+  have addMulClassified :
+      MatrixSingletonClassifier (MatrixSingletonAdd M N) (MatrixSingletonMul M N) :=
+    And.intro addClassified.left
+      (And.intro mulClassified.left (hsame_refl (MatrixSingletonAdd M N)))
+  exact And.intro addClassified (And.intro mulClassified addMulClassified)
+
 end BEDC.Derived.MatrixUp

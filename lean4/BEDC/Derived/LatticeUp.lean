@@ -3,7 +3,9 @@ import BEDC.Derived.PreorderUp
 namespace BEDC.Derived.LatticeUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.Derived.PreorderUp
 
 def LatticeSingletonCarrier (h : BHist) : Prop :=
@@ -225,5 +227,19 @@ theorem LatticeSingletonMeet_empty_output_greatest_lower_bound_iff {h k z : BHis
     · intro _bounds
       exact LatticeSingletonLE_empty_endpoints_iff.mpr
         (And.intro carrierZ (hsame_refl BHist.Empty))
+
+theorem LatticeSingletonLE_append_tail_empty_iff {h tail : BHist} :
+    LatticeSingletonCarrier h -> UnaryHistory tail ->
+      (LatticeSingletonLE (append h tail) h ↔ hsame tail BHist.Empty) := by
+  intro carrierH tailUnary
+  constructor
+  · intro leData
+    exact PreorderPrefixLE_append_tail_backforces_empty tailUnary leData.right.right
+  · intro tailEmpty
+    have appendCarrier : LatticeSingletonCarrier (append h tail) := by
+      cases tailEmpty
+      exact hsame_trans (append_empty_right h) carrierH
+    exact And.intro appendCarrier (And.intro carrierH
+      ((PreorderPrefixLE_append_tail_backforces_empty_iff tailUnary).mpr tailEmpty))
 
 end BEDC.Derived.LatticeUp

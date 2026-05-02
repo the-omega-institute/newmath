@@ -246,6 +246,30 @@ reflexivity at $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeet\_empty\_output\_greatest\_lower\_bound\_iff}
 
+\begin{theorem}[Singleton lattice append tail emptiness]
+\label{thm:lattice-singleton-le-append-tail-empty}
+For $h,t:\mathsf{BHist}$, if $A_{\emp}(h)$ and
+$\mathsf{UnaryHistory}(t)$, then the restricted singleton prefix order
+satisfies
+$$
+\mathsf{append}(h,t)\le_{\emp} h
+\quad\Longleftrightarrow\quad
+t\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the underlying prefix comparison from the
+restricted order and applies the concrete append-tail backforcing law from
+\(\PreorderUp\). A unary tail that returns from $\mathsf{append}(h,t)$ back
+to $h$ must be the empty history.
+
+For the reverse direction, the witness $t\hsame\emp$ reduces
+$\mathsf{append}(h,t)$ to $h$ by the right continuation unit law. The carried
+witness $A_{\emp}(h)$ therefore also carries $\mathsf{append}(h,t)$, and the
+prefix comparison is the empty-tail side of the same append-tail equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_append\_tail\_empty\_iff}
+
 The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
 and operations, so Lean can target $\mathsf{BEDC.Derived.LatticeUp}$ as a
 $\mathsf{BHist}$-anchored certificate rather than an abstract operator schema.
