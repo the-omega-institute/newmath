@@ -162,4 +162,38 @@ theorem TaggedOptionMapRel_composite_factorization_canonical_intermediate
                                                                               sameK'Canonical,
                                                                               sameMCanonical⟩
 
+theorem TaggedOptionMapRel_composite_factorization_intermediate_classifier
+    {S T U : BHist -> Prop} {RelS RelT RelU : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (rhoD : forall a : BHist, S a -> T (delta.map a))
+    (rhoE : forall b : BHist, T b -> U (epsilon.map b))
+    (delta_hsame :
+      forall x y : BHist, S x -> S y -> hsame x y -> hsame (delta.map x) (delta.map y))
+    (epsilon_hsame :
+      forall x y : BHist, T x -> T y -> hsame x y ->
+        hsame (epsilon.map x) (epsilon.map y))
+    (certT : NameCert T RelT) {h k k' m : BHist} :
+    (TaggedOptionMapRel S T delta h k ∧ TaggedOptionMapRel T U epsilon k m) ->
+      (TaggedOptionMapRel S T delta h k' ∧ TaggedOptionMapRel T U epsilon k' m) ->
+        TaggedOptionHistoryClassifier T RelT k k' := by
+  intro first second
+  have split :=
+    TaggedOptionMapRel_composite_factorization_canonical_intermediate
+      delta epsilon rhoD rhoE delta_hsame epsilon_hsame first second
+  cases split with
+  | inl absent =>
+      exact Or.inl (And.intro absent.right.left absent.right.right.left)
+  | inr present =>
+      cases present with
+      | intro a data =>
+          exact Or.inr
+            (Exists.intro (delta.map a)
+              (Exists.intro (delta.map a)
+                (And.intro data.right.left
+                  (And.intro data.right.left
+                    (And.intro data.right.right.right.right.left
+                      (And.intro data.right.right.right.right.right.left
+                        (NameCert.equiv_refl certT data.right.left)))))))
+
 end BEDC.Derived.OptionUp
