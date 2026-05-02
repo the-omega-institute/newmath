@@ -85,4 +85,78 @@ theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_absent_pu
                             ⟨k, k', imageDelta, leftData.right, rightData.right, leftEmpty,
                               rightEmpty, noVisible⟩
 
+theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_absent_intermediate_constructor_exclusion
+    {S T U : BHist -> Prop} {RelS RelT RelU : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (rhoD : forall a : BHist, S a -> T (delta.map a))
+    (rhoE : forall b : BHist, T b -> U (epsilon.map b))
+    (epsilon_hsame :
+      forall x y : BHist, T x -> T y -> hsame x y ->
+        hsame (epsilon.map x) (epsilon.map y))
+    (certS : NameCert S RelS)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {m m' u u' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon) m m' ->
+      hsame m u ->
+        hsame m' u' ->
+          hsame u BHist.Empty ->
+            hsame u' BHist.Empty ->
+              exists k k' : BHist,
+                TaggedOptionPayloadDescentImageClassifier S T delta k k' ∧
+                  TaggedOptionMapRel T U epsilon k u ∧
+                    TaggedOptionMapRel T U epsilon k' u' ∧
+                      hsame k BHist.Empty ∧ hsame k' BHist.Empty ∧
+                        (forall t : BHist,
+                          (hsame k (BHist.e0 t) -> False) ∧
+                            (hsame k (BHist.e1 t) -> False)) ∧
+                          (forall t : BHist,
+                            (hsame k' (BHist.e0 t) -> False) ∧
+                              (hsame k' (BHist.e1 t) -> False)) := by
+  intro image sameMU sameM'U' sameUEmpty sameU'Empty
+  have factorized :=
+    TaggedOptionPayloadDescentImageClassifier_composite_normalized_absent_public_factorization
+      delta epsilon rhoD rhoE epsilon_hsame certS source_hsame image sameMU sameM'U'
+      sameUEmpty sameU'Empty
+  cases factorized with
+  | intro k factorized =>
+      cases factorized with
+      | intro k' data =>
+          cases data with
+          | intro imageDelta data =>
+              cases data with
+              | intro mapLeft data =>
+                  cases data with
+                  | intro mapRight data =>
+                      cases data with
+                      | intro sameKEmpty data =>
+                          cases data with
+                          | intro sameK'Empty _noVisible =>
+                              have leftExclusion :
+                                  forall t : BHist,
+                                    (hsame k (BHist.e0 t) -> False) ∧
+                                      (hsame k (BHist.e1 t) -> False) := by
+                                intro t
+                                constructor
+                                · intro sameKE0
+                                  exact not_hsame_emp_e0
+                                    (hsame_trans (hsame_symm sameKEmpty) sameKE0)
+                                · intro sameKE1
+                                  exact not_hsame_emp_e1
+                                    (hsame_trans (hsame_symm sameKEmpty) sameKE1)
+                              have rightExclusion :
+                                  forall t : BHist,
+                                    (hsame k' (BHist.e0 t) -> False) ∧
+                                      (hsame k' (BHist.e1 t) -> False) := by
+                                intro t
+                                constructor
+                                · intro sameK'E0
+                                  exact not_hsame_emp_e0
+                                    (hsame_trans (hsame_symm sameK'Empty) sameK'E0)
+                                · intro sameK'E1
+                                  exact not_hsame_emp_e1
+                                    (hsame_trans (hsame_symm sameK'Empty) sameK'E1)
+                              exact
+                                ⟨k, k', imageDelta, mapLeft, mapRight, sameKEmpty,
+                                  sameK'Empty, leftExclusion, rightExclusion⟩
+
 end BEDC.Derived.OptionUp

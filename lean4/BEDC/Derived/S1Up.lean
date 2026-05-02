@@ -161,6 +161,37 @@ theorem SOneHistoryCarrier_rational_unit_components {x y equation point : BHist}
                                         (And.intro dyCarrier
                                           (And.intro equationCarrier pointCont))))))
 
+theorem SOneHistoryCarrier_point_tail_readback {x y e t : BHist} :
+    SOneHistoryCarrier x y e (BHist.e1 t) ->
+      exists dx dy : BHist,
+        hsame x (BHist.e1 dx) ∧ RatHistoryCarrier dx ∧
+          hsame y (BHist.e1 dy) ∧ RatHistoryCarrier dy ∧ hsame t (append x dy) := by
+  intro carrier
+  cases SOneHistoryCarrier_rational_unit_components carrier with
+  | intro dx restDx =>
+      cases restDx with
+      | intro dy data =>
+          cases data with
+          | intro sameX data =>
+              cases data with
+              | intro dxCarrier data =>
+                  cases data with
+                  | intro sameY data =>
+                      cases data with
+                      | intro dyCarrier data =>
+                          cases data with
+                          | intro _equationCarrier pointCont =>
+                              have tailSame : hsame t (append x dy) := by
+                                cases sameY
+                                exact hsame_e1_iff.mp pointCont
+                              exact
+                                Exists.intro dx
+                                  (Exists.intro dy
+                                    (And.intro sameX
+                                      (And.intro dxCarrier
+                                        (And.intro sameY
+                                          (And.intro dyCarrier tailSame)))))
+
 theorem SOneHistoryCarrier_unit_equation_deterministic {x y equation point : BHist} :
     SOneHistoryCarrier x y equation point -> hsame equation SOneUnitHistory := by
   intro carrier
