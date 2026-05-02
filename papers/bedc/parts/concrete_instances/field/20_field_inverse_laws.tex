@@ -150,6 +150,49 @@ $y=\mathsf{inv}(a,p_a)$, and $z=a$. Hence the two outer witnesses are
 identified, which is the stated equality.
 \end{proof}
 
+\begin{theorem}[Field inverse is a certified automorphism of the nonzero domain]
+\label{thm:field-inverse-nonzero-domain-automorphism}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+proof-indexed inverse $\mathsf{inv}(x,p)$, inverse laws indexed by
+nonzero witnesses, multiplication congruence under $\hsame$, zero-left
+multiplication, one-apartness $\omega:(1\hsame 0)\to\bot$, and conversion
+maps
+$$
+\alpha_x:((x\hsame 0)\to\bot)\to\mathsf{NonZero}_F(x),
+$$
+every witness $p_a:\mathsf{NonZero}_F(a)$ determines
+$$
+A:=\mathsf{inv}(a,p_a)
+$$
+and a witness $p_A:\mathsf{NonZero}_F(A)$ such that
+$$
+\mathsf{inv}(A,p_A)\hsame a.
+$$
+Moreover, for any $p_b:\mathsf{NonZero}_F(b)$,
+$$
+\mathsf{inv}(a,p_a)\hsame\mathsf{inv}(b,p_b)
+\Longleftrightarrow a\hsame b.
+$$
+\end{theorem}
+\begin{proof}
+First construct the nonzero witness for the image. Apply
+\autoref{thm:field-inverse-nonzero-from-one-apartness} to $p_a$, using the
+given multiplication congruence, zero-left multiplication, left inverse law,
+one-apartness, and the conversion maps $\alpha_x$. This gives
+$p_A:\mathsf{NonZero}_F(A)$ for $A:=\mathsf{inv}(a,p_a)$.
+
+With this witness in hand, apply
+\autoref{thm:field-inverse-involutive-from-apartness} to $p_a$ and $p_A$.
+The conclusion is exactly $\mathsf{inv}(A,p_A)\hsame a$, so inverse carries
+the nonzero domain back to the original element.
+
+For the classifier equivalence, apply
+\autoref{thm:field-inverse-classifier-exact-from-apartness} to the two
+explicit nonzero witnesses $p_a$ and $p_b$. Its two implications give
+$a\hsame b$ exactly when the indexed inverse images are $\hsame$-equal,
+which is the stated certified automorphism behavior on the nonzero domain.
+\end{proof}
+
 \begin{theorem}[Field inverse product reversal from apartness-indexed inverses]
 \label{thm:field-inverse-product-reverse-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
