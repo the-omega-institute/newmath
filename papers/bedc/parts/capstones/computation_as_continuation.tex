@@ -164,6 +164,33 @@ cancellation identifies the endpoints and forces both tails to be the empty
 history.
 \end{proof}
 
+\begin{theorem}[Cyclic hom-carrier composites have empty result]
+\label{thm:category-hom-carrier-comp-cycle-result-empty}
+If the opposite hom-carrier ledgers
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(b,a,g)
+$$
+both hold, then every displayed continuation composite
+$$
+\Cont(f,g,fg)
+$$
+has empty result:
+$$
+\hsame(fg,\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_cycle\_result\_empty}
+\begin{proof}
+The two hom-carrier ledgers expose reciprocal continuations
+$\Cont(a,f,b)$ and $\Cont(b,g,a)$. Mutual continuation cancellation forces
+$f\hsame\emp$ and $g\hsame\emp$. Transport the displayed composite
+$\Cont(f,g,fg)$ across these two tail equalities to a continuation
+$\Cont(\emp,\emp,fg)$, then read back the empty result by the continuation
+left-unit law.
+\end{proof}
+
 \begin{theorem}[Cyclic hom-carriers expose identity carriers]
 \label{thm:category-hom-carrier-cycle-identity-carriers}
 If the opposite hom-carrier ledgers

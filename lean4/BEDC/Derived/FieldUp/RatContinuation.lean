@@ -586,4 +586,113 @@ theorem field_rat_denominator_continuation_concrete_instance_laws :
             exact field_rat_denominator_continuation_unit_endpoint_empty.right.right carrierU
               endpointLaw
 
+def FieldRatDenominatorUnitEnvelopeCarrier (h : BHist) : Prop :=
+  RatHistoryCarrier h ∨ hsame h BHist.Empty
+
+def FieldRatDenominatorUnitEnvelopeClassifier (h k : BHist) : Prop :=
+  (RatHistoryCarrier h ∧ RatHistoryCarrier k ∧ RatHistoryClassifier h k) ∨
+    (hsame h BHist.Empty ∧ hsame k BHist.Empty)
+
+theorem field_rat_denominator_unit_envelope_monoid_laws :
+    FieldRatDenominatorUnitEnvelopeCarrier BHist.Empty ∧
+      (∀ {h k : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeCarrier k ->
+          FieldRatDenominatorUnitEnvelopeCarrier (append h k)) ∧
+      (∀ {h k l : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeCarrier k -> FieldRatDenominatorUnitEnvelopeCarrier l ->
+          FieldRatDenominatorUnitEnvelopeClassifier (append (append h k) l)
+            (append h (append k l))) ∧
+      (∀ {h : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeClassifier (append BHist.Empty h) h ∧
+          FieldRatDenominatorUnitEnvelopeClassifier (append h BHist.Empty) h) ∧
+      (∀ {h h' k k' : BHist}, FieldRatDenominatorUnitEnvelopeClassifier h h' ->
+        FieldRatDenominatorUnitEnvelopeClassifier k k' ->
+          FieldRatDenominatorUnitEnvelopeClassifier (append h k) (append h' k')) := by
+  have carrierTransport :
+      ∀ {h k : BHist}, hsame h k -> FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeCarrier k := by
+    intro h k same carrier
+    cases carrier with
+    | inl rat =>
+        exact Or.inl (RatHistoryCarrier_hsame_transport same rat)
+    | inr empty =>
+        exact Or.inr (hsame_trans (hsame_symm same) empty)
+  have appendCarrier :
+      ∀ {h k : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeCarrier k ->
+          FieldRatDenominatorUnitEnvelopeCarrier (append h k) := by
+    intro h k carrierH carrierK
+    cases carrierH with
+    | inl ratH =>
+        cases carrierK with
+        | inl ratK =>
+            exact Or.inl (RatHistoryCarrier_continuation_closed ratH ratK (cont_intro rfl))
+        | inr emptyK =>
+            cases emptyK
+            exact Or.inl ratH
+    | inr emptyH =>
+        cases emptyH
+        cases carrierK with
+        | inl ratK =>
+            exact Or.inl (RatHistoryCarrier_hsame_transport (append_empty_left k).symm ratK)
+        | inr emptyK =>
+            cases emptyK
+            exact Or.inr (hsame_refl BHist.Empty)
+  have classifierOfSame :
+      ∀ {h k : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeCarrier k -> hsame h k ->
+          FieldRatDenominatorUnitEnvelopeClassifier h k := by
+    intro h k carrierH _carrierK same
+    cases carrierH with
+    | inl ratH =>
+        have ratK : RatHistoryCarrier k := RatHistoryCarrier_hsame_transport same ratH
+        exact Or.inl ⟨ratH, ratK, ratH, ratK, same⟩
+    | inr emptyH =>
+        exact Or.inr ⟨emptyH, hsame_trans (hsame_symm same) emptyH⟩
+  have classifierLeftCarrier :
+      ∀ {h k : BHist}, FieldRatDenominatorUnitEnvelopeClassifier h k ->
+        FieldRatDenominatorUnitEnvelopeCarrier h := by
+    intro h k classified
+    cases classified with
+    | inl ratData => exact Or.inl ratData.left
+    | inr emptyData => exact Or.inr emptyData.left
+  have classifierRightCarrier :
+      ∀ {h k : BHist}, FieldRatDenominatorUnitEnvelopeClassifier h k ->
+        FieldRatDenominatorUnitEnvelopeCarrier k := by
+    intro h k classified
+    cases classified with
+    | inl ratData => exact Or.inl ratData.right.left
+    | inr emptyData => exact Or.inr emptyData.right
+  have classifierSame :
+      ∀ {h k : BHist}, FieldRatDenominatorUnitEnvelopeClassifier h k -> hsame h k := by
+    intro h k classified
+    cases classified with
+    | inl ratData => exact ratData.right.right.right.right
+    | inr emptyData => exact hsame_trans emptyData.left (hsame_symm emptyData.right)
+  constructor
+  · exact Or.inr (hsame_refl BHist.Empty)
+  constructor
+  · exact appendCarrier
+  constructor
+  · intro h k l carrierH carrierK carrierL
+    exact classifierOfSame (appendCarrier (appendCarrier carrierH carrierK) carrierL)
+      (appendCarrier carrierH (appendCarrier carrierK carrierL)) (append_assoc h k l)
+  constructor
+  · intro h carrierH
+    constructor
+    · exact classifierOfSame (appendCarrier (Or.inr (hsame_refl BHist.Empty)) carrierH)
+        carrierH (append_empty_left h)
+    · exact classifierOfSame (appendCarrier carrierH (Or.inr (hsame_refl BHist.Empty)))
+        carrierH (append_empty_right h)
+  · intro h h' k k' classifiedH classifiedK
+    have sameH : hsame h h' := classifierSame classifiedH
+    have sameK : hsame k k' := classifierSame classifiedK
+    exact classifierOfSame
+      (appendCarrier (classifierLeftCarrier classifiedH) (classifierLeftCarrier classifiedK))
+      (appendCarrier (classifierRightCarrier classifiedH) (classifierRightCarrier classifiedK))
+      (by
+        cases sameH
+        cases sameK
+        exact hsame_refl (append h k))
+
 end BEDC.Derived.FieldUp

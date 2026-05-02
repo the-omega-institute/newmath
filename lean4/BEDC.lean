@@ -215,6 +215,7 @@ import BEDC.Derived.CategoryUp.ContinuationBoundary
 import BEDC.Derived.CategoryUp.FactorTail
 import BEDC.Derived.CategoryUp.CompositeEmptyTail
 import BEDC.Derived.CategoryUp.HomContinuation
+import BEDC.Derived.CategoryUp.CompCycleResult
 import BEDC.Derived.CategoryUp.LawPackage
 import BEDC.Derived.CategoryUp.EmptySourceTail
 import BEDC.Derived.CategoryUp.StabilityLawPackage
