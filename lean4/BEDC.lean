@@ -151,6 +151,7 @@ import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.AffineEquation
+import BEDC.Derived.FieldUp.Affine
 import BEDC.Derived.FieldUp.Nonzero
 import BEDC.Derived.FieldUp.ProductApartness
 import BEDC.Derived.FieldUp.SignedFactor
