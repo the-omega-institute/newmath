@@ -200,6 +200,94 @@ with the retained source facts, target facts, endpoint presentations, source
 classification, and target classifier.
 \end{proof}
 
+\section{Tagged option map relation shared-target source reflection normal form}
+\label{sec:option-maprel-shared-target-source-reflection-normal-form}
+
+\begin{theorem}[Tagged option map relation shared-target source reflection normal form]
+\label{thm:tagged-option-maprel-shared-target-source-reflection-normal-form}
+This theorem fits the per-object template as follows: the traditional target is
+faithful source readback from a shared visible target endpoint; the BEDC source
+is $\mathsf{BHist}$ with one $\mathsf{DescentCertificate}$ map; the carrier is
+the visible tagged option endpoint shape; the classifier uses the source
+history classifier reflected from target payload equality; the stability
+obligation is branch preservation, target one-constructor inversion, and source
+reflection; the ledger records absent endpoints and reflected present payloads;
+the core theorem is the displayed two-witness normal form; exactness is
+absent-or-reflected-present exhaustion; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$ map readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source and target
+carriers, let $\sim_S$ and $\sim_T$ be their classifiers, let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T),
+$$
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Assume also reflected source readback from visible target equality,
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S).
+$$
+For histories $h,h',k$, if
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k)
+$$
+then either
+$$
+\hsame(h,\emp)\land\hsame(h',\emp)\land\hsame(k,\emp),
+$$
+or there exist $a,b:\mathsf{BHist}$ such that
+$$
+S(a)\land S(b)\land a\sim_S b
+\land T(\delta.\mathsf{map}(a))
+\land T(\delta.\mathsf{map}(b))
+\land \hsame(h,\Eone(a))
+\land \hsame(h',\Eone(b))
+\land \hsame(k,\Eone(\delta.\mathsf{map}(a)))
+\land \hsame(k,\Eone(\delta.\mathsf{map}(b)))
+\land \mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h').
+$$
+\end{theorem}
+\begin{proof}
+Split the first map-relation witness.
+
+In the absent branch, the first witness presents the shared target endpoint as
+$\hsame(k,\emp)$ and the source endpoint as $\hsame(h,\emp)$. Split the second
+map-relation witness. Its absent branch contributes $\hsame(h',\emp)$, so the
+absent alternative follows. Its present branch would present the same target
+endpoint as $\hsame(k,\Eone(\delta.\mathsf{map}(b)))$ for some source payload
+$b$, contradicting generated-history empty-versus-one no-confusion.
+
+In the present branch of the first witness, expose a payload $a$ with $S(a)$,
+$T(\delta.\mathsf{map}(a))$, source presentation $\hsame(h,\Eone(a))$, and
+target presentation $\hsame(k,\Eone(\delta.\mathsf{map}(a)))$. Split the
+second map-relation witness. Its absent branch presents the same target as
+$\hsame(k,\emp)$, again contradicting empty-versus-one no-confusion after
+composition with the stored one-tag target presentation.
+
+It remains to handle the present/present branch. The second witness exposes a
+payload $b$ with $S(b)$, $T(\delta.\mathsf{map}(b))$, source presentation
+$\hsame(h',\Eone(b))$, and target presentation
+$\hsame(k,\Eone(\delta.\mathsf{map}(b)))$.
+
+Invert the two one-tag presentations of the shared target endpoint to obtain
+$\hsame(\delta.\mathsf{map}(a),\delta.\mathsf{map}(b))$. The reflected source
+readback hypothesis converts this equality, together with $S(a)$ and $S(b)$,
+into $a\sim_S b$.
+
+The two source carrier witnesses, the two source endpoint presentations, and
+this reflected payload relation assemble the present-present branch of
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h')$. Package $a$ and $b$
+with the retained source facts, target facts, endpoint presentations, reflected
+source classification, and source classifier.
+\end{proof}
+
 \begin{theorem}[Tagged option map relation exclusive visible readback is single-valued]
 \label{thm:tagged-option-maprel-exclusive-visible-readback-single-valued}
 This theorem fits the per-object template as follows: the traditional target is
