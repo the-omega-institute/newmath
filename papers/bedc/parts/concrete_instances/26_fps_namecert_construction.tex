@@ -140,6 +140,28 @@ ledger predicates are the same singleton carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistory\_semanticNameCert}
 
+\begin{theorem}[Singleton FPS classifier append split empty]
+\label{thm:fps-singleton-classifier-append-split-empty}
+For $p,q,h:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),h)
+\quad\Longleftrightarrow\quad
+p\hsame\emp\land q\hsame\emp\land A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the left carrier component of
+$\rho_{\emp}(\mathsf{append}(p,q),h)$ says
+$\mathsf{append}(p,q)\hsame\emp$. The append-empty inversion theorem splits
+this into $p\hsame\emp$ and $q\hsame\emp$, while the right carrier component
+already gives $A_{\emp}(h)$.
+
+Conversely, append-empty introduction turns $p\hsame\emp$ and $q\hsame\emp$
+into $A_{\emp}(\mathsf{append}(p,q))$. Together with $A_{\emp}(h)$, transitivity
+through $\emp$ supplies the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_append\_split\_empty\_iff}
+
 \section{The certificate}
 
 \begin{definition}[FormalPowerSeries source specification]

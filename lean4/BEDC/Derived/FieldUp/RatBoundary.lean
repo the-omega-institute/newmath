@@ -46,4 +46,21 @@ theorem field_rat_carrier_non_singleton_boundary_witness :
     · intro carrierCoverage
       exact singletonAbsurd (carrierCoverage (BHist.e1 BHist.Empty) ratBoundary)
 
+theorem field_rat_carrier_singleton_coverage_obstruction :
+    BEDC.Derived.RatUp.RatHistoryCarrier (BHist.e1 BHist.Empty) ∧
+      (fieldSingletonEmptyCarrier (BHist.e1 BHist.Empty) -> False) ∧
+      ((∀ h : BHist, BEDC.Derived.RatUp.RatHistoryCarrier h -> fieldSingletonEmptyCarrier h) ->
+        False) := by
+  have carrierD1 : RatHistoryCarrier (BHist.e1 BHist.Empty) :=
+    RatHistoryCarrier_e1_tail_unary_iff.mpr unary_empty
+  have notSingleton : fieldSingletonEmptyCarrier (BHist.e1 BHist.Empty) -> False := by
+    intro singletonD1
+    exact RatHistoryCarrier_not_empty carrierD1 singletonD1
+  constructor
+  · exact carrierD1
+  · constructor
+    · exact notSingleton
+    · intro coverage
+      exact notSingleton (coverage (BHist.e1 BHist.Empty) carrierD1)
+
 end BEDC.Derived.FieldUp

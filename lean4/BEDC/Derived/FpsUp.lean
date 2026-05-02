@@ -1,9 +1,11 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.FpsUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 
 def FpsSingletonCarrier (h : BHist) : Prop :=
@@ -127,5 +129,25 @@ theorem FpsSingletonCoeff_empty_ledger {F n : BHist} :
   have emptyCarrier : FpsSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
   exact And.intro (hsame_refl BHist.Empty)
     (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
+
+theorem FpsSingletonEmptyHistoryClassifier_append_split_empty_iff {p q h : BHist} :
+    FpsSingletonEmptyHistoryClassifier (BEDC.FKernel.Cont.append p q) h ↔
+      hsame p BHist.Empty ∧ hsame q BHist.Empty ∧ FpsSingletonEmptyHistoryCarrier h := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro appendCarrier rest =>
+        cases rest with
+        | intro hCarrier _sameAppendH =>
+            have splitEmpty := append_eq_empty_iff.mp appendCarrier
+            exact ⟨splitEmpty.left, splitEmpty.right, hCarrier⟩
+  · intro splitData
+    cases splitData with
+    | intro pEmpty rest =>
+        cases rest with
+        | intro qEmpty hCarrier =>
+            have appendEmpty : hsame (BEDC.FKernel.Cont.append p q) BHist.Empty :=
+              append_eq_empty_iff.mpr ⟨pEmpty, qEmpty⟩
+            exact ⟨appendEmpty, hCarrier, hsame_trans appendEmpty (hsame_symm hCarrier)⟩
 
 end BEDC.Derived.FpsUp
