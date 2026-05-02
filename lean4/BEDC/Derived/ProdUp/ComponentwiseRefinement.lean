@@ -262,6 +262,52 @@ theorem ProdHistoryClassifier_pair_coherent_componentwise_hsame
                                                             (And.intro contK
                                                               components)))))))))
 
+theorem ProdHistoryClassifier_pair_coherent_componentwise
+    {Left Right : BHist → Prop} {LeftEq RightEq : BHist → BHist → Prop}
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) {h k : BHist} :
+    ProdHistoryClassifier Left Right h k →
+      ProdComponentHistoryClassifier Left Right LeftEq RightEq h k := by
+  intro classifier
+  cases classifier with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          cases carrierH with
+          | intro lh restLH =>
+              cases restLH with
+              | intro rh dataH =>
+                  cases dataH with
+                  | intro leftH restH =>
+                      cases restH with
+                      | intro rightH contH =>
+                          cases carrierK with
+                          | intro lk restLK =>
+                              cases restLK with
+                              | intro rk dataK =>
+                                  cases dataK with
+                                  | intro leftK restK =>
+                                      cases restK with
+                                      | intro rightK contK =>
+                                          have repH : ProdPairRep Left Right h lh rh :=
+                                            And.intro leftH (And.intro rightH contH)
+                                          have repK : ProdPairRep Left Right k lk rk :=
+                                            And.intro leftK (And.intro rightK contK)
+                                          have components :
+                                              LeftEq lh lk ∧ RightEq rh rk :=
+                                            ProdPairRep_hsame_coherence coherent repH repK
+                                              sameHK
+                                          exact Exists.intro lh
+                                            (Exists.intro rh
+                                              (Exists.intro lk
+                                                (Exists.intro rk
+                                                  (And.intro leftH
+                                                    (And.intro rightH
+                                                      (And.intro contH
+                                                        (And.intro leftK
+                                                          (And.intro rightK
+                                                            (And.intro contK
+                                                              components)))))))))
+
 theorem ProdComponentHistoryClassifier_symm_from_source_certificates
     {Left Right : BHist → Prop} {LeftEq RightEq : BHist → BHist → Prop}
     (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
