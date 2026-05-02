@@ -336,9 +336,10 @@ $$
 \begin{theorem}[Field two-sided zero product exactness from apartness]
 \label{thm:field-two-sided-zero-product-cancel-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
-ring zero absorption, multiplication congruence, and witnesses
-$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
-$x:\mathsf{BHist}$ satisfies
+ring zero absorption, multiplication associativity, left and right
+multiplicative identity laws, multiplication congruence, indexed left and
+right inverse laws, and witnesses $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$, every $x:\mathsf{BHist}$ satisfies
 $$
 (a x)b\hsame0
 \Longleftrightarrow
@@ -380,8 +381,9 @@ transitivity yields $(a x)b\hsame0$.
 \begin{theorem}[Field one-sided zero product cancellation from apartness]
 \label{thm:field-one-sided-zero-product-cancel-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
-ring zero absorption, multiplication congruence, and indexed inverse laws,
-every $a,b:\mathsf{BHist}$ satisfies the following clauses.
+ring zero absorption, multiplication associativity, left and right
+multiplicative identity laws, multiplication congruence, and indexed inverse
+laws, every $a,b:\mathsf{BHist}$ satisfies the following clauses.
 \begin{enumerate}
 \item If $p_a:\mathsf{NonZero}_F(a)$ and $a b\hsame0$, then $b\hsame0$.
 \item If $p_b:\mathsf{NonZero}_F(b)$ and $a b\hsame0$, then $a\hsame0$.
@@ -411,8 +413,9 @@ $a\hsame0$.
 \begin{theorem}[Field nonzero factors exclude zero product]
 \label{thm:field-nonzero-factors-exclude-zero-product}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
-ring zero absorption, multiplication congruence, indexed inverse laws,
-classifier transport of $\mathsf{NonZero}_F$, and contradiction of
+ring zero absorption, multiplication associativity, left and right
+multiplicative identity laws, multiplication congruence, indexed inverse
+laws, classifier transport of $\mathsf{NonZero}_F$, and contradiction of
 $\mathsf{NonZero}_F(0)$, every $a,b:\mathsf{BHist}$ with witnesses
 $p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ satisfies
 $$
@@ -439,8 +442,10 @@ $p_a$ after deriving $a\hsame0$.
 \begin{theorem}[Field equal-squares signed factor exclusion]
 \label{thm:field-equal-squares-signed-factor-exclusion}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
-ring zero absorption, multiplication congruence, the $\CommRingUp$ hypotheses
-required by Theorem~\ref{thm:commring-difference-of-squares-zero-exact}, and
+ring zero absorption, multiplication associativity, left and right
+multiplicative identity laws, multiplication congruence, indexed inverse laws,
+the $\CommRingUp$ hypotheses required by
+Theorem~\ref{thm:commring-difference-of-squares-zero-exact}, and
 every $a,b:\mathsf{BHist}$ with $a\cdot a\hsame b\cdot b$, the following
 constructive clauses hold.
 \begin{enumerate}
@@ -476,7 +481,8 @@ factor witness $p_+$ or $p_-$. Status: ProofTarget.
 Traditional target: constructive field zero-product exactness. BEDC source:
 $\FieldUp$ plus $\RingUp$ zero absorption. Carrier choice:
 $\mathsf{BHist}$. Classifier choice: $\hsame$. Stability obligations:
-inverse laws, multiplication congruence, and zero absorption. Ledger: the two
+zero absorption, multiplication associativity, multiplicative unit laws,
+multiplication congruence, and indexed inverse laws. Ledger: the two
 certified factors $p_a:\mathsf{NonZero}_F(a)$ and
 $p_b:\mathsf{NonZero}_F(b)$ together with their inverse witnesses. Core theorem
 list: two-sided zero-product exactness and zero-product exclusion from two
@@ -490,8 +496,9 @@ For a BEDC history-level $\FieldUp$ candidate with operations
 $\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
 $\mathsf{BHist}$, additive abelian-group laws for
 $\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
-multiplication associativity and congruence, and left and right inverse laws
-indexed by $p_a:\mathsf{NonZero}_F(a)$, every
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and left and right inverse laws indexed by
+$p_a:\mathsf{NonZero}_F(a)$, every
 $x,b,c:\mathsf{BHist}$ satisfy
 $$
 \mathsf{add}(\mathsf{mul}(a,x),b)\hsame c
@@ -532,8 +539,9 @@ For a BEDC history-level $\FieldUp$ candidate with operations
 $\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
 $\mathsf{BHist}$, additive abelian-group laws for
 $\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
-multiplication associativity and congruence, and left and right inverse laws
-indexed by $p_b:\mathsf{NonZero}_F(b)$, every
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and left and right inverse laws indexed by
+$p_b:\mathsf{NonZero}_F(b)$, every
 $x,d,c:\mathsf{BHist}$ satisfy
 $$
 \mathsf{add}(\mathsf{mul}(x,b),d)\hsame c
@@ -571,7 +579,9 @@ $\mathsf{add}(\mathsf{mul}(x,b),d)\hsame c$.
 Per-object certificate: this is a traditional target for affine right field
 equation solving. BEDC source: $\FieldUp$ plus additive group laws. Carrier:
 $\mathsf{BHist}$. Classifier: $\hsame$. Ledger: the nonzero witness
-$p_b:\mathsf{NonZero}_F(b)$ and additive offset. Status: ProofTarget.
+$p_b:\mathsf{NonZero}_F(b)$ and additive offset. Stability obligations:
+additive cancellation, multiplication associativity, multiplicative unit laws,
+multiplication congruence, and indexed inverse laws. Status: ProofTarget.
 
 \begin{theorem}[Field affine two-sided multiplication equation exactness from apartness]
 \label{thm:field-affine-two-sided-equation-exact-from-apartness}
@@ -580,8 +590,9 @@ For a BEDC history-level $\FieldUp$ candidate with operations
 $\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
 $\mathsf{BHist}$, additive abelian-group laws for
 $\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
-multiplication associativity and congruence, and indexed inverse laws for
-witnesses $p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and indexed inverse laws for witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
 $x,d,c:\mathsf{BHist}$ satisfies
 $$
 \mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c
@@ -620,8 +631,9 @@ $\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$.
 Traditional target: affine field equation solving. BEDC source: $\FieldUp$ plus
 additive group laws. Carrier choice: $\mathsf{BHist}$. Classifier choice:
 $\hsame$. Stability obligations: additive cancellation, multiplication
-congruence, and indexed inverse laws. Ledger: both nonzero witnesses and the
-additive offset. Core theorem list entry: two-sided affine exactness. Exactness
+associativity, multiplicative unit laws, multiplication congruence, and
+indexed inverse laws. Ledger: both nonzero witnesses and the additive offset.
+Core theorem list entry: two-sided affine exactness. Exactness
 predicate: equivalence between the equation and displayed solution. Standard
 bridge: deferred conservative bridge. Status: ProofTarget.
 
