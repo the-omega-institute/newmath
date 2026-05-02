@@ -115,6 +115,83 @@ second contradiction. Packaging these two functions for arbitrary $t$ gives the
 zero-tag exclusion clause.
 \end{proof}
 
+\begin{theorem}[Tagged option composite image carrier zero-endpoint exclusion]
+\label{thm:tagged-option-composite-image-carrier-zero-endpoint-exclusion}
+This theorem fits the per-object template as follows: the traditional target is
+constructor-shape exclusion for composite $\mathsf{OptionUp}$ image carriers;
+the BEDC source is $\mathsf{BHist}$ with two composable
+$\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is not used in
+the statement; the stability obligation is branch exactness plus
+generated-history no-confusion; the ledger records the absence of the unused
+zero tag; the core theorem is the displayed implication; exactness says every
+composite image carrier endpoint is absent or one-tagged; the standard bridge
+is $\mathsf{none}$/$\mathsf{some}$ readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+For every final endpoint $m:\mathsf{BHist}$ and tail $t:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m)
+$$
+holds, then
+$$
+\hsame(m,\Ezero(t))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-payload-descent-image-branch-exactness} to
+the composite image-carrier witness. The branch split says that the final
+endpoint is either absent or presented by a transported one-tagged payload.
+
+In the absent branch, suppose $\hsame(m,\Ezero(t))$. The branch presentation
+gives $\hsame(m,\emp)$. Compose symmetry of this empty presentation with the
+assumed zero presentation to obtain $\hsame(\emp,\Ezero(t))$, contradicting
+empty-versus-$\Ezero$ generated-history no-confusion.
+
+In the present branch, unpack a source payload $a$ together with $S(a)$,
+$U(\epsilon.\mathsf{map}(\delta.\mathsf{map}(a)))$, and
+$\hsame(m,\Eone(\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))))$. If
+$\hsame(m,\Ezero(t))$ also held, symmetry and transitivity of $\hsame$ would
+identify the displayed $\Eone$ endpoint with the zero endpoint, contradicting
+$\Eone$-versus-$\Ezero$ generated-history no-confusion.
+
+The two branches both return a contradiction from $\hsame(m,\Ezero(t))$, giving
+the displayed endpoint exclusion.
+\end{proof}
+
 \begin{theorem}[Tagged option composite image classifier zero-endpoint exclusion]
 \label{thm:tagged-option-composite-image-classifier-zero-endpoint-exclusion}
 This theorem fits the per-object template as follows: the traditional target is
@@ -441,4 +518,3 @@ These facts prove both directions of the visible-existence equivalence. Under
 the nonempty hypothesis, the same selected $x,y$ witness the classified visible
 pair and carry the universal uniqueness conclusion.
 \end{proof}
-
