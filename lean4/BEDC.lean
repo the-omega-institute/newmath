@@ -160,6 +160,7 @@ import BEDC.Derived.FieldUp.Nonzero
 import BEDC.Derived.FieldUp.ProductApartness
 import BEDC.Derived.FieldUp.SquareApartness
 import BEDC.Derived.FieldUp.SignedFactor
+import BEDC.Derived.FieldUp.SquareApartnessAndAffine
 import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FpsUp
@@ -194,6 +195,7 @@ import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.SemanticCertificate
 import BEDC.Derived.CategoryUp.IdentityLaw
 import BEDC.Derived.CategoryUp.Cycle
 import BEDC.Derived.CategoryUp.SourceEmpty

@@ -516,4 +516,22 @@ hom-carrier witness across history sameness.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_identity\_semanticNameCert}
 
+\begin{theorem}[Category hom carrier semantic name certificate from a hom]
+\label{thm:category-hom-carrier-semantic-namecert-of-hom}
+For displayed unary-continuation hom data
+$\mathsf{CategoryHomCarrier}(a,b,f)$, the hom-carrier predicate
+$g\mapsto\mathsf{CategoryHomCarrier}(a,b,g)$ carries a semantic naming
+certificate whose source, pattern, and ledger predicates are this hom-carrier
+predicate and whose classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The displayed morphism $f$ supplies carrier inhabitation. The classifier laws
+are reflexivity, symmetry, and transitivity of $\hsame$. If a classified
+morphism is transported across $\hsame$, endpoint histories stay fixed and
+\autoref{thm:category-hom-carrier-history-same-transport} rebuilds the
+hom-carrier witness. Pattern and ledger soundness are identities because the
+three semantic predicates are the same hom-carrier predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_semanticNameCert\_of\_hom}
+
 Per-object certificate: traditional target category identity laws; BEDC source $\mathsf{CategoryHomCarrier}$ plus $\Cont$; carrier $\mathsf{BHist}$ hom witnesses; classifier $\hsame$; stability obligation two-sided identity under morphism classifier; ledger the empty-composition ledgers; core theorem list entry two-sided identity; exactness predicate sameness with the original morphism; standard bridge deferred; status $\mathsf{ProofTarget}$.

@@ -175,6 +175,62 @@ witnesses plus offset; core theorem
 inverse affine normal form; standard bridge ordinary affine automorphism group;
 status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field affine explicit inverse is a certified automorphism]
+\label{thm:field-affine-explicit-inverse-certified-automorphism}
+Under the hypotheses and notation of
+\autoref{thm:field-affine-two-sided-certified-automorphism}, define
+$$
+T(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
+$$
+and, for each $r:\mathsf{BHist}$, define
+$$
+s(r)=
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(r,\mathsf{neg}(d)),\mathsf{inv}(b,p_b))).
+$$
+Then every $c,e,x:\mathsf{BHist}$ satisfies
+$$
+s(T(x))\hsame x,
+\qquad
+T(s(c))\hsame c,
+\qquad
+s(c)\hsame s(e)\Longleftrightarrow c\hsame e.
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-affine-two-sided-certified-automorphism} with witnesses
+$p_a,p_b$ and offset $d$. Its inverse-pair clauses give
+$s(T(x))\hsame x$ and $T(s(c))\hsame c$ directly.
+
+For the forward direction of the inverse-map classifier iff, assume
+$c\hsame e$. Compose $T(s(c))\hsame c$, the assumed equality, and the symmetry
+of $T(s(e))\hsame e$ to obtain
+$$
+T(s(c))\hsame T(s(e)).
+$$
+Reflect this equality through the certified classifier iff for $T$ to conclude
+$s(c)\hsame s(e)$.
+
+For the reverse direction, assume $s(c)\hsame s(e)$. The
+classifier-preservation direction for $T$ gives
+$$
+T(s(c))\hsame T(s(e)).
+$$
+Compose the symmetry of $T(s(c))\hsame c$, the displayed equality, and
+$T(s(e))\hsame e$ to obtain $c\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_explicit\_inverse\_certified\_automorphism}
+
+Per-object certificate: traditional target inverse affine automorphism; BEDC
+source $\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations certified affine automorphism,
+inverse-pair clauses, and classifier iff; ledger the two nonzero witnesses and
+offset; core theorem
+\autoref{thm:field-affine-explicit-inverse-certified-automorphism}; exactness
+predicate inverse-map classifier iff; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field affine explicit inverse is classifier-congruent]
 \label{thm:field-affine-explicit-inverse-classifier-congruence}
 Under the hypotheses and notation of
