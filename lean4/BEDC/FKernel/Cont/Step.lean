@@ -367,4 +367,110 @@ theorem cont_left_tag_cross_result_iff_pair :
               cases kEq
               exact cont_step_zero tail
 
+theorem cont_left_same_tag_tail_alignment :
+    (forall {h k l r : BHist},
+      Cont (BHist.e0 h) k (BHist.e0 r) -> Cont (BHist.e0 h) l (BHist.e0 r) ->
+        (k = BHist.Empty ∧ l = BHist.Empty) ∨
+          (∃ k0 l0 : BHist, k = BHist.e0 k0 ∧ l = BHist.e0 l0 ∧ hsame k0 l0)) ∧
+      (forall {h k l r : BHist},
+        Cont (BHist.e1 h) k (BHist.e1 r) -> Cont (BHist.e1 h) l (BHist.e1 r) ->
+          (k = BHist.Empty ∧ l = BHist.Empty) ∨
+            (∃ k0 l0 : BHist, k = BHist.e1 k0 ∧ l = BHist.e1 l0 ∧ hsame k0 l0)) := by
+  constructor
+  · intro h k l r left right
+    have sameTail : hsame k l := cont_left_cancel left right
+    have splitLeft := (cont_left_e0_result_iff (h := h) (k := k) (r := r)).mp left
+    cases splitLeft with
+    | inl emptyCase =>
+        cases emptyCase with
+        | intro kEmpty _sameResult =>
+            cases kEmpty
+            cases sameTail
+            exact Or.inl (And.intro rfl rfl)
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro k0 data =>
+            cases data with
+            | intro kEq _tail =>
+                cases kEq
+                cases l with
+                | Empty =>
+                    cases sameTail
+                | e0 l0 =>
+                    exact Or.inr
+                      (Exists.intro k0
+                        (Exists.intro l0
+                          (And.intro rfl (And.intro rfl (BHist.e0.inj sameTail)))))
+                | e1 l0 =>
+                    cases sameTail
+  · intro h k l r left right
+    have sameTail : hsame k l := cont_left_cancel left right
+    have splitLeft := cont_left_e1_result_cases left
+    cases splitLeft with
+    | inl emptyCase =>
+        cases emptyCase with
+        | intro kEmpty _sameResult =>
+            cases kEmpty
+            cases sameTail
+            exact Or.inl (And.intro rfl rfl)
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro k0 data =>
+            cases data with
+            | intro kEq _tail =>
+                cases kEq
+                cases l with
+                | Empty =>
+                    cases sameTail
+                | e0 l0 =>
+                    cases sameTail
+                | e1 l0 =>
+                    exact Or.inr
+                      (Exists.intro k0
+                        (Exists.intro l0
+                          (And.intro rfl (And.intro rfl (BHist.e1.inj sameTail)))))
+
+theorem cont_left_tag_cross_tail_alignment :
+    (forall {h k l r : BHist},
+      Cont (BHist.e0 h) k (BHist.e1 r) -> Cont (BHist.e0 h) l (BHist.e1 r) ->
+        ∃ k0 l0 : BHist, k = BHist.e1 k0 ∧ l = BHist.e1 l0 ∧ hsame k0 l0) ∧
+      (forall {h k l r : BHist},
+        Cont (BHist.e1 h) k (BHist.e0 r) -> Cont (BHist.e1 h) l (BHist.e0 r) ->
+          ∃ k0 l0 : BHist, k = BHist.e0 k0 ∧ l = BHist.e0 l0 ∧ hsame k0 l0) := by
+  constructor
+  · intro h k l r left right
+    have sameTail : hsame k l := cont_left_cancel left right
+    have splitLeft := cont_left_tag_cross_result_cases.left left
+    cases splitLeft with
+    | intro k0 data =>
+        cases data with
+        | intro kEq _tail =>
+            cases kEq
+            cases l with
+            | Empty =>
+                cases sameTail
+            | e0 l0 =>
+                cases sameTail
+            | e1 l0 =>
+                exact Exists.intro k0
+                  (Exists.intro l0
+                    (And.intro rfl (And.intro rfl (BHist.e1.inj sameTail))))
+  · intro h k l r left right
+    have sameTail : hsame k l := cont_left_cancel left right
+    have splitLeft := cont_left_tag_cross_result_cases.right left
+    cases splitLeft with
+    | intro k0 data =>
+        cases data with
+        | intro kEq _tail =>
+            cases kEq
+            cases l with
+            | Empty =>
+                cases sameTail
+            | e0 l0 =>
+                exact Exists.intro k0
+                  (Exists.intro l0
+                    (And.intro rfl (And.intro rfl (BHist.e0.inj sameTail))))
+            | e1 l0 =>
+                cases sameTail
+
 end BEDC.FKernel.Cont

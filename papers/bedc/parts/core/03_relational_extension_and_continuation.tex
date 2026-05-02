@@ -332,6 +332,39 @@ directions, eliminate the displayed equation for \(k\) and rebuild the outer
 result constructor using the corresponding continuation step rule.
 \end{proof}
 
+\begin{theorem}[Left same-tag continuation tail alignment]
+\label{thm:cont-left-same-tag-tail-alignment}
+If two continuations have the same visible left endpoint and the same
+same-tag visible result, then their right tails align in the same shape. For
+zero-headed endpoints, both tails are empty or both are zero-headed with
+$\HSame$ exposed tails; for one-headed endpoints, both tails are empty or both
+are one-headed with $\HSame$ exposed tails.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_same\_tag\_tail\_alignment}
+\begin{proof}
+Apply continuation left cancellation to the two displayed continuations to
+obtain $\HSame(k,l)$ between their right tails. Split the first continuation by
+the same-tag result case theorem. In the empty branch, the tail sameness forces
+the second tail to be empty. In the visible branch, tail sameness transports
+the second tail into the matching visible constructor and yields the exposed
+$\HSame$ relation between payload tails.
+\end{proof}
+
+\begin{theorem}[Left cross-tag continuation tail alignment]
+\label{thm:cont-left-tag-cross-tail-alignment}
+If two continuations have the same visible left endpoint and the same
+cross-tag visible result, then both right tails carry the opposite visible tag,
+and the exposed tails are $\HSame$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_tag\_cross\_tail\_alignment}
+\begin{proof}
+Continuation left cancellation compares the two right tails. The cross-tag
+result case theorem applied to the first continuation forces that tail to have
+the opposite visible constructor. Transporting the second tail through the
+tail sameness forces the same constructor there as well, and constructor
+inversion gives the exposed $\HSame$ relation.
+\end{proof}
+
 \begin{lemma}[Continuation right unit]
 For every history \(h\), \(\ContR(h,\emp,h)\).
 \end{lemma}

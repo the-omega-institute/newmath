@@ -190,4 +190,36 @@ theorem CategoryHomCarrier_e1_source_e1_target_morphism_iff {a r morph : BHist} 
                             (And.intro (unary_e1_closed morphCarrier)
                               (cont_step_one homCont)))
 
+theorem CategoryHomCarrier_e1_source_e1_target_morphism_alignment {a r m n : BHist} :
+    CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) m ->
+      CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) n ->
+        (m = BHist.Empty ∧ n = BHist.Empty) ∨
+          (∃ k l : BHist, m = BHist.e1 k ∧ n = BHist.e1 l ∧ hsame k l) := by
+  intro left right
+  have sameMorphism : hsame m n := CategoryHomCarrier_morphism_deterministic left right
+  have splitLeft := CategoryHomCarrier_left_e1_result_cases left
+  cases splitLeft with
+  | inl emptyCase =>
+      cases emptyCase with
+      | intro mEmpty _rest =>
+          cases mEmpty
+          cases sameMorphism
+          exact Or.inl (And.intro rfl rfl)
+  | inr visibleCase =>
+      cases visibleCase with
+      | intro k data =>
+          cases data with
+          | intro mEq _rest =>
+              cases mEq
+              cases n with
+              | Empty =>
+                  cases sameMorphism
+              | e0 l =>
+                  cases sameMorphism
+              | e1 l =>
+                  exact Or.inr
+                    (Exists.intro k
+                      (Exists.intro l
+                        (And.intro rfl (And.intro rfl (BHist.e1.inj sameMorphism)))))
+
 end BEDC.Derived.CategoryUp
