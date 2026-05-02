@@ -4,6 +4,7 @@ namespace BEDC.Derived.MetricUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 
 theorem MetricDistanceWitness_triangle_append_closed {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
@@ -16,5 +17,20 @@ theorem MetricDistanceWitness_triangle_append_closed {x y z dxy dyz dxyz : BHist
   cases yzRel
   cases xyzRel
   exact append_assoc x y z
+
+theorem MetricDistanceWitness_triangle_append_context_closed {p q x y z dxy dyz dxyz : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        MetricDistanceWitness (append p x) (append dyz q) (append (append p dxyz) q) := by
+  intro pCarrier qCarrier xy yz xyz
+  have central : MetricDistanceWitness x dyz dxyz :=
+    And.intro xy.left
+      (And.intro yz.right.right.left
+        (And.intro xyz.right.right.left
+          (MetricDistanceWitness_triangle_append_closed xy yz xyz)))
+  exact
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := dyz)
+      (d := dxyz)).mpr
+      (And.intro pCarrier (And.intro qCarrier central))
 
 end BEDC.Derived.MetricUp

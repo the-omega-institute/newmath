@@ -57,6 +57,15 @@ unary inductive result, so unary closure under $\Cont$ applies.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_result\_unary}
 
+\begin{lemma}[Unit left multiplication reads back the multiplier]
+\label{lem:nat-mul-unit-left-hsame}
+For every unary history $q$, if $\mathsf{NatMul}(\Eone(\emp), q, n)$, then $\hsame(n,q)$.
+\end{lemma}
+\begin{proof}
+Induct on the concrete multiplication derivation for $q$. The zero case is immediate. In the successor case, unary inversion exposes the tail multiplier, the induction hypothesis identifies the previous product with that tail, and determinacy of $\Cont$ identifies the final appended unit with the canonical successor.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_left\_hsame}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
@@ -71,6 +80,7 @@ For every unary \(n\), \(\mathsf{NatDivides}(\Eone(\emp), n)\) and \(\mathsf{Nat
 The unit case takes \(q = n\) in \(\mathsf{NatMul}(\Eone(\emp), n, n)\) by induction. The self-divisibility case takes \(q = \Eone(\emp)\) and uses the multiplicative right unit.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_reflexive}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_unit\_self\_reflexive}
 
 \begin{lemma}[Divisibility is transitive]
 \label{lem:divides-transitive}

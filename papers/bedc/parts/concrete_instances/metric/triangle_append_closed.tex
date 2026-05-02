@@ -20,3 +20,27 @@ $d_{xyz}$ with $(x\cdot y)\cdot z$. Associativity of history append classifies
 this last ledger with $x\cdot (y\cdot z)$, hence with $x\cdot d_{yz}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_closed}
+
+\begin{theorem}[Metric distance witness triangle append context closure]
+\label{thm:metric-distance-witness-triangle-append-context-closed}
+For unary visible contexts $p,q$, distance witnesses from $x$ to $y$, from $y$
+to $z$, and from $d_{xy}$ to $z$ produce a distance witness from $p\cdot x$ to
+$d_{yz}\cdot q$ whose result is $p\cdot d_{xyz}\cdot q$:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x,d_{yz}\cdot q,p\cdot d_{xyz}\cdot q).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The triangle append closure identifies the central result with $x\cdot d_{yz}$.
+Together with the carrier fields already present in the three distance witnesses,
+this gives the central witness from $x$ to $d_{yz}$ with result $d_{xyz}$.
+Visible-context closure then appends the unary contexts $p$ and $q$ on the
+outside.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_closed}

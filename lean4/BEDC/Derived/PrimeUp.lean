@@ -78,6 +78,18 @@ theorem NatMul_succ_inversion {d q n' : BHist} :
   | succ prev step =>
       exact ⟨_, prev, step⟩
 
+theorem NatMul_unit_left_hsame {q n : BHist} :
+    UnaryHistory q -> NatMul (BHist.e1 BHist.Empty) q n -> hsame n q := by
+  intro hq hmul
+  induction hmul with
+  | zero _hd =>
+      rfl
+  | succ _prev step ih =>
+      have tailUnary : UnaryHistory _ := unary_e1_inversion hq
+      have prevSame := ih tailUnary
+      cases prevSame
+      exact cont_deterministic step (cont_intro rfl)
+
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
 
@@ -119,6 +131,23 @@ theorem NatDivides_reflexive {n : BHist} :
     exact ⟨n, hn, unitMul⟩
   · exact ⟨BHist.e1 BHist.Empty, unary_e1_closed unary_empty,
       NatMul.succ (NatMul.zero hn) (cont_left_unit n)⟩
+
+theorem NatDivides_unit_self_reflexive {n : BHist} :
+    UnaryHistory n -> NatDivides (BHist.e1 BHist.Empty) n ∧ NatDivides n n := by
+  intro hn
+  constructor
+  · have total :=
+      NatMul_total (d := BHist.e1 BHist.Empty) (q := n)
+        (unary_e1_closed unary_empty) hn
+    cases total with
+    | intro m data =>
+        have sameMN : hsame m n := NatMul_unit_left_hsame hn data.right
+        cases sameMN
+        exact Exists.intro n (And.intro hn data.right)
+  · exact
+      Exists.intro (BHist.e1 BHist.Empty)
+        (And.intro (unary_e1_closed unary_empty)
+          (NatMul.succ (NatMul.zero hn) (cont_intro (append_empty_left n).symm)))
 
 def NatPrime (p : BHist) : Prop :=
   UnaryHistory p ∧ NatUnaryStrictPrefix (BHist.e1 BHist.Empty) p ∧
