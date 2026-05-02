@@ -12,6 +12,17 @@ theorem ContinuationMorphism_empty_target_inversion {source : BHist}
   | mk tail rel =>
       exact cont_empty_result_inversion rel
 
+theorem CategoryHomCarrier_empty_target_chain_inversion {a b f g : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b BHist.Empty g ->
+      hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame f BHist.Empty ∧
+        hsame g BHist.Empty := by
+  intro left right
+  have rightEmpty := CategoryHomCarrier_empty_target_iff.mp right
+  have transportedLeft : CategoryHomCarrier a BHist.Empty f :=
+    CategoryHomCarrier_hsame_transport (hsame_refl a) rightEmpty.left (hsame_refl f) left
+  have leftEmpty := CategoryHomCarrier_empty_target_iff.mp transportedLeft
+  exact ⟨leftEmpty.left, rightEmpty.left, leftEmpty.right, rightEmpty.right⟩
+
 theorem ContinuationMorphism_visible_source_empty_target_absurd {a : BHist} :
     (ContinuationMorphism (BHist.e0 a) BHist.Empty -> False) ∧
       (ContinuationMorphism (BHist.e1 a) BHist.Empty -> False) := by
@@ -207,5 +218,17 @@ theorem ContinuationMorphism_e1_source_e1_target_tail_cases {a r : BHist}
               cases sameR
               right
               exact Exists.intro k (And.intro (hsame_refl (BHist.e1 k)) data.right)
+
+theorem ContinuationMorphism_e1_source_e1_target_tail_e0_absurd {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
+    hsame m.tail (BHist.e0 k) -> False := by
+  intro tailZero
+  cases ContinuationMorphism_e1_source_e1_target_tail_cases m with
+  | inl emptyCase =>
+      exact not_hsame_emp_e0 (hsame_trans (hsame_symm emptyCase.left) tailZero)
+  | inr visibleCase =>
+      cases visibleCase with
+      | intro t exposed =>
+          exact not_hsame_e1_e0 (hsame_trans (hsame_symm exposed.left) tailZero)
 
 end BEDC.Derived.CategoryUp

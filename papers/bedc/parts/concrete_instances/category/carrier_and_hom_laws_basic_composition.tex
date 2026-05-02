@@ -1,3 +1,23 @@
+\begin{theorem}[Category hom-carrier composite endpoint cycle has empty tails]
+\label{thm:category-hom-carrier-comp-endpoint-cycle-tails-empty}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$. If the
+composite endpoints satisfy $\hsame(a,c)$, then both factor morphism histories
+and the displayed composite morphism history are empty:
+$$
+\hsame(f,\emp)\wedge\hsame(g,\emp)\wedge\hsame(fg,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The endpoint-cycle morphism theorem first forces the displayed composite
+$fg$ to be empty. Transport the concrete continuation $\ContR(f,g,fg)$ along
+this endpoint comparison to obtain $\ContR(f,g,\emp)$. Empty-result inversion
+for continuation then splits the factor histories, giving $f\hsame\emp$ and
+$g\hsame\emp$, while the transported composite comparison supplies
+$fg\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_tails\_empty}
+
 \begin{theorem}[Category hom carrier composition right factor]
 \label{thm:category-hom-carrier-comp-right-factor}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
@@ -377,37 +397,46 @@ result equality.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_right\_identity\_result}
 
-\begin{theorem}[Category hom carrier identity semantic name certificate]
-\label{thm:category-hom-carrier-identity-semantic-namecert}
-For a unary object history $a$, the identity hom-carrier predicate
-$f\mapsto\mathsf{CategoryHomCarrier}(a,a,f)$ carries a semantic naming
-certificate whose source, pattern, and ledger predicates are this hom-carrier
-predicate and whose classifier is $\hsame$.
+\begin{theorem}[Category hom carrier composite middle identity result]
+\label{thm:category-hom-carrier-comp-middle-identity-result}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\mathsf{CategoryHomCarrier}(b,b,id)$,
+$\mathsf{CategoryHomCarrier}(b,c,g)$,
+$\ContR(f,id,fid)$, $\ContR(fid,g,result)$, and $\ContR(f,g,fg)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,c,result)\wedge
+\mathsf{CategoryHomCarrier}(a,c,fg)\wedge\HSame(result,fg).
+$$
 \end{theorem}
 \begin{proof}
-The carrier witness is the empty history, using the empty identity hom-carrier
-at $a$. The classifier laws are the reflexive, symmetric, and transitive laws
-for $\hsame$. Carrier transport follows by transporting the concrete
-hom-carrier witness across history sameness.
+Apply the right identity carrier result to $\ContR(f,id,fid)$, obtaining
+$\mathsf{CategoryHomCarrier}(a,b,fid)$ and $\HSame(fid,f)$. Composition
+closure with the right hom-carrier gives the displayed carrier for $result$,
+while direct composition closure gives the displayed carrier for $fg$.
+The two continuation witnesses have history-same left tails and the same
+right tail $g$, so continuation result respect for $\hsame$ gives
+$\HSame(result,fg)$.
 \end{proof}
-\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_identity\_semanticNameCert}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_identity\_result}
 
-\begin{theorem}[Category hom carrier semantic name certificate from a hom]
-\label{thm:category-hom-carrier-semantic-namecert-of-hom}
-For displayed unary-continuation hom data
-$\mathsf{CategoryHomCarrier}(a,b,f)$, the hom-carrier predicate
-$g\mapsto\mathsf{CategoryHomCarrier}(a,b,g)$ carries a semantic naming
-certificate whose source, pattern, and ledger predicates are this hom-carrier
-predicate and whose classifier is $\hsame$.
+\begin{theorem}[Continuation morphism composite middle identity tail result]
+\label{thm:continuation-morphism-comp-middle-identity-tail-result}
+For continuation morphisms $left:a\to b$, $identity:b\to b$, and
+$right:b\to c$, the middle identity tail is empty, and inserting it between
+$left$ and $right$ leaves the composite tail history-same to the direct
+composite:
+$$
+\HSame(identity.tail,\emp)\wedge
+\HSame((left\circ identity)\circ right,\; left\circ right).
+$$
 \end{theorem}
 \begin{proof}
-The displayed morphism $f$ supplies carrier inhabitation. The classifier laws
-are reflexivity, symmetry, and transitivity of $\hsame$. If a classified
-morphism is transported across $\hsame$, endpoint histories stay fixed and
-\autoref{thm:category-hom-carrier-hsame-transport} rebuilds the
-hom-carrier witness. Pattern and ledger soundness are identities because the
-three semantic predicates are the same hom-carrier predicate.
+Compare $identity$ with the canonical empty continuation morphism at $b$ by
+tail determinacy, giving $\HSame(identity.tail,\emp)$. Unfolding the two
+composite tails reduces the comparison to append histories. The middle tail
+is transported to $\emp$, and the right-unit law
+$\mathsf{append}(left.tail,\emp)\hsame left.tail$ collapses the displayed
+middle factor.
 \end{proof}
-\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_semanticNameCert\_of\_hom}
-
-Per-object certificate: traditional target category identity laws; BEDC source $\mathsf{CategoryHomCarrier}$ plus $\Cont$; carrier $\mathsf{BHist}$ hom witnesses; classifier $\hsame$; stability obligation two-sided identity under morphism classifier; ledger the empty-composition ledgers; core theorem list entry two-sided identity; exactness predicate sameness with the original morphism; standard bridge deferred; status $\mathsf{ProofTarget}$.
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_middle\_identity\_tail\_result}

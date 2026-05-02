@@ -1,0 +1,311 @@
+\begin{theorem}[Rat denominator empty-unit commutative monoid laws]
+\label{thm:field-rat-denominator-empty-unit-commutative-monoid-laws}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance},
+the five laws of
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws} hold,
+and the multiplication is commutative up to the endpoint classifier: if
+$C_D^u(h)$ and $C_D^u(k)$, then
+$$
+R_D^u(\mu_D^u(h,k),\mu_D^u(k,h)).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_continuation\_commutative\_monoid\_laws}
+\begin{proof}
+Unfold the concrete data of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance}.
+The first five clauses are precisely
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}.
+
+It remains to prove the displayed commutativity classifier. Split the two
+$\mathsf{RatDenomUnitCarrier}$ witnesses into their empty endpoint and genuine
+Rat denominator endpoint alternatives.
+
+In the genuine/genuine case, the two products are the canonical append
+continuations $\Cont(h,k,\mathsf{append}(h,k))$ and
+$\Cont(k,h,\mathsf{append}(k,h))$. Apply
+\autoref{thm:field-rat-denominator-continuation-commutative-classifier} to
+these two continuations and the two Rat denominator carriers. The resulting
+$\mathsf{RatHistoryClassifier}$ supplies the carried endpoints and the
+$\hsame$ comparison required to pack
+$\mathsf{RatDenomUnitClassifier}(\mathsf{append}(h,k),\mathsf{append}(k,h))$.
+
+In a mixed case, one endpoint is $\hsame\emp$ and the other is a genuine Rat
+denominator endpoint. The append unit law on the empty side identifies both
+products with the genuine endpoint, one directly and one after symmetry of
+$\hsame$. Transitivity of $\hsame$ gives
+$\mathsf{append}(h,k)\hsame\mathsf{append}(k,h)$, and append closure gives the
+two empty-unit carrier witnesses. These data pack the required
+$\mathsf{RatDenomUnitClassifier}$.
+
+In the empty/empty case, both inputs are $\hsame\emp$. The left and right
+append unit laws identify each product with $\emp$; symmetry and transitivity
+of $\hsame$ then identify the two products with each other. The empty branch
+of $\mathsf{RatDenomUnitCarrier}$ carries both products, so the classifier
+packing again yields
+$R_D^u(\mu_D^u(h,k),\mu_D^u(k,h))$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_commutative\_monoid\_laws}
+
+\begin{theorem}[Rat denominator empty-unit identity uniqueness]
+\label{thm:field-rat-denominator-empty-unit-identity-unique}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance},
+let $u:\mathsf{BHist}$ be a carried endpoint with $C_D^u(u)$. If $u$
+satisfies the two one-sided unit laws
+$$
+\forall h:\mathsf{BHist}.\; C_D^u(h)\to R_D^u(\mu_D^u(u,h),h)
+$$
+and
+$$
+\forall h:\mathsf{BHist}.\; C_D^u(h)\to R_D^u(\mu_D^u(h,u),h),
+$$
+then
+$$
+R_D^u(u,e_D^u).
+$$
+\end{theorem}
+\begin{proof}
+Unpack
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}. Its
+carried-unit clause gives $C_D^u(e_D^u)$, and its right-unit law with right
+factor $e_D^u$ gives $R_D^u(\mu_D^u(u,e_D^u),u)$ from the assumed carrier
+witness $C_D^u(u)$.
+
+Now apply the assumed left-unit law for $u$ at the carried endpoint $e_D^u$.
+This gives $R_D^u(\mu_D^u(u,e_D^u),e_D^u)$.
+
+Project the two $R_D^u$ classifier witnesses to their $\hsame$ components. The
+first comparison identifies $\mu_D^u(u,e_D^u)$ with $u$, and the second
+comparison identifies the same product with $e_D^u$. Symmetry and transitivity
+of $\hsame$ therefore give $u\hsame e_D^u$.
+
+Finally, repack the carrier witnesses $C_D^u(u)$ and $C_D^u(e_D^u)$ together
+with this endpoint comparison. The result is exactly $R_D^u(u,e_D^u)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_identity\_unique}
+
+Per-object template: traditional target identity uniqueness in the Rat
+denominator empty-unit monoid; BEDC source $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\mathsf{append}$, and $\emp$; carrier
+$C_D^u$; classifier $R_D^u$; stability obligation concrete one-sided unit
+collapse; ledger external-unit endpoint provenance; core theorem
+\autoref{thm:field-rat-denominator-empty-unit-identity-unique}; exactness
+predicate unit endpoints classify with $e_D^u$; standard bridge deferred;
+status $\mathsf{ProofTarget}$.
+
+\begin{definition}[Rat denominator empty-unit strict product support]
+\label{def:field-rat-denominator-empty-unit-strict-product-support}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance},
+the strict product support predicate is the genuine Rat denominator endpoint
+predicate
+$$
+N_D^u(h)\Longleftrightarrow\mathsf{RatHistoryCarrier}(h).
+$$
+Thus the empty endpoint is carried by $C_D^u$ but is not in the strict support.
+\end{definition}
+
+\begin{theorem}[Rat denominator empty-unit product nonempty iff]
+\label{thm:field-rat-denominator-empty-unit-product-nonempty-iff}
+For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, the
+empty-unit product is nonempty exactly when at least one input has strict Rat
+denominator support:
+$$
+(\mu_D^u(h,k)\hsame\emp\to\mathsf{False})
+\Longleftrightarrow
+N_D^u(h)\lor N_D^u(k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $C_D^u$, $\mu_D^u$, and $N_D^u$. The product
+$\mu_D^u(h,k)$ is $\mathsf{append}(h,k)$, with canonical continuation witness
+$\Cont(h,k,\mathsf{append}(h,k))$.
+
+For the forward direction, apply
+\autoref{thm:rat-denom-unit-continuation-nonempty-rat-endpoint} to the two
+$\mathsf{RatDenomUnitCarrier}$ witnesses and the canonical continuation. The
+assumption that $\mathsf{append}(h,k)$ is not $\hsame$ to $\emp$ is exactly the
+nonempty result condition, so the theorem returns
+$\mathsf{RatHistoryCarrier}(h)\lor\mathsf{RatHistoryCarrier}(k)$.
+
+For the reverse direction, split the strict-support disjunction. In the left
+case, split the carried endpoint $k$ into its empty and genuine alternatives.
+If $k\hsame\emp$, the right append unit law identifies
+$\mathsf{append}(h,k)$ with $h$, so any empty product would make $h\hsame\emp$,
+contradicting $\mathsf{RatHistoryCarrier\_not\_empty}$. If
+$\mathsf{RatHistoryCarrier}(k)$, apply Rat denominator continuation result
+nonemptiness to the canonical continuation.
+
+In the right strict-support case, split the carried endpoint $h$ in the same
+way. If $h\hsame\emp$, the left append unit law identifies
+$\mathsf{append}(h,k)$ with $k$, and
+$\mathsf{RatHistoryCarrier\_not\_empty}$ rejects an empty product. If
+$\mathsf{RatHistoryCarrier}(h)$, the same Rat denominator continuation result
+nonemptiness theorem applies to the canonical continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_product\_nonempty\_iff}
+
+\begin{theorem}[Rat denominator empty-unit strict product support exactness]
+\label{thm:field-rat-denominator-empty-unit-strict-product-support-exactness}
+For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, strict
+support is exact for the empty-unit product:
+$$
+N_D^u(\mu_D^u(h,k))
+\Longleftrightarrow
+N_D^u(h)\lor N_D^u(k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $N_D^u$. The forward direction starts from
+$\mathsf{RatHistoryCarrier}(\mu_D^u(h,k))$. By
+$\mathsf{RatHistoryCarrier\_not\_empty}$, the product cannot be
+$\hsame\emp$. Apply
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff} to this
+nonempty product witness and obtain $N_D^u(h)\lor N_D^u(k)$.
+
+For the reverse direction, assume $N_D^u(h)\lor N_D^u(k)$. The reverse
+direction of
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff} gives
+that $\mu_D^u(h,k)$ is not $\hsame\emp$.
+
+It remains to recover the genuine Rat carrier for the product. The closure
+clause of
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}
+applied to $C_D^u(h)$ and $C_D^u(k)$ gives
+$C_D^u(\mu_D^u(h,k))$. Apply
+$\mathsf{RatDenomUnitCarrier\_nonempty\_rat}$ to this carried-product witness
+and the nonempty product witness. The result is
+$\mathsf{RatHistoryCarrier}(\mu_D^u(h,k))$, equivalently
+$N_D^u(\mu_D^u(h,k))$.
+\end{proof}
+
+Per-object template: traditional target strict support for the empty-unit
+denominator multiplication; BEDC source $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatDenomUnitCarrier}$, and $\Cont$; carrier $C_D^u$; classifier
+$R_D^u$; stability obligation product support exactness; ledger continuation
+witness; core theorem
+\autoref{thm:field-rat-denominator-empty-unit-strict-product-support-exactness};
+exactness predicate strict product support iff genuine denominator input;
+standard bridge ordinary denominator monoid support; status
+$\mathsf{ProofTarget}$.
+
+\begin{definition}[Rat denominator empty-unit multiplicative substrate]
+\label{def:field-rat-denominator-empty-unit-multiplicative-substrate}
+The denominator-side multiplicative substrate for
+$\FieldUp(\mathsf{RatUp})$ is the concrete $\mathsf{BHist}$ tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ with carrier
+$\mathsf{RatDenomUnitCarrier}$, classifier
+$\mathsf{RatDenomUnitClassifier}$, multiplication
+$\mu_D^u(h,k):=\mathsf{append}(h,k)$ equipped with the canonical continuation
+$\Cont(h,k,\mathsf{append}(h,k))$, unit $e_D^u:=\emp$, and strict support
+$N_D^u(h)$ given by $\mathsf{RatHistoryCarrier}(h)$. Thus the denominator
+schema instance is the concrete append substrate over $\mathsf{BHist}$, with
+the empty endpoint adjoined only as the unit and not as an uninterpreted
+multiplication input.
+\end{definition}
+
+\begin{theorem}[Rat denominator empty-unit multiplicative substrate laws]
+\label{thm:field-rat-denominator-empty-unit-multiplicative-substrate-laws}
+For the substrate
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-multiplicative-substrate}, the
+following concrete laws hold.
+\begin{enumerate}
+  \item The unit is carried: $C_D^u(e_D^u)$.
+  \item The carrier is closed under multiplication: if $C_D^u(h)$ and
+  $C_D^u(k)$, then $C_D^u(\mu_D^u(h,k))$.
+  \item The unit laws hold: if $C_D^u(h)$, then
+  $R_D^u(\mu_D^u(e_D^u,h),h)$ and $R_D^u(\mu_D^u(h,e_D^u),h)$.
+  \item Multiplication is associative up to the classifier: if $C_D^u(h)$,
+  $C_D^u(k)$, and $C_D^u(\ell)$, then
+  $R_D^u(\mu_D^u(\mu_D^u(h,k),\ell),\mu_D^u(h,\mu_D^u(k,\ell)))$.
+  \item The operation respects binary classifier input: if $R_D^u(h,h')$ and
+  $R_D^u(k,k')$, then $R_D^u(\mu_D^u(h,k),\mu_D^u(h',k'))$.
+  \item Multiplication is commutative up to the classifier: if $C_D^u(h)$ and
+  $C_D^u(k)$, then $R_D^u(\mu_D^u(h,k),\mu_D^u(k,h))$.
+  \item Strict support is exact for products: if $C_D^u(h)$ and $C_D^u(k)$,
+  then
+  $$
+  (\mu_D^u(h,k)\hsame\emp\to\mathsf{False})
+  \Longleftrightarrow
+  N_D^u(h)\lor N_D^u(k).
+  $$
+  \item Empty endpoint contexts preserve and reflect the classifier: if
+  $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then
+  $$
+  R_D^u(\mathsf{append}(p,\mathsf{append}(h,q)),
+  \mathsf{append}(p',\mathsf{append}(k,q')))
+  \Longleftrightarrow
+  R_D^u(h,k).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the concrete substrate of
+\autoref{def:field-rat-denominator-empty-unit-multiplicative-substrate}. The
+carried unit, closure, left and right unit laws, associativity, and binary
+classifier congruence are the five laws supplied by
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}.
+
+Commutativity is the additional classifier law of
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws}; it uses
+the same carried endpoints and the concrete append multiplication of the
+substrate.
+
+The strict support clause is exactly
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff}, because
+$N_D^u$ is $\mathsf{RatHistoryCarrier}$ and the product is
+$\mathsf{append}(h,k)$ with its canonical continuation witness.
+
+For the empty-context classifier clause, replace $R_D^u$ by
+$\mathsf{RatDenomUnitClassifier}$ and apply
+\autoref{thm:rat-denom-unit-classifier-empty-context-iff}.
+This proves preservation and reflection for the same concrete classifier used
+by the substrate.
+\end{proof}
+
+\begin{theorem}[Rat denominator empty-unit classifier empty-context exactness]
+\label{thm:rat-denom-unit-classifier-empty-context-iff}
+\label{thm:field-rat-denominator-unit-classifier-empty-context-exactness}
+For histories $p,q,p',q',h,k:\mathsf{BHist}$, if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then
+empty endpoint contexts do not change the empty-unit denominator classifier:
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(p,\mathsf{append}(h,q)),
+\mathsf{append}(p',\mathsf{append}(k,q')))
+\Longleftrightarrow
+\mathsf{RatDenomUnitClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatDenomUnitClassifier}$ into the two
+$\mathsf{RatDenomUnitCarrier}$ endpoints and the endpoint comparison by
+$\hsame$. The carrier endpoints are handled by
+\autoref{thm:rat-denom-unit-carrier-empty-context-iff}, once for
+$(p,q,h)$ and once for $(p',q',k)$.
+
+For the forward direction, the contextual classifier supplies the two
+contextual carrier witnesses and the comparison between the contextual
+endpoints. The two carrier equivalences transport the carrier witnesses back
+to $h$ and $k$. The empty left and right append unit laws identify
+$\mathsf{append}(p,\mathsf{append}(h,q))$ with $h$ and
+$\mathsf{append}(p',\mathsf{append}(k,q'))$ with $k$; composing these
+identifications by symmetry and transitivity with the contextual comparison
+gives $h\hsame k$. These three pieces repack
+$\mathsf{RatDenomUnitClassifier}(h,k)$.
+
+For the reverse direction, start from the carrier witnesses for $h$ and $k$
+and from $h\hsame k$. The same two carrier equivalences transport membership
+to the contextual endpoints. The empty append identifications transport
+$h\hsame k$ to the contextual endpoint comparison, again using symmetry and
+transitivity of $\hsame$. The transported carriers and transported endpoint
+comparison pack the contextual classifier.
+
+This is not a variant of the carrier exactness theorem: it proves full
+classifier preservation by combining carrier exactness at both endpoints with
+transport of the endpoint $\hsame$ relation. Consequently the
+$\FieldUp(\mathsf{RatUp})$ denominator envelope can read an empty external
+unit context by the normalized classifier on the core endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_empty\_context\_iff}

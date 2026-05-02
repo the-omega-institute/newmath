@@ -1,4 +1,5 @@
 import BEDC.Derived.FieldUp.RatBoundary
+import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.FieldUp
 
@@ -158,6 +159,62 @@ theorem field_rat_denominator_empty_unit_continuation_monoid_laws :
               (cont_intro rfl)
           exact ⟨carrierHK, carrierH'K', sameAppend⟩
 
+theorem field_rat_denominator_empty_unit_commutative_monoid_laws :
+    RatDenomUnitCarrier BHist.Empty ∧
+      (∀ {h k : BHist}, RatDenomUnitCarrier h -> RatDenomUnitCarrier k ->
+        RatDenomUnitCarrier (append h k)) ∧
+      (∀ {h : BHist}, RatDenomUnitCarrier h ->
+        RatDenomUnitClassifier (append BHist.Empty h) h ∧
+          RatDenomUnitClassifier (append h BHist.Empty) h) ∧
+      (∀ {h k l : BHist}, RatDenomUnitCarrier h -> RatDenomUnitCarrier k ->
+        RatDenomUnitCarrier l ->
+          RatDenomUnitClassifier (append (append h k) l) (append h (append k l))) ∧
+      (∀ {h h' k k' : BHist}, RatDenomUnitClassifier h h' ->
+        RatDenomUnitClassifier k k' ->
+          RatDenomUnitClassifier (append h k) (append h' k')) ∧
+      (∀ {h k : BHist}, RatDenomUnitCarrier h -> RatDenomUnitCarrier k ->
+        RatDenomUnitClassifier (append h k) (append k h)) := by
+  constructor
+  · exact field_rat_denominator_empty_unit_continuation_monoid_laws.left
+  · constructor
+    · exact field_rat_denominator_empty_unit_continuation_monoid_laws.right.left
+    · constructor
+      · exact field_rat_denominator_empty_unit_continuation_monoid_laws.right.right.left
+      · constructor
+        · exact field_rat_denominator_empty_unit_continuation_monoid_laws.right.right.right.left
+        · constructor
+          · exact field_rat_denominator_empty_unit_continuation_monoid_laws.right.right.right.right
+          · intro h k carrierH carrierK
+            have carrierHK : RatDenomUnitCarrier (append h k) :=
+              RatDenomUnitCarrier_continuation_closed carrierH carrierK (cont_intro rfl)
+            have carrierKH : RatDenomUnitCarrier (append k h) :=
+              RatDenomUnitCarrier_continuation_closed carrierK carrierH (cont_intro rfl)
+            have sameHK : hsame (append h k) (append k h) := by
+              cases carrierH with
+              | inl emptyH =>
+                  cases emptyH
+                  cases carrierK with
+                  | inl emptyK =>
+                      cases emptyK
+                      rfl
+                  | inr ratK =>
+                      exact (append_empty_left k).trans (append_empty_right k).symm
+              | inr ratH =>
+                  cases carrierK with
+                  | inl emptyK =>
+                      cases emptyK
+                      exact (append_empty_right h).trans (append_empty_left h).symm
+                  | inr ratK =>
+                      have unaryH : UnaryHistory h :=
+                        (PositiveUnaryDenominator_unary_and_nonempty
+                          (RatHistoryCarrier_iff_positive_denominator.mp ratH)).left
+                      have unaryK : UnaryHistory k :=
+                        (PositiveUnaryDenominator_unary_and_nonempty
+                          (RatHistoryCarrier_iff_positive_denominator.mp ratK)).left
+                      exact unary_continuation_commutativity unaryH unaryK (cont_intro rfl)
+                        (cont_intro rfl)
+            exact ⟨carrierHK, carrierKH, sameHK⟩
+
 theorem RatDenomUnitCarrier_e1_tail_unary_iff {tail : BHist} :
     RatDenomUnitCarrier (BHist.e1 tail) ↔ UnaryHistory tail := by
   constructor
@@ -196,5 +253,98 @@ theorem RatDenomUnitCarrier_empty_context_iff {p q h : BHist} :
     exact RatDenomUnitCarrier_hsame_transport (append_empty_left h) carrier
   · intro carrier
     exact RatDenomUnitCarrier_hsame_transport (hsame_symm (append_empty_left h)) carrier
+
+theorem field_rat_denominator_empty_unit_product_nonempty_iff {h k : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k ->
+      ((hsame (append h k) BHist.Empty -> False) ↔
+        RatHistoryCarrier h ∨ RatHistoryCarrier k) := by
+  intro carrierH carrierK
+  constructor
+  · intro nonemptyProduct
+    exact
+      RatDenomUnitCarrier_continuation_nonempty_rat_endpoint carrierH carrierK (cont_intro rfl)
+        nonemptyProduct
+  · intro strictSupport productEmpty
+    cases strictSupport with
+    | inl ratH =>
+        cases carrierK with
+        | inl emptyK =>
+            have sameProductH : hsame (append h k) h :=
+              cont_respects_hsame (hsame_refl h) emptyK (cont_intro rfl) (cont_right_unit h)
+            exact RatHistoryCarrier_not_empty ratH
+              (hsame_trans (hsame_symm sameProductH) productEmpty)
+        | inr ratK =>
+            have productCarrier : RatHistoryCarrier (append h k) :=
+              field_rat_denominator_continuation_carrier_closure ratH ratK (cont_intro rfl)
+            exact RatHistoryCarrier_not_empty productCarrier productEmpty
+    | inr ratK =>
+        cases carrierH with
+        | inl emptyH =>
+            have sameProductK : hsame (append h k) k :=
+              cont_respects_hsame emptyH (hsame_refl k) (cont_intro rfl) (cont_left_unit k)
+            exact RatHistoryCarrier_not_empty ratK
+              (hsame_trans (hsame_symm sameProductK) productEmpty)
+        | inr ratH =>
+            have productCarrier : RatHistoryCarrier (append h k) :=
+              field_rat_denominator_continuation_carrier_closure ratH ratK (cont_intro rfl)
+            exact RatHistoryCarrier_not_empty productCarrier productEmpty
+
+theorem RatDenomUnitClassifier_empty_context_iff {p q p' q' h k : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty ->
+        (RatDenomUnitClassifier (append p (append h q)) (append p' (append k q')) ↔
+          RatDenomUnitClassifier h k) := by
+  intro sameP sameQ sameP' sameQ'
+  have leftCarrierIff := RatDenomUnitCarrier_empty_context_iff (p := p) (q := q)
+    (h := h) sameP sameQ
+  have rightCarrierIff := RatDenomUnitCarrier_empty_context_iff (p := p') (q := q')
+    (h := k) sameP' sameQ'
+  have leftSame : hsame (append p (append h q)) h := by
+    cases sameP
+    cases sameQ
+    exact hsame_trans (append_empty_left (append h BHist.Empty)) (append_empty_right h)
+  have rightSame : hsame (append p' (append k q')) k := by
+    cases sameP'
+    cases sameQ'
+    exact hsame_trans (append_empty_left (append k BHist.Empty)) (append_empty_right k)
+  constructor
+  · intro classified
+    have carrierH : RatDenomUnitCarrier h := Iff.mp leftCarrierIff classified.left
+    have carrierK : RatDenomUnitCarrier k := Iff.mp rightCarrierIff classified.right.left
+    have sameHK : hsame h k :=
+      hsame_trans (hsame_symm leftSame)
+        (hsame_trans classified.right.right rightSame)
+    exact ⟨carrierH, carrierK, sameHK⟩
+  · intro classified
+    have carrierLeft : RatDenomUnitCarrier (append p (append h q)) :=
+      Iff.mpr leftCarrierIff classified.left
+    have carrierRight : RatDenomUnitCarrier (append p' (append k q')) :=
+      Iff.mpr rightCarrierIff classified.right.left
+    have sameContext : hsame (append p (append h q)) (append p' (append k q')) :=
+      hsame_trans leftSame
+        (hsame_trans classified.right.right (hsame_symm rightSame))
+    exact ⟨carrierLeft, carrierRight, sameContext⟩
+
+theorem field_rat_denominator_empty_unit_identity_unique {u : BHist} :
+    RatDenomUnitCarrier u ->
+      (forall {h : BHist}, RatDenomUnitCarrier h ->
+        RatDenomUnitClassifier (append u h) h) ->
+      (forall {h : BHist}, RatDenomUnitCarrier h ->
+        RatDenomUnitClassifier (append h u) h) ->
+        RatDenomUnitClassifier u BHist.Empty := by
+  intro carrierU leftUnit _rightUnit
+  have carrierEmpty : RatDenomUnitCarrier BHist.Empty :=
+    field_rat_denominator_empty_unit_continuation_monoid_laws.left
+  have leftAtEmpty : RatDenomUnitClassifier (append u BHist.Empty) BHist.Empty :=
+    leftUnit carrierEmpty
+  have sameUEmpty : hsame u BHist.Empty :=
+    hsame_trans (hsame_symm (append_empty_right u)) leftAtEmpty.right.right
+  exact ⟨carrierU, carrierEmpty, sameUEmpty⟩
+
+theorem field_rat_denominator_empty_unit_right_cancel {h k t : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier t ->
+      RatDenomUnitClassifier (append h t) (append k t) -> RatDenomUnitClassifier h k := by
+  intro carrierH carrierK _carrierT classified
+  exact ⟨carrierH, carrierK, append_right_cancel classified.right.right⟩
 
 end BEDC.Derived.FieldUp

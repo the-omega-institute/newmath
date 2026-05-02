@@ -61,6 +61,29 @@ theorem fieldSingletonEmptyNonZero_append_visible_right {p q : BHist} :
     have emptyParts := append_eq_empty_iff.mp classified.left
     cases emptyParts.right
 
+theorem fieldSingletonEmptyNonZero_append_context_cancel_iff {L R Q : BHist} :
+    fieldSingletonEmptyCarrier L -> fieldSingletonEmptyCarrier R ->
+      (fieldSingletonEmptyNonZero (append L (append Q R)) <->
+        fieldSingletonEmptyNonZero Q) := by
+  intro carrierL carrierR
+  constructor
+  · intro contextNonzero
+    intro qClassified
+    have innerCarrier : fieldSingletonEmptyCarrier (append Q R) :=
+      append_eq_empty_iff.mpr (And.intro qClassified.left carrierR)
+    have contextCarrier : fieldSingletonEmptyCarrier (append L (append Q R)) :=
+      append_eq_empty_iff.mpr (And.intro carrierL innerCarrier)
+    exact contextNonzero
+      (And.intro contextCarrier
+        (And.intro (hsame_refl BHist.Empty) contextCarrier))
+  · intro qNonzero
+    intro contextClassified
+    have outerSplit := append_eq_empty_iff.mp contextClassified.left
+    have innerSplit := append_eq_empty_iff.mp outerSplit.right
+    exact qNonzero
+      (And.intro innerSplit.left
+        (And.intro (hsame_refl BHist.Empty) innerSplit.left))
+
 theorem FieldSingletonCarrier_append_visible_head_absurd {h k : BHist} :
     (FieldSingletonCarrier (append (BHist.e0 h) k) -> False) ∧
       (FieldSingletonCarrier (append (BHist.e1 h) k) -> False) := by
@@ -71,6 +94,17 @@ theorem FieldSingletonCarrier_append_visible_head_absurd {h k : BHist} :
   · intro carrier
     have emptyParts := append_eq_empty_iff.mp carrier
     cases emptyParts.left
+
+theorem FieldSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
+    (FieldSingletonCarrier (append p (BHist.e0 q)) -> False) ∧
+      (FieldSingletonCarrier (append p (BHist.e1 q)) -> False) := by
+  constructor
+  · intro carrier
+    have emptyParts := append_eq_empty_iff.mp carrier
+    exact not_hsame_e0_empty emptyParts.right
+  · intro carrier
+    have emptyParts := append_eq_empty_iff.mp carrier
+    exact not_hsame_e1_empty emptyParts.right
 
 theorem FieldSingletonClassifier_append_visible_prefix_absurd {p q h : BHist} :
     (FieldSingletonClassifier (append (BHist.e0 p) q) h -> False) ∧
@@ -123,5 +157,37 @@ theorem FieldSingletonClassifier_append_right_cancel_iff {P Q R : BHist} :
       hsame_trans (append_empty_right Q)
         (hsame_trans classified.right.right (hsame_symm (append_empty_right R)))
     exact And.intro leftCarrier (And.intro rightCarrier sameAppend)
+
+theorem FieldSingletonCarrier_append_context_empty_iff {L R h : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R ->
+      (FieldSingletonCarrier (append L (append h R)) ↔ FieldSingletonCarrier h) := by
+  intro carrierL carrierR
+  constructor
+  · intro carrier
+    have outerSplit := append_eq_empty_iff.mp carrier
+    have innerSplit := append_eq_empty_iff.mp outerSplit.right
+    exact innerSplit.left
+  · intro carrier
+    have innerCarrier : FieldSingletonCarrier (append h R) :=
+      append_eq_empty_iff.mpr (And.intro carrier carrierR)
+    exact append_eq_empty_iff.mpr (And.intro carrierL innerCarrier)
+
+theorem FieldSingletonClassifier_append_context_empty_iff {L R h k : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R ->
+      (FieldSingletonClassifier (append L h) (append k R) ↔ FieldSingletonClassifier h k) := by
+  intro carrierL carrierR
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.right
+      (And.intro rightSplit.left (hsame_trans leftSplit.right (hsame_symm rightSplit.left)))
+  · intro classified
+    have leftCarrier : FieldSingletonCarrier (append L h) :=
+      append_eq_empty_iff.mpr (And.intro carrierL classified.left)
+    have rightCarrier : FieldSingletonCarrier (append k R) :=
+      append_eq_empty_iff.mpr (And.intro classified.right.left carrierR)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
 end BEDC.Derived.FieldUp

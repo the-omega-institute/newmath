@@ -1,0 +1,104 @@
+\begin{theorem}[Rat denominator empty-unit strict-support FieldUp subcertificate]
+\label{thm:field-rat-denominator-empty-unit-strict-support-field-subcertificate}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance} and
+the strict support predicate $N_D^u$ of
+\autoref{def:field-rat-denominator-empty-unit-strict-product-support}, the
+FieldUp denominator side over $\mathsf{BHist}$ carries the following concrete
+strict-support subcertificate.
+\begin{enumerate}
+\item The empty-unit commutative monoid laws hold for
+$(C_D^u,R_D^u,\mu_D^u,e_D^u)$, including commutativity up to $R_D^u$.
+
+\item For all carried histories $h,k:\mathsf{BHist}$, classifier transport
+preserves and reflects strict support:
+$$
+R_D^u(h,k)\to (N_D^u(h)\Longleftrightarrow N_D^u(k)).
+$$
+
+\item For all carried histories $h,k:\mathsf{BHist}$, strict support is exact
+for the product:
+$$
+N_D^u(\mu_D^u(h,k))\Longleftrightarrow N_D^u(h)\lor N_D^u(k).
+$$
+
+\item For every carried history $u:\mathsf{BHist}$, if $u$ satisfies both
+one-sided unit laws against all carried histories, then
+$$
+R_D^u(u,e_D^u).
+$$
+
+\item For all carried histories $h,k,t:\mathsf{BHist}$, classifier equality is
+cancellative for a common carried factor on the right and on the left:
+$$
+R_D^u(\mu_D^u(h,t),\mu_D^u(k,t))\to R_D^u(h,k),
+$$
+and
+$$
+R_D^u(\mu_D^u(t,h),\mu_D^u(t,k))\to R_D^u(h,k).
+$$
+
+\item For histories $p,q,p',q',h,k:\mathsf{BHist}$, empty endpoint contexts
+preserve and reflect the classifier:
+if $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then
+$$
+R_D^u(\mathsf{append}(p,\mathsf{append}(h,q)),
+\mathsf{append}(p',\mathsf{append}(k,q')))
+\Longleftrightarrow
+R_D^u(h,k).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first field is exactly the concrete commutative monoid boundary of
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws}. It
+anchors the carrier, classifier, multiplication, and empty unit in the
+$\mathsf{BHist}$ tuple rather than in an abstract monoid variable.
+
+For support transport, unfold $R_D^u$ as
+$\mathsf{RatDenomUnitClassifier}$ and $N_D^u$ as
+$\mathsf{RatHistoryCarrier}$. A classifier witness supplies the endpoint
+$\hsame$ comparison between $h$ and $k$; applying
+$\mathsf{RatHistoryCarrier\_hsame\_transport}$ in both directions gives
+$N_D^u(h)\Longleftrightarrow N_D^u(k)$.
+
+The product support field is supplied by
+\autoref{thm:field-rat-denominator-empty-unit-strict-product-support-exactness}.
+Its predicate is the $N_D^u$ introduced in
+\autoref{def:field-rat-denominator-empty-unit-strict-product-support}, so the
+empty endpoint remains carried while the genuine Rat denominator endpoint is the
+only strict support source.
+
+The unit field is
+\autoref{thm:field-rat-denominator-empty-unit-identity-unique}. It takes an
+arbitrary carried two-sided unit witness $u$ and classifies it against the
+distinguished endpoint $e_D^u$.
+
+The cancellation field is the two-sided classifier cancellation package of
+\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package}.
+
+The empty-context field is exactly the preservation-and-reflection theorem
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}.
+It uses the same classifier $R_D^u=\mathsf{RatDenomUnitClassifier}$ and the
+same append operation as the tuple.
+
+Together these clauses compose the carrier and classifier laws, strict-support
+transport, product support exactness, unit uniqueness, cancellation, and
+empty-context classifier exactness into the concrete denominator boundary
+required by the $\FieldUp(\mathsf{RatUp})$ exit criterion.
+\end{proof}
+
+\textbf{Traditional target}: FieldUp strict-support denominator subcertificate
+for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{RatHistoryCarrier}$, $\Cont$, and $\mathsf{append}$; \textbf{carrier}:
+$C_D^u$; \textbf{classifier}: $R_D^u$; \textbf{stability obligations}:
+commutative monoid laws, strict support transport, product support
+exactness, unit uniqueness, two-sided cancellation, and empty-context classifier
+exactness; \textbf{ledger}: empty-unit endpoint provenance plus shared
+denominator continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-empty-unit-strict-support-field-subcertificate};
+\textbf{exactness predicate}: genuine denominator support is invariant under the
+classifier and exact under empty-unit products; \textbf{standard bridge}:
+ordinary positive-denominator multiplication with an adjoined empty unit;
+\textbf{status}: $\mathsf{ProofTarget}$.

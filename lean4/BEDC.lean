@@ -167,9 +167,12 @@ import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatDenomUnit
 import BEDC.Derived.FieldUp.RatContinuation
+import BEDC.Derived.FieldUp.RatContinuationAppendComm
+import BEDC.Derived.FieldUp.RatContinuationCommutative
 import BEDC.Derived.FieldUp.RatDenominatorUnitEnvelopeContinuation
 import BEDC.Derived.FieldUp.DenominatorUnitEnvelope
 import BEDC.Derived.FieldUp.ProductRightEquation
+import BEDC.Derived.FieldUp.ProductWitnessIndependence
 import BEDC.Derived.FieldUp.RatContinuationExternalBoundary
 import BEDC.Derived.FieldUp.PositiveDenominatorAppendSplit
 import BEDC.Derived.FpsUp
@@ -205,10 +208,12 @@ import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.EndpointCycle
 import BEDC.Derived.CategoryUp.ContinuationTailIdentitySquare
 import BEDC.Derived.CategoryUp.SemanticCertificate
 import BEDC.Derived.CategoryUp.IdentityLaw
 import BEDC.Derived.CategoryUp.Cycle
+import BEDC.Derived.CategoryUp.PrefixCycle
 import BEDC.Derived.CategoryUp.SourceEmpty
 import BEDC.Derived.CategoryUp.Prefix
 import BEDC.Derived.CategoryUp.ContinuationCertificate

@@ -222,6 +222,20 @@ theorem CategoryHomCarrier_e1_source_e1_target_morphism_alignment {a r m n : BHi
                       (Exists.intro l
                         (And.intro rfl (And.intro rfl (BHist.e1.inj sameMorphism)))))
 
+theorem CategoryHomCarrier_e1_source_e1_target_nonempty_morphism_alignment {a r m n : BHist} :
+    CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) m ->
+      CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) n ->
+        (hsame m BHist.Empty -> False) ->
+          exists k : BHist, exists l : BHist, m = BHist.e1 k /\ n = BHist.e1 l /\
+            hsame k l := by
+  intro left right nonempty
+  have alignment := CategoryHomCarrier_e1_source_e1_target_morphism_alignment left right
+  cases alignment with
+  | inl emptyCase =>
+      exact False.elim (nonempty (by cases emptyCase.left; exact hsame_refl BHist.Empty))
+  | inr visibleCase =>
+      exact visibleCase
+
 theorem CategoryHomCarrier_comp_e1_morphism_target_factor {a b c f g k : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e1 k) ->
       ∃ r : BHist, c = BHist.e1 r ∧ CategoryHomCarrier a r k ∧

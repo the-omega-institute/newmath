@@ -20,32 +20,37 @@ $$
 \leandef{BEDC.Derived.FieldUp.RatDenomUnitCarrier}
 \leandef{BEDC.Derived.FieldUp.RatDenomUnitClassifier}
 
-\begin{theorem}[Rat denominator unit carrier stability package]
-\label{thm:rat-denom-unit-carrier-stability-package}
-For histories $h,k,r,h':\mathsf{BHist}$, the concrete denominator unit carrier
-has the following two stability closures.
-\begin{enumerate}
-\item If $h\hsame h'$ and $\mathsf{RatDenomUnitCarrier}(h)$, then
-$\mathsf{RatDenomUnitCarrier}(h')$.
-\item If $\mathsf{RatDenomUnitCarrier}(h)$,
-$\mathsf{RatDenomUnitCarrier}(k)$, and $\Cont(h,k,r)$, then
-$\mathsf{RatDenomUnitCarrier}(r)$.
-\end{enumerate}
+\begin{theorem}[Rat denominator unit carrier history-sameness transport]
+\label{thm:rat-denom-unit-carrier-hsame-transport}
+For histories $h,k:\mathsf{BHist}$, if $h\hsame k$ and
+$\mathsf{RatDenomUnitCarrier}(h)$, then
+$\mathsf{RatDenomUnitCarrier}(k)$.
 \end{theorem}
 \begin{proof}
-For transport, split the carrier disjunction for $h$. In the empty branch,
-compose $h\hsame h'$ with the displayed comparison $h\hsame\emp$ and symmetry
-or transitivity of $\hsame$ to obtain $h'\hsame\emp$. This selects the empty
-branch of $\mathsf{RatDenomUnitCarrier}(h')$.
+Split the carrier disjunction for $h$. In the empty branch, compose
+$h\hsame k$ with the displayed comparison $h\hsame\emp$ and symmetry or
+transitivity of $\hsame$ to obtain $k\hsame\emp$. This selects the empty
+branch of $\mathsf{RatDenomUnitCarrier}(k)$.
 
 In the Rat branch, apply Rat carrier transport along the $\hsame$ comparison
-from $h$ to $h'$. The resulting $\mathsf{RatHistoryCarrier}(h')$ witness selects
+from $h$ to $k$. The resulting $\mathsf{RatHistoryCarrier}(k)$ witness selects
 the Rat branch of the denominator unit carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_hsame\_transport}
 
-For continuation closure, split the two input carriers. The empty/empty case
-uses the two continuation unit laws to identify the result with $\emp$, hence
-the result lies in the empty branch. In the two mixed cases, the corresponding
-unit law identifies the continuation result with the nonempty input; use
+\begin{theorem}[Rat denominator unit carrier continuation closure]
+\label{thm:rat-denom-unit-carrier-continuation-closed}
+For histories $h,k,r:\mathsf{BHist}$, if
+$\mathsf{RatDenomUnitCarrier}(h)$, $\mathsf{RatDenomUnitCarrier}(k)$, and
+$\Cont(h,k,r)$, then $\mathsf{RatDenomUnitCarrier}(r)$.
+\end{theorem}
+\begin{proof}
+Split the two input carriers. The empty/empty case uses the two continuation
+unit laws to identify the result with $\emp$, hence the result lies in the
+empty branch.
+
+In the two mixed cases, the corresponding unit law identifies the continuation
+result with the nonempty input; use
 $\mathsf{cont\_respects\_hsame}$ and Rat carrier transport to move the Rat
 carrier witness to $r$.
 
@@ -53,14 +58,16 @@ In the Rat/Rat case, apply the Rat denominator continuation carrier-closure
 theorem directly. The resulting $\mathsf{RatHistoryCarrier}(r)$ witness selects
 the Rat branch of $\mathsf{RatDenomUnitCarrier}(r)$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_continuation\_closed}
 
 The per-object certificate has ten fields: traditional target carrier stability
 for the denominator unit fragment; BEDC source $\mathsf{BHist}$,
 $\mathsf{RatHistoryCarrier}$, and $\Cont$; carrier
 $\mathsf{RatDenomUnitCarrier}$; classifier
 $\mathsf{RatDenomUnitClassifier}$; stability obligations transport and
-continuation closure; ledger continuation witnesses; core theorem
-Theorem~\ref{thm:rat-denom-unit-carrier-stability-package}; exactness predicate
+continuation closure; ledger continuation witnesses; core theorems
+\ref{thm:rat-denom-unit-carrier-hsame-transport}
+and~\ref{thm:rat-denom-unit-carrier-continuation-closed}; exactness predicate
 preservation of admitted endpoints; standard bridge deferred; status
 $\mathsf{ProofTarget}$.
 
@@ -263,4 +270,25 @@ $$
 $$
 \end{theorem}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_continuation\_closed}
+
+\begin{theorem}[Rat denominator unit classifier append commutativity]
+\label{thm:field-rat-denom-unit-classifier-append-comm}
+If two histories \(h,k:\mathsf{BHist}\) are carried by the adjoined empty-unit
+denominator carrier, then the two append products classify each other:
+$$
+\mathsf{RatDenomUnitClassifier}
+\bigl(\mathsf{append}(h,k),\mathsf{append}(k,h)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Split the two carrier witnesses into the empty endpoint branch and the
+rational-denominator branch. The empty--empty and mixed cases use the
+continuation left and right unit laws to compare each append result with the
+nonempty endpoint, or with \(\emp\) in the empty--empty case. When both
+endpoints are rational denominator histories, use the denominator continuation
+commutative classifier theorem on the two canonical append continuations.
+In every case, continuation closure supplies the carried evidence for both
+append results.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_comm}
 \input{parts/concrete_instances/field/20_field_rat_denominator_unit_obstruction_continuation_closure}

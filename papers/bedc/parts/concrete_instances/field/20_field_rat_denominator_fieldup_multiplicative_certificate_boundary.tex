@@ -1,0 +1,48 @@
+\begin{theorem}[Rat denominator FieldUp multiplicative certificate boundary]
+\label{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
+Let the denominator carrier, classifier, multiplication, unit, and strict
+support be the concrete $\mathsf{BHist}$ data
+$$
+C_D^\ast(h),\qquad
+R_D^\ast(h,k),\qquad
+\mu_D^\ast(h,k):=\mathsf{append}(h,k),\qquad
+e_D^\ast:=\emp,\qquad
+N_D^\ast(h):=\mathsf{RatHistoryCarrier}(h).
+$$
+This tuple supplies the denominator-side multiplicative certificate boundary
+for $\FieldUp(\mathsf{RatUp})$: envelope classifier exactness, monoid laws,
+commutativity, strict-support transport, product-support exactness, empty-unit
+identity uniqueness, and carried-endpoint cancellation all hold for the
+displayed $\mathsf{BHist}$ denominator package.
+\end{theorem}
+\begin{proof}
+The carrier, classifier, operation, and unit are the external-unit envelope
+data of \autoref{def:field-rat-denominator-unit-envelope}. Its classifier
+boundary is exactly
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-exactness}.
+
+The algebraic envelope comes from two checked components. The monoid laws are
+those of \autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}, and the
+commutative law is supplied by
+\autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws}.
+
+The strict support named in the statement is the support predicate of
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws}. That
+theorem gives both classifier transport for $N_D^\ast$ and the exact product
+law
+$$
+N_D^\ast(\mu_D^\ast(h,k))\Longleftrightarrow
+N_D^\ast(h)\lor N_D^\ast(k).
+$$
+
+The empty endpoint is controlled by
+\autoref{thm:field-rat-denominator-empty-unit-identity-unique}, which identifies
+any carried two-sided identity with $e_D^\ast=\emp$ through the endpoint
+classifier. The carried cancellation part is the cancellation field of
+\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package},
+read on the same denominator append operation and the same empty endpoint.
+
+Combining these clauses gives a single concrete denominator-side
+multiplicative boundary for $\FieldUp(\mathsf{RatUp})$, with no abstract carrier
+or classifier left to choose.
+\end{proof}

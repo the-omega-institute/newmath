@@ -258,6 +258,23 @@ Continuation result determinacy then identifies the two target histories.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_target\_deterministic}
 
+\begin{theorem}[Category empty-target hom chain inversion]
+\label{thm:category-hom-carrier-empty-target-chain-inversion}
+If $f$ is a hom-carrier from $a$ to $b$ and $g$ is a hom-carrier from $b$ to
+$\emp$, then the source, middle object, and both displayed morphisms are all
+history-same to $\emp$:
+$$
+\hsame(a,\emp)\land\hsame(b,\emp)\land\hsame(f,\emp)\land\hsame(g,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Empty-target exactness applied to the right hom-carrier identifies $b$ and
+$g$ with $\emp$. Transporting the left hom-carrier along this target
+identification makes it a hom-carrier into $\emp$, so empty-target exactness
+applied again identifies $a$ and $f$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_target\_chain\_inversion}
+
 \begin{theorem}[Continuation morphism empty target inversion]
 \label{thm:continuation-morphism-empty-target-inversion}
 For a continuation morphism from $source$ to $\emp$, both the source and the

@@ -449,41 +449,43 @@ theorem CategoryHomCarrier_left_e1_result_cases {a k r : BHist} :
                       (And.intro rfl
                         (And.intro (unary_e1_inversion morphCarrier)
                           (BHist.e1.inj homCont))))
+theorem CategoryHomCarrier_e1_source_e1_target_nonempty_morphism_cases {a r morph : BHist} :
+    CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) morph ->
+      (hsame morph BHist.Empty -> False) ->
+        exists k : BHist, morph = BHist.e1 k /\ UnaryHistory a /\ UnaryHistory k /\
+          UnaryHistory r /\ Cont (BHist.e1 a) k r := by
+  intro homCarrier nonempty
+  have targetCarrier : UnaryHistory r := unary_e1_inversion homCarrier.right.left
+  cases CategoryHomCarrier_left_e1_result_cases homCarrier with
+  | inl emptyCase =>
+      exact False.elim (nonempty (by cases emptyCase.left; exact hsame_refl BHist.Empty))
+  | inr visibleCase =>
+      cases visibleCase with
+      | intro k data =>
+          exact Exists.intro k
+            (And.intro data.left
+              (And.intro (unary_e1_inversion homCarrier.left)
+                (And.intro data.right.left (And.intro targetCarrier data.right.right))))
 theorem CategoryHomCarrier_e1_morphism_target_iff {a k r : BHist} :
     CategoryHomCarrier a (BHist.e1 r) (BHist.e1 k) <->
       UnaryHistory a ∧ UnaryHistory k ∧ Cont a k r := by
   constructor
   · intro homCarrier
-    cases homCarrier with
-    | intro sourceCarrier rest =>
-        cases rest with
-        | intro _targetCarrier rest =>
-            cases rest with
-            | intro morphCarrier homCont =>
-                exact And.intro sourceCarrier
-                  (And.intro (unary_e1_inversion morphCarrier) (BHist.e1.inj homCont))
+    exact And.intro homCarrier.left
+      (And.intro (unary_e1_inversion homCarrier.right.right.left)
+        (BHist.e1.inj homCarrier.right.right.right))
   · intro data
-    cases data with
-    | intro sourceCarrier rest =>
-        cases rest with
-        | intro morphCarrier homCont =>
-            exact And.intro sourceCarrier
-              (And.intro
-                (unary_e1_closed (unary_cont_closed sourceCarrier morphCarrier homCont))
-                (And.intro (unary_e1_closed morphCarrier) (cont_step_one homCont)))
+    exact And.intro data.left
+      (And.intro (unary_e1_closed
+          (unary_cont_closed data.left data.right.left data.right.right))
+        (And.intro (unary_e1_closed data.right.left) (cont_step_one data.right.right)))
 theorem CategoryHomCarrier_e1_target_morphism_exactness {a k r : BHist} :
     CategoryHomCarrier a (BHist.e1 r) (BHist.e1 k) → CategoryHomCarrier a r k := by
   intro homCarrier
-  cases homCarrier with
-  | intro sourceCarrier rest =>
-      cases rest with
-      | intro targetCarrier rest =>
-          cases rest with
-          | intro morphCarrier homCont =>
-              exact And.intro sourceCarrier
-                (And.intro (unary_e1_inversion targetCarrier)
-                  (And.intro (unary_e1_inversion morphCarrier)
-                    (cont_step_rules_inversion_pair.right homCont)))
+  have data := (CategoryHomCarrier_e1_morphism_target_iff.mp homCarrier)
+  exact And.intro data.left
+    (And.intro (unary_e1_inversion homCarrier.right.left)
+      (And.intro data.right.left data.right.right))
 theorem CategoryHomCarrier_e1_source_e1_morphism_target_iff {a k target : BHist} :
     CategoryHomCarrier (BHist.e1 a) target (BHist.e1 k) <->
       exists r : BHist, target = BHist.e1 r /\ UnaryHistory a /\ UnaryHistory k /\
@@ -548,35 +550,29 @@ theorem CategoryHomCarrier_e1_source_morphism_cases {a target morph : BHist} :
         (exists k r : BHist, morph = BHist.e1 k /\ target = BHist.e1 r /\
           UnaryHistory a /\ UnaryHistory k /\ UnaryHistory r /\ Cont (BHist.e1 a) k r) := by
   intro homCarrier
-  cases homCarrier with
-  | intro sourceCarrier rest =>
-      cases rest with
-      | intro targetCarrier rest =>
-          cases rest with
-          | intro morphCarrier homCont =>
-              cases morph with
-              | Empty =>
-                  left
-                  cases homCont
-                  exact And.intro rfl (And.intro rfl (unary_e1_inversion sourceCarrier))
-              | e0 k =>
-                  exact False.elim (unary_no_zero_extension morphCarrier)
-              | e1 k =>
-                  right
-                  cases target with
-                  | Empty =>
-                      cases homCont
-                  | e0 r =>
-                      cases homCont
-                  | e1 r =>
-                      exact Exists.intro k
-                        (Exists.intro r
-                          (And.intro rfl
-                            (And.intro rfl
-                              (And.intro (unary_e1_inversion sourceCarrier)
-                                (And.intro (unary_e1_inversion morphCarrier)
-                                  (And.intro (unary_e1_inversion targetCarrier)
-                                    (BHist.e1.inj homCont)))))))
+  cases morph with
+  | Empty =>
+      left
+      exact And.intro rfl
+        (And.intro homCarrier.right.right.right (unary_e1_inversion homCarrier.left))
+  | e0 k =>
+      exact False.elim (unary_no_zero_extension homCarrier.right.right.left)
+  | e1 k =>
+      right
+      cases target with
+      | Empty =>
+          cases homCarrier.right.right.right
+      | e0 r =>
+          cases homCarrier.right.right.right
+      | e1 r =>
+          exact Exists.intro k
+            (Exists.intro r
+              (And.intro rfl
+                (And.intro rfl
+                  (And.intro (unary_e1_inversion homCarrier.left)
+                    (And.intro (unary_e1_inversion homCarrier.right.right.left)
+                      (And.intro (unary_e1_inversion homCarrier.right.left)
+                        (BHist.e1.inj homCarrier.right.right.right)))))))
 theorem CategoryHomCarrier_identity_semanticNameCert {a : BHist} :
     UnaryHistory a ->
       BEDC.FKernel.NameCert.SemanticNameCert (CategoryHomCarrier a a)
