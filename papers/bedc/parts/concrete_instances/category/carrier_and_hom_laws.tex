@@ -450,6 +450,23 @@ continuation from $b$ through $r$ to $c$.
 \end{proof}
 \leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_factor}
 
+\begin{theorem}[Continuation morphism right factor tail uniqueness]
+\label{thm:continuation-morphism-comp-right-factor-tail-hsame}
+For histories $a,b,c$ and a displayed tail $r$, let $left:a\to b$ and
+$composite:a\to c$ be continuation morphisms. If the tail of $composite$ is
+displayed as the continuation composite of the tail of $left$ with $r$, and
+$right:b\to c$ is another continuation morphism, then $r$ is history-same as
+the displayed tail of $right$.
+\end{theorem}
+\begin{proof}
+Unpack the three continuation morphism records. The left witness, the tail
+factorization, and the composite witness reassociate to a continuation witness
+from $b$ through $r$ to $c$. This witness and the witness of $right$ have the
+same source and result, so continuation left cancellation identifies their
+tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_factor\_tail\_hsame}
+
 \begin{definition}[Continuation morphism composite left factor]
 \label{def:continuation-morphism-composite-left-factor}
 For histories $a,b,c$ and a displayed tail $l$, let $right:b\to c$ and
@@ -464,6 +481,23 @@ kernel composite-left-factor theorem for $\ContR$, which transports the
 reflexive left-tail continuation across the recovered middle endpoint.
 \end{proof}
 \leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_factor}
+
+\begin{theorem}[Continuation morphism left factor tail uniqueness]
+\label{thm:continuation-morphism-comp-left-factor-tail-hsame}
+For histories $a,b,c$ and a displayed tail $l$, let $right:b\to c$ and
+$composite:a\to c$ be continuation morphisms. If the tail of $composite$ is
+displayed as the continuation composite of $l$ with the tail of $right$, and
+$left:a\to b$ is another continuation morphism, then $l$ is history-same as
+the displayed tail of $left$.
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism records. The right witness, the displayed
+tail factorization, and the composite witness recover a continuation witness
+from $a$ through $l$ to $b$. This witness and the witness of $left$ share the
+same source and result, so continuation left cancellation identifies their
+tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_factor\_tail\_hsame}
 
 \begin{theorem}[Continuation morphism identity tail]
 \label{thm:continuation-morphism-identity-tail-hsame}

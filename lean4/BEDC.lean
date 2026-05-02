@@ -174,6 +174,7 @@ import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.CompDeterminism
+import BEDC.Derived.CategoryUp.FactorTail
 import BEDC.Derived.CategoryUp.TargetCases
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
