@@ -178,6 +178,77 @@ external denominator contexts; standard bridge ordinary denominator
 multiplication with adjoined empty unit and contextual endpoint witnesses;
 status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Rat denominator external-unit envelope contextual multiplication exactness]
+\label{thm:field-rat-denominator-external-unit-envelope-contextual-multiplication-exactness}
+For the concrete tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope}, let
+$p,q,p',q',h,k,t:\mathsf{BHist}$. If $p\hsame\emp$, $q\hsame\emp$,
+$p'\hsame\emp$, $q'\hsame\emp$, $C_D^\ast(h)$, $C_D^\ast(k)$, and
+$N_D^\ast(t)$, then fixed denominator multiplication is classifier-exact
+inside empty external contexts on both sides:
+$$
+R_D^\ast(\mathsf{append}(p,\mathsf{append}(\mu_D^\ast(h,t),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^\ast(k,t),q')))
+\Longleftrightarrow R_D^\ast(h,k),
+$$
+and
+$$
+R_D^\ast(\mathsf{append}(p,\mathsf{append}(\mu_D^\ast(t,h),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^\ast(t,k),q')))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Use
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-normal-form} to
+identify the envelope carrier $C_D^\ast$ with
+$\mathsf{RatDenomUnitCarrier}$ and the envelope classifier $R_D^\ast$ with
+$\mathsf{RatDenomUnitClassifier}$. Thus the hypotheses $C_D^\ast(h)$ and
+$C_D^\ast(k)$ are the empty-unit carrier hypotheses required for $h$ and $k$.
+
+The strict support hypothesis $N_D^\ast(t)$ is
+$\mathsf{RatHistoryCarrier}(t)$ on the carried endpoint branch. This gives
+$\mathsf{RatDenomUnitCarrier}(t)$ by the carried alternative of the empty-unit
+carrier, so $t$ is also an admissible denominator factor for the empty-unit
+contextual theorem.
+
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness}
+with the four empty context witnesses and the three empty-unit carrier
+witnesses just obtained. Its right fixed-factor equivalence gives the first
+displayed comparison after rewriting $R_D^u$ as $R_D^\ast$ and
+$\mu_D^u$ as $\mu_D^\ast$ through the normal form and the common append
+operation.
+
+The same application supplies the left fixed-factor equivalence. Translating
+the classifier and multiplication symbols back along
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-normal-form}
+gives the second displayed comparison for the external-unit envelope tuple.
+\end{proof}
+
+\begin{enumerate}
+  \item Traditional target: contextual multiplication classifier exactness for
+  the external-unit envelope denominator side of $\FieldUp(\mathsf{RatUp})$.
+  \item BEDC source: $\mathsf{BHist}$,
+  $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+  $\mathsf{RatHistoryCarrier}$, $\Cont$, and $\mathsf{append}$.
+  \item Carrier: $C_D^\ast$.
+  \item Classifier: $R_D^\ast$.
+  \item Stability obligations: empty external contexts preserve and reflect
+  the envelope classifier, and fixed denominator multiplication preserves and
+  reflects the envelope classifier on both sides.
+  \item Ledger: four empty external context witnesses, two envelope carrier
+  witnesses, and one strict carried denominator factor.
+  \item Core theorem:
+  \autoref{thm:field-rat-denominator-external-unit-envelope-contextual-multiplication-exactness}.
+  \item Exactness predicate: classifier equivalence before and after fixed
+  denominator multiplication inside empty external contexts.
+  \item Standard bridge: empty-unit contextual multiplication exactness
+  transported through the external-unit envelope normal form.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+
 \begin{theorem}[Rat denominator FieldUp multiplicative certificate record]
 \label{thm:field-rat-denominator-fieldup-multiplicative-certificate-record}
 The tuple
@@ -244,11 +315,11 @@ external endpoint, and strict-factor cancellation clauses for
 $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$.
 
 The remaining contextual multiplication field is
-\autoref{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness}.
+\autoref{thm:field-rat-denominator-external-unit-envelope-contextual-multiplication-exactness}.
 It states that fixed denominator multiplication preserves and reflects the
-classifier after empty external histories are attached on both sides. The
-empty histories are exactly the endpoint contexts used by the external-unit
-envelope, so this field reads on the same $\mathsf{BHist}$ append operation.
+external-unit envelope classifier after empty external histories are attached
+on both sides, using the same $\mathsf{BHist}$ append operation and the strict
+carried denominator factor predicate.
 
 Finally,
 \autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
