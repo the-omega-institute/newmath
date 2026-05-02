@@ -1,117 +1,20 @@
+\input{parts/concrete_instances/option/01_nullable_option_namecert}
+\input{parts/concrete_instances/option/02_tagged_option_namecert}
+\input{parts/concrete_instances/option/02b_option_certificate_chains}
+\input{parts/concrete_instances/option/03_tagged_option_right_visible_branch}
+\input{parts/concrete_instances/option/04_tagged_option_nullable_bridge}
+\input{parts/concrete_instances/option/05_tagged_option_branch_readback}
+\input{parts/concrete_instances/option/06_tagged_option_payload_descent}
+\input{parts/concrete_instances/option/07_tagged_option_payload_descent_image}
+\input{parts/concrete_instances/option/08_tagged_option_payload_descent_image_classifier}
 \input{parts/concrete_instances/option/08_option_namecert_construction_core}
 \input{parts/concrete_instances/option/08_option_namecert_construction_readback}
 \input{parts/concrete_instances/option/08_option_normalized_public_endpoint_readback}
 \input{parts/concrete_instances/option/08_option_composite_image_classifier_public_branch}
+\input{parts/concrete_instances/option/09_exclusive_classifier_branch_readback}
+\input{parts/concrete_instances/option/10_payload_descent_image_classifier_public_package}
+\input{parts/concrete_instances/option/10_payload_descent_image_classifier_readback_and_stability}
+\input{parts/concrete_instances/option/11_payload_descent_image_classifier_visible_pair_coherence}
 \input{parts/concrete_instances/option/12_composite_image_public_constructor_and_readback}
 \input{parts/concrete_instances/option/13_composite_image_normalized_readback}
 \input{parts/concrete_instances/option/14_composite_image_classifier_normalized_readback}
-
-\section{Composite image classifier normalized visible target-payload classification}
-\label{sec:option-composite-image-classifier-normalized-visible-target-classification}
-
-\begin{theorem}[Tagged option composite image classifier normalized visible target-payload classification]
-\label{thm:tagged-option-composite-image-classifier-normalized-visible-target-payload-classification}
-This theorem fits the per-object template as follows: the traditional target is
-endpoint-normalized visible target-payload classification for the composite
-$\mathsf{OptionUp}$ image classifier; the BEDC source is $\mathsf{BHist}$ with
-two composable $\mathsf{DescentCertificate}$ maps; the carrier is
-$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
-$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
-are composite descent, endpoint $\hsame$ transport, visible-payload exactness,
-descent respect, and target certificate transitivity; the ledger records
-normalized visible endpoints and their target payload pair; the core theorem is
-target-side classifier recovery; exactness supplies the source pair behind the
-visible payloads; the standard bridge is $\mathsf{none}$/$\mathsf{some}$
-visible readback; and the status is $\mathsf{ProofTarget}$.
-
-Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
-intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
-classifiers, and let
-$$
-\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
-$$
-and
-$$
-\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
-$$
-Assume payload preservation fields
-$$
-\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
-$$
-and
-$$
-\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
-$$
-Assume endpoint stability for the second descent:
-$$
-\eta_{\epsilon}:\forall x\,y.\;
-T(x)\to T(y)\to \hsame(x,y)\to
-\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
-$$
-Write $\epsilon\circ\delta$ for the descent certificate whose map field is
-$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
-sends $r:a\sim_S b$ to
-$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
-$$
-\rho_{\epsilon\circ\delta}(a,Sa)=
-\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
-$$
-Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
-$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
-$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
-$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
-$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
-$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
-$m,m':\mathsf{BHist}$, normalized endpoints $u,u':\mathsf{BHist}$, and visible
-target payloads $x,y:\mathsf{BHist}$, if
-$$
-\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
-(S,U,\rho_{\epsilon\circ\delta};m,m')
-$$
-and
-$$
-\hsame(m,u)\land \hsame(m',u')
-$$
-and
-$$
-U(x)\land U(y)\land
-\hsame(u,\Eone(x))\land \hsame(u',\Eone(y)),
-$$
-then $x\sim_U y$.
-\end{theorem}
-\begin{proof}
-First apply the forward direction of
-Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-visible-payload-exactness}
-to the composite image-classifier witness, the two endpoint normalization
-witnesses, and the two visible target-payload presentations. This returns
-source witnesses $a,b$ with $S(a)$, $S(b)$, and $a\sim_S b$, together with the
-target carrier witnesses for
-$\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and
-$\epsilon.\mathsf{map}(\delta.\mathsf{map}(b))$ and the payload readbacks
-$\hsame(x,\epsilon.\mathsf{map}(\delta.\mathsf{map}(a)))$ and
-$\hsame(y,\epsilon.\mathsf{map}(\delta.\mathsf{map}(b)))$.
-
-Use $\delta.\mathsf{respects}$ on $a\sim_S b$ to obtain
-$\delta.\mathsf{map}(a)\sim_T\delta.\mathsf{map}(b)$. Then use
-$\epsilon.\mathsf{respects}$ to derive
-$\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))
-\sim_U
-\epsilon.\mathsf{map}(\delta.\mathsf{map}(b))$.
-
-Target compatibility for $U$ turns the carrier facts for $x$ and
-$\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and the first payload readback
-into
-$x\sim_U\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$. It also turns the
-carrier facts for $y$ and $\epsilon.\mathsf{map}(\delta.\mathsf{map}(b))$ and
-the second payload readback into
-$y\sim_U\epsilon.\mathsf{map}(\delta.\mathsf{map}(b))$.
-
-Apply symmetry from $\mathsf{cert}_U$ to the second target-compatibility
-relation, giving
-$\epsilon.\mathsf{map}(\delta.\mathsf{map}(b))\sim_U y$. Transitivity from
-$\mathsf{cert}_U$ first composes
-$x\sim_U\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ with the composite
-descent relation, and then composes the result with
-$\epsilon.\mathsf{map}(\delta.\mathsf{map}(b))\sim_U y$. The conclusion is
-$x\sim_U y$.
-\end{proof}
