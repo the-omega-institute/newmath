@@ -467,6 +467,36 @@ $\mathsf{inv}(a,p_a)0$ with $0$. Transitivity of $\hsame$ yields
 $x\hsame0$.
 \end{proof}
 
+\begin{theorem}[Field one-sided zero product cancellation from apartness]
+\label{thm:field-one-sided-zero-product-cancel-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+ring zero absorption, multiplication congruence, and indexed inverse laws,
+every $a,b:\mathsf{BHist}$ satisfies the following clauses.
+\begin{enumerate}
+\item If $p_a:\mathsf{NonZero}_F(a)$ and $a b\hsame0$, then $b\hsame0$.
+\item If $p_b:\mathsf{NonZero}_F(b)$ and $a b\hsame0$, then $a\hsame0$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the left-factor clause, apply
+Theorem~\ref{thm:field-left-mul-equation-solution-from-apartness} to the
+equation $a b\hsame0$ with witness $p_a$. This gives
+$b\hsame\mathsf{inv}(a,p_a)0$.
+
+Use Theorem~\ref{thm:ring-mul-zero-absorption} to identify
+$\mathsf{inv}(a,p_a)0$ with $0$. Transitivity of $\hsame$ yields
+$b\hsame0$.
+
+For the right-factor clause, apply
+Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness} to the
+same equation with witness $p_b$. This gives
+$a\hsame0\mathsf{inv}(b,p_b)$.
+
+Use Theorem~\ref{thm:ring-mul-zero-absorption} to identify
+$0\mathsf{inv}(b,p_b)$ with $0$. Transitivity of $\hsame$ yields
+$a\hsame0$.
+\end{proof}
+
 \begin{theorem}[Field equal-squares signed factor exclusion]
 \label{thm:field-equal-squares-signed-factor-exclusion}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
@@ -487,26 +517,14 @@ $$
 $$
 
 For the first clause, use the witness $p_+:\mathsf{NonZero}_F(a+b)$ and
-apply Theorem~\ref{thm:field-left-mul-equation-solution-from-apartness} with
-left factor $a+b$ and right variable $a+(-b)$. This gives
-$$
-a+(-b)\hsame \mathsf{inv}(a+b,p_+)0.
-$$
-
-Theorem~\ref{thm:ring-mul-zero-absorption} collapses
-$\mathsf{inv}(a+b,p_+)0$ to $0$. Transitivity of $\hsame$ yields
+apply Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} to
+the signed factor product with left factor $a+b$ and right factor $a+(-b)$.
+The left-factor clause gives
 $a+(-b)\hsame0$.
 
 For the second clause, use the witness $p_-:\mathsf{NonZero}_F(a+(-b))$ and
-apply Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness} with
-right factor $a+(-b)$ and left variable $a+b$. This gives
-$$
-a+b\hsame0\mathsf{inv}(a+(-b),p_-).
-$$
-
-Theorem~\ref{thm:ring-mul-zero-absorption} collapses
-$0\mathsf{inv}(a+(-b),p_-)$ to $0$. Transitivity of $\hsame$ yields
-$a+b\hsame0$.
+apply Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} to
+the same signed factor product. The right-factor clause gives $a+b\hsame0$.
 \end{proof}
 
 Per-object certificate: this is a Core theorem list item for constructive
