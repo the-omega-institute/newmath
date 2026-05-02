@@ -172,3 +172,70 @@ Symmetry and transitivity give the reverse transport, and the reverse half of
 the one-factor left exactness theorem recovers
 $\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),x)\hsame q$.
 \end{proof}
+
+\begin{theorem}[Field four-factor product equation exactness from apartness]
+\label{thm:field-four-factor-product-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+proof-indexed inverses, multiplication associativity, left and right unit laws,
+multiplication congruence under $\hsame$, and left and right inverse laws
+indexed by nonzero witnesses, let
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
+$p_{abc}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c))$,
+$p_{abcd}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$,
+$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+$p_c:\mathsf{NonZero}_F(c)$, and $p_d:\mathsf{NonZero}_F(d)$ be explicit
+witnesses. Define the reversed inverse spine
+$$
+R:=
+\mathsf{mul}(\mathsf{inv}(d,p_d),
+\mathsf{mul}(\mathsf{inv}(c,p_c),
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a)))).
+$$
+Then every $x,r:\mathsf{BHist}$ satisfies both clauses
+$$
+\mathsf{mul}(x,\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))\hsame r
+\Longleftrightarrow
+x\hsame \mathsf{mul}(r,R)
+$$
+and
+$$
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),x)\hsame r
+\Longleftrightarrow
+x\hsame \mathsf{mul}(R,r).
+$$
+Traditional target finite product equation solving; BEDC source $\FieldUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
+obligations one-factor equation exactness, inverse-product reversal,
+congruence, associativity, and unit laws; ledger the seven displayed witnesses;
+core theorem this block; exactness predicate the two displayed equivalences;
+standard bridge deferred; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-right-mul-equation-exact-from-apartness} to the
+active fourfold right factor
+$\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d)$ with witness
+$p_{abcd}$. This gives the right-multiplication equation in terms of the
+certified inverse of the whole product.
+
+Apply \autoref{thm:field-left-mul-equation-exact-from-apartness} to the same
+fourfold product with witness $p_{abcd}$. This gives the left-multiplication
+equation in terms of the same certified inverse, now placed on the left of
+$r$.
+
+We next identify that certified inverse with $R$. Use
+\autoref{thm:field-inverse-product-reverse-from-apartness} first along
+$p_{abcd}$, then along $p_{abc}$, and finally along $p_{ab}$. Associativity
+and the unit laws put the resulting nested product into the displayed reversed
+spine.
+
+For the right equation, transport the solution side through multiplication
+congruence for $\mathsf{mul}(r,-)$. Symmetry and transitivity of $\hsame$
+move between the certified inverse of the active product and $R$, yielding
+$x\hsame\mathsf{mul}(r,R)$ in the forward direction and returning to the
+one-factor exactness statement in the reverse direction.
+
+For the left equation, use the same transport with multiplication congruence
+for $\mathsf{mul}(-,r)$. The identified spine now appears on the left, so the
+transported solution is $x\hsame\mathsf{mul}(R,r)$, and the reverse transport
+recovers the original fourfold left equation.
+\end{proof}
