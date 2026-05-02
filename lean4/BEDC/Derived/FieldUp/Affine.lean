@@ -90,6 +90,62 @@ open BEDC.FKernel.Hist
     exact addCongr (mulCongr (mulCongr (hsame_refl a) sameMiddle) (hsame_refl b))
       (hsame_refl d)
 
+theorem field_affine_one_sided_map_classifier_exact_from_apartness
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addRightId : forall x : BHist, hsame (add x BHist.Empty) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (negRight : forall x : BHist, hsame (add x (neg x)) BHist.Empty)
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a b x y u v : BHist} (pa : NonZero a) (pb : NonZero b) :
+    (hsame (add (mul a x) u) (add (mul a y) u) <-> hsame x y) ∧
+      (hsame (add (mul x b) v) (add (mul y b) v) <-> hsame x y) := by
+  constructor
+  · constructor
+    · intro sameAffine
+      have sameProducts : hsame (mul a x) (mul a y) := by
+        exact
+          BEDC.Derived.GroupUp.group_right_cancel
+            (mul := add) (e := BHist.Empty) (inv := neg)
+            addAssoc addRightId addCongr negRight sameAffine
+      have solved : hsame x (mul (inv a pa) (mul a y)) := by
+        exact
+          (field_left_mul_equation_exact_from_apartness
+            assocC leftId mulCongr leftInv rightInv pa).mp
+            sameProducts
+      have cancelY : hsame (mul (inv a pa) (mul a y)) y := by
+        exact field_mul_inverse_left_cancel_from_apartness
+          assocC leftId mulCongr leftInv a y pa
+      exact hsame_trans solved cancelY
+    · intro sameXY
+      exact addCongr (mulCongr (hsame_refl a) sameXY) (hsame_refl u)
+  · constructor
+    · intro sameAffine
+      have sameProducts : hsame (mul x b) (mul y b) := by
+        exact
+          BEDC.Derived.GroupUp.group_right_cancel
+            (mul := add) (e := BHist.Empty) (inv := neg)
+            addAssoc addRightId addCongr negRight sameAffine
+      have solved : hsame x (mul (mul y b) (inv b pb)) := by
+        exact
+          (field_right_mul_equation_exact_from_apartness
+            assocC rightId mulCongr leftInv rightInv pb).mp
+            sameProducts
+      have cancelY : hsame (mul (mul y b) (inv b pb)) y := by
+        exact field_mul_inverse_right_cancel_from_apartness
+          assocC rightId mulCongr rightInv y b pb
+      exact hsame_trans solved cancelY
+    · intro sameXY
+      exact addCongr (mulCongr sameXY (hsame_refl b)) (hsame_refl v)
+
 theorem field_affine_certified_fiber_singleton
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
     {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}

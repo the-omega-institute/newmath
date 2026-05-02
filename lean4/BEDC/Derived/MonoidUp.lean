@@ -212,6 +212,18 @@ theorem unary_append_monoid_semantic_name_certificate :
       cases sameB
       exact hsame_refl (append a b))
 
+theorem unary_append_monoid_left_identity_empty {e : BHist} :
+    UnaryHistory e ->
+      (forall {h : BHist}, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append e h) h) ->
+      MonoidHistoryClassifier UnaryHistory e BHist.Empty := by
+  intro unaryE leftId
+  exact MonoidHistoryClassifier_identity_unique UnaryHistory unaryE unary_empty leftId
+    (by
+      intro h unaryH
+      exact And.intro (unary_append_closed unaryH unary_empty)
+        (And.intro unaryH (BEDC.FKernel.Cont.append_empty_right h)))
+
 theorem unary_append_monoid_classifier_context_congr {left right a b : BHist} :
     UnaryHistory left -> UnaryHistory right -> MonoidHistoryClassifier UnaryHistory a b ->
       MonoidHistoryClassifier UnaryHistory (append left (append a right))

@@ -108,6 +108,24 @@ $e$ and $e'$ supply the classifier endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.MonoidHistoryClassifier\_identity\_unique}
 
+\begin{theorem}[Unary append monoid left identity is empty]
+\label{thm:unary-append-monoid-left-identity-empty}
+For the concrete unary-history append monoid, any unary history $e$ whose
+append action is a left identity under
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$ is classified with
+$\emp$:
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(e,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply classifier identity uniqueness with $e$ as the left identity and $\emp$
+as the right identity. The right-identity classifier for $\emp$ follows from
+unary closure of append, $\mathsf{UnaryHistory}(\emp)$, and the BEDC append law
+$\mathsf{append}(h,\emp)=h$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_left\_identity\_empty}
+
 \begin{theorem}[History continuation monoid laws]
 \label{thm:history-continuation-monoid-laws}
 The BEDC history continuation relation has empty history as a left and right unit, and the two parenthesizations of a triple continuation have the same resulting history.
