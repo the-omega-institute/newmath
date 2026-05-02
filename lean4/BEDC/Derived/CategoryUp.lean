@@ -180,6 +180,34 @@ theorem ContinuationMorphism_identity_comp_closure :
             cases leftRel
             exact rightRel.trans (append_assoc a leftTail rightTail)
 
+theorem ContinuationMorphism_comp_assoc_closed {a b c d : BHist}
+    (first : ContinuationMorphism a b) (second : ContinuationMorphism b c)
+    (third : ContinuationMorphism c d) :
+    ∃ left : ContinuationMorphism a d, ∃ right : ContinuationMorphism a d,
+      hsame left.tail right.tail := by
+  cases first with
+  | mk firstTail firstRel =>
+      cases second with
+      | mk secondTail secondRel =>
+          cases third with
+          | mk thirdTail thirdRel =>
+              refine Exists.intro
+                { tail := append (append firstTail secondTail) thirdTail, rel := ?_ }
+                (Exists.intro
+                  { tail := append firstTail (append secondTail thirdTail), rel := ?_ } ?_)
+              · cases firstRel
+                cases secondRel
+                cases thirdRel
+                exact (append_assoc (append a firstTail) secondTail thirdTail).trans
+                  ((append_assoc a firstTail (append secondTail thirdTail)).trans
+                    (congrArg (append a) (append_assoc firstTail secondTail thirdTail).symm))
+              · cases firstRel
+                cases secondRel
+                cases thirdRel
+                exact (append_assoc (append a firstTail) secondTail thirdTail).trans
+                  (append_assoc a firstTail (append secondTail thirdTail))
+              · exact append_assoc firstTail secondTail thirdTail
+
 theorem category_cont_left_e0_result_cases {h k r : BHist} :
     Cont (BHist.e0 h) k (BHist.e0 r) ->
       (k = BHist.Empty ∧ hsame h r) ∨

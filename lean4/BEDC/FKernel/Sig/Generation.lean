@@ -556,4 +556,17 @@ theorem signature_generation_append_component_determinacy [AskSetup]
             sig_deterministic_from_bundle_policy appendPolicy hdom generatedSig appendedSig
           exact Exists.intro v (And.intro hcont sameResult)
 
+theorem sigRel_bundleAppend_recompose_hsame [AskSetup]
+    {left right : ProbeBundle ProbeName} {D : BHist → Prop} (policy : AskPolicy D)
+    {h s t u v : BHist} :
+    D h → SigRel left h s → SigRel right h t → Cont t s u →
+      SigRel (bundleAppend left right) h v → hsame u v := by
+  intro dh leftSig rightSig displayed appendedSig
+  cases sigRel_bundleAppend leftSig rightSig with
+  | intro generated generatedData =>
+      cases generatedData with
+      | intro generatedCont generatedSig =>
+          exact hsame_trans (cont_deterministic displayed generatedCont)
+            (sig_deterministic policy dh generatedSig appendedSig)
+
 end BEDC.FKernel.Sig

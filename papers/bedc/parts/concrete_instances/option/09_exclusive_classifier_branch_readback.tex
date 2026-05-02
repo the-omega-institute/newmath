@@ -169,3 +169,36 @@ visible-pair exactness statement.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_visible\_pair\_payload\_exactness}
 
+\begin{theorem}[Tagged option history classifier transported visible payload readback]
+\label{thm:tagged-option-history-classifier-transport-visible-payload-readback}
+For a BEDC history source carrier \(S\), source classifier \(\sim_S\), and
+histories \(h,k,u,v,x,y\), assume
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k),
+\qquad
+\hsame(h,u),
+\qquad
+\hsame(k,v),
+$$
+and assume the transported visible endpoints satisfy
+$$
+\hsame(u,\Eone(x)),
+\qquad
+\hsame(v,\Eone(y)).
+$$
+Then there exist payload histories \(a,b\) such that
+$$
+S(a)\land S(b)\land \hsame(x,a)\land \hsame(y,b)\land a\sim_S b.
+$$
+\end{theorem}
+\begin{proof}
+Invert the tagged classifier. The absent branch gives
+\(\hsame(h,\emp)\); transport this along \(\hsame(h,u)\), contradicting
+\(\hsame(u,\Eone(x))\) by constructor separation. In the present branch, keep
+the classifier payload witnesses \(a,b\), their source facts, the endpoint
+presentations \(\hsame(h,\Eone(a))\), \(\hsame(k,\Eone(b))\), and \(a\sim_S b\).
+Transport the two endpoint presentations along \(\hsame(h,u)\) and
+\(\hsame(k,v)\). Constructor injectivity for \(\Eone\) then gives
+\(\hsame(x,a)\) and \(\hsame(y,b)\), which are the required readback fields.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_transport\_visible\_payload\_readback}

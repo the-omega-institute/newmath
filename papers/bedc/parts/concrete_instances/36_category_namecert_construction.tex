@@ -194,6 +194,22 @@ unpacking the first relation and reassociating the append spine.
 \end{definition}
 \leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_closed}
 
+\begin{theorem}[Continuation morphism associative composition closure]
+\label{thm:continuation-morphism-comp-assoc-closed}
+For histories \(a,b,c,d\), any continuation morphisms
+\(a\to b\), \(b\to c\), and \(c\to d\) admit both associated composite
+morphisms \(a\to d\), and the two composite tails are internally the same.
+\end{theorem}
+\begin{proof}
+Unpack the three morphism records into their tails and continuation witnesses.
+The left-associated composite tail is \(\mathsf{append}(\mathsf{append}(f,g),h)\);
+the right-associated composite tail is
+\(\mathsf{append}(f,\mathsf{append}(g,h))\). The continuation witnesses reduce
+to associativity of BEDC history append, and the tail comparison is exactly the
+same associativity equality.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_assoc\_closed}
+
 \begin{theorem}[Category hom carrier morphism determinacy]
 \label{thm:category-hom-carrier-morphism-deterministic}
 For the unary-continuation category, if \(f\) and \(g\) are both hom-carriers
