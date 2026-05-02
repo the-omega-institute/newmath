@@ -16,6 +16,58 @@ carrier, restricted classifier, and reflexive-transitive relation data.
 Use an abstract carrier \(C\), classifier \(\sim_C\), and relation \(\le_C\) with preorder law fields.
 \end{definition}
 
+\section{Concrete unary prefix preorder instance}
+\label{sec:preorder-concrete-unary-prefix-instance}
+
+\begin{definition}[Concrete unary prefix preorder instance]
+\label{def:concrete-unary-prefix-preorder-instance}
+The concrete unary prefix preorder instance is the following specialization of
+the $\PreorderUp$ source data:
+$$
+\mathsf{Carrier}:=\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}.
+$$
+$$
+\mathsf{classifier}:=\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier}).
+$$
+$$
+\mathsf{le}:=\mathsf{PreorderPrefixLE}.
+$$
+\end{definition}
+
+\begin{theorem}[Concrete unary prefix preorder laws]
+\label{thm:concrete-unary-prefix-preorder-laws}
+For the concrete unary prefix preorder instance, the carrier is inhabited by
+$\emp$, carrier membership transports along $\hsame$, the relation
+$\mathsf{PreorderPrefixLE}$ is reflexive on carrier histories, transitive, and
+congruent under the classifier in both arguments.
+\end{theorem}
+\begin{proof}
+The carrier and transport fields are supplied by the checked semantic naming
+certificate named $\mathsf{BEDC.Derived.PreorderUp.}$
+$\mathsf{preorder\_carrier\_semantic\_name\_certificate}$.
+This identifies the concrete carrier with unary histories and gives the
+$\hsame$ transport operation used by the restricted classifier.
+
+The relational fields come from the checked concrete prefix stability
+certificate named $\mathsf{BEDC.Derived.PreorderUp.}$
+$\mathsf{preorder\_prefix\_stability\_certificate\_fields}$.
+Its reflexivity component is the carrier-relative preorder reflexivity field,
+its congruence component is the classifier-respecting transport of the prefix
+relation in both endpoints, and its transitivity component is the concrete
+prefix composition law.
+
+At the theorem level, reflexivity is obtained by applying
+$\mathsf{BEDC.Derived.PreorderUp.PreorderPrefixLE\_of\_hsame}$ to the
+reflexive $\hsame$ witness, while transitivity is
+$\mathsf{BEDC.Derived.PreorderUp.PreorderPrefixLE\_trans}$. Repacking these
+fields gives the concrete unary prefix preorder laws.
+\end{proof}
+
+Thus the $\PreorderUp$ schema is instantiated by this concrete $\mathsf{BHist}$
+carrier and relation. The corresponding formal target can therefore address
+the concrete prefix preorder directly, rather than only the relation fields of
+an arbitrary carrier.
+
 \section{The certificate}
 
 \begin{definition}[Preorder source specification]

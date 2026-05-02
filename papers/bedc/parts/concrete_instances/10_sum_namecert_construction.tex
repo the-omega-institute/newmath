@@ -280,6 +280,7 @@ For the reverse directions, use the visible endpoints as the stored payloads,
 the reflexive tag witnesses for $\Ezero$ or $\Eone$, and the supplied matching
 source-classifier witness to rebuild the corresponding classifier branch.
 \end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_source\_same\_tag\_exactness}
 
 \begin{theorem}[Sum history classifier hsame same-tag carrier exactness]
 \label{thm:sum-history-classifier-hsame-same-tag-carrier-exactness}
@@ -343,6 +344,66 @@ $$
 Unfold $\mathsf{SumHistoryClassifier}$. In the left-tag forward direction, the left branch already stores payload witnesses for the two endpoints together with a $LeftEq$ witness; the opposite right branch is impossible by $e0/e1$ no-confusion, and $e0$-constructor inversion identifies the visible endpoints with the stored payload tags. The right-tag forward direction is identical with $e1$-constructor inversion and $RightEq$. For the reverse directions, the displayed payload witnesses rebuild the matching left or right classifier branch by constructor congruence for $e0$ or $e1$, together with the stored source-classifier witness. The surviving branch is constructor-stable, and the impossible branch is discharged by the same tag no-confusion principle.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_generic\_same\_tag\_exactness}
+
+\begin{theorem}[Sum history classifier left endpoint fanout]
+\label{thm:sum-history-classifier-left-endpoint-fanout}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, source
+classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+and histories $h,k,r,a$, if
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k),\qquad
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,r),\qquad
+\hsame(h,\Ezero(a)),
+$$
+then both targets expose left-tag payload witnesses:
+$$
+\begin{array}{l}
+\bigl(\exists a',b.\;\hsame(a,a')\land\hsame(k,\Ezero(b))\land LeftEq(a',b)\bigr)
+\\
+\land
+\bigl(\exists a'',c.\;\hsame(a,a'')\land\hsame(r,\Ezero(c))\land LeftEq(a'',c)\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze both sum-classifier witnesses. A right-branch witness would force
+the shared source endpoint to be simultaneously an $\Ezero$ endpoint and an
+$\Eone$ endpoint, contradicting constructor separation. The surviving left
+branches expose the stored source payload, each target payload, the target
+endpoint equation, and the corresponding $LeftEq$ witness; $\Ezero$ inversion
+composes the displayed source endpoint with the stored source tag.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_left\_endpoint\_fanout}
+
+\begin{theorem}[Sum history classifier right endpoint fanout]
+\label{thm:sum-history-classifier-right-endpoint-fanout}
+For source carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, source
+classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+and histories $h,k,r,a$, if
+$$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k),\qquad
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,r),\qquad
+\hsame(h,\Eone(a)),
+$$
+then both targets expose right-tag payload witnesses:
+$$
+\begin{array}{l}
+\bigl(\exists a',b.\;\hsame(a,a')\land\hsame(k,\Eone(b))\land RightEq(a',b)\bigr)
+\\
+\land
+\bigl(\exists a'',c.\;\hsame(a,a'')\land\hsame(r,\Eone(c))\land RightEq(a'',c)\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze both sum-classifier witnesses. A left-branch witness would force
+the shared source endpoint to be simultaneously an $\Eone$ endpoint and an
+$\Ezero$ endpoint, contradicting constructor separation. The surviving right
+branches expose the stored source payload, each target payload, the target
+endpoint equation, and the corresponding $RightEq$ witness; $\Eone$ inversion
+composes the displayed source endpoint with the stored source tag.
+\end{proof}
+\leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_right\_endpoint\_fanout}
 
 \begin{theorem}[Sum history classifier carrier-aware same-tag exactness]
 \label{thm:sum-history-classifier-carrier-aware-same-tag-exactness}

@@ -56,3 +56,22 @@ $$
 \begin{proof}
 Use the checked right-recursive append characterization of continuation and the append associativity spine.  Equivalently, induct on the right continuation by $c$: the empty case takes $abc=ab$, and the $\Ezero$ and $\Eone$ cases lift the witness with the matching right-recursive continuation step.
 \end{proof}
+
+\begin{theorem}[Continuation suffix iff]
+\label{thm:continuation-suffix-iff}
+For histories $a,b,f,p$, continuation from $a$ by the suffixed history
+$\mathsf{append}(f,p)$ to the suffixed result $\mathsf{append}(b,p)$ is
+equivalent to the unsuffixed continuation from $a$ by $f$ to $b$:
+$$
+\Cont(a,\mathsf{append}(f,p),\mathsf{append}(b,p))
+\Longleftrightarrow
+\Cont(a,f,b).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_suffix\_iff}
+\begin{proof}
+For the forward direction, rewrite the suffixed continuation through
+associativity so that both sides share the right suffix $p$, then cancel that
+common suffix. For the reverse direction, expand the unsuffixed continuation and
+use associativity of history append to rebuild the suffixed continuation.
+\end{proof}

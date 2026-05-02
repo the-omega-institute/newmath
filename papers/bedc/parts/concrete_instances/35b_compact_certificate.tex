@@ -1,0 +1,518 @@
+\section{The certificate}
+
+\begin{definition}[Compact source specification]
+\label{def:compact-source-specification}
+The source is a certified metric space plus a subset predicate over its carrier.
+\end{definition}
+
+\begin{definition}[Compact pattern specification]
+\label{def:compact-pattern-specification}
+The pattern is compact-subset formation by attaching locatedness and finite-net data for each rational precision.
+\end{definition}
+
+\begin{definition}[Compact classifier specification]
+\label{def:compact-classifier-specification}
+The classifier relates compact witnesses when their membership predicates agree by explicit bidirectional evidence under carrier sameness.
+\end{definition}
+
+\begin{definition}[Compact stability certificate]
+\label{def:compact-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item membership stability under carrier classifier
+  \item locatedness witness validity
+  \item total-bounded finite-net validity
+  \item monotonicity of precision witnesses where required
+  \item stability under compact-witness classifier
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Compact net witness semantic name certificate]
+\label{thm:compact-net-witness-semantic-namecert}
+For unary histories $c$ and $\epsilon$, the compact-net witness predicate
+$\mathsf{CompactNetWitness}(c,\epsilon,-)$ carries a semantic name certificate
+with source, pattern, and ledger all equal to that concrete witness predicate,
+and classifier $\hsame$:
+$$
+\mathsf{SemanticNameCert}
+(\mathsf{CompactNetWitness}(c,\epsilon,-),
+ \mathsf{CompactNetWitness}(c,\epsilon,-),
+ \mathsf{CompactNetWitness}(c,\epsilon,-),
+ \hsame).
+$$
+\end{theorem}
+\begin{proof}
+The carrier witness is the concrete history $c\cdot\epsilon$. Unary append
+closure supplies its unary carrier, and the continuation ledger is
+$c\cdot\epsilon=c\cdot\epsilon$. The classifier fields are the reflexive,
+symmetric, and transitive laws of $\hsame$, with carrier transport by equality
+case analysis. Pattern and ledger soundness are the identity projections
+because all three semantic predicates are the compact-net witness predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_semanticNameCert}
+
+\begin{theorem}[Compact net witness prefix closure]
+\label{thm:compact-net-witness-prefix-closed}
+For unary histories $p,c,\epsilon,n$, if $n$ is a compact net witness obtained
+by continuing center $c$ with precision $\epsilon$, then prefixing the center
+and net by $p$ preserves the same precision witness:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+\Longrightarrow
+\mathsf{CompactNetWitness}(p \cdot c,\epsilon,p \cdot n).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness into unary center, precision, and net histories together
+with the continuation ledger $n=c\cdot\epsilon$. Unary closure gives unary
+histories for $p\cdot c$ and $p\cdot n$. The prefixed continuation ledger is
+the associativity equality $(p\cdot c)\cdot\epsilon=p\cdot(c\cdot\epsilon)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_closed}
+
+\begin{theorem}[Compact net witness prefix exactness]
+\label{thm:compact-net-witness-prefix-iff}
+For histories $p,c,\epsilon,n$, a prefixed compact-net witness is equivalent
+to unary prefix evidence together with the unprefixed witness:
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\epsilon,p \cdot n)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{CompactNetWitness}(c,\epsilon,n).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the prefixed witness. Unary append
+factorization recovers the unary prefix and the unary center and net histories,
+while prefix cancellation on the continuation ledger recovers
+$\mathsf{Cont}(c,\epsilon,n)$. For the reverse direction, apply prefix closure
+to the unary prefix and the original compact-net witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_iff}
+
+\begin{theorem}[Compact net witness suffix exactness]
+\label{thm:compact-net-witness-suffix-iff}
+For histories $p,c,\epsilon,n$, a compact-net witness with the same right
+suffix attached to precision and net is equivalent to unary suffix evidence
+together with the unsuffixed witness:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon\cdot p,n\cdot p)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{CompactNetWitness}(c,\epsilon,n).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unary append factorization recovers the suffix and
+the unsuffixed precision and net histories. The continuation ledger
+$n\cdot p=c\cdot(\epsilon\cdot p)$ is associated to
+$(c\cdot\epsilon)\cdot p$, and right cancellation by $p$ recovers
+$n=c\cdot\epsilon$. In the reverse direction, unary append closure builds the
+suffixed precision and net histories, while associativity supplies the
+suffixed continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_suffix\_iff}
+
+\begin{theorem}[Compact net witness visible context exactness]
+\label{thm:compact-net-witness-visible-context-iff}
+For histories $p,q,c,\epsilon,n$, a compact-net witness with visible left
+context on the center and net and visible right context on the precision and
+net is equivalent to the two unary context witnesses and the base compact-net
+witness:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon\cdot q,(p\cdot n)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{CompactNetWitness}(c,\epsilon,n).
+$$
+\end{theorem}
+\begin{proof}
+Peel the right suffix by Theorem~\ref{thm:compact-net-witness-suffix-iff}, then
+peel the left prefix by Theorem~\ref{thm:compact-net-witness-prefix-iff}. The
+reverse direction first applies prefix exactness and then reattaches the right
+suffix by suffix exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_iff}
+
+\begin{theorem}[Compact net witness empty-precision visible-context exactness]
+\label{thm:compact-net-witness-empty-precision-visible-context-iff}
+For histories $p,q,c,n$, a visible-context compact-net witness with empty
+central precision is equivalent to unary evidence for the visible ledgers and
+center, together with the center classifier for the net:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\emp\cdot q,(p\cdot n)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{UnaryHistory}(c)\wedge
+\hsame(n,c).
+$$
+\end{theorem}
+\begin{proof}
+Peel the visible prefix and suffix by
+Theorem~\ref{thm:compact-net-witness-visible-context-iff}. The central witness
+is $\mathsf{CompactNetWitness}(c,\emp,n)$, whose continuation field is exactly
+the right-unit continuation classifier $\hsame(n,c)$; its carrier field gives
+$\mathsf{UnaryHistory}(c)$.
+
+Conversely, the unary center carrier and $\hsame(n,c)$ transport the center
+carrier to the net and produce the right-unit continuation witness. This builds
+$\mathsf{CompactNetWitness}(c,\emp,n)$, and visible-context exactness reattaches
+the prefix $p$ and suffix $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_precision\_visible\_context\_iff}
+
+\begin{theorem}[Compact net witness composite result determinacy]
+\label{thm:compact-net-witness-composite-result-deterministic}
+For histories $c,\epsilon,\eta,n,n',m,m'$, if $n$ and $n'$ are compact net
+witnesses from the same center $c$ and precision $\epsilon$, and $m$ and $m'$
+continue them with the same refinement precision $\eta$, then the refined nets
+are the same BEDC history:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+\Longrightarrow
+\mathsf{CompactNetWitness}(n,\eta,m)
+\Longrightarrow
+\mathsf{CompactNetWitness}(c,\epsilon,n')
+\Longrightarrow
+\mathsf{CompactNetWitness}(n',\eta,m')
+\Longrightarrow
+\hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the first and third witnesses into continuation ledgers
+$c\cdot\epsilon=n$ and $c\cdot\epsilon=n'$. Continuation determinacy gives
+$\hsame(n,n')$. The second and fourth witnesses give ledgers
+$n\cdot\eta=m$ and $n'\cdot\eta=m'$. Continuation compatibility with
+$\hsame(n,n')$ and reflexivity of $\eta$ compares these second-step ledgers and
+yields $\hsame(m,m')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_result\_deterministic}
+
+\begin{theorem}[Compact net witness composite center determinacy]
+\label{thm:compact-net-witness-composite-center-deterministic}
+For histories $c,c',\epsilon,\eta,n,n',m$, if the first-stage net witnesses
+share precision $\epsilon$ and the second-stage refinements share extra
+precision $\eta$ and final net $m$, then their centers are the same BEDC
+history:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+\Longrightarrow
+\mathsf{CompactNetWitness}(n,\eta,m)
+\Longrightarrow
+\mathsf{CompactNetWitness}(c',\epsilon,n')
+\Longrightarrow
+\mathsf{CompactNetWitness}(n',\eta,m)
+\Longrightarrow
+\hsame(c,c').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the second-stage witnesses into continuation ledgers
+$\ContR(n,\eta,m)$ and $\ContR(n',\eta,m)$. Continuation right cancellation
+gives $\hsame(n,n')$. The first-stage witnesses provide
+$\ContR(c,\epsilon,n)$ and $\ContR(c',\epsilon,n')$; cancellation over the
+common suffix $\epsilon$ and the already identified net histories yields
+$\hsame(c,c')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_center\_deterministic}
+
+\begin{theorem}[Compact net witness precision determinacy under endpoint sameness]
+\label{thm:compact-net-witness-precision-hsame-deterministic}
+For histories $c,c',\epsilon,\epsilon',n,n'$, if $\hsame(c,c')$,
+$\hsame(n,n')$, $\mathsf{CompactNetWitness}(c,\epsilon,n)$, and
+$\mathsf{CompactNetWitness}(c',\epsilon',n')$ hold, then
+$$
+\hsame(\epsilon,\epsilon').
+$$
+\end{theorem}
+\begin{proof}
+Transport the two continuation ledgers to common center and net histories using
+the endpoint $\hsame$ hypotheses. The two witnesses then have the same left
+context and result, so continuation left cancellation identifies the precision
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_precision\_hsame\_deterministic}
+
+\begin{theorem}[Prefixed composite compact net witness closure]
+\label{thm:compact-net-witness-prefixed-composite-closed}
+For unary histories $p,c,\epsilon,\eta,\theta,n,m$, assume
+$\mathsf{UnaryHistory}(p)$,
+$\mathsf{CompactNetWitness}(c,\epsilon,n)$,
+$\mathsf{CompactNetWitness}(n,\eta,m)$, and
+$\mathsf{Cont}(\epsilon,\eta,\theta)$. Then the composed refinement is a
+compact net witness under the same visible prefix:
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m).
+$$
+
+The certificate fit has ten fields: the traditional target is finite-net
+precision composition; the BEDC source is $BHist$ equipped with $\mathsf{Cont}$;
+the carrier is $\mathsf{CompactNetWitness}$; the classifier is $hsame$; the
+stability law is closure under prefix and precision composition; the ledger
+data are center, precision, and net continuations; the core theorem is this
+prefixed composite closure; exactness is the direct composed witness; the
+standard bridge is deferred; the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the two compact net witnesses into unary center, precision, and net
+histories, together with continuation ledgers $n=c\cdot\epsilon$ and
+$m=n\cdot\eta$.
+
+The continuation hypothesis $\mathsf{Cont}(\epsilon,\eta,\theta)$ gives the
+composed precision history. Unary continuation closure supplies the unary
+history for $\theta$, and associativity identifies
+$(c\cdot\epsilon)\cdot\eta$ with $c\cdot(\epsilon\cdot\eta)$.
+
+The identified composite ledger presents $m=c\cdot\theta$. Applying prefix
+closure to this composed witness and using associativity once more yields the
+ledger from $p\cdot c$ to $p\cdot m$ with precision $\theta$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_closed}
+
+\begin{theorem}[Prefixed composite compact net witness factorization]
+\label{thm:compact-net-witness-prefixed-composite-factorizes}
+For histories $p,c,\epsilon,\eta,\theta,m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$,
+$\mathsf{UnaryHistory}(\eta)$,
+$\mathsf{Cont}(\epsilon,\eta,\theta)$, and
+$\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m)$. Then there exists a
+history $n$ such that
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+$$
+and
+$$
+\mathsf{CompactNetWitness}(n,\eta,m).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:compact-net-witness-prefix-iff} to the visible-prefix
+witness. This removes the common prefix and recovers
+$\mathsf{CompactNetWitness}(c,\theta,m)$, hence the unary histories for
+$c,\theta,m$ and the continuation ledger $\mathsf{Cont}(c,\theta,m)$.
+
+Choose the intermediate history $n=c\cdot\epsilon$. The unary history of
+$\epsilon$ and the recovered unary history of $c$ give unary $n$, and the
+continuation constructor gives $\mathsf{Cont}(c,\epsilon,n)$. These data form
+$\mathsf{CompactNetWitness}(c,\epsilon,n)$.
+
+It remains to build the second witness. The hypothesis
+$\mathsf{Cont}(\epsilon,\eta,\theta)$ and the recovered continuation
+$\mathsf{Cont}(c,\theta,m)$ identify the ledger $m$ with
+$c\cdot(\epsilon\cdot\eta)$; associativity rewrites this as
+$(c\cdot\epsilon)\cdot\eta=n\cdot\eta$. Together with the unary histories of
+$n$, $\eta$, and $m$, this is $\mathsf{CompactNetWitness}(n,\eta,m)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_factorizes}
+
+\begin{theorem}[Prefixed composite compact net middle deterministic factorization]
+\label{thm:compact-net-witness-prefixed-composite-middle-deterministic-factorization}
+For histories $p,c,\epsilon,\eta,\theta,m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$,
+$\mathsf{UnaryHistory}(\eta)$, and
+$\mathsf{Cont}(\epsilon,\eta,\theta)$. If
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m),
+$$
+then there exists a history $n$ such that
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+$$
+and
+$$
+\mathsf{CompactNetWitness}(n,\eta,m).
+$$
+Moreover any other history $n'$ supporting these two compact-net witnesses is
+history-same to $n$.
+\end{theorem}
+\begin{proof}
+Apply the prefixed composite factorization theorem to obtain an intermediate
+history $n$ and the two compact-net witnesses through $\epsilon$ and $\eta$.
+For any other displayed intermediate $n'$, the first compact-net witnesses for
+$n$ and $n'$ share the same center $c$ and precision $\epsilon$; continuation
+determinacy therefore gives $\hsame(n,n')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_middle\_deterministic\_factorization}
+
+\begin{definition}[Two-step compact net factor]
+\label{def:compact-net-two-step-factor}
+For histories $c,\epsilon,\eta,m$, the predicate
+$\mathsf{CompactNetTwoStepFactor}(c,\epsilon,\eta,m)$ records an intermediate
+net realizing the two visible precision steps:
+$$
+\mathsf{CompactNetTwoStepFactor}(c,\epsilon,\eta,m)
+\Longleftrightarrow
+\exists n.\;
+\mathsf{CompactNetWitness}(c,\epsilon,n)\wedge
+\mathsf{CompactNetWitness}(n,\eta,m).
+$$
+\end{definition}
+
+\begin{theorem}[Prefixed composite compact net witness exactness]
+\label{thm:compact-net-witness-prefixed-composite-iff}
+For histories $p,c,\epsilon,\eta,\theta,m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$, $\mathsf{UnaryHistory}(\eta)$, and
+$\mathsf{Cont}(\epsilon,\eta,\theta)$. Then the prefixed composed certificate
+is exact at the compact-net witness level:
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\exists n,\mathsf{CompactNetWitness}(c,\epsilon,n)\wedge
+\mathsf{CompactNetWitness}(n,\eta,m).
+$$
+
+The certificate fit has ten fields: the traditional target is finite-net
+precision composition; the BEDC source is $BHist$ equipped with
+$\mathsf{Cont}$; the carrier is $\mathsf{CompactNetWitness}$; the classifier is
+$hsame$; the stability obligation is prefixed composite exactness; the ledger
+data are center, precision, intermediate net, and final net continuations; the
+core theorem is this equivalence; the exactness predicate is the displayed
+equivalence; the standard bridge is deferred; the status is
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:compact-net-witness-prefix-iff} to the prefixed composed
+witness. This recovers $\mathsf{UnaryHistory}(p)$ together with the unprefixed
+witness $\mathsf{CompactNetWitness}(c,\theta,m)$. The hypotheses on
+$\epsilon$, $\eta$, and $\theta$ then allow
+Theorem~\ref{thm:compact-net-witness-prefixed-composite-factorizes} to produce
+an intermediate history $n$ with the two compact-net witnesses required on the
+right-hand side.
+
+For the reverse direction, project the unary prefix evidence and the
+intermediate history $n$ from the right-hand side. The two compact-net witnesses
+for $c$ through $\epsilon$ and for $n$ through $\eta$, together with
+$\mathsf{Cont}(\epsilon,\eta,\theta)$, satisfy the hypotheses of
+Theorem~\ref{thm:compact-net-witness-prefixed-composite-closed}. Applying that
+closure theorem yields
+$\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_iff}
+
+\begin{theorem}[Prefixed composite compact net result determinacy]
+\label{thm:compact-net-witness-prefixed-composite-result-deterministic}
+For histories $p,c,\epsilon,\eta,\theta,m,m'$, assume
+$\mathsf{UnaryHistory}(\epsilon)$, $\mathsf{UnaryHistory}(\eta)$, and
+$\mathsf{Cont}(\epsilon,\eta,\theta)$. If both prefixed composed net witnesses
+start from the same prefixed center and composed precision,
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m)
+\quad\hbox{and}\quad
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m'),
+$$
+then the visible refined nets are history-same:
+$$
+\hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+Apply the prefixed composite factorization theorem to each prefixed composed
+witness. This produces two unprefixed two-step compact-net chains from the same
+center $c$, through the same precision $\epsilon$, and then through the same
+refinement precision $\eta$. Composite-result determinacy for compact net
+witnesses compares those two unprefixed chains and yields $\hsame(m,m')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_result\_deterministic}
+
+\begin{theorem}[Prefixed composite compact net prefix-independent result determinacy]
+\label{thm:compact-net-witness-prefixed-composite-prefix-independent-result-deterministic}
+For histories $p,p',c,\epsilon,\eta,\theta,m,m'$, assume
+$\mathsf{UnaryHistory}(\epsilon)$, $\mathsf{UnaryHistory}(\eta)$, and
+$\mathsf{Cont}(\epsilon,\eta,\theta)$. If two composed compact-net witnesses
+share the same unprefixed center and composed precision but use different
+visible prefixes,
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m)
+\quad\hbox{and}\quad
+\mathsf{CompactNetWitness}(p' \cdot c,\theta,p' \cdot m'),
+$$
+then the refined nets are history-same:
+$$
+\hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+Apply prefixed composite factorization to both witnesses, using the same
+precision histories $\epsilon,\eta$ and composed precision $\theta$. This
+removes the visible prefixes and recovers two unprefixed two-step compact-net
+chains from the same center $c$ through the same precision sequence. The
+unprefixed composite-result determinacy theorem compares those recovered chains
+and gives $\hsame(m,m')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_prefix\_independent\_result\_deterministic}
+
+\begin{theorem}[Prefixed composite compact net center determinacy]
+\label{thm:compact-net-witness-prefixed-composite-center-deterministic}
+For histories $p,c,c',\epsilon,\eta,\theta,m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$, $\mathsf{UnaryHistory}(\eta)$, and
+$\mathsf{Cont}(\epsilon,\eta,\theta)$. If two prefixed composed net witnesses
+have the same composed precision and the same prefixed refined net,
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m)
+\quad\hbox{and}\quad
+\mathsf{CompactNetWitness}(p \cdot c',\theta,p \cdot m),
+$$
+then their unprefixed centers are history-same:
+$$
+\hsame(c,c').
+$$
+\end{theorem}
+\begin{proof}
+Apply prefixed composite factorization to both prefixed witnesses. This
+recovers two unprefixed two-step compact-net chains ending at the same refined
+net and using the same precision histories $\epsilon$ and $\eta$. The
+unprefixed composite center determinacy theorem compares the recovered chains
+and yields $\hsame(c,c')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_center\_deterministic}
+
+\begin{theorem}[Prefixed composite compact net precision determinacy]
+\label{thm:compact-net-witness-prefixed-composite-precision-deterministic}
+For histories $p,c,\epsilon,\epsilon',\eta,\theta,\theta',m$, assume
+$\mathsf{UnaryHistory}(\epsilon)$, $\mathsf{UnaryHistory}(\epsilon')$,
+$\mathsf{UnaryHistory}(\eta)$,
+$\mathsf{Cont}(\epsilon,\eta,\theta)$, and
+$\mathsf{Cont}(\epsilon',\eta,\theta')$. If two prefixed composed net witnesses
+have the same prefixed center and the same prefixed refined net,
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\theta,p \cdot m)
+\quad\hbox{and}\quad
+\mathsf{CompactNetWitness}(p \cdot c,\theta',p \cdot m),
+$$
+then their first precision histories are history-same:
+$$
+\hsame(\epsilon,\epsilon').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two prefixed compact-net witnesses. Since they share the same
+prefixed center and prefixed refined net, left cancellation on their
+continuation ledgers identifies the composite precision histories
+$\theta$ and $\theta'$. The two composite ledgers then have the same right
+suffix $\eta$, so continuation suffix cancellation identifies the first
+precision histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_precision\_deterministic}
+
+\begin{definition}[Compact ledger policy]
+\label{def:compact-ledger-policy}
+Record the subset predicate, locatedness decisions, and finite net ledgers.
+\end{definition}
+
+\begin{definition}[\(\CompactUp\) certificate obligations]
+\label{def:compact-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\CompactUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\CompactUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:compact-zero-axiom-note}
+Open-cover compactness is not the exported carrier for \(\CompactUp\); the exported carrier is locatedness plus explicit finite-net data.
+\end{remark}

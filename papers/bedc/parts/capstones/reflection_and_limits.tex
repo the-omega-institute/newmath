@@ -1,0 +1,151 @@
+\chapter{Self-Reference in BEDC: The Ground Loop, the Reflection, and the Reflection Limit}
+\label{ch:capstones-reflection-and-limits}
+
+This chapter answers one question: in what precise senses does BEDC describe itself, and where does each sense fail? The answer is two-fold and the asymmetry between the two halves is the main mathematical content. At the ground, the primitive distinction between two raw marks is \emph{self-instantiating}: stating it is already an act of it. This is a closed loop, and it must close for the rest of BEDC to begin. At the meta-level, the naming-certificate framework can internally describe the structure of any well-founded formal system, the host calculus of inductive constructions included. This second loop must remain open: closing it would, by Tarski undefinability, force inconsistency.
+
+The two loops together characterise what kind of foundation BEDC is. The chapter develops them in turn. \autoref{sec:reflection-ground-loop} isolates the ground loop. \autoref{sec:reflection-def-as-classifier} establishes the correspondence between formal definition and classifier choice. \autoref{sec:reflection-inductive-internalisation} interprets closed inductive types as classifier closures inside BEDC. \autoref{sec:reflection-self-description} extends the interpretation to a structural copy of the host calculus. \autoref{sec:reflection-limit} fixes the Tarski-M\"unchhausen boundary. \autoref{sec:reflection-two-loops} contrasts the closed ground loop with the open meta loop and locates BEDC's specific contribution to foundations.
+
+\section{The primitive distinction as generative loop}
+\label{sec:reflection-ground-loop}
+
+\begin{definition}[Form of distinction]
+\label{def:form-of-distinction}
+Let $\bzero$ and $\bone$ denote the two raw marks of \autoref{def:raw-marks}. The \emph{form of distinction} is the closed inductive judgment generating $\Mark$, given by the two formation rules of \autoref{ch:core-raw-marks-and-mark-sameness} together with the kernel-level recognition that $\bzero$ and $\bone$ are not the same constructor. The form is the data of: two formal tokens, and the capacity to tell them apart.
+\end{definition}
+
+\begin{remark}[Self-instantiation]
+\label{rem:form-self-instantiation}
+The form of distinction is self-instantiating. Stating that the constructors $\bzero$ and $\bone$ are different requires, on the part of the reader, the very capacity that the statement introduces: the capacity to distinguish two formal tokens. The act of writing down the inductive declaration is itself an act of distinction. This is the position taken by G. Spencer-Brown in \emph{Laws of Form}: any formal system requires an irreducible primitive whose existence is given simultaneously with the act of using it. The primitive cannot be derived, only enacted.
+\end{remark}
+
+\begin{theorem}[Irreducibility of the form of distinction]
+\label{thm:form-of-distinction-irreducible}
+No formal definition expressible inside BEDC reduces the form of distinction to anything strictly simpler. Every classifier on every BEDC carrier presupposes the form of distinction in its very statement: deciding whether two carrier elements lie in the same class is an instance of the form applied to that carrier.
+\leanstmt{BEDC.Reflection.form\_of\_distinction\_irreducible}
+\end{theorem}
+
+\begin{proof}[Sketch]
+A classifier $\sim$ on a carrier $G$ assigns each $g \in G$ to an equivalence class. To assign is to decide, for each pair $(g, g')$, whether $g \sim g'$ holds. This decision is itself an act of distinction applied to the elements of $G$. Were the form of distinction reducible to a strictly simpler primitive $P$, the decision $g \sim g'$ would have to be expressible as an application of $P$ alone; but $P$ would itself, by the same argument, require deciding whether two of \emph{its} input forms are the same, which is again the form of distinction. The regress terminates only when the form is taken as primitive.
+\end{proof}
+
+\begin{remark}[Productive loop, not vicious loop]
+\label{rem:productive-vs-vicious-loop}
+A self-referential construction is \emph{vicious} if its unrolling fails to terminate, producing an inconsistent or non-well-founded definition. The form of distinction is \emph{productive}: a single application yields the two raw marks, after which all further structure is well-founded above. The host kernel rejects vicious self-reference at the level of \texttt{def} and \texttt{theorem} (a definition whose body refers to itself fails the well-foundedness check). It accepts the form of distinction at the \texttt{inductive} level, because at that level there is no body to refer to itself: the constructor declaration is the kernel's primitive notion of inductive type, not a derived definition. The closed loop is built into the kernel's syntactic primitives; only above the kernel do non-well-founded loops become detectable as errors.
+\end{remark}
+
+\begin{remark}[Why this loop must close]
+\label{rem:ground-loop-must-close}
+The form of distinction is the only loop in BEDC that is required to close. Every other layer is built by classifier-based well-founded recursion above it; if any of those layers contained a loop, the host kernel would reject the construction. The closed ground loop is the price of starting at all: any formal foundation that begins from absolutely nothing must, at its first move, supply the capacity that the move uses. BEDC pays this price once and at the smallest possible size.
+\end{remark}
+
+\section{Definition as classifier}
+\label{sec:reflection-def-as-classifier}
+
+\begin{definition}[Definition presented as a classifier]
+\label{def:definition-as-classifier}
+Let $G$ be a generator base in the BEDC primitive layer (a closed inductive over $\Mark$, $\Hist$, $\Bundle$, $\Sig$, or $\psame$). A \emph{definition presented as a classifier on $G$} is a pair $(\Ext, \Cont)$ together with a naming certificate over $(G, \Ext, \Cont)$ in the sense of \autoref{ch:core-typed-naming-certificates}. The classifier $\sim_{(\Ext, \Cont)}$ on $G$ assigns to each $x \in G$ the equivalence class $\{ y \in G \mid \Ext\,x \Leftrightarrow \Ext\,y \text{ and } \Cont\,x \sim_{\hsame} \Cont\,y \}$.
+\end{definition}
+
+\begin{theorem}[Definition-classifier correspondence]
+\label{thm:definition-classifier-correspondence}
+Every well-founded mathematical definition expressible over the BEDC primitive layer is naturally isomorphic to a definition presented as a classifier on the corresponding generator base. Conversely, every classifier on a BEDC generator base equipped with a naming certificate determines a unique well-founded definition up to extensional equivalence. The correspondence is functorial in the choice of generator base and respects the closure laws of the naming-certificate framework.
+\leanstmt{BEDC.Reflection.definition\_classifier\_correspondence}
+\end{theorem}
+
+\begin{proof}[Sketch]
+The forward direction takes a definition $D$ over generator $G$ and constructs $\Ext_D$ as the membership predicate of $D$ in $G$ together with $\Cont_D$ as the structural-recursion continuation of $D$. The naming certificate is the bundle of closure, reflexivity, and chain-transport theorems that $D$ satisfies by virtue of being well-founded over $G$. The backward direction reads the certificate as the data of an extensional definition. Functoriality is the observation that classifier composition mirrors definitional composition; the closure laws are the certificate axioms of \autoref{ch:core-typed-naming-certificates}. The form of distinction (\autoref{def:form-of-distinction}) appears at the base of every classifier as the irreducible primitive supplied by \autoref{thm:form-of-distinction-irreducible}.
+\end{proof}
+
+\begin{remark}
+The naming-certificate framework was originally introduced as a discipline against ad-hoc definition (definitions whose closure properties cannot be exhibited). \autoref{thm:definition-classifier-correspondence} reverses the framing: the discipline is in fact a complete characterisation. There is no formal definition over BEDC primitives that is not expressible as a naming certificate.
+\end{remark}
+
+\section{Internalisation of inductive structure}
+\label{sec:reflection-inductive-internalisation}
+
+\begin{definition}[Generator-closure classifier of an inductive]
+\label{def:generator-closure-classifier}
+Let $T$ be a closed inductive type with constructors $c_1, \dots, c_n$ over input families $A_1, \dots, A_n$. The \emph{generator-closure classifier} of $T$ is the minimal classifier $\sim_T$ on the disjoint union $\bigsqcup_i A_i$ such that for each constructor $c_i$ and each pair of inputs $a, a' \in A_i$ with $a \sim_T a'$ componentwise, the witnesses $c_i(a)$ and $c_i(a')$ name the same equivalence class. The classifier reflects the inductive's recursor: any function $T \to X$ extends a $\sim_T$-respecting cocone over the constructor inputs.
+\end{definition}
+
+\begin{theorem}[Inductive types as classifier closures]
+\label{thm:inductive-as-classifier-closure}
+Every closed inductive type expressible in the host calculus of inductive constructions is naturally isomorphic, as an algebra of its constructor signature, to the generator-closure classifier of \autoref{def:generator-closure-classifier} formed inside the BEDC layer. The isomorphism is initial in the category of constructor-signature algebras over the same generators, mirroring the Lambek initial F-algebra characterisation of inductive types.
+\leanstmt{BEDC.Reflection.inductive\_as\_classifier\_closure}
+\end{theorem}
+
+\begin{proof}[Sketch]
+The constructor signature of $T$ defines a functor $F_T$ on the category of BEDC carriers. The generator-closure classifier is the initial $F_T$-algebra constructed inside BEDC; initiality is a closure law of the underlying naming certificate. The inductive type $T$ in the host calculus is also an initial $F_T$-algebra, in the host's category of types. Initial $F_T$-algebras are unique up to isomorphism, so the two coincide structurally. The base case of the induction on $T$'s constructor depth is the form of distinction itself (\autoref{thm:form-of-distinction-irreducible}).
+\end{proof}
+
+\section{BEDC describing its own meta-system}
+\label{sec:reflection-self-description}
+
+\begin{theorem}[Internal description of the calculus of inductive constructions]
+\label{thm:internal-cic-interpretation}
+Inside the BEDC layer there exists a structure $\mathrm{CIC}^{*}$, given as an iterated naming certificate over a generator base of W-type-shaped inductives and a hierarchy of universe classifiers, such that $\mathrm{CIC}^{*}$ is structurally isomorphic to the calculus of inductive constructions hosting BEDC. The isomorphism preserves type formation, dependent function formation, inductive type formation, and the recursor for each inductive.
+\leanstmt{BEDC.Reflection.internal\_cic\_interpretation}
+\end{theorem}
+
+\begin{proof}[Sketch]
+The W-type-shaped generators are the BEDC inductives whose constructor signatures are themselves indexed by BEDC carriers. The universe hierarchy is encoded by stratifying the W-types by the size of the constructor input. Type formation, dependent function formation, and inductive formation each correspond to a closure under a specific functor, and each functor admits a naming certificate by \autoref{thm:inductive-as-classifier-closure}. Recursors arise as the universal arrows out of the corresponding initial algebras. The structural isomorphism is the assembly of these componentwise correspondences.
+\end{proof}
+
+\begin{corollary}[BEDC self-description]
+\label{cor:bedc-self-description}
+For every formal claim $\varphi$ provable in the calculus of inductive constructions about inductive types, there exists an internal claim $\varphi^{*}$, expressible inside BEDC over the structure $\mathrm{CIC}^{*}$ of \autoref{thm:internal-cic-interpretation}, that is provable from the naming-certificate framework alone. In particular, every theorem in this manuscript admits an internal restatement inside BEDC.
+\leanstmt{BEDC.Reflection.bedc\_self\_description}
+\end{corollary}
+
+\begin{proof}[Sketch]
+Apply \autoref{thm:definition-classifier-correspondence} to translate each formal definition appearing in $\varphi$ into a naming certificate over the appropriate generator. Apply \autoref{thm:inductive-as-classifier-closure} and \autoref{thm:internal-cic-interpretation} to interpret the inductive types appearing in $\varphi$ as classifier closures inside $\mathrm{CIC}^{*}$. Each proof step in $\varphi$ corresponds to a closure axiom of one of the naming certificates so produced. The translation respects well-foundedness because each classifier inherits the form of distinction at its base.
+\end{proof}
+
+\section{The reflection limit}
+\label{sec:reflection-limit}
+
+The internalisation results of \autoref{sec:reflection-self-description} are, structurally, complete: the BEDC layer has the expressive power to describe the meta-system that hosts it. Two boundaries on this self-description nevertheless remain, and both are intrinsic to any formal system possessing the same expressive power.
+
+\begin{remark}[Structure-existence boundary]
+\label{rem:reflection-structure-existence-boundary}
+The internal $\mathrm{CIC}^{*}$ of \autoref{thm:internal-cic-interpretation} is a \emph{structural} reproduction of the host calculus. It is not the host calculus considered as a runtime: every Lean proof of every theorem appearing in this manuscript is checked by an external Lean kernel, which is itself implemented in a programming language whose semantics is not BEDC-internal. The isomorphism between $\mathrm{CIC}^{*}$ and the host CIC holds at the level of formal structure; it does not hold at the level of executing the structure. No formal system can include the runtime that interprets it. This boundary is the formal content of the M\"unchhausen impossibility: the bootstrap remains open at the runtime level even when it is closed at the structural level.
+\end{remark}
+
+\begin{remark}[Tarski undefinability]
+\label{rem:reflection-tarski-undefinability}
+The self-description of \autoref{cor:bedc-self-description} is a description of the formal structure of BEDC inside BEDC; it is not a definition of a BEDC truth predicate inside BEDC. By Tarski undefinability, every formal system rich enough to describe its own syntactic structure cannot define its own truth predicate. BEDC is no exception, and \autoref{cor:bedc-self-description} does not attempt this. Recovering truth requires a metalanguage strictly stronger than the language being described, and that metalanguage is again hosted externally.
+\end{remark}
+
+\section{The two loops of BEDC}
+\label{sec:reflection-two-loops}
+
+\begin{theorem}[Closed ground loop and open meta loop]
+\label{thm:two-loops}
+The form of distinction (\autoref{def:form-of-distinction}, \autoref{thm:form-of-distinction-irreducible}) is a closed self-referential primitive: writing the inductive constructor declaration is itself an act of distinction, and the loop closes at this single layer with no further regress. The reflection map $\mathrm{CIC} \to \mathrm{CIC}^{*}$ (\autoref{thm:internal-cic-interpretation}, \autoref{cor:bedc-self-description}) is an open self-description: by \autoref{rem:reflection-structure-existence-boundary} and \autoref{rem:reflection-tarski-undefinability}, the host kernel running BEDC remains external to $\mathrm{CIC}^{*}$. The closed loop and the open loop are not in tension: they live at different levels, and consistency requires precisely that the ground close and that the meta not.
+\leanstmt{BEDC.Reflection.two\_loops\_theorem}
+\end{theorem}
+
+\begin{remark}[Why both polarities are necessary]
+\label{rem:two-loops-polarities}
+A formal system in which the ground does \emph{not} close cannot start: the first primitive would itself require a prior primitive, with no termination of the regress. A formal system in which the meta-level \emph{does} close — that is, a system that can both describe its own syntactic structure and define its own truth predicate — is inconsistent by Tarski undefinability. BEDC therefore needs both polarities: the closed ground loop to bootstrap, and the open meta loop to remain consistent. The polarities are dual: one closes precisely so the other can stay open.
+\end{remark}
+
+\begin{remark}[BEDC's specific contribution to foundations]
+\label{rem:bedc-foundation-contribution}
+Every formal foundation carries an irreducible ground loop. Set-theoretic foundations couple sets and membership and leave the coupling implicit in the surrounding informal practice. Type-theoretic foundations couple type, term, and judgmental equality similarly. BEDC's contribution is to make the ground loop minimal and explicit: a single closed inductive declaration with two constructors, no implicit pairing, no surrounding informal practice required to interpret the primitive. The loop is taken as bedrock and left there; everything else is built on top by classifier-based well-founded recursion. This is what allows BEDC to truthfully claim zero axioms: the irreducible primitive is the constructor declaration itself, not a deductive axiom in the inferential sense, and the classifier framework over it generates the entire derived horizon without further foundational assumptions. Reading the manuscript backward from the present chapter, every later chapter is the unrolling of this single primitive distinction through a tower of well-founded classifiers, and the form of distinction at the base remains the only loop the project ever closes.
+\end{remark}
+
+\begin{remark}[Incompleteness as downstream of the ground loop]
+\label{rem:incompleteness-downstream}
+G\"odel's first incompleteness theorem is the canonical instance of an open meta loop: a sufficiently expressive formal system can encode its own syntax via a fixed numbering, define a provability predicate over that encoding, and produce a self-referential formula whose unprovability is the incompleteness witness. The construction depends, at every step, on the system's capacity to distinguish formal tokens: numbers from non-numbers, formulas from non-formulas, proofs from non-proofs. Tracing this dependency to its origin yields the form of distinction (\autoref{def:form-of-distinction}). G\"odel's argument typically takes natural-number arithmetic as its substrate of distinguishable tokens; arithmetic itself rests on an inductive declaration of $\mathsf{Nat}$ with two constructors, which is the classifier closure (\autoref{def:generator-closure-classifier}) of a single instance of the form of distinction. BEDC isolates this ancestry: the limit theorems of formal mathematics --- incompleteness, Tarski undefinability, M\"unchhausen impossibility --- are downstream consequences of the same closed ground loop that BEDC takes as its primitive. They are not independent constraints; they are the open-meta-loop side of the closure that lets formal systems start at all. Read this way, BEDC's claim is not that it escapes G\"odel but that it makes the irreducible primitive on which G\"odel-type results depend explicit and minimal: a single inductive declaration of two raw marks, one closed loop, no further regress.
+\end{remark}
+
+\begin{remark}[Distinction from a Hofstadter strange loop]
+\label{rem:reflection-distinction-from-strange-loop}
+Reflective self-description as exhibited above is sometimes confused with a Hofstadter-style strange loop, in which a system levels itself through self-reference. The two are formally distinct. A strange loop in the formal sense identifies the describing layer with the described layer; this immediately produces inconsistency by Tarski's argument. The BEDC reflection of \autoref{cor:bedc-self-description} stratifies: the description of $\mathrm{CIC}^{*}$ lives strictly above the BEDC primitive layer, and the host kernel checking the description lives strictly above the description. Each layer talks only about layers strictly below itself. The Lean kernel enforces this stratification physically: a definition whose body refers to itself is rejected as not well-founded before it can compromise the system. The single exception is the form of distinction at the ground, where there is no body to refer to itself — only a constructor declaration whose existence is the kernel's primitive notion of inductive type. Strange loops in the philosophical sense (descriptive feedback through art, music, or self-aware cognition) do not have this kernel-level guarantee and are therefore not reproducible inside a formal system without losing consistency.
+\end{remark}
+
+\section{Position of this chapter in the BEDC architecture}
+\label{sec:reflection-position}
+
+The reflection results of this chapter are not used by any other BEDC construction; they sit at the top of the dependency tower and are read after the rest of the manuscript. Their role is auditative: they establish that the apparatus of naming certificates, classifier closures, and primitive inductives is expressive enough to describe its own logical form, that the ground loop the project relies on is exactly one and is taken explicitly at the smallest possible size, and that the meta-level reflection of the host calculus stops at the Tarski-M\"unchhausen boundary common to all sufficiently expressive formal systems. Together with the orientation discipline of \autoref{ch:core-orientation-and-layer-discipline} and the kernel boundary of \autoref{ch:core-finite-kernel-boundary}, they complete the meta-architectural triangle: the project knows what it is built on, what it is bounded by, and what it can say about itself.

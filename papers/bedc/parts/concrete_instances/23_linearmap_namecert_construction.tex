@@ -10,6 +10,123 @@ The linear map interface \(\LinearMapUp\) has certificate obligations between tw
 Use a structure containing a function \(f:V\to W\) plus explicit proofs of additivity and scalar compatibility.
 \end{definition}
 
+\section{Concrete singleton empty-history linear map instance}
+\label{sec:linearmap-concrete-singleton-instance}
+
+\begin{definition}[Concrete singleton empty-history linear map instance]
+\label{def:singleton-empty-history-linearmap-instance}
+Use the singleton empty-history vector space of
+Definition~\ref{def:singleton-empty-history-vecspace-instance} as both source
+and target. Its scalar, source-vector, and target-vector carriers are the
+singleton history source $A_{\emp}$ of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. The map-code
+carrier is the same existing singleton predicate
+$$
+A_{\emp}:\mathsf{BHist}\to\mathsf{Prop},
+$$
+and the map-code classifier is the existing singleton classifier
+$\rho_{\emp}$. The realized action is the constant endpoint action
+$$
+\Lambda_{\emp}(f,x):=\emp
+$$
+for every admitted map code $f$ and singleton vector input $x$. The same
+endpoint action may be displayed as
+$$
+F_{\emp}(h):=\emp.
+$$
+The linear-map carrier on public map codes and its pointwise map classifier
+are
+$$
+L_{\emp}(f):=\hsame(f,\emp),
+\qquad
+\lambda_{\emp}(f,g):=
+L_{\emp}(f)\land L_{\emp}(g)\land\hsame(f,g).
+$$
+The pointwise evaluation is
+$$
+\mathsf{ev}_{\emp}(f,h):=F_{\emp}(h).
+$$
+The identity, zero-map, and composition code are
+$$
+\mathsf{id}_{\emp}:=\emp,\qquad
+\mathsf{zeroMap}_{\emp}:=\emp,\qquad
+\mathsf{comp}_{\emp}(g,f):=\emp.
+$$
+
+This certificate has ten fields:
+\begin{enumerate}
+  \item Traditional target: the terminal one-map linear map space between the
+  singleton vector space and itself.
+  \item BEDC source: $\mathsf{BHist}$.
+  \item Carrier choice: $A_{\emp}$ for source vectors, target vectors, and
+  map codes.
+  \item Classifier choice: $\rho_{\emp}$ for endpoint and map-code equality.
+  \item Stability obligations: output closure, pointwise classifier
+  congruence, additivity, scalar compatibility, zero preservation, identity
+  closure, and composition closure.
+  \item Ledger: singleton map-code provenance for $F_{\emp}$,
+  $\mathsf{id}_{\emp}$, $\mathsf{zeroMap}_{\emp}$, and
+  $\mathsf{comp}_{\emp}$.
+  \item Core theorem list: Theorem~\ref{thm:singleton-empty-history-linearmap-laws}.
+  \item Exactness predicate: singleton endpoint classification.
+  \item Standard bridge: the terminal one-map linear hom space.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Singleton empty-history linear map laws]
+\label{thm:singleton-empty-history-linearmap-laws}
+The tuple
+$$
+(A_{\emp},\rho_{\emp},\Lambda_{\emp},\emp,\mathsf{comp}_{\emp})
+$$
+satisfies the $\LinearMapUp$ schema over the singleton vector space, where the
+displayed empty-history code supplies the identity and zero-map slots.
+\end{theorem}
+\begin{proof}
+The source and target vector-space laws are those of
+Theorem~\ref{thm:singleton-empty-history-vecspace-laws}. They supply the
+singleton scalar laws, vector closure, additive laws, scalar-action closure,
+and scalar-action congruence for the same $A_{\emp}$ carrier and
+$\rho_{\emp}$ classifier.
+
+Output closure is $A_{\emp}(\emp)$, since
+$\Lambda_{\emp}(f,x)$ is definitionally $\emp$. Pointwise classifier
+congruence is immediate because
+$\Lambda_{\emp}(f,x)$ and $\Lambda_{\emp}(g,y)$ are both $\emp$, so the
+required endpoint comparison is the singleton $\rho_{\emp}$ witness.
+
+For additivity,
+$\Lambda_{\emp}(f,\mathsf{add}(x,y))$ and
+$\mathsf{add}(\Lambda_{\emp}(f,x),\Lambda_{\emp}(f,y))$ are both classified
+with $\emp$. The vector-space theorem supplies closure for the displayed
+addition endpoint, and the singleton classifier supplies the endpoint
+comparison.
+
+For scalar compatibility,
+$\Lambda_{\emp}(f,\mathsf{smul}(r,x))$ and
+$\mathsf{smul}(r,\Lambda_{\emp}(f,x))$ are again classified with $\emp$.
+Scalar-action closure and congruence come from the singleton vector-space
+laws, so no additional map-specific datum is needed.
+
+Zero preservation compares $\Lambda_{\emp}(f,0)$ with the singleton vector
+zero. Both sides are $\emp$, and the required classification is the same
+$\rho_{\emp}$ endpoint witness.
+
+The identity and zero-map codes are $\emp$, and their action on any carried
+input $x$ reduces to $\emp$. The input carrier witness $A_{\emp}(x)$ together
+with $\rho_{\emp}$ gives the required singleton endpoint classification.
+
+For composition closure, every composite map code and every realized output
+reduce to $\emp$. The carrier witness for $\emp$ and reflexivity inside
+$\rho_{\emp}$ close the composition law and the comparison of the two
+evaluation orders.
+\end{proof}
+
+The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
+carrier and singleton action, so later Lean work can target BHist-anchored
+linear-map laws instead of only abstract function fields.
+
 \section{The certificate}
 
 \begin{definition}[LinearMap source specification]
@@ -57,4 +174,3 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:linearmap-zero-axiom-note}
 Avoids funext by using pointwise classifier sameness instead of equality of functions.
 \end{remark}
-

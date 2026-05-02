@@ -10,6 +10,97 @@ The matrix interface \(\MatrixUp\) has certificate obligations over a scalar rin
 Use functions \(\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R\) with \(n,m:\NatUp\) and scalar ring \(R\).
 \end{definition}
 
+\section{Concrete singleton empty-history matrix instance}
+\label{sec:matrix-concrete-singleton-instance}
+
+\begin{definition}[Concrete singleton empty-history matrix instance]
+\label{def:singleton-empty-history-matrix-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Use the
+classifier
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+The row-dimension witness and column-dimension witness are both represented by
+the empty unary history $\emp$. The scalar side is the singleton empty-history
+ring of Definition~\ref{def:singleton-empty-history-ring-instance}, and the
+row and column vector layers are read through the singleton empty-history
+vector-space instance of
+Definition~\ref{def:singleton-empty-history-vecspace-instance}.
+
+The matrix carrier is the same singleton source $A_{\emp}$ on
+$\mathsf{BHist}$ codes. Define the displayed matrix operations by
+$$
+0_M:=\emp,\qquad I_M:=\emp,\qquad
+M\oplus N:=\mathsf{append}(M,N),\qquad
+M\odot N:=\mathsf{append}(M,N).
+$$
+The certificate fit has ten fields:
+\begin{enumerate}
+  \item Traditional target: the terminal singleton matrix algebra.
+  \item BEDC source: $\mathsf{BHist}$ together with the singleton ring and
+  $\VecSpaceUp$ layers.
+  \item Carrier choice: $A_{\emp}$.
+  \item Classifier choice: $\rho_{\emp}$.
+  \item Stability obligations: closure, zero laws, identity laws,
+  associativity, and congruence for the displayed operations.
+  \item Ledger: the singleton endpoint together with row and column witnesses
+  represented by $\emp$.
+  \item Core theorem list:
+  Theorem~\ref{thm:singleton-empty-history-matrix-laws}.
+  \item Exactness predicate: singleton endpoint classification.
+  \item Standard bridge: the terminal matrix object.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Singleton empty-history matrix laws]
+\label{thm:singleton-empty-history-matrix-laws}
+For the singleton instance of
+Definition~\ref{def:singleton-empty-history-matrix-instance}, the displayed
+matrix carrier and operations satisfy the concrete $\MatrixUp$ law package:
+\begin{enumerate}
+  \item $0_M$ and $I_M$ are carried by $A_{\emp}$.
+  \item If $A_{\emp}(M)$ and $A_{\emp}(N)$, then
+  $A_{\emp}(M\oplus N)$ and $A_{\emp}(M\odot N)$.
+  \item $0_M$ is a left and right unit for $\oplus$ under $\rho_{\emp}$.
+  \item $I_M$ is a left and right identity for $\odot$ under $\rho_{\emp}$.
+  \item $\oplus$ and $\odot$ are associative under $\rho_{\emp}$.
+  \item $\rho_{\emp}$ is reflexive, symmetric, and transitive on carried
+  matrix codes, and it is respected by $\oplus$ and $\odot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier endpoint is supplied by the singleton source witness from
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. The row and
+column witnesses use the same empty unary history, so the dimension ledger is
+closed at the singleton endpoint.
+
+For operation closure, carried inputs are classified as singleton endpoints.
+The displayed operations are either $\emp$ or $\mathsf{append}$ applied to
+singleton endpoints. The BEDC continuation unit laws cited in
+Theorem~\ref{thm:concrete-history-monoid-laws} identify the resulting append
+endpoint with $\emp$, so the singleton source again carries the result.
+
+The zero laws for $\oplus$ and the identity laws for $\odot$ are the same
+unit calculation. On the left and on the right, the operation compares
+$\mathsf{append}(\emp,M)$ or $\mathsf{append}(M,\emp)$ with $M$ under
+$\rho_{\emp}$, and the continuation unit laws provide the $\hsame$ component.
+The endpoint components come from $A_{\emp}(M)$ and $A_{\emp}(\emp)$.
+
+Associativity of $\oplus$ and $\odot$ uses the continuation associativity law
+already used by the singleton monoid, ring, and vector-space chapters. Both
+operation symbols are represented by $\mathsf{append}$, so the two
+parenthesized products share a single BEDC append spine up to $\hsame$.
+
+For classifier congruence, unpack the two $\rho_{\emp}$ hypotheses. Closure
+keeps both composite endpoints in $A_{\emp}$, and the relation components are
+combined by reflexivity, symmetry, and transitivity of $\hsame$ after the
+append unit and associativity reductions. This gives the required
+$\rho_{\emp}$ comparison for both $\oplus$ and $\odot$.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Matrix source specification]

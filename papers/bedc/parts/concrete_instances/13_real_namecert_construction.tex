@@ -38,6 +38,38 @@ itself as the exposed rational history and reflexivity of $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryCarrier\_e1\_iff\_rat}
 
+\begin{theorem}[Constant real carrier e-zero exclusion]
+\label{thm:real-constant-history-carrier-e0-absurd}
+For every history tail $t$,
+$$
+\mathsf{RealConstantHistoryCarrier}(\Ezero(t))
+\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the constant real carrier witness. It displays $\Ezero(t)$ as
+$\Eone(d)$ for some rational history $d$. BEDC history no-confusion between
+zero-extension and one-extension constructors eliminates that display.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryCarrier\_e0\_absurd}
+
+\begin{theorem}[Constant real carrier empty exclusion]
+\label{thm:real-constant-history-carrier-empty-absurd}
+The empty history is not a constant real history carrier:
+$$
+\mathsf{RealConstantHistoryCarrier}(\emp)
+\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the constant real carrier witness. It displays $\emp$ as an
+$\Eone$-sealed rational history, and BEDC history no-confusion between the
+empty constructor and the one-extension constructor eliminates that display.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryCarrier\_empty\_absurd}
+
 \section{The certificate-obligation schema}
 
 \begin{definition}[Real source specification]
@@ -84,6 +116,85 @@ two rational histories and uses reflexivity at both seals.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_iff\_rat}
 
+\begin{theorem}[Constant real classifier endpoint carriers]
+\label{thm:real-constant-history-classifier-endpoint-carriers}
+If two constant real histories classify together, then both endpoints are in the
+constant real history carrier:
+$$
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\mathsf{RealConstantHistoryCarrier}(h)\land
+\mathsf{RealConstantHistoryCarrier}(k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into rational histories $d,e$, endpoint displays
+$\hsame(h,\Eone(d))$ and $\hsame(k,\Eone(e))$, and a rational history
+classifier between $d$ and $e$. The rational classifier stores rational carrier
+witnesses at both exposed endpoints, so pairing those carrier witnesses with the
+two endpoint displays gives the two constant real history carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_endpoint\_carriers}
+
+\begin{theorem}[Constant real classifier endpoint transport]
+\label{thm:real-constant-history-classifier-endpoint-transport}
+If constant real histories $h,k$ classify together, and $h\hsame h'$ and
+$k\hsame k'$, then $h'$ and $k'$ classify together.
+\end{theorem}
+\begin{proof}
+Unpack the two sealed rational witnesses. Symmetry and transitivity of
+$\hsame$ move the displayed endpoint equalities from $h,k$ to $h',k'$, while
+the rational classifier witness remains attached to the same sealed tails.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_endpoint\_transport}
+
+\begin{theorem}[Constant real classifier equivalence fields]
+\label{thm:real-constant-history-classifier-equivalence-fields}
+The constant real history classifier supplies the equivalence fields carried by
+the constant-real certificate package:
+\begin{enumerate}
+  \item if $\mathsf{RealConstantHistoryCarrier}(h)$, then
+  $\mathsf{RealConstantHistoryClassifier}(h,h)$;
+  \item if $\mathsf{RealConstantHistoryClassifier}(h,k)$, then
+  $\mathsf{RealConstantHistoryClassifier}(k,h)$;
+  \item if $\mathsf{RealConstantHistoryClassifier}(h,k)$ and
+  $\mathsf{RealConstantHistoryClassifier}(k,\ell)$, then
+  $\mathsf{RealConstantHistoryClassifier}(h,\ell)$.
+\end{enumerate}
+In the ten-field fit, the traditional target is constant rational embedding
+into $\RealUp$; the BEDC source is $BHist$ rational histories; the carrier is
+$\mathsf{RealConstantHistoryCarrier}$; the classifier is
+$\mathsf{RealConstantHistoryClassifier}$; the stability obligation is the
+equivalence fields above; the ledger is the sealed rational tail; the core
+theorem is this displayed package; exactness is inherited from the rational
+classifier; the standard bridge is constant rational real names; and the status
+is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For reflexivity, unpack $\mathsf{RealConstantHistoryCarrier}(h)$ as a sealed
+rational tail $d$ with $\hsame(h,\Eone(d))$ and
+$\mathsf{RatHistoryCarrier}(d)$. The rational carrier supplies the reflexive
+rational classifier on $d$, using $\hsame$ reflexivity on the exposed tail.
+Packing the same sealed tail twice and using the displayed endpoint witness on
+both sides gives $\mathsf{RealConstantHistoryClassifier}(h,h)$.
+
+For symmetry, unpack
+$\mathsf{RealConstantHistoryClassifier}(h,k)$ into sealed rational tails $d,e$,
+endpoint displays for $h$ and $k$, and
+$\mathsf{RatHistoryClassifier}(d,e)$. Keep the same endpoint displays in the
+opposite order and apply $\mathsf{RatHistoryClassifier\_symm}$ to the rational
+classifier.
+
+For transitivity, unpack the two classifiers into tails $d,e$ and $e',f$. The
+two middle displays for $k$ compare $\Eone(e)$ and $\Eone(e')$ by $\hsame$
+symmetry and transitivity; one-constructor inversion turns that comparison into
+$\hsame(e,e')$. Transport the right rational classifier from $e'$ to $e$, then
+compose it with the left rational classifier by
+$\mathsf{RatHistoryClassifier\_trans}$. Repacking the outer endpoint displays
+for $h$ and $\ell$ gives the required classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_equivalence\_fields}
+
 \begin{definition}[Real stream classifiers]
 \label{def:real-stream-classifiers}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, the stream classifier is pointwise rational-history classification. The finite prefix classifier records the same data recursively through a selected observation index.
@@ -99,6 +210,149 @@ If rational-observation streams are pointwise related by the rational history cl
 Induct on the selected prefix length. The base case is the pointwise classifier at zero. The successor case pairs the induction hypothesis for the shorter prefix with the pointwise classifier at the successor observation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_prefix}
+
+\begin{theorem}[Real stream prefix classifier hsame transport]
+\label{thm:real-stream-prefix-classifier-hsame-transport}
+If two rational-observation streams are related pointwise by $\hsame$ on both
+sides, then every classified finite prefix transports to the pointwise-related
+streams.
+\end{theorem}
+\begin{proof}
+Induct on the prefix length. The base observation is rational classifier
+transport at index $0$. At a successor index, the induction hypothesis
+transports the shorter prefix and rational classifier transport handles the
+successor observation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_hsame\_transport}
+
+\begin{theorem}[Real stream prefix classifier reflexivity]
+\label{thm:real-stream-prefix-classifier-refl}
+For every rational-observation stream $x:\mathbb{N}\to\Hist$, if
+$\mathsf{RatHistoryCarrier}(x(i))$ for every observation index $i$, then
+$\mathsf{RealStreamPrefixClassifier}(x,x,n)$ for every prefix index $n$.
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, the carrier witness for $x(0)$ supplies the rational
+history classifier for the endpoint, with $\hsame$ reflexivity providing the
+identity transport on both sides.
+
+At a successor index, pair the induction hypothesis for the shorter prefix with
+the same rational classifier construction at the new endpoint $n+1$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_refl}
+
+\begin{theorem}[Real stream prefix classifier symmetry]
+\label{thm:real-stream-prefix-classifier-symm}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$, then
+$\mathsf{RealStreamPrefixClassifier}(y,x,n)$.
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, apply rational-history classifier symmetry to the base
+endpoint classifier.
+
+At a successor index, reverse the shorter prefix by the induction hypothesis and
+reverse the displayed successor endpoint by rational-history classifier
+symmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_symm}
+
+\begin{theorem}[Real stream prefix classifier endpoint projection]
+\label{thm:real-stream-prefix-classifier-endpoint}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$, then
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$.
+\end{theorem}
+\begin{proof}
+Split on $n$. At $0$, the prefix witness is exactly the selected rational-history
+classifier.
+
+At a successor index, the recursive prefix witness is a pair; its right
+component is the rational-history classifier at the selected endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_endpoint}
+
+\begin{theorem}[Real stream prefix classifier base of successor]
+\label{thm:real-stream-prefix-classifier-base-of-successor}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, every nonempty
+classified finite prefix contains the base observation classifier:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n+1)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,0).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, the successor prefix is the pair of the base classifier
+and the first successor endpoint classifier, so project its left component. At
+a further successor, recursively descend through the left prefix component until
+the base observation classifier is exposed.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_base\_of\_successor}
+
+\begin{theorem}[Real stream finite-prefix exactness]
+\label{thm:real-stream-finite-prefix-exactness}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$,
+$$
+\mathsf{RealStreamClassifier}(x,y)
+\quad\Longleftrightarrow\quad
+\forall n,\ \mathsf{RealStreamPrefixClassifier}(x,y,n).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:real-stream-classifier-prefix}. The pointwise stream classifier
+supplies exactly the rational-history classifier needed at each endpoint of the
+recursive prefix construction.
+
+For the reverse direction, assume every finite prefix is classified and fix an
+observation index $n$. Apply the hypothesis at $n$, then use
+\autoref{thm:real-stream-prefix-classifier-endpoint} to recover
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$. Since $n$ was arbitrary, these
+endpoint classifiers are precisely $\mathsf{RealStreamClassifier}(x,y)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_finite\_prefix\_exactness}
+
+\begin{theorem}[Real stream classifier symmetry]
+\label{thm:real-stream-classifier-symmetry}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamClassifier}(x,y)$, then
+$\mathsf{RealStreamClassifier}(y,x)$.
+\end{theorem}
+\begin{proof}
+Fix an observation index. The stream classifier supplies the rational-history
+classifier at that index, and rational-history classifier symmetry reverses it.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_symm}
+
+\begin{theorem}[Real stream classifier transitivity]
+\label{thm:real-stream-classifier-transitivity}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamClassifier}(x,y)$ and
+$\mathsf{RealStreamClassifier}(y,z)$, then
+$\mathsf{RealStreamClassifier}(x,z)$.
+\end{theorem}
+\begin{proof}
+Fix an observation index. The two stream classifiers give the two
+rational-history classifier witnesses at that index, and rational-history
+classifier transitivity composes them.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_trans}
+
+\begin{theorem}[Real stream prefix classifier transitivity]
+\label{thm:real-stream-prefix-classifier-trans}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
+prefix classifier relates $x$ to $y$ through index $n$ and relates $y$
+to $z$ through the same index, then it relates $x$ to $z$ through
+index $n$.
+\end{theorem}
+\begin{proof}
+Induct on the prefix index. At zero, use rational history classifier
+transitivity. At a successor index, combine the induction hypothesis for the
+shorter prefix with rational history classifier transitivity at the new
+endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_trans}
 
 \begin{theorem}[Real stream prefix one-tail pair readback]
 \label{thm:real-stream-prefix-e1-pair-readback}

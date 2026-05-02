@@ -59,10 +59,84 @@ so this proof does not export identity reflection as a public equality principle
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_transport}
 
+\begin{theorem}[Option history carrier unary prefix closure]
+\label{thm:option-history-carrier-unary-prefix-closed}
+Let $p,h:\mathsf{BHist}$. If $p$ is a unary history and
+$\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(h)$ holds, then
+$$
+\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(\mathsf{append}(p,h))
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Split the nullable carrier witness for $h$. In the absent branch, transport
+the empty unary-history witness along $\hsame(\emp,h)$ and close by unary
+closure under append with the prefix $p$. In the source branch, the source
+witness is already a unary-history witness for $h$, and unary append closure
+again gives the carrier witness for $\mathsf{append}(p,h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_unary\_prefix\_closed}
+
+\begin{theorem}[Option history carrier unary suffix closure]
+\label{thm:option-history-carrier-unary-suffix-closed}
+Let $p,h:\mathsf{BHist}$. If $p$ is a unary history and
+$\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(h)$ holds, then
+$$
+\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(\mathsf{append}(h,p))
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Split the nullable carrier witness for $h$. In the absent branch, transport
+the empty unary-history witness along $\hsame(\emp,h)$ and close by unary
+closure under append with the suffix $p$. In the source branch, the source
+witness is already a unary-history witness for $h$, and unary append closure
+again gives the carrier witness for $\mathsf{append}(h,p)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_unary\_suffix\_closed}
+
+\begin{theorem}[Option history classifier unary prefix closure]
+\label{thm:option-history-classifier-unary-prefix-closed}
+Let $p,h,k:\mathsf{BHist}$. If $p$ is unary and
+$\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)$ holds, then
+the nullable option classifier is preserved by placing $p$ on the left:
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (\mathsf{append}(p,h),\mathsf{append}(p,k)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the nullable classifier into the two endpoint carrier witnesses and the
+stored $\hsame(h,k)$ link. Apply the unary-prefix carrier closure to both
+endpoints. The remaining classifier field is the prefixed endpoint sameness,
+obtained by eliminating the $\hsame(h,k)$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_unary\_prefix\_closed}
+
+\begin{theorem}[Option history classifier unary suffix closure]
+\label{thm:option-history-classifier-unary-suffix-closed}
+Let $p,h,k:\mathsf{BHist}$. If $p$ is unary and
+$\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)$ holds, then
+the nullable option classifier is preserved by placing $p$ on the right:
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (\mathsf{append}(h,p),\mathsf{append}(k,p)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the nullable classifier into the two endpoint carrier witnesses and the
+stored $\hsame(h,k)$ link. Apply the unary-suffix carrier closure to both
+endpoints. The remaining classifier field is the suffixed endpoint sameness,
+obtained by eliminating the $\hsame(h,k)$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_unary\_suffix\_closed}
+
 \begin{definition}[Option pattern specification]
 \label{def:option-pattern-specification}
 The pattern is absent-or-present generation: one null constructor and one wrapper constructor over source witnesses.
 \end{definition}
+\leandef{BEDC.Derived.OptionUp.OptionHistoryPattern}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryPattern\_carrier\_iff}
 
 \begin{definition}[Option classifier specification]
 \label{def:option-classifier-specification}

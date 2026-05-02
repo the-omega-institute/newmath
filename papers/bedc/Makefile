@@ -1,6 +1,8 @@
-.PHONY: all clean
+.PHONY: all clean precheck
 all: main.pdf
-main.pdf: main.tex preamble.tex $(wildcard frontmatter/*.tex parts/**/*.tex appendices/*.tex)
+precheck:
+	@bash scripts/check_tex_size.sh
+main.pdf: precheck main.tex preamble.tex $(wildcard frontmatter/*.tex parts/**/*.tex appendices/*.tex)
 	pdflatex -interaction=nonstopmode main.tex
 	pdflatex -interaction=nonstopmode main.tex
 clean:

@@ -30,13 +30,15 @@ and the stored $RightEq$ payload relation, yielding the right disjunct.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_branch\_partition}
 
-\begin{theorem}[Sum history classifier branch introduction]
-\label{thm:sum-history-classifier-branch-introduction}
+\begin{theorem}[Sum history classifier branch exactness]
+\label{thm:sum-history-classifier-branch-exactness}
 For branch carriers $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$, branch
 classifiers $LeftEq,RightEq:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
-and histories $h,k$, visible left-or-right branch data constructs the
-history-level sum classifier:
+and histories $h,k$, the history-level sum classifier is exactly the visible
+left-or-right branch disjunction:
 $$
+\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k)
+\Longleftrightarrow
 \bigl(\exists l,l'.\;
 \hsame(h,\Ezero(l))\land
 \hsame(k,\Ezero(l'))\land
@@ -45,20 +47,22 @@ LeftEq(l,l')\bigr)
 \bigl(\exists r,r'.\;
 \hsame(h,\Eone(r))\land
 \hsame(k,\Eone(r'))\land
-RightEq(r,r')\bigr)
-\to
-\mathsf{SumHistoryClassifier}(Left,Right,LeftEq,RightEq,h,k).
+RightEq(r,r')\bigr).
 $$
-In the ten-field fit, the constructor introduction target records that visible
-same-branch endpoints and their stored branch relation rebuild the corresponding
-sum classifier witness.
+In the ten-field fit, the exactness target records that classifier witnesses
+and visible same-branch endpoint data determine each other.
 \end{theorem}
 \begin{proof}
-Split the displayed disjunction. In the left branch, unpack $l,l'$ together
-with the two visible left endpoint witnesses and the stored $LeftEq(l,l')$
-witness, then rebuild the left classifier constructor. In the right branch,
-unpack $r,r'$ together with the two visible right endpoint witnesses and the
-stored $RightEq(r,r')$ witness, then rebuild the right classifier constructor.
+For the forward direction, apply
+Theorem~\ref{thm:sum-history-classifier-branch-partition}. It case-analyzes
+the classifier witness and returns the displayed left-or-right branch data.
+
+For the reverse direction, split the displayed disjunction. In the left branch,
+unpack $l,l'$ together with the two visible left endpoint witnesses and the
+stored $LeftEq(l,l')$ witness, then rebuild the left classifier constructor. In
+the right branch, unpack $r,r'$ together with the two visible right endpoint
+witnesses and the stored $RightEq(r,r')$ witness, then rebuild the right
+classifier constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.SumUp.SumHistoryClassifier\_branch\_iff}
 

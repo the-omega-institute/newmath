@@ -122,6 +122,57 @@ Then \(\HSame(left,right)\).
 Use the right-recursive append associativity spine underlying $\ContR$: first identify each continuation proof with its append result, then apply associativity for recursion on the right history $c$. The two displayed composites are therefore the same append tree up to $\HSame$.
 \end{proof}
 
+\begin{theorem}[Composite continuation tail uniqueness]
+\label{thm:cont-composite-tail-unique}
+If
+$$
+\ContR(h,f,k),\quad \ContR(k,g,r),\quad \ContR(h,tail,r),
+$$
+then $\HSame(tail,\mathsf{append}(f,g))$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_tail\_unique}
+\begin{proof}
+Compose the first two continuation witnesses using associativity to obtain a
+direct witness from $h$ to $r$ with tail $\mathsf{append}(f,g)$.  Left
+cancellation for continuation then identifies this composite tail with the
+given direct tail.
+\end{proof}
+
+\begin{theorem}[Composite continuation left factor]
+\label{thm:cont-composite-left-factor}
+If
+$$
+\ContR(b,g,c),\quad \ContR(f,g,fg),\quad \ContR(a,fg,c),
+$$
+then $\ContR(a,f,b)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_left\_factor}
+\begin{proof}
+The displayed composite continuation $\ContR(a,fg,c)$ and the factor
+continuation $\ContR(f,g,fg)$ rewrite $c$ as
+$\mathsf{append}(\mathsf{append}(a,f),g)$. Compare this with
+$\ContR(b,g,c)$ and cancel the common right suffix $g$; the middle object is
+therefore $\hsame$ to $\mathsf{append}(a,f)$, and the reflexive continuation
+from $a$ by $f$ transports to $b$.
+\end{proof}
+
+\begin{theorem}[Composite continuation right factor]
+\label{thm:cont-composite-right-factor}
+If
+$$
+\ContR(a,f,b),\quad \ContR(f,g,fg),\quad \ContR(a,fg,c),
+$$
+then $\ContR(b,g,c)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_right\_factor}
+\begin{proof}
+Invert the three continuation witnesses. The result endpoint $c$ is
+$\mathsf{append}(a,\mathsf{append}(f,g))$, while the desired right factor
+endpoint is $\mathsf{append}(\mathsf{append}(a,f),g)$. BEDC append
+associativity identifies these two histories and supplies the displayed
+continuation from $b$ by $g$ to $c$.
+\end{proof}
+
 \begin{corollary}[Addition-like behavior requires no primitive addition]
 \label{cor:addition-like-behavior-requires-no-primitive-addition}
 The continuation relation supplies a finite-kernel seed for addition-like derived interfaces. The additive interface is not primitive; it may be licensed only by a naming certificate whose stability component cites continuation unit and associativity.

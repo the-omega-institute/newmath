@@ -1,0 +1,190 @@
+\section{Payload descent image classifier visible pair coherence}
+\label{sec:option-payload-descent-image-visible-pair-coherence}
+
+\begin{theorem}[Tagged option payload descent image classifier visible payload pair coherence]
+\label{thm:tagged-option-payload-descent-image-classifier-visible-payload-pair-coherence}
+This theorem fits the per-object template as follows: the traditional target is
+visible readback coherence for constructor-tagged $\mathsf{OptionUp}$ under
+payload descent; the BEDC source is $\mathsf{BHist}$ with a
+$\mathsf{DescentCertificate}$; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation is
+visible endpoint determinacy plus payload readback; the ledger is the displayed
+target payload pair; the core theorem is the shared-source-pair coherence below;
+exactness says one source pair explains all visible target presentations; the
+standard bridge is $\mathsf{none}$/$\mathsf{some}$ payload readback; and the
+status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For target endpoints
+$k,k':\mathsf{BHist}$ and visible target payloads
+$u,v,u',v':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')
+$$
+and
+$$
+T(u)\land T(v)\land
+\hsame(k,\Eone(u))\land
+\hsame(k',\Eone(v))
+$$
+and
+$$
+T(u')\land T(v')\land
+\hsame(k,\Eone(u'))\land
+\hsame(k',\Eone(v')),
+$$
+then
+$$
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+T(\delta.\mathsf{map}(a))\land T(\delta.\mathsf{map}(b))\land
+\hsame(u,\delta.\mathsf{map}(a))\land
+\hsame(v,\delta.\mathsf{map}(b))\land
+\hsame(u',\delta.\mathsf{map}(a))\land
+\hsame(v',\delta.\mathsf{map}(b)).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-visible-payload-readback}
+to the image-classifier witness and the first visible pair. This supplies
+source payloads $a,b$ with $S(a)$, $S(b)$, $a\sim_S b$, the transported target
+witnesses, and the two payload identifications
+$\hsame(u,\delta.\mathsf{map}(a))$ and
+$\hsame(v,\delta.\mathsf{map}(b))$.
+
+Compare the two visible presentations of the left endpoint $k$. The endpoint is
+presented both as $\Eone(u)$ and as $\Eone(u')$; $\Eone$ no-confusion and
+symmetry of $\hsame$ give $\hsame(u',u)$, and composition with
+$\hsame(u,\delta.\mathsf{map}(a))$ gives
+$\hsame(u',\delta.\mathsf{map}(a))$.
+
+Apply the same comparison at the right endpoint $k'$. The two presentations
+$\Eone(v)$ and $\Eone(v')$ determine $\hsame(v',v)$, and composing with
+$\hsame(v,\delta.\mathsf{map}(b))$ gives
+$\hsame(v',\delta.\mathsf{map}(b))$.
+
+The original source payloads $a,b$, together with the two readback
+identifications and the two transported primed identifications, form the
+required shared-source-pair witness.
+\end{proof}
+
+\begin{theorem}[Tagged option composite image classifier visible payload factorization]
+\label{thm:tagged-option-composite-image-classifier-visible-payload-factorization}
+This theorem fits the per-object template as follows: the traditional target is
+functorial $\mathsf{OptionUp}$ visible payload readback; the BEDC source is
+$\mathsf{BHist}$ with two $\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation is
+composition factorization plus visible payload readback; the ledger is final
+visible payloads and intermediate tagged endpoints; the core theorem is the
+factorized readback below; exactness says composite classified final endpoints
+are witnessed by one intermediate classified pair; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$ functorial payload readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$, $\sim_T$, and $\sim_U$ be source classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $p:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(p))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For final endpoints
+$m,m':\mathsf{BHist}$ and visible final payloads $x,y:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+U(x)\land U(y)\land
+\hsame(m,\Eone(x))\land
+\hsame(m',\Eone(y)),
+$$
+then there exist $k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,m)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',m')$;
+\item $T(p)$, $T(q)$, $U(\epsilon.\mathsf{map}(p))$, and
+$U(\epsilon.\mathsf{map}(q))$;
+\item $\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$,
+$\hsame(x,\epsilon.\mathsf{map}(p))$, and
+$\hsame(y,\epsilon.\mathsf{map}(q))$;
+\item $S(a)$, $S(b)$, $a\sim_S b$,
+$T(\delta.\mathsf{map}(a))$, and $T(\delta.\mathsf{map}(b))$;
+\item $\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-composition-factorization}
+to the composite image-classifier witness. This supplies intermediate endpoints
+$k,k'$, the $\delta$ image-classifier factor at $(k,k')$, and the two
+$\epsilon$ map-relation witnesses from $k$ to $m$ and from $k'$ to $m'$.
+
+Use Theorem~\ref{thm:tagged-option-maprel-visible-branch-equivalence} on the two
+$\epsilon$ map-relation witnesses. The visible final presentations
+$\hsame(m,\Eone(x))$ and $\hsame(m',\Eone(y))$ force visible intermediate
+presentations, so obtain payloads $p,q$ with $T(p)$, $T(q)$,
+$\hsame(k,\Eone(p))$, and $\hsame(k',\Eone(q))$.
+
+Apply Theorem~\ref{thm:tagged-option-maprel-visible-payload-readback} to the left
+$\epsilon$ map-relation witness, the intermediate presentation
+$\hsame(k,\Eone(p))$, and the final presentation $\hsame(m,\Eone(x))$. It
+identifies $x$ with $\epsilon.\mathsf{map}(p)$ and records the final carrier
+witness $U(\epsilon.\mathsf{map}(p))$.
+
+Apply the same readback theorem to the right $\epsilon$ map-relation witness.
+This identifies $y$ with $\epsilon.\mathsf{map}(q)$ and records
+$U(\epsilon.\mathsf{map}(q))$.
+
+Now apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-visible-payload-readback}
+to the $\delta$ image-classifier factor and the visible intermediate pair
+$\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$. It gives source payloads $a,b$ with
+$S(a)$, $S(b)$, $a\sim_S b$, the transported target-carrier witnesses, and
+$\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$.
+
+Package the endpoints $k,k'$, the intermediate payloads $p,q$, and the source
+payloads $a,b$ with the retained factorization witnesses and the four readback
+identifications. These are exactly the six displayed clauses.
+\end{proof}

@@ -1,0 +1,23 @@
+You are resolving git rebase conflicts in a Lean4 formalization project.
+
+The following files have merge conflicts (with <<<<<<< / ======= / >>>>>>> markers):
+{conflicted}
+
+## Context
+Two parallel formalization rounds modified shared files:
+- lean4/BEDC.lean: both rounds added `import` lines — keep ALL imports from both sides
+- lean4/IMPLEMENTATION_PLAN.md: both rounds updated the header — keep the incoming
+  (HEAD/ours) version as base, then ADD the new round info from the other side
+- theory/*.tex: both rounds added \leanverified annotations — keep ALL annotations
+
+## Instructions
+1. For each conflicted file, read it and resolve the conflict markers
+2. The resolution strategy is ALWAYS "keep both sides' additions"
+3. For BEDC.lean: merge all import lines (union, no duplicates)
+4. For IMPLEMENTATION_PLAN.md: keep both rounds' Phase entries
+5. For .tex files: keep all \leanverified lines
+6. After resolving, run: git add <file> for each resolved file
+7. Then run: git rebase --continue
+8. Do NOT run git push
+
+Resolve ALL conflicts and complete the rebase.

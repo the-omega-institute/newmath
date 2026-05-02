@@ -1,0 +1,197 @@
+---
+title: "From Distinction"
+subtitle: "What if mathematics didn't start with sets, types, or numbers — but with the act of distinguishing itself?"
+author: "The Omega Institute"
+date: 2026-05-02
+description: "BEDC: an AI-driven case study in formalizing mathematics from a finite kernel of distinctions. 1837 theorems, 0 axioms, mathlib-free."
+---
+
+```{=html}
+<div class="lang-switch"><a href="index.zh-CN.qmd">中文</a></div>
+```
+
+```{=html}
+<div style="margin: 1em 0 2em 0; padding: 1em 1.2em; background: #f8f9fa; border-left: 4px solid #4a90d9; border-radius: 4px;">
+  📄 <strong><a href="bedc.pdf" style="color: #2a6ab5;">Download the latest BEDC paper (PDF, ~360 pages)</a></strong> — rebuilt fresh on every deploy from the current <code>main.tex</code>.
+</div>
+```
+
+## All anyone is talking about — two stories
+
+In 2025 an AI system solved five out of six International Mathematical Olympiad problems and won gold. A few months earlier, a team formalised the Kepler conjecture proof in 120,000 lines of Lean. The headlines wrote themselves: *AI does math. AI verifies math.*
+
+These are real achievements. But they share one blind spot: in both stories, *the mathematics already exists*. The AI solves a problem a human posed, or verifies a theorem a human proved. The hard part — deciding what to look at, recognising what matters, naming what gets discovered — still lives entirely with humans.
+
+What if that division of labour is wrong? Not in principle, but in practice. What if the most effective use of AI in mathematics isn't solving or verifying, but *founding* — building the entire theory from a starting point so primitive that no human had the patience to grind through it?
+
+This is the BEDC project. It begins with a single inductive type.
+
+## The seed
+
+```lean
+inductive BHist where
+  | Empty
+  | e0 (h : BHist)
+  | e1 (h : BHist)
+```
+
+Three constructors. `Empty` is the state where no distinction has happened. `e0` and `e1` are two recursive ways of extending any prior history.
+
+Critically: `e0` and `e1` are not "two distinct elements" given from outside. They are not labels, not symbols, not names of anything. They are *the existence of two different recursive constructions* — and that is all. Their distinction is constitutive: it is the reason they exist.
+
+This is the smallest possible foundation: not "a set with two elements", not "a type with two terms", but *the act of distinguishing*, recursively.
+
+```{=html}
+<span class="elim-mark">✗ "It's just binary strings"</span>
+```
+
+It isn't. Binary strings presuppose `0` and `1` as objects. BHist doesn't presuppose objects at all — it generates the very possibility of distinction. ([Why this matters →](distinction-as-foundation.qmd))
+
+## The first surprise
+
+If you build everything on top of `BHist`, you start needing a way to talk about *how histories extend each other*. So we add a single relation:
+
+```lean
+inductive Cont : BHist → BHist → BHist → Prop
+  -- "starting from a, continue with f, you reach b"
+```
+
+This is `Cont a f b` — the *continuation* relation. It's the kernel's "main verb". Everything else in BEDC turns out to be a special case of it.
+
+Months later, when the project gets to category theory, the morphism predicate is defined like this:
+
+```lean
+def CategoryHomCarrier (a b f : BHist) : Prop :=
+  UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧ Cont a f b
+```
+
+Read that carefully: a category morphism, in BEDC, is *just* a unary continuation. Not an additional structure. Not a layer on top. Composition becomes `cont_assoc`. Identity becomes `BHist.Empty`. The category axioms are kernel theorems.
+
+```{=html}
+<span class="elim-mark">✗ "Category theory is a layer on top of mathematics"</span>
+```
+
+In BEDC, it isn't. The 21 manifest theorems of the finite kernel — `cont_assoc`, `cont_left_unit`, `cont_right_unit`, `hsame_*` — are *already* the category axioms. The "category" was hiding in the kernel from the beginning.
+
+This is not a clever encoding. It is a structural identity that only became visible after the AI had built enough of the layered theory to see it. ([Hom = Cont and other unifications →](discovery-loop.qmd#unifications))
+
+## What happened in 72 hours
+
+This project started on April 29, 2026. Today is May 2.
+
+| | Count |
+|---|---|
+| Theorems mechanically verified | **1837** |
+| Lean files | 116 |
+| Lean lines | ~25,000 |
+| Paper chapters | 38 |
+| Axioms used | **0** |
+| `sorry` placeholders | **0** |
+| `Classical.choice` / `Quot.sound` / `propext` dependencies | **0** (audited transitively) |
+| `import Mathlib.*` | **0** (mathlib-free) |
+| Author commits | 95% from Codex auto-dev pipeline |
+
+The project covers, in working Lean 4:
+
+- Booleans, options, sums, products, lists, naturals, integers, rationals (saturated)
+- Reals (Bishop-style equivalence classes — 16 theorems and counting)
+- Continuous functions, metric spaces, compact subsets, S¹ (newly opened in last 24h)
+- Categories, functors, natural transformations (newly opened in last 24h)
+- Constructors, classifiers, ledger compositions, name certificates
+
+All from `inductive BHist`, with no axioms, no quotients, no excluded middle.
+
+## How it actually went
+
+The project is run by one person and a Codex agent loop. The agent picks formalisation targets, writes Lean proofs, commits, and moves on. Roughly 500 commits per day. The human role is not writing proofs — it is *steering the harness*: setting hard gates, identifying when the agent is producing slop, and naming the architectural insights that the agent's output makes visible.
+
+We documented the engineering and methodology of that loop separately: [the discovery loop](discovery-loop.qmd).
+
+But the abstract pattern is this:
+
+```{=html}
+<div class="timeline">
+  <div class="timeline-item human"><div class="timeline-label">Human</div><div class="timeline-content">Designs the kernel. Picks the philosophy: "start from distinction, no axioms, mathlib-free."</div></div>
+  <div class="timeline-item ai"><div class="timeline-label">AI</div><div class="timeline-content">Picks targets via critical-path analysis, writes Lean proofs, registers paper markers, commits.</div></div>
+  <div class="timeline-item human"><div class="timeline-label">Human</div><div class="timeline-content">Watches the output, names the unifications the AI doesn't notice, tightens the harness when slop appears.</div></div>
+  <div class="timeline-item discovery"><div class="timeline-label">Discovery</div><div class="timeline-content">Cross-chapter bridge theorems emerge: Hom = Cont, S¹ as Real-pair-with-equation, Bishop compactness as 5-tuple Cont chain.</div></div>
+  <div class="timeline-item ai"><div class="timeline-label">AI</div><div class="timeline-content">Formalises the bridges as new theorems, opens new horizons, repeats.</div></div>
+</div>
+```
+
+```{=html}
+<span class="role-tag human">🧑 Human direction</span>
+<span class="role-tag ai">🤖 AI derivation</span>
+<span class="role-tag discovery">💡 Discovery</span>
+```
+
+The crucial thing: the human is not a peer reviewer. The human is the architect of the kernel and the curator of taste. Once those are set, the AI can grind through implications faster than any human could, in a regime where the result is mechanically verified.
+
+## Five things that surprised us
+
+::: {.evidence}
+**1. Categories before groups.**
+The schema-only chapters (groups, monoids, rings, fields, modules) are blocked because their paper schemas are parametric — `mul : BHist → BHist → BHist` left abstract — and the AI can only produce parameter-echo theorems against them. Categories had no such block: their carrier is concretely `BHist + UnaryHistory + Cont`. The AI built category theory on day 3 while groups remained empty shells.
+
+**Lean:** [`CategoryHomCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/CategoryUp.lean)
+:::
+
+::: {.evidence}
+**2. S¹ encodes equations as `BHist` values.**
+The unit circle is `RealConstantHistoryClassifier(equation, SOneUnitHistory)` — where `equation` is itself a `BHist`. The constraint x² + y² = 1 is not a meta-level proposition; it is an object-level history relation. This is opposite to standard type theory's identification of propositions with types.
+
+**Lean:** [`SOneHistoryCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/S1Up.lean)
+:::
+
+::: {.evidence}
+**3. Compactness is a 5-tuple of Cont chains.**
+Bishop's "located + totally bounded ⇒ compact" is encoded as `CompactWitnessCarrier(subset, located, finite, intermediate, compact)` with two `Cont` relations chaining them. The constructive content of compactness becomes a kernel-relation pattern.
+
+**Lean:** [`CompactWitnessCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/CompactUp.lean)
+:::
+
+::: {.evidence}
+**4. Continuous-function modulus chains compose by `Cont`.**
+Bishop's "composition of continuous functions is continuous, with explicit modulus" becomes `ContinuousModulusChain_composite_closed`: the modulus chain composes via the same `Cont` relation that powers the kernel. Continuous analysis and kernel continuation are the same algebra.
+
+**Lean:** [`ContinuousModulusChain_composite_closed`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/ContinuousUp.lean)
+:::
+
+::: {.evidence}
+**5. Cont is the main verb.**
+Categories, compactness, continuous moduli, natural transformation components — all are special cases of `Cont`. The "unification of mathematics" question, asked since Bourbaki, has a candidate answer in BEDC: it might be in the algebra of distinction-sequence continuations, not in sets and not in categories.
+:::
+
+## What this is not
+
+It is not new mathematics. The 1837 theorems are existing mathematics — Bishop-style constructive analysis, basic algebra, baby category theory — *re-expressed* on a different foundation. We did not discover Yoneda's lemma. We discovered that, when you start from distinction, Yoneda's lemma might be the same kind of object as `cont_assoc`.
+
+It is not a competitor to mathlib. mathlib4 has 100x more theorems and a thriving community. BEDC is mathlib-free *by design*, because the design question is "how far can you get from distinction alone?", not "how do we cover modern mathematics".
+
+It is not a replacement for human mathematicians. Every interesting *direction* in this project came from a human: the kernel design, the schema-only diagnosis, the recognition of `Hom = Cont` as a unification rather than a coincidence. The AI is the engine; the human is the steering wheel.
+
+## What this is
+
+It is, as far as we can tell, the first Lean-level formalisation project that treats *the act of distinction itself* as the foundational primitive — not sets, not types, not categories. John Wheeler's "It from bit" was a philosophical claim. BEDC is the same claim, mechanically verified.
+
+It is a working sample of human-AI collaboration in foundational mathematics, where the AI does the bulk of the formalisation work and the human does the architectural taste-making, with the result that 38 chapters of mathematics get layered up in 72 hours rather than 72 years.
+
+It is a question, not a conclusion: *if mathematics has a single root, is it distinction?* We don't know. But we now have 1837 mechanically verified theorems of evidence in one direction.
+
+## Where to go from here
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.qmd"><strong>Distinction as Foundation</strong><br/>Why we think e0/e1 is more primitive than sets, types, or categories — and what Wheeler, Bishop, and homotopy type theory have to say about it.</a>
+  <a href="discovery-loop.qmd"><strong>The Discovery Loop</strong><br/>The engineering: how the harness self-drives, how it failed, how taste audits caught the slop, and what the methodology generalises to.</a>
+  <a href="default-failure-modes.qmd"><strong>Default Failure Modes</strong><br/>What AI agents produce when nothing pushes back — the four characteristic shapes of slop and the cognitive bias underneath them.</a>
+  <a href="schema-only-as-evidence.qmd"><strong>Schema-only as Evidence</strong><br/>Sixteen chapters that wouldn't compile, and what their failure tells us about distinction as foundation.</a>
+  <a href="synthesis-not-creation.qmd"><strong>Synthesis, Not Creation</strong><br/>An honest assessment: AI synthesised 1837 theorems in 72 hours; it did not create the foundation underneath.</a>
+  <a href="one-closed-loop.qmd"><strong>One Closed Loop</strong><br/>Why Gödel, Tarski, Münchhausen, and Hofstadter all turn out to be the same constraint — and how BEDC keeps it minimal.</a>
+  <a href="bedc.pdf"><strong>The Paper (PDF)</strong><br/>The latest BEDC LaTeX paper, 38 chapters, ~360 pages. Built fresh on every dossier deploy from the current <code>main.tex</code>.</a>
+  <a href="https://github.com/the-omega-institute/newmath"><strong>The Code</strong><br/>1837 theorems, 0 axioms, mathlib-free. <code>lake build</code> passes.</a>
+</div>
+```
+
+— *The Omega Institute*
+*newmath / BEDC, May 2026*

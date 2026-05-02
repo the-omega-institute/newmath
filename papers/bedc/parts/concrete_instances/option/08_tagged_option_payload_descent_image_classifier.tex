@@ -1,0 +1,523 @@
+\begin{definition}[Tagged option payload descent image classifier]
+\label{def:tagged-option-payload-descent-image-classifier}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+For target endpoints $k,k':\mathsf{BHist}$, define the tagged option payload
+descent image classifier by
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')
+:\!\!\Longleftrightarrow
+\exists h,h':\mathsf{BHist}.\;
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h')
+\land
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+\land
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k').
+$$
+\end{definition}
+\leandef{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier}
+
+\begin{theorem}[Tagged option payload descent image classifier branch exactness]
+\label{thm:tagged-option-payload-descent-image-classifier-branch-exactness}
+This theorem fits the per-object template as follows: the traditional target is
+classified image readback for option payload descent; the BEDC source is
+$\mathsf{BHist}$ with $\hsame$ endpoint presentations; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation is
+branch analysis of the source tagged classifier and the two
+$\mathsf{TaggedOptionMapRel}$ witnesses; the ledger is the pair of source
+endpoints and their transported visible payloads; the core theorem is exact
+absent/present pair readback; exactness is the displayed equivalence; the
+standard bridge is $\mathsf{none}$ and $\mathsf{some}$ under payload descent; and
+the status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For target endpoints
+$k,k':\mathsf{BHist}$, the image classifier is exactly the absent target pair or
+the transported present-payload pair:
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')
+\Longleftrightarrow
+\bigl(\hsame(k,\emp)\land\hsame(k',\emp)\bigr)
+\lor
+\bigl(\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+T(\delta.\mathsf{map}(a))\land T(\delta.\mathsf{map}(b))\land
+\hsame(k,\Eone(\delta.\mathsf{map}(a)))\land
+\hsame(k',\Eone(\delta.\mathsf{map}(b)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold
+Definition~\ref{def:tagged-option-payload-descent-image-classifier}. This
+exposes source endpoints $h,h'$, a source tagged classifier witness, and the two
+map-relation witnesses from $h$ to $k$ and from $h'$ to $k'$.
+
+In the absent source-classifier branch, both source endpoints are presented as
+$\emp$. Splitting the two map-relation witnesses rules out any present
+map-relation branch by empty-versus-$\Eone$ no-confusion, so both target
+endpoints are presented as $\emp$. This gives the absent side of the displayed
+disjunction.
+
+In the present source-classifier branch, the classifier exposes source payloads
+$p,q$ with $S(p)$, $S(q)$, $p\sim_S q$, and presentations of $h,h'$ as
+$\Eone(p),\Eone(q)$. The two map relations cannot be absent, again by
+empty-versus-$\Eone$ no-confusion, and their present branches expose payloads
+$a,b$ with $S(a)$, $S(b)$, the target carrier witnesses
+$T(\delta.\mathsf{map}(a))$, $T(\delta.\mathsf{map}(b))$, and the displayed
+target presentations.
+
+It remains to identify the source payload relation for $a$ and $b$. Invert the
+two $\Eone$ presentations around $h$ and $h'$ to obtain $\hsame(p,a)$ and
+$\hsame(q,b)$. Source hsame compatibility gives $p\sim_S a$ and $q\sim_S b$;
+symmetry and transitivity from $\mathsf{cert}$ compose these with
+$p\sim_S q$ to obtain $a\sim_S b$. The present side of the displayed
+disjunction follows.
+
+For the reverse direction, split the displayed disjunction. In the absent case,
+choose source endpoints $\emp$ and $\emp$, use the absent-absent source
+classifier constructor, and use the two absent map-relation constructors with
+the displayed target endpoint presentations.
+
+In the present case, unpack $a,b$, the two source carrier witnesses, the source
+classifier witness $a\sim_S b$, the two transported target carrier witnesses,
+and the two target endpoint presentations. Choose source endpoints $\Eone(a)$
+and $\Eone(b)$; the present-present source classifier constructor and the two
+present map-relation constructors rebuild exactly the existential data required
+by the image classifier definition.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_branch\_exactness}
+
+\begin{theorem}[Tagged option payload descent image classifier right visible-branch inversion]
+\label{thm:tagged-option-payload-descent-image-classifier-right-visible-branch-inversion}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For target endpoints
+$k,k':\mathsf{BHist}$, the right visible branch determines the matching left
+image branch. The absent clause is
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')
+\to
+\hsame(k',\emp)
+\to
+\hsame(k,\emp).
+$$
+For every payload history $a:\mathsf{BHist}$, the present clause is
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')
+\to
+T(a)
+\to
+\hsame(k',\Eone(a))
+\to
+\exists b,c:\mathsf{BHist}.\;
+S(b)\land S(c)\land b\sim_S c\land
+T(\delta.\mathsf{map}(b))\land T(\delta.\mathsf{map}(c))\land
+\hsame(a,\delta.\mathsf{map}(c))\land
+\hsame(k,\Eone(\delta.\mathsf{map}(b))).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-branch-exactness}
+to the image-classifier witness. This rewrites the witness into the disjunction
+whose absent side presents both target endpoints as $\emp$ and whose present side
+exposes source payloads $b,c$ together with the transported endpoint
+presentations.
+
+For the absent clause, split that disjunction. The absent side gives
+$\hsame(k,\emp)$ directly. The present side also presents $k'$ as
+$\Eone(\delta.\mathsf{map}(c))$ for some source payload $c$; composing this with
+the displayed witness $\hsame(k',\emp)$ gives empty-versus-$\Eone$
+no-confusion, so the mixed branch is impossible.
+
+For the present clause, split the same disjunction. The absent side presents
+$k'$ as $\emp$, contradicting the displayed witness $\hsame(k',\Eone(a))$ by
+empty-versus-$\Eone$ no-confusion.
+
+In the present side, keep the exposed source payloads $b,c$. The branch-exactness
+data already supplies $S(b)$, $S(c)$, $b\sim_S c$,
+$T(\delta.\mathsf{map}(b))$, $T(\delta.\mathsf{map}(c))$, and
+$\hsame(k,\Eone(\delta.\mathsf{map}(b)))$. Compose the right-endpoint
+presentations $\hsame(k',\Eone(a))$ and
+$\hsame(k',\Eone(\delta.\mathsf{map}(c)))$, and invert the $\Eone$ constructor
+to obtain
+$\hsame(a,\delta.\mathsf{map}(c))$. These fields are exactly the displayed
+existential witness. The hypothesis $T(a)$ records the visible right payload as
+a target carrier payload and is preserved as part of the public premise.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_right\_visible\_branch\_inversion}
+
+\begin{theorem}[Tagged option payload descent image classifier visible payload readback]
+\label{thm:tagged-option-payload-descent-image-classifier-visible-payload-readback}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For target endpoints
+$k,k':\mathsf{BHist}$ and visible target payloads $u,v:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')
+$$
+and
+$$
+T(u)\land T(v)\land
+\hsame(k,\Eone(u))\land
+\hsame(k',\Eone(v)),
+$$
+then
+$$
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+T(\delta.\mathsf{map}(a))\land T(\delta.\mathsf{map}(b))\land
+\hsame(u,\delta.\mathsf{map}(a))\land
+\hsame(v,\delta.\mathsf{map}(b)).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-branch-exactness}
+to the image-classifier witness. This gives the displayed disjunction whose
+absent side presents both target endpoints as $\emp$ and whose present side
+exposes transported source payloads for both endpoints.
+
+The absent side is impossible under the visible presentations. Its left endpoint
+presents $k$ as $\emp$, while the hypotheses present the same endpoint as
+$\Eone(u)$; empty-versus-$\Eone$ no-confusion rejects this branch.
+
+In the present side, keep the exposed source payloads $a,b$. The branch data
+already supplies $S(a)$, $S(b)$, $a\sim_S b$,
+$T(\delta.\mathsf{map}(a))$, $T(\delta.\mathsf{map}(b))$, and the target endpoint
+presentations $\hsame(k,\Eone(\delta.\mathsf{map}(a)))$ and
+$\hsame(k',\Eone(\delta.\mathsf{map}(b)))$.
+
+Compose the displayed visible presentations with these two endpoint
+presentations around $k$ and $k'$. Inverting the two $\Eone$ constructors gives
+$\hsame(u,\delta.\mathsf{map}(a))$ and
+$\hsame(v,\delta.\mathsf{map}(b))$, so the same $a,b$ provide the required
+existential witness. The hypotheses $T(u)$ and $T(v)$ record that the displayed
+payloads are target-carrier payloads.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_visible\_payload\_readback}
+
+\begin{theorem}[Tagged option payload descent image classifier certificate]
+\label{thm:tagged-option-payload-descent-image-classifier-certificate}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. For target endpoints
+$k,k':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k'),
+$$
+then
+$$
+\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}(S,T,\rho_{\delta};k)
+\land
+\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}(S,T,\rho_{\delta};k')
+\land
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the image-classifier witness. This exposes source endpoints $h,h'$,
+the source classifier witness
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h')$, and the two stored
+map-relation witnesses from $h$ to $k$ and from $h'$ to $k'$.
+
+Apply Theorem~\ref{thm:tagged-option-history-classifier-endpoint-carriers} to
+the source classifier witness. The two resulting source carrier witnesses,
+together with the corresponding stored map-relation witnesses, are exactly the
+existential data required by
+Definition~\ref{def:tagged-option-payload-descent-image-carrier} for $k$ and
+$k'$.
+
+Apply Theorem~\ref{thm:tagged-option-payload-descent-preserves-classification}
+to the same source classifier witness, the two stored map-relation witnesses,
+$\mathsf{cert}$, and the source hsame compatibility hypothesis. Its conclusion
+is $\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')$, and these three
+outputs give the displayed conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_certificate}
+
+\begin{theorem}[Tagged option payload descent image classifier stability fields]
+\label{thm:tagged-option-payload-descent-image-classifier-stability-fields}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$ and assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. The image classifier of
+Definition~\ref{def:tagged-option-payload-descent-image-classifier} satisfies
+the following carrier-relative stability fields.
+\begin{enumerate}
+  \item For every target endpoint $k$, if
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+  (S,T,\rho_{\delta};k),
+  $$
+  then
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,k).
+  $$
+  \item For target endpoints $k,k'$, if
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,k'),
+  $$
+  then
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k',k).
+  $$
+  \item For target endpoints $k,k'$, if
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,k'),
+  $$
+  then
+  $$
+  \mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+  (S,T,\rho_{\delta};k)
+  \land
+  \mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+  (S,T,\rho_{\delta};k').
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For carrier-relative reflexivity, unpack the displayed image-carrier witness.
+This gives a source endpoint $h$, a source carrier witness
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$, and a map witness from $h$ to $k$.
+The reflexivity clause of
+Theorem~\ref{thm:tagged-option-history-stability-fields} turns the source
+carrier witness into
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h)$.
+
+Repack Definition~\ref{def:tagged-option-payload-descent-image-classifier} with
+the same source endpoint on both sides. The source classifier witness just built
+and the same map witness used twice give
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k)$.
+
+For symmetry, unpack the image-classifier witness. This exposes source endpoints
+$h,h'$, a source classifier witness
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h')$, and map witnesses
+from $h$ to $k$ and from $h'$ to $k'$. The symmetry clause of
+Theorem~\ref{thm:tagged-option-history-stability-fields} gives the reversed
+source classifier witness
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h',h)$.
+
+Repack the image-classifier existential with the two source endpoints exchanged
+and the two map witnesses exchanged. This gives the displayed relation from
+$k'$ to $k$.
+
+For endpoint exposure, apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-certificate} to
+the image-classifier witness with the same $\mathsf{cert}$ and source hsame
+compatibility hypothesis. Projecting the first two components of its conclusion
+gives exactly the two displayed image-carrier witnesses.
+\end{proof}
+
+\begin{definition}[Tagged option payload descent reflects source from visible target equality]
+\label{def:tagged-option-payload-descent-reflects-source}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_S$ and $\sim_T$ be classifiers, and let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$.
+Define source reflection from visible target equality by
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S)
+:\!\!\Longleftrightarrow
+\forall a,b:\mathsf{BHist}.\;
+S(a)\to S(b)\to
+\hsame(\delta.\mathsf{map}(a),\delta.\mathsf{map}(b))\to
+a\sim_S b.
+$$
+\end{definition}
+\leandef{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentReflectsSource}
+
+\begin{theorem}[Tagged option payload descent image classifier reflective transitivity]
+\label{thm:tagged-option-payload-descent-image-classifier-reflective-transitivity}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$, assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, and assume
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S).
+$$
+For target endpoints $k,\ell,m:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,\ell)
+$$
+and
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};\ell,m),
+$$
+then
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,m).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-branch-exactness}
+to the two image-classifier witnesses. This rewrites each witness into the
+absent target pair or the present transported-payload pair, with the middle
+endpoint $\ell$ appearing in both branch analyses.
+
+\begin{enumerate}
+  \item In the absent/absent case, the first branch gives $\hsame(k,\emp)$ and
+  $\hsame(\ell,\emp)$, while the second gives $\hsame(\ell,\emp)$ and
+  $\hsame(m,\emp)$. The absent side of the reverse branch-exactness equivalence
+  rebuilds
+  $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,m)$.
+
+  \item In the absent/present case, the first branch presents $\ell$ as $\emp$.
+  The second branch presents the same endpoint as
+  $\Eone(\delta.\mathsf{map}(c))$ for some source payload $c$. Empty-versus-
+  $\Eone$ no-confusion makes this case impossible.
+
+  \item In the present/absent case, the first branch presents $\ell$ as
+  $\Eone(\delta.\mathsf{map}(b))$ for some source payload $b$, while the second
+  branch presents $\ell$ as $\emp$. Empty-versus-$\Eone$ no-confusion again
+  rules out the mixed case.
+
+  \item In the present/present case, the first branch exposes source payloads
+  $a,b$ with $S(a)$, $S(b)$, $a\sim_S b$, and endpoint presentations
+  $\hsame(k,\Eone(\delta.\mathsf{map}(a)))$ and
+  $\hsame(\ell,\Eone(\delta.\mathsf{map}(b)))$. The second branch exposes
+  source payloads $c,d$ with $S(c)$, $S(d)$, $c\sim_S d$, and endpoint
+  presentations $\hsame(\ell,\Eone(\delta.\mathsf{map}(c)))$ and
+  $\hsame(m,\Eone(\delta.\mathsf{map}(d)))$.
+
+  Compose the two presentations of $\ell$ and invert the $\Eone$ constructor to
+  obtain
+  $$
+  \hsame(\delta.\mathsf{map}(b),\delta.\mathsf{map}(c)).
+  $$
+  The reflection hypothesis turns this visible target equality, together with
+  $S(b)$ and $S(c)$, into $b\sim_S c$.
+
+  Transitivity from $\mathsf{cert}$ composes $a\sim_S b$, $b\sim_S c$, and
+  $c\sim_S d$ into $a\sim_S d$. The present side of the reverse
+  branch-exactness equivalence, using the already exposed target carrier
+  witnesses and the endpoint presentations for $k$ and $m$, rebuilds
+  $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+  (S,T,\rho_{\delta};k,m)$.
+\end{enumerate}
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_reflective\_transitivity}
+
+\begin{theorem}[Tagged option payload descent image semantic certificate]
+\label{thm:tagged-option-payload-descent-image-semantic-certificate}
+This theorem fits the ten-field template as follows: the traditional target is
+the tagged optional image under certified payload descent; the BEDC source is
+$\mathsf{BHist}$ with
+$\mathsf{DescentCertificate}$; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}(S,T,\rho_{\delta})$;
+the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}(S,T,\rho_{\delta})$;
+the stability obligations are carrier-relative reflexivity, symmetry,
+reflective transitivity, and carrier transport; the ledger is the target tagged
+option ledger $\mathsf{TaggedOptionHistoryLedger}_T$; the core theorem is the
+displayed $\mathsf{SemanticNameCert}$; exactness is supplied by image carrier
+and classifier branch exactness; the standard bridge is none/some under payload
+descent; and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
+$\sim_S$ and $\sim_T$ be source classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}:\NameCert(S,\sim_S)$, assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$, and assume
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S).
+$$
+Then the semantic certificate
+$$
+\mathsf{SemanticNameCert}(
+\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}(S,T,\rho_{\delta}),
+\mathsf{TaggedOptionHistoryPattern}_T,
+\mathsf{TaggedOptionHistoryLedger}_T,
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}(S,T,\rho_{\delta}))
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Build the core $\NameCert$ for the image carrier and image classifier. For
+inhabitedness, use the absent endpoint $\emp$. The reverse direction of
+Theorem~\ref{thm:tagged-option-payload-descent-image-branch-exactness}, applied
+to the absent branch with reflexivity of $\hsame$, gives the required image
+carrier witness.
+
+Carrier-relative reflexivity and symmetry are the first two fields of
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-stability-fields}.
+Reflective transitivity is exactly
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-reflective-transitivity}
+under the displayed source-reflection hypothesis.
+
+For carrier transport, start with a classifier witness from $k$ to $k'$ and an
+image-carrier witness at $k$. Apply the endpoint exposure field of
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-stability-fields}
+to the classifier witness, and project the target endpoint carrier at $k'$.
+Together with the preceding fields, this assembles
+$$
+\NameCert(\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\delta}
+(S,T,\rho_{\delta}),
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta})).
+$$
+
+It remains to supply the public pattern and ledger fields. Item 2 of
+Theorem~\ref{thm:tagged-option-payload-descent-image-certificate} sends every
+image-carrier witness to the target tagged option carrier, visible pattern, and
+visible ledger. Project its pattern and ledger components to obtain the two
+soundness maps required by the displayed $\mathsf{SemanticNameCert}$.
+\end{proof}

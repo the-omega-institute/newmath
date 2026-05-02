@@ -1,0 +1,13 @@
+\chapter{The Halting Problem as a Limit of the Form of Distinction}
+\label{ch:capstones-halting-as-form-of-distinction-limit}
+
+Reading the form of distinction (\autoref{def:form-of-distinction}) as the primitive computational atom and the continuation $\Cont$ as the small-step relation (\autoref{ch:capstones-computation-as-continuation}), the halting problem becomes the question: is there a BEDC classifier on naming certificates that decides, for an arbitrary certificate $\NameCert_{P}$ and history $h$, whether the continuation chain from $h$ in $\NameCert_{P}$ terminates? This chapter records the negative answer as a Tarski-style fixed-point obstruction in BEDC, locates it on the open-meta-loop side of the two-loops structure (\autoref{thm:two-loops}), and notes that the obstruction is, structurally, the same as the form of distinction's irreducibility (\autoref{thm:form-of-distinction-irreducible}) read at the meta level.
+
+\section{Halting as fixed-point obstruction}
+\label{sec:halting-as-form-of-distinction-fixed-point}
+
+\begin{theorem}[Undecidability of halting via fixed point of the form of distinction]
+\label{thm:halting-as-form-of-distinction-fixed-point}
+There is no naming certificate $\NameCert_{H}$ over the carrier of all naming certificates whose extension predicate $\Ext_{H}$ decides, for arbitrary $\NameCert_{P}$ and $h$, whether $\Cont$ in $\NameCert_{P}$ terminates from $h$. The obstruction is a Tarski-style fixed-point construction: the assumption of such $\NameCert_{H}$ produces a self-referential certificate whose extension contradicts itself, in direct analogy with G\"odel's incompleteness witness (\autoref{rem:incompleteness-downstream}). The negative result is the open-meta-loop counterpart of the closed ground loop in \autoref{thm:two-loops}: the form of distinction must close at the bottom for BEDC to start, and the same closure forbids any classifier that deciding all its downstream behaviours.
+\leanstmt{BEDC.Reflection.halting\_as\_form\_of\_distinction\_fixed\_point}
+\end{theorem}

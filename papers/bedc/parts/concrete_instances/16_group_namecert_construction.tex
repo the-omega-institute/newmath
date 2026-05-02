@@ -16,6 +16,80 @@ algebraic fields and derived laws that are formalized for the certificate.
 Use a monoid setup extended with inverse operation \(a^{-1}\).
 \end{definition}
 
+\section{Concrete singleton history group instance}
+\label{sec:group-concrete-singleton-history-instance}
+
+\begin{definition}[Concrete singleton history group instance]
+\label{def:concrete-singleton-history-group-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define
+the concrete history operations and classifier by
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
+\mathsf{inv}(h):=\emp,\qquad
+e:=\emp,
+$$
+and
+$$
+R_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land \hsame(h,k).
+$$
+\end{definition}
+
+\begin{theorem}[Concrete singleton history group laws]
+\label{thm:concrete-singleton-history-group-laws}
+The tuple $(A_{\emp},R_{\emp},\mathsf{mul},e,\mathsf{inv})$ satisfies carrier
+inhabitance, multiplication closure, inverse closure, left and right unit
+laws, associativity up to $\hsame$, multiplication congruence, inverse
+congruence, and left and right inverse laws.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is the reflexive endpoint witness
+$\hsame(\emp,\emp)$, which is exactly the singleton carrier condition from
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$.
+
+For multiplication closure, suppose $A_{\emp}(h)$ and $A_{\emp}(k)$. The two
+carrier facts identify $h$ and $k$ with $\emp$. The BEDC continuation unit
+laws used in Theorem~\ref{thm:concrete-history-monoid-laws} reduce
+$\mathsf{append}(h,k)$ to the same endpoint class as $\emp$, using symmetry
+and transitivity of $\hsame$ to compose the displayed witnesses.
+
+Inverse closure is immediate because $\mathsf{inv}(h)$ is definitionally
+$\emp$. The singleton carrier witness is again $\hsame(\emp,\emp)$.
+
+The left unit law reduces $\mathsf{append}(\emp,h)$ to $h$ by the continuation
+left-unit law, and the right unit law reduces $\mathsf{append}(h,\emp)$ to
+$h$ by the continuation right-unit law. The endpoint witnesses required by
+$R_{\emp}$ are supplied by the carrier facts for $\emp$ and $h$.
+
+Associativity is the continuation associativity theorem cited in
+Theorem~\ref{thm:concrete-history-monoid-laws}: the histories
+$\mathsf{append}(\mathsf{append}(h,k),l)$ and
+$\mathsf{append}(h,\mathsf{append}(k,l))$ are $\hsame$-equivalent. Closure of
+the two products follows from the multiplication-closure clause.
+
+Multiplication congruence follows by transporting the two input $\hsame$
+witnesses across $\mathsf{append}$ and then composing with the same
+continuation associativity and unit laws. Since all carrier elements are in
+the singleton class of $\emp$, the source and target products both lie in
+$A_{\emp}$ and are related by $\hsame$.
+
+Inverse congruence is constant: both inverses are $\emp$, so the classifier
+witness is the pair of singleton carrier witnesses together with
+$\hsame(\emp,\emp)$.
+
+For the inverse laws, $\mathsf{append}(\mathsf{inv}(h),h)$ is
+$\mathsf{append}(\emp,h)$ and $\mathsf{append}(h,\mathsf{inv}(h))$ is
+$\mathsf{append}(h,\emp)$. The continuation unit laws reduce these products to
+$h$, and the carrier fact $A_{\emp}(h)$ identifies $h$ with $e=\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.concrete\_singleton\_history\_group\_laws}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}
+
+The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
+operations, so subsequent formalization can prove $BHist$-anchored group laws
+instead of relying only on an abstract operator schema.
+
 \section{The certificate}
 
 \begin{definition}[Group source specification]
@@ -209,6 +283,82 @@ $a^{-1}a$ using the left inverse law, reassociate to $a^{-1}(ax)$, and
 transport the supplied equality $ax\hsame b$ through multiplication congruence.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_left\_mul\_equation\_solution}
+
+\begin{theorem}[Group right-multiplication equation solution]
+\label{thm:group-right-mul-equation-solution}
+For a history-level group operation with associativity, right identity,
+multiplication congruence, and right inverses, $xa\hsame b$ implies
+$x\hsame ba^{-1}$.
+\end{theorem}
+\begin{proof}
+Chain $x$ backward through the right identity $xe\hsame x$, replace $e$ by
+$aa^{-1}$ using the right inverse law, reassociate to $(xa)a^{-1}$, and
+transport the supplied equality $xa\hsame b$ through multiplication congruence.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_solution}
+
+\begin{theorem}[Group multiplication equation exactness]
+\label{thm:group-mul-equation-exactness}
+For a history-level group operation with associativity, left and right
+identities, multiplication congruence, and two-sided inverses, the displayed
+left and right multiplication solutions classify the original equations:
+$$
+ax\hsame b \Longleftrightarrow x\hsame a^{-1}b
+$$
+and
+$$
+xa\hsame b \Longleftrightarrow x\hsame ba^{-1}.
+$$
+\end{theorem}
+\begin{proof}
+The forward implications are Theorem~\ref{thm:group-left-mul-equation-solution}
+and Theorem~\ref{thm:group-right-mul-equation-solution}.
+
+For the reverse direction of the left equation, transport
+$x\hsame a^{-1}b$ by left multiplication with $a$. Reassociate
+$a(a^{-1}b)$ to $(aa^{-1})b$, collapse $aa^{-1}$ by the right inverse law,
+and use the left identity on $b$.
+
+For the reverse direction of the right equation, transport
+$x\hsame ba^{-1}$ by right multiplication with $a$. Reassociate
+$(ba^{-1})a$ to $b(a^{-1}a)$, collapse $a^{-1}a$ by the left inverse law,
+and use the right identity on $b$.
+\end{proof}
+
+\begin{theorem}[Group conjugation equation exactness]
+\label{thm:group-conjugation-equation-exactness}
+For a history-level group operation with associativity, left and right
+identities, multiplication congruence, and two-sided inverses, conjugation by
+$a$ classifies the middle factor exactly:
+$$
+\hsame((a x)a^{-1},b) \Longleftrightarrow \hsame(x,(a^{-1}b)a).
+$$
+The ten-field fit is: traditional target conjugation equation solving; BEDC
+source $\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability associativity, inverse laws, and multiplication
+congruence; ledger conjugation provenance; core theorem this exactness iff;
+standard bridge group conjugacy equations; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the displayed equation by right
+multiplication with $a$. Reassociate $((a x)a^{-1})a$ to
+$(a x)(a^{-1}a)$, collapse $a^{-1}a$ by the left inverse law, and use the
+right identity to obtain $a x\hsame b a$.
+
+Then transport by left multiplication with $a^{-1}$. Reassociate
+$a^{-1}(a x)$ to $(a^{-1}a)x$, collapse $a^{-1}a$, and use the left identity
+to obtain $x\hsame (a^{-1}b)a$.
+
+For the reverse direction, transport $x\hsame (a^{-1}b)a$ by left
+multiplication with $a$. Reassociate $a((a^{-1}b)a)$ through
+$(aa^{-1})b$ and then back to $b a$, using the right inverse law for
+$aa^{-1}$ and the left identity on $b$.
+
+Finally transport by right multiplication with $a^{-1}$. Reassociate
+$(a x)a^{-1}$ as the transported left side and reassociate
+$(b a)a^{-1}$ to $b(aa^{-1})$, collapse $aa^{-1}$ by the right inverse law,
+and finish with the right identity on $b$.
+\end{proof}
 
 \begin{theorem}[Group left absorption forces the right factor to the unit]
 \label{thm:group-left-absorb-right-factor-unit}

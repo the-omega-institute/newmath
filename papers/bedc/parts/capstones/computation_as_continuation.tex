@@ -1,0 +1,13 @@
+\chapter{Computation as Continuation: BEDC's Operational Semantics}
+\label{ch:capstones-computation-as-continuation}
+
+The continuation primitive $\Cont$ of \autoref{ch:core-relational-extension-and-continuation} carries the formal content of a small-step transition relation. Reading $\Cont\,h\,m\,h'$ as ``the history $h$ steps via mark $m$ to history $h'$'' makes $\Cont$ a Plotkin-style structural operational semantics over the BEDC primitive layer. The chapter records the structural isomorphism between $\Cont$ and the small-step relations of standard programming-language semantics, and locates termination, big-step semantics, and behavioural equivalence as classifier-level notions already present in the kernel.
+
+\section{Continuation as small-step transition}
+\label{sec:computation-as-continuation-small-step}
+
+\begin{theorem}[Continuation-SOS correspondence]
+\label{thm:computation-as-continuation-correspondence}
+For every closed inductive program syntax $S$ equipped with a Plotkin-style small-step relation $\to_{S}$, there exists a naming certificate over $S$ whose continuation is naturally isomorphic to $\to_{S}$. Termination of $\to_{S}$ corresponds to the well-foundedness of the certificate's continuation chain; big-step semantics arises as the classifier closure of the continuation; behavioural equivalence is $\hsame$ on the underlying history carrier.
+\leanstmt{BEDC.Reflection.computation\_as\_continuation\_correspondence}
+\end{theorem}

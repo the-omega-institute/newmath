@@ -4,6 +4,7 @@ namespace BEDC.Derived.ProdUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 def ProdPairRep (Left Right : BHist → Prop) (h l r : BHist) : Prop :=
   Left l ∧ Right r ∧ Cont l r h
@@ -145,5 +146,20 @@ theorem ProdHistoryClassifier_cont_congr {Left Right : BHist → Prop}
     (And.intro
       (ProdHistoryCarrier_cont_intro leftCarrier' rightCarrier' contH')
       sameEndpoints)
+
+theorem ProdHistoryCarrier_displayed_pair_semantic_name_certificate
+    (Left Right : BHist → Prop)
+    (left_witness : ∃ l : BHist, Left l) (right_witness : ∃ r : BHist, Right r) :
+    SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)
+      (fun h : BHist => ∃ l : BHist, ∃ r : BHist, ProdPairRep Left Right h l r)
+      (ProdHistoryClassifier Left Right) := by
+  have base := prod_history_semantic_name_certificate Left Right left_witness right_witness
+  exact {
+    core := base.core
+    pattern_sound := base.pattern_sound
+    ledger_sound := by
+      intro h carrier
+      exact ProdPairRep_coverage.mp carrier
+  }
 
 end BEDC.Derived.ProdUp

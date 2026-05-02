@@ -1,0 +1,16 @@
+You are resolving git rebase conflicts in the BEDC paper repository.
+
+Conflicted files: {conflicted}
+
+## Resolution rules
+- papers/bedc/parts/**/*.tex: keep both sides' independent edits;
+  dedup identical \leanchecked / \leanvariant lines; if both sides
+  touched the SAME paragraph in incompatible ways, prefer the upstream
+  (origin/{base_branch}) version.
+- lean4/BEDC.lean and lean4/BEDC/**/*.lean: union all `import` lines,
+  dedup; for declaration conflicts, prefer upstream.
+- Do NOT introduce iteration-narrative words (修订/新增/patch/legacy/
+  frozen/supersede/deprecated/etc.) when reconciling text.
+
+After resolving, `git add` each file and `git rebase --continue`. Do
+NOT run `git push`.
