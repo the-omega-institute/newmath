@@ -3,6 +3,61 @@
 \input{parts/concrete_instances/option/namecert_construction/03_composite_factorization_intermediate_classifier}
 \input{parts/concrete_instances/option/namecert_construction/03_present_intermediate_payload_determinacy}
 
+\section{Option history classifier unary two-sided context}
+\label{sec:option-history-classifier-unary-two-sided-context}
+
+\begin{theorem}[Option history classifier unary two-sided context]
+\label{thm:option-history-classifier-unary-two-sided-context}
+This theorem fits the ten-field template as follows: the traditional target is
+context-stable nullable optional history classification; the BEDC source is
+$\mathsf{BHist}$ with $\mathsf{UnaryHistory}$, $\mathsf{append}$, and
+$\hsame$; the carrier is
+$\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}$; the classifier is
+$\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}$; the stability
+obligations are unary prefix and suffix closure together with cancellation;
+the ledger is the hidden common unary context; the core theorem is the
+displayed equivalence; exactness is recovery of the uncloaked classifier by
+append cancellation and unary factor readback; the standard bridge is option
+values under common unary context; and the status is $\mathsf{ProofTarget}$.
+
+Let $p,q,h,k:\mathsf{BHist}$. If $\mathsf{UnaryHistory}(p)$ and
+$\mathsf{UnaryHistory}(q)$ hold, then
+$$
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}(h,k)
+\Longleftrightarrow
+\mathsf{OptionHistoryClassifier}_{\mathsf{UnaryHistory}}
+  (\mathsf{append}(p,\mathsf{append}(h,q)),
+   \mathsf{append}(p,\mathsf{append}(k,q))).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, first apply
+Theorem~\ref{thm:option-history-classifier-unary-suffix-closed} with suffix
+$q$ to place the common unary right context on both endpoints. Then apply
+Theorem~\ref{thm:option-history-classifier-unary-prefix-closed} with prefix
+$p$ to place the common unary left context.
+
+For the reverse direction, unpack the contextual nullable classifier into its
+two endpoint carrier witnesses and the contextual $\hsame$ field. Each
+endpoint carrier is read back from the surrounding context. In an absent
+branch, use $\hsame\_\mathsf{iff}\_\mathsf{eq}$ and
+$\mathsf{append}\_\mathsf{eq}\_\mathsf{empty}\_\mathsf{iff}$ twice to recover
+the corresponding uncloaked empty endpoint witness.
+
+In a source branch, use
+$\mathsf{unary}\_\mathsf{append}\_\mathsf{right}\_\mathsf{factor}$ on the
+outer append and
+$\mathsf{unary}\_\mathsf{append}\_\mathsf{left}\_\mathsf{factor}$ on the inner
+append to recover $\mathsf{UnaryHistory}(h)$ or
+$\mathsf{UnaryHistory}(k)$ as required by the nullable carrier.
+
+It remains to recover the uncloaked classifier relation. Convert the
+contextual $\hsame$ field to equality, cancel the common left prefix by
+$\mathsf{append}\_\mathsf{left}\_\mathsf{cancel}$, and then cancel the common
+right suffix by $\mathsf{append}\_\mathsf{right}\_\mathsf{cancel}$. Repack the
+two recovered endpoint carriers together with the recovered $\hsame(h,k)$.
+\end{proof}
+
 \section{Tagged option map relation R-corner classifier coherence}
 \label{sec:option-maprel-r-corner-classifier-coherence}
 
