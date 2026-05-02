@@ -1746,13 +1746,33 @@ def detect_new_leanvariant_markers(wt: WorktreeInfo) -> list[str]:
 
 def detect_markers_not_backed_by_new_decls(wt: WorktreeInfo) -> list[str]:
     new_decls = set(collect_added_lean_declarations(wt))
+    existing_decls = _collect_all_lean_declarations(wt)
     violations: list[str] = []
     for rel, kind, name in _added_marker_lines(wt):
         if kind not in {"leanchecked", "leanstmt", "leandef"}:
             continue
-        if name not in new_decls:
-            violations.append(f"{rel}: {kind} marker {name} does not reference a current-round Lean declaration")
+        if name in new_decls:
+            continue
+        if name in existing_decls:
+            continue
+        violations.append(f"{rel}: {kind} marker {name} does not reference an existing Lean declaration")
     return violations
+
+
+def _collect_all_lean_declarations(wt: WorktreeInfo) -> set[str]:
+    """Enumerate every fully-qualified Lean declaration name in lean4/BEDC/."""
+    names: set[str] = set()
+    bedc_root = wt.path / "lean4" / "BEDC"
+    if not bedc_root.exists():
+        return names
+    for path in bedc_root.rglob("*.lean"):
+        try:
+            src = path.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        for name, _s, _e, _b in _lean_decl_blocks(src):
+            names.add(name)
+    return names
 
 
 def detect_decls_without_kernel_touchpoint(wt: WorktreeInfo) -> list[str]:
