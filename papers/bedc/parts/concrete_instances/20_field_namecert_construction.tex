@@ -71,6 +71,95 @@ ledger the four factor witnesses and the two offsets; core theorem
 \autoref{thm:field-affine-two-sided-certified-automorphism-composition};
 exactness predicate composite affine classifier iff; standard bridge deferred;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field affine composite inverse agrees with reverse-composed inverses]
+\label{thm:field-affine-composite-inverse-reverse-coherence}
+For a BEDC history-level $\FieldUp$ candidate with the operations and laws used
+by
+\autoref{thm:field-affine-two-sided-certified-automorphism-composition}, let
+$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+$p_{a'}:\mathsf{NonZero}_F(a')$, and $p_{b'}:\mathsf{NonZero}_F(b')$ be the
+factor-apartness witnesses for the two component affine maps
+$$
+T_1(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
+$$
+and
+$$
+T_2(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',x),b'),d').
+$$
+Put
+$A=\mathsf{mul}(a',a)$, $B=\mathsf{mul}(b,b')$, and
+$D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',d),b'),d')$, and let
+$p_A:\mathsf{NonZero}_F(A)$ and $p_B:\mathsf{NonZero}_F(B)$ be the
+product-apartness witnesses supplied by
+\autoref{thm:field-product-apartness-inverse-product-reverse}. For each
+$c:\mathsf{BHist}$ define
+$$
+s_1(c)=
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)))
+$$
+and
+$$
+s_2(c)=
+\mathsf{mul}(\mathsf{inv}(a',p_{a'}),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d')),\mathsf{inv}(b',p_{b'}))).
+$$
+For each $q:\mathsf{BHist}$ define the composite explicit inverse
+$$
+s_{21}(q)=
+\mathsf{mul}(\mathsf{inv}(A,p_A),
+\mathsf{mul}(\mathsf{add}(q,\mathsf{neg}(D)),\mathsf{inv}(B,p_B))).
+$$
+Then every $q:\mathsf{BHist}$ satisfies
+$$
+s_{21}(q)\hsame s_1(s_2(q)).
+$$
+\end{theorem}
+\begin{proof}
+Let
+$$
+C(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(A,x),B),D).
+$$
+Apply
+\autoref{thm:field-affine-two-sided-explicit-inverse} to the composite
+coefficients $A,B,D$ with witnesses $p_A,p_B$. Its left inverse clause gives
+$C(s_{21}(q))\hsame q$.
+
+Next instantiate
+\autoref{thm:field-affine-two-sided-certified-automorphism} for the first
+component with witnesses $p_a,p_b$ and offset $d$, and again for the second
+component with witnesses $p_{a'},p_{b'}$ and offset $d'$. The first certificate
+gives $T_1(s_1(s_2(q)))\hsame s_2(q)$, and the second gives
+$T_2(s_2(q))\hsame q$.
+
+Use the classifier-preservation direction of the second certificate to
+transport the first displayed equality through $T_2$. Transitivity with
+$T_2(s_2(q))\hsame q$ yields
+$T_2(T_1(s_1(s_2(q))))\hsame q$.
+
+By
+\autoref{thm:field-affine-two-sided-certified-automorphism-composition}, the
+left side of this equation is classified by $C(s_1(s_2(q)))$ with the collected
+coefficients $A,B,D$. Hence $s_1(s_2(q))$ also solves the same composite affine
+equation $C(x)\hsame q$.
+
+Finally apply
+\autoref{thm:field-affine-two-sided-equation-solution-unique-from-apartness}
+to the two solutions $s_{21}(q)$ and $s_1(s_2(q))$ of $C(x)\hsame q$. The
+unique-solution conclusion is exactly
+$s_{21}(q)\hsame s_1(s_2(q))$.
+\end{proof}
+
+Per-object certificate: traditional target affine composite inverse coherence;
+BEDC source $\FieldUp$ over $\mathsf{BHist}$ with RingUp distributivity; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations explicit inverse
+exactness, certified component automorphisms, composite coefficient collection,
+product apartness, and affine equation uniqueness; ledger the four component
+factor witnesses, the two product witnesses, and the two offsets; core theorem
+\autoref{thm:field-affine-composite-inverse-reverse-coherence}; exactness
+predicate reverse-composed explicit inverse equals the collected-coefficient
+explicit inverse; standard bridge deferred; status $\mathsf{ProofTarget}$.
 \input{parts/concrete_instances/field/20_field_signed_square_consequences}
 \leanchecked{BEDC.Derived.FieldUp.field\_equal\_squares\_signed\_branch\_determinacy}
 \input{parts/concrete_instances/field/20_field_product_apartness_consequences}
