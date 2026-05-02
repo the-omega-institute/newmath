@@ -165,6 +165,47 @@ and the present theorem supplies the exact descent of genuine denominator
 support through classifier transport and multiplication.
 \end{proof}
 
+\begin{theorem}[Rat denominator external-unit envelope support-unit no-confusion]
+\label{thm:field-rat-denominator-unit-envelope-support-unit-noconfusion}
+For every history $h:\mathsf{BHist}$ with $C_D^\ast(h)$,
+$$
+N_D^\ast(h)\Longleftrightarrow
+(R_D^\ast(h,e_D^\ast)\to\mathsf{False}).
+$$
+For histories $h,k:\mathsf{BHist}$ with $C_D^\ast(h)$ and $C_D^\ast(k)$,
+$$
+(R_D^\ast(\mu_D^\ast(h,k),e_D^\ast)\to\mathsf{False})
+\Longleftrightarrow N_D^\ast(h)\lor N_D^\ast(k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the carrier $C_D^\ast$ at $h$. In the carried branch, $N_D^\ast(h)$ is
+exactly the displayed $\mathsf{RatHistoryCarrier}(h)$ witness. A classifier
+comparison $R_D^\ast(h,e_D^\ast)$ would be a mixed carried-empty endpoint
+comparison, because $e_D^\ast=\emp$; by
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-exactness} and
+\autoref{thm:rat-history-carrier-not-empty} this branch is impossible.
+
+In the empty branch, $h\hsame\emp$. Since $e_D^\ast=\emp$, the empty-empty
+classifier branch gives $R_D^\ast(h,e_D^\ast)$. The same endpoint comparison
+also rules out $N_D^\ast(h)$ by
+\autoref{thm:rat-history-carrier-not-empty}. Thus the strict support predicate
+is exactly the failure of classification as the adjoined unit.
+
+For the product clause, first use the carrier closure in
+\autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws} to
+view $\mu_D^\ast(h,k)$ as an envelope-carried history. Applying the first clause
+to this product rewrites failure of
+$R_D^\ast(\mu_D^\ast(h,k),e_D^\ast)$ as
+$N_D^\ast(\mu_D^\ast(h,k))$.
+
+Finally apply the second support law of
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws}, which
+identifies $N_D^\ast(\mu_D^\ast(h,k))$ with
+$N_D^\ast(h)\lor N_D^\ast(k)$. The two equivalences compose to give the
+displayed product no-confusion statement.
+\end{proof}
+
 Per-object template: downstream target $\FieldUp(\mathsf{RatUp})$ denominator
 support boundary; BEDC source $\mathsf{RatHistoryCarrier}$,
 $\mathsf{RatHistoryClassifier}$, $\Cont$, $\mathsf{append}$, and $\emp$;
