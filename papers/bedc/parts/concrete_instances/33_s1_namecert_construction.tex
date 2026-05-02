@@ -265,6 +265,32 @@ $\hsame(e,e')$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_coordinate\_pair\_deterministic}
 
+\begin{theorem}[SOne history carrier coordinate-pair right determinacy]
+\label{thm:sone-history-carrier-coordinate-pair-right-deterministic}
+For histories $x,x',y,y',e,e',p$, two concrete $\SOneUp$ carrier witnesses with
+the same point ledger and history-same first coordinate determine the second
+coordinate and the equation witness:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x',y',e',p)
+\Longrightarrow
+\hsame(x,x')
+\Longrightarrow
+\hsame(y,y')\land\hsame(e,e').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two circle-carrier witnesses. The shared point ledger gives
+$\mathsf{Cont}(x,y,p)$ and $\mathsf{Cont}(x',y',p)$; after transporting along
+$\hsame(x,x')$, continuation left-cancellation identifies $y$ with $y'$. The
+equation components are both classified against the fixed
+$\mathsf{SOneUnitHistory}$ endpoint, so unit-equation determinacy identifies
+each equation witness with that endpoint, and transitivity gives
+$\hsame(e,e')$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_coordinate\_pair\_right\_deterministic}
+
 \section{The certificate}
 
 \begin{definition}[SOne source specification]

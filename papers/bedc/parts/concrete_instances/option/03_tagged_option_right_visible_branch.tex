@@ -71,3 +71,37 @@ visible-branch inversion theorem to that composite step gives the absent
 readback clause and the present payload witness clause exactly as displayed.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_composite\_right\_visible\_readback}
+
+\begin{theorem}[Tagged option shared-left visible-right determinacy]
+\label{thm:tagged-option-history-classifier-hsame-shared-left-visible-right-deterministic}
+For a BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,k,r,a,b,c$, two tagged option classifier witnesses with source
+classifier $\hsame$ and shared left endpoint $h$ determine the visible right
+payloads whenever all three displayed endpoints are present:
+$$
+\begin{array}{l}
+\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}(h,k)
+\Longrightarrow
+\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}(h,r)
+\Longrightarrow
+\\
+\hsame(h,\Eone(a))
+\Longrightarrow
+\hsame(k,\Eone(b))
+\Longrightarrow
+\hsame(r,\Eone(c))
+\Longrightarrow
+\hsame(b,c).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze both classifier witnesses. Any absent branch contradicts the
+displayed present endpoint for $h$. In the present branches, the two stored
+presentations of $h$ identify the two left payload witnesses with $a$ by
+one-constructor inversion. The stored presentations of $k$ and $r$ identify the
+right payload witnesses with $b$ and $c$. Since the classifier relation is
+$\hsame$, transitivity along the two shared-left payload links gives
+$\hsame(b,c)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_hsame\_shared\_left\_visible\_right\_deterministic}

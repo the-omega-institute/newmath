@@ -279,4 +279,14 @@ theorem SOneHistoryCarrier_coordinate_pair_deterministic {x x' y y' e e' p : BHi
   · exact hsame_trans (SOneHistoryCarrier_unit_equation_deterministic left)
       (hsame_symm (SOneHistoryCarrier_unit_equation_deterministic right))
 
+theorem SOneHistoryCarrier_coordinate_pair_right_deterministic {x x' y y' e e' p : BHist} :
+    SOneHistoryCarrier x y e p -> SOneHistoryCarrier x' y' e' p -> hsame x x' ->
+      hsame y y' ∧ hsame e e' := by
+  intro left right sameX
+  constructor
+  · cases sameX
+    exact cont_left_cancel left.right.right.right right.right.right.right
+  · exact hsame_trans (SOneHistoryCarrier_unit_equation_deterministic left)
+      (hsame_symm (SOneHistoryCarrier_unit_equation_deterministic right))
+
 end BEDC.Derived.S1Up

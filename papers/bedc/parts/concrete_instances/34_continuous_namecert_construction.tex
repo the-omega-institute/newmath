@@ -558,3 +558,35 @@ recovered target-to-certificate continuation and reassociate the BEDC append
 spine, obtaining $\mathsf{Cont}(middle,\delta_2,cert)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_factorizes}
+
+\begin{theorem}[Continuous function carrier prefixed graph-chain first factorization]
+\label{thm:continuous-function-carrier-prefixed-graph-chain-factorization}
+For histories $p,source,map,target,\delta_1,\delta_2,\delta,cert$, if
+$\delta_1$ and $\delta_2$ are unary, $\mathsf{Cont}(\delta_1,\delta_2,\delta)$
+holds, and
+$$
+\mathsf{ContinuousFunctionCarrier}
+(p\cdot source,map,p\cdot target,\delta,p\cdot cert)
+$$
+holds, then there is a middle history $middle$ such that
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,\delta_1,middle)
+\land
+\mathsf{ContinuousModulusWitness}(middle,\delta_2,cert).
+$$
+\end{theorem}
+\begin{proof}
+Apply prefix exactness for continuous-function carriers to remove the common
+visible prefix. This exposes the unprefixed graph ledger
+$\mathsf{Cont}(source,map,target)$ and the composite target-certificate ledger
+$\mathsf{Cont}(target,\delta,cert)$.
+
+Choose $middle=target\cdot\delta_1$. The first-stage carrier uses the original
+source, map, and target carrier data, the graph ledger, the unary witness for
+$\delta_1$, and the canonical continuation
+$\mathsf{Cont}(target,\delta_1,middle)$. The second-stage modulus witness uses
+the unary closure of $middle$, the unary witness for $\delta_2$, unary closure
+of $cert$, and associativity of BEDC append to factor the composite ledger
+through $\mathsf{Cont}(\delta_1,\delta_2,\delta)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_factorization}
