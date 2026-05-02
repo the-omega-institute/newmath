@@ -213,3 +213,110 @@ Using the symmetry field of $\mathsf{cert}_T$ on $p\sim_T r$ gives
 $r\sim_T p$; two applications of the transitivity field of $\mathsf{cert}_T$
 compose $r\sim_T p$, $p\sim_T q$, and $q\sim_T s$ into $r\sim_T s$.
 \end{proof}
+
+\begin{theorem}[Tagged option composite image classifier normalized intermediate classifier coverage]
+\label{thm:tagged-option-composite-image-classifier-normalized-intermediate-classifier-coverage}
+This theorem fits the per-object template as follows: the traditional target is
+branch-complete functorial $\mathsf{OptionUp}$ intermediate classifier
+coverage; the BEDC source is $\mathsf{BHist}$ with two composable descents; the
+carrier is the intermediate endpoint pair supplied by normalized public
+factorization; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}$; the stability obligations
+are normalized public readback completion, absent endpoint factorization,
+present payload determinacy, and source compatibility for $T$; the ledger
+records absent intermediate endpoints or selected visible present intermediate
+payloads; the core theorem is classified intermediate coverage; exactness says
+each normalized composite classifier has an absent or present intermediate
+factor whose two intermediate endpoints are classified; the standard bridge is
+none/some functorial composition; and the status is $\mathsf{ProofTarget}$.
+
+Let the carriers $S,T,U$, classifiers $\sim_S,\sim_T,\sim_U$, descents
+$\delta,\epsilon$, preservation fields $\rho_{\delta},\rho_{\epsilon}$,
+endpoint-stability field $\eta_{\epsilon}$, certificates
+$\mathsf{cert}_S,\mathsf{cert}_T,\mathsf{cert}_U$, compatibility fields, and
+endpoints $m,m',u,u'$ satisfy exactly the hypotheses of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-factored-public-readback-completion}.
+Then either
+\begin{enumerate}
+\item the normalized public endpoints are absent:
+$$
+\hsame(u,\emp)\land \hsame(u',\emp);
+$$
+\item there is no visible present public pair:
+$$
+\neg\exists x,y:\mathsf{BHist}.\;
+U(x)\land U(y)\land
+\hsame(u,\Eone(x))\land
+\hsame(u',\Eone(y));
+$$
+\item there exist $k,k':\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $\hsame(k,\emp)\land \hsame(k',\emp)$;
+\item $\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')$;
+\item no visible present intermediate pair occurs:
+$$
+\neg\exists p,q:\mathsf{BHist}.\;
+T(p)\land T(q)\land
+\hsame(k,\Eone(p))\land
+\hsame(k',\Eone(q)).
+$$
+\end{enumerate}
+\end{enumerate}
+or there exist $x,y,k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item the ten selected visible public factorization clauses of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+hold for $x,y,k,k',p,q,a,b$;
+\item the selected intermediate endpoints are classified:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k');
+$$
+\item every competing visible intermediate payload pair lies in the selected
+intermediate classifier class:
+$$
+\forall r,s:\mathsf{BHist}.\;
+T(r)\to T(s)\to
+\hsame(k,\Eone(r))\to
+\hsame(k',\Eone(s))\to r\sim_T s.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-factored-public-readback-completion}
+to the displayed composite witness, endpoint normalization witnesses, descents,
+preservation fields, stability field, certificates, and compatibility fields.
+This gives the normalized factored public readback completion at $(u,u')$.
+
+In the absent branch, retain the absent public endpoint presentations, the
+public visible-pair exclusion, and the intermediate witnesses $k,k'$. The
+factored completion supplies the $\delta$ image-classifier factor, the two
+$\epsilon$ map-relation links to $u,u'$, the presentations
+$\hsame(k,\emp)$ and $\hsame(k',\emp)$, and the exclusion of visible present
+intermediate pairs.
+
+Build
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')
+$$
+by the absent-absent constructor from $\hsame(k,\emp)$ and
+$\hsame(k',\emp)$. Package this classifier with the retained absent data.
+
+In the present branch, retain the displayed payloads
+$x,y,k,k',p,q,a,b$ and the selected visible factorization clauses supplied by
+the factored completion. Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-present-intermediate-classifier-determinacy}
+to the same displayed data and selected visible payloads.
+
+That theorem supplies the classifier
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')
+$$
+and the universal competing visible intermediate payload conclusion. Package
+these two fields with the retained selected visible public factorization
+clauses.
+\end{proof}
