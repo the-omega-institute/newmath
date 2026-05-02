@@ -249,4 +249,152 @@ theorem field_rat_denominator_unit_envelope_empty_product_reflection {h k : BHis
       append_eq_empty_iff.mpr (And.intro emptyH emptyK)
     exact Iff.mpr FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff productEmpty
 
+theorem FieldRatDenominatorUnitEnvelopeClassifier_empty_context_iff {p q p' q' h k : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty ->
+        (FieldRatDenominatorUnitEnvelopeClassifier (append p (append h q))
+          (append p' (append k q')) <-> FieldRatDenominatorUnitEnvelopeClassifier h k) := by
+  intro sameP sameQ sameP' sameQ'
+  have leftSame : hsame (append p (append h q)) h := by
+    cases sameP
+    cases sameQ
+    exact hsame_trans (append_empty_left (append h BHist.Empty)) (append_empty_right h)
+  have rightSame : hsame (append p' (append k q')) k := by
+    cases sameP'
+    cases sameQ'
+    exact hsame_trans (append_empty_left (append k BHist.Empty)) (append_empty_right k)
+  constructor
+  · intro classified
+    cases classified with
+    | inl ratData =>
+        have classifiedCore : RatHistoryClassifier h k :=
+          RatHistoryClassifier_hsame_transport leftSame rightSame ratData.right.right
+        exact Or.inl ⟨classifiedCore.left, classifiedCore.right.left, classifiedCore⟩
+    | inr emptyData =>
+        exact Or.inr
+          ⟨hsame_trans (hsame_symm leftSame) emptyData.left,
+            hsame_trans (hsame_symm rightSame) emptyData.right⟩
+  · intro classified
+    cases classified with
+    | inl ratData =>
+        have classifiedContext :
+            RatHistoryClassifier (append p (append h q)) (append p' (append k q')) :=
+          RatHistoryClassifier_hsame_transport (hsame_symm leftSame) (hsame_symm rightSame)
+            ratData.right.right
+        exact Or.inl
+          ⟨classifiedContext.left, classifiedContext.right.left, classifiedContext⟩
+    | inr emptyData =>
+        exact Or.inr
+          ⟨hsame_trans leftSame emptyData.left, hsame_trans rightSame emptyData.right⟩
+
+theorem field_rat_denominator_bilateral_strict_factor_cancellation {h k l r : BHist} :
+    FieldRatDenominatorUnitEnvelopeCarrier h -> FieldRatDenominatorUnitEnvelopeCarrier k ->
+      RatHistoryCarrier l -> RatHistoryCarrier r ->
+        (FieldRatDenominatorUnitEnvelopeClassifier (append l (append h r))
+          (append l (append k r)) <-> FieldRatDenominatorUnitEnvelopeClassifier h k) := by
+  intro carrierH carrierK ratL ratR
+  have unaryL : UnaryHistory l :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp ratL)).left
+  have unaryR : UnaryHistory r :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp ratR)).left
+  have contextCarrier :
+      ∀ {x : BHist}, FieldRatDenominatorUnitEnvelopeCarrier x ->
+        RatHistoryCarrier (append l (append x r)) := by
+    intro x carrierX
+    cases carrierX with
+    | inl ratX =>
+        have carrierXR : RatHistoryCarrier (append x r) :=
+          RatHistoryCarrier_continuation_closed ratX ratR (cont_intro rfl)
+        exact RatHistoryCarrier_continuation_closed ratL carrierXR (cont_intro rfl)
+    | inr emptyX =>
+        cases emptyX
+        have carrierLR : RatHistoryCarrier (append l r) :=
+          RatHistoryCarrier_continuation_closed ratL ratR (cont_intro rfl)
+        exact RatHistoryCarrier_hsame_transport
+          (hsame_symm (congrArg (append l) (append_empty_left r))) carrierLR
+  have contextClassifierIff :
+      ∀ {a b : BHist}, RatHistoryCarrier a -> RatHistoryCarrier b ->
+        (RatHistoryClassifier a b <->
+          RatHistoryClassifier (append l (append a r)) (append l (append b r))) := by
+    intro a b ratA ratB
+    exact field_rat_denominator_continuation_common_context_classifier_exactness unaryL unaryR
+      ratA ratB (cont_intro rfl) (cont_intro rfl) (cont_intro (append_assoc l a r).symm)
+      (cont_intro (append_assoc l b r).symm)
+  have contextSameCancel :
+      ∀ {a b : BHist},
+        hsame (append l (append a r)) (append l (append b r)) -> hsame a b := by
+    intro a b same
+    exact cont_cancel_common_context (cont_intro rfl) (cont_intro (append_assoc l a r).symm)
+      (cont_intro rfl) (cont_intro (append_assoc l b r).symm) same
+  have carrierLeftContext : RatHistoryCarrier (append l (append h r)) :=
+    contextCarrier carrierH
+  have carrierRightContext : RatHistoryCarrier (append l (append k r)) :=
+    contextCarrier carrierK
+  constructor
+  · intro classifiedContext
+    cases carrierH with
+    | inl ratH =>
+        cases carrierK with
+        | inl ratK =>
+            have ratContext : RatHistoryClassifier (append l (append h r))
+                (append l (append k r)) :=
+              Iff.mp (field_rat_denominator_unit_envelope_classifier_exactness.left
+                carrierLeftContext carrierRightContext) classifiedContext
+            have ratHK : RatHistoryClassifier h k :=
+              Iff.mpr (contextClassifierIff ratH ratK) ratContext
+            exact Or.inl ⟨ratHK.left, ratHK.right.left, ratHK⟩
+        | inr emptyK =>
+            cases emptyK
+            have ratContext : RatHistoryClassifier (append l (append h r))
+                (append l (append BHist.Empty r)) :=
+              Iff.mp (field_rat_denominator_unit_envelope_classifier_exactness.left
+                carrierLeftContext carrierRightContext) classifiedContext
+            have sameHEmpty : hsame h BHist.Empty :=
+              contextSameCancel ratContext.right.right
+            exact False.elim (RatHistoryCarrier_not_empty ratH sameHEmpty)
+    | inr emptyH =>
+        cases emptyH
+        cases carrierK with
+        | inl ratK =>
+            have ratContext : RatHistoryClassifier (append l (append BHist.Empty r))
+                (append l (append k r)) :=
+              Iff.mp (field_rat_denominator_unit_envelope_classifier_exactness.left
+                carrierLeftContext carrierRightContext) classifiedContext
+            have sameEmptyK : hsame BHist.Empty k :=
+              contextSameCancel ratContext.right.right
+            exact False.elim (RatHistoryCarrier_not_empty ratK (hsame_symm sameEmptyK))
+        | inr emptyK =>
+            cases emptyK
+            exact Or.inr ⟨hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩
+  · intro classified
+    cases carrierH with
+    | inl ratH =>
+        cases carrierK with
+        | inl ratK =>
+            have ratHK : RatHistoryClassifier h k :=
+              Iff.mp (field_rat_denominator_unit_envelope_classifier_exactness.left ratH ratK)
+                classified
+            have ratContext : RatHistoryClassifier (append l (append h r))
+                (append l (append k r)) :=
+              Iff.mp (contextClassifierIff ratH ratK) ratHK
+            exact Or.inl ⟨ratContext.left, ratContext.right.left, ratContext⟩
+        | inr emptyK =>
+            exact False.elim
+              ((field_rat_denominator_unit_envelope_classifier_exactness.right.left ratH emptyK)
+                classified)
+    | inr emptyH =>
+        cases carrierK with
+        | inl ratK =>
+            exact False.elim
+              ((field_rat_denominator_unit_envelope_classifier_exactness.right.right.left emptyH
+                ratK) classified)
+        | inr emptyK =>
+            cases emptyH
+            cases emptyK
+            exact Or.inl
+              ⟨carrierLeftContext, carrierRightContext, carrierLeftContext, carrierRightContext,
+                hsame_refl (append l (append BHist.Empty r))⟩
+
 end BEDC.Derived.FieldUp
