@@ -289,3 +289,38 @@ the original right hom-carrier at source $\Eone(r)$, and the original composite
 ledger is the visible-tail continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_e1\_morphism\_left\_factor\_cases}
+
+\begin{theorem}[Category nonempty one-headed composite morphism factors]
+\label{thm:category-hom-carrier-comp-nonempty-e1-morphism-factors}
+For composable category hom-carriers $f:a\to b$ and $g:b\to c$, if their
+continuation composite is $\Eone(k)$ and neither factor is internally the
+empty morphism, then both factors and both exposed target objects are
+one-headed:
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(a,b,f)\land
+\mathsf{CategoryHomCarrier}(b,c,g)\land
+\ContR(f,g,\Eone(k))\\
+&\quad\land (f\hsame\emp\to\mathsf{False})\land
+(g\hsame\emp\to\mathsf{False})\\
+&\Longrightarrow
+\exists l,m,r,s:\mathsf{BHist}.\;
+f=\Eone(l)\land g=\Eone(m)\land b=\Eone(r)\land c=\Eone(s)\\
+&\qquad\land\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\ContR(\Eone(l),\Eone(m),\Eone(k)).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Apply the left factor case split for one-headed composites. The empty-left
+branch contradicts nonemptiness of $f$, so the visible-left branch exposes
+$f=\Eone(l)$, $b=\Eone(r)$, a descended carrier
+$\mathsf{CategoryHomCarrier}(a,r,l)$, and a right carrier from $\Eone(r)$.
+Apply the nonempty one-headed-source morphism case split to that right carrier.
+The empty-right branch contradicts nonemptiness of $g$, and the visible-right
+branch exposes $g=\Eone(m)$ and $c=\Eone(s)$. Repacking its unary and
+continuation witnesses gives $\mathsf{CategoryHomCarrier}(\Eone(r),s,m)$, while
+substituting $g=\Eone(m)$ keeps the displayed composite continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_e1\_morphism\_factors}

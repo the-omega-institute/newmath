@@ -394,4 +394,66 @@ theorem CategoryHomCarrier_comp_visible_morphisms_result_cases {a b c l m fg : B
       (And.intro (cont_intro rfl)
         (CategoryHomCarrier_comp_closed left right (cont_intro rfl))))
 
+theorem CategoryHomCarrier_comp_nonempty_e1_morphism_factors {a b c f g k : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e1 k) ->
+      (hsame f BHist.Empty -> False) -> (hsame g BHist.Empty -> False) ->
+        ∃ l m r s : BHist, f = BHist.e1 l ∧ g = BHist.e1 m ∧ b = BHist.e1 r ∧
+          c = BHist.e1 s ∧ CategoryHomCarrier a r l ∧
+            CategoryHomCarrier (BHist.e1 r) s m ∧
+              Cont (BHist.e1 l) (BHist.e1 m) (BHist.e1 k) := by
+  intro left right comp nonemptyF nonemptyG
+  have leftSplit := CategoryHomCarrier_comp_e1_morphism_left_factor_cases left right comp
+  cases leftSplit with
+  | inl emptyCase =>
+      cases emptyCase with
+      | intro fEmpty _rest =>
+          exact False.elim (nonemptyF (by cases fEmpty; exact hsame_refl BHist.Empty))
+  | inr visibleLeft =>
+      cases visibleLeft with
+      | intro l leftData =>
+          cases leftData with
+          | intro r leftData =>
+              cases leftData with
+              | intro fEq rest =>
+                  cases rest with
+                  | intro bEq rest =>
+                      cases rest with
+                      | intro leftTail rest =>
+                          cases rest with
+                          | intro rightVisible visibleComp =>
+                              have rightSplit :=
+                                CategoryHomCarrier_e1_source_nonempty_morphism_target_cases
+                                  rightVisible nonemptyG
+                              cases rightSplit with
+                              | intro m rightData =>
+                                  cases rightData with
+                                  | intro s rightData =>
+                                      cases rightData with
+                                      | intro gEq rest =>
+                                          cases rest with
+                                          | intro cEq rest =>
+                                              cases rest with
+                                              | intro rUnary rest =>
+                                                  cases rest with
+                                                  | intro mUnary rest =>
+                                                      cases rest with
+                                                      | intro sUnary rightCont =>
+                                                          cases gEq
+                                                          exact Exists.intro l
+                                                            (Exists.intro m
+                                                              (Exists.intro r
+                                                                (Exists.intro s
+                                                                  (And.intro fEq
+                                                                    (And.intro rfl
+                                                                      (And.intro bEq
+                                                                        (And.intro cEq
+                                                                          (And.intro leftTail
+                                                                            (And.intro
+                                                                              (And.intro
+                                                                                (unary_e1_closed rUnary)
+                                                                                 (And.intro sUnary
+                                                                                   (And.intro mUnary
+                                                                                     rightCont)))
+                                                                              visibleComp)))))))))
+
 end BEDC.Derived.CategoryUp

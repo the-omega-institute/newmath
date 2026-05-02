@@ -17,6 +17,32 @@ membership of $t$, and hence a positive denominator witness for $\Eone(t)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_positive\_denominator\_append\_split}
 
+\begin{theorem}[Rat history carrier append split]
+\label{thm:rat-history-carrier-append-split}
+If the appended denominator $\mathsf{append}(h,k)$ lies in the rational history
+carrier, then either $h$ or $k$ lies in the rational history carrier.
+\end{theorem}
+\begin{proof}
+Convert the appended rational history carrier to a positive unary denominator
+witness by the rational carrier equivalence. The field positive-denominator
+append split places that witness on $h$ or on $k$; converting the selected
+positive-denominator branch back through the same equivalence gives the
+corresponding rational history carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryCarrier\_append\_split}
+
+\begin{theorem}[Rat history classifier left append split]
+\label{thm:rat-history-classifier-append-left-split}
+If the rational history classifier relates $\mathsf{append}(h,k)$ to a
+denominator $d$, then either $h$ or $k$ lies in the rational history carrier.
+\end{theorem}
+\begin{proof}
+Project the left endpoint carrier from the classifier witness. The rat history
+carrier append split then exposes the carried denominator branch on $h$ or on
+$k$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_append\_left\_split}
+
 \begin{theorem}[Rat denominators are closed under continuation]
 \label{thm:field-rat-denominator-continuation-carrier-closure}
 For all histories $d,e,r:\mathsf{BHist}$, if
