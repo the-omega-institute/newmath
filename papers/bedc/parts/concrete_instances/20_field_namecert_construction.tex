@@ -61,9 +61,51 @@ by a witness $p:\mathsf{NonZero}_{\bot}(h)$; eliminating $p$ closes the law
 without forming a classical inverse outside its licensed domain.
 \end{proof}
 
-The $\FieldUp$ schema therefore has a concrete $\mathsf{BHist}$ carrier,
-classifier, operation package, and proof-indexed inverse domain suitable for
-formalization in $\mathsf{BEDC.Derived.FieldUp}$.
+\begin{theorem}[Singleton empty-history FieldUp schema certificate]
+\label{thm:singleton-empty-history-field-schema-certificate}
+The tuple from
+Definition~\ref{def:singleton-empty-history-field-schema-instance}, together
+with the law package from
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws}, supplies the
+carrier, source, pattern, classifier, stability, and ledger fields required by
+Definition~\ref{def:field-certificate-obligations} over the concrete
+$\mathsf{BHist}$ singleton source. Its ten-field certificate template is:
+\begin{enumerate}
+  \item Traditional target: the singleton proof-indexed $\FieldUp$ schema.
+  \item BEDC source: $\mathsf{BHist}$ with $A_{\emp}$.
+  \item Carrier choice: $A_{\emp}$.
+  \item Classifier choice: $\rho_{\emp}$.
+  \item Stability obligations: commutative-ring laws plus vacuous nonzero
+  transport, inverse closure, and inverse laws.
+  \item Ledger: the singleton endpoint and the empty nonzero witness domain.
+  \item Core theorem list: Theorem~\ref{thm:singleton-empty-history-field-schema-laws}.
+  \item Exactness predicate: singleton endpoint classification.
+  \item Standard bridge: only the terminal proof-indexed schema.
+  \item Status: ProofTarget.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The source and carrier fields are the singleton history source
+$A_{\emp}$ from Definition~\ref{def:singleton-empty-history-field-schema-instance}.
+The classifier field is $\rho_{\emp}$, whose only endpoints are the empty
+histories admitted by $A_{\emp}$.
+
+For the algebraic stability fields, use
+Theorem~\ref{thm:singleton-empty-history-commring-laws}. It supplies the
+commutative-ring part for the constant empty-history operations on the same
+carrier and classifier.
+
+For the field-specific clauses, apply
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws}. Nonzero transport,
+inverse closure, inverse congruence, and the left and right inverse laws all
+begin with a witness $p:\mathsf{NonZero}_{\bot}(h)$.
+
+Since $\mathsf{NonZero}_{\bot}(h)$ is $\bot$, eliminating $p$ closes every
+inverse and nonzero subfield without adding a classical nonzero test. The
+ledger therefore records only the singleton endpoint and the empty witness
+domain, giving the required concrete $\mathsf{BHist}$ FieldUp naming
+certificate template.
+\end{proof}
 
 \section{The certificate}
 
