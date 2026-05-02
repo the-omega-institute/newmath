@@ -52,6 +52,38 @@ theorem TaggedOptionHistorySource_weakening {S T : BHist -> Prop}
                                               (classifierWeakening a b sourceA sourceB
                                                 relAB)))))))
 
+theorem TaggedOptionHistorySource_equivalence {S T : BHist -> Prop}
+    {RelS RelT : BHist -> BHist -> Prop}
+    (source_equiv : forall h : BHist, S h <-> T h)
+    (classifier_equiv :
+      forall a b : BHist, S a -> S b -> (RelS a b <-> RelT a b)) :
+    And (forall {h : BHist}, TaggedOptionHistoryCarrier S h <->
+      TaggedOptionHistoryCarrier T h)
+      (forall {h k : BHist}, TaggedOptionHistoryClassifier S RelS h k <->
+        TaggedOptionHistoryClassifier T RelT h k) := by
+  have forward := TaggedOptionHistorySource_weakening
+    (fun h sourceH => (source_equiv h).mp sourceH)
+    (fun a b sourceA sourceB relAB =>
+      (classifier_equiv a b sourceA sourceB).mp relAB)
+  have backward := TaggedOptionHistorySource_weakening
+    (fun h sourceH => (source_equiv h).mpr sourceH)
+    (fun a b sourceA sourceB relAB =>
+      (classifier_equiv a b ((source_equiv a).mpr sourceA) ((source_equiv b).mpr sourceB)).mpr
+        relAB)
+  constructor
+  · intro h
+    constructor
+    · intro carrier
+      exact forward.left carrier
+    · intro carrier
+      exact backward.left carrier
+  · intro h k
+    constructor
+    · intro classifier
+      exact forward.right classifier
+    · intro classifier
+      exact backward.right classifier
+
 theorem OptionHistorySource_monotonicity {S T : BHist → Prop}
     (source_mono : ∀ h : BHist, S h → T h) :
     (∀ {h : BHist}, OptionHistoryCarrier S h → OptionHistoryCarrier T h) ∧
