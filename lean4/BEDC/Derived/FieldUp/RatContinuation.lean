@@ -161,16 +161,25 @@ theorem field_rat_denominator_continuation_common_context_classifier_exactness
         RatHistoryClassifier (append p (append d q)) (append p (append e q)) :=
       RatHistoryClassifier_unary_denominator_context_closed classified prefixUnary
         (hsame_refl p) suffixUnary (hsame_refl q)
-    have sameLeft : hsame (append p (append d q)) left :=
-      (append_assoc p d q).symm.trans
-        ((congrArg (fun x => append x q) leftPrefix.symm).trans leftSuffix.symm)
-    have sameRight : hsame (append p (append e q)) right :=
-      (append_assoc p e q).symm.trans
-        ((congrArg (fun x => append x q) rightPrefix.symm).trans rightSuffix.symm)
+    have sameLeft : hsame (append p (append d q)) left := by
+      cases leftPrefix
+      cases leftSuffix
+      exact (append_assoc p d q).symm
+    have sameRight : hsame (append p (append e q)) right := by
+      cases rightPrefix
+      cases rightSuffix
+      exact (append_assoc p e q).symm
     exact RatHistoryClassifier_hsame_transport sameLeft sameRight contextClassified
   · intro classified
     exact field_rat_denominator_continuation_common_context_cancel prefixUnary suffixUnary
       carrierD carrierE leftPrefix rightPrefix leftSuffix rightSuffix classified
+
+theorem field_rat_denominator_matched_context_classifier_iff
+    {p q d e pd pe left right : BHist} :
+    UnaryHistory p -> UnaryHistory q -> RatHistoryCarrier d -> RatHistoryCarrier e ->
+      Cont p d pd -> Cont p e pe -> Cont pd q left -> Cont pe q right ->
+        (RatHistoryClassifier d e <-> RatHistoryClassifier left right) := by
+  exact field_rat_denominator_continuation_common_context_classifier_exactness
 
 theorem field_rat_denominator_continuation_common_context_ledger_closure
     {p p' q q' rho v pr pv left right : BHist} :

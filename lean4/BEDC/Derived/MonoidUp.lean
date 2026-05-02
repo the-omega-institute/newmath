@@ -172,6 +172,15 @@ theorem history_continuation_nonempty_suffix_source_absurd :
   · intro h k hcont
     exact not_hsame_e1_empty (cont_right_unit_unique hcont)
 
+theorem history_continuation_nonempty_prefix_target_absurd :
+    (forall {h k : BHist}, Cont (BHist.e0 h) k k -> False) ∧
+      (forall {h k : BHist}, Cont (BHist.e1 h) k k -> False) := by
+  constructor
+  · intro h k hcont
+    exact not_hsame_e0_empty (cont_left_unit_unique hcont)
+  · intro h k hcont
+    exact not_hsame_e1_empty (cont_left_unit_unique hcont)
+
 theorem unary_append_monoid_semantic_name_certificate :
     SemanticNameCert UnaryHistory UnaryHistory UnaryHistory (MonoidHistoryClassifier UnaryHistory) ∧
       (forall {h : BHist}, UnaryHistory h ->
