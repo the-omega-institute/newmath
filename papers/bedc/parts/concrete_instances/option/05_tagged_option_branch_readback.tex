@@ -77,6 +77,39 @@ $k$ and $r$ gives the two conjuncts.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_left\_present\_endpoint\_fanout}
 
+\begin{theorem}[Tagged option left present payload fanout]
+\label{thm:tagged-option-history-classifier-left-present-payload-fanout}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and histories $h,k,r,a$, if
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k),\qquad
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,r),\qquad
+\hsame(h,\Eone(a)),
+$$
+then both right endpoints expose payloads whose source-side predecessors are
+the displayed payload $a$ up to $\hsame$:
+$$
+\begin{aligned}
+&\bigl(\exists b,a':\mathsf{BHist}.\;
+S(b)\land S(a')\land\hsame(a,a')\land a'\sim_S b
+\land\hsame(k,\Eone(b))\bigr)\\
+&\quad\land
+\bigl(\exists c,a'':\mathsf{BHist}.\;
+S(c)\land S(a'')\land\hsame(a,a'')\land a''\sim_S c
+\land\hsame(r,\Eone(c))\bigr).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the two tagged classifier witnesses. An absent left branch
+contradicts the visible equation $\hsame(h,\Eone(a))$. In each present branch,
+the classifier exposes a source payload, a target payload, the source and target
+carrier witnesses, the relation between the payloads, and the target endpoint
+equation. Constructor inversion for $\Eone$ identifies the displayed payload
+$a$ with the exposed source payload.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_left\_present\_payload\_fanout}
+
 \begin{theorem}[Tagged option right present endpoint fanout]
 \label{thm:tagged-option-history-classifier-right-present-endpoint-fanout}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,

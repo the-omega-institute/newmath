@@ -253,4 +253,14 @@ theorem SOneHistoryCarrier_component_classifier_ledger_determinacy
                             (hsame_trans leftEquationUnit (hsame_symm rightEquationUnit))
                             (cont_respects_hsame sameX sameY leftPoint rightPoint)
 
+theorem SOneHistoryCarrier_coordinate_pair_deterministic {x x' y y' e e' p : BHist} :
+    SOneHistoryCarrier x y e p -> SOneHistoryCarrier x' y' e' p -> hsame y y' ->
+      hsame x x' /\ hsame e e' := by
+  intro left right sameY
+  constructor
+  · cases sameY
+    exact cont_right_cancel left.right.right.right right.right.right.right
+  · exact hsame_trans (SOneHistoryCarrier_unit_equation_deterministic left)
+      (hsame_symm (SOneHistoryCarrier_unit_equation_deterministic right))
+
 end BEDC.Derived.S1Up

@@ -294,6 +294,26 @@ unpacking the first relation and reassociating the append spine.
 \end{definition}
 \leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_closed}
 
+\begin{theorem}[Continuation morphism identity tail]
+\label{thm:continuation-morphism-identity-tail-hsame}
+For histories $a,b$ and a continuation morphism $m:a\to b$, composing $m$ with
+the empty identity tail on either side leaves its displayed tail history-same
+to the tail of $m$:
+$$
+\hsame\bigl(\mathsf{tail}(\mathsf{id}_a\circ m),\mathsf{tail}(m)\bigr)
+\land
+\hsame\bigl(\mathsf{tail}(m\circ \mathsf{id}_b),\mathsf{tail}(m)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism into its tail and continuation witness. The
+left identity composite has tail $\mathsf{append}(\mathsf{Empty},\mathsf{tail})$,
+and the right identity composite has tail
+$\mathsf{append}(\mathsf{tail},\mathsf{Empty})$. The two BEDC append unit laws
+identify both with the original tail.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_identity\_tail\_hsame}
+
 \begin{theorem}[Continuation morphism associative composition closure]
 \label{thm:continuation-morphism-comp-assoc-closed}
 For histories \(a,b,c,d\), any continuation morphisms

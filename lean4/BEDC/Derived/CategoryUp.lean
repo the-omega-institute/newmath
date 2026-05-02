@@ -223,6 +223,18 @@ def ContinuationMorphism_comp_closed {a b c : BHist} (left : ContinuationMorphis
                 cases leftRel
                 exact rightRel.trans (append_assoc a leftTail rightTail) }
 
+theorem ContinuationMorphism_identity_tail_hsame {a b : BHist}
+    (m : ContinuationMorphism a b) :
+    hsame (ContinuationMorphism_comp_closed { tail := BHist.Empty, rel := cont_right_unit a } m).tail
+        m.tail /\
+      hsame (ContinuationMorphism_comp_closed m { tail := BHist.Empty, rel := cont_right_unit b }).tail
+        m.tail := by
+  cases m with
+  | mk tail rel =>
+      constructor
+      · exact append_empty_left tail
+      · exact append_empty_right tail
+
 theorem ContinuationMorphism_identity_comp_closure :
     (forall h : BHist, Nonempty (ContinuationMorphism h h)) ∧
       (forall {a b c : BHist}, ContinuationMorphism a b ->
