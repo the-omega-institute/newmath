@@ -185,4 +185,16 @@ theorem RatDenomUnitClassifier_mixed_endpoint_absurd {d e : BHist} :
     exact RatHistoryCarrier_not_empty endpointData.right
       (hsame_trans (hsame_symm sameDE) endpointData.left)
 
+theorem RatDenomUnitCarrier_empty_context_iff {p q h : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty ->
+      (RatDenomUnitCarrier (append p (append h q)) ↔ RatDenomUnitCarrier h) := by
+  intro sameP sameQ
+  cases sameP
+  cases sameQ
+  constructor
+  · intro carrier
+    exact RatDenomUnitCarrier_hsame_transport (append_empty_left h) carrier
+  · intro carrier
+    exact RatDenomUnitCarrier_hsame_transport (hsame_symm (append_empty_left h)) carrier
+
 end BEDC.Derived.FieldUp

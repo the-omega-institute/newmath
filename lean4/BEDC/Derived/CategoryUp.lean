@@ -597,4 +597,7 @@ theorem CategoryHomCarrier_identity_semanticNameCert {a : BHist} :
     exact source
   · intro h source
     exact source
+theorem CategoryHomCarrier_endomorphism_empty_iff {a f : BHist} : CategoryHomCarrier a a f ↔ UnaryHistory a ∧ hsame f BHist.Empty :=
+  ⟨fun h => ⟨h.left, cont_right_unit_unique h.right.right.right⟩,
+    fun h => by cases h.right; exact CategoryHomCarrier_empty_identity h.left⟩
 end BEDC.Derived.CategoryUp

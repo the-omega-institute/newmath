@@ -75,6 +75,26 @@ $\mathsf{RatDenomUnitClassifier}$, multiplication $\mathsf{append}$, and unit
 $\emp$, with no abstract operator field being used.
 \end{proof}
 
+\begin{theorem}[Rat denominator unit carrier empty context exactness]
+\label{thm:rat-denom-unit-carrier-empty-context-iff}
+For histories $p,q,h:\mathsf{BHist}$, if $p\hsame\emp$ and $q\hsame\emp$,
+then adding those empty endpoint contexts does not change membership in the
+empty-unit denominator carrier:
+$$
+\mathsf{RatDenomUnitCarrier}(\mathsf{append}(p,\mathsf{append}(h,q)))
+\Longleftrightarrow
+\mathsf{RatDenomUnitCarrier}(h).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_empty\_context\_iff}
+\begin{proof}
+Eliminate the two empty-context sameness witnesses. The right append with
+$\emp$ reduces to $h$, and the left append by $\emp$ is identified with $h$
+by the append left-unit law. Transport the concrete
+$\mathsf{RatDenomUnitCarrier}$ predicate along that history-sameness
+comparison in both directions.
+\end{proof}
+
 \section{Rat denominator unit endpoint exactness}
 \label{sec:field-rat-denominator-unit-endpoint-exactness}
 
