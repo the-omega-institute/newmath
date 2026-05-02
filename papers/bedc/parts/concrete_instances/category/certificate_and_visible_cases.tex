@@ -590,6 +590,32 @@ ledger is the visible-tail continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_e1\_morphism\_left\_factor\_cases}
 
+\begin{theorem}[Category visible composable morphism target cases]
+\label{thm:category-visible-composable-morphisms-target-cases}
+For histories $a,b,c,l,m,k$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),\Eone(k)),
+$$
+then there exist histories $r,s$ such that
+$$
+b=\Eone(r)\land c=\Eone(s)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\ContR(\Eone(l),\Eone(m),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the one-headed morphism target-case theorem to the left visible
+hom-carrier and to the right visible hom-carrier. The two applications expose
+tails $r$ and $s$ with $b=\Eone(r)$ and $c=\Eone(s)$. Substitute the first
+target equality into the right descended hom-carrier, retain the left
+descended hom-carrier, and carry the original visible continuation ledger into
+the existential package.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_composable\_morphisms\_target\_cases}
+
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}
 For histories $a,k,r$, a hom-carrier whose target and morphism histories are

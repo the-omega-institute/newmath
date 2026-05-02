@@ -319,4 +319,27 @@ theorem CategoryHomCarrier_comp_e1_morphism_left_factor_cases {a b c f g k : BHi
                             exact right)
                           comp)))))
 
+theorem CategoryHomCarrier_visible_composable_morphisms_target_cases {a b c l m k : BHist} :
+    CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->
+      Cont (BHist.e1 l) (BHist.e1 m) (BHist.e1 k) ->
+        ∃ r s : BHist, b = BHist.e1 r ∧ c = BHist.e1 s ∧
+          CategoryHomCarrier a r l ∧ CategoryHomCarrier (BHist.e1 r) s m ∧
+            Cont (BHist.e1 l) (BHist.e1 m) (BHist.e1 k) := by
+  intro left right comp
+  have leftCases := CategoryHomCarrier_e1_morphism_target_cases left
+  have rightCases := CategoryHomCarrier_e1_morphism_target_cases right
+  cases leftCases with
+  | intro r leftData =>
+      cases rightCases with
+      | intro s rightData =>
+          cases leftData with
+          | intro bEq leftTail =>
+              cases rightData with
+              | intro cEq rightTail =>
+                  cases bEq
+                  exact Exists.intro r
+                    (Exists.intro s
+                      (And.intro rfl
+                        (And.intro cEq (And.intro leftTail (And.intro rightTail comp)))))
+
 end BEDC.Derived.CategoryUp

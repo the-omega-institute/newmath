@@ -184,6 +184,29 @@ theorem field_inverse_cancel_from_apartness {mul : BHist -> BHist -> BHist}
       (rightInv b q)
       transportedLeft)
 
+protected theorem field_apart_zero_inverse_classifier_exact_from_apartness
+    {mul : BHist -> BHist -> BHist}
+    {one : BHist} {inv : (a : BHist) -> (hsame a BHist.Empty -> False) -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : hsame a BHist.Empty -> False),
+      hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : hsame a BHist.Empty -> False),
+      hsame (mul a (inv a p)) one)
+    {a b : BHist} (pa : hsame a BHist.Empty -> False)
+    (pb : hsame b BHist.Empty -> False) :
+    hsame a b <-> hsame (inv a pa) (inv b pb) := by
+  constructor
+  · intro sameAB
+    exact field_inverse_congruence_from_apartness
+      assocC leftId rightId mulCongr leftInv rightInv sameAB pa pb
+  · intro sameInv
+    exact field_inverse_cancel_from_apartness
+      assocC leftId rightId mulCongr leftInv rightInv pa pb sameInv
+
 theorem field_inverse_nonzero_from_one_apartness {mul : BHist -> BHist -> BHist}
     {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
     (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->

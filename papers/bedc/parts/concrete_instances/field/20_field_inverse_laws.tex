@@ -83,6 +83,29 @@ between indexed inverses. Its cancellation conclusion is exactly $a\hsame b$,
 so the two implications combine into the stated classifier exactness.
 \end{proof}
 
+\begin{theorem}[Field apart-zero inverse classifier exactness from apartness]
+\label{thm:field-apart-zero-inverse-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate supplying multiplication on
+$\mathsf{BHist}$, a unit $1$, and proof-indexed inverses over the concrete
+apart-zero predicate $(x\hsame\emp)\to\bot$, multiplicative associativity,
+left and right unit laws, multiplication congruence under $\hsame$, and left
+and right inverse laws indexed by apart-zero witnesses imply that any
+$a,b:\mathsf{BHist}$ with witnesses
+$p_a:(a\hsame\emp)\to\bot$ and $p_b:(b\hsame\emp)\to\bot$ satisfy
+$$
+a\hsame b \Longleftrightarrow
+\mathsf{inv}(a,p_a)\hsame\mathsf{inv}(b,p_b).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, use inverse congruence from apartness with
+$\mathsf{NonZero}_F(x)$ instantiated by the concrete predicate
+$(x\hsame\emp)\to\bot$. For the reverse direction, use inverse cancellation
+from apartness under the same instantiation. The two implications give the
+displayed exact classifier equivalence for apart-zero indexed inverses.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_apart\_zero\_inverse\_classifier\_exact\_from\_apartness}
+
 \begin{theorem}[Field inverse is nonzero under one-apartness]
 \label{thm:field-inverse-nonzero-from-one-apartness}
 For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
