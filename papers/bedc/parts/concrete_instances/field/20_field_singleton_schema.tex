@@ -86,24 +86,26 @@ $\mathsf{BHist}$ rules out both alternatives.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_visible\_prefix\_absurd}
 
-\begin{definition}[Singleton empty-classifier nonzero domain]
-\label{def:singleton-empty-classifier-nonzero-domain}
-Reuse $A_{\emp}$ and $\rho_{\emp}$ from
-Definition~\ref{def:singleton-empty-history-field-schema-instance}. Define
-the classifier-level nonzero witness domain by
+\begin{definition}[Classifier-complement singleton nonzero domain]
+\label{def:field-singleton-empty-nonzero}
+For the same singleton carrier and classifier, define
+$\mathsf{fieldSingletonEmptyNonZero}(h)$ by
 $$
-\mathsf{FieldSingletonEmptyNonZero}(h)\Longleftrightarrow
-\rho_{\emp}(h,\emp)\to\mathsf{False}.
+\mathsf{fieldSingletonEmptyNonZero}(h)\Longleftrightarrow
+(\rho_{\emp}(h,\emp)\to\bot).
 $$
-The proof-indexed inverse on this domain is the constant empty-history
-operation $\mathsf{inv}_{\emp}(h,p):=\emp$ for
-$p:\mathsf{FieldSingletonEmptyNonZero}(h)$.
+The multiplication, unit, and proof-indexed inverse are the constant
+empty-history operations
+$\mathsf{fieldSingletonEmptyMul}(x,y):=\emp$,
+$\mathsf{fieldSingletonEmptyOne}:=\emp$, and
+$\mathsf{fieldSingletonEmptyInv}(h,p):=\emp$.
 \end{definition}
+\leandef{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero}
 
 \begin{theorem}[Singleton empty-classifier carrier obstruction]
 \label{thm:singleton-empty-classifier-carrier-absurd}
 For every $h:\mathsf{BHist}$,
-$A_{\emp}(h)\to\mathsf{FieldSingletonEmptyNonZero}(h)\to\mathsf{False}$.
+$A_{\emp}(h)\to\mathsf{fieldSingletonEmptyNonZero}(h)\to\mathsf{False}$.
 \end{theorem}
 \begin{proof}
 Assume $A_{\emp}(h)$. The singleton source is generated at $\emp$, so this
@@ -113,8 +115,8 @@ The same singleton source gives the reflexive carrier witness at $\emp$.
 Together with the endpoint comparison above, these data assemble the classifier
 package $\rho_{\emp}(h,\emp)$.
 
-Now assume $p:\mathsf{FieldSingletonEmptyNonZero}(h)$. By
-Definition~\ref{def:singleton-empty-classifier-nonzero-domain}, $p$ maps the
+Now assume $p:\mathsf{fieldSingletonEmptyNonZero}(h)$. By
+Definition~\ref{def:field-singleton-empty-nonzero}, $p$ maps the
 classifier package $\rho_{\emp}(h,\emp)$ to $\mathsf{False}$, which closes the
 claim.
 \end{proof}
@@ -150,42 +152,13 @@ forbidden classifier input to $p$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_empty\_endpoint\_absurd}
 
-\begin{theorem}[Singleton empty-history field nonzero domain is empty]
-\label{thm:singleton-empty-history-field-nonzero-domain-empty}
-For every $h:\mathsf{BHist}$,
-$\mathsf{FieldSingletonNonZero}(h)\Longrightarrow\mathsf{False}$.
-\end{theorem}
-\begin{proof}
-Unfold
-Definition~\ref{def:singleton-empty-history-field-schema-instance}. A witness of
-$\mathsf{FieldSingletonNonZero}(h)$ supplies $A_{\emp}(h)$ and
-$\hsame(h,\mathsf{e0}(\emp))$.
-
-The singleton source component $A_{\emp}(h)$ gives $\hsame(h,\emp)$. Apply
-Theorem~\ref{thm:field-singleton-nonzero-absurd} to the two displayed
-endpoints, and the contradiction follows.
-\end{proof}
-
 This block supplies the per-object certificate: traditional target empty
 inverse domain of the terminal proof-indexed field; BEDC source the concrete
 $\mathsf{BHist}$ singleton field schema; carrier $A_{\emp}$; classifier
 $\rho_{\emp}$; stability obligation nonzero contradiction; ledger no nonzero
-witness; core theorem Theorem~\ref{thm:singleton-empty-history-field-nonzero-domain-empty};
+witness; core theorem Theorem~\ref{thm:field-singleton-nonzero-absurd};
 exactness predicate witness-domain emptiness; standard bridge terminal field;
 status ProofTarget.
-
-\begin{theorem}[Singleton empty nonzero empty endpoint obstruction]
-\label{thm:field-singleton-empty-nonzero-empty-endpoint-absurd}
-For every $h:\mathsf{BHist}$, if $h\hsame\emp$, then the proof-defined
-predicate $\mathsf{fieldSingletonEmptyNonZero}(h)$ is impossible.
-\end{theorem}
-\begin{proof}
-The endpoint $h\hsame\emp$, together with reflexivity at $\emp$, gives the
-classifier witness $\rho_{\emp}(h,\emp)$. The predicate
-$\mathsf{fieldSingletonEmptyNonZero}(h)$ is defined as the exclusion of exactly
-that classifier witness, so it yields a contradiction.
-\end{proof}
-\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_empty\_endpoint\_absurd}
 
 \begin{theorem}[Singleton nonzero forces the zero-headed empty endpoint]
 \label{thm:field-singleton-nonzero-empty-e0-forced}
@@ -216,12 +189,12 @@ Theorem~\ref{thm:singleton-empty-history-commring-laws} for the displayed
 carrier, classifier, and constant empty-history operations.
 
 The nonzero exclusion at $0$ follows from
-Theorem~\ref{thm:singleton-empty-history-field-nonzero-domain-empty} by taking
+Theorem~\ref{thm:field-singleton-nonzero-absurd} by taking
 $h=0$.
 
 Nonzero transport along $\rho_{\emp}$ is vacuous. Given
 $\rho_{\emp}(h,k)$ and $p:\mathsf{FieldSingletonNonZero}(h)$,
-Theorem~\ref{thm:singleton-empty-history-field-nonzero-domain-empty} gives
+Theorem~\ref{thm:field-singleton-nonzero-absurd} gives
 contradiction; from contradiction one obtains the required witness at $k$.
 
 Inverse closure is direct because $\mathsf{inv}(h,p)$ is definitionally
@@ -236,22 +209,6 @@ the reflexive singleton endpoint, and no classical inverse is formed outside
 the proof-indexed domain.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.singleton\_empty\_history\_field\_schema\_laws}
-
-\begin{definition}[Classifier-complement singleton nonzero domain]
-\label{def:field-singleton-empty-nonzero}
-For the same singleton carrier and classifier, define
-$\mathsf{fieldSingletonEmptyNonZero}(h)$ by
-$$
-\mathsf{fieldSingletonEmptyNonZero}(h)\Longleftrightarrow
-(\rho_{\emp}(h,\emp)\to\bot).
-$$
-The multiplication, unit, and proof-indexed inverse are the constant
-empty-history operations
-$\mathsf{fieldSingletonEmptyMul}(x,y):=\emp$,
-$\mathsf{fieldSingletonEmptyOne}:=\emp$, and
-$\mathsf{fieldSingletonEmptyInv}(h,p):=\emp$.
-\end{definition}
-\leandef{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero}
 
 \begin{theorem}[Singleton empty-classifier append split]
 \label{thm:field-singleton-empty-classifier-append-split-empty}
@@ -355,7 +312,7 @@ Theorem~\ref{thm:singleton-empty-history-field-schema-laws}. Nonzero transport,
 inverse closure, inverse congruence, and the left and right inverse laws all
 begin with a witness $p:\mathsf{FieldSingletonNonZero}(h)$.
 
-Theorem~\ref{thm:singleton-empty-history-field-nonzero-domain-empty} shows that
+Theorem~\ref{thm:field-singleton-nonzero-absurd} shows that
 no such witness exists, while the inverse operation itself still has the total
 proof-indexed form $\mathsf{inv}(h,p):=\emp$. The ledger therefore records only
 the singleton endpoint and the empty witness domain, giving the required
