@@ -213,6 +213,33 @@ classified endpoints $Q$ and $R$.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_left\_cancel\_iff}
 
+\begin{theorem}[Polynomial singleton classifier append-right cancellation]
+\label{thm:polynomial-singleton-classifier-append-right-cancel}
+For singleton-carried $P$, adding the same BEDC append context on the right of
+two singleton polynomial endpoints preserves and reflects the singleton
+classifier:
+$$
+A_{\emp}(P)\Longrightarrow
+\left(
+\rho_{\emp}(\mathsf{append}(Q,P),\mathsf{append}(R,P))
+\Longleftrightarrow
+\rho_{\emp}(Q,R)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two appended endpoints are singleton-carried.
+Empty append inversion splits those carrier witnesses into $Q\hsame\emp$,
+$P\hsame\emp$, and $R\hsame\emp$, so the recovered witnesses for $Q$ and $R$
+rebuild $\rho_{\emp}(Q,R)$.
+
+For the reverse direction, combine the supplied singleton carrier for $P$ with
+the two endpoint carriers in $\rho_{\emp}(Q,R)$. Empty append inversion
+rebuilds singleton carrier witnesses for both right-appended endpoints, and
+transitivity through $\emp$ supplies their classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_right\_cancel\_iff}
+
 \begin{theorem}[Polynomial singleton classifier append-pair carrier exactness]
 \label{thm:polynomial-singleton-classifier-append-pair-carrier}
 For histories $P,Q,R,S:\mathsf{BHist}$, the singleton polynomial classifier
