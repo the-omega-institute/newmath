@@ -99,6 +99,53 @@ The $\VecSpaceUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and scalar action, so Lean formalization can target BHist-anchored
 vector-space laws in $\mathsf{BEDC.Derived.VecSpaceUp}$.
 
+\begin{theorem}[Singleton empty-history vector space semantic certificate]
+\label{thm:singleton-empty-history-vecspace-semantic-certificate}
+The tuple from
+Definition~\ref{def:singleton-empty-history-vecspace-instance}, together with
+the law package of Theorem~\ref{thm:singleton-empty-history-vecspace-laws},
+supplies the concrete paper-side semantic certificate for the terminal
+$\VecSpaceUp$ over the singleton $\FieldUp$ and singleton $\ModuleUp$ carriers.
+Its certificate target is the following ten-field template:
+\begin{enumerate}
+  \item Traditional target: the terminal vector space.
+  \item BEDC source: $\mathsf{BHist}$.
+  \item Carrier: $A_{\emp}$.
+  \item Classifier: $\rho_{\emp}$.
+  \item Stability: the singleton field and module law packages together with
+  nonzero-witness elimination.
+  \item Ledger: singleton scalar, vector, and action provenance.
+  \item Core theorem:
+  Theorem~\ref{thm:singleton-empty-history-vecspace-laws}.
+  \item Exactness: singleton endpoint classification.
+  \item Standard bridge: the terminal vector space.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The scalar component is supplied by
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws}, and its
+paper-side packaging is recorded by
+Theorem~\ref{thm:singleton-empty-history-field-schema-certificate}. These give
+the singleton $\FieldUp$ source, the shared $A_{\emp}$ carrier, and the
+classifier $\rho_{\emp}$ used by the displayed tuple.
+
+The vector component is supplied by
+Theorem~\ref{thm:module-singleton-scalar-action-laws}. It gives the singleton
+$\ModuleUp$ additive laws, scalar-action closure, scalar-action congruence,
+associativity, both distributivity laws, and the scalar unit law over the same
+empty-history endpoint.
+
+The remaining inverse-indexed clauses are vacuous in the singleton field
+source. By Theorem~\ref{thm:field-singleton-nonzero-absurd}, any witness of
+$\mathsf{NonZero}_{\bot}(h)$ is impossible at the only endpoint, so each
+nonzero-indexed scalar obligation is closed by elimination.
+
+Thus the tuple already carries the scalar, vector, classifier, ledger,
+exactness, bridge, and status data listed in the ten-field template, with
+Theorem~\ref{thm:singleton-empty-history-vecspace-laws} as its core theorem.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[VecSpace source specification]
