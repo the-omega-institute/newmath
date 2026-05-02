@@ -131,4 +131,20 @@ theorem RatHistoryLedgerPolicy_fieldSingletonEmptyCarrier_endpoints_absurd {raw 
     exact RatHistoryCarrier_not_empty (RatHistoryLedgerPolicy_visible_carrier ledger) visibleEmpty
   exact And.intro rawAbsurd (And.intro visibleAbsurd (And.intro rawAbsurd visibleAbsurd))
 
+theorem RatHistoryClassifier_fieldSingleton_empty_endpoints_absurd {h k : BHist} :
+    RatHistoryClassifier h k ->
+      (hsame h BHist.Empty -> False) ∧ (hsame k BHist.Empty -> False) ∧
+        (FieldSingletonClassifier h k -> False) := by
+  intro classified
+  have leftAbsurd : hsame h BHist.Empty -> False := by
+    intro sameEmpty
+    exact RatHistoryCarrier_not_empty classified.left sameEmpty
+  have rightAbsurd : hsame k BHist.Empty -> False := by
+    intro sameEmpty
+    exact RatHistoryCarrier_not_empty classified.right.left sameEmpty
+  have singletonAbsurd : FieldSingletonClassifier h k -> False := by
+    intro singleton
+    exact leftAbsurd singleton.left
+  exact And.intro leftAbsurd (And.intro rightAbsurd singletonAbsurd)
+
 end BEDC.Derived.FieldUp

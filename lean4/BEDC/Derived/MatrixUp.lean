@@ -168,4 +168,16 @@ theorem MatrixSingletonEmptyHistory_endpoint_collapse {M N : BHist} :
       (And.intro mulClassified.left (hsame_refl (MatrixSingletonAdd M N)))
   exact And.intro addClassified (And.intro mulClassified addMulClassified)
 
+theorem MatrixSingletonAddMul_classifier_iff {M N : BHist} :
+    MatrixSingletonClassifier (MatrixSingletonAdd M N) (MatrixSingletonMul M N) <->
+      hsame M BHist.Empty ∧ hsame N BHist.Empty := by
+  constructor
+  · intro classified
+    exact append_eq_empty_iff.mp classified.left
+  · intro emptyParts
+    have appendEmpty : MatrixSingletonCarrier (append M N) :=
+      append_eq_empty_iff.mpr emptyParts
+    exact And.intro appendEmpty
+      (And.intro appendEmpty (hsame_refl (MatrixSingletonAdd M N)))
+
 end BEDC.Derived.MatrixUp

@@ -77,6 +77,31 @@ $\hsame$ through $\emp$ gives the classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_split\_empty\_iff}
 
+\begin{theorem}[Matrix singleton add-mul classifier iff]
+\label{thm:matrix-singleton-add-mul-classifier-iff}
+For $M,N:\mathsf{BHist}$, the singleton matrix classifier relates the displayed
+addition and multiplication results exactly when both inputs are singleton
+empty endpoints:
+$$
+\rho_{\emp}(M\oplus N,M\odot N)
+\quad\Longleftrightarrow\quad
+M\hsame\emp\land N\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Both displayed operations are the same BEDC append spine
+$\mathsf{append}(M,N)$. In the forward direction, the left carrier component
+of $\rho_{\emp}(M\oplus N,M\odot N)$ says that this append spine is
+$\hsame$ to $\emp$. Empty-result inversion for append splits it into the two
+endpoint witnesses $M\hsame\emp$ and $N\hsame\emp$.
+
+Conversely, the two endpoint witnesses reconstruct the singleton carrier for
+$\mathsf{append}(M,N)$. Since $M\oplus N$ and $M\odot N$ unfold to that same
+append spine, reflexivity of $\hsame$ supplies the classifier relation between
+the displayed operation results.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_classifier\_iff}
+
 \begin{theorem}[Singleton empty-history matrix laws]
 \label{thm:singleton-empty-history-matrix-laws}
 For the singleton instance of
