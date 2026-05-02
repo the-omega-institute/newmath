@@ -10,38 +10,40 @@ The vector space interface \(\VecSpaceUp\) is the specialization of \autoref{ch:
 Use a module setup whose scalar source is a certified field.
 \end{definition}
 
-\section{Concrete singleton empty-history vector space instance}
-\label{sec:vecspace-concrete-singleton-instance}
+\section{Concrete singleton history vector space instance}
+\label{sec:vecspace-concrete-singleton-history-instance}
 
-\begin{definition}[Singleton empty-history vector space instance]
+\begin{definition}[Concrete singleton empty-history vector space instance]
 \label{def:singleton-empty-history-vecspace-instance}
 Let the scalar carrier and vector carrier both be the singleton history source
-$A_{\emp}$ of Definition~\ref{def:list-singleton-history-source} at
-$a_0=\emp$. Define the shared classifier
+$A_{\emp}$ of Definition~\ref{def:singleton-empty-history-module-instance}.
+Define the shared classifier
 $$
 \rho_{\emp}(h,k):=
 A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
 $$
-Take the scalar $\FieldUp$ structure from
-Definition~\ref{def:singleton-empty-history-field-schema-instance}. Take the
-module addition, zero, negation, scalar multiplication, scalar unit, and scalar
-action from Definition~\ref{def:singleton-empty-history-module-instance}, with
+Use the scalar addition, scalar negation, scalar multiplication, scalar zero,
+scalar one, nonzero predicate, and proof-indexed scalar inverse from
+Definition~\ref{def:singleton-empty-history-field-schema-instance}. Use the
+vector addition, vector negation, vector zero, and scalar action from
+Definition~\ref{def:singleton-empty-history-module-instance}, with
 $$
 \mathsf{smul}(r,m):=\emp.
 $$
 The certificate fit has ten fields:
 \begin{enumerate}
   \item Traditional target: the one-element vector space over the one-element
-  field.
+  proof-indexed field.
   \item BEDC source: $\mathsf{BHist}$.
   \item Carrier choice: $A_{\emp}$ for both scalars and vectors.
   \item Classifier choice: $\rho_{\emp}$.
   \item Stability obligations: the singleton field laws together with the
-  singleton module scalar-action laws.
-  \item Ledger: singleton scalar provenance and singleton vector provenance.
+  singleton module laws and the vacuous nonzero-indexed scalar inverse
+  reasoning.
+  \item Ledger: singleton scalar, vector, and action provenance.
   \item Core theorem list: Theorem~\ref{thm:singleton-empty-history-vecspace-laws}.
   \item Exactness predicate: singleton endpoint classification.
-  \item Standard bridge: the one-object vector space.
+  \item Standard bridge: the terminal one-object vector space.
   \item Status: $\mathsf{ProofTarget}$.
 \end{enumerate}
 \end{definition}
@@ -54,10 +56,11 @@ $$
 \mathsf{mul},1,\mathsf{smul},\mathsf{NonZero}_{\bot},\mathsf{inv})
 $$
 satisfies the $\VecSpaceUp$ schema over the concrete $\mathsf{BHist}$
-singleton carrier: all module laws, all scalar field laws, scalar-action
-congruence, scalar associativity, distributivity over vector addition,
-distributivity over scalar addition, scalar unit law, and inverse-indexed
-scalar reasoning over the empty nonzero witness domain.
+singleton carrier:
+scalar $\FieldUp$ laws, additive module laws, scalar-action closure,
+scalar-action congruence, scalar associativity, distributivity over vector
+addition, distributivity over scalar addition, scalar unit law, and
+inverse-enabled scalar reasoning for explicitly nonzero scalars.
 \end{theorem}
 \begin{proof}
 The module part is exactly the singleton empty-history module package of
@@ -69,7 +72,9 @@ $A_{\emp}$ carrier and $\rho_{\emp}$ classifier.
 The scalar field part is exactly the singleton empty-history field schema of
 Theorem~\ref{thm:singleton-empty-history-field-schema-laws}. It supplies the
 scalar commutative-ring laws together with the proof-indexed nonzero transport,
-inverse closure, inverse congruence, and inverse laws.
+inverse closure, inverse congruence, and inverse laws. The certificate
+packaging is the one recorded in
+Theorem~\ref{thm:singleton-empty-history-field-schema-certificate}.
 
 It remains only to check that the two packages share the displayed scalar
 source. Both use the constant empty-history scalar operations on
@@ -77,11 +82,11 @@ $A_{\emp}$, the same classifier $\rho_{\emp}$, and the same scalar unit. Hence
 their scalar ring fragments coincide as the scalar side of the vector-space
 schema.
 
-For inverse-indexed scalar reasoning, every such clause begins with a witness
+For inverse-enabled scalar reasoning, every such clause begins with a witness
 $p:\mathsf{NonZero}_{\bot}(h)$. Since
 $\mathsf{NonZero}_{\bot}(h)$ is $\bot$, eliminating $p$ closes the clause over
-the empty witness domain. No classical nonzero test or extra endpoint is
-introduced.
+the empty witness domain. No classical nonzero test or further endpoint datum
+is needed.
 \end{proof}
 
 \section{The certificate}
