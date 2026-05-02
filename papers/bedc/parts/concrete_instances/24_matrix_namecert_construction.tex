@@ -122,6 +122,24 @@ contradicting the disjointness of each visible constructor from $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_visible\_right\_absurd}
 
+\begin{theorem}[Matrix singleton classifier append pair carrier]
+\label{thm:matrix-singleton-classifier-append-pair-carrier}
+For $M,N,P,Q:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(M,N),\mathsf{append}(P,Q))
+\quad\Longleftrightarrow\quad
+A_{\emp}(M)\land A_{\emp}(N)\land A_{\emp}(P)\land A_{\emp}(Q).
+$$
+\end{theorem}
+\begin{proof}
+The classifier exposes singleton carrier witnesses for both append endpoints.
+Empty-result inversion for append splits these witnesses into the four displayed
+endpoint carriers. Conversely, the four endpoint carriers rebuild the two empty
+append endpoints, and transitivity of $\hsame$ through $\emp$ supplies the
+classifier comparison between them.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_pair\_carrier\_iff}
+
 \begin{theorem}[Singleton empty-history matrix laws]
 \label{thm:singleton-empty-history-matrix-laws}
 For the singleton instance of

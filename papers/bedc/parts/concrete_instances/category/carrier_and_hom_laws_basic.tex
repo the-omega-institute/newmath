@@ -208,6 +208,45 @@ the second.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_composite\_factors}
 
+\begin{theorem}[Category empty composite exactness]
+\label{thm:category-hom-carrier-empty-composite-iff}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, the composite
+ledger has empty result exactly when both morphism tails are empty and the
+adjacent endpoints collapse:
+$$
+\ContR(f,g,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(f,\emp)\wedge\HSame(g,\emp)\wedge\HSame(a,b)\wedge\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the empty-composite factor theorem. Conversely,
+$\HSame(f,\emp)$ and $\HSame(g,\emp)$ identify both continuation tails with
+the empty history, so the empty continuation ledger is the right-unit
+calculation at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_composite\_iff}
+
+\begin{theorem}[Category empty composite identity factors]
+\label{thm:category-hom-carrier-empty-composite-identity-factors}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, the composite
+ledger has empty result exactly when the two corresponding identity carriers
+are present:
+$$
+\ContR(f,g,\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{CategoryHomCarrier}(a,b,\emp)\wedge
+\mathsf{CategoryHomCarrier}(b,c,\emp).
+$$
+\end{theorem}
+\begin{proof}
+An empty composite gives empty tails by continuation inversion, and hom-carrier
+transport moves the two displayed carriers to those empty tails. In the reverse
+direction, morphism determinacy compares each displayed carrier with its empty
+identity factor, reducing the continuation ledger to $\ContR(\emp,\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_composite\_identity\_factors\_iff}
+
 \begin{theorem}[Category hom carrier unary suffix equivalence]
 \label{thm:category-hom-carrier-unary-suffix-iff}
 For a unary suffix $q$, a displayed hom-carrier

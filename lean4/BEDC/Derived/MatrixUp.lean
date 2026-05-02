@@ -49,6 +49,24 @@ theorem MatrixSingletonClassifier_append_visible_right_absurd {h p q : BHist} :
     have emptyParts := append_eq_empty_iff.mp classified.right.left
     cases emptyParts.right
 
+theorem MatrixSingletonClassifier_append_pair_carrier_iff {M N P Q : BHist} :
+    MatrixSingletonClassifier (append M N) (append P Q) ↔
+      MatrixSingletonCarrier M ∧ MatrixSingletonCarrier N ∧
+        MatrixSingletonCarrier P ∧ MatrixSingletonCarrier Q := by
+  constructor
+  · intro classified
+    have leftParts := append_eq_empty_iff.mp classified.left
+    have rightParts := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftParts.left
+      (And.intro leftParts.right (And.intro rightParts.left rightParts.right))
+  · intro carriers
+    have leftEmpty : hsame (append M N) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro carriers.left carriers.right.left)
+    have rightEmpty : hsame (append P Q) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro carriers.right.right.left carriers.right.right.right)
+    exact And.intro leftEmpty
+      (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+
 theorem MatrixSingletonEmptyHistory_laws :
     SemanticNameCert MatrixSingletonCarrier MatrixSingletonCarrier MatrixSingletonCarrier
         MatrixSingletonClassifier ∧
