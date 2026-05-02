@@ -46,6 +46,26 @@ and status $\mathsf{ProofTarget}$.
 \leandef{BEDC.Derived.ModuleUp.ModuleSingletonOne}
 \leandef{BEDC.Derived.ModuleUp.ModuleSingletonSmul}
 
+\begin{theorem}[Module singleton classifier empty endpoints]
+\label{thm:module-singleton-classifier-empty-endpoints}
+For histories $h,k:\mathsf{BHist}$, the concrete module singleton classifier
+satisfies
+$$
+\rho_{\emp}(h,k)
+\quad\Longleftrightarrow\quad
+h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction unpacks the two carrier components of the classifier,
+which are exactly the two empty-endpoint comparisons.
+
+Conversely, the two endpoint comparisons give the carrier components, and
+composing $h\hsame\emp$ with the symmetry of $k\hsame\emp$ supplies the
+$\hsame(h,k)$ component of the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonClassifier\_empty\_endpoints\_iff}
+
 \begin{theorem}[Singleton empty-history module laws]
 \label{thm:module-singleton-scalar-action-laws}
 The tuple

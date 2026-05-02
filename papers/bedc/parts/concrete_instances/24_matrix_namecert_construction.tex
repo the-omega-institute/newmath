@@ -55,6 +55,28 @@ The certificate fit has ten fields:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Matrix singleton classifier append split empty]
+\label{thm:matrix-singleton-classifier-append-split-empty}
+For $M,N,h:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(M,N),h)
+\quad\Longleftrightarrow\quad
+M\hsame\emp\land N\hsame\emp\land A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the left carrier component of
+$\rho_{\emp}(\mathsf{append}(M,N),h)$ as
+$\mathsf{append}(M,N)\hsame\emp$. Empty-result inversion for append splits this
+endpoint witness into $M\hsame\emp$ and $N\hsame\emp$, while the right carrier
+component supplies $A_{\emp}(h)$.
+
+Conversely, $M\hsame\emp$ and $N\hsame\emp$ reconstruct the singleton carrier
+witness for $\mathsf{append}(M,N)$. Together with $A_{\emp}(h)$, transitivity of
+$\hsame$ through $\emp$ gives the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_split\_empty\_iff}
+
 \begin{theorem}[Singleton empty-history matrix laws]
 \label{thm:singleton-empty-history-matrix-laws}
 For the singleton instance of

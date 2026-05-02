@@ -25,6 +25,19 @@ def MatrixSingletonAdd (M N : BHist) : BHist :=
 def MatrixSingletonMul (M N : BHist) : BHist :=
   append M N
 
+theorem MatrixSingletonClassifier_append_split_empty_iff {M N h : BHist} :
+    MatrixSingletonClassifier (append M N) h ↔
+      hsame M BHist.Empty ∧ hsame N BHist.Empty ∧ MatrixSingletonCarrier h := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact And.intro emptyParts.left (And.intro emptyParts.right classified.right.left)
+  · intro split
+    have appendEmpty : hsame (append M N) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro split.left split.right.left)
+    exact And.intro appendEmpty
+      (And.intro split.right.right (hsame_trans appendEmpty (hsame_symm split.right.right)))
+
 theorem MatrixSingletonEmptyHistory_laws :
     SemanticNameCert MatrixSingletonCarrier MatrixSingletonCarrier MatrixSingletonCarrier
         MatrixSingletonClassifier ∧
