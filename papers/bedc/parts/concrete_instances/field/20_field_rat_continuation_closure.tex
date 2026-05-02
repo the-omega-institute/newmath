@@ -136,18 +136,62 @@ the Rat ledger history-sameness transport theorem. The transported ledger is
 exactly $\mathsf{RatHistoryLedgerPolicy}(r,s)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation has empty-history identity and associativity laws]
+\label{thm:field-rat-denominator-continuation-empty-identity-and-assoc}
+Rat denominator continuation satisfies the following endpoint-classifier laws:
+\begin{enumerate}
+  \item for all histories $d,r:\mathsf{BHist}$, if
+  $\mathsf{RatHistoryCarrier}(d)$ and $\Cont(d,\emp,r)$, then
+  $\mathsf{RatHistoryClassifier}(r,d)$;
+  \item for all histories $d,s:\mathsf{BHist}$, if
+  $\mathsf{RatHistoryCarrier}(d)$ and $\Cont(\emp,d,s)$, then
+  $\mathsf{RatHistoryClassifier}(s,d)$;
+  \item for all histories $d,e,f,de,ef,left,right:\mathsf{BHist}$, if
+  $\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+  $\mathsf{RatHistoryCarrier}(f)$, $\Cont(d,e,de)$, $\Cont(de,f,left)$,
+  $\Cont(e,f,ef)$, and $\Cont(d,ef,right)$, then
+  $\mathsf{RatHistoryClassifier}(left,right)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the right empty-history law, apply the continuation right-unit result
+theorem to $\Cont(d,\emp,r)$. It supplies the $\hsame$ link from the displayed
+result back to $d$. Transport the given rational-history carrier along that
+link to get the carrier at $r$, then combine the two endpoint carriers with the
+same $\hsame$ link to form $\mathsf{RatHistoryClassifier}(r,d)$.
+
+For the left empty-history law, use the continuation left-unit result theorem
+on $\Cont(\emp,d,s)$. The same carrier transport step gives
+$\mathsf{RatHistoryCarrier}(s)$, and the resulting $\hsame$ link classifies
+$s$ against $d$.
+
+For associativity, first apply
+\autoref{thm:field-rat-denominator-continuation-carrier-closure} to
+$\Cont(d,e,de)$ and $\Cont(e,f,ef)$. Apply it again to
+$\Cont(de,f,left)$ and $\Cont(d,ef,right)$, using the two intermediate
+carriers just obtained. This supplies the rational-history carriers at both
+outer bracketings.
+
+Finally apply the kernel continuation associativity theorem
+\texttt{BEDC.FKernel.Cont.cont\_assoc\_hsame} to the four continuation
+witnesses. Its $\hsame$ comparison between $left$ and $right$, together with
+the two outer carriers, is exactly
+$\mathsf{RatHistoryClassifier}(left,right)$.
+\end{proof}
+
 \textbf{Traditional target}: denominator-side multiplication closure for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
 denominators; \textbf{classifier choice}: Rat history classifier;
 \textbf{stability obligation}: continuation-result carrier, classifier, and
-ledger transport plus associative continuation-result coherence;
+ledger transport plus empty-history identity and associativity coherence;
 \textbf{ledger}: the right denominator's positive-unary witness and the
 matching continuation witnesses; \textbf{core theorems}:
 \autoref{thm:field-rat-denominator-continuation-carrier-closure},
 \autoref{thm:field-rat-denominator-continuation-semigroup-laws},
-\autoref{thm:field-rat-denominator-continuation-classifier-closure}, and
-\autoref{thm:field-rat-denominator-continuation-ledger-closure};
+\autoref{thm:field-rat-denominator-continuation-classifier-closure},
+\autoref{thm:field-rat-denominator-continuation-ledger-closure}, and
+\autoref{thm:field-rat-denominator-continuation-empty-identity-and-assoc};
 \textbf{exactness predicate}: carrier closure for the concrete denominator
 operation; \textbf{standard bridge}: deferred; \textbf{status}:
 $\mathsf{ProofTarget}$.
