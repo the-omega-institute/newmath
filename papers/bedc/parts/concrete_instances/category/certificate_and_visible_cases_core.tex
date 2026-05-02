@@ -305,6 +305,22 @@ $\ContR(\Eone(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e0\_target\_tail\_cases}
 
+\begin{theorem}[Continuation morphism one-headed source to zero-headed target rejects one-headed tail]
+\label{thm:category-continuation-e1-source-e0-target-tail-e1-absurd}
+For histories $a,r,k:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Eone(a),\Ezero(r))$,
+$$
+\HSame(\mathsf{tail}(m),\Eone(k))\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply the preceding zero-headed tail exposure theorem. It supplies a history
+$t$ with $\mathsf{tail}(m)\hsame\Ezero(t)$. If the displayed tail were also
+$\HSame$ to $\Eone(k)$, transitivity would give
+$\Ezero(t)\hsame\Eone(k)$, contradicting constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e0\_target\_tail\_e1\_absurd}
+
 \begin{theorem}[Continuation morphism one-headed source to zero-headed target tail is nonempty]
 \label{thm:continuation-morphism-e1-source-e0-target-tail-not-empty}
 For histories $a,r:\mathsf{BHist}$, every continuation morphism
@@ -341,6 +357,22 @@ continuation step-result inversion exposes the residual continuation
 $\ContR(\Ezero(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e1\_target\_tail\_cases}
+
+\begin{theorem}[Continuation morphism zero-headed source to one-headed target rejects zero-headed tail]
+\label{thm:category-continuation-e0-source-e1-target-tail-e0-absurd}
+For histories $a,r,k:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Eone(r))$,
+$$
+\HSame(\mathsf{tail}(m),\Ezero(k))\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply the preceding one-headed tail exposure theorem. It supplies a history
+$t$ with $\mathsf{tail}(m)\hsame\Eone(t)$. If the displayed tail were also
+$\HSame$ to $\Ezero(k)$, transitivity would give
+$\Eone(t)\hsame\Ezero(k)$, contradicting constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e1\_target\_tail\_e0\_absurd}
 
 \begin{theorem}[Continuation morphism zero-headed source to one-headed target tail is nonempty]
 \label{thm:continuation-morphism-e0-source-e1-target-tail-not-empty}

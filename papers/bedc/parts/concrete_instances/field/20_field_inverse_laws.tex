@@ -141,6 +141,28 @@ $\mathsf{NonZero}_F(\mathsf{inv}(a,p_a))$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_inverse\_nonzero\_from\_one\_apartness}
 
+\begin{theorem}[Field inverse is apart from empty under one-apartness]
+\label{thm:field-inverse-apart-empty-from-one-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+multiplication $\mathsf{mul}$, unit $1$, proof-indexed inverse
+$\mathsf{inv}(a,p)$, multiplication congruence under $\hsame$, zero-left
+multiplication $\mathsf{mul}(0,x)\hsame 0$, left inverse law
+$\mathsf{mul}(\mathsf{inv}(a,p),a)\hsame 1$, and one-apartness
+$\omega:(1\hsame 0)\to\bot$, every witness $p_a:\mathsf{NonZero}_F(a)$
+constructively refutes
+$$
+\mathsf{inv}(a,p_a)\hsame 0.
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{inv}(a,p_a)\hsame 0$. Multiplication congruence transports
+this equality through right multiplication by $a$, and the zero-left law
+identifies the transported product with $0$. The left inverse law identifies
+the same product with $1$, so transitivity gives $1\hsame 0$, contradicting
+$\omega$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_apart\_empty\_from\_one\_apartness}
+
 \begin{theorem}[Field inverse of an indexed inverse]
 \label{thm:field-inverse-involutive-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with multiplication on
