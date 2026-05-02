@@ -219,4 +219,16 @@ theorem ContinuationMorphism_e1_source_e1_target_tail_cases {a r : BHist}
               right
               exact Exists.intro k (And.intro (hsame_refl (BHist.e1 k)) data.right)
 
+theorem ContinuationMorphism_e1_source_e1_target_tail_e0_absurd {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
+    hsame m.tail (BHist.e0 k) -> False := by
+  intro tailZero
+  cases ContinuationMorphism_e1_source_e1_target_tail_cases m with
+  | inl emptyCase =>
+      exact not_hsame_emp_e0 (hsame_trans (hsame_symm emptyCase.left) tailZero)
+  | inr visibleCase =>
+      cases visibleCase with
+      | intro t exposed =>
+          exact not_hsame_e1_e0 (hsame_trans (hsame_symm exposed.left) tailZero)
+
 end BEDC.Derived.CategoryUp

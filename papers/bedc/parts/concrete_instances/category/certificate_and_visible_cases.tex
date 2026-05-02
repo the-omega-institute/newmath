@@ -378,6 +378,20 @@ $\ContR(\Eone(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_tail\_cases}
 
+\begin{theorem}[Continuation morphism one-headed endpoints reject zero-headed tail]
+\label{thm:continuation-morphism-e1-source-e1-target-tail-e0-absurd}
+For histories $a,r,k:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Eone(a),\Eone(r))$,
+$$
+\HSame(\mathsf{tail}(m),\Ezero(k))\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply the preceding one-headed endpoint tail cases. The empty-tail branch gives
+$\emp\hsame\Ezero(k)$, and the visible branch gives
+$\Eone(t)\hsame\Ezero(k)$ for some $t$; both contradict constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_tail\_e0\_absurd}
 \begin{theorem}[Category empty morphism between one-headed endpoints]
 \label{thm:category-hom-carrier-e1-source-e1-target-empty-morphism-iff}
 For histories $a,r$, the empty morphism is a hom-carrier from $\Eone(a)$ to
