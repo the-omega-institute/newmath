@@ -29,24 +29,44 @@ $\rho_{\emp}$. The realized action is the constant endpoint action
 $$
 \Lambda_{\emp}(f,x):=\emp
 $$
-for every admitted map code $f$ and singleton vector input $x$. The identity
-code, zero-map code, and composition code are
+for every admitted map code $f$ and singleton vector input $x$. The same
+endpoint action may be displayed as
+$$
+F_{\emp}(h):=\emp.
+$$
+The linear-map carrier on public map codes and its pointwise map classifier
+are
+$$
+L_{\emp}(f):=\hsame(f,\emp),
+\qquad
+\lambda_{\emp}(f,g):=
+L_{\emp}(f)\land L_{\emp}(g)\land\hsame(f,g).
+$$
+The pointwise evaluation is
+$$
+\mathsf{ev}_{\emp}(f,h):=F_{\emp}(h).
+$$
+The identity, zero-map, and composition code are
 $$
 \mathsf{id}_{\emp}:=\emp,\qquad
 \mathsf{zeroMap}_{\emp}:=\emp,\qquad
 \mathsf{comp}_{\emp}(g,f):=\emp.
 $$
-The certificate fit has ten fields:
+
+This certificate has ten fields:
 \begin{enumerate}
   \item Traditional target: the terminal one-map linear map space between the
   singleton vector space and itself.
   \item BEDC source: $\mathsf{BHist}$.
-  \item Carrier choice: $A_{\emp}$ for map codes.
-  \item Classifier choice: $\rho_{\emp}$ for map-code equality.
+  \item Carrier choice: $A_{\emp}$ for source vectors, target vectors, and
+  map codes.
+  \item Classifier choice: $\rho_{\emp}$ for endpoint and map-code equality.
   \item Stability obligations: output closure, pointwise classifier
   congruence, additivity, scalar compatibility, zero preservation, identity
   closure, and composition closure.
-  \item Ledger: singleton map-code provenance.
+  \item Ledger: singleton map-code provenance for $F_{\emp}$,
+  $\mathsf{id}_{\emp}$, $\mathsf{zeroMap}_{\emp}$, and
+  $\mathsf{comp}_{\emp}$.
   \item Core theorem list: Theorem~\ref{thm:singleton-empty-history-linearmap-laws}.
   \item Exactness predicate: singleton endpoint classification.
   \item Standard bridge: the terminal one-map linear hom space.
