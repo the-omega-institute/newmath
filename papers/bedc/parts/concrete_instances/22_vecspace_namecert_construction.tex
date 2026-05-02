@@ -190,6 +190,22 @@ classifier comparison $\emp\hsame t$.
 \end{proof}
 \leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_classifier\_empty\_iff}
 
+\begin{theorem}[VecSpace singleton scalar action target deterministic]
+\label{thm:vecspace-singleton-smul-target-deterministic}
+For all histories $r,s,m,n,x,y:\mathsf{BHist}$, if
+$\mathsf{VecSpaceSingletonClassifier}(\mathsf{VecSpaceSingletonSmul}(r,m),x)$
+and
+$\mathsf{VecSpaceSingletonClassifier}(\mathsf{VecSpaceSingletonSmul}(s,n),y)$,
+then $x\hsame\emp$, $y\hsame\emp$, and $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Unfold the singleton scalar-action classifier at both displayed endpoints.
+The target-carrier field of the first classifier gives $x\hsame\emp$, and the
+target-carrier field of the second classifier gives $y\hsame\emp$. Composing
+the first equality with the symmetry of the second yields $x\hsame y$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_target\_deterministic}
+
 \begin{theorem}[VecSpace singleton scalar action inverse law]
 \label{thm:vecspace-singleton-scalar-action-inverse-law}
 For the concrete singleton $\VecSpaceUp$ instance, let

@@ -3,6 +3,7 @@ import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.FieldUp
 
@@ -59,6 +60,24 @@ theorem RatHistoryClassifier_continuation_right_closed {d d' e r r' : BHist} :
     cont_respects_hsame classified.right.right (hsame_refl e)
       leftContinuation rightContinuation
   exact ⟨carrierR, carrierR', sameResult⟩
+
+theorem field_rat_denominator_continuation_commutative_classifier {d e r s : BHist} :
+    RatHistoryCarrier d -> RatHistoryCarrier e -> Cont d e r -> Cont e d s ->
+      RatHistoryClassifier r s := by
+  intro carrierD carrierE leftContinuation rightContinuation
+  have carrierR : RatHistoryCarrier r :=
+    RatHistoryCarrier_continuation_closed carrierD carrierE leftContinuation
+  have carrierS : RatHistoryCarrier s :=
+    RatHistoryCarrier_continuation_closed carrierE carrierD rightContinuation
+  have unaryD : UnaryHistory d :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrierD)).left
+  have unaryE : UnaryHistory e :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrierE)).left
+  have sameRS : hsame r s :=
+    unary_continuation_commutativity unaryD unaryE leftContinuation rightContinuation
+  exact ⟨carrierR, carrierS, sameRS⟩
 
 theorem field_rat_denominator_continuation_no_internal_left_unit {u : BHist} :
     RatHistoryCarrier u ->
@@ -319,5 +338,53 @@ theorem field_rat_denominator_continuation_no_internal_unit {u : BHist} :
   have unitEmpty : hsame u BHist.Empty :=
     cont_right_unit_unique collapsedContinuation
   exact RatHistoryCarrier_not_empty carrierU unitEmpty
+
+theorem field_rat_denominator_continuation_unit_endpoint_empty {u : BHist} :
+    ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d) ->
+        hsame u BHist.Empty) ∧
+      ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d) ->
+        hsame u BHist.Empty) ∧
+      (RatHistoryCarrier u ->
+        ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d) ∨
+          (∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d)) ->
+          False) := by
+  have carrierD1 : RatHistoryCarrier (BHist.e1 BHist.Empty) :=
+    RatHistoryCarrier_e1_tail_unary_iff.mpr unary_empty
+  have rightEndpointEmpty :
+      ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont d u r -> RatHistoryClassifier r d) ->
+        hsame u BHist.Empty) := by
+    intro rightUnitLaw
+    have canonicalContinuation :
+        Cont (BHist.e1 BHist.Empty) u (append (BHist.e1 BHist.Empty) u) :=
+      cont_intro rfl
+    have classifiedResult :
+        RatHistoryClassifier (append (BHist.e1 BHist.Empty) u) (BHist.e1 BHist.Empty) :=
+      rightUnitLaw carrierD1 canonicalContinuation
+    have collapsedContinuation : Cont (BHist.e1 BHist.Empty) u (BHist.e1 BHist.Empty) :=
+      cont_result_hsame_transport canonicalContinuation classifiedResult.right.right
+    exact cont_right_unit_unique collapsedContinuation
+  have leftEndpointEmpty :
+      ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d) ->
+        hsame u BHist.Empty) := by
+    intro leftUnitLaw
+    have displayed :
+        Cont u (BHist.e1 BHist.Empty) (append u (BHist.e1 BHist.Empty)) :=
+      cont_intro rfl
+    have classified :
+        RatHistoryClassifier (append u (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) :=
+      leftUnitLaw carrierD1 displayed
+    have internalLeftUnit : Cont u (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+      cont_result_hsame_transport displayed classified.right.right
+    exact cont_left_unit_unique internalLeftUnit
+  constructor
+  · exact rightEndpointEmpty
+  · constructor
+    · exact leftEndpointEmpty
+    · intro carrierU unitLaw
+      cases unitLaw with
+      | inl rightUnitLaw =>
+          exact RatHistoryCarrier_not_empty carrierU (rightEndpointEmpty rightUnitLaw)
+      | inr leftUnitLaw =>
+          exact RatHistoryCarrier_not_empty carrierU (leftEndpointEmpty leftUnitLaw)
 
 end BEDC.Derived.FieldUp
