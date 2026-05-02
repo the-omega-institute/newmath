@@ -74,16 +74,31 @@ nonzero-domain law target for the singleton empty-classifier instance.
 
 \begin{theorem}[Singleton nonzero endpoint obstruction]
 \label{thm:field-singleton-nonzero-absurd}
-For every $a:\mathsf{BHist}$, if $a\hsame\emp$ and
-$a\hsame\mathsf{e0}(\emp)$, then contradiction follows.
+For every $h:\mathsf{BHist}$, a witness
+$p:\mathsf{FieldSingletonNonZero}(h)$ leads to contradiction.
 \end{theorem}
 \begin{proof}
-Compose the first classifier equality in reverse with the second equality.
-This gives $\emp\hsame\mathsf{e0}(\emp)$. The constructors
-$\emp$ and $\mathsf{e0}(\emp)$ are disjoint in the closed inductive
-$\mathsf{BHist}$ kernel, so no such equality exists.
+The witness contains both the singleton-carrier endpoint $h\hsame\emp$ and
+the zero-head endpoint $h\hsame\mathsf{e0}(\emp)$. Compose the first endpoint
+in reverse with the second endpoint to obtain
+$\emp\hsame\mathsf{e0}(\emp)$. The constructors $\emp$ and
+$\mathsf{e0}(\emp)$ are disjoint in the closed inductive $\mathsf{BHist}$
+kernel, so no such equality exists.
 \end{proof}
-\leanchecked{BEDC.Derived.FieldUp.field\_singleton\_nonzero\_absurd}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonNonZero\_absurd}
+
+\begin{theorem}[Singleton empty nonzero endpoint obstruction]
+\label{thm:field-singleton-nonzero-empty-endpoint-absurd}
+For every $h:\mathsf{BHist}$, if $h\hsame\emp$ and
+$p:\mathsf{fieldSingletonEmptyNonZero}(h)$, then contradiction follows.
+\end{theorem}
+\begin{proof}
+The endpoint $h\hsame\emp$ supplies the source side of the empty singleton
+classifier. The empty target is classified by reflexivity, and the same
+endpoint supplies the classifier equality from $h$ to $\emp$. This builds the
+forbidden classifier input to $p$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_empty\_endpoint\_absurd}
 
 \begin{theorem}[Singleton empty-history field nonzero domain is empty]
 \label{thm:singleton-empty-history-field-nonzero-domain-empty}

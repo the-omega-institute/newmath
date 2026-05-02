@@ -526,6 +526,10 @@ theorem FieldSingletonNonZero_empty_e0_forced {a : BHist} :
   intro nonzero
   exact hsame_trans (hsame_symm nonzero.left) nonzero.right
 
+theorem FieldSingletonNonZero_absurd {h : BHist} : FieldSingletonNonZero h -> False := by
+  intro nonzero
+  exact field_singleton_nonzero_absurd nonzero.left nonzero.right
+
  theorem field_one_sided_zero_product_cancel_from_apartness
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {zero one : BHist}
     {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}

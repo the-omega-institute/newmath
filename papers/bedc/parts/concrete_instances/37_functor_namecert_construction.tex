@@ -86,6 +86,23 @@ $b$ to $c$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_right\_factor}
 
+\begin{theorem}[Prefix functor composition right factor public readback]
+\label{thm:functor-prefix-hom-carrier-comp-right-factor-public-readback}
+For the unary-continuation category, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $\ContR(f,g,fg)$ holds, and
+$fg$ is displayed as a hom-carrier from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,c)$, then $g$ is a hom-carrier from $b$ to $c$.
+Moreover, any competing right factor $g'$ with $\ContR(f,g',fg)$ and the same
+unprefixed hom-carrier endpoints satisfies $\HSame(g,g')$.
+\end{theorem}
+\begin{proof}
+Prefix right-factor reflection supplies the unprefixed hom-carrier for $g$.
+For any competing $g'$, the two continuation ledgers share the same left
+factor and composite result, so finite-kernel left cancellation yields
+$\HSame(g,g')$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_right\_factor\_public\_readback}
+
 \begin{theorem}[Prefix functor composition left factor reflection]
 \label{thm:functor-prefix-hom-carrier-comp-left-factor}
 For the unary-continuation category, if $g$ is a hom-carrier from
