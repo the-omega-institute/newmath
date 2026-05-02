@@ -164,6 +164,7 @@ import BEDC.Derived.FieldUp.SquareApartnessAndAffine
 import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatContinuation
+import BEDC.Derived.FieldUp.ProductRightEquation
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp

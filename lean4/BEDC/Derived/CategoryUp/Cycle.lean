@@ -48,4 +48,20 @@ theorem CategoryHomCarrier_cycle_identity_carriers {a b f g : BHist} :
     · exact CategoryHomCarrier_hsame_transport (hsame_refl b) sameEndpoint gEmpty right
     · exact sameEndpoint
 
+theorem CategoryHomCarrier_unary_suffix_cycle_tails_empty {q a b f g : BHist} :
+    CategoryHomCarrier (append a q) (append b q) f -> CategoryHomCarrier b a g ->
+      hsame a b ∧ hsame f BHist.Empty ∧ hsame g BHist.Empty := by
+  intro left right
+  have baseLeft : CategoryHomCarrier a b f :=
+    (CategoryHomCarrier_unary_suffix_iff.mp left).right
+  exact CategoryHomCarrier_cycle_tails_empty baseLeft right
+
+theorem CategoryHomCarrier_unary_suffix_cycle_identity_carriers {q a b f g : BHist} :
+    CategoryHomCarrier (append a q) (append b q) f -> CategoryHomCarrier b a g ->
+      CategoryHomCarrier a a BHist.Empty ∧ CategoryHomCarrier b b BHist.Empty ∧ hsame a b := by
+  intro left right
+  have baseLeft : CategoryHomCarrier a b f :=
+    (CategoryHomCarrier_unary_suffix_iff.mp left).right
+  exact CategoryHomCarrier_cycle_identity_carriers baseLeft right
+
 end BEDC.Derived.CategoryUp

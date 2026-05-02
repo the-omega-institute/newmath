@@ -184,6 +184,53 @@ theorem \autoref{thm:unary-prefix-category-isomorphism-collapse}; exactness
 bidirectional prefix comparison collapses to identity; standard bridge
 preorder-enriched thin category; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Unary-suffix cyclic hom-carriers have empty tails]
+\label{thm:category-hom-carrier-unary-suffix-cycle-tails-empty}
+If a unary suffix $q$ is shared by the source and target of the forward
+hom-carrier and an opposite base hom-carrier returns from $b$ to $a$,
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(a,q),\mathsf{append}(b,q),f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(b,a,g),
+$$
+then the base endpoints are internally the same and both morphism tails are
+empty:
+$$
+\hsame(a,b)\land \hsame(f,\emp)\land \hsame(g,\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_suffix\_cycle\_tails\_empty}
+\begin{proof}
+The suffix exactness theorem strips the shared unary suffix from the forward
+hom-carrier, exposing a base hom-carrier from $a$ to $b$ with the same tail
+$f$. The two base hom-carriers now form an ordinary opposite cycle, so mutual
+continuation cancellation identifies the endpoints and forces both tails to be
+empty.
+\end{proof}
+
+\begin{theorem}[Unary-suffix cyclic hom-carriers expose identity carriers]
+\label{thm:category-hom-carrier-unary-suffix-cycle-identity-carriers}
+If
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(a,q),\mathsf{append}(b,q),f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(b,a,g)
+$$
+both hold, then the base endpoints carry empty-tail identities and the
+endpoints are internally the same:
+$$
+\mathsf{CategoryHomCarrier}(a,a,\emp)\land
+\mathsf{CategoryHomCarrier}(b,b,\emp)\land
+\hsame(a,b).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_suffix\_cycle\_identity\_carriers}
+\begin{proof}
+Strip the shared unary suffix from the forward hom-carrier. The resulting base
+cycle is an ordinary cyclic hom-carrier pair, so cyclic identity-carrier
+exposure transports the two tails to empty identity carriers at $a$ and $b$.
+\end{proof}
+
 \begin{theorem}[Visible one-step morphisms have no opposite cycle]
 \label{thm:category-e1-morphism-cycle-absurd}
 If the forward hom-carrier has a visible one-headed morphism tail

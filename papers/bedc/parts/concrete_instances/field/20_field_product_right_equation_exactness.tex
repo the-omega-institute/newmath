@@ -20,8 +20,7 @@ $\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
 $\hsame$; stability obligations right equation exactness, inverse product
 reversal, multiplication congruence, associativity and unit laws; ledger the
 three nonzero witnesses and the reversed inverse product; core theorem this
-block; exactness predicate the displayed equivalence; standard bridge deferred;
-status $\mathsf{ProofTarget}$.
+block; exactness predicate the displayed equivalence.
 \end{theorem}
 \begin{proof}
 First apply
@@ -47,6 +46,33 @@ solution back to
 $x\hsame\mathsf{mul}(c,\mathsf{inv}(\mathsf{mul}(a,b),p_{ab}))$. The reverse
 half of the one-factor exactness theorem then recovers
 $\mathsf{mul}(x,\mathsf{mul}(a,b))\hsame c$.
+\end{proof}
+
+\begin{theorem}[Field product right-multiplication empty equation exactness from apartness]
+\label{thm:field-product-right-mul-empty-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+multiplication associativity, left and right unit laws, multiplication
+congruence under $\hsame$, and left and right inverse laws indexed by nonzero
+witnesses, explicit witnesses
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$ make every
+$x:\mathsf{BHist}$ satisfy
+$$
+\mathsf{mul}(x,\mathsf{mul}(a,b))\hsame \emp
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\emp,\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_product\_right\_mul\_empty\_equation\_exact\_from\_apartness}
+\begin{proof}
+Apply right-multiplication equation exactness to the active factor
+$\mathsf{mul}(a,b)$ at target $\emp$. This identifies the displayed equation
+with the solution using $\mathsf{inv}(\mathsf{mul}(a,b),p_{ab})$. Product
+inverse reversal identifies that inverse with
+$\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))$, and multiplication
+congruence transports the solution across the right factor of
+$\mathsf{mul}(\emp,-)$ in both directions.
 \end{proof}
 
 \begin{theorem}[Field product left-multiplication equation exactness from apartness]
