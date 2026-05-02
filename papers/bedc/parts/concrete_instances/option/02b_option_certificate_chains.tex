@@ -465,6 +465,22 @@ ledger link, and the visible link.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_hsame\_transport}
 
+\begin{theorem}[Option ledger policy transitivity]
+\label{thm:option-ledger-policy-trans}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let
+$\rho,m,v:\mathsf{BHist}$. If
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,m)$ and
+$\mathsf{OptionHistoryLedgerPolicy}(S,m,v)$ hold, then
+$\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack both ledger witnesses. The first witness supplies the raw optional
+carrier for $\rho$ and the link $\hsame(\rho,m)$; the second supplies the link
+$\hsame(m,v)$. Compose the two $\hsame$ links and keep the raw carrier witness
+from the first ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_trans}
+
 \begin{theorem}[Concrete optional-history semantic certificate]
 \label{thm:concrete-option-namecert}
 For every source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, the checked nullable certificate is $\mathsf{SemanticNameCert}(\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryCarrier}_S,\mathsf{OptionHistoryClassifier}_S)$. This semantic certificate does not assert constructor-discriminating history tags; that stronger tagged interface is the preceding paper-side target.

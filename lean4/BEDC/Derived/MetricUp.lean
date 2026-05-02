@@ -390,6 +390,22 @@ theorem MetricDistanceWitness_left_e1_result_cases {x y d : BHist} :
                                   (And.intro xCarrier
                                     (And.intro yCarrier (And.intro dCarrier tailRel)))))
 
+theorem MetricDistanceWitness_right_e1_result_exactness {x y d : BHist} :
+    MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) ->
+      MetricDistanceWitness x y d := by
+  intro witness
+  cases witness with
+  | intro xCarrier rest =>
+      cases rest with
+      | intro yCarrier rest =>
+          cases rest with
+          | intro dCarrier distance =>
+              exact
+                And.intro xCarrier
+                  (And.intro (unary_e1_inversion yCarrier)
+                    (And.intro (unary_e1_inversion dCarrier)
+                      (cont_step_rules_inversion_pair.right distance)))
+
 theorem MetricDistanceWitness_semanticNameCert {x y : BHist} :
     UnaryHistory x -> UnaryHistory y ->
       BEDC.FKernel.NameCert.SemanticNameCert (MetricDistanceWitness x y)

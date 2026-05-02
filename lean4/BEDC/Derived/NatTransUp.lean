@@ -196,6 +196,16 @@ theorem NatTransPrefixComponentCarrier_source_prefix_deterministic {p q r a eta 
     CategoryHomCarrier_source_deterministic left.right.right.right right.right.right.right
   exact append_right_cancel (k := a) sameSource
 
+theorem NatTransPrefixComponentCarrier_vert_comp_source_prefix_deterministic
+    {p q r s a eta theta composite : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta ->
+        Cont eta theta composite ->
+          NatTransPrefixComponentCarrier s r a composite -> hsame p s := by
+  intro left right comp displayed
+  exact NatTransPrefixComponentCarrier_source_prefix_deterministic
+    (NatTransPrefixComponentCarrier_vert_comp_closed left right comp) displayed
+
 theorem NatTransPrefixComponentCarrier_identity_semanticNameCert {p a : BHist} :
     UnaryHistory p -> UnaryHistory a ->
       BEDC.FKernel.NameCert.SemanticNameCert (NatTransPrefixComponentCarrier p p a)

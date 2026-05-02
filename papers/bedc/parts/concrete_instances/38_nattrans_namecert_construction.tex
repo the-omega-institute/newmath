@@ -130,6 +130,23 @@ shared suffix \(a\) gives \(\HSame(q,q')\).
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_middle\_prefix\_deterministic}
 
+\begin{theorem}[NatTrans prefix component vertical composite source-prefix determinacy]
+\label{thm:nattrans-prefix-component-vertical-composite-source-prefix-determinacy}
+For prefix components over unary histories, if \(\eta\) is a component from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(q,a)\), \(\theta\) is a component
+from \(\mathsf{append}(q,a)\) to \(\mathsf{append}(r,a)\),
+\(\ContR(\eta,\theta,\eta\theta)\), and the same composite history
+\(\eta\theta\) is displayed as a component from \(\mathsf{append}(s,a)\) to
+\(\mathsf{append}(r,a)\), then \(\HSame(p,s)\).
+\end{theorem}
+\begin{proof}
+First close the vertical composite of \(\eta\) and \(\theta\), obtaining a
+component carrier from prefix \(p\) to prefix \(r\) over the object \(a\). Apply
+source-prefix determinacy to this composed carrier and the displayed carrier
+with source prefix \(s\), both targeting prefix \(r\).
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_source\_prefix\_deterministic}
+
 \begin{theorem}[NatTrans prefix component source-prefix determinacy]
 \label{thm:nattrans-prefix-component-carrier-source-prefix-deterministic}
 For prefix components over unary histories, if a fixed component history

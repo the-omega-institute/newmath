@@ -374,6 +374,25 @@ ledger and repack the remaining unary evidence as the tail distance witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_cases}
 
+\begin{theorem}[Metric distance witness right e1 result exactness]
+\label{thm:metric-distance-witness-right-e1-result-exactness}
+For histories $x,y,d$, a distance witness with right endpoint and result both
+under one visible constructor descends to the tail witness:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the distance witness into unary carrier fields and the continuation
+ledger. Unary inversion removes the visible constructor from the right endpoint
+and result carriers. The continuation step-rule inversion removes the same
+right-side constructor from the continuation ledger, and the four fields repack
+as $\mathsf{MetricDistanceWitness}(x,y,d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_exactness}
+
 \begin{theorem}[Metric distance witness right-boundary visible-context exactness]
 \label{thm:metric-distance-witness-right-boundary-visible-context-iff}
 For histories $p,q,x,d$, a visible-context distance witness whose central right

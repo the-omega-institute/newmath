@@ -19,4 +19,15 @@ theorem OptionHistoryLedgerPolicy_classifier_endpoint_equivalence {source : BHis
   · intro visibleTarget
     exact OptionHistoryLedgerPolicy_classifier_extension source_transport ledger visibleTarget
 
+theorem OptionHistoryLedgerPolicy_trans {source : BHist -> Prop} {raw mid visible : BHist} :
+    OptionHistoryLedgerPolicy source raw mid ->
+      OptionHistoryLedgerPolicy source mid visible ->
+        OptionHistoryLedgerPolicy source raw visible := by
+  intro first second
+  cases first with
+  | intro rawCarrier rawMid =>
+      cases second with
+      | intro _midCarrier midVisible =>
+          exact And.intro rawCarrier (hsame_trans rawMid midVisible)
+
 end BEDC.Derived.OptionUp
