@@ -22,20 +22,30 @@ Output requirements:
    and inversions. If you reach a true obstruction, state it as a separate
    numbered remark (`\begin{{remark}}...`), not as a hand-wave.
 
-4. Math uses only `$...$` and `$$...$$`. `$$` must be on its own line —
-   both the opening and the closing `$$`. Never put `$$` inline at the start
-   or end of a paragraph; always break to a new line.
+4. **Math style: match the paper's concrete_instances/proof_obligations
+   convention.** Use `\(...\)` for inline math and `\[...\]` for display
+   math. Do NOT use `$...$` or `$$...$$` — the BEDC paper body has
+   converged on `\(...\)` / `\[...\]` (verify by reading the existing
+   target file before writing). Display blocks `\[...\]` get their own
+   line; never inline at the end of a paragraph.
 
 5. Do not exceed 400 lines of LaTeX in the fenced block.
 
-6. Use ONLY LaTeX macros that exist in `papers/bedc/preamble.tex`. The
-   common ones already defined include `\BEDC`, `\bzero`, `\bone`, `\Mark`,
+6. **Use ONLY LaTeX macros defined in `papers/bedc/preamble.tex`.** The
+   paper has many `Up` suffix macros for typed names: `\ModuleUp`,
+   `\RingUp`, `\AbGroupUp`, `\ListUp`, `\NatUp`, `\AddUp`, `\BoolUp`,
+   `\OptionUp`, `\PairUp`, `\PolynomialUp`, `\RealUp`, `\IntervalUp`,
+   `\MetricUp`, `\ContinuousUp`, `\CompactUp`, `\CategoryUp`,
+   `\FunctorUp`, `\NatTransUp`, `\PreorderUp`, `\PosetUp`,
+   `\TotalOrderUp`, `\LatticeUp`, `\SOneUp`, `\FoldUp`, etc. Plus
+   foundational kernel macros: `\BEDC`, `\bzero`, `\bone`, `\Mark`,
    `\msame`, `\Hist`, `\Ezero`, `\Eone`, `\Ext`, `\Cont`, `\psame`,
-   `\TokIntro`, `\TokUnique`, `\hsame`, `\PBaseData` (where present).
-   If you need a name not already defined, expand it inline using
-   `\mathsf{{...}}`, `\mathrm{{...}}`, or `\operatorname{{...}}`. NEVER write a
-   bare `\PsameBase`, `\NewMacro`, or any backslash-name that is not in
-   the preamble — the appended block will fail pdflatex.
+   `\TokIntro`, `\TokUnique`, `\hsame`. **Read the target chapter file
+   first — its existing definitions and macro usage tell you which names
+   are available and active.** If you need a name not in preamble, expand
+   it inline using `\mathsf{{...}}` / `\mathrm{{...}}` / `\operatorname{{...}}`.
+   Never invent a backslash command not already defined — pdflatex will
+   reject the entire paper build.
 
 7. Do NOT include a `NEXT:` line, a `Insertion target:` paragraph alone
    on its own (this is fine when paired with the LaTeX block), or any
@@ -88,6 +98,21 @@ CRITICAL constraints (will cause auto-rejection downstream if violated):
 - Do NOT include `axiom`, `sorry`, or `import Mathlib` in any inline Lean
   snippets. (Inline Lean is allowed for documentation but must respect the
   mathlib-free, zero-axiom invariant.)
+
+**Paper conventions (match the existing file you're appending to):**
+- Cross-references go through `\autoref{{ch:...}}` / `\autoref{{thm:...}}`
+  / `\autoref{{def:...}}`. Avoid `\ref` and `\eqref` unless the file
+  already uses them.
+- Theorem-environment titles use square-bracket optional argument:
+  `\begin{{theorem}}[Brief title]\label{{thm:semantic-name}}`.
+- Definitions, lemmas, propositions, corollaries follow the same shape
+  with their respective environments and `def:` / `lem:` / `prop:` /
+  `cor:` label prefixes.
+- Proof environments use `\begin{{proof}}` ... `\end{{proof}}`, not
+  inline argument prose calling itself a proof.
+- Numbered enumerations use `enumerate` with `\item`, never raw `1.` /
+  `2.` text lists.
+- Stay in English. The paper body has zero Chinese.
 
 After the fenced LaTeX block, write a separate paragraph:
 "Insertion target: papers/bedc/parts/<theme>/<file>.tex"

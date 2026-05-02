@@ -341,28 +341,35 @@ def _git(args: list[str], capture: bool = True) -> subprocess.CompletedProcess[s
 
 
 def commit_and_push_if_changed() -> bool:
-    diff = _git(["status", "--porcelain", "papers/bedc/parts", "tools/bedc-deep/BOARD.md"])
-    if not diff.stdout.strip():
-        return False
-    files: list[str] = []
-    for line in diff.stdout.splitlines():
-        parts = line.strip().split(None, 1)
-        if len(parts) == 2:
-            files.append(parts[1])
-    if not files:
-        return False
-    supervisor_log(f"auto-commit: {len(files)} changed files")
-    _git(["add", *files], capture=False)
-    msg = f"bedc-deep supervisor: paper writeback batch {_now_iso()}"
-    rc = _git(["commit", "-m", msg]).returncode
-    if rc != 0:
-        supervisor_log("auto-commit: git commit returned non-zero (race or empty)")
-        return False
-    branch = _git(["branch", "--show-current"]).stdout.strip()
-    push = _git(["push", "origin", branch], capture=False)
-    if push.returncode != 0:
-        supervisor_log(f"auto-commit: push failed rc={push.returncode}")
-        return False
+    # Acquire paper_writes lock so we never commit a partial Stage 2 state
+    # (where _append_to_tex has run but _make_paper hasn't decided
+    # accept/rollback yet). Stage 2 holds this lock through append + make
+    # + potential rollback, so commit only sees a consistent post-Stage-2
+    # working tree.
+    from locks import file_lock
+    with file_lock("paper_writes"):
+        diff = _git(["status", "--porcelain", "papers/bedc/parts", "tools/bedc-deep/BOARD.md"])
+        if not diff.stdout.strip():
+            return False
+        files: list[str] = []
+        for line in diff.stdout.splitlines():
+            parts = line.strip().split(None, 1)
+            if len(parts) == 2:
+                files.append(parts[1])
+        if not files:
+            return False
+        supervisor_log(f"auto-commit: {len(files)} changed files")
+        _git(["add", *files], capture=False)
+        msg = f"bedc-deep supervisor: paper writeback batch {_now_iso()}"
+        rc = _git(["commit", "-m", msg]).returncode
+        if rc != 0:
+            supervisor_log("auto-commit: git commit returned non-zero (race or empty)")
+            return False
+        branch = _git(["branch", "--show-current"]).stdout.strip()
+        push = _git(["push", "origin", branch], capture=False)
+        if push.returncode != 0:
+            supervisor_log(f"auto-commit: push failed rc={push.returncode}")
+            return False
     supervisor_log(f"auto-commit + push complete on {branch}")
     return True
 

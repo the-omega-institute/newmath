@@ -805,6 +805,9 @@ def reset_retriable_crashes(max_retries: int = DEFAULT_CRASHED_RETRY_BUDGET) -> 
     return reset
 
 
+ORPHAN_PID_REUSE_GRACE_S = 6 * 3600  # only reap a marker as truly orphaned after 6h
+
+
 def cleanup_stale_claims(max_age_seconds: int = STALE_CLAIM_MAX_AGE_SECONDS) -> int:
     """Remove .in_progress markers whose PID is dead or whose mtime is too old.
 
@@ -822,7 +825,13 @@ def cleanup_stale_claims(max_age_seconds: int = STALE_CLAIM_MAX_AGE_SECONDS) -> 
             continue
         m = re.match(r"pid=(\d+)", content.strip())
         pid_alive = _pid_alive(int(m.group(1))) if m else False
-        if pid_alive and age <= max_age_seconds:
+        # Keep markers as long as the recorded PID is alive — long oracle
+        # turns (Pro thinking can be 60+ min) and Stage 2 retry cycles can
+        # legitimately hold a claim much longer than the legacy 30-min
+        # threshold. Only reap when the PID is dead, OR after a hard
+        # ORPHAN_PID_REUSE_GRACE_S ceiling (PID could have been recycled by
+        # the kernel — mark genuinely abandoned).
+        if pid_alive and age <= ORPHAN_PID_REUSE_GRACE_S:
             continue
         try:
             marker.unlink()

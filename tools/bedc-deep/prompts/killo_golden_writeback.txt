@@ -39,7 +39,9 @@ Hygiene checklist (all must pass):
 7. Target file must be a concrete body file inside `papers/bedc/parts/` —
    not `main.tex`, not a chapter wrapper that only `\input`s other files.
 
-8. Math uses only `$...$` and `$$...$$`. `$$` must be on its own line.
+8. Math uses `\(...\)` for inline and `\[...\]` for display. The BEDC
+   paper has converged on these; reject `$...$` / `$$...$$` usage.
+   Display `\[...\]` blocks must be on their own lines.
 
 9. Inline Lean snippets (if any) contain no `axiom`, no `sorry`, no
    `import Mathlib`.
