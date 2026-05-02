@@ -499,3 +499,55 @@ Rat denominator fragment to the envelope product. This is the required
 $\mathsf{BHist}$-anchored certificate consumed at the $\FieldUp(\mathsf{RatUp})$
 boundary.
 \end{proof}
+
+\begin{theorem}[Rat denominator external-unit envelope empty-product reflection]
+\label{thm:field-rat-denominator-unit-envelope-empty-product-reflection}
+For all histories $h,k:\mathsf{BHist}$ with $C_D^\ast(h)$ and $C_D^\ast(k)$,
+the product is classified as the external unit exactly when both factors are:
+$$
+R_D^\ast(\mu_D^\ast(h,k),e_D^\ast)
+\Longleftrightarrow
+\left(R_D^\ast(h,e_D^\ast)\land R_D^\ast(k,e_D^\ast)\right).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the envelope data of
+\autoref{def:field-rat-denominator-unit-envelope}. The named endpoint
+$e_D^\ast$ is $\emp$, and $\mu_D^\ast(h,k)$ is the native BEDC history
+$\mathsf{append}(h,k)$.
+
+For the forward direction, assume
+$R_D^\ast(\mu_D^\ast(h,k),e_D^\ast)$. The guarded carried classifier branch
+would make $\emp$ a Rat denominator carrier, contradicting
+\autoref{thm:rat-history-carrier-not-empty}. Hence the classifier witness is
+the empty-empty branch, so $\mathsf{append}(h,k)\hsame\emp$.
+
+The BEDC append empty-result inversion theorem
+$\mathsf{append\_eq\_empty\_iff}$ splits this endpoint comparison into
+$h\hsame\emp$ and $k\hsame\emp$. With $e_D^\ast=\emp$, the empty-empty branch of
+$R_D^\ast$ repacks these two endpoint witnesses as
+$R_D^\ast(h,e_D^\ast)$ and $R_D^\ast(k,e_D^\ast)$.
+
+Conversely, assume
+$R_D^\ast(h,e_D^\ast)\land R_D^\ast(k,e_D^\ast)$. Each classifier against
+$e_D^\ast=\emp$ has no viable guarded carried branch, again by
+\autoref{thm:rat-history-carrier-not-empty}. Thus the two witnesses expose
+$h\hsame\emp$ and $k\hsame\emp$.
+
+Apply the introduction direction of $\mathsf{append\_eq\_empty\_iff}$ to these
+two empty endpoint comparisons. This gives
+$\mathsf{append}(h,k)\hsame\emp$, and the empty-empty branch of $R_D^\ast$
+classifies $\mu_D^\ast(h,k)$ with $e_D^\ast$.
+\end{proof}
+
+\textbf{Traditional target}: Rat denominator external-unit envelope
+empty-product reflection for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$, $R_D^\ast$, $\mathsf{append}$, and $\emp$;
+\textbf{carrier choice}: $C_D^\ast$; \textbf{classifier choice}: $R_D^\ast$;
+\textbf{stability obligation}: empty product reflection under the
+external-unit classifier; \textbf{ledger}: the external-unit bit plus carried
+continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-unit-envelope-empty-product-reflection};
+\textbf{exactness predicate}: product classification by $e_D^\ast$ is exactly
+factorwise classification by $e_D^\ast$; \textbf{standard bridge}: deferred;
+\textbf{status}: $\mathsf{ProofTarget}$.
