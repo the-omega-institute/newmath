@@ -426,6 +426,64 @@ theorem CategoryHomCarrier_e1_morphism_target_iff {a k r : BHist} :
                 (unary_e1_closed (unary_cont_closed sourceCarrier morphCarrier homCont))
                 (And.intro (unary_e1_closed morphCarrier) (cont_step_one homCont)))
 
+theorem CategoryHomCarrier_e1_source_e1_morphism_target_iff {a k target : BHist} :
+    CategoryHomCarrier (BHist.e1 a) target (BHist.e1 k) <->
+      exists r : BHist, target = BHist.e1 r /\ UnaryHistory a /\ UnaryHistory k /\
+        UnaryHistory r /\ Cont (BHist.e1 a) k r := by
+  constructor
+  · intro homCarrier
+    cases homCarrier with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier rest =>
+            cases rest with
+            | intro morphCarrier homCont =>
+                cases target with
+                | Empty =>
+                    cases homCont
+                | e0 r =>
+                    cases homCont
+                | e1 r =>
+                    exact Exists.intro r
+                      (And.intro rfl
+                        (And.intro (unary_e1_inversion sourceCarrier)
+                          (And.intro (unary_e1_inversion morphCarrier)
+                            (And.intro (unary_e1_inversion targetCarrier)
+                              (BHist.e1.inj homCont)))))
+  · intro witness
+    cases witness with
+    | intro r data =>
+        cases data with
+        | intro targetEq rest =>
+            cases rest with
+            | intro sourceCarrier rest =>
+                cases rest with
+                | intro morphCarrier rest =>
+                    cases rest with
+                    | intro targetCarrier homCont =>
+                        cases targetEq
+                        exact And.intro (unary_e1_closed sourceCarrier)
+                          (And.intro (unary_e1_closed targetCarrier)
+                            (And.intro (unary_e1_closed morphCarrier)
+                              (cont_step_one homCont)))
+
+theorem CategoryHomCarrier_e1_source_empty_target_absurd {a f : BHist} :
+    CategoryHomCarrier (BHist.e1 a) BHist.Empty f -> False := by
+  intro homCarrier
+  cases homCarrier with
+  | intro _sourceCarrier rest =>
+      cases rest with
+      | intro _targetCarrier rest =>
+          cases rest with
+          | intro _morphismCarrier homCont =>
+              cases f with
+              | Empty =>
+                  cases homCont
+              | e0 f0 =>
+                  cases homCont
+              | e1 f1 =>
+                  cases homCont
+
 theorem CategoryHomCarrier_identity_semanticNameCert {a : BHist} :
     UnaryHistory a ->
       BEDC.FKernel.NameCert.SemanticNameCert (CategoryHomCarrier a a)
