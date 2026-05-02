@@ -150,13 +150,12 @@ $\mathsf{OptionUp}$ image classifier; the BEDC source is $\mathsf{BHist}$ with
 two composable $\mathsf{DescentCertificate}$ maps; the carrier is
 $\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
 $\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
-are endpoint transport, target tagged classification, visible present exactness,
-and single-valued public readback; the ledger records two competing normalized
-visible target payload presentations at each endpoint; the core theorem is the
-displayed payload classification and endpointwise uniqueness statement; exactness
-says every visible normalized target presentation is the unique classified target
-payload pair; the standard bridge is $\mathsf{none}$/$\mathsf{some}$ normalized
-public readback; and the status is $\mathsf{ProofTarget}$.
+are composite descent, endpoint $\hsame$ transport, and visible-payload
+exactness; the ledger records normalized visible endpoints and the source
+payload pair; the core theorem is the displayed equivalence; exactness says
+visible normalized endpoints classify exactly when they come from a classified
+source pair; the standard bridge is $\mathsf{none}$/$\mathsf{some}$ visible
+readback; and the status is $\mathsf{ProofTarget}$.
 
 Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
 intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
@@ -196,55 +195,66 @@ $\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
 $\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
 $\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
 $\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
-$m,m':\mathsf{BHist}$ and normalized endpoints $u,u':\mathsf{BHist}$, if
+$m,m':\mathsf{BHist}$, normalized endpoints $u,u':\mathsf{BHist}$, and visible
+target payloads $x,y:\mathsf{BHist}$, the normalized visible endpoint criterion
+is exact:
 $$
+\bigl(
 \mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
 (S,U,\rho_{\epsilon\circ\delta};m,m')
+\land \hsame(m,u)\land \hsame(m',u')
+\land U(x)\land U(y)
+\land \hsame(u,\Eone(x))\land \hsame(u',\Eone(y))
+\bigr)
+\Longleftrightarrow
 $$
-and
 $$
-\hsame(m,u)\land \hsame(m',u'),
-$$
-then for all $x,y,x',y':\mathsf{BHist}$, if
-$$
-U(x)\land U(y)\land U(x')\land U(y')
-$$
-and
-$$
-\hsame(u,\Eone(x))\land \hsame(u',\Eone(y))
-\land \hsame(u,\Eone(x'))\land \hsame(u',\Eone(y')),
-$$
-then
-$$
-x\sim_U y\land x'\sim_U y'\land \hsame(x,x')\land \hsame(y,y').
+\hsame(m,u)\land \hsame(m',u')
+\land U(x)\land U(y)
+\land \hsame(u,\Eone(x))\land \hsame(u',\Eone(y))
+\land
+\exists a,b:\mathsf{BHist}.\;
+S(a)\land S(b)\land a\sim_S b\land
+U(\epsilon.\mathsf{map}(\delta.\mathsf{map}(a)))\land
+U(\epsilon.\mathsf{map}(\delta.\mathsf{map}(b)))\land
+\hsame(x,\epsilon.\mathsf{map}(\delta.\mathsf{map}(a)))\land
+\hsame(y,\epsilon.\mathsf{map}(\delta.\mathsf{map}(b))).
 $$
 \end{theorem}
 \begin{proof}
-First apply
-Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-constructor-normal-form}
-to the composite image-classifier witness and the endpoint normalization
-witnesses. This gives the target tagged option classifier at $(u,u')$ and the
-absent-or-present single-valued readback split for the normalized endpoints.
+For the forward direction, keep the endpoint normalization witnesses and the
+visible target facts. Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-hsame-transport}
+to the composite classifier at $(m,m')$ with $\hsame(m,u)$ and
+$\hsame(m',u')$. This gives the composite image-classifier witness at the
+normalized endpoint pair $(u,u')$.
 
-The displayed visible presentations rule out the absent side of the split, since
-that side asserts that no target payload pair can present $u$ and $u'$ through
-the visible constructor. Hence the present side supplies a classified visible
-payload pair together with its single-valued clause.
+Now instantiate
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-visible-payload-exactness}
+with the composite descent certificate $\epsilon\circ\delta$, the target carrier
+$U$, and the preservation field $\rho_{\epsilon\circ\delta}$. Its forward
+direction, applied to the normalized classifier and the visible presentations
+$\hsame(u,\Eone(x))$ and $\hsame(u',\Eone(y))$, supplies source payloads $a,b$
+with $S(a)$, $S(b)$, $a\sim_S b$, the two composite target carrier witnesses,
+and the two payload identifications. Combining these witnesses with the retained
+endpoint and visible facts gives the right-hand side.
 
-Use the target tagged classifier from the normal form and transport it along
-$\hsame(u,\Eone(x))$ and $\hsame(u',\Eone(y))$ to obtain the tagged classifier at
-$(\Eone(x),\Eone(y))$. Apply
-Theorem~\ref{thm:tagged-option-history-visible-present-exactness} with
-$\mathsf{cert}_U$, the carrier witnesses $U(x)$ and $U(y)$, and the
-$U$-compatibility assumption. This yields $x\sim_U y$.
+For the reverse direction, unpack the right-hand side. Retain
+$\hsame(m,u)$, $\hsame(m',u')$, the target carrier witnesses $U(x)$ and $U(y)$,
+and the visible presentations at $(u,u')$, and choose source payload witnesses
+$a,b$ from the existential clause.
 
-Apply the same argument to the competing visible presentations
-$\hsame(u,\Eone(x'))$ and $\hsame(u',\Eone(y'))$. The carrier witnesses
-$U(x')$ and $U(y')$ and the same target classifier give $x'\sim_U y'$.
+Apply the reverse direction of
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-visible-payload-exactness}
+to the composite descent certificate. The retained visible facts together with
+the chosen source pair build
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};u,u')$.
 
-Finally apply the single-valued clause from the present side of the normal form
-to the competing payload presentation $(x',y')$. It identifies the payloads at
-the two normalized endpoints, giving $\hsame(x,x')$ and $\hsame(y,y')$.
-Together with the two classifier witnesses, these are exactly the displayed
-conclusions.
+Finally transport this classifier back to $(m,m')$. Use symmetry of the two
+endpoint $\hsame$ witnesses to turn $\hsame(m,u)$ and $\hsame(m',u')$ into
+$\hsame(u,m)$ and $\hsame(u',m')$, then apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-hsame-transport}.
+Together with the retained endpoint and visible facts, this is the left-hand
+side of the displayed equivalence.
 \end{proof}
