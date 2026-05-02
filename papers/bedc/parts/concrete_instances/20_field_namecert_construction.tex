@@ -468,6 +468,59 @@ Theorem~\ref{thm:field-three-factor-product-nonzero-excludes-zero-factors}.
 Exactness predicate: no zero factor under a certified nonzero threefold
 product. Standard bridge: deferred. Status: ProofTarget.
 
+\section{Zero-apartness transport through certified products}
+\label{sec:field-zero-apartness-product-exactness}
+
+\begin{theorem}[Field two-sided multiplication preserves and reflects zero apartness]
+\label{thm:field-two-sided-product-apartzero-exact}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-two-sided-zero-product-cancel-from-apartness}, let
+
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
+$$
+
+For any $a,b:\mathsf{BHist}$ with outer witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
+$x:\mathsf{BHist}$ satisfies
+
+$$
+\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(x).
+$$
+\end{theorem}
+\begin{proof}
+For the product-to-middle direction, assume
+$q:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))$ and then assume
+$x\hsame0$. The reverse direction of
+\autoref{thm:field-two-sided-zero-product-cancel-from-apartness}, using the
+outer witnesses $p_a$ and $p_b$, gives
+
+$$
+\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame0.
+$$
+
+Applying $q$ to this classifier equality gives $\bot$, so
+$\mathsf{ApartZero}_F(x)$ follows.
+
+For the middle-to-product direction, assume
+$r:\mathsf{ApartZero}_F(x)$ and then assume
+$\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame0$. The forward direction of
+\autoref{thm:field-two-sided-zero-product-cancel-from-apartness}, with the
+same outer witnesses, gives $x\hsame0$. Applying $r$ to this classifier
+equality gives $\bot$, so the certified two-sided product is apart from zero.
+\end{proof}
+
+Per-object certificate: Traditional target: constructive nonzero preservation
+under certified two-sided field multiplication. BEDC source: $\FieldUp$ over
+$\mathsf{BHist}$. Carrier choice: $\mathsf{BHist}$. Classifier choice:
+$\hsame$. Stability obligation: two-sided zero-product exactness. Ledger: the
+outer nonzero witnesses. Core theorem list:
+Theorem~\ref{thm:field-two-sided-product-apartzero-exact}. Exactness
+predicate: zero-apartness equivalence. Standard bridge: deferred. Status:
+$\mathsf{ProofTarget}$.
+
 \section{Field square apartness inverse descent}
 \label{sec:field-square-apartness-inverse-descent}
 
