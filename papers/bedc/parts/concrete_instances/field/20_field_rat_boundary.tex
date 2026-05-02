@@ -146,6 +146,35 @@ For the displayed coverage map, evaluate the map at $d_1$ and the RatUp carrier
 witness. This produces $A_{\emp}(d_1)$, and the previous paragraph turns that
 endpoint into contradiction.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_carrier\_non\_singleton\_boundary\_witness}
+
+\begin{theorem}[Classifier-complement RatUp one-denominator witness blocks singleton coverage]
+\label{thm:field-rat-history-carrier-has-non-singleton-boundary-witness}
+Let $d_1:=\Eone(\emp)$. Then $\mathsf{RatHistoryCarrier}(d_1)$ holds and
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\mathsf{False}$.
+Consequently any proposed coverage map
+$$
+\forall h:\mathsf{BHist},\mathsf{RatHistoryCarrier}(h)\to
+\mathsf{fieldSingletonEmptyCarrier}(h)
+$$
+is contradictory.
+\end{theorem}
+\begin{proof}
+The empty history is unary by the kernel theorem $\mathsf{unary\_empty}$.
+Apply Theorem~\ref{thm:rat-history-carrier-e1-tail-unary-iff} with tail
+$\emp$. The reverse direction turns $\mathsf{UnaryHistory}(\emp)$ into
+$\mathsf{RatHistoryCarrier}(\Eone(\emp))$, so it supplies
+$\mathsf{RatHistoryCarrier}(d_1)$.
+
+Now assume $\mathsf{fieldSingletonEmptyCarrier}(d_1)$. The theorem
+$\mathsf{RatHistoryCarrier\_not\_empty}$ rejects a RatUp carrier endpoint that is
+the empty singleton endpoint. Applying it to the RatUp carrier witness above and
+the singleton-carrier witness gives $\mathsf{False}$.
+
+For the displayed coverage map, evaluate the map at $d_1$ and the RatUp carrier
+witness. This produces $\mathsf{fieldSingletonEmptyCarrier}(d_1)$, and the
+previous paragraph turns that endpoint into contradiction.
+\end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_history\_carrier\_non\_singleton\_boundary\_witness}
 
 \begin{theorem}[RatUp classifier and ledger coverage are blocked by the singleton FieldUp boundary]
