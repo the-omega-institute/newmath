@@ -91,6 +91,7 @@ import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierSelectedVisible
 import BEDC.Derived.OptionUp.CompositeNormalizedZeroEndpoint
+import BEDC.Derived.OptionUp.PublicEndpointShapeCertificate
 import BEDC.Derived.OptionUp.CompositeAbsentPublicFactorization
 import BEDC.Derived.OptionUp.StabilityFields
 import BEDC.Derived.OptionUp.SemanticCertificate
