@@ -275,61 +275,6 @@ and the resulting equality $u\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_unit\_endpoint\_empty}
 
-\begin{theorem}[Rat denominator right unit law endpoint empty iff]
-\label{thm:field-rat-denominator-continuation-right-unit-law-endpoint-empty-iff}
-For every history $u:\mathsf{BHist}$, the right classifier-unit law for Rat
-denominator continuation holds exactly when $u$ is the empty endpoint:
-$$
-\left(
-  \forall d,r:\mathsf{BHist}.\;
-  \mathsf{RatHistoryCarrier}(d)\to
-  \Cont(d,u,r)\to
-  \mathsf{RatHistoryClassifier}(r,d)
-\right)
-\Longleftrightarrow
-u\hsame\emp .
-$$
-\end{theorem}
-\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_right\_unit\_law\_endpoint\_empty\_iff}
-\begin{proof}
-The forward direction is the right-endpoint component of
-Theorem~\ref{thm:field-rat-denominator-continuation-unit-endpoint-empty}.
-
-Conversely, assume $u\hsame\emp$. For any carried denominator $d$ and any
-continuation $\Cont(d,u,r)$, transport the kernel right-unit continuation
-$\Cont(d,\emp,d)$ along $u\hsame\emp$ to obtain $\Cont(d,u,d)$. Determinacy of
-continuation identifies $d\hsame r$. Transport the Rat denominator carrier from
-$d$ to $r$, and package this transported carrier, the original carrier for
-$d$, and the symmetric endpoint equality as the classifier
-$\mathsf{RatHistoryClassifier}(r,d)$.
-\end{proof}
-
-\begin{theorem}[Rat denominator continuation left-unit endpoint iff]
-\label{thm:field-rat-denominator-continuation-left-unit-law-endpoint-empty-iff}
-For every history $u:\mathsf{BHist}$, the Rat denominator continuation
-left-unit classifier law
-$$
-\forall d,r:\mathsf{BHist}.\;
-\mathsf{RatHistoryCarrier}(d)\to
-\Cont(u,d,r)\to
-\mathsf{RatHistoryClassifier}(r,d)
-$$
-holds if and only if $u\hsame\emp$.
-\end{theorem}
-\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_left\_unit\_law\_endpoint\_empty\_iff}
-\begin{proof}
-The forward direction applies the displayed law to the carried denominator
-$d_1:=\Eone(\emp)$ and the canonical continuation
-$\Cont(u,d_1,\mathsf{append}(u,d_1))$. The classifier comparison transports
-this continuation to $\Cont(u,d_1,d_1)$, and continuation left-unit uniqueness
-forces $u\hsame\emp$.
-
-Conversely, when $u\hsame\emp$, any continuation $\Cont(u,d,r)$ reduces to a
-left-unit continuation from $\emp$ by $d$. The kernel left-unit result gives
-$r\hsame d$, and Rat carrier transport along this comparison supplies the
-left endpoint carrier needed for $\mathsf{RatHistoryClassifier}(r,d)$.
-\end{proof}
-
 \begin{theorem}[Rat denominator two-sided unit law endpoint empty iff]
 \label{thm:field-rat-denominator-continuation-two-sided-unit-law-endpoint-empty-iff}
 For every history $u:\mathsf{BHist}$, the simultaneous right and left
@@ -358,13 +303,13 @@ $$
 \begin{proof}
 For the forward direction, project the right classifier-unit law from the
 displayed conjunction. Apply
-Theorem~\ref{thm:field-rat-denominator-continuation-right-unit-law-endpoint-empty-iff}
+Theorem~\ref{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}
 to obtain $u\hsame\emp$.
 
 Conversely, assume $u\hsame\emp$. Apply
-Theorem~\ref{thm:field-rat-denominator-continuation-right-unit-law-endpoint-empty-iff}
+Theorem~\ref{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}
 to obtain the right classifier-unit law, and apply
-Theorem~\ref{thm:field-rat-denominator-continuation-left-unit-law-endpoint-empty-iff}
+Theorem~\ref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}
 to obtain the left classifier-unit law. Pair these two laws into the displayed
 conjunction.
 \end{proof}
