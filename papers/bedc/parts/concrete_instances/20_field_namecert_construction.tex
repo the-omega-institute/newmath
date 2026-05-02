@@ -488,6 +488,54 @@ reverse inverse formulas, and offsets; core theorem
 $\GroupUp$ source-field satisfaction for certified affine automorphisms;
 standard bridge ordinary affine automorphism group law; status
 $\mathsf{ProofTarget}$.
+
+\paragraph{Capstone.}
+
+\begin{theorem}[Field affine automorphism group certificate]
+\label{thm:field-affine-automorphism-group-certificate}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
+$\mathsf{BHist}$, let $\mathsf{AffAut}_F(T)$ mean that $T$ carries displayed
+parameters $a,b,d:\mathsf{BHist}$, witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, and the certified
+two-sided affine automorphism clauses for
+$$
+T(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d).
+$$
+Equip the affine classifier with pointwise $\hsame$ on all carried histories.
+Then the identity affine map, the collected-coefficient composition law, and
+the explicit inverse operation satisfy the $\GroupUp$ stability fields: left
+and right identity, associativity of composition, inverse closure, left and
+right inverse laws, and classifier congruence. Equivalently, the displayed
+affine automorphism package determines the concrete $\GroupUp$ certificate for
+$\mathsf{AffAut}_F$ over $\mathsf{BHist}$.
+\end{theorem}
+\begin{proof}
+The identity and inverse data are exactly the package isolated in
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package}. The
+identity affine map supplies both unit laws pointwise, and
+\autoref{thm:field-affine-two-sided-explicit-inverse} supplies the displayed
+inverse operation with its left and right inverse clauses.
+
+Composition uses the collected coefficients from the same package, with the
+two-sided certification read through
+\autoref{thm:field-affine-two-sided-certified-automorphism}. The classifier is
+pointwise $\hsame$, so classifier congruence is obtained by applying those
+certified iff clauses to each carried history and transporting through the
+collected-coefficient representative.
+
+Associativity is the normal-form statement of
+\autoref{thm:field-affine-automorphism-composition-associative}. It identifies
+the two parenthesized collected composites by the BEDC ring and field laws, and
+therefore gives the associativity field of the $\GroupUp$ certificate.
+
+The theorem
+$\mathsf{BEDC.Derived.GroupUp.group\_stability\_certificate\_fields}$ is the
+packaging result consumed by Lean: once the identity, composition,
+associativity, inverse closure, inverse laws, and classifier congruence fields
+are supplied, it repacks them as the public $\GroupUp$ stability certificate.
+The preceding paragraphs provide precisely those fields for
+$\mathsf{AffAut}_F$.
+\end{proof}
 \input{parts/concrete_instances/field/20_field_signed_square_consequences}
 \leanchecked{BEDC.Derived.FieldUp.field\_equal\_squares\_signed\_branch\_determinacy}
 \input{parts/concrete_instances/field/20_field_product_apartness_consequences}
