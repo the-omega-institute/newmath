@@ -148,6 +148,7 @@ import BEDC.Derived.GroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
+import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.FieldUp
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.PreorderUp
