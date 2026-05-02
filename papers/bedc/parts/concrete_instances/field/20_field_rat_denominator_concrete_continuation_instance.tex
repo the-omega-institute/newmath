@@ -1,0 +1,94 @@
+\section{Concrete Rat denominator continuation instance}
+\label{sec:field-rat-denominator-concrete-continuation-instance}
+
+\begin{definition}[Concrete Rat denominator continuation instance]
+\label{def:field-rat-denominator-concrete-continuation-instance}
+The concrete denominator-side continuation instance for
+$\FieldUp(\mathsf{RatUp})$ has carrier, classifier, operation, continuation
+witness, and ledger predicate
+$$
+C_D(h)\Longleftrightarrow\mathsf{RatHistoryCarrier}(h),
+$$
+$$
+R_D(h,k)\Longleftrightarrow\mathsf{RatHistoryClassifier}(h,k),
+$$
+$$
+\mu_D(h,k):=\mathsf{append}(h,k),
+$$
+with the canonical continuation witness
+$\Cont(h,k,\mu_D(h,k))$ and ledger predicate
+$\mathsf{RatHistoryLedgerPolicy}$. The empty history $\emp$ is an external
+classifier-unit endpoint for the operation and is not a carried denominator.
+\end{definition}
+
+\begin{theorem}[Rat denominator continuation concrete instance laws]
+\label{thm:field-rat-denominator-concrete-continuation-instance-laws}
+For histories $d,d',e,e',f,\rho,v:\mathsf{BHist}$, the concrete data of
+\autoref{def:field-rat-denominator-concrete-continuation-instance} satisfy the
+following laws.
+\begin{enumerate}
+  \item If $C_D(d)$ and $C_D(e)$, then $C_D(\mu_D(d,e))$.
+  \item If $C_D(d)$ and $C_D(e)$, then $R_D(\mu_D(d,e),\mu_D(e,d))$.
+  \item If $C_D(d)$, $C_D(e)$, and $C_D(f)$, then
+  $R_D(\mu_D(\mu_D(d,e),f),\mu_D(d,\mu_D(e,f)))$.
+  \item If $R_D(d,d')$ and $R_D(e,e')$, then
+  $R_D(\mu_D(d,e),\mu_D(d',e'))$.
+  \item If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $C_D(e)$, and
+  $R_D(e,e')$, then
+  $\mathsf{RatHistoryLedgerPolicy}(\mu_D(\rho,e),\mu_D(v,e'))$.
+  \item No carried history $u:\mathsf{BHist}$ can satisfy either one-sided
+  classifier-unit law
+
+  $$
+  \forall x,r:\mathsf{BHist}.\;
+  C_D(x)\to
+  \Cont(x,u,r)\to
+  R_D(r,x)
+  $$
+
+  or
+
+  $$
+  \forall x,r:\mathsf{BHist}.\;
+  C_D(x)\to
+  \Cont(u,x,r)\to
+  R_D(r,x).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $C_D$, $R_D$, and $\mu_D$. The canonical witness
+$\Cont(h,k,\mu_D(h,k))$ is the append continuation constructor, so every law
+reduces to the Rat denominator continuation theorems already established in
+the FieldUp boundary.
+
+Carrier closure is exactly
+\autoref{thm:field-rat-denominator-continuation-carrier-closure} applied to
+the canonical continuation. The commutative classifier law is
+\autoref{thm:field-rat-denominator-continuation-commutative-classifier} with
+the two canonical continuations for $\mu_D(d,e)$ and $\mu_D(e,d)$.
+
+Associativity of the classifier follows from
+\autoref{thm:field-rat-denominator-continuation-semigroup-laws} and
+\autoref{thm:field-rat-denominator-continuation-associative-classifier-congruence}
+applied to the displayed bracketings. These theorems supply both the carried
+outer results and the classifier comparison between the two bracketings.
+
+For binary classifier congruence, unpack $R_D(d,d')$ and $R_D(e,e')$. The
+second classifier supplies the matching denominator comparison needed by
+\autoref{thm:field-rat-denominator-continuation-classifier-closure}; applying
+that theorem to the two canonical continuations gives
+$R_D(\mu_D(d,e),\mu_D(d',e'))$.
+
+The ledger clause uses the same matching continuation pattern. Read $C_D(e)$
+and $R_D(e,e')$ as the right-tail carrier and classifier data, then apply
+\autoref{thm:field-rat-denominator-continuation-ledger-closure} to the two
+canonical continuations for $\mu_D(\rho,e)$ and $\mu_D(v,e')$.
+
+Finally,
+\autoref{thm:field-rat-denominator-continuation-unit-endpoint-empty} says that
+any one-sided classifier-unit endpoint is $\hsame$ to $\emp$, and its carried
+endpoint clause rules out such a history inside $\mathsf{RatHistoryCarrier}$.
+Thus $\emp$ remains only the external classifier-unit endpoint named in the
+definition, not a carried denominator.
+\end{proof}
