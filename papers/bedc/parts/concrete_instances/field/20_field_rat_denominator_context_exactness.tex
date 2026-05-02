@@ -1,0 +1,322 @@
+\begin{theorem}[Rat denominator continuation binary classifier congruence]
+\label{thm:field-rat-denominator-continuation-binary-classifier-congruence}
+For all histories $d,d',e,e',r,r':\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(d,d')$,
+$\mathsf{RatHistoryClassifier}(e,e')$, $\Cont(d,e,r)$, and
+$\Cont(d',e',r')$, then $\mathsf{RatHistoryClassifier}(r,r')$.
+\end{theorem}
+\begin{proof}
+Unpack the second Rat history classifier. It supplies carrier witnesses for
+$e$ and $e'$, together with the endpoint comparison $e\hsame e'$.
+
+Read the two carrier witnesses through
+\autoref{thm:rat-history-carrier-positive-denominator-equivalence} and then
+\autoref{thm:positive-unary-denominator-unary-and-nonempty}. This yields
+unary-history witnesses for both right denominators while preserving the
+comparison $e\hsame e'$ from the classifier.
+
+Apply
+\autoref{thm:field-rat-denominator-continuation-classifier-closure} to the
+first classifier $\mathsf{RatHistoryClassifier}(d,d')$, the two unary
+right-denominator witnesses, the comparison $e\hsame e'$, and the displayed
+continuation witnesses $\Cont(d,e,r)$ and $\Cont(d',e',r')$. Its conclusion is
+exactly $\mathsf{RatHistoryClassifier}(r,r')$.
+\end{proof}
+
+\textbf{Traditional target}: denominator-side multiplication congruence for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and $\Cont$;
+\textbf{carrier choice}: Rat denominators; \textbf{classifier choice}: Rat
+history classifier; \textbf{stability obligation}: binary operation
+congruence; \textbf{ledger}: the two continuation witnesses and the
+right-denominator unary evidence; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-continuation-binary-classifier-congruence};
+\textbf{exactness predicate}: classifier preservation under displayed
+continuation; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_binary\_classifier\_congruence}
+
+\begin{theorem}[Rat denominator continuation common-context cancellation]
+\label{thm:field-rat-denominator-continuation-common-context-cancellation}
+For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+$\Cont(p,d,pd)$, $\Cont(p,e,pe)$, $\Cont(pd,q,left)$,
+$\Cont(pe,q,right)$, and $\mathsf{RatHistoryClassifier}(left,right)$, then
+$\mathsf{RatHistoryClassifier}(d,e)$.
+\end{theorem}
+\begin{proof}
+Unpack the final Rat classifier. Its comparison component gives
+$left\hsame right$.
+
+Apply the continuation common-context cancellation theorem
+\texttt{BEDC.FKernel.Cont.cont\_cancel\_common\_context} to the two matched
+prefix witnesses, the two matched suffix witnesses, and the comparison
+$left\hsame right$. The shared prefix $p$ and shared suffix $q$ cancel, leaving
+the endpoint comparison $d\hsame e$.
+
+Combine this endpoint comparison with the original denominator carriers
+$\mathsf{RatHistoryCarrier}(d)$ and $\mathsf{RatHistoryCarrier}(e)$. These
+three pieces are exactly the fields of
+$\mathsf{RatHistoryClassifier}(d,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_common\_context\_cancel}
+
+\begin{theorem}[Rat denominator matched-context classifier exactness]
+\label{thm:field-rat-denominator-matched-context-classifier-exactness}
+For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+$\Cont(p,d,pd)$, $\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and
+$\Cont(pe,q,right)$, then
+$$
+\mathsf{RatHistoryClassifier}(d,e)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(left,right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:rat-history-classifier-unary-denominator-context-closed} to
+$\mathsf{RatHistoryClassifier}(d,e)$ with the common unary prefix $p$ and
+common unary tail $q$. This gives the classifier for the append representatives
+obtained by placing the same matched context around $d$ and $e$.
+
+Continuation determinacy and associativity compare those representatives with
+the displayed endpoints $left$ and $right$, using the premises
+$\Cont(p,d,pd)$, $\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and
+$\Cont(pe,q,right)$. Transporting the classifier across these endpoint
+comparisons gives
+$\mathsf{RatHistoryClassifier}(left,right)$.
+
+For the reverse direction, apply
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation}
+to the same unary-context and continuation premises. It cancels the common
+prefix and suffix context from $\mathsf{RatHistoryClassifier}(left,right)$ and
+returns $\mathsf{RatHistoryClassifier}(d,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_common\_context\_classifier\_exactness}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_matched\_context\_classifier\_iff}
+
+\begin{theorem}[Rat denominator continuation common-context ledger closure]
+\label{thm:field-rat-denominator-continuation-common-context-ledger-closure}
+For all histories $p,p',q,q',\rho,v,pr,pv,left,right:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $\mathsf{UnaryHistory}(p)$,
+$\mathsf{UnaryHistory}(p')$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{UnaryHistory}(q')$, $p\hsame p'$, $q\hsame q'$,
+$\Cont(p,\rho,pr)$, $\Cont(p',v,pv)$, $\Cont(pr,q,left)$, and
+$\Cont(pv,q',right)$, then $\mathsf{RatHistoryLedgerPolicy}(left,right)$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:rat-ledger-unary-denominator-context-closed} to the
+ledger $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, the matching unary prefixes
+$p,p'$, and the matching unary suffixes $q,q'$. This gives the canonical ledger
+between $\mathsf{append}(p,\mathsf{append}(\rho,q))$ and
+$\mathsf{append}(p',\mathsf{append}(v,q'))$.
+
+Next compare the canonical endpoints with the displayed two-step continuation
+endpoints. Continuation determinacy identifies the intermediate histories
+$pr$ and $pv$ with the corresponding prefix appends, and
+\texttt{BEDC.FKernel.Cont.cont\_assoc\_hsame} identifies the two displayed
+suffix continuations with the canonical common-context bracketings.
+
+Finally transport the canonical ledger across those endpoint $\hsame$ links by
+\autoref{thm:rat-ledger-hsame-transport}. The resulting ledger is exactly
+$\mathsf{RatHistoryLedgerPolicy}(left,right)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_common\_context\_ledger\_closure}
+
+\begin{theorem}[Rat denominator continuation common-context exactness package]
+\label{thm:field-rat-denominator-continuation-common-context-exactness-package}
+For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$,
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+$\Cont(p,d,pd)$, $\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and
+$\Cont(pe,q,right)$, then both equivalences hold:
+$$
+\mathsf{RatHistoryClassifier}(left,right)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+$$
+\mathsf{RatHistoryLedgerPolicy}(left,right)\Longleftrightarrow
+\mathsf{RatHistoryLedgerPolicy}(d,e).
+$$
+\end{theorem}
+\begin{proof}
+For the classifier implication from $left,right$ back to $d,e$, apply
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation}
+to the same unary-context and continuation premises. It cancels the common
+prefix and suffix context from $\mathsf{RatHistoryClassifier}(left,right)$ and
+returns $\mathsf{RatHistoryClassifier}(d,e)$.
+
+For the classifier implication from $d,e$ to $left,right$, apply
+\autoref{thm:rat-history-classifier-unary-denominator-context-closed} to
+$\mathsf{RatHistoryClassifier}(d,e)$ with the common unary prefix $p$ and common
+unary suffix $q$. This gives the classifier for the canonical endpoints obtained
+by placing $p$ and $q$ around $d$ and $e$.
+
+Continuation determinacy compares those canonical endpoints with the displayed
+endpoints $left$ and $right$, using the premises $\Cont(p,d,pd)$,
+$\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and $\Cont(pe,q,right)$. Transporting the
+classifier across these endpoint comparisons by
+\autoref{thm:rat-history-classifier-hsame-transport} gives
+$\mathsf{RatHistoryClassifier}(left,right)$.
+
+For the ledger implication from $left,right$ back to $d,e$, first convert
+$\mathsf{RatHistoryLedgerPolicy}(left,right)$ to the raw-visible classifier by
+\autoref{thm:rat-ledger-raw-visible-classifier}. The cancellation theorem then
+returns $\mathsf{RatHistoryClassifier}(d,e)$, whose comparison component is
+$d\hsame e$. Together with the input carrier $\mathsf{RatHistoryCarrier}(d)$,
+this is precisely $\mathsf{RatHistoryLedgerPolicy}(d,e)$.
+
+For the ledger implication from $d,e$ to $left,right$, apply
+\autoref{thm:rat-ledger-unary-denominator-context-closed} to
+$\mathsf{RatHistoryLedgerPolicy}(d,e)$ with the common unary prefix $p$ and
+common unary suffix $q$. Continuation determinacy compares the canonical ledger
+endpoints with $left$ and $right$, and
+\autoref{thm:rat-ledger-hsame-transport} transports the closed ledger across
+those endpoint comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_common\_context\_exactness\_package}
+
+\begin{theorem}[Rat denominator hsame-matched context classifier exactness]
+\label{thm:field-rat-denominator-hsame-matched-context-classifier-exactness}
+For all histories
+$p,p',q,q',d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(p')$,
+$\mathsf{UnaryHistory}(q)$, $\mathsf{UnaryHistory}(q')$, $p\hsame p'$,
+$q\hsame q'$, $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, $\Cont(p,d,pd)$, $\Cont(p',e,pe)$,
+$\Cont(pd,q,left)$, and $\Cont(pe,q',right)$, then
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(left,right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume $\mathsf{RatHistoryClassifier}(d,e)$.
+Apply \autoref{thm:rat-history-classifier-unary-denominator-context-closed}
+to the unary prefixes $p,p'$, the unary suffixes $q,q'$, and the witnesses
+$p\hsame p'$ and $q\hsame q'$. This yields the classifier for the append
+histories obtained by placing the two history-same contexts around $d$ and
+$e$.
+
+The displayed endpoints are obtained from those append histories by the
+two-step continuation presentations. Continuation determinacy identifies
+$pd$ and $pe$ with the corresponding prefix appends, while continuation
+associativity identifies the final suffix continuations with the append
+bracketings. Transport the classifier across these endpoint $\hsame$ links by
+\autoref{thm:rat-history-classifier-hsame-transport} to obtain
+$\mathsf{RatHistoryClassifier}(left,right)$.
+
+For the reverse direction, assume
+$\mathsf{RatHistoryClassifier}(left,right)$. Transport the continuation
+presentation along $p\hsame p'$ and $q\hsame q'$ using
+\texttt{BEDC.FKernel.Cont.cont\_hsame\_transport}; this gives a common-context
+presentation with the same displayed endpoints up to $\hsame$.
+
+Transport the endpoint classifier across those endpoint comparisons by
+\autoref{thm:rat-history-classifier-hsame-transport}. Then apply
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation}
+to cancel the common unary prefix and suffix. Repacking the two Rat carriers
+with the recovered endpoint comparison gives
+$\mathsf{RatHistoryClassifier}(d,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_hsame\_matched\_context\_classifier\_exactness}
+
+\begin{theorem}[Rat denominator hsame-matched context exactness package]
+\label{thm:field-rat-denominator-hsame-matched-context-exactness-package}
+For all histories
+$p,p',q,q',d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(p')$,
+$\mathsf{UnaryHistory}(q)$, $\mathsf{UnaryHistory}(q')$, $p\hsame p'$,
+$q\hsame q'$, $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, $\Cont(p,d,pd)$, $\Cont(p',e,pe)$,
+$\Cont(pd,q,left)$, and $\Cont(pe,q',right)$, then both equivalences hold:
+$$
+\mathsf{RatHistoryClassifier}(left,right)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+$$
+\mathsf{RatHistoryLedgerPolicy}(left,right)\Longleftrightarrow
+\mathsf{RatHistoryLedgerPolicy}(d,e).
+$$
+\end{theorem}
+\begin{proof}
+For the classifier equivalence, use
+\autoref{thm:field-rat-denominator-hsame-matched-context-classifier-exactness}
+with the displayed unary histories, the prefix and suffix comparisons
+$p\hsame p'$ and $q\hsame q'$, the two Rat carriers, and the four continuation
+premises. Its two implications give the stated equivalence after exchanging
+the displayed sides.
+
+For the ledger implication from $left,right$ back to $d,e$, first convert
+$\mathsf{RatHistoryLedgerPolicy}(left,right)$ to the raw-visible classifier by
+\autoref{thm:rat-ledger-raw-visible-classifier}. The classifier equivalence
+just obtained reflects this to $\mathsf{RatHistoryClassifier}(d,e)$. Its
+comparison component is $d\hsame e$, and together with the displayed carrier
+$\mathsf{RatHistoryCarrier}(d)$ this is precisely
+$\mathsf{RatHistoryLedgerPolicy}(d,e)$.
+
+For the ledger implication from $d,e$ to $left,right$, apply
+\autoref{thm:field-rat-denominator-continuation-common-context-ledger-closure}
+to $\mathsf{RatHistoryLedgerPolicy}(d,e)$, the hsame-matched unary prefixes
+$p,p'$, the hsame-matched unary suffixes $q,q'$, and the four continuation
+premises. The conclusion is exactly
+$\mathsf{RatHistoryLedgerPolicy}(left,right)$.
+\end{proof}
+
+\begin{theorem}[Rat denominator hsame-matched context ledger exactness]
+\label{thm:field-rat-denominator-hsame-matched-context-ledger-exactness}
+For all histories
+$p,p',q,q',d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(p')$,
+$\mathsf{UnaryHistory}(q)$, $\mathsf{UnaryHistory}(q')$, $p\hsame p'$,
+$q\hsame q'$, $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, $\Cont(p,d,pd)$, $\Cont(p',e,pe)$,
+$\Cont(pd,q,left)$, and $\Cont(pe,q',right)$, then
+$$
+\mathsf{RatHistoryLedgerPolicy}(d,e)
+\Longleftrightarrow
+\mathsf{RatHistoryLedgerPolicy}(left,right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume
+$\mathsf{RatHistoryLedgerPolicy}(d,e)$. Apply
+\autoref{thm:field-rat-denominator-continuation-common-context-ledger-closure}
+to this ledger, the two unary prefixes, the two unary suffixes, the two
+$\hsame$ context comparisons, and the four displayed continuation witnesses.
+The result is exactly $\mathsf{RatHistoryLedgerPolicy}(left,right)$.
+
+For the reverse direction, assume
+$\mathsf{RatHistoryLedgerPolicy}(left,right)$. Convert this endpoint ledger to
+the raw-visible classifier by
+\autoref{thm:rat-ledger-raw-visible-classifier}.
+
+Apply
+\autoref{thm:field-rat-denominator-hsame-matched-context-classifier-exactness}
+in the reverse direction with the same unary histories, context comparisons,
+carrier witnesses, and continuation witnesses. This recovers
+$\mathsf{RatHistoryClassifier}(d,e)$, hence the endpoint comparison
+$d\hsame e$.
+
+Pair the recovered comparison with the given carrier
+$\mathsf{RatHistoryCarrier}(d)$. These are precisely the data of
+$\mathsf{RatHistoryLedgerPolicy}(d,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_hsame\_matched\_context\_ledger\_exactness}
+
+\textbf{Traditional target}: denominator exactness for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
+denominators; \textbf{classifier choice}: Rat history classifier;
+\textbf{stability obligation}: hsame-matched classifier and ledger exactness;
+\textbf{ledger}: matched unary prefix and suffix contexts; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-hsame-matched-context-classifier-exactness},
+\autoref{thm:field-rat-denominator-continuation-common-context-ledger-closure},
+and
+\autoref{thm:field-rat-denominator-hsame-matched-context-exactness-package};
+\textbf{exactness predicate}: hsame-matched unary contexts preserve and reflect
+both the Rat classifier and the Rat ledger; \textbf{standard bridge}: deferred;
+\textbf{status}: $\mathsf{ProofTarget}$.
