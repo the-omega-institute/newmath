@@ -330,6 +330,45 @@ $r\hsame d$, and Rat carrier transport along this comparison supplies the
 left endpoint carrier needed for $\mathsf{RatHistoryClassifier}(r,d)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator two-sided unit law endpoint empty iff]
+\label{thm:field-rat-denominator-continuation-two-sided-unit-law-endpoint-empty-iff}
+For every history $u:\mathsf{BHist}$, the simultaneous right and left
+classifier-unit laws for Rat denominator continuation hold exactly when $u$ is
+the empty endpoint:
+$$
+\left(
+  \left(
+    \forall d,r:\mathsf{BHist}.\;
+    \mathsf{RatHistoryCarrier}(d)\to
+    \Cont(d,u,r)\to
+    \mathsf{RatHistoryClassifier}(r,d)
+  \right)
+  \land
+  \left(
+    \forall d,r:\mathsf{BHist}.\;
+    \mathsf{RatHistoryCarrier}(d)\to
+    \Cont(u,d,r)\to
+    \mathsf{RatHistoryClassifier}(r,d)
+  \right)
+\right)
+\Longleftrightarrow
+u\hsame\emp .
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, project the right classifier-unit law from the
+displayed conjunction. Apply
+Theorem~\ref{thm:field-rat-denominator-continuation-right-unit-law-endpoint-empty-iff}
+to obtain $u\hsame\emp$.
+
+Conversely, assume $u\hsame\emp$. Apply
+Theorem~\ref{thm:field-rat-denominator-continuation-right-unit-law-endpoint-empty-iff}
+to obtain the right classifier-unit law, and apply
+Theorem~\ref{thm:field-rat-denominator-continuation-left-unit-law-endpoint-empty-iff}
+to obtain the left classifier-unit law. Pair these two laws into the displayed
+conjunction.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation unit endpoint uniqueness]
 \label{thm:field-rat-denominator-continuation-unit-endpoint-unique}
 For all histories $u,v:\mathsf{BHist}$, Rat denominator continuation determines
