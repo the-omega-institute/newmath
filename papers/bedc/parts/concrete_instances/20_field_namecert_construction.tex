@@ -320,6 +320,53 @@ BHist-anchored proofs can target this row rather than abstract carrier and
 classifier parameters.
 \end{proof}
 
+\begin{theorem}[Rat denominator bilateral strict factor cancellation]
+\label{thm:field-rat-denominator-bilateral-strict-factor-cancellation}
+For the concrete tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$ of
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance},
+let $h,k,l,r:\mathsf{BHist}$. If $C_D^\ast(h)$, $C_D^\ast(k)$,
+$C_D^\ast(l)$, $C_D^\ast(r)$, $N_D^\ast(l)$, and $N_D^\ast(r)$, then
+$$
+R_D^\ast(\mu_D^\ast(l,\mu_D^\ast(h,r)),
+\mu_D^\ast(l,\mu_D^\ast(k,r)))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+\end{theorem}
+\begin{proof}
+First build the products to which cancellation will be applied. The
+strict-support product closure and carrier closure supplied by
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
+place $\mu_D^\ast(l,h)$ and $\mu_D^\ast(l,k)$ in $C_D^\ast$, and keep the
+larger products with the strict factor $r$ inside the same concrete carrier.
+The associativity and congruence fields of that boundary identify the displayed
+comparison with
+$R_D^\ast(\mu_D^\ast(\mu_D^\ast(l,h),r),
+\mu_D^\ast(\mu_D^\ast(l,k),r))$.
+
+Apply
+\autoref{thm:field-rat-denominator-unit-envelope-cancellation-exactness} with
+the strict common right factor $r$. Since $N_D^\ast(r)$ and the two left
+products are carried by the preceding closure step, this gives
+$$
+R_D^\ast(\mu_D^\ast(\mu_D^\ast(l,h),r),
+\mu_D^\ast(\mu_D^\ast(l,k),r))
+\Longleftrightarrow
+R_D^\ast(\mu_D^\ast(l,h),\mu_D^\ast(l,k)).
+$$
+
+Apply the same cancellation theorem with the strict common left factor $l$.
+The hypotheses $C_D^\ast(h)$, $C_D^\ast(k)$, $C_D^\ast(l)$, and
+$N_D^\ast(l)$ are exactly its input hypotheses for the left-cancellation
+clause, so
+$$
+R_D^\ast(\mu_D^\ast(l,h),\mu_D^\ast(l,k))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+Composing the two equivalences gives the bilateral strict-factor cancellation
+claim.
+\end{proof}
+
 \textbf{Traditional target}: assembled denominator subcertificate for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
