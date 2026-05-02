@@ -58,3 +58,23 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 Avoids funext by componentwise classifier sameness.
 \end{remark}
 
+\begin{theorem}[NatTrans vertical composition naturality]
+\label{thm:nattrans-vertical-composition-naturality}
+Let \(F\), \(G\), and \(H\) be certified \(\FunctorUp\) carriers with the same certified source category and target category. Let \(\alpha:F\Rightarrow G\) and \(\beta:G\Rightarrow H\) be admitted \(\NatTransUp\) carriers. For every source morphism \(f:C\to C'\), the vertical component family \((\beta\circ\alpha)_X=\beta_X\circ\alpha_X\) satisfies the target morphism-classifier naturality square
+\[
+  H(f)\circ(\beta\circ\alpha)_C
+  \sim
+  (\beta\circ\alpha)_{C'}\circ F(f).
+\]
+\end{theorem}
+\begin{proof}
+The shared source and target categories are part of the \(\NatTransUp\) source specification in \autoref{def:nattrans-source-specification}. By the functor carrier definition in \autoref{def:functor-carrier}, the symbols \(F(f)\), \(G(f)\), and \(H(f)\) denote the corresponding target-category morphism images. By \autoref{def:nattrans-carrier}, each admitted natural transformation is an object-indexed component family with a naturality witness for every source morphism.
+
+The \(\NatTransUp\) stability certificate in \autoref{def:nattrans-stability-certificate} includes vertical composition closure. Applying that field to \(\alpha\) and \(\beta\) gives an admitted \(\NatTransUp\) carrier from \(F\) to \(H\) whose component at \(X\) is \(\beta_X\circ\alpha_X\). The same stability certificate lists naturality square validity for every source morphism, so applying that naturality field to this composite carrier and to \(f:C\to C'\) gives
+\[
+  H(f)\circ(\beta\circ\alpha)_C
+  \sim
+  (\beta\circ\alpha)_{C'}\circ F(f).
+\]
+This is the displayed classifier witness for the composite component family.
+\end{proof}
