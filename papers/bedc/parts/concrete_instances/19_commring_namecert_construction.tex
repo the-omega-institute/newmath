@@ -272,25 +272,36 @@ $(a\cdot a)+(-(b\cdot b))$ under $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_difference\_of\_squares}
 
-\begin{theorem}[CommRing equal squares give a signed zero factor]
-\label{thm:commring-equal-squares-signed-factor-zero}
+\begin{theorem}[CommRing difference-of-squares zero exactness]
+\label{thm:commring-difference-of-squares-zero-exact}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
 $\RingUp$ additive abelian-group laws, addition and multiplication
 congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ with
-$a\cdot a\hsame b\cdot b$ satisfies
+$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
 $$
-(a+b)\cdot(a+(-b))\hsame0 .
+(a+b)\cdot(a+(-b))\hsame0
+\Longleftrightarrow
+a\cdot a\hsame b\cdot b .
 $$
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:commring-difference-of-squares} to rewrite the signed
-factor product as $(a\cdot a)+(-(b\cdot b))$. This expansion already includes
-the negative-product normalizations and the commutation of the middle product.
+For the forward direction, apply Theorem~\ref{thm:commring-difference-of-squares}
+to identify the signed product with $(a\cdot a)+(-(b\cdot b))$. Compose this
+identification, using symmetry where needed, with the zero-product hypothesis.
+The difference term is therefore classified as $0$.
 
-Transport the assumed square equality $a\cdot a\hsame b\cdot b$ through
-additive congruence while keeping the right summand $-(b\cdot b)$ fixed. The
-right side is therefore identified with $(b\cdot b)+(-(b\cdot b))$.
+Add $b\cdot b$ on the right by additive congruence. On the left endpoint,
+additive associativity and commutativity move the inverse pair into the form
+$(b\cdot b)+(-(b\cdot b))$; Theorem~\ref{thm:ring-add-right-inverse}
+collapses that pair to $0$, and the zero laws leave $a\cdot a$. On the right
+endpoint, the zero law collapses $0+(b\cdot b)$ to $b\cdot b$. Transitivity
+gives $a\cdot a\hsame b\cdot b$.
+
+For the reverse direction, apply Theorem~\ref{thm:commring-difference-of-squares}
+to rewrite the signed factor product as $(a\cdot a)+(-(b\cdot b))$. Transport
+the assumed square equality $a\cdot a\hsame b\cdot b$ through additive
+congruence while keeping the right summand $-(b\cdot b)$ fixed. The right side
+is therefore identified with $(b\cdot b)+(-(b\cdot b))$.
 
 Theorem~\ref{thm:ring-add-right-inverse} collapses this final additive inverse
 pair to $0$. Transitivity of $\hsame$ composes the difference-of-squares
