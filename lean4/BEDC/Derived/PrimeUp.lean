@@ -27,4 +27,23 @@ theorem NatMul_functional {d q n m : BHist} :
           have samePrev : hsame _ _ := ih rightPrev
           exact cont_respects_hsame samePrev (hsame_refl d) leftCont rightCont
 
+theorem NatMul_total {d q : BHist} :
+    UnaryHistory d -> UnaryHistory q -> ∃ n : BHist, UnaryHistory n ∧ NatMul d q n := by
+  intro unaryD unaryQ
+  induction q with
+  | Empty =>
+      exact Exists.intro BHist.Empty (And.intro unary_empty (NatMul.zero unaryD))
+  | e0 q =>
+      cases unaryQ
+  | e1 q ih =>
+      have totalQ : ∃ n : BHist, UnaryHistory n ∧ NatMul d q n := ih unaryQ
+      cases totalQ with
+      | intro n nData =>
+          exact Exists.intro (append n d)
+            (And.intro (unary_append_closed nData.left unaryD)
+              (NatMul.succ nData.right (cont_intro rfl)))
+
+def NatDivides (d n : BHist) : Prop :=
+  ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
+
 end BEDC.Derived.PrimeUp

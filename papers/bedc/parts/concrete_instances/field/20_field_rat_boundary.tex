@@ -64,6 +64,22 @@ again rules out $A_{\emp}(v)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatHistoryLedgerPolicy\_fieldSingletonEmptyCarrier\_endpoints\_absurd}
 
+\begin{theorem}[Singleton append endpoint excludes a RatUp right factor]
+\label{thm:field-singleton-empty-append-rat-carrier-absurd}
+For all histories $p,h:\mathsf{BHist}$, if
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(p,h))$ holds and
+$\mathsf{RatHistoryCarrier}(h)$ holds, then $\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+The singleton carrier on $\mathsf{append}(p,h)$ unfolds to the equality
+$\mathsf{append}(p,h)=\emp$. The kernel append-empty inversion theorem splits
+this equality into $p=\emp$ and $h=\emp$. The right component gives
+$h\hsame\emp$, contradicting
+Theorem~\ref{thm:rat-history-carrier-not-empty} for the displayed RatUp carrier
+witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_append\_ratHistoryCarrier\_absurd}
+
 Traditional target terminal singleton field boundary; BEDC source singleton
 $\mathsf{BHist}$ $\FieldUp$ schema plus RatUp history carrier; carrier choices
 $A_{\emp}$ and $\mathsf{RatHistoryCarrier}$; classifier choices $\rho_{\emp}$

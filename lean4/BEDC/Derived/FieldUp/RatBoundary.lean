@@ -147,4 +147,10 @@ theorem RatHistoryClassifier_fieldSingleton_empty_endpoints_absurd {h k : BHist}
     exact leftAbsurd singleton.left
   exact And.intro leftAbsurd (And.intro rightAbsurd singletonAbsurd)
 
+theorem fieldSingletonEmptyCarrier_append_ratHistoryCarrier_absurd {p h : BHist} :
+    fieldSingletonEmptyCarrier (append p h) -> RatHistoryCarrier h -> False := by
+  intro appendEmpty ratH
+  have splitEmpty := append_eq_empty_iff.mp appendEmpty
+  exact RatHistoryCarrier_not_empty ratH splitEmpty.right
+
 end BEDC.Derived.FieldUp
