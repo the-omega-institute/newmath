@@ -94,6 +94,52 @@ left and right denominator contexts plus empty external endpoint contexts;
 strict-support exactness after empty endpoint transport; \textbf{status}:
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp denominator contextual action unit-support exactness]
+\label{thm:field-rat-denominator-contextual-action-unit-support-iff}
+For histories $h,l,r,p,q,p',q':\mathsf{BHist}$, assume $C_D^u(h)$,
+$C_D^u(l)$, $C_D^u(r)$, $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$,
+$q'\hsame\emp$, $\neg N_D^u(l)$, and $\neg N_D^u(r)$. Then the
+unit-context strict support of the contextual denominator action is exactly the
+support of the acted-on history:
+$$
+N_D^u(\Gamma_{p,q,l,r}(h))
+\Longleftrightarrow
+N_D^u(h).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate} with the
+two acted-on rows both read from $h$. The endpoint witnesses $p'$ and $q'$
+place the source certificate in its paired-row form, while the displayed row is
+the one based at $p,q$. Its strict-support component gives
+$N_D^u(\Gamma_{p,q,l,r}(h))$ iff
+$N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$.
+
+For the forward direction, suppose
+$N_D^u(\Gamma_{p,q,l,r}(h))$. The support row converts this into the three-way
+disjunction $N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$.
+
+The left branch contradicts $\neg N_D^u(l)$, and the right branch contradicts
+$\neg N_D^u(r)$. The only remaining branch is $N_D^u(h)$.
+
+For the reverse direction, suppose $N_D^u(h)$. Insert this evidence into the
+middle branch of $N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$, then use the same
+support row in the reverse direction to obtain
+$N_D^u(\Gamma_{p,q,l,r}(h))$.
+\end{proof}
+
+Per-object template: traditional target denominator contextual action for
+$\FieldUp(\mathsf{RatUp})$ under unit carried contexts; BEDC source
+$\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$, $\Cont$,
+$\mathsf{append}$, and $\emp$; carrier $C_D^u$; classifier $R_D^u$; stability
+obligation unit-context strict-support exactness; ledger empty endpoint contexts
+plus carried left and right contexts; core theorem label
+\autoref{thm:field-rat-denominator-contextual-action-unit-support-iff};
+exactness predicate support iff; standard bridge ordinary denominator
+multiplication with empty endpoint contexts; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp denominator contextual action total certificate]
 \label{thm:field-rat-denominator-contextual-action-total-certificate}
 The concrete denominator interface for $\FieldUp(\mathsf{RatUp})$ is covered by
