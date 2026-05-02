@@ -154,4 +154,21 @@ theorem LatticeSingletonMeetJoin_absorption_classifier {h k : BHist} :
     ⟨⟨meetCarrier, hCarrier, meetSameH⟩,
       ⟨⟨joinCarrier, hCarrier, joinSameH⟩, meetCarrier, joinCarrier⟩⟩
 
+theorem LatticeSingletonMeetJoin_absorption_empty_classified {h k : BHist} :
+    LatticeSingletonCarrier h -> LatticeSingletonCarrier k ->
+      hsame (LatticeSingletonMeet h (LatticeSingletonJoin h k)) BHist.Empty ∧
+      hsame (LatticeSingletonJoin h (LatticeSingletonMeet h k)) BHist.Empty ∧
+      LatticeSingletonClassifier (LatticeSingletonMeet h (LatticeSingletonJoin h k)) h ∧
+      LatticeSingletonClassifier (LatticeSingletonJoin h (LatticeSingletonMeet h k)) h := by
+  intro carrierH _carrierK
+  have emptyCarrier : LatticeSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyToH : hsame BHist.Empty h := hsame_symm carrierH
+  constructor
+  · exact emptyCarrier
+  · constructor
+    · exact emptyCarrier
+    · constructor
+      · exact And.intro emptyCarrier (And.intro carrierH emptyToH)
+      · exact And.intro emptyCarrier (And.intro carrierH emptyToH)
+
 end BEDC.Derived.LatticeUp

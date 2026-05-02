@@ -147,6 +147,28 @@ the two $\rho_{\emp}$ classifiers and record the two empty output endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_classifier}
 
+\begin{theorem}[Singleton lattice meet-join absorption is empty-classified]
+\label{thm:lattice-singleton-meet-join-absorption-empty-classified}
+For carried singleton endpoints $h,k$, both absorption composites reduce to
+the empty endpoint and classify back to $h$:
+$$
+\begin{aligned}
+&\mathsf{meet}(h,\mathsf{join}(h,k))\hsame\emp,\qquad
+\mathsf{join}(h,\mathsf{meet}(h,k))\hsame\emp,\\
+&\rho_{\emp}(\mathsf{meet}(h,\mathsf{join}(h,k)),h),\qquad
+\rho_{\emp}(\mathsf{join}(h,\mathsf{meet}(h,k)),h).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Both concrete operations are definitionally the endpoint $\emp$. The two
+endpoint equalities are therefore reflexive empty-history sameness. Since $h$
+is carried by the singleton carrier, symmetry of its carrier witness classifies
+$\emp$ with $h$, and the classifier packages the two carrier witnesses with
+that history-sameness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_empty\_classified}
+
 The $\LatticeUp$ schema is instantiated by a concrete $\mathsf{BHist}$ carrier
 and operations, so Lean can target $\mathsf{BEDC.Derived.LatticeUp}$ as a
 $\mathsf{BHist}$-anchored certificate rather than an abstract operator schema.

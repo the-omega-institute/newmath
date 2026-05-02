@@ -151,4 +151,31 @@ theorem singleton_empty_history_polynomial_laws :
               · exact And.intro (hsame_trans assocMul rightCarrier)
                   (And.intro rightCarrier assocMul)
 
+theorem PolynomialSingleton_append_distrib_classified {P Q R : BHist} :
+    PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q -> PolynomialSingletonCarrier R ->
+      PolynomialSingletonClassifier (append P (append Q R))
+        (append (append P Q) (append P R)) ∧
+      PolynomialSingletonClassifier (append (append P Q) R)
+        (append (append P R) (append Q R)) := by
+  intro carrierP carrierQ carrierR
+  have appendCarrier :
+      forall {X Y : BHist}, PolynomialSingletonCarrier X -> PolynomialSingletonCarrier Y ->
+        PolynomialSingletonCarrier (append X Y) := by
+    intro X Y carrierX carrierY
+    cases carrierX
+    exact hsame_trans (append_empty_left Y) carrierY
+  have leftFirst : PolynomialSingletonCarrier (append P (append Q R)) :=
+    appendCarrier carrierP (appendCarrier carrierQ carrierR)
+  have rightFirst : PolynomialSingletonCarrier (append (append P Q) (append P R)) :=
+    appendCarrier (appendCarrier carrierP carrierQ) (appendCarrier carrierP carrierR)
+  have leftSecond : PolynomialSingletonCarrier (append (append P Q) R) :=
+    appendCarrier (appendCarrier carrierP carrierQ) carrierR
+  have rightSecond : PolynomialSingletonCarrier (append (append P R) (append Q R)) :=
+    appendCarrier (appendCarrier carrierP carrierR) (appendCarrier carrierQ carrierR)
+  constructor
+  · exact And.intro leftFirst
+      (And.intro rightFirst (hsame_trans leftFirst (hsame_symm rightFirst)))
+  · exact And.intro leftSecond
+      (And.intro rightSecond (hsame_trans leftSecond (hsame_symm rightSecond)))
+
 end BEDC.Derived.PolynomialUp

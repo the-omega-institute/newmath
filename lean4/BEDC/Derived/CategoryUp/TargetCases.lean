@@ -222,4 +222,19 @@ theorem CategoryHomCarrier_e1_source_e1_target_morphism_alignment {a r m n : BHi
                       (Exists.intro l
                         (And.intro rfl (And.intro rfl (BHist.e1.inj sameMorphism)))))
 
+theorem CategoryHomCarrier_comp_e1_morphism_target_factor {a b c f g k : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e1 k) ->
+      ∃ r : BHist, c = BHist.e1 r ∧ CategoryHomCarrier a r k ∧
+        CategoryHomCarrier b (BHist.e1 r) g := by
+  intro left right comp
+  have composite : CategoryHomCarrier a c (BHist.e1 k) :=
+    CategoryHomCarrier_comp_closed left right comp
+  have targetCases := CategoryHomCarrier_e1_morphism_target_cases composite
+  cases targetCases with
+  | intro r targetData =>
+      cases targetData with
+      | intro targetEq tailCarrier =>
+          cases targetEq
+          exact Exists.intro r (And.intro rfl (And.intro tailCarrier right))
+
 end BEDC.Derived.CategoryUp

@@ -189,6 +189,32 @@ carrier of $h$, and symmetry of the carrier witness for $h$.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_add\_split\_empty\_iff}
 
+\begin{theorem}[Polynomial singleton append distributivity is classified]
+\label{thm:polynomial-singleton-append-distrib-classified}
+For singleton-carried polynomial endpoints $P,Q,R$, the displayed append
+forms of the two distributivity comparisons are classified by
+$\rho_{\emp}$:
+$$
+\rho_{\emp}(\mathsf{append}(P,\mathsf{append}(Q,R)),
+\mathsf{append}(\mathsf{append}(P,Q),\mathsf{append}(P,R)))
+$$
+and
+$$
+\rho_{\emp}(\mathsf{append}(\mathsf{append}(P,Q),R),
+\mathsf{append}(\mathsf{append}(P,R),\mathsf{append}(Q,R))).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier is closed under BEDC append: once an input is identified
+with $\emp$, appending it to another singleton-carried endpoint again produces
+a singleton-carried endpoint. Applying this closure to all displayed append
+trees shows that both sides of each comparison are carried by $A_{\emp}$.
+Each classifier is then assembled by transitivity through $\emp$: the left
+append tree is history-same to $\emp$, and the right append tree is
+history-same to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingleton\_append\_distrib\_classified}
+
 The $\PolynomialUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and the displayed $\mathsf{BHist}$-valued operations, so later
 formalization can target BHist-anchored polynomial laws rather than abstract

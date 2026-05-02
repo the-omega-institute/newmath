@@ -403,6 +403,34 @@ carrier and tail continuation as $\mathsf{CategoryHomCarrier}(a,r,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_target\_cases}
 
+\begin{theorem}[Category composite one-headed morphism target factor]
+\label{thm:category-comp-e1-morphism-target-factor}
+For composable category hom-carriers $f:a\to b$ and $g:b\to c$, if their
+continuation composite is the one-headed morphism $\Eone(k)$, then the target
+object is one-headed and the right factor is already a hom-carrier into that
+displayed target:
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(a,b,f)\land
+\mathsf{CategoryHomCarrier}(b,c,g)\land
+\ContR(f,g,\Eone(k))\\
+&\quad\Longrightarrow
+\exists r:\mathsf{BHist}.\;
+c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(a,r,k)\land
+\mathsf{CategoryHomCarrier}(b,\Eone(r),g).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+First close composition to obtain a hom-carrier from $a$ to $c$ with morphism
+$\Eone(k)$. The one-headed morphism target case theorem exposes a history $r$
+with $c=\Eone(r)$ and a descended hom-carrier from $a$ to $r$ with morphism
+$k$. Substituting the displayed target equality transports the original right
+factor from target $c$ to target $\Eone(r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_e1\_morphism\_target\_factor}
+
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}
 For histories $a,k,r$, a hom-carrier whose target and morphism histories are
