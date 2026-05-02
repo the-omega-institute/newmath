@@ -113,6 +113,18 @@ theorem CategoryHomCarrier_morphism_deterministic {a b f g : BHist} :
                       | intro _gCarrier rightCont =>
                           exact cont_left_cancel leftCont rightCont
 
+theorem CategoryHomCarrier_comp_public_readback {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f → CategoryHomCarrier b c g → Cont f g fg →
+      CategoryHomCarrier a c fg ∧
+        (∀ {fg' : BHist}, CategoryHomCarrier a c fg' → hsame fg fg') := by
+  intro left right comp
+  have compositeCarrier : CategoryHomCarrier a c fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  constructor
+  · exact compositeCarrier
+  · intro fg' displayed
+    exact CategoryHomCarrier_morphism_deterministic compositeCarrier displayed
+
 theorem CategoryHomCarrier_target_deterministic {a b c f : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier a c f -> hsame b c := by
   intro left right

@@ -124,6 +124,40 @@ theorem SOneHistoryCarrier_equation_unit {x y equation point : BHist} :
     SOneHistoryCarrier x y equation point → hsame equation SOneUnitHistory := by
   exact SOneHistoryCarrier_unit_equation_deterministic
 
+theorem SOneHistoryCarrier_public_readback {x y equation point : BHist} :
+    SOneHistoryCarrier x y equation point →
+      SOneProductHistoryCarrier point ∧ hsame equation SOneUnitHistory ∧
+        ∃ dx dy : BHist,
+          hsame x (BHist.e1 dx) ∧ RatHistoryCarrier dx ∧
+            hsame y (BHist.e1 dy) ∧ RatHistoryCarrier dy ∧ Cont x y point := by
+  intro carrier
+  have pointCarrier : SOneProductHistoryCarrier point :=
+    SOneHistoryCarrier_real_pair carrier
+  have equationSame : hsame equation SOneUnitHistory :=
+    SOneHistoryCarrier_equation_unit carrier
+  cases SOneHistoryCarrier_rational_unit_components carrier with
+  | intro dx restDx =>
+      cases restDx with
+      | intro dy data =>
+          cases data with
+          | intro sameX rest =>
+              cases rest with
+              | intro dxCarrier rest =>
+                  cases rest with
+                  | intro sameY rest =>
+                      cases rest with
+                      | intro dyCarrier rest =>
+                          cases rest with
+                          | intro _equationCarrier pointCont =>
+                              exact And.intro pointCarrier
+                                (And.intro equationSame
+                                  (Exists.intro dx
+                                    (Exists.intro dy
+                                      (And.intro sameX
+                                        (And.intro dxCarrier
+                                          (And.intro sameY
+                                            (And.intro dyCarrier pointCont)))))))
+
 theorem SOneHistoryCarrier_equation_witness_transport
     {x y equation equation' point : BHist} :
     SOneHistoryCarrier x y equation point -> hsame equation equation' ->

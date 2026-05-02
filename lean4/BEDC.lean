@@ -61,6 +61,7 @@ import BEDC.Derived.OptionUp.ChainPayload
 import BEDC.Derived.OptionUp.LedgerEndpoint
 import BEDC.Derived.OptionUp.LedgerReadback
 import BEDC.Derived.OptionUp.EndpointAbsurd
+import BEDC.Derived.OptionUp.EndpointTransportE0Absurd
 import BEDC.Derived.OptionUp.BranchExactness
 import BEDC.Derived.OptionUp.BranchReadback
 import BEDC.Derived.OptionUp.SourceWeakening

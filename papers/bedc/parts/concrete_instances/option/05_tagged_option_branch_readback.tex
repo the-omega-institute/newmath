@@ -220,6 +220,26 @@ contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_empty\_visible\_exclusion}
 
+\begin{theorem}[Tagged option history classifier transported e0 endpoint absurdity]
+\label{thm:tagged-option-history-classifier-endpoint-transport-e0-absurd}
+For every source carrier $S$, payload classifier $Rel$, tail history $t$, and
+classified endpoints $h,k$, a tagged optional classifier witness rules out
+transport of either endpoint to the zero-tagged history:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,Rel}(h,k)
+\Longrightarrow
+\neg\hsame(h,\Ezero(t))\land\neg\hsame(k,\Ezero(t)).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the classifier witness. In the absent branch, composing the
+transported endpoint equality with the empty endpoint witness would identify
+$\Ezero(t)$ with $\emp$. In the present branch, composing with the visible
+endpoint witness would identify $\Ezero(t)$ with an $\Eone$ payload. Both cases
+contradict BEDC history constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_endpoint\_transport\_e0\_absurd}
+
 \begin{theorem}[Tagged option history carrier exclusive branch partition]
 \label{thm:tagged-option-history-carrier-exclusive-branch-partition}
 This theorem fits the per-object template as follows: the traditional target is

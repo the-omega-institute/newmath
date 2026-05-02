@@ -145,6 +145,33 @@ displays identifies $e$ with $\mathsf{SOneUnitHistory}$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_equation\_unit}
 
+\begin{theorem}[SOne history carrier public readback]
+\label{thm:sone-history-carrier-public-readback}
+For histories $x,y,e,p$, the concrete $\SOneUp$ history carrier exposes the
+product carrier, identifies the equation endpoint with the BEDC unit history,
+and reads back rational tails for both real components:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{SOneProductHistoryCarrier}(p)\land
+\hsame(e,\mathsf{SOneUnitHistory})\land
+\exists d_x,d_y.\;
+\hsame(x,\Eone(d_x))\land
+\mathsf{RatHistoryCarrier}(d_x)\land
+\hsame(y,\Eone(d_y))\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\ContR(x,y,p).
+$$
+\end{theorem}
+\begin{proof}
+The product carrier is obtained by repacking the two real-constant component
+carriers with the continuation ledger. Equation-unit determinacy identifies
+the stored equation endpoint with $\mathsf{SOneUnitHistory}$. Finally, the
+rational unit component readback exposes the two rational tails and the same
+continuation ledger, while its equation classifier field is no longer needed.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_public\_readback}
+
 \begin{theorem}[SOne component classifier ledger determinacy]
 \label{thm:s1-component-classifier-ledger-determinacy}
 For histories $x,y,e,p,x',y',e',p'$, componentwise BEDC history
