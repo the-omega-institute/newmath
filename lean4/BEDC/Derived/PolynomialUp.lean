@@ -233,6 +233,16 @@ theorem PolynomialSingletonClassifier_continuation_comm_closed {P Q left right :
     (And.intro emptyCarrier
       (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))))
 
+theorem PolynomialSingletonClassifier_cont_result_empty_classified {P Q r : BHist} :
+    PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q -> Cont P Q r ->
+      PolynomialSingletonClassifier r BHist.Empty := by
+  intro carrierP carrierQ resultCont
+  cases carrierP
+  cases carrierQ
+  cases resultCont
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+
 theorem PolynomialSingletonNormalize_append_classifier_carrier_iff {P Q h : BHist} :
     PolynomialSingletonClassifier (PolynomialSingletonNormalize (append P Q)) h ↔
       PolynomialSingletonCarrier h := by

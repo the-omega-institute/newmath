@@ -298,6 +298,24 @@ singleton classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_continuation\_comm\_closed}
 
+\begin{theorem}[Polynomial singleton continuation result against empty is classified]
+\label{thm:polynomial-singleton-cont-result-empty-classified}
+Let $P,Q,r:\mathsf{BHist}$ be singleton-carried polynomial endpoints. If
+$\ContR(P,Q,r)$, then the continuation result is classified against the empty
+singleton endpoint:
+$$
+\rho_{\emp}(r,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The two singleton carrier witnesses identify $P$ and $Q$ with $\emp$. The
+continuation ledger then identifies $r$ with
+$\mathsf{append}(\emp,\emp)=\emp$. The classifier is rebuilt from the
+empty-history carrier witnesses on both endpoints and reflexivity of
+$\HSame(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_cont\_result\_empty\_classified}
+
 The $\PolynomialUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and the displayed $\mathsf{BHist}$-valued operations, so later
 formalization can target BHist-anchored polynomial laws rather than abstract

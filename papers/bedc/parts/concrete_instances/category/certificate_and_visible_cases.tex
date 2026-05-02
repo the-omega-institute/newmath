@@ -279,6 +279,30 @@ $\ContR(\Ezero(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e1\_target\_tail\_cases}
 
+\begin{theorem}[Continuation morphism zero-headed source to zero-headed target tail cases]
+\label{thm:continuation-morphism-e0-source-e0-target-tail-cases}
+For histories $a,r:\mathsf{BHist}$, every continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$ has either the
+empty-tail case with exposed endpoints classified together,
+$$
+\mathsf{tail}(m)=\emp\land\HSame(a,r),
+$$
+or a zero-headed tail whose payload still continues from $\Ezero(a)$ to $r$:
+$$
+\exists k:\mathsf{BHist}.\;
+\mathsf{tail}(m)=\Ezero(k)\land \ContR(\Ezero(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the displayed continuation tail. The empty-tail branch is the right-unit
+continuation, so constructor injectivity exposes $\HSame(a,r)$. A one-headed
+tail would force a zero-headed result to be one-headed, contradicting
+constructor disjointness. In the zero-headed branch, constructor injectivity
+on the continuation result removes the outer zero constructor and leaves
+$\ContR(\Ezero(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_cases}
+
 \begin{theorem}[Continuation morphism one-headed source to one-headed target tail cases]
 \label{thm:continuation-morphism-e1-source-e1-target-tail-cases}
 For histories $a,r:\mathsf{BHist}$, every continuation morphism

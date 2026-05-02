@@ -59,4 +59,15 @@ theorem ContinuationMorphism_comp_right_factor_reconstructs {a b c r : BHist}
       (ContinuationMorphism_comp_right_factor left composite tailRel)).tail composite.tail := by
   exact tailRel.symm
 
+theorem ContinuationMorphism_comp_left_factor_reconstructs {a b c l : BHist}
+    (right : ContinuationMorphism b c) (composite : ContinuationMorphism a c)
+    (tailRel : Cont l right.tail composite.tail) :
+    hsame (ContinuationMorphism_comp_closed
+      (ContinuationMorphism_comp_left_factor right composite tailRel) right).tail
+      composite.tail := by
+  have displayed :
+      hsame (append l right.tail) composite.tail :=
+    tailRel.symm
+  exact displayed
+
 end BEDC.Derived.CategoryUp

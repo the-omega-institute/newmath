@@ -445,6 +445,21 @@ reflexive left-tail continuation across the recovered middle endpoint.
 \end{proof}
 \leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_factor}
 
+\begin{theorem}[Continuation morphism left factor reconstruction]
+\label{thm:continuation-morphism-comp-left-factor-reconstructs}
+For histories $a,b,c$ and a displayed tail $l$, let $right:b\to c$ and
+$composite:a\to c$ be continuation morphisms. If the tail of $composite$ is
+displayed as the continuation composite of $l$ with the tail of $right$, then
+composing the recovered left factor with $right$ reconstructs the displayed
+tail of $composite$ up to $\hsame$.
+\end{theorem}
+\begin{proof}
+The recovered left factor has tail $l$ by construction. The closed composition
+therefore has tail $\mathsf{append}(l,\mathsf{tail}(right))$, and the supplied
+tail factorization identifies this append with $\mathsf{tail}(composite)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_factor\_reconstructs}
+
 \begin{theorem}[Continuation morphism left factor tail uniqueness]
 \label{thm:continuation-morphism-comp-left-factor-tail-hsame}
 For histories $a,b,c$ and a displayed tail $l$, let $right:b\to c$ and

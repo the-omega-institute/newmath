@@ -120,6 +120,22 @@ theorem ContinuationMorphism_e0_source_e1_target_tail_cases {a r : BHist}
               cases sameR
               exact Exists.intro k (And.intro (hsame_refl (BHist.e1 k)) data.right)
 
+theorem ContinuationMorphism_e0_source_e0_target_tail_cases {a r : BHist}
+    (m : ContinuationMorphism (BHist.e0 a) (BHist.e0 r)) :
+    (m.tail = BHist.Empty ∧ hsame a r) ∨
+      (∃ k : BHist, m.tail = BHist.e0 k ∧ Cont (BHist.e0 a) k r) := by
+  cases m with
+  | mk tail rel =>
+      cases tail with
+      | Empty =>
+          left
+          exact And.intro rfl (BHist.e0.inj rel).symm
+      | e0 k =>
+          right
+          exact Exists.intro k (And.intro rfl (BHist.e0.inj rel))
+      | e1 k =>
+          exact False.elim (not_hsame_e0_e1 rel)
+
 theorem ContinuationMorphism_e1_source_e1_target_tail_cases {a r : BHist}
     (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
     (m.tail = BHist.Empty ∧ hsame a r) ∨
