@@ -272,6 +272,31 @@ theorem field_rat_denominator_hsame_matched_context_classifier_exactness
   exact field_rat_denominator_continuation_common_context_classifier_exactness prefixUnary
     suffixUnary carrierD carrierE leftPrefix rightPrefix leftSuffix rightSuffix
 
+theorem field_rat_denominator_hsame_matched_context_ledger_exactness
+    {p p' q q' d e pd pe left right : BHist} :
+    UnaryHistory p -> UnaryHistory p' -> UnaryHistory q -> UnaryHistory q' -> hsame p p' ->
+      hsame q q' -> RatHistoryCarrier d -> RatHistoryCarrier e -> Cont p d pd ->
+        Cont p' e pe -> Cont pd q left -> Cont pe q' right ->
+          (RatHistoryLedgerPolicy d e <-> RatHistoryLedgerPolicy left right) := by
+  intro prefixUnary prefixUnary' suffixUnary suffixUnary' samePrefix sameSuffix carrierD
+    carrierE leftPrefix rightPrefix leftSuffix rightSuffix
+  have classifierExact :
+      RatHistoryClassifier d e <-> RatHistoryClassifier left right :=
+    field_rat_denominator_hsame_matched_context_classifier_exactness prefixUnary prefixUnary'
+      suffixUnary suffixUnary' samePrefix sameSuffix carrierD carrierE leftPrefix rightPrefix
+      leftSuffix rightSuffix
+  constructor
+  · intro ledger
+    exact field_rat_denominator_continuation_common_context_ledger_closure ledger prefixUnary
+      prefixUnary' suffixUnary suffixUnary' samePrefix sameSuffix leftPrefix rightPrefix
+      leftSuffix rightSuffix
+  · intro ledger
+    have classifiedLeftRight : RatHistoryClassifier left right :=
+      RatHistoryLedgerPolicy_raw_visible_classifier ledger
+    have classifiedDE : RatHistoryClassifier d e :=
+      classifierExact.mpr classifiedLeftRight
+    exact ⟨carrierD, classifiedDE.right.right⟩
+
 theorem field_rat_denominator_continuation_classifier_assoc_congruence
     {d d' e e' f f' de de' ef ef' left left' right right' : BHist} :
     RatHistoryClassifier d d' -> RatHistoryClassifier e e' -> RatHistoryClassifier f f' ->

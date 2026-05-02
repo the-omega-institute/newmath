@@ -206,6 +206,38 @@ theorem VecSpaceSingleton_semanticNameCert :
       exact carrier
   }
 
+theorem VecSpaceSingletonSmul_image_semanticNameCert :
+    SemanticNameCert VecSpaceSingletonCarrier
+      (fun h : BHist =>
+        exists r m : BHist, VecSpaceSingletonCarrier m ∧ hsame h (VecSpaceSingletonSmul r m))
+      VecSpaceSingletonCarrier VecSpaceSingletonClassifier := by
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+      equiv_refl := by
+        intro h carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl h))
+      equiv_symm := by
+        intro h k same
+        exact And.intro same.right.left
+          (And.intro same.left (hsame_symm same.right.right))
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact And.intro sameHK.left
+          (And.intro sameKR.right.left (hsame_trans sameHK.right.right sameKR.right.right))
+      carrier_respects_equiv := by
+        intro h k same _carrier
+        exact same.right.left
+    }
+    pattern_sound := by
+      intro h carrier
+      exact Exists.intro BHist.Empty (Exists.intro h (And.intro carrier carrier))
+    ledger_sound := by
+      intro _h carrier
+      exact carrier
+  }
+
 theorem VecSpaceSingleton_scalar_action_inverse_law {r m : BHist}
     (p : BEDC.Derived.FieldUp.FieldSingletonNonZero r) :
     VecSpaceSingletonCarrier m ->

@@ -311,6 +311,32 @@ Theorem~\ref{thm:singleton-empty-history-vecspace-laws} as its core theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingleton\_semanticNameCert}
 
+\begin{theorem}[VecSpace singleton scalar action image semantic certificate]
+\label{thm:vecspace-singleton-smul-image-semantic-name-cert}
+For the concrete singleton $\VecSpaceUp$ instance, the source carrier
+$A_{\emp}$, the scalar-action image pattern
+$$
+P(h)\;:\Longleftrightarrow\;\exists r,m:\mathsf{BHist},\,
+  A_{\emp}(m)\wedge h\hsame\mathsf{VecSpaceSingletonSmul}(r,m),
+$$
+the ledger carrier $A_{\emp}$, and the singleton classifier $\rho_{\emp}$
+form a $\mathsf{SemanticNameCert}$.
+\end{theorem}
+\begin{proof}
+The core certificate is the singleton $A_{\emp}$ certificate for $\rho_{\emp}$:
+inhabitation is witnessed by $\emp$, reflexivity uses the carried endpoint,
+symmetry reverses the $\hsame$ comparison, transitivity composes comparisons,
+and carrier transport reads the target carrier field from the classifier.
+
+For pattern soundness, assume $A_{\emp}(h)$. Choose the displayed scalar
+$r=\emp$ and vector $m=h$. The vector side is carried by the same witness, and
+the scalar action is definitionally the empty-history endpoint, so the same
+$A_{\emp}(h)$ witness is the required comparison
+$h\hsame\mathsf{VecSpaceSingletonSmul}(r,m)$. Ledger soundness is the identity
+map on the concrete singleton carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_image\_semanticNameCert}
+
 \section{The certificate}
 
 \begin{definition}[VecSpace source specification]
