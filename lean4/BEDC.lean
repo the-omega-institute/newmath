@@ -172,3 +172,4 @@ import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.TargetCases
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
+import BEDC.Reflection
