@@ -573,3 +573,65 @@ $s',t'$ in place of $s,t$. The same outer readback, inner readback, and
 reassociation give
 $N_D^u(l)\lor N_D^u(l')\lor N_D^u(k)\lor N_D^u(r')\lor N_D^u(r)$.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp denominator normalized contextual action exactness]
+\label{thm:field-rat-denominator-normalized-contextual-action-exactness}
+For histories $h,k,l,r,l',r',p,q,p',q',s,t,s',t':\mathsf{BHist}$, assume
+$C_D^u(h)$, $C_D^u(k)$, $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$,
+$C_D^u(r')$, and
+$$
+p\hsame\emp,\quad q\hsame\emp,\quad p'\hsame\emp,\quad q'\hsame\emp,
+\quad s\hsame\emp,\quad t\hsame\emp,\quad s'\hsame\emp,\quad t'\hsame\emp.
+$$
+Then the single normalized actions obtained from the combined carried contexts
+are exact for the denominator classifier:
+$$
+R_D^u(\Gamma_{p,q,\mu_D^u(l,l'),\mu_D^u(r',r)}(h),
+\Gamma_{p',q',\mu_D^u(l,l'),\mu_D^u(r',r)}(k))
+\Longleftrightarrow R_D^u(h,k).
+$$
+The normalized strict-support readbacks are
+$$
+N_D^u(\Gamma_{p,q,\mu_D^u(l,l'),\mu_D^u(r',r)}(h))
+\Longleftrightarrow
+N_D^u(l)\lor N_D^u(l')\lor N_D^u(h)\lor N_D^u(r')\lor N_D^u(r)
+$$
+and
+$$
+N_D^u(\Gamma_{p',q',\mu_D^u(l,l'),\mu_D^u(r',r)}(k))
+\Longleftrightarrow
+N_D^u(l)\lor N_D^u(l')\lor N_D^u(k)\lor N_D^u(r')\lor N_D^u(r).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-composition-closure}
+to the $h$ endpoint with inner carried contexts $l',r'$, outer carried contexts
+$l,r$, inner external endpoints $s,t$, and outer external endpoints $p,q$. The
+classifier row identifies the nested action
+$\Gamma_{p,q,l,r}(\Gamma_{s,t,l',r'}(h))$ with the normalized action
+$\Gamma_{p,q,\mu_D^u(l,l'),\mu_D^u(r',r)}(h)$.
+
+Its support row reads the nested endpoint as the displayed five-term
+disjunction. Strict-support transport along the concrete classifier $R_D^u$
+then gives the same readback for the normalized $h$ endpoint.
+
+Apply the same closure theorem to the $k$ endpoint with inner external
+endpoints $s',t'$ and outer external endpoints $p',q'$. This gives the
+classifier comparison between
+$\Gamma_{p',q',l,r}(\Gamma_{s',t',l',r'}(k))$ and
+$\Gamma_{p',q',\mu_D^u(l,l'),\mu_D^u(r',r)}(k)$.
+
+The corresponding support row, transported along $R_D^u$, gives the
+strict-support readback containing $N_D^u(k)$ in the middle position.
+
+Now use
+\autoref{thm:field-rat-denominator-contextual-action-composition} on the two
+nested endpoints. It supplies the equivalence between their denominator
+classifier and $R_D^u(h,k)$. Transport this equivalence across the two closure
+comparisons by symmetry and transitivity for the concrete classifier $R_D^u$.
+
+The two support statements are the strict-support readbacks already obtained
+from the endpoint closure applications, with the finite disjunctions
+reassociated to the displayed order.
+\end{proof}
