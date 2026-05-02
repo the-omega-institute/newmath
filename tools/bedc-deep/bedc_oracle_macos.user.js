@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.11";
+  const SCRIPT_VERSION = "bedc-1.12";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
