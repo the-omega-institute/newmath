@@ -2,43 +2,6 @@
 \input{parts/concrete_instances/field/20_field_rat_boundary}
 \input{parts/concrete_instances/field/20_field_rat_continuation_closure}
 
-\begin{theorem}[Rat denominator continuation binary classifier congruence]
-\label{thm:field-rat-denominator-continuation-binary-classifier-congruence}
-For all histories $d,d',e,e',r,r':\mathsf{BHist}$, if
-$\mathsf{RatHistoryClassifier}(d,d')$,
-$\mathsf{RatHistoryClassifier}(e,e')$, $\Cont(d,e,r)$, and
-$\Cont(d',e',r')$, then $\mathsf{RatHistoryClassifier}(r,r')$.
-\end{theorem}
-\begin{proof}
-Unpack the second Rat history classifier. It supplies carrier witnesses for
-$e$ and $e'$, together with the endpoint comparison $e\hsame e'$.
-
-Read the two carrier witnesses through
-\autoref{thm:rat-history-carrier-positive-denominator-equivalence} and then
-\autoref{thm:positive-unary-denominator-unary-and-nonempty}. This yields
-unary-history witnesses for both right denominators while preserving the
-comparison $e\hsame e'$ from the classifier.
-
-Apply
-\autoref{thm:field-rat-denominator-continuation-classifier-closure} to the
-first classifier $\mathsf{RatHistoryClassifier}(d,d')$, the two unary
-right-denominator witnesses, the comparison $e\hsame e'$, and the displayed
-continuation witnesses $\Cont(d,e,r)$ and $\Cont(d',e',r')$. Its conclusion is
-exactly $\mathsf{RatHistoryClassifier}(r,r')$.
-\end{proof}
-
-\textbf{Traditional target}: denominator-side multiplication congruence for
-$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
-$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and $\Cont$;
-\textbf{carrier choice}: Rat denominators; \textbf{classifier choice}: Rat
-history classifier; \textbf{stability obligation}: binary operation
-congruence; \textbf{ledger}: the two continuation witnesses and the
-right-denominator unary evidence; \textbf{core theorem}:
-\autoref{thm:field-rat-denominator-continuation-binary-classifier-congruence};
-\textbf{exactness predicate}: classifier preservation under displayed
-continuation; \textbf{standard bridge}: deferred; \textbf{status}:
-$\mathsf{ProofTarget}$.
-
 \begin{theorem}[Rat denominator continuation common-context cancellation]
 \label{thm:field-rat-denominator-continuation-common-context-cancellation}
 For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
