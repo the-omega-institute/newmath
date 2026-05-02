@@ -152,6 +152,7 @@ import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.AffineEquation
 import BEDC.Derived.FieldUp.Affine
+import BEDC.Derived.FieldUp.RatBoundary
 import BEDC.Derived.FieldUp.Nonzero
 import BEDC.Derived.FieldUp.ProductApartness
 import BEDC.Derived.FieldUp.SignedFactor
@@ -194,6 +195,7 @@ import BEDC.Derived.CategoryUp.Prefix
 import BEDC.Derived.CategoryUp.ContinuationCertificate
 import BEDC.Derived.CategoryUp.CompDeterminism
 import BEDC.Derived.CategoryUp.EmptyMorphism
+import BEDC.Derived.CategoryUp.EmptyComposite
 import BEDC.Derived.CategoryUp.ContinuationBoundary
 import BEDC.Derived.CategoryUp.FactorTail
 import BEDC.Derived.CategoryUp.CompositeEmptyTail

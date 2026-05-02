@@ -119,4 +119,13 @@ theorem FpsSingletonEmptyHistory_semanticNameCert :
       exact source
   }
 
+theorem FpsSingletonCoeff_empty_ledger {F n : BHist} :
+    FpsSingletonCarrier F ->
+      hsame (FpsSingletonCoeff F n) BHist.Empty /\
+        FpsSingletonClassifier (FpsSingletonCoeff F n) BHist.Empty := by
+  intro _carrier
+  have emptyCarrier : FpsSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty)))
+
 end BEDC.Derived.FpsUp
