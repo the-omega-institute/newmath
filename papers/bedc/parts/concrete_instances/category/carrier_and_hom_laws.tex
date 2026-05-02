@@ -106,6 +106,25 @@ other displayed carrier over the same source and target.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_public\_readback}
 
+\begin{theorem}[Category hom carrier same-composite middle-factor determinacy]
+\label{thm:category-hom-carrier-comp-same-middle-factors-deterministic}
+For unary-continuation hom carriers $f:a\to b$, $g:b\to c$,
+$f':a\to b$, and $g':b\to c$, if $\ContR(f,g,fg)$ and
+$\ContR(f',g',fg)$ hold, then
+$\HSame(f,f')\land\HSame(g,g')$.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:category-hom-carrier-morphism-deterministic} to the two
+$a\to b$ carriers. This gives $\HSame(f,f')$.
+
+Transport the first continuation ledger across this equality. The transported
+ledger and $\ContR(f',g',fg)$ now have the same left continuation history and
+the same result history, so continuation left cancellation identifies the two
+right factors, giving $\HSame(g,g')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_same\_middle\_factors\_deterministic}
+
 \begin{theorem}[Category hom carrier unary suffix equivalence]
 \label{thm:category-hom-carrier-unary-suffix-iff}
 For a unary suffix $q$, a displayed hom-carrier
@@ -246,28 +265,6 @@ facts into \(\ContR(b,g,c)\). Comparing this continuation with the right leg
 objects.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_object\_deterministic}
-
-\begin{theorem}[Category hom carrier composite same-middle factor determinacy]
-\label{thm:category-hom-carrier-comp-same-middle-factors-deterministic}
-For the unary-continuation category, suppose $f$ and $f'$ are both
-hom-carriers from $a$ to $b$, $g$ and $g'$ are both hom-carriers from $b$ to
-$c$, and both continuation composites are displayed as the same history $fg$:
-$$
-\ContR(f,g,fg)
-$$
-and
-$$
-\ContR(f',g',fg).
-$$
-Then $\HSame(f,f')$ and $\HSame(g,g')$.
-\end{theorem}
-\begin{proof}
-Morphism determinacy for the common endpoints $a,b$ identifies $f$ with $f'$.
-After transporting along this equality, the two composite ledgers have the
-same left continuation history and the same result history. Left cancellation
-for $\ContR$ identifies $g$ with $g'$.
-\end{proof}
-\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_same\_middle\_factors\_deterministic}
 
 \begin{theorem}[Category hom carrier tail commutativity]
 \label{thm:category-hom-carrier-tail-comm-hsame}
