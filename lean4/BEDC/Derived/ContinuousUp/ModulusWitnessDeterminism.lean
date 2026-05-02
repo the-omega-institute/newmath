@@ -27,6 +27,48 @@ theorem ContinuousModulusWitness_modulus_hsame_deterministic
                       | intro _targetCarrier' rightRel =>
                           exact cont_left_cancel leftRel rightRel
 
+theorem ContinuousModulusWitness_target_hsame_deterministic
+    {source source' modulus target target' : BHist} :
+    hsame source source' →
+      ContinuousModulusWitness source modulus target →
+        ContinuousModulusWitness source' modulus target' → hsame target target' := by
+  intro sameSource left right
+  cases sameSource
+  cases left with
+  | intro _sourceCarrier leftRest =>
+      cases leftRest with
+      | intro _modulusCarrier leftRest =>
+          cases leftRest with
+          | intro _targetCarrier leftRel =>
+              cases right with
+              | intro _sourceCarrier' rightRest =>
+                  cases rightRest with
+                  | intro _modulusCarrier' rightRest =>
+                      cases rightRest with
+                      | intro _targetCarrier' rightRel =>
+                          exact cont_deterministic leftRel rightRel
+
+theorem ContinuousModulusWitness_source_hsame_deterministic
+    {source source' modulus target target' : BHist} :
+    hsame target target' →
+      ContinuousModulusWitness source modulus target →
+        ContinuousModulusWitness source' modulus target' → hsame source source' := by
+  intro sameTarget left right
+  cases sameTarget
+  cases left with
+  | intro _sourceCarrier leftRest =>
+      cases leftRest with
+      | intro _modulusCarrier leftRest =>
+          cases leftRest with
+          | intro _targetCarrier leftRel =>
+              cases right with
+              | intro _sourceCarrier' rightRest =>
+                  cases rightRest with
+                  | intro _modulusCarrier' rightRest =>
+                      cases rightRest with
+                      | intro _targetCarrier' rightRel =>
+                          exact cont_right_cancel leftRel rightRel
+
 theorem ContinuousModulusChain_second_deterministic
     {source first second second' target : BHist} :
     ContinuousModulusChain source first second target →

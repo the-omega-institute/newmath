@@ -280,6 +280,36 @@ Unpack both witnesses, identify the source and target endpoints by $\hsame$, and
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_modulus\_hsame\_deterministic}
 
+\begin{theorem}[Continuous modulus witness target determinacy]
+\label{thm:continuous-modulus-witness-target-hsame-deterministic}
+If two one-step modulus witnesses have $\hsame$ source histories and the same
+modulus history, then their target histories are $\hsame$:
+$$
+\hsame(target,target').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both witnesses, identify the source endpoint by $\hsame$, and apply
+continuation result determinacy to the two continuation ledgers with the shared
+source and modulus.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_target\_hsame\_deterministic}
+
+\begin{theorem}[Continuous modulus witness source determinacy]
+\label{thm:continuous-modulus-witness-source-hsame-deterministic}
+If two one-step modulus witnesses have $\hsame$ target histories and the same
+modulus history, then their source histories are $\hsame$:
+$$
+\hsame(source,source').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both witnesses, identify the target endpoint by $\hsame$, and apply
+continuation right cancellation to the two ledgers with the shared modulus and
+target.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_source\_hsame\_deterministic}
+
 \begin{theorem}[Continuous function carrier prefix exactness]
 \label{thm:continuous-function-carrier-prefix-iff}
 For histories $p,source,map,target,modulus,cert$, prefixing the visible source,
@@ -326,4 +356,3 @@ prefix exactness, the exactness predicate is the displayed iff, the standard
 bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefix\_iff}
-

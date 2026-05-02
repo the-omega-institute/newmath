@@ -154,6 +154,25 @@ the two visible tags.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_e0\_absurd}
 
+\begin{theorem}[Tagged option history classifier e0 endpoint absurdity]
+\label{thm:tagged-option-history-classifier-e0-endpoint-absurd}
+For every source carrier $S$, payload classifier $Rel$, tail history $t$, and
+opposite endpoint $h$, a zero-tagged endpoint cannot occur on either side of
+the tagged optional classifier:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,Rel}(\Ezero(t),h)\Longrightarrow\bot,
+\qquad
+\mathsf{TaggedOptionHistoryClassifier}_{S,Rel}(h,\Ezero(t))\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Split the two endpoint positions. In an absent branch, the zero-tagged endpoint
+would be $\hsame$ to $\emp$, contradicting no-confusion for $\Ezero$ and the
+empty history. In a present branch, the same endpoint would be $\hsame$ to
+some $\Eone$ payload, contradicting no-confusion between the two visible tags.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_e0\_endpoint\_absurd}
+
 \begin{theorem}[Tagged option history carrier exclusive branch partition]
 \label{thm:tagged-option-history-carrier-exclusive-branch-partition}
 This theorem fits the per-object template as follows: the traditional target is
