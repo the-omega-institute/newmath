@@ -515,35 +515,32 @@ $0\mathsf{inv}(b,p_b)$ with $0$. Transitivity of $\hsame$ yields
 $a\hsame0$.
 \end{proof}
 
-\begin{theorem}[Field nonzero product exclusion from apartness]
-\label{thm:field-nonzero-product-exclusion-from-apartness}
+\begin{theorem}[Field nonzero factors exclude zero product]
+\label{thm:field-nonzero-factors-exclude-zero-product}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
-classifier transport of $\mathsf{NonZero}_F$, contradiction of
-$\mathsf{NonZero}_F(0)$, ring zero absorption, multiplication congruence, and
-witnesses $p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, a
-product classified as zero is impossible:
+ring zero absorption, multiplication congruence, indexed inverse laws,
+classifier transport of $\mathsf{NonZero}_F$, and contradiction of
+$\mathsf{NonZero}_F(0)$, every $a,b:\mathsf{BHist}$ with witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ satisfies
 $$
-a b\hsame0
-\quad\Longrightarrow\quad
-\bot.
+\neg(a b\hsame0).
 $$
 \end{theorem}
 \begin{proof}
 Assume $a b\hsame0$. Apply
-Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness} with the
-right-factor witness $p_b$. This solves the certified right multiplication
-equation and gives $a\hsame0\mathsf{inv}(b,p_b)$.
+Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} with the
+left-factor witness $p_a$. The left-factor clause gives $b\hsame0$.
 
-Use Theorem~\ref{thm:ring-mul-zero-absorption} to classify
-$0\mathsf{inv}(b,p_b)$ as $0$. Transitivity of $\hsame$ gives $a\hsame0$.
-
-Transport the witness $p_a:\mathsf{NonZero}_F(a)$ along this classifier
+Transport the witness $p_b:\mathsf{NonZero}_F(b)$ along this classifier
 equality. The stability clause for $\mathsf{NonZero}_F$ supplies
 $\mathsf{NonZero}_F(0)$.
 
 The field stability certificate includes contradiction of
 $\mathsf{NonZero}_F(0)$, so the transported evidence closes the goal with
 $\bot$.
+
+The symmetric route uses $p_b$ in the right-factor clause and transports
+$p_a$ after deriving $a\hsame0$.
 \end{proof}
 
 \begin{theorem}[Field equal-squares signed factor exclusion]
@@ -589,8 +586,8 @@ $\mathsf{BHist}$. Classifier choice: $\hsame$. Stability obligations:
 inverse laws, multiplication congruence, and zero absorption. Ledger: the two
 certified factors $p_a:\mathsf{NonZero}_F(a)$ and
 $p_b:\mathsf{NonZero}_F(b)$ together with their inverse witnesses. Core theorem
-list: two-sided zero-product exactness and nonzero product exclusion. Exactness
-predicate: exact zero classifier and nonzero-product contradiction inside
+list: two-sided zero-product exactness and zero-product exclusion from two
+nonzero witnesses. Exactness predicate: exact zero classifier and nonzero-product contradiction inside
 certified two-sided multiplication. Standard bridge: deferred
 conservative bridge. Status: ProofTarget.
 
@@ -753,7 +750,7 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
   \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
   \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
   \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
-  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product exactness, nonzero product exclusion, affine left equation exactness, affine right equation exactness, affine two-sided equation exactness, and distributivity inherited from $\CommRingUp$.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product exactness, zero-product exclusion from two nonzero witnesses, affine left equation exactness, affine right equation exactness, affine two-sided equation exactness, and distributivity inherited from $\CommRingUp$.
   \item Exactness predicate: coverage, soundness, completeness, exact zero classification, and nonzero-product contradiction inside certified two-sided multiplication for admitted field packages.
   \item Standard bridge: deferred conservative bridge.
   \item Status: ProofTarget.
