@@ -156,3 +156,48 @@ theorem list:
 Theorem~\ref{thm:field-three-factor-product-nonzero-excludes-zero-factors}.
 Exactness predicate: no zero factor under a certified nonzero threefold
 product. Standard bridge: deferred. Status: ProofTarget.
+
+\begin{theorem}[Field two-sided product nonzero iff middle factor nonzero]
+\label{thm:field-two-sided-product-nonzero-middle-factor-iff}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+the hypotheses of
+\autoref{thm:field-product-nonzero-of-nonzero-factors} and
+\autoref{thm:field-two-sided-product-nonzero-excludes-middle-zero}, assume
+certified outer witnesses $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$. Then every $x:\mathsf{BHist}$ satisfies
+$$
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))
+\Longleftrightarrow
+\mathsf{NonZero}_F(x).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume
+$p_{axb}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))$.
+Theorem~\ref{thm:field-two-sided-product-nonzero-excludes-middle-zero}
+turns this witness into a refutation of $x\hsame0$. The apartness-to-nonzero
+bridge required by
+\autoref{thm:field-product-nonzero-of-nonzero-factors} then gives
+$\mathsf{NonZero}_F(x)$.
+
+For the reverse direction, assume $p_x:\mathsf{NonZero}_F(x)$. Apply
+\autoref{thm:field-product-nonzero-of-nonzero-factors} to $p_a$ and $p_x$
+to obtain $p_{ax}:\mathsf{NonZero}_F(\mathsf{mul}(a,x))$.
+
+Apply the same product-closure theorem to $p_{ax}$ and $p_b$. The resulting
+witness is exactly
+$\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))$, completing the
+two-sided equivalence.
+\end{proof}
+
+Per-object certificate: Traditional target: exact middle-factor nonzero
+transport through certified two-sided products. BEDC source: $\FieldUp$ plus
+$\RingUp$ zero absorption. Carrier choice: $\mathsf{BHist}$. Classifier
+choice: $\hsame$. Stability obligations: nonzero transport, product closure,
+product zero-factor exclusion, and ring zero absorption. Ledger: outer
+certificates $p_a,p_b$, middle certificate $p_x$, intermediate product
+witness $p_{ax}$, and two-sided product witness $p_{axb}$. Core theorem list:
+Theorem~\ref{thm:field-two-sided-product-nonzero-middle-factor-iff}.
+Exactness predicate: nonzero of the middle factor is equivalent to nonzero of
+the certified outer product. Downstream use: FieldUp exact nonzero propagation
+for affine and denominator-product reasoning. Status: ProofTarget.
