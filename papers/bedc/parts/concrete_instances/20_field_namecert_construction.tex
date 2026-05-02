@@ -302,6 +302,51 @@ $\FieldUp(\mathsf{RatUp})$ denominator envelope can read an empty external
 unit context by the normalized classifier on the core endpoints.
 \end{proof}
 
+\begin{definition}[Rat denominator empty-unit contextual commutative instance]
+\label{def:field-rat-denominator-empty-unit-contextual-commutative-instance}
+The concrete empty-unit contextual commutative instance over $\mathsf{BHist}$
+uses the carrier
+$C_D^u:=\mathsf{RatDenomUnitCarrier}$, the classifier
+$R_D^u:=\mathsf{RatDenomUnitClassifier}$, multiplication
+$\mu_D^u(h,k):=\mathsf{append}(h,k)$, and unit $e_D^u:=\emp$.
+Its admissible external left and right contexts are exactly the histories
+history-same to the empty endpoint, written $p\hsame\emp$ and $q\hsame\emp$.
+\end{definition}
+
+\begin{theorem}[Rat denominator empty-unit contextual commutativity]
+\label{thm:field-rat-denominator-empty-unit-contextual-commutativity}
+For histories $p,q,p',q',h,k:\mathsf{BHist}$, if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, $q'\hsame\emp$,
+$C_D^u(h)$, and $C_D^u(k)$, then denominator multiplication commutes inside
+the admissible empty external contexts:
+$$
+R_D^u(\mathsf{append}(p,\mathsf{append}(\mu_D^u(h,k),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^u(k,h),q'))).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws} to the
+two carrier hypotheses $C_D^u(h)$ and $C_D^u(k)$. The commutativity clause gives
+the core classifier
+$$
+R_D^u(\mu_D^u(h,k),\mu_D^u(k,h)).
+$$
+
+Now use the reverse direction of
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}
+with the four endpoint hypotheses
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$. It transports
+the core classifier through the two empty left contexts and the two empty right
+contexts.
+
+Since the contextual instance of
+\autoref{def:field-rat-denominator-empty-unit-contextual-commutative-instance}
+has $\mu_D^u(x,y)=\mathsf{append}(x,y)$ and
+$R_D^u=\mathsf{RatDenomUnitClassifier}$, the transported classifier is exactly
+the displayed empty-context commutativity statement.
+\end{proof}
+
 \begin{theorem}[Rat denominator external-unit envelope commutative monoid laws]
 \label{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws}
 For the tuple $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
