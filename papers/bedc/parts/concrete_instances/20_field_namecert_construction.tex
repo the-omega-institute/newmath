@@ -388,3 +388,55 @@ plus $p_{axb}$. Core theorem list:
 Theorem~\ref{thm:field-two-sided-product-nonzero-excludes-middle-zero}.
 Exactness predicate: obstruction to middle zero. Standard bridge: deferred.
 Status: ProofTarget.
+
+\section{Field square apartness inverse descent}
+\label{sec:field-square-apartness-inverse-descent}
+
+\begin{theorem}[Field square apartness inverse descent]
+\label{thm:field-square-apartness-inverse-descent}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-product-nonzero-excludes-zero-factors} and
+\autoref{thm:field-inverse-product-reverse-from-apartness}, assume the
+field interpretation identifies $\mathsf{NonZero}_F(h)$ with
+$\mathsf{ApartZero}_F(h)$, where
+$\mathsf{ApartZero}_F(h)$ means $h\hsame0\to\bot$. For every
+$a:\mathsf{BHist}$, any witness
+$$
+p_{a^2}:\mathsf{ApartZero}_F(\mathsf{mul}(a,a))
+$$
+canonically induces a witness $p_a:\mathsf{ApartZero}_F(a)$, and with that
+induced witness the proof-indexed inverse satisfies
+$$
+\mathsf{inv}(\mathsf{mul}(a,a),p_{a^2})
+\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{inv}(a,p_a)).
+$$
+\end{theorem}
+\begin{proof}
+Construct $p_a$ as a function from an assumed classifier
+$a\hsame0$ to contradiction. Multiplication congruence sends
+$\mathsf{mul}(a,a)$ to $\mathsf{mul}(0,a)$, and ring zero absorption
+classifies $\mathsf{mul}(0,a)$ as $0$. Transitivity gives
+$\mathsf{mul}(a,a)\hsame0$.
+
+Apply the square apartness witness $p_{a^2}$ to this classifier equality.
+This closes the assumed zero classifier for $a$, so the function just built
+is the induced witness $p_a:\mathsf{ApartZero}_F(a)$.
+
+Finally apply
+\autoref{thm:field-inverse-product-reverse-from-apartness} to the product
+$\mathsf{mul}(a,a)$, using $p_{a^2}$ as the product witness and using the
+same induced factor witness $p_a$ on both sides. The reversal theorem returns
+the displayed inverse equality, and the two factors coincide because the
+left and right product entries are both $a$.
+\end{proof}
+
+Per-object certificate: Traditional target: square inverse descent. BEDC
+source: $\FieldUp$ plus $\RingUp$. Carrier choice: $\mathsf{BHist}$.
+Classifier choice: $\hsame$. Stability obligations: zero absorption,
+multiplication congruence, apartness transport, and proof-indexed inverse
+laws. Ledger: the square apartness witness and induced factor witness. Core
+theorem list entry:
+Theorem~\ref{thm:field-square-apartness-inverse-descent}. Exactness
+predicate: square apartness descends to the factor inverse. Standard bridge:
+deferred conservative bridge. Status: $\mathsf{ProofTarget}$.
