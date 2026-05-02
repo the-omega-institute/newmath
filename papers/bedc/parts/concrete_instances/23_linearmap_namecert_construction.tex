@@ -325,6 +325,28 @@ through symmetry to rebuild the right-suffixed classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_right\_cancel\_iff}
 
+\begin{theorem}[Singleton linear-map classifier append two-sided cancellation]
+\label{thm:linearmap-singleton-classifier-append-two-sided-cancel}
+For all $P,Q,R,S:\mathsf{BHist}$, if $L_{\emp}(P)$ and $L_{\emp}(S)$, then
+$$
+\lambda_{\emp}(\mathsf{append}(P,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+\lambda_{\emp}(Q,R).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold the singleton classifier. The two carrier
+clauses classify $\mathsf{append}(P,Q)$ and $\mathsf{append}(R,S)$ with
+$\emp$. Empty-append inversion gives $Q\hsame\emp$ and $R\hsame\emp$, and
+these endpoint witnesses compose to close $\lambda_{\emp}(Q,R)$.
+
+Conversely, $L_{\emp}(P)$ and $L_{\emp}(S)$ combine with the carrier fields of
+$\lambda_{\emp}(Q,R)$ to classify the two appended histories with $\emp$.
+The two resulting endpoint witnesses compose, with symmetry on the right, to
+rebuild the two-sided appended classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_two\_sided\_cancel\_iff}
+
 \begin{theorem}[Singleton evaluation append-input classifier readback]
 \label{thm:linearmap-singleton-eval-append-input-classifier}
 For histories $f,x,y,h$, classifying the singleton evaluation of an appended

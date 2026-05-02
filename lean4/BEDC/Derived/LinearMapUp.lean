@@ -137,6 +137,28 @@ theorem LinearMapSingletonClassifier_append_right_cancel_iff {P Q R : BHist} :
       hsame_trans leftCarrier (hsame_symm rightCarrier)
     exact And.intro leftCarrier (And.intro rightCarrier sameAppend)
 
+theorem LinearMapSingletonClassifier_append_two_sided_cancel_iff {P Q R S : BHist} :
+    LinearMapSingletonCarrier P ->
+      LinearMapSingletonCarrier S ->
+        (LinearMapSingletonClassifier (append P Q) (append R S) ↔
+          LinearMapSingletonClassifier Q R) := by
+  intro carrierP carrierS
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.right
+      (And.intro rightSplit.left
+        (hsame_trans leftSplit.right (hsame_symm rightSplit.left)))
+  · intro classified
+    have leftCarrier : LinearMapSingletonCarrier (append P Q) :=
+      append_eq_empty_iff.mpr (And.intro carrierP classified.left)
+    have rightCarrier : LinearMapSingletonCarrier (append R S) :=
+      append_eq_empty_iff.mpr (And.intro classified.right.left carrierS)
+    have sameAppend : hsame (append P Q) (append R S) :=
+      hsame_trans leftCarrier (hsame_symm rightCarrier)
+    exact And.intro leftCarrier (And.intro rightCarrier sameAppend)
+
 theorem LinearMapSingletonEval_append_input_classifier_iff {f x y h : BHist} :
     LinearMapSingletonClassifier (LinearMapSingletonEval f (append x y)) h ↔
       LinearMapSingletonCarrier h := by

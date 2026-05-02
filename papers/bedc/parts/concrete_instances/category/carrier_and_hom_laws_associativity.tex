@@ -186,6 +186,25 @@ unpacking the first relation and reassociating the append spine.
 \end{definition}
 \leandef{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_closed}
 
+\begin{theorem}[Continuation morphism composite tail hom carrier]
+\label{thm:continuation-morphism-comp-tail-category-hom-carrier}
+For histories $a,b,c$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If $a$, $c$, and both displayed
+tails are unary histories, then the canonical composite tail is a hom carrier
+from $a$ to $c$:
+$$
+\mathsf{CategoryHomCarrier}
+  (a,c,\mathsf{tail}(\mathsf{ContinuationMorphism\_comp\_closed}(left,right))).
+$$
+\end{theorem}
+\begin{proof}
+The composite morphism record supplies the continuation relation from $a$
+through the appended tail to $c$. Unary append closure combines the two unary
+tail witnesses, while the assumed unary source and target witnesses fill the
+remaining fields of $\mathsf{CategoryHomCarrier}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_CategoryHomCarrier}
+
 \begin{theorem}[Continuation morphism composite empty-tail inversion]
 \label{thm:category-continuation-morphism-composite-empty-tail-inversion}
 For histories $a,b,c$, let $left:a\to b$ and $right:b\to c$ be continuation
