@@ -342,3 +342,117 @@ $\neg\hsame(m',\emp)$.
 Collect the two target-classification conclusions, the two payload-determinacy
 conclusions, and the two non-absence conclusions in the displayed conjunction.
 \end{proof}
+
+\begin{theorem}[Tagged option composite image classifier public readback single-valued]
+\label{thm:tagged-option-composite-image-classifier-public-readback-single-valued}
+This theorem fits the per-object template as follows: the traditional target is
+public readback for functorial $\mathsf{OptionUp}$ image classification; the
+BEDC source is $\mathsf{BHist}$ with two composable
+$\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation
+is branch coverage together with visible-payload determinacy; the ledger records
+the absent final pair or the uniquely determined visible final payload pair; the
+core theorem is the displayed exhaustive disjunction with target classification
+and competing-readback uniqueness; exactness says public final endpoints have a
+single classified visible payload reading when they are present; the standard
+bridge is $\mathsf{none}$/$\mathsf{some}$ public readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+holds, then either
+$$
+\hsame(m,\emp)\land \hsame(m',\emp)\land
+\neg\exists x,y:\mathsf{BHist}.\;
+U(x)\land U(y)\land
+\hsame(m,\Eone(x))\land
+\hsame(m',\Eone(y))
+$$
+or there exist $x,y:\mathsf{BHist}$ such that
+$$
+U(x)\land U(y)\land
+\hsame(m,\Eone(x))\land
+\hsame(m',\Eone(y))\land
+x\sim_U y
+$$
+and
+$$
+\forall x',y':\mathsf{BHist}.\;
+U(x')\to U(y')\to
+\hsame(m,\Eone(x'))\to
+\hsame(m',\Eone(y'))\to
+\hsame(x,x')\land \hsame(y,y')\land x'\sim_U y'.
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-public-branch-classification}
+to the composite image-classifier witness, using the same descent certificates,
+payload preservation fields, endpoint stability, name certificates, and
+compatibility hypotheses. This gives the absent/present split for the final
+public endpoints.
+
+In the absent branch, keep exactly the returned endpoint witnesses
+$\hsame(m,\emp)$ and $\hsame(m',\emp)$ together with the returned statement that
+no visible final payload pair exists. These three facts form the first
+disjunct.
+
+In the present branch, project the visible final payload pair $x,y$ from the
+branch-classification conclusion. Its carrier facts, visible endpoint
+presentations, and target classifier conclusion $x\sim_U y$ provide the
+existence part of the second disjunct.
+
+It remains to show single-valued public readback. Let $x',y'$ be any competing
+visible final payloads with $U(x')$, $U(y')$, $\hsame(m,\Eone(x'))$, and
+$\hsame(m',\Eone(y'))$. Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-visible-payload-determinacy}
+to the same composite image-classifier witness, the selected visible pair
+$x,y$, and the competing visible pair $x',y'$. The result gives
+$\hsame(x,x')$, $\hsame(y,y')$, $x\sim_U y$, and $x'\sim_U y'$.
+
+Return the two endpoint-determinacy witnesses and the competing target
+classification $x'\sim_U y'$ for the universal clause, and combine that clause
+with the selected visible-payload data.
+\end{proof}
