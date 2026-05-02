@@ -52,7 +52,8 @@ $$
 \begin{proof}
 Instantiate
 \autoref{thm:field-affine-two-sided-automorphism-composition} with
-the two affine certificates. Its collected-factor normal form, together with
+$c=a'$, $e=b'$, $f=d'$, and the product conversion maps for the collected
+factors. Its collected-factor normal form, together with
 \autoref{thm:field-affine-two-sided-certified-automorphism}, supplies the
 classifier exactness for the composite, giving the displayed iff clause.
 
@@ -101,7 +102,7 @@ by
 \autoref{thm:field-affine-two-sided-automorphism-composition}, let
 $p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
 $p_{a'}:\mathsf{NonZero}_F(a')$, and $p_{b'}:\mathsf{NonZero}_F(b')$ be the
-factor-apartness witnesses for the two component affine maps
+nonzero witnesses for the two component affine maps
 $$
 T_1(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
 $$
@@ -111,10 +112,18 @@ T_2(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',x),b'),d').
 $$
 Put
 $A=\mathsf{mul}(a',a)$, $B=\mathsf{mul}(b,b')$, and
-$D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',d),b'),d')$, and let
-$p_A:\mathsf{NonZero}_F(A)$ and $p_B:\mathsf{NonZero}_F(B)$ be the
-product-apartness witnesses supplied by
-\autoref{thm:field-product-apartness-inverse-product-reverse}. For each
+$D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',d),b'),d')$. Let
+$\mathsf{ApartZero}_F(h)$ abbreviate $h\hsame0\to\bot$, and assume conversion
+maps
+$$
+\alpha_A:\mathsf{ApartZero}_F(A)\to\mathsf{NonZero}_F(A),
+\qquad
+\alpha_B:\mathsf{ApartZero}_F(B)\to\mathsf{NonZero}_F(B).
+$$
+Let $q_A$ and $q_B$ be the product apartness witnesses obtained from
+\autoref{thm:field-nonzero-factors-exclude-zero-product} for the pairs
+$(p_{a'},p_a)$ and $(p_b,p_{b'})$, and set $p_A:=\alpha_A(q_A)$ and
+$p_B:=\alpha_B(q_B)$. For each
 $c:\mathsf{BHist}$ define
 $$
 s_1(c)=
@@ -161,10 +170,11 @@ $T_2(s_2(q))\hsame q$ yields
 $T_2(T_1(s_1(s_2(q))))\hsame q$.
 
 By
-\autoref{thm:field-affine-two-sided-automorphism-composition}, the
-left side of this equation is classified by $C(s_1(s_2(q)))$ with the collected
-coefficients $A,B,D$. Hence $s_1(s_2(q))$ also solves the same composite affine
-equation $C(x)\hsame q$.
+\autoref{thm:field-affine-two-sided-automorphism-composition} with the
+substitution $c=a'$, $e=b'$, and $f=d'$, the left side of this equation is
+classified by $C(s_1(s_2(q)))$ with the collected coefficients $A,B,D$, and the
+certified automorphism status uses the converted witnesses $p_A,p_B$. Hence
+$s_1(s_2(q))$ also solves the same composite affine equation $C(x)\hsame q$.
 
 Finally apply
 \autoref{thm:field-affine-two-sided-equation-solution-unique-from-apartness}
