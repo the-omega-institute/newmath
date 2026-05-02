@@ -89,3 +89,59 @@ the concrete tuple carries both the certificate boundary and the strict
 factor-cancellation exactness required for the denominator side of
 $\FieldUp(\mathsf{RatUp})$.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp denominator certificate assembly]
+\label{thm:ratup-fieldup-denominator-certificate-assembly}
+Let the denominator-side data for $\FieldUp(\mathsf{RatUp})$ be the concrete
+external-unit envelope tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$, with
+$\mu_D^\ast(h,k):=\mathsf{append}(h,k)$, $e_D^\ast:=\emp$, and
+$N_D^\ast(h):=\mathsf{RatHistoryCarrier}(h)$ on the strict carried endpoint
+branch. Then this tuple is the denominator subcertificate consumed by
+$\FieldUp(\mathsf{RatUp})$: the envelope classifier is exact, the
+denominator operation carries the commutative monoid laws, strict support
+transports across $R_D^\ast$, strict support is product-exact for
+$\mu_D^\ast$, strict common factors give exact left and right cancellation,
+fixed multiplication is classifier-exact inside empty external contexts, the
+external unit is unique, and $e_D^\ast$ is not a carried denominator unit.
+\end{theorem}
+\begin{proof}
+The exact envelope boundary is
+\autoref{thm:field-rat-denominator-unit-envelope-exact-field-boundary}. It
+supplies the concrete carrier, classifier, operation, unit, strict support,
+commutative monoid laws, support transport, support product law, unique
+external endpoint, and strict-factor cancellation clauses for
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$.
+
+The remaining contextual multiplication field is
+\autoref{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness}.
+It states that fixed denominator multiplication preserves and reflects the
+classifier after empty external histories are attached on both sides. The
+empty histories are exactly the endpoint contexts used by the external-unit
+envelope, so this field reads on the same $\mathsf{BHist}$ append operation.
+
+Finally,
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
+collects the denominator-side multiplicative certificate boundary for the
+displayed tuple. Combining that boundary with the contextual multiplication
+exactness clause and the exact envelope theorem gives the advertised
+$\FieldUp(\mathsf{RatUp})$ denominator subcertificate. The statement that no
+carried denominator unit remains is the strict-support reading of
+$e_D^\ast=\emp$ together with the carried-endpoint separation already included
+in the exact envelope boundary.
+\end{proof}
+
+\textbf{Traditional target}: assembled denominator subcertificate for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$, $\Cont$,
+$\mathsf{append}$, and $\emp$; \textbf{carrier}: $C_D^\ast$;
+\textbf{classifier}: $R_D^\ast$; \textbf{multiplication}: $\mu_D^\ast$;
+\textbf{unit}: $e_D^\ast$; \textbf{strict support}: $N_D^\ast$;
+\textbf{ledger}: external-unit endpoint bit plus denominator continuation
+witness; \textbf{core theorem}:
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly};
+\textbf{exactness predicate}: exact envelope classifier, contextual fixed
+multiplication exactness, strict-support transport and product exactness,
+strict-factor cancellation, unique external unit, and absence of a carried
+denominator unit; \textbf{status}: $\mathsf{ProofTarget}$.
