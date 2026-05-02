@@ -73,6 +73,26 @@ $h\hsame k$, completing the classifier package.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_empty\_endpoints\_iff}
 
+\begin{theorem}[Field singleton classifier continuation commutativity closure]
+\label{thm:field-singleton-classifier-continuation-comm-closed}
+For histories $P,Q,L,R:\mathsf{BHist}$, if the singleton field classifier
+relates $P$ and $Q$, and the two displayed continuation results satisfy
+$$
+\ContR(P,Q,L)
+\qquad\text{and}\qquad
+\ContR(Q,P,R),
+$$
+then the singleton field classifier relates $L$ and $R$.
+\end{theorem}
+\begin{proof}
+The classifier witness identifies both $P$ and $Q$ with $\emp$. Transport the
+two continuation witnesses along these endpoint comparisons and compare them
+with the canonical continuation $\ContR(\emp,\emp,\emp)$. Thus both $L$ and
+$R$ are singleton-carrier endpoints. Transitivity through $\emp$ supplies
+$L\hsame R$, completing the singleton classifier package.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_comm\_closed}
+
 \begin{theorem}[Field singleton classifier visible-left exclusion]
 \label{thm:field-singleton-classifier-append-visible-left-absurd}
 For histories $p,q,h:\mathsf{BHist}$, neither

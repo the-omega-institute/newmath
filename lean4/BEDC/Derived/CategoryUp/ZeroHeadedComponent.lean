@@ -3,6 +3,7 @@ import BEDC.Derived.CategoryUp
 namespace BEDC.Derived.CategoryUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
 theorem CategoryHomCarrier_zero_headed_component_absurd {source target morph : BHist} :
@@ -28,5 +29,13 @@ theorem CategoryHomCarrier_zero_headed_component_absurd {source target morph : B
           | intro z morphEq =>
               cases morphEq
               exact unary_no_zero_extension homCarrier.right.right.left
+
+theorem CategoryHomCarrier_comp_zero_result_absurd {a b c f g z : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e0 z) ->
+      False := by
+  intro left right comp
+  have composite : CategoryHomCarrier a c (BHist.e0 z) :=
+    CategoryHomCarrier_comp_closed left right comp
+  exact unary_no_zero_extension composite.right.right.left
 
 end BEDC.Derived.CategoryUp
