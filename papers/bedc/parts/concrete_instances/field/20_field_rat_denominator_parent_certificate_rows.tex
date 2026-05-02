@@ -1,0 +1,569 @@
+\begin{definition}[Concrete Rat denominator FieldUp multiplicative exactness instance]
+\label{def:field-rat-denominator-fieldup-multiplicative-exactness-instance}
+The concrete $\mathsf{BHist}$ denominator-side multiplicative exactness instance
+for $\FieldUp(\mathsf{RatUp})$ is the tuple
+$$
+\mathcal{M}_D^\ast:=(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)
+$$
+where $C_D^\ast$ and $R_D^\ast$ are the carrier and classifier of
+\autoref{def:field-rat-denominator-unit-envelope},
+$$
+\mu_D^\ast(h,k):=\mathsf{append}(h,k),\qquad
+e_D^\ast:=\emp,\qquad
+N_D^\ast(h):=\mathsf{RatHistoryCarrier}(h).
+$$
+\end{definition}
+
+\begin{theorem}[Rat denominator FieldUp envelope empty-context exactness]
+\label{thm:field-rat-denominator-fieldup-envelope-empty-context-exactness}
+For the concrete denominator-side tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$ of
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance},
+let $p,q,p',q',h,k:\mathsf{BHist}$. If $p\hsame\emp$, $q\hsame\emp$,
+$p'\hsame\emp$, $q'\hsame\emp$, $C_D^\ast(h)$, and $C_D^\ast(k)$, then the
+external-unit envelope classifier and strict support are exact under empty
+external endpoint contexts:
+$$
+R_D^\ast(\mathsf{append}(p,\mathsf{append}(h,q)),
+\mathsf{append}(p',\mathsf{append}(k,q')))
+\Longleftrightarrow R_D^\ast(h,k),
+$$
+$$
+N_D^\ast(\mathsf{append}(p,\mathsf{append}(h,q)))
+\Longleftrightarrow N_D^\ast(h),
+$$
+and
+$$
+N_D^\ast(\mathsf{append}(p',\mathsf{append}(k,q')))
+\Longleftrightarrow N_D^\ast(k).
+$$
+\end{theorem}
+\begin{proof}
+The append left and right unit laws first identify
+$\mathsf{append}(p,\mathsf{append}(h,q))$ with $h$ and
+$\mathsf{append}(p',\mathsf{append}(k,q'))$ with $k$, using the four hypotheses
+that the external contexts are history-same to $\emp$.
+
+By
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-normal-form}, those
+endpoint comparisons, together with the carrier hypotheses $C_D^\ast(h)$ and
+$C_D^\ast(k)$, classify each contextualized endpoint with its original endpoint
+inside $R_D^\ast$. The binary classifier congruence field in
+\autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws} then
+transports the classifier comparison in both directions, giving the displayed
+classifier exactness.
+
+For strict support, apply the first clause of
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws} to the two
+endpoint classifications just obtained. Since $N_D^\ast$ is
+$\mathsf{RatHistoryCarrier}$ in the displayed tuple, this transports strict
+denominator support from each contextualized endpoint back to the original
+endpoint and conversely.
+\end{proof}
+
+\begin{theorem}[Rat denominator FieldUp multiplicative exactness boundary]
+\label{thm:field-rat-denominator-fieldup-multiplicative-exactness-boundary}
+The concrete instance
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance}
+satisfies the Rat denominator FieldUp multiplicative certificate boundary. In
+addition, for all $h,k,t:\mathsf{BHist}$, if $C_D^\ast(h)$, $C_D^\ast(k)$,
+and $N_D^\ast(t)$, then
+$$
+R_D^\ast(\mu_D^\ast(h,t),\mu_D^\ast(k,t))
+\Longleftrightarrow R_D^\ast(h,k),
+$$
+and
+$$
+R_D^\ast(\mu_D^\ast(t,h),\mu_D^\ast(t,k))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The displayed tuple is the same concrete carrier, classifier, multiplication,
+unit, and strict support used by
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}.
+That theorem supplies the packaged carrier, classifier, monoid, commutativity,
+empty-unit uniqueness, and carried-endpoint clauses for the denominator-side
+FieldUp boundary.
+
+The strict-support component is the predicate
+$N_D^\ast(h):=\mathsf{RatHistoryCarrier}(h)$. The transport and product-support
+parts of the boundary are therefore the corresponding clauses of
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws}.
+
+It remains to identify strict common-factor cancellation at the same concrete
+classifier. Since $N_D^\ast(t)$ is by definition
+$\mathsf{RatHistoryCarrier}(t)$, \autoref{def:field-rat-denominator-unit-envelope}
+places $t$ in $C_D^\ast$ through the carried alternative.
+
+Under $C_D^\ast(h)$, $C_D^\ast(k)$, and this derived carrier witness for $t$,
+the right and left cancellation equivalences are exactly the two displayed
+clauses of
+\autoref{thm:field-rat-denominator-unit-envelope-cancellation-exactness}. Hence
+the concrete tuple carries both the certificate boundary and the strict
+factor-cancellation exactness required for the denominator side of
+$\FieldUp(\mathsf{RatUp})$.
+\end{proof}
+
+\begin{definition}[Concrete Rat denominator FieldUp contextual certificate instance]
+\label{def:field-rat-denominator-fieldup-contextual-certificate-instance}
+The concrete contextual denominator certificate instance for
+$\FieldUp(\mathsf{RatUp})$ is the $\mathsf{BHist}$ tuple
+$$
+\mathcal{C}_D^u:=(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)
+=
+(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier}).
+$$
+Equivalently, $C_D^u=\mathsf{RatDenomUnitCarrier}$,
+$R_D^u=\mathsf{RatDenomUnitClassifier}$,
+$\mu_D^u(h,k)=\mathsf{append}(h,k)$, $e_D^u=\emp$, and
+$N_D^u(h)=\mathsf{RatHistoryCarrier}(h)$. The displayed certificate interface
+also contains empty external context witnesses $p,q,p',q':\mathsf{BHist}$ with
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, so the
+contextual denominator rows are read as fields of this concrete tuple rather
+than as detached endpoint facts.
+\end{definition}
+
+\begin{theorem}[Rat denominator FieldUp contextual certificate obligation coverage]
+\label{thm:field-rat-denominator-fieldup-contextual-obligation-coverage}
+For the concrete tuple $\mathcal{C}_D^u$ of
+\autoref{def:field-rat-denominator-fieldup-contextual-certificate-instance},
+the contextual denominator rows for $\FieldUp(\mathsf{RatUp})$ are covered by
+the displayed $\mathsf{BHist}$ certificate data:
+\begin{enumerate}
+  \item empty external contexts preserve and reflect $R_D^u$;
+  \item right multiplication by a fixed carried denominator factor is
+  classifier-exact;
+  \item left multiplication by a fixed carried denominator factor is
+  classifier-exact;
+  \item two-sided contextual multiplication is classifier-exact inside empty
+  external contexts;
+  \item strict support of the contextual product endpoint is exact.
+\end{enumerate}
+Thus $\mathcal{C}_D^u$ is a concrete contextual denominator certificate target
+for the FieldUp parent chapter.
+\end{theorem}
+\begin{proof}
+The tuple in
+\autoref{def:field-rat-denominator-fieldup-contextual-certificate-instance} is
+the same concrete carrier, classifier, append operation, empty endpoint, and
+strict-support predicate used by
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+That theorem supplies the empty-context classifier preservation and reflection
+rows together with the left and right fixed-factor multiplication exactness
+rows.
+
+The two-sided contextual multiplication row is precisely
+\autoref{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness}.
+It reads the four empty external context witnesses as part of the same
+$\mathsf{BHist}$ denominator interface and identifies the contextual fixed
+multiplication comparison with the uncontextualized classifier comparison.
+
+The support row is
+\autoref{thm:field-rat-denominator-empty-unit-contextual-strict-product-support-exactness}.
+It computes strict denominator support after empty external histories surround
+the product endpoint, using the disjunction of the two input strict-support
+facts.
+
+Finally,
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}
+packages the ordinary multiplicative denominator obligations for the same
+append-based endpoint system. Combining that package with the contextual
+boundary and strict contextual product-support theorem gives a single
+contextual certificate target for the FieldUp denominator rows.
+\end{proof}
+
+Per-object template: traditional target contextual denominator certificate for
+$\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{RatHistoryCarrier}$, $\Cont$, and $\mathsf{append}$; carrier $C_D^u$;
+classifier $R_D^u$; stability obligations empty-context classifier exactness,
+left and right fixed-factor multiplication exactness, two-sided contextual
+multiplication classifier exactness, and contextual strict product support
+exactness; ledger four empty external context witnesses and one carried
+denominator factor; core theorem
+\autoref{thm:field-rat-denominator-fieldup-contextual-obligation-coverage};
+exactness predicate classifier equivalence and strict support through empty
+external denominator contexts; standard bridge ordinary denominator
+multiplication with adjoined empty unit and contextual endpoint witnesses;
+status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator external-unit envelope contextual multiplication exactness]
+\label{thm:field-rat-denominator-external-unit-envelope-contextual-multiplication-exactness}
+For the concrete tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope}, let
+$p,q,p',q',h,k,t:\mathsf{BHist}$. If $p\hsame\emp$, $q\hsame\emp$,
+$p'\hsame\emp$, $q'\hsame\emp$, $C_D^\ast(h)$, $C_D^\ast(k)$, and
+$N_D^\ast(t)$, then fixed denominator multiplication is classifier-exact
+inside empty external contexts on both sides:
+$$
+R_D^\ast(\mathsf{append}(p,\mathsf{append}(\mu_D^\ast(h,t),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^\ast(k,t),q')))
+\Longleftrightarrow R_D^\ast(h,k),
+$$
+and
+$$
+R_D^\ast(\mathsf{append}(p,\mathsf{append}(\mu_D^\ast(t,h),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^\ast(t,k),q')))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Use
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-normal-form} to
+identify the envelope carrier $C_D^\ast$ with
+$\mathsf{RatDenomUnitCarrier}$ and the envelope classifier $R_D^\ast$ with
+$\mathsf{RatDenomUnitClassifier}$. Thus the hypotheses $C_D^\ast(h)$ and
+$C_D^\ast(k)$ are the empty-unit carrier hypotheses required for $h$ and $k$.
+
+The strict support hypothesis $N_D^\ast(t)$ is
+$\mathsf{RatHistoryCarrier}(t)$ on the carried endpoint branch. This gives
+$\mathsf{RatDenomUnitCarrier}(t)$ by the carried alternative of the empty-unit
+carrier, so $t$ is also an admissible denominator factor for the empty-unit
+contextual theorem.
+
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-contextual-multiplication-classifier-exactness}
+with the four empty context witnesses and the three empty-unit carrier
+witnesses just obtained. Its right fixed-factor equivalence gives the first
+displayed comparison after rewriting $R_D^u$ as $R_D^\ast$ and
+$\mu_D^u$ as $\mu_D^\ast$ through the normal form and the common append
+operation.
+
+The same application supplies the left fixed-factor equivalence. Translating
+the classifier and multiplication symbols back along
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-normal-form}
+gives the second displayed comparison for the external-unit envelope tuple.
+\end{proof}
+
+\begin{enumerate}
+  \item Traditional target: contextual multiplication classifier exactness for
+  the external-unit envelope denominator side of $\FieldUp(\mathsf{RatUp})$.
+  \item BEDC source: $\mathsf{BHist}$,
+  $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+  $\mathsf{RatHistoryCarrier}$, $\Cont$, and $\mathsf{append}$.
+  \item Carrier: $C_D^\ast$.
+  \item Classifier: $R_D^\ast$.
+  \item Stability obligations: empty external contexts preserve and reflect
+  the envelope classifier, and fixed denominator multiplication preserves and
+  reflects the envelope classifier on both sides.
+  \item Ledger: four empty external context witnesses, two envelope carrier
+  witnesses, and one strict carried denominator factor.
+  \item Core theorem:
+  \autoref{thm:field-rat-denominator-external-unit-envelope-contextual-multiplication-exactness}.
+  \item Exactness predicate: classifier equivalence before and after fixed
+  denominator multiplication inside empty external contexts.
+  \item Standard bridge: empty-unit contextual multiplication exactness
+  transported through the external-unit envelope normal form.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+
+\begin{theorem}[Rat denominator FieldUp multiplicative certificate record]
+\label{thm:field-rat-denominator-fieldup-multiplicative-certificate-record}
+The tuple
+$$
+\mathcal{M}_D^\ast=(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)
+$$
+of
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance}
+is the concrete $\mathsf{BHist}$ denominator-side multiplicative certificate
+record for $\FieldUp(\mathsf{RatUp})$. It simultaneously supplies carrier,
+unit, associativity, commutativity, congruence, strict-support,
+empty-unit, cancellation, and empty-product coverage from
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage};
+strict common-factor right and left cancellation exactness from
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-exactness-boundary};
+and the concrete denominator certificate boundary from
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}.
+\end{theorem}
+\begin{proof}
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
+fixes the denominator-side boundary on the five displayed objects
+$C_D^\ast$, $R_D^\ast$, $\mu_D^\ast$, $e_D^\ast$, and $N_D^\ast$. These are
+the same carrier, classifier, operation, unit, and strict-support predicate
+named by
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance}.
+
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}
+then enumerates the certificate rows carried by that tuple: carrier and unit
+coverage, associativity, commutativity, congruence, strict-support transport
+and product exactness, empty-unit uniqueness, cancellation coverage, and
+empty-product reflection.
+
+Finally,
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-exactness-boundary}
+adds the strict common-factor right and left cancellation equivalences on the
+same classifier and the same multiplication. Since all three cited results are
+aligned on the identical concrete tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$, their rows assemble as the
+single $\mathsf{BHist}$ denominator-side multiplicative certificate record for
+$\FieldUp(\mathsf{RatUp})$.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp denominator certificate assembly]
+\label{thm:ratup-fieldup-denominator-certificate-assembly}
+Let the denominator-side data for $\FieldUp(\mathsf{RatUp})$ be the concrete
+external-unit envelope tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$, with
+$\mu_D^\ast(h,k):=\mathsf{append}(h,k)$, $e_D^\ast:=\emp$, and
+$N_D^\ast(h):=\mathsf{RatHistoryCarrier}(h)$ on the strict carried endpoint
+branch. Then this tuple is the denominator subcertificate consumed by
+$\FieldUp(\mathsf{RatUp})$: the envelope classifier is exact, the
+denominator operation carries the commutative monoid laws, strict support
+transports across $R_D^\ast$, strict support is product-exact for
+$\mu_D^\ast$, strict common factors give exact left and right cancellation,
+fixed multiplication is classifier-exact inside empty external contexts, the
+external unit is unique, and $e_D^\ast$ is not a carried denominator unit.
+\end{theorem}
+\begin{proof}
+The exact envelope boundary is
+\autoref{thm:field-rat-denominator-unit-envelope-exact-field-boundary}. It
+supplies the concrete carrier, classifier, operation, unit, strict support,
+commutative monoid laws, support transport, support product law, unique
+external endpoint, and strict-factor cancellation clauses for
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$.
+
+The remaining contextual multiplication field is
+\autoref{thm:field-rat-denominator-external-unit-envelope-contextual-multiplication-exactness}.
+It states that fixed denominator multiplication preserves and reflects the
+external-unit envelope classifier after empty external histories are attached
+on both sides, using the same $\mathsf{BHist}$ append operation and the strict
+carried denominator factor predicate.
+
+Finally,
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
+collects the denominator-side multiplicative certificate boundary for the
+displayed tuple. Combining that boundary with the contextual multiplication
+exactness clause and the exact envelope theorem gives the advertised
+$\FieldUp(\mathsf{RatUp})$ denominator subcertificate. The statement that no
+carried denominator unit remains is the strict-support reading of
+$e_D^\ast=\emp$ together with the carried-endpoint separation already included
+in the exact envelope boundary.
+\end{proof}
+
+\begin{definition}[Concrete RatUp FieldUp denominator certificate row]
+\label{def:ratup-fieldup-denominator-certificate-row}
+The concrete denominator certificate row for $\FieldUp(\mathsf{RatUp})$ is
+$$
+(C_D^\dagger,R_D^\dagger,\mu_D^\dagger,e_D^\dagger,N_D^\dagger),
+$$
+where
+$$
+C_D^\dagger:=\mathsf{RatDenomUnitCarrier},\qquad
+R_D^\dagger:=\mathsf{RatDenomUnitClassifier},
+$$
+$$
+\mu_D^\dagger(h,k):=\mathsf{append}(h,k),\qquad
+e_D^\dagger:=\emp,\qquad
+N_D^\dagger(h):=\mathsf{RatHistoryCarrier}(h).
+$$
+Its ledger is the external empty-unit endpoint plus denominator continuation
+provenance.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp denominator certificate row laws]
+\label{thm:ratup-fieldup-denominator-certificate-row-laws}
+The row
+\autoref{def:ratup-fieldup-denominator-certificate-row} covers the
+$\FieldUp(\mathsf{RatUp})$ denominator obligations: envelope classifier
+exactness, carrier closure and unit inhabitation, associativity, commutativity,
+binary classifier congruence, strict-support transport and product exactness,
+left and right strict-factor cancellation, contextual fixed-factor classifier
+exactness, unique external unit, and absence of a carried denominator unit at
+$e_D^\dagger$.
+\end{theorem}
+\begin{proof}
+The row uses the same concrete denominator carrier and classifier as the unit
+envelope. The envelope classifier exactness is
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-exactness}, while
+\autoref{thm:field-rat-denominator-unit-envelope-exact-field-boundary} packages
+carrier closure, the empty endpoint, endpoint separation, strict-support
+transport, product exactness, and the external unit uniqueness law.
+
+The multiplication field is the native $\mathsf{BHist}$ append operation.
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
+supplies the associative and commutative certificate clauses, binary classifier
+congruence, and the strict-factor cancellation laws for this operation on the
+same denominator envelope.
+
+The contextual fixed-factor classifier exactness is
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+The full denominator obligation list is then collected by
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage},
+and
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly} identifies that
+collected package with the denominator subcertificate consumed by
+$\FieldUp(\mathsf{RatUp})$.
+
+The FieldUp denominator schema is instantiated by this concrete BHist row, so
+BHist-anchored proofs can target this row rather than abstract carrier and
+classifier parameters.
+\end{proof}
+
+\begin{theorem}[Rat denominator bilateral strict factor cancellation]
+\label{thm:field-rat-denominator-bilateral-strict-factor-cancellation}
+For the concrete tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$ of
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance},
+let $h,k,l,r:\mathsf{BHist}$. If $C_D^\ast(h)$, $C_D^\ast(k)$,
+$C_D^\ast(l)$, $C_D^\ast(r)$, $N_D^\ast(l)$, and $N_D^\ast(r)$, then
+$$
+R_D^\ast(\mu_D^\ast(l,\mu_D^\ast(h,r)),
+\mu_D^\ast(l,\mu_D^\ast(k,r)))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+\end{theorem}
+\begin{proof}
+First build the products to which cancellation will be applied. The
+strict-support product closure and carrier closure supplied by
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
+place $\mu_D^\ast(l,h)$ and $\mu_D^\ast(l,k)$ in $C_D^\ast$, and keep the
+larger products with the strict factor $r$ inside the same concrete carrier.
+The associativity and congruence fields of that boundary identify the displayed
+comparison with
+$R_D^\ast(\mu_D^\ast(\mu_D^\ast(l,h),r),
+\mu_D^\ast(\mu_D^\ast(l,k),r))$.
+
+Apply
+\autoref{thm:field-rat-denominator-unit-envelope-cancellation-exactness} with
+the strict common right factor $r$. Since $N_D^\ast(r)$ and the two left
+products are carried by the preceding closure step, this gives
+$$
+R_D^\ast(\mu_D^\ast(\mu_D^\ast(l,h),r),
+\mu_D^\ast(\mu_D^\ast(l,k),r))
+\Longleftrightarrow
+R_D^\ast(\mu_D^\ast(l,h),\mu_D^\ast(l,k)).
+$$
+
+Apply the same cancellation theorem with the strict common left factor $l$.
+The hypotheses $C_D^\ast(h)$, $C_D^\ast(k)$, $C_D^\ast(l)$, and
+$N_D^\ast(l)$ are exactly its input hypotheses for the left-cancellation
+clause, so
+$$
+R_D^\ast(\mu_D^\ast(l,h),\mu_D^\ast(l,k))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+Composing the two equivalences gives the bilateral strict-factor cancellation
+claim.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp denominator obligation map]
+\label{thm:ratup-fieldup-denominator-obligation-map}
+For histories $h,k:\mathsf{BHist}$, take the concrete denominator data
+$$
+C_D^\ast(h):=(\mathsf{RatHistoryCarrier}(h)\lor h\hsame\emp),
+\qquad
+R_D^\ast(h,k):=
+\left(
+\mathsf{RatHistoryCarrier}(h)\land
+\mathsf{RatHistoryCarrier}(k)\land
+\mathsf{RatHistoryClassifier}(h,k)
+\right)
+\lor
+\left(h\hsame\emp\land k\hsame\emp\right),
+$$
+$$
+\mu_D^\ast(h,k):=\mathsf{append}(h,k),\qquad
+e_D^\ast:=\emp,\qquad
+N_D^\ast(h):=\mathsf{RatHistoryCarrier}(h).
+$$
+These data discharge the denominator rows of
+\autoref{def:field-certificate-obligations} for $\FieldUp(\mathsf{RatUp})$:
+\begin{enumerate}
+  \item envelope classifier exactness;
+  \item carried-fragment restriction;
+  \item commutative monoid laws for $\mu_D^\ast$ with unit $e_D^\ast$;
+  \item strict-support transport along $R_D^\ast$;
+  \item strict-support product exactness for $\mu_D^\ast$;
+  \item strict common-factor left and right cancellation;
+  \item fixed multiplication classifier exactness in empty external contexts;
+  \item external-unit uniqueness;
+  \item exclusion of $e_D^\ast$ from strict carried support.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first row group is supplied by
+\autoref{thm:field-rat-denominator-unit-envelope-exact-field-boundary}. It is
+stated for the same envelope carrier, classifier, append multiplication, empty
+external unit, and strict carried-support predicate displayed above, so its
+exactness, carried-fragment, commutative monoid, support, cancellation, and
+external-unit clauses read directly as rows for this map.
+
+The contextual row is supplied by
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+Its empty-context fixed-multiplication clauses use the same append operation and
+the same empty endpoint, and
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}
+enumerates the ordinary multiplicative rows on the identical denominator tuple.
+
+Finally,
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly} identifies these
+rows as the denominator subcertificate consumed by
+$\FieldUp(\mathsf{RatUp})$. Thus the displayed row map is not a detached list of
+facts: it is the named denominator interface through which the concrete
+external-unit envelope enters the FieldUp certificate obligations.
+\end{proof}
+
+\textbf{Traditional target}: assembled denominator subcertificate for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$, $\Cont$,
+$\mathsf{append}$, and $\emp$; \textbf{carrier}: $C_D^\ast$;
+\textbf{classifier}: $R_D^\ast$; \textbf{multiplication}: $\mu_D^\ast$;
+\textbf{unit}: $e_D^\ast$; \textbf{strict support}: $N_D^\ast$;
+\textbf{ledger}: external-unit endpoint bit plus denominator continuation
+witness; \textbf{core theorem}:
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly};
+\textbf{exactness predicate}: exact envelope classifier, contextual fixed
+multiplication exactness, strict-support transport and product exactness,
+strict-factor cancellation, unique external unit, and absence of a carried
+denominator unit; \textbf{status}: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp denominator row exhaustion]
+\label{thm:ratup-fieldup-denominator-row-exhaustion}
+Let
+$$
+\mathcal{M}_D^\ast=(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)
+$$
+be the concrete multiplicative tuple of
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance},
+and let
+$$
+\mathcal{C}_D^u=(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)
+$$
+be the concrete contextual tuple of
+\autoref{def:field-rat-denominator-fieldup-contextual-certificate-instance}.
+Every denominator-side $\FieldUp(\mathsf{RatUp})$ row used in this parent
+chapter is supplied by either the multiplicative certificate record for
+$\mathcal{M}_D^\ast$ or the contextual certificate coverage for
+$\mathcal{C}_D^u$, with their shared tuple alignment governed by
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly}. Thus the full
+denominator certificate is a concrete $\mathsf{BHist}$ target: the carrier and
+classifier are the predicates $\mathsf{RatDenomUnitCarrier}$ and
+$\mathsf{RatDenomUnitClassifier}$, multiplication is $\mathsf{append}$, strict
+support is $\mathsf{RatHistoryCarrier}$, empty external contexts are the only
+context witnesses, and no carried denominator unit is introduced.
+\end{theorem}
+\begin{proof}
+The multiplicative source is
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-record}.
+It supplies the carrier, unit, associativity, commutativity, congruence,
+strict-support, cancellation, and empty-product rows for
+$\mathcal{M}_D^\ast$.
+
+The contextual source is
+\autoref{thm:field-rat-denominator-fieldup-contextual-obligation-coverage}. It
+supplies the empty-context rows and fixed-factor contextual rows for
+$\mathcal{C}_D^u$, with contextual support read through the same carried
+denominator endpoint predicate.
+
+Finally,
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly} identifies the
+common $\mathsf{BHist}$ carrier, classifier, append multiplication, empty
+endpoint, and strict-support predicate that the two sources share. The same
+assembly also records that the empty endpoint is external to the carried
+denominator branch, so the combined denominator-side certificate has no carried
+denominator unit.
+\end{proof}
