@@ -4,6 +4,99 @@
 \input{parts/concrete_instances/option/08_option_normalized_public_endpoint_readback}
 \input{parts/concrete_instances/option/08_option_composite_image_classifier_public_branch}
 
+\begin{theorem}[Tagged option composite image classifier zero-endpoint exclusion]
+\label{thm:tagged-option-composite-image-classifier-zero-endpoint-exclusion}
+This theorem fits the per-object template as follows: the traditional target is
+public constructor-shape exclusion for functorial $\mathsf{OptionUp}$ image
+classification; the BEDC source is $\mathsf{BHist}$ with two composable
+$\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation
+is public branch classification plus generated-history no-confusion; the ledger
+records that a final endpoint cannot be zero-tagged; the core theorem is the
+displayed pair of endpoint contradictions; exactness says the composite public
+readback has only absent or one-tagged final shapes; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$ public readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$ and any tail $t:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+holds, then
+$$
+(\hsame(m,\Ezero(t))\to\bot)\land
+(\hsame(m',\Ezero(t))\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-public-branch-classification}
+to the composite image-classifier witness. Its conclusion splits the final
+readback into an absent branch and a present branch.
+
+For the left endpoint $m$, suppose $\hsame(m,\Ezero(t))$. In the absent branch,
+the classification gives $\hsame(m,\emp)$. Symmetry and transitivity of
+$\hsame$ compose this empty presentation with the assumed zero presentation,
+contradicting history no-confusion between $\emp$ and $\Ezero(t)$.
+
+In the present branch, the classification gives a visible final payload $x$
+with $\hsame(m,\Eone(x))$. Symmetry and transitivity of $\hsame$ compose that
+visible presentation with the assumed zero presentation, contradicting
+$\Eone$-versus-$\Ezero$ no-confusion.
+
+For the right endpoint $m'$, suppose $\hsame(m',\Ezero(t))$. In the absent
+branch, the classification gives $\hsame(m',\emp)$. Symmetry and transitivity
+of $\hsame$ compose this empty presentation with the assumed zero presentation,
+contradicting history no-confusion between $\emp$ and $\Ezero(t)$.
+
+In the present branch, the classification gives a visible final payload $y$
+with $\hsame(m',\Eone(y))$. Symmetry and transitivity of $\hsame$ compose that
+visible presentation with the assumed zero presentation, contradicting
+$\Eone$-versus-$\Ezero$ no-confusion.
+
+Package the two endpoint contradiction functions in the displayed conjunction.
+\end{proof}
+
 \section{Composite image classifier public readback single-valuedness}
 \label{sec:option-composite-image-classifier-public-readback-single-valued}
 
