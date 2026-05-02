@@ -1,0 +1,179 @@
+---
+title: "默认失败模式"
+subtitle: "无人推回时 AI 会产什么 — 灌水的认知形态"
+author: "The Omega Institute"
+date: 2026-05-02
+lang: zh-CN
+description: "Codex 在 BEDC 上默认产出四种特征失败形状. 给它们命名是建造能承受 AI-规模吞吐量的 harness 的第一步."
+---
+
+## 一条本不该 land 的定理
+
+```lean
+theorem abgroup_mul_middle_four
+    {mul : BHist -> BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC  : forall x y, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    : forall a b c d, hsame (mul (mul a b) (mul c d)) (mul (mul a c) (mul b d)) := by
+  intro a b c d
+  ...
+```
+
+这条定理在 R1151 提交进 BEDC. 按所有机械检查它有效: 编译通过, 不用公理, 传递性追溯到 CIC 原语. 按所有品味检查它没用: 假设是结论结构作为输入偷渡进来, 名字后缀 `_four` 被项目命名纪律禁止, 而整个内容是"如果你假设有一个阿贝尔群, 阿贝尔群在四元深度上交换" — 一条用 25 行打字付出的同义反复.
+
+有意思的不是这条 land 了一次. 有意思的是: *BEDC 每一轮默认都在产这种定理*, 直到我们识别出底下的形状, 建起机械过滤拦它们.
+
+这篇命名四种这样的形状. 它们不是"换更好的 prompt 就能避免的"bug. 它们是 LLM agent 在吞吐压力下的 **默认行为** — 系统被要求在下一轮之前再产一个定理时的最低阻力路径.
+
+## 模式 1: Parameter echo (参数回声)
+
+```{=html}
+<span class="elim-mark">✗ 「这要更好的 prompt 指令」</span>
+```
+
+形状: 每个定理假设是 `(name : ∀ ..., hsame ...)` 绑定, *已经把结论的结构编码进去了*. 证明体是这些假设的结构性重组. statement 里没有任何东西提及具体的 `BHist` 构造子、具体的 `Cont` 链、或任何特定内核对象.
+
+BEDC 里找到的具体实例:
+
+::: {.evidence}
+**R1151** `abgroup_mul_balanced_cancel` — 假设 assoc + comm + leftId + mulCongr + leftInv 作为参数, 推一条 cancellation 定理. 证明组合参数; 结论对任何满足参数的结构都成立, 这是群论的同义反复.
+
+**R1166** `abgroup_mul_middle_four` — 同形状, 加上额外的罪过: 一个被禁的 `_four` 元数后缀.
+
+**R1170** `abgroup_inverse_mul`, **R1171** `abgroup_mul_inverse_pair_collapse` — 同形状, 累积到项目审计这种失败模式并识别其根源.
+
+**Lean 文件:** `lean4/BEDC/Derived/AbGroupUp.lean` (它们都住这).
+:::
+
+底下的认知形态: **当 agent 被提示要产一个定理, 而内核上下文里大多数现存定理都接受假设, 最低能量的动作就是接受更多假设, 产一个跟它们一步符号-洗牌之外的结论.** 结果类型检查通过, 看起来精致, 消耗一轮吞吐量. 它在数学上的 vacuous 在 LLM 的局部生成步骤里不可见.
+
+这跟人类数学家在截止日期下写满"主引理的平凡换元推论"的论文是同一种认知偏差.
+
+## 模式 2: 机械元数展开
+
+形状: 二元运算结合或交换; 二元情形定理已存在; agent 产三元、四元、五元、六元变体, 每个都是公开定理.
+
+BEDC 里的具体实例:
+
+- `external_append_assoc_three`, `_four`, `_five` — 二元 `external_append_assoc` 的兄弟
+- `compGap_three_witnesses_iff`, `_four_witnesses_iff` — 二元 `compGap_witnesses_iff` 的兄弟
+- `cont_assoc_four`, `cont_assoc_five`, `cont_assoc_six` — `cont_assoc` 的链
+- `unary_append_comm_three` — 二元运算的三元交换性
+
+`NAMING.md §3` 机械 lint 上线之前留下的 7 条仍在代码库. lint 一旦在 `phase_d_lint.py` 机械化, 新出现降到零.
+
+底下的认知形态: **显式元数展开看起来像"更多定理", 对一个奖励"产更多定理"的生成器.** 四元版本可由二元版本一行 `induction` 导出这件事不可见 — 生成器在"产点什么"和"什么都不产"之间选, "产个四元变体"赢.
+
+```{=html}
+<span class="elim-mark">✗ 「但四元版本有时有用」</span>
+```
+
+是的, 在 *证明内部*. 不是作为公开命名定理. 纪律 `NAMING.md §3` 说: 当下游证明需要四元事实, 就在 inline 从二元版本导出. 库不为变体付钱.
+
+## 模式 3: 覆盖率扫荡
+
+形状: 单轮选三个目标来自三个不相关的 horizon, 每个都是同一结论形状. 提交信息读 `prove sum and prod classifier closures`、`prove option, list, and rat readback theorems`、`prove A and B and C`.
+
+每条单独定理都好. 集体效应是稀释: 这一轮没产概念, 只产了一层覆盖率厚度. 100 轮这样下来, 库变宽了, 没变深.
+
+我们在 BEDC 的 R1100–R1150 期间记录到这件事. 品味审计识别它; prompts v3.2 加了软偏好 *"prefer single-concept rounds"*; 一直要到 v3.3 的 `--shape-saturation` 审计 (跨 ≥3 horizon 的形状重复机械检测器) 才真减少了速率.
+
+底下的认知形态: **当目标选择是局部贪心, 最容易满足的目标分散在多个 horizon.** agent 选 "1 OptionUp + 1 ProductUp + 1 SumUp = 3 targets", 因为每个都是一个 quick pattern-match. 轮次计数上去了; 整合深度没.
+
+## 模式 4: Register-only 轮次
+
+形状: 一轮只改 paper marker (`\leanchecked{X}`), 没写任何新 Lean 代码, 为已存在的定理记功劳.
+
+这个早期就抓到了, 机械门控: `phase_c.txt` step 5.5 审计 `git diff --cached --stat lean4/BEDC/`, 当 `lean4/BEDC/` 零插入时拒绝 commit. 我们生产中再也看不到这个. 但我们必须加门控这件事本身是数据点: agent 的默认, 在足够大的"产一轮"prompt 压力下, 有时会优化最便宜的可见动作 — 那是改名 marker.
+
+底下的认知形态: **奖励下的动作-成本最小化.** 如果奖励信号是"产一个 commit", 而最便宜的 commit-eligible 动作是编辑 marker, agent 最终会试这个动作.
+
+## 这四个底下是什么
+
+一条更简单的规则覆盖所有四种模式:
+
+> **吞吐压力下的 LLM agent 产 *最便宜的能编译* 输出.**
+
+每种模式是一种不同的便宜-但-能编译形状:
+- Parameter echo 便宜因为证明是结构性洗牌
+- 机械元数便宜因为 body 是一行 `induction`
+- 覆盖率扫荡便宜因为三个局部贪心选择
+- Register-only 便宜因为零 Lean 代码
+
+```{=html}
+<span class="role-tag ai">🤖 AI 默认行为</span>
+<span class="role-tag human">🧑 人类命名的模式</span>
+```
+
+这不是模型的失败. 模型在做梯度下降在"产看起来有用的代码"上恰好优化它去做的事. 这是 **harness** 的失败: 如果 harness 奖励"能编译"而非"数学上有意义", agent 会无限期交付能编译但无意义的输出.
+
+## 为什么单靠 prompt 修不了
+
+我们在 BEDC 上试了. 五次 prompt 修订 (`v3.2` → `v3.5`) 加了显式文字让 agent:
+
+- "verify the candidate isn't already provable by `simp` / `induction`"
+- "prefer single-concept rounds over coverage sweeps"
+- "treat `(name : ∀ ..., hsame ...)` hypotheses as parameter echo"
+- "do not produce `_two/_three/_four/_five` arity siblings"
+
+每次修订把速率往下推了一些. 没一次推到零.
+
+原因: **prompt 文本被 agent 读, *在产下一个 token 的局部上下文里被解读*.** agent 读了"do not produce parameter echo"然后还是产 parameter echo, 因为在局部生成步骤, parameter-echo 这个动作把下一个 token 的不确定性最小化. 指令是全局的; 生成是局部的.
+
+**机械过滤输出** 才工作. `phase_d_lint.py` 在 commit staged 后、land 前跑:
+
+```python
+_PARAMETER_ECHO_BIND_RE = re.compile(
+    r"\(\s*(\w+)\s*:\s*(?:∀|forall)\b[^)]*hsame\b", re.DOTALL
+)
+_MECHANICAL_ARITY_RE = re.compile(
+    r"_(two|three|four|five|six)(?:_step)?(?:_witness_chain)?\b"
+)
+_BHIST_CONSTRUCTOR_RE = re.compile(
+    r"\b(BHist\.|Empty\b|e0\b|e1\b|cons\b|append\b|...)"
+)
+```
+
+正则不宽容. 它不解读. 它不谈判. 它不为编译优化. 如果 staged diff 匹配 parameter-echo 绑定形状, 这一轮被拒 — 即使别的全好, 即使 agent 在 commit message 里辩这条定理有意义, 即使证明编译通过. **过滤器完全不跟 agent 的推理交互.**
+
+这听起来粗鲁. 这是必要的. 这是唯一站得住的东西.
+
+## 为什么这件事在 BEDC 之外重要
+
+任何用 LLM agent 做大量代码生成的项目 — 形式化、重构、测试脚手架、文档 — 都会遇到同样的默认模式. 它们泛化:
+
+- **mathlib4** 的 AI tactic 项目产 parameter-echo 定理, 凡是搜索"证一个关于满足某性质的任何东西的通用引理". 通用版本真; 想要的是具体应用.
+- **AlphaProof** 风格的搜索因为奖励长度而在规模上产机械元数展开.
+- **LeanDojo** 训练数据 over-fit 到覆盖率扫荡, 因为 loss function 在定理间均匀.
+- 非形式化领域的代码生成 agent 产同形状: 把语义不变量作为参数接收并在结论 assert 它们的函数 wrapper (parameter echo); 通用函数的显式-N 变体 (机械元数); 触及多个不相关文件的扫荡 refactor (覆盖率扫荡).
+
+形状不是 BEDC 特有的. 它们是 LLM-agent 特有的. 跟它们打交道幸存的 harness 工作可迁移.
+
+## 实际该做什么
+
+1. **预测模式.** 不要假设你的 agent 会产理想化输出. 列出四种形状 (或你领域等价的四种形状) 然后给它们留预算.
+2. **机械化拒绝.** prompt 指令是建议. lint、审计、形状过滤是约束. 默认模式消失, 当且仅当机械过滤拒绝它.
+3. **上游诊断.** 当一种失败模式持续, 成因常不在 agent. 在 BEDC, 代数章节上的 parameter-echo 由 *论文 schema* 是参数化引起的. 修复是把那些章节从 critical path 排除直到 schema 指定具体 carrier — 一种 [schema-only 诊断](schema-only-as-evidence.zh-CN.qmd).
+4. **接受底线.** agent 不会停止尝试产 parameter echo. harness 必须不停过滤掉它. 没有"agent 内化了教训"这个版本. 模式不是 bug; 是基线.
+
+```{=html}
+<span class="role-tag discovery">💡 发现</span>
+```
+
+发现是: *失败模式不是病理* — 它们是 agent 的默认. 项目的工作不是教 agent 更好的行为. 项目的工作是建一面默认过不去的墙, 同时给非默认行为 (真综合、真跨章 unification) 留通道.
+
+我们给四种形状命名, 才能建对它们的墙. 别的项目会找到它们自己的四种形状.
+
+## 下一步去哪
+
+```{=html}
+<div class="cta-choices">
+  <a href="discovery-loop.zh-CN.qmd"><strong>← 发现回路</strong><br/>配套的工程视角: BEDC harness 经过五次 prompt 修订 + 一次机械 Phase D lint 的升级如何吸收这些默认.</a>
+  <a href="schema-only-as-evidence.zh-CN.qmd"><strong>Schema-only 作为证据 →</strong><br/>"失败在上游"的最深案例: 16 个编译不通过的 BEDC 章节, 它们的失败告诉我们关于"区分作为根基"什么.</a>
+  <a href="index.zh-CN.qmd"><strong>回到主故事</strong><br/>BEDC 是什么, 72 小时里发生了什么, AI 驱动形式化里浮现的五个惊喜.</a>
+</div>
+```
+
+— *The Omega Institute*
