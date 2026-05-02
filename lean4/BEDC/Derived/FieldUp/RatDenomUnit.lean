@@ -228,6 +228,27 @@ theorem RatDenomUnitCarrier_e1_tail_unary_iff {tail : BHist} :
     right
     exact RatHistoryCarrier_e1_tail_unary_iff.mpr tailUnary
 
+theorem RatDenomUnitClassifier_e1_tail_iff {d e : BHist} :
+    RatDenomUnitClassifier (BHist.e1 d) (BHist.e1 e) <->
+      UnaryHistory d /\ UnaryHistory e /\ hsame d e := by
+  constructor
+  · intro classified
+    have unaryD : UnaryHistory d :=
+      RatDenomUnitCarrier_e1_tail_unary_iff.mp classified.left
+    have unaryE : UnaryHistory e :=
+      RatDenomUnitCarrier_e1_tail_unary_iff.mp classified.right.left
+    have sameDE : hsame d e :=
+      hsame_e1_iff.mp classified.right.right
+    exact And.intro unaryD (And.intro unaryE sameDE)
+  · intro tailData
+    have carrierD : RatDenomUnitCarrier (BHist.e1 d) :=
+      RatDenomUnitCarrier_e1_tail_unary_iff.mpr tailData.left
+    have carrierE : RatDenomUnitCarrier (BHist.e1 e) :=
+      RatDenomUnitCarrier_e1_tail_unary_iff.mpr tailData.right.left
+    have sameDE : hsame (BHist.e1 d) (BHist.e1 e) :=
+      hsame_e1_iff.mpr tailData.right.right
+    exact And.intro carrierD (And.intro carrierE sameDE)
+
 theorem RatDenomUnitClassifier_mixed_endpoint_absurd {d e : BHist} :
     ((RatHistoryCarrier d ∧ hsame e BHist.Empty) ->
       (RatDenomUnitClassifier d e -> False)) ∧

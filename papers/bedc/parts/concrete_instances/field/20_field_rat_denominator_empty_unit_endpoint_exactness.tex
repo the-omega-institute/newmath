@@ -160,6 +160,25 @@ classifies the displayed result as
 $\mathsf{RatHistoryClassifier}(r,d)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator e1-probe classifier endpoint empty]
+\label{thm:field-rat-denominator-e1-probe-classifier-endpoint-empty}
+For every history $u:\mathsf{BHist}$, if the one-headed denominator probe
+classifies the displayed product with its endpoint,
+$$
+\mathsf{RatHistoryClassifier}
+\bigl(\mathsf{append}(u,\Eone(\emp)),\Eone(\emp)\bigr),
+$$
+then $u\hsame\emp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_e1\_probe\_classifier\_endpoint\_empty}
+\begin{proof}
+Use the canonical continuation witness
+$\Cont(u,\Eone(\emp),\mathsf{append}(u,\Eone(\emp)))$. The classifier supplies
+history sameness between its result and $\Eone(\emp)$, so continuation result
+transport gives $\Cont(u,\Eone(\emp),\Eone(\emp))$. The left-unit uniqueness
+law for continuation then forces $u\hsame\emp$.
+\end{proof}
+
 \begin{theorem}[Rat denominator external unit separation package]
 \label{thm:field-rat-denominator-external-unit-separation-package}
 For the concrete denominator carrier, classifier, and continuation operation

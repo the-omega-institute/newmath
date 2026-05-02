@@ -15,3 +15,23 @@ $\Eone(t)\hsame\emp$, contradicting constructor disjointness. The remaining
 branch is $\mathsf{RatHistoryCarrier}(\Eone(t))$, which is equivalent to
 $\mathsf{UnaryHistory}(t)$ by the one-headed Rat carrier characterization.
 \end{proof}
+
+\begin{theorem}[Rat denominator unit classifier one-headed tail iff]
+\label{thm:rat-denom-unit-classifier-e1-tail-iff}
+For histories $d,e:\mathsf{BHist}$, the empty-unit denominator classifier on
+two one-headed histories is exactly the pair of unary tail witnesses together
+with tail sameness:
+$$
+\mathsf{RatDenomUnitClassifier}(\Eone(d),\Eone(e))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(d)\wedge
+\mathsf{UnaryHistory}(e)\wedge d\hsame e.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_e1\_tail\_iff}
+\begin{proof}
+Unfold the classifier into its two empty-unit carrier fields and the endpoint
+sameness field. Each carrier field is converted by the one-headed carrier
+characterization above, and the endpoint sameness field is converted by
+constructor injectivity for $\Eone$.
+\end{proof}

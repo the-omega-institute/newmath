@@ -32,4 +32,10 @@ theorem field_rat_denominator_canonical_left_unit_endpoint_empty {u : BHist} :
     cont_result_hsame_transport canonicalContinuation classifiedResult.right.right
   exact cont_left_unit_unique collapsedContinuation
 
+theorem field_rat_denominator_e1_probe_classifier_endpoint_empty {u : BHist} :
+    RatHistoryClassifier (append u (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) ->
+      hsame u BHist.Empty := by
+  intro classified
+  exact cont_left_unit_unique (cont_result_hsame_transport (cont_intro rfl) classified.right.right)
+
 end BEDC.Derived.FieldUp
