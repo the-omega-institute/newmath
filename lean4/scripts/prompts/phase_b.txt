@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.7 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v3.8 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -183,12 +183,12 @@ The script ranks every horizon `<X>Up` chapter by `transitive_downstream / (1 + 
 The following horizons remain **BANNED as target chapters** because their paper schemas still write laws as parametric operators (`mul / add / neg : BHist -> BHist -> BHist` left abstract), which forces the only available Lean encoding into `(name : forall x y z, hsame …)` parameter-echo schema. The phase D mechanical lint rejects exactly that shape — picking such a target is a guaranteed FAILED round.
 
 ```
-module, vecspace, linearmap, matrix
+vecspace, linearmap, matrix
 polynomial, fps
 lattice, totalorder, preorder, poset
 ```
 
-(The original ban list also covered `abgroup / group / monoid / ring / commring / field`. Paper rounds P699-P712 added concrete singleton-history instances pinning the abstract symbols to specific BHist functions — those six chapters are now safe to attack and can produce BHist-anchored proofs about the concrete instance.)
+(The original ban list also covered `abgroup / group / monoid / ring / commring / field / module`. Paper rounds P699-P722 added concrete singleton-history instances pinning the abstract symbols to specific BHist functions — those seven chapters are now safe to attack and can produce BHist-anchored proofs about the concrete instance. For module, the singleton instance defines `smul := emp` on the `A_emp` carrier with the singleton ring as scalar; target proofs about that instance, not abstract scalar actions.)
 
 If your `paper_target_chapter` path matches `papers/bedc/parts/concrete_instances/*_<still-banned>_*.tex`, **DROP that target** and pick from a non-banned chapter (concrete_instances/category, concrete_instances/functor, concrete_instances/nattrans, concrete_instances/metric, concrete_instances/compact, concrete_instances/continuous, concrete_instances/option, concrete_instances/s1, plus the now-unlocked algebra chapters above, etc.). Adding a single hsame-quantified `forall` hypothesis from a banned chapter does NOT count as a top-3 hit even if the paper file is referenced.
 

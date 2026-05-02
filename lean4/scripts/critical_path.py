@@ -37,16 +37,16 @@ SATURATION_THRESHOLD = 10
 # guaranteed to fail. Keep them out of `top` until the paper side adds a
 # concrete `mul := λ h k => ...` definition.
 SCHEMA_ONLY_HORIZONS: set[str] = {
-    # abgroup / group / monoid / ring / commring / field were originally
-    # banned because their paper schema wrote laws as parametric operators.
-    # Paper rounds P699-P712 (prompt v2.1 schema-only unlock HARD GATE) added
-    # concrete singleton-history instances (Carrier := UnaryHistory, mul := Cont,
-    # e := BHist.Empty, etc.) that pin every abstract symbol to a specific BHist
-    # function. Lean rounds can now produce BHist-anchored proofs about these
-    # concrete instances rather than parameter-echo schema, so they are out of
-    # the ban list. The remaining 10 chapters still need the same paper-side
-    # unlock before they exit this set.
-    "module", "vecspace", "linearmap", "matrix",
+    # abgroup / group / monoid / ring / commring / field / module were
+    # originally banned because their paper schema wrote laws as parametric
+    # operators. Paper rounds P699-P722 (prompt v2.1 schema-only unlock HARD
+    # GATE) added concrete singleton-history instances (Carrier := UnaryHistory,
+    # mul := Cont, e := BHist.Empty, smul := emp, etc.) that pin every abstract
+    # symbol to a specific BHist function. Lean rounds can now produce
+    # BHist-anchored proofs about these concrete instances rather than
+    # parameter-echo schema, so they are out of the ban list. The remaining 9
+    # chapters still need the same paper-side unlock before they exit this set.
+    "vecspace", "linearmap", "matrix",
     "polynomial", "fps",
     "lattice", "totalorder", "preorder", "poset",
 }
