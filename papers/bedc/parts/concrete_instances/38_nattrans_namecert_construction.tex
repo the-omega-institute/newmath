@@ -58,6 +58,26 @@ composes the two component morphisms across the shared middle object
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_closed}
 
+\begin{theorem}[NatTrans prefix component vertical composition right factor]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-right-factor}
+For prefix components over unary histories, if $\eta$ is a component from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$,
+$\ContR(\eta,\theta,\theta\eta)$ composes $\eta$ with $\theta$, and the
+composite is displayed as a component from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(r,a)$, then $\theta$ is a component from
+$\mathsf{append}(q,a)$ to $\mathsf{append}(r,a)$.
+\end{theorem}
+\begin{proof}
+Unpack the left component and the displayed composite to their underlying
+category hom-carriers. The category right-factor theorem recovers the missing
+hom-carrier for $\theta$ between the middle endpoint
+$\mathsf{append}(q,a)$ and the displayed target endpoint
+$\mathsf{append}(r,a)$. The prefix carrier for $q$, the prefix carrier for
+$r$, and the object carrier for $a$ reassemble the NatTrans prefix component
+carrier for $\theta$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_right\_factor}
+
 \begin{theorem}[NatTrans prefix component vertical composition right identity closure]
 \label{thm:nattrans-prefix-component-vert-comp-right-identity-closed}
 For prefix components over unary histories, if $\eta$ is a component from

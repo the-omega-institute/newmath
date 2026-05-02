@@ -310,4 +310,27 @@ theorem ContinuousFunctionCarrier_prefixed_graph_chain_second_deterministic
                                           cases sameDelta
                                           exact cont_left_cancel leftComposite rightComposite
 
+theorem ContinuousFunctionCarrier_prefixed_graph_chain_public_readback
+    {p source map target target' delta1 delta2 delta cert cert' : BHist} :
+    UnaryHistory p -> UnaryHistory source -> UnaryHistory target -> UnaryHistory map ->
+      Cont source map target -> ContinuousModulusChain target delta1 delta2 cert ->
+        Cont delta1 delta2 delta ->
+          ContinuousFunctionCarrier (append p source) map (append p target') delta
+              (append p cert') ->
+            hsame target target' /\ hsame cert cert' := by
+  intro prefixCarrier sourceCarrier targetCarrier mapCarrier graphRel chain compositeRel
+    displayed
+  have canonical :
+      ContinuousFunctionCarrier (append p source) map (append p target) delta
+        (append p cert) :=
+    ContinuousFunctionCarrier_prefixed_graph_chain_closed prefixCarrier sourceCarrier targetCarrier
+      mapCarrier graphRel chain compositeRel
+  have readback :
+      hsame (append p target) (append p target') ∧ hsame (append p cert) (append p cert') :=
+    ContinuousFunctionCarrier_target_cert_deterministic canonical displayed
+  exact
+    And.intro
+      (append_left_cancel (h := p) readback.left)
+      (append_left_cancel (h := p) readback.right)
+
 end BEDC.Derived.ContinuousUp

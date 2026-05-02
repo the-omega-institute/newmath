@@ -105,6 +105,19 @@ theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta compo
                                 (And.intro objectCarrier
                                   (CategoryHomCarrier_comp_closed leftComponent rightComponent comp)))
 
+theorem NatTransPrefixComponentCarrier_vert_comp_right_factor
+    {p q r a eta theta composite : BHist} :
+    NatTransPrefixComponentCarrier p q a eta -> Cont eta theta composite ->
+      NatTransPrefixComponentCarrier p r a composite ->
+        NatTransPrefixComponentCarrier q r a theta := by
+  intro left comp displayed
+  exact
+    And.intro left.right.left
+      (And.intro displayed.right.left
+        (And.intro left.right.right.left
+          (CategoryHomCarrier_comp_right_factor left.right.right.right comp
+            displayed.right.right.right)))
+
 theorem NatTransPrefixComponentCarrier_vert_comp_assoc_closed
     {p q r s a eta theta iota etatheta thetaiota left right : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->

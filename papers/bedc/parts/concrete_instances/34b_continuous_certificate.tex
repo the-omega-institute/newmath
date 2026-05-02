@@ -360,6 +360,37 @@ $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_closed}
 
+\begin{theorem}[Prefixed continuous function carrier graph-chain public readback]
+\label{thm:continuous-function-carrier-prefixed-graph-chain-public-readback}
+For histories $p,source,map,target,target',\delta_1,\delta_2,\delta,cert,cert'$,
+assume unary histories $p$, $source$, $target$, and $map$, a graph ledger
+$\mathsf{Cont}(source,map,target)$, a two-link modulus chain
+$\mathsf{ContinuousModulusChain}(target,\delta_1,\delta_2,cert)$, and a
+composition ledger $\mathsf{Cont}(\delta_1,\delta_2,\delta)$. If a displayed
+prefixed continuous-function carrier has target $p\cdot target'$ and
+certificate $p\cdot cert'$,
+
+$$
+\mathsf{ContinuousFunctionCarrier}
+(p\cdot source,map,p\cdot target',\delta,p\cdot cert'),
+$$
+
+then the public target and certificate are determined:
+
+$$
+\hsame(target,target')\quad\text{and}\quad\hsame(cert,cert').
+$$
+\end{theorem}
+\begin{proof}
+The graph ledger and the modulus chain first build the canonical prefixed
+continuous-function carrier with target $p\cdot target$ and certificate
+$p\cdot cert$. Carrier target-certificate determinacy compares this canonical
+carrier with the displayed carrier, giving equality of the two prefixed targets
+and equality of the two prefixed certificates. Left cancellation of the shared
+prefix $p$ yields the displayed public readback equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_public\_readback}
+
 \begin{theorem}[Prefixed continuous function carrier graph-chain second determinacy]
 \label{thm:continuous-function-carrier-prefixed-graph-chain-second-deterministic}
 For histories $p,source,map,target,\delta_1,\delta_2,\delta_2',\delta,
