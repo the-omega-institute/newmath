@@ -27,4 +27,10 @@ theorem OptionClassifierSpec_hsame_some_right_confluence {x : OptionCarrier BHis
   | some _ =>
       exact hsame_trans (hsame_symm left) right
 
+theorem OptionClassifierSpec_hsame_right_payload_deterministic
+    {x : OptionCarrier BHist} {h k : BHist} :
+    OptionClassifierSpec hsame x (Option.some h) →
+      OptionClassifierSpec hsame x (Option.some k) → hsame h k := by
+  exact OptionClassifierSpec_hsame_some_right_confluence
+
 end BEDC.Derived.OptionUp

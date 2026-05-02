@@ -429,6 +429,23 @@ second.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_some\_right\_confluence}
 
+\begin{theorem}[Option classifier $\hsame$ right payload determinacy]
+\label{thm:option-classifier-spec-hsame-right-payload-deterministic}
+For a typed option carrier value $x:\mathsf{OptionCarrier}(\mathsf{BHist})$ and
+histories $h,k:\mathsf{BHist}$, if
+$\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(h))$ and
+$\mathsf{OptionClassifierSpec}(\hsame,x,\mathsf{some}(k))$ hold, then
+$\hsame(h,k)$ holds.
+\end{theorem}
+\begin{proof}
+Case-analyze the shared left option value $x$. The none branch contradicts the
+typed option classifier clause for a none--some pair. In the some branch, the
+two classifier witnesses unfold to payload equalities from the same left
+payload to $h$ and to $k$; reverse the first equality and compose it with the
+second by $\hsame$ transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_right\_payload\_deterministic}
+
 \begin{theorem}[Option classifier symmetry from source symmetry]
 \label{thm:option-classifier-symm-from-source-symmetry}
 Let $A$ be an entry type, let $R:A\to A\to\mathsf{Prop}$ be a source relation, and let $x,y:\mathsf{OptionCarrier}(A)$. If

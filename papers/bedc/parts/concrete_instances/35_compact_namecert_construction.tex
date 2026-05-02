@@ -87,6 +87,31 @@ case.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_transitivity}
 
+\begin{theorem}[Compact finite refinement chain prefix closure]
+\label{thm:compact-finite-refinement-chain-prefix-closed}
+For a prefix ledger $p$ and finite-net and compactness ledgers
+$finite,compact,finalFinite,finalCompact$, if
+
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact),
+$$
+
+then
+
+$$
+\mathsf{CompactFiniteRefinementChain}(p\cdot finite,p\cdot compact,
+p\cdot finalFinite,p\cdot finalCompact).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the compact finite refinement chain. The base constructor is stable
+under prefixing because both endpoints remain identical pairs. In the step
+case, apply the induction hypothesis to the prior chain and rebuild the step
+constructor. The two continuation witnesses are obtained by applying the prefix
+operation to the original continuation equalities and reassociating append.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_prefix\_closed}
+
 \begin{theorem}[Compact finite refinement chain final endpoints unary]
 \label{thm:compact-finite-refinement-chain-final-endpoints-unary}
 If
@@ -374,6 +399,34 @@ chain from $(located,intermediate,compact)$ to $(l',i',c')$, which is the final
 triple in the step case.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_transitivity}
+
+\begin{theorem}[Compact located refinement chain prefix closure]
+\label{thm:compact-located-refinement-chain-prefix-closed}
+For a prefix ledger $p$, if
+
+$$
+\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,
+finalLocated,finalIntermediate,finalCompact),
+$$
+
+then
+
+$$
+\mathsf{CompactLocatedRefinementChain}(finite,p\cdot located,
+p\cdot intermediate,p\cdot compact,p\cdot finalLocated,
+p\cdot finalIntermediate,p\cdot finalCompact).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the compact located refinement chain. The base constructor is stable
+under prefixing because the locatedness, intermediate, and compactness endpoints
+remain the same triples after prefixing. In the step case, apply the induction
+hypothesis to the prior chain and rebuild the step constructor. The located,
+intermediate, and compact continuation witnesses are obtained by applying the
+prefix operation to the original continuation equalities and reassociating
+append.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_prefix\_closed}
 
 \begin{theorem}[Compact located refinement chain final endpoints unary]
 \label{thm:compact-located-refinement-chain-final-endpoints-unary}
