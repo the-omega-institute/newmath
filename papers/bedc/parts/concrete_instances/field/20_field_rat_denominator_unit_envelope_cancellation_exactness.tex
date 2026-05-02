@@ -1,0 +1,87 @@
+\section{Rat denominator external-unit envelope cancellation exactness}
+\label{sec:field-rat-denominator-unit-envelope-cancellation-exactness}
+
+\begin{theorem}[Rat denominator external-unit envelope cancellation exactness]
+\label{thm:field-rat-denominator-unit-envelope-cancellation-exactness}
+For the tuple $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope} and the strict support
+predicate $N_D^\ast$ of
+\autoref{def:field-rat-denominator-unit-envelope-strict-support}, strict
+common factors cancel exactly at the envelope classifier. For histories
+$h,k,t:\mathsf{BHist}$, if $C_D^\ast(h)$, $C_D^\ast(k)$, $C_D^\ast(t)$, and
+$N_D^\ast(t)$, then
+$$
+R_D^\ast(\mu_D^\ast(h,t),\mu_D^\ast(k,t))
+\Longleftrightarrow R_D^\ast(h,k),
+$$
+and
+$$
+R_D^\ast(\mu_D^\ast(t,h),\mu_D^\ast(t,k))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the envelope tuple and the strict support predicate. The hypothesis
+$N_D^\ast(t)$ identifies the common factor as a genuine
+$\mathsf{RatHistoryCarrier}$ endpoint, so multiplication by $t$ remains in the
+carried Rat denominator branch after applying the append continuation closure
+used by the envelope laws.
+
+For the forward right-cancellation direction, split the carrier witnesses for
+$h$ and $k$ into carried denominator and external empty branches.
+
+In the carried/carried branch, all three factors lie in
+$\mathsf{RatDenomUnitCarrier}$, and the displayed envelope classifier is read
+as the corresponding empty-unit classifier by
+\autoref{thm:field-rat-denominator-unit-envelope-carried-classifier-exactness}.
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package}
+to cancel the strict common factor. The resulting carried denominator
+classifier is then packed back into $R_D^\ast(h,k)$ through the carried branch
+of the envelope classifier.
+
+In a mixed branch, one of $h$ and $k$ is external while the other is carried.
+Because $t$ has strict support, the product on the carried side has a
+$\mathsf{RatHistoryCarrier}$ witness, while the product on the external side is
+classified with the same carried continuation only through a mixed
+external-carried alternative. The classifier normal form and
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-exactness}, together
+with $\mathsf{RatHistoryCarrier\_not\_empty}$, rule out such a product
+classifier. Hence the antecedent of the forward implication cannot hold in the
+mixed cases.
+
+In the external/external branch, both $h$ and $k$ are classified with
+$e_D^\ast=\emp$. The two products are classified with the common carried
+continuation of $t$ by the one-sided unit laws, and the conclusion
+$R_D^\ast(h,k)$ is the empty branch of the envelope classifier.
+
+The forward left-cancellation direction is the same case split with the common
+strict factor placed on the left. The carried/carried case uses the left
+cancellation field of
+\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package};
+the mixed cases are excluded by the same classifier exactness and
+$\mathsf{RatHistoryCarrier\_not\_empty}$ argument; the external/external case
+packs the empty branch directly.
+
+For the reverse directions, assume $R_D^\ast(h,k)$. The carrier hypothesis on
+$t$ gives reflexivity $R_D^\ast(t,t)$, and the multiplication congruence field
+of
+\autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws}
+combines $R_D^\ast(h,k)$ with this reflexive common factor. Placing the
+reflexive factor on the right gives
+$R_D^\ast(\mu_D^\ast(h,t),\mu_D^\ast(k,t))$; placing it on the left gives
+$R_D^\ast(\mu_D^\ast(t,h),\mu_D^\ast(t,k))$.
+\end{proof}
+
+\textbf{Traditional target}: cancellative denominator envelope for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\Cont$, and $\mathsf{append}$;
+\textbf{carrier}: $C_D^\ast$; \textbf{classifier}: $R_D^\ast$;
+\textbf{multiplication}: $\mu_D^\ast$; \textbf{unit}: $e_D^\ast$;
+\textbf{ledger}: external-unit bit plus common denominator continuation
+witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-unit-envelope-cancellation-exactness};
+\textbf{exactness predicate}: strict-factor cancellation; \textbf{standard
+bridge}: ordinary denominator cancellation; \textbf{status}:
+$\mathsf{ProofTarget}$.
