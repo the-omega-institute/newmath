@@ -10,6 +10,82 @@ The matrix interface \(\MatrixUp\) has certificate obligations over a scalar rin
 Use functions \(\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R\) with \(n,m:\NatUp\) and scalar ring \(R\).
 \end{definition}
 
+\section{Concrete singleton empty-history matrix instance}
+\label{sec:matrix-concrete-singleton-instance}
+
+\begin{definition}[Singleton empty-history matrix instance]
+\label{def:singleton-empty-history-matrix-instance}
+Let the matrix-code carrier be
+$$
+M_{\emp}(m):=\hsame(m,\emp).
+$$
+Define the matrix classifier by
+$$
+\mu_{\emp}(m,n):=
+M_{\emp}(m)\land M_{\emp}(n)\land\hsame(m,n).
+$$
+Take both matrix dimensions to be the singleton unary endpoint supplied by
+Definition~\ref{def:list-singleton-history-source}, and take the scalar source,
+scalar classifier, and scalar operations from
+Definition~\ref{def:singleton-empty-history-ring-instance}. The entry lookup is
+constant:
+$$
+\mathsf{entry}_{\emp}(m,i,j):=\emp.
+$$
+The matrix operations are also constant at the empty-history endpoint:
+$$
+\mathsf{zero}_{\emp}:=\emp,\qquad
+\mathsf{addM}_{\emp}(m,n):=\emp,\qquad
+\mathsf{mulM}_{\emp}(m,n):=\emp,\qquad
+\mathsf{idM}_{\emp}:=\emp.
+$$
+This is the one-element concrete $\mathsf{BHist}$ matrix instance over the
+singleton empty-history scalar ring.
+\end{definition}
+
+\begin{theorem}[Singleton empty-history matrix laws]
+\label{thm:singleton-empty-history-matrix-laws}
+The tuple
+$$
+(M_{\emp},\mu_{\emp},\mathsf{entry}_{\emp},
+\mathsf{zero}_{\emp},\mathsf{addM}_{\emp},
+\mathsf{mulM}_{\emp},\mathsf{idM}_{\emp})
+$$
+satisfies the concrete $\MatrixUp$ law package: carrier inhabitance,
+classifier reflexivity, classifier symmetry, classifier transitivity, entry
+classification, addition closure and congruence, multiplication closure and
+congruence, and identity-matrix closure with its left and right identity laws.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is the reflexive endpoint witness $\hsame(\emp,\emp)$,
+which gives $M_{\emp}(\emp)$. The same witness supplies reflexivity of
+$\mu_{\emp}$, while symmetry and transitivity of $\mu_{\emp}$ are assembled
+from the corresponding symmetry and transitivity rules for $\hsame$ together
+with the displayed carrier fields.
+
+For entry classification, every lookup
+$\mathsf{entry}_{\emp}(m,i,j)$ is definitionally $\emp$. The singleton source
+of Definition~\ref{def:list-singleton-history-source} gives the scalar carrier
+witness for $\emp$, and Theorem~\ref{thm:singleton-empty-history-ring-laws}
+supplies the scalar classifier laws at that endpoint.
+
+Addition closure and multiplication closure are immediate because
+$\mathsf{addM}_{\emp}(m,n)$ and $\mathsf{mulM}_{\emp}(m,n)$ both reduce to
+$\emp$. Congruence for both operations compares two empty-history endpoints, so
+the two result carriers are $M_{\emp}(\emp)$ and the relation component is
+$\hsame(\emp,\emp)$.
+
+The identity matrix code $\mathsf{idM}_{\emp}$ is also definitionally $\emp$,
+so identity closure is the same singleton carrier witness. The left and right
+identity laws compare $\mathsf{mulM}_{\emp}(\mathsf{idM}_{\emp},m)$ and
+$\mathsf{mulM}_{\emp}(m,\mathsf{idM}_{\emp})$ with the carried matrix code
+$m$; the operation side is $\emp$, and the input witness $M_{\emp}(m)$ gives
+the required endpoint link under $\mu_{\emp}$.
+\end{proof}
+
+This concrete $\mathsf{BHist}$ instance lets future $\MatrixUp$ proofs target
+the displayed operations rather than abstract operator fields.
+
 \section{The certificate}
 
 \begin{definition}[Matrix source specification]
