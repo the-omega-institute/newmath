@@ -647,6 +647,84 @@ the common suffix continuation witness; core theorem
 predicate cancellation of a shared denominator factor; standard bridge
 ordinary cancellative commutative monoids; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Rat denominator empty-unit FieldUp multiplicative subcertificate]
+\label{thm:field-rat-denominator-empty-unit-field-multiplicative-subcertificate}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance} and
+the strict support predicate $N_D^u$ of
+\autoref{def:field-rat-denominator-empty-unit-strict-product-support}, the
+FieldUp denominator side over $\mathsf{BHist}$ carries the following concrete
+multiplicative subcertificate.
+\begin{enumerate}
+\item The empty-unit commutative monoid laws hold for
+$(C_D^u,R_D^u,\mu_D^u,e_D^u)$, including commutativity up to $R_D^u$.
+
+\item For all carried histories $h,k:\mathsf{BHist}$, strict support of the
+product is exact:
+$$
+(\mu_D^u(h,k)\hsame\emp\to\mathsf{False})
+\Longleftrightarrow
+N_D^u(h)\lor N_D^u(k).
+$$
+
+\item For every carried history $u:\mathsf{BHist}$, if $u$ satisfies both
+one-sided unit laws against all carried histories, then
+$$
+R_D^u(u,e_D^u).
+$$
+
+\item For all carried histories $h,k,t:\mathsf{BHist}$, classifier equality is
+cancellative for a common carried factor on the right and on the left:
+$$
+R_D^u(\mu_D^u(h,t),\mu_D^u(k,t))\to R_D^u(h,k),
+$$
+and
+$$
+R_D^u(\mu_D^u(t,h),\mu_D^u(t,k))\to R_D^u(h,k).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first field is exactly the concrete commutative monoid boundary of
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws}. It
+anchors the carrier, classifier, multiplication, and empty unit in the
+$\mathsf{BHist}$ tuple rather than in an abstract monoid variable.
+
+The strict-support field is supplied by
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff}. Its
+predicate is the $N_D^u$ introduced in
+\autoref{def:field-rat-denominator-empty-unit-strict-product-support}, so the
+empty endpoint remains carried while the genuine Rat denominator endpoint is the
+only strict support source.
+
+The unit field is
+\autoref{thm:field-rat-denominator-empty-unit-identity-unique}. It takes an
+arbitrary carried two-sided unit witness $u$ and classifies it against the
+distinguished endpoint $e_D^u$.
+
+The cancellation field is the two-sided classifier cancellation package of
+\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package}.
+Together these clauses are not a variant of any single source theorem: the block
+composes the carrier and classifier laws, the strict support predicate, unit
+uniqueness, and both cancellation directions into the concrete denominator
+multiplicative boundary required by the $\FieldUp(\mathsf{RatUp})$ exit
+criterion.
+\end{proof}
+
+\textbf{Traditional target}: FieldUp multiplicative denominator subcertificate
+for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{RatHistoryCarrier}$, $\Cont$, and $\mathsf{append}$; \textbf{carrier}:
+$C_D^u$; \textbf{classifier}: $R_D^u$; \textbf{stability obligations}:
+commutative monoid laws, strict support exactness, unit uniqueness, and two-sided
+cancellation; \textbf{ledger}: empty-unit endpoint provenance plus shared
+denominator continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-empty-unit-field-multiplicative-subcertificate};
+\textbf{exactness predicate}: concrete carried denominator products classify
+exactly through the empty-unit boundary; \textbf{standard bridge}: ordinary
+positive-denominator multiplication with an adjoined empty unit; \textbf{status}:
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field affine automorphism inverse is involutive]
 \label{thm:field-affine-automorphism-inverse-involutive}
 For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
