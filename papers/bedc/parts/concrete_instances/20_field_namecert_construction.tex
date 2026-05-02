@@ -567,3 +567,87 @@ contexts and empty external endpoints; core theorem
 \autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate};
 exactness predicate support readback and row closure; standard bridge FieldUp
 denominator action; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp assembled certificate boundary]
+\label{thm:ratup-fieldup-assembled-certificate-boundary}
+The concrete $\FieldUp(\mathsf{RatUp})$ source over $\mathsf{BHist}$ satisfies
+\autoref{def:field-certificate-obligations}. Its carrier is
+$\mathsf{RatHistoryCarrier}$, its classifier is
+$\mathsf{RatHistoryClassifier}$, and its rows are the following jointly
+registered obligations:
+\begin{enumerate}
+  \item the commutative-ring rows inherited from $\CommRingUp$ on the same
+  history carrier and classifier;
+  \item the inverse and nonzero rows supplied by
+  \autoref{thm:field-inverse-classifier-exact-from-apartness},
+  \autoref{thm:field-inverse-nonzero-domain-automorphism},
+  \autoref{thm:field-inverse-product-classifier-exact-from-apartness}, and
+  \autoref{thm:field-product-factor-map-classifier-exact-from-apartness};
+  \item the denominator rows supplied by
+  \autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-record}
+  and \autoref{thm:ratup-fieldup-denominator-certificate-assembly};
+  \item the contextual denominator rows supplied by
+  \autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package} and
+  \autoref{thm:ratup-fieldup-denominator-context-pair-action-laws};
+  \item the affine automorphism closure supplied by
+  \autoref{thm:field-affine-automorphism-group-certificate}.
+\end{enumerate}
+Consequently the current Phase Algebra Hierarchy exit object is the concrete
+BHist-anchored $\FieldUp(\mathsf{RatUp})$ certificate assembled from these rows.
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are fixed first. They are the concrete RatUp
+history predicates $\mathsf{RatHistoryCarrier}$ and
+$\mathsf{RatHistoryClassifier}$, so every row below is read over the same
+$\mathsf{BHist}$ source rather than over detached parameters.
+
+The algebraic spine is the inherited $\CommRingUp$ structure together with the
+inverse block. Apply
+\autoref{thm:field-inverse-classifier-exact-from-apartness},
+\autoref{thm:field-inverse-nonzero-domain-automorphism},
+\autoref{thm:field-inverse-product-classifier-exact-from-apartness}, and
+\autoref{thm:field-product-factor-map-classifier-exact-from-apartness}. These
+rows give classifier exactness for inverse formation, nonzero transport through
+the inverse domain, product inverse exactness, and certified multiplication by
+nonzero factors.
+
+The denominator subcertificate is then read from
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-record}
+and \autoref{thm:ratup-fieldup-denominator-certificate-assembly}. The first
+theorem records the multiplicative denominator rows, and the second identifies
+them as the denominator component consumed by the FieldUp certificate
+obligations.
+
+The contextual extension uses
+\autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package} and
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-laws}. These rows add
+one-step and iterated contextual actions, pair composition, unit action,
+classifier transport, strict-support readback, and componentwise product laws
+for the same denominator carrier.
+
+Finally, apply \autoref{thm:field-affine-automorphism-group-certificate}. Its
+identity, composition, inverse, associativity, classifier-congruence, and
+witness-choice descent rows close the affine automorphism part of the FieldUp
+interface. Combining these disjoint rows gives exactly the carrier,
+classifier, stability, exactness, and ledger obligations listed in
+\autoref{def:field-certificate-obligations}.
+\end{proof}
+
+Per-object template: traditional target concrete constructive field certificate
+for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$ with
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability obligations commutative-ring laws, proof-indexed inverse closure,
+nonzero transport, denominator multiplication, contextual action, context-pair
+composition, and affine automorphism closure; ledger ring expression data,
+nonzero witnesses, denominator histories, contextual pairs, and affine
+coefficient witnesses; core theorem list
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary},
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly},
+\autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package},
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-laws}, and
+\autoref{thm:field-affine-automorphism-group-certificate}; exactness predicate
+classifier exactness for inverse, product, denominator, contextual action, and
+affine automorphism rows; standard bridge ordinary constructive field over
+rational histories with certified affine automorphisms; status
+$\mathsf{ProofTarget}$.
