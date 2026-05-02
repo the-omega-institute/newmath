@@ -596,13 +596,42 @@ exactness predicate denominator action row coverage by the concrete BHist data;
 standard bridge FieldUp denominator action interface; status
 $\mathsf{ProofTarget}$.
 
+\begin{definition}[Concrete RatUp FieldUp source tuple]
+\label{def:ratup-fieldup-concrete-source-tuple}
+The concrete source tuple for $\FieldUp(\mathsf{RatUp})$ is denoted
+$\mathsf{RatUpFieldSource}_F$. Its field-level BHist source is
+$$
+C_F=\mathsf{RatHistoryCarrier},\qquad
+R_F=\mathsf{RatHistoryClassifier}.
+$$
+Its denominator coordinate is the concrete tuple
+$$
+(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)=
+(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier}).
+$$
+Its contextual-action coordinate is the action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}. Its
+context-pair coordinate is the carried pair carrier, componentwise classifier,
+unit pair, product $\star$, and support predicate of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}. Its affine
+coordinate is the certified affine automorphism row source
+$\mathsf{AffAut}_F$ of
+\autoref{def:field-affine-automorphism-package}, with the group certificate
+rows supplied by \autoref{thm:field-affine-automorphism-group-certificate}.
+\end{definition}
+
 \begin{theorem}[RatUp FieldUp assembled certificate boundary]
 \label{thm:ratup-fieldup-assembled-certificate-boundary}
-The concrete $\FieldUp(\mathsf{RatUp})$ source over $\mathsf{BHist}$ satisfies
+The named source tuple $\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple} satisfies
 \autoref{def:field-certificate-obligations}. Its carrier is
 $\mathsf{RatHistoryCarrier}$, its classifier is
-$\mathsf{RatHistoryClassifier}$, and its rows are the following jointly
-registered obligations:
+$\mathsf{RatHistoryClassifier}$, its denominator source is the concrete
+RatUp denominator tuple, its contextual source is $\Gamma$, its context-pair
+source is the monoid of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, and its affine
+source is $\mathsf{AffAut}_F$. The jointly registered rows are:
 \begin{enumerate}
   \item the commutative-ring rows inherited from $\CommRingUp$ on the same
   history carrier and classifier;
@@ -623,14 +652,24 @@ registered obligations:
   \item the affine automorphism closure supplied by
   \autoref{thm:field-affine-automorphism-group-certificate}.
 \end{enumerate}
-Consequently the current Phase Algebra Hierarchy exit object is the concrete
-BHist-anchored $\FieldUp(\mathsf{RatUp})$ certificate assembled from these rows.
+Consequently the Phase Algebra Hierarchy exit object is the concrete
+BHist-anchored $\FieldUp(\mathsf{RatUp})$ certificate carried by
+$\mathsf{RatUpFieldSource}_F$.
 \end{theorem}
 \begin{proof}
-The carrier and classifier fields are fixed first. They are the concrete RatUp
-history predicates $\mathsf{RatHistoryCarrier}$ and
-$\mathsf{RatHistoryClassifier}$, so every row below is read over the same
-$\mathsf{BHist}$ source rather than over detached parameters.
+Unpack \autoref{def:ratup-fieldup-concrete-source-tuple}. The carrier and
+classifier fields are the concrete RatUp history predicates
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$, so every row
+below is read over the same $\mathsf{BHist}$ source rather than over detached
+parameters.
+
+The denominator coordinate is
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, the contextual-action
+coordinate is $\Gamma$, and the context-pair coordinate is the carried pair
+monoid of \autoref{def:ratup-fieldup-denominator-context-pair-monoid}. The
+affine coordinate is $\mathsf{AffAut}_F$ with rows read from
+\autoref{thm:field-affine-automorphism-group-certificate}.
 
 The algebraic spine is the inherited $\CommRingUp$ structure together with the
 inverse block. Apply
