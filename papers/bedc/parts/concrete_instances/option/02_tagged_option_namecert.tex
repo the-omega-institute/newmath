@@ -560,6 +560,28 @@ carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_semanticNameCert}
 
+\begin{theorem}[Tagged option history visible semantic certificate]
+\label{thm:tagged-option-history-visible-semantic-certificate}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a
+source classifier on source histories, and assume a source
+$\NameCert(S,\sim_S)$. Then
+$\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,
+\mathsf{TaggedOptionHistoryPattern}_S,\mathsf{TaggedOptionHistoryLedger}_S,
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S})$ holds.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-semantic-certificate} to obtain
+the carrier-only semantic certificate for the tagged option history carrier and
+classifier.
+
+Keep the resulting core $\NameCert$ field unchanged. For the pattern and ledger
+soundness fields, apply
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence}: each
+carrier witness yields the visible tag pattern witness and the visible tag
+ledger witness. These three fields repack as the displayed
+$\mathsf{SemanticNameCert}$.
+\end{proof}
+
 \begin{corollary}[Tagged option history certificate over hsame]
 \label{cor:tagged-option-history-semantic-certificate-hsame}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier. If a source $\NameCert(S,\hsame)$ is supplied, then $\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,\mathsf{TaggedOptionHistoryPattern}_S,\mathsf{TaggedOptionHistoryLedger}_S,\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame})$ is the tagged option history semantic certificate with no separate compatibility hypothesis.
