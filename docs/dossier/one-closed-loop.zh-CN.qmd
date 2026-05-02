@@ -1,0 +1,173 @@
+---
+title: "一个 closed loop"
+subtitle: "为什么 Gödel、Tarski、Münchhausen、Hofstadter 原来是同一个约束 — 以及 BEDC 怎么把它最小化"
+author: "The Omega Institute"
+date: 2026-05-02
+lang: zh-CN
+description: "自指在形式逻辑与哲学里被当成四个分开的问题. 在 BEDC 内部, 它们是同一个问题, 落在一个 inductive 声明上. 这篇命名这个问题, 并指出它住在哪."
+---
+
+```{=html}
+<div class="lang-switch"><a href="one-closed-loop.qmd">English</a></div>
+```
+
+## 一个哲学结, 形式上解开
+
+如果你走进一个逻辑研讨会说 *自指*, 你会听到四个不同的关切, 每个有各自著名的名字:
+
+- **Gödel** — 足够表达力的形式系统有它无法证明的关于自身的真命题.
+- **Tarski** — 能描述自身 syntax 的形式系统不能定义自身的真值谓词.
+- **Münchhausen** — 没有形式系统能包含解释它的 runtime; bootstrap 是 open 的.
+- **Hofstadter** — 当一个系统 loop 回去描述自身, 把层级等同, 你得到 *strange loop*; 这是意识、艺术、Bach 赋格的来源.
+
+这看起来像四个独立约束 — 形式系统试图谈论自己时撞上的四堵不同的墙. 传统读法: *自指是危险的, 大致有四种风味.*
+
+BEDC 的 [reflection capstone](https://github.com/the-omega-institute/newmath/blob/dev/papers/bedc/parts/capstones/reflection_and_limits.tex) 给出不同的读法:
+
+> 它们不是四个问题. 它们是一个问题, 从四个角度看. 这个问题是: **一个形式系统必须从某地方开始, 而那个开始的动作需要的恰好是这个动作所引入的能力.** 一旦你接受 start 是个 closed self-referential loop — 而且 *只在那里* — 那四个"约束"就成了同一原语的对偶面.
+
+这篇描述这种读法, 它预测什么, 它让你能直接说什么之前说不出的东西.
+
+## closed loop 究竟是什么
+
+BEDC 整个 derived horizon — Bishop 风格实分析、入门范畴论、构造度量拓扑、所有 — 全建在一个 Lean inductive 类型上:
+
+```lean
+inductive BHist where
+  | Empty
+  | e0 (h : BHist)
+  | e1 (h : BHist)
+```
+
+两个 raw mark, 可递归组合, 加上 kernel 级别区分它们的能力.
+
+仔细读: 构造子 `e0` 和 `e1` 不是被某个先有的结构"作为不同元素给出的". 它们 *因为 inductive 声明这么说* 才不同 — 而声明这么说, 是通过把它们作为两个独立构造子名字引入的. *写下这个声明的动作* 本身就是 distinction 的动作. 没办法在没有"区分两个不同构造子"的能力的前提下写下"两个不同的构造子". form of distinction 是 **self-instantiating**.
+
+```{=html}
+<span class="role-tag discovery">💡 发现</span>
+```
+
+这是 G. Spencer-Brown 在 *Laws of Form* (1969) 持的位置: 每个形式系统都建在一个不可还原的原语之上, 这个原语的存在与使用它的动作同时被给出. Hofstadter 的 *Gödel, Escher, Bach* (1979) 经过认知与艺术绕同一个观察. BEDC 的贡献是 **把这个原语 minimal、explicit、机械化**: 一个 inductive 声明, 两个构造子, 不需要周围 informal 实践来解读.
+
+## productive vs vicious
+
+Strange loop 在逻辑里名声不好, 因为它太容易杀掉一致性. 朴素担心是: 如果系统能引用自己, Liar paradox 五行就出来. 所以形式系统通常 *禁止* 自指, 把这当卫生规则.
+
+BEDC 的 host kernel (Lean 4 / CIC) 对一种特定形状保留卫生规则, 对另一种破除它:
+
+::: {.evidence}
+**Vicious** — `def` 或 `theorem` 体引用自己. kernel 的 well-foundedness 检查在编译时拒绝它.
+
+```lean
+def loop : Bool := loop  -- 拒绝: 不 well-founded
+```
+
+**Productive** — `inductive` 声明, 构造子按名列出. 这被 kernel *接受*, 因为没有 body 可以引用自己. 构造子声明是 kernel 关于 inductive 类型的原语概念, 不是 derived definition.
+
+```lean
+inductive BHist where    -- 接受: kernel 把它
+  | Empty                --   作为原语接受, 不再追问
+  | e0 (h : BHist)
+  | e1 (h : BHist)
+```
+:::
+
+差别在 *body*. Vicious loop 有 body 指回被定义的名字; kernel 通过尝试展开 body 来解析, 然后失败. Productive loop 没有 body 可展开; kernel 接受它作为给定的. 自指是危险的 *只在* 它被裹在系统试图展开的 body 里时. 在 inductive 声明这一层, 没有 body, 自指 *是* 底层物.
+
+```{=html}
+<span class="elim-mark">✗ 「所有自指都危险」</span>
+```
+
+不全是. 自指危险 *只* 在它裹在系统试图展开的 body 里时. form of distinction 是系统 *不去* 展开的情况, 因为没东西可展开. kernel 的 syntactic 原语精确地划这条线.
+
+## 两个 loop, 互为对偶
+
+BEDC 恰好有 **一个** closed self-referential loop: 地基处的 form of distinction.
+
+它也有 **一个** open self-description: reflection map, 通过它 BEDC 能在自身内部描述整个 host calculus 的结构, 但不能定义自身的真值谓词.
+
+capstone 的主定理说这两件事不矛盾. 它们 *对偶*:
+
+> **Closed ground loop** — 必须有, 否则系统无法 start. 第一个原语必须供应它的动作所用的那种能力.
+>
+> **Open meta loop** — 必须有, 否则系统不一致. 按 Tarski, 一个定义自身真值谓词的系统产 Liar.
+>
+> 一致性要求 *精确这个分布*: ground 关闭, meta 不关闭.
+
+这是 capstone 显式化的架构对称. 别的根基都隐式地携带同一对偶 — 集合论有自己的 ground (空集 + 理解公理), 类型论有 (类型宇宙 + 同一性类型) — 但它们把 closure 跟周围 informal 实践捆在一起. BEDC 把 closure 暴露为单一可见的 inductive 声明, 把对偶写成定理.
+
+## Gödel = Tarski = Münchhausen = strange loop
+
+一旦接受对偶, 四个经典约束不再看起来独立.
+
+**Gödel** 说: 足够表达力的系统能编码自己 syntax (区分数字与非数字、公式与非公式、证明与非证明); 把这个编码应用到自指公式产出一条不可证的真命题. 把这个编码追溯到根: 它在每一步都依赖系统 **区分** 符号的能力. 那种能力是 form of distinction.
+
+**Tarski** 说: 能描述自身 syntax 的系统不能定义自身真值谓词, 因为 truth 会让你重建 Liar. "描述自身 syntax" 是 *open meta-loop* — BEDC reflection 恰是这个, 而停在 truth-predicate 定义之前. Truth 会是 meta loop 的关闭, 而那个关闭恰是一致性禁止的那一个.
+
+**Münchhausen** 说: 没系统 bootstrap 自己 runtime. 某外部解释器必须执行形式结构. 这是同一对偶的 *runtime 一面* — ground 原语是被 *stipulated* 的, 不是 derived; 给它操作内容的 runtime 同样被外部 stipulated.
+
+**Hofstadter** 说, 在 informal 哲学心情里: 认知、艺术、音乐、自我意识体验都涉及 loop, 系统在 loop 里以某种把层级等同的方式建模自己. 这件事的形式版 — 描述层 = 被描述层 — 恰是 Tarski 的 closure, 那是不一致的. Informal 版本在认知里被允许, 因为认知不是封闭演绎系统; 它从感官输入持续 re-grounding. BEDC 的读法: *ground* closure (form of distinction) 是 Hofstadter 描述的形式残留; Hofstadter 有时 blur 进去的 *meta* closure 在形式上被禁.
+
+四个约束, 一个底层事实: **一个能 start 的形式系统恰好有一个 closed self-referential loop, 在最小可能尺寸, 任何尝试 close 第二个 loop 都产生不一致.**
+
+## 这让我们能直接说什么
+
+unification 一旦出现, 几个传统困惑解锁:
+
+```{=html}
+<span class="elim-mark">✗ 「BEDC 逃脱 Gödel」</span>
+```
+
+没有. 每条 BEDC-可形式化的关于 inductive 类型的定理, 包括关于 BEDC 自身的定理, 都受标准 Gödel 论证约束. BEDC 里某条自指公式在 BEDC 里不可证. 我们没逃这件事.
+
+```{=html}
+<span class="elim-mark">✗ 「BEDC 解决了 strange loop 问题」</span>
+```
+
+没有. Hofstadter 哲学意义上的 strange loop 问题 — 鉴于认知与美学看起来自指, 它们怎么工作? — 不是形式逻辑里的问题. BEDC 对它没什么可说. 这个问题的形式残留是 form of distinction, BEDC 显式处理它.
+
+BEDC *做的是* 命名 closure 住在哪、什么形状、为什么不能 move up 一层. 关于 BEDC 主张三件 *正面为真* 的事:
+
+1. **BEDC 能表达任何信息**, 包括它自身逻辑形式的描述. reflection capstone 在 BEDC 内构造一个 CIC* 结构, 跟 host calculus 结构同构.
+
+2. **BEDC 不能内部证明它自身的所有性质**. Gödel 适用. 但表达和可证不是一回事. 表达-完备性是根基买给你的; 可证-不完备性是 closed ground loop 的代价.
+
+3. **Ground loop 不是缺陷.** 它是 starting at all 的代价. BEDC 一次付款, 在最小可能尺寸 — 单 inductive 声明, 不需周围 informal 实践 — 而且把这代价显式写下来. 别的根基付类似代价但留作隐式.
+
+## 这 *不是*
+
+这不是声称 BEDC 解决了 foundations. Foundations 不是要被解决的问题. 是要被 *定位* 的问题. BEDC 的贡献是把不可还原原语定位到最小可能尺寸, 写在所有人都能看到的地方.
+
+这不是声称四个约束 (Gödel、Tarski、Münchhausen、Hofstadter) 是 *literally 同一定理*. 它们不是. 它们形式陈述不同、证明不同、范围不同. 主张是它们 *共享一个底层来源*: 足够表达力的形式系统按必然有一个 closed ground loop, 而四个约束是那个 closure 在别处禁止什么的不同角度.
+
+这不是反驳 Hofstadter. Hofstadter 在认知与艺术里的 strange loop 是关于 *informal* 系统的观察, 这些系统持续 re-grounding. BEDC 的读法同意: strange-loop 直觉指向某个真东西, 而那个真东西就是 ground form of distinction. 分歧只在: 同一直觉能不能 *形式地* 推广到更高层而不导致不一致. Tarski 说不能. BEDC 同意 Tarski.
+
+## 这把项目放在哪
+
+```{=html}
+<span class="role-tag human">🧑 人类位置</span>
+<span class="role-tag ai">🤖 AI 形式化</span>
+<span class="role-tag discovery">💡 unification 主张</span>
+```
+
+Spencer-Brown 想把 distinction 当作形式系统的代数原语. 他在 *Laws of Form* 里给了哲学陈述, 数学装置部分留作 informal. Hofstadter 从认知和音乐绕同一个原语, 故意把描述留在形式逻辑外.
+
+BEDC, 60 年后, 几乎完成了 Spencer-Brown 的程序. 在 calculus of inductive constructions 的 inductive 机制上, 不加公理, 配机械验证, BEDC 建了 1837 条定理, 显示 form of distinction 能从计数到构造分析到入门范畴论一路扛. reflection capstone 显示同一个 form, 在内部, 能描述 host calculus.
+
+它没显示的 — 我们当前也没办法显示的 — 是 distinction 是不是 *那个* 唯一原语, 还是仅仅 *一个* 碰巧工作的原语. 集合也是一个碰巧工作的原语. 类型也是. 范畴也是. 它们之间是否有谁更原始, 这问题大概要再花 60 年.
+
+到那之前, BEDC 是这个具体回答的工作样本: distinction *够了*. 一个 closed loop, 一个 inductive 声明, 无进一步退行. 从自然数到紧致到自然变换, 都跟着分类器的 well-founded 递归在上面叠出来.
+
+closed loop 是代价. 我们付一次. 我们指出付在哪. 在那上面建其余.
+
+## 下一步去哪
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.zh-CN.qmd"><strong>← 区分作为根基</strong><br/>把"区分"当作信息本身的不可还原原语的搭档论证.</a>
+  <a href="synthesis-not-creation.zh-CN.qmd"><strong>综合, 不是创造 →</strong><br/>reflection capstone 自身就是综合 — 作者命名了与 Hofstadter 的对比, AI 把对偶形式化. 两种贡献都重要.</a>
+  <a href="index.zh-CN.qmd"><strong>回到主故事</strong><br/>BEDC 是什么, 72 小时里发生了什么, AI 驱动形式化里浮现的五个惊喜.</a>
+</div>
+```
+
+— *The Omega Institute*
