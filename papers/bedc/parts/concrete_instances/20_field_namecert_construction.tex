@@ -176,14 +176,49 @@ nonemptiness theorem applies to the canonical continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_product\_nonempty\_iff}
 
+\begin{theorem}[Rat denominator empty-unit strict product support exactness]
+\label{thm:field-rat-denominator-empty-unit-strict-product-support-exactness}
+For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, strict
+support is exact for the empty-unit product:
+$$
+N_D^u(\mu_D^u(h,k))
+\Longleftrightarrow
+N_D^u(h)\lor N_D^u(k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $N_D^u$. The forward direction starts from
+$\mathsf{RatHistoryCarrier}(\mu_D^u(h,k))$. By
+$\mathsf{RatHistoryCarrier\_not\_empty}$, the product cannot be
+$\hsame\emp$. Apply
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff} to this
+nonempty product witness and obtain $N_D^u(h)\lor N_D^u(k)$.
+
+For the reverse direction, assume $N_D^u(h)\lor N_D^u(k)$. The reverse
+direction of
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff} gives
+that $\mu_D^u(h,k)$ is not $\hsame\emp$.
+
+It remains to recover the genuine Rat carrier for the product. The closure
+clause of
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}
+applied to $C_D^u(h)$ and $C_D^u(k)$ gives
+$C_D^u(\mu_D^u(h,k))$. Apply
+$\mathsf{RatDenomUnitCarrier\_nonempty\_rat}$ to this carried-product witness
+and the nonempty product witness. The result is
+$\mathsf{RatHistoryCarrier}(\mu_D^u(h,k))$, equivalently
+$N_D^u(\mu_D^u(h,k))$.
+\end{proof}
+
 Per-object template: traditional target strict support for the empty-unit
 denominator multiplication; BEDC source $\mathsf{RatHistoryCarrier}$,
 $\mathsf{RatDenomUnitCarrier}$, and $\Cont$; carrier $C_D^u$; classifier
 $R_D^u$; stability obligation product support exactness; ledger continuation
 witness; core theorem
-\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff}; exactness
-predicate nonempty product iff genuine denominator input; standard bridge
-ordinary denominator monoid support; status $\mathsf{ProofTarget}$.
+\autoref{thm:field-rat-denominator-empty-unit-strict-product-support-exactness};
+exactness predicate strict product support iff genuine denominator input;
+standard bridge ordinary denominator monoid support; status
+$\mathsf{ProofTarget}$.
 
 \begin{definition}[Rat denominator empty-unit multiplicative substrate]
 \label{def:field-rat-denominator-empty-unit-multiplicative-substrate}
