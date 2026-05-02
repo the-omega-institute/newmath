@@ -201,6 +201,59 @@ target branch disjunction. Conjoining the transported classifier with this
 branch exposure gives the stated target readback.
 \end{proof}
 
+\begin{theorem}[Tagged option map relation common-target source classification]
+\label{thm:tagged-option-maprel-common-target-source-classification}
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source and target
+carriers, let $\sim_S$ and $\sim_T$ be their classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload-carrier preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Assume reflected source readback from visible target equality,
+$$
+\mathsf{TaggedOptionPayloadDescentReflectsSource}_{\delta}(S,\sim_S).
+$$
+For histories $h,h',k$, if
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h',k)
+$$
+then
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,h').
+$$
+\end{theorem}
+\begin{proof}
+Split the two map-relation witnesses. If both witnesses are absent, their
+source endpoint presentations are $\hsame(h,\emp)$ and
+$\hsame(h',\emp)$, so the absent-absent tagged classifier branch gives the
+conclusion.
+
+In a mixed branch, one witness presents the shared target endpoint $k$ as
+$\emp$, while the other presents it as $\Eone(\delta.\mathsf{map}(b))$ for
+some payload $b$. Symmetry and transitivity of $\hsame$ compose these two
+presentations into $\hsame(\emp,\Eone(\delta.\mathsf{map}(b)))$ or its reverse,
+contradicting generated-history empty-versus-one no-confusion. Hence mixed
+branches cannot occur.
+
+In the present/present branch, the two witnesses expose payloads $a,b$ with
+$S(a)$ and $S(b)$, source endpoint presentations $\hsame(h,\Eone(a))$ and
+$\hsame(h',\Eone(b))$, and target endpoint presentations
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$ and
+$\hsame(k,\Eone(\delta.\mathsf{map}(b)))$. Composing the two target endpoint
+presentations and inverting the common one-step constructor yields
+$\hsame(\delta.\mathsf{map}(a),\delta.\mathsf{map}(b))$.
+
+Reflected source readback converts this visible target equality into
+$a\sim_S b$. Together with the stored source carrier and endpoint witnesses,
+this rebuilds the present-present source classifier for $h$ and $h'$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionMapRel\_common\_target\_source\_classification}
+
 \begin{theorem}[Tagged option map relation common-source target classification]
 \label{thm:tagged-option-maprel-common-source-target-classification}
 Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers, let
