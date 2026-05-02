@@ -95,6 +95,60 @@ the empty witness domain. No classical nonzero test or further endpoint datum
 is needed.
 \end{proof}
 
+\begin{theorem}[Singleton empty-history vector space endpoint collapse]
+\label{thm:singleton-empty-history-vecspace-endpoint-collapse}
+With the notation of
+Definition~\ref{def:singleton-empty-history-vecspace-instance}, let
+$r,s:\mathsf{BHist}$ be scalar endpoints and $m,n:\mathsf{BHist}$ be vector
+endpoints carried by $A_{\emp}$. Then the concrete singleton tuple has the
+following endpoint classifications:
+\begin{enumerate}
+  \item For any $x,y:\mathsf{BHist}$, if $A_{\emp}(x)$ and $A_{\emp}(y)$,
+  then $\rho_{\emp}(x,y)$.
+  \item $A_{\emp}(\mathsf{smul}(r,m))$ and
+  $\rho_{\emp}(\mathsf{smul}(r,m),\emp)$.
+  \item The vector endpoints $\mathsf{add}(m,n)$, $\mathsf{neg}(m)$, and
+  the vector zero are all carried by $A_{\emp}$ and classified with $\emp$.
+  \item The scalar endpoints $0$, $1$, and $\mathsf{mul}(r,s)$ are all
+  carried by $A_{\emp}$ and classified with $\emp$.
+  \item For any witness $p:\mathsf{NonZero}_{\bot}(r)$, the inverse endpoint
+  $\mathsf{inv}(r,p)$ is carried by $A_{\emp}$ and classified with $\emp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:module-singleton-scalar-action-laws} to the carried
+scalar and vector inputs. Its closure and congruence clauses cover the
+additive vector endpoints and the scalar-action endpoint for the same
+$A_{\emp}$ carrier and $\rho_{\emp}$ classifier.
+
+Apply Theorem~\ref{thm:singleton-empty-history-field-schema-laws} to the
+scalar side. It supplies closure for scalar zero, scalar one, scalar
+multiplication, and the proof-indexed inverse clauses over the same singleton
+source.
+
+Unfold the concrete operations in
+Definition~\ref{def:singleton-empty-history-vecspace-instance}. The displayed
+scalar action is definitionally $\emp$, and the imported singleton vector and
+scalar operations reduce to the singleton endpoint as recorded by the module
+and field law packages.
+
+For any two carried endpoints $x$ and $y$, unfold
+$\rho_{\emp}(x,y)$. The carrier components are the two assumptions
+$A_{\emp}(x)$ and $A_{\emp}(y)$, and the singleton endpoint witnesses for
+$x$ and $y$ compose to give the required $\hsame(x,y)$ component.
+
+Each operation endpoint already reduces to $\emp$ or is closed by the cited
+law package at the singleton endpoint. Pair the relevant
+$A_{\emp}(\emp)$ witness with reflexivity $\hsame(\emp,\emp)$ to obtain the
+displayed classifier witness against $\emp$.
+
+For the inverse-indexed clause, assume
+$p:\mathsf{NonZero}_{\bot}(r)$. Since $A_{\emp}(r)$ holds,
+Theorem~\ref{thm:field-singleton-nonzero-absurd} eliminates the nonzero
+witness at the only possible endpoint. From that contradiction, the carried
+and classified inverse conclusion follows over the empty witness domain.
+\end{proof}
+
 The $\VecSpaceUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and scalar action, so Lean formalization can target BHist-anchored
 vector-space laws in $\mathsf{BEDC.Derived.VecSpaceUp}$.
