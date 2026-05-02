@@ -1,2 +1,33 @@
 \input{parts/concrete_instances/field/20_field_singleton_schema}
+
+\section{RatUp boundary for the singleton field schema}
+\label{sec:field-singleton-rat-boundary}
+
+\begin{theorem}[Singleton field schema is disjoint from the RatUp history carrier]
+\label{thm:field-singleton-schema-disjoint-from-rat-history-carrier}
+For every $h:\mathsf{BHist}$, if $A_{\emp}(h)$ is the singleton source from
+Definition~\ref{def:singleton-empty-history-field-schema-instance}, then
+$\mathsf{RatHistoryCarrier}(h)$ implies $\mathsf{False}$. Equivalently, no
+RatUp history-carrier endpoint is an endpoint of the singleton empty-history
+$\FieldUp$ schema.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(h)$ and $\mathsf{RatHistoryCarrier}(h)$. Unfolding the
+singleton carrier component gives the endpoint equality $h\hsame\emp$.
+
+The RatUp carrier witness is separated from the empty denominator endpoint by
+Theorem~\ref{thm:rat-history-carrier-not-empty}. Applying that theorem to the
+carrier witness and the equality $h\hsame\emp$ gives the required
+contradiction.
+\end{proof}
+
+Traditional target terminal singleton field boundary; BEDC source singleton
+$\mathsf{BHist}$ $\FieldUp$ schema plus RatUp history carrier; carrier choices
+$A_{\emp}$ and $\mathsf{RatHistoryCarrier}$; classifier choices $\rho_{\emp}$
+and Rat history classifier; stability obligation nonempty denominator
+separation; ledger empty endpoint versus positive-denominator evidence; core
+theorem Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier};
+exactness predicate no shared endpoint; standard bridge terminal schema is not
+the rational field; status ProofTarget.
+
 \input{parts/concrete_instances/field/20_field_laws_and_certificate}
