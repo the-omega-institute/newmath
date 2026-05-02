@@ -263,6 +263,14 @@ theorem FunctorPrefixHomCarrier_target_prefix_deterministic {p q a source f : BH
     CategoryHomCarrier_target_deterministic left right
   exact append_right_cancel (k := a) sameTarget
 
+theorem FunctorPrefixHomCarrier_target_object_deterministic {p a b source f : BHist} :
+    CategoryHomCarrier source (append p a) f →
+      CategoryHomCarrier source (append p b) f → hsame a b := by
+  intro left right
+  have sameTarget : hsame (append p a) (append p b) :=
+    CategoryHomCarrier_target_deterministic left right
+  exact append_left_cancel (h := p) sameTarget
+
 theorem FunctorPrefixHomCarrier_comp_middle_object_deterministic
     {p a b b' c f g fg : BHist} :
     CategoryHomCarrier (append p a) (append p b) f →

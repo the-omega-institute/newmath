@@ -334,6 +334,26 @@ right append suffix $a$ yields $\hsame(p,q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_target\_prefix\_deterministic}
 
+\begin{theorem}[Functor prefix hom-carrier target-object determinacy]
+\label{thm:functor-prefix-hom-carrier-target-object-deterministic}
+For histories $p,a,b,source,f$, if the same morphism $f$ is a category
+hom-carrier from $source$ to $\mathsf{append}(p,a)$ and from $source$ to
+$\mathsf{append}(p,b)$, then the two target objects agree:
+$$
+\mathsf{CategoryHomCarrier}(source,\mathsf{append}(p,a),f)
+\land
+\mathsf{CategoryHomCarrier}(source,\mathsf{append}(p,b),f)
+\Longrightarrow
+\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Category hom-carrier target determinism gives
+$\hsame(\mathsf{append}(p,a),\mathsf{append}(p,b))$. Cancelling the common
+left append prefix $p$ yields $\hsame(a,b)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_target\_object\_deterministic}
+
 \begin{theorem}[Functor prefix hom-carrier composite middle-object determinacy]
 \label{thm:functor-prefix-hom-carrier-comp-middle-object-deterministic}
 For histories $p,a,b,b',c,f,g,fg$, suppose $f$ is a category hom-carrier from

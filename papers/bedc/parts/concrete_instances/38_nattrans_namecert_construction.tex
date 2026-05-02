@@ -86,6 +86,27 @@ carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_target\_prefix\_iff}
 
+\begin{theorem}[NatTrans prefix component empty-prefix exactness]
+\label{thm:nattrans-prefix-component-carrier-empty-prefixes-iff}
+For histories $a,\eta$, a prefix component with both prefixes empty is exactly
+a unary object together with a category hom-carrier from $a$ to itself:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(\emp,\emp,a,\eta)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(a)\wedge
+\mathsf{CategoryHomCarrier}(a,a,\eta).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier. Both endpoints are
+$\mathsf{append}(\emp,a)$, which is history-same as $a$ by the left unit law
+for append. Category hom-carrier transport across those endpoint equalities
+gives the displayed carrier from $a$ to itself. The converse transports this
+carrier back to the two empty-prefixed endpoints and packages the two empty
+prefix carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_prefixes\_iff}
+
 \begin{theorem}[NatTrans prefix component vertical composition closure]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-closed}
 For prefix components over unary histories, if \(\eta\) is a component from
