@@ -43,16 +43,38 @@ Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
 $A_{\emp}(k)$ and the carrier witness $\mathsf{RatHistoryCarrier}(k)$.
 \end{proof}
 
+\begin{theorem}[Rat ledger endpoints are disjoint from the singleton FieldUp schema]
+\label{thm:field-singleton-schema-disjoint-from-rat-ledger}
+For every raw and visible histories $\rho,v:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, then both
+$A_{\emp}(\rho)\to\mathsf{False}$ and
+$A_{\emp}(v)\to\mathsf{False}$ hold, where $A_{\emp}$ is the singleton source
+from Definition~\ref{def:singleton-empty-history-field-schema-instance}.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$. Its raw component gives
+$\mathsf{RatHistoryCarrier}(\rho)$, so any assumption $A_{\emp}(\rho)$ is
+contradictory by
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier}.
+
+For the visible endpoint, apply
+Theorem~\ref{thm:rat-ledger-visible-carrier} to the same ledger policy. This
+produces $\mathsf{RatHistoryCarrier}(v)$, and
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier}
+again rules out $A_{\emp}(v)$.
+\end{proof}
+
 Traditional target terminal singleton field boundary; BEDC source singleton
 $\mathsf{BHist}$ $\FieldUp$ schema plus RatUp history carrier; carrier choices
 $A_{\emp}$ and $\mathsf{RatHistoryCarrier}$; classifier choices $\rho_{\emp}$
-and Rat history classifier; stability obligation nonempty denominator
-separation; ledger empty endpoint versus positive-denominator evidence; core
-theorems
+and Rat history classifier; ledger choices
+$\mathsf{RatHistoryLedgerPolicy}$; stability obligation nonempty denominator
+separation; raw and visible ledger endpoint exclusion; core theorems
 Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} and
-Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-classifier};
-exactness predicate no shared endpoint; standard bridge terminal schema is not
-the rational field; status ProofTarget.
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-classifier}
+and Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-ledger};
+exactness predicate no shared carrier, classifier, or ledger endpoint; standard
+bridge terminal schema is not the rational field; status ProofTarget.
 
 \begin{theorem}[Classifier-complement singleton FieldUp instance is RatUp-disjoint]
 \label{thm:field-singleton-empty-concrete-instance-rat-disjoint}
@@ -216,7 +238,8 @@ $$
 
 Apply \autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness}
 with the same certified nonzero factors $p_a,p_b$ and offset $d$. The affine
-injectivity theorem removes the shared affine map and yields $x\hsame y$.
+classifier exactness theorem removes the shared affine map and yields
+$x\hsame y$.
 \end{proof}
 
 Per-object certificate: Traditional target: affine equation uniqueness. BEDC
