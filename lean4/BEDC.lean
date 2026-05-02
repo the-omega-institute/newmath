@@ -79,6 +79,7 @@ import BEDC.Derived.OptionUp.CompositeReadback
 import BEDC.Derived.OptionUp.SelfExactness
 import BEDC.Derived.OptionUp.TransportVisiblePayloadReadback
 import BEDC.Derived.OptionUp.ExclusiveBranch
+import BEDC.Derived.OptionUp.EndpointFanout
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
