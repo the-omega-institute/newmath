@@ -120,6 +120,69 @@ absent/absent branch contains $\hsame(k',\emp)$ and contradicts the premise
 $\neg\hsame(k',\emp)$, while the present/present branch is exactly the required
 synchronized transported payload pair.
 \end{proof}
+\begin{theorem}[Tagged option payload descent image classifier visible target-payload classification]
+\label{thm:tagged-option-payload-descent-image-classifier-visible-target-payload-classification}
+This theorem fits the per-object template as follows: the traditional target is
+target-side payload classification for a visible option image pair; the BEDC
+source is $\mathsf{BHist}$ with a $\mathsf{DescentCertificate}$; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligation is
+visible payload readback plus descent respect; the ledger is the displayed
+target present payload pair; the core theorem is target-payload classifier
+recovery; exactness supplies transported source payloads behind the visible
+targets; the standard bridge is $\mathsf{none}$/$\mathsf{some}$ under payload
+descent; and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history carriers, let
+$\sim_S$ and $\sim_T$ be source and target classifiers, let
+$\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)$,
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$ and
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$. Assume source compatibility
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ and target compatibility
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$. For target endpoints
+$k,k':\mathsf{BHist}$ and visible target payloads $u,v:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k'),
+\qquad
+T(u),
+\qquad
+T(v),
+\qquad
+\hsame(k,\Eone(u)),
+\qquad
+\hsame(k',\Eone(v)),
+$$
+then $u\sim_T v$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-visible-payload-readback}
+to the image-classifier witness and the two visible present-payload
+presentations. This produces source payloads $a,b$ with $S(a)$, $S(b)$, and
+$a\sim_S b$, together with target carrier witnesses for
+$\delta.\mathsf{map}(a)$ and $\delta.\mathsf{map}(b)$ and the visible payload
+readbacks $\hsame(u,\delta.\mathsf{map}(a))$ and
+$\hsame(v,\delta.\mathsf{map}(b))$.
+
+Use the $\mathsf{respects}$ field of $\delta$ on $a\sim_S b$ to obtain
+$\delta.\mathsf{map}(a)\sim_T\delta.\mathsf{map}(b)$. Target compatibility turns
+$T(u)$, $T(\delta.\mathsf{map}(a))$, and
+$\hsame(u,\delta.\mathsf{map}(a))$ into
+$u\sim_T\delta.\mathsf{map}(a)$; it also turns $T(v)$,
+$T(\delta.\mathsf{map}(b))$, and $\hsame(v,\delta.\mathsf{map}(b))$ into
+$v\sim_T\delta.\mathsf{map}(b)$.
+
+Apply symmetry from $\mathsf{cert}_T$ to the second target-compatibility
+relation, giving $\delta.\mathsf{map}(b)\sim_T v$. Transitivity from
+$\mathsf{cert}_T$ first composes
+$u\sim_T\delta.\mathsf{map}(a)$ with
+$\delta.\mathsf{map}(a)\sim_T\delta.\mathsf{map}(b)$, and then composes the
+result with $\delta.\mathsf{map}(b)\sim_T v$. The conclusion is $u\sim_T v$.
+\end{proof}
 \input{parts/concrete_instances/option/09_exclusive_classifier_branch_readback.tex}
 \input{parts/concrete_instances/option/10_payload_descent_image_classifier_public_package.tex}
 \input{parts/concrete_instances/option/10_payload_descent_image_classifier_readback_and_stability.tex}
