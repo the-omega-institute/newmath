@@ -490,6 +490,34 @@ yields $\hsame(m,m')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_result\_deterministic}
 
+\begin{theorem}[Compact net witness composite center determinacy]
+\label{thm:compact-net-witness-composite-center-deterministic}
+For histories $c,c',\epsilon,\eta,n,n',m$, if the first-stage net witnesses
+share precision $\epsilon$ and the second-stage refinements share extra
+precision $\eta$ and final net $m$, then their centers are the same BEDC
+history:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+\Longrightarrow
+\mathsf{CompactNetWitness}(n,\eta,m)
+\Longrightarrow
+\mathsf{CompactNetWitness}(c',\epsilon,n')
+\Longrightarrow
+\mathsf{CompactNetWitness}(n',\eta,m)
+\Longrightarrow
+\hsame(c,c').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the second-stage witnesses into continuation ledgers
+$\ContR(n,\eta,m)$ and $\ContR(n',\eta,m)$. Continuation right cancellation
+gives $\hsame(n,n')$. The first-stage witnesses provide
+$\ContR(c,\epsilon,n)$ and $\ContR(c',\epsilon,n')$; cancellation over the
+common suffix $\epsilon$ and the already identified net histories yields
+$\hsame(c,c')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_center\_deterministic}
+
 \begin{theorem}[Prefixed composite compact net witness closure]
 \label{thm:compact-net-witness-prefixed-composite-closed}
 For unary histories $p,c,\epsilon,\eta,\theta,n,m$, assume

@@ -60,6 +60,7 @@ import BEDC.Derived.OptionUp.BranchExactness
 import BEDC.Derived.OptionUp.BranchReadback
 import BEDC.Derived.OptionUp.SourceWeakening
 import BEDC.Derived.OptionUp.TaggedPayload
+import BEDC.Derived.OptionUp.TaggedCarrier
 import BEDC.Derived.OptionUp.Readback
 import BEDC.Derived.OptionUp.PayloadDescent
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifier

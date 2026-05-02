@@ -137,6 +137,23 @@ the unique underlying payload, yielding $\hsame(a,b)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistory\_present\_payload\_determinism}
 
+\begin{theorem}[Tagged option history carrier e0 absurdity]
+\label{thm:tagged-option-history-carrier-e0-absurd}
+For every source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and tail history
+$t$, the zero-tagged history cannot inhabit the tagged optional carrier:
+$$
+\mathsf{TaggedOptionHistoryCarrier}_S(\Ezero(t))\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged carrier witness. The absent branch asserts
+$\hsame(\Ezero(t),\emp)$, contradicting history no-confusion between
+$\Ezero$ and the empty history. The present branch supplies a payload $a$ with
+$S(a)$ and $\hsame(\Ezero(t),\Eone(a))$, contradicting no-confusion between
+the two visible tags.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier\_e0\_absurd}
+
 \begin{theorem}[Tagged option history carrier exclusive branch partition]
 \label{thm:tagged-option-history-carrier-exclusive-branch-partition}
 This theorem fits the per-object template as follows: the traditional target is
