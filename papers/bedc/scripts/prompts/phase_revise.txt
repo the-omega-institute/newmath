@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v1.8 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.1 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Round P<ROUND_NUM>
 
@@ -119,6 +119,18 @@ For each target in the list above:
    - Do **NOT** introduce a new `inductive` type or new `class` field merely to support the proposed theorem. The proposal must be statable using existing kernel + setup objects.
    - Do **NOT** edit `lean4/BEDC/...` for a theory_extension target. Paper proposes; Lean implements separately.
 
+9. If the target's `paper_files[0]` matches `papers/bedc/parts/capstones/...` (capstone bridge theorem with `cross_chapter_unification = 2`):
+   - If the file does not yet exist (i.e. `targets[0].new_files` lists it), create it with this header:
+     ```
+     \section{<Title>}
+     \label{sec:capstone-<theme>}
+     ```
+     followed by 1–2 paragraphs of mathematical context naming the chapters being bridged (cite via `\autoref{ch:concrete-instances-<theme>-namecert}` or section labels), then a `\begin{theorem}…\end{theorem}` block with the formal statement, then `\begin{proof}…\end{proof}` with a constructive sketch citing every `\leanchecked` source used.
+   - Append `\input{parts/capstones/<theme>}` (no `.tex` extension) to `papers/bedc/parts/capstones/_index_files.tex` in alphabetical order. If the file is empty, write that single line.
+   - The bridge theorem itself MAY get a `\leanchecked{X}` marker pointing to a Lean target — but ONLY if the same round also implements the Lean target (Step 7 above). Do NOT add `\leanvariant` markers in capstones/. Do NOT bridge a theorem whose Lean target is not written and checked in the same round.
+   - Cited `\leanchecked{Y}` sources from other chapters MAY appear inline in the proof body — drift audit accepts repeated references to the same Lean name across chapters when it is a true bridge.
+   - The theme-saturation gate is bypassed for `capstones/` files; bridge theorems are explicitly allowed to span any number of themes. NAMING.md still applies (no mechanical-arity suffixes, no `_iff` twins).
+
 ## Step 2: Compile the paper
 ```bash
 cd papers/bedc && make
@@ -199,12 +211,12 @@ If the diff only re-indents existing lines or only adds new `\leanvariant` marke
 git add papers/bedc lean4/BEDC
 git commit -m "P<ROUND_NUM>: [brief description of what was revised]
 
-prompts: v1.8
+prompts: v2.0
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v1.8` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+The `prompts: v2.0` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
 
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 

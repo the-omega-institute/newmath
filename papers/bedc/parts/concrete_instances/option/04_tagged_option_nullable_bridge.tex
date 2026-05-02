@@ -80,8 +80,7 @@ specialized to the source classifier $\hsame$.
 \begin{theorem}[Tagged option public certificate compares with nullable envelope]
 \label{thm:tagged-option-public-certificate-descends-to-nullable-envelope}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a
-source classifier, let $\mathsf{cert}:\NameCert(S,\sim_S)$, and assume both
-$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$ and
+source classifier, let $\mathsf{cert}:\NameCert(S,\sim_S)$, and assume
 $\mathsf{TaggedOptionToNullableBridge}(S,\sim_S)$. Then the constructor-tagged
 public certificate
 $$
@@ -107,11 +106,17 @@ the checked nullable envelope; it is not an equality of the two carrier
 presentations.
 \end{theorem}
 \begin{proof}
-The tagged semantic certificate is exactly
-Theorem~\ref{thm:tagged-option-history-semantic-certificate}, applied to the
-source certificate $\mathsf{cert}$ and the compatibility hypothesis
-$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$. The two displayed
-implications are exactly
+First apply Theorem~\ref{thm:tagged-option-history-semantic-certificate} to the
+source certificate $\mathsf{cert}$, obtaining the carrier-only tagged semantic
+certificate. The core certificate is reused unchanged.
+
+For the displayed public certificate, use
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence} to
+convert each tagged carrier witness into the visible pattern witness and the
+visible ledger witness, then repack the core certificate with these two
+soundness maps.
+
+The two displayed implications are exactly
 Theorem~\ref{thm:tagged-option-to-nullable-classifier-bridge}, applied to the
 bridge hypothesis $\mathsf{TaggedOptionToNullableBridge}(S,\sim_S)$. The bridge
 records one-way carrier and classifier compatibility with the checked nullable

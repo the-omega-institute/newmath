@@ -59,6 +59,34 @@ theorem TaggedOptionHistoryClassifier_present_present_exactness {S : BHist -> Pr
                                       (And.intro (hsame_e1_congr sameHA)
                                         (And.intro (hsame_e1_congr sameKB) relAB))))))
 
+theorem TaggedOptionHistoryClassifier_same_tag_exactness {S : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} {h k : BHist} :
+    (TaggedOptionHistoryClassifier S Rel BHist.Empty k ↔ hsame k BHist.Empty) ∧
+      (TaggedOptionHistoryClassifier S Rel (BHist.e1 h) (BHist.e1 k) ↔
+        ∃ a : BHist, ∃ b : BHist,
+          S a ∧ S b ∧ hsame h a ∧ hsame k b ∧ Rel a b) := by
+  constructor
+  · constructor
+    · intro classifier
+      cases classifier with
+      | inl absentPair =>
+          exact absentPair.right
+      | inr presentPair =>
+          cases presentPair with
+          | intro a restA =>
+              cases restA with
+              | intro _b data =>
+                  cases data with
+                  | intro _sourceA rest =>
+                      cases rest with
+                      | intro _sourceB rest =>
+                          cases rest with
+                          | intro sameEmptyPresent _rest =>
+                              exact False.elim (not_hsame_emp_e1 sameEmptyPresent)
+    · intro sameKEmpty
+      exact Or.inl (And.intro (hsame_refl BHist.Empty) sameKEmpty)
+  · exact TaggedOptionHistoryClassifier_present_present_exactness
+
 theorem TaggedOptionHistoryClassifier_presented_payload_exactness {S : BHist -> Prop}
     {Rel : BHist -> BHist -> Prop}
     (rel_trans : forall {x y z : BHist}, Rel x y -> Rel y z -> Rel x z)

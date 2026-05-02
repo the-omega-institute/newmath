@@ -237,6 +237,35 @@ no-confusion rules out any generated sameness derivation between a zero-tagged
 history and a one-tagged history, so the two witnesses cannot coexist.
 \end{proof}
 
+\begin{theorem}[Left one-headed continuation result cases]
+\label{thm:cont-left-e1-result-cases}
+If $\ContR(\Eone(h),k,\Eone(r))$, then either $k=\emp$ and
+$\HSame(h,r)$, or $k=\Eone(k_0)$ for some $k_0$ and
+$\ContR(\Eone(h),k_0,r)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_e1\_result\_cases}
+\begin{proof}
+Classify the right continuation history $k$. The empty case reduces the result
+equation to equality of the inner histories. A zero-headed $k$ would force a
+one-headed history to equal a zero-headed history, contradicting constructor
+no-confusion. A one-headed $k$ exposes its predecessor $k_0$ and removes the
+matching outer constructor from the continuation equation.
+\end{proof}
+
+\begin{theorem}[Left cross-tag continuation result cases]
+\label{thm:cont-left-tag-cross-result-cases}
+If $\ContR(\Ezero(h),k,\Eone(r))$, then $k=\Eone(k_0)$ for some $k_0$
+and $\ContR(\Ezero(h),k_0,r)$. If $\ContR(\Eone(h),k,\Ezero(r))$, then
+$k=\Ezero(k_0)$ for some $k_0$ and $\ContR(\Eone(h),k_0,r)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_left\_tag\_cross\_result\_cases}
+\begin{proof}
+In each direction, classify $k$ by generated-history constructors. The empty
+case and the branch whose tag matches the left source produce impossible
+outer-constructor equalities. The opposite-tag branch exposes the predecessor
+of $k$ and peels the matching outer constructor from the result equation.
+\end{proof}
+
 \begin{lemma}[Continuation right unit]
 For every history \(h\), \(\ContR(h,\emp,h)\).
 \end{lemma}
@@ -311,6 +340,37 @@ Use $\hsame(a,a')$ to align the left context and $\hsame(r,r')$ to align the
 result. The two continuation derivations then have the same left context and
 the same result, so left-context cancellation gives $\hsame(b,d)$.
 \end{proof}
+
+\begin{theorem}[Continuation prefix cancellation]
+\label{thm:continuation-prefix-cancel}
+If $\ContR(\mathsf{append}(p,a),f,\mathsf{append}(p,b))$, then
+$\ContR(a,f,b)$.
+\end{theorem}
+\begin{proof}
+Read the displayed continuation as equality of append representatives. Append
+associativity rewrites the right side as $\mathsf{append}(p,\mathsf{append}(a,f))$.
+Left cancellation of the common prefix $p$ identifies $b$ with
+$\mathsf{append}(a,f)$, which is exactly the unprefixed continuation.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_prefix\_cancel}
+
+\begin{theorem}[Continuation prefix equivalence]
+\label{thm:cont-prefix-iff}
+For histories $p,a,b,f$,
+$$
+\ContR(\mathsf{append}(p,a),f,\mathsf{append}(p,b))
+\Longleftrightarrow
+\ContR(a,f,b).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is continuation prefix cancellation. For the reverse
+direction, prefix the equality witness for $\ContR(a,f,b)$ by
+$\mathsf{append}(p,-)$ and use associativity to identify
+$\mathsf{append}(p,\mathsf{append}(a,f))$ with
+$\mathsf{append}(\mathsf{append}(p,a),f)$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_prefix\_iff}
 
 \begin{theorem}[Continuation cancellation laws]
 \label{thm:continuation-right-cancellation}

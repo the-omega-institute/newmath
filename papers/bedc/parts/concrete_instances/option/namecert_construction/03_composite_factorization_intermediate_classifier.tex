@@ -1,0 +1,92 @@
+\section{Tagged option composite factorization intermediate classifier determinacy}
+\label{sec:option-composite-factorization-intermediate-classifier}
+
+\begin{theorem}[Tagged option composite factorization intermediate classifier]
+\label{thm:tagged-option-maprel-composite-factorization-intermediate-classifier}
+This theorem fits the ten-field template as follows: the traditional target is
+functorial $\OptionUp$ middle determinacy; the BEDC source is $\mathsf{BHist}$
+with two composable $\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionHistoryCarrier}_T$; the classifier is
+$\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}$; the stability obligation
+is branch preservation plus middle endpoint classifier construction; the ledger
+records absent or present intermediate endpoint provenance; the core theorem is
+the displayed classifier conclusion; exactness is absent-or-same-present
+exhaustion; the standard bridge is equality of the $\mathsf{none}$ and
+$\mathsf{some}$ middle option; and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for both descents:
+$$
+\eta_{\delta}:\forall x\,y.\;
+S(x)\to S(y)\to \hsame(x,y)\to
+\hsame(\delta.\mathsf{map}(x),\delta.\mathsf{map}(y))
+$$
+and
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Let $\mathsf{cert}_T:\NameCert(T,\sim_T)$. For histories
+$h,k,k',m:\mathsf{BHist}$, suppose the same composed endpoint pair factors
+through both $k$ and $k'$:
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+\land
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,m)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k')
+\land
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',m).
+$$
+Then the two intermediate tagged-option endpoints are classified:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-maprel-composite-factorization-canonical-intermediate}
+to the two displayed $\delta$ factors, the two displayed $\epsilon$ factors,
+and the preservation and stability data. This gives the canonical intermediate
+endpoint split.
+
+In the absent branch, the canonical split supplies
+$\hsame(k,\emp)$ and $\hsame(k',\emp)$. Use these two empty presentations to
+build the absent--absent branch of
+$\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')$.
+
+In the present branch, retain the source payload $a$ and the intermediate
+payload witness $T(\delta.\mathsf{map}(a))$. The canonical split supplies
+$$
+\hsame(k,\Eone(\delta.\mathsf{map}(a)))
+\land
+\hsame(k',\Eone(\delta.\mathsf{map}(a))).
+$$
+Use these two one-payload presentations and
+$\mathsf{cert}_T.\mathsf{equiv\_refl}$ at
+$\delta.\mathsf{map}(a)$ to build the present--present branch of
+$\mathsf{TaggedOptionHistoryClassifier}_{T,\sim_T}(k,k')$.
+
+The classifier is therefore determined by the same absent-or-same-present
+exhaustion that controls the canonical intermediate endpoint presentation.
+\end{proof}

@@ -27,6 +27,20 @@ structure SemanticNameCert
   pattern_sound : forall {h : BHist}, SourceSpec h -> PatternSpec h
   ledger_sound : forall {h : BHist}, SourceSpec h -> LedgerPolicy h
 
+theorem NameCert_carrier_self_semantic_lifting {C : BHist -> Prop}
+    {R : BHist -> BHist -> Prop} :
+    NameCert C R -> SemanticNameCert C C C R := by
+  intro core
+  exact {
+    core := core
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
+
 theorem semanticNameCert_ledger_policy_witness
     {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
     {ClassifierSpec : BHist -> BHist -> Prop}
@@ -66,6 +80,32 @@ theorem semanticNameCert_pattern_ledger_transport
   have sourceK : SourceSpec k :=
     BEDC.FKernel.NameCert.NameCert.carrier_respects_equiv cert.core classified sourceH
   exact And.intro (cert.pattern_sound sourceK) (cert.ledger_sound sourceK)
+
+theorem semanticNameCert_classifier_chain_transport
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (cert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec)
+    {h k r : BHist} :
+    ClassifierSpec h k -> ClassifierSpec k r ->
+      SourceSpec h -> PatternSpec r ∧ LedgerPolicy r := by
+  intro classifiedHK classifiedKR sourceH
+  have classifiedHR : ClassifierSpec h r :=
+    BEDC.FKernel.NameCert.NameCert.equiv_trans cert.core classifiedHK classifiedKR
+  exact semanticNameCert_pattern_ledger_transport cert classifiedHR sourceH
+
+theorem semanticNameCert_classifier_left_confluence_transport
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (cert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec)
+    {h k r : BHist} :
+    ClassifierSpec h k -> ClassifierSpec h r ->
+      SourceSpec k -> PatternSpec r ∧ LedgerPolicy r := by
+  intro classifiedHK classifiedHR sourceK
+  have classifiedKH : ClassifierSpec k h :=
+    BEDC.FKernel.NameCert.NameCert.equiv_symm cert.core classifiedHK
+  have classifiedKR : ClassifierSpec k r :=
+    BEDC.FKernel.NameCert.NameCert.equiv_trans cert.core classifiedKH classifiedHR
+  exact semanticNameCert_pattern_ledger_transport cert classifiedKR sourceK
 
 theorem NameCert_iff_semantic_fields
     {Carrier : BHist -> Prop}

@@ -27,6 +27,20 @@ theorem RealConstantHistoryCarrier_e1_iff_rat {d : BHist} :
   · intro ratCarrier
     exact ⟨d, hsame_refl (BHist.e1 d), ratCarrier⟩
 
+theorem RealConstantHistoryCarrier_e0_absurd {tail : BHist} :
+    RealConstantHistoryCarrier (BHist.e0 tail) → False := by
+  intro carrier
+  cases carrier with
+  | intro witness data =>
+      exact not_hsame_e0_e1 data.left
+
+theorem RealConstantHistoryCarrier_empty_absurd :
+    RealConstantHistoryCarrier BHist.Empty -> False := by
+  intro carrier
+  cases carrier with
+  | intro witness data =>
+      exact not_hsame_emp_e1 data.left
+
 theorem RealConstantHistoryClassifier_e1_iff_rat {d e : BHist} :
     RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e) ↔
       RatHistoryClassifier d e := by
@@ -47,6 +61,37 @@ theorem RealConstantHistoryClassifier_e1_iff_rat {d e : BHist} :
   · intro ratClassifier
     exact ⟨d, e, hsame_refl (BHist.e1 d), hsame_refl (BHist.e1 e), ratClassifier⟩
 
+theorem RealConstantHistoryClassifier_endpoint_transport {h h' k k' : BHist} :
+    hsame h h' -> hsame k k' -> RealConstantHistoryClassifier h k ->
+      RealConstantHistoryClassifier h' k' := by
+  intro sameH sameK classified
+  cases classified with
+  | intro d rest =>
+      cases rest with
+      | intro e data =>
+          cases data with
+          | intro sameHD rest =>
+              cases rest with
+              | intro sameKE ratClassifier =>
+                  exact ⟨d, e, hsame_trans (hsame_symm sameH) sameHD,
+                    hsame_trans (hsame_symm sameK) sameKE, ratClassifier⟩
+
+theorem RealConstantHistoryClassifier_endpoint_carriers {h k : BHist} :
+    RealConstantHistoryClassifier h k → RealConstantHistoryCarrier h ∧
+      RealConstantHistoryCarrier k := by
+  intro classifier
+  cases classifier with
+  | intro d rest =>
+      cases rest with
+      | intro e data =>
+          cases data with
+          | intro sameH rest =>
+              cases rest with
+              | intro sameK ratClassifier =>
+                  constructor
+                  · exact ⟨d, sameH, ratClassifier.left⟩
+                  · exact ⟨e, sameK, ratClassifier.right.left⟩
+
 def RealStreamClassifier (x y : Nat -> BHist) : Prop :=
   forall n : Nat, BEDC.Derived.RatUp.RatHistoryClassifier (x n) (y n)
 
@@ -64,6 +109,91 @@ theorem RealStreamClassifier_prefix {x y : Nat -> BHist} :
       exact classified Nat.zero
   | succ n ih =>
       exact And.intro ih (classified (Nat.succ n))
+
+theorem RealStreamPrefixClassifier_endpoint {x y : Nat -> BHist} :
+    forall n : Nat, RealStreamPrefixClassifier x y n -> RatHistoryClassifier (x n) (y n) := by
+  intro n
+  cases n with
+  | zero =>
+      intro classified
+      exact classified
+  | succ n =>
+      intro classified
+      exact classified.right
+
+theorem RealStreamClassifier_finite_prefix_exactness {x y : Nat -> BHist} :
+    RealStreamClassifier x y <-> forall n : Nat, RealStreamPrefixClassifier x y n := by
+  constructor
+  · intro classified n
+    exact RealStreamClassifier_prefix classified n
+  · intro prefixes n
+    exact RealStreamPrefixClassifier_endpoint n (prefixes n)
+
+theorem RealStreamClassifier_symm {x y : Nat -> BHist} :
+    RealStreamClassifier x y -> RealStreamClassifier y x := by
+  intro classified n
+  exact RatHistoryClassifier_symm (classified n)
+
+theorem RealStreamClassifier_trans {x y z : Nat -> BHist} :
+    RealStreamClassifier x y -> RealStreamClassifier y z -> RealStreamClassifier x z := by
+  intro classifiedXY classifiedYZ n
+  exact RatHistoryClassifier_trans (classifiedXY n) (classifiedYZ n)
+
+theorem RealStreamPrefixClassifier_hsame_transport {x x' y y' : Nat -> BHist}
+    (sameX : forall n : Nat, hsame (x n) (x' n))
+    (sameY : forall n : Nat, hsame (y n) (y' n)) :
+    forall n : Nat, RealStreamPrefixClassifier x y n ->
+      RealStreamPrefixClassifier x' y' n := by
+  intro n
+  induction n with
+  | zero =>
+      intro classified
+      exact BEDC.Derived.RatUp.RatHistoryClassifier_hsame_transport
+        (sameX Nat.zero) (sameY Nat.zero) classified
+  | succ n ih =>
+      intro classified
+      exact And.intro (ih classified.left)
+        (BEDC.Derived.RatUp.RatHistoryClassifier_hsame_transport
+          (sameX (Nat.succ n)) (sameY (Nat.succ n)) classified.right)
+
+theorem RealStreamPrefixClassifier_symm {x y : Nat -> BHist} :
+    forall n : Nat, RealStreamPrefixClassifier x y n ->
+      RealStreamPrefixClassifier y x n := by
+  intro n
+  induction n with
+  | zero =>
+      intro classified
+      exact RatHistoryClassifier_symm classified
+  | succ n ih =>
+      intro classified
+      exact And.intro (ih classified.left) (RatHistoryClassifier_symm classified.right)
+
+theorem RealStreamPrefixClassifier_trans {x y z : Nat -> BHist} :
+    forall n : Nat, RealStreamPrefixClassifier x y n -> RealStreamPrefixClassifier y z n ->
+      RealStreamPrefixClassifier x z n := by
+  intro n
+  induction n with
+  | zero =>
+      intro classifiedXY classifiedYZ
+      exact RatHistoryClassifier_trans classifiedXY classifiedYZ
+  | succ n ih =>
+      intro classifiedXY classifiedYZ
+      exact And.intro
+        (ih classifiedXY.left classifiedYZ.left)
+        (RatHistoryClassifier_trans classifiedXY.right classifiedYZ.right)
+
+theorem RealStreamPrefixClassifier_refl {x : Nat -> BHist}
+    (carrier : forall n : Nat, RatHistoryCarrier (x n)) :
+    forall n : Nat, RealStreamPrefixClassifier x x n := by
+  intro n
+  induction n with
+  | zero =>
+      exact And.intro (carrier Nat.zero)
+        (And.intro (carrier Nat.zero) (hsame_refl (x Nat.zero)))
+  | succ n ih =>
+      exact And.intro ih
+        (And.intro (carrier (Nat.succ n))
+          (And.intro (carrier (Nat.succ n)) (hsame_refl (x (Nat.succ n)))))
 
 theorem RealStreamPrefixClassifier_e1_pair_readback {x y : Nat -> BHist} :
     forall {n : Nat} {leftTail rightTail : BHist},
@@ -84,5 +214,55 @@ theorem RealStreamPrefixClassifier_e1_pair_readback {x y : Nat -> BHist} :
         BEDC.Derived.RatUp.RatHistoryClassifier_hsame_transport sameLeft sameRight
           classified.right
       exact BEDC.Derived.RatUp.RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+
+theorem RealConstantHistoryClassifier_equivalence_fields :
+    (∀ {h : BHist}, RealConstantHistoryCarrier h → RealConstantHistoryClassifier h h) ∧
+      (∀ {h k : BHist}, RealConstantHistoryClassifier h k → RealConstantHistoryClassifier k h) ∧
+        (∀ {h k l : BHist}, RealConstantHistoryClassifier h k →
+          RealConstantHistoryClassifier k l → RealConstantHistoryClassifier h l) := by
+  constructor
+  · intro h carrier
+    cases carrier with
+    | intro d data =>
+        cases data with
+        | intro sameHD ratCarrier =>
+            exact ⟨d, d, sameHD, sameHD,
+              And.intro ratCarrier (And.intro ratCarrier (hsame_refl d))⟩
+  · constructor
+    · intro h k classifier
+      cases classifier with
+      | intro d rest =>
+          cases rest with
+          | intro e data =>
+              cases data with
+              | intro sameHD rest =>
+                  cases rest with
+                  | intro sameKE ratClassifier =>
+                      exact ⟨e, d, sameKE, sameHD, RatHistoryClassifier_symm ratClassifier⟩
+    · intro h k l classifierHK classifierKL
+      cases classifierHK with
+      | intro d hkRest =>
+          cases hkRest with
+          | intro e hkData =>
+              cases hkData with
+              | intro sameHD hkRest =>
+                  cases hkRest with
+                  | intro sameKE ratDE =>
+                      cases classifierKL with
+                      | intro e' klRest =>
+                          cases klRest with
+                          | intro f klData =>
+                              cases klData with
+                              | intro sameKE' klRest =>
+                                  cases klRest with
+                                  | intro sameLF ratE'F =>
+                                      have sameEE' : hsame e e' :=
+                                        hsame_e1_iff.mp
+                                          (hsame_trans (hsame_symm sameKE) sameKE')
+                                      have ratEF : RatHistoryClassifier e f :=
+                                        RatHistoryClassifier_hsame_transport
+                                          (hsame_symm sameEE') (hsame_refl f) ratE'F
+                                      exact ⟨d, f, sameHD, sameLF,
+                                        RatHistoryClassifier_trans ratDE ratEF⟩
 
 end BEDC.Derived.RealUp

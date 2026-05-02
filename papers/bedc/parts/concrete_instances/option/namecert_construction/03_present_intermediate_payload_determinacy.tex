@@ -1,0 +1,52 @@
+\section{Option composite image classifier normalized present intermediate payload determinacy}
+\label{sec:option-composite-image-classifier-normalized-present-intermediate-payload-determinacy}
+
+\begin{theorem}[Tagged option composite image classifier normalized present intermediate payload determinacy]
+\label{thm:tagged-option-composite-image-classifier-normalized-present-intermediate-payload-determinacy}
+Let the carriers $S,T,U$, classifiers $\sim_S,\sim_T,\sim_U$, descents
+$\delta,\epsilon$, preservation fields $\rho_{\delta},\rho_{\epsilon}$,
+endpoint-stability field $\eta_{\epsilon}$, certificates
+$\mathsf{cert}_S,\mathsf{cert}_T,\mathsf{cert}_U$, compatibility fields,
+endpoints $m,m',u,u'$, and selected visible payloads $x,y$ satisfy exactly the
+hypotheses of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}.
+Then there exist $k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item the ten selected visible public factorization clauses of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+hold for $k,k',p,q,a,b$;
+\item the left present intermediate payload is determined:
+$$
+\forall r:\mathsf{BHist}.\;\hsame(k,\Eone(r))\to\hsame(p,r);
+$$
+\item the right present intermediate payload is determined:
+$$
+\forall s:\mathsf{BHist}.\;\hsame(k',\Eone(s))\to\hsame(q,s).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+to the displayed carrier, classifier, descent, preservation, stability,
+certificate, compatibility, endpoint, and selected visible payload data. This
+supplies $k,k',p,q,a,b$ together with the ten selected visible public
+factorization clauses, including $\hsame(k,\Eone(p))$ and
+$\hsame(k',\Eone(q))$.
+
+For the left intermediate endpoint, fix $r:\mathsf{BHist}$ and assume
+$\hsame(k,\Eone(r))$. Apply
+Theorem~\ref{thm:tagged-option-history-present-payload-determinism} at $k$ to
+the selected presentation $\hsame(k,\Eone(p))$ and the competing presentation
+$\hsame(k,\Eone(r))$. This yields $\hsame(p,r)$.
+
+For the right intermediate endpoint, fix $s:\mathsf{BHist}$ and assume
+$\hsame(k',\Eone(s))$. Apply
+Theorem~\ref{thm:tagged-option-history-present-payload-determinism} at $k'$ to
+the selected presentation $\hsame(k',\Eone(q))$ and the competing presentation
+$\hsame(k',\Eone(s))$. This yields $\hsame(q,s)$.
+
+Package the selected visible public factorization witnesses with the two
+payload-determinacy functions.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_composite\_normalized\_present\_intermediate\_payload\_determinacy}

@@ -219,6 +219,20 @@ theorem group_left_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : BH
       (hsame_trans (assocC (inv a) a x)
         (mulCongr (hsame_refl (inv a)) sameProduct)))
 
+theorem group_right_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x, hsame (mul x e) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall x, hsame (mul x (inv x)) e) {x a b : BHist} :
+    hsame (mul x a) b -> hsame x (mul b (inv a)) := by
+  intro sameProduct
+  exact hsame_trans (hsame_symm (rightId x))
+    (hsame_trans (mulCongr (hsame_refl x) (hsame_symm (rightInv a)))
+      (hsame_trans (hsame_symm (assocC x a (inv a)))
+        (mulCongr sameProduct (hsame_refl (inv a)))))
+
 theorem group_left_absorb_right_factor_unit {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))

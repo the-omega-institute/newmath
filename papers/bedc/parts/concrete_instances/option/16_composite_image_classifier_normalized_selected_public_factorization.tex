@@ -1,0 +1,683 @@
+\begin{theorem}[Tagged option composite image classifier normalized selected visible public pair canonicality]
+\label{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-pair-canonicality}
+This theorem fits the per-object template as follows: the traditional target is
+endpoint-normalized functorial $\mathsf{OptionUp}$ selected visible public-pair
+canonicality; the BEDC source is $\mathsf{BHist}$ with two composable
+$\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
+are composite descent, endpoint $\hsame$ transport, normalized target-payload
+classification, visible-payload determinacy, and empty-versus-present
+no-confusion; the ledger is one selected normalized visible public pair
+together with all one-sided competing readings; the core theorem is selected
+pair classification, same-side uniqueness, cross-side target classification,
+and non-absence; exactness says normalized visible readback is single-valued
+around the selected public pair; the standard bridge is $\mathsf{none}$/
+$\mathsf{some}$ normalized public readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$, normalized endpoints $u,u':\mathsf{BHist}$, and selected
+visible target payloads $x,y:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u')
+$$
+and
+$$
+U(x)\land U(y)\land
+\hsame(u,\Eone(x))\land \hsame(u',\Eone(y)),
+$$
+then
+$$
+x\sim_U y
+$$
+and
+$$
+\forall x':\mathsf{BHist}.\;
+U(x')\to
+\hsame(u,\Eone(x'))\to
+\hsame(x,x')\land x'\sim_U y
+$$
+and
+$$
+\forall y':\mathsf{BHist}.\;
+U(y')\to
+\hsame(u',\Eone(y'))\to
+\hsame(y,y')\land x\sim_U y'
+$$
+and
+$$
+\neg\hsame(u,\emp)\land \neg\hsame(u',\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-visible-target-payload-classification}
+to the composite image-classifier witness, the endpoint normalization witnesses,
+and the selected visible presentation $U(x)$, $U(y)$,
+$\hsame(u,\Eone(x))$, and $\hsame(u',\Eone(y))$. This gives the selected target
+classification $x\sim_U y$.
+
+Let $x'$ be a competing left visible payload with $U(x')$ and
+$\hsame(u,\Eone(x'))$. Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-visible-payload-determinacy}
+to the two complete visible pairs $(x,y)$ and $(x',y)$. The returned
+conjunction contains $\hsame(x,x')$ and $x'\sim_U y$, which are exactly the
+left-side canonicality and target-classification conclusions for $x'$.
+
+Let $y'$ be a competing right visible payload with $U(y')$ and
+$\hsame(u',\Eone(y'))$. Apply the same determinacy theorem to the two complete
+visible pairs $(x,y)$ and $(x,y')$. The returned conjunction contains
+$\hsame(y,y')$ and $x\sim_U y'$, which are exactly the right-side canonicality
+and target-classification conclusions for $y'$.
+
+It remains to record that the selected public endpoints are not absent. If
+$\hsame(u,\emp)$ held, composing its symmetry with $\hsame(u,\Eone(x))$ would
+give $\hsame(\emp,\Eone(x))$, contradicting BEDC history no-confusion via
+$not\_hsame\_emp\_e1$.
+
+Likewise, if $\hsame(u',\emp)$ held, composing its symmetry with
+$\hsame(u',\Eone(y))$ would give $\hsame(\emp,\Eone(y))$, again contradicting
+BEDC history no-confusion via $not\_hsame\_emp\_e1$.
+
+Collect the selected target classification, the two universal one-sided
+canonicality clauses, and the two non-absence conclusions.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_composite\_normalized\_selected\_visible\_public\_pair\_canonicality}
+
+\begin{theorem}[Tagged option composite image classifier normalized one-sided visible public factorization]
+\label{thm:tagged-option-composite-image-classifier-normalized-one-sided-visible-public-factorization}
+This theorem fits the per-object template as follows: the traditional target is
+endpoint-normalized functorial $\mathsf{OptionUp}$ one-sided visible public
+factorization; the BEDC source is $\mathsf{BHist}$ with two composable
+$\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
+are endpoint transport, branch synchronization, visible-payload factorization,
+and intermediate classifier transport; the ledger is one specified normalized
+visible endpoint together with the opposite public payload, intermediate tagged
+endpoints, and source payload witnesses; the core theorem is one-sided visible
+readback with factorization and uniqueness against all competing visible payloads
+on the other side; exactness says the public endpoint already read by a consumer
+exposes the concrete source and intermediate payloads behind the synchronized
+public branch; the standard bridge is $\mathsf{none}$/$\mathsf{some}$ normalized
+public readback; and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$ and normalized endpoints $u,u':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u'),
+$$
+then the following two one-sided visible public factorization clauses hold:
+\begin{enumerate}
+\item For every $x:\mathsf{BHist}$, if $U(x)$ and $\hsame(u,\Eone(x))$, then
+there exist $y,k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $U(y)$, $\hsame(u',\Eone(y))$, and $x\sim_U y$;
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $T(p)$, $T(q)$, $U(\epsilon.\mathsf{map}(p))$, and
+$U(\epsilon.\mathsf{map}(q))$;
+\item $\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$,
+$\hsame(x,\epsilon.\mathsf{map}(p))$, and
+$\hsame(y,\epsilon.\mathsf{map}(q))$;
+\item $S(a)$, $S(b)$, $a\sim_S b$, $T(\delta.\mathsf{map}(a))$, and
+$T(\delta.\mathsf{map}(b))$;
+\item $\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$;
+\item $p\sim_T q$;
+\item $\neg\hsame(u,\emp)$ and $\neg\hsame(u',\emp)$;
+\item for every $y':\mathsf{BHist}$, if $U(y')$ and
+$\hsame(u',\Eone(y'))$, then $\hsame(y,y')$ and $x\sim_U y'$.
+\end{enumerate}
+\item For every $y:\mathsf{BHist}$, if $U(y)$ and $\hsame(u',\Eone(y))$, then
+there exist $x,k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $U(x)$, $\hsame(u,\Eone(x))$, and $x\sim_U y$;
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $T(p)$, $T(q)$, $U(\epsilon.\mathsf{map}(p))$, and
+$U(\epsilon.\mathsf{map}(q))$;
+\item $\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$,
+$\hsame(x,\epsilon.\mathsf{map}(p))$, and
+$\hsame(y,\epsilon.\mathsf{map}(q))$;
+\item $S(a)$, $S(b)$, $a\sim_S b$, $T(\delta.\mathsf{map}(a))$, and
+$T(\delta.\mathsf{map}(b))$;
+\item $\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$;
+\item $p\sim_T q$;
+\item $\neg\hsame(u,\emp)$ and $\neg\hsame(u',\emp)$;
+\item for every $x':\mathsf{BHist}$, if $U(x')$ and
+$\hsame(u,\Eone(x'))$, then $\hsame(x,x')$ and $x'\sim_U y$.
+\end{enumerate}
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix a left visible payload $x$ with $U(x)$ and $\hsame(u,\Eone(x))$. Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-one-sided-visible-branch-synchronization}
+to the composite image-classifier witness, the endpoint normalization witnesses,
+and the displayed descent, preservation, stability, certificate, and
+compatibility data. The left-to-right branch supplies a right payload $y$ with
+$U(y)$, $\hsame(u',\Eone(y))$, $x\sim_U y$, the two non-absence facts, and the
+universal competing-right-payload uniqueness clause.
+
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-visible-payload-factorization}
+to the same composite classifier, the same endpoint normalization witnesses, and
+the specified visible pair $(x,y)$. This supplies intermediate endpoints
+$k,k'$, intermediate payloads $p,q$, and source payloads $a,b$ with the
+factorization clauses through $\delta$ and $\epsilon$.
+
+It remains to identify the intermediate payloads as classified. Apply
+$\delta.\mathsf{respects}$ to $a\sim_S b$. Compatibility for $T$ turns
+$\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$ into classifier links, and symmetry and
+transitivity from $\mathsf{cert}_T$ compose these links into $p\sim_T q$.
+
+Package $y,k,k',p,q,a,b$ with the visible target facts, the factorization data,
+$p\sim_T q$, the retained non-absence facts, and the competing-right-payload
+uniqueness clause. This proves the left one-sided factorization clause.
+
+For the right visible payload $y$ with $U(y)$ and $\hsame(u',\Eone(y))$, apply
+the same branch-synchronization theorem and use its right-to-left branch. It
+supplies a left payload $x$ with $U(x)$, $\hsame(u,\Eone(x))$, $x\sim_U y$, the
+two non-absence facts, and the universal competing-left-payload uniqueness
+clause.
+
+Apply the normalized visible payload factorization theorem to the visible pair
+$(x,y)$. The same factorization data $k,k',p,q,a,b$ is obtained, because the
+specified right payload has now been paired with the synchronized left payload.
+
+As in the left clause, $\delta.\mathsf{respects}$, compatibility for $T$, and
+symmetry and transitivity from $\mathsf{cert}_T$ compose the source classifier
+fact and the two readback links into $p\sim_T q$.
+
+Package $x,k,k',p,q,a,b$ with the visible target facts, the factorization data,
+$p\sim_T q$, the retained non-absence facts, and the competing-left-payload
+uniqueness clause. This proves the symmetric right one-sided factorization
+clause.
+\end{proof}
+
+\begin{theorem}[Tagged option composite image classifier normalized selected visible public factorization]
+\label{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$, normalized endpoints $u,u':\mathsf{BHist}$, and selected
+visible target payloads $x,y:\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u')
+$$
+and
+$$
+U(x)\land U(y)\land
+\hsame(u,\Eone(x))\land \hsame(u',\Eone(y)),
+$$
+then there exist $k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $T(p)$, $T(q)$, $U(\epsilon.\mathsf{map}(p))$, and
+$U(\epsilon.\mathsf{map}(q))$;
+\item $\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$,
+$\hsame(x,\epsilon.\mathsf{map}(p))$, and
+$\hsame(y,\epsilon.\mathsf{map}(q))$;
+\item $S(a)$, $S(b)$, $a\sim_S b$, $T(\delta.\mathsf{map}(a))$, and
+$T(\delta.\mathsf{map}(b))$;
+\item $\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$;
+\item $p\sim_T q$ and $x\sim_U y$;
+\item $\neg\hsame(u,\emp)$ and $\neg\hsame(u',\emp)$;
+\item for every $x':\mathsf{BHist}$, if $U(x')$ and
+$\hsame(u,\Eone(x'))$, then $\hsame(x,x')$ and $x'\sim_U y$;
+\item for every $y':\mathsf{BHist}$, if $U(y')$ and
+$\hsame(u',\Eone(y'))$, then $\hsame(y,y')$ and $x\sim_U y'$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-pair-canonicality}
+to the composite image-classifier witness, the endpoint normalization witnesses,
+and the selected visible presentation. This gives $x\sim_U y$, the two
+selected same-side uniqueness clauses, and the two normalized non-absence
+facts.
+
+Next apply the left clause of
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-one-sided-visible-public-factorization}
+to the selected left payload $x$. It supplies a synchronized right payload
+$y_0$ and witnesses $k,k',p,q,a,b$ satisfying the displayed factorization
+clauses with $y_0$ in the right readback position, together with $p\sim_T q$,
+the non-absence facts, and uniqueness against all competing right payloads.
+
+Use the one-sided right uniqueness clause at the selected payload $y$. Since
+$U(y)$ and $\hsame(u',\Eone(y))$ hold, it returns $\hsame(y_0,y)$ and
+$x\sim_U y$. Compose the symmetry of $\hsame(y_0,y)$ with the factorization
+readback $\hsame(y_0,\epsilon.\mathsf{map}(q))$ to obtain the selected readback
+$\hsame(y,\epsilon.\mathsf{map}(q))$.
+
+Keep the left readback $\hsame(x,\epsilon.\mathsf{map}(p))$ and all remaining
+factorization clauses unchanged. Package the witnesses $k,k',p,q,a,b$ with the
+transported right readback, the retained $p\sim_T q$, the selected
+classification $x\sim_U y$, the canonical non-absence facts, and the two
+selected uniqueness clauses from the canonicality theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_composite\_normalized\_selected\_visible\_public\_factorization}
+
+\begin{theorem}[Tagged option composite image classifier normalized visible public factorization is representative-independent]
+\label{thm:tagged-option-composite-image-classifier-normalized-visible-public-factorization-representative-independent}
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$, normalized endpoints $u,u':\mathsf{BHist}$, selected
+visible target payloads $x,y:\mathsf{BHist}$, and alternative visible target
+payloads $x',y':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u')
+$$
+and
+$$
+U(x)\land U(y)\land
+\hsame(u,\Eone(x))\land \hsame(u',\Eone(y))
+$$
+and
+$$
+U(x')\land U(y')\land
+\hsame(u,\Eone(x'))\land \hsame(u',\Eone(y')),
+$$
+then there exist $k,k',p,q,a,b:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $T(p)$, $T(q)$, $U(\epsilon.\mathsf{map}(p))$, and
+$U(\epsilon.\mathsf{map}(q))$;
+\item $\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$,
+$\hsame(x,\epsilon.\mathsf{map}(p))$, and
+$\hsame(y,\epsilon.\mathsf{map}(q))$;
+\item $\hsame(x',\epsilon.\mathsf{map}(p))$ and
+$\hsame(y',\epsilon.\mathsf{map}(q))$;
+\item $S(a)$, $S(b)$, $a\sim_S b$, $T(\delta.\mathsf{map}(a))$, and
+$T(\delta.\mathsf{map}(b))$;
+\item $\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$;
+\item $p\sim_T q$, $x\sim_U y$, $x'\sim_U y'$, $x\sim_U y'$, and $x'\sim_U y$;
+\item $\neg\hsame(u,\emp)$ and $\neg\hsame(u',\emp)$;
+\item for every $x_L:\mathsf{BHist}$, if $U(x_L)$ and
+$\hsame(u,\Eone(x_L))$, then $\hsame(x,x_L)$ and $x_L\sim_U y$;
+\item for every $y_R:\mathsf{BHist}$, if $U(y_R)$ and
+$\hsame(u',\Eone(y_R))$, then $\hsame(y,y_R)$ and $x\sim_U y_R$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-factorization}
+to the composite image-classifier witness, the endpoint normalization witnesses,
+and the selected visible presentation $(x,y)$. This gives witnesses
+$k,k',p,q,a,b$ with the selected factorization clauses, the selected readbacks
+through $\epsilon.\mathsf{map}(p)$ and $\epsilon.\mathsf{map}(q)$, the
+classification $x\sim_U y$, the non-absence facts, and the two universal
+same-endpoint uniqueness clauses.
+
+Apply the left uniqueness clause to $x'$ and the right uniqueness clause to
+$y'$. The visible-presentation hypotheses for $x'$ and $y'$ give
+$\hsame(x,x')$, $x'\sim_U y$, $\hsame(y,y')$, and $x\sim_U y'$.
+
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-selected-visible-public-pair-canonicality}
+to the same composite witness and endpoint normalizations, but use the
+alternative visible presentation $(x',y')$. This gives the alternative
+classification $x'\sim_U y'$.
+
+It remains to transport the selected public readbacks to the alternative
+representatives. Compose the symmetry of $\hsame(x,x')$ with
+$\hsame(x,\epsilon.\mathsf{map}(p))$ to obtain
+$\hsame(x',\epsilon.\mathsf{map}(p))$, and compose the symmetry of
+$\hsame(y,y')$ with $\hsame(y,\epsilon.\mathsf{map}(q))$ to obtain
+$\hsame(y',\epsilon.\mathsf{map}(q))$.
+
+Package the same witnesses $k,k',p,q,a,b$ with the original selected
+factorization clauses, the two transported readbacks, the selected and
+alternative target classifications, the two cross-classifications, and the
+retained universal uniqueness clauses.
+\end{proof}
+\section{Composite image classifier normalized public readback completion}
+\label{sec:option-composite-image-classifier-normalized-public-completion}
+
+\begin{theorem}[Tagged option composite image classifier normalized public readback completion package]
+\label{thm:tagged-option-composite-image-classifier-normalized-public-readback-completion-package}
+This theorem fits the per-object template as follows: the traditional target is
+endpoint-normalized public readback completion for functorial $\mathsf{OptionUp}$
+image classification; the BEDC source is $\mathsf{BHist}$ with two composable
+$\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
+are public branch factorization, one-sided visible public factorization, and
+visible payload determinacy; the ledger records either the absent normalized
+public branch or the selected present branch together with all one-sided
+visible completions; the core theorem is the displayed exhaustive completion
+package; exactness says any visible observation of one endpoint extends to a
+classified, factored public pair; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$ normalized public readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$ and normalized endpoints $u,u':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u'),
+$$
+then either
+$$
+\hsame(u,\emp)\land \hsame(u',\emp)\land
+\neg\exists x,y:\mathsf{BHist}.\;
+U(x)\land U(y)\land
+\hsame(u,\Eone(x))\land
+\hsame(u',\Eone(y))
+$$
+or there exist selected visible payloads $x,y:\mathsf{BHist}$ such that
+\begin{enumerate}
+\item $U(x)$, $U(y)$, $\hsame(u,\Eone(x))$, $\hsame(u',\Eone(y))$, and
+$x\sim_U y$;
+\item $\neg\hsame(u,\emp)$ and $\neg\hsame(u',\emp)$;
+\item for all $x',y':\mathsf{BHist}$, if $U(x')$, $U(y')$,
+$\hsame(u,\Eone(x'))$, and $\hsame(u',\Eone(y'))$, then
+$\hsame(x,x')\land \hsame(y,y')\land x'\sim_U y'$;
+\item for every left visible payload $x_L:\mathsf{BHist}$, if $U(x_L)$ and
+$\hsame(u,\Eone(x_L))$, then there exist $y_R,k,k',p,q,a,b:\mathsf{BHist}$ such
+that
+\begin{enumerate}
+\item $U(y_R)$, $\hsame(u',\Eone(y_R))$, and $x_L\sim_U y_R$;
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $T(p)$, $T(q)$, $U(\epsilon.\mathsf{map}(p))$, and
+$U(\epsilon.\mathsf{map}(q))$;
+\item $\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$,
+$\hsame(x_L,\epsilon.\mathsf{map}(p))$, and
+$\hsame(y_R,\epsilon.\mathsf{map}(q))$;
+\item $S(a)$, $S(b)$, $a\sim_S b$, $T(\delta.\mathsf{map}(a))$, and
+$T(\delta.\mathsf{map}(b))$;
+\item $\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$;
+\item $p\sim_T q$;
+\item $\neg\hsame(u,\emp)$ and $\neg\hsame(u',\emp)$;
+\item for every $y':\mathsf{BHist}$, if $U(y')$ and
+$\hsame(u',\Eone(y'))$, then $\hsame(y_R,y')$ and $x_L\sim_U y'$.
+\end{enumerate}
+\item for every right visible payload $y_R:\mathsf{BHist}$, if $U(y_R)$ and
+$\hsame(u',\Eone(y_R))$, then there exist $x_L,k,k',p,q,a,b:\mathsf{BHist}$ such
+that
+\begin{enumerate}
+\item $U(x_L)$, $\hsame(u,\Eone(x_L))$, and $x_L\sim_U y_R$;
+\item $\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\delta}
+(S,T,\rho_{\delta};k,k')$;
+\item $\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,u)$ and
+$\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',u')$;
+\item $T(p)$, $T(q)$, $U(\epsilon.\mathsf{map}(p))$, and
+$U(\epsilon.\mathsf{map}(q))$;
+\item $\hsame(k,\Eone(p))$, $\hsame(k',\Eone(q))$,
+$\hsame(x_L,\epsilon.\mathsf{map}(p))$, and
+$\hsame(y_R,\epsilon.\mathsf{map}(q))$;
+\item $S(a)$, $S(b)$, $a\sim_S b$, $T(\delta.\mathsf{map}(a))$, and
+$T(\delta.\mathsf{map}(b))$;
+\item $\hsame(p,\delta.\mathsf{map}(a))$ and
+$\hsame(q,\delta.\mathsf{map}(b))$;
+\item $p\sim_T q$;
+\item $\neg\hsame(u,\emp)$ and $\neg\hsame(u',\emp)$;
+\item for every $x':\mathsf{BHist}$, if $U(x')$ and
+$\hsame(u,\Eone(x'))$, then $\hsame(x_L,x')$ and $x'\sim_U y_R$.
+\end{enumerate}
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-public-branch-factorization}
+to the composite image-classifier witness, the endpoint normalization witnesses,
+and the displayed descent, preservation, stability, certificate, and
+compatibility data. This gives either the normalized absent public branch or a
+present visible public branch with selected payloads $x,y$ and universal
+visible-pair uniqueness.
+
+In the absent branch, return exactly the two empty endpoint presentations and
+the exclusion of every visible $U$-payload pair at $(u,u')$.
+
+In the present branch, retain the selected visible payloads $x,y$, their target
+classification, the two non-absence facts, and the universal visible-pair
+uniqueness clause supplied by public branch factorization.
+
+Apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-normalized-one-sided-visible-public-factorization}
+once to the same composite classifier, endpoint normalization witnesses,
+descent, preservation, stability, certificate, and compatibility data. The
+result is a pair of one-sided public factorization clauses.
+
+For an arbitrary left visible payload $x_L$ with $U(x_L)$ and
+$\hsame(u,\Eone(x_L))$, instantiate the left one-sided clause. It supplies a
+right visible payload $y_R$ and witnesses $k,k',p,q,a,b$ with the classified
+factorization package, the two public map-relation links, the intermediate and
+source payload data, the classifier link $p\sim_T q$, the non-absence facts, and
+the universal competing-right-payload clause.
+
+For an arbitrary right visible payload $y_R$ with $U(y_R)$ and
+$\hsame(u',\Eone(y_R))$, instantiate the right one-sided clause. It supplies a
+left visible payload $x_L$ and witnesses $k,k',p,q,a,b$ with the symmetric
+classified factorization package and the universal competing-left-payload
+clause.
+
+Package the selected present branch data together with these two one-sided
+completion functions. This gives the displayed present public readback
+completion package.
+\end{proof}

@@ -1,0 +1,30 @@
+\begin{theorem}[Prefixed composite compact net refinement determinacy]
+\label{thm:compact-net-witness-prefixed-composite-refinement-deterministic}
+For histories $p,c,\epsilon,\eta,\eta',\theta,\theta',m$, assume
+$\epsilon$, $\eta$, and $\eta'$ are unary histories, with continuation ledgers
+$$
+\mathsf{Cont}(\epsilon,\eta,\theta),
+\qquad
+\mathsf{Cont}(\epsilon,\eta',\theta').
+$$
+If both composed precisions give compact net witnesses with the same prefixed
+center and the same prefixed refined net,
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\theta,p\cdot m)
+\quad\hbox{and}\quad
+\mathsf{CompactNetWitness}(p\cdot c,\theta',p\cdot m),
+$$
+then the refinement precisions are history-same:
+$$
+\hsame(\eta,\eta').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two prefixed compact net witnesses. Their continuation ledgers have
+the same source $p\cdot c$ and the same result $p\cdot m$, so continuation
+left cancellation identifies the composed precisions $\theta$ and $\theta'$.
+With the composed precision made common, the two ledgers out of $\epsilon$
+have the same source and result, and another left-cancellation step yields
+$\hsame(\eta,\eta')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_refinement\_deterministic}

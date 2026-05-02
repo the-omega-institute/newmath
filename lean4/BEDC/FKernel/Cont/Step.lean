@@ -198,4 +198,46 @@ theorem cont_step_result_not_empty_pair {h k : BHist} :
   · intro hcont
     cases hcont
 
+theorem cont_left_e1_result_cases {h k r : BHist} :
+    Cont (BHist.e1 h) k (BHist.e1 r) ->
+      (k = BHist.Empty ∧ hsame h r) ∨
+        (∃ k0 : BHist, k = BHist.e1 k0 ∧ Cont (BHist.e1 h) k0 r) := by
+  intro hcont
+  cases k with
+  | Empty =>
+      left
+      constructor
+      · rfl
+      · exact (BHist.e1.inj hcont).symm
+  | e0 k0 =>
+      cases hcont
+  | e1 k0 =>
+      right
+      exact Exists.intro k0 (And.intro rfl (BHist.e1.inj hcont))
+
+theorem cont_left_tag_cross_result_cases :
+    (forall {h k r : BHist},
+      Cont (BHist.e0 h) k (BHist.e1 r) ->
+        ∃ k0 : BHist, k = BHist.e1 k0 ∧ Cont (BHist.e0 h) k0 r) ∧
+      (forall {h k r : BHist},
+        Cont (BHist.e1 h) k (BHist.e0 r) ->
+          ∃ k0 : BHist, k = BHist.e0 k0 ∧ Cont (BHist.e1 h) k0 r) := by
+  constructor
+  · intro h k r hcont
+    cases k with
+    | Empty =>
+        cases hcont
+    | e0 k0 =>
+        cases hcont
+    | e1 k0 =>
+        exact Exists.intro k0 (And.intro rfl (BHist.e1.inj hcont))
+  · intro h k r hcont
+    cases k with
+    | Empty =>
+        cases hcont
+    | e0 k0 =>
+        exact Exists.intro k0 (And.intro rfl (BHist.e0.inj hcont))
+    | e1 k0 =>
+        cases hcont
+
 end BEDC.FKernel.Cont

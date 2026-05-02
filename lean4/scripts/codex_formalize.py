@@ -623,31 +623,9 @@ def _codex_resolve_conflicts(
 
     logger.info(f"Codex conflict resolution: {len(conflicted)} file(s): {conflicted}")
 
-    prompt = textwrap.dedent(f"""\
-        You are resolving git rebase conflicts in a Lean4 formalization project.
-
-        The following files have merge conflicts (with <<<<<<< / ======= / >>>>>>> markers):
-        {', '.join(conflicted)}
-
-        ## Context
-        Two parallel formalization rounds modified shared files:
-        - lean4/BEDC.lean: both rounds added `import` lines — keep ALL imports from both sides
-        - lean4/IMPLEMENTATION_PLAN.md: both rounds updated the header — keep the incoming
-          (HEAD/ours) version as base, then ADD the new round info from the other side
-        - theory/*.tex: both rounds added \\leanverified annotations — keep ALL annotations
-
-        ## Instructions
-        1. For each conflicted file, read it and resolve the conflict markers
-        2. The resolution strategy is ALWAYS "keep both sides' additions"
-        3. For BEDC.lean: merge all import lines (union, no duplicates)
-        4. For IMPLEMENTATION_PLAN.md: keep both rounds' Phase entries
-        5. For .tex files: keep all \\leanverified lines
-        6. After resolving, run: git add <file> for each resolved file
-        7. Then run: git rebase --continue
-        8. Do NOT run git push
-
-        Resolve ALL conflicts and complete the rebase.
-    """)
+    prompt = _load_prompt("conflict_resolve").format(
+        conflicted=", ".join(conflicted),
+    )
 
     output = codex_exec(
         prompt,
@@ -755,12 +733,33 @@ def merge_lake_cache_back(wt: WorktreeInfo, new_commits: list[str]) -> None:
         )
 
 
+def run_phase_d_lints(wt: WorktreeInfo) -> tuple[bool, Optional[str], Optional[str]]:
+    """Run lean4/scripts/phase_d_lint.py against the rebased worktree.
+
+    The lint logic (mechanical arity / parameter-echo / BHist-anchor)
+    lives in phase_d_lint.py so the regex set can be tightened without
+    restarting the pipeline. The next round's pre-merge gate picks up
+    edits to that script automatically.
+    """
+    result = run_cmd(
+        ["python3", "lean4/scripts/phase_d_lint.py",
+         "--worktree", str(wt.path),
+         "--base-branch", BASE_BRANCH],
+        cwd=wt.path, timeout=120,
+    )
+    if result.returncode == 0:
+        return True, None, None
+    tail = (result.stdout or "")[-2000:] + (result.stderr or "")[-2000:]
+    logger.error(f"[R{wt.round_number}] Phase D lint failed:\n{tail}")
+    return False, "phase_d_lint", tail
+
+
 def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Optional[str]]:
     """Run the pre-merge gate sequence.
 
     Returns (ok, failed_gate_name, output_tail).
     failed_gate_name is one of {'lake_build', 'check_axioms', 'audit',
-    'axiom_purity'} on failure; None on success.
+    'axiom_purity', 'phase_d_lint'} on failure; None on success.
     output_tail is the last ~4000 chars of combined stdout+stderr for the
     failing gate, suitable for passing to a codex recovery prompt.
     """
@@ -778,7 +777,7 @@ def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Opt
                 f"[R{wt.round_number}] Pre-merge hard gate failed: {' '.join(cmd)}\n{tail}"
             )
             return False, name, tail
-    return True, None, None
+    return run_phase_d_lints(wt)
 
 
 def _codex_resolve_post_rebase_audit(
@@ -794,56 +793,10 @@ def _codex_resolve_post_rebase_audit(
     unresolved marker into BASE_BRANCH while this worktree was working.
     Ask codex to drop this round's offending additions only.
     """
-    prompt = textwrap.dedent(f"""\
-        You are recovering a BEDC Lean formalization worktree after rebase.
-
-        The rebase succeeded (no merge conflicts), and `lake build` plus
-        `tools/check-axioms.py` passed, but
-        `python3 lean4/scripts/bedc_ci.py audit` is now reporting failures
-        on the rebased tree. The cause is usually a sibling round (paper
-        or Lean) that merged onto BASE_BRANCH while this worktree was
-        working — your additions and theirs collided.
-
-        Typical causes:
-          - duplicate `\\label{{thm:...}}` in `papers/bedc/parts/...`;
-          - duplicate `\\leanchecked{{X}}` for a Lean target that a
-            sibling already registered at a different paper site;
-          - `\\leanchecked` / `\\leanstmt` / `\\leandef` pointing at a
-            Lean name that, after rebase, no longer exists in
-            `lean4/BEDC/` (the sibling round renamed or deleted it).
-
-        ## Audit output (tail)
-        {audit_tail}
-
-        ## Your task
-        Remove ONLY this round's (R{round_number}) offending additions:
-
-        1. Run `python3 lean4/scripts/bedc_ci.py audit` to see the live
-           list of duplicate labels / unresolved markers / forbidden
-           constructs.
-        2. Use `git diff HEAD@{{1}}` (or `git show HEAD`) to identify the
-           lines this round added in `papers/bedc/parts/`.
-        3. For each duplicate label this round added: delete the line
-           and, if the surrounding `\\begin{{theorem}}…\\end{{theorem}}`
-           block exists only because of this round, delete the block too.
-           Do NOT delete the sibling block already on the base branch.
-        4. For each unresolved marker this round added: delete that
-           single `\\leanchecked` / `\\leanstmt` / `\\leandef` line.
-        5. Do NOT touch `lean4/BEDC/`. Do NOT introduce iteration
-           narrative vocabulary.
-        6. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
-           until both exit 0. If the round's paper-side contribution
-           becomes empty after the cleanup, that is acceptable — keep
-           the Lean-side commits and let the pipeline merge what
-           remains.
-        7. Once everything passes, `git add papers/bedc` and `git commit
-           --amend --no-edit` so the round's commit retains the same
-           identity, just with the colliding additions stripped out.
-           Do NOT git push.
-
-        If the only valid recovery is to drop the round entirely, run
-        `git reset HEAD~1` and exit cleanly.
-    """)
+    prompt = _load_prompt("post_rebase_audit_resolve").format(
+        audit_tail=audit_tail,
+        round_number=round_number,
+    )
     codex_exec(prompt, work_dir=wt_path, timeout_seconds=timeout, model=model)
     return True
 
@@ -1793,13 +1746,33 @@ def detect_new_leanvariant_markers(wt: WorktreeInfo) -> list[str]:
 
 def detect_markers_not_backed_by_new_decls(wt: WorktreeInfo) -> list[str]:
     new_decls = set(collect_added_lean_declarations(wt))
+    existing_decls = _collect_all_lean_declarations(wt)
     violations: list[str] = []
     for rel, kind, name in _added_marker_lines(wt):
         if kind not in {"leanchecked", "leanstmt", "leandef"}:
             continue
-        if name not in new_decls:
-            violations.append(f"{rel}: {kind} marker {name} does not reference a current-round Lean declaration")
+        if name in new_decls:
+            continue
+        if name in existing_decls:
+            continue
+        violations.append(f"{rel}: {kind} marker {name} does not reference an existing Lean declaration")
     return violations
+
+
+def _collect_all_lean_declarations(wt: WorktreeInfo) -> set[str]:
+    """Enumerate every fully-qualified Lean declaration name in lean4/BEDC/."""
+    names: set[str] = set()
+    bedc_root = wt.path / "lean4" / "BEDC"
+    if not bedc_root.exists():
+        return names
+    for path in bedc_root.rglob("*.lean"):
+        try:
+            src = path.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        for name, _s, _e, _b in _lean_decl_blocks(src):
+            names.add(name)
+    return names
 
 
 def detect_decls_without_kernel_touchpoint(wt: WorktreeInfo) -> list[str]:
@@ -2142,7 +2115,7 @@ def run_round_in_worktree(
     *,
     dry_run: bool = False,
     model: Optional[str] = None,
-    phase_b_timeout: int = 1800,
+    phase_b_timeout: int = 2700,
     phase_c_timeout: int = 3600,
 ) -> tuple[bool, int, list[str]]:
     """
@@ -2377,7 +2350,7 @@ def run_parallel_batch(
     parallel: int,
     dry_run: bool = False,
     model: Optional[str] = None,
-    phase_b_timeout: int = 1800,
+    phase_b_timeout: int = 2700,
     phase_c_timeout: int = 3600,
 ) -> tuple[int, int]:
     """
@@ -2452,7 +2425,7 @@ def run_round_serial(
     *,
     dry_run: bool = False,
     model: Optional[str] = None,
-    phase_b_timeout: int = 1800,
+    phase_b_timeout: int = 2700,
     phase_c_timeout: int = 3600,
 ) -> bool:
     """Single-round execution using worktree (parallel=1)."""
@@ -2837,7 +2810,7 @@ def main() -> int:
         "--model", "-m", type=str, default=None,
         help="Model override for codex exec",
     )
-    parser.add_argument("--phase-b-timeout", type=int, default=1800)
+    parser.add_argument("--phase-b-timeout", type=int, default=2700)
     parser.add_argument("--phase-c-timeout", type=int, default=3600)
     parser.add_argument(
         "--max-consecutive-failures", type=int, default=3,

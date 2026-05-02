@@ -40,6 +40,625 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Metric empty distance witness exactness]
+\label{thm:metric-distance-witness-empty-distance-iff}
+For histories $x,y$, a concrete distance witness with empty distance ledger is
+equivalent to both endpoint histories being empty up to the history classifier:
+$$
+\mathsf{MetricDistanceWitness}(x,y,\emp)
+\Longleftrightarrow
+\hsame(x,\emp)\wedge\hsame(y,\emp).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the concrete distance witness. Its
+continuation field is $\mathsf{Cont}(x,y,\emp)$, and empty-result inversion for
+continuation forces both endpoint histories to be empty.
+
+Conversely, case analysis on the two endpoint sameness witnesses reduces the
+claim to the empty history. The empty endpoint, empty target, and empty distance
+are unary, and the continuation ledger is the reflexive empty concatenation.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_distance\_iff}
+
+\begin{theorem}[Metric distance witness depth additivity]
+\label{thm:metric-distance-witness-depth-add}
+Let $\mathsf{MetricDistanceDepth}$ be the structural depth of a BEDC history,
+counting each visible constructor above $\emp$. For histories $x,y,d$, every
+concrete metric distance witness carries exactly the append-depth ledger:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d)
+=
+\mathsf{MetricDistanceDepth}(x)+\mathsf{MetricDistanceDepth}(y).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the concrete witness. Its continuation field is precisely the BEDC
+append ledger $d=x\cdot y$. The structural-depth equation follows by induction
+on the right history $y$, with the empty case reflexive and both visible
+constructor cases obtained by applying successor congruence to the induction
+hypothesis.
+\end{proof}
+\leandef{BEDC.Derived.MetricUp.MetricDistanceDepth}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_depth\_add}
+
+\begin{theorem}[Metric distance witness symmetric classifier]
+\label{thm:metric-distance-witness-symmetric-classifier}
+For unary endpoint histories $x,y$, if $d_{xy}$ is witnessed by the
+continuation ledger from $x$ to $y$ and $d_{yx}$ is witnessed by the reversed
+ledger from $y$ to $x$, then the two distance histories classify together by
+$\hsame$:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,x,d_{yx})
+\Longrightarrow
+\hsame(d_{xy},d_{yx}).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two concrete distance witnesses. The endpoint histories are unary in
+both directions, and the two displayed continuations are precisely the forward
+and reversed unary continuation ledgers. Unary continuation commutativity gives
+$\hsame(d_{xy},d_{yx})$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_symmetric\_classifier}
+
+\begin{theorem}[Metric distance witness prefix closure]
+\label{thm:metric-distance-witness-prefix-closed}
+For unary histories $p,x,y,d$, a unary visible prefix on the first endpoint
+and the distance ledger preserves the concrete metric distance witness:
+$$
+\mathsf{UnaryHistory}(p)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x,y,p\cdot d).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness into unary endpoint and distance histories together with the
+continuation ledger $d=x\cdot y$. Unary append closure gives unary histories
+for $p\cdot x$ and $p\cdot d$. The prefixed continuation ledger is exactly the
+associativity equality $(p\cdot x)\cdot y=p\cdot(x\cdot y)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_closed}
+
+\begin{theorem}[Metric distance witness prefix iff]
+\label{thm:metric-distance-witness-prefix-iff}
+For histories $p,x,y,d$, a prefixed source and distance witness is equivalent
+to unary evidence for the prefix together with the unprefixed distance witness:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y,p\cdot d)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+From the prefixed witness, unary append factorization recovers unary evidence
+for $p$, $x$, and $d$, and continuation prefix cancellation recovers
+$\mathsf{Cont}(x,y,d)$.
+
+Conversely, unary append closure builds the prefixed source and distance
+histories, and continuation associativity transports the original ledger
+$d=x\cdot y$ to $p\cdot d=(p\cdot x)\cdot y$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_iff}
+
+\begin{theorem}[Metric distance witness suffix iff]
+\label{thm:metric-distance-witness-suffix-iff}
+For histories $p,x,y,d$, a common right suffix on the target and distance is
+equivalent to unary evidence for the suffix together with the unextended
+distance witness:
+$$
+\mathsf{MetricDistanceWitness}(x,y\cdot p,d\cdot p)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+From the suffixed witness, unary append factorization recovers unary evidence
+for $y$, $p$, and $d$. Reassociation exposes a common right suffix $p$, and
+right append cancellation recovers the base continuation
+$\mathsf{Cont}(x,y,d)$.
+
+Conversely, unary append closure builds the suffixed target and distance
+histories, and associativity transports the original ledger
+$d=x\cdot y$ to $d\cdot p=x\cdot(y\cdot p)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_suffix\_iff}
+
+\begin{theorem}[Metric distance witness visible-context exactness]
+\label{thm:metric-distance-witness-visible-context-iff}
+For histories $p,q,x,y,d$, simultaneous visible ledgers on the source side and
+target side are exactly equivalent to unary evidence for the two ledgers
+together with the central distance witness:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, apply
+\autoref{thm:metric-distance-witness-suffix-iff} with source $p\cdot x$,
+target $y$, distance $p\cdot d$, and suffix $q$. This recovers
+$\mathsf{UnaryHistory}(q)$ together with
+$\mathsf{MetricDistanceWitness}(p\cdot x,y,p\cdot d)$. Then apply
+\autoref{thm:metric-distance-witness-prefix-iff} to the remaining witness to
+recover $\mathsf{UnaryHistory}(p)$ and
+$\mathsf{MetricDistanceWitness}(x,y,d)$.
+
+Conversely, assume unary evidence for $p$ and $q$ together with the central
+distance witness. Apply \autoref{thm:metric-distance-witness-prefix-iff} from
+right to left to build
+$\mathsf{MetricDistanceWitness}(p\cdot x,y,p\cdot d)$. Then apply
+\autoref{thm:metric-distance-witness-suffix-iff} from right to left with suffix
+$q$ to append the visible target ledger and obtain
+$\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_iff}
+
+\begin{theorem}[Metric distance witness visible-context depth additivity]
+\label{thm:metric-distance-witness-visible-context-depth-add}
+For histories $p,q,x,y,d$, a visible-context distance witness determines the
+same central depth equation as the central witness:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d)
+=
+\mathsf{MetricDistanceDepth}(x)+\mathsf{MetricDistanceDepth}(y).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to recover the
+central witness $\mathsf{MetricDistanceWitness}(x,y,d)$, then apply
+\autoref{thm:metric-distance-witness-depth-add}.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_depth\_add}
+
+\begin{theorem}[Metric distance witness visible-context result determinacy]
+\label{thm:metric-distance-witness-visible-context-result-deterministic}
+For histories $p,q,x,y,d,d'$, if the same visible endpoint histories carry two
+visible distance ledgers with central parts $d$ and $d'$, then those central
+parts classify together:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d')\cdot q)
+\Longrightarrow
+\hsame(d,d').
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to the first
+visible witness. This recovers $\mathsf{MetricDistanceWitness}(x,y,d)$ together
+with unary evidence for the visible prefix and suffix.
+
+Apply the same visible-context exactness theorem to the second visible witness.
+This recovers $\mathsf{MetricDistanceWitness}(x,y,d')$ over the same central
+endpoints.
+
+Unpack the two central witnesses. Their continuation ledgers have the same
+source endpoint $x$ and target endpoint $y$, namely $\ContR(x,y,d)$ and
+$\ContR(x,y,d')$. By continuation determinacy
+\autoref{thm:continuation-determinacy}, their results classify together, giving
+$\hsame(d,d')$.
+
+The per-object template is as follows. The traditional target is visible metric
+distance readback. The BEDC source is $\mathsf{BHist}$ with $\ContR$ and
+$\mathsf{UnaryHistory}$. The carrier is $\mathsf{MetricDistanceWitness}$ and the
+classifier is $\hsame$. The ledger is the visible prefix and suffix context
+around the central endpoints. The core theorem is central-result determinacy,
+exactness is uniqueness of the central distance, and the status is
+$\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_result\_deterministic}
+
+\begin{theorem}[Metric distance witness visible-context prefix-independent result determinacy]
+\label{thm:metric-distance-witness-visible-context-prefix-independent-result-deterministic}
+For histories $p,q,p',q',x,y,d,e$, if two visible distance ledgers have the
+same central endpoints $x$ and $y$ but possibly different visible prefix and
+suffix contexts, then their central distance histories classify together:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(p'\cdot x,y\cdot q',(p'\cdot e)\cdot q')
+\Longrightarrow
+\hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to each visible
+ledger. The first application recovers the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$, while the second recovers
+$\mathsf{MetricDistanceWitness}(x,y,e)$, independently of the visible prefix
+and suffix histories. Their continuation fields share the same source and
+target endpoints, so continuation determinacy gives $\hsame(d,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_prefix\_independent\_result\_deterministic}
+
+\begin{theorem}[Metric distance witness endpoint-hsame result determinacy]
+\label{thm:metric-distance-witness-hsame-result-deterministic}
+For histories $x,x',y,y',d,d'$, if $x$ classifies with $x'$ and $y$
+classifies with $y'$, then two metric distance witnesses over those classified
+endpoints have classified results:
+$$
+\hsame(x,x')\Longrightarrow
+\hsame(y,y')\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d)\Longrightarrow
+\mathsf{MetricDistanceWitness}(x',y',d')\Longrightarrow
+\hsame(d,d').
+$$
+\end{theorem}
+\begin{proof}
+Case-reduce the two endpoint $\hsame$ witnesses. The two distance witnesses then
+display continuation ledgers with the same source and target endpoints. Apply
+continuation result determinacy to the two continuation fields.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_hsame\_result\_deterministic}
+
+\begin{theorem}[Metric distance witness visible-context source determinacy]
+\label{thm:metric-distance-witness-visible-context-source-deterministic}
+For histories $p,q,x,x',y,d$, if two visible distance ledgers share the same
+visible target endpoint and the same contextual distance result, then their
+central source endpoints classify together:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x',y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\hsame(x,x').
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to both visible
+ledgers. The first application recovers the central continuation
+$\ContR(x,y,d)$, and the second recovers $\ContR(x',y,d)$.
+Continuation right cancellation over the common right endpoint $y$ and common
+result $d$ gives $\hsame(x,x')$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_source\_deterministic}
+
+\begin{theorem}[Metric distance witness visible-context target determinacy]
+\label{thm:metric-distance-witness-visible-context-target-determinacy}
+\label{thm:metric-distance-witness-visible-context-target-deterministic}
+For histories $p,q,x,y,y',d$, if two visible distance ledgers share the same
+visible source endpoint and the same contextual distance result, then their
+central target endpoints classify together:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x,y'\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\hsame(y,y').
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to both visible
+ledgers. The first application recovers the central continuation
+$\ContR(x,y,d)$, and the second recovers $\ContR(x,y',d)$. Continuation left
+cancellation over the common left endpoint $x$ and common result $d$ gives
+$\hsame(y,y')$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_target\_deterministic}
+
+\begin{theorem}[Metric distance witness empty-left exactness]
+\label{thm:metric-distance-witness-empty-left-iff}
+For histories $y,d$, a concrete distance witness whose left endpoint is empty
+is exactly unary evidence for the right endpoint together with the boundary
+classification of the distance as that endpoint:
+$$
+\mathsf{MetricDistanceWitness}(\emp,y,d)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(y)\ \wedge\ \hsame(d,y).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the distance witness. The continuation ledger has empty left endpoint,
+so left-unit exactness gives $\hsame(d,y)$, while the witness already contains
+the unary evidence for $y$.
+
+Conversely, from unary evidence for $y$ and $\hsame(d,y)$, transport unary
+evidence from $y$ to $d$ and use the left-unit continuation equivalence to build
+the concrete distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_left\_iff}
+
+\begin{theorem}[Metric distance witness empty-right exactness]
+\label{thm:metric-distance-witness-empty-right-iff}
+For histories $x,d$, a concrete distance witness whose right endpoint is empty
+is exactly unary evidence for the left endpoint together with the boundary
+classification of the distance as that endpoint:
+$$
+\mathsf{MetricDistanceWitness}(x,\emp,d)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(x)\ \wedge\ \hsame(d,x).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the distance witness. The witness contains unary evidence for $x$, and
+the continuation ledger has empty right endpoint. Right-unit exactness for
+continuations gives the boundary classifier $\hsame(d,x)$.
+
+Conversely, assume unary evidence for $x$ and $\hsame(d,x)$. Transport unary
+evidence from $x$ to $d$ along this classifier, then use the right-unit
+continuation equivalence to build the continuation ledger with right endpoint
+$\emp$. Repacking the unary data and this ledger gives
+$\mathsf{MetricDistanceWitness}(x,\emp,d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_right\_iff}
+
+\begin{theorem}[Metric distance witness left e1 result cases]
+\label{thm:metric-distance-witness-left-e1-result-cases}
+For histories $x,y,d$, a distance witness from a visible left endpoint to a
+visible result has only the empty middle case or a visible middle tail:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longrightarrow
+\bigl(y=\emp\land\mathsf{UnaryHistory}(x)\land\hsame(x,d)\bigr)
+\lor
+\bigl(\exists y_1:\mathsf{BHist}.\;
+y=\Eone(y_1)\land
+\mathsf{MetricDistanceWitness}(\Eone(x),y_1,d)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the distance witness and invert the continuation ledger with visible
+result $\Eone(d)$. If the middle endpoint is empty, the continuation reduces
+the visible equality to $\hsame(x,d)$ and the witness supplies unary evidence
+for $x$. The zero-tagged middle case contradicts constructor no-confusion. In
+the visible middle case, strip one $\Eone$ constructor from the continuation
+ledger and repack the remaining unary evidence as the tail distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_cases}
+
+\begin{theorem}[Metric distance witness one-headed left empty-target exactness]
+\label{thm:metric-distance-witness-left-e1-empty-target-exactness}
+For histories $x,d$, a distance witness from a visible left endpoint to an
+empty right endpoint with visible result exposes the unary tail and identifies
+the result tail with the left tail:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\emp,\Eone(d))
+\Longrightarrow
+\mathsf{UnaryHistory}(x)\land \hsame(d,x).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the distance witness. Unary inversion removes the visible constructor
+from the left endpoint carrier. The continuation ledger has empty right
+endpoint, so right-unit exactness identifies $\Eone(d)$ with $\Eone(x)$; then
+one-constructor cancellation yields $\hsame(d,x)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_empty\_target\_exactness}
+
+\begin{theorem}[Metric distance witness left e1 visible target exactness]
+\label{thm:metric-distance-witness-left-e1-visible-target-exactness}
+For histories $x,y,d,y_1$, a distance witness whose left endpoint and result are
+visible descends across a visible presentation of the target endpoint:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longrightarrow
+\hsame(y,\Eone(y_1))
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(\Eone(x),y_1,d).
+$$
+\end{theorem}
+\begin{proof}
+Apply the left visible-result case split. The empty-middle branch contradicts
+the displayed visible presentation of $y$. In the visible-middle branch, strip
+the $\Eone$ constructor from that presentation and transport the recovered tail
+witness along the resulting $\hsame$ equality.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_visible\_target\_exactness}
+
+\begin{theorem}[Metric distance witness right e1 result exactness]
+\label{thm:metric-distance-witness-right-e1-result-exactness}
+For histories $x,y,d$, a distance witness with right endpoint and result both
+under one visible constructor descends to the tail witness:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the distance witness into unary carrier fields and the continuation
+ledger. Unary inversion removes the visible constructor from the right endpoint
+and result carriers. The continuation step-rule inversion removes the same
+right-side constructor from the continuation ledger, and the four fields repack
+as $\mathsf{MetricDistanceWitness}(x,y,d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_exactness}
+
+\begin{theorem}[Metric distance witness right-boundary visible-context exactness]
+\label{thm:metric-distance-witness-right-boundary-visible-context-iff}
+For histories $p,q,x,d$, a visible-context distance witness whose central right
+endpoint is empty is exactly unary evidence for the visible ledgers and the
+central left endpoint, together with the right-boundary classifier:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,\emp\cdot q,(p\cdot d)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\mathsf{UnaryHistory}(x)\ \wedge\ \hsame(d,x).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, apply
+\autoref{thm:metric-distance-witness-visible-context-iff} with central right
+endpoint $\emp$. This recovers unary evidence for $p$ and $q$ together with
+$\mathsf{MetricDistanceWitness}(x,\emp,d)$. Apply
+\autoref{thm:metric-distance-witness-empty-right-iff} to that central witness to
+obtain $\mathsf{UnaryHistory}(x)$ and $\hsame(d,x)$.
+
+Conversely, assume unary evidence for $p$, $q$, and $x$, together with
+$\hsame(d,x)$. By
+\autoref{thm:metric-distance-witness-empty-right-iff} from right to left, these
+central data build $\mathsf{MetricDistanceWitness}(x,\emp,d)$. Applying
+\autoref{thm:metric-distance-witness-visible-context-iff} from right to left
+with prefix $p$ and suffix $q$ gives the displayed visible-context witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_boundary\_visible\_context\_iff}
+
+\begin{theorem}[Metric distance witness left-boundary visible-context exactness]
+\label{thm:metric-distance-witness-left-boundary-visible-context-iff}
+For histories $p,q,y,d$, a visible-context distance witness whose central left
+endpoint is empty is exactly unary evidence for the visible ledgers and the
+central right endpoint, together with the left-boundary classifier:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,y\cdot q,(p\cdot d)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\mathsf{UnaryHistory}(y)\ \wedge\ \hsame(d,y).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, apply
+\autoref{thm:metric-distance-witness-visible-context-iff} with central left
+endpoint $\emp$. This recovers unary evidence for $p$ and $q$ together with
+$\mathsf{MetricDistanceWitness}(\emp,y,d)$. Apply
+\autoref{thm:metric-distance-witness-empty-left-iff} to that central witness to
+obtain $\mathsf{UnaryHistory}(y)$ and $\hsame(d,y)$.
+
+Conversely, assume unary evidence for $p$, $q$, and $y$, together with
+$\hsame(d,y)$. By \autoref{thm:metric-distance-witness-empty-left-iff} from
+right to left, these central data build
+$\mathsf{MetricDistanceWitness}(\emp,y,d)$. Applying
+\autoref{thm:metric-distance-witness-visible-context-iff} from right to left
+with prefix $p$ and suffix $q$ gives the displayed visible-context witness.
+
+The per-object template is as follows. The traditional target is visible metric
+left-boundary readback. The BEDC source is $\mathsf{BHist}$ with $\ContR$ and
+$\mathsf{UnaryHistory}$. The carrier is $\mathsf{MetricDistanceWitness}$ and the
+classifier is $\hsame$. The ledger is the visible prefix and suffix context. The
+core theorem is left-boundary exactness, exactness is the displayed equivalence,
+the standard bridge is metric boundary readback, and the status is
+$\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_boundary\_visible\_context\_iff}
+
+\begin{theorem}[Metric distance witness empty-boundary visible-context exactness]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-iff}
+For histories $p,q,d$, a visible-context distance witness whose central left
+and right endpoints are both empty is exactly unary evidence for the visible
+ledgers together with the empty-distance classifier:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\ \wedge\ \mathsf{UnaryHistory}(q)\ \wedge\
+\hsame(d,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to remove the
+visible prefix and suffix. The central witness is
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d)$. Applying
+\autoref{thm:metric-distance-witness-empty-left-iff} identifies it with the
+empty-boundary classifier $\hsame(d,\emp)$, while the visible-context theorem
+records exactly the unary histories for $p$ and $q$.
+
+Conversely, unary histories for $p$ and $q$ and the classifier
+$\hsame(d,\emp)$ build the central witness by
+\autoref{thm:metric-distance-witness-empty-left-iff}. Reattaching the same
+visible prefix and suffix by
+\autoref{thm:metric-distance-witness-visible-context-iff} gives the displayed
+visible-context witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_iff}
+
+\begin{theorem}[Metric distance witness empty-boundary visible-context depth zero]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-depth-zero}
+For histories $p,q,d$, a visible-context distance witness whose central left and
+right endpoints are both empty forces the central distance depth to be zero:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d)=0.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to remove the
+visible prefix and suffix. The central witness is then
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d)$. Applying
+\autoref{thm:metric-distance-witness-empty-left-iff} gives $\hsame(d,\emp)$.
+Case analysis on this history classifier reduces the displayed depth equation
+to reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_depth\_zero}
+
+\begin{theorem}[Metric distance witness visible-context symmetric classifier]
+\label{thm:metric-distance-witness-visible-context-symmetric-classifier}
+For histories $p,q,x,y,d_{xy},d_{yx}$, symmetric distance witnesses remain
+classified by $\hsame$ after the same visible source and target contexts are
+peeled away:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d_{xy})\cdot q)
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(p\cdot y,x\cdot q,(p\cdot d_{yx})\cdot q)
+\Longrightarrow
+\hsame(d_{xy},d_{yx}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to each
+contextual witness. The first application recovers
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$, and the second recovers
+$\mathsf{MetricDistanceWitness}(y,x,d_{yx})$. The central witnesses are then
+classified by \autoref{thm:metric-distance-witness-symmetric-classifier}.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_symmetric\_classifier}
+
+\begin{theorem}[Metric distance witness visible-context determinacy]
+\label{thm:metric-distance-witness-visible-context-determinacy}
+For histories $p,q,x,y,d,e$, two contextual distance ledgers for the same
+visible endpoints determine the same central distance:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot e)\cdot q)
+\Longrightarrow
+\hsame(d,e).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to the first
+contextual witness to recover the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$. Apply the same theorem to the second
+contextual witness to recover
+$\mathsf{MetricDistanceWitness}(x,y,e)$.
+
+Unpack the two central distance witnesses. They provide continuation ledgers
+$\ContR(x,y,d)$ and $\ContR(x,y,e)$ over the same source and target histories;
+continuation determinacy, Theorem~\ref{thm:continuation-determinacy}, yields
+$\hsame(d,e)$.
+\end{proof}
+
+\begin{theorem}[Metric distance witness semantic name certificate]
+\label{thm:metric-distance-witness-semantic-namecert}
+For unary endpoint histories $x,y$, the concrete distance-witness predicate
+$d\mapsto\mathsf{MetricDistanceWitness}(x,y,d)$ carries a semantic naming
+certificate whose source, pattern, and ledger predicates are the same concrete
+witness predicate and whose classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The carrier witness is the concrete distance history $x\cdot y$. Unary append
+closure supplies its unary carrier witness, and the continuation field is the
+reflexive ledger $\ContR(x,y,x\cdot y)$. The classifier fields are the
+reflexive, symmetric, and transitive laws for $\hsame$. Carrier transport is
+history-sameness transport of the concrete distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_semanticNameCert}
+
 \begin{definition}[MetricSpace ledger policy]
 \label{def:metric-ledger-policy}
 Record carrier witnesses and the real ledger of each distance value.
@@ -57,4 +676,3 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:metric-zero-axiom-note}
 Replaces decidable equality with apartness and explicit real-modulus inequalities.
 \end{remark}
-

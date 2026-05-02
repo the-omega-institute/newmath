@@ -59,6 +59,42 @@ so this proof does not export identity reflection as a public equality principle
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_transport}
 
+\begin{theorem}[Option history carrier unary prefix closure]
+\label{thm:option-history-carrier-unary-prefix-closed}
+Let $p,h:\mathsf{BHist}$. If $p$ is a unary history and
+$\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(h)$ holds, then
+$$
+\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(\mathsf{append}(p,h))
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Split the nullable carrier witness for $h$. In the absent branch, transport
+the empty unary-history witness along $\hsame(\emp,h)$ and close by unary
+closure under append with the prefix $p$. In the source branch, the source
+witness is already a unary-history witness for $h$, and unary append closure
+again gives the carrier witness for $\mathsf{append}(p,h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_unary\_prefix\_closed}
+
+\begin{theorem}[Option history carrier unary suffix closure]
+\label{thm:option-history-carrier-unary-suffix-closed}
+Let $p,h:\mathsf{BHist}$. If $p$ is a unary history and
+$\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(h)$ holds, then
+$$
+\mathsf{OptionHistoryCarrier}_{\mathsf{UnaryHistory}}(\mathsf{append}(h,p))
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Split the nullable carrier witness for $h$. In the absent branch, transport
+the empty unary-history witness along $\hsame(\emp,h)$ and close by unary
+closure under append with the suffix $p$. In the source branch, the source
+witness is already a unary-history witness for $h$, and unary append closure
+again gives the carrier witness for $\mathsf{append}(h,p)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_unary\_suffix\_closed}
+
 \begin{definition}[Option pattern specification]
 \label{def:option-pattern-specification}
 The pattern is absent-or-present generation: one null constructor and one wrapper constructor over source witnesses.

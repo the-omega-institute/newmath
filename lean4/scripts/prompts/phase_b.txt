@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v3.5 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v3.6 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -177,6 +177,28 @@ python3 lean4/scripts/critical_path.py
 The script ranks every horizon `<X>Up` chapter by `transitive_downstream / (1 + thms)` after excluding nodes that are saturated (`thms >= 20`) or whose declared dependencies are not yet ready (`deps_thms < 5`). The output's `top` array is the next set of fronts the library should attack.
 
 **At least 1 of your 3 selected targets MUST belong to `top[0..2]`** of that JSON output. The target's `target_file` should be the listed `file_lean` (creating it if it does not exist), and the paper site should be a missing-marker location in the listed `file_paper`.
+
+### Schema-only horizons HARD BAN
+
+The following horizons are **PERMANENTLY BANNED** as target chapters because their paper schemas write laws as parametric operators (`mul / add / neg : BHist -> BHist -> BHist` left abstract), which forces the only available Lean encoding into `(name : forall x y z, hsame …)` parameter-echo schema. The phase D mechanical lint rejects exactly that shape — picking such a target is a guaranteed FAILED round.
+
+```
+abgroup, group, monoid, ring, commring, field
+module, vecspace, linearmap, matrix
+polynomial, fps
+lattice, totalorder, preorder, poset
+```
+
+If your `paper_target_chapter` path matches `papers/bedc/parts/concrete_instances/*_<banned>_*.tex`, **DROP that target** and pick from a non-banned chapter (concrete_instances/category, concrete_instances/functor, concrete_instances/nattrans, concrete_instances/metric, concrete_instances/compact, concrete_instances/continuous, concrete_instances/option, concrete_instances/s1, etc.). Adding a single hsame-quantified `forall` hypothesis from a banned chapter does NOT count as a top-3 hit even if the paper file is referenced.
+
+Example REJECTED target shape:
+```
+theorem abgroup_middle_four_double_cancel
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC  : forall x y : BHist, hsame (mul x y) (mul y x))
+    ...
+```
+This is a parameter-echo schema — phase D will reject it. Replace with a hom-carrier / continuation-anchored target from a non-banned horizon.
 
 ### Mechanical blocker definition (no soft fallback)
 

@@ -65,4 +65,38 @@ theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
   cases sameResult
   exact cont_left_cancel left right
 
+theorem cont_composite_tail_unique {h k r f g tail : BHist} :
+    Cont h f k -> Cont k g r -> Cont h tail r -> hsame tail (append f g) := by
+  intro left right direct
+  have composite : Cont h (append f g) r := by
+    cases left
+    exact right.trans (append_assoc h f g)
+  exact cont_left_cancel direct composite
+
+theorem cont_composite_left_factor {a b c f g fg : BHist} :
+    Cont b g c -> Cont f g fg -> Cont a fg c -> Cont a f b := by
+  intro right composite displayed
+  have displayedWithCommonSuffix : Cont (append a f) g c := by
+    cases composite
+    exact cont_intro (displayed.trans (append_assoc a f g).symm)
+  have sameMiddle : hsame (append a f) b :=
+    cont_right_cancel displayedWithCommonSuffix right
+  exact cont_result_hsame_transport (cont_intro rfl) sameMiddle
+
+theorem cont_composite_right_factor {a b c f g fg : BHist} :
+    Cont a f b -> Cont f g fg -> Cont a fg c -> Cont b g c := by
+  intro left composite displayed
+  cases left
+  cases composite
+  cases displayed
+  exact cont_intro (append_assoc a f g).symm
+
+theorem cont_prefix_iff {p a b f : BHist} :
+    Cont (append p a) f (append p b) ↔ Cont a f b := by
+  constructor
+  · intro prefixed
+    exact cont_prefix_cancel prefixed
+  · intro base
+    exact cont_intro ((congrArg (append p) base).trans (append_assoc p a f).symm)
+
 end BEDC.FKernel.Cont

@@ -143,6 +143,33 @@ Theorem~\ref{thm:bundle-local-policy-append-gluing} gives
 $\mathsf{BundleAskPolicy}(\mathsf{BAppend}(\Pi,\Theta),D)$ from the two component policies. Theorem~\ref{thm:signature-generation-bundle-append} applied to the two component signatures produces a history $v$ with $\ContR(t,s,v)$ and a generated signature for the appended bundle. Theorem~\ref{thm:bundle-local-signature-determinacy}, applied to the glued policy, the premise $h\in D$, that constructed appended signature, and the given appended signature for $u$, gives $\hsame(v,u)$.
 \end{proof}
 
+\begin{theorem}[Signature generation bundle append recomposition determinacy]
+\label{thm:sigrel-bundleappend-recompose-hsame}
+For probe bundles \(\Pi,\Theta\), domain \(D\), and source history \(h\), assume
+an asking policy on \(D\) and \(h\in D\). If
+$$
+\Sig(\Pi,h,s,\Delta),
+\qquad
+\Sig(\Theta,h,t,\Gamma),
+\qquad
+\ContR(t,s,u),
+$$
+and \(\Sig(\mathsf{BAppend}(\Pi,\Theta),h,v,\Lambda)\), then
+$$
+\hsame(u,v).
+$$
+\end{theorem}
+\begin{proof}
+Generate the canonical appended signature from the two component signatures by
+Theorem~\ref{thm:signature-generation-bundle-append}. Its continuation witness
+has the same endpoints as the displayed \(\ContR(t,s,u)\), so continuation
+determinacy identifies the displayed recomposition with the canonical result.
+The asking-policy signature determinacy theorem compares the canonical appended
+signature with the supplied appended signature for \(v\). Transitivity of
+\(\hsame\) gives the displayed result.
+\end{proof}
+\leanchecked{BEDC.FKernel.Sig.sigRel\_bundleAppend\_recompose\_hsame}
+
 \begin{theorem}[Three-bundle signature generation coherence]
 \label{thm:signature-generation-three-bundle-coherence}
 For probe bundles $\Pi,\Theta,\Omega$ and source history $h$, assume

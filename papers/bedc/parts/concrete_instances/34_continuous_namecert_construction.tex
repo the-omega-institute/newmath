@@ -1,59 +1,685 @@
-\chapter{A Concrete Naming Certificate for \(\ContinuousFunctionUp\)}
+\chapter{A Concrete Naming Certificate for $\ContinuousMapUp$}
 \label{ch:concrete-instances-continuous-namecert}
 
-The continuous function interface \(\ContinuousFunctionUp\) has certificate obligations between two metric spaces from \autoref{ch:concrete-instances-metric-namecert}. The carrier is the predicate "\(f : X \to Y\) is uniformly continuous on every totally bounded subset of \(X\), with explicit modulus of continuity \(\delta : \mathbb{N} \to \mathbb{N}\)". The licensed interface uses explicit uniform moduli because the stability and transport fields must produce witnesses that can be carried through the BEDC certificate boundary.
+The continuous-map interface $\ContinuousMapUp$ has certificate obligations between two metric spaces from \autoref{ch:concrete-instances-metric-namecert}. The carrier is a BEDC graph witness between certified source and target point histories, together with a unary precision-indexed modulus relation. Totality over classifier-admitted source histories and single-valuedness up to the target classifier are certificate fields, so the public object is a relation-plus-ledger certificate rather than a host-level map or host-level numeric modulus.
 
 \section{Carrier definition}
 
-\begin{definition}[ContinuousFunction carrier]
+\begin{definition}[ContinuousMap carrier]
 \label{def:continuous-carrier}
-Use a function \(f:X\to Y\) between metric spaces plus explicit uniform-continuity moduli on every totally bounded subset.
+Use a graph relation between source point histories and target point histories, equipped with source and target metric ledgers, a totally bounded source witness, a unary precision ledger, and a modulus ledger relating requested source precision to target precision. The carrier includes totality for every source history accepted by the source classifier and single-valuedness up to the target classifier for any two target histories related to the same classifier-admitted source history.
 \end{definition}
+\leandef{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier}
 
-\section{The certificate}
-
-\begin{definition}[ContinuousFunction source specification]
-\label{def:continuous-source-specification}
-The source is a pair of certified metric spaces and the totally bounded subset discipline on the domain.
+\begin{definition}[Continuous modulus witness]
+\label{def:continuous-modulus-witness}
+For histories $source$, $modulus$, and $cert$,
+$\mathsf{ContinuousModulusWitness}(source,modulus,cert)$ records the four
+components
+$$
+\mathsf{UnaryHistory}(source),\quad
+\mathsf{UnaryHistory}(modulus),\quad
+\mathsf{UnaryHistory}(cert),\quad
+\mathsf{Cont}(source,modulus,cert).
+$$
 \end{definition}
+\leandef{BEDC.Derived.ContinuousUp.ContinuousModulusWitness}
 
-\begin{definition}[ContinuousFunction pattern specification]
-\label{def:continuous-pattern-specification}
-The pattern is function-with-modulus formation, attaching a modulus \(\delta\) for each requested precision context.
-\end{definition}
+\begin{theorem}[Continuous modulus witness empty-source exactness]
+\label{thm:continuous-modulus-witness-empty-source-iff}
+For histories $modulus$ and $target$, a one-step modulus witness whose source
+is empty is exactly a unary target together with classifier equality between
+the modulus and the target:
+$$
+\mathsf{ContinuousModulusWitness}(\emp,modulus,target)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(target)\land\hsame(modulus,target).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness. The continuation ledger is
+$\ContR(\emp,modulus,target)$, so the left-unit continuation theorem identifies
+the target with the modulus. This gives the forward classifier equality after
+symmetry, while the target unary field is one of the witness fields.
 
-\begin{definition}[ContinuousFunction classifier specification]
-\label{def:continuous-classifier-specification}
-The classifier relates continuous-function witnesses pointwise by codomain classifier on every domain witness.
-\end{definition}
+Conversely, transport the target unary field across the classifier equality to
+obtain a unary modulus. The source is unary by the empty-history constructor,
+and the left-unit continuation equivalence rebuilds
+$\ContR(\emp,modulus,target)$ from the same classifier equality.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_source\_iff}
 
-\begin{definition}[ContinuousFunction stability certificate]
-\label{def:continuous-stability-certificate}
-The stability certificate consists of:
-\begin{enumerate}
-  \item pointwise classifier reflexivity
-  \item pointwise classifier transitivity
-  \item modulus validity for uniform continuity
-  \item stability of modulus under function classifier replacement
-  \item closure under identity
-  \item closure under composition by composing moduli
-\end{enumerate}
-\end{definition}
+\begin{theorem}[Continuous function carrier composition closure]
+\label{thm:continuous-function-carrier-comp-closed}
+If $f$ carries a source history to a middle history with modulus $modF$, and
+$g$ carries the middle history to a target history with modulus $modG$, then a
+continuation composite $fg$ with modulus composite $modFG$ carries the source
+history to the target history.
+\end{theorem}
+\begin{proof}
+The two carrier witnesses give unary histories for the source, target, maps,
+and moduli, plus continuation ledgers for the source-to-middle and
+middle-to-target maps. Unary continuation closure gives unary histories for
+the composite map and composite modulus. Case analysis on the continuation
+constructors reduces the source-to-target continuation to associativity of
+history append, while the supplied target-to-certificate ledger records the
+composite modulus certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_comp\_closed}
 
-\begin{definition}[ContinuousFunction ledger policy]
-\label{def:continuous-ledger-policy}
-Record the function identifier, metric ledgers, subset witness, and continuity modulus.
-\end{definition}
+\begin{theorem}[Continuous function carrier empty-map identity]
+\label{thm:continuous-function-carrier-empty-map-identity}
+For histories $source$, $modulus$, and $cert$, a certified modulus witness over
+the source ledger determines the identity continuous-function carrier:
+$$
+\mathsf{ContinuousModulusWitness}(source,modulus,cert)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,\emp,source,modulus,cert).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the modulus witness. It supplies unary histories for $source$, $modulus$,
+and $cert$, together with the supplied certificate continuation
+$\mathsf{Cont}(source,modulus,cert)$.
 
-\begin{definition}[\(\ContinuousFunctionUp\) certificate obligations]
-\label{def:continuous-certificate-obligations}
-The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\ContinuousFunctionUp\).
-\end{definition}
+The empty map ledger is unary by the empty-history constructor. The graph part of
+the identity carrier is the right-unit continuation
+$\mathsf{Cont}(source,\emp,source)$.
 
-\paragraph{Primitive boundary.}
-\(\ContinuousFunctionUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+Reassemble $\mathsf{ContinuousFunctionCarrier}$ from the unary source ledger
+used for both source and target slots, the unary empty map ledger, the unary
+modulus ledger, the right-unit graph continuation, and the supplied certificate
+continuation.
 
-\begin{remark}[Zero-axiom encoding note]
-\label{rem:continuous-zero-axiom-note}
-Avoids funext by pointwise classifier sameness and replaces pointwise classical continuity with explicit uniform moduli.
-\end{remark}
+The ten-field certificate fit is the following. The traditional target is the
+identity uniformly continuous graph. The BEDC source is $BHist$ with
+$\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and the
+classifier is $\mathsf{hsame}$. The stability obligation is identity closure.
+The ledger consists of source, empty map, modulus, and certificate histories.
+The core theorem is this identity carrier, exactness is the displayed carrier,
+the standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_map\_identity}
+
+\begin{theorem}[Continuous function carrier empty-map exactness]
+\label{thm:continuous-function-carrier-empty-map-iff}
+For histories $source$, $target$, $modulus$, and $cert$, the empty graph map
+inside $\mathsf{ContinuousFunctionCarrier}$ is exact:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,\emp,target,modulus,cert)
+\Longleftrightarrow
+\hsame(target,source)\land
+\mathsf{ContinuousModulusWitness}(target,modulus,cert).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the carrier. The graph ledger is
+$\mathsf{Cont}(source,\emp,target)$, so the continuation right-unit theorem gives
+$\hsame(target,source)$. The target-modulus certificate ledger supplies
+$\mathsf{Cont}(target,modulus,cert)$, and unary continuation closure supplies
+the unary certificate history. Together with the target and modulus unary
+fields, these assemble the displayed modulus witness.
+
+Conversely, assume the target-source classifier and the modulus witness over
+$target$. Transport the target unary ledger across $\hsame(target,source)$ to
+obtain the source unary ledger. The empty map is unary, the graph ledger is the
+right-unit continuation read from $\hsame(target,source)$, and the supplied
+modulus witness gives the target, modulus, certificate, and certificate-ledger
+fields of the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_map\_iff}
+
+\begin{theorem}[Continuous function carrier hsame transport]
+\label{thm:continuous-function-carrier-hsame-transport}
+For histories $source,map,target,modulus,cert$ and displayed histories
+$source',map',target',modulus',cert'$, if each displayed history is
+$\hsame$-equivalent to the corresponding carrier field, then the carrier
+transports across those five endpoint identifications:
+$$
+\begin{array}{l}
+\hsame(source,source')\land\hsame(map,map')\land
+\hsame(target,target')\land\hsame(modulus,modulus')\land
+\hsame(cert,cert')
+\\
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source',map',target',modulus',cert').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the concrete carrier witness into its four unary ledgers and two
+continuation ledgers. Case analysis on the five $\hsame$ witnesses identifies
+the displayed source, map, target, modulus, and certificate histories with the
+original fields. The same unary and continuation ledgers then reassemble the
+displayed $\mathsf{ContinuousFunctionCarrier}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_hsame\_transport}
+
+\begin{theorem}[Continuous function carrier target-certificate determinacy]
+\label{thm:continuous-function-carrier-target-cert-deterministic}
+For histories $source,map,target,target',modulus,cert,cert'$, if
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$ and
+$\mathsf{ContinuousFunctionCarrier}(source,map,target',modulus,cert')$, then
+both the target ledger and the certificate ledger are determined up to the
+history classifier:
+
+$$
+\mathsf{hsame}(target,target')\quad\text{and}\quad
+\mathsf{hsame}(cert,cert').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two carrier witnesses. The first carrier supplies the graph ledger
+$\mathsf{Cont}(source,map,target)$ and the certificate ledger
+$\mathsf{Cont}(target,modulus,cert)$; the second supplies
+$\mathsf{Cont}(source,map,target')$ and
+$\mathsf{Cont}(target',modulus,cert')$.
+
+Continuation determinacy applied to the two graph ledgers gives
+$\mathsf{hsame}(target,target')$. This is the target part of the displayed
+conclusion.
+
+For the certificate part, keep the common modulus ledger fixed and transport
+the first certificate continuation across the recovered target sameness. The
+transported ledger and the second certificate ledger now have the same source
+history up to $\mathsf{hsame}$ and the same modulus history, so continuation
+respect for $\mathsf{hsame}$ gives $\mathsf{hsame}(cert,cert')$.
+
+The ten-field certificate fit is the following. The traditional target is
+single-valued graph-with-modulus evidence. The BEDC source is $BHist$ equipped
+with $\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and
+the classifier is $\mathsf{hsame}$. The stability obligation is target and
+certificate determinacy. The ledger is source, map, target, modulus, and
+certificate histories. The core theorem is this determinacy result. The
+exactness predicate is the pair of displayed $\mathsf{hsame}$ conclusions. The
+standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_target\_cert\_deterministic}
+
+\begin{theorem}[Continuous function carrier composite public readback]
+\label{thm:continuous-function-carrier-comp-public-readback}
+If two continuous-function carriers compose through $fg$ and $modFG$, and a
+displayed carrier uses the same source, composite map, and composite modulus,
+then the displayed target and certificate are determined by the canonical
+composite target and certificate:
+$$
+\mathsf{hsame}(target,target')\quad\text{and}\quad
+\mathsf{hsame}(cert,cert').
+$$
+\end{theorem}
+\begin{proof}
+Continuous-function composition closure constructs the canonical composite
+carrier from the two input carriers and the supplied continuation ledgers for
+$fg$, $modFG$, and $cert$. Target-certificate determinacy compares this
+canonical carrier with the displayed carrier over the same source, map, and
+modulus, yielding the two public readback equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_comp\_public\_readback}
+
+\begin{theorem}[Continuous function carrier map determinacy]
+\label{thm:continuous-function-carrier-map-deterministic}
+For histories $source,map,map',target,modulus,cert$, if two
+continuous-function carrier witnesses share the same source, target, modulus,
+and certificate, then their graph maps are determined up to $\hsame$:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map',target,modulus,cert)
+\Longrightarrow
+\hsame(map,map').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both carrier witnesses. Their graph ledgers are
+$\mathsf{Cont}(source,map,target)$ and
+$\mathsf{Cont}(source,map',target)$. Continuation left cancellation with the
+common source history and common target history yields $\hsame(map,map')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_map\_deterministic}
+
+\begin{theorem}[Continuous function carrier source determinacy]
+\label{thm:continuous-function-carrier-source-deterministic}
+For histories $source,source',map,target,modulus,cert$, if two
+continuous-function carrier witnesses share the same graph map, target,
+modulus, and certificate, then their source histories are determined up to
+$\hsame$:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source',map,target,modulus,cert)
+\Longrightarrow
+\hsame(source,source').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both carrier witnesses. Their graph ledgers are
+$\mathsf{Cont}(source,map,target)$ and
+$\mathsf{Cont}(source',map,target)$. Continuation right cancellation with the
+common map history and common target history yields $\hsame(source,source')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_source\_deterministic}
+
+\begin{theorem}[Continuous function carrier modulus determinacy]
+\label{thm:continuous-function-carrier-modulus-deterministic}
+For histories $source,map,target,modulus,modulus',cert$, if two
+continuous-function carrier witnesses share the same graph target and terminal
+certificate, then their modulus histories are determined up to $\hsame$:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus',cert)
+\Longrightarrow
+\hsame(modulus,modulus').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both carrier witnesses. Their certificate ledgers are
+$\mathsf{Cont}(target,modulus,cert)$ and
+$\mathsf{Cont}(target,modulus',cert)$. Continuation left cancellation with the
+common target history and common certificate history yields
+$\hsame(modulus,modulus')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_modulus\_deterministic}
+
+\begin{theorem}[Continuous function carrier prefix closure]
+\label{thm:continuous-function-carrier-prefix-closed}
+For histories $p$, $source$, $map$, $targetHist$, $modulus$, and $certHist$, a
+visible unary prefix on the source, target, and certificate ledgers preserves
+the full continuous-function carrier:
+
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(p)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,targetHist,modulus,certHist)
+\Longrightarrow
+\\
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot targetHist,modulus,
+p\cdot certHist).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the carrier into unary histories for the source, target, map, and
+modulus, together with continuations $targetHist=source\cdot map$ and
+$certHist=targetHist\cdot modulus$.
+
+Unary append closure supplies the prefixed source and target histories
+$p\cdot source$ and $p\cdot targetHist$. The map and modulus histories are
+kept unchanged, so their unary witnesses are reused directly.
+
+The graph ledger for the prefixed carrier follows by applying the prefix $p$ to
+the continuation and reassociating append:
+
+$$
+(p\cdot source)\cdot map
+=
+p\cdot(source\cdot map)
+=
+p\cdot targetHist.
+$$
+
+The modulus-certificate ledger is transported in the same way:
+
+$$
+(p\cdot targetHist)\cdot modulus
+=
+p\cdot(targetHist\cdot modulus)
+=
+p\cdot certHist.
+$$
+
+The ten-field certificate fit is the following. The traditional target is
+prefix-stable continuous graph evidence. The BEDC source is $BHist$ equipped
+with $\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and
+the classifier is $\mathsf{hsame}$. The stability obligation is prefix closure
+of the graph and modulus-certificate ledgers. The ledger consists of source,
+map, target, modulus, and certificate histories. The core theorem is this
+prefix closure, exactness is the displayed carrier witness, the standard bridge
+is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefix\_closed}
+
+\begin{theorem}[Continuous modulus witness prefix exactness]
+\label{thm:continuous-modulus-witness-prefix-iff}
+For histories $p,s,\delta,t$, a common visible unary prefix on the source and
+target ledgers is exactly the same as unary evidence for the prefix together
+with the unprefixed one-step modulus witness:
+
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta,p\cdot t)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousModulusWitness}(s,\delta,t).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the prefixed witness into unary histories for
+$p\cdot s$, $\delta$, and $p\cdot t$, together with the continuation ledger
+
+$$
+(p\cdot s)\cdot\delta=p\cdot t.
+$$
+
+Unary append factorization on $p\cdot s$ recovers
+$\mathsf{UnaryHistory}(p)$ and $\mathsf{UnaryHistory}(s)$. The same
+factorization on $p\cdot t$ recovers $\mathsf{UnaryHistory}(t)$. Associativity
+rewrites the displayed continuation ledger as
+$p\cdot(s\cdot\delta)=p\cdot t$, and left cancellation on the continuation
+ledger recovers $s\cdot\delta=t$. These data reassemble
+$\mathsf{ContinuousModulusWitness}(s,\delta,t)$.
+
+For the reverse direction, project $\mathsf{UnaryHistory}(p)$ and the
+unprefixed witness from the conjunction. Unpacking the witness supplies unary
+histories for $s$, $\delta$, and $t$, and the continuation ledger
+$s\cdot\delta=t$.
+
+Unary append closure gives unary histories for $p\cdot s$ and $p\cdot t$.
+Prefixed continuation associativity transports the unprefixed ledger to
+$(p\cdot s)\cdot\delta=p\cdot t$, so the prefixed witness is reconstructed.
+
+The ten-field certificate fit is the following. The traditional target is
+one-step modulus readback. The BEDC source is $BHist$ equipped with
+$\mathsf{Cont}$. The carrier is $\mathsf{ContinuousModulusWitness}$ and the
+classifier is $\mathsf{hsame}$. The stability obligation is prefix exactness.
+The ledger consists of source, modulus, target, and prefix histories. The core
+theorem is this iff, exactness is the displayed iff, the standard bridge is
+deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_prefix\_iff}
+
+\begin{theorem}[Continuous modulus witness suffix exactness]
+\label{thm:continuous-modulus-witness-suffix-iff}
+For histories $p,s,\delta,t$, a common visible unary suffix on the modulus and
+target ledgers is exactly the same as unary evidence for the suffix together
+with the unsuffixed one-step modulus witness:
+$$
+\mathsf{ContinuousModulusWitness}(s,\delta\cdot p,t\cdot p)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousModulusWitness}(s,\delta,t).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the suffixed witness. Unary append
+factorization on $\delta\cdot p$ gives unary $\delta$ and unary $p$, while
+factorization on $t\cdot p$ gives unary $t$. The continuation ledger has the
+common right suffix $p$ after associativity, so right cancellation recovers
+$t=s\cdot\delta$. These fields reassemble the unsuffixed witness.
+
+For the reverse direction, unary closure appends the unary suffix to both the
+modulus and target histories. Associativity transports the unsuffixed
+continuation ledger to the suffixed continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_suffix\_iff}
+
+\begin{theorem}[Continuous modulus witness visible context exactness]
+\label{thm:continuous-modulus-witness-visible-context-iff}
+For histories $p,q,s,\delta,t$, simultaneous visible context on the source,
+modulus, and target ledgers is exactly the pair of unary context witnesses
+together with the base one-step modulus witness:
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta\cdot q,(p\cdot t)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{ContinuousModulusWitness}(s,\delta,t).
+$$
+\end{theorem}
+\begin{proof}
+Peel the right suffix from the modulus and target ledgers by suffix exactness.
+The remaining witness has the common left prefix on source and target, so prefix
+exactness recovers the unary prefix and the central witness. Conversely,
+rebuild the prefixed central witness first, then reattach the right suffix.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_visible\_context\_iff}
+
+\begin{theorem}[Continuous modulus witness visible context source determinacy]
+\label{thm:continuous-modulus-witness-visible-context-source-deterministic}
+For histories $p,q,s,s',\delta,t$, two visible-context one-step modulus
+witnesses with the same visible modulus and visible target contexts determine
+the same central source history:
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta\cdot q,(p\cdot t)\cdot q)
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(p\cdot s',\delta\cdot q,(p\cdot t)\cdot q)
+\Longrightarrow
+\hsame(s,s').
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to both witnesses. The recovered central
+witnesses share the modulus $\delta$ and target $t$, so one-step source
+determinacy gives $\hsame(s,s')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_visible\_context\_source\_deterministic}
+
+\begin{theorem}[Continuous modulus witness left e1 result cases]
+\label{thm:continuous-modulus-witness-left-e1-result-cases}
+For histories $source,modulus,target$, a one-step modulus witness from a
+visible source endpoint to a visible target endpoint has only the empty modulus
+case or a visible modulus tail:
+$$
+\mathsf{ContinuousModulusWitness}(\Eone(source),modulus,\Eone(target))
+\Longrightarrow
+\bigl(modulus=\emp\land\mathsf{UnaryHistory}(source)\land
+\hsame(source,target)\bigr)
+\lor
+\bigl(\exists modulusTail:\mathsf{BHist}.\;
+modulus=\Eone(modulusTail)\land
+\mathsf{ContinuousModulusWitness}(\Eone(source),modulusTail,target)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the modulus witness and invert the continuation ledger with visible
+result $\Eone(target)$. The empty modulus case strips the outer visible
+constructor from the source-target equality and keeps the unary source
+evidence. The zero-tagged modulus case is ruled out by constructor
+no-confusion. In the visible modulus case, remove one $\Eone$ constructor from
+the continuation ledger and repack the remaining fields as the tail witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_left\_e1\_result\_cases}
+
+\begin{theorem}[Continuous modulus witness right e1 result exactness]
+\label{thm:continuous-modulus-witness-right-e1-result-exactness}
+For histories $source,modulus,target$, a modulus witness whose modulus and
+target histories are both visibly tagged has an exact untagged tail:
+$$
+\mathsf{ContinuousModulusWitness}(source,\Eone(modulus),\Eone(target))
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(source,modulus,target).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the source, modulus, target unary witnesses and the continuation
+ledger. Unary inversion removes the visible constructor from the modulus and
+target carriers. The right $\Eone$ continuation inversion removes the same
+constructor from the continuation ledger, yielding the exact untagged modulus
+witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_right\_e1\_result\_exactness}
+
+\begin{theorem}[Continuous modulus witness modulus determinacy]
+\label{thm:continuous-modulus-witness-modulus-hsame-deterministic}
+If two one-step modulus witnesses have $\hsame$ source histories and $\hsame$ target histories, then their modulus histories are $\hsame$:
+$$
+\hsame(modulus,modulus').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both witnesses, identify the source and target endpoints by $\hsame$, and apply continuation left cancellation to the two modulus ledgers.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_modulus\_hsame\_deterministic}
+
+\begin{theorem}[Continuous modulus witness target determinacy]
+\label{thm:continuous-modulus-witness-target-hsame-deterministic}
+If two one-step modulus witnesses have $\hsame$ source histories and the same
+modulus history, then their target histories are $\hsame$:
+$$
+\hsame(target,target').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both witnesses, identify the source endpoint by $\hsame$, and apply
+continuation result determinacy to the two continuation ledgers with the shared
+source and modulus.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_target\_hsame\_deterministic}
+
+\begin{theorem}[Continuous modulus witness source determinacy]
+\label{thm:continuous-modulus-witness-source-hsame-deterministic}
+If two one-step modulus witnesses have $\hsame$ target histories and the same
+modulus history, then their source histories are $\hsame$:
+$$
+\hsame(source,source').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both witnesses, identify the target endpoint by $\hsame$, and apply
+continuation right cancellation to the two ledgers with the shared modulus and
+target.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_source\_hsame\_deterministic}
+
+\begin{theorem}[Continuous function carrier prefix exactness]
+\label{thm:continuous-function-carrier-prefix-iff}
+For histories $p,source,map,target,modulus,cert$, prefixing the visible source,
+target, and certificate ledgers is conservative for the continuous-function
+carrier:
+
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,modulus,p\cdot cert)
+\Longleftrightarrow
+\\
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the prefixed carrier. It supplies unary
+histories for $p\cdot source$, $p\cdot target$, $map$, and $modulus$, together
+with the two continuation ledgers
+$\mathsf{Cont}(p\cdot source,map,p\cdot target)$ and
+$\mathsf{Cont}(p\cdot target,modulus,p\cdot cert)$.
+
+Unary append factorization applied to the source ledger recovers
+$\mathsf{UnaryHistory}(p)$ and $\mathsf{UnaryHistory}(source)$. Applied to the
+target ledger, it recovers $\mathsf{UnaryHistory}(target)$. Prefix cancellation
+on the graph continuation ledger gives $\mathsf{Cont}(source,map,target)$, and
+prefix cancellation on the modulus-certificate continuation ledger gives
+$\mathsf{Cont}(target,modulus,cert)$. Repacking these witnesses gives
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$.
+
+For the reverse direction, project $\mathsf{UnaryHistory}(p)$ and the
+unprefixed carrier from the conjunction. Apply
+Theorem~\ref{thm:continuous-function-carrier-prefix-closed} to obtain the
+displayed prefixed carrier.
+
+The ten-field certificate fit is the following. The traditional target is
+prefix-invariant continuous graph evidence. The BEDC source is $BHist$ equipped
+with $\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and
+the classifier is $\mathsf{hsame}$. The stability obligation is exact prefix
+cancellation for graph and modulus-certificate ledgers. The ledger consists of
+source, map, target, modulus, and certificate histories. The core theorem is
+prefix exactness, the exactness predicate is the displayed iff, the standard
+bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefix\_iff}
+
+\begin{theorem}[Continuous function carrier modulus suffix exactness]
+\label{thm:continuous-function-carrier-modulus-suffix-iff}
+For histories $p,source,map,target,modulus,cert$, suffixing the modulus and
+certificate ledgers by the same unary history is conservative for the
+continuous-function carrier:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus\cdot p,cert\cdot p)
+\Longleftrightarrow
+\\
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the suffixed carrier. The target-modulus
+certificate leg is a continuous modulus witness from $target$ through
+$modulus\cdot p$ to $cert\cdot p$, with the certificate unary witness obtained
+from unary continuation closure. Apply the continuous modulus witness suffix
+exactness theorem to remove the common right suffix, then repack the graph
+carrier fields.
+
+For the reverse direction, turn the unsuffixed target-modulus certificate leg
+into a continuous modulus witness, apply suffix exactness to append $p$ to the
+modulus and certificate histories, and repack the original graph fields with
+the suffixed certificate leg.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_modulus\_suffix\_iff}
+
+\begin{theorem}[Continuous function carrier prefixed graph-chain factorization]
+\label{thm:continuous-function-carrier-prefixed-graph-chain-factorizes}
+For histories $p,source,map,target,\delta_1,\delta_2,\delta,cert$, if
+$\delta_1$ and $\delta_2$ are unary, $\mathsf{Cont}(\delta_1,\delta_2,\delta)$
+holds, and
+$$
+\mathsf{ContinuousFunctionCarrier}
+(p\cdot source,map,p\cdot target,\delta,p\cdot cert)
+$$
+holds, then there is a middle history $middle$ such that
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,\delta,cert)
+\land
+\mathsf{ContinuousModulusWitness}(target,\delta_1,middle)
+\land
+\mathsf{ContinuousModulusWitness}(middle,\delta_2,cert).
+$$
+\end{theorem}
+\begin{proof}
+Apply prefix exactness for continuous-function carriers to remove the common
+visible prefix from the source, target, and certificate ledgers. This recovers
+the unprefixed carrier and in particular the target-to-certificate continuation
+$\mathsf{Cont}(target,\delta,cert)$.
+
+Choose $middle=target\cdot\delta_1$. The first modulus witness is the canonical
+continuation from $target$ through $\delta_1$ to this middle history. For the
+second witness, combine $\mathsf{Cont}(\delta_1,\delta_2,\delta)$ with the
+recovered target-to-certificate continuation and reassociate the BEDC append
+spine, obtaining $\mathsf{Cont}(middle,\delta_2,cert)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_factorizes}
+
+\begin{theorem}[Continuous function carrier prefixed graph-chain first factorization]
+\label{thm:continuous-function-carrier-prefixed-graph-chain-factorization}
+For histories $p,source,map,target,\delta_1,\delta_2,\delta,cert$, if
+$\delta_1$ and $\delta_2$ are unary, $\mathsf{Cont}(\delta_1,\delta_2,\delta)$
+holds, and
+$$
+\mathsf{ContinuousFunctionCarrier}
+(p\cdot source,map,p\cdot target,\delta,p\cdot cert)
+$$
+holds, then there is a middle history $middle$ such that
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,\delta_1,middle)
+\land
+\mathsf{ContinuousModulusWitness}(middle,\delta_2,cert).
+$$
+\end{theorem}
+\begin{proof}
+Apply prefix exactness for continuous-function carriers to remove the common
+visible prefix. This exposes the unprefixed graph ledger
+$\mathsf{Cont}(source,map,target)$ and the composite target-certificate ledger
+$\mathsf{Cont}(target,\delta,cert)$.
+
+Choose $middle=target\cdot\delta_1$. The first-stage carrier uses the original
+source, map, and target carrier data, the graph ledger, the unary witness for
+$\delta_1$, and the canonical continuation
+$\mathsf{Cont}(target,\delta_1,middle)$. The second-stage modulus witness uses
+the unary closure of $middle$, the unary witness for $\delta_2$, unary closure
+of $cert$, and associativity of BEDC append to factor the composite ledger
+through $\mathsf{Cont}(\delta_1,\delta_2,\delta)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_factorization}

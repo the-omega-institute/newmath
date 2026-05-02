@@ -48,8 +48,10 @@ python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py --base-branc
 Lean command:
 
 ```bash
-python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py --base-branch codex-auto-dev --parallel 5 --continuous --lake-parallel 1 2>&1 | grep -E --line-buffered 'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Rebase conflict|Merging|Merged|builder|PASS|FAIL|R[0-9]+'
+python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py --base-branch codex-auto-dev --parallel 5 --continuous --lake-parallel 1 --phase-b-timeout 3600 --phase-c-timeout 4500 2>&1 | grep -E --line-buffered 'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Rebase conflict|Merging|Merged|builder|PASS|FAIL|R[0-9]+'
 ```
+
+Tune `--parallel` upward (3 → 5 → 7) only when phase B is consistently completing well under the timeout (otherwise rebase conflicts and codex-API contention eat the gain). `--phase-b-timeout` and `--phase-c-timeout` defaults (2700 / 3600) are too tight under parallel ≥ 5: bump to 3600 / 4500. The lake gate stays at `--lake-parallel 1` regardless — multiple concurrent `lake build` exhaust memory.
 
 Use `persistent: true` for both monitors. Describe them as:
 
@@ -93,25 +95,182 @@ The merge path is high-risk because two pipelines share `codex-auto-dev`:
 - **`Diverging branches can't be fast-forwarded`**: rebase resolution by codex left the round branch off the BASE_BRANCH lineage. Round will FAIL. Investigate the codex resolution log.
 - **`3 consecutive failures — sleeping 180s`**: cooldown trigger. Look at the failing rounds' Phase B output files (`lean4/scripts/logs/codex/R<N>_phaseB_*.out.txt`); zero-byte means codex was killed externally (not a prompt issue), non-zero means inspect the gate that rejected it.
 
-### Editing prompts
+### Hot-reload vs restart boundary
 
-Prompt files are re-read on each round dispatch — edits are live for the next round to start.
+Edit-and-go (no pipeline restart needed; next round picks up the change):
 
-- Paper: `papers/bedc/scripts/prompts/phase_review.txt`, `phase_revise.txt` — bump the `## Prompts version` line in BOTH files when either changes (e.g. v1.6 → v1.7). The version is mirrored into commit bodies as `prompts: vN.M`.
-- Lean: `lean4/scripts/prompts/phase_b.txt`, `phase_c.txt` — same convention (e.g. v3.0 → v3.1).
+| File | Role |
+|---|---|
+| `lean4/scripts/prompts/phase_b.txt`, `phase_c.txt` | Lean target selection / implementation |
+| `lean4/scripts/prompts/conflict_resolve.txt` | Lean codex-side rebase conflict resolver |
+| `lean4/scripts/prompts/post_rebase_audit_resolve.txt` | Lean codex-side audit recovery |
+| `papers/bedc/scripts/prompts/phase_review.txt`, `phase_revise.txt` | Paper review / revise |
+| `papers/bedc/scripts/prompts/conflict_resolve.txt` | Paper codex-side conflict resolver |
+| `papers/bedc/scripts/prompts/post_rebase_audit_resolve.txt` | Paper codex-side audit recovery |
+| `lean4/NAMING.md` | Naming and decomposition discipline (referenced by phase prompts) |
+| `lean4/scripts/critical_path.py` | Critical-path top-N discovery (called via subprocess from Phase B) |
+| `lean4/scripts/phase_d_lint.py` | Mechanical post-rebase lints (called via subprocess from `run_phase_d_lints`) |
+| `lean4/scripts/bedc_ci.py` audit / `--shape-saturation` | Drift + saturation reports (called via subprocess) |
 
-### Editing scripts
+Restart-required (the long-running Python process loaded these at startup):
 
-Script edits do NOT take effect for in-flight rounds (the Python process loaded them at startup). After editing a script:
+| Change | Affects |
+|---|---|
+| `lean4/scripts/codex_formalize.py` body (merge flow, retries, gate ordering, timeouts) | Lean pipeline |
+| `papers/bedc/scripts/codex_revise.py` body (merge flow, retries, gate ordering, timeouts) | Paper pipeline |
+| `--phase-b-timeout` / `--review-timeout` defaults | Both |
 
-1. Either `--stop` and let drain finish, or accept that current rounds use the old logic.
-2. Commit the script change to `codex-auto-dev` BEFORE restart, otherwise `ff update of codex-auto-dev failed` will block in-flight merges that touch the work tree.
-3. Restart with the same Monitor commands as above.
+When you bump a phase-prompt version, edit BOTH files of that side together (`phase_b.txt` + `phase_c.txt`, or `phase_review.txt` + `phase_revise.txt`); the `## Prompts version` line gets mirrored into every commit body as `prompts: vN.M` so the trail is reconstructable.
 
-Common script files:
-- `lean4/scripts/bedc_ci.py` — `cmd_audit` prints duplicate labels + unresolved markers + forbidden constructs; failures contribute to non-zero exit code.
-- `papers/bedc/scripts/codex_revise.py` — `merge_worktree_to_base` runs post-rebase drift audit; `_codex_resolve_post_rebase_audit` drops a round's colliding paper additions.
-- `lean4/scripts/codex_formalize.py` — `run_pre_merge_hard_gates` returns `(ok, gate_name, tail)`; `_codex_resolve_post_rebase_audit` is the symmetric Lean-side recovery for paper-side stale labels.
+### Critical-path mechanism
+
+`lean4/scripts/critical_path.py` ranks every horizon `<X>Up` chapter under `papers/bedc/parts/concrete_instances/`:
+
+```
+score = transitive_downstream_horizons / (1 + thms)
+```
+
+after excluding nodes that are saturated (`thms >= SATURATION_THRESHOLD`, currently 10) or whose declared dependencies have `< DEPS_READY_THRESHOLD` (currently 5) implementations. The top-3 entries are the next fronts the library should attack.
+
+Phase B HARD GATE: at least 1 of 3 selected targets must come from `top[0..2]`. The fallback "if technically blocked, use top[3..]" is mechanised — a node counts as blocked only when all three of (a) the chapter's paper schema has < 3 `\begin{definition}` blocks, (b) implementation needs an inductive / import that does not yet exist anywhere under `lean4/BEDC/`, (c) `critical_path.py` reports `deps_ready = false` (always false for nodes IN `top` by construction). A single-condition rationalisation is invalid.
+
+If all three top-3 nodes claim blocked under that conjunction, codex emits `{"targets": []}`. Empty rounds are preferred over silent fallback to depth-refinement of saturated horizons.
+
+Run `python3 lean4/scripts/critical_path.py | jq '.top[:3]'` any time to see what the next targets should be.
+
+### Phase D mechanical lints
+
+`lean4/scripts/phase_d_lint.py` runs after lake / check-axioms / audit / axiom-purity, before merge. Three checks against declarations introduced in the round (`<base-branch>..HEAD` under `lean4/BEDC/`):
+
+1. **Mechanical-arity suffix.** New name matching `_(two|three|four|five|six)(?:_step)?(?:_witness_chain)?\b` is rejected. NAMING.md §3.
+2. **Parameter-echo schema.** Signature contains `(name : ∀ … hsame …)` binding AND the conclusion is also `forall … hsame …` AND the conclusion has no other BHist anchor (post `hsame` + bare `BHist` strip). All three together — the hypothesis bind alone is a legitimate hsame-stability assumption, and an embedded `forall x', hsame …` inside a single-valuedness uniqueness clause is also legitimate when the conclusion mentions a derived classifier/carrier (Empty / e0 / e1 / Cont / NameCert / DescentCertificate / …). False positives cost a real Lean round, so keep the conclusion-aware check tight.
+3. **BHist-anchor for Derived theorems.** Every new declaration under `BEDC.Derived.*` must mention at least one concrete BEDC kernel symbol. Current accepted set: `BHist | BMark | Empty | e0 | e1 | cons | append | sameSig | ProbeBundle | SigRel | InGap | NameCert | SemanticNameCert | Pkg | hsame | msame | Cont | Ext | InBundle | SameSig | UnaryHistory | StageInterface | SealEvent | SealInterface | AskEvent | AskPolicy | BundleAskPolicy | DescentCertificate | StableTransformation | ThreadFamily | bundleAppend | bundleLength | bwordLength`. When a new kernel structure is added under `lean4/BEDC/FKernel/`, append it to `BHIST_CONSTRUCTOR_RE` — otherwise legitimate `<X>NameCert`-style theorems hit a `\bNameCert\b` non-match because of the prefix and get rejected.
+
+Stale-marker check (separate, in `codex_formalize.py::detect_markers_not_backed_by_new_decls`): a `\leanchecked|leanstmt|leandef{X}` added to paper this round must reference some declaration X that exists *anywhere* under `lean4/BEDC/` — not only declarations introduced in this round. The new helper `_collect_all_lean_declarations` enumerates every fully-qualified name. The earlier "must be in this round's diff" rule rejected legitimate paper-catchup rounds where a Lean declaration finalized earlier finally gets its marker registered.
+
+Phase D failure routes through the same `(ok, gate_name, tail)` channel as audit failures and is not auto-recovered — the round is marked FAILED and the worktree is removed. To tighten any of the three regexes, edit `phase_d_lint.py` and the next round picks up the change.
+
+Predict-before-merge: run `python3 lean4/scripts/phase_d_lint.py --worktree /tmp/<commit-test> --base-branch <commit>^` against a candidate commit checkout to see exactly which lint catches it.
+
+### Schema-only horizons (algebra parametric ban)
+
+`lean4/scripts/critical_path.py` excludes a fixed set from `top` because their paper schemas write laws as parametric operators (`mul / add / neg : BHist -> BHist -> BHist` left abstract). A Lean round picking such a horizon can ONLY produce `(name : forall x y z, hsame …)` parameter-echo schema, which Phase D mechanically rejects:
+
+```python
+SCHEMA_ONLY_HORIZONS = {
+    "abgroup", "group", "monoid",
+    "ring", "commring", "field",
+    "module", "vecspace", "linearmap", "matrix",
+    "polynomial", "fps",
+    "lattice", "totalorder", "preorder", "poset",
+}
+```
+
+`phase_b.txt` v3.6+ also enumerates the same set under "Schema-only horizons HARD BAN" so codex sees the constraint at target-selection time, not just as a passive filter on `top`. When you observe a Lean round selecting a target whose `paper_target_chapter` matches `papers/bedc/parts/concrete_instances/*_<banned>_*.tex`, it's a prompt-comprehension regression — re-state the rule in `phase_b.txt`, bump the version, and the next round picks it up.
+
+Removing a chapter from the ban requires the paper side to first add a *concrete* `mul := λ h k => …` definition (BHist-valued, not abstract) so the resulting Lean target has BHist-anchored content rather than a forall-hsame echo.
+
+### Honest taste audit (what to actually look at)
+
+Net headcounts (added − deleted) over a recent window are not enough — codex can drive the headline numbers up with parameter-echo schema or trivial-special-case theorems. After every ~20 rounds, sample the actual statements:
+
+```bash
+# 1. New decl names, with derivative-domain origin if any
+git log --since='12 hours ago' --no-merges -p -- 'lean4/BEDC/' \
+  | grep -E '^\+(theorem|lemma|def)\s+[A-Za-z_]+' | head -40
+
+# 2. Saturated shape family — should NOT be growing once shape-saturation > 3
+python3 lean4/scripts/bedc_ci.py audit --shape-saturation
+
+# 3. Critical-path top — top-3 thms should be moving
+python3 lean4/scripts/critical_path.py | jq '.top[:5]'
+
+# 4. NAMING residue — should be flat or shrinking, never growing
+grep -rE 'theorem\s+\w+_(two|three|four|five|six)\b' lean4/BEDC/ | wc -l
+
+# 5. Parameter-echo residue under Derived (Phase D should keep this near 0
+#    for new decls; existing instances may persist):
+grep -rE '\(\s*\w+\s*:\s*(∀|forall)[^)]*hsame' lean4/BEDC/Derived/ | wc -l
+```
+
+The honest question is not "did declarations grow" but "did declarations referencing concrete BEDC kernel constructs grow, did the critical-path top-3 actually move, did NAMING residue stay flat or shrink, did parameter-echo-under-Derived not regrow."
+
+Lean-side declaration count divided by paper-side label count is a useful ratio: ~1.5x is normal because one paper theorem often corresponds to 2-3 Lean lemmas plus helpers. Above ~3x usually means the lean side is producing scaffolding-only or parameter-echo growth that the paper side has not asked for.
+
+### Oversize tex split (now self-healing)
+
+`papers/bedc/Makefile` calls `bash scripts/check_tex_size.sh` as a `precheck` prerequisite before the two `pdflatex` runs. The script exits non-zero with a clear `OVERSIZED .TEX` message naming each .tex over 800 lines. Codex sees that during its own Step 2 build and self-heals (split at section boundary, sibling/child file, parent appends `\input{...}`, rerun make) before commit. The pipeline's `run_pdf_build` wraps the same `make`, so it's also second-line protection.
+
+You should not be hand-splitting .tex files anymore. If you observe an `OVERSIZED .TEX` failure that codex did not self-heal, that's either:
+
+- the wrapper script is broken (run `bash papers/bedc/scripts/check_tex_size.sh` to verify), or
+- codex is on its first-ever encounter with the gate and isn't reading stderr — add a one-line nudge in `phase_revise.txt` Step 2.
+
+Field examples from the manual era (kept for reference; the gate now does this automatically):
+
+- `option/02_tagged_option_namecert.tex` (804 lines) → `02_*` (487) + `02b_option_certificate_chains.tex` (317)
+- `34_continuous_namecert_construction.tex` (843) → `34_*` (329) + `34b_continuous_certificate.tex` (514)
+- `35_compact_namecert_construction.tex` (802) → `35_*` (465) + `35b_compact_certificate.tex` (337)
+- `08_option_namecert_construction.tex` (807) → `08_*` (215) + `option/09_composite_image_classifier_public_readback.tex` (592)
+
+### Harness design principles
+
+When the workflow keeps surfacing the same issue, the gate lives at the wrong level. Move it down. Levels of correctness enforcement, in preferred order:
+
+1. **Build gate (Makefile precheck)** — the script that produces the artifact (PDF, lake build) refuses to run when an invariant breaks. Codex sees the failure in normal Step 2 and self-heals before commit. Generic, no theme-specific logic. Example: `papers/bedc/scripts/check_tex_size.sh` invoked by `Makefile`.
+2. **Subprocess lint (hot-reloadable)** — `phase_d_lint.py`, `critical_path.py`, `bedc_ci.py audit --shape-saturation`. The orchestrator calls these via subprocess on each round, so edits take effect without restart. Use for mechanical pattern checks (regex on signatures, constraint-set membership, label uniqueness).
+3. **Prompt HARD GATE (hot-reloaded)** — Phase B/C/Review/Revise prompts. Bumping `## Prompts version` mirrors into commit bodies for traceability. Use for guidance that needs codex's judgment but is articulable as a rule. Lower confidence than levels 1-2 because codex occasionally violates prompts.
+4. **Long-running script body (restart-required)** — `codex_revise.py`, `codex_formalize.py` orchestrator body. Use for the merge flow itself, retry policy, gate ordering, default timeouts. Restart cost is the in-flight rounds drained.
+
+When a gate fires unexpectedly (false positive), run it offline against the failed commit before tightening or relaxing it:
+
+```bash
+git -C /Users/chronoai/newmath worktree add /tmp/test <commit>
+python3 lean4/scripts/phase_d_lint.py --worktree /tmp/test --base-branch <commit>^
+git -C /Users/chronoai/newmath worktree remove /tmp/test
+```
+
+False-positive cost is real: rejecting a legitimate Lean round wastes ~10 min of codex work + lake build, and the same pattern may recur. Prefer narrower (more context-aware) checks over looser thresholds. Concrete narrowing patterns: conclusion-aware regex (parameter-echo only fires when conclusion *also* has forall-hsame), strip-and-rescan (after dropping `hsame` and bare `BHist`, look for any other anchor), exists-anywhere lookup (stale-marker check searches all of `lean4/BEDC/`, not just this round's diff).
+
+### Mathematical taste checklist
+
+Net theorems added does NOT measure theory growth. After every ~30 rounds, sample the actual statements:
+
+| Signal | Detect | Verdict |
+|---|---|---|
+| Parameter-echo schema | Hyp `(name : forall … hsame …)` AND concl `forall … hsame …` AND no other BHist anchor in concl | Bookkeeping, not theory |
+| Mechanical-arity suffix | `_(two\|three\|four\|five\|six)` | Naming repeating shape, not new concept |
+| Shallow growth | New carrier `def` with no theorem invoking it | Carrier-only growth |
+| Duplicate theorem conclusion | New `_single_valuedness` AND `_nonempty_equivalence` with same hypotheses | Mutually-implying twin |
+| Schema-only horizon | Target chapter's paper schema is parametric (no concrete BHist-valued operator) | Physically can't anchor; ban from `critical_path` |
+| Register-only round | Paper diff is whitespace + new markers; lean diff is empty | Maintenance, not work |
+| Same-file saturation | ≥3 consecutive commits in same file with `_alt`/`_with_fields`/`_source_equivalence` siblings | Lazy depth refinement |
+
+Counts that don't lie:
+
+- `python3 lean4/scripts/critical_path.py | jq '.top[:3]'` — top-3 `thms` field should move up over a 30-round window.
+- `python3 lean4/scripts/bedc_ci.py audit --shape-saturation` — flat or shrinking, never growing.
+- `grep -rE 'theorem\s+\w+_(two|three|four|five|six)\b' lean4/BEDC/ | wc -l` — flat or shrinking.
+- `grep -rE '\(\s*\w+\s*:\s*(∀|forall)[^)]*hsame' lean4/BEDC/Derived/ | wc -l` — flat or shrinking.
+
+Lean-decl / paper-label ratio: ~1.5x normal (one paper theorem ≈ 2-3 Lean lemmas + helpers). Above ~3x means lean side is producing scaffolding-only growth the paper hasn't asked for.
+
+### Gate evolution path (how a problem becomes a rule)
+
+1. Observe the problem in 1-2 commits. Note the precise pattern.
+2. Try the cheapest fix first: prompt rule. Hot-reload, bump `## Prompts version`.
+3. If the prompt rule keeps being violated (≥ 2 more occurrences), promote to subprocess lint regex. Test against failing commits to confirm catch + against known-good commits to confirm no false positive.
+4. If the lint produces false positives, narrow with context (conclusion-aware, anchor strip, exists-anywhere lookup) — do not loosen the threshold.
+5. If the problem is structural (e.g. paper schema is parametric, can't ever produce anchored Lean), exclude at the source: `critical_path.py` constants, plus an explicit ban in the relevant prompt mirror.
+6. If the problem is environmental (e.g. .tex line cap), push the gate into the build itself (Makefile precheck), so the artifact-producing step refuses.
+
+Concrete evolution traces from this codebase:
+
+- **Parameter-echo**: prompt v3.4 → `phase_d_lint.py` regex → conclusion-aware regex → BHist+hsame strip before scan.
+- **Schema-only horizons**: lint catching the symptom → `SCHEMA_ONLY_HORIZONS` filter in `critical_path.py` → `phase_b.txt` v3.6 explicit BAN section.
+- **Oversize tex**: hand-splits on Claude side → `phase_review.txt` 760-line threshold → `phase_revise.txt` Step 0.5 abort → `Makefile` precheck (root cause, codex self-heals).
+- **Stale marker**: strict "must be in this round's diff" → relaxed "must exist anywhere in `lean4/BEDC/`" via `_collect_all_lean_declarations` (false-positive fix).
+- **Phase B prompt obsession with abgroup/group**: prompt soft fallback → critical_path filter → prompt explicit BAN with example rejected shape.
 
 ### Fast triage commands
 
@@ -119,7 +278,8 @@ Quality:
 ```bash
 git -C /Users/chronoai/newmath log --oneline codex-auto-dev | head -20
 python3 /Users/chronoai/newmath/lean4/scripts/bedc_ci.py audit
-git -C /Users/chronoai/newmath log --stat -10 -- papers/bedc/parts/  # spot saturated files
+python3 /Users/chronoai/newmath/lean4/scripts/bedc_ci.py audit --shape-saturation
+python3 /Users/chronoai/newmath/lean4/scripts/critical_path.py | jq '.top[:5]'
 ```
 
 Merge:
@@ -127,4 +287,11 @@ Merge:
 ps -axo pid,etime,command | grep -E 'codex_revise|codex_formalize' | grep -v grep
 git -C /Users/chronoai/newmath worktree list
 git -C /Users/chronoai/newmath status --short  # MUST be empty while rounds are merging
+```
+
+Phase D dry-run on a worktree (predict what the lint will say without merging):
+```bash
+python3 /Users/chronoai/newmath/lean4/scripts/phase_d_lint.py \
+  --worktree /Users/chronoai/newmath/.worktrees/round_R<N> \
+  --base-branch codex-auto-dev
 ```
