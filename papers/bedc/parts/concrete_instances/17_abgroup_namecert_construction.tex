@@ -10,6 +10,54 @@ The abelian group interface \(\AbGroupUp\) extends \autoref{ch:concrete-instance
 Use a group setup extended with commutativity of the binary operation.
 \end{definition}
 
+\section{Concrete singleton history abelian group instance}
+\label{sec:abgroup-concrete-singleton-history-instance}
+
+\begin{definition}[Concrete singleton history abelian group instance]
+\label{def:concrete-singleton-history-abgroup-instance}
+Let $A_{\emp}$ and $R_{\emp}$ be the singleton carrier and classifier from
+Definition~\ref{def:concrete-singleton-history-group-instance}. Define
+the operations by
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
+\mathsf{inv}(h):=\emp,\qquad
+e:=\emp.
+$$
+The resulting tuple $(A_{\emp},R_{\emp},\mathsf{mul},e,\mathsf{inv})$ is the
+singleton history abelian group instance.
+\end{definition}
+
+\begin{theorem}[Concrete singleton history abelian group laws]
+\label{thm:concrete-singleton-history-abgroup-laws}
+The tuple $(A_{\emp},R_{\emp},\mathsf{mul},e,\mathsf{inv})$ satisfies the
+concrete group laws of Theorem~\ref{thm:concrete-singleton-history-group-laws}
+and the abelian commutativity law
+$R_{\emp}(\mathsf{mul}(h,k),\mathsf{mul}(k,h))$ for all histories $h,k$ with
+$A_{\emp}(h)$ and $A_{\emp}(k)$.
+\end{theorem}
+\begin{proof}
+The group fields are exactly the concrete singleton history group laws supplied
+by Theorem~\ref{thm:concrete-singleton-history-group-laws}.
+
+For commutativity, suppose $A_{\emp}(h)$ and $A_{\emp}(k)$. These singleton
+carrier witnesses identify both $h$ and $k$ with $\emp$ under $\hsame$.
+
+The continuation unit laws reduce $\mathsf{append}(h,k)$ and
+$\mathsf{append}(k,h)$ to the singleton class of $\emp$. Symmetry and
+transitivity of $\hsame$ then assemble the endpoint relation
+$\hsame(\mathsf{mul}(h,k),\mathsf{mul}(k,h))$.
+
+The multiplication-closure clauses from the concrete group laws supply
+$A_{\emp}(\mathsf{mul}(h,k))$ and $A_{\emp}(\mathsf{mul}(k,h))$. Together with
+the endpoint relation, these are exactly the classifier witness
+$R_{\emp}(\mathsf{mul}(h,k),\mathsf{mul}(k,h))$.
+\end{proof}
+
+Thus the $\AbGroupUp$ schema is instantiated by this concrete $\mathsf{BHist}$
+carrier and operation, so later Lean work can formalize BHist-anchored abelian
+group laws in $\mathsf{BEDC.Derived.AbGroupUp}$ rather than another abstract
+operator schema.
+
 \section{The certificate}
 
 \begin{definition}[AbGroup source specification]
@@ -44,7 +92,7 @@ The stability certificate consists of:
 \label{def:singleton-empty-history-abgroup-instance}
 Reuse the singleton empty-history group instance
 $(A_{\emp},\rho_{\emp},\mu_{\emp},e_{\emp},\iota_{\emp})$ from
-\autoref{sec:group-concrete-singleton-instance}, where
+\autoref{sec:group-concrete-singleton-history-instance}, where
 $$
 A_{\emp}(x)\Longleftrightarrow\hsame(x,\emp),\qquad
 \rho_{\emp}(x,y):=\hsame(x,y),\qquad
@@ -69,13 +117,13 @@ group; and status $\mathsf{ProofTarget}$.
 \label{thm:singleton-empty-history-abgroup-laws}
 The tuple $(A_{\emp},\rho_{\emp},\mu_{\emp},e_{\emp},\iota_{\emp})$ satisfies
 the singleton empty-history group laws of
-Theorem~\ref{thm:singleton-empty-history-group-laws}, the AbGroup
+Theorem~\ref{thm:concrete-singleton-history-group-laws}, the AbGroup
 commutativity field, and the AbGroup compatibility fields for the carrier
 $A_{\emp}$ and classifier $\rho_{\emp}$.
 \end{theorem}
 \begin{proof}
 The group fields are exactly the singleton empty-history group laws supplied by
-Theorem~\ref{thm:singleton-empty-history-group-laws}.
+Theorem~\ref{thm:concrete-singleton-history-group-laws}.
 
 For commutativity, the two products
 $$
@@ -98,7 +146,7 @@ compatibility fields.
 \end{proof}
 
 Thus the AbGroup schema is instantiated by this concrete $\mathsf{BHist}$
-carrier and operations, so future Lean work can target this BHist-anchored
+carrier and operations, so Lean formalization can target this BHist-anchored
 instance rather than only abstract operator fields.
 
 \begin{theorem}[AbGroup left-right multiplication swap]

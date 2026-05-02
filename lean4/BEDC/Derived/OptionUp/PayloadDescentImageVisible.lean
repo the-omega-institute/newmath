@@ -1,3 +1,4 @@
+import BEDC.Derived.OptionUp.EndpointAbsurd
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 
 namespace BEDC.Derived.OptionUp
@@ -133,5 +134,48 @@ theorem TaggedOptionPayloadDescentImageClassifier_mixed_visible_tag_separation
                 exact not_hsame_emp_e1
                   (hsame_trans (hsame_symm sameK'Empty)
                     data.right.right.right.right.right.right)
+
+theorem TaggedOptionPayloadDescentImageClassifier_public_constructor_normal_form
+    {S T : BHist → Prop} {RelS RelT : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (cert : NameCert S RelS)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {k k' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S T delta k k' ->
+      TaggedOptionPayloadDescentImageCarrier S T delta k ∧
+        TaggedOptionPayloadDescentImageCarrier S T delta k' ∧
+          TaggedOptionHistoryClassifier T RelT k k' ∧
+            (forall t : BHist,
+              (hsame k (BHist.e0 t) -> False) ∧ (hsame k' (BHist.e0 t) -> False)) ∧
+              (((hsame k BHist.Empty ∧ hsame k' BHist.Empty ∧
+                    ((exists a : BHist, exists b : BHist,
+                      S a ∧ S b ∧ RelS a b ∧ T (delta.map a) ∧
+                        T (delta.map b) ∧ hsame k (BHist.e1 (delta.map a)) ∧
+                          hsame k' (BHist.e1 (delta.map b))) -> False))) ∨
+                (exists a : BHist, exists b : BHist,
+                  S a ∧ S b ∧ RelS a b ∧ T (delta.map a) ∧ T (delta.map b) ∧
+                    hsame k (BHist.e1 (delta.map a)) ∧
+                      hsame k' (BHist.e1 (delta.map b)) ∧
+                        (hsame k BHist.Empty -> False) ∧
+                          (hsame k' BHist.Empty -> False) ∧
+                            (forall a' : BHist, forall b' : BHist,
+                              S a' -> S b' -> RelS a' b' -> T (delta.map a') ->
+                                T (delta.map b') -> hsame k (BHist.e1 (delta.map a')) ->
+                                  hsame k' (BHist.e1 (delta.map b')) ->
+                                    hsame (delta.map a) (delta.map a') ∧
+                                      hsame (delta.map b) (delta.map b')))) := by
+  intro image
+  have certificate :=
+    TaggedOptionPayloadDescentImageClassifier_certificate delta cert source_hsame image
+  have zeroEndpoint :
+      forall t : BHist,
+        (hsame k (BHist.e0 t) -> False) ∧ (hsame k' (BHist.e0 t) -> False) := by
+    intro t
+    exact TaggedOptionHistoryClassifier_zero_endpoint_exclusion certificate.right.right
+  have readback :=
+    TaggedOptionPayloadDescentImageClassifier_pair_readback_single_valued
+      delta cert source_hsame image
+  exact And.intro certificate.left
+    (And.intro certificate.right.left
+      (And.intro certificate.right.right (And.intro zeroEndpoint readback)))
 
 end BEDC.Derived.OptionUp

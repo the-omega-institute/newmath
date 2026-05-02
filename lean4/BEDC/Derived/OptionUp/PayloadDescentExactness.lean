@@ -73,4 +73,62 @@ theorem TaggedOptionMapRel_target_carrier {S T : BHist -> Prop}
           exact Or.inr
             (Exists.intro (delta.map a) (And.intro data.right.left data.right.right.right))
 
+theorem TaggedOptionMapRel_exclusive_visible_readback_single_valued {S T : BHist -> Prop}
+    {RelS RelT : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT) {h k : BHist} :
+    TaggedOptionMapRel S T delta h k ->
+      ((hsame h BHist.Empty ∧ hsame k BHist.Empty ∧
+          (forall a' : BHist, S a' -> hsame h (BHist.e1 a') -> False) ∧
+          (forall b : BHist, T b -> hsame k (BHist.e1 b) -> False)) ∨
+        (exists a : BHist,
+          S a ∧ T (delta.map a) ∧ hsame h (BHist.e1 a) ∧
+            hsame k (BHist.e1 (delta.map a)) ∧
+              (hsame h BHist.Empty -> False) ∧ (hsame k BHist.Empty -> False) ∧
+                (forall a' : BHist, S a' -> hsame h (BHist.e1 a') -> hsame a a') ∧
+                  (forall b : BHist, T b -> hsame k (BHist.e1 b) ->
+                    hsame b (delta.map a)))) := by
+  intro mapRel
+  cases mapRel with
+  | inl absent =>
+      have noSource :
+          forall a' : BHist, S a' -> hsame h (BHist.e1 a') -> False := by
+        intro a' _sourceA' samePresent
+        exact not_hsame_emp_e1 (hsame_trans (hsame_symm absent.left) samePresent)
+      have noTarget :
+          forall b : BHist, T b -> hsame k (BHist.e1 b) -> False := by
+        intro b _targetB samePresent
+        exact not_hsame_emp_e1 (hsame_trans (hsame_symm absent.right) samePresent)
+      exact Or.inl (And.intro absent.left (And.intro absent.right
+        (And.intro noSource noTarget)))
+  | inr present =>
+      cases present with
+      | intro a data =>
+          have notSourceEmpty : hsame h BHist.Empty -> False := by
+            intro sameEmpty
+            exact not_hsame_e1_empty
+              (hsame_trans (hsame_symm data.right.right.left) sameEmpty)
+          have notTargetEmpty : hsame k BHist.Empty -> False := by
+            intro sameEmpty
+            exact not_hsame_e1_empty
+              (hsame_trans (hsame_symm data.right.right.right) sameEmpty)
+          have sourceUnique :
+              forall a' : BHist, S a' -> hsame h (BHist.e1 a') -> hsame a a' := by
+            intro a' _sourceA' samePresent
+            exact hsame_e1_iff.mp
+              (hsame_trans (hsame_symm data.right.right.left) samePresent)
+          have targetUnique :
+              forall b : BHist, T b -> hsame k (BHist.e1 b) -> hsame b (delta.map a) := by
+            intro b _targetB samePresent
+            exact hsame_e1_iff.mp
+              (hsame_trans (hsame_symm samePresent) data.right.right.right)
+          exact Or.inr
+            (Exists.intro a
+              (And.intro data.left
+                (And.intro data.right.left
+                  (And.intro data.right.right.left
+                    (And.intro data.right.right.right
+                      (And.intro notSourceEmpty
+                        (And.intro notTargetEmpty
+                          (And.intro sourceUnique targetUnique))))))))
+
 end BEDC.Derived.OptionUp

@@ -70,6 +70,54 @@ First use category hom-carrier composition closure to place \(fg\) from \(a\) to
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_preserves}
 
+\begin{theorem}[Prefix functor composition right factor reflection]
+\label{thm:functor-prefix-hom-carrier-comp-right-factor}
+For the unary-continuation category, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $\ContR(f,g,fg)$ holds, and
+$fg$ is displayed as a hom-carrier from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,c)$, then $g$ is a hom-carrier from $b$ to $c$.
+\end{theorem}
+\begin{proof}
+First apply category-level right factor recovery to the prefixed source,
+middle, and target hom-carriers. This gives a prefixed hom-carrier from
+$\mathsf{append}(p,b)$ to $\mathsf{append}(p,c)$ with morphism $g$. Prefix
+reflection cancels the shared prefix and yields the unprefixed carrier from
+$b$ to $c$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_right\_factor}
+
+\begin{theorem}[Prefix functor composition left factor reflection]
+\label{thm:functor-prefix-hom-carrier-comp-left-factor}
+For the unary-continuation category, if $g$ is a hom-carrier from
+$\mathsf{append}(p,b)$ to $\mathsf{append}(p,c)$, $\ContR(f,g,fg)$ holds, and
+$fg$ is displayed as a hom-carrier from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,c)$, then $f$ is a hom-carrier from $a$ to $b$.
+\end{theorem}
+\begin{proof}
+Apply category-level left factor recovery to the displayed composite and the
+right factor. The result is a prefixed hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$ with morphism $f$. Prefix
+reflection cancels the common prefix and returns the unprefixed carrier from
+$a$ to $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_left\_factor}
+
+\begin{theorem}[Prefix functor composition public readback]
+\label{thm:functor-prefix-hom-carrier-comp-public-readback}
+For the unary-continuation category, if $p$ is unary, $f$ is a hom-carrier
+from $a$ to $b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$,
+then $fg$ is a hom-carrier from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,c)$. Moreover, any displayed hom-carrier between the same
+prefixed endpoints has morphism history $\HSame$ to $fg$.
+\end{theorem}
+\begin{proof}
+Composition closure gives the unprefixed composite carrier. Prefix preservation
+displays it between the prefixed endpoints. For readback, reflect any displayed
+prefixed carrier to the unprefixed endpoints and apply hom-morphism
+determinacy in the base category.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_public\_readback}
+
 \begin{theorem}[Prefix functor preserves hom composition with tail commutativity]
 \label{thm:functor-prefix-hom-carrier-tail-comm-closed}
 For the unary-continuation category, if \(p\) is unary, \(f\) is a
@@ -180,6 +228,28 @@ reduces the hom-carrier to the empty source, empty target, empty morphism
 case.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_target\_components\_iff}
+
+\begin{theorem}[Prefix functor empty-source component exactness]
+\label{thm:functor-prefix-hom-carrier-empty-source-components}
+For histories $p,b,f$, a hom-carrier from the empty source into the prefixed
+target $\mathsf{append}(p,b)$ is exactly unary component data for $p$ and $b$
+together with morphism equality to that prefixed target:
+$$
+\mathsf{CategoryHomCarrier}(\emp,\mathsf{append}(p,b),f)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(b)\wedge
+\hsame(f,\mathsf{append}(p,b)).
+$$
+\end{theorem}
+\begin{proof}
+Category empty-source exactness turns the hom-carrier into unary closure of the
+prefixed target and equality of $f$ with that target. Unary append factorization
+separates the target carrier into the prefix and tail carriers. Conversely,
+unary append closure rebuilds the target carrier, and category empty-source
+exactness reconstructs the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_source\_components\_iff}
 
 \begin{theorem}[Functor prefix hom-carrier source prefix determinism]
 \label{thm:functor-prefix-hom-carrier-source-prefix-deterministic}

@@ -262,6 +262,32 @@ theorem MetricDistanceWitness_left_boundary_visible_context_iff {p q y d : BHist
                 (x := BHist.Empty) (y := y) (d := d)).mpr
                 (And.intro pCarrier (And.intro qCarrier central))
 
+theorem MetricDistanceWitness_empty_boundary_visible_context_iff {p q d : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ hsame d BHist.Empty := by
+  constructor
+  · intro visible
+    have visibleData :=
+      (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := BHist.Empty)
+        (y := BHist.Empty) (d := d)).mp visible
+    have central : MetricDistanceWitness BHist.Empty BHist.Empty d := visibleData.2.2
+    have boundary :=
+      (MetricDistanceWitness_empty_left_iff (y := BHist.Empty) (d := d)).mp central
+    exact And.intro visibleData.1 (And.intro visibleData.2.1 boundary.2)
+  · intro data
+    cases data with
+    | intro pCarrier rest =>
+        cases rest with
+        | intro qCarrier sameD =>
+            have central : MetricDistanceWitness BHist.Empty BHist.Empty d :=
+              (MetricDistanceWitness_empty_left_iff (y := BHist.Empty) (d := d)).mpr
+                (And.intro unary_empty sameD)
+            exact
+              (MetricDistanceWitness_visible_context_iff (p := p) (q := q)
+                (x := BHist.Empty) (y := BHist.Empty) (d := d)).mpr
+                (And.intro pCarrier (And.intro qCarrier central))
+
 theorem MetricDistanceWitness_empty_boundary_visible_context_depth_zero {p q d : BHist} :
     MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
       (append (append p d) q) ->

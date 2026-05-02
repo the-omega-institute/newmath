@@ -129,6 +129,32 @@ theorem TaggedOptionPayloadDescentImageClassifier_branch_exactness {S T : BHist 
                     ⟨b, data.right.left, data.right.right.right.right.left,
                       hsame_refl (BHist.e1 b), data.right.right.right.right.right.right⟩⟩
 
+theorem TaggedOptionPayloadDescentImageClassifier_target_classifier_closure {S T : BHist → Prop}
+    {RelS RelT : BHist → BHist → Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (cert : NameCert S RelS)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS) {k k' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S T delta k k' →
+      TaggedOptionHistoryClassifier T RelT k k' := by
+  intro image
+  have branch :=
+    (TaggedOptionPayloadDescentImageClassifier_branch_exactness delta cert source_hsame).mp
+      image
+  cases branch with
+  | inl absent =>
+      exact Or.inl absent
+  | inr present =>
+      cases present with
+      | intro a present =>
+          cases present with
+          | intro b data =>
+              exact Or.inr
+                ⟨delta.map a, delta.map b, data.right.right.right.left,
+                  data.right.right.right.right.left,
+                  data.right.right.right.right.right.left,
+                  data.right.right.right.right.right.right,
+                  delta.respects data.right.right.left⟩
+
 theorem TaggedOptionPayloadDescentImageClassifier_right_visible_branch_inversion
     {S T : BHist → Prop} {RelS RelT : BHist → BHist → Prop}
     (delta : DescentCertificate BHist BHist RelS RelT)

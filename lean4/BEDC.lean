@@ -52,6 +52,7 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.OptionUp
+import BEDC.Derived.OptionUp.TaggedClassifier
 import BEDC.Derived.OptionUp.Determinism
 import BEDC.Derived.OptionUp.AbsentSource
 import BEDC.Derived.OptionUp.BranchAlignment
@@ -77,6 +78,7 @@ import BEDC.Derived.OptionUp.TaggedCarrier
 import BEDC.Derived.OptionUp.CarrierReadback
 import BEDC.Derived.OptionUp.Readback
 import BEDC.Derived.OptionUp.PayloadDescent
+import BEDC.Derived.OptionUp.PayloadDescentCanonicalIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentExactness
 import BEDC.Derived.OptionUp.PayloadDescentNormalForm
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
@@ -88,6 +90,7 @@ import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierSelectedVisible
 import BEDC.Derived.OptionUp.CompositeNormalizedZeroEndpoint
+import BEDC.Derived.OptionUp.CompositeAbsentPublicFactorization
 import BEDC.Derived.OptionUp.StabilityFields
 import BEDC.Derived.OptionUp.SemanticCertificate
 import BEDC.Derived.OptionUp.VisibleBranchInversion
@@ -95,6 +98,7 @@ import BEDC.Derived.OptionUp.CompositeReadback
 import BEDC.Derived.OptionUp.SelfExactness
 import BEDC.Derived.OptionUp.TransportVisiblePayloadReadback
 import BEDC.Derived.OptionUp.ExclusiveBranch
+import BEDC.Derived.OptionUp.ExclusiveBranchCarrier
 import BEDC.Derived.OptionUp.EndpointFanout
 import BEDC.Derived.OptionUp.PayloadFanout
 import BEDC.Derived.OptionUp.RightPresentPayloadFanout
@@ -106,6 +110,9 @@ import BEDC.Derived.OptionUp.PrefixClosure
 import BEDC.Derived.OptionUp.SuffixClosure
 import BEDC.Derived.OptionUp.PresentChainEndpointClassification
 import BEDC.Derived.OptionUp.SourceTransportAbsurd
+import BEDC.Derived.OptionUp.CrossAbsentSourceExclusion
+import BEDC.Derived.OptionUp.CommonLeftVisiblePayload
+import BEDC.Derived.OptionUp.EndpointSemanticFields
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
@@ -144,8 +151,10 @@ import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
 import BEDC.Derived.ContinuousUp.GraphChainFactorization
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
+import BEDC.Derived.ContinuousUp.ModulusWitnessPublicReadback
 import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ResultCases
+import BEDC.Derived.ContinuousUp.EmptySource
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
@@ -155,6 +164,8 @@ import BEDC.Derived.CompactUp.InitialEndpointsUnary
 import BEDC.Derived.CompactUp.PrefixedCompositeMiddle
 import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
+import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.TargetCases
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp

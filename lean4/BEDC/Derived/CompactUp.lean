@@ -110,6 +110,16 @@ theorem CompactWitnessCarrier_finite_refinement_chain_closed
   | base => exact carrier
   | step prior extraCarrier finiteRel compactRel ih =>
       exact CompactWitnessCarrier_finite_extension_closed ih extraCarrier finiteRel compactRel
+theorem CompactWitnessCarrier_finite_refinement_chain_endpoints_unary
+    {subset located finite intermediate compact finalFinite finalCompact : BHist} :
+    CompactWitnessCarrier subset located finite intermediate compact ->
+      CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
+        UnaryHistory finalFinite /\ UnaryHistory finalCompact := by
+  intro carrier chain
+  have intermediateCarrier : UnaryHistory intermediate :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.left
+  exact CompactFiniteRefinementChain_final_endpoints_unary chain carrier.right.right.left
+    (unary_cont_closed intermediateCarrier carrier.right.right.left carrier.right.right.right.right)
 
 def CompactNetWitness (center precision net : BHist) : Prop :=
   UnaryHistory center ∧ UnaryHistory precision ∧ UnaryHistory net ∧ Cont center precision net

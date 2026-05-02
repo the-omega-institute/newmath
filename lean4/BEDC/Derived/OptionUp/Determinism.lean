@@ -27,6 +27,17 @@ theorem OptionClassifierSpec_hsame_some_right_confluence {x : OptionCarrier BHis
   | some _ =>
       exact hsame_trans (hsame_symm left) right
 
+theorem OptionClassifierSpec_hsame_some_right_inversion {x : OptionCarrier BHist}
+    {b : BHist} :
+    OptionClassifierSpec hsame x (Option.some b) →
+      exists a : BHist, x = Option.some a ∧ hsame a b := by
+  intro classifier
+  cases x with
+  | none =>
+      cases classifier
+  | some a =>
+      exact Exists.intro a (And.intro rfl classifier)
+
 theorem OptionClassifierSpec_hsame_right_payload_deterministic
     {x : OptionCarrier BHist} {h k : BHist} :
     OptionClassifierSpec hsame x (Option.some h) →

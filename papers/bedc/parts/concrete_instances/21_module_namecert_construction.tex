@@ -1,20 +1,111 @@
-\chapter{A Concrete Naming Certificate for \(\ModuleUp\)}
+\chapter{A Concrete Naming Certificate for $\ModuleUp$}
 \label{ch:concrete-instances-module-namecert}
 
-The module interface \(\ModuleUp\) has certificate obligations over a fixed scalar ring satisfying \autoref{ch:concrete-instances-ring-namecert} together with an additive abelian group from \autoref{ch:concrete-instances-abgroup-namecert} as carrier, equipped with a scalar multiplication \(\cdot : R \times M \to M\) satisfying associativity with the ring product, distributivity over additions on both sides, and unit law for the ring identity. It is not a primitive structure; it is admitted only by composing the ring and abelian group certificates with the scalar action fields.
+The module interface $\ModuleUp$ has certificate obligations over a fixed scalar ring satisfying \autoref{ch:concrete-instances-ring-namecert} together with an additive abelian group from \autoref{ch:concrete-instances-abgroup-namecert} as carrier, equipped with a scalar multiplication $\cdot : R \times M \to M$ satisfying associativity with the ring product, distributivity over additions on both sides, and unit law for the ring identity. It is not a primitive structure; it is admitted only by composing the ring and abelian group certificates with the scalar action fields.
 
 \section{Carrier definition}
 
 \begin{definition}[Module carrier]
 \label{def:module-carrier}
-Use a scalar ring \(R\), an additive abelian group \(M\), and scalar multiplication \(R\times M\to M\).
+Use a scalar ring $R$, an additive abelian group $M$, and scalar multiplication $R\times M\to M$.
 \end{definition}
+
+\section{Concrete singleton empty-history module instance}
+\label{sec:module-concrete-singleton-instance}
+
+\begin{definition}[Singleton empty-history module instance]
+\label{def:singleton-empty-history-module-instance}
+Let the scalar carrier and module carrier both be the singleton history source
+$A_{\emp}$ of Definition~\ref{def:list-singleton-history-source} at
+$a_0=\emp$. Define the shared classifier
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Use the singleton empty-history ring operations of
+Theorem~\ref{thm:singleton-empty-history-ring-laws} for the scalar side, and
+the singleton empty-history abelian-group operations of
+Theorem~\ref{thm:singleton-empty-history-abgroup-laws} for the additive module
+side. Define the scalar action by
+$$
+\mathsf{smul}(r,m):=\emp.
+$$
+This instance has traditional target the one-element module over the
+one-element ring; BEDC source $\mathsf{BHist}$; scalar and module carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; stability obligations given by the
+singleton ring laws, singleton abelian-group laws, and scalar-action laws;
+ledger constant-action provenance; core theorem
+Theorem~\ref{thm:singleton-empty-history-module-laws}; exactness the singleton
+endpoint classification $A_{\emp}(h)$; standard bridge the one-object module;
+and status $\mathsf{ProofTarget}$.
+\end{definition}
+
+\begin{theorem}[Singleton empty-history module laws]
+\label{thm:singleton-empty-history-module-laws}
+The tuple
+$$
+(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},
+\mathsf{mul},1,\mathsf{smul})
+$$
+satisfies the $\ModuleUp$ schema over the concrete $\mathsf{BHist}$ carrier:
+the scalar ring fields, the additive abelian-group fields, scalar-action
+closure, scalar-action congruence, scalar associativity, distributivity over
+module addition, distributivity over scalar addition, and scalar unit law.
+\end{theorem}
+\begin{proof}
+The scalar ring fields are supplied by
+Theorem~\ref{thm:singleton-empty-history-ring-laws}. The additive module
+fields are supplied by
+Theorem~\ref{thm:singleton-empty-history-abgroup-laws}. These two certificates
+fix the shared singleton carrier $A_{\emp}$ and classifier $\rho_{\emp}$.
+
+For scalar-action closure, every endpoint
+$\mathsf{smul}(r,m)$ is definitionally $\emp$. The singleton source of
+Definition~\ref{def:list-singleton-history-source} gives
+$A_{\emp}(\emp)$, hence the result lies in the module carrier.
+
+For scalar-action congruence, suppose
+$\rho_{\emp}(r,r')$ and $\rho_{\emp}(m,m')$. Both action endpoints reduce to
+$\emp$. The two carrier witnesses are the same singleton witness
+$A_{\emp}(\emp)$, and the relation component is reflexivity
+$\hsame(\emp,\emp)$. Together these form
+$\rho_{\emp}(\mathsf{smul}(r,m),\mathsf{smul}(r',m'))$.
+
+For scalar associativity, both
+$\mathsf{smul}(\mathsf{mul}(r,s),m)$ and
+$\mathsf{smul}(r,\mathsf{smul}(s,m))$ are definitionally $\emp$. The same
+singleton carrier witness and $\hsame$ reflexivity package the required
+$\rho_{\emp}$ endpoint relation.
+
+For distributivity over module addition, both
+$\mathsf{smul}(r,\mathsf{add}(m,n))$ and
+$\mathsf{add}(\mathsf{smul}(r,m),\mathsf{smul}(r,n))$ reduce to $\emp$.
+Closure is the singleton carrier witness, and the classifier relation is
+$\hsame(\emp,\emp)$.
+
+For distributivity over scalar addition, both
+$\mathsf{smul}(\mathsf{add}(r,s),m)$ and
+$\mathsf{add}(\mathsf{smul}(r,m),\mathsf{smul}(s,m))$ reduce to $\emp$.
+Again the singleton carrier witnesses and reflexivity assemble the
+$\rho_{\emp}$ witness.
+
+For the scalar unit law, $\mathsf{smul}(1,m)$ is definitionally $\emp$. The
+input witness $A_{\emp}(m)$ identifies $m$ with $\emp$, and
+$A_{\emp}(\emp)$ supplies the other endpoint. Hence
+$\rho_{\emp}(\mathsf{smul}(1,m),m)$ follows from the carrier witnesses and the
+corresponding $\hsame$ endpoint.
+\end{proof}
+
+The $\ModuleUp$ schema is instantiated by this concrete $\mathsf{BHist}$
+carrier and scalar action, giving Lean formalization in
+$\mathsf{BEDC.Derived.ModuleUp}$ a BHist-anchored target for the module action
+laws.
 
 \section{The certificate}
 
 \begin{definition}[Module source specification]
 \label{def:module-source-specification}
-The source is a certified \(\RingUp(R)\) and certified \(\AbGroupUp(M)\) sharing a scalar action.
+The source is a certified $\RingUp(R)$ and certified $\AbGroupUp(M)$ sharing a scalar action.
 \end{definition}
 
 \begin{definition}[Module pattern specification]
@@ -31,8 +122,8 @@ The classifier is the module carrier classifier, with scalar action congruent in
 \label{def:module-stability-certificate}
 The stability certificate consists of:
 \begin{enumerate}
-  \item additive abelian-group laws on \(M\)
-  \item ring laws on \(R\)
+  \item additive abelian-group laws on $M$
+  \item ring laws on $R$
   \item scalar action congruence
   \item scalar associativity with ring multiplication
   \item scalar distributivity over module addition
@@ -46,10 +137,10 @@ The stability certificate consists of:
 Record scalar and module ledgers for every scalar-action expression.
 \end{definition}
 
-\begin{definition}[\(\ModuleUp\) certificate obligations]
+\begin{definition}[$\ModuleUp$ certificate obligations]
 \label{def:module-certificate-obligations}
-The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\ModuleUp\).
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name $\ModuleUp$.
 \end{definition}
 
 \paragraph{Primitive boundary.}
-\(\ModuleUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+$\ModuleUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.

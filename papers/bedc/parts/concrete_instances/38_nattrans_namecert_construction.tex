@@ -41,6 +41,28 @@ Transitivity of history sameness identifies \(p\) and \(r\).
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_identity\_prefix\_trans}
 
+\begin{theorem}[NatTrans prefix component empty-source prefix exactness]
+\label{thm:nattrans-prefix-component-carrier-empty-source-prefix}
+For histories $q,a,\eta$, a prefix component from the empty prefix to $q$ over
+$a$ is exactly a unary target prefix, a unary object, and a category hom-carrier
+from $a$ to $\mathsf{append}(q,a)$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(\emp,q,a,\eta)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{UnaryHistory}(a)\wedge
+\mathsf{CategoryHomCarrier}(a,\mathsf{append}(q,a),\eta).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier. The source endpoint is
+$\mathsf{append}(\emp,a)$, which is history-same as $a$ by the left unit law for
+append. Category hom-carrier transport across this endpoint equality gives the
+unprefixed source form. The converse uses the same endpoint equality in the
+opposite direction and packages the empty prefix carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_source\_prefix\_iff}
+
 \begin{theorem}[NatTrans prefix component vertical composition closure]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-closed}
 For prefix components over unary histories, if \(\eta\) is a component from
@@ -57,6 +79,25 @@ composes the two component morphisms across the shared middle object
 \(\mathsf{append}(q,a)\).
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_closed}
+
+\begin{theorem}[NatTrans prefix component vertical composition public readback]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-public-readback}
+For prefix components over unary histories, if \(\eta\) is a component from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(q,a)\), \(\theta\) is a component
+from \(\mathsf{append}(q,a)\) to \(\mathsf{append}(r,a)\), and
+\(\ContR(\eta,\theta,\theta\eta)\), then the composite is a component from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(r,a)\), and every displayed
+component over the same source prefix, target prefix, and object is \(\HSame\)
+to that composite.
+\end{theorem}
+\begin{proof}
+The vertical composition closure theorem supplies the displayed composite
+component carrier. Any displayed component with the same prefixed source and
+target unpacks to a category hom-carrier with the same endpoints. Category
+morphism determinacy compares the underlying hom-carriers, yielding the public
+\(\HSame\) readback for the composite.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_public\_readback}
 
 \begin{theorem}[NatTrans prefix component vertical composition right factor]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-right-factor}

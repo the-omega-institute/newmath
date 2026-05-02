@@ -58,6 +58,44 @@ Use `persistent: true` for both monitors. Describe them as:
 - `BEDC paper pipeline on codex-auto-dev`
 - `BEDC Lean pipeline on codex-auto-dev`
 
+## 3-hour open-ended self-check loop
+
+While the pipelines run, register a 3-hour recurring self-check that asks open-ended questions about the project rather than a fixed metric checklist. Suggested invocation (the user types this once after pipelines start):
+
+```
+/loop 3h Open-ended self-check on BEDC pipelines (skill bedc-codex-auto-dev):
+1. 项目运行的顺利吗？(both pipelines healthy, failure / conflict /
+   cooldown rates, any stuck worker)
+2. 有什么需要改进的？(recurring pattern in last ~50 commits, missing
+   or over-tight gates, wasted effort like dedup / empty rounds /
+   cooldown)
+3. 数学品味如何？(sample 10 most recent merged commits per side;
+   substantive vs shape-saturated bookkeeping; mechanical-arity /
+   parameter-echo residue trend)
+4. 有什么有意思的新发现？(skim last ~24h commits + capstones/; cite
+   specific commits / chapters; concrete sentences not platitudes)
+5. 如何进一步提升？(critical_path top-3 movement; banned chapter
+   ready to leave SCHEMA_ONLY_HORIZONS; capstone count and quality;
+   highest-leverage single change for math taste / throughput)
+6. harness 还有什么提升空间？(Makefile precheck, subprocess lints,
+   prompt HARD GATEs, orchestrator timeouts/parallel — where would
+   a new gate prevent a recurring pattern, where would relaxing a
+   gate save real rounds)
+
+Make any harness/prompt adjustments authorized under the skill's
+"Autonomous adjustment authority" without asking; for each, include
+the trigger, file edited, version bump, commit SHA.
+
+Report concisely (≤ 12 sentences): what's running, what changed since
+last tick, what mattered, what you adjusted.
+```
+
+The 6 open-ended questions force a real read of recent work rather than a metric checklist that can pass while the project drifts. Concrete-sentence rule prevents platitude reports.
+
+The user runs `/loop` once and the cadence is then automatic. Suggest it after the pipelines are healthy and observed for ~30 min. Cron auto-expires after 7 days; re-register if the run continues longer.
+
+If the user prefers a single autonomous tick rather than recurring, they can also use `/loop` without an interval (dynamic pacing), in which case you self-pace via `ScheduleWakeup` between ticks. 3h is the right steady-state cadence; tighter only when a recent prompt change needs rapid iteration validation.
+
 ## Stop commands
 
 For an orderly stop, run:
@@ -212,6 +250,50 @@ Field examples from the manual era (kept for reference; the gate now does this a
 - `34_continuous_namecert_construction.tex` (843) → `34_*` (329) + `34b_continuous_certificate.tex` (514)
 - `35_compact_namecert_construction.tex` (802) → `35_*` (465) + `35b_compact_certificate.tex` (337)
 - `08_option_namecert_construction.tex` (807) → `08_*` (215) + `option/09_composite_image_classifier_public_readback.tex` (592)
+
+### Autonomous adjustment authority
+
+While monitoring, you have standing authority to make harness/prompt adjustments without asking, when ALL of the following hold:
+
+1. The change is **purely additive or a tightening of an existing rule** (new HARD GATE, narrower regex, removing a chapter from a ban list because the unblock condition is met). Not changing the merge flow, not relaxing safety gates.
+2. The trigger is **a recurring pattern, not a one-off**: ≥ 2 commits / rounds exhibiting the same problem, or a paper-side state change (e.g. a banned chapter just got its concrete instance) whose downstream effect is mechanical.
+3. The change is **scoped**: hot-reloadable files (prompts under `lean4/scripts/prompts/` or `papers/bedc/scripts/prompts/`, subprocess scripts under `lean4/scripts/` or `papers/bedc/scripts/`, `papers/bedc/scripts/check_tex_size.sh` and friends, `lean4/scripts/critical_path.py` constants) are the cheap default. Orchestrator-body edits (`codex_revise.py` / `codex_formalize.py`) and pipeline restarts are also in scope when justified — see "Pipeline restart policy" below.
+4. The change is **traceable**: bump the relevant `## Prompts version` so commit bodies record `prompts: vN.M`; commit and push to `codex-auto-dev` immediately so in-flight rounds can ff-update.
+
+When making an autonomous change:
+
+- Briefly state the trigger (one or two sentences) before the edit so the user can roll back after.
+- Make the edit, run any verification (smoke test, `bash papers/bedc/scripts/check_tex_size.sh`, `python3 lean4/scripts/critical_path.py | jq '.top'`), commit + push.
+- Note the change in your reply with the commit SHA so the user can roll back if needed.
+
+### Pipeline restart policy
+
+**Operate fully unattended — never pause to ask whether to restart. Restart only when necessary.** Necessary means:
+
+- An orchestrator-body change (`codex_revise.py` / `codex_formalize.py`) was just committed and the new behaviour is needed for in-flight or upcoming rounds.
+- The pipeline has wedged (no `Round SUCCESS` or `FAILED` event for >30 min while >1 worker should be active, processes stuck in uninterruptible IO, etc.).
+- The user explicitly asked.
+
+NOT necessary (do not restart):
+
+- Swapping a Monitor `grep` filter to reduce noise. The orchestrator and Monitor share one process group, so any TaskStop kills the orchestrator with it. Tolerate the noise.
+- A prompt or `critical_path.py` constant change. Those are hot-reloaded by next round dispatch.
+- A single round failure or a transient `ff update` race. Self-recovers.
+
+When restart IS necessary, prefer the orderly path: commit + push the change first, then `python3 …codex_revise.py --stop` and `python3 …codex_formalize.py --stop`, wait for drain, then relaunch via the Monitor commands above. Verify with `ps`. In-flight worktrees survive on disk; paper resumes via `--resume`, lean's `--continuous` re-dispatches.
+
+Still NOT in autonomous scope (always ask):
+
+- Loosening a HARD GATE (would need a concrete false-positive trace plus user sign-off).
+- Changing `--parallel` / `--lake-parallel` / `--phase-*-timeout` defaults (resource budget belongs to the user).
+
+Frequency discipline: even with authority, do not edit prompts faster than the pipeline can produce signal. Wait at least 30 commits or 1 hour after a prompt bump before another edit on the same file, unless the new prompt is producing immediate misbehaviour. Edit churn confuses codex.
+
+Concrete autonomous-action examples this skill has handled:
+
+- Removing chapters from `SCHEMA_ONLY_HORIZONS` once paper-side concrete instances landed (paper P699-P712 unlocked monoid/group/abgroup/ring/commring/field; updated `critical_path.py` constant + mirror in `phase_b.txt` BAN section without asking).
+- Tightening `phase_d_lint.py` parameter-echo to be conclusion-aware after R1261/R1262 false positives.
+- Splitting an oversized `.tex` file (now superseded by Makefile precheck — codex self-heals).
 
 ### Harness design principles
 

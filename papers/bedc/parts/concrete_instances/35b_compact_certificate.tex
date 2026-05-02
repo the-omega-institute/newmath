@@ -27,6 +27,30 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Compact net witness semantic name certificate]
+\label{thm:compact-net-witness-semantic-namecert}
+For unary histories $c$ and $\epsilon$, the compact-net witness predicate
+$\mathsf{CompactNetWitness}(c,\epsilon,-)$ carries a semantic name certificate
+with source, pattern, and ledger all equal to that concrete witness predicate,
+and classifier $\hsame$:
+$$
+\mathsf{SemanticNameCert}
+(\mathsf{CompactNetWitness}(c,\epsilon,-),
+ \mathsf{CompactNetWitness}(c,\epsilon,-),
+ \mathsf{CompactNetWitness}(c,\epsilon,-),
+ \hsame).
+$$
+\end{theorem}
+\begin{proof}
+The carrier witness is the concrete history $c\cdot\epsilon$. Unary append
+closure supplies its unary carrier, and the continuation ledger is
+$c\cdot\epsilon=c\cdot\epsilon$. The classifier fields are the reflexive,
+symmetric, and transitive laws of $\hsame$, with carrier transport by equality
+case analysis. Pattern and ledger soundness are the identity projections
+because all three semantic predicates are the compact-net witness predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_semanticNameCert}
+
 \begin{theorem}[Compact net witness prefix closure]
 \label{thm:compact-net-witness-prefix-closed}
 For unary histories $p,c,\epsilon,n$, if $n$ is a compact net witness obtained
@@ -110,6 +134,34 @@ reverse direction first applies prefix exactness and then reattaches the right
 suffix by suffix exactness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_iff}
+
+\begin{theorem}[Compact net witness empty-precision visible-context exactness]
+\label{thm:compact-net-witness-empty-precision-visible-context-iff}
+For histories $p,q,c,n$, a visible-context compact-net witness with empty
+central precision is equivalent to unary evidence for the visible ledgers and
+center, together with the center classifier for the net:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\emp\cdot q,(p\cdot n)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{UnaryHistory}(c)\wedge
+\hsame(n,c).
+$$
+\end{theorem}
+\begin{proof}
+Peel the visible prefix and suffix by
+Theorem~\ref{thm:compact-net-witness-visible-context-iff}. The central witness
+is $\mathsf{CompactNetWitness}(c,\emp,n)$, whose continuation field is exactly
+the right-unit continuation classifier $\hsame(n,c)$; its carrier field gives
+$\mathsf{UnaryHistory}(c)$.
+
+Conversely, the unary center carrier and $\hsame(n,c)$ transport the center
+carrier to the net and produce the right-unit continuation witness. This builds
+$\mathsf{CompactNetWitness}(c,\emp,n)$, and visible-context exactness reattaches
+the prefix $p$ and suffix $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_precision\_visible\_context\_iff}
 
 \begin{theorem}[Compact net witness composite result determinacy]
 \label{thm:compact-net-witness-composite-result-deterministic}

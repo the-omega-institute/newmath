@@ -116,6 +116,22 @@ theorem SOneHistoryCarrier_empty_point_absurd {x y equation : BHist} :
                   exact not_hsame_emp_e1
                     (hsame_trans (hsame_symm emptyEndpoints.left) xData.left)
 
+theorem SOneHistoryCarrier_point_e1_shape {x y equation point : BHist} :
+    SOneHistoryCarrier x y equation point -> ∃ tail : BHist, point = BHist.e1 tail := by
+  intro carrier
+  cases carrier with
+  | intro _xCarrier rest =>
+      cases rest with
+      | intro yCarrier rest =>
+          cases rest with
+          | intro _equationCarrier pointCont =>
+              cases yCarrier with
+              | intro yTail yData =>
+                  cases yData with
+                  | intro sameY _tailCarrier =>
+                      cases sameY
+                      exact Exists.intro (append x yTail) pointCont
+
 theorem SOneHistoryCarrier_rational_unit_components {x y equation point : BHist} :
     SOneHistoryCarrier x y equation point →
       ∃ dx dy : BHist,
@@ -166,6 +182,12 @@ theorem SOneHistoryCarrier_unit_equation_deterministic {x y equation point : BHi
                                 (hsame_trans
                                   (hsame_e1_congr ratClassifier.right.right)
                                   (hsame_symm sameUnit))
+
+theorem SOneHistoryCarrier_equation_pair_deterministic {x y e p x' y' e' p' : BHist} :
+    SOneHistoryCarrier x y e p → SOneHistoryCarrier x' y' e' p' → hsame e e' := by
+  intro left right
+  exact hsame_trans (SOneHistoryCarrier_unit_equation_deterministic left)
+    (hsame_symm (SOneHistoryCarrier_unit_equation_deterministic right))
 
 theorem SOneHistoryCarrier_equation_unit {x y equation point : BHist} :
     SOneHistoryCarrier x y equation point → hsame equation SOneUnitHistory := by

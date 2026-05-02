@@ -32,6 +32,18 @@ theorem OptionHistoryLedgerPolicy_shared_visible_raw_classifier {source : BHist 
     OptionHistoryLedgerPolicy_raw_visible_classifier source_transport rightLedger
   exact OptionHistoryClassifier_trans leftRawVisible (OptionHistoryClassifier_symm rightRawVisible)
 
+theorem OptionHistoryLedgerPolicy_shared_raw_visible_classifier {source : BHist -> Prop}
+    (source_transport : forall {h k : BHist}, hsame h k -> source h -> source k)
+    {raw visible visible' : BHist} :
+    OptionHistoryLedgerPolicy source raw visible ->
+      OptionHistoryLedgerPolicy source raw visible' ->
+        OptionHistoryClassifier source visible visible' := by
+  intro leftLedger rightLedger
+  exact OptionHistoryClassifier_trans
+    (OptionHistoryClassifier_symm
+      (OptionHistoryLedgerPolicy_raw_visible_classifier source_transport leftLedger))
+    (OptionHistoryLedgerPolicy_raw_visible_classifier source_transport rightLedger)
+
 theorem OptionHistoryLedgerPolicy_trans {source : BHist -> Prop} {raw mid visible : BHist} :
     OptionHistoryLedgerPolicy source raw mid ->
       OptionHistoryLedgerPolicy source mid visible ->

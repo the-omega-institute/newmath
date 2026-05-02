@@ -1,4 +1,4 @@
-import BEDC.Derived.ContinuousUp
+import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
 
 namespace BEDC.Derived.ContinuousUp
 
@@ -46,6 +46,51 @@ theorem ContinuousModulusWitness_suffix_iff {p source modulus target : BHist} :
                             (cont_intro
                               ((congrArg (fun result => append result p) rel).trans
                                 (append_assoc source modulus p)))))
+
+theorem ContinuousModulusWitness_visible_context_iff {p q source modulus target : BHist} :
+    ContinuousModulusWitness (append p source) (append modulus q)
+        (append (append p target) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ ContinuousModulusWitness source modulus target := by
+  constructor
+  · intro witness
+    have suffixData :=
+      (ContinuousModulusWitness_suffix_iff (p := q) (source := append p source)
+        (modulus := modulus) (target := append p target)).mp witness
+    have prefixData :=
+      (ContinuousModulusWitness_prefix_iff (p := p) (source := source)
+        (modulus := modulus) (target := target)).mp suffixData.right
+    exact And.intro prefixData.left (And.intro suffixData.left prefixData.right)
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro suffixCarrier witness =>
+            have prefixedWitness :
+                ContinuousModulusWitness (append p source) modulus (append p target) :=
+              (ContinuousModulusWitness_prefix_iff (p := p) (source := source)
+                (modulus := modulus) (target := target)).mpr
+                (And.intro prefixCarrier witness)
+            exact
+              (ContinuousModulusWitness_suffix_iff (p := q) (source := append p source)
+                (modulus := modulus) (target := append p target)).mpr
+                (And.intro suffixCarrier prefixedWitness)
+
+theorem ContinuousModulusWitness_visible_context_source_deterministic
+    {p q source source' modulus target : BHist} :
+    ContinuousModulusWitness (append p source) (append modulus q)
+        (append (append p target) q) →
+      ContinuousModulusWitness (append p source') (append modulus q)
+        (append (append p target) q) →
+        hsame source source' := by
+  intro left right
+  have leftData :=
+    (ContinuousModulusWitness_visible_context_iff (p := p) (q := q) (source := source)
+      (modulus := modulus) (target := target)).mp left
+  have rightData :=
+    (ContinuousModulusWitness_visible_context_iff (p := p) (q := q) (source := source')
+      (modulus := modulus) (target := target)).mp right
+  exact ContinuousModulusWitness_source_hsame_deterministic (hsame_refl target)
+    leftData.right.right rightData.right.right
 
 theorem ContinuousModulusChain_suffix_iff {p source first second target : BHist} :
     ContinuousModulusChain source first (append second p) (append target p) <->

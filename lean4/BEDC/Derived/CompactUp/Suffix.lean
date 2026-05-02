@@ -67,4 +67,35 @@ theorem CompactNetWitness_visible_context_iff {p q center precision net : BHist}
               CompactNetWitness_prefix_iff.mpr (And.intro prefixCarrier witness)
             exact CompactNetWitness_suffix_iff.mpr (And.intro suffixCarrier prefixedWitness)
 
+theorem CompactNetWitness_empty_precision_visible_context_iff {p q center net : BHist} :
+    CompactNetWitness (append p center) (append BHist.Empty q)
+      (append (append p net) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory center ∧ hsame net center := by
+  constructor
+  · intro witness
+    have visibleData :=
+      (CompactNetWitness_visible_context_iff (p := p) (q := q) (center := center)
+        (precision := BHist.Empty) (net := net)).mp witness
+    have central : CompactNetWitness center BHist.Empty net := visibleData.2.2
+    exact
+      And.intro visibleData.1
+        (And.intro visibleData.2.1
+          (And.intro central.1 (cont_right_unit_iff.mp central.2.2.2)))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro suffixCarrier rest =>
+            cases rest with
+            | intro centerCarrier sameNet =>
+                have central : CompactNetWitness center BHist.Empty net :=
+                  And.intro centerCarrier
+                    (And.intro unary_empty
+                      (And.intro (unary_transport centerCarrier (hsame_symm sameNet))
+                        (cont_right_unit_iff.mpr sameNet)))
+                exact
+                  (CompactNetWitness_visible_context_iff (p := p) (q := q)
+                    (center := center) (precision := BHist.Empty) (net := net)).mpr
+                    (And.intro prefixCarrier (And.intro suffixCarrier central))
+
 end BEDC.Derived.CompactUp

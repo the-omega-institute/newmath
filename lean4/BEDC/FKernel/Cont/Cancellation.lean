@@ -83,6 +83,14 @@ theorem cont_composite_left_factor {a b c f g fg : BHist} :
     cont_right_cancel displayedWithCommonSuffix right
   exact cont_result_hsame_transport (cont_intro rfl) sameMiddle
 
+theorem cont_composite_right_factor {a b c f g fg : BHist} :
+    Cont a f b -> Cont f g fg -> Cont a fg c -> Cont b g c := by
+  intro left composite displayed
+  cases left
+  cases composite
+  cases displayed
+  exact cont_intro (append_assoc a f g).symm
+
 theorem cont_prefix_iff {p a b f : BHist} :
     Cont (append p a) f (append p b) ↔ Cont a f b := by
   constructor

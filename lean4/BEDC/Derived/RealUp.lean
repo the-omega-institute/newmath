@@ -34,6 +34,13 @@ theorem RealConstantHistoryCarrier_e0_absurd {tail : BHist} :
   | intro witness data =>
       exact not_hsame_e0_e1 data.left
 
+theorem RealConstantHistoryCarrier_empty_absurd :
+    RealConstantHistoryCarrier BHist.Empty -> False := by
+  intro carrier
+  cases carrier with
+  | intro witness data =>
+      exact not_hsame_emp_e1 data.left
+
 theorem RealConstantHistoryClassifier_e1_iff_rat {d e : BHist} :
     RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e) ↔
       RatHistoryClassifier d e := by

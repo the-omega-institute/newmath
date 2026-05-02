@@ -277,6 +277,36 @@ carrier at $(f',c')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_finite\_refinement\_chain\_closed}
 
+\begin{theorem}[Compact witness carrier finite refinement chain endpoints unary]
+\label{thm:compact-witness-carrier-finite-refinement-chain-endpoints-unary}
+If
+
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact)
+$$
+
+and
+
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact),
+$$
+
+then the final finite-net and compactness ledgers are unary histories:
+
+$$
+\mathsf{UnaryHistory}(finalFinite)\land\mathsf{UnaryHistory}(finalCompact).
+$$
+\end{theorem}
+\begin{proof}
+The compact witness carrier supplies a unary finite-net ledger. Its subset and
+located unary witnesses, together with the first continuation ledger, give a
+unary intermediate ledger; combining that with the finite-net unary witness and
+the second continuation ledger gives a unary compactness ledger. Applying the
+finite refinement chain endpoint theorem to these two starting endpoints gives
+the displayed final endpoint unary witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_finite\_refinement\_chain\_endpoints\_unary}
+
 \begin{theorem}[Compact witness carrier iterated finite refinement closure]
 \label{thm:compact-witness-carrier-iterated-finite-refinement-closed}
 For histories $subset$, $located$, $finite$, $extra_0$, $extra_1$,

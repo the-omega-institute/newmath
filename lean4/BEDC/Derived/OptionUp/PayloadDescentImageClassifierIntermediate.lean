@@ -174,30 +174,30 @@ theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_present_i
                             NameCert.equiv_trans certT
                               (NameCert.equiv_trans certT relPDelta relDeltaAB) relDeltaQ
                           have classifier : TaggedOptionHistoryClassifier T RelT k k' :=
-                            Or.inr
-                              (Exists.intro p
-                                (Exists.intro q
-                                  (And.intro targetP
-                                    (And.intro targetQ
-                                      (And.intro sameKP (And.intro sameK'Q relPQ))))))
-                          have payloadRel :
-                              forall r s : BHist, T r -> T s ->
-                                hsame k (BHist.e1 r) ->
-                                  hsame k' (BHist.e1 s) -> RelT r s := by
+                            Or.inr ⟨p, q, targetP, targetQ, sameKP, sameK'Q, relPQ⟩
+                          have uniquePair :
+                              (forall r : BHist, hsame k (BHist.e1 r) -> hsame p r) /\
+                                (forall s : BHist, hsame k' (BHist.e1 s) -> hsame q s) :=
+                            data.right.right.right.right.right.right.right.right.right.right.right.right
+                          have competing :
+                              forall r s : BHist, T r -> T s -> hsame k (BHist.e1 r) ->
+                                hsame k' (BHist.e1 s) -> RelT r s := by
                             intro r s targetR targetS sameKR sameK'S
-                            have sameRP : hsame r p :=
-                              TaggedOptionHistory_present_payload_determinism sameKR sameKP
-                            have sameQS : hsame q s :=
-                              TaggedOptionHistory_present_payload_determinism sameK'Q sameK'S
-                            have relRP : RelT r p :=
-                              middle_hsame targetR targetP sameRP
-                            have relQS : RelT q s :=
-                              middle_hsame targetQ targetS sameQS
+                            have samePR :
+                                hsame p r :=
+                              uniquePair.left r sameKR
+                            have sameQS :
+                                hsame q s :=
+                              uniquePair.right s sameK'S
+                            have relPR : RelT p r := middle_hsame targetP targetR samePR
+                            have relQS : RelT q s := middle_hsame targetQ targetS sameQS
                             exact NameCert.equiv_trans certT
-                              (NameCert.equiv_trans certT relRP relPQ) relQS
+                              (NameCert.equiv_trans certT (NameCert.equiv_symm certT relPR)
+                                relPQ)
+                              relQS
                           exact
-                            ⟨k, k', p, q, a, b, imageDelta, mapLeft, mapRight,
-                              targetP, targetQ, sameKP, sameK'Q, sourceA, sourceB,
-                              relAB, samePDelta, sameQDelta, classifier, payloadRel⟩
+                            ⟨k, k', p, q, a, b, imageDelta, mapLeft, mapRight, targetP,
+                              targetQ, sameKP, sameK'Q, sourceA, sourceB, relAB,
+                              samePDelta, sameQDelta, classifier, competing⟩
 
 end BEDC.Derived.OptionUp

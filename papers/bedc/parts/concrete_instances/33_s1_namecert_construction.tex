@@ -136,6 +136,25 @@ contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_empty\_point\_absurd}
 
+\begin{theorem}[SOne history carrier e-one point shape]
+\label{thm:sone-history-carrier-point-e1-shape}
+For histories $x,y,e,p$, every concrete $\SOneUp$ history-carrier witness
+exposes the point ledger as an $\Eone$-headed history:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\exists t:\mathsf{BHist}.\; p=\Eone(t).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the carrier to the second real-constant component and the continuation
+ledger. The second component displays $y$ as $\Eone(d)$ for a rational history
+$d$. Substituting that display into the continuation equation makes the point
+ledger $p$ the append result with an $\Eone$-headed right component, hence
+$p=\Eone(\mathsf{append}(x,d))$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_point\_e1\_shape}
+
 \begin{theorem}[SOne history carrier rational unit components]
 \label{thm:s1-history-carrier-rational-unit-components}
 For histories $x,y,e,p$, the concrete $\SOneUp$ history carrier exposes
@@ -180,6 +199,26 @@ through $\Eone$. Composing this equality with the stored endpoint presentations
 gives $\hsame(e,\mathsf{SOneUnitHistory})$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_unit\_equation\_deterministic}
+
+\begin{theorem}[SOne history carrier equation-pair determinacy]
+\label{thm:sone-history-carrier-equation-pair-deterministic}
+For histories $x,y,e,p,x',y',e',p'$, any two concrete $\SOneUp$ history-carrier
+witnesses determine history-same equation ledgers:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x',y',e',p')
+\Longrightarrow
+\hsame(e,e').
+$$
+\end{theorem}
+\begin{proof}
+Apply the unit-equation determinacy theorem to each carrier witness. The first
+witness identifies $e$ with $\mathsf{SOneUnitHistory}$, and the second
+identifies $e'$ with the same endpoint. Transitivity through that endpoint gives
+$\hsame(e,e')$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_equation\_pair\_deterministic}
 
 \begin{theorem}[SOne equation unit readback]
 \label{thm:sone-history-carrier-equation-unit}

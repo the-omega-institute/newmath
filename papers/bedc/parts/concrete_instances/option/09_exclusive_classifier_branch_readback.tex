@@ -153,6 +153,28 @@ endpoint across the same classifier link.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_source\_branch\_iff}
 
+\begin{theorem}[Option history classifier cross absent-source exclusion]
+\label{thm:option-history-classifier-cross-absent-source-exclusion}
+Let $source:\mathsf{BHist}\to\mathsf{Prop}$ exclude the empty history. For
+histories $h,k$, any nullable option classifier witness from $h$ to $k$ rules
+out the two crossed cases:
+$$
+\mathsf{OptionHistoryClassifier}_{source}(h,k)
+\Longrightarrow
+\bigl(source(h)\to\hsame(k,\emp)\to\bot\bigr)
+\land
+\bigl(source(k)\to\hsame(h,\emp)\to\bot\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into endpoint carriers and the stored $\hsame(h,k)$
+link. In the left crossed case, compose $\hsame(h,k)$ with
+$\hsame(k,\emp)$ and apply empty exclusion to $source(h)$. In the right
+crossed case, use symmetry of $\hsame(h,k)$ before composing with
+$\hsame(h,\emp)$ and applying empty exclusion to $source(k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_cross\_absent\_source\_exclusion}
+
 \begin{theorem}[Tagged option history classifier visible-pair payload exactness]
 \label{thm:tagged-option-history-classifier-visible-pair-payload-exactness}
 This theorem fits the per-object template as follows: the traditional target is
