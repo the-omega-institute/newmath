@@ -136,6 +136,32 @@ theorem CategoryHomCarrier_e1_morphism_target_cases {a target k : BHist} :
                             (And.intro (unary_e1_inversion targetCarrier)
                               (And.intro (unary_e1_inversion morphCarrier) tailCont))))
 
+theorem CategoryHomCarrier_e1_morphism_source_target_cases {source target k : BHist} :
+    CategoryHomCarrier source target (BHist.e1 k) ->
+      (source = BHist.Empty /\ target = BHist.e1 k /\ UnaryHistory k) \/
+        (exists a r : BHist, source = BHist.e1 a /\ target = BHist.e1 r /\
+          UnaryHistory a /\ UnaryHistory k /\ UnaryHistory r /\ Cont (BHist.e1 a) k r) := by
+  intro homCarrier
+  cases source with
+  | Empty =>
+      have emptyData :=
+        (CategoryHomCarrier_empty_source_e1_morphism_iff (k := k) (target := target)).mp
+          homCarrier
+      left
+      exact And.intro rfl (And.intro emptyData.left emptyData.right)
+  | e0 a =>
+      exact False.elim (CategoryHomCarrier_e0_source_absurd homCarrier)
+  | e1 a =>
+      have targetData :=
+        (CategoryHomCarrier_e1_source_e1_morphism_target_iff (a := a) (k := k)
+          (target := target)).mp homCarrier
+      cases targetData with
+      | intro r data =>
+          right
+          exact Exists.intro a
+            (Exists.intro r
+              (And.intro rfl data))
+
 theorem CategoryHomCarrier_e1_source_e1_target_morphism_iff {a r morph : BHist} :
     CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) morph ↔
       (morph = BHist.Empty ∧ UnaryHistory a ∧ hsame a r) ∨
@@ -355,5 +381,17 @@ theorem CategoryHomCarrier_visible_composable_morphisms_target_cases {a b c l m 
                     (Exists.intro s
                       (And.intro rfl
                         (And.intro cEq (And.intro leftTail (And.intro rightTail comp)))))
+
+theorem CategoryHomCarrier_comp_visible_morphisms_result_cases {a b c l m fg : BHist} :
+    CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->
+      Cont (BHist.e1 l) (BHist.e1 m) fg ->
+        ∃ k : BHist, fg = BHist.e1 k ∧ Cont (BHist.e1 l) m k ∧
+          CategoryHomCarrier a c (BHist.e1 k) := by
+  intro left right comp
+  cases comp
+  exact Exists.intro (append (BHist.e1 l) m)
+    (And.intro rfl
+      (And.intro (cont_intro rfl)
+        (CategoryHomCarrier_comp_closed left right (cont_intro rfl))))
 
 end BEDC.Derived.CategoryUp

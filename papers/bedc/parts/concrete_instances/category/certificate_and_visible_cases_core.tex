@@ -187,6 +187,21 @@ For $\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),morph)$, if $morph$ is not $\
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_nonempty\_morphism\_cases}
 
+\begin{theorem}[Category nonempty one-headed source morphism target cases]
+\label{thm:category-e1-source-nonempty-morphism-target-cases}
+For $\mathsf{CategoryHomCarrier}(\Eone(a),target,morph)$, if $morph$ is not
+$\HSame$ to $\emp$, then there are histories $k,r$ such that
+$morph=\Eone(k)$, $target=\Eone(r)$, $a,k,r$ are unary, and
+$\ContR(\Eone(a),k,r)$.
+\end{theorem}
+\begin{proof}
+Split the one-headed source morphism cases. The empty-morphism branch
+contradicts the nonempty hypothesis. The visible branch already exposes the
+one-headed target, the morphism tail, the three unary witnesses, and the
+continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_nonempty\_morphism\_target\_cases}
+
 \begin{theorem}[Category hom-carrier one-headed endpoint morphism alignment]
 \label{thm:category-hom-carrier-e1-source-e1-target-morphism-alignment}
 For hom-carriers between the same one-headed source and one-headed target,
@@ -367,6 +382,22 @@ on the continuation result removes the outer zero constructor and leaves
 $\ContR(\Ezero(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_cases}
+
+\begin{proposition}[Continuation morphism zero-headed endpoints reject one-headed tail]
+\label{prop:category-continuation-e0-e0-tail-e1-absurd}
+For histories $a,r,k:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$,
+$$
+\HSame(\mathsf{tail}(m),\Eone(k))\to\mathsf{False}.
+$$
+\end{proposition}
+\begin{proof}
+Unpack the displayed continuation tail. The empty-tail case contradicts
+$\emp\hsame\Eone(k)$, the zero-headed tail case contradicts
+$\Ezero(t)\hsame\Eone(k)$, and the one-headed tail case would force the
+zero-headed result to be one-headed in the continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_e1\_absurd}
 
 \begin{theorem}[Continuation morphism one-headed source to one-headed target tail cases]
 \label{thm:continuation-morphism-e1-source-e1-target-tail-cases}

@@ -229,6 +229,36 @@ $p_{ca},p_{be}$. The theorem supplies the inverse-pair clauses and classifier
 iff for $C$, so the normalized composite is again certified.
 \end{proof}
 
+\begin{theorem}[Field affine empty-offset composition normal form]
+\label{thm:field-affine-empty-offset-composition-normal-form}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+addition associativity and congruence, multiplication associativity and
+congruence, and the two distributivity laws, every $a,b,c,d,e,x:\mathsf{BHist}$
+satisfies
+$$
+\begin{aligned}
+&\mathsf{add}(
+  \mathsf{mul}(\mathsf{mul}(c,
+    \mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)),e),\emp)\\
+&\quad\hsame
+\mathsf{add}(
+  \mathsf{mul}(\mathsf{mul}(\mathsf{mul}(c,a),x),\mathsf{mul}(b,e)),
+  \mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),\emp)).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Distribute the left multiplication by $c$ across the inner affine offset and
+then distribute the right multiplication by $e$ across the resulting sum. This
+separates the $x$-term from the offset term
+$\mathsf{mul}(\mathsf{mul}(c,d),e)$. Multiplication associativity rewrites
+the $x$-term from
+$(c((ax)b))e$ to $((ca)x)(be)$. Addition congruence transports this product
+normal form through the surrounding sum, and addition associativity places the
+empty offset on the final translated component.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_empty\_offset\_composition\_normal\_form}
+
 Per-object certificate: traditional target affine automorphism composition.
 BEDC source: $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$. Carrier:
 $\mathsf{BHist}$. Classifier: $\hsame$. Stability obligations: composition

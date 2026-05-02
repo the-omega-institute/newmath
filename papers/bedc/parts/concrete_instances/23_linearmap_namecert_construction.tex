@@ -274,6 +274,26 @@ endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_pair\_empty\_iff}
 
+\begin{theorem}[Singleton linear-map classifier continuation closure]
+\label{thm:linearmap-singleton-classifier-continuation-closed}
+For histories $P,P',Q,Q',L,R:\mathsf{BHist}$, if
+$\lambda_{\emp}(P,P')$ and $\lambda_{\emp}(Q,Q')$, and if
+$$
+\ContR(P,Q,L)
+\qquad\text{and}\qquad
+\ContR(P',Q',R),
+$$
+then $\lambda_{\emp}(L,R)$.
+\end{theorem}
+\begin{proof}
+The two singleton linear-map classifier witnesses identify all four
+continuation inputs with $\emp$. Transport each continuation ledger to the
+empty-empty ledger and compare against $\ContR(\emp,\emp,\emp)$. This gives
+$L\hsame\emp$ and $R\hsame\emp$, and those carrier clauses compose through
+symmetry on the right endpoint to close $\lambda_{\emp}(L,R)$.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_closed}
+
 \begin{theorem}[Singleton linear map composition associativity empty classifier]
 \label{thm:linearmap-singleton-comp-assoc-empty-classifier}
 For singleton linear map codes $f,g,h$, if each code lies in

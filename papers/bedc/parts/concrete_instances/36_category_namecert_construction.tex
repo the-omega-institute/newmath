@@ -53,6 +53,23 @@ history equalities and compose the equalities by transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_identity\_square\_closed}
 
+\begin{theorem}[Continuation morphism composite endpoint transport]
+\label{thm:continuation-morphism-comp-endpoint-hsame-tail-transport}
+For continuation morphisms $left:a\to b$, $right:b\to c$,
+$left':a'\to b'$, and $right':b'\to c'$, if $\hsame(a,a')$ and
+$\hsame(c,c')$, then the canonical composite tail of $left$ and $right$
+transports to a continuation from $a'$ to $c'$, and it is $\hsame$ to the
+canonical composite tail of $left'$ and $right'$.
+\end{theorem}
+\begin{proof}
+Transport the composite continuation field of $left\circ right$ across the
+source and target endpoint comparisons, keeping its displayed tail fixed.
+The transported continuation and the composite continuation field of
+$left'\circ right'$ share source and target, so finite-kernel left
+cancellation identifies their tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_hsame\_tail\_transport}
+
 Per-object certificate: traditional target hom-as-continuation morphism bridge;
 BEDC source $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$,
 $\mathsf{UnaryHistory}$, and $\mathsf{Cont}$; carrier $\mathsf{BHist}$ tails;

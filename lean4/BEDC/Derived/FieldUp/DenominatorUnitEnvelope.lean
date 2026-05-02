@@ -174,4 +174,55 @@ theorem field_rat_denominator_unit_envelope_unit_iff {u : BHist} :
   · intro unitLaws
     exact (field_rat_denominator_unit_envelope_unit_unique carrierU).left unitLaws.left
 
+theorem field_rat_denominator_unit_envelope_strict_support_laws {h k : BHist} :
+    FieldRatDenominatorUnitEnvelopeCarrier h -> FieldRatDenominatorUnitEnvelopeCarrier k ->
+      (FieldRatDenominatorUnitEnvelopeClassifier h k ->
+        (RatHistoryCarrier h <-> RatHistoryCarrier k)) ∧
+      (RatHistoryCarrier (append h k) <-> RatHistoryCarrier h ∨ RatHistoryCarrier k) := by
+  intro carrierH carrierK
+  constructor
+  · intro classified
+    cases classified with
+    | inl ratData =>
+        constructor
+        · intro _ratH
+          exact ratData.right.left
+        · intro _ratK
+          exact ratData.left
+    | inr emptyData =>
+        constructor
+        · intro ratH
+          exact False.elim (RatHistoryCarrier_not_empty ratH emptyData.left)
+        · intro ratK
+          exact False.elim (RatHistoryCarrier_not_empty ratK emptyData.right)
+  · constructor
+    · intro appendCarrier
+      cases carrierH with
+      | inl ratH =>
+          exact Or.inl ratH
+      | inr emptyH =>
+          cases carrierK with
+          | inl ratK =>
+              exact Or.inr ratK
+          | inr emptyK =>
+              cases emptyH
+              cases emptyK
+              exact False.elim (RatHistoryCarrier_not_empty appendCarrier rfl)
+    · intro factorCarrier
+      cases factorCarrier with
+      | inl ratH =>
+          cases carrierK with
+          | inl ratK =>
+              exact RatHistoryCarrier_continuation_closed ratH ratK (cont_intro rfl)
+          | inr emptyK =>
+              cases emptyK
+              exact ratH
+      | inr ratK =>
+          cases carrierH with
+          | inl ratH =>
+              exact RatHistoryCarrier_continuation_closed ratH ratK (cont_intro rfl)
+          | inr emptyH =>
+              cases emptyH
+              exact RatHistoryCarrier_hsame_transport (hsame_symm (append_empty_left k)) ratK
+
 end BEDC.Derived.FieldUp

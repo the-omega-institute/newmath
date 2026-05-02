@@ -194,4 +194,61 @@ theorem field_binary_product_apartzero_exact_from_apartness
         addCongr mulCongr leftDistrib rightDistrib leftInv rightInv a b
     exact factorApart.right (cancel.left (apartToNonzero factorApart.left) productEmpty)
 
+protected theorem field_inverse_product_classifier_exact_from_apartness
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    (nonzeroTransport : forall {a b : BHist}, hsame a b -> NonZero a -> NonZero b)
+    (nonzeroEmptyAbsurd : NonZero BHist.Empty -> False)
+    (apartToNonzero : forall {h : BHist}, (hsame h BHist.Empty -> False) -> NonZero h)
+    {a b c d : BHist} (pa : NonZero a) (pb : NonZero b) (pc : NonZero c)
+    (pd : NonZero d) :
+    hsame (mul a b) (mul c d) <->
+      hsame (mul (inv b pb) (inv a pa)) (mul (inv d pd) (inv c pc)) := by
+  let pab : NonZero (mul a b) := apartToNonzero
+    (field_nonzero_factors_exclude_empty_product addAssoc zeroLeft negLeft assocC
+      leftId rightId addCongr mulCongr leftDistrib rightDistrib leftInv rightInv
+      nonzeroTransport nonzeroEmptyAbsurd pa pb)
+  let pcd : NonZero (mul c d) := apartToNonzero
+    (field_nonzero_factors_exclude_empty_product addAssoc zeroLeft negLeft assocC
+      leftId rightId addCongr mulCongr leftDistrib rightDistrib leftInv rightInv
+      nonzeroTransport nonzeroEmptyAbsurd pc pd)
+  have reverseAB :
+      hsame (inv (mul a b) pab) (mul (inv b pb) (inv a pa)) :=
+    field_inverse_product_reverse_from_apartness assocC leftId rightId mulCongr leftInv
+      rightInv pab pa pb
+  have reverseCD :
+      hsame (inv (mul c d) pcd) (mul (inv d pd) (inv c pc)) :=
+    field_inverse_product_reverse_from_apartness assocC leftId rightId mulCongr leftInv
+      rightInv pcd pc pd
+  constructor
+  · intro sameProduct
+    have sameInverseProducts :
+        hsame (inv (mul a b) pab) (inv (mul c d) pcd) :=
+      field_inverse_congruence_from_apartness assocC leftId rightId mulCongr leftInv
+        rightInv sameProduct pab pcd
+    exact hsame_trans (hsame_symm reverseAB)
+      (hsame_trans sameInverseProducts reverseCD)
+  · intro sameReverseProducts
+    have sameInverseProducts :
+        hsame (inv (mul a b) pab) (inv (mul c d) pcd) :=
+      hsame_trans reverseAB (hsame_trans sameReverseProducts (hsame_symm reverseCD))
+    exact field_inverse_cancel_from_apartness assocC leftId rightId mulCongr leftInv
+      rightInv pab pcd sameInverseProducts
+
 end BEDC.Derived.FieldUp

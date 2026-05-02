@@ -332,6 +332,53 @@ and the resulting equality $u\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_unit\_endpoint\_empty}
 
+\begin{theorem}[Rat denominator canonical right-unit endpoint is empty]
+\label{thm:field-rat-denominator-canonical-right-unit-endpoint-empty}
+For every history $u:\mathsf{BHist}$, if continuation by $u$ makes the fixed
+canonical denominator $d_1:=\Eone(\emp)$ classify back to $d_1$, then $u$ is
+externally empty:
+$$
+\left(
+  \forall r:\mathsf{BHist}.\;
+  \Cont(d_1,u,r)\to
+  \mathsf{RatHistoryClassifier}(r,d_1)
+\right)
+\Longrightarrow
+u\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply the assumed classifier law to the canonical continuation
+$\Cont(d_1,u,\mathsf{append}(d_1,u))$. The resulting classifier compares the
+continuation result with $d_1$. Transport the canonical continuation along
+this result comparison to obtain $\Cont(d_1,u,d_1)$, then apply right-unit
+uniqueness for continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_canonical\_right\_unit\_endpoint\_empty}
+
+\begin{theorem}[Rat denominator canonical left-unit endpoint is empty]
+\label{thm:field-rat-denominator-canonical-left-unit-endpoint-empty}
+For every history $u:\mathsf{BHist}$, if continuation from $u$ into the fixed
+canonical denominator $d_1:=\Eone(\emp)$ classifies back to $d_1$, then $u$ is
+externally empty:
+$$
+\left(
+  \forall r:\mathsf{BHist}.\;
+  \Cont(u,d_1,r)\to
+  \mathsf{RatHistoryClassifier}(r,d_1)
+\right)
+\Longrightarrow
+u\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply the assumed classifier law to the canonical continuation
+$\Cont(u,d_1,\mathsf{append}(u,d_1))$. The classifier result gives a comparison
+with $d_1$. Transport the continuation result to $d_1$ and apply left-unit
+uniqueness for continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_canonical\_left\_unit\_endpoint\_empty}
+
 \begin{theorem}[Rat denominator two-sided unit law endpoint empty iff]
 \label{thm:field-rat-denominator-continuation-two-sided-unit-law-endpoint-empty-iff}
 For every history $u:\mathsf{BHist}$, the simultaneous right and left

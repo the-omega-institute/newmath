@@ -529,19 +529,7 @@ theorem CategoryHomCarrier_e1_source_e1_morphism_target_iff {a k target : BHist}
 theorem CategoryHomCarrier_e1_source_empty_target_absurd {a f : BHist} :
     CategoryHomCarrier (BHist.e1 a) BHist.Empty f -> False := by
   intro homCarrier
-  cases homCarrier with
-  | intro _sourceCarrier rest =>
-      cases rest with
-      | intro _targetCarrier rest =>
-          cases rest with
-          | intro _morphismCarrier homCont =>
-              cases f with
-              | Empty =>
-                  cases homCont
-              | e0 f0 =>
-                  cases homCont
-              | e1 f1 =>
-                  cases homCont
+  cases f <;> cases homCarrier.right.right.right
 theorem CategoryHomCarrier_visible_source_empty_target_comp_absurd {a b f g : BHist} : CategoryHomCarrier (BHist.e1 a) b f -> CategoryHomCarrier b BHist.Empty g -> False := by
   intro left right; exact CategoryHomCarrier_e1_source_empty_target_absurd (CategoryHomCarrier_comp_closed left right (cont_intro rfl))
 theorem CategoryHomCarrier_e1_source_morphism_cases {a target morph : BHist} :
@@ -573,6 +561,17 @@ theorem CategoryHomCarrier_e1_source_morphism_cases {a target morph : BHist} :
                     (And.intro (unary_e1_inversion homCarrier.right.right.left)
                       (And.intro (unary_e1_inversion homCarrier.right.left)
                         (BHist.e1.inj homCarrier.right.right.right)))))))
+theorem CategoryHomCarrier_e1_source_nonempty_morphism_target_cases {a target morph : BHist} :
+    CategoryHomCarrier (BHist.e1 a) target morph -> (hsame morph BHist.Empty -> False) ->
+      exists k r : BHist, morph = BHist.e1 k /\ target = BHist.e1 r /\
+        UnaryHistory a /\ UnaryHistory k /\ UnaryHistory r /\ Cont (BHist.e1 a) k r := by
+  intro homCarrier nonempty
+  cases CategoryHomCarrier_e1_source_morphism_cases homCarrier with
+  | inl emptyCase =>
+      cases emptyCase.left
+      exact False.elim (nonempty (hsame_refl BHist.Empty))
+  | inr visibleCase =>
+      exact visibleCase
 theorem CategoryHomCarrier_identity_semanticNameCert {a : BHist} :
     UnaryHistory a ->
       BEDC.FKernel.NameCert.SemanticNameCert (CategoryHomCarrier a a)

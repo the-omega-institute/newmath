@@ -1,0 +1,457 @@
+\begin{definition}[Rat denominator empty-unit contextual commutative instance]
+\label{def:field-rat-denominator-empty-unit-contextual-commutative-instance}
+The concrete empty-unit contextual commutative instance over $\mathsf{BHist}$
+uses the carrier
+$C_D^u:=\mathsf{RatDenomUnitCarrier}$, the classifier
+$R_D^u:=\mathsf{RatDenomUnitClassifier}$, multiplication
+$\mu_D^u(h,k):=\mathsf{append}(h,k)$, and unit $e_D^u:=\emp$.
+Its admissible external left and right contexts are exactly the histories
+history-same to the empty endpoint, written $p\hsame\emp$ and $q\hsame\emp$.
+\end{definition}
+
+\begin{theorem}[Rat denominator empty-unit contextual commutativity]
+\label{thm:field-rat-denominator-empty-unit-contextual-commutativity}
+For histories $p,q,p',q',h,k:\mathsf{BHist}$, if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, $q'\hsame\emp$,
+$C_D^u(h)$, and $C_D^u(k)$, then denominator multiplication commutes inside
+the admissible empty external contexts:
+$$
+R_D^u(\mathsf{append}(p,\mathsf{append}(\mu_D^u(h,k),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^u(k,h),q'))).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws} to the
+two carrier hypotheses $C_D^u(h)$ and $C_D^u(k)$. The commutativity clause gives
+the core classifier
+$$
+R_D^u(\mu_D^u(h,k),\mu_D^u(k,h)).
+$$
+
+Now use the reverse direction of
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}
+with the four endpoint hypotheses
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$. It transports
+the core classifier through the two empty left contexts and the two empty right
+contexts.
+
+Since the contextual instance of
+\autoref{def:field-rat-denominator-empty-unit-contextual-commutative-instance}
+has $\mu_D^u(x,y)=\mathsf{append}(x,y)$ and
+$R_D^u=\mathsf{RatDenomUnitClassifier}$, the transported classifier is exactly
+the displayed empty-context commutativity statement.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_contextual\_commutativity}
+
+\begin{theorem}[Rat denominator external-unit envelope commutative monoid laws]
+\label{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws}
+For the tuple $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope}, all laws of
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws} hold, and the
+envelope multiplication is commutative up to its endpoint classifier: whenever
+$C_D^\ast(h)$ and $C_D^\ast(k)$,
+$$
+R_D^\ast(\mu_D^\ast(h,k),\mu_D^\ast(k,h)).
+$$
+\end{theorem}
+\begin{proof}
+The carrier inhabitance, closure, associativity, left and right unit laws,
+binary classifier congruence, carried restriction, and carried one-sided unit
+obstruction are exactly the fields supplied by
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}.
+
+It remains to prove the displayed commutativity classifier. Split the two
+carrier witnesses $C_D^\ast(h)$ and $C_D^\ast(k)$ into their carried Rat
+denominator alternatives and their external-empty alternatives.
+
+In the carried/carried case, $\mu_D^\ast(h,k)$ and $\mu_D^\ast(k,h)$ are the
+canonical append continuations of the two carried denominators in opposite
+orders. Apply
+\autoref{thm:field-rat-denominator-continuation-commutative-classifier} to these
+two continuations. The carried classifier exactness theorem
+\autoref{thm:field-rat-denominator-unit-envelope-carried-classifier-exactness}
+then repacks the resulting $\mathsf{RatHistoryClassifier}$ as the required
+$R_D^\ast$ comparison.
+
+In the carried/empty case, the append right-unit and left-unit laws identify
+$\mu_D^\ast(h,k)$ and $\mu_D^\ast(k,h)$ with the same carried endpoint $h$,
+up to $\hsame$. The envelope classifier normal form,
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-normal-form},
+turns those two endpoint comparisons and the transported carried witness into
+$R_D^\ast(\mu_D^\ast(h,k),\mu_D^\ast(k,h))$.
+
+The empty/carried case is symmetric. The same append unit laws identify the two
+products with the carried endpoint $k$, and the same normal form converts the
+two transported carrier witnesses and the resulting $\hsame$ comparison into
+the envelope classifier.
+
+In the empty/empty case, both products are $\hsame$ to $\emp$ by the append unit
+laws and transitivity of $\hsame$. Since $e_D^\ast=\emp$, the empty branch of
+$R_D^\ast$ classifies the two products directly.
+\end{proof}
+
+Per-object template: traditional target commutative denominator monoid boundary
+for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, $\Cont$, $\mathsf{append}$, and $\emp$;
+carrier $C_D^\ast$; classifier $R_D^\ast$; stability obligation monoid laws
+plus commutativity; ledger external-unit bit plus continuation witness; core
+theorem
+\autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws};
+exactness predicate envelope commutativity over the strict carried restriction;
+standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{definition}[Rat denominator external-unit envelope strict support]
+\label{def:field-rat-denominator-unit-envelope-strict-support}
+For the tuple $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope}, the strict support
+predicate is the genuine Rat denominator endpoint predicate
+$$
+N_D^\ast(h)\Longleftrightarrow\mathsf{RatHistoryCarrier}(h).
+$$
+Thus the external endpoint is carried by $C_D^\ast$ but does not enter the
+strict denominator support.
+\end{definition}
+
+\begin{theorem}[Rat denominator external-unit envelope strict support laws]
+\label{thm:field-rat-denominator-unit-envelope-strict-support-laws}
+For histories $h,k:\mathsf{BHist}$ with $C_D^\ast(h)$ and $C_D^\ast(k)$, the
+strict support predicate of
+\autoref{def:field-rat-denominator-unit-envelope-strict-support} satisfies:
+\begin{enumerate}
+  \item $R_D^\ast(h,k)\to
+  (N_D^\ast(h)\Longleftrightarrow N_D^\ast(k))$.
+  \item $N_D^\ast(\mu_D^\ast(h,k))\Longleftrightarrow
+  N_D^\ast(h)\lor N_D^\ast(k)$.
+  \item Together with
+  \autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws},
+  these clauses give a concrete $\mathsf{BHist}$ multiplicative-support
+  boundary for $\FieldUp(\mathsf{RatUp})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $C_D^\ast$, $R_D^\ast$, $\mu_D^\ast$, and $N_D^\ast$. The carrier
+assumptions split each input into a genuine Rat denominator endpoint or an
+external empty endpoint.
+
+For support transport along the classifier, split the defining alternatives of
+$R_D^\ast(h,k)$. In the guarded carried branch, both strict-support predicates
+are exactly the displayed $\mathsf{RatHistoryCarrier}$ witnesses, so the two
+directions are projections. In the empty-empty branch, any strict-support
+witness for either endpoint contradicts $\mathsf{RatHistoryCarrier\_not\_empty}$
+after composing its endpoint comparison with the branch comparison to $\emp$.
+
+For product support, first consider the carried/carried branch. The canonical
+continuation witness for $\mathsf{append}(h,k)$ and carried denominator closure
+give $\mathsf{RatHistoryCarrier}(\mu_D^\ast(h,k))$, while the right side holds
+by either input support.
+
+In the carried/empty branch, the append right-unit law identifies
+$\mu_D^\ast(h,k)$ with $h$. Transport
+$\mathsf{RatHistoryCarrier}(h)$ across this $\hsame$ comparison by
+$\mathsf{RatHistoryCarrier\_hsame\_transport}$, and the left disjunct supplies
+the reverse implication. The empty/carried branch is symmetric, using the
+append left-unit law and the right strict-support disjunct.
+
+In the empty/empty branch, the append unit laws identify
+$\mu_D^\ast(h,k)$ with $\emp$. Therefore product strict support is impossible
+by $\mathsf{RatHistoryCarrier\_not\_empty}$, and both input strict-support
+predicates are impossible by the same theorem. This proves the displayed
+product equivalence.
+
+The final clause only packages these two support laws with the already stated
+commutative monoid laws: the monoid theorem supplies the algebraic envelope,
+and the present theorem supplies the exact descent of genuine denominator
+support through classifier transport and multiplication.
+\end{proof}
+
+Per-object template: downstream target $\FieldUp(\mathsf{RatUp})$ denominator
+support boundary; BEDC source $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, $\Cont$, $\mathsf{append}$, and $\emp$;
+carrier $C_D^\ast$; classifier $R_D^\ast$; stability obligation strict support
+transport and product support exactness; ledger external-unit bit plus
+continuation witness; core theorem
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws};
+exactness predicate genuine Rat denominator support descends through
+$R_D^\ast$ and $\mu_D^\ast$; standard bridge
+$\FieldUp(\mathsf{RatUp})$ denominator support boundary; status
+$\mathsf{ProofTarget}$.
+
+\input{parts/concrete_instances/field/20_field_rat_denominator_unit_envelope_cancellation_exactness}
+
+\begin{theorem}[Rat denominator external-unit envelope exact FieldUp boundary]
+\label{thm:field-rat-denominator-unit-envelope-exact-field-boundary}
+For the concrete tuple $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope} and the strict support
+predicate $N_D^\ast$ of
+\autoref{def:field-rat-denominator-unit-envelope-strict-support}, the
+external-unit envelope supplies the exact $\FieldUp(\mathsf{RatUp})$
+denominator boundary. Namely, the tuple carries the commutative monoid laws,
+restricts to the carried Rat denominator continuation fragment, separates mixed
+carried and external endpoints, has $e_D^\ast$ as the unique external unit,
+transports strict support along $R_D^\ast$, computes product strict support
+exactly by $N_D^\ast(\mu_D^\ast(h,k))\Longleftrightarrow
+N_D^\ast(h)\lor N_D^\ast(k)$ for carried envelope inputs, and satisfies exact
+left and right cancellation by every strict common factor $t$:
+$$
+N_D^\ast(t)\to
+\bigl(R_D^\ast(\mu_D^\ast(h,t),\mu_D^\ast(k,t))
+\Longleftrightarrow R_D^\ast(h,k)\bigr),
+$$
+and
+$$
+N_D^\ast(t)\to
+\bigl(R_D^\ast(\mu_D^\ast(t,h),\mu_D^\ast(t,k))
+\Longleftrightarrow R_D^\ast(h,k)\bigr),
+$$
+for all $h,k,t:\mathsf{BHist}$ carried by $C_D^\ast$.
+\end{theorem}
+\begin{proof}
+The algebraic denominator envelope is supplied by
+\autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws}. Its
+underlying certificate data are exactly the carrier restriction to the concrete
+Rat denominator fragment, the carried classifier and multiplication
+restriction, and the mixed-endpoint separation recorded by
+\autoref{thm:field-rat-denominator-unit-envelope-certificate}.
+
+The external endpoint is pinned down by
+\autoref{thm:field-rat-denominator-unit-envelope-unit-unique}: any carried
+envelope endpoint satisfying either one-sided unit law is classified with
+$e_D^\ast$. This supplies the unique external unit field of the boundary.
+
+The strict-support fields come from
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws}. Its first
+clause transports $N_D^\ast$ across $R_D^\ast$-classified endpoints, and its
+second clause gives the exact product support equivalence for
+$\mu_D^\ast$.
+
+Finally,
+\autoref{thm:field-rat-denominator-unit-envelope-cancellation-exactness}
+supplies the two displayed cancellation equivalences whenever the common factor
+has strict support. Combining these four packages gives the stated concrete
+$\FieldUp(\mathsf{RatUp})$ denominator boundary without any further structure.
+\end{proof}
+
+\textbf{Traditional target}: exact denominator boundary for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$, $\Cont$,
+$\mathsf{append}$, and $\emp$; \textbf{carrier}: $C_D^\ast$;
+\textbf{classifier}: $R_D^\ast$; \textbf{multiplication}: $\mu_D^\ast$;
+\textbf{unit}: $e_D^\ast$; \textbf{ledger}: external-unit bit plus denominator
+continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-unit-envelope-exact-field-boundary};
+\textbf{exactness predicate}: carried-fragment restriction, mixed-endpoint
+separation, unique external unit, strict-support transport, product support
+exactness, and strict-factor cancellation; \textbf{standard bridge}: concrete
+$\FieldUp(\mathsf{RatUp})$ denominator boundary; \textbf{status}:
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator empty-unit cancellative commutative monoid package]
+\label{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance},
+the laws of
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws} hold.
+Moreover, for carried histories $h,k,q:\mathsf{BHist}$, the endpoint classifier
+is cancellative on both sides:
+$$
+C_D^u(h)\land C_D^u(k)\land C_D^u(q)\land
+R_D^u(\mu_D^u(h,q),\mu_D^u(k,q))
+\to R_D^u(h,k),
+$$
+and
+$$
+C_D^u(h)\land C_D^u(k)\land C_D^u(q)\land
+R_D^u(\mu_D^u(q,h),\mu_D^u(q,k))
+\to R_D^u(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the concrete data of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance}.
+The algebraic fields are exactly the commutative monoid laws supplied by
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws}.
+
+For right cancellation, split the three
+$\mathsf{RatDenomUnitCarrier}$ witnesses for $h$, $k$, and $q$ into empty
+endpoint and genuine Rat denominator endpoint alternatives.
+
+In the genuine/genuine/genuine branch, the two classified products are displayed
+continuation endpoints with the same genuine right context $q$. Apply
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation}
+with empty unary prefix and common suffix $q$, then use
+\autoref{thm:field-rat-denominator-matched-context-classifier-exactness} to read
+the obtained comparison as the denominator classifier $R_D^u(h,k)$.
+
+If the common right factor $q$ is empty, the one-sided unit laws from
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws} identify
+$\mu_D^u(h,q)$ with $h$ and $\mu_D^u(k,q)$ with $k$. Transporting the displayed
+classifier across those endpoint identifications gives $R_D^u(h,k)$.
+
+If one of $h$ and $k$ is empty and the other is genuine, the displayed product
+classifier forces a mixed endpoint comparison after the same unit reduction on
+the empty side. The empty-unit endpoint exactness clauses from
+\autoref{sec:field-rat-denominator-unit-endpoint-exactness} separate the empty
+endpoint from the genuine denominator endpoint, so the only classifiable mixed
+case is the one already carrying the comparison needed for $R_D^u(h,k)$.
+
+The empty/empty branch is immediate: both endpoints are $\hsame\emp$, and the
+definition of $\mathsf{RatDenomUnitClassifier}$ packs the two carried witnesses
+with the resulting $\hsame$ comparison.
+
+Left cancellation follows from right cancellation and commutativity. Apply
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws} to commute
+both displayed left products into right products, use the right-cancellation
+clause just proved, and transport the classifier back along the same
+commutativity comparisons.
+\end{proof}
+
+\textbf{Traditional target}: cancellative commutative denominator monoid for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatDenomUnitCarrier}$, $\Cont$, and
+$\mathsf{append}$; \textbf{carrier}: $C_D^u$; \textbf{classifier}: $R_D^u$;
+\textbf{stability obligations}: monoid laws, commutativity, and cancellation;
+\textbf{ledger}: external empty-unit provenance; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package};
+\textbf{exactness predicate}: cancellative endpoint classification;
+\textbf{standard bridge}: ordinary positive-denominator multiplication with
+adjoined unit; \textbf{status}: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator empty-unit right cancellation]
+\label{thm:field-rat-denominator-empty-unit-right-cancellation}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance},
+right multiplication by a carried empty-unit denominator endpoint is exact for
+the classifier. For all histories $h,k,t:\mathsf{BHist}$, if $C_D^u(h)$,
+$C_D^u(k)$, $C_D^u(t)$, and
+$$
+R_D^u(\mu_D^u(h,t),\mu_D^u(k,t)),
+$$
+then
+$$
+R_D^u(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the data of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance}.
+Thus $\mu_D^u$ is $\mathsf{append}$, $C_D^u$ is
+$\mathsf{RatDenomUnitCarrier}$, and $R_D^u$ is
+$\mathsf{RatDenomUnitClassifier}$.
+
+First consider the branch where $t$ is the empty endpoint. The right-unit
+clause in
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}
+classifies $\mathsf{append}(h,t)$ with $h$ and $\mathsf{append}(k,t)$ with
+$k$. Transport the displayed classifier across these two right-unit
+classifications, using symmetry and transitivity of $\hsame$ inside
+$\mathsf{RatDenomUnitClassifier}$, to obtain
+$\mathsf{RatDenomUnitClassifier}(h,k)$.
+
+Now consider the branch where $t$ is a genuine Rat denominator endpoint. If one
+of $h$ and $k$ is empty and the other is genuine, the displayed product
+classifier is a mixed carried-empty endpoint after cancelling the visible
+append presentation; this contradicts
+\autoref{thm:field-rat-denominator-unit-envelope-mixed-endpoint-separation}.
+The empty/empty subcase packs the classifier directly from the two empty
+endpoint witnesses.
+
+It remains to handle the genuine/genuine subcase. The products
+$\mu_D^u(h,t)$ and $\mu_D^u(k,t)$ are the canonical append continuation
+endpoints with common suffix $t$. Apply
+\autoref{thm:field-rat-denominator-continuation-common-context-cancellation}
+with the empty prefix, the common suffix $t$, and the two canonical
+continuation witnesses for $\Cont(h,t,\mathsf{append}(h,t))$ and
+$\Cont(k,t,\mathsf{append}(k,t))$. The result is
+$\mathsf{RatHistoryClassifier}(h,k)$, and the original carrier hypotheses
+repack it as $\mathsf{RatDenomUnitClassifier}(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_right\_cancel}
+
+Per-object template: traditional target cancellation in the denominator monoid
+boundary; BEDC source $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\Cont$, and $\mathsf{append}$; carrier
+$C_D^u$; classifier $R_D^u$; stability obligation right cancellation; ledger
+the common suffix continuation witness; core theorem
+\autoref{thm:field-rat-denominator-empty-unit-right-cancellation}; exactness
+predicate cancellation of a shared denominator factor; standard bridge
+ordinary cancellative commutative monoids; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator empty-unit FieldUp multiplicative subcertificate]
+\label{thm:field-rat-denominator-empty-unit-field-multiplicative-subcertificate}
+For the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance} and
+the strict support predicate $N_D^u$ of
+\autoref{def:field-rat-denominator-empty-unit-strict-product-support}, the
+FieldUp denominator side over $\mathsf{BHist}$ carries the following concrete
+multiplicative subcertificate.
+\begin{enumerate}
+\item The empty-unit commutative monoid laws hold for
+$(C_D^u,R_D^u,\mu_D^u,e_D^u)$, including commutativity up to $R_D^u$.
+
+\item For all carried histories $h,k:\mathsf{BHist}$, strict support of the
+product is exact:
+$$
+(\mu_D^u(h,k)\hsame\emp\to\mathsf{False})
+\Longleftrightarrow
+N_D^u(h)\lor N_D^u(k).
+$$
+
+\item For every carried history $u:\mathsf{BHist}$, if $u$ satisfies both
+one-sided unit laws against all carried histories, then
+$$
+R_D^u(u,e_D^u).
+$$
+
+\item For all carried histories $h,k,t:\mathsf{BHist}$, classifier equality is
+cancellative for a common carried factor on the right and on the left:
+$$
+R_D^u(\mu_D^u(h,t),\mu_D^u(k,t))\to R_D^u(h,k),
+$$
+and
+$$
+R_D^u(\mu_D^u(t,h),\mu_D^u(t,k))\to R_D^u(h,k).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first field is exactly the concrete commutative monoid boundary of
+\autoref{thm:field-rat-denominator-empty-unit-commutative-monoid-laws}. It
+anchors the carrier, classifier, multiplication, and empty unit in the
+$\mathsf{BHist}$ tuple rather than in an abstract monoid variable.
+
+The strict-support field is supplied by
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff}. Its
+predicate is the $N_D^u$ introduced in
+\autoref{def:field-rat-denominator-empty-unit-strict-product-support}, so the
+empty endpoint remains carried while the genuine Rat denominator endpoint is the
+only strict support source.
+
+The unit field is
+\autoref{thm:field-rat-denominator-empty-unit-identity-unique}. It takes an
+arbitrary carried two-sided unit witness $u$ and classifies it against the
+distinguished endpoint $e_D^u$.
+
+The cancellation field is the two-sided classifier cancellation package of
+\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package}.
+Together these clauses are not a variant of any single source theorem: the block
+composes the carrier and classifier laws, the strict support predicate, unit
+uniqueness, and both cancellation directions into the concrete denominator
+multiplicative boundary required by the $\FieldUp(\mathsf{RatUp})$ exit
+criterion.
+\end{proof}
+
+\textbf{Traditional target}: FieldUp multiplicative denominator subcertificate
+for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{RatHistoryCarrier}$, $\Cont$, and $\mathsf{append}$; \textbf{carrier}:
+$C_D^u$; \textbf{classifier}: $R_D^u$; \textbf{stability obligations}:
+commutative monoid laws, strict support exactness, unit uniqueness, and two-sided
+cancellation; \textbf{ledger}: empty-unit endpoint provenance plus shared
+denominator continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-empty-unit-field-multiplicative-subcertificate};
+\textbf{exactness predicate}: concrete carried denominator products classify
+exactly through the empty-unit boundary; \textbf{standard bridge}: ordinary
+positive-denominator multiplication with an adjoined empty unit; \textbf{status}:
+$\mathsf{ProofTarget}$.

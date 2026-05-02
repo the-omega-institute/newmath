@@ -309,3 +309,50 @@ $\FieldUp(\mathsf{RatUp})$ denominator envelope can read an empty external
 unit context by the normalized classifier on the core endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_empty\_context\_iff}
+
+\begin{theorem}[Rat denominator empty-unit contextual strict product support exactness]
+\label{thm:field-rat-denominator-empty-unit-contextual-strict-product-support-exactness}
+For histories $p,q,h,k:\mathsf{BHist}$, if $p\hsame\emp$,
+$q\hsame\emp$, $C_D^u(h)$, and $C_D^u(k)$, then empty external unit contexts
+read strict denominator support through the product endpoint:
+$$
+N_D^u(\mathsf{append}(p,\mathsf{append}(\mu_D^u(h,k),q)))
+\Longleftrightarrow
+N_D^u(h)\lor N_D^u(k).
+$$
+\end{theorem}
+\begin{proof}
+The closure clause of
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}
+applied to $C_D^u(h)$ and $C_D^u(k)$ gives
+$C_D^u(\mu_D^u(h,k))$. The right comparison endpoint is the uncontextualized
+product $\mu_D^u(h,k)$, and its right empty context is supplied by
+$\emp\hsame\emp$ on both sides.
+
+Apply
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}
+with left contexts $p,q$ and right contexts $\emp,\emp$. This produces the
+classifier equivalence between
+$\mathsf{append}(p,\mathsf{append}(\mu_D^u(h,k),q))$ and
+$\mu_D^u(h,k)$ in the concrete
+$\mathsf{RatDenomUnitClassifier}$ envelope.
+
+Unfold $N_D^u$ as $\mathsf{RatHistoryCarrier}$. The exposed $\hsame$
+component of the classifier transports genuine Rat carrier support between
+the contextual product endpoint and the uncontextualized product endpoint.
+
+Finally apply
+\autoref{thm:field-rat-denominator-empty-unit-strict-product-support-exactness}
+to the carried inputs $h$ and $k$. Its product-support equivalence gives
+$N_D^u(\mu_D^u(h,k))\Longleftrightarrow N_D^u(h)\lor N_D^u(k)$, and the
+transport above converts the left side to the contextual endpoint.
+\end{proof}
+
+Per-object template: traditional target empty-context denominator product
+support readback; BEDC source $\mathsf{BHist}$; carrier $C_D^u$; classifier
+$R_D^u$; stability obligation contextual strict product support exactness;
+ledger empty external unit contexts around the product endpoint; core theorem
+\autoref{thm:field-rat-denominator-empty-unit-contextual-strict-product-support-exactness};
+exactness predicate strict support is unchanged by empty external product
+contexts; standard bridge ordinary denominator multiplication support; status
+$\mathsf{ProofTarget}$.

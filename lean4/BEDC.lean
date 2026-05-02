@@ -145,6 +145,7 @@ import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.RealUp
 import BEDC.Derived.S1Up
 import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.Commutator
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
@@ -161,6 +162,7 @@ import BEDC.Derived.FieldUp.Nonzero
 import BEDC.Derived.FieldUp.ProductApartness
 import BEDC.Derived.FieldUp.SquareApartness
 import BEDC.Derived.FieldUp.SignedFactor
+import BEDC.Derived.FieldUp.InverseProductReverseNonzero
 import BEDC.Derived.FieldUp.InverseAutomorphism
 import BEDC.Derived.FieldUp.SquareApartnessAndAffine
 import BEDC.Derived.FieldUp.TwoSided
@@ -172,9 +174,13 @@ import BEDC.Derived.FieldUp.RatContinuationCommutative
 import BEDC.Derived.FieldUp.RatDenominatorUnitEnvelopeContinuation
 import BEDC.Derived.FieldUp.DenominatorUnitEnvelope
 import BEDC.Derived.FieldUp.ProductRightEquation
+import BEDC.Derived.FieldUp.ProductInverseClassifier
 import BEDC.Derived.FieldUp.ProductWitnessIndependence
+import BEDC.Derived.FieldUp.EquationUniqueness
 import BEDC.Derived.FieldUp.RatContinuationExternalBoundary
+import BEDC.Derived.FieldUp.RatCanonicalEndpoint
 import BEDC.Derived.FieldUp.PositiveDenominatorAppendSplit
+import BEDC.Derived.FieldUp.EmptyOffsetComposition
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp

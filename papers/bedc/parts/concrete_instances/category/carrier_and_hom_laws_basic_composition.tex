@@ -229,6 +229,33 @@ objects.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_object\_deterministic}
 
+\begin{theorem}[Category hom carrier unary-context middle-object determinacy]
+\label{thm:category-hom-carrier-unary-context-comp-middle-object-deterministic}
+For the unary-continuation category, suppose the two displayed hom-carrier
+ledgers have a shared left prefix $p$ and a shared right suffix $q$:
+$$
+\mathsf{CategoryHomCarrier}((p\cdot a)\cdot q,(p\cdot b)\cdot q,f)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}((p\cdot b')\cdot q,(p\cdot c)\cdot q,g).
+$$
+If $\ContR(f,g,fg)$ and $fg$ is displayed as a hom-carrier from
+$(p\cdot a)\cdot q$ to $(p\cdot c)\cdot q$, then $\HSame(b,b')$.
+\end{theorem}
+\begin{proof}
+Apply the unary suffix equivalence of
+\autoref{thm:category-hom-carrier-unary-suffix-iff} to remove the shared
+right suffix from the two input ledgers and the displayed composite ledger.
+Each remaining ledger has the same left prefix $p$ on its source and target
+endpoints; unary append factorization gives the base endpoint carriers, and
+prefix cancellation removes $p$ from the continuation evidence. The base
+hom-carriers now satisfy the hypotheses of
+\autoref{thm:category-hom-carrier-comp-middle-object-deterministic}, which
+identifies the middle objects by $\HSame(b,b')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_comp\_middle\_object\_deterministic}
+
 \begin{theorem}[Category hom carrier tail commutativity]
 \label{thm:category-hom-carrier-tail-comm-hsame}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
@@ -397,6 +424,26 @@ result equality.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_right\_identity\_result}
 
+\begin{theorem}[Category continuation left-right identity tail result]
+\label{thm:category-cont-left-right-identity-tail-result}
+For BEDC histories $a,b,id_A,f,id_B,left,both$, if
+$\ContR(a,id_A,a)$, $\ContR(a,f,b)$, $\ContR(b,id_B,b)$,
+$\ContR(id_A,f,left)$, and $\ContR(left,id_B,both)$, then
+$$
+\HSame(both,f).
+$$
+\end{theorem}
+\begin{proof}
+Compare $\ContR(a,id_A,a)$ and $\ContR(b,id_B,b)$ with the canonical
+right-unit continuations at $a$ and $b$. Tail determinacy gives
+$\HSame(id_A,\emp)$ and $\HSame(id_B,\emp)$. The first equality turns
+$\ContR(id_A,f,left)$ into an empty-left continuation, so the kernel
+left-unit result gives $\HSame(left,f)$. Transport
+$\ContR(left,id_B,both)$ across this equality, use the second equality to make
+the right tail empty, and compare with the right-unit continuation on $f$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.category\_cont\_left\_right\_identity\_tail\_result}
+
 \begin{theorem}[Category hom carrier composite middle identity result]
 \label{thm:category-hom-carrier-comp-middle-identity-result}
 For the unary-continuation category, if
@@ -419,6 +466,24 @@ right tail $g$, so continuation result respect for $\hsame$ gives
 $\HSame(result,fg)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_identity\_result}
+
+\begin{theorem}[Category continuation middle identity tail result]
+\label{thm:category-cont-middle-identity-tail-result}
+For BEDC histories $a,b,c,f,id,g,fid,result,fg$, if
+$\ContR(a,f,b)$, $\ContR(b,id,b)$, $\ContR(b,g,c)$,
+$\ContR(f,id,fid)$, $\ContR(fid,g,result)$, and $\ContR(f,g,fg)$, then
+$$
+\HSame(result,fg).
+$$
+\end{theorem}
+\begin{proof}
+Compare $\ContR(b,id,b)$ with the canonical right-unit continuation at $b$;
+tail determinacy gives $\HSame(id,\emp)$. Hence $\ContR(f,id,fid)$ is
+determined by the right-unit continuation on $f$, so $\HSame(fid,f)$.
+Continuation result respect for $\hsame$, applied to the two displayed
+continuations with right tail $g$, yields $\HSame(result,fg)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.category\_cont\_middle\_identity\_tail\_result}
 
 \begin{theorem}[Continuation morphism composite middle identity tail result]
 \label{thm:continuation-morphism-comp-middle-identity-tail-result}

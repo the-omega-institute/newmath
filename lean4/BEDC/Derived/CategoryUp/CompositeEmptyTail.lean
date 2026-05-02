@@ -99,4 +99,18 @@ theorem ContinuationMorphism_comp_tail_hsame_congruence {a b c a' b' c' : BHist}
                       cases sameRightTail
                       rfl
 
+theorem ContinuationMorphism_comp_endpoint_hsame_tail_transport {a b c a' b' c' : BHist}
+    (sameSource : hsame a a') (sameTarget : hsame c c')
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
+    (left' : ContinuationMorphism a' b') (right' : ContinuationMorphism b' c') :
+    Cont a' (ContinuationMorphism_comp_closed left right).tail c' ∧
+      hsame (ContinuationMorphism_comp_closed left right).tail
+        (ContinuationMorphism_comp_closed left' right').tail := by
+  have transported : Cont a' (ContinuationMorphism_comp_closed left right).tail c' :=
+    cont_hsame_transport sameSource
+      (hsame_refl (ContinuationMorphism_comp_closed left right).tail)
+      sameTarget (ContinuationMorphism_comp_closed left right).rel
+  exact And.intro transported
+    (cont_left_cancel transported (ContinuationMorphism_comp_closed left' right').rel)
+
 end BEDC.Derived.CategoryUp

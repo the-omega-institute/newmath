@@ -128,6 +128,79 @@ definition of $R_D^\ast$. This is precisely the external endpoint clause.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_unit\_envelope\_classifier\_exactness}
 
+\begin{theorem}[Rat denominator external-unit envelope empty-right endpoint iff]
+\label{thm:field-rat-denominator-unit-envelope-empty-right-iff}
+For every history $h:\mathsf{BHist}$,
+$$
+R_D^\ast(h,e_D^\ast)\Longleftrightarrow h\hsame\emp .
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeClassifier\_empty\_right\_iff}
+\begin{proof}
+For the forward implication, use
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-exactness} with
+the right endpoint specialized to $e_D^\ast=\emp$. The guarded carried branch
+would make the empty endpoint a Rat denominator carrier, contradicting
+\autoref{thm:rat-history-carrier-not-empty}; hence the only surviving branch is
+the empty-empty endpoint branch, which gives $h\hsame\emp$.
+
+For the reverse implication, combine the displayed $h\hsame\emp$ with
+reflexivity at $e_D^\ast=\emp$ and choose the empty-empty branch in the defining
+classifier of \autoref{def:field-rat-denominator-unit-envelope}.
+\end{proof}
+
+\begin{theorem}[Rat denominator external-unit envelope empty-left endpoint iff]
+\label{thm:field-rat-denominator-unit-envelope-empty-left-iff}
+For all histories $h,k:\mathsf{BHist}$, if $h\hsame\emp$, then
+$$
+R_D^\ast(h,k)\Longleftrightarrow k\hsame\emp .
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeClassifier\_empty\_left\_endpoint\_iff}
+\begin{proof}
+Assume $h\hsame\emp$. For the forward implication, split the classifier by
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-exactness}. The
+guarded carried branch would make $h$ a Rat denominator carrier, contradicting
+\autoref{thm:rat-history-carrier-not-empty} together with $h\hsame\emp$.
+Therefore the classifier lies in the empty-empty branch, and that branch gives
+$k\hsame\emp$.
+
+For the reverse implication, pair the assumed $h\hsame\emp$ with the displayed
+$k\hsame\emp$ and use the empty-empty branch of
+\autoref{def:field-rat-denominator-unit-envelope}.
+\end{proof}
+
+\begin{theorem}[Rat denominator external-unit envelope continuation closure]
+\label{thm:field-rat-denominator-unit-envelope-continuation-closure}
+For all histories $h,h',k,k',r,r':\mathsf{BHist}$, if
+$R_D^\ast(h,h')$, $R_D^\ast(k,k')$, $\Cont(h,k,r)$, and
+$\Cont(h',k',r')$, then $R_D^\ast(r,r')$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeClassifier\_continuation\_closed}
+\begin{proof}
+Split the two input classifier witnesses by
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-exactness}. In the
+carried/carried branch, apply
+\autoref{thm:field-rat-denominator-continuation-binary-classifier-congruence}
+to the two carried Rat classifier witnesses and the two displayed continuation
+witnesses. The result is the guarded carried branch of $R_D^\ast(r,r')$.
+
+In the carried/empty branch, the right input pair is identified with
+$\emp$. The continuation right-unit laws identify $r$ with $h$ and $r'$ with
+$h'$, while $\mathsf{cont\_respects\_hsame}$ transports the carried classifier
+comparison across the displayed continuations. Transport the Rat carrier
+witnesses along these endpoint comparisons and repack the guarded branch.
+
+The empty/carried branch is symmetric, using the continuation left-unit laws to
+identify $r$ with $k$ and $r'$ with $k'$. The same continuation transport gives
+$r\hsame r'$, and carrier transport repacks the guarded carried branch.
+
+In the empty/empty branch, continuation transport along the two empty endpoint
+comparisons reduces both results to the empty-left unit continuation at
+$\emp$. Thus $r\hsame\emp$ and $r'\hsame\emp$, so the empty-empty branch of
+$R_D^\ast(r,r')$ applies.
+\end{proof}
+
 \begin{theorem}[Rat denominator external-unit envelope monoid laws]
 \label{thm:field-rat-denominator-unit-envelope-monoid-laws}
 The data

@@ -150,6 +150,17 @@ theorem CategoryHomCarrier_unary_suffix_cycle_identity_carriers {q a b f g : BHi
     (CategoryHomCarrier_unary_suffix_iff.mp left).right
   exact CategoryHomCarrier_cycle_identity_carriers baseLeft right
 
+theorem CategoryHomCarrier_unary_context_cycle_tails_empty {p q a b f g : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append b q) (append a q) g ->
+        hsame a b ∧ hsame f BHist.Empty ∧ hsame g BHist.Empty := by
+  intro left right
+  have baseLeft : CategoryHomCarrier a b f :=
+    (CategoryHomCarrier_unary_prefix_iff.mp left).right
+  have baseRight : CategoryHomCarrier b a g :=
+    (CategoryHomCarrier_unary_suffix_iff.mp right).right
+  exact CategoryHomCarrier_cycle_tails_empty baseLeft baseRight
+
 theorem CategoryHomCarrier_unary_context_cycle_identity_carriers {p q a b f g : BHist} :
     CategoryHomCarrier (append p a) (append p b) f ->
       CategoryHomCarrier (append b q) (append a q) g ->

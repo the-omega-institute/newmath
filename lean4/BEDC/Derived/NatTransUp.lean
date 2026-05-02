@@ -1,5 +1,6 @@
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.EmptyComposite
 
 namespace BEDC.Derived.NatTransUp
 
@@ -541,5 +542,28 @@ theorem NatTransPrefixComponentCarrier_zero_headed_component_absurd {p q a eta :
               | intro z morphEq =>
                   cases morphEq
                   exact unary_no_zero_extension component.right.right.right.right.right.left
+
+theorem NatTransPrefixComponentCarrier_e1_prefix_empty_vert_comp_iff {p q r a eta theta : BHist} :
+    NatTransPrefixComponentCarrier (BHist.e1 p) q a eta ->
+      NatTransPrefixComponentCarrier q (BHist.e1 r) a theta ->
+        (Cont eta theta BHist.Empty <->
+          hsame eta BHist.Empty ∧ hsame theta BHist.Empty ∧ hsame p r) := by
+  intro left right
+  constructor
+  · intro comp
+    have emptyData :=
+      (CategoryHomCarrier_empty_composite_iff
+        left.right.right.right right.right.right.right).mp comp
+    have sameComponentEndpoints :
+        hsame (append (BHist.e1 p) a) (append (BHist.e1 r) a) :=
+      hsame_trans emptyData.right.right.left emptyData.right.right.right
+    have samePrefixEndpoints : hsame (BHist.e1 p) (BHist.e1 r) :=
+      append_right_cancel (k := a) sameComponentEndpoints
+    exact And.intro emptyData.left
+      (And.intro emptyData.right.left (hsame_e1_iff.mp samePrefixEndpoints))
+  · intro emptyData
+    cases emptyData.left
+    cases emptyData.right.left
+    rfl
 
 end BEDC.Derived.NatTransUp
