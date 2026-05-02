@@ -4,6 +4,76 @@ import BEDC.Derived.MonoidUp
 namespace BEDC.Derived.GroupUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+
+theorem concrete_singleton_history_group_laws :
+    let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
+    let Classifier : BHist -> BHist -> Prop :=
+      fun h k => Carrier h ∧ Carrier k ∧ hsame h k
+    let mul : BHist -> BHist -> BHist := BEDC.FKernel.Cont.append
+    let inv : BHist -> BHist := fun _ => BHist.Empty
+    let e : BHist := BHist.Empty
+    Carrier e ∧
+      (forall {h k : BHist}, Carrier h -> Carrier k -> Carrier (mul h k)) ∧
+      (forall {h : BHist}, Carrier h -> Carrier (inv h)) ∧
+      (forall {h : BHist}, Carrier h -> Classifier (mul e h) h) ∧
+      (forall {h : BHist}, Carrier h -> Classifier (mul h e) h) ∧
+      (forall {a b c : BHist}, Carrier a -> Carrier b -> Carrier c ->
+        Classifier (mul (mul a b) c) (mul a (mul b c))) ∧
+      (forall {h k h' k' : BHist}, Classifier h h' -> Classifier k k' ->
+        Classifier (mul h k) (mul h' k')) ∧
+      (forall {h k : BHist}, Classifier h k -> Classifier (inv h) (inv k)) ∧
+      (forall {h : BHist}, Carrier h -> Classifier (mul (inv h) h) e) ∧
+      (forall {h : BHist}, Carrier h -> Classifier (mul h (inv h)) e) := by
+  dsimp
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro h k carrierH carrierK
+      cases carrierH
+      cases carrierK
+      exact hsame_refl BHist.Empty
+    · constructor
+      · intro h _
+        exact hsame_refl BHist.Empty
+      · constructor
+        · intro h carrierH
+          cases carrierH
+          exact And.intro (hsame_refl BHist.Empty)
+            (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+        · constructor
+          · intro h carrierH
+            cases carrierH
+            exact And.intro (hsame_refl BHist.Empty)
+              (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+          · constructor
+            · intro a b c carrierA carrierB carrierC
+              cases carrierA
+              cases carrierB
+              cases carrierC
+              exact And.intro (hsame_refl BHist.Empty)
+                (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+            · constructor
+              · intro h k h' k' sameH sameK
+                cases sameH.left
+                cases sameH.right.left
+                cases sameK.left
+                cases sameK.right.left
+                exact And.intro (hsame_refl BHist.Empty)
+                  (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+              · constructor
+                · intro h k _
+                  exact And.intro (hsame_refl BHist.Empty)
+                    (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+                · constructor
+                  · intro h carrierH
+                    cases carrierH
+                    exact And.intro (hsame_refl BHist.Empty)
+                      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+                  · intro h carrierH
+                    cases carrierH
+                    exact And.intro (hsame_refl BHist.Empty)
+                      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
 
 theorem group_stability_certificate_fields {mul : BHist → BHist → BHist} {e : BHist}
     {inv : BHist → BHist}
