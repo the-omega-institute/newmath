@@ -447,6 +447,27 @@ For the forward direction, case-analyze the tagged classifier witness. The absen
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_right\_absent\_exactness}
 
+\begin{theorem}[Tagged option history left absent exactness]
+\label{thm:tagged-option-history-classifier-left-absent-exactness}
+For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,
+source classifier $\sim_S$, and history $k$, the tagged option history
+classifier has the exact left absent endpoint:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(\emp,k)
+\quad\Longleftrightarrow\quad
+\hsame(k,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the tagged classifier witness. The absent-absent branch directly
+stores $\hsame(k,\emp)$. The present-present branch would force
+$\hsame(\emp,\Eone(a))$ for a source payload $a$, contradicting BEDC
+history no-confusion between the empty endpoint and a one-extension endpoint.
+Conversely, pair $\hsame(k,\emp)$ with reflexivity of $\hsame$ at $\emp$ and
+build the absent-absent branch.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_left\_absent\_exactness}
+
 \begin{theorem}[Tagged option history mixed-tag separation]
 \label{thm:tagged-option-history-mixed-tag-separation}
 For every BEDC history source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$,

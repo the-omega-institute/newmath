@@ -69,6 +69,22 @@ theorem SOneHistoryCarrier_point_deterministic
   intro left right
   exact cont_deterministic left.right.right.right right.right.right.right
 
+theorem SOneHistoryCarrier_point_e0_absurd {x y equation tail : BHist} :
+    SOneHistoryCarrier x y equation (BHist.e0 tail) → False := by
+  intro carrier
+  cases carrier with
+  | intro _xCarrier rest =>
+      cases rest with
+      | intro yCarrier rest =>
+          cases rest with
+          | intro _equationCarrier pointCont =>
+              cases yCarrier with
+              | intro yTail yData =>
+                  cases yData with
+                  | intro sameY _tailCarrier =>
+                      cases sameY
+                      cases pointCont
+
 theorem SOneHistoryCarrier_rational_unit_components {x y equation point : BHist} :
     SOneHistoryCarrier x y equation point →
       ∃ dx dy : BHist,

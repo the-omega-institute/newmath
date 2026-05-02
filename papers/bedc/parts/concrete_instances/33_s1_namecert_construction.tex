@@ -79,6 +79,25 @@ results, giving $\hsame(p,p')$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_point\_deterministic}
 
+\begin{theorem}[SOne history carrier e-zero point exclusion]
+\label{thm:sone-history-carrier-point-e0-absurd}
+For histories $x,y,e,t$, a concrete $\SOneUp$ history-carrier witness cannot
+have an $\Ezero$-headed point ledger:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,\Ezero(t))
+\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the circle carrier to the second real-constant component and the
+continuation ledger. The second component displays $y$ as $\Eone(d)$ for a
+rational history $d$. Transporting the continuation ledger along that display
+makes the point ledger an $\Eone$-headed append result, contradicting the
+displayed $\Ezero$ head.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_point\_e0\_absurd}
+
 \begin{theorem}[SOne history carrier rational unit components]
 \label{thm:s1-history-carrier-rational-unit-components}
 For histories $x,y,e,p$, the concrete $\SOneUp$ history carrier exposes
