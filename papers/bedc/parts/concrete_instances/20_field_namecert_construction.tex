@@ -73,3 +73,51 @@ of $\mathsf{RatDenomUnitCarrier}$ carries both products, so the classifier
 packing again yields
 $R_D^u(\mu_D^u(h,k),\mu_D^u(k,h))$.
 \end{proof}
+
+\begin{theorem}[Field affine automorphism inverse is involutive]
+\label{thm:field-affine-automorphism-inverse-involutive}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
+$\mathsf{BHist}$ satisfying the hypotheses of
+\autoref{thm:field-affine-automorphism-group-certificate}, let
+$T=(a,b,d,p_a,p_b)$ be a certified affine automorphism and let
+$T^{-1}_{\mathrm{aff}}$ be the explicit inverse certificate supplied by
+\autoref{thm:field-affine-inverse-is-certified-affine}. Then applying the same
+inverse construction again returns the original affine certificate under the
+affine pointwise classifier:
+$$
+(T^{-1}_{\mathrm{aff}})^{-1}_{\mathrm{aff}}\equiv_{\mathrm{aff}}T.
+$$
+\end{theorem}
+\begin{proof}
+The inverse certificate $T^{-1}_{\mathrm{aff}}$ is closed among certified
+affine automorphisms by
+\autoref{thm:field-affine-inverse-is-certified-affine}. The identity and
+inverse operations of the affine package are the ones recorded in
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package}, so both
+$T$ and $T^{-1}_{\mathrm{aff}}$ inhabit the same $\GroupUp$ carrier of
+certified affine automorphism histories.
+
+The two inverse equations for $T$ are interpreted through the affine pointwise
+classifier. Operation congruence from
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}
+transports those equations across classifier-equivalent representatives, so the
+candidate obtained by inverting $T^{-1}_{\mathrm{aff}}$ is a left inverse of
+$T^{-1}_{\mathrm{aff}}$ in the same group package.
+
+Now apply the $\GroupUp$ inverse involutivity law from
+\autoref{thm:group-left-inverse-involutive}; equivalently, use the
+left-right inverse uniqueness principle of
+\autoref{thm:group-left-right-inverse-uniqueness} to identify the second
+inverse with the original certificate. Re-reading that identity through the
+affine classifier gives the displayed conclusion.
+\end{proof}
+
+Per-object template: traditional target affine automorphism group inverse
+involutivity; BEDC source $\FieldUp+\CommRingUp$, affine package, and
+$\GroupUp$ inverse laws; carrier certified affine automorphism histories;
+classifier $\equiv_{\mathrm{aff}}$; stability obligation inverse closure and
+inverse uniqueness; ledger nonzero coefficient witnesses and
+inverse-certificate provenance; core theorem
+\autoref{thm:field-affine-automorphism-inverse-involutive}; exactness predicate
+double-inverse pointwise classifier; standard bridge ordinary affine
+automorphism group; status $\mathsf{ProofTarget}$.
