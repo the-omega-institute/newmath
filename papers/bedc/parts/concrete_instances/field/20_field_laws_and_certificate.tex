@@ -665,11 +665,11 @@ $\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(d)),d)$ back to $c$. This yields
 $\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$.
 \end{proof}
 
-\begin{theorem}[Field two-sided affine map injectivity from apartness]
-\label{thm:field-affine-two-sided-map-injective-from-apartness}
+\begin{theorem}[Field affine two-sided multiplication injectivity from apartness]
+\label{thm:field-affine-two-sided-injective-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with operations
 $\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
-$\mathsf{BHist}$, additive abelian-group laws for
+$\mathsf{BHist}$, additive group laws for
 $\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
 multiplication associativity, left and right multiplicative identity laws,
 multiplication congruence, and indexed inverse laws for witnesses
@@ -683,27 +683,24 @@ x\hsame y.
 $$
 \end{theorem}
 \begin{proof}
-Set $c$ to the left affine endpoint
-$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)$. Reflexivity gives
-$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$, so the forward
-direction of
-Theorem~\ref{thm:field-affine-two-sided-equation-exact-from-apartness} gives
-$x\hsame
-\mathsf{mul}(\mathsf{inv}(a,p_a),
-\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)))$.
+First cancel the common additive right summand $d$. The additive group laws and
+addition congruence instantiate
+$\texttt{BEDC.Derived.GroupUp.group\_right\_cancel}$ for $\mathsf{add}$, giving
+$$
+\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame
+\mathsf{mul}(\mathsf{mul}(a,y),b).
+$$
 
-The displayed hypothesis identifies the same $c$ with the right affine
-endpoint. By symmetry it gives
-$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)\hsame c$. Applying the same
-forward direction of
-Theorem~\ref{thm:field-affine-two-sided-equation-exact-from-apartness} to $y$
-gives $y\hsame
-\mathsf{mul}(\mathsf{inv}(a,p_a),
-\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)))$.
+Apply the forward direction of
+$\texttt{BEDC.Derived.FieldUp.field\_two\_sided\_mul\_exact\_from\_apartness}$
+with the nonzero witnesses $p_a$ and $p_b$. The multiplicative exactness theorem
+removes the outer left factor $a$ and right factor $b$ from the cancelled
+equation, yielding $x\hsame y$.
 
-Finally use symmetry on the equality obtained for $y$ and transitivity with
-the equality obtained for $x$. The common displayed solution cancels, yielding
-$x\hsame y$.
+This is not a variant of the preceding affine exactness statement: the proof
+uses the group-layer additive cancellation theorem as a separate first step,
+then feeds the resulting multiplicative equality into the two-sided FieldUp
+exactness theorem.
 \end{proof}
 
 \paragraph{Affine two-sided multiplication certificate.}
