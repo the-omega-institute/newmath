@@ -234,6 +234,26 @@ to rebuild the prefixed singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_left\_cancel\_iff}
 
+\begin{theorem}[Singleton evaluation append-input classifier readback]
+\label{thm:linearmap-singleton-eval-append-input-classifier}
+For histories $f,x,y,h$, classifying the singleton evaluation of an appended
+input against $h$ is exactly the singleton carrier condition on $h$:
+$$
+\mathsf{LinearMapSingletonClassifier}
+  (\mathsf{LinearMapSingletonEval}(f,x\cdot y),h)
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator always returns $\emp$. In the forward direction, the
+classifier already contains the carrier witness for its right endpoint. In the
+reverse direction, the carrier witness for $h$ combines with reflexivity at
+$\emp$ and symmetry of the displayed carrier equality to form the restricted
+singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_append\_input\_classifier\_iff}
+
 The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and singleton action, so later Lean work can target BHist-anchored
 linear-map laws instead of only abstract function fields.
