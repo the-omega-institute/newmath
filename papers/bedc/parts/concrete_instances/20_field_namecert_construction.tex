@@ -42,6 +42,58 @@
 \input{parts/concrete_instances/field/20_field_assembled_certificate_boundary}
 \input{parts/concrete_instances/field/20_field_ratup_assembled_certificate_and_context_pair_support}
 
+\begin{theorem}[Concrete $\FieldUp(\RatUp)$ semantic naming certificate]
+\label{thm:ratup-fieldup-semantic-namecert}
+The concrete source tuple $\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple}, with carrier
+$\mathsf{RatHistoryCarrier}$, classifier $\mathsf{RatHistoryClassifier}$,
+denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, contextual action
+$\Gamma$, context-pair monoid, and affine source $\mathsf{AffAut}_F$,
+supplies the semantic naming certificate for $\FieldUp(\RatUp)$. Consequently
+$\FieldUp(\RatUp)$ is the open phase exit object carried by the assembled
+BHist-level field source.
+\end{theorem}
+\begin{proof}
+The base name is fixed by \autoref{thm:concrete-rat-namecert}: the rational
+history carrier and classifier are the named $\RatUp$ object on $\mathsf{BHist}$.
+This supplies the semantic target over which the field source tuple is read.
+
+Next apply \autoref{thm:ratup-fieldup-assembled-certificate-boundary}. It
+identifies $\mathsf{RatUpFieldSource}_F$ as satisfying
+\autoref{def:field-certificate-obligations} with the same carrier,
+classifier, denominator tuple, contextual source, context-pair source, and
+affine source displayed in the statement.
+
+The denominator-action coordinate is the component isolated by
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component}.
+It records the envelope closure, normalized row coverage, and context-pair
+action certificate for the same concrete denominator tuple and the same action
+$\Gamma$.
+
+Finally use \autoref{thm:field-affine-automorphism-group-certificate} for the
+affine source $\mathsf{AffAut}_F$. Combining the RatUp name certificate, the
+assembled boundary, the denominator-action component, and the affine group row
+fills exactly the carrier, source, classifier, stability, ledger, and exactness
+slots specified by \autoref{def:field-certificate-obligations}. This repacks the
+assembled source as the semantic naming certificate for $\FieldUp(\RatUp)$.
+\end{proof}
+
+Per-object certificate: traditional target constructive field over rational
+histories; BEDC source $\mathsf{BHist}$, $\RatUp$, $\CommRingUp$, denominator
+envelope, contextual action, and affine rows; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability obligations commutative-ring rows, nonzero and inverse rows,
+denominator rows, contextual action rows, context-pair rows, and affine closure;
+ledger ring expressions, nonzero witnesses, denominator histories, contextual
+pairs, and affine coefficient witnesses; core theorem list headed by
+\autoref{thm:ratup-fieldup-semantic-namecert} and
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary}; exactness predicate
+the conjunction of inverse, product, denominator, contextual-action,
+context-pair, and affine exactness rows; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp semantic certificate assembly]
 \label{thm:ratup-fieldup-semantic-certificate-assembly}
 For the concrete $\mathsf{BHist}$ data
