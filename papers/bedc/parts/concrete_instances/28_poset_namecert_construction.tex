@@ -17,6 +17,38 @@ certificate fields are specified below.
 Use a preorder setup extended with antisymmetry under the carrier classifier.
 \end{definition}
 
+\section{Concrete unary prefix POSet instance}
+\label{sec:poset-concrete-unary-prefix-instance}
+
+\begin{definition}[Concrete unary prefix POSet instance]
+\label{def:concrete-unary-prefix-poset-instance}
+The concrete unary prefix POSet instance is the following ten-field tuple.
+\begin{enumerate}
+  \item The traditional target is the finite unary-word prefix partial order.
+  \item The BEDC source is $\mathsf{BHist}$ restricted to unary histories.
+  \item The carrier is $\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$.
+  \item The classifier is the carrier-aware specification $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$, whose equality content is $\hsame$.
+  \item The relation is $\mathsf{PreorderPrefixLE}$.
+  \item Stability consists of classifier reflexivity, classifier transitivity, relation reflexivity, relation transitivity, relation congruence, and antisymmetry under the classifier.
+  \item The ledger records both comparison-tail witnesses used for $h\le k$ and $k\le h$.
+  \item The core theorem list is the concrete prefix stability certificate together with prefix antisymmetry.
+  \item Exactness is the bidirectional prefix collapse: two opposing prefix comparisons collapse exactly to the classifier relation.
+  \item The standard bridge identifies $\mathsf{PreorderPrefixLE}$ with the initial-segment order on finite unary words, and the status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Concrete unary prefix POSet laws]
+\label{thm:concrete-unary-prefix-poset-laws}
+The tuple in \autoref{def:concrete-unary-prefix-poset-instance} satisfies the $\POSetUp$ carrier field, the preorder fields for $\mathsf{PreorderPrefixLE}$, classifier congruence for $\hsame$, and antisymmetry under the carrier classifier.
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are the concrete preorder fields: the carrier is $\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$, and the classifier is $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$.
+
+The preorder and classifier-congruence fields are supplied by the concrete prefix stability certificate in \autoref{def:preorder-prefix-stability-certificate}. Equivalently, \autoref{thm:preorder-prefix-order-laws-hsame} records the reflexive and transitive prefix laws together with the history-sameness classifier boundary.
+
+It remains to supply the partial-order field. Apply \autoref{thm:poset-prefix-antisymmetry}: opposing $\mathsf{PreorderPrefixLE}$ witnesses provide the two comparison tails, and the theorem collapses them to $\hsame(h,k)$, which is exactly antisymmetry under the carrier classifier.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[POSet source specification]
