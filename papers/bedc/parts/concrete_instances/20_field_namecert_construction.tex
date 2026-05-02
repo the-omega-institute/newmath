@@ -640,6 +640,52 @@ exactness predicate threefold normalized action classifier and support readback;
 standard bridge FieldUp denominator context-pair action; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp denominator context-pair action commutation]
+\label{thm:ratup-fieldup-denominator-context-pair-action-commutation}
+For the concrete denominator context-pair structure of \autoref{def:ratup-fieldup-denominator-context-pair-monoid}, let $h$ be a carried
+history and let $(l,r)$ and $(l',r')$ be carried denominator context pairs. Then
+the two empty-external nested contextual actions commute up to the denominator classifier:
+$$
+R_D^u(\Gamma_{\emp,\emp,l',r'}(\Gamma_{\emp,\emp,l,r}(h)),\Gamma_{\emp,\emp,l,r}(\Gamma_{\emp,\emp,l',r'}(h))).
+$$
+Moreover, both nested actions have the same exact strict-support readback:
+$$
+N_D^u(\Gamma_{\emp,\emp,l',r'}(\Gamma_{\emp,\emp,l,r}(h)))\Longleftrightarrow\mathsf{PairSupp}_D^u(l,r)\lor N_D^u(h)\lor\mathsf{PairSupp}_D^u(l',r'),
+$$
+and
+$$
+N_D^u(\Gamma_{\emp,\emp,l,r}(\Gamma_{\emp,\emp,l',r'}(h)))\Longleftrightarrow\mathsf{PairSupp}_D^u(l,r)\lor N_D^u(h)\lor\mathsf{PairSupp}_D^u(l',r').
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-denominator-context-pair-action-laws} to the
+ordered pair $(l,r)$ followed by $(l',r')$. This identifies the first nested
+action with the single action by $(l,r)\star(l',r')$, whose components are
+$\mu_D^u(l',l)$ and $\mu_D^u(r,r')$.
+
+Apply the same theorem in the opposite order. The second nested action is
+identified with the single action by $(l',r')\star(l,r)$, whose components are
+$\mu_D^u(l,l')$ and $\mu_D^u(r',r)$.
+
+The componentwise comparison between those two product pairs is exactly
+\autoref{thm:ratup-fieldup-denominator-context-pair-commutative-support}. Since
+$R_D^u=\mathsf{RatDenomUnitClassifier}$, $\mu_D^u=\mathsf{append}$, and
+$\Gamma$ is the concrete append-based contextual action, append congruence
+transports the single-action endpoints across the component classifiers.
+Transitivity of $R_D^u$ gives the displayed classifier comparison.
+
+The support readback for the first nested action is the product strict-support
+clause of \autoref{thm:ratup-fieldup-denominator-context-pair-action-laws}. The
+same clause in the opposite order gives
+$\mathsf{PairSupp}_D^u(l',r')\lor N_D^u(h)\lor\mathsf{PairSupp}_D^u(l,r)$ for
+the second nested action.
+
+Finally, rebracket and commute the outer disjunctions. The support equivalence
+of \autoref{thm:ratup-fieldup-denominator-context-pair-commutative-support}
+identifies the product supports in either order, so both nested actions have
+exactly the common strict support displayed above.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp denominator context-pair action certificate]
 \label{thm:ratup-fieldup-denominator-context-pair-action-certificate}
 For the concrete tuple
