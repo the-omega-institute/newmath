@@ -59,6 +59,34 @@ continuation by $\ell\hsame r$, giving the full conjunction.
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_semigroup\_laws}
 \leanvariant{BEDC.Derived.FieldUp.RatHistoryCarrier\_continuation\_semigroup\_laws}
 
+\begin{theorem}[Rat denominator continuation commutativity]
+\label{thm:field-rat-denominator-continuation-commutative-classifier}
+For all histories $d,e,r,s:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$,
+$\Cont(d,e,r)$, and $\Cont(e,d,s)$, then
+$\mathsf{RatHistoryClassifier}(r,s)$.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:field-rat-denominator-continuation-carrier-closure} to
+$\Cont(d,e,r)$ and to $\Cont(e,d,s)$. The two applications give
+$\mathsf{RatHistoryCarrier}(r)$ and $\mathsf{RatHistoryCarrier}(s)$.
+
+Next read the input carriers through
+\autoref{thm:rat-history-carrier-positive-denominator-equivalence} and then
+\autoref{thm:positive-unary-denominator-unary-and-nonempty}. This extracts
+$\mathsf{UnaryHistory}(d)$ and $\mathsf{UnaryHistory}(e)$ from the two Rat
+denominator carriers.
+
+Now apply the FKernel unary continuation commutativity theorem,
+\texttt{BEDC.FKernel.Unary.unary\_continuation\_commutativity}, to the two
+unary witnesses and the continuation witnesses $\Cont(d,e,r)$ and
+$\Cont(e,d,s)$. It yields $r\hsame s$.
+
+The two result carriers together with this $\hsame$ comparison are exactly the
+components of $\mathsf{RatHistoryClassifier}(r,s)$.
+\end{proof}
+
 \begin{theorem}[Rat denominator classifiers are closed under matching continuations]
 \label{thm:field-rat-denominator-continuation-classifier-closure}
 For all histories $d,e,u,v,r,s:\mathsf{BHist}$, if
@@ -238,12 +266,13 @@ $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
 denominators; \textbf{classifier choice}: Rat history classifier;
 \textbf{stability obligation}: continuation-result carrier, classifier, and
 ledger transport, empty-history identity, associativity coherence, and
-classifier-compatible associative continuation-result
+commutativity coherence, and classifier-compatible associative continuation-result
 coherence;
 \textbf{ledger}: the right denominator's positive-unary witness and the
 matching continuation witnesses; \textbf{core theorems}:
 \autoref{thm:field-rat-denominator-continuation-carrier-closure},
 \autoref{thm:field-rat-denominator-continuation-semigroup-laws},
+\autoref{thm:field-rat-denominator-continuation-commutative-classifier},
 \autoref{thm:field-rat-denominator-continuation-classifier-closure},
 \autoref{thm:field-rat-denominator-continuation-ledger-closure},
 \autoref{thm:field-rat-denominator-continuation-empty-identity-and-assoc}, and
