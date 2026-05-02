@@ -507,6 +507,40 @@ collapse.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_column\_cancellations\_zero}
 
+\begin{theorem}[CommRing signed row cancellations force zero product]
+\label{thm:commring-signed-row-cancellations-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ with
+$a\cdot c\hsame a\cdot d$ and $b\cdot c\hsame b\cdot d$ satisfies
+$$
+(a+(-b))\cdot(c+(-d))\hsame0.
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-signed-binary-product-normal-form} to rewrite
+the signed product as
+$$
+(a\cdot c+(-(a\cdot d)))+((-(b\cdot c))+(b\cdot d)).
+$$
+
+The first row equality is transported by additive congruence through the left
+signed row. It identifies $a\cdot c+(-(a\cdot d))$ with
+$(a\cdot d)+(-(a\cdot d))$, and Theorem~\ref{thm:ring-add-right-inverse}
+collapses this right-inverse pair to $0$.
+
+For the second signed row, apply additive inverse congruence to
+$b\cdot c\hsame b\cdot d$ and identify $-(b\cdot c)$ with $-(b\cdot d)$.
+Additive congruence transports $(-(b\cdot c))+(b\cdot d)$ to
+$(-(b\cdot d))+(b\cdot d)$, and the additive left-inverse law collapses this
+left-inverse pair to $0$.
+
+The row normal form is therefore transported to $0+0$. The additive left-zero
+law collapses $0+0$ to $0$, and transitivity of $\hsame$ composes the
+normal-form step, the two signed-row collapses, and the final zero collapse.
+\end{proof}
+
 \begin{theorem}[CommRing signed product zero exactness]
 \label{thm:commring-signed-product-zero-exact}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
