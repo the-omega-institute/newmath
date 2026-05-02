@@ -616,6 +616,64 @@ Theorem~\ref{thm:field-two-sided-product-apartzero-exact}. Exactness
 predicate: zero-apartness equivalence. Standard bridge: deferred. Status:
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field binary product zero-apartness exactness]
+\label{thm:field-binary-product-apartzero-exact}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$
+satisfying the hypotheses of
+\autoref{thm:field-one-sided-zero-product-cancel-from-apartness}, including
+the ring zero-absorption and multiplication-congruence hypotheses used
+there, define
+
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
+$$
+
+For any $a,b:\mathsf{BHist}$ equipped with explicit maps
+$\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a)$ and
+$\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b)$, one has
+
+$$
+\mathsf{ApartZero}_F(\mathsf{mul}(a,b))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(a)\land\mathsf{ApartZero}_F(b).
+$$
+\end{theorem}
+\begin{proof}
+For the product-to-left direction, assume
+$q:\mathsf{ApartZero}_F(\mathsf{mul}(a,b))$ and then assume $a\hsame0$.
+Multiplication congruence transports this classifier equality through right
+multiplication by $b$, giving
+$\mathsf{mul}(a,b)\hsame\mathsf{mul}(0,b)$. Theorem~\ref{thm:ring-mul-zero-absorption}
+classifies $\mathsf{mul}(0,b)$ as $0$, so transitivity gives
+$\mathsf{mul}(a,b)\hsame0$. Applying $q$ gives $\bot$.
+
+For the product-to-right direction, assume again
+$q:\mathsf{ApartZero}_F(\mathsf{mul}(a,b))$ and then assume $b\hsame0$.
+Multiplication congruence transports this classifier equality through left
+multiplication by $a$, giving
+$\mathsf{mul}(a,b)\hsame\mathsf{mul}(a,0)$. Theorem~\ref{thm:ring-mul-zero-absorption}
+classifies $\mathsf{mul}(a,0)$ as $0$, so transitivity gives
+$\mathsf{mul}(a,b)\hsame0$. Applying $q$ gives $\bot$.
+
+For the factor-to-product direction, assume
+$r_a:\mathsf{ApartZero}_F(a)$ and $r_b:\mathsf{ApartZero}_F(b)$. Convert them
+to nonzero witnesses $p_a:=\alpha_a(r_a)$ and $p_b:=\alpha_b(r_b)$, and
+assume $\mathsf{mul}(a,b)\hsame0$.
+
+Apply \autoref{thm:field-one-sided-zero-product-cancel-from-apartness} to the
+zero product. With $p_a$ it returns $b\hsame0$, which $r_b$ sends to
+contradiction. Symmetrically, the witness $p_b$ would return $a\hsame0$ and
+close by $r_a$; the paired factor ledger is therefore stable on both sides.
+This proves $\mathsf{ApartZero}_F(\mathsf{mul}(a,b))$.
+\end{proof}
+
+Per-object certificate: Traditional target: product nonzero exactness. BEDC
+source: $\FieldUp+\RingUp$. Carrier choice: $\mathsf{BHist}$. Classifier
+choice: $\hsame$. Ledger: the two factor apartness witnesses. Core theorem
+this block: Theorem~\ref{thm:field-binary-product-apartzero-exact}.
+Exactness predicate: binary product zero-apartness. Standard bridge:
+deferred. Status: $\mathsf{ProofTarget}$.
+
 \section{Field square apartness inverse descent}
 \label{sec:field-square-apartness-inverse-descent}
 
