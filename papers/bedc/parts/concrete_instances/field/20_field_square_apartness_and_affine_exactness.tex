@@ -6,19 +6,26 @@ For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
 \autoref{thm:field-square-nonzero-one-sided-mul-exact},
 \autoref{thm:field-affine-two-sided-equation-exact-from-apartness}, and
 \autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness},
-assume the field interpretation identifies $\mathsf{NonZero}_F(h)$ with
+let
 $$
 \mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
 $$
-For $a,b:\mathsf{BHist}$ with square witnesses
+For $a,b:\mathsf{BHist}$, assume explicit conversion maps
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),
+\quad
+\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b).
+$$
+With square witnesses
 $$
 p_{a^2}:\mathsf{NonZero}_F(\mathsf{mul}(a,a)),
 \quad
 p_{b^2}:\mathsf{NonZero}_F(\mathsf{mul}(b,b)),
 $$
-let $p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ be the
-witnesses induced by zero-factor exclusion and the displayed identification.
-Then for every $c,d,x,y:\mathsf{BHist}$ both clauses hold:
+let $r_a:\mathsf{ApartZero}_F(a)$ and $r_b:\mathsf{ApartZero}_F(b)$ be the
+first zero-factor obstructions induced by zero-factor exclusion, and set
+$p_a:=\alpha_a(r_a)$ and $p_b:=\alpha_b(r_b)$. Then for every
+$c,d,x,y:\mathsf{BHist}$ both clauses hold:
 $$
 \mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c
 \Longleftrightarrow
@@ -38,13 +45,13 @@ $$
 Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
 $p_{a^2}$ with both product entries instantiated by $a$. As in
 \autoref{thm:field-square-nonzero-one-sided-mul-exact}, the first factor
-clause gives $a\hsame0\to\bot$, and the identification with
-$\mathsf{NonZero}_F(a)$ supplies the witness $p_a$.
+clause gives $r_a:\mathsf{ApartZero}_F(a)$. Convert it by the displayed map,
+setting $p_a:=\alpha_a(r_a):\mathsf{NonZero}_F(a)$.
 
 Apply the same zero-factor exclusion theorem to $p_{b^2}$ with both product
 entries instantiated by $b$. The first factor clause gives
-$b\hsame0\to\bot$, and the displayed identification supplies the witness
-$p_b:\mathsf{NonZero}_F(b)$.
+$r_b:\mathsf{ApartZero}_F(b)$. Convert it by the displayed map, setting
+$p_b:=\alpha_b(r_b):\mathsf{NonZero}_F(b)$.
 
 With these two induced witnesses, invoke
 \autoref{thm:field-affine-two-sided-equation-exact-from-apartness}. Its

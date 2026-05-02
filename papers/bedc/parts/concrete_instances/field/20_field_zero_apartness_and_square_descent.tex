@@ -250,23 +250,26 @@ $$
 Transitivity with the canonical product equality gives the displayed inverse
 descent identity.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_square\_apartness\_inverse\_descent}
 
 \begin{theorem}[Field square nonzero gives one-sided multiplication exactness]
 \label{thm:field-square-nonzero-one-sided-mul-exact}
 For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
 \autoref{thm:field-product-nonzero-excludes-zero-factors},
 \autoref{thm:field-left-mul-equation-exact-from-apartness}, and
-\autoref{thm:field-right-mul-equation-exact-from-apartness}, assume the
-field interpretation identifies $\mathsf{NonZero}_F(h)$ with
-$\mathsf{ApartZero}_F(h)$, where
-$\mathsf{ApartZero}_F(h)$ means $h\hsame0\to\bot$. For every
-$a:\mathsf{BHist}$ and witness
+\autoref{thm:field-right-mul-equation-exact-from-apartness}, let
+$\mathsf{ApartZero}_F(h)$ mean $h\hsame0\to\bot$. For every
+$a:\mathsf{BHist}$, assume an explicit conversion map
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a).
+$$
+For every witness
 $$
 p_{a^2}:\mathsf{NonZero}_F(\mathsf{mul}(a,a)),
 $$
-let $p_a:\mathsf{NonZero}_F(a)$ be the witness induced by zero-factor
-exclusion and this identification. Then every $c,x:\mathsf{BHist}$
-satisfies both one-sided multiplication exactness clauses:
+let $r_a:\mathsf{ApartZero}_F(a)$ be the first zero-factor obstruction induced
+by zero-factor exclusion, and set $p_a:=\alpha_a(r_a)$. Then every
+$c,x:\mathsf{BHist}$ satisfies both one-sided multiplication exactness clauses:
 $$
 \mathsf{mul}(a,x)\hsame c
 \Longleftrightarrow
@@ -282,12 +285,11 @@ $$
 \begin{proof}
 Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
 $p_{a^2}$ with both product entries instantiated by $a$. The first factor
-clause gives $a\hsame0\to\bot$.
+clause gives $r_a:\mathsf{ApartZero}_F(a)$.
 
-Use the identification between $\mathsf{ApartZero}_F(a)$ and
-$\mathsf{NonZero}_F(a)$ to regard that apartness witness as
-$p_a:\mathsf{NonZero}_F(a)$. This is the proof index available to the
-inverse and cancellation laws for the factor $a$.
+Convert this apartness witness by the displayed map, setting
+$p_a:=\alpha_a(r_a):\mathsf{NonZero}_F(a)$. This is the proof index available
+to the inverse and cancellation laws for the factor $a$.
 
 For the left multiplication clause, invoke
 \autoref{thm:field-left-mul-equation-exact-from-apartness} with this
@@ -301,23 +303,24 @@ induced witness $p_a$. Its displayed equivalence is exactly
 $\mathsf{mul}(x,a)\hsame c$ if and only if
 $x\hsame \mathsf{mul}(c,\mathsf{inv}(a,p_a))$.
 \end{proof}
-\leanchecked{BEDC.Derived.FieldUp.field\_square\_apartness\_inverse\_descent}
 
 \begin{theorem}[Field square nonzero gives two-sided same-factor multiplication exactness]
 \label{thm:field-square-nonzero-two-sided-mul-exact}
 For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
 \autoref{thm:field-product-nonzero-excludes-zero-factors} and
-\autoref{thm:field-middle-mul-equation-exact-from-apartness}, assume the
-field interpretation identifies $\mathsf{NonZero}_F(h)$ with
-$\mathsf{ApartZero}_F(h)$, where
-$\mathsf{ApartZero}_F(h)$ means $h\hsame0\to\bot$. For every
-$a,c,x:\mathsf{BHist}$ and witness
+\autoref{thm:field-middle-mul-equation-exact-from-apartness}, let
+$\mathsf{ApartZero}_F(h)$ mean $h\hsame0\to\bot$. For every
+$a:\mathsf{BHist}$, assume an explicit conversion map
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a).
+$$
+For every $c,x:\mathsf{BHist}$ and witness
 $$
 p_{a^2}:\mathsf{NonZero}_F(\mathsf{mul}(a,a)),
 $$
-let $p_a:\mathsf{NonZero}_F(a)$ be the witness induced by zero-factor
-exclusion and this identification. Then the square-scaled equation with the
-same certified factor on both sides satisfies
+let $r_a:\mathsf{ApartZero}_F(a)$ be the first zero-factor obstruction induced
+by zero-factor exclusion, and set $p_a:=\alpha_a(r_a)$. Then the
+square-scaled equation with the same certified factor on both sides satisfies
 $$
 \mathsf{mul}(\mathsf{mul}(a,x),a)\hsame c
 \Longleftrightarrow
@@ -328,12 +331,11 @@ $$
 \begin{proof}
 Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
 $p_{a^2}$ with both product entries instantiated by $a$. Its first
-zero-factor obstruction gives $a\hsame0\to\bot$.
+zero-factor obstruction gives $r_a:\mathsf{ApartZero}_F(a)$.
 
-Use the identification between $\mathsf{ApartZero}_F(a)$ and
-$\mathsf{NonZero}_F(a)$ to regard this obstruction as the factor witness
-$p_a:\mathsf{NonZero}_F(a)$. This single proof index is shared by the left
-and right occurrences of the same multiplier $a$.
+Convert this obstruction by the displayed map, setting
+$p_a:=\alpha_a(r_a):\mathsf{NonZero}_F(a)$. This single proof index is shared
+by the left and right occurrences of the same multiplier $a$.
 
 Instantiate
 \autoref{thm:field-middle-mul-equation-exact-from-apartness} with both outer
