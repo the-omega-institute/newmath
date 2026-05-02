@@ -850,3 +850,28 @@ Surfaced in Turn 0 as the explicit p=[1], q=[-1] obstruction to the stronger raw
 
 ---
 
+### B-36 - Uniformly continuous images preserve total boundedness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Uniformly continuous images preserve total boundedness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under the certified metric and ContinuousFunctionUp setup, if S is a totally bounded subset of X and g:X->Y has a certified uniform-continuity modulus on S, then the image subset g[S] is totally bounded in Y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 as the setup-field proposition needed before the second modulus in the composition proof can be read from the ContinuousFunctionUp certificate. It deserves its own loop because B-12 handles chaining moduli for composition, while this proposition supplies the separate constructive cover-transfer lemma: a finite cover of S at precision delta_g(n) maps to a finite cover of g[S] at precision n.
+
+---
+
