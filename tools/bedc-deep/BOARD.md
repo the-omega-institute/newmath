@@ -1032,3 +1032,28 @@ Surfaced in Turn 0 through the alternative use of a certified totally bounded T 
 
 ---
 
+### B-43 - Uniform continuity modulus restricts along subset inclusion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Uniform continuity modulus restricts along subset inclusion |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under certified MetricSpaceUp objects Y and Z, if delta is a uniform-continuity modulus for f:Y->Z on a subset T and U subset T, then the same delta is a uniform-continuity modulus for f on U.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 0 when the oracle allowed replacing g[S] by a certified totally bounded subset T containing g[S]. This is adjacent to B-12 because it packages the subset-restriction step separately from composition, making the theorem usable when the second map is certified on an enclosing subset rather than exactly on the image.
+
+---
+

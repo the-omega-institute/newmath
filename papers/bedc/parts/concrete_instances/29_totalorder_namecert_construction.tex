@@ -57,3 +57,18 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 Replaces LEM-style totality with decidable comparison data and apartness.
 \end{remark}
 
+\begin{theorem}[Total-order trichotomy classifier reduction]
+\label{thm:totalorder-trichotomy-classifier-reduction}
+Let \(A\) be a \(\TotalOrderUp\) carrier with classifier \(\sim_C\), weak comparison \(\le\), strict comparison \(<\), apartness predicate \(\#\), and the comparison datum supplied by the trichotomy field. For every \(a,b\in A\), the classifier is recovered from the non-strict branch of either selected ordering direction:
+\[
+  a\sim_C b
+  \quad\Longleftrightarrow\quad
+  ((a\le b)\wedge\neg(a<b))\vee((b\le a)\wedge\neg(b<a)).
+\]
+At the classifier layer, this is the inherited \(\POSetUp\) carrier classifier.
+\end{theorem}
+\begin{proof}
+By \autoref{def:totalorder-classifier-specification}, the \(\TotalOrderUp\) classifier is the inherited \(\POSetUp\) carrier classifier. By \autoref{def:poset-classifier-specification}, this is the preorder carrier classifier. The preorder stability certificate in \autoref{def:preorder-stability-certificate} supplies reflexivity and relation congruence under classifier replacement. Hence a classifier witness \(a\sim_C b\) transports \(a\le a\) to \(a\le b\), and it transports \(b\le b\) to \(b\le a\). The strict-order-to-apartness and comparison-stability fields listed in \autoref{def:totalorder-stability-certificate}, together with apartness stability under classifier replacement from \autoref{def:totalorder-classifier-specification}, exclude \(a<b\) and \(b<a\) under the same classifier witness. This proves the forward implication.
+
+For the reverse implication, use the explicit comparison data from \autoref{def:totalorder-pattern-specification} and the trichotomy field listed in \autoref{def:totalorder-stability-certificate}. In the left disjunct, the selected weak direction is \(a\le b\) and the strict \(a<b\) branch is absent. The certified trichotomy cases therefore leave either the classifier branch or the opposite strict branch. The opposite strict branch carries \(b\le a\) as its weak comparison and gives apartness by the strict-order-to-apartness field. Combining \(a\le b\) with \(b\le a\), the inherited antisymmetry field from \autoref{def:poset-stability-certificate} yields \(a\sim_C b\), while the apartness-aware source specification in \autoref{def:totalorder-source-specification} keeps strict apartness disjoint from the classifier branch. Hence only the classifier branch remains. The right disjunct is symmetric, with \(a\) and \(b\) exchanged. The classifier branch is definitionally the inherited poset classifier by \autoref{def:totalorder-classifier-specification}.
+\end{proof}
