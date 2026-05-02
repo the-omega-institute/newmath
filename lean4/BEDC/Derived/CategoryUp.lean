@@ -536,6 +536,42 @@ theorem CategoryHomCarrier_e1_source_empty_target_absurd {a f : BHist} :
               | e1 f1 =>
                   cases homCont
 
+theorem CategoryHomCarrier_e1_source_morphism_cases {a target morph : BHist} :
+    CategoryHomCarrier (BHist.e1 a) target morph ->
+      (morph = BHist.Empty /\ target = BHist.e1 a /\ UnaryHistory a) \/
+        (exists k r : BHist, morph = BHist.e1 k /\ target = BHist.e1 r /\
+          UnaryHistory a /\ UnaryHistory k /\ UnaryHistory r /\ Cont (BHist.e1 a) k r) := by
+  intro homCarrier
+  cases homCarrier with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro targetCarrier rest =>
+          cases rest with
+          | intro morphCarrier homCont =>
+              cases morph with
+              | Empty =>
+                  left
+                  cases homCont
+                  exact And.intro rfl (And.intro rfl (unary_e1_inversion sourceCarrier))
+              | e0 k =>
+                  exact False.elim (unary_no_zero_extension morphCarrier)
+              | e1 k =>
+                  right
+                  cases target with
+                  | Empty =>
+                      cases homCont
+                  | e0 r =>
+                      cases homCont
+                  | e1 r =>
+                      exact Exists.intro k
+                        (Exists.intro r
+                          (And.intro rfl
+                            (And.intro rfl
+                              (And.intro (unary_e1_inversion sourceCarrier)
+                                (And.intro (unary_e1_inversion morphCarrier)
+                                  (And.intro (unary_e1_inversion targetCarrier)
+                                    (BHist.e1.inj homCont)))))))
+
 theorem CategoryHomCarrier_identity_semanticNameCert {a : BHist} :
     UnaryHistory a ->
       BEDC.FKernel.NameCert.SemanticNameCert (CategoryHomCarrier a a)

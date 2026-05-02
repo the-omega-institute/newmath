@@ -679,6 +679,37 @@ which is impossible by generated-history no-confusion.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_empty\_target\_absurd}
 
+\begin{theorem}[Category hom-carrier one-headed source morphism cases]
+\label{thm:category-hom-carrier-e1-source-morphism-cases}
+For histories $a,target,morph$, a hom-carrier with source $\Eone(a)$ has one
+of the following forms:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),target,morph)
+\Longrightarrow
+\left(
+morph=\emp\land target=\Eone(a)\land \mathsf{UnaryHistory}(a)
+\right)
+$$
+or there exist histories $k,r$ such that
+$$
+morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness into unary source, target, and morphism fields
+and the continuation ledger. Classify the morphism history. The empty branch
+forces the target to be exactly $\Eone(a)$ by the right-unit continuation
+shape, and unary inversion gives unary history for $a$. The zero-headed
+morphism branch contradicts unary-history separation for zero extensions. In
+the one-headed branch, classify the target history. Empty and zero-headed
+targets contradict the continuation ledger; a one-headed target exposes
+histories $k$ and $r$, unary inversion gives the three unary witnesses, and
+constructor inversion on the continuation ledger yields $\ContR(\Eone(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_morphism\_cases}
+
 \paragraph{Primitive boundary.}
 \(\CategoryUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
