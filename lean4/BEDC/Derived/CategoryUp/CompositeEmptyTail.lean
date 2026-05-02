@@ -42,4 +42,16 @@ theorem ContinuationMorphism_comp_tail_empty_iff {a b c : BHist}
             cases parts.right
             exact hsame_refl BHist.Empty
 
+theorem ContinuationMorphism_comp_tail_cont {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    Cont left.tail right.tail (ContinuationMorphism_comp_closed left right).tail ∧
+      Cont a (ContinuationMorphism_comp_closed left right).tail c := by
+  constructor
+  · cases left with
+    | mk leftTail leftRel =>
+        cases right with
+        | mk rightTail rightRel =>
+            exact cont_intro rfl
+  · exact (ContinuationMorphism_comp_closed left right).rel
+
 end BEDC.Derived.CategoryUp

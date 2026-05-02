@@ -188,6 +188,43 @@ comparison between $\mathsf{append}(p,q)$ and $h$.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_split\_empty\_iff}
 
+\begin{theorem}[Singleton linear-map classifier visible right append exclusion]
+\label{thm:linearmap-singleton-classifier-append-visible-left-absurd}
+For all histories $p,q,h:\mathsf{BHist}$, neither appending a visible right
+component to $p$ can be classified by the singleton linear-map classifier:
+$$
+\lambda_{\emp}(\mathsf{append}(p,\Ezero(q)),h)\Longrightarrow\bot,
+\qquad
+\lambda_{\emp}(\mathsf{append}(p,\Eone(q)),h)\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the classifier and read its left carrier field. The field says that
+$\mathsf{append}(p,\Ezero(q))$ or $\mathsf{append}(p,\Eone(q))$ is
+history-same to $\emp$. Empty-append inversion would then force the visible
+right component itself to be $\emp$, contradicting constructor no-confusion
+for $\Ezero$ and $\Eone$.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_visible\_left\_absurd}
+
+\begin{theorem}[Singleton linear-map classifier visible prefix exclusion]
+\label{thm:linearmap-singleton-classifier-append-visible-prefix-absurd}
+For all histories $p,q,h:\mathsf{BHist}$, neither visible prefix can be
+classified after append by the singleton linear-map classifier:
+$$
+\lambda_{\emp}(\mathsf{append}(\Ezero(p),q),h)\Longrightarrow\bot,
+\qquad
+\lambda_{\emp}(\mathsf{append}(\Eone(p),q),h)\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+The singleton classifier requires its left argument to be empty. Applying
+empty-append inversion to this carrier clause forces the visible prefix
+$\Ezero(p)$ or $\Eone(p)$ to be $\emp$, which is impossible by constructor
+no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_visible\_prefix\_absurd}
+
 \begin{theorem}[Singleton linear map composition associativity empty classifier]
 \label{thm:linearmap-singleton-comp-assoc-empty-classifier}
 For singleton linear map codes $f,g,h$, if each code lies in

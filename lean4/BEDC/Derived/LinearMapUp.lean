@@ -217,6 +217,28 @@ theorem LinearMapSingletonClassifier_append_split_empty_iff {p q h : BHist} :
       ⟨appendCarrier, splitData.right.right,
         hsame_trans appendCarrier (hsame_symm splitData.right.right)⟩
 
+theorem LinearMapSingletonClassifier_append_visible_left_absurd {p q h : BHist} :
+    (LinearMapSingletonClassifier (append p (BHist.e0 q)) h -> False) ∧
+      (LinearMapSingletonClassifier (append p (BHist.e1 q)) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+
+theorem LinearMapSingletonClassifier_append_visible_prefix_absurd {p q h : BHist} :
+    (LinearMapSingletonClassifier (append (BHist.e0 p) q) h -> False) ∧
+      (LinearMapSingletonClassifier (append (BHist.e1 p) q) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.left
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.left
+
 theorem LinearMapSingleton_comp_assoc_empty_classifier {f g h : BHist} :
     LinearMapSingletonCarrier f -> LinearMapSingletonCarrier g -> LinearMapSingletonCarrier h ->
       LinearMapSingletonClassifier (LinearMapSingletonComp h (LinearMapSingletonComp g f))

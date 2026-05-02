@@ -229,6 +229,27 @@ $\mathsf{append}(\emp,\emp)$, hence it is history-same to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_empty\_iff}
 
+\begin{theorem}[Continuation morphism composite tail continuation]
+\label{thm:continuation-morphism-composite-tail-continuation}
+For histories $a,b,c$, let $left:a\to b$ and $right:b\to c$ be continuation
+morphisms. The canonical composite tail is itself the continuation composite
+of the two displayed tails, and it also carries the endpoint continuation
+from $a$ to $c$:
+$$
+\ContR(\mathsf{tail}(left),\mathsf{tail}(right),
+  \mathsf{tail}(left\circ right))
+\land
+\ContR(a,\mathsf{tail}(left\circ right),c).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two morphism records. The closed composite stores
+$\mathsf{append}(\mathsf{tail}(left),\mathsf{tail}(right))$ as its displayed
+tail, giving the first continuation directly. Its record field is exactly the
+second continuation from $a$ through that composite tail to $c$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_cont}
+
 \begin{theorem}[Continuation morphism composition right factor]
 \label{thm:continuation-morphism-composition-right-factor}
 For histories $a,b,c$ and a displayed tail $r$, let $left:a\to b$ and
