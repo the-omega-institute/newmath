@@ -1,0 +1,103 @@
+import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
+
+namespace BEDC.Derived.ModuleUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+
+def ModuleSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def ModuleSingletonClassifier (h k : BHist) : Prop :=
+  ModuleSingletonCarrier h ∧ ModuleSingletonCarrier k ∧ hsame h k
+
+def ModuleSingletonAdd (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+def ModuleSingletonNeg (_x : BHist) : BHist :=
+  BHist.Empty
+
+def ModuleSingletonZero : BHist :=
+  BHist.Empty
+
+def ModuleSingletonMul (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+def ModuleSingletonOne : BHist :=
+  BHist.Empty
+
+def ModuleSingletonSmul (_r _m : BHist) : BHist :=
+  BHist.Empty
+
+theorem singleton_empty_history_module_laws :
+    SemanticNameCert ModuleSingletonCarrier ModuleSingletonCarrier ModuleSingletonCarrier
+      ModuleSingletonClassifier ∧
+      (∀ {r m : BHist}, ModuleSingletonCarrier r → ModuleSingletonCarrier m →
+        ModuleSingletonClassifier (ModuleSingletonSmul r m) BHist.Empty) ∧
+      (∀ {r r' m m' : BHist}, ModuleSingletonClassifier r r' →
+        ModuleSingletonClassifier m m' →
+          ModuleSingletonClassifier (ModuleSingletonSmul r m) (ModuleSingletonSmul r' m')) ∧
+      (∀ {r s m : BHist}, ModuleSingletonCarrier r → ModuleSingletonCarrier s →
+        ModuleSingletonCarrier m →
+          ModuleSingletonClassifier (ModuleSingletonSmul (ModuleSingletonMul r s) m)
+            (ModuleSingletonSmul r (ModuleSingletonSmul s m))) ∧
+      (∀ {r m n : BHist}, ModuleSingletonCarrier r → ModuleSingletonCarrier m →
+        ModuleSingletonCarrier n →
+          ModuleSingletonClassifier (ModuleSingletonSmul r (ModuleSingletonAdd m n))
+            (ModuleSingletonAdd (ModuleSingletonSmul r m) (ModuleSingletonSmul r n))) ∧
+      (∀ {r s m : BHist}, ModuleSingletonCarrier r → ModuleSingletonCarrier s →
+        ModuleSingletonCarrier m →
+          ModuleSingletonClassifier (ModuleSingletonSmul (ModuleSingletonAdd r s) m)
+            (ModuleSingletonAdd (ModuleSingletonSmul r m) (ModuleSingletonSmul s m))) ∧
+      (∀ {m : BHist}, ModuleSingletonCarrier m →
+        ModuleSingletonClassifier (ModuleSingletonSmul ModuleSingletonOne m) m) := by
+  have emptyCarrier : ModuleSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : ModuleSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+        equiv_refl := by
+          intro h carrier
+          exact And.intro carrier (And.intro carrier (hsame_refl h))
+        equiv_symm := by
+          intro h k same
+          exact And.intro same.right.left
+            (And.intro same.left (hsame_symm same.right.right))
+        equiv_trans := by
+          intro h k r sameHK sameKR
+          exact And.intro sameHK.left
+            (And.intro sameKR.right.left
+              (hsame_trans sameHK.right.right sameKR.right.right))
+        carrier_respects_equiv := by
+          intro h k same _carrier
+          exact same.right.left
+      }
+      pattern_sound := by
+        intro h carrier
+        exact carrier
+      ledger_sound := by
+        intro h carrier
+        exact carrier
+    }
+  · constructor
+    · intro r m _carrierR _carrierM
+      exact emptyClassified
+    · constructor
+      · intro r r' m m' _sameR _sameM
+        exact emptyClassified
+      · constructor
+        · intro r s m _carrierR _carrierS _carrierM
+          exact emptyClassified
+        · constructor
+          · intro r m n _carrierR _carrierM _carrierN
+            exact emptyClassified
+          · constructor
+            · intro r s m _carrierR _carrierS _carrierM
+              exact emptyClassified
+            · intro m carrierM
+              exact And.intro emptyCarrier (And.intro carrierM (hsame_symm carrierM))
+
+end BEDC.Derived.ModuleUp

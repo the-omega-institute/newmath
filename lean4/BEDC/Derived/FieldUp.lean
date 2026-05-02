@@ -1,9 +1,103 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.Derived.GroupUp
 
 namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+
+def FieldSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def FieldSingletonClassifier (h k : BHist) : Prop :=
+  FieldSingletonCarrier h ∧ FieldSingletonCarrier k ∧ hsame h k
+
+def FieldSingletonAdd (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+def FieldSingletonNeg (_x : BHist) : BHist :=
+  BHist.Empty
+
+def FieldSingletonZero : BHist :=
+  BHist.Empty
+
+def FieldSingletonMul (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+def FieldSingletonOne : BHist :=
+  BHist.Empty
+
+def FieldSingletonNonZero (a : BHist) : Prop :=
+  FieldSingletonCarrier a ∧ hsame a (BHist.e0 BHist.Empty)
+
+def FieldSingletonInv (a : BHist) (_p : FieldSingletonNonZero a) : BHist :=
+  BHist.Empty
+
+theorem singleton_empty_history_field_schema_laws :
+    SemanticNameCert FieldSingletonCarrier FieldSingletonCarrier FieldSingletonCarrier
+      FieldSingletonClassifier ∧
+      (∀ {a : BHist}, FieldSingletonCarrier a → FieldSingletonNonZero a → False) ∧
+      (∀ {a b : BHist}, FieldSingletonClassifier a b → FieldSingletonNonZero a →
+        FieldSingletonNonZero b) ∧
+      (∀ {a : BHist} (p : FieldSingletonNonZero a),
+        FieldSingletonCarrier (FieldSingletonInv a p)) ∧
+      (∀ {a b : BHist} (p : FieldSingletonNonZero a) (q : FieldSingletonNonZero b),
+        FieldSingletonClassifier a b →
+          FieldSingletonClassifier (FieldSingletonInv a p) (FieldSingletonInv b q)) ∧
+      (∀ {a : BHist} (p : FieldSingletonNonZero a),
+        FieldSingletonClassifier (FieldSingletonMul (FieldSingletonInv a p) a)
+          FieldSingletonOne) ∧
+      (∀ {a : BHist} (p : FieldSingletonNonZero a),
+        FieldSingletonClassifier (FieldSingletonMul a (FieldSingletonInv a p))
+          FieldSingletonOne) := by
+  have emptyCarrier : FieldSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : FieldSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+        equiv_refl := by
+          intro h carrier
+          exact And.intro carrier (And.intro carrier (hsame_refl h))
+        equiv_symm := by
+          intro h k same
+          exact And.intro same.right.left
+            (And.intro same.left (hsame_symm same.right.right))
+        equiv_trans := by
+          intro h k r sameHK sameKR
+          exact And.intro sameHK.left
+            (And.intro sameKR.right.left
+              (hsame_trans sameHK.right.right sameKR.right.right))
+        carrier_respects_equiv := by
+          intro h k same _carrier
+          exact same.right.left
+      }
+      pattern_sound := by
+        intro h carrier
+        exact carrier
+      ledger_sound := by
+        intro h carrier
+        exact carrier
+    }
+  · constructor
+    · intro a carrierA nonzeroA
+      exact not_hsame_emp_e0 (hsame_trans (hsame_symm carrierA) nonzeroA.right)
+    · constructor
+      · intro a b sameAB nonzeroA
+        exact And.intro sameAB.right.left (hsame_trans (hsame_symm sameAB.right.right) nonzeroA.right)
+      · constructor
+        · intro a p
+          exact emptyCarrier
+        · constructor
+          · intro a b p q _sameAB
+            exact emptyClassified
+          · constructor
+            · intro a p
+              exact emptyClassified
+            · intro a p
+              exact emptyClassified
 
 theorem field_inverse_congruence_from_apartness {mul : BHist -> BHist -> BHist}
     {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
