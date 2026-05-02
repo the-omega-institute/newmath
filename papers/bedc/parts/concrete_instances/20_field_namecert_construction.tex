@@ -1,5 +1,49 @@
 \input{parts/concrete_instances/field/20_field_singleton_schema}
 \input{parts/concrete_instances/field/20_field_rat_boundary}
+
+\section{RatUp continuation closure for the FieldUp boundary}
+\label{sec:field-rat-continuation-closure}
+
+\begin{theorem}[Rat denominators are closed under continuation]
+\label{thm:field-rat-denominator-continuation-carrier-closure}
+For all histories $d,e,r:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(d)$, $\mathsf{RatHistoryCarrier}(e)$, and
+$\Cont(d,e,r)$, then $\mathsf{RatHistoryCarrier}(r)$.
+\end{theorem}
+\begin{proof}
+Start with the right denominator carrier $\mathsf{RatHistoryCarrier}(e)$.
+Theorem~\ref{thm:rat-history-carrier-positive-denominator-equivalence}
+extracts a positive unary denominator witness for $e$, and
+Theorem~\ref{thm:positive-unary-denominator-unary-and-nonempty} turns that
+witness into $\mathsf{UnaryHistory}(e)$.
+
+Apply Theorem~\ref{thm:rat-history-carrier-append-unary-denominator-closed} to
+the left carrier $\mathsf{RatHistoryCarrier}(d)$ and the unary witness for
+$e$. This gives $\mathsf{RatHistoryCarrier}(\mathsf{append}(d,e))$ for the
+canonical BEDC continuation result.
+
+The displayed continuation witness $\Cont(d,e,r)$ is compared with the
+canonical continuation witness for $\mathsf{append}(d,e)$ by continuation
+determinacy. The result is an $\hsame$ link between $\mathsf{append}(d,e)$ and
+$r$.
+
+Finally, transport the rational history carrier across this result link, using
+the carrier transport supplied by the Rat history certificate. The transported
+carrier is exactly $\mathsf{RatHistoryCarrier}(r)$.
+\end{proof}
+
+\textbf{Traditional target}: denominator-side multiplication closure for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
+denominators; \textbf{classifier choice}: Rat history classifier;
+\textbf{stability obligation}: continuation-result carrier transport;
+\textbf{ledger}: the right denominator's positive-unary witness and the
+continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-continuation-carrier-closure};
+\textbf{exactness predicate}: carrier closure for the concrete denominator
+operation; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.
+
 \input{parts/concrete_instances/field/20_field_laws_and_certificate}
 \input{parts/concrete_instances/field/20_field_product_right_equation_exactness}
 \input{parts/concrete_instances/field/20_field_affine_explicit_inverse}
