@@ -616,3 +616,46 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \paragraph{Primitive boundary.}
 \(\CommRingUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{proposition}[CommRing forgets to Ring certificate]
+\label{prop:commring-forgets-ring-certificate}
+Let \(R\) carry a \(\CommRingUp(R)\) certificate. If the multiplicative
+commutativity field and its compatibility data are ignored, the retained
+carrier, source, pattern, classifier, stability, and ledger fields form a
+\(\RingUp(R)\) certificate. The carrier operations \(0\), \(1\), \(+\),
+\(-\), \(\cdot\), and the classifier are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:commring-carrier}, a \(\CommRingUp\) carrier is a ring setup
+together with multiplication commutativity. The underlying carrier,
+classifier, addition, zero, additive inverse, multiplication, and one are
+therefore already the data listed in \autoref{def:ring-carrier}.
+
+By \autoref{def:commring-source-specification}, the source is a certified ring
+carrier plus multiplicative commutativity. Ignoring the commutativity field
+leaves exactly the ring source from \autoref{def:ring-source-specification}.
+By \autoref{def:commring-classifier-specification}, the classifier is the ring
+carrier classifier, so it is the classifier of
+\autoref{def:ring-classifier-specification} with no replacement.
+
+By \autoref{def:commring-pattern-specification}, the commutative-ring pattern
+is ring expression formation together with the permission to exchange
+multiplication operands by the commutativity field. Removing only that exchange
+permission leaves the ring expression formation of
+\autoref{def:ring-pattern-specification}.
+
+By \autoref{def:commring-stability-certificate}, the stability certificate
+contains all ring stability fields, multiplicative commutativity, and the
+compatibility data for that commutativity field. The first component is the
+entire list of ring stability fields in \autoref{def:ring-stability-certificate};
+the latter two components are not obligations for \(\RingUp\). The ledger left
+after suppressing entries justified solely by commutativity is the shared
+carrier ledger and operation tree of \autoref{def:ring-ledger-policy}, matching
+the ring part of \autoref{def:commring-ledger-policy}.
+
+The remaining carrier, source, pattern, classifier, stability, and ledger data
+are exactly the obligations named in \autoref{def:ring-certificate-obligations}.
+Since every retained operation and the classifier are copied from the original
+\(\CommRingUp(R)\) certificate, the resulting \(\RingUp(R)\) source package has
+the same carrier operations and classifier.
+\end{proof}
