@@ -41,6 +41,30 @@ theorem ListClassifierSpec_hsame_append_context_iff
     exact ListClassifierSpec_append_hsame prefixClass
       (ListClassifierSpec_append_hsame coreClass suffixClass)
 
+theorem ListClassifierSpec_BHist_append {sameA : BEDC.FKernel.Hist.BHist -> BEDC.FKernel.Hist.BHist -> Prop}
+    {xs ys zs ws : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec sameA xs ys ->
+      ListClassifierSpec sameA zs ws ->
+        ListClassifierSpec sameA (xs ++ zs) (ys ++ ws) := by
+  intro hxy hzw
+  induction xs generalizing ys with
+  | nil =>
+      cases ys with
+      | nil =>
+          exact hzw
+      | cons _ _ =>
+          cases hxy
+  | cons _ xs ih =>
+      cases ys with
+      | nil =>
+          cases hxy
+      | cons _ _ =>
+          cases hxy with
+          | intro hhead htail =>
+              constructor
+              · exact hhead
+              · exact ih htail
+
 theorem ListClassifierSpec_append_right_cancel_classified {A : Type} {sameA : A → A → Prop}
     {xs ys suffix suffix' : BEDC.Derived.ListUp.ListCarrier A} :
     BEDC.Derived.ListUp.ListClassifierSpec sameA suffix suffix' →
@@ -159,5 +183,23 @@ theorem ListClassifierSpec_append_right_cancel_classified {A : Type} {sameA : A 
     leftCancel reversedSuffix reversedAppend
   exact (BEDC.Derived.ListUp.ListClassifierSpec_reverse_iff
     (xs := xs) (ys := ys)).mpr reversedCore
+
+theorem ListClassifierSpec_BHist_append_context_iff
+    {sameA : BEDC.FKernel.Hist.BHist -> BEDC.FKernel.Hist.BHist -> Prop}
+    {pref pref' xs ys suffix suffix' : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec sameA pref pref' ->
+      ListClassifierSpec sameA suffix suffix' ->
+        (ListClassifierSpec sameA (pref ++ (xs ++ suffix)) (pref' ++ (ys ++ suffix')) <->
+          ListClassifierSpec sameA xs ys) := by
+  intro prefixClass suffixClass
+  constructor
+  · intro contextClass
+    have coreWithSuffix :
+        ListClassifierSpec sameA (xs ++ suffix) (ys ++ suffix') :=
+      ListClassifierSpec_BHist_append_left_cancel_classified prefixClass contextClass
+    exact ListClassifierSpec_append_right_cancel_classified suffixClass coreWithSuffix
+  · intro coreClass
+    exact ListClassifierSpec_BHist_append prefixClass
+      (ListClassifierSpec_BHist_append coreClass suffixClass)
 
 end BEDC.Derived.ListUp

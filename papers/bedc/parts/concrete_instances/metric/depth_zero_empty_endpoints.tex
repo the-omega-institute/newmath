@@ -1,0 +1,53 @@
+\begin{theorem}[Metric depth-zero distance has empty endpoints]
+\label{thm:metric-distance-witness-depth-zero-empty-endpoints}
+For histories $x,y,d$, a concrete distance witness whose distance ledger has
+structural depth zero has empty endpoints:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+\mathsf{MetricDistanceDepth}(d)=0\to
+\hsame(x,\emp)\land\hsame(y,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Classify the displayed distance history. The empty distance case is exactly the
+empty-distance witness exactness theorem. A zero-headed or one-headed distance
+has successor depth, contradicting the displayed zero-depth equation by
+constructor no-confusion for natural numbers.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_depth\_zero\_empty\_endpoints}
+
+\begin{theorem}[Metric empty endpoints have depth-zero distance]
+\label{thm:metric-distance-witness-empty-endpoints-depth-zero}
+For histories $x,y,d$, a concrete distance witness whose endpoints are both
+history-same to $\emp$ has structural distance depth zero:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+\hsame(x,\emp)\to
+\hsame(y,\emp)\to
+\mathsf{MetricDistanceDepth}(d)=0.
+$$
+\end{theorem}
+\begin{proof}
+Eliminate the two endpoint sameness witnesses, reducing both endpoints to
+$\emp$. The continuation ledger inside the distance witness then reduces the
+distance history itself to $\emp$, and the depth definition evaluates to zero.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_endpoints\_depth\_zero}
+
+\begin{theorem}[Metric distance depth zero iff empty]
+\label{thm:metric-distance-depth-zero-iff-empty}
+For a history $d$, structural metric distance depth is zero exactly when $d$
+classifies with the empty history:
+$$
+\mathsf{MetricDistanceDepth}(d)=0
+\Longleftrightarrow
+\hsame(d,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the history $d$. The empty case is reflexive. A zero-headed or
+one-headed history has successor depth, so it cannot satisfy the zero-depth
+equation. Conversely, a history-sameness proof with $\emp$ reduces the depth
+equation to the empty reflexive case.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_zero\_iff\_empty}

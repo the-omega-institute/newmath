@@ -336,6 +336,16 @@ theorem unary_append_left_factor {h k : BHist} :
   | e1 k ih =>
       exact ih ur
 
+theorem unary_append_context_middle_iff {left middle right : BHist} :
+    UnaryHistory left -> UnaryHistory right ->
+      (UnaryHistory (append left (append middle right)) ↔ UnaryHistory middle) := by
+  intro leftUnary rightUnary
+  constructor
+  · intro contextual
+    exact unary_append_left_factor (unary_append_right_factor contextual)
+  · intro middleUnary
+    exact unary_append_closed leftUnary (unary_append_closed middleUnary rightUnary)
+
 theorem unary_append_e0_left_absurd :
     forall {h k : BHist}, UnaryHistory (append (BHist.e0 h) k) -> False := by
   intro h k uh

@@ -2,9 +2,7 @@ import BEDC.FKernel.Unary
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
 namespace BEDC.Derived.CategoryUp
-open BEDC.FKernel.Hist
-open BEDC.FKernel.Cont
-open BEDC.FKernel.Unary
+open BEDC.FKernel.Hist BEDC.FKernel.Cont BEDC.FKernel.Unary
 def CategoryHomCarrier (a b f : BHist) : Prop :=
   UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧ Cont a f b
 theorem CategoryHomCarrier_empty_identity {h : BHist} :
@@ -21,20 +19,17 @@ theorem CategoryHomCarrier_empty_identity_iff {a b : BHist} :
         | intro targetCarrier rest =>
             cases rest with
             | intro _emptyCarrier homCont =>
-                exact
-                  And.intro sourceCarrier
-                    (And.intro targetCarrier
-                      (hsame_symm (cont_deterministic homCont (cont_right_unit a))))
+                exact And.intro sourceCarrier
+                  (And.intro targetCarrier
+                    (hsame_symm (cont_deterministic homCont (cont_right_unit a))))
   · intro data
     cases data with
     | intro sourceCarrier rest =>
         cases rest with
         | intro targetCarrier same =>
-            exact
-              And.intro sourceCarrier
-                (And.intro targetCarrier
-                  (And.intro unary_empty
-                    (cont_result_hsame_transport (cont_right_unit a) same)))
+            exact And.intro sourceCarrier
+              (And.intro targetCarrier
+                (And.intro unary_empty (cont_result_hsame_transport (cont_right_unit a) same)))
 theorem CategoryHomCarrier_empty_source_iff {b f : BHist} :
     CategoryHomCarrier BHist.Empty b f ↔ UnaryHistory b ∧ hsame f b := by
   constructor
@@ -49,12 +44,10 @@ theorem CategoryHomCarrier_empty_source_iff {b f : BHist} :
   · intro data
     cases data with
     | intro targetCarrier sameMorphism =>
-        exact
-          And.intro unary_empty
-            (And.intro targetCarrier
-              (And.intro
-                (unary_transport targetCarrier (hsame_symm sameMorphism))
-                (Iff.mpr cont_left_unit_iff (hsame_symm sameMorphism))))
+        exact And.intro unary_empty
+          (And.intro targetCarrier
+            (And.intro (unary_transport targetCarrier (hsame_symm sameMorphism))
+              (Iff.mpr cont_left_unit_iff (hsame_symm sameMorphism))))
 theorem CategoryHomCarrier_empty_target_iff {a f : BHist} :
     CategoryHomCarrier a BHist.Empty f <-> hsame a BHist.Empty /\ hsame f BHist.Empty := by
   constructor
@@ -79,61 +72,61 @@ theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
   cases left.right.right.right
   cases right.right.right.right
   cases comp
-  exact And.intro sourceCarrier
-    (And.intro targetCarrier
-      (And.intro (unary_cont_closed fCarrier gCarrier (cont_intro rfl))
-        (cont_intro (append_assoc a f g))))
+  exact And.intro sourceCarrier (And.intro targetCarrier
+    (And.intro (unary_cont_closed fCarrier gCarrier (cont_intro rfl))
+      (cont_intro (append_assoc a f g))))
+theorem CategoryHomCarrier_comp_endpoint_cycle_morphism_empty {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      hsame a c -> hsame fg BHist.Empty := by
+  intro left right comp sameEndpoint
+  have composite : CategoryHomCarrier a c fg := CategoryHomCarrier_comp_closed left right comp
+  exact cont_right_unit_unique
+    (cont_result_hsame_transport composite.right.right.right (hsame_symm sameEndpoint))
 theorem CategoryHomCarrier_identity_square_closed {a b f left right : BHist} :
     CategoryHomCarrier a b f -> Cont BHist.Empty f left -> Cont f BHist.Empty right ->
       CategoryHomCarrier a b left ∧ CategoryHomCarrier a b right ∧ hsame left right := by
   intro homCarrier leftRel rightRel
   have leftSame : hsame left f := cont_left_unit_result leftRel
   have rightSame : hsame right f := cont_deterministic rightRel (cont_right_unit f)
-  have leftCarrier : CategoryHomCarrier a b left := by
-    cases leftSame
-    exact homCarrier
-  have rightCarrier : CategoryHomCarrier a b right := by
-    cases rightSame
-    exact homCarrier
+  have leftCarrier : CategoryHomCarrier a b left := by cases leftSame; exact homCarrier
+  have rightCarrier : CategoryHomCarrier a b right := by cases rightSame; exact homCarrier
   exact And.intro leftCarrier (And.intro rightCarrier (leftSame.trans rightSame.symm))
 theorem CategoryHomCarrier_comp_assoc_closed {a b c d f g h fg gh left right : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c d h ->
       Cont f g fg -> Cont g h gh -> Cont fg h left -> Cont f gh right ->
         CategoryHomCarrier a d left ∧ CategoryHomCarrier a d right ∧ hsame left right := by
   intro first second third fgRel ghRel leftRel rightRel
-  have fgCarrier : CategoryHomCarrier a c fg :=
-    CategoryHomCarrier_comp_closed first second fgRel
-  have ghCarrier : CategoryHomCarrier b d gh :=
-    CategoryHomCarrier_comp_closed second third ghRel
+  have fgCarrier : CategoryHomCarrier a c fg := CategoryHomCarrier_comp_closed first second fgRel
+  have ghCarrier : CategoryHomCarrier b d gh := CategoryHomCarrier_comp_closed second third ghRel
+  exact And.intro (CategoryHomCarrier_comp_closed fgCarrier third leftRel)
+    (And.intro (CategoryHomCarrier_comp_closed first ghCarrier rightRel)
+      (cont_assoc_hsame fgRel leftRel ghRel rightRel))
+theorem CategoryHomCarrier_comp_assoc_displayed_deterministic
+    {a b c d f g h fg gh left right displayed : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c d h ->
+      Cont f g fg -> Cont g h gh -> Cont fg h left -> Cont f gh right ->
+        CategoryHomCarrier a d displayed -> hsame left displayed ∧ hsame right displayed := by
+  intro first second third fgRel ghRel leftRel rightRel displayedCarrier
   exact
-    And.intro
-      (CategoryHomCarrier_comp_closed fgCarrier third leftRel)
-      (And.intro
-        (CategoryHomCarrier_comp_closed first ghCarrier rightRel)
-        (cont_assoc_hsame fgRel leftRel ghRel rightRel))
+    let closed := CategoryHomCarrier_comp_assoc_closed first second third fgRel ghRel leftRel rightRel
+    And.intro (cont_left_cancel closed.left.right.right.right displayedCarrier.right.right.right)
+      (cont_left_cancel closed.right.left.right.right.right displayedCarrier.right.right.right)
 theorem CategoryHomCarrier_morphism_deterministic {a b f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier a b g -> hsame f g := by
-  intro left right
-  exact cont_left_cancel left.right.right.right right.right.right.right
+  intro left right; exact cont_left_cancel left.right.right.right right.right.right.right
 theorem CategoryHomCarrier_endpoint_hsame_morphism_deterministic {a a' b b' f g : BHist} :
     hsame a a' -> hsame b b' -> CategoryHomCarrier a b f ->
       CategoryHomCarrier a' b' g -> hsame f g := by
   intro sameSource sameTarget left right
-  cases sameSource
-  cases sameTarget
-  exact CategoryHomCarrier_morphism_deterministic left right
+  cases sameSource; cases sameTarget; exact CategoryHomCarrier_morphism_deterministic left right
 theorem CategoryHomCarrier_comp_public_readback {a b c f g fg : BHist} :
     CategoryHomCarrier a b f → CategoryHomCarrier b c g → Cont f g fg →
       CategoryHomCarrier a c fg ∧
         (∀ {fg' : BHist}, CategoryHomCarrier a c fg' → hsame fg fg') := by
   intro left right comp
-  have compositeCarrier : CategoryHomCarrier a c fg :=
-    CategoryHomCarrier_comp_closed left right comp
-  constructor
-  · exact compositeCarrier
-  · intro fg' displayed
-    exact CategoryHomCarrier_morphism_deterministic compositeCarrier displayed
-
+  have compositeCarrier : CategoryHomCarrier a c fg := CategoryHomCarrier_comp_closed left right comp
+  exact ⟨compositeCarrier, fun displayed =>
+    CategoryHomCarrier_morphism_deterministic compositeCarrier displayed⟩
 theorem CategoryHomCarrier_unary_suffix_iff {q a b f : BHist} :
     CategoryHomCarrier (append a q) (append b q) f <->
       UnaryHistory q /\ CategoryHomCarrier a b f := by
@@ -163,7 +156,6 @@ theorem CategoryHomCarrier_unary_suffix_iff {q a b f : BHist} :
                 ((congrArg (append a)
                     (unary_append_comm qCarrier baseCarrier.right.right.left).symm).trans
                   (append_assoc a q f).symm))))))
-
 theorem CategoryHomCarrier_unary_suffix_comp_public_readback {q a b c f g fg : BHist} :
     UnaryHistory q -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier (append a q) (append c q) fg ∧
@@ -175,7 +167,6 @@ theorem CategoryHomCarrier_unary_suffix_comp_public_readback {q a b c f g fg : B
   · exact CategoryHomCarrier_unary_suffix_iff.mpr (And.intro qCarrier readback.left)
   · intro fg' displayed
     exact readback.right (CategoryHomCarrier_unary_suffix_iff.mp displayed).right
-
 theorem CategoryHomCarrier_target_deterministic {a b c f : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier a c f -> hsame b c := by
   intro left right
@@ -197,6 +188,14 @@ theorem CategoryHomCarrier_comp_middle_object_deterministic {a b b' c f g fg : B
     cases displayed.right.right.right
     exact cont_intro (append_assoc a f g).symm
   exact cont_right_cancel derivedRight right.right.right.right
+theorem CategoryHomCarrier_append_suffix_comp_middle_object_deterministic
+    {q a b b' c f g fg : BHist} :
+    CategoryHomCarrier (append a q) (append b q) f ->
+      CategoryHomCarrier (append b' q) (append c q) g -> Cont f g fg ->
+        CategoryHomCarrier (append a q) (append c q) fg -> hsame b b' := by
+  intro left right comp displayed
+  exact append_right_cancel
+    (CategoryHomCarrier_comp_middle_object_deterministic left right comp displayed)
 theorem CategoryHomCarrier_comp_right_factor {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> Cont f g fg -> CategoryHomCarrier a c fg ->
       CategoryHomCarrier b c g := by
@@ -229,11 +228,19 @@ theorem CategoryHomCarrier_comp_left_factor {a b c f g fg : BHist} :
     cont_composite_left_factor right.right.right.right comp displayed.right.right.right
   exact And.intro displayed.left
     (And.intro right.left (And.intro fCarrier leftCont))
+theorem CategoryHomCarrier_comp_left_factor_public_readback {a b c f g fg : BHist} :
+    CategoryHomCarrier b c g -> Cont f g fg -> CategoryHomCarrier a c fg ->
+      CategoryHomCarrier a b f /\
+        (forall {f' : BHist}, Cont f' g fg -> CategoryHomCarrier a b f' -> hsame f f') := by
+  intro right comp displayed
+  constructor
+  · exact CategoryHomCarrier_comp_left_factor right comp displayed
+  · intro f' comp' _left
+    exact cont_right_cancel comp comp'
 theorem CategoryHomCarrier_source_deterministic {a b c f : BHist} :
     CategoryHomCarrier a c f -> CategoryHomCarrier b c f -> hsame a b := by
   intro left right
   exact cont_right_cancel left.right.right.right right.right.right.right
-
 theorem CategoryHomCarrier_comp_source_deterministic {a b c d f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier d c fg -> hsame a d := by
@@ -254,16 +261,23 @@ theorem CategoryHomCarrier_hsame_transport {a a' b b' f f' : BHist} :
   cases sameTarget
   cases sameMorphism
   exact homCarrier
-
+theorem CategoryHomCarrier_endpoint_transport_cont_classified {a a' b b' f f' g : BHist} :
+    hsame a a' -> hsame b b' -> hsame f f' -> CategoryHomCarrier a b f ->
+      CategoryHomCarrier a' b' g -> Cont a' f' b' ∧ CategoryHomCarrier a' b' f' ∧
+        hsame f' g := by
+  intro sameSource sameTarget sameMorphism left right
+  have moved := CategoryHomCarrier_hsame_transport sameSource sameTarget sameMorphism left
+  exact And.intro moved.right.right.right
+    (And.intro moved (CategoryHomCarrier_morphism_deterministic moved right))
 theorem CategoryHomCarrier_e0_source_absurd {a target f : BHist} :
-    CategoryHomCarrier (BHist.e0 a) target f → False := by
-  intro homCarrier
-  exact unary_no_zero_extension homCarrier.left
-
+    CategoryHomCarrier (BHist.e0 a) target f → False :=
+  fun homCarrier => unary_no_zero_extension homCarrier.left
+theorem CategoryHomCarrier_e0_target_absurd {source a morph : BHist} :
+    CategoryHomCarrier source (BHist.e0 a) morph -> False :=
+  fun homCarrier => unary_no_zero_extension homCarrier.right.left
 structure ContinuationMorphism (src tgt : BHist) where
   tail : BHist
   rel : Cont src tail tgt
-
 theorem ContinuationMorphism_tail_deterministic {a b : BHist}
     (left right : ContinuationMorphism a b) : hsame left.tail right.tail := by
   cases left with
@@ -271,7 +285,6 @@ theorem ContinuationMorphism_tail_deterministic {a b : BHist}
       cases right with
       | mk rightTail rightRel =>
           exact cont_left_cancel leftRel rightRel
-
 theorem ContinuationMorphism_source_deterministic {a b c : BHist}
     (left : ContinuationMorphism a c) (right : ContinuationMorphism b c) :
     hsame left.tail right.tail -> hsame a b := by
@@ -282,7 +295,6 @@ theorem ContinuationMorphism_source_deterministic {a b c : BHist}
       | mk rightTail rightRel =>
           cases sameTail
           exact cont_right_cancel leftRel rightRel
-
 theorem ContinuationMorphism_target_deterministic {a b c : BHist}
     (left : ContinuationMorphism a b) (right : ContinuationMorphism a c) :
     hsame left.tail right.tail -> hsame b c := by
@@ -293,7 +305,6 @@ theorem ContinuationMorphism_target_deterministic {a b c : BHist}
       | mk rightTail rightRel =>
           cases sameTail
           exact cont_deterministic leftRel rightRel
-
 def ContinuationMorphism_comp_closed {a b c : BHist} (left : ContinuationMorphism a b)
     (right : ContinuationMorphism b c) : ContinuationMorphism a c := by
   cases left with
@@ -305,7 +316,16 @@ def ContinuationMorphism_comp_closed {a b c : BHist} (left : ContinuationMorphis
               rel := by
                 cases leftRel
                 exact rightRel.trans (append_assoc a leftTail rightTail) }
-
+theorem ContinuationMorphism_comp_empty_target_inversion {a b : BHist} (left : ContinuationMorphism a b) (right : ContinuationMorphism b BHist.Empty) : hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty := by
+  cases left with | mk leftTail leftRel => cases right with | mk rightTail rightRel =>
+  exact let rp := cont_empty_result_inversion rightRel; let lp := cont_empty_result_inversion (show Cont a leftTail BHist.Empty from by cases rp.left; exact leftRel); ⟨lp.left, rp.left, lp.right, rp.right⟩
+theorem ContinuationMorphism_comp_endpoint_cycle_tail_empty {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    hsame a c -> hsame (ContinuationMorphism_comp_closed left right).tail BHist.Empty := by
+  intro sameEndpoint
+  exact cont_right_unit_unique
+    (cont_result_hsame_transport
+      (ContinuationMorphism_comp_closed left right).rel (hsame_symm sameEndpoint))
 theorem ContinuationMorphism_identity_tail_hsame {a b : BHist}
     (m : ContinuationMorphism a b) :
     hsame (ContinuationMorphism_comp_closed { tail := BHist.Empty, rel := cont_right_unit a } m).tail
@@ -317,7 +337,6 @@ theorem ContinuationMorphism_identity_tail_hsame {a b : BHist}
       constructor
       · exact append_empty_left tail
       · exact append_empty_right tail
-
 theorem ContinuationMorphism_identity_comp_closure :
     (forall h : BHist, Nonempty (ContinuationMorphism h h)) ∧
       (forall {a b c : BHist}, ContinuationMorphism a b ->
@@ -326,14 +345,7 @@ theorem ContinuationMorphism_identity_comp_closure :
   · intro h
     exact Nonempty.intro { tail := BHist.Empty, rel := cont_right_unit h }
   · intro a b c left right
-    cases left with
-    | mk leftTail leftRel =>
-        cases right with
-        | mk rightTail rightRel =>
-            refine Nonempty.intro { tail := append leftTail rightTail, rel := ?_ }
-            cases leftRel
-            exact rightRel.trans (append_assoc a leftTail rightTail)
-
+    exact Nonempty.intro (ContinuationMorphism_comp_closed left right)
 theorem ContinuationMorphism_comp_assoc_closed {a b c d : BHist}
     (first : ContinuationMorphism a b) (second : ContinuationMorphism b c)
     (third : ContinuationMorphism c d) :
@@ -361,7 +373,6 @@ theorem ContinuationMorphism_comp_assoc_closed {a b c d : BHist}
                 exact (append_assoc (append a firstTail) secondTail thirdTail).trans
                   (append_assoc a firstTail (append secondTail thirdTail))
               · exact append_assoc firstTail secondTail thirdTail
-
 theorem ContinuationMorphism_comp_assoc_tail_hsame {a b c d : BHist}
     (first : ContinuationMorphism a b) (second : ContinuationMorphism b c)
     (third : ContinuationMorphism c d) :
@@ -369,18 +380,10 @@ theorem ContinuationMorphism_comp_assoc_tail_hsame {a b c d : BHist}
         third).tail
       (ContinuationMorphism_comp_closed first
         (ContinuationMorphism_comp_closed second third)).tail := by
-  cases first with
-  | mk firstTail firstRel =>
-      cases second with
-      | mk secondTail secondRel =>
-          cases third with
-          | mk thirdTail thirdRel =>
-              have tailSame :
-                  hsame (append (append firstTail secondTail) thirdTail)
-                    (append firstTail (append secondTail thirdTail)) :=
-                append_assoc firstTail secondTail thirdTail
-              exact tailSame
-
+  cases first
+  cases second
+  cases third
+  exact append_assoc _ _ _
 def ContinuationMorphism_comp_right_factor {a b c rightTail : BHist}
     (left : ContinuationMorphism a b) (composite : ContinuationMorphism a c) :
     Cont left.tail rightTail composite.tail -> ContinuationMorphism b c := by
@@ -394,7 +397,6 @@ def ContinuationMorphism_comp_right_factor {a b c rightTail : BHist}
           cases tailRel
           cases compositeRel
           exact cont_intro (append_assoc a leftTail rightTail).symm
-
 def ContinuationMorphism_comp_left_factor {a b c leftTail : BHist}
     (right : ContinuationMorphism b c) (composite : ContinuationMorphism a c) :
     Cont leftTail right.tail composite.tail -> ContinuationMorphism a b := by
@@ -405,7 +407,6 @@ def ContinuationMorphism_comp_left_factor {a b c leftTail : BHist}
       | mk compositeTail compositeRel =>
           refine { tail := leftTail, rel := ?_ }
           exact cont_composite_left_factor rightRel tailRel compositeRel
-
 theorem category_cont_left_e0_result_cases {h k r : BHist} :
     Cont (BHist.e0 h) k (BHist.e0 r) ->
       (k = BHist.Empty ∧ hsame h r) ∨
@@ -422,7 +423,6 @@ theorem category_cont_left_e0_result_cases {h k r : BHist} :
       exact Exists.intro k0 (And.intro rfl (BHist.e0.inj hcont))
   | e1 k0 =>
       cases hcont
-
 theorem CategoryHomCarrier_left_e1_result_cases {a k r : BHist} :
     CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) k ->
       (k = BHist.Empty /\ UnaryHistory a /\ hsame a r) \/
@@ -449,7 +449,6 @@ theorem CategoryHomCarrier_left_e1_result_cases {a k r : BHist} :
                       (And.intro rfl
                         (And.intro (unary_e1_inversion morphCarrier)
                           (BHist.e1.inj homCont))))
-
 theorem CategoryHomCarrier_e1_morphism_target_iff {a k r : BHist} :
     CategoryHomCarrier a (BHist.e1 r) (BHist.e1 k) <->
       UnaryHistory a ∧ UnaryHistory k ∧ Cont a k r := by
@@ -472,7 +471,6 @@ theorem CategoryHomCarrier_e1_morphism_target_iff {a k r : BHist} :
               (And.intro
                 (unary_e1_closed (unary_cont_closed sourceCarrier morphCarrier homCont))
                 (And.intro (unary_e1_closed morphCarrier) (cont_step_one homCont)))
-
 theorem CategoryHomCarrier_e1_target_morphism_exactness {a k r : BHist} :
     CategoryHomCarrier a (BHist.e1 r) (BHist.e1 k) → CategoryHomCarrier a r k := by
   intro homCarrier
@@ -486,7 +484,6 @@ theorem CategoryHomCarrier_e1_target_morphism_exactness {a k r : BHist} :
                 (And.intro (unary_e1_inversion targetCarrier)
                   (And.intro (unary_e1_inversion morphCarrier)
                     (cont_step_rules_inversion_pair.right homCont)))
-
 theorem CategoryHomCarrier_e1_source_e1_morphism_target_iff {a k target : BHist} :
     CategoryHomCarrier (BHist.e1 a) target (BHist.e1 k) <->
       exists r : BHist, target = BHist.e1 r /\ UnaryHistory a /\ UnaryHistory k /\
@@ -527,7 +524,6 @@ theorem CategoryHomCarrier_e1_source_e1_morphism_target_iff {a k target : BHist}
                           (And.intro (unary_e1_closed targetCarrier)
                             (And.intro (unary_e1_closed morphCarrier)
                               (cont_step_one homCont)))
-
 theorem CategoryHomCarrier_e1_source_empty_target_absurd {a f : BHist} :
     CategoryHomCarrier (BHist.e1 a) BHist.Empty f -> False := by
   intro homCarrier
@@ -544,7 +540,8 @@ theorem CategoryHomCarrier_e1_source_empty_target_absurd {a f : BHist} :
                   cases homCont
               | e1 f1 =>
                   cases homCont
-
+theorem CategoryHomCarrier_visible_source_empty_target_comp_absurd {a b f g : BHist} : CategoryHomCarrier (BHist.e1 a) b f -> CategoryHomCarrier b BHist.Empty g -> False := by
+  intro left right; exact CategoryHomCarrier_e1_source_empty_target_absurd (CategoryHomCarrier_comp_closed left right (cont_intro rfl))
 theorem CategoryHomCarrier_e1_source_morphism_cases {a target morph : BHist} :
     CategoryHomCarrier (BHist.e1 a) target morph ->
       (morph = BHist.Empty /\ target = BHist.e1 a /\ UnaryHistory a) \/
@@ -580,7 +577,6 @@ theorem CategoryHomCarrier_e1_source_morphism_cases {a target morph : BHist} :
                                 (And.intro (unary_e1_inversion morphCarrier)
                                   (And.intro (unary_e1_inversion targetCarrier)
                                     (BHist.e1.inj homCont)))))))
-
 theorem CategoryHomCarrier_identity_semanticNameCert {a : BHist} :
     UnaryHistory a ->
       BEDC.FKernel.NameCert.SemanticNameCert (CategoryHomCarrier a a)
@@ -602,5 +598,7 @@ theorem CategoryHomCarrier_identity_semanticNameCert {a : BHist} :
     exact source
   · intro h source
     exact source
-
+theorem CategoryHomCarrier_endomorphism_empty_iff {a f : BHist} : CategoryHomCarrier a a f ↔ UnaryHistory a ∧ hsame f BHist.Empty :=
+  ⟨fun h => ⟨h.left, cont_right_unit_unique h.right.right.right⟩,
+    fun h => by cases h.right; exact CategoryHomCarrier_empty_identity h.left⟩
 end BEDC.Derived.CategoryUp

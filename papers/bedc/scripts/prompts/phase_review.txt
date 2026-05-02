@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v2.1 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.2 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -103,6 +103,32 @@ Track the recent activity profile and the current size of `papers/bedc/parts/` f
 The pipeline runs many rounds in parallel; concentrating them in one file produces label collisions and bookkeeping growth without theory growth. Spread the work.
 
 In `notes`, briefly state (a) which files appeared most often in the last 20 commits, (b) the line counts of every file listed in `targets[*].paper_files[0]`, and (c) confirm the chosen target spreads the workload and stays under 760 lines (or is a split).
+
+## Pre-emit redundancy gate (HARD GATE)
+
+Four consecutive paper rounds (P835/P836/P837/P838) failed with "Verify: no commits unique to this round" — Phase REVIEW emitted a target whose content was already covered in the chapter, and Phase REVISE found nothing to add and exited fast (~30-50s codex exec, no commits). To pre-empt, before emitting a `theory_extension` or `missing_companion` candidate:
+
+1. **Label collision pre-check.** If the candidate's `proposed_change` mentions a specific `\label{thm:<X>}` / `\label{def:<X>}` / `\label{prop:<X>}`, run:
+   ```bash
+   grep -rE "\\\\label\{(thm|def|prop|cor|prin|lem):<X>\}" papers/bedc/parts/
+   ```
+   If the label already exists anywhere under `papers/bedc/parts/`, the target is INVALID — pick another or strictly rename.
+
+2. **Title collision pre-check.** If the candidate's `proposed_change` includes a `\begin{theorem}[<title>]` / `\begin{definition}[<title>]` clause, grep the target chapter for an equivalent existing block:
+   ```bash
+   grep -nE "\\\\begin\{(theorem|definition|lemma|proposition)\}\[" papers/bedc/parts/<paper_files[0]>
+   ```
+   If a block with semantically equivalent title already exists, the candidate is redundant.
+
+3. **Marker redundancy pre-check.** For a `missing_companion` candidate naming an existing `\leanchecked{<Lean.target>}` / `\leanstmt{<Lean.target>}`, grep the candidate's chapter for that target:
+   ```bash
+   grep -F "<Lean.target>" papers/bedc/parts/<paper_files[0]>
+   ```
+   If the marker is already there, the marker is already wired and adding it again would be a no-op.
+
+4. **Statement subsumption.** If the candidate's `proposed_change` describes a theorem whose conclusion (after stripping macros and quantifiers) reads as the conclusion of any existing `\begin{theorem}[...]` block in the same section, the candidate is a duplicate — skip it.
+
+If these checks empty the candidate pool for this chapter, EXPAND search to non-saturated chapters (see Critical-path discovery above) before emitting `{"targets": []}`. An empty round is preferred over a fast-empty failure (the empty round costs no Phase REVISE budget; a fast-empty failure consumes ~30-50s of REVISE codex exec for nothing).
 
 A `theory_extension` target must include a precise theorem/lemma/definition shape in `proposed_change`, the existing definitions/theorems it depends on, a constructive proof skeleton, why it is not a trivial variant of one existing checked theorem, and the Lean namespace where it should naturally be formalized later. It must also state one downstream use: a later theorem, certificate, bridge, roadmap exit criterion, or Lean formalization target that would consume the result.
 

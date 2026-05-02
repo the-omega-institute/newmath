@@ -16,6 +16,12 @@ theorem cont_hsame_transport {h h' k k' r r' : BHist} :
   cases sameH
   cases sameK
   exact BEDC.FKernel.Cont.cont_result_hsame_transport hcont sameR
+theorem cont_transport_result_classified {h h' k k' r r' s : BHist} :
+    hsame h h' -> hsame k k' -> hsame r r' -> Cont h k r -> Cont h' k' s ->
+      Cont h' k' r' ∧ hsame r' s := by
+  intro sameH sameK sameR left right
+  have transported := cont_hsame_transport sameH sameK sameR left
+  exact And.intro transported (cont_deterministic transported right)
 
 theorem cont_cancel_common_context {a b c d ab ad left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont a d ad -> Cont ad c right ->
@@ -57,6 +63,63 @@ theorem cont_mutual_extension_tails_empty {h k leftTail rightTail : BHist} :
   have tailEmpty : hsame (append leftTail rightTail) BHist.Empty :=
     cont_right_unit_unique cycle
   exact append_eq_empty_iff.mp tailEmpty
+
+theorem cont_self_extension_tail_absurd {h tail : BHist} :
+    (Cont h (BHist.e0 tail) h -> False) ∧
+      (Cont h (BHist.e1 tail) h -> False) := by
+  constructor
+  · intro hcont
+    exact not_hsame_e0_empty (cont_right_unit_unique hcont)
+  · intro hcont
+    exact not_hsame_e1_empty (cont_right_unit_unique hcont)
+
+theorem cont_mutual_extension_left_tail_absurd {h k leftTail rightTail : BHist} :
+    (Cont h (BHist.e0 leftTail) k -> Cont k rightTail h -> False) ∧
+      (Cont h (BHist.e1 leftTail) k -> Cont k rightTail h -> False) := by
+  constructor
+  · intro left right
+    exact not_hsame_e0_empty (cont_mutual_extension_tails_empty left right).left
+  · intro left right
+    exact not_hsame_e1_empty (cont_mutual_extension_tails_empty left right).left
+
+theorem cont_mutual_extension_right_tail_absurd {h k leftTail rightTail : BHist} :
+    (Cont h leftTail k -> Cont k (BHist.e0 rightTail) h -> False) ∧
+      (Cont h leftTail k -> Cont k (BHist.e1 rightTail) h -> False) := by
+  constructor
+  · intro left right
+    exact not_hsame_e0_empty (cont_mutual_extension_tails_empty left right).right
+  · intro left right
+    exact not_hsame_e1_empty (cont_mutual_extension_tails_empty left right).right
+
+theorem cont_triangle_cycle_left_visible_tail_absurd {a b c k g h : BHist} :
+    Cont a (BHist.e1 k) b -> Cont b g c -> Cont c h a -> False := by
+  intro left right back
+  have composite : Cont a (append (BHist.e1 k) g) c := by
+    cases left
+    exact right.trans (append_assoc a (BHist.e1 k) g)
+  have cycleTails :
+      hsame (append (BHist.e1 k) g) BHist.Empty ∧ hsame h BHist.Empty :=
+    cont_mutual_extension_tails_empty composite back
+  exact not_hsame_e1_empty (append_eq_empty_iff.mp cycleTails.left).left
+
+theorem cont_triangle_cycle_middle_visible_tail_absurd {a b c f k h : BHist} :
+    Cont a f b -> Cont b (BHist.e1 k) c -> Cont c h a -> False := by
+  intro left middle back
+  have composite : Cont a (append f (BHist.e1 k)) c := by
+    cases left
+    exact middle.trans (append_assoc a f (BHist.e1 k))
+  have cycleTails :
+      hsame (append f (BHist.e1 k)) BHist.Empty ∧ hsame h BHist.Empty :=
+    cont_mutual_extension_tails_empty composite back
+  exact not_hsame_e1_empty (append_eq_empty_iff.mp cycleTails.left).right
+
+theorem cont_triangle_cycle_right_visible_tail_absurd {a b c f g k : BHist} :
+    Cont a f b -> Cont b g c -> Cont c (BHist.e1 k) a -> False := by
+  intro left middle back
+  have composite : Cont a (append f g) c := by
+    cases left
+    exact middle.trans (append_assoc a f g)
+  exact (cont_mutual_extension_right_tail_absurd.right composite back)
 
 theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
     Cont a b r -> Cont a' d r' -> hsame a a' -> hsame r r' -> hsame b d := by

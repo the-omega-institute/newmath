@@ -1,0 +1,553 @@
+\begin{definition}[Rat denominator external-unit envelope]
+\label{def:field-rat-denominator-unit-envelope}
+The Rat denominator external-unit envelope over the concrete continuation
+instance of
+\autoref{def:field-rat-denominator-concrete-continuation-instance} has carrier,
+classifier, operation, and unit
+$$
+C_D^\ast(h)\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(h)\lor h\hsame\emp,
+$$
+$$
+R_D^\ast(h,k)\Longleftrightarrow
+\left(
+\mathsf{RatHistoryCarrier}(h)\land
+\mathsf{RatHistoryCarrier}(k)\land
+\mathsf{RatHistoryClassifier}(h,k)
+\right)
+\lor
+\left(h\hsame\emp\land k\hsame\emp\right),
+$$
+$$
+\mu_D^\ast(h,k):=\mathsf{append}(h,k),
+$$
+with external unit $e_D^\ast:=\emp$. The first classifier branch is the original
+Rat denominator classifier guarded by carried denominator evidence. The second
+branch is the single external endpoint clause, so mixed carried-empty pairs are
+not classified merely by adjoining $e_D^\ast$.
+\end{definition}
+
+\begin{theorem}[Rat denominator external-unit envelope classifier normal form]
+\label{thm:field-rat-denominator-unit-envelope-classifier-normal-form}
+For the explicit envelope of
+\autoref{def:field-rat-denominator-unit-envelope} and the adjoined empty-unit
+classifier of \autoref{def:field-rat-denominator-unit-carrier}, the following
+normal forms coincide:
+\begin{enumerate}
+  \item For every history $h:\mathsf{BHist}$,
+  $$
+  C_D^\ast(h)\Longleftrightarrow\mathsf{RatDenomUnitCarrier}(h).
+  $$
+  \item For every pair of histories $h,k:\mathsf{BHist}$,
+  $$
+  R_D^\ast(h,k)\Longleftrightarrow
+  C_D^\ast(h)\land C_D^\ast(k)\land h\hsame k.
+  $$
+  \item For every pair of histories $h,k:\mathsf{BHist}$,
+  $$
+  R_D^\ast(h,k)\Longleftrightarrow
+  \mathsf{RatDenomUnitClassifier}(h,k).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $C_D^\ast$ and $\mathsf{RatDenomUnitCarrier}$. The two carriers have the
+same two alternatives, namely a carried Rat denominator endpoint and the
+external empty endpoint; the displayed iff only exchanges the order of these
+alternatives.
+
+For the classifier-to-normal-form direction, split the defining alternatives of
+$R_D^\ast(h,k)$. In the guarded carried branch,
+$\mathsf{RatHistoryClassifier}(h,k)$ is precisely carried-left, carried-right,
+and $h\hsame k$, so the two endpoints lie in $C_D^\ast$ by the carried
+alternative and the final comparison is the classifier comparison.
+
+In the empty-empty branch, both endpoints lie in $C_D^\ast$ by the empty
+alternative, and transitivity with symmetry gives $h\hsame k$ from
+$h\hsame\emp$ and $k\hsame\emp$.
+
+For the normal-form-to-classifier direction, split the two $C_D^\ast$ endpoint
+witnesses. The carried-carried case uses
+$\mathsf{RatHistoryCarrier\_hsame\_transport}$ to view the right endpoint as a
+Rat carrier when needed, then packs carried-left, carried-right, and $h\hsame k$
+as $\mathsf{RatHistoryClassifier}(h,k)$ and chooses the guarded branch of
+$R_D^\ast$.
+
+The empty-empty case chooses the second branch of $R_D^\ast$ after transporting
+the displayed $h\hsame k$ comparison to the common endpoint $\emp$.
+
+The two mixed cases are impossible: a carried endpoint that is $\hsame$ to an
+empty endpoint is excluded by $\mathsf{RatHistoryCarrier\_not\_empty}$, using
+transitivity and symmetry to orient the contradiction.
+
+Finally unfold $\mathsf{RatDenomUnitClassifier}$. By the first clause,
+$\mathsf{RatDenomUnitCarrier}$ is the same carrier as $C_D^\ast$; by the second
+clause, $R_D^\ast(h,k)$ is exactly the conjunction of the two carrier witnesses
+and $h\hsame k$. This is precisely the denominator unit classifier.
+\end{proof}
+
+\begin{theorem}[Rat denominator external-unit envelope classifier exactness]
+\label{thm:field-rat-denominator-unit-envelope-classifier-exactness}
+For all histories $h,k:\mathsf{BHist}$, the classifier $R_D^\ast$ of
+\autoref{def:field-rat-denominator-unit-envelope} splits exactly as follows.
+\begin{enumerate}
+  \item If $\mathsf{RatHistoryCarrier}(h)$ and
+  $\mathsf{RatHistoryCarrier}(k)$, then
+  $$
+  R_D^\ast(h,k)\Longleftrightarrow
+  \mathsf{RatHistoryClassifier}(h,k).
+  $$
+  \item If $\mathsf{RatHistoryCarrier}(h)$ and $k\hsame\emp$, then
+  $\neg R_D^\ast(h,k)$.
+  \item If $h\hsame\emp$ and $\mathsf{RatHistoryCarrier}(k)$, then
+  $\neg R_D^\ast(h,k)$.
+  \item If $h\hsame\emp$ and $k\hsame\emp$, then $R_D^\ast(h,k)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $R_D^\ast$. In the carried-carried case, the forward implication cannot
+come from the empty-empty branch, because that branch would make the carried
+endpoint $h$ $\hsame$ to $\emp$, contradicting
+$\mathsf{RatHistoryCarrier\_not\_empty}$. The remaining branch is exactly the
+guarded $\mathsf{RatHistoryClassifier}(h,k)$ branch. The reverse implication
+uses the two displayed carrier witnesses together with that guarded branch.
+
+For a carried-left and empty-right pair, the guarded carried branch would give
+$\mathsf{RatHistoryCarrier}(k)$, and
+$\mathsf{RatHistoryCarrier\_not\_empty}$ rejects it against $k\hsame\emp$. The
+empty-empty branch would make $h\hsame\emp$, which is rejected by the same
+nonemptiness theorem applied to $\mathsf{RatHistoryCarrier}(h)$.
+
+The empty-left and carried-right pair is symmetric. The guarded carried branch
+would make the left endpoint a Rat carrier and hence nonempty, while the
+empty-empty branch contradicts the carried right endpoint through
+$\mathsf{RatHistoryCarrier\_not\_empty}$.
+
+If both endpoints are $\hsame$ to $\emp$, choose the second branch in the
+definition of $R_D^\ast$. This is precisely the external endpoint clause.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_unit\_envelope\_classifier\_exactness}
+
+\begin{theorem}[Rat denominator external-unit envelope monoid laws]
+\label{thm:field-rat-denominator-unit-envelope-monoid-laws}
+The data
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope} satisfy the following laws.
+\begin{enumerate}
+  \item Carrier inhabitance: $C_D^\ast(e_D^\ast)$.
+  \item Closure: if $C_D^\ast(h)$ and $C_D^\ast(k)$, then
+  $C_D^\ast(\mu_D^\ast(h,k))$.
+  \item Associativity under the classifier: if $C_D^\ast(h)$, $C_D^\ast(k)$,
+  and $C_D^\ast(l)$, then
+  $R_D^\ast(\mu_D^\ast(\mu_D^\ast(h,k),l),
+  \mu_D^\ast(h,\mu_D^\ast(k,l)))$.
+  \item Left and right unit laws:
+  $R_D^\ast(\mu_D^\ast(e_D^\ast,h),h)$ and
+  $R_D^\ast(\mu_D^\ast(h,e_D^\ast),h)$ for every $h$ with $C_D^\ast(h)$.
+  \item Binary classifier congruence: if $R_D^\ast(h,h')$ and
+  $R_D^\ast(k,k')$, then
+  $R_D^\ast(\mu_D^\ast(h,k),\mu_D^\ast(h',k'))$.
+  \item Restriction: on carried denominators, $C_D^\ast$, $R_D^\ast$, and
+  $\mu_D^\ast$ restrict to $C_D$, $R_D$, and $\mu_D$ from
+  \autoref{def:field-rat-denominator-concrete-continuation-instance}.
+  \item Obstruction: if a carried endpoint $u$ satisfies either one-sided
+  classifier-unit law on carried denominators, then $\mathsf{False}$.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_unit\_envelope\_monoid\_laws}
+\begin{proof}
+For carrier inhabitance, use the right disjunct in $C_D^\ast$ with reflexivity
+at $\emp$. The carried/carried closure case is exactly
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}; the
+carried/empty and empty/carried cases reduce by the append unit laws and then
+transport the carried witness by
+$\mathsf{RatHistoryCarrier\_hsame\_transport}$. The empty/empty case is the
+right carrier disjunct at $\emp$.
+
+For associativity, split the three envelope carrier witnesses into their carried
+or external-empty alternatives. The carried/carried/carried branch is the
+associativity clause of
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}. Every
+branch containing an external-empty endpoint uses the append unit laws to remove
+that endpoint, uses $\mathsf{append\_assoc}$ for the common bracketing spine,
+and then repacks either the transported carried classifier or the reflexive
+empty-empty classifier branch.
+
+For the unit laws, split $C_D^\ast(h)$. In the carried branch,
+$\mathsf{append}(\emp,h)$ and $\mathsf{append}(h,\emp)$ are transported back to
+$h$ by the append unit laws, and
+$\mathsf{RatHistoryClassifier\_hsame\_transport}$ supplies the guarded carried
+classifier branch. In the external-empty branch, both displayed products are
+$\hsame$ to $\emp$, so the empty-empty branch of $R_D^\ast$ applies.
+
+For binary classifier congruence, split the two classifier witnesses. The
+carried/carried classifier branch invokes the congruence clause of
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}. If one
+input classifier is the empty-empty branch, the append unit laws collapse that
+side, and $\mathsf{RatHistoryClassifier\_hsame\_transport}$ transports the
+remaining carried classifier; if both are empty-empty, both appended products
+are $\hsame$ to $\emp$.
+
+The restriction clause is immediate from the guarded carried branch of
+$R_D^\ast$ and the definitions of $C_D^\ast$ and $\mu_D^\ast$ when the inputs
+are carried denominators.
+
+Finally, a carried endpoint satisfying a right or left one-sided classifier-unit
+law on the carried denominator fragment is ruled out by
+\autoref{thm:field-rat-denominator-continuation-no-one-sided-internal-unit}.
+Thus adjoining the external endpoint gives a unit-bearing envelope, not an
+internal $\FieldUp$ multiplication on the positive Rat denominator carrier.
+\end{proof}
+
+\begin{theorem}[Rat denominator external-unit envelope unit uniqueness]
+\label{thm:field-rat-denominator-unit-envelope-unit-unique}
+For every history $u:\mathsf{BHist}$ with $C_D^\ast(u)$, the unit laws of the
+external envelope classify $u$ as the named endpoint $e_D^\ast$:
+\begin{enumerate}
+  \item if
+
+  $$
+  \forall h:\mathsf{BHist}.\;
+  C_D^\ast(h)\to
+  R_D^\ast(\mu_D^\ast(h,u),h),
+  $$
+
+  then $R_D^\ast(u,e_D^\ast)$;
+  \item if
+
+  $$
+  \forall h:\mathsf{BHist}.\;
+  C_D^\ast(h)\to
+  R_D^\ast(\mu_D^\ast(u,h),h),
+  $$
+
+  then $R_D^\ast(u,e_D^\ast)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Split the carrier witness $C_D^\ast(u)$ into the carried Rat denominator branch
+and the external-empty branch. In the external-empty branch, $u\hsame\emp$ and
+$e_D^\ast=\emp$, so the empty-empty branch of $R_D^\ast$ immediately gives
+$R_D^\ast(u,e_D^\ast)$ for either one-sided law.
+
+Assume now that $u$ is carried and that the right envelope unit law is
+displayed. Restrict this law to a carried Rat denominator $d$. The closure part
+of \autoref{thm:field-rat-denominator-unit-envelope-monoid-laws} makes
+$\mu_D^\ast(d,u)$ carried, while
+\autoref{thm:rat-history-carrier-not-empty} rules out the empty-empty branch
+against the carried input $d$.
+
+Unfolding the guarded branch of $R_D^\ast$ therefore gives the Rat denominator
+classifier for the canonical append product. For any displayed continuation
+$\Cont(d,u,r)$, compare it with the canonical append continuation witness and
+transport the classifier to obtain
+$\mathsf{RatHistoryClassifier}(r,d)$. This is exactly the right-unit
+continuation law, so
+\autoref{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}
+yields $u\hsame\emp$.
+
+The empty comparison $u\hsame\emp$, together with $e_D^\ast=\emp$, gives the
+empty-empty classifier branch of $R_D^\ast(u,e_D^\ast)$.
+
+The left envelope unit law is symmetric. Restrict it to carried Rat
+denominators, unfold the carried branch of
+$R_D^\ast(\mu_D^\ast(u,d),d)$, use the canonical append continuation witness to
+obtain the displayed left-unit continuation law, and apply
+\autoref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}.
+The resulting comparison $u\hsame\emp$ again repacks through the empty-empty
+branch as $R_D^\ast(u,e_D^\ast)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_unit\_envelope\_unit\_unique}
+
+\begin{theorem}[Rat denominator external-unit envelope carried classifier exactness]
+\label{thm:field-rat-denominator-unit-envelope-carried-classifier-exactness}
+For all histories $h,k:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(h)$ and $\mathsf{RatHistoryCarrier}(k)$, then
+$$
+R_D^\ast(h,k)\Longleftrightarrow\mathsf{RatHistoryClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $R_D^\ast$ from
+\autoref{def:field-rat-denominator-unit-envelope}. The reverse direction uses
+the guarded carried branch: the two displayed carrier witnesses for $h$ and
+$k$, together with $\mathsf{RatHistoryClassifier}(h,k)$, assemble the first
+disjunct of the envelope classifier.
+
+For the forward direction, split the envelope classifier witness. In the
+guarded carried branch, the third component is already
+$\mathsf{RatHistoryClassifier}(h,k)$, so projection gives the desired Rat
+classifier.
+
+It remains to reject the empty-empty branch on carried inputs. That branch
+contains $h\hsame\emp$; applying
+\autoref{thm:rat-history-carrier-not-empty} to the carried witness for $h$ and
+this endpoint comparison yields $\mathsf{False}$, from which the Rat classifier
+conclusion follows constructively.
+\end{proof}
+
+This is the exactness predicate promised for restriction back to the carried
+Rat denominator continuation instance.
+
+\textbf{Traditional target}: unit-enveloped denominator monoid fragment for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, $\Cont$, and
+$\mathsf{append}$; \textbf{carrier choice}: the external-unit envelope
+$C_D^\ast$; \textbf{classifier choice}: the carried Rat classifier plus the
+empty-empty endpoint classifier; \textbf{stability obligation}: carrier closure,
+associativity, unit laws, classifier congruence, restriction to the carried
+continuation instance, unit endpoint uniqueness, and one-sided carried-unit
+obstruction; \textbf{ledger}: the external unit bit plus continuation witness;
+\textbf{core theorems}:
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}
+and
+\autoref{thm:field-rat-denominator-unit-envelope-unit-unique};
+\textbf{exactness predicate}: restriction back to the carried Rat denominator
+continuation instance, with the adjoined endpoint as the unique envelope unit
+up to $R_D^\ast$; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator external-unit envelope is strict]
+\label{thm:field-rat-denominator-unit-envelope-strict}
+For the concrete carried data $C_D$, $R_D$, and $\mu_D$ of
+\autoref{def:field-rat-denominator-concrete-continuation-instance} and the
+envelope data $C_D^\ast$, $R_D^\ast$, $\mu_D^\ast$, and $e_D^\ast$ of
+\autoref{def:field-rat-denominator-unit-envelope}, the adjoined endpoint is
+strictly external and the carried fragment is recovered exactly.
+\begin{enumerate}
+  \item $C_D^\ast(e_D^\ast)$ and $\neg C_D(e_D^\ast)$.
+  \item For every $h:\mathsf{BHist}$, if $C_D(h)$, then
+  $\neg R_D^\ast(h,e_D^\ast)$ and $\neg R_D^\ast(e_D^\ast,h)$.
+  \item For every $h,k:\mathsf{BHist}$, if $C_D(h)$ and $C_D(k)$, then
+  $$
+  R_D^\ast(h,k)\Longleftrightarrow R_D(h,k).
+  $$
+  On the same carried inputs, the displayed product is the original append
+  product:
+  $$
+  \mu_D^\ast(h,k)=\mu_D(h,k)=\mathsf{append}(h,k).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is the first clause of
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}. For the
+exclusion from the carried fragment, unfold
+\autoref{def:field-rat-denominator-concrete-continuation-instance} and
+\autoref{def:field-rat-denominator-unit-envelope}: $e_D^\ast$ is $\emp$ and
+$C_D$ is $\mathsf{RatHistoryCarrier}$. Then
+\autoref{thm:rat-history-carrier-not-empty} rules out a carried witness at the
+empty history.
+
+For the mixed right endpoint, assume $C_D(h)$ and
+$R_D^\ast(h,e_D^\ast)$. Unfolding $R_D^\ast$ gives either the guarded carried
+branch or the empty-empty branch. The guarded carried branch includes
+$C_D(e_D^\ast)$, contradicting the endpoint exclusion already proved. The
+empty-empty branch gives $h\hsame\emp$, contradicting
+\autoref{thm:rat-history-carrier-not-empty} applied to the carried witness
+$C_D(h)$. The mixed left endpoint is identical after swapping the two inputs.
+
+It remains to recover the carried classifier. Suppose $C_D(h)$ and $C_D(k)$.
+If $R_D^\ast(h,k)$ holds, unfold $R_D^\ast$. The empty-empty branch would give
+$h\hsame\emp$, contradicting the same non-emptiness theorem, so the guarded
+carried branch remains and yields $R_D(h,k)$.
+
+Conversely, from $C_D(h)$, $C_D(k)$, and $R_D(h,k)$, the guarded carried branch
+of $R_D^\ast(h,k)$ applies directly. Finally, unfolding the two displayed
+operations shows that $\mu_D^\ast$ and $\mu_D$ both return the append history
+on carried inputs.
+\end{proof}
+
+\begin{theorem}[Rat denominator external-unit envelope mixed endpoint separation]
+\label{thm:field-rat-denominator-unit-envelope-mixed-endpoint-separation}
+For all $d,e:\mathsf{BHist}$, the external-unit classifier $R_D^u$ has no
+mixed carried-empty endpoint branch:
+$$
+(\mathsf{RatHistoryCarrier}(d)\land e\hsame\emp)
+\to (R_D^u(d,e)\to \mathsf{False}),
+$$
+and
+$$
+(d\hsame\emp\land \mathsf{RatHistoryCarrier}(e))
+\to (R_D^u(d,e)\to \mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $R_D^u$ and then
+$\mathsf{RatDenomUnitClassifier}$. In the first displayed implication, the
+classifier supplies $d\hsame e$. Combining this comparison with $e\hsame\emp$
+by symmetry and transitivity of $\hsame$ from
+\autoref{thm:history-sameness-equivalence} gives $d\hsame\emp$.
+
+Together with $\mathsf{RatHistoryCarrier}(d)$, rational history carrier
+nonemptiness, \autoref{thm:rat-history-carrier-not-empty}, gives
+$\mathsf{False}$.
+
+The second displayed implication is symmetric. The classifier again supplies
+$d\hsame e$; together with $d\hsame\emp$ and the equivalence laws for $\hsame$,
+this gives $e\hsame\emp$. The carried endpoint
+$\mathsf{RatHistoryCarrier}(e)$ is then contradicted by
+\autoref{thm:rat-history-carrier-not-empty}.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_mixed\_endpoint\_absurd}
+
+\textbf{Traditional target}: mixed-endpoint separation for the unit envelope;
+\textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, $\Cont$, and $\emp$; \textbf{carrier choice}:
+$C_D^u$; \textbf{classifier choice}: $R_D^u$; \textbf{stability
+obligation}: mixed-branch separation; \textbf{ledger}: the external-unit bit;
+\textbf{core theorem}:
+\autoref{thm:field-rat-denominator-unit-envelope-mixed-endpoint-separation};
+\textbf{exactness predicate}: absence of mixed carried-empty classification;
+\textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator external-unit envelope certificate]
+\label{thm:field-rat-denominator-unit-envelope-certificate}
+For the concrete carried denominator data $(C_D,R_D,\mu_D)$ of
+\autoref{def:field-rat-denominator-concrete-continuation-instance}, the tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope} is the concrete
+unit-bearing denominator envelope used by $\FieldUp(\mathsf{RatUp})$ in the
+following sense.
+\begin{enumerate}
+  \item $C_D^\ast(e_D^\ast)$; $C_D^\ast$ is closed under $\mu_D^\ast$;
+  $\mu_D^\ast$ is associative up to $R_D^\ast$; $e_D^\ast$ satisfies the left
+  and right unit laws; and $\mu_D^\ast$ respects binary $R_D^\ast$-classified
+  endpoints.
+  \item On carried denominators, the envelope restricts to the concrete
+  fragment: $C_D^\ast$ restricts to $C_D$, $R_D^\ast$ restricts to $R_D$, and
+  $\mu_D^\ast$ restricts to $\mu_D$.
+  \item The endpoint $e_D^\ast$ is envelope-carried and not $C_D$-carried, and
+  no carried endpoint is classified with $e_D^\ast$ on either side.
+  \item The empty-unit endpoint classifier $R_D^u$ has no mixed carried-empty
+  endpoint branch.
+  \item If $u:\mathsf{BHist}$ is carried by $C_D^\ast$ and satisfies either
+  one-sided envelope unit law, then $R_D^\ast(u,e_D^\ast)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier inhabitance, closure, associativity, one-sided unit laws, and binary
+classifier congruence are exactly the law package in
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}. The same theorem
+also records the restriction of $C_D^\ast$, $R_D^\ast$, and $\mu_D^\ast$ to the
+carried denominator fragment.
+
+For carried classifier exactness, use
+\autoref{thm:field-rat-denominator-unit-envelope-carried-classifier-exactness}
+on carried pairs. The strict endpoint and the exclusion of carried endpoints
+against $e_D^\ast$ are the three clauses of
+\autoref{thm:field-rat-denominator-unit-envelope-strict}.
+
+The mixed carried-empty exclusion for the endpoint classifier is precisely
+\autoref{thm:field-rat-denominator-unit-envelope-mixed-endpoint-separation}.
+It supplies both orientations of the carried-empty case split.
+
+Finally, any carried envelope endpoint satisfying a right or left one-sided
+unit law is classified with $e_D^\ast$ by
+\autoref{thm:field-rat-denominator-unit-envelope-unit-unique}. These pieces
+package the concrete carrier, classifier, append operation, external endpoint,
+restriction, and endpoint separation into the displayed denominator envelope.
+\end{proof}
+
+\textbf{Traditional target}: Rat denominator external-unit envelope certificate
+for $\FieldUp(\mathsf{RatUp})$;
+\textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, $\Cont$, and $\emp$; \textbf{carrier choice}:
+$C_D^\ast$; \textbf{classifier choice}: $R_D^\ast$; \textbf{stability
+obligation}: carrier closure, associativity, unit laws, classifier congruence,
+restriction, strict endpoint externality, unit uniqueness, and mixed-endpoint
+separation; \textbf{ledger}: the external-unit bit plus continuation witness;
+\textbf{core theorem}:
+\autoref{thm:field-rat-denominator-unit-envelope-certificate};
+\textbf{exactness predicate}: restriction to the carried denominator
+continuation instance, strict externality of $e_D^\ast$, unit uniqueness, and
+mixed-endpoint separation;
+\textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator external-unit envelope MonoidUp certificate]
+\label{thm:field-rat-denominator-unit-envelope-monoid-namecert}
+The concrete tuple $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope}, with carrier
+$C_D^\ast$, classifier $R_D^\ast$, operation $\mathsf{append}$, and unit
+$\emp$, supplies the concrete $\mathsf{BHist}$-level $\MonoidUp$ naming
+certificate for the unit-enveloped Rat denominator continuation fragment.
+Its certificate ledger is the external-unit bit together with the continuation
+witness used by the guarded carried branch of $R_D^\ast$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}. Its
+carrier inhabitance clause supplies the exported unit witness for $e_D^\ast$,
+and its closure clause supplies the carrier witness for every exported
+$\mathsf{append}$ product in the envelope.
+
+The same theorem supplies the left and right unit laws, associativity under
+$R_D^\ast$, and binary classifier congruence. These are exactly the stability
+fields required by \autoref{def:monoid-certificate-obligations} for a
+$\MonoidUp$ interface over a BEDC carrier and classifier.
+
+It remains to identify the certificate packaging. The carrier is the concrete
+predicate $C_D^\ast$ on $\mathsf{BHist}$; the classifier is the concrete
+relation $R_D^\ast$; the source operation is the native BEDC
+$\mathsf{append}$ operation through $\mu_D^\ast$; and the named unit is
+$\emp$. Thus \autoref{thm:concrete-monoid-namecert} packages these fields as a
+$\mathsf{NameCert}$ for $\MonoidUp(C_D^\ast)$.
+
+The ledger is concrete rather than schematic. The right carrier disjunct records
+whether the endpoint is the adjoined external unit, while the guarded carried
+classifier branch records the continuation witness that relates the native
+Rat denominator fragment to the envelope product. This is the required
+$\mathsf{BHist}$-anchored certificate consumed at the $\FieldUp(\mathsf{RatUp})$
+boundary.
+\end{proof}
+
+\begin{theorem}[Rat denominator external-unit envelope empty-product reflection]
+\label{thm:field-rat-denominator-unit-envelope-empty-product-reflection}
+For all histories $h,k:\mathsf{BHist}$ with $C_D^\ast(h)$ and $C_D^\ast(k)$,
+the product is classified as the external unit exactly when both factors are:
+$$
+R_D^\ast(\mu_D^\ast(h,k),e_D^\ast)
+\Longleftrightarrow
+\left(R_D^\ast(h,e_D^\ast)\land R_D^\ast(k,e_D^\ast)\right).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the envelope data of
+\autoref{def:field-rat-denominator-unit-envelope}. The named endpoint
+$e_D^\ast$ is $\emp$, and $\mu_D^\ast(h,k)$ is the native BEDC history
+$\mathsf{append}(h,k)$.
+
+For the forward direction, assume
+$R_D^\ast(\mu_D^\ast(h,k),e_D^\ast)$. The guarded carried classifier branch
+would make $\emp$ a Rat denominator carrier, contradicting
+\autoref{thm:rat-history-carrier-not-empty}. Hence the classifier witness is
+the empty-empty branch, so $\mathsf{append}(h,k)\hsame\emp$.
+
+The BEDC append empty-result inversion theorem
+$\mathsf{append\_eq\_empty\_iff}$ splits this endpoint comparison into
+$h\hsame\emp$ and $k\hsame\emp$. With $e_D^\ast=\emp$, the empty-empty branch of
+$R_D^\ast$ repacks these two endpoint witnesses as
+$R_D^\ast(h,e_D^\ast)$ and $R_D^\ast(k,e_D^\ast)$.
+
+Conversely, assume
+$R_D^\ast(h,e_D^\ast)\land R_D^\ast(k,e_D^\ast)$. Each classifier against
+$e_D^\ast=\emp$ has no viable guarded carried branch, again by
+\autoref{thm:rat-history-carrier-not-empty}. Thus the two witnesses expose
+$h\hsame\emp$ and $k\hsame\emp$.
+
+Apply the introduction direction of $\mathsf{append\_eq\_empty\_iff}$ to these
+two empty endpoint comparisons. This gives
+$\mathsf{append}(h,k)\hsame\emp$, and the empty-empty branch of $R_D^\ast$
+classifies $\mu_D^\ast(h,k)$ with $e_D^\ast$.
+\end{proof}
+
+\textbf{Traditional target}: Rat denominator external-unit envelope
+empty-product reflection for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$, $R_D^\ast$, $\mathsf{append}$, and $\emp$;
+\textbf{carrier choice}: $C_D^\ast$; \textbf{classifier choice}: $R_D^\ast$;
+\textbf{stability obligation}: empty product reflection under the
+external-unit classifier; \textbf{ledger}: the external-unit bit plus carried
+continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-unit-envelope-empty-product-reflection};
+\textbf{exactness predicate}: product classification by $e_D^\ast$ is exactly
+factorwise classification by $e_D^\ast$; \textbf{standard bridge}: deferred;
+\textbf{status}: $\mathsf{ProofTarget}$.

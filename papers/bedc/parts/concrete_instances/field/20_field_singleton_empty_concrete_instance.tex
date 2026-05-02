@@ -1,0 +1,45 @@
+\section{Classifier-complement singleton FieldUp concrete instance}
+\label{sec:field-singleton-empty-concrete-instance}
+
+\begin{theorem}[Classifier-complement singleton FieldUp concrete instance]
+\label{thm:field-singleton-empty-concrete-instance-certificate}
+Over $\mathsf{BHist}$, the concrete BEDC tuple
+$$
+(\mathsf{fieldSingletonEmptyCarrier},
+\mathsf{fieldSingletonEmptyClassifier},
+\mathsf{fieldSingletonEmptyNonZero},
+\mathsf{fieldSingletonEmptyMul},
+\mathsf{fieldSingletonEmptyOne},
+\mathsf{fieldSingletonEmptyInv})
+$$
+assembles the singleton classifier-complement $\FieldUp$ instance as follows:
+the carrier is inhabited by $\emp$; the carrier and classifier carry a
+$\mathsf{SemanticNameCert}$; $\mathsf{fieldSingletonEmptyNonZero}(\emp)$ is
+contradictory; $\mathsf{fieldSingletonEmptyNonZero}$ transports along
+$\mathsf{fieldSingletonEmptyClassifier}$; proof-indexed inverses remain in the
+carrier; and the left and right products against a proof-indexed inverse are
+classified as $\mathsf{fieldSingletonEmptyOne}$.
+\end{theorem}
+\begin{proof}
+The carrier and classifier certificate is the checked
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_semanticNameCert}.
+It packages the singleton carrier inhabitance, classifier reflexivity,
+symmetry, transitivity, carrier transport, and the source, pattern, and ledger
+soundness fields for the same concrete predicate and classifier.
+
+The field-specific law package is the checked
+\leanchecked{BEDC.Derived.FieldUp.field\_singleton\_empty\_schema\_laws}.
+Its clauses are exactly the contradiction of
+$\mathsf{fieldSingletonEmptyNonZero}(\emp)$, nonzero transport along the
+classifier, inverse closure, and the two proof-indexed inverse laws for
+$\mathsf{fieldSingletonEmptyMul}$, $\mathsf{fieldSingletonEmptyOne}$, and
+$\mathsf{fieldSingletonEmptyInv}$.
+
+Finally,
+\autoref{thm:field-singleton-empty-nonzero-carrier-complement} gives the paper
+reading of the nonzero predicate as the complement of the empty singleton
+classifier. Thus the displayed tuple is not merely a list of separate checked
+components: it is the concrete $\mathsf{BHist}$ classifier-complement
+singleton instance with its naming certificate and its proof-indexed field-law
+package aligned on the same carrier, classifier, predicate, and operations.
+\end{proof}

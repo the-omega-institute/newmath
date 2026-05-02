@@ -1,0 +1,19 @@
+\begin{theorem}[Metric distance witness empty-source visible-distance target exactness]
+\label{thm:metric-distance-witness-empty-source-e1-distance-target-exactness}
+For histories $target,d$, a concrete distance witness from the empty source
+whose distance ledger is visibly one-headed identifies the target with that
+same one-headed ledger and exposes unary evidence for the ledger tail:
+$$
+\mathsf{MetricDistanceWitness}(\emp,target,\Eone(d))
+\Longrightarrow
+target=\Eone(d)\land\mathsf{UnaryHistory}(d).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-left exactness to obtain unary evidence for $target$ and the
+classifier $\hsame(\Eone(d),target)$. One-constructor inversion on this
+classifier presents $target$ as $\Eone(d)$ up to the exposed tail equality.
+Substitution into the unary target witness and unary one-step inversion give
+$\mathsf{UnaryHistory}(d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_source\_e1\_distance\_target\_exactness}

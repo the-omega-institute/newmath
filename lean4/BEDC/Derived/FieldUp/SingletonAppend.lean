@@ -1,0 +1,127 @@
+import BEDC.Derived.FieldUp
+import BEDC.FKernel.Cont
+
+namespace BEDC.Derived.FieldUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+
+theorem fieldSingletonEmptyClassifier_append_split_empty_iff {p q h : BHist} :
+    fieldSingletonEmptyClassifier (append p q) h ↔
+      hsame p BHist.Empty ∧ hsame q BHist.Empty ∧ fieldSingletonEmptyCarrier h := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact And.intro emptyParts.left (And.intro emptyParts.right classified.right.left)
+  · intro split
+    have appendEmpty : hsame (append p q) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro split.left split.right.left)
+    exact And.intro appendEmpty
+      (And.intro split.right.right (hsame_trans appendEmpty (hsame_symm split.right.right)))
+
+theorem fieldSingletonEmptyClassifier_append_right_cancel_iff {P Q R : BHist} :
+    fieldSingletonEmptyCarrier P ->
+      (fieldSingletonEmptyClassifier (append Q P) (append R P) ↔
+        fieldSingletonEmptyClassifier Q R) := by
+  intro carrierP
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.left
+      (And.intro rightSplit.left
+        (hsame_trans leftSplit.left (hsame_symm rightSplit.left)))
+  · intro classified
+    have leftCarrier : fieldSingletonEmptyCarrier (append Q P) :=
+      append_eq_empty_iff.mpr (And.intro classified.left carrierP)
+    have rightCarrier : fieldSingletonEmptyCarrier (append R P) :=
+      append_eq_empty_iff.mpr (And.intro classified.right.left carrierP)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
+theorem FieldSingletonClassifier_append_visible_left_absurd {p q h : BHist} :
+    (FieldSingletonClassifier (append p (BHist.e0 q)) h -> False) ∧
+      (FieldSingletonClassifier (append p (BHist.e1 q)) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+
+theorem fieldSingletonEmptyNonZero_append_visible_right {p q : BHist} :
+    fieldSingletonEmptyNonZero (append p (BHist.e0 q)) ∧
+      fieldSingletonEmptyNonZero (append p (BHist.e1 q)) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+
+theorem FieldSingletonCarrier_append_visible_head_absurd {h k : BHist} :
+    (FieldSingletonCarrier (append (BHist.e0 h) k) -> False) ∧
+      (FieldSingletonCarrier (append (BHist.e1 h) k) -> False) := by
+  constructor
+  · intro carrier
+    have emptyParts := append_eq_empty_iff.mp carrier
+    cases emptyParts.left
+  · intro carrier
+    have emptyParts := append_eq_empty_iff.mp carrier
+    cases emptyParts.left
+
+theorem FieldSingletonClassifier_append_visible_prefix_absurd {p q h : BHist} :
+    (FieldSingletonClassifier (append (BHist.e0 p) q) h -> False) ∧
+      (FieldSingletonClassifier (append (BHist.e1 p) q) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.left
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.left
+
+theorem FieldSingletonClassifier_append_left_cancel_iff {P Q R : BHist} :
+    FieldSingletonCarrier P ->
+      (FieldSingletonClassifier (append P Q) (append P R) ↔ FieldSingletonClassifier Q R) := by
+  intro carrierP
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.right
+      (And.intro rightSplit.right
+        (hsame_trans leftSplit.right (hsame_symm rightSplit.right)))
+  · intro classified
+    have leftCarrier : FieldSingletonCarrier (append P Q) :=
+      append_eq_empty_iff.mpr (And.intro carrierP classified.left)
+    have rightCarrier : FieldSingletonCarrier (append P R) :=
+      append_eq_empty_iff.mpr (And.intro carrierP classified.right.left)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
+theorem FieldSingletonClassifier_append_right_cancel_iff {P Q R : BHist} :
+    FieldSingletonCarrier P ->
+      (FieldSingletonClassifier (append Q P) (append R P) ↔ FieldSingletonClassifier Q R) := by
+  intro carrierP
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.left
+      (And.intro rightSplit.left
+        (hsame_trans leftSplit.left (hsame_symm rightSplit.left)))
+  · intro classified
+    cases carrierP
+    have leftCarrier : FieldSingletonCarrier (append Q BHist.Empty) :=
+      hsame_trans (append_empty_right Q) classified.left
+    have rightCarrier : FieldSingletonCarrier (append R BHist.Empty) :=
+      hsame_trans (append_empty_right R) classified.right.left
+    have sameAppend : hsame (append Q BHist.Empty) (append R BHist.Empty) :=
+      hsame_trans (append_empty_right Q)
+        (hsame_trans classified.right.right (hsame_symm (append_empty_right R)))
+    exact And.intro leftCarrier (And.intro rightCarrier sameAppend)
+
+end BEDC.Derived.FieldUp

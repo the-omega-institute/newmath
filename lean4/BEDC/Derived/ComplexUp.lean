@@ -96,6 +96,51 @@ theorem ComplexHistoryClassifier_symm {h k : BHist} :
       | intro carrierK sameHK =>
           exact And.intro carrierK (And.intro carrierH (hsame_symm sameHK))
 
+theorem ComplexHistoryClassifier_positive_components {h k : BHist} :
+    ComplexHistoryClassifier h k ->
+      ∃ hr hi kr ki : BHist,
+        RatUp.RatHistoryCarrier hr ∧ RatUp.RatHistoryCarrier hi ∧
+          RatUp.RatHistoryCarrier kr ∧ RatUp.RatHistoryCarrier ki ∧ Cont hr hi h ∧
+            Cont kr ki k ∧ hsame h k ∧ RatUp.PositiveUnaryDenominator hr ∧
+              RatUp.PositiveUnaryDenominator hi ∧ RatUp.PositiveUnaryDenominator kr ∧
+                RatUp.PositiveUnaryDenominator ki := by
+  intro classified
+  cases classified with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          have leftComponents := ComplexHistoryCarrier_positive_components carrierH
+          have rightComponents := ComplexHistoryCarrier_positive_components carrierK
+          cases leftComponents with
+          | intro hr leftRest =>
+              cases leftRest with
+              | intro hi leftData =>
+                  cases leftData with
+                  | intro hrCarrier leftData =>
+                      cases leftData with
+                      | intro hiCarrier leftData =>
+                          cases leftData with
+                          | intro contH leftPositive =>
+                              cases leftPositive with
+                              | intro positiveHr positiveHi =>
+                                  cases rightComponents with
+                                  | intro kr rightRest =>
+                                      cases rightRest with
+                                      | intro ki rightData =>
+                                          cases rightData with
+                                          | intro krCarrier rightData =>
+                                              cases rightData with
+                                              | intro kiCarrier rightData =>
+                                                  cases rightData with
+                                                  | intro contK rightPositive =>
+                                                      cases rightPositive with
+                                                      | intro positiveKr positiveKi =>
+                                                          exact ⟨hr, hi, kr, ki,
+                                                            hrCarrier, hiCarrier, krCarrier,
+                                                            kiCarrier, contH, contK, sameHK,
+                                                            positiveHr, positiveHi, positiveKr,
+                                                            positiveKi⟩
+
 theorem ComplexHistoryLedgerPolicy_classifier_extension {raw visible t : BHist} :
     ComplexHistoryLedgerPolicy raw visible -> ComplexHistoryClassifier visible t ->
       ComplexHistoryClassifier raw t := by

@@ -1,0 +1,20 @@
+\begin{theorem}[Category displayed composite result empty exactness]
+\label{thm:category-hom-carrier-comp-result-empty-iff}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, if their
+displayed composite ledger is $\ContR(f,g,fg)$, then the displayed result is
+empty exactly when both morphism tails are empty and the adjacent endpoints
+collapse:
+$$
+\HSame(fg,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(f,\emp)\wedge\HSame(g,\emp)\wedge\HSame(a,b)\wedge\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, transport the displayed continuation ledger along
+$\HSame(fg,\emp)$ to obtain $\ContR(f,g,\emp)$, then apply empty-composite
+exactness. Conversely, the endpoint data rebuilds the empty-result composite
+ledger by empty-composite exactness. Continuation determinacy compares that
+ledger with the displayed ledger and yields $\HSame(fg,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_empty\_iff}

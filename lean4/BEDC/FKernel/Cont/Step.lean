@@ -18,6 +18,15 @@ theorem cont_result_tag_separation {h k r0 r1 : BHist} :
     cont_determinacy_up_to_hsame_spine zeroResult oneResult
   exact not_hsame_e0_e1 resultSame
 
+theorem cont_result_hsame_tag_separation {h k r0 r1 z o : BHist} :
+    Cont h k r0 -> Cont h k r1 -> hsame r0 (BHist.e0 z) ->
+      hsame r1 (BHist.e1 o) -> False := by
+  intro left right zeroTag oneTag
+  have sameResult : hsame r0 r1 := cont_deterministic left right
+  have mixed : hsame (BHist.e0 z) (BHist.e1 o) :=
+    zeroTag.symm.trans (sameResult.trans oneTag)
+  exact not_hsame_e0_e1 mixed
+
 theorem cont_e0_result_witness {h k r : BHist} :
     Cont h (BHist.e0 k) r -> exists r0 : BHist, r = BHist.e0 r0 /\ Cont h k r0 := by
   intro hcont
@@ -189,6 +198,37 @@ theorem cont_step_result_no_confusion_pair :
                 | intro zeroResult _ =>
                     cases zeroResult
 
+theorem cont_step_result_hsame_no_confusion_pair :
+    (forall {h k0 k1 r0 r1 : BHist},
+      Cont h (BHist.e0 k0) r0 -> Cont h (BHist.e1 k1) r1 -> hsame r0 r1 -> False) /\
+      (forall {h k0 k1 r0 r1 : BHist},
+        Cont h (BHist.e1 k0) r0 -> Cont h (BHist.e0 k1) r1 -> hsame r0 r1 -> False) := by
+  constructor
+  · intro h k0 k1 r0 r1 zeroStep oneStep same
+    cases cont_e0_result_witness zeroStep with
+    | intro rz zeroWitness =>
+        cases zeroWitness with
+        | intro zeroResult _ =>
+            cases zeroResult
+            cases cont_e1_result_witness oneStep with
+            | intro ro oneWitness =>
+                cases oneWitness with
+                | intro oneResult _ =>
+                    cases oneResult
+                    exact not_hsame_e0_e1 same
+  · intro h k0 k1 r0 r1 oneStep zeroStep same
+    cases cont_e1_result_witness oneStep with
+    | intro ro oneWitness =>
+        cases oneWitness with
+        | intro oneResult _ =>
+            cases oneResult
+            cases cont_e0_result_witness zeroStep with
+            | intro rz zeroWitness =>
+                cases zeroWitness with
+                | intro zeroResult _ =>
+                    cases zeroResult
+                    exact not_hsame_e1_e0 same
+
 theorem cont_step_result_not_empty_pair {h k : BHist} :
     (Cont h (BHist.e0 k) BHist.Empty → False) ∧
       (Cont h (BHist.e1 k) BHist.Empty → False) := by
@@ -295,5 +335,142 @@ theorem cont_left_tag_cross_result_cases :
         exact Exists.intro k0 (And.intro rfl (BHist.e0.inj hcont))
     | e1 k0 =>
         cases hcont
+
+theorem cont_left_tag_cross_result_iff_pair :
+    (∀ {h k r : BHist},
+        Cont (BHist.e0 h) k (BHist.e1 r) ↔
+          ∃ k0 : BHist, k = BHist.e1 k0 ∧ Cont (BHist.e0 h) k0 r) ∧
+      (∀ {h k r : BHist},
+        Cont (BHist.e1 h) k (BHist.e0 r) ↔
+          ∃ k0 : BHist, k = BHist.e0 k0 ∧ Cont (BHist.e1 h) k0 r) := by
+  constructor
+  · intro h k r
+    constructor
+    · intro hcont
+      exact cont_left_tag_cross_result_cases.left hcont
+    · intro witness
+      cases witness with
+      | intro k0 packed =>
+          cases packed with
+          | intro kEq tail =>
+              cases kEq
+              exact cont_step_one tail
+  · intro h k r
+    constructor
+    · intro hcont
+      exact cont_left_tag_cross_result_cases.right hcont
+    · intro witness
+      cases witness with
+      | intro k0 packed =>
+          cases packed with
+          | intro kEq tail =>
+              cases kEq
+              exact cont_step_zero tail
+
+theorem cont_left_same_tag_tail_alignment :
+    (forall {h k l r : BHist},
+      Cont (BHist.e0 h) k (BHist.e0 r) -> Cont (BHist.e0 h) l (BHist.e0 r) ->
+        (k = BHist.Empty ∧ l = BHist.Empty) ∨
+          (∃ k0 l0 : BHist, k = BHist.e0 k0 ∧ l = BHist.e0 l0 ∧ hsame k0 l0)) ∧
+      (forall {h k l r : BHist},
+        Cont (BHist.e1 h) k (BHist.e1 r) -> Cont (BHist.e1 h) l (BHist.e1 r) ->
+          (k = BHist.Empty ∧ l = BHist.Empty) ∨
+            (∃ k0 l0 : BHist, k = BHist.e1 k0 ∧ l = BHist.e1 l0 ∧ hsame k0 l0)) := by
+  constructor
+  · intro h k l r left right
+    have sameTail : hsame k l := cont_left_cancel left right
+    have splitLeft := (cont_left_e0_result_iff (h := h) (k := k) (r := r)).mp left
+    cases splitLeft with
+    | inl emptyCase =>
+        cases emptyCase with
+        | intro kEmpty _sameResult =>
+            cases kEmpty
+            cases sameTail
+            exact Or.inl (And.intro rfl rfl)
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro k0 data =>
+            cases data with
+            | intro kEq _tail =>
+                cases kEq
+                cases l with
+                | Empty =>
+                    cases sameTail
+                | e0 l0 =>
+                    exact Or.inr
+                      (Exists.intro k0
+                        (Exists.intro l0
+                          (And.intro rfl (And.intro rfl (BHist.e0.inj sameTail)))))
+                | e1 l0 =>
+                    cases sameTail
+  · intro h k l r left right
+    have sameTail : hsame k l := cont_left_cancel left right
+    have splitLeft := cont_left_e1_result_cases left
+    cases splitLeft with
+    | inl emptyCase =>
+        cases emptyCase with
+        | intro kEmpty _sameResult =>
+            cases kEmpty
+            cases sameTail
+            exact Or.inl (And.intro rfl rfl)
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro k0 data =>
+            cases data with
+            | intro kEq _tail =>
+                cases kEq
+                cases l with
+                | Empty =>
+                    cases sameTail
+                | e0 l0 =>
+                    cases sameTail
+                | e1 l0 =>
+                    exact Or.inr
+                      (Exists.intro k0
+                        (Exists.intro l0
+                          (And.intro rfl (And.intro rfl (BHist.e1.inj sameTail)))))
+
+theorem cont_left_tag_cross_tail_alignment :
+    (forall {h k l r : BHist},
+      Cont (BHist.e0 h) k (BHist.e1 r) -> Cont (BHist.e0 h) l (BHist.e1 r) ->
+        ∃ k0 l0 : BHist, k = BHist.e1 k0 ∧ l = BHist.e1 l0 ∧ hsame k0 l0) ∧
+      (forall {h k l r : BHist},
+        Cont (BHist.e1 h) k (BHist.e0 r) -> Cont (BHist.e1 h) l (BHist.e0 r) ->
+          ∃ k0 l0 : BHist, k = BHist.e0 k0 ∧ l = BHist.e0 l0 ∧ hsame k0 l0) := by
+  constructor
+  · intro h k l r left right
+    have sameTail : hsame k l := cont_left_cancel left right
+    have splitLeft := cont_left_tag_cross_result_cases.left left
+    cases splitLeft with
+    | intro k0 data =>
+        cases data with
+        | intro kEq _tail =>
+            cases kEq
+            cases l with
+            | Empty =>
+                cases sameTail
+            | e0 l0 =>
+                cases sameTail
+            | e1 l0 =>
+                exact Exists.intro k0
+                  (Exists.intro l0
+                    (And.intro rfl (And.intro rfl (BHist.e1.inj sameTail))))
+  · intro h k l r left right
+    have sameTail : hsame k l := cont_left_cancel left right
+    have splitLeft := cont_left_tag_cross_result_cases.right left
+    cases splitLeft with
+    | intro k0 data =>
+        cases data with
+        | intro kEq _tail =>
+            cases kEq
+            cases l with
+            | Empty =>
+                cases sameTail
+            | e0 l0 =>
+                exact Exists.intro k0
+                  (Exists.intro l0
+                    (And.intro rfl (And.intro rfl (BHist.e0.inj sameTail))))
+            | e1 l0 =>
+                cases sameTail
 
 end BEDC.FKernel.Cont

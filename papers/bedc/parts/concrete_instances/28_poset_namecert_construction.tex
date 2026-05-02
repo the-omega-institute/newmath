@@ -80,6 +80,31 @@ Right-unit uniqueness and append-empty inversion force the forward tail to be
 classifier specification.
 \end{proof}
 
+\begin{theorem}[Prefix classifier exactness for concrete POSet]
+\label{thm:poset-prefix-classifier-exactness}
+For carrier histories $h,k$ in $\mathsf{PreorderCarrier}$, the carrier-aware
+classifier relation
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$ holds
+exactly when $\mathsf{PreorderPrefixLE}(h,k)$ and
+$\mathsf{PreorderPrefixLE}(k,h)$ both hold.
+\end{theorem}
+\begin{proof}
+Assume first that the carrier-aware classifier holds. Its equality content is
+$\hsame(h,k)$, and symmetry gives $\hsame(k,h)$. Applying
+\autoref{thm:preorder-prefix-le-of-hsame} in the two orientations gives
+$\mathsf{PreorderPrefixLE}(h,k)$ and $\mathsf{PreorderPrefixLE}(k,h)$.
+
+Conversely, assume both prefix comparisons and keep the carrier hypotheses for
+$h$ and $k$. By \autoref{thm:poset-prefix-antisymmetry}, the opposing
+comparisons collapse to $\hsame(h,k)$. Combining this equality content with the
+two carrier witnesses reassembles
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$.
+\end{proof}
+
+Thus \autoref{thm:poset-prefix-classifier-exactness} supplies the exactness
+predicate named in item 9 of
+\autoref{def:concrete-unary-prefix-poset-instance}.
+
 \begin{definition}[POSet stability certificate]
 \label{def:poset-stability-certificate}
 The stability certificate consists of:

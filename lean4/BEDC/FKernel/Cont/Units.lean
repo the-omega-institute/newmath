@@ -75,6 +75,26 @@ theorem cont_unit_laws_with_uniqueness :
       · intro h r hcont
         exact cont_left_unit_result hcont
 
+theorem cont_right_unit_law_endpoint_empty_iff {u : BHist} :
+    ((∀ {d r : BHist}, Cont d u r -> hsame r d) ↔ hsame u BHist.Empty) := by
+  constructor
+  · intro law
+    exact law (cont_left_unit u)
+  · intro uEmpty
+    intro d r hcont
+    cases uEmpty
+    exact Iff.mp cont_right_unit_iff hcont
+
+theorem cont_left_unit_law_endpoint_empty_iff {u : BHist} :
+    ((∀ {d r : BHist}, Cont u d r -> hsame r d) ↔ hsame u BHist.Empty) := by
+  constructor
+  · intro law
+    exact law (cont_right_unit u)
+  · intro uEmpty
+    intro d r hcont
+    cases uEmpty
+    exact cont_left_unit_result hcont
+
 theorem cont_step_result_iff_pair {h k r : BHist} :
     (Cont h (BHist.e0 k) (BHist.e0 r) ↔ Cont h k r) ∧
       (Cont h (BHist.e1 k) (BHist.e1 r) ↔ Cont h k r) := by

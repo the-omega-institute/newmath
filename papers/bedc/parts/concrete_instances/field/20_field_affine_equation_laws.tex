@@ -1,0 +1,299 @@
+\section{Field affine equation laws}\label{sec:field-affine-equation-laws}
+
+\begin{theorem}[Field affine left multiplication equation exactness from apartness]
+\label{thm:field-affine-left-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive abelian-group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and left and right inverse laws indexed by
+$p_a:\mathsf{NonZero}_F(a)$, every
+$x,b,c:\mathsf{BHist}$ satisfy
+$$
+\mathsf{add}(\mathsf{mul}(a,x),b)\hsame c
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{add}(c,\mathsf{neg}(b))).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport
+$\mathsf{add}(\mathsf{mul}(a,x),b)\hsame c$ through right addition by
+$\mathsf{neg}(b)$. Addition congruence gives an equality between
+$\mathsf{add}(\mathsf{add}(\mathsf{mul}(a,x),b),\mathsf{neg}(b))$ and
+$\mathsf{add}(c,\mathsf{neg}(b))$.
+
+Associativity, the additive inverse law for $b$, and the additive identity law
+collapse the left side to $\mathsf{mul}(a,x)$. Apply
+Theorem~\ref{thm:field-left-mul-equation-solution-from-apartness} to obtain
+the displayed solution for $x$ with right side
+$\mathsf{add}(c,\mathsf{neg}(b))$.
+
+For the reverse direction, transport the assumed displayed solution through
+left multiplication by $a$. Multiplication congruence, associativity, the
+indexed inverse law for $p_a$, and the multiplicative identity law collapse the
+right side to $\mathsf{add}(c,\mathsf{neg}(b))$, so
+$\mathsf{mul}(a,x)\hsame\mathsf{add}(c,\mathsf{neg}(b))$.
+
+Add $b$ on the right and use addition congruence. Associativity, additive
+commutativity for the middle pair when needed, the additive inverse law for
+$b$, and the additive identity law collapse
+$\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(b)),b)$ back to $c$. This gives
+$\mathsf{add}(\mathsf{mul}(a,x),b)\hsame c$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_left\_equation\_exact\_from\_apartness}
+
+\begin{theorem}[Field affine right multiplication equation exactness from apartness]
+\label{thm:field-affine-right-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive abelian-group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and left and right inverse laws indexed by
+$p_b:\mathsf{NonZero}_F(b)$, every
+$x,d,c:\mathsf{BHist}$ satisfy
+$$
+\mathsf{add}(\mathsf{mul}(x,b),d)\hsame c
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport
+$\mathsf{add}(\mathsf{mul}(x,b),d)\hsame c$ through right addition by
+$\mathsf{neg}(d)$. Addition congruence gives equality between the offset
+equation after adding $\mathsf{neg}(d)$ on the right and
+$\mathsf{add}(c,\mathsf{neg}(d))$.
+
+Associativity, the additive inverse law for $d$, and the additive identity
+law collapse the left side to $\mathsf{mul}(x,b)$. Apply
+Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness} to obtain
+the displayed solution for $x$ with right side
+$\mathsf{add}(c,\mathsf{neg}(d))$.
+
+For the reverse direction, transport the assumed displayed solution through
+right multiplication by $b$. Multiplication congruence, associativity, the
+indexed left inverse law for $p_b$, and the multiplicative identity law
+collapse the right side to $\mathsf{add}(c,\mathsf{neg}(d))$, so
+$\mathsf{mul}(x,b)\hsame\mathsf{add}(c,\mathsf{neg}(d))$.
+
+Add $d$ on the right and use addition congruence. Associativity, additive
+commutativity for the middle pair when needed, the additive inverse law for
+$d$, and the additive identity law collapse
+$\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(d)),d)$ back to $c$. This gives
+$\mathsf{add}(\mathsf{mul}(x,b),d)\hsame c$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_right\_equation\_exact\_from\_apartness}
+
+\begin{theorem}[Field one-sided affine map classifier exactness from apartness]
+\label{thm:field-affine-one-sided-map-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and indexed inverse laws for witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every displayed
+$x,y,u,v:\mathsf{BHist}$ satisfies both one-sided affine classifier clauses:
+$$
+\mathsf{add}(\mathsf{mul}(a,x),u)\hsame
+\mathsf{add}(\mathsf{mul}(a,y),u)
+\Longleftrightarrow
+x\hsame y
+$$
+and
+$$
+\mathsf{add}(\mathsf{mul}(x,b),v)\hsame
+\mathsf{add}(\mathsf{mul}(y,b),v)
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+For the left-affine clause, the forward direction first cancels the common
+additive offset $u$. The additive group laws and addition congruence instantiate
+Theorem~\ref{thm:group-right-cancellation}, giving
+$\mathsf{mul}(a,x)\hsame\mathsf{mul}(a,y)$. Apply the left-factor cancellation
+clause of Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} with the
+witness $p_a$ to obtain $x\hsame y$.
+
+For the reverse direction of the left-affine clause, assume $x\hsame y$.
+Multiplication congruence transports this equality through left multiplication
+by $a$, and addition congruence with the shared offset $u$ gives the displayed
+left-affine equality.
+
+For the right-affine clause, the forward direction again cancels the common
+additive offset, now $v$, by Theorem~\ref{thm:group-right-cancellation}. The
+cancelled equation is $\mathsf{mul}(x,b)\hsame\mathsf{mul}(y,b)$, and the right-factor
+cancellation clause of Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness}
+with witness $p_b$ yields $x\hsame y$.
+
+For the reverse direction of the right-affine clause, assume $x\hsame y$.
+Multiplication congruence transports the equality through right multiplication
+by $b$, and addition congruence with the shared offset $v$ gives the displayed
+right-affine equality.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_one\_sided\_map\_classifier\_exact\_from\_apartness}
+
+\paragraph{Affine one-sided multiplication certificate.}
+Traditional target: one-sided affine injectivity. BEDC source: $\FieldUp$ plus
+additive group laws. Carrier choice: $\mathsf{BHist}$. Classifier choice:
+$\hsame$. Stability obligations: additive cancellation, multiplication
+associativity, multiplicative unit laws, multiplication congruence, and indexed
+inverse laws. Ledger: the single nonzero witness for the active factor and the
+additive offset. Core theorem list entry: one-sided affine map classifier
+exactness from apartness. Exactness predicate: reflection and preservation of the
+affine classifier. Standard bridge: deferred conservative bridge. Status:
+left and right equation exactness clauses CheckedCert; combined classifier
+clause ProofTarget.
+
+Per-object certificate: this is a traditional target for affine left and right
+field equation solving. BEDC source: $\FieldUp$ plus additive group laws.
+Carrier: $\mathsf{BHist}$. Classifier: $\hsame$. Ledger: the nonzero witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ with their additive
+offsets. Stability obligations: additive cancellation, multiplication
+associativity, multiplicative unit laws, multiplication congruence, and indexed
+inverse laws. Status: CheckedCert.
+
+\begin{theorem}[Field affine two-sided multiplication equation exactness from apartness]
+\label{thm:field-affine-two-sided-equation-exact-from-apartness}
+\label{thm:field-two-sided-affine-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive abelian-group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and indexed inverse laws for witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
+$x,d,c:\mathsf{BHist}$ satisfies
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b))).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$ through right
+addition by $\mathsf{neg}(d)$. Addition congruence gives equality between the
+offset equation after adding $\mathsf{neg}(d)$ on the right and
+$\mathsf{add}(c,\mathsf{neg}(d))$.
+
+Associativity, the additive inverse law for $d$, and the additive identity law
+collapse the left side to $\mathsf{mul}(\mathsf{mul}(a,x),b)$. Apply
+Theorem~\ref{thm:field-middle-mul-equation-exact-from-apartness} to obtain the
+displayed solution with middle right side
+$\mathsf{add}(c,\mathsf{neg}(d))$.
+
+For the reverse direction, apply the reverse implication of
+Theorem~\ref{thm:field-middle-mul-equation-exact-from-apartness} to the assumed
+displayed solution. This gives
+$\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame\mathsf{add}(c,\mathsf{neg}(d))$.
+
+Add $d$ on the right and use addition congruence. Associativity, additive
+commutativity for the middle pair when needed, the additive inverse law for
+$d$, and the additive identity law collapse
+$\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(d)),d)$ back to $c$. This yields
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_two\_sided\_equation\_exact\_from\_apartness}
+
+\begin{theorem}[Field two-sided affine map classifier exactness from apartness]
+\label{thm:field-affine-two-sided-map-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and indexed inverse laws for witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
+$x,y,d:\mathsf{BHist}$ satisfies
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, first cancel the common additive right summand $d$.
+The additive group laws and
+addition congruence instantiate
+$\texttt{BEDC.Derived.GroupUp.group\_right\_cancel}$ for $\mathsf{add}$, giving
+$$
+\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame
+\mathsf{mul}(\mathsf{mul}(a,y),b).
+$$
+
+Apply the forward direction of
+$\texttt{BEDC.Derived.FieldUp.field\_two\_sided\_mul\_exact\_from\_apartness}$
+with the nonzero witnesses $p_a$ and $p_b$. The multiplicative exactness theorem
+removes the outer left factor $a$ and right factor $b$ from the cancelled
+equation, yielding $x\hsame y$.
+
+For the reverse direction, assume $x\hsame y$. Multiplication congruence first
+transports this equality through left multiplication by $a$, giving
+$\mathsf{mul}(a,x)\hsame\mathsf{mul}(a,y)$.
+
+Apply multiplication congruence again on the right by $b$ to obtain
+$\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame
+\mathsf{mul}(\mathsf{mul}(a,y),b)$. Addition congruence with the shared offset
+$d$ then yields the displayed affine equality.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_two\_sided\_map\_classifier\_exact\_from\_apartness}
+\leanvariant{BEDC.Derived.FieldUp.field\_affine\_two\_sided\_empty\_zero\_map\_classifier\_exact\_from\_apartness}
+
+\begin{theorem}[Field affine identity endpoint]
+\label{thm:field-affine-identity-endpoint}
+For a BEDC history-level field candidate with additive right identity at
+$\emp$ and multiplicative left and right identity at $\mathsf{one}$, every
+$x:\mathsf{BHist}$ satisfies
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{one},x),\mathsf{one}),\emp)
+\hsame x.
+$$
+\end{theorem}
+\begin{proof}
+First use additive right identity to remove the displayed $\emp$ offset. Then
+use multiplicative right identity to remove the final factor
+$\mathsf{one}$, and multiplicative left identity to remove the leading factor.
+The three $\hsame$ steps compose by transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_identity\_endpoint}
+
+\begin{theorem}[Field affine identity classifier]
+\label{thm:field-affine-identity-classifier}
+Under the same identity laws, the identity affine endpoint preserves the
+history classifier:
+$$
+x\hsame y
+\Longrightarrow
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{one},x),\mathsf{one}),\emp)
+\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{one},y),\mathsf{one}),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the endpoint identity theorem to the left endpoint and to the right
+endpoint. Transitivity bridges the left affine endpoint to $x$, then uses the
+assumed classifier $x\hsame y$, and finally uses symmetry of the right endpoint
+identity to reach the displayed affine endpoint over $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_identity\_classifier}
+
+\paragraph{Affine two-sided multiplication certificate.}
+Traditional target: affine field equation solving. BEDC source: $\FieldUp$ plus
+additive group laws. Carrier choice: $\mathsf{BHist}$. Classifier choice:
+$\hsame$. Stability obligations: additive cancellation, multiplication
+associativity, multiplicative unit laws, multiplication congruence, and
+indexed inverse laws. Ledger: both nonzero witnesses and the additive offset.
+Core theorem list entry: two-sided affine equation exactness and two-sided
+affine map classifier exactness. Exactness predicate: equivalence between the
+equation and displayed solution, together with preservation and reflection of
+the affine classifier. Standard bridge: deferred conservative bridge. Status:
+ProofTarget.

@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.Derived.GroupUp
 import BEDC.Derived.MonoidUp
@@ -6,6 +7,7 @@ import BEDC.Derived.MonoidUp
 namespace BEDC.Derived.RingUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.Derived.MonoidUp
 
@@ -96,6 +98,87 @@ theorem RingSingletonEmptyHistory_laws :
               exact emptyClassified
             · intro x carrierX
               exact And.intro emptyCarrier (And.intro carrierX (hsame_symm carrierX))
+
+theorem RingSingletonClassifier_append_visible_right_absurd {h p q : BHist} :
+    (RingSingletonClassifier h (BEDC.FKernel.Cont.append p (BHist.e0 q)) -> False) ∧
+      (RingSingletonClassifier h (BEDC.FKernel.Cont.append p (BHist.e1 q)) -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := BEDC.FKernel.Cont.append_eq_empty_iff.mp classified.right.left
+    cases emptyParts.right
+  · intro classified
+    have emptyParts := BEDC.FKernel.Cont.append_eq_empty_iff.mp classified.right.left
+    cases emptyParts.right
+
+theorem RingSingletonClassifier_append_visible_left_absurd {p q h : BHist} :
+    (RingSingletonClassifier (append p (BHist.e0 q)) h -> False) ∧
+      (RingSingletonClassifier (append p (BHist.e1 q)) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    cases emptyParts.right
+
+theorem concrete_singleton_history_ring_laws :
+    let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
+    let Classifier : BHist -> BHist -> Prop :=
+      fun h k => Carrier h ∧ Carrier k ∧ hsame h k
+    let add : BHist -> BHist -> BHist := append
+    let neg : BHist -> BHist := fun _ => BHist.Empty
+    let zero : BHist := BHist.Empty
+    let mul : BHist -> BHist -> BHist := append
+    let one : BHist := BHist.Empty
+    Carrier zero ∧
+      (∀ {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y)) ∧
+      (∀ {x : BHist}, Carrier x -> Carrier (neg x)) ∧
+      (∀ {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y)) ∧
+      (∀ {x : BHist}, Carrier x -> Classifier (add zero x) x) ∧
+      (∀ {x : BHist}, Carrier x -> Classifier (add x zero) x) ∧
+      (∀ {x y z : BHist}, Carrier x -> Carrier y -> Carrier z ->
+        Classifier (mul x (add y z)) (add (mul x y) (mul x z))) ∧
+      (∀ {x y z : BHist}, Carrier x -> Carrier y -> Carrier z ->
+        Classifier (mul (add x y) z) (add (mul x z) (mul y z))) := by
+  dsimp
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro x y carrierX carrierY
+      cases carrierX
+      cases carrierY
+      rfl
+    · constructor
+      · intro x _carrierX
+        exact hsame_refl BHist.Empty
+      · constructor
+        · intro x y carrierX carrierY
+          cases carrierX
+          cases carrierY
+          rfl
+        · constructor
+          · intro x carrierX
+            cases carrierX
+            exact And.intro (hsame_refl BHist.Empty)
+              (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+          · constructor
+            · intro x carrierX
+              cases carrierX
+              exact And.intro (hsame_refl BHist.Empty)
+                (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+            · constructor
+              · intro x y z carrierX carrierY carrierZ
+                cases carrierX
+                cases carrierY
+                cases carrierZ
+                exact And.intro (hsame_refl BHist.Empty)
+                  (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+              · intro x y z carrierX carrierY carrierZ
+                cases carrierX
+                cases carrierY
+                cases carrierZ
+                exact And.intro (hsame_refl BHist.Empty)
+                  (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
 
 theorem ring_add_right_inverse {add : BHist -> BHist -> BHist} {neg : BHist -> BHist}
     {zero : BHist}

@@ -1,0 +1,23 @@
+\begin{theorem}[Metric distance witness left e1 result iff]
+\label{thm:metric-distance-witness-left-e1-result-iff}
+For histories $x,y,d$, a distance witness from a visible left endpoint to a
+visible result is equivalent to the empty middle case or to a visible middle
+tail carrying the remaining witness:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longleftrightarrow
+\bigl(y=\emp\land\mathsf{UnaryHistory}(x)\land\hsame(x,d)\bigr)
+\lor
+\bigl(\exists y_1:\mathsf{BHist}.\;
+y=\Eone(y_1)\land
+\mathsf{MetricDistanceWitness}(\Eone(x),y_1,d)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the visible-result case split. For the reverse
+direction, the empty middle branch rebuilds the witness from unary closure
+under $\Eone$ and the right-unit continuation law. The visible middle branch
+adds one visible constructor back to the middle endpoint and result ledger by
+the one-step continuation rule.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_iff}

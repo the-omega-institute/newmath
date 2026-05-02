@@ -116,6 +116,18 @@ $\hsame$ then gives $\hsame(target,target')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_target\_deterministic}
 
+\begin{theorem}[Continuous modulus chain append-suffix target determinacy]
+\label{thm:continuous-modulus-chain-append-suffix-target-deterministic}
+For histories $q,source,first,second,target,target'$, two modulus chains with
+the same source and moduli whose targets share the right suffix $q$ determine
+the unsuffixed targets up to $\hsame$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_append\_suffix\_target\_deterministic}
+\begin{proof}
+Target determinacy identifies $\mathsf{append}(target,q)$ with
+$\mathsf{append}(target',q)$. Cancel the common right suffix.
+\end{proof}
+
 \begin{theorem}[Continuous modulus chain result determinacy]
 \label{thm:continuous-modulus-chain-result-deterministic}
 For histories $s,\delta_1,\delta_2,t,t'$, two continuous modulus chains with the
@@ -159,6 +171,18 @@ ledgers then have common suffix $first$ and endpoints identified by that middle
 sameness; common-suffix cancellation gives $\hsame(source,source')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_source\_deterministic}
+
+\begin{theorem}[Continuous modulus chain append-suffix source determinacy]
+\label{thm:continuous-modulus-chain-append-suffix-source-deterministic}
+For histories $q,source,source',first,second,target$, two modulus chains with
+the same moduli and target whose sources share the right suffix $q$ determine
+the unsuffixed sources up to $\hsame$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_append\_suffix\_source\_deterministic}
+\begin{proof}
+Source determinacy identifies $\mathsf{append}(source,q)$ with
+$\mathsf{append}(source',q)$. Cancel the common right suffix.
+\end{proof}
 
 \begin{theorem}[Continuous modulus chain first determinacy]
 \label{thm:continuous-modulus-chain-first-deterministic}

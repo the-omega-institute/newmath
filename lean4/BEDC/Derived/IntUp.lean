@@ -240,4 +240,28 @@ theorem IntClassifierSpec_sign_magnitude_transport
     sameSx
     sameSy
 
+theorem IntClassifierSpec_endpoint_sign_cases
+    {x y : BEDC.FKernel.Mark.BMark × BEDC.FKernel.Hist.BHist} :
+    IntClassifierSpec x y ->
+      (((x.1 = BEDC.FKernel.Mark.BMark.b0 ∧ y.1 = BEDC.FKernel.Mark.BMark.b0) ∨
+          (x.1 = BEDC.FKernel.Mark.BMark.b1 ∧ y.1 = BEDC.FKernel.Mark.BMark.b1)) ∧
+        BEDC.FKernel.Unary.UnaryHistory x.2 ∧
+          BEDC.FKernel.Unary.UnaryHistory y.2) := by
+  intro classifier
+  cases classifier with
+  | intro carrierX rest =>
+      cases rest with
+      | intro carrierY sameRest =>
+          cases sameRest with
+          | intro sameSign _sameMagnitude =>
+              cases IntCarrier_sign_cases carrierX with
+              | inl zeroCase =>
+                  exact And.intro
+                    (Or.inl (And.intro zeroCase.left (sameSign.symm.trans zeroCase.left)))
+                    (And.intro zeroCase.right carrierY.right)
+              | inr oneCase =>
+                  exact And.intro
+                    (Or.inr (And.intro oneCase.left (sameSign.symm.trans oneCase.left)))
+                    (And.intro oneCase.right carrierY.right)
+
 end BEDC.Derived.IntUp

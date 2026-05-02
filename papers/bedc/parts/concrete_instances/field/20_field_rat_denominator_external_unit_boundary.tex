@@ -1,0 +1,41 @@
+\begin{theorem}[Rat denominator unit classifier mixed endpoint separation]
+\label{thm:field-rat-denominator-unit-classifier-mixed-endpoint-separation}
+For all $d,e:\mathsf{BHist}$, the external-unit classifier $R_D^u$ has no
+mixed carried-empty endpoint branch:
+$$
+(\mathsf{RatHistoryCarrier}(d)\land e\hsame\emp)
+\to (R_D^u(d,e)\to \mathsf{False}),
+$$
+and
+$$
+(d\hsame\emp\land \mathsf{RatHistoryCarrier}(e))
+\to (R_D^u(d,e)\to \mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $R_D^u$ and then
+$\mathsf{RatDenomUnitClassifier}$. In the first displayed implication, the
+classifier supplies $d\hsame e$. Combining this comparison with $e\hsame\emp$
+by symmetry and transitivity of $\hsame$ from
+\autoref{thm:history-sameness-equivalence} gives $d\hsame\emp$.
+
+Together with $\mathsf{RatHistoryCarrier}(d)$, rational history carrier
+nonemptiness, \autoref{thm:rat-history-carrier-not-empty}, gives
+$\mathsf{False}$.
+
+The second displayed implication is symmetric. The classifier again supplies
+$d\hsame e$; together with $d\hsame\emp$ and the equivalence laws for $\hsame$,
+this gives $e\hsame\emp$. The carried endpoint
+$\mathsf{RatHistoryCarrier}(e)$ is then contradicted by
+\autoref{thm:rat-history-carrier-not-empty}.
+\end{proof}
+
+\textbf{Traditional target}: mixed-endpoint separation for the adjoined-unit classifier;
+\textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, $\Cont$, and $\emp$; \textbf{carrier choice}:
+$C_D^u$; \textbf{classifier choice}: $R_D^u$; \textbf{stability
+obligation}: mixed-branch separation; \textbf{ledger}: the external-unit bit;
+\textbf{core theorem}:
+\autoref{thm:field-rat-denominator-unit-classifier-mixed-endpoint-separation};
+\textbf{exactness predicate}: absence of mixed carried-empty classification;
+\textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.

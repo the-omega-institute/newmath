@@ -1,0 +1,47 @@
+\begin{theorem}[Field square zero rejects nonzero factor]
+\label{thm:field-square-zero-rejects-factor-nonzero}
+For a BEDC history-level $\FieldUp$ candidate with the hypotheses of
+\autoref{thm:field-one-sided-zero-product-cancel-from-apartness}, together
+with classifier transport of $\mathsf{NonZero}_F$ and contradiction of
+$\mathsf{NonZero}_F(0)$, every $a:\mathsf{BHist}$ satisfying
+$$
+\mathsf{mul}(a,a)\hsame0
+$$
+has $\mathsf{NonZero}_F(a)\to\bot$. Moreover, for
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot),
+$$
+the same displayed square-zero classifier refutes
+$\mathsf{ApartZero}_F(\mathsf{mul}(a,a))$.
+\end{theorem}
+\begin{proof}
+Assume $z:\mathsf{mul}(a,a)\hsame0$ and
+$p_a:\mathsf{NonZero}_F(a)$. Apply
+\autoref{thm:field-one-sided-zero-product-cancel-from-apartness} to $z$ with
+the left-factor witness $p_a$. The left-factor clause returns $a\hsame0$.
+
+Transport $p_a$ along this classifier equality. The classifier-transport
+stability for $\mathsf{NonZero}_F$ gives a witness of
+$\mathsf{NonZero}_F(0)$.
+
+The field certificate supplies contradiction of $\mathsf{NonZero}_F(0)$, so
+the transported witness closes the nonzero-factor clause with $\bot$.
+
+For the apartness clause, take
+$q:\mathsf{ApartZero}_F(\mathsf{mul}(a,a))$. Since
+$\mathsf{ApartZero}_F(h)$ means $h\hsame0\to\bot$, direct application of $q$
+to the displayed square-zero classifier $z$ gives $\bot$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_square\_zero\_rejects\_factor\_nonzero}
+
+Per-object certificate: Traditional target: square inverse descent. BEDC
+source: $\FieldUp$ plus $\RingUp$. Carrier choice: $\mathsf{BHist}$.
+Classifier choice: $\hsame$. Stability obligations: zero absorption,
+multiplication congruence, apartness transport, and proof-indexed inverse
+laws. Ledger: the square apartness witness, induced factor witness, and
+square-zero classifier. Core theorem list entries:
+Theorem~\ref{thm:field-square-apartness-inverse-descent} and
+Theorem~\ref{thm:field-square-zero-rejects-factor-nonzero}. Exactness
+predicate: square apartness descends to the factor inverse, while square-zero
+classification rejects nonzero factors. Standard bridge: deferred
+conservative bridge. Status: $\mathsf{ProofTarget}$.

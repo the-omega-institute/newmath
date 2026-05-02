@@ -1,4 +1,5 @@
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.Prefix
 
 namespace BEDC.Derived.FunctorUp
 
@@ -44,22 +45,6 @@ theorem FunctorPrefixHomCarrier_reflects {p a b f : BHist} :
                     (And.intro morphismCarrier
                       (cont_prefix_cancel homCont)))
 
-theorem FunctorPrefixHomCarrier_iff {p a b f : BHist} :
-    CategoryHomCarrier (append p a) (append p b) f ↔
-      UnaryHistory p ∧ CategoryHomCarrier a b f := by
-  constructor
-  · intro homCarrier
-    cases homCarrier with
-    | intro sourceCarrier homRest =>
-        exact
-          And.intro
-            (unary_append_left_factor sourceCarrier)
-            (FunctorPrefixHomCarrier_reflects (And.intro sourceCarrier homRest))
-  · intro prefixed
-    cases prefixed with
-    | intro prefixCarrier homCarrier =>
-        exact FunctorPrefixHomCarrier_preserves prefixCarrier homCarrier
-
 theorem FunctorPrefixHomCarrier_identity_closed {p a id : BHist} :
     UnaryHistory p -> UnaryHistory a -> Cont BHist.Empty BHist.Empty id ->
       CategoryHomCarrier (append p a) (append p a) id := by
@@ -81,12 +66,37 @@ theorem FunctorPrefixHomCarrier_comp_preserves {p a b c f g fg : BHist} :
     FunctorPrefixHomCarrier_preserves prefixCarrier
       (CategoryHomCarrier_comp_closed left right comp)
 
+theorem FunctorPrefixHomCarrier_comp_hsame_transport {p a b c f g fg p' a' c' fg' : BHist} :
+    hsame p p' -> hsame a a' -> hsame c c' -> hsame fg fg' ->
+      CategoryHomCarrier (append p a) (append p b) f ->
+        CategoryHomCarrier (append p b) (append p c) g -> Cont f g fg ->
+          CategoryHomCarrier (append p' a') (append p' c') fg' := by
+  intro samePrefix sameSource sameTarget sameComposite left right comp
+  have composite : CategoryHomCarrier (append p a) (append p c) fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  cases samePrefix
+  cases sameSource
+  cases sameTarget
+  cases sameComposite
+  exact composite
+
 theorem FunctorPrefixHomCarrier_comp_right_factor {p a b c f g fg : BHist} :
     CategoryHomCarrier (append p a) (append p b) f -> Cont f g fg ->
       CategoryHomCarrier (append p a) (append p c) fg -> CategoryHomCarrier b c g := by
   intro left comp displayed
   exact FunctorPrefixHomCarrier_reflects
     (CategoryHomCarrier_comp_right_factor left comp displayed)
+
+theorem FunctorPrefixHomCarrier_comp_right_factor_public_readback {p a b c f g fg : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f -> Cont f g fg ->
+      CategoryHomCarrier (append p a) (append p c) fg ->
+        CategoryHomCarrier b c g ∧
+          (forall {g' : BHist}, Cont f g' fg -> CategoryHomCarrier b c g' -> hsame g g') := by
+  intro left comp displayed
+  constructor
+  · exact FunctorPrefixHomCarrier_comp_right_factor left comp displayed
+  · intro g' comp' _right
+    exact cont_left_cancel comp comp'
 
 theorem FunctorPrefixHomCarrier_comp_left_factor {p a b c f g fg : BHist} :
     CategoryHomCarrier (append p b) (append p c) g -> Cont f g fg ->
@@ -95,20 +105,16 @@ theorem FunctorPrefixHomCarrier_comp_left_factor {p a b c f g fg : BHist} :
   exact FunctorPrefixHomCarrier_reflects
     (CategoryHomCarrier_comp_left_factor right comp displayed)
 
-theorem FunctorPrefixHomCarrier_comp_public_readback {p a b c f g fg : BHist} :
-    UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
-      CategoryHomCarrier (append p a) (append p c) fg ∧
-        (forall {fg' : BHist}, CategoryHomCarrier (append p a) (append p c) fg' ->
-          hsame fg fg') := by
-  intro prefixCarrier left right comp
-  have baseComposite : CategoryHomCarrier a c fg :=
-    CategoryHomCarrier_comp_closed left right comp
+theorem FunctorPrefixHomCarrier_comp_left_factor_public_readback {p a b c f g fg : BHist} :
+    CategoryHomCarrier (append p b) (append p c) g -> Cont f g fg ->
+      CategoryHomCarrier (append p a) (append p c) fg ->
+        CategoryHomCarrier a b f /\
+          (forall {f' : BHist}, Cont f' g fg -> CategoryHomCarrier a b f' -> hsame f f') := by
+  intro right comp displayed
   constructor
-  · exact FunctorPrefixHomCarrier_preserves prefixCarrier baseComposite
-  · intro fg' displayed
-    exact
-      CategoryHomCarrier_morphism_deterministic baseComposite
-        (FunctorPrefixHomCarrier_reflects displayed)
+  · exact FunctorPrefixHomCarrier_comp_left_factor right comp displayed
+  · intro f' comp' _left
+    exact cont_right_cancel comp comp'
 
 theorem FunctorPrefixHomCarrier_tail_comm_closed {p a b c f g fg gf : BHist} :
     UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
@@ -139,6 +145,55 @@ theorem FunctorPrefixHomCarrier_comp_assoc_preserves
               (And.intro
                 (FunctorPrefixHomCarrier_preserves prefixCarrier rightCarrier)
                 same)
+
+theorem FunctorPrefixHomCarrier_comp_assoc_displayed_deterministic
+    {p a b c d f g h fg gh left right displayed : BHist} :
+    UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
+      CategoryHomCarrier c d h -> Cont f g fg -> Cont g h gh -> Cont fg h left ->
+        Cont f gh right -> CategoryHomCarrier (append p a) (append p d) displayed ->
+          hsame left displayed ∧ hsame right displayed := by
+  intro prefixCarrier first second third fgRel ghRel leftRel rightRel displayedCarrier
+  have closed :=
+    FunctorPrefixHomCarrier_comp_assoc_preserves
+      prefixCarrier first second third fgRel ghRel leftRel rightRel
+  exact And.intro (CategoryHomCarrier_morphism_deterministic closed.left displayedCarrier)
+    (CategoryHomCarrier_morphism_deterministic closed.right.left displayedCarrier)
+
+theorem FunctorPrefixHomCarrier_unary_suffix_comp_public_readback {p q a b c f g fg : BHist} :
+    UnaryHistory p -> UnaryHistory q -> CategoryHomCarrier a b f ->
+      CategoryHomCarrier b c g -> Cont f g fg ->
+        CategoryHomCarrier (append (append p a) q) (append (append p c) q) fg ∧
+          (∀ {fg' : BHist},
+            CategoryHomCarrier (append (append p a) q) (append (append p c) q) fg' ->
+              hsame fg fg') := by
+  intro prefixCarrier suffixCarrier left right comp
+  have readback := CategoryHomCarrier_comp_public_readback left right comp
+  constructor
+  · exact
+      CategoryHomCarrier_unary_context_iff.mpr
+        (And.intro prefixCarrier (And.intro suffixCarrier readback.left))
+  · intro fg' displayed
+    exact readback.right (CategoryHomCarrier_unary_context_iff.mp displayed).right.right
+
+theorem FunctorPrefixHomCarrier_unary_suffix_comp_assoc_preserves
+    {p q a b c d f g h fg gh left right : BHist} :
+    UnaryHistory p -> UnaryHistory q -> CategoryHomCarrier a b f ->
+      CategoryHomCarrier b c g -> CategoryHomCarrier c d h -> Cont f g fg ->
+        Cont g h gh -> Cont fg h left -> Cont f gh right ->
+          CategoryHomCarrier (append (append p a) q) (append (append p d) q) left ∧
+            CategoryHomCarrier (append (append p a) q) (append (append p d) q) right ∧
+              hsame left right := by
+  intro prefixCarrier suffixCarrier first second third fgRel ghRel leftRel rightRel
+  have closed :=
+    CategoryHomCarrier_comp_assoc_closed first second third fgRel ghRel leftRel rightRel
+  exact
+    And.intro
+      (CategoryHomCarrier_unary_context_iff.mpr
+        (And.intro prefixCarrier (And.intro suffixCarrier closed.left)))
+      (And.intro
+        (CategoryHomCarrier_unary_context_iff.mpr
+          (And.intro prefixCarrier (And.intro suffixCarrier closed.right.left)))
+        closed.right.right)
 
 theorem FunctorPrefixHomCarrier_comp_assoc_reflects
     {p a b c d f g h fg gh left right : BHist} :
@@ -188,6 +243,71 @@ theorem FunctorPrefixHomCarrier_empty_identity_iff {p a b : BHist} :
               Iff.mpr CategoryHomCarrier_empty_identity_iff
                 (And.intro sourceCarrier (And.intro targetCarrier samePrefixed))
 
+theorem FunctorPrefixHomCarrier_empty_morphism_target_iff {p a target : BHist} :
+    CategoryHomCarrier (append p a) target BHist.Empty ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ hsame target (append p a) := by
+  constructor
+  · intro homCarrier
+    have identityData :=
+      (CategoryHomCarrier_empty_identity_iff (a := append p a) (b := target)).mp homCarrier
+    exact
+      And.intro (unary_append_left_factor identityData.left)
+        (And.intro
+          (unary_append_right_factor identityData.left)
+          (hsame_symm identityData.right.right))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro objectCarrier sameTarget =>
+            have sourceCarrier : UnaryHistory (append p a) :=
+              unary_append_closed prefixCarrier objectCarrier
+            exact
+              (CategoryHomCarrier_empty_identity_iff
+                (a := append p a) (b := target)).mpr
+                (And.intro sourceCarrier
+                  (And.intro
+                    (unary_transport sourceCarrier (hsame_symm sameTarget))
+                    (hsame_symm sameTarget)))
+
+theorem FunctorPrefixHomCarrier_e1_prefix_empty_identity_iff {p a b : BHist} :
+    CategoryHomCarrier (append (BHist.e1 p) a) (append (BHist.e1 p) b) BHist.Empty ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  constructor
+  · intro homCarrier
+    have identityData :=
+      (FunctorPrefixHomCarrier_empty_identity_iff
+        (p := BHist.e1 p) (a := a) (b := b)).mp homCarrier
+    cases identityData with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier sameTail =>
+            have sourceFactors :=
+              (unary_append_factors_iff_result (h := BHist.e1 p) (k := a)).mpr
+                sourceCarrier
+            have targetFactors :=
+              (unary_append_factors_iff_result (h := BHist.e1 p) (k := b)).mpr
+                targetCarrier
+            exact
+              And.intro (unary_e1_inversion sourceFactors.left)
+                (And.intro sourceFactors.right
+                  (And.intro targetFactors.right sameTail))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro sourceCarrier rest =>
+            cases rest with
+            | intro targetCarrier sameTail =>
+                exact
+                  (FunctorPrefixHomCarrier_empty_identity_iff
+                    (p := BHist.e1 p) (a := a) (b := b)).mpr
+                    (And.intro
+                      (unary_append_closed (unary_e1_closed prefixCarrier) sourceCarrier)
+                      (And.intro
+                        (unary_append_closed (unary_e1_closed prefixCarrier) targetCarrier)
+                        sameTail))
+
 theorem FunctorPrefixHomCarrier_empty_target_components_iff {p a f : BHist} :
     CategoryHomCarrier (append p a) BHist.Empty f <->
       hsame p BHist.Empty /\ hsame a BHist.Empty /\ hsame f BHist.Empty := by
@@ -228,6 +348,23 @@ theorem FunctorPrefixHomCarrier_empty_source_components_iff {p b f : BHist} :
               (CategoryHomCarrier_empty_source_iff (b := append p b) (f := f)).mpr
                 (And.intro (unary_append_closed prefixCarrier targetCarrier) sameMorphism)
 
+theorem FunctorPrefixHomCarrier_e1_morphism_target_components_iff {p a k r : BHist} :
+    CategoryHomCarrier (append p a) (BHist.e1 r) (BHist.e1 k) <->
+      UnaryHistory p /\ UnaryHistory a /\ UnaryHistory k /\ Cont (append p a) k r := by
+  constructor
+  · intro homCarrier
+    have data :=
+      (CategoryHomCarrier_e1_morphism_target_iff (a := append p a) (k := k) (r := r)).mp
+        homCarrier
+    exact And.intro (unary_append_left_factor data.left)
+      (And.intro (unary_append_right_factor data.left)
+        (And.intro data.right.left data.right.right))
+  · intro data
+    exact
+      (CategoryHomCarrier_e1_morphism_target_iff (a := append p a) (k := k) (r := r)).mpr
+        (And.intro (unary_append_closed data.left data.right.left)
+          (And.intro data.right.right.left data.right.right.right))
+
 theorem FunctorPrefixHomCarrier_source_prefix_deterministic {p q a target f : BHist} :
     CategoryHomCarrier (append p a) target f →
       CategoryHomCarrier (append q a) target f → hsame p q := by
@@ -247,6 +384,18 @@ theorem FunctorPrefixHomCarrier_comp_source_prefix_deterministic {p q a b c f g 
     CategoryHomCarrier_source_deterministic composite displayed
   exact append_right_cancel (k := a) sameSource
 
+theorem FunctorPrefixHomCarrier_comp_source_object_deterministic
+    {p a d b c f g fg : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g -> Cont f g fg ->
+        CategoryHomCarrier (append p d) (append p c) fg -> hsame a d := by
+  intro left right comp displayed
+  have composite : CategoryHomCarrier (append p a) (append p c) fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  have sameSource : hsame (append p a) (append p d) :=
+    CategoryHomCarrier_source_deterministic composite displayed
+  exact append_left_cancel (h := p) sameSource
+
 theorem FunctorPrefixHomCarrier_source_object_deterministic {p a b target f : BHist} :
     CategoryHomCarrier (append p a) target f →
       CategoryHomCarrier (append p b) target f → hsame a b := by
@@ -262,6 +411,14 @@ theorem FunctorPrefixHomCarrier_target_prefix_deterministic {p q a source f : BH
   have sameTarget : hsame (append p a) (append q a) :=
     CategoryHomCarrier_target_deterministic left right
   exact append_right_cancel (k := a) sameTarget
+
+theorem FunctorPrefixHomCarrier_target_object_deterministic {p a b source f : BHist} :
+    CategoryHomCarrier source (append p a) f →
+      CategoryHomCarrier source (append p b) f → hsame a b := by
+  intro left right
+  have sameTarget : hsame (append p a) (append p b) :=
+    CategoryHomCarrier_target_deterministic left right
+  exact append_left_cancel (h := p) sameTarget
 
 theorem FunctorPrefixHomCarrier_comp_middle_object_deterministic
     {p a b b' c f g fg : BHist} :
@@ -281,5 +438,50 @@ theorem FunctorPrefixHomCarrier_comp_target_prefix_deterministic {p q a b c f g 
   have sameTarget : hsame (append p c) (append q c) :=
     CategoryHomCarrier_comp_target_deterministic left right comp displayed
   exact append_right_cancel (k := c) sameTarget
+
+theorem FunctorPrefixHomCarrier_zero_headed_component_absurd {p a b f : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f →
+      ((∃ z : BHist, p = BHist.e0 z) ∨ (∃ z : BHist, a = BHist.e0 z) ∨
+        (∃ z : BHist, b = BHist.e0 z) ∨ (∃ z : BHist, f = BHist.e0 z)) →
+        False := by
+  intro homCarrier zeroComponent
+  cases zeroComponent with
+  | inl prefixZero =>
+      cases prefixZero with
+      | intro z prefixEq =>
+          cases prefixEq
+          exact unary_no_zero_extension (unary_append_left_factor homCarrier.left)
+  | inr rest =>
+      cases rest with
+      | inl sourceZero =>
+          cases sourceZero with
+          | intro z sourceEq =>
+              cases sourceEq
+              exact unary_no_zero_extension (unary_append_right_factor homCarrier.left)
+      | inr rest =>
+          cases rest with
+          | inl targetZero =>
+              cases targetZero with
+              | intro z targetEq =>
+                  cases targetEq
+                  exact unary_no_zero_extension
+                    (unary_append_right_factor homCarrier.right.left)
+          | inr morphZero =>
+              cases morphZero with
+              | intro z morphEq =>
+                  cases morphEq
+                  exact unary_no_zero_extension homCarrier.right.right.left
+
+theorem FunctorPrefixHomCarrier_comp_target_object_deterministic
+    {p a b c d f g fg : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g -> Cont f g fg ->
+        CategoryHomCarrier (append p a) (append p d) fg -> hsame c d := by
+  intro left right comp displayed
+  have composite : CategoryHomCarrier (append p a) (append p c) fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  have sameTarget : hsame (append p c) (append p d) :=
+    CategoryHomCarrier_target_deterministic composite displayed
+  exact append_left_cancel (h := p) sameTarget
 
 end BEDC.Derived.FunctorUp
