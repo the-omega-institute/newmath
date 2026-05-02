@@ -158,6 +158,18 @@ theorem ContinuousFunctionCarrier_source_deterministic
                                       | intro sourceMap' _targetCert' =>
                                           exact cont_right_cancel sourceMap sourceMap'
 
+theorem ContinuousFunctionCarrier_comp_public_readback
+    {source middle target target' f g fg modF modG modFG certF certG cert cert' : BHist} :
+    ContinuousFunctionCarrier source f middle modF certF ->
+      ContinuousFunctionCarrier middle g target modG certG ->
+        Cont f g fg -> Cont modF modG modFG -> Cont target modFG cert ->
+          ContinuousFunctionCarrier source fg target' modFG cert' ->
+            hsame target target' ∧ hsame cert cert' := by
+  intro first second fgRel modRel certRel displayed
+  exact
+    ContinuousFunctionCarrier_target_cert_deterministic
+      (ContinuousFunctionCarrier_comp_closed first second fgRel modRel certRel) displayed
+
 theorem ContinuousModulusWitness_prefixed_composite_middle_deterministic_factorization
     {p source first second composite target : BHist} :
     UnaryHistory first -> UnaryHistory second -> Cont first second composite ->

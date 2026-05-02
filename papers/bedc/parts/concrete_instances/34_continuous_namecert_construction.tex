@@ -146,6 +146,26 @@ standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_target\_cert\_deterministic}
 
+\begin{theorem}[Continuous function carrier composite public readback]
+\label{thm:continuous-function-carrier-comp-public-readback}
+If two continuous-function carriers compose through $fg$ and $modFG$, and a
+displayed carrier uses the same source, composite map, and composite modulus,
+then the displayed target and certificate are determined by the canonical
+composite target and certificate:
+$$
+\mathsf{hsame}(target,target')\quad\text{and}\quad
+\mathsf{hsame}(cert,cert').
+$$
+\end{theorem}
+\begin{proof}
+Continuous-function composition closure constructs the canonical composite
+carrier from the two input carriers and the supplied continuation ledgers for
+$fg$, $modFG$, and $cert$. Target-certificate determinacy compares this
+canonical carrier with the displayed carrier over the same source, map, and
+modulus, yielding the two public readback equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_comp\_public\_readback}
+
 \begin{theorem}[Continuous function carrier map determinacy]
 \label{thm:continuous-function-carrier-map-deterministic}
 For histories $source,map,map',target,modulus,cert$, if two
