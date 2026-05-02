@@ -1,0 +1,198 @@
+---
+title: "从区分开始"
+subtitle: "如果数学不是从集合、类型或数开始, 而是从「区分」这个动作本身开始, 会是什么样?"
+author: "The Omega Institute"
+date: 2026-05-02
+lang: zh-CN
+description: "BEDC: 一个由 AI 驱动的形式化案例 — 从最原始的区分构建数学. 1837 条定理, 0 公理, 不依赖 mathlib."
+---
+
+```{=html}
+<div class="lang-switch"><a href="index.qmd">English</a></div>
+```
+
+```{=html}
+<div style="margin: 1em 0 2em 0; padding: 1em 1.2em; background: #f8f9fa; border-left: 4px solid #4a90d9; border-radius: 4px;">
+  📄 <strong><a href="bedc.pdf" style="color: #2a6ab5;">下载最新 BEDC 论文 (PDF, ~360 页)</a></strong> — 每次部署时从当前 <code>main.tex</code> 重新编译.
+</div>
+```
+
+## 所有人都在讲的两个故事
+
+2025 年, 一个 AI 系统在国际数学奥林匹克竞赛上六题做对五题, 拿到金牌. 几个月前, 一支团队把开普勒猜想的证明形式化为 12 万行 Lean 代码. 标题不言自明: *AI 做数学. AI 验证数学.*
+
+这些都是真成就. 但它们有一个共同盲点: 在这两个故事里, *数学本身早已存在*. AI 解决的是人类提出的问题, 或验证的是人类证明的定理. 真正难的部分 — 决定看什么、识别什么重要、为发现的东西命名 — 仍然完全靠人.
+
+如果这种分工是错的呢? 不是原则上错, 而是实践中错. 如果 AI 在数学中最有效的用法不是解题或验证, 而是 *奠基* — 从一个原始到没有人愿意花精力去研磨的起点出发, 把整个理论建起来?
+
+这就是 BEDC 项目. 它从一个 inductive 类型开始.
+
+## 种子
+
+```lean
+inductive BHist where
+  | Empty
+  | e0 (h : BHist)
+  | e1 (h : BHist)
+```
+
+三个构造子. `Empty` 是 *没有任何区分发生* 的状态. `e0` 和 `e1` 是两种递归地延展任何已有历史的方式.
+
+关键是: `e0` 和 `e1` 不是从外部给定的"两个不同元素". 它们不是标签, 不是符号, 不是任何东西的名字. 它们是 *存在两种不同的递归构造* 这件事 — 仅此而已. 它们的"不同"是构成性的: 这就是它们存在的理由.
+
+这是最小可能的根基: 不是"一个有两个元素的集合", 不是"一个有两个项的类型", 而是 *递归地施行区分*.
+
+```{=html}
+<span class="elim-mark">✗ 「就是二进制字符串」</span>
+```
+
+不是. 二进制字符串预设了 `0` 和 `1` 作为对象. BHist 完全不预设对象 — 它生成"区分"这件事本身的可能性. ([为什么这件事重要 →](distinction-as-foundation.zh-CN.qmd))
+
+## 第一个惊喜
+
+如果你在 `BHist` 之上搭建一切, 迟早需要一种方式来谈 *历史如何延续历史*. 于是加一个关系:
+
+```lean
+inductive Cont : BHist → BHist → BHist → Prop
+  -- "从 a 出发, 经过 f, 到达 b"
+```
+
+这就是 `Cont a f b` — *延续* 关系. 它是内核的"主动词". BEDC 里别的所有东西, 后来都被发现是它的特殊情况.
+
+几个月后, 项目做到范畴论时, morphism 谓词是这样定义的:
+
+```lean
+def CategoryHomCarrier (a b f : BHist) : Prop :=
+  UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧ Cont a f b
+```
+
+仔细读: 在 BEDC 里, 范畴的 morphism *就是* unary 的延续. 不是额外结构. 不是上面一层. 复合就是 `cont_assoc`. 单位 morphism 就是 `BHist.Empty`. 范畴公理就是内核定理.
+
+```{=html}
+<span class="elim-mark">✗ 「范畴论是数学之上的另一层」</span>
+```
+
+在 BEDC 里不是. 有限内核的 21 条 manifest 定理 — `cont_assoc`, `cont_left_unit`, `cont_right_unit`, `hsame_*` — *已经* 是范畴公理. "范畴"从一开始就藏在内核里.
+
+这不是聪明的编码. 这是一个结构性等同, 只有当 AI 把分层理论建到足够厚, 它才会显形. ([Hom = Cont 与其他 unification →](discovery-loop.zh-CN.qmd#unifications))
+
+## 72 小时里发生的事
+
+这个项目从 2026 年 4 月 29 日开始. 今天是 5 月 2 日.
+
+| | 数量 |
+|---|---|
+| 机械验证的定理 | **1837** |
+| Lean 文件 | 116 |
+| Lean 行数 | ~25,000 |
+| Paper 章节 | 38 |
+| 用到的公理 | **0** |
+| `sorry` 占位 | **0** |
+| `Classical.choice` / `Quot.sound` / `propext` 传递依赖 | **0** (审计验证) |
+| `import Mathlib.*` | **0** (mathlib-free) |
+| 作者提交 | 95% 来自 Codex 自驱流水 |
+
+项目当前已用 Lean 4 形式化:
+
+- 布尔、option、和、积、列表、自然数、整数、有理数 (饱和)
+- 实数 (Bishop 风格等价类 — 已有 16 条定理在涨)
+- 连续函数、度量空间、紧致子集、S¹ (过去 24 小时新启动)
+- 范畴、函子、自然变换 (过去 24 小时新启动)
+- 构造子、分类器、ledger 复合、命名证书
+
+全部从 `inductive BHist` 开始, 没有公理, 没有商类型, 没有排中律.
+
+## 实际是怎么跑的
+
+项目由一个人 + 一个 Codex agent loop 运行. agent 选形式化目标, 写 Lean 证明, 提交, 然后继续. 大致每天 500 个 commit. 人类的角色不是写证明 — 是 *引导这个 harness*: 设硬约束, 识别 agent 在产出灌水时, 给 agent 输出里浮现的架构性洞察起名字.
+
+工程和方法论我们另文详述: [发现回路](discovery-loop.zh-CN.qmd).
+
+抽象的模式是这样:
+
+```{=html}
+<div class="timeline">
+  <div class="timeline-item human"><div class="timeline-label">人类</div><div class="timeline-content">设计内核. 选哲学: "从区分开始, 无公理, mathlib-free."</div></div>
+  <div class="timeline-item ai"><div class="timeline-label">AI</div><div class="timeline-content">通过 critical-path 分析选目标, 写 Lean 证明, 注册论文 marker, 提交.</div></div>
+  <div class="timeline-item human"><div class="timeline-label">人类</div><div class="timeline-content">看产出, 给 AI 没注意到的 unification 命名, 出现灌水时收紧 harness.</div></div>
+  <div class="timeline-item discovery"><div class="timeline-label">发现</div><div class="timeline-content">跨章桥梁定理涌现: Hom = Cont, S¹ 是带方程的实数对, Bishop 紧致是 5 元 Cont 链.</div></div>
+  <div class="timeline-item ai"><div class="timeline-label">AI</div><div class="timeline-content">把桥梁形式化为新定理, 开新前沿, 重复.</div></div>
+</div>
+```
+
+```{=html}
+<span class="role-tag human">🧑 人类指引</span>
+<span class="role-tag ai">🤖 AI 推导</span>
+<span class="role-tag discovery">💡 发现</span>
+```
+
+关键: 人类不是同行评审者. 人类是内核的架构师 + 数学品味的策展人. 这两件事一旦定下, AI 就能比任何人更快地穿透蕴含, 而且结果是机械验证的.
+
+## 让我们意外的五件事
+
+::: {.evidence}
+**1. 范畴比群先做完.**
+schema-only 的章节 (群、幺半群、环、域、模) 卡住, 因为它们的 paper schema 是参数化的 — `mul : BHist → BHist → BHist` 留作抽象 — AI 只能产出 parameter echo. 范畴没有这个卡口: 它的 carrier 具体是 `BHist + UnaryHistory + Cont`. 第三天 AI 就把范畴论建起来了, 而群论还是空壳.
+
+**Lean:** [`CategoryHomCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/CategoryUp.lean)
+:::
+
+::: {.evidence}
+**2. S¹ 把方程编码为 `BHist` 值.**
+单位圆是 `RealConstantHistoryClassifier(equation, SOneUnitHistory)` — 其中 `equation` 本身就是一个 `BHist`. 约束 x² + y² = 1 不是元层命题; 它是对象层的历史关系. 这跟标准类型论"命题即类型"是反的.
+
+**Lean:** [`SOneHistoryCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/S1Up.lean)
+:::
+
+::: {.evidence}
+**3. 紧致性是 Cont 链的 5 元组.**
+Bishop "located + totally bounded ⇒ compact" 编码为 `CompactWitnessCarrier(subset, located, finite, intermediate, compact)`, 用两个 `Cont` 关系把它们串起来. 紧致性的构造内容变成内核关系的模式.
+
+**Lean:** [`CompactWitnessCarrier`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/CompactUp.lean)
+:::
+
+::: {.evidence}
+**4. 连续函数 modulus 链通过 `Cont` 复合.**
+Bishop "连续函数的复合是连续的, 且 modulus 显式" 变成 `ContinuousModulusChain_composite_closed`: modulus 链复合走的是同一个 `Cont` 关系, 跟内核驱动的是同一种代数. 连续分析与内核延续是同一种代数.
+
+**Lean:** [`ContinuousModulusChain_composite_closed`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/Derived/ContinuousUp.lean)
+:::
+
+::: {.evidence}
+**5. Cont 是主动词.**
+范畴、紧致、连续 modulus、自然变换的 component — 都是 `Cont` 的特殊情况. 自 Bourbaki 以来的"数学统一"问题, 在 BEDC 里有一个候选答案: 它可能在区分序列延续的代数里, 不在集合, 也不在范畴.
+:::
+
+## 这不是什么
+
+这不是新数学. 这 1837 条定理是已有数学 — Bishop 风格的构造分析, 基础代数, 入门范畴论 — *在不同根基上重新表达*. 我们没有发现 Yoneda 引理. 我们发现的是, 当你从区分开始, Yoneda 引理可能跟 `cont_assoc` 是同一种对象.
+
+这不是 mathlib 的竞争者. mathlib4 有 100 倍多的定理, 有活跃的社区. BEDC 是 *设计上* mathlib-free, 因为设计的问题是"从区分单独出发能走多远?", 不是"我们怎么覆盖现代数学".
+
+这不是替代人类数学家. 这个项目里每个有意思的 *方向* 都来自人类: 内核设计, schema-only 诊断, 把 `Hom = Cont` 识别为 unification 而非巧合. AI 是引擎; 人类是方向盘.
+
+## 这是什么
+
+据我们所知, 这是第一个把 *区分这个动作本身* 作为根基原语 — 不是集合, 不是类型, 不是范畴 — 的 Lean 级形式化项目. John Wheeler 的"It from bit"是哲学主张. BEDC 是同一主张, 经过机械验证.
+
+这是一个人-AI 协作在基础数学上的可工作样本, AI 做形式化的大头, 人类做架构性的品味判断, 结果是 38 章数学在 72 小时内层层叠起来, 而不是 72 年.
+
+这是一个问题, 不是一个结论: *如果数学有一个唯一的根, 那是区分吗?* 我们不知道. 但我们现在有 1837 条机械验证的证据指向一个方向.
+
+## 下一步去哪
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.zh-CN.qmd"><strong>区分作为根基</strong><br/>为什么我们认为 e0/e1 比集合、类型、范畴更原始 — Wheeler、Bishop、同伦类型论怎么看这件事.</a>
+  <a href="discovery-loop.zh-CN.qmd"><strong>发现回路</strong><br/>工程: harness 怎么自驱, 怎么失败, taste 审计怎么抓灌水, 这套方法论可以推广到什么.</a>
+  <a href="default-failure-modes.zh-CN.qmd"><strong>默认失败模式</strong><br/>无人推回时 AI 会产什么 — 灌水的四种特征形状, 以及它们底下的认知偏差.</a>
+  <a href="schema-only-as-evidence.zh-CN.qmd"><strong>Schema-only 作为证据</strong><br/>十六个编译不通过的章节, 它们的失败告诉我们关于"区分作为根基"什么.</a>
+  <a href="synthesis-not-creation.zh-CN.qmd"><strong>综合, 不是创造</strong><br/>诚实评估: AI 在 72 小时综合了 1837 条定理; 它没创造下面的根基.</a>
+  <a href="one-closed-loop.zh-CN.qmd"><strong>一个 closed loop</strong><br/>为什么 Gödel、Tarski、Münchhausen、Hofstadter 原来是同一个约束 — 以及 BEDC 怎么把它最小化.</a>
+  <a href="bedc.pdf"><strong>论文 PDF</strong><br/>最新 BEDC LaTeX 论文, 38 章, ~360 页. 每次 dossier 部署时从当前 <code>main.tex</code> 重新编译.</a>
+  <a href="https://github.com/the-omega-institute/newmath"><strong>代码</strong><br/>1837 条定理, 0 公理, mathlib-free. <code>lake build</code> 通过.</a>
+</div>
+```
+
+— *The Omega Institute*
+*newmath / BEDC, 2026 年 5 月*

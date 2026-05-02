@@ -52,6 +52,8 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.OptionUp
+import BEDC.Derived.OptionUp.E1Map
+import BEDC.Derived.OptionUp.TaggedClassifier
 import BEDC.Derived.OptionUp.Determinism
 import BEDC.Derived.OptionUp.AbsentSource
 import BEDC.Derived.OptionUp.BranchAlignment
@@ -89,6 +91,8 @@ import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierSelectedVisible
 import BEDC.Derived.OptionUp.CompositeNormalizedZeroEndpoint
+import BEDC.Derived.OptionUp.PublicEndpointShapeCertificate
+import BEDC.Derived.OptionUp.CompositeAbsentPublicFactorization
 import BEDC.Derived.OptionUp.StabilityFields
 import BEDC.Derived.OptionUp.SemanticCertificate
 import BEDC.Derived.OptionUp.VisibleBranchInversion
@@ -110,6 +114,9 @@ import BEDC.Derived.OptionUp.PresentChainEndpointClassification
 import BEDC.Derived.OptionUp.SourceTransportAbsurd
 import BEDC.Derived.OptionUp.CrossAbsentSourceExclusion
 import BEDC.Derived.OptionUp.CommonLeftVisiblePayload
+import BEDC.Derived.OptionUp.EndpointSemanticFields
+import BEDC.Derived.OptionUp.Pattern
+import BEDC.Derived.OptionUp.Context
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
@@ -141,6 +148,7 @@ import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.FieldUp
+import BEDC.Derived.ModuleUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.MetricUp
@@ -148,6 +156,7 @@ import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
 import BEDC.Derived.ContinuousUp.GraphChainFactorization
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
+import BEDC.Derived.ContinuousUp.ModulusWitnessPublicReadback
 import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ResultCases
 import BEDC.Derived.ContinuousUp.EmptySource
@@ -165,3 +174,4 @@ import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.TargetCases
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
+import BEDC.Reflection

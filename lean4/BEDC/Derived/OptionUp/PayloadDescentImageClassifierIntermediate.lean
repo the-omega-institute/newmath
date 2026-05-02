@@ -1,5 +1,7 @@
 import BEDC.Derived.OptionUp.BranchExactness
+import BEDC.Derived.OptionUp.CompositeAbsentPublicFactorization
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
+import BEDC.Derived.OptionUp.PayloadDescentSharedReflection
 
 namespace BEDC.Derived.OptionUp
 
@@ -199,5 +201,122 @@ theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_present_i
                             ⟨k, k', p, q, a, b, imageDelta, mapLeft, mapRight, targetP,
                               targetQ, sameKP, sameK'Q, sourceA, sourceB, relAB,
                               samePDelta, sameQDelta, classifier, competing⟩
+
+theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_intermediate_classifier_coverage
+    {S T U : BHist -> Prop} {RelS RelT RelU : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (rhoD : forall a : BHist, S a -> T (delta.map a))
+    (rhoE : forall b : BHist, T b -> U (epsilon.map b))
+    (epsilon_hsame : forall x y : BHist, T x -> T y -> hsame x y ->
+      hsame (epsilon.map x) (epsilon.map y))
+    (certS : NameCert S RelS)
+    (certT : NameCert T RelT)
+    (certU : NameCert U RelU)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (middle_hsame : TaggedOptionSourceHsameCompatible T RelT)
+    (target_hsame : TaggedOptionSourceHsameCompatible U RelU)
+    {m m' u u' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon) m m' ->
+      hsame m u ->
+        hsame m' u' ->
+          exists k k' : BHist,
+            TaggedOptionPayloadDescentImageClassifier S T delta k k' ∧
+              TaggedOptionMapRel T U epsilon k u ∧
+                TaggedOptionMapRel T U epsilon k' u' ∧
+                  TaggedOptionHistoryClassifier T RelT k k' := by
+  intro image sameMU sameM'U'
+  have transported :
+      TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon)
+        u u' :=
+    TaggedOptionPayloadDescentImageClassifier_hsame_transport
+      (TaggedOptionDescentComp delta epsilon) certS source_hsame image sameMU sameM'U'
+  have branch :=
+    (TaggedOptionPayloadDescentImageClassifier_branch_exactness
+      (TaggedOptionDescentComp delta epsilon) certS source_hsame).mp transported
+  cases branch with
+  | inl absent =>
+      have factorized :=
+        TaggedOptionPayloadDescentImageClassifier_composite_normalized_absent_public_factorization
+          delta epsilon rhoD rhoE epsilon_hsame certS source_hsame image sameMU sameM'U'
+          absent.left absent.right
+      cases factorized with
+      | intro k factorized =>
+          cases factorized with
+          | intro k' data =>
+              have classifier : TaggedOptionHistoryClassifier T RelT k k' :=
+                Or.inl (And.intro data.right.right.right.left data.right.right.right.right.left)
+              exact
+                ⟨k, k', data.left, data.right.left, data.right.right.left, classifier⟩
+  | inr present =>
+      cases present with
+      | intro a present =>
+          cases present with
+          | intro b data =>
+              have targetX : U (epsilon.map (delta.map a)) :=
+                data.right.right.right.left
+              have targetY : U (epsilon.map (delta.map b)) :=
+                data.right.right.right.right.left
+              have sameUX : hsame u (BHist.e1 (epsilon.map (delta.map a))) :=
+                data.right.right.right.right.right.left
+              have sameU'Y : hsame u' (BHist.e1 (epsilon.map (delta.map b))) :=
+                data.right.right.right.right.right.right
+              have presentWitness :=
+                TaggedOptionPayloadDescentImageClassifier_composite_normalized_present_intermediate_classifier_determinacy
+                  delta epsilon rhoD certS certT certU source_hsame middle_hsame target_hsame
+                  image sameMU sameM'U' targetX targetY sameUX sameU'Y
+              cases presentWitness with
+              | intro k presentWitness =>
+                  cases presentWitness with
+                  | intro k' presentWitness =>
+                      cases presentWitness with
+                      | intro _p presentWitness =>
+                          cases presentWitness with
+                          | intro _q presentWitness =>
+                              cases presentWitness with
+                              | intro _a presentWitness =>
+                                  cases presentWitness with
+                                  | intro _b witnessData =>
+                                      exact
+                                        ⟨k, k', witnessData.left, witnessData.right.left,
+                                          witnessData.right.right.left,
+                                          witnessData.right.right.right.right.right.right.right.right.right.right.right.right.left⟩
+
+theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_intermediate_factor_coherence
+    {T U : BHist -> Prop} {RelT RelU : BHist -> BHist -> Prop}
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (reflects : TaggedOptionPayloadDescentReflectsSource T epsilon) {k l k' l' u u' : BHist} :
+    TaggedOptionMapRel T U epsilon k u ->
+      TaggedOptionMapRel T U epsilon l u ->
+        TaggedOptionMapRel T U epsilon k' u' ->
+          TaggedOptionMapRel T U epsilon l' u' ->
+            TaggedOptionHistoryClassifier T RelT k l ∧
+              TaggedOptionHistoryClassifier T RelT k' l' := by
+  intro mapKU mapLU mapK'U' mapL'U'
+  have first :=
+    TaggedOptionMapRel_shared_target_source_reflection_normal_form
+      epsilon reflects mapKU mapLU
+  have second :=
+    TaggedOptionMapRel_shared_target_source_reflection_normal_form
+      epsilon reflects mapK'U' mapL'U'
+  constructor
+  · cases first with
+    | inl absent =>
+        exact Or.inl (And.intro absent.left absent.right.left)
+    | inr present =>
+        cases present with
+        | intro _a present =>
+            cases present with
+            | intro _b data =>
+                exact data.right.right.right.right.right.right.right.right.right
+  · cases second with
+    | inl absent =>
+        exact Or.inl (And.intro absent.left absent.right.left)
+    | inr present =>
+        cases present with
+        | intro _a present =>
+            cases present with
+            | intro _b data =>
+                exact data.right.right.right.right.right.right.right.right.right
 
 end BEDC.Derived.OptionUp

@@ -180,6 +180,35 @@ unit-equation classifier and the BEDC continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_rational\_unit\_components}
 
+\begin{theorem}[SOne history carrier point-tail readback]
+\label{thm:sone-history-carrier-point-tail-readback}
+For histories $x,y,e,t$, a concrete $\SOneUp$ history-carrier witness whose
+point ledger is visibly one-tagged exposes the rational component tails and
+reads the visible point tail as the continuation of the first coordinate by
+the second coordinate tail:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,\Eone(t))
+\Longrightarrow
+\exists d_x,d_y:\mathsf{BHist}.\;
+\hsame(x,\Eone(d_x))\land \mathsf{RatHistoryCarrier}(d_x)\land
+\hsame(y,\Eone(d_y))\land \mathsf{RatHistoryCarrier}(d_y)\land
+\hsame(t,x\cdot d_y).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:s1-history-carrier-rational-unit-components}. This exposes
+rational tails $d_x,d_y$, presentations $\hsame(x,\Eone(d_x))$ and
+$\hsame(y,\Eone(d_y))$, and the continuation ledger
+$\ContR(x,y,\Eone(t))$.
+
+Using the presentation $\hsame(y,\Eone(d_y))$, the continuation result has the
+form $\Eone(t)=\Eone(x\cdot d_y)$. Constructor inversion for $\Eone$ gives
+$\hsame(t,x\cdot d_y)$. Package this with the two exposed rational carrier
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_point\_tail\_readback}
+
 \begin{theorem}[SOne unit equation determinacy]
 \label{thm:s1-unit-equation-deterministic}
 For histories $x,y,e,p$, every concrete $\SOneUp$ history-carrier witness

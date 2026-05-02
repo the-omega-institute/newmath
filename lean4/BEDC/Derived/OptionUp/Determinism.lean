@@ -38,10 +38,36 @@ theorem OptionClassifierSpec_hsame_some_right_inversion {x : OptionCarrier BHist
   | some a =>
       exact Exists.intro a (And.intro rfl classifier)
 
+theorem OptionClassifierSpec_hsame_some_left_inversion {y : OptionCarrier BHist}
+    {a : BHist} :
+    OptionClassifierSpec hsame (Option.some a) y →
+      exists b : BHist, y = Option.some b ∧ hsame a b := by
+  intro classifier
+  cases y with
+  | none =>
+      cases classifier
+  | some b =>
+      exact Exists.intro b (And.intro rfl classifier)
+
 theorem OptionClassifierSpec_hsame_right_payload_deterministic
     {x : OptionCarrier BHist} {h k : BHist} :
     OptionClassifierSpec hsame x (Option.some h) →
       OptionClassifierSpec hsame x (Option.some k) → hsame h k := by
   exact OptionClassifierSpec_hsame_some_right_confluence
+
+theorem OptionClassifierSpec_hsame_common_right_confluence {x y : OptionCarrier BHist}
+    {a : BHist} :
+    OptionClassifierSpec hsame x (Option.some a) →
+      OptionClassifierSpec hsame y (Option.some a) → OptionClassifierSpec hsame x y := by
+  intro left right
+  cases x with
+  | none =>
+      cases left
+  | some hx =>
+      cases y with
+      | none =>
+          cases right
+      | some hy =>
+          exact hsame_trans left (hsame_symm right)
 
 end BEDC.Derived.OptionUp

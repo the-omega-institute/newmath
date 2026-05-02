@@ -1,9 +1,166 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.Derived.MonoidUp
 
 namespace BEDC.Derived.GroupUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+
+theorem concrete_singleton_history_group_laws :
+    let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
+    let Classifier : BHist -> BHist -> Prop :=
+      fun h k => Carrier h ∧ Carrier k ∧ hsame h k
+    let mul : BHist -> BHist -> BHist := BEDC.FKernel.Cont.append
+    let inv : BHist -> BHist := fun _ => BHist.Empty
+    let e : BHist := BHist.Empty
+    Carrier e ∧
+      (forall {h k : BHist}, Carrier h -> Carrier k -> Carrier (mul h k)) ∧
+      (forall {h : BHist}, Carrier h -> Carrier (inv h)) ∧
+      (forall {h : BHist}, Carrier h -> Classifier (mul e h) h) ∧
+      (forall {h : BHist}, Carrier h -> Classifier (mul h e) h) ∧
+      (forall {a b c : BHist}, Carrier a -> Carrier b -> Carrier c ->
+        Classifier (mul (mul a b) c) (mul a (mul b c))) ∧
+      (forall {h k h' k' : BHist}, Classifier h h' -> Classifier k k' ->
+        Classifier (mul h k) (mul h' k')) ∧
+      (forall {h k : BHist}, Classifier h k -> Classifier (inv h) (inv k)) ∧
+      (forall {h : BHist}, Carrier h -> Classifier (mul (inv h) h) e) ∧
+      (forall {h : BHist}, Carrier h -> Classifier (mul h (inv h)) e) := by
+  dsimp
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro h k carrierH carrierK
+      cases carrierH
+      cases carrierK
+      exact hsame_refl BHist.Empty
+    · constructor
+      · intro h _
+        exact hsame_refl BHist.Empty
+      · constructor
+        · intro h carrierH
+          cases carrierH
+          exact And.intro (hsame_refl BHist.Empty)
+            (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+        · constructor
+          · intro h carrierH
+            cases carrierH
+            exact And.intro (hsame_refl BHist.Empty)
+              (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+          · constructor
+            · intro a b c carrierA carrierB carrierC
+              cases carrierA
+              cases carrierB
+              cases carrierC
+              exact And.intro (hsame_refl BHist.Empty)
+                (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+            · constructor
+              · intro h k h' k' sameH sameK
+                cases sameH.left
+                cases sameH.right.left
+                cases sameK.left
+                cases sameK.right.left
+                exact And.intro (hsame_refl BHist.Empty)
+                  (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+              · constructor
+                · intro h k _
+                  exact And.intro (hsame_refl BHist.Empty)
+                    (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+                · constructor
+                  · intro h carrierH
+                    cases carrierH
+                    exact And.intro (hsame_refl BHist.Empty)
+                      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+                  · intro h carrierH
+                    cases carrierH
+                    exact And.intro (hsame_refl BHist.Empty)
+                      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+
+def GroupSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def GroupSingletonClassifier (h k : BHist) : Prop :=
+  GroupSingletonCarrier h ∧ GroupSingletonCarrier k ∧ hsame h k
+
+def GroupSingletonMul (x y : BHist) : BHist :=
+  append x y
+
+def GroupSingletonInv (_x : BHist) : BHist :=
+  BHist.Empty
+
+def GroupSingletonUnit : BHist :=
+  BHist.Empty
+
+theorem GroupSingletonHistory_laws :
+    SemanticNameCert GroupSingletonCarrier GroupSingletonCarrier GroupSingletonCarrier
+        GroupSingletonClassifier ∧
+      (∀ {x y : BHist}, GroupSingletonCarrier x → GroupSingletonCarrier y →
+        GroupSingletonCarrier (GroupSingletonMul x y)) ∧
+      (∀ {x : BHist}, GroupSingletonCarrier x → GroupSingletonCarrier (GroupSingletonInv x)) ∧
+      (∀ {x : BHist}, GroupSingletonCarrier x →
+        GroupSingletonClassifier (GroupSingletonMul GroupSingletonUnit x) x) ∧
+      (∀ {x : BHist}, GroupSingletonCarrier x →
+        GroupSingletonClassifier (GroupSingletonMul x GroupSingletonUnit) x) ∧
+      (∀ {x : BHist}, GroupSingletonCarrier x →
+        GroupSingletonClassifier (GroupSingletonMul (GroupSingletonInv x) x)
+          GroupSingletonUnit) ∧
+      (∀ {x : BHist}, GroupSingletonCarrier x →
+        GroupSingletonClassifier (GroupSingletonMul x (GroupSingletonInv x))
+          GroupSingletonUnit) := by
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : GroupSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+        equiv_refl := by
+          intro h carrier
+          exact And.intro carrier (And.intro carrier (hsame_refl h))
+        equiv_symm := by
+          intro h k same
+          exact And.intro same.right.left
+            (And.intro same.left (hsame_symm same.right.right))
+        equiv_trans := by
+          intro h k r sameHK sameKR
+          exact And.intro sameHK.left
+            (And.intro sameKR.right.left
+              (hsame_trans sameHK.right.right sameKR.right.right))
+        carrier_respects_equiv := by
+          intro h k same _carrier
+          exact same.right.left
+      }
+      pattern_sound := by
+        intro h carrier
+        exact carrier
+      ledger_sound := by
+        intro h carrier
+        exact carrier
+    }
+  · constructor
+    · intro x y carrierX carrierY
+      cases carrierX
+      cases carrierY
+      exact emptyCarrier
+    · constructor
+      · intro x _carrierX
+        exact emptyCarrier
+      · constructor
+        · intro x carrierX
+          cases carrierX
+          exact emptyClassified
+        · constructor
+          · intro x carrierX
+            cases carrierX
+            exact emptyClassified
+          · constructor
+            · intro x carrierX
+              cases carrierX
+              exact emptyClassified
+            · intro x carrierX
+              cases carrierX
+              exact emptyClassified
 
 theorem group_stability_certificate_fields {mul : BHist → BHist → BHist} {e : BHist}
     {inv : BHist → BHist}

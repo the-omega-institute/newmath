@@ -1,0 +1,190 @@
+---
+title: "Schema-only as Evidence"
+subtitle: "Sixteen chapters that wouldn't compile — and what their failure tells us about distinction as foundation"
+author: "The Omega Institute"
+date: 2026-05-02
+description: "When BEDC's algebra chapters refused to formalise as parametric schemas, the failure was a result, not a bug. Foundationalism predicts exactly this — and the engineering bears it out."
+---
+
+```{=html}
+<div class="lang-switch"><a href="schema-only-as-evidence.zh-CN.qmd">中文</a></div>
+```
+
+## The sixteen chapters that wouldn't compile
+
+```python
+SCHEMA_ONLY_HORIZONS: set[str] = {
+    "abgroup", "group", "monoid",
+    "ring", "commring", "field",
+    "module", "vecspace", "linearmap", "matrix",
+    "polynomial", "fps",
+    "lattice", "totalorder", "preorder", "poset",
+}
+```
+
+These are sixteen chapters in `papers/bedc/parts/concrete_instances/` that the BEDC AI pipeline cannot, in its current form, formalise into Lean code. Every attempt produces the same shape — `(forall x y z, hsame (mul (mul x y) z) ...)` parametric hypotheses, no concrete `BHist` constructor reference, the proof body recombining the parameters. The Phase D lint catches this and rejects the round. We tried to break through that wall five times across prompts `v3.2` to `v3.5`. We did not break through it.
+
+For a long time we treated this as a bug — a bug in our prompting, in our agent's discipline, in our harness. We kept trying to fix it.
+
+Eventually we recognised that *the failure was the result*. The harness was working correctly. The agent was working correctly. What the harness was telling us, by refusing every algebraic formalisation attempt, was something about BEDC's foundational shape. This essay describes what.
+
+## What the chapters say
+
+Open `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`. The carrier definition reads, in essence:
+
+> A monoid is a triple `(M, ⋅, e)` where `⋅ : M → M → M` is associative and `e : M` is a two-sided identity.
+
+The Lean target the schema implies is:
+
+```lean
+structure MonoidUp where
+  mul : BHist → BHist → BHist
+  e : BHist
+  assoc : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z))
+  leftId : ∀ x, hsame (mul e x) x
+  rightId : ∀ x, hsame (mul x e) x
+```
+
+Now ask: what theorem can be *proved* from this structure? Anything you can prove from the abstract monoid axioms — left cancellation under invertibility, identity uniqueness, etc. Each such theorem looks like:
+
+```lean
+theorem identity_unique
+    (mul : BHist → BHist → BHist) (e e' : BHist)
+    (leftId : ∀ x, hsame (mul e x) x)
+    (rightId : ∀ x, hsame (mul x e') x)
+    : hsame e e'
+```
+
+The proof is one chained `hsame` rewrite — three lines. It is mathematically correct. It is also exactly the [parameter-echo failure mode](default-failure-modes.qmd) that Phase D rejects: the hypotheses fully determine the conclusion's shape, no `BHist` constructor is mentioned, the theorem says nothing about any specific kernel object.
+
+```{=html}
+<span class="elim-mark">✗ "We just need to allow these as a special case"</span>
+```
+
+We tried allowing them. The library accumulated `abgroup_mul_balanced_cancel`, `abgroup_mul_middle_four`, `ring_mul_zero_absorption`, and a dozen more. A taste audit identified all of them as parameter echo and they were exactly the slop we had built the lint to refuse. There is no clean line between "the abstract monoid theorem we want" and "the parameter echo we don't want". They are the same shape.
+
+## What we tried, in order
+
+::: {.evidence}
+**Prompt v3.2 (try-close + cross-domain abstraction priority)** — encouraged the agent to verify candidates aren't already provable inline and prefer typeclass abstraction over per-domain copies. Did not address the parametric carrier question. Algebra rounds continued to produce parameter echo.
+
+**Prompt v3.3 (Derived shape saturation HARD GATE)** — added `bedc_ci.py audit --shape-saturation` to detect when the same conclusion shape appears across ≥3 horizons. Caught the `_ClassifierSpec_trans` family but not parameter echo. Algebra rounds still produced echo at lower volume.
+
+**Prompt v3.4 (critical-path discovery as Phase B HARD GATE)** — required ≥1 of 3 round targets come from the top of `critical_path.py`. The algebra horizons (abgroup, monoid, ring, ...) had highest scores because they had downstream dependents and few theorems. Codex was sent there *more*, not less. Echo rate spiked.
+
+**Prompt v3.5 (tighten critical-path fallback)** — mechanised the "blocked" definition so codex couldn't claim unjustified blockers. Algebra rounds were now *forced* to attempt the schema. Almost every attempt failed Phase D lint.
+
+**Phase D mechanical lint** — caught parameter echo at the diff level, rejected rounds. We went from ~80% echo rate to ~5%, but the algebra horizons stopped advancing entirely. Five prompt revisions had pushed the agent into a corner where the only thing it could produce was rejected.
+:::
+
+The fifth attempt was the one that broke our model of what was happening. We were enforcing increasingly strict constraints, and the algebra horizons were stalling out — not because the agent was bad, but because *there was nothing it could write that would compile, that mentioned a concrete kernel object, and that was meaningfully about a monoid*.
+
+## The diagnosis
+
+Read the schema again:
+
+```
+A monoid is a triple (M, ⋅, e) where ⋅ : M → M → M is associative
+and e : M is a two-sided identity.
+```
+
+`M` is universally quantified. `⋅` is universally quantified. `e` is universally quantified. *Every* theorem you can prove from this schema is true for every `(M, ⋅, e)` satisfying the axioms — by construction, the theorem cannot mention any specific structure.
+
+This is fine in classical mathematics. The standard library proves "in any monoid, the identity is unique" once and reuses it across every concrete monoid instance. The abstraction is the point.
+
+But BEDC is not classical mathematics. BEDC is built on `inductive BHist | Empty | e0 | e1` with the constraint that *every theorem must mention a concrete kernel object* — a constructor, a relation `Cont`, `hsame`, or a specific `NameCert` instance. This constraint is what makes BEDC's `axiom-purity` and mechanical-floor invariants strong. You can't have it both ways: either theorems are about specific kernel objects (and BEDC's discipline holds), or theorems are about parametric structures (and parameter echo is allowed).
+
+The algebra schemas, as written, ask for parametric theorems. BEDC's mechanical floor says no. Result: stall.
+
+## The reverse test, and what it shows
+
+Compare with the chapter that *did* work — Category Theory:
+
+```lean
+def CategoryHomCarrier (a b f : BHist) : Prop :=
+  UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧ Cont a f b
+```
+
+This is not parametric. It is concrete: it specifies that the carrier is a particular four-conjunction predicate over `BHist`, using `UnaryHistory` and `Cont` directly. Every theorem about `CategoryHomCarrier` mentions `BHist` constructors and the `Cont` relation. The Phase D `BHist anchor` lint passes. The library has 31 category theorems and counting.
+
+Why did Category work and Monoid not? Because *Category was specified as a concrete carrier*, while *Monoid was specified as a parametric schema*.
+
+```{=html}
+<span class="role-tag discovery">💡 Discovery</span>
+```
+
+This is the foundational result, in one sentence:
+
+> **In BEDC, you cannot abstractly define an algebraic structure. You must exhibit a concrete instance over BHist.**
+
+If BEDC genuinely starts from distinction — if `inductive BHist | Empty | e0 | e1` is the foundational primitive and everything else is derived — then this is exactly what you would predict. Abstract algebra is the *algebra of an already-given carrier*. It is not a foundational starting point. The starting point has to be the carrier itself, exhibited concretely; the algebra is what you discover the carrier already does.
+
+The sixteen chapters refused to compile because they were trying to *introduce abstract structures that BEDC's foundation cannot accommodate*. The harness was right to refuse them. The schema, as written, is incompatible with the foundation.
+
+```{=html}
+<span class="elim-mark">✗ "So BEDC can't do algebra"</span>
+```
+
+It can. It just has to do algebra differently — by exhibiting concrete instances and proving they satisfy the algebraic laws, rather than by quantifying over abstract carriers.
+
+## What unlocks the schema-only chapters
+
+The fix is not a smarter prompt. The fix is *paper-side*: revise the chapter to specify a concrete carrier first.
+
+For example, monoid can be unlocked by:
+
+```latex
+\begin{definition}[Concrete history monoid instance]
+Let \[ M := \mathsf{UnaryHistory}, \quad \mu := \mathsf{Cont}, \quad e := \mathsf{BHist.Empty}. \]
+The triple $(M, \mu, e)$ forms a monoid, where:
+\begin{itemize}
+  \item $\mu$ is associative by \texttt{cont\_assoc}.
+  \item $e$ is a two-sided identity by \texttt{cont\_left\_unit} and \texttt{cont\_right\_unit}.
+\end{itemize}
+\end{definition}
+```
+
+Once this concrete instance lives in the chapter, the Lean side has something concrete to formalise: prove that `(UnaryHistory, Cont, Empty)` satisfies the monoid laws, then *as a corollary* derive whatever monoid theorems you want over this specific instance. Every theorem now mentions `BHist`, `Cont`, `UnaryHistory`. Phase D passes.
+
+This is, recently, what the BEDC paper revision pipeline started doing. As of round P718, the `field` chapter has gained a concrete `SingletonField` carrier and started moving forward; `module` is unblocked after P714/P716/P722; the `SCHEMA_ONLY_HORIZONS` set is starting to shrink.
+
+```{=html}
+<span class="role-tag human">🧑 Human direction</span>
+<span class="role-tag ai">🤖 AI implementation</span>
+```
+
+The unlock pattern is human-decided (which concrete carrier to pick — usually some `(UnaryHistory, Cont, Empty)` analogue) and AI-implemented (formalising the laws and the consequences). This is the [synthesis-not-creation pattern](synthesis-not-creation.qmd) at work: the human supplies the *foundational connection* (this carrier embodies this algebra), the AI grinds out the consequences.
+
+## Why this matters outside BEDC
+
+The general claim:
+
+> **Any formalisation project that minimises its foundational commitments will, at some point, refuse to absorb a concept written in a more permissive foundation.**
+
+The refusal is informative. It is the foundation telling you what shape it is. If you treat it as a bug and try to engineer around it, you will reintroduce the foundational commitments you were trying to minimise — silently, through a thousand parameter-echo theorems that depend on abstract objects the foundation does not natively contain.
+
+For BEDC specifically: the algebra chapters' refusal is the foundation telling us that "abstract monoid" is not a primitive in a distinction-only world. We have a choice: relax the foundation (allow abstract carriers, lose the `axiom-purity` discipline), or rewrite the algebra chapters as concrete instances (preserve the foundation, do more work).
+
+We chose the second. Sixteen chapters of work, but each finished chapter is a concrete witness that the foundation can absorb that piece of mathematics. The Phase D lint that caused the original "failure" is, in the end, the thing that made the success well-defined.
+
+## The deeper claim
+
+If you accept that BEDC's mechanical refusal of abstract algebra is *evidence* that distinction is its foundation — not a defect of the harness — then by the same logic:
+
+- BEDC's *acceptance* of category theory (via `Cont`-based Hom carrier) is evidence that morphism composition is closer to distinction than to abstract structure.
+- BEDC's *acceptance* of Bishop-style compactness (via `Cont` chains) is evidence that constructive analysis can be expressed at the foundational level.
+- BEDC's *open question* on real numbers (still working on RegSeqRat) is evidence that completeness is harder to encode at the foundation than algebraic structure is.
+
+These are not philosophical claims. They are empirical observations about what the harness accepts and rejects. Foundationalism, mechanically tested.
+
+## Where to go from here
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.qmd"><strong>← Distinction as Foundation</strong><br/>The philosophical companion: why we think the act of distinguishing is more primitive than sets, types, or categories — and what Wheeler, Bishop, and homotopy type theory have to say about it.</a>
+  <a href="default-failure-modes.qmd"><strong>Default Failure Modes ←</strong><br/>The shape that the algebra chapters kept producing, and why mechanical filters had to refuse it.</a>
+  <a href="discovery-loop.qmd"><strong>The Discovery Loop →</strong><br/>The engineering: five prompt upgrades, one mechanical lint, one schema-only exclusion — what the harness looks like that absorbs all this.</a>
+</div>
+```
+
+— *The Omega Institute*

@@ -30,6 +30,19 @@ empty function on witnesses $p:\mathsf{NonZero}_{\bot}(h)$: from such a
 witness, elimination of $\bot$ supplies the required history endpoint.
 \end{definition}
 
+\begin{theorem}[Singleton nonzero endpoint obstruction]
+\label{thm:field-singleton-nonzero-absurd}
+For every $a:\mathsf{BHist}$, if $a\hsame\emp$ and
+$a\hsame\mathsf{e0}(\emp)$, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first classifier equality in reverse with the second equality.
+This gives $\emp\hsame\mathsf{e0}(\emp)$. The constructors
+$\emp$ and $\mathsf{e0}(\emp)$ are disjoint in the closed inductive
+$\mathsf{BHist}$ kernel, so no such equality exists.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_singleton\_nonzero\_absurd}
+
 \begin{theorem}[Singleton empty-history field schema laws]
 \label{thm:singleton-empty-history-field-schema-laws}
 The tuple
@@ -60,10 +73,54 @@ The left and right inverse laws have the same proof shape. Each law is indexed
 by a witness $p:\mathsf{NonZero}_{\bot}(h)$; eliminating $p$ closes the law
 without forming a classical inverse outside its licensed domain.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.singleton\_empty\_history\_field\_schema\_laws}
+\leanchecked{BEDC.Derived.FieldUp.field\_singleton\_empty\_schema\_laws}
 
-The $\FieldUp$ schema therefore has a concrete $\mathsf{BHist}$ carrier,
-classifier, operation package, and proof-indexed inverse domain suitable for
-formalization in $\mathsf{BEDC.Derived.FieldUp}$.
+\begin{theorem}[Singleton empty-history FieldUp schema certificate]
+\label{thm:singleton-empty-history-field-schema-certificate}
+The tuple from
+Definition~\ref{def:singleton-empty-history-field-schema-instance}, together
+with the law package from
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws}, supplies the
+carrier, source, pattern, classifier, stability, and ledger fields required by
+Definition~\ref{def:field-certificate-obligations} over the concrete
+$\mathsf{BHist}$ singleton source. Its ten-field certificate template is:
+\begin{enumerate}
+  \item Traditional target: the singleton proof-indexed $\FieldUp$ schema.
+  \item BEDC source: $\mathsf{BHist}$ with $A_{\emp}$.
+  \item Carrier choice: $A_{\emp}$.
+  \item Classifier choice: $\rho_{\emp}$.
+  \item Stability obligations: commutative-ring laws plus vacuous nonzero
+  transport, inverse closure, and inverse laws.
+  \item Ledger: the singleton endpoint and the empty nonzero witness domain.
+  \item Core theorem list: Theorem~\ref{thm:singleton-empty-history-field-schema-laws}.
+  \item Exactness predicate: singleton endpoint classification.
+  \item Standard bridge: only the terminal proof-indexed schema.
+  \item Status: ProofTarget.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The source and carrier fields are the singleton history source
+$A_{\emp}$ from Definition~\ref{def:singleton-empty-history-field-schema-instance}.
+The classifier field is $\rho_{\emp}$, whose only endpoints are the empty
+histories admitted by $A_{\emp}$.
+
+For the algebraic stability fields, use
+Theorem~\ref{thm:singleton-empty-history-commring-laws}. It supplies the
+commutative-ring part for the constant empty-history operations on the same
+carrier and classifier.
+
+For the field-specific clauses, apply
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws}. Nonzero transport,
+inverse closure, inverse congruence, and the left and right inverse laws all
+begin with a witness $p:\mathsf{NonZero}_{\bot}(h)$.
+
+Since $\mathsf{NonZero}_{\bot}(h)$ is $\bot$, eliminating $p$ closes every
+inverse and nonzero subfield without adding a classical nonzero test. The
+ledger therefore records only the singleton endpoint and the empty witness
+domain, giving the required concrete $\mathsf{BHist}$ FieldUp naming
+certificate template.
+\end{proof}
 
 \section{The certificate}
 
@@ -221,6 +278,8 @@ Reassociate the factors as $a(\mathsf{inv}(b,p_b)b)$. The indexed left
 inverse law collapses $\mathsf{inv}(b,p_b)b$ to the unit, and the right
 identity law leaves $a$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_right\_mul\_equation\_solution\_from\_apartness\_iff}
+\leanchecked{BEDC.Derived.FieldUp.field\_right\_mul\_equation\_exact\_from\_apartness}
 
 \begin{theorem}[Field multiplication by an indexed left inverse cancels]
 \label{thm:field-mul-inverse-left-cancel-from-apartness}
@@ -277,6 +336,7 @@ Reassociate the factors as $(a\mathsf{inv}(a,p_a))c$. The indexed right
 inverse law collapses $a\mathsf{inv}(a,p_a)$ to the unit, and the left
 identity law leaves $c$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_left\_mul\_equation\_exact\_from\_apartness}
 
 \begin{theorem}[Field middle multiplication equation solution from apartness]
 \label{thm:field-middle-mul-equation-solution-from-apartness}
@@ -328,6 +388,8 @@ inverse law collapses $a\mathsf{inv}(a,p_a)$ to the unit, and the indexed
 left inverse law collapses $\mathsf{inv}(b,p_b)b$ to the unit. The left and
 right identity laws then leave $c$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_exact\_from\_apartness}
+\leanvariant{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_solution\_from\_apartness\_iff}
 
 \begin{theorem}[Field multiplication cancellation from apartness-certified factors]
 \label{thm:field-nonzero-mul-cancel-from-apartness}
@@ -393,8 +455,9 @@ $$
 (a x)b\hsame(a y)b.
 $$
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_two\_sided\_mul\_exact\_from\_apartness}
 
-\begin{theorem}[Field two-sided zero product cancellation from apartness]
+\begin{theorem}[Field two-sided zero product exactness from apartness]
 \label{thm:field-two-sided-zero-product-cancel-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
 ring zero absorption, multiplication congruence, and witnesses
@@ -402,14 +465,15 @@ $p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$, every
 $x:\mathsf{BHist}$ satisfies
 $$
 (a x)b\hsame0
-\quad\Longrightarrow\quad
+\Longleftrightarrow
 x\hsame0.
 $$
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness}
-with the right-factor witness $p_b$ to the hypothesis $(a x)b\hsame0$. This
-solves the right multiplication equation and gives
+For the forward direction, apply
+Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness} with the
+right-factor witness $p_b$ to the hypothesis $(a x)b\hsame0$. This solves the
+right multiplication equation and gives
 $a x\hsame0\mathsf{inv}(b,p_b)$.
 
 Use Theorem~\ref{thm:ring-mul-zero-absorption} to identify
@@ -423,13 +487,84 @@ $x\hsame\mathsf{inv}(a,p_a)0$.
 Use Theorem~\ref{thm:ring-mul-zero-absorption} again to identify
 $\mathsf{inv}(a,p_a)0$ with $0$. Transitivity of $\hsame$ yields
 $x\hsame0$.
+
+For the reverse direction, start from $x\hsame0$. Multiplication congruence
+transports this equality through left multiplication by $a$, giving
+$a x\hsame a0$.
+
+Apply Theorem~\ref{thm:ring-mul-zero-absorption} to collapse $a0\hsame0$.
+Transitivity gives $a x\hsame0$.
+
+Multiplication congruence now transports through right multiplication by $b$,
+giving $(a x)b\hsame0b$. A second application of
+Theorem~\ref{thm:ring-mul-zero-absorption} collapses $0b\hsame0$, and
+transitivity yields $(a x)b\hsame0$.
+\end{proof}
+
+\begin{theorem}[Field one-sided zero product cancellation from apartness]
+\label{thm:field-one-sided-zero-product-cancel-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+ring zero absorption, multiplication congruence, and indexed inverse laws,
+every $a,b:\mathsf{BHist}$ satisfies the following clauses.
+\begin{enumerate}
+\item If $p_a:\mathsf{NonZero}_F(a)$ and $a b\hsame0$, then $b\hsame0$.
+\item If $p_b:\mathsf{NonZero}_F(b)$ and $a b\hsame0$, then $a\hsame0$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the left-factor clause, apply
+Theorem~\ref{thm:field-left-mul-equation-solution-from-apartness} to the
+equation $a b\hsame0$ with witness $p_a$. This gives
+$b\hsame\mathsf{inv}(a,p_a)0$.
+
+Use Theorem~\ref{thm:ring-mul-zero-absorption} to identify
+$\mathsf{inv}(a,p_a)0$ with $0$. Transitivity of $\hsame$ yields
+$b\hsame0$.
+
+For the right-factor clause, apply
+Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness} to the
+same equation with witness $p_b$. This gives
+$a\hsame0\mathsf{inv}(b,p_b)$.
+
+Use Theorem~\ref{thm:ring-mul-zero-absorption} to identify
+$0\mathsf{inv}(b,p_b)$ with $0$. Transitivity of $\hsame$ yields
+$a\hsame0$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_one\_sided\_zero\_product\_cancel\_from\_apartness}
+
+\begin{theorem}[Field nonzero factors exclude zero product]
+\label{thm:field-nonzero-factors-exclude-zero-product}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+ring zero absorption, multiplication congruence, indexed inverse laws,
+classifier transport of $\mathsf{NonZero}_F$, and contradiction of
+$\mathsf{NonZero}_F(0)$, every $a,b:\mathsf{BHist}$ with witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ satisfies
+$$
+\neg(a b\hsame0).
+$$
+\end{theorem}
+\begin{proof}
+Assume $a b\hsame0$. Apply
+Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} with the
+left-factor witness $p_a$. The left-factor clause gives $b\hsame0$.
+
+Transport the witness $p_b:\mathsf{NonZero}_F(b)$ along this classifier
+equality. The stability clause for $\mathsf{NonZero}_F$ supplies
+$\mathsf{NonZero}_F(0)$.
+
+The field stability certificate includes contradiction of
+$\mathsf{NonZero}_F(0)$, so the transported evidence closes the goal with
+$\bot$.
+
+The symmetric route uses $p_b$ in the right-factor clause and transports
+$p_a$ after deriving $a\hsame0$.
 \end{proof}
 
 \begin{theorem}[Field equal-squares signed factor exclusion]
 \label{thm:field-equal-squares-signed-factor-exclusion}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
 ring zero absorption, multiplication congruence, the $\CommRingUp$ hypotheses
-required by Theorem~\ref{thm:commring-equal-squares-signed-factor-zero}, and
+required by Theorem~\ref{thm:commring-difference-of-squares-zero-exact}, and
 every $a,b:\mathsf{BHist}$ with $a\cdot a\hsame b\cdot b$, the following
 constructive clauses hold.
 \begin{enumerate}
@@ -438,33 +573,22 @@ constructive clauses hold.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:commring-equal-squares-signed-factor-zero} to the
-square equality. The signed factor product is therefore classified as zero:
+Apply the reverse direction of
+Theorem~\ref{thm:commring-difference-of-squares-zero-exact} to the square
+equality. The signed factor product is therefore classified as zero:
 $$
 (a+b)\cdot(a+(-b))\hsame0.
 $$
 
 For the first clause, use the witness $p_+:\mathsf{NonZero}_F(a+b)$ and
-apply Theorem~\ref{thm:field-left-mul-equation-solution-from-apartness} with
-left factor $a+b$ and right variable $a+(-b)$. This gives
-$$
-a+(-b)\hsame \mathsf{inv}(a+b,p_+)0.
-$$
-
-Theorem~\ref{thm:ring-mul-zero-absorption} collapses
-$\mathsf{inv}(a+b,p_+)0$ to $0$. Transitivity of $\hsame$ yields
+apply Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} to
+the signed factor product with left factor $a+b$ and right factor $a+(-b)$.
+The left-factor clause gives
 $a+(-b)\hsame0$.
 
 For the second clause, use the witness $p_-:\mathsf{NonZero}_F(a+(-b))$ and
-apply Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness} with
-right factor $a+(-b)$ and left variable $a+b$. This gives
-$$
-a+b\hsame0\mathsf{inv}(a+(-b),p_-).
-$$
-
-Theorem~\ref{thm:ring-mul-zero-absorption} collapses
-$0\mathsf{inv}(a+(-b),p_-)$ to $0$. Transitivity of $\hsame$ yields
-$a+b\hsame0$.
+apply Theorem~\ref{thm:field-one-sided-zero-product-cancel-from-apartness} to
+the same signed factor product. The right-factor clause gives $a+b\hsame0$.
 \end{proof}
 
 Per-object certificate: this is a Core theorem list item for constructive
@@ -472,15 +596,16 @@ field square-factor reasoning. Source: $\FieldUp$ plus $\CommRingUp$. Carrier:
 $\mathsf{BHist}$. Classifier: $\hsame$. Ledger: the chosen nonzero signed
 factor witness $p_+$ or $p_-$. Status: ProofTarget.
 
-\paragraph{Zero-product cancellation certificate.}
-Traditional target: constructive field zero cancellation. BEDC source:
+\paragraph{Zero-product exactness certificate.}
+Traditional target: constructive field zero-product exactness. BEDC source:
 $\FieldUp$ plus $\RingUp$ zero absorption. Carrier choice:
 $\mathsf{BHist}$. Classifier choice: $\hsame$. Stability obligations:
 inverse laws, multiplication congruence, and zero absorption. Ledger: the two
 certified factors $p_a:\mathsf{NonZero}_F(a)$ and
 $p_b:\mathsf{NonZero}_F(b)$ together with their inverse witnesses. Core theorem
-list: two-sided zero-product cancellation. Exactness predicate: cancellation
-inside certified two-sided multiplication. Standard bridge: deferred
+list: two-sided zero-product exactness and zero-product exclusion from two
+nonzero witnesses. Exactness predicate: exact zero classifier and nonzero-product contradiction inside
+certified two-sided multiplication. Standard bridge: deferred
 conservative bridge. Status: ProofTarget.
 
 \begin{theorem}[Field affine left multiplication equation exactness from apartness]
@@ -524,6 +649,53 @@ $b$, and the additive identity law collapse
 $\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(b)),b)$ back to $c$. This gives
 $\mathsf{add}(\mathsf{mul}(a,x),b)\hsame c$.
 \end{proof}
+
+\begin{theorem}[Field affine right multiplication equation exactness from apartness]
+\label{thm:field-affine-right-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive abelian-group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity and congruence, and left and right inverse laws
+indexed by $p_b:\mathsf{NonZero}_F(b)$, every
+$x,d,c:\mathsf{BHist}$ satisfy
+$$
+\mathsf{add}(\mathsf{mul}(x,b),d)\hsame c
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport
+$\mathsf{add}(\mathsf{mul}(x,b),d)\hsame c$ through right addition by
+$\mathsf{neg}(d)$. Addition congruence gives equality between the offset
+equation after adding $\mathsf{neg}(d)$ on the right and
+$\mathsf{add}(c,\mathsf{neg}(d))$.
+
+Associativity, the additive inverse law for $d$, and the additive identity
+law collapse the left side to $\mathsf{mul}(x,b)$. Apply
+Theorem~\ref{thm:field-right-mul-equation-solution-from-apartness} to obtain
+the displayed solution for $x$ with right side
+$\mathsf{add}(c,\mathsf{neg}(d))$.
+
+For the reverse direction, transport the assumed displayed solution through
+right multiplication by $b$. Multiplication congruence, associativity, the
+indexed left inverse law for $p_b$, and the multiplicative identity law
+collapse the right side to $\mathsf{add}(c,\mathsf{neg}(d))$, so
+$\mathsf{mul}(x,b)\hsame\mathsf{add}(c,\mathsf{neg}(d))$.
+
+Add $d$ on the right and use addition congruence. Associativity, additive
+commutativity for the middle pair when needed, the additive inverse law for
+$d$, and the additive identity law collapse
+$\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(d)),d)$ back to $c$. This gives
+$\mathsf{add}(\mathsf{mul}(x,b),d)\hsame c$.
+\end{proof}
+
+Per-object certificate: this is a traditional target for affine right field
+equation solving. BEDC source: $\FieldUp$ plus additive group laws. Carrier:
+$\mathsf{BHist}$. Classifier: $\hsame$. Ledger: the nonzero witness
+$p_b:\mathsf{NonZero}_F(b)$ and additive offset. Status: ProofTarget.
 
 \begin{theorem}[Field affine two-sided multiplication equation exactness from apartness]
 \label{thm:field-affine-two-sided-equation-exact-from-apartness}
@@ -595,8 +767,8 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
   \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
   \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
   \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
-  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product cancellation, affine left equation exactness, affine two-sided equation exactness, and distributivity inherited from $\CommRingUp$.
-  \item Exactness predicate: coverage, soundness, completeness, and cancellation inside certified two-sided multiplication for admitted field packages.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product exactness, zero-product exclusion from two nonzero witnesses, affine left equation exactness, affine right equation exactness, affine two-sided equation exactness, and distributivity inherited from $\CommRingUp$.
+  \item Exactness predicate: coverage, soundness, completeness, exact zero classification, and nonzero-product contradiction inside certified two-sided multiplication for admitted field packages.
   \item Standard bridge: deferred conservative bridge.
   \item Status: ProofTarget.
 \end{enumerate}

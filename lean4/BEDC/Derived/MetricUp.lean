@@ -158,6 +158,33 @@ theorem MetricDistanceWitness_visible_context_iff {p q x y d : BHist} :
                 (d := append p d)).mpr
                 (And.intro qCarrier prefixed)
 
+theorem MetricDistanceWitness_visible_context_empty_distance_iff {p q x y : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p BHist.Empty) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ hsame x BHist.Empty ∧ hsame y BHist.Empty := by
+  constructor
+  · intro visible
+    have visibleData :=
+      (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+        (d := BHist.Empty)).mp visible
+    cases visibleData with
+    | intro pCarrier rest =>
+        cases rest with
+        | intro qCarrier central =>
+            have endpoints :=
+              (MetricDistanceWitness_empty_distance_iff (x := x) (y := y)).mp central
+            exact And.intro pCarrier (And.intro qCarrier endpoints)
+  · intro data
+    cases data with
+    | intro pCarrier rest =>
+        cases rest with
+        | intro qCarrier endpoints =>
+            have central : MetricDistanceWitness x y BHist.Empty :=
+              (MetricDistanceWitness_empty_distance_iff (x := x) (y := y)).mpr endpoints
+            exact
+              (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x)
+                (y := y) (d := BHist.Empty)).mpr
+                (And.intro pCarrier (And.intro qCarrier central))
+
 theorem MetricDistanceWitness_visible_context_depth_add {p q x y d : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p d) q) ->
       MetricDistanceDepth d = MetricDistanceDepth x + MetricDistanceDepth y := by
@@ -358,6 +385,23 @@ theorem MetricDistanceWitness_hsame_result_deterministic {x x' y y' d d' : BHist
   cases sameY
   exact cont_deterministic left.2.2.2 right.2.2.2
 
+theorem MetricDistanceWitness_visible_context_endpoint_hsame_result_deterministic
+    {p q x x' y y' d d' : BHist} :
+    hsame x x' -> hsame y y' ->
+      MetricDistanceWitness (append p x) (append y q) (append (append p d) q) ->
+        MetricDistanceWitness (append p x') (append y' q) (append (append p d') q) ->
+          hsame d d' := by
+  intro sameX sameY left right
+  have leftCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := d)).mp left
+  have rightCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x') (y := y')
+      (d := d')).mp right
+  exact
+    MetricDistanceWitness_hsame_result_deterministic sameX sameY leftCentral.2.2
+      rightCentral.2.2
+
 theorem MetricDistanceWitness_visible_context_source_deterministic {p q x x' y d : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p d) q) →
       MetricDistanceWitness (append p x') (append y q) (append (append p d) q) →
@@ -492,6 +536,37 @@ theorem MetricDistanceWitness_right_e1_result_exactness {x y d : BHist} :
                   (And.intro (unary_e1_inversion yCarrier)
                     (And.intro (unary_e1_inversion dCarrier)
                       (cont_step_rules_inversion_pair.right distance)))
+
+theorem MetricDistanceWitness_right_e1_source_cases {x y d : BHist} :
+    MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) ->
+      (x = BHist.Empty ∧ UnaryHistory y ∧ hsame d y) ∨
+        (∃ x1 : BHist, x = BHist.e1 x1 ∧ MetricDistanceWitness (BHist.e1 x1) y d) := by
+  intro witness
+  have tailWitness := MetricDistanceWitness_right_e1_result_exactness witness
+  cases x with
+  | Empty =>
+      have boundary := (MetricDistanceWitness_empty_left_iff (y := y) (d := d)).mp tailWitness
+      exact Or.inl (And.intro rfl (And.intro boundary.left boundary.right))
+  | e0 x0 =>
+      exact False.elim (unary_no_zero_extension tailWitness.left)
+  | e1 x1 =>
+      exact Or.inr (Exists.intro x1 (And.intro rfl tailWitness))
+
+theorem MetricDistanceWitness_right_e1_visible_source_exactness {x y d x1 : BHist} :
+    MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) ->
+      hsame x (BHist.e1 x1) -> MetricDistanceWitness (BHist.e1 x1) y d := by
+  intro witness sameSource
+  have tailWitness : MetricDistanceWitness x y d :=
+    MetricDistanceWitness_right_e1_result_exactness witness
+  cases sameSource
+  exact tailWitness
+
+theorem MetricDistanceWitness_right_e1_empty_source_exactness {y d : BHist} :
+    MetricDistanceWitness BHist.Empty (BHist.e1 y) (BHist.e1 d) ->
+      UnaryHistory y ∧ hsame d y := by
+  intro witness
+  exact (MetricDistanceWitness_empty_left_iff (y := y) (d := d)).mp
+    (MetricDistanceWitness_right_e1_result_exactness witness)
 
 theorem MetricDistanceWitness_semanticNameCert {x y : BHist} :
     UnaryHistory x -> UnaryHistory y ->

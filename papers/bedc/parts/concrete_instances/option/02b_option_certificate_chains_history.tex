@@ -1,0 +1,380 @@
+\begin{theorem}[Option history classifier endpoint transport]
+\label{thm:option-history-classifier-hsame-transport}
+If the optional history classifier relates $h$ to $k$, and
+$\hsame(h,h')$ and $\hsame(k,k')$, then it relates $h'$ to $k'$.
+\end{theorem}
+\begin{proof}
+Unpack the classifier into its endpoint carrier witnesses and the stored
+$\hsame(h,k)$ link. Transport both carriers along the endpoint sameness
+links, then compose symmetry of $\hsame(h,h')$, the stored link, and
+$\hsame(k,k')$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_hsame\_transport}
+
+\begin{theorem}[Option history classifier symmetry]
+\label{thm:option-history-classifier-symmetry}
+For any source predicate on BEDC histories, the optional history classifier is
+symmetric.
+\end{theorem}
+\begin{proof}
+Unpack the classifier into endpoint carrier witnesses and the stored
+$\hsame(h,k)$ link. Swap the endpoint witnesses and reverse the stored link
+by symmetry of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_symm}
+
+\begin{theorem}[Option history classifier transitivity]
+\label{thm:option-history-classifier-transitivity}
+For every $S:\mathsf{BHist}\to\mathsf{Prop}$ and $h,k,r:\mathsf{BHist}$, $\mathsf{OptionHistoryClassifier}_S(h,k)$ and $\mathsf{OptionHistoryClassifier}_S(k,r)$ imply
+$\mathsf{OptionHistoryClassifier}_S(h,r)$.
+\end{theorem}
+\begin{proof}
+Unpack the two classifier witnesses. The source and target carrier witnesses
+are preserved, and the underlying $\hsame$ links compose across the shared
+middle history.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_trans}
+
+\begin{theorem}[Option history classifier self exactness]
+\label{thm:option-history-classifier-self-exactness}
+For every BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$
+and every history $h$, the nullable option classifier at equal endpoints is
+exactly the nullable option carrier:
+$$
+\mathsf{OptionHistoryClassifier}_S(h,h)
+\Longleftrightarrow
+\mathsf{OptionHistoryCarrier}_S(h).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the left endpoint carrier from the classifier
+witness. For the reverse direction, use the displayed carrier witness for both
+endpoints and close the classifier equality field by reflexivity of $\hsame$ at
+$h$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_self\_exactness}
+
+\begin{theorem}[Option history classifier empty left iff]
+\label{thm:option-history-classifier-empty-left-iff}
+For any source predicate on BEDC histories, the optional history classifier
+relates the empty history on the left to $k$ exactly when $k$ is
+history-same as the empty history.
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the classifier and reverse its stored
+$\hsame(\emp,k)$ link. In the reverse direction, both endpoint carrier
+witnesses are supplied by the absent-history branch, and the classifier link is
+the symmetric form of the assumed $\hsame(k,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_empty\_left\_iff}
+
+\begin{corollary}[Option history classifier empty right iff]
+\label{thm:option-history-classifier-empty-right-iff}
+For any source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and any history $h$, this is the right-endpoint symmetry corollary of
+Theorem~\ref{thm:option-history-classifier-empty-left-iff} and Theorem~\ref{thm:option-history-classifier-symmetry}, not a separate finite-data certificate target:
+$$
+\mathsf{OptionHistoryClassifier}_S(h,\emp)\quad\Longleftrightarrow\quad\hsame(h,\emp).
+$$
+\end{corollary}
+\begin{proof}
+In the forward direction, apply classifier symmetry to reduce to $\mathsf{OptionHistoryClassifier}_S(\emp,h)$, then use
+Theorem~\ref{thm:option-history-classifier-empty-left-iff}. In the reverse direction, use the reverse implication of
+Theorem~\ref{thm:option-history-classifier-empty-left-iff} to obtain
+$\mathsf{OptionHistoryClassifier}_S(\emp,h)$, then apply classifier symmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_empty\_right\_iff}
+
+\begin{theorem}[Option history classifier empty endpoint equivalence]
+\label{thm:option-history-classifier-empty-endpoint-equivalence}
+For any source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and histories $h,k$,
+if $\mathsf{OptionHistoryClassifier}_S(h,k)$ holds, then the two endpoints agree
+on absentness:
+$$
+\hsame(h,\emp)\Longleftrightarrow\hsame(k,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the nullable option classifier into the two endpoint carrier witnesses
+and the stored endpoint equality $\hsame(h,k)$. The forward implication composes
+the symmetric stored equality with $\hsame(h,\emp)$. The reverse implication
+composes the stored equality with $\hsame(k,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_empty\_endpoint\_equivalence}
+
+\begin{definition}[Option source excludes empty]
+\label{def:option-source-excludes-empty}
+For a BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$,
+$\mathsf{OptionSourceExcludesEmpty}(S)$ means that every source history
+satisfying $S$ is not history-same to the empty history:
+$$
+\mathsf{OptionSourceExcludesEmpty}(S)
+\quad:\Longleftrightarrow\quad
+\forall h.\; S(h)\to\hsame(h,\emp)\to\bot.
+$$
+\end{definition}
+\leandef{BEDC.Derived.OptionUp.OptionSourceExcludesEmpty}
+
+\begin{theorem}[Nullable option source transport exclusion]
+\label{thm:option-source-excludes-empty-hsame-transport-absurd}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if
+$S$ is closed under $\hsame$ transport and
+$\mathsf{OptionSourceExcludesEmpty}(S)$ holds, then a source history cannot
+transport along $\hsame(h,k)$ to a history $k$ that is history-same to the empty
+history:
+$$
+S(h)\to\hsame(h,k)\to\hsame(k,\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Transport the source witness $S(h)$ across $\hsame(h,k)$ to obtain $S(k)$.
+The empty-exclusion predicate applied at $k$ contradicts the displayed
+$\hsame(k,\emp)$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionSourceExcludesEmpty\_hsame\_transport\_absurd}
+
+\begin{theorem}[Nullable option absent-source separation]
+\label{thm:option-history-carrier-absent-source-separation}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if
+$\mathsf{OptionSourceExcludesEmpty}(S)$, $\hsame(h,\emp)$, and $S(h)$ hold, then
+$\bot$.
+\end{theorem}
+\begin{proof}
+Apply the exclusion predicate to the source witness $S(h)$ and the displayed
+empty endpoint witness $\hsame(h,\emp)$.
+\end{proof}
+
+Per-object fit: traditional target nullable empty-or-source separation under an
+empty-excluding source, not constructor-tagged $\mathsf{none}/\mathsf{some}$
+readback; BEDC source $\mathsf{BHist}$ with $\hsame$; carrier
+$\mathsf{OptionHistoryCarrier}_S$; classifier unused; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Nullable option carrier empty-or-source partition]
+\label{thm:option-history-carrier-exclusive-readback}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, if $\mathsf{OptionSourceExcludesEmpty}(S)$ and
+$\mathsf{OptionHistoryCarrier}_S(h)$ hold, then
+$$
+(\hsame(h,\emp)\land\neg S(h))\lor(S(h)\land\neg\hsame(h,\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the carrier witness. In the empty branch, keep
+$\hsame(h,\emp)$ and use
+Theorem~\ref{thm:option-history-carrier-absent-source-separation} to rule out
+$S(h)$. In the source branch, keep $S(h)$ and use the same theorem to rule out
+$\hsame(h,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_exclusive\_readback}
+
+\begin{theorem}[Nullable option absent iff not source]
+\label{thm:option-history-carrier-absent-not-source-iff}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, if $\mathsf{OptionSourceExcludesEmpty}(S)$ and
+$\mathsf{OptionHistoryCarrier}_S(h)$ hold, then the absent branch is exactly
+the negation of the source branch:
+$$
+\hsame(h,\emp)\Longleftrightarrow\neg S(h).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, apply the empty-exclusion predicate to the source
+witness and the displayed empty endpoint. For the reverse implication,
+case-analyze the carrier witness: the empty branch gives $\hsame(h,\emp)$
+directly, while the source branch contradicts the assumed negation of $S(h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_absent\_not\_source\_iff}
+
+\begin{theorem}[Nullable option visible source exactness]
+\label{thm:option-history-carrier-e1-source-iff}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, the nullable option carrier at a visible $\Eone$ endpoint is
+exactly the source predicate at that same endpoint:
+$$
+\mathsf{OptionHistoryCarrier}_S(\Eone(h))
+\Longleftrightarrow
+S(\Eone(h)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the nullable carrier into its empty-or-source disjunction. The empty
+branch would give $\hsame(\Eone(h),\emp)$, contradicting constructor
+separation for $\Eone$ and $\emp$. The remaining branch is exactly
+$S(\Eone(h))$, and the reverse direction rebuilds the source side of the
+carrier disjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_e1\_source\_iff}
+
+\begin{theorem}[Nullable option classifier one-headed left source exactness]
+\label{thm:option-history-classifier-e1-left-source-iff}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,k$, a nullable option classifier whose left endpoint is visibly
+one-headed is exactly the displayed source evidence for that endpoint, the
+right endpoint carrier, and the endpoint classifier:
+$$
+\mathsf{OptionHistoryClassifier}_S(\Eone(h),k)
+\Longleftrightarrow
+S(\Eone(h))\land \mathsf{OptionHistoryCarrier}_S(k)\land
+\hsame(\Eone(h),k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into its two endpoint carriers and stored
+$\hsame(\Eone(h),k)$ link. The left carrier is converted by
+Theorem~\ref{thm:option-history-carrier-e1-source-iff}. Conversely, the
+displayed source evidence rebuilds the left carrier through the source branch,
+and the other two displayed fields repack the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_e1\_left\_source\_iff}
+
+\begin{theorem}[Nullable option zero-headed source exactness]
+\label{thm:option-history-carrier-e0-source-iff}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, the nullable option carrier at a zero-headed endpoint is exactly
+the source predicate at that endpoint:
+$$
+\mathsf{OptionHistoryCarrier}_S(\Ezero(h))
+\Longleftrightarrow
+S(\Ezero(h)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the nullable carrier into its empty-or-source disjunction. The empty
+branch would give $\hsame(\Ezero(h),\emp)$, contradicting constructor
+separation for $\Ezero$ and $\emp$. The source branch is the displayed
+predicate, and the reverse direction rebuilds the source side of the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_e0\_source\_iff}
+
+\begin{theorem}[Nullable option carrier branch alignment]
+\label{thm:option-history-carrier-hsame-branch-alignment}
+For histories $h,k$, if $\mathsf{OptionSourceExcludesEmpty}(S)$,
+$\mathsf{OptionHistoryCarrier}_S(h)$, $\mathsf{OptionHistoryCarrier}_S(k)$, and
+$\hsame(h,k)$ hold, then either both endpoints are empty or both lie in the
+source branch:
+$$
+(\hsame(h,\emp)\land\hsame(k,\emp))\lor(S(h)\land S(k)).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the two carrier witnesses. The empty--empty and source--source
+branches are immediate. In each mixed branch, transport the empty endpoint
+across $\hsame(h,k)$ and apply $\mathsf{OptionSourceExcludesEmpty}(S)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_hsame\_branch\_alignment}
+
+\begin{theorem}[Nullable option classifier exclusive readback]
+\label{thm:option-history-classifier-exclusive-readback}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,k$, if $\mathsf{OptionSourceExcludesEmpty}(S)$ and
+$\mathsf{OptionHistoryClassifier}_S(h,k)$ hold, then either both endpoints are
+the empty option branch and neither endpoint lies in $S$,
+$$
+\hsame(h,\emp)\land\hsame(k,\emp)\land\neg S(h)\land\neg S(k),
+$$
+or both endpoints lie in the source branch, neither is empty, and the classifier
+keeps the endpoint equality:
+$$
+S(h)\land S(k)\land\neg\hsame(h,\emp)\land\neg\hsame(k,\emp)\land\hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the two endpoint carrier witnesses and the displayed
+$\hsame(h,k)$ equality. Apply Theorem~\ref{thm:option-history-carrier-exclusive-readback}
+to both endpoint carriers. The empty--empty and source--source cases give the
+two displayed alternatives. The mixed cases contradict
+$\mathsf{OptionSourceExcludesEmpty}(S)$ after transporting the empty readback
+across $\hsame(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_exclusive\_readback}
+
+\begin{theorem}[Option history classifier source-left exactness]
+\label{thm:option-history-classifier-source-left-exactness}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$,
+if $\mathsf{OptionSourceExcludesEmpty}(S)$ and $S(h)$ hold, then the nullable
+option classifier from $h$ to $k$ is exactly source membership of $k$ together
+with endpoint sameness:
+$$
+\mathsf{OptionHistoryClassifier}_S(h,k)
+\quad\Longleftrightarrow\quad
+S(k)\land\hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into endpoint carrier witnesses and the stored
+$\hsame(h,k)$ link. Since $S(h)$ excludes the empty branch, any empty carrier
+witness for $k$ would transport across $\hsame(h,k)$ to contradict
+$\mathsf{OptionSourceExcludesEmpty}(S)$. Hence the right carrier is the source
+branch $S(k)$, and the stored classifier link supplies $\hsame(h,k)$. Conversely,
+$S(h)$ and $S(k)$ give the two source carrier branches, and the displayed
+$\hsame(h,k)$ link reassembles the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_source\_left\_exactness}
+
+\begin{theorem}[Option history classifier zero-headed left source exactness]
+\label{thm:option-history-classifier-e0-left-source-iff}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,k$, the nullable option classifier from the zero-headed endpoint
+$\Ezero(h)$ to $k$ is exactly source membership of the left endpoint together
+with the right carrier and endpoint sameness:
+$$
+\mathsf{OptionHistoryClassifier}_S(\Ezero(h),k)
+\Longleftrightarrow
+S(\Ezero(h))\land\mathsf{OptionHistoryCarrier}_S(k)\land
+\hsame(\Ezero(h),k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the two endpoint carrier witnesses and the stored
+$\hsame$ link. Apply
+Theorem~\ref{thm:option-history-carrier-e0-source-iff} to the left carrier
+witness to read it as $S(\Ezero(h))$; the right carrier and endpoint link are
+already classifier fields. Conversely, the displayed three fields rebuild the
+classifier using the source side of the left carrier disjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_e0\_left\_source\_iff}
+
+\begin{theorem}[Option history classifier source-right exactness]
+\label{thm:option-history-classifier-source-right-exactness}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$,
+if $\mathsf{OptionSourceExcludesEmpty}(S)$ and $S(k)$ hold, then the nullable
+option classifier from $h$ to $k$ is exactly source membership of $h$ together
+with endpoint sameness:
+$$
+\mathsf{OptionHistoryClassifier}_S(h,k)
+\quad\Longleftrightarrow\quad
+S(h)\land\hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into endpoint carrier witnesses and the stored
+$\hsame(h,k)$ link. Since $S(k)$ excludes the empty branch, any empty carrier
+witness for $h$ transports back across $\hsame(h,k)$ to contradict
+$\mathsf{OptionSourceExcludesEmpty}(S)$. Hence the left carrier is the source
+branch $S(h)$, and the stored classifier link supplies $\hsame(h,k)$. Conversely,
+$S(h)$ and $S(k)$ give the two source carrier branches, and the displayed
+$\hsame(h,k)$ link reassembles the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_source\_right\_exactness}
+
+\begin{theorem}[Nullable option classifier absent-source separation]
+\label{thm:option-history-classifier-absent-source-separation}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$, if
+$\mathsf{OptionSourceExcludesEmpty}(S)$ and $S(h)$ hold, then both
+$$
+\neg\mathsf{OptionHistoryClassifier}_S(h,\emp)
+$$
+and
+$$
+\neg\mathsf{OptionHistoryClassifier}_S(\emp,h)
+$$
+hold.
+\end{theorem}
+\begin{proof}
+For the right-empty classifier, use
+Corollary~\ref{thm:option-history-classifier-empty-right-iff} to turn a classifier
+witness into $\hsame(h,\emp)$, then apply
+$\mathsf{OptionSourceExcludesEmpty}(S)$ to $S(h)$. For the left-empty
+classifier, use Theorem~\ref{thm:option-history-classifier-empty-left-iff} to
+obtain the same $\hsame(h,\emp)$ witness and apply the same exclusion predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_absent\_source\_separation}

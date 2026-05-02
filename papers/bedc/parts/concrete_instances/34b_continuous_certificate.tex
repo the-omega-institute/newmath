@@ -227,6 +227,36 @@ the associativity equality $(s\cdot\delta_1)\cdot\delta_2
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_composite\_closed}
 
+\begin{theorem}[Continuous modulus witness composite public readback]
+\label{thm:continuous-modulus-witness-composite-public-readback}
+For histories $source,first,second,middle,target,composite$, two certified
+one-step modulus witnesses
+$$
+\mathsf{ContinuousModulusWitness}(source,first,middle)
+$$
+and
+$$
+\mathsf{ContinuousModulusWitness}(middle,second,target)
+$$
+together with $\mathsf{Cont}(first,second,composite)$ determine the composite
+witness
+$$
+\mathsf{ContinuousModulusWitness}(source,composite,target).
+$$
+Any displayed witness from $source$ through the same $composite$ has target
+history $\hsame$ to $target$.
+\end{theorem}
+\begin{proof}
+The two one-step witnesses supply the source, modulus, middle, and target
+carriers plus the two continuation ledgers, hence assemble a
+$\mathsf{ContinuousModulusChain}(source,first,second,target)$. Composite
+closure turns this chain and the displayed modulus composition into the
+one-step composite witness. If another target is displayed for the same source
+and composite modulus, target determinacy for continuous modulus witnesses
+identifies it with $target$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_composite\_public\_readback}
+
 \begin{theorem}[Continuous function carrier modulus-chain replacement]
 \label{thm:continuous-function-carrier-modulus-chain-replacement}
 For histories $source,map,target,oldMod,oldCert,\delta_1,\delta_2,\delta,cert$,

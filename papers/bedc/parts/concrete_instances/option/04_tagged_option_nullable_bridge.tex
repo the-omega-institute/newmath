@@ -42,6 +42,29 @@ $\mathsf{OptionHistoryClassifier}_S(h,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionToNullableBridge\_descent}
 
+\begin{theorem}[Tagged option history classifier induces nullable classification]
+\label{thm:tagged-option-history-classifier-option-history-classifier}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier. If two histories
+are classified by the tagged option classifier over $\hsame$, then they are
+classified by the nullable option classifier whose source side is the tagged
+option history carrier:
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame}(h,k)
+\Longrightarrow
+\mathsf{OptionHistoryClassifier}_{\mathsf{TaggedOptionHistoryCarrier}_S}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Analyze the tagged classifier. In the absent branch, both endpoints are
+history-same to $\emp$, so the nullable carriers use their absent clauses and
+the classifier equality composes through $\emp$. In the present branch, the
+payload witnesses $a$ and $b$ rebuild the tagged carrier source clauses for
+the nullable classifier. The endpoint equality is obtained by composing the
+left endpoint link, congruence of $\Eone$ over $\hsame(a,b)$, and the reverse
+of the right endpoint link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_option\_history\_classifier}
+
 \begin{theorem}[Tagged option-to-nullable hsame bridge criterion]
 \label{thm:tagged-option-to-nullable-hsame-bridge-criterion}
 The ten-field fit is: traditional target nullable comparison for

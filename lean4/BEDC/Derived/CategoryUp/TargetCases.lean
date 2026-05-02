@@ -31,8 +31,30 @@ theorem CategoryHomCarrier_e1_target_morphism_cases {source r morph : BHist} :
                   exact
                     Exists.intro k
                       (And.intro rfl
-                        (And.intro sourceCarrier
-                          (And.intro (unary_e1_inversion morphCarrier)
-                            (BHist.e1.inj homCont))))
+                          (And.intro sourceCarrier
+                            (And.intro (unary_e1_inversion morphCarrier)
+                              (BHist.e1.inj homCont))))
+
+theorem CategoryHomCarrier_e1_morphism_target_cases {a target k : BHist} :
+    CategoryHomCarrier a target (BHist.e1 k) ->
+      ∃ r : BHist, target = BHist.e1 r ∧ CategoryHomCarrier a r k := by
+  intro homCarrier
+  cases homCarrier with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro targetCarrier rest =>
+          cases rest with
+          | intro morphCarrier homCont =>
+              have targetWitness := cont_step_result_inversions.right homCont
+              cases targetWitness with
+              | intro r data =>
+                  cases data with
+                  | intro targetEq tailCont =>
+                      cases targetEq
+                      exact Exists.intro r
+                        (And.intro rfl
+                          (And.intro sourceCarrier
+                            (And.intro (unary_e1_inversion targetCarrier)
+                              (And.intro (unary_e1_inversion morphCarrier) tailCont))))
 
 end BEDC.Derived.CategoryUp

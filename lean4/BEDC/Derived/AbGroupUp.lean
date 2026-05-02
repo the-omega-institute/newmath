@@ -7,6 +7,29 @@ namespace BEDC.Derived.AbGroupUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 
+theorem concrete_singleton_history_abgroup_laws :
+    let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
+    let Classifier : BHist -> BHist -> Prop :=
+      fun h k => Carrier h ∧ Carrier k ∧ hsame h k
+    let mul : BHist -> BHist -> BHist := BEDC.FKernel.Cont.append
+    Carrier BHist.Empty ∧
+      (forall {h k : BHist}, Carrier h -> Carrier k -> Carrier (mul h k)) ∧
+      (forall {h k : BHist}, Carrier h -> Carrier k ->
+        Classifier (mul h k) (mul k h)) := by
+  dsimp
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro h k carrierH carrierK
+      cases carrierH
+      cases carrierK
+      exact hsame_refl BHist.Empty
+    · intro h k carrierH carrierK
+      cases carrierH
+      cases carrierK
+      exact And.intro (hsame_refl BHist.Empty)
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+
 theorem abgroup_mul_left_right_swap {mul : BHist -> BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
     (commC : forall x y : BHist, hsame (mul x y) (mul y x))

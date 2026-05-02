@@ -34,4 +34,47 @@ theorem TaggedOptionHistoryClassifier_visible_payload_witnesses {S : BHist -> Pr
                       (And.intro sameAA'
                         (And.intro sameBB' data.right.right.right.right)))))
 
+theorem TaggedOptionHistoryClassifier_visible_payload_relation_transport {S : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop}
+    (rel_transport : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      Rel a b -> Rel a' b')
+    {h k a b : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k ->
+      hsame h (BHist.e1 a) ->
+        hsame k (BHist.e1 b) ->
+          Rel a b := by
+  intro classifier sameLeft sameRight
+  have witnesses :=
+    TaggedOptionHistoryClassifier_visible_payload_witnesses classifier sameLeft sameRight
+  cases witnesses with
+  | intro a' restA =>
+      cases restA with
+      | intro b' data =>
+          exact rel_transport
+            (hsame_symm data.right.right.left)
+            (hsame_symm data.right.right.right.left)
+            data.right.right.right.right
+
+theorem TaggedOptionHistoryClassifier_hsame_visible_payload_exactness {S : BHist -> Prop}
+    {h k a b : BHist} :
+    TaggedOptionHistoryClassifier S hsame h k ->
+      hsame h (BHist.e1 a) -> hsame k (BHist.e1 b) -> hsame a b := by
+  intro classifier sameLeft sameRight
+  cases classifier with
+  | inl absent =>
+      exact False.elim
+        (not_hsame_emp_e1 (hsame_trans (hsame_symm absent.left) sameLeft))
+  | inr present =>
+      cases present with
+      | intro a' present =>
+          cases present with
+          | intro b' data =>
+              have sameAA' : hsame a a' :=
+                hsame_e1_iff.mp
+                  (hsame_trans (hsame_symm sameLeft) data.right.right.left)
+              have sameB'B : hsame b' b :=
+                hsame_e1_iff.mp
+                  (hsame_trans (hsame_symm data.right.right.right.left) sameRight)
+              exact hsame_trans sameAA' (hsame_trans data.right.right.right.right sameB'B)
+
 end BEDC.Derived.OptionUp

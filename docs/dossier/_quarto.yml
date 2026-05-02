@@ -1,0 +1,48 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - "bedc.pdf"
+
+website:
+  title: "Mark, Continue, Name"
+  navbar:
+    left:
+      - text: "From Distinction"
+        href: index.qmd
+      - text: "Essays"
+        menu:
+          - text: "Distinction as Foundation"
+            href: distinction-as-foundation.qmd
+          - text: "Discovery Loop"
+            href: discovery-loop.qmd
+          - text: "---"
+          - text: "Default Failure Modes"
+            href: default-failure-modes.qmd
+          - text: "Schema-only as Evidence"
+            href: schema-only-as-evidence.qmd
+          - text: "Synthesis, Not Creation"
+            href: synthesis-not-creation.qmd
+          - text: "---"
+          - text: "One Closed Loop"
+            href: one-closed-loop.qmd
+    right:
+      - icon: file-earmark-pdf
+        text: "Download PDF"
+        href: bedc.pdf
+      - icon: github
+        href: https://github.com/the-omega-institute/newmath
+  open-graph:
+    description: "BEDC: an AI-driven case study in formalizing mathematics from a finite kernel of distinctions. 1837 theorems, 0 axioms, mathlib-free."
+  twitter-card:
+    card-style: summary_large_image
+
+format:
+  html:
+    theme: cosmo
+    css: assets/omega-dossier.css
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    filters:
+      - _extensions/evidence.lua

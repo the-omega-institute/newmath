@@ -456,6 +456,26 @@ determinacy gives $\hsame(s,s')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_visible\_context\_source\_deterministic}
 
+\begin{theorem}[Continuous modulus witness visible context modulus determinacy]
+\label{thm:continuous-modulus-witness-visible-context-modulus-deterministic}
+For histories $p,q,s,\delta,\delta',t$, two visible-context one-step modulus
+witnesses with the same visible source and target contexts determine the same
+central modulus history:
+$$
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta\cdot q,(p\cdot t)\cdot q)
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(p\cdot s,\delta'\cdot q,(p\cdot t)\cdot q)
+\Longrightarrow
+\hsame(\delta,\delta').
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to both witnesses. The recovered central
+witnesses have the same source $s$ and target $t$, so one-step modulus
+determinacy identifies $\delta$ and $\delta'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_visible\_context\_modulus\_deterministic}
+
 \begin{theorem}[Continuous modulus witness left e1 result cases]
 \label{thm:continuous-modulus-witness-left-e1-result-cases}
 For histories $source,modulus,target$, a one-step modulus witness from a
@@ -500,6 +520,27 @@ constructor from the continuation ledger, yielding the exact untagged modulus
 witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_right\_e1\_result\_exactness}
+
+\begin{theorem}[Continuous modulus witness right e1 visible source exactness]
+\label{thm:continuous-modulus-witness-right-e1-visible-source-exactness}
+For histories $source,modulus,target,sourceTail$, a modulus witness whose
+modulus and target histories are both visibly tagged descends to the tail while
+respecting a visible presentation of the source endpoint:
+$$
+\mathsf{ContinuousModulusWitness}(source,\Eone(modulus),\Eone(target))
+\Longrightarrow
+\hsame(source,\Eone(sourceTail))
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(\Eone(sourceTail),modulus,target).
+$$
+\end{theorem}
+\begin{proof}
+Apply right one-headed result exactness to strip the visible constructor from
+the modulus and target components of the witness. The displayed $\hsame$
+presentation of the source endpoint then transports the descended witness to
+the concrete visible source $\Eone(sourceTail)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_right\_e1\_visible\_source\_exactness}
 
 \begin{theorem}[Continuous modulus witness modulus determinacy]
 \label{thm:continuous-modulus-witness-modulus-hsame-deterministic}

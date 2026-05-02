@@ -138,4 +138,90 @@ theorem TaggedOptionHistoryClassifier_common_right_visible_payload_classificatio
                                                       relRightTargetB
                                                   exact rel_trans relAB (rel_symm relCB)
 
+theorem TaggedOptionHistoryClassifier_common_left_visible_payload_classification
+    {S : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (rel_symm : forall {x y : BHist}, Rel x y -> Rel y x)
+    (rel_trans : forall {x y z : BHist}, Rel x y -> Rel y z -> Rel x z)
+    (source_hsame : forall {x y : BHist}, S x -> S y -> hsame x y -> Rel x y)
+    {h k r a b c : BHist} :
+    TaggedOptionHistoryClassifier S Rel h k ->
+      TaggedOptionHistoryClassifier S Rel h r ->
+        S a -> S b -> S c -> hsame h (BHist.e1 a) -> hsame k (BHist.e1 b) ->
+          hsame r (BHist.e1 c) -> Rel b c := by
+  intro left right sourceA sourceB sourceC sameHA sameKB sameRC
+  cases left with
+  | inl absentLeft =>
+      exact False.elim
+        (not_hsame_emp_e1 (hsame_trans (hsame_symm absentLeft.left) sameHA))
+  | inr presentLeft =>
+      cases presentLeft with
+      | intro leftSourcePayload leftRest =>
+          cases leftRest with
+          | intro leftTargetPayload leftData =>
+              cases leftData with
+              | intro sourceLeftSource leftData =>
+                  cases leftData with
+                  | intro sourceLeftTarget leftData =>
+                      cases leftData with
+                      | intro sameLeftSource leftData =>
+                          cases leftData with
+                          | intro sameLeftTarget relLeft =>
+                              have sameALeftSource : hsame a leftSourcePayload :=
+                                hsame_e1_iff.mp
+                                  (hsame_trans (hsame_symm sameHA) sameLeftSource)
+                              have sameBLeftTarget : hsame b leftTargetPayload :=
+                                hsame_e1_iff.mp
+                                  (hsame_trans (hsame_symm sameKB) sameLeftTarget)
+                              have relBLeftTarget : Rel b leftTargetPayload :=
+                                source_hsame sourceB sourceLeftTarget sameBLeftTarget
+                              have relLeftSourceA : Rel leftSourcePayload a :=
+                                source_hsame sourceLeftSource sourceA (hsame_symm sameALeftSource)
+                              have relBA : Rel b a :=
+                                rel_trans
+                                  (rel_trans relBLeftTarget (rel_symm relLeft))
+                                  relLeftSourceA
+                              cases right with
+                              | inl absentRight =>
+                                  exact False.elim
+                                    (not_hsame_emp_e1
+                                      (hsame_trans (hsame_symm absentRight.left) sameHA))
+                              | inr presentRight =>
+                                  cases presentRight with
+                                  | intro rightSourcePayload rightRest =>
+                                      cases rightRest with
+                                      | intro rightTargetPayload rightData =>
+                                          cases rightData with
+                                          | intro sourceRightSource rightData =>
+                                              cases rightData with
+                                              | intro sourceRightTarget rightData =>
+                                                  cases rightData with
+                                                  | intro sameRightSource rightData =>
+                                                      cases rightData with
+                                                      | intro sameRightTarget relRight =>
+                                                          have sameARightSource :
+                                                              hsame a rightSourcePayload :=
+                                                            hsame_e1_iff.mp
+                                                              (hsame_trans (hsame_symm sameHA)
+                                                                sameRightSource)
+                                                          have sameCRightTarget :
+                                                              hsame c rightTargetPayload :=
+                                                            hsame_e1_iff.mp
+                                                              (hsame_trans (hsame_symm sameRC)
+                                                                sameRightTarget)
+                                                          have relARightSource :
+                                                              Rel a rightSourcePayload :=
+                                                            source_hsame sourceA
+                                                              sourceRightSource
+                                                              sameARightSource
+                                                          have relRightTargetC :
+                                                              Rel rightTargetPayload c :=
+                                                            source_hsame sourceRightTarget
+                                                              sourceC
+                                                              (hsame_symm sameCRightTarget)
+                                                          have relAC : Rel a c :=
+                                                            rel_trans
+                                                              (rel_trans relARightSource relRight)
+                                                              relRightTargetC
+                                                          exact rel_trans relBA relAC
+
 end BEDC.Derived.OptionUp

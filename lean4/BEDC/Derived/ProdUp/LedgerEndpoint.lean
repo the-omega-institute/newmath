@@ -113,6 +113,18 @@ theorem ProdHistoryLedgerChain_envelope_closure {Left Right : BHist -> Prop} {rh
                         · intro wZ
                           exact ProdHistoryClassifier_trans wZ (ProdHistoryClassifier_symm rhoZ)
 
+theorem ProdHistoryLedgerChain_shared_raw_visible_classifier {Left Right : BHist -> Prop}
+    {raw visible visible' : BHist} :
+    ProdHistoryLedgerChain Left Right raw visible ->
+      ProdHistoryLedgerChain Left Right raw visible' ->
+        ProdHistoryClassifier Left Right visible visible' := by
+  intro leftChain rightChain
+  have leftEnvelope := ProdHistoryLedgerChain_envelope_closure leftChain
+  have rightEnvelope := ProdHistoryLedgerChain_envelope_closure rightChain
+  exact ProdHistoryClassifier_trans
+    (ProdHistoryClassifier_symm leftEnvelope.right.left)
+    rightEnvelope.right.left
+
 theorem ProdHistoryLedgerChain_displayed_component_readback
     {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
     (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) {rho z l r : BHist} :

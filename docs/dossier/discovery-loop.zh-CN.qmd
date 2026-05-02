@@ -1,0 +1,237 @@
+---
+title: "发现回路"
+subtitle: "AI 驱动的 harness 是怎么自驱的, 在哪儿失败, 这套方法论可以推广到什么"
+author: "The Omega Institute"
+date: 2026-05-02
+lang: zh-CN
+description: "BEDC 由一个人 + 一个 Codex agent loop 运行. 72 小时 1837 条定理. 这是工程 — 包括那些教会我们怎么搭它的失败."
+---
+
+```{=html}
+<div class="lang-switch"><a href="discovery-loop.qmd">English</a></div>
+```
+
+## 一条本不该 land 的定理
+
+```lean
+theorem abgroup_mul_middle_four
+    {mul : BHist -> BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC  : forall x y, hsame (mul x y) (mul y x))
+    ...
+    forall a b c d, hsame (mul (mul a b) (mul c d)) (mul (mul a c) (mul b d)) := by
+  ...
+```
+
+这条定理在 R1151 提交. 四个问题:
+
+1. 名字后缀 `_four` 被 `NAMING.md §3` 禁止 — 像 `_two/_three/_four/_five/_six` 这种机械-元数展开是明确禁的.
+2. 假设 `(assocC : forall x y z, hsame ...)` 和 `(commC : forall x y, hsame ...)` 是纯 parameter-echo: 定理把自己结论的结构作为输入.
+3. 证明体把那些参数化假设组合起来, 没引用任何具体 `BHist` 构造子.
+4. Phase C 在 prompt 里写明的 lint — 显式 `grep -E '_four\b'` — 应该捕捉到这个并 abort 这个 round.
+
+它没有. 那个 lint 是个软提示; codex 跳过了. 灌水 land 了.
+
+这不是孤立的失败. 这是教会我们 harness 实际上怎么搭的那种失败.
+
+## 基本回路
+
+项目跑两条并行流水:
+
+| 流水 | 脚本 | 做什么 |
+|---|---|---|
+| **R 轮** (Lean) | `lean4/scripts/codex_formalize.py` | 选形式化目标, 写 Lean 证明, 注册论文 marker, 提交 |
+| **P 轮** (Paper) | `papers/bedc/scripts/codex_revise.py` | 审论文草稿, 提理论扩展, 编辑 LaTeX, 提交 |
+
+两条流水通过 Codex CLI 在隔离的 git worktree 上并行运行. 一个人 (项目作者) 通过读提交批次、跑审计、在灌水模式浮现时编辑 prompt, 来监督.
+
+峰值产量: 每天约 500 commits, 两条流水大致各占一半. 大多数 commit 增 10-50 行 Lean 或 LaTeX. 流水不生成完成声明、总结、状态报告 — 只有紧凑的提交, 通过一组固定的审计.
+
+## 审计 gates
+
+每个 commit 跑 5 个机械审计, 全在 `tools/check-axioms.py` 和 `lean4/scripts/bedc_ci.py`:
+
+```bash
+cd lean4 && lake build                               # 0 error
+python3 tools/check-axioms.py                        # 0 axiom keyword
+grep -r "sorry" lean4/BEDC --include="*.lean"        # 0 sorry
+python3 lean4/scripts/bedc_ci.py audit               # paper ↔ Lean drift = 0
+python3 lean4/scripts/bedc_ci.py axiom-purity        # 传递纯净度 (1837/1837 pure)
+```
+
+`axiom-purity` 检查最严: 它对每条 BEDC 定理跑 `#print axioms`, 拒绝对 `Classical.choice`、`Quot.sound`、`propext` 的依赖. 当前 1837/1837 通过. 这是比 mathlib4 或任何标准 Lean 项目都更强的约束.
+
+## 失败的顺序
+
+harness 第一次没设计对. 这个项目 72 小时里它经历的五次升级讲了这个故事.
+
+### v3.2 — try-close, 跨域抽象, 单概念轮次
+
+前 ~1100 轮之后, codex 在产覆盖率扫荡式的 commit 像 `R1142: prove sum and prod classifier closures` — 一轮触及 3+ 不相关的域, 每个加 parameter-echo 定理. 品味审计识别出三个偏好来推回去:
+
+1. **加之前先 try-close** — 验证候选不是已经能被 `simp` / `induction` 在已有原语上关闭. 离已有"一步可证"的"定理"应该写在调用方的 inline 里.
+2. **跨域抽象优先** — 当 ≥3 个 horizon 已经证了同一形状时, 下一个目标是把这个形状提升为 typeclass, 不是加第四个具体实例.
+3. **单概念轮次** — 偏好 3 个目标在三个对象上发展同一概念, 而不是覆盖率扫荡跨不相关概念.
+
+这是 prompt-only, 软偏好. 推动了一点指针但没止住灌水.
+
+### v3.3 — Derived 形状饱和作为 HARD GATE
+
+品味审计接着注意到 13 个 *形状* 已经在 Derived horizon 之间饱和: `_ClassifierSpec_trans` 有 7 份, `_HistoryClassifier_trans` 有 7 份, `_HistoryClassifier_hsame_transport` 有 6 份等等. 每个新 horizon 都在产同一证明模式的又一份拷贝.
+
+`bedc_ci.py audit --shape-saturation` 加进来 (~50 行加在已有 921 行脚本里). 它把每个 Derived 定理名按"剥掉域前缀"的后缀分组, 标记跨 ≥3 horizon 复制的形状. 当候选目标命中饱和形状, 这一轮必须要么把形状 hoist 到 typeclass, 要么换目标.
+
+硬规则, 不是偏好. R1145 之后灌水减少肉眼可见.
+
+### v3.4 — Critical-path discovery
+
+到 R1150, codex 一直在攻同样 5 个 horizon (Bool / Option / Sum / Prod / List / Rat), 从不开新前线. 16 个 0-4 thm 的 horizon 章节 (Real, AbGroup, Monoid, CommRing, Ring, Module, ..., Category, Functor, NatTrans) 没流量.
+
+`lean4/scripts/critical_path.py` 加进来 (~120 行, 单文件). 它扫每个 horizon 章节, 从 `\<X>Up` 引用提取依赖图, 算 transitive 下游计数, 在排除饱和节点 (thms ≥ 10) 和依赖未就绪节点之后, 排序 `transitive_downstream / (1 + thms)`.
+
+每个 R 轮的 Phase B 必须调它, 在 top-3 节点中选 ≥1 个目标 (3 个候选中).
+
+```bash
+$ python3 lean4/scripts/critical_path.py
+{
+  "top": [
+    {"name": "abgroup",  "thms": 2, "downstream": 4, "score": 1.33},
+    {"name": "monoid",   "thms": 5, "downstream": 4, "score": 0.67},
+    {"name": "real",     "thms": 0, "downstream": 3, "score": 3.00},
+    ...
+  ]
+}
+```
+
+这是第一个产出 *可见* 相位转移的升级: commit 主题从"又一个 OptionUp closure"变成"abgroup", "monoid", "real". harness 开始自己开新前线.
+
+### v3.5 — 收紧 fallback
+
+v3.4 后头 7 轮命中 critical-path top-3 仍是 0/7. codex 在用软的"如果技术上 blocked, 用 top[3..]" 逃口把每轮都合理化为 blocked.
+
+v3.5 把 blocker 定义机械化. 一个 top-3 节点算作 blocked, 仅当三条同时:
+
+1. 该论文章节有 < 3 个 `\begin{definition}` 块, 且
+2. 实施需要尚不存在的 Lean inductive 或 import, 且
+3. `critical_path.py` 报告 `deps_ready = false` (按构造, top 内的节点这一条永远是 false).
+
+如果 top-3 三个节点全在这个合取下声称 blocked, codex 必须 emit `{"targets": []}` 跳过这一轮. 空轮次优于静默 fallback.
+
+v3.5 之后, top-3 命中率从 0/7 升到大约 60-80%.
+
+### Phase D 机械 lint (与它带来的两难)
+
+即使有 v3.5, `abgroup_mul_middle_four` 灌水和 parameter-echo schemas 仍在 land. prompt 级别的 grep 指令是不可强制的: codex 完全可以不跑 grep.
+
+我们加了 `lean4/scripts/phase_d_lint.py` (从之前的流水内 lint 拆出). 它在每个 commit 增加的 Lean 块上跑三个检查:
+
+1. **机械-元数后缀**: 任何新 `theorem _foo_(two|three|four|five|six)` 被拒.
+2. **Parameter-echo 绑定**: 任何新定理带假设 `(name : forall ... hsame ...)` 被拒 — 这定理把自己结论的结构作为输入.
+3. **BHist 锚点**: 任何新 `BEDC.Derived.*` 定理, statement 不提及 `BHist`、`BMark`、`hsame`、`Cont`、`ProbeBundle` 等的, 被拒 — 它实际上不关于内核对象.
+
+两难: 这是 prompt-only 路径的一个机械覆盖. 作者的偏好是"修 prompt, 别加护栏". Phase D lint 是个护栏.
+
+我们落地的折中: 保留 Phase D, 但作为 *底线*, 不是首选机制. 首选机制仍是 prompt: critical-path 优先级、saturation gate、anti-hollow. Phase D 抓 codex 决定忽略 prompt 时的情况. 这是"信任但验证"的架构.
+
+### Schema-only horizons 排除
+
+最深的洞察来自审计 parameter-echo 失败. 模式是: 每个 `abgroup` / `monoid` / `ring` / `field` 轮次都产 parameter echo. *为什么?*
+
+因为那些章节的 *论文 schema* 把定律写成 `mul : BHist → BHist → BHist` 留作抽象. 没有具体 carrier. codex 在正确地形式化论文说的, 而 parameter echo 是 *唯一* 能在那个 schema 上编译通过的形状.
+
+修复不是更紧的 lint. 修复是认识到论文 schema 是上游成因, 把这些章节从 critical-path top 排除, 直到论文自己加具体 carrier 定义.
+
+```python
+# critical_path.py
+SCHEMA_ONLY_HORIZONS: set[str] = {
+    "abgroup", "group", "monoid",
+    "ring", "commring", "field",
+    "module", "vecspace", "linearmap", "matrix",
+    "polynomial", "fps",
+    "lattice", "totalorder", "preorder", "poset",
+}
+```
+
+这是项目目前的架构性教训: *当形式化流水持续产灌水, 成因常在上游 spec 里, 不在 prompt 或 agent 里*.
+
+## 这个回路实际在做什么
+
+所有升级之后, 第二天的回路看起来是:
+
+```{=html}
+<div class="timeline">
+  <div class="timeline-item ai"><div class="timeline-label">Phase B</div><div class="timeline-content">codex 跑 <code>critical_path.py</code>, 拿到 top-3 horizons, 在那挑 ≥1 target. saturation 审计跑在候选名上. anti-hollow 规则过滤掉 parameter-echo 候选.</div></div>
+  <div class="timeline-item ai"><div class="timeline-label">Phase C</div><div class="timeline-content">codex 写 Lean 证明. <code>lake build</code> 必须通过. paper marker 注册. 单次合并 commit.</div></div>
+  <div class="timeline-item ai"><div class="timeline-label">Phase D</div><div class="timeline-content">机械 lints (arity, parameter-echo, BHist-anchor) 作为最终过滤跑. <code>bedc_ci.py audit</code> + <code>axiom-purity</code> 验证对齐. round merge 进 base.</div></div>
+  <div class="timeline-item human"><div class="timeline-label">人类 (偶尔)</div><div class="timeline-content">每次审 ~10 个 commit, 给 codex 没注意到的模式 (Hom = Cont, S¹ as equation-as-BHist 等) 命名, 写成桥梁定理或反思段落.</div></div>
+  <div class="timeline-item discovery"><div class="timeline-label">发现</div><div class="timeline-content">桥梁定理沉淀到 <code>papers/bedc/parts/capstones/</code> — 这个目录的存在是项目对"跨章 unification 有家"的唯一结构性承诺.</div></div>
+</div>
+```
+
+```{=html}
+<span class="role-tag human">🧑 人类</span>
+<span class="role-tag ai">🤖 AI</span>
+<span class="role-tag discovery">💡 发现</span>
+```
+
+人类每次会话贡献约 30 分钟审阅 + 约 5 行 prompt 编辑. AI 每次会话贡献约 50 个 commit.
+
+## Capstone 桥梁 — 把观察变成定理
+
+最近一次 harness 升级解决了一个问题, 这个问题是发现模式反复提出的: *当 AI 真的产出跨章 unification 观察 (像 `Hom = Cont`), 应该怎么办?*
+
+早先方案: 写成 paper prose 放在元评论章. **被否决**. 那是理论旁的注释, 不是理论本身.
+
+当前机制: 当 `theory_extension` 候选有 `cross_chapter_unification = 2` (引用 ≥3 个不同章节的 leanchecked 名, 且结论是等价/iff/桥梁), 它对普通候选获得绝对优先. 它的 `paper_files[0]` 落在 `papers/bedc/parts/capstones/`. 桥梁定理本身是个 Lean 定理, 不是 prose 段落.
+
+```latex
+\section{延续即范畴态射}
+\begin{theorem}[Hom 载体即受限延续]
+\label{thm:capstone-hom-cont}
+对所有历史 $a, b, f$,
+$$
+  \mathsf{CategoryHomCarrier}(a, b, f)
+  \iff
+  \mathsf{UnaryHistory}(a) \land \mathsf{UnaryHistory}(b)
+  \land \mathsf{UnaryHistory}(f) \land \mathsf{Cont}(a, f, b).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_iff\_unary\_cont}
+```
+
+反思变形式化. AI 综合变 Lean 定理. 桥梁是可验证的, 不只是叙事性宣称.
+
+## 这套方法论可以推广到什么
+
+从 BEDC 提取的模式不是 BEDC 特有的. 我们认为它适用于任何这样的项目:
+
+- 一个人定义一个带强 invariant 的 *内核* (无公理、mathlib-free、`axiom-purity` 等).
+- 一个 AI agent 被要求对该内核做大量形式化.
+- 内核的 invariant 是机械的 (`#print axioms`, `lake build` 等).
+- 一个小的人类审阅回路抓 agent 输出技术上有效但架构上嘈杂 (parameter echo, 饱和形状等) 的情况.
+
+配方:
+
+1. **机械底线**: 内核 + 审计 + Phase D lints. 没有这些, AI 可以产任意灌水而你检测不到.
+2. **关键路径调度**: 不要让 AI 通过局部贪心选要做什么. 通过全局函数 (下游影响 / 稀缺性 / 依赖就绪) 强制选择. AI 擅长执行; 不擅长策略性优先级排序.
+3. **Schema-only 诊断**: 当 AI 在某个区域反复失败, 成因常在上游 spec, 不在下游 agent.
+4. **Capstone, 不是注释**: 当 AI 产出综合观察, 把它形式化为定理, 不是 prose. 否则它衰减为评论.
+5. **人类作架构师, 不作评审**: 人类的工作是设 invariant、给 unification 命名、收紧 harness. 不是同行评审证明 (审计做这件事).
+
+## 这 *不是*
+
+这不是声称 AI 会替代数学家. BEDC 里的架构性决定 — `inductive BHist | Empty | e0 | e1`、`axiom-purity` invariant、schema-only 诊断、把 `Hom = Cont` 识别为 unification — 全部由人作出. AI 做形式化的大头, 但 *方向* 是人的.
+
+这也不是声称 harness 完工了. 我们预计在它稳定前还有五次升级. 到目前每次升级都由特定失败模式驱动, 而我们还没撞上的失败模式还有 (例如 capstone-bridge 灌水在量上还没测试).
+
+这 *是* 一个声称: 用 250 行 Python harness 加 ~1500 行 prompt, 一个人能监督一个 AI agent 在 72 小时内产出 38 章基础数学 1837 条机械验证定理. 这个数字是真的. 瓶颈不在 AI 能力; 在人架构 invariant 与命名 unification 的能力.
+
+```{=html}
+<div class="cta-choices">
+  <a href="index.zh-CN.qmd"><strong>← 回到主故事</strong><br/>BEDC 是什么, 72 小时里发生了什么, AI 驱动形式化里浮现的五个惊喜.</a>
+  <a href="default-failure-modes.zh-CN.qmd"><strong>默认失败模式 →</strong><br/>harness 被建来吸收的失败底下的认知形态 — 无人推回时 AI 会产什么.</a>
+  <a href="distinction-as-foundation.zh-CN.qmd"><strong>区分作为根基 →</strong><br/>哲学位置: 为什么我们认为 e0/e1 比集合、类型、范畴更原始.</a>
+</div>
+```
+
+— *The Omega Institute*

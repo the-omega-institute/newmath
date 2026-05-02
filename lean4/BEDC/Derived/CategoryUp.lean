@@ -156,7 +156,6 @@ theorem CategoryHomCarrier_endpoint_hsame_morphism_deterministic {a a' b b' f g 
   cases sameSource
   cases sameTarget
   exact CategoryHomCarrier_morphism_deterministic left right
-
 theorem CategoryHomCarrier_comp_public_readback {a b c f g fg : BHist} :
     CategoryHomCarrier a b f → CategoryHomCarrier b c g → Cont f g fg →
       CategoryHomCarrier a c fg ∧
@@ -168,7 +167,6 @@ theorem CategoryHomCarrier_comp_public_readback {a b c f g fg : BHist} :
   · exact compositeCarrier
   · intro fg' displayed
     exact CategoryHomCarrier_morphism_deterministic compositeCarrier displayed
-
 theorem CategoryHomCarrier_target_deterministic {a b c f : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier a c f -> hsame b c := by
   intro left right
@@ -181,7 +179,6 @@ theorem CategoryHomCarrier_comp_target_deterministic {a b c d f g fg : BHist} :
   exact
     CategoryHomCarrier_target_deterministic
       (CategoryHomCarrier_comp_closed left right comp) displayed
-
 theorem CategoryHomCarrier_comp_middle_object_deterministic {a b b' c f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b' c g -> Cont f g fg ->
       CategoryHomCarrier a c fg -> hsame b b' := by
@@ -192,7 +189,6 @@ theorem CategoryHomCarrier_comp_middle_object_deterministic {a b b' c f g fg : B
     cases displayed.right.right.right
     exact cont_intro (append_assoc a f g).symm
   exact cont_right_cancel derivedRight right.right.right.right
-
 theorem CategoryHomCarrier_comp_right_factor {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> Cont f g fg -> CategoryHomCarrier a c fg ->
       CategoryHomCarrier b c g := by
@@ -206,7 +202,15 @@ theorem CategoryHomCarrier_comp_right_factor {a b c f g fg : BHist} :
     exact cont_intro (append_assoc a f g).symm
   exact And.intro left.right.left
     (And.intro displayed.right.left (And.intro gCarrier rightCont))
-
+theorem CategoryHomCarrier_comp_right_factor_public_readback {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> Cont f g fg -> CategoryHomCarrier a c fg ->
+      CategoryHomCarrier b c g ∧
+        (∀ {g' : BHist}, Cont f g' fg -> CategoryHomCarrier b c g' -> hsame g g') := by
+  intro left comp displayed
+  constructor
+  · exact CategoryHomCarrier_comp_right_factor left comp displayed
+  · intro g' comp' _right
+    exact cont_left_cancel comp comp'
 theorem CategoryHomCarrier_comp_left_factor {a b c f g fg : BHist} :
     CategoryHomCarrier b c g -> Cont f g fg -> CategoryHomCarrier a c fg ->
       CategoryHomCarrier a b f := by
@@ -217,7 +221,6 @@ theorem CategoryHomCarrier_comp_left_factor {a b c f g fg : BHist} :
     cont_composite_left_factor right.right.right.right comp displayed.right.right.right
   exact And.intro displayed.left
     (And.intro right.left (And.intro fCarrier leftCont))
-
 theorem CategoryHomCarrier_source_deterministic {a b c f : BHist} :
     CategoryHomCarrier a c f -> CategoryHomCarrier b c f -> hsame a b := by
   intro left right
@@ -230,13 +233,11 @@ theorem CategoryHomCarrier_comp_source_deterministic {a b c d f g fg : BHist} :
   exact
     CategoryHomCarrier_source_deterministic
       (CategoryHomCarrier_comp_closed left right comp) displayed
-
 theorem CategoryHomCarrier_tail_comm_hsame {a b c f g fg gf : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       Cont g f gf -> hsame fg gf := by
   intro left right fgRel gfRel
   exact unary_continuation_commutativity left.2.2.1 right.2.2.1 fgRel gfRel
-
 theorem CategoryHomCarrier_hsame_transport {a a' b b' f f' : BHist} :
     hsame a a' -> hsame b b' -> hsame f f' ->
       CategoryHomCarrier a b f -> CategoryHomCarrier a' b' f' := by

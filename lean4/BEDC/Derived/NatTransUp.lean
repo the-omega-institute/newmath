@@ -82,6 +82,36 @@ theorem NatTransPrefixComponentCarrier_empty_identity_prefix_trans {p q r a : BH
   have rightData := Iff.mp NatTransPrefixComponentCarrier_empty_identity_iff right
   exact hsame_trans leftData.right.right.right rightData.right.right.right
 
+theorem NatTransPrefixComponentCarrier_empty_source_prefix_iff {q a eta : BHist} :
+    NatTransPrefixComponentCarrier BHist.Empty q a eta ↔
+      UnaryHistory q ∧ UnaryHistory a ∧ CategoryHomCarrier a (append q a) eta := by
+  constructor
+  · intro component
+    cases component with
+    | intro _emptyCarrier rest =>
+        cases rest with
+        | intro prefixCarrier rest =>
+            cases rest with
+            | intro objectCarrier homCarrier =>
+                exact
+                  And.intro prefixCarrier
+                    (And.intro objectCarrier
+                      (CategoryHomCarrier_hsame_transport
+                        (append_empty_left a) (hsame_refl (append q a)) (hsame_refl eta)
+                        homCarrier))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro objectCarrier homCarrier =>
+            exact
+              And.intro unary_empty
+                (And.intro prefixCarrier
+                  (And.intro objectCarrier
+                    (CategoryHomCarrier_hsame_transport
+                      (hsame_symm (append_empty_left a)) (hsame_refl (append q a))
+                      (hsame_refl eta) homCarrier)))
+
 theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta composite : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
       NatTransPrefixComponentCarrier q r a theta ->
@@ -107,20 +137,21 @@ theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta compo
 
 theorem NatTransPrefixComponentCarrier_vert_comp_public_readback
     {p q r a eta theta composite : BHist} :
-    NatTransPrefixComponentCarrier p q a eta →
-      NatTransPrefixComponentCarrier q r a theta →
-        Cont eta theta composite →
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta ->
+        Cont eta theta composite ->
           NatTransPrefixComponentCarrier p r a composite ∧
-            (forall {composite' : BHist},
-              NatTransPrefixComponentCarrier p r a composite' → hsame composite composite') := by
+            (∀ {displayed : BHist},
+              NatTransPrefixComponentCarrier p r a displayed -> hsame composite displayed) := by
   intro left right comp
-  have compositeCarrier : NatTransPrefixComponentCarrier p r a composite :=
+  have compositeCarrier :
+      NatTransPrefixComponentCarrier p r a composite :=
     NatTransPrefixComponentCarrier_vert_comp_closed left right comp
   constructor
   · exact compositeCarrier
-  · intro composite' displayed
-    exact CategoryHomCarrier_morphism_deterministic
-      compositeCarrier.right.right.right displayed.right.right.right
+  · intro displayed displayedCarrier
+    exact CategoryHomCarrier_morphism_deterministic compositeCarrier.right.right.right
+      displayedCarrier.right.right.right
 
 theorem NatTransPrefixComponentCarrier_vert_comp_right_factor
     {p q r a eta theta composite : BHist} :
@@ -134,6 +165,19 @@ theorem NatTransPrefixComponentCarrier_vert_comp_right_factor
         (And.intro left.right.right.left
           (CategoryHomCarrier_comp_right_factor left.right.right.right comp
             displayed.right.right.right)))
+
+theorem NatTransPrefixComponentCarrier_vert_comp_right_factor_public_readback
+    {p q r a eta theta composite : BHist} :
+    NatTransPrefixComponentCarrier p q a eta -> Cont eta theta composite ->
+      NatTransPrefixComponentCarrier p r a composite ->
+        NatTransPrefixComponentCarrier q r a theta ∧
+          (∀ {theta' : BHist}, Cont eta theta' composite ->
+            NatTransPrefixComponentCarrier q r a theta' -> hsame theta theta') := by
+  intro left comp displayed
+  constructor
+  · exact NatTransPrefixComponentCarrier_vert_comp_right_factor left comp displayed
+  · intro theta' comp' _right
+    exact cont_left_cancel comp comp'
 
 theorem NatTransPrefixComponentCarrier_vert_comp_left_factor
     {p q r a eta theta composite : BHist} :

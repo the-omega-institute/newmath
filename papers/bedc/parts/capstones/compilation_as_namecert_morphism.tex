@@ -1,0 +1,13 @@
+\chapter{Compilation as Naming-Certificate Morphism}
+\label{ch:capstones-compilation-as-namecert-morphism}
+
+A compiler from source language $S$ to target language $T$ is a structure-preserving translation that respects the semantics of both. In BEDC terms, $S$ and $T$ each carry a naming certificate (\autoref{ch:capstones-type-checking-as-classifier-membership}, \autoref{ch:capstones-computation-as-continuation}); a compiler is a morphism between the two certificates that preserves the classifier; compiler correctness is the assertion that the morphism preserves $\hsame$. The chapter records this identification and locates compositional compilation, optimisation correctness, and decompilation in the same framework.
+
+\section{Compiler as classifier-preserving morphism}
+\label{sec:compilation-as-namecert-morphism-compiler}
+
+\begin{theorem}[Compilation as naming-certificate morphism]
+\label{thm:compilation-as-namecert-morphism}
+For every pair of naming certificates $(\NameCert_{S}, \NameCert_{T})$, every compiler from $S$ to $T$ that preserves $\hsame$ corresponds to a naming-certificate morphism $\NameCert_{S} \to \NameCert_{T}$ in the natural category of certificates. Compiler correctness is the assertion that this morphism is a $\hsame$-preserving classifier morphism. Sequential composition of correct compilers is composition of morphisms in this category; an optimisation is an endomorphism whose source and target certificates coincide.
+\leanstmt{BEDC.Reflection.compilation\_as\_namecert\_morphism}
+\end{theorem}

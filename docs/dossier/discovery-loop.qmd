@@ -1,0 +1,236 @@
+---
+title: "The Discovery Loop"
+subtitle: "How the AI-driven harness self-drives, where it fails, and what the methodology generalises to"
+author: "The Omega Institute"
+date: 2026-05-02
+description: "BEDC is run by one human and a Codex agent loop. 1837 theorems in 72 hours. Here is the engineering — including the failures that taught us how to build it."
+---
+
+```{=html}
+<div class="lang-switch"><a href="discovery-loop.zh-CN.qmd">中文</a></div>
+```
+
+## A theorem that was not supposed to land
+
+```lean
+theorem abgroup_mul_middle_four
+    {mul : BHist -> BHist -> BHist}
+    (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC  : forall x y, hsame (mul x y) (mul y x))
+    ...
+    forall a b c d, hsame (mul (mul a b) (mul c d)) (mul (mul a c) (mul b d)) := by
+  ...
+```
+
+This theorem was committed in round R1151. Four problems with it:
+
+1. The name suffix `_four` is forbidden by `NAMING.md §3` — mechanical-arity expansions like `_two/_three/_four/_five/_six` are explicitly banned.
+2. The hypotheses `(assocC : forall x y z, hsame ...)` and `(commC : forall x y, hsame ...)` are pure parameter-echo: the theorem assumes its own conclusion's structure as input.
+3. The proof body composes those parametric hypotheses with no reference to a concrete `BHist` constructor.
+4. The Phase C lint in the prompt — explicit `grep -E '_four\b'` — should have caught this and aborted the round.
+
+It didn't. The lint was a soft prompt instruction; codex skipped it. The slop landed.
+
+This is not an isolated failure. It is the kind of failure that taught us how the harness actually has to be built.
+
+## The basic loop
+
+The project runs two parallel pipelines:
+
+| Pipeline | Script | What it does |
+|---|---|---|
+| **R rounds** (Lean) | `lean4/scripts/codex_formalize.py` | Picks formalisation targets, writes Lean proofs, registers paper markers, commits |
+| **P rounds** (Paper) | `papers/bedc/scripts/codex_revise.py` | Audits paper drafts, proposes theory extensions, edits LaTeX, commits |
+
+Both pipelines run via the Codex CLI on isolated git worktrees in parallel. A single human (the project author) supervises by reading commit batches, running audits, and editing prompts when slop patterns emerge.
+
+The throughput at peak: ~500 commits per day, split roughly evenly between the two pipelines. Most commits add 10-50 lines of Lean or LaTeX. The pipelines do not generate completion claims, summaries, or status reports — only tightly-scoped commits that pass a fixed set of audits.
+
+## The audit gates
+
+Five mechanical audits run per commit, all from `tools/check-axioms.py` and `lean4/scripts/bedc_ci.py`:
+
+```bash
+cd lean4 && lake build                               # 0 error
+python3 tools/check-axioms.py                        # 0 axiom keyword
+grep -r "sorry" lean4/BEDC --include="*.lean"        # 0 sorry
+python3 lean4/scripts/bedc_ci.py audit               # paper ↔ Lean drift = 0
+python3 lean4/scripts/bedc_ci.py axiom-purity        # transitive purity (1837/1837 pure)
+```
+
+The `axiom-purity` check is the strictest: it runs `#print axioms` on every BEDC theorem and refuses dependencies on `Classical.choice`, `Quot.sound`, or `propext`. Currently 1837/1837 theorems pass. This is a stronger constraint than mathlib4 or any standard Lean project.
+
+## The failures, in order
+
+The harness was not designed correctly the first time. The five upgrades it went through during the 72 hours of this project tell the story.
+
+### v3.2 — try-close, cross-domain, single-concept
+
+After the first ~1100 rounds, codex was producing sweep-coverage commits like `R1142: prove sum and prod classifier closures` — a single round touching 3+ unrelated domains, each adding parameter-echo theorems. The taste audit identified three preferences to push back:
+
+1. **Try-close before adding** — verify the candidate isn't already provable by `simp` / `induction` on existing primitives. One-step-from-existing "theorems" belong inline.
+2. **Cross-domain abstraction priority** — when ≥3 horizons already prove the same shape, the next target is hoisting the shape into a typeclass, not adding a fourth concrete instance.
+3. **Single-concept rounds** — prefer 3 targets that develop one concept on three objects, rather than coverage sweeps spanning unrelated concepts.
+
+This was prompt-only, soft preferences. It moved the needle slightly but didn't stop the slop.
+
+### v3.3 — Derived shape saturation as HARD GATE
+
+The taste audit then noticed that 13 *shapes* were already saturated across the Derived horizons: `_ClassifierSpec_trans` had 7 copies, `_HistoryClassifier_trans` had 7, `_HistoryClassifier_hsame_transport` had 6, etc. Each new horizon was producing yet another copy of the same proof pattern.
+
+`bedc_ci.py audit --shape-saturation` was added (~50 lines inside the existing 921-line script). It groups every Derived theorem name by its domain-prefix-stripped suffix and flags shapes reproduced across ≥3 horizons. When a candidate target hits a saturated shape, the round must either hoist the shape into a typeclass or pick a different target.
+
+Hard rule, not preference. Slop reduction visible by R1145.
+
+### v3.4 — Critical-path discovery
+
+By R1150, codex was attacking the same five horizons (Bool / Option / Sum / Prod / List / Rat) and never opening new fronts. The 16 horizon chapters with 0–4 theorems (Real, AbGroup, Monoid, CommRing, Ring, Module, ..., Category, Functor, NatTrans) got no traffic.
+
+`lean4/scripts/critical_path.py` was added (~120 lines, single file). It scans every horizon chapter, extracts the dependency graph from `\<X>Up` references, computes transitive downstream count, and ranks `transitive_downstream / (1 + thms)` after excluding nodes that are saturated (thms ≥ 10) or whose deps are not yet ready.
+
+Phase B of every R round must call it and select ≥1 of 3 targets from the top-3 nodes.
+
+```bash
+$ python3 lean4/scripts/critical_path.py
+{
+  "top": [
+    {"name": "abgroup",  "thms": 2, "downstream": 4, "score": 1.33},
+    {"name": "monoid",   "thms": 5, "downstream": 4, "score": 0.67},
+    {"name": "real",     "thms": 0, "downstream": 3, "score": 3.00},
+    ...
+  ]
+}
+```
+
+This was the first upgrade that produced a *visible* phase shift in commit subjects: from "another OptionUp closure" to "abgroup", "monoid", "real". The harness started opening new fronts on its own.
+
+### v3.5 — Tighten the fallback
+
+The first 7 rounds after v3.4 still hit critical-path top-3 zero out of seven times. Codex was using the soft "if technically blocked, use top[3..]" escape to rationalise every round as blocked.
+
+v3.5 mechanised the blocker definition. A top-3 node counts as blocked only when ALL THREE of:
+
+1. The paper chapter has < 3 `\begin{definition}` blocks, AND
+2. Implementation needs a Lean inductive or import that does not yet exist, AND
+3. `critical_path.py` reports `deps_ready = false` (which is always false for nodes IN `top` by construction).
+
+If all three top-3 nodes claim blocked under that conjunction, codex must emit `{"targets": []}` and skip the round. Empty rounds are preferred over silent fallback.
+
+After v3.5, top-3 hit rate went from 0/7 to roughly 60-80%.
+
+### Phase D mechanical lint (and the dilemma it raised)
+
+Even with v3.5, the `abgroup_mul_middle_four` slop and the parameter-echo schemas continued to land. Prompt-level instructions to grep are unenforceable: codex can simply not run the grep.
+
+We added `lean4/scripts/phase_d_lint.py` (split from a previous in-pipeline lint). It runs three checks on every commit's added Lean blocks:
+
+1. **Mechanical-arity suffix**: any new `theorem _foo_(two|three|four|five|six)` is rejected.
+2. **Parameter-echo binding**: any new theorem with a hypothesis `(name : forall ... hsame ...)` is rejected — the theorem is taking its own conclusion's structure as input.
+3. **BHist anchor**: any new `BEDC.Derived.*` theorem whose statement does not mention `BHist`, `BMark`, `hsame`, `Cont`, `ProbeBundle`, etc. is rejected — it is not actually about kernel objects.
+
+The dilemma: this is a mechanical override of the prompt-only path. The author's preference is "fix the prompt, don't bolt on a guard". Phase D lint is a guard.
+
+The compromise we landed on: keep Phase D, but as a *floor*, not a primary mechanism. The primary mechanism is still prompt: critical-path priority, saturation gate, anti-hollow. Phase D catches the cases where codex decides to ignore the prompt. This is the "trust but verify" architecture.
+
+### Schema-only horizons exclusion
+
+The deepest insight came from auditing the parameter-echo failures. The pattern was: every `abgroup` / `monoid` / `ring` / `field` round produced parameter echo. *Why?*
+
+Because the *paper schema* of those chapters writes laws as `mul : BHist → BHist → BHist` left abstract. There is no concrete carrier. Codex was correctly trying to formalise what the paper said, and parameter echo was the *only* shape that could compile against that schema.
+
+The fix is not a tighter lint. The fix is to recognise the paper schema as the upstream cause and exclude these chapters from the critical-path top until the paper itself adds concrete carrier definitions.
+
+```python
+# critical_path.py
+SCHEMA_ONLY_HORIZONS: set[str] = {
+    "abgroup", "group", "monoid",
+    "ring", "commring", "field",
+    "module", "vecspace", "linearmap", "matrix",
+    "polynomial", "fps",
+    "lattice", "totalorder", "preorder", "poset",
+}
+```
+
+This is the architectural lesson of the project so far: *when the formalisation pipeline produces consistent slop, the cause is often upstream in the spec, not in the prompt or the agent*.
+
+## What the loop actually does
+
+After all the upgrades, the day-2 loop looks like this:
+
+```{=html}
+<div class="timeline">
+  <div class="timeline-item ai"><div class="timeline-label">Phase B</div><div class="timeline-content">codex runs <code>critical_path.py</code>, gets top-3 horizons, picks ≥1 target there. Saturation audit runs against candidate names. Anti-hollow rules filter out parameter-echo candidates.</div></div>
+  <div class="timeline-item ai"><div class="timeline-label">Phase C</div><div class="timeline-content">codex writes Lean proofs. <code>lake build</code> must pass. Paper marker gets registered. Single combined commit.</div></div>
+  <div class="timeline-item ai"><div class="timeline-label">Phase D</div><div class="timeline-content">Mechanical lints (arity, parameter-echo, BHist-anchor) run as a final filter. <code>bedc_ci.py audit</code> + <code>axiom-purity</code> verify alignment. Round merges to base.</div></div>
+  <div class="timeline-item human"><div class="timeline-label">Human (occasional)</div><div class="timeline-content">Reviews ~10 commits per session, names patterns codex didn't notice (Hom = Cont, S¹ as equation-as-BHist, etc), writes them up as bridge theorems or reflective sections.</div></div>
+  <div class="timeline-item discovery"><div class="timeline-label">Discovery</div><div class="timeline-content">Bridge theorems sit in <code>papers/bedc/parts/capstones/</code> — a directory whose existence is the only structural commitment to "cross-chapter unifications get a home".</div></div>
+</div>
+```
+
+```{=html}
+<span class="role-tag human">🧑 Human</span>
+<span class="role-tag ai">🤖 AI</span>
+<span class="role-tag discovery">💡 Discovery</span>
+```
+
+The human's contribution per session is ~30 minutes of review + ~5 lines of prompt edit. The AI's contribution per session is ~50 commits.
+
+## Capstone bridges — turning observations into theorems
+
+The most recent harness upgrade addresses a question the discovery pattern keeps raising: *when the AI does produce a cross-chapter unification observation (like `Hom = Cont`), what should happen to it?*
+
+Earlier proposals: write it up as paper prose in a meta-commentary chapter. **Rejected.** That is annotation alongside the theory, not theory itself.
+
+Current mechanism: when a `theory_extension` candidate has `cross_chapter_unification = 2` (cites ≥3 leanchecked names from ≥3 chapters AND the conclusion is an equivalence/iff/bridge), it gets absolute priority over ordinary candidates. Its `paper_files[0]` lands in `papers/bedc/parts/capstones/`. The bridge theorem is itself a Lean theorem, not a prose paragraph.
+
+```latex
+\section{Continuation as Category Morphism}
+\begin{theorem}[Hom carrier as restricted continuation]
+\label{thm:capstone-hom-cont}
+For all histories $a, b, f$,
+$$
+  \mathsf{CategoryHomCarrier}(a, b, f)
+  \iff
+  \mathsf{UnaryHistory}(a) \land \mathsf{UnaryHistory}(b)
+  \land \mathsf{UnaryHistory}(f) \land \mathsf{Cont}(a, f, b).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_iff\_unary\_cont}
+```
+
+Reflection becomes formalisation. AI synthesis becomes Lean theorem. The bridge is verifiable, not just narratively claimed.
+
+## What the methodology generalises to
+
+The pattern that extracted from BEDC is not BEDC-specific. We think it applies to any project where:
+
+- A human defines a *kernel* with strong invariants (no axioms, mathlib-free, `axiom-purity`, etc).
+- An AI agent is asked to do bulk formalisation against that kernel.
+- The kernel's invariants are mechanical (`#print axioms`, `lake build`, etc).
+- A small human review loop catches the cases where the agent's output is technically valid but architecturally noisy (parameter echo, saturated shapes, etc).
+
+The recipe:
+
+1. **Mechanical floor**: kernel + audits + Phase D lints. Without these, the AI can produce arbitrary slop and you cannot detect it.
+2. **Critical-path scheduling**: do not let the AI choose what to work on by local greed. Force selection through a global function (downstream impact / scarcity / deps-readiness). The AI is good at execution; bad at strategic prioritisation.
+3. **Schema-only diagnosis**: when the AI keeps failing in one area, the cause is often upstream in the spec, not downstream in the agent.
+4. **Capstones, not annotations**: when the AI produces synthesis observations, formalise them as theorems, not prose. Otherwise they decay into commentary.
+5. **Human as architect, not reviewer**: the human's job is to set invariants, name unifications, and tighten the harness. Not to peer-review proofs (the audits do that).
+
+## What this is *not*
+
+This is not a claim that AI will replace mathematicians. The architectural decisions in BEDC — `inductive BHist | Empty | e0 | e1`, the `axiom-purity` invariant, the schema-only diagnosis, the recognition of `Hom = Cont` as a unification — were all made by a human. The AI does the bulk of the formalisation work, but the *direction* is human.
+
+This is also not a claim that the harness is finished. We expect another five iterations of upgrades before it stabilises. Each upgrade so far has been driven by a specific failure mode, and there are failure modes we have not yet hit (e.g. capstone-bridge slop is still untested in volume).
+
+This *is* a claim that, with a 250-line Python harness and ~1500 lines of prompt, one human can supervise an AI agent producing 1837 mechanically verified theorems across 38 chapters of foundational mathematics in 72 hours. That number is real. The bottleneck is not AI capability; it is the human's ability to architect invariants and name unifications.
+
+```{=html}
+<div class="cta-choices">
+  <a href="index.qmd"><strong>← Back to the main story</strong><br/>What BEDC is, what happened in 72 hours, and the five surprises that came out of the AI-driven formalisation.</a>
+  <a href="default-failure-modes.qmd"><strong>Default Failure Modes →</strong><br/>The cognitive shape underneath the failures the harness was built to absorb — what AI agents produce when nothing pushes back.</a>
+  <a href="distinction-as-foundation.qmd"><strong>Distinction as Foundation →</strong><br/>The philosophical position: why we think e0/e1 is more primitive than sets, types, or categories.</a>
+</div>
+```
+
+— *The Omega Institute*

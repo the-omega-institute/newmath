@@ -223,6 +223,24 @@ transport through symmetry for the right clause.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerChain\_envelope\_closure}
 
+\begin{theorem}[Product ledger chain shared-raw visible classifier]
+\label{thm:prod-history-ledger-chain-shared-raw-visible-classifier}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
+$\rho,z,z':\mathsf{BHist}$. If both
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$ and
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z')$ hold, then
+$\mathsf{ProdHistoryClassifier}(L,R,z,z')$ holds.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:prod-ledger-chain-envelope-closure} to both ledger chains.
+The first envelope gives
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,z)$ and the second gives
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,z')$. Reverse the first classifier by
+product classifier symmetry, then compose it with the second classifier by
+product classifier transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerChain\_shared\_raw\_visible\_classifier}
+
 \begin{theorem}[Product ledger chain displayed component readback]
 \label{thm:prod-ledger-chain-displayed-component-readback}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
