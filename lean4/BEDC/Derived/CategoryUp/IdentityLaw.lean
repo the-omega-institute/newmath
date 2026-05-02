@@ -66,4 +66,43 @@ theorem CategoryHomCarrier_comp_left_right_identity_result {a b idA idB f left b
     CategoryHomCarrier_right_identity_carrier_result rightIdentity leftResult.left rightRel
   exact And.intro bothResult.left (hsame_trans bothResult.right leftResult.right)
 
+theorem CategoryHomCarrier_comp_middle_identity_result {a b c f id g fid result fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b b id -> CategoryHomCarrier b c g ->
+      Cont f id fid -> Cont fid g result -> Cont f g fg ->
+        CategoryHomCarrier a c result ∧ CategoryHomCarrier a c fg ∧ hsame result fg := by
+  intro left identity right fidRel resultRel fgRel
+  have fidResult :
+      CategoryHomCarrier a b fid ∧ hsame fid f :=
+    CategoryHomCarrier_right_identity_carrier_result identity left fidRel
+  have resultCarrier : CategoryHomCarrier a c result :=
+    CategoryHomCarrier_comp_closed fidResult.left right resultRel
+  have fgCarrier : CategoryHomCarrier a c fg :=
+    CategoryHomCarrier_comp_closed left right fgRel
+  have sameResult : hsame result fg :=
+    cont_respects_hsame fidResult.right (hsame_refl g) resultRel fgRel
+  exact And.intro resultCarrier (And.intro fgCarrier sameResult)
+
+theorem ContinuationMorphism_comp_middle_identity_tail_result {a b c : BHist}
+    (left : ContinuationMorphism a b) (identity : ContinuationMorphism b b)
+    (right : ContinuationMorphism b c) :
+    hsame identity.tail BHist.Empty ∧
+      hsame (ContinuationMorphism_comp_closed (ContinuationMorphism_comp_closed left identity) right).tail
+        (ContinuationMorphism_comp_closed left right).tail := by
+  constructor
+  · cases identity with
+    | mk identityTail identityRel =>
+        exact cont_left_cancel identityRel (cont_right_unit b)
+  · cases left with
+    | mk leftTail leftRel =>
+        cases identity with
+        | mk identityTail identityRel =>
+            cases right with
+            | mk rightTail rightRel =>
+                have identityTailEmptyLocal : hsame identityTail BHist.Empty :=
+                  cont_left_cancel identityRel (cont_right_unit b)
+                have collapsedMiddle : hsame (append leftTail identityTail) leftTail :=
+                  hsame_trans (congrArg (append leftTail) identityTailEmptyLocal)
+                    (append_empty_right leftTail)
+                exact congrArg (fun tail => append tail rightTail) collapsedMiddle
+
 end BEDC.Derived.CategoryUp

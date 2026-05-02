@@ -396,3 +396,47 @@ $\HSame(both,left)$. Transitivity with $\HSame(left,f)$ yields the displayed
 result equality.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_right\_identity\_result}
+
+\begin{theorem}[Category hom carrier composite middle identity result]
+\label{thm:category-hom-carrier-comp-middle-identity-result}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\mathsf{CategoryHomCarrier}(b,b,id)$,
+$\mathsf{CategoryHomCarrier}(b,c,g)$,
+$\ContR(f,id,fid)$, $\ContR(fid,g,result)$, and $\ContR(f,g,fg)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,c,result)\wedge
+\mathsf{CategoryHomCarrier}(a,c,fg)\wedge\HSame(result,fg).
+$$
+\end{theorem}
+\begin{proof}
+Apply the right identity carrier result to $\ContR(f,id,fid)$, obtaining
+$\mathsf{CategoryHomCarrier}(a,b,fid)$ and $\HSame(fid,f)$. Composition
+closure with the right hom-carrier gives the displayed carrier for $result$,
+while direct composition closure gives the displayed carrier for $fg$.
+The two continuation witnesses have history-same left tails and the same
+right tail $g$, so continuation result respect for $\hsame$ gives
+$\HSame(result,fg)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_identity\_result}
+
+\begin{theorem}[Continuation morphism composite middle identity tail result]
+\label{thm:continuation-morphism-comp-middle-identity-tail-result}
+For continuation morphisms $left:a\to b$, $identity:b\to b$, and
+$right:b\to c$, the middle identity tail is empty, and inserting it between
+$left$ and $right$ leaves the composite tail history-same to the direct
+composite:
+$$
+\HSame(identity.tail,\emp)\wedge
+\HSame((left\circ identity)\circ right,\; left\circ right).
+$$
+\end{theorem}
+\begin{proof}
+Compare $identity$ with the canonical empty continuation morphism at $b$ by
+tail determinacy, giving $\HSame(identity.tail,\emp)$. Unfolding the two
+composite tails reduces the comparison to append histories. The middle tail
+is transported to $\emp$, and the right-unit law
+$\mathsf{append}(left.tail,\emp)\hsame left.tail$ collapses the displayed
+middle factor.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_middle\_identity\_tail\_result}
