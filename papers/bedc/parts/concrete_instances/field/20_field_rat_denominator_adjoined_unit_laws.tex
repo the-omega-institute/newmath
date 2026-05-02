@@ -20,6 +20,50 @@ $$
 \leandef{BEDC.Derived.FieldUp.RatDenomUnitCarrier}
 \leandef{BEDC.Derived.FieldUp.RatDenomUnitClassifier}
 
+\begin{theorem}[Rat denominator unit carrier stability package]
+\label{thm:rat-denom-unit-carrier-stability-package}
+For histories $h,k,r,h':\mathsf{BHist}$, the concrete denominator unit carrier
+has the following two stability closures.
+\begin{enumerate}
+\item If $h\hsame h'$ and $\mathsf{RatDenomUnitCarrier}(h)$, then
+$\mathsf{RatDenomUnitCarrier}(h')$.
+\item If $\mathsf{RatDenomUnitCarrier}(h)$,
+$\mathsf{RatDenomUnitCarrier}(k)$, and $\Cont(h,k,r)$, then
+$\mathsf{RatDenomUnitCarrier}(r)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For transport, split the carrier disjunction for $h$. In the empty branch,
+compose $h\hsame h'$ with the displayed comparison $h\hsame\emp$ and symmetry
+or transitivity of $\hsame$ to obtain $h'\hsame\emp$. This selects the empty
+branch of $\mathsf{RatDenomUnitCarrier}(h')$.
+
+In the Rat branch, apply Rat carrier transport along the $\hsame$ comparison
+from $h$ to $h'$. The resulting $\mathsf{RatHistoryCarrier}(h')$ witness selects
+the Rat branch of the denominator unit carrier.
+
+For continuation closure, split the two input carriers. The empty/empty case
+uses the two continuation unit laws to identify the result with $\emp$, hence
+the result lies in the empty branch. In the two mixed cases, the corresponding
+unit law identifies the continuation result with the nonempty input; use
+$\mathsf{cont\_respects\_hsame}$ and Rat carrier transport to move the Rat
+carrier witness to $r$.
+
+In the Rat/Rat case, apply the Rat denominator continuation carrier-closure
+theorem directly. The resulting $\mathsf{RatHistoryCarrier}(r)$ witness selects
+the Rat branch of $\mathsf{RatDenomUnitCarrier}(r)$.
+\end{proof}
+
+The per-object certificate has ten fields: traditional target carrier stability
+for the denominator unit fragment; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatHistoryCarrier}$, and $\Cont$; carrier
+$\mathsf{RatDenomUnitCarrier}$; classifier
+$\mathsf{RatDenomUnitClassifier}$; stability obligations transport and
+continuation closure; ledger continuation witnesses; core theorem
+Theorem~\ref{thm:rat-denom-unit-carrier-stability-package}; exactness predicate
+preservation of admitted endpoints; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rat denominator unit carrier nonempty endpoint exactness]
 \label{thm:rat-denom-unit-carrier-nonempty-rat}
 For every history $h$, if $\mathsf{RatDenomUnitCarrier}(h)$ holds and
