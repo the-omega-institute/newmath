@@ -29,6 +29,19 @@ theorem CategoryHomCarrier_comp_right_factor_endpoint_deterministic {a b b' c f 
     CategoryHomCarrier_source_deterministic transportedRight right'
   exact And.intro sameSource sameG
 
+theorem CategoryHomCarrier_comp_right_factor_target_deterministic {a b c c' f g g' fg : BHist} :
+    CategoryHomCarrier a b f -> Cont f g fg -> CategoryHomCarrier a c fg ->
+      Cont f g' fg -> CategoryHomCarrier b c' g' -> hsame c c' ∧ hsame g g' := by
+  intro left comp displayed comp' right'
+  have right : CategoryHomCarrier b c g :=
+    CategoryHomCarrier_comp_right_factor left comp displayed
+  have sameG : hsame g g' := cont_left_cancel comp comp'
+  have transportedRight : CategoryHomCarrier b c g' :=
+    CategoryHomCarrier_hsame_transport (hsame_refl b) (hsame_refl c) sameG right
+  have sameTarget : hsame c c' :=
+    CategoryHomCarrier_target_deterministic transportedRight right'
+  exact And.intro sameTarget sameG
+
 theorem CategoryHomCarrier_comp_left_factor_endpoint_deterministic {a b b' c f f' g fg : BHist} :
     CategoryHomCarrier b c g -> Cont f g fg -> CategoryHomCarrier a c fg ->
       Cont f' g fg -> CategoryHomCarrier a b' f' -> hsame b b' ∧ hsame f f' := by
@@ -52,5 +65,18 @@ theorem CategoryHomCarrier_comp_result_hsame_congruence {a b c f g f' g' fg fg' 
   have composite' : CategoryHomCarrier a c fg' :=
     CategoryHomCarrier_comp_closed left' right' comp'
   exact CategoryHomCarrier_morphism_deterministic composite composite'
+
+theorem CategoryHomCarrier_comp_left_factor_source_deterministic {a a' b c f f' g fg : BHist} :
+    CategoryHomCarrier b c g -> Cont f g fg -> CategoryHomCarrier a c fg ->
+      Cont f' g fg -> CategoryHomCarrier a' b f' -> hsame a a' ∧ hsame f f' := by
+  intro right comp displayed comp' left'
+  have left : CategoryHomCarrier a b f :=
+    CategoryHomCarrier_comp_left_factor right comp displayed
+  have sameF : hsame f f' := cont_right_cancel comp comp'
+  have transportedLeft : CategoryHomCarrier a b f' :=
+    CategoryHomCarrier_hsame_transport (hsame_refl a) (hsame_refl b) sameF left
+  have sameSource : hsame a a' :=
+    CategoryHomCarrier_source_deterministic transportedLeft left'
+  exact And.intro sameSource sameF
 
 end BEDC.Derived.CategoryUp

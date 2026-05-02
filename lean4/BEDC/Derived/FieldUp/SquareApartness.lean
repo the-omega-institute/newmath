@@ -1,4 +1,5 @@
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldUp.SignedFactor
 
 namespace BEDC.Derived.FieldUp
 
@@ -74,5 +75,42 @@ theorem field_square_zero_rejects_factor_nonzero
     exact nonzeroEmptyAbsurd (nonzeroTransport factorEmpty nonzeroA)
   · intro squareApart
     exact squareApart squareZero
+
+theorem field_square_nonzero_one_sided_mul_exact
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    (nonzeroTransport : forall {a b : BHist}, hsame a b -> NonZero a -> NonZero b)
+    (nonzeroEmptyAbsurd : NonZero BHist.Empty -> False)
+    (apartToNonzero : forall {h : BHist}, (hsame h BHist.Empty -> False) -> NonZero h)
+    {a c x : BHist} (pSquare : NonZero (mul a a)) :
+    let pa := apartToNonzero (field_product_nonzero_excludes_zero_factors addAssoc
+      zeroLeft negLeft addCongr mulCongr leftDistrib rightDistrib nonzeroTransport
+      nonzeroEmptyAbsurd (a := a) (b := a) pSquare).left
+    (hsame (mul a x) c ↔ hsame x (mul (inv a pa) c)) ∧
+      (hsame (mul x a) c ↔ hsame x (mul c (inv a pa))) := by
+  let pa := apartToNonzero (field_product_nonzero_excludes_zero_factors addAssoc
+    zeroLeft negLeft addCongr mulCongr leftDistrib rightDistrib nonzeroTransport
+    nonzeroEmptyAbsurd (a := a) (b := a) pSquare).left
+  constructor
+  · exact field_left_mul_equation_exact_from_apartness
+      assocC leftId mulCongr leftInv rightInv pa
+  · exact field_right_mul_equation_exact_from_apartness
+      assocC rightId mulCongr leftInv rightInv pa
 
 end BEDC.Derived.FieldUp
