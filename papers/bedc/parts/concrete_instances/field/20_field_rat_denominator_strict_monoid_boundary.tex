@@ -1,0 +1,78 @@
+\section{Rat denominator strict monoid boundary}
+\label{sec:field-rat-denominator-strict-monoid-boundary}
+
+\begin{theorem}[Rat denominator strict monoid boundary package]
+\label{thm:field-rat-denominator-envelope-strict-monoid-boundary}
+For the concrete carried denominator data $(C_D,R_D,\mu_D)$ of
+\autoref{def:field-rat-denominator-concrete-continuation-instance}, the
+external-unit envelope $(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$ of
+\autoref{def:field-rat-denominator-unit-envelope}, and the empty-unit tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u)$ of
+\autoref{def:field-rat-denominator-empty-unit-continuation-monoid-instance},
+the denominator boundary consumed by $\FieldUp(\mathsf{RatUp})$ has the
+following concrete role.
+\begin{enumerate}
+  \item The envelope supplies the concrete $\MonoidUp$ naming certificate for
+  the unit-bearing denominator fragment.
+  \item On carried inputs, the envelope restricts exactly to $C_D$, $R_D$, and
+  native append through $\mu_D$.
+  \item The endpoint $e_D^\ast$ is carried by $C_D^\ast$ but not by $C_D$, and
+  no $C_D$ endpoint is classified with $e_D^\ast$ by $R_D^\ast$ on either
+  side.
+  \item The empty-unit classifier $R_D^u$ has no mixed carried-empty endpoint
+  branch.
+  \item Every envelope-carried one-sided unit endpoint is classified with
+  $e_D^\ast$ by $R_D^\ast$, while every carried denominator one-sided unit law
+  for $C_D$, $R_D$, and $\mu_D$ is impossible.
+\end{enumerate}
+Thus the exported monoid object is the strict external-unit envelope, and the
+carried Rat denominator multiplication remains a unitless carried semigroup at
+the $\FieldUp(\mathsf{RatUp})$ boundary.
+\end{theorem}
+\begin{proof}
+The exported $\MonoidUp$ naming certificate is exactly
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-namecert}. Its
+certificate fields are supplied by the envelope laws collected in
+\autoref{thm:field-rat-denominator-unit-envelope-certificate}.
+
+The carried restriction and strict externality are read from
+\autoref{thm:field-rat-denominator-unit-envelope-strict}. This theorem gives
+the recovery of $C_D$, $R_D$, and native append on carried inputs, records
+$C_D^\ast(e_D^\ast)$ with $\neg C_D(e_D^\ast)$, and excludes
+$R_D^\ast$-classification between any carried endpoint and $e_D^\ast$ on both
+sides.
+
+The empty-unit tuple has no mixed carried-empty classifier branch by
+\autoref{thm:field-rat-denominator-unit-envelope-mixed-endpoint-separation}.
+That separation is the boundary check preventing the adjoined unit clause from
+classifying a carried denominator endpoint against an empty endpoint.
+
+For uniqueness of an envelope-carried one-sided unit, apply
+\autoref{thm:field-rat-denominator-unit-envelope-unit-unique}. It sends either
+one-sided envelope unit law to the classifier comparison with $e_D^\ast$.
+
+Finally, the carried semigroup role and the carried-unit obstruction are the
+denominator-side clauses of
+\autoref{thm:field-rat-denominator-concrete-external-unit-package}. Together
+these cited packages show that $\FieldUp(\mathsf{RatUp})$ uses the
+unit-bearing $\MonoidUp$ certificate only at the envelope layer, while the
+native carried denominator fragment keeps exactly its strict unitless
+boundary.
+\end{proof}
+
+\textbf{Traditional target}: denominator monoid boundary for
+$\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, $\Cont$,
+$\mathsf{append}$, $\emp$, and $\mathsf{RatHistoryLedgerPolicy}$;
+\textbf{carrier choice}: $C_D^\ast$ for the exported monoid envelope and
+$C_D$ for the carried denominator fragment; \textbf{classifier choice}:
+$R_D^\ast$ for the envelope boundary, $R_D$ on carried inputs, and $R_D^u$ for
+empty-unit endpoint separation; \textbf{stability obligation}: $\MonoidUp$
+certificate laws, carried restriction, strict endpoint externality,
+mixed-endpoint separation, envelope unit uniqueness, and carried-unit
+obstruction; \textbf{ledger}: the Rat denominator continuation ledger together
+with the external-unit bit; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-envelope-strict-monoid-boundary};
+\textbf{exactness predicate}: the strict restriction of the envelope to
+$(C_D,R_D,\mu_D)$ and the absence of carried one-sided units;
+\textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
