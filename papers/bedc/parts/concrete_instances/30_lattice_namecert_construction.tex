@@ -262,3 +262,125 @@ The inherited antisymmetry field from \autoref{def:poset-stability-certificate} 
   x\vee y\sim_C y\vee x .
 \]
 \end{proof}
+
+\begin{theorem}[Lattice opposite absorption from directional bounds]
+\label{thm:lattice-opposite-absorption-from-directional-bounds}
+Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\). Assume the inherited preorder reflexivity field, the inherited \(\POSetUp\) antisymmetry field, and the directional meet and join bound-characterization fields from \autoref{def:lattice-stability-certificate}. Then for all \(x,y\in A\),
+\[
+  x\wedge(y\vee x)\sim_C x,\qquad
+  (x\vee y)\wedge x\sim_C x,\qquad
+  x\vee(y\wedge x)\sim_C x,\qquad
+  (x\wedge y)\vee x\sim_C x .
+\]
+\end{theorem}
+\begin{proof}
+The inherited reflexivity field is the preorder reflexivity component of \autoref{def:preorder-stability-certificate}; the inherited classifier collapse is the antisymmetry component of \autoref{def:poset-stability-certificate}. The meet and join directional fields are those listed in \autoref{def:lattice-stability-certificate}.
+
+For \(x\wedge(y\vee x)\), the meet lower-left field gives
+\[
+  x\wedge(y\vee x)\le x .
+\]
+The inherited preorder reflexivity field gives
+\[
+  x\le x .
+\]
+The join upper-right field applied to \(y\vee x\) gives
+\[
+  x\le y\vee x .
+\]
+Applying meet greatestness with \(z=x\), \(a=x\), and \(b=y\vee x\), using the two comparisons above, gives
+\[
+  x\le x\wedge(y\vee x) .
+\]
+Antisymmetry from \autoref{def:poset-stability-certificate} applied to
+\[
+  x\wedge(y\vee x)\le x
+  \qquad\text{and}\qquad
+  x\le x\wedge(y\vee x)
+\]
+yields
+\[
+  x\wedge(y\vee x)\sim_C x .
+\]
+
+For \((x\vee y)\wedge x\), the meet lower-right field gives
+\[
+  (x\vee y)\wedge x\le x .
+\]
+The join upper-left field gives
+\[
+  x\le x\vee y .
+\]
+The inherited preorder reflexivity field gives
+\[
+  x\le x .
+\]
+Applying meet greatestness with \(z=x\), \(a=x\vee y\), and \(b=x\), using these two comparisons, gives
+\[
+  x\le (x\vee y)\wedge x .
+\]
+Antisymmetry applied to
+\[
+  (x\vee y)\wedge x\le x
+  \qquad\text{and}\qquad
+  x\le (x\vee y)\wedge x
+\]
+yields
+\[
+  (x\vee y)\wedge x\sim_C x .
+\]
+
+For \(x\vee(y\wedge x)\), the join upper-left field gives
+\[
+  x\le x\vee(y\wedge x) .
+\]
+The inherited preorder reflexivity field gives
+\[
+  x\le x .
+\]
+The meet lower-right field applied to \(y\wedge x\) gives
+\[
+  y\wedge x\le x .
+\]
+Applying join leastness with \(z=x\), \(a=x\), and \(b=y\wedge x\), using the two comparisons above, gives
+\[
+  x\vee(y\wedge x)\le x .
+\]
+Antisymmetry applied to
+\[
+  x\vee(y\wedge x)\le x
+  \qquad\text{and}\qquad
+  x\le x\vee(y\wedge x)
+\]
+yields
+\[
+  x\vee(y\wedge x)\sim_C x .
+\]
+
+For \((x\wedge y)\vee x\), the join upper-right field gives
+\[
+  x\le (x\wedge y)\vee x .
+\]
+The meet lower-left field gives
+\[
+  x\wedge y\le x .
+\]
+The inherited preorder reflexivity field gives
+\[
+  x\le x .
+\]
+Applying join leastness with \(z=x\), \(a=x\wedge y\), and \(b=x\), using these two comparisons, gives
+\[
+  (x\wedge y)\vee x\le x .
+\]
+Antisymmetry applied to
+\[
+  (x\wedge y)\vee x\le x
+  \qquad\text{and}\qquad
+  x\le (x\wedge y)\vee x
+\]
+yields
+\[
+  (x\wedge y)\vee x\sim_C x .
+\]
+\end{proof}
