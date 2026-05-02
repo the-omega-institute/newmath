@@ -27,6 +27,30 @@ The stability certificate consists of:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Compact net witness semantic name certificate]
+\label{thm:compact-net-witness-semantic-namecert}
+For unary histories $c$ and $\epsilon$, the compact-net witness predicate
+$\mathsf{CompactNetWitness}(c,\epsilon,-)$ carries a semantic name certificate
+with source, pattern, and ledger all equal to that concrete witness predicate,
+and classifier $\hsame$:
+$$
+\mathsf{SemanticNameCert}
+(\mathsf{CompactNetWitness}(c,\epsilon,-),
+ \mathsf{CompactNetWitness}(c,\epsilon,-),
+ \mathsf{CompactNetWitness}(c,\epsilon,-),
+ \hsame).
+$$
+\end{theorem}
+\begin{proof}
+The carrier witness is the concrete history $c\cdot\epsilon$. Unary append
+closure supplies its unary carrier, and the continuation ledger is
+$c\cdot\epsilon=c\cdot\epsilon$. The classifier fields are the reflexive,
+symmetric, and transitive laws of $\hsame$, with carrier transport by equality
+case analysis. Pattern and ledger soundness are the identity projections
+because all three semantic predicates are the compact-net witness predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_semanticNameCert}
+
 \begin{theorem}[Compact net witness prefix closure]
 \label{thm:compact-net-witness-prefix-closed}
 For unary histories $p,c,\epsilon,n$, if $n$ is a compact net witness obtained

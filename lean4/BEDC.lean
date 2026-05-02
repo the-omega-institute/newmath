@@ -109,6 +109,7 @@ import BEDC.Derived.OptionUp.SuffixClosure
 import BEDC.Derived.OptionUp.PresentChainEndpointClassification
 import BEDC.Derived.OptionUp.SourceTransportAbsurd
 import BEDC.Derived.OptionUp.CrossAbsentSourceExclusion
+import BEDC.Derived.OptionUp.CommonLeftVisiblePayload
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.LedgerEndpoint
@@ -158,6 +159,7 @@ import BEDC.Derived.CompactUp.InitialEndpointsUnary
 import BEDC.Derived.CompactUp.PrefixedCompositeMiddle
 import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
+import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp

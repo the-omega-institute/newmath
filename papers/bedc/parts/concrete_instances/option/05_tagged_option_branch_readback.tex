@@ -277,6 +277,41 @@ exactness is precisely $a\sim_S b$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_presented\_payload\_exactness}
 
+\begin{theorem}[Tagged option common-left visible payload classification]
+\label{thm:tagged-option-history-classifier-common-left-visible-payload-classification}
+For every source carrier $S:\mathsf{BHist}\to\mathsf{Prop}$ and source
+classifier $\sim_S$, assume $\sim_S$ is symmetric and transitive, and assume
+that $\hsame$ between source histories classified by $S$ implies $\sim_S$.
+If two tagged option classifier witnesses share the same left endpoint,
+$$
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k),
+\qquad
+\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,r),
+$$
+and the three visible endpoints expose source payloads
+$$
+S(a),\quad S(b),\quad S(c),\qquad
+\hsame(h,\Eone(a)),\quad
+\hsame(k,\Eone(b)),\quad
+\hsame(r,\Eone(c)),
+$$
+then the two right visible payloads are classified:
+$$
+b\sim_S c.
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze the two tagged option classifier witnesses. Any absent branch
+contradicts the visible left endpoint $\hsame(h,\Eone(a))$. In the
+present-present case, the first classifier relates its exposed payloads and
+the second classifier relates its exposed payloads. Constructor inversion for
+the visible endpoints identifies the exposed left payloads with $a$ and the
+right payloads with $b$ and $c$. Compatibility converts these $\hsame$
+identifications into source classification, and symmetry plus transitivity
+compose the chain $b\sim_S a\sim_S c$.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_common\_left\_visible\_payload\_classification}
+
 \begin{theorem}[Tagged option present payload determinism]
 \label{thm:tagged-option-history-present-payload-determinism}
 This theorem fits the per-object template as follows: the traditional target is
