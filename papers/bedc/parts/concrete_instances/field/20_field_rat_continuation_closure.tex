@@ -165,10 +165,12 @@ exactly $\mathsf{RatHistoryLedgerPolicy}(r,s)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatHistoryLedgerPolicy\_continuation\_closed}
 
-\begin{theorem}[Rat denominator continuation has external empty-history endpoint laws and associativity]
-\label{thm:field-rat-denominator-continuation-empty-identity-and-assoc}
-Rat denominator continuation satisfies the following endpoint-classifier laws:
+\begin{theorem}[Rat denominator continuation external boundary and associativity laws]
+\label{thm:field-rat-denominator-continuation-external-boundary-laws}
+Rat denominator continuation satisfies the following external
+endpoint-classifier laws:
 \begin{enumerate}
+  \item $\mathsf{RatHistoryCarrier}(\emp)\to\mathsf{False}$;
   \item for all histories $d,r:\mathsf{BHist}$, if
   $\mathsf{RatHistoryCarrier}(d)$ and $\Cont(d,\emp,r)$, then
   $\mathsf{RatHistoryClassifier}(r,d)$;
@@ -183,13 +185,18 @@ Rat denominator continuation satisfies the following endpoint-classifier laws:
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-For the right empty-history law, apply the continuation right-unit result
+For the carrier boundary, assume $\mathsf{RatHistoryCarrier}(\emp)$.
+Reflexivity of $\hsame$ at $\emp$ gives $\hsame(\emp,\emp)$. Applying
+\autoref{thm:rat-history-carrier-not-empty} to these two witnesses yields
+$\mathsf{False}$.
+
+For the right external-boundary law, apply the continuation right-unit result
 theorem to $\Cont(d,\emp,r)$. It supplies the $\hsame$ link from the displayed
 result back to $d$. Transport the given rational-history carrier along that
 link to get the carrier at $r$, then combine the two endpoint carriers with the
 same $\hsame$ link to form $\mathsf{RatHistoryClassifier}(r,d)$.
 
-For the left empty-history law, use the continuation left-unit result theorem
+For the left external-boundary law, use the continuation left-unit result theorem
 on $\Cont(\emp,d,s)$. The same carrier transport step gives
 $\mathsf{RatHistoryCarrier}(s)$, and the resulting $\hsame$ link classifies
 $s$ against $d$.
@@ -266,9 +273,9 @@ $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$ plus $\Cont$; \textbf{carrier choice}: Rat
 denominators; \textbf{classifier choice}: Rat history classifier;
 \textbf{stability obligation}: continuation-result carrier, classifier, and
-ledger transport, external empty-history endpoint laws, associativity coherence,
-commutativity coherence, and classifier-compatible associative continuation-result
-coherence;
+ledger transport, external empty-history boundary laws separated from carrier
+inhabitance, associativity coherence, commutativity coherence, and
+classifier-compatible associative continuation-result coherence;
 \textbf{ledger}: the right denominator's positive-unary witness and the
 matching continuation witnesses; \textbf{core theorems}:
 \autoref{thm:field-rat-denominator-continuation-carrier-closure},
@@ -276,7 +283,7 @@ matching continuation witnesses; \textbf{core theorems}:
 \autoref{thm:field-rat-denominator-continuation-commutative-classifier},
 \autoref{thm:field-rat-denominator-continuation-classifier-closure},
 \autoref{thm:field-rat-denominator-continuation-ledger-closure},
-\autoref{thm:field-rat-denominator-continuation-empty-identity-and-assoc},
+\autoref{thm:field-rat-denominator-continuation-external-boundary-laws},
 \autoref{thm:field-rat-denominator-continuation-associative-classifier-congruence}, and
 \autoref{thm:field-rat-denominator-continuation-semigroup-only};
 \textbf{exactness predicate}: carrier closure for the concrete denominator
