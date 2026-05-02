@@ -12,6 +12,17 @@ theorem ContinuationMorphism_empty_target_inversion {source : BHist}
   | mk tail rel =>
       exact cont_empty_result_inversion rel
 
+theorem CategoryHomCarrier_empty_target_chain_inversion {a b f g : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b BHist.Empty g ->
+      hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame f BHist.Empty ∧
+        hsame g BHist.Empty := by
+  intro left right
+  have rightEmpty := CategoryHomCarrier_empty_target_iff.mp right
+  have transportedLeft : CategoryHomCarrier a BHist.Empty f :=
+    CategoryHomCarrier_hsame_transport (hsame_refl a) rightEmpty.left (hsame_refl f) left
+  have leftEmpty := CategoryHomCarrier_empty_target_iff.mp transportedLeft
+  exact ⟨leftEmpty.left, rightEmpty.left, leftEmpty.right, rightEmpty.right⟩
+
 theorem ContinuationMorphism_visible_source_empty_target_absurd {a : BHist} :
     (ContinuationMorphism (BHist.e0 a) BHist.Empty -> False) ∧
       (ContinuationMorphism (BHist.e1 a) BHist.Empty -> False) := by

@@ -144,6 +144,26 @@ both alternatives are impossible.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_visible\_head\_absurd}
 
+\begin{theorem}[Field singleton carrier visible-tail append exclusion]
+\label{thm:field-singleton-carrier-append-visible-tail-absurd}
+For histories $p,q:\mathsf{BHist}$, neither singleton carrier endpoint
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(p,\mathsf{e0}(q)))
+$$
+nor
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(p,\mathsf{e1}(q)))
+$$
+can hold.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed append
+history with $\emp$. Empty-result inversion for append then identifies the
+visible tail $\mathsf{e0}(q)$ or $\mathsf{e1}(q)$ with $\emp$. Constructor
+separation for generated histories rules out both visible tails.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_visible\_tail\_absurd}
+
 \begin{definition}[Classifier-complement singleton nonzero domain]
 \label{def:field-singleton-empty-nonzero}
 For the same singleton carrier and classifier, define
