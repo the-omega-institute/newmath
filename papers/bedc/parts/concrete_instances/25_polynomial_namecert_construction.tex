@@ -95,93 +95,81 @@ reflexivity of $\hsame$ gives the classifier witness.
 Use finite coefficient lists over a scalar ring, normalized by removing trailing zero coefficients.
 \end{definition}
 
-\section{Concrete singleton polynomial instance}
-\label{sec:polynomial-concrete-singleton-instance}
+\section{Concrete singleton history polynomial instance}
+\label{sec:polynomial-concrete-singleton-history-instance}
 
-\begin{definition}[Singleton empty-history polynomial instance]
-\label{def:singleton-empty-history-polynomial-instance}
-Let the polynomial-code carrier be
+\begin{definition}[Concrete singleton history polynomial instance]
+\label{def:concrete-singleton-history-polynomial-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define
 $$
-P_{\emp}(p)\Longleftrightarrow\hsame(p,\emp).
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
 $$
-Define the polynomial classifier by
+Set the polynomial code carrier to $A_{\emp}$ on $\mathsf{BHist}$. Define the
+displayed polynomial operations by
 $$
-\pi_{\emp}(p,q):=P_{\emp}(p)\land P_{\emp}(q)\land\hsame(p,q).
-$$
-Take the scalar ring from
-Definition~\ref{def:singleton-empty-history-ring-instance}. Define
-normalization, zero, addition, and multiplication by
-$$
-\mathsf{norm}_{\emp}(p):=\emp,\qquad
+\mathsf{normalize}_P(h):=\emp,\qquad
 0_P:=\emp,\qquad
-\mathsf{polyAdd}_{\emp}(p,q):=\emp,\qquad
-\mathsf{polyMul}_{\emp}(p,q):=\emp.
+1_P:=\emp,\qquad
+\mathsf{add}_P(f,g):=\emp,\qquad
+\mathsf{mul}_P(f,g):=\emp.
 $$
-The ten certificate fields are:
-\begin{enumerate}
-  \item traditional target: the one-element polynomial algebra;
-  \item BEDC source: $\mathsf{BHist}$;
-  \item carrier: $P_{\emp}$;
-  \item classifier: $\pi_{\emp}$;
-  \item stability obligations: normalization idempotence, addition closure,
-  multiplication closure, addition congruence, and multiplication congruence;
-  \item ledger: singleton polynomial-code provenance;
-  \item core theorem: Theorem~\ref{thm:singleton-empty-history-polynomial-laws};
-  \item exactness: singleton endpoint classification;
-  \item standard bridge: terminal polynomial algebra;
-  \item status: $\mathsf{ProofTarget}$.
-\end{enumerate}
+The ledger is the empty normalized coefficient list over the singleton
+empty-history ring of Definition~\ref{def:singleton-empty-history-ring-instance}.
 \end{definition}
 
-\begin{theorem}[Singleton empty-history polynomial laws]
+\begin{theorem}[Singleton history polynomial laws]
 \label{thm:singleton-empty-history-polynomial-laws}
 The tuple
 $$
-(P_{\emp},\pi_{\emp},\mathsf{norm}_{\emp},
-0_P,\mathsf{polyAdd}_{\emp},\mathsf{polyMul}_{\emp})
+(A_{\emp},\rho_{\emp},\mathsf{normalize}_P,
+0_P,1_P,\mathsf{add}_P,\mathsf{mul}_P)
 $$
-satisfies carrier inhabitance, classifier reflexivity, classifier symmetry,
-classifier transitivity, normalization closure and idempotence, zero
-representation, addition closure and congruence, multiplication closure and
-congruence, and compatibility with the singleton scalar ring.
+satisfies the $\PolynomialUp$ law package over $\mathsf{BHist}$: normalization
+closure, normalization idempotence, zero and one closure, addition and
+multiplication closure, additive zero laws, multiplicative zero laws,
+multiplicative one laws, associativity, distributivity, and congruence under
+$\rho_{\emp}$.
 \end{theorem}
 \begin{proof}
-Carrier inhabitance is the reflexive endpoint witness $\hsame(\emp,\emp)$,
-which gives $P_{\emp}(\emp)$. Definition~\ref{def:list-singleton-history-source}
-at $a_0=\emp$ supplies the same singleton endpoint fact used by the scalar
-ring carrier.
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$ supplies the
+singleton source witness $A_{\emp}(\emp)$. The same endpoint is the scalar
+zero and scalar unit carrier supplied by
+Theorem~\ref{thm:singleton-empty-history-ring-laws}.
 
-Classifier reflexivity uses the displayed carrier witness for the input and
-the reflexive $\hsame$ relation. Classifier symmetry and transitivity are
-assembled from the corresponding symmetry and transitivity rules for $\hsame$,
-together with the two endpoint carrier witnesses recorded in $\pi_{\emp}$.
-
-Normalization closure holds because $\mathsf{norm}_{\emp}(p)$ is definitionally
+Normalization closure holds because $\mathsf{normalize}_P(h)$ is the endpoint
 $\emp$. Normalization idempotence compares
-$\mathsf{norm}_{\emp}(\mathsf{norm}_{\emp}(p))$ with
-$\mathsf{norm}_{\emp}(p)$, and both sides reduce to $\emp$.
+$\mathsf{normalize}_P(\mathsf{normalize}_P(h))$ with
+$\mathsf{normalize}_P(h)$, and both sides are the same carried endpoint.
 
-The zero representation is $0_P=\emp$, so it is carried by
-$P_{\emp}(\emp)$. Addition closure and multiplication closure are the same
-endpoint argument because $\mathsf{polyAdd}_{\emp}(p,q)$ and
-$\mathsf{polyMul}_{\emp}(p,q)$ both reduce to $\emp$.
+The constants $0_P$ and $1_P$ are both $\emp$, so zero closure and one closure
+are exactly $A_{\emp}(\emp)$. Addition closure and multiplication closure are
+the same calculation, since $\mathsf{add}_P(f,g)$ and
+$\mathsf{mul}_P(f,g)$ are both defined as $\emp$.
 
-For addition congruence and multiplication congruence, the compared operation
-results are empty-history endpoints on both sides. The result carriers are
-$P_{\emp}(\emp)$, and the classifier relation component is
+The additive zero laws, multiplicative zero laws, and multiplicative one laws
+all reduce to a comparison of $\emp$ with $\emp$. Each classifier goal is
+therefore assembled from the two endpoint witnesses $A_{\emp}(\emp)$ and the
+reflexive history-sameness fact $\hsame(\emp,\emp)$.
+
+Associativity and distributivity have no remaining endpoint computation after
+the displayed operations are unfolded. The left-associated, right-associated,
+left-distributive, and right-distributive terms all reduce to $\emp$, so
+$\rho_{\emp}$ packages the same singleton carrier witnesses with
 $\hsame(\emp,\emp)$.
 
-Compatibility with the scalar side is inherited from
-Theorem~\ref{thm:singleton-empty-history-ring-laws} applied to
-Definition~\ref{def:singleton-empty-history-ring-instance}. The scalar zero,
-unit, addition, and multiplication codes all live at the same singleton
-empty-history endpoint, so scalar action through polynomial coefficients
-agrees with the displayed polynomial operations under $\pi_{\emp}$.
+For congruence under $\rho_{\emp}$, assume the inputs are pairwise related by
+$\rho_{\emp}$. The operation outputs are again $\emp$ on both sides for
+normalization, addition, and multiplication. The output relation is the
+singleton classifier witness built from $A_{\emp}(\emp)$ and
+$\hsame(\emp,\emp)$.
 \end{proof}
 
 The $\PolynomialUp$ schema is instantiated by this concrete $\mathsf{BHist}$
-carrier, normalization map, and operation tuple, so Lean formalization can
-target these displayed operations rather than abstract operator fields.
+carrier and the displayed $\mathsf{BHist}$-valued operations, so later
+formalization can target BHist-anchored polynomial laws rather than abstract
+coefficient operators.
 
 \section{The certificate}
 
