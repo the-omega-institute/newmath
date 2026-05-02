@@ -124,6 +124,22 @@ hom-carrier ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor}
 
+\begin{theorem}[Category hom carrier composition right factor public readback]
+\label{thm:category-hom-carrier-comp-right-factor-public-readback}
+For the unary-continuation category, if $f$ is a hom-carrier from $a$ to $b$,
+$fg$ is the continuation composite of $f$ and $g$, and $fg$ is displayed as a
+hom-carrier from $a$ to $c$, then $g$ is a hom-carrier from $b$ to $c$.
+Moreover, any competing right factor $g'$ with $\ContR(f,g',fg)$ and the same
+hom-carrier endpoints satisfies $\HSame(g,g')$.
+\end{theorem}
+\begin{proof}
+The right-factor theorem recovers the hom-carrier for $g$ from the displayed
+composite. For any competing $g'$, the two continuation ledgers
+$\ContR(f,g,fg)$ and $\ContR(f,g',fg)$ share the same left factor and displayed
+result, so finite-kernel left cancellation yields $\HSame(g,g')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor\_public\_readback}
+
 \begin{theorem}[Category hom carrier composition left factor]
 \label{thm:category-hom-carrier-comp-left-factor}
 For the unary-continuation category, if \(g\) is a hom-carrier from \(b\) to

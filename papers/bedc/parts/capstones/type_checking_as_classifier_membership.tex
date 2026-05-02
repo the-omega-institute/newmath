@@ -1,0 +1,13 @@
+\chapter{Type Checking as Classifier Membership}
+\label{ch:capstones-type-checking-as-classifier-membership}
+
+The extension predicate $\Ext$ of \autoref{ch:core-relational-extension-and-continuation} is, structurally, a type-membership predicate. A history satisfies $\Ext$ exactly when it lies in a designated subclass cut out by a closure rule. Reading $\Ext$ as a type and $\Cont$ as the typed reduction, the BEDC primitive layer already contains the data of a typed programming language; type checking is decidable $\Ext$-membership; the Curry-Howard correspondence is built into the framework, since every classifier closure law is the constructive proof of its closure.
+
+\section{Extension predicate as type-membership}
+\label{sec:type-checking-as-classifier-ext-membership}
+
+\begin{theorem}[Type-checking as $\Ext$ membership]
+\label{thm:type-checking-as-ext-membership}
+For every typed term language $L$ with a fixed type system, there exists a naming certificate over $L$ such that well-typedness of a term $t$ is exactly $\Ext\,t$ in the certificate's classifier. Type-checking decidability is $\Ext$-decidability; subject reduction is the closure law connecting $\Ext$ with the certificate's continuation; the Curry-Howard correspondence between proofs and programs is the identification of the certificate's closure laws with constructive proofs of those closures.
+\leanstmt{BEDC.Reflection.type\_checking\_as\_ext\_membership}
+\end{theorem}

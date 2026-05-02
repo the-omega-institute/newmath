@@ -1,11 +1,101 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.Derived.GroupUp
 import BEDC.Derived.MonoidUp
 
 namespace BEDC.Derived.RingUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.Derived.MonoidUp
+
+def RingSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def RingSingletonClassifier (h k : BHist) : Prop :=
+  RingSingletonCarrier h ∧ RingSingletonCarrier k ∧ hsame h k
+
+def RingSingletonAdd (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+def RingSingletonNeg (_x : BHist) : BHist :=
+  BHist.Empty
+
+def RingSingletonZero : BHist :=
+  BHist.Empty
+
+def RingSingletonMul (_x _y : BHist) : BHist :=
+  BHist.Empty
+
+def RingSingletonOne : BHist :=
+  BHist.Empty
+
+theorem RingSingletonEmptyHistory_laws :
+    SemanticNameCert RingSingletonCarrier RingSingletonCarrier RingSingletonCarrier
+        RingSingletonClassifier ∧
+      (∀ {x y : BHist}, RingSingletonCarrier x → RingSingletonCarrier y →
+        RingSingletonClassifier (RingSingletonAdd x y) RingSingletonZero) ∧
+      (∀ {x : BHist}, RingSingletonCarrier x →
+        RingSingletonClassifier (RingSingletonNeg x) RingSingletonZero) ∧
+      (∀ {x y : BHist}, RingSingletonCarrier x → RingSingletonCarrier y →
+        RingSingletonClassifier (RingSingletonMul x y) RingSingletonZero) ∧
+      (∀ {x y z : BHist}, RingSingletonCarrier x → RingSingletonCarrier y →
+        RingSingletonCarrier z →
+          RingSingletonClassifier (RingSingletonMul x (RingSingletonAdd y z))
+            (RingSingletonAdd (RingSingletonMul x y) (RingSingletonMul x z))) ∧
+      (∀ {x y z : BHist}, RingSingletonCarrier x → RingSingletonCarrier y →
+        RingSingletonCarrier z →
+          RingSingletonClassifier (RingSingletonMul (RingSingletonAdd x y) z)
+            (RingSingletonAdd (RingSingletonMul x z) (RingSingletonMul y z))) ∧
+      (∀ {x : BHist}, RingSingletonCarrier x →
+        RingSingletonClassifier (RingSingletonMul RingSingletonOne x) x) := by
+  have emptyCarrier : RingSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : RingSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+        equiv_refl := by
+          intro h carrier
+          exact And.intro carrier (And.intro carrier (hsame_refl h))
+        equiv_symm := by
+          intro h k same
+          exact And.intro same.right.left
+            (And.intro same.left (hsame_symm same.right.right))
+        equiv_trans := by
+          intro h k r sameHK sameKR
+          exact And.intro sameHK.left
+            (And.intro sameKR.right.left
+              (hsame_trans sameHK.right.right sameKR.right.right))
+        carrier_respects_equiv := by
+          intro h k same _carrier
+          exact same.right.left
+      }
+      pattern_sound := by
+        intro h carrier
+        exact carrier
+      ledger_sound := by
+        intro h carrier
+        exact carrier
+    }
+  · constructor
+    · intro x y _carrierX _carrierY
+      exact emptyClassified
+    · constructor
+      · intro x _carrierX
+        exact emptyClassified
+      · constructor
+        · intro x y _carrierX _carrierY
+          exact emptyClassified
+        · constructor
+          · intro x y z _carrierX _carrierY _carrierZ
+            exact emptyClassified
+          · constructor
+            · intro x y z _carrierX _carrierY _carrierZ
+              exact emptyClassified
+            · intro x carrierX
+              exact And.intro emptyCarrier (And.intro carrierX (hsame_symm carrierX))
 
 theorem ring_add_right_inverse {add : BHist -> BHist -> BHist} {neg : BHist -> BHist}
     {zero : BHist}

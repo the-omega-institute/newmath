@@ -119,6 +119,25 @@ carrier for $\theta$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_right\_factor}
 
+\begin{theorem}[NatTrans prefix component vertical composition right factor public readback]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-right-factor-public-readback}
+For prefix components over unary histories, if $\eta$ is a component from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$,
+$\ContR(\eta,\theta,\theta\eta)$ composes $\eta$ with $\theta$, and the
+composite is displayed as a component from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(r,a)$, then $\theta$ is a component from
+$\mathsf{append}(q,a)$ to $\mathsf{append}(r,a)$. Moreover, any competing
+right component $\theta'$ with $\ContR(\eta,\theta',\theta\eta)$ and the same
+component endpoints satisfies $\HSame(\theta,\theta')$.
+\end{theorem}
+\begin{proof}
+Vertical right-factor recovery supplies the displayed component carrier for
+$\theta$. For any competing $\theta'$, the two continuation ledgers have the
+same left component and composite result, so finite-kernel left cancellation
+gives $\HSame(\theta,\theta')$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_right\_factor\_public\_readback}
+
 \begin{theorem}[NatTrans prefix component vertical composition left factor]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-left-factor}
 For prefix components over unary histories, if $\theta$ is a component from

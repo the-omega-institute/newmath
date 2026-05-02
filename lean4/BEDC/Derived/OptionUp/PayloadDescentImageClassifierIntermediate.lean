@@ -1,6 +1,7 @@
 import BEDC.Derived.OptionUp.BranchExactness
 import BEDC.Derived.OptionUp.CompositeAbsentPublicFactorization
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
+import BEDC.Derived.OptionUp.PayloadDescentSharedReflection
 
 namespace BEDC.Derived.OptionUp
 
@@ -280,5 +281,42 @@ theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_intermedi
                                         ⟨k, k', witnessData.left, witnessData.right.left,
                                           witnessData.right.right.left,
                                           witnessData.right.right.right.right.right.right.right.right.right.right.right.right.left⟩
+
+theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_intermediate_factor_coherence
+    {T U : BHist -> Prop} {RelT RelU : BHist -> BHist -> Prop}
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (reflects : TaggedOptionPayloadDescentReflectsSource T epsilon) {k l k' l' u u' : BHist} :
+    TaggedOptionMapRel T U epsilon k u ->
+      TaggedOptionMapRel T U epsilon l u ->
+        TaggedOptionMapRel T U epsilon k' u' ->
+          TaggedOptionMapRel T U epsilon l' u' ->
+            TaggedOptionHistoryClassifier T RelT k l ∧
+              TaggedOptionHistoryClassifier T RelT k' l' := by
+  intro mapKU mapLU mapK'U' mapL'U'
+  have first :=
+    TaggedOptionMapRel_shared_target_source_reflection_normal_form
+      epsilon reflects mapKU mapLU
+  have second :=
+    TaggedOptionMapRel_shared_target_source_reflection_normal_form
+      epsilon reflects mapK'U' mapL'U'
+  constructor
+  · cases first with
+    | inl absent =>
+        exact Or.inl (And.intro absent.left absent.right.left)
+    | inr present =>
+        cases present with
+        | intro _a present =>
+            cases present with
+            | intro _b data =>
+                exact data.right.right.right.right.right.right.right.right.right
+  · cases second with
+    | inl absent =>
+        exact Or.inl (And.intro absent.left absent.right.left)
+    | inr present =>
+        cases present with
+        | intro _a present =>
+            cases present with
+            | intro _b data =>
+                exact data.right.right.right.right.right.right.right.right.right
 
 end BEDC.Derived.OptionUp
