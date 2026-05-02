@@ -305,6 +305,26 @@ $\ContR(\Eone(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e0\_target\_tail\_cases}
 
+\begin{theorem}[Continuation morphism one-headed source to zero-headed target tail core determinacy]
+\label{thm:continuation-morphism-e1-source-e0-target-tail-core-deterministic}
+For histories $a,r,k,l:\mathsf{BHist}$ and continuation morphisms
+$m,n:\mathsf{ContinuationMorphism}(\Eone(a),\Ezero(r))$, if the two displayed
+tails are classified with zero-headed presentations
+$\Ezero(k)$ and $\Ezero(l)$, then the exposed tail cores are classified:
+$$
+\HSame(\mathsf{tail}(m),\Ezero(k))\to
+\HSame(\mathsf{tail}(n),\Ezero(l))\to
+\HSame(k,l).
+$$
+\end{theorem}
+\begin{proof}
+Tail determinacy for continuation morphisms with the same endpoints gives
+$\HSame(\mathsf{tail}(m),\mathsf{tail}(n))$. Compose this comparison with the
+two exposed zero-headed presentations. Constructor inversion for $\Ezero$
+then descends the comparison to the exposed cores $k$ and $l$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e0\_target\_tail\_core\_deterministic}
+
 \begin{theorem}[Continuation morphism one-headed source to zero-headed target rejects one-headed tail]
 \label{thm:category-continuation-e1-source-e0-target-tail-e1-absurd}
 For histories $a,r,k:\mathsf{BHist}$ and
@@ -357,6 +377,26 @@ continuation step-result inversion exposes the residual continuation
 $\ContR(\Ezero(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e1\_target\_tail\_cases}
+
+\begin{theorem}[Continuation morphism zero-headed source to one-headed target tail core determinacy]
+\label{thm:continuation-morphism-e0-source-e1-target-tail-core-deterministic}
+For histories $a,r,k,l:\mathsf{BHist}$ and continuation morphisms
+$m,n:\mathsf{ContinuationMorphism}(\Ezero(a),\Eone(r))$, if the two displayed
+tails are classified with one-headed presentations
+$\Eone(k)$ and $\Eone(l)$, then the exposed tail cores are classified:
+$$
+\HSame(\mathsf{tail}(m),\Eone(k))\to
+\HSame(\mathsf{tail}(n),\Eone(l))\to
+\HSame(k,l).
+$$
+\end{theorem}
+\begin{proof}
+Tail determinacy for continuation morphisms with the same endpoints gives
+$\HSame(\mathsf{tail}(m),\mathsf{tail}(n))$. Compose this comparison with the
+two exposed one-headed presentations. Constructor inversion for $\Eone$ then
+descends the comparison to the exposed cores $k$ and $l$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e1\_target\_tail\_core\_deterministic}
 
 \begin{theorem}[Continuation morphism zero-headed source to one-headed target rejects zero-headed tail]
 \label{thm:category-continuation-e0-source-e1-target-tail-e0-absurd}
