@@ -138,6 +138,24 @@ cancellation for continuation then identifies this composite tail with the
 given direct tail.
 \end{proof}
 
+\begin{theorem}[Composite continuation left factor]
+\label{thm:cont-composite-left-factor}
+If
+$$
+\ContR(b,g,c),\quad \ContR(f,g,fg),\quad \ContR(a,fg,c),
+$$
+then $\ContR(a,f,b)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_left\_factor}
+\begin{proof}
+The displayed composite continuation $\ContR(a,fg,c)$ and the factor
+continuation $\ContR(f,g,fg)$ rewrite $c$ as
+$\mathsf{append}(\mathsf{append}(a,f),g)$. Compare this with
+$\ContR(b,g,c)$ and cancel the common right suffix $g$; the middle object is
+therefore $\hsame$ to $\mathsf{append}(a,f)$, and the reflexive continuation
+from $a$ by $f$ transports to $b$.
+\end{proof}
+
 \begin{corollary}[Addition-like behavior requires no primitive addition]
 \label{cor:addition-like-behavior-requires-no-primitive-addition}
 The continuation relation supplies a finite-kernel seed for addition-like derived interfaces. The additive interface is not primitive; it may be licensed only by a naming certificate whose stability component cites continuation unit and associativity.

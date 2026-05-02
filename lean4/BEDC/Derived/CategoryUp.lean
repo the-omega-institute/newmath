@@ -1,5 +1,6 @@
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.CategoryUp
 
@@ -183,6 +184,17 @@ theorem CategoryHomCarrier_comp_right_factor {a b c f g fg : BHist} :
     exact cont_intro (append_assoc a f g).symm
   exact And.intro left.right.left
     (And.intro displayed.right.left (And.intro gCarrier rightCont))
+
+theorem CategoryHomCarrier_comp_left_factor {a b c f g fg : BHist} :
+    CategoryHomCarrier b c g -> Cont f g fg -> CategoryHomCarrier a c fg ->
+      CategoryHomCarrier a b f := by
+  intro right comp displayed
+  have fCarrier : UnaryHistory f :=
+    unary_cont_left_factor comp displayed.right.right.left
+  have leftCont : Cont a f b :=
+    cont_composite_left_factor right.right.right.right comp displayed.right.right.right
+  exact And.intro displayed.left
+    (And.intro right.left (And.intro fCarrier leftCont))
 
 theorem CategoryHomCarrier_source_deterministic {a b c f : BHist} :
     CategoryHomCarrier a c f -> CategoryHomCarrier b c f -> hsame a b := by

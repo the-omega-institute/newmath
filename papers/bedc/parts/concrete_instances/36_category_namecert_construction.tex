@@ -105,6 +105,23 @@ hom-carrier ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor}
 
+\begin{theorem}[Category hom carrier composition left factor]
+\label{thm:category-hom-carrier-comp-left-factor}
+For the unary-continuation category, if \(g\) is a hom-carrier from \(b\) to
+\(c\), \(fg\) is the continuation composite of \(f\) and \(g\), and \(fg\) is
+displayed as a hom-carrier from \(a\) to \(c\), then \(f\) is a hom-carrier
+from \(a\) to \(b\).
+\end{theorem}
+\begin{proof}
+Unpack the displayed composite hom-carrier. Unary left-factor recovery applied
+to \(\ContR(f,g,fg)\) and the unary composite morphism gives unary membership
+for \(f\). The right hom-carrier gives \(\ContR(b,g,c)\), while the displayed
+composite gives \(\ContR(a,fg,c)\); the finite-kernel composite left-factor
+theorem recovers \(\ContR(a,f,b)\). These fields assemble the hom-carrier from
+\(a\) to \(b\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_factor}
+
 \begin{theorem}[Category hom carrier composite target determinacy]
 \label{thm:category-hom-carrier-comp-target-deterministic}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
