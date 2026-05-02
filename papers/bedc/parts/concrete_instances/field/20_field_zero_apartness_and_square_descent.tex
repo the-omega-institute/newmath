@@ -109,6 +109,72 @@ this block: Theorem~\ref{thm:field-binary-product-apartzero-exact}.
 Exactness predicate: binary product zero-apartness. Standard bridge:
 deferred. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field three-factor product zero-apartness exactness]
+\label{thm:field-three-factor-product-apartzero-exact}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ satisfying
+the hypotheses of
+\autoref{thm:field-binary-product-apartzero-exact}, define
+
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
+$$
+
+For any $a,x,b:\mathsf{BHist}$ equipped with explicit conversion maps
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),\quad
+\alpha_x:\mathsf{ApartZero}_F(x)\to\mathsf{NonZero}_F(x),\quad
+\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b),
+$$
+$$
+\alpha_{ax}:\mathsf{ApartZero}_F(\mathsf{mul}(a,x))\to
+\mathsf{NonZero}_F(\mathsf{mul}(a,x)),\quad
+\alpha_{axb}:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))\to
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b)),
+$$
+one has
+
+$$
+\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(a)\land\mathsf{ApartZero}_F(x)\land
+\mathsf{ApartZero}_F(b).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume
+$q:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))$. Apply
+\autoref{thm:field-binary-product-apartzero-exact} first to the binary product
+$(\mathsf{mul}(a,x),b)$, using the conversion maps $\alpha_{ax}$ and
+$\alpha_b$. Its forward implication gives both
+$\mathsf{ApartZero}_F(\mathsf{mul}(a,x))$ and $\mathsf{ApartZero}_F(b)$.
+
+Apply \autoref{thm:field-binary-product-apartzero-exact} again to the binary
+product $(a,x)$, using $\alpha_a$ and $\alpha_x$. The apartness of
+$\mathsf{mul}(a,x)$ just obtained yields $\mathsf{ApartZero}_F(a)$ and
+$\mathsf{ApartZero}_F(x)$. Together with $\mathsf{ApartZero}_F(b)$, these are
+exactly the three factor witnesses on the right-hand side.
+
+For the reverse direction, assume witnesses
+$r_a:\mathsf{ApartZero}_F(a)$, $r_x:\mathsf{ApartZero}_F(x)$, and
+$r_b:\mathsf{ApartZero}_F(b)$. Apply
+\autoref{thm:field-binary-product-apartzero-exact} to $(a,x)$ and use its
+reverse implication with $r_a$ and $r_x$ to build
+$r_{ax}:\mathsf{ApartZero}_F(\mathsf{mul}(a,x))$.
+
+Now apply the same binary exactness theorem to $(\mathsf{mul}(a,x),b)$, using
+$\alpha_{ax}$ and $\alpha_b$. Its reverse implication combines $r_{ax}$ with
+$r_b$, producing
+$\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))$.
+The displayed conversion map $\alpha_{axb}$ records the corresponding full
+product witness interface for downstream certificates.
+\end{proof}
+
+Per-object certificate: Traditional target: threefold product nonzero
+exactness. BEDC source: $\FieldUp$ plus $\RingUp$ zero absorption. Carrier
+choice: $\mathsf{BHist}$. Classifier choice: $\hsame$. Ledger: the factor
+apartness witnesses and product conversion maps. Exactness predicate:
+threefold zero-apartness equivalence. Status: $\mathsf{ProofTarget}$.
+
 \section{Field square apartness inverse descent}
 \label{sec:field-square-apartness-inverse-descent}
 
