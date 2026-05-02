@@ -187,6 +187,25 @@ one-constructor no-confusion theorem.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_mutual\_extension\_right\_tail\_absurd}
 
+\begin{theorem}[Triangular continuation cycle forbids a visible left tail]
+\label{thm:cont-triangle-cycle-left-visible-tail-absurd}
+If
+$$
+\ContR(a,\Eone(k),b),\qquad
+\ContR(b,g,c),\qquad
+\ContR(c,h,a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(\Eone(k),g),c)$. This composite and the return
+continuation $\ContR(c,h,a)$ form a mutual continuation cycle, so the composite
+tail is empty. Empty-append inversion identifies $\Eone(k)$ with $\emp$,
+contradicting history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_left\_visible\_tail\_absurd}
+
 \begin{theorem}[Associativity up to history-sameness]
 \label{thm:continuation-associativity-up-to-hsame-proof-standing}
 Suppose

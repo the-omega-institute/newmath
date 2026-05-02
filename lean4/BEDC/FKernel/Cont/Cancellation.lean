@@ -91,6 +91,17 @@ theorem cont_mutual_extension_right_tail_absurd {h k leftTail rightTail : BHist}
   · intro left right
     exact not_hsame_e1_empty (cont_mutual_extension_tails_empty left right).right
 
+theorem cont_triangle_cycle_left_visible_tail_absurd {a b c k g h : BHist} :
+    Cont a (BHist.e1 k) b -> Cont b g c -> Cont c h a -> False := by
+  intro left right back
+  have composite : Cont a (append (BHist.e1 k) g) c := by
+    cases left
+    exact right.trans (append_assoc a (BHist.e1 k) g)
+  have cycleTails :
+      hsame (append (BHist.e1 k) g) BHist.Empty ∧ hsame h BHist.Empty :=
+    cont_mutual_extension_tails_empty composite back
+  exact not_hsame_e1_empty (append_eq_empty_iff.mp cycleTails.left).left
+
 theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
     Cont a b r -> Cont a' d r' -> hsame a a' -> hsame r r' -> hsame b d := by
   intro left right sameContext sameResult

@@ -64,6 +64,13 @@ theorem CategoryHomCarrier_e1_morphism_cycle_absurd {a b k g : BHist} :
   have cycle := CategoryHomCarrier_cycle_tails_empty left right
   exact not_hsame_e1_empty cycle.right.left
 
+theorem CategoryHomCarrier_e1_morphism_triangle_cycle_absurd {a b c k g h : BHist} :
+    CategoryHomCarrier a b (BHist.e1 k) -> CategoryHomCarrier b c g ->
+      CategoryHomCarrier c a h -> False := by
+  intro left right back
+  exact cont_triangle_cycle_left_visible_tail_absurd
+    left.right.right.right right.right.right.right back.right.right.right
+
 theorem CategoryHomCarrier_cycle_identity_carriers {a b f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b a g ->
       CategoryHomCarrier a a BHist.Empty ∧ CategoryHomCarrier b b BHist.Empty ∧ hsame a b := by

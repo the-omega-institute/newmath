@@ -250,6 +250,33 @@ Comparing the original component ledgers with the right-unit continuations at
 $a$ and $b$ gives $a\hsame b$ and $b\hsame c$.
 \end{proof}
 
+\begin{theorem}[Visible one-step morphisms have no triangular cycle]
+\label{thm:category-hom-carrier-e1-morphism-triangle-cycle-absurd}
+If the first hom-carrier in a triangular cycle has visible one-headed morphism
+tail $\mathsf{e}_1(k)$,
+$$
+\mathsf{CategoryHomCarrier}(a,b,\mathsf{e}_1(k)),
+$$
+and the remaining hom-carriers run from $b$ to $c$ and from $c$ back to $a$,
+then the three ledgers are contradictory:
+$$
+\mathsf{CategoryHomCarrier}(a,b,\mathsf{e}_1(k))
+\to
+\mathsf{CategoryHomCarrier}(b,c,g)
+\to
+\mathsf{CategoryHomCarrier}(c,a,h)
+\to
+\bot.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_morphism\_triangle\_cycle\_absurd}
+\begin{proof}
+Each hom-carrier exposes its underlying continuation ledger. The first two
+continuations compose into a tail $\mathsf{append}(\mathsf{e}_1(k),g)$, and
+the third continuation returns to the source. The kernel triangular continuation
+exclusion says this visible left component cannot be part of such a cycle.
+\end{proof}
+
 \begin{theorem}[Triangular cyclic hom-carriers expose identity carriers]
 \label{thm:category-hom-carrier-triangle-cycle-identity-carriers}
 If the hom-carrier ledgers
