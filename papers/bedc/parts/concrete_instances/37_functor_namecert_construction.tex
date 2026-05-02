@@ -291,6 +291,41 @@ the visible one constructor on both target and morphism.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_morphism\_target\_components\_iff}
 
+\begin{theorem}[Functor prefix hom-carrier zero-headed component impossibility]
+\label{thm:functor-prefix-hom-carrier-zero-headed-component-absurd}
+For histories $p,a,b,f$, a prefixed category hom-carrier has no zero-headed
+prefix, source tail, target tail, or morphism component:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+\Longrightarrow
+\left(
+\exists z,\ p=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ a=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ b=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ f=\Ezero(z)
+\right)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+The source and target carrier fields make
+$\mathsf{append}(p,a)$ and $\mathsf{append}(p,b)$ unary. Unary append
+factorization exposes unary witnesses for $p$, $a$, and $b$, while the
+hom-carrier morphism field gives unary history for $f$. Each zero-headed
+witness contradicts the unary zero-extension separation theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_zero\_headed\_component\_absurd}
+
 \begin{theorem}[Functor prefix hom-carrier source prefix determinism]
 \label{thm:functor-prefix-hom-carrier-source-prefix-deterministic}
 For histories $p,q,a,target,f$, if the same morphism $f$ is a category

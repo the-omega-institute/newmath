@@ -107,6 +107,41 @@ prefix carriers.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_prefixes\_iff}
 
+\begin{theorem}[NatTrans prefix component zero-headed component impossibility]
+\label{thm:nattrans-prefix-component-carrier-zero-headed-component-absurd}
+For histories $p,q,a,\eta$, a prefix component carrier has no zero-headed
+source prefix, target prefix, object, or component morphism:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)
+\Longrightarrow
+\left(
+\exists z,\ p=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ q=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ a=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ \eta=\Ezero(z)
+\right)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier. The first three fields give unary-history
+witnesses for $p$, $q$, and $a$, and the underlying category hom-carrier gives
+the unary-history witness for the component morphism $\eta$. A zero-headed
+component in any of those positions contradicts unary zero-extension
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_zero\_headed\_component\_absurd}
+
 \begin{theorem}[NatTrans prefix component vertical composition closure]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-closed}
 For prefix components over unary histories, if \(\eta\) is a component from

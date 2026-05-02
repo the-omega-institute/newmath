@@ -414,4 +414,36 @@ theorem NatTransPrefixComponentCarrier_identity_semanticNameCert {p a : BHist} :
   · intro h source
     exact source
 
+theorem NatTransPrefixComponentCarrier_zero_headed_component_absurd {p q a eta : BHist} :
+    NatTransPrefixComponentCarrier p q a eta →
+      ((∃ z : BHist, p = BHist.e0 z) ∨ (∃ z : BHist, q = BHist.e0 z) ∨
+        (∃ z : BHist, a = BHist.e0 z) ∨ (∃ z : BHist, eta = BHist.e0 z)) →
+        False := by
+  intro component zeroComponent
+  cases zeroComponent with
+  | inl sourcePrefixZero =>
+      cases sourcePrefixZero with
+      | intro z sourcePrefixEq =>
+          cases sourcePrefixEq
+          exact unary_no_zero_extension component.left
+  | inr rest =>
+      cases rest with
+      | inl targetPrefixZero =>
+          cases targetPrefixZero with
+          | intro z targetPrefixEq =>
+              cases targetPrefixEq
+              exact unary_no_zero_extension component.right.left
+      | inr rest =>
+          cases rest with
+          | inl objectZero =>
+              cases objectZero with
+              | intro z objectEq =>
+                  cases objectEq
+                  exact unary_no_zero_extension component.right.right.left
+          | inr morphZero =>
+              cases morphZero with
+              | intro z morphEq =>
+                  cases morphEq
+                  exact unary_no_zero_extension component.right.right.right.right.right.left
+
 end BEDC.Derived.NatTransUp

@@ -318,4 +318,37 @@ theorem FunctorPrefixHomCarrier_comp_target_prefix_deterministic {p q a b c f g 
     CategoryHomCarrier_comp_target_deterministic left right comp displayed
   exact append_right_cancel (k := c) sameTarget
 
+theorem FunctorPrefixHomCarrier_zero_headed_component_absurd {p a b f : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f →
+      ((∃ z : BHist, p = BHist.e0 z) ∨ (∃ z : BHist, a = BHist.e0 z) ∨
+        (∃ z : BHist, b = BHist.e0 z) ∨ (∃ z : BHist, f = BHist.e0 z)) →
+        False := by
+  intro homCarrier zeroComponent
+  cases zeroComponent with
+  | inl prefixZero =>
+      cases prefixZero with
+      | intro z prefixEq =>
+          cases prefixEq
+          exact unary_no_zero_extension (unary_append_left_factor homCarrier.left)
+  | inr rest =>
+      cases rest with
+      | inl sourceZero =>
+          cases sourceZero with
+          | intro z sourceEq =>
+              cases sourceEq
+              exact unary_no_zero_extension (unary_append_right_factor homCarrier.left)
+      | inr rest =>
+          cases rest with
+          | inl targetZero =>
+              cases targetZero with
+              | intro z targetEq =>
+                  cases targetEq
+                  exact unary_no_zero_extension
+                    (unary_append_right_factor homCarrier.right.left)
+          | inr morphZero =>
+              cases morphZero with
+              | intro z morphEq =>
+                  cases morphEq
+                  exact unary_no_zero_extension homCarrier.right.right.left
+
 end BEDC.Derived.FunctorUp

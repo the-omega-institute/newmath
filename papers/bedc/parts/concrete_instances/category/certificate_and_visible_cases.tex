@@ -69,6 +69,36 @@ for zero-headed extensions.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e0\_source\_absurd}
 
+\begin{theorem}[Category hom-carrier zero-headed component impossibility]
+\label{thm:category-hom-carrier-zero-headed-component-absurd}
+For histories $source,target,morph$, a category hom-carrier has no
+zero-headed source, target, or morphism component:
+$$
+\mathsf{CategoryHomCarrier}(source,target,morph)
+\Longrightarrow
+\left(
+\exists z,\ source=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ target=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ morph=\Ezero(z)
+\right)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier into its source, target, and morphism unary-history
+fields. A zero-headed source, target, or morphism rewrites the corresponding
+field to a unary witness for a zero-headed extension, contradicting unary
+separation for zero-headed histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_zero\_headed\_component\_absurd}
+
 \begin{theorem}[Category hom-carrier left one-headed result cases]
 \label{thm:category-hom-carrier-left-e1-result-cases}
 If

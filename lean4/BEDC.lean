@@ -178,6 +178,7 @@ import BEDC.Derived.CategoryUp.CompDeterminism
 import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.FactorTail
 import BEDC.Derived.CategoryUp.TargetCases
+import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
 import BEDC.Reflection
