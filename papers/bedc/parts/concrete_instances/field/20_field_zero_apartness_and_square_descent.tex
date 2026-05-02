@@ -177,6 +177,79 @@ choice: $\mathsf{BHist}$. Classifier choice: $\hsame$. Ledger: the factor
 apartness witnesses and product conversion maps. Exactness predicate:
 threefold zero-apartness equivalence. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field four-factor product zero-apartness exactness]
+\label{thm:field-four-factor-product-apartzero-exact}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ satisfying
+the hypotheses of
+\autoref{thm:field-binary-product-apartzero-exact}, define
+
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
+$$
+
+For any $a,x,b,c:\mathsf{BHist}$ equipped with explicit conversion maps
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),\quad
+\alpha_x:\mathsf{ApartZero}_F(x)\to\mathsf{NonZero}_F(x),\quad
+\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b),\quad
+\alpha_c:\mathsf{ApartZero}_F(c)\to\mathsf{NonZero}_F(c),
+$$
+$$
+\alpha_{ax}:\mathsf{ApartZero}_F(\mathsf{mul}(a,x))\to
+\mathsf{NonZero}_F(\mathsf{mul}(a,x)),\quad
+\alpha_{bc}:\mathsf{ApartZero}_F(\mathsf{mul}(b,c))\to
+\mathsf{NonZero}_F(\mathsf{mul}(b,c)),
+$$
+one has
+
+$$
+\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{mul}(b,c)))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(a)\land\mathsf{ApartZero}_F(x)\land
+\mathsf{ApartZero}_F(b)\land\mathsf{ApartZero}_F(c).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume
+$q:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{mul}(b,c)))$.
+Apply \autoref{thm:field-binary-product-apartzero-exact} first to the outer
+binary product $(\mathsf{mul}(a,x),\mathsf{mul}(b,c))$, using the conversion
+maps $\alpha_{ax}$ and $\alpha_{bc}$. Its forward implication gives both
+$\mathsf{ApartZero}_F(\mathsf{mul}(a,x))$ and
+$\mathsf{ApartZero}_F(\mathsf{mul}(b,c))$.
+
+Apply the same binary exactness theorem to $(a,x)$ with $\alpha_a$ and
+$\alpha_x$. The first pair-product apartness witness yields
+$\mathsf{ApartZero}_F(a)$ and $\mathsf{ApartZero}_F(x)$.
+
+Apply binary exactness once more to $(b,c)$ with $\alpha_b$ and $\alpha_c$.
+The second pair-product apartness witness yields $\mathsf{ApartZero}_F(b)$
+and $\mathsf{ApartZero}_F(c)$. These four witnesses are exactly the
+right-hand side.
+
+For the reverse direction, assume witnesses
+$r_a:\mathsf{ApartZero}_F(a)$, $r_x:\mathsf{ApartZero}_F(x)$,
+$r_b:\mathsf{ApartZero}_F(b)$, and $r_c:\mathsf{ApartZero}_F(c)$. Apply
+\autoref{thm:field-binary-product-apartzero-exact} to $(a,x)$ and use its
+reverse implication with $r_a$ and $r_x$ to build
+$r_{ax}:\mathsf{ApartZero}_F(\mathsf{mul}(a,x))$.
+
+Apply binary exactness to $(b,c)$ in the same way. The witnesses $r_b$ and
+$r_c$ build $r_{bc}:\mathsf{ApartZero}_F(\mathsf{mul}(b,c))$.
+
+Finally apply binary exactness to the outer product
+$(\mathsf{mul}(a,x),\mathsf{mul}(b,c))$, using $\alpha_{ax}$ and
+$\alpha_{bc}$. Its reverse implication combines $r_{ax}$ and $r_{bc}$ into
+$\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{mul}(b,c)))$.
+\end{proof}
+
+Per-object certificate: Traditional target: fourfold product nonzero
+exactness. BEDC source: $\FieldUp+\RingUp$. Carrier choice:
+$\mathsf{BHist}$. Classifier choice: $\hsame$. Ledger: the four factor
+witnesses plus the pair-product conversion maps for $\mathsf{mul}(a,x)$ and
+$\mathsf{mul}(b,c)$. Exactness predicate: fourfold zero-apartness
+equivalence. Status: $\mathsf{ProofTarget}$.
+
 \section{Field square apartness inverse descent}
 \label{sec:field-square-apartness-inverse-descent}
 
