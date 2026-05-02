@@ -66,6 +66,51 @@ to the unary prefix and the original compact-net witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_iff}
 
+\begin{theorem}[Compact net witness suffix exactness]
+\label{thm:compact-net-witness-suffix-iff}
+For histories $p,c,\epsilon,n$, a compact-net witness with the same right
+suffix attached to precision and net is equivalent to unary suffix evidence
+together with the unsuffixed witness:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon\cdot p,n\cdot p)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{CompactNetWitness}(c,\epsilon,n).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unary append factorization recovers the suffix and
+the unsuffixed precision and net histories. The continuation ledger
+$n\cdot p=c\cdot(\epsilon\cdot p)$ is associated to
+$(c\cdot\epsilon)\cdot p$, and right cancellation by $p$ recovers
+$n=c\cdot\epsilon$. In the reverse direction, unary append closure builds the
+suffixed precision and net histories, while associativity supplies the
+suffixed continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_suffix\_iff}
+
+\begin{theorem}[Compact net witness visible context exactness]
+\label{thm:compact-net-witness-visible-context-iff}
+For histories $p,q,c,\epsilon,n$, a compact-net witness with visible left
+context on the center and net and visible right context on the precision and
+net is equivalent to the two unary context witnesses and the base compact-net
+witness:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon\cdot q,(p\cdot n)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{CompactNetWitness}(c,\epsilon,n).
+$$
+\end{theorem}
+\begin{proof}
+Peel the right suffix by Theorem~\ref{thm:compact-net-witness-suffix-iff}, then
+peel the left prefix by Theorem~\ref{thm:compact-net-witness-prefix-iff}. The
+reverse direction first applies prefix exactness and then reattaches the right
+suffix by suffix exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_iff}
+
 \begin{theorem}[Compact net witness composite result determinacy]
 \label{thm:compact-net-witness-composite-result-deterministic}
 For histories $c,\epsilon,\eta,n,n',m,m'$, if $n$ and $n'$ are compact net

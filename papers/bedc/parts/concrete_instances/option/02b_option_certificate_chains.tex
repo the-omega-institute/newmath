@@ -366,6 +366,20 @@ $\hsame(x,x')$ symmetrically with $\hsame(x,y)$ and then with $\hsame(y,y')$.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_transport}
 
+\begin{theorem}[Option classifier $\hsame$ right determinacy]
+\label{thm:option-classifier-spec-hsame-right-deterministic}
+For histories $h,k,l:\mathsf{BHist}$, if
+$\mathsf{OptionClassifierSpec}(\hsame,\mathsf{some}(h),\mathsf{some}(k))$ and
+$\mathsf{OptionClassifierSpec}(\hsame,\mathsf{some}(h),\mathsf{some}(l))$ hold,
+then $\hsame(k,l)$ holds.
+\end{theorem}
+\begin{proof}
+The two typed some--some classifier witnesses unfold to $\hsame(h,k)$ and
+$\hsame(h,l)$. Reverse the first witness by $\hsame$ symmetry and compose it
+with the second witness by $\hsame$ transitivity.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionClassifierSpec\_hsame\_right\_deterministic}
+
 \begin{theorem}[Option classifier symmetry from source symmetry]
 \label{thm:option-classifier-symm-from-source-symmetry}
 Let $A$ be an entry type, let $R:A\to A\to\mathsf{Prop}$ be a source relation, and let $x,y:\mathsf{OptionCarrier}(A)$. If

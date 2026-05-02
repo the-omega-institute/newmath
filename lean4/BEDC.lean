@@ -52,6 +52,7 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.OptionUp
+import BEDC.Derived.OptionUp.Determinism
 import BEDC.Derived.OptionUp.AbsentSource
 import BEDC.Derived.OptionUp.BranchAlignment
 import BEDC.Derived.OptionUp.PresentSource
@@ -134,6 +135,7 @@ import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
 import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ResultCases
 import BEDC.Derived.CompactUp
+import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
 import BEDC.Derived.CompactUp.EndpointIff
 import BEDC.Derived.CategoryUp
