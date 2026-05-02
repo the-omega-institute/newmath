@@ -510,6 +510,149 @@ right-unit obstruction is
 the same carried candidate $u$ and the displayed right-unit classifier law.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation associative obstruction package]
+\label{thm:field-rat-denominator-associative-obstruction-package}
+For the concrete BEDC carrier $\mathsf{RatHistoryCarrier}$, classifier
+$\mathsf{RatHistoryClassifier}$, operation relation $\Cont$, and ledger
+$\mathsf{RatHistoryLedgerPolicy}$, Rat denominator continuation satisfies the
+following certificate-shaped obstruction package.
+\begin{enumerate}
+\item Carrier closure: if $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, and $\Cont(d,e,r)$, then
+$\mathsf{RatHistoryCarrier}(r)$.
+\item Binary classifier congruence: if
+$\mathsf{RatHistoryClassifier}(d,d')$,
+$\mathsf{RatHistoryClassifier}(e,e')$, $\Cont(d,e,r)$, and
+$\Cont(d',e',r')$, then $\mathsf{RatHistoryClassifier}(r,r')$.
+\item Classified-triple associativity congruence: for all histories
+$d,d',e,e',f,f',de,de',ef,ef',left,left',right,right':\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(d,d')$,
+$\mathsf{RatHistoryClassifier}(e,e')$,
+$\mathsf{RatHistoryClassifier}(f,f')$, $\Cont(d,e,de)$,
+$\Cont(d',e',de')$, $\Cont(e,f,ef)$, $\Cont(e',f',ef')$,
+$\Cont(de,f,left)$, $\Cont(de',f',left')$, $\Cont(d,ef,right)$, and
+$\Cont(d',ef',right')$, then
+
+$$
+\mathsf{RatHistoryClassifier}(left,left')\land
+\mathsf{RatHistoryClassifier}(right,right')\land
+left\hsame right\land left'\hsame right'.
+$$
+
+\item Hsame-matched context classifier-and-ledger exactness: for all histories
+$p,p',q,q',d,e,pd,pe,left,right:\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(p')$,
+$\mathsf{UnaryHistory}(q)$, $\mathsf{UnaryHistory}(q')$, $p\hsame p'$,
+$q\hsame q'$, $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, $\Cont(p,d,pd)$, $\Cont(p',e,pe)$,
+$\Cont(pd,q,left)$, and $\Cont(pe,q',right)$, then both equivalences hold:
+
+$$
+\mathsf{RatHistoryClassifier}(left,right)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+
+$$
+\mathsf{RatHistoryLedgerPolicy}(left,right)\Longleftrightarrow
+\mathsf{RatHistoryLedgerPolicy}(d,e).
+$$
+
+\item Ledger closure for classified unary continuation tails: if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $\mathsf{UnaryHistory}(u)$,
+$\mathsf{UnaryHistory}(u')$, $u\hsame u'$, $\Cont(\rho,u,r)$, and
+$\Cont(v,u',s)$, then $\mathsf{RatHistoryLedgerPolicy}(r,s)$.
+\item Endpoint-forced emptiness: if a history $u:\mathsf{BHist}$ satisfies
+either one-sided classifier unit law
+
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+
+or
+
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d),
+$$
+
+then $u\hsame\emp$.
+\item Endpoint uniqueness: for all histories $u,v:\mathsf{BHist}$, if both
+endpoints satisfy the right-unit classifier law
+
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,w,r)\to
+\mathsf{RatHistoryClassifier}(r,d),
+$$
+
+for $w=u$ and for $w=v$, then $u\hsame v$; if both endpoints satisfy the
+left-unit classifier law
+
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(w,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d),
+$$
+
+for $w=u$ and for $w=v$, then $u\hsame v$; and if $u$ satisfies the right-unit
+classifier law while $v$ satisfies the left-unit classifier law, then
+$u\hsame v$.
+\item Carried one-sided unit obstruction: for every history $u:\mathsf{BHist}$,
+if $\mathsf{RatHistoryCarrier}(u)$, then each one-sided classifier unit law for
+$u$ implies $\mathsf{False}$.
+\end{enumerate}
+Consequently the Rat-denominator continuation spine contains the closure,
+operation congruence, associative classified composition, context exactness, and
+ledger stability required for a certificate, while its unit endpoint is forced
+outside the carried denominator carrier.
+\end{theorem}
+\begin{proof}
+The carrier-closure field is exactly
+\autoref{thm:field-rat-denominator-continuation-carrier-closure}. The binary
+classifier congruence field is
+\autoref{thm:field-rat-denominator-continuation-binary-classifier-congruence};
+it compares two continuation outputs from two classified input pairs.
+
+The classified-triple associativity congruence field is
+\autoref{thm:field-rat-denominator-continuation-associative-classifier-congruence}.
+It handles two classified triples of continuation data at once, producing
+classifier comparisons for the corresponding left and right bracketings together
+with the two internal associativity comparisons.
+
+For hsame-matched context exactness, apply
+\autoref{thm:field-rat-denominator-hsame-matched-context-exactness-package} to
+the displayed unary prefixes, unary suffixes, context comparisons, Rat carriers,
+and continuation witnesses. Its two equivalences are precisely the classifier
+and ledger exactness clauses in the package.
+
+The ledger-closure field is
+\autoref{thm:field-rat-denominator-continuation-ledger-closure}. It transports
+the Rat ledger along classified unary continuation tails and returns
+$\mathsf{RatHistoryLedgerPolicy}(r,s)$.
+
+For endpoint-forced emptiness, use
+\autoref{thm:field-rat-denominator-continuation-unit-endpoint-empty}. Its right
+and left clauses force any one-sided classifier unit endpoint to satisfy
+$u\hsame\emp$.
+
+Endpoint uniqueness is
+\autoref{thm:field-rat-denominator-continuation-unit-endpoint-unique}; its three
+clauses cover the displayed right/right, left/left, and mixed one-sided
+classifier-unit comparisons.
+
+Finally, the carried one-sided unit obstruction is
+\autoref{thm:field-rat-denominator-continuation-no-one-sided-internal-unit},
+which turns either one-sided classifier unit law into $\mathsf{False}$ once the
+endpoint is carried by $\mathsf{RatHistoryCarrier}$.
+\end{proof}
+
 \textbf{Traditional target}: internal unit obstruction for
 $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$
 plus $\Cont$; \textbf{carrier choice}: Rat denominators; \textbf{classifier
@@ -520,7 +663,8 @@ carried one-sided unit and no continuation-as-field-multiplication certificate;
 \autoref{thm:field-rat-denominator-continuation-no-one-sided-internal-unit},
 \autoref{thm:field-rat-denominator-continuation-not-field-multiplication},
 \autoref{thm:field-rat-denominator-continuation-commutative-semigroup-obstruction-package},
+\autoref{thm:field-rat-denominator-context-invariant-obstruction-package},
 and
-\autoref{thm:field-rat-denominator-context-invariant-obstruction-package};
+\autoref{thm:field-rat-denominator-associative-obstruction-package};
 \textbf{exactness predicate}: failure of internal one-sided unit coverage;
 \textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
