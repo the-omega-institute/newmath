@@ -65,6 +65,7 @@ import BEDC.Derived.OptionUp.ChainPayload
 import BEDC.Derived.OptionUp.EmptyRawIff
 import BEDC.Derived.OptionUp.LedgerEndpoint
 import BEDC.Derived.OptionUp.LedgerReadback
+import BEDC.Derived.OptionUp.SourceVisibleIff
 import BEDC.Derived.OptionUp.EndpointAbsurd
 import BEDC.Derived.OptionUp.EndpointTransportE0Absurd
 import BEDC.Derived.OptionUp.BranchExactness
@@ -80,6 +81,7 @@ import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 import BEDC.Derived.OptionUp.PayloadDescentImageOccupancy
 import BEDC.Derived.OptionUp.PayloadDescentImageVisible
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
+import BEDC.Derived.OptionUp.PayloadDescentImageClassifierIntermediate
 import BEDC.Derived.OptionUp.CompositeNormalizedZeroEndpoint
 import BEDC.Derived.OptionUp.StabilityFields
 import BEDC.Derived.OptionUp.SemanticCertificate

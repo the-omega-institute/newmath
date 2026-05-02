@@ -310,6 +310,42 @@ theorem ContinuousFunctionCarrier_prefixed_graph_chain_second_deterministic
                                           cases sameDelta
                                           exact cont_left_cancel leftComposite rightComposite
 
+theorem ContinuousFunctionCarrier_prefixed_graph_chain_first_deterministic
+    {p source map target delta1 delta1' delta2 delta delta' cert : BHist} :
+    UnaryHistory delta1 -> UnaryHistory delta1' -> UnaryHistory delta2 ->
+      Cont delta1 delta2 delta -> Cont delta1' delta2 delta' ->
+        ContinuousFunctionCarrier (append p source) map (append p target) delta
+            (append p cert) ->
+          ContinuousFunctionCarrier (append p source) map (append p target) delta'
+              (append p cert) ->
+            hsame delta1 delta1' := by
+  intro _delta1Carrier _delta1'Carrier _delta2Carrier leftComposite rightComposite left right
+  cases left with
+  | intro _leftSource leftRest =>
+      cases leftRest with
+      | intro _leftTarget leftRest =>
+          cases leftRest with
+          | intro _leftMap leftRest =>
+              cases leftRest with
+              | intro _leftDelta leftRest =>
+                  cases leftRest with
+                  | intro _leftGraph leftCert =>
+                      cases right with
+                      | intro _rightSource rightRest =>
+                          cases rightRest with
+                          | intro _rightTarget rightRest =>
+                              cases rightRest with
+                              | intro _rightMap rightRest =>
+                                  cases rightRest with
+                                  | intro _rightDelta rightRest =>
+                                      cases rightRest with
+                                      | intro _rightGraph rightCert =>
+                                          have sameDelta : hsame delta delta' :=
+                                            cont_left_cancel leftCert rightCert
+                                          exact
+                                            cont_common_suffix_cancellation leftComposite
+                                              rightComposite sameDelta
+
 theorem ContinuousFunctionCarrier_prefixed_graph_chain_public_readback
     {p source map target target' delta1 delta2 delta cert cert' : BHist} :
     UnaryHistory p -> UnaryHistory source -> UnaryHistory target -> UnaryHistory map ->

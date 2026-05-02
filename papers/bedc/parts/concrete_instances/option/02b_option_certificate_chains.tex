@@ -489,6 +489,25 @@ Unpack the raw carrier and raw-to-visible $\hsame$ link. The absent case compose
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_visible\_carrier}
 
+\begin{theorem}[Option ledger policy source visible iff]
+\label{thm:option-history-ledger-policy-source-visible-iff}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ and let
+$\rho,v:\mathsf{BHist}$. Assume
+$$
+  \forall h\,k.\;\hsame(h,k)\to S(h)\to S(k).
+$$
+If $\mathsf{OptionHistoryLedgerPolicy}(S,\rho,v)$ holds, then
+$$
+S(\rho)\Longleftrightarrow S(v).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the ledger to obtain the raw-visible link $\hsame(\rho,v)$. The forward
+direction transports a raw source witness along this link. The reverse
+direction transports a visible source witness along the symmetric link.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryLedgerPolicy\_source\_visible\_iff}
+
 \begin{theorem}[Option ledger exclusive readback]
 \label{thm:option-ledger-policy-exclusive-readback}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ exclude the empty history, and let

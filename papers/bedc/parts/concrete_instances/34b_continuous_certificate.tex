@@ -425,6 +425,40 @@ $\hsame(\delta_2,\delta_2')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_second\_deterministic}
 
+\begin{theorem}[Prefixed continuous function carrier graph-chain first determinacy]
+\label{thm:continuous-function-carrier-prefixed-graph-chain-first-deterministic}
+For histories $p,source,map,target,\delta_1,\delta_1',\delta_2,\delta,
+\delta',cert$, assume $\delta_1$, $\delta_1'$, and $\delta_2$ are unary
+histories, with continuation ledgers
+$$
+\mathsf{Cont}(\delta_1,\delta_2,\delta),
+\qquad
+\mathsf{Cont}(\delta_1',\delta_2,\delta').
+$$
+If the two composite moduli support the same prefixed continuous function
+carrier,
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,\delta,p\cdot cert)
+$$
+and
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,\delta',p\cdot cert),
+$$
+then the first modulus components are history-same:
+$$
+\hsame(\delta_1,\delta_1').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuous function carriers and compare their terminal
+certificate ledgers. Since both ledgers start at $p\cdot target$ and end at
+$p\cdot cert$, continuation left cancellation identifies the composite moduli
+$\delta$ and $\delta'$. Common-suffix cancellation on the two composite
+modulus ledgers, using the shared suffix $\delta_2$, then yields
+$\hsame(\delta_1,\delta_1')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_first\_deterministic}
+
 \begin{theorem}[Prefixed continuous modulus composite closure]
 \label{thm:continuous-modulus-prefixed-composite-closed}
 For unary histories $p,s,\delta_1,\delta_2,t,\delta$, a unary prefix $p$, a
