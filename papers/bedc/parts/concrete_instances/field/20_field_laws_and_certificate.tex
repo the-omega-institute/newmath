@@ -705,8 +705,8 @@ $\mathsf{add}(\mathsf{add}(c,\mathsf{neg}(d)),d)$ back to $c$. This yields
 $\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$.
 \end{proof}
 
-\begin{theorem}[Field affine two-sided multiplication injectivity from apartness]
-\label{thm:field-affine-two-sided-injective-from-apartness}
+\begin{theorem}[Field two-sided affine map classifier exactness from apartness]
+\label{thm:field-affine-two-sided-map-classifier-exact-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with operations
 $\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
 $\mathsf{BHist}$, additive group laws for
@@ -718,12 +718,13 @@ $x,y,d:\mathsf{BHist}$ satisfies
 $$
 \mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
 \mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)
-\Longrightarrow
+\Longleftrightarrow
 x\hsame y.
 $$
 \end{theorem}
 \begin{proof}
-First cancel the common additive right summand $d$. The additive group laws and
+For the forward direction, first cancel the common additive right summand $d$.
+The additive group laws and
 addition congruence instantiate
 $\texttt{BEDC.Derived.GroupUp.group\_right\_cancel}$ for $\mathsf{add}$, giving
 $$
@@ -737,10 +738,14 @@ with the nonzero witnesses $p_a$ and $p_b$. The multiplicative exactness theorem
 removes the outer left factor $a$ and right factor $b$ from the cancelled
 equation, yielding $x\hsame y$.
 
-This is not a variant of the preceding affine exactness statement: the proof
-uses the group-layer additive cancellation theorem as a separate first step,
-then feeds the resulting multiplicative equality into the two-sided FieldUp
-exactness theorem.
+For the reverse direction, assume $x\hsame y$. Multiplication congruence first
+transports this equality through left multiplication by $a$, giving
+$\mathsf{mul}(a,x)\hsame\mathsf{mul}(a,y)$.
+
+Apply multiplication congruence again on the right by $b$ to obtain
+$\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame
+\mathsf{mul}(\mathsf{mul}(a,y),b)$. Addition congruence with the shared offset
+$d$ then yields the displayed affine equality.
 \end{proof}
 
 \paragraph{Affine two-sided multiplication certificate.}
@@ -749,9 +754,11 @@ additive group laws. Carrier choice: $\mathsf{BHist}$. Classifier choice:
 $\hsame$. Stability obligations: additive cancellation, multiplication
 associativity, multiplicative unit laws, multiplication congruence, and
 indexed inverse laws. Ledger: both nonzero witnesses and the additive offset.
-Core theorem list entry: two-sided affine exactness. Exactness
-predicate: equivalence between the equation and displayed solution. Standard
-bridge: deferred conservative bridge. Status: ProofTarget.
+Core theorem list entry: two-sided affine equation exactness and two-sided
+affine map classifier exactness. Exactness predicate: equivalence between the
+equation and displayed solution, together with preservation and reflection of
+the affine classifier. Standard bridge: deferred conservative bridge. Status:
+ProofTarget.
 
 \begin{definition}[Field ledger policy]
 \label{def:field-ledger-policy}
@@ -771,7 +778,7 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
   \item Classifier choice: the rational classifier plus $\mathsf{NonZero}_F$ transport.
   \item Stability obligations: commutative-ring laws, contradiction of $\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and inverse laws indexed by nonzero witnesses.
   \item Ledger: ring expression tree plus the $\mathsf{NonZero}_F$ witness for each inverse.
-  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product exactness, zero-product exclusion from two nonzero witnesses, signed-factor apartness exclusivity, affine left equation exactness, affine right equation exactness, affine two-sided equation exactness, and distributivity inherited from $\CommRingUp$.
+  \item Core theorem list: inverse closure, left inverse, right inverse, nonzero stability, inverse congruence from apartness transport, inverse involution under explicit nonzero evidence, right-multiplication equation solving, right-multiplication equation exactness, left-multiplication equation solving, left-multiplication equation exactness, middle multiplication equation solving, middle multiplication equation exactness, two-sided multiplication exactness, two-sided zero-product exactness, zero-product exclusion from two nonzero witnesses, signed-factor apartness exclusivity, affine left equation exactness, affine right equation exactness, two-sided affine equation exactness, two-sided affine map classifier exactness, and distributivity inherited from $\CommRingUp$.
   \item Exactness predicate: coverage, soundness, completeness, exact zero classification, and nonzero-product contradiction inside certified two-sided multiplication for admitted field packages.
   \item Standard bridge: deferred conservative bridge.
   \item Status: ProofTarget.
