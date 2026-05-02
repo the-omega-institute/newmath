@@ -289,6 +289,82 @@ six factor witnesses, product witnesses, and three offsets; core theorem
 \autoref{thm:field-affine-automorphism-composition-associative}; exactness
 predicate associativity of certified affine composition; standard bridge
 ordinary affine group law; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field affine automorphism identity and inverse package]
+\label{thm:field-affine-automorphism-identity-and-inverse-package}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ under the
+hypotheses used by
+\autoref{thm:field-affine-two-sided-certified-automorphism} and
+\autoref{thm:field-affine-two-sided-automorphism-composition}, bind the unit
+witness $p_1:\mathsf{NonZero}_F(1)$ and define
+$$
+I(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(1,x),1),0).
+$$
+For every certified two-sided affine map
+$$
+T(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
+$$
+with witnesses $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$, every $x:\mathsf{BHist}$ satisfies
+$$
+I(x)\hsame x,
+\qquad
+I(T(x))\hsame T(x),
+\qquad
+T(I(x))\hsame T(x).
+$$
+For every second certified two-sided affine map
+$$
+U(z)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,z),e),f)
+$$
+with witnesses $p_c:\mathsf{NonZero}_F(c)$ and
+$p_e:\mathsf{NonZero}_F(e)$, the composite $U(T(x))$ is certified by the
+collected coefficients
+$$
+A=\mathsf{mul}(c,a),
+\qquad
+B=\mathsf{mul}(b,e),
+\qquad
+D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f).
+$$
+Moreover, if $s_T$ and $s_U$ are the displayed inverse maps for $T$ and $U$,
+then $s_T(s_U(q))$ is a two-sided inverse of $U(T(x))$ and agrees with the
+collected-coefficient inverse of the composite. Hence the identity affine map,
+composition, inverse closure, and classifier iff clauses form the affine
+automorphism package over $\mathsf{BHist}$.
+\end{theorem}
+\begin{proof}
+The identity clauses use the same $\FieldUp$ operations as the certified affine
+maps. The multiplicative unit laws reduce $\mathsf{mul}(\mathsf{mul}(1,x),1)$
+to $x$, and the additive zero law reduces the outer addition to $x$; substituting
+$T(x)$ for $x$ gives $I(T(x))\hsame T(x)$. Classifier preservation for $T$ from
+\autoref{thm:field-affine-two-sided-certified-automorphism} transports
+$I(x)\hsame x$ through $T$, giving $T(I(x))\hsame T(x)$.
+
+For composition, apply
+\autoref{thm:field-affine-two-sided-automorphism-composition} to the two
+certified affine maps. The theorem supplies the collected coefficients $A,B,D$,
+the product witnesses for $A$ and $B$, and the classifier iff for $U\circ T$.
+The certified-automorphism clauses are then read through
+\autoref{thm:field-affine-two-sided-certified-automorphism}.
+
+For inverse closure, use
+\autoref{thm:field-affine-composite-reverse-explicit-inverse}. It states that
+the reverse composite $s_T(s_U(q))$ is both a left preimage and a right inverse
+for $U(T(x))$, while preserving the classifier iff. Finally,
+\autoref{thm:field-affine-composite-inverse-reverse-coherence} identifies this
+reverse composite with the inverse obtained directly from the collected
+coefficients, so the inverse operation is closed under the same ledger data.
+\end{proof}
+
+Per-object certificate: traditional target affine automorphism group interface;
+BEDC source $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations identity,
+composition, inverse, and classifier iff; ledger factor witnesses, product
+witnesses, inverse witnesses, and offsets; core theorem
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package};
+exactness predicate identity plus inverse-closed composition; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
 \input{parts/concrete_instances/field/20_field_signed_square_consequences}
 \leanchecked{BEDC.Derived.FieldUp.field\_equal\_squares\_signed\_branch\_determinacy}
 \input{parts/concrete_instances/field/20_field_product_apartness_consequences}
