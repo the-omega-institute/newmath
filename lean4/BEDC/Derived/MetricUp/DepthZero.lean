@@ -16,4 +16,13 @@ theorem MetricDistanceWitness_depth_zero_empty_endpoints {x y d : BHist} :
   | e1 d1 =>
       cases depthZero
 
+theorem MetricDistanceWitness_empty_endpoints_depth_zero {x y d : BHist} :
+    MetricDistanceWitness x y d -> hsame x BHist.Empty -> hsame y BHist.Empty ->
+      MetricDistanceDepth d = 0 := by
+  intro witness sameX sameY
+  cases sameX
+  cases sameY
+  cases witness.2.2.2
+  rfl
+
 end BEDC.Derived.MetricUp

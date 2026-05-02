@@ -360,6 +360,7 @@ Finally compose $\HSame(left,f)$ with the symmetry of $\HSame(right,f)$.
 Transitivity yields $\HSame(left,right)$, completing the two-sided identity
 classification.
 \end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_two\_sided\_identity\_law}
 
 \begin{theorem}[Category hom carrier identity semantic name certificate]
 \label{thm:category-hom-carrier-identity-semantic-namecert}
@@ -504,6 +505,23 @@ the two continuation witnesses share the same source $a$ and the same tail.
 Continuation result determinacy then identifies the two target histories.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_target\_deterministic}
+
+\begin{theorem}[Continuation morphism empty target inversion]
+\label{thm:continuation-morphism-empty-target-inversion}
+For a continuation morphism from $source$ to $\emp$, both the source and the
+displayed tail are history-same to $\emp$:
+$$
+m:\mathsf{ContinuationMorphism}(source,\emp)
+\Longrightarrow
+\hsame(source,\emp)\land\hsame(\mathsf{tail}(m),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism record. Its continuation ledger has empty
+target, so the kernel empty-result inversion theorem identifies both the
+source and the displayed tail with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_target\_inversion}
 
 \begin{definition}[Continuation morphism composition closure]
 \label{def:continuation-morphism-comp-closed}

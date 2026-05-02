@@ -15,3 +15,21 @@ has successor depth, contradicting the displayed zero-depth equation by
 constructor no-confusion for natural numbers.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_depth\_zero\_empty\_endpoints}
+
+\begin{theorem}[Metric empty endpoints have depth-zero distance]
+\label{thm:metric-distance-witness-empty-endpoints-depth-zero}
+For histories $x,y,d$, a concrete distance witness whose endpoints are both
+history-same to $\emp$ has structural distance depth zero:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+\hsame(x,\emp)\to
+\hsame(y,\emp)\to
+\mathsf{MetricDistanceDepth}(d)=0.
+$$
+\end{theorem}
+\begin{proof}
+Eliminate the two endpoint sameness witnesses, reducing both endpoints to
+$\emp$. The continuation ledger inside the distance witness then reduces the
+distance history itself to $\emp$, and the depth definition evaluates to zero.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_endpoints\_depth\_zero}
