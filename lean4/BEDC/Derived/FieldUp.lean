@@ -270,6 +270,43 @@ theorem field_inverse_cancel_from_apartness {mul : BHist -> BHist -> BHist}
       assocC leftId mulCongr leftInv a x pa))
     (mulCongr (hsame_refl (inv a pa)) solveRight)
 
+ theorem field_middle_mul_equation_exact_from_apartness {mul : BHist -> BHist -> BHist}
+    {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a x b c : BHist} (pa : NonZero a) (pb : NonZero b) :
+    hsame (mul (mul a x) b) c <->
+      hsame x (mul (inv a pa) (mul c (inv b pb))) := by
+  constructor
+  · intro sameProduct
+    exact field_middle_mul_equation_solution_from_apartness
+      assocC leftId rightId mulCongr leftInv rightInv pa pb sameProduct
+  · intro sameSolution
+    have cancelLeft :
+        hsame (mul a x) (mul c (inv b pb)) := by
+      have replaceX :
+          hsame (mul a x) (mul a (mul (inv a pa) (mul c (inv b pb)))) := by
+        exact mulCongr (hsame_refl a) sameSolution
+      have cancelA :
+          hsame (mul a (mul (inv a pa) (mul c (inv b pb)))) (mul c (inv b pb)) := by
+        exact hsame_trans (hsame_symm (assocC a (inv a pa) (mul c (inv b pb))))
+          (hsame_trans (mulCongr (rightInv a pa) (hsame_refl (mul c (inv b pb))))
+            (leftId (mul c (inv b pb))))
+      exact hsame_trans replaceX cancelA
+    have replaceLeft :
+        hsame (mul (mul a x) b) (mul (mul c (inv b pb)) b) := by
+      exact mulCongr cancelLeft (hsame_refl b)
+    have cancelRight :
+        hsame (mul (mul c (inv b pb)) b) c := by
+      exact hsame_trans (assocC c (inv b pb) b)
+        (hsame_trans (mulCongr (hsame_refl c) (leftInv b pb)) (rightId c))
+    exact hsame_trans replaceLeft cancelRight
+
  theorem field_middle_mul_equation_solution_from_apartness_iff {mul : BHist -> BHist -> BHist}
     {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -280,36 +317,9 @@ theorem field_inverse_cancel_from_apartness {mul : BHist -> BHist -> BHist}
     (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
     (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
     {a x b c : BHist} (pa : NonZero a) (pb : NonZero b) :
-    hsame (mul (mul a x) b) c <-> hsame x (mul (inv a pa) (mul c (inv b pb))) := by
-  constructor
-  · intro sameProduct
-    exact field_middle_mul_equation_solution_from_apartness
-      assocC leftId rightId mulCongr leftInv rightInv pa pb sameProduct
-  · intro sameSolution
-    let tail := mul c (inv b pb)
-    have leftTransport :
-        hsame (mul a x) (mul a (mul (inv a pa) tail)) := by
-      exact mulCongr (hsame_refl a) sameSolution
-    have exposeLeft :
-        hsame (mul a (mul (inv a pa) tail)) (mul (mul a (inv a pa)) tail) := by
-      exact hsame_symm (assocC a (inv a pa) tail)
-    have cancelLeft :
-        hsame (mul (mul a (inv a pa)) tail) (mul one tail) := by
-      exact mulCongr (rightInv a pa) (hsame_refl tail)
-    have collapseLeft :
-        hsame (mul a x) tail := by
-      exact hsame_trans leftTransport
-        (hsame_trans exposeLeft (hsame_trans cancelLeft (leftId tail)))
-    have multiplyRight :
-        hsame (mul (mul a x) b) (mul tail b) := by
-      exact mulCongr collapseLeft (hsame_refl b)
-    have exposeRight :
-        hsame (mul tail b) (mul c (mul (inv b pb) b)) := by
-      exact assocC c (inv b pb) b
-    have cancelRight :
-        hsame (mul c (mul (inv b pb) b)) (mul c one) := by
-      exact mulCongr (hsame_refl c) (leftInv b pb)
-    exact hsame_trans multiplyRight
-      (hsame_trans exposeRight (hsame_trans cancelRight (rightId c)))
+    hsame (mul (mul a x) b) c <->
+      hsame x (mul (inv a pa) (mul c (inv b pb))) := by
+  exact field_middle_mul_equation_exact_from_apartness
+    assocC leftId rightId mulCongr leftInv rightInv pa pb
 
 end BEDC.Derived.FieldUp

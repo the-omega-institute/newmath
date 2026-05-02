@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
+import BEDC.Derived.RingUp
 
 namespace BEDC.Derived.CommRingUp
 
@@ -180,5 +181,57 @@ theorem commring_left_distrib_commuted_terms {add mul : BHist -> BHist -> BHist}
   intro x y z
   exact hsame_trans (leftDistrib x y z)
     (addCongr (mulComm x y) (mulComm x z))
+
+theorem commring_difference_of_squares {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist} {zero : BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add zero x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) zero)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x)) :
+    forall a b : BHist,
+      hsame (mul (add a b) (add a (neg b))) (add (mul a a) (neg (mul b b))) := by
+  have rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)) := by
+    exact commring_right_distrib_from_left mulComm addCongr leftDistrib
+  have mulNegRight : forall x y : BHist, hsame (mul x (neg y)) (neg (mul x y)) := by
+    exact BEDC.Derived.RingUp.ring_mul_neg_right_eq_neg_mul addAssoc addComm zeroLeft
+      negLeft addCongr mulCongr leftDistrib rightDistrib
+  intro a b
+  have expanded :
+      hsame (mul (add a b) (add a (neg b)))
+        (add (add (mul a a) (mul a (neg b))) (add (mul b a) (mul b (neg b)))) := by
+    exact commring_mul_add_add_expand mulComm addCongr leftDistrib a b a (neg b)
+  have normalizedProducts :
+      hsame (add (add (mul a a) (mul a (neg b))) (add (mul b a) (mul b (neg b))))
+        (add (add (mul a a) (neg (mul a b))) (add (mul a b) (neg (mul b b)))) := by
+    exact addCongr
+      (addCongr (hsame_refl (mul a a)) (mulNegRight a b))
+      (addCongr (mulComm b a) (mulNegRight b b))
+  have collapseMiddle :
+      hsame (add (add (mul a a) (neg (mul a b))) (add (mul a b) (neg (mul b b))))
+        (add (mul a a) (neg (mul b b))) := by
+    have reassocLeft :
+        hsame (add (add (mul a a) (neg (mul a b))) (add (mul a b) (neg (mul b b))))
+          (add (mul a a) (add (neg (mul a b)) (add (mul a b) (neg (mul b b))))) := by
+      exact addAssoc (mul a a) (neg (mul a b)) (add (mul a b) (neg (mul b b)))
+    have reassocMiddle :
+        hsame (add (neg (mul a b)) (add (mul a b) (neg (mul b b))))
+          (add (add (neg (mul a b)) (mul a b)) (neg (mul b b))) := by
+      exact hsame_symm (addAssoc (neg (mul a b)) (mul a b) (neg (mul b b)))
+    have cancelMiddle :
+        hsame (add (add (neg (mul a b)) (mul a b)) (neg (mul b b)))
+          (add zero (neg (mul b b))) := by
+      exact addCongr (negLeft (mul a b)) (hsame_refl (neg (mul b b)))
+    exact hsame_trans reassocLeft
+      (addCongr (hsame_refl (mul a a))
+        (hsame_trans reassocMiddle (hsame_trans cancelMiddle (zeroLeft (neg (mul b b))))))
+  exact hsame_trans expanded (hsame_trans normalizedProducts collapseMiddle)
 
 end BEDC.Derived.CommRingUp
