@@ -80,6 +80,64 @@ the endpoints, and the same bilateral support exactness theorem supplies
 $N_D^u(l)\lor N_D^u(k)\lor N_D^u(r)$.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp denominator contextual action empty-context identity]
+\label{thm:ratup-fieldup-denominator-contextual-action-empty-context-identity}
+For histories $h,p,q:\mathsf{BHist}$, assume $C_D^u(h)$, $p\hsame\emp$, and
+$q\hsame\emp$. Then the empty carried-context action with empty external
+endpoints is carried,
+$$
+C_D^u(\Gamma_{p,q,\emp,\emp}(h)),
+$$
+it is classified by the original history,
+$$
+R_D^u(\Gamma_{p,q,\emp,\emp}(h),h),
+$$
+and it preserves strict support exactly:
+$$
+N_D^u(\Gamma_{p,q,\emp,\emp}(h))
+\Longleftrightarrow
+N_D^u(h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}. With both
+carried contexts equal to $\emp$, the bilateral denominator context is
+$B_{\emp,\emp}(h)$. The append left and right unit laws reduce the carried
+spine to the original history, while the endpoint hypotheses $p\hsame\emp$ and
+$q\hsame\emp$ identify the external wrappers with empty endpoints.
+
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate} with
+$k=h$, $l=\emp$, $r=\emp$, $p'=\emp$, and $q'=\emp$. Its classifier component
+reduces the displayed comparison to $R_D^u(h,h)$, and the denominator
+classifier is reflexive on the carried input $h$. The same unfolding and unit
+laws give the carrier row for $\Gamma_{p,q,\emp,\emp}(h)$.
+
+For strict support, the certificate gives
+$$
+N_D^u(\Gamma_{p,q,\emp,\emp}(h))
+\Longleftrightarrow
+N_D^u(\emp)\lor N_D^u(h)\lor N_D^u(\emp).
+$$
+
+Unfold $N_D^u$ as $\mathsf{RatHistoryCarrier}$. Any witness for either empty
+support disjunct contradicts
+\autoref{thm:rat-history-carrier-not-empty} together with reflexivity of
+$\hsame$ at $\emp$. Hence the two empty support disjuncts are absent, and the
+middle disjunct is exactly $N_D^u(h)$.
+\end{proof}
+
+Per-object template: traditional target identity element for the denominator
+contextual action; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{append}$, $\emp$, and $\Gamma$; carrier
+$C_D^u$; classifier $R_D^u$; stability obligation identity action; ledger empty
+carried contexts plus empty external endpoint witnesses; core theorem this
+empty-context identity law; exactness predicate classifier identity and support
+preservation; standard bridge denominator multiplication identity context;
+status $\mathsf{ProofTarget}$.
+
 \begin{definition}[RatUp FieldUp denominator classified-context action]
 \label{def:ratup-fieldup-denominator-classified-context-action}
 The classified-context denominator action for $\FieldUp(\mathsf{RatUp})$ uses
