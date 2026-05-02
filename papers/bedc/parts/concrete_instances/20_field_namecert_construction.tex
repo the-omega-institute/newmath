@@ -160,16 +160,20 @@ Its per-object fields are:
   $\mathsf{RatDenomUnitClassifier}$ for denominator rows;
   \item stability obligations: inverse apartness, two-sided zero-product
   exactness, denominator package closure, denominator contextual action,
+  assembled support-neutrality
+  \autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
   context-pair action, context-pair strict-support commutation, and affine
   automorphism closure;
   \item ledger: rational history rows, denominator unit histories,
-  continuation witnesses, apart-zero inverse witnesses, context-pair action
-  witnesses, and affine coefficient witnesses;
+  continuation witnesses, apart-zero inverse witnesses, nested contextual-action
+  support witnesses from
+  \autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
+  context-pair action witnesses, and affine coefficient witnesses;
   \item core theorem list:
   \autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
   \autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate},
-  \autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes},
   \autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
+  \autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes},
   \autoref{thm:field-affine-automorphism-group-certificate}, and
   \autoref{thm:ratup-fieldup-assembled-certificate-boundary};
   \item exactness predicate: row coverage for $\FieldUp(\mathsf{RatUp})$
@@ -219,11 +223,18 @@ It is registered in
 Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} as the
 strict-support commutation entry for the same denominator tuple.
 
+The support-neutrality row is
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate}. It
+supplies the carried nested contextual action, the collected-action classifier
+comparison, strict-support neutrality, and collected classifier exactness
+consumed by the concrete certificate instance.
+
 Finally use \autoref{thm:field-affine-automorphism-group-certificate} for the
 affine source $\mathsf{AffAut}_F$. Combining the RatUp name certificate, the
 assembled boundary, the denominator-action component, the strict-support
-commutation row, and the affine group row fills exactly the carrier, source,
-classifier, stability, ledger, and exactness slots specified by
+commutation row, the support-neutrality row, and the affine group row fills
+exactly the carrier, source, classifier, stability, ledger, and exactness slots
+specified by
 \autoref{def:field-certificate-obligations}. This repacks the assembled source
 as the semantic naming certificate for $\FieldUp(\RatUp)$.
 \end{proof}
@@ -240,12 +251,13 @@ affine coefficient witnesses; core theorem list headed by
 \autoref{thm:ratup-fieldup-semantic-namecert},
 \autoref{thm:ratup-fieldup-assembled-certificate-boundary},
 \autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
 and
 \autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes};
 exactness predicate the conjunction of inverse, product, denominator,
 denominator-action envelope, contextual-action, context-pair,
-strict-support commutation, and affine exactness rows; standard bridge
-deferred; status $\mathsf{ProofTarget}$.
+support-neutrality, strict-support commutation, and affine exactness rows;
+standard bridge deferred; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp contextual action support transports across context-pair classifiers]
 \label{thm:field-rat-denominator-contextual-action-pair-transport-support}
@@ -408,12 +420,40 @@ The first theorem supplies the context-pair action certificate, while the second
 supplies strict-support commutation for the context-pair product named in the
 statement.
 
+The assembled support-neutrality row is
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate}. It uses
+the same denominator tuple, the same contextual action $\Gamma$, and the same
+named source tuple, so the nested-action carrier, collected classifier,
+strict-support, and classifier-exactness clauses stay anchored to
+$\mathsf{RatUpFieldSource}_F$.
+
 Finally, \autoref{thm:field-affine-automorphism-group-certificate} supplies the
 affine row for $\mathsf{AffAut}_F$. Combining these component rows with the
 assembled boundary pins every entry consumed by
 Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} to the single
 source tuple $\mathsf{RatUpFieldSource}_F$.
 \end{proof}
+
+Per-object template: traditional target constructive field on $\RatUp$; BEDC
+source $\RatUp$ plus $\CommRingUp$ and concrete denominator $\mathsf{BHist}$
+rows; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ together with
+$\mathsf{RatDenomUnitClassifier}$ on denominator rows; stability obligations
+inverse apartness, zero-product exactness, denominator package closure,
+denominator-action envelope, support-neutrality, context-pair action,
+context-pair strict-support commutation, and affine automorphism packaging;
+ledger rational history rows, denominator unit histories, continuation
+witnesses, contextual pairs, and apart-zero inverse witnesses; core theorem
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
+\autoref{thm:ratup-fieldup-denominator-context-pair-unit-support-neutrality},
+and
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes};
+exactness predicate row coverage for $\FieldUp(\mathsf{RatUp})$, including the
+assembled support-neutrality classifier and strict-support clauses, the
+denominator unit-pair support-neutrality clause, the denominator-action envelope
+rows, and the context-pair strict-support commutation row; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp semantic certificate assembly]
 \label{thm:ratup-fieldup-semantic-certificate-assembly}
@@ -486,6 +526,14 @@ They package the pair classifier, pair product, unit-pair action, product-pair
 composition law, collected-action exactness, unit-pair support neutrality, and
 strict-support readback over the same BHist denominator tuple, so the contextual
 exactness and support-neutrality rows align with the denominator ledger entries.
+
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate} supplies
+the carried nested contextual action, the collected-action classifier
+comparison, the strict-support equivalence, and the collected classifier
+exactness consumed by the final FieldUp record. Thus the support-neutrality row
+appearing in
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} is a concrete
+certificate dependency rather than a detached denominator fact.
 
 Separately,
 \autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes}
