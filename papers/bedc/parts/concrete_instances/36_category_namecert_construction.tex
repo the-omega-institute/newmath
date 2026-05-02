@@ -1,6 +1,47 @@
 \input{parts/concrete_instances/category/carrier_and_hom_laws}
 \input{parts/concrete_instances/category/certificate_and_visible_cases}
 
+\begin{theorem}[Category hom carrier and continuation morphism tail correspondence]
+\label{thm:category-hom-carrier-continuation-morphism-tail-correspondence}
+For histories $a,b,f:\mathsf{BHist}$, the concrete hom-carrier witness is
+exactly a unary endpoint-and-tail presentation of a continuation morphism:
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(a)\wedge
+\mathsf{UnaryHistory}(b)\wedge
+\mathsf{UnaryHistory}(f)\wedge
+\exists m:\mathsf{ContinuationMorphism}(a,b),\,
+\hsame(\mathsf{tail}(m),f).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the hom-carrier witness. Its displayed
+fields give unary membership for $a$, $b$, and $f$, together with the
+continuation ledger $\ContR(a,f,b)$. Taking the continuation morphism whose
+tail is $f$ and whose relation field is this ledger gives the required
+existential witness, and reflexivity of $\hsame$ classifies the displayed tail.
+
+Conversely, unpack the existential continuation morphism $m$. Its record
+contains the displayed continuation witness
+$\ContR(a,\mathsf{tail}(m),b)$, while the hypothesis supplies
+$\hsame(\mathsf{tail}(m),f)$ and the three unary witnesses.
+
+Apply Theorem~\ref{thm:cont-hsame-transport} with reflexive source and target
+endpoint classifiers and the displayed tail classifier to transport
+$\ContR(a,\mathsf{tail}(m),b)$ to $\ContR(a,f,b)$. Reassemble
+$\mathsf{CategoryHomCarrier}(a,b,f)$ from the unary source, unary target,
+unary morphism, and transported continuation fields.
+\end{proof}
+
+Per-object certificate: traditional target hom-as-continuation morphism bridge;
+BEDC source $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$,
+$\mathsf{UnaryHistory}$, and $\mathsf{Cont}$; carrier $\mathsf{BHist}$ tails;
+classifier $\hsame$; stability obligation continuation transport; ledger the
+displayed tail and continuation witness; core theorem this correspondence;
+exactness predicate the iff; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Unary-continuation category stability law package]
 \label{thm:category-unary-continuation-stability-law-package}
 For the concrete unary-continuation category on $\mathsf{BHist}$, with object
