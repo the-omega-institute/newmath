@@ -99,6 +99,79 @@ theorem: \autoref{thm:field-affine-two-sided-certified-automorphism}. Exactness
 predicate: inverse-pair plus classifier iff. Standard bridge: deferred. Status:
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field certified affine automorphisms compose]
+\label{thm:field-affine-certified-automorphism-composition}
+For a BEDC history-level $\FieldUp$ candidate with the same operations,
+additive laws, multiplication laws, congruence data, and indexed inverse laws
+as in
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness}, let
+$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+$p_c:\mathsf{NonZero}_F(c)$, and $p_e:\mathsf{NonZero}_F(e)$ certify the
+nonzero left and right factors of the two maps
+$$
+T(x)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)
+$$
+and
+$$
+U(z)=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,z),e),f).
+$$
+For each $r:\mathsf{BHist}$ define
+$$
+s_T(r)=
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(r,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)))
+$$
+and
+$$
+s_U(r)=
+\mathsf{mul}(\mathsf{inv}(c,p_c),
+\mathsf{mul}(\mathsf{add}(r,\mathsf{neg}(f)),\mathsf{inv}(e,p_e))).
+$$
+Then every $x,y,q:\mathsf{BHist}$ satisfies
+$$
+U(T(x))\hsame U(T(y))\Longleftrightarrow x\hsame y,
+\qquad
+U(T(s_T(s_U(q))))\hsame q.
+$$
+\end{theorem}
+\begin{proof}
+Instantiate
+\autoref{thm:field-affine-two-sided-certified-automorphism} with the witnesses
+$p_a,p_b$ and offset $d$ to obtain the displayed inverse $s_T$ and the
+classifier equivalence for $T$. Instantiate the same theorem with the
+witnesses $p_c,p_e$ and offset $f$ to obtain $s_U$ and the classifier
+equivalence for $U$.
+
+For classifier reflection of the composite, assume
+$U(T(x))\hsame U(T(y))$. The classifier-reflection direction of the $U$
+certificate yields $T(x)\hsame T(y)$, and the classifier-reflection direction
+of the $T$ certificate yields $x\hsame y$.
+
+For classifier preservation, assume $x\hsame y$. The classifier-preservation
+direction of the $T$ certificate gives $T(x)\hsame T(y)$, and the
+classifier-preservation direction of the $U$ certificate gives
+$U(T(x))\hsame U(T(y))$.
+
+For the displayed preimage, the left inverse clause of the $T$ certificate
+gives
+$$
+T(s_T(s_U(q)))\hsame s_U(q).
+$$
+Transport this equality through $U$ using the classifier-preservation direction
+of the $U$ equivalence. The left inverse clause of the $U$ certificate gives
+$U(s_U(q))\hsame q$, so transitivity of $\hsame$ gives
+$U(T(s_T(s_U(q))))\hsame q$.
+\end{proof}
+
+Per-object certificate: traditional target affine automorphism composition.
+BEDC source: $\FieldUp$ over $\mathsf{BHist}$. Carrier: $\mathsf{BHist}$.
+Classifier: $\hsame$. Stability obligations: the two certified affine
+automorphism instances for $T$ and $U$. Ledger: the four nonzero witnesses
+$p_a,p_b,p_c,p_e$ and the two offsets $d,f$. Core theorem:
+\autoref{thm:field-affine-certified-automorphism-composition}. Exactness
+predicate: composite classifier iff plus displayed preimage. Standard bridge:
+deferred. Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field equal-squares signed factors cannot both be nonzero]
 \label{thm:field-equal-squares-signed-factors-not-both-nonzero}
 For a BEDC history-level $\FieldUp$ candidate with the hypotheses of
