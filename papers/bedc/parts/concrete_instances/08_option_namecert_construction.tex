@@ -238,3 +238,124 @@ These facts prove both directions of the visible-existence equivalence. Under
 the nonempty hypothesis, the same selected $x,y$ witness the classified visible
 pair and carry the universal uniqueness conclusion.
 \end{proof}
+
+\begin{theorem}[Tagged option composite image classifier normalized public readback single-valuedness]
+\label{thm:tagged-option-composite-image-classifier-normalized-public-readback-single-valuedness}
+This theorem fits the per-object template as follows: the traditional target is
+endpoint-normalized public readback for functorial $\mathsf{OptionUp}$ image
+classification; the BEDC source is $\mathsf{BHist}$ with two composable
+$\mathsf{DescentCertificate}$ maps; the carrier is
+$\mathsf{TaggedOptionPayloadDescentImageCarrier}$; the classifier is
+$\mathsf{TaggedOptionPayloadDescentImageClassifier}$; the stability obligations
+are $\hsame$ endpoint transport plus public readback single-valuedness; the
+ledger records the normalized absent pair or the uniquely determined normalized
+visible final payload pair; the core theorem is the displayed normalized public
+certificate and branch split; exactness says normalized public endpoints have
+one classified visible payload reading when present; the standard bridge is
+$\mathsf{none}$/$\mathsf{some}$ normalized public readback; and the status is
+$\mathsf{ProofTarget}$.
+
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for the second descent:
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+Write $\epsilon\circ\delta$ for the descent certificate whose map field is
+$a\mapsto\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))$ and whose respects field
+sends $r:a\sim_S b$ to
+$\epsilon.\mathsf{respects}(\delta.\mathsf{respects}(r))$. Define
+$$
+\rho_{\epsilon\circ\delta}(a,Sa)=
+\rho_{\epsilon}(\delta.\mathsf{map}(a),\rho_{\delta}(a,Sa)).
+$$
+Let $\mathsf{cert}_S:\NameCert(S,\sim_S)$,
+$\mathsf{cert}_T:\NameCert(T,\sim_T)$, and
+$\mathsf{cert}_U:\NameCert(U,\sim_U)$. Assume
+$\mathsf{TaggedOptionSourceHsameCompatible}(S,\sim_S)$,
+$\mathsf{TaggedOptionSourceHsameCompatible}(T,\sim_T)$, and
+$\mathsf{TaggedOptionSourceHsameCompatible}(U,\sim_U)$. For final endpoints
+$m,m':\mathsf{BHist}$ and normalized endpoints $u,u':\mathsf{BHist}$, if
+$$
+\mathsf{TaggedOptionPayloadDescentImageClassifier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};m,m')
+$$
+and
+$$
+\hsame(m,u)\land \hsame(m',u'),
+$$
+then
+$$
+\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};u)
+\land
+\mathsf{TaggedOptionPayloadDescentImageCarrier}_{\epsilon\circ\delta}
+(S,U,\rho_{\epsilon\circ\delta};u')
+\land
+\mathsf{TaggedOptionHistoryClassifier}_{U,\sim_U}(u,u')
+$$
+and either
+$$
+\hsame(u,\emp)\land \hsame(u',\emp)\land
+\neg\exists x,y:\mathsf{BHist}.\;
+U(x)\land U(y)\land
+\hsame(u,\Eone(x))\land
+\hsame(u',\Eone(y))
+$$
+or there exist $x,y:\mathsf{BHist}$ such that
+$$
+U(x)\land U(y)\land
+\hsame(u,\Eone(x))\land
+\hsame(u',\Eone(y))\land
+x\sim_U y\land
+\neg\hsame(u,\emp)\land
+\neg\hsame(u',\emp)
+$$
+and
+$$
+\forall x',y':\mathsf{BHist}.\;
+U(x')\to U(y')\to
+\hsame(u,\Eone(x'))\to
+\hsame(u',\Eone(y'))\to
+\hsame(x,x')\land \hsame(y,y')\land x'\sim_U y'.
+$$
+\end{theorem}
+\begin{proof}
+First transport the composite image-classifier witness from $(m,m')$ to
+$(u,u')$. Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-hsame-transport}
+with the endpoint witnesses $\hsame(m,u)$ and $\hsame(m',u')$.
+
+Next expose the normalized public certificate fields. Apply
+Theorem~\ref{thm:tagged-option-payload-descent-image-classifier-certificate}
+to the transported classifier at $(u,u')$. This gives the two normalized image
+carriers and $\mathsf{TaggedOptionHistoryClassifier}_{U,\sim_U}(u,u')$.
+
+Finally apply
+Theorem~\ref{thm:tagged-option-composite-image-classifier-public-readback-single-valuedness}
+to the transported composite classifier. Its absent branch gives the normalized
+empty pair and excludes every $U$-visible final payload pair at $(u,u')$.
+
+In the present branch, keep the visible normalized payloads $x,y$, their carrier
+facts, endpoint presentations, target classification, and non-absence clauses.
+The returned competing-readback clause is already indexed by the normalized
+endpoints $u,u'$, so conjoin it with the exposed carrier and classifier fields.
+\end{proof}
