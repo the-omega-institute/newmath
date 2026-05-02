@@ -54,6 +54,52 @@ Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-classifier};
 exactness predicate no shared endpoint; standard bridge terminal schema is not
 the rational field; status ProofTarget.
 
+\begin{theorem}[Classifier-complement singleton FieldUp instance is RatUp-disjoint]
+\label{thm:field-singleton-empty-concrete-instance-rat-disjoint}
+For the concrete source $A_{\emp}$, classifier $\rho_{\emp}$, proof domain
+$\mathsf{fieldSingletonEmptyNonZero}$, and constant operations
+$\mathsf{fieldSingletonEmptyMul}$, $\mathsf{fieldSingletonEmptyOne}$, and
+$\mathsf{fieldSingletonEmptyInv}$ from
+Definition~\ref{def:field-singleton-empty-nonzero}, the $\FieldUp$ schema laws
+hold over the concrete $\mathsf{BHist}$ singleton carrier, and every endpoint
+admitted by $A_{\emp}$ is disjoint from $\mathsf{RatHistoryCarrier}$.
+
+Its ten-field template is:
+\begin{enumerate}
+  \item Traditional target: one-element proof-indexed $\FieldUp$ schema.
+  \item BEDC source: $\mathsf{BHist}$ singleton source plus RatUp boundary.
+  \item Carrier: $A_{\emp}$.
+  \item Classifier: $\rho_{\emp}$.
+  \item Stability obligations:
+  Theorem~\ref{thm:field-singleton-empty-schema-laws}.
+  \item Ledger: the singleton endpoint and empty nonzero witness domain.
+  \item Core theorem list:
+  Theorem~\ref{thm:field-singleton-empty-schema-laws} and
+  Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier}.
+  \item Exactness predicate: singleton endpoint classification plus
+  RatUp-disjointness.
+  \item Standard bridge: terminal proof-indexed schema only.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:field-singleton-empty-schema-laws} to the displayed
+tuple
+$$
+(A_{\emp},\rho_{\emp},\mathsf{fieldSingletonEmptyNonZero},
+\mathsf{fieldSingletonEmptyMul},\mathsf{fieldSingletonEmptyOne},
+\mathsf{fieldSingletonEmptyInv}).
+$$
+This supplies the concrete law package over the singleton $\mathsf{BHist}$
+carrier.
+
+For the RatUp boundary, take any displayed endpoint witness $A_{\emp}(h)$ and
+any witness $\mathsf{RatHistoryCarrier}(h)$. Applying
+Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+these two witnesses gives $\mathsf{False}$, so no admitted singleton endpoint is
+a RatUp history-carrier endpoint.
+\end{proof}
+
 \input{parts/concrete_instances/field/20_field_laws_and_certificate}
 
 \section{Field affine explicit inverse}
@@ -99,8 +145,8 @@ exactness theorem. An assumed classification of the affine expression at
 $x$ with $c$ is transported directly to $x\hsame s(c)$.
 
 For equality of two affine expressions, apply
-\autoref{thm:field-affine-two-sided-injective-from-apartness} to the assumed
-classifier equality. Its conclusion is exactly $x\hsame y$.
+\autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness} to the
+assumed classifier equality. Its conclusion is exactly $x\hsame y$.
 \end{proof}
 
 \begin{theorem}[Field equal-squares signed factors cannot both be nonzero]
@@ -167,9 +213,9 @@ $$
 \mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d).
 $$
 
-Apply \autoref{thm:field-affine-two-sided-injective-from-apartness} with the
-same certified nonzero factors $p_a,p_b$ and offset $d$. The affine injectivity
-theorem removes the shared affine map and yields $x\hsame y$.
+Apply \autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness}
+with the same certified nonzero factors $p_a,p_b$ and offset $d$. The affine
+injectivity theorem removes the shared affine map and yields $x\hsame y$.
 \end{proof}
 
 Per-object certificate: Traditional target: affine equation uniqueness. BEDC
