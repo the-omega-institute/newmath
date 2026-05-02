@@ -453,6 +453,20 @@ theorem CategoryHomCarrier_e1_morphism_target_iff {a k r : BHist} :
                 (unary_e1_closed (unary_cont_closed sourceCarrier morphCarrier homCont))
                 (And.intro (unary_e1_closed morphCarrier) (cont_step_one homCont)))
 
+theorem CategoryHomCarrier_e1_target_morphism_exactness {a k r : BHist} :
+    CategoryHomCarrier a (BHist.e1 r) (BHist.e1 k) → CategoryHomCarrier a r k := by
+  intro homCarrier
+  cases homCarrier with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro targetCarrier rest =>
+          cases rest with
+          | intro morphCarrier homCont =>
+              exact And.intro sourceCarrier
+                (And.intro (unary_e1_inversion targetCarrier)
+                  (And.intro (unary_e1_inversion morphCarrier)
+                    (cont_step_rules_inversion_pair.right homCont)))
+
 theorem CategoryHomCarrier_e1_source_e1_morphism_target_iff {a k target : BHist} :
     CategoryHomCarrier (BHist.e1 a) target (BHist.e1 k) <->
       exists r : BHist, target = BHist.e1 r /\ UnaryHistory a /\ UnaryHistory k /\

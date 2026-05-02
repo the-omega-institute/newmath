@@ -204,6 +204,28 @@ carrier disjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.OptionHistoryCarrier\_e1\_source\_iff}
 
+\begin{theorem}[Nullable option classifier one-headed left source exactness]
+\label{thm:option-history-classifier-e1-left-source-iff}
+For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and
+histories $h,k$, a nullable option classifier whose left endpoint is visibly
+one-headed is exactly the displayed source evidence for that endpoint, the
+right endpoint carrier, and the endpoint classifier:
+$$
+\mathsf{OptionHistoryClassifier}_S(\Eone(h),k)
+\Longleftrightarrow
+S(\Eone(h))\land \mathsf{OptionHistoryCarrier}_S(k)\land
+\hsame(\Eone(h),k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into its two endpoint carriers and stored
+$\hsame(\Eone(h),k)$ link. The left carrier is converted by
+Theorem~\ref{thm:option-history-carrier-e1-source-iff}. Conversely, the
+displayed source evidence rebuilds the left carrier through the source branch,
+and the other two displayed fields repack the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.OptionHistoryClassifier\_e1\_left\_source\_iff}
+
 \begin{theorem}[Nullable option zero-headed source exactness]
 \label{thm:option-history-carrier-e0-source-iff}
 For any BEDC history source predicate $S:\mathsf{BHist}\to\mathsf{Prop}$ and

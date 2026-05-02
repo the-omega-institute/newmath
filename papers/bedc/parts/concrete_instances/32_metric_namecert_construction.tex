@@ -394,6 +394,25 @@ ledger and repack the remaining unary evidence as the tail distance witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_cases}
 
+\begin{theorem}[Metric distance witness one-headed left empty-target exactness]
+\label{thm:metric-distance-witness-left-e1-empty-target-exactness}
+For histories $x,d$, a distance witness from a visible left endpoint to an
+empty right endpoint with visible result exposes the unary tail and identifies
+the result tail with the left tail:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\emp,\Eone(d))
+\Longrightarrow
+\mathsf{UnaryHistory}(x)\land \hsame(d,x).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the distance witness. Unary inversion removes the visible constructor
+from the left endpoint carrier. The continuation ledger has empty right
+endpoint, so right-unit exactness identifies $\Eone(d)$ with $\Eone(x)$; then
+one-constructor cancellation yields $\hsame(d,x)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_empty\_target\_exactness}
+
 \begin{theorem}[Metric distance witness right e1 result exactness]
 \label{thm:metric-distance-witness-right-e1-result-exactness}
 For histories $x,y,d$, a distance witness with right endpoint and result both

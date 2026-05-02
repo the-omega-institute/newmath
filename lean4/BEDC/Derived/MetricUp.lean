@@ -398,6 +398,22 @@ theorem MetricDistanceWitness_left_e1_result_cases {x y d : BHist} :
                                   (And.intro xCarrier
                                     (And.intro yCarrier (And.intro dCarrier tailRel)))))
 
+theorem MetricDistanceWitness_left_e1_empty_target_exactness {x d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) BHist.Empty (BHist.e1 d) →
+      UnaryHistory x ∧ hsame d x := by
+  intro witness
+  cases witness with
+  | intro xCarrier rest =>
+      cases rest with
+      | intro _emptyCarrier rest =>
+          cases rest with
+          | intro _distCarrier cont =>
+              have sameResult : hsame (BHist.e1 d) (BHist.e1 x) :=
+                cont_right_unit_iff.mp cont
+              exact And.intro
+                (unary_e1_inversion xCarrier)
+                (hsame_e1_iff.mp sameResult)
+
 theorem MetricDistanceWitness_right_e1_result_exactness {x y d : BHist} :
     MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) ->
       MetricDistanceWitness x y d := by
