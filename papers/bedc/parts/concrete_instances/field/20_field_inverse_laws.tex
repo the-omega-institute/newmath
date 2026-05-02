@@ -107,6 +107,62 @@ identify the chosen inverse of $ab$ with this reversed product.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_inverse\_product\_reverse\_from\_apartness}
 
+\begin{theorem}[Field inverse three-factor product reversal from apartness-indexed inverses]
+\label{thm:field-inverse-three-factor-product-reversal-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with multiplication associativity,
+multiplication congruence, left and right identity, proof-indexed inverse laws,
+product nonzero exclusion, and conversion maps
+$$
+\alpha_{ab}:\mathsf{ApartZero}_F(\mathsf{mul}(a,b))\to
+\mathsf{NonZero}_F(\mathsf{mul}(a,b)),
+\quad
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),
+$$
+$$
+\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b),
+\quad
+\alpha_c:\mathsf{ApartZero}_F(c)\to\mathsf{NonZero}_F(c),
+$$
+where $\mathsf{ApartZero}_F(h):=(h\hsame0\to\bot)$, any witness
+$$
+p_{abc}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c))
+$$
+induces witnesses $p_{ab}$, $p_a$, $p_b$, and $p_c$ such that
+$$
+\mathsf{inv}(\mathsf{mul}(\mathsf{mul}(a,b),c),p_{abc})\hsame
+\mathsf{mul}(\mathsf{inv}(c,p_c),
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
+$p_{abc}$ for the binary product $(\mathsf{mul}(a,b),c)$. This gives
+$q_{ab}:\mathsf{ApartZero}_F(\mathsf{mul}(a,b))$ and
+$q_c:\mathsf{ApartZero}_F(c)$; set $p_{ab}:=\alpha_{ab}(q_{ab})$ and
+$p_c:=\alpha_c(q_c)$.
+
+Apply the same theorem to $p_{ab}$ for the binary product $(a,b)$. The two
+resulting apartness witnesses $q_a:\mathsf{ApartZero}_F(a)$ and
+$q_b:\mathsf{ApartZero}_F(b)$ determine $p_a:=\alpha_a(q_a)$ and
+$p_b:=\alpha_b(q_b)$.
+
+Now apply \autoref{thm:field-inverse-product-reverse-from-apartness} to
+$(\mathsf{mul}(a,b),c)$ with witnesses $p_{abc}$, $p_{ab}$, and $p_c$. Apply it
+again to $(a,b)$ with witnesses $p_{ab}$, $p_a$, and $p_b$. Multiplication
+congruence transports the second equality into the right factor of the first
+one, and associativity plus transitivity of $\hsame$ gives the displayed
+three-factor reversed product.
+\end{proof}
+
+Per-object certificate: Traditional target: inverse of a finite triple product.
+BEDC source: $\FieldUp$ plus zero-product exclusion. Carrier choice:
+$\mathsf{BHist}$. Classifier choice: $\hsame$. Stability obligations: product
+nonzero exclusion, inverse product reversal, associativity, and multiplication
+congruence. Ledger: $p_{abc}$ plus induced factor witnesses. Core theorem list:
+Theorem~\ref{thm:field-inverse-three-factor-product-reversal-from-apartness}.
+Exactness predicate: reversed inverse equality. Standard bridge: deferred.
+Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field multiplication by an indexed right inverse cancels]
 \label{thm:field-mul-inverse-right-cancel-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
