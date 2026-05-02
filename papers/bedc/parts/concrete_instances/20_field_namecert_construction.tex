@@ -585,6 +585,57 @@ Transitivity with the canonical product equality gives the displayed inverse
 descent identity.
 \end{proof}
 
+\begin{theorem}[Field square nonzero gives one-sided multiplication exactness]
+\label{thm:field-square-nonzero-one-sided-mul-exact}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-product-nonzero-excludes-zero-factors},
+\autoref{thm:field-left-mul-equation-exact-from-apartness}, and
+\autoref{thm:field-right-mul-equation-exact-from-apartness}, assume the
+field interpretation identifies $\mathsf{NonZero}_F(h)$ with
+$\mathsf{ApartZero}_F(h)$, where
+$\mathsf{ApartZero}_F(h)$ means $h\hsame0\to\bot$. For every
+$a:\mathsf{BHist}$ and witness
+$$
+p_{a^2}:\mathsf{NonZero}_F(\mathsf{mul}(a,a)),
+$$
+let $p_a:\mathsf{NonZero}_F(a)$ be the witness induced by zero-factor
+exclusion and this identification. Then every $c,x:\mathsf{BHist}$
+satisfies both one-sided multiplication exactness clauses:
+$$
+\mathsf{mul}(a,x)\hsame c
+\Longleftrightarrow
+x\hsame \mathsf{mul}(\mathsf{inv}(a,p_a),c)
+$$
+and
+$$
+\mathsf{mul}(x,a)\hsame c
+\Longleftrightarrow
+x\hsame \mathsf{mul}(c,\mathsf{inv}(a,p_a)).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
+$p_{a^2}$ with both product entries instantiated by $a$. The first factor
+clause gives $a\hsame0\to\bot$.
+
+Use the identification between $\mathsf{ApartZero}_F(a)$ and
+$\mathsf{NonZero}_F(a)$ to regard that apartness witness as
+$p_a:\mathsf{NonZero}_F(a)$. This is the proof index available to the
+inverse and cancellation laws for the factor $a$.
+
+For the left multiplication clause, invoke
+\autoref{thm:field-left-mul-equation-exact-from-apartness} with this
+induced witness $p_a$. Its displayed equivalence is exactly
+$\mathsf{mul}(a,x)\hsame c$ if and only if
+$x\hsame \mathsf{mul}(\mathsf{inv}(a,p_a),c)$.
+
+For the right multiplication clause, invoke
+\autoref{thm:field-right-mul-equation-exact-from-apartness} with the same
+induced witness $p_a$. Its displayed equivalence is exactly
+$\mathsf{mul}(x,a)\hsame c$ if and only if
+$x\hsame \mathsf{mul}(c,\mathsf{inv}(a,p_a))$.
+\end{proof}
+
 Per-object certificate: Traditional target: square inverse descent. BEDC
 source: $\FieldUp$ plus $\RingUp$. Carrier choice: $\mathsf{BHist}$.
 Classifier choice: $\hsame$. Stability obligations: zero absorption,
