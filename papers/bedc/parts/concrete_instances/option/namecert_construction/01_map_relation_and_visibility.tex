@@ -373,6 +373,111 @@ alternative, and empty-versus-one no-confusion also proves that the two displaye
 alternatives cannot overlap.
 \end{proof}
 
+\begin{theorem}[Tagged option composite factorization has a canonical intermediate endpoint]
+\label{thm:tagged-option-maprel-composite-factorization-canonical-intermediate}
+Let $S,T,U:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source,
+intermediate, and target carriers, let $\sim_S$, $\sim_T$, and $\sim_U$ be their
+classifiers, and let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T)
+$$
+and
+$$
+\epsilon:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_T,\sim_U).
+$$
+Assume payload preservation fields
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a))
+$$
+and
+$$
+\rho_{\epsilon}:\forall b.\;T(b)\to U(\epsilon.\mathsf{map}(b)).
+$$
+Assume endpoint stability for both descents:
+$$
+\eta_{\delta}:\forall x\,y.\;
+S(x)\to S(y)\to \hsame(x,y)\to
+\hsame(\delta.\mathsf{map}(x),\delta.\mathsf{map}(y))
+$$
+and
+$$
+\eta_{\epsilon}:\forall x\,y.\;
+T(x)\to T(y)\to \hsame(x,y)\to
+\hsame(\epsilon.\mathsf{map}(x),\epsilon.\mathsf{map}(y)).
+$$
+For histories $h,k,k',m:\mathsf{BHist}$, suppose the same composed endpoint pair
+factors through both $k$ and $k'$:
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+\land
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k,m)
+$$
+and
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k')
+\land
+\mathsf{TaggedOptionMapRel}_{\epsilon}(T,U,\rho_{\epsilon};k',m).
+$$
+Then either all four visible endpoints are absent,
+$$
+\hsame(h,\emp)\land
+\hsame(k,\emp)\land
+\hsame(k',\emp)\land
+\hsame(m,\emp),
+$$
+or there is one source payload $a:\mathsf{BHist}$ such that
+$$
+S(a)\land
+T(\delta.\mathsf{map}(a))\land
+U(\epsilon.\mathsf{map}(\delta.\mathsf{map}(a)))\land
+\hsame(h,\Eone(a))\land
+\hsame(k,\Eone(\delta.\mathsf{map}(a)))\land
+\hsame(k',\Eone(\delta.\mathsf{map}(a)))\land
+\hsame(m,\Eone(\epsilon.\mathsf{map}(\delta.\mathsf{map}(a)))).
+$$
+\end{theorem}
+\begin{proof}
+Split the first $\delta$ factor through $k$.
+
+In the absent branch, $h$ and $k$ are visibly $\emp$. The second $\delta$ factor
+through $k'$ cannot be present, because it would present the same source
+endpoint $h$ as both $\emp$ and $\Eone(a)$. Hence the second $\delta$ factor is
+also absent, giving $\hsame(k',\emp)$. The first $\epsilon$ factor cannot be
+present for the same no-confusion reason at $k$, so it is absent and gives
+$\hsame(m,\emp)$. These four presentations assemble the absent alternative.
+
+In the present branch, the first $\delta$ factor exposes a source payload $a$
+with $S(a)$, $T(\delta.\mathsf{map}(a))$,
+$\hsame(h,\Eone(a))$, and
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$.
+
+Split the second $\delta$ factor. Its absent branch would present $h$ as
+$\emp$, contradicting the stored one-constructor presentation of $h$. In its
+present branch it exposes a payload $a'$ with $S(a')$ and
+$\hsame(h,\Eone(a'))$. One-constructor inversion at $h$ yields
+$\hsame(a,a')$, and $\eta_{\delta}$ transports this to
+$\hsame(\delta.\mathsf{map}(a),\delta.\mathsf{map}(a'))$. Rewriting the
+intermediate endpoint presentation for $k'$ gives
+$\hsame(k',\Eone(\delta.\mathsf{map}(a)))$.
+
+Now split the first $\epsilon$ factor. Its absent branch would present $k$ as
+$\emp$, contradicting the stored presentation
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$. In the present branch it exposes an
+intermediate payload $b$ with $T(b)$ and final endpoint
+$\hsame(m,\Eone(\epsilon.\mathsf{map}(b)))$. One-constructor inversion at $k$
+gives $\hsame(\delta.\mathsf{map}(a),b)$, and $\eta_{\epsilon}$ transports the
+map endpoint to
+$\hsame(\epsilon.\mathsf{map}(\delta.\mathsf{map}(a)),
+\epsilon.\mathsf{map}(b))$.
+
+By one-constructor congruence and transitivity of $\hsame$, the final endpoint
+presentation rewrites to
+$\hsame(m,\Eone(\epsilon.\mathsf{map}(\delta.\mathsf{map}(a))))$. Payload
+preservation supplies
+$U(\epsilon.\mathsf{map}(\delta.\mathsf{map}(a)))$, and the retained source,
+intermediate, and endpoint fields package the present alternative.
+\end{proof}
+
 \section{Tagged option public endpoint visibility}
 \label{sec:option-public-endpoint-visibility}
 
