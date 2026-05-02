@@ -23,6 +23,97 @@
 \input{parts/concrete_instances/option/17_composite_image_classifier_normalized_one_sided_public_completion}
 \input{parts/concrete_instances/option/18_composite_image_classifier_normalized_absent_public_factorization}
 
+\section{Tagged option map relation constructor normal form}
+\label{sec:option-maprel-constructor-normal-form}
+
+\begin{theorem}[Tagged option map relation constructor normal form]
+\label{thm:tagged-option-maprel-constructor-normal-form}
+This theorem fits the per-object template as follows: the traditional target is
+constructor-facing readback for the tagged option map relation; the BEDC source
+is $\mathsf{BHist}$ with one $\mathsf{DescentCertificate}$ map; the carrier is
+the visible tagged option endpoint shape; the classifier is the source and
+target history classifiers carried by the descent certificate; the stability
+obligation is branch preservation, payload readback, and zero-tag exclusion; the
+ledger records the absent branch, the present branch, and the absence of
+zero-tag endpoints; the core theorem is the displayed constructor normal form;
+exactness says a map-relation witness has exactly the empty branch or a
+transported one-payload branch; the standard bridge is $\mathsf{none}$/$\mathsf{some}$
+map readback; and the status is $\mathsf{ProofTarget}$.
+
+Let $S,T:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source and target
+carriers, let $\sim_S$ and $\sim_T$ be their classifiers, let
+$$
+\delta:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_T),
+$$
+and assume payload preservation
+$$
+\rho_{\delta}:\forall a.\;S(a)\to T(\delta.\mathsf{map}(a)).
+$$
+For histories $h,k:\mathsf{BHist}$, every witness
+$$
+\mathsf{TaggedOptionMapRel}_{\delta}(S,T,\rho_{\delta};h,k)
+$$
+implies the following clauses simultaneously.
+\begin{enumerate}
+  \item Every zero-tag presentation is impossible at either endpoint:
+  $$
+  \forall t:\mathsf{BHist}.\;
+  (\hsame(h,\Ezero(t))\to\bot)\land
+  (\hsame(k,\Ezero(t))\to\bot).
+  $$
+
+  \item The absent branch is visible on both sides:
+  $$
+  \hsame(h,\emp)\Longleftrightarrow\hsame(k,\emp).
+  $$
+
+  \item The present branch is visible on both sides:
+  $$
+  (\exists a:\mathsf{BHist}.\;S(a)\land\hsame(h,\Eone(a)))
+  \Longleftrightarrow
+  (\exists b:\mathsf{BHist}.\;T(b)\land\hsame(k,\Eone(b))).
+  $$
+
+  \item Visible source and target payloads read back to one transported
+  payload:
+  $$
+  \forall u\,v:\mathsf{BHist}.\;
+  S(u)\land\hsame(h,\Eone(u))\land
+  T(v)\land\hsame(k,\Eone(v))
+  \to
+  \exists a:\mathsf{BHist}.\;
+  S(a)\land T(\delta.\mathsf{map}(a))\land
+  \hsame(u,a)\land\hsame(v,\delta.\mathsf{map}(a)).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Split the map-relation witness into its absent and present branches. In the
+absent branch, the stored endpoint presentations are $\hsame(h,\emp)$ and
+$\hsame(k,\emp)$; in the present branch, the stored presentations are
+$\hsame(h,\Eone(a))$ and
+$\hsame(k,\Eone(\delta.\mathsf{map}(a)))$ for the exposed payload $a$.
+
+First prove zero-tag exclusion. Fix $t:\mathsf{BHist}$. In the absent branch,
+any presentation $\hsame(h,\Ezero(t))$ or $\hsame(k,\Ezero(t))$ composes with
+the corresponding empty presentation and contradicts generated-history
+no-confusion between $\emp$ and $\Ezero(t)$. In the present branch, any such
+presentation composes with the corresponding one-tag presentation and
+contradicts generated-history no-confusion between $\Eone$ and $\Ezero$.
+
+Next obtain the visible branch clauses by applying
+Theorem~\ref{thm:tagged-option-maprel-visible-branch-equivalence} to the same
+map-relation witness. Its two projections are exactly the absent-branch
+equivalence and the present-branch equivalence in the statement.
+
+Finally let $u,v:\mathsf{BHist}$ be visible source and target payloads with the
+displayed endpoint presentations. Apply
+Theorem~\ref{thm:tagged-option-maprel-visible-payload-readback} to the
+map-relation witness and to these four visible payload facts. The produced
+payload $a$ carries $S(a)$, $T(\delta.\mathsf{map}(a))$, and the two readback
+witnesses required by the last clause.
+\end{proof}
+
 \section{Tagged option public endpoint visibility}
 \label{sec:option-public-endpoint-visibility}
 
