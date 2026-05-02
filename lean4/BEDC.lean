@@ -217,6 +217,7 @@ import BEDC.Derived.CategoryUp.StabilityLawPackage
 import BEDC.Derived.CategoryUp.TargetCases
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CategoryUp.HomContinuationTail
+import BEDC.Derived.CategoryUp.ContinuationBridge
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
 import BEDC.Reflection

@@ -252,6 +252,28 @@ histories.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_pair\_carrier\_iff}
 
+\begin{theorem}[Singleton linear-map classifier append pair empty]
+\label{thm:linearmap-singleton-classifier-append-pair-empty}
+For all histories $p,q,r,s:\mathsf{BHist}$,
+$$
+\lambda_{\emp}(\mathsf{append}(p,q),\mathsf{append}(r,s))
+\Longleftrightarrow
+L_{\emp}(p)\wedge L_{\emp}(q)\wedge L_{\emp}(r)\wedge L_{\emp}(s).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction unfolds the singleton classifier. Its two carrier
+clauses classify both appended histories with $\emp$, and empty-append
+inversion splits those clauses into the four endpoint carrier witnesses.
+
+Conversely, the four singleton carrier witnesses assemble the two appended
+histories as empty histories. These become the two carrier clauses of
+$\lambda_{\emp}$, and composing the left appended empty witness with symmetry
+of the right one gives the classifier comparison between the appended
+endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_pair\_empty\_iff}
+
 \begin{theorem}[Singleton linear map composition associativity empty classifier]
 \label{thm:linearmap-singleton-comp-assoc-empty-classifier}
 For singleton linear map codes $f,g,h$, if each code lies in

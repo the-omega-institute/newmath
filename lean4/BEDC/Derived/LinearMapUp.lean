@@ -278,6 +278,24 @@ theorem LinearMapSingletonClassifier_append_pair_carrier_iff {p q r s : BHist} :
     exact
       ⟨leftCarrier, rightCarrier, hsame_trans leftCarrier (hsame_symm rightCarrier)⟩
 
+theorem LinearMapSingletonClassifier_append_pair_empty_iff {p q r s : BHist} :
+    LinearMapSingletonClassifier (append p q) (append r s) ↔
+      LinearMapSingletonCarrier p ∧ LinearMapSingletonCarrier q ∧
+        LinearMapSingletonCarrier r ∧ LinearMapSingletonCarrier s := by
+  constructor
+  · intro classified
+    have leftEmpty := append_eq_empty_iff.mp classified.left
+    have rightEmpty := append_eq_empty_iff.mp classified.right.left
+    exact ⟨leftEmpty.left, leftEmpty.right, rightEmpty.left, rightEmpty.right⟩
+  · intro splitData
+    have leftCarrier : LinearMapSingletonCarrier (append p q) :=
+      append_eq_empty_iff.mpr ⟨splitData.left, splitData.right.left⟩
+    have rightCarrier : LinearMapSingletonCarrier (append r s) :=
+      append_eq_empty_iff.mpr ⟨splitData.right.right.left, splitData.right.right.right⟩
+    exact
+      ⟨leftCarrier, rightCarrier,
+        hsame_trans leftCarrier (hsame_symm rightCarrier)⟩
+
 theorem LinearMapSingleton_comp_assoc_empty_classifier {f g h : BHist} :
     LinearMapSingletonCarrier f -> LinearMapSingletonCarrier g -> LinearMapSingletonCarrier h ->
       LinearMapSingletonClassifier (LinearMapSingletonComp h (LinearMapSingletonComp g f))
