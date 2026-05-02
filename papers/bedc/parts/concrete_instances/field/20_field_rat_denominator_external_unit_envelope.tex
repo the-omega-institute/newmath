@@ -1,0 +1,32 @@
+\begin{theorem}[Rat denominator external-unit envelope unit equivalence]
+\label{thm:field-rat-denominator-unit-envelope-unit-iff}
+For every history $u:\mathsf{BHist}$ with $C_D^\ast(u)$,
+$$
+R_D^\ast(u,e_D^\ast)\Longleftrightarrow
+\left(\forall h:\mathsf{BHist}.\;
+C_D^\ast(h)\to R_D^\ast(\mu_D^\ast(h,u),h)\right)
+\land
+\left(\forall h:\mathsf{BHist}.\;
+C_D^\ast(h)\to R_D^\ast(\mu_D^\ast(u,h),h)\right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume $R_D^\ast(u,e_D^\ast)$ and split the carrier
+witness $C_D^\ast(u)$. The carried branch is impossible: the mixed
+carried-empty clause of
+\autoref{thm:field-rat-denominator-unit-envelope-classifier-exactness} rejects
+$R_D^\ast(u,e_D^\ast)$ because $e_D^\ast=\emp$.
+
+In the external-empty branch, $u\hsame\emp$. For any $h$ with $C_D^\ast(h)$,
+split $C_D^\ast(h)$. If $h$ is carried, the append unit laws identify
+$\mu_D^\ast(h,u)$ and $\mu_D^\ast(u,h)$ with $h$; transport the carried
+witnesses by $\mathsf{RatHistoryCarrier\_hsame\_transport}$ and repack through
+the guarded carried branch of $R_D^\ast$. If $h\hsame\emp$, both products are
+$\hsame$ to $\emp$, so the empty-empty branch gives the right and left laws.
+
+For the reverse direction, project the conjunction into the displayed right and
+left envelope unit laws. Applying
+\autoref{thm:field-rat-denominator-unit-envelope-unit-unique} to either
+projection gives $R_D^\ast(u,e_D^\ast)$, and the two projections therefore give
+the same endpoint classifier.
+\end{proof}
