@@ -1,0 +1,187 @@
+---
+title: "Schema-only 作为证据"
+subtitle: "十六个编译不通过的章节 — 它们的失败告诉我们什么"
+author: "The Omega Institute"
+date: 2026-05-02
+lang: zh-CN
+description: "当 BEDC 的代数章节拒绝以参数化 schema 形式化, 失败本身是结果, 不是 bug. 基础主义预测这件事, 工程兑现了它."
+---
+
+## 十六个编译不通过的章节
+
+```python
+SCHEMA_ONLY_HORIZONS: set[str] = {
+    "abgroup", "group", "monoid",
+    "ring", "commring", "field",
+    "module", "vecspace", "linearmap", "matrix",
+    "polynomial", "fps",
+    "lattice", "totalorder", "preorder", "poset",
+}
+```
+
+这是 `papers/bedc/parts/concrete_instances/` 里 16 个章节, BEDC AI 流水线在当前形态下无法把它们形式化进 Lean 代码. 每次尝试都产同一种形状 — `(forall x y z, hsame (mul (mul x y) z) ...)` 参数化假设, 没有具体 `BHist` 构造子引用, 证明体重组参数. Phase D lint 抓到这个并拒绝这一轮. 我们在 prompt `v3.2` 到 `v3.5` 五次试着突破这堵墙. 没突破成.
+
+很长一段时间我们当 bug 看 — 我们 prompt 的 bug, agent 纪律的 bug, harness 的 bug. 一直在试着修.
+
+最终我们认识到 *失败就是结果*. harness 工作正常. agent 工作正常. harness 通过拒绝每一次代数形式化尝试在告诉我们 BEDC 的根基形状. 这篇说什么.
+
+## 章节说了什么
+
+打开 `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`. 载体定义大致写:
+
+> A monoid is a triple `(M, ⋅, e)` where `⋅ : M → M → M` is associative and `e : M` is a two-sided identity.
+
+schema 暗示的 Lean 目标是:
+
+```lean
+structure MonoidUp where
+  mul : BHist → BHist → BHist
+  e : BHist
+  assoc : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z))
+  leftId : ∀ x, hsame (mul e x) x
+  rightId : ∀ x, hsame (mul x e) x
+```
+
+现在问: 从这个结构能 *证* 什么定理? 你能从抽象 monoid 公理证的任何东西 — 可逆下的左消去、单位唯一性等. 每个这种定理看起来像:
+
+```lean
+theorem identity_unique
+    (mul : BHist → BHist → BHist) (e e' : BHist)
+    (leftId : ∀ x, hsame (mul e x) x)
+    (rightId : ∀ x, hsame (mul x e') x)
+    : hsame e e'
+```
+
+证明是一条链式 `hsame` rewrite — 三行. 数学上正确. 也恰好是 [parameter-echo 失败模式](default-failure-modes.zh-CN.qmd), Phase D 拒它: 假设完全决定了结论的形状, 没提任何 `BHist` 构造子, 定理对任何具体内核对象都没说什么.
+
+```{=html}
+<span class="elim-mark">✗ 「我们就让它作为特殊情况通过」</span>
+```
+
+我们试过让它通过. 库累积了 `abgroup_mul_balanced_cancel`, `abgroup_mul_middle_four`, `ring_mul_zero_absorption`, 还有十几个. 品味审计把所有这些识别为 parameter echo, 它们恰好是我们建 lint 来拒的灌水. "我们想要的抽象 monoid 定理"和"我们不想要的 parameter echo"之间没干净的界线. 它们是同一形状.
+
+## 我们试了什么, 按顺序
+
+::: {.evidence}
+**Prompt v3.2 (try-close + 跨域抽象优先级)** — 鼓励 agent 验证候选不是已经能 inline 证, 偏好 typeclass 抽象而非每域拷贝. 没解决参数化载体问题. 代数轮次继续产 parameter echo.
+
+**Prompt v3.3 (Derived shape saturation HARD GATE)** — 加 `bedc_ci.py audit --shape-saturation` 检测当同一结论形状跨 ≥3 horizon 出现. 抓到 `_ClassifierSpec_trans` 家族, 但没抓 parameter echo. 代数轮次仍以更低体量产 echo.
+
+**Prompt v3.4 (critical-path discovery as Phase B HARD GATE)** — 要求 round 三个目标里 ≥1 来自 `critical_path.py` 的顶部. 代数 horizon (abgroup, monoid, ring, ...) 因有下游依赖且定理少, 分数最高. Codex 被送去那 *更多*, 不是更少. echo 速率 spike.
+
+**Prompt v3.5 (收紧 critical-path fallback)** — 把"blocked"机械化定义, codex 不能不正当声称 blocker. 代数轮次现在 *被强制* 尝试 schema. 几乎每次尝试都失败 Phase D lint.
+
+**Phase D 机械 lint** — 在 diff 层抓 parameter echo, 拒绝 round. 我们从 ~80% echo 速率到 ~5%, 但代数 horizon 完全停止前进. 五次 prompt 修订把 agent 推进了一个角落, 它能产的唯一东西被拒了.
+:::
+
+第五次尝试是打破我们对发生什么的模型的那次. 我们在强制越来越严的约束, 而代数 horizon 停下了 — 不是因为 agent 烂, 是因为 *能写下来、能编译、提到具体内核对象、又有意义地关于 monoid 的东西不存在*.
+
+## 诊断
+
+再读 schema:
+
+```
+A monoid is a triple (M, ⋅, e) where ⋅ : M → M → M is associative
+and e : M is a two-sided identity.
+```
+
+`M` 全称量化. `⋅` 全称量化. `e` 全称量化. 你能从这个 schema 证 *任何* 定理对任何满足公理的 `(M, ⋅, e)` 都成立 — 按构造, 这定理不能提任何具体结构.
+
+这在经典数学里没问题. 标准库证一次"任何 monoid 里, 单位唯一", 然后跨每个具体 monoid 实例重用. 抽象就是这个意义.
+
+但 BEDC 不是经典数学. BEDC 建在 `inductive BHist | Empty | e0 | e1` 之上, 约束是 *每个定理必须提具体内核对象* — 一个构造子、一个关系 `Cont`、`hsame`、或具体 `NameCert` 实例. 这个约束让 BEDC 的 `axiom-purity` 与机械底线 invariant 强. 你不能两头都要: 要么定理关于具体内核对象 (BEDC 纪律站得住), 要么定理关于参数化结构 (parameter echo 通过).
+
+代数 schema, 写法上, 要参数化定理. BEDC 的机械底线说不. 结果: 卡住.
+
+## 反向测试, 它显示什么
+
+跟 *做成了* 的章节比 — Category Theory:
+
+```lean
+def CategoryHomCarrier (a b f : BHist) : Prop :=
+  UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧ Cont a f b
+```
+
+这不是参数化的. 这是具体的: 它指明 carrier 是 `BHist` 上一个特定的四合取谓词, 直接用 `UnaryHistory` 和 `Cont`. 关于 `CategoryHomCarrier` 的每条定理都提 `BHist` 构造子和 `Cont` 关系. Phase D `BHist anchor` lint 通过. 库有 31 条 category 定理在涨.
+
+为什么 Category 工作而 Monoid 不? 因为 *Category 被指定为具体载体*, 而 *Monoid 被指定为参数化 schema*.
+
+```{=html}
+<span class="role-tag discovery">💡 发现</span>
+```
+
+这是根基性结果, 一句话:
+
+> **在 BEDC 里, 你不能抽象地定义代数结构. 你必须 exhibit BHist 上的具体实例.**
+
+如果 BEDC 真的从区分开始 — 如果 `inductive BHist | Empty | e0 | e1` 是根基原语而其他都是导出的 — 这就是你会预测的. 抽象代数是 *已被给定的载体的代数*. 它不是根基起点. 起点必须是载体本身, 具体地 exhibit; 代数是你发现载体已经在做的事.
+
+十六个章节拒绝编译, 因为它们试图 *引入 BEDC 的根基容纳不了的抽象结构*. harness 对地拒绝它们. schema, 写法上, 跟根基不兼容.
+
+```{=html}
+<span class="elim-mark">✗ 「所以 BEDC 不能做代数」</span>
+```
+
+能. 它只是要不同地做代数 — 通过 exhibit 具体实例并证它满足代数律, 而不是对抽象载体量化.
+
+## 什么解锁 schema-only 章节
+
+修复不是更聪明的 prompt. 修复在 *论文端*: 改章节先指定具体载体.
+
+例如 monoid 可由这个解锁:
+
+```latex
+\begin{definition}[具体的历史 monoid 实例]
+令 \[ M := \mathsf{UnaryHistory}, \quad \mu := \mathsf{Cont}, \quad e := \mathsf{BHist.Empty}. \]
+三元组 $(M, \mu, e)$ 构成 monoid, 其中:
+\begin{itemize}
+  \item $\mu$ 由 \texttt{cont\_assoc} 而结合.
+  \item $e$ 由 \texttt{cont\_left\_unit} 与 \texttt{cont\_right\_unit} 是双侧单位.
+\end{itemize}
+\end{definition}
+```
+
+一旦这具体实例住进章节, Lean 端就有具体的东西可以形式化: 证 `(UnaryHistory, Cont, Empty)` 满足 monoid 律, 然后 *作为推论* 在这个具体实例上推任何想要的 monoid 定理. 每条定理现在提 `BHist`、`Cont`、`UnaryHistory`. Phase D 通过.
+
+这是, 最近, BEDC 论文修订流水线开始做的事. 截至 P718 round, `field` 章节加了具体 `SingletonField` 载体并开始前进; `module` 在 P714/P716/P722 后解锁; `SCHEMA_ONLY_HORIZONS` 集合开始缩.
+
+```{=html}
+<span class="role-tag human">🧑 人类指引</span>
+<span class="role-tag ai">🤖 AI 实施</span>
+```
+
+解锁模式是人决定的 (选哪个具体载体 — 通常某个 `(UnaryHistory, Cont, Empty)` 类比) 加 AI 实施的 (形式化律和后果). 这是 [综合而非创造的模式](synthesis-not-creation.zh-CN.qmd) 在工作: 人提供 *根基连接* (这个载体体现这个代数), AI 把后果磨出来.
+
+## 为什么这件事在 BEDC 之外重要
+
+一般主张:
+
+> **任何最小化根基承诺的形式化项目, 在某点会拒绝吸收一个写在更宽容根基里的概念.**
+
+拒绝是有信息的. 是根基在告诉你它是什么形状. 如果你当 bug 看试图工程绕过去, 你会重新引入你试图最小化的根基承诺 — 静默地, 经过千条依赖根基不原生包含的抽象对象的 parameter-echo 定理.
+
+对 BEDC 具体而言: 代数章节的拒绝是根基在告诉我们"抽象 monoid"在区分独尊的世界里不是原语. 我们有选择: 放松根基 (允许抽象载体, 失去 `axiom-purity` 纪律), 或重写代数章节为具体实例 (保留根基, 多干活).
+
+我们选了第二条. 16 个章节的工作, 但每个完成的章节是一个具体见证, 表明根基能吸收那部分数学. 引发原"失败"的 Phase D lint, 最终是让成功良定义的那个东西.
+
+## 更深的主张
+
+如果你接受 BEDC 对抽象代数的机械拒绝是 *证据*, 表明区分是它的根基 — 不是 harness 的缺陷 — 那么按同样逻辑:
+
+- BEDC *接受* 范畴论 (经由基于 `Cont` 的 Hom 载体) 是证据, 表明 morphism 复合比抽象结构更接近区分.
+- BEDC *接受* Bishop 风格紧致 (经由 `Cont` 链) 是证据, 表明构造分析能在根基层级被表达.
+- BEDC 在实数上 *悬而未决* (还在做 RegSeqRat) 是证据, 表明完备性比代数结构更难在根基编码.
+
+这些不是哲学声明. 这些是关于 harness 接受什么、拒绝什么的经验观察. 基础主义, 经过机械测试.
+
+## 下一步去哪
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.zh-CN.qmd"><strong>← 区分作为根基</strong><br/>哲学搭档: 为什么我们认为"施行区分"比集合、类型、范畴更原始 — Wheeler、Bishop、同伦类型论怎么看这件事.</a>
+  <a href="default-failure-modes.zh-CN.qmd"><strong>默认失败模式 ←</strong><br/>代数章节一直产的形状, 以及机械过滤为什么必须拒绝它.</a>
+  <a href="discovery-loop.zh-CN.qmd"><strong>发现回路 →</strong><br/>工程: 五次 prompt 升级、一次机械 lint、一次 schema-only 排除 — 吸收这一切的 harness 长什么样.</a>
+</div>
+```
+
+— *The Omega Institute*
