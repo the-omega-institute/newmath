@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.11
+// @version      1.12
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -167,55 +167,50 @@
   // /c/<uuid> redirect, dropping in-memory busy state). With in_flight set,
   // a re-entry of processTask while on the original /c/<uuid> page resumes
   // waitForResponse() instead of re-navigating + re-entering the prompt.
-  // BUG (cross-tab contamination): GM_setValue keys are shared across all
-  // ChatGPT tabs running this userscript. With multiple concurrent tabs
-  // (recent_agents > 1), tab A's saveTaskState() will be overwritten by
-  // tab B before tab A finishes injecting the prompt, so tab A may inject
-  // tab B's prompt into tab A's conversation. Observed on B-10 (got B-11
-  // content) and B-11 (got B-10 content).
-  //
-  // Proper fix: namespace by conversation_id (or window.name/sessionStorage
-  // tab id):  GM_setValue(`bedc_current_task_${tabId}`, ...).
-  // Until then, run with a single active ChatGPT tab to avoid the swap.
+  // BEDC FIX (cross-tab contamination): all task-state keys are now scoped
+  // by agentId() via tabSet/tabGet (defined below alongside agentId). This
+  // prevents tab A's saveTaskState from overwriting tab B's, which had
+  // caused B-10/B-11 mid-flight prompt swaps and two tabs racing onto the
+  // same /c/<uuid>.
   function saveTaskState(task) {
-    GM_setValue("bedc_current_task", JSON.stringify(task));
-    GM_setValue("bedc_task_phase", "pending");
+    tabSet("current_task", JSON.stringify(task));
+    tabSet("task_phase", "pending");
   }
   function loadTaskState() {
     try {
-      const s = GM_getValue("bedc_current_task", "");
+      const s = tabGet("current_task", "");
       return s ? JSON.parse(s) : null;
     } catch { return null; }
   }
   function getTaskPhase() {
-    return GM_getValue("bedc_task_phase", "");
+    return tabGet("task_phase", "");
   }
   function setTaskPhase(phase) {
-    GM_setValue("bedc_task_phase", phase);
+    tabSet("task_phase", phase);
   }
   function clearTaskState() {
-    GM_setValue("bedc_current_task", "");
-    GM_setValue("bedc_task_phase", "");
+    tabSet("current_task", "");
+    tabSet("task_phase", "");
   }
   function getInFlightTaskId() {
-    return GM_getValue("bedc_in_flight_task_id", "");
+    return tabGet("in_flight_task_id", "");
   }
   function setInFlightTaskId(id) {
-    GM_setValue("bedc_in_flight_task_id", id || "");
+    tabSet("in_flight_task_id", id || "");
     // Also stamp the URL we were on when we became busy with this task.
     if (id) {
-      GM_setValue("bedc_in_flight_url", window.location.href);
-      GM_setValue("bedc_in_flight_started_at", Date.now());
+      tabSet("in_flight_url", window.location.href);
+      tabSet("in_flight_started_at", Date.now());
     } else {
-      GM_setValue("bedc_in_flight_url", "");
-      GM_setValue("bedc_in_flight_started_at", 0);
+      tabSet("in_flight_url", "");
+      tabSet("in_flight_started_at", 0);
     }
   }
   function getInFlightUrl() {
-    return GM_getValue("bedc_in_flight_url", "");
+    return tabGet("in_flight_url", "");
   }
   function getInFlightAgeMs() {
-    const ts = GM_getValue("bedc_in_flight_started_at", 0);
+    const ts = tabGet("in_flight_started_at", 0);
     return ts ? (Date.now() - ts) : 0;
   }
 
@@ -898,8 +893,8 @@
       log(`=== Task: ${task_id} [RE-EXTRACT] conv=${(conversation_id || "").slice(0, 12)} ===`);
       try {
         if (conversation_url && !window.location.href.startsWith(conversation_url)) {
-          GM_setValue("bedc_navigating", true);
-          GM_setValue("bedc_nav_task_id", task_id);
+          tabSet("navigating", true);
+          tabSet("nav_task_id", task_id);
           saveTaskState(task);
           setTaskPhase("navigating");
           log(`Navigating to ${conversation_url.slice(-60)} for re-extract ...`);
@@ -1021,8 +1016,8 @@
           // No reload — keep going in same script instance
         } else {
           log(`No New Chat button found; falling back to URL navigation`);
-          GM_setValue("bedc_navigating", true);
-          GM_setValue("bedc_nav_task_id", task_id);
+          tabSet("navigating", true);
+          tabSet("nav_task_id", task_id);
           saveTaskState(task);
           setTaskPhase("navigating");
           busy = false;
@@ -1031,8 +1026,8 @@
           return;
         }
       } else if (needNavToConv) {
-        GM_setValue("bedc_navigating", true);
-        GM_setValue("bedc_nav_task_id", task_id);
+        tabSet("navigating", true);
+        tabSet("nav_task_id", task_id);
         saveTaskState(task);
         setTaskPhase("navigating");
         log(`Navigating to existing conv ${(targetUrl || "").slice(-60)} ...`);
@@ -1155,24 +1150,45 @@
   // so persisting agent_id there causes multiple tabs to share an identity and
   // the server dispatches the same task to all of them concurrently. Use
   // sessionStorage (per-tab) instead, fall back to window.name + URL flag.
+  //
+  // BEDC FIX (cross-tab contamination): agentId is now PINNED on first call
+  // and reused for the lifetime of this tab. Previously, a `?bedc=N` flag
+  // returned `bedc_N` only while the URL had the flag; once ChatGPT
+  // redirected /?bedc=N → /c/<uuid> the URL lost the flag and agentId
+  // started returning a NEW random sessionStorage id. So a tab's identity
+  // changed mid-task, and worse, the per-tab GM_setValue namespace also
+  // changed (see tabSet/tabGet below). Pinning to sessionStorage on the
+  // very first call gives every tab a stable identity for its full session.
   function agentId() {
-    const m = window.location.search.match(/[?&]bedc=([^&]+)/);
-    if (m) return `bedc_${m[1]}`;
     try {
       let stored = sessionStorage.getItem("bedc_agent_id");
-      if (!stored) {
-        stored = `bedc_${Math.floor(Math.random() * 9000) + 1000}_${Date.now().toString(36).slice(-4)}`;
-        sessionStorage.setItem("bedc_agent_id", stored);
-      }
+      if (stored) return stored;
+      const m = window.location.search.match(/[?&]bedc=([^&]+)/);
+      stored = m
+        ? `bedc_${m[1]}`
+        : `bedc_${Math.floor(Math.random() * 9000) + 1000}_${Date.now().toString(36).slice(-4)}`;
+      sessionStorage.setItem("bedc_agent_id", stored);
       return stored;
     } catch {
       // Private mode / sessionStorage disabled — fall back to window.name
       if (!window.name || !window.name.startsWith("bedc_")) {
-        window.name = `bedc_${Math.floor(Math.random() * 9000) + 1000}_${Date.now().toString(36).slice(-4)}`;
+        const m = window.location.search.match(/[?&]bedc=([^&]+)/);
+        window.name = m
+          ? `bedc_${m[1]}`
+          : `bedc_${Math.floor(Math.random() * 9000) + 1000}_${Date.now().toString(36).slice(-4)}`;
       }
       return window.name;
     }
   }
+
+  // BEDC FIX: per-tab namespace for GM_setValue / GM_getValue. GM storage
+  // is shared across ALL tabs running the userscript, so two tabs writing
+  // `bedc_current_task` simultaneously will trample each other (observed
+  // as B-10/B-11 cross-contamination, and as two tabs landing on the same
+  // /c/<uuid> after racing GM writes). Scoping every key by agentId()
+  // gives each tab its own private namespace.
+  function tabSet(k, v) { return GM_setValue(`${agentId()}_${k}`, v); }
+  function tabGet(k, d) { return GM_getValue(`${agentId()}_${k}`, d); }
 
   // ── Main loop ────────────────────────────────────────────────────────
   function _readActive() {
@@ -1211,8 +1227,8 @@
     log(`BEDC Oracle Bridge ${SCRIPT_VERSION} loaded — ${active ? "ACTIVE" : "PAUSED"} — agent=${agentId()}`);
 
     const phase = getTaskPhase();
-    const navTaskId = GM_getValue("bedc_nav_task_id", "");
-    const bedcNav = GM_getValue("bedc_navigating", false);
+    const navTaskId = tabGet("nav_task_id", "");
+    const bedcNav = tabGet("navigating", false);
     const urlHasFlag = window.location.search.includes("bedc=");
     const inFlightId = getInFlightTaskId();
     const inFlightAgeMin = Math.floor(getInFlightAgeMs() / 60000);
@@ -1244,8 +1260,8 @@
 
     if (phase === "navigating" && navTaskId && (bedcNav || urlHasFlag)) {
       log(`Resuming after navigation for task: ${navTaskId}`);
-      GM_setValue("bedc_nav_task_id", "");
-      GM_setValue("bedc_navigating", false);
+      tabSet("nav_task_id", "");
+      tabSet("navigating", false);
       const savedTask = loadTaskState();
       clearTaskState();
 
@@ -1272,8 +1288,8 @@
       }
     } else if (phase === "navigating") {
       log("Clearing stale navigation state (user browsing, not bedc)");
-      GM_setValue("bedc_nav_task_id", "");
-      GM_setValue("bedc_navigating", false);
+      tabSet("nav_task_id", "");
+      tabSet("navigating", false);
       clearTaskState();
     }
 
