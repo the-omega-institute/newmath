@@ -387,42 +387,39 @@ certified nonzero product. Exactness predicate: nonzero-product obstruction
 to zero-factor classifiers. Standard bridge: deferred conservative bridge.
 Status: ProofTarget.
 
-\begin{theorem}[Field two-sided product nonzero excludes middle zero]
+\begin{theorem}[Field two-sided product nonzero excludes middle zero without outer apartness]
 \label{thm:field-two-sided-product-nonzero-excludes-middle-zero}
 For a BEDC history-level $\FieldUp$ candidate with the hypotheses of
-\autoref{thm:field-two-sided-zero-product-cancel-from-apartness}, classifier
-transport of $\mathsf{NonZero}_F$, and contradiction of
-$\mathsf{NonZero}_F(0)$, every $a,b,x:\mathsf{BHist}$ with outer witnesses
-$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ and product
-witness
+\autoref{thm:field-product-nonzero-excludes-zero-factors}, together with the
+ring zero-absorption and multiplication-congruence fields used there, every
+$a,b,x:\mathsf{BHist}$ with product witness
 $$
 p_{axb}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b)),
 $$
 satisfies $x\hsame0\to\bot$.
 \end{theorem}
 \begin{proof}
-Assume $x\hsame0$. Use the reverse direction of
-\autoref{thm:field-two-sided-zero-product-cancel-from-apartness} with the
-outer witnesses $p_a$ and $p_b$. This derives
+Assume $x\hsame0$. Multiplication congruence sends
+$\mathsf{mul}(a,x)$ to $\mathsf{mul}(a,0)$, and
+Theorem~\ref{thm:ring-mul-zero-absorption} identifies
+$\mathsf{mul}(a,0)$ with $0$. Transitivity gives
 $$
-\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame0.
+\mathsf{mul}(a,x)\hsame0.
 $$
 
-Transport
-$p_{axb}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))$ along this
-classifier equality. The nonzero transport clause supplies
-$\mathsf{NonZero}_F(0)$.
-
-The field zero-contradiction clause rejects $\mathsf{NonZero}_F(0)$, so the
-assumed middle classifier $x\hsame0$ yields $\bot$.
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to the
+product with left factor $\mathsf{mul}(a,x)$, right factor $b$, and witness
+$p_{axb}$. Its left zero-factor obstruction rejects the displayed classifier,
+so the assumed middle classifier $x\hsame0$ yields $\bot$.
 \end{proof}
 
 Per-object certificate: Traditional target: two-sided nonzero-product
 middle-factor obstruction. BEDC source: $\FieldUp$ plus $\RingUp$ zero
 absorption. Carrier choice: $\mathsf{BHist}$. Classifier choice: $\hsame$.
-Stability obligations: two-sided zero-product exactness, nonzero transport,
-and zero contradiction. Ledger: the two outer nonzero witnesses $p_a,p_b$
-plus $p_{axb}$. Core theorem list:
+Stability obligations: product zero-factor exclusion and ring zero
+absorption. Ledger:
+$p_{axb}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))$ and the
+tested middle-zero classifier. Core theorem list:
 Theorem~\ref{thm:field-two-sided-product-nonzero-excludes-middle-zero}.
 Exactness predicate: obstruction to middle zero. Standard bridge: deferred.
 Status: ProofTarget.
