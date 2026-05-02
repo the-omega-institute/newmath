@@ -236,4 +236,20 @@ theorem FpsSingletonEmptyHistoryClassifier_headed_endpoint_absurd {h k : BHist} 
                   cases hz
                   exact not_hsame_e1_empty kEmpty
 
+theorem FpsSingletonEmptyHistoryClassifier_continuation_comm_closed
+    {F G left right : BHist} :
+    FpsSingletonEmptyHistoryCarrier F -> FpsSingletonEmptyHistoryCarrier G ->
+      Cont F G left -> Cont G F right -> FpsSingletonEmptyHistoryCarrier left ∧
+        FpsSingletonEmptyHistoryCarrier right ∧
+          FpsSingletonEmptyHistoryClassifier left right := by
+  intro carrierF carrierG leftCont rightCont
+  cases carrierF
+  cases carrierG
+  cases leftCont
+  cases rightCont
+  have emptyCarrier : FpsSingletonEmptyHistoryCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro emptyCarrier
+    (And.intro emptyCarrier
+      (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))))
+
 end BEDC.Derived.FpsUp

@@ -239,6 +239,25 @@ history-same to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingleton\_append\_distrib\_classified}
 
+\begin{theorem}[Polynomial singleton classifier continuation commutativity closure]
+\label{thm:polynomial-singleton-classifier-continuation-comm-closed}
+Let $P,Q:\mathsf{BHist}$ be carried by the singleton polynomial carrier
+$A_{\emp}$. If $\ContR(P,Q,L)$ and $\ContR(Q,P,R)$, then both continuation
+results are carried by $A_{\emp}$, and the singleton polynomial classifier
+relates them:
+$$
+A_{\emp}(L)\land A_{\emp}(R)\land \rho_{\emp}(L,R).
+$$
+\end{theorem}
+\begin{proof}
+The carrier hypotheses reduce $P$ and $Q$ to the empty history. The two
+continuation witnesses then reduce $L$ and $R$ to the same endpoint
+$\mathsf{append}(\emp,\emp)=\emp$. Repacking the reflexive empty-history
+carrier witnesses for the two results with $\hsame(\emp,\emp)$ gives the
+singleton classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_continuation\_comm\_closed}
+
 The $\PolynomialUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and the displayed $\mathsf{BHist}$-valued operations, so later
 formalization can target BHist-anchored polynomial laws rather than abstract

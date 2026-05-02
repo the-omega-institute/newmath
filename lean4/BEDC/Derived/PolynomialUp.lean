@@ -201,4 +201,18 @@ theorem PolynomialSingleton_append_distrib_classified {P Q R : BHist} :
   · exact And.intro leftSecond
       (And.intro rightSecond (hsame_trans leftSecond (hsame_symm rightSecond)))
 
+theorem PolynomialSingletonClassifier_continuation_comm_closed {P Q left right : BHist} :
+    PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q -> Cont P Q left ->
+      Cont Q P right -> PolynomialSingletonCarrier left ∧ PolynomialSingletonCarrier right ∧
+        PolynomialSingletonClassifier left right := by
+  intro carrierP carrierQ leftCont rightCont
+  cases carrierP
+  cases carrierQ
+  cases leftCont
+  cases rightCont
+  have emptyCarrier : PolynomialSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro emptyCarrier
+    (And.intro emptyCarrier
+      (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))))
+
 end BEDC.Derived.PolynomialUp

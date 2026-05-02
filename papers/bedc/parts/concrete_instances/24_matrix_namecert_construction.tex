@@ -283,6 +283,26 @@ $\hsame$ witness gives the five asserted instances of $\rho_{\emp}$.
 
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonEmptyHistory\_endpoint\_exactness}
 
+\begin{theorem}[Matrix singleton classifier continuation commutativity closure]
+\label{thm:matrix-singleton-classifier-continuation-comm-closed}
+Let $M,N:\mathsf{BHist}$ be carried by the singleton matrix carrier
+$A_{\emp}$. If $\ContR(M,N,L)$ and $\ContR(N,M,R)$, then both continuation
+results are again carried by $A_{\emp}$, and the singleton matrix classifier
+relates the two results:
+$$
+A_{\emp}(L)\land A_{\emp}(R)\land \rho_{\emp}(L,R).
+$$
+\end{theorem}
+\begin{proof}
+The two carrier hypotheses identify $M$ and $N$ with $\emp$. After these
+identifications, the two continuation premises identify both $L$ and $R$ with
+the BEDC append endpoint $\mathsf{append}(\emp,\emp)$, which is $\emp$. The
+singleton carrier witnesses for $L$ and $R$ are therefore reflexive empty
+history witnesses, and the classifier is rebuilt from those two carrier
+components and $\hsame(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_continuation\_comm\_closed}
+
 \section{The certificate}
 
 \begin{definition}[Matrix source specification]

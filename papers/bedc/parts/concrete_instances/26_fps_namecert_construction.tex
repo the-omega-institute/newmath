@@ -236,6 +236,25 @@ the constructor separation lemmas for headed histories and the empty history.
 \end{proof}
 \leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_headed\_endpoint\_absurd}
 
+\begin{theorem}[Singleton FPS classifier continuation commutativity closure]
+\label{thm:fps-singleton-empty-history-classifier-continuation-comm-closed}
+Let $F,G:\mathsf{BHist}$ be carried by the singleton empty-history FPS carrier
+$A_{\emp}$. If $\ContR(F,G,L)$ and $\ContR(G,F,R)$, then both continuation
+results are carried by $A_{\emp}$, and the singleton FPS classifier relates
+the two results:
+$$
+A_{\emp}(L)\land A_{\emp}(R)\land \rho_{\emp}(L,R).
+$$
+\end{theorem}
+\begin{proof}
+The carried endpoints $F$ and $G$ are both identified with $\emp$. Inverting
+the two continuation witnesses after those identifications reduces the two
+results to $\mathsf{append}(\emp,\emp)$, hence to $\emp$. The result carriers
+are the singleton empty-history witnesses, and the classifier follows by
+pairing those witnesses with reflexivity of $\hsame$ at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FpsUp.FpsSingletonEmptyHistoryClassifier\_continuation\_comm\_closed}
+
 \section{The certificate}
 
 \begin{definition}[FormalPowerSeries source specification]

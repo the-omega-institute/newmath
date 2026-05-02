@@ -230,4 +230,18 @@ theorem MatrixSingletonAddMul_classifier_iff {M N : BHist} :
     exact And.intro appendEmpty
       (And.intro appendEmpty (hsame_refl (MatrixSingletonAdd M N)))
 
+theorem MatrixSingletonClassifier_continuation_comm_closed {M N left right : BHist} :
+    MatrixSingletonCarrier M -> MatrixSingletonCarrier N -> Cont M N left -> Cont N M right ->
+      MatrixSingletonCarrier left ∧ MatrixSingletonCarrier right ∧
+        MatrixSingletonClassifier left right := by
+  intro carrierM carrierN leftCont rightCont
+  cases carrierM
+  cases carrierN
+  cases leftCont
+  cases rightCont
+  have emptyCarrier : MatrixSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro emptyCarrier
+    (And.intro emptyCarrier
+      (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))))
+
 end BEDC.Derived.MatrixUp
