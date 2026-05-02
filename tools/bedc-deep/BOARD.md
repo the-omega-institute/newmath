@@ -1573,3 +1573,54 @@ Turn 0 surfaces a separate obstruction: F preserves identity only through univer
 
 ---
 
+### B-64 - Directed meet associativity comparison from bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Directed meet associativity comparison from bounds |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a LatticeUp carrier with inherited PreorderUp transitivity and the directional meet lower-bound and greatest-lower-bound implication fields, (x∧y)∧z ≤C x∧(y∧z) holds for all x,y,z.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 1 as the explicitly named smallest Lean-facing test lemma before applying POSetUp antisymmetry. It deserves its own loop because it isolates the preorder-transitivity and meet-bound dependency without using antisymmetry, join fields, commutativity, idempotence, or absorption, and it is not the same object as the full classifier-level associativity target B-26.
+
+---
+
+
+### B-65 - Directed join associativity comparison from bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Directed join associativity comparison from bounds |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a LatticeUp carrier with inherited PreorderUp transitivity and the directional join upper-bound and least-upper-bound implication fields, (x∨y)∨z ≤C x∨(y∨z) holds for all x,y,z.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Surfaced in Turn 1 as the dual join-side comparison to be tested after the meet-directed lemma succeeds. It deserves its own loop because it gives the join-only order comparison underlying classifier-level join associativity while avoiding POSetUp antisymmetry and all meet-side fields, making the LUB dependency independently auditable.
+
+---
+
