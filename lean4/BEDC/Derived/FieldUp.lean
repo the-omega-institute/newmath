@@ -233,6 +233,19 @@ theorem field_inverse_cancel_from_apartness {mul : BHist -> BHist -> BHist}
     exact hsame_trans transported
       (hsame_trans reassoc (hsame_trans cancelTail (rightId a)))
 
+ theorem field_right_mul_equation_exact_from_apartness {mul : BHist -> BHist -> BHist}
+    {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {x b a : BHist} (pb : NonZero b) :
+    (hsame (mul x b) a ↔ hsame x (mul a (inv b pb))) := by
+  exact field_right_mul_equation_solution_from_apartness_iff
+    assocC rightId mulCongr leftInv rightInv pb
+
  theorem field_mul_inverse_left_cancel_from_apartness {mul : BHist -> BHist -> BHist}
     {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.Derived.RingUp
+import BEDC.Derived.AbGroupUp
 
 namespace BEDC.Derived.CommRingUp
 
@@ -170,6 +171,29 @@ theorem commring_mul_add_add_expand {add mul : BHist -> BHist -> BHist}
         (add (add (mul a c) (mul a d)) (add (mul b c) (mul b d))) := by
     exact addCongr (leftDistrib a c d) (leftDistrib b c d)
   exact hsame_trans outer inner
+
+theorem commring_mul_add_add_column_expand {add mul : BHist -> BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z))) :
+    forall a b c d : BHist,
+      hsame (mul (add a b) (add c d))
+        (add (add (mul a c) (mul b c)) (add (mul a d) (mul b d))) := by
+  intro a b c d
+  have row :
+      hsame (mul (add a b) (add c d))
+        (add (add (mul a c) (mul a d)) (add (mul b c) (mul b d))) := by
+    exact commring_mul_add_add_expand mulComm addCongr leftDistrib a b c d
+  have column :
+      hsame (add (add (mul a c) (mul a d)) (add (mul b c) (mul b d)))
+        (add (add (mul a c) (mul b c)) (add (mul a d) (mul b d))) := by
+    exact BEDC.Derived.AbGroupUp.abgroup_mul_middle_four addAssoc addComm addCongr
+      (mul a c) (mul a d) (mul b c) (mul b d)
+  exact hsame_trans row column
 
 theorem commring_left_distrib_commuted_terms {add mul : BHist -> BHist -> BHist}
     (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
