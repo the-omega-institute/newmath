@@ -342,6 +342,84 @@ square equality; core theorem this block; exactness the displayed four-component
 certificate; downstream consumer $\FieldUp$ quadratic and zero-factor exit
 packages; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[CommRing quadratic zero-linear bridge package]
+\label{thm:commring-quadratic-zero-linear-bridge-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+shared hypotheses of \autoref{thm:commring-quadratic-polarization-package} and
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\left(
+\left(
+\Bigl(
+((a+b)\cdot(a+b))+((a+(-b))\cdot(a+(-b)))\hsame
+(a\cdot a+a\cdot a)+(b\cdot b+b\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+b)\cdot(a+b))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(a\cdot b)+(a\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+(-b))\cdot(a+(-b)))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(-(a\cdot b))+(-(a\cdot b))
+\Bigr)
+\land
+\Bigl(
+(a+(-b))\cdot(a+(-b))\hsame0
+\Longleftrightarrow
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+\Bigr)
+\right)
+\land
+\left(
+\left(
+\left((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\right)
+\lor
+\left((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\right)
+\right)
+\land
+(a+b)\cdot(a+(-b))\hsame0
+\land
+(a+(-b))\cdot(a+b)\hsame0
+\land
+a\cdot a\hsame b\cdot b
+\right)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-quadratic-polarization-package} to the shared
+hypotheses and the selected histories $a,b$. This produces the full
+quadratic-polarization package in the displayed order.
+
+Let $H$ be the zero-linear-factor branch witness. Apply
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package} to $H$ under
+the same operation hypotheses. This produces the full bilateral certificate:
+the selected branch with its two-sided annihilator row, both signed product
+orientations, and the square equality.
+
+Introduce the final conjunction with the quadratic-polarization package as the
+first component and the bilateral zero-linear-factor certificate as the second
+component. The branch witness is consumed only by the bilateral component, so
+the resulting certificate remains over the same concrete $\mathsf{BHist}$ source.
+\end{proof}
+
+The ten-field fit is: traditional target a commutative-ring package combining
+quadratic polarization with zero-linear-factor exactness; BEDC source
+$\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability from the shared quadratic and zero-factor
+operation laws; ledger the polarization identities, exact signed-square test,
+selected linear factor, two-sided annihilator row, bilateral signed products,
+and square equality; core theorem this block; exactness the displayed combined
+certificate; downstream use by $\FieldUp$ quadratic normalization and
+zero-factor exit packages; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[CommRing singleton empty square exact package]
 \label{thm:commring-singleton-empty-square-exact-package}
 For the singleton empty-history CommRing tuple of
