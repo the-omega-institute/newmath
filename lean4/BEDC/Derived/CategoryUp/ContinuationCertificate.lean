@@ -28,6 +28,62 @@ theorem ContinuationMorphism_tail_semanticNameCert {a b : BHist}
   · intro h source
     exact source
 
+theorem ContinuationMorphism_source_semanticNameCert {a b : BHist}
+    (m : ContinuationMorphism a b) :
+    SemanticNameCert (fun src : BHist => Nonempty (ContinuationMorphism src b))
+      (fun src : BHist => Nonempty (ContinuationMorphism src b))
+      (fun src : BHist => Nonempty (ContinuationMorphism src b)) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro a (Nonempty.intro m)
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrierH
+      cases carrierH with
+      | intro sourceMorphism =>
+          exact Nonempty.intro {
+            tail := sourceMorphism.tail
+            rel :=
+              cont_hsame_transport same (hsame_refl sourceMorphism.tail) (hsame_refl b)
+                sourceMorphism.rel
+          }
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
+theorem ContinuationMorphism_target_semanticNameCert {a b : BHist}
+    (m : ContinuationMorphism a b) :
+    SemanticNameCert (fun tgt : BHist => Nonempty (ContinuationMorphism a tgt))
+      (fun tgt : BHist => Nonempty (ContinuationMorphism a tgt))
+      (fun tgt : BHist => Nonempty (ContinuationMorphism a tgt)) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro b (Nonempty.intro m)
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrierH
+      cases carrierH with
+      | intro targetMorphism =>
+          exact Nonempty.intro {
+            tail := targetMorphism.tail
+            rel :=
+              cont_hsame_transport (hsame_refl a) (hsame_refl targetMorphism.tail) same
+                targetMorphism.rel
+          }
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 theorem ContinuationMorphism_endpoint_transport_tail_classified {a a' b b' : BHist}
     (sameSource : hsame a a') (sameTarget : hsame b b')
     (left : ContinuationMorphism a b) (right : ContinuationMorphism a' b') :

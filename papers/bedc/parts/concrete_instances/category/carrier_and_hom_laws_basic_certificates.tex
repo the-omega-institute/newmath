@@ -31,4 +31,39 @@ three semantic predicates are the same hom-carrier predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_semanticNameCert\_of\_hom}
 
+\begin{theorem}[Continuation morphism source semantic name certificate]
+\label{thm:continuation-morphism-source-semantic-namecert}
+For a displayed continuation morphism $m:\mathsf{ContinuationMorphism}(a,b)$,
+the source predicate
+$src\mapsto\mathsf{Nonempty}(\mathsf{ContinuationMorphism}(src,b))$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same source predicate and whose classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The displayed morphism $m$ gives carrier inhabitation at source $a$.
+Reflexivity, symmetry, and transitivity of $\hsame$ supply the classifier
+laws. If a source endpoint is transported along $\hsame$, the same displayed
+tail remains valid by continuation transport, so the concrete
+continuation-morphism witness is rebuilt at the transported source.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_source\_semanticNameCert}
+
+\begin{theorem}[Continuation morphism target semantic name certificate]
+\label{thm:continuation-morphism-target-semantic-namecert}
+For a displayed continuation morphism $m:\mathsf{ContinuationMorphism}(a,b)$,
+the target predicate
+$tgt\mapsto\mathsf{Nonempty}(\mathsf{ContinuationMorphism}(a,tgt))$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same target predicate and whose classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The displayed morphism $m$ gives carrier inhabitation at target $b$.
+The classifier laws are the three basic laws of $\hsame$. Carrier transport
+uses continuation transport on the result endpoint while keeping the source
+and displayed tail fixed, thereby rebuilding a concrete continuation morphism
+at the transported target. Pattern and ledger soundness are identities for the
+same predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_target\_semanticNameCert}
+
 Per-object certificate: traditional target category identity laws; BEDC source $\mathsf{CategoryHomCarrier}$ plus $\Cont$; carrier $\mathsf{BHist}$ hom witnesses; classifier $\hsame$; stability obligation two-sided identity under morphism classifier; ledger the empty-composition ledgers; core theorem list entry two-sided identity; exactness predicate sameness with the original morphism; standard bridge deferred; status $\mathsf{ProofTarget}$.

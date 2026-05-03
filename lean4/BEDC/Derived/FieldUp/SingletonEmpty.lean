@@ -87,6 +87,37 @@ theorem fieldSingletonEmptyCarrier_semanticNameCert :
       exact source
   }
 
+theorem fieldSingletonEmptyNonZero_semanticNameCert :
+    SemanticNameCert fieldSingletonEmptyNonZero fieldSingletonEmptyNonZero
+      fieldSingletonEmptyNonZero hsame := by
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro (BHist.e0 BHist.Empty) (by
+          intro classified
+          exact not_hsame_e0_empty classified.left)
+      equiv_refl := by
+        intro h _nonzero
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same nonzeroH
+        cases same
+        exact nonzeroH
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
+
 theorem field_singleton_empty_schema_laws :
     (fieldSingletonEmptyCarrier BHist.Empty) ∧
       (fieldSingletonEmptyNonZero BHist.Empty -> False) ∧

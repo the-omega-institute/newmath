@@ -47,3 +47,21 @@ the singleton endpoint and the empty witness domain, giving the required
 concrete $\mathsf{BHist}$ FieldUp naming certificate template.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_semanticNameCert}
+
+\begin{theorem}[Singleton empty nonzero semantic name certificate]
+\label{thm:field-singleton-empty-nonzero-semantic-namecert}
+The classifier-complement predicate
+$h\mapsto\mathsf{fieldSingletonEmptyNonZero}(h)$ carries a semantic naming
+certificate whose source, pattern, and ledger predicates are this same
+nonzero predicate and whose classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The visible endpoint $\mathsf{e0}(\emp)$ inhabits the predicate because a
+singleton empty classifier witness would identify a zero-headed history with
+$\emp$, contradicting constructor separation for $\mathsf{BHist}$. The
+classifier laws are reflexivity, symmetry, and transitivity of $\hsame$.
+Carrier transport follows by substituting the endpoint sameness into the
+concrete classifier-complement predicate; pattern and ledger soundness are the
+identity maps for the same predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_semanticNameCert}
