@@ -189,6 +189,29 @@ $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_context\_continuation\_result\_carrier}
 
+\begin{theorem}[Field singleton add-neg-zero context continuation result iff]
+\label{thm:field-singleton-add-neg-zero-context-continuation-result-iff}
+For histories $L,R,a,b,c,out:\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$ and $\mathsf{FieldSingletonCarrier}(R)$,
+the add-neg-zero contextual continuation exists exactly for singleton field
+carrier results:
+$$
+\mathsf{Cont}
+  (\mathsf{append}(L,\mathsf{FieldSingletonAdd}(a,b)),
+   \mathsf{append}(\mathsf{FieldSingletonNeg}(c),R),out)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(out).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the add-neg-zero contextual carrier closure. For the
+reverse direction, the singleton additive and negation endpoints unfold to
+\(\emp\), and the carrier witnesses for \(L\), \(R\), and \(out\) reduce the
+claim to the right-unit continuation at \(\emp\), transported along the
+supplied carrier witness for \(out\).
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_context\_continuation\_result\_iff}
+
 \begin{theorem}[Field singleton add-neg-zero context continuation classifier]
 \label{thm:field-singleton-add-neg-zero-context-continuation-classifier}
 For histories $L,R,a,b,c,d,out,out':\mathsf{BHist}$ with
