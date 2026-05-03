@@ -186,6 +186,27 @@ classifies the displayed result as
 $\mathsf{RatHistoryClassifier}(r,d)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator e1 left-unit law is impossible]
+\label{thm:field-rat-denominator-continuation-e1-left-unit-law-absurd}
+For every tail history $t:\mathsf{BHist}$, the one-headed candidate
+$\Eone(t)$ cannot satisfy the Rat-denominator left-unit classifier law:
+$$
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(\Eone(t),d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\to \mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_e1\_left\_unit\_law\_absurd}
+\begin{proof}
+The left-unit endpoint equivalence forces $\Eone(t)\hsame\emp$ from the
+displayed classifier law. Constructor separation for $\mathsf{BHist}$ rejects
+any equality between a one-headed history and the empty history.
+\end{proof}
+
 \begin{theorem}[Rat denominator e1-probe classifier endpoint empty]
 \label{thm:field-rat-denominator-e1-probe-classifier-endpoint-empty}
 For every history $u:\mathsf{BHist}$, if the one-headed denominator probe

@@ -169,6 +169,28 @@ other branch is the required $\mathsf{RatHistoryCarrier}(h)$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_nonempty\_rat}
 
+\begin{theorem}[Rat denominator unit carrier visible cases]
+\label{thm:rat-denom-unit-carrier-visible-cases}
+For every history $h:\mathsf{BHist}$, an adjoined empty-unit denominator carrier
+witness exposes exactly the visible empty branch or a one-headed unary
+denominator tail:
+$$
+\mathsf{RatDenomUnitCarrier}(h)\to
+\left(
+h\hsame\emp
+\lor
+\exists t:\mathsf{BHist}.\; h=\Eone(t)\land \mathsf{UnaryHistory}(t)
+\right).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_visible\_cases}
+\begin{proof}
+Split the concrete history $h$. The empty constructor gives the empty branch.
+The zero-headed constructor is incompatible with the denominator-unit carrier
+by the zero-endpoint exclusion theorem. The one-headed constructor reads the
+unary tail back through the carrier endpoint equivalence.
+\end{proof}
+
 \begin{theorem}[Rat denominator unit continuation exposes a nonempty Rat endpoint]
 \label{thm:rat-denom-unit-continuation-nonempty-rat-endpoint}
 For histories $h,k,r$, if $h$ and $k$ lie in

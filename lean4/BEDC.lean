@@ -158,6 +158,7 @@ import BEDC.Derived.FieldUp.SingletonClassifier
 import BEDC.Derived.FieldUp.SingletonContinuation
 import BEDC.Derived.FieldUp.AffineEquation
 import BEDC.Derived.FieldUp.Affine
+import BEDC.Derived.FieldUp.AffineCompositeInverseReverseCoherence
 import BEDC.Derived.FieldUp.SingletonAppend
 import BEDC.Derived.FieldUp.SingletonRatDisjoint
 import BEDC.Derived.FieldUp.RatBoundary
@@ -172,11 +173,13 @@ import BEDC.Derived.FieldUp.SquareApartnessAndAffine
 import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatDenomUnit
+import BEDC.Derived.FieldUp.RatDenomUnitCarrierVisibleCases
 import BEDC.Derived.FieldUp.RatDenomUnitSemantic
 import BEDC.Derived.FieldUp.RatDenomUnitEndpointAbsurd
 import BEDC.Derived.FieldUp.RatDenomUnitAppendRat
 import BEDC.Derived.FieldUp.RatDenomUnitEmptyContext
 import BEDC.Derived.FieldUp.RatContinuation
+import BEDC.Derived.FieldUp.RatContinuationE1LeftUnitLawAbsurd
 import BEDC.Derived.FieldUp.RatContinuationOneSidedUnit
 import BEDC.Derived.FieldUp.RatContextInvariantObstruction
 import BEDC.Derived.FieldUp.RatContinuationAppendComm
