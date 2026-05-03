@@ -182,4 +182,15 @@ theorem ContinuationMorphism_comp_tail_semanticNameCert {a b c : BHist}
   · intro h source
     exact source
 
+theorem ContinuationMorphism_comp_tail_unary_closed {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    UnaryHistory left.tail -> UnaryHistory right.tail ->
+      UnaryHistory (ContinuationMorphism_comp_closed left right).tail := by
+  intro leftCarrier rightCarrier
+  cases left with
+  | mk leftTail _leftRel =>
+      cases right with
+      | mk rightTail _rightRel =>
+          exact unary_append_closed leftCarrier rightCarrier
+
 end BEDC.Derived.CategoryUp

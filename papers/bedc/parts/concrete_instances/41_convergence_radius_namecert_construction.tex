@@ -70,6 +70,15 @@ separation.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_visible\_radius\_endpoint\_package}
 
+\begin{theorem}[Geometric bound radius semantic naming certificate]
+\label{thm:geom-bound-radius-semantic-namecert}
+For fixed coefficients \(a\) and unary bound constant \(K\), any witness of \(\mathsf{GeomBound}(a,r,K)\) yields a semantic naming certificate whose carrier, pattern, and ledger are the same radius-indexed geometric-bound predicate and whose classifier is \(\hsame\) on the displayed radius.
+\end{theorem}
+\begin{proof}
+The witnessed radius \(r\) inhabits the carrier. Reflexivity, symmetry, and transitivity are the finite-kernel \(\hsame\) laws. Carrier transport moves only the unary radius component across the displayed \(\hsame\) comparison and leaves the fixed coefficient and bound data unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_radius\_semanticNameCert}
+
 \begin{lemma}[Geometric majorant inside the disk]
 \label{lem:geom-bound-majorant}
 If \(\mathsf{GeomBound}(a, r, K)\) holds and \(z\) satisfies \(|z - z_0| \leq r' < r\) (decidable strict inequality on rational representations), then the partial sums of \(a\) at \(z\) form a regular complex Cauchy sequence with explicit modulus \(N(k) = \lceil k / \log_2(r/r') \rceil\) computed as a unary function of the precision.
@@ -176,8 +185,9 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 
 \begin{theorem}[Semantic \(\ConvergenceRadiusUp\) naming certificate]
 \label{thm:conv-rad-semantic-namecert}
-The concrete certificate of \autoref{thm:conv-rad-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier is the geometric-bound predicate, the classifier is \(\hsame\) on the radius, and every closure law is given by an explicit constructive proof.
+The concrete certificate of \autoref{thm:conv-rad-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier, pattern, and ledger are the convergence-radius predicate for a fixed coefficient family, the classifier is \(\hsame\) on the radius, and every closure law is given by an explicit constructive proof.
 \end{theorem}
 \begin{proof}[Sketch]
-Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
+The witnessed radius inhabits the carrier. The equivalence fields are the finite-kernel \(\hsame\) laws. Carrier transport uses radius transport together with unary transport of the displayed radius.
 \end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert}

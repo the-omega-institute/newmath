@@ -1,10 +1,12 @@
 import BEDC.Derived.ComplexUp
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.ConvergenceRadiusUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 
@@ -45,5 +47,44 @@ theorem GeomBound_visible_radius_endpoint_package {a : Nat -> BHist} {K R tail :
       cont_result_hsame_transport continuation resultEmpty
     have emptyParts := cont_empty_result_inversion emptyContinuation
     exact not_hsame_e1_empty emptyParts.left
+
+theorem ConvRad_semanticNameCert {a : Nat -> BHist} {R : BHist} (radius : ConvRad a R) :
+    SemanticNameCert (ConvRad a) (ConvRad a) (ConvRad a) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro R radius
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      exact ConvRad_radius_transport same carrier (unary_transport carrier.left same)
+  · intro _h source
+    exact source
+  · intro _h source
+    exact source
+
+theorem GeomBound_radius_semanticNameCert {a : Nat -> BHist} {r K : BHist}
+    (bound : GeomBound a r K) :
+    SemanticNameCert (fun radius : BHist => GeomBound a radius K)
+      (fun radius : BHist => GeomBound a radius K)
+      (fun radius : BHist => GeomBound a radius K) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro r bound
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k q sameHK sameKQ
+      exact hsame_trans sameHK sameKQ
+    · intro h k same carrier
+      exact And.intro (unary_transport carrier.left same) carrier.right
+  · intro _h source
+    exact source
+  · intro _h source
+    exact source
 
 end BEDC.Derived.ConvergenceRadiusUp

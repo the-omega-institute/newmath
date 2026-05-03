@@ -123,6 +123,19 @@ comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_append\_deterministic}
 
+\begin{theorem}[Continuation morphism composite tail unary closure]
+\label{thm:continuation-morphism-comp-tail-unary-closed}
+For continuation morphisms $left:a\to b$ and $right:b\to c$, if both displayed
+factor tails are unary histories, then the closed composite tail of
+$left\circ right$ is a unary history.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The closed composite tail is
+$\mathsf{append}(\mathsf{tail}(left),\mathsf{tail}(right))$, so unary append
+closure applies to the two supplied tail carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_unary\_closed}
+
 \begin{theorem}[Continuation morphism tail factorization iff]
 \label{thm:continuation-morphism-tail-factorization-iff}
 For histories $a,c,l,r,t:\mathsf{BHist}$, if $\ContR(l,r,t)$, then a
