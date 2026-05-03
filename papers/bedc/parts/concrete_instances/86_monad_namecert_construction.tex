@@ -41,6 +41,24 @@ inversion identifies the suffix with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_left\_triangle\_result\_empty\_suffix\_empty}
 
+\begin{theorem}[Monad adjunction endomorphism triangle bridge is empty iff]
+\label{thm:monad-adjunction-endomorphism-triangle-bridge-empty-iff}
+For histories $p,a,unit,counit,left,right,bridge:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds.
+Then
+$$
+\mathsf{Cont}(left,bridge,right)\Longleftrightarrow\hsame(bridge,\emp).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, the right triangle result is empty, so the
+left-triangle empty-result suffix theorem applies to the displayed bridge
+continuation. Conversely, the carrier identifies both triangle results with
+$\emp$; after the bridge is also identified with $\emp$, the continuation is
+the empty right-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_bridge\_empty\_iff}
+
 \begin{theorem}[Monad adjunction endomorphism parallel triangle suffix agreement]
 \label{thm:monad-adjunction-endomorphism-parallel-triangle-suffix-same}
 For histories $p,a,unit,counit,left,right,suffix,left',right':\mathsf{BHist}$,
