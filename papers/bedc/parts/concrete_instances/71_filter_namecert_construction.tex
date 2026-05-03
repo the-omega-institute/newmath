@@ -28,6 +28,27 @@ $right$, followed by the same associativity comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_closed}
 
+\begin{theorem}[Principal suffix commuted meet closure]
+\label{thm:filter-principal-suffix-commuted-meet-closed}
+Let $base,left,right,meet,meetPoint:\mathsf{BHist}$. If $left$ and $right$
+are unary histories and
+$$
+\ContR(left,right,meet),\qquad
+\ContR(base,meet,meetPoint)
+$$
+hold, then the same $meetPoint$ is displayed by the commuted suffix:
+$$
+\ContR(base,\mathsf{append}(right,left),meetPoint).
+$$
+\end{theorem}
+\begin{proof}
+The first continuation identifies $meet$ with $\mathsf{append}(left,right)$.
+Unary commutativity of $left$ and $right$ transports this suffix under the
+fixed prefix $base$, giving the displayed continuation by
+$\mathsf{append}(right,left)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_commuted\_meet\_closed}
+
 \begin{theorem}[Principal suffix unary intersection result determinism]
 \label{thm:filter-principal-suffix-unary-intersection-result-deterministic}
 In the situation of
@@ -41,6 +62,26 @@ $\ContR(rightPoint,left,meetPoint)$. Continuation determinism compares this
 canonical display with the given displayed result.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_result\_deterministic}
+
+\begin{theorem}[Principal suffix unary intersection zero-result exclusion]
+\label{thm:filter-principal-suffix-unary-intersection-zero-result-absurd}
+Let $base,left,right,meet,leftPoint,rightPoint,z:\mathsf{BHist}$. If
+$base$, $left$, and $right$ are unary histories and
+$$
+\ContR(left,right,meet),\qquad
+\ContR(base,left,leftPoint),\qquad
+\ContR(base,right,rightPoint),\qquad
+\ContR(base,meet,\Ezero(z)),
+$$
+then $\bot$.
+\end{theorem}
+\begin{proof}
+Unary closure transports through the concrete continuation
+$\ContR(left,right,meet)$, so $meet$ is unary. Applying unary closure again to
+$\ContR(base,meet,\Ezero(z))$ would make the zero-headed result unary, which
+contradicts the unary no-zero-extension theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_zero\_result\_absurd}
 
 \section{The certificate}
 \label{sec:filter-certificate}

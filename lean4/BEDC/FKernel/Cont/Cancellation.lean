@@ -177,6 +177,14 @@ theorem cont_triangle_cycle_right_visible_tail_absurd {a b c f g k : BHist} :
     exact middle.trans (append_assoc a f g)
   exact (cont_mutual_extension_right_tail_absurd.right composite back)
 
+theorem cont_triangle_cycle_right_zero_tail_absurd {a b c f g k : BHist} :
+    Cont a f b -> Cont b g c -> Cont c (BHist.e0 k) a -> False := by
+  intro left middle back
+  have composite : Cont a (append f g) c := by
+    cases left
+    exact middle.trans (append_assoc a f g)
+  exact (cont_mutual_extension_right_tail_absurd.left composite back)
+
 theorem cont_triangle_cycle_tails_empty {a b c f g h : BHist} :
     Cont a f b -> Cont b g c -> Cont c h a ->
       hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame h BHist.Empty ∧
