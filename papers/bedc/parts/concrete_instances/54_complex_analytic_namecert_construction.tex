@@ -50,6 +50,35 @@ The predicate \(\mathsf{CplxPureImaginary}(\theta,z)\) holds when \(\theta\) is 
 \end{definition}
 \leandef{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary}
 
+\begin{theorem}[Pure-imaginary witness uniqueness]
+\label{thm:cplx-pure-imaginary-witness-unique}
+If the same complex history \(z\) is displayed as pure-imaginary by unary
+witnesses \(\theta\) and \(\phi\), then \(\theta\hsame\phi\).
+\end{theorem}
+\begin{proof}
+The two displayed pure-imaginary equalities identify the append histories
+\(\mathsf{append}(\Eone(\emp),\Eone(\theta))\) and
+\(\mathsf{append}(\Eone(\emp),\Eone(\phi))\). Cancelling the common left
+component \(\Eone(\emp)\) gives \(\Eone(\theta)\hsame\Eone(\phi)\), and
+constructor inversion gives \(\theta\hsame\phi\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_witness\_unique}
+
+\begin{theorem}[Pure-imaginary component determinacy]
+\label{thm:cplx-pure-imaginary-component-deterministic}
+If two pure-imaginary witnesses present the same complex history $z$ through
+unary parameters $\theta$ and $\theta'$, then the explicit component pairs
+$(\Eone(\emp),\Eone(\theta))$ and $(\Eone(\emp),\Eone(\theta'))$ are
+$\hsame$-equal, and $\theta\hsame\theta'$.
+\end{theorem}
+\begin{proof}
+Unpack both pure-imaginary witnesses and compose the two $\hsame$ comparisons
+through the shared history $z$. Cancelling the common real component
+$\Eone(\emp)$ leaves $\Eone(\theta)\hsame\Eone(\theta')$, and constructor
+inversion for $\Eone$ reads back $\theta\hsame\theta'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_component\_deterministic}
+
 \begin{lemma}[Complex exponential is well-defined up to \(\ComplexClassifier\)]
 \label{lem:cplx-exp-well-defined}
 For every complex history \(z\), the predicate \(\mathsf{CplxExp}(z, w)\) determines \(w\) uniquely up to \(\ComplexClassifier\). Moreover, if \(\hsame(z, z')\), then \(\mathsf{CplxExp}(z, w)\) iff \(\mathsf{CplxExp}(z', w)\).
@@ -82,6 +111,20 @@ Every \(\mathsf{CplxPureImaginary}(\theta,z)\) witness contains the unary witnes
 The real component \(\Eone(\emp)\) and imaginary component \(\Eone(\theta)\) both satisfy the rational positive-denominator carrier. Their product gives the complex carrier for the component pair, and the supplied \(\hsame\) comparison transports that carrier to \(z\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_complex\_carrier\_witness}
+
+\begin{theorem}[Pure-imaginary hsame transport witness]
+\label{thm:cplx-pure-imaginary-hsame-transport}
+If \(z\hsame z'\) and \(z\) is the pure-imaginary source determined by
+\(\theta\), then \(z'\) is the same pure-imaginary source and exposes the
+transported comparison with the component pair \((0,\theta)\).
+\end{theorem}
+\begin{proof}
+Unpack the pure-imaginary witness into the unary carrier for \(\theta\) and
+the comparison from \(z\) to the component-pair history. Compose that
+comparison with the symmetry of \(z\hsame z'\). The same unary carrier and the
+composed comparison rebuild the transported pure-imaginary witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_hsame\_transport\_witness}
 
 \begin{theorem}[Pure-imaginary component continuation witness]
 \label{thm:cplx-pure-imaginary-component-continuation-witness}

@@ -16,6 +16,13 @@ def ComplexTopologyOpenDiskGap (center radius point gap : BHist) : Prop :=
   ComplexHistoryCarrier center ∧ UnaryHistory radius ∧ ComplexHistoryCarrier point ∧
     UnaryHistory gap ∧ Cont point gap radius
 
+theorem ComplexTopologyOpenDiskGap_gap_deterministic
+    {center radius point gap gap' : BHist} :
+    ComplexTopologyOpenDiskGap center radius point gap -> Cont point gap' radius ->
+      hsame gap gap' := by
+  intro disk alternativeGap
+  exact cont_left_cancel disk.right.right.right.right alternativeGap
+
 theorem ComplexTopologyOpenDiskGap_hsame_transport
     {center center' radius radius' point point' gap gap' : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap ->
@@ -154,6 +161,22 @@ theorem ComplexTopologyOpenDiskGap_radius_not_empty {center radius point gap : B
                     cont_empty_result_inversion (cont_result_hsame_transport pointGap sameRadius)
                   exact ComplexHistoryCarrier_not_empty pointCarrier emptyParts.left
 
+theorem ComplexTopologyOpenDiskGap_empty_gap_radius_point {center radius point gap : BHist} :
+    ComplexTopologyOpenDiskGap center radius point gap -> hsame gap BHist.Empty ->
+      hsame radius point := by
+  intro disk sameGap
+  cases disk with
+  | intro _centerCarrier rest =>
+      cases rest with
+      | intro _radiusCarrier rest =>
+          cases rest with
+          | intro _pointCarrier rest =>
+              cases rest with
+              | intro _gapCarrier pointGap =>
+                  exact (cont_right_unit_iff.mp
+                    (cont_hsame_transport (hsame_refl point) sameGap
+                      (hsame_refl radius) pointGap))
+
 theorem ComplexTopologyOpenDiskGap_unary_suffix_transport
     {center radius point gap q pointq radiusq : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap -> UnaryHistory q -> Cont point q pointq ->
@@ -190,5 +213,28 @@ theorem ComplexTopologyOpenDiskGap_unary_suffix_transport
                           (And.intro shiftedPointCarrier
                             (And.intro gapCarrier shiftedBoundary))))
                       shiftedBoundary
+
+theorem ComplexTopologyOpenDiskGap_center_point_unary_suffix_transport
+    {center radius point gap q centerq pointq radiusq : BHist} :
+    ComplexTopologyOpenDiskGap center radius point gap -> UnaryHistory q ->
+      Cont center q centerq -> Cont point q pointq -> Cont radius q radiusq ->
+        ComplexTopologyOpenDiskGap centerq radiusq pointq gap ∧ Cont pointq gap radiusq := by
+  intro disk suffixCarrier centerSuffix pointSuffix radiusSuffix
+  cases disk with
+  | intro centerCarrier rest =>
+      have shiftedCenterCarrier : ComplexHistoryCarrier centerq :=
+        BEDC.Derived.ProdUp.ProdHistoryCarrier_hsame_transport centerSuffix.symm
+          (ComplexHistoryCarrier_append_unary_closed centerCarrier suffixCarrier)
+      have shifted :=
+        ComplexTopologyOpenDiskGap_unary_suffix_transport
+          (And.intro centerCarrier rest) suffixCarrier pointSuffix radiusSuffix
+      cases shifted with
+      | intro shiftedDisk shiftedBoundary =>
+          exact And.intro
+            (And.intro shiftedCenterCarrier
+              (And.intro shiftedDisk.right.left
+                (And.intro shiftedDisk.right.right.left
+                  (And.intro shiftedDisk.right.right.right.left shiftedBoundary))))
+            shiftedBoundary
 
 end BEDC.Derived.ComplexTopologyUp
