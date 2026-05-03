@@ -33,11 +33,13 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, FIRST_COMPLETED, wait
 import os
 
-from dispatch_bedc_target import SCRIPT_DIR, BedcTarget, build_initial_prompt, parse_board, BOARD_PATH
+from dispatch_bedc_target import SCRIPT_DIR, BedcTarget, build_initial_prompt, parse_board, BOARD_PATH, build_context_block
 import codex_orchestrator
 import killo_golden_writeback
 import lifecycle
 import stage0_quickpath
+import codex_track  # v2 codex track
+import board_spawn  # v2 BOARD spawn gate
 from locks import file_lock
 
 
@@ -785,6 +787,550 @@ def run_target(args: argparse.Namespace, target: BedcTarget) -> dict:
     return final_state
 
 
+# ===========================================================================
+# Pipeline v2: codex-track-first + oracle-track-fallback architecture
+# ===========================================================================
+#
+# Major differences vs v1 run_target:
+#
+#   - Codex track tries FIRST (no 4-round cap; iterates with self-audit and
+#     lightweight redline check until close or escalate).
+#   - Oracle track only kicks in when codex escalates. Inside the oracle
+#     track there is NO progress_delta verdict gate; codex_orchestrator's
+#     evaluate_oracle_done() decides done/continue/escalate per turn.
+#   - Oracle's initial prompt is the lean Chinese deep-research prompt
+#     (oracle_initial.txt), not the v1 boilerplate-heavy build_initial_prompt.
+#   - Each oracle follow-up turn embeds a codex-generated dynamic directive
+#     (build_oracle_followup_directive).
+#   - Stage 1.6 oracle adjacent self-report runs after oracle completes.
+#   - Stage 2 corrective: codex_track.run_codex_corrective_track tries to
+#     fix hygiene violations BEFORE falling back to oracle corrective.
+#   - BOARD spawn merges codex + oracle candidates through a maker/checker
+#     judge prompt (board_spawn.spawn_from_candidates).
+
+
+def _build_oracle_initial_prompt_v2(target: BedcTarget) -> str:
+    """Build the lean v2 oracle initial prompt from oracle_initial.txt."""
+    template = (SCRIPT_DIR / "prompts" / "oracle_initial.txt").read_text(encoding="utf-8")
+    object_str = target.fields.get("Object", target.title)
+    problem_str = ""
+    # Extract Problem section from BOARD body
+    body = target.body or ""
+    m = re.search(r"^Problem:\s*\n(.+?)(?:\n\n|\Z)", body, flags=re.MULTILINE | re.DOTALL)
+    if m:
+        problem_str = m.group(1).strip()
+    return template.format(
+        target_id=target.target_id,
+        target_title=target.title,
+        object=object_str,
+        problem=problem_str,
+    )
+
+
+def _build_oracle_followup_prompt_v2(*, last_id: int, last_topic_short: str, directive: str) -> str:
+    template = (SCRIPT_DIR / "prompts" / "oracle_followup.txt").read_text(encoding="utf-8")
+    return template.format(
+        last_id=last_id,
+        last_topic_short=last_topic_short[:80],
+        specific_directive=directive,
+    )
+
+
+def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
+    """Pipeline v2: codex-first, oracle-on-escalate, joint BOARD spawn."""
+    out_dir = artifact_dir(target)
+
+    # ---- Pre-flight: prior_art ----
+    if not getattr(args, "force", False):
+        from prior_art import find_paper_coverage
+        coverage = find_paper_coverage(target.fields.get("Object", ""))
+        if coverage:
+            print(
+                f"[v2] target {target.target_id} already covered by paper "
+                f"({len(coverage)} hits); skipping",
+                flush=True,
+            )
+            state = {
+                "target_id": target.target_id,
+                "title": target.title,
+                "started_at": _now_iso(),
+                "completed_at": _now_iso(),
+                "stage1_verdict": "already_in_paper",
+                "paper_coverage": coverage[:20],
+                "pipeline_version": "v2",
+            }
+            lifecycle.annotate(state, attempts=int((load_cursor(target).get("attempts") or 1)))
+            write_text(STATE_DIR / f"{target.slug}.json", json.dumps(state, ensure_ascii=False, indent=2))
+            return state
+
+    cursor = load_cursor(target)
+    turns: list[dict] = cursor.get("turns") or []
+    conversation_id = cursor.get("conversation_id") or ""
+    started_at = cursor.get("started_at") or _now_iso()
+    wall_clock_start = time.time()
+    raw_latex_path = out_dir / "raw_oracle_latex.md"
+
+    codex_board_candidates: list[dict] = list(cursor.get("codex_board_candidates") or [])
+    oracle_board_candidates: list[dict] = list(cursor.get("oracle_board_candidates") or [])
+
+    # ---- Codex track ----
+    codex_summary: dict = cursor.get("codex_track") or {}
+    codex_already_ran = bool(codex_summary) or bool(turns) or raw_latex_path.exists()
+    codex_close_path = bool(codex_summary.get("close_path", False))
+    if not codex_already_ran and not getattr(args, "no_codex_track", False):
+        max_rounds = int(getattr(args, "codex_max_rounds", codex_track.DEFAULT_MAX_ROUNDS))
+        wall_clock_s = int(getattr(args, "codex_wall_clock_s", codex_track.DEFAULT_WALL_CLOCK_S))
+        print(
+            f"[v2 codex_track] {target.target_id} starting "
+            f"(max_rounds={max_rounds}, wall_clock={wall_clock_s}s)",
+            flush=True,
+        )
+        ct = codex_track.run_codex_track(target, max_rounds=max_rounds, wall_clock_s=wall_clock_s)
+        codex_board_candidates.extend(ct.board_candidates)
+        close_path = (ct.verdict == "close" and ct.content.strip())
+        codex_summary = {
+            "verdict": ct.verdict,
+            "tex_file": ct.tex_file,
+            "rounds_total": len(ct.rounds),
+            "rounds_summary": [
+                {"round": r.get("round"),
+                 "outcome": r.get("outcome"),
+                 "codex_verdict": (r.get("codex") or {}).get("verdict"),
+                 "audit_score": (r.get("codex") or {}).get("audit_score"),
+                 "redline_verdict": (r.get("redline") or {}).get("verdict")}
+                for r in ct.rounds
+            ],
+            "reason": ct.reason,
+            "error": ct.error,
+            "close_path": close_path,
+            "board_candidates_count": len(ct.board_candidates),
+        }
+        write_text(out_dir / "codex_track_result.json", json.dumps(codex_summary, ensure_ascii=False, indent=2))
+        cursor["codex_track"] = codex_summary
+        cursor["codex_board_candidates"] = codex_board_candidates
+        save_cursor(target, {
+            "turns": turns,
+            "started_at": started_at,
+            "conversation_id": conversation_id,
+            "codex_track": codex_summary,
+            "codex_board_candidates": codex_board_candidates,
+            "attempts": cursor.get("attempts", 1),
+            "crashed_retries": cursor.get("crashed_retries", 0),
+        })
+        codex_close_path = close_path
+        if close_path:
+            insertion_hint = f"Insertion target: {ct.tex_file}\n\n" if ct.tex_file else ""
+            write_text(raw_latex_path, insertion_hint + ct.content.rstrip() + "\n")
+            print(
+                f"[v2 codex_track] {target.target_id} CLOSE — wrote {raw_latex_path.name} "
+                f"({len(ct.content)} chars); skipping oracle, going to Stage 2",
+                flush=True,
+            )
+        else:
+            print(
+                f"[v2 codex_track] {target.target_id} {ct.verdict}: {ct.reason[:200]}",
+                flush=True,
+            )
+
+    # ---- Oracle track (only if codex didn't close) ----
+    verdict = "open"
+    if codex_close_path:
+        verdict = "done"
+    elif turns and (turns[-1].get("response_verdict") or "").lower() == "done":
+        print(
+            f"[v2 oracle] cursor shows turn {turns[-1].get('turn')} already done; skipping loop",
+            flush=True,
+        )
+        verdict = "done"
+
+    if verdict == "open":
+        # Preflight tab wait (only when actually invoking oracle)
+        print_status_hint(args.server)
+        if args.preflight_agent_wait > 0 and not wait_for_recent_agent(
+            args.server, args.preflight_agent_wait, args.poll_interval
+        ):
+            raise SystemExit(
+                "no active BEDC ChatGPT tab appeared before preflight timeout; "
+                "open https://chatgpt.com/?bedc=1 and click Start"
+            )
+
+        # Initial prompt: lean v2 if no prior turns, else cursor pending or rebuild
+        if not turns:
+            prompt = _build_oracle_initial_prompt_v2(target)
+        else:
+            prompt = cursor.get("pending_prompt") or _build_oracle_initial_prompt_v2(target)
+
+        target_object = target.fields.get("Object", target.title)
+        while verdict == "open":
+            wall_hours = (time.time() - wall_clock_start) / 3600.0
+            if wall_hours >= args.wall_clock_hours:
+                print(
+                    f"[v2 oracle] wall-clock ceiling {args.wall_clock_hours}h reached; stopping",
+                    flush=True,
+                )
+                verdict = "stuck"
+                break
+
+            turn_idx = len(turns)
+            task_id = f"bedc_{target.target_id.lower()}_t{turn_idx}_{int(time.time() * 1000)}"
+            write_text(out_dir / f"turn_{turn_idx:02d}_prompt.md", prompt)
+            submit = submit_turn(args.server, task_id, prompt, conversation_id, model=args.model)
+            if "error" in submit:
+                raise SystemExit(f"oracle submit failed: {submit['error']}")
+            conversation_id = submit.get("conversation_id") or conversation_id
+            print(
+                f"[v2 oracle] task={task_id} conv={conversation_id[:12]} turn={turn_idx} "
+                f"queue_position={submit.get('queue_position', '?')}",
+                flush=True,
+            )
+            response = poll_result(
+                args.server,
+                task_id,
+                args.timeout,
+                args.poll_interval,
+                args.status_interval,
+            )
+            if not response:
+                turns.append({"turn": turn_idx, "task_id": task_id, "verdict": "timeout"})
+                verdict = "stuck"
+                save_cursor(target, {
+                    "turns": turns,
+                    "conversation_id": conversation_id,
+                    "started_at": started_at,
+                })
+                break
+
+            # Duplicate response detection (parked, not crashed)
+            duplicate_of = None
+            for prev_idx in range(turn_idx):
+                prev_path = out_dir / f"turn_{prev_idx:02d}_response.md"
+                if prev_path.exists() and prev_path.read_text(encoding="utf-8") == response:
+                    duplicate_of = prev_idx
+                    break
+            if duplicate_of is not None:
+                duplicate_path = out_dir / f"turn_{turn_idx:02d}_response.duplicate.md"
+                write_text(duplicate_path, response)
+                print(
+                    f"[v2 oracle] duplicate response at turn {turn_idx} (matches {duplicate_of}); "
+                    f"marking stuck without retry",
+                    flush=True,
+                )
+                turns.append({
+                    "turn": turn_idx,
+                    "task_id": task_id,
+                    "verdict": "duplicate_response",
+                    "duplicate_of": duplicate_of,
+                })
+                verdict = "stuck"
+                save_cursor(target, {
+                    "turns": turns,
+                    "conversation_id": conversation_id,
+                    "started_at": started_at,
+                })
+                break
+
+            write_text(out_dir / f"turn_{turn_idx:02d}_response.md", response)
+
+            response_verdict = detect_response_verdict(response)
+            if response_verdict == "agent_error":
+                turns.append({"turn": turn_idx, "task_id": task_id, "verdict": "agent_error"})
+                verdict = "stuck"
+                save_cursor(target, {
+                    "turns": turns,
+                    "conversation_id": conversation_id,
+                    "started_at": started_at,
+                })
+                break
+
+            # ---- Codex done-judge (replaces progress_delta gate) ----
+            eval_res = codex_orchestrator.evaluate_oracle_done(
+                target_id=target.target_id,
+                target_title=target.title,
+                target_object=target_object,
+                history_turns=turns,
+                last_response=response,
+            )
+            if eval_res.ok and eval_res.parsed:
+                eval_verdict = str(eval_res.parsed.get("verdict", "continue")).lower()
+                contribution = str(eval_res.parsed.get("reason", ""))[:400]
+                if eval_verdict == "done":
+                    publishable = str(eval_res.parsed.get("publishable_summary", ""))
+                    turns.append({
+                        "turn": turn_idx,
+                        "task_id": task_id,
+                        "response_verdict": "done",
+                        "contribution_one_liner": contribution,
+                        "publishable_summary": publishable,
+                    })
+                    verdict = "done"
+                    save_cursor(target, {
+                        "turns": turns,
+                        "conversation_id": conversation_id,
+                        "started_at": started_at,
+                    })
+                    break
+                elif eval_verdict == "escalate":
+                    turns.append({
+                        "turn": turn_idx,
+                        "task_id": task_id,
+                        "response_verdict": "escalate",
+                        "contribution_one_liner": contribution,
+                    })
+                    verdict = "stuck"
+                    save_cursor(target, {
+                        "turns": turns,
+                        "conversation_id": conversation_id,
+                        "started_at": started_at,
+                    })
+                    break
+                else:
+                    next_directive = str(eval_res.parsed.get("next_directive", ""))
+            else:
+                print(
+                    f"[v2 oracle] codex eval unavailable: {eval_res.error or 'no parsed'}; "
+                    f"using fallback directive",
+                    flush=True,
+                )
+                contribution = "(eval unavailable)"
+                next_directive = ""
+
+            turns.append({
+                "turn": turn_idx,
+                "task_id": task_id,
+                "response_verdict": "open",
+                "contribution_one_liner": contribution,
+            })
+
+            # Build next prompt: dynamic followup directive embedded in oracle_followup.txt
+            if not next_directive.strip():
+                next_directive = codex_orchestrator._fallback_oracle_directive(turns)
+            last_topic_short = (turns[-1].get("contribution_one_liner") or "")[:80]
+            next_prompt = _build_oracle_followup_prompt_v2(
+                last_id=turn_idx,
+                last_topic_short=last_topic_short,
+                directive=next_directive,
+            )
+            save_cursor(target, {
+                "turns": turns,
+                "conversation_id": conversation_id,
+                "started_at": started_at,
+                "pending_prompt": next_prompt,
+            })
+            prompt = next_prompt
+
+    # ---- Stage 1.6: oracle adjacent self-report ----
+    if verdict == "done" and not codex_close_path and turns and conversation_id:
+        try:
+            adjacent_prompt = board_spawn.build_oracle_adjacent_prompt(
+                target_id=target.target_id, target_title=target.title,
+            )
+            adj_task_id = f"bedc_{target.target_id.lower()}_adjacent_{int(time.time() * 1000)}"
+            write_text(out_dir / "turn_adjacent_prompt.md", adjacent_prompt)
+            adj_submit = submit_turn(args.server, adj_task_id, adjacent_prompt, conversation_id, model=args.model)
+            if "error" not in adj_submit:
+                adj_response = poll_result(
+                    args.server, adj_task_id, args.timeout, args.poll_interval, args.status_interval
+                )
+                if adj_response:
+                    write_text(out_dir / "turn_adjacent_response.md", adj_response)
+                    parsed = board_spawn.parse_oracle_adjacent_response(adj_response)
+                    oracle_board_candidates.extend(parsed)
+                    print(
+                        f"[v2 stage1.6] oracle returned {len(parsed)} adjacent candidates",
+                        flush=True,
+                    )
+        except Exception as exc:
+            print(f"[v2 stage1.6] adjacent self-report skipped: {exc}", flush=True)
+
+    # ---- Terminal LaTeX (only if oracle done and no raw_latex yet) ----
+    if verdict == "done" and not codex_close_path and not raw_latex_path.exists():
+        def _safe_fmt(s: str) -> str:
+            return (s or "").replace("{", "{{").replace("}", "}}")
+        latex_prompt = WRITE_LATEX_PROMPT_PATH.read_text(encoding="utf-8").format(
+            target_id=_safe_fmt(target.target_id),
+            target_title=_safe_fmt(target.title),
+        )
+        task_id = f"bedc_{target.target_id.lower()}_writelatex_{int(time.time() * 1000)}"
+        write_text(out_dir / "turn_writelatex_prompt.md", latex_prompt)
+        submit = submit_turn(args.server, task_id, latex_prompt, conversation_id, model=args.model)
+        if "error" not in submit:
+            print(f"[v2 terminal] WRITE_PAPER_LATEX submitted: {task_id}", flush=True)
+            latex_response = poll_result(
+                args.server, task_id, args.timeout, args.poll_interval, args.status_interval,
+            )
+            if latex_response:
+                write_text(raw_latex_path, latex_response)
+            else:
+                print("[v2 terminal] empty response; demoting to stuck", flush=True)
+                verdict = "stuck"
+        else:
+            print(f"[v2 terminal] submit failed: {submit['error']}", flush=True)
+            verdict = "stuck"
+
+    # ---- Stage 2: writeback with codex corrective track ----
+    stage2_summary: dict = {}
+    stage2_attempts: list[dict] = []
+    if verdict == "done" and raw_latex_path.exists():
+        max_attempts = int(getattr(args, "stage2_max_attempts", 3))
+        for attempt in range(1, max_attempts + 1):
+            suggested = _extract_insertion_target(raw_latex_path.read_text(encoding="utf-8"))
+            result = killo_golden_writeback.writeback(
+                target_id=target.target_id,
+                target_title=target.title,
+                transcript_dir=out_dir,
+                raw_latex_path=raw_latex_path,
+                suggested_target_tex=suggested,
+            )
+            attempt_record = {
+                "attempt": attempt,
+                "ok": result.ok,
+                "verdict": result.verdict,
+                "tex_file": result.tex_file,
+                "appended": result.appended,
+                "compile_ok": result.compile_ok,
+                "rejection_reasons": list(result.rejection_reasons),
+                "error": result.error,
+            }
+            stage2_attempts.append(attempt_record)
+            if result.appended and result.compile_ok:
+                print(
+                    f"[v2 stage2 attempt {attempt}] appended to {result.tex_file} and `make` succeeded",
+                    flush=True,
+                )
+                break
+            print(
+                f"[v2 stage2 attempt {attempt}] verdict={result.verdict} "
+                f"appended={result.appended} compile_ok={result.compile_ok}",
+                flush=True,
+            )
+            if attempt >= max_attempts:
+                break
+            if result.verdict != "reject" or not result.rejection_reasons:
+                break
+
+            # ---- v2 corrective: codex first, oracle fallback ----
+            print(
+                f"[v2 stage2 attempt {attempt}] running codex corrective track "
+                f"({len(result.rejection_reasons)} reasons)",
+                flush=True,
+            )
+            cc = codex_track.run_codex_corrective_track(
+                target,
+                original_content=raw_latex_path.read_text(encoding="utf-8"),
+                rejection_reasons=list(result.rejection_reasons),
+            )
+            attempt_record["codex_corrective"] = {
+                "verdict": cc.verdict,
+                "rounds": len(cc.rounds),
+                "reason": cc.reason[:300],
+            }
+            if cc.verdict == "close":
+                # Codex fixed it; rewrite raw_latex_path with corrected content
+                insertion_hint = f"Insertion target: {cc.tex_file}\n\n" if cc.tex_file else ""
+                write_text(raw_latex_path, insertion_hint + cc.content.rstrip() + "\n")
+                continue  # next attempt re-runs Stage 2 with fixed content
+
+            if cc.verdict == "duplicate_of":
+                stage2_summary = {
+                    "ok": True,
+                    "verdict": "duplicate_of",
+                    "duplicate_label": cc.duplicate_label,
+                    "attempts": stage2_attempts,
+                }
+                verdict = "already_in_paper"
+                break
+
+            # codex escalated or exhausted → fall back to oracle corrective (existing path)
+            corrective_response = _stage2_corrective_retry(
+                args=args,
+                target=target,
+                conversation_id=conversation_id,
+                rejection_reasons=result.rejection_reasons,
+                out_dir=out_dir,
+                attempt=attempt,
+            )
+            if corrective_response is None:
+                print(
+                    f"[v2 stage2 attempt {attempt}] oracle corrective skipped (empty/timeout)",
+                    flush=True,
+                )
+                break
+            if corrective_response.startswith("DUPLICATE_OF:"):
+                label = corrective_response.split(":", 1)[1].strip()
+                stage2_summary = {
+                    "ok": True,
+                    "verdict": "duplicate_of",
+                    "duplicate_label": label,
+                    "attempts": stage2_attempts,
+                }
+                verdict = "already_in_paper"
+                break
+            write_text(out_dir / f"raw_oracle_latex_attempt_{attempt + 1}.md", corrective_response)
+            raw_latex_path.write_text(corrective_response, encoding="utf-8")
+
+        if not stage2_summary:
+            last = stage2_attempts[-1] if stage2_attempts else {}
+            stage2_summary = {
+                "ok": last.get("ok", False),
+                "verdict": last.get("verdict", "error"),
+                "tex_file": last.get("tex_file", ""),
+                "appended": last.get("appended", False),
+                "compile_ok": last.get("compile_ok", False),
+                "rejection_reasons": last.get("rejection_reasons", []),
+                "error": last.get("error", ""),
+                "attempts": stage2_attempts,
+            }
+        write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))
+
+    # ---- BOARD spawn (combined codex + oracle candidates) ----
+    spawned_ids: list[str] = []
+    spawn_summary: dict = {}
+    if verdict == "done" and (codex_board_candidates or oracle_board_candidates):
+        try:
+            sr = board_spawn.spawn_from_candidates(
+                codex_candidates=codex_board_candidates,
+                oracle_candidates=oracle_board_candidates,
+            )
+            spawn_summary = {
+                "ok": sr.ok,
+                "appended_ids": sr.appended_ids,
+                "accepted_count": len(sr.accepted),
+                "rejected_count": len(sr.rejected),
+                "error": sr.error,
+            }
+            spawned_ids = sr.appended_ids
+            print(
+                f"[v2 board_spawn] codex={len(codex_board_candidates)} "
+                f"oracle={len(oracle_board_candidates)} accepted={len(sr.accepted)} "
+                f"appended={len(sr.appended_ids)}",
+                flush=True,
+            )
+        except Exception as exc:
+            print(f"[v2 board_spawn] failed: {exc}", flush=True)
+            spawn_summary = {"ok": False, "error": str(exc)}
+
+    # ---- Final state ----
+    final_state = {
+        "target_id": target.target_id,
+        "title": target.title,
+        "started_at": started_at,
+        "completed_at": _now_iso(),
+        "conversation_id": conversation_id,
+        "turns": turns,
+        "pipeline_version": "v2",
+        "codex_track": codex_summary,
+        "codex_close_path": codex_close_path,
+        "stage1_verdict": verdict,
+        "board_spawn": spawn_summary,
+        "stage15_spawned": spawned_ids,
+        "stage2": stage2_summary,
+    }
+    cursor_attempts = int((cursor.get("attempts") or 1))
+    lifecycle.annotate(final_state, attempts=cursor_attempts)
+    write_text(STATE_DIR / f"{target.slug}.json", json.dumps(final_state, ensure_ascii=False, indent=2))
+    return final_state
+
+
 def _stage2_corrective_retry(
     *,
     args: argparse.Namespace,
@@ -992,8 +1538,16 @@ def release_claim(target: BedcTarget) -> None:
 
 
 def _run_target_safe(args: argparse.Namespace, target: BedcTarget) -> dict:
-    """Run a single target; always release its in-progress claim on exit."""
+    """Run a single target; always release its in-progress claim on exit.
+
+    Dispatches to v1 run_target or v2 run_target_v2 based on
+    --pipeline-version (default v1 for safety; v2 is the new
+    codex-first / oracle-on-escalate architecture).
+    """
     try:
+        version = getattr(args, "pipeline_version", "v1")
+        if version == "v2":
+            return run_target_v2(args, target)
         return run_target(args, target)
     except KeyboardInterrupt:
         raise
@@ -1038,7 +1592,11 @@ def run_loop(args: argparse.Namespace) -> int:
         marker.parent.mkdir(parents=True, exist_ok=True)
         marker.write_text(f"pid={os.getpid()} ts={_now_iso()}\n", encoding="utf-8")
         try:
-            run_target(args, target)
+            version = getattr(args, "pipeline_version", "v1")
+            if version == "v2":
+                run_target_v2(args, target)
+            else:
+                run_target(args, target)
         finally:
             release_claim(target)
         return 0
@@ -1092,6 +1650,16 @@ def main() -> int:
     parser.add_argument("--parallel", type=int, default=1, help="Number of concurrent target workers in --loop mode (default 1; cap to active ChatGPT tabs)")
     parser.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD, help="Minimum fit_score for Stage 1.5 to accept a spawned candidate")
     parser.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD, help="Minimum novelty for Stage 1.5 to accept a spawned candidate")
+    parser.add_argument("--pipeline-version", choices=["v1", "v2"], default="v1",
+                        help="v1: legacy Stage 0/1/1.5/2 flow. v2: codex-first track + oracle-on-escalate + joint BOARD spawn (experimental).")
+    parser.add_argument("--no-codex-track", action="store_true",
+                        help="(v2 only) Disable codex track; route every target straight to oracle.")
+    parser.add_argument("--codex-max-rounds", type=int, default=codex_track.DEFAULT_MAX_ROUNDS,
+                        help="(v2 only) Round ceiling for codex track (safety net; primary terminator is codex's own verdict).")
+    parser.add_argument("--codex-wall-clock-s", type=int, default=codex_track.DEFAULT_WALL_CLOCK_S,
+                        help="(v2 only) Wall-clock ceiling for codex track per target (seconds).")
+    parser.add_argument("--stage2-max-attempts", type=int, default=3,
+                        help="(v2 only) Max Stage 2 writeback attempts (codex corrective + oracle corrective combined).")
     parser.add_argument("--no-stage0", action="store_true", help="Disable Stage 0 (codex+claude quick path); always go straight to oracle Stage 1")
     parser.add_argument("--stage0-max-rounds", type=int, default=stage0_quickpath.DEFAULT_MAX_ROUNDS, help="Max codex+claude review rounds in Stage 0 before escalating to Stage 1")
     parser.add_argument("--force", action="store_true", help="Bypass already-in-paper pre-flight check")
