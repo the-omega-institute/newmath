@@ -232,3 +232,61 @@ inverse acting normalizer, and composite witness; core theorem
 exactness predicate orbit classes are stable under the certified action;
 standard bridge ordinary group-action orbit invariance; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp normalizer kernel collapses orbit action]
+\label{thm:ratup-fieldup-normalizer-kernel-collapses-orbit-action}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, let $K_A$ be the kernel carrier of
+Definition~\ref{def:ratup-fieldup-affine-normalizer-action-kernel-carrier}, let
+$\mathrm{Act}$ be the restricted normalizer action, and let
+$\sim_{N_F(A)}$ be the orbit relation of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. For carried
+centralizer elements $X,Y:\mathsf{AffAut}_F$, a normalizer element
+$S:\mathsf{AffAut}_F$, and a kernel element $T:\mathsf{AffAut}_F$, if
+$C_F(A)(X)$, $C_F(A)(Y)$, $X\sim_{N_F(A)}Y$, $N_F(C_F(A))(S)$, and $K_A(T)$,
+then $C_F(A)(\mathrm{Act}_{S\circ_{\mathrm{aff}}T}(X))$,
+$C_F(A)(\mathrm{Act}_S(Y))$, and
+$$
+\mathrm{Act}_{S\circ_{\mathrm{aff}}T}(X)\sim_{N_F(A)}\mathrm{Act}_S(Y).
+$$
+\end{theorem}
+\begin{proof}
+The kernel hypothesis contains the carrier witness $N_F(C_F(A))(T)$. Combine
+it with $N_F(C_F(A))(S)$ by the product row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}; this
+certifies $S\circ_{\mathrm{aff}}T$ as a normalizer element. The action theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} then gives the
+centralizer carrier of $\mathrm{Act}_{S\circ_{\mathrm{aff}}T}(X)$, and the same
+theorem applied to $S$ gives the carrier of $\mathrm{Act}_S(Y)$.
+
+For the classifier comparison, use the composition row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} to identify
+$\mathrm{Act}_{S\circ_{\mathrm{aff}}T}(X)$ with
+$\mathrm{Act}_S(\mathrm{Act}_T(X))$. Since $K_A(T)$ is pointwise trivial on
+carried centralizer elements, it identifies $\mathrm{Act}_T(X)$ with $X$. The
+action classifier congruence theorem transports this equality through the
+action by $S$, so
+$\mathrm{Act}_{S\circ_{\mathrm{aff}}T}(X)$ is classifier-equal to
+$\mathrm{Act}_S(X)$.
+
+Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance}
+to the original orbit witness $X\sim_{N_F(A)}Y$ and the normalizer element $S$.
+It gives $\mathrm{Act}_S(X)\sim_{N_F(A)}\mathrm{Act}_S(Y)$. Transport the left
+endpoint across the classifier equality above using the orbit classifier
+congruence and transport rows, yielding the displayed orbit relation for
+$\mathrm{Act}_{S\circ_{\mathrm{aff}}T}(X)$ and $\mathrm{Act}_S(Y)$.
+\end{proof}
+
+Per-object template: traditional target kernel collapse for the induced
+normalizer action on centralizer orbit classes; BEDC source concrete
+$\FieldUp(\RatUp)$ affine exit plus $\GroupUp$; carrier $C_F(A)$; classifier
+$\equiv_{\mathrm{aff}}$; stability kernel factors act trivially after passing
+to normalizer orbits; ledger acting normalizer, kernel factor, product
+normalizer, centralizer endpoints, and transported orbit witness; core theorem
+\autoref{thm:ratup-fieldup-normalizer-kernel-collapses-orbit-action};
+exactness predicate normalizer action on centralizer orbit classes; standard
+bridge ordinary quotient action by the kernel of a group action; status
+$\mathsf{ProofTarget}$.
