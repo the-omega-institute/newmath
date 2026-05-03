@@ -377,6 +377,28 @@ exactness.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_prefix\_empty\_identity\_iff}
 
+\begin{theorem}[Prefix functor empty composite exactness]
+\label{thm:functor-prefix-hom-carrier-comp-empty-iff}
+For histories $p,a,b,c,f,g$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$ and $g$ is a hom-carrier from
+$\mathsf{append}(p,b)$ to $\mathsf{append}(p,c)$, then their empty composite is
+equivalent to both morphism histories being empty and the two unprefixed
+adjacent endpoints agreeing:
+$$
+\ContR(f,g,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(f,\emp)\wedge\HSame(g,\emp)\wedge\HSame(a,b)\wedge\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Category empty-composite exactness gives the two empty morphism histories and
+the two prefixed endpoint equalities. Left cancellation removes the common
+prefix $p$ from both endpoint equalities. Conversely, the unprefixed endpoint
+equalities rebuild the prefixed endpoint equalities, and category
+empty-composite exactness supplies the empty continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_iff}
+
 \begin{theorem}[Prefix functor one-headed endpoint empty composite exactness]
 \label{thm:functor-prefix-hom-carrier-e1-endpoint-empty-composite-iff}
 For histories $p,a,b,c,f,g$, if $f$ is a hom-carrier from

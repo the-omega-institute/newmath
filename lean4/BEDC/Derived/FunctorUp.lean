@@ -504,6 +504,28 @@ theorem FunctorPrefixHomCarrier_comp_target_object_deterministic
     CategoryHomCarrier_target_deterministic composite displayed
   exact append_left_cancel (h := p) sameTarget
 
+theorem FunctorPrefixHomCarrier_comp_empty_iff {p a b c f g : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g ->
+        (Cont f g BHist.Empty <->
+          hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame a b ∧ hsame b c) := by
+  intro left right
+  constructor
+  · intro comp
+    have emptyData := (CategoryHomCarrier_empty_composite_iff left right).mp comp
+    exact ⟨emptyData.left, emptyData.right.left,
+      append_left_cancel (h := p) emptyData.right.right.left,
+      append_left_cancel (h := p) emptyData.right.right.right⟩
+  · intro emptyData
+    have sameAB : hsame (append p a) (append p b) := by
+      cases emptyData.right.right.left
+      exact hsame_refl (append p a)
+    have sameBC : hsame (append p b) (append p c) := by
+      cases emptyData.right.right.right
+      exact hsame_refl (append p b)
+    exact (CategoryHomCarrier_empty_composite_iff left right).mpr
+      ⟨emptyData.left, emptyData.right.left, sameAB, sameBC⟩
+
 theorem FunctorPrefixHomCarrier_e1_endpoint_empty_composite_iff {p a b c f g : BHist} :
     CategoryHomCarrier (append p (BHist.e1 a)) b f ->
       CategoryHomCarrier b (append p (BHist.e1 c)) g ->

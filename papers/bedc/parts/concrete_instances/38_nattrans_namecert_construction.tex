@@ -239,6 +239,29 @@ morphism determinacy compares the underlying hom-carriers, yielding the public
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_public\_readback}
 
+\begin{theorem}[NatTrans prefix component empty vertical composite exactness]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-empty-iff}
+For prefix components over a common object $a$, if $\eta$ is a component from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$ and $\theta$ is a component
+from $\mathsf{append}(q,a)$ to $\mathsf{append}(r,a)$, then the empty vertical
+composite is equivalent to both component histories being empty and the
+adjacent prefixes agreeing:
+$$
+\ContR(\eta,\theta,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(\eta,\emp)\wedge\HSame(\theta,\emp)\wedge\HSame(p,q)\wedge\HSame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the two prefix components to their category hom-carriers over the
+shared object suffix $a$. Category empty-composite exactness gives the two
+empty component histories and the two endpoint equalities. Right cancellation
+removes the common suffix $a$ from both endpoint equalities. Conversely, the
+prefix equalities rebuild the component endpoint equalities, and category
+empty-composite exactness supplies the empty vertical continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_iff}
+
 \begin{theorem}[NatTrans one-headed prefix empty vertical composite exactness]
 \label{thm:nattrans-prefix-component-e1-prefix-empty-vert-comp-iff}
 For prefix components over a common object $a$, if $\eta$ is a component from
