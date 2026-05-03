@@ -1,0 +1,159 @@
+\begin{theorem}[RatUp FieldUp bracketing-complete classifier exit certificate]
+\label{thm:ratup-fieldup-bracketing-complete-classifier-exit-certificate}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the concrete
+$\FieldUp(\mathsf{RatUp})$ exit certificate contains the following
+bracketing-complete classifier package:
+\begin{enumerate}
+  \item the endpoint certificate rows $C_D^u(x)$, $C_D^u(y)$, and
+  $R_D^u(x,y)$;
+  \item for every context history $r:\mathsf{BHist}$, the contextual carrier
+  exclusions
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot,\quad
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot,
+  $$
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))\to\bot,\quad
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))\to\bot;
+  $$
+  \item for every context history $r:\mathsf{BHist}$, the inverse-domain
+  witnesses
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x)),\quad
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r)),
+  $$
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,y)),\quad
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(y,r));
+  $$
+  \item for all $L,R:\mathsf{BHist}$, the four ordered endpoint-pair
+  singleton-classifier exclusions
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+  \to\bot,
+  $$
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))
+  \to\bot,
+  $$
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+  \to\bot,
+  $$
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))
+  \to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-ten-field-exit-certificate}. This supplies
+the ambient ten-field certificate boundary for the concrete
+$\mathsf{RatUpFieldSource}_F$ instance and identifies the package rows as
+clauses of the $\FieldUp(\mathsf{RatUp})$ exit certificate.
+
+Next apply
+\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary}
+to the same denominator tuple, histories, endpoint definitions, and support
+witness. It gives the endpoint carrier rows, the classifier row
+$R_D^u(x,y)$, the contextual carrier exclusions around both bracketings, the
+inverse-domain witnesses around both bracketings, and the two same-endpoint
+singleton-classifier exclusions.
+
+Finally apply
+\autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}
+with the same data. This supplies the two crossed singleton-classifier
+exclusions for $(x,y)$ and $(y,x)$ under arbitrary contexts $L,R:\mathsf{BHist}$.
+Together with the same-endpoint rows already obtained, these are exactly the
+four ordered endpoint-pair classifier exclusions, so the certificate package is
+bracketing-complete.
+
+For the $x$--$y$ crossed classifier, unpack a witness of
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))$.
+Its source and target carrier fields include
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,x))$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,y))$. Applying the
+source-carrier rejection for $\mathsf{append}(L,x)$ gives $\bot$.
+
+For the $y$--$x$ crossed classifier, unpack a witness of
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))$.
+Its source and target carrier fields include
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,y))$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,x))$. Applying the
+source-carrier rejection for $\mathsf{append}(L,y)$ gives $\bot$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_independent\_cross\_endpoint\_classifier\_boundary}
+
+Per-object template: traditional target bracketing-complete classifier exit for
+$\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{RatUpFieldSource}_F$,
+$\mathsf{BHist}$, $\mu_D^u$, $R_D^u$, and $\mathsf{ThreeSupp}_D^u$; carrier
+$C_D^u$; classifier $R_D^u$ plus singleton-empty classifier exclusions;
+stability obligations the same-endpoint and crossed bracketing-boundary theorem
+sites; ledger paired denominator endpoints $\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$\mu_D^u(h,\mu_D^u(k,\ell))$; exactness predicate four-pair classifier
+noncollapse; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{definition}[RatUp FieldUp bracketing endpoint selector]
+\label{def:ratup-fieldup-bracketing-endpoint-selector}
+For the concrete denominator operation $\mu_D^u$ and histories
+$h,k,\ell:\mathsf{BHist}$, define the selector endpoint
+$E_s(h,k,\ell):\mathsf{BHist}$ by the two generated $\mathsf{BMark}$ cases:
+$$
+E_{\mathsf{BMark.b0}}(h,k,\ell):=\mu_D^u(\mu_D^u(h,k),\ell),
+$$
+$$
+E_{\mathsf{BMark.b1}}(h,k,\ell):=\mu_D^u(h,\mu_D^u(k,\ell)).
+$$
+Thus $E_s(h,k,\ell)$ is the closed map out of $\mathsf{BMark}$ whose
+$\mathsf{BMark.b0}$ branch is the left-nested denominator endpoint and whose
+$\mathsf{BMark.b1}$ branch is the right-nested denominator endpoint.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp bracketing choice classifier exclusion]
+\label{thm:ratup-fieldup-bracketing-choice-classifier-exclusion}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $E_s(h,k,\ell)$ be the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector}. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then for all selectors
+$s,t:\mathsf{BMark}$ and all $L,R:\mathsf{BHist}$,
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+(\mathsf{append}(L,E_s(h,k,\ell)),\mathsf{append}(R,E_t(h,k,\ell)))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Set $x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. Apply
+\autoref{thm:ratup-fieldup-bracketing-complete-classifier-exit-certificate}
+to the same denominator tuple, carrier hypotheses, endpoint definitions, and
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ witness. This gives the four ordered
+endpoint-pair singleton-classifier exclusions for $(x,x)$, $(y,y)$, $(x,y)$,
+and $(y,x)$.
+
+Use $\mathsf{BMark\_generated\_cases}$ on $s$ and again on $t$. There are four
+closed selector pairs.
+
+\begin{enumerate}
+  \item If $s=\mathsf{BMark.b0}$ and $t=\mathsf{BMark.b0}$, then the selected
+  endpoints are $x$ and $x$. The $(x,x)$ exclusion from the complete
+  certificate maps the displayed classifier witness to $\bot$.
+
+  \item If $s=\mathsf{BMark.b1}$ and $t=\mathsf{BMark.b1}$, then the selected
+  endpoints are $y$ and $y$. The $(y,y)$ exclusion applies.
+
+  \item If $s=\mathsf{BMark.b0}$ and $t=\mathsf{BMark.b1}$, then the selected
+  endpoints are $x$ and $y$. The crossed $(x,y)$ exclusion applies.
+
+  \item If $s=\mathsf{BMark.b1}$ and $t=\mathsf{BMark.b0}$, then the selected
+  endpoints are $y$ and $x$. The crossed $(y,x)$ exclusion applies.
+\end{enumerate}
+
+These four cases exhaust the generated $\mathsf{BMark}$ selector pairs, so the
+selector-indexed classifier witness is impossible for arbitrary
+$s,t:\mathsf{BMark}$ and arbitrary contexts $L,R:\mathsf{BHist}$.
+\end{proof}
