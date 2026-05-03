@@ -167,3 +167,72 @@ classifier $R_D^u$; stability adjacent-swap classifier transport and
 strict-support transport; ledger the four carried pairs and selected adjacent
 generator; exactness the displayed three-row coverage; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp four context-pair full reverse-order coherence]
+\label{thm:ratup-fieldup-four-context-pair-full-reverse-order-coherence}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2,l_3,r_3:\mathsf{BHist}$. Suppose $C_D^u(h)$ and
+suppose that $(l_0,r_0)$, $(l_1,r_1)$, $(l_2,r_2)$, and $(l_3,r_3)$ are
+carried denominator context pairs. Let
+$$
+H_{0123}:=
+\Gamma_{\emp,\emp,l_3,r_3}
+(\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_1,r_1}
+(\Gamma_{\emp,\emp,l_0,r_0}(h)))).
+$$
+Let
+$$
+H_{3210}:=
+\Gamma_{\emp,\emp,l_0,r_0}
+(\Gamma_{\emp,\emp,l_1,r_1}
+(\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_3,r_3}(h)))).
+$$
+Then the forward and reverse four-context histories are denominator-classified:
+$$
+R_D^u(H_{0123},H_{3210}).
+$$
+Their strict-support readbacks agree:
+$$
+N_D^u(H_{0123})
+\Longleftrightarrow
+N_D^u(H_{3210}).
+$$
+\end{theorem}
+\begin{proof}
+Introduce the six intermediate four-context histories with application orders
+$1023$, $1203$, $1230$, $2130$, $2310$, and $3210$. Each is obtained from the
+preceding order by one adjacent exchange in the carried context-pair ledger.
+
+For the classifier spine, instantiate
+\autoref{thm:ratup-fieldup-four-context-pair-adjacent-swap-coverage} at the
+current ordering for the six adjacent exchanges
+$0123 \to 1023 \to 1203 \to 1230 \to 2130 \to 2310 \to 3210$.
+
+The carrier premises at every stage are supplied by
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws},
+since each current base is an iterated $\Gamma$-action on the same carried
+history and the same four carried denominator context pairs.
+
+Chain the six displayed $R_D^u$ rows by transitivity of the concrete
+denominator classifier. The resulting composite row has endpoints
+$H_{0123}$ and $H_{3210}$, giving the first conclusion.
+
+For strict support, read the support part of each adjacent-swap coverage row
+at the same six current orderings. Compose the six equivalences in sequence,
+with the inverse direction of each equivalence used exactly when the selected
+adjacent row is traversed opposite to its displayed orientation. The composite
+equivalence has endpoints $N_D^u(H_{0123})$ and $N_D^u(H_{3210})$.
+\end{proof}
+
+Per-object template: traditional target reverse-order independence for the
+concrete FieldUp denominator action; BEDC source $\mathsf{BHist}$, $C_D^u$,
+$R_D^u$, $N_D^u$, $\emp$, and $\Gamma$; carrier the four carried context pairs;
+ledger the four context pairs plus the six selected adjacent generators;
+core theorem list
+\autoref{thm:ratup-fieldup-four-context-pair-adjacent-swap-coverage} and
+contextual composition support; exactness the displayed reverse-order
+classifier and strict-support equivalence; status $\mathsf{ProofTarget}$.

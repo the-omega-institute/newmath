@@ -49,6 +49,24 @@ $left$ and $right$ identifies the two suffix orders.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_commuting\_square}
 
+\begin{theorem}[Principal suffix unary intersection meet commutes]
+\label{thm:filter-principal-suffix-unary-intersection-meet-commutes}
+Let $left,right,meet,commute:\mathsf{BHist}$. If $left$ and $right$ are unary
+histories and
+$$
+\ContR(left,right,meet),\qquad
+\ContR(right,left,commute),
+$$
+then $meet\hsame commute$.
+\end{theorem}
+\begin{proof}
+Apply the unary commuting square with empty base. The left and right base legs
+are the canonical left-unit continuations, so the two displayed intersection
+results are precisely the two suffix orders, and the square identifies them by
+$\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_meet\_commutes}
+
 \begin{theorem}[Principal suffix unary commuting square base determinism]
 \label{thm:filter-principal-suffix-unary-commuting-square-base-deterministic}
 Let $base,base',left,right,leftPoint,rightPoint,meetPoint:\mathsf{BHist}$.
@@ -92,6 +110,24 @@ $\mathsf{append}(right,left)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_commuted\_meet\_closed}
 
+\begin{theorem}[Principal suffix commuted result determinism]
+\label{thm:filter-principal-suffix-unary-intersection-commuted-result-deterministic}
+Let $base,left,right,meet,meetPoint,displayed:\mathsf{BHist}$. If $left$ and
+$right$ are unary histories and
+$$
+\ContR(left,right,meet),\qquad
+\ContR(base,meet,meetPoint),\qquad
+\ContR(base,\mathsf{append}(right,left),displayed),
+$$
+then $meetPoint\hsame displayed$.
+\end{theorem}
+\begin{proof}
+The commuted meet closure theorem displays $meetPoint$ as a continuation of
+$base$ by $\mathsf{append}(right,left)$. Continuation determinism compares this
+canonical commuted display with the given $displayed$ history.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_commuted\_result\_deterministic}
+
 \begin{theorem}[Principal suffix unary intersection result determinism]
 \label{thm:filter-principal-suffix-unary-intersection-result-deterministic}
 In the situation of
@@ -126,6 +162,28 @@ contradicts the unary no-zero-extension theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_zero\_result\_absurd}
 
+\begin{theorem}[Principal suffix unary intersection e1-result cases]
+\label{thm:filter-principal-suffix-unary-intersection-e1-result-cases}
+Let $base,left,right,meet,leftPoint,rightPoint,z:\mathsf{BHist}$. If
+$base$, $left$, and $right$ are unary histories and
+$$
+\ContR(left,right,meet),\qquad
+\ContR(base,left,leftPoint),\qquad
+\ContR(base,right,rightPoint),\qquad
+\ContR(base,meet,\Eone(z)),
+$$
+then either $meet=\emp$ and $base\hsame\Eone(z)$, or there is a unary
+$meetTail$ such that $meet=\Eone(meetTail)$ and
+$\ContR(base,meetTail,z)$.
+\end{theorem}
+\begin{proof}
+Unary closure along $\ContR(left,right,meet)$ first gives unary $meet$. The
+kernel unary e1-result case theorem applied to
+$\ContR(base,meet,\Eone(z))$ then splits the result into the empty-meet case
+and the non-empty unary-tail case.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_e1\_result\_cases}
+
 \begin{theorem}[Principal suffix base points empty exactness]
 \label{thm:filter-principal-suffix-base-points-empty-exact}
 Let $base,left,right,leftPoint,rightPoint:\mathsf{BHist}$. If
@@ -145,6 +203,48 @@ first continuation identifies both $base$ and $left$ with $\emp$; the same
 inversion for the second continuation identifies $right$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_base\_points\_empty\_exact}
+
+\begin{theorem}[Principal suffix intersection empty point exactness]
+\label{thm:filter-principal-suffix-intersection-empty-point-exact}
+Let $base,left,right,meet,meetPoint:\mathsf{BHist}$. If
+$$
+\ContR(left,right,meet),\qquad
+\ContR(base,meet,meetPoint),
+$$
+and the displayed intersection point satisfies $meetPoint\hsame\emp$, then
+all four histories collapse to the empty history:
+$$
+base\hsame\emp,\qquad meet\hsame\emp,\qquad
+left\hsame\emp,\qquad right\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Transport $meetPoint$ to $\emp$ and apply empty-result inversion to
+$\ContR(base,meet,meetPoint)$. This identifies both $base$ and $meet$ with
+$\emp$. Substituting the empty meet into $\ContR(left,right,meet)$ and
+applying the same empty-result inversion identifies $left$ and $right$ with
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_intersection\_empty\_point\_exact}
+
+\begin{theorem}[Principal suffix intersection empty point forces base points empty]
+\label{thm:filter-principal-suffix-intersection-empty-point-base-points-empty}
+Let $base,left,right,meet,leftPoint,rightPoint,meetPoint:\mathsf{BHist}$.
+If $meet$ is the continuation of $left$ by $right$, the base continuations
+produce $leftPoint$, $rightPoint$, and $meetPoint$, and
+$meetPoint\hsame\emp$, then both base points are empty:
+$$
+leftPoint\hsame\emp,\qquad rightPoint\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Intersection empty-point exactness identifies the shared base, the left
+suffix, and the right suffix with $\emp$. Empty-append introduction applied
+to $\ContR(base,left,leftPoint)$ gives the empty left base point, and the
+same argument applied to $\ContR(base,right,rightPoint)$ gives the empty
+right base point.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_intersection\_empty\_point\_base\_points\_empty}
 
 \section{The certificate}
 \label{sec:filter-certificate}
@@ -167,3 +267,25 @@ transitivity sends the displayed comparison $h\hsame\emp$ to
 $k\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalEmptyCarrier\_semanticNameCert}
+
+\begin{theorem}[Principal visible carrier semantic certificate absurdity]
+\label{thm:filter-principal-visible-carrier-semantic-namecert-absurd}
+For every $tail:\mathsf{BHist}$, there is no semantic naming certificate whose
+source, pattern, and ledger predicates all require a history to be unary, to
+classify to $\emp$, and to classify to $\Eone(tail)$:
+$$
+\mathsf{SemanticNameCert}
+(\{h\mid \mathsf{UnaryHistory}(h)\land h\hsame\emp\land h\hsame\Eone(tail)\},
+ \{h\mid \mathsf{UnaryHistory}(h)\land h\hsame\emp\land h\hsame\Eone(tail)\},
+ \{h\mid \mathsf{UnaryHistory}(h)\land h\hsame\emp\land h\hsame\Eone(tail)\},
+ \hsame)
+\Longrightarrow \bot .
+$$
+\end{theorem}
+\begin{proof}
+The semantic certificate supplies a ledger witness for the displayed carrier.
+Its two classification comparisons compose by symmetry and transitivity to
+give $\emp\hsame\Eone(tail)$, which is excluded by BEDC history constructor
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalVisibleCarrier\_semanticNameCert\_absurd}
