@@ -165,6 +165,20 @@ theorem ResiduePoleData_empty_suffix_reflects_endpoints
   exact And.intro functionEndpoints.left
     (And.intro functionEndpoints.right endpoints.right)
 
+theorem ResiduePoleData_prefix_empty_reflects_endpoints
+    {f center radius pole gap integral residue q qf : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> Cont q f qf ->
+      hsame qf BHist.Empty ->
+        hsame q BHist.Empty ∧ hsame integral BHist.Empty ∧ hsame residue BHist.Empty := by
+  intro data prefixCont resultEmpty
+  have emptyContinuation : Cont q f BHist.Empty :=
+    cont_result_hsame_transport prefixCont resultEmpty
+  have endpoints := cont_empty_result_inversion emptyContinuation
+  have functionEndpoints :=
+    ResiduePoleData_empty_function_endpoints data endpoints.right
+  exact And.intro endpoints.left
+    (And.intro functionEndpoints.left functionEndpoints.right)
+
 theorem ResiduePoleData_suffix_empty_function_endpoints
     {f center radius pole gap integral residue q fq : BHist} :
     ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
@@ -220,5 +234,25 @@ theorem ResiduePoleData_integral_prefix_closure
                           (And.intro residueCarrier
                             (And.intro productCarrier integralqResidue))))
                       (And.intro prefixIntegral integralqResidue))
+
+theorem ResiduePoleData_integral_prefix_empty_function_endpoints
+    {f center radius pole gap integral residue q qf : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
+      Cont q f qf -> hsame qf BHist.Empty ->
+        exists integralq : BHist,
+          ResiduePoleData qf center radius pole gap integralq residue ∧
+            Cont q integral integralq ∧ hsame integralq BHist.Empty ∧
+              hsame residue BHist.Empty := by
+  intro data prefixCarrier functionPrefix functionEmpty
+  have closed :=
+    ResiduePoleData_integral_prefix_closure data prefixCarrier functionPrefix
+  cases closed with
+  | intro integralq closedData =>
+      have endpoints :=
+        ResiduePoleData_empty_function_endpoints closedData.left functionEmpty
+      exact Exists.intro integralq
+        (And.intro closedData.left
+          (And.intro closedData.right.left
+            (And.intro endpoints.left endpoints.right)))
 
 end BEDC.Derived.ResidueUp

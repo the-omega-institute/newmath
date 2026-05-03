@@ -136,6 +136,30 @@ reverse direction, compose $\HSame(p,q)$, $\HSame(q,s)$, and $\HSame(s,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_boundary\_hsame\_iff}
 
+\begin{theorem}[Yoneda empty component family boundary transport]
+\label{thm:yoneda-empty-component-family-boundary-transport}
+For histories $p,q,r,s:\mathsf{BHist}$, an empty component family from $p$ to
+$q$ transports to an empty component family from $r$ to $s$ whenever
+$p\hsame r$ and $q\hsame s$:
+$$
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)\Bigr)
+\Rightarrow
+\HSame(p,r)\Rightarrow\HSame(q,s)\Rightarrow
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(r,s,a,\emp)\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Use the empty component family characterization to extract unary membership
+for $p$ and $q$, together with $\HSame(p,q)$. Unary transport along the two
+boundary equalities gives unary membership for $r$ and $s$, while transitivity
+of $\HSame$ composes $\HSame(r,p)$, $\HSame(p,q)$, and $\HSame(q,s)$. The
+empty-identity component characterization then rebuilds each component over
+the supplied unary object.
+\end{proof}
+\leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_boundary\_transport}
+
 \section{The certificate}
 \label{sec:yoneda-certificate}
 
