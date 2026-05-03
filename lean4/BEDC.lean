@@ -194,7 +194,9 @@ import BEDC.Derived.HomologyUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
+import BEDC.Derived.CommRingUp.Parallelogram
 import BEDC.Derived.CommRingUp.SignedProductBalance
+import BEDC.Derived.CommRingUp.CrossTerm
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.FieldUp
@@ -325,6 +327,7 @@ import BEDC.Derived.MetricUp.EmptyBoundaryDistance
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.MetricUp.ContDepthAdd
 import BEDC.Derived.MetricUp.VisibleContextSemantic
+import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ComplexTopologyUp
