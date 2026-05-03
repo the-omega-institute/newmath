@@ -370,3 +370,68 @@ normalizer, centralizer endpoints, and transported orbit witness; core theorem
 exactness predicate normalizer action on centralizer orbit classes; standard
 bridge ordinary quotient action by the kernel of a group action; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer orbit action reflection]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-iff}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, and let $\sim_{N_F(A)}$ be the orbit
+relation of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. For carried
+centralizer elements $X,Y:\mathsf{AffAut}_F$ and a normalizer element
+$S:\mathsf{AffAut}_F$, if $C_F(A)(X)$, $C_F(A)(Y)$, and $N_F(C_F(A))(S)$,
+then
+$$
+X\sim_{N_F(A)}Y
+\Longleftrightarrow
+\mathrm{Act}_S(X)\sim_{N_F(A)}\mathrm{Act}_S(Y).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is exactly
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance}
+with the acting element $S$.
+
+For the reverse direction, assume
+$\mathrm{Act}_S(X)\sim_{N_F(A)}\mathrm{Act}_S(Y)$. The inverse row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} gives
+$N_F(C_F(A))(\iota_F(S))$.
+
+The carrier clauses in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse} place
+$\mathrm{Act}_S(X)$ and $\mathrm{Act}_S(Y)$ back in $C_F(A)$, so the orbit
+invariance theorem applies to these acted endpoints.
+
+Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance}
+to the assumed orbit relation with the acting element $\iota_F(S)$. This yields
+$$
+\mathrm{Act}_{\iota_F(S)}(\mathrm{Act}_S(X))
+\sim_{N_F(A)}
+\mathrm{Act}_{\iota_F(S)}(\mathrm{Act}_S(Y)).
+$$
+
+The cancellation clauses of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}
+identify the left endpoint with $X$ and the right endpoint with $Y$ in the
+affine classifier. The endpoint transport theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-classifier-transport}
+then replaces both acted endpoints by $X$ and $Y$, giving
+$X\sim_{N_F(A)}Y$.
+\end{proof}
+
+Per-object template: traditional target orbit reflection by a group-action
+automorphism; BEDC source concrete $\FieldUp(\RatUp)$ affine exit plus
+$\GroupUp$; carrier $C_F(A)$; classifier $\equiv_{\mathrm{aff}}$ and orbit
+reachability; stability action reflection; ledger acting normalizer, inverse
+normalizer, orbit witness, and cancellation witnesses; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}, and
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-classifier-transport}
+with
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-classifier-congruence};
+exactness predicate normalizer actions preserve and reflect orbit reachability;
+standard bridge ordinary group-action orbit reflection; status
+$\mathsf{ProofTarget}$.
