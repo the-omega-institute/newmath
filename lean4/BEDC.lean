@@ -32,6 +32,7 @@ import BEDC.FKernel.Sig.SameSig.Equivalence
 import BEDC.FKernel.Sig.SameSig.BundlePolicy
 import BEDC.FKernel.Sig.Determinacy
 import BEDC.FKernel.Sig.Generation
+import BEDC.FKernel.Sig.GenerationCommonContext
 import BEDC.FKernel.Package
 import BEDC.FKernel.Settled
 import BEDC.FKernel.ExternalBinary
