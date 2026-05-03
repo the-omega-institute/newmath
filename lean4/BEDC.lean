@@ -131,7 +131,12 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.DirichletSeriesUp
+import BEDC.Derived.ZetaBasicUp
+import BEDC.Derived.CritStripUp
+import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
+import BEDC.Derived.ContourIntegralUp
+import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
@@ -315,6 +320,7 @@ import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousMapUp
+import BEDC.Derived.FuncobjUp
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
@@ -411,6 +417,8 @@ import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.LFunctionUp
+import BEDC.Derived.MonadUp
 import BEDC.Derived.InterHist
 import BEDC.Derived.Observer
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
