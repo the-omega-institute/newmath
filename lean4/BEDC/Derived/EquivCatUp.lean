@@ -62,6 +62,28 @@ theorem EquivCatAdjunction_empty_roundtrip_zero_source_absurd
   exact NatTransPrefixComponentCarrier_zero_headed_component_absurd components.left
     (Or.inl (Exists.intro tail rfl))
 
+theorem EquivCatAdjunction_empty_roundtrip_zero_target_absurd
+    {p tail a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p (BHist.e0 tail) a unit counit left right ->
+      hsame left BHist.Empty -> hsame right BHist.Empty -> False := by
+  intro carrier leftEmpty rightEmpty
+  have components :=
+    EquivCatAdjunction_empty_roundtrip_identity_components carrier leftEmpty rightEmpty
+  exact NatTransPrefixComponentCarrier_zero_headed_component_absurd components.right
+    (Or.inl (Exists.intro tail rfl))
+
+theorem EquivCatAdjunction_empty_roundtrip_e1_source_target_eq
+    {tail q a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier (BHist.e1 tail) q a unit counit left right ->
+      hsame left BHist.Empty -> hsame right BHist.Empty -> q = BHist.e1 tail := by
+  intro carrier leftEmpty rightEmpty
+  have components :=
+    EquivCatAdjunction_empty_roundtrip_identity_components carrier leftEmpty rightEmpty
+  have componentData :=
+    (NatTransPrefixComponentCarrier_e1_source_empty_component_iff
+      (p := tail) (q := q) (a := a)).mp components.left
+  exact componentData.right.right
+
 theorem EquivCatAdjunction_empty_roundtrip_target_prefix_deterministic
     {p q r a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p q a unit counit left right ->

@@ -81,6 +81,51 @@ component by exposing the visible zero constructor at the source head.
 \end{proof}
 \leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_zero\_source\_absurd}
 
+\begin{theorem}[Equivalence empty roundtrip zero-target exclusion]
+\label{thm:equivcat-adjunction-empty-roundtrip-zero-target-absurd}
+For histories $p,tail,a,unit,counit,left,right:\mathsf{BHist}$, no
+adjunction unit-counit carrier can place a zero-headed prefix at its first
+target while both displayed roundtrip results classify to $\emp$:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}
+  (p,\Ezero(tail),a,unit,counit,left,right)
+\Rightarrow left\hsame\emp
+\Rightarrow right\hsame\emp
+\Rightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The empty roundtrip component theorem extracts the reverse empty natural
+transformation prefix component. In that reverse component, the zero-headed
+target of the adjunction becomes the displayed source prefix. The NatTrans
+zero-headed component exclusion then contradicts the visible $\Ezero$
+constructor at that source head.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_zero\_target\_absurd}
+
+\begin{theorem}[Equivalence empty roundtrip $\Eone$ source target exactness]
+\label{thm:equivcat-adjunction-empty-roundtrip-e1-source-target-eq}
+For histories $tail,q,a,unit,counit,left,right:\mathsf{BHist}$, if an
+adjunction unit-counit carrier starts at the unary source prefix
+$\Eone(tail)$ and both displayed roundtrip results classify to $\emp$, then
+the first target prefix is exactly $\Eone(tail)$:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}
+  (\Eone(tail),q,a,unit,counit,left,right)
+\Rightarrow left\hsame\emp
+\Rightarrow right\hsame\emp
+\Rightarrow q=\Eone(tail).
+$$
+\end{theorem}
+\begin{proof}
+The empty roundtrip component theorem exposes the displayed empty
+natural-transformation component from $\Eone(tail)$ to $q$. The NatTrans
+empty-component inversion for an $\Eone$ source reads back the component data:
+the tail is unary, the object history is unary, and the displayed target
+prefix is exactly $\Eone(tail)$. The last field is the required equality.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_e1\_source\_target\_eq}
+
 \begin{theorem}[EquivCat empty roundtrip target-prefix determinacy]
 \label{thm:equivcat-adjunction-empty-roundtrip-target-prefix-deterministic}
 For histories $p,q,r,a,unit,counit,left,right:\mathsf{BHist}$, if
