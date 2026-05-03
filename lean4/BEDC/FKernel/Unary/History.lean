@@ -75,6 +75,18 @@ theorem unary_history_empty_or_e1_tail {h : BHist} :
   | e1 h =>
       exact Or.inr ⟨h, rfl, uh⟩
 
+theorem unary_history_nonempty_e1_tail {h : BHist} :
+    UnaryHistory h -> (hsame h BHist.Empty -> False) ->
+      exists t : BHist, h = BHist.e1 t /\ UnaryHistory t := by
+  intro unaryH nonemptyH
+  have split := unary_history_empty_or_e1_tail unaryH
+  cases split with
+  | inl emptyEq =>
+      cases emptyEq
+      exact False.elim (nonemptyH (hsame_refl BHist.Empty))
+  | inr tail =>
+      exact tail
+
 theorem unary_e1_closed {h : BHist} : UnaryHistory h -> UnaryHistory (.e1 h) := by
   intro uh
   exact uh

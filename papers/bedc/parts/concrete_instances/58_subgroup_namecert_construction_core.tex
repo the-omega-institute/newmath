@@ -392,6 +392,29 @@ endpoint for $\mathsf{mul}(s,t)$.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer\_mul\_closed\_from\_empty\_unit}
 
+\begin{theorem}[Centralizer normalizer relative product closure]
+\label{thm:subgroup-centralizer-normalizer-relative-product-closed-from-empty-unit}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the associativity, unit, multiplication-congruence, and two-sided
+inverse laws of \autoref{thm:subgroup-centralizer-certificate-target}, the
+centralizer-normalizer witness is closed under relative products. If
+$\mathsf{Norm}_{Z_a}(s)$ and $\mathsf{Norm}_{Z_a}(t)$, then
+$$
+\mathsf{Norm}_{Z_a}(\mathsf{mul}(\mathsf{inv}(s),t)).
+$$
+\end{theorem}
+\begin{proof}
+First close $\mathsf{Norm}_{Z_a}(s)$ under inversion. The forward clause for
+$\mathsf{inv}(s)$ is the reverse conjugation clause already contained in
+$\mathsf{Norm}_{Z_a}(s)$. The reverse clause is transported from the forward
+clause for $s$ using inverse involution, multiplication congruence, and the
+centralizer carrier transport row of
+\autoref{thm:subgroup-centralizer-certificate-target}. Applying the
+normalizer multiplication closure theorem to $\mathsf{inv}(s)$ and $t$ gives
+the displayed relative product.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer\_relative\_product\_closed\_from\_empty\_unit}
+
 \begin{theorem}[Centralizer elements normalize the centralizer]
 \label{thm:subgroup-centralizer-self-normalizer}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
