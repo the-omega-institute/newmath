@@ -84,10 +84,17 @@ concrete exit certificate package of
 exit-row contextual separation of
 \autoref{thm:ratup-fieldup-transported-exit-row-contextual-separation-package},
 and the normalized contextual separation of
-\autoref{thm:ratup-fieldup-normalized-contextual-separation-package}. Thus the
-displayed $\mathsf{BHist}$ source tuple carries the exit package for
-$\FieldUp(\RatUp)$, and no exit row remains as a schematic $\mathsf{mul}$,
-$\mathsf{add}$, or $\mathsf{neg}$ operator parameter.
+\autoref{thm:ratup-fieldup-normalized-contextual-separation-package}, together
+with the normalized semantic exit certificate of
+\autoref{thm:ratup-fieldup-normalized-semantic-exit-certificate} and the
+normalized singleton-classifier separation of
+\autoref{thm:ratup-fieldup-normalized-contextual-singleton-classifier-separation}.
+Thus the displayed $\mathsf{BHist}$ source tuple carries the exit package for
+$\FieldUp(\RatUp)$: it contains the normalized semantic nondegenerate witness
+$d_1:=\Eone(\emp)$, the normalized classifier row, and the all-context
+singleton-classifier rejection for $\mathsf{append}(L,x)$ and
+$\mathsf{append}(R,y)$, while no exit row remains as a schematic
+$\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ operator parameter.
 \end{theorem}
 \begin{proof}
 Start with \autoref{thm:ratup-fieldup-semantic-namecert}. It supplies the
@@ -112,7 +119,21 @@ and \autoref{thm:ratup-fieldup-normalized-contextual-separation-package}. The
 first theorem supplies the transported noncollapse and contextual rejection
 rows, while the second records the normalized row package in the same concrete
 source. Combining these clauses leaves only rows carried by
-$\mathsf{RatUpFieldSource}_F$, so the exit package has no schematic
+$\mathsf{RatUpFieldSource}_F$.
+
+Apply \autoref{thm:ratup-fieldup-normalized-semantic-exit-certificate}. It
+adds the nondegenerate RatUp witness $d_1:=\Eone(\emp)$, its source anchoring in
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$, and the same
+normalized contextual rows to the concrete exit certificate.
+
+Apply
+\autoref{thm:ratup-fieldup-normalized-contextual-singleton-classifier-separation}
+for arbitrary $L,R:\mathsf{BHist}$. The resulting row rejects every
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))$
+claim for the normalized pair.
+
+These semantic and classifier-separation rows live in the same concrete
+$\mathsf{RatUpFieldSource}_F$ boundary, so the exit package has no schematic
 $\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ operator coordinate.
 \end{proof}
 
