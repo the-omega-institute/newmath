@@ -113,6 +113,25 @@ history. The explicit zero complex history carries \(\ComplexUp\), and
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroPatternSpec\_zero\_result\_classifier}
 
+\begin{theorem}[Zeta zero pattern source-result classifier]
+\label{thm:zeta-zero-pattern-spec-source-result-classifier}
+Every zeta-zero pattern witness classifies its source and result components
+together, and both components remain anchored at the explicit zero complex
+history
+$$
+\mathsf{append}(\Eone(\emp),\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+The source side of the pattern supplies the $\ComplexUp$ carrier for $s$
+and the comparison from $s$ to the zero complex history. The result-side
+classifier supplies the $\ComplexUp$ carrier for $z$, while the pattern
+itself supplies the comparison from $z$ to the same zero history. Composing
+the source anchor with the symmetric result anchor gives $s\hsame z$, which
+is the classifier relation, and the two anchors are retained.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroPatternSpec\_source\_result\_classifier}
+
 \begin{theorem}[Zeta zero source classifies against zero]
 \label{thm:zeta-zero-source-spec-zero-classifier}
 Every source history carried by \(\ComplexUp\) and \(\hsame\)-identified with the zero complex history is classified with that zero history by the \(\ComplexUp\) classifier.
@@ -190,6 +209,24 @@ two histories, while the two anchor comparisons are retained as the remaining
 fields.
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroSourceSpec\_pair\_classifier}
+
+\begin{theorem}[Zeta zero pattern pair classifier]
+\label{thm:zeta-zero-pattern-spec-pair-classifier}
+If \((s,z)\) and \((t,w)\) satisfy the zeta-zero pattern specification, then
+\(\ComplexUp\) classifies \(s\) with \(t\) and \(z\) with \(w\), and all four
+histories remain anchored at the displayed zero complex history
+$$
+\mathsf{append}(\Eone(\emp),\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the source pair classifier to the two source specifications. Apply the
+zero-result classifier to each result component, then compose one classifier
+with the symmetry of the other to classify \(z\) with \(w\). The four displayed
+anchor comparisons are the source and result comparisons stored in the two
+pattern witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroPatternSpec\_pair\_classifier}
 
 \begin{definition}[Zeta zero stability certificate]
 \label{def:zeta-zero-stability-cert}
