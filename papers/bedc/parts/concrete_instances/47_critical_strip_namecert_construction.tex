@@ -10,6 +10,18 @@ This chapter gives a concrete naming-certificate construction for the open criti
 For complex history \(s\) with rational real component \(\sigma\), the predicate \(\mathsf{InCritStrip}(s)\) holds when both \(\mathsf{NatUnaryStrictPrefix}(\emp, \sigma)\) and \(\mathsf{NatUnaryStrictPrefix}(\sigma, \Eone(\emp))\) are decidably true on the rational representation, i.e.\ \(0 < \sigma < 1\) strictly.
 \end{definition}
 
+\begin{definition}[Critical strip open interval]
+\label{def:crit-strip-open-interval}
+For a rational real-component history $\sigma$, the open-interval core of the
+critical strip is the pair of strict unary prefix witnesses
+$$
+\mathsf{NatUnaryStrictPrefix}(\emp,\sigma)
+\quad\text{and}\quad
+\mathsf{NatUnaryStrictPrefix}(\sigma,\Eone(\emp)).
+$$
+\end{definition}
+\leandef{BEDC.Derived.CritStripUp.CritStripOpenInterval}
+
 \begin{lemma}[Critical strip membership decidable]
 \label{lem:in-crit-strip-decidable}
 For every complex history \(s\), \(\mathsf{InCritStrip}(s)\) is decidable: an explicit unary algorithm returns either a witness for both strict inequalities or a witness for at least one failure.
@@ -53,6 +65,22 @@ For every complex history \(s\) with \(\hsame(\sigma, \emp)\) or \(\hsame(\sigma
 \begin{proof}
 Direct: the strict-prefix relations require non-equality witnesses.
 \end{proof}
+
+\begin{theorem}[Critical strip open interval unary boundary exclusion]
+\label{thm:crit-strip-open-interval-unary-boundary-exclusion}
+If $\sigma$ lies in the strict unary open interval between $\emp$ and
+$\Eone(\emp)$, then $\sigma$ is unary and is internally same to neither
+boundary.
+\end{theorem}
+\begin{proof}
+The lower strict-prefix witness is a continuation from $\emp$ to $\sigma$ by a
+nonempty unary tail; the empty left-unit law transports that tail's unary
+structure to $\sigma$. If $\sigma\hsame\emp$, the lower strict-prefix witness
+would have empty right endpoint, contradicting strictness. If
+$\sigma\hsame\Eone(\emp)$, the upper strict-prefix witness becomes a strict
+self-prefix at $\Eone(\emp)$, contradicting asymmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripOpenInterval\_unary\_boundary\_exclusion}
 
 \section{Closure laws}
 

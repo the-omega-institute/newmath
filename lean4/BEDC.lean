@@ -48,6 +48,8 @@ import BEDC.BaseReflection
 
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
+import BEDC.Derived.EmptyUp
+import BEDC.Derived.CritStripUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
@@ -149,6 +151,7 @@ import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
