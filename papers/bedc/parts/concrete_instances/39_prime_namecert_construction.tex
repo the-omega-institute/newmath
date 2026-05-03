@@ -385,3 +385,35 @@ The concrete certificate of \autoref{thm:prime-namecert} satisfies the semantic 
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}
+
+\begin{lemma}[Empty left factor has empty unary product]
+\label{lem:natmul-empty-left-empty-result}
+If $\mathsf{NatMul}(\emp,q,n)$, then $n\hsame\emp$.
+\end{lemma}
+\begin{proof}
+Induct on the multiplication witness from \autoref{def:nat-multiplication}. The zero clause has result $\emp$. In the successor clause, the inductive result identifies the predecessor product with $\emp$, and the final continuation has empty right input. By the continuation unit law of \autoref{lem:unary-continuation-unit}, the successor result is history-same to that predecessor, hence to $\emp$.
+\end{proof}
+
+\begin{lemma}[Nonempty quotient exposes a multiplicand extension]
+\label{lem:natmul-nonempty-quotient-product-extension}
+Let $d$ and $q$ be unary histories. If $\mathsf{NatMul}(d,q,n)$ and $q\not\hsame\emp$, then there is a unary history $t$ with $\Cont(d,t,n)$.
+\end{lemma}
+\begin{proof}
+Induct on the unary generation of $q$ from \autoref{def:unary-history-judgment}. The empty case contradicts $q\not\hsame\emp$, and the zero-headed case is impossible by \autoref{lem:unary-no-zero-extension}. In the one-headed case write $q=\Eone(q_0)$. By \autoref{lem:nat-mul-succ-inversion}, the multiplication witness has a predecessor product $p$ with $\mathsf{NatMul}(d,q_0,p)$ and $\Cont(p,d,n)$.
+
+If $q_0\hsame\emp$, the zero clause of \autoref{def:nat-multiplication} identifies $p$ with $\emp$. The displayed continuation is therefore the left-unit continuation from $\emp$ by $d$, so $n\hsame d$; transporting the right-unit continuation of $d$ across this identification gives $\Cont(d,\emp,n)$, with unary tail $\emp$.
+
+If $q_0\not\hsame\emp$, the induction hypothesis applied to $\mathsf{NatMul}(d,q_0,p)$ gives a unary tail $t$ with $\Cont(d,t,p)$. Composing this continuation with $\Cont(p,d,n)$ and using continuation associativity gives $\Cont(d,\mathsf{append}(t,d),n)$. The tail $\mathsf{append}(t,d)$ is unary because continuation preserves unary histories.
+\end{proof}
+
+\begin{theorem}[Divisibility antisymmetry up to history-sameness]
+\label{thm:nat-divides-antisymmetry-hsame}
+Let $d$ and $e$ be unary histories. If $\mathsf{NatDivides}(d,e)$ and $\mathsf{NatDivides}(e,d)$, then $d\hsame e$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:nat-divides}. Choose unary quotients $q$ and $r$ with $\mathsf{NatMul}(d,q,e)$ and $\mathsf{NatMul}(e,r,d)$.
+
+If $q\hsame\emp$, the first multiplication witness has empty multiplier, so $e\hsame\emp$. After replacing $e$ by $\emp$ in the second witness, \autoref{lem:natmul-empty-left-empty-result} gives $d\hsame\emp$, hence $d\hsame e$. The case $r\hsame\emp$ is symmetric.
+
+It remains to consider $q\not\hsame\emp$ and $r\not\hsame\emp$. By \autoref{lem:natmul-nonempty-quotient-product-extension}, there are unary tails $t$ and $s$ with $\Cont(d,t,e)$ and $\Cont(e,s,d)$. By closed unary generation, each tail is either $\emp$ or a one-extension. If $t\hsame\emp$, the first continuation is a right-unit continuation and gives $e\hsame d$ by \autoref{lem:unary-continuation-unit}; symmetry gives $d\hsame e$. If $s\hsame\emp$, the second continuation gives $d\hsame e$ directly. If both tails are one-extensions, the two continuations are strict unary prefix witnesses in the sense of \autoref{def:nat-unary-strict-prefix}, contradicting \autoref{thm:nat-unary-strict-prefix-asymm}. From that contradiction the desired history-sameness follows.
+\end{proof}
