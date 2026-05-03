@@ -97,6 +97,26 @@ identifies $T$ with $P$ under $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_zero\_term\_previous\_result\_same}
 
+\begin{theorem}[L-function Dirichlet successor zero-term result iff]
+\label{thm:lfunction-dirichlet-partsum-successor-zero-term-result-iff}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and result
+history $T$, if $term(n,s)\hsame\emp$, then
+$$
+\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),T)
+\Longleftrightarrow
+\exists P:\mathsf{BHist},\,
+\mathsf{DirichletPartSum}(term,s,n,P)\land P\hsame T.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the predecessor readback for a successor whose step
+term is empty. Conversely, a predecessor $P$ with $P\hsame T$ supplies the
+successor continuation by transporting the right-unit continuation
+$\Cont(P,\emp,P)$ along $term(n,s)\hsame\emp$ and $P\hsame T$, after which the
+\texttt{DirichletPartSum.step} constructor closes the successor witness.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_zero\_term\_result\_iff}
+
 \begin{theorem}[L-function Dirichlet zero-terms result is empty]
 \label{thm:lfunction-dirichlet-part-sum-zero-terms-result-empty}
 For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
@@ -162,6 +182,32 @@ determinacy then identifies any other closed partial sum at $m$ with the
 exposed predecessor result $P$.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_positive\_index\_previous\_unique}
+
+\begin{theorem}[L-function visible Dirichlet predecessor decomposition is deterministic]
+\label{thm:lfunction-dirichlet-partsum-visible-previous-decomposition-deterministic}
+For any Dirichlet term operation $term$, parameter $s$, visible index $n$,
+and sum history $S$, suppose $S$ admits two displayed predecessor
+decompositions
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{DirichletPartSum}(term,s,m,P)\land
+\mathsf{Cont}(P,term(m,s),S)
+$$
+and
+$$
+n=\mathsf{BHist.e1}(m')\land
+\mathsf{DirichletPartSum}(term,s,m',P')\land
+\mathsf{Cont}(P',term(m',s),S).
+$$
+Then $m=m'$ and $P\hsame P'$.
+\end{theorem}
+\begin{proof}
+Invert both visible successor equalities. The constructor equality identifies
+the predecessor indices. The exposed predecessor partial-sum witness makes the
+index unary, and Dirichlet unary-index determinacy identifies the two displayed
+predecessor results.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_visible\_previous\_decomposition\_deterministic}
 
 \begin{theorem}[L-function zero-term positive partial-sum predecessor readback]
 \label{thm:lfunction-dirichlet-partsum-zero-terms-positive-previous-readback}

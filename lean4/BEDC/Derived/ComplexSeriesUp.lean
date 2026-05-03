@@ -41,6 +41,21 @@ theorem ComplexPartSum_deterministic {zero : BHist} {c : BHist -> BHist} {n S T 
           have samePartial := ih rightSum
           exact cont_respects_hsame samePartial (hsame_refl (c _)) leftStep rightStep
 
+theorem ComplexPartSum_visible_previous_decomposition_deterministic
+    {zero : BHist} {c : BHist -> BHist} {n S m P m' P' : BHist}
+    (left : n = BHist.e1 m ∧ ComplexPartSum zero c m P ∧ Cont P (c m) S)
+    (right : n = BHist.e1 m' ∧ ComplexPartSum zero c m' P' ∧ Cont P' (c m') S) :
+    m = m' ∧ hsame P P' := by
+  cases left with
+  | intro leftEq leftRest =>
+      cases right with
+      | intro rightEq rightRest =>
+          cases leftEq
+          cases rightEq
+          constructor
+          · rfl
+          · exact ComplexPartSum_deterministic leftRest.left rightRest.left
+
 theorem ComplexPartSum_exists_unique {zero : BHist} {c : BHist -> BHist} {n : BHist} :
     UnaryHistory n -> exists S : BHist, ComplexPartSum zero c n S ∧
       forall T : BHist, ComplexPartSum zero c n T -> hsame S T := by
