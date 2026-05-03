@@ -566,6 +566,39 @@ $ (a+(-b))\cdot(c+(-d))\hsame0 $.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_product\_empty\_zero\_exact}
 
+\begin{theorem}[CommRing signed square zero exactness]
+\label{thm:commring-signed-square-zero-exact}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
+$$
+(a+(-b))\cdot(a+(-b))\hsame0
+\Longleftrightarrow
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-signed-product-zero-exact} with $c=a$ and
+$d=b$. The signed product side becomes the signed square, and the cross-sum
+criterion becomes
+$$
+a\cdot a+b\cdot b\hsame a\cdot b+b\cdot a .
+$$
+
+For the forward direction, multiplicative commutativity gives
+$b\cdot a\hsame a\cdot b$. Additive congruence transports the right summand
+of $a\cdot b+b\cdot a$ along this equality, so the cross sum obtained from
+the specialized exactness theorem is identified with
+$a\cdot b+a\cdot b$.
+
+For the reverse direction, use symmetry of the same commutativity instance
+and additive congruence to transport $a\cdot b+a\cdot b$ back to
+$a\cdot b+b\cdot a$. The reverse implication of the specialized
+signed-product exactness theorem then returns
+$(a+(-b))\cdot(a+(-b))\hsame0$.
+\end{proof}
+
 \begin{theorem}[CommRing column cancellations balance cross sums]
 \label{thm:commring-column-cancellations-cross-sum-balance}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
