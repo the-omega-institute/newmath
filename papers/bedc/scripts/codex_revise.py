@@ -436,10 +436,36 @@ def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
                         cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
                     )
                     if (rs.stdout or "").strip():
-                        logger.error(
-                            f"[origin-sync] main repo NOT CLEAN after recovery: "
-                            f"{(rs.stdout or '').strip()[:200]} — manual fix needed"
+                        logger.warning(
+                            "[origin-sync] main repo NOT CLEAN after auto recovery — "
+                            "delegating to codex"
                         )
+                        try:
+                            prompt = (
+                                _load_prompt("origin_sync_recover")
+                                .replace("<REPO_ROOT>", str(REPO_ROOT))
+                                .replace("<BASE_BRANCH>", base_branch)
+                                .replace("<STATUS_OUTPUT>", (rs.stdout or "").strip()[:2000] or "(empty)")
+                                .replace("<REBASE_STDERR>", (r3.stderr or "").strip()[:2000] or "(empty)")
+                            )
+                            codex_exec(
+                                prompt,
+                                work_dir=REPO_ROOT,
+                                timeout_seconds=600,
+                            )
+                            rs2 = subprocess.run(
+                                ["git", "status", "--porcelain"],
+                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                            )
+                            if (rs2.stdout or "").strip():
+                                logger.error(
+                                    f"[origin-sync] codex recovery FAILED, repo still not clean: "
+                                    f"{(rs2.stdout or '').strip()[:300]} — manual fix needed"
+                                )
+                            else:
+                                logger.info("[origin-sync] codex recovery succeeded; repo clean")
+                        except Exception as exc:
+                            logger.error(f"[origin-sync] codex recovery raised: {exc}")
         except Exception as exc:
             logger.warning(f"[origin-sync] error: {exc}")
 
