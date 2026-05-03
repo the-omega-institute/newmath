@@ -12,6 +12,9 @@ open BEDC.Derived.RatUp
 def GammaPoleLocus (s : BHist) : Prop :=
   ∃ n : BHist, UnaryHistory n ∧ hsame s (append (BHist.e1 n) (BHist.e1 BHist.Empty))
 
+def GammaDomainCore (s apart : BHist) : Prop :=
+  ComplexHistoryCarrier s ∧ UnaryHistory apart ∧ (GammaPoleLocus s -> False)
+
 theorem GammaPoleLocus_complex_carrier_witness {s : BHist} :
     GammaPoleLocus s ->
       ∃ n : BHist,
@@ -35,5 +38,10 @@ theorem GammaPoleLocus_complex_carrier_witness {s : BHist} :
             (And.intro nUnary
               (And.intro samePole
                 (ProdHistoryCarrier_hsame_transport (hsame_symm samePole) poleCarrier)))
+
+theorem GammaDomainCore_not_empty {s apart : BHist} :
+    GammaDomainCore s apart -> hsame s BHist.Empty -> False := by
+  intro domain sameEmpty
+  exact ComplexHistoryCarrier_not_empty domain.left sameEmpty
 
 end BEDC.Derived.GammaUp
