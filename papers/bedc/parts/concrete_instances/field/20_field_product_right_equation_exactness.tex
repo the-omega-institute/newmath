@@ -244,6 +244,63 @@ $z\mapsto\mathsf{mul}(\mathsf{mul}(a,b),z)$, which is exactly the left
 classifier equality.
 \end{proof}
 
+\begin{theorem}[Field empty-unit conjugation equation exactness from apartness]
+\label{thm:field-empty-unit-conjugation-equation-exactness}
+For a BEDC history-level $\FieldUp$ candidate whose multiplicative unit is
+$\emp$, with proof-indexed inverses, multiplication associativity, left and
+right unit laws, multiplication congruence under $\hsame$, and left and right
+inverse laws indexed by a nonzero witness $p_a:\mathsf{NonZero}_F(a)$,
+conjugation by $a$ solves the middle equation exactly:
+$$
+\hsame(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{inv}(a,p_a)),b)
+\Longleftrightarrow
+\hsame(x,\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(a,p_a),b),a)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, multiply the displayed conjugation equation on the
+right by $a$. Reassociate to expose
+$\mathsf{mul}(\mathsf{inv}(a,p_a),a)$, collapse it by the indexed left inverse
+law, and use the right unit law to obtain
+$\mathsf{mul}(a,x)\hsame\mathsf{mul}(b,a)$. Then multiply on the left by
+$\mathsf{inv}(a,p_a)$, reassociate, collapse the left inverse pair, and use
+the left unit law.
+
+For the reverse direction, transport the displayed solved endpoint through
+left multiplication by $a$. Reassociate to expose
+$\mathsf{mul}(a,\mathsf{inv}(a,p_a))$, collapse it by the indexed right
+inverse law, and use the left unit law. A final right multiplication by
+$\mathsf{inv}(a,p_a)$, followed by reassociation, the indexed right inverse
+law, and the right unit law, recovers the original conjugation equation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_empty\_unit\_conjugation\_equation\_exact\_from\_apartness}
+
+\begin{theorem}[Field empty-unit conjugation classifier exactness from apartness]
+\label{thm:field-empty-unit-conjugation-classifier-exactness}
+Under the same empty-unit $\FieldUp$ hypotheses and witness
+$p_a:\mathsf{NonZero}_F(a)$, conjugation by $a$ preserves and reflects the
+$\hsame$ classifier:
+$$
+\hsame(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{inv}(a,p_a)),
+\mathsf{mul}(\mathsf{mul}(a,y),\mathsf{inv}(a,p_a)))
+\Longleftrightarrow
+\hsame(x,y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:field-empty-unit-conjugation-equation-exactness} to the displayed
+comparison with target
+$\mathsf{mul}(\mathsf{mul}(a,y),\mathsf{inv}(a,p_a))$. Apply the same
+equation exactness theorem to the reflexive equation for $y$ at that target.
+The two solved endpoints compare by symmetry and transitivity of $\hsame$.
+
+For the reverse direction, multiplication congruence transports $x\hsame y$
+through left multiplication by $a$ and right multiplication by
+$\mathsf{inv}(a,p_a)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_empty\_unit\_conjugation\_classifier\_exact\_from\_apartness}
+
 \begin{theorem}[Field right product empty-context solution determinacy from apartness]
 \label{thm:field-product-right-mul-empty-context-solution-deterministic-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses and

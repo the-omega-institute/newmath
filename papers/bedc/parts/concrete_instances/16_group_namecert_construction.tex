@@ -451,6 +451,27 @@ Transitivity gives both directions of the displayed equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_empty\_exact\_from\_empty\_unit}
 
+\begin{theorem}[Group conjugation classifier exactness]
+\label{thm:group-conjugation-classifier-exactness}
+For a history-level group operation with empty unit, associativity, left and
+right identities, multiplication congruence, and two-sided inverses,
+conjugation by $a$ preserves and reflects the $\hsame$ classifier:
+$$
+\hsame((a x)a^{-1},(a y)a^{-1}) \Longleftrightarrow \hsame(x,y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:group-conjugation-equation-exactness} to the displayed equation
+with target $(a y)a^{-1}$. Apply the same equation exactness theorem to the
+reflexive equation for $y$ at the same target. The two solved endpoints are
+then compared by symmetry and transitivity of $\hsame$.
+
+For the reverse direction, multiplication congruence transports $x\hsame y$
+through left multiplication by $a$ and right multiplication by $a^{-1}$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_classifier\_exact\_from\_empty\_unit\_iff}
+
 \begin{theorem}[Group commutator detects commutation]
 \label{thm:group-commutator-trivial-iff-commutes}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with
