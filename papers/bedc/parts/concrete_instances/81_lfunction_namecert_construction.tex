@@ -6,5 +6,20 @@ The L-function interface $\LFunctionUp$ packages a Dirichlet series whose coeffi
 \section{Carrier definition}
 \label{sec:lfunction-carrier}
 
+\begin{theorem}[L-function Dirichlet partial-sum successor index is positive]
+\label{thm:lfunction-dirichlet-part-sum-successor-positive-index}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, a closed witness
+$\mathsf{DirichletPartSum}(term,s,n,S)$ makes the successor history
+$\mathsf{BHist.e1}(n)$ a Dirichlet positive index.
+\end{theorem}
+\begin{proof}
+Induct on the closed partial-sum witness. The zero constructor gives unary
+$\emp$, and the step constructor preserves unaryness through the successor
+constructor. Thus the exposed index $n$ is unary, and $n$ itself is the tail
+witness showing that $\mathsf{BHist.e1}(n)$ is positive.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_positive\_index}
+
 \section{The certificate}
 \label{sec:lfunction-certificate}

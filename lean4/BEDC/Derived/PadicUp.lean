@@ -52,6 +52,15 @@ theorem PadicPrimeScale_empty_result_iff_empty_exponent {p exponent result : BHi
     | zero _unary =>
         rfl
 
+theorem PadicPrimeScale_succ_exponent_inversion {p q r : BHist} :
+    PadicPrimeScale p (BHist.e1 q) r ->
+      ∃ n : BHist, PadicPrimeScale p q n ∧ Cont n p r := by
+  intro scale
+  have inversion := NatMul_succ_inversion scale.right
+  cases inversion with
+  | intro n data =>
+      exact ⟨n, ⟨scale.left, data.left⟩, data.right⟩
+
 theorem PadicPrimeScale_append_cont_closure {p w q n e r : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
       PadicPrimeScale p (append w q) r := by
