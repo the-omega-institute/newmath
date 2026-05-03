@@ -77,5 +77,21 @@ successor partial-sum witness.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_term\_successor\_stable}
 
+\begin{theorem}[L-function Dirichlet zero-terms result is empty]
+\label{thm:lfunction-dirichlet-part-sum-zero-terms-result-empty}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, suppose every unary index $m$ has zero term
+$term(m,s)\hsame\emp$. Then every closed partial-sum witness
+$\mathsf{DirichletPartSum}(term,s,n,S)$ has empty result $S\hsame\emp$.
+\end{theorem}
+\begin{proof}
+Induct on the closed partial-sum witness. The zero constructor gives
+$S=\emp$. In the step case, the predecessor index is unary by the partial-sum
+index theorem, so the zero-term hypothesis identifies the next term with
+$\emp$. Comparing the displayed continuation with the right-unit continuation
+at $\emp$ gives the empty successor result.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_terms\_result\_empty}
+
 \section{The certificate}
 \label{sec:lfunction-certificate}

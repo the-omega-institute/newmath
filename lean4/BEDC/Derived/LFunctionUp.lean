@@ -71,4 +71,21 @@ theorem LFunctionDirichletPartSum_zero_term_successor_stable
     exact cont_intro (((congrArg (append S) termEmpty).trans (append_empty_right S)).symm)
   exact DirichletPartSum.step sum stepContinuation
 
+theorem LFunctionDirichletPartSum_zero_terms_result_empty
+    {term : BHist -> BHist -> BHist} {s n S : BHist} :
+    (forall {m : BHist}, UnaryHistory m -> hsame (term m s) BHist.Empty) ->
+      DirichletPartSum term s n S -> hsame S BHist.Empty := by
+  intro zeroTerm sum
+  induction sum with
+  | zero =>
+      exact hsame_refl BHist.Empty
+  | step previous stepContinuation ih =>
+      have previousUnary : UnaryHistory _ :=
+        DirichletPartSum_index_unary previous
+      have currentTermEmpty : hsame (term _ s) BHist.Empty :=
+        zeroTerm previousUnary
+      exact
+        cont_respects_hsame ih currentTermEmpty stepContinuation
+          (cont_right_unit BHist.Empty)
+
 end BEDC.Derived.LFunctionUp
