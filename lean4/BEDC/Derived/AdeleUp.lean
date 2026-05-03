@@ -5,6 +5,7 @@ namespace BEDC.Derived.AdeleUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.Derived.RatUp
 open BEDC.Derived.RealUp
 open BEDC.Derived.PadicUp
 
@@ -31,5 +32,19 @@ theorem AdeleHistoryCarrier_not_empty {h : BHist} :
                   | intro witness realData =>
                       exact not_hsame_emp_e1
                         (hsame_trans (hsame_symm emptyParts.left) realData.left)
+
+theorem AdeleRealPadic_e1_real_nonempty_scale_result_package
+    {realTail p exponent result : BHist} :
+    RatHistoryCarrier realTail ->
+    PadicPrimeScale p (BHist.e1 exponent) result ->
+      RealConstantHistoryCarrier (BHist.e1 realTail) ∧
+        (hsame result BHist.Empty -> False) := by
+  intro ratCarrier scale
+  constructor
+  · exact Iff.mpr RealConstantHistoryCarrier_e1_iff_rat ratCarrier
+  · intro resultEmpty
+    have exponentEmpty : hsame (BHist.e1 exponent) BHist.Empty :=
+      Iff.mp (PadicPrimeScale_empty_result_iff_empty_exponent scale) resultEmpty
+    exact not_hsame_e1_empty exponentEmpty
 
 end BEDC.Derived.AdeleUp

@@ -42,4 +42,19 @@ theorem GroupSingletonCarrier_append_visible_head_absurd {p q : BHist} :
   · intro carrier
     exact not_hsame_e1_empty (append_eq_empty_iff.mp carrier).left
 
+theorem GroupSingletonClassifier_append_context_unit_split_iff {L R p q : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R ->
+      (GroupSingletonClassifier (append L (append p q)) (append R BHist.Empty) <->
+        GroupSingletonCarrier p ∧ GroupSingletonCarrier q) := by
+  intro carrierL carrierR
+  have contextIff :=
+    GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R) (Q := append p q)
+      (S := BHist.Empty) carrierL carrierR
+  constructor
+  · intro classified
+    exact Iff.mp GroupSingletonClassifier_append_unit_split_iff
+      (Iff.mp contextIff classified)
+  · intro split
+    exact Iff.mpr contextIff (Iff.mpr GroupSingletonClassifier_append_unit_split_iff split)
+
 end BEDC.Derived.GroupUp

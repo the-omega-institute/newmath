@@ -31,5 +31,32 @@ cannot be internally the same as a one-sealed history.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_not\_empty}
 
+\begin{theorem}[Adele real-padic e1 real nonempty scale result package]
+\label{thm:adele-real-padic-e1-real-nonempty-scale-result-package}
+For histories $r,p,e,s:\mathsf{BHist}$, if $r$ is a rational-history carrier
+and $\mathsf{PadicPrimeScale}(p,\mathsf{e1}(e),s)$ holds, then the real
+component $\mathsf{e1}(r)$ is a real constant-history carrier and the padic
+scale result is not history-same as $\emp$:
+$$
+\mathsf{RatHistoryCarrier}(r)\land
+\mathsf{PadicPrimeScale}(p,\mathsf{e1}(e),s)
+\Longrightarrow
+\mathsf{RealConstantHistoryCarrier}(\mathsf{e1}(r))\land
+(\hsame(s,\emp)\to\bot).
+$$
+The real component is certified by the $\RealUp$ $e1$ readback theorem from
+the rational carrier. The padic component uses the empty-result iff for
+$\PadicUp$ scale: an empty result would force
+$\hsame(\mathsf{e1}(e),\emp)$, which is excluded by the BEDC history
+constructor separation.
+\end{theorem}
+\begin{proof}
+Apply the real constant-history $e1$ iff to the rational carrier witness for
+$r$. For the padic result, assume $\hsame(s,\emp)$. The padic empty-result iff
+turns this into $\hsame(\mathsf{e1}(e),\emp)$, contradicting the BEDC
+$e1$-versus-empty separation theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealPadic\_e1\_real\_nonempty\_scale\_result\_package}
+
 \section{The certificate}
 \label{sec:adele-certificate}
