@@ -4,6 +4,7 @@ import BEDC.Derived.FieldUp.RatDenomContextPair
 namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.Derived.RatUp
 
 theorem field_rat_denominator_contextual_action_pair_transport_support
@@ -230,5 +231,65 @@ theorem ratup_fieldup_transported_strict_support_non_singleton
     Iff.mp transported.right.right leftStrict
   exact ⟨transported.right.left, rightStrict,
     fun singleton => RatHistoryCarrier_not_empty rightStrict singleton⟩
+
+theorem ratup_fieldup_transported_strict_support_contextual_singleton_exclusion
+    {p q p' q' h l r l' r' s t s' t' ctx : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitClassifier l s ->
+        RatDenomUnitClassifier r t -> RatDenomUnitClassifier l' s' ->
+          RatDenomUnitClassifier r' t' ->
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' l' r'
+                (RatDenomUnitContextualAction p q l r h)) ->
+            (fieldSingletonEmptyCarrier
+              (append ctx
+                (RatDenomUnitContextualAction p' q' s' t'
+                  (RatDenomUnitContextualAction p q s t h))) -> False) ∧
+            (fieldSingletonEmptyCarrier
+              (append
+                (RatDenomUnitContextualAction p' q' s' t'
+                  (RatDenomUnitContextualAction p q s t h)) ctx) -> False) := by
+  intro sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+    leftStrict
+  have endpoint :=
+    ratup_fieldup_transported_strict_support_non_singleton
+      sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+      leftStrict
+  exact ⟨
+    (fun singleton =>
+      fieldSingletonEmptyCarrier_append_ratHistoryCarrier_absurd singleton endpoint.right.left),
+    (fun singleton =>
+      fieldSingletonEmptyCarrier_append_left_ratHistoryCarrier_absurd singleton
+        endpoint.right.left)⟩
+
+theorem ratup_fieldup_transported_strict_support_separation_package
+    {p q p' q' h l r l' r' s t s' t' : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitClassifier l s ->
+        RatDenomUnitClassifier r t -> RatDenomUnitClassifier l' s' ->
+          RatDenomUnitClassifier r' t' ->
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' l' r'
+                (RatDenomUnitContextualAction p q l r h)) ->
+            RatDenomUnitCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            (fieldSingletonEmptyCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) -> False) ∧
+            (hsame
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) BHist.Empty -> False) := by
+  intro sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+    leftStrict
+  have endpoint :=
+    ratup_fieldup_transported_strict_support_non_singleton
+      sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+      leftStrict
+  exact ⟨endpoint.left, endpoint.right.left, endpoint.right.right,
+    fun sameEmpty => RatHistoryCarrier_not_empty endpoint.right.left sameEmpty⟩
 
 end BEDC.Derived.FieldUp
