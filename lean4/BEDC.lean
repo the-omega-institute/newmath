@@ -130,6 +130,7 @@ import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexSeriesUp
+import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.SumUp
@@ -160,6 +161,7 @@ import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.ContinuationCycle
 import BEDC.Derived.FieldUp.RatHistoryClassifierAppendCarrierAbsurd
 import BEDC.Derived.FieldUp.SingletonMulEndpoint

@@ -190,6 +190,26 @@ right identity laws then leave $c$.
 \leanchecked{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_exact\_from\_apartness}
 \leanvariant{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_solution\_from\_apartness\_iff}
 
+\begin{theorem}[Field conjugation equation exactness from apartness]
+\label{thm:field-conjugation-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_a:\mathsf{NonZero}_F(a)$ and the unit is apart from $\emp$, then conjugating
+by $a$ gives the exact equation
+$$
+(a x)\mathsf{inv}(a,p_a)\hsame b
+\Longleftrightarrow
+x\hsame \mathsf{inv}(a,p_a)(b a).
+$$
+\end{theorem}
+\begin{proof}
+First derive that $\mathsf{inv}(a,p_a)$ is nonzero from apartness of the unit
+and the left inverse law. Apply middle multiplication exactness with right
+factor $\mathsf{inv}(a,p_a)$. The displayed right side contains the double
+inverse of $a$; inverse uniqueness identifies this double inverse with $a$,
+and multiplication congruence transports the solution term.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_conjugation\_equation\_exact\_from\_apartness}
+
 \begin{theorem}[Field middle multiplication empty equation solutions are unique from apartness]
 \label{thm:field-middle-mul-empty-equation-solution-unique-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
