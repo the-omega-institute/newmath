@@ -89,6 +89,86 @@ protected theorem group_normalizer_conjugation_inverse_roundtrip_from_empty_unit
     (And.intro (normS.right x centralX)
       (And.intro (inverseAction s x) secondRoundtrip))
 
+protected theorem group_normalizer_inv_closed_from_empty_unit {mul : BHist -> BHist -> BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a s : BHist} :
+    let Centralizer := fun y : BHist => hsame (mul y a) (mul a y)
+    let Conj := fun u y : BHist => mul (mul u y) (inv u)
+    let Normalizer := fun u : BHist =>
+      (forall y : BHist, Centralizer y -> Centralizer (Conj u y)) ∧
+        (forall y : BHist, Centralizer y -> Centralizer (Conj (inv u) y))
+    Normalizer s -> Normalizer (inv s) := by
+  dsimp
+  intro normS
+  have invCongr : forall {u v : BHist}, hsame u v -> hsame (inv u) (inv v) :=
+    group_inverse_congruence_from_laws assocC leftId rightId mulCongr leftInv rightInv
+  have centralizerTransport :
+      forall {p q : BHist}, hsame p q -> hsame (mul p a) (mul a p) ->
+        hsame (mul q a) (mul a q) := by
+    intro p q samePQ centralP
+    exact hsame_trans (mulCongr (hsame_symm samePQ) (hsame_refl a))
+      (hsame_trans centralP (mulCongr (hsame_refl a) samePQ))
+  have conjCongrLeft :
+      forall {u v y : BHist}, hsame u v ->
+        hsame (mul (mul u y) (inv u)) (mul (mul v y) (inv v)) := by
+    intro u v y sameUV
+    exact mulCongr (mulCongr sameUV (hsame_refl y)) (invCongr sameUV)
+  constructor
+  · intro y centralY
+    exact normS.right y centralY
+  · intro y centralY
+    have invInvS : hsame (inv (inv s)) s :=
+      group_left_inverse_involutive assocC leftId rightId mulCongr leftInv s
+    exact centralizerTransport (hsame_symm (conjCongrLeft invInvS)) (normS.left y centralY)
+
+protected theorem group_normalizer_inverse_hsame_transport_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a s t : BHist} :
+    let Centralizer := fun y : BHist => hsame (mul y a) (mul a y)
+    let Conj := fun u y : BHist => mul (mul u y) (inv u)
+    let Normalizer := fun u : BHist =>
+      (forall y : BHist, Centralizer y -> Centralizer (Conj u y)) ∧
+        (forall y : BHist, Centralizer y -> Centralizer (Conj (inv u) y))
+    Normalizer s -> hsame (inv s) t -> Normalizer t := by
+  dsimp
+  intro normS sameInvST
+  have invCongr : forall {u v : BHist}, hsame u v -> hsame (inv u) (inv v) :=
+    group_inverse_congruence_from_laws assocC leftId rightId mulCongr leftInv rightInv
+  have centralizerTransport :
+      forall {p q : BHist}, hsame p q -> hsame (mul p a) (mul a p) ->
+        hsame (mul q a) (mul a q) := by
+    intro p q samePQ centralP
+    exact hsame_trans (mulCongr (hsame_symm samePQ) (hsame_refl a))
+      (hsame_trans centralP (mulCongr (hsame_refl a) samePQ))
+  have conjCongrLeft :
+      forall {u v y : BHist}, hsame u v ->
+        hsame (mul (mul u y) (inv u)) (mul (mul v y) (inv v)) := by
+    intro u v y sameUV
+    exact mulCongr (mulCongr sameUV (hsame_refl y)) (invCongr sameUV)
+  have normInvS :=
+    BEDC.Derived.GroupUp.group_normalizer_inv_closed_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a) (s := s) normS
+  constructor
+  · intro y centralY
+    exact centralizerTransport (conjCongrLeft sameInvST) (normInvS.left y centralY)
+  · intro y centralY
+    have sameInvInvST : hsame (inv (inv s)) (inv t) := invCongr sameInvST
+    exact centralizerTransport (conjCongrLeft sameInvInvST) (normInvS.right y centralY)
+
 protected theorem group_center_normalizer_orbit_collapse_from_empty_unit_iff
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

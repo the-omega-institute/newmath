@@ -131,6 +131,28 @@ $\Cont(h,q,\cdot)$ to identify the displayed distance histories.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_result\_deterministic}
 
+\begin{theorem}[Derivative same-quotient step and distance determinacy]
+\label{thm:derivative-metric-quotient-same-quotient-step-distance-deterministic}
+For histories $f,z,h,h',q,dist,dist':\mathsf{BHist}$, two derivative metric
+quotient witnesses with the same function, point, and quotient determine the
+same step and displayed metric-distance result up to $\hsame$. The
+continuation ledgers
+$$
+\Cont(f,h,q),\qquad \Cont(f,h',q),\qquad \Cont(h,q,dist),\qquad
+\Cont(h',q,dist')
+$$
+are exposed together with $h\hsame h'$ and $dist\hsame dist'$.
+\end{theorem}
+\begin{proof}
+Read both derivative metric quotient witnesses as complex difference quotient
+witnesses with the same quotient. Determinism of the shared quotient identifies
+the two step histories and exposes both function continuation ledgers.
+Transport the second metric continuation ledger back along the step equality,
+then apply continuation determinism to identify the displayed distance
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_same\_quotient\_step\_distance\_deterministic}
+
 \begin{theorem}[Derivative complex-difference witness step is unary]
 \label{thm:derivative-cplx-diff-at-witness-step-unary}
 If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then it contains histories \(h\) and
@@ -145,6 +167,20 @@ unarity of \(h\) and \(q\) together with the continuation ledger
 the quotient result \(q\) with the displayed derivative \(f'\).
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeCplxDiffAt\_witness\_step\_unary}
+
+\begin{theorem}[Derivative complex-difference derivative is nonempty]
+\label{thm:derivative-cplx-diff-at-derivative-nonempty}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then the displayed derivative
+\(f'\) cannot be $\hsame$-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Unfold the differentiability witness to obtain a concrete quotient
+\(\mathsf{CplxDiffQuot}(f,z,h,q)\). The classifier field identifies the
+quotient result \(q\) with the displayed derivative \(f'\). A hypothetical
+\(f'\hsame\emp\) therefore makes \(q\hsame\emp\), contradicting quotient
+result non-emptiness from the nonzero step.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeCplxDiffAt\_derivative\_nonempty}
 
 \section{The certificate}
 \label{sec:derivative-certificate}

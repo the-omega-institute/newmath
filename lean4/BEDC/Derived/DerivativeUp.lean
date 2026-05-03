@@ -125,6 +125,25 @@ theorem DerivativeCplxDiffAt_witness_step_unary {f z fp : BHist} :
                                 (And.intro stepUnary.right.left
                                   (And.intro stepUnary.right.right (classifier quotient)))))
 
+theorem DerivativeCplxDiffAt_derivative_nonempty {f z fp : BHist} :
+    CplxDiffAt f z fp -> hsame fp BHist.Empty -> False := by
+  intro derivative derivativeEmpty
+  cases derivative with
+  | intro _functionCarrier derivativeRest =>
+      cases derivativeRest with
+      | intro _pointCarrier derivativeRest =>
+          cases derivativeRest with
+          | intro _derivativeCarrier derivativeRest =>
+              cases derivativeRest with
+              | intro witness classifier =>
+                  cases witness with
+                  | intro h witnessRest =>
+                      cases witnessRest with
+                      | intro q quotient =>
+                          have quotientEmpty : hsame q BHist.Empty :=
+                            hsame_trans (classifier quotient) derivativeEmpty
+                          exact CplxDiffQuot_result_nonempty quotient quotientEmpty
+
 theorem DerivativeMetricQuotient_quotient_distance_nonempty {f z h q dist : BHist} :
     DerivativeMetricQuotient f z h q dist ->
       (hsame q BHist.Empty -> False) ∧ (hsame dist BHist.Empty -> False) := by
@@ -207,6 +226,40 @@ theorem DerivativeMetricQuotient_result_deterministic {f z h q q' dist dist' : B
                                                               (And.intro rightMetricLedger
                                                                 (And.intro sameQuotient
                                                                   sameDistance))))
+
+theorem DerivativeMetricQuotient_same_quotient_step_distance_deterministic
+    {f z h h' q dist dist' : BHist} :
+    DerivativeMetricQuotient f z h q dist ->
+      DerivativeMetricQuotient f z h' q dist' ->
+        hsame h h' ∧ hsame dist dist' ∧ Cont f h q ∧ Cont f h' q ∧
+          Cont h q dist ∧ Cont h' q dist' := by
+  intro left right
+  have leftQuotient : CplxDiffQuot f z h q :=
+    And.intro left.left
+      (And.intro left.right.left
+        (And.intro left.right.right.left
+          (And.intro left.right.right.right.left left.right.right.right.right.left)))
+  have rightQuotient : CplxDiffQuot f z h' q :=
+    And.intro right.left
+      (And.intro right.right.left
+        (And.intro right.right.right.left
+          (And.intro right.right.right.right.left right.right.right.right.right.left)))
+  have sameStepData :=
+    CplxDiffQuot_same_result_step_deterministic leftQuotient rightQuotient
+  have leftMetricLedger : Cont h q dist :=
+    left.right.right.right.right.right.right.right
+  have rightMetricLedger : Cont h' q dist' :=
+    right.right.right.right.right.right.right.right
+  have rightMetricAtLeftStep : Cont h q dist' :=
+    cont_hsame_transport (hsame_symm sameStepData.left) (hsame_refl q)
+      (hsame_refl dist') rightMetricLedger
+  have sameDistance : hsame dist dist' :=
+    cont_deterministic leftMetricLedger rightMetricAtLeftStep
+  exact And.intro sameStepData.left
+    (And.intro sameDistance
+      (And.intro sameStepData.right.left
+        (And.intro sameStepData.right.right
+          (And.intro leftMetricLedger rightMetricLedger))))
 
 theorem DerivativeMetricQuotient_distance_visible_context_readback {p r f z h q dist core : BHist} :
     DerivativeMetricQuotient f z h q dist ->
