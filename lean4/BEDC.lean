@@ -131,7 +131,12 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.DirichletSeriesUp
+import BEDC.Derived.ZetaBasicUp
+import BEDC.Derived.CritStripUp
+import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
+import BEDC.Derived.ContourIntegralUp
+import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
@@ -171,6 +176,7 @@ import BEDC.Derived.GroupUp.SingletonContext
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
 import BEDC.Derived.GroupUp.SuffixProductUnitSplit
+import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
