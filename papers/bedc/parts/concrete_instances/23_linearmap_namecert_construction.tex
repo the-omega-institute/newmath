@@ -457,3 +457,53 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:linearmap-zero-axiom-note}
 Avoids funext by using pointwise classifier sameness instead of equality of functions.
 \end{remark}
+
+\begin{lemma}[Codomain additive duplicate cancellation]
+\label{lem:abgroup-additive-duplicate-cancellation}
+Let $W$ carry an $\AbGroupUp(W)$ certificate with additive operation $+_W$, additive unit $0_W$, and classifier $\sim_W$. For any carried $w:W$, if
+$$
+w\sim_W w+_W w,
+$$
+then
+$$
+w\sim_W 0_W.
+$$
+\end{lemma}
+\begin{proof}
+By \autoref{prop:abgroup-forgets-group-certificate}, the additive carrier of $W$ has the same operation, unit, inverse, and classifier as a $\GroupUp$ carrier. Symmetry of the classifier turns the hypothesis into
+$$
+w+_W w\sim_W w.
+$$
+In additive notation, \autoref{thm:group-left-absorb-right-factor-unit} says that a comparison $a+_W b\sim_W a$ in this group reduct forces $b\sim_W0_W$. Taking $a=w$ and $b=w$ gives $w\sim_W0_W$.
+\end{proof}
+
+\begin{theorem}[LinearMap zero preservation from additivity]
+\label{thm:linearmap-zero-preservation-from-additivity}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates. Write $+_V$, $0_V$, and $\sim_V$ for the source vector addition, zero, and classifier, and write $+_W$, $0_W$, and $\sim_W$ for the codomain additive operation, zero, and classifier. Let $f:V\to W$ be a carried $\LinearMapUp(V,W)$ map. If the additive preservation row of $f$ is
+$$
+f(x+_V y)\sim_W f(x)+_W f(y)
+$$
+for carried source inputs $x,y$, then
+$$
+f(0_V)\sim_W0_W.
+$$
+The ten-field fit is: traditional target ordinary linear maps send zero to zero; BEDC source $\LinearMapUp(V,W)$ over the vector-space certificates; carrier the codomain vector carrier; classifier $\sim_W$; stability from additivity and codomain additive cancellation; ledger the zero-pair additive row and the cancellation witness; core theorem this block; exactness predicate $f(0_V)\sim_W0_W$; standard bridge zero preservation for additive linear maps; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+By \autoref{def:vecspace-carrier}, the source vector-space carrier is a module carrier, and by \autoref{def:module-carrier} its vector addition belongs to an additive abelian group. The source carrier transport used to read this comparison inside later rows is the standard semantic transport of \autoref{thm:semantic-namecert-pattern-ledger-transport}; the additive unit law supplies the source-side comparison
+$$
+0_V+_V0_V\sim_V0_V.
+$$
+
+The function-with-law data of \autoref{def:linearmap-carrier} evaluate the additive row on carried source expressions. Viewing evaluation by $f$ as the descent map packaged by the function-like linear-map data, \autoref{thm:descent-certificate-respects} transports the source comparison $0_V+_V0_V\sim_V0_V$ through evaluation; codomain symmetry and transitivity then compose that transported comparison with the additive row at $x=0_V$ and $y=0_V$, giving
+$$
+f(0_V)\sim_W f(0_V)+_W f(0_V).
+$$
+The output $f(0_V)$ is carried by the codomain part of the same linear-map data.
+
+For the codomain, \autoref{prop:vecspace-forgets-module-certificate} reads the vector space as a module, and \autoref{prop:module-forgets-abgroup-certificate} retains its additive abelian-group certificate with the same operation, zero, and classifier. Applying \autoref{lem:abgroup-additive-duplicate-cancellation} to $w=f(0_V)$ therefore gives
+$$
+f(0_V)\sim_W0_W.
+$$
+This is exactly the zero-preservation item listed in \autoref{def:linearmap-stability-certificate}, obtained from additivity and the codomain additive cancellation package.
+\end{proof}
