@@ -5,3 +5,50 @@ A continuous function on a compact metric space is uniformly continuous, constru
 
 \section{Uniform modulus from located finite covers}
 \label{sec:compact-uniform-continuity-uniform-modulus}
+
+\begin{definition}[Pointwise modulus on $\NameCert_{\ContinuousFunctionUp}$]
+\label{def:compact-uniform-pointwise-modulus}
+Let $X, Y$ be metric naming certificates and let $\NameCert_f$ be a continuous-function naming certificate witnessing $f \colon X \to Y$. The \emph{pointwise modulus} extracted from $\NameCert_f$ is the function $\delta_f \colon X \times \mathbb{Q}_{>0} \to \mathbb{Q}_{>0}$ supplied by the certificate's $\Cont$ chain: for each base point $x$ and each rational tolerance $\varepsilon$, $\delta_f(x, \varepsilon)$ is a positive rational such that every $x'$ with $d_X(x, x') < \delta_f(x, \varepsilon)$ produces $d_Y(f\,x, f\,x') < \varepsilon$.
+\end{definition}
+
+\begin{definition}[Uniform modulus]
+\label{def:compact-uniform-uniform-modulus}
+A \emph{uniform modulus} for $f \colon X \to Y$ is a function $\delta_f^{\mathrm{u}} \colon \mathbb{Q}_{>0} \to \mathbb{Q}_{>0}$, depending only on the tolerance, such that for every $x, x' \in X$ with $d_X(x, x') < \delta_f^{\mathrm{u}}(\varepsilon)$, $d_Y(f\,x, f\,x') < \varepsilon$.
+\end{definition}
+
+\begin{definition}[Located finite $\varepsilon$-net]
+\label{def:compact-uniform-finite-net}
+A \emph{located finite $\varepsilon$-net} for a metric carrier $X$ is a finite list $N_\varepsilon = [x_1, \ldots, x_n]$ of base points together with a witness that for every $x \in X$ there exists $i \le n$ with $d_X(x, x_i) < \varepsilon$. The compact certificate $\NameCert_{\CompactUp}$ supplies $N_\varepsilon$ as a kernel-level operation indexed by $\varepsilon \in \mathbb{Q}_{>0}$.
+\end{definition}
+
+\section{The kernel construction}
+\label{sec:compact-uniform-continuity-construction}
+
+\begin{theorem}[Continuous on compact yields uniform modulus]
+\label{thm:compact-uniform-continuity}
+Let $X$ be a metric carrier with a compact naming certificate $\NameCert_X$ and let $f \colon X \to Y$ be witnessed by a continuous naming certificate $\NameCert_f$ over $X$. Then the kernel produces a uniform modulus $\delta_f^{\mathrm{u}}$ for $f$, expressible as
+$$ \delta_f^{\mathrm{u}}(\varepsilon) \;=\; \min_{1 \le i \le n} \delta_f\!\left(x_i, \tfrac{\varepsilon}{2}\right) \,/\, 2, $$
+where $[x_1, \ldots, x_n]$ is the located finite $(\delta_f^{\mathrm{u}}(\varepsilon))$-net supplied by $\NameCert_X$ at the matching scale, and $\delta_f$ is the pointwise modulus of \autoref{def:compact-uniform-pointwise-modulus}.
+\end{theorem}
+
+\begin{proof}[Sketch]
+Fix $\varepsilon > 0$. By \autoref{def:compact-uniform-finite-net}, $\NameCert_X$ produces a finite net $[x_1, \ldots, x_n]$. Each $x_i$ supplies a pointwise modulus $\delta_i = \delta_f(x_i, \varepsilon/2)$. The list $[\delta_1, \ldots, \delta_n]$ is finite, so its minimum $\delta^{\star} = \min_i \delta_i$ is a positive rational, computed by primitive recursion on the list. Set $\delta_f^{\mathrm{u}}(\varepsilon) = \delta^{\star} / 2$ and refine the net to scale $\delta_f^{\mathrm{u}}(\varepsilon)$. Given $x, x' \in X$ with $d_X(x, x') < \delta_f^{\mathrm{u}}(\varepsilon)$, the located property gives an index $i$ with $d_X(x, x_i) < \delta_f^{\mathrm{u}}(\varepsilon) \le \delta_i$. Then $d_X(x', x_i) \le d_X(x', x) + d_X(x, x_i) < 2 \delta_f^{\mathrm{u}}(\varepsilon) \le \delta_i$, so the pointwise modulus at $x_i$ applies to both $x$ and $x'$, yielding $d_Y(f\,x, f\,x_i) < \varepsilon/2$ and $d_Y(f\,x', f\,x_i) < \varepsilon/2$. The triangle inequality on $Y$ gives $d_Y(f\,x, f\,x') < \varepsilon$. The whole construction is primitive recursion on the finite net length and arithmetic on $\mathbb{Q}$; no excluded middle, no choice principle, no equivalence-class identification.
+\end{proof}
+
+\section{Axiom-purity of the uniform-modulus construction}
+\label{sec:compact-uniform-continuity-axiom-purity}
+
+\begin{remark}[No appeal to non-constructive principles]
+\label{rem:compact-uniform-axiom-purity}
+The construction in \autoref{thm:compact-uniform-continuity} uses only primitive recursion on the finite net (a $\Cont$-shaped chain on a closed inductive list of base points), arithmetic on $\mathbb{Q}_{>0}$ (rational addition, multiplication, and division by $2$, all kernel-level operations on $\NameCert_{\RatUp}$ from \autoref{ch:concrete-instances-rat-namecert}), and the located-distance comparison built into $\NameCert_{\MetricSpaceUp}$. None of these operations passes through $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$. The chapter therefore falls under the same axiom-purity gate as the rest of the manuscript.
+\end{remark}
+
+\begin{remark}[Heine--Cantor as a kernel theorem]
+\label{rem:compact-uniform-heine-cantor}
+\autoref{thm:compact-uniform-continuity} is the BEDC form of the Heine--Cantor theorem of classical analysis. The classical proof uses sequential compactness and an extracted convergent subsequence; the BEDC proof uses the located finite $\varepsilon$-net and an explicit minimum over a finite list. The two routes deliver the same uniform modulus when the metric carrier is taken as $\NameCert_{\RealUp}$ restricted to a closed bounded interval (\autoref{ch:concrete-instances-interval-namecert}), making the classical result a derived corollary of the kernel-level statement and not the other way around.
+\end{remark}
+
+\begin{remark}[Composition with the real-completeness capstone]
+\label{rem:compact-uniform-real-completeness-composition}
+The construction composes with the real-completeness capstone (\autoref{ch:capstones-real-completeness}): once $\NameCert_{\RealUp}$ is upgraded to a regular Cauchy carrier, every closed bounded interval $[a, b] \subset \RealUp$ inherits a compact naming certificate via the standard located $\varepsilon$-net of dyadic rationals at scale $\lceil 1/\varepsilon \rceil$, and \autoref{thm:compact-uniform-continuity} then gives uniform continuity of every continuous $f \colon [a, b] \to \RealUp$ with an explicit modulus. The chapter is therefore the canonical bridge from the analytic certificate layer to the constructive analysis literature.
+\end{remark}

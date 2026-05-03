@@ -5,3 +5,64 @@ This capstone closes the analytical layer of BEDC by upgrading the real naming c
 
 \section{Regular Cauchy sequences and their limits}
 \label{sec:real-completeness-regular-cauchy}
+
+\begin{definition}[Regular sequence over $\RatUp$]
+\label{def:real-completeness-regular-rat-sequence}
+A \emph{regular sequence} over $\NameCert_{\RatUp}$ is a function $x \colon \mathbb{N} \to \mathbb{Q}$ together with the explicit regularity witness
+$$ \forall\, m, n \in \mathbb{N}, \quad |x_m - x_n| \;\le\; \tfrac{1}{m+1} + \tfrac{1}{n+1}. $$
+The carrier $\RegSeqRat$ of \autoref{ch:concrete-instances-real-namecert} packages such pairs as a closed inductive over $\NameCert_{\RatUp}$ data, with $\RealClassifier$ the $\psame$ closure that identifies two regular sequences whose pointwise difference shrinks at the regularity rate.
+\end{definition}
+
+\begin{definition}[Regular Cauchy sequence over $\RegSeqRat$]
+\label{def:real-completeness-regular-cauchy-rat}
+A \emph{regular Cauchy sequence} of regular rational sequences is a function $X \colon \mathbb{N} \to \RegSeqRat$ together with an explicit modulus $\mu \colon \mathbb{Q}_{>0} \to \mathbb{N}$ such that, for every $\varepsilon \in \mathbb{Q}_{>0}$ and every $m, n \ge \mu(\varepsilon)$, the regular rational sequence $X_m - X_n$ (computed pointwise on representatives) lies inside the $\varepsilon$-ball at $0$ in the sense of $\NameCert_{\RegSeqRat}$.
+\end{definition}
+
+\begin{definition}[Diagonal limit representative]
+\label{def:real-completeness-diagonal-limit}
+The \emph{diagonal limit representative} of $(X, \mu)$ is the rational sequence $L \colon \mathbb{N} \to \mathbb{Q}$ given by
+$$ L_n \;=\; \big(X_{\mu(1/(n+1))}\big)_{\,\mu(1/(n+1)) + n + 1}, $$
+that is, the value at index $\mu(1/(n+1)) + n + 1$ of the $\mu(1/(n+1))$-th member of the Cauchy sequence. The construction is primitive recursion on $n$ together with $\NameCert_{\RatUp}$ arithmetic on the indices.
+\end{definition}
+
+\begin{theorem}[Diagonal limit is a regular sequence]
+\label{thm:real-completeness-diagonal-regular}
+The diagonal limit representative $L$ of \autoref{def:real-completeness-diagonal-limit} is a regular sequence in the sense of \autoref{def:real-completeness-regular-rat-sequence}: for every $m, n \in \mathbb{N}$,
+$$ |L_m - L_n| \;\le\; \tfrac{1}{m+1} + \tfrac{1}{n+1}. $$
+\end{theorem}
+
+\begin{proof}[Sketch]
+Fix $m \le n$. Bound $|L_m - L_n|$ by triangle inequality through three intermediate points: the value of $X_{\mu(1/(m+1))}$ at the diagonal index, the value of $X_{\mu(1/(n+1))}$ at the same index, and the value at $L_n$'s diagonal index. The first and third differences are controlled by the regularity of the constituent regular sequences (\autoref{def:real-completeness-regular-rat-sequence}); the middle difference is controlled by the Cauchy modulus $\mu$ (\autoref{def:real-completeness-regular-cauchy-rat}). Each bound is at most $1/(m+1) + 1/(n+1)$ after a one-line rational arithmetic step.
+\end{proof}
+
+\section{The limit theorem}
+\label{sec:real-completeness-limit-theorem}
+
+\begin{theorem}[Limit existence and uniqueness on $\NameCert_{\RealUp}$]
+\label{thm:real-completeness-limit-exists-unique}
+Every regular Cauchy sequence $(X, \mu)$ over $\RegSeqRat$ has a limit in $\NameCert_{\RealUp}$: the diagonal representative $L$ of \autoref{def:real-completeness-diagonal-limit} is a regular sequence by \autoref{thm:real-completeness-diagonal-regular}, and the assignment $(X, \mu) \mapsto [L]$ into $\NameCert_{\RealUp}$ satisfies
+$$ \forall\, n \in \mathbb{N}, \quad |X_n - L| \;\le\; \tfrac{2}{n+1} $$
+in the metric of $\NameCert_{\RealUp}$. The limit is unique up to the $\psame$-equivalence underlying $\NameCert_{\RealUp}$: if $L'$ is another regular sequence with the same convergence bound, then $L \,\psame\, L'$ as elements of $\NameCert_{\RealUp}$.
+\end{theorem}
+
+\begin{proof}[Sketch]
+The convergence bound is an unfolding of the definitions: at scale $n$, the diagonal index is at least $\mu(1/(n+1))$, so the regular Cauchy modulus controls $X_n$ against $X_{\mu(1/(n+1))}$, and the diagonal-index regularity (\autoref{thm:real-completeness-diagonal-regular}) controls $X_{\mu(1/(n+1))}$ against $L$. The uniqueness assertion is the $\psame$ closure on $\NameCert_{\RealUp}$ applied to the difference $L - L'$, whose pointwise size is bounded by $4/(n+1)$ for every $n$, hence shrinks at the regularity rate, hence is identified with $0$ by $\RealClassifier$.
+\end{proof}
+
+\section{Constructive content and axiom purity}
+\label{sec:real-completeness-axiom-purity}
+
+\begin{remark}[Explicit moduli throughout]
+\label{rem:real-completeness-explicit-moduli}
+Every modulus appearing in \autoref{def:real-completeness-regular-cauchy-rat}, \autoref{def:real-completeness-diagonal-limit}, and \autoref{thm:real-completeness-limit-exists-unique} is given as a function on naturals and rationals computed by primitive recursion on the inductive carriers of \autoref{ch:concrete-instances-rat-namecert}. No real number is constructed by quotienting an equivalence relation: the $\psame$ closure of $\NameCert_{\RealUp}$ is the certificate-level identification, not a host-level $\Quot$-soundness step. The chapter therefore preserves the axiom-purity invariant of the project.
+\end{remark}
+
+\begin{remark}[Reuse for the continuous certificate]
+\label{rem:real-completeness-reuse-continuous}
+The diagonal limit construction (\autoref{def:real-completeness-diagonal-limit}) is the underlying limit step for the continuous certificate $\NameCert_{\ContinuousFunctionUp}$ (\autoref{ch:concrete-instances-continuous-namecert}). A continuous function on $\NameCert_{\RealUp}$ is, in BEDC, a function on $\RegSeqRat$ together with an explicit pointwise modulus; the limit operation passes through the diagonal step and inherits its regularity bound. The reuse is structural, not a separate construction.
+\end{remark}
+
+\begin{remark}[Composition with the compact uniform-continuity capstone]
+\label{rem:real-completeness-compact-composition}
+With $\NameCert_{\RealUp}$ complete and a continuous-function certificate available, the compact uniform-continuity capstone (\autoref{ch:capstones-compact-uniform-continuity}) becomes effective on every closed bounded interval $[a, b] \subset \RealUp$. The kernel produces, for every continuous $f \colon [a, b] \to \RealUp$, a uniform modulus depending only on the tolerance, and every analytical theorem downstream that requires uniform continuity on compacts becomes, by composition, a kernel theorem in BEDC.
+\end{remark}

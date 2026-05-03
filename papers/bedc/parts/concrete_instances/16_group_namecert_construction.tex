@@ -550,6 +550,121 @@ $\mathsf{comm}(a,b)$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_commutator\_trivial\_iff\_commutes\_from\_empty\_unit}
 
+\begin{theorem}[Group commutator fixed-point criterion]
+\label{thm:group-commutator-fixed-point-criterion}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identities, multiplication congruence, and
+two-sided inverse laws, define
+$$
+\mathrm{Inn}_a(b):=(a\cdot b)\cdot a^{-1}
+\qquad\text{and}\qquad
+\mathsf{comm}(a,b):=(a\cdot b)\cdot(a^{-1}\cdot b^{-1}).
+$$
+Then every $a,b:\mathsf{BHist}$ satisfy
+$$
+\hsame(\mathrm{Inn}_a(b),b)
+\Longleftrightarrow
+\hsame(\mathsf{comm}(a,b),e)
+\Longleftrightarrow
+\hsame(a\cdot b,b\cdot a).
+$$
+The ten-field fit is: traditional target centralizer fixed-point criterion;
+BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability obligations conjugation exactness,
+commutator exactness, associativity, inverse laws, and multiplication
+congruence; ledger conjugating factor, inverse witness, and commutator spine;
+core theorem this fixed-point equivalence; exactness predicate fixed point iff
+commutator trivial iff commutation; standard bridge ordinary group
+centralizers; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-conjugation-equation-exactness} with middle
+factor $b$ and target $b$. The fixed-point assertion
+$\hsame((a\cdot b)\cdot a^{-1},b)$ is therefore equivalent to the comparison
+$\hsame(b,(a^{-1}\cdot b)\cdot a)$.
+
+For the forward comparison, multiply the right-side equation by $a$ on the
+left and reassociate $a\cdot((a^{-1}\cdot b)\cdot a)$ through
+$(a\cdot a^{-1})\cdot b$. The inverse law collapses $a\cdot a^{-1}$ to the
+unit, and the unit laws identify the transported comparison with
+$\hsame(a\cdot b,b\cdot a)$.
+
+For the reverse comparison, multiply $a\cdot b\hsame b\cdot a$ on the left by
+$a^{-1}$. Associativity moves the inverse next to $a$, the inverse and unit
+laws collapse the left factor, and the resulting comparison is exactly
+$\hsame(b,(a^{-1}\cdot b)\cdot a)$.
+
+Theorem~\ref{thm:group-commutator-trivial-iff-commutes} gives the second
+equivalence, so transitivity of equivalences yields the displayed
+fixed-point, commutator, and commutation criterion.
+\end{proof}
+
+\begin{definition}[Group centralizer carrier]
+\label{def:group-centralizer-carrier}
+Fix a BEDC history-level group operation $\mathsf{mul}$ over
+$\mathsf{BHist}$, unit $e$, inverse operation $\mathsf{inv}$, and fixed
+element $a:\mathsf{BHist}$. The centralizer carrier of $a$ is the classifier
+$Z_a$ on histories defined by
+$$
+Z_a(x) :\Longleftrightarrow
+\hsame(\mathsf{mul}(x,a),\mathsf{mul}(a,x)).
+$$
+\end{definition}
+
+\begin{theorem}[Group centralizer subgroup and commutator fiber]
+\label{thm:group-centralizer-subgroup}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws, the carrier $Z_a$ of
+\autoref{def:group-centralizer-carrier} is closed under the group operations:
+\begin{enumerate}
+\item $Z_a(e)$.
+\item If $Z_a(x)$ and $Z_a(y)$, then $Z_a(\mathsf{mul}(x,y))$.
+\item If $Z_a(x)$, then $Z_a(\mathsf{inv}(x))$.
+\item For every $x:\mathsf{BHist}$,
+$$
+Z_a(x) \Longleftrightarrow \mathsf{comm}(x,a)\hsame e,
+$$
+where $\mathsf{comm}$ is the commutator operation of
+\autoref{thm:group-commutator-trivial-iff-commutes}.
+\end{enumerate}
+The ten-field fit is: traditional target centralizer subgroup; BEDC source
+$\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$; classifier $\hsame$;
+stability obligations unit, product, inverse closure, and commutator-fiber
+exactness; ledger fixed element $a$ and commuting witnesses for the active
+factors; core theorem list \autoref{thm:group-inverse-mul-reverse},
+\autoref{thm:group-inverse-congruence-from-laws}, and
+\autoref{thm:group-commutator-trivial-iff-commutes}, together with
+associativity, unit laws, inverse laws, and multiplication congruence;
+exactness predicate $Z_a(x)$ iff trivial commutator; standard bridge ordinary
+group centralizers; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The unit belongs to $Z_a$ because the left and right identity laws identify
+$ea$ and $ae$ with the same history $a$. Symmetry and transitivity of
+$\hsame$ close the comparison.
+
+For product closure, start from witnesses $xa\hsame ax$ and $ya\hsame ay$.
+Associativity rewrites $(xy)a$ as $x(ya)$; multiplication congruence transports
+the second witness to $x(ay)$, and associativity rewrites this as $(xa)y$.
+The first witness then transports the left factor to $(ax)y$, and
+associativity gives $a(xy)$.
+
+For inverse closure, first use \autoref{thm:group-inverse-congruence-from-laws}
+on the witness $xa\hsame ax$. Apply
+\autoref{thm:group-inverse-mul-reverse} to both products. The inverse of
+$xa$ is represented by $a^{-1}x^{-1}$, and the inverse of $ax$ is represented
+by $x^{-1}a^{-1}$; transporting along the inverse-congruence witness gives
+$a^{-1}x^{-1}\hsame x^{-1}a^{-1}$. Multiplying on the left by $a$ and on the
+right by $a$, then using associativity and the two inverse laws, cancels the
+outer $a^{-1}$ factors and yields $x^{-1}a\hsame ax^{-1}$.
+
+The commutator fiber is exactly the displayed carrier by
+\autoref{thm:group-commutator-trivial-iff-commutes} with the ordered pair
+$(x,a)$. Its right side is precisely the definition of $Z_a(x)$, and symmetry
+of the displayed equivalence supplies the stated orientation.
+\end{proof}
+
 \begin{theorem}[Group left absorption forces the right factor to the unit]
 \label{thm:group-left-absorb-right-factor-unit}
 For a history-level group operation with associativity, left and right

@@ -153,6 +153,26 @@ $k\hsame k'$ to obtain the classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_hsame\_empty\_transport\_iff}
 
+\begin{theorem}[Field singleton classifier hsame empty endpoints]
+\label{thm:field-singleton-classifier-hsame-empty-endpoints}
+For histories $h,h',k,k':\mathsf{BHist}$ with $h\hsame h'$ and $k\hsame k'$,
+the singleton classifier on $h,k$ is equivalent to the three transported
+empty-endpoint and comparison facts on $h',k'$:
+$$
+\mathsf{FieldSingletonClassifier}(h,k)
+\Longleftrightarrow
+h'\hsame\emp\land k'\hsame\emp\land h'\hsame k'.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction transports the two singleton-carrier endpoints from
+$h,k$ to $h',k'$ and composes the classifier comparison through the two
+$\hsame$ witnesses. Conversely, transport the endpoints back to $h,k$ and
+compose $h\hsame h'$, $h'\hsame k'$, and $k'\hsame k$ to rebuild the
+singleton classifier on $h,k$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_hsame\_empty\_endpoints\_iff}
+
 \begin{theorem}[Field singleton classifier continuation commutativity closure]
 \label{thm:field-singleton-classifier-continuation-comm-closed}
 For histories $P,Q,L,R:\mathsf{BHist}$, if the singleton field classifier

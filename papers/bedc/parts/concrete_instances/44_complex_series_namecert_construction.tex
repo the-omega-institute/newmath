@@ -64,6 +64,40 @@ continuation relation identifies the two successor sums.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_deterministic}
 
+\begin{lemma}[Partial sums respect pointwise term equivalence]
+\label{lem:complex-part-sum-term-hsame-deterministic}
+If two term families \(c,d:\Hist\to\Hist\) are pointwise related by \(\hsame\)
+on every unary index, and \(S,T\) are closed partial sums for \(c,d\) at the
+same index \(n\), then \(S\hsame T\).
+\end{lemma}
+\begin{proof}
+Induct on the first closed partial-sum witness. The base case forces the second
+witness to be the zero constructor. In the successor case, the second witness
+has the same successor index; the induction hypothesis identifies the
+predecessor sums, closedness of the first witness supplies unaryness of the
+predecessor index, and the pointwise term comparison identifies the terms. The
+BEDC continuation relation then identifies the successor sums.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_term\_hsame\_deterministic}
+
+\begin{lemma}[Complex partial-sum successor term hsame determinacy]
+\label{lem:complex-part-sum-successor-term-hsame-deterministic}
+If two chosen zero histories agree under $\hsame$, and two term families agree
+pointwise under $\hsame$, then a successor partial-sum step computed from the
+first family has the same result as any closed successor partial-sum derivation
+for the second family at the corresponding $\Eone(n)$ index.
+\end{lemma}
+\begin{proof}
+First prove cross-family determinacy for partial sums by induction on the first
+closed derivation. The zero constructor uses the zero-history comparison. The
+successor constructor inverts the matching successor derivation on the other
+side, applies the induction hypothesis to the predecessor sums, and then uses
+determinacy of $\ContR$ with the pointwise term comparison. Applying this
+cross-family result to the predecessor sums of the displayed successor witness
+and the closed successor derivation identifies the final results.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_successor\_term\_hsame\_deterministic}
+
 \section{Absolute convergence}
 
 \begin{definition}[Modulus partial sum]
@@ -86,6 +120,25 @@ shape; the induction hypothesis identifies the previous modulus sums, and
 determinacy of $\mathsf{Cont}$ identifies the successor result.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_successor\_result\_deterministic}
+
+\begin{lemma}[Absolute partial-sum successor modulus hsame determinacy]
+\label{lem:complex-abs-part-sum-successor-modulus-hsame-deterministic}
+If two chosen zero histories agree under $\hsame$, and two modulus families
+agree pointwise under $\hsame$, then a successor absolute partial-sum step
+computed from the first modulus family has the same result as any closed
+successor absolute partial-sum derivation for the second family at the
+corresponding $\Eone(n)$ index.
+\end{lemma}
+\begin{proof}
+Induct on the first absolute partial-sum derivation to obtain cross-family
+determinacy of predecessor modulus sums. The zero constructor is handled by the
+zero-history comparison. In the successor constructor, invert the matching
+successor derivation, compare predecessor sums by induction, and compare the
+two continuation results using the pointwise modulus comparison. Applying this
+determinacy statement to the predecessor of the displayed successor step and
+the closed successor derivation gives the required result comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_successor\_modulus\_hsame\_deterministic}
 
 \begin{definition}[Absolute convergence]
 \label{def:abs-conv}
