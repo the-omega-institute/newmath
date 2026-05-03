@@ -386,6 +386,40 @@ def _build_full_transcript(out_dir: Path, turns: list[dict]) -> str:
     return "\n".join(parts)
 
 
+def _build_oracle_initial_prompt_v2(target: BedcTarget) -> str:
+    """Build the lean v2 oracle initial prompt from oracle_initial.txt."""
+    template = (SCRIPT_DIR / "prompts" / "oracle_initial.txt").read_text(encoding="utf-8")
+    object_str = target.fields.get("Object", target.title)
+    problem_str = ""
+    body = target.body or ""
+    m = re.search(r"^Problem:\s*\n(.+?)(?:\n\n|\Z)", body, flags=re.MULTILINE | re.DOTALL)
+    if m:
+        problem_str = m.group(1).strip()
+    return template.format(
+        target_id=target.target_id,
+        target_title=target.title,
+        object=object_str,
+        problem=problem_str,
+    )
+
+
+# Inline followup template — too short (5 lines) to deserve its own .txt file.
+_ORACLE_FOLLOWUP_TEMPLATE = (
+    "延续上轮 #{last_id} {last_topic_short}。\n"
+    "\n"
+    "{specific_directive}\n"
+    "\n"
+    "继续深入研究, 严格在 BEDC 框架内, 保持编号递增。日期 + 编号开头, "
+    "输出格式同上, 禁止重复本对话此前已产出的内容。\n"
+)
+
+
+def _build_oracle_followup_prompt_v2(*, last_id: int, last_topic_short: str, directive: str) -> str:
+    return _ORACLE_FOLLOWUP_TEMPLATE.format(
+        last_id=last_id,
+        last_topic_short=last_topic_short[:80],
+        specific_directive=directive,
+    )
 
 
 def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:

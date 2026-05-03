@@ -452,68 +452,8 @@ def commit_and_push_if_changed() -> bool:
 
 
 # ---------------------------------------------------------------------------
-# claude progress reviewer (tier 3)
+# PI agent review (delegated to pi_agent_v1)
 # ---------------------------------------------------------------------------
-
-
-def _state_summary_lines(limit: int = 60) -> str:
-    rows: list[str] = []
-    if not STATE_DIR.exists():
-        return "(no state files)"
-    for f in sorted(STATE_DIR.glob("*.json"))[:limit]:
-        try:
-            d = json.loads(f.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            continue
-        rows.append(
-            f"- {d.get('target_id','?')} {d.get('title','')[:50]} "
-            f"v={d.get('stage1_verdict','?')} "
-            f"s2={(d.get('stage2') or {}).get('verdict','n/a')}"
-        )
-    return "\n".join(rows) or "(no completed targets)"
-
-
-def _extract_json_object(text: str) -> dict | None:
-    text = (text or "").strip()
-    if not text:
-        return None
-    fence = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, flags=re.DOTALL)
-    if fence:
-        candidate = fence.group(1)
-    else:
-        first = text.find("{")
-        last = text.rfind("}")
-        if first == -1 or last == -1 or last <= first:
-            return None
-        candidate = text[first:last + 1]
-    try:
-        return json.loads(candidate)
-    except json.JSONDecodeError:
-        return None
-
-
-def run_claude_review() -> dict | None:
-    from killo_golden_writeback import claude_exec
-    template = (SCRIPT_DIR / "prompts" / "supervisor_review.txt").read_text(encoding="utf-8")
-    s = server_status()
-    server_blob = json.dumps(s, ensure_ascii=False, indent=2)[:2000] if s else "(unavailable)"
-
-    def _safe(t: str) -> str:
-        return (t or "").replace("{", "{{").replace("}", "}}")
-
-    prompt = template.format(
-        ts=_safe(_now_iso()),
-        state_summary=_safe(_state_summary_lines()[:6000]),
-        server_status=_safe(server_blob),
-    )
-    ok, stdout, rc = claude_exec(prompt, log_tag="supervisor_review", timeout=900)
-    if not ok:
-        supervisor_log(f"claude review failed: rc={rc}")
-        return None
-    parsed = _extract_json_object(stdout)
-    if parsed is None:
-        supervisor_log("claude review returned no JSON")
-    return parsed
 
 
 def run_pi_review(supervisor_state: dict) -> dict | None:
