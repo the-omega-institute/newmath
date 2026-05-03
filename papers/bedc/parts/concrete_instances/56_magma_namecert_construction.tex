@@ -57,6 +57,42 @@ $\mathsf{ProofTarget}$.
 \section{The certificate}
 \label{sec:magma-certificate}
 
+\begin{lemma}[Concrete unary-history magma classifier stability]
+\label{lem:concrete-unary-history-magma-classifier-stability}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and define
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+Then $R_U$ has carrier reflexivity on every $U(h)$, symmetry,
+transitivity, and carrier transport in both endpoints. Concretely:
+\begin{enumerate}
+\item if $U(h)$, then $R_U(h,h)$;
+\item if $R_U(h,k)$, then $R_U(k,h)$;
+\item if $R_U(h,k)$ and $R_U(k,l)$, then $R_U(h,l)$;
+\item if $R_U(h,k)$, then both carrier witnesses $U(h)$ and $U(k)$ are
+available for the certificate endpoint fields.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+Unpack $R_U$ as the triple consisting of the left carrier witness, the right
+carrier witness, and the endpoint $\hsame$ proof.
+
+For carrier reflexivity, a witness $U(h)$ supplies both endpoint carrier
+fields, and \texttt{BEDC.FKernel.Hist.hsame\_refl} supplies the endpoint
+classifier proof.
+
+For symmetry, swap the two carrier witnesses and apply
+\texttt{BEDC.FKernel.Hist.hsame\_symm} to the endpoint proof.
+
+For transitivity, retain the outer carrier witnesses $U(h)$ and $U(l)$ from
+the two packed classifiers. Compose the endpoint equalities with
+\texttt{BEDC.FKernel.Hist.hsame\_trans}, then repack the outer carrier
+witnesses with the composed endpoint proof.
+
+The carrier-transport fields are the two carrier projections already stored in
+each packed $R_U(h,k)$ witness.
+\end{proof}
+
 \begin{theorem}[Concrete unary-history MagmaUp semantic certificate]
 \label{thm:concrete-unary-history-magma-semantic-certificate}
 Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$, let
@@ -76,12 +112,11 @@ $$
 and status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-The carrier field is supplied by the empty unary history. Reflexivity,
-symmetry, and transitivity of $R_U$ are obtained by unpacking the two endpoint
-carrier witnesses and applying the corresponding $\hsame$ equivalence laws.
-Carrier transport follows from unary transport along $\hsame$, with the
-transported endpoint witness repacked together with the unchanged classifier
-witness.
+The carrier field is supplied by the empty unary history. The classifier
+fields are exactly
+\autoref{lem:concrete-unary-history-magma-classifier-stability}: carrier
+reflexivity, symmetry, transitivity, and the two endpoint carrier projections
+for $R_U$.
 
 The operation fields are the concrete laws of
 Theorem~\ref{thm:concrete-unary-history-magma-laws}, whose checked Lean target
