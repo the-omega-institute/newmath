@@ -38,12 +38,25 @@ $$
 
 \begin{theorem}[Concrete singleton history group laws]
 \label{thm:concrete-singleton-history-group-laws}
-The tuple $(A_{\emp},R_{\emp},\mathsf{mul},e,\mathsf{inv})$ satisfies carrier
-inhabitance, multiplication closure, inverse closure, left and right unit
-laws, associativity up to $\hsame$, multiplication congruence, inverse
-congruence, and left and right inverse laws.
+The tuple $(A_{\emp},R_{\emp},\mathsf{mul},e,\mathsf{inv})$ first supplies
+the singleton-history $\mathsf{SemanticNameCert}$ for $\GroupUp$ over
+$\mathsf{BHist}$, and also satisfies carrier inhabitance, multiplication
+closure, inverse closure, left and right unit laws, associativity up to
+$\hsame$, multiplication congruence, inverse congruence, and left and right
+inverse laws.
 \end{theorem}
 \begin{proof}
+The $\mathsf{SemanticNameCert}$ component is packaged by the carrier-aware
+classifier $R_{\emp}$. Its inhabited carrier is witnessed by
+$\hsame(\emp,\emp)$. Reflexivity, symmetry, and transitivity are inherited
+from $\hsame$ after unpacking and repacking the carrier endpoints required by
+$R_{\emp}$.
+
+Carrier transport follows by composing singleton endpoint witnesses through
+$\emp$: if a source endpoint and its classifier partner are both related by
+$R_{\emp}$, then the transported endpoint remains in $A_{\emp}$ by
+transitivity through their displayed witnesses to $\emp$.
+
 Carrier inhabitance is the reflexive endpoint witness
 $\hsame(\emp,\emp)$, which is exactly the singleton carrier condition from
 Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$.
