@@ -158,6 +158,29 @@ history sameness proof from this one-headed tail to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_visible\_tails\_result\_not\_empty}
 
+\begin{theorem}[Continuation morphism composite tail nonempty cases]
+\label{thm:category-continuation-morphism-comp-tail-nonempty-cases}
+For histories $a,b,c$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the closed composite tail is
+not internally empty, then at least one displayed factor tail is not internally
+empty:
+$$
+\neg\HSame(\mathsf{tail}(left\circ right),\emp)
+\Rightarrow
+\neg\HSame(\mathsf{tail}(left),\emp)\vee
+\neg\HSame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and inspect the left displayed
+tail. If it is empty, the composite tail reduces to the right displayed tail,
+so right-tail emptiness would contradict the composite nonemptiness
+hypothesis. If it is zero-headed or one-headed, BEDC constructor separation
+rules out any equality from that left tail to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_cases}
+
 \begin{theorem}[Continuation morphism composite unary tails reject zero-headed result]
 \label{thm:category-continuation-morphism-comp-unary-tail-e0-absurd}
 For histories $a,b,c,z$, let

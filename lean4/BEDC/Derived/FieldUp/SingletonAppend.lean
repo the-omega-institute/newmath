@@ -84,6 +84,28 @@ theorem fieldSingletonEmptyNonZero_append_context_cancel_iff {L R Q : BHist} :
       (And.intro innerSplit.left
         (And.intro (hsame_refl BHist.Empty) innerSplit.left))
 
+theorem fieldSingletonEmptyNonZero_append_source_or_tail {P Q : BHist} :
+    fieldSingletonEmptyNonZero (append P Q) ->
+      fieldSingletonEmptyNonZero P ∨ fieldSingletonEmptyNonZero Q := by
+  intro appendNonzero
+  cases P with
+  | Empty =>
+      right
+      intro qClassified
+      apply appendNonzero
+      have appendCarrier : fieldSingletonEmptyCarrier (append BHist.Empty Q) :=
+        hsame_trans (append_empty_left Q) qClassified.left
+      exact And.intro appendCarrier
+        (And.intro (hsame_refl BHist.Empty) appendCarrier)
+  | e0 p =>
+      left
+      intro pClassified
+      exact not_hsame_e0_empty pClassified.left
+  | e1 p =>
+      left
+      intro pClassified
+      exact not_hsame_e1_empty pClassified.left
+
 theorem FieldSingletonCarrier_append_visible_head_absurd {h k : BHist} :
     (FieldSingletonCarrier (append (BHist.e0 h) k) -> False) ∧
       (FieldSingletonCarrier (append (BHist.e1 h) k) -> False) := by

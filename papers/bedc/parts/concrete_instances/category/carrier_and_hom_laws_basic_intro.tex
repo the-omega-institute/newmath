@@ -454,6 +454,26 @@ then supplies the three displayed identity carriers.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_empty\_identity\_carriers}
 
+\begin{theorem}[Category composite nonempty result exposes a nonempty factor]
+\label{thm:category-hom-carrier-comp-result-nonempty-cases}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, if
+$\ContR(f,g,fg)$ and the displayed composite result is not internally empty,
+then at least one displayed morphism factor is not internally empty:
+$$
+\neg\HSame(fg,\emp)
+\Rightarrow
+\neg\HSame(f,\emp)\vee\neg\HSame(g,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Inspect the displayed left morphism history. If it is empty, the continuation
+ledger identifies the composite result with the right morphism, so a right
+empty witness would make the composite empty. If the left morphism is
+zero-headed or one-headed, BEDC constructor separation directly gives the left
+nonempty disjunct.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_cases}
+
 \begin{theorem}[Category hom carrier unary suffix equivalence]
 \label{thm:category-hom-carrier-unary-suffix-iff}
 For a unary suffix $q$, a displayed hom-carrier
