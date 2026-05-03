@@ -210,3 +210,27 @@ left-unit continuation, and the right composite is a right-unit continuation,
 so the two unit laws identify the results with $f$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefixEndomorphismTriangle\_identity\_exactness}
+
+\begin{theorem}[Adjunction prefix component empty cycle]
+\label{thm:adjunction-prefix-component-cycle-empty-prefix-same}
+For prefix components over a common object $a$, let $\eta$ run from $p$ to
+$q$ and let $\theta$ run from $q$ back to $p$. If
+$$
+\ContR(\eta,\theta,composite)
+\quad\text{and}\quad
+\HSame(composite,\emp),
+$$
+then both prefixes agree in both directions and both component histories are
+empty:
+$$
+\HSame(p,q)\land\HSame(q,p)\land\HSame(\eta,\emp)\land\HSame(\theta,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed component cycle to an empty continuation result. The
+empty vertical-composite exactness theorem for NatTrans prefix components then
+identifies both component histories with $\emp$ and extracts the two adjacent
+prefix equalities. Reordering those four facts gives the stated adjunction
+cycle boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefixComponent\_cycle\_empty\_prefix\_same}

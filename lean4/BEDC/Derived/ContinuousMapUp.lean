@@ -249,4 +249,30 @@ theorem ContinuousMapFunctionCarrier_metric_graph_exactness
     ContinuousFunctionCarrier_graph_modulus_cont_readback functionCarrier
   exact And.intro readback.left (cont_deterministic metricWitness.right.right.right readback.left)
 
+theorem ContinuousMap_comp_graph_depth_add
+    {source mid target mapF mapG mapFG modF modG modFG certF certG certFG : BHist} :
+    ContinuousFunctionCarrier source mapF mid modF certF ->
+      ContinuousFunctionCarrier mid mapG target modG certG -> Cont mapF mapG mapFG ->
+        Cont modF modG modFG -> Cont target modFG certFG ->
+          MetricDistanceDepth target = MetricDistanceDepth source + MetricDistanceDepth mapFG := by
+  intro first second graphRel modulusRel certRel
+  have compositeCarrier :
+      ContinuousFunctionCarrier source mapFG target modFG certFG :=
+    ContinuousFunctionCarrier_comp_closed first second graphRel modulusRel certRel
+  have graphWitness : MetricDistanceWitness source mapFG target := by
+    cases compositeCarrier with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier rest =>
+            cases rest with
+            | intro mapCarrier rest =>
+                cases rest with
+                | intro _modulusCarrier rest =>
+                    cases rest with
+                    | intro graph _cert =>
+                        exact
+                          And.intro sourceCarrier
+                            (And.intro mapCarrier (And.intro targetCarrier graph))
+  exact MetricDistanceWitness_depth_add graphWitness
+
 end BEDC.Derived.ContinuousMapUp

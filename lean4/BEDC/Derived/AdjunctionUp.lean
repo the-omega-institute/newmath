@@ -1,5 +1,6 @@
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.NatTransUp
+import BEDC.Derived.NatTransUp.EmptyVertComp
 
 namespace BEDC.Derived.AdjunctionUp
 
@@ -233,5 +234,18 @@ theorem AdjunctionPrefixEndomorphismTriangle_identity_exactness
     exact rightContinuation
   exact And.intro (cont_left_unit_result leftEmpty)
     (cont_deterministic rightEmpty (cont_right_unit f))
+
+theorem AdjunctionPrefixComponent_cycle_empty_prefix_same {p q a eta theta composite : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q p a theta -> Cont eta theta composite ->
+        hsame composite BHist.Empty ->
+          hsame p q ∧ hsame q p ∧ hsame eta BHist.Empty ∧ hsame theta BHist.Empty := by
+  intro unit counit cycle compositeEmpty
+  have emptyCycle : Cont eta theta BHist.Empty :=
+    cont_result_hsame_transport cycle compositeEmpty
+  have data :=
+    Iff.mp (NatTransPrefixComponentCarrier_vert_comp_empty_iff unit counit) emptyCycle
+  exact And.intro data.right.right.left
+    (And.intro data.right.right.right (And.intro data.left data.right.left))
 
 end BEDC.Derived.AdjunctionUp

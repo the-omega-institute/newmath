@@ -203,3 +203,28 @@ concrete continuous-map carrier.
 
 \section{The certificate}
 \label{sec:continuousmap-certificate}
+
+\begin{theorem}[ContinuousMap composite graph depth addition]
+\label{thm:continuousmap-comp-graph-depth-add}
+For histories $source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG$,
+if two continuous-function carriers compose through continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG),
+$$
+then the composite graph has metric depth
+$$
+\mathsf{MetricDistanceDepth}(target)
+=
+\mathsf{MetricDistanceDepth}(source)+
+\mathsf{MetricDistanceDepth}(mapFG).
+$$
+\end{theorem}
+\begin{proof}
+Composition closure for continuous-function carriers builds the composite
+carrier from $source$ to $target$ along $mapFG$. Its graph fields are exactly a
+metric distance witness with endpoints $source$, $mapFG$, and $target$.
+Metric-distance depth addition for that witness gives the displayed equality.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_comp\_graph\_depth\_add}
