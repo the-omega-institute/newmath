@@ -131,6 +131,9 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.DirichletSeriesUp
+import BEDC.Derived.ZetaBasicUp
+import BEDC.Derived.CritStripUp
+import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
@@ -147,6 +150,8 @@ import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.ListUp.SourceEquivalence
+import BEDC.Derived.MagmaUp
+import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorContext
@@ -162,6 +167,7 @@ import BEDC.Derived.GroupUp.ConjugationClassifier
 import BEDC.Derived.GroupUp.Commutator
 import BEDC.Derived.GroupUp.Centralizer
 import BEDC.Derived.GroupUp.CentralizerNormalizer
+import BEDC.Derived.GroupUp.ProductUnitInverse
 import BEDC.Derived.GroupUp.ConjugationEmpty
 import BEDC.Derived.GroupUp.ConjugationComposition
 import BEDC.Derived.GroupUp.EquationUniqueness
@@ -169,6 +175,8 @@ import BEDC.Derived.GroupUp.ProductUnitInverse
 import BEDC.Derived.GroupUp.SingletonContext
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
+import BEDC.Derived.GroupUp.SuffixProductUnitSplit
+import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp

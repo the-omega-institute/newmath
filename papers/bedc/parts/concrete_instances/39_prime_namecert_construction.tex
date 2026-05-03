@@ -27,6 +27,18 @@ witness are exactly the constructor payloads.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_inversion}
 
+\begin{lemma}[Empty left unary multiplication has empty result]
+\label{lem:natmul-empty-left-result-empty}
+If \(\mathsf{NatMul}(\emp,q,n)\), then \(n\hsame\emp\).
+\end{lemma}
+\begin{proof}
+Induct on the concrete multiplication witness. The zero constructor is
+immediate. In the successor constructor, the induction hypothesis identifies
+the previous product with \(\emp\), and the final continuation is therefore an
+empty-left continuation whose result is \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_left\_result\_empty}
+
 \begin{theorem}[Successor multiplication with empty result has empty left factor]
 \label{thm:natmul-succ-result-empty-left-empty}
 If \(\mathsf{NatMul}(d,\Eone(q),n)\) and \(n\hsame\emp\), then \(d\hsame\emp\).
@@ -138,6 +150,17 @@ functionality to identify the continuation result with \(\emp\).
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
 \end{definition}
 \leandef{BEDC.Derived.PrimeUp.NatDivides}
+
+\begin{lemma}[Empty left divisibility has empty result]
+\label{lem:natdivides-empty-left-result-empty}
+If \(\mathsf{NatDivides}(\emp,n)\), then \(n\hsame\emp\).
+\end{lemma}
+\begin{proof}
+Unpack the quotient witness for divisibility. Its multiplication field is a
+witness of \(\mathsf{NatMul}(\emp,q,n)\), so empty-left multiplication
+exactness identifies the result \(n\) with \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_left\_result\_empty}
 
 \begin{lemma}[Divisibility is reflexive on the unit and on every unary history]
 \label{lem:divides-reflexive}
