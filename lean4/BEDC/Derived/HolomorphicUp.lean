@@ -393,4 +393,26 @@ theorem HolomorphicOpenDiskWitnessed_unary_suffix_transport
                             (Exists.intro gap
                               (And.intro shiftedDisk.right.right.right.left shiftedBoundary))
 
+theorem HolomorphicOpenDiskWitnessed_center_point_unary_suffix_transport
+    {center radius point q centerq pointq radiusq : BHist} :
+    HolomorphicOpenDiskWitnessed center radius point -> UnaryHistory q ->
+      Cont center q centerq -> Cont point q pointq -> Cont radius q radiusq ->
+        HolomorphicOpenDiskWitnessed centerq radiusq pointq ∧
+          ∃ gap : BHist, UnaryHistory gap ∧ Cont pointq gap radiusq := by
+  intro disk suffixCarrier centerSuffix pointSuffix radiusSuffix
+  cases disk with
+  | intro centerCarrier rest =>
+      have shiftedCenterCarrier : UnaryHistory centerq :=
+        unary_cont_closed centerCarrier suffixCarrier centerSuffix
+      have shifted :=
+        HolomorphicOpenDiskWitnessed_unary_suffix_transport
+          (And.intro centerCarrier rest) suffixCarrier pointSuffix radiusSuffix
+      cases shifted with
+      | intro shiftedDisk shiftedGap =>
+          exact And.intro
+            (And.intro shiftedCenterCarrier
+              (And.intro shiftedDisk.right.left
+                (And.intro shiftedDisk.right.right.left shiftedGap)))
+            shiftedGap
+
 end BEDC.Derived.HolomorphicUp
