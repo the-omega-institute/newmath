@@ -529,14 +529,22 @@ def _exec_cancel_target(args: dict) -> str:
     tid = str(args.get("target_id", "")).strip()
     reason = str(args.get("reason", ""))[:200]
     state_dir = SCRIPT_DIR / "state"
-    # Find slug by scanning state dir
     matches = [d for d in state_dir.iterdir() if d.is_dir() and d.name.startswith(tid.lower() + "_")]
     if not matches:
         return f"cancel_target {tid}: no matching state dir"
     slug = matches[0].name
     in_progress = state_dir / slug / ".in_progress"
     if in_progress.exists():
-        in_progress.unlink()
+        # Refuse to cancel an active worker — the worker would otherwise
+        # finish its run and overwrite our cancel state. Symmetric with
+        # _exec_reset_target. The right path is human_inbox if a target
+        # truly needs killing mid-flight.
+        return (
+            f"cancel_target {tid}: REFUSED — in_progress claim active "
+            f"({in_progress.read_text(encoding='utf-8').strip()}). "
+            f"Use human_inbox `cancel_target` instead so a human can stop "
+            f"the worker first."
+        )
     final_state_path = state_dir / f"{slug}.json"
     state = {
         "target_id": tid,
@@ -608,64 +616,75 @@ def _apply_unified_diff(target: Path, diff_text: str) -> int:
 
 
 def _exec_git_commit() -> str:
-    # Stage everything that's pipeline-owned dirty
-    sub = subprocess.run(
-        ["git", "status", "--porcelain"],
-        capture_output=True, text=True, cwd=str(REPO_ROOT), timeout=10,
-    )
-    files = []
-    for line in sub.stdout.splitlines():
-        p = line[3:].strip()
-        if p.startswith(("tools/bedc-deep/", "papers/bedc/parts/")):
-            files.append(p)
-    if not files:
-        return "git_commit: nothing to commit"
-    subprocess.run(["git", "add", *files], cwd=str(REPO_ROOT), check=False, timeout=30)
-    msg = f"pi_agent_v1: pipeline housekeeping at {_now_iso()}"
-    proc = subprocess.run(
-        ["git", "commit", "-m", msg], cwd=str(REPO_ROOT),
-        capture_output=True, text=True, timeout=30,
-    )
-    if proc.returncode != 0:
-        return f"git_commit: rc={proc.returncode} {proc.stderr[:200]}"
-    return f"git_commit: committed {len(files)} files"
+    """Commit pipeline-owned dirty files. Holds paper_writes lock to avoid
+    racing with a concurrent Stage 2 append + make."""
+    from locks import file_lock
+    with file_lock("paper_writes"):
+        sub = subprocess.run(
+            ["git", "status", "--porcelain"],
+            capture_output=True, text=True, cwd=str(REPO_ROOT), timeout=10,
+        )
+        files = []
+        for line in sub.stdout.splitlines():
+            p = line[3:].strip()
+            if p.startswith(("tools/bedc-deep/", "papers/bedc/parts/")):
+                files.append(p)
+        if not files:
+            return "git_commit: nothing to commit"
+        subprocess.run(["git", "add", *files], cwd=str(REPO_ROOT), check=False, timeout=30)
+        msg = f"pi_agent_v1: pipeline housekeeping at {_now_iso()}"
+        proc = subprocess.run(
+            ["git", "commit", "-m", msg], cwd=str(REPO_ROOT),
+            capture_output=True, text=True, timeout=30,
+        )
+        if proc.returncode != 0:
+            return f"git_commit: rc={proc.returncode} {proc.stderr[:200]}"
+        return f"git_commit: committed {len(files)} files"
 
 
 def _exec_git_push() -> str:
+    """Push to origin. Holds paper_writes lock so an in-progress Stage 2
+    append doesn't end up in a partially-committed remote state."""
+    from locks import file_lock
     branch = _current_branch()
     if branch != ALLOWED_BRANCH:
         return f"git_push: branch {branch!r} != {ALLOWED_BRANCH!r}; refused"
-    proc = subprocess.run(
-        ["git", "push", "origin", branch], cwd=str(REPO_ROOT),
-        capture_output=True, text=True, timeout=60,
-    )
-    if proc.returncode != 0:
-        return f"git_push: rc={proc.returncode} {proc.stderr[:200]}"
-    return f"git_push: pushed {branch}"
+    with file_lock("paper_writes"):
+        proc = subprocess.run(
+            ["git", "push", "origin", branch], cwd=str(REPO_ROOT),
+            capture_output=True, text=True, timeout=60,
+        )
+        if proc.returncode != 0:
+            return f"git_push: rc={proc.returncode} {proc.stderr[:200]}"
+        return f"git_push: pushed {branch}"
 
 
 def _exec_git_sync_dev() -> str:
-    sub = subprocess.run(
-        ["git", "status", "--porcelain"],
-        capture_output=True, text=True, cwd=str(REPO_ROOT), timeout=10,
-    )
-    if sub.stdout.strip():
-        return "git_sync_dev: working tree dirty; refused"
-    subprocess.run(["git", "fetch", "origin", "dev"], cwd=str(REPO_ROOT), timeout=30)
-    behind = subprocess.run(
-        ["git", "rev-list", "--count", "HEAD..origin/dev"],
-        capture_output=True, text=True, cwd=str(REPO_ROOT), timeout=10,
-    ).stdout.strip()
-    if behind in ("0", ""):
-        return "git_sync_dev: already up to date"
-    proc = subprocess.run(
-        ["git", "merge", "--no-edit", "origin/dev"], cwd=str(REPO_ROOT),
-        capture_output=True, text=True, timeout=60,
-    )
-    if proc.returncode != 0:
-        subprocess.run(["git", "merge", "--abort"], cwd=str(REPO_ROOT), timeout=10)
-        return f"git_sync_dev: merge conflict; aborted ({behind} commits)"
-    return f"git_sync_dev: merged origin/dev cleanly ({behind} commits)"
+    """Fast-forward merge origin/dev. Holds paper_writes lock to prevent
+    a Stage 2 append from racing with the merge."""
+    from locks import file_lock
+    with file_lock("paper_writes"):
+        sub = subprocess.run(
+            ["git", "status", "--porcelain"],
+            capture_output=True, text=True, cwd=str(REPO_ROOT), timeout=10,
+        )
+        if sub.stdout.strip():
+            return "git_sync_dev: working tree dirty; refused"
+        subprocess.run(["git", "fetch", "origin", "dev"], cwd=str(REPO_ROOT), timeout=30)
+        behind = subprocess.run(
+            ["git", "rev-list", "--count", "HEAD..origin/dev"],
+            capture_output=True, text=True, cwd=str(REPO_ROOT), timeout=10,
+        ).stdout.strip()
+        if behind in ("0", ""):
+            return "git_sync_dev: already up to date"
+        proc = subprocess.run(
+            ["git", "merge", "--no-edit", "origin/dev"], cwd=str(REPO_ROOT),
+            capture_output=True, text=True, timeout=60,
+        )
+        if proc.returncode != 0:
+            subprocess.run(["git", "merge", "--abort"], cwd=str(REPO_ROOT), timeout=10)
+            return f"git_sync_dev: merge conflict; aborted ({behind} commits)"
+        return f"git_sync_dev: merged origin/dev cleanly ({behind} commits)"
 
 
 def _exec_prune_board(args: dict) -> str:

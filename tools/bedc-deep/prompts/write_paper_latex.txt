@@ -28,12 +28,11 @@ Output requirements:
    any other marker phrase before `\end{{proof}}`. Pure mathematical
    prose only — the environment owns its boundary.
 
-4. **Math style: match the paper's concrete_instances/proof_obligations
-   convention.** Use `\(...\)` for inline math and `\[...\]` for display
-   math. Do NOT use `$...$` or `$$...$$` — the BEDC paper body has
-   converged on `\(...\)` / `\[...\]` (verify by reading the existing
-   target file before writing). Display blocks `\[...\]` get their own
-   line; never inline at the end of a paragraph.
+4. **Math style: match the BEDC project convention.** Use `$...$` for
+   inline math and `$$...$$` for display math. Do NOT use `\(...\)` or
+   `\[...\]`. AGENTS.md / CLAUDE.md mandate: "数学公式只用 `$` 与 `$$`;
+   `$$` 必须独立成行". Display blocks `$$...$$` get their own line; never
+   inline at the end of a paragraph.
 
 5. Do not exceed 400 lines of LaTeX in the fenced block.
 
@@ -47,14 +46,14 @@ Output requirements:
    foundational kernel macros: `\BEDC`, `\bzero`, `\bone`, `\Mark`,
    `\msame`, `\Hist`, `\Ezero`, `\Eone`, `\Ext`, `\Cont`, `\psame`,
    `\TokIntro`, `\TokUnique`, `\hsame`. **Always prefer the bare macro
-   over `\mathsf{{}}` re-rendering** — write `\(\ModuleUp\)`, NOT
-   `\(\mathsf{{ModuleUp}}\)`; write `\(\hsame(s,t)\)`, NOT
+   over `\mathsf{{}}` re-rendering** — write `$\ModuleUp$`, NOT
+   `$\mathsf{{ModuleUp}}$`; write `\(\hsame(s,t)\)`, NOT
    `\(\mathsf{{hsame}}(s,t)\)`. The bare-macro form is what every
    existing chapter uses; the re-rendered form is a flag that you do
    not realise the macro is already in preamble.
 
    **Do NOT decorate preamble macros with ad-hoc subscripts the paper
-   has not introduced.** `\(\hsame_M\)`, `\(\cdot_R\)`, `\(\msame_X\)`,
+   has not introduced.** `$\hsame_M$`, `$\cdot_R$`, `$\msame_X$`,
    etc., look like real notation but the paper does not use them. If
    you need a typed comparison relation for module elements, name it
    explicitly via the existing definition (`module carrier classifier`)

@@ -1283,9 +1283,17 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
         write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))
 
     # ---- BOARD spawn (combined codex + oracle candidates) ----
+    # Only spawn if Stage 2 actually landed in paper. Spawning from a
+    # target whose math never made it into the paper risks polluting
+    # BOARD with candidates derived from un-vetted reasoning.
     spawned_ids: list[str] = []
     spawn_summary: dict = {}
-    if verdict == "done" and (codex_board_candidates or oracle_board_candidates):
+    stage2_landed = (
+        stage2_summary.get("appended", False)
+        and stage2_summary.get("compile_ok", False)
+    )
+    if (verdict == "done" and stage2_landed
+            and (codex_board_candidates or oracle_board_candidates)):
         try:
             sr = board_spawn.spawn_from_candidates(
                 codex_candidates=codex_board_candidates,

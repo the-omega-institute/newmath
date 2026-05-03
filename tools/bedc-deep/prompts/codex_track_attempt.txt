@@ -90,11 +90,12 @@ B. `content` contains at least one of `\begin{{theorem}}`, `\begin{{lemma}}`,
    `\begin{{proposition}}`, `\begin{{corollary}}`, or `\begin{{definition}}`
    with a `\label{{...}}` whose prefix is `thm:`, `lem:`, `prop:`, `cor:`, or
    `def:` and whose suffix is semantic. No version prefix.
-C. Math: `\(...\)` for inline, `\[...\]` for display. NEVER `$...$` or
-   `$$...$$`.
+C. Math: `$...$` for inline, `$$...$$` for display (display on its own
+   line). This is the BEDC project convention (see AGENTS.md / CLAUDE.md
+   "数学公式只用 `$` 与 `$$`"). Do NOT use `\(...\)` or `\[...\]`.
 D. Bare typed-name macros that exist in `papers/bedc/preamble.tex`:
-   `\(\LatticeUp\)`, `\(\PosetUp\)`, `\(\ModuleUp\)`, etc. NEVER
-   `\(\mathsf{{LatticeUp}}\)`. For names NOT in preamble, `\mathsf{{X}}` is OK.
+   `$\LatticeUp$`, `$\PosetUp$`, `$\ModuleUp$`, etc. NEVER
+   `$\mathsf{{LatticeUp}}$`. For names NOT in preamble, `\mathsf{{X}}` is OK.
 E. Proofs end at `\end{{proof}}` only. NEVER `Q.E.D.`, `\qed`, `\square`,
    or any marker phrase.
 F. Cross-references via `\autoref{{ch|sec|def|thm|lem|prop|cor:...}}`.

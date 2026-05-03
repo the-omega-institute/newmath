@@ -47,12 +47,33 @@ ESCALATE conditions (very rare — used when oracle is hopeless on this target):
   (and codex declined it earlier — pre-condition: target is in the oracle
   track only because codex escalated).
 
+## Directive menu (for verdict=continue only)
+
+When verdict is `continue`, pick the directive from this menu that best
+matches what the last oracle response needs next, and rewrite it
+concretely with object names from that response (do NOT echo placeholders
+like "the obstruction" — substitute actual named constructs):
+
+  D1: 把上一条 #{{N}} 的 weakest link 重做为带前提最小化的引理, 前提应直接对应 BEDC 现有 setup field
+  D2: 以你提出的 {{obstruction_name}} 为坏例子结构, 给出该 obstruction 的判别定理或反例的有限分类
+  D3: 把 #{{a}}-#{{b}} 这一系列结果整合为一个主定理 + 推论链, 附依赖图, 对每个 lemma 给出最强可证版本
+  D4: 为 #{{N}} 给出一个 finite countermodel, 验证其前提是必要的; 并把否定的版本陈述为不可实现性定理
+  D5: 你给的 outline 已足够, 请把它形式化为可直接进入 papers/bedc/parts 的完整证明 (最小依赖、最强陈述)
+  D6: 上一条结论已经很强, 请用同一框架在邻近对象上证明 counterpart 定理
+  D7: 上一条没新增数学内容, 是同义改写或弱化版. 必须放弃这条思路, 转向 {{alternative_anchor}} 重新立论
+
+Embed the actual named objects from the last response so the oracle has
+a concrete next step. 1-3 sentences max in `next_directive`. Do not
+include the menu label (D1-D7) in the output — just the rewritten
+directive.
+
 Return one JSON object on stdout, no prose, no markdown fence:
 
 {{
   "verdict": "done" | "continue" | "escalate",
   "reason": "<one paragraph: why this verdict, citing specific content from the last response>",
-  "next_directive": "<for verdict=continue: 1-3 sentence concrete directive embedding actual named objects from the last response; ignored for done/escalate>",
+  "next_directive": "<for verdict=continue: 1-3 sentence concrete directive picked from the D1-D7 menu and rewritten with actual named objects; ignored for done/escalate>",
+  "directive_id": "<for verdict=continue only: which menu entry you chose, e.g. 'D1' / 'D2' / ... — purely for telemetry>",
   "publishable_summary": "<for verdict=done: 1-2 sentences naming the main theorem(s) the oracle has proven and which BEDC chapter they belong in>"
 }}
 

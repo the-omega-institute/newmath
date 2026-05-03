@@ -39,17 +39,18 @@ Hygiene checklist (all must pass):
 7. Target file must be a concrete body file inside `papers/bedc/parts/` —
    not `main.tex`, not a chapter wrapper that only `\input`s other files.
 
-8. Math uses `\(...\)` for inline and `\[...\]` for display. The BEDC
-   paper has converged on these; reject `$...$` / `$$...$$` usage.
-   Display `\[...\]` blocks must be on their own lines.
+8. Math uses `$...$` for inline and `$$...$$` for display. This is the
+   BEDC project convention (AGENTS.md / CLAUDE.md: "数学公式只用 `$` 与
+   `$$`; `$$` 必须独立成行"). Reject `\(...\)` / `\[...\]` usage; display
+   `$$...$$` blocks must be on their own lines.
 
 11. No manual QED markers inside `\begin{{proof}}` / `\end{{proof}}`.
     The proof environment auto-emits the closing symbol. Reject if the
     proof body contains "Q.E.D.", "QED", `\qed`, `\square`, "as required",
     or "as desired" before the closing tag.
 
-12. Type-name macros must be bare (e.g. `\(\ModuleUp\)`), not wrapped in
-    `\mathsf{{...}}` (e.g. `\(\mathsf{{ModuleUp}}\)`). Reject `\mathsf{{X}}`
+12. Type-name macros must be bare (e.g. `$\ModuleUp$`), not wrapped in
+    `\mathsf{{...}}` (e.g. `$\mathsf{{ModuleUp}}$`). Reject `\mathsf{{X}}`
     usage when `\X` is a defined preamble macro. Bare-macro form is the
     paper's converged convention.
 

@@ -20,14 +20,16 @@ Codex's claimed field citations:
 Run the following checks. For each, mark pass / fail. If you find a fail,
 include a one-sentence reason that codex can act on.
 
-1. **Math delimiters**: only `\(...\)` for inline and `\[...\]` for display.
-   Forbid any `$...$` or `$$...$$`.
+1. **Math delimiters**: only `$...$` for inline and `$$...$$` for display
+   (display block on its own line). This is the BEDC project convention
+   (AGENTS.md / CLAUDE.md: "数学公式只用 `$` 与 `$$`"). Forbid any
+   `\(...\)` or `\[...\]`.
 
 2. **Proof markers**: inside `\begin{{proof}} ... \end{{proof}}`, no
    `Q.E.D.`, `\qed`, `\square`, "as required", "as desired", "QED".
 
 3. **Bare preamble macros**: if `papers/bedc/preamble.tex` defines `\X`, then
-   `\(X\)` should be `\(\X\)` and NOT `\(\mathsf{{X}}\)`. Spot-check any
+   `$X$` should be `$\X$` and NOT `$\mathsf{{X}}$`. Spot-check any
    `\mathsf{{...}}` against the preamble; flag wrappers that have a bare
    preamble macro available. (Names NOT in preamble: `\mathsf{{...}}` is OK.)
 

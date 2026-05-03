@@ -225,6 +225,19 @@ def _active_tab_count() -> int:
 
 def spawn_inner(parallel: int, *, pipeline_version: str = "v1") -> subprocess.Popen:
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    # Honor PI v1 adjust_parallel intent if it dropped a file under state/
+    parallel_intent_path = SCRIPT_DIR / "state" / ".pi_parallel_intent"
+    if parallel_intent_path.exists():
+        try:
+            new_parallel = int(parallel_intent_path.read_text(encoding="utf-8").strip())
+            if 1 <= new_parallel <= 8 and new_parallel != parallel:
+                supervisor_log(
+                    f"pi_parallel_intent: --parallel {parallel} → {new_parallel}"
+                )
+                parallel = new_parallel
+            parallel_intent_path.unlink()
+        except (OSError, ValueError):
+            pass
     tabs = _active_tab_count()
     if tabs > 0 and tabs < parallel:
         supervisor_log(f"clamp --parallel {parallel} → {tabs} (active recent tabs={tabs})")

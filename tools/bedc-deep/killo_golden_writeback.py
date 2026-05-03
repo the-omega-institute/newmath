@@ -205,37 +205,117 @@ def writeback(
     raw_latex_path: Path,
     suggested_target_tex: str,
 ) -> WritebackResult:
-    template = (PROMPTS_DIR / "killo_golden_writeback.txt").read_text(encoding="utf-8")
-    def _safe(s: str) -> str:
-        return (s or "").replace("{", "{{").replace("}", "}}")
-    prompt = template.format(
-        target_id=_safe(target_id),
-        target_title=_safe(target_title),
-        transcript_dir=_safe(str(transcript_dir)),
-        raw_latex_path=_safe(str(raw_latex_path)),
-        target_tex_file=_safe(suggested_target_tex),
-        repo_root=_safe(str(REPO_ROOT)),
+    """Stage 2 writeback with auto-normalize first, claude review second.
+
+    Pipeline order (per project decision: hygiene fixes itself, doesn't reject):
+      1. Read raw content from raw_latex_path
+      2. Run hygiene_normalize.normalize() — mechanical fixes for `\\(\\)`/
+         `\\mathsf{X}`/QED/sectioning/iteration vocab/`\\ref` etc.
+      3. Write normalized content back to raw_latex_path (so next attempt
+         sees fixed content)
+      4. If hygiene_normalize reported `blocking_issues` (no theorem env,
+         unbalanced begin/end, Chinese chars, etc.), claude reviews. These
+         are the ONLY concerns claude judges now — not hygiene minutiae.
+      5. If no blocking issues: bypass claude review entirely. Atomically
+         append + run `make`. compile failure = automatic reject (rolled
+         back). compile success = accept.
+    """
+    import hygiene_normalize
+
+    raw_text = raw_latex_path.read_text(encoding="utf-8") if raw_latex_path.exists() else ""
+
+    # Extract the LaTeX block from raw_text. Oracle output may have
+    # surrounding prose / `Insertion target:` line. We split before
+    # normalizing.
+    fenced = re.search(r"```(?:latex)?\s*(.*?)```", raw_text, re.DOTALL)
+    if fenced:
+        latex_body = fenced.group(1)
+    else:
+        # Heuristic: take from first \begin{theorem|lemma|...} to last \end of same.
+        first = re.search(r"\\begin\{(?:theorem|lemma|proposition|corollary|definition)\}", raw_text)
+        if first:
+            latex_body = raw_text[first.start():]
+        else:
+            latex_body = raw_text
+
+    # ── Step 1-3: auto-normalize ──
+    norm = hygiene_normalize.normalize(
+        latex_body,
+        preamble_path=REPO_ROOT / "papers" / "bedc" / "preamble.tex",
     )
-    ok, stdout, rc = claude_exec(prompt, log_tag=f"writeback_{target_id}")
-    if not ok:
-        return WritebackResult(False, "error", "", False, False, [], error=f"claude exec rc={rc}: {stdout[:400]}")
 
-    parsed = _extract_json_object(stdout)
-    if not parsed:
-        return WritebackResult(False, "error", "", False, False, [], error="claude output was not JSON")
+    # Persist normalized content back so corrective retries (or human
+    # inspection) see the fixed version.
+    if norm.changed:
+        # Replace the LaTeX block in raw_text, preserving any surrounding
+        # `Insertion target:` line.
+        if fenced:
+            new_raw = raw_text.replace(fenced.group(0),
+                                        f"```latex\n{norm.content}\n```")
+        else:
+            # If we extracted by env-detect, only persist if difference is meaningful
+            new_raw = norm.content if not raw_text.endswith(latex_body) else \
+                      raw_text[: -len(latex_body)] + norm.content
+        try:
+            raw_latex_path.write_text(new_raw, encoding="utf-8")
+        except OSError:
+            pass
 
-    verdict = str(parsed.get("verdict", "")).lower()
-    rejection_reasons = parsed.get("rejection_reasons") or []
+    # ── Step 4: claude review ONLY if blocking issues remain ──
+    # Blocking issues are things normalize cannot mechanically fix:
+    # missing environment, unbalanced begin/end, Chinese chars, etc.
+    rejection_reasons: list[str] = []
+    if norm.blocking_issues:
+        # Heavy review path: blocking issue exists, ask claude to assess
+        # whether content is salvageable or needs to escalate.
+        template = (PROMPTS_DIR / "killo_golden_writeback.txt").read_text(encoding="utf-8")
+        def _safe(s: str) -> str:
+            return (s or "").replace("{", "{{").replace("}", "}}")
+        prompt = template.format(
+            target_id=_safe(target_id),
+            target_title=_safe(target_title),
+            transcript_dir=_safe(str(transcript_dir)),
+            raw_latex_path=_safe(str(raw_latex_path)),
+            target_tex_file=_safe(suggested_target_tex),
+            repo_root=_safe(str(REPO_ROOT)),
+        )
+        # Append the normalize report so claude knows what's already been
+        # mechanically fixed and only sees the residual issues.
+        prompt += "\n\n## Auto-normalize report (already applied)\n"
+        for t in norm.transformations:
+            prompt += f"- {t}\n"
+        prompt += "\n## Blocking issues (require your judgement)\n"
+        for b in norm.blocking_issues:
+            prompt += f"- {b}\n"
+        ok, stdout, rc = claude_exec(prompt, log_tag=f"writeback_{target_id}")
+        if not ok:
+            return WritebackResult(False, "error", "", False, False, [],
+                                    error=f"claude exec rc={rc}: {stdout[:400]}")
+        parsed = _extract_json_object(stdout)
+        if not parsed:
+            return WritebackResult(False, "error", "", False, False, [],
+                                    error="claude output was not JSON")
+        verdict = str(parsed.get("verdict", "")).lower()
+        rejection_reasons = parsed.get("rejection_reasons") or []
+        if verdict != "accept":
+            return WritebackResult(True, "reject", "", False, False, list(rejection_reasons))
+        # Use claude's content (might have additional cleanup) if present.
+        content = str(parsed.get("content") or norm.content)
+        tex_rel = str(parsed.get("tex_file") or suggested_target_tex)
+    else:
+        # Fast path: normalize handled everything, go straight to append+make.
+        # The suggested_target_tex from upstream (codex track or oracle) is
+        # used as the destination. claude is bypassed entirely.
+        content = norm.content
+        tex_rel = suggested_target_tex
 
-    if verdict != "accept":
-        return WritebackResult(True, "reject", "", False, False, list(rejection_reasons))
+    # ── Step 5: atomic append + make verify ──
 
-    tex_rel = str(parsed.get("tex_file") or "")
     target = _resolve_target_tex(tex_rel)
     if target is None:
-        return WritebackResult(False, "reject", tex_rel, False, False, ["resolved tex_file is not a concrete body file"])
+        return WritebackResult(False, "reject", tex_rel, False, False,
+                                ["resolved tex_file is not a concrete body file"])
 
-    content = str(parsed.get("content") or "")
     if not content.strip():
         return WritebackResult(False, "reject", tex_rel, False, False, ["empty content"])
 
