@@ -177,6 +177,57 @@ the exactness predicate is the displayed $\hsame$; the standard bridge is the
 ordinary parallelogram identity in a commutative ring; and the status is
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[CommRing square cross-term extraction pair]
+\label{thm:commring-square-cross-term-extraction-pair}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+both distributive laws, multiplicative commutativity, and the $\RingUp$
+negative-product laws, every $a,b : \mathsf{BHist}$ satisfies both identities
+$$
+((a+b)\cdot(a+b))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(a\cdot b)+(a\cdot b)
+$$
+and
+$$
+((a+(-b))\cdot(a+(-b)))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(-(a\cdot b))+(-(a\cdot b)).
+$$
+\end{theorem}
+\begin{proof}
+For the positive square, apply \autoref{thm:commring-square-add-expand} and
+transport the appended $(-(a\cdot a))+(-(b\cdot b))$ ledger through addition
+congruence. Additive associativity, additive commutativity, and
+\autoref{thm:abgroup-middle-four-interchange} move the $a\cdot a$ term next to
+its inverse and the $b\cdot b$ term next to its inverse.
+
+\autoref{thm:ring-add-right-inverse} cancels the two exposed diagonal pairs.
+The additive zero laws remove the resulting zero summands, leaving exactly the
+two positive mixed terms in the displayed order.
+
+For the signed square, apply
+\autoref{thm:commring-square-signed-difference-expand} and use addition
+congruence to append the same diagonal inverse ledger. The same associativity,
+commutativity, and middle-four interchange rearrangement exposes the
+$a\cdot a$ and $b\cdot b$ inverse pairs without changing the two signed mixed
+terms.
+
+Apply \autoref{thm:ring-add-right-inverse} again, then use the additive zero
+laws to erase the cancelled diagonal ledger. The remaining terms are
+$-(a\cdot b)$ and $-(a\cdot b)$, which gives the second displayed identity.
+\end{proof}
+
+For the $\CommRingUp$ per-object template, the traditional target is
+commutative-ring cross-term extraction for quadratic algebra; the BEDC source is
+$\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$; the carrier is
+$\mathsf{BHist}$; the classifier is $\hsame$; the stability obligations are
+square expansion, signed-square expansion, additive congruence, additive
+associativity, additive commutativity, diagonal inverse cancellation, additive
+zero laws, and middle-four interchange; the ledger records diagonal removal from
+the two normalized square ledgers; the core theorem is this block; the exactness
+predicate is the two displayed $\hsame$ identities; the downstream use is
+$\FieldUp$ quadratic normalization and later polarization-style algebra; and the
+status is $\mathsf{ProofTarget}$.
+
 \begin{theorem}[CommRing product of binary sums]
 \label{thm:commring-mul-add-add-expand}
 For BEDC history addition and multiplication, multiplicative commutativity,
