@@ -127,6 +127,7 @@ import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexDiffUp
+import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch

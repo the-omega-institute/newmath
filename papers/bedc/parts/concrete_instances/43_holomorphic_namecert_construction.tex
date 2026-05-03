@@ -10,6 +10,7 @@ This chapter records a naming seed for holomorphic functions on open disks in $\
 For complex history \(z_0\), unary radius \(r\), complex history \(z\), and unary gap \(g\), the open-disk predicate \(\mathsf{OpenDisk}(z_0, r, z, g)\) holds when the rational representation of the modulus \(|z - z_0|\) is strictly less than \(r\) under \(\mathsf{NatUnaryStrictPrefix}\). We write \(\mathsf{OpenDisk}(z_0,r,z)\) when the gap witness is existentially understood. The BEDC kernel anchor records the four histories as unary and records the boundary ledger by \(\Cont(z,g,r)\).
 \end{definition}
 \leandef{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk}
+\leandef{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap}
 
 \begin{lemma}[Open disk carriers are unary]
 \label{lem:open-disk-unary-witness}
@@ -18,6 +19,21 @@ For every $(z_0, r, z)$ with $\mathsf{OpenDisk}(z_0, r, z)$, the gap modulus $\m
 \begin{proof}
 The strict-prefix witness immediately gives the gap as the difference history.
 \end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap\_transport\_certificate}
+
+\begin{lemma}[Open disk unary suffix transport]
+\label{lem:open-disk-unary-suffix-transport}
+If an open-disk gap is represented by unary histories \(z_0,r,z,g\) with continuation
+\(\Cont(z,g,r)\), then any unary suffix \(q\) preserving the point and radius endpoints
+keeps the same gap as a boundary witness: from \(\Cont(z,q,z_q)\) and \(\Cont(r,q,r_q)\)
+one obtains \(\Cont(z_q,g,r_q)\).
+\end{lemma}
+\begin{proof}
+Unary closure gives unary histories for \(z_q\) and \(r_q\). Associativity of
+\(\Cont\), together with unary commutativity of the suffix and gap histories, identifies
+the shifted boundary continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap\_unary\_suffix\_transport}
 
 \begin{lemma}[Open-disk transport along \(\hsame\)]
 \label{lem:holomorphic-open-disk-hsame-transport}
