@@ -260,6 +260,26 @@ history constructor no-confusion.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_nested\_visible\_middle\_result\_absurd}
 
+\begin{theorem}[Nested continuation empty-result inversion]
+\label{thm:cont-nested-empty-result-inversion}
+For histories $a,b,c,f,g:\mathsf{BHist}$, if
+$$
+\ContR(a,f,b),\qquad \ContR(b,g,c),\qquad c\hsame\emp,
+$$
+then all exposed endpoints and tails of the nested continuation are empty:
+$$
+a\hsame\emp,\qquad f\hsame\emp,\qquad b\hsame\emp,\qquad g\hsame\emp .
+$$
+\end{theorem}
+\begin{proof}
+Transport the outer continuation result along $c\hsame\emp$ and apply
+empty-result inversion to $\ContR(b,g,\emp)$, identifying $b$ and $g$ with
+$\emp$. With the middle endpoint identified as empty, apply the same
+empty-result inversion to the inner continuation $\ContR(a,f,b)$ to identify
+$a$ and $f$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_nested\_empty\_result\_inversion}
+
 \begin{theorem}[Mutual continuation forbids visible right tails]
 \label{thm:cont-mutual-extension-right-tail-absurd}
 If $\ContR(h,l,k)$ holds, then neither $\ContR(k,\Ezero(r),h)$ nor

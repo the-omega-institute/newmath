@@ -70,6 +70,24 @@ impossible carrier. The carrier absurdity theorem closes the contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_semantic\_namecert\_absurd}
 
+\begin{theorem}[Empty source carrier semantic certificate absurdity]
+\label{thm:empty-history-carrier-source-semantic-namecert-absurd}
+There is no semantic name certificate whose source predicate is the
+empty-history carrier, regardless of the displayed pattern, ledger policy, and
+classifier:
+$$
+\mathsf{SemanticNameCert}
+(\mathsf{EmptyHistoryCarrier},P,L,R)
+\Longrightarrow \bot .
+$$
+\end{theorem}
+\begin{proof}
+The core field of a semantic certificate contains a name certificate over the
+source predicate. Therefore it contains an inhabitant of
+$\mathsf{EmptyHistoryCarrier}$, contradicting the carrier absurdity theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_source\_semantic\_namecert\_absurd}
+
 \begin{theorem}[Empty contradictory carrier name certificate absurdity]
 \label{thm:empty-contradictory-carrier-namecert-absurd}
 There is no name certificate whose carrier asks a single history to be both
