@@ -191,6 +191,25 @@ $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_intersection\_empty\_point\_exact}
 
+\begin{theorem}[Principal suffix intersection empty point forces base points empty]
+\label{thm:filter-principal-suffix-intersection-empty-point-base-points-empty}
+Let $base,left,right,meet,leftPoint,rightPoint,meetPoint:\mathsf{BHist}$.
+If $meet$ is the continuation of $left$ by $right$, the base continuations
+produce $leftPoint$, $rightPoint$, and $meetPoint$, and
+$meetPoint\hsame\emp$, then both base points are empty:
+$$
+leftPoint\hsame\emp,\qquad rightPoint\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Intersection empty-point exactness identifies the shared base, the left
+suffix, and the right suffix with $\emp$. Empty-append introduction applied
+to $\ContR(base,left,leftPoint)$ gives the empty left base point, and the
+same argument applied to $\ContR(base,right,rightPoint)$ gives the empty
+right base point.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_intersection\_empty\_point\_base\_points\_empty}
+
 \section{The certificate}
 \label{sec:filter-certificate}
 
