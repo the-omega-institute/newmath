@@ -50,6 +50,48 @@ $A_{\emp}(\mathsf{inv}(h))$ is the reflexive singleton endpoint witness, and the
 first row applied to $\mathsf{inv}(h)$ and $h$ packages both classifier
 orientations.
 \end{proof}
+
+\begin{theorem}[Group singleton continuation terminal collapse]
+\label{thm:group-singleton-continuation-terminal-collapse}
+For histories $P,Q,R,r:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the concrete
+singleton $\GroupUp$ continuation collapses the input classifier, both result
+classifiers, and the result carrier to one terminal condition:
+$$
+R_{\emp}(P,Q)\Longleftrightarrow
+R_{\emp}(R,P)\Longleftrightarrow
+R_{\emp}(R,Q)\Longleftrightarrow
+A_{\emp}(R).
+$$
+Moreover, under these equivalent conditions, both visible continuation results
+are excluded:
+$$
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+The per-object template names the traditional target terminal-group
+continuation collapse; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ plus $\ContR$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability from continuation result transport and empty-result inversion; ledger
+hidden continuation result endpoint; core theorem this block; exactness
+predicate the four-way equivalence; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Use Theorem~\ref{thm:group-singleton-classifier-continuation-result-left} to
+identify the input classifier $R_{\emp}(P,Q)$ with the left result classifier
+$R_{\emp}(R,P)$ under the displayed continuation witness.
+
+Use Theorem~\ref{thm:group-singleton-classifier-continuation-result-right} to
+identify the same input classifier $R_{\emp}(P,Q)$ with the right result
+classifier $R_{\emp}(R,Q)$. Then use
+Theorem~\ref{thm:group-singleton-continuation-result-carrier-iff} to identify
+$R_{\emp}(P,Q)$ with the result carrier condition $A_{\emp}(R)$. These three
+exactness statements give the four-way equivalence.
+
+Under any of the equivalent conditions, take the input-classifier presentation
+$R_{\emp}(P,Q)$. Theorem~\ref{thm:group-singleton-classifier-continuation-visible-result-absurd}
+then excludes both visible results $\Ezero(r)$ and $\Eone(r)$ for continuations
+from $P$ through $Q$.
+\end{proof}
 \input{parts/concrete_instances/group/16_group_centralizer_transport}
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer}
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer_automorphism}
