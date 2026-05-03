@@ -37,3 +37,79 @@
 \input{parts/concrete_instances/field/20_field_two_step_algebra_hierarchy_exit_certificate}
 \input{parts/concrete_instances/field/20_field_final_inventory_packages}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_final_inventory_and_nonzero_exit}
+
+\begin{theorem}[RatUp FieldUp phase-exit certificate consumption]
+\label{thm:ratup-fieldup-phase-exit-certificate-consumption}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
+$\FieldUp(\RatUp)$ exit object of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Fix the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with carrier witnesses $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, selectors $s,t,u,v,w,z:\mathsf{BMark}$, contexts
+$L,R,r:\mathsf{BHist}$, and a support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. Also fix apart-zero context data
+$L_0,R_0,x:\mathsf{BHist}$ with $p:\mathsf{FieldApartZero}(L_0)$ and a
+certified affine automorphism $A:\mathsf{AffAut}_F$.
+
+Then the same concrete object $\mathcal E_F$ supplies, as one consumed
+phase-exit certificate boundary, all of the following rows:
+\begin{enumerate}
+  \item the canonical concrete phase-exit target of
+  \autoref{thm:ratup-fieldup-canonical-machine-checkable-exit};
+  \item the final semantic row inventory of
+  \autoref{thm:ratup-fieldup-final-row-inventory-semantic-certificate};
+  \item the contextual apart-zero semantic certificate row of
+  \autoref{thm:ratup-fieldup-canonical-apartzero-context-certificate-row} at
+  $L_0,R_0,x,p$;
+  \item the affine centralizer-normalizer $\SubgroupUp$ tower row of
+  \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup-tower-certificate}
+  at $A$.
+\end{enumerate}
+All four rows use the same $\mathsf{BHist}$ carrier universe, the same
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$ anchors, the
+same denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ where denominator
+data are required, the same contextual action $\Gamma$, and the same affine
+source $\mathsf{AffAut}_F$.
+\end{theorem}
+\begin{proof}
+First instantiate
+\autoref{thm:ratup-fieldup-canonical-machine-checkable-exit} at
+$\mathsf{RatUpFieldSource}_F$ and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. This fixes
+$\mathcal E_F$ as the canonical concrete phase-exit target over
+$\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, the displayed denominator object,
+$\Gamma$, and $\mathsf{AffAut}_F$.
+
+Next instantiate
+\autoref{thm:ratup-fieldup-final-row-inventory-semantic-certificate} with the
+tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, the histories $h,k,\ell$, the
+three carrier witnesses, the selectors $s,t,u,v,w,z$, the contexts $L,R,r$,
+and the support witness $\mathsf{ThreeSupp}_D^u(h,k,\ell)$. This contributes
+the final semantic row inventory for the same exit object $\mathcal E_F$.
+
+For the apart-zero row, apply
+\autoref{thm:ratup-fieldup-canonical-apartzero-context-certificate-row} to
+$L_0,R_0,x$ and $p:\mathsf{FieldApartZero}(L_0)$. Its displayed source,
+pattern, ledger policy, and classifier are all built from the same
+$\mathsf{BHist}$ carrier and $\hsame$ classifier discipline.
+
+Finally instantiate
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup-tower-certificate}
+at the affine automorphism $A:\mathsf{AffAut}_F$. Conjunction introduction
+packages the canonical target, the final inventory, the contextual apart-zero
+row, and the affine $\SubgroupUp$ tower row as one consumed boundary for the
+Phase Algebra Hierarchy exit criterion.
+\end{proof}
+
+Per-object template: traditional target constructive rational field phase-exit
+boundary; BEDC source $\mathsf{BHist}$, $\RatUp$, $\FieldUp$, and
+$\SubgroupUp$; carriers $\mathsf{RatHistoryCarrier}$, $C_D^u$, and the
+contextual apart-zero predicate; classifiers $\mathsf{RatHistoryClassifier}$,
+$R_D^u$, $\hsame$, and the affine classifier; stability obligations the
+canonical phase-exit target, final semantic row inventory, contextual
+apart-zero row, and affine centralizer-normalizer $\SubgroupUp$ tower row;
+ledger selectors, denominator witnesses, contexts, apart-zero witness, and
+affine automorphism; exactness one consumed concrete phase-exit boundary;
+downstream consumer Phase Algebra Hierarchy exit criterion; status
+$\mathsf{ProofTarget}$.
