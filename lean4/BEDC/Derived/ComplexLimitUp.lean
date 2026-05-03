@@ -45,4 +45,40 @@ theorem ComplexDistance_symm_iff {z w d : BHist} :
   · intro distance
     exact And.intro distance.left (And.intro distance.right.left distance.right.right.left)
 
+theorem ComplexDistance_empty_left_iff {w d : BHist} :
+    ComplexDistance BHist.Empty w d <-> UnaryHistory w ∧ hsame d w := by
+  constructor
+  · intro distance
+    have same : hsame d w :=
+      Or.elim distance.right.right.right
+        (fun left => cont_left_unit_result left)
+        (fun right => Iff.mp cont_right_unit_iff right)
+    exact And.intro distance.right.left same
+  · intro data
+    have dUnary : UnaryHistory d :=
+      unary_transport data.left (hsame_symm data.right)
+    have leftContinuation : Cont BHist.Empty w d :=
+      Iff.mpr cont_left_unit_iff data.right
+    exact And.intro unary_empty
+      (And.intro data.left (And.intro dUnary (Or.inl leftContinuation)))
+
+theorem ComplexDistance_hsame_transport_with_relation {z z' w w' d d' : BHist} :
+    hsame z z' -> hsame w w' -> hsame d d' -> ComplexDistance z w d ->
+      ComplexDistance z' w' d' ∧ (Cont z' w' d' ∨ Cont w' z' d') := by
+  intro sameZ sameW sameD distance
+  have zUnary : UnaryHistory z' := unary_transport distance.left sameZ
+  have wUnary : UnaryHistory w' := unary_transport distance.right.left sameW
+  have dUnary : UnaryHistory d' := unary_transport distance.right.right.left sameD
+  have relation : Cont z' w' d' ∨ Cont w' z' d' :=
+    Or.elim distance.right.right.right
+      (fun left => by
+        cases sameZ
+        cases sameW
+        exact Or.inl (cont_result_hsame_transport left sameD))
+      (fun right => by
+        cases sameZ
+        cases sameW
+        exact Or.inr (cont_result_hsame_transport right sameD))
+  exact And.intro (And.intro zUnary (And.intro wUnary (And.intro dUnary relation))) relation
+
 end BEDC.Derived.ComplexLimitUp

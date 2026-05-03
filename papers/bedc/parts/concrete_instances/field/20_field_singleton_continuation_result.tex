@@ -63,3 +63,30 @@ with the carrier of $L$ rebuilds the left appended endpoint. Both classifier
 endpoints then compare through $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_append\_split\_iff}
+
+\begin{theorem}[Field singleton classifier continuation append context split]
+\label{thm:field-singleton-classifier-continuation-append-context-split-iff}
+For histories $L,P,Q,T,R,S:\mathsf{BHist}$ with $\ContR(P,Q,T)$,
+singleton classification of $\mathsf{append}(L,T)$ against
+$\mathsf{append}(R,S)$ is equivalent to all five exposed endpoints lying in
+the singleton carrier:
+$$
+\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,T),\mathsf{append}(R,S))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(L)\land
+\mathsf{FieldSingletonCarrier}(P)\land
+\mathsf{FieldSingletonCarrier}(Q)\land
+\mathsf{FieldSingletonCarrier}(R)\land
+\mathsf{FieldSingletonCarrier}(S).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction splits both appended classifier endpoints at the empty
+history. The left split gives singleton carriers for $L$ and $T$; transporting
+the continuation result from $T$ to $\emp$ and applying empty-result inversion
+gives the carrier witnesses for $P$ and $Q$. The right split gives the carrier
+witnesses for $R$ and $S$. Conversely, the carrier witnesses for $P$ and $Q$
+make $T$ singleton through the continuation equation, so both appended
+endpoints are singleton and therefore compare through $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_append\_context\_split\_iff}

@@ -25,6 +25,48 @@ The rational-subtraction continuation produces the additive inverse on each comp
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_symm\_iff}
 
+\begin{theorem}[Complex distance from the empty left endpoint]
+\label{thm:complex-distance-empty-left-iff}
+For unary histories $w,d:\mathsf{BHist}$, the concrete complex-distance
+predicate from the empty left endpoint is equivalent to unary support of $w$
+and equality of the displayed distance result with $w$:
+$$
+\mathsf{ComplexDistance}(\emp,w,d)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(w)\land \hsame(d,w).
+$$
+\end{theorem}
+\begin{proof}
+Unfolding the distance predicate leaves unary support for the endpoints and a
+continuation branch. If the branch is $\ContR(\emp,w,d)$, the left-unit law
+identifies $d$ with $w$; if it is $\ContR(w,\emp,d)$, the right-unit law gives
+the same identification. Conversely, unary support for $w$ transports across
+$\hsame(d,w)$ to support $d$, and the left-unit continuation supplies the
+distance branch.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_empty\_left\_iff}
+
+\begin{theorem}[Complex distance transport with relation]
+\label{thm:complex-distance-hsame-transport-with-relation}
+For histories $z,z',w,w',d,d':\mathsf{BHist}$, if $z,w,d$ are respectively
+$\hsame$-equal to $z',w',d'$, then every concrete complex-distance witness for
+$(z,w,d)$ transports to one for $(z',w',d')$ and preserves an explicit
+continuation branch:
+$$
+\mathsf{ComplexDistance}(z,w,d)
+\Longrightarrow
+\mathsf{ComplexDistance}(z',w',d')\land
+\bigl(\ContR(z',w',d')\lor\ContR(w',z',d')\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unary support of each endpoint transports along the three $\hsame$ witnesses.
+The continuation branch in the original distance witness is then transported
+across the same endpoint equalities and the result equality, preserving whether
+the branch is oriented from $z$ to $w$ or from $w$ to $z$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_hsame\_transport\_with\_relation}
+
 \begin{lemma}[Complex distance triangle inequality with explicit bound]
 \label{lem:cplx-dist-triangle}
 For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z_1, z_2, D_{12})\) and \(\mathsf{CplxDist}(z_2, z_3, D_{23})\), there exists an explicit rational-history bound function \(\mathsf{TriBound}(D_{12}, D_{23}, D_{13})\) with \(\mathsf{CplxDist}(z_1, z_3, D_{13})\) and \(D_{13} \leq D_{12} + D_{23}\) under rational-history ordering.
