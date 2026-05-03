@@ -10,6 +10,18 @@ means that asking bundle \(\Pi\) against history \(h\) generates answer history 
 \end{definition}
 \leandef{BEDC.FKernel.Sig.SigRel}
 
+\begin{theorem}[Empty signature has no visible output]
+\label{thm:sig-empty-visible-absurd}
+For the empty probe bundle, generated signatures cannot have answer history
+\(\Ezero(p)\) or \(\Eone(p)\) for any \(p:\mathsf{BHist}\).
+\end{theorem}
+\begin{proof}
+Invert the empty-bundle signature derivation.  Its only generated result is the
+empty history, and BEDC history constructor no-confusion excludes both visible
+constructors from being empty.
+\end{proof}
+\leanchecked{BEDC.FKernel.Sig.sig\_empty\_visible\_absurd}
+
 \begin{definition}[Signature-sameness]
 For a bundle \(\Pi\), histories \(h,k\) are signature-same, written \(\SameSig(\Pi,h,k)\), when there exist generated signatures
 $$

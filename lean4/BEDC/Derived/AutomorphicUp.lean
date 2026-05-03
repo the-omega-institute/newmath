@@ -54,6 +54,21 @@ theorem AutomorphicAdeleGraph_visible_context_value_readback
   exact And.intro (cont_left_cancel baseGraph displayedGraph)
     (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier baseGraph)
 
+theorem AutomorphicAdeleGraph_visible_context_domain_readback
+    {p q domain domain' value graph : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
+      Cont (append p domain) (append value q) (append (append p graph) q) ->
+        Cont domain' value graph -> hsame domain domain' ∧
+          (hsame graph BHist.Empty -> False) := by
+  intro domainCarrier valueCarrier visibleGraph displayedGraph
+  have rightPeeled : Cont (append p domain) value (append p graph) :=
+    (cont_suffix_iff (a := append p domain) (b := append p graph) (f := value)
+      (p := q)).mp visibleGraph
+  have baseGraph : Cont domain value graph :=
+    (cont_prefix_iff (p := p) (a := domain) (b := graph) (f := value)).mp rightPeeled
+  exact And.intro (cont_right_cancel baseGraph displayedGraph)
+    (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier baseGraph)
+
 theorem AutomorphicAdeleGraph_visible_context_core_deterministic_nonempty
     {p q domain value core core' : BHist} :
     AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
@@ -85,6 +100,17 @@ theorem AutomorphicAdeleGraph_visible_context_result_nonempty {p q domain value 
   have innerEmpty := append_eq_empty_iff.mp outerEmpty.left
   exact AutomorphicAdeleGraph_visible_context_nonempty domainCarrier valueCarrier visibleGraph
     innerEmpty.right
+
+theorem AutomorphicAdeleGraph_visible_result_nonempty {p q domain value result : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
+      Cont (append p domain) (append value q) result -> hsame result BHist.Empty -> False := by
+  intro domainCarrier _valueCarrier visibleCont resultEmpty
+  have emptyCont : Cont (append p domain) (append value q) BHist.Empty :=
+    cont_result_hsame_transport visibleCont resultEmpty
+  have endpoints := cont_empty_result_inversion emptyCont
+  have domainEmpty : hsame domain BHist.Empty :=
+    (append_eq_empty_iff.mp endpoints.left).right
+  exact AdeleHistoryCarrier_not_empty domainCarrier domainEmpty
 
 theorem AutomorphicAdeleGraph_visible_context_result_hsame_transport
     {p q domain value graph graph' : BHist} :

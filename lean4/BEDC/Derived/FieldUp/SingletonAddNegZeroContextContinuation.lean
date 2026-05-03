@@ -17,6 +17,22 @@ theorem FieldSingletonAddNegZero_context_continuation_result_carrier {L R a b c 
   cases carrierR
   exact cont_deterministic continuation (cont_right_unit BHist.Empty)
 
+theorem FieldSingletonAddNegZero_context_continuation_result_iff {L R a b c out : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R ->
+      (Cont (append L (FieldSingletonAdd a b)) (append (FieldSingletonNeg c) R) out <->
+        FieldSingletonCarrier out) := by
+  intro carrierL carrierR
+  constructor
+  · intro continuation
+    exact FieldSingletonAddNegZero_context_continuation_result_carrier carrierL carrierR
+      continuation
+  · intro carrierOut
+    unfold FieldSingletonCarrier at carrierL carrierR carrierOut
+    unfold FieldSingletonAdd FieldSingletonNeg
+    cases carrierL
+    cases carrierR
+    exact cont_result_hsame_transport (cont_right_unit BHist.Empty) (hsame_symm carrierOut)
+
 theorem FieldSingletonAddNegZero_context_continuation_classifier {L R a b c d out out' : BHist} :
     FieldSingletonCarrier L -> FieldSingletonCarrier R ->
       Cont (append L (FieldSingletonAdd a b)) (append (FieldSingletonNeg c) R) out ->
