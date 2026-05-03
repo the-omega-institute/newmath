@@ -226,6 +226,53 @@ incompatibility, so the three branches form the concrete constructive
 partition.
 \end{proof}
 
+\begin{theorem}[Concrete unary prefix $\TotalOrderUp$ naming certificate]
+\label{thm:concrete-unary-prefix-totalorder-namecert}
+The tuple of \autoref{def:concrete-unary-prefix-totalorder-instance} supplies
+the source, pattern, classifier, stability, ledger, and exactness rows for a
+$\NameCert$ licensing $\TotalOrderUp$ over
+$\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$, classifier
+$\rho_{\mathsf{u}}$, order $\le_{\mathsf{u}}$, and comparison branches
+$\mathsf{NatUnaryStrictPrefix}(h,k)$, $\rho_{\mathsf{u}}(h,k)$, and
+$\mathsf{NatUnaryStrictPrefix}(k,h)$.
+\end{theorem}
+\begin{proof}
+The source row is the concrete unary-history carrier. Apply
+\autoref{thm:concrete-unary-prefix-preorder-laws} for the carrier preorder
+fields and \autoref{thm:concrete-unary-prefix-poset-laws} for the inherited
+$\POSetUp$ fields over the same $\mathsf{BHist}$ source.
+
+The classifier and exactness rows are fixed by
+\autoref{thm:poset-prefix-classifier-exactness}: on carried unary histories,
+$\rho_{\mathsf{u}}(h,k)$ is equivalent to the two opposing prefix comparisons
+$h\le_{\mathsf{u}}k$ and $k\le_{\mathsf{u}}h$.
+
+The stability row is the concrete total-order law package of
+\autoref{thm:concrete-unary-prefix-totalorder-laws}. It supplies the
+strict-to-apartness obligations, relation stability, constructive total
+comparison, and comparison stability for the three displayed branches.
+
+The ledger row is the selected branch certificate. By
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}, each pair
+of carried unary histories chooses exactly one of the strict-left, same, and
+strict-right branches, and the same branch is the exact classifier branch.
+
+Repack these rows as the public $\NameCert$: the source is
+$\mathsf{UnaryHistory}$, the pattern is the three-way unary-prefix comparison,
+the classifier is $\rho_{\mathsf{u}}$, the stability data are the cited law
+fields, the ledger is the selected comparison branch, and exactness is the
+middle-branch equivalence.
+\end{proof}
+
+The per-object template is: traditional target concrete unary constructive
+total order; BEDC source unary $\mathsf{BHist}$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$; classifier
+$\rho_{\mathsf{u}}$; order $\le_{\mathsf{u}}$; pattern strict-left,
+same, and strict-right unary-prefix comparison; stability obligations from
+\autoref{thm:concrete-unary-prefix-totalorder-namecert}; ledger the selected
+comparison branch certificate; exactness same branch iff opposing prefix
+comparisons; status $\mathsf{ProofTarget}$.
+
 The $\TotalOrderUp$ schema is represented by this concrete $\mathsf{BHist}$
 carrier and explicit comparison data, giving later Lean formalization a
 $\mathsf{BHist}$-anchored target rather than an abstract parameter schema.
