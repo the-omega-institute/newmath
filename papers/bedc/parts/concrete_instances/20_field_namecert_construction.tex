@@ -666,4 +666,60 @@ boundary; ledger selector sextuple $s,t,u,v,w,z$ plus contexts $L,R,r$;
 exactness one chain-stable final exit package; downstream consumer Phase Algebra
 Hierarchy $\FieldUp(\RatUp)$ exit certificate; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp Rat-classified factors exclude empty product]
+\label{thm:ratup-fieldup-rat-classified-factors-exclude-empty-product}
+For a BEDC history-level $\FieldUp(\RatUp)$ candidate satisfying the hypotheses
+of \autoref{thm:field-nonzero-factors-exclude-zero-product}, specialize the
+nonzero index to
+$$
+\mathsf{ApartZero}_F(h):=(h\hsame0\to\bot).
+$$
+Assume the RatUp concrete exit object identifies the field-zero endpoint with
+the empty history, and includes classifier transport for
+$\mathsf{ApartZero}_F$ together with contradiction of
+$\mathsf{ApartZero}_F(0)$. Then for all histories
+$a,a',b,b':\mathsf{BHist}$,
+$$
+\mathsf{RatHistoryClassifier}(a,a')
+\land
+\mathsf{RatHistoryClassifier}(b,b')
+\quad\Longrightarrow\quad
+(\mathsf{mul}(a,b)\hsame0\to\bot)
+\land
+(\mathsf{mul}(a',b')\hsame0\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two classifier witnesses. Apply
+\autoref{thm:rat-history-classifier-endpoints-not-empty} to
+$\mathsf{RatHistoryClassifier}(a,a')$ and to
+$\mathsf{RatHistoryClassifier}(b,b')$. The four endpoint exclusions, transported
+across the concrete identification of the field-zero endpoint with $\emp$,
+give witnesses
+$p_a:\mathsf{ApartZero}_F(a)$, $p_{a'}:\mathsf{ApartZero}_F(a')$,
+$p_b:\mathsf{ApartZero}_F(b)$, and $p_{b'}:\mathsf{ApartZero}_F(b')$.
+
+The stability field for $\mathsf{ApartZero}_F$ is transport along $\hsame$:
+if $h\hsame k$ and $h\hsame0\to\bot$, then any $k\hsame0$ composes back to
+$h\hsame0$ and gives contradiction. The zero contradiction clause is immediate
+because $\mathsf{ApartZero}_F(0)$ applied to reflexivity of $0\hsame0$ yields
+$\bot$.
+
+Instantiate \autoref{thm:field-nonzero-factors-exclude-zero-product} first at
+$(a,b)$ with witnesses $p_a$ and $p_b$, obtaining
+$\mathsf{mul}(a,b)\hsame0\to\bot$. Instantiate the same theorem at
+$(a',b')$ with witnesses $p_{a'}$ and $p_{b'}$, obtaining
+$\mathsf{mul}(a',b')\hsame0\to\bot$. Conjunction introduction packages the two
+Rat-classified product exclusions.
+\end{proof}
+
+Per-object template: traditional target Rat-classified nonzero product in
+$\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatHistoryClassifier}$, and the FieldUp apart-zero certificate;
+carrier RatHistoryClassifier endpoints; classifier $\hsame$; stability Rat
+endpoint nonemptiness plus FieldUp zero-product exclusion; ledger the two
+classifier witnesses; exactness predicate no empty product for classified Rat
+endpoints; downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit
+certificate; status $\mathsf{ProofTarget}$.
+
 \input{parts/concrete_instances/field/20_field_selector_independent_exit_package}
