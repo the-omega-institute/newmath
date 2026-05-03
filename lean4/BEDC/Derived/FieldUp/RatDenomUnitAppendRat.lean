@@ -105,6 +105,18 @@ theorem RatDenomUnitCarrier_append_factor_carriers {h k : BHist} :
                       (RatHistoryCarrier_iff_positive_denominator.mpr
                         (PositiveUnaryDenominator_e1_iff_unary.mpr tailUnary))
 
+theorem RatDenomUnitClassifier_append_right_factor_classifier {h h' k k' : BHist} :
+    RatDenomUnitClassifier (append h k) (append h' k') -> hsame k k' ->
+      RatDenomUnitClassifier h h' := by
+  intro classified suffixSame
+  have leftFactors := RatDenomUnitCarrier_append_factor_carriers classified.left
+  have rightFactors := RatDenomUnitCarrier_append_factor_carriers classified.right.left
+  have sameRightSuffix : hsame (append h' k') (append h' k) :=
+    congrArg (append h') (hsame_symm suffixSame)
+  have sameWithSharedSuffix : hsame (append h k) (append h' k) :=
+    hsame_trans classified.right.right sameRightSuffix
+  exact ⟨leftFactors.left, rightFactors.left, append_right_cancel sameWithSharedSuffix⟩
+
 theorem RatDenomUnitClassifier_append_context_cancel_iff {L R Q S : BHist} :
     RatDenomUnitClassifier L R ->
       (RatDenomUnitClassifier (append Q L) (append S R) <->

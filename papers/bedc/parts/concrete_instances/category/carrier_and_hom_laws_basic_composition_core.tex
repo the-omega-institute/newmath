@@ -38,6 +38,25 @@ $\hsame(b,c)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_boundary}
 
+\begin{theorem}[Category hom-carrier composite endpoint cycle boundary iff]
+\label{thm:category-hom-carrier-comp-endpoint-cycle-boundary-iff}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$. Then the
+outer endpoints close exactly when both factor morphisms, the displayed
+composite morphism, and the two adjacent endpoint pairs collapse:
+$$
+\hsame(a,c)\Longleftrightarrow
+\hsame(f,\emp)\land\hsame(g,\emp)\land\hsame(fg,\emp)\land
+\hsame(a,b)\land\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the composite endpoint-cycle boundary theorem. In
+the reverse direction, compose the adjacent endpoint comparisons
+$\hsame(a,b)$ and $\hsame(b,c)$ by transitivity to obtain $\hsame(a,c)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_boundary\_iff}
+
 \begin{theorem}[Category hom carrier composition right factor]
 \label{thm:category-hom-carrier-comp-right-factor}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
@@ -259,4 +278,3 @@ right-tail comparisons, then compare it with $right'$ by continuation result
 determinacy to identify $c$ and $c'$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_same\_left\_tail\_factorization\_deterministic}
-

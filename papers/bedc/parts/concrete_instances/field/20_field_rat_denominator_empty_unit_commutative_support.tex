@@ -127,6 +127,29 @@ $\mathsf{RatDenomUnitCarrier}$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_factor\_carriers}
 
+\begin{theorem}[Rat denominator unit classifier append right factor classifier]
+\label{thm:rat-denom-unit-classifier-append-right-factor-classifier}
+For histories $h,h',k,k':\mathsf{BHist}$, if the appended denominator-unit
+endpoints are classified and the right factors are internally the same, then
+the left factors are classified:
+$$
+R_D^u(\mathsf{append}(h,k),\mathsf{append}(h',k'))
+\Longrightarrow
+\hsame(k,k')
+\Longrightarrow
+R_D^u(h,h').
+$$
+\end{theorem}
+\begin{proof}
+The classifier on the appended endpoints first supplies carrier witnesses for
+both products. Factor-carrier closure for $C_D^u$ extracts carrier witnesses
+for $h$ and $h'$. Transport the second appended endpoint along
+$\hsame(k,k')$ so that both products share the suffix $k$. Right cancellation
+for append then identifies $h$ with $h'$, and these three pieces reassemble
+the denominator-unit classifier on the left factors.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_right\_factor\_classifier}
+
 \begin{theorem}[Rat denominator empty-unit product nonempty iff]
 \label{thm:field-rat-denominator-empty-unit-product-nonempty-iff}
 For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, the

@@ -74,6 +74,25 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_visible\_right}
 
+\begin{theorem}[Singleton empty nonzero visible append-left exclusion]
+\label{thm:field-singleton-empty-nonzero-append-visible-left}
+For histories $p,q:\mathsf{BHist}$, appending after a visible left component
+gives histories in the classifier-complement singleton nonzero predicate:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(\mathsf{e0}(p),q))
+\land
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(\mathsf{e1}(p),q)).
+$$
+\end{theorem}
+\begin{proof}
+For either visible left component, a forbidden classifier witness would
+identify the displayed append endpoint with $\emp$. Empty-result inversion for
+append then identifies the visible prefix with $\emp$, contradicting
+constructor separation for $\mathsf{BHist}$. Hence both displayed endpoints
+lie in the complement of the singleton empty classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_visible\_left}
+
 \begin{theorem}[Singleton empty-classifier append split]
 \label{thm:field-singleton-empty-classifier-append-split-empty}
 For histories $p,q,h:\mathsf{BHist}$, the singleton empty classifier

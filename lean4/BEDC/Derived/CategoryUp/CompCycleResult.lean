@@ -40,4 +40,16 @@ theorem CategoryHomCarrier_comp_endpoint_cycle_boundary {a b c f g fg : BHist} :
       (cont_hsame_transport (hsame_refl b) tails.right.left (hsame_refl c)
         right.right.right.right)⟩
 
+theorem CategoryHomCarrier_comp_endpoint_cycle_boundary_iff {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      (hsame a c <->
+        hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame fg BHist.Empty ∧ hsame a b ∧
+          hsame b c) := by
+  intro left right comp
+  constructor
+  · intro sameEndpoint
+    exact CategoryHomCarrier_comp_endpoint_cycle_boundary left right comp sameEndpoint
+  · intro boundary
+    exact hsame_trans boundary.right.right.right.left boundary.right.right.right.right
+
 end BEDC.Derived.CategoryUp

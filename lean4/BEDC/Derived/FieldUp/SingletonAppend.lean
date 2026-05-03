@@ -61,6 +61,17 @@ theorem fieldSingletonEmptyNonZero_append_visible_right {p q : BHist} :
     have emptyParts := append_eq_empty_iff.mp classified.left
     cases emptyParts.right
 
+theorem fieldSingletonEmptyNonZero_append_visible_left {p q : BHist} :
+    fieldSingletonEmptyNonZero (append (BHist.e0 p) q) ∧
+      fieldSingletonEmptyNonZero (append (BHist.e1 p) q) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact not_hsame_e0_empty emptyParts.left
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact not_hsame_e1_empty emptyParts.left
+
 theorem fieldSingletonEmptyNonZero_append_context_cancel_iff {L R Q : BHist} :
     fieldSingletonEmptyCarrier L -> fieldSingletonEmptyCarrier R ->
       (fieldSingletonEmptyNonZero (append L (append Q R)) <->
