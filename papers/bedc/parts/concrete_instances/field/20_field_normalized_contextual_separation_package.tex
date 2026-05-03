@@ -62,3 +62,58 @@ core theorem
 \autoref{thm:ratup-fieldup-normalized-contextual-separation-package}; exactness
 predicate normalized and direct/contextual non-collapse; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp normalized semantic exit certificate]
+\label{thm:ratup-fieldup-normalized-semantic-exit-certificate}
+Under the hypotheses and notation of
+\autoref{thm:ratup-fieldup-normalized-contextual-separation-package}, the
+concrete $\FieldUp(\mathsf{RatUp})$ exit certificate contains both the
+normalized contextual separation rows for $x,y$ and the concrete
+nondegenerate semantic exit package supplied by
+\autoref{thm:ratup-fieldup-concrete-exit-row-closure} and
+\autoref{thm:ratup-fieldup-nondegenerate-semantic-exit}. More precisely, the
+same certificate simultaneously contains:
+\begin{enumerate}
+  \item the assembled certificate boundary of
+  \autoref{thm:ratup-fieldup-assembled-certificate-boundary};
+  \item the normalized classifier row $R_D^u(x,y)$;
+  \item the strict-support equivalence $N_D^u(x)\Longleftrightarrow N_D^u(h)$;
+  \item the direct endpoint rejection map $x\hsame\emp\to\bot$ and, for every
+  context history $r:\mathsf{BHist}$, the singleton-context rejection maps
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$ and
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$;
+  \item source anchoring of the concrete certificate rows over
+  $\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$;
+  \item the nondegenerate witness $d_1:=\Eone(\emp)$ with
+  $\mathsf{RatHistoryCarrier}(d_1)$ and
+  $\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$.
+\end{enumerate}
+Thus the normalized contextual row and the concrete nondegenerate semantic exit
+closure are registered in one $\mathsf{BHist}$-anchored
+$\FieldUp(\mathsf{RatUp})$ certificate.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-normalized-contextual-separation-package} to the
+displayed carried endpoints, empty numerator endpoints, empty-support
+denominator contexts, and strict-support witness. This gives the assembled
+certificate boundary, the normalized classifier row $R_D^u(x,y)$, the
+strict-support equivalence $N_D^u(x)\Longleftrightarrow N_D^u(h)$, and the
+endpoint and singleton-context rejection maps for $x$.
+
+Next apply \autoref{thm:ratup-fieldup-concrete-exit-row-closure}. It repacks
+the semantic certificate rows, source anchoring rows, support-sensitive
+coverage, endpoint facts, and shared concrete row language as the concrete
+$\mathsf{BHist}$-anchored exit closure over $\mathsf{RatUpFieldSource}_F$.
+
+Finally apply \autoref{thm:ratup-fieldup-nondegenerate-semantic-exit}. It
+supplies the same source anchoring over $\mathsf{RatHistoryCarrier}$ and
+$\mathsf{RatHistoryClassifier}$ and provides the witness
+$d_1:=\Eone(\emp)$ with $\mathsf{RatHistoryCarrier}(d_1)$ and
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$.
+
+Collecting these three cited sites gives a single concrete exit certificate:
+the normalized contextual separation rows for $x,y$ occupy the same
+$\FieldUp(\mathsf{RatUp})$ certificate boundary as the nondegenerate semantic
+exit closure and its explicit rational-history witness.
+\end{proof}
