@@ -261,6 +261,23 @@ Induct on $\Pi$. The empty case reduces membership to $\Theta$. The cons case sp
 membership from tail membership, then applies the induction hypothesis to the tail.
 \end{proof}
 
+\begin{theorem}[Bundle member split]
+\label{thm:inbundle-member-split}
+If a generated probe bundle $\Pi$ contains probe $p$, then $\Pi$ splits as an
+append prefix followed by a cons whose head is $p$:
+$$
+\Pi=\mathsf{BAppend}(\Pi_L,\Bcons(p,\Pi_R))
+$$
+for some generated bundles $\Pi_L$ and $\Pi_R$.
+\end{theorem}
+\begin{proof}
+Induct on the generated bundle. The empty bundle has no membership witness. In
+the cons case, head membership gives the split with empty left prefix, while
+tail membership applies the induction hypothesis to the tail and then restores
+the displayed head as one more constructor in the left prefix.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.inBundle\_member\_split}
+
 \begin{theorem}[Bundle append three-way membership split]
 \label{thm:bundle-append-three-membership-split}
 For every probe $p$ and bundles $\Pi,\Theta,\Omega$,

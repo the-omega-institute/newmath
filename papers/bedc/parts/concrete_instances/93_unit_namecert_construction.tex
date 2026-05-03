@@ -48,6 +48,26 @@ continuations to the empty left-unit continuation, and transitivity of
 \end{proof}
 \leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_empty\_endpoints\_iff}
 
+\begin{theorem}[Unit history classifier append split]
+\label{thm:unit-history-classifier-append-split}
+For histories $p,q,h:\mathsf{BHist}$, the unit classifier from the appended
+endpoint $\mathsf{append}(p,q)$ to $h$ is equivalent to all three component
+histories being empty:
+$$
+\mathsf{UnitHistoryClassifier}(\mathsf{append}(p,q),h)
+\Longleftrightarrow
+p\hsame\emp\land q\hsame\emp\land h\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply the empty-endpoint characterization of the unit classifier to obtain
+$\mathsf{append}(p,q)\hsame\emp$ and $h\hsame\emp$. The append endpoint is
+empty exactly when both append factors are empty. Conversely, the two empty
+append factors rebuild the empty appended endpoint, and the empty-endpoint
+classifier characterization supplies the unit classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_append\_split\_iff}
+
 \begin{theorem}[Unit history classifier visible endpoint absurd]
 \label{thm:unit-history-classifier-visible-endpoint-absurd}
 No visible endpoint can occur on either side of the unit history classifier.
@@ -65,6 +85,25 @@ and $\mathsf{e1}$.
 \end{proof}
 \leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_visible\_endpoint\_absurd}
 
+\begin{theorem}[Unit history classifier continuation middle carrier]
+\label{thm:unit-history-classifier-continuation-middle-carrier}
+For histories $left,middle,right:\mathsf{BHist}$, if the unit classifier
+relates $left$ and $right$ and $\Cont(left,middle,right)$, then $middle$ lies
+in the unit history carrier:
+$$
+\mathsf{UnitHistoryClassifier}(left,right)\land \Cont(left,middle,right)
+\Longrightarrow \mathsf{UnitHistoryCarrier}(middle).
+$$
+\end{theorem}
+\begin{proof}
+The classifier empty-endpoint theorem identifies both classified endpoints
+with $\emp$. Transport the displayed continuation result along the empty right
+endpoint, then apply empty-result inversion for continuation to identify the
+middle history with $\emp$. The carrier-empty equivalence turns this
+history-sameness witness into the required unit carrier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_continuation\_middle\_carrier}
+
 \begin{theorem}[Unit history carrier empty equivalence]
 \label{thm:unit-history-carrier-empty-iff}
 For a history $h:\mathsf{BHist}$, membership in the unit history carrier is
@@ -80,6 +119,20 @@ the endpoint to the empty history, where the left-unit continuation law gives
 $\mathsf{Cont}(\emp,\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.UnitUp.UnitHistoryCarrier\_empty\_iff}
+
+\begin{theorem}[Unit history carrier continuation suffix closure]
+\label{thm:unit-history-carrier-continuation-suffix-closed}
+For histories $h,k,r:\mathsf{BHist}$, if $h$ lies in the unit history carrier,
+$\Cont(h,k,r)$ holds, and $r\hsame\emp$, then $k$ lies in the unit history
+carrier.
+\end{theorem}
+\begin{proof}
+The carrier characterization identifies $h$ with $\emp$. Transporting the
+displayed continuation along this source identification, the reflexive suffix
+identification, and the empty result identification gives
+$\Cont(\emp,k,\emp)$, which is exactly the unit history carrier for $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryCarrier\_continuation\_suffix\_closed}
 
 \section{The certificate}
 \label{sec:unit-certificate}
