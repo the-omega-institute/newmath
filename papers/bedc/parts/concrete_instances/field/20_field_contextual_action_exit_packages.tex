@@ -692,3 +692,55 @@ core theorem
 \autoref{thm:ratup-fieldup-canonical-exit-contextual-action-row-coverage};
 exactness predicate $\mathsf{CanFieldExitRow}$; standard bridge deferred; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp canonical exit affine row coverage]
+\label{thm:ratup-fieldup-canonical-exit-affine-row-coverage}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object} and the fixed
+source tuple $\mathsf{RatUpFieldSource}_F$, the affine rows supplied by
+\autoref{thm:field-affine-automorphism-group-package},
+\autoref{thm:field-affine-threefold-certified-automorphism-composition},
+\autoref{thm:field-affine-identity-classifier-iff}, and
+\autoref{thm:ratup-fieldup-canonical-affine-inverse-descent-and-uniqueness}
+satisfy $\mathsf{CanFieldExitRow}$. Each such row remains a row over the same
+concrete $\mathsf{BHist}$ source, carrier $\mathsf{RatHistoryCarrier}$,
+classifier $\mathsf{RatHistoryClassifier}$, denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, and contextual action
+$\Gamma$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-canonical-exit-row-exactness}. Its coverage
+clause places every row of the canonical phase-exit object inside
+$\mathsf{CanFieldExitRow}$, and its soundness clause fixes the concrete
+$\mathsf{RatUpFieldSource}_F$ source tuple, $\mathsf{BHist}$ source sort, carrier,
+classifier, denominator tuple, and contextual action $\Gamma$.
+
+The affine package rows are concrete rows of this same object. Apply
+\autoref{thm:field-affine-automorphism-group-package} for the affine group row
+and apply
+\autoref{thm:field-affine-threefold-certified-automorphism-composition} for the
+threefold composition row. These rows use the displayed Rat history carrier and
+classifier, so the exactness predicate does not range over an abstract affine
+operation source.
+
+The identity and inverse rows keep the affine family attached to the same exit
+object. Apply \autoref{thm:field-affine-identity-classifier-iff} to identify the
+identity classifier row, and apply
+\autoref{thm:ratup-fieldup-canonical-affine-inverse-descent-and-uniqueness} to
+identify inverse descent and uniqueness over the canonical Rat denominator
+tuple. The soundness clause above then keeps all cited affine rows over
+$\mathsf{RatUpFieldSource}_F$, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, the displayed denominator tuple, and $\Gamma$.
+\end{proof}
+
+Per-object template: traditional target affine row coverage inside
+$\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$ with
+$\mathsf{RatUpFieldSource}_F$, the displayed denominator tuple, and $\Gamma$;
+carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$; stability obligations canonical exit row
+exactness, affine group closure, threefold affine composition, identity
+classification, and inverse descent with uniqueness; ledger the affine
+automorphism rows cited by the theorem; core theorem
+\autoref{thm:ratup-fieldup-canonical-exit-affine-row-coverage}; exactness
+predicate $\mathsf{CanFieldExitRow}$; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
