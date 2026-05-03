@@ -193,6 +193,7 @@ import BEDC.Derived.SubgroupUp.RightQuotientClassifier
 import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
 import BEDC.Derived.SubgroupUp.NormalizerCertificate
 import BEDC.Derived.SubgroupUp.IntersectionConjugation
+import BEDC.Derived.SubgroupUp.IntersectionClassifierClosure
 import BEDC.Derived.SubgroupUp.RightCosetTransport
 import BEDC.Derived.SubgroupUp.RelativeProduct
 import BEDC.Derived.QuotientGroupUp
@@ -299,6 +300,7 @@ import BEDC.Derived.FieldUp.SingletonOperationContextNonZero
 import BEDC.Derived.FieldUp.SingletonAddMulContext
 import BEDC.Derived.FieldUp.SingletonAddNegZeroContextContinuation
 import BEDC.Derived.FieldUp.SingletonNegContextContinuationClassifier
+import BEDC.Derived.FieldUp.SingletonMulInvContextContinuationClassifier
 import BEDC.Derived.FieldUp.SingletonCarrierPartition
 import BEDC.Derived.FieldUp.SingletonContextBoundary
 import BEDC.Derived.FieldUp.SingletonAppendContextVisibleMiddle
