@@ -17,14 +17,25 @@ theorem QuotientGroupCentralizerNormalizer_empty_unit
     (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
     {a : BHist} :
     SubgroupCentralizerNormalizer mul inv a BHist.Empty := by
-  intro x centralX
   have invEmpty : hsame (inv BHist.Empty) BHist.Empty := by
     exact hsame_trans (hsame_symm (leftId (inv BHist.Empty))) (rightInv BHist.Empty)
-  have conjugateSame :
-      hsame (mul (mul BHist.Empty x) (inv BHist.Empty)) x := by
-    exact hsame_trans (mulCongr (leftId x) invEmpty) (rightId x)
-  exact hsame_trans (mulCongr conjugateSame (hsame_refl a))
-    (hsame_trans centralX (mulCongr (hsame_refl a) (hsame_symm conjugateSame)))
+  have invInvEmpty : hsame (inv (inv BHist.Empty)) BHist.Empty := by
+    exact hsame_trans (hsame_symm (leftId (inv (inv BHist.Empty))))
+      (hsame_trans (mulCongr (hsame_symm invEmpty) (hsame_refl (inv (inv BHist.Empty))))
+        (rightInv (inv BHist.Empty)))
+  constructor
+  · intro x centralX
+    have conjugateSame : hsame (mul (mul BHist.Empty x) (inv BHist.Empty)) x :=
+      hsame_trans (mulCongr (leftId x) invEmpty) (rightId x)
+    exact hsame_trans (mulCongr conjugateSame (hsame_refl a))
+      (hsame_trans centralX (mulCongr (hsame_refl a) (hsame_symm conjugateSame)))
+  · intro x centralX
+    have conjugateSame : hsame (mul (mul (inv BHist.Empty) x)
+        (inv (inv BHist.Empty))) x :=
+      hsame_trans (mulCongr (mulCongr invEmpty (hsame_refl x)) invInvEmpty)
+        (hsame_trans (mulCongr (leftId x) (hsame_refl BHist.Empty)) (rightId x))
+    exact hsame_trans (mulCongr conjugateSame (hsame_refl a))
+      (hsame_trans centralX (mulCongr (hsame_refl a) (hsame_symm conjugateSame)))
 
 theorem QuotientGroupCentralizerNormalizer_empty_hsame_transport_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
@@ -36,18 +47,25 @@ theorem QuotientGroupCentralizerNormalizer_empty_hsame_transport_unit
     (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
     {a t : BHist} :
     hsame BHist.Empty t -> SubgroupCentralizerNormalizer mul inv a t := by
-  intro emptyT x centralX
-  have conjugateToEmpty :
-      hsame (mul (mul t x) (inv t))
-        (mul (mul BHist.Empty x) (inv BHist.Empty)) := by
-    exact mulCongr (mulCongr (hsame_symm emptyT) (hsame_refl x)) (invCongr (hsame_symm emptyT))
-  have emptyConjugateCentral :
-      SubgroupCentralizerCarrier mul a (mul (mul BHist.Empty x) (inv BHist.Empty)) := by
-    exact QuotientGroupCentralizerNormalizer_empty_unit
-      leftId rightId mulCongr rightInv x centralX
-  exact hsame_trans (mulCongr conjugateToEmpty (hsame_refl a))
-    (hsame_trans emptyConjugateCentral
-      (mulCongr (hsame_refl a) (hsame_symm conjugateToEmpty)))
+  intro emptyT
+  have emptyNormalizer := QuotientGroupCentralizerNormalizer_empty_unit
+    leftId rightId mulCongr rightInv (a := a)
+  constructor
+  · intro x centralX
+    have conjugateToEmpty : hsame (mul (mul t x) (inv t))
+        (mul (mul BHist.Empty x) (inv BHist.Empty)) :=
+      mulCongr (mulCongr (hsame_symm emptyT) (hsame_refl x)) (invCongr (hsame_symm emptyT))
+    exact hsame_trans (mulCongr conjugateToEmpty (hsame_refl a))
+      (hsame_trans (emptyNormalizer.left x centralX)
+        (mulCongr (hsame_refl a) (hsame_symm conjugateToEmpty)))
+  · intro x centralX
+    have sameInvT : hsame (inv t) (inv BHist.Empty) := invCongr (hsame_symm emptyT)
+    have conjugateToEmpty : hsame (mul (mul (inv t) x) (inv (inv t)))
+        (mul (mul (inv BHist.Empty) x) (inv (inv BHist.Empty))) :=
+      mulCongr (mulCongr sameInvT (hsame_refl x)) (invCongr sameInvT)
+    exact hsame_trans (mulCongr conjugateToEmpty (hsame_refl a))
+      (hsame_trans (emptyNormalizer.right x centralX)
+        (mulCongr (hsame_refl a) (hsame_symm conjugateToEmpty)))
 
 def QuotientGroupSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
