@@ -389,4 +389,11 @@ theorem SOneHistoryCarrier_y_e1_point_shape {x y equation point dy : BHist} :
   cases sameY
   exact Exists.intro (append x dy) (And.intro pointCont (cont_intro rfl))
 
+theorem SOneHistoryCarrier_x_y_e1_point_tail_hsame {x y equation t dx dy : BHist} :
+    SOneHistoryCarrier x y equation (BHist.e1 t) -> hsame x (BHist.e1 dx) ->
+      hsame y (BHist.e1 dy) -> hsame t (append (BHist.e1 dx) dy) := by
+  intro carrier sameX sameY
+  cases sameX
+  exact SOneHistoryCarrier_y_e1_point_tail_hsame carrier sameY
+
 end BEDC.Derived.S1Up

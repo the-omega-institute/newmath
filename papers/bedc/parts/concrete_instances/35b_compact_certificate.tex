@@ -278,6 +278,25 @@ yields $\hsame(m,m')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_result\_deterministic}
 
+\begin{theorem}[Compact net witness composite middle continuation determinacy]
+\label{thm:compact-net-witness-composite-middle-cont-deterministic}
+For histories $c,\epsilon,\eta,n,n',m$, if
+$\mathsf{CompactNetWitness}(c,\epsilon,n)$,
+$\mathsf{CompactNetWitness}(n,\eta,m)$,
+$\mathsf{CompactNetWitness}(c,\epsilon,n')$, and
+$\mathsf{CompactNetWitness}(n',\eta,m)$ hold, then
+$$
+\ContR(c,\epsilon,n)\land \ContR(c,\epsilon,n')\land \hsame(n,n').
+$$
+\end{theorem}
+\begin{proof}
+The first and third compact-net witnesses expose the concrete first-stage
+continuation ledgers $\ContR(c,\epsilon,n)$ and $\ContR(c,\epsilon,n')$.
+Continuation determinacy compares those two ledgers with the same source and
+precision, giving $\hsame(n,n')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_middle\_cont\_deterministic}
+
 \begin{theorem}[Compact net witness composite center determinacy]
 \label{thm:compact-net-witness-composite-center-deterministic}
 For histories $c,c',\epsilon,\eta,n,n',m$, if the first-stage net witnesses

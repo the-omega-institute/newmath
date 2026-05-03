@@ -66,4 +66,27 @@ same predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_target\_semanticNameCert}
 
+\begin{theorem}[Composite continuation tail semantic name certificate]
+\label{thm:category-continuation-morphism-composite-tail-semantic-namecert}
+For histories $a,b,c$ and continuation morphisms
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$, let $m$ be their closed composite.
+The predicate
+$$
+t\mapsto \ContR(a,t,c)\land \hsame(t,\mathsf{tail}(m))
+$$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same concrete composite-tail predicate and whose classifier
+is $\hsame$.
+\end{theorem}
+\begin{proof}
+The carrier witness is $\mathsf{tail}(m)$, using the continuation relation of
+the closed composite and reflexivity of $\hsame$. The classifier laws are
+reflexivity, symmetry, and transitivity of $\hsame$. Transport along a
+classifier proof preserves the displayed continuation by continuation transport,
+and it preserves the tail classifier by transitivity with the inverse
+classifier proof.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_semanticNameCert}
+
 Per-object certificate: traditional target category identity laws; BEDC source $\mathsf{CategoryHomCarrier}$ plus $\Cont$; carrier $\mathsf{BHist}$ hom witnesses; classifier $\hsame$; stability obligation two-sided identity under morphism classifier; ledger the empty-composition ledgers; core theorem list entry two-sided identity; exactness predicate sameness with the original morphism; standard bridge deferred; status $\mathsf{ProofTarget}$.
