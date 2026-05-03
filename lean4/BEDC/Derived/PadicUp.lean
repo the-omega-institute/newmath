@@ -20,6 +20,18 @@ theorem PadicPrimeScale_total {p exponent : BHist} :
   | intro result data =>
       exact ⟨result, data.left, And.intro prime data.right⟩
 
+theorem PadicPrimeScale_exists_unique {p exponent : BHist} :
+    NatPrime p -> UnaryHistory exponent ->
+      exists result : BHist, PadicPrimeScale p exponent result ∧
+        forall other : BHist, PadicPrimeScale p exponent other -> hsame result other := by
+  intro prime exponentUnary
+  have total := PadicPrimeScale_total prime exponentUnary
+  cases total with
+  | intro result data =>
+      exact Exists.intro result
+        (And.intro data.right
+          (fun other otherScale => NatMul_functional prime.left data.right.right otherScale.right))
+
 theorem PadicPrimeScale_empty_result_iff_empty_exponent {p exponent result : BHist} :
     PadicPrimeScale p exponent result ->
       (hsame result BHist.Empty ↔ hsame exponent BHist.Empty) := by
