@@ -118,7 +118,7 @@ git switch lean4-codex-auto-dev
 git push
 ```
 
-If you believe the base is stale, stop and leave the round uncommitted. The outer `codex_formalize.py` process owns all base-branch synchronization, merge, rebase, and push operations. Phase C only edits files in the current worktree, verifies them, stages the intended files, and creates one local commit on the current round branch.
+If you believe the base is stale, stop and leave the round uncommitted. The outer `codex_formalize.py` process owns all base-branch synchronization, merge, and push operations. Phase C only edits files in the current worktree, verifies them, stages the intended files, and creates one local commit on the current round branch.
 
 ## Hard Constraints
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
@@ -184,7 +184,7 @@ python3 tools/check-axioms.py
 ```
 
 ## Step 5: Do not sync remote before commit
-Do not fetch, pull, merge, rebase against, checkout, or push any remote branch before committing. The outer pipeline serializes remote synchronization after Phase C returns.
+Do not fetch, pull, merge against, checkout, or push any remote branch before committing. The outer pipeline serializes remote synchronization after Phase C returns.
 
 If verification fails because the worktree appears stale or conflicts with upstream work, do not resolve that by syncing with `origin/lean4-codex-auto-dev`. Either adjust the local proof against the current worktree or leave the round uncommitted so the outer pipeline can discard/retry it.
 
@@ -240,7 +240,7 @@ git diff --cached -- papers/bedc/ \
     done
 ```
 
-Any DUPLICATE line means this round is about to introduce a `\\label{}` that is already present in `papers/bedc/parts/` on the current worktree. Even if the rebased base branch does not yet have this label, a sibling paper round could land it before this round merges, and the combined audit would fail. Fix one of:
+Any DUPLICATE line means this round is about to introduce a `\\label{}` that is already present in `papers/bedc/parts/` on the current worktree. Even if the merged base branch does not yet have this label, a sibling paper round could land it before this round merges, and the combined audit would fail. Fix one of:
 
 1. Drop the offending paper insertion entirely from this round and let the paper pipeline own that block; the round still keeps its Lean additions.
 2. Rename the `\\label{}` to something that genuinely encodes new content (not a `_v2`, `_alt`, `_under`, `_again` suffix — those are version-narrative and disallowed). Update any internal `\\autoref{}` consumers in the same patch.

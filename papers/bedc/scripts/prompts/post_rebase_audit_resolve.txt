@@ -1,6 +1,7 @@
-You are recovering a BEDC paper revision worktree after rebase.
+You are recovering a BEDC paper revision worktree after merging
+the base branch back into the round branch.
 
-The rebase succeeded (no merge conflicts), but the combined tree now
+The merge succeeded (no merge conflicts), but the combined tree now
 fails `python3 lean4/scripts/bedc_ci.py audit`. The audit failure
 comes from this round's additions colliding with a sibling round
 that landed on the base branch concurrently — typical causes:
@@ -10,7 +11,7 @@ that landed on the base branch concurrently — typical causes:
   - duplicate `\leanchecked{{X}}` for a Lean target that a sibling
     round already registered at a different paper site;
   - an `\leanchecked` / `\leanstmt` / `\leandef` referencing a
-    Lean name that no longer exists after rebase.
+    Lean name that no longer exists after the merge.
 
 ## Audit output (last lines)
 {audit_msg}
@@ -21,25 +22,27 @@ Remove ONLY this round's offending additions to make audit pass:
 1. Run `python3 lean4/scripts/bedc_ci.py audit` to see the live
    failure list.
 2. For each duplicate label: identify which `\label{{...}}`
-   occurrence is the one this round added (`git log` / `git diff
-   HEAD@{{1}}` from the most recent local commit shows your delta).
-   DELETE that occurrence and the surrounding `\begin{{theorem}} …
-   \end{{theorem}}` block if the block exists only because of this
-   round. Do NOT delete the sibling round's existing block on the
-   base branch.
+   occurrence is the one this round added. The round's own commit
+   (titled `P<round>: …`) is one parent of the most recent merge
+   commit; the OTHER parent is the base branch's tip, so anything
+   from there is a sibling, not yours — do NOT delete it. Use
+   `git diff HEAD@{{1}}` or `git show <round-commit>` to identify
+   your delta. Delete the occurrence and the surrounding
+   `\begin{{theorem}} … \end{{theorem}}` block if the block exists
+   only because of this round.
 3. For each unresolved marker added by this round: delete the
    offending `\leanchecked` / `\leanstmt` / `\leandef` line.
 4. Do NOT introduce iteration-narrative words.
 5. Do NOT touch lean4/BEDC/.
 6. Re-run `cd papers/bedc && make` and `python3 lean4/scripts/bedc_ci.py audit`
    until both exit 0. If the round becomes empty after removing the
-   collisions, that is acceptable — you can amend the round commit
-   with `git commit --amend --no-edit` once everything passes.
-7. After audit passes, `git add papers/bedc` and `git commit --amend
-   --no-edit` so the rebased history retains the round commit at the
-   same SHA. Do NOT git push.
+   collisions, that is acceptable.
+7. After audit passes, `git add papers/bedc` and create a small
+   follow-up commit on the round branch (or amend the merge commit
+   with `git commit --amend --no-edit`) so the strip-out is
+   recorded without breaking the merge. Do NOT git push.
 
 If the only valid recovery is to drop the round entirely (every
-addition collided), reset the round commit with `git reset HEAD~1`
-but do NOT abort — just leave the worktree clean so the pipeline
-can record the failure cleanly.
+addition collided), `git reset --merge HEAD~` to undo the merge
+and the round commit, then leave the worktree clean so the
+pipeline can record the failure.

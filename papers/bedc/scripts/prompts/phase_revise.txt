@@ -12,9 +12,9 @@ v2.3 — Bump this version (here AND in `phase_review.txt`) whenever either prom
 Before reading or writing any file, run:
 ```bash
 git fetch origin <BASE_BRANCH>
-git rebase --autostash origin/<BASE_BRANCH>
+git merge --no-ff --no-edit origin/<BASE_BRANCH>
 ```
-Multiple producers may push to the same base branch. Working on a stale base wastes effort and can produce conflicting edits. If the rebase reports conflicts, resolve them following the same rules as Step 5 (additive merges, keep both sides' independent paragraphs, keep all valid markers). After resolving, re-run `cd papers/bedc && make` once to confirm the rebased tree still compiles.
+Multiple producers may push to the same base branch. Working on a stale base wastes effort and can produce conflicting edits. If the merge reports conflicts, resolve them following the same rules as Step 5 (additive merges, keep both sides' independent paragraphs, keep all valid markers), `git add` each resolved file, then `git commit --no-edit` to complete the merge. After resolving, re-run `cd papers/bedc && make` once to confirm the merged tree still compiles.
 
 If `git fetch` reports no changes, proceed unchanged. If it pulls new commits, re-confirm via grep that each target you are about to apply has not already been resolved by another producer; if so, abandon that target rather than re-doing it.
 
@@ -185,7 +185,7 @@ Any DUPLICATE line means the proposed change collides with a label already in th
 ## Step 5: Re-sync with remote before commit
 ```bash
 git fetch origin <BASE_BRANCH>
-git rebase --autostash origin/<BASE_BRANCH>
+git merge --no-ff --no-edit origin/<BASE_BRANCH>
 ```
 
 Conflict resolution rules:
@@ -194,7 +194,7 @@ Conflict resolution rules:
 - `\leanchecked` / `\leanvariant` lines added by both sides: dedup identical lines, keep both if they reference different targets.
 - `lean4/BEDC.lean` and other index files: union the imports, dedup.
 
-After resolving, re-run `cd papers/bedc && make` AND `python3 lean4/scripts/bedc_ci.py audit` to confirm the rebased tree is still clean.
+After resolving each conflict, `git add` the file, then `git commit --no-edit` to complete the merge. Re-run `cd papers/bedc && make` AND `python3 lean4/scripts/bedc_ci.py audit` to confirm the merged tree is still clean.
 
 ## Step 5.5: HARD GATE — round must contain real revision
 Before committing, run:
