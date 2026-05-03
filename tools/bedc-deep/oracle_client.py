@@ -877,6 +877,23 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
     codex_summary: dict = cursor.get("codex_track") or {}
     codex_already_ran = bool(codex_summary) or bool(turns) or raw_latex_path.exists()
     codex_close_path = bool(codex_summary.get("close_path", False))
+    # Resume case: cursor was written under v1 Stage 0 (key: "stage0") with
+    # accept verdict OR raw_oracle_latex.md exists from prior closed run.
+    # Treat that content as a closed track — do NOT re-engage oracle.
+    legacy_stage0 = cursor.get("stage0") or {}
+    legacy_stage0_accepted = (
+        str(legacy_stage0.get("verdict") or "").lower() == "accept"
+    )
+    if (not codex_close_path) and not turns and (
+        legacy_stage0_accepted or raw_latex_path.exists()
+    ):
+        codex_close_path = True
+        print(
+            f"[v2 resume] {target.target_id} treating as closed: "
+            f"legacy_stage0_accepted={legacy_stage0_accepted}, "
+            f"raw_latex_exists={raw_latex_path.exists()}; skipping oracle.",
+            flush=True,
+        )
     if not codex_already_ran and not getattr(args, "no_codex_track", False):
         max_rounds = int(getattr(args, "codex_max_rounds", codex_track.DEFAULT_MAX_ROUNDS))
         wall_clock_s = int(getattr(args, "codex_wall_clock_s", codex_track.DEFAULT_WALL_CLOCK_S))

@@ -290,30 +290,60 @@ def stop_inner(inner: subprocess.Popen, grace_seconds: int = 30) -> None:
 
 
 def git_sync_dev() -> bool:
-    """Fetch + fast-forward-merge origin/dev into current branch.
+    """Fetch + merge origin/dev into current branch with claude-driven
+    conflict resolution.
 
-    Skips if uncommitted changes exist or merge would conflict. Acquires
-    paper_writes lock so a Stage 2 append never races against the merge.
-    Returns True iff dev's commits were pulled in.
+    Delegates to dev_sync_resolver.sync_with_resolution which:
+      - holds paper_writes lock for the whole flow
+      - attempts ff/clean merge first
+      - on conflict: spawns claude to resolve each non-protected file,
+        validates with lake build / check-axioms / bedc_ci audit, hard
+        resets on any failure
+      - protected files (lean4/, papers/main.tex, etc.) abort and report
+        to human_inbox via supervisor log
+      - commits + pushes on full success
+
+    Returns True iff dev's commits were actually pulled in (ff_merged or
+    auto_resolved). On any other outcome returns False — caller should
+    treat as "no sync this cycle" and retry later.
     """
-    status = _git(["status", "--porcelain"])
-    if status.stdout.strip():
+    try:
+        import dev_sync_resolver
+        result = dev_sync_resolver.sync_with_resolution()
+    except Exception as exc:
+        supervisor_log(f"git_sync_dev: resolver crashed: {exc}")
         return False
-    _git(["fetch", "origin", "dev"], capture=False)
-    behind = _git(["rev-list", "--count", "HEAD..origin/dev"])
-    n = behind.stdout.strip() or "0"
-    if n == "0":
+
+    status = result.status
+    if status == "up_to_date":
         return False
-    supervisor_log(f"git_sync_dev: pulling {n} commits from origin/dev")
-    from locks import file_lock
-    with file_lock("paper_writes"):
-        merge = _git(["merge", "--no-edit", "origin/dev"])
-    if merge.returncode != 0:
-        supervisor_log("git_sync_dev: merge failed (conflict?); aborting merge")
-        _git(["merge", "--abort"], capture=False)
+    if status == "ff_merged":
+        supervisor_log(f"git_sync_dev: ff-merged origin/dev cleanly ({result.n_dev_commits} commits)")
+        return True
+    if status == "auto_resolved":
+        supervisor_log(
+            f"git_sync_dev: auto-resolved {len(result.resolved_files)} conflict(s) "
+            f"({result.n_dev_commits} commits); validation={result.validation.summary if result.validation else '?'}"
+        )
+        return True
+    if status == "aborted_protected":
+        supervisor_log(
+            f"git_sync_dev: ABORTED — protected files in conflict ({result.error}). "
+            f"This needs human attention. Files: {result.conflict_files}"
+        )
         return False
-    supervisor_log(f"git_sync_dev: merged origin/dev cleanly ({n} commits)")
-    return True
+    if status == "aborted_validation":
+        fails = "; ".join((result.validation.failures or [])[:1])[:300]
+        supervisor_log(
+            f"git_sync_dev: ABORTED — validation failed after resolution. "
+            f"Hard-reset to ORIG_HEAD. Will retry next cycle. {fails}"
+        )
+        return False
+    if status == "skipped_dirty":
+        # quiet — common case during active Stage 2 / normal pipeline life
+        return False
+    supervisor_log(f"git_sync_dev: error — {result.error[:300]}")
+    return False
 
 
 def trigger_probe() -> None:
