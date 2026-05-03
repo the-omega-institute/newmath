@@ -35,4 +35,13 @@ theorem FieldApartTailFactor_empty_endpoint_exclusion {y x : BHist} :
       have split := cont_empty_result_inversion tailCont
       exact apart split.right
 
+theorem FieldApartTailFactor_singleton_context_exclusion {L R y x endpoint : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R -> FieldApartTailFactor y x ->
+      FieldSingletonClassifier (append L y) (append R endpoint) -> FieldApartZero x ->
+        False := by
+  intro carrierL carrierR factor classified apartX
+  have exposed : FieldSingletonClassifier y endpoint :=
+    Iff.mp (FieldSingletonClassifier_append_context_cancel_iff carrierL carrierR) classified
+  exact FieldApartTailFactor_empty_endpoint_exclusion factor exposed.left apartX
+
 end BEDC.Derived.FieldUp
