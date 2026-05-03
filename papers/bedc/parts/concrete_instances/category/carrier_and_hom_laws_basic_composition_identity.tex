@@ -208,6 +208,29 @@ result equality.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_right\_identity\_result}
 
+\begin{theorem}[Category hom carrier composite left-right identity public readback]
+\label{thm:category-comp-left-right-identity-public-readback}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,a,id_A)$,
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\mathsf{CategoryHomCarrier}(b,b,id_B)$,
+$\ContR(id_A,f,left)$, and $\ContR(left,id_B,result)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,b,result)\wedge
+\forall g,\,
+\mathsf{CategoryHomCarrier}(a,b,g)\Rightarrow\HSame(result,g).
+$$
+\end{theorem}
+\begin{proof}
+Compare each displayed identity carrier with the canonical empty identity at
+its endpoint. The left identity collapses the first continuation result to
+$f$, giving a carrier witness for $left$. The right identity collapses the
+second continuation result to $left$, giving a carrier witness for $result$.
+Any other displayed hom carrier from $a$ to $b$ has the same morphism by
+hom-carrier morphism determinacy.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_right\_identity\_public\_readback}
+
 \begin{theorem}[Category continuation left-right identity tail result]
 \label{thm:category-cont-left-right-identity-tail-result}
 For BEDC histories $a,b,id_A,f,id_B,left,both$, if
@@ -310,6 +333,31 @@ right tail $g$, so continuation result respect for $\hsame$ gives
 $\HSame(result,fg)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_identity\_result}
+
+\begin{theorem}[Category hom carrier composite middle identity public readback]
+\label{thm:category-comp-middle-identity-public-readback}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\mathsf{CategoryHomCarrier}(b,b,id)$,
+$\mathsf{CategoryHomCarrier}(b,c,g)$,
+$\ContR(f,id,fid)$, and $\ContR(fid,g,result)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,c,result)\wedge
+\forall fg,\,
+\mathsf{CategoryHomCarrier}(a,c,fg)\Rightarrow\HSame(result,fg).
+$$
+\end{theorem}
+\begin{proof}
+Compare the displayed middle identity with the canonical empty identity at
+$b$. This identifies $id$ with $\emp$, so the continuation
+$\ContR(f,id,fid)$ is determined by the right-unit continuation on $f$.
+Transporting the left hom carrier across $\HSame(fid,f)$ makes
+$fid$ a hom carrier from $a$ to $b$. Composition closure with the displayed
+right hom carrier gives the carrier witness for $result$, and hom-carrier
+morphism determinacy reads it back against any other hom carrier from $a$ to
+$c$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_identity\_public\_readback}
 
 \begin{theorem}[Category continuation middle identity tail result]
 \label{thm:category-cont-middle-identity-tail-result}

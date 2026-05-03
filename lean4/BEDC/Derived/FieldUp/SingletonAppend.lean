@@ -273,6 +273,16 @@ theorem FieldSingletonCarrier_append_left_cancel_iff {P Q : BHist} :
   · intro carrierQ
     exact append_eq_empty_iff.mpr (And.intro carrierP carrierQ)
 
+theorem FieldSingletonCarrier_append_comm_iff {h k : BHist} :
+    FieldSingletonCarrier (append h k) ↔ FieldSingletonCarrier (append k h) := by
+  constructor
+  · intro hk
+    have split := append_eq_empty_iff.mp hk
+    exact append_eq_empty_iff.mpr (And.intro split.right split.left)
+  · intro kh
+    have split := append_eq_empty_iff.mp kh
+    exact append_eq_empty_iff.mpr (And.intro split.right split.left)
+
 theorem FieldSingletonCarrier_append_context_empty_iff {L R h : BHist} :
     FieldSingletonCarrier L -> FieldSingletonCarrier R ->
       (FieldSingletonCarrier (append L (append h R)) ↔ FieldSingletonCarrier h) := by

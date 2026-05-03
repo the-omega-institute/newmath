@@ -43,3 +43,21 @@ the reverse direction, combine the carrier witness for $P$ with
 $Q\hsame\emp$ and rebuild the empty append witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_left\_cancel\_iff}
+
+\begin{theorem}[Field singleton carrier append commutation]
+\label{thm:field-singleton-carrier-append-comm}
+For histories $h,k:\mathsf{BHist}$, the singleton carrier is insensitive to
+the order of an append pair:
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(h,k))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(k,h)).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier is history-sameness to $\emp$. Empty-append inversion
+splits $\mathsf{append}(h,k)\hsame\emp$ into $h\hsame\emp$ and
+$k\hsame\emp$. Reversing the two components rebuilds
+$\mathsf{append}(k,h)\hsame\emp$, and the converse is symmetric.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_comm\_iff}
