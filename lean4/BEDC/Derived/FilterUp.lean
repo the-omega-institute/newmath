@@ -61,6 +61,23 @@ theorem FilterPrincipalSuffix_unary_commuting_square
         (unary_append_comm leftCarrier rightCarrier))
       (hsame_symm (append_assoc base right left)))
 
+theorem FilterPrincipalSuffix_unary_commuting_square_base_deterministic
+    {base base' left right leftPoint rightPoint meetPoint : BHist} :
+    UnaryHistory left -> UnaryHistory right -> Cont base left leftPoint ->
+      Cont base' right rightPoint -> Cont leftPoint right meetPoint ->
+        Cont rightPoint left meetPoint -> hsame base base' := by
+  intro leftCarrier rightCarrier baseLeft baseRight leftThenRight rightThenLeft
+  cases baseLeft
+  cases baseRight
+  have samePaths : hsame (append (append base left) right) (append (append base' right) left) :=
+    leftThenRight.symm.trans rightThenLeft
+  have sameCommonSuffix : hsame (append base (append left right)) (append base' (append left right)) :=
+    (append_assoc base left right).symm.trans
+      (samePaths.trans
+        ((append_assoc base' right left).trans
+          (congrArg (append base') (unary_append_comm leftCarrier rightCarrier).symm)))
+  exact append_right_cancel (k := append left right) sameCommonSuffix
+
 theorem FilterPrincipalSuffix_unary_intersection_commuted_meet_closed
     {base left right meet meetPoint : BHist} :
     UnaryHistory left -> UnaryHistory right -> Cont left right meet -> Cont base meet meetPoint ->
