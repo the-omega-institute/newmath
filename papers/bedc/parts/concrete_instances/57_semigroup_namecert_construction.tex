@@ -6,5 +6,59 @@ The semigroup interface $\SemigroupUp$ adds associativity to $\MagmaUp$ (\autore
 \section{Carrier definition}
 \label{sec:semigroup-carrier}
 
+\begin{definition}[Concrete unary-history semigroup instance]
+\label{def:concrete-unary-history-semigroup-instance}
+The concrete unary-history semigroup instance reuses the magma carrier,
+operation, and classifier from
+\autoref{def:concrete-unary-history-magma-instance}. Thus the carrier is
+$\mathsf{UnaryHistory}$, multiplication is
+$\mathsf{mul}_U(h,k):=\mathsf{append}(h,k)$, the continuation witness is
+$\Cont(h,k,\mathsf{append}(h,k))$, and endpoint comparison is the
+carrier-aware relation
+$$
+R_U(h,k):=\mathsf{UnaryHistory}(h)\land\mathsf{UnaryHistory}(k)\land\hsame(h,k).
+$$
+\end{definition}
+
+\begin{theorem}[Concrete unary-history semigroup laws]
+\label{thm:concrete-unary-history-semigroup-laws}
+The instance of \autoref{def:concrete-unary-history-semigroup-instance}
+satisfies the magma closure and multiplication congruence laws of
+\autoref{thm:concrete-unary-history-magma-laws}. In addition, for unary
+histories $h,k,l:\mathsf{BHist}$,
+$$
+R_U(\mathsf{mul}_U(\mathsf{mul}_U(h,k),l),
+\mathsf{mul}_U(h,\mathsf{mul}_U(k,l))).
+$$
+\end{theorem}
+\begin{proof}
+The closure and multiplication congruence clauses are the magma laws from
+\autoref{thm:concrete-unary-history-magma-laws}, applied to the same carrier
+$\mathsf{UnaryHistory}$, operation $\mathsf{append}$, and classifier $R_U$.
+
+For associativity, first apply unary append closure to $h$ and $k$, and again
+to $k$ and $l$. These witnesses place the intermediate products
+$\mathsf{append}(h,k)$ and $\mathsf{append}(k,l)$ in the carrier, so the two
+outer products are also unary by the same closure theorem.
+
+The four continuation witnesses
+$\Cont(h,k,\mathsf{append}(h,k))$,
+$\Cont(\mathsf{append}(h,k),l,\mathsf{append}(\mathsf{append}(h,k),l))$,
+$\Cont(k,l,\mathsf{append}(k,l))$, and
+$\Cont(h,\mathsf{append}(k,l),\mathsf{append}(h,\mathsf{append}(k,l)))$
+are then fed to \texttt{BEDC.FKernel.Cont.cont\_assoc\_hsame}. The result is
+the endpoint $\hsame$ proof between the two parenthesizations, and the carrier
+witnesses already built above package it as $R_U$.
+\end{proof}
+
+The ten-field per-object fit is: traditional target semigroup; BEDC source
+$\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
+classifier carrier-aware $\hsame$ on unary endpoints; stability closure,
+congruence, and associativity for unary append; ledger append provenance
+through $\Cont$; core theorem
+\autoref{thm:concrete-unary-history-semigroup-laws}; exactness endpoint
+classification by $R_U$; standard bridge free unary append semigroup; status
+$\mathsf{ProofTarget}$.
+
 \section{The certificate}
 \label{sec:semigroup-certificate}

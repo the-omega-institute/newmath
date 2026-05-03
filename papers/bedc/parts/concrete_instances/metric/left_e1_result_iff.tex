@@ -21,3 +21,30 @@ adds one visible constructor back to the middle endpoint and result ledger by
 the one-step continuation rule.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_iff}
+
+\begin{theorem}[Metric distance witness left e1 result shape]
+\label{thm:metric-distance-witness-left-e1-result-shape}
+For histories $x,y,d$, every distance witness from $\Eone(x)$ has a visible
+result shape:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,d)
+\Longrightarrow
+\exists k:\mathsf{BHist}.\;
+\hsame(d,\Eone(k))\land
+\Bigl(
+  (y=\emp\land\mathsf{UnaryHistory}(x)\land\hsame(x,k))
+  \lor
+  \exists y_1:\mathsf{BHist}.\;
+    y=\Eone(y_1)\land
+    \mathsf{MetricDistanceWitness}(\Eone(x),y_1,k)
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Decompose the result history. An empty result is incompatible with a visible
+left endpoint and the continuation equation; an $\Ezero$ result is incompatible
+with the unary distance carrier. In the $\Eone(k)$ case, the established
+visible-result split gives either the empty target boundary or the visible
+target tail witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_shape}

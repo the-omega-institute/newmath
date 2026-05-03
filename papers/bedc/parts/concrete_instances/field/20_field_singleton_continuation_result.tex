@@ -36,6 +36,28 @@ both $P$ and $Q$ with $\emp$, which reconstructs the singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_empty\_result\_iff}
 
+\begin{theorem}[Field singleton classifier continuation result-left iff]
+\label{thm:field-singleton-classifier-continuation-result-left}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, singleton
+classification of the two continuation inputs is equivalent to singleton
+classification of the result against the left input:
+$$
+\mathsf{FieldSingletonClassifier}(P,Q)
+\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(R,P).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, the singleton carrier witnesses for $P$ and $Q$
+transport the continuation result to the right-unit continuation at $\emp$.
+Thus $R$ is singleton-carried, and it compares with $P$ through $\emp$.
+Conversely, the result-left classifier identifies $R$ with $\emp$. Transport
+the displayed continuation to empty result and apply empty-result inversion;
+this recovers singleton carrier witnesses for both $P$ and $Q$, which rebuild
+the input classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_result\_left\_iff}
+
 \begin{theorem}[Field singleton classifier continuation result endpoint split]
 \label{thm:field-singleton-classifier-continuation-result-endpoint-split}
 For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the result-side
@@ -179,6 +201,30 @@ therefore identifies $out$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_result\_carrier}
 
+\begin{theorem}[Field singleton add-mul context continuation classifier]
+\label{thm:field-singleton-add-mul-context-continuation-classifier}
+For histories
+$L,R,L',R',a,b,c,d,a',b',c',d',out,out':\mathsf{BHist}$, if all four
+context endpoints are singleton field carriers and the two add-mul contextual
+continuations
+$$
+\ContR(\mathsf{append}(L,\mathsf{FieldSingletonAdd}(a,b)),
+  \mathsf{append}(\mathsf{FieldSingletonMul}(c,d),R),out)
+$$
+and
+$$
+\ContR(\mathsf{append}(L',\mathsf{FieldSingletonAdd}(a',b')),
+  \mathsf{append}(\mathsf{FieldSingletonMul}(c',d'),R'),out')
+$$
+hold, then $\mathsf{FieldSingletonClassifier}(out,out')$.
+\end{theorem}
+\begin{proof}
+Apply the add-mul contextual carrier closure to both continuations. The two
+results are each $\hsame$ to $\emp$, so transitivity and symmetry of $\hsame$
+assemble the singleton classifier between the results.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_classifier}
+
 \begin{theorem}[Field singleton continuation result context]
 \label{thm:field-singleton-continuation-result-context}
 For histories $L,R,P,Q,T:\mathsf{BHist}$, if $L$ and $R$ are singleton
@@ -201,3 +247,20 @@ result singleton; combining this carrier with the assumed carriers for $L$
 and $R$ rebuilds the displayed contextual classifier against $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_result\_context\_iff}
+
+\begin{theorem}[Field singleton classifier for mutual continuation cycle tails]
+\label{thm:fieldup-singleton-cycle-tail-classifier}
+For histories $h,k,tail,backTail:\mathsf{BHist}$, if
+$$
+\ContR(h,tail,k)
+\quad\text{and}\quad
+\ContR(k,backTail,h),
+$$
+then $\mathsf{FieldSingletonClassifier}(tail,backTail)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_mutual\_continuation\_cycle\_tails}
+\begin{proof}
+Mutual continuation tail cancellation identifies both $tail$ and $backTail$
+with $\emp$. These two singleton carrier witnesses give the classifier fields,
+and transitivity through $\emp$ gives the tail-to-tail history-sameness field.
+\end{proof}

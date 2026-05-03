@@ -75,6 +75,31 @@ then exposes the forbidden classifier on $P$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_continuation\_left\_endpoint\_cancel\_iff}
 
+\begin{theorem}[Singleton empty nonzero continuation commutativity]
+\label{thm:fieldup-singleton-empty-nonzero-continuation-comm}
+For histories $P,Q,left,right:\mathsf{BHist}$, if
+$$
+\ContR(P,Q,left)
+\quad\text{and}\quad
+\ContR(Q,P,right),
+$$
+then the classifier-complement singleton nonzero predicate is invariant under
+exchanging the two continuation inputs:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(left)
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(right).
+$$
+\end{theorem}
+\begin{proof}
+For one direction, suppose $left$ is singleton nonzero and $right$ were empty.
+Transport the displayed continuation for $right$ to an empty result and invert
+the empty continuation. Both inputs are empty, so the opposite continuation has
+empty result, contradicting singleton nonzero at $left$. The converse is the
+same argument with the two continuations exchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_continuation\_comm\_iff}
+
 \begin{theorem}[Rat classifier singleton-empty nonzero context endpoints]
 \label{thm:rat-history-classifier-field-singleton-empty-nonzero-context-endpoints}
 For histories $L,R,h,k:\mathsf{BHist}$, any rational history classifier

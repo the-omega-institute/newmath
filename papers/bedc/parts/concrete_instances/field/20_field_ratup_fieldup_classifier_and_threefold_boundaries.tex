@@ -170,6 +170,25 @@ through $\emp$ supplies the classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_operation\_context\_endpoint\_package}
 
+\begin{theorem}[Field singleton add-neg-zero context continuation result carrier]
+\label{thm:field-singleton-add-neg-zero-context-continuation-result-carrier}
+For histories $L,R,a,b,c,out:\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$ and $\mathsf{FieldSingletonCarrier}(R)$, if
+$$
+\mathsf{Cont}
+  (\mathsf{append}(L,\mathsf{FieldSingletonAdd}(a,b)),
+   \mathsf{append}(\mathsf{FieldSingletonNeg}(c),R),out)
+$$
+holds, then $\mathsf{FieldSingletonCarrier}(out)$.
+\end{theorem}
+\begin{proof}
+The singleton additive and negation endpoints are definitionally $\emp$. The
+carrier witnesses for $L$ and $R$ reduce both continuation endpoints to the
+empty-empty continuation, so continuation determinacy identifies $out$ with
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_context\_continuation\_result\_carrier}
+
 \begin{theorem}[Field singleton add-neg-zero context continuation classifier]
 \label{thm:field-singleton-add-neg-zero-context-continuation-classifier}
 For histories $L,R,a,b,c,d,out,out':\mathsf{BHist}$ with
@@ -196,6 +215,30 @@ $out=\emp$ and $out'=\emp$, and the two resulting carrier witnesses classify
 the endpoints by transitivity through $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_context\_continuation\_classifier}
+
+\begin{theorem}[Field singleton neg context continuation classifier]
+\label{thm:field-singleton-neg-context-continuation-classifier}
+For histories $L,R,L',R',a,a',out,out':\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$, $\mathsf{FieldSingletonCarrier}(R)$,
+$\mathsf{FieldSingletonCarrier}(L')$, and
+$\mathsf{FieldSingletonCarrier}(R')$, if
+$$
+\mathsf{Cont}(\mathsf{append}(L,\mathsf{FieldSingletonNeg}(a)),R,out)
+$$
+and
+$$
+\mathsf{Cont}(\mathsf{append}(L',\mathsf{FieldSingletonNeg}(a')),R',out')
+$$
+hold, then $\mathsf{FieldSingletonClassifier}(out,out')$.
+\end{theorem}
+\begin{proof}
+The singleton negation endpoint is definitionally $\emp$. Each left context
+therefore remains an empty carrier after appending the negation endpoint. With
+the matching right context carrier, singleton continuation closure makes both
+outputs empty-carrier histories. The classifier follows by transitivity through
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonNeg\_context\_continuation\_classifier}
 
 \begin{theorem}[RatUp FieldUp right-nested threefold contextual boundary]
 \label{thm:ratup-fieldup-right-nested-threefold-contextual-boundary}

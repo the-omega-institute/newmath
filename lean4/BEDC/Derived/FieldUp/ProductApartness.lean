@@ -1,4 +1,5 @@
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldUp.SingletonContinuation
 import BEDC.FKernel.Cont
 
 namespace BEDC.Derived.FieldUp
@@ -169,6 +170,18 @@ theorem FieldApartZero_continuation_endpoint_split_iff {p q r : BHist} :
         exact leftApart splitEmpty.left
     | inr rightApart =>
         exact rightApart splitEmpty.right
+
+theorem FieldApartZero_continuation_singleton_result_factor_absurd {P Q R endpoint : BHist} :
+    Cont P Q R -> FieldSingletonClassifier R endpoint ->
+      (FieldApartZero P -> False) ∧ (FieldApartZero Q -> False) := by
+  intro continuation classified
+  have endpoints :=
+    (FieldSingletonCarrier_continuation_endpoint_split_iff continuation).mp classified.left
+  constructor
+  · intro apartP
+    exact apartP endpoints.left
+  · intro apartQ
+    exact apartQ endpoints.right
 
 theorem FieldApartZero_append_hsame_congr_iff {a a' b b' : BHist} :
     hsame a a' -> hsame b b' ->

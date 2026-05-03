@@ -6,5 +6,225 @@ The continuous-map interface $\ContinuousMapUp$ packages a function between metr
 \section{Carrier definition}
 \label{sec:continuousmap-carrier}
 
+\begin{definition}[ContinuousMap carrier]
+\label{def:continuousmap-carrier}
+For histories $source,map,target,modulus,cert,dist:\mathsf{BHist}$,
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,dist)$ is the
+conjunction of the continuous-function carrier
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$ and the
+metric distance witness $\mathsf{MetricDistanceWitness}(source,target,dist)$.
+\end{definition}
+\leandef{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier}
+
+\begin{theorem}[ContinuousMap carrier empty distance exactness]
+\label{thm:continuousmap-carrier-empty-distance-exact}
+For histories $source,map,modulus,cert:\mathsf{BHist}$,
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,map,\emp,modulus,cert,\emp)\\
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(source)\land
+\mathsf{UnaryHistory}(map)\land
+\mathsf{UnaryHistory}(modulus)\land
+source\sim\emp\land map\sim\emp\land cert\sim modulus.
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_distance\_exact}
+\begin{proof}
+Unpack the carrier into the continuous-function row and the metric-distance
+row. Empty distance forces the source endpoint to be $\emp$, while the
+continuous-function graph row into $\emp$ forces the map component to be
+$\emp$. The remaining certificate row is the left-unit continuation from
+$\emp$ to $modulus$, hence $cert\sim modulus$. Conversely, the displayed
+unary and boundary data build the two continuation rows and the empty-distance
+metric witness directly.
+\end{proof}
+
+\begin{theorem}[ContinuousMap empty certificate exactness]
+\label{thm:continuousmap-carrier-empty-cert-exactness}
+For histories $source,map,target,modulus,dist:\mathsf{BHist}$,
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,\emp,dist)
+$$
+holds exactly when
+$$
+source \hsame \emp,\quad map \hsame \emp,\quad target \hsame \emp,\quad
+modulus \hsame \emp,\quad dist \hsame \emp .
+$$
+\end{theorem}
+\begin{proof}
+The function-carrier half gives empty source, map, target, and modulus by the
+empty-certificate theorem for $\mathsf{ContinuousFunctionCarrier}$. With source
+and target reduced to $\emp$, the metric-distance continuation is compared with
+the right unit continuation, forcing the displayed distance to be empty. The
+reverse direction reassembles the function witness and the empty distance
+witness after the five endpoint equalities are exposed.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_cert\_iff}
+
+\begin{theorem}[Empty identity maps reflect metric witnesses]
+\label{thm:continuousmap-empty-identity-metric-witness-reflects}
+For histories $x,y,x',y',d,m_x,m_y,c_x,c_y:\mathsf{BHist}$, if
+$\mathsf{ContinuousFunctionCarrier}(x,\emp,x',m_x,c_x)$ and
+$\mathsf{ContinuousFunctionCarrier}(y,\emp,y',m_y,c_y)$ are empty-map
+continuous carriers, then every displayed metric witness
+$\mathsf{MetricDistanceWitness}(x',y',d)$ reflects to a source-side witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$.
+\end{theorem}
+\begin{proof}
+The empty-map carrier readback identifies $x'$ with $x$ and $y'$ with $y$.
+Unary endpoint membership and the continuation field of the metric witness
+transport along these two $\hsame$ witnesses, while the distance history is
+held fixed.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_identity\_metric\_witness\_reflects}
+
+\begin{theorem}[Empty identity maps preserve metric result determinacy]
+\label{thm:continuousmap-empty-identity-metric-result-deterministic}
+For histories $x,y,x',y',d,d',m_x,m_y,c_x,c_y:\mathsf{BHist}$, if the two
+endpoints are carried by empty continuous maps, then an image-side metric
+witness $\mathsf{MetricDistanceWitness}(x',y',d)$ and a source-side metric
+witness $\mathsf{MetricDistanceWitness}(x,y,d')$ have $\hsame$ distance
+results.
+\end{theorem}
+\begin{proof}
+First reflect the image-side witness through the empty continuous maps to get
+$\mathsf{MetricDistanceWitness}(x,y,d)$. Metric witness result determinacy at
+reflexive source endpoints then compares the two displayed distance histories.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_identity\_metric\_result\_deterministic}
+
+\begin{theorem}[ContinuousMap empty-target metric rebased carrier]
+\label{thm:continuousmap-empty-target-metric-rebased-carrier}
+For histories $source,modulus,cert,dist,cert'$, suppose
+$$
+\mathsf{ContinuousFunctionCarrier}(source,\emp,source,modulus,cert),
+\qquad
+\mathsf{MetricDistanceWitness}(source,\emp,dist),
+\qquad
+\ContR(dist,modulus,cert').
+$$
+Then the metric distance ledger itself supports the empty-map continuous
+function carrier
+$$
+\mathsf{ContinuousFunctionCarrier}(dist,\emp,dist,modulus,cert').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuous-function carrier and the metric distance witness. The
+metric witness supplies unary membership of $dist$, while the continuous
+carrier supplies unary membership of $modulus$. The empty map is unary, the
+right-unit continuation gives $\ContR(dist,\emp,dist)$, and the displayed
+continuation gives the terminal certificate row.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_target\_metric\_rebased\_carrier}
+
+\begin{theorem}[ContinuousMap empty-target metric certificate determinacy]
+\label{thm:continuousmap-empty-target-metric-cert-deterministic}
+For histories $source,modulus,cert,dist,cert'$, suppose
+$$
+\mathsf{ContinuousFunctionCarrier}(source,\emp,source,modulus,cert),
+\qquad
+\mathsf{MetricDistanceWitness}(source,\emp,dist),
+\qquad
+\ContR(dist,modulus,cert').
+$$
+Then the original continuous-function certificate and the metric-rebased
+certificate classify together:
+$$
+\hsame(cert,cert').
+$$
+\end{theorem}
+\begin{proof}
+The empty-right metric witness identifies $dist$ with $source$ while preserving
+the unary distance ledger. The original carrier supplies the continuation
+$\ContR(source,modulus,cert)$; transporting the source side across the metric
+identification and comparing it with $\ContR(dist,modulus,cert')$ gives
+$\hsame(cert,cert')$ by continuation determinacy under $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_target\_metric\_cert\_deterministic}
+
+\begin{theorem}[ContinuousMap target, certificate, and distance determinacy]
+\label{thm:continuousmap-target-cert-distance-deterministic}
+For histories $source$, $map$, $target$, $target'$, $modulus$, $cert$, $cert'$,
+$distance$, and $distance'$, two concrete continuous-map carriers with the same
+source, map, and modulus determine the target, certificate, and distance
+ledgers up to $\hsame$:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+\Longrightarrow
+\mathsf{ContinuousMapCarrier}(source,map,target',modulus,cert',distance')
+\\
+\Longrightarrow
+\hsame(target,target')\land\hsame(cert,cert')\land
+\hsame(distance,distance')\land\ContR(source,target,distance).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The continuous-function components have the same source, map, and modulus, so
+continuous-function target-certificate determinacy gives
+$\hsame(target,target')$ and $\hsame(cert,cert')$. The two metric distance
+witnesses then share source histories and target histories up to $\hsame$;
+metric result determinacy identifies $distance$ and $distance'$. The
+continuation ledger $\ContR(source,target,distance)$ is the final field of the
+left metric distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_target\_cert\_distance\_deterministic}
+
+\begin{theorem}[ContinuousMap empty map with empty distance boundaries]
+\label{thm:continuousmap-empty-map-empty-distance-boundaries}
+For histories $source$, $target$, $modulus$, and $cert$, a concrete
+continuous-map carrier with empty graph map and empty distance ledger is
+equivalent to empty source and target boundaries together with the empty-source
+modulus witness:
+$$
+\mathsf{ContinuousMapCarrier}(source,\emp,target,modulus,cert,\emp)
+\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(target,\emp)\land
+\mathsf{ContinuousModulusWitness}(\emp,modulus,cert).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, empty-map exactness for the continuous-function
+component gives a modulus witness over the target, while empty-distance
+exactness for the metric witness collapses both endpoint histories to
+$\emp$. Transporting across the target collapse presents the modulus witness
+over $\emp$.
+
+Conversely, the empty endpoint data presents the graph carrier as the
+empty-map exactness case, and metric empty-distance exactness builds the
+distance witness over the two empty endpoints. Their conjunction is exactly the
+concrete continuous-map carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_map\_empty\_distance\_boundaries\_iff}
+
 \section{The certificate}
 \label{sec:continuousmap-certificate}
+
+\begin{theorem}[ContinuousMap composite graph depth addition]
+\label{thm:continuousmap-comp-graph-depth-add}
+For histories $source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG$,
+if two continuous-function carriers compose through continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG),
+$$
+then the composite graph has metric depth
+$$
+\mathsf{MetricDistanceDepth}(target)
+=
+\mathsf{MetricDistanceDepth}(source)+
+\mathsf{MetricDistanceDepth}(mapFG).
+$$
+\end{theorem}
+\begin{proof}
+Composition closure for continuous-function carriers builds the composite
+carrier from $source$ to $target$ along $mapFG$. Its graph fields are exactly a
+metric distance witness with endpoints $source$, $mapFG$, and $target$.
+Metric-distance depth addition for that witness gives the displayed equality.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_comp\_graph\_depth\_add}

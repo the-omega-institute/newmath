@@ -14,6 +14,20 @@ inductive DirichletPartSum (term : BHist -> BHist -> BHist) (s : BHist) :
       DirichletPartSum term s n S -> Cont S (term n s) T ->
         DirichletPartSum term s (BHist.e1 n) T
 
+theorem DirichletPartSum_index_cases
+    {term : BHist -> BHist -> BHist} {s n S : BHist} :
+    DirichletPartSum term s n S ->
+      (n = BHist.Empty ∧ hsame S BHist.Empty) ∨
+        exists m P : BHist, n = BHist.e1 m ∧
+          DirichletPartSum term s m P ∧ Cont P (term m s) S := by
+  intro sum
+  cases sum with
+  | zero =>
+      exact Or.inl (And.intro rfl (hsame_refl BHist.Empty))
+  | step prev stepCont =>
+      exact Or.inr (Exists.intro _ (Exists.intro _
+        (And.intro rfl (And.intro prev stepCont))))
+
 theorem DirichletPartSum_successor_result_deterministic
     {term : BHist -> BHist -> BHist} {s n S T U : BHist} :
     DirichletPartSum term s n S -> Cont S (term n s) T ->
@@ -81,6 +95,33 @@ theorem DirichletPartSum_unary_index_deterministic
       | step rightSum rightStep =>
           have samePartial := ih unaryPrev rightSum
           exact cont_respects_hsame samePartial (hsame_refl (term _ s)) leftStep rightStep
+
+theorem DirichletPartSum_term_hsame_deterministic
+    {term term' : BHist -> BHist -> BHist} {s n S T : BHist} :
+    (forall {m : BHist}, UnaryHistory m -> hsame (term m s) (term' m s)) ->
+      DirichletPartSum term s n S -> DirichletPartSum term' s n T -> hsame S T := by
+  intro pointwise left
+  have index_unary :
+      forall {m U : BHist}, DirichletPartSum term s m U -> UnaryHistory m := by
+    intro m U sum
+    induction sum with
+    | zero =>
+        exact unary_empty
+    | step _ _ ih =>
+        exact unary_e1_closed ih
+  induction left generalizing T with
+  | zero =>
+      intro right
+      cases right with
+      | zero =>
+          exact hsame_refl BHist.Empty
+  | step leftSum leftStep ih =>
+      intro right
+      cases right with
+      | step rightSum rightStep =>
+          have samePartial := ih rightSum
+          have sameTerm := pointwise (index_unary leftSum)
+          exact cont_respects_hsame samePartial sameTerm leftStep rightStep
 
 theorem DirichletSeriesIndex_e1_tail_nonempty {n : BHist} :
     UnaryHistory n ->

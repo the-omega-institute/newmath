@@ -60,3 +60,17 @@ evidence for the source, target, and distance histories. BEDC unary histories
 are generated only from $\emp$ by $\Eone$, so each displayed $\Ezero$ component
 contradicts unary no-zero-extension.
 \end{proof}
+
+\begin{theorem}[Metric e1-pair empty-distance impossibility]
+\label{thm:metric-distance-witness-e1-pair-empty-distance-absurd}
+For histories $x,y:\mathsf{BHist}$,
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),\emp)\to\mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_e1\_pair\_empty\_distance\_absurd}
+\begin{proof}
+Apply empty-distance exactness to the displayed metric witness. It forces the
+left endpoint $\Eone(x)$ to be history-same as $\emp$, contradicting the
+disjointness of visible one-headed histories from the empty history.
+\end{proof}

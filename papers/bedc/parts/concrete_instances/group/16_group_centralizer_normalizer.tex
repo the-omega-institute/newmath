@@ -1,0 +1,608 @@
+\begin{definition}[Group centralizer normalizer carrier]
+\label{def:group-centralizer-normalizer-carrier}
+Let $Z_a$ be the centralizer carrier of
+\autoref{def:group-centralizer-carrier}. For each history
+$s:\mathsf{BHist}$ define the conjugation word
+$$
+\mathsf{Conj}_s(x):=
+\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+The centralizer normalizer carrier $N_a$ is the predicate
+$$
+N_a(s) :\Longleftrightarrow
+\bigl(\forall x:\mathsf{BHist},\ Z_a(x)\Rightarrow Z_a(\mathsf{Conj}_s(x))\bigr)
+\land
+\bigl(\forall x:\mathsf{BHist},\ Z_a(x)\Rightarrow
+Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))\bigr).
+$$
+Thus $N_a(s)$ records centralizer preservation by conjugation with $s$ and by
+conjugation with $\mathsf{inv}(s)$.
+\end{definition}
+
+\begin{theorem}[Group conjugation composition]
+\label{thm:group-conjugation-composition}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws, inner conjugation composes in the
+expected order:
+$$
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)
+\hsame
+\mathsf{Conj}_s(\mathsf{Conj}_t(x)).
+$$
+Moreover the inverse conjugating word for $\mathsf{mul}(s,t)$ is represented by
+the reversed inverse product $\mathsf{mul}(\mathsf{inv}(t),\mathsf{inv}(s))$.
+The ten-field fit is: traditional target inner-action composition; BEDC source
+$\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations inverse-product reversal, reassociation, and
+multiplication congruence; ledger the ordered pair $s,t$ and the acted-on
+history $x$; core theorem list \autoref{thm:group-inverse-mul-reverse} and
+\autoref{thm:group-conjugation-classifier-exactness}, together with
+associativity, unit laws, inverse laws, and multiplication congruence; standard
+bridge ordinary inner automorphism composition; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Expand both conjugation words. The left side is
+$\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(s,t),x),
+\mathsf{inv}(\mathsf{mul}(s,t)))$.
+
+Apply \autoref{thm:group-inverse-mul-reverse} to the product
+$\mathsf{mul}(s,t)$. It replaces the final inverse by
+$\mathsf{mul}(\mathsf{inv}(t),\mathsf{inv}(s))$, with the order reversed.
+
+Associativity then moves parentheses through
+$((s t)x)(t^{-1}s^{-1})$ until the word is
+$s((t x)t^{-1})s^{-1}$. Multiplication congruence transports each
+reassociation and the inverse-product comparison through the outer products.
+The final word is exactly $\mathsf{Conj}_s(\mathsf{Conj}_t(x))$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupConjugationWord\_product\_composition}
+
+\begin{theorem}[Group normalizer conjugation action composition]
+\label{thm:group-normalizer-conjugation-action-composition}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-subgroup}, assume $N_a(s)$, $N_a(t)$, and
+$Z_a(x)$. Then the normalizer conjugation action composes on $Z_a$:
+\begin{enumerate}
+\item $Z_a(\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+\item
+$\hsame(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),
+\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+\item
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(t)}
+(\mathsf{Conj}_{\mathsf{inv}(s)}(x)))$.
+\item
+$\hsame(\mathsf{Conj}_{\mathsf{inv}(\mathsf{mul}(s,t))}(x),
+\mathsf{Conj}_{\mathsf{inv}(t)}
+(\mathsf{Conj}_{\mathsf{inv}(s)}(x)))$.
+\end{enumerate}
+The ten-field fit is: traditional target normalizer conjugation action; BEDC
+source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$; classifier $\hsame$;
+stability action composition and inverse-action composition; ledger
+conjugating pair and inverse-product witness; core theorem list
+\autoref{thm:group-inverse-mul-reverse},
+\autoref{thm:group-conjugation-classifier-exactness}, and associativity,
+unit, inverse, and congruence laws; exactness predicate preservation of
+$Z_a$; standard bridge ordinary normalizer action; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{Conj}$. Associativity reassociates the product word
+$\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(s,t),x),
+\mathsf{inv}(\mathsf{mul}(s,t)))$ to the nested conjugation word
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))$, after
+\autoref{thm:group-inverse-mul-reverse} identifies the inverse factor with
+$\mathsf{mul}(\mathsf{inv}(t),\mathsf{inv}(s))$.
+
+The classifier comparison is transported through the surrounding
+multiplications by multiplication congruence. Then
+\autoref{thm:group-conjugation-classifier-exactness} reads the reassociated
+word as the same $Z_a$-classifier witness, giving the displayed
+$\hsame$ statement for $\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$.
+
+For preservation, apply the forward clause of $N_a(t)$ to $Z_a(x)$, obtaining
+$Z_a(\mathsf{Conj}_t(x))$. Apply the forward clause of $N_a(s)$ to that
+result, giving $Z_a(\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+
+For the inverse-action word, use the inverse clause of $N_a(s)$ first and the
+inverse clause of $N_a(t)$ second. This gives
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(t)}
+(\mathsf{Conj}_{\mathsf{inv}(s)}(x)))$.
+
+Finally apply the same reassociation and congruence calculation to the
+inverse-product word. Theorem~\ref{thm:group-inverse-mul-reverse} identifies
+$\mathsf{inv}(\mathsf{mul}(s,t))$ with
+$\mathsf{mul}(\mathsf{inv}(t),\mathsf{inv}(s))$, so the classifier exactness
+theorem supplies the displayed $\hsame$ comparison for the inverse-action
+composition.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_normalizer\_conjugation\_action\_composition\_from\_empty\_unit}
+
+\begin{theorem}[Group centralizer normalizer subgroup]
+\label{thm:group-centralizer-normalizer-subgroup}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-subgroup}, the carrier $N_a$ of
+\autoref{def:group-centralizer-normalizer-carrier} is the two-sided
+normalizer subgroup of $Z_a$:
+\begin{enumerate}
+\item $N_a(e)$.
+\item If $N_a(s)$ and $N_a(t)$, then $N_a(\mathsf{mul}(s,t))$.
+\item If $N_a(s)$, then $N_a(\mathsf{inv}(s))$.
+\item If $N_a(s)$ and $\hsame(s,t)$, then $N_a(t)$.
+\item If $Z_a(s)$, then $N_a(s)$.
+\end{enumerate}
+The ten-field fit is: traditional target normalizer of a subgroup; BEDC source
+$\GroupUp$ over $\mathsf{BHist}$; carrier $N_a$; classifier $\hsame$;
+stability conjugation closure in both directions; ledger conjugating element
+and inverse witness; exactness normalizer action on the centralizer; core
+theorem list \autoref{thm:group-centralizer-subgroup},
+\autoref{thm:group-conjugation-classifier-exactness}, and
+\autoref{thm:group-inverse-mul-reverse}, together with associativity, unit
+laws, inverse laws, and multiplication congruence; standard bridge ordinary
+subgroup normalizer; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the unit row, the unit laws identify $\mathsf{Conj}_e(x)$ with $x$ for
+every $x$. The inverse laws identify $\mathsf{inv}(e)$ with $e$, so the
+second half of the carrier is the same calculation. Hence any $Z_a(x)$ is
+returned to $Z_a$ by both unit conjugation clauses.
+
+For product closure, assume $N_a(s)$ and $N_a(t)$. Associativity rewrites
+$\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$ as
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))$ by
+\autoref{thm:group-conjugation-composition}. If $Z_a(x)$, first apply the
+forward normalizer clause for $t$ and then the forward clause for $s$.
+
+For the inverse-conjugation half of the product, use the same conjugation
+composition reading with the reversed inverse word
+$\mathsf{mul}(\mathsf{inv}(t),\mathsf{inv}(s))$. Starting from $Z_a(x)$, the
+inverse clause for $s$ gives preservation by $\mathsf{inv}(s)$, and the inverse
+clause for $t$ then gives preservation by $\mathsf{inv}(t)$. The classifier
+comparison with $\mathsf{Conj}_{\mathsf{inv}(\mathsf{mul}(s,t))}(x)$ is supplied
+by \autoref{thm:group-inverse-mul-reverse},
+\autoref{thm:group-conjugation-composition}, and multiplication congruence.
+
+For inverse closure, the first clause of $N_a(\mathsf{inv}(s))$ is exactly the
+second clause of $N_a(s)$. The second clause of
+$N_a(\mathsf{inv}(s))$ conjugates by $\mathsf{inv}(\mathsf{inv}(s))$, which
+the inverse laws identify with $s$ under $\hsame$; multiplication congruence
+and \autoref{thm:group-conjugation-classifier-exactness} transport the
+existing first clause of $N_a(s)$ across that classifier equality.
+
+For classifier transport, assume $N_a(s)$ and $\hsame(s,t)$. Multiplication
+congruence transports each word
+$\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s))$ to the corresponding word
+with $t$, using the inverse-congruence consequence of the group laws for the
+last factor. The classifier exactness theorem then shows that the transported
+conjugation has the same $Z_a$ membership, so the two clauses defining
+$N_a(s)$ give the two clauses defining $N_a(t)$.
+
+Finally assume $Z_a(s)$. By the inverse row of
+\autoref{thm:group-centralizer-subgroup}, $Z_a(\mathsf{inv}(s))$ also holds.
+For any $Z_a(x)$, the product row first gives
+$Z_a(\mathsf{mul}(s,x))$ and then
+$Z_a(\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)))$.
+
+The same argument with $\mathsf{inv}(s)$ as the first centralizer element and
+$s$ as the final one proves the conjugation clause for $\mathsf{inv}(s)$.
+These two preservation clauses are exactly $N_a(s)$.
+\end{proof}
+
+\begin{theorem}[Centralizer normal in its normalizer]
+\label{thm:group-centralizer-normal-in-normalizer}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-subgroup}, the centralizer carrier $Z_a$ of
+\autoref{def:group-centralizer-carrier} forms a normal subgroup package inside
+the normalizer carrier $N_a$ of
+\autoref{def:group-centralizer-normalizer-carrier}. Namely:
+\begin{enumerate}
+\item The identity, product, inverse, and $\hsame$-transport subgroup rows for
+$Z_a$ are those of \autoref{thm:group-centralizer-subgroup}.
+\item If $Z_a(s)$, then $N_a(s)$.
+\item If $N_a(s)$ and $Z_a(x)$, then $Z_a(\mathsf{Conj}_s(x))$.
+\item If $N_a(s)$ and $Z_a(x)$, then
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$.
+\item If $\hsame(s,t)$, then the two displayed conjugation-closure rows
+transport from $s$ to $t$ by the classifier comparison for the corresponding
+conjugation words.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The subgroup data are exactly the first four rows of
+\autoref{thm:group-centralizer-subgroup}. The inclusion $Z_a(s)\Rightarrow
+N_a(s)$ is the final row of
+\autoref{thm:group-centralizer-normalizer-subgroup}, so the carrier inclusion
+needed for a normal-subgroup package is already part of the normalizer
+subgroup theorem.
+
+It remains to identify the conjugation action of $N_a$ on $Z_a$. Unpack
+\autoref{def:group-centralizer-normalizer-carrier}. Its first clause says that
+every $Z_a(x)$ is sent to $Z_a(\mathsf{Conj}_s(x))$, and its second clause says
+that every $Z_a(x)$ is sent to
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$. These are precisely the two
+normality closure rows.
+
+For classifier transport, assume $\hsame(s,t)$. Multiplication congruence
+transports the word $\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s))$ to
+$\mathsf{mul}(\mathsf{mul}(t,x),\mathsf{inv}(t))$, using inverse congruence for
+the last factor. Applying
+\autoref{thm:group-conjugation-classifier-exactness} identifies the
+corresponding conjugation classifiers, and the $\hsame$-transport row of
+\autoref{thm:group-centralizer-subgroup} carries $Z_a$ membership across the
+comparison.
+
+The same multiplication-congruence and inverse-congruence calculation with
+$\mathsf{inv}(s)$ and $\mathsf{inv}(t)$ gives transport for the inverse
+conjugation row. Thus centralizer membership is closed under conjugation by
+normalizer elements and by their inverse conjugation words, with the closure
+stable under the ambient history classifier.
+\end{proof}
+
+\begin{theorem}[Group centralizer normalizer action automorphism and kernel exactness]
+\label{thm:group-centralizer-normalizer-action-automorphism-kernel-exactness}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, fix
+$a:\mathsf{BHist}$. Let $Z_a$ be the centralizer carrier of
+\autoref{def:group-centralizer-carrier}, let $N_a$ be the normalizer carrier of
+\autoref{def:group-centralizer-normalizer-carrier}, and write
+$$
+\mathrm{Act}_s(x):=\mathsf{Conj}_s(x).
+$$
+If $N_a(s)$ and $Z_a(x)$, then conjugation by $s$ restricts to a
+classifier-exact automorphism of $Z_a$ with inverse action by
+$\mathsf{inv}(s)$:
+\begin{enumerate}
+\item $Z_a(\mathrm{Act}_s(x))$ and
+$Z_a(\mathrm{Act}_{\mathsf{inv}(s)}(x))$.
+\item $\hsame(\mathrm{Act}_{\mathsf{inv}(s)}(\mathrm{Act}_s(x)),x)$.
+\item $\hsame(\mathrm{Act}_s(\mathrm{Act}_{\mathsf{inv}(s)}(x)),x)$.
+\end{enumerate}
+For every $s$ with $N_a(s)$, the action kernel is exact:
+$$
+(\forall x:\mathsf{BHist},\ Z_a(x)\Rightarrow
+\hsame(\mathrm{Act}_s(x),x))
+\Longleftrightarrow
+(\forall x:\mathsf{BHist},\ Z_a(x)\Rightarrow
+\hsame(\mathsf{mul}(s,x),\mathsf{mul}(x,s))).
+$$
+The ten-field fit is: traditional target normalizer action by automorphisms
+and action kernel; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier
+$Z_a$; classifier $\hsame$; stability normalizer preservation, inverse
+action, and fixed-point exactness; ledger fixed element, normalizer witness,
+acted element, inverse parameter, and centralizing witness; core theorem list
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-conjugation-classifier-exactness},
+\autoref{thm:group-inverse-mul-reverse}, and
+\autoref{thm:group-commutator-fixed-point-criterion}, together with the group
+associativity, unit, inverse, multiplication-congruence, and
+inverse-congruence laws; exactness predicate pointwise fixed action iff
+pointwise centralizing; standard bridge ordinary normalizer action on a
+subgroup; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The two preservation rows come directly from the defining clauses of $N_a$.
+The first clause sends $Z_a(x)$ to $Z_a(\mathrm{Act}_s(x))$, and the second
+clause sends $Z_a(x)$ to
+$Z_a(\mathrm{Act}_{\mathsf{inv}(s)}(x))$. The inverse-closure row of
+\autoref{thm:group-centralizer-normalizer-subgroup} records the same
+preservation with the inverse parameter as a normalizer witness.
+
+For the first inverse-action identity, expand
+$\mathrm{Act}_{\mathsf{inv}(s)}(\mathrm{Act}_s(x))$ as the conjugation word
+with parameter $\mathsf{inv}(s)$ applied to the conjugation word with parameter
+$s$. Associativity regroups the product into the adjacent inverse factors;
+the two-sided inverse laws reduce those factors to $e$, and the left and right
+unit laws reduce the remaining word to $x$. Multiplication congruence and
+\autoref{thm:group-conjugation-classifier-exactness} carry this calculation
+through $\hsame$.
+
+The second inverse-action identity is symmetric. Expand
+$\mathrm{Act}_s(\mathrm{Act}_{\mathsf{inv}(s)}(x))$, regroup by
+associativity, reduce the adjacent factors
+$\mathsf{mul}(s,\mathsf{inv}(s))$ and
+$\mathsf{mul}(\mathsf{inv}(s),s)$ by the inverse laws, and use the unit laws
+to obtain $x$ under $\hsame$. The inverse-product reversal theorem supplies
+the same ordered-word comparison when the composite is read through the
+normalizer-action product row.
+
+For kernel exactness, fix $x$ with $Z_a(x)$. The fixed-point criterion
+\autoref{thm:group-commutator-fixed-point-criterion} identifies the statement
+$\hsame(\mathrm{Act}_s(x),x)$ with the pointwise centralizing statement
+$\hsame(\mathsf{mul}(s,x),\mathsf{mul}(x,s))$.
+
+Quantifying that equivalence over all elements of $Z_a$ gives the displayed
+kernel clause. No additional carrier is introduced: the kernel predicate is
+the pointwise fixed-action predicate for the restricted normalizer action.
+\end{proof}
+
+\begin{theorem}[Group centralizer normalizer conjugation action]
+\label{thm:group-centralizer-normalizer-conjugation-action}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, let
+$$
+\mathsf{Conj}_s(x):=
+\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+If $N_a(s)$, $N_a(t)$, and $Z_a(x)$, then the induced conjugation action on the
+centralizer carrier has the following rows:
+\begin{enumerate}
+\item $Z_a(\mathsf{Conj}_s(x))$.
+\item $\hsame(\mathsf{Conj}_e(x),x)$.
+\item $Z_a(\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$ and
+$\hsame(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),
+\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+\item If $\hsame(s,t)$, then
+$\hsame(\mathsf{Conj}_s(x),\mathsf{Conj}_t(x))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier preservation row is the first clause in the definition of $N_a(s)$:
+starting from $Z_a(x)$, conjugation by $s$ returns
+$Z_a(\mathsf{Conj}_s(x))$.
+
+For the identity action, expand $\mathsf{Conj}_e(x)$ as
+$\mathsf{mul}(\mathsf{mul}(e,x),\mathsf{inv}(e))$. The inverse laws identify
+$\mathsf{inv}(e)$ with $e$, and the left and right unit laws then identify the
+whole word with $x$ under $\hsame$.
+
+For composition, first apply the forward clause of $N_a(t)$ to $Z_a(x)$, giving
+$Z_a(\mathsf{Conj}_t(x))$. Applying the forward clause of $N_a(s)$ to that
+result gives $Z_a(\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+
+The classifier comparison is the product-closure calculation from
+\autoref{thm:group-centralizer-normalizer-subgroup}. Associativity moves the
+parentheses in the fourfold word, while
+\autoref{thm:group-inverse-mul-reverse} identifies the inverse of
+$\mathsf{mul}(s,t)$ with $\mathsf{mul}(\mathsf{inv}(t),\mathsf{inv}(s))$;
+multiplication congruence then yields
+$\hsame(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),
+\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+
+Finally assume $\hsame(s,t)$. Inverse congruence gives
+$\hsame(\mathsf{inv}(s),\mathsf{inv}(t))$, and two uses of multiplication
+congruence carry the classifier equality through
+$\mathsf{mul}(\mathsf{mul}(\_,x),\mathsf{inv}(\_))$. Hence
+$\mathsf{Conj}_s(x)$ and $\mathsf{Conj}_t(x)$ are $\hsame$-equal.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_parameter\_hsame\_congr\_from\_empty\_unit}
+
+\begin{theorem}[Group centralizer normalizer action inverse]
+\label{thm:group-centralizer-normalizer-action-inverse}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, let
+$$
+\mathsf{Conj}_s(x):=
+\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+If $N_a(s)$ and $Z_a(x)$, then the normalizer action restricts to a classifier
+equivalence on the centralizer:
+\begin{enumerate}
+\item $Z_a(\mathsf{Conj}_s(x))$.
+\item $Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)))$.
+\item $\hsame(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
+\item $Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$.
+\item $Z_a(\mathsf{Conj}_s(\mathsf{Conj}_{\mathsf{inv}(s)}(x)))$.
+\item $\hsame(\mathsf{Conj}_s(\mathsf{Conj}_{\mathsf{inv}(s)}(x)),x)$.
+\end{enumerate}
+The ten-field per-object fit is: traditional target normalizer action by
+equivalences; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$;
+classifier $\hsame$; stability inverse action, identity action, and
+composition; ledger normalizer witness, inverse witness, and acted-on
+centralizer element; core theorem list
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-normalizer-conjugation-action-composition}, and
+\autoref{thm:group-centralizer-normalizer-conjugation-action}, together with
+the inverse and unit laws; exactness predicate restricted action invertibility
+on $Z_a$; standard bridge ordinary normalizer action by automorphisms; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The first and fourth rows are the two carrier clauses in the definition of
+$N_a(s)$: the normalizer witness sends a centralizer element forward by
+$\mathsf{Conj}_s$ and backward by $\mathsf{Conj}_{\mathsf{inv}(s)}$.
+The inverse-closure row of
+\autoref{thm:group-centralizer-normalizer-subgroup} also records
+$N_a(\mathsf{inv}(s))$.
+
+Using $N_a(\mathsf{inv}(s))$ with $Z_a(\mathsf{Conj}_s(x))$, the forward
+preservation row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action} gives
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)))$. Using $N_a(s)$
+with $Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$ gives
+$Z_a(\mathsf{Conj}_s(\mathsf{Conj}_{\mathsf{inv}(s)}(x)))$.
+
+For the left inverse identity, the composition row of
+\autoref{thm:group-normalizer-conjugation-action-composition} identifies
+$\mathsf{Conj}_{\mathsf{mul}(\mathsf{inv}(s),s)}(x)$ with
+$\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x))$. The two-sided inverse
+law identifies $\mathsf{mul}(\mathsf{inv}(s),s)$ with $e$, and the identity
+row of \autoref{thm:group-centralizer-normalizer-conjugation-action}
+identifies $\mathsf{Conj}_e(x)$ with $x$ under $\hsame$.
+
+For the right inverse identity, the same composition row identifies
+$\mathsf{Conj}_{\mathsf{mul}(s,\mathsf{inv}(s))}(x)$ with
+$\mathsf{Conj}_s(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$. The other two-sided
+inverse law reduces $\mathsf{mul}(s,\mathsf{inv}(s))$ to $e$, and the identity
+row again gives the comparison with $x$. Multiplication congruence and
+inverse congruence supply the classifier transport at each product
+replacement.
+\end{proof}
+
+\section{Centralizer normalizer orbit relation}
+\label{sec:group-centralizer-normalizer-orbit}
+
+\begin{definition}[Group centralizer normalizer orbit relation]
+\label{def:group-centralizer-normalizer-orbit-relation}
+Let $Z_a$ be the centralizer carrier of
+\autoref{def:group-centralizer-carrier}, let $N_a$ be the normalizer carrier of
+\autoref{def:group-centralizer-normalizer-carrier}, and let
+$$
+\mathsf{Conj}_s(x):=
+\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+For carried centralizer histories $x,y:\mathsf{BHist}$, define the
+normalizer-orbit relation by
+$$
+x\sim_{N_a}y
+:\Longleftrightarrow
+\exists s:\mathsf{BHist},\
+N_a(s)\land Z_a(x)\land Z_a(y)\land
+\hsame(\mathsf{Conj}_s(x),y).
+$$
+This is a quotient-free classifier of reachability inside $Z_a$ by conjugation
+with histories carried by $N_a$.
+\end{definition}
+
+\begin{theorem}[Group centralizer normalizer orbit equivalence]
+\label{thm:group-centralizer-normalizer-orbit-equivalence}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, let $Z_a$, $N_a$, and
+$\mathsf{Conj}_s$ be as in
+\autoref{def:group-centralizer-normalizer-orbit-relation}. For
+$x,y,z:\mathsf{BHist}$ with $Z_a(x)$, $Z_a(y)$, and $Z_a(z)$, the relation
+$\sim_{N_a}$ is reflexive, symmetric, and transitive on the centralizer
+carrier:
+\begin{enumerate}
+\item $x\sim_{N_a}x$.
+\item If $x\sim_{N_a}y$, then $y\sim_{N_a}x$.
+\item If $x\sim_{N_a}y$ and $y\sim_{N_a}z$, then $x\sim_{N_a}z$.
+\end{enumerate}
+The ten-field fit is: traditional target group-action orbit relation on a
+centralizer; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$;
+classifier $\sim_{N_a}$; stability reflexive, symmetric, and transitive;
+ledger source endpoint $x$; target endpoint $y$; intermediate endpoint $z$;
+conjugator $s$; inverse conjugator $\mathsf{inv}(s)$; product conjugator
+$\mathsf{mul}(t,s)$; core theorem list
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-centralizer-normalizer-conjugation-action}, and
+\autoref{thm:group-conjugation-composition}; exactness orbit reachability on
+centralizer elements; standard bridge ordinary orbit relation for normalizer
+action; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For reflexivity, use the identity row of
+\autoref{thm:group-centralizer-normalizer-subgroup} to obtain $N_a(e)$. The
+identity action row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action} gives
+$\hsame(\mathsf{Conj}_e(x),x)$, so $e$ is the orbit witness for
+$x\sim_{N_a}x$ together with the carried endpoint $Z_a(x)$.
+
+For symmetry, unpack a witness $s$ for $x\sim_{N_a}y$. Inverse closure in
+\autoref{thm:group-centralizer-normalizer-subgroup} gives
+$N_a(\mathsf{inv}(s))$, and the inverse-conjugation clause in the definition
+of $N_a$ keeps the conjugated history inside $Z_a$.
+
+The composition row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action}, the inverse
+laws, and transitivity of $\hsame$ identify conjugating back by
+$\mathsf{inv}(s)$ with the original source endpoint. Classifier transport
+across the displayed witness $\hsame(\mathsf{Conj}_s(x),y)$ then replaces the
+acted-on endpoint by $y$, producing a witness for $y\sim_{N_a}x$.
+
+For transitivity, unpack witnesses $s$ for $x\sim_{N_a}y$ and $t$ for
+$y\sim_{N_a}z$. Product closure in
+\autoref{thm:group-centralizer-normalizer-subgroup} gives
+$N_a(\mathsf{mul}(t,s))$.
+
+The composition row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action} compares
+$\mathsf{Conj}_{\mathsf{mul}(t,s)}(x)$ with
+$\mathsf{Conj}_t(\mathsf{Conj}_s(x))$. The first witness transports
+$\mathsf{Conj}_s(x)$ to $y$, and the second witness transports
+$\mathsf{Conj}_t(y)$ to $z$. Transitivity of $\hsame$ combines these
+comparisons, while $Z_a(x)$ and $Z_a(z)$ supply the carried endpoints, so
+$\mathsf{mul}(t,s)$ witnesses $x\sim_{N_a}z$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_normalizer\_orbit\_equivalence\_from\_empty\_unit}
+
+\begin{definition}[Group center carrier]
+\label{def:group-center-carrier}
+Fix a BEDC history-level group operation $\mathsf{mul}$ over $\mathsf{BHist}$.
+The center carrier $\mathsf{Z}(G)$ is the predicate
+$$
+\mathsf{Z}(G)(x) :\Longleftrightarrow
+\forall a:\mathsf{BHist},
+\hsame(\mathsf{mul}(x,a),\mathsf{mul}(a,x)).
+$$
+\end{definition}
+
+\begin{theorem}[Group center normal subgroup]
+\label{thm:group-center-normal-subgroup}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws, the center carrier
+$\mathsf{Z}(G)$ of \autoref{def:group-center-carrier} is a normal subgroup:
+\begin{enumerate}
+\item $\mathsf{Z}(G)(e)$.
+\item If $\mathsf{Z}(G)(x)$ and $\mathsf{Z}(G)(y)$, then
+$\mathsf{Z}(G)(\mathsf{mul}(x,y))$.
+\item If $\mathsf{Z}(G)(x)$, then $\mathsf{Z}(G)(\mathsf{inv}(x))$.
+\item If $\mathsf{Z}(G)(x)$ and $\hsame(x,y)$, then $\mathsf{Z}(G)(y)$.
+\item If $\mathsf{Z}(G)(x)$, then for every $s:\mathsf{BHist}$,
+$\mathsf{Z}(G)(\mathsf{Conj}_s(x))$.
+\item Every center element lies in every centralizer $Z_a$ and therefore in
+every centralizer normalizer $N_a$.
+\end{enumerate}
+The ten-field fit is: traditional target center normal subgroup; BEDC source
+$\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{Z}(G)$; classifier $\hsame$;
+stability obligations unit, product, inverse, classifier transport, and
+arbitrary conjugation; ledger the central history and the acting history; core
+theorem list \autoref{thm:group-centralizer-subgroup},
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-conjugation-composition},
+\autoref{thm:group-conjugation-classifier-exactness}, and
+\autoref{thm:group-inverse-mul-reverse}, together with associativity, unit
+laws, inverse laws, and multiplication congruence; standard bridge ordinary
+group centers; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The unit row follows pointwise. For any $a$, the left and right identity laws
+identify $\mathsf{mul}(e,a)$ and $\mathsf{mul}(a,e)$ with the same history $a$.
+
+For product closure, fix $a$ and assume that both $x$ and $y$ commute with every
+history. Reassociate $(xy)a$ to $x(ya)$, commute $y$ past $a$, reassociate to
+$(xa)y$, commute $x$ past $a$, and reassociate to $a(xy)$. Multiplication
+congruence transports the two pointwise centrality witnesses through the
+surrounding products.
+
+For inverse closure, apply the inverse row of
+\autoref{thm:group-centralizer-subgroup} at each centralizer $Z_a$. Since a
+center element lies in every $Z_a$, its inverse also lies in every $Z_a$, which
+is exactly the defining universal condition for $\mathsf{Z}(G)$.
+
+Classifier transport is pointwise. If $\hsame(x,y)$, multiplication congruence
+transports $\mathsf{mul}(x,a)\hsame\mathsf{mul}(a,x)$ to
+$\mathsf{mul}(y,a)\hsame\mathsf{mul}(a,y)$ for each $a$, using symmetry and
+transitivity of $\hsame$ for the two transported endpoints.
+
+For conjugation stability, fix $s$ and a center element $x$. Centrality gives
+$\hsame(\mathsf{mul}(s,x),\mathsf{mul}(x,s))$ and
+$\hsame(\mathsf{mul}(x,\mathsf{inv}(s)),
+\mathsf{mul}(\mathsf{inv}(s),x))$. Associativity, the inverse laws, and
+multiplication congruence identify $\mathsf{Conj}_s(x)$ with $x$.
+
+The classifier exactness theorem transports this identification across every
+test product with $a$, so $\mathsf{Conj}_s(x)$ commutes with every history.
+Equivalently, \autoref{thm:group-conjugation-composition} records the same
+inner-action calculation and \autoref{thm:group-inverse-mul-reverse} supplies
+the inverse word used in the conjugating product.
+
+Finally, the definition of $\mathsf{Z}(G)$ says that a center element commutes
+with the particular history $a$, hence it is in $Z_a$. The last row of
+\autoref{thm:group-centralizer-normalizer-subgroup} then places it in
+$N_a$ for the same $a$.
+\end{proof}

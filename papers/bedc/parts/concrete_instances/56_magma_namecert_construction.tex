@@ -6,5 +6,52 @@ The magma interface $\MagmaUp$ packages a carrier endowed with a single binary o
 \section{Carrier definition}
 \label{sec:magma-carrier}
 
+\begin{definition}[Concrete unary-history magma instance]
+\label{def:concrete-unary-history-magma-instance}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$. The concrete unary-history
+magma instance has carrier $U$, binary operation
+$\mathsf{mul}_U(h,k):=\mathsf{append}(h,k)$, equivalently witnessed by
+$\Cont(h,k,\mathsf{append}(h,k))$, and carrier-aware classifier
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+The classifier only compares unary endpoints, so every public equality claim
+retains both endpoint carrier witnesses.
+\end{definition}
+
+\begin{theorem}[Concrete unary-history magma laws]
+\label{thm:concrete-unary-history-magma-laws}
+For the instance of \autoref{def:concrete-unary-history-magma-instance},
+$\mathsf{mul}_U$ is closed on unary histories. Moreover, if $R_U(h,h')$ and
+$R_U(k,k')$, then
+$$
+R_U(\mathsf{mul}_U(h,k),\mathsf{mul}_U(h',k')).
+$$
+\end{theorem}
+\begin{proof}
+Closure is exactly
+\texttt{BEDC.FKernel.Unary.unary\_append\_closed}: two unary endpoint
+witnesses for $h$ and $k$ produce a unary endpoint witness for
+$\mathsf{append}(h,k)$.
+
+For congruence, unpack $R_U(h,h')$ and $R_U(k,k')$ into unary carrier
+witnesses and endpoint $\hsame$ proofs. The two products are witnessed by
+their canonical continuation facts
+$\Cont(h,k,\mathsf{append}(h,k))$ and
+$\Cont(h',k',\mathsf{append}(h',k'))$. Transport the continuation result
+along the endpoint $\hsame$ data using
+\texttt{BEDC.FKernel.Cont.cont\_result\_hsame\_transport}; the closure clause
+supplies the carrier witnesses for both products, and the transported result
+is the classifier equality required by $R_U$.
+\end{proof}
+
+The ten-field per-object fit is: traditional target magma; BEDC source
+$\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
+classifier carrier-aware $\hsame$ on unary endpoints; stability closure and
+congruence for unary append; ledger append provenance through $\Cont$; core
+theorem \autoref{thm:concrete-unary-history-magma-laws}; exactness endpoint
+classification by $R_U$; standard bridge free unary append magma; status
+$\mathsf{ProofTarget}$.
+
 \section{The certificate}
 \label{sec:magma-certificate}

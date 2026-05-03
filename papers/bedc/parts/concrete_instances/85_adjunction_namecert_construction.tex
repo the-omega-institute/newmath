@@ -6,5 +6,231 @@ The adjunction interface $\AdjunctionUp$ packages a pair of functors $F \dashv G
 \section{Carrier definition}
 \label{sec:adjunction-carrier}
 
+\begin{definition}[Adjunction unit-counit carrier]
+\label{def:adjunction-unit-counit-carrier}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$,
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds
+when $unit$ is a natural-transformation prefix component from $p$ to $q$ at
+$a$, $counit$ is the corresponding component from $q$ to $p$, and the two
+triangle witnesses are the continuations $\mathsf{Cont}(unit,counit,left)$ and
+$\mathsf{Cont}(counit,unit,right)$.
+\end{definition}
+\leandef{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier}
+
+\begin{theorem}[Adjunction unit-counit diagonal empty components exactness]
+\label{thm:adjunction-unit-counit-empty-components-exact}
+For histories $p,q,a,composite:\mathsf{BHist}$,
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,\emp,\emp,composite,composite)\\
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\land
+\mathsf{UnaryHistory}(q)\land
+\mathsf{UnaryHistory}(a)\land
+p\sim q\land composite\sim\emp.
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_empty\_components\_exact}
+\begin{proof}
+Both displayed natural-transformation components are empty identity components.
+Their exactness theorem gives unary histories for $p,q,a$ and $p\sim q$. The
+diagonal continuation result of the two empty components is history-same as
+$\emp$. Conversely, $p\sim q$ supplies both empty identity components, and
+$composite\sim\emp$ supplies both empty continuation witnesses.
+\end{proof}
+
+\begin{theorem}[Adjunction empty unit-counit prefix exactness]
+\label{thm:adjunction-empty-unit-counit-prefix}
+For histories $p,q,a:\mathsf{BHist}$, empty unit and counit prefix components,
+together with the empty composite continuation, are exact for unary prefixes,
+a unary object, and prefix equality:
+$$
+\begin{array}{c}
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)
+\land
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\emp)
+\land
+\ContR(\emp,\emp,\emp)
+\\[2pt]
+\Longleftrightarrow
+\mathsf{Unary}(p)\land\mathsf{Unary}(q)\land\mathsf{Unary}(a)\land\hsame(p,q).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Each empty prefix component is read through the natural-transformation
+empty-identity exactness theorem. The unit component supplies the unary data and
+$p\hsame q$. Conversely, the unary data and $p\hsame q$ reconstruct the unit
+component; symmetry reconstructs the counit component; the empty composite is
+the reflexive continuation at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.Adjunction\_empty\_unit\_counit\_prefix\_iff}
+
+\begin{theorem}[Adjunction unit-counit empty component exactness]
+\label{thm:adjunction-unit-counit-empty-components-exactness}
+For histories $p,q,a,left,right:\mathsf{BHist}$,
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,\emp,\emp,left,right)
+$$
+holds exactly when $p,q,a$ are unary histories, $p \hsame q$, and both triangle
+results satisfy $left \hsame \emp$ and $right \hsame \emp$.
+\end{theorem}
+\begin{proof}
+Each empty component is read by the natural-transformation empty-identity
+theorem, yielding the unary prefix data and $p \hsame q$. The two triangle
+continuations then compare with the empty right-unit continuation. Conversely,
+the same unary data and prefix equality rebuild both empty component carriers,
+and the displayed empty triangle results rebuild the two continuations.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_empty\_components\_iff}
+
+\begin{theorem}[Adjunction unit-counit triangle result determinism]
+\label{thm:adjunction-unit-counit-triangle-results-deterministic}
+If an adjunction unit-counit carrier displays triangle results $left$ and
+$right$, then any other continuations with the same unit-counit inputs display
+the same results up to $\hsame$.
+\end{theorem}
+\begin{proof}
+Project the two continuation witnesses from the carrier and apply continuation
+determinism separately to the left and right triangle rows.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_triangle\_results\_deterministic}
+
+\begin{definition}[Adjunction triangle carrier]
+\label{def:adjunction-triangle-carrier}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, the adjunction triangle carrier consists of a prefix natural
+transformation component from $left$ to $right$, a prefix natural
+transformation component from $right$ to $left$, and the two continuation
+ledgers
+$$
+\ContR(unit,counit,leftLeg),\qquad
+\ContR(counit,unit,rightLeg).
+$$
+\end{definition}
+\leandef{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier}
+
+\begin{theorem}[Adjunction empty roundtrip prefix determinacy]
+\label{thm:adjunction-empty-roundtrip-prefix-deterministic}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, if an adjunction triangle carrier has both roundtrip legs
+$\hsame$ to $\emp$, then its two prefix histories are classifier-equal:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+\hsame(leftLeg,\emp)\Longrightarrow
+\hsame(rightLeg,\emp)\Longrightarrow
+\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+The empty left roundtrip continuation collapses both $unit$ and $counit$ to
+$\emp$, and the empty right roundtrip gives the same collapse in the opposite
+order. The prefix component identity exactness theorem applied to the empty
+$unit$ component yields $\hsame(left,right)$; applying it to the empty $counit$
+component gives the reverse classifier equality, so the two displayed
+roundtrip collapses agree on the same prefix pair.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_empty\_roundtrip\_prefix\_deterministic}
+
 \section{The certificate}
 \label{sec:adjunction-certificate}
+
+\begin{theorem}[Adjunction prefix unit-counit empty composite]
+\label{thm:adjunction-prefix-unit-counit-composite-empty}
+For histories $p,q,a,\eta,\varepsilon,composite:\mathsf{BHist}$, if
+$\eta$ is a prefix natural-transformation component from $p$ to $q$ at $a$,
+$\varepsilon$ is a prefix component from $q$ back to $p$ at $a$, and
+$\ContR(\eta,\varepsilon,composite)$, then the composite is an endomorphism
+component over $p$ and is $\hsame$ to $\emp$.
+\end{theorem}
+\begin{proof}
+Vertical composition closure turns the unit and counit prefix components into
+a prefix component from $p$ to $p$ at $a$. The endomorphism-component readback
+for prefix natural transformations identifies the displayed component history
+with the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefix\_unit\_counit\_composite\_empty}
+
+\begin{theorem}[Adjunction prefix endomorphism triangle component closure]
+\label{thm:adjunction-prefix-endomorphism-triangle-component-closed}
+For histories $p,a,\eta,\varepsilon,left,right$, suppose
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,\eta),
+\qquad
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,\varepsilon),
+$$
+and suppose the two triangle composites are witnessed by
+$$
+\ContR(\eta,\varepsilon,left),
+\qquad
+\ContR(\varepsilon,\eta,right).
+$$
+Then both composites are again endomorphism components at the same prefix and
+object, and the two displayed composite histories classify together:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,left)\land
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,right)\land
+\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+Endomorphism component exactness collapses both $\eta$ and $\varepsilon$ to the
+empty component while retaining the prefix and object carriers. The two
+continuation ledgers therefore collapse $left$ and $right$ to the empty history.
+Unary continuation closure supplies the component carriers for $left$ and
+$right$, and transitivity through the empty history gives $\hsame(left,right)$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefix\_endomorphism\_triangle\_component\_closed}
+
+\begin{theorem}[Adjunction prefix endomorphism triangle identity exactness]
+\label{thm:adjunction-prefix-endomorphism-triangle-identity-exactness}
+For histories $p,a,f,\eta,\epsilon,left,right:\mathsf{BHist}$, assume
+$\eta$ and $\epsilon$ are prefix natural-transformation components from
+$p$ to $p$ at $a$, and assume $f$ is a category hom-carrier from
+$\mathsf{append}(p,a)$ to itself. If
+$$
+\mathsf{Cont}(\eta,f,left)
+$$
+and
+$$
+\mathsf{Cont}(f,\epsilon,right)
+$$
+hold, then both triangle composites are exactly the displayed endomorphism:
+$$
+\hsame(left,f)\land\hsame(right,f).
+$$
+\end{theorem}
+\begin{proof}
+The prefix-component endomorphism exactness theorem identifies both
+$\eta$ and $\epsilon$ with the empty component. Transport the two displayed
+continuations across these endpoint equalities. The left composite is then a
+left-unit continuation, and the right composite is a right-unit continuation,
+so the two unit laws identify the results with $f$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefixEndomorphismTriangle\_identity\_exactness}
+
+\begin{theorem}[Adjunction prefix component empty cycle]
+\label{thm:adjunction-prefix-component-cycle-empty-prefix-same}
+For prefix components over a common object $a$, let $\eta$ run from $p$ to
+$q$ and let $\theta$ run from $q$ back to $p$. If
+$$
+\ContR(\eta,\theta,composite)
+\quad\text{and}\quad
+\HSame(composite,\emp),
+$$
+then both prefixes agree in both directions and both component histories are
+empty:
+$$
+\HSame(p,q)\land\HSame(q,p)\land\HSame(\eta,\emp)\land\HSame(\theta,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed component cycle to an empty continuation result. The
+empty vertical-composite exactness theorem for NatTrans prefix components then
+identifies both component histories with $\emp$ and extracts the two adjacent
+prefix equalities. Reordering those four facts gives the stated adjunction
+cycle boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefixComponent\_cycle\_empty\_prefix\_same}

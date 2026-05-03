@@ -44,6 +44,20 @@ For \(a, s\) and unary \(N\), the Dirichlet partial sum \(\mathsf{DirPartSum}(a,
 \end{definition}
 \leandef{BEDC.Derived.DirichletSeriesUp.DirichletPartSum}
 
+\begin{lemma}[Dirichlet partial-sum index cases]
+\label{lem:dirichlet-part-sum-index-cases}
+Every closed witness of $\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)$
+either has the zero index $n=\emp$ and identifies $S$ with $\emp$, or has a
+successor index $n=\Eone(m)$ together with a predecessor partial sum and the
+continuation step from that predecessor to $S$.
+\end{lemma}
+\begin{proof}
+Invert the closed partial-sum witness. The zero constructor gives the empty
+index and empty partial sum. The step constructor exposes the predecessor
+index, predecessor sum, and continuation payload directly.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_index\_cases}
+
 \begin{lemma}[Dirichlet partial-sum successor result is deterministic]
 \label{lem:dirichlet-part-sum-successor-result-deterministic}
 If the Dirichlet partial-sum recursion reaches $S$ at unary index $n$, and the
@@ -72,6 +86,23 @@ identifies the previous partial sums, and determinacy of $\mathsf{Cont}$
 identifies the successor results.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_unary\_index\_deterministic}
+
+\begin{lemma}[Dirichlet partial sums respect pointwise term equivalence]
+\label{lem:dirichlet-part-sum-term-hsame-deterministic}
+If two Dirichlet term functions are pointwise related by \(\hsame\) on every
+unary index for the fixed complex argument \(s\), and \(S,T\) are closed
+Dirichlet partial sums for those two term functions at the same index \(n\),
+then \(S\hsame T\).
+\end{lemma}
+\begin{proof}
+Induct on the first closed Dirichlet partial-sum witness. The base case forces
+the second witness to be the zero constructor. In the successor case, the second
+witness has the same successor index; the induction hypothesis identifies the
+predecessor sums, the first witness supplies unaryness of the predecessor
+index, and the pointwise term comparison identifies the two terms at that
+index. Determinacy of \(\mathsf{Cont}\) identifies the successor sums.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_term\_hsame\_deterministic}
 
 \begin{lemma}[Dirichlet partial sums are complex histories]
 \label{lem:dir-part-sum-complex}

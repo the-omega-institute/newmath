@@ -130,3 +130,49 @@ affine operation and conjugation witnesses; core theorem list
 \autoref{thm:ratup-fieldup-affine-center-normal-subgroup}; exactness predicate
 center membership as the $\SubgroupUp$ carrier; standard bridge ordinary
 affine center normal subgroup; status $\mathsf{ProofTarget}$.
+
+\begin{definition}[Centralizer normalizer witness]
+\label{def:subgroup-centralizer-normalizer-witness}
+For the centralizer carrier $Z_a$ from
+\autoref{def:group-centralizer-carrier}, define the history-level normalizer
+witness predicate by
+$$
+\mathsf{Norm}_{Z_a}(t) :\Longleftrightarrow
+\forall x:\mathsf{BHist},\ Z_a(x)\Rightarrow
+Z_a(\mathsf{mul}(\mathsf{mul}(t,x),\mathsf{inv}(t))).
+$$
+Thus $\mathsf{Norm}_{Z_a}(t)$ records that conjugation by $t$ preserves the
+centralizer carrier.
+\end{definition}
+
+\begin{theorem}[Centralizer elements normalize the centralizer]
+\label{thm:subgroup-centralizer-self-normalizer}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in \autoref{thm:subgroup-centralizer-certificate-target}, every
+centralizer element normalizes the centralizer. Explicitly, if $Z_a(t)$, then
+$\mathsf{Norm}_{Z_a}(t)$.
+\end{theorem}
+\begin{proof}
+Assume $Z_a(t)$ and let $x:\mathsf{BHist}$ satisfy $Z_a(x)$. The
+inverse-closure row of \autoref{thm:group-centralizer-subgroup} applied to
+$Z_a(t)$ gives $Z_a(\mathsf{inv}(t))$.
+
+The product-closure row of \autoref{thm:group-centralizer-subgroup} applied to
+$Z_a(t)$ and $Z_a(x)$ gives $Z_a(\mathsf{mul}(t,x))$.
+
+Apply product closure once more, now to $Z_a(\mathsf{mul}(t,x))$ and
+$Z_a(\mathsf{inv}(t))$. The result is
+$Z_a(\mathsf{mul}(\mathsf{mul}(t,x),\mathsf{inv}(t)))$, which is precisely
+the required instance of $\mathsf{Norm}_{Z_a}(t)$. Since $x$ was arbitrary,
+conjugation by $t$ preserves the centralizer carrier.
+\end{proof}
+
+Per-object template: traditional target centralizer self-normalization; BEDC
+source $\GroupUp$ over $\mathsf{BHist}$ plus $\SubgroupUp$; carrier $Z_a$;
+classifier restricted $\hsame$; stability product and inverse closure; ledger
+conjugating element, acted element, and inverse witness; core theorem list
+\autoref{thm:group-centralizer-subgroup} and
+\autoref{thm:subgroup-centralizer-certificate-target}; exactness predicate
+normalizer witness; standard bridge ordinary centralizer inclusion in its
+normalizer; status $\mathsf{ProofTarget}$.

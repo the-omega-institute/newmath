@@ -41,6 +41,15 @@ theorem RatDenomUnitCarrier_append_e0_absurd {h k tail : BHist} :
   exact RatDenomUnitCarrier_e0_absurd
     (RatDenomUnitCarrier_hsame_transport sameEndpoint productCarrier)
 
+theorem RatDenomUnitClassifier_e0_endpoint_absurd {tail k : BHist} :
+    (RatDenomUnitClassifier (BHist.e0 tail) k -> False) ∧
+      (RatDenomUnitClassifier k (BHist.e0 tail) -> False) := by
+  constructor
+  · intro classified
+    exact RatDenomUnitCarrier_e0_absurd classified.left
+  · intro classified
+    exact RatDenomUnitCarrier_e0_absurd classified.right.left
+
 theorem RatDenomUnitClassifier_e1_empty_absurd {d : BHist} :
     (RatDenomUnitClassifier (BHist.e1 d) BHist.Empty -> False) ∧
       (RatDenomUnitClassifier BHist.Empty (BHist.e1 d) -> False) := by

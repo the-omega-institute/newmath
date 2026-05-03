@@ -40,6 +40,23 @@ Suppose \(\MSame(m,n)\), \(\HSame(h,k)\), \(\ExtR(m,h,r)\), and \(\ExtR(n,k,s)\)
 By induction on the generated proof of \(\MSame(m,n)\). There are only two cases. In the \(\bzero\) case, the extension results are generated with outer constructor \(\Ezero\), and the conclusion follows by applying the \(\Ezero\) history-sameness constructor to \(\HSame(h,k)\). The \(\bone\) case is identical with \(\Eone\).
 \end{proof}
 
+\begin{theorem}[Extension result source-mark characterization]
+\label{thm:extension-result-source-mark-iff}
+If $\ExtR(m,h,r)$ and $\ExtR(m',h',r')$, then
+$$
+\HSame(r,r')
+\Longleftrightarrow
+\HSame(h,h')\land\MSame(m,m').
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_result\_hsame\_source\_mark\_hsame\_iff}
+\begin{proof}
+For the forward direction, use result-history injectivity for generated
+extensions. For the reverse direction, transport the source histories and
+marks across internal sameness, then compare the two generated extension
+results.
+\end{proof}
+
 \begin{theorem}[Extension result is nonempty]
 \label{thm:ext-result-ne-empty}
 If $\ExtR(m,h,r)$, then $r$ is not history-same to $\emp$.
