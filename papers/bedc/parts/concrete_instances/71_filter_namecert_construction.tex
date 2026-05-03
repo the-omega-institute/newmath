@@ -49,6 +49,28 @@ $left$ and $right$ identifies the two suffix orders.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_commuting\_square}
 
+\begin{theorem}[Principal suffix unary commuting square base determinism]
+\label{thm:filter-principal-suffix-unary-commuting-square-base-deterministic}
+Let $base,base',left,right,leftPoint,rightPoint,meetPoint:\mathsf{BHist}$.
+If $left$ and $right$ are unary histories and
+$$
+\ContR(base,left,leftPoint),\qquad
+\ContR(base',right,rightPoint),\qquad
+\ContR(leftPoint,right,meetPoint),\qquad
+\ContR(rightPoint,left,meetPoint),
+$$
+then $base\hsame base'$.
+\end{theorem}
+\begin{proof}
+Unfold the two paths to the common meet. The first path gives
+$\mathsf{append}(\mathsf{append}(base,left),right)$ and the second gives
+$\mathsf{append}(\mathsf{append}(base',right),left)$. Associativity moves both
+to suffix form, unary commutativity aligns the common suffix
+$\mathsf{append}(left,right)$, and right cancellation of that suffix identifies
+the two bases.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_commuting\_square\_base\_deterministic}
+
 \begin{theorem}[Principal suffix commuted meet closure]
 \label{thm:filter-principal-suffix-commuted-meet-closed}
 Let $base,left,right,meet,meetPoint:\mathsf{BHist}$. If $left$ and $right$

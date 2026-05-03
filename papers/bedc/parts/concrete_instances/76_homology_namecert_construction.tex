@@ -18,6 +18,21 @@ $$
 \leandef{BEDC.Derived.HomologyUp.HomologyCycleCarrier}
 \leandef{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier}
 
+\begin{theorem}[Homology boundary carrier cycle closure]
+\label{thm:homology-boundary-carrier-cycle-closed}
+Assume the BEDC chain differential is square-zero:
+$$
+\hsame(d(d(u)),\mathsf{Empty}).
+$$
+Every boundary history is a cycle history: if $B_d(h)$, then $Z_d(h)$.
+\end{theorem}
+\begin{proof}
+Choose a boundary witness $u$ with $\hsame(h,d(u))$. Transporting the cycle
+test along this witness reduces the claim to the displayed square-zero law at
+$u$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cycle\_closed}
+
 \begin{theorem}[Homology cycle carrier append closure]
 \label{thm:homology-cycle-carrier-append-closed}
 Assume the differential respects BEDC continuation append:
@@ -52,6 +67,51 @@ $\mathsf{append}(h,k)$ to $\mathsf{append}(d(u),d(v))$, and the differential
 append law identifies that history with $d(\mathsf{append}(u,v))$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_closed}
+
+\begin{theorem}[Homology boundary carrier cycle from square-zero differential]
+\label{thm:homology-boundary-carrier-cycle-of-d-squared-zero}
+Assume the differential respects $\hsame$ and satisfies the square-zero
+condition
+$$
+\hsame(d(d(u)),\mathsf{Empty})
+$$
+for every $u:\mathsf{BHist}$. If $B_d(h)$, then $Z_d(h)$.
+\end{theorem}
+\begin{proof}
+Choose a boundary witness $u$ with $\hsame(h,d(u))$. Congruence for the
+differential transports this witness to
+$\hsame(d(h),d(d(u)))$. The square-zero row identifies $d(d(u))$ with
+$\mathsf{Empty}$, and transitivity of $\hsame$ gives the cycle predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cycle\_of\_d\_squared\_zero}
+
+\begin{theorem}[Homology cycle carrier append hsame transport]
+\label{thm:homology-cycle-carrier-append-hsame-transport}
+Assume the differential respects BEDC continuation append and is congruent
+for $\hsame$. If $Z_d(h)$, $Z_d(k)$, and
+$\hsame(\mathsf{append}(h,k),r)$, then $Z_d(r)$.
+\end{theorem}
+\begin{proof}
+The append-closure theorem gives
+$Z_d(\mathsf{append}(h,k))$. Congruence for the differential transports the
+endpoint comparison to an $\hsame$ comparison between
+$d(\mathsf{append}(h,k))$ and $d(r)$. Symmetry of that comparison, followed
+by the cycle row for the append, proves that $d(r)$ is $\hsame$ to
+$\mathsf{Empty}$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_hsame\_transport}
+
+\begin{theorem}[Homology cycle-boundary append cycle closure]
+\label{thm:homology-cycle-boundary-append-cycle-closed}
+Assume the differential respects BEDC continuation append and is square-zero.
+If $Z_d(h)$ and $B_d(k)$, then $Z_d(\mathsf{append}(h,k))$.
+\end{theorem}
+\begin{proof}
+The square-zero law turns the boundary hypothesis on $k$ into a cycle
+hypothesis. The ordinary cycle append closure then applies to the two cycle
+histories $h$ and $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleBoundary\_append\_cycle\_closed}
 
 \section{The certificate}
 \label{sec:homology-certificate}
