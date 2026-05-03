@@ -80,6 +80,49 @@ rebuilds the witness from the visible unary target and reflexive sameness.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_source\_nonempty\_modulus\_shape\_iff}
 
+\begin{theorem}[Continuous modulus chain empty target exactness]
+\label{thm:continuous-modulus-chain-empty-target-iff}
+For histories $source,first,second$, a two-link continuous modulus chain ending
+at $\emp$ is exactly the conjunction that all three displayed histories are
+empty:
+$$
+\mathsf{ContinuousModulusChain}(source,first,second,\emp)
+\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(first,\emp)\land\hsame(second,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the middle history and the two continuation ledgers. Empty-result
+inversion on the second leg identifies the middle history and $second$ with
+$\emp$; after replacing the middle endpoint, empty-result inversion on the
+first leg identifies $source$ and $first$ with $\emp$. The reverse direction
+uses the empty middle history and the two right-unit continuations at
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_empty\_target\_iff}
+
+\begin{theorem}[Continuous function carrier empty certificate exactness]
+\label{thm:continuous-function-carrier-empty-cert-iff}
+For histories $source,map,target,modulus$, a continuous-function carrier with
+empty certificate is exactly the conjunction that its graph and modulus
+histories are all empty:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,\emp)
+\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(map,\emp)\land
+\hsame(target,\emp)\land\hsame(modulus,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the graph continuation and the target-to-certificate continuation.
+Empty-result inversion on the certificate leg identifies $target$ and
+$modulus$ with $\emp$; after replacing the target endpoint, empty-result
+inversion on the graph leg identifies $source$ and $map$ with $\emp$.
+Conversely, when all four histories are empty, the empty unary carrier and the
+two right-unit continuations rebuild the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_cert\_iff}
+
 \begin{theorem}[Continuous function carrier prefix exactness]
 \label{thm:continuous-function-carrier-prefix-iff}
 For histories $p,source,map,target,modulus,cert$, prefixing the visible source,

@@ -222,6 +222,27 @@ continuation morphism.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_target\_nonempty\_iff}
 
+\begin{theorem}[Continuation morphism chain empty-target existence equivalence]
+\label{thm:continuation-morphism-chain-empty-target-nonempty-iff}
+For histories $a,b$, a continuation morphism from $a$ to $b$ together with a
+continuation morphism from $b$ to $\emp$ exists exactly when both endpoints are
+history-same to $\emp$:
+$$
+\mathsf{Nonempty}(\mathsf{ContinuationMorphism}(a,b))\land
+\mathsf{Nonempty}(\mathsf{ContinuationMorphism}(b,\emp))
+\Longleftrightarrow
+\hsame(a,\emp)\land\hsame(b,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two displayed continuation morphisms and apply the composite
+empty-target inversion: the right leg identifies the middle endpoint with
+$\emp$, and the transported left leg identifies the source endpoint with
+$\emp$. Conversely, if both endpoints are empty, the empty-tail right-unit
+continuations build the two displayed morphisms.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_chain\_empty\_target\_nonempty\_iff}
+
 \begin{theorem}[Category empty-target semantic name certificate]
 \label{thm:category-empty-target-semantic-namecert}
 Fix a source history \(a\) satisfying \(a\hsame\emp\). The empty-target

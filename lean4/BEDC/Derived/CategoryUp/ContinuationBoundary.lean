@@ -24,6 +24,26 @@ theorem ContinuationMorphism_empty_target_nonempty_iff {source : BHist} :
       { tail := BHist.Empty,
         rel := cont_result_hsame_transport (cont_right_unit source) sameSource }
 
+theorem ContinuationMorphism_chain_empty_target_nonempty_iff {a b : BHist} :
+    (Nonempty (ContinuationMorphism a b) ∧
+        Nonempty (ContinuationMorphism b BHist.Empty)) ↔
+      hsame a BHist.Empty ∧ hsame b BHist.Empty := by
+  constructor
+  · intro chain
+    cases chain.left with
+    | intro left =>
+        cases chain.right with
+        | intro right =>
+            have endpoints := ContinuationMorphism_comp_empty_target_inversion left right
+            exact And.intro endpoints.left endpoints.right.left
+  · intro endpoints
+    have sameAB : hsame a b := hsame_trans endpoints.left (hsame_symm endpoints.right)
+    constructor
+    · exact Nonempty.intro
+        { tail := BHist.Empty,
+          rel := cont_result_hsame_transport (cont_right_unit a) sameAB }
+    · exact (ContinuationMorphism_empty_target_nonempty_iff (source := b)).mpr endpoints.right
+
 theorem CategoryHomCarrier_empty_target_chain_inversion {a b f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b BHist.Empty g ->
       hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame f BHist.Empty ∧
