@@ -8,3 +8,27 @@ The categorical-equivalence interface $\EquivCatUp$ packages a pair of functors 
 
 \section{The certificate}
 \label{sec:equivcat-certificate}
+
+\begin{theorem}[Equivalence cycle identity carrier semantic certificate]
+\label{thm:equivcat-cycle-identity-carrier-semantic-namecert}
+For BEDC categorical hom carriers
+$left:\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$right:\mathsf{CategoryHomCarrier}(b,a,g)$, the carrier of displayed cycle
+identities
+$$
+\mathsf{CategoryHomCarrier}(a,b,t)\wedge
+\mathsf{CategoryHomCarrier}(b,a,g)\wedge
+t\hsame\emp\wedge g\hsame\emp
+$$
+has a semantic naming certificate with classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+The cycle-tail theorem for categorical hom carriers identifies both cycle
+tails with the empty history. Transporting $left$ along the displayed tail
+comparison gives the witness at $\emp$, while $right$ supplies the fixed
+reverse carrier. The classifier laws are the finite-kernel equivalence laws
+for $\hsame$. Carrier transport keeps the endpoints fixed, transports the
+first hom carrier along the classifier, and composes the inverse classifier
+with the stored empty-tail proof.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatCycleIdentityCarrier\_semanticNameCert}

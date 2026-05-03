@@ -137,4 +137,9 @@ theorem PadicPrimeScale_empty_exponent_result_empty {p exponent : BHist} :
   cases exponentEmpty
   exact And.intro prime (NatMul.zero prime.left)
 
+theorem PadicPrimeScale_first_prime_unit_exponent_result :
+    PadicPrimeScale (BHist.e1 (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty)
+      (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  exact And.intro NatPrime_first_pair.left NatMul_first_prime_unit_result
+
 end BEDC.Derived.PadicUp
