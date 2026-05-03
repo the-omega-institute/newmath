@@ -91,3 +91,28 @@ operation-context normalization and nonzero endpoint obstruction; ledger hidden
 singleton contexts and proof-indexed inverse witness; core theorem this block;
 exactness predicate classifier-to-nonzero contradiction; status
 $\mathsf{ProofTarget}$.
+
+\section{Apart-zero continuation exactness}
+\label{sec:field-apartzero-continuation-exactness}
+
+\begin{theorem}[Field apart-zero nested continuation empty-context exactness]
+\label{thm:field-apartzero-nested-continuation-empty-context-iff}
+For histories $l,h,r,u,v:\mathsf{BHist}$ with $\ContR(l,h,u)$ and
+$\ContR(u,r,v)$, if $l\hsame\emp$ and $r\hsame\emp$, then
+$$
+\mathsf{ApartZero}_F(v)
+\Longleftrightarrow
+\mathsf{ApartZero}_F(h).
+$$
+\end{theorem}
+\begin{proof}
+The two continuation witnesses identify $u$ with $\mathsf{append}(l,h)$ and
+$v$ with $\mathsf{append}(u,r)$. Continuation associativity and result
+transport compare $v$ with the nested append endpoint
+$\mathsf{append}(l,\mathsf{append}(h,r))$.
+
+Transport $\mathsf{ApartZero}_F$ across this $\hsame$ comparison. The result
+is exactly the bilateral empty-context statement of
+\autoref{thm:field-apartzero-empty-context-iff}, applied with the witnesses
+$l\hsame\emp$ and $r\hsame\emp$.
+\end{proof}
