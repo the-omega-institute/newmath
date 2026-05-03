@@ -161,38 +161,40 @@ relational $\Cont$ law package of
 \autoref{thm:field-rat-denominator-concrete-continuation-instance-laws} are the
 same concrete law package in the following sense.
 \begin{enumerate}
-  \item For all histories $h,k,r:\mathsf{BHist}$, $\Cont(h,k,r)$ identifies
-  $r$ with $\mu_D(h,k)$ through history-sameness:
+  \item If $C_D(h)$ and $C_D(k)$, then every history $r:\mathsf{BHist}$
+  satisfies the endpoint classifier bridge
 
   $$
-  \Cont(h,k,r)\quad\text{if and only if}\quad r\hsame\mu_D(h,k).
+  \Cont(h,k,r)\quad\text{if and only if}\quad R_D(r,\mu_D(h,k)).
   $$
 
-  In particular, the canonical output satisfies $\Cont(h,k,\mu_D(h,k))$.
-  \item Transporting each displayed relational output along this $\hsame$
-  comparison and reading the result through $R_D$ converts the six append clauses
-  into the six relational clauses.
-  \item Instantiating each relational output by the canonical witness
-  $\Cont(h,k,\mu_D(h,k))$ and transporting through $R_D$ along $\hsame$ converts
-  the six relational clauses back into the six append clauses.
+  Thus the canonical endpoint and any displayed continuation endpoint are
+  identified at the denominator classifier surface.
+  \item Transporting each displayed append output through this $R_D$ classifier
+  endpoint bridge converts the six append clauses into the six relational
+  clauses.
+  \item Reading each displayed relational output through the same $R_D$
+  classifier endpoint bridge converts the six relational clauses back into the
+  six append clauses.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-Unfold the concrete operation in
-\autoref{def:field-rat-denominator-concrete-continuation-instance}: by
-$\mathsf{BEDC.FKernel.Cont.cont\_iff\_append}$, a continuation witness
-$\Cont(h,k,r)$ is internally the assertion $r=\mathsf{append}(h,k)$, and
-$\mu_D(h,k)$ is defined to be $\mathsf{append}(h,k)$.
+Unfold $C_D$, $R_D$, and $\mu_D$ only to read them as
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and
+$\mathsf{append}$. With the two carrier hypotheses in place,
+\autoref{thm:rat-history-classifier-continuation-tail-iff} gives, for every
+displayed result $r$, exactly
+$\Cont(h,k,r)\Longleftrightarrow R_D(r,\mu_D(h,k))$.
 
-The history-sameness interface
-$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ immediately reads that equality as
-$r\hsame\mu_D(h,k)$. At $r=\mu_D(h,k)$ the same internal append equality gives
-the canonical witness $\Cont(h,k,\mu_D(h,k))$.
+At the canonical endpoint, the same bridge reads the canonical continuation
+witness as the reflexive denominator classifier comparison
+$R_D(\mu_D(h,k),\mu_D(h,k))$.
 
 To pass from append laws to relational laws, use the checked append package
 $\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_append\_concrete\_instance\_laws}$
-and transport every displayed output to the corresponding $\Cont$ output along
-the $\hsame$ comparison above. Carrier closure is carried directly, while
+and transport every displayed output to the corresponding $\Cont$ output through
+the $R_D$ classifier endpoint bridge above. Carrier closure is carried directly,
+while
 commutative classifier compatibility, associativity, binary classifier
 congruence, ledger closure, and the one-sided unit obstruction are read through
 $R_D$. These are the six relational clauses of
@@ -200,9 +202,9 @@ $R_D$. These are the six relational clauses of
 
 Conversely, start from the checked relational package
 $\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_concrete\_instance\_laws}$.
-Instantiate each continuation output by the canonical witness
-$\Cont(h,k,\mu_D(h,k))$. The same $\hsame$ comparison transports the relational
-outputs through $R_D$ to the append outputs, giving exactly the six clauses of
+Read each displayed continuation endpoint through the same $R_D$ classifier
+endpoint bridge. This transports the relational outputs to the append outputs,
+giving exactly the six clauses of
 \autoref{thm:field-rat-denominator-append-concrete-instance-laws}.
 
 Thus the functional append presentation and the relational continuation
