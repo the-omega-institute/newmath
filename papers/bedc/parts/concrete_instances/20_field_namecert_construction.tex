@@ -661,3 +661,64 @@ Theorem~\ref{thm:ratup-fieldup-affine-inverse-uniqueness-exit}; exactness
 predicate uniqueness of the affine inverse under the action classifier; standard
 bridge ordinary uniqueness of inverse in an affine automorphism group; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine inverse determinacy exit]
+\label{thm:ratup-fieldup-affine-inverse-determinacy-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,U,V:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Suppose that both $U$ and $V$ have left and
+right affine composites with $T$ classified as the affine identity under
+$\equiv_{\mathrm{aff}}$:
+$$
+(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}U)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(V\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}V)\equiv_{\mathrm{aff}} I.
+$$
+Then the two inverse candidates are equal under the concrete affine classifier:
+$$
+U\equiv_{\mathrm{aff}}V.
+$$
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:ratup-fieldup-affine-automorphism-action-certificate}
+to the concrete exit object. This supplies the carrier $\mathsf{AffAut}_F$, the
+affine identity $I$, composition $\circ_{\mathrm{aff}}$, and the classifier
+$\equiv_{\mathrm{aff}}$ together with its symmetry and transitivity rules.
+
+Take the explicit inverse $S$ of $T$ from
+Theorem~\ref{thm:field-affine-automorphism-identity-and-inverse-package}. Apply
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-uniqueness-exit} to the two
+composite witnesses for $U$. This gives
+$$
+U\equiv_{\mathrm{aff}}S.
+$$
+
+Apply the same theorem to the two composite witnesses for $V$. This gives
+$$
+V\equiv_{\mathrm{aff}}S.
+$$
+
+Use symmetry for the affine classifier to turn the second relation into
+$S\equiv_{\mathrm{aff}}V$. Transitivity of the same classifier then composes
+$U\equiv_{\mathrm{aff}}S$ with $S\equiv_{\mathrm{aff}}V$, yielding
+$U\equiv_{\mathrm{aff}}V$.
+\end{proof}
+
+Per-object template: traditional target inverse determinacy in the affine
+automorphism group; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphisms; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations affine classifier symmetry and
+transitivity; ledger two inverse-candidate composite witnesses; core theorem
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-determinacy-exit}; exactness
+predicate uniqueness of two-sided inverse candidates; standard bridge ordinary
+inverse determinacy in a group action; status $\mathsf{ProofTarget}$.
