@@ -306,6 +306,26 @@ Unpack the two hom-carrier witnesses. The source, middle, target, and morphism h
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_closed}
 
+\begin{theorem}[Category hom carrier composite-tail semantic name certificate]
+\label{thm:category-hom-carrier-comp-tail-semantic-name-cert}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
+\(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and \(\ContR(f,g,fg)\),
+then the predicate
+$$
+t\mapsto \mathsf{CategoryHomCarrier}(a,c,t)\land t\hsame fg
+$$
+is a semantic name certificate when used as source, pattern, and ledger policy
+with classifier \(\hsame\).
+\end{theorem}
+\begin{proof}
+Composition closure gives the displayed witness \(fg\) in the carrier, and
+reflexivity gives \(fg\hsame fg\). The classifier laws are the equivalence
+laws of \(\hsame\). Carrier transport uses category hom-carrier transport with
+the source and target endpoints fixed, while the displayed-tail equation is
+carried by symmetry and transitivity of \(\hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_tail\_semanticNameCert}
+
 \begin{theorem}[Category hom carrier composite tail exact iff]
 \label{thm:category-hom-carrier-comp-tail-exact-iff}
 For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to

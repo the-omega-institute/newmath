@@ -92,6 +92,20 @@ the source witness at $h$.
 \end{proof}
 \leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_classifier\_right\_confluence\_transport}
 
+\begin{theorem}[Semantic NameCert classifier reverse-chain transport]
+\label{thm:semantic-name-cert-classifier-reverse-chain-transport}
+If a semantic naming certificate classifies \(h\) with \(k\) and \(k\) with
+\(r\), then a source witness at \(r\) transports the pattern condition and
+ledger policy back to \(h\).
+\end{theorem}
+\begin{proof}
+Use transitivity from the core naming certificate to compose the two classifier
+judgments into a classifier judgment from \(h\) to \(r\). Symmetry reverses
+this composite into a classifier judgment from \(r\) to \(h\), and the
+pattern-ledger transport theorem applies to the source witness at \(r\).
+\end{proof}
+\leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_classifier\_reverse\_chain\_transport}
+
 \begin{theorem}[Carrier self semantic lifting]
 \label{thm:namecert-carrier-self-semantic-lifting}
 Let $C : \mathsf{BHist}\to\mathsf{Prop}$ and

@@ -476,6 +476,33 @@ transport above converts the left side to the contextual endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_contextual\_strict\_product\_support\_exactness}
 
+\begin{theorem}[Rat denominator empty-unit contextual product classifier exactness]
+\label{thm:rat-denom-unit-classifier-contextual-product-rat-classifier-iff}
+For histories \(p,q,p',q',h,k,h',k':\mathsf{BHist}\), assume
+\(p\hsame\emp\), \(q\hsame\emp\), \(p'\hsame\emp\), and \(q'\hsame\emp\).
+If the empty-unit denominator classifier relates \(h\) with \(h'\) and \(k\)
+with \(k'\), then the contextual rational classifier on the product endpoints
+is equivalent to strict rational support of the exposed product:
+$$
+\mathsf{RatHistoryClassifier}
+  (\mathsf{append}(p,\mathsf{append}(\mathsf{append}(h,k),q)),
+   \mathsf{append}(p',\mathsf{append}(\mathsf{append}(h',k'),q')))
+\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(\mathsf{append}(h,k)).
+$$
+\end{theorem}
+\begin{proof}
+The empty left and right contexts identify the two contextual endpoints with
+the exposed products. Binary classifier congruence for
+\(\mathsf{RatDenomUnitClassifier}\) classifies
+\(\mathsf{append}(h,k)\) with \(\mathsf{append}(h',k')\). In the forward
+direction, rational support transports out of the left empty context. In the
+reverse direction, the product classifier transports rational support to the
+right product, and the rational classifier is then transported back into the
+two displayed empty contexts.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_contextual\_product\_rat\_classifier\_iff}
+
 \begin{theorem}[Rat denominator empty-unit threefold strict support exactness]
 \label{thm:field-rat-denominator-empty-unit-threefold-strict-support-exactness}
 For histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
