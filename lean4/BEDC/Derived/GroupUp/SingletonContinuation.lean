@@ -38,4 +38,18 @@ theorem GroupSingletonClassifier_continuation_result_left_iff {P Q R : BHist} :
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
 
+theorem GroupSingletonInv_continuation_left_unit_iff {x r : BHist} :
+    Cont (GroupSingletonInv x) x r ->
+      (GroupSingletonClassifier r BHist.Empty <-> GroupSingletonCarrier x) := by
+  intro continuation
+  cases continuation
+  constructor
+  · intro classified
+    exact (append_eq_empty_iff.mp classified.left).right
+  · intro carrierX
+    have resultCarrier : GroupSingletonCarrier (append (GroupSingletonInv x) x) :=
+      append_eq_empty_iff.mpr (And.intro (hsame_refl BHist.Empty) carrierX)
+    exact And.intro resultCarrier
+      (And.intro (hsame_refl BHist.Empty) resultCarrier)
+
 end BEDC.Derived.GroupUp

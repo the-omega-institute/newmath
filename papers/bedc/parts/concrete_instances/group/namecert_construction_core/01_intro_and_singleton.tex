@@ -325,6 +325,29 @@ carrier witnesses for $P$ and $Q$; these witnesses classify the input pair.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_result\_left\_iff}
 
+\begin{theorem}[Group singleton inverse continuation left-unit iff]
+\label{thm:group-singleton-inv-continuation-left-unit-iff}
+For histories $x,r:\mathsf{BHist}$, if $r$ is a continuation result of the
+singleton inverse of $x$ followed by $x$, then classifying $r$ against the unit
+endpoint is exactly the singleton carrier condition on $x$:
+$$
+\ContR(\mathsf{GroupSingletonInv}(x),x,r)
+\Rightarrow
+\bigl(R_{\emp}(r,\emp)\Longleftrightarrow A_{\emp}(x)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unfolding the continuation identifies $r$ with
+$\mathsf{append}(\mathsf{GroupSingletonInv}(x),x)$. In the forward direction,
+the classifier says this appended result is singleton-carried, and
+empty-result inversion for append recovers the carrier witness for $x$.
+Conversely, the inverse endpoint is definitionally $\emp$; combining its
+reflexive carrier witness with the carrier witness for $x$ constructs the
+singleton carrier witness for the appended result, which then classifies the
+result against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonInv\_continuation\_left\_unit\_iff}
+
 \begin{theorem}[Group singleton classifier continuation result-right iff]
 \label{thm:group-singleton-classifier-continuation-result-right}
 For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton group
