@@ -96,6 +96,17 @@ theorem DirichletPartSum_unary_index_deterministic
           have samePartial := ih unaryPrev rightSum
           exact cont_respects_hsame samePartial (hsame_refl (term _ s)) leftStep rightStep
 
+theorem DirichletPartSum_term_hsame_transport_deterministic
+    {term term' : BHist -> BHist -> BHist} {s s' n S T : BHist}
+    (termSame : forall {m : BHist}, UnaryHistory m -> hsame (term m s) (term' m s'))
+    (unaryN : UnaryHistory n) :
+    DirichletPartSum term s n S -> DirichletPartSum term' s' n T -> hsame S T := by
+  intro left right
+  have transported := DirichletPartSum_term_hsame_transport termSame unaryN left
+  cases transported with
+  | intro U data =>
+      exact hsame_trans data.right (DirichletPartSum_unary_index_deterministic unaryN data.left right)
+
 theorem DirichletPartSum_exists_unique {term : BHist -> BHist -> BHist} {s n : BHist} :
     UnaryHistory n -> exists S : BHist, DirichletPartSum term s n S ∧
       forall T : BHist, DirichletPartSum term s n T -> hsame S T := by

@@ -72,4 +72,20 @@ theorem AutomorphicAdeleGraph_visible_context_result_nonempty {p q domain value 
   exact AutomorphicAdeleGraph_visible_context_nonempty domainCarrier valueCarrier visibleGraph
     innerEmpty.right
 
+theorem AutomorphicAdeleGraph_visible_context_core_readback {p q domain value graph core : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
+      Cont (append p domain) (append value q) (append (append p graph) q) ->
+        hsame (append (append p graph) q) (append (append p core) q) ->
+          hsame graph core ∧ (hsame core BHist.Empty -> False) := by
+  intro domainCarrier valueCarrier visibleGraph sameVisible
+  have sameNested : hsame (append p (append graph q)) (append p (append core q)) :=
+    hsame_trans (hsame_symm (append_assoc p graph q))
+      (hsame_trans sameVisible (append_assoc p core q))
+  have sameCore : hsame graph core :=
+    (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl q)).mp sameNested
+  have visibleCore : Cont (append p domain) (append value q) (append (append p core) q) :=
+    cont_result_hsame_transport visibleGraph sameVisible
+  exact And.intro sameCore
+    (AutomorphicAdeleGraph_visible_context_core_nonempty domainCarrier valueCarrier visibleCore)
+
 end BEDC.Derived.AutomorphicUp
