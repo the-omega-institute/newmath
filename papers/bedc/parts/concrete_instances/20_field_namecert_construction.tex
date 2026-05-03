@@ -19,6 +19,59 @@
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_selector_complete_strict_exit_package}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_hierarchy_selector_tail}
 \input{parts/concrete_instances/field/20_field_selector_complete_denominator_row_exhaustion}
+
+\begin{theorem}[RatUp FieldUp contextual action composition support laws]
+\label{thm:field-rat-denominator-contextual-action-composition-support-laws}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$p,q,p',q',h,l,r,l',r':\mathsf{BHist}$. Suppose
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, and suppose
+$C_D^u(h)$, $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and $C_D^u(r')$. Then the
+nested contextual action is carried:
+$$
+C_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))).
+$$
+It is denominator-classified by the single contextual action with collected
+append contexts:
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',\mathsf{append}(l',l),\mathsf{append}(r,r')}(h)).
+$$
+Its strict support is exactly the five visible support sites:
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(l')\lor N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)\lor N_D^u(r').
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-contextual-action-composition} to the
+empty-endpoint nested actions. Its classifier and support clauses identify the
+two-layer action with the corresponding collected action once the inner and
+outer carried contexts are available.
+
+The carrier inputs are supplied by denominator-unit carrier closure under
+$\mathsf{append}$. First close $l$ with $h$ and then with $r$; transport the
+result along the two endpoint equalities $p\hsame\emp$ and $q\hsame\emp$ to get
+the carried inner action. Close $l'$ with that carried inner action and then
+with $r'$; transport along $p'\hsame\emp$ and $q'\hsame\emp$ to get the carried
+nested action.
+
+The same append-closure rows also carry
+$\mathsf{append}(l',l)$ and $\mathsf{append}(r,r')$, so the collected single
+action is a legitimate denominator action. Carrier transport along $\hsame$
+keeps the concrete action endpoints inside $C_D^u$ throughout the comparison.
+
+For strict support, apply bilateral support exactness first to the inner action:
+its support is read as $N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$. Apply the same
+exactness theorem to the outer action and substitute the inner readback. The
+finite disjunction reassociates to
+$N_D^u(l')\lor N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)\lor N_D^u(r')$, which is the
+displayed support law.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_contextual\_action\_composition\_support\_laws}
 \input{parts/concrete_instances/field/20_field_singleton_carrier_two_sided_context_semantic_namecert}
 \input{parts/concrete_instances/field/20_field_four_factor_inverse_classifier_exactness}
 
