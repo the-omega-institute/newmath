@@ -70,6 +70,37 @@ theorem EigenSingletonCarrier_cont_result_transport {map scalar vector pair pair
           (And.intro scalarCarrier
             (And.intro vectorCarrier (cont_result_hsame_transport contPair samePair))))))
 
+theorem EigenSingletonCarrier_empty_iff {pair : BHist} :
+    EigenSingletonCarrier pair ↔ hsame pair BHist.Empty := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro map carrier =>
+        cases carrier with
+        | intro scalar carrier =>
+            cases carrier with
+            | intro vector carrier =>
+                cases carrier with
+                | intro mapCarrier rest =>
+                    cases rest with
+                    | intro scalarCarrier rest =>
+                        cases rest with
+                        | intro vectorCarrier contPair =>
+                            have scalarVectorEmpty :
+                                hsame (append scalar vector) BHist.Empty :=
+                              append_eq_empty_iff.mpr (And.intro scalarCarrier vectorCarrier)
+                            have resultEmpty :
+                                hsame (append map (append scalar vector)) BHist.Empty :=
+                              append_eq_empty_iff.mpr (And.intro mapCarrier scalarVectorEmpty)
+                            exact hsame_trans contPair resultEmpty
+  · intro pairEmpty
+    exact Exists.intro BHist.Empty
+      (Exists.intro BHist.Empty
+        (Exists.intro BHist.Empty
+          (And.intro (hsame_refl BHist.Empty)
+            (And.intro (hsame_refl BHist.Empty)
+              (And.intro (hsame_refl BHist.Empty) (cont_intro pairEmpty))))))
+
 def EigenSingletonClassifier (h k : BHist) : Prop :=
   EigenSingletonCarrier h ∧ EigenSingletonCarrier k ∧ hsame h k
 

@@ -57,6 +57,21 @@ kernel result-transport theorem for $\Cont$.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_cont\_result\_transport}
 
+\begin{theorem}[Eigen singleton carrier empty iff]
+\label{thm:eigen-singleton-carrier-empty-iff}
+For every history $p:\mathsf{BHist}$, the singleton eigen carrier holds for
+$p$ exactly when $p\hsame\emp$.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the map, scalar, and vector witnesses. The
+linear-map and determinant singleton carriers identify each component with
+$\emp$, so the nested append endpoint is empty; the stored continuation
+transports this emptiness to $p$. For the reverse direction, choose all three
+witness components to be $\emp$ and use the displayed $p\hsame\emp$ witness
+as the empty continuation result.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_empty\_iff}
+
 \section{The certificate}
 \label{sec:eigen-certificate}
 
