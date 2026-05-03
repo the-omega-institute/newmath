@@ -634,6 +634,36 @@ append continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_e0\_tail\_result\_cases}
 
+\begin{theorem}[Continuation morphism composite left-tail result cases]
+\label{thm:continuation-morphism-comp-left-tail-result-cases}
+For histories $a,b,c,l$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the left displayed tail is
+classified by $l$, then the closed composite tail is determined by the right
+displayed tail shape:
+$$
+\HSame(\mathsf{tail}(right),\emp)\land
+\HSame(\mathsf{tail}(left\circ right),l),
+$$
+or there exists a history $m$ such that
+$$
+\HSame(\mathsf{tail}(right),\Ezero(m))\land
+\HSame(\mathsf{tail}(left\circ right),\Ezero(\mathsf{append}(l,m))),
+$$
+or there exists a history $m$ such that
+$$
+\HSame(\mathsf{tail}(right),\Eone(m))\land
+\HSame(\mathsf{tail}(left\circ right),\Eone(\mathsf{append}(l,m))).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and replace the left displayed
+tail by its classified representative $l$. Splitting the right displayed tail
+into empty, zero-headed, and one-headed cases gives the three composite-tail
+shapes directly from the definition of append.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_tail\_result\_cases}
+
 \begin{theorem}[Continuation morphism right zero tail composite result is not empty]
 \label{thm:continuation-morphism-comp-right-e0-tail-result-not-empty}
 For histories $a,b,c,m$, let

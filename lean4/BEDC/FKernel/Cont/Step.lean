@@ -549,4 +549,35 @@ theorem cont_left_tag_cross_tail_alignment :
             | e1 l0 =>
                 cases sameTail
 
+theorem cont_right_tail_result_cases {h k r : BHist} :
+    Cont h k r ->
+      (hsame k BHist.Empty ∧ hsame r h) ∨
+        (∃ t u : BHist,
+          hsame k (BHist.e0 t) ∧ hsame r (BHist.e0 u) ∧ Cont h t u) ∨
+          (∃ t u : BHist,
+            hsame k (BHist.e1 t) ∧ hsame r (BHist.e1 u) ∧ Cont h t u) := by
+  intro hcont
+  cases k with
+  | Empty =>
+      left
+      exact And.intro (hsame_refl BHist.Empty) (hcont.trans (append_empty_right h))
+  | e0 t =>
+      right
+      left
+      cases cont_step_result_inversions.left hcont with
+      | intro u witness =>
+          exact Exists.intro t
+            (Exists.intro u
+              (And.intro (hsame_refl (BHist.e0 t))
+                (And.intro witness.left witness.right)))
+  | e1 t =>
+      right
+      right
+      cases cont_step_result_inversions.right hcont with
+      | intro u witness =>
+          exact Exists.intro t
+            (Exists.intro u
+              (And.intro (hsame_refl (BHist.e1 t))
+                (And.intro witness.left witness.right)))
+
 end BEDC.FKernel.Cont

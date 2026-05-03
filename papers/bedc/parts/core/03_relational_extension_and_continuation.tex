@@ -462,6 +462,31 @@ tail sameness forces the same constructor there as well, and constructor
 inversion gives the exposed $\HSame$ relation.
 \end{proof}
 
+\begin{theorem}[Continuation right-tail result cases]
+\label{thm:cont-right-tail-result-cases}
+For histories $h,k,r:\mathsf{BHist}$, if $\ContR(h,k,r)$, then the right
+continuation tail has one of the following displayed forms:
+$$
+\HSame(k,\emp)\land\HSame(r,h),
+$$
+or there exist histories $t,u$ such that
+$$
+\HSame(k,\Ezero(t))\land\HSame(r,\Ezero(u))\land\ContR(h,t,u),
+$$
+or there exist histories $t,u$ such that
+$$
+\HSame(k,\Eone(t))\land\HSame(r,\Eone(u))\land\ContR(h,t,u).
+$$
+\end{theorem}
+\begin{proof}
+Classify the right continuation tail $k$. The empty case is the right-unit
+continuation, so the result is classified with the source. In the zero-headed
+and one-headed cases, step-result inversion removes the displayed outer
+constructor from the result and exposes the residual continuation through the
+tail payload.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_right\_tail\_result\_cases}
+
 \begin{lemma}[Continuation right unit]
 For every history \(h\), \(\ContR(h,\emp,h)\).
 \end{lemma}
