@@ -550,58 +550,53 @@ $\mathsf{comm}(a,b)$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_commutator\_trivial\_iff\_commutes\_from\_empty\_unit}
 
-\begin{theorem}[Group commutator fixedness criterion]
-\label{thm:group-commutator-fixedness-criterion}
+\begin{theorem}[Group commutator fixed-point criterion]
+\label{thm:group-commutator-fixed-point-criterion}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with
 associativity, left and right identities, multiplication congruence, and
 two-sided inverse laws, define
 $$
-\mathrm{Inn}_a(b):=\mathsf{mul}(\mathsf{mul}(a,b),\mathsf{inv}(a))
-$$
-and
-$$
-\mathsf{comm}(a,b):=\mathsf{mul}(\mathsf{mul}(a,b),
-\mathsf{mul}(\mathsf{inv}(a),\mathsf{inv}(b))).
+\mathrm{Inn}_a(b):=(a\cdot b)\cdot a^{-1}
+\qquad\text{and}\qquad
+\mathsf{comm}(a,b):=(a\cdot b)\cdot(a^{-1}\cdot b^{-1}).
 $$
 Then every $a,b:\mathsf{BHist}$ satisfy
 $$
-\hsame(\mathrm{Inn}_a(b),b) \Longleftrightarrow
-\hsame(\mathsf{mul}(a,b),\mathsf{mul}(b,a)).
+\hsame(\mathrm{Inn}_a(b),b)
+\Longleftrightarrow
+\hsame(\mathsf{comm}(a,b),e)
+\Longleftrightarrow
+\hsame(a\cdot b,b\cdot a).
 $$
-They also satisfy
-$$
-\hsame(\mathrm{Inn}_a(b),b) \Longleftrightarrow
-\hsame(\mathsf{comm}(a,b),e).
-$$
-The ten-field fit is: traditional target group centralizer and fixedness
-criterion; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier
-$\mathsf{BHist}$; classifier $\hsame$; stability obligations associativity,
-inverse laws, and multiplication congruence; ledger conjugating element plus
-inverse-product spine; core theorem list
-\autoref{thm:group-conjugation-equation-exactness} and
-\autoref{thm:group-commutator-trivial-iff-commutes}; exactness predicate
-fixedness iff commutation iff trivial commutator; standard bridge ordinary
-group inner automorphism fixed points; status $\mathsf{ProofTarget}$.
+The ten-field fit is: traditional target centralizer fixed-point criterion;
+BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability obligations conjugation exactness,
+commutator exactness, associativity, inverse laws, and multiplication
+congruence; ledger conjugating factor, inverse witness, and commutator spine;
+core theorem this fixed-point equivalence; exactness predicate fixed point iff
+commutator trivial iff commutation; standard bridge ordinary group
+centralizers; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-For the forward direction of the first equivalence, transport
-$\mathrm{Inn}_a(b)\hsame b$ by right multiplication with $a$. The left side
-reassociates from $((ab)a^{-1})a$ to $ab(a^{-1}a)$, the inverse pair
-$a^{-1}a$ collapses by the left inverse law, and the right identity leaves
-$ab$. The transported right side is $ba$, giving
-$\mathsf{mul}(a,b)\hsame \mathsf{mul}(b,a)$.
+Apply Theorem~\ref{thm:group-conjugation-equation-exactness} with middle
+factor $b$ and target $b$. The fixed-point assertion
+$\hsame((a\cdot b)\cdot a^{-1},b)$ is therefore equivalent to the comparison
+$\hsame(b,(a^{-1}\cdot b)\cdot a)$.
 
-For the reverse direction, transport
-$\mathsf{mul}(a,b)\hsame \mathsf{mul}(b,a)$ by right multiplication with
-$a^{-1}$. The left side is $\mathrm{Inn}_a(b)$, while the right side
-reassociates from $(ba)a^{-1}$ to $b(aa^{-1})$, collapses $aa^{-1}$ by the
-right inverse law, and finishes with the right identity on $b$.
+For the forward comparison, multiply the right-side equation by $a$ on the
+left and reassociate $a\cdot((a^{-1}\cdot b)\cdot a)$ through
+$(a\cdot a^{-1})\cdot b$. The inverse law collapses $a\cdot a^{-1}$ to the
+unit, and the unit laws identify the transported comparison with
+$\hsame(a\cdot b,b\cdot a)$.
 
-The second displayed equivalence is obtained by chaining the first displayed
-equivalence with \autoref{thm:group-commutator-trivial-iff-commutes}. That
-checked commutator criterion identifies commutation with
-$\mathsf{comm}(a,b)\hsame e$, and transitivity of equivalences gives the
-fixedness criterion in commutator form.
+For the reverse comparison, multiply $a\cdot b\hsame b\cdot a$ on the left by
+$a^{-1}$. Associativity moves the inverse next to $a$, the inverse and unit
+laws collapse the left factor, and the resulting comparison is exactly
+$\hsame(b,(a^{-1}\cdot b)\cdot a)$.
+
+Theorem~\ref{thm:group-commutator-trivial-iff-commutes} gives the second
+equivalence, so transitivity of equivalences yields the displayed
+fixed-point, commutator, and commutation criterion.
 \end{proof}
 
 \begin{definition}[Group centralizer carrier]
