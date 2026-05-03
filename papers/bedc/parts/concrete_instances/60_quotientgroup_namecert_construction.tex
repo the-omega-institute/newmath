@@ -67,6 +67,54 @@ of $N_a$. Thus the carrier is a concrete history-level representative system
 equipped with a classifier, not a host quotient type.
 \end{definition}
 
+\begin{theorem}[Centralizer-normalizer empty representative]
+\label{thm:quotientgroup-centralizer-normalizer-empty-representative}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ whose
+represented unit is $\emp$, assume the unit, multiplication-congruence, and
+right-inverse laws used in
+\autoref{def:quotientgroup-centralizer-normalizer-carrier}. Then the
+representative carrier $N_a$ contains $\emp$.
+\end{theorem}
+\begin{proof}
+Unfold $N_a$ as the centralizer normalizer carrier. The right-inverse law at
+$\emp$, together with the left unit law, identifies $\mathsf{inv}(\emp)$ with
+$\emp$.
+
+For the forward conjugation clause, multiplication congruence and the unit laws
+transport $\mathsf{mul}(\mathsf{mul}(\emp,x),\mathsf{inv}(\emp))$ to $x$. The
+centralizer row for $x$ can therefore be read as the required centralizer row
+for the conjugated word.
+
+The inverse conjugation clause is the same calculation applied to
+$\mathsf{inv}(\mathsf{inv}(\emp))$. The unit and right-inverse laws identify the
+outer inverse word with $\emp$, so the second normalizer clause reduces to the
+same centralizer transport.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_empty\_unit}
+
+\begin{theorem}[Centralizer-normalizer empty representative transport]
+\label{thm:quotientgroup-centralizer-normalizer-empty-representative-transport}
+Under the same BEDC history-level group laws, plus inverse congruence, every
+history $t$ with $\emp\hsame t$ also lies in the representative carrier $N_a$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:quotientgroup-centralizer-normalizer-empty-representative} to get
+$N_a(\emp)$.
+
+For the forward normalizer clause at $t$, multiplication congruence transports
+$\mathsf{mul}(\mathsf{mul}(t,x),\mathsf{inv}(t))$ back to
+$\mathsf{mul}(\mathsf{mul}(\emp,x),\mathsf{inv}(\emp))$, using inverse
+congruence on the endpoint comparison $\emp\hsame t$. The empty representative
+row then supplies the required carried centralizer witness.
+
+The inverse clause uses inverse congruence once more to compare
+$\mathsf{inv}(t)$ with $\mathsf{inv}(\emp)$, and again on the outer inverse.
+Multiplication congruence transports the whole inverse-conjugation word back to
+the empty representative word, where the previous theorem supplies the row.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_empty\_hsame\_transport\_unit}
+
 \begin{theorem}[Centralizer normalizer orbit-kernel quotient equivalence]
 \label{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
