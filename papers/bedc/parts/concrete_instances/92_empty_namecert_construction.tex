@@ -145,6 +145,23 @@ separation.
 \end{proof}
 \leanchecked{BEDC.Derived.EmptyUp.EmptyVisibleContradictoryCarrier\_namecert\_absurd}
 
+\begin{theorem}[Empty visible pair carrier name certificate absurdity]
+\label{thm:empty-visible-pair-carrier-namecert-absurd}
+There is no name certificate whose carrier asks a single history to classify
+both to a zero-headed visible endpoint and to a one-headed visible endpoint:
+$$
+\NameCert(\{h\mid h\hsame\Ezero(left)\land h\hsame\Eone(right)\},\hsame)
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Take a carrier witness from the certificate. The two endpoint comparisons
+compose by symmetry and transitivity of $\hsame$ to give
+$\Ezero(left)\hsame\Eone(right)$. BEDC history constructor separation rules
+out every zero-headed versus one-headed comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyVisiblePairCarrier\_namecert\_absurd}
+
 \begin{theorem}[Empty visible contradictory carrier semantic certificate absurdity]
 \label{thm:empty-visible-contradictory-carrier-semantic-namecert-absurd}
 There is no semantic name certificate whose source, pattern, and ledger policies
