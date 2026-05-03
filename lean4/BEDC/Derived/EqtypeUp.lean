@@ -38,6 +38,16 @@ theorem EqtypeClassCarrier_e1_anchor_e0_tail_absurd {anchor tail h : BHist} :
     hsame_trans (hsame_symm sameTail) carrier
   exact not_hsame_e0_e1 mixed
 
+theorem EqtypeClassCarrier_empty_anchor_visible_absurd {tail h : BHist} :
+    EqtypeClassCarrier BHist.Empty h ->
+      (hsame h (BHist.e0 tail) ∨ hsame h (BHist.e1 tail)) -> False := by
+  intro carrier visible
+  cases visible with
+  | inl sameZero =>
+      exact not_hsame_emp_e0 (hsame_trans (hsame_symm carrier) sameZero)
+  | inr sameOne =>
+      exact not_hsame_emp_e1 (hsame_trans (hsame_symm carrier) sameOne)
+
 theorem EqtypeClass_semanticNameCert {anchor : BHist} :
     SemanticNameCert (EqtypeClassCarrier anchor) (EqtypeClassCarrier anchor)
       (EqtypeClassCarrier anchor) hsame := by
