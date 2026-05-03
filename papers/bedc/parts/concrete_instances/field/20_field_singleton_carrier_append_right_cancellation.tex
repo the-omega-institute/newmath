@@ -20,3 +20,26 @@ the reverse direction, combine $Q\hsame\emp$ with the displayed carrier
 witness for $P$ and rebuild the empty append witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_right\_cancel\_iff}
+
+\begin{theorem}[Field singleton carrier append left cancellation]
+\label{thm:field-singleton-carrier-append-left-cancel}
+For histories $P,Q:\mathsf{BHist}$, if $P$ lies in the singleton carrier
+$A_{\emp}$, then appending $P$ on the left preserves and reflects
+singleton-carrier membership:
+$$
+\mathsf{FieldSingletonCarrier}(P)\Rightarrow
+\bigl(
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(P,Q))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier asserts history-sameness to $\emp$. In the forward
+direction, empty-result inversion for append splits
+$\mathsf{append}(P,Q)\hsame\emp$ and exposes the $Q\hsame\emp$ component. In
+the reverse direction, combine the carrier witness for $P$ with
+$Q\hsame\emp$ and rebuild the empty append witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_left\_cancel\_iff}

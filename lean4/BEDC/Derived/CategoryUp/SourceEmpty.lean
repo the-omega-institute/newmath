@@ -35,4 +35,13 @@ theorem CategoryHomCarrier_empty_source_morphism_target_deterministic {b c f g :
       (hsame_symm sameMorphism) right
   exact CategoryHomCarrier_target_deterministic left movedRight
 
+theorem CategoryHomCarrier_empty_target_morphism_source_deterministic {a b f g : BHist} :
+    CategoryHomCarrier a BHist.Empty f -> CategoryHomCarrier b BHist.Empty g ->
+      hsame f g -> hsame a b := by
+  intro left right sameMorphism
+  have movedRight : CategoryHomCarrier b BHist.Empty f :=
+    CategoryHomCarrier_hsame_transport (hsame_refl b) (hsame_refl BHist.Empty)
+      (hsame_symm sameMorphism) right
+  exact CategoryHomCarrier_source_deterministic left movedRight
+
 end BEDC.Derived.CategoryUp
