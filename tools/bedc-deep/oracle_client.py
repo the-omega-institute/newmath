@@ -1206,6 +1206,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "appended": result.appended,
                 "compile_ok": result.compile_ok,
                 "rejection_reasons": list(result.rejection_reasons),
+                "compile_errors": list(getattr(result, "compile_errors", None) or []),
                 "error": result.error,
             }
             stage2_attempts.append(attempt_record)
@@ -1222,19 +1223,40 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
             )
             if attempt >= max_attempts:
                 break
-            if result.verdict != "reject" or not result.rejection_reasons:
+
+            # Decide whether to invoke codex corrective.
+            # - verdict=="reject" with rejection_reasons: classic hygiene/topic reject
+            # - verdict=="compile_failed": pdflatex broke; feed compile_errors as reasons
+            # - other: nothing useful for codex; break
+            corrective_reasons: list[str] = []
+            if result.verdict == "reject" and result.rejection_reasons:
+                corrective_reasons = list(result.rejection_reasons)
+            elif result.verdict == "compile_failed":
+                ce = list(getattr(result, "compile_errors", None) or [])
+                if ce:
+                    corrective_reasons = [
+                        "Stage 2 paper compile failed; pdflatex emitted these errors:",
+                        *ce,
+                        "Please fix the LaTeX so it compiles. Common patterns: "
+                        "spacing macro `\\qquad` / `\\quad` / `\\hspace` followed "
+                        "immediately by a letter or digit (must have whitespace "
+                        "between the control sequence and the next token); "
+                        "`$$ ... $$` display math not on its own line; undefined "
+                        "control sequence (likely a typo or mashed token).",
+                    ]
+            if not corrective_reasons:
                 break
 
             # ---- v2 corrective: codex first, oracle fallback ----
             print(
                 f"[v2 stage2 attempt {attempt}] running codex corrective track "
-                f"({len(result.rejection_reasons)} reasons)",
+                f"(verdict={result.verdict}, {len(corrective_reasons)} reasons)",
                 flush=True,
             )
             cc = codex_track.run_codex_corrective_track(
                 target,
                 original_content=raw_latex_path.read_text(encoding="utf-8"),
-                rejection_reasons=list(result.rejection_reasons),
+                rejection_reasons=corrective_reasons,
             )
             attempt_record["codex_corrective"] = {
                 "verdict": cc.verdict,

@@ -73,31 +73,48 @@ class NormalizeResult:
 
 
 def _strip_proof_markers(text: str) -> tuple[str, int]:
-    """Remove manual QED markers inside `\\begin{proof}...\\end{proof}`."""
+    """Remove manual QED markers inside `\\begin{proof}...\\end{proof}`.
+
+    Handles both multi-line cases (`\\nQ.E.D.\\n\\end{proof}`) AND single-line
+    cases where the entire content is on one line (oracle DOM scrape often
+    returns this) and the markers butt against `\\end{proof}` directly.
+    """
     n = 0
     pat_proof = re.compile(r"(\\begin\{proof\})(.*?)(\\end\{proof\})", re.DOTALL)
 
     def _scrub(m: re.Match) -> str:
         nonlocal n
         body = m.group(2)
-        # remove standalone QED-ish markers
-        scrubbed = re.sub(
-            r"(?:^|[\s\n])(?:Q\.?E\.?D\.?|\\qed|\\square|as required|as desired|QED)\s*\.?\s*$",
+        original = body
+        # 1. Multi-line anchors: stand-alone QED lines.
+        body = re.sub(
+            r"^\s*(?:Q\.?E\.?D\.?|\\qed|\\square|as required|as desired|QED)\s*\.?\s*$",
             "",
             body,
             flags=re.MULTILINE | re.IGNORECASE,
         )
-        # also strip stand-alone `Q.E.D.` lines
-        scrubbed = re.sub(
-            r"^\s*(?:Q\.?E\.?D\.?|\\qed|\\square|as required|as desired|QED)\s*\.?\s*$",
+        # 2. End-of-body markers (right before \end{proof}, no newline).
+        #    Pattern: optional whitespace + marker + optional period/period
+        #    space at end-of-body. This is what catches the single-line
+        #    case `body content. Q.E.D.\end{proof}`.
+        body = re.sub(
+            r"\s*(?:Q\.?E\.?D\.?|\\qed|\\square|as required|as desired|QED)\s*\.?\s*$",
             "",
-            scrubbed,
-            flags=re.MULTILINE | re.IGNORECASE,
+            body,
+            flags=re.IGNORECASE | re.DOTALL,
         )
-        # strip trailing whitespace inside proof
-        if scrubbed != body:
+        # 3. Mid-body inline markers (rare but seen): `... text Q.E.D. more text`.
+        #    Only strip if the marker is clearly delimited (whitespace or punct
+        #    on both sides) — avoid false positives on mathematical names.
+        body = re.sub(
+            r"(?<=[\.\)\}\s])(?:Q\.?E\.?D\.?|\\qed|\\square)\s*\.?(?=\s|\\end\{proof\}|$)",
+            "",
+            body,
+            flags=re.IGNORECASE,
+        )
+        if body != original:
             n += 1
-        return f"{m.group(1)}{scrubbed}{m.group(3)}"
+        return f"{m.group(1)}{body}{m.group(3)}"
 
     new = pat_proof.sub(_scrub, text)
     return new, n
@@ -245,6 +262,50 @@ def _detect_blocking_issues(text: str) -> list[str]:
     # Stray version prefixes in labels
     if re.search(r"\\label\{[a-z]+:v\d", text):
         issues.append("label uses version prefix (vN) — must be semantic only")
+
+    # Residual QED markers inside proof bodies that normalize couldn't strip.
+    # If these reach pdflatex they don't break compilation but they do violate
+    # project hygiene. Flag for downstream review (won't fast-path through
+    # claude bypass).
+    proof_blocks = re.findall(
+        r"\\begin\{proof\}(.*?)\\end\{proof\}", text, flags=re.DOTALL
+    )
+    for body in proof_blocks:
+        if re.search(r"\b(?:Q\.?E\.?D\.?|QED)\b", body, re.IGNORECASE):
+            issues.append("residual QED marker inside \\begin{proof} block")
+            break
+        if re.search(r"\\(?:qed|square)\b", body):
+            issues.append("residual \\qed/\\square inside \\begin{proof} block")
+            break
+
+    # Mashed control sequences — common DOM-scrape damage pattern. Things
+    # like `\qquadT`, `\qquadP=|p|`, `\quadd`, `\quadx_i`. These compile-
+    # break because LaTeX reads `\qquadT` as one undefined cs. We can't
+    # safely auto-rewrite (which letter starts the next token?) so flag.
+    # Heuristic: a known-spacing macro followed immediately by a capital
+    # letter or digit, no whitespace between.
+    spacing_macros = (
+        r"qquad|quad|hspace|vspace|hfill|vfill|smallskip|medskip|bigskip|"
+        r"newline|noindent|indent|quad|qquad|hskip|vskip"
+    )
+    mashed = re.findall(
+        rf"\\(?:{spacing_macros})[A-Za-z0-9]",
+        text,
+    )
+    if mashed:
+        issues.append(
+            f"mashed spacing macro(s) detected (e.g. {mashed[0]!r}); "
+            f"oracle output missing whitespace between control seq and next token"
+        )
+
+    # Display math `$$` not on its own line — `Foo$$X$$bar` style. This
+    # technically compiles but violates AGENTS.md "$$ 必须独立成行".
+    # Heuristic: detect `$$` immediately preceded or followed by a non-
+    # whitespace character (other than newline).
+    inline_dd_pre = re.search(r"\S\$\$[^\$]", text)
+    inline_dd_post = re.search(r"[^\$]\$\$\S", text)
+    if inline_dd_pre or inline_dd_post:
+        issues.append("`$$ ... $$` display math block not on its own line")
 
     return issues
 

@@ -49,6 +49,10 @@ class WritebackResult:
     compile_ok: bool
     rejection_reasons: list
     error: str = ""
+    # On verdict=="compile_failed", carries a compact extract of pdflatex's
+    # real error lines (Undefined control seq / Missing / Extra etc.) so
+    # the runtime can feed them as rejection_reasons to codex corrective.
+    compile_errors: list = None  # type: ignore
 
 
 def _now_tag() -> str:
@@ -333,9 +337,55 @@ def writeback(
             log_path = LOG_DIR / f"compile_fail_{target_id}_{_now_tag()}.log"
             log_path.parent.mkdir(parents=True, exist_ok=True)
             log_path.write_text(compile_log, encoding="utf-8")
-            return WritebackResult(True, "compile_failed", str(target.relative_to(REPO_ROOT)), False, False, [])
+            errors = _extract_compile_errors(compile_log)
+            return WritebackResult(
+                True, "compile_failed",
+                str(target.relative_to(REPO_ROOT)),
+                False, False, [],
+                compile_errors=errors,
+            )
 
     return WritebackResult(True, "accept", str(target.relative_to(REPO_ROOT)), True, True, [])
+
+
+def _extract_compile_errors(compile_log: str) -> list[str]:
+    """Pluck real pdflatex errors out of the noisy compile log.
+
+    Returns a deduplicated list of error lines + their line context (`l.NNN`
+    line) suitable to feed back to codex as rejection_reasons. Filters out
+    Overfull/Underfull hbox warnings and font diagnostics that aren't real
+    errors."""
+    if not compile_log:
+        return []
+    out: list[str] = []
+    seen: set[str] = set()
+    lines = compile_log.splitlines()
+    skip_prefixes = (
+        "Overfull \\hbox", "Underfull \\hbox", "Overfull \\vbox", "Underfull \\vbox",
+        "LaTeX Font Warning",
+    )
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if not stripped.startswith("!"):
+            continue
+        # Skip font-related ! diagnostics (those long OML/lmm lines)
+        if any(s in line for s in ("OML/lmm", "OT1/lmr", "OMS/lmsy", "OMX/lmex")):
+            continue
+        if any(stripped.startswith(p) for p in skip_prefixes):
+            continue
+        # Get the next 1-2 lines for context (often `l.NNN ...` location)
+        ctx = []
+        for j in range(i + 1, min(i + 3, len(lines))):
+            cl = lines[j].strip()
+            if cl.startswith("l.") or "Undefined" in cl or "Missing" in cl:
+                ctx.append(cl[:200])
+        msg = (stripped + " | " + " ; ".join(ctx))[:400]
+        if msg not in seen:
+            seen.add(msg)
+            out.append(msg)
+            if len(out) >= 8:  # cap; codex doesn't need 50 errors
+                break
+    return out
 
 
 def main() -> int:
