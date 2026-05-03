@@ -520,15 +520,11 @@ def run_pi_review(supervisor_state: dict) -> dict | None:
     """PI agent action-capable review. supervisor_state carries mutable
     cooldowns the PI agent may adjust autonomously.
 
-    Dispatches to pi_agent (v0, observer-only) or pi_agent_v1
-    (maker/checker gauntlet with expanded action surface) based on
-    supervisor_state["pi_version"] (default "v0" for safety).
+    Always dispatches to pi_agent_v1 (maker/checker gauntlet with the
+    expanded action surface). The earlier observer-only v0 was retired
+    after v1 stabilised; its shared helpers live in pi_common.py.
     """
-    pi_version = supervisor_state.get("pi_version", "v0")
-    if pi_version == "v1":
-        import pi_agent_v1 as pi_module
-    else:
-        import pi_agent as pi_module
+    import pi_agent_v1 as pi_module
 
     def _restart_inner_cb() -> str | None:
         proc: subprocess.Popen | None = supervisor_state.get("inner")
@@ -601,8 +597,10 @@ def main() -> int:
                         help="Cooldown between oracle_board_refill runs. Triggered alongside probe when BOARD is low water; "
                              "leverages project-attached PDF for deeper candidate suggestions.")
     parser.add_argument("--no-claude-review", action="store_true")
-    parser.add_argument("--pi-version", choices=["v0", "v1"], default="v0",
-                        help="v0 = observer-only PI agent. v1 = maker/checker gauntlet with expanded action surface (experimental).")
+    # --pi-version was removed when v0 retired; accept-and-ignore for any
+    # call sites still passing it.
+    parser.add_argument("--pi-version", choices=["v0", "v1"], default="v1",
+                        help=argparse.SUPPRESS)
     parser.add_argument("--pipeline-version", choices=["v1", "v2"], default="v1",
                         help="Inner pipeline version. Forwarded to oracle_client.py --pipeline-version. v2 = codex-first track.")
     parser.add_argument("--attach-pdf", default="",
@@ -642,7 +640,6 @@ def main() -> int:
         "curator_cooldown_hours": args.curator_cooldown_hours,
         "pi_cooldown_hours": args.claude_review_hours,
         "oracle_refill_cooldown_hours": args.oracle_refill_cooldown_hours,
-        "pi_version": args.pi_version,
         "pipeline_version": args.pipeline_version,
         "attach_pdf": args.attach_pdf,
     }

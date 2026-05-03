@@ -43,9 +43,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-# Reuse v0 helpers for snapshot, concern bump, journal, human_inbox
-import pi_agent as v0
-from pi_agent import (
+# Shared helpers (formerly in pi_agent.py / v0; v0 retired in favour of v1).
+from pi_common import (
     SCRIPT_DIR,
     REPO_ROOT,
     SUPERVISOR_LOG,
