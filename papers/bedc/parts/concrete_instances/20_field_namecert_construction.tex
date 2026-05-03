@@ -256,3 +256,46 @@ ledger the empty exterior witnesses $l\hsame\emp$ and $r\hsame\emp$; tail
 data the two tail factors $q$ and $s$; core theorem this block plus the
 one-tail split and endpoint split; exactness predicate the displayed iff;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero three-tail nested continuation factor split]
+\label{thm:field-apartzero-three-tail-nested-continuation-factor-split}
+For histories $l,h,r,u,v,q,w,s,z,t,y:\mathsf{BHist}$ with
+$\ContR(l,h,u)$, $\ContR(u,r,v)$, $\ContR(v,q,w)$, $\ContR(w,s,z)$, and
+$\ContR(z,t,y)$, if $l\hsame\emp$ and $r\hsame\emp$, then
+$$
+\mathsf{ApartZero}_F(y)
+\Longleftrightarrow
+\mathsf{ApartZero}_F(h)\lor\mathsf{ApartZero}_F(q)\lor
+\mathsf{ApartZero}_F(s)\lor\mathsf{ApartZero}_F(t).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-apartzero-continuation-endpoint-split} to the
+endpoint continuation witness $\ContR(z,t,y)$. This splits
+$\mathsf{ApartZero}_F(y)$ into
+$\mathsf{ApartZero}_F(z)\lor\mathsf{ApartZero}_F(t)$.
+
+Apply
+\autoref{thm:field-apartzero-two-tail-nested-continuation-factor-split} to
+the first four continuation witnesses and the exterior empty-context
+witnesses $l\hsame\emp$ and $r\hsame\emp$. This rewrites
+$\mathsf{ApartZero}_F(z)$ as the three-way disjunction on $h,q,s$.
+
+For the forward direction, case-analyze the endpoint split. The
+$\mathsf{ApartZero}_F(t)$ case supplies the final tail disjunct. In the
+$\mathsf{ApartZero}_F(z)$ case, case-analyze the two-tail nested split and
+place the resulting evidence in the $h$, $q$, or $s$ disjunct.
+
+For the reverse direction, case-analyze the displayed four-way disjunction.
+The $h$, $q$, and $s$ cases first rebuild $\mathsf{ApartZero}_F(z)$ by the
+reverse direction of the two-tail nested split, and then rebuild
+$\mathsf{ApartZero}_F(y)$ by the reverse direction of the endpoint split. The
+$t$ case uses the reverse direction of the endpoint split directly.
+\end{proof}
+
+Per-object template: traditional target finite product/context apartness
+factorization; BEDC source $\mathsf{BHist}$ plus $\ContR$; carrier apart-zero
+histories; classifier $\hsame$ transport; stability obligations endpoint split
+and two-tail nested split; ledger exterior empty witnesses plus tails $q,s,t$;
+core theorem this block; exactness predicate the displayed iff; standard
+bridge finite product apartness; status $\mathsf{ProofTarget}$.
