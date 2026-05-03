@@ -179,6 +179,7 @@ import BEDC.Derived.FieldUp.SingletonClassifier
 import BEDC.Derived.FieldUp.SingletonContinuation
 import BEDC.Derived.FieldUp.AffineEquation
 import BEDC.Derived.FieldUp.Affine
+import BEDC.Derived.FieldUp.AffineCancellationExactness
 import BEDC.Derived.FieldUp.AffineCompositeInverseReverseCoherence
 import BEDC.Derived.FieldUp.SingletonAppend
 import BEDC.Derived.FieldUp.SingletonAppendPair

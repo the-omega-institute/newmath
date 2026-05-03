@@ -127,3 +127,29 @@ again packaged at $\emp$.
 
 \section{The certificate}
 \label{sec:determinant-certificate}
+
+\begin{theorem}[Determinant singleton classifier semantic name certificate]
+\label{thm:determinant-singleton-classifier-semantic-namecert}
+The determinant singleton classifier over $\mathsf{MatrixSingletonCarrier}$ is
+a semantic name certificate:
+$$
+\mathsf{SemanticNameCert}(
+\mathsf{MatrixSingletonCarrier},
+\mathsf{MatrixSingletonCarrier},
+\mathsf{MatrixSingletonCarrier},
+\mathsf{DeterminantSingletonClassifier}).
+$$
+\end{theorem}
+\begin{proof}
+Use the matrix singleton certificate supplied by
+Theorem~\ref{thm:singleton-empty-history-matrix-laws} for carrier inhabitation,
+reflexivity, symmetry, transitivity, and carrier transport on the matrix
+component. The determinant readback is the constant singleton scalar endpoint,
+and the commutative-ring singleton certificate supplied by
+Theorem~\ref{thm:singleton-empty-history-commring-laws} classifies the scalar
+readbacks. Pairing these two classifier components gives the determinant
+classifier fields. Pattern and ledger soundness are the identity inclusions
+because all three semantic predicates are
+$\mathsf{MatrixSingletonCarrier}$.
+\end{proof}
+\leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingletonClassifier\_semanticNameCert}

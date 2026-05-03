@@ -25,6 +25,14 @@ def DeterminantSingletonCertificate : Prop :=
       CommRingSingletonClassifier (DetReadback (MatrixSingletonMul M N))
         (CommRingSingletonMul (DetReadback M) (DetReadback N)))
 
+def DeterminantSingletonReadback (_M : BHist) : BHist :=
+  BHist.Empty
+
+def DeterminantSingletonClassifier (M N : BHist) : Prop :=
+  MatrixSingletonClassifier M N ∧
+    CommRingSingletonClassifier (DeterminantSingletonReadback M)
+      (DeterminantSingletonReadback N)
+
 theorem DeterminantSingleton_semanticNameCert :
     SemanticNameCert
       (fun M : BHist => MatrixSingletonCarrier M)
@@ -64,13 +72,52 @@ theorem DeterminantSingleton_semanticNameCert :
       exact carrierM
   }
 
-def DeterminantSingletonReadback (_M : BHist) : BHist :=
-  BHist.Empty
+theorem DeterminantSingletonClassifier_semanticNameCert :
+    SemanticNameCert MatrixSingletonCarrier MatrixSingletonCarrier MatrixSingletonCarrier
+      DeterminantSingletonClassifier := by
+  let matrixCert := MatrixSingletonEmptyHistory_laws.left
+  let scalarCert := singleton_empty_history_commring_laws.left
+  have scalarReadbackCarrier :
+      forall M : BHist, CommRingSingletonCarrier (DeterminantSingletonReadback M) := by
+    intro _M
+    exact hsame_refl BHist.Empty
+  have scalarReadbackClassified :
+      forall M N : BHist,
+        CommRingSingletonClassifier (DeterminantSingletonReadback M)
+          (DeterminantSingletonReadback N) := by
+    intro M _N
+    exact scalarCert.core.equiv_refl (scalarReadbackCarrier M)
+  exact {
+    core := {
+      carrier_inhabited := matrixCert.core.carrier_inhabited
+      equiv_refl := by
+        intro h carrier
+        exact And.intro (matrixCert.core.equiv_refl carrier)
+          (scalarReadbackClassified h h)
+      equiv_symm := by
+        intro _h _k classified
+        exact And.intro (matrixCert.core.equiv_symm classified.left)
+          (scalarCert.core.equiv_symm classified.right)
+      equiv_trans := by
+        intro _h _k _r classifiedHK classifiedKR
+        exact And.intro (matrixCert.core.equiv_trans classifiedHK.left classifiedKR.left)
+          (scalarCert.core.equiv_trans classifiedHK.right classifiedKR.right)
+      carrier_respects_equiv := by
+        intro _h _k classified carrier
+        exact matrixCert.core.carrier_respects_equiv classified.left carrier
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 def DeterminantSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
 
-def DeterminantSingletonClassifier (h k : BHist) : Prop :=
+def DeterminantSingletonScalarClassifier (h k : BHist) : Prop :=
   DeterminantSingletonCarrier h ∧ DeterminantSingletonCarrier k ∧ hsame h k
 
 def DeterminantSingletonDet (M : BHist) : BHist :=
@@ -86,7 +133,7 @@ def DeterminantSingletonEndpoint (M r : BHist) : Prop :=
 
 theorem DeterminantSingleton_certificate :
     SemanticNameCert DeterminantSingletonCarrier DeterminantSingletonCarrier
-      DeterminantSingletonCarrier DeterminantSingletonClassifier ∧
+      DeterminantSingletonCarrier DeterminantSingletonScalarClassifier ∧
       (forall {M r : BHist}, DeterminantSingletonEndpoint M r <->
         MatrixSingletonCarrier M ∧ CommRingSingletonClassifier r CommRingSingletonOne) ∧
       CommRingSingletonClassifier (DeterminantSingletonDet MatrixSingletonOne)
@@ -99,7 +146,7 @@ theorem DeterminantSingleton_certificate :
   have emptyCarrier : DeterminantSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
   have semantic :
       SemanticNameCert DeterminantSingletonCarrier DeterminantSingletonCarrier
-        DeterminantSingletonCarrier DeterminantSingletonClassifier := {
+        DeterminantSingletonCarrier DeterminantSingletonScalarClassifier := {
     core := {
       carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
       equiv_refl := by
