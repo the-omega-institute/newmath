@@ -164,4 +164,18 @@ theorem FuncObjLinearSingleton_continuous_map_target_graph_empty_iff
   · intro targetEmpty
     exact cont_result_hsame_transport graphRel targetEmpty
 
+theorem FuncObjLinearSingleton_continuous_map_cert_graph_empty_iff
+    {source map target modulus cert distance : BHist} :
+    ContinuousMapCarrier source map target modulus cert distance ->
+      LinearMapSingletonCarrier target -> LinearMapSingletonCarrier modulus ->
+        (Cont target modulus BHist.Empty ↔ hsame cert BHist.Empty) := by
+  intro carrier _targetEmpty _modulusEmpty
+  have certRel : Cont target modulus cert :=
+    carrier.left.right.right.right.right.right
+  constructor
+  · intro emptyCertGraph
+    exact cont_deterministic certRel emptyCertGraph
+  · intro certEmpty
+    exact cont_result_hsame_transport certRel certEmpty
+
 end BEDC.Derived.FuncobjUp
