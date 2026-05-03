@@ -33,6 +33,25 @@ theorem CritStripOpenInterval_unary_boundary_exclusion {sigma : BHist} :
       cases sameOne
       exact NatUnaryStrictPrefix_asymm strip.right strip.right
 
+theorem CritStripOpenInterval_empty_unit_absurd {sigma : BHist} :
+    NatUnaryStrictPrefix BHist.Empty sigma ->
+      NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty) -> False := by
+  intro lower upper
+  have sigmaUnary : UnaryHistory sigma :=
+    NatUnaryStrictPrefix_target_unary unary_empty lower
+  cases unary_history_cases sigmaUnary with
+  | inl sigmaEmpty =>
+      cases sigmaEmpty
+      exact NatUnaryStrictPrefix_empty_right_absurd lower
+  | inr sigmaStep =>
+      cases sigmaStep with
+      | intro tail tailData =>
+          cases tailData with
+          | intro sigmaEq _tailUnary =>
+              cases sigmaEq
+              exact NatUnaryStrictPrefix_empty_right_absurd
+                (NatUnaryStrictPrefix_e1_inversion upper)
+
 def InCritStrip (sigma : BHist) : Prop :=
   NatUnaryStrictPrefix BHist.Empty sigma ∧
     NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty)
