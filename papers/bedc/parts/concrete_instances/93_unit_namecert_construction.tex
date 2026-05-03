@@ -6,5 +6,43 @@ The unit-type interface $\UnitUp$ packages the unique naming certificate over th
 \section{Carrier definition}
 \label{sec:unit-carrier}
 
+\begin{definition}[Unit history carrier]
+\label{def:unit-history-carrier}
+For a history $h:\mathsf{BHist}$, the unit carrier is the continuation
+endpoint that composes the empty history with $h$ and returns the empty
+history:
+$$
+\mathsf{UnitHistoryCarrier}(h):=\mathsf{Cont}(\emp,h,\emp).
+$$
+\end{definition}
+\leandef{BEDC.Derived.UnitUp.UnitHistoryCarrier}
+
+\begin{definition}[Unit history classifier]
+\label{def:unit-history-classifier}
+For histories $h,k:\mathsf{BHist}$, the unit classifier requires both
+endpoints to lie in the unit carrier and relates them by $\hsame$:
+$$
+\mathsf{UnitHistoryClassifier}(h,k):=
+\mathsf{UnitHistoryCarrier}(h)\land
+\mathsf{UnitHistoryCarrier}(k)\land
+h\hsame k.
+$$
+\end{definition}
+\leandef{BEDC.Derived.UnitUp.UnitHistoryClassifier}
+
 \section{The certificate}
 \label{sec:unit-certificate}
+
+\begin{theorem}[Unit history classifier semantic name certificate]
+\label{thm:unit-history-classifier-semantic-namecert}
+The unit history carrier, used as source, pattern, and ledger policy, forms a
+semantic name certificate with the unit history classifier.
+\end{theorem}
+\begin{proof}
+The empty history inhabits the carrier by the left-unit continuation law.
+Classifier reflexivity, symmetry, and transitivity are obtained by packaging
+the carrier endpoints together with the corresponding $\hsame$ laws. Carrier
+transport follows from the target carrier endpoint already present in the
+classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_semanticNameCert}
