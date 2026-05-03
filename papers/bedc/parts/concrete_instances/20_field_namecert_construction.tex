@@ -86,3 +86,60 @@ witnesses, and offsets; core theorem list
 \autoref{thm:ratup-fieldup-affine-inverse-determinacy-exit}; exactness
 predicate inverse antihomomorphism plus double-inverse law; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine conjugation exactness]
+\label{thm:ratup-fieldup-affine-conjugation-exactness}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$A,S,T:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\circ_{\mathrm{aff}}$ be the concrete
+affine composite, let $\iota_F(-)$ be the explicit inverse witness, and let
+$\equiv_{\mathrm{aff}}$ be the affine classifier supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. Define
+$$
+\mathrm{Conj}_A(S)=A\circ_{\mathrm{aff}}S\circ_{\mathrm{aff}}\iota_F(A).
+$$
+Then conjugation by $A$ is classifier-exact:
+$$
+\mathrm{Conj}_A(S)\equiv_{\mathrm{aff}}\mathrm{Conj}_A(T)
+\Longleftrightarrow S\equiv_{\mathrm{aff}}T.
+$$
+Its inverse conjugation action is conjugation by the explicit inverse:
+$$
+\mathrm{Conj}_{\iota_F(A)}(\mathrm{Conj}_A(S))
+\equiv_{\mathrm{aff}}S
+\quad\text{and}\quad
+\mathrm{Conj}_A(\mathrm{Conj}_{\iota_F(A)}(S))
+\equiv_{\mathrm{aff}}S.
+$$
+\end{theorem}
+\begin{proof}
+First fix the concrete affine group package from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This supplies
+the carrier $\mathsf{AffAut}_F$, the operation $\circ_{\mathrm{aff}}$, the
+classifier $\equiv_{\mathrm{aff}}$, and the explicit inverse row inside the
+concrete $\FieldUp(\RatUp)$ exit object.
+
+Apply \autoref{thm:group-conjugation-equation-exactness} to this affine group
+package with $a=A$ and with the equation target specialized to
+$\mathrm{Conj}_A(T)$. The group theorem gives the middle-factor equation
+equivalent to the displayed conjugation equation. Use the two cancellation
+clauses and operation congruence in
+\autoref{thm:field-affine-automorphism-cancellation-exactness} to identify that
+middle-factor equation with $S\equiv_{\mathrm{aff}}T$.
+
+For the inverse-action clause, expand
+$\mathrm{Conj}_{\iota_F(A)}(\mathrm{Conj}_A(S))$ and
+$\mathrm{Conj}_A(\mathrm{Conj}_{\iota_F(A)}(S))$. The reverse-composite inverse
+law and double-inverse clause of
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} identify the conjugating
+factors as mutual inverse witnesses. The remaining outer factors cancel by
+\autoref{thm:field-affine-automorphism-cancellation-exactness}, leaving exactly
+$S$ under $\equiv_{\mathrm{aff}}$ in both composites.
+\end{proof}
+
+Per-object template: traditional target inner automorphism of the affine
+automorphism group; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\GroupUp$; carrier $\mathsf{AffAut}_F$; classifier $\equiv_{\mathrm{aff}}$;
+ledger conjugation factors and inverse witnesses; exactness predicate
+classifier-exact conjugation; standard bridge ordinary inner automorphism;
+status $\mathsf{ProofTarget}$.
