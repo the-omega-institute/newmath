@@ -16,4 +16,14 @@ theorem ZetaZeroComplexHistory_carrier :
       (PositiveUnaryDenominator_e1_iff_unary.mpr unary_empty)
   exact ProdHistoryCarrier_append_intro ratUnit ratUnit
 
+def ZetaZeroSourceSpec (s : BHist) : Prop :=
+  ComplexHistoryCarrier s ∧ hsame s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+
+theorem ZetaZeroSourceSpec_zero_classifier {s : BHist} :
+    ZetaZeroSourceSpec s ->
+      ComplexHistoryClassifier s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
+  intro source
+  exact And.intro source.left
+    (And.intro ZetaZeroComplexHistory_carrier source.right)
+
 end BEDC.Derived.ZetaZerosUp
