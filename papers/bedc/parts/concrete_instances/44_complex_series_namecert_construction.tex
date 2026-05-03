@@ -64,6 +64,22 @@ continuation relation identifies the two successor sums.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_deterministic}
 
+\begin{lemma}[Partial sums respect pointwise term equivalence]
+\label{lem:complex-part-sum-term-hsame-deterministic}
+If two term families \(c,d:\Hist\to\Hist\) are pointwise related by \(\hsame\)
+on every unary index, and \(S,T\) are closed partial sums for \(c,d\) at the
+same index \(n\), then \(S\hsame T\).
+\end{lemma}
+\begin{proof}
+Induct on the first closed partial-sum witness. The base case forces the second
+witness to be the zero constructor. In the successor case, the second witness
+has the same successor index; the induction hypothesis identifies the
+predecessor sums, closedness of the first witness supplies unaryness of the
+predecessor index, and the pointwise term comparison identifies the terms. The
+BEDC continuation relation then identifies the successor sums.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_term\_hsame\_deterministic}
+
 \section{Absolute convergence}
 
 \begin{definition}[Modulus partial sum]
