@@ -167,6 +167,46 @@ support through classifier transport and multiplication.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_unit\_envelope\_strict\_support\_laws}
 
+\begin{theorem}[Rat denominator external-unit envelope product strict-support congruence]
+\label{thm:field-rat-denominator-unit-envelope-product-strict-support-congruence}
+For histories $h,h',k,k':\mathsf{BHist}$ with $C_D^\ast(h)$,
+$C_D^\ast(h')$, $C_D^\ast(k)$, $C_D^\ast(k')$,
+$R_D^\ast(h,h')$, and $R_D^\ast(k,k')$, the products have equivalent
+strict support:
+$$
+N_D^\ast(\mu_D^\ast(h,k))\Longleftrightarrow
+N_D^\ast(\mu_D^\ast(h',k')).
+$$
+\end{theorem}
+\begin{proof}
+First build the product endpoints inside the envelope. The closure clauses of
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws} applied to
+$C_D^\ast(h)$ and $C_D^\ast(k)$ give a carrier witness for
+$\mu_D^\ast(h,k)$, and the same clauses applied to $C_D^\ast(h')$ and
+$C_D^\ast(k')$ give a carrier witness for $\mu_D^\ast(h',k')$.
+
+Next compare the two products. The binary classifier-congruence clause of
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}, applied to
+$R_D^\ast(h,h')$ and $R_D^\ast(k,k')$, gives
+$R_D^\ast(\mu_D^\ast(h,k),\mu_D^\ast(h',k'))$.
+
+Finally transport strict support across that product classifier. The
+classifier-transport clause of
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws}, used
+with the two product carrier witnesses, yields the displayed equivalence of
+$N_D^\ast$ for the two products.
+\end{proof}
+
+Per-object template: traditional target product strict-support congruence for
+the concrete $\FieldUp(\mathsf{RatUp})$ denominator envelope; BEDC source
+$\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$, $R_D^\ast$, $\mu_D^\ast$, and
+$\mathsf{append}$; carrier $C_D^\ast$; classifier $R_D^\ast$; stability
+obligation factorwise classifier congruence; ledger external-unit bit plus
+carried continuation witness; core theorem
+\autoref{thm:field-rat-denominator-unit-envelope-product-strict-support-congruence};
+exactness predicate product strict support invariant under factorwise
+classification; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rat denominator external-unit envelope support-unit no-confusion]
 \label{thm:field-rat-denominator-unit-envelope-support-unit-noconfusion}
 For every history $h:\mathsf{BHist}$ with $C_D^\ast(h)$,
