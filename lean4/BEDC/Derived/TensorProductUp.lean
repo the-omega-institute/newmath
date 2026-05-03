@@ -64,6 +64,18 @@ theorem TensorProductSingletonCarrier_continuation_suffix_carrier {pair suffix o
                                   cases outCont
                                   exact (append_eq_empty_iff.mp pairSuffix.symm).right
 
+theorem TensorProductSingletonCarrier_continuation_prefix_carrier {pre pair out : BHist} :
+    TensorProductSingletonCarrier pair -> Cont pre pair out ->
+      TensorProductSingletonCarrier out -> ModuleSingletonCarrier pre := by
+  intro pairCarrier prefixPair outCarrier
+  have pairEmpty : hsame pair BHist.Empty :=
+    TensorProductSingletonCarrier_empty_endpoint_iff.mp pairCarrier
+  have outEmpty : hsame out BHist.Empty :=
+    TensorProductSingletonCarrier_empty_endpoint_iff.mp outCarrier
+  cases pairEmpty
+  cases outEmpty
+  exact (cont_empty_result_inversion prefixPair).left
+
 theorem TensorProductSingletonCarrier_result_empty_continuation {tensor : BHist} :
     TensorProductSingletonCarrier tensor -> Cont tensor BHist.Empty BHist.Empty := by
   intro carrier
