@@ -77,4 +77,42 @@ theorem ZetaBasicPartSum_successor_source_hsame_transport_step {s t n z : BHist}
             (Exists.intro transported
               (And.intro transportData.left (And.intro transportedStep sameResult)))
 
+theorem ZetaBasicPartSum_successor_source_hsame_transport_result_nonempty {s t n z : BHist} :
+    hsame s t -> ZetaBasicPartSum s (BHist.e1 n) z ->
+      exists previous transported : BHist, ZetaBasicPartSum t n previous ∧
+        Cont previous (BHist.e1 t) transported ∧ hsame z transported ∧
+          (hsame transported BHist.Empty -> False) := by
+  intro sameST sum
+  have transportedStep :=
+    ZetaBasicPartSum_successor_source_hsame_transport_step sameST sum
+  cases transportedStep with
+  | intro previous resultData =>
+      cases resultData with
+      | intro transported transportedData =>
+          have transportedSum : ZetaBasicPartSum t (BHist.e1 n) transported :=
+            DirichletPartSum.step transportedData.left transportedData.right.left
+          exact Exists.intro previous
+            (Exists.intro transported
+              (And.intro transportedData.left
+                (And.intro transportedData.right.left
+                  (And.intro transportedData.right.right
+                    (ZetaBasicPartSum_successor_result_nonempty transportedSum)))))
+
+theorem ZetaBasicPartSum_successor_source_result_nonempty_transport {s t n z : BHist} :
+    hsame s t -> ZetaBasicPartSum s (BHist.e1 n) z ->
+      exists u : BHist, ZetaBasicPartSum t (BHist.e1 n) u ∧
+        hsame z u ∧ (hsame u BHist.Empty -> False) := by
+  intro sameST sum
+  have transported := ZetaBasicPartSum_successor_source_hsame_transport_step sameST sum
+  cases transported with
+  | intro previous transportedData =>
+      cases transportedData with
+      | intro u stepData =>
+          have targetSum : ZetaBasicPartSum t (BHist.e1 n) u :=
+            DirichletPartSum.step stepData.left stepData.right.left
+          exact Exists.intro u
+            (And.intro targetSum
+              (And.intro stepData.right.right
+                (ZetaBasicPartSum_successor_result_nonempty targetSum)))
+
 end BEDC.Derived.ZetaBasicUp

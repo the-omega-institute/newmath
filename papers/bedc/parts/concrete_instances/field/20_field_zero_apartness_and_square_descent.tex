@@ -63,14 +63,45 @@ $\emp$. Transitivity through the symmetric second comparison gives
 $x\hsame y$.
 \end{proof}
 
-Per-object certificate: Traditional target: constructive nonzero preservation
-under certified two-sided field multiplication. BEDC source: $\FieldUp$ over
-$\mathsf{BHist}$. Carrier choice: $\mathsf{BHist}$. Classifier choice:
-$\hsame$. Stability obligation: two-sided zero-product exactness. Ledger: the
-outer nonzero witnesses. Core theorem list:
-Theorem~\ref{thm:field-two-sided-product-apartzero-exact}. Exactness
-predicate: zero-apartness equivalence. Standard bridge: deferred. Status:
-$\mathsf{ProofTarget}$.
+\begin{theorem}[Field two-sided empty-product fiber independence]
+\label{thm:field-two-sided-empty-product-fiber-independent}
+For a BEDC history-level $\FieldUp$ candidate satisfying the same additive,
+multiplicative, congruence, distributivity, and inverse hypotheses as
+\autoref{thm:field-two-sided-zero-product-cancel-from-apartness}, let
+$a,b,c,d:\mathsf{BHist}$ carry nonzero witnesses
+$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+$p_c:\mathsf{NonZero}_F(c)$, and $p_d:\mathsf{NonZero}_F(d)$. If
+$x,y:\mathsf{BHist}$ satisfy
+$$
+\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame\emp
+\qquad\text{and}\qquad
+\mathsf{mul}(\mathsf{mul}(c,y),d)\hsame\emp,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the two-sided empty-product exactness theorem to the first displayed
+witness with the certified outer pair $(a,b)$ and witnesses $p_a,p_b$. This
+classifies the middle history as $x\hsame\emp$.
+
+Apply the same exactness theorem to the second displayed witness with the
+certified outer pair $(c,d)$ and witnesses $p_c,p_d$. This classifies the
+second middle history as $y\hsame\emp$.
+
+Symmetry turns the second comparison into $\emp\hsame y$. Transitivity through
+the common empty endpoint gives $x\hsame y$, so the empty-product fiber is
+independent of the chosen certified outer factors.
+\end{proof}
+
+Per-object certificate: Traditional target: two-sided empty-product fiber
+uniqueness and independence. BEDC source: $\FieldUp$ over $\mathsf{BHist}$.
+Carrier choice: $\mathsf{BHist}$. Classifier choice: $\hsame$. Stability
+obligation: two-sided zero-product exactness. Ledger: the two certified
+outer-factor pairs and the two empty-product witnesses. Core theorem list:
+Theorem~\ref{thm:field-two-sided-mul-empty-solution-unique} and
+Theorem~\ref{thm:field-two-sided-empty-product-fiber-independent}. Exactness
+predicate: all certified two-sided empty-product fibers classify to the
+singleton empty endpoint. Status: $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Field binary product zero-apartness exactness]
 \label{thm:field-binary-product-apartzero-exact}

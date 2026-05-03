@@ -146,6 +146,17 @@ theorem HomologyBoundaryCycle_append_cycle_closed {d : BHist -> BHist}
   exact HomologyCycleCarrier_append_closed dAppend
     (HomologyBoundaryCarrier_cycle_closed d_squared_zero boundaryH) cycleK
 
+theorem HomologyBoundaryCycle_append_hsame_transport {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    (dSquaredZero : forall u : BHist, hsame (d (d u)) BHist.Empty)
+    (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b))
+    {h k r : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyCycleCarrier d k -> hsame (append h k) r ->
+      HomologyCycleCarrier d r := by
+  intro boundaryH cycleK sameResult
+  exact hsame_trans (hsame_symm (dCongr sameResult))
+    (HomologyBoundaryCycle_append_cycle_closed dAppend dSquaredZero boundaryH cycleK)
+
 theorem HomologyCycleBoundary_append_hsame_transport {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (dSquaredZero : forall u : BHist, hsame (d (d u)) BHist.Empty)
