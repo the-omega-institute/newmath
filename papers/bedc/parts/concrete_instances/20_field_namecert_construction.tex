@@ -108,6 +108,53 @@ the temporary names $a$ and $b$ by their selector definitions assembles the
 displayed package.
 \end{proof}
 
+\begin{theorem}[Field zero linear factor signed branch selection]
+\label{thm:field-zero-linear-factor-signed-branch-selection}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+hypotheses of
+\autoref{thm:commring-zero-linear-factor-equal-squares} and
+\autoref{thm:field-equal-squares-signed-branch-determinacy}, every
+$a,b:\mathsf{BHist}$ satisfies the following two signed zero-factor clauses:
+\begin{enumerate}
+  \item if $(a+(-b))\hsame0$ and $p_+:\mathsf{NonZero}_F(a+b)$, then
+  $a\hsame b$ and $\mathsf{NonZero}_F(a+(-b))\to\mathsf{False}$;
+  \item if $(a+b)\hsame0$ and $p_-:\mathsf{NonZero}_F(a+(-b))$, then
+  $a\hsame -b$ and $\mathsf{NonZero}_F(a+b)\to\mathsf{False}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Assume first the zero factor $(a+(-b))\hsame0$ and the signed nonzero witness
+$p_+:\mathsf{NonZero}_F(a+b)$. Apply
+\autoref{thm:commring-zero-linear-factor-equal-squares} to the displayed
+right signed zero factor, read as the second disjunct. This gives the equal
+square row $a\cdot a\hsame b\cdot b$.
+
+Now apply the positive branch of
+\autoref{thm:field-equal-squares-signed-branch-determinacy} to that square
+row and the witness $p_+$. Its conclusion is exactly $a\hsame b$ together with
+$\mathsf{NonZero}_F(a+(-b))\to\mathsf{False}$.
+
+For the opposite branch, assume the zero factor $(a+b)\hsame0$ and the signed
+nonzero witness $p_-:\mathsf{NonZero}_F(a+(-b))$. Apply
+\autoref{thm:commring-zero-linear-factor-equal-squares} to the displayed left
+signed zero factor, read as the first disjunct. This again gives
+$a\cdot a\hsame b\cdot b$.
+
+The negative branch of
+\autoref{thm:field-equal-squares-signed-branch-determinacy}, applied to this
+square row and to $p_-$, gives $a\hsame -b$ and excludes every witness
+$\mathsf{NonZero}_F(a+b)$.
+\end{proof}
+
+Per-object template: traditional target constructive signed square-root branch
+selection; BEDC source $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations zero-linear-factor
+equal-square production and equal-square signed branch determinacy; ledger the
+zero factor and signed nonzero witness; core theorem this block; exactness
+predicate branch endpoint plus opposite-witness exclusion; downstream consumer
+$\FieldUp(\mathsf{RatUp})$ affine solution and square-root branch ledgers;
+status $\mathsf{ProofTarget}$.
+
 Per-object template: traditional target bracketing-selector independence inside
 $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$, $\mathsf{BMark}$,
 $\mathsf{RatUp}$, the denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$,
