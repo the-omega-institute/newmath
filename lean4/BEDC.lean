@@ -133,6 +133,7 @@ import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.ConvergenceRadiusUp
+import BEDC.Derived.FilterUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.Classifier
@@ -273,6 +274,8 @@ import BEDC.Derived.FieldUp.RatHistoryClassifierContextEndpoints
 import BEDC.Derived.FieldUp.RatHistoryClassifierContinuationResultSingletonAbsurd
 import BEDC.Derived.FieldUp.RatContinuationTwoSidedUnit
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
+import BEDC.Derived.EquivCatUp
+import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
