@@ -171,6 +171,7 @@ import BEDC.Derived.GroupUp.SingletonContext
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
 import BEDC.Derived.GroupUp.SuffixProductUnitSplit
+import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
