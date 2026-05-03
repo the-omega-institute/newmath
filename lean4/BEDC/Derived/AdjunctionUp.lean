@@ -135,6 +135,19 @@ theorem AdjunctionUnitCounitCarrier_triangle_results_deterministic
       (cont_deterministic carrier.right.right.left leftRel)
       (cont_deterministic carrier.right.right.right rightRel)
 
+theorem AdjunctionUnitCounitCarrier_endomorphism_unit_counit_empty
+    {p a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      hsame unit BHist.Empty ∧ hsame counit BHist.Empty := by
+  intro carrier
+  have unitEmpty : hsame unit BHist.Empty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp
+      carrier.left).right.right.right
+  have counitEmpty : hsame counit BHist.Empty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp
+      carrier.right.left).right.right.right
+  exact And.intro unitEmpty counitEmpty
+
 theorem AdjunctionPrefix_unit_counit_composite_empty
     {p q a eta eps composite : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
