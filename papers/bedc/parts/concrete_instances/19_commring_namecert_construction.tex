@@ -42,3 +42,29 @@ from zero-factor absorption and difference-of-squares exactness; ledger the
 chosen zero factor and product-zero witness; core theorem this block; exactness
 equality of squares; standard bridge ordinary commutative-ring factor argument;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing equal squares force signed factor zero]
+\label{thm:commring-equal-squares-signed-factor-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+(a+b)\cdot(a+(-b))\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-difference-of-squares} to identify the signed
+factor product with $(a\cdot a)+(-(b\cdot b))$.
+
+Transport the assumed square equality $a\cdot a\hsame b\cdot b$ through
+additive congruence while keeping the right summand $-(b\cdot b)$ fixed. The
+right endpoint becomes $(b\cdot b)+(-(b\cdot b))$.
+
+Theorem~\ref{thm:ring-add-right-inverse} collapses this additive inverse pair
+to $0$. Transitivity of $\hsame$ composes the difference-of-squares
+identification, the transported square equality, and the inverse collapse.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_equal\_squares\_signed\_factor\_zero}
