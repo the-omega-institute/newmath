@@ -226,6 +226,46 @@ left-inverse law, then use the right-identity law for $b$.
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.abgroup\_inverse\_conjugation\_collapse}
 
+\begin{theorem}[AbGroup centralizer and commutator collapse]
+\label{thm:abgroup-centralizer-commutator-collapse}
+For BEDC histories equipped with the $\GroupUp$ associativity, unit,
+multiplication-congruence, and two-sided inverse laws, plus $\AbGroupUp$
+commutativity under $\hsame$, fix $a:\mathsf{BHist}$. Let $Z_a$ be the
+centralizer carrier of \autoref{def:group-centralizer-carrier}, and let
+$\mathsf{comm}(x,a)$ be the commutator expression from
+\autoref{thm:group-commutator-trivial-iff-commutes}. Then every
+$x:\mathsf{BHist}$ satisfies:
+\begin{enumerate}
+\item $Z_a(x)$.
+\item $\mathsf{comm}(x,a)\hsame e$.
+\item $\hsame((a\cdot x)\cdot a^{-1},x)$.
+\end{enumerate}
+The ten-field fit is: traditional target abelian groups have total
+centralizers; BEDC source $\AbGroupUp$ over $\mathsf{BHist}$ plus the
+$\GroupUp$ centralizer carrier; carrier $Z_a$; classifier $\hsame$; stability
+from commutativity, commutator exactness, and conjugation collapse; ledger
+fixed element, commuting witness, commutator spine, and inverse witness; core
+theorem the three displayed clauses backed by
+\autoref{def:group-centralizer-carrier},
+\autoref{thm:group-commutator-trivial-iff-commutes}, and
+\autoref{thm:abgroup-conjugation-collapse}; exactness predicate total
+centralizer iff trivial commutator; standard bridge ordinary abelian
+centralizer collapse; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Commutativity supplies the comparison $x\cdot a\hsame a\cdot x$. By the
+definition of $Z_a$ in \autoref{def:group-centralizer-carrier}, this is exactly
+the centralizer clause for the chosen $x$.
+
+Apply \autoref{thm:group-commutator-trivial-iff-commutes} to the same ordered
+pair $(x,a)$. The commuting witness obtained above is transported to the
+trivial commutator fiber, giving $\mathsf{comm}(x,a)\hsame e$.
+
+Finally apply \autoref{thm:abgroup-conjugation-collapse} with middle element
+$x$. The abelian conjugation spine collapses $(a\cdot x)\cdot a^{-1}$ to $x$,
+which gives the inner-conjugation fixed-point clause.
+\end{proof}
+
 \begin{theorem}[AbGroup inverse preserves multiplication order]
 \label{thm:abgroup-inverse-mul}
 For BEDC histories equipped with group laws, commutative multiplication, and
