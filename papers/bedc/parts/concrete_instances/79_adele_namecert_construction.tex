@@ -78,6 +78,23 @@ append history.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_first\_prime\_unit\_scale}
 
+\begin{theorem}[Adele empty scale real readback]
+\label{thm:adele-history-carrier-empty-scale-real-readback}
+Let $real,p,result:\mathsf{BHist}$. If $real$ is a constant real-history
+carrier and $\mathsf{PadicPrimeScale}(p,\emp,result)$ holds, then
+$\mathsf{append}(real,result)$ is an adele-history carrier and
+$$
+\mathsf{append}(real,result)\hsame real.
+$$
+\end{theorem}
+\begin{proof}
+The padic empty-result iff identifies $result$ with $\emp$ because the
+exponent is $\emp$. The adele carrier uses the displayed real component, prime,
+empty exponent, scale result, and reflexive append witness. The readback to
+$real$ follows from the identified empty scale result and append-right unit.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_empty\_scale\_real\_readback}
+
 \begin{theorem}[Adele real-stream prefix visible scale carrier]
 \label{thm:adele-real-stream-prefix-visible-scale-carrier}
 Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives whose visible
