@@ -1887,3 +1887,83 @@ TotalOrder stability certificate at 29_totalorder_namecert_construction.tex list
 
 ---
 
+### B-76 - Group forgets to Monoid certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Group forgets to Monoid certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If C carries a GroupUp(C) certificate, then dropping the inverse-operation data, the inverse-related stability rows (left/right inverse and inverse congruence), and the inverse ledger entries leaves carrier, source, pattern, classifier, monoid stability fields, and monoid ledger that form a MonoidUp(C) certificate with carrier C, multiplication, identity e, and classifier unchanged.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/group/namecert_construction_core/02_certificate.tex`
+- `papers/bedc/parts/concrete_instances/group/16_group_certificate_tail.tex`
+
+Rationale:
+Forgetful-chain blindspot at the bottom of the algebraic ladder. The board has shipped the full upper chain — VecSpace→Module (B-67), Module→AbGroup (B-69), Module→Ring (B-73), Ring→AbGroup (B-72), AbGroup→Group (B-53), CommRing→Ring (B-28), Field→CommRing (B-71), Lattice→Poset (B-68), Poset→Preorder (B-74), TotalOrder→Poset (B-75) — but has never closed Group→Monoid even though both chapters carry the full certificate-obligations machinery: 15_monoid_namecert_construction.tex has \label{def:monoid-source-specification}, \label{def:monoid-stability-certificate}, \label{def:monoid-certificate-obligations}, while group/16_group_certificate_tail.tex has \label{def:group-certificate-obligations} and group/namecert_construction_core/02_certificate.tex has \label{def:group-source-specification}, \label{def:group-pattern-specification}, \label{def:group-classifier-specification}, \label{def:group-stability-certificate}. The pattern matches B-72 verbatim (drop one operation + its stability rows, retain the rest).
+
+---
+
+
+### B-77 - NatDivides transports along divisor history-sameness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NatDivides transports along divisor history-sameness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the unary-multiplication setup, if NatDivides(d, e) and hsame(d, d'), then NatDivides(d', e).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+Companion-stability gap in the divisibility relation. 39_prime_namecert_construction.tex defines 'NatDivides' (\label{def:nat-divides}) and ships 'Divisibility is reflexive on the unit and on every unary history' (\label{lem:divides-reflexive}), 'Divisibility is transitive' (\label{lem:divides-transitive}), and after B-70 'Divisibility antisymmetry up to history-sameness' (\label{thm:nat-divides-antisymmetry-hsame}). A reflexive/transitive/antisymmetric relation modulo hsame must be transport-stable on each side, but no theorem says so explicitly: grep for 'NatDivides.*transport|divides.*hsame.*transport' in the file returns 0 hits. This is the standard companion to the antisymmetry result completed at B-70 and would unblock any future theorem stating divisibility as a typed classifier on hsame-quotient classes. The 04_nat chapter itself has zero board coverage besides the indirect hit at B-70 which inserted into 39_prime instead.
+
+---
+
+
+### B-78 - Concrete unary-history magma classifier carrier-aware reflexivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Concrete unary-history magma classifier carrier-aware reflexivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the concrete unary-history magma instance, if UnaryHistory(h), then R_U(h, h) where R_U(x,y) := UnaryHistory(x) ∧ UnaryHistory(y) ∧ hsame(x, y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/56_magma_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/57_semigroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+
+Rationale:
+Topic-coverage blindspot at the algebraic ladder root. The Magma chapter (56_magma_namecert_construction.tex) ships exactly one theorem — 'Concrete unary-history magma laws' (closure + binary congruence) — and its \section{The certificate} block is empty. The classifier R_U is defined and the laws theorem references reflexivity of hsame in passing, but the carrier-aware reflexivity R_U(h,h) is not a theorem of the chapter. The same chapter's neighbour 57_semigroup_namecert_construction.tex also has only its 'laws' theorem and an empty certificate section, and 15_monoid_namecert_construction.tex picks up identity uniqueness/left-right identity but never proves the magma-level reflexivity it inherits. The board has touched no algebraic-ladder content below 17_abgroup; this is the simplest single-implication theorem in those chapters.
+
+---
+
