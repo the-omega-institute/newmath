@@ -300,6 +300,51 @@ classifier for the selected pair.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_selector\_rat\_classifier\_coverage}
 
+\begin{theorem}[RatUp FieldUp bracketing selector dual classifier coverage]
+\label{thm:ratup-fieldup-bracketing-selector-dual-classifier-coverage}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+let $E_s(h,k,\ell)$ be the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector}. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then every selector pair
+$s,t:\mathsf{BMark}$ satisfies the combined denominator and Rat row:
+$$
+N_D^u(E_s(h,k,\ell))
+\wedge
+N_D^u(E_t(h,k,\ell))
+\wedge
+R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))
+\wedge
+\mathsf{RatHistoryCarrier}(E_s(h,k,\ell))
+\wedge
+\mathsf{RatHistoryCarrier}(E_t(h,k,\ell))
+\wedge
+\mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_t(h,k,\ell)).
+$$
+\end{theorem}
+\begin{proof}
+The three-support hypothesis supplies the denominator-support disjunction
+required by
+\autoref{thm:ratup-fieldup-bracketing-endpoint-selector-carrier-coverage}.
+Apply that theorem to the carrier witnesses for $h,k,\ell$ and then specialize
+its selector row to $s$ and to $t$. This gives the two
+$N_D^u(E_s(h,k,\ell))$ and $N_D^u(E_t(h,k,\ell))$ rows.
+
+Next apply
+\autoref{thm:ratup-fieldup-bracketing-selector-denominator-classifier-coverage}
+with the same denominator tuple, carrier witnesses, three-support witness, and
+selectors. This gives the denominator classifier row
+$R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))$.
+
+For the Rat carrier rows, apply
+\autoref{thm:ratup-fieldup-bracketing-selector-rat-carrier-coverage} to the
+same denominator-unit and three-support data, first at $s$ and then at $t$.
+Apply \autoref{thm:ratup-fieldup-bracketing-selector-rat-classifier-coverage}
+to the same selector pair for the Rat classifier row. The six obtained rows
+assemble directly into the displayed conjunction.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp bracketing selector independence package]
 \label{thm:ratup-fieldup-bracketing-selector-independence-package}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
