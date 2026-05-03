@@ -55,3 +55,18 @@ $\mathsf{ProofTarget}$.
 
 \section{The certificate}
 \label{sec:magma-certificate}
+
+\begin{theorem}[Concrete unary-history magma classifier reflexivity]
+\label{thm:concrete-unary-history-magma-classifier-reflexivity}
+For the concrete unary-history magma instance of \autoref{def:concrete-unary-history-magma-instance}, the carrier-aware classifier is reflexive on its carrier. In symbols, for every $h:\mathsf{BHist}$,
+$$
+\UnaryHistory(h)\to R_U(h,h).
+$$
+\end{theorem}
+\begin{proof}
+Fix $h:\mathsf{BHist}$ and assume $\UnaryHistory(h)$. Let $U(h)$ denote this same carrier predicate, as in \autoref{def:concrete-unary-history-magma-instance}. Unfolding the classifier, the required judgment is exactly the conjunction
+$$
+U(h)\land U(h)\land\hsame(h,h).
+$$
+The first and second conjuncts are the assumed carrier witness. The third conjunct is the reflexivity component of \autoref{thm:history-sameness-equivalence}. These three witnesses assemble the desired carrier-aware classifier judgment.
+\end{proof}
