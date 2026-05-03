@@ -1650,3 +1650,107 @@ This is the separation/independence counterpart to B-11 (positive functor compos
 
 ---
 
+### B-67 - VecSpace forgets to Module certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | VecSpace forgets to Module certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If V carries a VecSpaceUp(F,V) certificate over a field F, then dropping the field-specific scalar inverse data while keeping the underlying CommRing of F as the new scalar source leaves carrier, source, pattern, classifier, stability, and ledger fields that form a ModuleUp(R,V) certificate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+
+Rationale:
+22_vecspace_namecert_construction.tex:4 explicitly states VecSpaceUp 'is the specialization of ModuleUp to the case where the scalar ring satisfies FieldUp. No new fields are required beyond the module ones; the change is the strengthened scalar source.' This is a paper-level statement of forgetful inheritance, but def:vecspace-stability-certificate at line 408 just lists fields without lifting the projection to a labeled proposition. Verified by Grep: 'forget' in 22_vecspace_namecert_construction.tex returned 0 hits. The two sibling propositions at concrete_instances/17:499 and concrete_instances/19:14 establish the recipe — projecting tuple fields and reusing carrier/operation/classifier.
+
+---
+
+
+### B-68 - Lattice forgets to Poset certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice forgets to Poset certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If L carries a LatticeUp(L) certificate, then dropping the meet, join, and bound-characterization fields together with their congruence stability obligations leaves carrier, source, pattern, classifier, ledger, and the inherited preorder-with-antisymmetry stability fields that form a PosetUp(L) certificate over the same carrier and order relation.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+30_lattice_namecert_construction.tex:4 says LatticeUp 'extends PosetUp with binary meet and join operations'; def:lattice-carrier at line 8 explicitly says 'Use a poset setup extended with meet and join operations carrying bound-characterization proofs'. So the forgetful is a structurally clean projection. Verified by Grep: 'forget' in 30_lattice_namecert_construction.tex returned 0 hits, and grep '\begin{(proposition|theorem)}.*[Ff]orget' across papers/bedc/parts/ returns only the two sibling proofs at 17:499 and 19:14. Distinct from the existing B-07 (idempotence/absorption) and B-25/B-26/B-27/B-29 (commutativity/associativity/opposite absorption/uniqueness) — those derive lattice laws inside the lattice certificate, not a structural projection out.
+
+---
+
+
+### B-69 - Module forgets to AbGroup certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module forgets to AbGroup certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If M carries a ModuleUp(R,M) certificate, then dropping the scalar action and its associated stability data (closure, congruence, scalar-action associativity, scalar unit, scalar/module distributivities) leaves carrier, source, pattern, classifier, ledger, and the additive group fields that form an AbGroupUp(M) certificate over the underlying additive carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Definition 21:30-42 (Module stability certificate) lists scalar associativity, scalar additivity, module additivity, scalar action congruence, and scalar unit as the scalar-action obligations layered on top of the abelian-group fields. The natural projection drops exactly this layer. Verified by Grep: 'forget' in 21_module_namecert_construction.tex returned 0 hits. The recipe is established at concrete_instances/17_abgroup_namecert_construction.tex:499 (AbGroup forgets to Group). Distinct from the existing B-08/B-19/B-20/B-23/B-24 module candidates, which all reason inside the module certificate (associativity laws, transport, independence) rather than projecting out of it.
+
+---
+
+
+### B-70 - NatDivides antisymmetry up to history-sameness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NatDivides antisymmetry up to history-sameness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For unary histories d, e, if NatDivides(d, e) and NatDivides(e, d) both hold, then hsame(d, e).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+39_prime_namecert_construction.tex contains lem:divides-reflexive at line 142 and lem:divides-transitive at line 153, but NO antisymmetry. Verified by Grep across papers/bedc/parts/: 'divid.*antisym|antisym.*divid|NatDivides.*hsame' returned only definitional uses inside def:nat-prime (line 175) and TrialDiv step (line 217), with NO labeled antisymmetry theorem. Antisymmetry is the natural third axiom completing the divisibility preorder on unary naturals into a partial order, and it is logically required to upgrade NatDivides to a preorder/poset certificate via the existing concrete_instances/27 and 28 patterns. The proof recipe: from the two NatMul witnesses NatMul(d, q1, e) and NatMul(e, q2, d), substitution gives NatMul(d, NatMul(q1, q2), d), which forces both q1 and q2 to be Eone(emp) by unary multiplication unit identification — a chain already exposed by lem:nat-mul-total and lem:unit-left-multiplication-reads-back-the-multiplier (line 84).
+
+---
+
