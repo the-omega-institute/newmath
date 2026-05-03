@@ -251,6 +251,18 @@ the associativity equality $(s\cdot\delta_1)\cdot\delta_2
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_composite\_closed}
 
+\begin{theorem}[Continuous modulus chain endpoint cycle empties moduli]
+\label{thm:continuous-modulus-chain-endpoint-cycle-moduli-empty}
+If $\mathsf{ContinuousModulusChain}(s,\delta_1,\delta_2,t)$ and $\hsame(s,t)$, then
+$$
+\hsame(\delta_1,\emp)\land\hsame(\delta_2,\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_endpoint\_cycle\_moduli\_empty}
+\begin{proof}
+Unpack the chain as $\ContR(s,\delta_1,m)$ and $\ContR(m,\delta_2,t)$. Transport the second ledger across $\hsame(s,t)$ and apply mutual-extension tail cancellation.
+\end{proof}
+
 \begin{theorem}[Continuous modulus witness composite public readback]
 \label{thm:continuous-modulus-witness-composite-public-readback}
 For histories $source,first,second,middle,target,composite$, two certified

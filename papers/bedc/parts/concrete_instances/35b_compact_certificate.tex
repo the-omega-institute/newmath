@@ -108,6 +108,22 @@ canonical continuation from $\emp$ through $\emp$ to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_net\_iff}
 
+\begin{theorem}[Compact net witness endpoint cycle precision empty]
+\label{thm:compact-net-witness-endpoint-cycle-precision-empty}
+For histories $c,\epsilon,n$, a compact-net witness whose center and net are
+history-same has empty precision:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)\Longrightarrow
+\hsame(c,n)\Longrightarrow\hsame(\epsilon,\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_endpoint\_cycle\_precision\_empty}
+\begin{proof}
+Transport the witness continuation $\ContR(c,\epsilon,n)$ across
+$\hsame(c,n)$ to obtain a self-extension of $c$. Right-unit uniqueness forces
+the precision tail to be empty.
+\end{proof}
+
 \begin{theorem}[Compact net witness left e1 result cases]
 \label{thm:compact-net-witness-left-e1-result-cases}
 For histories $center,precision,net$, a compact-net witness from a visible

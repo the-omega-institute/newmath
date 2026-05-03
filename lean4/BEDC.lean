@@ -251,6 +251,7 @@ import BEDC.Derived.ContinuousUp.EmptyModulus
 import BEDC.Derived.ContinuousUp.EmptyTarget
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.ContinuousUp.CompModulusChain
+import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
@@ -263,6 +264,7 @@ import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CompactUp.EmptyFinalReflection
 import BEDC.Derived.CompactUp.EmptyNet
 import BEDC.Derived.CompactUp.LeftE1ResultCases
+import BEDC.Derived.CompactUp.EndpointCycle
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.NonemptyMorphismIff
 import BEDC.Derived.CategoryUp.MorphismEmptyEndpoint
