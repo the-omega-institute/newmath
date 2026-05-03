@@ -158,6 +158,45 @@ history sameness proof from this one-headed tail to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_visible\_tails\_result\_not\_empty}
 
+\begin{theorem}[Continuation morphism composite one-headed tail left cases]
+\label{thm:continuation-morphism-comp-e1-tail-left-cases}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the composite displayed tail is
+classified by $\Eone(k)$ and the left displayed tail is unary, then either the
+left displayed tail is empty and the right displayed tail is classified by
+$\Eone(k)$, or the left displayed tail is itself one-headed and forms a
+continuation witness with the right displayed tail to $\Eone(k)$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and inspect the left tail. The
+empty case reduces the composite tail by left-unit append. The zero-headed case
+contradicts unary classification. In the one-headed case, the displayed
+composite equality is exactly the continuation witness from the exposed left
+tail and the right tail to $\Eone(k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_e1\_tail\_left\_cases}
+
+\begin{theorem}[Continuation morphism nonempty one-headed composite factors]
+\label{thm:continuation-morphism-comp-nonempty-e1-tail-factors}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If both displayed tails are unary
+and nonempty, and the composite displayed tail is classified by $\Eone(k)$,
+then there are histories $l,m$ such that the left and right displayed tails are
+classified by $\Eone(l)$ and $\Eone(m)$, and
+$$
+\ContR(\Eone(l),\Eone(m),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+Destructure both displayed tails. Empty tails contradict the corresponding
+nonempty hypotheses, and zero-headed tails contradict unary classification.
+The remaining one-headed--one-headed case exposes $l$ and $m$ directly, while
+the composite displayed equality supplies the continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_nonempty\_e1\_tail\_factors}
+
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}
 For histories $a,k,r$, a hom-carrier whose target and morphism histories are
