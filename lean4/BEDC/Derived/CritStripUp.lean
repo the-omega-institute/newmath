@@ -99,4 +99,15 @@ theorem CritStripComplexCarrier_not_empty {s sigma tau : BHist} :
     cont_empty_result_inversion emptyCont
   exact RatHistoryCarrier_not_empty carrier.left endpoints.left
 
+theorem CritStripComplexCarrier_strict_interval_absurd {s sigma tau : BHist} :
+    CritStripComplexCarrier s sigma tau ->
+      (NatUnaryStrictPrefix BHist.Empty sigma ∧
+        NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty)) ∧ False := by
+  intro carrier
+  have interval : NatUnaryStrictPrefix BHist.Empty sigma ∧
+      NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty) :=
+    And.intro carrier.right.right.right.left carrier.right.right.right.right
+  exact And.intro interval
+    (CritStripOpenInterval_empty_unit_absurd interval.left interval.right)
+
 end BEDC.Derived.CritStripUp

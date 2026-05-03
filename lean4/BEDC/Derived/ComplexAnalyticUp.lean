@@ -33,6 +33,19 @@ theorem ComplexAnalytic_component_continuation_complex_carrier {real imag z : BH
 def CplxPureImaginary (theta z : BHist) : Prop :=
   UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
 
+theorem CplxPureImaginary_component_deterministic {theta theta' z : BHist} :
+    CplxPureImaginary theta z -> CplxPureImaginary theta' z ->
+      hsame (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (BHist.e1 BHist.Empty) (BHist.e1 theta')) ∧ hsame theta theta' := by
+  intro left right
+  have sameComponents :
+      hsame (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (BHist.e1 BHist.Empty) (BHist.e1 theta')) :=
+    hsame_trans (hsame_symm left.right) right.right
+  have sameImaginaryE1 : hsame (BHist.e1 theta) (BHist.e1 theta') :=
+    append_left_cancel (h := BHist.e1 BHist.Empty) sameComponents
+  exact And.intro sameComponents (hsame_e1_iff.mp sameImaginaryE1)
+
 theorem CplxPureImaginary_complex_carrier_witness {theta z : BHist} :
     CplxPureImaginary theta z ->
       UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) ∧
@@ -69,5 +82,16 @@ theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} 
           (PositiveUnaryDenominator_e1_iff_unary.mpr thetaUnary)
       exact
         ComplexAnalytic_component_continuation_witness realCarrier imagCarrier sameZ qUnary zqCont
+
+theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
+    (UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))) ->
+      (UnaryHistory phi ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 phi))) ->
+        hsame theta phi := by
+  intro left right
+  have sameAnchors :
+      hsame (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (BHist.e1 BHist.Empty) (BHist.e1 phi)) :=
+    hsame_trans (hsame_symm left.right) right.right
+  exact hsame_e1_iff.mp (append_left_cancel (h := BHist.e1 BHist.Empty) sameAnchors)
 
 end BEDC.Derived.ComplexAnalyticUp
