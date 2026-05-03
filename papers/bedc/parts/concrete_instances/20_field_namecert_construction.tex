@@ -50,3 +50,74 @@ source. Combining these clauses leaves only rows carried by
 $\mathsf{RatUpFieldSource}_F$, so the exit package has no schematic
 $\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ operator coordinate.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp right-nested threefold contextual boundary]
+\label{thm:ratup-fieldup-right-nested-threefold-contextual-boundary}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the right-nested
+$\FieldUp(\mathsf{RatUp})$ denominator endpoint carries the following
+contextual boundary:
+\begin{enumerate}
+  \item for every context history $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))\to\bot$;
+  \item for every context history $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))\to\bot$;
+  \item for every context history $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,y))$;
+  \item for every context history $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(y,r))$;
+  \item for all $L,R:\mathsf{BHist}$,
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))
+  \to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-right-nested-threefold-support-non-singleton-exactness}
+to the same concrete denominator tuple, carried histories, and support witness.
+The right-nested endpoint data recovers $\mathsf{RatHistoryCarrier}(y)$ and the
+singleton rejection map $\mathsf{fieldSingletonEmptyCarrier}(y)\to\bot$.
+
+Fix a context history $r:\mathsf{BHist}$. Apply
+\autoref{thm:field-singleton-empty-append-rat-carrier-absurd} with context $r$
+and Rat carrier endpoint $y$ to reject
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))$. Apply
+\autoref{thm:field-singleton-empty-append-left-rat-carrier-absurd} with the same
+two histories in the opposite append order to reject
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))$.
+
+For the right-append inverse-domain witness, unfold
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,y))$ as rejection of the
+singleton classifier against $\emp$. Any such classifier witness contains the
+source-carrier component
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))$, contradicting the
+right-append rejection.
+
+For the left-append inverse-domain witness, unfold
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(y,r))$ as rejection of the
+singleton classifier against $\emp$. Its source-carrier component is
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))$, contradicting the
+left-append rejection.
+
+Finally package $\mathsf{RatHistoryClassifier}(y,y)$ from the recovered Rat
+carrier witness on both sides and reflexivity of $\hsame$. For arbitrary
+$L,R:\mathsf{BHist}$, apply
+\autoref{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}.
+It rejects
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))$.
+\end{proof}
+
+Per-object template: traditional target bracketing-independent concrete
+$\FieldUp(\mathsf{RatUp})$ denominator exit support; BEDC source
+$\mathsf{BHist}$ with the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and $\mathsf{RatUpFieldSource}_F$; carrier
+$\mathsf{ThreeSupp}_D^u$; classifier $R_D^u$; stability obligations
+right-nested support exactness plus contextual append separation; ledger the
+right-nested endpoint $y$; core theorem
+\autoref{thm:ratup-fieldup-right-nested-threefold-contextual-boundary};
+exactness predicate contextual singleton and inverse-domain exclusion; standard
+bridge deferred; status $\mathsf{ProofTarget}$.
