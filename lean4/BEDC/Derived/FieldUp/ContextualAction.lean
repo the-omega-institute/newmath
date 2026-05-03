@@ -232,6 +232,56 @@ theorem field_rat_denominator_contextual_action_composition_support_laws
       exact Iff.mpr nestedRatCore (Iff.mpr outerSupport outer)
   exact ⟨carrierNested, ⟨carrierNested, carrierTarget, nestedTargetSame⟩, supportLaw⟩
 
+theorem ratup_fieldup_denominator_contextual_action_support_collapse
+    {p q p' q' h l r l' r' : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitCarrier l ->
+        RatDenomUnitCarrier r -> RatDenomUnitCarrier l' -> RatDenomUnitCarrier r' ->
+          (RatHistoryCarrier l -> False) -> (RatHistoryCarrier r -> False) ->
+            (RatHistoryCarrier l' -> False) -> (RatHistoryCarrier r' -> False) ->
+              RatDenomUnitCarrier
+                (RatDenomUnitContextualAction p' q' l' r'
+                  (RatDenomUnitContextualAction p q l r h)) ∧
+              RatDenomUnitClassifier
+                (RatDenomUnitContextualAction p' q' l' r'
+                  (RatDenomUnitContextualAction p q l r h))
+                (RatDenomUnitContextualAction p' q' (append l' l) (append r r') h) ∧
+              (RatHistoryCarrier
+                  (RatDenomUnitContextualAction p' q' l' r'
+                    (RatDenomUnitContextualAction p q l r h)) <->
+                RatHistoryCarrier h) := by
+  intro sameP sameQ sameP' sameQ' carrierH carrierL carrierR carrierL' carrierR'
+  intro notRatL notRatR notRatL' notRatR'
+  have laws :=
+    field_rat_denominator_contextual_action_composition_support_laws sameP sameQ sameP'
+      sameQ' carrierH carrierL carrierR carrierL' carrierR'
+  constructor
+  · exact laws.left
+  · constructor
+    · exact laws.right.left
+    · constructor
+      · intro ratNested
+        have support := Iff.mp laws.right.right ratNested
+        cases support with
+        | inl ratL' =>
+            exact False.elim (notRatL' ratL')
+        | inr supportTail =>
+            cases supportTail with
+            | inl ratL =>
+                exact False.elim (notRatL ratL)
+            | inr supportTail =>
+                cases supportTail with
+                | inl ratH =>
+                    exact ratH
+                | inr supportTail =>
+                    cases supportTail with
+                    | inl ratR =>
+                        exact False.elim (notRatR ratR)
+                    | inr ratR' =>
+                        exact False.elim (notRatR' ratR')
+      · intro ratH
+        exact Iff.mpr laws.right.right (Or.inr (Or.inr (Or.inl ratH)))
+
 theorem RatDenomUnitContextualAction_pair_support_transport_iff
     {p q p' q' h l r s t l' r' s' t' : BHist} :
     hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->

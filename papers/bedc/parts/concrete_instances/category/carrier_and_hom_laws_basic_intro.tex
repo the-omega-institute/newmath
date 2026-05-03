@@ -143,6 +143,25 @@ are unary, and the right-unit continuation at $\emp$ rebuilds the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_target\_iff}
 
+\begin{theorem}[Continuation morphism empty target existence equivalence]
+\label{thm:continuation-morphism-empty-target-nonempty-iff}
+For every source history $source$, there exists a continuation morphism from
+$source$ to $\emp$ exactly when the source is history-same to $\emp$:
+$$
+\mathsf{Nonempty}(\mathsf{ContinuationMorphism}(source,\emp))
+\Longleftrightarrow
+\hsame(source,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Any displayed morphism into $\emp$ has a continuation ledger ending at
+$\emp$, so empty-result inversion identifies its source with $\emp$.
+Conversely, if $source\hsame\emp$, the right-unit continuation at $source$
+transports its result endpoint to $\emp$, giving the required empty-tail
+continuation morphism.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_target\_nonempty\_iff}
+
 \begin{theorem}[Category empty-target semantic name certificate]
 \label{thm:category-empty-target-semantic-namecert}
 Fix a source history \(a\) satisfying \(a\hsame\emp\). The empty-target

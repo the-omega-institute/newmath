@@ -12,6 +12,18 @@ theorem ContinuationMorphism_empty_target_inversion {source : BHist}
   | mk tail rel =>
       exact cont_empty_result_inversion rel
 
+theorem ContinuationMorphism_empty_target_nonempty_iff {source : BHist} :
+    Nonempty (ContinuationMorphism source BHist.Empty) ↔ hsame source BHist.Empty := by
+  constructor
+  · intro witness
+    cases witness with
+    | intro morphism =>
+        exact (ContinuationMorphism_empty_target_inversion morphism).left
+  · intro sameSource
+    exact Nonempty.intro
+      { tail := BHist.Empty,
+        rel := cont_result_hsame_transport (cont_right_unit source) sameSource }
+
 theorem CategoryHomCarrier_empty_target_chain_inversion {a b f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b BHist.Empty g ->
       hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame f BHist.Empty ∧
