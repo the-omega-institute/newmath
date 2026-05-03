@@ -19,6 +19,37 @@ theorem fieldSingletonEmptyClassifier_append_split_empty_iff {p q h : BHist} :
     exact And.intro appendEmpty
       (And.intro split.right.right (hsame_trans appendEmpty (hsame_symm split.right.right)))
 
+theorem fieldSingletonEmpty_operation_context_normalization_iff {L R h k out : BHist} :
+    fieldSingletonEmptyCarrier L -> fieldSingletonEmptyCarrier R ->
+      ((fieldSingletonEmptyClassifier (append L (fieldSingletonEmptyMul h k)) (append R out) ↔
+          fieldSingletonEmptyCarrier out) ∧
+        (fieldSingletonEmptyClassifier (append L fieldSingletonEmptyOne) (append R out) ↔
+          fieldSingletonEmptyCarrier out) ∧
+        (∀ p : fieldSingletonEmptyNonZero h,
+          fieldSingletonEmptyClassifier (append L (fieldSingletonEmptyInv h p)) (append R out) ↔
+            fieldSingletonEmptyCarrier out)) := by
+  intro carrierL carrierR
+  have endpointIff : ∀ endpoint : BHist, fieldSingletonEmptyCarrier endpoint ->
+      (fieldSingletonEmptyClassifier (append L endpoint) (append R out) ↔
+        fieldSingletonEmptyCarrier out) := by
+    intro endpoint endpointCarrier
+    constructor
+    · intro classified
+      exact (append_eq_empty_iff.mp classified.right.left).right
+    · intro outCarrier
+      have leftCarrier : fieldSingletonEmptyCarrier (append L endpoint) :=
+        append_eq_empty_iff.mpr (And.intro carrierL endpointCarrier)
+      have rightCarrier : fieldSingletonEmptyCarrier (append R out) :=
+        append_eq_empty_iff.mpr (And.intro carrierR outCarrier)
+      exact And.intro leftCarrier
+        (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+  constructor
+  · exact endpointIff (fieldSingletonEmptyMul h k) (hsame_refl BHist.Empty)
+  · constructor
+    · exact endpointIff fieldSingletonEmptyOne (hsame_refl BHist.Empty)
+    · intro p
+      exact endpointIff (fieldSingletonEmptyInv h p) (hsame_refl BHist.Empty)
+
 theorem fieldSingletonEmptyClassifier_append_right_cancel_iff {P Q R : BHist} :
     fieldSingletonEmptyCarrier P ->
       (fieldSingletonEmptyClassifier (append Q P) (append R P) ↔

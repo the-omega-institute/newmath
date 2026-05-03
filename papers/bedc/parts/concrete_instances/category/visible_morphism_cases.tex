@@ -342,6 +342,31 @@ the composite displayed equality supplies the continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_nonempty\_e1\_tail\_factors}
 
+\begin{theorem}[Continuation morphism nonempty one-headed composite factors are unique]
+\label{thm:continuation-morphism-comp-nonempty-e1-tail-factors-unique}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If both displayed tails are unary
+and nonempty, and the composite displayed tail is classified by $\Eone(k)$,
+then there are histories $l,m$ such that the left and right displayed tails are
+classified by $\Eone(l)$ and $\Eone(m)$, the visible boundary satisfies
+$$
+\ContR(\Eone(l),\Eone(m),\Eone(k)),
+$$
+and any other visible payloads $l',m'$ with the same two displayed tail
+classifications and the same visible boundary satisfy
+$\HSame(l,l')\land\HSame(m,m')$.
+\end{theorem}
+\begin{proof}
+Destructure both displayed tails. Empty tails contradict nonemptiness and
+zero-headed tails contradict unary classification. In the remaining
+one-headed--one-headed case, the witnesses are the two exposed payloads.
+Constructor injectivity for $\Eone$ turns any competing left and right tail
+classifications into the two payload equalities, while the displayed composite
+equality supplies the boundary continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_nonempty\_e1\_tail\_factors\_unique}
+
 \begin{theorem}[Continuation morphism composite right visible tail result cases]
 \label{thm:category-continuation-morphism-comp-right-visible-tail-result-cases}
 For histories $a,b,c,m$, let

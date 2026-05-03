@@ -194,4 +194,42 @@ theorem ContinuationMorphism_comp_nonempty_e1_tail_factors {a b c k : BHist}
                         (And.intro (hsame_refl (BHist.e1 rightTail))
                           (cont_intro sameComposite.symm))))
 
+theorem ContinuationMorphism_comp_nonempty_e1_tail_factors_unique {a b c k : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
+    (sameComposite : hsame (ContinuationMorphism_comp_closed left right).tail (BHist.e1 k))
+    (leftCarrier : UnaryHistory left.tail) (rightCarrier : UnaryHistory right.tail)
+    (leftNonempty : hsame left.tail BHist.Empty -> False)
+    (rightNonempty : hsame right.tail BHist.Empty -> False) :
+    ∃ l m : BHist, hsame left.tail (BHist.e1 l) ∧ hsame right.tail (BHist.e1 m) ∧
+      Cont (BHist.e1 l) (BHist.e1 m) (BHist.e1 k) ∧
+        (∀ {l' m' : BHist}, hsame left.tail (BHist.e1 l') ->
+          hsame right.tail (BHist.e1 m') ->
+          Cont (BHist.e1 l') (BHist.e1 m') (BHist.e1 k) ->
+            hsame l l' ∧ hsame m m') := by
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          cases leftTail with
+          | Empty =>
+              exact False.elim (leftNonempty (hsame_refl BHist.Empty))
+          | e0 leftTail =>
+              exact False.elim (unary_no_zero_extension leftCarrier)
+          | e1 leftTail =>
+              cases rightTail with
+              | Empty =>
+                  exact False.elim (rightNonempty (hsame_refl BHist.Empty))
+              | e0 rightTail =>
+                  exact False.elim (unary_no_zero_extension rightCarrier)
+              | e1 rightTail =>
+                  exact Exists.intro leftTail
+                    (Exists.intro rightTail
+                      (And.intro (hsame_refl (BHist.e1 leftTail))
+                        (And.intro (hsame_refl (BHist.e1 rightTail))
+                          (And.intro (cont_intro sameComposite.symm)
+                            (by
+                              intro l' m' sameLeft sameRight _sameResult
+                              exact And.intro (hsame_e1_iff.mp sameLeft)
+                                (hsame_e1_iff.mp sameRight))))))
+
 end BEDC.Derived.CategoryUp
