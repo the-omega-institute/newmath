@@ -9,11 +9,11 @@ This chapter gives a concrete naming-certificate construction for the constructi
 \begin{definition}[Complex exponential by real components]
 \label{def:cplx-exp}
 For complex history \(z\) with components \((x, y)\) (real and imaginary parts as \(\RealUp\)-histories), the complex exponential predicate \(\mathsf{CplxExp}(z, w)\) holds when \(w\) is the complex history with components
-\[
+$$
 \mathsf{Re}(w) \;=\; \mathsf{Exp}(x) \cdot \mathsf{Cos}(y),
 \qquad
 \mathsf{Im}(w) \;=\; \mathsf{Exp}(x) \cdot \mathsf{Sin}(y),
-\]
+$$
 each computed by composing \(\RealAnalyticUp\) certificates (\autoref{def:real-analytic-exp}, \autoref{def:real-analytic-sin-cos}) with \(\RealUp\) multiplication. The witness records the explicit input bound \(B = \max(|x|, |y|)\) inherited from the underlying real evaluations.
 \end{definition}
 
@@ -75,11 +75,11 @@ The principal-branch restriction is a SCHEMA-ONLY HORIZON for general analytic c
 \begin{definition}[Complex sine and cosine via Euler]
 \label{def:cplx-sin-cos}
 For complex history \(z\), the predicates \(\mathsf{CplxSin}(z, s)\) and \(\mathsf{CplxCos}(z, c)\) are defined by Euler's formula:
-\[
+$$
 s \;=\; \frac{\mathsf{CplxExp}(iz) - \mathsf{CplxExp}(-iz)}{2i},
 \qquad
 c \;=\; \frac{\mathsf{CplxExp}(iz) + \mathsf{CplxExp}(-iz)}{2}.
-\]
+$$
 Both are computed using \autoref{def:cplx-exp} and the \(\ComplexUp\) field operations.
 \end{definition}
 

@@ -36,9 +36,9 @@ By induction on the second contour, using the extension constructor of \(\mathsf
 \begin{definition}[Subdivided Riemann sum]
 \label{def:riemann-sum}
 For a function \(f\) classified by \(\ContinuousFunctionUp\) on a domain containing \(\gamma\), a piecewise-linear contour \(\gamma = [z_0, \ldots, z_k]\), a unary subdivision count \(n\), and an explicit choice of sampling points \(S_n = \{\xi_{i,j}\}\) on each subsegment, the Riemann sum \(\mathsf{RiemannSum}(f, \gamma, n, S_n)\) is the complex-history value
-\[
+$$
 \sum_{i=0}^{k-1} \sum_{j=0}^{n-1} f(\xi_{i,j}) \cdot \frac{z_{i+1} - z_i}{n}.
-\]
+$$
 The closed inductive carrier indexes both the segment and the subdivision step.
 \end{definition}
 
@@ -55,9 +55,9 @@ By induction on the length of the contour list. The base case is a single sum of
 \begin{definition}[Contour integral predicate]
 \label{def:cont-int}
 For a function \(f\) classified by \(\HolomorphicUp\) on a neighbourhood containing \(\gamma\), a piecewise-linear contour \(\gamma\), and a complex history \(I\), the predicate \(\mathsf{ContInt}(f, \gamma, I)\) holds when there is an explicit modulus function \(N : \mathsf{Unary} \to \mathsf{Unary}\) such that for every unary precision \(k\) and every \(n\) with \(\mathsf{NatGT}(n, N(k))\) and every sampling choice \(S_n\),
-\[
+$$
 \bigl| \mathsf{RiemannSum}(f, \gamma, n, S_n) - I \bigr| \leq 2^{-k}.
-\]
+$$
 \end{definition}
 
 \begin{lemma}[Existence of the contour integral on holomorphic inputs]
@@ -131,9 +131,9 @@ Apply \autoref{thm:cauchy-triangle} to each triangle in the triangulation. The s
 \begin{theorem}[Cauchy integral formula, constructive form]
 \label{thm:cauchy-integral-formula}
 Let \(z_0\) be a complex history, \(r\) a positive rational history, and \(\gamma\) a closed piecewise-linear contour approximating the circle of radius \(r\) about \(z_0\) inside the open disk \(\mathsf{OpenDisk}(z_0, r)\). For \(f\) classified by \(\HolomorphicUp\) on the disk,
-\[
+$$
 \mathsf{ContInt}\bigl(\lambda z. f(z) / (z - z_0), \gamma, 2\pi i \cdot f(z_0)\bigr)
-\]
+$$
 holds, with explicit modulus computed from the rational approximation of \(\pi\) provided by \(\RealUp\) (\autoref{ch:concrete-instances-real-namecert}).
 \end{theorem}
 \begin{proof}[Sketch]
