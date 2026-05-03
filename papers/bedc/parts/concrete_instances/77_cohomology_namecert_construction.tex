@@ -19,6 +19,19 @@ component back from the empty appended history, giving $d(h)\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_right\_cancel}
 
+\begin{theorem}[Cohomology cocycle axis left cancel]
+\label{thm:cohomology-cocycle-axis-left-cancel}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+the shifted history $axis\cdot h$ is a $d$-cocycle, then $h$ is a
+$d$-cocycle.
+\end{theorem}
+\begin{proof}
+Append preservation rewrites the shifted differential as
+$\mathsf{append}(d(axis),d(h))$. BEDC append-empty inversion reads the right
+component back from the empty appended history, giving $d(h)\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_left\_cancel}
+
 \begin{theorem}[Cohomology cocycle append closure]
 \label{thm:cohomology-cocycle-append-closed}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$, and
@@ -35,6 +48,22 @@ axis gives the displayed shifted cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_closed}
 
+\begin{theorem}[Cohomology cocycle append hsame transport]
+\label{thm:cohomology-cocycle-append-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+be congruent for $\hsame$, and let the fixed cohomology axis satisfy
+$d(axis)\hsame\emp$. If the shifted histories $h\cdot axis$ and
+$k\cdot axis$ are $d$-cocycles and
+$\hsame((h\cdot k)\cdot axis,r)$, then $r$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+The append closure theorem gives the cocycle predicate for
+$(h\cdot k)\cdot axis$. Congruence for $d$ transports the endpoint
+comparison to the corresponding differential histories, and symmetry plus
+transitivity of $\hsame$ carries the cocycle predicate to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_hsame\_transport}
+
 \begin{theorem}[Cohomology cocycle core append closure]
 \label{thm:cohomology-cocycle-append-core-closed}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
@@ -47,6 +76,22 @@ $d(k)$. Append-empty introduction makes $d(h)\cdot d(k)$ empty. Append
 preservation transports this empty result back to $d(h\cdot k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_core\_closed}
+
+\begin{theorem}[Cohomology cocycle left-shift append closure]
+\label{thm:cohomology-cocycle-left-shift-append-closed}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$, and
+let the fixed cohomology axis satisfy $d(axis)\hsame\emp$. If the shifted
+histories $axis\cdot h$ and $axis\cdot k$ are $d$-cocycles, then the shifted
+append $axis\cdot(h\cdot k)$ is also a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Apply left-axis cancellation to the two shifted cocycle hypotheses to obtain
+core cocycles for $h$ and $k$. Core append closure gives a cocycle for
+$h\cdot k$. Append preservation for $axis\cdot(h\cdot k)$ then combines the
+empty axis differential with this core cocycle and yields the displayed
+left-shifted cocycle.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_left\_shift\_append\_closed}
 
 \section{The certificate}
 \label{sec:cohomology-certificate}

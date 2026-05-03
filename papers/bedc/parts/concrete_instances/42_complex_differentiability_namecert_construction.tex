@@ -208,6 +208,21 @@ forces $h\hsame\emp$, contradicting the non-zero witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_nonempty}
 
+\begin{theorem}[Complex difference quotient result visible-context readback]
+\label{thm:cplx-diff-quot-result-visible-context-readback}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds and the displayed quotient result is
+equal inside a common left and right append context to the same context around
+$core$, then $q\hsame core$. The readback core is also not
+$\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays into a shared append-context form and cancel
+the common context. The cancellation gives $q\hsame core$. A hypothetical
+$core\hsame\emp$ transports to $q\hsame\emp$, contradicting the checked
+non-emptiness theorem for complex difference quotient results.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_visible\_context\_readback}
+
 \section{Pointwise complex differentiability}
 
 \begin{definition}[Pointwise complex differentiability]

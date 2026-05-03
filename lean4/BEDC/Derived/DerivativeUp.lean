@@ -125,6 +125,25 @@ theorem DerivativeCplxDiffAt_witness_step_unary {f z fp : BHist} :
                                 (And.intro stepUnary.right.left
                                   (And.intro stepUnary.right.right (classifier quotient)))))
 
+theorem DerivativeCplxDiffAt_derivative_nonempty {f z fp : BHist} :
+    CplxDiffAt f z fp -> hsame fp BHist.Empty -> False := by
+  intro derivative derivativeEmpty
+  cases derivative with
+  | intro _functionCarrier derivativeRest =>
+      cases derivativeRest with
+      | intro _pointCarrier derivativeRest =>
+          cases derivativeRest with
+          | intro _derivativeCarrier derivativeRest =>
+              cases derivativeRest with
+              | intro witness classifier =>
+                  cases witness with
+                  | intro h witnessRest =>
+                      cases witnessRest with
+                      | intro q quotient =>
+                          have quotientEmpty : hsame q BHist.Empty :=
+                            hsame_trans (classifier quotient) derivativeEmpty
+                          exact CplxDiffQuot_result_nonempty quotient quotientEmpty
+
 theorem DerivativeMetricQuotient_quotient_distance_nonempty {f z h q dist : BHist} :
     DerivativeMetricQuotient f z h q dist ->
       (hsame q BHist.Empty -> False) ∧ (hsame dist BHist.Empty -> False) := by
@@ -255,6 +274,22 @@ theorem DerivativeMetricQuotient_distance_visible_context_readback {p r f z h q 
   exact And.intro sameCore
     (fun coreEmpty =>
       DerivativeMetricQuotient_distance_result_nonempty quotient
+        (hsame_trans sameCore coreEmpty))
+
+theorem DerivativeMetricQuotient_quotient_visible_context_readback
+    {p r f z h q dist core : BHist} :
+    DerivativeMetricQuotient f z h q dist ->
+      hsame (append (append p q) r) (append (append p core) r) ->
+        hsame q core ∧ (hsame core BHist.Empty -> False) := by
+  intro quotient sameVisible
+  have sameNested : hsame (append p (append q r)) (append p (append core r)) :=
+    hsame_trans (hsame_symm (append_assoc p q r))
+      (hsame_trans sameVisible (append_assoc p core r))
+  have sameCore : hsame q core :=
+    (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
+  exact And.intro sameCore
+    (fun coreEmpty =>
+      (DerivativeMetricQuotient_quotient_distance_nonempty quotient).left
         (hsame_trans sameCore coreEmpty))
 
 end BEDC.Derived.DerivativeUp
