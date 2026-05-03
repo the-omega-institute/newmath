@@ -138,6 +138,8 @@ import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
+import BEDC.Derived.GammaUp
+import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.Classifier
