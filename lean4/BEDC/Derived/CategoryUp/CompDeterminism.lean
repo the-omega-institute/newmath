@@ -129,6 +129,18 @@ theorem CategoryHomCarrier_comp_factorization_iff {a c f g fg : BHist} :
     | intro b factors =>
         exact CategoryHomCarrier_comp_closed factors.left factors.right comp
 
+theorem CategoryHomCarrier_comp_canonical_middle_public_readback {a c f g fg : BHist} :
+    Cont f g fg -> CategoryHomCarrier a c fg -> CategoryHomCarrier a (append a f) f ∧
+      CategoryHomCarrier (append a f) c g ∧
+        (∀ {b : BHist}, CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
+          hsame (append a f) b) := by
+  intro comp displayed
+  have factors := (CategoryHomCarrier_comp_canonical_middle_iff
+    (a := a) (c := c) (f := f) (g := g) (fg := fg) comp).mp displayed
+  exact ⟨factors.left, factors.right,
+    fun {_b} left right =>
+      CategoryHomCarrier_comp_middle_object_deterministic factors.left right comp displayed⟩
+
 theorem CategoryHomCarrier_tail_comm_target_deterministic {a b c d f g fg gf : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg -> Cont g f gf ->
       CategoryHomCarrier a d gf -> hsame c d := by

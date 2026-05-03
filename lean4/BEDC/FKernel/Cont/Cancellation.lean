@@ -218,6 +218,27 @@ theorem cont_composite_right_factor {a b c f g fg : BHist} :
   cases displayed
   exact cont_intro (append_assoc a f g).symm
 
+theorem cont_composite_factorization_iff {a c f g fg : BHist} :
+    Cont f g fg -> (Cont a fg c <-> ∃ b : BHist, Cont a f b ∧ Cont b g c) := by
+  intro composite
+  constructor
+  · intro displayed
+    exact ⟨append a f, cont_intro rfl,
+      cont_composite_right_factor (cont_intro rfl) composite displayed⟩
+  · intro factorization
+    cases factorization with
+    | intro b factors =>
+        cases factors.left
+        cases composite
+        exact cont_intro (factors.right.trans (append_assoc a f g))
+
+theorem cont_composite_canonical_middle_public_readback {a c f g fg : BHist} :
+    Cont f g fg -> Cont a fg c -> Cont a f (append a f) ∧ Cont (append a f) g c ∧
+      (∀ {b : BHist}, Cont a f b -> Cont b g c -> hsame (append a f) b) := by
+  intro composite displayed
+  exact ⟨cont_intro rfl, cont_composite_right_factor (cont_intro rfl) composite displayed,
+    fun {_b} left _right => left.symm⟩
+
 theorem cont_prefix_iff {p a b f : BHist} :
     Cont (append p a) f (append p b) ↔ Cont a f b := by
   constructor

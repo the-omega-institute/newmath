@@ -401,6 +401,47 @@ associativity identifies these two histories and supplies the displayed
 continuation from $b$ by $g$ to $c$.
 \end{proof}
 
+\begin{theorem}[Composite continuation factorization iff]
+\label{thm:cont-composite-factorization-iff}
+If $\ContR(f,g,fg)$, then a displayed composite continuation from $a$ to $c$
+by $fg$ is equivalent to the existence of an intermediate history $b$ carrying
+$a$ by $f$ to $b$ and $b$ by $g$ to $c$:
+$$
+\ContR(a,fg,c)
+\Longleftrightarrow
+\exists b:\mathsf{BHist},\ \ContR(a,f,b)\wedge \ContR(b,g,c).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_factorization\_iff}
+\begin{proof}
+The forward direction chooses the canonical endpoint
+$b=\mathsf{append}(a,f)$ and applies right-factor recovery for the displayed
+composite. Conversely, any displayed intermediate factorization composes by
+rewriting the middle endpoint with $\ContR(a,f,b)$ and applying associativity
+of append against the fixed witness $\ContR(f,g,fg)$.
+\end{proof}
+
+\begin{theorem}[Composite continuation canonical middle public readback]
+\label{thm:cont-composite-canonical-middle-public-readback}
+If $\ContR(f,g,fg)$ and $\ContR(a,fg,c)$, then the canonical middle history
+$\mathsf{append}(a,f)$ displays both factors,
+$$
+\ContR(a,f,\mathsf{append}(a,f))
+\quad\text{and}\quad
+\ContR(\mathsf{append}(a,f),g,c),
+$$
+and any other displayed middle $b$ with $\ContR(a,f,b)$ and $\ContR(b,g,c)$
+satisfies $\HSame(\mathsf{append}(a,f),b)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_canonical\_middle\_public\_readback}
+\begin{proof}
+The left factor is the defining continuation for append. The right factor is
+the composite right-factor theorem applied to this canonical left factor, the
+tail composite $\ContR(f,g,fg)$, and the displayed composite $\ContR(a,fg,c)$.
+For another middle $b$, inverting $\ContR(a,f,b)$ identifies $b$ with
+$\mathsf{append}(a,f)$.
+\end{proof}
+
 \begin{corollary}[Addition-like behavior requires no primitive addition]
 \label{cor:addition-like-behavior-requires-no-primitive-addition}
 The continuation relation supplies a finite-kernel seed for addition-like derived interfaces. The additive interface is not primitive; it may be licensed only by a naming certificate whose stability component cites continuation unit and associativity.
