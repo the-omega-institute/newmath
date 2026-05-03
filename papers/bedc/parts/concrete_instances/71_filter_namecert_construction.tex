@@ -28,6 +28,27 @@ $right$, followed by the same associativity comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_closed}
 
+\begin{theorem}[Principal suffix unary commuting square]
+\label{thm:filter-principal-suffix-unary-commuting-square}
+Let $base,left,right,leftPoint,rightPoint,lrPoint,rlPoint:\mathsf{BHist}$.
+If $left$ and $right$ are unary histories and
+$$
+\ContR(base,left,leftPoint),\qquad
+\ContR(base,right,rightPoint),\qquad
+\ContR(leftPoint,right,lrPoint),\qquad
+\ContR(rightPoint,left,rlPoint),
+$$
+then $lrPoint\hsame rlPoint$.
+\end{theorem}
+\begin{proof}
+Unfold the four continuations as history appends. The left path displays
+$\mathsf{append}(\mathsf{append}(base,left),right)$, and the right path
+displays $\mathsf{append}(\mathsf{append}(base,right),left)$. Associativity
+moves both paths to the common $base$ prefix, while unary commutativity of
+$left$ and $right$ identifies the two suffix orders.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_commuting\_square}
+
 \begin{theorem}[Principal suffix commuted meet closure]
 \label{thm:filter-principal-suffix-commuted-meet-closed}
 Let $base,left,right,meet,meetPoint:\mathsf{BHist}$. If $left$ and $right$

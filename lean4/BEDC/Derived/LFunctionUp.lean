@@ -119,6 +119,30 @@ theorem LFunctionDirichletPartSum_positive_index_previous_exists
   | inr successorCase =>
       exact successorCase
 
+theorem LFunctionDirichletPartSum_positive_index_previous_unique
+    {term : BHist -> BHist -> BHist} {s n S : BHist} :
+    DirichletPartSum term s n S -> DirichletPositiveIndex n ->
+      exists m P : BHist, n = BHist.e1 m ∧
+        DirichletPartSum term s m P ∧ Cont P (term m s) S ∧
+          (forall T : BHist, DirichletPartSum term s m T -> hsame P T) := by
+  intro sum positiveIndex
+  have previousExists :=
+    LFunctionDirichletPartSum_positive_index_previous_exists sum positiveIndex
+  cases previousExists with
+  | intro m previousData =>
+      cases previousData with
+      | intro P data =>
+          have unaryM : UnaryHistory m :=
+            DirichletPartSum_index_unary data.right.left
+          exact Exists.intro m
+            (Exists.intro P
+              (And.intro data.left
+                (And.intro data.right.left
+                  (And.intro data.right.right
+                    (fun T other =>
+                      DirichletPartSum_unary_index_deterministic unaryM
+                        data.right.left other)))))
+
 theorem LFunctionDirichletPartSum_zero_terms_positive_previous_readback
     {term : BHist -> BHist -> BHist} {s n S : BHist} :
     (forall {m : BHist}, UnaryHistory m -> hsame (term m s) BHist.Empty) ->
