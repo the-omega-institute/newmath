@@ -84,6 +84,17 @@ theorem EquivCatAdjunction_empty_roundtrip_e1_source_target_eq
       (p := tail) (q := q) (a := a)).mp components.left
   exact componentData.right.right
 
+theorem EquivCatAdjunction_empty_roundtrip_e1_prefix_tail_hsame
+    {sourceTail targetTail a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier (BHist.e1 sourceTail) (BHist.e1 targetTail) a unit counit
+      left right ->
+      hsame left BHist.Empty -> hsame right BHist.Empty ->
+        hsame sourceTail targetTail := by
+  intro carrier leftEmpty rightEmpty
+  have prefixes :=
+    EquivCatAdjunction_empty_roundtrip_prefix_determinacy carrier leftEmpty rightEmpty
+  exact hsame_e1_iff.mp prefixes.left
+
 theorem EquivCatAdjunction_empty_roundtrip_target_prefix_deterministic
     {p q r a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p q a unit counit left right ->
@@ -95,6 +106,20 @@ theorem EquivCatAdjunction_empty_roundtrip_target_prefix_deterministic
         NatTransPrefixComponentCarrier q p a BHist.Empty :=
     EquivCatAdjunction_empty_roundtrip_identity_components carrier leftEmpty rightEmpty
   exact NatTransPrefixComponentCarrier_empty_identity_prefix_trans emptyComponents.right displayed
+
+theorem EquivCatAdjunction_empty_roundtrip_source_prefix_deterministic
+    {p q r a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p q a unit counit left right ->
+      hsame left BHist.Empty -> hsame right BHist.Empty ->
+        NatTransPrefixComponentCarrier r q a BHist.Empty -> hsame p r := by
+  intro carrier leftEmpty rightEmpty displayed
+  have emptyComponents :
+      NatTransPrefixComponentCarrier p q a BHist.Empty ∧
+        NatTransPrefixComponentCarrier q p a BHist.Empty :=
+    EquivCatAdjunction_empty_roundtrip_identity_components carrier leftEmpty rightEmpty
+  have sameRP : hsame r p :=
+    NatTransPrefixComponentCarrier_empty_identity_prefix_trans displayed emptyComponents.right
+  exact hsame_symm sameRP
 
 theorem EquivCatCycleIdentityCarrier_semanticNameCert {a b f g : BHist}
     (left : CategoryHomCarrier a b f) (right : CategoryHomCarrier b a g) :

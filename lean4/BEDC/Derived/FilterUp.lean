@@ -99,6 +99,18 @@ theorem FilterPrincipalSuffix_unary_intersection_zero_result_absurd
     unary_cont_closed baseCarrier meetCarrier baseMeet
   exact unary_no_zero_extension resultCarrier
 
+theorem FilterPrincipalSuffix_base_points_empty_exact
+    {base left right leftPoint rightPoint : BHist} :
+    Cont base left leftPoint -> Cont base right rightPoint -> hsame leftPoint BHist.Empty ->
+      hsame rightPoint BHist.Empty ->
+        hsame base BHist.Empty ∧ hsame left BHist.Empty ∧ hsame right BHist.Empty := by
+  intro baseLeft baseRight leftPointEmpty rightPointEmpty
+  cases leftPointEmpty
+  cases rightPointEmpty
+  have leftParts := cont_empty_result_inversion baseLeft
+  have rightParts := cont_empty_result_inversion baseRight
+  exact And.intro leftParts.left (And.intro leftParts.right rightParts.right)
+
 theorem FilterPrincipalEmptyCarrier_semanticNameCert :
     SemanticNameCert (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty)
       (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty)

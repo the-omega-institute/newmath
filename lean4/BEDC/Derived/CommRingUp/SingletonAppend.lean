@@ -84,6 +84,16 @@ theorem CommRingSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
     have emptyParts := append_eq_empty_iff.mp carrier
     exact not_hsame_e1_empty emptyParts.right
 
+theorem CommRingSingletonCarrier_append_comm_iff {h k : BHist} :
+    CommRingSingletonCarrier (append h k) <-> CommRingSingletonCarrier (append k h) := by
+  constructor
+  · intro carrier
+    have parts := append_eq_empty_iff.mp carrier
+    exact append_eq_empty_iff.mpr (And.intro parts.right parts.left)
+  · intro carrier
+    have parts := append_eq_empty_iff.mp carrier
+    exact append_eq_empty_iff.mpr (And.intro parts.right parts.left)
+
 theorem commringSingletonEmptyClassifier_mul_context_carrier_iff {L R x y out : BHist}
     (carrierL : commringSingletonEmptyCarrier L) (carrierR : commringSingletonEmptyCarrier R) :
     commringSingletonEmptyClassifier (append L (commringSingletonEmptyMul x y))
