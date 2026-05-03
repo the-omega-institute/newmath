@@ -37,13 +37,13 @@ Audit method (execute thoroughly — many tool calls expected, take your time):
    are large vs small, which have many theorems vs none.
 
 2. Inventory coverage. Use Grep:
-   - All `\label{...}` values across parts/ — these are existing claims.
-   - All `\leanchecked|leanvariant|leandef|leanstmt|leansorryd{X}` markers —
+   - All `\label{{...}}` values across parts/ — these are existing claims.
+   - All `\leanchecked|leanvariant|leandef|leanstmt|leansorryd{{X}}` markers —
      these are claims tied to Lean.
 
 3. Find structural gap candidates by category:
-   - **Definition-only chapters** — `\begin{definition}` blocks exist but
-     `grep -c '\\begin{theorem|lemma|proposition}' file.tex` returns 0.
+   - **Definition-only chapters** — `\begin{{definition}}` blocks exist but
+     `grep -c '\\begin{{theorem|lemma|proposition}}' file.tex` returns 0.
      Each definition's natural property becomes a candidate.
    - **Composition gaps** — chapter has theorem about source→mid and
      theorem about mid→target, but no transitive composition theorem.

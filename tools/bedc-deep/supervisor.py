@@ -564,9 +564,11 @@ def main() -> int:
                         help="v0 = observer-only PI agent. v1 = maker/checker gauntlet with expanded action surface (experimental).")
     parser.add_argument("--pipeline-version", choices=["v1", "v2"], default="v1",
                         help="Inner pipeline version. Forwarded to oracle_client.py --pipeline-version. v2 = codex-first track.")
-    parser.add_argument("--attach-pdf", default="papers/bedc/main.pdf",
+    parser.add_argument("--attach-pdf", default="",
                         help="PDF path to attach on first oracle turn of fresh conversations. "
-                             "Set to '' to disable (recommended if you use a ChatGPT Project with main.pdf).")
+                             "Default empty (skip — assumes you're using a ChatGPT Project with "
+                             "main.pdf attached at project level, which is more robust). "
+                             "Set to e.g. 'papers/bedc/main.pdf' to enable userscript-side upload.")
     parser.add_argument("--no-auto-commit", action="store_true")
     parser.add_argument("--no-dev-sync", action="store_true", help="Skip auto-merging origin/dev at startup and before probe/curator")
     parser.add_argument("--inner-restart-backoff", type=int, default=DEFAULT_INNER_RESTART_BACKOFF_S)
