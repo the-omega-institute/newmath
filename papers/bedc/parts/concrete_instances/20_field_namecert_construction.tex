@@ -364,3 +364,69 @@ witnesses, and conjugating element; core theorem list
 \autoref{thm:ratup-fieldup-affine-inverse-antihom-exit}; exactness predicate
 inner-conjugation action laws; standard bridge ordinary inner automorphisms;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine threefold inverse antihomomorphism exit]
+\label{thm:ratup-fieldup-affine-threefold-inverse-antihom-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,U,V:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\circ_{\mathrm{aff}}$ be the concrete
+affine composition, let $\equiv_{\mathrm{aff}}$ be the concrete affine
+classifier, and let $\iota_F(-)$ be the explicit inverse operation supplied by
+the same exit rows. Then the classifier identifies the inverse of the left
+associated threefold composite with the reversed threefold composite of
+explicit inverses:
+$$
+\iota_F((V\circ_{\mathrm{aff}}U)\circ_{\mathrm{aff}}T)
+\equiv_{\mathrm{aff}}
+(\iota_F(T)\circ_{\mathrm{aff}}\iota_F(U))
+\circ_{\mathrm{aff}}\iota_F(V).
+$$
+It also identifies the same inverse with the right associated reversed form:
+$$
+\iota_F((V\circ_{\mathrm{aff}}U)\circ_{\mathrm{aff}}T)
+\equiv_{\mathrm{aff}}
+\iota_F(T)\circ_{\mathrm{aff}}
+(\iota_F(U)\circ_{\mathrm{aff}}\iota_F(V)).
+$$
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:ratup-fieldup-affine-inverse-antihom-exit} to the
+pair $((V\circ_{\mathrm{aff}}U),T)$. This gives
+$$
+\iota_F((V\circ_{\mathrm{aff}}U)\circ_{\mathrm{aff}}T)
+\equiv_{\mathrm{aff}}
+\iota_F(T)\circ_{\mathrm{aff}}\iota_F(V\circ_{\mathrm{aff}}U).
+$$
+
+Next apply Theorem~\ref{thm:ratup-fieldup-affine-inverse-antihom-exit} to the
+pair $(V,U)$. This gives
+$$
+\iota_F(V\circ_{\mathrm{aff}}U)\equiv_{\mathrm{aff}}
+\iota_F(U)\circ_{\mathrm{aff}}\iota_F(V).
+$$
+
+Use the affine operation congruence supplied by
+Theorem~\ref{thm:ratup-fieldup-affine-automorphism-action-certificate} to
+compose the fixed left factor $\iota_F(T)$ with this second classifier
+relation. Transitivity of the same classifier then identifies the original
+inverse with
+$(\iota_F(T)\circ_{\mathrm{aff}}\iota_F(U))\circ_{\mathrm{aff}}\iota_F(V)$,
+which is the first displayed conclusion.
+
+Finally use the affine group and threefold composition rows from
+Theorem~\ref{thm:field-affine-threefold-certified-automorphism-composition}.
+Those rows certify that the two bracketings of the reversed certified affine
+threefold composite have the same concrete affine classifier. Applying
+transitivity once more gives the right associated displayed form.
+\end{proof}
+
+Per-object template: traditional target threefold affine inverse
+antihomomorphism; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphisms; classifier
+$\equiv_{\mathrm{aff}}$; stability binary inverse antihomomorphism, composition
+congruence, and affine associativity; ledger three affine factors and inverse
+witnesses; core theorem
+\autoref{thm:ratup-fieldup-affine-threefold-inverse-antihom-exit}; exactness
+predicate threefold inverse reversal under the concrete affine classifier;
+standard bridge ordinary affine automorphism group; status
+$\mathsf{ProofTarget}$.
