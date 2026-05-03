@@ -47,9 +47,9 @@
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_source_and_context_rows}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_semantic_support_rows}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_exit_support_rows}
-\input{parts/concrete_instances/field/20_field_ratup_fieldup_nondegenerate_semantic_exit}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_exit_support_neutrality}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_semantic_exit_rows}
+\input{parts/concrete_instances/field/20_field_ratup_fieldup_nondegenerate_semantic_exit}
 
 \begin{theorem}[RatUp FieldUp transported strict-support non-singleton endpoint]
 \label{thm:ratup-fieldup-transported-strict-support-non-singleton}
@@ -94,12 +94,48 @@ Rat history carrier witness just obtained, yields contradiction. This is the
 displayed map $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp transported strict-support contextual singleton exclusion]
+\label{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then for every context history $r:\mathsf{BHist}$ both
+boundary collapses are impossible:
+\begin{enumerate}
+  \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton} at the
+same transported endpoint. The endpoint data supplied there includes
+$\mathsf{RatHistoryCarrier}(x)$.
+
+For the right-factor append boundary, apply
+\autoref{thm:field-singleton-empty-append-rat-carrier-absurd} with the context
+history $r$ and the RatUp factor $x$. The displayed Rat carrier witness turns
+any witness of
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))$ into
+contradiction.
+
+For the left-factor append boundary, apply
+\autoref{thm:field-singleton-empty-append-left-rat-carrier-absurd} with the
+same RatUp factor $x$ and context history $r$. The same carrier witness turns
+any witness of $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))$
+into contradiction.
+\end{proof}
+
 Per-object template: traditional target constructive $\FieldUp$ exit separation;
 BEDC source $\mathsf{RatUpFieldSource}_F$, contextual action $\Gamma$, and
 strict support $N_D^u$; carrier $\mathsf{RatHistoryCarrier}$; classifier
 $\mathsf{RatHistoryClassifier}$; stability obligations transported support
 neutrality plus Rat/singleton separation; ledger contextual-pair action and
 denominator support; core theorem
-\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton}; exactness
-predicate transported strict-support non-collapse; standard bridge deferred;
-status $\mathsf{ProofTarget}$.
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton} together
+with
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion};
+exactness predicate transported strict-support non-collapse and contextual
+singleton exclusion; standard bridge deferred; status $\mathsf{ProofTarget}$.
