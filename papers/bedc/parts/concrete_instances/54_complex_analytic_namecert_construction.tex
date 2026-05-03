@@ -17,6 +17,22 @@ $$
 each computed by composing \(\RealAnalyticUp\) certificates (\autoref{def:real-analytic-exp}, \autoref{def:real-analytic-sin-cos}) with \(\RealUp\) multiplication. The witness records the explicit input bound \(B = \max(|x|, |y|)\) inherited from the underlying real evaluations.
 \end{definition}
 
+\begin{theorem}[Component continuation witness]
+\label{thm:cplx-analytic-component-continuation-witness}
+Let \(z\) be the continuation of a rational real component by a rational imaginary
+component, and let \(zq\) be the continuation of \(z\) by a unary suffix \(q\).
+Then there is an intermediate imaginary component \(imagq\) such that \(imagq\)
+continues the imaginary component by \(q\), \(zq\) is the continuation of the
+real component by \(imagq\), and \(imagq\) has a positive unary denominator.
+\end{theorem}
+\begin{proof}
+Associativity of \(\Cont\) splits the continuation through the imaginary
+component. The rational carrier on the imaginary component is closed under unary
+suffix continuation, and carrier transport along the resulting \(\Cont\)
+equality gives the positive-denominator readback.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.ComplexAnalytic\_component\_continuation\_witness}
+
 \begin{definition}[Pure-imaginary complex source]
 \label{def:cplx-pure-imaginary}
 The predicate \(\mathsf{CplxPureImaginary}(\theta,z)\) holds when \(\theta\) is unary and \(z\) is \(\hsame\) to the complex history with real component \(\Eone(\emp)\) and imaginary component \(\Eone(\theta)\).
