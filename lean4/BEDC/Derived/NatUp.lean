@@ -84,6 +84,13 @@ theorem NatUnaryStrictPrefix_append_tail_trans {h k l leftTail rightTail : BHist
       (fun appendedEmpty => leftNonempty (append_eq_empty_iff.mp appendedEmpty).left), joinedCont⟩
   exact And.intro joinedStrict joinedCont
 
+theorem NatUnaryStrictPrefix_target_unary {h k : BHist} :
+    UnaryHistory h -> NatUnaryStrictPrefix h k -> UnaryHistory k := by
+  intro hUnary strict
+  cases strict with
+  | intro tail data =>
+      exact unary_cont_closed hUnary data.left data.right.right
+
 theorem NatUnaryStrictPrefix_trans_composite_tail {h k l : BHist} :
     NatUnaryStrictPrefix h k -> NatUnaryStrictPrefix k l ->
       exists tail : BHist,
