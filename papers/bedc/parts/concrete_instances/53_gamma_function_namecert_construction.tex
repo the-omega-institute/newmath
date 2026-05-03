@@ -25,6 +25,20 @@ The unary witness \(n\) gives a positive rational denominator for \(\Eone(n)\), 
 \label{def:gamma-domain}
 \(\mathsf{GammaDom}(s)\) holds when \(\mathsf{ComplexUp}(s)\) and \(\neg \mathsf{GammaPole}(s)\). The negation is constructive: \(\mathsf{GammaDom}(s)\) is witnessed by an explicit apartness datum \((k, w)\) where \(k\) is a unary precision and \(w\) is a strict-prefix witness showing that the distance from \(s\) to the closest non-positive integer exceeds \(2^{-k}\).
 \end{definition}
+\leandef{BEDC.Derived.GammaUp.GammaDomainCore}
+
+\begin{theorem}[Gamma domain core is non-empty]
+\label{thm:gamma-domain-core-not-empty}
+If a Gamma-domain core witness carries \(s\) as a complex history and records
+constructive apartness from the pole locus, then \(s\) cannot be \(\hsame\) to
+\(\emp\).
+\end{theorem}
+\begin{proof}
+Unpack the Gamma-domain core witness and read its \(\ComplexUp\) carrier for
+\(s\). The complex carrier is non-empty, so any \(\hsame(s,\emp)\) assumption
+contradicts the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_not\_empty}
 
 \begin{lemma}[Apartness from the pole locus is decidable]
 \label{lem:gamma-pole-apartness-decidable}

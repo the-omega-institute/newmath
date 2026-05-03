@@ -24,6 +24,12 @@ theorem ComplexAnalytic_component_continuation_witness {real imag z q zq : BHist
       exact ⟨imagq, imagqCarrier, split.left, split.right,
         RatHistoryCarrier_iff_positive_denominator.mp imagqCarrier⟩
 
+theorem ComplexAnalytic_component_continuation_complex_carrier {real imag z : BHist} :
+    RatHistoryCarrier real -> RatHistoryCarrier imag -> Cont real imag z ->
+      ComplexHistoryCarrier z := by
+  intro realCarrier imagCarrier realImag
+  exact ProdHistoryCarrier_cont_intro realCarrier imagCarrier realImag
+
 def CplxPureImaginary (theta z : BHist) : Prop :=
   UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
 
