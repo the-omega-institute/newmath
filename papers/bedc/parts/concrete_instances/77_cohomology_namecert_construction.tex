@@ -32,6 +32,19 @@ component back from the empty appended history, giving $d(h)\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_left\_cancel}
 
+\begin{theorem}[Cohomology cocycle axis context cancel]
+\label{thm:cohomology-cocycle-axis-context-cancel}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+the two-sided shifted history $left\cdot(h\cdot right)$ is a $d$-cocycle,
+then $h$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Apply left-axis cancellation to the outer context. This recovers the
+right-axis shifted cocycle for $h\cdot right$. Applying right-axis
+cancellation to that shifted cocycle gives $d(h)\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_context\_cancel}
+
 \begin{theorem}[Cohomology cocycle append closure]
 \label{thm:cohomology-cocycle-append-closed}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$, and
@@ -113,6 +126,23 @@ Conversely, the core append closure theorem combines the two component
 cocycles into the appended cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_empty\_iff}
+
+\begin{theorem}[Cohomology cocycle axis context append closure]
+\label{thm:cohomology-cocycle-axis-context-append-closed}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$, and
+let $left$ and $right$ be $d$-cocycles. If the two-sided shifted histories
+$left\cdot(h\cdot right)$ and $left\cdot(k\cdot right)$ are $d$-cocycles,
+then the two-sided shifted append $left\cdot((h\cdot k)\cdot right)$ is also
+a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Two-sided context cancellation applied to the two hypotheses gives core
+cocycles for $h$ and $k$. Core append closure makes $h\cdot k$ a core
+cocycle. Append preservation with the right context, then with the left
+context, combines these three cocycle rows into the displayed two-sided
+shifted cocycle.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_context\_append\_closed}
 
 \begin{theorem}[Cohomology cocycle left-shift append closure]
 \label{thm:cohomology-cocycle-left-shift-append-closed}

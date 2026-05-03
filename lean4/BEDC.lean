@@ -290,6 +290,7 @@ import BEDC.Derived.FieldUp.EmptyContextCancel
 import BEDC.Derived.FieldUp.SingletonContinuationLeftEndpoint
 import BEDC.Derived.FieldUp.SingletonContinuationRightEndpoint
 import BEDC.Derived.FieldUp.SingletonClassifierEndpointTransport
+import BEDC.Derived.FieldUp.SingletonContinuationContextTransport
 import BEDC.Derived.FieldUp.SingletonContinuationCommIff
 import BEDC.Derived.FieldUp.SingletonContinuationAppendSplit
 import BEDC.Derived.FieldUp.SingletonCycleTailClassifier
