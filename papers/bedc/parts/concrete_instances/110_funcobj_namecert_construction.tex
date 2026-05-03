@@ -50,3 +50,27 @@ moves both the base and prefixed hom-carrier conjuncts across the displayed
 history comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_semanticNameCert}
+
+\begin{theorem}[Function-object pointwise hom carrier composition readback]
+\label{thm:funcobj-pointwise-hom-carrier-composition-readback}
+For a unary prefix $p$, categorical hom carriers
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$\mathsf{CategoryHomCarrier}(b,c,g)$, and a continuation
+$\Cont(f,g,fg)$, the composite history $fg$ carries both the base composite
+hom carrier and the pointwise prefixed composite hom carrier:
+$$
+\mathsf{CategoryHomCarrier}(a,c,fg)\land
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,c),fg).
+$$
+Moreover, every displayed history carrying both of these composite carrier
+fields is $\hsame$ to $fg$.
+\end{theorem}
+\begin{proof}
+The base composite is supplied by the categorical composition readback theorem.
+Prefix preservation transports that base composite through the unary prefix
+$p$, giving the pointwise prefixed carrier at the same history $fg$. If a
+displayed history carries both fields, the base field alone is enough for the
+categorical readback uniqueness proof, which identifies the displayed history
+with $fg$.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_comp\_public\_readback}
