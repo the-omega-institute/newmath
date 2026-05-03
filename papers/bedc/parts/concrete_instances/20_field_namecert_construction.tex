@@ -29,182 +29,285 @@
 \input{parts/concrete_instances/field/20_field_contextual_action_exit_packages}
 \input{parts/concrete_instances/field/20_field_apartzero_contextual_tail_certificates}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_selector_hierarchy_exit_package}
-\input{parts/concrete_instances/field/20_field_selector_obstruction_chain_exit_packages}
 
-\begin{theorem}[RatUp FieldUp Rat-classified factors exclude empty product]
-\label{thm:ratup-fieldup-rat-classified-factors-exclude-empty-product}
-For a BEDC history-level $\FieldUp(\RatUp)$ candidate satisfying the hypotheses
-of \autoref{thm:field-nonzero-factors-exclude-zero-product}, specialize the
-nonzero index to
-$$
-\mathsf{ApartZero}_F(h):=(h\hsame0\to\bot).
-$$
-Assume the RatUp concrete exit object identifies the field-zero endpoint with
-the empty history, and includes classifier transport for
-$\mathsf{ApartZero}_F$ together with contradiction of
-$\mathsf{ApartZero}_F(0)$. Then for all histories
-$a,a',b,b':\mathsf{BHist}$,
-$$
-\mathsf{RatHistoryClassifier}(a,a')
-\land
-\mathsf{RatHistoryClassifier}(b,b')
-\quad\Longrightarrow\quad
-(\mathsf{mul}(a,b)\hsame0\to\bot)
-\land
-(\mathsf{mul}(a',b')\hsame0\to\bot).
-$$
-\end{theorem}
-\begin{proof}
-Unpack the two classifier witnesses. Apply
-\autoref{thm:rat-history-classifier-endpoints-not-empty} to
-$\mathsf{RatHistoryClassifier}(a,a')$ and to
-$\mathsf{RatHistoryClassifier}(b,b')$. The four endpoint exclusions, transported
-across the concrete identification of the field-zero endpoint with $\emp$,
-give witnesses
-$p_a:\mathsf{ApartZero}_F(a)$, $p_{a'}:\mathsf{ApartZero}_F(a')$,
-$p_b:\mathsf{ApartZero}_F(b)$, and $p_{b'}:\mathsf{ApartZero}_F(b')$.
+\input{parts/concrete_instances/field/20_field_ratup_fieldup_final_certificate_selector_noncollapse_boundary}
 
-The stability field for $\mathsf{ApartZero}_F$ is transport along $\hsame$:
-if $h\hsame k$ and $h\hsame0\to\bot$, then any $k\hsame0$ composes back to
-$h\hsame0$ and gives contradiction. The zero contradiction clause is immediate
-because $\mathsf{ApartZero}_F(0)$ applied to reflexivity of $0\hsame0$ yields
-$\bot$.
-
-Instantiate \autoref{thm:field-nonzero-factors-exclude-zero-product} first at
-$(a,b)$ with witnesses $p_a$ and $p_b$, obtaining
-$\mathsf{mul}(a,b)\hsame0\to\bot$. Instantiate the same theorem at
-$(a',b')$ with witnesses $p_{a'}$ and $p_{b'}$, obtaining
-$\mathsf{mul}(a',b')\hsame0\to\bot$. Conjunction introduction packages the two
-Rat-classified product exclusions.
-\end{proof}
-
-Per-object template: traditional target Rat-classified nonzero product in
-$\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$,
-$\mathsf{RatHistoryClassifier}$, and the FieldUp apart-zero certificate;
-carrier RatHistoryClassifier endpoints; classifier $\hsame$; stability Rat
-endpoint nonemptiness plus FieldUp zero-product exclusion; ledger the two
-classifier witnesses; exactness predicate no empty product for classified Rat
-endpoints; downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit
-certificate; status $\mathsf{ProofTarget}$.
-
-\begin{theorem}[Rat denominator carried continuation unit obstruction]
-\label{thm:rat-denominator-carried-continuation-unit-obstruction}
-For every history $u:\mathsf{BHist}$, a carried Rat denominator cannot itself be
-the continuation left unit for all carried denominators. Concretely,
-$$
-\mathsf{RatHistoryCarrier}(u)
-\to
-\left(
-\forall d,r:\mathsf{BHist}.\;
-\mathsf{RatHistoryCarrier}(d)\to
-\Cont(u,d,r)\to
-\mathsf{RatHistoryClassifier}(r,d)
-\right)
-\to
-\mathsf{False}.
-$$
-\end{theorem}
-\begin{proof}
-Assume a carrier witness $\mathsf{RatHistoryCarrier}(u)$ and the displayed
-left-unit classifier law. Apply
-\autoref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}
-to the law; the forward implication yields $u\hsame\emp$.
-
-Now apply \autoref{thm:rat-history-carrier-not-empty} to the same carrier
-witness and the endpoint comparison $u\hsame\emp$. This contradicts the
-nonempty Rat denominator condition, giving $\mathsf{False}$.
-\end{proof}
-
-Per-object template: traditional target carried-unit obstruction for the
-Rat-denominator side of $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$,
-$\Cont$, and $\mathsf{RatHistoryCarrier}$; carrier
-$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
-stability obligation left-unit endpoint exactness; ledger external unit versus
-carried denominator; core theorem
-\autoref{thm:rat-denominator-carried-continuation-unit-obstruction}; exactness
-predicate no carried denominator is the continuation unit; downstream consumer
-the concrete $\FieldUp(\RatUp)$ exit certificate; status $\mathsf{ProofTarget}$.
-
+\input{parts/concrete_instances/field/20_field_two_step_obstruction_chain_tail}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_chain_stable_exit_packages}
-\input{parts/concrete_instances/field/20_field_two_step_algebra_hierarchy_exit_certificate}
 
 \input{parts/concrete_instances/field/20_field_selector_independent_exit_package}
+\input{parts/concrete_instances/field/20_field_ratup_fieldup_selector_chain_obstruction_coverage}
+\input{parts/concrete_instances/field/20_field_selector_obstruction_chain_exit_packages}
+\input{parts/concrete_instances/field/20_field_two_step_algebra_hierarchy_exit_certificate}
+\input{parts/concrete_instances/field/20_field_final_inventory_packages}
+\input{parts/concrete_instances/field/20_field_ratup_fieldup_final_inventory_and_nonzero_exit}
 
-\begin{theorem}[RatUp FieldUp final row inventory coverage]
-\label{thm:ratup-fieldup-final-row-inventory-coverage}
-For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete exit
-object of Definition~\ref{def:ratup-fieldup-concrete-exit-object}. For the
-concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
-$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
-selectors $s,t,u,v,w,z:\mathsf{BMark}$, and contexts
-$L,R,r:\mathsf{BHist}$, let $E_q(h,k,\ell)$ be the bracketing endpoint
-selector of Definition~\ref{def:ratup-fieldup-bracketing-endpoint-selector}
-for each $q:\mathsf{BMark}$. If $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then
-the final row inventory of $\mathcal E_F$ contains all of the following rows as
-one consumable Phase Algebra Hierarchy package:
+\begin{theorem}[RatUp FieldUp chapter certificate row coverage]
+\label{thm:ratup-fieldup-chapter-certificate-row-coverage}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
+$\FieldUp(\RatUp)$ exit object of
+\autoref{def:ratup-fieldup-concrete-exit-object}. The chapter-level
+$\FieldUp(\RatUp)$ certificate exposes over one concrete $\mathsf{BHist}$
+source the following row package:
 \begin{enumerate}
-  \item the selector inverse-domain coverage row of
-  \autoref{thm:ratup-fieldup-concrete-exit-selector-inverse-domain-coverage}
-  for the selected pair $(s,t)$ and contexts $L,R$;
-  \item for every primed denominator triple
-  $h',k',\ell':\mathsf{BHist}$ satisfying $C_D^u(h')$, $C_D^u(k')$,
-  $C_D^u(\ell')$, $\mathsf{ThreeSupp}_D^u(h',k',\ell')$,
-  $R_D^u(h,h')$, $R_D^u(k,k')$, and $R_D^u(\ell,\ell')$, and for every
-  $L',R':\mathsf{BHist}$ with $\hsame(L,L')$ and $\hsame(R,R')$, the selector
-  row-stability row of
-  \autoref{thm:ratup-fieldup-concrete-exit-selector-row-stability};
-  \item the complete selector exit obstruction certificate of
-  \autoref{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate}
-  for the selector quadruple $(s,t,u,v)$ and contexts $L,R,r$;
-  \item the selector-chain final boundary rows of
-  \autoref{thm:ratup-fieldup-selector-chain-final-boundary} for the selector
-  pairs $(s,t)$, $(u,v)$, and $(w,z)$.
+  \item the carrier, classifier, denominator, and contextual-action rows of
+  \autoref{thm:ratup-fieldup-concrete-schema-instance};
+  \item the operation-table coverage of
+  \autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion};
+  \item the completed exit object of
+  \autoref{thm:ratup-fieldup-concrete-exit-object-complete};
+  \item the final-row semantic certificate of
+  \autoref{thm:ratup-fieldup-final-row-inventory-semantic-certificate};
+  \item the nonzero and unit-obstruction rows of
+  \autoref{thm:ratup-fieldup-operation-table-final-inventory-nonzero-coverage}.
 \end{enumerate}
-Equivalently, the one concrete FieldUp exit object supplies selector
-inverse-domain coverage, selector row transport, complete obstruction, and
-chain boundary rows to the $\FieldUp(\RatUp)$ exit certificate without changing
-the underlying $\mathsf{BHist}$ source, $\mathsf{BMark}$ selectors, or
-$\mathsf{RatUpFieldSource}_F$ package.
+Thus a downstream Phase Algebra Hierarchy consumer can read
+$\mathcal E_F$ as a single concrete row-coverage certificate for the canonical
+$\mathsf{BHist}$ source.
+\end{theorem}
+\begin{proof}
+First take the concrete schema instance of
+\autoref{thm:ratup-fieldup-concrete-schema-instance}. It fixes the shared
+$\mathsf{BHist}$ source together with the carrier, classifier, denominator
+tuple, and contextual action rows used by the $\FieldUp(\RatUp)$ construction.
+
+Next combine the operation-table coverage from
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion} with the
+completed exit object of
+\autoref{thm:ratup-fieldup-concrete-exit-object-complete}. These two cited
+certificates identify the same selectors and the same concrete object
+$\mathcal E_F$ rather than introducing a second exit target.
+
+Finally append the final-row semantic certificate from
+\autoref{thm:ratup-fieldup-final-row-inventory-semantic-certificate} and the
+nonzero and unit-obstruction rows from
+\autoref{thm:ratup-fieldup-operation-table-final-inventory-nonzero-coverage}.
+Conjunction introduction packages these cited rows into one chapter-level
+certificate.
+
+The consumer never changes the carrier, classifier, denominator tuple,
+contextual action, selectors, or exit object. It only reads the rows already
+provided by the cited concrete $\mathsf{BHist}$ certificates.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp phase-exit certificate consumption]
+\label{thm:ratup-fieldup-phase-exit-certificate-consumption}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
+$\FieldUp(\RatUp)$ exit object of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Fix the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with carrier witnesses $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, selectors $s,t,u,v,w,z:\mathsf{BMark}$, contexts
+$L,R,r:\mathsf{BHist}$, and a support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. Also fix apart-zero context data
+$L_0,R_0,x:\mathsf{BHist}$ with $p:\mathsf{FieldApartZero}(L_0)$ and a
+certified affine automorphism $A:\mathsf{AffAut}_F$.
+
+Then the same concrete object $\mathcal E_F$ supplies, as one consumed
+phase-exit certificate boundary, all of the following rows:
+\begin{enumerate}
+  \item the canonical concrete phase-exit target of
+  \autoref{thm:ratup-fieldup-canonical-machine-checkable-exit};
+  \item the final semantic row inventory of
+  \autoref{thm:ratup-fieldup-final-row-inventory-semantic-certificate};
+  \item the contextual apart-zero semantic certificate row of
+  \autoref{thm:ratup-fieldup-canonical-apartzero-context-certificate-row} at
+  $L_0,R_0,x,p$;
+  \item the affine centralizer-normalizer $\SubgroupUp$ tower row of
+  \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup-tower-certificate}
+  at $A$.
+\end{enumerate}
+All four rows use the same $\mathsf{BHist}$ carrier universe, the same
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$ anchors, the
+same denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ where denominator
+data are required, the same contextual action $\Gamma$, and the same affine
+source $\mathsf{AffAut}_F$.
 \end{theorem}
 \begin{proof}
 First instantiate
-\autoref{thm:ratup-fieldup-concrete-exit-selector-inverse-domain-coverage} at
-the displayed concrete denominator tuple, the histories $h,k,\ell$, their
-carrier witnesses, the support witness, the selector pair $(s,t)$, and the
-contexts $L,R$. This gives the strict inverse-domain selector row for
-$\mathcal E_F$.
+\autoref{thm:ratup-fieldup-canonical-machine-checkable-exit} at
+$\mathsf{RatUpFieldSource}_F$ and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. This fixes
+$\mathcal E_F$ as the canonical concrete phase-exit target over
+$\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, the displayed denominator object,
+$\Gamma$, and $\mathsf{AffAut}_F$.
 
-Next take an arbitrary primed denominator triple $h',k',\ell'$ with the
-displayed carrier, support, and $R_D^u$ comparison hypotheses, and take
-$L',R'$ with $\hsame(L,L')$ and $\hsame(R,R')$. Apply
-\autoref{thm:ratup-fieldup-concrete-exit-selector-row-stability} to these
-data. The result is the selector row-stability transport row for the same
-concrete exit object.
+Next instantiate
+\autoref{thm:ratup-fieldup-final-row-inventory-semantic-certificate} with the
+tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, the histories $h,k,\ell$, the
+three carrier witnesses, the selectors $s,t,u,v,w,z$, the contexts $L,R,r$,
+and the support witness $\mathsf{ThreeSupp}_D^u(h,k,\ell)$. This contributes
+the final semantic row inventory for the same exit object $\mathcal E_F$.
 
-We then instantiate
-\autoref{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate} with
-the same denominator tuple, histories, carrier witnesses, support witness,
-selectors $s,t,u,v$, and contexts $L,R,r$. This supplies the complete selector
-exit obstruction certificate inside the concrete $\FieldUp(\RatUp)$ package.
+For the apart-zero row, apply
+\autoref{thm:ratup-fieldup-canonical-apartzero-context-certificate-row} to
+$L_0,R_0,x$ and $p:\mathsf{FieldApartZero}(L_0)$. Its displayed source,
+pattern, ledger policy, and classifier are all built from the same
+$\mathsf{BHist}$ carrier and $\hsame$ classifier discipline.
 
-Finally instantiate \autoref{thm:ratup-fieldup-selector-chain-final-boundary}
-with the same denominator tuple, histories, carrier witnesses, support witness,
-selectors $s,t,u,v,w,z$, and contexts $L,R,r$. It supplies the three
-selector-pair final boundary row families and the chained endpoint classifier
-rows.
-
-All four cited results refer to Definition~\ref{def:ratup-fieldup-concrete-exit-object}
-and to the concrete tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$. Conjunction
-introduction packages their row families as one final row inventory for the
-Phase Algebra Hierarchy consumer.
+Finally instantiate
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup-tower-certificate}
+at the affine automorphism $A:\mathsf{AffAut}_F$. Conjunction introduction
+packages the canonical target, the final inventory, the contextual apart-zero
+row, and the affine $\SubgroupUp$ tower row as one consumed boundary for the
+Phase Algebra Hierarchy exit criterion.
 \end{proof}
 
-Per-object template: traditional target final FieldUp row inventory; BEDC
-source $\mathsf{BHist}$, $\mathsf{BMark}$, and
-$\mathsf{RatUpFieldSource}_F$; carrier $\mathsf{RatHistoryCarrier}$ and
-$C_D^u$; classifier $\mathsf{RatHistoryClassifier}$ and $R_D^u$; stability
-obligations selector coverage, selector row transport, complete obstruction,
-and chain boundary; ledger selectors $s,t,u,v,w,z$ plus contexts $L,R,r$; core
-theorem this block; exactness final row inventory coverage; downstream consumer
-Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit certificate; status
+Per-object template: traditional target constructive rational field phase-exit
+boundary; BEDC source $\mathsf{BHist}$, $\RatUp$, $\FieldUp$, and
+$\SubgroupUp$; carriers $\mathsf{RatHistoryCarrier}$, $C_D^u$, and the
+contextual apart-zero predicate; classifiers $\mathsf{RatHistoryClassifier}$,
+$R_D^u$, $\hsame$, and the affine classifier; stability obligations the
+canonical phase-exit target, final semantic row inventory, contextual
+apart-zero row, and affine centralizer-normalizer $\SubgroupUp$ tower row;
+ledger selectors, denominator witnesses, contexts, apart-zero witness, and
+affine automorphism; exactness one consumed concrete phase-exit boundary;
+downstream consumer Phase Algebra Hierarchy exit criterion; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp full algebra hierarchy exit package]
+\label{thm:ratup-fieldup-full-algebra-hierarchy-exit-package}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
+$\FieldUp(\RatUp)$ exit object of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Fix the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with carrier witnesses $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, selectors $s,t,u,v,w,z:\mathsf{BMark}$, contexts
+$L,R,r:\mathsf{BHist}$, and a support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. Also fix Rat-classified endpoint pairs
+$a,a',b,b':\mathsf{BHist}$ satisfying
+$\mathsf{RatHistoryClassifier}(a,a')$ and
+$\mathsf{RatHistoryClassifier}(b,b')$, a carried denominator
+$q:\mathsf{BHist}$ with $\mathsf{RatHistoryCarrier}(q)$, apart-zero context
+data $L_0,R_0,x:\mathsf{BHist}$ with
+$p:\mathsf{FieldApartZero}(L_0)$, and a certified affine automorphism
+$A:\mathsf{AffAut}_F$.
+
+Then the same concrete $\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit
+package $\mathcal E_F$ simultaneously supplies all rows required by the Phase
+Algebra Hierarchy exit boundary:
+\begin{enumerate}
+  \item the four phase-exit rows of
+  \autoref{thm:ratup-fieldup-phase-exit-certificate-consumption};
+  \item the operation-table, final-inventory, Rat-classified nonzero-product,
+  and denominator-unit obstruction rows of
+  \autoref{thm:ratup-fieldup-operation-table-final-inventory-nonzero-coverage};
+  \item the selector-independent two-step final inventory of
+  \autoref{thm:ratup-fieldup-selector-independent-two-step-final-inventory},
+  using the endpoint selector $E_q(h,k,\ell)$ of
+  Definition~\ref{def:ratup-fieldup-bracketing-endpoint-selector}.
+\end{enumerate}
+All three row families are read over the same source
+$\mathsf{RatUpFieldSource}_F$, the same exit object $\mathcal E_F$, the same
+denominator tuple, histories, carrier witnesses, selectors, contexts,
+Rat-classified endpoints, carried denominator, apart-zero context row, and
+affine automorphism.
+\end{theorem}
+\begin{proof}
+First instantiate
+\autoref{thm:ratup-fieldup-phase-exit-certificate-consumption} with the
+displayed denominator tuple, histories, carrier witnesses, selectors, contexts,
+support witness, apart-zero data $L_0,R_0,x,p$, and affine automorphism $A$.
+This supplies the canonical phase-exit target, final semantic row inventory,
+contextual apart-zero row, and affine $\SubgroupUp$ tower row for
+$\mathcal E_F$.
+
+Next instantiate
+\autoref{thm:ratup-fieldup-operation-table-final-inventory-nonzero-coverage}
+with the same source, operation table, exit object, denominator tuple,
+histories, support witness, selectors, contexts, Rat-classified endpoint pairs,
+and carried denominator $q$. It contributes the operation-table rows, final
+inventory rows, nonzero-product exclusions, and denominator-unit obstruction
+inside the same $\mathsf{BHist}$ package.
+
+Finally instantiate
+\autoref{thm:ratup-fieldup-selector-independent-two-step-final-inventory} with
+the same denominator tuple, histories, carrier witnesses, support witness,
+selectors, contexts, and endpoint selector $E_q(h,k,\ell)$. This contributes
+the operation-table lock, selector-independent algebra hierarchy exit,
+two-step certificate, and final row inventory without changing the exit object.
+
+Conjunction introduction packages these three instantiated row families as one
+concrete certificate-level object. The Phase Algebra Hierarchy consumer
+therefore reads a single $\mathcal E_F$ boundary instead of reconstructing the
+exit from separate row inventories.
+\end{proof}
+
+Per-object template: traditional target complete rational field algebra
+hierarchy exit boundary; BEDC source $\mathsf{BHist}$, $\mathsf{BMark}$,
+$\RatUp$, $\FieldUp$, and $\SubgroupUp$; carriers
+$\mathsf{RatHistoryCarrier}$ and $C_D^u$; classifiers
+$\mathsf{RatHistoryClassifier}$, $R_D^u$, $\hsame$, and the affine classifier;
+stability obligations phase-exit consumption, operation-table final-inventory
+nonzero coverage, and selector-independent two-step final inventory; ledger
+selectors $s,t,u,v,w,z$, contexts $L,R,r$, endpoint pairs, carried
+denominator, apart-zero witness, and affine automorphism; exactness one
+concrete $\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit package;
+downstream consumer Phase Algebra Hierarchy exit criterion; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp bilateral zero-factor and external-unit guard package]
+\label{thm:ratup-fieldup-bilateral-zero-factor-external-unit-guard-package}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
+$\FieldUp(\RatUp)$ exit object of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Fix histories
+$a,b,u,d:\mathsf{BHist}$, the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, the contextual action $\Gamma$, the affine
+source $\mathsf{AffAut}_F$, and the same BEDC history operations $add$, $mul$,
+$neg$, and $zero$ satisfying the CommRing hypotheses used by
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package}. If
+$$
+H:\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr),
+$$
+then the same exit object $\mathcal E_F$ exposes the following two concrete
+guard rows as part of its phase-exit boundary:
+\begin{enumerate}
+  \item the four-component bilateral zero-factor conclusion of
+  \autoref{thm:commring-zero-linear-factor-bilateral-exact-package} for
+  $a,b$;
+  \item the external-unit classifier separation row
+  $U_D(u)\to
+  \bigl(\mathsf{RatHistoryClassifier}(u,d)\lor
+  \mathsf{RatHistoryClassifier}(d,u)\bigr)\to\mathsf{False}$ from
+  \autoref{thm:field-rat-denominator-external-unit-classifier-disjointness}.
+\end{enumerate}
+Both rows are recorded over the shared $\mathsf{BHist}$ universe, the shared
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$ anchors, the
+displayed denominator tuple, the contextual action $\Gamma$, and the affine
+source $\mathsf{AffAut}_F$.
+\end{theorem}
+\begin{proof}
+First instantiate
+\autoref{thm:ratup-fieldup-phase-exit-certificate-consumption}. This fixes the
+common concrete exit object $\mathcal E_F$ together with the shared
+$\mathsf{BHist}$ carrier universe, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, denominator tuple, contextual action, and
+affine source.
+
+Next apply
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package} to the
+displayed hypothesis $H$. Its result is exactly the branch annihilator package,
+the two signed-product orientations, and the square equality
+$a\cdot a\hsame b\cdot b$.
+
+For the denominator side, apply
+\autoref{thm:field-rat-denominator-external-unit-classifier-disjointness} to
+the histories $u,d$. This produces the concrete implication from $U_D(u)$ and
+either classifier endpoint orientation to $\mathsf{False}$.
+
+Finally package these two outputs as guard rows of the already fixed
+$\FieldUp(\RatUp)$ exit object. The first row supplies the CommRing bilateral
+zero-factor exactness ledger, and the second row supplies the Rat denominator
+external-unit classifier separation guard.
+\end{proof}
+
+Per-object template: traditional target constructive rational field guard
+package; BEDC source $\mathsf{BHist}$, $\RatUp$, $\CommRingUp$, and
+$\FieldUp$; carriers $\mathsf{RatHistoryCarrier}$ and $U_D$; classifiers
+$\mathsf{RatHistoryClassifier}$ and $\hsame$; stability obligations bilateral
+zero-factor exactness and external-unit classifier separation; ledger selected
+linear factor, signed-product orientations, square equality, external-unit law,
+and classifier endpoint; core theorem this block; exactness predicate the
+paired guard rows; downstream consumer Phase Algebra Hierarchy exit criterion;
+status $\mathsf{ProofTarget}$.

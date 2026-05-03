@@ -141,6 +141,59 @@ rational classifier rows, the ledger is selector pairs plus contexts, and the
 downstream consumer is the Phase Algebra Hierarchy exit criterion.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp certificate record absorbs final row inventory]
+\label{thm:ratup-fieldup-record-absorbs-final-row-inventory}
+For the certificate-obligation record of
+Definition~\ref{def:field-certificate-obligations}, for the concrete exit
+object of Definition~\ref{def:ratup-fieldup-concrete-exit-object}, for the
+concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, for histories
+$h,k,\ell:\mathsf{BHist}$ with carrier witnesses $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, for selectors $s,t,u,v,w,z:\mathsf{BMark}$, and for contexts
+$L,R,r:\mathsf{BHist}$, if $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the
+concrete $\FieldUp(\RatUp)$ certificate record contains the complete final row
+inventory of \autoref{thm:ratup-fieldup-final-row-inventory-coverage}. That
+record-level inventory consists of selector inverse-domain coverage, selector
+row-stability transport, the complete selector exit obstruction, and the
+selector-chain final boundary rows.
+\end{theorem}
+\begin{proof}
+Instantiate \autoref{thm:ratup-fieldup-final-row-inventory-coverage} with the
+displayed concrete exit object, denominator tuple, histories, carrier
+witnesses, selectors $s,t,u,v,w,z$, contexts $L,R,r$, and the
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ witness. This gives the four row families
+as one final inventory for the concrete $\FieldUp(\RatUp)$ exit object.
+
+Next apply
+\autoref{thm:ratup-fieldup-certificate-record-absorbs-selector-independent-exit}
+to the same denominator tuple, histories, carrier witnesses, selectors
+$s,t,u,v$, contexts $L,R,r$, and support witness. This places the complete
+selector exit obstruction and the selected final-boundary rows inside the
+certificate-obligation record as record-level rows.
+
+It remains to place the selector inverse-domain coverage, selector
+row-stability transport, and selector-chain final boundary rows in the same
+record. Definition~\ref{def:field-certificate-obligations} supplies the
+denominator ledger, contextual-pair ledger, coverage field, denominator
+exactness, contextual-action exactness, context-pair exactness, and classifier
+exactness fields. Use the selector sextuple and contexts as ledger indices, and
+store the remaining row families from the final inventory under those ledger
+and exactness fields.
+
+The record therefore consumes the full inventory without adding a second exit
+object or changing the source package. Conjunction introduction identifies the
+record-level obstruction rows, inverse-domain rows, row-transport rows, and
+selector-chain rows as one certificate-record data family.
+\end{proof}
+
+Per-object template: traditional target final $\FieldUp(\RatUp)$ record-level
+row inventory; BEDC source $\mathsf{BHist}$, $\mathsf{BMark}$, and
+$\mathsf{RatUpFieldSource}_F$; carrier $\mathsf{RatHistoryCarrier}$ and
+$C_D^u$; classifier $\mathsf{RatHistoryClassifier}$ and $R_D^u$; stability
+obligations final inventory coverage and record absorption; ledger selectors
+plus contexts; core theorem this block; exactness final row inventory as
+certificate-record data; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
 \paragraph{Primitive boundary.}
 $\FieldUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
 

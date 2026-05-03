@@ -30,6 +30,17 @@ theorem EmptyContradictoryCarrier_namecert_absurd :
   | intro _h carrier =>
       exact not_hsame_emp_e1 (hsame_trans (hsame_symm carrier.left) carrier.right)
 
+theorem EmptyContradictoryCarrier_semantic_namecert_absurd :
+    SemanticNameCert
+      (fun h : BHist => hsame h BHist.Empty ∧ hsame h (BHist.e1 BHist.Empty))
+      (fun h : BHist => hsame h BHist.Empty ∧ hsame h (BHist.e1 BHist.Empty))
+      (fun h : BHist => hsame h BHist.Empty ∧ hsame h (BHist.e1 BHist.Empty))
+      hsame -> False := by
+  intro cert
+  cases semanticNameCert_ledger_policy_witness cert with
+  | intro _h carrier =>
+      exact not_hsame_emp_e1 (hsame_trans (hsame_symm carrier.left) carrier.right)
+
 theorem EmptyVisibleContradictoryCarrier_namecert_absurd {tail : BHist} :
     NameCert
       (fun h : BHist =>
@@ -59,6 +70,15 @@ theorem EmptyHistoryCarrier_semantic_namecert_absurd :
       False := by
   intro cert
   cases semanticNameCert_ledger_policy_witness cert with
+  | intro _h carrier =>
+      exact EmptyHistoryCarrier_absurd carrier
+
+theorem EmptyHistoryCarrier_source_semantic_namecert_absurd
+    {PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop} :
+    SemanticNameCert EmptyHistoryCarrier PatternSpec LedgerPolicy ClassifierSpec -> False := by
+  intro cert
+  cases cert.core.carrier_inhabited with
   | intro _h carrier =>
       exact EmptyHistoryCarrier_absurd carrier
 
