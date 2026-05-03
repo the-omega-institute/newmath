@@ -58,4 +58,33 @@ theorem FieldSingletonClassifier_continuation_endpoint_split_iff {P Q R : BHist}
       (And.intro endpoints.right.left
         (hsame_trans endpoints.left (hsame_symm endpoints.right.left)))
 
+theorem FieldSingletonClassifier_continuation_empty_result_iff {P Q R : BHist} :
+    Cont P Q R ->
+      (FieldSingletonClassifier P Q <-> FieldSingletonClassifier R BHist.Empty) := by
+  intro continuation
+  constructor
+  · intro classified
+    exact FieldSingletonClassifier_continuation_result_classifier classified continuation
+  · intro resultClassified
+    have emptyContinuation : Cont P Q BHist.Empty :=
+      cont_result_hsame_transport continuation resultClassified.left
+    have endpoints := cont_empty_result_inversion emptyContinuation
+    exact And.intro endpoints.left
+      (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
+
+theorem FieldSingletonClassifier_continuation_result_endpoint_split_iff {P Q R : BHist} :
+    Cont P Q R ->
+      (FieldSingletonClassifier R BHist.Empty <->
+        FieldSingletonCarrier P /\ FieldSingletonCarrier Q /\ FieldSingletonCarrier R) := by
+  intro continuation
+  constructor
+  · intro classified
+    have emptyContinuation : Cont P Q BHist.Empty :=
+      cont_result_hsame_transport continuation classified.left
+    have endpoints := cont_empty_result_inversion emptyContinuation
+    exact And.intro endpoints.left (And.intro endpoints.right classified.left)
+  · intro endpoints
+    exact And.intro endpoints.right.right
+      (And.intro (hsame_refl BHist.Empty) endpoints.right.right)
+
 end BEDC.Derived.FieldUp

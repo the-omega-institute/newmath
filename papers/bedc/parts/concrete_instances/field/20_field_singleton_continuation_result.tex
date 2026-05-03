@@ -1,0 +1,40 @@
+\begin{theorem}[Field singleton classifier continuation empty result iff]
+\label{thm:field-singleton-classifier-continuation-empty-result-iff}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton
+field classifier relates $P$ and $Q$ exactly when the continuation result $R$
+is singleton-classified with $\emp$:
+$$
+\mathsf{FieldSingletonClassifier}(P,Q)
+\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(R,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the continuation result classifier. Conversely, the
+result-side classifier identifies $R$ with $\emp$. Transporting the displayed
+continuation to the empty result and applying empty-result inversion identifies
+both $P$ and $Q$ with $\emp$, which reconstructs the singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_empty\_result\_iff}
+
+\begin{theorem}[Field singleton classifier continuation result endpoint split]
+\label{thm:field-singleton-classifier-continuation-result-endpoint-split}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the result-side
+singleton classifier is equivalent to all three continuation endpoints being
+singleton carriers:
+$$
+\mathsf{FieldSingletonClassifier}(R,\emp)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(P)\land
+\mathsf{FieldSingletonCarrier}(Q)\land
+\mathsf{FieldSingletonCarrier}(R).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, the result classifier identifies $R$ with $\emp$;
+transporting the continuation to empty result and inverting it identifies
+$P$ and $Q$ with $\emp$. For the reverse direction, the displayed carrier
+witness for $R$ and the reflexive carrier of $\emp$ directly rebuild the
+result-side singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_result\_endpoint\_split\_iff}

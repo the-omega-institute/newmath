@@ -265,6 +265,7 @@ import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.RightTailFactorization
 import BEDC.Derived.CategoryUp.LeftTailFixedIdentity
 import BEDC.Derived.CategoryUp.ContLeftE1Result
+import BEDC.Derived.CategoryUp.UnaryTailZero
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp

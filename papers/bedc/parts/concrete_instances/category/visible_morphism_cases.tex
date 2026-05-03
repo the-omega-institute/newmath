@@ -158,6 +158,22 @@ history sameness proof from this one-headed tail to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_visible\_tails\_result\_not\_empty}
 
+\begin{theorem}[Continuation morphism composite unary tails reject zero-headed result]
+\label{thm:category-continuation-morphism-comp-unary-tail-e0-absurd}
+For histories $a,b,c,z$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If both displayed tails are unary
+histories, then the closed composite tail cannot be internally the same as
+$\Ezero(z)$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The closed composite tail is the
+append of the two component tails, and unary closure under append keeps that
+composite tail unary. A unary history cannot be internally the same as a
+zero-headed history, by the BEDC unary zero-exclusion rule.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_unary\_tail\_e0\_absurd}
+
 \begin{theorem}[Continuation morphism composite one-headed tail left cases]
 \label{thm:continuation-morphism-comp-e1-tail-left-cases}
 For histories $a,b,c,k$, let
