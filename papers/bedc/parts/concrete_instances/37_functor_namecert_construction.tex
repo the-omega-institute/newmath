@@ -452,3 +452,30 @@ Fix an object \(x\) of \(C\). The identity field of \(F\) classifies \(F_1(\math
 
 Fix composable morphisms \(u:x\to y\) and \(v:y\to z\) in \(C\). The composition field of \(F\) classifies \(F_1(v\circ_C u)\) with \(F_1(v)\circ_D F_1(u)\) in \(D\). The classifier-replacement stability field of \(G\) transports this comparison through \(G_1\), giving a classifier witness in \(E\) between \(G_1(F_1(v\circ_C u))\) and \(G_1(F_1(v)\circ_D F_1(u))\). The composition field of \(G\), applied to the composable pair \(F_1(u),F_1(v)\), classifies \(G_1(F_1(v)\circ_D F_1(u))\) with \(G_1(F_1(v))\circ_E G_1(F_1(u))\). Transitivity in \(E\) gives the composition witness for \(H\), and \autoref{def:functor-ledger-policy} records these two preservation ledgers as the composite functor ledger data.
 \end{proof}
+
+\begin{theorem}[Functor composition carries the hom-carrier classifier]
+\label{thm:functor-composite-hom-carrier-classifier}
+Let $C,D,E$ be certified categories. Let $F:C\to D$ and $G:D\to E$ be certified $\FunctorUp$ carriers with object maps $F_0,G_0$ and morphism maps $F_1,G_1$. Let $H=G\circ F$ be the composite carrier whose object and morphism maps are
+$$
+H_0(x)=G_0(F_0(x)),
+\qquad
+H_1(u)=G_1(F_1(u)).
+$$
+For every pair of source objects $x,y$ and every codomain morphism candidate $m$, the hom-carrier classifier carried by $H$ is pointwise the codomain hom-carrier classifier at the composed image endpoints:
+$$
+\mathsf{FunctorHomCarrier}_{G\circ F}(x,y,m)
+\quad\Longleftrightarrow\quad
+\mathsf{HomCarrier}_{E}(G_0(F_0(x)),G_0(F_0(y)),m).
+$$
+\end{theorem}
+\begin{proof}
+The carrier fields in \autoref{def:functor-carrier} give the maps $F_0,F_1,G_0,G_1$, and \autoref{thm:functor-composite-preservation-witnesses} supplies the identity and composition preservation witnesses for the composite pair $H$ under the morphism classifier of $E$. Thus $H$ is read as the certified functor $C\to E$ with object map $H_0$.
+
+Apply \autoref{thm:functor-hom-carrier-codomain-evaluation} to this functor $H$. It gives
+$$
+\mathsf{FunctorHomCarrier}_{H}(x,y,m)
+\quad\Longleftrightarrow\quad
+\mathsf{HomCarrier}_{E}(H_0(x),H_0(y),m).
+$$
+By the displayed definition of the composite object map, the right-hand side is exactly $\mathsf{HomCarrier}_{E}(G_0(F_0(x)),G_0(F_0(y)),m)$. The classifier discipline of \autoref{def:functor-classifier-specification} and the pointwise reading in \autoref{rem:functor-zero-axiom-note} identify classifier sameness by this morphism-argument equivalence, so the composite functor carries precisely the composed hom-carrier classifier.
+\end{proof}
