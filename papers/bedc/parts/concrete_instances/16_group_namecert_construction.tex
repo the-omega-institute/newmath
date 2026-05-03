@@ -53,6 +53,35 @@ orientations.
 \leanchecked{BEDC.Derived.GroupUp.GroupSingleton\_terminal\_classifier\_package}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_terminal\_package}
 
+\begin{theorem}[Group singleton two-sided contextual classifier coverage]
+\label{thm:group-singleton-two-sided-contextual-classifier-coverage}
+For histories $L,R,L',R',Q,S:\mathsf{BHist}$, if $A_{\emp}(L)$,
+$A_{\emp}(R)$, $A_{\emp}(L')$, and $A_{\emp}(R')$, then
+$$
+R_{\emp}(\mathsf{append}(\mathsf{append}(L,Q),L'),
+\mathsf{append}(\mathsf{append}(R,S),R'))
+\Longleftrightarrow A_{\emp}(Q)\land A_{\emp}(S).
+$$
+The ten-field fit names the traditional target terminal-group contextual
+endpoint coverage; the BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ with append; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability from two-sided context cancellation and terminal classifier
+coverage; ledger hidden singleton prefix/suffix endpoints; exactness predicate
+the displayed iff; standard bridge terminal group contextual equality; and
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-classifier-two-sided-context-cancel}
+with the four displayed singleton context witnesses. This identifies the
+context-wrapped classifier with the endpoint classifier $R_{\emp}(Q,S)$.
+
+Apply the first row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} to replace
+$R_{\emp}(Q,S)$ by the pair of singleton carrier facts
+$A_{\emp}(Q)\land A_{\emp}(S)$. Composing the two equivalences gives exactly
+the displayed contextual classifier coverage.
+\end{proof}
+
 \begin{theorem}[Group singleton continuation terminal collapse]
 \label{thm:group-singleton-continuation-terminal-collapse}
 For histories $P,Q,R,r:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the concrete
@@ -85,7 +114,7 @@ $R_{\emp}(R,P)$ under the displayed continuation witness.
 Use Theorem~\ref{thm:group-singleton-classifier-continuation-result-right} to
 identify the same input classifier $R_{\emp}(P,Q)$ with the right result
 classifier $R_{\emp}(R,Q)$. Then use
-Theorem~\ref{thm:group-singleton-continuation-result-carrier-iff} to identify
+Theorem~\ref{thm:group-singleton-continuation-result-carrier-exactness} to identify
 $R_{\emp}(P,Q)$ with the result carrier condition $A_{\emp}(R)$. These three
 exactness statements give the four-way equivalence.
 
@@ -102,35 +131,35 @@ from $P$ through $Q$.
 \begin{theorem}[Group product-unit inverse correspondence]
 \label{thm:group-product-unit-inverse-correspondence}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with
-associativity, left and right identity laws for $e$, multiplication
+associativity, left and right identity laws for $\emp$, multiplication
 congruence, and two-sided inverse laws, write $xy$ for
 $\mathsf{mul}(x,y)$ and $x^{-1}$ for $\mathsf{inv}(x)$. Then every
 $a,b:\mathsf{BHist}$ satisfies
 $$
-\hsame(ab,e)
+\hsame(ab,\emp)
 \Longleftrightarrow
 \hsame(a,b^{-1})
 \Longleftrightarrow
 \hsame(b,a^{-1}).
 $$
-The ten-field fit is: traditional target product-equals-unit inverse
+The ten-field fit is: traditional target product-equals-empty inverse
 extraction; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier
 $\mathsf{BHist}$; classifier $\hsame$; stability obligations left and right
 equation exactness, unit laws, inverse laws, inverse uniqueness, inverse
 involutivity, and multiplication congruence; ledger the two factors and the
 two extracted inverse witnesses; core theorem this block; exactness predicate
 the displayed chain of equivalences; standard bridge ordinary group inverse
-extraction from $ab=e$; status $\mathsf{ProofTarget}$.
+extraction from $ab=\emp$; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 Apply Theorem~\ref{thm:group-right-mul-equation-exactness} to the equation
-$\hsame(ab,e)$ with right factor $b$. It classifies the same equation by
-$\hsame(a,eb^{-1})$. The left identity law reduces $eb^{-1}$ to $b^{-1}$,
-so the product-unit equation is equivalent to $\hsame(a,b^{-1})$.
+$\hsame(ab,\emp)$ with right factor $b$. It classifies the same equation by
+$\hsame(a,\emp b^{-1})$. The left identity law reduces $\emp b^{-1}$ to $b^{-1}$,
+so the product-empty equation is equivalent to $\hsame(a,b^{-1})$.
 
 Apply Theorem~\ref{thm:group-left-mul-equation-exactness} to the same equation
-with left factor $a$. It classifies the equation by $\hsame(b,a^{-1}e)$. The
-right identity law reduces $a^{-1}e$ to $a^{-1}$, giving the equivalence with
+with left factor $a$. It classifies the equation by $\hsame(b,a^{-1}\emp)$. The
+right identity law reduces $a^{-1}\emp$ to $a^{-1}$, giving the equivalence with
 $\hsame(b,a^{-1})$.
 
 The two extracted descriptions are compatible because a witness
@@ -140,8 +169,41 @@ uniqueness theorem identifies the two presentations, and inverse involutivity
 returns either double-inverse comparison to the original factor.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_product\_unit\_inverse\_correspondence\_iff}
+
+\begin{theorem}[Group product-empty unit inverse correspondence]
+\label{thm:group-product-empty-unit-inverse-correspondence}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $\emp$, multiplication
+congruence, and two-sided inverse laws, write $xy$ for
+$\mathsf{mul}(x,y)$ and $x^{-1}$ for $\mathsf{inv}(x)$. Then every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+\hsame(ab,\emp)
+\Longleftrightarrow
+\bigl(\hsame(a,b^{-1})\land\hsame(b,a^{-1})\bigr).
+$$
+The ten-field fit is: traditional target product-equals-empty paired inverse
+witnesses; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations the same left and
+right equation exactness, unit laws, inverse laws, and multiplication
+congruence as in
+\autoref{thm:group-product-unit-inverse-correspondence}; ledger the product
+equation and the two extracted inverse witnesses; core theorem this block;
+exactness predicate the displayed equivalence; standard bridge ordinary group
+inverse extraction from an empty-history product; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:group-product-unit-inverse-correspondence} to the product equation
+$\hsame(ab,\emp)$. The two equivalences give $\hsame(a,b^{-1})$ and
+$\hsame(b,a^{-1})$, which pair into the displayed conjunction.
+
+For the reverse direction, start from the conjunction and use its first witness
+$\hsame(a,b^{-1})$. The right-multiplication exactness argument from
+\autoref{thm:group-product-unit-inverse-correspondence} transports that witness
+back to the product equation $\hsame(ab,\emp)$.
+\end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_product\_unit\_inverse\_correspondence\_from\_empty\_unit\_iff}
-\leanchecked{BEDC.Derived.GroupUp.group\_product\_unit\_inverse\_correspondence\_from\_empty\_unit}
 
 \section{Center orbit collapse}
 \label{sec:group-center-orbit-collapse}
@@ -267,3 +329,41 @@ equivalence.
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_suffix\_context\_product\_unit\_split\_iff}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_suffix\_unit\_split\_iff}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_suffix\_product\_unit\_split\_iff}
+
+\section{Singleton two-sided product-unit exactness}
+\label{sec:group-singleton-two-sided-product-unit-exactness}
+
+\begin{theorem}[Group singleton two-sided contextual product-unit split]
+\label{thm:group-singleton-two-sided-contextual-product-unit-split}
+For $L,R,L',R',p,q:\mathsf{BHist}$, if $A_{\emp}(L)$, $A_{\emp}(R)$,
+$A_{\emp}(L')$, and $A_{\emp}(R')$, then
+$$
+\begin{array}{c}
+R_{\emp}(\mathsf{append}(\mathsf{append}(L,\mathsf{append}(p,q)),L'),
+\mathsf{append}(\mathsf{append}(R,\emp),R'))\\
+\Longleftrightarrow A_{\emp}(p)\land A_{\emp}(q).
+\end{array}
+$$
+The ten-field fit is: traditional target terminal-group product-unit exactness
+under two-sided contexts; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ and $\mathsf{append}$; carrier $A_{\emp}$; classifier
+$R_{\emp}$; stability from two-sided context cancellation and append
+empty-result split; ledger prefix and suffix contexts and factors $p,q$; core
+theorem list
+\autoref{thm:group-singleton-classifier-two-sided-context-cancel} and
+\autoref{thm:group-singleton-classifier-product-unit-split}; exactness
+predicate the displayed iff; standard bridge terminal group; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-classifier-two-sided-context-cancel} with
+$Q=\mathsf{append}(p,q)$ and $S=\emp$. The four singleton carrier hypotheses
+strip the prefix and suffix context pairs, reducing the displayed classifier to
+$$
+R_{\emp}(\mathsf{append}(p,q),\emp).
+$$
+
+Apply \autoref{thm:group-singleton-classifier-product-unit-split} to the
+reduced classifier. It identifies the reduced classifier with
+$A_{\emp}(p)\land A_{\emp}(q)$, giving the desired equivalence.
+\end{proof}

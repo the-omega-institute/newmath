@@ -268,6 +268,26 @@ theorem FieldApartZero_empty_context_iff {l h r : BHist} :
     have innerSplit := append_eq_empty_iff.mp outerSplit.right
     exact hApart innerSplit.left
 
+theorem FieldApartZero_nested_continuation_factor_split_iff {l h r u v q w : BHist} :
+    Cont l h u -> Cont u r v -> Cont v q w ->
+      hsame l BHist.Empty -> hsame r BHist.Empty ->
+        (FieldApartZero w <-> FieldApartZero h ∨ FieldApartZero q) := by
+  intro leftContinuation rightContinuation tailContinuation leftEmpty rightEmpty
+  cases leftContinuation
+  cases rightContinuation
+  cases tailContinuation
+  have middleSame : hsame (append (append l h) r) h := by
+    cases leftEmpty
+    cases rightEmpty
+    exact hsame_trans (append_empty_right (append BHist.Empty h)) (append_empty_left h)
+  have resultIff :=
+    FieldApartZero_append_hsame_congr_iff middleSame (hsame_refl q)
+  constructor
+  · intro apartResult
+    exact Iff.mp FieldApartZero_append_split_iff (Iff.mp resultIff apartResult)
+  · intro factorApart
+    exact Iff.mpr resultIff (Iff.mpr FieldApartZero_append_split_iff factorApart)
+
 theorem FieldApartZero_nested_continuation_empty_context_iff {l h r u v : BHist} :
     Cont l h u -> Cont u r v -> hsame l BHist.Empty -> hsame r BHist.Empty ->
       (FieldApartZero v <-> FieldApartZero h) := by
