@@ -94,6 +94,59 @@ protected theorem group_normalizer_conjugation_action_composition_from_empty_uni
       (And.intro centralInvTInvSX
         (hsame_trans replaceInverseComposite composeInvTInvS)))
 
+theorem group_centralizer_normalizer_forward_action_composition_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a s t x : BHist}
+    (normalizesS : forall y : BHist, hsame (mul y a) (mul a y) ->
+      hsame (mul (mul (mul s y) (inv s)) a)
+        (mul a (mul (mul s y) (inv s))))
+    (normalizesT : forall y : BHist, hsame (mul y a) (mul a y) ->
+      hsame (mul (mul (mul t y) (inv t)) a)
+        (mul a (mul (mul t y) (inv t))))
+    (centralX : hsame (mul x a) (mul a x)) :
+      hsame (mul (mul (mul s (mul (mul t x) (inv t))) (inv s)) a)
+        (mul a (mul (mul s (mul (mul t x) (inv t))) (inv s))) ∧
+      hsame (mul (mul (mul s t) x) (inv (mul s t)))
+        (mul (mul s (mul (mul t x) (inv t))) (inv s)) := by
+  have centralAfterT :
+      hsame (mul (mul (mul t x) (inv t)) a)
+        (mul a (mul (mul t x) (inv t))) :=
+    normalizesT x centralX
+  have centralAfterS :
+      hsame (mul (mul (mul s (mul (mul t x) (inv t))) (inv s)) a)
+        (mul a (mul (mul s (mul (mul t x) (inv t))) (inv s))) :=
+    normalizesS (mul (mul t x) (inv t)) centralAfterT
+  have inverseProduct :
+      hsame (inv (mul s t)) (mul (inv t) (inv s)) :=
+    group_inverse_mul_reverse assocC leftId rightId mulCongr leftInv rightInv s t
+  have replaceInverse :
+      hsame (mul (mul (mul s t) x) (inv (mul s t)))
+        (mul (mul (mul s t) x) (mul (inv t) (inv s))) :=
+    mulCongr (hsame_refl (mul (mul s t) x)) inverseProduct
+  have exposeTail :
+      hsame (mul (mul (mul s t) x) (mul (inv t) (inv s)))
+        (mul (mul (mul (mul s t) x) (inv t)) (inv s)) :=
+    hsame_symm (assocC (mul (mul s t) x) (inv t) (inv s))
+  have reassocHead :
+      hsame (mul (mul (mul s t) x) (inv t))
+        (mul s (mul (mul t x) (inv t))) :=
+    hsame_trans
+      (mulCongr (assocC s t x) (hsame_refl (inv t)))
+      (assocC s (mul t x) (inv t))
+  have nestedWord :
+      hsame (mul (mul (mul (mul s t) x) (inv t)) (inv s))
+        (mul (mul s (mul (mul t x) (inv t))) (inv s)) :=
+    mulCongr reassocHead (hsame_refl (inv s))
+  exact And.intro centralAfterS
+    (hsame_trans replaceInverse (hsame_trans exposeTail nestedWord))
+
 protected theorem group_centralizer_normalizer_orbit_equivalence_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

@@ -28,5 +28,35 @@ identifies the exponent with \(\emp\), so the zero constructor of
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_empty\_result\_iff\_empty\_exponent}
 
+\begin{theorem}[Prime scale append continuation closure]
+\label{thm:padic-prime-scale-append-cont-closure}
+If \(\mathsf{PadicPrimeScale}(p,w,n)\), \(\mathsf{PadicPrimeScale}(p,q,e)\),
+and \(\mathsf{Cont}(n,e,r)\), then
+\(\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,q),r)\).
+\end{theorem}
+\begin{proof}
+Both scale witnesses share the same prime field for \(p\). The multiplication
+fields are concrete \(\mathsf{NatMul}\) derivations, so append continuation
+closure for \(\mathsf{NatMul}\), applied to the supplied continuation witness,
+gives the scale witness for the appended exponent.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_cont\_closure}
+
+\begin{theorem}[Prime scale appended empty result split]
+\label{thm:padic-prime-scale-append-empty-result-empty-factors-iff}
+Under the hypotheses of
+\autoref{thm:padic-prime-scale-append-cont-closure}, the result history
+satisfies \(r\hsame\emp\) exactly when both exponent factors satisfy
+\(w\hsame\emp\) and \(q\hsame\emp\).
+\end{theorem}
+\begin{proof}
+The closure theorem first supplies a prime-scale witness for
+\(\mathsf{append}(w,q)\) with result \(r\). Empty-result exactness for prime
+scales reduces \(r\hsame\emp\) to
+\(\mathsf{append}(w,q)\hsame\emp\), and append empty-result exactness splits
+that condition into the two factor witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_empty\_result\_empty\_factors\_iff}
+
 \section{The certificate}
 \label{sec:padic-certificate}

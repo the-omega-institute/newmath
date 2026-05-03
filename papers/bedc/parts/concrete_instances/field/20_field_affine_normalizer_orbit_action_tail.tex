@@ -555,9 +555,10 @@ assertions form one concrete $\FieldUp(\RatUp)$ interface fact.
   \item Its lower algebra coordinates are compatible with the concrete
   $\MonoidUp$, $\GroupUp$, $\AbGroupUp$, $\RingUp$, and $\CommRingUp$ reducts
   by \autoref{thm:ratup-fieldup-algebra-reduct-compatibility}.
-  \item Its denominator operation coordinate may be read either functionally as
-  $\mu_D(h,k)=\mathsf{append}(h,k)$ or relationally through
-  $\Cont(h,k,r)$, with the two presentations identified by
+  \item Its denominator operation coordinate may be read functionally through
+  $\mu_D(h,k)$ or relationally through $\Cont(h,k,r)$, with the two
+  presentations connected by the $\hsame$-based correspondence and $R_D$
+  transport of
   \autoref{thm:field-rat-denominator-functional-relational-instance-equivalence}.
   \item Any certificate identifying the $\FieldUp(\RatUp)$ multiplication slot
   with raw $\Cont$ on $\mathsf{RatHistoryCarrier}$ while carrying the displayed
@@ -565,8 +566,9 @@ assertions form one concrete $\FieldUp(\RatUp)$ interface fact.
   \autoref{thm:ratup-fieldup-operation-table-raw-continuation-separation}.
 \end{enumerate}
 Thus the assembled object records the certificate obligations, the lower
-algebra reduct interface, the denominator presentation equivalence, and the
-raw-continuation separation as one FieldUp(RatUp) boundary.
+algebra reduct interface, the denominator presentation correspondence through
+$\hsame$ and $R_D$, and the raw-continuation separation as one FieldUp(RatUp)
+boundary.
 \end{theorem}
 \begin{proof}
 First apply
@@ -585,8 +587,9 @@ operation parameters.
 For the denominator coordinate, invoke
 \autoref{thm:field-rat-denominator-functional-relational-instance-equivalence}.
 It identifies the functional append presentation $\mu_D(h,k)$ with the
-relational continuation witness $\Cont(h,k,r)$ and transports the same six
-denominator laws in both directions.
+relational continuation witness $\Cont(h,k,r)$ only through
+$r\hsame\mu_D(h,k)$, and transports the same six denominator laws in both
+directions through $R_D$.
 
 Finally use
 \autoref{thm:ratup-fieldup-operation-table-raw-continuation-separation}. Its
@@ -600,7 +603,8 @@ from the $\FieldUp(\RatUp)$ multiplication coordinate.
 Per-object template: traditional target concrete constructive field certificate
 for $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$ with
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, denominator
-append/$\Cont$, and lower algebra reducts; classifier
+append/$\Cont$ connected through $\hsame$ and $R_D$, and lower algebra reducts;
+classifier
 $\mathsf{RatHistoryClassifier}$ plus the affine classifier where used; ledger
 ring rows, denominator histories, continuation witnesses, inverse witnesses,
 contextual pairs, and affine witnesses; core theorem list
@@ -748,4 +752,3 @@ endpoint carriers, and transported orbit witness; core theorem
 exactness predicate induced action on centralizer orbit classes; standard
 bridge ordinary action modulo a kernel relation; status
 $\mathsf{ProofTarget}$.
-

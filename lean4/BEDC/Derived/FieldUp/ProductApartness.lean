@@ -124,6 +124,19 @@ theorem FieldApartZero_append_factor_closed {p q : BHist} :
   | inr rightApart =>
       exact rightApart splitEmpty.right
 
+theorem FieldApartZero_append_left_factor_of_tail_not_apart {p q : BHist} :
+    FieldApartZero (append p q) -> (FieldApartZero q -> False) -> FieldApartZero p := by
+  intro appendApart tailNotApart pEmpty
+  have qEmpty : hsame q BHist.Empty := by
+    cases q with
+    | Empty =>
+        exact hsame_refl BHist.Empty
+    | e0 q =>
+        exact False.elim (tailNotApart (fun qEmpty => not_hsame_e0_empty qEmpty))
+    | e1 q =>
+        exact False.elim (tailNotApart (fun qEmpty => not_hsame_e1_empty qEmpty))
+  exact appendApart (append_eq_empty_iff.mpr (And.intro pEmpty qEmpty))
+
 theorem FieldApartZero_append_split_iff {p q : BHist} :
     FieldApartZero (append p q) <-> FieldApartZero p ∨ FieldApartZero q := by
   constructor

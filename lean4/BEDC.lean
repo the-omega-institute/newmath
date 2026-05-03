@@ -158,17 +158,16 @@ import BEDC.Derived.GroupUp.ConjugationParameter
 import BEDC.Derived.GroupUp.ConjugationClassifier
 import BEDC.Derived.GroupUp.Commutator
 import BEDC.Derived.GroupUp.Centralizer
+import BEDC.Derived.GroupUp.CentralizerNormalizer
 import BEDC.Derived.GroupUp.ConjugationEmpty
+import BEDC.Derived.GroupUp.ConjugationComposition
 import BEDC.Derived.GroupUp.EquationUniqueness
 import BEDC.Derived.GroupUp.SingletonContinuation
-import BEDC.Derived.GroupUp.ConjugationComposition
-import BEDC.Derived.GroupUp.CentralizerNormalizer
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.SingletonAppend
-import BEDC.Derived.DeterminantUp
 import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.EmptyUnitConjugation
@@ -180,6 +179,7 @@ import BEDC.Derived.FieldUp.SingletonClassifier
 import BEDC.Derived.FieldUp.SingletonContinuation
 import BEDC.Derived.FieldUp.AffineEquation
 import BEDC.Derived.FieldUp.Affine
+import BEDC.Derived.FieldUp.AffineCancellationExactness
 import BEDC.Derived.FieldUp.AffineCompositeInverseReverseCoherence
 import BEDC.Derived.FieldUp.SingletonAppend
 import BEDC.Derived.FieldUp.SingletonAppendPair
@@ -202,6 +202,7 @@ import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatDenomUnit
 import BEDC.Derived.FieldUp.RatDenomUnitResultEmpty
 import BEDC.Derived.FieldUp.RatContinuationSemigroupPackage
+import BEDC.Derived.FieldUp.RatContinuationObstructionPackage
 import BEDC.Derived.FieldUp.RatDenomUnitCarrierVisibleCases
 import BEDC.Derived.FieldUp.RatDenomUnitSemantic
 import BEDC.Derived.FieldUp.RatDenomUnitEndpointAbsurd
@@ -237,6 +238,7 @@ import BEDC.Derived.FieldUp.EmptyOffsetComposition
 import BEDC.Derived.FieldUp.ContextualAction
 import BEDC.Derived.FieldUp.ContextualActionEmptyContextTransport
 import BEDC.Derived.FieldUp.ContextualActionEmptyUnit
+import BEDC.Derived.FieldUp.ContextualActionNormalizedPair
 import BEDC.Derived.FieldUp.ContextualActionStrictSupport
 import BEDC.Derived.FieldUp.RatDenomContextPair
 import BEDC.Derived.FieldUp.ContextualActionPair

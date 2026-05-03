@@ -17,9 +17,9 @@
 \input{parts/concrete_instances/field/20_field_bracketing_independent_full_crossed_contextual_boundary}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_crossed_ten_field_exit_certificate}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_bracketing_complete_exit}
-\input{parts/concrete_instances/field/20_field_concrete_exit_object_completion}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_concrete_operation_exit_exhaustion}
 \input{parts/concrete_instances/field/20_field_bracketing_complete_classifier_exit}
+\input{parts/concrete_instances/field/20_field_concrete_exit_object_completion}
 \input{parts/concrete_instances/field/20_field_selector_complete_denominator_packages}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_selector_complete_strict_exit_package}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_hierarchy_selector_tail}
@@ -92,6 +92,69 @@ singleton contexts and proof-indexed inverse witness; core theorem this block;
 exactness predicate classifier-to-nonzero contradiction; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field singleton-empty operation context carried nonzero obstruction]
+\label{thm:field-singleton-empty-operation-context-carried-nonzero-obstruction}
+For histories $L,R,U,V,h,k,out:\mathsf{BHist}$ with
+$\mathsf{fieldSingletonEmptyCarrier}(L)$,
+$\mathsf{fieldSingletonEmptyCarrier}(R)$,
+$\mathsf{fieldSingletonEmptyCarrier}(U)$,
+$\mathsf{fieldSingletonEmptyCarrier}(V)$, and
+$\mathsf{fieldSingletonEmptyNonZero}
+  (\mathsf{append}(U,\mathsf{append}(out,V)))$, carried nonzero evidence
+rejects the singleton-empty operation contexts. The multiplication endpoint
+satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyMul}(h,k)),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+The unit endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyOne}),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+For every proof witness $p:\mathsf{fieldSingletonEmptyNonZero}(h)$, the
+proof-indexed inverse endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyInv}(h,p)),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+First cancel the carried output contexts. Apply
+\autoref{thm:field-singleton-empty-nonzero-append-context-cancel-iff} to
+$U,V,out$ with the carrier witnesses for $U$ and $V$. The assumed predicate on
+$\mathsf{append}(U,\mathsf{append}(out,V))$ yields the direct witness
+$\mathsf{fieldSingletonEmptyNonZero}(out)$.
+
+Now take any one of the three displayed operation classifiers. Apply
+\autoref{thm:field-singleton-empty-operation-context-normalization} with the
+carrier witnesses for $L$ and $R$. In the multiplication, unit, and
+proof-indexed inverse cases, this produces
+$\mathsf{fieldSingletonEmptyCarrier}(out)$.
+
+Finally, use \autoref{thm:field-singleton-nonzero-empty-endpoint-absurd}. The
+output carrier is the empty endpoint input, and the cancelled nonzero witness on
+$out$ supplies the contradictory nonzero side.
+\end{proof}
+
+Per-object template: traditional target contextual nonzero obstruction for the
+concrete $\FieldUp$ operation slots; BEDC source $\mathsf{BHist}$,
+$\mathsf{append}$, $\mathsf{fieldSingletonEmptyCarrier}$,
+$\mathsf{fieldSingletonEmptyClassifier}$, and
+$\mathsf{fieldSingletonEmptyNonZero}$; carrier and classifier as named;
+stability obligations context cancellation and operation normalization; ledger
+carried output contexts $U,V$; core theorem this block; exactness predicate
+contextual nonzero rejection; status $\mathsf{ProofTarget}$.
+
 \section{Apart-zero continuation exactness}
 \label{sec:field-apartzero-continuation-exactness}
 
@@ -116,3 +179,35 @@ is exactly the bilateral empty-context statement of
 \autoref{thm:field-apartzero-empty-context-iff}, applied with the witnesses
 $l\hsame\emp$ and $r\hsame\emp$.
 \end{proof}
+
+\begin{theorem}[Field apart-zero nested continuation factor split]
+\label{thm:field-apartzero-nested-continuation-factor-split}
+For histories $l,h,r,u,v,q,w:\mathsf{BHist}$ with $\ContR(l,h,u)$,
+$\ContR(u,r,v)$, and $\ContR(v,q,w)$, if $l\hsame\emp$ and $r\hsame\emp$,
+then
+$$
+\mathsf{ApartZero}_F(w)
+\Longleftrightarrow
+\mathsf{ApartZero}_F(h)\lor\mathsf{ApartZero}_F(q).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-apartzero-continuation-endpoint-split} to the tail
+continuation witness $\ContR(v,q,w)$. This gives
+$\mathsf{ApartZero}_F(w)$ exactly when
+$\mathsf{ApartZero}_F(v)\lor\mathsf{ApartZero}_F(q)$ holds.
+
+Apply
+\autoref{thm:field-apartzero-nested-continuation-empty-context-iff} to the
+first two continuation witnesses and the exterior empty-context witnesses
+$l\hsame\emp$ and $r\hsame\emp$. Substituting this equivalence for the first
+disjunct yields the displayed factor split.
+\end{proof}
+
+Per-object template: traditional target continuation-tail apartness factor
+split under empty exterior context; BEDC source $\mathsf{BHist}$, $\ContR$,
+and $\mathsf{ApartZero}_F$; carrier apart-zero histories; classifier $\hsame$
+transport; stability obligations nested empty-context exactness plus
+continuation endpoint split; ledger the two empty-context witnesses and tail
+$q$; exactness predicate the displayed iff; standard bridge ordinary
+product/context apartness factorization; status $\mathsf{ProofTarget}$.
