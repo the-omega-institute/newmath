@@ -137,6 +137,30 @@ predicates are all the same concrete intersection carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersection\_certificate\_from\_empty\_unit}
 
+\begin{theorem}[Centralizer intersection classifier product closure]
+\label{thm:subgroup-centralizer-intersection-classifier-mul-closed-from-empty-unit}
+Under the same BEDC history-level $\GroupUp$ associativity, right unit, and
+multiplication congruence laws, if the restricted classifier on
+$Z_{a,b}$ relates $x$ to $x'$ and also relates $y$ to $y'$, then it relates
+the products:
+$$
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,x,x')
+\land
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,y,y')
+\Rightarrow
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,
+  \mathsf{mul}(x,y),\mathsf{mul}(x',y')).
+$$
+\end{theorem}
+\begin{proof}
+Unpack both classifier witnesses. Product closure for the carrier
+$Z_{a,b}$ supplies the left product membership from $x,y$ and the right
+product membership from $x',y'$. Multiplication congruence carries the
+stored comparisons $x\hsame x'$ and $y\hsame y'$ to the product comparison,
+which repackages the restricted classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionClassifier\_mul\_closed\_from\_empty\_unit}
+
 \begin{theorem}[Centralizer intersection self-conjugation closure]
 \label{thm:subgroup-centralizer-intersection-self-conjugation-closure}
 Under the same BEDC history-level $\GroupUp$ laws, if
