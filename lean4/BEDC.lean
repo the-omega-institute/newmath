@@ -245,6 +245,7 @@ import BEDC.Derived.FieldUp.SingletonAddMulContext
 import BEDC.Derived.FieldUp.SingletonAddNegZeroContextContinuation
 import BEDC.Derived.FieldUp.SingletonCarrierPartition
 import BEDC.Derived.FieldUp.SingletonContextBoundary
+import BEDC.Derived.FieldUp.SingletonAppendContextVisibleMiddle
 import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd
 import BEDC.Derived.FieldUp.NondegenerateSemanticExit
 import BEDC.Derived.FieldUp.RatRightNestedContextualBoundary

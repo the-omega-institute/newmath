@@ -191,4 +191,52 @@ theorem commring_signed_product_empty_zero_exact {add mul : BHist -> BHist -> BH
     exact BEDC.Derived.GroupUp.group_right_cancel
       addAssoc addRightZero addCongr addRightInverse sameProducts
 
+theorem commring_column_cancellations_cross_sum_balance {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    {a b c d : BHist} :
+    hsame (mul a c) (mul b c) -> hsame (mul a d) (mul b d) ->
+      hsame (add (mul a c) (mul b d)) (add (mul a d) (mul b c)) := by
+  intro sameLeftColumn sameRightColumn
+  have productEmpty :
+      hsame (mul (add a (neg b)) (add c (neg d))) BHist.Empty := by
+    exact commring_signed_column_cancellations_zero addAssoc addComm zeroLeft negLeft
+      addCongr mulComm mulCongr leftDistrib sameLeftColumn sameRightColumn
+  exact (commring_signed_product_empty_zero_exact addAssoc addComm zeroLeft negLeft addCongr
+    mulComm mulCongr leftDistrib).mp productEmpty
+
+theorem commring_row_cancellations_cross_sum_balance {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    {a b c d : BHist} :
+    hsame (mul a c) (mul a d) -> hsame (mul b c) (mul b d) ->
+      hsame (add (mul a c) (mul b d)) (add (mul a d) (mul b c)) := by
+  intro sameTopRow sameBottomRow
+  have productEmpty :
+      hsame (mul (add a (neg b)) (add c (neg d))) BHist.Empty := by
+    exact commring_signed_row_cancellations_zero addAssoc addComm zeroLeft negLeft
+      addCongr mulComm mulCongr leftDistrib sameTopRow sameBottomRow
+  exact (commring_signed_product_empty_zero_exact addAssoc addComm zeroLeft negLeft addCongr
+    mulComm mulCongr leftDistrib).mp productEmpty
+
 end BEDC.Derived.CommRingUp
