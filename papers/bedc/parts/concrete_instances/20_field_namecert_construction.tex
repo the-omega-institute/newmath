@@ -1,4 +1,45 @@
 \input{parts/concrete_instances/field/20_field_namecert_construction_core}
+
+\begin{theorem}[RatUp FieldUp assembled certificate operation-table coverage]
+\label{thm:ratup-fieldup-assembled-certificate-operation-table-coverage}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple} and the concrete operation
+table of Definition~\ref{def:ratup-fieldup-concrete-operation-table}, one and
+the same $\mathsf{BHist}$ row package satisfies both
+\autoref{def:field-certificate-obligations} and the concrete
+$\FieldUp(\RatUp)$ operation-table laws. The shared carrier and classifier are
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$. The shared
+denominator coordinate is
+$$
+(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier}).
+$$
+The shared contextual coordinate is the action $\Gamma$, the shared
+context-pair coordinate is the monoid of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, and the shared
+affine coordinate is $\mathsf{AffAut}_F$. The inverse and nonzero rows, together
+with the exit-noncollapse rows, are the rows consumed by both cited interfaces.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:ratup-fieldup-concrete-source-tuple}. It names
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, the displayed
+denominator tuple, $\Gamma$, the context-pair monoid, and
+$\mathsf{AffAut}_F$ as coordinates of the single source
+$\mathsf{RatUpFieldSource}_F$.
+
+Apply \autoref{thm:ratup-fieldup-assembled-certificate-boundary}. This gives
+\autoref{def:field-certificate-obligations} for exactly those coordinates.
+Apply \autoref{thm:ratup-fieldup-concrete-operation-table-laws}. This gives the
+carrier, classifier, denominator, contextual-action, context-pair, affine,
+inverse, nonzero, and exit-noncollapse laws for the concrete operation table of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}.
+
+Both cited results name the same concrete carrier, classifier, denominator
+tuple, contextual action, context-pair monoid, affine row source, inverse rows,
+nonzero rows, and exit rows. Therefore the certificate-obligation interface and
+the operation-table interface are satisfied by the same concrete
+$\mathsf{BHist}$ rows.
+\end{proof}
 \input{parts/concrete_instances/field/20_field_affine_explicit_inverse}
 \input{parts/concrete_instances/field/20_field_affine_composite_inverse}
 
@@ -347,6 +388,90 @@ plus contexts $L,R,r$; exactness predicate one concrete FieldUp exit boundary
 with both endpoint contexts; downstream consumer final certificate bracketing
 endpoint consumption; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp complete selector exit obstruction certificate]
+\label{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+selectors $s,t,u,v:\mathsf{BMark}$, and contexts $L,R,r:\mathsf{BHist}$, let
+$E_q(h,k,\ell)$ be the bracketing endpoint selector of
+Definition~\ref{def:ratup-fieldup-bracketing-endpoint-selector} for each
+$q:\mathsf{BMark}$. If $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the
+concrete $\FieldUp(\RatUp)$ exit package of
+\autoref{thm:ratup-fieldup-concrete-exit-object-complete} contains, as one
+assembled certificate, all of the following rows:
+\begin{enumerate}
+  \item every selector-pair strict row of
+  \autoref{thm:ratup-fieldup-selector-pair-strict-exit-determinacy} for the
+  selector comparison $(s,t)$ against $(u,v)$ and contexts $L,R$;
+  \item every $(s,t)$ obstruction row of
+  \autoref{thm:ratup-fieldup-bracketing-selector-complete-obstruction-package},
+  with $a=E_s(h,k,\ell)$ and $b=E_t(h,k,\ell)$;
+  \item every row of
+  \autoref{thm:ratup-fieldup-final-certificate-two-selector-noncollapse-boundary}
+  for the selector pair $(s,t)$, including the right-selector rows
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,E_t(h,k,\ell)))\to\bot,
+  $$
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(E_t(h,k,\ell),r))\to\bot,
+  $$
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,E_t(h,k,\ell))),
+  $$
+  and
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(E_t(h,k,\ell),r)).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First instantiate
+\autoref{thm:ratup-fieldup-selector-pair-strict-exit-determinacy} with the
+given denominator tuple, histories, carrier witnesses, support witness,
+selectors $s,t,u,v$, and contexts $L,R:\mathsf{BHist}$. This supplies the two
+componentwise selector comparisons and the strict exit rows for the two selected
+pairs.
+
+Next instantiate
+\autoref{thm:ratup-fieldup-bracketing-selector-complete-obstruction-package}
+with the same denominator tuple, histories, carrier witnesses, support witness,
+selector pair $(s,t)$, and contexts $L,R:\mathsf{BHist}$. The resulting rows
+are exactly the concrete obstruction rows for
+$a=E_s(h,k,\ell)$ and $b=E_t(h,k,\ell)$.
+
+Now instantiate
+\autoref{thm:ratup-fieldup-final-certificate-two-selector-noncollapse-boundary}
+with the same concrete exit object, denominator tuple, histories, carrier
+witnesses, support witness, selector pair $(s,t)$, contexts $L,R$, and right
+context $r:\mathsf{BHist}$. This contributes the final boundary rows and the
+four displayed right-selector noncollapse rows for $E_t(h,k,\ell)$.
+
+Finally use \autoref{thm:ratup-fieldup-concrete-exit-object-complete} only to
+identify these rows as rows of the concrete
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Conjunction
+introduction then repacks the three row families into one concrete
+$\FieldUp(\RatUp)$ exit certificate.
+\end{proof}
+
+Per-object template: traditional target complete selector exit obstruction
+certificate inside $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{BMark}$, $\mathsf{RatUp}$, and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}; denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$; selected endpoints
+$E_s(h,k,\ell)$, $E_t(h,k,\ell)$, $E_u(h,k,\ell)$, and $E_v(h,k,\ell)$;
+carrier rows selector strict exit carriers, contextual obstruction carrier
+exclusions, and right-selector noncollapse carrier exclusions; classifier rows
+componentwise denominator comparisons, $\mathsf{RatHistoryClassifier}$ rows,
+and contextual singleton-classifier rejection; nonzero rows strict endpoint
+nonzero witnesses, contextual endpoint witnesses, and final right-selector
+witnesses; stability obligations selector-pair strict exit determinacy,
+bracketing selector complete obstruction, and final certificate two-selector
+noncollapse; ledger selector comparison $(s,t)$ against $(u,v)$ plus contexts
+$L,R,r$; exactness predicate one concrete selector exit obstruction certificate;
+downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit criterion;
+status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp selector-independent final boundary]
 \label{thm:ratup-fieldup-selector-independent-final-boundary}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
@@ -422,3 +547,31 @@ noncollapse; ledger selector pairs $(s,t)$ and $(u,v)$ plus contexts $L,R,r$;
 exactness predicate one final FieldUp exit boundary independent of certified
 selector-pair replacement; downstream consumer stable algebra-hierarchy exit
 certificate; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp concrete exit selector-independent final boundary]
+\label{thm:ratup-fieldup-concrete-exit-selector-independent-final-boundary}
+For $\mathsf{RatUpFieldSource}_F$, the concrete exit object of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object} contains the
+selector-independent final boundary row for the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$. Explicitly, for histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+selectors $s,t,u,v:\mathsf{BMark}$, and contexts $L,R,r:\mathsf{BHist}$, if
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the concrete exit object
+contains both final-certificate two-selector noncollapse packages, the two
+componentwise $R_D^u$ comparisons, and the two
+$\mathsf{RatHistoryClassifier}$ comparisons of
+\autoref{thm:ratup-fieldup-selector-independent-final-boundary}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-selector-independent-final-boundary} to the
+same concrete denominator tuple, histories, carrier witnesses, support witness,
+selectors $s,t,u,v$, and contexts $L,R,r$. This supplies the two final
+two-selector noncollapse packages and the four componentwise comparison rows
+listed in the selector-independent final boundary.
+
+By Definition~\ref{def:ratup-fieldup-concrete-exit-object}, those
+selector-independent final boundary rows are one conjunct of the concrete
+$\FieldUp(\RatUp)$ exit object. Therefore the rows supplied by
+\autoref{thm:ratup-fieldup-selector-independent-final-boundary} are contained in
+the concrete exit object for $\mathsf{RatUpFieldSource}_F$.
+\end{proof}
