@@ -151,4 +151,55 @@ theorem CentralizerCoset_semanticNameCert {mul : BHist -> BHist -> BHist} {a rep
   · intro h carrier
     exact carrier
 
+theorem QuotientGroupCentralizerNormalizer_orbit_kernel_equivalence_iff
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    {a x y : BHist} :
+    let QuotientClassifier := fun p q : BHist =>
+      SubgroupCentralizerNormalizer mul inv a p ∧
+        SubgroupCentralizerNormalizer mul inv a q ∧
+          Exists (fun z : BHist => SubgroupCentralizerCarrier mul a z ∧ hsame q (mul p z))
+    QuotientClassifier x y <-> SubgroupCentralizerQuotientKernel mul inv a x y := by
+  dsimp
+  have rightInv : forall t : BHist, hsame (mul t (inv t)) BHist.Empty := by
+    intro t
+    have sameT :
+        hsame t (mul (inv (inv t)) BHist.Empty) := by
+      exact hsame_trans (hsame_symm (leftId t))
+        (hsame_trans (mulCongr (hsame_symm (leftInv (inv t))) (hsame_refl t))
+          (hsame_trans (assocC (inv (inv t)) (inv t) t)
+            (mulCongr (hsame_refl (inv (inv t))) (leftInv t))))
+    exact hsame_trans (mulCongr sameT (hsame_refl (inv t)))
+      (hsame_trans (assocC (inv (inv t)) BHist.Empty (inv t))
+        (hsame_trans (mulCongr (hsame_refl (inv (inv t))) (leftId (inv t)))
+          (leftInv (inv t))))
+  constructor
+  · intro classified
+    cases classified.right.right with
+    | intro z witness =>
+        have sameKernelZ : hsame (mul (inv x) y) z :=
+          hsame_trans (mulCongr (hsame_refl (inv x)) witness.right)
+            (BEDC.Derived.GroupUp.group_mul_left_inverse_cancel
+              assocC leftId mulCongr leftInv x z)
+        have kernelCentral :
+            SubgroupCentralizerCarrier mul a (mul (inv x) y) :=
+          hsame_trans (mulCongr sameKernelZ (hsame_refl a))
+            (hsame_trans witness.left (mulCongr (hsame_refl a) (hsame_symm sameKernelZ)))
+        exact And.intro classified.left (And.intro classified.right.left kernelCentral)
+  · intro kernel
+    have endpoint :
+        hsame y (mul x (mul (inv x) y)) := by
+      have forward :
+          hsame (mul x (mul (inv x) y)) y :=
+        hsame_trans (hsame_symm (assocC x (inv x) y))
+          (hsame_trans (mulCongr (rightInv x) (hsame_refl y)) (leftId y))
+      exact hsame_symm forward
+    exact And.intro kernel.left
+      (And.intro kernel.right.left
+        (Exists.intro (mul (inv x) y) (And.intro kernel.right.right endpoint)))
+
 end BEDC.Derived.QuotientGroupUp

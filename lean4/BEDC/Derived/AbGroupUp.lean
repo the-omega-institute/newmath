@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.Commutator
 
 namespace BEDC.Derived.AbGroupUp
 
@@ -154,6 +155,28 @@ theorem abgroup_inverse_conjugation_collapse {mul : BHist -> BHist -> BHist} {e 
   have collapseInner : hsame (mul b (mul (inv a) a)) (mul b e) := by
     exact mulCongr (hsame_refl b) (leftInv a)
   exact hsame_trans swap (hsame_trans collapseInner (rightId b))
+
+theorem abgroup_centralizer_commutator_collapse {mul : BHist -> BHist -> BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty) {a x : BHist} :
+    hsame (mul x a) (mul a x) ∧
+      hsame (mul (mul x a) (mul (inv x) (inv a))) BHist.Empty ∧
+      hsame (mul a (mul x (inv a))) x := by
+  have central : hsame (mul x a) (mul a x) := commC x a
+  have commutator :
+      hsame (mul (mul x a) (mul (inv x) (inv a))) BHist.Empty := by
+    exact (BEDC.Derived.GroupUp.group_commutator_trivial_iff_commutes_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv).mpr central
+  have conjugation : hsame (mul a (mul x (inv a))) x := by
+    exact abgroup_conjugation_collapse assocC commC rightId mulCongr rightInv a x
+  exact And.intro central (And.intro commutator conjugation)
 
 theorem abgroup_inverse_mul {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
