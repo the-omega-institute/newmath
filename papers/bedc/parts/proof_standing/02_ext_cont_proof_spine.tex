@@ -344,6 +344,24 @@ forbidden by right-tail mutual-extension cancellation.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_right\_visible\_tail\_absurd}
 
+\begin{theorem}[Triangular continuation cycle forbids a zero right tail]
+\label{thm:cont-triangle-cycle-right-zero-tail-absurd}
+If
+$$
+\ContR(a,f,b),\qquad
+\ContR(b,g,c),\qquad
+\ContR(c,\Ezero(k),a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(f,g),c)$. The composite continuation and the zero
+return tail give a mutual continuation with a zero-headed right tail, which is
+forbidden by right-tail mutual-extension cancellation.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_right\_zero\_tail\_absurd}
+
 \begin{theorem}[Triangular continuation cycle has empty tails]
 \label{thm:continuation-triangle-cycle-tails-empty}
 If
