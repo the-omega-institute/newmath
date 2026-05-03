@@ -1754,3 +1754,28 @@ Rationale:
 
 ---
 
+### B-71 - Field forgets to CommRing certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Field forgets to CommRing certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a FieldUp(F) setup, dropping the nonzero apartness and proof-indexed multiplicative inverse fields yields the CommRingUp(F) source package with the same carrier operations and classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Direct sibling to B-28 (CommRing forgets to Ring) at the next layer of the algebraic forgetful chain. Field-level certificates carry strictly more data than CommRing certificates (nonzero apartness, proof-indexed inverses), and the forgetful projection is the canonical way to license Field-bearing carriers as CommRing inputs to downstream theorems (e.g., module/ring scalar packages). Paper has both def:field-... and def:commring-... certificate definitions but no theorem proves the projection. Distinct from B-28 because the dropped fields are inverse/apartness, not multiplicative commutativity, and the source/target setups are different. Accepted as a clean concrete_instances projection theorem.
+
+---
+
