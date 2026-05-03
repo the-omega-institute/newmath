@@ -38,6 +38,46 @@ $f\hsame\emp$, the equality reduces to the kernel empty-right append law.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_left\_append\_fixed\_identity\_iff}
 
+\begin{theorem}[Category hom carrier composite left-tail fixed right identity]
+\label{thm:category-hom-carrier-comp-left-tail-fixed-right-identity}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\mathsf{CategoryHomCarrier}(b,c,g)$, $\ContR(f,g,fg)$, and
+$\HSame(fg,f)$, then
+$$
+\HSame(g,\emp)\wedge\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed composite continuation along $\HSame(fg,f)$ to obtain
+$\ContR(f,g,f)$. Right-unit uniqueness for continuations forces
+$\HSame(g,\emp)$. Transport the right hom-carrier continuation
+$\ContR(b,g,c)$ across this empty-tail comparison to obtain
+$\ContR(b,\emp,c)$, then compare it with the canonical right-unit continuation
+at $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_tail\_fixed\_right\_identity}
+
+\begin{theorem}[Category hom carrier composite right-tail fixed left identity]
+\label{thm:category-hom-carrier-comp-right-tail-fixed-left-identity}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\mathsf{CategoryHomCarrier}(b,c,g)$, $\ContR(f,g,fg)$, and
+$\HSame(fg,g)$, then
+$$
+\HSame(f,\emp)\wedge\HSame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed composite continuation along $\HSame(fg,g)$ to obtain
+$\ContR(f,g,g)$. Left-unit uniqueness for continuations forces
+$\HSame(f,\emp)$. Transport the left hom-carrier continuation
+$\ContR(a,f,b)$ across this empty-tail comparison to obtain
+$\ContR(a,\emp,b)$, then compare it with the canonical right-unit continuation
+at $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_tail\_fixed\_left\_identity}
+
 \begin{theorem}[Category hom carrier two-sided identity law]
 \label{thm:category-hom-carrier-two-sided-identity-law}
 For the unary-continuation category, if

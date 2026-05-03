@@ -547,4 +547,54 @@ theorem FieldRatDenominatorUnitEnvelope_external_strict :
   · intro h k ratH ratK
     exact field_rat_denominator_unit_envelope_classifier_exactness.left ratH ratK
 
+theorem field_rat_denominator_unit_envelope_commutative_monoid_laws :
+    (FieldRatDenominatorUnitEnvelopeCarrier BHist.Empty ∧
+      (∀ {h k : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeCarrier k ->
+          FieldRatDenominatorUnitEnvelopeCarrier (append h k)) ∧
+      (∀ {h k l : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeCarrier k -> FieldRatDenominatorUnitEnvelopeCarrier l ->
+          FieldRatDenominatorUnitEnvelopeClassifier (append (append h k) l)
+            (append h (append k l))) ∧
+      (∀ {h : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeClassifier (append BHist.Empty h) h ∧
+          FieldRatDenominatorUnitEnvelopeClassifier (append h BHist.Empty) h) ∧
+      (∀ {h h' k k' : BHist}, FieldRatDenominatorUnitEnvelopeClassifier h h' ->
+        FieldRatDenominatorUnitEnvelopeClassifier k k' ->
+          FieldRatDenominatorUnitEnvelopeClassifier (append h k) (append h' k'))) ∧
+      (∀ {h k : BHist}, FieldRatDenominatorUnitEnvelopeCarrier h ->
+        FieldRatDenominatorUnitEnvelopeCarrier k ->
+          FieldRatDenominatorUnitEnvelopeClassifier (append h k) (append k h)) := by
+  constructor
+  · exact field_rat_denominator_unit_envelope_monoid_laws
+  · intro h k carrierH carrierK
+    cases carrierH with
+    | inl ratH =>
+        cases carrierK with
+        | inl ratK =>
+            have classified :
+                RatHistoryClassifier (append h k) (append k h) :=
+              field_rat_denominator_continuation_commutative_classifier ratH ratK
+                (cont_intro rfl) (cont_intro rfl)
+            exact Or.inl ⟨classified.left, classified.right.left, classified⟩
+        | inr emptyK =>
+            cases emptyK
+            have classified :
+                RatHistoryClassifier (append h BHist.Empty) (append BHist.Empty h) :=
+              RatHistoryClassifier_hsame_transport (append_empty_right h).symm
+                (append_empty_left h).symm ⟨ratH, ratH, hsame_refl h⟩
+            exact Or.inl ⟨classified.left, classified.right.left, classified⟩
+    | inr emptyH =>
+        cases carrierK with
+        | inl ratK =>
+            cases emptyH
+            have classified :
+                RatHistoryClassifier (append BHist.Empty k) (append k BHist.Empty) :=
+              RatHistoryClassifier_hsame_transport (append_empty_left k).symm
+                (append_empty_right k).symm ⟨ratK, ratK, hsame_refl k⟩
+            exact Or.inl ⟨classified.left, classified.right.left, classified⟩
+        | inr emptyK =>
+            cases emptyH
+            cases emptyK
+            exact Or.inr ⟨hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩
 end BEDC.Derived.FieldUp

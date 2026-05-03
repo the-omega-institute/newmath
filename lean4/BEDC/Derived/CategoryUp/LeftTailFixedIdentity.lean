@@ -17,6 +17,18 @@ theorem ContinuationMorphism_comp_left_tail_fixed_right_identity {a b c : BHist}
     exact hsame_symm (cont_deterministic rightAsIdentity (cont_right_unit b))
   exact And.intro rightTailEmpty sameTarget
 
+theorem CategoryHomCarrier_comp_left_tail_fixed_right_identity {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      hsame fg f -> hsame g BHist.Empty ∧ hsame b c := by
+  intro _left right comp fixedLeft
+  have rightTailEmpty : hsame g BHist.Empty :=
+    cont_right_unit_unique (cont_result_hsame_transport comp fixedLeft)
+  have rightAsIdentity : Cont b BHist.Empty c :=
+    cont_hsame_transport (hsame_refl b) rightTailEmpty (hsame_refl c)
+      right.right.right.right
+  exact And.intro rightTailEmpty
+    (hsame_symm (cont_deterministic rightAsIdentity (cont_right_unit b)))
+
 theorem CategoryHomCarrier_right_append_fixed_identity_iff {a b f g : BHist}
     (hom : CategoryHomCarrier a b f) :
     hsame (append f g) g <-> hsame f BHist.Empty /\ hsame a b := by
