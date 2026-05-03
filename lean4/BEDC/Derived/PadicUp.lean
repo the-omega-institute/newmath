@@ -54,6 +54,30 @@ theorem PadicPrimeScale_append_cont_result_functional {p w q n e r r' : BHist} :
     PadicPrimeScale_append_cont_closure left right continuation
   exact NatMul_functional left.left.left combined.right other.right
 
+theorem PadicPrimeScale_append_total {p w q : BHist} :
+    NatPrime p -> UnaryHistory w -> UnaryHistory q ->
+      Exists (fun r : BHist => PadicPrimeScale p (append w q) r ∧
+        Exists (fun n : BHist => Exists (fun e : BHist =>
+          PadicPrimeScale p w n ∧ PadicPrimeScale p q e ∧ Cont n e r))) := by
+  intro primeP unaryW unaryQ
+  have leftTotal := NatMul_total primeP.left unaryW
+  have rightTotal := NatMul_total primeP.left unaryQ
+  cases leftTotal with
+  | intro n leftData =>
+      cases rightTotal with
+      | intro e rightData =>
+          have leftScale : PadicPrimeScale p w n :=
+            And.intro primeP leftData.right
+          have rightScale : PadicPrimeScale p q e :=
+            And.intro primeP rightData.right
+          have continuation : Cont n e (append n e) :=
+            cont_intro rfl
+          exact Exists.intro (append n e)
+            (And.intro
+              (PadicPrimeScale_append_cont_closure leftScale rightScale continuation)
+              (Exists.intro n
+                (Exists.intro e (And.intro leftScale (And.intro rightScale continuation)))))
+
 theorem PadicPrimeScale_append_empty_result_empty_factors_iff {p w q n e r : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
       (hsame r BHist.Empty <-> hsame w BHist.Empty ∧ hsame q BHist.Empty) := by

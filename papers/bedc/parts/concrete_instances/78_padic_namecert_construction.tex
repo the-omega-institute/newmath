@@ -71,6 +71,25 @@ scale witness have the same prime base and appended exponent, so
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_cont\_result\_functional}
 
+\begin{theorem}[Prime scale append totality]
+\label{thm:padic-prime-scale-append-total}
+If \(p\) is a \(\PrimeUp\)-prime and \(w,q\) are unary histories, then there
+is a history \(r\) such that
+\(\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,q),r)\). Moreover \(r\) is
+obtained from scale witnesses for \(w\) and \(q\) by a continuation witness.
+\end{theorem}
+\begin{proof}
+Totality for \(\mathsf{NatMul}\) supplies histories \(n\) and \(e\) with
+\(\mathsf{PadicPrimeScale}(p,w,n)\) and
+\(\mathsf{PadicPrimeScale}(p,q,e)\), using the unary field of the prime
+witness for \(p\). The concrete continuation
+\(\mathsf{Cont}(n,e,\mathsf{append}(n,e))\) then feeds
+\autoref{thm:padic-prime-scale-append-cont-closure}, producing the scale
+witness for \(\mathsf{append}(w,q)\) together with the displayed factor
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_total}
+
 \begin{theorem}[Prime scale appended empty result split]
 \label{thm:padic-prime-scale-append-empty-result-empty-factors-iff}
 Under the hypotheses of

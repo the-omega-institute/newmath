@@ -1,4 +1,5 @@
 import BEDC.Derived.FieldUp
+import BEDC.Derived.FieldUp.SingletonAppend
 import BEDC.Derived.FieldUp.SingletonEmpty
 import BEDC.FKernel.Cont
 
@@ -39,6 +40,46 @@ theorem fieldSingletonEmpty_operation_context_normalization {L R h k out : BHist
     · exact fieldSingletonEmptyClassifier_append_endpoint_iff hL hR (hsame_refl BHist.Empty)
     · intro p
       exact fieldSingletonEmptyClassifier_append_endpoint_iff hL hR (hsame_refl BHist.Empty)
+
+theorem fieldSingletonEmpty_operation_context_nonzero_obstruction {L R h k out : BHist}
+    (carrierL : fieldSingletonEmptyCarrier L) (carrierR : fieldSingletonEmptyCarrier R)
+    (nonzeroOut : fieldSingletonEmptyNonZero out) :
+    (fieldSingletonEmptyClassifier (append L (fieldSingletonEmptyMul h k)) (append R out) ->
+      False) ∧
+    (fieldSingletonEmptyClassifier (append L fieldSingletonEmptyOne) (append R out) -> False) ∧
+    (∀ p : fieldSingletonEmptyNonZero h,
+      fieldSingletonEmptyClassifier (append L (fieldSingletonEmptyInv h p)) (append R out) ->
+        False) := by
+  have normalized :=
+    fieldSingletonEmpty_operation_context_normalization (h := h) (k := k) (out := out)
+      carrierL carrierR
+  constructor
+  · intro classified
+    exact fieldSingletonEmptyNonZero_empty_endpoint_absurd
+      (Iff.mp normalized.left classified) nonzeroOut
+  · constructor
+    · intro classified
+      exact fieldSingletonEmptyNonZero_empty_endpoint_absurd
+        (Iff.mp normalized.right.left classified) nonzeroOut
+    · intro p classified
+      exact fieldSingletonEmptyNonZero_empty_endpoint_absurd
+        (Iff.mp (normalized.right.right p) classified) nonzeroOut
+
+theorem fieldSingletonEmpty_operation_context_carried_nonzero_obstruction
+    {L R U V h k out : BHist}
+    (carrierL : fieldSingletonEmptyCarrier L) (carrierR : fieldSingletonEmptyCarrier R)
+    (carrierU : fieldSingletonEmptyCarrier U) (carrierV : fieldSingletonEmptyCarrier V)
+    (carriedNonzero : fieldSingletonEmptyNonZero (append U (append out V))) :
+    (fieldSingletonEmptyClassifier (append L (fieldSingletonEmptyMul h k)) (append R out) ->
+      False) ∧
+    (fieldSingletonEmptyClassifier (append L fieldSingletonEmptyOne) (append R out) -> False) ∧
+    (∀ p : fieldSingletonEmptyNonZero h,
+      fieldSingletonEmptyClassifier (append L (fieldSingletonEmptyInv h p)) (append R out) ->
+        False) := by
+  have nonzeroOut : fieldSingletonEmptyNonZero out :=
+    Iff.mp (fieldSingletonEmptyNonZero_append_context_cancel_iff carrierU carrierV)
+      carriedNonzero
+  exact fieldSingletonEmpty_operation_context_nonzero_obstruction carrierL carrierR nonzeroOut
 
 theorem FieldSingletonClassifier_operation_context_endpoint_package {L R h k out : BHist}
     (carrierL : FieldSingletonCarrier L) (carrierR : FieldSingletonCarrier R) :
