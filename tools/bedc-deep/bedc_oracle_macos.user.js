@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.14
+// @version      1.15
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.14";
+  const SCRIPT_VERSION = "bedc-1.15";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -228,6 +228,126 @@
       if (el) return el;
     }
     return null;
+  }
+
+  function findFileInput() {
+    // ChatGPT has a hidden file input on the composer
+    return document.querySelector("input[type='file']");
+  }
+
+  // ── PDF upload (ported from automath chatgpt_oracle_macos.user.js) ────
+  async function waitForUploadComplete(timeoutMs = 60000) {
+    log("Waiting for PDF upload to complete...");
+    const start = Date.now();
+    while (Date.now() - start < timeoutMs) {
+      await sleep(2000);
+      const uploading =
+        document.querySelector("[class*='uploading']") ||
+        document.querySelector("[class*='progress']") ||
+        document.querySelector("[role='progressbar']") ||
+        document.querySelector("[class*='loading']");
+      const attached =
+        document.querySelector("[class*='attachment']") ||
+        document.querySelector("[class*='file-chip']") ||
+        document.querySelector("[data-testid*='attachment']") ||
+        document.querySelector("[class*='uploaded']") ||
+        document.querySelector("img[alt*='pdf']") ||
+        document.querySelector("[class*='file']");
+      const elapsed = Math.floor((Date.now() - start) / 1000);
+      if (!uploading && attached) {
+        log(`PDF upload complete (${elapsed}s), attachment visible`);
+        return true;
+      }
+      const sendBtn = findSendButton();
+      if (sendBtn && !sendBtn.disabled && elapsed > 5) {
+        log(`PDF upload likely complete (${elapsed}s), send button enabled`);
+        return true;
+      }
+      if (elapsed % 10 === 0 && elapsed > 0) {
+        log(`Upload waiting... ${elapsed}s (uploading=${!!uploading}, attached=${!!attached})`);
+      }
+    }
+    log("Upload wait timeout — proceeding anyway");
+    return false;
+  }
+
+  async function uploadPDF(base64Data, fileName) {
+    log(`PDF upload: ${fileName} (${(base64Data.length * 0.75 / 1024).toFixed(0)} KB)`);
+    const byteChars = atob(base64Data);
+    const byteArray = new Uint8Array(byteChars.length);
+    for (let i = 0; i < byteChars.length; i++) byteArray[i] = byteChars.charCodeAt(i);
+    const file = new File([byteArray], fileName, { type: "application/pdf" });
+
+    let injected = false;
+
+    // Method 1: hidden file input
+    const fileInput = findFileInput();
+    if (fileInput) {
+      try {
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        fileInput.files = dt.files;
+        fileInput.dispatchEvent(new Event("change", { bubbles: true }));
+        log("PDF: injected via file input");
+        injected = true;
+      } catch (e) {
+        log(`PDF file input failed: ${e.message}`);
+      }
+    }
+
+    // Method 2: click attach button, then file input
+    if (!injected) {
+      const attachBtn = document.querySelector(
+        "button[aria-label='Attach files'], button[aria-label='Upload file'], " +
+        "button[data-testid='composer-attach-button'], button[aria-haspopup='menu']"
+      );
+      if (attachBtn) {
+        log("PDF: clicking attach button...");
+        attachBtn.click();
+        await sleep(1000);
+        const fi2 = document.querySelector("input[type='file']");
+        if (fi2) {
+          try {
+            const dt2 = new DataTransfer();
+            dt2.items.add(file);
+            fi2.files = dt2.files;
+            fi2.dispatchEvent(new Event("change", { bubbles: true }));
+            log("PDF: injected after clicking attach");
+            injected = true;
+          } catch (e) {
+            log(`PDF inject after attach failed: ${e.message}`);
+          }
+        }
+      }
+    }
+
+    // Method 3: drag-drop on composer
+    if (!injected) {
+      log("PDF: trying drag-drop...");
+      const dropTarget =
+        document.querySelector("form") ||
+        findPromptInput()?.closest("div") ||
+        document.querySelector("[class*='composer']");
+      if (dropTarget) {
+        const dt3 = new DataTransfer();
+        dt3.items.add(file);
+        for (const evtType of ["dragenter", "dragover", "drop"]) {
+          dropTarget.dispatchEvent(new DragEvent(evtType, {
+            bubbles: true, cancelable: true, dataTransfer: dt3,
+          }));
+          await sleep(300);
+        }
+        log("PDF: drag-drop dispatched");
+        injected = true;
+      }
+    }
+
+    if (!injected) {
+      log("PDF: ALL METHODS FAILED — continuing without PDF");
+      return false;
+    }
+    await waitForUploadComplete(60000);
+    return true;
   }
 
   function findSendButton(allowDisabled = false) {
@@ -923,7 +1043,7 @@
 
   // ── Process a task (BEDC ADD: multi-turn navigation + reload-safe) ─
   async function processTask(task) {
-    const { task_id, prompt, conversation_url, is_followup, conversation_id, re_extract } = task;
+    const { task_id, prompt, conversation_url, is_followup, conversation_id, re_extract, pdf_base64, pdf_name } = task;
     busy = true;
     updatePanel();
 
@@ -1103,6 +1223,21 @@
         throw new Error(`Prompt input not found after 90s (url=${window.location.href})`);
       }
       log(`Page ready (${is_followup ? "existing conv" : "fresh chat"}) after ${retries}s`);
+
+      // BEDC ADD: PDF attach BEFORE prompt entry, only on first turn of a
+      // fresh conversation (non-followup) AND only if server provided pdf_base64.
+      // Follow-up turns inherit the PDF from earlier turns via conversation
+      // memory, so re-uploading is wasted work. If user is using a ChatGPT
+      // Project with main.pdf attached at project level, server typically
+      // wouldn't send pdf_base64 at all (Project provides PDF context auto).
+      if (!is_followup && pdf_base64) {
+        try {
+          const ok = await uploadPDF(pdf_base64, pdf_name || "main.pdf");
+          if (!ok) log("PDF upload failed — proceeding without PDF context");
+        } catch (e) {
+          log(`PDF upload exception: ${e.message} — proceeding without PDF`);
+        }
+      }
 
       // Enter prompt
       const entered = await enterPrompt(prompt);

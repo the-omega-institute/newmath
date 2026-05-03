@@ -29,6 +29,7 @@ import urllib.request
 import urllib.error
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
 
 from concurrent.futures import ThreadPoolExecutor, FIRST_COMPLETED, wait
 import os
@@ -123,6 +124,8 @@ def submit_turn(
     prompt: str,
     conversation_id: str = "",
     model: str = "chatgpt-5.5-pro",
+    pdf_base64: str = "",
+    pdf_name: str = "",
 ) -> dict:
     payload = {
         "task_id": task_id,
@@ -132,8 +135,38 @@ def submit_turn(
     }
     if conversation_id:
         payload["conversation_id"] = conversation_id
+    if pdf_base64:
+        payload["pdf_base64"] = pdf_base64
+        payload["pdf_name"] = pdf_name or "main.pdf"
     endpoint = "/continue" if conversation_id else "/submit"
-    return http_post(f"{server_url}{endpoint}", payload, timeout=30)
+    return http_post(f"{server_url}{endpoint}", payload, timeout=60)
+
+
+# Cache encoded PDF — read once per inner process to avoid re-encoding 2 MB
+# every initial turn. Re-reads only when file mtime changes.
+_PDF_CACHE: dict = {"path": None, "mtime": None, "b64": None, "name": None}
+
+
+def encode_pdf_for_attach(pdf_path: Optional[Path] = None) -> tuple[str, str]:
+    """Return (base64, filename) ready for submit_turn. Empty strings if
+    pdf_path is None or file missing. Caches across calls."""
+    import base64
+    if pdf_path is None or not Path(pdf_path).exists():
+        return ("", "")
+    p = Path(pdf_path)
+    try:
+        st = p.stat()
+    except OSError:
+        return ("", "")
+    if (_PDF_CACHE["path"] == str(p) and _PDF_CACHE["mtime"] == st.st_mtime
+            and _PDF_CACHE["b64"]):
+        return (_PDF_CACHE["b64"], _PDF_CACHE["name"])
+    try:
+        b64 = base64.b64encode(p.read_bytes()).decode("ascii")
+    except OSError:
+        return ("", "")
+    _PDF_CACHE.update({"path": str(p), "mtime": st.st_mtime, "b64": b64, "name": p.name})
+    return (b64, p.name)
 
 
 def wait_for_recent_agent(server_url: str, seconds: int, poll_interval: int) -> bool:
@@ -991,7 +1024,24 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
             turn_idx = len(turns)
             task_id = f"bedc_{target.target_id.lower()}_t{turn_idx}_{int(time.time() * 1000)}"
             write_text(out_dir / f"turn_{turn_idx:02d}_prompt.md", prompt)
-            submit = submit_turn(args.server, task_id, prompt, conversation_id, model=args.model)
+            # Attach PDF only on first turn of a fresh conversation
+            # (no existing conversation_id). Follow-up turns inherit
+            # PDF context from earlier turns in the same chat.
+            attach_pdf_path = getattr(args, "attach_pdf", None)
+            pdf_b64 = ""
+            pdf_name = ""
+            if attach_pdf_path and not conversation_id and turn_idx == 0:
+                pdf_b64, pdf_name = encode_pdf_for_attach(Path(attach_pdf_path))
+                if pdf_b64:
+                    print(
+                        f"[v2 oracle] attaching PDF {pdf_name} "
+                        f"({len(pdf_b64) * 0.75 / 1024:.0f} KB) for first-turn",
+                        flush=True,
+                    )
+            submit = submit_turn(
+                args.server, task_id, prompt, conversation_id, model=args.model,
+                pdf_base64=pdf_b64, pdf_name=pdf_name,
+            )
             if "error" in submit:
                 raise SystemExit(f"oracle submit failed: {submit['error']}")
             conversation_id = submit.get("conversation_id") or conversation_id
@@ -1707,6 +1757,9 @@ def main() -> int:
                         help="(v2 only) Wall-clock ceiling for codex track per target (seconds).")
     parser.add_argument("--stage2-max-attempts", type=int, default=3,
                         help="(v2 only) Max Stage 2 writeback attempts (codex corrective + oracle corrective combined).")
+    parser.add_argument("--attach-pdf", default="papers/bedc/main.pdf",
+                        help="Path to PDF to attach on first oracle turn of each fresh conversation. "
+                             "Default: papers/bedc/main.pdf. Set to '' to disable.")
     parser.add_argument("--no-stage0", action="store_true", help="Disable Stage 0 (codex+claude quick path); always go straight to oracle Stage 1")
     parser.add_argument("--stage0-max-rounds", type=int, default=stage0_quickpath.DEFAULT_MAX_ROUNDS, help="Max codex+claude review rounds in Stage 0 before escalating to Stage 1")
     parser.add_argument("--force", action="store_true", help="Bypass already-in-paper pre-flight check")

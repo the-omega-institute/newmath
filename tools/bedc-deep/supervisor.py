@@ -223,7 +223,7 @@ def _active_tab_count() -> int:
     return len(s.get("active_recent_agents") or [])
 
 
-def spawn_inner(parallel: int, *, pipeline_version: str = "v1") -> subprocess.Popen:
+def spawn_inner(parallel: int, *, pipeline_version: str = "v1", attach_pdf: str = "") -> subprocess.Popen:
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
     # Honor PI v1 adjust_parallel intent if it dropped a file under state/
     parallel_intent_path = SCRIPT_DIR / "state" / ".pi_parallel_intent"
@@ -254,6 +254,7 @@ def spawn_inner(parallel: int, *, pipeline_version: str = "v1") -> subprocess.Po
         "--parallel", str(parallel),
         "--preflight-agent-wait", "60",
         "--pipeline-version", pipeline_version,
+        "--attach-pdf", attach_pdf,
     ]
     proc = subprocess.Popen(
         cmd,
@@ -563,6 +564,9 @@ def main() -> int:
                         help="v0 = observer-only PI agent. v1 = maker/checker gauntlet with expanded action surface (experimental).")
     parser.add_argument("--pipeline-version", choices=["v1", "v2"], default="v1",
                         help="Inner pipeline version. Forwarded to oracle_client.py --pipeline-version. v2 = codex-first track.")
+    parser.add_argument("--attach-pdf", default="papers/bedc/main.pdf",
+                        help="PDF path to attach on first oracle turn of fresh conversations. "
+                             "Set to '' to disable (recommended if you use a ChatGPT Project with main.pdf).")
     parser.add_argument("--no-auto-commit", action="store_true")
     parser.add_argument("--no-dev-sync", action="store_true", help="Skip auto-merging origin/dev at startup and before probe/curator")
     parser.add_argument("--inner-restart-backoff", type=int, default=DEFAULT_INNER_RESTART_BACKOFF_S)
@@ -595,6 +599,7 @@ def main() -> int:
         "pi_cooldown_hours": args.claude_review_hours,
         "pi_version": args.pi_version,
         "pipeline_version": args.pipeline_version,
+        "attach_pdf": args.attach_pdf,
     }
 
     try:
@@ -618,6 +623,7 @@ def main() -> int:
                 inner = spawn_inner(
                     args.parallel,
                     pipeline_version=supervisor_state.get("pipeline_version", "v1"),
+                    attach_pdf=supervisor_state.get("attach_pdf", ""),
                 )
                 supervisor_state["inner"] = inner
 
