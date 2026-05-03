@@ -339,6 +339,28 @@ apart-zero witness rejects the corresponding endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_continuation\_endpoint\_split\_iff}
 
+\begin{theorem}[Field apart-zero factors excluded by singleton continuation result]
+\label{thm:field-apartzero-continuation-singleton-result-factor-absurd}
+For histories $P,Q,R,endpoint:\mathsf{BHist}$, if $\ContR(P,Q,R)$ and the
+result is classified by the field singleton classifier, then neither factor can
+be apart from zero:
+$$
+\ContR(P,Q,R)\land
+\mathsf{FieldSingletonClassifier}(R,endpoint)
+\Longrightarrow
+\bigl((\mathsf{ApartZero}_F(P)\to\bot)
+\land
+(\mathsf{ApartZero}_F(Q)\to\bot)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The singleton classifier supplies singleton-carrier membership for the result.
+The continuation endpoint split for singleton carriers pulls that membership
+back to both factors. An apart-zero witness for either factor is a rejection of
+that factor being empty, so each factor-side witness is impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_continuation\_singleton\_result\_factor\_absurd}
+
 \begin{theorem}[Field apart-zero append congruence under history sameness]
 \label{thm:field-apartzero-append-hsame-congr-iff}
 For histories $a,a',b,b':\mathsf{BHist}$, history sameness on both append

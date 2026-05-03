@@ -99,4 +99,42 @@ theorem ContinuousMapCarrier_empty_cert_iff {source map target modulus dist : BH
           (x := BHist.Empty) (y := BHist.Empty)).mpr
           (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
 
+theorem ContinuousMap_empty_map_empty_distance_iff {source modulus cert : BHist} :
+    (ContinuousFunctionCarrier source BHist.Empty source modulus cert ∧
+      MetricDistanceWitness source source BHist.Empty) ↔
+      ContinuousModulusWitness source modulus cert ∧ hsame source BHist.Empty := by
+  constructor
+  · intro data
+    cases data with
+    | intro carrier distance =>
+        cases carrier with
+        | intro sourceCarrier rest =>
+            cases rest with
+            | intro _targetCarrier rest =>
+                cases rest with
+                | intro _mapCarrier rest =>
+                    cases rest with
+                    | intro modulusCarrier rest =>
+                        cases rest with
+                        | intro _graph certRel =>
+                            have endpoints :=
+                              (MetricDistanceWitness_empty_distance_iff
+                                (x := source) (y := source)).mp distance
+                            exact
+                              And.intro
+                                (And.intro sourceCarrier
+                                  (And.intro modulusCarrier
+                                    (And.intro
+                                      (unary_cont_closed sourceCarrier modulusCarrier certRel)
+                                      certRel)))
+                                endpoints.left
+  · intro data
+    cases data with
+    | intro modulusWitness sourceEmpty =>
+        exact
+          And.intro
+            (ContinuousFunctionCarrier_empty_map_identity modulusWitness)
+            ((MetricDistanceWitness_empty_distance_iff
+              (x := source) (y := source)).mpr (And.intro sourceEmpty sourceEmpty))
+
 end BEDC.Derived.ContinuousMapUp

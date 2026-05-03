@@ -52,6 +52,38 @@ theorem AdjunctionUnitCounitCarrier_empty_components_exact {p q a composite : BH
                             (cont_left_unit_iff.mpr compositeEmpty)
                             (cont_left_unit_iff.mpr compositeEmpty)))
 
+theorem Adjunction_empty_unit_counit_prefix_iff {p q a : BHist} :
+    (NatTransPrefixComponentCarrier p q a BHist.Empty ∧
+      NatTransPrefixComponentCarrier q p a BHist.Empty ∧
+        Cont BHist.Empty BHist.Empty BHist.Empty) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory a ∧ hsame p q := by
+  constructor
+  · intro data
+    cases data with
+    | intro unitData rest =>
+        exact (NatTransPrefixComponentCarrier_empty_identity_iff
+          (p := p) (q := q) (a := a)).mp unitData
+  · intro data
+    cases data with
+    | intro pCarrier rest =>
+        cases rest with
+        | intro qCarrier rest =>
+            cases rest with
+            | intro aCarrier samePrefix =>
+                exact
+                  And.intro
+                    ((NatTransPrefixComponentCarrier_empty_identity_iff
+                      (p := p) (q := q) (a := a)).mpr
+                      (And.intro pCarrier
+                        (And.intro qCarrier (And.intro aCarrier samePrefix))))
+                    (And.intro
+                      ((NatTransPrefixComponentCarrier_empty_identity_iff
+                        (p := q) (q := p) (a := a)).mpr
+                        (And.intro qCarrier
+                          (And.intro pCarrier
+                            (And.intro aCarrier (hsame_symm samePrefix)))))
+                      (cont_intro rfl))
+
 theorem AdjunctionUnitCounitCarrier_empty_components_iff {p q a left right : BHist} :
     AdjunctionUnitCounitCarrier p q a BHist.Empty BHist.Empty left right ↔
       UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory a ∧ hsame p q ∧

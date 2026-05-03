@@ -40,6 +40,33 @@ $\emp$. Conversely, $p\sim q$ supplies both empty identity components, and
 $composite\sim\emp$ supplies both empty continuation witnesses.
 \end{proof}
 
+\begin{theorem}[Adjunction empty unit-counit prefix exactness]
+\label{thm:adjunction-empty-unit-counit-prefix}
+For histories $p,q,a:\mathsf{BHist}$, empty unit and counit prefix components,
+together with the empty composite continuation, are exact for unary prefixes,
+a unary object, and prefix equality:
+$$
+\begin{array}{c}
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)
+\land
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\emp)
+\land
+\ContR(\emp,\emp,\emp)
+\\[2pt]
+\Longleftrightarrow
+\mathsf{Unary}(p)\land\mathsf{Unary}(q)\land\mathsf{Unary}(a)\land\hsame(p,q).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Each empty prefix component is read through the natural-transformation
+empty-identity exactness theorem. The unit component supplies the unary data and
+$p\hsame q$. Conversely, the unary data and $p\hsame q$ reconstruct the unit
+component; symmetry reconstructs the counit component; the empty composite is
+the reflexive continuation at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.Adjunction\_empty\_unit\_counit\_prefix\_iff}
+
 \begin{theorem}[Adjunction unit-counit empty component exactness]
 \label{thm:adjunction-unit-counit-empty-components-exactness}
 For histories $p,q,a,left,right:\mathsf{BHist}$,

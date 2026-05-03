@@ -241,6 +241,34 @@ fields of the carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_map\_iff}
 
+\begin{theorem}[ContinuousMap empty map with empty distance]
+\label{thm:continuousmap-empty-map-empty-distance}
+For histories $source$, $modulus$, and $cert$, the empty graph map at the
+source together with an empty metric distance witness is exact for the source
+being empty and the modulus ledger being certified:
+$$
+\begin{array}{c}
+\mathsf{ContinuousFunctionCarrier}(source,\emp,source,modulus,cert)
+\land
+\mathsf{MetricDistanceWitness}(source,source,\emp)
+\\[2pt]
+\Longleftrightarrow
+\mathsf{ContinuousModulusWitness}(source,modulus,cert)
+\land
+\hsame(source,\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+From the carrier, unpack the target-certificate continuation and the unary
+source and modulus ledgers; unary continuation closure supplies the certificate
+ledger, hence the displayed modulus witness. The empty-distance witness forces
+the source endpoint to be empty. Conversely, the modulus witness builds the
+empty-map identity carrier, and the empty source endpoint builds the empty
+metric distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_map\_empty\_distance\_iff}
+
 \begin{theorem}[Continuous function carrier hsame transport]
 \label{thm:continuous-function-carrier-hsame-transport}
 For histories $source,map,target,modulus,cert$ and displayed histories
