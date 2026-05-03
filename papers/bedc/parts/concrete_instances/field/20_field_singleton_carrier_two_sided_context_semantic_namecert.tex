@@ -54,3 +54,37 @@ core theorem list
 \autoref{thm:field-singleton-classifier-append-hsame-common-context-cancel};
 exactness predicate contextual singleton-carrier equivalence; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field singleton two-sided context exactness]
+\label{thm:field-singleton-two-sided-context-exactness}
+For histories $L,R,h,k:\mathsf{BHist}$, if
+$\mathsf{FieldSingletonCarrier}(L)$ and
+$\mathsf{FieldSingletonCarrier}(R)$, then the two-sided singleton context is
+exact for both the carrier and the classifier:
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(h).
+$$
+and
+$$
+\mathsf{FieldSingletonClassifier}
+  (\mathsf{append}(L,\mathsf{append}(h,R)),
+   \mathsf{append}(L,\mathsf{append}(k,R)))
+\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Assume carrier witnesses for $L$ and $R$. The carrier equivalence is exactly
+\autoref{thm:field-singleton-carrier-append-context-empty} applied to those
+two witnesses and the middle history $h$.
+
+For the classifier equivalence, apply
+\autoref{thm:field-singleton-classifier-append-hsame-common-context-cancel}
+with the left contexts both equal to $L$ and the right contexts both equal to
+$R$. The required context comparisons are the reflexive witnesses
+$L\hsame L$ and $R\hsame R$, so the cancellation theorem identifies the
+displayed contextual classifier with
+$\mathsf{FieldSingletonClassifier}(h,k)$.
+\end{proof}
