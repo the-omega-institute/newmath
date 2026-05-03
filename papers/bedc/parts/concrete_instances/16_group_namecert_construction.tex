@@ -148,6 +148,25 @@ singleton-empty histories.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_visible\_result\_absurd}
 
+\begin{theorem}[Group singleton classifier continuation result-left iff]
+\label{thm:group-singleton-classifier-continuation-result-left}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton group
+classifier relates the two continuation inputs exactly when it relates the
+continuation result to the left input:
+$$
+R_{\emp}(P,Q)\Longleftrightarrow R_{\emp}(R,P).
+$$
+\end{theorem}
+\begin{proof}
+If $R_{\emp}(P,Q)$ holds, then both inputs are singleton-carried. Continuation
+result transport against the right-unit continuation at $\emp$ makes $R$
+singleton-carried, and transitivity through $\emp$ relates $R$ to $P$.
+Conversely, if $R_{\emp}(R,P)$ holds, then $R$ is singleton-carried. Transport
+the displayed continuation to empty result and invert it to recover singleton
+carrier witnesses for $P$ and $Q$; these witnesses classify the input pair.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_result\_left\_iff}
+
 The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
 operations, so subsequent formalization can prove $BHist$-anchored group laws
 instead of relying only on an abstract operator schema.
