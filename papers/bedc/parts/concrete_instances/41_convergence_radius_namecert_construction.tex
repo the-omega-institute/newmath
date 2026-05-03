@@ -9,6 +9,22 @@ This chapter gives a concrete naming-certificate construction for the convergenc
 \label{def:power-series-carrier}
 A complex power series carrier is a unary-indexed family \(a : \Unary \to \ComplexUp\)-history of complex coefficient histories together with a complex history \(z_0\) marking the origin of the expansion.
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier}
+
+\begin{lemma}[Power series origin and coefficient transport]
+\label{lem:power-series-carrier-origin-coefficient-transport}
+If the origin history is transported along $\hsame$ and every displayed
+coefficient is classified by the complex-history classifier, then the target
+origin is unary and the transported coefficient family is again a power series
+carrier at that target origin.
+\end{lemma}
+\begin{proof}
+The origin carrier is transported by unary transport. For each coefficient,
+the target-carrier component of the complex-history classifier supplies the
+complex coefficient carrier, so the transported family satisfies the power
+series carrier predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier\_origin\_coefficient\_transport}
 
 \begin{definition}[Partial sum at a point]
 \label{def:part-sum-power-series}

@@ -326,6 +326,7 @@ import BEDC.Derived.CategoryUp.LawPackage
 import BEDC.Derived.CategoryUp.EmptySourceTail
 import BEDC.Derived.CategoryUp.StabilityLawPackage
 import BEDC.Derived.CategoryUp.TargetCases
+import BEDC.Derived.CategoryUp.EmptySourceE1TargetPayload
 import BEDC.Derived.CategoryUp.TargetDescent
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CategoryUp.HomContinuationTail
