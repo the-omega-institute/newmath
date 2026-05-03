@@ -77,6 +77,42 @@ successor partial-sum witness.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_term\_successor\_stable}
 
+\begin{theorem}[L-function Dirichlet successor zero term recovers previous result]
+\label{thm:lfunction-dirichlet-part-sum-successor-zero-term-previous-result-same}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and result
+history $T$, if
+$\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),T)$ holds and the
+step term $term(n,s)$ is $\hsame$ to $\emp$, then the successor witness exposes
+a predecessor $P$ such that
+$$
+\mathsf{DirichletPartSum}(term,s,n,P)\land P\hsame T.
+$$
+\end{theorem}
+\begin{proof}
+Invert the successor partial-sum witness to expose the predecessor $P$ and the
+continuation from $P$ through $term(n,s)$ into $T$. Compare this continuation
+with the canonical right-unit continuation from $P$ through $\emp$, transporting
+the term endpoint by $term(n,s)\hsame\emp$. Continuation determinacy then
+identifies $T$ with $P$ under $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_zero\_term\_previous\_result\_same}
+
+\begin{theorem}[L-function Dirichlet zero-terms result is empty]
+\label{thm:lfunction-dirichlet-part-sum-zero-terms-result-empty}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, suppose every unary index $m$ has zero term
+$term(m,s)\hsame\emp$. Then every closed partial-sum witness
+$\mathsf{DirichletPartSum}(term,s,n,S)$ has empty result $S\hsame\emp$.
+\end{theorem}
+\begin{proof}
+Induct on the closed partial-sum witness. The zero constructor gives
+$S=\emp$. In the step case, the predecessor index is unary by the partial-sum
+index theorem, so the zero-term hypothesis identifies the next term with
+$\emp$. Comparing the displayed continuation with the right-unit continuation
+at $\emp$ gives the empty successor result.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_terms\_result\_empty}
+
 \begin{theorem}[L-function positive Dirichlet partial-sum index exposes predecessor]
 \label{thm:lfunction-dirichlet-partsum-positive-index-previous-exists}
 For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
