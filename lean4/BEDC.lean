@@ -51,6 +51,7 @@ import BEDC.Derived.NatUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.EmptyUp
+import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -185,6 +186,7 @@ import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
 import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.GroupUp.TerminalProduct
+import BEDC.Derived.SubgroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
@@ -296,6 +298,7 @@ import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
+import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.DeterminantUp
@@ -315,6 +318,7 @@ import BEDC.Derived.MetricUp.EmptyBoundaryDistance
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.MetricUp.ContDepthAdd
 import BEDC.Derived.MetricUp.VisibleContextSemantic
+import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContinuousUp.Suffix
