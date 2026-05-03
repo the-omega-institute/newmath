@@ -140,6 +140,8 @@ import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
+import BEDC.Derived.GammaUp
+import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
@@ -418,10 +420,13 @@ import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
+import BEDC.Derived.FunctorUp.FamilyReadback
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
+import BEDC.Derived.NatTransUp.FamilyReadback
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp
 import BEDC.Derived.InterHist
