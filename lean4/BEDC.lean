@@ -160,6 +160,7 @@ import BEDC.Derived.GroupUp.Centralizer
 import BEDC.Derived.GroupUp.ConjugationEmpty
 import BEDC.Derived.GroupUp.EquationUniqueness
 import BEDC.Derived.GroupUp.SingletonContinuation
+import BEDC.Derived.GroupUp.ConjugationComposition
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
@@ -266,6 +267,7 @@ import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
+import BEDC.Derived.DeterminantUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
