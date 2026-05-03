@@ -102,6 +102,17 @@ theorem cont_triangle_cycle_left_visible_tail_absurd {a b c k g h : BHist} :
     cont_mutual_extension_tails_empty composite back
   exact not_hsame_e1_empty (append_eq_empty_iff.mp cycleTails.left).left
 
+theorem cont_triangle_cycle_left_zero_tail_absurd {a b c k g h : BHist} :
+    Cont a (BHist.e0 k) b -> Cont b g c -> Cont c h a -> False := by
+  intro left right back
+  have composite : Cont a (append (BHist.e0 k) g) c := by
+    cases left
+    exact right.trans (append_assoc a (BHist.e0 k) g)
+  have cycleTails :
+      hsame (append (BHist.e0 k) g) BHist.Empty ∧ hsame h BHist.Empty :=
+    cont_mutual_extension_tails_empty composite back
+  exact not_hsame_e0_empty (append_eq_empty_iff.mp cycleTails.left).left
+
 theorem cont_triangle_cycle_middle_visible_tail_absurd {a b c f k h : BHist} :
     Cont a f b -> Cont b (BHist.e1 k) c -> Cont c h a -> False := by
   intro left middle back
@@ -112,6 +123,17 @@ theorem cont_triangle_cycle_middle_visible_tail_absurd {a b c f k h : BHist} :
       hsame (append f (BHist.e1 k)) BHist.Empty ∧ hsame h BHist.Empty :=
     cont_mutual_extension_tails_empty composite back
   exact not_hsame_e1_empty (append_eq_empty_iff.mp cycleTails.left).right
+
+theorem cont_triangle_cycle_middle_zero_tail_absurd {a b c f k h : BHist} :
+    Cont a f b -> Cont b (BHist.e0 k) c -> Cont c h a -> False := by
+  intro left middle back
+  have composite : Cont a (append f (BHist.e0 k)) c := by
+    cases left
+    exact middle.trans (append_assoc a f (BHist.e0 k))
+  have cycleTails :
+      hsame (append f (BHist.e0 k)) BHist.Empty ∧ hsame h BHist.Empty :=
+    cont_mutual_extension_tails_empty composite back
+  exact not_hsame_e0_empty (append_eq_empty_iff.mp cycleTails.left).right
 
 theorem cont_triangle_cycle_right_visible_tail_absurd {a b c f g k : BHist} :
     Cont a f b -> Cont b g c -> Cont c (BHist.e1 k) a -> False := by

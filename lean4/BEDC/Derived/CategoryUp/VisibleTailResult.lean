@@ -50,6 +50,21 @@ theorem ContinuationMorphism_comp_right_visible_tail_result_cases {a b c m : BHi
           exact Exists.intro (append leftTail m)
             (And.intro (hsame_refl (BHist.e1 (append leftTail m))) (cont_intro rfl))
 
+theorem ContinuationMorphism_comp_right_e0_tail_result_cases {a b c m : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    hsame right.tail (BHist.e0 m) ->
+      ∃ k : BHist,
+        hsame (ContinuationMorphism_comp_closed left right).tail (BHist.e0 k) ∧
+          Cont left.tail m k := by
+  intro sameRightTail
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          cases sameRightTail
+          exact Exists.intro (append leftTail m)
+            (And.intro (hsame_refl (BHist.e0 (append leftTail m))) (cont_intro rfl))
+
 theorem ContinuationMorphism_comp_e1_tail_left_cases {a b c k : BHist}
     (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
     (sameComposite : hsame (ContinuationMorphism_comp_closed left right).tail (BHist.e1 k))

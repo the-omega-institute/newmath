@@ -206,6 +206,25 @@ contradicting history constructor no-confusion.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_left\_visible\_tail\_absurd}
 
+\begin{theorem}[Triangular continuation cycle forbids a zero left tail]
+\label{thm:cont-triangle-cycle-left-zero-tail-absurd}
+If
+$$
+\ContR(a,\Ezero(k),b),\qquad
+\ContR(b,g,c),\qquad
+\ContR(c,h,a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(\Ezero(k),g),c)$. This composite and the return
+continuation $\ContR(c,h,a)$ form a mutual continuation cycle, so the composite
+tail is empty. Empty-append inversion identifies $\Ezero(k)$ with $\emp$,
+contradicting history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_left\_zero\_tail\_absurd}
+
 \begin{theorem}[Triangular continuation cycle forbids a visible middle tail]
 \label{thm:cont-triangle-cycle-middle-visible-tail-absurd}
 If
@@ -224,6 +243,25 @@ Empty-append inversion identifies the middle visible tail $\Eone(k)$ with
 $\emp$, contradicting history constructor no-confusion.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_middle\_visible\_tail\_absurd}
+
+\begin{theorem}[Triangular continuation cycle forbids a zero middle tail]
+\label{thm:cont-triangle-cycle-middle-zero-tail-absurd}
+If
+$$
+\ContR(a,f,b),\qquad
+\ContR(b,\Ezero(k),c),\qquad
+\ContR(c,h,a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(f,\Ezero(k)),c)$. This composite and the return
+continuation form a mutual continuation cycle, so the composite tail is empty.
+Empty-append inversion identifies the middle zero tail $\Ezero(k)$ with
+$\emp$, contradicting history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_middle\_zero\_tail\_absurd}
 
 \begin{theorem}[Triangular continuation cycle forbids a visible right tail]
 \label{thm:cont-triangle-cycle-right-visible-tail-absurd}
