@@ -604,6 +604,72 @@ $\mathsf{comm}(a,b)\hsame e$, and transitivity of equivalences gives the
 fixedness criterion in commutator form.
 \end{proof}
 
+\begin{definition}[Group centralizer carrier]
+\label{def:group-centralizer-carrier}
+Fix a BEDC history-level group operation $\mathsf{mul}$ over
+$\mathsf{BHist}$, unit $e$, inverse operation $\mathsf{inv}$, and fixed
+element $a:\mathsf{BHist}$. The centralizer carrier of $a$ is the classifier
+$Z_a$ on histories defined by
+$$
+Z_a(x) :\Longleftrightarrow
+\hsame(\mathsf{mul}(x,a),\mathsf{mul}(a,x)).
+$$
+\end{definition}
+
+\begin{theorem}[Group centralizer subgroup and commutator fiber]
+\label{thm:group-centralizer-subgroup}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws, the carrier $Z_a$ of
+\autoref{def:group-centralizer-carrier} is closed under the group operations:
+\begin{enumerate}
+\item $Z_a(e)$.
+\item If $Z_a(x)$ and $Z_a(y)$, then $Z_a(\mathsf{mul}(x,y))$.
+\item If $Z_a(x)$, then $Z_a(\mathsf{inv}(x))$.
+\item For every $x:\mathsf{BHist}$,
+$$
+Z_a(x) \Longleftrightarrow \mathsf{comm}(x,a)\hsame e,
+$$
+where $\mathsf{comm}$ is the commutator operation of
+\autoref{thm:group-commutator-trivial-iff-commutes}.
+\end{enumerate}
+The ten-field fit is: traditional target centralizer subgroup; BEDC source
+$\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$; classifier $\hsame$;
+stability obligations unit, product, inverse closure, and commutator-fiber
+exactness; ledger fixed element $a$ and commuting witnesses for the active
+factors; core theorem list \autoref{thm:group-inverse-mul-reverse},
+\autoref{thm:group-inverse-congruence-from-laws}, and
+\autoref{thm:group-commutator-trivial-iff-commutes}, together with
+associativity, unit laws, inverse laws, and multiplication congruence;
+exactness predicate $Z_a(x)$ iff trivial commutator; standard bridge ordinary
+group centralizers; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The unit belongs to $Z_a$ because the left and right identity laws identify
+$ea$ and $ae$ with the same history $a$. Symmetry and transitivity of
+$\hsame$ close the comparison.
+
+For product closure, start from witnesses $xa\hsame ax$ and $ya\hsame ay$.
+Associativity rewrites $(xy)a$ as $x(ya)$; multiplication congruence transports
+the second witness to $x(ay)$, and associativity rewrites this as $(xa)y$.
+The first witness then transports the left factor to $(ax)y$, and
+associativity gives $a(xy)$.
+
+For inverse closure, first use \autoref{thm:group-inverse-congruence-from-laws}
+on the witness $xa\hsame ax$. Apply
+\autoref{thm:group-inverse-mul-reverse} to both products. The inverse of
+$xa$ is represented by $a^{-1}x^{-1}$, and the inverse of $ax$ is represented
+by $x^{-1}a^{-1}$; transporting along the inverse-congruence witness gives
+$a^{-1}x^{-1}\hsame x^{-1}a^{-1}$. Multiplying on the left by $a$ and on the
+right by $a$, then using associativity and the two inverse laws, cancels the
+outer $a^{-1}$ factors and yields $x^{-1}a\hsame ax^{-1}$.
+
+The commutator fiber is exactly the displayed carrier by
+\autoref{thm:group-commutator-trivial-iff-commutes} with the ordered pair
+$(x,a)$. Its right side is precisely the definition of $Z_a(x)$, and symmetry
+of the displayed equivalence supplies the stated orientation.
+\end{proof}
+
 \begin{theorem}[Group left absorption forces the right factor to the unit]
 \label{thm:group-left-absorb-right-factor-unit}
 For a history-level group operation with associativity, left and right
