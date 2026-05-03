@@ -52,4 +52,13 @@ theorem EmptyHistoryCarrier_semantic_namecert_absurd :
   | intro _h carrier =>
       exact EmptyHistoryCarrier_absurd carrier
 
+theorem EmptyHistoryCarrier_source_semantic_namecert_absurd
+    {PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop} :
+    SemanticNameCert EmptyHistoryCarrier PatternSpec LedgerPolicy ClassifierSpec -> False := by
+  intro cert
+  cases cert.core.carrier_inhabited with
+  | intro _h carrier =>
+      exact EmptyHistoryCarrier_absurd carrier
+
 end BEDC.Derived.EmptyUp

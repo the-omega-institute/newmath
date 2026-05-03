@@ -146,4 +146,15 @@ theorem FilterPrincipalEmptyCarrier_semanticNameCert :
   · intro h source
     exact source
 
+theorem FilterPrincipalVisibleCarrier_semanticNameCert_absurd {tail : BHist} :
+    SemanticNameCert
+      (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty ∧ hsame h (BHist.e1 tail))
+      (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty ∧ hsame h (BHist.e1 tail))
+      (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty ∧ hsame h (BHist.e1 tail))
+      hsame -> False := by
+  intro cert
+  cases semanticNameCert_ledger_policy_witness cert with
+  | intro _h carrier =>
+      exact not_hsame_emp_e1 (hsame_trans (hsame_symm carrier.right.left) carrier.right.right)
+
 end BEDC.Derived.FilterUp

@@ -190,3 +190,25 @@ transitivity sends the displayed comparison $h\hsame\emp$ to
 $k\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalEmptyCarrier\_semanticNameCert}
+
+\begin{theorem}[Principal visible carrier semantic certificate absurdity]
+\label{thm:filter-principal-visible-carrier-semantic-namecert-absurd}
+For every $tail:\mathsf{BHist}$, there is no semantic naming certificate whose
+source, pattern, and ledger predicates all require a history to be unary, to
+classify to $\emp$, and to classify to $\Eone(tail)$:
+$$
+\mathsf{SemanticNameCert}
+(\{h\mid \mathsf{UnaryHistory}(h)\land h\hsame\emp\land h\hsame\Eone(tail)\},
+ \{h\mid \mathsf{UnaryHistory}(h)\land h\hsame\emp\land h\hsame\Eone(tail)\},
+ \{h\mid \mathsf{UnaryHistory}(h)\land h\hsame\emp\land h\hsame\Eone(tail)\},
+ \hsame)
+\Longrightarrow \bot .
+$$
+\end{theorem}
+\begin{proof}
+The semantic certificate supplies a ledger witness for the displayed carrier.
+Its two classification comparisons compose by symmetry and transitivity to
+give $\emp\hsame\Eone(tail)$, which is excluded by BEDC history constructor
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalVisibleCarrier\_semanticNameCert\_absurd}
