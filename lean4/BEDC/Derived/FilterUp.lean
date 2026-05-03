@@ -99,6 +99,17 @@ theorem FilterPrincipalSuffix_unary_intersection_zero_result_absurd
     unary_cont_closed baseCarrier meetCarrier baseMeet
   exact unary_no_zero_extension resultCarrier
 
+theorem FilterPrincipalSuffix_unary_intersection_e1_result_cases
+    {base left right meet leftPoint rightPoint z : BHist} :
+    UnaryHistory base -> UnaryHistory left -> UnaryHistory right -> Cont left right meet ->
+      Cont base left leftPoint -> Cont base right rightPoint -> Cont base meet (BHist.e1 z) ->
+        (meet = BHist.Empty ∧ hsame base (BHist.e1 z)) ∨
+          (exists meetTail : BHist,
+            meet = BHist.e1 meetTail ∧ UnaryHistory meetTail ∧ Cont base meetTail z) := by
+  intro baseCarrier leftCarrier rightCarrier leftRight _baseLeft _baseRight baseMeet
+  have meetCarrier : UnaryHistory meet := unary_cont_closed leftCarrier rightCarrier leftRight
+  exact unary_cont_e1_result_cases baseCarrier meetCarrier baseMeet
+
 theorem FilterPrincipalSuffix_base_points_empty_exact
     {base left right leftPoint rightPoint : BHist} :
     Cont base left leftPoint -> Cont base right rightPoint -> hsame leftPoint BHist.Empty ->
