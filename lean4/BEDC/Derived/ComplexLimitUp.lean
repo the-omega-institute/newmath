@@ -122,4 +122,24 @@ theorem ComplexDistance_empty_endpoint_iff {z w : BHist} :
       UnaryHistory z ∧ UnaryHistory w ∧ hsame z BHist.Empty ∧ hsame w BHist.Empty :=
   ComplexDistance_empty_iff
 
+def ComplexRegularSequence (s N : BHist -> BHist) : Prop :=
+  forall k n m : BHist, UnaryHistory k -> UnaryHistory n -> UnaryHistory m ->
+    Cont (N k) n n -> Cont (N k) m m ->
+      exists d : BHist, ComplexDistance (s n) (s m) d
+
+theorem ComplexRegularSequence_append_constant_closed {s N : BHist -> BHist} {q : BHist} :
+    UnaryHistory q -> ComplexRegularSequence s N ->
+      ComplexRegularSequence (fun n : BHist => append (s n) q) N := by
+  intro unaryQ regular
+  intro k n m unaryK unaryN unaryM contN contM
+  cases regular k n m unaryK unaryN unaryM contN contM with
+  | intro d distance =>
+      have leftUnary : UnaryHistory (append (s n) q) := unary_append_closed distance.left unaryQ
+      have rightUnary : UnaryHistory (append (s m) q) :=
+        unary_append_closed distance.right.left unaryQ
+      exact Exists.intro (append (append (s n) q) (append (s m) q))
+        (And.intro leftUnary
+          (And.intro rightUnary
+            (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl)))))
+
 end BEDC.Derived.ComplexLimitUp

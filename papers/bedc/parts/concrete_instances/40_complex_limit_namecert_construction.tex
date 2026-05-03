@@ -132,6 +132,7 @@ Componentwise application of the rational-history triangle inequality from \(\Re
 \label{def:cplx-regseq}
 A regular complex sequence is a pair \((s, N)\) consisting of a unary-indexed family \(s : \mathsf{Unary} \to \ComplexUp\)-history together with a unary modulus function \(N : \mathsf{Unary} \to \mathsf{Unary}\) such that for every unary index \(k\) and unary indices \(n, m\) with \(\mathsf{NatUnaryStrictPrefix}(N(k), n)\) (or \(\hsame(n, N(k))\)) and similarly for \(m\), the distance \(\mathsf{CplxDist}(s(n), s(m), D)\) is bounded by the unary representation of \(2^{-k}\). The predicate is written \(\mathsf{CplxRegSeq}(s, N)\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence}
 
 \begin{lemma}[Regular complex sequence has regular real and imaginary projections]
 \label{lem:cplx-regseq-projects}
@@ -173,6 +174,28 @@ From the two modulus witnesses construct the diagonal sequence \(s(\max(M(k), M'
 \end{proof}
 
 \section{Closure laws on regular sequences}
+
+\begin{theorem}[Regular complex sequence constant suffix closure]
+\label{thm:complex-regular-sequence-append-constant-closed}
+Let \(q:\mathsf{BHist}\) be unary. If \((s,N)\) is a regular complex sequence,
+then the suffixed sequence \(n\mapsto\mathsf{append}(s(n),q)\) is regular with
+the same modulus \(N\). For any accepted pair of indices \(n,m\), the BEDC
+distance witness is
+$$
+\mathsf{append}(\mathsf{append}(s(n),q),\mathsf{append}(s(m),q)).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_append\_constant\_closed}
+\begin{proof}
+Apply regularity of \((s,N)\) to the displayed indices and threshold
+continuations. The resulting complex-distance witness carries
+\(\mathsf{UnaryHistory}(s(n))\) and \(\mathsf{UnaryHistory}(s(m))\). Unary
+append closure with \(\mathsf{UnaryHistory}(q)\) gives unary histories for the
+two suffixed endpoints, and a second append-closure step gives the unary
+distance history. The canonical continuation witness for append supplies the
+distance relation, so the suffixed sequence satisfies the same regularity
+predicate.
+\end{proof}
 
 \begin{definition}[Pointwise sum of complex sequences]
 \label{def:cplx-pointwise-sum}
