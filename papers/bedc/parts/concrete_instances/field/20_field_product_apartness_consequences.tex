@@ -202,3 +202,71 @@ Theorem~\ref{thm:field-two-sided-product-nonzero-middle-factor-iff}.
 Exactness predicate: nonzero of the middle factor is equivalent to nonzero of
 the certified outer product. Downstream use: FieldUp exact nonzero propagation
 for affine and denominator-product reasoning. Status: ProofTarget.
+
+\begin{theorem}[Field certified four-factor product nonzero iff factors]
+\label{thm:field-four-factor-product-nonzero-iff-factors}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with the
+hypotheses of \autoref{thm:field-product-nonzero-of-nonzero-factors} and the
+zero-factor exclusion hypotheses used in
+\autoref{thm:field-three-factor-product-nonzero-excludes-zero-factors}, assume
+an apartness-to-nonzero bridge
+$$
+\alpha_h:\bigl(h\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(h).
+$$
+Then every $a,b,c,d:\mathsf{BHist}$ satisfies
+$$
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))
+\Longleftrightarrow
+\mathsf{NonZero}_F(a)\wedge\mathsf{NonZero}_F(b)\wedge
+\mathsf{NonZero}_F(c)\wedge\mathsf{NonZero}_F(d).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume
+$p_{abcd}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$.
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to the outer
+binary product. This gives apartness of
+$\mathsf{mul}(\mathsf{mul}(a,b),c)$ from $0$ and apartness of $d$ from $0$.
+The bridge supplies both
+$p_{abc}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c))$ and
+$\mathsf{NonZero}_F(d)$.
+
+Apply the same zero-factor exclusion theorem to the left threefold product,
+viewed as the binary product $\mathsf{mul}(\mathsf{mul}(a,b),c)$ with witness
+$p_{abc}$. This gives apartness of $\mathsf{mul}(a,b)$ from $0$ and apartness
+of $c$ from $0$. The bridge supplies both
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$ and $\mathsf{NonZero}_F(c)$.
+
+Apply the binary zero-factor exclusion theorem once more to
+$\mathsf{mul}(a,b)$ with witness $p_{ab}$. The two resulting apartness
+witnesses are converted by $\alpha_a$ and $\alpha_b$ into
+$\mathsf{NonZero}_F(a)$ and $\mathsf{NonZero}_F(b)$. Pair these four witnesses
+in the displayed order.
+
+For the reverse direction, assume witnesses
+$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+$p_c:\mathsf{NonZero}_F(c)$, and $p_d:\mathsf{NonZero}_F(d)$. Apply
+\autoref{thm:field-product-nonzero-of-nonzero-factors} to $p_a$ and $p_b$ to
+obtain $p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$.
+
+Apply the product-closure theorem to $p_{ab}$ and $p_c$ to obtain
+$p_{abc}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c))$. Applying it
+one final time to $p_{abc}$ and $p_d$ gives the displayed fourfold product
+nonzero witness.
+\end{proof}
+
+Per-object certificate: Traditional target: four-factor product nonzero
+exactness. BEDC source: $\FieldUp$ plus $\RingUp$ zero absorption. Carrier
+choice: $\mathsf{BHist}$. Classifier choice: $\hsame$. Ledger: factor
+witnesses $p_a,p_b,p_c,p_d$ and intermediate product witnesses
+$p_{ab},p_{abc},p_{abcd}$. Core theorem list:
+Theorem~\ref{thm:field-four-factor-product-nonzero-iff-factors}. Exactness
+predicate:
+$$
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))
+\Longleftrightarrow
+\mathsf{NonZero}_F(a)\wedge\mathsf{NonZero}_F(b)\wedge
+\mathsf{NonZero}_F(c)\wedge\mathsf{NonZero}_F(d).
+$$
+Downstream use: four-factor product equation exactness and inverse-reversal
+proof targets. Status: ProofTarget.
