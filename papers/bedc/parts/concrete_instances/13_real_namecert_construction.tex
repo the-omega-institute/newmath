@@ -311,6 +311,47 @@ rational point classifier with
 $\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$.
 \end{proof}
 
+\begin{theorem}[Constant rational stream carriers bridge StreamNameUp and RealUp]
+\label{thm:streamname-real-constant-carrier-bridge}
+For every history $d:\Hist$, the RatUp point carrier, the StreamNameUp
+constant-stream carrier, and the RealUp constant real-history carrier at the
+e-one seal are equivalent:
+$$
+\mathsf{RatHistoryCarrier}(d)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d).
+$$
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryCarrier}(\Eone(d)).
+$$
+\end{theorem}
+\begin{proof}
+The first equivalence is the carrier row of
+\autoref{thm:rat-stream-name-constant-point-exactness}, read symmetrically:
+the StreamNameUp constant carrier is exactly the RatUp carrier of its hidden
+constant seed.
+
+For the second equivalence, compose that carrier row with
+\autoref{thm:real-constant-history-carrier-e1-iff-rat}. A StreamNameUp
+constant carrier first recovers $\mathsf{RatHistoryCarrier}(d)$, then the
+e-one theorem seals it as
+$\mathsf{RealConstantHistoryCarrier}(\Eone(d))$; the reverse direction unseals
+the RealUp constant carrier to $\mathsf{RatHistoryCarrier}(d)$ and repacks it
+as the StreamNameUp constant carrier.
+\end{proof}
+
+The carrier certificate fit has ten fields: traditional target constant
+rational real carrier embedding; BEDC source RatUp histories plus StreamNameUp
+observations; carrier the displayed constant stream and e-one real seal;
+classifier inherited from \autoref{thm:streamname-real-constant-prefix-bridge};
+stability from RatUp carrier transport and RealConstant carrier transport;
+ledger the hidden rational seed and observation witness; core theorem
+\autoref{thm:streamname-real-constant-carrier-bridge}; exactness the two
+displayed equivalence rows; standard bridge constant rational real name; status
+$\mathsf{ProofTarget}$.
+
 The certificate fit has ten fields: traditional target constant rational real
 names; BEDC source RatUp histories plus StreamNameUp unary observations; carrier
 constant rational observation maps; classifier the displayed bridge; stability
