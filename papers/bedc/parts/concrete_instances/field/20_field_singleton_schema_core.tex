@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for $\FieldUp$}
+\label{ch:concrete-instances-field-namecert}
+
+The field interface $\FieldUp$ extends \autoref{ch:concrete-instances-commring-namecert} with the multiplicative inverse field. The inverse domain is a unary certificate $\mathsf{NonZero}_F(a)$ derived from constructive apartness of $a$ from $0$; inverse formation is licensed only by an explicit witness $p:\mathsf{NonZero}_F(a)$. This proof-relevant discipline replaces the classical "$a \ne 0$ implies $a$ invertible" formulation, which would otherwise require LEM. The rational carrier from \autoref{ch:concrete-instances-rat-namecert} supplies the candidate carrier and classifier source; a $\FieldUp$ certificate is present only when commutative-ring structure, constructive nonzero evidence, inverse closure, inverse laws indexed by nonzero witnesses, and the ledger are supplied over that source.
+
+\section{Carrier definition}
+
+\begin{definition}[Field carrier]
+\label{def:field-carrier}
+Use a commutative ring setup extended with a constructive apartness predicate and define $\mathsf{NonZero}_F(a)$ as the unary certificate obtained from apartness of $a$ from $0$. The inverse datum has type $\mathsf{inv}(a,p)$ for $p:\mathsf{NonZero}_F(a)$, so no inverse is formed without the nonzero witness.
+\end{definition}
+
+\section{Concrete singleton empty-history field schema instance}
+\label{sec:field-concrete-singleton-instance}
+
+\begin{definition}[Singleton empty-history field schema instance]
+\label{def:singleton-empty-history-field-schema-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define the
+classifier
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Take $\mathsf{add}$, $\mathsf{neg}$, $0$, $\mathsf{mul}$, and $1$ to be the
+constant empty-history operations of
+Theorem~\ref{thm:singleton-empty-history-commring-laws}. Define
+$\mathsf{FieldSingletonNonZero}(h)$ by
+$$
+\mathsf{FieldSingletonNonZero}(h)\Longleftrightarrow
+A_{\emp}(h)\land \hsame(h,\mathsf{e0}(\emp)).
+$$
+The proof-indexed inverse operation is total on explicit witnesses:
+$\mathsf{inv}(h,p):=\emp$ for
+$p:\mathsf{FieldSingletonNonZero}(h)$. Theorem~\ref{thm:field-singleton-nonzero-absurd}
+shows that this witness domain is empty on the singleton carrier.
+\end{definition}
+
+\begin{theorem}[Field singleton carrier visible exclusion]
+\label{thm:field-singleton-carrier-visible-absurd}
+For every history $p:\mathsf{BHist}$, neither visible-headed endpoint lies in
+the singleton carrier:
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{e0}(p))\to\bot,
+\qquad
+\mathsf{FieldSingletonCarrier}(\mathsf{e1}(p))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier as equality with $\emp$. The closed inductive
+constructors of $\mathsf{BHist}$ separate both $\mathsf{e0}(p)$ and
+$\mathsf{e1}(p)$ from $\emp$, so either carrier witness is impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_visible\_absurd}
+
+\begin{theorem}[Field singleton classifier empty endpoints]
+\label{thm:field-singleton-classifier-empty-endpoints}
+For histories $h,k:\mathsf{BHist}$, the singleton field classifier satisfies
+$$
+\rho_{\emp}(h,k)
+\quad\Longleftrightarrow\quad
+h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction unpacks the two carrier fields of
+$\rho_{\emp}(h,k)$; these are precisely the endpoint comparisons
+$h\hsame\emp$ and $k\hsame\emp$.
+
+Conversely, the two endpoint comparisons supply the singleton carrier fields.
+Composing $h\hsame\emp$ with the symmetry of $k\hsame\emp$ gives
+$h\hsame k$, completing the classifier package.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_empty\_endpoints\_iff}
+
+\begin{theorem}[Field singleton classifier continuation commutativity closure]
+\label{thm:field-singleton-classifier-continuation-comm-closed}
+For histories $P,Q,L,R:\mathsf{BHist}$, if the singleton field classifier
+relates $P$ and $Q$, and the two displayed continuation results satisfy
+$$
+\ContR(P,Q,L)
+\qquad\text{and}\qquad
+\ContR(Q,P,R),
+$$
+then the singleton field classifier relates $L$ and $R$.
+\end{theorem}
+\begin{proof}
+The classifier witness identifies both $P$ and $Q$ with $\emp$. Transport the
+two continuation witnesses along these endpoint comparisons and compare them
+with the canonical continuation $\ContR(\emp,\emp,\emp)$. Thus both $L$ and
+$R$ are singleton-carrier endpoints. Transitivity through $\emp$ supplies
+$L\hsame R$, completing the singleton classifier package.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_comm\_closed}
+
+\begin{theorem}[Field singleton carrier continuation closure]
+\label{thm:field-singleton-carrier-continuation-closed}
+For histories $P,Q,R:\mathsf{BHist}$, if $P$ and $Q$ are singleton field
+carrier endpoints and $\ContR(P,Q,R)$, then $R$ is a singleton field carrier
+endpoint.
+\end{theorem}
+\begin{proof}
+The carrier witnesses identify $P$ and $Q$ with $\emp$. Transport the
+displayed continuation along these endpoint comparisons and compare it with
+the canonical right-unit continuation $\ContR(\emp,\emp,\emp)$. The resulting
+determinacy identifies $R$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_closed}

@@ -329,6 +329,66 @@ with the two endpoints exchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_external\_unit\_endpoint\_disjunction\_unique}
 
+\begin{theorem}[Rat denominator external unit normal form]
+\label{thm:field-rat-denominator-external-unit-normal-form}
+For every history $u:\mathsf{BHist}$, write $R(u)$ for the right
+classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+and write $L(u)$ for the left classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d).
+$$
+Then $R(u)$, $L(u)$, $R(u)\lor L(u)$, and $u\hsame\emp$ are pairwise
+equivalent: each of the four propositions implies each of the other three.
+Moreover,
+$$
+\mathsf{RatHistoryCarrier}(u)\to (R(u)\lor L(u))\to \mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+The right endpoint law is equivalent to $u\hsame\emp$ by
+\autoref{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}.
+The left endpoint law is equivalent to $u\hsame\emp$ by
+\autoref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}.
+Thus $R(u)$ and $L(u)$ each factor through the same external empty endpoint,
+and the empty endpoint returns both one-sided laws by the reverse directions.
+
+For the disjunction, assume $R(u)\lor L(u)$. Constructive case analysis
+reduces the right case to the right endpoint theorem and the left case to the
+left endpoint theorem, so either branch gives $u\hsame\emp$. Conversely,
+$u\hsame\emp$ gives both $R(u)$ and $L(u)$, hence gives the displayed
+disjunction. Factoring every implication through $u\hsame\emp$ gives the
+pairwise equivalence of all four propositions.
+
+For the carried exclusion, assume $\mathsf{RatHistoryCarrier}(u)$ and
+$R(u)\lor L(u)$. In the right branch, the no-internal-unit theorem
+\autoref{thm:field-rat-denominator-continuation-no-internal-unit} gives
+$\mathsf{False}$. In the left branch, the no-internal-left-unit theorem
+\autoref{thm:field-rat-denominator-continuation-no-internal-left-unit} gives
+$\mathsf{False}$. Equivalently, this is the carried exclusion clause of
+\autoref{thm:field-rat-denominator-external-unit-separation-package} applied
+to the displayed one-sided law.
+\end{proof}
+
+\textbf{Traditional target}: external denominator unit normal form;
+\textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, and $\Cont$; \textbf{carrier}: Rat
+denominators; \textbf{classifier}: Rat history classifier;
+\textbf{stability obligation}: endpoint-unit exactness; \textbf{ledger}: the
+displayed continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-external-unit-normal-form};
+\textbf{exactness predicate}: one-sided unit laws coincide with external
+emptiness; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.
+
 \textbf{Traditional target}: external unit boundary for the Rat denominator
 continuation fragment; \textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
 $\mathsf{RatHistoryClassifier}$, and $\Cont$; \textbf{carrier}:
