@@ -12,6 +12,7 @@ For complex history \(z_0\), unary radius \(r\), complex history \(z\), and unar
 \leandef{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk}
 \leandef{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap}
 \leandef{BEDC.Derived.HolomorphicUp.OpenDiskGap}
+\leandef{BEDC.Derived.HolomorphicUp.OpenDisk}
 
 \begin{lemma}[Open disk carriers are unary]
 \label{lem:open-disk-unary-witness}
@@ -114,6 +115,15 @@ continuations identifies the visible point endpoint with \(\emp\), contradicting
 constructor disjointness of \(\mathsf{e1}\) and \(\emp\) in \(\mathsf{BHist}\).
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.OpenDiskGap\_e1\_point\_empty\_radius\_absurd}
+
+\begin{lemma}[Open disk endpoint transport]
+\label{lem:open-disk-endpoint-transport}
+If the center and point are transported by the complex-history classifier, the radius is transported by \(\hsame\), and the same unary gap continues the point to the radius, then \(\mathsf{OpenDisk}(z_0, r, z)\) transports to \(\mathsf{OpenDisk}(z_0', r', z')\).
+\end{lemma}
+\begin{proof}
+Unfold the open-disk witness. The target center and point carriers are supplied by the two complex classifiers, the radius is moved along \(\hsame\), and the explicit continuation witness for the gap is reused at the transported endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_gap\_endpoint\_transport}
 
 \section{Holomorphic predicate}
 

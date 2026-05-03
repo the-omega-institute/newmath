@@ -253,4 +253,27 @@ theorem IteratedCplxDiff_unary_of_seed {seed h : BHist} {n : Nat} :
           | intro step data =>
               exact unary_cont_closed (ih data.left) data.right.left data.right.right
 
+def OpenDisk (z0 r z : BHist) : Prop :=
+  ComplexHistoryCarrier z0 ∧ UnaryHistory r ∧ ComplexHistoryCarrier z ∧
+    ∃ gap : BHist, UnaryHistory gap ∧ Cont gap z r
+
+theorem OpenDisk_gap_endpoint_transport {z0 z0' r r' z z' gap : BHist} :
+    ComplexHistoryClassifier z0 z0' -> hsame r r' -> ComplexHistoryClassifier z z' ->
+      UnaryHistory gap -> Cont gap z r -> OpenDisk z0 r z -> OpenDisk z0' r' z' := by
+  intro centerClass sameRadius pointClass gapUnary gapCont disk
+  cases sameRadius
+  cases centerClass with
+  | intro _ centerRest =>
+      cases centerRest with
+      | intro targetCenterCarrier _ =>
+          cases pointClass with
+          | intro _ pointRest =>
+              cases pointRest with
+              | intro targetPointCarrier samePoint =>
+                  cases samePoint
+                  exact And.intro targetCenterCarrier
+                    (And.intro disk.right.left
+                      (And.intro targetPointCarrier
+                        (Exists.intro gap (And.intro gapUnary gapCont))))
+
 end BEDC.Derived.HolomorphicUp

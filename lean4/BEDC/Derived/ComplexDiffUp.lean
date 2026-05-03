@@ -1,11 +1,13 @@
 import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Unary
+import BEDC.Derived.ComplexUp
 
 namespace BEDC.Derived.ComplexDiffUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexUp
 
 def CplxNonZero (h : BHist) : Prop :=
   hsame h BHist.Empty -> False
@@ -45,5 +47,25 @@ theorem CplxDiffQuot_hsame_transport {f f' z z' h h' q q' : BHist} :
                           (And.intro quotientCarrier' ledger'))))
                     (And.intro pointCarrier'
                       (And.intro stepNonzero' ledger'))
+
+def CplxDiffQuotAppendClassifier (f : BHist -> BHist) (z h q : BHist) : Prop :=
+  ComplexHistoryCarrier z ∧ CplxNonZero h ∧ ComplexHistoryCarrier q ∧
+    ComplexHistoryClassifier q (f (append z h))
+
+theorem CplxDiffQuot_append_classifier_transport {f : BHist -> BHist} {z z' h h' q : BHist} :
+    CplxDiffQuotAppendClassifier f z h q -> hsame z z' -> hsame h h' -> CplxNonZero h' ->
+      ComplexHistoryClassifier q (f (append z' h')) ∧
+        CplxDiffQuotAppendClassifier f z' h' q := by
+  intro quotient sameZ sameH targetNonzero
+  cases sameZ
+  cases sameH
+  cases quotient with
+  | intro zCarrier quotientRest =>
+      cases quotientRest with
+      | intro _ quotientRest =>
+          cases quotientRest with
+          | intro qCarrier qClass =>
+              exact And.intro qClass
+                (And.intro zCarrier (And.intro targetNonzero (And.intro qCarrier qClass)))
 
 end BEDC.Derived.ComplexDiffUp

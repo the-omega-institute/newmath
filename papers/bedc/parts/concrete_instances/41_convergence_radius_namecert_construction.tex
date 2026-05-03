@@ -29,6 +29,7 @@ By unary induction on \(n\), using totality and functionality of complex multipl
 \label{def:geom-bound}
 For coefficients \(a\), unary radius history \(r\), and unary constant \(K\), the geometric bound \(\mathsf{GeomBound}(a, r, K)\) holds when for every unary \(n\), the modulus comparison \(|a_n| \cdot r^n \leq K\) is decidably true on the rational representation.
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.GeomBound}
 
 \begin{lemma}[Geometric majorant inside the disk]
 \label{lem:geom-bound-majorant}
@@ -44,6 +45,16 @@ Each term is bounded above by \(K (r'/r)^n\); apply the geometric series formula
 \label{def:conv-rad}
 For coefficients \(a\), the convergence radius predicate \(\mathsf{ConvRad}(a, R)\) holds when there is a constant-witness function \(K : \Unary \to \Unary\) such that for every unary radius \(r\) with \(\mathsf{NatUnaryStrictPrefix}(r, R)\), \(\mathsf{GeomBound}(a, r, K(r))\) is satisfied.
 \end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.ConvRad}
+
+\begin{lemma}[Convergence radius transport]
+\label{lem:conv-rad-radius-transport}
+If \(\hsame(R, R')\), \(\mathsf{ConvRad}(a, R)\), and \(R'\) is unary, then the same geometric-bound witness function supplies \(\mathsf{ConvRad}(a, R')\).
+\end{lemma}
+\begin{proof}
+Transport the radius endpoint along \(\hsame\). The unary carrier for the target radius is explicit, and the existing constant-witness function continues to provide the same geometric-bound data.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_radius\_transport}
 
 \begin{theorem}[Convergence radius is unique]
 \label{thm:conv-rad-unique}
