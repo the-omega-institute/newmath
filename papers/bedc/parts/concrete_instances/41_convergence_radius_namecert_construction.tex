@@ -171,6 +171,21 @@ Transport the radius endpoint along \(\hsame\). The unary carrier for the target
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_radius\_transport}
 
+\begin{lemma}[Convergence radius coefficient classifier transport]
+\label{lem:conv-rad-radius-coefficient-classifier-transport}
+If \(\hsame(R,R')\), \(R'\) is unary, every coefficient \(a_n\) is classified
+with \(b_n\) by the complex-history classifier, and \(\mathsf{ConvRad}(a,R)\)
+holds, then \(R'\) is unary and \(\mathsf{ConvRad}(b,R')\) holds.
+\end{lemma}
+\begin{proof}
+First transport the radius endpoint from \(R\) to \(R'\), retaining the same
+constant-witness function for geometric bounds. For each supplied geometric
+bound, keep the radius and constant unary carriers, and use the target-carrier
+component of the complex-history classifier at every coefficient index to
+rebuild the coefficient side of the bound for \(b\).
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_radius\_coefficient\_classifier\_transport}
+
 \begin{theorem}[Convergence radius is unique]
 \label{thm:conv-rad-unique}
 If \(\mathsf{ConvRad}(a, R)\) and \(\mathsf{ConvRad}(a, R')\) both hold, then \(\hsame(R, R')\) on the rational representation.
