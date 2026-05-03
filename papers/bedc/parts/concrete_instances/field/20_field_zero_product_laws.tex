@@ -198,6 +198,21 @@ are immediate because all three policies are the same apart-zero predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_semanticNameCert}
 
+\begin{theorem}[Field apart-zero empty transport along history sameness]
+\label{thm:field-apartzero-empty-hsame-transport}
+If $a\hsame b$ and $a$ is apart from zero, then $b$ is also apart from zero:
+$$
+a\hsame b\land \mathsf{ApartZero}_F(a)
+\Longrightarrow
+(b\hsame0\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Assume $b\hsame0$. Transitivity of $\hsame$ with $a\hsame b$ gives
+$a\hsame0$, contradicting the apart-zero witness for $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_empty\_hsame\_transport}
+
 \begin{theorem}[Field apart-zero append factor closure]
 \label{thm:field-apartzero-append-factor-closed}
 For histories $p,q:\mathsf{BHist}$, if either $p$ or $q$ is apart from zero,
@@ -216,6 +231,26 @@ second equality. Thus either factor witness prevents the appended history
 from classifying as zero.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_factor\_closed}
+
+\begin{theorem}[Field apart-zero append congruence under history sameness]
+\label{thm:field-apartzero-append-hsame-congr-iff}
+For histories $a,a',b,b':\mathsf{BHist}$, history sameness on both append
+factors preserves and reflects apartness from zero:
+$$
+a\hsame a'\land b\hsame b'
+\Longrightarrow
+\bigl(\mathsf{ApartZero}_F(\mathsf{append}(a,b))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(\mathsf{append}(a',b'))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Substituting the two history-sameness witnesses gives
+$\mathsf{append}(a,b)\hsame\mathsf{append}(a',b')$. The apart-zero transport
+law applies in one direction to preserve apartness, and with symmetry of
+$\hsame$ in the other direction to reflect it.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_hsame\_congr\_iff}
 
 \begin{theorem}[Field product apartness gives inverse product witness]
 \label{thm:field-product-apartness-inverse-product-reverse}

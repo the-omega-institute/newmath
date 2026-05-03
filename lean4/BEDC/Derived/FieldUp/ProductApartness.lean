@@ -10,6 +10,11 @@ open BEDC.FKernel.NameCert
 def FieldApartZero (a : BHist) : Prop :=
   hsame a BHist.Empty -> False
 
+theorem FieldApartZero_empty_hsame_transport {a b : BHist} :
+    hsame a b -> FieldApartZero a -> (hsame b BHist.Empty -> False) := by
+  intro same apart bEmpty
+  exact apart (hsame_trans same bEmpty)
+
 theorem FieldApartZero_semanticNameCert :
     SemanticNameCert FieldApartZero FieldApartZero FieldApartZero hsame := by
   exact {
@@ -46,6 +51,20 @@ theorem FieldApartZero_append_factor_closed {p q : BHist} :
       exact leftApart splitEmpty.left
   | inr rightApart =>
       exact rightApart splitEmpty.right
+
+theorem FieldApartZero_append_hsame_congr_iff {a a' b b' : BHist} :
+    hsame a a' -> hsame b b' ->
+      (FieldApartZero (append a b) <-> FieldApartZero (append a' b')) := by
+  intro sameA sameB
+  have sameAppend : hsame (append a b) (append a' b') := by
+    cases sameA
+    cases sameB
+    exact hsame_refl (append a b)
+  constructor
+  · intro apart
+    exact FieldApartZero_empty_hsame_transport sameAppend apart
+  · intro apart
+    exact FieldApartZero_empty_hsame_transport (hsame_symm sameAppend) apart
 
 theorem field_apartzero_inverse_involutive {mul : BHist -> BHist -> BHist} {one : BHist}
     {inv : (a : BHist) -> (hsame a BHist.Empty -> False) -> BHist}
