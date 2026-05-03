@@ -117,4 +117,9 @@ theorem ComplexDistance_empty_left_endpoint_iff {w d : BHist} :
       (And.intro data.left
         (And.intro data.left (Or.inl (cont_left_unit w))))
 
+theorem ComplexDistance_empty_endpoint_iff {z w : BHist} :
+    ComplexDistance z w BHist.Empty ↔
+      UnaryHistory z ∧ UnaryHistory w ∧ hsame z BHist.Empty ∧ hsame w BHist.Empty :=
+  ComplexDistance_empty_iff
+
 end BEDC.Derived.ComplexLimitUp

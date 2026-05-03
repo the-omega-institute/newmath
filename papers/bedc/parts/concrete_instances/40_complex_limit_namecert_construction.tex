@@ -94,6 +94,30 @@ direction transports \(d\) to \(w\) and uses the empty-left continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_empty\_left\_endpoint\_iff}
 
+\begin{theorem}[Complex distance empty endpoint]
+\label{thm:cplx-distance-empty-endpoint}
+For histories $z,w:\mathsf{BHist}$, a complex-distance witness with empty
+distance result is exactly the assertion that both endpoints are unary
+histories and both endpoints are history-same to $\emp$:
+$$
+\mathsf{ComplexDistance}(z,w,\emp)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(z)\land
+\mathsf{UnaryHistory}(w)\land
+z\hsame\emp\land
+w\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the symmetric continuation field inside $\mathsf{ComplexDistance}$.
+If the displayed continuation has result $\emp$, continuation empty-result
+inversion forces both endpoints of that continuation to be $\emp$; the two
+symmetric cases only exchange the endpoint order. Conversely, the two
+endpoint $\hsame$ witnesses reduce the claim to the canonical continuation
+$\ContR(\emp,\emp,\emp)$ together with unary emptiness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_empty\_endpoint\_iff}
+
 \begin{lemma}[Complex distance triangle inequality with explicit bound]
 \label{lem:cplx-dist-triangle}
 For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z_1, z_2, D_{12})\) and \(\mathsf{CplxDist}(z_2, z_3, D_{23})\), there exists an explicit rational-history bound function \(\mathsf{TriBound}(D_{12}, D_{23}, D_{13})\) with \(\mathsf{CplxDist}(z_1, z_3, D_{13})\) and \(D_{13} \leq D_{12} + D_{23}\) under rational-history ordering.

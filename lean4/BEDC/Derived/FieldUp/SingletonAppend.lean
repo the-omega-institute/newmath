@@ -516,4 +516,34 @@ theorem FieldSingletonClassifier_append_endpoint_empty_nonzero_absurd {L Q R S :
         (fun nonzeroS =>
           fieldSingletonEmptyNonZero_empty_endpoint_absurd rightSplit.right nonzeroS)))
 
+theorem FieldSingletonCarrier_append_context_semanticNameCert {L R : BHist}
+    (carrierL : FieldSingletonCarrier L) (carrierR : FieldSingletonCarrier R) :
+    SemanticNameCert (fun h : BHist => FieldSingletonCarrier (append L (append h R)))
+      (fun h : BHist => FieldSingletonCarrier (append L (append h R)))
+      (fun h : BHist => FieldSingletonCarrier (append L (append h R)))
+      (fun h k : BHist =>
+        FieldSingletonClassifier (append L (append h R)) (append L (append k R))) := by
+  constructor
+  · constructor
+    · have innerCarrier : FieldSingletonCarrier (append BHist.Empty R) :=
+        append_eq_empty_iff.mpr (And.intro (hsame_refl BHist.Empty) carrierR)
+      exact Exists.intro BHist.Empty
+        (append_eq_empty_iff.mpr (And.intro carrierL innerCarrier))
+    · intro h carrierH
+      exact And.intro carrierH
+        (And.intro carrierH (hsame_refl (append L (append h R))))
+    · intro h k classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    · intro h k r classifiedHK classifiedKR
+      exact And.intro classifiedHK.left
+        (And.intro classifiedKR.right.left
+          (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+    · intro h k classified _carrierH
+      exact classified.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 end BEDC.Derived.FieldUp
