@@ -49,6 +49,27 @@ continuation across $target\hsame\emp$ on the right endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_empty\_graphs}
 
+\begin{theorem}[Function object linear singleton continuous-map empty components iff]
+\label{thm:funcobj-linear-singleton-continuous-map-empty-components-iff}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, if
+the source, map, and modulus histories lie in the linear-map singleton
+carrier, then
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+\Longleftrightarrow
+\hsame(target,\emp)\land\hsame(cert,\emp)\land\hsame(distance,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the component-empty theorem for linear singleton
+continuous maps. Conversely, the three singleton carrier assumptions identify
+$source$, $map$, and $modulus$ with $\emp$, while the displayed component
+equalities identify $target$, $cert$, and $distance$ with $\emp$. The
+continuous-function carrier and metric-distance witness are then assembled
+from unary emptiness and the empty right-unit continuation rows.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_empty\_components\_iff}
+
 \section{The certificate}
 \label{sec:funcobj-certificate}
 
@@ -96,3 +117,24 @@ categorical readback uniqueness proof, which identifies the displayed history
 with $fg$.
 \end{proof}
 \leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_comp\_public\_readback}
+
+\begin{theorem}[Function-object pointwise hom carrier composite transport]
+\label{thm:funcobj-pointwise-hom-carrier-comp-hsame-transport}
+For a unary prefix $p$, categorical hom carriers
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$\mathsf{CategoryHomCarrier}(b,c,g)$, a continuation $\Cont(f,g,fg)$, and a
+history comparison $fg\hsame fg'$, the transported composite history $fg'$
+carries both the base composite hom carrier and the pointwise prefixed
+composite hom carrier:
+$$
+\mathsf{CategoryHomCarrier}(a,c,fg')\land
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,c),fg').
+$$
+\end{theorem}
+\begin{proof}
+First read back the base and prefixed composite carriers at $fg$ from the
+pointwise composition theorem. Then transport each carrier along
+$fg\hsame fg'$, keeping the source and target endpoints fixed by reflexive
+history sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_comp\_hsame\_transport}

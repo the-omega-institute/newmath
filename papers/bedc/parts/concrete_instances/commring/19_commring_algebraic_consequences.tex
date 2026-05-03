@@ -342,6 +342,31 @@ $(a\cdot a)+(-(b\cdot b))$ under $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_difference\_of\_squares}
 
+\begin{theorem}[CommRing equal squares force signed factor zero]
+\label{thm:commring-equal-squares-signed-factor-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+(a+b)\cdot(a+(-b))\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-difference-of-squares}
+to rewrite the signed factor product as $(a\cdot a)+(-(b\cdot b))$. Transport
+the assumed square equality $a\cdot a\hsame b\cdot b$ through additive
+congruence while keeping the right summand $-(b\cdot b)$ fixed. The right side
+is therefore identified with $(b\cdot b)+(-(b\cdot b))$.
+
+Theorem~\ref{thm:ring-add-right-inverse} collapses this final additive inverse
+pair to $0$. Transitivity of $\hsame$ composes the difference-of-squares
+normal form, the transported square equality, and the inverse collapse.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_equal\_squares\_signed\_factor\_zero}
+
 \begin{theorem}[CommRing difference-of-squares zero exactness]
 \label{thm:commring-difference-of-squares-zero-exact}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
@@ -367,15 +392,9 @@ collapses that pair to $0$, and the zero laws leave $a\cdot a$. On the right
 endpoint, the zero law collapses $0+(b\cdot b)$ to $b\cdot b$. Transitivity
 gives $a\cdot a\hsame b\cdot b$.
 
-For the reverse direction, apply Theorem~\ref{thm:commring-difference-of-squares}
-to rewrite the signed factor product as $(a\cdot a)+(-(b\cdot b))$. Transport
-the assumed square equality $a\cdot a\hsame b\cdot b$ through additive
-congruence while keeping the right summand $-(b\cdot b)$ fixed. The right side
-is therefore identified with $(b\cdot b)+(-(b\cdot b))$.
-
-Theorem~\ref{thm:ring-add-right-inverse} collapses this final additive inverse
-pair to $0$. Transitivity of $\hsame$ composes the difference-of-squares
-normal form, the transported square equality, and the inverse collapse.
+For the reverse direction, apply
+Theorem~\ref{thm:commring-equal-squares-signed-factor-zero} to the square
+equality $a\cdot a\hsame b\cdot b$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_difference\_of\_squares\_zero\_exact}
 
