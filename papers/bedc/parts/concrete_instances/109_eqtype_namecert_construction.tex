@@ -33,6 +33,19 @@ $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_e0\_anchor\_tail\_readback}
 
+\begin{theorem}[EqType e0 anchor pair determinism]
+\label{thm:eqtype-class-carrier-e0-anchor-pair-deterministic}
+For BEDC histories $anchor$, $left$, and $right$, if both $left$ and $right$
+belong to the equality-type class anchored at $\Ezero(anchor)$, then
+$left\hsame right$.
+\end{theorem}
+\begin{proof}
+Both carrier witnesses are concrete comparisons with the same anchor
+$\Ezero(anchor)$. Compose the first comparison with the reverse of the second
+comparison to obtain $left\hsame right$.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_e0\_anchor\_pair\_deterministic}
+
 \begin{theorem}[EqType e0 anchor e1 tail absurdity]
 \label{thm:eqtype-class-carrier-e0-anchor-e1-tail-absurd}
 For BEDC histories $anchor$, $tail$, and $h$, if $h$ belongs to the equality-type
@@ -60,6 +73,21 @@ $\Ezero(tail)\hsame\Eone(anchor)$, which is impossible by constructor
 separation for history sameness.
 \end{proof}
 \leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_e1\_anchor\_e0\_tail\_absurd}
+
+\begin{theorem}[EqType empty anchor visible absurdity]
+\label{thm:eqtype-class-carrier-empty-anchor-visible-absurd}
+For BEDC histories $tail$ and $h$, if $h$ belongs to the equality-type class
+anchored at $\emp$, then $h$ cannot also classify to either visible endpoint
+$\Ezero(tail)$ or $\Eone(tail)$.
+\end{theorem}
+\begin{proof}
+The class predicate unfolds to $h\hsame\emp$. Compose its reverse with the
+displayed visible comparison. The zero-headed branch gives
+$\emp\hsame\Ezero(tail)$, and the one-headed branch gives
+$\emp\hsame\Eone(tail)$. Constructor separation for histories rules out both
+comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_empty\_anchor\_visible\_absurd}
 
 \begin{theorem}[EqType visible-context anchor readback]
 \label{thm:eqtype-class-carrier-visible-context-anchor-readback}
