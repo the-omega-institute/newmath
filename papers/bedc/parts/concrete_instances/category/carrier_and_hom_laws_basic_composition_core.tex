@@ -1,0 +1,262 @@
+\begin{theorem}[Category hom-carrier composite endpoint cycle has empty tails]
+\label{thm:category-hom-carrier-comp-endpoint-cycle-tails-empty}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$. If the
+composite endpoints satisfy $\hsame(a,c)$, then both factor morphism histories
+and the displayed composite morphism history are empty:
+$$
+\hsame(f,\emp)\wedge\hsame(g,\emp)\wedge\hsame(fg,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The endpoint-cycle morphism theorem first forces the displayed composite
+$fg$ to be empty. Transport the concrete continuation $\ContR(f,g,fg)$ along
+this endpoint comparison to obtain $\ContR(f,g,\emp)$. Empty-result inversion
+for continuation then splits the factor histories, giving $f\hsame\emp$ and
+$g\hsame\emp$, while the transported composite comparison supplies
+$fg\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_tails\_empty}
+
+\begin{theorem}[Category hom-carrier composite endpoint cycle boundary]
+\label{thm:category-hom-carrier-comp-endpoint-cycle-boundary}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$. If the
+composite endpoints satisfy $\hsame(a,c)$, then both factor morphisms, the
+displayed composite morphism, and the two adjacent endpoint pairs collapse:
+$$
+\hsame(f,\emp)\land\hsame(g,\emp)\land\hsame(fg,\emp)\land
+\hsame(a,b)\land\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The endpoint-cycle tail theorem gives $f\hsame\emp$, $g\hsame\emp$, and
+$fg\hsame\emp$. Transport the two hom-carrier continuation fields along the
+empty comparisons for $f$ and $g$. Comparing the transported relations with
+the right-unit continuations at $a$ and $b$ gives $\hsame(a,b)$ and
+$\hsame(b,c)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_boundary}
+
+\begin{theorem}[Category hom carrier composition right factor]
+\label{thm:category-hom-carrier-comp-right-factor}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
+\(b\), \(fg\) is the continuation composite of \(f\) and \(g\), and \(fg\) is
+displayed as a hom-carrier from \(a\) to \(c\), then \(g\) is a hom-carrier
+from \(b\) to \(c\).
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witnesses. The displayed composite gives unary
+membership for \(fg\), so right-factor recovery for unary continuations applied
+to \(\ContR(f,g,fg)\) gives unary membership for \(g\). The left hom-carrier
+gives \(\ContR(a,f,b)\), the composite ledger gives \(\ContR(f,g,fg)\), and
+the displayed carrier gives \(\ContR(a,fg,c)\). Associativity of append turns
+these three ledgers into \(\ContR(b,g,c)\), which is the right-factor
+hom-carrier ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor}
+
+\begin{theorem}[Category hom carrier canonical middle factorization]
+\label{thm:category-hom-carrier-comp-canonical-middle-iff}
+For the unary-continuation category, if $\ContR(f,g,fg)$, then a displayed
+composite hom-carrier from $a$ to $c$ over $fg$ is equivalent to the pair of
+hom-carriers obtained by using the canonical middle object $\mathsf{append}(a,f)$:
+$$
+\mathsf{CategoryHomCarrier}(a,c,fg)
+\Longleftrightarrow
+\mathsf{CategoryHomCarrier}(a,\mathsf{append}(a,f),f)\wedge
+\mathsf{CategoryHomCarrier}(\mathsf{append}(a,f),c,g).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the unary left factor $f$ from
+$\ContR(f,g,fg)$ and the displayed unary composite history. This constructs
+the canonical left hom-carrier $a\to\mathsf{append}(a,f)$ by the defining
+continuation $\ContR(a,f,\mathsf{append}(a,f))$. The existing right-factor
+recovery theorem then extracts the hom-carrier from $\mathsf{append}(a,f)$ to
+$c$ over $g$. Conversely, composition closure for hom-carriers recombines the
+two canonical factors along $\ContR(f,g,fg)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_canonical\_middle\_iff}
+
+\begin{theorem}[Category hom carrier composition right factor public readback]
+\label{thm:category-hom-carrier-comp-right-factor-public-readback}
+For the unary-continuation category, if $f$ is a hom-carrier from $a$ to $b$,
+$fg$ is the continuation composite of $f$ and $g$, and $fg$ is displayed as a
+hom-carrier from $a$ to $c$, then $g$ is a hom-carrier from $b$ to $c$.
+Moreover, any competing right factor $g'$ with $\ContR(f,g',fg)$ and the same
+hom-carrier endpoints satisfies $\HSame(g,g')$.
+\end{theorem}
+\begin{proof}
+The right-factor theorem recovers the hom-carrier for $g$ from the displayed
+composite. For any competing $g'$, the two continuation ledgers
+$\ContR(f,g,fg)$ and $\ContR(f,g',fg)$ share the same left factor and displayed
+result, so finite-kernel left cancellation yields $\HSame(g,g')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor\_public\_readback}
+
+\begin{theorem}[Category hom carrier composition left factor]
+\label{thm:category-hom-carrier-comp-left-factor}
+For the unary-continuation category, if \(g\) is a hom-carrier from \(b\) to
+\(c\), \(fg\) is the continuation composite of \(f\) and \(g\), and \(fg\) is
+displayed as a hom-carrier from \(a\) to \(c\), then \(f\) is a hom-carrier
+from \(a\) to \(b\).
+\end{theorem}
+\begin{proof}
+Unpack the displayed composite hom-carrier. Unary left-factor recovery applied
+to \(\ContR(f,g,fg)\) and the unary composite morphism gives unary membership
+for \(f\). The right hom-carrier gives \(\ContR(b,g,c)\), while the displayed
+composite gives \(\ContR(a,fg,c)\); the finite-kernel composite left-factor
+theorem recovers \(\ContR(a,f,b)\). These fields assemble the hom-carrier from
+\(a\) to \(b\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_factor}
+
+\begin{theorem}[Category hom carrier composition left factor public readback]
+\label{thm:category-hom-carrier-comp-left-factor-public-readback}
+For the unary-continuation category, if $g$ is a hom-carrier from $b$ to $c$,
+$fg$ is the continuation composite of $f$ and $g$, and $fg$ is displayed as a
+hom-carrier from $a$ to $c$, then $f$ is a hom-carrier from $a$ to $b$.
+Moreover, any competing left factor $f'$ with $\ContR(f',g,fg)$ and the same
+hom-carrier endpoints satisfies $\HSame(f,f')$.
+\end{theorem}
+\begin{proof}
+The left-factor theorem recovers the hom-carrier for $f$ from the displayed
+composite. For any competing $f'$, the two continuation ledgers share the same
+right factor and composite result, so finite-kernel right cancellation yields
+$\HSame(f,f')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_factor\_public\_readback}
+
+\begin{theorem}[Category hom carrier same-left-tail factorization determinacy]
+\label{thm:category-comp-same-left-tail-factorization-deterministic}
+For the unary-continuation category, suppose $f$ is displayed as a hom-carrier
+from $a$ to $b$ and also from $a$ to $b'$. If $g$ and $g'$ are right factors
+from those middle endpoints to $c$ and $c'$ respectively, and both
+$\ContR(f,g,fg)$ and $\ContR(f,g',fg)$ display the same composite history
+$fg$, then the middle endpoints, right-factor histories, and target endpoints
+are determined:
+$$
+\HSame(b,b')\wedge\HSame(g,g')\wedge\HSame(c,c').
+$$
+\end{theorem}
+\begin{proof}
+Target determinacy for the two fixed-left-tail hom-carriers identifies the
+middle endpoints. The two continuation ledgers share the same left tail $f$
+and displayed result $fg$, so left cancellation identifies $g$ and $g'$.
+Transport the right hom-carrier across these two comparisons; target
+determinacy against the displayed $b'\to c'$ carrier then identifies $c$ and
+$c'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_same\_left\_tail\_factorization\_deterministic}
+
+\begin{theorem}[Category hom carrier same-right-tail factorization determinacy]
+\label{thm:category-hom-carrier-comp-same-right-tail-factorization-deterministic}
+For the unary-continuation category, suppose two composite ledgers share the
+same right tail $g$ and the same displayed composite $fg$:
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg),
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}(a',b',f'),\qquad
+\mathsf{CategoryHomCarrier}(b',c,g),\qquad
+\ContR(f',g,fg).
+$$
+Then the middle endpoints, left-factor histories, and source endpoints are
+determined:
+$$
+\HSame(b,b')\wedge\HSame(f,f')\wedge\HSame(a,a').
+$$
+\end{theorem}
+\begin{proof}
+Source determinacy for the two shared-right-tail hom-carriers identifies the
+middle endpoints $b$ and $b'$. The two composite continuation ledgers share
+the same right tail $g$ and displayed result $fg$, so right cancellation
+identifies the left factors $f$ and $f'$. Transporting the second left
+hom-carrier across these two comparisons gives a hom-carrier from $a'$ to
+$b$ with morphism $f$; source determinacy against the first left hom-carrier
+then identifies $a$ and $a'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_same\_right\_tail\_factorization\_deterministic}
+
+\begin{theorem}[Continuation morphism same-right-tail factorization determinacy]
+\label{thm:continuation-morphism-comp-same-right-tail-factorization-deterministic}
+For continuation morphisms
+$left:\mathsf{ContinuationMorphism}(a,b)$,
+$right:\mathsf{ContinuationMorphism}(b,c)$,
+$left':\mathsf{ContinuationMorphism}(a',b')$, and
+$right':\mathsf{ContinuationMorphism}(b',c)$, suppose the two right tails are
+history-same and the two composite tails are history-same. Then the two
+canonical tail continuations exist, and the source endpoints, middle endpoints,
+and left tails are determined:
+$$
+\Cont(left.tail,right.tail,(left\circ right).tail)\wedge
+\Cont(left'.tail,right'.tail,(left'\circ right').tail)\wedge
+\HSame(a,a')\wedge\HSame(b,b')\wedge\HSame(left.tail,left'.tail).
+$$
+\end{theorem}
+\begin{proof}
+The two closed composites are continuation morphisms into the same target
+$c$, so source determinacy applied to the displayed composite-tail comparison
+identifies $a$ and $a'$. Applying the same source determinacy to the two right
+tails identifies $b$ and $b'$. Transport the left continuation across these
+endpoint comparisons and cancel against $left'$ to identify the left tails.
+The canonical tail-continuation witnesses are the append displays inside the
+closed composites.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_same\_right\_tail\_factorization\_deterministic}
+
+\begin{theorem}[Continuation morphism parallel-factor composite middle determinacy]
+\label{thm:continuation-morphism-parallel-factor-comp-tail-middle-deterministic}
+For continuation morphisms
+$left:\mathsf{ContinuationMorphism}(a,b)$,
+$right:\mathsf{ContinuationMorphism}(b,c)$,
+$left':\mathsf{ContinuationMorphism}(a,b')$, and
+$right':\mathsf{ContinuationMorphism}(b',c)$, suppose the two left tails and
+the two right tails are respectively history-same. Then the four displayed
+continuation fields are present, the two middle endpoints are history-same, and
+the two closed composite tails are history-same:
+$$
+\begin{gathered}
+\Cont(a,left.tail,b)\wedge\Cont(b,right.tail,c)\wedge
+\Cont(a,left'.tail,b')\wedge\Cont(b',right'.tail,c),\\
+\HSame(b,b')\wedge
+\HSame((left\circ right).tail,(left'\circ right').tail).
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+The four continuation fields are exactly the relation fields of the four
+records. Target determinacy compares the two left morphisms after identifying
+their tails, giving $\HSame(b,b')$. The closed composite tails are append
+products of the displayed left and right tails, so the two supplied tail
+comparisons identify the two composite tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_parallel\_factor\_comp\_tail\_middle\_deterministic}
+
+\begin{theorem}[Continuation morphism same-left-tail factorization determinacy]
+\label{thm:continuation-morphism-comp-same-left-tail-factorization-deterministic}
+For continuation morphisms
+$left:\mathsf{ContinuationMorphism}(a,b)$,
+$right:\mathsf{ContinuationMorphism}(b,c)$,
+$left':\mathsf{ContinuationMorphism}(a,b')$, and
+$right':\mathsf{ContinuationMorphism}(b',c')$, suppose the two left tails are
+history-same and the two composite append tails are history-same. Then the
+middle endpoints, right tails, and target endpoints are determined:
+$$
+\HSame(b,b')\wedge\HSame(right.tail,right'.tail)\wedge\HSame(c,c').
+$$
+\end{theorem}
+\begin{proof}
+Target determinacy for the two fixed-left continuation morphisms identifies
+the middle endpoints $b$ and $b'$. After transporting the left-tail comparison
+into the composite-tail equality, append-left cancellation identifies the
+right tails. Transport the right continuation along the middle-endpoint and
+right-tail comparisons, then compare it with $right'$ by continuation result
+determinacy to identify $c$ and $c'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_same\_left\_tail\_factorization\_deterministic}
+

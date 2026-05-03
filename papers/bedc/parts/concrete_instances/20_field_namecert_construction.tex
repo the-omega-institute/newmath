@@ -247,6 +247,48 @@ separation package.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_transported\_strict\_support\_separation\_package}
 
+\begin{theorem}[RatUp FieldUp transported strict-support contextual nonzero package]
+\label{thm:ratup-fieldup-transported-strict-support-contextual-nonzero-package}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then for every context history $r:\mathsf{BHist}$ both
+proof-indexed inverse-domain witnesses hold:
+\begin{enumerate}
+  \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$;
+  \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}
+at the same denominator tuple, contextual action, transported endpoint, and
+strict-support witness. This gives the rejection maps
+$$
+\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot.
+$$
+
+For the right-append inverse-domain witness, unfold
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$ as
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(r,x),\emp)\to\bot$.
+Any forbidden classifier witness contains the source carrier field
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))$, contradicting the
+first rejection map.
+
+For the left-append inverse-domain witness, unfold
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$ as
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(x,r),\emp)\to\bot$.
+Any forbidden classifier witness contains the source carrier field
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))$, contradicting the
+second rejection map.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp concrete exit certificate package]
 \label{thm:ratup-fieldup-concrete-exit-certificate-package}
 For Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} and the
@@ -353,6 +395,8 @@ denominator support; core theorems
 \autoref{thm:ratup-fieldup-transported-strict-support-non-singleton},
 \autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion},
 \autoref{thm:ratup-fieldup-iterated-transported-strict-support-contextual-singleton-exclusion},
+and
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-nonzero-package}
 and
 \autoref{thm:ratup-fieldup-transported-strict-support-separation-package};
 exactness predicate transported and iterated transported strict-support

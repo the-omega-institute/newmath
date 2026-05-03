@@ -1,0 +1,121 @@
+\begin{theorem}[Singleton empty nonzero append right cancellation]
+\label{thm:field-singleton-empty-nonzero-append-right-cancel}
+For histories $P,Q:\mathsf{BHist}$, if $P$ lies in the singleton empty
+carrier, then appending $P$ on the right does not change the
+classifier-complement singleton nonzero predicate:
+$$
+\mathsf{fieldSingletonEmptyCarrier}(P)\Rightarrow
+\bigl(
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(Q,P))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, suppose $Q$ were classified against $\emp$. Combining
+that endpoint witness with the displayed carrier witness for $P$ rebuilds a
+singleton empty classifier witness for $\mathsf{append}(Q,P)$, contradicting
+the appended complement predicate.
+
+Conversely, any classifier witness for $\mathsf{append}(Q,P)$ supplies
+$\mathsf{append}(Q,P)\hsame\emp$. Empty-result inversion for append extracts
+$Q\hsame\emp$, and this reconstructs the forbidden classifier witness for
+$Q$ against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_right\_cancel\_iff}
+
+\begin{theorem}[Singleton empty nonzero append left cancellation]
+\label{thm:field-singleton-empty-nonzero-append-left-cancel}
+For histories $P,Q:\mathsf{BHist}$, if $P$ lies in the singleton empty
+carrier, then appending $P$ on the left does not change the
+classifier-complement singleton nonzero predicate:
+$$
+\mathsf{fieldSingletonEmptyCarrier}(P)\Rightarrow
+\bigl(
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(P,Q))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication turns a forbidden classifier witness for $Q$ into one
+for $\mathsf{append}(P,Q)$ by pairing the carrier witness for $P$ with the
+empty endpoint witness for $Q$.
+
+For the reverse implication, a classifier witness for
+$\mathsf{append}(P,Q)$ identifies the append result with $\emp$. Empty-result
+inversion splits this into carrier witnesses for both factors, and the right
+factor witness rebuilds the forbidden singleton empty classifier for $Q$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_left\_cancel\_iff}
+\input{parts/concrete_instances/field/20_field_singleton_nonzero_append_source_or_tail}
+\input{parts/concrete_instances/field/20_field_singleton_empty_nonzero_append_split}
+\begin{theorem}[Singleton empty nonzero append context cancellation]
+\label{thm:field-singleton-empty-nonzero-append-context-cancel-iff}
+For histories $L,R,Q:\mathsf{BHist}$, if $L$ and $R$ lie in the singleton
+empty carrier, then enclosing $Q$ between them does not change the
+classifier-complement singleton nonzero predicate:
+$$
+\mathsf{fieldSingletonEmptyCarrier}(L)\Rightarrow
+\mathsf{fieldSingletonEmptyCarrier}(R)\Rightarrow
+\bigl(
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(L,\mathsf{append}(Q,R)))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+If the enclosed history is nonzero and $Q$ were classified against $\emp$,
+then the empty-carrier witnesses for $L$ and $R$ rebuild a classifier witness
+for $\mathsf{append}(L,\mathsf{append}(Q,R))$ against $\emp$, contradicting
+the enclosed nonzero predicate.
+
+Conversely, a classifier witness for
+$\mathsf{append}(L,\mathsf{append}(Q,R))$ against $\emp$ splits by
+empty-result inversion for append. The inner split yields
+$\mathsf{fieldSingletonEmptyCarrier}(Q)$, which rebuilds the forbidden
+classifier witness for $Q$ against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_context\_cancel\_iff}
+
+\begin{theorem}[Classifier-complement singleton field schema laws]
+\label{thm:field-singleton-empty-schema-laws}
+For the tuple
+$$
+(A_{\emp},\rho_{\emp},\mathsf{fieldSingletonEmptyNonZero},
+\mathsf{fieldSingletonEmptyMul},\mathsf{fieldSingletonEmptyOne},
+\mathsf{fieldSingletonEmptyInv})
+$$
+the singleton carrier is inhabited by $\emp$; the predicate
+$\mathsf{fieldSingletonEmptyNonZero}(\emp)$ is contradictory; the predicate is
+transported along $\rho_{\emp}$; the inverse of every proof-indexed element is
+again in $A_{\emp}$; and the left and right products with the proof-indexed
+inverse are classified as the empty-history unit.
+\end{theorem}
+\begin{proof}
+The carrier inhabitance clause is the reflexive endpoint
+$\hsame(\emp,\emp)$, so $\emp$ lies in $A_{\emp}$.
+
+For contradiction at the unit, suppose
+$p:\mathsf{fieldSingletonEmptyNonZero}(\emp)$. The displayed classifier
+witness $\rho_{\emp}(\emp,\emp)$ is built from the two reflexive carrier
+endpoints and reflexivity of $\hsame(\emp,\emp)$. Applying $p$ to this witness
+closes the contradiction.
+
+For transport, assume $\rho_{\emp}(h,k)$ and
+$p:\mathsf{fieldSingletonEmptyNonZero}(h)$. Given a classifier witness
+$\rho_{\emp}(k,\emp)$, compose the classifier equality from
+$\rho_{\emp}(h,k)$ with the equality from $\rho_{\emp}(k,\emp)$ to obtain
+$\rho_{\emp}(h,\emp)$. The predicate $p$ then gives contradiction, hence the
+transported predicate holds at $k$.
+
+Inverse closure is immediate because every inverse endpoint is definitionally
+$\emp$, which is in the singleton carrier. The two inverse laws are immediate
+for the same reason: both products are the constant empty-history product, the
+unit is $\emp$, and the required classifier witnesses are built from
+reflexivity of $\hsame(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_singleton\_empty\_schema\_laws}
