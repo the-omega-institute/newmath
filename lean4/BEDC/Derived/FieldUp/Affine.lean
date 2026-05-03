@@ -502,4 +502,23 @@ theorem field_affine_identity_classifier {add mul : BHist -> BHist -> BHist} {on
     (hsame_trans sameXY
       (hsame_symm (field_affine_identity_endpoint addRightId mulLeftId mulRightId)))
 
+theorem field_affine_identity_classifier_iff {add mul : BHist -> BHist -> BHist} {one x y : BHist}
+    (addRightId : ∀ z : BHist, hsame (add z BHist.Empty) z)
+    (mulLeftId : ∀ z : BHist, hsame (mul one z) z)
+    (mulRightId : ∀ z : BHist, hsame (mul z one) z) :
+    hsame (add (mul (mul one x) one) BHist.Empty)
+      (add (mul (mul one y) one) BHist.Empty) ↔ hsame x y := by
+  constructor
+  · intro sameImages
+    have leftEndpoint :
+        hsame (add (mul (mul one x) one) BHist.Empty) x :=
+      field_affine_identity_endpoint addRightId mulLeftId mulRightId
+    have rightEndpoint :
+        hsame (add (mul (mul one y) one) BHist.Empty) y :=
+      field_affine_identity_endpoint addRightId mulLeftId mulRightId
+    exact hsame_trans (hsame_symm leftEndpoint)
+      (hsame_trans sameImages rightEndpoint)
+  · intro sameXY
+    exact field_affine_identity_classifier addRightId mulLeftId mulRightId sameXY
+
 end BEDC.Derived.FieldUp

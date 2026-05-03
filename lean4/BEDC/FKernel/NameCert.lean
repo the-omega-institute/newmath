@@ -254,6 +254,14 @@ theorem sealInterface_certificate_witness
   intro iface
   exact Nonempty.intro iface.nameCert
 
+theorem sealInterface_thread_carrier_witnesses {Thread : Type}
+    {Carrier : BHist -> Prop} {Equiv : BHist -> BHist -> Prop} :
+    SealInterface Thread Carrier Equiv -> Nonempty Thread ∧ exists h : BHist, Carrier h := by
+  intro iface
+  constructor
+  · exact Nonempty.intro iface.thread
+  · exact nameCert_carrier_witness iface.nameCert
+
 structure DescentCertificate
     (Source Target : Type)
     (sourceSame : Source -> Source -> Prop)

@@ -312,6 +312,25 @@ identity to reach the displayed affine endpoint over $y$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_affine\_identity\_classifier}
 
+\begin{theorem}[Field affine identity classifier iff]
+\label{thm:field-affine-identity-classifier-iff}
+Under the same identity laws, the identity affine endpoint reflects and
+preserves the history classifier:
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{one},x),\mathsf{one}),\emp)
+\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{one},y),\mathsf{one}),\emp)
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction composes the symmetry of the left endpoint identity, the
+displayed affine classifier, and the right endpoint identity. The reverse
+direction is exactly the identity classifier preservation theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_identity\_classifier\_iff}
+
 \paragraph{Affine two-sided multiplication certificate.}
 Traditional target: affine field equation solving. BEDC source: $\FieldUp$ plus
 additive group laws. Carrier choice: $\mathsf{BHist}$. Classifier choice:
