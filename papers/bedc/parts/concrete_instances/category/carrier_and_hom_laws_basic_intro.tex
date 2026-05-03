@@ -647,6 +647,26 @@ nonempty disjunct.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_cases}
 
+\begin{theorem}[Category composite nonempty result exposes nonempty endpoints]
+\label{thm:category-hom-carrier-comp-result-nonempty-endpoint-cases}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, if
+$\ContR(f,g,fg)$ and the displayed composite result is not internally empty,
+then at least one endpoint pair is not internally equal:
+$$
+\neg\HSame(fg,\emp)
+\Rightarrow
+\neg\HSame(a,b)\vee\neg\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The nonempty-factor theorem gives a nonempty displayed factor. If $a$ and $b$
+were internally equal, transporting the left hom carrier would make $f$ an
+endomorphism at $a$; endomorphism exactness forces that displayed morphism to
+be empty, contradicting the left factor case. The right factor case is the
+same argument at the endpoint pair $b,c$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_endpoint\_cases}
+
 \begin{theorem}[Category displayed composite nonempty result equivalence]
 \label{thm:category-hom-carrier-comp-result-nonempty-iff}
 For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, if

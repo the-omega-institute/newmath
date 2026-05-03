@@ -74,6 +74,29 @@ theorem CategoryHomCarrier_comp_result_nonempty_cases {a b c f g fg : BHist} :
       intro fEmpty
       exact not_hsame_e1_empty fEmpty
 
+theorem CategoryHomCarrier_comp_result_nonempty_endpoint_cases {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      (hsame fg BHist.Empty -> False) ->
+        (hsame a b -> False) \/ (hsame b c -> False) := by
+  intro left right comp resultNonempty
+  have factorCases :=
+    CategoryHomCarrier_comp_result_nonempty_cases left right comp resultNonempty
+  cases factorCases with
+  | inl leftNonempty =>
+      left
+      intro sameAB
+      have leftEndomorphism : CategoryHomCarrier a a f :=
+        CategoryHomCarrier_hsame_transport (hsame_refl a) (hsame_symm sameAB)
+          (hsame_refl f) left
+      exact leftNonempty (CategoryHomCarrier_endomorphism_empty_iff.mp leftEndomorphism).right
+  | inr rightNonempty =>
+      right
+      intro sameBC
+      have rightEndomorphism : CategoryHomCarrier b b g :=
+        CategoryHomCarrier_hsame_transport (hsame_refl b) (hsame_symm sameBC)
+          (hsame_refl g) right
+      exact rightNonempty (CategoryHomCarrier_endomorphism_empty_iff.mp rightEndomorphism).right
+
 theorem CategoryHomCarrier_comp_result_nonempty_iff {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       ((hsame fg BHist.Empty -> False) <->
