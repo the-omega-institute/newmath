@@ -190,6 +190,7 @@ import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
 import BEDC.Derived.SubgroupUp.NormalizerCertificate
+import BEDC.Derived.SubgroupUp.IntersectionConjugation
 import BEDC.Derived.QuotientGroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp

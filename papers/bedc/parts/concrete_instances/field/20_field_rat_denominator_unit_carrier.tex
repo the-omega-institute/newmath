@@ -81,6 +81,30 @@ projects the prefix $\hsame$ field.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_factor\_hsame\_iff}
 
+\begin{theorem}[Rat denominator unit append nonempty Rat endpoint pair]
+\label{thm:rat-denom-unit-append-nonempty-rat-endpoint-pair}
+For histories $h,k:\mathsf{BHist}$, if both factors lie in
+$C_D^u=\mathsf{RatDenomUnitCarrier}$ and
+$\mathsf{append}(h,k)$ is not empty, then the appended history is a genuine
+Rat history and at least one factor is already a genuine Rat history:
+$$
+C_D^u(h)\Longrightarrow C_D^u(k)\Longrightarrow
+(\mathsf{append}(h,k)\hsame\emp\Longrightarrow\bot)\Longrightarrow
+\mathsf{RatHistoryCarrier}(\mathsf{append}(h,k))\land
+\bigl(\mathsf{RatHistoryCarrier}(h)\lor\mathsf{RatHistoryCarrier}(k)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Denominator-unit continuation closure first puts $\mathsf{append}(h,k)$ in
+$C_D^u$. Since the appended endpoint is not empty, the empty branch of
+$C_D^u$ is impossible, so the result carrier is a
+$\mathsf{RatHistoryCarrier}$ witness. The carrier-level nonempty factor cases
+then split the two factors: either $h$ is a Rat history and $k$ remains in
+$C_D^u$, or $h$ remains in $C_D^u$ and $k$ is a Rat history. Projecting the
+Rat side gives the endpoint disjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_nonempty\_rat\_endpoint\_pair}
+
 \begin{theorem}[Rat denominator unit classifier append nonempty factor carriers]
 \label{thm:rat-denom-unit-classifier-append-nonempty-factor-carriers}
 For histories $h,h',k,k':\mathsf{BHist}$, if the appended endpoints are
