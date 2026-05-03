@@ -138,5 +138,24 @@ continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_integral\_prefix\_closure}
 
+\begin{theorem}[Residue pole data integral prefix empty function endpoints]
+\label{thm:residue-pole-data-integral-prefix-empty-function-endpoints}
+If \(\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)\) holds, \(q\) is unary,
+\(\Cont(q,f,q_f)\), and \(q_f\hsame\emp\), then there is an integral history
+\(I_q\) such that \(\mathsf{ResiduePoleData}(q_f,z_0,r,p,g,I_q,\rho)\),
+\(\Cont(q,I,I_q)\), and
+$$
+I_q\hsame\emp\land \rho\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply integral prefix closure to obtain the prefixed integral witness \(I_q\)
+and the residue pole data over \(q_f\). The empty-function endpoint theorem
+applied to that prefixed pole data and \(q_f\hsame\emp\) identifies both
+\(I_q\) and \(\rho\) with the empty history, while the prefix continuation
+\(\Cont(q,I,I_q)\) is preserved from the closure witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_integral\_prefix\_empty\_function\_endpoints}
+
 \section{The certificate}
 \label{sec:residue-certificate}

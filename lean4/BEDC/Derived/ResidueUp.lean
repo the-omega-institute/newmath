@@ -221,4 +221,24 @@ theorem ResiduePoleData_integral_prefix_closure
                             (And.intro productCarrier integralqResidue))))
                       (And.intro prefixIntegral integralqResidue))
 
+theorem ResiduePoleData_integral_prefix_empty_function_endpoints
+    {f center radius pole gap integral residue q qf : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
+      Cont q f qf -> hsame qf BHist.Empty ->
+        exists integralq : BHist,
+          ResiduePoleData qf center radius pole gap integralq residue ∧
+            Cont q integral integralq ∧ hsame integralq BHist.Empty ∧
+              hsame residue BHist.Empty := by
+  intro data prefixCarrier functionPrefix functionEmpty
+  have closed :=
+    ResiduePoleData_integral_prefix_closure data prefixCarrier functionPrefix
+  cases closed with
+  | intro integralq closedData =>
+      have endpoints :=
+        ResiduePoleData_empty_function_endpoints closedData.left functionEmpty
+      exact Exists.intro integralq
+        (And.intro closedData.left
+          (And.intro closedData.right.left
+            (And.intro endpoints.left endpoints.right)))
+
 end BEDC.Derived.ResidueUp
