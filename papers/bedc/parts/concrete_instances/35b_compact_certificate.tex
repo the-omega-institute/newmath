@@ -628,3 +628,56 @@ so changing representatives inside the certified source or target classifiers
 does not alter the cover judgment. Since $n$ was arbitrary, the image predicate
 has finite nets at every target precision and is totally bounded.
 \end{proof}
+
+\begin{proposition}[Uniformly continuous image total boundedness]
+\label{prop:uniform-continuous-image-total-bounded}
+Let $X$ and $Y$ be certified $\MetricSpaceUp$ objects with the metric data of
+\autoref{def:metric-carrier}. Let $S$ be a certified subset of $X$ whose
+finite-net field satisfies the total-boundedness clause of
+\autoref{def:compact-stability-certificate}. Let $G$ be a certified
+$\ContinuousFunctionUp$ graph from $S$ to $Y$, with graph totality and
+single-valuedness as in \autoref{def:continuous-carrier}. Suppose its
+uniform-continuity modulus is certified on $S$: for every target precision $n$
+the modulus ledger supplies a source precision $\delta$ such that, for all
+$x,x'\in S$, all $y,y'\in Y$, and graph witnesses $G(x,y)$ and $G(x',y')$, the
+modulus-validity field of \autoref{def:continuous-stability-certificate} gives
+$$
+\mathsf{Close}_X^{\delta}(x,x')
+\Longrightarrow
+\mathsf{Close}_Y^{n}(y,y').
+$$
+Define the image predicate by
+$$
+G[S](y)\Longleftrightarrow \exists x.\;S(x)\wedge G(x,y).
+$$
+Then $G[S]$ is totally bounded in $Y$. More explicitly, each target precision
+$n$ has a certified finite image net obtained from a source finite net at the
+source precision supplied by the modulus ledger.
+\end{proposition}
+\begin{proof}
+Fix a target precision $n$, and let $\delta$ be the source precision supplied by
+the certified modulus ledger for $G$ at $n$. By total boundedness of $S$, take a
+finite list $a_1,\ldots,a_m$ of source centers, each carrying an
+$S$-membership certificate, such that every $x\in S$ has an index $i$ with
+$\mathsf{Close}_X^{\delta}(x,a_i)$.
+
+For each center $a_i$, graph totality supplies an output $b_i$ with
+$G(a_i,b_i)$. The finite list $b_1,\ldots,b_m$ is obtained by induction on the
+finite source list, so the construction uses only the displayed certificate
+fields. Each $b_i$ is an image point, witnessed by $a_i\in S$ and
+$G(a_i,b_i)$.
+
+It remains to verify coverage. Let $y$ be any point of $G[S]$. Unpack image
+membership to obtain $x\in S$ and a graph witness $G(x,y)$. The finite
+$\delta$-net for $S$ gives an index $i$ with
+$\mathsf{Close}_X^{\delta}(x,a_i)$. Since both $x$ and $a_i$ are admitted by
+$S$, and since $G(x,y)$ and $G(a_i,b_i)$ are graph witnesses, the certified
+modulus-validity field gives $\mathsf{Close}_Y^{n}(y,b_i)$.
+
+Thus every image point is within target precision $n$ of one of the finitely
+many listed image centers. Metric classifier replacement and distance stability
+are exactly the stability fields of \autoref{def:metric-stability-certificate},
+so changing representatives inside the certified source or target classifiers
+does not alter the cover judgment. Since $n$ was arbitrary, the image predicate
+has finite nets at every target precision and is totally bounded.
+\end{proof}
