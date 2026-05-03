@@ -235,10 +235,13 @@ paper certificate object.
   \item Core theorem list: chiefly
   \autoref{thm:ratup-fieldup-proof-target-exit-package}, with the normalized
   semantic classifier exit certificate and the bracketing-independent threefold
-  contextual boundary as the concrete support theorem sites.
+  contextual boundary as the concrete support theorem sites, plus
+  \autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}
+  as the concrete cross-endpoint singleton-classifier exclusion.
   \item Exactness predicate: concrete row exhaustion for the
   $\mathsf{RatUpFieldSource}_F$ package and singleton noncollapse for the
-  normalized contextual classifier rows.
+  normalized contextual classifier rows, including the crossed endpoint
+  singleton-classifier noncollapse rows.
   \item Standard bridge: deferred.
   \item Status: $\mathsf{ProofTarget}$.
 \end{enumerate}
@@ -629,6 +632,59 @@ $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,y))$ and
 $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,x))$. Applying the
 source-carrier rejection for $\mathsf{append}(L,y)$ gives $\bot$.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp ten-field cross-endpoint exit certificate]
+\label{thm:ratup-fieldup-ten-field-cross-endpoint-exit-certificate}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the concrete ten-field exit
+instance for $\FieldUp(\RatUp)$ contains the certificate rows of
+\autoref{thm:ratup-fieldup-ten-field-exit-certificate} and, for all
+$L,R:\mathsf{BHist}$, the crossed contextual exclusions
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+\to\bot
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))
+\to\bot.
+$$
+These rows form a single $\mathsf{BHist}$-anchored
+$\FieldUp(\RatUp)$ certificate row, not an abstract operator schema.
+\end{theorem}
+\begin{proof}
+First invoke \autoref{thm:ratup-fieldup-ten-field-exit-certificate}. It
+supplies the concrete ten-field certificate rows listed in
+Definition~\ref{def:ratup-fieldup-ten-field-exit-instance} for the source tuple
+$\mathsf{RatUpFieldSource}_F$.
+
+Next invoke
+\autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}
+with the same concrete denominator tuple, histories $h,k,\ell$, endpoint
+definitions $x$ and $y$, and the support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. This gives the two crossed contextual
+singleton-classifier exclusions for arbitrary histories $L,R:\mathsf{BHist}$.
+
+The certificate and the crossed exclusions are carried by the same
+$\mathsf{BHist}$ source, the same denominator tuple, and the same contextual
+append rows. Thus the strongest concrete noncollapse row is recorded inside
+the ten-field $\FieldUp(\RatUp)$ exit instance as a concrete row rather than an
+abstract operator schema.
+\end{proof}
+
+Per-object template: traditional target concrete $\FieldUp(\mathsf{RatUp})$
+cross-endpoint exactness; BEDC source $\mathsf{RatUpFieldSource}_F$,
+$\mathsf{BHist}$, the denominator tuple, $\mathsf{append}$, and
+$\mathsf{ThreeSupp}_D^u$; carrier $\mathsf{ThreeSupp}_D^u$ plus
+$\mathsf{RatHistoryCarrier}$; classifier $R_D^u$ plus
+$\mathsf{fieldSingletonEmptyClassifier}$; stability obligations
+bracketing-independent support and cross-endpoint classifier rejection; ledger
+paired denominator endpoints and contextual append rows; core theorem this
+block; exactness predicate crossed singleton-classifier noncollapse; standard
+bridge deferred; status $\mathsf{ProofTarget}$.
 
 Per-object template: traditional target bracketing-independent concrete
 $\FieldUp(\mathsf{RatUp})$ denominator exit support; BEDC source
