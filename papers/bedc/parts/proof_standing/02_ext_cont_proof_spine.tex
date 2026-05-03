@@ -237,6 +237,29 @@ $\emp$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_mutual\_extension\_tails\_empty}
 
+\begin{theorem}[Nested continuation with visible middle cannot end empty]
+\label{thm:cont-nested-visible-middle-result-absurd}
+For histories $l,tail,r,u,v:\mathsf{BHist}$, neither branch
+$$
+\ContR(l,\Ezero(tail),u),\qquad \ContR(u,r,v),\qquad \HSame(v,\emp)
+$$
+nor branch
+$$
+\ContR(l,\Eone(tail),u),\qquad \ContR(u,r,v),\qquad \HSame(v,\emp)
+$$
+can hold.
+\end{theorem}
+\begin{proof}
+In either branch, the outer continuation and $v\hsame\emp$ force
+$\mathsf{append}(u,r)\hsame\emp$. Empty-append inversion gives $u\hsame\emp$.
+The middle continuation then forces
+$\mathsf{append}(l,\Ezero(tail))\hsame\emp$ or
+$\mathsf{append}(l,\Eone(tail))\hsame\emp$, and a second empty-append
+inversion identifies the headed constructor with $\emp$, contradicting
+history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_nested\_visible\_middle\_result\_absurd}
+
 \begin{theorem}[Mutual continuation forbids visible right tails]
 \label{thm:cont-mutual-extension-right-tail-absurd}
 If $\ContR(h,l,k)$ holds, then neither $\ContR(k,\Ezero(r),h)$ nor
