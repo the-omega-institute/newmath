@@ -1,4 +1,5 @@
 import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.Centralizer
 
 namespace BEDC.Derived.GroupUp
 
@@ -146,6 +147,124 @@ theorem group_centralizer_normalizer_forward_action_composition_from_empty_unit
     mulCongr reassocHead (hsame_refl (inv s))
   exact And.intro centralAfterS
     (hsame_trans replaceInverse (hsame_trans exposeTail nestedWord))
+
+protected theorem group_center_normal_subgroup_from_empty_unit {mul : BHist -> BHist -> BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty) :
+    let Center := fun x : BHist => forall a : BHist, hsame (mul x a) (mul a x)
+    let Conj := fun s x : BHist => mul (mul s x) (inv s)
+    let Centralizer := fun a x : BHist => hsame (mul x a) (mul a x)
+    let Normalizer := fun a s : BHist =>
+      (forall x : BHist, Centralizer a x -> Centralizer a (Conj s x)) ∧
+        (forall x : BHist, Centralizer a x -> Centralizer a (Conj (inv s) x))
+    Center BHist.Empty ∧ (forall {x y : BHist}, Center x -> Center y -> Center (mul x y)) ∧
+      (forall {x : BHist}, Center x -> Center (inv x)) ∧
+      (forall {x y : BHist}, Center x -> hsame x y -> Center y) ∧
+      (forall {s x : BHist}, Center x -> Center (Conj s x)) ∧
+      (forall {a x : BHist}, Center x -> Centralizer a x ∧ Normalizer a x) := by
+  dsimp
+  have centralizerTransport :
+      forall {a p q : BHist}, hsame p q -> hsame (mul p a) (mul a p) ->
+        hsame (mul q a) (mul a q) := by
+    intro a p q samePQ centralP
+    exact hsame_trans (mulCongr (hsame_symm samePQ) (hsame_refl a))
+      (hsame_trans centralP (mulCongr (hsame_refl a) samePQ))
+  have centerTransport :
+      forall {p q : BHist}, (forall a : BHist, hsame (mul p a) (mul a p)) ->
+        hsame p q -> forall a : BHist, hsame (mul q a) (mul a q) := by
+    intro p q centerP samePQ a
+    exact centralizerTransport samePQ (centerP a)
+  have centerInv :
+      forall {x : BHist}, (forall a : BHist, hsame (mul x a) (mul a x)) ->
+        forall a : BHist, hsame (mul (inv x) a) (mul a (inv x)) := by
+    intro x centerX a
+    exact BEDC.Derived.GroupUp.group_centralizer_inv_closed_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a) (x := x) (centerX a)
+  have conjFixedByCentralElement :
+      forall s y : BHist, (forall a : BHist, hsame (mul s a) (mul a s)) ->
+        hsame (mul (mul s y) (inv s)) y := by
+    intro s y centerS
+    have invCenterS : forall a : BHist, hsame (mul (inv s) a) (mul a (inv s)) :=
+      centerInv centerS
+    have reassocHead :
+        hsame (mul (mul s y) (inv s)) (mul s (mul y (inv s))) :=
+      assocC s y (inv s)
+    have commuteTail :
+        hsame (mul s (mul y (inv s))) (mul s (mul (inv s) y)) :=
+      mulCongr (hsame_refl s) (hsame_symm (invCenterS y))
+    have reassocTail :
+        hsame (mul s (mul (inv s) y)) (mul (mul s (inv s)) y) :=
+      hsame_symm (assocC s (inv s) y)
+    have collapseHead :
+        hsame (mul (mul s (inv s)) y) (mul BHist.Empty y) :=
+      mulCongr (rightInv s) (hsame_refl y)
+    exact hsame_trans reassocHead
+      (hsame_trans commuteTail
+        (hsame_trans reassocTail (hsame_trans collapseHead (leftId y))))
+  have conjFixedCentralTarget :
+      forall s x : BHist, (forall a : BHist, hsame (mul x a) (mul a x)) ->
+        hsame (mul (mul s x) (inv s)) x := by
+    intro s x centerX
+    have reassocHead :
+        hsame (mul (mul s x) (inv s)) (mul s (mul x (inv s))) :=
+      assocC s x (inv s)
+    have commuteTail :
+        hsame (mul s (mul x (inv s))) (mul s (mul (inv s) x)) :=
+      mulCongr (hsame_refl s) (centerX (inv s))
+    have reassocTail :
+        hsame (mul s (mul (inv s) x)) (mul (mul s (inv s)) x) :=
+      hsame_symm (assocC s (inv s) x)
+    have collapseHead :
+        hsame (mul (mul s (inv s)) x) (mul BHist.Empty x) :=
+      mulCongr (rightInv s) (hsame_refl x)
+    exact hsame_trans reassocHead
+      (hsame_trans commuteTail
+        (hsame_trans reassocTail (hsame_trans collapseHead (leftId x))))
+  constructor
+  · intro a
+    exact hsame_trans (leftId a) (hsame_symm (rightId a))
+  · constructor
+    · intro x y centerX centerY a
+      have assocLeft : hsame (mul (mul x y) a) (mul x (mul y a)) :=
+        assocC x y a
+      have commuteY : hsame (mul x (mul y a)) (mul x (mul a y)) :=
+        mulCongr (hsame_refl x) (centerY a)
+      have reassocMiddle : hsame (mul x (mul a y)) (mul (mul x a) y) :=
+        hsame_symm (assocC x a y)
+      have commuteX : hsame (mul (mul x a) y) (mul (mul a x) y) :=
+        mulCongr (centerX a) (hsame_refl y)
+      have assocRight : hsame (mul (mul a x) y) (mul a (mul x y)) :=
+        assocC a x y
+      exact hsame_trans assocLeft
+        (hsame_trans commuteY
+          (hsame_trans reassocMiddle (hsame_trans commuteX assocRight)))
+    · constructor
+      · intro x centerX
+        exact centerInv centerX
+      · constructor
+        · intro x y centerX sameXY
+          exact centerTransport centerX sameXY
+        · constructor
+          · intro s x centerX
+            exact centerTransport centerX (hsame_symm (conjFixedCentralTarget s x centerX))
+          · intro a x centerX
+            constructor
+            · exact centerX a
+            · constructor
+              · intro y centralY
+                have fixedConj := conjFixedByCentralElement x y centerX
+                exact centralizerTransport (hsame_symm fixedConj) centralY
+              · intro y centralY
+                have centerInvX : forall q : BHist, hsame (mul (inv x) q) (mul q (inv x)) :=
+                  centerInv centerX
+                have fixedConj := conjFixedByCentralElement (inv x) y centerInvX
+                exact centralizerTransport (hsame_symm fixedConj) centralY
 
 protected theorem group_centralizer_normalizer_orbit_equivalence_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
