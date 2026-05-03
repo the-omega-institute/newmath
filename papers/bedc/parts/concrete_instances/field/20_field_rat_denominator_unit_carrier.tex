@@ -58,6 +58,35 @@ projects the prefix $\hsame$ field.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_factor\_hsame\_iff}
 
+\begin{theorem}[Rat denominator unit classifier append nonempty factor carriers]
+\label{thm:rat-denom-unit-classifier-append-nonempty-factor-carriers}
+For histories $h,h',k,k':\mathsf{BHist}$, if the appended endpoints are
+classified by $R_D^u$ and the left appended endpoint is nonempty, then both
+classified endpoints split into denominator-unit carried factors with a
+genuine Rat denominator endpoint on at least one side:
+$$
+R_D^u(\mathsf{append}(h,k),\mathsf{append}(h',k'))
+\Longrightarrow
+\bigl(\mathsf{append}(h,k)\hsame\emp\Longrightarrow\bot\bigr)
+\Longrightarrow
+\begin{aligned}
+&\bigl(\mathsf{RatHistoryCarrier}(h)\wedge C_D^u(k)
+  \lor C_D^u(h)\wedge\mathsf{RatHistoryCarrier}(k)\bigr)\\
+&{}\wedge
+\bigl(\mathsf{RatHistoryCarrier}(h')\wedge C_D^u(k')
+  \lor C_D^u(h')\wedge\mathsf{RatHistoryCarrier}(k')\bigr).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Apply the carrier-level nonempty factor cases theorem to the left endpoint.
+The classifier sameness field transports the nonempty condition to the right
+endpoint: if the right append were empty, transitivity would make the left
+append empty. Apply the same carrier-level theorem to the right endpoint and
+pair the two decompositions.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_nonempty\_factor\_carriers}
+
 \textbf{Traditional target}: denominator-side continuation with empty endpoint
 unit for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$, and $\Cont$; \textbf{carrier

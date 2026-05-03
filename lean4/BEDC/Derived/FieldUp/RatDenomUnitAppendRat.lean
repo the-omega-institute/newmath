@@ -105,6 +105,23 @@ theorem RatDenomUnitCarrier_append_factor_carriers {h k : BHist} :
                       (RatHistoryCarrier_iff_positive_denominator.mpr
                         (PositiveUnaryDenominator_e1_iff_unary.mpr tailUnary))
 
+theorem RatDenomUnitCarrier_append_nonempty_factor_cases {h k : BHist} :
+    RatDenomUnitCarrier (append h k) -> (hsame (append h k) BHist.Empty -> False) ->
+      (RatHistoryCarrier h ∧ RatDenomUnitCarrier k) ∨
+        (RatDenomUnitCarrier h ∧ RatHistoryCarrier k) := by
+  intro productCarrier productNonempty
+  have branches := RatDenomUnitCarrier_append_branch_cases productCarrier
+  have factors := RatDenomUnitCarrier_append_factor_carriers productCarrier
+  cases branches with
+  | inl emptyParts =>
+      exact False.elim (productNonempty (append_eq_empty_iff.mpr emptyParts))
+  | inr ratFactor =>
+      cases ratFactor with
+      | inl ratH =>
+          exact Or.inl ⟨ratH, factors.right⟩
+      | inr ratK =>
+          exact Or.inr ⟨factors.left, ratK⟩
+
 theorem RatDenomUnitCarrier_append_iff {h k : BHist} :
     RatDenomUnitCarrier (append h k) ↔ RatDenomUnitCarrier h ∧ RatDenomUnitCarrier k := by
   constructor
@@ -147,6 +164,21 @@ theorem RatDenomUnitClassifier_append_factor_hsame_iff {h h' k k' : BHist} :
   · intro suffixSame
     exact
       (RatDenomUnitClassifier_append_right_factor_classifier classified suffixSame).right.right
+
+theorem RatDenomUnitClassifier_append_nonempty_factor_carriers {h h' k k' : BHist} :
+    RatDenomUnitClassifier (append h k) (append h' k') ->
+      (hsame (append h k) BHist.Empty -> False) ->
+        ((RatHistoryCarrier h ∧ RatDenomUnitCarrier k) ∨
+          (RatDenomUnitCarrier h ∧ RatHistoryCarrier k)) ∧
+          ((RatHistoryCarrier h' ∧ RatDenomUnitCarrier k') ∨
+            (RatDenomUnitCarrier h' ∧ RatHistoryCarrier k')) := by
+  intro classified leftNonempty
+  have rightNonempty : hsame (append h' k') BHist.Empty -> False := by
+    intro rightEmpty
+    exact leftNonempty (hsame_trans classified.right.right rightEmpty)
+  exact
+    ⟨RatDenomUnitCarrier_append_nonempty_factor_cases classified.left leftNonempty,
+      RatDenomUnitCarrier_append_nonempty_factor_cases classified.right.left rightNonempty⟩
 
 theorem RatDenomUnitClassifier_append_context_cancel_iff {L R Q S : BHist} :
     RatDenomUnitClassifier L R ->

@@ -147,6 +147,25 @@ empty-source carrier by left-unit continuation and is not $\hsame$ to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_nonempty\_morphism\_shape\_iff}
 
+\begin{theorem}[Category empty-source empty-morphism exactness]
+\label{thm:category-hom-carrier-empty-source-empty-morphism-iff}
+For a history $b$, an empty-source hom-carrier whose displayed morphism is
+empty is exactly an empty target:
+$$
+\mathsf{CategoryHomCarrier}(\emp,b,\emp)
+\quad\Longleftrightarrow\quad
+\hsame(b,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Specialize empty-source hom-carrier exactness to the empty morphism. The
+forward direction returns $\hsame(\emp,b)$, and symmetry gives
+$\hsame(b,\emp)$. Conversely, transport unary membership of $\emp$ across
+the symmetric target equality and rebuild the empty-source hom-carrier by the
+same exactness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_empty\_morphism\_iff}
+
 \begin{theorem}[Category empty-source semantic name certificate]
 \label{thm:category-empty-source-semantic-namecert}
 Fix a unary target history \(b\). The empty-source hom-carrier

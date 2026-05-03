@@ -127,6 +127,29 @@ $\mathsf{RatDenomUnitCarrier}$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_factor\_carriers}
 
+\begin{theorem}[Rat denominator unit carrier append nonempty factor cases]
+\label{thm:rat-denom-unit-carrier-append-nonempty-factor-cases}
+For histories $h,k:\mathsf{BHist}$, a nonempty append product carried by
+$C_D^u$ has a genuine Rat denominator endpoint on at least one factor, while
+both factors remain carried by $C_D^u$:
+$$
+C_D^u(\mathsf{append}(h,k))
+\Longrightarrow
+\bigl(\mathsf{append}(h,k)\hsame\emp\Longrightarrow\bot\bigr)
+\Longrightarrow
+\bigl(\mathsf{RatHistoryCarrier}(h)\wedge C_D^u(k)\bigr)
+\lor
+\bigl(C_D^u(h)\wedge\mathsf{RatHistoryCarrier}(k)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply append branch cases to the carried product. The both-empty branch would
+make the appended product empty by append-empty reconstruction, contradicting
+the nonempty hypothesis. In the remaining branches, append factor-carrier
+closure supplies the denominator-unit carrier witness for the opposite factor.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_nonempty\_factor\_cases}
+
 \begin{proposition}[Rat denominator unit carrier append exactness]
 \label{prop:rat-denom-unit-carrier-append-iff}
 For histories $h,k:\mathsf{BHist}$, the empty-unit Rat denominator carrier is

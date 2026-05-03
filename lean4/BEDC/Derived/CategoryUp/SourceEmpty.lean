@@ -26,6 +26,15 @@ theorem CategoryHomCarrier_e1_source_empty_morphism_iff {a target : BHist} :
         cases targetEq
         exact CategoryHomCarrier_empty_identity (unary_e1_closed sourceCarrier)
 
+theorem CategoryHomCarrier_empty_source_empty_morphism_iff {b : BHist} :
+    CategoryHomCarrier BHist.Empty b BHist.Empty ↔ hsame b BHist.Empty := by
+  constructor
+  · intro homCarrier
+    exact hsame_symm (CategoryHomCarrier_empty_source_iff.mp homCarrier).right
+  · intro sameEmpty
+    exact CategoryHomCarrier_empty_source_iff.mpr
+      ⟨unary_transport unary_empty (hsame_symm sameEmpty), hsame_symm sameEmpty⟩
+
 theorem CategoryHomCarrier_empty_source_morphism_target_deterministic {b c f g : BHist} :
     CategoryHomCarrier BHist.Empty b f -> CategoryHomCarrier BHist.Empty c g ->
       hsame f g -> hsame b c := by
