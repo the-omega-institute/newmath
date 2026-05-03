@@ -72,4 +72,18 @@ theorem group_centralizer_mul_closed_empty_context {mul : BHist -> BHist -> BHis
         (hsame_trans reassocXY (hsame_trans transportX rightAssoc)))
   exact mulCongr productClosed (hsame_refl BHist.Empty)
 
+protected theorem group_centralizer_mul_closed_from_empty_unit {mul : BHist -> BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    {a x y : BHist} :
+    hsame (mul x a) (mul a x) -> hsame (mul y a) (mul a y) ->
+      hsame (mul (mul x y) a) (mul a (mul x y)) := by
+  intro commuteX commuteY
+  have wrapped :=
+    group_centralizer_mul_closed_empty_context (mul := mul) assocC mulCongr commuteX commuteY
+  exact hsame_trans (hsame_symm (rightId (mul (mul x y) a)))
+    (hsame_trans wrapped (rightId (mul a (mul x y))))
+
 end BEDC.Derived.GroupUp
