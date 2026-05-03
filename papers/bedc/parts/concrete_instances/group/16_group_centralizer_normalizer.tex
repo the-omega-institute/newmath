@@ -57,6 +57,67 @@ reassociation and the inverse-product comparison through the outer products.
 The final word is exactly $\mathsf{Conj}_s(\mathsf{Conj}_t(x))$.
 \end{proof}
 
+\begin{theorem}[Group normalizer conjugation action composition]
+\label{thm:group-normalizer-conjugation-action-composition}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-subgroup}, assume $N_a(s)$, $N_a(t)$, and
+$Z_a(x)$. Then the normalizer conjugation action composes on $Z_a$:
+\begin{enumerate}
+\item $Z_a(\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+\item
+$\hsame(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),
+\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+\item
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(t)}
+(\mathsf{Conj}_{\mathsf{inv}(s)}(x)))$.
+\item
+$\hsame(\mathsf{Conj}_{\mathsf{inv}(\mathsf{mul}(s,t))}(x),
+\mathsf{Conj}_{\mathsf{inv}(t)}
+(\mathsf{Conj}_{\mathsf{inv}(s)}(x)))$.
+\end{enumerate}
+The ten-field fit is: traditional target normalizer conjugation action; BEDC
+source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$; classifier $\hsame$;
+stability action composition and inverse-action composition; ledger
+conjugating pair and inverse-product witness; core theorem list
+\autoref{thm:group-inverse-mul-reverse},
+\autoref{thm:group-conjugation-classifier-exactness}, and associativity,
+unit, inverse, and congruence laws; exactness predicate preservation of
+$Z_a$; standard bridge ordinary normalizer action; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{Conj}$. Associativity reassociates the product word
+$\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(s,t),x),
+\mathsf{inv}(\mathsf{mul}(s,t)))$ to the nested conjugation word
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))$, after
+\autoref{thm:group-inverse-mul-reverse} identifies the inverse factor with
+$\mathsf{mul}(\mathsf{inv}(t),\mathsf{inv}(s))$.
+
+The classifier comparison is transported through the surrounding
+multiplications by multiplication congruence. Then
+\autoref{thm:group-conjugation-classifier-exactness} reads the reassociated
+word as the same $Z_a$-classifier witness, giving the displayed
+$\hsame$ statement for $\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$.
+
+For preservation, apply the forward clause of $N_a(t)$ to $Z_a(x)$, obtaining
+$Z_a(\mathsf{Conj}_t(x))$. Apply the forward clause of $N_a(s)$ to that
+result, giving $Z_a(\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+
+For the inverse-action word, use the inverse clause of $N_a(s)$ first and the
+inverse clause of $N_a(t)$ second. This gives
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(t)}
+(\mathsf{Conj}_{\mathsf{inv}(s)}(x)))$.
+
+Finally apply the same reassociation and congruence calculation to the
+inverse-product word. Theorem~\ref{thm:group-inverse-mul-reverse} identifies
+$\mathsf{inv}(\mathsf{mul}(s,t))$ with
+$\mathsf{mul}(\mathsf{inv}(t),\mathsf{inv}(s))$, so the classifier exactness
+theorem supplies the displayed $\hsame$ comparison for the inverse-action
+composition.
+\end{proof}
+
 \begin{theorem}[Group centralizer normalizer subgroup]
 \label{thm:group-centralizer-normalizer-subgroup}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
