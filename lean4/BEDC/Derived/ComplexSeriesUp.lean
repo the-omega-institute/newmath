@@ -41,6 +41,26 @@ theorem ComplexPartSum_deterministic {zero : BHist} {c : BHist -> BHist} {n S T 
           have samePartial := ih rightSum
           exact cont_respects_hsame samePartial (hsame_refl (c _)) leftStep rightStep
 
+theorem ComplexPartSum_exists_unique {zero : BHist} {c : BHist -> BHist} {n : BHist} :
+    UnaryHistory n -> exists S : BHist, ComplexPartSum zero c n S ∧
+      forall T : BHist, ComplexPartSum zero c n T -> hsame S T := by
+  intro unaryN
+  refine (unary_history_induction
+    (P := fun index => exists S : BHist, ComplexPartSum zero c index S ∧
+      forall T : BHist, ComplexPartSum zero c index T -> hsame S T)
+    ?base ?step n unaryN)
+  · exact Exists.intro zero
+      (And.intro ComplexPartSum.zero
+        (fun T other => ComplexPartSum_deterministic ComplexPartSum.zero other))
+  · intro m _unaryM previous
+    cases previous with
+    | intro S data =>
+        have current : ComplexPartSum zero c (BHist.e1 m) (append S (c m)) :=
+          ComplexPartSum.step data.left (cont_intro rfl)
+        exact Exists.intro (append S (c m))
+          (And.intro current
+            (fun T other => ComplexPartSum_deterministic current other))
+
 theorem ComplexPartSum_successor_term_hsame_deterministic {zero zero' : BHist}
     {c d : BHist -> BHist} {n S T U : BHist} :
     hsame zero zero' -> (forall {m : BHist}, hsame (c m) (d m)) ->

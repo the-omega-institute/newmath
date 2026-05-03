@@ -6,6 +6,27 @@ The function-object interface $\FuncUp$ packages the carrier of functions $A \to
 \section{Carrier definition}
 \label{sec:funcobj-carrier}
 
+\begin{theorem}[Function object linear singleton continuous-map components are empty]
+\label{thm:funcobj-linear-singleton-continuous-map-components-empty}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ holds
+and the source, map, and modulus histories lie in the linear-map singleton
+carrier. Then
+$$
+\hsame(target,\emp)\land\hsame(cert,\emp)\land\hsame(distance,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier identifies $source$, $map$, and $modulus$ with $\emp$.
+The continuous-map graph continuation compares with the right-unit
+continuation at $\emp$, forcing $target\hsame\emp$. The certificate
+continuation then compares against the same empty right unit, forcing
+$cert\hsame\emp$. Finally, the metric-distance continuation from $source$ to
+$target$ compares against the empty right unit after both endpoints have been
+identified with $\emp$, so $distance\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_components\_empty}
+
 \section{The certificate}
 \label{sec:funcobj-certificate}
 

@@ -109,8 +109,12 @@ index. Determinacy of \(\mathsf{Cont}\) identifies the successor sums.
 For every \((a, s, N)\), there is a unique complex history \(S_N\) with \(\mathsf{DirPartSum}(a, s, N, S_N)\), up to \(\hsame\).
 \end{lemma}
 \begin{proof}
-By unary induction on \(N\), using totality of \(\mathsf{DirTerm}\) and complex addition.
+Unary induction on \(N\) constructs the empty partial sum at the base index and
+extends the predecessor sum by the concrete continuation step carrying the
+current Dirichlet term. At each unary index, the partial-sum determinacy theorem
+identifies any competing closed derivation with the constructed result.
 \end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_exists\_unique}
 
 \begin{theorem}[Dirichlet series successor index tail is nonempty]
 \label{thm:dirichlet-series-index-e1-tail-nonempty}
