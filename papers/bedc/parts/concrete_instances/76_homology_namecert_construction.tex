@@ -6,5 +6,52 @@ The homology interface $\HomologyUp$ packages a chain complex over an abelian-gr
 \section{Carrier definition}
 \label{sec:homology-carrier}
 
+The cycle carrier of a BEDC chain differential $d:\mathsf{BHist}\to
+\mathsf{BHist}$ is the kernel predicate
+$$
+Z_d(h) :\Longleftrightarrow \hsame(d(h),\mathsf{Empty}).
+$$
+The boundary carrier is the image predicate
+$$
+B_d(h) :\Longleftrightarrow \exists u:\mathsf{BHist},\ \hsame(h,d(u)).
+$$
+\leandef{BEDC.Derived.HomologyUp.HomologyCycleCarrier}
+\leandef{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier}
+
+\begin{theorem}[Homology cycle carrier append closure]
+\label{thm:homology-cycle-carrier-append-closed}
+Assume the differential respects BEDC continuation append:
+$$
+\hsame(d(\mathsf{append}(u,v)),\mathsf{append}(d(u),d(v))).
+$$
+If $Z_d(h)$ and $Z_d(k)$, then
+$Z_d(\mathsf{append}(h,k))$.
+\end{theorem}
+\begin{proof}
+The append law transports the displayed differential to
+$\mathsf{append}(d(h),d(k))$. The two cycle hypotheses identify both
+endpoints with $\mathsf{Empty}$, and the BEDC append kernel has
+$\mathsf{append}(\mathsf{Empty},\mathsf{Empty})=\mathsf{Empty}$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_closed}
+
+\begin{theorem}[Homology boundary carrier append closure]
+\label{thm:homology-boundary-carrier-append-closed}
+Assume the differential respects BEDC continuation append:
+$$
+\hsame(d(\mathsf{append}(u,v)),\mathsf{append}(d(u),d(v))).
+$$
+If $B_d(h)$ and $B_d(k)$, then
+$B_d(\mathsf{append}(h,k))$.
+\end{theorem}
+\begin{proof}
+Choose boundary witnesses $u$ and $v$ with $\hsame(h,d(u))$ and
+$\hsame(k,d(v))$. The BEDC witness for the appended boundary is
+$\mathsf{append}(u,v)$. Endpoint congruence carries
+$\mathsf{append}(h,k)$ to $\mathsf{append}(d(u),d(v))$, and the differential
+append law identifies that history with $d(\mathsf{append}(u,v))$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_closed}
+
 \section{The certificate}
 \label{sec:homology-certificate}

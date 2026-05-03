@@ -99,6 +99,24 @@ one-sealed histories from $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_result\_nonempty}
 
+\begin{theorem}[Adele visible scale append is not empty]
+\label{thm:adele-visible-scale-append-not-empty}
+For histories $r,p,e,s:\mathsf{BHist}$, if
+$\mathsf{RealConstantHistoryCarrier}(r)$ and
+$\mathsf{PadicPrimeScale}(p,\mathsf{e1}(e),s)$ hold, then the appended visible
+scale history is not history-same as $\emp$:
+$$
+\hsame(\mathsf{append}(r,s),\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Assume the appended history is empty. Append-empty exactness makes the scale
+result $s$ empty. The $p$-adic empty-result iff then forces
+$\hsame(\mathsf{e1}(e),\emp)$, contradicting the BEDC separation of one-sealed
+histories from $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_append\_not\_empty}
+
 \begin{theorem}[Adele empty scale real readback]
 \label{thm:adele-history-carrier-empty-scale-real-readback}
 Let $real,p,result:\mathsf{BHist}$. If $real$ is a constant real-history
