@@ -10,6 +10,22 @@ This chapter gives a concrete naming-certificate construction for the Riemann ze
 For complex history \(s\) and complex history \(z\), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds when \(z\) is the explicit complex-history limit of the Dirichlet partial sums of the constant-unit coefficient sequence \(a_n = \Eone(\emp)\) at \(s\); equivalently, \(\mathsf{ZetaBasic}(s, z)\) is the specialization of the \(\DirichletSeriesUp\) carrier (\autoref{ch:concrete-instances-dirichlet-series-namecert}) at unit coefficients.
 \end{definition}
 
+\begin{definition}[Unit Dirichlet part sum]
+\label{def:zeta-basic-part-sum}
+For a complex history \(s\), the unit term at unary index \(n\) is the visible unit extension \(\Eone(s)\), and \(\mathsf{ZetaBasicPartSum}(s,n,z)\) is the specialized \(\mathsf{DirichletPartSum}\) witness for this unit term.
+\end{definition}
+\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicUnitTerm}
+\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum}
+
+\begin{theorem}[Unit Dirichlet part sums are unary]
+\label{thm:zeta-basic-part-sum-unary-result}
+If \(s\) and \(n\) are unary histories and \(\mathsf{ZetaBasicPartSum}(s,n,z)\) holds, then \(z\) is a unary history.
+\end{theorem}
+\begin{proof}
+Induct on the concrete \(\mathsf{DirichletPartSum}\) witness. The zero result is \(\emp\), and the successor case appends the prior unary partial sum to the visible unit term \(\Eone(s)\), which is closed by unary continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_unary\_result}
+
 \begin{lemma}[Zeta basic well-defined for \(\Re(s) > 1\)]
 \label{lem:zeta-basic-well-defined}
 For every \(s\) with rational representation of \(\Re(s)\) strictly greater than \(\Eone(\emp)\) (decidable on the rational representation), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds for some complex history \(z\), and \(z\) is unique up to \(\hsame\) on both real components.

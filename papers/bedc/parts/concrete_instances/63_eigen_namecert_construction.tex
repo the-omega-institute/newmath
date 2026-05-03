@@ -6,5 +6,31 @@ The eigen-pair interface $\EigenUp$ packages an eigenvalue / eigenvector pair $(
 \section{Carrier definition}
 \label{sec:eigen-carrier}
 
+\begin{definition}[Eigen singleton carrier]
+\label{def:eigen-singleton-carrier}
+A history $p$ lies in the singleton eigen carrier when there are histories
+$m,\lambda,v$ such that $m$ and $v$ are singleton linear-map carriers,
+$\lambda$ is a singleton determinant carrier, and $p$ is the continuation
+result
+$$
+\Cont(m,\mathsf{append}(\lambda,v),p).
+$$
+\end{definition}
+\leandef{BEDC.Derived.EigenUp.EigenSingletonCarrier}
+
+\begin{theorem}[Eigen singleton carrier continuation result transport]
+\label{thm:eigen-singleton-carrier-cont-result-transport}
+For histories $m,\lambda,v,p,p':\mathsf{BHist}$, if $m$ and $v$ are singleton
+linear-map carriers, $\lambda$ is a singleton determinant carrier,
+$\Cont(m,\mathsf{append}(\lambda,v),p)$, and $p\hsame p'$, then $p'$ lies in
+the eigen singleton carrier.
+\end{theorem}
+\begin{proof}
+Reuse the same displayed witnesses $m,\lambda,v$. The carrier fields are
+unchanged, and the continuation result transports along $p\hsame p'$ by the
+kernel result-transport theorem for $\Cont$.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_cont\_result\_transport}
+
 \section{The certificate}
 \label{sec:eigen-certificate}

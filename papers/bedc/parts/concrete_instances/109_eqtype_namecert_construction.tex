@@ -8,3 +8,20 @@ The equality-type interface $\EqUp$ packages the constructive identity type over
 
 \section{The certificate}
 \label{sec:eqtype-certificate}
+
+\begin{theorem}[EqType identity semantic name certificate]
+\label{thm:eqtype-identity-semantic-namecert}
+The identity classifier on histories forms a semantic name certificate when
+source, pattern, and ledger are all the self-identity predicate:
+$$
+\mathsf{SemanticNameCert}
+(\lambda h.\ h\hsame h,\lambda h.\ h\hsame h,\lambda h.\ h\hsame h,\hsame).
+$$
+\end{theorem}
+\begin{proof}
+The empty history supplies inhabitation. Reflexivity, symmetry, transitivity,
+and carrier transport are exactly the corresponding closure laws of $\hsame$.
+The pattern and ledger maps are the identity maps on the self-identity
+predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeIdentity\_semanticNameCert}
