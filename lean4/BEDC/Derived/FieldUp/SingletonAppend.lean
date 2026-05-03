@@ -236,6 +236,11 @@ theorem FieldSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
     have emptyParts := append_eq_empty_iff.mp carrier
     exact not_hsame_e1_empty emptyParts.right
 
+theorem FieldSingletonCarrier_append_right_nonempty_absurd {h k : BHist} :
+    FieldSingletonCarrier (append h k) -> (hsame k BHist.Empty -> False) -> False := by
+  intro carrier kNonempty
+  exact kNonempty (append_eq_empty_iff.mp carrier).right
+
 theorem FieldSingletonClassifier_append_visible_prefix_absurd {p q h : BHist} :
     (FieldSingletonClassifier (append (BHist.e0 p) q) h -> False) ∧
       (FieldSingletonClassifier (append (BHist.e1 p) q) h -> False) := by

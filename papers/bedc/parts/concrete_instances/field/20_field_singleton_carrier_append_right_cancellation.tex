@@ -21,6 +21,23 @@ witness for $P$ and rebuild the empty append witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_right\_cancel\_iff}
 
+\begin{theorem}[Field singleton carrier append right nonempty contradiction]
+\label{thm:field-singleton-carrier-append-right-nonempty-absurd}
+For histories $h,k:\mathsf{BHist}$, if the appended history lies in the
+singleton carrier, then the right factor cannot be nonempty:
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(h,k))\Rightarrow
+(\HSame(k,\emp)\to\bot)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier unfolds to $\HSame(\mathsf{append}(h,k),\emp)$.
+Empty-append inversion splits this into $h\hsame\emp$ and $k\hsame\emp$.
+The right component contradicts the displayed nonempty right-factor
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_right\_nonempty\_absurd}
+
 \begin{theorem}[Field singleton carrier append left cancellation]
 \label{thm:field-singleton-carrier-append-left-cancel}
 For histories $P,Q:\mathsf{BHist}$, if $P$ lies in the singleton carrier
