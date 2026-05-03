@@ -125,6 +125,18 @@ Unpack the strict witness tail. The empty tail contradicts strictness, and an \(
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_e1\_inversion}
 
+\begin{theorem}[Strict unary prefix zero-boundary inversion]
+\label{thm:nat-unary-strict-prefix-e0-inversion}
+If \(\Ezero(h)\) is a strict unary prefix of \(\Ezero(k)\), then \(h\) is a strict unary prefix of \(k\).
+\end{theorem}
+\begin{proof}
+Unpack the strict witness tail. The empty tail contradicts strictness, an
+\(\Ezero\)-headed tail contradicts unary generation, and an \(\Eone\)-headed
+tail would force a zero-headed continuation result to be one-headed. Hence the
+premise has no inhabitant, so the displayed implication follows.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_e0\_inversion}
+
 \begin{theorem}[Strict unary prefix append-tail transitivity]
 \label{thm:nat-unary-strict-prefix-append-tail-trans}
 If \(h\) continues by a nonempty unary tail to \(k\), and \(k\) continues by a

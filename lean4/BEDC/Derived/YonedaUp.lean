@@ -46,4 +46,15 @@ theorem YonedaRepresentable_empty_component_family_displayed_deterministic {p q 
     CategoryHomCarrier_morphism_deterministic
       emptyComponent.right.right.right displayedComponent.right.right.right
 
+theorem YonedaRepresentable_empty_component_family_target_deterministic {p q r : BHist} :
+    (forall {a : BHist}, UnaryHistory a ->
+      NatTransPrefixComponentCarrier p q a BHist.Empty) ->
+    (forall {a : BHist}, UnaryHistory a ->
+      NatTransPrefixComponentCarrier p r a BHist.Empty) ->
+    hsame q r := by
+  intro leftFamily rightFamily
+  have leftData := YonedaRepresentable_empty_component_family_iff.mp leftFamily
+  have rightData := YonedaRepresentable_empty_component_family_iff.mp rightFamily
+  exact hsame_trans (hsame_symm leftData.right.right) rightData.right.right
+
 end BEDC.Derived.YonedaUp
