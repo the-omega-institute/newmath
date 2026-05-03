@@ -86,6 +86,57 @@ format:
   }
   #detail .crit-list a:hover { background: #fdebe7; }
   #detail .crit-list .crit-meta { color: #888; font-size: 0.78rem; margin-left: 0.4rem; }
+  #detail .glossary-toggle {
+    margin-top: 1rem; padding: 0.4rem 0.7rem; width: 100%;
+    border: 1px solid #ccc; background: white; border-radius: 4px;
+    cursor: pointer; font-family: inherit; font-size: 0.85rem;
+    text-align: left;
+  }
+  #detail .glossary-toggle:hover { background: #f4f4f4; }
+  #detail .glossary-toggle.active { background: #2c3e50; color: white; border-color: #2c3e50; }
+  #glossary-pane {
+    position: fixed; top: 0; right: 0; width: 420px; height: 100vh;
+    background: white; border-left: 1px solid #ccc;
+    box-shadow: -4px 0 18px rgba(0,0,0,0.1);
+    overflow-y: auto; z-index: 1000;
+    transform: translateX(100%); transition: transform 0.2s ease;
+  }
+  #glossary-pane.open { transform: translateX(0); }
+  #glossary-pane .glossary-header {
+    position: sticky; top: 0; padding: 0.8rem 1.2rem;
+    background: #fff; border-bottom: 1px solid #eee;
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 600; font-size: 1rem;
+  }
+  #glossary-pane .glossary-header button {
+    border: none; background: transparent; font-size: 1.4rem;
+    cursor: pointer; color: #666;
+  }
+  #glossary-pane .glossary-body { padding: 0.8rem 1.2rem; }
+  #glossary-pane .glossary-section {
+    margin-bottom: 1.4rem;
+  }
+  #glossary-pane .glossary-section h3 {
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: #888; margin: 0 0 0.4rem 0; font-weight: 600;
+  }
+  #glossary-pane .glossary-entry {
+    padding: 0.4rem 0; border-bottom: 1px solid #f4f4f4;
+  }
+  #glossary-pane .glossary-entry:last-child { border-bottom: none; }
+  #glossary-pane .glossary-entry .term {
+    font-weight: 600; font-size: 0.95rem;
+  }
+  #glossary-pane .glossary-entry .term-zh {
+    color: #888; font-style: italic; margin-left: 0.4rem; font-size: 0.88rem;
+  }
+  #glossary-pane .glossary-entry .desc {
+    margin-top: 0.25rem; font-size: 0.84rem; line-height: 1.45; color: #444;
+  }
+  #glossary-pane .glossary-entry .desc-zh {
+    margin-top: 0.2rem; font-size: 0.8rem; line-height: 1.45; color: #888;
+    font-style: italic;
+  }
 
   .map-footer {
     grid-area: footer; padding: 0.5rem 1.2rem;
@@ -131,6 +182,18 @@ format:
       <div data-i18n="crit_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Where AI is attacking now</div>
       <div id="crit-list" class="crit-list"></div>
     </div>
+
+    <button class="glossary-toggle" onclick="toggleGlossary()">
+      <span data-i18n="glossary_btn">📖 Browse all bilingual terms</span>
+    </button>
+  </div>
+
+  <div id="glossary-pane">
+    <div class="glossary-header">
+      <span data-i18n="glossary_title">Bilingual Glossary</span>
+      <button onclick="toggleGlossary()">×</button>
+    </div>
+    <div class="glossary-body" id="glossary-body"></div>
   </div>
 
   <div class="map-footer">
@@ -170,7 +233,9 @@ const I18N = {
     detail_downstream: "downstream",
     detail_deps: "Depends on:",
     picker_default: "-- jump to region --",
-    grp_kernel: "Kernel",
+    grp_kernel: "Kernel primitives",
+    grp_namecert: "NameCert framework",
+    grp_methodology: "Methodology",
     grp_discrete: "Discrete primitives",
     grp_number: "Number systems",
     grp_algebra: "Algebra",
@@ -180,7 +245,10 @@ const I18N = {
     grp_analysis: "Complex analysis",
     grp_zeta: "Dirichlet / Zeta",
     grp_reflection: "Reflection / capstone",
+    grp_roadmap: "Roadmap (future Up types)",
     grp_other: "Other",
+    glossary_btn: "📖 Browse all bilingual terms",
+    glossary_title: "Bilingual Glossary",
   },
   zh: {
     title: "BEDC 项目地图",
@@ -206,7 +274,9 @@ const I18N = {
     detail_downstream: "下游影响",
     detail_deps: "依赖于:",
     picker_default: "-- 跳到领域 --",
-    grp_kernel: "内核",
+    grp_kernel: "内核原语",
+    grp_namecert: "NameCert 框架",
+    grp_methodology: "方法论",
     grp_discrete: "离散原语",
     grp_number: "数系",
     grp_algebra: "代数",
@@ -216,7 +286,10 @@ const I18N = {
     grp_analysis: "复分析",
     grp_zeta: "Dirichlet / ζ",
     grp_reflection: "反思 / capstone",
+    grp_roadmap: "路线图 (未来 Up 类型)",
     grp_other: "其他",
+    glossary_btn: "📖 浏览全部双语术语",
+    glossary_title: "双语术语表",
   },
 };
 
@@ -315,6 +388,80 @@ function onPickerChange(id) {
   // the user keeps the full map context.
 }
 
+// --- Glossary side pane ----------------------------------------------------
+// Group ordering for the side pane. Each entry: [i18n_key, [glossary keys]].
+// Glossary keys not listed here fall into 'grp_other'.
+const GLOSSARY_GROUPS = [
+  ["grp_kernel",      ["BHist", "Hist", "Cont", "hsame", "psame", "msame", "E0", "E1", "kernel"]],
+  ["grp_namecert",    ["NameCert", "SourceSpec", "PatternSpec", "ClassifierSpec", "StabilityCert", "LedgerPolicy"]],
+  ["grp_methodology", ["axiom-purity", "schema-only"]],
+  ["grp_discrete",    ["bool", "option", "prod", "sum", "list"]],
+  ["grp_number",      ["nat", "add", "int", "rat", "real", "complex", "prime"]],
+  ["grp_algebra",     ["monoid", "group", "abgroup", "ring", "commring", "field",
+                       "module", "vecspace", "linearmap", "matrix", "polynomial", "fps"]],
+  ["grp_order",       ["preorder", "poset", "totalorder", "lattice", "interval"]],
+  ["grp_topology",    ["metric", "compact", "continuous", "s1", "circle"]],
+  ["grp_categorical", ["category", "functor", "nattrans"]],
+  ["grp_analysis",    ["complexlimit", "convergenceradius", "complexdiff",
+                       "holomorphic", "complexseries", "contour", "anacont"]],
+  ["grp_zeta",        ["dirichletseries", "zetabasic", "zetacont", "critstrip", "zetazeros", "zeta"]],
+  ["grp_reflection",  ["observer", "interhist"]],
+  ["grp_roadmap",     ["padic", "adele", "norm", "hilbert", "magma", "semigroup", "topology",
+                       "completion", "calculus", "measure", "functionalanalysis",
+                       "manifold", "bundle", "homology", "rh", "eq", "func", "limit",
+                       "fold", "setlike", "typelike", "mul", "order"]],
+];
+
+function renderGlossary() {
+  const body = document.getElementById("glossary-body");
+  const placed = new Set();
+  let html = "";
+  for (const [groupKey, keys] of GLOSSARY_GROUPS) {
+    const items = keys.filter(k => GLOSSARY[k]);
+    if (!items.length) continue;
+    items.forEach(k => placed.add(k));
+    html += `<div class="glossary-section"><h3>${t(groupKey)}</h3>`;
+    for (const k of items) {
+      const g = GLOSSARY[k];
+      const primary = LANG === "zh" ? g.zh : g.en;
+      const other   = LANG === "zh" ? g.en : g.zh;
+      html += `
+        <div class="glossary-entry">
+          <span class="term">${primary.label}</span>
+          ${other.label && other.label !== primary.label ? `<span class="term-zh">${other.label}</span>` : ""}
+          <div class="desc">${primary.desc}</div>
+          ${other.desc && other.desc !== primary.desc ? `<div class="desc-zh">${other.desc}</div>` : ""}
+        </div>`;
+    }
+    html += `</div>`;
+  }
+  // Anything left over goes under "Other"
+  const leftover = Object.keys(GLOSSARY).filter(k => !placed.has(k));
+  if (leftover.length) {
+    html += `<div class="glossary-section"><h3>${t("grp_other")}</h3>`;
+    for (const k of leftover) {
+      const g = GLOSSARY[k];
+      const primary = LANG === "zh" ? g.zh : g.en;
+      const other   = LANG === "zh" ? g.en : g.zh;
+      html += `
+        <div class="glossary-entry">
+          <span class="term">${primary.label}</span>
+          ${other.label && other.label !== primary.label ? `<span class="term-zh">${other.label}</span>` : ""}
+          <div class="desc">${primary.desc}</div>
+          ${other.desc && other.desc !== primary.desc ? `<div class="desc-zh">${other.desc}</div>` : ""}
+        </div>`;
+    }
+    html += `</div>`;
+  }
+  body.innerHTML = html;
+}
+
+function toggleGlossary() {
+  const pane = document.getElementById("glossary-pane");
+  pane.classList.toggle("open");
+  if (pane.classList.contains("open")) renderGlossary();
+}
+
 function statusClass(node) {
   // Schema-only takes precedence: an intentional horizon is not a missing target.
   if (node.schema_only) return "schema";
@@ -401,7 +548,18 @@ function renderCy() {
         },
       },
       { selector: "node[cls = 'crit']", style: { "border-width": 3, "border-color": "#7e1810" } },
-      { selector: "node:selected", style: { "border-width": 4, "border-color": "#222" } },
+      {
+        selector: "node:selected",
+        style: {
+          "border-width": 8,
+          "border-color": "#f39c12",
+          "border-opacity": 1,
+          "overlay-color": "#f39c12",
+          "overlay-opacity": 0.18,
+          "overlay-padding": 12,
+          "z-index": 999,
+        }
+      },
       {
         selector: "edge",
         style: {
@@ -581,7 +739,13 @@ function renderAll() {
   }
 }
 
-function setLang(lang) { LANG = lang; renderAll(); }
+function setLang(lang) {
+  LANG = lang;
+  renderAll();
+  // refresh glossary if open
+  const pane = document.getElementById("glossary-pane");
+  if (pane && pane.classList.contains("open")) renderGlossary();
+}
 
 (async () => {
   try {

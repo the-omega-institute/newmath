@@ -792,6 +792,103 @@ def build_glossary() -> dict:
             "en": {"label": "Finite Kernel", "desc": "BHist + Cont + hsame: the three primitives everything is built on."},
             "zh": {"label": "有限内核", "desc": "BHist + Cont + hsame: 一切都建在这三个原语上."},
         },
+        # --- Roadmap / future Up types (declared in preamble, not yet active regions) ---
+        "rh": {
+            "en": {"label": "RHUp", "desc": "The Riemann Hypothesis as a BEDC conjecture interface."},
+            "zh": {"label": "RHUp", "desc": "黎曼猜想作为 BEDC 猜想接口."},
+        },
+        "zeta": {
+            "en": {"label": "ZetaUp", "desc": "Riemann zeta function — umbrella interface (basic + cont + zeros)."},
+            "zh": {"label": "ZetaUp", "desc": "Riemann zeta 函数 — 综合接口(基础+延拓+零点)."},
+        },
+        "padic": {
+            "en": {"label": "PadicUp", "desc": "p-adic numbers; completion of Q under p-adic norm."},
+            "zh": {"label": "PadicUp", "desc": "p-adic 数; Q 在 p-adic 范数下的完备化."},
+        },
+        "adele": {
+            "en": {"label": "AdeleUp", "desc": "Adele ring; restricted product of all completions of Q."},
+            "zh": {"label": "AdeleUp", "desc": "Adele 环; Q 所有完备化的限制积."},
+        },
+        "norm": {
+            "en": {"label": "NormUp", "desc": "Normed space interface: vector space with a length function."},
+            "zh": {"label": "NormUp", "desc": "赋范空间接口: 带长度函数的向量空间."},
+        },
+        "hilbert": {
+            "en": {"label": "HilbertUp", "desc": "Hilbert space: complete inner-product space."},
+            "zh": {"label": "HilbertUp", "desc": "Hilbert 空间: 完备的内积空间."},
+        },
+        "magma": {
+            "en": {"label": "MagmaUp", "desc": "Magma: a set with a binary operation, no further laws."},
+            "zh": {"label": "MagmaUp", "desc": "Magma: 带二元运算的集合, 无更多律法."},
+        },
+        "semigroup": {
+            "en": {"label": "SemigroupUp", "desc": "Semigroup: associative magma."},
+            "zh": {"label": "SemigroupUp", "desc": "半群: 满足结合律的 magma."},
+        },
+        "topology": {
+            "en": {"label": "TopologyUp", "desc": "Topological space interface; opens / continuity / connectedness."},
+            "zh": {"label": "TopologyUp", "desc": "拓扑空间接口; 开集/连续/连通."},
+        },
+        "completion": {
+            "en": {"label": "CompletionUp", "desc": "Completion of a metric space; Cauchy-equivalence quotient."},
+            "zh": {"label": "CompletionUp", "desc": "度量空间的完备化; Cauchy 等价商."},
+        },
+        "calculus": {
+            "en": {"label": "CalculusUp", "desc": "Differential / integral calculus on Real-valued functions."},
+            "zh": {"label": "CalculusUp", "desc": "实值函数上的微分/积分."},
+        },
+        "measure": {
+            "en": {"label": "MeasureUp", "desc": "Measure theory; Lebesgue / Borel structure."},
+            "zh": {"label": "MeasureUp", "desc": "测度论; Lebesgue / Borel 结构."},
+        },
+        "functionalanalysis": {
+            "en": {"label": "FunctionalAnalysisUp", "desc": "Banach / Hilbert spaces; bounded operators."},
+            "zh": {"label": "FunctionalAnalysisUp", "desc": "Banach / Hilbert 空间; 有界算子."},
+        },
+        "manifold": {
+            "en": {"label": "ManifoldUp", "desc": "Smooth manifold; locally Euclidean with charts."},
+            "zh": {"label": "ManifoldUp", "desc": "光滑流形; 局部欧式 + 图卡."},
+        },
+        "bundle": {
+            "en": {"label": "BundleUp", "desc": "Fiber bundle; total space + base space + projection."},
+            "zh": {"label": "BundleUp", "desc": "纤维丛; 全空间 + 底空间 + 投影."},
+        },
+        "homology": {
+            "en": {"label": "HomologyUp", "desc": "Singular / chain homology; topological invariants."},
+            "zh": {"label": "HomologyUp", "desc": "奇异/链同调; 拓扑不变量."},
+        },
+        "eq": {
+            "en": {"label": "EqUp", "desc": "Equality / sameness interface generalising hsame."},
+            "zh": {"label": "EqUp", "desc": "等同接口, 泛化 hsame."},
+        },
+        "func": {
+            "en": {"label": "FuncUp", "desc": "Function interface; generic Hist-to-Hist mapping."},
+            "zh": {"label": "FuncUp", "desc": "函数接口; 通用 Hist→Hist 映射."},
+        },
+        "limit": {
+            "en": {"label": "LimitUp", "desc": "Limit interface; generic convergence carrier."},
+            "zh": {"label": "LimitUp", "desc": "极限接口; 通用收敛载体."},
+        },
+        "fold": {
+            "en": {"label": "FoldUp", "desc": "Fold / catamorphism interface over inductive carriers."},
+            "zh": {"label": "FoldUp", "desc": "归纳载体上的 fold/catamorphism 接口."},
+        },
+        "setlike": {
+            "en": {"label": "SetLikeUp", "desc": "Set-like membership interface, finite / decidable."},
+            "zh": {"label": "SetLikeUp", "desc": "类集合的成员关系接口, 有限/可判定."},
+        },
+        "typelike": {
+            "en": {"label": "TypeLikeUp", "desc": "Type-like inhabitation interface; carriers as types."},
+            "zh": {"label": "TypeLikeUp", "desc": "类类型的居留接口; 载体作类型."},
+        },
+        "mul": {
+            "en": {"label": "MulUp", "desc": "Multiplicative monoid interface."},
+            "zh": {"label": "MulUp", "desc": "乘法 monoid 接口."},
+        },
+        "order": {
+            "en": {"label": "OrderUp", "desc": "Generic order-relation interface."},
+            "zh": {"label": "OrderUp", "desc": "通用序关系接口."},
+        },
     }
     return G
 
