@@ -83,31 +83,104 @@ HARD_MAX_PARALLEL = 50
 
 # Iteration-narrative vocabulary banned in the paper (CLAUDE.md §写作纪律).
 # Detection runs on lines newly added in the round's diff.
-FORBIDDEN_VOCAB = [
+_DEFAULT_FORBIDDEN_VOCAB = [
     "新增", "新版", "修订", "修复了上一版本",
     "增量", "修改记录", "变更记录", "变更原因",
     "patch", "migration", "frozen", "supersede", "superseded",
     "deprecated", "legacy", "increment",
     "rectification", "amendment",
 ]
-# Version-prefixed labels and "v1.5.X"-style numerics
-FORBIDDEN_VERSION_RE = re.compile(
-    r"\bv\d+\.\d+\.[Xx0-9]+\b|\bv\d+-[A-Za-z0-9_-]+",
+_DEFAULT_FORBIDDEN_VERSION_PATTERN = (
+    r"\bv\d+\.\d+\.[Xx0-9]+\b|\bv\d+-[A-Za-z0-9_-]+"
 )
-FORBIDDEN_VOCAB_RE = re.compile(
-    r"(" + "|".join(re.escape(w) for w in FORBIDDEN_VOCAB) + r")",
-    re.IGNORECASE,
-)
-
-# Math syntax: ban LaTeX math environments other than $...$ / $$...$$
-FORBIDDEN_MATH_PATTERNS = [
-    (r"\\begin\{equation\*?\}", r"\\begin{equation}"),
-    (r"\\begin\{align\*?\}",    r"\\begin{align}"),
-    (r"\\begin\{eqnarray\*?\}", r"\\begin{eqnarray}"),
-    (r"\\\[", r"\\["),
+# Math syntax: ban LaTeX math environments other than $...$ / $$...$$.
+# `(?<!\\)\\\[` matches \[ NOT preceded by another backslash, so the
+# LaTeX line-break optional argument like `\\[0.35em]` (vertical row
+# spacing in tabular/array) does not false-trigger.
+_DEFAULT_FORBIDDEN_MATH_PATTERNS = [
+    r"\\begin\{equation\*?\}",
+    r"\\begin\{align\*?\}",
+    r"\\begin\{eqnarray\*?\}",
+    r"(?<!\\)\\\[",
 ]
+
+# Hot-loaded lint patterns: `papers/bedc/scripts/lint_patterns.json`.
+# Edit the file (no orchestrator restart) and the next round picks up
+# the change. Falls back to the _DEFAULT_* constants above when the
+# file is missing or unreadable.
+LINT_PATTERNS_FILE = SCRIPT_DIR / "lint_patterns.json"
+_lint_patterns_cache: dict = {"mtime": -1.0, "compiled": None}
+
+
+def _build_vocab_regex(words: list[str]) -> re.Pattern:
+    """Build a single regex that matches each forbidden word; ASCII-only
+    words gated by `\\b` word boundary so 'patch' does not match inside
+    'dispatch'. CJK words match as-is (Python's `\\b` requires a word
+    boundary which is too narrow for CJK)."""
+    parts: list[str] = []
+    for w in words:
+        esc = re.escape(w)
+        if w.isascii():
+            parts.append(rf"\b{esc}\b")
+        else:
+            parts.append(esc)
+    return re.compile(r"(" + "|".join(parts) + r")", re.IGNORECASE)
+
+
+def _compile_lint_patterns(*, vocab: list[str], version: str,
+                           math: list[str]) -> dict:
+    return {
+        "vocab": _build_vocab_regex(vocab),
+        "version": re.compile(version),
+        "math": re.compile(r"(" + "|".join(math) + r")"),
+    }
+
+
+def _load_lint_patterns() -> dict:
+    """Read LINT_PATTERNS_FILE if newer than cache; recompile and cache.
+    Returns dict with keys 'vocab', 'version', 'math' -> compiled regexes.
+    """
+    try:
+        if not LINT_PATTERNS_FILE.exists():
+            mtime = -1.0
+        else:
+            mtime = LINT_PATTERNS_FILE.stat().st_mtime
+        if mtime != _lint_patterns_cache["mtime"]:
+            if mtime > 0:
+                data = json.loads(LINT_PATTERNS_FILE.read_text(encoding="utf-8"))
+                vocab = data.get("forbidden_vocab", _DEFAULT_FORBIDDEN_VOCAB)
+                version = data.get(
+                    "forbidden_version_pattern", _DEFAULT_FORBIDDEN_VERSION_PATTERN
+                )
+                math = data.get(
+                    "forbidden_math_patterns", _DEFAULT_FORBIDDEN_MATH_PATTERNS
+                )
+            else:
+                vocab = _DEFAULT_FORBIDDEN_VOCAB
+                version = _DEFAULT_FORBIDDEN_VERSION_PATTERN
+                math = _DEFAULT_FORBIDDEN_MATH_PATTERNS
+            _lint_patterns_cache["compiled"] = _compile_lint_patterns(
+                vocab=vocab, version=version, math=math,
+            )
+            _lint_patterns_cache["mtime"] = mtime
+    except Exception:
+        if _lint_patterns_cache["compiled"] is None:
+            _lint_patterns_cache["compiled"] = _compile_lint_patterns(
+                vocab=_DEFAULT_FORBIDDEN_VOCAB,
+                version=_DEFAULT_FORBIDDEN_VERSION_PATTERN,
+                math=_DEFAULT_FORBIDDEN_MATH_PATTERNS,
+            )
+    return _lint_patterns_cache["compiled"]
+
+
+# Backward-compat module-level shims so any caller that still references
+# the old constants gets the current loaded values. detect_* functions
+# below call _load_lint_patterns() each invocation for hot-reload.
+FORBIDDEN_VOCAB = _DEFAULT_FORBIDDEN_VOCAB
+FORBIDDEN_VOCAB_RE = _build_vocab_regex(_DEFAULT_FORBIDDEN_VOCAB)
+FORBIDDEN_VERSION_RE = re.compile(_DEFAULT_FORBIDDEN_VERSION_PATTERN)
 FORBIDDEN_MATH_RE = re.compile(
-    r"(" + "|".join(p for p, _ in FORBIDDEN_MATH_PATTERNS) + r")"
+    r"(" + "|".join(_DEFAULT_FORBIDDEN_MATH_PATTERNS) + r")"
 )
 
 LEAN_MARKER_RE = re.compile(
@@ -1397,7 +1470,11 @@ def _added_lines_per_file(wt: WorktreeInfo, rel_path: str) -> list[tuple[int, st
 
 
 def detect_forbidden_vocab(wt: WorktreeInfo) -> list[str]:
-    """Reject diffs that introduce iteration-narrative vocabulary."""
+    """Reject diffs that introduce iteration-narrative vocabulary.
+    Uses hot-loaded patterns from `lint_patterns.json` (see _load_lint_patterns)."""
+    pats = _load_lint_patterns()
+    vocab_re = pats["vocab"]
+    version_re = pats["version"]
     violations: list[str] = []
     for rel in _changed_files(wt, prefix="papers/bedc/"):
         if not (rel.endswith(".tex") or rel.endswith(".md")):
@@ -1406,11 +1483,11 @@ def detect_forbidden_vocab(wt: WorktreeInfo) -> list[str]:
             stripped = content.strip()
             # Skip pure comment lines (% …) — they should not exist either,
             # but the inline-comment ban is a separate gate (out of scope).
-            for m in FORBIDDEN_VOCAB_RE.finditer(stripped):
+            for m in vocab_re.finditer(stripped):
                 violations.append(f"{rel}:{line_no}: '{m.group(1)}' — {stripped[:120]}")
                 break
             else:
-                vm = FORBIDDEN_VERSION_RE.search(stripped)
+                vm = version_re.search(stripped)
                 if vm:
                     violations.append(
                         f"{rel}:{line_no}: version-prefix '{vm.group(0)}' — {stripped[:120]}"
@@ -1419,10 +1496,13 @@ def detect_forbidden_vocab(wt: WorktreeInfo) -> list[str]:
 
 
 def detect_forbidden_math(wt: WorktreeInfo) -> list[str]:
+    """Reject diffs that introduce LaTeX math environments other than
+    $...$ / $$...$$. Hot-loaded patterns; see _load_lint_patterns."""
+    math_re = _load_lint_patterns()["math"]
     violations: list[str] = []
     for rel in _changed_tex_files(wt):
         for line_no, content in _added_lines_per_file(wt, rel):
-            m = FORBIDDEN_MATH_RE.search(content)
+            m = math_re.search(content)
             if m:
                 violations.append(
                     f"{rel}:{line_no}: forbidden math env '{m.group(1)}' — "
