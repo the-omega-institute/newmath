@@ -72,6 +72,28 @@ as the empty continuation result.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_empty\_iff}
 
+\begin{theorem}[Eigen singleton carrier append-context empty iff]
+\label{thm:eigen-singleton-carrier-append-context-empty-iff}
+For histories $L,R,h:\mathsf{BHist}$, the contextual eigen singleton carrier
+holds for $\mathsf{append}(L,\mathsf{append}(h,R))$ exactly when the two
+context histories are empty and the middle history lies in the eigen singleton
+carrier:
+$$
+\mathsf{EigenSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))
+\Longleftrightarrow
+L\hsame\emp\ \wedge\ \mathsf{EigenSingletonCarrier}(h)\ \wedge\ R\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Use the eigen singleton carrier empty equivalence to convert the contextual
+carrier into emptiness of the nested append. BEDC append-empty inversion splits
+the outer and inner append endpoints, yielding empty left and right contexts and
+empty middle endpoint. The reverse direction rebuilds the nested append-empty
+witness from the three displayed fields and applies the same carrier-empty
+equivalence backwards.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_append\_context\_empty\_iff}
+
 \section{The certificate}
 \label{sec:eigen-certificate}
 
@@ -81,6 +103,28 @@ Two histories $p,q:\mathsf{BHist}$ are classified by the singleton eigen
 interface when both lie in the singleton eigen carrier and $p\hsame q$.
 \end{definition}
 \leandef{BEDC.Derived.EigenUp.EigenSingletonClassifier}
+
+\begin{theorem}[Eigen singleton classifier append-context empty iff]
+\label{thm:eigen-singleton-classifier-append-context-empty-iff}
+For histories $L,R,h,k:\mathsf{BHist}$, the contextual singleton eigen
+classifier between $\mathsf{append}(L,h)$ and $\mathsf{append}(k,R)$ is
+equivalent to empty endpoint contexts and the core classifier between $h$ and
+$k$:
+$$
+\mathsf{EigenSingletonClassifier}(\mathsf{append}(L,h),\mathsf{append}(k,R))
+\Longleftrightarrow
+L\hsame\emp\ \wedge\ \mathsf{EigenSingletonClassifier}(h,k)\ \wedge\ R\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction sends both contextual carrier fields through the eigen
+carrier empty equivalence and splits the two append-empty witnesses. These
+middle empty witnesses give the core carriers and identify $h$ with $k$. In the
+reverse direction, the empty endpoint contexts and the two core carrier fields
+rebuild the left and right contextual carriers, and both contextual endpoints
+are history-same because each is empty.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonClassifier\_append\_context\_empty\_iff}
 
 \begin{theorem}[Eigen singleton semantic name certificate]
 \label{thm:eigen-singleton-semantic-namecert}
