@@ -23,6 +23,15 @@ Direct uniqueness from the analytic continuation operation of \(\ZetaContUp\).
 The predicate \(\mathsf{ZetaZero}(s)\) holds when there exists \(z\) with \(\mathsf{ZetaVal}(s, z)\) and \(\hsame\) holds on both real components of \(z\) and the zero complex history.
 \end{definition}
 
+\begin{theorem}[Zero complex history carrier]
+\label{thm:zeta-zero-complex-history-carrier}
+The complex zero history represented as the product of two unit rational denominators is carried by \(\ComplexUp\).
+\end{theorem}
+\begin{proof}
+Each unit denominator satisfies the positive-denominator predicate because its tail is \(\emp\). The product history is then carried by the product carrier for the two rational components.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroComplexHistory\_carrier}
+
 \begin{remark}[Decidability gap]
 \label{rem:zero-decidability-gap}
 The predicate \(\mathsf{ZetaVal}(s, z)\) for fixed \(s\) is decidable to within any unary precision \(k\), since the analytic continuation is computable to any precision. However, deciding \(\mathsf{ZetaZero}(s)\) requires comparing the value to the exact zero complex history, which is not decidable from a finite-precision approximation in general --- this is the constructive obstruction at the heart of why RH is open. The predicate is *defined* constructively, but its *exhaustive enumeration* over the critical strip is not.
