@@ -41,4 +41,21 @@ theorem CohomologyCocycle_append_core_closed {d : BHist -> BHist} {h k : BHist}
     hsame_empty_iff.mp kCycle
   exact hsame_trans (dAppend h k) (append_eq_empty_iff.mpr (And.intro dhEmpty dkEmpty))
 
+theorem CohomologyCocycle_prepend_axis_closed {d : BHist -> BHist} {axis h k : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    (axisCycle : hsame (d axis) BHist.Empty) :
+    hsame (d (append axis h)) BHist.Empty ->
+      hsame (d (append axis k)) BHist.Empty ->
+        hsame (d (append axis (append h k))) BHist.Empty := by
+  intro hCycle kCycle
+  have dhEmpty : d h = BHist.Empty :=
+    (append_eq_empty_iff.mp (hsame_trans (hsame_symm (dAppend axis h)) hCycle)).right
+  have dkEmpty : d k = BHist.Empty :=
+    (append_eq_empty_iff.mp (hsame_trans (hsame_symm (dAppend axis k)) kCycle)).right
+  have dHKEmpty : hsame (d (append h k)) BHist.Empty :=
+    hsame_trans (dAppend h k) (append_eq_empty_iff.mpr (And.intro dhEmpty dkEmpty))
+  exact hsame_trans (dAppend axis (append h k))
+    (append_eq_empty_iff.mpr
+      (And.intro (hsame_empty_iff.mp axisCycle) (hsame_empty_iff.mp dHKEmpty)))
+
 end BEDC.Derived.CohomologyUp

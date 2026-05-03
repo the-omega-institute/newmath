@@ -35,6 +35,23 @@ axis gives the displayed shifted cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_closed}
 
+\begin{theorem}[Cohomology cocycle prepend axis closure]
+\label{thm:cohomology-cocycle-prepend-axis-closed}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$, and
+let the fixed cohomology axis satisfy $d(axis)\hsame\emp$. If the shifted
+histories $axis\cdot h$ and $axis\cdot k$ are $d$-cocycles, then the shifted
+append $axis\cdot(h\cdot k)$ is also a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Append preservation rewrites the two shifted cocycle hypotheses as empty
+append histories $\mathsf{append}(d(axis),d(h))$ and
+$\mathsf{append}(d(axis),d(k))$. Append-empty inversion extracts
+$d(h)\hsame\emp$ and $d(k)\hsame\emp$. The core append closure makes
+$d(h\cdot k)$ empty, and the axis cocycle row then rebuilds the displayed
+left-axis cocycle through the append law.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_prepend\_axis\_closed}
+
 \begin{theorem}[Cohomology cocycle core append closure]
 \label{thm:cohomology-cocycle-append-core-closed}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
