@@ -116,6 +116,40 @@ Definition~\ref{def:prod-displayed-pair-ledger}, this existential witness is
 exactly $\mathsf{ProdDisplayedPairLedger}_{L,R}(h)$.
 \end{proof}
 
+\begin{theorem}[Product displayed pair ledger exactness and transport]
+\label{thm:prod-displayed-pair-ledger-exact-and-transport}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. Write
+$D(h):\Longleftrightarrow\mathsf{ProdDisplayedPairLedger}_{L,R}(h)$. For all
+histories $h,k:\mathsf{BHist}$,
+$$
+D(h)\Longleftrightarrow\mathsf{ProdHistoryCarrier}(L,R,h)
+$$
+and
+$$
+D(h)\land\hsame(h,k)\to D(k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $D$ and Definition~\ref{def:prod-displayed-pair-ledger}. For the
+forward direction of the equivalence, a displayed pair ledger witness is a pair
+of histories $l,r$ with $\mathsf{ProdPairRep}_{L,R}(h,l,r)$. Apply the reverse
+direction of Theorem~\ref{thm:prod-pair-rep-coverage} to obtain
+$\mathsf{ProdHistoryCarrier}(L,R,h)$.
+
+For the reverse direction, start with
+$\mathsf{ProdHistoryCarrier}(L,R,h)$. Apply the forward direction of
+Theorem~\ref{thm:prod-pair-rep-coverage} to obtain histories $l,r$ with
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$. Repack this displayed representation by
+Definition~\ref{def:prod-displayed-pair-ledger}; this is $D(h)$.
+
+For endpoint transport, assume $D(h)$ and $\hsame(h,k)$. Unfold $D$ to obtain a
+displayed pair representation $\mathsf{ProdPairRep}_{L,R}(h,l,r)$. Apply
+Theorem~\ref{thm:prod-pair-rep-hsame-transport} along $\hsame(h,k)$, keeping the
+same displayed component histories $l,r$, to obtain
+$\mathsf{ProdPairRep}_{L,R}(k,l,r)$. Repack this representation by
+Definition~\ref{def:prod-displayed-pair-ledger}; the result is $D(k)$.
+\end{proof}
+
 \begin{theorem}[Product carrier single-valued displayed pair readback]
 \label{thm:prod-carrier-single-valued-displayed-pair-readback}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
