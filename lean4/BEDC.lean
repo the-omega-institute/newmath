@@ -207,6 +207,7 @@ import BEDC.Derived.FieldUp.ContextualActionPair
 import BEDC.Derived.FieldUp.EmptyUnitCancellation
 import BEDC.Derived.FieldUp.SingletonContinuationLeftEndpoint
 import BEDC.Derived.FieldUp.SingletonContinuationRightEndpoint
+import BEDC.Derived.FieldUp.SingletonClassifierEndpointTransport
 import BEDC.Derived.FieldUp.SingletonAppendSuffixCancel
 import BEDC.Derived.FieldUp.SingletonOperationContext
 import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd
@@ -305,6 +306,7 @@ import BEDC.Derived.CategoryUp.TailCarrierAlignment
 import BEDC.Derived.CategoryUp.NonemptyTailResultDescent
 import BEDC.Derived.CategoryUp.TargetSourceCasesIff
 import BEDC.Derived.CategoryUp.NonemptyMorphismSourceCases
+import BEDC.Derived.CategoryUp.NonemptyMorphismTargetVisible
 import BEDC.Derived.CategoryUp.EndpointVisible
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp

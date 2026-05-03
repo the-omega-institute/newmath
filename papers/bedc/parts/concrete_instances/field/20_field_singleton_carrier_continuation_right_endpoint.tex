@@ -39,3 +39,45 @@ forward implication, while singleton carrier continuation closure gives the
 reverse implication.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_left\_endpoint\_iff}
+
+\begin{theorem}[Field singleton classifier continuation left endpoint transport]
+\label{thm:field-singleton-classifier-continuation-left-endpoint-transport}
+For histories $P,Q,R,S:\mathsf{BHist}$, if $Q$ is a singleton field carrier
+endpoint and $\ContR(P,Q,R)$, then singleton classification from the result
+endpoint to $S$ is equivalent to singleton classification from the left
+endpoint to $S$:
+$$
+\mathsf{FieldSingletonCarrier}(Q)\Rightarrow
+\ContR(P,Q,R)\Rightarrow
+\bigl(\mathsf{FieldSingletonClassifier}(R,S)\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(P,S)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The carrier witness for $Q$ identifies the continuation tail with $\emp$, so
+the continuation result is internally the same as $P$. Unfolding the singleton
+classifier on both sides reduces the comparison to transporting the left
+carrier field and the endpoint-sameness field along this result equality.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_left\_endpoint\_transport\_iff}
+
+\begin{theorem}[Field singleton classifier continuation right endpoint transport]
+\label{thm:field-singleton-classifier-continuation-right-endpoint-transport}
+For histories $P,Q,R,S:\mathsf{BHist}$, if $P$ is a singleton field carrier
+endpoint and $\ContR(P,Q,R)$, then singleton classification from the result
+endpoint to $S$ is equivalent to singleton classification from the right
+endpoint to $S$:
+$$
+\mathsf{FieldSingletonCarrier}(P)\Rightarrow
+\ContR(P,Q,R)\Rightarrow
+\bigl(\mathsf{FieldSingletonClassifier}(R,S)\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(Q,S)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The carrier witness for $P$ identifies the continuation source with $\emp$,
+so the continuation result is internally the same as $Q$. Unfolding the
+singleton classifier on both sides transports the source-carrier field and the
+endpoint-sameness field along this result equality.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_right\_endpoint\_transport\_iff}

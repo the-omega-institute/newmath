@@ -75,6 +75,32 @@ canonical continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_cases}
 
+\begin{theorem}[Category hom-carrier nonempty morphism target visible]
+\label{thm:category-hom-carrier-nonempty-morphism-target-visible}
+For histories $source,target,morph:\mathsf{BHist}$, if
+$$
+\mathsf{CategoryHomCarrier}(source,target,morph)
+$$
+and $morph$ is not internally empty, then the morphism and target are both
+one-headed and the hom-continuation ledger descends through their exposed
+payloads:
+$$
+\exists k,r.\;
+morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(k)\land \mathsf{UnaryHistory}(r)\land
+\ContR(source,k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. The morphism cannot be empty by the nonempty
+hypothesis, and it cannot be zero-headed because unary histories have no
+zero-headed extension. In the one-headed morphism case, the continuation
+ledger forces the result target to be one-headed; constructor inversion then
+exposes the target payload, both unary payload witnesses, and the descended
+continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_nonempty\_morphism\_target\_visible}
+
 \begin{theorem}[Category visible composite result target cases]
 \label{thm:category-visible-composite-result-target-cases}
 For histories $a,b,c,l,m,fg$, if
