@@ -459,3 +459,23 @@ The concrete certificate of \autoref{thm:complex-limit-namecert} satisfies the s
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}
+
+\begin{theorem}[Constant complex sequence has constant complex limit]
+\label{thm:cplx-constant-sequence-constant-limit}
+Let $z$ be a complex history. Define the constant sequence $s:\Unary\to\ComplexUp$ by $s(n):=z$, and define the two trivial moduli by
+$$
+N_{\mathrm{const}}(k):=\emp,
+\qquad
+M_{\mathrm{const}}(k):=\emp.
+$$
+If $\mathsf{CplxRegSeq}(s,N_{\mathrm{const}})$ holds by \autoref{lem:cplx-constant-regular}, then
+$$
+\mathsf{CplxLim}(s,N_{\mathrm{const}},z,M_{\mathrm{const}})
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Fix a unary precision $k$ and a unary index $n$ satisfying the threshold clause in \autoref{def:cplx-lim} for $M_{\mathrm{const}}(k)$. Since $M_{\mathrm{const}}(k)=N_{\mathrm{const}}(k)=\emp$, the same threshold clause makes $n$ acceptable for the regularity condition of \autoref{def:cplx-regseq}. Take the second regularity index to be $m:=\emp$; it is acceptable because $\hsame(\emp,N_{\mathrm{const}}(k))$ is reflexivity.
+
+Apply $\mathsf{CplxRegSeq}(s,N_{\mathrm{const}})$ at the indices $n$ and $m$. This gives a distance witness $D$ such that $\mathsf{CplxDist}(s(n),s(m),D)$ satisfies the unary representation of $D\leq 2^{-k}$. By the definition of the constant sequence, $s(m)=s(\emp)=z$. Therefore the same witness $D$ is exactly the distance estimate from $s(n)$ to $z$ required in \autoref{def:cplx-lim}. Since $k$ and $n$ were arbitrary, $M_{\mathrm{const}}$ is a valid complex-limit modulus for the constant sequence.
+\end{proof}
