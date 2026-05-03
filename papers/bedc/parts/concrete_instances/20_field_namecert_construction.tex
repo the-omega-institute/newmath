@@ -21,3 +21,54 @@
 \input{parts/concrete_instances/field/20_field_selector_complete_denominator_row_exhaustion}
 \input{parts/concrete_instances/field/20_field_singleton_carrier_two_sided_context_semantic_namecert}
 \input{parts/concrete_instances/field/20_field_four_factor_inverse_classifier_exactness}
+
+\begin{theorem}[RatUp FieldUp algebra reduct compatibility]
+\label{thm:ratup-fieldup-algebra-reduct-compatibility}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+$\FieldUp(\RatUp)$ certificate is compatible with the already licensed algebraic
+reducts over BEDC histories. Its denominator continuation product uses the same
+empty-unit and associativity data as the unary append $\MonoidUp$ certificate;
+its singleton empty obstruction rows restrict to the concrete singleton
+$\GroupUp$ and $\AbGroupUp$ certificates; its zero/one singleton boundary
+restricts to the singleton empty-history $\RingUp$ laws; and
+Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete} consumes these
+reduct rows without introducing schematic operation parameters.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:unary-append-monoid-semantic-name-certificate} to the
+denominator continuation product. The empty source, left and right unit laws,
+append associativity, and append congruence are exactly the rows used by the
+denominator carrier and classifier package.
+
+Next apply Theorem~\ref{thm:concrete-singleton-history-group-laws} and
+Theorem~\ref{thm:singleton-empty-history-abgroup-laws}. The singleton empty
+obstruction rows have carrier $A_{\emp}$ and classifier $\rho_{\emp}$, so their
+group and abelian-group reducts are the corresponding singleton certificates.
+
+For the zero/one boundary, apply
+Theorem~\ref{thm:singleton-empty-history-ring-laws}. Its singleton
+empty-history ring tuple supplies the additive, multiplicative, zero, and one
+laws required by the boundary rows.
+
+Finally apply Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete}.
+That theorem packages the displayed denominator, singleton, and ring reduct
+rows into the concrete $\FieldUp(\RatUp)$ exit object, and its conclusion states
+that no schematic $\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ parameter is
+part of the certificate.
+\end{proof}
+
+Per-object template: traditional target algebra-hierarchy reduct compatibility
+for $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$ with the concrete
+$\mathsf{RatUpFieldSource}_F$ rows; carrier rows
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatDenomUnitCarrier}$; classifier rows
+$\mathsf{RatHistoryClassifier}$ and $\mathsf{RatDenomUnitClassifier}$; ledger
+the denominator continuation reduct, singleton empty obstruction reducts, and
+singleton zero/one ring reduct; core theorem list
+Theorem~\ref{thm:unary-append-monoid-semantic-name-certificate},
+Theorem~\ref{thm:concrete-singleton-history-group-laws},
+Theorem~\ref{thm:singleton-empty-history-abgroup-laws},
+Theorem~\ref{thm:singleton-empty-history-ring-laws}, and
+Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete}; exactness
+predicate reduct-row coverage for
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
