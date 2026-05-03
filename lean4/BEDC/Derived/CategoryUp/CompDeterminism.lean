@@ -179,4 +179,49 @@ theorem CategoryHomCarrier_unary_context_comp_middle_object_deterministic
           (cont_prefix_cancel displayedSuff.right.right.right)))
   exact CategoryHomCarrier_comp_middle_object_deterministic baseLeft baseRight comp baseDisplayed
 
+theorem ContinuationMorphism_parallel_factor_comp_tail_middle_deterministic {a b b' c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
+    (left' : ContinuationMorphism a b') (right' : ContinuationMorphism b' c)
+    (sameLeftTail : hsame left.tail left'.tail)
+    (sameRightTail : hsame right.tail right'.tail) :
+    Cont a left.tail b ∧ Cont b right.tail c ∧ Cont a left'.tail b' ∧
+      Cont b' right'.tail c ∧ hsame b b' ∧
+        hsame (ContinuationMorphism_comp_closed left right).tail
+          (ContinuationMorphism_comp_closed left' right').tail := by
+  have sameMiddle : hsame b b' :=
+    ContinuationMorphism_target_deterministic left left' sameLeftTail
+  have sameCompositeTail :
+      hsame (ContinuationMorphism_comp_closed left right).tail
+        (ContinuationMorphism_comp_closed left' right').tail := by
+    cases left with
+    | mk leftTail leftRel =>
+        cases right with
+        | mk rightTail rightRel =>
+            cases left' with
+            | mk leftTail' leftRel' =>
+                cases right' with
+                | mk rightTail' rightRel' =>
+                    cases sameLeftTail
+                    cases sameRightTail
+                    rfl
+  exact ⟨left.rel, right.rel, left'.rel, right'.rel, sameMiddle, sameCompositeTail⟩
+
+theorem CategoryHomCarrier_parallel_factor_comp_tail_middle_deterministic
+    {a b b' c f f' g g' : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
+      CategoryHomCarrier a b' f' -> CategoryHomCarrier b' c g' ->
+        hsame f f' -> hsame g g' ->
+          Cont a f b ∧ Cont b g c ∧ Cont a f' b' ∧ Cont b' g' c ∧
+            hsame b b' ∧ hsame (append f g) (append f' g') := by
+  intro left right left' right' sameF sameG
+  have sameMiddle : hsame b b' := by
+    cases sameF
+    exact CategoryHomCarrier_target_deterministic left left'
+  have sameCompositeTail : hsame (append f g) (append f' g') := by
+    cases sameF
+    cases sameG
+    rfl
+  exact ⟨left.right.right.right, right.right.right.right, left'.right.right.right,
+    right'.right.right.right, sameMiddle, sameCompositeTail⟩
+
 end BEDC.Derived.CategoryUp

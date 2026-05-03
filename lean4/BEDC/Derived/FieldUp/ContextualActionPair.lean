@@ -201,4 +201,34 @@ theorem field_rat_denominator_contextual_action_pair_transport_carrier_support
     field_rat_denominator_contextual_action_pair_transport_support
       sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'⟩
 
+theorem ratup_fieldup_transported_strict_support_non_singleton
+    {p q p' q' h l r l' r' s t s' t' : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitClassifier l s ->
+        RatDenomUnitClassifier r t -> RatDenomUnitClassifier l' s' ->
+          RatDenomUnitClassifier r' t' ->
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' l' r'
+                (RatDenomUnitContextualAction p q l r h)) ->
+            RatDenomUnitCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            (fieldSingletonEmptyCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) -> False) := by
+  intro sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+    leftStrict
+  have transported :=
+    field_rat_denominator_contextual_action_pair_transport_carrier_support
+      sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+  have rightStrict : RatHistoryCarrier
+      (RatDenomUnitContextualAction p' q' s' t'
+        (RatDenomUnitContextualAction p q s t h)) :=
+    Iff.mp transported.right.right leftStrict
+  exact ⟨transported.right.left, rightStrict,
+    fun singleton => RatHistoryCarrier_not_empty rightStrict singleton⟩
+
 end BEDC.Derived.FieldUp

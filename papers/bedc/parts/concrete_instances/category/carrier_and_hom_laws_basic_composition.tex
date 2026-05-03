@@ -209,6 +209,34 @@ closed composites.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_same\_right\_tail\_factorization\_deterministic}
 
+\begin{theorem}[Continuation morphism parallel-factor composite middle determinacy]
+\label{thm:continuation-morphism-parallel-factor-comp-tail-middle-deterministic}
+For continuation morphisms
+$left:\mathsf{ContinuationMorphism}(a,b)$,
+$right:\mathsf{ContinuationMorphism}(b,c)$,
+$left':\mathsf{ContinuationMorphism}(a,b')$, and
+$right':\mathsf{ContinuationMorphism}(b',c)$, suppose the two left tails and
+the two right tails are respectively history-same. Then the four displayed
+continuation fields are present, the two middle endpoints are history-same, and
+the two closed composite tails are history-same:
+$$
+\begin{gathered}
+\Cont(a,left.tail,b)\wedge\Cont(b,right.tail,c)\wedge
+\Cont(a,left'.tail,b')\wedge\Cont(b',right'.tail,c),\\
+\HSame(b,b')\wedge
+\HSame((left\circ right).tail,(left'\circ right').tail).
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+The four continuation fields are exactly the relation fields of the four
+records. Target determinacy compares the two left morphisms after identifying
+their tails, giving $\HSame(b,b')$. The closed composite tails are append
+products of the displayed left and right tails, so the two supplied tail
+comparisons identify the two composite tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_parallel\_factor\_comp\_tail\_middle\_deterministic}
+
 \begin{theorem}[Continuation morphism same-left-tail factorization determinacy]
 \label{thm:continuation-morphism-comp-same-left-tail-factorization-deterministic}
 For continuation morphisms
@@ -419,6 +447,34 @@ hom-carriers now satisfy the hypotheses of
 identifies the middle objects by $\HSame(b,b')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_comp\_middle\_object\_deterministic}
+
+\begin{theorem}[Category hom carrier parallel-factor composite middle determinacy]
+\label{thm:category-hom-carrier-parallel-factor-comp-tail-middle-deterministic}
+For the unary-continuation category, suppose the two left hom-carriers share
+source endpoint $a$ and have history-same morphisms $f$ and $f'$, while the two
+right hom-carriers share target endpoint $c$ and have history-same morphisms
+$g$ and $g'$:
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\quad
+\mathsf{CategoryHomCarrier}(b,c,g),\quad
+\mathsf{CategoryHomCarrier}(a,b',f'),\quad
+\mathsf{CategoryHomCarrier}(b',c,g').
+$$
+Then the four underlying continuation fields are present, the middle endpoints
+are history-same, and the two append composite tails are history-same:
+$$
+\Cont(a,f,b)\wedge\Cont(b,g,c)\wedge\Cont(a,f',b')\wedge\Cont(b',g',c)
+\wedge\HSame(b,b')\wedge\HSame(\mathsf{append}(f,g),\mathsf{append}(f',g')).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the four hom-carrier records to read their continuation fields. The
+comparison $\HSame(f,f')$ transports the left morphism history, so target
+determinacy of the two left hom-carriers identifies $b$ and $b'$. The two
+morphism-history comparisons identify the append products
+$\mathsf{append}(f,g)$ and $\mathsf{append}(f',g')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_parallel\_factor\_comp\_tail\_middle\_deterministic}
 
 \begin{theorem}[Category hom carrier tail commutativity]
 \label{thm:category-hom-carrier-tail-comm-hsame}
