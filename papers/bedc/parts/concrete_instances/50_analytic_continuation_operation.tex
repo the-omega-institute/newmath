@@ -1,0 +1,115 @@
+\chapter{Analytic Continuation as an Operation on \(\HolomorphicUp\)}
+\label{ch:concrete-instances-analytic-continuation}
+
+This chapter licenses analytic continuation as the operation \(\AnalyticContUp\) that, given a holomorphic \(f\) on a domain \(D_1\) and an overlapping holomorphic \(g\) on \(D_2\) with \(f = g\) on a non-trivial overlap region \(U\), produces the unique holomorphic extension \(h\) on \(D_1 \cup D_2\). The chapter is an OPERATION chapter rather than a pure namecert: the structure is input/output classifier-aware predicate plus operation laws (functoriality, composition, \(\hsame\)-respect) instead of the standard 5-field NameCert. Builds on \(\HolomorphicUp\) (\autoref{ch:concrete-instances-holomorphic-namecert}) and the constructive identity theorem of that chapter. Branch obstruction (the constructive face of monodromy / multi-valued continuation around branch points) is flagged as a SCHEMA-ONLY HORIZON: the chapter exposes the constructive interface but admits that closed witnesses for general branch behaviour do not in general live inside the framework. The construction is fully constructive on the parts that close; uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the operation's Lean targets fall under the project's axiom-purity gate.
+
+\section{Domain compatibility}
+
+\begin{definition}[Domain compatibility]
+\label{def:dom-compat}
+For two open domains \(D_1, D_2\) of \(\ComplexUp\), the predicate \(\mathsf{DomCompat}(D_1, D_2, U)\) is satisfied by an explicit overlap region \(U\) which contains an \(\mathsf{OpenDisk}(z_c, r_c)\) inside \(D_1 \cap D_2\) together with a quantitative density bound at a center point \(z_c\) (i.e.\ a sequence of points \((z_n)_n\) clustering at \(z_c\) inside \(U\) with \(|z_n - z_c| \leq 2^{-n}\)). The density witness is required for the constructive identity theorem (\autoref{ch:concrete-instances-holomorphic-namecert}) to apply.
+\end{definition}
+\leandef{BEDC.Derived.AnalyticContUp.DomCompat}
+
+\begin{lemma}[Domain compatibility witness]
+\label{lem:dom-compat-witness}
+The predicate \(\mathsf{DomCompat}\) is decidable when \(D_1, D_2\) are concrete unions of open disks with rational centers and radii.
+\end{lemma}
+\leanstmt{BEDC.Derived.AnalyticContUp.dom\_compat\_witness}
+\begin{proof}
+For unions of open disks, intersection is decidable from radii comparisons; the inner disk witness is obtained explicitly.
+\end{proof}
+
+\section{The continuation predicate}
+
+\begin{definition}[Analytic continuation predicate]
+\label{def:ana-cont}
+For \(f\) holomorphic on \(D_1\), \(g\) holomorphic on \(D_2\), with \(\mathsf{DomCompat}(D_1, D_2, U)\), the predicate \(\mathsf{AnaCont}(f, D_1, g, D_2, h)\) holds when \(h\) is a holomorphic function on \(D_1 \cup D_2\) such that:
+\begin{enumerate}
+  \item \(h\) restricted to \(D_1\) equals \(f\) under \(\hsame\) pointwise;
+  \item \(h\) restricted to \(D_2\) equals \(g\) under \(\hsame\) pointwise;
+  \item \(f\) and \(g\) agree on the overlap region \(U\) under \(\hsame\) pointwise (a precondition for existence).
+\end{enumerate}
+\end{definition}
+\leandef{BEDC.Derived.AnalyticContUp.AnaCont}
+
+\begin{theorem}[Continuation is unique]
+\label{thm:ana-cont-unique}
+If \(\mathsf{AnaCont}(f, D_1, g, D_2, h)\) and \(\mathsf{AnaCont}(f, D_1, g, D_2, h')\) both hold, then \(h = h'\) under \(\hsame\) pointwise on \(D_1 \cup D_2\).
+\end{theorem}
+\leanstmt{BEDC.Derived.AnalyticContUp.ana\_cont\_unique}
+\begin{proof}[Sketch]
+Constructive identity theorem (\autoref{ch:concrete-instances-holomorphic-namecert}) applied at the cluster sequence in \(U\): both \(h\) and \(h'\) agree with \(f\) and \(g\) on dense subsets, hence on the union.
+\end{proof}
+
+\section{Chain continuation}
+
+\begin{theorem}[Chain continuation]
+\label{thm:chain-continuation}
+If \(\mathsf{AnaCont}(f_1, D_1, f_2, D_2, h_{12})\) and \(\mathsf{AnaCont}(h_{12}, D_1 \cup D_2, f_3, D_3, h_{123})\) hold (with \(\mathsf{DomCompat}(D_1 \cup D_2, D_3, U_{23})\)), then composing the two continuations gives a single \(\mathsf{AnaCont}\) witness on \(D_1 \cup D_2 \cup D_3\) with explicit modulus inheritance.
+\end{theorem}
+\leanstmt{BEDC.Derived.AnalyticContUp.chain\_continuation}
+\begin{proof}[Sketch]
+Direct composition of holomorphic restrictions; uniqueness from \autoref{thm:ana-cont-unique} applied at each step.
+\end{proof}
+
+\section{Branch obstruction (schema-only horizon)}
+
+\begin{definition}[Branch obstruction]
+\label{def:branch-obstruction-schema}
+When the chain continuation closes a loop around a topological obstruction (e.g.\ continuing \(\sqrt{z}\) along a circle around the origin), the resulting two extensions through different paths can disagree. The branch obstruction predicate \(\mathsf{BranchObstruction}\) records this disagreement as a SCHEMA-ONLY structure: it codifies the constructive interface (input: two chain continuations; output: a quantitative non-agreement witness) without producing closed witnesses for general topological branches inside the BEDC framework.
+\end{definition}
+\leandef{BEDC.Derived.AnalyticContUp.BranchObstruction}
+
+\begin{remark}[Schema-only nature of branch obstruction]
+\label{rem:branch-obstruction-horizon}
+The branch obstruction interface is intentionally a SCHEMA-ONLY HORIZON: BEDC can express the obstruction predicate, can produce concrete witnesses on specific examples (\(\sqrt{z}\), \(\log z\) around 0), but cannot in general decide whether a given chain configuration produces obstruction witnesses. This is consistent with the BEDC project's general schema-only horizon protocol --- the chapter exposes the interface so future framework extensions can codify the closed witnesses, while the current chapter holds the schema open.
+\end{remark}
+
+\section{Concrete continuations}
+
+\begin{theorem}[Schwartz reflection]
+\label{thm:schwartz-reflection}
+If \(f\) is holomorphic on the upper half-plane \(\{z : \Im(z) > 0\}\) and continuous on the closure including a real boundary segment, with real values on the real boundary, then the function \(\tilde{f}(z) = \overline{f(\bar{z})}\) defines a holomorphic continuation across the real boundary into the lower half-plane. The continuation is given as an explicit function with explicit modulus.
+\end{theorem}
+\leanstmt{BEDC.Derived.AnalyticContUp.schwartz\_reflection}
+\begin{proof}[Sketch]
+Direct verification using the Cauchy-Riemann equations (\autoref{ch:concrete-instances-complex-diff-namecert}) and the symmetry of the boundary trace.
+\end{proof}
+
+\section{Operation laws}
+
+\begin{lemma}[Functoriality]
+\label{lem:ana-cont-functorial}
+\(\mathsf{AnaCont}\) respects \(\hsame\) on inputs: if \(\hsame\) on \(f, f'\) and on \(g, g'\) (pointwise on the respective domains), then \(\mathsf{AnaCont}(f, D_1, g, D_2, h)\) implies \(\mathsf{AnaCont}(f', D_1, g', D_2, h)\) for the same \(h\) up to \(\hsame\) pointwise.
+\end{lemma}
+\leanstmt{BEDC.Derived.AnalyticContUp.ana\_cont\_functorial}
+\begin{proof}
+Direct transport of equality witnesses under \(\hsame\).
+\end{proof}
+
+\section{The operation certificate}
+
+\begin{definition}[Analytic continuation operation certificate]
+\label{def:ana-cont-op-cert}
+The operation certificate consists of: (i) input spec --- pairs \((f, D_1)\) and \((g, D_2)\) with overlap witness \(\mathsf{DomCompat}(D_1, D_2, U)\); (ii) output spec --- holomorphic \(h\) on \(D_1 \cup D_2\) restricting compatibly; (iii) classifier --- \(\hsame\) pointwise on the union; (iv) operation laws --- functoriality, chain composition, schwartz reflection as a concrete instance, and branch obstruction as the schema-only horizon; (v) ledger policy --- uniqueness and existence under domain compatibility.
+\end{definition}
+\leandef{BEDC.Derived.AnalyticContUp.AnaContOpCert}
+
+\begin{theorem}[Concrete \(\AnalyticContUp\) operation certificate]
+\label{thm:analytic-continuation-operation}
+The data above forms an operation certificate on \(\HolomorphicUp\) for the analytic-continuation interface \(\AnalyticContUp\).
+\end{theorem}
+\leanstmt{BEDC.Derived.AnalyticContUp.analytic\_continuation\_operation}
+\begin{proof}[Sketch]
+Each operation law is verified by direct construction in the preceding sections; the schema-only branch obstruction is exposed as a horizon, not closed. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the operation's Lean targets fall under the project's axiom-purity gate.
+\end{proof}
+
+\begin{theorem}[Semantic \(\AnalyticContUp\) operation certificate]
+\label{thm:analytic-continuation-semantic}
+The concrete certificate of \autoref{thm:analytic-continuation-operation} satisfies the semantic operation-certificate schema obtained by adapting \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}) to operation inputs/outputs.
+\end{theorem}
+\leanstmt{BEDC.Derived.AnalyticContUp.analytic\_continuation\_semantic}
+\begin{proof}[Sketch]
+Direct verification of the schema fields using the constructions of this chapter and the \(\hsame\)-respect of the underlying \(\HolomorphicUp\) classifier.
+\end{proof}
