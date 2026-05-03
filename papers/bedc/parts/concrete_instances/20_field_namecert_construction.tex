@@ -763,3 +763,87 @@ commutator composite, and inner conjugation composite; core theorem
 predicate commutation iff conjugation fixed point;
 standard bridge ordinary affine automorphism centralizer criterion; status
 $\mathsf{ProofTarget}$.
+
+\begin{definition}[RatUp FieldUp affine centralizer carrier]
+\label{def:ratup-fieldup-affine-centralizer-carrier}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\circ_{\mathrm{aff}}$ and
+$\equiv_{\mathrm{aff}}$ be the affine composition and classifier supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. The
+concrete affine centralizer carrier of $A$ is the predicate
+$$
+C_F(A)(X)
+:\Longleftrightarrow
+X:\mathsf{AffAut}_F
+\quad\text{and}\quad
+X\circ_{\mathrm{aff}}A\equiv_{\mathrm{aff}}A\circ_{\mathrm{aff}}X.
+$$
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp affine centralizer subgroup]
+\label{thm:ratup-fieldup-affine-centralizer-subgroup}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $C_F(A)$ be the carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}. Then $C_F(A)$ is the
+concrete affine centralizer subgroup of $A$:
+\begin{enumerate}
+\item $C_F(A)(\mathrm{id}_F)$.
+\item If $C_F(A)(X)$ and $C_F(A)(Y)$, then
+$C_F(A)(X\circ_{\mathrm{aff}}Y)$.
+\item If $C_F(A)(X)$, then $C_F(A)(\iota_F(X))$.
+\item For every $X:\mathsf{AffAut}_F$,
+$$
+C_F(A)(X)
+\Longleftrightarrow
+\mathsf{Comm}_F(X,A)\equiv_{\mathrm{aff}}\mathrm{id}_F.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix the canonical affine exit action and inverse package from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+$\mathsf{AffAut}_F$, $\circ_{\mathrm{aff}}$, $\mathrm{id}_F$, $\iota_F(-)$,
+and $\equiv_{\mathrm{aff}}$.
+
+Instantiate \autoref{thm:field-affine-automorphism-group-certificate} on these
+rows. Its identity, associativity, inverse, and classifier-congruence clauses
+make the certified affine automorphisms a concrete $\GroupUp$ object.
+
+For the identity element, the left and right unit laws identify
+$\mathrm{id}_F\circ_{\mathrm{aff}}A$ and
+$A\circ_{\mathrm{aff}}\mathrm{id}_F$ with $A$. Transitivity and symmetry of
+$\equiv_{\mathrm{aff}}$ give $C_F(A)(\mathrm{id}_F)$.
+
+For products, assume $C_F(A)(X)$ and $C_F(A)(Y)$. Reassociate
+$(X\circ_{\mathrm{aff}}Y)\circ_{\mathrm{aff}}A$, use the commuting witness for
+$Y$ to move $A$ left across $Y$, reassociate again, and use the commuting
+witness for $X$ to move $A$ left across $X$. The classifier-congruence rows
+then present the result as
+$A\circ_{\mathrm{aff}}(X\circ_{\mathrm{aff}}Y)$.
+
+For inverses, assume $C_F(A)(X)$. Apply
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} to the two products
+$X\circ_{\mathrm{aff}}A$ and $A\circ_{\mathrm{aff}}X$. The commuting witness
+transports through inverse antihomomorphism, and the group inverse rows reduce
+the resulting equation to
+$\iota_F(X)\circ_{\mathrm{aff}}A\equiv_{\mathrm{aff}}
+A\circ_{\mathrm{aff}}\iota_F(X)$.
+
+Finally apply
+\autoref{thm:ratup-fieldup-affine-commutator-trivial-iff-commutes} with the
+ordered pair $(X,A)$. Its displayed equivalence is exactly the assertion that
+membership in $C_F(A)$ is the same as
+$\mathsf{Comm}_F(X,A)\equiv_{\mathrm{aff}}\mathrm{id}_F$.
+\end{proof}
+
+Per-object template: traditional target affine centralizer subgroup; BEDC
+source concrete $\FieldUp(\RatUp)$ exit plus $\GroupUp$ commutator criterion;
+carrier $C_F(A)$ over $\mathsf{AffAut}_F$; classifier
+$\equiv_{\mathrm{aff}}$; stability identity, product, inverse, and commutator
+characterization; ledger fixed element, commuting witness, product witness, and
+inverse witness; core theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-subgroup}; exactness predicate
+centralizer membership iff trivial commutator; standard bridge ordinary affine
+centralizer subgroup; status $\mathsf{ProofTarget}$.
