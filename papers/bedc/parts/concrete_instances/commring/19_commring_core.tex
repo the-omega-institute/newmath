@@ -328,6 +328,44 @@ give the displayed singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_comm\_congr}
 
+\begin{theorem}[CommRing singleton classifier append associativity carrier exactness]
+\label{thm:commring-singleton-classifier-append-assoc-carrier-iff}
+For histories $a,b,c:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(\mathsf{append}(a,b),c),
+\mathsf{append}(a,\mathsf{append}(b,c)))
+\Longleftrightarrow
+A_{\emp}(a)\land A_{\emp}(b)\land A_{\emp}(c).
+$$
+The ten-field fit is: traditional target singleton commutative-ring bracketing
+exactness; BEDC source $\mathsf{BHist}$ with the singleton $\CommRingUp$ tuple;
+carrier $A_{\emp}$; classifier $\rho_{\emp}$; stability from nested append
+empty-result inversion and singleton classifier packaging; ledger the three
+append factors and the two bracketings; core theorem this block; exactness the
+displayed iff; standard bridge one-element commutative-ring bracketing; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+In the forward direction, project the source carrier field from the classifier.
+This gives the carrier witness for
+$\mathsf{append}(\mathsf{append}(a,b),c)$. Empty-result inversion for append
+splits it into carrier witnesses for $\mathsf{append}(a,b)$ and $c$.
+
+Apply empty-result inversion again to the witness for
+$\mathsf{append}(a,b)$. The resulting two carrier witnesses, together with the
+witness for $c$, give $A_{\emp}(a)\land A_{\emp}(b)\land A_{\emp}(c)$ by
+conjunction introduction.
+
+Conversely, assume carrier witnesses for $a$, $b$, and $c$. Empty-result
+construction first builds a carrier witness for $\mathsf{append}(a,b)$, and then
+one for $\mathsf{append}(\mathsf{append}(a,b),c)$.
+
+The same construction applied to $b$ and $c$, followed by the witness for $a$,
+builds the carrier witness for $\mathsf{append}(a,\mathsf{append}(b,c))$. Since
+both bracketed endpoints are classified through $\emp$, symmetry and
+transitivity of $\hsame$ package the displayed singleton classifier.
+\end{proof}
+
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}
 Definition~\ref{def:singleton-empty-history-commring-instance}, together with
