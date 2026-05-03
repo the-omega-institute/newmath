@@ -52,6 +52,28 @@ theorem EquivCatAdjunction_empty_roundtrip_prefix_determinacy
       (And.intro unitCounitEmpty.right
         (And.intro emptyComponents.left emptyComponents.right)))
 
+theorem EquivCatAdjunction_empty_roundtrip_zero_source_absurd
+    {tail q a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier (BHist.e0 tail) q a unit counit left right ->
+      hsame left BHist.Empty -> hsame right BHist.Empty -> False := by
+  intro carrier leftEmpty rightEmpty
+  have components :=
+    EquivCatAdjunction_empty_roundtrip_identity_components carrier leftEmpty rightEmpty
+  exact NatTransPrefixComponentCarrier_zero_headed_component_absurd components.left
+    (Or.inl (Exists.intro tail rfl))
+
+theorem EquivCatAdjunction_empty_roundtrip_target_prefix_deterministic
+    {p q r a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p q a unit counit left right ->
+      hsame left BHist.Empty -> hsame right BHist.Empty ->
+        NatTransPrefixComponentCarrier p r a BHist.Empty -> hsame q r := by
+  intro carrier leftEmpty rightEmpty displayed
+  have emptyComponents :
+      NatTransPrefixComponentCarrier p q a BHist.Empty ∧
+        NatTransPrefixComponentCarrier q p a BHist.Empty :=
+    EquivCatAdjunction_empty_roundtrip_identity_components carrier leftEmpty rightEmpty
+  exact NatTransPrefixComponentCarrier_empty_identity_prefix_trans emptyComponents.right displayed
+
 theorem EquivCatCycleIdentityCarrier_semanticNameCert {a b f g : BHist}
     (left : CategoryHomCarrier a b f) (right : CategoryHomCarrier b a g) :
     SemanticNameCert

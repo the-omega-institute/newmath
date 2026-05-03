@@ -45,6 +45,17 @@ theorem FilterPrincipalSuffix_unary_intersection_result_deterministic
       baseCarrier leftCarrier rightCarrier leftRight baseLeft baseRight baseMeet
   exact cont_deterministic closed.right.right displayedRel
 
+theorem FilterPrincipalSuffix_unary_intersection_zero_result_absurd
+    {base left right meet leftPoint rightPoint z : BHist} :
+    UnaryHistory base -> UnaryHistory left -> UnaryHistory right -> Cont left right meet ->
+      Cont base left leftPoint -> Cont base right rightPoint ->
+        Cont base meet (BHist.e0 z) -> False := by
+  intro baseCarrier leftCarrier rightCarrier leftRight _baseLeft _baseRight baseMeet
+  have meetCarrier : UnaryHistory meet := unary_cont_closed leftCarrier rightCarrier leftRight
+  have resultCarrier : UnaryHistory (BHist.e0 z) :=
+    unary_cont_closed baseCarrier meetCarrier baseMeet
+  exact unary_no_zero_extension resultCarrier
+
 theorem FilterPrincipalEmptyCarrier_semanticNameCert :
     SemanticNameCert (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty)
       (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty)

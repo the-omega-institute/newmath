@@ -48,6 +48,19 @@ theorem FieldSingletonCarrier_continuation_visible_left_absurd {p Q R : BHist} :
       cont_result_hsame_transport continuation carrier
     exact not_hsame_e1_empty (cont_empty_result_inversion emptyContinuation).left
 
+theorem FieldSingletonCarrier_continuation_visible_right_absurd {P q R : BHist} :
+    (Cont P (BHist.e0 q) R -> FieldSingletonCarrier R -> False) ∧
+      (Cont P (BHist.e1 q) R -> FieldSingletonCarrier R -> False) := by
+  constructor
+  · intro continuation carrier
+    have emptyContinuation : Cont P (BHist.e0 q) BHist.Empty :=
+      cont_result_hsame_transport continuation carrier
+    exact not_hsame_e0_empty (cont_empty_result_inversion emptyContinuation).right
+  · intro continuation carrier
+    have emptyContinuation : Cont P (BHist.e1 q) BHist.Empty :=
+      cont_result_hsame_transport continuation carrier
+    exact not_hsame_e1_empty (cont_empty_result_inversion emptyContinuation).right
+
 theorem FieldSingletonClassifier_continuation_visible_result_absurd {P Q r : BHist} :
     FieldSingletonClassifier P Q ->
       (Cont P Q (BHist.e0 r) -> False) ∧ (Cont P Q (BHist.e1 r) -> False) := by
