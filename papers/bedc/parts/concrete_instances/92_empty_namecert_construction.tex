@@ -34,6 +34,24 @@ contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_absurd}
 
+\begin{theorem}[Empty history carrier semantic certificate absurdity]
+\label{thm:empty-history-carrier-semantic-namecert-absurd}
+There is no semantic name certificate whose source, pattern, and ledger policies
+are all the empty-history carrier:
+$$
+\mathsf{SemanticNameCert}
+(\mathsf{EmptyHistoryCarrier},\mathsf{EmptyHistoryCarrier},
+\mathsf{EmptyHistoryCarrier},\hsame)
+\Longrightarrow \bot .
+$$
+\end{theorem}
+\begin{proof}
+The semantic certificate supplies a ledger witness. Since the ledger policy is
+the empty-history carrier itself, this witness is an inhabitant of the
+impossible carrier. The carrier absurdity theorem closes the contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_semantic\_namecert\_absurd}
+
 \begin{theorem}[Empty contradictory carrier name certificate absurdity]
 \label{thm:empty-contradictory-carrier-namecert-absurd}
 There is no name certificate whose carrier asks a single history to be both

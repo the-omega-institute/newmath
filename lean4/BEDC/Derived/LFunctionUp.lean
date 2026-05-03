@@ -88,4 +88,22 @@ theorem LFunctionDirichletPartSum_zero_terms_result_empty
         cont_respects_hsame ih currentTermEmpty stepContinuation
           (cont_right_unit BHist.Empty)
 
+theorem LFunctionDirichletPartSum_positive_index_previous_exists
+    {term : BHist -> BHist -> BHist} {s n S : BHist} :
+    DirichletPartSum term s n S -> DirichletPositiveIndex n ->
+      exists m P : BHist, n = BHist.e1 m ∧
+        DirichletPartSum term s m P ∧ Cont P (term m s) S := by
+  intro sum positiveIndex
+  have indexCases := DirichletPartSum_index_cases sum
+  cases indexCases with
+  | inl zeroCase =>
+      cases positiveIndex with
+      | intro tail positiveData =>
+          cases positiveData with
+          | intro _unaryTail nEq =>
+              cases zeroCase.left
+              cases nEq
+  | inr successorCase =>
+      exact successorCase
+
 end BEDC.Derived.LFunctionUp
