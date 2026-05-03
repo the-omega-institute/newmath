@@ -35,6 +35,11 @@ theorem CplxDiffQuot_visible_step_construct {f z p q out0 out1 : BHist} :
       (And.intro pointCarrier
         (And.intro not_hsame_e1_empty (And.intro out1Carrier cont1)))
 
+def CplxDiffAt (f z fp : BHist) : Prop :=
+  UnaryHistory f ∧ UnaryHistory z ∧ ComplexHistoryCarrier fp ∧
+    (∃ h : BHist, ∃ q : BHist, CplxDiffQuot f z h q) ∧
+      (∀ {h q : BHist}, CplxDiffQuot f z h q -> hsame q fp)
+
 theorem CplxDiffQuot_hsame_transport {f f' z z' h h' q q' : BHist} :
     hsame f f' -> hsame z z' -> hsame h h' -> hsame q q' ->
       CplxDiffQuot f z h q ->
@@ -242,5 +247,46 @@ theorem CplxDiffQuot_result_nonempty {f z h q : BHist} :
                     cont_result_hsame_transport ledger resultEmpty
                   have emptyParts := cont_empty_result_inversion emptyLedger
                   exact stepNonzero emptyParts.right
+
+theorem CplxDiffAt_derivative_unique {f z fp gp : BHist} :
+    CplxDiffAt f z fp -> CplxDiffAt f z gp ->
+      hsame fp gp ∧ ∃ h : BHist, ∃ q : BHist, CplxDiffQuot f z h q ∧ Cont f h q := by
+  intro fpDiff gpDiff
+  cases fpDiff with
+  | intro _fpFunctionCarrier fpRest =>
+      cases fpRest with
+      | intro _fpPointCarrier fpRest =>
+          cases fpRest with
+          | intro _fpDerivativeCarrier fpRest =>
+              cases fpRest with
+              | intro fpWitness fpClassifier =>
+                  cases fpWitness with
+                  | intro h fpWitness =>
+                      cases fpWitness with
+                      | intro q quotient =>
+                          cases gpDiff with
+                          | intro _gpFunctionCarrier gpRest =>
+                              cases gpRest with
+                              | intro _gpPointCarrier gpRest =>
+                                  cases gpRest with
+                                  | intro _gpDerivativeCarrier gpRest =>
+                                      cases gpRest with
+                                      | intro _gpWitness gpClassifier =>
+                                          have qSameFp : hsame q fp := fpClassifier quotient
+                                          have qSameGp : hsame q gp := gpClassifier quotient
+                                          have quotientCont : Cont f h q := by
+                                            cases quotient with
+                                            | intro _functionCarrier quotientRest =>
+                                                cases quotientRest with
+                                                | intro _pointCarrier quotientRest =>
+                                                    cases quotientRest with
+                                                    | intro _stepNonzero quotientRest =>
+                                                        cases quotientRest with
+                                                        | intro _quotientCarrier ledger =>
+                                                            exact ledger
+                                          exact And.intro
+                                            (hsame_trans (hsame_symm qSameFp) qSameGp)
+                                            (Exists.intro h
+                                              (Exists.intro q (And.intro quotient quotientCont)))
 
 end BEDC.Derived.ComplexDiffUp

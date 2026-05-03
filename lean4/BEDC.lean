@@ -178,6 +178,7 @@ import BEDC.Derived.FieldUp.ProductApartness
 import BEDC.Derived.FieldUp.SquareApartness
 import BEDC.Derived.FieldUp.SignedFactor
 import BEDC.Derived.FieldUp.InverseProductReverseNonzero
+import BEDC.Derived.FieldUp.InverseProductRightApartness
 import BEDC.Derived.FieldUp.InverseAutomorphism
 import BEDC.Derived.FieldUp.SquareApartnessAndAffine
 import BEDC.Derived.FieldUp.TwoSided

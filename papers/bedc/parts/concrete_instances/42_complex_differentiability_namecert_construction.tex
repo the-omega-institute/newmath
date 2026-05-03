@@ -212,16 +212,18 @@ forces $h\hsame\emp$, contradicting the non-zero witness.
 
 \begin{definition}[Pointwise complex differentiability]
 \label{def:cplx-diff-at}
-For a complex-valued function-history \(f\), a complex history \(z\), and a candidate derivative \(f'\), the pointwise complex differentiability predicate \(\mathsf{CplxDiffAt}(f, z, f')\) is the data of an explicit modulus \(\delta : \mathsf{Unary} \to \mathsf{Unary}\) such that for every unary precision \(k\) and every complex history \(h\) with \(\mathsf{CplxNonZero}(h)\) and modulus less than \(2^{-\delta(k)}\), the unique difference quotient \(q\) of \autoref{def:cplx-diff-quot} satisfies \(|q - f'| < 2^{-k}\) as a complex-modulus comparison.
+For a complex-valued function-history \(f\), a complex history \(z\), and a candidate derivative \(f'\), the pointwise complex differentiability predicate \(\mathsf{CplxDiffAt}(f, z, f')\) records unary carriers for \(f\) and \(z\), a complex-history carrier for \(f'\), at least one difference-quotient witness of \autoref{def:cplx-diff-quot}, and the requirement that every such quotient classifies to \(f'\) under \(\hsame\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexDiffUp.CplxDiffAt}
 
 \begin{lemma}[Uniqueness of the derivative]
 \label{lem:cplx-diff-at-unique}
 If \(\mathsf{CplxDiffAt}(f, z, f')\) and \(\mathsf{CplxDiffAt}(f, z, g')\), then \(\hsame(f', g')\).
 \end{lemma}
 \begin{proof}
-For any unary precision \(k\), pick \(h\) with modulus below \(2^{-(\max(\delta_{f'}(k+1), \delta_{g'}(k+1)))}\). Both moduli supply that the difference quotient is within \(2^{-(k+1)}\) of \(f'\) and of \(g'\); the triangle inequality on complex moduli then yields \(|f' - g'| < 2^{-k}\). Since \(k\) is arbitrary, \(\hsame(f', g')\) follows from the complex-history closure law that two complex histories agreeing to every unary precision are \(\hsame\).
+Choose a displayed quotient witness \(q\) from \(\mathsf{CplxDiffAt}(f,z,f')\). The classifier field of the first differentiability witness gives \(q\hsame f'\), while the classifier field of the second gives \(q\hsame g'\). Symmetry and transitivity of \(\hsame\) identify \(f'\) and \(g'\); the same quotient package also exposes the continuation ledger \(\Cont(f,h,q)\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffAt\_derivative\_unique}
 
 \begin{lemma}[Compatibility with \(\hsame\)]
 \label{lem:cplx-diff-at-hsame}
