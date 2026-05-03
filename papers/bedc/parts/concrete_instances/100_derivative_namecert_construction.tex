@@ -81,6 +81,21 @@ non-emptiness theorem for derivative metric quotient distance results.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_distance\_visible\_context\_readback}
 
+\begin{theorem}[Derivative metric quotient quotient visible-context readback]
+\label{thm:derivative-metric-quotient-quotient-visible-context-readback}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds and the quotient
+history is displayed inside a common visible left and right append context
+equal to the same context around $core$, then $q\hsame core$. The readback
+core is also not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays and cancel the common append contexts around
+the quotient and the core. This gives $q\hsame core$. A hypothetical empty
+core transports back to an empty quotient result, contradicting the checked
+quotient non-emptiness component of derivative metric quotients.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_quotient\_visible\_context\_readback}
+
 \begin{theorem}[Derivative metric quotient distance is non-empty]
 \label{thm:derivative-metric-quotient-quotient-distance-nonempty}
 If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then neither
@@ -152,6 +167,20 @@ unarity of \(h\) and \(q\) together with the continuation ledger
 the quotient result \(q\) with the displayed derivative \(f'\).
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeCplxDiffAt\_witness\_step\_unary}
+
+\begin{theorem}[Derivative complex-difference derivative is nonempty]
+\label{thm:derivative-cplx-diff-at-derivative-nonempty}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then the displayed derivative
+\(f'\) cannot be $\hsame$-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Unfold the differentiability witness to obtain a concrete quotient
+\(\mathsf{CplxDiffQuot}(f,z,h,q)\). The classifier field identifies the
+quotient result \(q\) with the displayed derivative \(f'\). A hypothetical
+\(f'\hsame\emp\) therefore makes \(q\hsame\emp\), contradicting quotient
+result non-emptiness from the nonzero step.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeCplxDiffAt\_derivative\_nonempty}
 
 \section{The certificate}
 \label{sec:derivative-certificate}
