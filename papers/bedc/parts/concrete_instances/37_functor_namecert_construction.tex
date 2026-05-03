@@ -394,6 +394,27 @@ exactness reconstructs the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_morphism\_target\_iff}
 
+\begin{theorem}[One-headed prefix empty morphism target exactness]
+\label{thm:functor-prefix-hom-carrier-e1-prefix-empty-morphism-target}
+For histories $p,a,target:\mathsf{BHist}$, the empty history is a hom-carrier
+from the one-headed prefixed source $\mathsf{append}(\Eone(p),a)$ to $target$
+exactly when $p$ and $a$ are unary and $target$ is history-same to that source:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(\Eone(p),a),target,\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge
+\hsame(target,\mathsf{append}(\Eone(p),a)).
+$$
+\end{theorem}
+\begin{proof}
+Apply prefix empty morphism target exactness with prefix $\Eone(p)$. The
+forward direction turns unary membership of $\Eone(p)$ into unary membership
+of $p$ by one-headed unary inversion. Conversely, unary closure of the
+one-headed constructor rebuilds the prefixed unary source data, and the
+general empty morphism target exactness reconstructs the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_prefix\_empty\_morphism\_target\_iff}
+
 \begin{theorem}[One-headed prefix empty identity hom carrier exactness]
 \label{thm:functor-prefix-hom-carrier-e1-prefix-empty-identity-iff}
 For histories \(p,a,b\), the empty history is a hom-carrier from

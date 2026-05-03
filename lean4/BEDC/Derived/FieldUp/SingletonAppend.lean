@@ -254,6 +254,24 @@ theorem FieldSingletonClassifier_append_right_cancel_iff {P Q R : BHist} :
         (hsame_trans classified.right.right (hsame_symm (append_empty_right R)))
     exact And.intro leftCarrier (And.intro rightCarrier sameAppend)
 
+theorem FieldSingletonClassifier_append_cross_context_cancel_iff {L R Q S : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R ->
+      (FieldSingletonClassifier (append Q L) (append R S) ↔ FieldSingletonClassifier Q S) := by
+  intro carrierL carrierR
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.left
+      (And.intro rightSplit.right (hsame_trans leftSplit.left (hsame_symm rightSplit.right)))
+  · intro classified
+    have leftCarrier : FieldSingletonCarrier (append Q L) :=
+      append_eq_empty_iff.mpr (And.intro classified.left carrierL)
+    have rightCarrier : FieldSingletonCarrier (append R S) :=
+      append_eq_empty_iff.mpr (And.intro carrierR classified.right.left)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 theorem FieldSingletonCarrier_append_right_cancel_iff {P Q : BHist} :
     FieldSingletonCarrier P ->
       (FieldSingletonCarrier (append Q P) <-> FieldSingletonCarrier Q) := by
