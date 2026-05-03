@@ -47,9 +47,9 @@ contradictions against zero.
 \label{thm:field-product-nonzero-of-nonzero-factors}
 For a BEDC history-level $\FieldUp$ candidate with the hypotheses of
 \autoref{thm:field-nonzero-factors-exclude-zero-product}, assume also a
-constructive bridge
+constructive bridge family: for every $t:\mathsf{BHist}$, an instance
 $$
-\alpha:\bigl(h\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(h)
+\alpha_t:\bigl(t\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(t)
 $$
 from apartness from zero into the nonzero classifier. Then witnesses
 $p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ determine
@@ -60,8 +60,9 @@ $$
 \begin{proof}
 Theorem~\ref{thm:field-nonzero-factors-exclude-zero-product} turns
 $p_a$ and $p_b$ into a constructive refutation of
-$\mathsf{mul}(a,b)\hsame0$. Applying the bridge $\alpha$ to this product
-apartness gives the displayed product nonzero witness.
+$\mathsf{mul}(a,b)\hsame0$. Applying the bridge-family instance at
+$\mathsf{mul}(a,b)$ to this product apartness gives the displayed product
+nonzero witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_product\_nonzero\_of\_nonzero\_factors}
 
@@ -209,9 +210,10 @@ For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with the
 hypotheses of \autoref{thm:field-product-nonzero-of-nonzero-factors} and the
 zero-factor exclusion hypotheses used in
 \autoref{thm:field-three-factor-product-nonzero-excludes-zero-factors}, assume
-an apartness-to-nonzero bridge
+an apartness-to-nonzero bridge family: for every $t:\mathsf{BHist}$, an
+instance
 $$
-\alpha_h:\bigl(h\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(h).
+\alpha_t:\bigl(t\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(t).
 $$
 Then every $a,b,c,d:\mathsf{BHist}$ satisfies
 $$
@@ -227,19 +229,21 @@ $p_{abcd}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$
 Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to the outer
 binary product. This gives apartness of
 $\mathsf{mul}(\mathsf{mul}(a,b),c)$ from $0$ and apartness of $d$ from $0$.
-The bridge supplies both
+The bridge-family instances at $\mathsf{mul}(\mathsf{mul}(a,b),c)$ and $d$
+supply
 $p_{abc}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c))$ and
 $\mathsf{NonZero}_F(d)$.
 
 Apply the same zero-factor exclusion theorem to the left threefold product,
 viewed as the binary product $\mathsf{mul}(\mathsf{mul}(a,b),c)$ with witness
 $p_{abc}$. This gives apartness of $\mathsf{mul}(a,b)$ from $0$ and apartness
-of $c$ from $0$. The bridge supplies both
+of $c$ from $0$. The bridge-family instances at $\mathsf{mul}(a,b)$ and $c$
+supply
 $p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$ and $\mathsf{NonZero}_F(c)$.
 
 Apply the binary zero-factor exclusion theorem once more to
 $\mathsf{mul}(a,b)$ with witness $p_{ab}$. The two resulting apartness
-witnesses are converted by $\alpha_a$ and $\alpha_b$ into
+witnesses are converted by the bridge-family instances at $a$ and $b$ into
 $\mathsf{NonZero}_F(a)$ and $\mathsf{NonZero}_F(b)$. Pair these four witnesses
 in the displayed order.
 
