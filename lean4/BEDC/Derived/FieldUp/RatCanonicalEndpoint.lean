@@ -38,4 +38,11 @@ theorem field_rat_denominator_e1_probe_classifier_endpoint_empty {u : BHist} :
   intro classified
   exact cont_left_unit_unique (cont_result_hsame_transport (cont_intro rfl) classified.right.right)
 
+theorem field_rat_denominator_right_e1_probe_classifier_endpoint_empty {u : BHist} :
+    RatHistoryClassifier (append (BHist.e1 BHist.Empty) u) (BHist.e1 BHist.Empty) ->
+      hsame u BHist.Empty := by
+  intro classified
+  exact cont_right_unit_unique
+    (cont_result_hsame_transport (cont_intro rfl) classified.right.right)
+
 end BEDC.Derived.FieldUp
