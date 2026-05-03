@@ -114,6 +114,38 @@ comparison between the two appended endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_context\_cancel\_iff}
 
+\begin{theorem}[Group singleton classifier product-unit split]
+\label{thm:group-singleton-classifier-product-unit-split}
+For histories $p,q:\mathsf{BHist}$, the concrete singleton group classifier
+satisfies
+$$
+R_{\emp}(\mathsf{append}(p,q),\emp)
+\Longleftrightarrow
+A_{\emp}(p)\land A_{\emp}(q).
+$$
+The ten-field fit names the traditional target as a product equal to the unit
+in the one-element group; the BEDC source as the concrete singleton $\GroupUp$
+instance over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability as append empty-result construction and inversion; ledger factors
+$p,q$; core theorem list
+Theorem~\ref{thm:concrete-singleton-history-group-laws} together with the BEDC
+append empty-result inversion; exactness predicate the displayed iff; standard
+bridge the terminal group unit-product split; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $R_{\emp}$ and $A_{\emp}$. In the forward direction, the classifier
+supplies $A_{\emp}(\mathsf{append}(p,q))$, so
+$\hsame(\mathsf{append}(p,q),\emp)$ holds. Append empty-result inversion splits
+this witness into $A_{\emp}(p)$ and $A_{\emp}(q)$, giving the displayed
+conjunction.
+
+Conversely, assume $A_{\emp}(p)$ and $A_{\emp}(q)$. Append empty-result
+construction gives $A_{\emp}(\mathsf{append}(p,q))$, while reflexivity gives
+$A_{\emp}(\emp)$. Symmetry and transitivity of $\hsame$ then package the
+endpoint comparison required by
+$R_{\emp}(\mathsf{append}(p,q),\emp)$.
+\end{proof}
+
 \begin{theorem}[Group singleton carrier visible-tail append exclusion]
 \label{thm:group-singleton-carrier-append-visible-tail-absurd}
 For histories $p,q:\mathsf{BHist}$, neither
