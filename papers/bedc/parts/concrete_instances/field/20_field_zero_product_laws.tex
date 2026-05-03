@@ -272,6 +272,44 @@ left component contradicts apart-zero of $p$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_right\_empty\_iff}
 
+\begin{theorem}[Field apart-zero empty-context exactness]
+\label{thm:field-apartzero-empty-context-iff}
+For histories $l,h,r:\mathsf{BHist}$ with $l\hsame\emp$ and $r\hsame\emp$,
+bilateral empty context is exact for field apart-zero witnesses:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(l,\mathsf{append}(h,r)))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(h).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the contextual apart-zero witness. To prove
+$\mathsf{ApartZero}_F(h)$, take a candidate equality $h\hsame\emp$.
+Empty-append construction combines this equality with $r\hsame\emp$, giving
+$\mathsf{append}(h,r)\hsame\emp$.
+
+Combining that inner equality with $l\hsame\emp$ classifies the whole nested
+append as empty. This contradicts the contextual apart-zero witness.
+
+For the reverse direction, assume $\mathsf{ApartZero}_F(h)$ and take a
+candidate equality
+$$
+\mathsf{append}(l,\mathsf{append}(h,r))\hsame\emp.
+$$
+
+Empty-append inversion first splits off the left context and gives
+$\mathsf{append}(h,r)\hsame\emp$. Applying the same inversion to the inner
+append gives $h\hsame\emp$, contradicting $\mathsf{ApartZero}_F(h)$.
+\end{proof}
+
+Per-object certificate: traditional target is external-unit context invariance
+of constructive field apartness. BEDC source is $\mathsf{FieldApartZero}$ plus
+BEDC append empty exactness. Carrier is $\mathsf{BHist}$. Classifier is
+$\hsame$. Ledger is the two empty-context witnesses $l\hsame\emp$ and
+$r\hsame\emp$. Core theorem list is
+\autoref{thm:field-apartzero-empty-context-iff}. Exactness predicate is the
+displayed iff. Status is $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field product apartness gives inverse product witness]
 \label{thm:field-product-apartness-inverse-product-reverse}
 For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
