@@ -257,3 +257,113 @@ $$
 $$
 so scalar associativity is a separate stability requirement for $\ModuleUp$.
 \end{proof}
+
+\begin{theorem}[Module scalar action representative stability]
+\label{thm:module-scalar-action-representative-stability}
+For a $\ModuleUp$ certificate over a scalar ring from \autoref{ch:concrete-instances-ring-namecert}, let $\sim_R$ be the scalar-ring classifier and let $\sim_M$ be the module carrier classifier from \autoref{def:module-classifier-specification}. If $r\sim_R r'$, $s\sim_R s'$, and $m\sim_M m'$, then scalar associativity is stable under these representative changes:
+
+$$
+r\odot (s\odot m) \sim_M (r'\cdot_R s')\odot m'.
+$$
+
+\end{theorem}
+\begin{proof}
+By the scalar associativity field listed in \autoref{def:module-stability-certificate}, the original representatives satisfy
+
+$$
+r\odot (s\odot m) \sim_M (r\cdot_R s)\odot m.
+$$
+
+The multiplication congruence field of the scalar ring, listed in \autoref{def:ring-stability-certificate} and governed by the classifier in \autoref{def:ring-classifier-specification}, transports $r\cdot_R s$ to $r'\cdot_R s'$. The scalar action congruence field from \autoref{def:module-stability-certificate} then transports the scalar-action expression in both inputs, using this product congruence together with $m\sim_M m'$, and gives
+
+$$
+(r\cdot_R s)\odot m \sim_M (r'\cdot_R s')\odot m'.
+$$
+
+Transitivity of the module classifier composes the two displayed classifier equalities.
+\end{proof}
+
+\begin{theorem}[Module scalar representative transport compatibility]
+\label{thm:module-scalar-representative-transport-compatibility}
+Let a $\ModuleUp$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_R$ for the scalar ring classifier, $\sim_M$ for the module classifier, $\cdot_R$ for scalar ring multiplication, and $\odot$ for scalar action. For carried scalar representatives $r,r',s,s'$ and carried module representatives $m,m'$, if
+
+$$
+r\sim_R r',\qquad s\sim_R s',\qquad m\sim_M m',
+$$
+
+then
+
+$$
+r\odot(s\odot m)\sim_M (r'\cdot_R s')\odot m'.
+$$
+
+\end{theorem}
+\begin{proof}
+By \autoref{def:module-source-specification}, the scalar side of the $\ModuleUp$ certificate is a certified $\RingUp$. The ring stability certificate of \autoref{def:ring-stability-certificate} includes multiplication congruence, so the two scalar representative relations give
+
+$$
+(r\cdot_R s)\sim_R(r'\cdot_R s').
+$$
+
+By \autoref{def:module-classifier-specification} and \autoref{def:module-stability-certificate}, scalar action is congruent in its scalar and module inputs. Applying scalar-action congruence to the transported scalar relation above and to $m\sim_M m'$ gives
+
+$$
+((r\cdot_R s)\odot m)\sim_M((r'\cdot_R s')\odot m').
+$$
+
+The scalar associativity field listed in \autoref{def:module-stability-certificate} supplies a module-classifier witness between $(r\cdot_R s)\odot m$ and $r\odot(s\odot m)$. Since derived upward-arrow interfaces carry a $\NameCert$ by \autoref{thm:derived-interfaces-require-certificates}, and \autoref{def:lean-carrier-naming-certificate} supplies symmetry for the classifier, use that witness in the orientation
+
+$$
+r\odot(s\odot m)\sim_M((r\cdot_R s)\odot m).
+$$
+
+Finally, \autoref{thm:namecert-equivalence-transitivity} composes this associativity witness with the scalar-action congruence witness, yielding
+
+$$
+r\odot(s\odot m)\sim_M (r'\cdot_R s')\odot m'.
+$$
+
+\end{proof}
+
+\begin{theorem}[Scalar associativity independent of additive unit action laws]
+\label{thm:scalar-associativity-independent-additive-unit-action-laws}
+The action in \autoref{def:dual-number-parity-action} is a finite equality-classified scalar action over
+$$
+R=\mathbb F_2[\epsilon]/(\epsilon^2),\qquad M=\mathbb F_2
+$$
+such that the scalar ring satisfies the ring fields of \autoref{ch:concrete-instances-ring-namecert} and the commutative-ring fields of \autoref{ch:concrete-instances-commring-namecert}, the module carrier satisfies the additive abelian-group fields of \autoref{ch:concrete-instances-abgroup-namecert}, scalar-action congruence holds, scalar distributivity over module addition holds, scalar distributivity over scalar addition holds, and the scalar unit law holds. Scalar associativity fails. Hence the scalar associativity field in \autoref{def:module-stability-certificate} is not a consequence of those surrounding additive, congruence, and unit fields.
+\end{theorem}
+\begin{proof}
+Classify both carriers by ordinary equality. The scalar ring $R$ has exactly the four elements $0$, $1$, $\epsilon$, and $1+\epsilon$, with $\epsilon^2=0$, and it is a finite commutative ring. The module carrier $M$ is the two-element additive abelian group. Equality classifiers make every operation congruence field immediate from substitution; in particular, if $r=r'$ and $m=m'$, then $r\star m=r'\star m'$.
+
+Write an element of $R$ as $a+b\epsilon$, with $a,b\in\mathbb F_2$. The map $\chi(a+b\epsilon)=a+b$ from \autoref{def:dual-number-parity-action} is additive because, for $r=a+b\epsilon$ and $s=c+d\epsilon$,
+$$
+\chi(r+s)=\chi((a+c)+(b+d)\epsilon)=a+c+b+d=\chi(r)+\chi(s).
+$$
+For scalar distributivity over module addition, let $r\in R$ and $m,n\in M$. Since $\chi(r)\in\mathbb F_2$,
+$$
+r\star(m+n)=\chi(r)(m+n)=\chi(r)m+\chi(r)n=(r\star m)+(r\star n).
+$$
+For scalar distributivity over scalar addition, the additivity of $\chi$ gives
+$$
+(r+s)\star m=\chi(r+s)m=(\chi(r)+\chi(s))m=\chi(r)m+\chi(s)m=(r\star m)+(s\star m).
+$$
+The scalar unit law follows from $\chi(1)=1$:
+$$
+1\star m=\chi(1)m=m.
+$$
+
+It remains to test scalar associativity. At $r=s=\epsilon$ and $m=1$,
+$$
+(\epsilon\epsilon)\star 1=0\star 1=\chi(0)1=0,
+$$
+while
+$$
+\epsilon\star(\epsilon\star 1)=\epsilon\star(\chi(\epsilon)1)=\epsilon\star 1=\chi(\epsilon)1=1.
+$$
+The two values are distinct in $M=\mathbb F_2$, so
+$$
+(\epsilon\epsilon)\star 1\neq \epsilon\star(\epsilon\star 1).
+$$
+Thus all listed fields except scalar associativity hold in a finite equality-classified action, while scalar associativity fails.
+\end{proof}

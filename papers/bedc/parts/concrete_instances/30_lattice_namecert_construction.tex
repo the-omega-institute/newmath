@@ -669,3 +669,76 @@ yields
   (x\wedge y)\vee x\sim_C x .
 \]
 \end{proof}
+
+\begin{theorem}[Lattice bound uniqueness from directional certificates]
+\label{thm:lattice-bound-uniqueness-from-directional-certificates}
+Let $A$ be a $\LatticeUp$ carrier with classifier $\sim_C$. Assume the inherited $\POSetUp$ antisymmetry field from \autoref{def:poset-stability-certificate} and the directional meet and join bound-characterization fields from \autoref{def:lattice-stability-certificate}. For all $x,y,m,j\in A$, suppose $m$ satisfies the lower-bound and greatestness clauses
+$$
+\begin{gathered}
+m\le x,\qquad m\le y,\\
+\forall z\in A,\ z\le x\to z\le y\to z\le m,
+\end{gathered}
+$$
+and suppose $j$ satisfies the upper-bound and leastness clauses
+$$
+\begin{gathered}
+x\le j,\qquad y\le j,\\
+\forall z\in A,\ x\le z\to y\le z\to j\le z.
+\end{gathered}
+$$
+Then
+$$
+m\sim_C x\wedge y,\qquad j\sim_C x\vee y .
+$$
+\end{theorem}
+\begin{proof}
+The certified meet fields give
+$$
+x\wedge y\le x
+\qquad\text{and}\qquad
+x\wedge y\le y .
+$$
+Applying the assumed greatestness clause for $m$ with $z=x\wedge y$ gives
+$$
+x\wedge y\le m .
+$$
+The two assumed lower-bound clauses for $m$, together with the certified meet greatestness field applied with $z=m$, give
+$$
+m\le x\wedge y .
+$$
+The antisymmetry field from \autoref{def:poset-stability-certificate} applied to
+$$
+m\le x\wedge y
+\qquad\text{and}\qquad
+x\wedge y\le m
+$$
+yields
+$$
+m\sim_C x\wedge y .
+$$
+
+The certified join fields give
+$$
+x\le x\vee y
+\qquad\text{and}\qquad
+y\le x\vee y .
+$$
+Applying the assumed leastness clause for $j$ with $z=x\vee y$ gives
+$$
+j\le x\vee y .
+$$
+The two assumed upper-bound clauses for $j$, together with the certified join leastness field applied with $z=j$, give
+$$
+x\vee y\le j .
+$$
+The antisymmetry field from \autoref{def:poset-stability-certificate} applied to
+$$
+j\le x\vee y
+\qquad\text{and}\qquad
+x\vee y\le j
+$$
+yields
+$$
+j\sim_C x\vee y .
+$$
+\end{proof}
