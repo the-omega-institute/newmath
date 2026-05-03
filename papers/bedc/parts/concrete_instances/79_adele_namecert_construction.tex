@@ -78,6 +78,28 @@ append history.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_first\_prime\_unit\_scale}
 
+\begin{theorem}[Adele real-stream prefix visible scale carrier]
+\label{thm:adele-real-stream-prefix-visible-scale-carrier}
+Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives whose visible
+left stream is unary at every index. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, $x(n)\hsame
+\Eone(\Eone(d))$, $y(n)\hsame\Eone(i)$, and the concrete first-prime
+$p$-adic scale $\mathsf{PadicPrimeScale}(\Eone(\Eone(\emp)),e,r)$ holds,
+then $\mathsf{RealStreamPrefixClassifier}(x,y,n)$ holds and
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(\Eone(\Eone(d)),r)).
+$$
+\end{theorem}
+\begin{proof}
+The add-left prefix projection recovers the classifier at index $n$. The
+visible real-pair readback at that prefix identifies the displayed
+$\Eone(\Eone(d))$ endpoint as a rational denominator carrier, hence as a
+constant real-history carrier. Combining that real component with the stored
+first-prime $p$-adic scale and reflexive history sameness of the displayed
+append endpoint gives the adele carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_visible\_scale\_carrier}
+
 \begin{theorem}[Real--padic empty-result split]
 \label{thm:adele-real-padic-e1-append-empty-padic-result}
 Let the two real coordinates be displayed as endpoint histories
