@@ -19,12 +19,24 @@ theorem ZetaZeroComplexHistory_carrier :
 def ZetaZeroSourceSpec (s : BHist) : Prop :=
   ComplexHistoryCarrier s ∧ hsame s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
 
+def ZetaZeroPatternSpec (s z : BHist) : Prop :=
+  ZetaZeroSourceSpec s ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+
 theorem ZetaZeroSourceSpec_zero_classifier {s : BHist} :
     ZetaZeroSourceSpec s ->
       ComplexHistoryClassifier s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
   intro source
   exact And.intro source.left
     (And.intro ZetaZeroComplexHistory_carrier source.right)
+
+theorem ZetaZeroPatternSpec_zero_result_classifier {s z : BHist} :
+    ZetaZeroPatternSpec s z ->
+      ComplexHistoryClassifier z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
+  intro pattern
+  have carrierZ : ComplexHistoryCarrier z :=
+    ProdHistoryCarrier_hsame_transport (hsame_symm pattern.right) ZetaZeroComplexHistory_carrier
+  exact And.intro carrierZ
+    (And.intro ZetaZeroComplexHistory_carrier pattern.right)
 
 theorem ZetaZeroSourceSpec_hsame_transport_classifier {s t : BHist} :
     hsame s t ->
@@ -49,6 +61,16 @@ theorem ZetaZeroSourceSpec_zero_anchor_unique {s t : BHist} :
             hsame t (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
   intro sourceS sourceT
   exact And.intro (hsame_trans sourceS.right (hsame_symm sourceT.right))
+    (And.intro sourceS.right sourceT.right)
+
+theorem ZetaZeroSourceSpec_pair_classifier {s t : BHist} :
+    ZetaZeroSourceSpec s -> ZetaZeroSourceSpec t ->
+      ComplexHistoryClassifier s t ∧
+        hsame s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+          hsame t (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
+  intro sourceS sourceT
+  have sameST : hsame s t := hsame_trans sourceS.right (hsame_symm sourceT.right)
+  exact And.intro (And.intro sourceS.left (And.intro sourceT.left sameST))
     (And.intro sourceS.right sourceT.right)
 
 end BEDC.Derived.ZetaZerosUp
