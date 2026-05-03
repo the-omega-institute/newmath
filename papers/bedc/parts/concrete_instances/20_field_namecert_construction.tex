@@ -307,6 +307,50 @@ data the two tail factors $q$ and $s$; core theorem this block plus the
 one-tail split and endpoint split; exactness predicate the displayed iff;
 status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field apart-zero nested continuation singleton-result factor exclusion]
+\label{thm:field-apartzero-nested-continuation-singleton-result-factor-exclusion}
+For histories $l,h,r,u,v,q,w,s,z,endpoint:\mathsf{BHist}$ with
+$\ContR(l,h,u)$, $\ContR(u,r,v)$, $\ContR(v,q,w)$, and $\ContR(w,s,z)$, if
+$l\hsame\emp$, $r\hsame\emp$, and
+$\mathsf{FieldSingletonClassifier}(z,endpoint)$, then
+$$
+(\mathsf{ApartZero}_F(h)\to\bot)
+\land
+(\mathsf{ApartZero}_F(q)\to\bot)
+\land
+(\mathsf{ApartZero}_F(s)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-apartzero-continuation-singleton-result-factor-absurd} to
+the final continuation witness $\ContR(w,s,z)$ together with the terminal
+singleton-result certificate. This gives exclusions for
+$\mathsf{ApartZero}_F(w)$ and $\mathsf{ApartZero}_F(s)$.
+
+To exclude $\mathsf{ApartZero}_F(h)$, assume such a witness. The reverse
+direction of
+\autoref{thm:field-apartzero-nested-continuation-factor-split}, applied to the
+first three continuation witnesses and the exterior empty-context witnesses,
+turns the left factor witness into $\mathsf{ApartZero}_F(w)$. This contradicts
+the exclusion for $w$.
+
+The argument for $\mathsf{ApartZero}_F(q)$ is the same, using the right nested
+factor witness in the reverse direction of the same split theorem. Pair the two
+nested exclusions with the already obtained exclusion for $s$ to obtain the
+displayed triple exclusion.
+\end{proof}
+
+Per-object template: traditional target zero-result factor exclusion for nested
+$\FieldUp$ continuations; BEDC source $\mathsf{BHist}$, $\ContR$,
+$\mathsf{FieldSingletonClassifier}$, and $\mathsf{ApartZero}_F$; carrier
+apart-zero histories; classifier $\hsame$ transport; transport predicate
+terminal singleton-result rejection; ledger the empty exterior witnesses plus
+the terminal singleton-result certificate; tail data the nested factors $h$,
+$q$, and $s$; core theorem list the one-step singleton-result factor absurd
+theorem and nested factor split; exactness predicate the displayed triple
+exclusion; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field apart-zero three-tail nested continuation factor split]
 \label{thm:field-apartzero-three-tail-nested-continuation-factor-split}
 For histories $l,h,r,u,v,q,w,s,z,t,y:\mathsf{BHist}$ with
