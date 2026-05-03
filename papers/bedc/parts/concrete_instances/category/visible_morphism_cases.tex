@@ -231,6 +231,27 @@ the displayed statement.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_iff}
 
+\begin{theorem}[Continuation morphism composite nonempty tail rejects empty target]
+\label{thm:category-continuation-morphism-comp-tail-nonempty-target-not-empty}
+For histories $a,b,c$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the closed composite tail is
+not internally empty, then the final target cannot be internally empty:
+$$
+\neg\HSame(\mathsf{tail}(left\circ right),\emp)
+\Rightarrow
+\neg\HSame(c,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Transport the right continuation relation across an internal equality
+$c\hsame\emp$. The empty-target inversion for the two-stage continuation then
+forces both displayed tails to be internally empty. The composite-tail
+nonempty equivalence turns the composite nonemptiness hypothesis into
+nonemptiness of one displayed factor tail, contradicting the inversion data.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_target\_not\_empty}
+
 \begin{theorem}[Continuation morphism composite unary tails reject zero-headed result]
 \label{thm:category-continuation-morphism-comp-unary-tail-e0-absurd}
 For histories $a,b,c,z$, let

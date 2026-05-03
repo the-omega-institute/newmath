@@ -137,6 +137,60 @@ open BEDC.FKernel.Cont
         (mulCongr (hsame_symm reverseInverse) (hsame_refl (append BHist.Empty c)))
     exact Iff.mpr oneFactor productInverseSolution
 
+ theorem field_product_right_mul_empty_context_solution_deterministic_from_apartness
+    {mul : BHist -> BHist -> BHist} {one : BHist} {NonZero : BHist -> Prop}
+    {inv : (a : BHist) -> NonZero a -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a b x y c : BHist} (pab : NonZero (mul a b)) (pa : NonZero a)
+    (pb : NonZero b) :
+    hsame (mul x (mul a b)) (append BHist.Empty c) ->
+      hsame (mul y (mul a b)) (append BHist.Empty c) -> hsame x y := by
+  intro xEquation yEquation
+  have xExact :
+      hsame (mul x (mul a b)) (append BHist.Empty c) <->
+        hsame x (mul (append BHist.Empty c) (mul (inv b pb) (inv a pa))) := by
+    exact field_product_right_mul_equation_exact_from_apartness
+      assocC leftId rightId mulCongr leftInv rightInv pab pa pb
+  have yExact :
+      hsame (mul y (mul a b)) (append BHist.Empty c) <->
+        hsame y (mul (append BHist.Empty c) (mul (inv b pb) (inv a pa))) := by
+    exact field_product_right_mul_equation_exact_from_apartness
+      assocC leftId rightId mulCongr leftInv rightInv pab pa pb
+  exact hsame_trans (Iff.mp xExact xEquation) (hsame_symm (Iff.mp yExact yEquation))
+
+ theorem field_product_left_mul_empty_context_solution_deterministic_from_apartness
+    {mul : BHist -> BHist -> BHist} {one : BHist} {NonZero : BHist -> Prop}
+    {inv : (a : BHist) -> NonZero a -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a b x y c : BHist} (pab : NonZero (mul a b)) (pa : NonZero a)
+    (pb : NonZero b) :
+    hsame (mul (mul a b) x) (append BHist.Empty c) ->
+      hsame (mul (mul a b) y) (append BHist.Empty c) -> hsame x y := by
+  intro xEquation yEquation
+  have xExact :
+      hsame (mul (mul a b) x) (append BHist.Empty c) <->
+        hsame x (mul (mul (inv b pb) (inv a pa)) (append BHist.Empty c)) := by
+    exact field_product_left_mul_equation_exact_from_apartness
+      assocC leftId rightId mulCongr leftInv rightInv pab pa pb
+  have yExact :
+      hsame (mul (mul a b) y) (append BHist.Empty c) <->
+        hsame y (mul (mul (inv b pb) (inv a pa)) (append BHist.Empty c)) := by
+    exact field_product_left_mul_equation_exact_from_apartness
+      assocC leftId rightId mulCongr leftInv rightInv pab pa pb
+  exact hsame_trans (Iff.mp xExact xEquation) (hsame_symm (Iff.mp yExact yEquation))
+
  theorem field_product_factor_map_empty_context_classifier_exact_from_apartness
     {mul : BHist -> BHist -> BHist} {one : BHist} {NonZero : BHist -> Prop}
     {inv : (a : BHist) -> NonZero a -> BHist}

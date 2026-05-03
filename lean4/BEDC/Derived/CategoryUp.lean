@@ -324,6 +324,8 @@ theorem ContinuationMorphism_comp_tail_append_deterministic {a b c : BHist}
 theorem ContinuationMorphism_comp_empty_target_inversion {a b : BHist} (left : ContinuationMorphism a b) (right : ContinuationMorphism b BHist.Empty) : hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty := by
   cases left with | mk leftTail leftRel => cases right with | mk rightTail rightRel =>
   exact let rp := cont_empty_result_inversion rightRel; let lp := cont_empty_result_inversion (show Cont a leftTail BHist.Empty from by cases rp.left; exact leftRel); ⟨lp.left, rp.left, lp.right, rp.right⟩
+theorem ContinuationMorphism_comp_tail_nonempty_target_not_empty {a b c : BHist} (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) : (hsame (ContinuationMorphism_comp_closed left right).tail BHist.Empty -> False) -> hsame c BHist.Empty -> False := by
+  intro nonempty sameTarget; have inv := ContinuationMorphism_comp_empty_target_inversion left { tail := right.tail, rel := cont_result_hsame_transport right.rel sameTarget }; exact (Iff.mp (ContinuationMorphism_comp_tail_nonempty_iff left right) nonempty).elim (fun h => h inv.right.right.left) (fun h => h inv.right.right.right)
 theorem ContinuationMorphism_comp_endpoint_cycle_tail_empty {a b c : BHist}
     (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
     hsame a c -> hsame (ContinuationMorphism_comp_closed left right).tail BHist.Empty := by

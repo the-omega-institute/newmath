@@ -246,6 +246,53 @@ $z\mapsto\mathsf{mul}(\mathsf{mul}(a,b),z)$, which is exactly the left
 classifier equality.
 \end{proof}
 
+\begin{theorem}[Field right product empty-context solution determinacy from apartness]
+\label{thm:field-product-right-mul-empty-context-solution-deterministic-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses and
+the displayed associativity, unit, congruence, and inverse laws, let
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$. If $x$ and $y$
+solve the same right product equation at the empty-context endpoint
+$\mathsf{append}(\emp,c)$, then $x\hsame y$:
+$$
+\mathsf{mul}(x,\mathsf{mul}(a,b))\hsame\mathsf{append}(\emp,c)
+\quad\text{and}\quad
+\mathsf{mul}(y,\mathsf{mul}(a,b))\hsame\mathsf{append}(\emp,c)
+\Rightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Apply the right product equation exactness theorem to both displayed
+equations at the shared endpoint $\mathsf{append}(\emp,c)$. Both solutions
+are classified by the same explicit inverse-product endpoint, so symmetry
+and transitivity of $\hsame$ compare them.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_product\_right\_mul\_empty\_context\_solution\_deterministic\_from\_apartness}
+
+\begin{theorem}[Field left product empty-context solution determinacy from apartness]
+\label{thm:field-product-left-mul-empty-context-solution-deterministic-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses and
+the displayed associativity, unit, congruence, and inverse laws, let
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$. If $x$ and $y$
+solve the same left product equation at the empty-context endpoint
+$\mathsf{append}(\emp,c)$, then $x\hsame y$:
+$$
+\mathsf{mul}(\mathsf{mul}(a,b),x)\hsame\mathsf{append}(\emp,c)
+\quad\text{and}\quad
+\mathsf{mul}(\mathsf{mul}(a,b),y)\hsame\mathsf{append}(\emp,c)
+\Rightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Apply the left product equation exactness theorem to both displayed equations
+at the shared endpoint $\mathsf{append}(\emp,c)$. The two solved endpoints
+are identical, and $\hsame$ symmetry and transitivity give $x\hsame y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_product\_left\_mul\_empty\_context\_solution\_deterministic\_from\_apartness}
+
 \begin{theorem}[Field product-factor map empty-context classifier exactness from apartness]
 \label{thm:field-product-factor-map-empty-context-classifier-exact-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
