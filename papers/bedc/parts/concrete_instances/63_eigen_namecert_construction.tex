@@ -15,6 +15,24 @@ BEDC continuation endpoint of $\lambda$ followed by $v$.
 \end{definition}
 \leandef{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier}
 
+\begin{theorem}[Eigen component singleton carrier singleton append]
+\label{thm:eigen-component-singleton-carrier-singleton-append}
+For histories $m,\lambda,v,pair:\mathsf{BHist}$, if the component singleton
+eigen carrier holds for $(m,\lambda,v,pair)$ and $\lambda$ also carries the
+determinant singleton scalar certificate, then
+$\mathsf{append}(m,pair)$ lies in the eigen singleton carrier.
+\end{theorem}
+\begin{proof}
+Unpack the component carrier into the linear-map carrier for $m$, the
+linear-map carrier for $v$, and the continuation endpoint
+$\Cont(\lambda,v,pair)$. The determinant singleton carrier for $\lambda$
+supplies the scalar witness required by the eigen singleton carrier. The
+stored continuation rewrites $\mathsf{append}(m,pair)$ as
+$\mathsf{append}(m,\mathsf{append}(\lambda,v))$, giving the required BEDC
+continuation endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier\_singleton\_append}
+
 \begin{theorem}[Eigen singleton carrier pair emptiness]
 \label{thm:eigen-singleton-carrier-pair-empty}
 For histories $f,\lambda,v,pair:\mathsf{BHist}$, the component singleton

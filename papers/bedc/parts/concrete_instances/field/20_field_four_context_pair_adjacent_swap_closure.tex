@@ -62,3 +62,108 @@ theorem list
 \autoref{thm:field-rat-denominator-contextual-action-composition-support-laws};
 exactness predicate the displayed classifier and support iff; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp four context-pair adjacent-swap coverage]
+\label{thm:ratup-fieldup-four-context-pair-adjacent-swap-coverage}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2,l_3,r_3:\mathsf{BHist}$. Suppose $C_D^u(h)$ and
+suppose that $(l_0,r_0)$, $(l_1,r_1)$, $(l_2,r_2)$, and $(l_3,r_3)$ are
+carried denominator context pairs. Let
+$$
+H_{0123}:=
+\Gamma_{\emp,\emp,l_3,r_3}
+(\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_1,r_1}
+(\Gamma_{\emp,\emp,l_0,r_0}(h)))).
+$$
+Let
+$$
+H_{1023}:=
+\Gamma_{\emp,\emp,l_3,r_3}
+(\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_0,r_0}
+(\Gamma_{\emp,\emp,l_1,r_1}(h)))).
+$$
+Let
+$$
+H_{0213}:=
+\Gamma_{\emp,\emp,l_3,r_3}
+(\Gamma_{\emp,\emp,l_1,r_1}
+(\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_0,r_0}(h)))).
+$$
+Let
+$$
+H_{0132}:=
+\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_3,r_3}
+(\Gamma_{\emp,\emp,l_1,r_1}
+(\Gamma_{\emp,\emp,l_0,r_0}(h)))).
+$$
+Then the three adjacent-generator rows from $H_{0123}$ are classified:
+$$
+R_D^u(H_{0123},H_{1023})
+\land
+R_D^u(H_{0123},H_{0213})
+\land
+R_D^u(H_{0123},H_{0132}).
+$$
+The corresponding strict-support readbacks agree:
+$$
+N_D^u(H_{0123})
+\Longleftrightarrow
+N_D^u(H_{1023}).
+$$
+$$
+N_D^u(H_{0123})
+\Longleftrightarrow
+N_D^u(H_{0213}).
+$$
+$$
+N_D^u(H_{0123})
+\Longleftrightarrow
+N_D^u(H_{0132}).
+$$
+\end{theorem}
+\begin{proof}
+For the first adjacent generator, apply
+\autoref{thm:ratup-fieldup-context-pair-adjacent-swap-exit-row} to the carried
+pairs $(l_0,r_0)$, $(l_1,r_1)$, and $(l_2,r_2)$ over $h$. Then carry the
+result through the common outer context $(l_3,r_3)$ using the contextual action
+pair transport classifier row
+\autoref{thm:rat-denom-unit-contextual-action-pair-transport-classifier}. The
+carrier premises needed for the outer action come from
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws}.
+
+For the middle adjacent generator, use
+\autoref{thm:ratup-fieldup-four-context-pair-adjacent-swap-closure}. It is
+exactly the displayed comparison between $H_{0123}$ and $H_{0213}$ under the
+same four carried context pairs.
+
+For the last adjacent generator, first apply
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws}
+to carry the common two-step base
+$\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h))$. Then apply
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-commutes} to the two
+outer empty-endpoint actions $(l_2,r_2)$ and $(l_3,r_3)$. This gives the
+classifier row between $H_{0123}$ and $H_{0132}$.
+
+The strict-support rows are obtained in parallel. For the first and middle
+generators, read the support part of the adjacent-swap row through the same
+contextual action pair transport support row
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support}.
+For the last generator, apply
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-strict-support-commutes}
+over the carried two-step base. These three applications give the displayed
+strict-support equivalences.
+\end{proof}
+
+Per-object template: traditional target finite adjacent-generator coverage for
+the concrete FieldUp denominator action; BEDC source $\mathsf{BHist}$, $C_D^u$,
+$R_D^u$, $N_D^u$, $\emp$, and $\Gamma$; carrier the four carried context pairs;
+classifier $R_D^u$; stability adjacent-swap classifier transport and
+strict-support transport; ledger the four carried pairs and selected adjacent
+generator; exactness the displayed three-row coverage; status
+$\mathsf{ProofTarget}$.

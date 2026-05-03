@@ -63,6 +63,26 @@ canonical display with the given displayed result.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_result\_deterministic}
 
+\begin{theorem}[Principal suffix unary intersection zero-result exclusion]
+\label{thm:filter-principal-suffix-unary-intersection-zero-result-absurd}
+Let $base,left,right,meet,leftPoint,rightPoint,z:\mathsf{BHist}$. If
+$base$, $left$, and $right$ are unary histories and
+$$
+\ContR(left,right,meet),\qquad
+\ContR(base,left,leftPoint),\qquad
+\ContR(base,right,rightPoint),\qquad
+\ContR(base,meet,\Ezero(z)),
+$$
+then $\bot$.
+\end{theorem}
+\begin{proof}
+Unary closure transports through the concrete continuation
+$\ContR(left,right,meet)$, so $meet$ is unary. Applying unary closure again to
+$\ContR(base,meet,\Ezero(z))$ would make the zero-headed result unary, which
+contradicts the unary no-zero-extension theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_zero\_result\_absurd}
+
 \section{The certificate}
 \label{sec:filter-certificate}
 
