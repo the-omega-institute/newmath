@@ -498,4 +498,99 @@ theorem ratup_fieldup_final_certificate_two_selector_noncollapse_boundary
       (And.intro boundary.right.left
         (And.intro boundary.right.right.left boundary.right.right.right)))
 
+theorem ratup_fieldup_selector_independent_final_boundary {h k l L R r : BHist}
+    (carrierH : RatDenomUnitCarrier h) (carrierK : RatDenomUnitCarrier k)
+    (carrierL : RatDenomUnitCarrier l)
+    (support : (RatHistoryCarrier h ∨ RatHistoryCarrier k) ∨ RatHistoryCarrier l)
+    (s t u v : BEDC.FKernel.Mark.BMark) :
+    let a := ratup_fieldup_bracketing_endpoint_selector h k l s
+    let b := ratup_fieldup_bracketing_endpoint_selector h k l t
+    let c := ratup_fieldup_bracketing_endpoint_selector h k l u
+    let d := ratup_fieldup_bracketing_endpoint_selector h k l v
+    RatHistoryClassifier a c ∧ RatHistoryClassifier b d ∧
+      (fieldSingletonEmptyCarrier (append r b) -> False) ∧
+      (fieldSingletonEmptyCarrier (append r d) -> False) ∧
+      fieldSingletonEmptyNonZero (append r b) ∧
+      fieldSingletonEmptyNonZero (append r d) := by
+  dsimp
+  have strictRows :=
+    ratup_fieldup_selector_pair_strict_exit_determinacy
+      (h := h) (k := k) (l := l) (L := L) (R := R)
+      carrierH carrierK carrierL support s t u v
+  have finalST :=
+    ratup_fieldup_final_certificate_two_selector_noncollapse_boundary
+      (h := h) (k := k) (l := l) (L := L) (R := R) (r := r)
+      carrierH carrierK carrierL support s t
+  have finalUV :=
+    ratup_fieldup_final_certificate_two_selector_noncollapse_boundary
+      (h := h) (k := k) (l := l) (L := L) (R := R) (r := r)
+      carrierH carrierK carrierL support u v
+  exact And.intro strictRows.left
+    (And.intro strictRows.right.left
+      (And.intro finalST.right.left
+        (And.intro finalUV.right.left
+          (And.intro finalST.right.right.right.left finalUV.right.right.right.left))))
+
+theorem ratup_fieldup_selector_chain_final_boundary {h k l L R r : BHist}
+    (carrierH : RatDenomUnitCarrier h) (carrierK : RatDenomUnitCarrier k)
+    (carrierL : RatDenomUnitCarrier l)
+    (support : (RatHistoryCarrier h ∨ RatHistoryCarrier k) ∨ RatHistoryCarrier l)
+    (s t u v w z : BEDC.FKernel.Mark.BMark) :
+    let a := ratup_fieldup_bracketing_endpoint_selector h k l s
+    let b := ratup_fieldup_bracketing_endpoint_selector h k l t
+    let c := ratup_fieldup_bracketing_endpoint_selector h k l u
+    let d := ratup_fieldup_bracketing_endpoint_selector h k l v
+    let e := ratup_fieldup_bracketing_endpoint_selector h k l w
+    let f := ratup_fieldup_bracketing_endpoint_selector h k l z
+    RatHistoryClassifier a c ∧ RatHistoryClassifier c e ∧ RatHistoryClassifier a e ∧
+      RatHistoryClassifier b d ∧ RatHistoryClassifier d f ∧ RatHistoryClassifier b f ∧
+      RatDenomUnitClassifier a e ∧ RatDenomUnitClassifier b f ∧
+      (fieldSingletonEmptyCarrier (append r b) -> False) ∧
+      (fieldSingletonEmptyCarrier (append r d) -> False) ∧
+      (fieldSingletonEmptyCarrier (append r f) -> False) ∧
+      fieldSingletonEmptyNonZero (append r b) ∧
+      fieldSingletonEmptyNonZero (append r d) ∧
+      fieldSingletonEmptyNonZero (append r f) := by
+  dsimp
+  have leftRows :=
+    ratup_fieldup_selector_independent_final_boundary
+      (h := h) (k := k) (l := l) (L := L) (R := R) (r := r)
+      carrierH carrierK carrierL support s t u v
+  have rightRows :=
+    ratup_fieldup_selector_independent_final_boundary
+      (h := h) (k := k) (l := l) (L := L) (R := R) (r := r)
+      carrierH carrierK carrierL support u v w z
+  have historyAE : RatHistoryClassifier
+      (ratup_fieldup_bracketing_endpoint_selector h k l s)
+      (ratup_fieldup_bracketing_endpoint_selector h k l w) :=
+    RatHistoryClassifier_trans leftRows.left rightRows.left
+  have historyBF : RatHistoryClassifier
+      (ratup_fieldup_bracketing_endpoint_selector h k l t)
+      (ratup_fieldup_bracketing_endpoint_selector h k l z) :=
+    RatHistoryClassifier_trans leftRows.right.left rightRows.right.left
+  have denomAE : RatDenomUnitClassifier
+      (ratup_fieldup_bracketing_endpoint_selector h k l s)
+      (ratup_fieldup_bracketing_endpoint_selector h k l w) :=
+    And.intro (Or.inr historyAE.left)
+      (And.intro (Or.inr historyAE.right.left) historyAE.right.right)
+  have denomBF : RatDenomUnitClassifier
+      (ratup_fieldup_bracketing_endpoint_selector h k l t)
+      (ratup_fieldup_bracketing_endpoint_selector h k l z) :=
+    And.intro (Or.inr historyBF.left)
+      (And.intro (Or.inr historyBF.right.left) historyBF.right.right)
+  exact And.intro leftRows.left
+    (And.intro rightRows.left
+      (And.intro historyAE
+        (And.intro leftRows.right.left
+          (And.intro rightRows.right.left
+            (And.intro historyBF
+              (And.intro denomAE
+                (And.intro denomBF
+                  (And.intro leftRows.right.right.left
+                    (And.intro leftRows.right.right.right.left
+                      (And.intro rightRows.right.right.right.left
+                        (And.intro leftRows.right.right.right.right.left
+                          (And.intro leftRows.right.right.right.right.right
+                            rightRows.right.right.right.right.right))))))))))))
+
 end BEDC.Derived.FieldUp
