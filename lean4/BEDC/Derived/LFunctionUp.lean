@@ -1,4 +1,5 @@
 import BEDC.Derived.DirichletSeriesUp
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.LFunctionUp
 
@@ -83,6 +84,23 @@ theorem LFunctionDirichletPartSum_successor_zero_term_previous_result_same
           (cont_right_unit _)
       exact Exists.intro _
         (And.intro previous (hsame_symm sameResult))
+
+theorem LFunctionDirichletPartSum_successor_zero_term_result_iff
+    {term : BHist -> BHist -> BHist} {s n T : BHist} :
+    hsame (term n s) BHist.Empty ->
+      (DirichletPartSum term s (BHist.e1 n) T ↔
+        exists P : BHist, DirichletPartSum term s n P ∧ hsame P T) := by
+  intro termEmpty
+  constructor
+  · intro sum
+    exact LFunctionDirichletPartSum_successor_zero_term_previous_result_same sum termEmpty
+  · intro previousResult
+    cases previousResult with
+    | intro P data =>
+        have stepContinuation : Cont P (term n s) T :=
+          cont_hsame_transport (hsame_refl P) (hsame_symm termEmpty) data.right
+            (cont_right_unit P)
+        exact DirichletPartSum.step data.left stepContinuation
 
 theorem LFunctionDirichletPartSum_zero_terms_result_empty
     {term : BHist -> BHist -> BHist} {s n S : BHist} :
