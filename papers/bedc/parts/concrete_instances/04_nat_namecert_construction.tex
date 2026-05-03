@@ -140,6 +140,32 @@ nonempty.
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_append\_tail\_trans}
 
+\begin{lemma}[Strict unary prefix target is unary]
+\label{lem:nat-unary-strict-prefix-target-unary}
+If \(h\) is unary and \(h\) is a strict unary prefix of \(k\), then \(k\) is unary.
+\end{lemma}
+\begin{proof}
+Unpack the strict-prefix witness as a unary tail \(t\) with \(\Cont(h,t,k)\).
+Unary continuation closure transports unary generation from \(h\) across \(t\)
+to the target \(k\).
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_target\_unary}
+
+\begin{theorem}[Strict unary prefix composite-tail transitivity]
+\label{thm:nat-unary-strict-prefix-trans-composite-tail}
+If $h$ is a strict unary prefix of $k$ and $k$ is a strict unary prefix of $l$,
+then the two nonempty unary tails compose into a concrete tail from $h$ to
+$l$. This composite tail witnesses both $\mathsf{Cont}(h,t,l)$ and the strict
+unary prefix relation from $h$ to $l$.
+\end{theorem}
+\begin{proof}
+Unpack the two strict-prefix witnesses. Append their unary tails and apply
+append-tail transitivity. Unary append closure gives the composite tail
+carrier, and append empty-result exactness shows that the composite tail is
+nonempty because its left component is nonempty.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_trans\_composite\_tail}
+
 \section{The certificate}
 
 \begin{definition}[Unary source specification]

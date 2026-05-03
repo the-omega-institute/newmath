@@ -84,6 +84,41 @@ theorem NatUnaryStrictPrefix_append_tail_trans {h k l leftTail rightTail : BHist
       (fun appendedEmpty => leftNonempty (append_eq_empty_iff.mp appendedEmpty).left), joinedCont⟩
   exact And.intro joinedStrict joinedCont
 
+theorem NatUnaryStrictPrefix_target_unary {h k : BHist} :
+    UnaryHistory h -> NatUnaryStrictPrefix h k -> UnaryHistory k := by
+  intro hUnary strict
+  cases strict with
+  | intro tail data =>
+      exact unary_cont_closed hUnary data.left data.right.right
+
+theorem NatUnaryStrictPrefix_trans_composite_tail {h k l : BHist} :
+    NatUnaryStrictPrefix h k -> NatUnaryStrictPrefix k l ->
+      exists tail : BHist,
+        UnaryHistory tail ∧ (tail = BHist.Empty -> False) ∧ Cont h tail l ∧
+          NatUnaryStrictPrefix h l := by
+  intro leftStrict rightStrict
+  cases leftStrict with
+  | intro leftTail leftData =>
+      cases leftData with
+      | intro leftUnary leftRest =>
+          cases leftRest with
+          | intro leftNonempty leftCont =>
+              cases rightStrict with
+              | intro rightTail rightData =>
+                  cases rightData with
+                  | intro rightUnary rightRest =>
+                      cases rightRest with
+                      | intro rightNonempty rightCont =>
+                          have joined :=
+                            NatUnaryStrictPrefix_append_tail_trans leftUnary leftNonempty
+                              leftCont rightUnary rightNonempty rightCont
+                          exact Exists.intro (append leftTail rightTail)
+                            (And.intro (unary_append_closed leftUnary rightUnary)
+                              (And.intro
+                                (fun appendedEmpty =>
+                                  leftNonempty (append_eq_empty_iff.mp appendedEmpty).left)
+                                (And.intro joined.right joined.left)))
+
 theorem NatUnaryPrefix_total {h k : BHist} :
     UnaryHistory h -> UnaryHistory k ->
       (exists tail : BHist, UnaryHistory tail /\ Cont h tail k) \/

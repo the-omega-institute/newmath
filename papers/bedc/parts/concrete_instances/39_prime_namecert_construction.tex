@@ -209,6 +209,22 @@ For \(p = 2\), the only divisors are the unit and \(p\) itself by \autoref{def:n
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_first\_pair}
 
+\begin{lemma}[First prime multiplied by the unit exponent]
+\label{lem:nat-mul-first-prime-unit-result}
+The concrete unary multiplication witness for the first prime and the unit
+exponent returns the first prime:
+$$
+\mathsf{NatMul}(\Eone(\Eone(\emp)),\Eone(\emp),\Eone(\Eone(\emp))).
+$$
+\end{lemma}
+\begin{proof}
+Use the first-prime witness for \(\Eone(\Eone(\emp))\). The zero
+multiplication constructor gives the empty predecessor product, and the
+successor multiplication constructor appends the first prime once using the
+left-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_first\_prime\_unit\_result}
+
 \begin{theorem}[Prime successor multiplication cannot have empty result]
 \label{thm:natprime-natmul-succ-result-not-empty}
 If \(p\) is prime and \(\mathsf{NatMul}(p,\Eone(q),n)\), then \(n\) is not
