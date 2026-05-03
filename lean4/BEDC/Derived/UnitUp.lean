@@ -43,4 +43,21 @@ theorem UnitHistoryClassifier_semanticNameCert :
   · intro h source
     exact source
 
+theorem UnitHistoryClassifier_visible_endpoint_absurd {p q k : BHist} :
+    (UnitHistoryClassifier (BHist.e0 p) k -> False) ∧
+      (UnitHistoryClassifier (BHist.e1 p) k -> False) ∧
+      (UnitHistoryClassifier k (BHist.e0 q) -> False) ∧
+      (UnitHistoryClassifier k (BHist.e1 q) -> False) := by
+  constructor
+  · intro classified
+    exact not_hsame_emp_e0 (cont_left_unit_result classified.left)
+  · constructor
+    · intro classified
+      exact not_hsame_emp_e1 (cont_left_unit_result classified.left)
+    · constructor
+      · intro classified
+        exact not_hsame_emp_e0 (cont_left_unit_result classified.right.left)
+      · intro classified
+        exact not_hsame_emp_e1 (cont_left_unit_result classified.right.left)
+
 end BEDC.Derived.UnitUp
