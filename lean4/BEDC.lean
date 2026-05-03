@@ -138,6 +138,7 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
+import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
@@ -174,6 +175,7 @@ import BEDC.Derived.GroupUp.ConjugationClassifier
 import BEDC.Derived.GroupUp.Commutator
 import BEDC.Derived.GroupUp.Centralizer
 import BEDC.Derived.GroupUp.CentralizerNormalizer
+import BEDC.Derived.GroupUp.NormalizerRoundtrip
 import BEDC.Derived.GroupUp.ProductUnitInverse
 import BEDC.Derived.GroupUp.ConjugationEmpty
 import BEDC.Derived.GroupUp.ConjugationComposition

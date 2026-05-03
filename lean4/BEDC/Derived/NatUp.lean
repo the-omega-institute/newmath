@@ -70,6 +70,23 @@ theorem NatUnaryStrictPrefix_e1_inversion {h k : BHist} :
                     exact cont_intro ((BHist.e1.inj tailCont).trans tailStep)
                   exact ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), loweredCont⟩
 
+theorem NatUnaryStrictPrefix_e0_inversion {h k : BHist} :
+    NatUnaryStrictPrefix (BHist.e0 h) (BHist.e0 k) -> NatUnaryStrictPrefix h k := by
+  intro strict
+  cases strict with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary strictData =>
+          cases strictData with
+          | intro tailNonempty tailCont =>
+              cases tail with
+              | Empty =>
+                  exact False.elim (tailNonempty rfl)
+              | e0 tail =>
+                  exact False.elim (unary_no_zero_extension tailUnary)
+              | e1 tail =>
+                  cases tailCont
+
 theorem NatUnaryStrictPrefix_append_tail_trans {h k l leftTail rightTail : BHist} :
     UnaryHistory leftTail -> (leftTail = BHist.Empty -> False) -> Cont h leftTail k ->
       UnaryHistory rightTail -> (rightTail = BHist.Empty -> False) -> Cont k rightTail l ->
@@ -83,6 +100,13 @@ theorem NatUnaryStrictPrefix_append_tail_trans {h k l leftTail rightTail : BHist
     exact ⟨append leftTail rightTail, unary_append_closed leftUnary rightUnary,
       (fun appendedEmpty => leftNonempty (append_eq_empty_iff.mp appendedEmpty).left), joinedCont⟩
   exact And.intro joinedStrict joinedCont
+
+theorem NatUnaryStrictPrefix_target_unary {h k : BHist} :
+    UnaryHistory h -> NatUnaryStrictPrefix h k -> UnaryHistory k := by
+  intro hUnary strict
+  cases strict with
+  | intro tail data =>
+      exact unary_cont_closed hUnary data.left data.right.right
 
 theorem NatUnaryStrictPrefix_trans_composite_tail {h k l : BHist} :
     NatUnaryStrictPrefix h k -> NatUnaryStrictPrefix k l ->

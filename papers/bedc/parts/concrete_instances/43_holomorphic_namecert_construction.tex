@@ -111,6 +111,38 @@ closure.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_continuation\_extend}
 
+\begin{lemma}[Witnessed open-disk boundary transport]
+\label{lem:holo-open-disk-witnessed-boundary-hsame-transport}
+If a witnessed unary open disk is transported along \(\hsame\) in its center,
+radius, and point histories, then the transported open disk remains witnessed,
+and the displayed boundary gap still supplies \(\Cont(z',g,r')\).
+\end{lemma}
+\begin{proof}
+Unpack the witnessed open disk to obtain the unary center, radius, point, and
+gap histories together with \(\Cont(z,g,r)\). Unary-history transport moves
+the three endpoint carriers along \(\hsame\), while continuation transport
+moves the boundary ledger to \(\Cont(z',g,r')\).
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskWitnessed\_boundary\_hsame\_transport}
+
+\begin{theorem}[Witnessed open disk unary suffix transport]
+\label{thm:holomorphic-open-disk-witnessed-unary-suffix-transport}
+If \(\mathsf{HolomorphicOpenDiskWitnessed}(z_0,r,z)\), \(q\) is unary, and
+the point and radius continue by the same suffix,
+\(\Cont(z,q,z_q)\) and \(\Cont(r,q,r_q)\), then
+\(\mathsf{HolomorphicOpenDiskWitnessed}(z_0,r_q,z_q)\). Moreover, the same
+gap supplies a boundary continuation \(\Cont(z_q,g,r_q)\) for some unary
+history \(g\).
+\end{theorem}
+\begin{proof}
+Unpack the witnessed disk to obtain a unary gap \(g\) with
+\(\Cont(z,g,r)\). This is a concrete open-disk gap witness, so gap-level
+unary suffix transport gives the shifted boundary continuation
+\(\Cont(z_q,g,r_q)\). The shifted gap witness exposes the unary carriers for
+the shifted point and radius, allowing the witnessed disk to be repacked.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskWitnessed\_unary\_suffix\_transport}
+
 \begin{theorem}[Open disk empty radius excludes visible points]
 \label{thm:holo-open-disk-e1-point-empty-radius-absurd}
 For every complex center \(z_0\), visible point \(\mathsf{e1}(z)\), and gap

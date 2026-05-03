@@ -304,6 +304,22 @@ theorem FieldApartZero_nested_continuation_empty_context_iff {l h r u v : BHist}
     exact FieldApartZero_empty_hsame_transport (hsame_symm (append_assoc l h r))
       (Iff.mpr contextIff coreApart)
 
+theorem FieldApartZero_nested_continuation_singleton_result_factor_absurd
+    {l h r u v q w endpoint : BHist} :
+    Cont l h u -> Cont u r v -> Cont v q w -> hsame l BHist.Empty ->
+      hsame r BHist.Empty -> FieldSingletonClassifier w endpoint ->
+        (FieldApartZero h -> False) ∧ (FieldApartZero q -> False) := by
+  intro leftCont rightCont tailCont leftEmpty rightEmpty classified
+  have nestedIff :=
+    FieldApartZero_nested_continuation_empty_context_iff leftCont rightCont leftEmpty rightEmpty
+  have tailAbsurd :=
+    FieldApartZero_continuation_singleton_result_factor_absurd tailCont classified
+  constructor
+  · intro apartH
+    exact tailAbsurd.left (Iff.mpr nestedIff apartH)
+  · intro apartQ
+    exact tailAbsurd.right apartQ
+
 theorem field_apartzero_inverse_involutive {mul : BHist -> BHist -> BHist} {one : BHist}
     {inv : (a : BHist) -> (hsame a BHist.Empty -> False) -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
