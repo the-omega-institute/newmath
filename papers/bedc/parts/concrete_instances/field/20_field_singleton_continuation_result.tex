@@ -247,3 +247,20 @@ result singleton; combining this carrier with the assumed carriers for $L$
 and $R$ rebuilds the displayed contextual classifier against $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_result\_context\_iff}
+
+\begin{theorem}[Field singleton classifier for mutual continuation cycle tails]
+\label{thm:fieldup-singleton-cycle-tail-classifier}
+For histories $h,k,tail,backTail:\mathsf{BHist}$, if
+$$
+\ContR(h,tail,k)
+\quad\text{and}\quad
+\ContR(k,backTail,h),
+$$
+then $\mathsf{FieldSingletonClassifier}(tail,backTail)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_mutual\_continuation\_cycle\_tails}
+\begin{proof}
+Mutual continuation tail cancellation identifies both $tail$ and $backTail$
+with $\emp$. These two singleton carrier witnesses give the classifier fields,
+and transitivity through $\emp$ gives the tail-to-tail history-sameness field.
+\end{proof}

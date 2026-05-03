@@ -241,6 +241,7 @@ import BEDC.Derived.FieldUp.SingletonContinuationRightEndpoint
 import BEDC.Derived.FieldUp.SingletonClassifierEndpointTransport
 import BEDC.Derived.FieldUp.SingletonContinuationCommIff
 import BEDC.Derived.FieldUp.SingletonContinuationAppendSplit
+import BEDC.Derived.FieldUp.SingletonCycleTailClassifier
 import BEDC.Derived.FieldUp.SingletonNonZeroReadback
 import BEDC.Derived.FieldUp.SingletonAppendSuffixCancel
 import BEDC.Derived.FieldUp.SingletonOperationContext
