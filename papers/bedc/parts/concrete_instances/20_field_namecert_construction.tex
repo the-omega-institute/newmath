@@ -88,3 +88,76 @@ $\mathsf{Center}_F(\mathrm{Inn}_T(Z))$.
 \end{proof}
 \input{parts/concrete_instances/field/20_field_affine_commutator_centralizer}
 \input{parts/concrete_instances/field/20_field_affine_commutator_centralizer_normalizer}
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $C_F(A)$ be the affine centralizer carrier
+from \autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let
+$N_F(C_F(A))$ be the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. For
+$T:\mathsf{AffAut}_F$ define the restricted normalizer action on centralizer
+elements by
+$$
+\mathrm{Act}_T(X):=\mathrm{Conj}_T(X)
+=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $N_F(C_F(A))(T)$ and $C_F(A)(X)$, then
+$$
+C_F(A)(\mathrm{Act}_T(X)).
+$$
+The restricted action also obeys the identity and composition laws:
+$$
+\mathrm{Act}_{\mathrm{id}_F}(X)\equiv_{\mathrm{aff}}X.
+$$
+For $N_F(C_F(A))(T)$, $N_F(C_F(A))(U)$, and $C_F(A)(X)$,
+$$
+\mathrm{Act}_T(\mathrm{Act}_U(X))\equiv_{\mathrm{aff}}
+\mathrm{Act}_{T\circ_{\mathrm{aff}}U}(X).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. Its
+preservation clause says exactly that a normalizing affine automorphism sends
+each $C_F(A)$-element to another $C_F(A)$-element by the concrete conjugation
+$\mathrm{Conj}_T(-)$. Since $\mathrm{Act}_T(X)$ is defined to be this conjugate,
+$N_F(C_F(A))(T)$ and $C_F(A)(X)$ give
+$C_F(A)(\mathrm{Act}_T(X))$.
+
+For the identity law, apply
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit} with
+conjugating parameter $\mathrm{id}_F$ and acted element $X$. The identity clause
+of that theorem gives
+$\mathrm{Act}_{\mathrm{id}_F}(X)\equiv_{\mathrm{aff}}X$ under the same affine
+classifier.
+
+For composition, first use the preservation clause of $U$ to obtain
+$C_F(A)(\mathrm{Act}_U(X))$. Then use the preservation clause of $T$ to keep the
+outer acted element inside $C_F(A)$. The composition clause of
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit}, applied to
+$T$, $U$, and $X$, identifies the two affine words as
+$$
+\mathrm{Act}_T(\mathrm{Act}_U(X))\equiv_{\mathrm{aff}}
+\mathrm{Act}_{T\circ_{\mathrm{aff}}U}(X).
+$$
+
+The carrier membership clauses come from the two normalizer hypotheses, while
+the classifier comparison is the concrete inner-action law already supplied for
+the $\FieldUp(\RatUp)$ affine exit object. The inverse witnesses are the
+$\iota_F(T)$ and $\iota_F(U)$ rows fixed by the canonical affine inverse
+package, and the acted elements remain in the same centralizer carrier
+throughout.
+\end{proof}
+
+Per-object template: traditional target normalizer action on centralizer; BEDC
+source concrete $\FieldUp(\RatUp)$ exit plus $\GroupUp$; carrier $C_F(A)$ acted
+on by $N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; stability
+preservation, identity action, and composition action; ledger fixed element,
+conjugating elements, acted element, and inverse witnesses; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-inclusion},
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit}, and
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}; exactness predicate
+restricted normalizer action; standard bridge ordinary normalizer action on a
+subgroup; status $\mathsf{ProofTarget}$.
