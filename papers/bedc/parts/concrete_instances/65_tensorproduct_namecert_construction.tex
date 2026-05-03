@@ -6,6 +6,28 @@ The tensor-product interface $\TensorProductUp$ packages the universal bilinear 
 \section{Carrier definition}
 \label{sec:tensorproduct-carrier}
 
+\begin{definition}[Tensor-product singleton carrier]\label{def:tensorproduct-singleton-carrier}
+For a generated history $h$, the singleton tensor-product carrier holds when there are
+histories $l$ and $r$ such that $l$ and $r$ are both module-singleton histories and
+$\Cont(l,r,h)$ holds. Thus the tensor-product singleton object is represented by a
+concrete continuation ledger from its two singleton module endpoints.
+\end{definition}
+\leandef{BEDC.Derived.TensorProductUp.TensorProductSingletonCarrier}
+
+\begin{theorem}[Tensor-product singleton suffix carrier]\label{thm:tensorproduct-singleton-carrier-continuation-suffix-carrier}
+Let $p$, $s$, and $o$ be generated histories. If $p$ and $o$ satisfy the
+tensor-product singleton carrier and $\Cont(p,s,o)$ holds, then $s$ satisfies the
+module-singleton carrier.
+\end{theorem}
+\begin{proof}
+Unpack the two tensor-product singleton carriers into module-singleton endpoints
+and continuation ledgers. The endpoint carriers identify both tensor endpoints with
+the empty history. The displayed continuation $\Cont(p,s,o)$ therefore has empty
+source and empty result, so the append-empty inversion for continuation identifies
+the suffix $s$ with the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonCarrier\_continuation\_suffix\_carrier}
+
 \begin{definition}[Tensor product singleton factor]
 \label{def:tensorproduct-singleton-factor}
 For histories $l,r,t:\mathsf{BHist}$, the tensor-product singleton factor
