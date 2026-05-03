@@ -358,6 +358,82 @@ theorem ratup_fieldup_transported_strict_support_singleton_classifier_exclusion
   exact fieldSingletonEmptyClassifier_append_RatHistoryClassifier_absurd
     transportedClassifier singleton
 
+theorem ratup_fieldup_transported_exit_row_contextual_separation_package
+    {p q p' q' h l r l' r' s t s' t' : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitClassifier l s ->
+        RatDenomUnitClassifier r t -> RatDenomUnitClassifier l' s' ->
+          RatDenomUnitClassifier r' t' ->
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' l' r'
+                (RatDenomUnitContextualAction p q l r h)) ->
+            RatDenomUnitCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            (hsame
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) BHist.Empty -> False) ∧
+            (∀ ctx : BHist,
+              (fieldSingletonEmptyCarrier
+                (append ctx
+                  (RatDenomUnitContextualAction p' q' s' t'
+                    (RatDenomUnitContextualAction p q s t h))) -> False) ∧
+              (fieldSingletonEmptyCarrier
+                (append
+                  (RatDenomUnitContextualAction p' q' s' t'
+                    (RatDenomUnitContextualAction p q s t h)) ctx) -> False)) := by
+  intro sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+    leftStrict
+  have separation :=
+    ratup_fieldup_transported_strict_support_separation_package
+      sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+      leftStrict
+  exact ⟨separation.left, separation.right.left, separation.right.right.right,
+    fun ctx =>
+      ratup_fieldup_transported_strict_support_contextual_singleton_exclusion
+        (ctx := ctx)
+        sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL'
+        classifiedR' leftStrict⟩
+
+theorem ratup_fieldup_transported_exit_row_singleton_classifier_noncollapse
+    {p q p' q' h l r l' r' s t s' t' : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitClassifier l s ->
+        RatDenomUnitClassifier r t -> RatDenomUnitClassifier l' s' ->
+          RatDenomUnitClassifier r' t' ->
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' l' r'
+                (RatDenomUnitContextualAction p q l r h)) ->
+            RatDenomUnitCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) ∧
+            (∀ L R : BHist,
+              fieldSingletonEmptyClassifier
+                (append L
+                  (RatDenomUnitContextualAction p' q' s' t'
+                    (RatDenomUnitContextualAction p q s t h)))
+                (append R
+                  (RatDenomUnitContextualAction p' q' s' t'
+                    (RatDenomUnitContextualAction p q s t h))) -> False) := by
+  intro sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+    leftStrict
+  have separation :=
+    ratup_fieldup_transported_strict_support_separation_package
+      sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+      leftStrict
+  exact ⟨separation.left, separation.right.left,
+    fun L R =>
+      ratup_fieldup_transported_strict_support_singleton_classifier_exclusion
+        (L := L) (R := R)
+        sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL'
+        classifiedR' leftStrict⟩
+
 theorem RatDenomUnitContextualAction_nested_pair_action_coherence
     {h l0 r0 l1 r1 l2 r2 : BHist} :
     RatDenomUnitCarrier h -> RatDenomUnitCarrier l0 -> RatDenomUnitCarrier r0 ->

@@ -27,6 +27,16 @@ theorem ContinuationMorphism_comp_right_visible_tail_empty_absurd {a b c m : BHi
             cases sameRightTail
             exact not_hsame_e1_empty (append_eq_empty_iff.mp compositeEmpty).right
 
+theorem ContinuationMorphism_right_visible_tail_target_not_empty {b c m : BHist}
+    (right : ContinuationMorphism b c) :
+    hsame right.tail (BHist.e1 m) -> hsame c BHist.Empty -> False := by
+  intro sameRightTail sameTarget
+  cases right with
+  | mk rightTail rightRel =>
+      cases sameRightTail
+      cases rightRel
+      exact not_hsame_e1_empty (append_eq_empty_iff.mp sameTarget).right
+
 theorem ContinuationMorphism_comp_left_visible_tail_empty_absurd {a b c m : BHist}
     (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
     (hsame left.tail (BHist.e0 m) ->
