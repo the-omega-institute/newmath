@@ -607,15 +607,15 @@ collapse.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_column\_cancellations\_zero}
 
-For the $\CommRingUp$ per-object template, the traditional target is signed row
-cancellation in commutative-ring algebra. Its BEDC source is $\RingUp$ plus
-$\CommRingUp$ over $\mathsf{BHist}$, its carrier is $\mathsf{BHist}$, its
+For the $\CommRingUp$ per-object template, the traditional target is signed
+column cancellation in commutative-ring algebra. Its BEDC source is $\RingUp$
+plus $\CommRingUp$ over $\mathsf{BHist}$, its carrier is $\mathsf{BHist}$, its
 classifier is $\hsame$, its stability obligations are signed-product
 normalization, additive inverse laws, additive congruence, and transitivity, and
-its ledger records row-paired product provenance. The core theorem list contains
-Theorem~\ref{thm:commring-signed-row-cancellations-zero}; exactness is zero
-classification under row-paired cancellations; the standard bridge remains
-outside this proof site; and the status is $\mathsf{ProofTarget}$.
+its ledger records column-paired product provenance. The core theorem list
+contains Theorem~\ref{thm:commring-signed-column-cancellations-zero}; exactness
+is zero classification under column-paired cancellations; the standard bridge
+remains outside this proof site; and the status is $\mathsf{ProofTarget}$.
 
 \begin{theorem}[CommRing signed row cancellations force zero product]
 \label{thm:commring-signed-row-cancellations-zero}
@@ -704,6 +704,30 @@ normal form, yielding
 $ (a+(-b))\cdot(c+(-d))\hsame0 $.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_product\_empty\_zero\_exact}
+
+\begin{theorem}[CommRing column cancellations balance cross sums]
+\label{thm:commring-column-cancellations-cross-sum-balance}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ with
+$a\cdot c\hsame b\cdot c$ and $a\cdot d\hsame b\cdot d$ satisfies
+$$
+a\cdot c+b\cdot d\hsame a\cdot d+b\cdot c .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-signed-column-cancellations-zero} to the two
+column hypotheses. This produces the signed zero product
+$$
+(a+(-b))\cdot(c+(-d))\hsame0.
+$$
+
+Apply the forward direction of
+Theorem~\ref{thm:commring-signed-product-zero-exact}. The signed zero product
+is exactly the left side of that exactness statement, so its conclusion is the
+displayed cross-sum balance.
+\end{proof}
 
 \begin{theorem}[CommRing row cancellations balance cross sums]
 \label{thm:commring-row-cancellations-cross-sum-balance}
