@@ -1,8 +1,10 @@
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.EqtypeUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 
 def EqtypeClassCarrier (anchor : BHist) (h : BHist) : Prop :=
@@ -43,6 +45,28 @@ theorem EqtypeClassCarrier_e1_anchor_e0_tail_absurd {anchor tail h : BHist} :
   have mixed : hsame (BHist.e0 tail) (BHist.e1 anchor) :=
     hsame_trans (hsame_symm sameTail) carrier
   exact not_hsame_e0_e1 mixed
+
+theorem EqtypeClassCarrier_empty_anchor_visible_absurd {tail h : BHist} :
+    EqtypeClassCarrier BHist.Empty h ->
+      (hsame h (BHist.e0 tail) ∨ hsame h (BHist.e1 tail)) -> False := by
+  intro carrier visible
+  cases visible with
+  | inl sameZero =>
+      exact not_hsame_emp_e0 (hsame_trans (hsame_symm carrier) sameZero)
+  | inr sameOne =>
+      exact not_hsame_emp_e1 (hsame_trans (hsame_symm carrier) sameOne)
+
+theorem EqtypeClassCarrier_visible_context_anchor_readback {p r anchor h core : BHist} :
+    EqtypeClassCarrier anchor h ->
+      hsame (append (append p h) r) (append (append p core) r) ->
+        hsame core anchor := by
+  intro carrier sameVisible
+  have sameNested : hsame (append p (append h r)) (append p (append core r)) :=
+    hsame_trans (hsame_symm (append_assoc p h r))
+      (hsame_trans sameVisible (append_assoc p core r))
+  have sameCore : hsame h core :=
+    (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
+  exact hsame_trans (hsame_symm sameCore) carrier
 
 theorem EqtypeClass_semanticNameCert {anchor : BHist} :
     SemanticNameCert (EqtypeClassCarrier anchor) (EqtypeClassCarrier anchor)

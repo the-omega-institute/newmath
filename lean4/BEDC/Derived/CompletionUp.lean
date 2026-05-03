@@ -1,4 +1,5 @@
 import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
+import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.RealUp
 
 namespace BEDC.Derived.CompletionUp
@@ -17,6 +18,28 @@ theorem CompletionMetricDistanceWitness_e1_tail_real_prefix_readback
   intro hPrefix hDistance
   exact And.intro (unary_e1_inversion hDistance.2.2.1)
     (RealStreamPrefixClassifier_endpoint n hPrefix)
+
+theorem CompletionMetricDistanceWitness_e1_tail_hsame_transport
+    {x x' y y' : Nat -> BHist} {n : Nat} {tail : BHist}
+    (sameX : forall m : Nat, hsame (x m) (x' m))
+    (sameY : forall m : Nat, hsame (y m) (y' m)) :
+    RealStreamPrefixClassifier x y n -> MetricDistanceWitness (x n) (y n) (BHist.e1 tail) ->
+      RealStreamPrefixClassifier x' y' n ∧
+        MetricDistanceWitness (x' n) (y' n) (BHist.e1 tail) ∧ UnaryHistory tail ∧
+          RatHistoryClassifier (x' n) (y' n) := by
+  intro hPrefix hDistance
+  have hPrefix' : RealStreamPrefixClassifier x' y' n :=
+    RealStreamPrefixClassifier_hsame_transport sameX sameY n hPrefix
+  have distanceLedger' : Cont (x' n) (y' n) (BHist.e1 tail) :=
+    MetricDistanceWitness_cont_hsame_transport (sameX n) (sameY n)
+      (hsame_refl (BHist.e1 tail)) hDistance
+  have hDistance' : MetricDistanceWitness (x' n) (y' n) (BHist.e1 tail) :=
+    And.intro (unary_transport hDistance.left (sameX n))
+      (And.intro (unary_transport hDistance.right.left (sameY n))
+        (And.intro hDistance.right.right.left distanceLedger'))
+  have readback :=
+    CompletionMetricDistanceWitness_e1_tail_real_prefix_readback hPrefix' hDistance'
+  exact And.intro hPrefix' (And.intro hDistance' readback)
 
 theorem CompletionMetricDistanceWitness_e1_result_tail_deterministic
     {x y : Nat -> BHist} {n : Nat} {d e : BHist} :
@@ -65,6 +88,23 @@ theorem CompletionMetricDistanceWitness_visible_context_e1_tail_real_prefix_read
       (y := y n) (d := BHist.e1 tail)).mp hDistance
   exact And.intro (unary_e1_inversion visibleBase.right.right.right.right.left)
     (RealStreamPrefixClassifier_endpoint n hPrefix)
+
+theorem CompletionMetricDistanceWitness_visible_context_empty_distance_real_prefix_readback
+    {x y : Nat -> BHist} {n : Nat} {p q : BHist} :
+    RealStreamPrefixClassifier x y n ->
+      MetricDistanceWitness (append p (x n)) (append (y n) q)
+        (append (append p BHist.Empty) q) ->
+        UnaryHistory p ∧ UnaryHistory q ∧ hsame (x n) BHist.Empty ∧
+          hsame (y n) BHist.Empty ∧ RatHistoryClassifier (x n) (y n) := by
+  intro hPrefix hDistance
+  have visibleBase :=
+    (MetricDistanceWitness_visible_context_empty_distance_iff (p := p) (q := q)
+      (x := x n) (y := y n)).mp hDistance
+  exact And.intro visibleBase.left
+    (And.intro visibleBase.right.left
+      (And.intro visibleBase.right.right.left
+        (And.intro visibleBase.right.right.right
+          (RealStreamPrefixClassifier_endpoint n hPrefix))))
 
 theorem CompletionMetricDistanceWitness_visible_context_e1_symmetric_tail_real_prefix_readback
     {x y : Nat -> BHist} {n : Nat} {p q d e : BHist} :

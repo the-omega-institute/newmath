@@ -142,7 +142,38 @@ component and returns the positive-denominator witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_component\_continuation\_witness}
 
+\begin{theorem}[Pure-imaginary suffix continuation complex carrier]
+\label{thm:cplx-pure-imaginary-suffix-continuation-complex-carrier}
+Let \(\mathsf{CplxPureImaginary}(\theta,z)\) hold, and let a unary suffix \(q\)
+continue \(z\) to \(zq\). Then \(zq\) is a \(\ComplexUp\) history carrier and
+is not \(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Split the suffix continuation through the imaginary component supplied by the
+pure-imaginary component continuation theorem. The real component
+\(\Eone(\emp)\) is a rational carrier, and the split suffix gives a rational
+imaginary carrier, so the complex component-continuation carrier theorem builds
+the \(\ComplexUp\) carrier for \(zq\). Complex carrier non-emptiness then rules
+out \(zq\hsame\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_continuation\_complex\_carrier}
+
 \begin{theorem}[Pure-imaginary continuation has complex carrier]
+\label{thm:cplx-pure-imaginary-continuation-complex-carrier}
+If \(z\) is the pure-imaginary source determined by \(\theta\), a unary suffix
+\(q\) continues \(z\) to \(zq\), and \(q\) is a unary history, then \(zq\) is
+carried by \(\ComplexUp\).
+\end{theorem}
+\begin{proof}
+The component-continuation theorem splits the suffix through an intermediate
+imaginary component \(imagq\), with a rational carrier for \(imagq\) and a
+continuation from \(\Eone(\emp)\) and \(imagq\) to \(zq\). The fixed real
+component \(\Eone(\emp)\) is a rational carrier, so product continuation
+introduces the \(\ComplexUp\) carrier for \(zq\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_continuation\_complex\_carrier}
+
+\begin{theorem}[Pure-imaginary component continuation has complex carrier]
 \label{thm:cplx-pure-imaginary-component-continuation-complex-carrier}
 Let $\mathsf{CplxPureImaginary}(\theta,z)$ hold, and let a unary suffix $q$
 continue $z$ to $zq$. Then $zq$ is carried by $\ComplexUp$.
