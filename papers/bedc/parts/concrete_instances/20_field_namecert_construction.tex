@@ -22,6 +22,59 @@
 \input{parts/concrete_instances/field/20_field_singleton_carrier_two_sided_context_semantic_namecert}
 \input{parts/concrete_instances/field/20_field_four_factor_inverse_classifier_exactness}
 
+\begin{theorem}[RatUp FieldUp canonical machine-checkable exit]
+\label{thm:ratup-fieldup-canonical-machine-checkable-exit}
+For $\mathsf{RatUpFieldSource}_F$ and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the canonical
+phase-exit target is the single $\mathsf{BHist}$-anchored certificate whose
+carrier is $\mathsf{RatHistoryCarrier}$, whose classifier is
+$\mathsf{RatHistoryClassifier}$, whose denominator tuple is
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, and whose contextual action
+is $\Gamma$.
+
+Its operation rows are exactly the rows covered by
+\autoref{thm:ratup-fieldup-concrete-schema-instance},
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion},
+\autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness}, and
+\autoref{thm:ratup-fieldup-concrete-exit-object-complete}. Therefore the
+canonical machine-checkable exit is not a schematic algebra interface, but the
+concrete certificate object carried by the displayed RatUp history source.
+\end{theorem}
+\begin{proof}
+Unpack the concrete source tuple $\mathsf{RatUpFieldSource}_F$ and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. The carrier,
+classifier, denominator tuple, and contextual action are the displayed
+$\mathsf{BHist}$ rows, so the target has one concrete source anchor.
+
+Apply \autoref{thm:ratup-fieldup-concrete-schema-instance} to identify the
+source, carrier, classifier, denominator, contextual-action, context-pair, and
+affine coordinates. Apply
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion} to cover the
+operation rows, including denominator histories, context pairs, affine
+witnesses, inverse and nonzero witnesses, product exactness, and selector
+endpoint rows.
+
+Apply \autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness} to package
+those rows as the Phase Algebra Hierarchy paper-certificate object. Finally
+apply \autoref{thm:ratup-fieldup-concrete-exit-object-complete} to identify this
+package with Definition~\ref{def:ratup-fieldup-concrete-exit-object}. The formal
+target therefore belongs naturally to the namespace
+\texttt{BEDC.Derived.FieldUp}.
+\end{proof}
+
+Per-object template: traditional target constructive
+$\FieldUp(\RatUp)$ phase exit; BEDC source $\mathsf{BHist}$ with $\RatUp$,
+$\CommRingUp$, denominator, contextual-action, context-pair, and affine rows;
+carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$; stability and exactness rows from
+\autoref{thm:ratup-fieldup-concrete-schema-instance},
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion},
+\autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness}, and
+\autoref{thm:ratup-fieldup-concrete-exit-object-complete}; ledger denominator
+histories, context pairs, affine witnesses, inverse/nonzero witnesses, and
+selector endpoint rows; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp algebra reduct compatibility]
 \label{thm:ratup-fieldup-algebra-reduct-compatibility}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
