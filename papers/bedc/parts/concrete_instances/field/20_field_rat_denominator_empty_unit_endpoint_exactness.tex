@@ -214,6 +214,27 @@ classifies the displayed result as
 $\mathsf{RatHistoryClassifier}(r,d)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator left-unit result is not empty]
+\label{thm:field-rat-denominator-continuation-left-unit-result-not-empty}
+For histories $u,d,r:\mathsf{BHist}$, suppose $u$ satisfies the
+Rat-denominator left-unit classifier law:
+$$
+\forall x,y:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(x)\to
+\Cont(u,x,y)\to
+\mathsf{RatHistoryClassifier}(y,x).
+$$
+If $\mathsf{RatHistoryCarrier}(d)$ and $\Cont(u,d,r)$, then
+$\hsame(r,\emp)$ implies contradiction.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_left\_unit\_law\_result\_not\_empty}
+\begin{proof}
+Apply the displayed left-unit classifier law to the concrete carried
+denominator $d$ and continuation $\Cont(u,d,r)$. The resulting
+$\mathsf{RatHistoryClassifier}(r,d)$ exposes a Rat carrier witness on $r$,
+and Rat carrier histories cannot be internally the same as $\emp$.
+\end{proof}
+
 \begin{theorem}[Rat denominator e1 left-unit law is impossible]
 \label{thm:field-rat-denominator-continuation-e1-left-unit-law-absurd}
 For every tail history $t:\mathsf{BHist}$, the one-headed candidate

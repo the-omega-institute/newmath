@@ -68,6 +68,32 @@ theorem CplxDiffQuot_append_classifier_transport {f : BHist -> BHist} {z z' h h'
               exact And.intro qClass
                 (And.intro zCarrier (And.intro targetNonzero (And.intro qCarrier qClass)))
 
+theorem CplxDiffQuot_result_not_empty {f z h q : BHist} :
+    CplxDiffQuot f z h q -> hsame q BHist.Empty -> False := by
+  intro quotient resultEmpty
+  cases quotient with
+  | intro _functionCarrier rest =>
+      cases rest with
+      | intro _pointCarrier rest =>
+          cases rest with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro _quotientCarrier ledger =>
+                  have emptyLedger : Cont f h BHist.Empty :=
+                    cont_result_hsame_transport ledger resultEmpty
+                  have emptyParts := cont_empty_result_inversion emptyLedger
+                  exact stepNonzero emptyParts.right
+
+theorem CplxDiffQuotAppendClassifier_append_target_not_empty {f : BHist -> BHist}
+    {z h q : BHist} :
+    CplxDiffQuotAppendClassifier f z h q -> hsame (append z h) BHist.Empty -> False := by
+  intro quotient appendEmpty
+  cases quotient with
+  | intro _zCarrier rest =>
+      cases rest with
+      | intro stepNonzero _rest =>
+          exact stepNonzero (append_eq_empty_iff.mp appendEmpty).right
+
 theorem CplxDiffQuot_quotient_cont_deterministic {f z h q q' : BHist} :
     CplxDiffQuot f z h q -> CplxDiffQuot f z h q' ->
       Cont f h q ∧ Cont f h q' ∧ hsame q q' := by

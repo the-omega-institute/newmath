@@ -89,6 +89,32 @@ Transport the unary function, point, and quotient carriers along \(\hsame\). The
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_hsame\_transport}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_append\_classifier\_transport}
 
+\begin{theorem}[Complex difference quotient result is not empty]
+\label{thm:cplx-diff-quot-result-not-empty}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$, then $\hsame(q,\emp)$ implies
+contradiction.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_not\_empty}
+\begin{proof}
+Unpack the quotient ledger to obtain the non-zero witness on $h$ and the
+continuation $\Cont(f,h,q)$. If $q\hsame\emp$, transport the continuation
+result to $\Cont(f,h,\emp)$; empty-result inversion for continuation then
+identifies $h$ with $\emp$, contradicting $\mathsf{CplxNonZero}(h)$.
+\end{proof}
+
+\begin{theorem}[Complex difference quotient append target is not empty]
+\label{thm:cplx-diff-quot-append-target-not-empty}
+If $\mathsf{CplxDiffQuotAppendClassifier}(f,z,h,q)$, then
+$\hsame(\mathsf{append}(z,h),\emp)$ implies contradiction.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuotAppendClassifier\_append\_target\_not\_empty}
+\begin{proof}
+Unpack the append classifier to obtain the non-zero witness on $h$. The
+append-empty decomposition of
+$\hsame(\mathsf{append}(z,h),\emp)$ gives $h\hsame\emp$, which contradicts
+that witness.
+\end{proof}
+
 \section{Pointwise complex differentiability}
 
 \begin{definition}[Pointwise complex differentiability]
