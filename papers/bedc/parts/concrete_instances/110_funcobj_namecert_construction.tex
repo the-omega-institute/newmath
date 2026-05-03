@@ -92,6 +92,26 @@ $\mathsf{Cont}(source,map,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_target\_graph\_empty\_iff}
 
+\begin{theorem}[Function object linear singleton continuous-map cert graph empty iff]
+\label{thm:funcobj-linear-singleton-continuous-map-cert-graph-empty-iff}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ holds
+and the target and modulus histories lie in the linear-map singleton carrier.
+Then the empty certificate graph is equivalent to the certificate being empty:
+$$
+\mathsf{Cont}(target,modulus,\emp)\Longleftrightarrow\hsame(cert,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The continuous-map carrier contains the certificate continuation
+$\mathsf{Cont}(target,modulus,cert)$. The forward direction compares it with
+the displayed empty certificate graph by continuation determinism. Conversely,
+if $cert\hsame\emp$, transport the result of the certificate continuation to
+obtain $\mathsf{Cont}(target,modulus,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_cert\_graph\_empty\_iff}
+
 \section{The certificate}
 \label{sec:funcobj-certificate}
 
