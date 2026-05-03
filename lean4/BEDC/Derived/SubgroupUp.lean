@@ -299,4 +299,51 @@ theorem SubgroupCentralizerQuotientKernel_empty_fiber_iff
       carrierTransport centralX (hsame_symm displacementSameX)
     exact And.intro emptyNormalizer (And.intro xNormalizer kernelCentral)
 
+protected theorem SubgroupCentralizerQuotientKernel_trans_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y z : BHist} :
+    SubgroupCentralizerQuotientKernel mul inv a x y ->
+      SubgroupCentralizerQuotientKernel mul inv a y z ->
+        SubgroupCentralizerQuotientKernel mul inv a x z := by
+  intro leftKernel rightKernel
+  have certificateRows :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizer_certificate_target_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  have mulClosed :
+      forall {u v : BHist}, SubgroupCentralizerCarrier mul a u ->
+        SubgroupCentralizerCarrier mul a v -> SubgroupCentralizerCarrier mul a (mul u v) :=
+    certificateRows.right.right.left
+  have carrierTransport :
+      forall {u v : BHist}, SubgroupCentralizerCarrier mul a u -> hsame u v ->
+        SubgroupCentralizerCarrier mul a v :=
+    certificateRows.right.right.right.right
+  have productCentral :
+      SubgroupCentralizerCarrier mul a
+        (mul (mul (inv x) y) (mul (inv y) z)) :=
+    mulClosed leftKernel.right.right rightKernel.right.right
+  have cancelMiddle :
+      hsame (mul (mul (inv x) y) (mul (inv y) z)) (mul (inv x) z) := by
+    have reassocLeft :
+        hsame (mul (mul (inv x) y) (mul (inv y) z))
+          (mul (inv x) (mul y (mul (inv y) z))) :=
+      assocC (inv x) y (mul (inv y) z)
+    have reassocMiddle :
+        hsame (mul y (mul (inv y) z)) (mul (mul y (inv y)) z) :=
+      hsame_symm (assocC y (inv y) z)
+    have cancelY :
+        hsame (mul (mul y (inv y)) z) z :=
+      hsame_trans (mulCongr (rightInv y) (hsame_refl z)) (leftId z)
+    exact hsame_trans reassocLeft
+      (hsame_trans (mulCongr (hsame_refl (inv x)) reassocMiddle)
+        (mulCongr (hsame_refl (inv x)) cancelY))
+  exact And.intro leftKernel.left
+    (And.intro rightKernel.right.left (carrierTransport productCentral cancelMiddle))
+
 end BEDC.Derived.SubgroupUp
