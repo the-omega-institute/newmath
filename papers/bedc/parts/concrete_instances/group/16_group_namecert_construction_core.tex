@@ -199,6 +199,31 @@ carrier witnesses for $P$ and $Q$; these witnesses classify the input pair.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_result\_left\_iff}
 
+\begin{theorem}[Group singleton classifier continuation result-right iff]
+\label{thm:group-singleton-classifier-continuation-result-right}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton group
+classifier relates the two continuation inputs exactly when it relates the
+continuation result to the right input:
+$$
+R_{\emp}(P,Q)\Longleftrightarrow R_{\emp}(R,Q).
+$$
+\end{theorem}
+\begin{proof}
+If $R_{\emp}(P,Q)$ holds, then both inputs carry singleton witnesses. Transport
+the continuation result against the empty right-unit continuation to make $R$
+singleton-carried. Together with the existing carrier witness for $Q$,
+transitivity through $\emp$ classifies $R$ with $Q$.
+
+Conversely, if $R_{\emp}(R,Q)$ holds, then $R$ and $Q$ are singleton-carried.
+Transport the displayed continuation to an empty result using the witness for
+$R$, and then apply empty-result inversion for append and continuation. This
+recovers a singleton carrier witness for $P$ while preserving the displayed
+singleton witness for $Q$.
+
+The recovered carrier witnesses for $P$ and $Q$, composed through $\emp$,
+rebuild $R_{\emp}(P,Q)$.
+\end{proof}
+
 The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
 operations, so subsequent formalization can prove $BHist$-anchored group laws
 instead of relying only on an abstract operator schema.
