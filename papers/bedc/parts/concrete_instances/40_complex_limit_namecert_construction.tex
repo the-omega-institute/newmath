@@ -270,6 +270,23 @@ From the two modulus witnesses construct the diagonal sequence \(s(\max(M(k), M'
 
 \section{Closure laws on regular sequences}
 
+\begin{lemma}[Complex distance constant suffix closure]
+\label{lem:complex-distance-append-constant-closed}
+Let \(q:\mathsf{BHist}\) be unary. If \(\mathsf{ComplexDistance}(z,w,d)\)
+holds, then the suffixed endpoints admit the canonical BEDC distance witness
+$$
+\mathsf{append}(\mathsf{append}(z,q),\mathsf{append}(w,q)).
+$$
+\end{lemma}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_append\_constant\_closed}
+\begin{proof}
+Unary support for the original distance supplies unary histories for \(z\) and
+\(w\). Unary append closure with \(q\) gives the two suffixed endpoints, and
+another append-closure step gives the displayed witness. The continuation
+relation is the canonical append continuation from the suffixed left endpoint
+to the suffixed right endpoint.
+\end{proof}
+
 \begin{theorem}[Regular complex sequence constant suffix closure]
 \label{thm:complex-regular-sequence-append-constant-closed}
 Let \(q:\mathsf{BHist}\) be unary. If \((s,N)\) is a regular complex sequence,

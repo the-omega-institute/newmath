@@ -20,6 +20,16 @@ theorem ComplexDistanceTriangleBound_unary_of_distances {z w u d12 d23 : BHist} 
     unary_append_closed leftDistance.right.right.left rightDistance.right.right.left
   exact And.intro boundUnary (And.intro leftDistance.left rightDistance.right.left)
 
+theorem ComplexDistance_append_constant_closed {z w d q : BHist} :
+    UnaryHistory q -> ComplexDistance z w d ->
+      ComplexDistance (append z q) (append w q) (append (append z q) (append w q)) := by
+  intro unaryQ distance
+  have leftUnary : UnaryHistory (append z q) := unary_append_closed distance.left unaryQ
+  have rightUnary : UnaryHistory (append w q) := unary_append_closed distance.right.left unaryQ
+  exact And.intro leftUnary
+    (And.intro rightUnary
+      (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl))))
+
 theorem ComplexDistance_symm_iff {z w d : BHist} :
     (ComplexDistance z w d ↔ ComplexDistance w z d) ∧
       (ComplexDistance z w d -> UnaryHistory z ∧ UnaryHistory w ∧ UnaryHistory d) := by

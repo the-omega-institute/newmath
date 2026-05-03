@@ -129,6 +129,7 @@ import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexLimitUp
+import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.SumUp

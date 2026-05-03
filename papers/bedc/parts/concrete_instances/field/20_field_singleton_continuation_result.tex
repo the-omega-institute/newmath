@@ -159,3 +159,26 @@ the empty history. Determinacy against the right-unit continuation at $\emp$
 therefore identifies $out$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_result\_carrier}
+
+\begin{theorem}[Field singleton continuation result context]
+\label{thm:field-singleton-continuation-result-context}
+For histories $L,R,P,Q,T:\mathsf{BHist}$, if $L$ and $R$ are singleton
+carriers and $\ContR(P,Q,T)$, then singleton classification of the
+two-sided context around the continuation result against $\emp$ is equivalent
+to the two exposed continuation inputs being singleton carriers:
+$$
+\mathsf{FieldSingletonClassifier}
+  (\mathsf{append}(L,\mathsf{append}(T,R)),\emp)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(P)\land\mathsf{FieldSingletonCarrier}(Q).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, split the empty contextual endpoint twice, first
+at $L$ and then at $T$ and $R$. The resulting singleton carrier for $T$
+transports the continuation to empty result, whose inversion gives the two
+input carriers. Conversely, the two input carriers make the continuation
+result singleton; combining this carrier with the assumed carriers for $L$
+and $R$ rebuilds the displayed contextual classifier against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_result\_context\_iff}

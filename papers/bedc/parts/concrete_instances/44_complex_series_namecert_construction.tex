@@ -18,14 +18,20 @@ For a term sequence \(c\), the complex partial-sum predicate \(\mathsf{ComplexPa
   \item if \(\mathsf{ComplexPartSum}(c, n, S_n)\) and the complex addition relation gives \(S_n + c_n = S_{n+1}\), then \(\mathsf{ComplexPartSum}(c, \Eone(n), S_{n+1})\).
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.ComplexSeriesUp.ComplexPartSum}
 
 \begin{lemma}[Partial sums are complex histories]
 \label{lem:complex-part-sum-well-defined}
-For every term sequence \(c\) and unary \(n\), there is a unique complex history \(S_n\) with \(\mathsf{ComplexPartSum}(c, n, S_n)\), up to \(\hsame\) on both real and imaginary components.
+For every term sequence \(c\) and unary \(n\), any two histories obtained from
+the closed partial-sum recursion for \(c\) at \(n\) agree up to \(\hsame\).
 \end{lemma}
 \begin{proof}
-By unary induction on \(n\), using totality and functionality of complex addition (\autoref{ch:concrete-instances-complex-namecert}).
+Induct on the first partial-sum derivation. The zero case is immediate. In the
+successor case, the second derivation has the same successor shape; the
+induction hypothesis identifies the previous sums, and determinacy of the BEDC
+continuation relation identifies the two successor sums.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_deterministic}
 
 \section{Absolute convergence}
 
