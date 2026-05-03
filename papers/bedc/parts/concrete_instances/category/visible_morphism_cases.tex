@@ -24,6 +24,31 @@ the existential package.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_composable\_morphisms\_target\_cases}
 
+\begin{theorem}[Category visible composable morphism tail cases]
+\label{thm:category-visible-composable-morphisms-tail-cases}
+For histories $a,b,c,l,m,k$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),\Eone(k)),
+$$
+then there exist histories $r,s$ such that
+$$
+b=\Eone(r)\land c=\Eone(s)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\ContR(\Eone(l),m,k).
+$$
+\end{theorem}
+\begin{proof}
+First apply the visible composable target-case theorem to expose the
+intermediate and final target tails $r$ and $s$, together with the two
+descended hom-carriers. The remaining continuation ledger is obtained by
+right inversion of the one-headed step rule for
+$\ContR(\Eone(l),\Eone(m),\Eone(k))$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_composable\_morphisms\_tail\_cases}
+
 \begin{theorem}[Category hom-carrier composite visible morphisms result cases]
 \label{thm:category-hom-carrier-comp-visible-morphisms-result-cases}
 For histories $a,b,c,l,m,fg$, if

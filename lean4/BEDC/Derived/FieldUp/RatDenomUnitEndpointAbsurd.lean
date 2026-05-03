@@ -14,4 +14,13 @@ theorem RatDenomUnitCarrier_e0_absurd {tail : BHist} :
   | inr ratBranch =>
       exact RatHistoryCarrier_e0_absurd ratBranch
 
+theorem RatDenomUnitClassifier_e1_empty_absurd {d : BHist} :
+    (RatDenomUnitClassifier (BHist.e1 d) BHist.Empty -> False) ∧
+      (RatDenomUnitClassifier BHist.Empty (BHist.e1 d) -> False) := by
+  constructor
+  · intro classified
+    exact not_hsame_e1_empty classified.right.right
+  · intro classified
+    exact not_hsame_emp_e1 classified.right.right
+
 end BEDC.Derived.FieldUp

@@ -1,0 +1,22 @@
+\begin{theorem}[Field singleton carrier append right cancellation]
+\label{thm:field-singleton-carrier-append-right-cancel}
+For histories $P,Q:\mathsf{BHist}$, if $P$ lies in the singleton carrier
+$A_{\emp}$, then appending $P$ on the right preserves and reflects
+singleton-carrier membership:
+$$
+\mathsf{FieldSingletonCarrier}(P)\Rightarrow
+\bigl(
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(Q,P))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier is the assertion of history-sameness to $\emp$. In the
+forward direction, empty-result inversion for append splits
+$\mathsf{append}(Q,P)\hsame\emp$ and exposes the $Q\hsame\emp$ component. In
+the reverse direction, combine $Q\hsame\emp$ with the displayed carrier
+witness for $P$ and rebuild the empty append witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_right\_cancel\_iff}

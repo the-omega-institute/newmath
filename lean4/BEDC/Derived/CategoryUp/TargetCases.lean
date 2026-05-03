@@ -441,6 +441,27 @@ theorem CategoryHomCarrier_visible_composable_morphisms_target_cases {a b c l m 
                       (And.intro rfl
                         (And.intro cEq (And.intro leftTail (And.intro rightTail comp)))))
 
+theorem CategoryHomCarrier_visible_composable_morphisms_tail_cases {a b c l m k : BHist} :
+    CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->
+      Cont (BHist.e1 l) (BHist.e1 m) (BHist.e1 k) ->
+        ∃ r s : BHist, b = BHist.e1 r ∧ c = BHist.e1 s ∧
+          CategoryHomCarrier a r l ∧ CategoryHomCarrier (BHist.e1 r) s m ∧
+            Cont (BHist.e1 l) m k := by
+  intro left right comp
+  have targetCases :=
+    CategoryHomCarrier_visible_composable_morphisms_target_cases left right comp
+  cases targetCases with
+  | intro r targetCases =>
+      cases targetCases with
+      | intro s data =>
+          exact Exists.intro r
+            (Exists.intro s
+              (And.intro data.left
+                (And.intro data.right.left
+                  (And.intro data.right.right.left
+                    (And.intro data.right.right.right.left
+                      (cont_step_rules_inversion_pair.right comp))))))
+
 theorem CategoryHomCarrier_comp_visible_morphisms_result_cases {a b c l m fg : BHist} :
     CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->
       Cont (BHist.e1 l) (BHist.e1 m) fg ->
