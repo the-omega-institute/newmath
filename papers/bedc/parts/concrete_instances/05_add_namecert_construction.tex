@@ -106,3 +106,155 @@ The source, pattern, classifier, stability, and ledger fields are supplied by th
 The additive interface \(\AddUp\) is licensed by unary continuation. It is not a primitive operation of the finite kernel.
 \end{corollary}
 \leanchecked{BEDC.FKernel.Unary.add\_up\_licensed\_not\_primitive}
+
+\begin{theorem}[Unary continuation monoid activation]
+\label{thm:unary-continuation-monoid-activation}
+Let the typed naming-certificate template of \autoref{def:typed-naming-certificate} be instantiated on the unary carrier with classifier \(\hsame\). Assume the core carrier certificate \(\NameCert(\Unary,\hsame)\) from \autoref{def:lean-carrier-naming-certificate}; take the source, pattern, classifier, and ledger policies to be the continuation policies of \autoref{def:additive-source-specification}, \autoref{def:additive-pattern-specification}, \autoref{def:additive-classifier-specification}, and \autoref{def:additive-stability-and-ledger-policy}; assume pattern soundness and ledger soundness for those policies; and assume that \(\mathsf{AddStabilityCert}\) supplies unary closure, empty-history unit, associativity up to \(\hsame\), and same-source determinacy up to \(\hsame\). Then
+\[
+  \mathsf{License}(\UnaryContMonoidUp).
+\]
+\end{theorem}
+\begin{proof}
+By \autoref{def:typed-naming-certificate}, a derived interface is licensed by a certificate once its source, pattern, classifier, stability, and ledger fields are supplied. The assumed \(\NameCert(\Unary,\hsame)\) provides the carrier-and-classifier core described in \autoref{def:lean-carrier-naming-certificate}. The source is the ordered unary source with a continuation witness from \autoref{def:additive-source-specification}; the pattern is unary continuation from \autoref{def:additive-pattern-specification}; the classifier is \(\hsame\) on continuation results from \autoref{def:additive-classifier-specification}; and the ledger is the recorded pair of unary inputs together with the continuation witness from \autoref{def:additive-stability-and-ledger-policy}. Pattern soundness sends each source witness to the displayed unary continuation pattern, and ledger soundness records the same source witness in the ledger policy.
+
+The remaining certificate component is stability. Unary closure is the closure field in \(\mathsf{AddStabilityCert}\). The empty-history unit is \autoref{lem:unary-continuation-unit}. Associativity up to \(\hsame\) is \autoref{lem:unary-continuation-associativity}. Same-source determinacy is the determinacy field of \(\mathsf{AddStabilityCert}\), so two continuation results generated from the same ordered unary source pair are classified together by \(\hsame\). These fields give a closed carrier, a unit, associative continuation, and deterministic result classification for fixed sources. That is exactly the certificate data for the unary continuation monoid-like interface. Since no order-swap commutativity field is used, the activated upward name is \(\UnaryContMonoidUp\).
+\end{proof}
+
+\begin{theorem}[Same-source additive determinacy bridge]
+\label{thm:same-source-additive-determinacy-bridge}
+For histories \(h\), \(k\), \(r\), and \(r'\), if \(\mathsf{AddSource}(h,k,r)\) and \(\mathsf{AddSource}(h,k,r')\), then \(\mathsf{AddClassifier}(r,r')\).
+\end{theorem}
+\begin{proof}
+By \autoref{def:additive-source-specification}, the first source witness supplies unary inputs \(h\) and \(k\) together with \(\ContR(h,k,r)\). The second source witness has the same ordered input pair, so it supplies the same unary inputs together with \(\ContR(h,k,r')\). The determinacy field listed in \autoref{def:additive-stability-certificate} applies to these two continuation witnesses and gives \(\HSame(r,r')\). By \autoref{def:additive-classifier-specification}, \(\mathsf{AddClassifier}\) classifies additive outputs precisely by \(\HSame\) of their generated result histories, so this witness is \(\mathsf{AddClassifier}(r,r')\).
+\end{proof}
+
+\begin{theorem}[Core additive stability does not imply swapped commutativity]
+\label{thm:core-additive-stability-not-swapped-commutative}
+There is a finite equality-classified carrier with a deterministic total continuation relation $\Gamma$ such that the carrier $\NameCert$, closure, two-sided unit, associativity, same-source determinacy, and the source-to-pattern and source-to-ledger soundness fields of the naming template hold, while the swapped-source additive commutativity field
+$$
+  \Gamma(x,y,r)\quad\text{and}\quad \Gamma(y,x,s)\quad\Rightarrow\quad r=s
+$$
+fails.
+\end{theorem}
+
+\begin{proof}
+Let $C=\{e,p,q\}$ and use equality as the classifier. Define $\star:C\times C\to C$ by
+$$
+\begin{array}{c|ccc}
+\star & e & p & q\\
+\hline
+e & e & p & q\\
+p & p & p & p\\
+q & q & q & q
+\end{array}
+$$
+and let $\Gamma(x,y,r)$ mean $x\star y=r$.
+
+The carrier certificate of \autoref{def:lean-carrier-naming-certificate} holds because $e$ inhabits $C$, equality is reflexive, symmetric, and transitive, and equality transports membership in $C$. For the additive source role of \autoref{def:additive-source-specification}, use an ordered pair $(x,y)$ together with the graph witness $\Gamma(x,y,r)$. Take the pattern specification and ledger policy to be this same graph witness, matching the ledger role of \autoref{def:additive-stability-and-ledger-policy}; hence the pattern-soundness and ledger-soundness roles in \autoref{def:typed-naming-certificate} are immediate. The classifier role of \autoref{def:additive-classifier-specification} is literal equality on result elements.
+
+Closure is visible from the table. The row and column for $e$ show $e\star x=x$ and $x\star e=x$ for every $x\in C$. Same-source determinacy holds because $\Gamma$ is the graph of the function $\star$: if $\Gamma(x,y,r)$ and $\Gamma(x,y,s)$, then $r=x\star y=s$. This is the finite equality-classified analogue of the determinacy field in \autoref{def:additive-stability-certificate}.
+
+Associativity follows by cases on the left factor. If $x=e$, then $(e\star y)\star z=y\star z=e\star(y\star z)$. If $x=p$, then $p\star y=p$ and $p\star t=p$ for every $t\in C$, so both $(p\star y)\star z$ and $p\star(y\star z)$ are $p$. The case $x=q$ is identical with $q$ in place of $p$.
+
+The swapped-source field fails. The table gives $\Gamma(p,q,p)$ and $\Gamma(q,p,q)$, but the equality classifier does not identify $p$ and $q$. Thus the fields used for the monoid-like activation in \autoref{thm:unary-continuation-monoid-activation} do not force the swapped-source additive commutativity field.
+\end{proof}
+
+\begin{theorem}[Unary continuation monoid activation from stability]
+\label{thm:unary-continuation-monoid-activation-from-stability}
+Let $C:\NameCert(\Unary,\hsame)$ be the core carrier certificate of \autoref{def:lean-carrier-naming-certificate}. Fix the continuation source, pattern, classifier, and ledger policies of \autoref{def:additive-source-specification}, \autoref{def:additive-pattern-specification}, \autoref{def:additive-classifier-specification}, and \autoref{def:additive-stability-and-ledger-policy}. If $S:\mathsf{AddStabilityCert}$ supplies unary closure under continuation, empty-history unit, associativity up to $\hsame$, and same-source determinacy up to $\hsame$, then
+$$
+  \mathsf{License}(\UnaryContMonoidUp)
+$$
+holds. No premise asserting $\mathsf{AddCommField}$ or $\UnaryComm$ is required.
+\end{theorem}
+\begin{proof}
+By \autoref{def:typed-naming-certificate}, licensing a derived interface amounts to supplying the source, pattern, classifier, stability, and ledger fields required by its certificate. The carrier-and-classifier core is $C$, which is a certificate for the unary carrier classified by $\hsame$ in the sense of \autoref{def:lean-carrier-naming-certificate}.
+
+The source field is the ordered unary continuation source: a pair of unary histories together with a witness $\ContR(h,k,r)$. This is the source specification of \autoref{def:additive-source-specification}. The pattern field is the corresponding unary continuation behavior of \autoref{def:additive-pattern-specification}. The classifier field is $\hsame$ on generated continuation results, as in \autoref{def:additive-classifier-specification}. The ledger field records the same ordered inputs and continuation witness, as in \autoref{def:additive-stability-and-ledger-policy}. Thus source-to-pattern soundness and source-to-ledger soundness follow by unpacking these four policies.
+
+It remains to check the stability component. Unary closure is the closure field supplied by $S$. The empty-history unit is the unit field supplied by $S$, matching \autoref{lem:unary-continuation-unit}. Associativity up to $\hsame$ is the associativity field supplied by $S$, matching \autoref{lem:unary-continuation-associativity}. Same-source determinacy says that for fixed ordered unary inputs $h,k$, any two witnesses $\ContR(h,k,r)$ and $\ContR(h,k,r')$ produce classified results $\hsame(r,r')$; this is precisely the determinacy field listed in \autoref{def:additive-stability-certificate}.
+
+These fields give a closed unary carrier, a two-sided unit, associative continuation, deterministic classification for fixed ordered sources, and an explicit ledger. That is the full certificate for $\UnaryContMonoidUp$. A swapped-source field would compare $\ContR(h,k,r)$ with $\ContR(k,h,s)$; no such comparison is used in the construction, so neither $\mathsf{AddCommField}$ nor $\UnaryComm$ enters the proof.
+\end{proof}
+
+\begin{theorem}[Two-element monoids cannot witness additive noncommutativity]
+\label{thm:two-element-monoid-cannot-witness-additive-noncommutativity}
+Let $C$ be an equality-classified carrier whose unary source is total. Let $e,u\in C$ and assume every $x\in C$ satisfies $x=e$ or $x=u$. Let $\star:C\times C\to C$ be a monoid operation with unit $e$, and let the additive continuation relation be the graph of $\star$:
+$$
+  \Gamma(x,y,z)\quad\text{means}\quad x\star y=z.
+$$
+Then for all $x,y,z,z'\in C$,
+$$
+  \Gamma(x,y,z)
+  \quad\text{and}\quad
+  \Gamma(y,x,z')
+  \quad\Rightarrow\quad
+  z=z'.
+$$
+Thus no equality-classified monoid with at most two carrier elements and total unary source can witness failure of the swapped-source additive commutativity field measured by \autoref{def:additive-classifier-specification}.
+\end{theorem}
+\begin{proof}
+By \autoref{def:additive-source-specification}, an additive source in this interpretation is an ordered pair together with a graph witness $\Gamma(x,y,z)$. Since the unary source is total, every pair of carrier elements is admissible. By \autoref{def:additive-classifier-specification}, the result comparison is the carrier classifier; here that classifier is equality. It is therefore enough to prove $x\star y=y\star x$ for arbitrary $x,y\in C$, because $\Gamma(x,y,z)$ and $\Gamma(y,x,z')$ identify $z$ with $x\star y$ and $z'$ with $y\star x$.
+
+Use the cover $t=e$ or $t=u$ for each carrier element $t$. If $x=e$, the left-unit law gives $x\star y=e\star y=y$, and the right-unit law gives $y\star x=y\star e=y$. Hence $x\star y=y\star x$. If $y=e$, the same argument with the two roles exchanged gives $x\star y=x=y\star x$.
+
+The only remaining case is $x=u$ and $y=u$. In that case both ordered products are the same expression $u\star u$, so $x\star y=y\star x$ by reflexivity of equality. Combining this product equality with the two graph witnesses gives $z=z'$. The conclusion is exactly the swapped-source comparison not supplied by the monoid-like fields of \autoref{def:additive-stability-certificate}. In contrast, \autoref{thm:core-additive-stability-not-swapped-commutative} shows that three carrier elements suffice for an equality-classified unital deterministic graph to fail that comparison.
+\end{proof}
+
+\begin{theorem}[Unary continuation activation without commutativity]
+\label{thm:unary-continuation-activation-without-commutativity}
+Let the typed naming-certificate template of \autoref{def:typed-naming-certificate} be instantiated on the unary carrier with classifier $\hsame$. Assume a core carrier certificate $\NameCert(\Unary,\hsame)$ in the sense of \autoref{def:lean-carrier-naming-certificate}. Use the ordered continuation source, continuation pattern, result classifier, and ledger policies of \autoref{def:additive-source-specification}, \autoref{def:additive-pattern-specification}, \autoref{def:additive-classifier-specification}, and \autoref{def:additive-stability-and-ledger-policy}. Assume source-to-pattern soundness and source-to-ledger soundness for those policies. If $\mathsf{AddStabilityCert}$ supplies unary closure under continuation, the empty-history unit, associativity up to $\hsame$, and same-source determinacy up to $\hsame$, then
+$$
+  \mathsf{License}(\UnaryContMonoidUp)
+$$
+holds. The implication does not require any swapped-source additive commutativity premise of the form
+$$
+  \ContR(h,k,r)\ \text{and}\ \ContR(k,h,s)\Rightarrow \hsame(r,s).
+$$
+\end{theorem}
+\begin{proof}
+The naming template of \autoref{def:typed-naming-certificate} licenses a derived interface once its source, pattern, classifier, stability, and ledger fields are supplied. The assumed $\NameCert(\Unary,\hsame)$ supplies the carrier inhabitedness, classifier reflexivity, classifier symmetry, classifier transitivity, and carrier transport fields listed in \autoref{def:lean-carrier-naming-certificate}. Thus the unary carrier and its classifier core are available before any binary behavior is considered.
+
+The source field is the ordered pair of unary histories together with a continuation witness, as in \autoref{def:additive-source-specification}. The pattern field is the continuation behavior of \autoref{def:additive-pattern-specification}. The classifier field is $\hsame$ on generated results, as in \autoref{def:additive-classifier-specification}. The ledger field records the ordered inputs and the continuation witness, as in \autoref{def:additive-stability-and-ledger-policy}. The assumed soundness fields send every source witness to this pattern witness and to this ledger witness.
+
+It remains only to read the stability fields. Unary closure gives closure of the carrier under the continuation result. The empty-history unit gives the left and right unit clauses for the unary continuation operation, matching \autoref{lem:unary-continuation-unit}. Associativity up to $\hsame$ gives the monoid-like associativity clause, matching \autoref{lem:unary-continuation-associativity}. Same-source determinacy says that two results generated from the same ordered source pair are classified together by $\hsame$; this is exactly the deterministic result-classification role in \autoref{def:additive-stability-certificate}.
+
+These fields are precisely the certificate data for $\UnaryContMonoidUp$: an inhabited classified unary carrier, a closed continuation operation, the empty unit, associativity, deterministic classification for fixed ordered sources, and a ledger. A swapped-source field compares the ordered source $(h,k)$ with the different ordered source $(k,h)$. No field in this construction makes that comparison, so the activation of $\UnaryContMonoidUp$ follows without the swapped-source additive commutativity premise.
+\end{proof}
+
+\begin{theorem}[Two-element unital continuation commutativity]
+\label{thm:two-element-unital-continuation-commutativity}
+Let $U$ be the unary part of a finite equality-classified carrier with classifier $\hsame$, and assume $U$ has exactly the two elements $e$ and $u$. Let $\star:U\times U\to U$ be a total binary operation with two-sided unit $e$:
+$$
+  e\star t=t
+  \quad\text{and}\quad
+  t\star e=t
+  \quad\text{for every }t\in U.
+$$
+Suppose the continuation relation on $U$ is the graph of $\star$:
+$$
+  \ContR(h,k,r)
+  \quad\text{if and only if}\quad
+  r=h\star k.
+$$
+Then for all $h,k,r,r'\in U$,
+$$
+  \ContR(h,k,r)
+  \quad\text{and}\quad
+  \ContR(k,h,r')
+  \quad\Rightarrow\quad
+  \hsame(r,r').
+$$
+No associativity premise is needed.
+\end{theorem}
+\begin{proof}
+The source role of \autoref{def:additive-source-specification} treats a continuation source as an ordered pair together with a continuation witness, and the classifier role of \autoref{def:additive-classifier-specification} compares generated results by $\hsame$. In the equality-classified instance of the carrier certificate of \autoref{def:lean-carrier-naming-certificate}, proving $\hsame(r,r')$ is the same as proving $r=r'$.
+
+Assume $\ContR(h,k,r)$ and $\ContR(k,h,r')$. Since $\ContR$ is the graph of $\star$, these witnesses give $r=h\star k$ and $r'=k\star h$. It is enough to show $h\star k=k\star h$.
+
+Because $U$ has exactly the two elements $e$ and $u$, each of $h$ and $k$ is either $e$ or $u$. If $h=e$, then $h\star k=e\star k=k$ by the left-unit law, while $k\star h=k\star e=k$ by the right-unit law. If $k=e$, the same unit laws give $h\star k=h$ and $k\star h=e\star h=h$.
+
+The only remaining case is $h=u$ and $k=u$. Then both ordered products are the identical product $u\star u$, so they are equal by reflexivity. Thus $h\star k=k\star h$ in every case, and the two graph identities give $r=r'$. Equality classification then gives $\hsame(r,r')$.
+
+Relative to the stability fields of \autoref{def:additive-stability-certificate}, this is an automatic two-element consequence of graph determinacy and the unit laws, not a separate swapped-source field. Together with \autoref{thm:core-additive-stability-not-swapped-commutative}, it identifies three equality classes as the first possible size for such a unital deterministic swapped-source failure.
+\end{proof}

@@ -225,3 +225,23 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \paragraph{Primitive boundary.}
 \(\POSetUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{proposition}[$\POSetUp$ forgets to $\PreorderUp$ certificate]
+\label{prop:poset-forgets-preorder-certificate}
+Let $C$ carry a $\POSetUp(C)$ certificate with classifier $\sim_C$ and relation $\le_C$. If the antisymmetry field and the compatibility data whose only role is to transport that antisymmetry field across relation congruence are omitted, the retained carrier, source, pattern, classifier, preorder stability fields, and ledger form a $\PreorderUp(C)$ certificate. The carrier $C$, classifier $\sim_C$, and relation $\le_C$ are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:poset-certificate-obligations}, the given certificate supplies carrier, source, pattern, classifier, stability, and ledger data for $\POSetUp$. The construction keeps exactly the coordinates that do not require the partial-order antisymmetry clause.
+
+By \autoref{def:poset-carrier}, a $\POSetUp$ carrier is a preorder setup together with antisymmetry under the carrier classifier. Removing the antisymmetry coordinate leaves the carrier, classifier, and relation data required by \autoref{def:preorder-carrier}. Hence $C$, $\sim_C$, and $\le_C$ are copied without replacement.
+
+By \autoref{def:poset-source-specification}, the source is a certified preorder carrier plus an antisymmetry field. Omitting only the antisymmetry field leaves the source described in \autoref{def:preorder-source-specification}. By \autoref{def:poset-classifier-specification}, the classifier is the preorder carrier classifier, so it is exactly the classifier specified in \autoref{def:preorder-classifier-specification}.
+
+By \autoref{def:poset-pattern-specification}, the pattern is preorder relation formation together with classifier collapse from bidirectional comparison. Retaining the one-direction judgment formation $a\le_C b$ and suppressing only the bidirectional-collapse rule leaves the relational judgment formation of \autoref{def:preorder-pattern-specification}.
+
+By \autoref{def:poset-stability-certificate}, the first stability component is all preorder stability fields. These are precisely the classifier reflexivity, classifier transitivity, preorder reflexivity, preorder transitivity, and relation-congruence rows listed in \autoref{def:preorder-stability-certificate}. The remaining $\POSetUp$ rows, namely antisymmetry and compatibility of antisymmetry with relation congruence, are not obligations for $\PreorderUp$. Relation congruence itself is retained because it belongs to the preorder stability component.
+
+Finally, \autoref{def:preorder-ledger-policy} asks for the compared carrier witnesses and the relation derivation. The $\POSetUp$ ledger of \autoref{def:poset-ledger-policy} adds the paired comparison record only when antisymmetry is used. With that antisymmetry use omitted, the remaining comparison provenance is the preorder ledger for the same relation $\le_C$.
+
+The retained carrier, source, pattern, classifier, stability, and ledger fields are therefore exactly the obligations named in \autoref{def:preorder-certificate-obligations}, giving a $\PreorderUp(C)$ certificate with unchanged carrier, classifier, and relation.
+\end{proof}

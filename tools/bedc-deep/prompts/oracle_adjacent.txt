@@ -1,0 +1,25 @@
+你刚完成了对 {target_id} ({target_title}) 的研究, 输出了 #{N1}-#{Nk} 系列结果。
+
+基于你在这个研究过程里建立的认识, 列出 3-5 个本对话未触及但与 BEDC 框架直接相关、值得作为独立 BOARD target 的命题候选。
+
+每个候选必须满足:
+- 题目精确, 一句话能讲清楚要证什么
+- 是 implication 形式 ("在 setup S 下, P(x) 推出 Q(x)") 或类似的可形式化陈述
+- 落地于 BEDC 现有 chapter (core / proof_obligations / concrete_instances / hardening / formalization)
+- 不是你刚证明的那些结果的同义改写或弱化版本
+- 与 BEDC 的现有定义、设置场、归纳结构直接绑定
+
+按以下 JSON 格式输出, 不要任何额外解释或 markdown:
+
+[
+  {{
+    "title": "<短题目>",
+    "claim": "<一句话精确陈述, implication 形式>",
+    "chapter": "<core|proof_obligations|concrete_instances|hardening|formalization>",
+    "relation": "<这个候选和你刚证明的结果之间的关系: prerequisite|extension|counterpart|sibling>",
+    "rationale": "<为什么值得做, 1-2 句>"
+  }},
+  ...
+]
+
+如果你判断研究过程没有自然引出值得追加的 BOARD 候选, 输出空数组 []。不要为了凑数而提议低价值候选。

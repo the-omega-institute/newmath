@@ -495,3 +495,21 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \paragraph{Primitive boundary.}
 \(\AbGroupUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{proposition}[AbGroup forgets to Group certificate]
+\label{prop:abgroup-forgets-group-certificate}
+Let \(M\) carry an \(\AbGroupUp(M)\) certificate. If the commutativity field and its compatibility data are omitted, the retained carrier, source, pattern, classifier, stability, and ledger fields form a \(\GroupUp(M)\) certificate. The carrier, multiplication \(\cdot\), identity \(e\), inverse operation \({}^{-1}\), and classifier are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:abgroup-certificate-obligations}, the given certificate supplies carrier, source, pattern, classifier, stability, and ledger data for \(\AbGroupUp\). The argument keeps the group-shaped fields among these data.
+
+By \autoref{def:abgroup-carrier}, an \(\AbGroupUp\) carrier is a group setup together with commutativity of the binary operation. The underlying carrier, classifier, multiplication, identity, and inverse are therefore already the data listed in \autoref{def:group-carrier}.
+
+By \autoref{def:abgroup-source-specification}, the source is a certified group carrier plus a commutativity field. Removing the commutativity component leaves the certified group carrier. By \autoref{def:group-source-specification}, this is the certified monoid carrier plus inverse data required for the group source. By \autoref{def:abgroup-classifier-specification}, the classifier is the group carrier classifier, so it is exactly the classifier of \autoref{def:group-classifier-specification}.
+
+By \autoref{def:abgroup-pattern-specification}, the abelian group pattern is group expression formation with the added permission to exchange operands by the commutativity law. Omitting only that exchange permission leaves the group expression formation of \autoref{def:group-pattern-specification}.
+
+By \autoref{def:abgroup-stability-certificate}, the stability certificate contains all group stability fields, commutativity under classifier, and compatibility of commutativity with inverse and multiplication congruence. The first component is precisely the list of group stability fields in \autoref{def:group-stability-certificate}; the latter components are not obligations for \(\GroupUp\). The remaining ledger is the group expression provenance of \autoref{def:group-ledger-policy}, matching the group part of \autoref{def:abgroup-ledger-policy}.
+
+The retained carrier, source, pattern, classifier, stability, and ledger data are exactly the obligations named in \autoref{def:group-certificate-obligations}. Since each retained operation and the classifier are copied from the original \(\AbGroupUp(M)\) certificate, the resulting \(\GroupUp(M)\) source package has the same carrier operation, identity, inverse, and classifier.
+\end{proof}

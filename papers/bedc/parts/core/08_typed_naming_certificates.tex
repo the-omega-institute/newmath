@@ -80,3 +80,30 @@ Every certified derived interface carries a ledger policy witness.
 Case analysis on the semantic naming certificate exposes the source witness in the core certificate. Applying the ledger soundness field to that same source witness gives the required ledger witness.
 \end{proof}
 \leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_ledger\_policy\_witness}
+
+\begin{theorem}[Semantic NameCert presentation weakening]
+\label{thm:semantic-namecert-presentation-weakening}
+Let \(S,P,L,P',L'\colon \mathsf{BHist}\to\mathsf{Prop}\) and
+\(C\colon \mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}\). If
+\[
+\mathsf{SemanticNameCert}(S,P,L,C)
+\]
+holds, and for every history \(h\) the implications \(P(h)\to P'(h)\) and
+\(L(h)\to L'(h)\) hold, then
+\[
+\mathsf{SemanticNameCert}(S,P',L',C)
+\]
+holds. The source specification and classifier specification are unchanged.
+\end{theorem}
+\begin{proof}
+By \autoref{def:typed-naming-certificate}, the naming template separates the
+source, pattern, classifier, stability, and ledger roles. The core field of the
+semantic certificate is the carrier-and-classifier \(\NameCert(S,C)\) described
+by \autoref{def:lean-carrier-naming-certificate}; it mentions only the source
+predicate and the classifier relation. Keep this core field. For a source
+witness \(S(h)\), the original pattern soundness field gives \(P(h)\), and the
+pointwise pattern weakening gives \(P'(h)\). The same source witness gives
+\(L(h)\) by the original ledger soundness field, and the pointwise ledger
+weakening gives \(L'(h)\). These three fields form the semantic certificate for
+\(S,P',L',C\).
+\end{proof}
