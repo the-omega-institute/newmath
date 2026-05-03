@@ -151,42 +151,53 @@ endpoint clause rules out such a history inside $\mathsf{RatHistoryCarrier}$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_concrete\_instance\_laws}
 
-\begin{lemma}[Functional and relational Rat denominator instance agreement]
-\label{lem:field-rat-denominator-functional-relational-instance-agreement}
+\begin{theorem}[Rat denominator append-continuation law equivalence]
+\label{thm:field-rat-denominator-functional-relational-instance-equivalence}
 For the concrete data of
 \autoref{def:field-rat-denominator-concrete-continuation-instance}, the append
-function package of
+law package of
 \autoref{thm:field-rat-denominator-append-concrete-instance-laws} and the
-relational $\Cont$ package of
-\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}
-determine each other. In one direction, every occurrence of
-$\mu_D(h,k)$ is $\mathsf{append}(h,k)$ and carries the canonical witness
-$\Cont(h,k,\mu_D(h,k))$. In the other direction, any witness
-$\Cont(h,k,r)$ identifies $r$ with $\mathsf{append}(h,k)$ by
-$\mathsf{BEDC.FKernel.Cont.cont\_iff\_append}$, so each relational law
-transports to the corresponding function law.
-\end{lemma}
+relational $\Cont$ law package of
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws} are the
+same concrete law package in the following sense.
+\begin{enumerate}
+  \item For all histories $h,k,r:\mathsf{BHist}$, $\Cont(h,k,r)$ identifies
+  $r$ with $\mu_D(h,k)$:
+
+  $$
+  \Cont(h,k,r)\quad\text{if and only if}\quad r=\mu_D(h,k).
+  $$
+
+  In particular, the canonical output satisfies $\Cont(h,k,\mu_D(h,k))$.
+  \item Transporting each displayed relational output along this identification
+  converts the six append clauses into the six relational clauses.
+  \item Instantiating each relational output by the canonical witness
+  $\Cont(h,k,\mu_D(h,k))$ converts the six relational clauses back into the six
+  append clauses.
+\end{enumerate}
+\end{theorem}
 \begin{proof}
-Use the checked append package
+Unfold the concrete operation in
+\autoref{def:field-rat-denominator-concrete-continuation-instance}: by
+$\mathsf{BEDC.FKernel.Cont.cont\_iff\_append}$, a continuation witness
+$\Cont(h,k,r)$ is exactly the assertion $r=\mathsf{append}(h,k)$, and
+$\mu_D(h,k)$ is defined to be $\mathsf{append}(h,k)$. This gives the displayed
+identification and the canonical witness at $r=\mu_D(h,k)$.
+
+To pass from append laws to relational laws, use the checked append package
 $\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_append\_concrete\_instance\_laws}$
-and instantiate every append output with its canonical continuation witness.
-Carrier closure, classifier closure, associativity, ledger closure, and the
-unit obstruction are exactly the clauses cited in the proof of
-\autoref{thm:field-rat-denominator-append-concrete-instance-laws}.
+and replace every displayed output by the corresponding $\Cont$ output through
+the equality above. Carrier closure, commutative classifier compatibility,
+associativity, binary classifier congruence, ledger closure, and the one-sided
+unit obstruction are therefore the six relational clauses of
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}.
 
 Conversely, start from the checked relational package
 $\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_concrete\_instance\_laws}$.
-For each displayed witness $\Cont(h,k,r)$, apply
-$\mathsf{BEDC.FKernel.Cont.cont\_iff\_append}$, or equivalently continuation
-determinacy against the canonical witness, to replace $r$ by
-$\mathsf{append}(h,k)$.
-
-The transported statements use the same carrier and classifier closure
-theorems:
-\autoref{thm:field-rat-denominator-continuation-carrier-closure},
-\autoref{thm:field-rat-denominator-continuation-classifier-closure},
-\autoref{thm:field-rat-denominator-continuation-ledger-closure}, and
-\autoref{thm:field-rat-denominator-continuation-unit-endpoint-empty}. Hence
-the function and relational presentations are the same concrete
-$\FieldUp(\mathsf{RatUp})$ denominator instance.
+Instantiate each continuation output by the canonical witness
+$\Cont(h,k,\mu_D(h,k))$. The same identification rewrites the six relational
+outputs as append outputs, giving exactly the six clauses of
+\autoref{thm:field-rat-denominator-append-concrete-instance-laws}. Thus the
+functional append presentation and the relational continuation presentation are
+one concrete $\FieldUp(\mathsf{RatUp})$ denominator law package.
 \end{proof}
