@@ -67,6 +67,36 @@ Trichotomy is the same branch just constructed; no classical comparison
 principle is used.
 \end{proof}
 
+\begin{theorem}[Singleton total-order comparison exactness]
+\label{thm:singleton-totalorder-comparison-exactness}
+For carried histories $h,k:\mathsf{BHist}$ with $A_{\emp}(h)$ and
+$A_{\emp}(k)$ in the concrete instance of
+\autoref{def:concrete-singleton-history-totalorder-instance}, the comparison
+branches are exact in the following sense:
+\begin{enumerate}
+  \item $\mathsf{lt}_{\emp}(h,k)\to\mathsf{False}$ and
+  $\mathsf{gt}_{\emp}(h,k)\to\mathsf{False}$.
+  \item $\mathsf{same}_{\emp}(h,k)\Longleftrightarrow\rho_{\emp}(h,k)$.
+  \item $\mathsf{same}_{\emp}(h,k)\Longleftrightarrow
+  (h\le_{\emp}k\land k\le_{\emp}h)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the three comparison branches in
+\autoref{def:concrete-singleton-history-totalorder-instance}. The strict
+branches are both $\bot$, so each strict witness eliminates to
+$\mathsf{False}$.
+
+The same branch is defined to be $\rho_{\emp}(h,k)$, giving the second
+equivalence by reflexive unfolding.
+
+For the opposing-prefix characterization, apply the exactness part of
+\autoref{thm:singleton-empty-poset-laws} to the carried histories $h$ and $k$.
+Composing that equivalence with the displayed unfolding
+$\mathsf{same}_{\emp}(h,k)\Longleftrightarrow\rho_{\emp}(h,k)$ gives the stated
+equivalence with $h\le_{\emp}k$ and $k\le_{\emp}h$.
+\end{proof}
+
 The $\TotalOrderUp$ schema is represented by this concrete $\mathsf{BHist}$
 carrier and explicit comparison data, giving later Lean formalization a
 $\mathsf{BHist}$-anchored target rather than an abstract parameter schema.
