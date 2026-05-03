@@ -15,6 +15,24 @@ BEDC continuation endpoint of $\lambda$ followed by $v$.
 \end{definition}
 \leandef{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier}
 
+\begin{theorem}[Eigen component singleton carrier singleton append]
+\label{thm:eigen-component-singleton-carrier-singleton-append}
+For histories $m,\lambda,v,pair:\mathsf{BHist}$, if the component singleton
+eigen carrier holds for $(m,\lambda,v,pair)$ and $\lambda$ also carries the
+determinant singleton scalar certificate, then
+$\mathsf{append}(m,pair)$ lies in the eigen singleton carrier.
+\end{theorem}
+\begin{proof}
+Unpack the component carrier into the linear-map carrier for $m$, the
+linear-map carrier for $v$, and the continuation endpoint
+$\Cont(\lambda,v,pair)$. The determinant singleton carrier for $\lambda$
+supplies the scalar witness required by the eigen singleton carrier. The
+stored continuation rewrites $\mathsf{append}(m,pair)$ as
+$\mathsf{append}(m,\mathsf{append}(\lambda,v))$, giving the required BEDC
+continuation endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier\_singleton\_append}
+
 \begin{theorem}[Eigen singleton carrier pair emptiness]
 \label{thm:eigen-singleton-carrier-pair-empty}
 For histories $f,\lambda,v,pair:\mathsf{BHist}$, the component singleton
@@ -72,6 +90,28 @@ as the empty continuation result.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_empty\_iff}
 
+\begin{theorem}[Eigen singleton carrier append-context empty iff]
+\label{thm:eigen-singleton-carrier-append-context-empty-iff}
+For histories $L,R,h:\mathsf{BHist}$, the contextual eigen singleton carrier
+holds for $\mathsf{append}(L,\mathsf{append}(h,R))$ exactly when the two
+context histories are empty and the middle history lies in the eigen singleton
+carrier:
+$$
+\mathsf{EigenSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))
+\Longleftrightarrow
+L\hsame\emp\ \wedge\ \mathsf{EigenSingletonCarrier}(h)\ \wedge\ R\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Use the eigen singleton carrier empty equivalence to convert the contextual
+carrier into emptiness of the nested append. BEDC append-empty inversion splits
+the outer and inner append endpoints, yielding empty left and right contexts and
+empty middle endpoint. The reverse direction rebuilds the nested append-empty
+witness from the three displayed fields and applies the same carrier-empty
+equivalence backwards.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_append\_context\_empty\_iff}
+
 \section{The certificate}
 \label{sec:eigen-certificate}
 
@@ -81,6 +121,28 @@ Two histories $p,q:\mathsf{BHist}$ are classified by the singleton eigen
 interface when both lie in the singleton eigen carrier and $p\hsame q$.
 \end{definition}
 \leandef{BEDC.Derived.EigenUp.EigenSingletonClassifier}
+
+\begin{theorem}[Eigen singleton classifier append-context empty iff]
+\label{thm:eigen-singleton-classifier-append-context-empty-iff}
+For histories $L,R,h,k:\mathsf{BHist}$, the contextual singleton eigen
+classifier between $\mathsf{append}(L,h)$ and $\mathsf{append}(k,R)$ is
+equivalent to empty endpoint contexts and the core classifier between $h$ and
+$k$:
+$$
+\mathsf{EigenSingletonClassifier}(\mathsf{append}(L,h),\mathsf{append}(k,R))
+\Longleftrightarrow
+L\hsame\emp\ \wedge\ \mathsf{EigenSingletonClassifier}(h,k)\ \wedge\ R\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction sends both contextual carrier fields through the eigen
+carrier empty equivalence and splits the two append-empty witnesses. These
+middle empty witnesses give the core carriers and identify $h$ with $k$. In the
+reverse direction, the empty endpoint contexts and the two core carrier fields
+rebuild the left and right contextual carriers, and both contextual endpoints
+are history-same because each is empty.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonClassifier\_append\_context\_empty\_iff}
 
 \begin{theorem}[Eigen singleton semantic name certificate]
 \label{thm:eigen-singleton-semantic-namecert}

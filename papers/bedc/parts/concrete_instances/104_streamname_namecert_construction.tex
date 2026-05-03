@@ -143,6 +143,41 @@ classifier-preservation hypothesis for $F$ transports it to
 $\mathsf{RatHistoryClassifier}(F(s(n)),F(t(n)))$.
 \end{proof}
 
+\begin{theorem}[Rational stream-name reindexing composition law]
+\label{thm:rat-stream-name-reindexing-composition-law}
+For certified observation maps $s,t,r,q:\Hist\to\Hist$, suppose $r$ and $q$
+preserve certified unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{UnaryHistory}(r(n))
+$$
+and
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{UnaryHistory}(q(n)).
+$$
+Then the composite observation map $n\mapsto q(r(n))$ preserves certified
+unary observations. Consequently, $\mathsf{RatStreamNameCarrier}(s)$ implies
+$\mathsf{RatStreamNameCarrier}(s\circ q\circ r)$, and
+$\mathsf{RatStreamNameClassifier}(s,t)$ implies
+$\mathsf{RatStreamNameClassifier}(s\circ q\circ r,t\circ q\circ r)$.
+\end{theorem}
+\begin{proof}
+Fix a certified observation history $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. The preservation witness for $r$ sends $\nu$
+to a certified unary observation witness for $r(n)$, and the preservation
+witness for $q$ sends that result to a certified unary observation witness for
+$q(r(n))$. This proves unary preservation for the composite observation map.
+
+For the carrier consequence, unfold $\mathsf{RatStreamNameCarrier}$ and fix
+the same certified observation data $(n,\nu)$. The composite unary witness just
+constructed lets the carrier of $s$ be read at $q(r(n))$, giving the required
+rational-history carrier at $(s\circ q\circ r)(n)$.
+
+For the classifier consequence, unfold $\mathsf{RatStreamNameClassifier}$ and
+fix $(n,\nu)$. The composite unary witness again lets the classifier of $s$
+and $t$ be read at $q(r(n))$, yielding the point classifier between
+$(s\circ q\circ r)(n)$ and $(t\circ q\circ r)(n)$.
+\end{proof}
+
 \begin{definition}[Constant rational stream name]
 \label{def:rat-stream-name-constant}
 For a history $d:\Hist$, write $\mathsf{RatConstStream}_d(n)=d$ for every unary
@@ -214,14 +249,17 @@ $\mathsf{BHist}$; carrier $\mathsf{RatStreamNameCarrier}$; classifier
 $\mathsf{RatStreamNameClassifier}$; stability obligations as the fields of
 \autoref{thm:rat-stream-name-certificate-fields}, the reindexing and mapped
 stream stability clauses from
-\autoref{thm:rat-stream-name-reindexing-and-map-stability}, the constant
-stream witness from \autoref{thm:rat-stream-name-constant-witness}, and
+\autoref{thm:rat-stream-name-reindexing-and-map-stability}, the composed
+reindexing stability law from
+\autoref{thm:rat-stream-name-reindexing-composition-law}, the constant stream
+witness from \autoref{thm:rat-stream-name-constant-witness}, and
 constant-point exactness from
 \autoref{thm:rat-stream-name-constant-point-exactness}; ledger finite
 observation index plus pointwise rational witnesses, and for a constant stream
 the hidden constant seed together with the observation index; core theorems
 \autoref{thm:rat-stream-name-certificate-fields} and
 \autoref{thm:rat-stream-name-reindexing-and-map-stability} and
+\autoref{thm:rat-stream-name-reindexing-composition-law} and
 \autoref{thm:rat-stream-name-constant-witness} and
 \autoref{thm:rat-stream-name-constant-point-exactness}; exactness pointwise over
 the RatUp classifier; standard bridge ordinary rational streams; status
