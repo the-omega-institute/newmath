@@ -245,6 +245,28 @@ $\Eone(d_x)\cdot d_y$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_x\_y\_e1\_point\_tail\_hsame}
 
+\begin{theorem}[SOne e-one components read point tail]
+\label{thm:sone-history-carrier-e1-components-tail}
+For histories $d_x,d_y,e,t$, a concrete $\SOneUp$ history-carrier witness whose
+coordinates and point ledger are all one-headed exposes rational coordinate
+tails and reads the point tail from the BEDC continuation:
+$$
+\mathsf{SOneHistoryCarrier}(\Eone(d_x),\Eone(d_y),e,\Eone(t))
+\Longrightarrow
+\mathsf{RatHistoryCarrier}(d_x)\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\hsame(t,\Eone(d_x)\cdot d_y).
+$$
+\end{theorem}
+\begin{proof}
+The first two carrier fields are real-constant carriers on one-headed
+histories, hence the real-constant e-one exactness theorem gives rational
+carriers for $d_x$ and $d_y$. The displayed second coordinate presentation is
+reflexive, so the point-tail readback theorem gives
+$\hsame(t,\Eone(d_x)\cdot d_y)$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_e1\_components\_tail}
+
 \begin{theorem}[SOne history carrier y e-one point shape]
 \label{thm:sone-history-carrier-y-e1-point-shape}
 For histories $x,y,e,p,d_y$, if a concrete $\SOneUp$ history-carrier witness

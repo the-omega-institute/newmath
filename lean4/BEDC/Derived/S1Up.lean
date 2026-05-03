@@ -396,4 +396,16 @@ theorem SOneHistoryCarrier_x_y_e1_point_tail_hsame {x y equation t dx dy : BHist
   cases sameX
   exact SOneHistoryCarrier_y_e1_point_tail_hsame carrier sameY
 
+theorem SOneHistoryCarrier_e1_components_tail {dx dy equation t : BHist} :
+    SOneHistoryCarrier (BHist.e1 dx) (BHist.e1 dy) equation (BHist.e1 t) ->
+      RatHistoryCarrier dx ∧ RatHistoryCarrier dy ∧ hsame t (append (BHist.e1 dx) dy) := by
+  intro carrier
+  have dxCarrier : RatHistoryCarrier dx :=
+    RealConstantHistoryCarrier_e1_iff_rat.mp carrier.left
+  have dyCarrier : RatHistoryCarrier dy :=
+    RealConstantHistoryCarrier_e1_iff_rat.mp carrier.right.left
+  exact And.intro dxCarrier
+    (And.intro dyCarrier
+      (SOneHistoryCarrier_y_e1_point_tail_hsame carrier (hsame_refl (BHist.e1 dy))))
+
 end BEDC.Derived.S1Up

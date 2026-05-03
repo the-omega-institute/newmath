@@ -175,6 +175,33 @@ continuation witness at the visible boundary.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_target\_visible}
 
+\begin{theorem}[Category nonempty result visible hom readback]
+\label{thm:category-comp-nonempty-result-visible-hom-readback}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then its
+one-headed result presentation also reads back as a visible composite
+hom-carrier:
+$$
+\exists k,r.\;
+fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty composite target-visible theorem. It exposes histories
+$k,r$ with $fg=\Eone(k)$ and $c=\Eone(r)$, together with unary witnesses for
+$k$ and $r$ and the boundary continuation
+$\ContR(a,\Eone(k),\Eone(r))$. The source unary witness is already part of the
+left hom-carrier, so these fields assemble the visible hom-carrier
+$\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_result\_visible\_hom\_readback}
+
 \begin{theorem}[Continuation morphism composite visible tails result cases]
 \label{thm:continuation-morphism-comp-visible-tails-result-cases}
 For histories $a,b,c,l,m$, let

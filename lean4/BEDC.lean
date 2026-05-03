@@ -296,6 +296,7 @@ import BEDC.Derived.CategoryUp.EndomorphismTail
 import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.RightVisibleTailEmpty
 import BEDC.Derived.CategoryUp.NonemptyCases
+import BEDC.Derived.CategoryUp.NonemptyResultVisibleHomReadback
 import BEDC.Derived.CategoryUp.RightTailFactorization
 import BEDC.Derived.CategoryUp.LeftTailFixedIdentity
 import BEDC.Derived.CategoryUp.RightTailFixedIdentity
