@@ -1967,3 +1967,28 @@ Topic-coverage blindspot at the algebraic ladder root. The Magma chapter (56_mag
 
 ---
 
+### B-79 - NatDivides transports along dividend history-sameness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | NatDivides transports along dividend history-sameness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If NatDivides(d,e) and e ~ e', then NatDivides(d,e').
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+- `lean4/BEDC/Derived/PrimeUp.lean`
+
+Rationale:
+Direct symmetric counterpart to the already-proven thm:nat-divides-divisor-hsame-transport (transport on the divisor d), filling the missing dividend/product side. The 2-sided transport is currently only listed as a thm:prime-namecert obligation (line 358) without a standalone theorem; this candidate closes that gap. The supporting lemma chain on the divisor side uses lem:nat-mul-multiplicand-hsame-transport, so the dividend side will likely require a parallel nat-mul product-side hsame-transport lemma — non-trivial enough to deserve its own loop. No BOARD entry currently covers NatDivides transport.
+
+---
+
