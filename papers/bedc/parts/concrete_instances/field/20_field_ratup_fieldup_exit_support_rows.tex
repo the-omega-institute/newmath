@@ -1,0 +1,78 @@
+\section{RatUp FieldUp exit support rows}
+\label{sec:field-ratup-fieldup-exit-support-rows}
+
+\begin{theorem}[RatUp FieldUp exit support row inventory]
+\label{thm:ratup-fieldup-exit-support-row-inventory}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$ and the
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, the concrete
+$\FieldUp(\mathsf{RatUp})$ exit certificate contains a closed support-row
+inventory consisting of the following certificate rows:
+\begin{enumerate}
+  \item support-neutrality row completeness from
+  \autoref{thm:ratup-fieldup-support-neutrality-row-completeness};
+  \item the nontrivial carrier and support-neutral action package from
+  \autoref{thm:ratup-fieldup-exit-certificate-nontrivial-support-neutral};
+  \item transported and iterated support-neutrality rows from
+  \autoref{thm:ratup-fieldup-transported-support-neutrality-row} and
+  \autoref{thm:ratup-fieldup-iterated-transported-support-neutrality-row};
+  \item transported strict-support separation from
+  \autoref{thm:ratup-fieldup-transported-strict-support-separation-package};
+  \item threefold denominator support noncollapse from
+  \autoref{thm:ratup-fieldup-threefold-support-singleton-classifier-noncollapse}.
+\end{enumerate}
+Every listed row is a concrete $\mathsf{BHist}$ row over $\mathsf{append}$,
+$\Cont$, $\Gamma$, $\mathsf{RatHistoryCarrier}$, and
+$\mathsf{RatHistoryClassifier}$. Thus the exit certificate has concrete
+support-row coverage for $\FieldUp(\mathsf{RatUp})$ with no schematic operation
+parameter.
+\end{theorem}
+\begin{proof}
+First read
+\autoref{thm:ratup-fieldup-support-neutrality-row-completeness}. It identifies
+the support-sensitive rows of
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} as concrete
+$\mathsf{BHist}$ rows of the assembled semantic certificate.
+
+Next apply
+\autoref{thm:ratup-fieldup-exit-certificate-nontrivial-support-neutral}. This
+places the non-singleton source carrier, the denominator tuple, and the
+support-neutral contextual action inside the same concrete exit certificate.
+
+Then compose the two transport layers. The first layer is
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, and the second
+layer is
+\autoref{thm:ratup-fieldup-iterated-transported-support-neutrality-row}. They
+keep the carried contextual action and the strict-support predicate tied to the
+original denominator history through classified context-pair transport.
+
+Now attach the strict-support separation package by applying
+\autoref{thm:ratup-fieldup-transported-strict-support-separation-package}. It
+turns transported strict RatUp support into carrier recovery, singleton
+exclusion, and direct empty-history separation for the transported endpoint.
+
+Finally apply
+\autoref{thm:ratup-fieldup-threefold-support-singleton-classifier-noncollapse}.
+This supplies the denominator product support obstruction against the singleton
+empty classifier. The cited rows use only the displayed concrete carrier,
+classifier, append, continuation, and contextual-action data, so the collected
+inventory has no remaining schematic operation parameter.
+\end{proof}
+
+Per-object template: traditional target $\FieldUp(\mathsf{RatUp})$ exit support
+inventory; BEDC source $\mathsf{RatUpFieldSource}_F$, $\mathsf{BHist}$,
+$\mathsf{append}$, $\Cont$, and $\Gamma$; carrier
+$\mathsf{RatHistoryCarrier}$ plus $N_D^u$; classifier
+$\mathsf{RatHistoryClassifier}$ plus singleton-boundary obstruction; stability
+obligations support neutrality, transported support neutrality,
+strict-support transport, and threefold support noncollapse; ledger
+denominator support witnesses and contextual-pair action witnesses; core
+theorem list
+\autoref{thm:ratup-fieldup-support-neutrality-row-completeness},
+\autoref{thm:ratup-fieldup-exit-certificate-nontrivial-support-neutral},
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row},
+\autoref{thm:ratup-fieldup-iterated-transported-support-neutrality-row},
+\autoref{thm:ratup-fieldup-transported-strict-support-separation-package}, and
+\autoref{thm:ratup-fieldup-threefold-support-singleton-classifier-noncollapse};
+exactness predicate concrete support-row coverage for the
+$\FieldUp(\mathsf{RatUp})$ exit certificate; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
