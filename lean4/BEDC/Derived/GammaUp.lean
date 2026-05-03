@@ -51,6 +51,16 @@ theorem GammaPoleLocus_not_empty {s : BHist} :
   | intro _n data =>
       exact ComplexHistoryCarrier_not_empty data.right.right sameEmpty
 
+theorem GammaPoleLocus_append_unary_complex_carrier {s q : BHist} :
+    GammaPoleLocus s -> UnaryHistory q ->
+      ComplexHistoryCarrier (append s q) ∧ (hsame (append s q) BHist.Empty -> False) := by
+  intro pole qUnary
+  cases GammaPoleLocus_complex_carrier_witness pole with
+  | intro _n data =>
+      have appendCarrier : ComplexHistoryCarrier (append s q) :=
+        ComplexHistoryCarrier_append_unary_closed data.right.right qUnary
+      exact And.intro appendCarrier (ComplexHistoryCarrier_not_empty appendCarrier)
+
 theorem GammaPoleLocus_hsame_transport_witness {s t : BHist} :
     hsame s t ->
       GammaPoleLocus s ->
@@ -88,5 +98,20 @@ theorem GammaDomainCore_hsame_transport_exclusions {s t apart : BHist} :
     exact domain.right.right transported.left
   · intro sameEmptyT
     exact GammaDomainCore_not_empty domain (hsame_trans sameST sameEmptyT)
+
+theorem GammaDomainCore_hsame_transport_not_empty {s t apart : BHist} :
+    hsame s t -> GammaDomainCore s apart ->
+      GammaDomainCore t apart ∧ (hsame t BHist.Empty -> False) := by
+  intro sameST domain
+  have carrierT : ComplexHistoryCarrier t :=
+    ProdHistoryCarrier_hsame_transport sameST domain.left
+  have noPoleT : GammaPoleLocus t -> False := by
+    intro poleT
+    have transported :=
+      GammaPoleLocus_hsame_transport_witness (hsame_symm sameST) poleT
+    exact domain.right.right transported.left
+  have domainT : GammaDomainCore t apart :=
+    And.intro carrierT (And.intro domain.right.left noPoleT)
+  exact And.intro domainT (GammaDomainCore_not_empty domainT)
 
 end BEDC.Derived.GammaUp
